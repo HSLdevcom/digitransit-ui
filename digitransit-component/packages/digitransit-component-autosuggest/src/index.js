@@ -683,6 +683,7 @@ class DTAutosuggest extends React.Component {
       value: '',
       sources: this.props.sources,
       ownPlaces: false,
+      renderMobileSearch: this.props.isMobile,
     };
     // must update suggestions
     this.setState(newState, () =>
@@ -696,6 +697,7 @@ class DTAutosuggest extends React.Component {
 
   inputClicked = inputValue => {
     this.input.focus();
+    this.clearLocationText();
     if (this.props.isMobile) {
       this.props.lock();
     }
@@ -729,6 +731,8 @@ class DTAutosuggest extends React.Component {
         this.fetchFunction({ value: this.state.value });
         this.setState(newState);
       }
+    } else if (this.props.isMobile && !this.state.renderMobileSearch) {
+      this.setState({ renderMobileSearch: true });
     }
   };
 
@@ -875,7 +879,7 @@ class DTAutosuggest extends React.Component {
     this.props.id === 'via-point' ||
     this.props.id === 'origin-stop-near-you';
 
-  onFocus = () => {
+  clearLocationText = () => {
     const positions = [
       'Valittu sijainti',
       'Nykyinen sijaintisi',
@@ -891,10 +895,13 @@ class DTAutosuggest extends React.Component {
     if (positions.includes(this.state.value)) {
       this.clearInput();
     }
+  };
+
+  onFocus = () => {
+    this.clearLocationText();
+
     const scrollY = window.pageYOffset;
-    return this.setState({
-      scrollY,
-    });
+    return this.setState({ scrollY });
   };
 
   render() {

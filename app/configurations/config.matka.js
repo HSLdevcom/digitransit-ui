@@ -80,20 +80,19 @@ export default {
     'tampere',
     'lautta',
     'OULU',
-    'MatkahuoltoKainuu',
-    'MatkahuoltoSavo',
-    'MatkahuoltoKanta',
-    'MatkahuoltoKarjala',
-    'MatkahuoltoKeski',
-    'MatkahuoltoKyme',
-    'MatkahuoltoLappi',
-    'MatkahuoltoPohjanmaa',
-    'MatkahuoltoSatakunta',
-    'MatkahuoltoVakka',
-    'MatkahuoltoVantaa',
-    'MatkahuoltoVarsinais',
     'digitraffic',
   ],
+
+  stopSearchFilter: stop => {
+    const props = stop.properties;
+    if (
+      props?.id?.includes('GTFS:HSL') &&
+      props?.addendum?.GTFS?.modes?.includes('RAIL')
+    ) {
+      return false;
+    }
+    return true;
+  },
 
   meta: {
     description: APP_DESCRIPTION,

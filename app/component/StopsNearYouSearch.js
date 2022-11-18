@@ -14,6 +14,12 @@ function StopsNearYouSearch({ mode, breakpoint, lang }, { router, config }) {
   const isMobile = breakpoint !== 'large';
   const transportMode = `route-${mode}`;
 
+  const filter = config.stopSearchFilter
+    ? (results, transportmode, type) =>
+        filterSearchResultsByMode(results, transportmode, type).filter(
+          config.stopSearchFilter,
+        )
+    : filterSearchResultsByMode;
   const selectHandler = item => {
     router.push(getStopRoutePath(item));
   };
@@ -30,7 +36,7 @@ function StopsNearYouSearch({ mode, breakpoint, lang }, { router, config }) {
           transportMode={transportMode}
           geocodingSize={40}
           value=""
-          filterResults={filterSearchResultsByMode}
+          filterResults={filter}
           sources={searchSources}
           targets={
             mode === 'CITYBIKE' ? ['BikeRentalStations'] : ['Stops', 'Routes']

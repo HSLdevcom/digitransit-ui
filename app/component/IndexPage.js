@@ -223,11 +223,11 @@ class IndexPage extends React.Component {
       'Stops',
     ];
 
-    if (useCitybikes(this.context.config.cityBike?.networks)) {
+    if (useCitybikes(config.cityBike?.networks)) {
       stopAndRouteSearchTargets.push('BikeRentalStations');
       locationSearchTargets.push('BikeRentalStations');
     }
-    if (this.context.config.includeParkAndRideSuggestions) {
+    if (config.includeParkAndRideSuggestions) {
       stopAndRouteSearchTargets.push('ParkingAreas');
       locationSearchTargets.push('ParkingAreas');
     }
@@ -290,6 +290,15 @@ class IndexPage extends React.Component {
       modeIconColors: config.colors.iconColors,
       modeSet: config.iconModeSet,
     };
+
+    if (config.stopSearchFilter) {
+      stopRouteSearchProps.filterResults = results =>
+        results.filter(config.stopSearchFilter);
+      stopRouteSearchProps.geocodingSize = 40; // increase size to compensate filtering
+      locationSearchProps.filterResults = results =>
+        results.filter(config.stopSearchFilter);
+    }
+
     const transportModes = getTransportModes(config);
     const nearYouModes = getNearYouModes(config);
 
