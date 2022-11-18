@@ -148,7 +148,7 @@ class OriginDestinationBar extends React.Component {
           refPoint={refPoint}
           originPlaceHolder="search-origin-index"
           destinationPlaceHolder="search-destination-index"
-          showMultiPointControls
+          showMultiPointControls={this.context.config.viaPointsEnabled}
           viaPoints={this.props.viaPoints}
           updateViaPoints={this.updateViaPoints}
           addAnalyticsEvent={addAnalyticsEvent}
@@ -171,7 +171,6 @@ class OriginDestinationBar extends React.Component {
           }
           modeSet={this.props.modeSet}
           onFocusChange={() => {}}
-          showViaPointEdit={this.context.config.viaPointsEnabled}
           filterResults={filter}
         />{' '}
       </div>
