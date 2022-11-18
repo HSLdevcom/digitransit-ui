@@ -9,8 +9,10 @@ import routeNameCompare from '@digitransit-search-util/digitransit-search-util-r
 import {
   mapRoute,
   isStop,
+  match,
 } from '@digitransit-search-util/digitransit-search-util-helpers';
 import filterMatchingToInput from '@digitransit-search-util/digitransit-search-util-filter-matching-to-input';
+import { isString, orderBy } from 'lodash';
 
 let relayEnvironment = null;
 
@@ -474,14 +476,18 @@ export function getRoutesQuery(input, feedIds, transportMode, pathOpts) {
     feeds: Array.isArray(feedIds) && feedIds.length > 0 ? feedIds : null,
     name: input,
     modes: transportMode ? modes : null,
-  })
-    .then(data =>
-      data.viewer.routes
-        .map(r => mapRoute(r, pathOpts))
-        .filter(route => !!route)
-        .sort((x, y) => routeNameCompare(x.properties, y.properties)),
-    )
-    .then(suggestions => take(suggestions, 100));
+  }).then(data => {
+    const results = data.viewer.routes
+      .map(r => mapRoute(r, pathOpts))
+      .filter(route => !!route);
+    const normalizedTerm = !isString(input) ? '' : input.toLowerCase();
+    const orderedResults = orderBy(
+      results,
+      [result => match(normalizedTerm, result.properties)],
+      ['desc', 'desc'],
+    );
+    return take(orderedResults, 100);
+  });
 }
 
 export function withCurrentTime(location) {
