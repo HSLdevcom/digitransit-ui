@@ -12,7 +12,6 @@ import Icon from './Icon';
 import IntermediateLeg from './IntermediateLeg';
 import ItineraryCircleLine from './ItineraryCircleLine';
 import PlatformNumber from './PlatformNumber';
-import RouteNumber from './RouteNumber';
 import ServiceAlertIcon from './ServiceAlertIcon';
 import StopCode from './StopCode';
 import {
@@ -37,12 +36,15 @@ import { AlertSeverityLevelType } from '../constants';
 import ZoneIcon from './ZoneIcon';
 import StopInfo from './StopInfo';
 import InterlineInfo from './InterlineInfo';
+import AlternativeLegsInfo from './AlternativeLegsInfo';
+import LegInfo from './LegInfo';
 
 class TransitLeg extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       showIntermediateStops: props.leg.intermediatePlaces.length < 2,
+      showAlternativeLegs: false,
     };
   }
 
@@ -145,7 +147,7 @@ class TransitLeg extends React.Component {
         const showCurrentZoneId = previousZoneIdDiffers || nextZoneIdDiffers;
         return (
           <IntermediateLeg
-            color={leg.route ? `#${leg.route.color}` : 'currentColor'}
+            color={leg.route ? `#BC0001` : 'currentColor'}
             key={place.stop.gtfsId}
             gtfsId={place.stop.gtfsId}
             mode={mode}
@@ -436,38 +438,40 @@ class TransitLeg extends React.Component {
               />
             </div>
           </div>
-          <div
-            className={cx('itinerary-transit-leg-route', {
-              'long-name': hasNoShortName,
-            })}
-          >
-            <Link
-              onClick={e => {
-                e.stopPropagation();
-              }}
-              to={
-                `/${PREFIX_ROUTES}/${leg.route.gtfsId}/${PREFIX_STOPS}/${leg.trip.pattern.code}/${leg.trip.gtfsId}`
-                // TODO: Create a helper function for generationg links
+          <LegInfo
+            leg={leg}
+            hasNoShortName={hasNoShortName}
+            mode={mode}
+            headsign={headsign}
+            alertSeverityLevel={alertSeverityLevel}
+            isAlternativeLeg={false}
+          />
+
+          {this.state.showAlternativeLegs &&
+            leg.nextLegs.map(l => (
+              <LegInfo
+                key={l.route.shortName + leg.startTime}
+                leg={l}
+                hasNoShortName={hasNoShortName}
+                mode={l.route.mode}
+                headsign={leg.trip.tripHeadsign}
+                alertSeverityLevel={alertSeverityLevel}
+                isAlternativeLeg
+              />
+            ))}
+          {leg.nextLegs.length > 0 && (
+            <AlternativeLegsInfo
+              legs={leg.nextLegs}
+              showAlternativeLegs={this.state.showAlternativeLegs}
+              toggle={() =>
+                this.setState(prevState => ({
+                  ...prevState,
+                  showAlternativeLegs: !prevState.showAlternativeLegs,
+                }))
               }
-              aria-label={`${intl.formatMessage({
-                id: mode.toLowerCase(),
-                defaultMessage: 'Vehicle',
-              })} ${leg.route && leg.route.shortName}`}
-            >
-              <span aria-hidden="true">
-                <RouteNumber
-                  mode={mode.toLowerCase()}
-                  alertSeverityLevel={alertSeverityLevel}
-                  color={leg.route ? `#${leg.route.color}` : 'currentColor'}
-                  text={leg.route && leg.route.shortName}
-                  realtime={false}
-                  withBar
-                  fadeLong
-                />
-              </span>
-            </Link>
-            <div className="headsign">{headsign}</div>
-          </div>
+            />
+          )}
+
           {(alertSeverityLevel === AlertSeverityLevelType.Warning ||
             alertSeverityLevel === AlertSeverityLevelType.Severe ||
             alertSeverityLevel === AlertSeverityLevelType.Unknown) && (
@@ -528,6 +532,7 @@ class TransitLeg extends React.Component {
               />
             )}
           </div>
+
           {leg.fare && leg.fare.isUnknown && shouldShowFareInfo(config) && (
             <div className="disclaimer-container unknown-fare-disclaimer__leg">
               <div className="description-container">
@@ -636,6 +641,7 @@ TransitLeg.propTypes = {
       }),
     ).isRequired,
     interlineWithPreviousLeg: PropTypes.bool.isRequired,
+    nextLegs: PropTypes.array,
   }).isRequired,
   interliningLegs: PropTypes.arrayOf(
     PropTypes.shape({

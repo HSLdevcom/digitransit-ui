@@ -1107,6 +1107,17 @@ $itinerary-tab-switch-height: 48px;
       font-size: 13px;
       margin-left: -24px;
     }
+
+    .alternative-legs-information {
+      :first-child {
+        flex-grow:1;
+      }
+      &.open {
+        .itinerary-search-icon {
+          transform: rotate(270deg);
+        }
+      }
+    }
     .intermediate-stop-info-container {
       @media print {
         span > svg {
@@ -1307,6 +1318,7 @@ $itinerary-tab-switch-height: 48px;
           width: calc(100% - 42px);
         }
       }
+
       .bar-container {
         padding: 7px;
         min-width: calc(3.75em + 14px);
@@ -1356,6 +1368,17 @@ $itinerary-tab-switch-height: 48px;
           top: 0;
           position: relative;
         }
+      }
+      .headsign {
+        flex-grow: 1;
+      }
+      .realtime {
+        margin: 7px;
+        font-weight: 500;
+      }
+      &.alternative-leg-suggestion {
+        border: 2px solid #f4f4f5;
+        background-color: white;
       }
     }
     .itinerary-leg-text-gray {
@@ -1509,6 +1532,12 @@ $itinerary-tab-switch-height: 48px;
       }
     }
   }
+
+  .alternative-legs-information {
+    color: $gray;
+    flex: 1;
+  }
+
   .itinerary-instruction-column.airport-wait {
     .info-message {
       display: flex;
