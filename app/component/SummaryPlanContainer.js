@@ -351,6 +351,17 @@ const connectedContainer = createFragmentContainer(
           startTime
           endTime
           legs {
+            nextLegs {
+              startTime
+              endTime
+              mode
+              distance
+              duration
+              route {
+                shortName
+                mode
+              }
+            }
             mode
             ...ItineraryLine_legs
             transitLeg

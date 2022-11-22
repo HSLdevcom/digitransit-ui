@@ -2882,6 +2882,21 @@ const containerComponent = createRefetchContainer(
             ...ItineraryTab_itinerary
             ...SummaryPlanContainer_itineraries
             legs {
+              nextLegs {
+                mode
+                route {
+                  shortName
+                  mode
+                }
+                startTime
+                trip {
+                  tripHeadsign
+                  pattern {
+                    code
+                  }
+                  gtfsId
+                }
+              }
               mode
               ...ItineraryLine_legs
               transitLeg

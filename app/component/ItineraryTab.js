@@ -317,6 +317,22 @@ const withRelay = createFragmentContainer(
       }
       legs {
         mode
+        nextLegs {
+          
+          route {
+            shortName
+            mode
+          }
+          startTime
+          trip {
+            tripHeadsign
+            pattern {
+              code
+            } 
+            
+            gtfsId
+          }
+        }
         ...LegAgencyInfo_leg
         from {
           lat
