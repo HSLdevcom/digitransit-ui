@@ -187,6 +187,7 @@ export const planQuery = graphql`
     $unpreferred: InputUnpreferred
     $allowedBikeRentalNetworks: [String]
     $locale: String
+    $pageCursor: String
   ) {
     viewer {
       ...SummaryPage_viewer
@@ -214,6 +215,7 @@ export const planQuery = graphql`
         unpreferred: $unpreferred
         allowedBikeRentalNetworks: $allowedBikeRentalNetworks
         locale: $locale
+        pageCursor: $pageCursor
       )
     }
 
@@ -248,6 +250,7 @@ export const moreItinerariesQuery = graphql`
     $unpreferred: InputUnpreferred
     $allowedBikeRentalNetworks: [String]
     $locale: String
+    $pageCursor: String
   ) {
     plan(
       fromPlace: $fromPlace
@@ -273,7 +276,10 @@ export const moreItinerariesQuery = graphql`
       unpreferred: $unpreferred
       allowedBikeRentalNetworks: $allowedBikeRentalNetworks
       locale: $locale
+      pageCursor: $pageCursor
     ) {
+      nextPageCursor
+      previousPageCursor
       ...SummaryPlanContainer_plan
       ...ItineraryTab_plan
       itineraries {
@@ -329,6 +335,455 @@ export const moreItinerariesQuery = graphql`
             }
             carPark {
               carParkId
+              name
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+export const walkAndBikeQuery = graphql`
+  query queryUtils_SummaryPage_WalkBike_Query(
+    $fromPlace: String!
+    $toPlace: String!
+    $intermediatePlaces: [InputCoordinates!]
+    $date: String!
+    $time: String!
+    $walkReluctance: Float
+    $walkBoardCost: Int
+    $minTransferTime: Int
+    $walkSpeed: Float
+    $bikeAndPublicMaxWalkDistance: Float
+    $wheelchair: Boolean
+    $ticketTypes: [String]
+    $bikeandPublicDisableRemainingWeightHeuristic: Boolean
+    $arriveBy: Boolean
+    $transferPenalty: Int
+    $bikeSpeed: Float
+    $optimize: OptimizeType
+    $itineraryFiltering: Float
+    $unpreferred: InputUnpreferred
+    $locale: String
+    $shouldMakeWalkQuery: Boolean!
+    $shouldMakeBikeQuery: Boolean!
+    $shouldMakeCarQuery: Boolean!
+    $shouldMakeParkRideQuery: Boolean!
+    $showBikeAndPublicItineraries: Boolean!
+    $showBikeAndParkItineraries: Boolean!
+    $bikeAndPublicModes: [TransportMode!]
+    $bikeParkModes: [TransportMode!]
+  ) {
+    walkPlan: plan(
+      fromPlace: $fromPlace
+      toPlace: $toPlace
+      intermediatePlaces: $intermediatePlaces
+      transportModes: [{ mode: WALK }]
+      date: $date
+      time: $time
+      walkSpeed: $walkSpeed
+      wheelchair: $wheelchair
+      arriveBy: $arriveBy
+      locale: $locale
+    ) @include(if: $shouldMakeWalkQuery) {
+      ...SummaryPlanContainer_plan
+      ...ItineraryTab_plan
+      itineraries {
+        walkDistance
+        duration
+        startTime
+        endTime
+        ...ItineraryTab_itinerary
+        ...SummaryPlanContainer_itineraries
+        legs {
+          mode
+          ...ItineraryLine_legs
+          legGeometry {
+            points
+          }
+          distance
+        }
+      }
+    }
+    bikePlan: plan(
+      fromPlace: $fromPlace
+      toPlace: $toPlace
+      intermediatePlaces: $intermediatePlaces
+      transportModes: [{ mode: BICYCLE }]
+      date: $date
+      time: $time
+      walkSpeed: $walkSpeed
+      arriveBy: $arriveBy
+      bikeSpeed: $bikeSpeed
+      optimize: $optimize
+      locale: $locale
+    ) @include(if: $shouldMakeBikeQuery) {
+      ...SummaryPlanContainer_plan
+      ...ItineraryTab_plan
+      itineraries {
+        duration
+        startTime
+        endTime
+        ...ItineraryTab_itinerary
+        ...SummaryPlanContainer_itineraries
+        legs {
+          mode
+          ...ItineraryLine_legs
+          legGeometry {
+            points
+          }
+          distance
+        }
+      }
+    }
+    bikeAndPublicPlan: plan(
+      fromPlace: $fromPlace
+      toPlace: $toPlace
+      intermediatePlaces: $intermediatePlaces
+      numItineraries: 6
+      transportModes: $bikeAndPublicModes
+      date: $date
+      time: $time
+      walkReluctance: $walkReluctance
+      walkBoardCost: $walkBoardCost
+      minTransferTime: $minTransferTime
+      walkSpeed: $walkSpeed
+      maxWalkDistance: $bikeAndPublicMaxWalkDistance
+      allowedTicketTypes: $ticketTypes
+      disableRemainingWeightHeuristic: $bikeandPublicDisableRemainingWeightHeuristic
+      arriveBy: $arriveBy
+      transferPenalty: $transferPenalty
+      bikeSpeed: $bikeSpeed
+      optimize: $optimize
+      itineraryFiltering: $itineraryFiltering
+      unpreferred: $unpreferred
+      locale: $locale
+    ) @include(if: $showBikeAndPublicItineraries) {
+      ...SummaryPlanContainer_plan
+      ...ItineraryTab_plan
+      itineraries {
+        duration
+        startTime
+        endTime
+        ...ItineraryTab_itinerary
+        ...SummaryPlanContainer_itineraries
+        legs {
+          mode
+          ...ItineraryLine_legs
+          transitLeg
+          legGeometry {
+            points
+          }
+          route {
+            gtfsId
+            type
+            shortName
+          }
+          trip {
+            gtfsId
+            directionId
+            stoptimesForDate {
+              scheduledDeparture
+            }
+            pattern {
+              ...RouteLine_pattern
+            }
+          }
+          distance
+        }
+      }
+    }
+    bikeParkPlan: plan(
+      fromPlace: $fromPlace
+      toPlace: $toPlace
+      intermediatePlaces: $intermediatePlaces
+      numItineraries: 6
+      transportModes: $bikeParkModes
+      date: $date
+      time: $time
+      walkReluctance: $walkReluctance
+      walkBoardCost: $walkBoardCost
+      minTransferTime: $minTransferTime
+      walkSpeed: $walkSpeed
+      maxWalkDistance: $bikeAndPublicMaxWalkDistance
+      allowedTicketTypes: $ticketTypes
+      disableRemainingWeightHeuristic: $bikeandPublicDisableRemainingWeightHeuristic
+      arriveBy: $arriveBy
+      transferPenalty: $transferPenalty
+      bikeSpeed: $bikeSpeed
+      optimize: $optimize
+      itineraryFiltering: $itineraryFiltering
+      unpreferred: $unpreferred
+      locale: $locale
+    ) @include(if: $showBikeAndParkItineraries) {
+      ...SummaryPlanContainer_plan
+      ...ItineraryTab_plan
+      itineraries {
+        duration
+        startTime
+        endTime
+        ...ItineraryTab_itinerary
+        ...SummaryPlanContainer_itineraries
+        legs {
+          mode
+          ...ItineraryLine_legs
+          transitLeg
+          legGeometry {
+            points
+          }
+          route {
+            gtfsId
+            type
+            shortName
+          }
+          trip {
+            gtfsId
+            directionId
+            stoptimesForDate {
+              scheduledDeparture
+            }
+            pattern {
+              ...RouteLine_pattern
+            }
+          }
+          to {
+            bikePark {
+              bikeParkId
+              name
+            }
+          }
+          distance
+        }
+      }
+    }
+    carPlan: plan(
+      fromPlace: $fromPlace
+      toPlace: $toPlace
+      intermediatePlaces: $intermediatePlaces
+      numItineraries: 5
+      transportModes: [{ mode: CAR }]
+      date: $date
+      time: $time
+      walkReluctance: $walkReluctance
+      walkBoardCost: $walkBoardCost
+      minTransferTime: $minTransferTime
+      walkSpeed: $walkSpeed
+      maxWalkDistance: $bikeAndPublicMaxWalkDistance
+      allowedTicketTypes: $ticketTypes
+      arriveBy: $arriveBy
+      transferPenalty: $transferPenalty
+      bikeSpeed: $bikeSpeed
+      optimize: $optimize
+      itineraryFiltering: $itineraryFiltering
+      unpreferred: $unpreferred
+      locale: $locale
+    ) @include(if: $shouldMakeCarQuery) {
+      ...SummaryPlanContainer_plan
+      ...ItineraryTab_plan
+      itineraries {
+        duration
+        startTime
+        endTime
+        ...ItineraryTab_itinerary
+        ...SummaryPlanContainer_itineraries
+        legs {
+          mode
+          ...ItineraryLine_legs
+          transitLeg
+          legGeometry {
+            points
+          }
+          route {
+            gtfsId
+            type
+            shortName
+          }
+          trip {
+            gtfsId
+            directionId
+            stoptimesForDate {
+              scheduledDeparture
+            }
+            pattern {
+              ...RouteLine_pattern
+            }
+          }
+          to {
+            bikePark {
+              bikeParkId
+              name
+            }
+          }
+          distance
+        }
+      }
+    }
+    parkRidePlan: plan(
+      fromPlace: $fromPlace
+      toPlace: $toPlace
+      intermediatePlaces: $intermediatePlaces
+      numItineraries: 5
+      transportModes: [{ mode: CAR, qualifier: PARK }, { mode: TRANSIT }]
+      date: $date
+      time: $time
+      walkReluctance: $walkReluctance
+      walkBoardCost: $walkBoardCost
+      minTransferTime: $minTransferTime
+      walkSpeed: $walkSpeed
+      maxWalkDistance: $bikeAndPublicMaxWalkDistance
+      allowedTicketTypes: $ticketTypes
+      arriveBy: $arriveBy
+      transferPenalty: $transferPenalty
+      bikeSpeed: $bikeSpeed
+      optimize: $optimize
+      itineraryFiltering: $itineraryFiltering
+      unpreferred: $unpreferred
+      locale: $locale
+    ) @include(if: $shouldMakeParkRideQuery) {
+      ...SummaryPlanContainer_plan
+      ...ItineraryTab_plan
+      itineraries {
+        duration
+        startTime
+        endTime
+        ...ItineraryTab_itinerary
+        ...SummaryPlanContainer_itineraries
+        legs {
+          mode
+          ...ItineraryLine_legs
+          transitLeg
+          legGeometry {
+            points
+          }
+          route {
+            gtfsId
+            type
+            shortName
+          }
+          trip {
+            gtfsId
+            directionId
+            stoptimesForDate {
+              scheduledDeparture
+            }
+            pattern {
+              ...RouteLine_pattern
+            }
+          }
+          to {
+            carPark {
+              carParkId
+              name
+            }
+            name
+          }
+          distance
+        }
+      }
+    }
+  }
+`;
+
+export const allModesQuery = graphql`
+  query queryUtils_SummaryPage_AllModes_Query(
+    $fromPlace: String!
+    $toPlace: String!
+    $intermediatePlaces: [InputCoordinates!]
+    $numItineraries: Int!
+    $modes: [TransportMode!]
+    $date: String!
+    $time: String!
+    $walkReluctance: Float
+    $walkBoardCost: Int
+    $minTransferTime: Int
+    $walkSpeed: Float
+    $maxWalkDistance: Float
+    $wheelchair: Boolean
+    $ticketTypes: [String]
+    $disableRemainingWeightHeuristic: Boolean
+    $arriveBy: Boolean
+    $transferPenalty: Int
+    $bikeSpeed: Float
+    $optimize: OptimizeType
+    $itineraryFiltering: Float
+    $unpreferred: InputUnpreferred
+    $allowedBikeRentalNetworks: [String]
+    $locale: String
+  ) {
+    plan: plan(
+      fromPlace: $fromPlace
+      toPlace: $toPlace
+      intermediatePlaces: $intermediatePlaces
+      numItineraries: $numItineraries
+      transportModes: $modes
+      date: $date
+      time: $time
+      walkReluctance: $walkReluctance
+      walkBoardCost: $walkBoardCost
+      minTransferTime: $minTransferTime
+      walkSpeed: $walkSpeed
+      maxWalkDistance: $maxWalkDistance
+      wheelchair: $wheelchair
+      allowedTicketTypes: $ticketTypes
+      disableRemainingWeightHeuristic: $disableRemainingWeightHeuristic
+      arriveBy: $arriveBy
+      transferPenalty: $transferPenalty
+      bikeSpeed: $bikeSpeed
+      optimize: $optimize
+      itineraryFiltering: $itineraryFiltering
+      unpreferred: $unpreferred
+      allowedBikeRentalNetworks: $allowedBikeRentalNetworks
+      locale: $locale
+    ) {
+      ...SummaryPlanContainer_plan
+      ...ItineraryTab_plan
+      itineraries {
+        startTime
+        endTime
+        ...ItineraryTab_itinerary
+        ...SummaryPlanContainer_itineraries
+        legs {
+          mode
+          ...ItineraryLine_legs
+          transitLeg
+          legGeometry {
+            points
+          }
+          route {
+            gtfsId
+          }
+          trip {
+            gtfsId
+            directionId
+            stoptimesForDate {
+              scheduledDeparture
+              pickupType
+            }
+            pattern {
+              ...RouteLine_pattern
+            }
+          }
+          from {
+            name
+            lat
+            lon
+            stop {
+              gtfsId
+              zoneId
+            }
+            bikeRentalStation {
+              bikesAvailable
+              networks
+            }
+          }
+          to {
+            stop {
+              gtfsId
+              zoneId
+            }
+            bikePark {
+              bikeParkId
               name
             }
           }
