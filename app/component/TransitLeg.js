@@ -147,7 +147,7 @@ class TransitLeg extends React.Component {
         const showCurrentZoneId = previousZoneIdDiffers || nextZoneIdDiffers;
         return (
           <IntermediateLeg
-            color={leg.route ? `#BC0001` : 'currentColor'}
+            color={leg.route ? `#${leg.route.color}` : 'currentColor'}
             key={place.stop.gtfsId}
             gtfsId={place.stop.gtfsId}
             mode={mode}
