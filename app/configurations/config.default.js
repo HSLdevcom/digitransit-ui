@@ -838,6 +838,9 @@ export default {
   prioritizedStopsNearYou: {},
   routeNotifications: [],
 
+  constantOperationStops: {},
+  constantOperationRoutes: {},
+
   embeddedSearch: {
     title: {
       fi: 'Reittihakuelementti',

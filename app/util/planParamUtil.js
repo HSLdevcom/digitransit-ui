@@ -259,6 +259,17 @@ export const preparePlanParams = (config, useDefaultModes) => (
   );
 
   const cookies = new Cookies();
+
+  let modeWeight;
+  let walkReluctance;
+  if (settings.walkReluctance >= 5 && config.strongWalkReluctance) {
+    modeWeight = config.strongWalkReluctance.weights;
+    walkReluctance = config.strongWalkReluctance.walkReluctance;
+  }
+  if (config.customWeights) {
+    modeWeight = { ...modeWeight, ...config.customWeights };
+  }
+
   return {
     ...defaultSettings,
     ...omitBy(
@@ -271,7 +282,7 @@ export const preparePlanParams = (config, useDefaultModes) => (
         numItineraries: 5,
         date: (time ? moment(time * 1000) : moment()).format('YYYY-MM-DD'),
         time: (time ? moment(time * 1000) : moment()).format('HH:mm:ss'),
-        walkReluctance: settings.walkReluctance,
+        walkReluctance: modeWeight ? walkReluctance : settings.walkReluctance,
         walkBoardCost: settings.walkBoardCost,
         minTransferTime: config.minTransferTime,
         walkSpeed: settings.walkSpeed,
@@ -294,6 +305,7 @@ export const preparePlanParams = (config, useDefaultModes) => (
       settings.ticketTypes,
       defaultSettings.ticketTypes,
     ),
+    modeWeight,
     allowedBikeRentalNetworks: allowedBikeRentalNetworksMapped,
     shouldMakeWalkQuery:
       !wheelchair && linearDistance < config.suggestWalkMaxDistance,

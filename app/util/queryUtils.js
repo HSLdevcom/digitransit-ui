@@ -187,6 +187,7 @@ export const planQuery = graphql`
     $unpreferred: InputUnpreferred
     $allowedBikeRentalNetworks: [String]
     $locale: String
+    $modeWeight: InputModeWeight
   ) {
     viewer {
       ...SummaryPage_viewer
@@ -214,6 +215,7 @@ export const planQuery = graphql`
         unpreferred: $unpreferred
         allowedBikeRentalNetworks: $allowedBikeRentalNetworks
         locale: $locale
+        modeWeight: $modeWeight
       )
     }
 

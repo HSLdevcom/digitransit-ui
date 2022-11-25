@@ -2,8 +2,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { createRefetchContainer, graphql } from 'react-relay';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-import { FormattedMessage } from 'react-intl';
-import { routerShape, RedirectException } from 'found';
+import { FormattedMessage, intlShape } from 'react-intl';
+import { matchShape, routerShape, RedirectException } from 'found';
 
 import DepartureListContainer from './DepartureListContainer';
 import Loading from './Loading';
@@ -23,6 +23,12 @@ class StopPageContent extends React.Component {
     currentTime: PropTypes.number.isRequired,
     error: PropTypes.object,
     router: routerShape.isRequired,
+    match: matchShape,
+  };
+
+  static contextTypes = {
+    intl: intlShape.isRequired,
+    config: PropTypes.object.isRequired,
   };
 
   // eslint-disable-next-line camelcase
@@ -61,6 +67,24 @@ class StopPageContent extends React.Component {
     }
 
     const { stoptimes } = this.props.stop;
+    const { stopId } = this.props.match.params;
+    const { constantOperationStops } = this.context.config;
+    const { locale } = this.context.intl;
+    if (constantOperationStops && constantOperationStops[stopId]) {
+      return (
+        <div className="stop-constant-operation-container">
+          <div style={{ width: '85%' }}>
+            <span>{constantOperationStops[stopId][locale].text}</span>
+            {/* Next span inline-block so that the link doesn't render on multiple lines */}
+            <span style={{ display: 'inline-block' }}>
+              <a href={constantOperationStops[stopId][locale].link}>
+                {constantOperationStops[stopId][locale].link}
+              </a>
+            </span>
+          </div>
+        </div>
+      );
+    }
     if (!stoptimes || stoptimes.length === 0) {
       return (
         <div className="stop-no-departures-container">

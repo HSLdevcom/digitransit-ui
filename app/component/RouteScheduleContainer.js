@@ -715,6 +715,39 @@ class RouteScheduleContainer extends PureComponent {
   };
 
   render() {
+    // Check if route is constant operation first to avoid redundant calculation
+    const routeId = this.props.route?.gtfsId;
+    const { constantOperationRoutes } = this.context.config;
+    const { locale } = this.context.intl;
+    if (routeId && constantOperationRoutes[routeId]) {
+      return (
+        <div
+          className={`route-schedule-container ${
+            this.props.breakpoint !== 'large' ? 'mobile' : ''
+          }`}
+        >
+          <div style={{ paddingBottom: '28px' }}>
+            <RoutePageControlPanel
+              match={this.props.match}
+              route={this.props.route}
+              breakpoint={this.props.breakpoint}
+              noInitialServiceDay
+            />
+          </div>
+          <div className="stop-constant-operation-container bottom-padding">
+            <div style={{ width: '95%' }}>
+              <span>{constantOperationRoutes[routeId][locale].text}</span>
+              <span style={{ display: 'inline-block' }}>
+                <a href={constantOperationRoutes[routeId][locale].link}>
+                  {constantOperationRoutes[routeId][locale].link}
+                </a>
+              </span>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
     const { query } = this.props.match.location;
     const { intl } = this.context;
     this.hasMergedData = false;

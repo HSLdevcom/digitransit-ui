@@ -2864,6 +2864,7 @@ const containerComponent = createRefetchContainer(
         unpreferred: { type: "InputUnpreferred" }
         allowedBikeRentalNetworks: { type: "[String]" }
         locale: { type: "String" }
+        modeWeight: { type: "InputModeWeight" }
       ) {
         plan(
           fromPlace: $fromPlace
@@ -2889,6 +2890,7 @@ const containerComponent = createRefetchContainer(
           unpreferred: $unpreferred
           allowedBikeRentalNetworks: $allowedBikeRentalNetworks
           locale: $locale
+          modeWeight: $modeWeight
         ) {
           ...SummaryPlanContainer_plan
           ...ItineraryTab_plan
