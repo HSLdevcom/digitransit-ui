@@ -261,10 +261,8 @@ export const preparePlanParams = (config, useDefaultModes) => (
   const cookies = new Cookies();
 
   let modeWeight;
-  let walkReluctance;
   if (settings.walkReluctance >= 5 && config.strongWalkReluctance) {
     modeWeight = config.strongWalkReluctance.weights;
-    walkReluctance = config.strongWalkReluctance.walkReluctance;
   }
   if (config.customWeights) {
     modeWeight = { ...modeWeight, ...config.customWeights };
@@ -282,7 +280,7 @@ export const preparePlanParams = (config, useDefaultModes) => (
         numItineraries: 5,
         date: (time ? moment(time * 1000) : moment()).format('YYYY-MM-DD'),
         time: (time ? moment(time * 1000) : moment()).format('HH:mm:ss'),
-        walkReluctance: modeWeight ? walkReluctance : settings.walkReluctance,
+        walkReluctance: settings.walkReluctance,
         walkBoardCost: settings.walkBoardCost,
         minTransferTime: config.minTransferTime,
         walkSpeed: settings.walkSpeed,

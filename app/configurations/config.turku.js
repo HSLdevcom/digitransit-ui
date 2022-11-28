@@ -245,11 +245,10 @@ export default configMerger(walttiConfig, {
   },
   strongWalkReluctance: {
     weights: {
-      FUNICULAR: 0.25,
+      FUNICULAR: 0.1,
     },
-    walkReluctance: 15,
   },
   customWeights: {
-    FERRY: 0.8,
+    FERRY: 0.6,
   },
 });
