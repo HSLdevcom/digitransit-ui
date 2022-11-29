@@ -6,7 +6,6 @@ import pick from 'lodash/pick';
 import Protobuf from 'pbf';
 
 import { drawParkAndRideIcon } from '../../../util/mapIconUtils';
-import { Contour } from '../../../util/geo-utils';
 import { isBrowser } from '../../../util/browser';
 import { fetchWithSubscription } from '../../../util/fetchUtils';
 
@@ -75,7 +74,7 @@ export default class ParkAndRide {
               i <= ref;
               i++
             ) {
-              const feature = vt.layers.facilities.feature(i);
+              const feature = vt.layers['facility-points'].feature(i);
               fetchQuery(this.relayEnvironment, carParkQuery, {
                 id: feature.id.toString(),
               }).then(data => {
@@ -87,9 +86,7 @@ export default class ParkAndRide {
                     this.tile.hilightedStops.includes(
                       feature.properties?.facility?.carParkId,
                     );
-                  feature.geom = new Contour(
-                    feature.loadGeometry()[0],
-                  ).centroid();
+                  [[feature.geom]] = feature.loadGeometry();
                   this.features.push(feature);
                   drawParkAndRideIcon(
                     this.tile,
