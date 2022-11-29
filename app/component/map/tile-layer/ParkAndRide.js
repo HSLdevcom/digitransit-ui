@@ -68,10 +68,10 @@ export default class ParkAndRide {
             }
           } else if (
             this.tile.coords.z >= showFacilities &&
-            vt.layers.facilities != null
+            vt.layers['facility-points'] != null
           ) {
             for (
-              let i = 0, ref = vt.layers.facilities.length - 1;
+              let i = 0, ref = vt.layers['facility-points'].length - 1;
               i <= ref;
               i++
             ) {
