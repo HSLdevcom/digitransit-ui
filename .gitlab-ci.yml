@@ -1,5 +1,5 @@
 variables:
-  DOCKER_HOST: tcp://docker:2375/
+  # DOCKER_HOST: tcp://docker:2375/
   QUANTUM_CLI: registry.internal.planetary-networks.de/quantum-public/cli:2
   QUANTUM_ENDPOINT: tpwd-bb-navi
   DOCKER_AUTH_CONFIG: '{ "auths": { "https://index.docker.io/v1/": { "auth": "$DOCKER_AUTH" } }}'
