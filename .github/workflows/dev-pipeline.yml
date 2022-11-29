@@ -1,11 +1,13 @@
-name: Process v2 push or pr
+name: Process v3 push or PR
+
 on:
   push:
     branches:
-      - v2
+      - v3
   pull_request:
     branches:
-      - v2
+      - v3
+
 jobs:
   lint:
     runs-on: ubuntu-latest
@@ -29,6 +31,11 @@ jobs:
         run: yarn setup
       - name: Run linters
         run: yarn lint
+      - name: lint SVG sprites using xmllint
+        run: |
+          sudo apt install -y libxml2-utils
+          xmllint --nonet --noout static/assets/svg-sprite.*.svg
+
   unit-test:
     runs-on: ubuntu-latest
     strategy:
@@ -55,87 +62,11 @@ jobs:
         run: yarn run test-coverage
       - name: Send test coverage report
         run: yarn run test-report
-  # build:
-  #   needs: install
-  #   runs-on: ubuntu-latest
-  #   strategy:
-  #     matrix:
-  #       node-version: [10.x]
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v2
-  #     - name: "Set time zone to Europe/Helsinki"
-  #       uses: zcong1993/setup-timezone@master
-  #       with:
-  #         timezone: "Europe/Helsinki"
-  #     - name: Use Node.js ${{ matrix.node-version }}
-  #       uses: actions/setup-node@v1
-  #       with:
-  #         node-version: ${{ matrix.node-version }}
-  #     - name: Build shared components
-  #       run: yarn setup
-  #     - name: Build UI
-  #       run: yarn build
-  #     - name: Cache build
-  #       id: cache-build
-  #       uses: actions/cache@v2
-  #       with:
-  #         path: |
-  #           '**/_static'
-  #           './manifest.json'
-  #         key: ${{ runner.os }}-build-${{ github.run_id }}
-  publish-npm:
-    if: github.ref == 'refs/heads/v2'
-    needs:
-      - lint
-      - unit-test
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [ 10.x ]
-    steps:
-      - uses: actions/checkout@v2
-      - name: Set time zone to Europe/Helsinki
-        uses: zcong1993/setup-timezone@master
-        with:
-          timezone: "Europe/Helsinki"
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
-      - name: Install dependencies
-        run: yarn
-      - name: Install dependencies and build shared components
-        run: yarn setup
-      - name: build relay queries
-        run: yarn relay
-      - name: Authenticate with registry
-        run: echo //registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN} > .npmrc
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
-      - name: disregard changed yarn.lock
-        run: git update-index --assume-unchanged yarn.lock
-      - name: Publish shared components to npm
-        run: echo ::set-output name=publish-logs::$(yarn digitransit-npm-autopublish)
-        shell: bash
-        id: publish
-      - name: Parse publish logs
-        run: echo ::set-output name=published-packages::$(echo "${{ steps.publish.outputs.publish-logs }}" | grep -o -P '(Successfully published:).*')
-        shell: bash
-        id: log-parse
-      - name: Send published packages to slack
-        if:  steps.log-parse.outputs.published-packages != ''
-        run: ./.github/workflows/scripts/slack_message.sh
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-          PUBLISHED_PACKAGES: ${{ steps.log-parse.outputs.published-packages }}
-        shell: bash
 
   docker-push:
-    if: github.ref == 'refs/heads/v2'
+    if: github.ref == 'refs/heads/v3'
     needs:
       - lint
-      - publish-npm
       - unit-test
     runs-on: ubuntu-latest
     steps:
@@ -145,8 +76,37 @@ jobs:
         uses: zcong1993/setup-timezone@master
         with:
           timezone: "Europe/Helsinki"
-      - name: Build docker image from v2 and push it
-        run: ./.github/workflows/scripts/build_and_push_dev.sh
+
+      - name: compute buildInfo.js file content
+        id: build-info
+        run: echo "::set-output name=content::export const COMMIT_ID = \"${GITHUB_SHA}\";\nexport const BUILD_TIME = \"$(date -Iminutes -u)\";"
+      - name: Create buildInfo.js file
+        uses: finnp/create-file-action@1.0.0
         env:
-          DOCKER_USER: ${{ secrets.DOCKER_USER }}
-          DOCKER_AUTH: ${{ secrets.DOCKER_AUTH }}
+          FILE_NAME: "app/buildInfo.js"
+          FILE_DATA: ${{ steps.build-info.outputs.content }}
+      - name: Configure Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Log in to DockerHub
+        uses: docker/login-action@v1 
+        with:
+          username: ${{ secrets.DOCKER_USER }}
+          password: ${{ secrets.DOCKER_AUTH }}
+
+      - name: compute Docker image tag
+        id: docker-tags
+        run: |
+          echo "::set-output name=permanent-tag::v3-$(date +"%Y-%m-%dT%H.%M.%S")-${GITHUB_SHA:0:7}"
+      - name: build and push Docker image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          tags: |
+            hsldevcom/digitransit-ui:v3
+            hsldevcom/digitransit-ui:${{ steps.docker-tags.outputs.permanent-tag }}
+          # https://github.com/docker/build-push-action/blob/9472e9021074a3cb3279ba431598b8836d40433f/docs/advanced/cache.md#github-cache
+          # https://github.com/moby/buildkit#registry-push-image-and-cache-separately
+          cache-from: type=gha
+          cache-to: type=gha,mode=max,oci-mediatypes=true,compression=zstd
+          push: true
