@@ -303,13 +303,16 @@ class IndexPage extends React.Component {
     const nearYouModes = getNearYouModes(config);
 
     const NearStops = CtrlPanel => {
-      const btnWithoutLabel = nearYouModes.length > 0;
+      // Styles are defined by which button type is configured (narrow/wide)
+      const narrowButtons = config.narrowNearYouButtons;
       const modeTitles = this.filterObject(
         transportModes,
         'availableForSelection',
         true,
       );
-      const modes = btnWithoutLabel ? nearYouModes : Object.keys(modeTitles);
+      // If nearYouModes is configured, display those. Otherwise, display all configured transport modes
+      const modes =
+        nearYouModes?.length > 0 ? nearYouModes : Object.keys(modeTitles);
 
       return config.showNearYouButtons ? (
         <>
@@ -323,10 +326,10 @@ class IndexPage extends React.Component {
             omitLanguageUrl
             onClick={this.clickStopNearIcon}
             buttonStyle={
-              btnWithoutLabel ? undefined : transportModes?.nearYouButton
+              narrowButtons ? undefined : transportModes?.nearYouButton
             }
-            title={btnWithoutLabel ? undefined : transportModes?.nearYouTitle}
-            modes={btnWithoutLabel ? undefined : modeTitles}
+            title={narrowButtons ? undefined : transportModes?.nearYouTitle}
+            modes={narrowButtons ? undefined : modeTitles}
             modeSet={config.nearbyModeSet || config.iconModeSet}
             modeIconColors={config.colors.iconColors}
             fontWeights={fontWeights}

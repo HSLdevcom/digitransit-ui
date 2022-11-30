@@ -603,6 +603,7 @@ export default {
     'ferry',
     'citybike',
   ],
+  narrowNearYouButtons: true,
 
   hostnames: [
     // DEV hostnames
