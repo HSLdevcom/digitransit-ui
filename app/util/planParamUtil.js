@@ -260,11 +260,6 @@ export const preparePlanParams = (config, useDefaultModes) => (
 
   const cookies = new Cookies();
 
-  let modeWeight;
-  if (config.customWeights) {
-    modeWeight = config.customWeights;
-  }
-
   return {
     ...defaultSettings,
     ...omitBy(
@@ -300,7 +295,7 @@ export const preparePlanParams = (config, useDefaultModes) => (
       settings.ticketTypes,
       defaultSettings.ticketTypes,
     ),
-    modeWeight,
+    modeWeight: config.customWeights,
     allowedBikeRentalNetworks: allowedBikeRentalNetworksMapped,
     shouldMakeWalkQuery:
       !wheelchair && linearDistance < config.suggestWalkMaxDistance,
