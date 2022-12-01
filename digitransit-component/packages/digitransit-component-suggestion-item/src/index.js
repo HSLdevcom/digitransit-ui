@@ -352,7 +352,7 @@ const SuggestionItem = pure(
                 <div className={styles['suggestion-label']}>
                   {isBikeRentalStation || isParkingArea
                     ? labelWithLocationType
-                    : label}
+                    : label}{' '}
                   {((!isBikeRentalStation && stopCode && stopCode !== name) ||
                     (isBikeRentalStation &&
                       hasVehicleStationCode(
@@ -364,7 +364,7 @@ const SuggestionItem = pure(
                   )}
                   {platform?.length === 2 && (
                     <>
-                      {platform[0]}{' '}
+                      {platform[0].toLowerCase()}{' '}
                       <span className={styles.platform}>{platform[1]}</span>
                     </>
                   )}
