@@ -5,6 +5,36 @@ import { BIKEAVL_WITHMAX } from '../util/citybikes';
 const CONFIG = 'turku';
 const APP_TITLE = 'Fölin reittiopas';
 const APP_DESCRIPTION = 'Turun seudun joukkoliikenteen eli Fölin reittiopas';
+const CONSTANT_OPERATION_PARAGRAPHS = {
+  funi: {
+    fi: {
+      text: 'Jatkuva liikennöinti. Lisätietoja ja poikkeukset: ',
+      link: 'http://turku.fi/funikulaari',
+    },
+    en: {
+      text: 'Constant operation. More information and service alterations: ',
+      link: 'https://www.turku.fi/en/funicular',
+    },
+    sv: {
+      text: 'Kontinuerlig trafik. Mer information och avvikelser: ',
+      link: 'https://www.turku.fi/sv/funikularen',
+    },
+  },
+  fori: {
+    fi: {
+      text: 'Jatkuva liikennöinti. Lisätietoja ja poikkeukset: ',
+      link: 'http://turku.fi/fori',
+    },
+    en: {
+      text: 'Constant operation. More information and service alterations: ',
+      link: 'https://www.turku.fi/en/fori',
+    },
+    sv: {
+      text: 'Kontinuerlig trafik. Mer information och avvikelser: ',
+      link: 'https://www.turku.fi/sv/fori',
+    },
+  },
+};
 
 const walttiConfig = require('./config.waltti').default;
 
@@ -203,4 +233,18 @@ export default configMerger(walttiConfig, {
 
   showNearYouButtons: true,
   allowLogin: false,
+  constantOperationStops: {
+    'FOLI:9900': CONSTANT_OPERATION_PARAGRAPHS.fori,
+    'FOLI:9901': CONSTANT_OPERATION_PARAGRAPHS.fori,
+    'FUNI:9902': CONSTANT_OPERATION_PARAGRAPHS.funi,
+    'FUNI:9903': CONSTANT_OPERATION_PARAGRAPHS.funi,
+  },
+  constantOperationRoutes: {
+    'FOLI:180': CONSTANT_OPERATION_PARAGRAPHS.fori,
+    'FUNI:2': CONSTANT_OPERATION_PARAGRAPHS.funi,
+  },
+  customWeights: {
+    FERRY: 0.6,
+    FUNICULAR: 0.1,
+  },
 });

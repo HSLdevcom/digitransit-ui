@@ -24,6 +24,7 @@ class RouteStopListContainer extends React.PureComponent {
       refetch: PropTypes.func.isRequired,
     }).isRequired,
     breakpoint: PropTypes.string.isRequired,
+    hideDepartures: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -75,6 +76,7 @@ class RouteStopListContainer extends React.PureComponent {
           shortName={
             this.props.pattern.route && this.props.pattern.route.shortName
           }
+          hideDepartures={this.props.hideDepartures}
         />
       );
     });

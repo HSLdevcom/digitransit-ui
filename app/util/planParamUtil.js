@@ -259,6 +259,7 @@ export const preparePlanParams = (config, useDefaultModes) => (
   );
 
   const cookies = new Cookies();
+
   return {
     ...defaultSettings,
     ...omitBy(
@@ -294,6 +295,7 @@ export const preparePlanParams = (config, useDefaultModes) => (
       settings.ticketTypes,
       defaultSettings.ticketTypes,
     ),
+    modeWeight: config.customWeights,
     allowedBikeRentalNetworks: allowedBikeRentalNetworksMapped,
     shouldMakeWalkQuery:
       !wheelchair && linearDistance < config.suggestWalkMaxDistance,

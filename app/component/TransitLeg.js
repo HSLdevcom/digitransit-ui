@@ -198,6 +198,10 @@ class TransitLeg extends React.Component {
       interliningLegs,
     } = this.props;
     const { config, intl } = this.context;
+    const routeId = leg.route.gtfsId;
+    const { constantOperationRoutes } = config;
+    const shouldLinkToTrip =
+      !constantOperationRoutes || !constantOperationRoutes[routeId];
     const originalTime = leg.realTime &&
       leg.departureDelay &&
       leg.departureDelay >= config.itinerary.delayThreshold && [
@@ -446,7 +450,9 @@ class TransitLeg extends React.Component {
                 e.stopPropagation();
               }}
               to={
-                `/${PREFIX_ROUTES}/${leg.route.gtfsId}/${PREFIX_STOPS}/${leg.trip.pattern.code}/${leg.trip.gtfsId}`
+                `/${PREFIX_ROUTES}/${leg.route.gtfsId}/${PREFIX_STOPS}/${
+                  leg.trip.pattern.code
+                }${shouldLinkToTrip ? `/${leg.trip.gtfsId}` : ''}`
                 // TODO: Create a helper function for generationg links
               }
               aria-label={`${intl.formatMessage({

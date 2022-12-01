@@ -365,6 +365,7 @@ export default {
   staticMessagesUrl: process.env.STATIC_MESSAGE_URL,
 
   showNearYouButtons: true,
+  narrowNearYouButtons: true,
   nearYouModes: [
     'bus',
     'tram',

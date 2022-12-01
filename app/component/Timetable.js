@@ -5,7 +5,7 @@ import uniqBy from 'lodash/uniqBy';
 import sortBy from 'lodash/sortBy';
 import groupBy from 'lodash/groupBy';
 import padStart from 'lodash/padStart';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, intlShape } from 'react-intl';
 import { matchShape, routerShape } from 'found';
 import cx from 'classnames';
 import Icon from './Icon';
@@ -58,6 +58,7 @@ class Timetable extends React.Component {
     router: routerShape.isRequired,
     match: matchShape.isRequired,
     config: PropTypes.object.isRequired,
+    intl: intlShape.isRequired,
   };
 
   constructor(props) {
@@ -221,6 +222,24 @@ class Timetable extends React.Component {
       ));
 
   render() {
+    // Check if stop is constant operation
+    const { constantOperationStops } = this.context.config;
+    const stopId = this.props.stop.gtfsId;
+    const { locale } = this.context.intl;
+    if (constantOperationStops && constantOperationStops[stopId]) {
+      return (
+        <div className="stop-constant-operation-container">
+          <div style={{ width: '85%' }}>
+            <span>{constantOperationStops[stopId][locale].text}</span>
+            <span style={{ display: 'inline-block' }}>
+              <a href={constantOperationStops[stopId][locale].link}>
+                {constantOperationStops[stopId][locale].link}
+              </a>
+            </span>
+          </div>
+        </div>
+      );
+    }
     // Leave out all the routes without a shortname to avoid flooding of
     // long distance buses being falsely positived as duplicates
     // then look foor routes operating under the same number but

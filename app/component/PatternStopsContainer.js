@@ -3,6 +3,7 @@ import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import { matchShape, routerShape } from 'found';
 import cx from 'classnames';
+import { intlShape } from 'react-intl';
 import RouteStopListContainer from './RouteStopListContainer';
 import withBreakpoint from '../util/withBreakpoint';
 import RoutePageControlPanel from './RoutePageControlPanel';
@@ -24,6 +25,7 @@ class PatternStopsContainer extends React.PureComponent {
 
   static contextTypes = {
     config: PropTypes.object.isRequired,
+    intl: intlShape.isRequired,
   };
 
   render() {
@@ -40,6 +42,10 @@ class PatternStopsContainer extends React.PureComponent {
       }
       return false;
     }
+    const routeId = this.props.route.gtfsId;
+    const { locale } = this.context.intl;
+    const { constantOperationRoutes } = this.context.config;
+
     return (
       <>
         <ScrollableWrapper
@@ -54,10 +60,23 @@ class PatternStopsContainer extends React.PureComponent {
               breakpoint={this.props.breakpoint}
             />
           )}
+          {routeId && constantOperationRoutes[routeId] && (
+            <div className="stop-constant-operation-container bottom-padding">
+              <div style={{ width: '95%' }}>
+                <span>{constantOperationRoutes[routeId][locale].text}</span>
+                <span style={{ display: 'inline-block' }}>
+                  <a href={constantOperationRoutes[routeId][locale].link}>
+                    {constantOperationRoutes[routeId][locale].link}
+                  </a>
+                </span>
+              </div>
+            </div>
+          )}
           <RouteStopListContainer
             key="list"
             pattern={this.props.pattern}
             patternId={this.props.pattern.code}
+            hideDepartures={!!constantOperationRoutes[routeId]}
           />
         </ScrollableWrapper>
       </>

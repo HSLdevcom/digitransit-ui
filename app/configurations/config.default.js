@@ -816,6 +816,7 @@ export default {
 
   showNearYouButtons: false,
   nearYouModes: [],
+  narrowNearYouButtons: false,
 
   /* Option to disable the "next" column of the Route panel as it can be confusing sometimes: https://github.com/mfdz/digitransit-ui/issues/167 */
   displayNextDeparture: true,
@@ -837,6 +838,9 @@ export default {
 
   prioritizedStopsNearYou: {},
   routeNotifications: [],
+
+  constantOperationStops: {},
+  constantOperationRoutes: {},
 
   embeddedSearch: {
     title: {
