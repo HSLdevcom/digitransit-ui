@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, intlShape } from 'react-intl';
 import { Link } from 'found';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { PREFIX_STOPS, PREFIX_TERMINALS } from '../util/path';
@@ -8,14 +8,10 @@ import StopNearYouHeader from './StopNearYouHeader';
 import AlertBanner from './AlertBanner';
 import StopNearYouDepartureRowContainer from './StopNearYouDepartureRowContainer';
 
-const StopNearYou = ({
-  stop,
-  desc,
-  stopId,
-  currentTime,
-  currentMode,
-  relay,
-}) => {
+const StopNearYou = (
+  { stop, desc, stopId, currentTime, currentMode, relay },
+  { config, intl },
+) => {
   const stopOrStation = stop.parentStation ? stop.parentStation : stop;
   const stopMode = stopOrStation.stoptimesWithoutPatterns[0]?.trip.route.mode;
   useEffect(() => {
@@ -36,6 +32,10 @@ const StopNearYou = ({
   const linkAddress = isStation
     ? `/${PREFIX_TERMINALS}/${gtfsId}`
     : `/${PREFIX_STOPS}/${gtfsId}`;
+
+  const { constantOperationStops } = config;
+  const { locale } = intl;
+  const isConstantOperation = constantOperationStops[stop.gtfsId];
   return (
     <span role="listitem">
       <div className="stop-near-you-container">
@@ -57,25 +57,40 @@ const StopNearYou = ({
             linkAddress={`${linkAddress}/hairiot`}
           />
         )}
-        <StopNearYouDepartureRowContainer
-          currentTime={currentTime}
-          mode={stopMode}
-          stopTimes={stopOrStation.stoptimesWithoutPatterns}
-          isStation={isStation && stopMode !== 'SUBWAY'}
-        />
-        <Link
-          className="stop-near-you-more-departures"
-          as="button"
-          onClick={e => {
-            e.stopPropagation();
-          }}
-          to={linkAddress}
-        >
-          <FormattedMessage
-            id="more-departures"
-            defaultMessage="More departures"
-          />
-        </Link>
+        {isConstantOperation ? (
+          <div className="stop-constant-operation-container bottom-margin">
+            <div style={{ width: '85%' }}>
+              <span>{constantOperationStops[stop.gtfsId][locale].text}</span>
+              <span style={{ display: 'inline-block' }}>
+                <a href={constantOperationStops[stop.gtfsId][locale].link}>
+                  {constantOperationStops[stop.gtfsId][locale].link}
+                </a>
+              </span>
+            </div>
+          </div>
+        ) : (
+          <>
+            <StopNearYouDepartureRowContainer
+              currentTime={currentTime}
+              mode={stopMode}
+              stopTimes={stopOrStation.stoptimesWithoutPatterns}
+              isStation={isStation && stopMode !== 'SUBWAY'}
+            />
+            <Link
+              className="stop-near-you-more-departures"
+              as="button"
+              onClick={e => {
+                e.stopPropagation();
+              }}
+              to={linkAddress}
+            >
+              <FormattedMessage
+                id="more-departures"
+                defaultMessage="More departures"
+              />
+            </Link>
+          </>
+        )}
       </div>
     </span>
   );
@@ -99,6 +114,11 @@ StopNearYou.propTypes = {
   currentMode: PropTypes.string.isRequired,
   desc: PropTypes.string,
   relay: PropTypes.any,
+};
+
+StopNearYou.contextTypes = {
+  config: PropTypes.object.isRequired,
+  intl: intlShape.isRequired,
 };
 
 export default connectedComponent;

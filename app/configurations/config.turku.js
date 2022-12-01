@@ -243,12 +243,8 @@ export default configMerger(walttiConfig, {
     'FOLI:180': CONSTANT_OPERATION_PARAGRAPHS.fori,
     'FUNI:2': CONSTANT_OPERATION_PARAGRAPHS.funi,
   },
-  strongWalkReluctance: {
-    weights: {
-      FUNICULAR: 0.1,
-    },
-  },
   customWeights: {
     FERRY: 0.6,
+    FUNICULAR: 0.1,
   },
 });

@@ -261,11 +261,8 @@ export const preparePlanParams = (config, useDefaultModes) => (
   const cookies = new Cookies();
 
   let modeWeight;
-  if (settings.walkReluctance >= 5 && config.strongWalkReluctance) {
-    modeWeight = config.strongWalkReluctance.weights;
-  }
   if (config.customWeights) {
-    modeWeight = { ...modeWeight, ...config.customWeights };
+    modeWeight = config.customWeights;
   }
 
   return {
