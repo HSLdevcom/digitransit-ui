@@ -4,13 +4,15 @@ import Link from 'found/Link';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import { intlShape } from 'react-intl';
+import { getRouteMode } from '../util/modeUtils';
 import RouteNumber from './RouteNumber';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
 
 const LegInfo = (
-  { leg, hasNoShortName, mode, headsign, alertSeverityLevel, isAlternativeLeg },
+  { leg, hasNoShortName, headsign, alertSeverityLevel, isAlternativeLeg },
   { intl },
 ) => {
+  const mode = getRouteMode({ mode: leg.mode, type: leg.route.type });
   return (
     <div
       className={cx('itinerary-transit-leg-route', {

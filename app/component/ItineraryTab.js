@@ -318,10 +318,11 @@ const withRelay = createFragmentContainer(
       legs {
         mode
         nextLegs {
-          
+          mode
           route {
             shortName
             mode
+            type
           }
           startTime
           trip {

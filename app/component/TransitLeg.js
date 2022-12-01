@@ -453,7 +453,6 @@ class TransitLeg extends React.Component {
                 key={l.route.shortName + leg.startTime}
                 leg={l}
                 hasNoShortName={hasNoShortName}
-                mode={l.route.mode}
                 headsign={leg.trip.tripHeadsign}
                 alertSeverityLevel={alertSeverityLevel}
                 isAlternativeLeg
