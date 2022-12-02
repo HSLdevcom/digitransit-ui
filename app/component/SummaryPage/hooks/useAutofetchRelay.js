@@ -30,10 +30,12 @@ const hasPageLeft = (plan, queryVariables) =>
 const dataUpdateReducer = (state, action) => {
   const { payload } = action;
 
-  const updatedItineraries = getUniqItineraries([
-    ...(state.itineraries || []),
-    ...(payload.plan?.itineraries || []),
-  ]);
+  const updatedItineraries = state.queryHasChanged
+    ? payload.plan?.itineraries
+    : getUniqItineraries([
+        ...(state.itineraries || []),
+        ...(payload.plan?.itineraries || []),
+      ]);
 
   const numMissing = clamp(state.requiredCount - updatedItineraries.length);
 
@@ -55,6 +57,7 @@ const dataUpdateReducer = (state, action) => {
       state.numRefetch !== undefined && status !== STATUS_COMPLETE
         ? state.numRefetch + 1
         : 0,
+    queryHasChanged: false,
   };
 };
 
@@ -73,6 +76,7 @@ const reducer = (state, action) => {
           ? STATUS_FETCHING
           : STATUS_COMPLETE,
         numRefetch: 0,
+        queryHasChanged: true,
       };
 
     case ACTION_ITINERARIES_UPDATE:
