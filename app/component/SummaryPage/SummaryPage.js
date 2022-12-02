@@ -374,7 +374,6 @@ class SummaryPage extends React.Component {
     this.origin = undefined;
     this.destination = undefined;
     this.expandMap = 0;
-    this.planHasNoItineraries = props.itineraryCount === 0;
 
     if (props.error) {
       reportError(props.error);
@@ -431,7 +430,7 @@ class SummaryPage extends React.Component {
     if (
       relevantRoutingSettingsChanged(this.context.config) &&
       !this.state.settingsChangedRecently &&
-      !this.planHasNoItineraries &&
+      this.props.itineraryCount > 0 &&
       compareItineraries(plan?.itineraries, alternativePlan?.itineraries)
     ) {
       return true;
@@ -1372,7 +1371,7 @@ class SummaryPage extends React.Component {
       this.state.bikeAndPublicPlan,
     );
     if (
-      this.planHasNoItineraries &&
+      this.props.itineraryCount === 0 &&
       userHasChangedModes(this.context.config) &&
       !this.isFetching &&
       (!this.state.alternativePlan ||
@@ -1469,7 +1468,7 @@ class SummaryPage extends React.Component {
         return <Loading />;
       }
       this.selectedPlan = parkRidePlan;
-    } else if (this.planHasNoItineraries && hasAlternativeItineraries) {
+    } else if (this.props.itineraryCount === 0 && hasAlternativeItineraries) {
       this.selectedPlan = this.state.alternativePlan;
     } else {
       this.selectedPlan = plan;
@@ -1702,7 +1701,7 @@ class SummaryPage extends React.Component {
               walking={showWalkOptionButton}
               biking={showBikeOptionButton}
               showAlternativePlan={
-                this.planHasNoItineraries && hasAlternativeItineraries
+                this.props.itineraryCount === 0 && hasAlternativeItineraries
               }
               separatorPosition={this.props.separatorPosition}
               loading={this.state.isFetchingWalkAndBike && !error}
@@ -1917,7 +1916,7 @@ class SummaryPage extends React.Component {
               walking={showWalkOptionButton}
               biking={showBikeOptionButton}
               showAlternativePlan={
-                this.planHasNoItineraries && hasAlternativeItineraries
+                this.props.itineraryCount === 0 && hasAlternativeItineraries
               }
               separatorPosition={this.props.separatorPosition}
               loading={this.state.isFetchingWalkAndBike && !error}
