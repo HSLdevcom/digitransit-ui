@@ -3,8 +3,7 @@ import isEqual from 'lodash/isEqual';
 import getUniqItineraries from '../utils/uniqItineraries';
 import createCancelable from '../utils/createCancelable';
 
-const ACTION_MOUNTED = 'MOUNTED';
-const ACTION_DATA_UPDATE = 'DATA_UPDATE';
+const ACTION_ITINERARIES_UPDATE = 'ITINERARIES_UPDATE';
 const ACTION_QUERY_UPDATE = 'QUERY_UPDATE';
 const ACTION_ERROR = 'ERROR';
 
@@ -12,6 +11,8 @@ const STATUS_FETCHING = 'FETCHING';
 const STATUS_REFETCHING = 'REFETCHING';
 const STATUS_COMPLETE = 'COMPLETE';
 const STATUS_ERROR = 'ERROR';
+
+const MAX_REFETCH_NUMBER = 4;
 
 /**
  * Clamp value under zero to zero.
@@ -23,6 +24,9 @@ const clamp = value => Math.max(0, value);
 
 const isInitialFetch = plan => typeof plan?.itineraries === 'undefined';
 
+const hasPageLeft = (plan, queryVariables) =>
+  queryVariables?.arriveBy ? plan?.previousPageCursor : plan?.nextPageCursor;
+
 const dataUpdateReducer = (state, action) => {
   const { payload } = action;
 
@@ -33,13 +37,24 @@ const dataUpdateReducer = (state, action) => {
 
   const numMissing = clamp(state.requiredCount - updatedItineraries.length);
 
+  const status =
+    numMissing > 0 &&
+    hasPageLeft(payload.plan, state.queryVariables) &&
+    (state.numRefetch === undefined || state.numRefetch <= MAX_REFETCH_NUMBER)
+      ? STATUS_REFETCHING
+      : STATUS_COMPLETE;
+
   return {
     ...state,
-    status: numMissing > 0 ? STATUS_REFETCHING : STATUS_COMPLETE,
+    status,
     nextPageCursor: payload.plan?.nextPageCursor,
     previousPageCursor: payload.plan?.previousPageCursor,
     itineraries: updatedItineraries,
     numMissing,
+    numRefetch:
+      state.numRefetch !== undefined && status !== STATUS_COMPLETE
+        ? state.numRefetch + 1
+        : 0,
   };
 };
 
@@ -47,7 +62,7 @@ const reducer = (state, action) => {
   const { type, payload } = action;
 
   switch (type) {
-    case ACTION_MOUNTED:
+    case ACTION_QUERY_UPDATE:
       return {
         ...state,
         itineraries: payload.plan?.itineraries,
@@ -57,20 +72,11 @@ const reducer = (state, action) => {
         status: isInitialFetch(payload.plan)
           ? STATUS_FETCHING
           : STATUS_COMPLETE,
+        numRefetch: 0,
       };
 
-    case ACTION_DATA_UPDATE:
+    case ACTION_ITINERARIES_UPDATE:
       return dataUpdateReducer(state, action);
-
-    case ACTION_QUERY_UPDATE:
-      return {
-        ...state,
-        status: STATUS_FETCHING,
-        queryVariables: payload,
-        nextPageCursor: undefined,
-        previousPageCursor: undefined,
-        itineraries: [],
-      };
 
     case ACTION_ERROR:
       return {
@@ -126,22 +132,12 @@ const useAutofetchRelay = (
 
   const onRefetchComplete = () => {
     dispatch({
-      type: ACTION_DATA_UPDATE,
+      type: ACTION_ITINERARIES_UPDATE,
       payload: {
         plan,
       },
     });
   };
-
-  useEffect(() => {
-    dispatch({
-      type: ACTION_MOUNTED,
-      payload: {
-        plan,
-        queryVariables,
-      },
-    });
-  }, []);
 
   useEffect(() => {
     if (error) {
@@ -193,7 +189,7 @@ const useAutofetchRelay = (
     if (isQueryUpdated) {
       // reset itinerary listing when query variables change
       dispatch({
-        type: ACTION_MOUNTED,
+        type: ACTION_QUERY_UPDATE,
         payload: {
           plan,
           queryVariables,
@@ -202,15 +198,26 @@ const useAutofetchRelay = (
       return;
     }
 
+    const hasNewItineraries = () =>
+      (state.itineraries === undefined && plan?.itineraries) ||
+      plan?.itineraries?.some(
+        planItinerary =>
+          !(
+            Array.isArray(state.itineraries) &&
+            state.itineraries.some(stateItinerary =>
+              isEqual(planItinerary, stateItinerary),
+            )
+          ),
+      );
+
     // ...or detect updates to query response data.
-    const isDataUpdated = !isEqual(state.itineraries, plan?.itineraries);
-    if (isDataUpdated) {
+    if (hasNewItineraries()) {
       dispatch({
-        type: ACTION_DATA_UPDATE,
+        type: ACTION_ITINERARIES_UPDATE,
         payload: { plan },
       });
     }
-  });
+  }, [queryVariables, plan?.itineraries]);
 
   return {
     itineraries: state.itineraries,
