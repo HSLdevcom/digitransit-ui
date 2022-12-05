@@ -13,6 +13,9 @@ You also need a C compiler:
 - Windows: for example MSVC 2013 Express
 
 ## Install watchman
+### OS X
+`brew install watchman`
+### Other 
 ```
 git clone https://github.com/facebook/watchman.git -b v4.9.0 --depth 1
 cd watchman
