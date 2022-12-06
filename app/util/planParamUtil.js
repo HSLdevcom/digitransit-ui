@@ -205,6 +205,10 @@ const isDestinationOldTownOfHerrenberg = destination => {
   );
 };
 
+/**
+ * Prepares the parameters for te graphQL query.
+ * useDefaultModes: true for the standardQuery, false for additional batch query
+ * */
 export const preparePlanParams = (config, useDefaultModes) => (
   { from, to },
   {
@@ -256,7 +260,11 @@ export const preparePlanParams = (config, useDefaultModes) => (
             : network,
         )
     : defaultSettings.allowedVehicleRentalNetworks;
-  const formattedModes = modesAsOTPModes(modesOrDefault);
+
+  const includeBikeRentSuggestions = modesOrDefault.includes('BICYCLE_RENT');
+  // We need to remove BIYCLE_RENT as it is requested via Batch and not standard query
+  const modesWithoutBikeRent = modesOrDefault.filter(m => m !== 'BICYCLE_RENT');
+  const formattedModes = modesAsOTPModes(modesWithoutBikeRent);
   const wheelchair =
     getNumberValueOrDefault(settings.accessibilityOption, defaultSettings) ===
     1;
@@ -314,6 +322,7 @@ export const preparePlanParams = (config, useDefaultModes) => (
         wheelchair,
         transferPenalty: config.transferPenalty,
         bikeSpeed: settings.bikeSpeed,
+        // TODO why does optimize depend on includeBikeSuggestions?
         optimize: settings.includeBikeSuggestions
           ? config.defaultSettings.optimize
           : config.optimize,
@@ -347,7 +356,11 @@ export const preparePlanParams = (config, useDefaultModes) => (
     modes: [
       // In bbnavi, we want direct Flex routing whenever bus routing is enabled.
       ...(formattedModes.some(({ mode }) => mode === 'BUS')
-        ? [{ mode: 'FLEX', qualifier: 'DIRECT' }]
+        ? [
+            { mode: 'FLEX', qualifier: 'DIRECT' },
+            { mode: 'FLEX', qualifier: 'ACCESS' },
+            { mode: 'FLEX', qualifier: 'EGRESS' },
+          ]
         : []),
       ...formattedModes,
     ],
@@ -376,6 +389,7 @@ export const preparePlanParams = (config, useDefaultModes) => (
       settings,
       defaultSettings,
     ),
+    // TODO shouldMakeXYZQuery and showXYZItineraries have same intend, harmonize
     // In bbnavi, we include Flex routing in the "default" public routing mode.
     shouldMakeOnDemandTaxiQuery: false,
     showBikeAndPublicItineraries:
@@ -384,6 +398,11 @@ export const preparePlanParams = (config, useDefaultModes) => (
       linearDistance >= config.suggestBikeAndPublicMinDistance &&
       modesOrDefault.length > 1 &&
       includeBikeSuggestions,
+    showBikeRentAndPublicItineraries:
+      !wheelchair &&
+      linearDistance >= config.suggestBikeAndParkMinDistance &&
+      modesOrDefault.length > 1 &&
+      includeBikeRentSuggestions,
     showBikeAndParkItineraries:
       !wheelchair &&
       config.showBikeAndParkItineraries &&
@@ -395,7 +414,22 @@ export const preparePlanParams = (config, useDefaultModes) => (
       Array.isArray(intermediatePlaceLocations) &&
       intermediatePlaceLocations.length > 0,
     bikeAndPublicModes: [
+      // with CONFIG=bbnavi, we get FLEX+ACCESS even though that doesn't make sense.
+      // does BICYCLE override BUS(with FLEX+ACCESS/EGRESS) in this case?
+      // does the VBB data specify if travelling with a bike is allowed?
       { mode: 'BICYCLE' },
+      ...modesAsOTPModes(getBicycleCompatibleModes(config, modesOrDefault)),
+    ],
+    bikeRentAndPublicModes: [
+      // Apparently, including *both* `{mode: 'BICYCLE'}` and `{mode: 'BICYCLE', qualifier: 'RENT'}`
+      // causes OTP to *exclude* connections that *don't* contain any `BICYCLE` leg.
+      // When sending just `{mode: 'BICYCLE', qualifier: 'RENT'}`, it work as intended:
+      // - include itineraries with non-rented `BICYCLE` legs
+      // - include itineraries with rented `BICYCLE` legs
+      // - include itineraries without any `BICYCLE` legs whatsoever
+      { mode: 'BICYCLE', qualifier: 'RENT' },
+      // TODO: OTP seems to require FLEX DIRECT to return bike rental & transit results, to be checked
+      { mode: 'FLEX', qualifier: 'DIRECT' },
       ...modesAsOTPModes(getBicycleCompatibleModes(config, modesOrDefault)),
     ],
     bannedBicycleParkingTags,

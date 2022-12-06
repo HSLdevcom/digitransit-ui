@@ -92,6 +92,8 @@ export default configMerger(walttiConfig, {
         delayThreshold: 60,
     },
 
+    modesWithNoBike: ['BICYCLE_RENT', 'WALK', 'CARPOOL', 'FLEX_DIRECT', 'FLEX_ACCESS', 'FLEX_EGRESS'],
+
     appBarLink: {
         name: 'Feedback',
         href: 'https://bbnavi.de/feedback',
@@ -305,7 +307,6 @@ export default configMerger(walttiConfig, {
 
     modeToOTP: {
         carpool: 'CARPOOL',
-        bus: 'BUS,FLEX_ACCESS,FLEX_EGRESS',
     },
 
     logo: 'bbnavi/stadtnavi-bbnavi-logo.svg',
@@ -668,7 +669,7 @@ export default configMerger(walttiConfig, {
     suggestCarMinDistance: 800,
     suggestWalkMaxDistance: 3000,
     suggestBikeAndPublicMinDistance: 3000,
-    suggestBikeAndParkMinDistance: 3000,
+    suggestBikeAndParkMinDistance: 1000,
 
     // live bus locations
     vehicles: false,

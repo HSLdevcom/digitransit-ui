@@ -48,6 +48,7 @@ class SummaryPlanContainer extends React.Component {
       end: PropTypes.number.isRequired,
     }).isRequired,
     bikeAndPublicItinerariesToShow: PropTypes.number.isRequired,
+    bikeRentAndPublicItinerariesToShow: PropTypes.number.isRequired,
     bikeAndParkItinerariesToShow: PropTypes.number.isRequired,
     parkAndRide: PropTypes.bool,
     car: PropTypes.bool,
@@ -225,6 +226,7 @@ class SummaryPlanContainer extends React.Component {
       locationState,
       itineraries,
       bikeAndPublicItinerariesToShow,
+      bikeRentAndPublicItinerariesToShow,
       bikeAndParkItinerariesToShow,
       parkAndRide,
       car,
@@ -273,6 +275,9 @@ class SummaryPlanContainer extends React.Component {
           searchTime={searchTime}
           to={otpToLocation(to)}
           bikeAndPublicItinerariesToShow={bikeAndPublicItinerariesToShow}
+          bikeRentAndPublicItinerariesToShow={
+            bikeRentAndPublicItinerariesToShow
+          }
           bikeAndParkItinerariesToShow={bikeAndParkItinerariesToShow}
           parkAndRide={parkAndRide}
           car={car}
