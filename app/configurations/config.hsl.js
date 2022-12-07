@@ -719,4 +719,9 @@ export default {
       },
     },
   },
+  stopCard: {
+    header: {
+      virtualMonitorBaseUrl: 'https://omatnaytot.hsl.fi/',
+    },
+  },
 };

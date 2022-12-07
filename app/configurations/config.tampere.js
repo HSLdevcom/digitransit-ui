@@ -65,7 +65,7 @@ export default configMerger(walttiConfig, {
 
   stopCard: {
     header: {
-      virtualMonitorBaseUrl: 'https://tremonitori.digitransit.fi/stop/',
+      virtualMonitorBaseUrl: 'https://tremonitori.digitransit.fi/',
     },
   },
   zones: {
