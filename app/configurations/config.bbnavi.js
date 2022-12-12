@@ -47,7 +47,9 @@ export default configMerger(walttiConfig, {
         CITYBIKE_MAP: `${API_URL}/otp/routers/default/vectorTiles/citybikes/`,
         BIKE_PARKS_MAP: `${API_URL}/otp/routers/default/vectorTiles/parking/`,
         WEATHER_STATIONS_MAP: '', // `${API_URL}/map/v1/weather-stations/`,
-        CHARGING_STATIONS_MAP: '', // `${API_URL}/tiles/charging-stations/`,
+        CHARGING_STATIONS_MAP: 'https://ocpdb.bbnavi.de/tiles/{z}/{x}/{y}.mvt?static=1',
+        CHARGING_STATION_DETAILS_API: 'https://ocpdb.bbnavi.de/api/ocpi/2.2/location/',
+        
         PELIAS: `${process.env.GEOCODING_BASE_URL || GEOCODING_BASE_URL}/search`,
         PELIAS_REVERSE_GEOCODER: `${
             process.env.GEOCODING_BASE_URL || GEOCODING_BASE_URL
@@ -230,7 +232,7 @@ export default configMerger(walttiConfig, {
         showCityBikes: true,
         networks: {
             'nextbike_dc': {
-                icon: 'regiorad',
+                icon: 'nextbike',
                 name: {
                     de: 'Nextbike (Potsdam)',
                     en: 'Nextbike (Potsdam)',
@@ -244,7 +246,7 @@ export default configMerger(walttiConfig, {
                 enabled: true,
             },
             'nextbike_bn': {
-                icon: 'regiorad',
+                icon: 'nextbike',
                 name: {
                     de: 'Nextbike (Berlin)',
                     en: 'Nextbike (Berlin)',
@@ -295,6 +297,20 @@ export default configMerger(walttiConfig, {
                 url: {
                     de: 'https://www.barshare.de/barshare-standorte',
                     en: 'https://www.barshare.de/barshare-standorte',
+                },
+                visibleInSettingsUi: true,
+                enabled: true,
+            },
+            'donkey_berlin': {
+                icon: 'donkeyrepublic',
+                name: {
+                    de: 'Donkey Republic',
+                    en: 'Donkey Republic',
+                },
+                type: 'citybike',
+                url: {
+                    de: 'https://www.donkey.bike/de/stadte/fahrradverleih-berlin/',
+                    en: 'https://www.donkey.bike/cities/bike-rental-berlin/',
                 },
                 visibleInSettingsUi: true,
                 enabled: true,

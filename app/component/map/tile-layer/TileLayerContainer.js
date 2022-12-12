@@ -469,7 +469,8 @@ class TileLayerContainer extends GridLayer {
           showPopup = false;
         } else if (this.state.selectableTargets[0].layer === 'datahubTiles') {
           const { lat, lng } = this.state.coords;
-          const datahubId = this.state.selectableTargets[0].feature.properties.datahub_id;
+          const datahubId = this.state.selectableTargets[0].feature.properties
+            .datahub_id;
           const name = this.state.selectableTargets[0].feature.properties?.name;
           const params = pickBy(
             {

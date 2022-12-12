@@ -444,6 +444,7 @@ const translations = {
     'charging-payment-debit' : 'Debitkarte',
     'charging-payment-rfid' : 'Ladekarte',
     'charging-payment-unknown' : 'Unbekannt',
+    'charging-opening-hours-unknown' : 'Unbekannte Öffnungszeiten',
     'charging-spaces-available': '{available} von {capacity} Ladeplätzen frei',
     'charging-spaces-in-total': '{capacity} Ladeplätze',
     'charging-spaces-no-data' : 'Keine Daten zu den Ladeplätze vorhanden',

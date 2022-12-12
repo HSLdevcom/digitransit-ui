@@ -1,6 +1,6 @@
 variables:
   # GITLAB_API_URL: 'https://gitlab.tpwd.de/api'
-  DOCKER_HOST: tcp://docker:2375/
+  # DOCKER_HOST: tcp://docker:2375/
   DOCKER_AUTH_CONFIG: '{ "auths": { "https://index.docker.io/v1/": { "auth": "$DOCKER_AUTH" } }}'
   DOCKER_IMAGE: $CI_REGISTRY_IMAGE
   QUANTUM_CLI: registry.internal.planetary-networks.de/quantum-public/cli:2
