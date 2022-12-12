@@ -174,7 +174,9 @@ class BikeRentalStations {
       query,
       { id: idForFetching },
       { force: true },
-    ).then(callback);
+    )
+      .toPromise()
+      .then(callback);
   };
 
   drawSmallMarker = (geom, iconName) => {

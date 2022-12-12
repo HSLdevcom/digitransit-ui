@@ -54,7 +54,9 @@ const fetchServiceAlerts = async (feedids, relayEnvironment) => {
     }
   `;
 
-  const result = await fetchQuery(relayEnvironment, query, { feedids });
+  const result = await fetchQuery(relayEnvironment, query, {
+    feedids,
+  }).toPromise();
   return result && Array.isArray(result.alerts) ? result.alerts : [];
 };
 

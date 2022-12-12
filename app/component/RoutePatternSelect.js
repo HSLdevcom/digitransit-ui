@@ -180,12 +180,17 @@ class RoutePatternSelect extends Component {
       const params = { name: searchSimilarTo, mode: route.mode };
       fetchQuery(this.props.relayEnvironment, query, params, {
         force: true,
-      }).then(results => {
-        this.setState({
-          similarRoutes: filterSimilarRoutes(results.routes, this.props.route),
-          loadingSimilar: false,
+      })
+        .toPromise()
+        .then(results => {
+          this.setState({
+            similarRoutes: filterSimilarRoutes(
+              results.routes,
+              this.props.route,
+            ),
+            loadingSimilar: false,
+          });
         });
-      });
     }
   };
 

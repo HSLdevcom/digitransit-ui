@@ -194,6 +194,7 @@ export function getModesWithAlerts(currentTime, feedIds = null) {
     return Promise.resolve([]);
   }
   return fetchQuery(relayEnvironment, alertsQuery, { feedIds })
+    .toPromise()
     .then(res => {
       const modes = res.alerts.map(i => {
         if (
@@ -228,7 +229,7 @@ export function getStopAndStationsQuery(favourites) {
     queries.push(
       fetchQuery(relayEnvironment, favouriteStopsQuery, {
         ids: stopIds,
-      }),
+      }).toPromise(),
     );
   }
   const stationIds = favourites
@@ -238,7 +239,7 @@ export function getStopAndStationsQuery(favourites) {
     queries.push(
       fetchQuery(relayEnvironment, favouriteStationsQuery, {
         ids: stationIds,
-      }),
+      }).toPromise(),
     );
   }
   if (queries.length === 0) {
@@ -286,7 +287,10 @@ export function getAllBikeRentalStations() {
   if (!relayEnvironment) {
     return Promise.resolve([]);
   }
-  return fetchQuery(relayEnvironment, searchBikeRentalStationsQuery);
+  return fetchQuery(
+    relayEnvironment,
+    searchBikeRentalStationsQuery,
+  ).toPromise();
 }
 
 /**
@@ -321,14 +325,14 @@ export function filterStopsAndStationsByMode(stopsToFilter, mode) {
     queries.push(
       fetchQuery(relayEnvironment, stopsQuery, {
         ids: stopIds,
-      }),
+      }).toPromise(),
     );
   }
   if (stationIds.length > 0) {
     queries.push(
       fetchQuery(relayEnvironment, stationsQuery, {
         ids: stationIds,
-      }),
+      }).toPromise(),
     );
   }
   if (queries.length === 0) {
@@ -384,7 +388,10 @@ export function getFavouriteRoutesQuery(
   ) {
     return Promise.resolve([]);
   }
-  return fetchQuery(relayEnvironment, favouriteRoutesQuery, { ids: favourites })
+  return fetchQuery(relayEnvironment, favouriteRoutesQuery, {
+    ids: favourites,
+  })
+    .toPromise()
     .then(data => data.routes.map(r => mapRoute(r, pathOpts)))
     .then(routes => routes.filter(route => !!route))
     .then(routes =>
@@ -429,6 +436,7 @@ export function getFavouriteBikeRentalStationsQuery(favourites, input) {
   return fetchQuery(relayEnvironment, favouriteBikeRentalQuery, {
     ids: favouriteIds,
   })
+    .toPromise()
     .then(data => data.bikeRentalStations)
     .then(stations => stations.filter(station => !!station))
     .then(stations =>
@@ -476,18 +484,20 @@ export function getRoutesQuery(input, feedIds, transportMode, pathOpts) {
     feeds: Array.isArray(feedIds) && feedIds.length > 0 ? feedIds : null,
     name: input,
     modes: transportMode ? modes : null,
-  }).then(data => {
-    const results = data.viewer.routes
-      .map(r => mapRoute(r, pathOpts))
-      .filter(route => !!route);
-    const normalizedTerm = !isString(input) ? '' : input.toLowerCase();
-    const orderedResults = orderBy(
-      results,
-      [result => match(normalizedTerm, result.properties)],
-      ['desc', 'desc'],
-    );
-    return take(orderedResults, 100);
-  });
+  })
+    .toPromise()
+    .then(data => {
+      const results = data.viewer.routes
+        .map(r => mapRoute(r, pathOpts))
+        .filter(route => !!route);
+      const normalizedTerm = !isString(input) ? '' : input.toLowerCase();
+      const orderedResults = orderBy(
+        results,
+        [result => match(normalizedTerm, result.properties)],
+        ['desc', 'desc'],
+      );
+      return take(orderedResults, 100);
+    });
 }
 
 export function withCurrentTime(location) {
