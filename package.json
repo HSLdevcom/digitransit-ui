@@ -128,7 +128,8 @@
   },
   "relay": {
     "src": "./.",
-    "schema": "./build/schema.json"
+    "schema": "./build/schema.json",
+    "language": "javascript"
   },
   "dependencies": {
     "@babel/core": "7.11.5",
