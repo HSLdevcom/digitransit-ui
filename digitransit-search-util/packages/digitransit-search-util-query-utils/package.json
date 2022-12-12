@@ -10,7 +10,12 @@
     "clean": "rm -rf lib ./node_modules",
     "test": "mocha -r esm test.js",
     "docs": "node -r esm ../../scripts/generate-readmes",
-    "relay": "relay-compiler --src . --schema schema.json --extensions=js --extensions=jsx --extensions=generated && mkdir lib && mv __generated__ lib/"
+    "relay": "relay-compiler && mkdir lib && mv __generated__ lib/"
+  },
+  "relay": {
+    "src": ".",
+    "schema": "schema.json",
+    "language": "javascript"
   },
   "repository": {
     "type": "git",
@@ -23,18 +28,18 @@
   "author": "Digitransit Authors",
   "license": "(AGPL-3.0 OR EUPL-1.2)",
   "peerDependencies": {
-    "babel-plugin-relay": "10.0.1",
+    "babel-plugin-relay": "14.1.0",
     "lodash": "4.17.21",
     "moment": "2.29.1",
-    "react-relay": "10.0.1"
+    "react-relay": "14.1.0"
   },
   "devDependencies": {
-    "relay-compiler": "10.0.1"
+    "relay-compiler": "14.1.0"
   },
   "dependencies": {
     "@digitransit-search-util/digitransit-search-util-filter-matching-to-input": "0.0.3",
     "@digitransit-search-util/digitransit-search-util-helpers": "1.0.4",
     "@digitransit-search-util/digitransit-search-util-route-name-compare": "0.0.2",
-    "babel-plugin-relay": "10.0.1"
+    "babel-plugin-relay": "14.1.0"
   }
 }
