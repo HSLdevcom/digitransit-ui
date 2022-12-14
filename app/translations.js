@@ -610,14 +610,9 @@ const translations = {
       'Umstieg auf {vehicle} an Halt {stopName}',
     'itinerary-summary-row.walking-distance':
       'Gesamte Laufstrecke: {totalDistance}.',
-    'itinerary-summary.bikeAndPublic-fallback-title':
+    'itinerary-summary.bikeAndPublic-title':
       'Verbindungen mit Fahrradmitnahme',
-    'itinerary-summary.bikeAndPublic-rail-subway-title':
-      'Verbindungen mit Fahrradmitnahme',
-    'itinerary-summary.bikeAndPublic-rail-title':
-      'Verbindungen mit Fahrradmitnahme',
-    'itinerary-summary.bikeAndPublic-subway-title':
-      'Verbindungen mit Fahrradmitnahme',
+    'itinerary-summary.bikeRentAndPublic-title': 'Verbindungen mit ÖPNV & Leihrad',
     'itinerary-summary.bikePark-title': 'Fahrrad abstellen und weiterfahren',
     'itinerary-summary.interline-wait': 'Die Route ({shortName}) und Ziel ({destination}) werden sich am Halt {stop} verändern. Die Wartezeit beträgt {time}. Bitte bleiben Sie sitzen.',
     'itinerary-summary.show-on-map': 'Auf Karte zeigen {target}',
