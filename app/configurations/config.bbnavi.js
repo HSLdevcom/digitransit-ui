@@ -38,7 +38,7 @@ export default configMerger(walttiConfig, {
             satellite: 'https://isk.geobasis-bb.de/mapproxy/dop20c_sentinel/service/wms',
             satellite_eu: 'https://isk.geobasis-bb.de/mapproxy/dop20c_sentinel/service/wms?eu',
             semiTransparent: SEMI_TRANSPARENT_MAP_URL,
-            bicycle: 'https://{s}.tile-cyclosm.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png',
+            bicycle: 'https://tiles.stadtnavi.eu/bicycle/{z}/{x}/{y}{r}.png',
         },
         STOP_MAP: `${API_URL}/otp/routers/default/vectorTiles/stops/`,
         DYNAMICPARKINGLOTS_MAP: `${API_URL}/otp/routers/default/vectorTiles/parking/`,
