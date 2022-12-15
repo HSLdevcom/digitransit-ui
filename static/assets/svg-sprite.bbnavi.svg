@@ -3087,6 +3087,92 @@
       <polygon points="12.2117187 15.0067004 3.38924173 10.5921967 0.0195909926 12.2770221 12.2117187 18.4024724 24.4038465 12.2770221 21.0407261 10.5921967"/>
       <polygon points="12.2117187 21.1452114 3.38924173 16.7111167 0.0195909926 18.4024724 12.2117187 24.5213925 24.4038465 18.4024724 21.0407261 16.7111167"/>
     </symbol>
+    <symbol id="icon-icon_cycling-map-legend-bike-parking" viewBox="0 0 24 24" fill="none">
+      <path d="M9.6416 15.8613C9.6416 17.598 8.23375 19.0058 6.49708 19.0058C4.76041 19.0058 3.35255 17.598 3.35255 15.8613C3.35255 14.1246 4.76041 12.7168 6.49708 12.7168C7.04362 12.7157 7.58068 12.8595 8.05362 13.1334" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M9.6416 15.8613C9.6416 17.598 8.23375 19.0058 6.49708 19.0058C4.76041 19.0058 3.35255 17.598 3.35255 15.8613C3.35255 14.1246 4.76041 12.7168 6.49708 12.7168C7.04362 12.7157 7.58068 12.8595 8.05362 13.1334" stroke="white" stroke-opacity="0.2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="17.5029" cy="15.8613" r="3.14452" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="17.5029" cy="15.8613" r="3.14452" stroke="white" stroke-opacity="0.2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M17.6994 10.7515C17.9601 10.7515 18.21 10.6479 18.3943 10.4636C18.5786 10.2794 18.6821 10.0294 18.6821 9.7688V9.7688C18.6821 9.50818 18.5786 9.25823 18.3943 9.07395C18.21 8.88966 17.9601 8.78613 17.6994 8.78613H15.1445L17.5029 15.8613" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M17.6994 10.7515C17.9601 10.7515 18.21 10.6479 18.3943 10.4636C18.5786 10.2794 18.6821 10.0294 18.6821 9.7688V9.7688C18.6821 9.50818 18.5786 9.25823 18.3943 9.07395C18.21 8.88966 17.9601 8.78613 17.6994 8.78613H15.1445L17.5029 15.8613" stroke="white" stroke-opacity="0.2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M6.49709 15.8613H11.2139L15.1445 10.3584H9.64161L6.49709 15.8613Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M6.49709 15.8613H11.2139L15.1445 10.3584H9.64161L6.49709 15.8613Z" stroke="white" stroke-opacity="0.2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M8.06934 8.39307H10.4277" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M8.06934 8.39307H10.4277" stroke="white" stroke-opacity="0.2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M11.2139 15.8613L8.85547 8.39307" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M11.2139 15.8613L8.85547 8.39307" stroke="white" stroke-opacity="0.2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M3.50021 2V6.50187" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M3.50021 2V6.50187" stroke="white" stroke-opacity="0.2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M3.50189 2.00208H5.07755C5.45564 2.00208 5.81824 2.15227 6.0856 2.41962C6.35295 2.68697 6.50314 3.04958 6.50314 3.42767V3.42767C6.50314 4.215 5.86488 4.85326 5.07755 4.85326H3.50189" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M3.50189 2.00208H5.07755C5.45564 2.00208 5.81824 2.15227 6.0856 2.41962C6.35295 2.68697 6.50314 3.04958 6.50314 3.42767V3.42767C6.50314 4.215 5.86488 4.85326 5.07755 4.85326H3.50189" stroke="white" stroke-opacity="0.2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <line x1="2.75" y1="22.25" x2="21.25" y2="22.25" stroke="black" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="2.75" y1="22.25" x2="21.25" y2="22.25" stroke="white" stroke-opacity="0.2" stroke-width="1.5" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="icon-icon_cycling-map-legend-bike-parking-covered" viewBox="0 0 24 24" fill="none">
+      <rect width="24" height="24" fill="white"/>
+      <path d="M9.64619 18.8613C9.64619 20.598 8.23834 22.0058 6.50167 22.0058C4.765 22.0058 3.35715 20.598 3.35715 18.8613C3.35715 17.1246 4.765 15.7168 6.50167 15.7168C7.04821 15.7157 7.58528 15.8595 8.05821 16.1334" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M9.64619 18.8613C9.64619 20.598 8.23834 22.0058 6.50167 22.0058C4.765 22.0058 3.35715 20.598 3.35715 18.8613C3.35715 17.1246 4.765 15.7168 6.50167 15.7168C7.04821 15.7157 7.58528 15.8595 8.05821 16.1334" stroke="white" stroke-opacity="0.2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="17.5075" cy="18.8613" r="3.14452" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="17.5075" cy="18.8613" r="3.14452" stroke="white" stroke-opacity="0.2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M17.704 13.7515C17.9647 13.7515 18.2146 13.6479 18.3989 13.4636C18.5832 13.2794 18.6867 13.0294 18.6867 12.7688V12.7688C18.6867 12.5082 18.5832 12.2582 18.3989 12.0739C18.2146 11.8897 17.9647 11.7861 17.704 11.7861H15.1491L17.5075 18.8613" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M17.704 13.7515C17.9647 13.7515 18.2146 13.6479 18.3989 13.4636C18.5832 13.2794 18.6867 13.0294 18.6867 12.7688V12.7688C18.6867 12.5082 18.5832 12.2582 18.3989 12.0739C18.2146 11.8897 17.9647 11.7861 17.704 11.7861H15.1491L17.5075 18.8613" stroke="white" stroke-opacity="0.2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M6.50168 18.8613H11.2185L15.1491 13.3584H9.6462L6.50168 18.8613Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M6.50168 18.8613H11.2185L15.1491 13.3584H9.6462L6.50168 18.8613Z" stroke="white" stroke-opacity="0.2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M8.07394 11.3931H10.4323" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M8.07394 11.3931H10.4323" stroke="white" stroke-opacity="0.2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M11.2185 18.8613L8.86006 11.3931" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M11.2185 18.8613L8.86006 11.3931" stroke="white" stroke-opacity="0.2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M19.978 5.86432L13.4758 2.25181C12.8715 1.91606 12.1366 1.91606 11.5323 2.25181L5.0291 5.86488" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M19.978 5.86432L13.4758 2.25181C12.8715 1.91606 12.1366 1.91606 11.5323 2.25181L5.0291 5.86488" stroke="white" stroke-opacity="0.2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="icon-icon_cycling-map-legend-bike-parking-lockable" viewBox="0 0 24 24" fill="none">
+      <path d="M10.6462 18.8613C10.6462 20.598 9.23834 22.0058 7.50167 22.0058C5.765 22.0058 4.35715 20.598 4.35715 18.8613C4.35715 17.1246 5.765 15.7168 7.50167 15.7168C8.04821 15.7157 8.58528 15.8595 9.05821 16.1334" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M10.6462 18.8613C10.6462 20.598 9.23834 22.0058 7.50167 22.0058C5.765 22.0058 4.35715 20.598 4.35715 18.8613C4.35715 17.1246 5.765 15.7168 7.50167 15.7168C8.04821 15.7157 8.58528 15.8595 9.05821 16.1334" stroke="white" stroke-opacity="0.2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="18.5075" cy="18.8613" r="3.14452" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="18.5075" cy="18.8613" r="3.14452" stroke="white" stroke-opacity="0.2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M18.704 13.7515C18.9647 13.7515 19.2146 13.6479 19.3989 13.4636C19.5832 13.2794 19.6867 13.0294 19.6867 12.7688V12.7688C19.6867 12.5082 19.5832 12.2582 19.3989 12.0739C19.2146 11.8897 18.9647 11.7861 18.704 11.7861H16.1491L18.5075 18.8613" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M18.704 13.7515C18.9647 13.7515 19.2146 13.6479 19.3989 13.4636C19.5832 13.2794 19.6867 13.0294 19.6867 12.7688V12.7688C19.6867 12.5082 19.5832 12.2582 19.3989 12.0739C19.2146 11.8897 18.9647 11.7861 18.704 11.7861H16.1491L18.5075 18.8613" stroke="white" stroke-opacity="0.2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M7.50168 18.8613H12.2185L16.1491 13.3584H10.6462L7.50168 18.8613Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M7.50168 18.8613H12.2185L16.1491 13.3584H10.6462L7.50168 18.8613Z" stroke="white" stroke-opacity="0.2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M9.07394 11.3931H11.4323" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M9.07394 11.3931H11.4323" stroke="white" stroke-opacity="0.2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M12.2185 18.8613L9.86006 11.3931" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M12.2185 18.8613L9.86006 11.3931" stroke="white" stroke-opacity="0.2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M3.6978 7.81676L3.70048 9.71461C3.70144 9.94845 3.79452 10.1725 3.95953 10.3382L4.62078 10.9994C4.96555 11.3442 5.52454 11.3442 5.86931 10.9995L6.5334 10.3354C6.69934 10.1698 6.79212 9.94477 6.79104 9.71039L6.78834 7.81893" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M3.6978 7.81676L3.70048 9.71461C3.70144 9.94845 3.79452 10.1725 3.95953 10.3382L4.62078 10.9994C4.96555 11.3442 5.52454 11.3442 5.86931 10.9995L6.5334 10.3354C6.69934 10.1698 6.79212 9.94477 6.79104 9.71039L6.78834 7.81893" stroke="white" stroke-opacity="0.2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M3.69781 7.81676C2.54194 7.12148 1.99187 5.74054 2.35311 4.44095C2.71435 3.14136 3.89816 2.24238 5.24703 2.24333C6.59589 2.24429 7.77843 3.14493 8.13784 4.44503C8.49725 5.74513 7.94523 7.12529 6.78839 7.81894" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M3.69781 7.81676C2.54194 7.12148 1.99187 5.74054 2.35311 4.44095C2.71435 3.14136 3.89816 2.24238 5.24703 2.24333C6.59589 2.24429 7.77843 3.14493 8.13784 4.44503C8.49725 5.74513 7.94523 7.12529 6.78839 7.81894" stroke="white" stroke-opacity="0.2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M5.28052 5.22173C5.30002 5.24128 5.29999 5.27293 5.28045 5.29244C5.26092 5.31196 5.22927 5.31195 5.20974 5.29243C5.19021 5.27291 5.19019 5.24126 5.2097 5.22172C5.21908 5.21231 5.23182 5.20703 5.24511 5.20703C5.2584 5.20703 5.27114 5.21231 5.28052 5.22172" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M5.28052 5.22173C5.30002 5.24128 5.29999 5.27293 5.28045 5.29244C5.26092 5.31196 5.22927 5.31195 5.20974 5.29243C5.19021 5.27291 5.19019 5.24126 5.2097 5.22172C5.21908 5.21231 5.23182 5.20703 5.24511 5.20703C5.2584 5.20703 5.27114 5.21231 5.28052 5.22172" stroke="white" stroke-opacity="0.2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="icon-icon_cycling-map-legend-bike-repair" viewBox="0 0 24 24" fill="none">
+      <path d="M9.6416 9.8613C9.6416 11.598 8.23375 13.0058 6.49708 13.0058C4.76041 13.0058 3.35255 11.598 3.35255 9.8613C3.35255 8.12463 4.76041 6.71677 6.49708 6.71677C7.04362 6.71573 7.58068 6.85949 8.05362 7.13343" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M9.6416 9.8613C9.6416 11.598 8.23375 13.0058 6.49708 13.0058C4.76041 13.0058 3.35255 11.598 3.35255 9.8613C3.35255 8.12463 4.76041 6.71677 6.49708 6.71677C7.04362 6.71573 7.58068 6.85949 8.05362 7.13343" stroke="white" stroke-opacity="0.2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="17.5029" cy="9.86132" r="3.14452" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="17.5029" cy="9.86132" r="3.14452" stroke="white" stroke-opacity="0.2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M17.6994 4.75146C17.9601 4.75146 18.21 4.64793 18.3943 4.46364C18.5786 4.27936 18.6821 4.02942 18.6821 3.7688V3.7688C18.6821 3.50818 18.5786 3.25823 18.3943 3.07395C18.21 2.88966 17.9601 2.78613 17.6994 2.78613H15.1445L17.5029 9.86131" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M17.6994 4.75146C17.9601 4.75146 18.21 4.64793 18.3943 4.46364C18.5786 4.27936 18.6821 4.02942 18.6821 3.7688V3.7688C18.6821 3.50818 18.5786 3.25823 18.3943 3.07395C18.21 2.88966 17.9601 2.78613 17.6994 2.78613H15.1445L17.5029 9.86131" stroke="white" stroke-opacity="0.2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M6.49709 9.86132H11.2139L15.1445 4.3584H9.64161L6.49709 9.86132Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M6.49709 9.86132H11.2139L15.1445 4.3584H9.64161L6.49709 9.86132Z" stroke="white" stroke-opacity="0.2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M8.06934 2.39307H10.4277" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M8.06934 2.39307H10.4277" stroke="white" stroke-opacity="0.2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M11.2139 9.86131L8.85547 2.39307" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M11.2139 9.86131L8.85547 2.39307" stroke="white" stroke-opacity="0.2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M8.49999 16.6973C8.54282 18.5332 10.0972 20 12 20C13.9028 20 15.4572 18.5332 15.5 16.6973V16.6691C15.501 15.7082 15.0733 14.7934 14.3262 14.1583C14.1173 13.989 13.8256 13.9522 13.5786 14.064C13.3316 14.1758 13.1744 14.4159 13.1759 14.6792L13.1762 16.5284C13.1762 16.6216 13.0978 16.6973 13.0012 16.6973H10.9988C10.9021 16.6973 10.8238 16.6216 10.8238 16.5284L10.8241 14.6792C10.8255 14.4159 10.6684 14.1758 10.4214 14.064C10.1744 13.9522 9.88262 13.989 9.67375 14.1583C8.92664 14.7935 8.49899 15.7082 8.49999 16.6691" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M8.49999 16.6973C8.54282 18.5332 10.0972 20 12 20C13.9028 20 15.4572 18.5332 15.5 16.6973V16.6691C15.501 15.7082 15.0733 14.7934 14.3262 14.1583C14.1173 13.989 13.8256 13.9522 13.5786 14.064C13.3316 14.1758 13.1744 14.4159 13.1759 14.6792L13.1762 16.5284C13.1762 16.6216 13.0978 16.6973 13.0012 16.6973H10.9988C10.9021 16.6973 10.8238 16.6216 10.8238 16.5284L10.8241 14.6792C10.8255 14.4159 10.6684 14.1758 10.4214 14.064C10.1744 13.9522 9.88262 13.989 9.67375 14.1583C8.92664 14.7935 8.49899 15.7082 8.49999 16.6691" stroke="white" stroke-opacity="0.2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M10.5 23V20" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M10.5 23V20" stroke="white" stroke-opacity="0.2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M13.5 23V20" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M13.5 23V20" stroke="white" stroke-opacity="0.2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="icon-icon_cycling-map-legend-bike-lane" viewBox="0 0 20 20">
+      <path stroke="#069b15" d="M0 20 L 20 0" stroke-width="2"/>
+    </symbol>
+    <symbol id="icon-icon_cycling-map-legend-major-cycling-route" viewBox="0 0 20 20">
+      <path stroke="#8757ff" d="M0 20 L 20 0" stroke-width="2"/>
+    </symbol>
+    <symbol id="icon-icon_cycling-map-legend-local-cycling-route" viewBox="0 0 20 20">
+      <path stroke="rgb(165, 254, 216)" d="M0 20 L 20 0" stroke-width="3.5"/>
+    </symbol>
     <symbol id="icon-icon_scooter" viewBox="0 0 32 32">
       <g fill="none" fill-rule="evenodd">
         <path fill="#FCB919" d="M0 27.944a4.005 4.005 0 0 0 3.993 3.992h23.95a4.003 4.003 0 0 0 3.996-3.992V3.992A4.005 4.005 0 0 0 27.944 0H3.994A4.005 4.005 0 0 0 0 3.992v23.952z"/>
