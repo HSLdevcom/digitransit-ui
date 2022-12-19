@@ -255,6 +255,11 @@ export const preparePlanParams = (config, useDefaultModes) => (
     intermediatePlaceLocations,
   );
 
+  // If default modes are used, don't include selected ticket type
+  const ticketTypes = useDefaultModes
+    ? null
+    : getTicketTypes(settings.ticketTypes, defaultSettings.ticketTypes);
+
   const cookies = new Cookies();
   return {
     ...defaultSettings,
@@ -290,10 +295,7 @@ export const preparePlanParams = (config, useDefaultModes) => (
       nullOrUndefined,
     ),
     modes: formattedModes,
-    ticketTypes: getTicketTypes(
-      settings.ticketTypes,
-      defaultSettings.ticketTypes,
-    ),
+    ticketTypes,
     allowedBikeRentalNetworks: allowedBikeRentalNetworksMapped,
     shouldMakeWalkQuery:
       !wheelchair && linearDistance < config.suggestWalkMaxDistance,
