@@ -78,7 +78,7 @@
   },
   "engineStrict": true,
   "engines": {
-    "node": ">=10.19.0",
+    "node": ">=14.0.0",
     "npm": ">=3.0"
   },
   "browserslist": [
