@@ -255,6 +255,17 @@ export const preparePlanParams = (config, useDefaultModes) => (
     intermediatePlaceLocations,
   );
 
+  // Use defaults or user given settings
+  const ticketTypes = useDefaultModes
+    ? null
+    : getTicketTypes(settings.ticketTypes, defaultSettings.ticketTypes);
+  const walkReluctance = useDefaultModes
+    ? defaultSettings.walkReluctance
+    : settings.walkReluctance;
+  const walkBoardCost = useDefaultModes
+    ? defaultSettings.walkBoardCost
+    : settings.walkBoardCost;
+
   const cookies = new Cookies();
   return {
     ...defaultSettings,
@@ -268,8 +279,8 @@ export const preparePlanParams = (config, useDefaultModes) => (
         numItineraries: 5,
         date: (time ? moment(time * 1000) : moment()).format('YYYY-MM-DD'),
         time: (time ? moment(time * 1000) : moment()).format('HH:mm:ss'),
-        walkReluctance: settings.walkReluctance,
-        walkBoardCost: settings.walkBoardCost,
+        walkReluctance,
+        walkBoardCost,
         minTransferTime: config.minTransferTime,
         walkSpeed: settings.walkSpeed,
         arriveBy: arriveBy === 'true',
@@ -290,10 +301,7 @@ export const preparePlanParams = (config, useDefaultModes) => (
       nullOrUndefined,
     ),
     modes: formattedModes,
-    ticketTypes: getTicketTypes(
-      settings.ticketTypes,
-      defaultSettings.ticketTypes,
-    ),
+    ticketTypes,
     allowedBikeRentalNetworks: allowedBikeRentalNetworksMapped,
     shouldMakeWalkQuery:
       !wheelchair && linearDistance < config.suggestWalkMaxDistance,
