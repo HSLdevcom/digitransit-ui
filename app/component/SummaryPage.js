@@ -406,6 +406,7 @@ class SummaryPage extends React.Component {
     } else {
       this.selectedPlan = this.props.viewer && this.props.viewer.plan;
     }
+    /* A query with all modes is made on page load if relevant settings ('modes', 'walkBoardCost', 'ticketTypes', 'walkReluctance') differ from defaults. The all modes query uses default settings. */
     if (relevantRoutingSettingsChanged(context.config)) {
       this.makeQueryWithAllModes();
     }
