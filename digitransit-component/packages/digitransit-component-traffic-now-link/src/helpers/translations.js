@@ -11,5 +11,9 @@ const translations = {
   fi: {
     traffic: 'Häiriöt ja muutokset',
   },
+
+  pl: {
+    traffic: 'Zmiany i zakłócenia',
+  },
 };
 export default translations;
