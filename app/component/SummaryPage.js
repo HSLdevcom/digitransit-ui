@@ -2882,7 +2882,7 @@ const containerComponent = createRefetchContainer(
             ...ItineraryTab_itinerary
             ...SummaryPlanContainer_itineraries
             legs {
-              nextLegs {
+              nextLegs(numberOfLegs: 2, modesWithParentStation: [RAIL]) {
                 mode
                 route {
                   shortName

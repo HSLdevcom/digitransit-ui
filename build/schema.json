@@ -7249,7 +7249,30 @@
                         {
                             "name": "nextLegs",
                             "description": "A list of later departure options on a leg",
-                            "args": [],
+                            "args": [  {
+                                "name": "modesWithParentStation",
+                                "description": "List of transportation modes for which only the exact departure stop should be considered when searching for alternative legs",
+                                "type": {
+                                    "kind": "LIST",
+                                    "name": null,
+                                    "ofType": {
+                                        "kind": "INPUT_OBJECT",
+                                        "name": "Mode",
+                                        "ofType": null
+                                    }
+                                },
+                                "defaultValue": null
+                            },
+                            {
+                            "name":"numberOfLegs",
+                            "description": "Number of alternative legs to be generated",
+                            "type": {
+                                "kind": "SCALAR",
+                                "name": "Int",
+                                "ofType": null
+                            }, 
+                            "defaultValue": null 
+                            }],
                             "type": {
                                 "kind": "LIST",
                                 "name": null,

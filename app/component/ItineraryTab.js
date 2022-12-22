@@ -317,7 +317,7 @@ const withRelay = createFragmentContainer(
       }
       legs {
         mode
-        nextLegs {
+        nextLegs(numberOfLegs: 2  modesWithParentStation: [RAIL]) {
           mode
           route {
             shortName

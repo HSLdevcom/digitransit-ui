@@ -351,7 +351,7 @@ const connectedContainer = createFragmentContainer(
           startTime
           endTime
           legs {
-            nextLegs {
+            nextLegs(numberOfLegs: 2, modesWithParentStation: [RAIL]) {
               startTime
               endTime
               mode

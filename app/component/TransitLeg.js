@@ -458,7 +458,7 @@ class TransitLeg extends React.Component {
                 isAlternativeLeg
               />
             ))}
-          {leg.nextLegs.length > 0 && (
+          {leg.nextLegs?.length > 0 && (
             <AlternativeLegsInfo
               legs={leg.nextLegs}
               showAlternativeLegs={this.state.showAlternativeLegs}
