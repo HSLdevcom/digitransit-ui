@@ -276,25 +276,6 @@ describe('planParamUtil', () => {
       expect(missing).to.deep.equal([]);
     });
 
-    it('should have disableRemainingWeightHeuristic as false when CITYBIKE is not selected nor BICYCLE + TRANSIT + viapoints at the same time', () => {
-      setCustomizedSettings({
-        modes: ['BICYCLE', 'FERRY', 'SUBWAY', 'RAIL'],
-      });
-      const params = utils.preparePlanParams(defaultConfig, false)(
-        {
-          from,
-          to,
-        },
-        {
-          location: {
-            query: {},
-          },
-        },
-      );
-      const { disableRemainingWeightHeuristic } = params;
-      expect(disableRemainingWeightHeuristic).to.equal(false);
-    });
-
     it('should not include CITYBIKE in bikepark modes', () => {
       setCustomizedSettings({
         modes: ['CITYBIKE', 'BUS'],
@@ -316,27 +297,6 @@ describe('planParamUtil', () => {
         { mode: 'BUS' },
         { mode: 'WALK' },
       ]);
-    });
-
-    it('should have disableRemainingWeightHeuristic as true when CITYBIKE is selected', () => {
-      setCustomizedSettings({
-        modes: ['CITYBIKE', 'BUS', 'TRAM', 'FERRY', 'SUBWAY', 'RAIL'],
-      });
-      const params = utils.preparePlanParams(defaultConfig, false)(
-        {
-          from,
-          to,
-        },
-        {
-          location: {
-            query: {},
-          },
-        },
-      );
-      const { disableRemainingWeightHeuristic } = params;
-      expect(disableRemainingWeightHeuristic).to.equal(
-        defaultConfig.transportModes.citybike.availableForSelection,
-      );
     });
 
     it('should use same letter case for citybike networks from custom settings as in default settings', () => {

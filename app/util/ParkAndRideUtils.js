@@ -45,8 +45,8 @@ const ParkAndRideUtils = {
     },
     getOpeningHours: park => {
       const { openingHours } = park;
-      if (Array.isArray(openingHours)) {
-        const openingHoursByDay = openingHours.map(openingHour => {
+      if (Array.isArray(openingHours?.dates)) {
+        const openingHoursByDay = openingHours.dates.map(openingHour => {
           const dateString = openingHour.date;
           const year = dateString.substring(0, 4);
           const month = dateString.substring(4, 6);

@@ -93,16 +93,6 @@ function nullOrUndefined(val) {
   return val === null || val === undefined;
 }
 
-function getDisableRemainingWeightHeuristic(modes) {
-  let disableRemainingWeightHeuristic;
-  if (Array.isArray(modes) && modes.includes('BICYCLE_RENT')) {
-    disableRemainingWeightHeuristic = true;
-  } else {
-    disableRemainingWeightHeuristic = false;
-  }
-  return disableRemainingWeightHeuristic;
-}
-
 const getNumberValueOrDefault = (value, defaultValue = undefined) =>
   value !== undefined ? Number(value) : defaultValue;
 
@@ -277,15 +267,11 @@ export const preparePlanParams = (config, useDefaultModes) => (
         minTransferTime: config.minTransferTime,
         walkSpeed: settings.walkSpeed,
         arriveBy: arriveBy === 'true',
-        maxWalkDistance: config.maxWalkDistance,
         wheelchair,
         transferPenalty: config.transferPenalty,
         bikeSpeed: settings.bikeSpeed,
         optimize: config.optimize,
         itineraryFiltering: config.itineraryFiltering,
-        disableRemainingWeightHeuristic: getDisableRemainingWeightHeuristic(
-          modesOrDefault,
-        ),
         locale: locale || cookies.get('lang') || 'fi',
       },
       nullOrUndefined,
@@ -328,10 +314,6 @@ export const preparePlanParams = (config, useDefaultModes) => (
         ? settings.showBikeAndParkItineraries ||
           defaultSettings.showBikeAndParkItineraries
         : includeBikeSuggestions,
-    bikeAndPublicMaxWalkDistance: config.suggestBikeAndPublicMaxDistance,
-    bikeandPublicDisableRemainingWeightHeuristic:
-      Array.isArray(intermediatePlaceLocations) &&
-      intermediatePlaceLocations.length > 0,
     bikeAndPublicModes: [
       { mode: 'BICYCLE' },
       ...modesAsOTPModes(getBicycleCompatibleModes(config, modesOrDefault)),
