@@ -1,4 +1,4 @@
-FROM node:14
+FROM node:12
 MAINTAINER Reittiopas version: 0.1
 
 EXPOSE 8080
