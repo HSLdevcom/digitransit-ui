@@ -22,7 +22,8 @@ export default {
     OTP: process.env.OTP_URL || `${API_URL}/routing/v1/routers/hsl/`,
     STOP_MAP: `${MAP_URL}/map/${MAP_VERSION}/hsl-stop-map/`,
     PARK_AND_RIDE_MAP: `${MAP_URL}/map/${MAP_VERSION}/hsl-parkandride-map/`,
-    FONT: 'https://cloud.typography.com/6364294/7432412/css/fonts.css',
+    FONT: 'https://www.hsl.fi/fonts/784131/6C5FB8083F348CFBB.css',
+    FONTCOUNTER: 'https://cloud.typography.com/6364294/7432412/css/fonts.css',
     CITYBIKE_MAP: `${MAP_URL}/map/${MAP_VERSION}/hsl-citybike-map/`,
     ROOTLINK: rootLink,
     BANNERS: BANNER_URL,
@@ -589,8 +590,7 @@ export default {
 
   routeNotifications: [
     {
-      showForRoute: route =>
-        route.gtfsId.slice(4).length === 4 && route.gtfsId.slice(4)[0] === '7',
+      showForRoute: route => route.gtfsId.slice(4)[0] === '7',
       id: 'uLineNotification',
       header: {
         fi: 'U-linja',
@@ -717,6 +717,11 @@ export default {
         text: 'Mer information om cookies',
         url: 'https://www.hsl.fi/sv/hrt/Dataskydd',
       },
+    },
+  },
+  stopCard: {
+    header: {
+      virtualMonitorBaseUrl: 'https://omatnaytot.hsl.fi/',
     },
   },
 };
