@@ -26,7 +26,7 @@ const LegInfo = (
         }}
         to={
           `/${PREFIX_ROUTES}/${leg.route.gtfsId}/${PREFIX_STOPS}/${leg.trip.pattern.code}/${leg.trip.gtfsId}`
-          // TODO: Create a helper function for generationg links
+          // TODO: Create a helper function for generating links
         }
         aria-label={`${intl.formatMessage({
           id: mode.toLowerCase(),
@@ -53,10 +53,10 @@ const LegInfo = (
 
 LegInfo.propTypes = {
   leg: PropTypes.object.isRequired,
-  hasNoShortName: PropTypes.bool.isRequired,
+  hasNoShortName: PropTypes.bool,
   mode: PropTypes.string.isRequired,
   headsign: PropTypes.string.isRequired,
-  alertSeverityLevel: PropTypes.object.isRequired,
+  alertSeverityLevel: PropTypes.string,
   isAlternativeLeg: PropTypes.bool.isRequired,
 };
 
