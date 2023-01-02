@@ -80,6 +80,7 @@ export const getNameLabel = memoize(
       case 'route-RAIL':
       case 'route-SUBWAY':
       case 'route-FERRY':
+      case 'route-FUNICULAR':
       case 'route-AIRPLANE':
         return !plain && suggestion.shortName
           ? [

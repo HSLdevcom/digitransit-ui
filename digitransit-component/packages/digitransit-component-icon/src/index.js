@@ -47,6 +47,7 @@ import ModeCitybike from './assets/mode_citybike.svg';
 import ModeAirplane from './assets/mode_airplane.svg';
 import ModeDigiTram from './assets/mode_digi_tram.svg';
 import ModeDigiCitybike from './assets/mode_digi_citybike.svg';
+import ModeDigiFunicular from './assets/mode_digi_funicular.svg';
 import FutureRoute from './assets/icon-route.svg';
 import Position from './assets/position.svg';
 import SearchStreetName from './assets/search-streetname.svg';
@@ -133,6 +134,7 @@ const IconMap = style => {
     'mode-digitransit-citybike': <ModeDigiCitybike style={style} />,
     'mode-digitransit-airplane': <ModeAirplane style={style} />,
     'mode-digitransit-subway': <Subway style={style} />,
+    'mode-digitransit-funicular': <ModeDigiFunicular style={style} />,
     'mode-waltti-bus': <BusWaltti style={style} />,
     'mode-waltti-citybike': <CitybikeWaltti style={style} />,
     'mode-waltti-ferry': <FerryWaltti style={style} />,
@@ -170,6 +172,7 @@ const IconMap = style => {
     'search-ferry-stop-digitransit': (
       <SearchFerryStopDigitransit style={style} />
     ),
+    'search-funicular-stop-digitransit': <ModeDigiFunicular style={style} />,
     'search-rail-stop-digitransit': <SearchRailStopDigitransit style={style} />,
     'search-rail-station-digitransit': (
       <SearchRailStationDigitransit style={style} />

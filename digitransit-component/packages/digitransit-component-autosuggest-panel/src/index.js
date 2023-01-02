@@ -656,24 +656,27 @@ class DTAutosuggestPanel extends React.Component {
             showScroll={this.props.showScroll}
             isEmbedded={this.props.isEmbedded}
           />
-          <ItinerarySearchControl
-            className={cx(styles['add-via-point'], styles.more, {
-              collapsed: viaPoints.length > 4,
-            })}
-            enabled={showMultiPointControls}
-            onClick={() => this.handleAddViaPointClick()}
-            onKeyPress={e =>
-              this.isKeyboardSelectionEvent(e) && this.handleAddViaPointClick()
-            }
-            aria-label={i18next.t('add-via-button-label')}
-          >
-            <Icon
-              img="viapoint"
-              width={1.25}
-              height={1.375}
-              color={this.props.color}
-            />
-          </ItinerarySearchControl>
+          {showMultiPointControls && (
+            <ItinerarySearchControl
+              className={cx(styles['add-via-point'], styles.more, {
+                collapsed: viaPoints.length > 4,
+              })}
+              enabled={showMultiPointControls}
+              onClick={() => this.handleAddViaPointClick()}
+              onKeyPress={e =>
+                this.isKeyboardSelectionEvent(e) &&
+                this.handleAddViaPointClick()
+              }
+              aria-label={i18next.t('add-via-button-label')}
+            >
+              <Icon
+                img="viapoint"
+                width={1.25}
+                height={1.375}
+                color={this.props.color}
+              />
+            </ItinerarySearchControl>
+          )}
         </div>
       </div>
     );
