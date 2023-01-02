@@ -2521,9 +2521,7 @@ class SummaryPage extends React.Component {
               openSettingsModal={this.toggleCustomizeSearchOffcanvas}
               alternativePlan={this.state.alternativePlan}
               driving={showCarOptionButton || showParkRideOptionButton}
-              onlyHasWalkingItineraries={
-                onlyHasWalkingItineraries && onlyWalkingAlternatives
-              }
+              onlyHasWalkingItineraries={onlyHasWalkingItineraries}
             >
               {this.props.content &&
                 React.cloneElement(this.props.content, {
