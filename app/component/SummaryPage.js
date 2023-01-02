@@ -622,10 +622,8 @@ class SummaryPage extends React.Component {
         $walkBoardCost: Int
         $minTransferTime: Int
         $walkSpeed: Float
-        $bikeAndPublicMaxWalkDistance: Float
         $wheelchair: Boolean
         $ticketTypes: [String]
-        $bikeandPublicDisableRemainingWeightHeuristic: Boolean
         $arriveBy: Boolean
         $transferPenalty: Int
         $bikeSpeed: Float
@@ -718,9 +716,7 @@ class SummaryPage extends React.Component {
           walkBoardCost: $walkBoardCost
           minTransferTime: $minTransferTime
           walkSpeed: $walkSpeed
-          maxWalkDistance: $bikeAndPublicMaxWalkDistance
           allowedTicketTypes: $ticketTypes
-          disableRemainingWeightHeuristic: $bikeandPublicDisableRemainingWeightHeuristic
           arriveBy: $arriveBy
           transferPenalty: $transferPenalty
           bikeSpeed: $bikeSpeed
@@ -776,9 +772,7 @@ class SummaryPage extends React.Component {
           walkBoardCost: $walkBoardCost
           minTransferTime: $minTransferTime
           walkSpeed: $walkSpeed
-          maxWalkDistance: $bikeAndPublicMaxWalkDistance
           allowedTicketTypes: $ticketTypes
-          disableRemainingWeightHeuristic: $bikeandPublicDisableRemainingWeightHeuristic
           arriveBy: $arriveBy
           transferPenalty: $transferPenalty
           bikeSpeed: $bikeSpeed
@@ -840,7 +834,6 @@ class SummaryPage extends React.Component {
           walkBoardCost: $walkBoardCost
           minTransferTime: $minTransferTime
           walkSpeed: $walkSpeed
-          maxWalkDistance: $bikeAndPublicMaxWalkDistance
           allowedTicketTypes: $ticketTypes
           arriveBy: $arriveBy
           transferPenalty: $transferPenalty
@@ -903,7 +896,6 @@ class SummaryPage extends React.Component {
           walkBoardCost: $walkBoardCost
           minTransferTime: $minTransferTime
           walkSpeed: $walkSpeed
-          maxWalkDistance: $bikeAndPublicMaxWalkDistance
           allowedTicketTypes: $ticketTypes
           arriveBy: $arriveBy
           transferPenalty: $transferPenalty
@@ -1002,10 +994,8 @@ class SummaryPage extends React.Component {
         $walkBoardCost: Int
         $minTransferTime: Int
         $walkSpeed: Float
-        $maxWalkDistance: Float
         $wheelchair: Boolean
         $ticketTypes: [String]
-        $disableRemainingWeightHeuristic: Boolean
         $arriveBy: Boolean
         $transferPenalty: Int
         $bikeSpeed: Float
@@ -1027,17 +1017,15 @@ class SummaryPage extends React.Component {
           walkBoardCost: $walkBoardCost
           minTransferTime: $minTransferTime
           walkSpeed: $walkSpeed
-          maxWalkDistance: $maxWalkDistance
           wheelchair: $wheelchair
           allowedTicketTypes: $ticketTypes
-          disableRemainingWeightHeuristic: $disableRemainingWeightHeuristic
           arriveBy: $arriveBy
           transferPenalty: $transferPenalty
           bikeSpeed: $bikeSpeed
           optimize: $optimize
           itineraryFiltering: $itineraryFiltering
           unpreferred: $unpreferred
-          allowedBikeRentalNetworks: $allowedBikeRentalNetworks
+          allowedVehicleRentalNetworks: $allowedBikeRentalNetworks
           locale: $locale
         ) {
           routingErrors {
@@ -2852,10 +2840,8 @@ const containerComponent = createRefetchContainer(
         walkBoardCost: { type: "Int" }
         minTransferTime: { type: "Int" }
         walkSpeed: { type: "Float" }
-        maxWalkDistance: { type: "Float" }
         wheelchair: { type: "Boolean" }
         ticketTypes: { type: "[String]" }
-        disableRemainingWeightHeuristic: { type: "Boolean" }
         arriveBy: { type: "Boolean" }
         transferPenalty: { type: "Int" }
         bikeSpeed: { type: "Float" }
@@ -2878,17 +2864,15 @@ const containerComponent = createRefetchContainer(
           walkBoardCost: $walkBoardCost
           minTransferTime: $minTransferTime
           walkSpeed: $walkSpeed
-          maxWalkDistance: $maxWalkDistance
           wheelchair: $wheelchair
           allowedTicketTypes: $ticketTypes
-          disableRemainingWeightHeuristic: $disableRemainingWeightHeuristic
           arriveBy: $arriveBy
           transferPenalty: $transferPenalty
           bikeSpeed: $bikeSpeed
           optimize: $optimize
           itineraryFiltering: $itineraryFiltering
           unpreferred: $unpreferred
-          allowedBikeRentalNetworks: $allowedBikeRentalNetworks
+          allowedVehicleRentalNetworks: $allowedBikeRentalNetworks
           locale: $locale
           modeWeight: $modeWeight
         ) {

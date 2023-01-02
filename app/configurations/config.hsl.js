@@ -80,7 +80,6 @@ export default {
 
   omitNonPickups: true,
 
-  maxWalkDistance: 2500,
   itineraryFiltering: 2.5, // drops 40% worse routes
 
   parkAndRide: {
