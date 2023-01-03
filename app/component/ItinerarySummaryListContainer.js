@@ -187,7 +187,7 @@ function ItinerarySummaryListContainer(
             />
           )}
         </div>
-        {onlyHasWalkingItineraries && (
+        {onlyHasWalkingItineraries && !showAlternativePlan && (
           <div className="summary-no-route-found" style={{ marginTop: 0 }}>
             <div
               className={cx('flex-horizontal', 'summary-notification', 'info')}
