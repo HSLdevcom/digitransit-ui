@@ -1,3 +1,19 @@
+export class FetchError extends Error {}
+FetchError.prototype.name = 'FetchError';
+
+export const fetchWithErrors = async (url, options = {}) => {
+  const res = await fetch(url, options);
+  if (!res.ok) {
+    const error = new FetchError(`${res.url}: ${res.status} ${res.statusText}`);
+    error.reqUrl = url;
+    error.reqOptions = options;
+    error.res = res;
+    throw error;
+  }
+
+  return res;
+};
+
 const delay = ms =>
   new Promise(resolve => {
     setTimeout(() => {

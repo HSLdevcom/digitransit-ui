@@ -1,7 +1,11 @@
 import { expect, assert } from 'chai';
 import { describe, it } from 'mocha';
 import fetchMock from 'fetch-mock';
-import { retryFetch } from '../../../app/util/fetchUtils';
+import {
+  FetchError,
+  fetchWithErrors,
+  retryFetch,
+} from '../../../app/util/fetchUtils';
 
 // retryFetch retries fetch requests (url, options, retry count, delay) where total number or calls is initial request + retry count
 
@@ -9,6 +13,48 @@ const testUrl =
   'https://dev-api.digitransit.fi/timetables/v1/hsl/routes/routes.json';
 
 const testJSONResponse = '{"test": 3}';
+
+describe('fetchWithErrors', () => {
+  it('on 201, should resolve with the Response', async () => {
+    fetchMock.get(testUrl, {
+      status: 201,
+      body: testJSONResponse,
+    });
+    try {
+      const res = await fetchWithErrors(testUrl);
+      expect(res.ok).to.equal(true);
+      expect(res.status).to.equal(201);
+      expect(res.url).to.equal(testUrl);
+      const body = await res.text();
+      expect(body).to.equal(testJSONResponse);
+    } finally {
+      fetchMock.restore();
+    }
+  });
+
+  it('on 500, should reject with a FetchError', async () => {
+    fetchMock.get(testUrl, {
+      status: 500,
+      body: 'nope',
+      headers: { foo: 'bar' },
+    });
+    try {
+      await fetchWithErrors(testUrl);
+      expect.fail('should have rejected');
+    } catch (err) {
+      expect(err).to.be.an.instanceof(FetchError);
+      expect(err.name).to.equal('FetchError');
+      expect(err.reqUrl).to.equal(testUrl);
+      expect(err.res.ok).to.equal(false);
+      expect(err.res.status).to.equal(500);
+      expect(err.res.url).to.equal(testUrl);
+      const body = await err.res.text();
+      expect(body).to.equal('nope');
+    } finally {
+      fetchMock.restore();
+    }
+  });
+});
 
 describe('retryFetch', () => {
   /* eslint-disable no-unused-vars */
