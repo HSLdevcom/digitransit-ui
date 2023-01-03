@@ -450,11 +450,10 @@ class TransitLeg extends React.Component {
           {this.state.showAlternativeLegs &&
             leg.nextLegs.map(l => (
               <LegInfo
-                key={l.route.shortName + leg.startTime}
+                key={l.route.shortName + l.startTime}
                 leg={l}
                 hasNoShortName={hasNoShortName}
-                headsign={leg.trip.tripHeadsign}
-                alertSeverityLevel={alertSeverityLevel}
+                headsign={l.trip.tripHeadsign}
                 isAlternativeLeg
               />
             ))}
