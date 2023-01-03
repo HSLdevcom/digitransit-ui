@@ -50,41 +50,46 @@ const addLocaleParam = (url, lang) => {
 
 // Tries to fetch 1 + retryCount times until 200 is returned.
 // Uses retryDelay (ms) between requests. url and options are normal fetch parameters
-export const retryFetch = (
+export const retryFetch = async (
   URL,
-  options = {},
+  _options = {},
   retryCount,
   retryDelay,
   config = {},
 ) => {
-  return new Promise((resolve, reject) => {
-    const retry = retriesLeft => {
-      fetch(URL, {
-        ...options,
-        headers: addSubscriptionHeader(options.headers, config),
-      })
-        .then(res => {
-          if (res.ok) {
-            resolve(res);
-            // Don't retry if user is not logged in
-          } else if (res.status === 401) {
-            throw res.status;
-          } else {
-            // eslint-disable-next-line no-throw-literal
-            throw `${URL}: ${res.statusText}`;
-          }
-        })
-        .catch(async err => {
-          if (retriesLeft > 0 && err !== 401) {
-            await delay(retryDelay);
-            retry(retriesLeft - 1);
-          } else {
-            reject(err);
-          }
-        });
-    };
-    retry(retryCount);
-  });
+  const options = {
+    ..._options,
+    headers: addSubscriptionHeader(_options.headers, config),
+  };
+
+  let retriesLeft = retryCount;
+  while (retriesLeft >= 0) {
+    try {
+      // eslint-disable-next-line no-await-in-loop
+      return await fetchWithErrors(URL, options);
+    } catch (error) {
+      if (!(error instanceof FetchError)) {
+        // Throwing unrelated errors (e.g. TypeError) allows us to catch bugs.
+        throw error;
+      }
+
+      if (error.res.status === 401) {
+        // todo: throw `error` instead of a literal (breaking change)
+        // eslint-disable-next-line no-throw-literal
+        throw 401;
+      }
+      if (retriesLeft === 0) {
+        // todo: throw `error` instead of a literal (breaking change)
+        // eslint-disable-next-line no-throw-literal
+        throw `${URL}: ${error.res.statusText}`;
+      }
+      retriesLeft -= 1;
+      // eslint-disable-next-line no-await-in-loop
+      await delay(retryDelay);
+    }
+  }
+  // This should be unreachable, but the linter demands a consistent return.
+  return null;
 };
 
 /**
