@@ -67,7 +67,7 @@ export default {
   // Navbar logo
   logo: 'hsl/reittiopas-logo.svg',
 
-  feedIds: ['HSL', 'HSLlautta'],
+  feedIds: ['HSL'],
 
   showHSLTracking: false,
   allowLogin: true,

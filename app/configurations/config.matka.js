@@ -73,15 +73,7 @@ export default {
       'mode-citybike-secondary': '#333333',
     },
   },
-  feedIds: [
-    'MATKA',
-    'HSL',
-    'LINKKI',
-    'tampere',
-    'lautta',
-    'OULU',
-    'digitraffic',
-  ],
+  feedIds: ['MATKA', 'HSL', 'LINKKI', 'tampere', 'OULU', 'digitraffic'],
 
   stopSearchFilter: stop => {
     const props = stop.properties;
@@ -410,11 +402,6 @@ export default {
       fi: 'Jyväskylän seutu',
       sv: 'Jyväskyläregion',
       en: 'Jyväskylä region',
-    },
-    lautta: {
-      fi: 'Lautat',
-      sv: 'Färja',
-      en: 'Ferries',
     },
     OULU: {
       fi: 'Oulu',
