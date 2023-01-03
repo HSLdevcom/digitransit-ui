@@ -65,7 +65,7 @@ export default configMerger(walttiConfig, {
         showDisruptions: false,
     },
 
-    availableLanguages: ['de', 'en'],
+    availableLanguages: ['de', 'en', 'pl'],
     defaultLanguage: 'de',
     issueTrackerUrl: '', // 'https://maengelmelder.service-bw.de/?lat=${lat}&lng=${lon}',
 

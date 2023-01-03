@@ -69,6 +69,26 @@ const translations = {
     shopping: 'shoppa',
     'required-field': 'obligatoriskt fält',
   },
+
+  pl: {
+    cancel: 'Anuluj',
+    'choose-icon': 'Wybierz ikonę miejsca',
+    'close-favourite-modal': 'Zamknij ulubiony modal',
+    'edit-place': 'Edytuj miejsce',
+    'favourite-modal-on-add-new': 'Dodawanie nowego ulubionego',
+    'favourite-modal-on-edit': 'Ulubiona edycja: {{favourite.name}}',
+    'input-placeholder': 'Nadaj nazwę miejscu (opcjonalnie)',
+    save: 'Zapisz',
+    'save-place': 'Zapisz miejsce',
+    'cannot-save-place': 'Nie można zapisać miejsca bez adresu lub ikony',
+    place: 'miejsce',
+    home: ' Strona główna',
+    work: 'zadanie',
+    sport: 'sport',
+    school: 'szkoła',
+    shopping: 'zakupy',
+    'required-text': 'wymagane pole',
+  },
 };
 
 export default translations;

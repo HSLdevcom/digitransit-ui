@@ -73,6 +73,27 @@ const translations = {
     'nearby-stops-teaser-content':
       'Fordonen och tidtabellerna i realtid för hållplatserna nära dig på kartan.',
   },
+
+  pl: {
+    'pick-mode': 'Wybierz tryb transportu',
+    'pick-mode-airplane': 'Loty',
+    'pick-mode-bus': 'Autobus',
+    'pick-mode-citybike': 'Rower miejski',
+    'pick-mode-ferry': 'Prom',
+    'pick-mode-rail': 'Szyna',
+    'pick-mode-subway': 'Metro',
+    'pick-mode-tram': 'Tramwaj',
+    'placeholder-destination': 'Wprowadź miejsce docelowe',
+    'placeholder-origin': 'Wpisz pochodzenie',
+    'placeholder-route-stop-station': 'Wprowadź trasę, przystanek lub stację',
+    'title-route-stop-station': 'Pobliskie przystanki i trasy',
+    'title-origin-to-destination': 'Gdzie?',
+    'use-own-position': 'Użyj bieżącej lokalizacji',
+    'nearby-stops-teaser-header':
+      'Wypróbuj nowe widoki mapy pokazujące pobliskie przystanki',
+    'nearby-stops-teaser-content':
+      'Rozkłady jazdy w czasie rzeczywistym dla pobliskich przystanków i pojazdów na mapie.',
+  },
 };
 
 export default translations;

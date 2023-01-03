@@ -73,6 +73,26 @@ const translations = {
     ready: 'Färdig',
     cancel: 'Avbryt',
   },
+
+  pl: {
+    today: 'Dzisiaj',
+    tomorrow: 'Jutro',
+    'accessible-close': 'Zamknij selektor',
+    'accessible-closed': 'Timepicker zamknięty',
+    'accessible-open': 'Otwieranie selektora',
+    'accessible-opened': 'Timepicker otwarty',
+    'accessible-title': 'Wybór daty i godziny',
+    'accessible-update-instructions':
+      'Zmiana parametrów czasu spowoduje uruchomienie nowego wyszukiwania.',
+    arrival: 'Godzinie przyjazdu',
+    date: 'Data',
+    departure: 'Odjazd',
+    'departure-now': 'Wyjazd teraz',
+    time: 'Czas',
+    'choose-time': 'Wybierz czas',
+    ready: 'Gotowe',
+    cancel: 'Anuluj',
+  },
 };
 
 export default translations;

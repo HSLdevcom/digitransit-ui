@@ -58,6 +58,22 @@ const translations = {
     'via-point-index': 'Via punkt {{index}}',
     'viapoint-slack-amount': 'Stoppets varaktighet',
   },
+
+  pl: {
+    'add-via-button-label': 'Dodaj punkt via',
+    'add-via-duration-button-label':
+      'Ustaw czas trwania zatrzymania na {{index}}',
+    'add-via-duration-button-label-close':
+      'Zamknij selektor czasu trwania zatrzymania w punkcie {{index}}',
+    'add-via-duration-button-label-open':
+      'Otwórz selektor czasu trwania zatrzymania w punkcie {{index}}',
+    'minute-short': 'min',
+    'remove-via-button-label': 'Usuń za pomocą punktu {{index}}',
+    'swap-order-button-label': 'Odwrotne miejsce pochodzenia i przeznaczenia',
+    'via-point': 'Punkt przelotowy',
+    'via-point-index': 'Punkt {{index}}',
+    'viapoint-slack-amount': 'Czas trwania zatrzymania',
+  },
 };
 
 export default translations;
