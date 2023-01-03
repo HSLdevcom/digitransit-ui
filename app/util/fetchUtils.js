@@ -105,7 +105,10 @@ export const retryFetch = async (
  */
 
 export const fetchWithLanguageAndSubscription = (URL, config, lang) => {
-  return fetch(addSubscriptionParam(addLocaleParam(URL, lang), config), {
-    headers: { 'Accept-Language': lang },
-  });
+  return fetchWithErrors(
+    addSubscriptionParam(addLocaleParam(URL, lang), config),
+    {
+      headers: { 'Accept-Language': lang },
+    },
+  );
 };
