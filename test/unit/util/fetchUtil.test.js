@@ -76,7 +76,8 @@ describe('retryFetch', () => {
           fetchMock.restore();
           done();
         },
-      );
+      )
+      .catch(done);
   });
 
   it('fetch with larger fetch timeout should take longer', done => {
@@ -121,42 +122,35 @@ describe('retryFetch', () => {
               done();
             },
           );
-      });
+      })
+      .catch(done);
   });
 
   it('fetch that gives 200 should not be retried', done => {
     fetchMock.get(testUrl, testJSONResponse);
     retryFetch(testUrl, {}, 5, 10)
       .then(res => res.json())
-      .then(
-        result => {
-          // calls has array of requests made to given URL
-          const calls = fetchMock.calls(
-            'https://dev-api.digitransit.fi/timetables/v1/hsl/routes/routes.json',
-          );
-          expect(calls.length).to.equal(1);
-          fetchMock.restore();
-          done();
-        },
-        err => {
-          assert.fail('No error should have been thrown');
-        },
-      );
+      .then(result => {
+        // calls has array of requests made to given URL
+        const calls = fetchMock.calls(
+          'https://dev-api.digitransit.fi/timetables/v1/hsl/routes/routes.json',
+        );
+        expect(calls.length).to.equal(1);
+        fetchMock.restore();
+        done();
+      })
+      .catch(done);
   });
 
   it('fetch that gives 200 should have correct result data', done => {
     fetchMock.get(testUrl, testJSONResponse);
     retryFetch(testUrl, {}, 5, 10)
       .then(res => res.json())
-      .then(
-        result => {
-          expect(result.test).to.equal(3);
-          fetchMock.restore();
-          done();
-        },
-        err => {
-          assert.fail('No error should have been thrown');
-        },
-      );
+      .then(result => {
+        expect(result.test).to.equal(3);
+        fetchMock.restore();
+        done();
+      })
+      .catch(done);
   });
 });
