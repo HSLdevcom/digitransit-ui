@@ -40,8 +40,8 @@ const AlternativeLegsInfo = ({ legs, showAlternativeLegs, toggle }) => {
       role="button"
       tabIndex="0"
       className={cx(
-        'intermediate-stop-info-container',
-        'intermediate-stops-clickable',
+        'alternative-legs-info-container',
+        'alternative-legs-clickable',
         'cursor-pointer',
         { open: showAlternativeLegs },
       )}

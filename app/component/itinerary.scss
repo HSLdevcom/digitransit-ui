@@ -1118,7 +1118,7 @@ $itinerary-tab-switch-height: 48px;
         }
       }
     }
-    .intermediate-stop-info-container {
+    .intermediate-stop-info-container, .alternative-legs-info-container {
       @media print {
         span > svg {
           display: none;
@@ -1506,7 +1506,7 @@ $itinerary-tab-switch-height: 48px;
       min-height: 40px;
     }
 
-    .intermediate-stops-clickable {
+    .intermediate-stops-clickable, .alternative-legs-clickable {
       height: 60px;
       > * {
         display: flex;
