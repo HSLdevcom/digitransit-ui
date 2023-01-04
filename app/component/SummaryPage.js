@@ -360,6 +360,7 @@ class SummaryPage extends React.Component {
     this.origin = undefined;
     this.destination = undefined;
     this.expandMap = 0;
+    this.allModesQueryDone = false;
 
     if (props.error) {
       reportError(props.error);
@@ -411,6 +412,7 @@ class SummaryPage extends React.Component {
     } else {
       this.selectedPlan = this.props.viewer && this.props.viewer.plan;
     }
+    /* A query with all modes is made on page load if relevant settings ('modes', 'walkBoardCost', 'ticketTypes', 'walkReluctance') differ from defaults. The all modes query uses default settings. */
     if (
       relevantRoutingSettingsChanged(context.config) &&
       hasStartAndDestination(context.match.params)
@@ -1107,6 +1109,7 @@ class SummaryPage extends React.Component {
           this.setLoading(false);
           this.isFetching = false;
           this.setParamsAndQuery();
+          this.allModesQueryDone = true;
         },
       );
     });
@@ -1518,9 +1521,13 @@ class SummaryPage extends React.Component {
           alternativePlan: undefined,
         },
         () => {
+          const hasNonWalkingItinerary = this.selectedPlan?.itineraries?.some(
+            itinerary => !itinerary.legs.every(leg => leg.mode === 'WALK'),
+          );
           if (
             relevantRoutingSettingsChanged(this.context.config) &&
-            hasStartAndDestination(this.context.match.params)
+            hasStartAndDestination(this.context.match.params) &&
+            hasNonWalkingItinerary
           ) {
             this.makeQueryWithAllModes();
           }
@@ -2082,7 +2089,7 @@ class SummaryPage extends React.Component {
     const walkDuration = this.getDuration(this.state.walkPlan);
     const bikeDuration = this.getDuration(this.state.bikePlan);
     const carDuration = this.getDuration(this.state.carPlan);
-    const parkAndRideDuration = this.getDuration(this.state.parkAndRide);
+    const parkAndRideDuration = this.getDuration(this.state.parkRidePlan);
     const bikeParkDuration = this.getDuration(this.state.bikeParkPlan);
     let bikeAndPublicDuration;
     if (this.context.config.includePublicWithBikePlan) {
@@ -2106,6 +2113,16 @@ class SummaryPage extends React.Component {
     }
     const min = Math.min(...plan.itineraries.map(itin => itin.duration));
     return min;
+  };
+
+  isLoading = (onlyWalkingItins, onlyWalkingAlternatives) => {
+    if (this.state.loading) {
+      return true;
+    }
+    if (!this.state.loading && onlyWalkingItins && onlyWalkingAlternatives) {
+      return false;
+    }
+    return false;
   };
 
   render() {
@@ -2390,11 +2407,17 @@ class SummaryPage extends React.Component {
       this.context.config.itinerary.serviceTimeRange,
       this.props.serviceTimeRange,
     );
+    const loadingPublicDone =
+      this.state.loading === false && (error || this.props.loading === false);
+    const waitForBikeAndWalk = () =>
+      planHasNoItineraries && this.state.isFetchingWalkAndBike;
     if (this.props.breakpoint === 'large') {
       let content;
       if (
-        this.state.loading === false &&
-        (error || this.props.loading === false)
+        loadingPublicDone &&
+        !waitForBikeAndWalk() &&
+        (!onlyHasWalkingItineraries ||
+          (onlyHasWalkingItineraries && this.allModesQueryDone))
       ) {
         const activeIndex =
           hash || getActiveIndex(match.location, combinedItineraries);
@@ -2484,7 +2507,10 @@ class SummaryPage extends React.Component {
                 !onlyWalkingAlternatives
               }
               separatorPosition={this.state.separatorPosition}
-              loading={this.state.isFetchingWalkAndBike && !error}
+              loading={this.isLoading(
+                onlyHasWalkingItineraries,
+                onlyWalkingAlternatives,
+              )}
               onLater={this.onLater}
               onEarlier={this.onEarlier}
               onDetailsTabFocused={() => {
@@ -2494,9 +2520,8 @@ class SummaryPage extends React.Component {
               showSettingsChangedNotification={
                 this.shouldShowSettingsChangedNotification
               }
-              openSettingsModal={this.toggleCustomizeSearchOffcanvas}
               alternativePlan={this.state.alternativePlan}
-              driving={showCarOptionButton}
+              driving={showCarOptionButton || showParkRideOptionButton}
               onlyHasWalkingItineraries={onlyHasWalkingItineraries}
             >
               {this.props.content &&
@@ -2704,7 +2729,10 @@ class SummaryPage extends React.Component {
                 !onlyWalkingAlternatives
               }
               separatorPosition={this.state.separatorPosition}
-              loading={this.state.isFetchingWalkAndBike && !error}
+              loading={this.isLoading(
+                onlyHasWalkingItineraries,
+                onlyWalkingAlternatives,
+              )}
               onLater={this.onLater}
               onEarlier={this.onEarlier}
               onDetailsTabFocused={() => {
@@ -2714,9 +2742,8 @@ class SummaryPage extends React.Component {
               showSettingsChangedNotification={
                 this.shouldShowSettingsChangedNotification
               }
-              openSettingsModal={this.toggleCustomizeSearchOffcanvas}
               alternativePlan={this.state.alternativePlan}
-              driving={showCarOptionButton}
+              driving={showCarOptionButton || showParkRideOptionButton}
               onlyHasWalkingItineraries={onlyHasWalkingItineraries}
             />
           </>

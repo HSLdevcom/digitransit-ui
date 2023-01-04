@@ -1,6 +1,7 @@
 import ceil from 'lodash/ceil';
 import moment from 'moment';
 import { parseFeedMQTT } from './gtfsRtParser';
+import { convertTo24HourFormat } from './timeUtils';
 
 const standardModes = ['bus', 'tram', 'ferry'];
 
@@ -31,7 +32,9 @@ function getTopic(options, settings) {
     options.headsign && options.headsign.indexOf('/') === -1
       ? options.headsign
       : '+';
-  const tripStartTime = options.tripStartTime ? options.tripStartTime : '+';
+  const tripStartTime = options.tripStartTime
+    ? convertTo24HourFormat(options.tripStartTime)
+    : '+';
   const topic = settings.mqttTopicResolver(
     route,
     direction,
@@ -112,9 +115,20 @@ export function changeTopics(settings, actionContext) {
   if (Array.isArray(oldTopics) && oldTopics.length > 0) {
     client.unsubscribe(oldTopics);
   }
-  const topics = settings.options.map(option => getTopic(option, settings));
+  let topicsByRoute;
+  const topics = [];
+  settings.options.forEach(option => {
+    const topicString = getTopic(option, settings);
+    if (option.route) {
+      if (!topicsByRoute) {
+        topicsByRoute = {};
+      }
+      topicsByRoute[option.route] = topicString;
+    }
+    topics.push(topicString);
+  });
   // set new topic to store
-  actionContext.dispatch('RealTimeClientNewTopics', topics);
+  actionContext.dispatch('RealTimeClientNewTopics', { topics, topicsByRoute });
   client.subscribe(topics);
 }
 

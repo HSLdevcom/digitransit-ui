@@ -618,10 +618,15 @@ export default {
 
   showSimilarRoutesOnRouteDropDown: true,
 
+  stopCard: {
+    header: {
+      virtualMonitorBaseUrl: 'https://omatnaytot.hsl.fi/',
+    },
+  },
+
   routeNotifications: [
     {
-      showForRoute: route =>
-        route.gtfsId.slice(4).length === 4 && route.gtfsId.slice(4)[0] === '7',
+      showForRoute: route => route.gtfsId.slice(4)[0] === '7',
       id: 'uLineNotification',
       header: {
         fi: 'U-linja',
