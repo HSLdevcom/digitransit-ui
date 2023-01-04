@@ -52,23 +52,13 @@ export default {
       if (Number.isInteger(direction)) {
         direction += 1;
       }
-      // HFP uses 24 hour system so this converts, for example, 25:05 to 01:05
-      function convertTo24HourFormat(time) {
-        return parseInt(time.substring(0, 2), 10) > 23
-          ? '0' + (parseInt(time.substring(0, 2), 10) - 24) + time.substring(2)
-          : time;
-      }
-      const fixedStartTime =
-        tripStartTime && tripStartTime !== '+' && tripStartTime.lengh > 4
-          ? convertTo24HourFormat(tripStartTime)
-          : tripStartTime;
       return (
         '/hfp/v2/journey/ongoing/+/+/+/+/' +
         route +
         '/' +
         direction +
         '/+/' +
-        fixedStartTime +
+        tripStartTime +
         '/#'
       );
     },

@@ -30,7 +30,7 @@ export const isSafari =
   navigator.userAgent.match(/Safari/) != null;
 export const isSamsungBrowser =
   isBrowser && navigator.userAgent.match(/SamsungBrowser/) != null;
-export const isIe = isBrowser && navigator.userAgent.match(/Trident/) != null;
+const isIe = isBrowser && navigator.userAgent.match(/Trident/) != null;
 export const isImperial = config => {
   if (
     config.imperialEnabled &&

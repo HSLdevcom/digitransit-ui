@@ -40,6 +40,14 @@ const AppBarHsl = ({ lang, user, favourites }, context) => {
     }
   }, [lang]);
 
+  useEffect(() => {
+    if (config.URL.FONTCOUNTER && config.NODE_ENV === 'production') {
+      fetch(config.URL.FONTCOUNTER, {
+        mode: 'no-cors',
+      });
+    }
+  }, []);
+
   const languages = [
     {
       name: 'fi',
