@@ -323,6 +323,7 @@ const withRelay = createFragmentContainer(
             shortName
             mode
             type
+            gtfsId
           }
           startTime
           trip {
