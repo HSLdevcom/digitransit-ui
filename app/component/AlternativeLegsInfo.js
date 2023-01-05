@@ -20,14 +20,20 @@ const AlternativeLegsInfo = ({ legs, showAlternativeLegs, toggle }) => {
       values={{
         leg1: legs[0].route.shortName,
         leg2: legs[1].route.shortName,
-        startTime2: (
-          <span className="realtime" style={{ fontWeight: 500 }}>
-            {moment(legs[1].startTime).format('HH:mm')}
+        startTime1: (
+          <span
+            className={cx({ realtime: legs[0].realTime })}
+            style={{ fontWeight: 500 }}
+          >
+            {moment(legs[0].startTime).format('HH:mm')}
           </span>
         ),
-        startTime1: (
-          <span className="realtime" style={{ fontWeight: 500 }}>
-            {moment(legs[0].startTime).format('HH:mm')}
+        startTime2: (
+          <span
+            className={cx({ realtime: legs[1].realTime })}
+            style={{ fontWeight: 500 }}
+          >
+            {moment(legs[1].startTime).format('HH:mm')}
           </span>
         ),
       }}

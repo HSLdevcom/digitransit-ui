@@ -2897,6 +2897,7 @@ const containerComponent = createRefetchContainer(
                   }
                   gtfsId
                 }
+                realTime
               }
               mode
               ...ItineraryLine_legs

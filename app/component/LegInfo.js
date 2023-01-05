@@ -46,7 +46,9 @@ const LegInfo = (
         </span>
       </Link>
       <div className="headsign">{headsign}</div>
-      <span className="realtime">{moment(leg.startTime).format('HH:mm')}</span>
+      <span className={cx('leg-departure-time', { realtime: leg.realTime })}>
+        {moment(leg.startTime).format('HH:mm')}
+      </span>
     </div>
   );
 };
