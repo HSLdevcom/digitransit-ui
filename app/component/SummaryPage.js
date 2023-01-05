@@ -2413,11 +2413,18 @@ class SummaryPage extends React.Component {
       planHasNoItineraries && this.state.isFetchingWalkAndBike;
     if (this.props.breakpoint === 'large') {
       let content;
+      /* Should render content if
+      1. Fetching public itineraries is complete
+      2. Don't have to wait for walk and bike query to complete
+      3. Result has non-walking itineraries OR if not, query with all modes is completed or query is made with default settings
+      If all conditions don't apply, render spinner */
       if (
         loadingPublicDone &&
         !waitForBikeAndWalk() &&
         (!onlyHasWalkingItineraries ||
-          (onlyHasWalkingItineraries && this.allModesQueryDone))
+          (onlyHasWalkingItineraries &&
+            (this.allModesQueryDone ||
+              !relevantRoutingSettingsChanged(this.context.config))))
       ) {
         const activeIndex =
           hash || getActiveIndex(match.location, combinedItineraries);
