@@ -189,7 +189,7 @@ module.exports = {
             ],
           ],
           plugins: [
-            ['relay', { compat: true, schema: 'build/schema.json' }],
+            'relay',
             [
               '@babel/plugin-transform-runtime',
               {
