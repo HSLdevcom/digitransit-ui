@@ -127,8 +127,8 @@
     }
   },
   "relay": {
-    "src": "./.",
-    "schema": "./build/schema.json",
+    "src": "./app",
+    "schema": "./build/schema.graphql",
     "language": "javascript"
   },
   "dependencies": {

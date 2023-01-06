@@ -13,8 +13,8 @@
     "relay": "relay-compiler && mkdir lib && mv __generated__ lib/"
   },
   "relay": {
-    "src": ".",
-    "schema": "schema.json",
+    "src": "./",
+    "schema": "./schema/schema.graphql",
     "language": "javascript"
   },
   "repository": {
