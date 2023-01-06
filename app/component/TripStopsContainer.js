@@ -49,6 +49,7 @@ function TripStopsContainer({ breakpoint, match, trip, route }) {
             match={match}
             route={route}
             breakpoint={breakpoint}
+            tripStartTime={tripStartTime}
           />
         )}
         <TripStopListContainer

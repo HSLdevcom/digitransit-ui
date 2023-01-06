@@ -73,5 +73,8 @@ describe('timeUtils', () => {
     it('should change format to 00:00 at midnight', () => {
       expect(convertTo24HourFormat('2400')).to.equal('00:00');
     });
+    it('should return given parameter if already correct format', () => {
+      expect(convertTo24HourFormat('23:45')).to.equal('23:45');
+    });
   });
 });

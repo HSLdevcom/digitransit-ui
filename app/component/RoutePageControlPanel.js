@@ -83,6 +83,7 @@ class RoutePageControlPanel extends React.Component {
     breakpoint: PropTypes.string.isRequired,
     noInitialServiceDay: PropTypes.bool,
     language: PropTypes.string,
+    tripStartTime: PropTypes.string,
   };
 
   static defaultProps = { language: 'fi', noInitialServiceDay: false };
@@ -287,7 +288,7 @@ class RoutePageControlPanel extends React.Component {
 
   startClient(pattern) {
     const { config, executeAction } = this.context;
-    const { match, route } = this.props;
+    const { match, route, tripStartTime } = this.props;
     const { realTime } = config;
     if (config.NODE_ENV === 'test' || !realTime) {
       return;
@@ -320,6 +321,7 @@ class RoutePageControlPanel extends React.Component {
           gtfsId: routeParts[1],
           headsign: pattern.headsign,
           directionInt,
+          tripStartTime,
         },
       ],
     });

@@ -96,7 +96,7 @@ export default {
       HSL: `${API_URL}/timetables/v1/hsl/stops/`,
     },
     WEATHER_DATA:
-      'https://opendata.fmi.fi/wfs?service=WFS&version=2.0.0&request=getFeature&storedquery_id=fmi::forecast::hirlam::surface::point::simple&timestep=5&parameters=temperature,WindSpeedMS,WeatherSymbol3',
+      'https://opendata.fmi.fi/wfs?service=WFS&version=2.0.0&request=getFeature&storedquery_id=fmi::forecast::harmonie::surface::point::simple&timestep=5&parameters=temperature,WindSpeedMS,WeatherSymbol3',
     EMBEDDED_SEARCH_GENERATION: '/reittihakuelementti',
   },
 
@@ -221,8 +221,6 @@ export default {
   walkBoardCost: 600,
   walkBoardCostHigh: 1200,
 
-  maxWalkDistance: 10000,
-  suggestBikeAndPublicMaxDistance: 15000,
   suggestWalkMaxDistance: 10000,
   suggestBikeMaxDistance: 30000,
   // if you enable car suggestions but the linear distance between all points is less than this, then a car route will

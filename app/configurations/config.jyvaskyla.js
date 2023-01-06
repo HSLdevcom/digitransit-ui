@@ -154,7 +154,7 @@ export default configMerger(walttiConfig, {
 
   stopCard: {
     header: {
-      virtualMonitorBaseUrl: 'https://pysakit.jyvaskyla.fi/stop/',
+      virtualMonitorBaseUrl: 'https://pysakit.jyvaskyla.fi/',
     },
   },
   zones: {

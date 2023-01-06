@@ -292,7 +292,7 @@ class Timetable extends React.Component {
       return obj;
     });
     const timetableMap = this.groupArrayByHour(routesWithDetails);
-
+    const { locationType } = this.props.stop;
     const stopIdSplitted = this.props.stop.gtfsId.split(':');
     const stopTimetableHandler =
       this.context.config.timetables &&
@@ -300,7 +300,7 @@ class Timetable extends React.Component {
     const stopPDFURL =
       stopTimetableHandler &&
       this.context.config.URL.STOP_TIMETABLES[stopIdSplitted[0]] &&
-      this.props.stop.locationType !== 'STATION'
+      locationType !== 'STATION'
         ? stopTimetableHandler.stopPdfUrlResolver(
             this.context.config.URL.STOP_TIMETABLES[stopIdSplitted[0]],
             this.props.stop,
@@ -310,7 +310,9 @@ class Timetable extends React.Component {
         : null;
     const virtualMonitorUrl =
       this.context.config?.stopCard?.header?.virtualMonitorBaseUrl &&
-      `${this.context.config.stopCard.header.virtualMonitorBaseUrl}${this.props.stop.gtfsId}`;
+      `${
+        this.context.config.stopCard.header.virtualMonitorBaseUrl
+      }${locationType.toLowerCase()}/${this.props.stop.gtfsId}`;
     const timeTableRows = this.createTimeTableRows(timetableMap);
     const timeDifferenceDays = moment
       .duration(

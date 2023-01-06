@@ -35,6 +35,7 @@ class ItineraryLine extends React.Component {
     streetMode: PropTypes.string,
     flipBubble: PropTypes.bool,
     onlyHasWalkingItineraries: PropTypes.bool,
+    loading: PropTypes.bool,
   };
 
   checkStreetMode(leg) {
@@ -99,7 +100,7 @@ class ItineraryLine extends React.Component {
       );
 
       if (
-        this.props.onlyHasWalkingItineraries ||
+        (this.props.onlyHasWalkingItineraries && !this.props.loading) ||
         (this.checkStreetMode(leg) && leg.distance > 100)
       ) {
         const duration = durationToString(leg.endTime - leg.startTime);

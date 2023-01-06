@@ -93,16 +93,6 @@ function nullOrUndefined(val) {
   return val === null || val === undefined;
 }
 
-function getDisableRemainingWeightHeuristic(modes) {
-  let disableRemainingWeightHeuristic;
-  if (Array.isArray(modes) && modes.includes('BICYCLE_RENT')) {
-    disableRemainingWeightHeuristic = true;
-  } else {
-    disableRemainingWeightHeuristic = false;
-  }
-  return disableRemainingWeightHeuristic;
-}
-
 const getNumberValueOrDefault = (value, defaultValue = undefined) =>
   value !== undefined ? Number(value) : defaultValue;
 
@@ -258,6 +248,17 @@ export const preparePlanParams = (config, useDefaultModes) => (
     intermediatePlaceLocations,
   );
 
+  // Use defaults or user given settings
+  const ticketTypes = useDefaultModes
+    ? null
+    : getTicketTypes(settings.ticketTypes, defaultSettings.ticketTypes);
+  const walkReluctance = useDefaultModes
+    ? defaultSettings.walkReluctance
+    : settings.walkReluctance;
+  const walkBoardCost = useDefaultModes
+    ? defaultSettings.walkBoardCost
+    : settings.walkBoardCost;
+
   const cookies = new Cookies();
 
   return {
@@ -272,29 +273,22 @@ export const preparePlanParams = (config, useDefaultModes) => (
         numItineraries: 5,
         date: (time ? moment(time * 1000) : moment()).format('YYYY-MM-DD'),
         time: (time ? moment(time * 1000) : moment()).format('HH:mm:ss'),
-        walkReluctance: settings.walkReluctance,
-        walkBoardCost: settings.walkBoardCost,
+        walkReluctance,
+        walkBoardCost,
         minTransferTime: config.minTransferTime,
         walkSpeed: settings.walkSpeed,
         arriveBy: arriveBy === 'true',
-        maxWalkDistance: config.maxWalkDistance,
         wheelchair,
         transferPenalty: config.transferPenalty,
         bikeSpeed: settings.bikeSpeed,
         optimize: config.optimize,
         itineraryFiltering: config.itineraryFiltering,
-        disableRemainingWeightHeuristic: getDisableRemainingWeightHeuristic(
-          modesOrDefault,
-        ),
         locale: locale || cookies.get('lang') || 'fi',
       },
       nullOrUndefined,
     ),
     modes: formattedModes,
-    ticketTypes: getTicketTypes(
-      settings.ticketTypes,
-      defaultSettings.ticketTypes,
-    ),
+    ticketTypes,
     modeWeight: config.customWeights,
     allowedBikeRentalNetworks: allowedBikeRentalNetworksMapped,
     shouldMakeWalkQuery:
@@ -328,10 +322,6 @@ export const preparePlanParams = (config, useDefaultModes) => (
         ? settings.showBikeAndParkItineraries ||
           defaultSettings.showBikeAndParkItineraries
         : includeBikeSuggestions,
-    bikeAndPublicMaxWalkDistance: config.suggestBikeAndPublicMaxDistance,
-    bikeandPublicDisableRemainingWeightHeuristic:
-      Array.isArray(intermediatePlaceLocations) &&
-      intermediatePlaceLocations.length > 0,
     bikeAndPublicModes: [
       { mode: 'BICYCLE' },
       ...modesAsOTPModes(getBicycleCompatibleModes(config, modesOrDefault)),

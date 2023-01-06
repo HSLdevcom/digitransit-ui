@@ -11,11 +11,13 @@ const containerComponent = createFragmentContainer(ParkAndRideContent, {
       lat
       lon
       tags
-      openingHours(dates: $dates) {
-        date
-        timeSpans {
-          from
-          to
+      openingHours {
+        dates(dates: $dates) {
+          date
+          timeSpans {
+            from
+            to
+          }
         }
       }
     }

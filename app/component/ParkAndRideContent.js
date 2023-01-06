@@ -69,8 +69,9 @@ const ParkAndRideContent = (
   }, [currentLanguage]);
 
   const getOpeningHoursAsText = () => {
-    if (openingHours) {
-      const filteredOpeningHours = openingHours.filter(o => o.timeSpans);
+    const openingHoursDates = openingHours?.dates;
+    if (openingHoursDates) {
+      const filteredOpeningHours = openingHoursDates.filter(o => o.timeSpans);
       const sameOpeningHoursEveryday = filteredOpeningHours.every(
         openingHour =>
           openingHour?.timeSpans.from ===
@@ -79,7 +80,7 @@ const ParkAndRideContent = (
       );
       if (
         sameOpeningHoursEveryday &&
-        filteredOpeningHours.length === openingHours.length
+        filteredOpeningHours.length === openingHoursDates.length
       ) {
         const { to, from } = filteredOpeningHours[0]?.timeSpans;
         if (to - from - 60 * 60 * 24 === 0) {
@@ -114,7 +115,7 @@ const ParkAndRideContent = (
             `${day.charAt(0).toUpperCase() + day.slice(1)} ${from}-${to}`,
           );
         } else {
-          const until = openingHours[j - 1].date.toLocaleString(
+          const until = openingHoursDates[j - 1].date.toLocaleString(
             currentLanguage,
             {
               weekday: 'short',
@@ -136,7 +137,7 @@ const ParkAndRideContent = (
   const parkIsFree = isFree(pricingMethods);
   const realtime = park?.realtime;
   const showOpeningHours =
-    Array.isArray(openingHours) && openingHours.length > 0;
+    Array.isArray(openingHours?.dates) && openingHours.dates.length > 0;
   const showSpacesAvailable = !realtime && spacesAvailable;
 
   return (

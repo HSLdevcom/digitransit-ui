@@ -13,11 +13,13 @@ const containerComponent = createFragmentContainer(ParkAndRideContent, {
       tags
       realtime
       maxCapacity
-      openingHours(dates: $dates) {
-        date
-        timeSpans {
-          from
-          to
+      openingHours {
+        dates(dates: $dates) {
+          date
+          timeSpans {
+            from
+            to
+          }
         }
       }
     }
