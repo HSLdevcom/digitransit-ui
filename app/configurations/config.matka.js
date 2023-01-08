@@ -80,6 +80,7 @@ export default {
     'lautta',
     'OULU',
     'digitraffic',
+    'Rauma',
   ],
 
   stopSearchFilter: stop => {
