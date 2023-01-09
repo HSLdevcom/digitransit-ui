@@ -10,10 +10,10 @@
     "clean": "rm -rf lib ./node_modules",
     "test": "mocha -r esm test.js",
     "docs": "node -r esm ../../scripts/generate-readmes",
-    "relay": "relay-compiler && mkdir lib && mv __generated__ lib/"
+    "relay": "relay-compiler && mkdir lib && mv src/__generated__ lib/"
   },
   "relay": {
-    "src": "./",
+    "src": "./src",
     "schema": "./schema/schema.graphql",
     "language": "javascript"
   },

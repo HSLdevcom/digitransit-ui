@@ -17,7 +17,7 @@ import { isString, orderBy } from 'lodash';
 let relayEnvironment = null;
 
 const stopsQuery = graphql`
-  query digitransitSearchUtilQueryUtilsStopsQuery($ids: [String!]!) {
+  query srcStopsQuery($ids: [String!]!) {
     stops(ids: $ids) {
       gtfsId
       lat
@@ -36,7 +36,7 @@ const stopsQuery = graphql`
 `;
 
 const stationsQuery = graphql`
-  query digitransitSearchUtilQueryUtilsStationsQuery($ids: [String!]!) {
+  query srcStationsQuery($ids: [String!]!) {
     stations(ids: $ids) {
       gtfsId
       lat
@@ -55,7 +55,7 @@ const stationsQuery = graphql`
 `;
 
 const alertsQuery = graphql`
-  query digitransitSearchUtilQueryUtilsAlertsQuery($feedIds: [String!]) {
+  query srcAlertsQuery($feedIds: [String!]) {
     alerts(severityLevel: [SEVERE], feeds: $feedIds) {
       route {
         mode
@@ -67,7 +67,7 @@ const alertsQuery = graphql`
 `;
 
 const searchBikeRentalStationsQuery = graphql`
-  query digitransitSearchUtilQueryUtilsSearchBikeRentalStationsQuery {
+  query srcSearchBikeRentalStationsQuery {
     bikeRentalStations {
       name
       stationId
@@ -78,7 +78,7 @@ const searchBikeRentalStationsQuery = graphql`
 `;
 
 const searchRoutesQuery = graphql`
-  query digitransitSearchUtilQueryUtilsSearchRoutesQuery(
+  query srcSearchRoutesQuery(
     $feeds: [String!]!
     $name: String
     $modes: [Mode]
@@ -102,9 +102,7 @@ const searchRoutesQuery = graphql`
 `;
 
 const favouriteStationsQuery = graphql`
-  query digitransitSearchUtilQueryUtilsFavouriteStationsQuery(
-    $ids: [String!]!
-  ) {
+  query srcFavouriteStationsQuery($ids: [String!]!) {
     stations(ids: $ids) {
       gtfsId
       lat
@@ -115,7 +113,7 @@ const favouriteStationsQuery = graphql`
 `;
 
 const favouriteStopsQuery = graphql`
-  query digitransitSearchUtilQueryUtilsFavouriteStopsQuery($ids: [String!]!) {
+  query srcFavouriteStopsQuery($ids: [String!]!) {
     stops(ids: $ids) {
       gtfsId
       lat
@@ -127,7 +125,7 @@ const favouriteStopsQuery = graphql`
 `;
 
 const favouriteRoutesQuery = graphql`
-  query digitransitSearchUtilQueryUtilsFavouriteRoutesQuery($ids: [String!]!) {
+  query srcFavouriteRoutesQuery($ids: [String!]!) {
     routes(ids: $ids) {
       gtfsId
       agency {
@@ -144,9 +142,7 @@ const favouriteRoutesQuery = graphql`
 `;
 
 const favouriteBikeRentalQuery = graphql`
-  query digitransitSearchUtilQueryUtilsFavouriteBikeRentalStationsQuery(
-    $ids: [String!]!
-  ) {
+  query srcFavouriteBikeRentalStationsQuery($ids: [String!]!) {
     bikeRentalStations(ids: $ids) {
       name
       stationId
