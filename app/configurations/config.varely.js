@@ -226,6 +226,7 @@ export default configMerger(walttiConfig, {
     {
       id: '1',
       priority: 0,
+      persistence: 'repeat',
       content: {
         fi: [
           {
