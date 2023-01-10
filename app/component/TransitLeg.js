@@ -455,6 +455,9 @@ class TransitLeg extends React.Component {
                 hasNoShortName={hasNoShortName}
                 headsign={l.trip.tripHeadsign}
                 isAlternativeLeg
+                alertSeverityLevel={getMaximumAlertSeverityLevel(
+                  getActiveLegAlerts(l, l.startTime / 1000, lang),
+                )}
               />
             ))}
           {leg.nextLegs?.length > 0 && (

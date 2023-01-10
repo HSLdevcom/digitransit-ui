@@ -320,10 +320,27 @@ const withRelay = createFragmentContainer(
         nextLegs(numberOfLegs: 2  modesWithParentStation: [RAIL]) {
           mode
           route {
+            alerts {
+              alertSeverityLevel
+            }
             shortName
             mode
             type
             gtfsId
+          }
+          from {
+            stop {
+              alerts {
+                alertSeverityLevel
+              }
+            }
+          }
+          to {
+            stop {
+              alerts {
+                alertSeverityLevel
+              }
+            }
           }
           startTime
           trip {
