@@ -49,7 +49,7 @@ describe('<MarkerSelectPopup />', () => {
             properties: {
               name:
                 '{"fi":"Tapiola Park","sv":"Tapiola Park","en":"Tapiola Park"}',
-              id: 'hslpark:990',
+              id: 'liipi:990',
               carPlaces: true,
             },
           },
@@ -64,7 +64,7 @@ describe('<MarkerSelectPopup />', () => {
             properties: {
               name:
                 '{"fi":"Tapiola Bicycle Park","sv":"Tapiola Bicycle Park","en":"Tapiola Bicycle Park"}',
-              id: 'hslpark:995',
+              id: 'liipi:995',
               bicyclePlaces: true,
             },
           },
