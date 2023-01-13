@@ -308,9 +308,10 @@ const containerComponent = createFragmentContainer(
         startTime
         endTime
         legs {
-          alerts {
-            alertId
-          }
+          # Temporarilly commented out, still needed in upstream OTP
+          # alerts {
+          #  alertId
+          # }
           realTime
           departureDelay
           realtimeState

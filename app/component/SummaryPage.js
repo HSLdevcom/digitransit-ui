@@ -666,11 +666,12 @@ class SummaryPage extends React.Component {
         $bikeParkModes: [TransportMode!]
         $carParkModes: [TransportMode!]
         $parkRideModes: [TransportMode!]
-        $bannedVehicleParkingTags: [String]
-        $bannedBicycleParkingTags: [String]
-        $preferredBicycleParkingTags: [String]
-        $unpreferredBicycleParkingTagPenalty: Float
-        $useVehicleParkingAvailabilityInformation: Boolean
+        # TODO still to be implemented in upstream OTP
+        # $bannedVehicleParkingTags: [String]
+        # $bannedBicycleParkingTags: [String]
+        # $preferredBicycleParkingTags: [String]
+        # $unpreferredBicycleParkingTagPenalty: Float
+        # $useVehicleParkingAvailabilityInformation: Boolean
       ) {
         walkPlan: plan(
           fromPlace: $fromPlace
@@ -871,9 +872,10 @@ class SummaryPage extends React.Component {
           itineraryFiltering: $itineraryFiltering
           unpreferred: $unpreferred
           locale: $locale
-          bannedVehicleParkingTags: $bannedBicycleParkingTags
-          preferredVehicleParkingTags: $preferredBicycleParkingTags
-          unpreferredVehicleParkingTagPenalty: $unpreferredBicycleParkingTagPenalty
+          # TODO still be added in upstream OTP
+          # bannedVehicleParkingTags: $bannedBicycleParkingTags
+          # preferredVehicleParkingTags: $preferredBicycleParkingTags
+          # unpreferredVehicleParkingTagPenalty: $unpreferredBicycleParkingTagPenalty
         ) @include(if: $showBikeAndParkItineraries) {
           ...SummaryPlanContainer_plan
           ...ItineraryTab_plan
@@ -1009,8 +1011,9 @@ class SummaryPage extends React.Component {
           itineraryFiltering: $itineraryFiltering
           unpreferred: $unpreferred
           locale: $locale
-          useVehicleParkingAvailabilityInformation: $useVehicleParkingAvailabilityInformation
-          bannedVehicleParkingTags: $bannedVehicleParkingTags
+          # TODO add to upstream OTP
+          # useVehicleParkingAvailabilityInformation: $useVehicleParkingAvailabilityInformation
+          # bannedVehicleParkingTags: $bannedVehicleParkingTags
         ) @include(if: $shouldMakeParkRideQuery) {
           ...SummaryPlanContainer_plan
           ...ItineraryTab_plan

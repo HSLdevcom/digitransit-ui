@@ -400,13 +400,14 @@ const withRelay = createFragmentContainer(
         }
         legs {
           mode
-          alerts {
-            alertId
-            alertDescriptionTextTranslations {
-              language
-              text
-            }
-          }
+          # TODO still to implemented in upstream OTP
+          # alerts {
+          #  alertId
+          #  alertDescriptionTextTranslations {
+          #    language
+          #    text
+          #  }
+          #}
           ...LegAgencyInfo_leg
           from {
             lat
@@ -503,11 +504,12 @@ const withRelay = createFragmentContainer(
               carParkId
               name
             }
-            vehicleParkingWithEntrance {
-              vehicleParking {
-                tags
-              }
-            }
+            # TODO still to update upstream OTP
+            # vehicleParkingWithEntrance {
+            #  vehicleParking {
+            #    tags
+            #  }
+            #}
           }
           dropOffBookingInfo {
             message
