@@ -369,6 +369,9 @@ export default {
   ],
   useAlternativeNameForModes: ['rail'],
 
+  showVehiclesOnStopPage: true,
+  showVehiclesOnSummaryPage: true,
+
   includeCarSuggestions: true,
   includeParkAndRideSuggestions: true,
   // Include both bike and park and bike and public
