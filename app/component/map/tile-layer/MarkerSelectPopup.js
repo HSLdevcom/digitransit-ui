@@ -75,6 +75,23 @@ function MarkerSelectPopup(props) {
           </>
         );
       }
+      if (!option.feature.properties?.facility) {
+        // bbnavi has no facilities
+        const bikeParkId =
+          option.layer === 'parkAndRideForBikes'
+            ? option.feature.properties.id
+            : null;
+        const carParkId =
+          option.layer === 'parkAndRide' ? option.feature.properties.id : null;
+        return (
+          <SelectParkAndRideRow
+            key={option.feature.properties.id}
+            name={option.feature.properties.name}
+            bikeParkId={bikeParkId}
+            carParkId={carParkId}
+          />
+        );
+      }
       return (
         <SelectParkAndRideRow
           key={option.feature.properties.facility.id}
