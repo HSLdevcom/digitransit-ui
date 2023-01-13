@@ -24,6 +24,7 @@ export function getComponentOrLoadingRenderer({
     if (isRelayNetworkError(error.message)) {
       return <NetworkError retry={retry} />;
     }
+    // TODO should not generate 404 on every error
     return <Error404 />;
   }
   if (Component && props) {
