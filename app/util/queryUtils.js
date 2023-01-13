@@ -26,7 +26,7 @@ export const resetSelectedItineraryIndex = loc => {
 
   if (location.pathname) {
     const pathArray = location.pathname.split('/');
-    if (!Number.isNaN(Number(pathArray[pathArray.length - 1]))) {
+    if (pathArray.length === 5) {
       pathArray.pop();
       location.pathname = pathArray.join('/');
     }
@@ -197,19 +197,16 @@ export const planQuery = graphql`
     $walkBoardCost: Int
     $minTransferTime: Int
     $walkSpeed: Float
-    $maxWalkDistance: Float
     $wheelchair: Boolean
     $ticketTypes: [String]
-    $disableRemainingWeightHeuristic: Boolean
     $arriveBy: Boolean
     $transferPenalty: Int
     $bikeSpeed: Float
     $optimize: OptimizeType
-    $triangle: InputTriangle
     $itineraryFiltering: Float
     $unpreferred: InputUnpreferred
     $allowedVehicleRentalNetworks: [String]
-    $locale: String
+    $locale: String # $modeWeight: InputModeWeight
   ) {
     viewer {
       ...SummaryPage_viewer
@@ -218,7 +215,6 @@ export const planQuery = graphql`
         toPlace: $toPlace
         intermediatePlaces: $intermediatePlaces
         numItineraries: $numItineraries
-        # todo: rename to e.g. "defaultModes" to delineate them from other routing queries using other modes
         modes: $modes
         date: $date
         time: $time
@@ -226,19 +222,17 @@ export const planQuery = graphql`
         walkBoardCost: $walkBoardCost
         minTransferTime: $minTransferTime
         walkSpeed: $walkSpeed
-        maxWalkDistance: $maxWalkDistance
         wheelchair: $wheelchair
         ticketTypes: $ticketTypes
-        disableRemainingWeightHeuristic: $disableRemainingWeightHeuristic
         arriveBy: $arriveBy
         transferPenalty: $transferPenalty
         bikeSpeed: $bikeSpeed
         optimize: $optimize
-        triangle: $triangle
         itineraryFiltering: $itineraryFiltering
         unpreferred: $unpreferred
         allowedVehicleRentalNetworks: $allowedVehicleRentalNetworks
         locale: $locale
+        # modeWeight: $modeWeight
       )
     }
 
@@ -261,10 +255,8 @@ export const moreItinerariesQuery = graphql`
     $walkBoardCost: Int
     $minTransferTime: Int
     $walkSpeed: Float
-    $maxWalkDistance: Float
     $wheelchair: Boolean
     $ticketTypes: [String]
-    $disableRemainingWeightHeuristic: Boolean
     $arriveBy: Boolean
     $transferPenalty: Int
     $bikeSpeed: Float
@@ -286,10 +278,8 @@ export const moreItinerariesQuery = graphql`
       walkBoardCost: $walkBoardCost
       minTransferTime: $minTransferTime
       walkSpeed: $walkSpeed
-      maxWalkDistance: $maxWalkDistance
       wheelchair: $wheelchair
       allowedTicketTypes: $ticketTypes
-      disableRemainingWeightHeuristic: $disableRemainingWeightHeuristic
       arriveBy: $arriveBy
       transferPenalty: $transferPenalty
       bikeSpeed: $bikeSpeed

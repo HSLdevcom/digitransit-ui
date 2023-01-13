@@ -126,8 +126,8 @@ class DynamicParkingLotsContent extends React.Component {
 
   renderOpeningHours() {
     const { openingHours } = this.props.vehicleParking;
-    if (openingHours) {
-      return <OSMOpeningHours openingHours={openingHours} displayStatus />;
+    if (openingHours && openingHours.osm) {
+      return <OSMOpeningHours openingHours={openingHours.osm} displayStatus />;
     }
     return null;
   }
@@ -187,7 +187,9 @@ const containerComponent = createFragmentContainer(DynamicParkingLotsContent, {
       tags
       note
       detailsUrl
-      openingHours
+      openingHours {
+        osm
+      }
     }
   `,
 });

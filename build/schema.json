@@ -8,6 +8,65 @@
             "subscriptionType": null,
             "types": [
                 {
+                    "kind": "ENUM",
+                    "name": "AbsoluteDirection",
+                    "description": "The cardinal (compass) direction taken when engaging a walking/driving step.",
+                    "fields": null,
+                    "inputFields": null,
+                    "interfaces": null,
+                    "enumValues": [
+                        {
+                            "name": "NORTH",
+                            "description": null,
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "NORTHEAST",
+                            "description": null,
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "EAST",
+                            "description": null,
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "SOUTHEAST",
+                            "description": null,
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "SOUTH",
+                            "description": null,
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "SOUTHWEST",
+                            "description": null,
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "WEST",
+                            "description": null,
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "NORTHWEST",
+                            "description": null,
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        }
+                    ],
+                    "possibleTypes": null
+                },
+                {
                     "kind": "OBJECT",
                     "name": "Agency",
                     "description": "A public transport agency",
@@ -233,18 +292,6 @@
                                     "name": "ID",
                                     "ofType": null
                                 }
-                            },
-                            "isDeprecated": false,
-                            "deprecationReason": null
-                        },
-                        {
-                            "name": "alertId",
-                            "description": null,
-                            "args": [],
-                            "type": {
-                                "kind": "SCALAR",
-                                "name": "String",
-                                "ofType": null
                             },
                             "isDeprecated": false,
                             "deprecationReason": null
@@ -824,7 +871,18 @@
                         {
                             "name": "name",
                             "description": "Name of the bike park",
-                            "args": [],
+                            "args": [
+                                {
+                                    "name": "language",
+                                    "description": "Returns name with the specified language, if found, otherwise returns with some default language.",
+                                    "type": {
+                                        "kind": "SCALAR",
+                                        "name": "String",
+                                        "ofType": null
+                                    },
+                                    "defaultValue": null
+                                }
+                            ],
                             "type": {
                                 "kind": "NON_NULL",
                                 "name": null,
@@ -903,39 +961,12 @@
                         },
                         {
                             "name": "openingHours",
-                            "description": "Opening hours for the selected dates using the local time of the park.\nEach date can have multiple time spans.",
-                            "args": [
-                                {
-                                    "name": "dates",
-                                    "description": "Opening hours will be returned for these dates. Dates should use YYYYMMDD format.",
-                                    "type": {
-                                        "kind": "NON_NULL",
-                                        "name": null,
-                                        "ofType": {
-                                            "kind": "LIST",
-                                            "name": null,
-                                            "ofType": {
-                                                "kind": "NON_NULL",
-                                                "name": null,
-                                                "ofType": {
-                                                    "kind": "SCALAR",
-                                                    "name": "String",
-                                                    "ofType": null
-                                                }
-                                            }
-                                        }
-                                    },
-                                    "defaultValue": null
-                                }
-                            ],
+                            "description": "Opening hours of the parking facility",
+                            "args": [],
                             "type": {
-                                "kind": "LIST",
-                                "name": null,
-                                "ofType": {
-                                    "kind": "OBJECT",
-                                    "name": "LocalTimeSpanDate",
-                                    "ofType": null
-                                }
+                                "kind": "OBJECT",
+                                "name": "OpeningHours",
+                                "ofType": null
                             },
                             "isDeprecated": false,
                             "deprecationReason": null
@@ -1471,7 +1502,18 @@
                         {
                             "name": "name",
                             "description": "Name of the car park",
-                            "args": [],
+                            "args": [
+                                {
+                                    "name": "language",
+                                    "description": "Returns name with the specified language, if found, otherwise returns with some default language.",
+                                    "type": {
+                                        "kind": "SCALAR",
+                                        "name": "String",
+                                        "ofType": null
+                                    },
+                                    "defaultValue": null
+                                }
+                            ],
                             "type": {
                                 "kind": "NON_NULL",
                                 "name": null,
@@ -1563,38 +1605,11 @@
                         {
                             "name": "openingHours",
                             "description": "Opening hours for the selected dates using the local time of the park.\nEach date can have multiple time spans.",
-                            "args": [
-                                {
-                                    "name": "dates",
-                                    "description": "Opening hours will be returned for these dates. Dates should use YYYYMMDD format.",
-                                    "type": {
-                                        "kind": "NON_NULL",
-                                        "name": null,
-                                        "ofType": {
-                                            "kind": "LIST",
-                                            "name": null,
-                                            "ofType": {
-                                                "kind": "NON_NULL",
-                                                "name": null,
-                                                "ofType": {
-                                                    "kind": "SCALAR",
-                                                    "name": "String",
-                                                    "ofType": null
-                                                }
-                                            }
-                                        }
-                                    },
-                                    "defaultValue": null
-                                }
-                            ],
+                            "args": [],
                             "type": {
-                                "kind": "LIST",
-                                "name": null,
-                                "ofType": {
-                                    "kind": "OBJECT",
-                                    "name": "LocalTimeSpanDate",
-                                    "ofType": null
-                                }
+                                "kind": "OBJECT",
+                                "name": "OpeningHours",
+                                "ofType": null
                             },
                             "isDeprecated": false,
                             "deprecationReason": null
@@ -2710,8 +2725,8 @@
                             "defaultValue": null
                         },
                         {
-                            "name": "unpreferredRouteCost",
-                            "description": "An cost function used to calculate penalty for an unpreferred route. Function should return\nnumber of seconds that we are willing to wait for preferred route. String must be of the format:\n`A + B x`, where A is fixed penalty and B is a multiplier of transit leg travel time x.\nFor example: `600 + 2.0 x`",
+                            "name": "unpreferredCost",
+                            "description": "An cost function used to calculate penalty for an unpreferred route/agency. Function should return\nnumber of seconds that we are willing to wait for unpreferred route/agency.\nString must be of the format:\n`A + B x`, where A is fixed penalty and B is a multiplier of transit leg travel time x.\nFor example: `600 + 2.0 x`",
                             "type": {
                                 "kind": "SCALAR",
                                 "name": "String",
@@ -3271,22 +3286,6 @@
                             "deprecationReason": null
                         },
                         {
-                            "name": "alerts",
-                            "description": null,
-                            "args": [],
-                            "type": {
-                                "kind": "LIST",
-                                "name": null,
-                                "ofType": {
-                                    "kind": "OBJECT",
-                                    "name": "Alert",
-                                    "ofType": null
-                                }
-                            },
-                            "isDeprecated": false,
-                            "deprecationReason": null
-                        },
-                        {
                             "name": "dropOffBookingInfo",
                             "description": null,
                             "args": [],
@@ -3486,12 +3485,6 @@
                             "deprecationReason": null
                         },
                         {
-                            "name": "CARPOOL",
-                            "description": "CARPOOL",
-                            "isDeprecated": false,
-                            "deprecationReason": null
-                        },
-                        {
                             "name": "FERRY",
                             "description": "FERRY",
                             "isDeprecated": false,
@@ -3548,6 +3541,18 @@
                         {
                             "name": "TRAM",
                             "description": "TRAM",
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "CARPOOL",
+                            "description": "\"Private car trips shared with others.",
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "TAXI",
+                            "description": "A taxi, possibly operated by a public transport agency.",
                             "isDeprecated": false,
                             "deprecationReason": null
                         },
@@ -3678,6 +3683,68 @@
                             "ofType": null
                         }
                     ]
+                },
+                {
+                    "kind": "OBJECT",
+                    "name": "OpeningHours",
+                    "description": null,
+                    "fields": [
+                        {
+                            "name": "osm",
+                            "description": "OSM-formatted string of the opening hours.\n\nThe spec is available at: https://wiki.openstreetmap.org/wiki/Key:opening_hours",
+                            "args": [],
+                            "type": {
+                                "kind": "SCALAR",
+                                "name": "String",
+                                "ofType": null
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "dates",
+                            "description": "Opening hours for the selected dates using the local time of the parking lot.\nEach date can have multiple time spans.\n\nNote: This is not implemented yet and always returns null.",
+                            "args": [
+                                {
+                                    "name": "dates",
+                                    "description": "Opening hours will be returned for these dates. Dates should use YYYYMMDD format.",
+                                    "type": {
+                                        "kind": "NON_NULL",
+                                        "name": null,
+                                        "ofType": {
+                                            "kind": "LIST",
+                                            "name": null,
+                                            "ofType": {
+                                                "kind": "NON_NULL",
+                                                "name": null,
+                                                "ofType": {
+                                                    "kind": "SCALAR",
+                                                    "name": "String",
+                                                    "ofType": null
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "defaultValue": null
+                                }
+                            ],
+                            "type": {
+                                "kind": "LIST",
+                                "name": null,
+                                "ofType": {
+                                    "kind": "OBJECT",
+                                    "name": "LocalTimeSpanDate",
+                                    "ofType": null
+                                }
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        }
+                    ],
+                    "inputFields": null,
+                    "interfaces": [],
+                    "enumValues": null,
+                    "possibleTypes": null
                 },
                 {
                     "kind": "ENUM",
@@ -4300,16 +4367,16 @@
                                 "name": "CarPark",
                                 "ofType": null
                             },
-                            "isDeprecated": false,
-                            "deprecationReason": null
+                            "isDeprecated": true,
+                            "deprecationReason": "carPark is deprecated. Use vehicleParking instead."
                         },
                         {
-                            "name": "vehicleParkingWithEntrance",
+                            "name": "vehicleParking",
                             "description": "The vehicle parking related to the place",
                             "args": [],
                             "type": {
                                 "kind": "OBJECT",
-                                "name": "VehicleParkingWithEntrance",
+                                "name": "VehicleParking",
                                 "ofType": null
                             },
                             "isDeprecated": false,
@@ -6390,16 +6457,6 @@
                                     "defaultValue": null
                                 },
                                 {
-                                    "name": "maxWalkDistance",
-                                    "description": "The maximum distance (in meters) the user is willing to walk per walking\nsection. If the only transport mode allowed is `WALK`, then the value of\nthis argument is ignored.\nDefault: 2000m\nMaximum value: 15000m\n**Note:** If this argument has a relatively small value and only some\ntransport modes are allowed (e.g. `WALK` and `RAIL`), it is possible to get\nan itinerary which has (useless) back and forth public transport legs to\navoid walking too long distances.\n\nDEPRECATED - Use walkReluctance instead",
-                                    "type": {
-                                        "kind": "SCALAR",
-                                        "name": "Float",
-                                        "ofType": null
-                                    },
-                                    "defaultValue": null
-                                },
-                                {
                                     "name": "maxPreTransitTime",
                                     "description": "The maximum time (in seconds) of pre-transit travel when using\ndrive-to-transit (park and ride or kiss and ride). Default value: 1800.\n\nDEPRECATED - Use walkReluctance or future reluctance parameters for other modes",
                                     "type": {
@@ -6470,16 +6527,6 @@
                                     "defaultValue": null
                                 },
                                 {
-                                    "name": "walkOnStreetReluctance",
-                                    "description": "How much more reluctant is the user to walk on streets with car traffic allowed. Default value: 1.0\n\nDeprecated, use walkSafetyFactor instead.",
-                                    "type": {
-                                        "kind": "SCALAR",
-                                        "name": "Float",
-                                        "ofType": null
-                                    },
-                                    "defaultValue": null
-                                },
-                                {
                                     "name": "waitReluctance",
                                     "description": "How much worse is waiting for a transit vehicle than being on a transit\nvehicle, as a multiplier. The default value treats wait and on-vehicle time\nas the same. It may be tempting to set this higher than walkReluctance (as\nstudies often find this kind of preferences among riders) but the planner\nwill take this literally and walk down a transit line to avoid waiting at a\nstop. This used to be set less than 1 (0.95) which would make waiting\noffboard preferable to waiting onboard in an interlined trip. That is also\nundesirable. If we only tried the shortest possible transfer at each stop to\nneighboring stop patterns, this problem could disappear. Default value: 1.0.",
                                     "type": {
@@ -6491,7 +6538,7 @@
                                 },
                                 {
                                     "name": "waitAtBeginningFactor",
-                                    "description": "How much less bad is waiting at the beginning of the trip (replaces\n`waitReluctance` on the first boarding). Default value: 0.4",
+                                    "description": "How much less bad is waiting at the beginning of the trip (replaces\n`waitReluctance` on the first boarding). Default value: 0.4\n\nDeprecated, not used, the timetable-view replaces this functionality.",
                                     "type": {
                                         "kind": "SCALAR",
                                         "name": "Float",
@@ -6688,16 +6735,6 @@
                                     "defaultValue": null
                                 },
                                 {
-                                    "name": "allowBikeRental",
-                                    "description": "Is bike rental allowed? Default value: false",
-                                    "type": {
-                                        "kind": "SCALAR",
-                                        "name": "Boolean",
-                                        "ofType": null
-                                    },
-                                    "defaultValue": null
-                                },
-                                {
                                     "name": "allowKeepingRentedBicycleAtDestination",
                                     "description": "Whether arriving at the destination with a rented (station) bicycle is allowed without\ndropping it off. Default: false.",
                                     "type": {
@@ -6828,16 +6865,6 @@
                                     "defaultValue": null
                                 },
                                 {
-                                    "name": "disableRemainingWeightHeuristic",
-                                    "description": "Only useful for testing and troubleshooting.\n~~If true, the remaining weight heuristic is disabled. Currently only\nimplemented for the long distance path service. Default value: false.~~",
-                                    "type": {
-                                        "kind": "SCALAR",
-                                        "name": "Boolean",
-                                        "ofType": null
-                                    },
-                                    "defaultValue": null
-                                },
-                                {
                                     "name": "locale",
                                     "description": "Two-letter language code (ISO 639-1) used for returned text.\n**Note:** only part of the data has translations available and names of\nstops and POIs are returned in their default language. Due to missing\ntranslations, it is sometimes possible that returned text uses a mixture of two languages.",
                                     "type": {
@@ -6882,20 +6909,6 @@
                                     "defaultValue": null
                                 },
                                 {
-                                    "name": "allowedBikeRentalNetworks",
-                                    "description": "Which vehicle rental networks can be used. By default, all networks are allowed.\n\nDeprecated: Use `allowedVehicleRentalNetworks` instead.",
-                                    "type": {
-                                        "kind": "LIST",
-                                        "name": null,
-                                        "ofType": {
-                                            "kind": "SCALAR",
-                                            "name": "String",
-                                            "ofType": null
-                                        }
-                                    },
-                                    "defaultValue": null
-                                },
-                                {
                                     "name": "allowedVehicleRentalNetworks",
                                     "description": "Which vehicle rental networks can be used. By default, all networks are allowed.",
                                     "type": {
@@ -6910,18 +6923,8 @@
                                     "defaultValue": null
                                 },
                                 {
-                                    "name": "vehicleParkingClosesSoonSeconds",
-                                    "description": "If the visiting time for a VehicleParking is inside this interval,\nthe ApiVehicleParkingWithEntrance#closesSoon flag will be marked true.",
-                                    "type": {
-                                        "kind": "SCALAR",
-                                        "name": "Int",
-                                        "ofType": null
-                                    },
-                                    "defaultValue": null
-                                },
-                                {
                                     "name": "bannedVehicleRentalNetworks",
-                                    "description": "Which vehicle rental networks may not be used. By default, all networks are allowed.",
+                                    "description": "Which vehicle rental networks cannot be used. By default, all networks are allowed.",
                                     "type": {
                                         "kind": "LIST",
                                         "name": null,
@@ -6930,68 +6933,6 @@
                                             "name": "String",
                                             "ofType": null
                                         }
-                                    },
-                                    "defaultValue": null
-                                },
-                                {
-                                    "name": "bannedVehicleParkingTags",
-                                    "description": "When doing bike-and-ride or park-and-ride search what tags can not have a vehicle parking?",
-                                    "type": {
-                                        "kind": "LIST",
-                                        "name": null,
-                                        "ofType": {
-                                            "kind": "SCALAR",
-                                            "name": "String",
-                                            "ofType": null
-                                        }
-                                    },
-                                    "defaultValue": null
-                                },
-                                {
-                                    "name": "requiredVehicleParkingTags",
-                                    "description": "When doing bike-and-ride or park-and-ride search what tags must a vehicle parking contain?",
-                                    "type": {
-                                        "kind": "LIST",
-                                        "name": null,
-                                        "ofType": {
-                                            "kind": "SCALAR",
-                                            "name": "String",
-                                            "ofType": null
-                                        }
-                                    },
-                                    "defaultValue": null
-                                },
-                                {
-                                    "name": "preferredVehicleParkingTags",
-                                    "description": null,
-                                    "type": {
-                                        "kind": "LIST",
-                                        "name": null,
-                                        "ofType": {
-                                            "kind": "SCALAR",
-                                            "name": "String",
-                                            "ofType": null
-                                        }
-                                    },
-                                    "defaultValue": null
-                                },
-                                {
-                                    "name": "unpreferredVehicleParkingTagPenalty",
-                                    "description": null,
-                                    "type": {
-                                        "kind": "SCALAR",
-                                        "name": "Float",
-                                        "ofType": null
-                                    },
-                                    "defaultValue": null
-                                },
-                                {
-                                    "name": "useVehicleParkingAvailabilityInformation",
-                                    "description": "Whether or not vehicle parking availability information will be used to plan park and ride trips",
-                                    "type": {
-                                        "kind": "SCALAR",
-                                        "name": "Boolean",
-                                        "ofType": null
                                     },
                                     "defaultValue": null
                                 },
@@ -7055,6 +6996,95 @@
                         {
                             "name": "MODIFIED",
                             "description": "The trip information has been updated and resulted in a different trip pattern\ncompared to the trip pattern of the scheduled trip.",
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        }
+                    ],
+                    "possibleTypes": null
+                },
+                {
+                    "kind": "ENUM",
+                    "name": "RelativeDirection",
+                    "description": "Actions to take relative to the current position when engaging a walking/driving step.",
+                    "fields": null,
+                    "inputFields": null,
+                    "interfaces": null,
+                    "enumValues": [
+                        {
+                            "name": "DEPART",
+                            "description": null,
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "HARD_LEFT",
+                            "description": null,
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "LEFT",
+                            "description": null,
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "SLIGHTLY_LEFT",
+                            "description": null,
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "CONTINUE",
+                            "description": null,
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "SLIGHTLY_RIGHT",
+                            "description": null,
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "RIGHT",
+                            "description": null,
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "HARD_RIGHT",
+                            "description": null,
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "CIRCLE_CLOCKWISE",
+                            "description": null,
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "CIRCLE_COUNTERCLOCKWISE",
+                            "description": null,
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "ELEVATOR",
+                            "description": null,
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "UTURN_LEFT",
+                            "description": null,
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "UTURN_RIGHT",
+                            "description": null,
                             "isDeprecated": false,
                             "deprecationReason": null
                         }
@@ -8791,7 +8821,18 @@
                         {
                             "name": "headsign",
                             "description": "Vehicle headsign of the trip on this stop. Trip headsigns can change during\nthe trip (e.g. on routes which run on loops), so this value should be used\ninstead of `tripHeadsign` to display the headsign relevant to the user.",
-                            "args": [],
+                            "args": [
+                                {
+                                    "name": "language",
+                                    "description": "If translated headsign is found from gtfs translation.txt and wanted language is not same as\nfeed's language then returns wanted translation. Otherwise uses name from trip_headsign.txt.",
+                                    "type": {
+                                        "kind": "SCALAR",
+                                        "name": "String",
+                                        "ofType": null
+                                    },
+                                    "defaultValue": null
+                                }
+                            ],
                             "type": {
                                 "kind": "SCALAR",
                                 "name": "String",
@@ -8920,7 +8961,7 @@
                                 "name": null,
                                 "ofType": {
                                     "kind": "SCALAR",
-                                    "name": "ID",
+                                    "name": "String",
                                     "ofType": null
                                 }
                             },
@@ -9149,7 +9190,18 @@
                         {
                             "name": "tripHeadsign",
                             "description": "Headsign of the vehicle when running on this trip",
-                            "args": [],
+                            "args": [
+                                {
+                                    "name": "language",
+                                    "description": "If translated headsign is found from gtfs translation.txt and wanted language is not same as\nfeed's language then returns wanted translation. Otherwise uses name from trip_headsign.txt.",
+                                    "type": {
+                                        "kind": "SCALAR",
+                                        "name": "String",
+                                        "ofType": null
+                                    },
+                                    "defaultValue": null
+                                }
+                            ],
                             "type": {
                                 "kind": "SCALAR",
                                 "name": "String",
@@ -9552,7 +9604,18 @@
                         {
                             "name": "name",
                             "description": "Name of the park",
-                            "args": [],
+                            "args": [
+                                {
+                                    "name": "language",
+                                    "description": "Returns name with the specified language, if found, otherwise returns with some default language.",
+                                    "type": {
+                                        "kind": "SCALAR",
+                                        "name": "String",
+                                        "ofType": null
+                                    },
+                                    "defaultValue": null
+                                }
+                            ],
                             "type": {
                                 "kind": "NON_NULL",
                                 "name": null,
@@ -9644,7 +9707,18 @@
                         {
                             "name": "note",
                             "description": "A short translatable note containing details of this vehicle parking.",
-                            "args": [],
+                            "args": [
+                                {
+                                    "name": "language",
+                                    "description": "Returns note with the specified language, if found, otherwise returns with some default language.",
+                                    "type": {
+                                        "kind": "SCALAR",
+                                        "name": "String",
+                                        "ofType": null
+                                    },
+                                    "defaultValue": null
+                                }
+                            ],
                             "type": {
                                 "kind": "SCALAR",
                                 "name": "String",
@@ -9738,24 +9812,12 @@
                             "deprecationReason": null
                         },
                         {
-                            "name": "feeHours",
-                            "description": " mfdz additions",
-                            "args": [],
-                            "type": {
-                                "kind": "SCALAR",
-                                "name": "String",
-                                "ofType": null
-                            },
-                            "isDeprecated": false,
-                            "deprecationReason": null
-                        },
-                        {
                             "name": "openingHours",
-                            "description": null,
+                            "description": "Opening hours of the parking facility",
                             "args": [],
                             "type": {
-                                "kind": "SCALAR",
-                                "name": "String",
+                                "kind": "OBJECT",
+                                "name": "OpeningHours",
                                 "ofType": null
                             },
                             "isDeprecated": false,
@@ -9852,53 +9914,6 @@
                             "deprecationReason": null
                         }
                     ],
-                    "possibleTypes": null
-                },
-                {
-                    "kind": "OBJECT",
-                    "name": "VehicleParkingWithEntrance",
-                    "description": null,
-                    "fields": [
-                        {
-                            "name": "vehicleParking",
-                            "description": null,
-                            "args": [],
-                            "type": {
-                                "kind": "OBJECT",
-                                "name": "VehicleParking",
-                                "ofType": null
-                            },
-                            "isDeprecated": false,
-                            "deprecationReason": null
-                        },
-                        {
-                            "name": "closesSoon",
-                            "description": "True if the difference of visiting time for a VehicleParking and the closing time is inside the\nrequest's vehicleParkingClosesSoonSeconds interval.",
-                            "args": [],
-                            "type": {
-                                "kind": "SCALAR",
-                                "name": "Boolean",
-                                "ofType": null
-                            },
-                            "isDeprecated": false,
-                            "deprecationReason": null
-                        },
-                        {
-                            "name": "realtime",
-                            "description": "Was realtime data used when parking.",
-                            "args": [],
-                            "type": {
-                                "kind": "SCALAR",
-                                "name": "Boolean",
-                                "ofType": null
-                            },
-                            "isDeprecated": false,
-                            "deprecationReason": null
-                        }
-                    ],
-                    "inputFields": null,
-                    "interfaces": [],
-                    "enumValues": null,
                     "possibleTypes": null
                 },
                 {
@@ -10355,8 +10370,8 @@
                             "deprecationReason": null
                         },
                         {
-                            "name": "VEHICLEPARKING",
-                            "description": "VEHICLEPARKING",
+                            "name": "BIKEPARK",
+                            "description": "BIKEPARK",
                             "isDeprecated": false,
                             "deprecationReason": null
                         },
@@ -10369,12 +10384,6 @@
                         {
                             "name": "PARKANDRIDE",
                             "description": "PARKANDRIDE",
-                            "isDeprecated": false,
-                            "deprecationReason": null
-                        },
-                        {
-                            "name": "BIKEPARK",
-                            "description": "BIKEPARK",
                             "isDeprecated": false,
                             "deprecationReason": null
                         }
@@ -10486,7 +10495,18 @@
                         {
                             "name": "args",
                             "description": null,
-                            "args": [],
+                            "args": [
+                                {
+                                    "name": "includeDeprecated",
+                                    "description": null,
+                                    "type": {
+                                        "kind": "SCALAR",
+                                        "name": "Boolean",
+                                        "ofType": null
+                                    },
+                                    "defaultValue": "false"
+                                }
+                            ],
                             "type": {
                                 "kind": "NON_NULL",
                                 "name": null,
@@ -11790,6 +11810,118 @@
                             },
                             "isDeprecated": false,
                             "deprecationReason": null
+                        },
+                        {
+                            "name": "relativeDirection",
+                            "description": "The relative direction (e.g. left or right turn) to take when engaging this step.",
+                            "args": [],
+                            "type": {
+                                "kind": "ENUM",
+                                "name": "RelativeDirection",
+                                "ofType": null
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "absoluteDirection",
+                            "description": "The cardinal (compass) direction (e.g. north, northeast) taken when engaging this step.",
+                            "args": [],
+                            "type": {
+                                "kind": "ENUM",
+                                "name": "AbsoluteDirection",
+                                "ofType": null
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "streetName",
+                            "description": "The name of the street, road, or path taken for this step.",
+                            "args": [],
+                            "type": {
+                                "kind": "SCALAR",
+                                "name": "String",
+                                "ofType": null
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "exit",
+                            "description": "When exiting a highway or traffic circle, the exit name/number.",
+                            "args": [],
+                            "type": {
+                                "kind": "SCALAR",
+                                "name": "String",
+                                "ofType": null
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "stayOn",
+                            "description": "Indicates whether or not a street changes direction at an intersection.",
+                            "args": [],
+                            "type": {
+                                "kind": "SCALAR",
+                                "name": "Boolean",
+                                "ofType": null
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "area",
+                            "description": "This step is on an open area, such as a plaza or train platform,\nand thus the directions should say something like \"cross\".",
+                            "args": [],
+                            "type": {
+                                "kind": "SCALAR",
+                                "name": "Boolean",
+                                "ofType": null
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "bogusName",
+                            "description": "The name of this street was generated by the system, so we should only display it once, and\ngenerally just display right/left directions",
+                            "args": [],
+                            "type": {
+                                "kind": "SCALAR",
+                                "name": "Boolean",
+                                "ofType": null
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "walkingBike",
+                            "description": "Is this step walking with a bike?",
+                            "args": [],
+                            "type": {
+                                "kind": "SCALAR",
+                                "name": "Boolean",
+                                "ofType": null
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "alerts",
+                            "description": "A list of alerts (e.g. construction, detours) applicable to the step.",
+                            "args": [],
+                            "type": {
+                                "kind": "LIST",
+                                "name": null,
+                                "ofType": {
+                                    "kind": "OBJECT",
+                                    "name": "Alert",
+                                    "ofType": null
+                                }
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
                         }
                     ],
                     "inputFields": null,
@@ -11965,7 +12097,7 @@
                 },
                 {
                     "name": "skip",
-                    "description": "Directs the executor to skip this field or fragment when the `if`'argument is true.",
+                    "description": "Directs the executor to skip this field or fragment when the `if` argument is true.",
                     "locations": [
                         "FIELD",
                         "FRAGMENT_SPREAD",

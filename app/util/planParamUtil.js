@@ -309,7 +309,6 @@ export const preparePlanParams = (config, useDefaultModes) => (
         minTransferTime: config.minTransferTime,
         walkSpeed: settings.walkSpeed,
         arriveBy: arriveBy === 'true',
-        maxWalkDistance: config.maxWalkDistance,
         wheelchair,
         transferPenalty: config.transferPenalty,
         bikeSpeed: settings.bikeSpeed,
