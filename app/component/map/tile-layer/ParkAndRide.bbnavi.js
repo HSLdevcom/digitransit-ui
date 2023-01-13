@@ -89,10 +89,7 @@ class ParkAndRide {
     });
 
   fetchAndDrawStatus = ({ geom, properties }) => {
-    if (
-      this.tile.coords.z <=
-      this.config.parkAndRide.smallIconZoom
-    ) {
+    if (this.tile.coords.z <= this.config.parkAndRide.smallIconZoom) {
       return drawStopIcon(
         this.tile,
         geom,

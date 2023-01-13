@@ -414,7 +414,8 @@ class Map extends React.Component {
   getMapUrls = (config, currentMapMode) => {
     // todo: refactor using URI Templates
     const mapBaseUrl =
-      (isDebugTiles && `${config.URL.OTP}inspector/tile/traversal/{z}/{x}/{y}{r}.png`) ||
+      (isDebugTiles &&
+        `${config.URL.OTP}inspector/tile/traversal/{z}/{x}/{y}{r}.png`) ||
       config.URL.MAP[this.props.lang] ||
       config.URL.MAP.default;
     const defaultMapUrl = config.hasAPISubscriptionQueryParameter

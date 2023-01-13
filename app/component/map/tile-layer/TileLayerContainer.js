@@ -391,9 +391,7 @@ class TileLayerContainer extends GridLayer {
           contents = (
             <SelectVehicleContainer vehicle={vehicle} latlng={latlng} />
           );
-        } else if (
-          this.state.selectableTargets[0].layer === 'parkAndRide'
-        ) {
+        } else if (this.state.selectableTargets[0].layer === 'parkAndRide') {
           const { lat, lng } = this.state.coords;
           const {
             id: vehicleParkingId,
@@ -414,7 +412,9 @@ class TileLayerContainer extends GridLayer {
           );
           this.setState({ selectableTargets: undefined });
           showPopup = false;
-        } else if (this.state.selectableTargets[0].layer === 'parkAndRideForBikes') {
+        } else if (
+          this.state.selectableTargets[0].layer === 'parkAndRideForBikes'
+        ) {
           const {
             // eslint-disable-next-line no-shadow
             id,
