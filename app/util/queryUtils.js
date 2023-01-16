@@ -223,12 +223,13 @@ export const moreItinerariesQuery = graphql`
   query queryUtils_SummaryPage_moreItins_Query(
     $fromPlace: String!
     $toPlace: String!
-    $intermediatePlaces: [InputCoordinates!]
     $numItineraries: Int!
     $modes: [TransportMode!]
     $date: String!
     $time: String!
     $walkReluctance: Float
+    $bikeReluctance: Float
+    $carReluctance: Float
     $walkBoardCost: Int
     $minTransferTime: Int
     $walkSpeed: Float
@@ -238,20 +239,19 @@ export const moreItinerariesQuery = graphql`
     $transferPenalty: Int
     $bikeSpeed: Float
     $optimize: OptimizeType
-    $itineraryFiltering: Float
     $unpreferred: InputUnpreferred
     $allowedBikeRentalNetworks: [String]
-    $locale: String
   ) {
     plan(
       fromPlace: $fromPlace
       toPlace: $toPlace
-      intermediatePlaces: $intermediatePlaces
       numItineraries: $numItineraries
       transportModes: $modes
       date: $date
       time: $time
       walkReluctance: $walkReluctance
+      bikeReluctance: $bikeReluctance
+      carReluctance: $carReluctance
       walkBoardCost: $walkBoardCost
       minTransferTime: $minTransferTime
       walkSpeed: $walkSpeed
@@ -261,10 +261,8 @@ export const moreItinerariesQuery = graphql`
       transferPenalty: $transferPenalty
       bikeSpeed: $bikeSpeed
       optimize: $optimize
-      itineraryFiltering: $itineraryFiltering
       unpreferred: $unpreferred
       allowedVehicleRentalNetworks: $allowedBikeRentalNetworks
-      locale: $locale
     ) {
       ...SummaryPlanContainer_plan
       ...ItineraryTab_plan
