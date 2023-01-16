@@ -189,8 +189,6 @@ export default {
     ticketTypes: 'none',
     walkBoardCost: 600,
     walkReluctance: 1.8,
-    bikeReluctance: 2,
-    carReluctance: 3,
     walkSpeed: 1.2,
     includeBikeSuggestions: true,
     includeParkAndRideSuggestions: false,
@@ -229,7 +227,7 @@ export default {
   // not be computed
   suggestCarMinDistance: 2000,
   itineraryFiltering: 1.5, // drops 66% worse routes
-  minTransferTime: 120,
+  minTransferTime: 90,
   optimize: 'GREENWAYS',
   transferPenalty: 0,
   availableLanguages: ['fi', 'sv', 'en', 'fr', 'nb', 'de', 'da', 'es', 'ro'],
