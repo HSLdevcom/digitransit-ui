@@ -2865,7 +2865,6 @@ const containerComponent = createRefetchContainer(
       @argumentDefinitions(
         fromPlace: { type: "String!" }
         toPlace: { type: "String!" }
-        intermediatePlaces: { type: "[InputCoordinates!]" }
         numItineraries: { type: "Int!" }
         modes: { type: "[TransportMode!]" }
         date: { type: "String!" }
@@ -2880,16 +2879,13 @@ const containerComponent = createRefetchContainer(
         transferPenalty: { type: "Int" }
         bikeSpeed: { type: "Float" }
         optimize: { type: "OptimizeType" }
-        itineraryFiltering: { type: "Float" }
         unpreferred: { type: "InputUnpreferred" }
         allowedBikeRentalNetworks: { type: "[String]" }
-        locale: { type: "String" }
         modeWeight: { type: "InputModeWeight" }
       ) {
         plan(
           fromPlace: $fromPlace
           toPlace: $toPlace
-          intermediatePlaces: $intermediatePlaces
           numItineraries: $numItineraries
           transportModes: $modes
           date: $date
@@ -2904,10 +2900,8 @@ const containerComponent = createRefetchContainer(
           transferPenalty: $transferPenalty
           bikeSpeed: $bikeSpeed
           optimize: $optimize
-          itineraryFiltering: $itineraryFiltering
           unpreferred: $unpreferred
           allowedVehicleRentalNetworks: $allowedBikeRentalNetworks
-          locale: $locale
           modeWeight: $modeWeight
         ) {
           ...SummaryPlanContainer_plan

@@ -166,7 +166,6 @@ export const planQuery = graphql`
   query queryUtils_SummaryPage_Query(
     $fromPlace: String!
     $toPlace: String!
-    $intermediatePlaces: [InputCoordinates!]
     $numItineraries: Int!
     $modes: [TransportMode!]
     $date: String!
@@ -181,10 +180,8 @@ export const planQuery = graphql`
     $transferPenalty: Int
     $bikeSpeed: Float
     $optimize: OptimizeType
-    $itineraryFiltering: Float
     $unpreferred: InputUnpreferred
     $allowedBikeRentalNetworks: [String]
-    $locale: String
     $modeWeight: InputModeWeight
   ) {
     viewer {
@@ -192,7 +189,6 @@ export const planQuery = graphql`
       @arguments(
         fromPlace: $fromPlace
         toPlace: $toPlace
-        intermediatePlaces: $intermediatePlaces
         numItineraries: $numItineraries
         modes: $modes
         date: $date
@@ -207,10 +203,8 @@ export const planQuery = graphql`
         transferPenalty: $transferPenalty
         bikeSpeed: $bikeSpeed
         optimize: $optimize
-        itineraryFiltering: $itineraryFiltering
         unpreferred: $unpreferred
         allowedBikeRentalNetworks: $allowedBikeRentalNetworks
-        locale: $locale
         modeWeight: $modeWeight
       )
     }
