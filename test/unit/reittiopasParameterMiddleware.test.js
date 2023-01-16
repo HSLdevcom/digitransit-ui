@@ -39,7 +39,9 @@ describe('reittiopasParameterMiddleware', () => {
   describe('dropLanguageAndSetLocaleParam', () => {
     const req = {
       path: '/en/',
-      query: {},
+      query: {
+        locale: 'fi',
+      },
     };
 
     it('should return empty path with "locale" query param', () => {
@@ -60,6 +62,7 @@ describe('reittiopasParameterMiddleware', () => {
       req.query = {
         time: 1565074800,
         arriveBy: false,
+        locale: 'fi',
       };
 
       const relativeUrl = dropPathLanguageAndFixLocaleParam(req, 'en');

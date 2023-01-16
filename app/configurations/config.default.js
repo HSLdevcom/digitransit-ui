@@ -226,7 +226,6 @@ export default {
   // if you enable car suggestions but the linear distance between all points is less than this, then a car route will
   // not be computed
   suggestCarMinDistance: 2000,
-  itineraryFiltering: 1.5, // drops 66% worse routes
   minTransferTime: 90,
   optimize: 'GREENWAYS',
   transferPenalty: 0,
