@@ -121,6 +121,8 @@ export const getSettings = config => {
           ),
       ),
     walkReluctance: getNumberValueOrDefault(custSettings.walkReluctance),
+    bikeReluctance: getNumberValueOrDefault(config.bikeReluctance, 2),
+    carReluctance: getNumberValueOrDefault(config.carReluctance, 3),
     walkBoardCost: getNumberValueOrDefault(custSettings.walkBoardCost),
     modes: undefined,
     accessibilityOption: getNumberValueOrDefault(
@@ -258,7 +260,7 @@ export const preparePlanParams = (config, useDefaultModes) => (
   const walkBoardCost = useDefaultModes
     ? defaultSettings.walkBoardCost
     : settings.walkBoardCost;
-
+  const { bikeReluctance, carReluctance } = config;
   const cookies = new Cookies();
 
   return {
@@ -274,6 +276,8 @@ export const preparePlanParams = (config, useDefaultModes) => (
         date: (time ? moment(time * 1000) : moment()).format('YYYY-MM-DD'),
         time: (time ? moment(time * 1000) : moment()).format('HH:mm:ss'),
         walkReluctance,
+        bikeReluctance,
+        carReluctance,
         walkBoardCost,
         minTransferTime: config.minTransferTime,
         walkSpeed: settings.walkSpeed,

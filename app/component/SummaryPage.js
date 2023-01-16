@@ -2870,6 +2870,8 @@ const containerComponent = createRefetchContainer(
         date: { type: "String!" }
         time: { type: "String!" }
         walkReluctance: { type: "Float" }
+        bikeReluctance: { type: "Float" }
+        carReluctance: { type: "Float" }
         walkBoardCost: { type: "Int" }
         minTransferTime: { type: "Int" }
         walkSpeed: { type: "Float" }
@@ -2891,6 +2893,8 @@ const containerComponent = createRefetchContainer(
           date: $date
           time: $time
           walkReluctance: $walkReluctance
+          bikeReluctance: $bikeReluctance
+          carReluctance: $carReluctance
           walkBoardCost: $walkBoardCost
           minTransferTime: $minTransferTime
           walkSpeed: $walkSpeed

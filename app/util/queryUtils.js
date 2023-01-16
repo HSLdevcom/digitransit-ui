@@ -171,6 +171,8 @@ export const planQuery = graphql`
     $date: String!
     $time: String!
     $walkReluctance: Float
+    $bikeReluctance: Float
+    $carReluctance: Float
     $walkBoardCost: Int
     $minTransferTime: Int
     $walkSpeed: Float
@@ -194,6 +196,8 @@ export const planQuery = graphql`
         date: $date
         time: $time
         walkReluctance: $walkReluctance
+        bikeReluctance: $bikeReluctance
+        carReluctance: $carReluctance
         walkBoardCost: $walkBoardCost
         minTransferTime: $minTransferTime
         walkSpeed: $walkSpeed
