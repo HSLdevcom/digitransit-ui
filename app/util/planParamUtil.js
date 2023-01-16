@@ -1,6 +1,5 @@
 import omitBy from 'lodash/omitBy';
 import moment from 'moment';
-import Cookies from 'universal-cookie';
 
 import {
   filterModes,
@@ -192,7 +191,7 @@ export const preparePlanParams = (config, useDefaultModes) => (
   { from, to },
   {
     location: {
-      query: { arriveBy, intermediatePlaces, time, locale },
+      query: { arriveBy, intermediatePlaces, time },
     },
   },
 ) => {
@@ -261,7 +260,6 @@ export const preparePlanParams = (config, useDefaultModes) => (
     ? defaultSettings.walkBoardCost
     : settings.walkBoardCost;
   const { bikeReluctance, carReluctance } = config;
-  const cookies = new Cookies();
 
   return {
     ...defaultSettings,
@@ -271,7 +269,6 @@ export const preparePlanParams = (config, useDefaultModes) => (
         toPlace: to,
         from: fromLocation,
         to: toLocation,
-        intermediatePlaces: intermediatePlaceLocations,
         numItineraries: 5,
         date: (time ? moment(time * 1000) : moment()).format('YYYY-MM-DD'),
         time: (time ? moment(time * 1000) : moment()).format('HH:mm:ss'),
@@ -286,8 +283,6 @@ export const preparePlanParams = (config, useDefaultModes) => (
         transferPenalty: config.transferPenalty,
         bikeSpeed: settings.bikeSpeed,
         optimize: config.optimize,
-        itineraryFiltering: config.itineraryFiltering,
-        locale: locale || cookies.get('lang') || 'fi',
       },
       nullOrUndefined,
     ),
