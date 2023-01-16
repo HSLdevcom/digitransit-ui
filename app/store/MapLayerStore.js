@@ -14,6 +14,7 @@ class MapLayerStore extends Store {
       subway: true,
       tram: true,
       carpool: true,
+      funicular: true,
     },
     terminal: {
       bus: true,
@@ -121,6 +122,7 @@ export const mapLayerShape = PropTypes.shape({
     rail: PropTypes.bool,
     subway: PropTypes.bool,
     tram: PropTypes.bool,
+    funicular: PropTypes.bool,
   }).isRequired,
   terminal: PropTypes.shape({
     bus: PropTypes.bool,

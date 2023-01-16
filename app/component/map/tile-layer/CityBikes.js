@@ -1,3 +1,4 @@
+// TODO merge with BikeRentalStations
 import { VectorTile } from '@mapbox/vector-tile';
 import Protobuf from 'pbf';
 import { graphql, fetchQuery } from 'react-relay';
@@ -19,7 +20,7 @@ import {
   BIKEAVL_UNKNOWN,
 } from '../../../util/citybikes';
 
-import { fetchWithSubscription } from '../../../util/fetchUtils';
+import { fetchWithLanguageAndSubscription } from '../../../util/fetchUtils';
 
 const timeOfLastFetch = {};
 
@@ -53,11 +54,13 @@ class CityBikes {
   }
 
   fetchWithAction = actionFn =>
-    fetchWithSubscription(
+    fetchWithLanguageAndSubscription(
       `${this.config.URL.CITYBIKE_MAP}` +
         `${this.tile.coords.z + (this.tile.props.zoomOffset || 0)}/` +
         `${this.tile.coords.x}/${this.tile.coords.y}.pbf`,
       this.config,
+      // TODO handle lang appropriatly
+      'de'
     ).then(res => {
       if (res.status !== 200) {
         return undefined;

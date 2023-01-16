@@ -61,6 +61,10 @@
   position: relative;
   animation: fadeIn 0.7s;
 
+  &.no-border:before {
+    border-left: none;
+  }
+
   &.cancelled-itinerary {
     .itinerary-first-leg-start-time {
       text-decoration: line-through;

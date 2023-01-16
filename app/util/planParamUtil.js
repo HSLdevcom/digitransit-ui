@@ -99,16 +99,6 @@ function nullOrUndefined(val) {
   return val === null || val === undefined;
 }
 
-function getDisableRemainingWeightHeuristic(modes) {
-  let disableRemainingWeightHeuristic;
-  if (Array.isArray(modes) && modes.includes('BICYCLE_RENT')) {
-    disableRemainingWeightHeuristic = false;
-  } else {
-    disableRemainingWeightHeuristic = false;
-  }
-  return disableRemainingWeightHeuristic;
-}
-
 const getNumberValueOrDefault = (value, defaultValue = undefined) =>
   value !== undefined ? Number(value) : defaultValue;
 
@@ -170,6 +160,7 @@ export const getSettings = config => {
     useVehicleParkingAvailabilityInformation:
       custSettings.useVehicleParkingAvailabilityInformation,
     bicycleParkingFilter: custSettings.bicycleParkingFilter,
+    showBikeAndParkItineraries: custSettings.showBikeAndParkItineraries,
   };
 };
 
@@ -207,6 +198,9 @@ const isDestinationOldTownOfHerrenberg = destination => {
     polygon(herrenbergOldTownGeojson.features[0].geometry.coordinates),
   );
 };
+
+export const hasStartAndDestination = ({ from, to }) =>
+  from && to && from !== '-' && to !== '-';
 
 export const preparePlanParams = (config, useDefaultModes) => (
   { from, to },
@@ -291,7 +285,19 @@ export const preparePlanParams = (config, useDefaultModes) => (
     ];
   }
 
+  // Use defaults or user given settings
+  const ticketTypes = useDefaultModes
+    ? null
+    : getTicketTypes(settings.ticketTypes, defaultSettings.ticketTypes);
+  const walkReluctance = useDefaultModes
+    ? defaultSettings.walkReluctance
+    : settings.walkReluctance;
+  const walkBoardCost = useDefaultModes
+    ? defaultSettings.walkBoardCost
+    : settings.walkBoardCost;
+
   const cookies = new Cookies();
+
   return {
     ...defaultSettings,
     ...omitBy(
@@ -304,6 +310,9 @@ export const preparePlanParams = (config, useDefaultModes) => (
         numItineraries: 5,
         date: parsedTime.format('YYYY-MM-DD'),
         time: parsedTime.format('HH:mm:ss'),
+        date: (time ? moment(time * 1000) : moment()).format('YYYY-MM-DD'),
+        time: (time ? moment(time * 1000) : moment()).format('HH:mm:ss'),
+        // TODO Check why HSL did not retrieve from settings
         walkReluctance: settings.walkReluctance,
         walkBoardCost: settings.walkBoardCost,
         minTransferTime: config.minTransferTime,
@@ -321,9 +330,6 @@ export const preparePlanParams = (config, useDefaultModes) => (
           timeFactor: config.defaultSettings.timeFactor,
         },
         itineraryFiltering: config.itineraryFiltering,
-        disableRemainingWeightHeuristic: getDisableRemainingWeightHeuristic(
-          modesOrDefault,
-        ),
         locale: locale || cookies.get('lang') || 'fi',
         // todo
         useVehicleParkingAvailabilityInformation,
@@ -348,6 +354,7 @@ export const preparePlanParams = (config, useDefaultModes) => (
       settings.ticketTypes,
       defaultSettings.ticketTypes,
     ),
+    modeWeight: config.customWeights,
     allowedVehicleRentalNetworks: allowedVehicleRentalNetworksMapped,
     shouldMakeWalkQuery:
       !wheelchair && linearDistance < config.suggestWalkMaxDistance,
@@ -382,9 +389,6 @@ export const preparePlanParams = (config, useDefaultModes) => (
       modesOrDefault.length > 1 &&
       includeBikeSuggestions,
     bikeAndPublicMaxWalkDistance: config.suggestBikeAndPublicMaxDistance,
-    bikeandPublicDisableRemainingWeightHeuristic:
-      Array.isArray(intermediatePlaceLocations) &&
-      intermediatePlaceLocations.length > 0,
     bikeAndPublicModes: [
       { mode: 'BICYCLE' },
       ...modesAsOTPModes(getBicycleCompatibleModes(config, modesOrDefault)),

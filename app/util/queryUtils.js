@@ -206,7 +206,8 @@ export const planQuery = graphql`
     $itineraryFiltering: Float
     $unpreferred: InputUnpreferred
     $allowedVehicleRentalNetworks: [String]
-    $locale: String # $modeWeight: InputModeWeight
+    $locale: String
+    $modeWeight: InputModeWeight
   ) {
     viewer {
       ...SummaryPage_viewer
@@ -232,7 +233,7 @@ export const planQuery = graphql`
         unpreferred: $unpreferred
         allowedVehicleRentalNetworks: $allowedVehicleRentalNetworks
         locale: $locale
-        # modeWeight: $modeWeight
+        modeWeight: $modeWeight
       )
     }
 

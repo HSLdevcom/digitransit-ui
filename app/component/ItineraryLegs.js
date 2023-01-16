@@ -29,6 +29,7 @@ import updateShowCanceledLegsBannerState from '../action/CanceledLegsBarActions'
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import ItineraryProfile from './ItineraryProfile';
 import BikeParkLeg from './BikeParkLeg';
+import FunicularLeg from './FunicularLeg';
 
 class ItineraryLegs extends React.Component {
   static childContextTypes = {
@@ -248,6 +249,15 @@ class ItineraryLegs extends React.Component {
       } else if (leg.mode === 'FERRY' && !leg.interlineWithPreviousLeg) {
         legs.push(
           <FerryLeg
+            index={j}
+            leg={leg}
+            interliningLegs={interliningLegs}
+            focusAction={this.focus(leg.from)}
+          />,
+        );
+      } else if (leg.mode === 'FUNICULAR' && !leg.interlineWithPreviousLeg) {
+        legs.push(
+          <FunicularLeg
             index={j}
             leg={leg}
             interliningLegs={interliningLegs}

@@ -7,6 +7,9 @@ const APP_TITLE = 'Seutu+ reittiopas';
 const APP_DESCRIPTION = 'Varsinais-Suomen ELY-keskuksen reittiopas';
 const OTP_URL =
   process.env.DEV_OTP_URL || `${API_URL}/routing/v2/routers/varely/`;
+const MAP_URL =
+  process.env.MAP_URL || 'https://digitransit-dev-cdn-origin.azureedge.net';
+const POI_MAP_PREFIX = `${MAP_URL}/map/v3/varely`;
 
 const walttiConfig = require('./config.waltti').default;
 
@@ -19,7 +22,10 @@ export default configMerger(walttiConfig, {
     OTP: OTP_URL,
 
     // read stops and stations OTP2 vector map tile server
-    STOP_MAP: `${OTP_URL}vectorTiles/stops,stations/`,
+    STOP_MAP: {
+      default: `${POI_MAP_PREFIX}/fi/stops,stations/`,
+      sv: `${POI_MAP_PREFIX}/sv/stops,stations/`,
+    },
   },
 
   feedIds: ['VARELY', 'FOLI'],
@@ -216,7 +222,48 @@ export default configMerger(walttiConfig, {
     ],
   },
 
-  staticMessages: [],
+  staticMessages: [
+    {
+      id: '1',
+      priority: 0,
+      persistence: 'repeat',
+      content: {
+        fi: [
+          {
+            type: 'heading',
+            content: 'Rauman paikallisliikenne löytyy toistaiseksi palvelusta',
+          },
+          {
+            type: 'a',
+            content: 'opas.matka.fi',
+            href: 'https://opas.matka.fi',
+          },
+        ],
+        en: [
+          {
+            type: 'heading',
+            content: 'For now, traffic information of Rauma is available at',
+          },
+          {
+            type: 'a',
+            content: 'opas.matka.fi',
+            href: 'https://opas.matka.fi',
+          },
+        ],
+        sv: [
+          {
+            type: 'heading',
+            content: 'Raumos kollektivtrafik kan för tillfället hittas på',
+          },
+          {
+            type: 'a',
+            content: 'opas.matka.fi',
+            href: 'https://opas.matka.fi',
+          },
+        ],
+      },
+    },
+  ],
 
   showNearYouButtons: true,
   allowLogin: false,

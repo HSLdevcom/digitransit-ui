@@ -5,8 +5,9 @@ import uniqBy from 'lodash/uniqBy';
 import sortBy from 'lodash/sortBy';
 import groupBy from 'lodash/groupBy';
 import padStart from 'lodash/padStart';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, intlShape } from 'react-intl';
 import { matchShape, routerShape } from 'found';
+import cx from 'classnames';
 import Icon from './Icon';
 import FilterTimeTableModal from './FilterTimeTableModal';
 import TimeTableOptionsPanel from './TimeTableOptionsPanel';
@@ -57,6 +58,7 @@ class Timetable extends React.Component {
     router: routerShape.isRequired,
     match: matchShape.isRequired,
     config: PropTypes.object.isRequired,
+    intl: intlShape.isRequired,
   };
 
   constructor(props) {
@@ -220,6 +222,24 @@ class Timetable extends React.Component {
       ));
 
   render() {
+    // Check if stop is constant operation
+    const { constantOperationStops } = this.context.config;
+    const stopId = this.props.stop.gtfsId;
+    const { locale } = this.context.intl;
+    if (constantOperationStops && constantOperationStops[stopId]) {
+      return (
+        <div className="stop-constant-operation-container">
+          <div style={{ width: '85%' }}>
+            <span>{constantOperationStops[stopId][locale].text}</span>
+            <span style={{ display: 'inline-block' }}>
+              <a href={constantOperationStops[stopId][locale].link}>
+                {constantOperationStops[stopId][locale].link}
+              </a>
+            </span>
+          </div>
+        </div>
+      );
+    }
     // Leave out all the routes without a shortname to avoid flooding of
     // long distance buses being falsely positived as duplicates
     // then look foor routes operating under the same number but
@@ -272,7 +292,7 @@ class Timetable extends React.Component {
       return obj;
     });
     const timetableMap = this.groupArrayByHour(routesWithDetails);
-
+    const { locationType } = this.props.stop;
     const stopIdSplitted = this.props.stop.gtfsId.split(':');
     const stopTimetableHandler =
       this.context.config.timetables &&
@@ -280,7 +300,7 @@ class Timetable extends React.Component {
     const stopPDFURL =
       stopTimetableHandler &&
       this.context.config.URL.STOP_TIMETABLES[stopIdSplitted[0]] &&
-      this.props.stop.locationType !== 'STATION'
+      locationType !== 'STATION'
         ? stopTimetableHandler.stopPdfUrlResolver(
             this.context.config.URL.STOP_TIMETABLES[stopIdSplitted[0]],
             this.props.stop,
@@ -290,7 +310,15 @@ class Timetable extends React.Component {
         : null;
     const virtualMonitorUrl =
       this.context.config?.stopCard?.header?.virtualMonitorBaseUrl &&
-      `${this.context.config.stopCard.header.virtualMonitorBaseUrl}${this.props.stop.gtfsId}`;
+      `${
+        this.context.config.stopCard.header.virtualMonitorBaseUrl
+      }${locationType.toLowerCase()}/${this.props.stop.gtfsId}`;
+    const timeTableRows = this.createTimeTableRows(timetableMap);
+    const timeDifferenceDays = moment
+      .duration(
+        moment(this.props.propsForDateSelect.selectedDate).diff(moment()),
+      )
+      .asDays();
     return (
       <>
         <ScrollableWrapper>
@@ -337,18 +365,50 @@ class Timetable extends React.Component {
             <div className="timetable-for-printing">
               {this.dateForPrinting()}
             </div>
-            <div className="timetable-note">
-              <h2>
-                <FormattedMessage
-                  id="departures-by-hour"
-                  defaultMessage="Departures by hour (minutes/route)"
-                />{' '}
-                <FormattedMessage
-                  id="departures-by-hour-minutes-route"
-                  defaultMessage="(minutes/route)"
-                />
-              </h2>
-            </div>
+            {timeTableRows.length > 0 ? (
+              <div className="timetable-note">
+                <h2>
+                  <FormattedMessage
+                    id="departures-by-hour"
+                    defaultMessage="Departures by hour"
+                  />{' '}
+                  <FormattedMessage
+                    id="departures-by-hour-minutes-route"
+                    defaultMessage="(minutes/route)"
+                  />
+                </h2>
+              </div>
+            ) : (
+              <div className="no-timetable-found-container">
+                <div className="no-timetable-found">
+                  <div
+                    className={cx(
+                      'flex-horizontal',
+                      'timetable-notification',
+                      'info',
+                    )}
+                  >
+                    <Icon
+                      className={cx('no-timetable-icon', 'caution')}
+                      img="icon-icon_info"
+                      color="#0074be"
+                    />
+                    {timeDifferenceDays > 30 ? (
+                      <FormattedMessage
+                        id="departures-not-found-time-threshold"
+                        defaultMessage="No departures found"
+                      />
+                    ) : (
+                      <FormattedMessage
+                        id="departures-not-found"
+                        defaultMessage="No departures found"
+                      />
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
+
             <div className="momentum-scroll timetable-content-container">
               <div className="timetable-time-headers">
                 <div className="hour">
@@ -361,7 +421,7 @@ class Timetable extends React.Component {
                   />
                 </div>
               </div>
-              {this.createTimeTableRows(timetableMap)}
+              {timeTableRows}
               <div
                 className="route-remarks"
                 style={{

@@ -219,55 +219,6 @@ export function getMiddleOf(geometry) {
   };
 }
 
-// Sourced from http://paulbourke.net/geometry/polygonmesh/javascript.txt
-export class Contour {
-  constructor(pts) {
-    this.pts = pts;
-  }
-
-  area() {
-    let area = 0;
-    const { pts } = this;
-    const nPts = pts.length;
-    let j = nPts - 1;
-    let p1;
-    let p2;
-
-    // eslint-disable-next-line no-plusplus
-    for (let i = 0; i < nPts; j = i++) {
-      p1 = pts[i];
-      p2 = pts[j];
-      area += p1.x * p2.y;
-      area -= p1.y * p2.x;
-    }
-    area /= 2;
-    return area;
-  }
-
-  centroid() {
-    const { pts } = this;
-    const nPts = pts.length;
-    let x = 0;
-    let y = 0;
-    let f;
-    let j = nPts - 1;
-    let p1;
-    let p2;
-
-    // eslint-disable-next-line no-plusplus
-    for (let i = 0; i < nPts; j = i++) {
-      p1 = pts[i];
-      p2 = pts[j];
-      f = p1.x * p2.y - p2.x * p1.y;
-      x += (p1.x + p2.x) * f;
-      y += (p1.y + p2.y) * f;
-    }
-
-    f = this.area() * 6;
-    return { x: x / f, y: y / f };
-  }
-}
-
 function calculateEllipsoidParams(ellipsoid) {
   const { a, f } = ellipsoid;
   const extEllipsoid = { ...ellipsoid };

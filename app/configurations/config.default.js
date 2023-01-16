@@ -10,6 +10,8 @@ const GEOCODING_BASE_URL =
 const MAP_URL =
   process.env.MAP_URL || 'https://digitransit-dev-cdn-origin.azureedge.net';
 const MAP_VERSION = process.env.MAP_VERSION || 'v2';
+const POI_MAP_PREFIX = `${MAP_URL}/map/v3/finland`;
+const OTP_URL = process.env.OTP_URL || `${API_URL}/routing/v2/routers/finland/`;
 const APP_PATH = process.env.APP_CONTEXT || '';
 const {
   SENTRY_DSN,
@@ -40,15 +42,31 @@ export default {
     API_URL,
     ASSET_URL: process.env.ASSET_URL,
     MAP_URL,
-    OTP: process.env.OTP_URL || `${API_URL}/routing/v2/routers/finland/`,
+    OTP: OTP_URL,
     MAP: {
       default: `${MAP_URL}/map/${MAP_VERSION}/hsl-map/{z}/{x}/{y}{size}.png`,
       sv: `${MAP_URL}/map/${MAP_VERSION}/hsl-map-sv/{z}/{x}/{y}{size}.png`,
     },
-    // todo: add `{z}/{x}/{y}{size}.png`?
-    STOP_MAP: `${MAP_URL}/map/${MAP_VERSION}/finland-stop-map/`,
-    CITYBIKE_MAP: `${MAP_URL}/map/${MAP_VERSION}/finland-citybike-map/`,
-    PARK_AND_RIDE_MAP: `${MAP_URL}/map/${MAP_VERSION}/hsl-parkandride-map/`,
+    STOP_MAP: {
+      default: `${POI_MAP_PREFIX}/fi/stops,stations/`,
+      sv: `${POI_MAP_PREFIX}/sv/stops,stations/`,
+    },
+    RENTAL_STATION_MAP: {
+      default: `${POI_MAP_PREFIX}/fi/rentalStations/`,
+    },
+    REALTIME_RENTAL_STATION_MAP: {
+      default: `${POI_MAP_PREFIX}/fi/realtimeRentalStations/`,
+    },
+    PARK_AND_RIDE_MAP: {
+      default: `${POI_MAP_PREFIX}/en/vehicleParking/`,
+      sv: `${POI_MAP_PREFIX}/sv/vehicleParking/`,
+      fi: `${POI_MAP_PREFIX}/fi/vehicleParking/`,
+    },
+    PARK_AND_RIDE_GROUP_MAP: {
+      default: `${POI_MAP_PREFIX}/en/vehicleParkingGroups/`,
+      sv: `${POI_MAP_PREFIX}/sv/vehicleParkingGroups/`,
+      fi: `${POI_MAP_PREFIX}/fi/vehicleParkingGroups/`,
+    },
 
     FONT:
       'https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&family=Roboto:wght@400;700',
@@ -79,7 +97,7 @@ export default {
       HSL: `${API_URL}/timetables/v1/hsl/stops/`,
     },
     WEATHER_DATA:
-      'https://opendata.fmi.fi/wfs?service=WFS&version=2.0.0&request=getFeature&storedquery_id=fmi::forecast::hirlam::surface::point::simple&timestep=5&parameters=temperature,WindSpeedMS,WeatherSymbol3',
+      'https://opendata.fmi.fi/wfs?service=WFS&version=2.0.0&request=getFeature&storedquery_id=fmi::forecast::harmonie::surface::point::simple&timestep=5&parameters=temperature,WindSpeedMS,WeatherSymbol3',
     EMBEDDED_SEARCH_GENERATION: '/reittihakuelementti',
   },
 
@@ -177,6 +195,7 @@ export default {
     includeBikeSuggestions: true,
     includeParkAndRideSuggestions: false,
     includeCarSuggestions: false,
+    showBikeAndParkItineraries: false,
   },
 
   /**
@@ -205,8 +224,7 @@ export default {
   walkBoardCostHigh: 1200,
 
   parkAndRideBannedVehicleParkingTags: [],
-
-  maxWalkDistance: 10000,
+  suggestWalkMaxDistance: 10000,
   suggestBikeMaxDistance: 30000,
   // max walking distance in bike and public transport
   suggestBikeAndPublicMaxDistance: 15000,
@@ -257,7 +275,7 @@ export default {
       enableButtonArrows: false,
     },
     // Number of days to include to the service time range from the future (DT-3317)
-    serviceTimeRange: 30,
+    serviceTimeRange: 60,
   },
 
   map: {
@@ -440,6 +458,7 @@ export default {
     citybike: 'BICYCLE_RENT',
     airplane: 'AIRPLANE',
     ferry: 'FERRY',
+    funicular: 'FUNICULAR',
     walk: 'WALK',
   },
 
@@ -480,6 +499,10 @@ export default {
     // this is important because citybike needs to come last as it activates another toggle to select the
     // rental network which is rendered directly underneath.
     carpool: {
+      availableForSelection: false,
+      defaultValue: false,
+    },
+    funicular: {
       availableForSelection: false,
       defaultValue: false,
     },
@@ -613,6 +636,8 @@ export default {
   availableRouteTimetables: {},
 
   routeTimetableUrlResolver: {},
+
+  showTenWeeksOnRouteSchedule: true,
 
   aboutThisService: {
     fi: [
@@ -799,11 +824,16 @@ export default {
   includeBikeSuggestions: true,
   includeCarSuggestions: true,
   includeParkAndRideSuggestions: true,
+  // Include both bike and park and bike and public
+  includePublicWithBikePlan: true,
+  // Park and ride and car suggestions separated
+  separatedParkAndRideSwitch: true,
 
   showRouteSearch: true,
   showNearYouButtons: false,
   nearYouModes: [],
   showStopAndRouteSearch: true,
+  narrowNearYouButtons: false,
 
   /* Option to disable the "next" column of the Route panel as it can be confusing sometimes: https://github.com/mfdz/digitransit-ui/issues/167 */
   displayNextDeparture: true,
@@ -838,6 +868,9 @@ export default {
   },
 
   routeNotifications: [],
+
+  constantOperationStops: {},
+  constantOperationRoutes: {},
 
   embeddedSearch: {
     title: {

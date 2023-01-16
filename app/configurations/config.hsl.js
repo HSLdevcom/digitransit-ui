@@ -3,9 +3,10 @@ import { BIKEAVL_WITHMAX } from '../util/citybikes';
 
 const CONFIG = 'hsl';
 const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
+const OTP_URL = process.env.OTP_URL || `${API_URL}/routing/v2/routers/hsl/`;
 const MAP_URL =
   process.env.MAP_URL || 'https://digitransit-dev-cdn-origin.azureedge.net';
-const MAP_VERSION = process.env.MAP_VERSION || 'v2';
+const POI_MAP_PREFIX = `${MAP_URL}/map/v3/hsl`;
 const APP_DESCRIPTION = 'Helsingin seudun liikenteen Reittiopas.';
 
 const HSLTimetables = require('./timetableConfigUtils').default.HSL;
@@ -19,11 +20,29 @@ export default {
   CONFIG,
 
   URL: {
-    OTP: process.env.OTP_URL || `${API_URL}/routing/v2/routers/hsl/`,
-    STOP_MAP: `${MAP_URL}/map/${MAP_VERSION}/hsl-stop-map/`,
-    PARK_AND_RIDE_MAP: `${MAP_URL}/map/${MAP_VERSION}/hsl-parkandride-map/`,
-    FONT: 'https://cloud.typography.com/6364294/7432412/css/fonts.css',
-    CITYBIKE_MAP: `${MAP_URL}/map/${MAP_VERSION}/hsl-citybike-map/`,
+    OTP: OTP_URL,
+    STOP_MAP: {
+      default: `${POI_MAP_PREFIX}/fi/stops,stations/`,
+      sv: `${POI_MAP_PREFIX}/sv/stops,stations/`,
+    },
+    RENTAL_STATION_MAP: {
+      default: `${POI_MAP_PREFIX}/fi/rentalStations/`,
+    },
+    REALTIME_RENTAL_STATION_MAP: {
+      default: `${POI_MAP_PREFIX}/fi/realtimeRentalStations/`,
+    },
+    PARK_AND_RIDE_MAP: {
+      default: `${POI_MAP_PREFIX}/en/vehicleParking/`,
+      sv: `${POI_MAP_PREFIX}/sv/vehicleParking/`,
+      fi: `${POI_MAP_PREFIX}/fi/vehicleParking/`,
+    },
+    PARK_AND_RIDE_GROUP_MAP: {
+      default: `${POI_MAP_PREFIX}/en/vehicleParkingGroups/`,
+      sv: `${POI_MAP_PREFIX}/sv/vehicleParkingGroups/`,
+      fi: `${POI_MAP_PREFIX}/fi/vehicleParkingGroups/`,
+    },
+    FONT: 'https://www.hsl.fi/fonts/784131/6C5FB8083F348CFBB.css',
+    FONTCOUNTER: 'https://cloud.typography.com/6364294/7432412/css/fonts.css',
     ROOTLINK: rootLink,
     BANNERS: BANNER_URL,
     HSL_FI_SUGGESTIONS: 'https://content.hsl.fi/api/v1/search/suggestions',
@@ -49,7 +68,7 @@ export default {
   // Navbar logo
   logo: 'hsl/reittiopas-logo.svg',
 
-  feedIds: ['HSL', 'HSLlautta'],
+  feedIds: ['HSL'],
 
   showHSLTracking: false,
   allowLogin: true,
@@ -62,7 +81,6 @@ export default {
 
   omitNonPickups: true,
 
-  maxWalkDistance: 2500,
   itineraryFiltering: 2.5, // drops 40% worse routes
 
   parkAndRide: {
@@ -568,6 +586,10 @@ export default {
 
   includeCarSuggestions: false,
   includeParkAndRideSuggestions: true,
+  // Include both bike and park and bike and public
+  includePublicWithBikePlan: true,
+  // Park and ride and car suggestions separated into two switches
+  separatedParkAndRideSwitch: false,
 
   parkingAreaSources: ['liipi'],
 
@@ -581,6 +603,7 @@ export default {
     'ferry',
     'citybike',
   ],
+  narrowNearYouButtons: true,
 
   hostnames: [
     // DEV hostnames
@@ -596,10 +619,15 @@ export default {
 
   showSimilarRoutesOnRouteDropDown: true,
 
+  stopCard: {
+    header: {
+      virtualMonitorBaseUrl: 'https://omatnaytot.hsl.fi/',
+    },
+  },
+
   routeNotifications: [
     {
-      showForRoute: route =>
-        route.gtfsId.slice(4).length === 4 && route.gtfsId.slice(4)[0] === '7',
+      showForRoute: route => route.gtfsId.slice(4)[0] === '7',
       id: 'uLineNotification',
       header: {
         fi: 'U-linja',

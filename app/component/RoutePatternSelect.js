@@ -164,11 +164,8 @@ class RoutePatternSelect extends Component {
         return;
       }
       const query = graphql`
-        query RoutePatternSelect_similarRoutesQuery(
-          $name: String
-          $mode: [Mode]
-        ) {
-          routes(name: $name, transportModes: $mode) {
+        query RoutePatternSelect_similarRoutesQuery($name: String) {
+          routes(name: $name) {
             gtfsId
             shortName
             longName
@@ -177,7 +174,7 @@ class RoutePatternSelect extends Component {
         }
       `;
 
-      const params = { name: searchSimilarTo, mode: route.mode };
+      const params = { name: searchSimilarTo };
       fetchQuery(this.props.relayEnvironment, query, params, {
         force: true,
       }).then(results => {

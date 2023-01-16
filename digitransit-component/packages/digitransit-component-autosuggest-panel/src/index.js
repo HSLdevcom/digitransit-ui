@@ -2,12 +2,12 @@
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
-// import { ReactSortable } from 'react-sortablejs';
+import { ReactSortable } from 'react-sortablejs';
 import i18next from 'i18next';
 import DTAutoSuggest from '@digitransit-component/digitransit-component-autosuggest';
 import Icon from '@digitransit-component/digitransit-component-icon';
-// import isEmpty from 'lodash/isEmpty';
-// import Select from './helpers/Select';
+import isEmpty from 'lodash/isEmpty';
+import Select from './helpers/Select';
 import translations from './helpers/translations';
 import styles from './helpers/styles.scss';
 
@@ -22,15 +22,15 @@ i18next.init({
 
 export const getEmptyViaPointPlaceHolder = () => ({});
 
-// const isViaPointEmpty = viaPoint => {
-//   if (viaPoint === undefined || isEmpty(viaPoint)) {
-//     return true;
-//   }
-//   const keys = Object.keys(viaPoint);
-//   return (
-//     keys.length === 1 || (keys.length === 2 && keys.includes('locationSlack'))
-//   );
-// };
+const isViaPointEmpty = viaPoint => {
+  if (viaPoint === undefined || isEmpty(viaPoint)) {
+    return true;
+  }
+  const keys = Object.keys(viaPoint);
+  return (
+    keys.length === 1 || (keys.length === 2 && keys.includes('locationSlack'))
+  );
+};
 
 const ItinerarySearchControl = ({
   children,
@@ -161,8 +161,8 @@ class DTAutosuggestPanel extends React.Component {
     originPlaceHolder: PropTypes.string,
     destinationPlaceHolder: PropTypes.string,
     viaPoints: PropTypes.arrayOf(PropTypes.object),
-    // updateViaPoints: PropTypes.func,
-    // handleViaPointLocationSelected: PropTypes.func,
+    updateViaPoints: PropTypes.func,
+    handleViaPointLocationSelected: PropTypes.func,
     swapOrder: PropTypes.func,
     searchPanelText: PropTypes.string,
     searchContext: PropTypes.any.isRequired,
@@ -197,14 +197,14 @@ class DTAutosuggestPanel extends React.Component {
     originPlaceHolder: 'give-origin',
     destinationPlaceHolder: 'give-destination',
     swapOrder: undefined,
-    // updateViaPoints: () => {},
+    updateViaPoints: () => {},
     lang: 'fi',
     sources: [],
     targets: [],
     filterResults: undefined,
     disableAutoFocus: false,
     isMobile: false,
-    // handleViaPointLocationSelected: undefined,
+    handleViaPointLocationSelected: undefined,
     color: '#007ac9',
     hoverColor: '#0062a1',
     originMobileLabel: null,
@@ -223,7 +223,7 @@ class DTAutosuggestPanel extends React.Component {
     super(props);
     this.draggableViaPoints = [];
     this.state = {
-      // activeSlackInputs: [],
+      activeSlackInputs: [],
       refs: [],
     };
     Object.keys(translations).forEach(lang => {
@@ -287,93 +287,93 @@ class DTAutosuggestPanel extends React.Component {
   class = location =>
     location && location.gps === true ? 'position' : 'location';
 
-  // updateViaPoints = viaPoints => {
-  //   if (viaPoints.length === 0) {
-  //     this.props.updateViaPoints([]);
-  //     return;
-  //   }
-  //   this.props.updateViaPoints(viaPoints.filter(vp => !isViaPointEmpty(vp)));
-  // };
+  updateViaPoints = viaPoints => {
+    if (viaPoints.length === 0) {
+      this.props.updateViaPoints([]);
+      return;
+    }
+    this.props.updateViaPoints(viaPoints.filter(vp => !isViaPointEmpty(vp)));
+  };
 
-  // updateViaPointSlack = (
-  //   activeViaPointSlacks,
-  //   updatedViaPointIndex,
-  //   viaPointRemoved = false,
-  // ) => {
-  //   const foundAtIndex = activeViaPointSlacks.indexOf(updatedViaPointIndex);
-  //   if (foundAtIndex > -1) {
-  //     activeViaPointSlacks.splice(foundAtIndex, 1);
-  //   }
-  //   return viaPointRemoved
-  //     ? activeViaPointSlacks.map(value =>
-  //         value > updatedViaPointIndex ? value - 1 : value,
-  //       )
-  //     : activeViaPointSlacks;
-  // };
+  updateViaPointSlack = (
+    activeViaPointSlacks,
+    updatedViaPointIndex,
+    viaPointRemoved = false,
+  ) => {
+    const foundAtIndex = activeViaPointSlacks.indexOf(updatedViaPointIndex);
+    if (foundAtIndex > -1) {
+      activeViaPointSlacks.splice(foundAtIndex, 1);
+    }
+    return viaPointRemoved
+      ? activeViaPointSlacks.map(value =>
+          value > updatedViaPointIndex ? value - 1 : value,
+        )
+      : activeViaPointSlacks;
+  };
 
-  // handleToggleViaPointSlackClick = viaPointIndex => {
-  //   const { activeSlackInputs } = this.state;
-  //   this.setState({
-  //     activeSlackInputs: activeSlackInputs.includes(viaPointIndex)
-  //       ? this.updateViaPointSlack(activeSlackInputs, viaPointIndex)
-  //       : activeSlackInputs.concat([viaPointIndex]),
-  //   });
-  // };
+  handleToggleViaPointSlackClick = viaPointIndex => {
+    const { activeSlackInputs } = this.state;
+    this.setState({
+      activeSlackInputs: activeSlackInputs.includes(viaPointIndex)
+        ? this.updateViaPointSlack(activeSlackInputs, viaPointIndex)
+        : activeSlackInputs.concat([viaPointIndex]),
+    });
+  };
 
-  // handleViaPointSlackTimeSelected = (slackTimeInSeconds, i) => {
-  //   if (this.props.addAnalyticsEvent) {
-  //     this.props.addAnalyticsEvent({
-  //       action: 'EditViaPointStopDuration',
-  //       category: 'ItinerarySettings',
-  //       name: slackTimeInSeconds / 60,
-  //     });
-  //   }
-  //   const { viaPoints } = this.props;
-  //   viaPoints[i].locationSlack = Number.parseInt(slackTimeInSeconds, 10);
-  //   this.updateViaPoints(viaPoints);
-  // };
+  handleViaPointSlackTimeSelected = (slackTimeInSeconds, i) => {
+    if (this.props.addAnalyticsEvent) {
+      this.props.addAnalyticsEvent({
+        action: 'EditViaPointStopDuration',
+        category: 'ItinerarySettings',
+        name: slackTimeInSeconds / 60,
+      });
+    }
+    const { viaPoints } = this.props;
+    viaPoints[i].locationSlack = Number.parseInt(slackTimeInSeconds, 10);
+    this.updateViaPoints(viaPoints);
+  };
 
-  // handleViaPointLocationSelected = (viaPointLocation, i) => {
-  //   this.props.handleViaPointLocationSelected(viaPointLocation, i);
-  // };
+  handleViaPointLocationSelected = (viaPointLocation, i) => {
+    this.props.handleViaPointLocationSelected(viaPointLocation, i);
+  };
 
-  // handleRemoveViaPointClick = viaPointIndex => {
-  //   if (this.props.addAnalyticsEvent) {
-  //     this.props.addAnalyticsEvent({
-  //       action: 'RemoveJourneyViaPoint',
-  //       category: 'ItinerarySettings',
-  //       name: null,
-  //     });
-  //   }
-  //   const { activeSlackInputs } = this.state;
-  //   const { viaPoints } = this.props;
-  //   viaPoints.splice(viaPointIndex, 1);
-  //   this.setState(
-  //     {
-  //       activeSlackInputs: this.updateViaPointSlack(
-  //         activeSlackInputs,
-  //         viaPointIndex,
-  //         true,
-  //       ),
-  //     },
-  //     () => this.updateViaPoints(viaPoints),
-  //   );
-  // };
+  handleRemoveViaPointClick = viaPointIndex => {
+    if (this.props.addAnalyticsEvent) {
+      this.props.addAnalyticsEvent({
+        action: 'RemoveJourneyViaPoint',
+        category: 'ItinerarySettings',
+        name: null,
+      });
+    }
+    const { activeSlackInputs } = this.state;
+    const { viaPoints } = this.props;
+    viaPoints.splice(viaPointIndex, 1);
+    this.setState(
+      {
+        activeSlackInputs: this.updateViaPointSlack(
+          activeSlackInputs,
+          viaPointIndex,
+          true,
+        ),
+      },
+      () => this.updateViaPoints(viaPoints),
+    );
+  };
 
-  // handleAddViaPointClick = () => {
-  //   if (this.props.addAnalyticsEvent) {
-  //     this.props.addAnalyticsEvent({
-  //       action: 'AddJourneyViaPoint',
-  //       category: 'ItinerarySettings',
-  //       name: 'QuickSettingsButton',
-  //     });
-  //   }
-  //   const { viaPoints } = this.props;
-  //   viaPoints.push(getEmptyViaPointPlaceHolder());
-  //   // We need to update the state so that placeHolder will show up in panel.
-  //   // eslint-disable-next-line react/no-access-state-in-setstate
-  //   this.setState(this.state);
-  // };
+  handleAddViaPointClick = () => {
+    if (this.props.addAnalyticsEvent) {
+      this.props.addAnalyticsEvent({
+        action: 'AddJourneyViaPoint',
+        category: 'ItinerarySettings',
+        name: 'QuickSettingsButton',
+      });
+    }
+    const { viaPoints } = this.props;
+    viaPoints.push(getEmptyViaPointPlaceHolder());
+    // We need to update the state so that placeHolder will show up in panel.
+    // eslint-disable-next-line react/no-access-state-in-setstate
+    this.setState(this.state);
+  };
 
   handleSwapOrderClick = () => {
     if (this.props.addAnalyticsEvent) {
@@ -399,21 +399,21 @@ class DTAutosuggestPanel extends React.Component {
       searchPanelText,
       searchContext,
       disableAutoFocus,
-      // viaPoints,
+      viaPoints,
       originMobileLabel,
       destinationMobileLabel,
       fontWeights,
       onFocusChange,
     } = this.props;
-    // const { activeSlackInputs } = this.state;
-    // const slackTime = this.getSlackTimeOptions();
-    // const defaultSlackTimeValue = 0;
-    // const getViaPointSlackTimeOrDefault = (
-    //   viaPoint,
-    //   defaultValue = defaultSlackTimeValue,
-    // ) => (viaPoint && viaPoint.locationSlack) || defaultValue;
-    // const isViaPointSlackTimeInputActive = index =>
-    //   activeSlackInputs.includes(index);
+    const { activeSlackInputs } = this.state;
+    const slackTime = this.getSlackTimeOptions();
+    const defaultSlackTimeValue = 0;
+    const getViaPointSlackTimeOrDefault = (
+      viaPoint,
+      defaultValue = defaultSlackTimeValue,
+    ) => (viaPoint && viaPoint.locationSlack) || defaultValue;
+    const isViaPointSlackTimeInputActive = index =>
+      activeSlackInputs.includes(index);
     return (
       <div
         className={cx([
@@ -483,10 +483,7 @@ class DTAutosuggestPanel extends React.Component {
             <Icon img="opposite" color={this.props.color} />
           </ItinerarySearchControl>
         </div>
-        <div className={styles['rectangle-container']}>
-          <div className={styles.rectangle} />
-        </div>
-        {/* {viaPoints.length === 0 && (
+        {viaPoints.length === 0 && (
           <div className={styles['rectangle-container']}>
             <div className={styles.rectangle} />
           </div>
@@ -625,7 +622,7 @@ class DTAutosuggestPanel extends React.Component {
               </ItinerarySearchControl>
             </div>
           ))}
-        </ReactSortable> */}
+        </ReactSortable>
         <div className={styles['destination-input-container']}>
           <DTAutoSuggest
             appElement={this.props.appElement}
@@ -660,26 +657,26 @@ class DTAutosuggestPanel extends React.Component {
             isEmbedded={this.props.isEmbedded}
           />
           {showMultiPointControls && (
-            <div className={styles['search-panel-whitespace']} />
+            <ItinerarySearchControl
+              className={cx(styles['add-via-point'], styles.more, {
+                collapsed: viaPoints.length > 4,
+              })}
+              enabled={showMultiPointControls}
+              onClick={() => this.handleAddViaPointClick()}
+              onKeyPress={e =>
+                this.isKeyboardSelectionEvent(e) &&
+                this.handleAddViaPointClick()
+              }
+              aria-label={i18next.t('add-via-button-label')}
+            >
+              <Icon
+                img="viapoint"
+                width={1.25}
+                height={1.375}
+                color={this.props.color}
+              />
+            </ItinerarySearchControl>
           )}
-          {/* <ItinerarySearchControl
-            className={cx(styles['add-via-point'], styles.more, {
-              collapsed: viaPoints.length > 4,
-            })}
-            enabled={showMultiPointControls}
-            onClick={() => this.handleAddViaPointClick()}
-            onKeyPress={e =>
-              this.isKeyboardSelectionEvent(e) && this.handleAddViaPointClick()
-            }
-            aria-label={i18next.t('add-via-button-label')}
-          >
-            <Icon
-              img="viapoint"
-              width={1.25}
-              height={1.375}
-              color={this.props.color}
-            />
-          </ItinerarySearchControl> */}
         </div>
       </div>
     );

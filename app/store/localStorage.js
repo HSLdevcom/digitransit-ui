@@ -136,6 +136,10 @@ export function setCustomizedSettings(data) {
       data.includeParkAndRideSuggestions,
       oldSettings.includeParkAndRideSuggestions,
     ),
+    showBikeAndParkItineraries: getValueOrDefault(
+      data.showBikeAndParkItineraries,
+      oldSettings.showBikeAndParkItineraries,
+    ),
   };
 
   setItem('customizedSettings', newSettings);

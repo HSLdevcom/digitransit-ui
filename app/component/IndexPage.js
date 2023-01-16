@@ -226,11 +226,11 @@ class IndexPage extends React.Component {
       'Stops',
     ];
 
-    if (useCitybikes(this.context.config.cityBike?.networks)) {
+    if (useCitybikes(config.cityBike?.networks)) {
       stopAndRouteSearchTargets.push('BikeRentalStations');
       locationSearchTargets.push('BikeRentalStations');
     }
-    if (this.context.config.includeParkAndRideSuggestions) {
+    if (config.includeParkAndRideSuggestions) {
       stopAndRouteSearchTargets.push('ParkingAreas');
       locationSearchTargets.push('ParkingAreas');
     }
@@ -296,17 +296,29 @@ class IndexPage extends React.Component {
       modeIconColors: config.colors.iconColors,
       modeSet: config.iconModeSet,
     };
+
+    if (config.stopSearchFilter) {
+      stopRouteSearchProps.filterResults = results =>
+        results.filter(config.stopSearchFilter);
+      stopRouteSearchProps.geocodingSize = 40; // increase size to compensate filtering
+      locationSearchProps.filterResults = results =>
+        results.filter(config.stopSearchFilter);
+    }
+
     const transportModes = getTransportModes(config);
     const nearYouModes = getNearYouModes(config);
 
     const NearStops = CtrlPanel => {
-      const btnWithoutLabel = nearYouModes.length > 0;
+      // Styles are defined by which button type is configured (narrow/wide)
+      const narrowButtons = config.narrowNearYouButtons;
       const modeTitles = this.filterObject(
         transportModes,
         'availableForSelection',
         true,
       );
-      const modes = btnWithoutLabel ? nearYouModes : Object.keys(modeTitles);
+      // If nearYouModes is configured, display those. Otherwise, display all configured transport modes
+      const modes =
+        nearYouModes?.length > 0 ? nearYouModes : Object.keys(modeTitles);
 
       return config.showNearYouButtons ? (
         <>
@@ -320,10 +332,10 @@ class IndexPage extends React.Component {
             omitLanguageUrl
             onClick={this.clickStopNearIcon}
             buttonStyle={
-              btnWithoutLabel ? undefined : transportModes?.nearYouButton
+              narrowButtons ? undefined : transportModes?.nearYouButton
             }
-            title={btnWithoutLabel ? undefined : transportModes?.nearYouTitle}
-            modes={btnWithoutLabel ? undefined : modeTitles}
+            title={narrowButtons ? undefined : transportModes?.nearYouTitle}
+            modes={narrowButtons ? undefined : modeTitles}
             modeSet={config.nearbyModeSet || config.iconModeSet}
             modeIconColors={config.colors.iconColors}
             fontWeights={fontWeights}

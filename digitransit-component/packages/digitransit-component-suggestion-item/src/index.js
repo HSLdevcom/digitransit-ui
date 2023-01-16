@@ -107,6 +107,7 @@ function getIconProperties(
     ['route-RAIL', 'mode-rail'],
     ['route-SUBWAY', 'subway'],
     ['route-FERRY', 'mode-ferry'],
+    ['route-FUNICULAR', 'mode-funicular'],
     ['route-AIRPLANE', 'airplane'],
     ['edit', 'edit'],
     ['icon-icon_home', 'home'],
@@ -131,6 +132,10 @@ function getIconProperties(
     [
       'BUS-STATION-digitransit',
       { icon: 'search-bus-station-digitransit', color: 'mode-bus' },
+    ],
+    [
+      'FUNICULAR-digitransit',
+      { icon: 'search-funicular-stop-digitransit', color: 'mode-funicular' },
     ],
     ['RAIL-default', { icon: 'search-rail-stop-default', color: 'mode-rail' }],
     [
@@ -347,7 +352,7 @@ const SuggestionItem = pure(
                 <div className={styles['suggestion-label']}>
                   {isBikeRentalStation || isParkingArea
                     ? labelWithLocationType
-                    : label}
+                    : label}{' '}
                   {((!isBikeRentalStation && stopCode && stopCode !== name) ||
                     (isBikeRentalStation &&
                       hasVehicleStationCode(
@@ -359,7 +364,7 @@ const SuggestionItem = pure(
                   )}
                   {platform?.length === 2 && (
                     <>
-                      {platform[0]}{' '}
+                      {platform[0].toLowerCase()}{' '}
                       <span className={styles.platform}>{platform[1]}</span>
                     </>
                   )}
@@ -520,6 +525,7 @@ SuggestionItem.defaultProps = {
     'mode-metro': '#ed8c00',
     'mode-ferry': '#007A97',
     'mode-ferry-pier': '#666666',
+    'mode-funicular': '#ff00ff',
     'mode-citybike': '#f2b62d',
     'mode-bus-express': '#CA4000',
     'mode-bus-local': '#007ac9',

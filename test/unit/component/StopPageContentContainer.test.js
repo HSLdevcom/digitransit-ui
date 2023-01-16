@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 
-import { mockRouter } from '../helpers/mock-router';
+import { mockMatch, mockRouter } from '../helpers/mock-router';
 import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
 import { Component as StopPageContentContainer } from '../../../app/component/StopPageContentContainer';
 
@@ -18,8 +18,12 @@ describe('<StopPageContentContainer />', () => {
       },
       stop: {},
       router: mockRouter,
+      match: mockMatch,
     };
-    const wrapper = shallowWithIntl(<StopPageContentContainer {...props} />);
+    const wrapper = shallowWithIntl(<StopPageContentContainer {...props} />, {
+      context: { config: {} },
+    });
+
     expect(wrapper.find('.stop-no-departures-container')).to.have.lengthOf(1);
   });
 });

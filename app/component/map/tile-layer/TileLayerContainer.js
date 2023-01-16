@@ -13,12 +13,11 @@ import { matchShape, routerShape } from 'found';
 import pickBy from 'lodash/pickBy';
 import { mapLayerShape } from '../../../store/MapLayerStore';
 import MarkerSelectPopup from './MarkerSelectPopup';
-import ParkAndRideHubPopup from '../popups/ParkAndRideHubPopup';
-import ParkAndRideFacilityPopup from '../popups/ParkAndRideFacilityPopup';
 import LocationPopup from '../popups/LocationPopup';
 import TileContainer from './TileContainer';
 import { isFeatureLayerEnabled } from '../../../util/mapLayerUtils';
 import RealTimeInformationStore from '../../../store/RealTimeInformationStore';
+import PreferencesStore from '../../../store/PreferencesStore';
 import { addAnalyticsEvent } from '../../../util/analyticsUtils';
 import { getClientBreakpoint } from '../../../util/withBreakpoint';
 import {
@@ -32,6 +31,7 @@ import {
   PREFIX_ROAD_WEATHER,
   PREFIX_DATAHUB_POI,
 } from '../../../util/path';
+import { getIdWithoutFeed } from '../../../util/feedScopedIdUtils';
 import SelectVehicleContainer from './SelectVehicleContainer';
 
 const initialState = {
@@ -66,6 +66,7 @@ class TileLayerContainer extends GridLayer {
     hilightedStops: PropTypes.arrayOf(PropTypes.string),
     stopsToShow: PropTypes.arrayOf(PropTypes.string),
     vehicles: PropTypes.object,
+    lang: PropTypes.string,
   };
 
   static contextTypes = {
@@ -140,7 +141,7 @@ class TileLayerContainer extends GridLayer {
           tile.el.layers &&
           tile.el.layers.forEach(layer => {
             if (layer.onTimeChange) {
-              layer.onTimeChange();
+              layer.onTimeChange(this.props.lang);
             }
           }),
       );
@@ -175,6 +176,7 @@ class TileLayerContainer extends GridLayer {
       this.props.hilightedStops,
       this.props.vehicles,
       this.props.stopsToShow,
+      this.props.lang,
     );
     tile.onSelectableTargetClicked = (
       selectableTargets,
@@ -214,30 +216,39 @@ class TileLayerContainer extends GridLayer {
         );
         return;
       }
+
       if (
         selectableTargets.length === 1 &&
-        selectableTargets[0].layer === 'parkAndRide'
+        (selectableTargets[0].layer === 'parkAndRide' ||
+          selectableTargets[0].layer === 'parkAndRideForBikes')
       ) {
-        const carParkId = selectableTargets[0].feature.properties.id;
-        if (carParkId) {
+        const { layer } = selectableTargets[0];
+        let parkingId;
+        // hubs have nested vehicleParking
+        if (selectableTargets[0].feature.properties?.vehicleParking) {
+          const parksInHub = selectableTargets[0].feature.properties?.vehicleParking?.filter(
+            parking =>
+              layer === 'parkAndRide'
+                ? parking.carPlaces
+                : parking.bicyclePlaces,
+          );
+          if (parksInHub.length === 1) {
+            parkingId = parksInHub[0].id;
+          }
+        } else {
+          parkingId = selectableTargets[0].feature.properties?.id;
+        }
+        if (parkingId) {
+          // TODO use feedScopedId here
           this.context.router.push(
-            `/${PREFIX_CARPARK}/${encodeURIComponent(carParkId)}`,
+            `/${
+              layer === 'parkAndRide' ? PREFIX_CARPARK : PREFIX_BIKEPARK
+            }/${encodeURIComponent(getIdWithoutFeed(parkingId))}`,
           );
           return;
         }
       }
-      if (
-        selectableTargets.length === 1 &&
-        selectableTargets[0].layer === 'parkAndRideForBikes'
-      ) {
-        const bikeParkId = selectableTargets[0].feature.properties.id;
-        if (bikeParkId) {
-          this.context.router.push(
-            `/${PREFIX_BIKEPARK}/${encodeURIComponent(bikeParkId)}`,
-          );
-        }
-        return;
-      }
+
       if (
         popup &&
         popup.isOpen() &&
@@ -313,26 +324,7 @@ class TileLayerContainer extends GridLayer {
     if (typeof this.state.selectableTargets !== 'undefined') {
       if (this.state.selectableTargets.length === 1) {
         let id;
-        if (
-          this.state.selectableTargets[0].layer === 'parkAndRide' &&
-          this.state.selectableTargets[0].feature.properties.facilityIds
-        ) {
-          id = this.state.selectableTargets[0].feature.properties.facilityIds;
-          contents = (
-            <ParkAndRideHubPopup
-              ids={JSON.parse(id).map(i => i.toString())}
-              name={
-                JSON.parse(
-                  this.state.selectableTargets[0].feature.properties.name,
-                )[this.context.intl.locale]
-              }
-              coords={this.state.coords}
-              context={this.context}
-              onSelectLocation={this.props.onSelectLocation}
-              locationPopup={this.props.locationPopup}
-            />
-          );
-        } else if (this.state.selectableTargets[0].layer === 'roadworks') {
+        if (this.state.selectableTargets[0].layer === 'roadworks') {
           const {
             starttime,
             endtime,
@@ -360,22 +352,6 @@ class TileLayerContainer extends GridLayer {
             `/${PREFIX_ROADWORKS}?${new URLSearchParams(params).toString()}`,
           );
           showPopup = false;
-        } else if (this.state.selectableTargets[0].layer === 'parkAndRide') {
-          ({ id } = this.state.selectableTargets[0].feature);
-          contents = (
-            <ParkAndRideFacilityPopup
-              id={id.toString()}
-              name={
-                JSON.parse(
-                  this.state.selectableTargets[0].feature.properties.name,
-                )[this.context.intl.locale]
-              }
-              coords={this.state.coords}
-              context={this.context}
-              onSelectLocation={this.props.onSelectLocation}
-              locationPopup={this.props.locationPopup}
-            />
-          );
         } else if (
           this.state.selectableTargets[0].layer === 'realTimeVehicle'
         ) {
@@ -592,9 +568,10 @@ const connectedComponent = withLeaflet(
         )}
       </ReactRelayContext.Consumer>
     ),
-    [RealTimeInformationStore],
+    [RealTimeInformationStore, PreferencesStore],
     context => ({
       vehicles: context.getStore(RealTimeInformationStore).vehicles,
+      lang: context.getStore(PreferencesStore).getLanguage(),
     }),
   ),
 );

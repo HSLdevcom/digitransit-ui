@@ -8,9 +8,12 @@ import {
   drawHybridStationIcon,
 } from '../../../util/mapIconUtils';
 import { ExtendedRouteTypes } from '../../../constants';
-import { isFeatureLayerEnabled } from '../../../util/mapLayerUtils';
+import {
+  isFeatureLayerEnabled,
+  getLayerBaseUrl,
+} from '../../../util/mapLayerUtils';
 import { PREFIX_ITINERARY_SUMMARY, PREFIX_ROUTES } from '../../../util/path';
-import { fetchWithSubscription } from '../../../util/fetchUtils';
+import { fetchWithLanguageAndSubscription } from '../../../util/fetchUtils';
 
 function isNull(val) {
   return val === 'null' || val === undefined || val === null;
@@ -21,7 +24,6 @@ class Stops {
     this.tile = tile;
     this.config = config;
     this.mapLayers = mapLayers;
-    this.promise = this.getPromise();
     this.relayEnvironment = relayEnvironment;
     this.mergeStops = mergeStops;
   }
@@ -43,10 +45,8 @@ class Stops {
       feature.properties.type === 'BUS' &&
       this.config.useExtendedRouteTypes
     ) {
-      const patterns = feature.properties.patterns
-        ? JSON.parse(feature.properties.patterns)
-        : [];
-      if (patterns.some(p => p.gtfsType === ExtendedRouteTypes.BusExpress)) {
+      const routes = JSON.parse(feature.properties.routes);
+      if (routes.some(p => p.gtfsType === ExtendedRouteTypes.BusExpress)) {
         hasTrunkRoute = true;
       }
     }
@@ -117,12 +117,13 @@ class Stops {
     return true;
   };
 
-  getPromise() {
-    return fetchWithSubscription(
-      `${this.config.URL.STOP_MAP}${
+  getPromise(lang) {
+    return fetchWithLanguageAndSubscription(
+      `${getLayerBaseUrl(this.config.URL.STOP_MAP, lang)}${
         this.tile.coords.z + (this.tile.props.zoomOffset || 0)
       }/${this.tile.coords.x}/${this.tile.coords.y}.pbf`,
       this.config,
+      lang,
     ).then(res => {
       if (res.status !== 200) {
         return undefined;

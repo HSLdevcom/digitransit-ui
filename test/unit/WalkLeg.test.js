@@ -194,4 +194,38 @@ describe('<WalkLeg />', () => {
       AlertSeverityLevelType.Info,
     );
   });
+
+  it('should render with leg.{from,to}.stop.vehicleMode being null', () => {
+    const props = {
+      focusAction: () => {},
+      focusToLeg: () => {},
+      index: 1,
+      leg: {
+        distance: 1.23,
+        duration: 34,
+        from: {
+          name: 'Foo',
+          stop: {
+            gtfsId: 'foo',
+            vehicleMode: null,
+          },
+        },
+        to: {
+          name: 'Bar',
+          stop: {
+            gtfsId: 'bar',
+            vehicleMode: null,
+          },
+        },
+        mode: 'WALK',
+        rentedBike: false,
+        startTime: 1668600030868,
+        endTime: 1668600108525,
+      },
+    };
+
+    shallowWithIntl(<WalkLeg {...props} />, {
+      context: { config: { colors: { primary: '#007ac9' } } },
+    });
+  });
 });

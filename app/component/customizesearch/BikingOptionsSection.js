@@ -15,7 +15,7 @@ import { BicycleParkingFilter } from '../../constants';
 // eslint-disable-next-line react/prefer-stateless-function
 class BikingOptionsSection extends React.Component {
   render() {
-    const { defaultSettings, bikeSpeed } = this.props;
+    const { defaultSettings, bikeSpeed, overrideStyle } = this.props;
     const { intl } = this.context;
     const options = getFiveStepOptionsNumerical(this.props.bikeSpeedOptions);
 
@@ -90,6 +90,7 @@ class BikingOptionsSection extends React.Component {
           formatOptions
           labelText={intl.formatMessage({ id: 'biking-speed' })}
           translateLabels={false}
+          overrideStyle={overrideStyle}
         />
       </React.Fragment>
     );
@@ -100,6 +101,7 @@ BikingOptionsSection.propTypes = {
   bikeSpeed: valueShape.isRequired,
   bicycleParkingFilter: PropTypes.string.isRequired,
   bikeSpeedOptions: PropTypes.array.isRequired,
+  overrideStyle: PropTypes.object,
   defaultSettings: PropTypes.shape({
     bikeSpeed: PropTypes.number.isRequired,
     bicycleParkingFilter: PropTypes.string.isRequired,

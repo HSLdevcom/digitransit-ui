@@ -20,6 +20,7 @@ class TileContainer {
     hilightedStops,
     vehicles,
     stopsToShow,
+    lang,
   ) {
     const markersMinZoom = Math.min(
       getCityBikeMinZoomOnStopsNearYou(
@@ -144,7 +145,7 @@ class TileContainer {
 
     this.el.layers = this.layers.map(layer => omit(layer, 'tile'));
 
-    Promise.all(this.layers.map(layer => layer.promise)).then(() =>
+    Promise.all(this.layers.map(layer => layer.getPromise(lang))).then(() =>
       done(null, this.el),
     );
   }

@@ -30,6 +30,9 @@
       padding: 0px;
       height: 3.5em;
     }
+    .settings-mode-option-label  {
+      padding: 0px;
+    }
   }
   .customize-search {
     box-shadow: none;
@@ -391,7 +394,49 @@
   }
   .settings-dropdown-wrapper {
     margin-left: 3.2em;
-    padding-bottom: 1em;
-    padding-top: 0.2em;
+  }
+}
+
+.settings-mode-option-container {
+  min-height: 51px;
+  border-bottom: 1px solid #e3e3e3;
+  margin-left: 3.2em;
+
+  .settings-mode-option-label {
+    min-height: 48px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin: 0;
+    background: unset;
+    width: 100%;
+    font-size: unset;
+    letter-spacing: inherit;
+    line-height: 16px;
+    padding: 0px 0px 0px 16px;
+
+    .settings-mode-option-label-text-container {
+      display: flex;
+    }
+
+    .settings-mode-option-label-text {
+      font-size: $font-size-normal;
+      color: $gray;
+      float: left;
+      text-align: start;
+      margin: 16px 0;
+    }
+
+    .settings-mode-option-label-value {
+      font-size: $font-size-small;
+      float: right;
+      color: $primary-color;
+      width: 100%;
+      padding-right: 14.72px;
+      margin: 14.72px 0;
+      font-weight: $font-weight-medium;
+      text-align: end;
+    }
   }
 }

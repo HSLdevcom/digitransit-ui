@@ -119,6 +119,7 @@ class OriginDestinationBar extends React.Component {
   };
 
   render() {
+    const { config } = this.context;
     const refPoint = getRefPoint(
       this.props.origin,
       this.props.destination,
@@ -129,6 +130,9 @@ class OriginDestinationBar extends React.Component {
       desktopTargets.push('BikeRentalStations');
     }
     const mobileTargets = [...desktopTargets, 'MapPosition'];
+    const filter = config.stopSearchFilter
+      ? results => results.filter(config.stopSearchFilter)
+      : undefined;
     return (
       <div
         className={cx(
@@ -144,7 +148,7 @@ class OriginDestinationBar extends React.Component {
           refPoint={refPoint}
           originPlaceHolder="search-origin-index"
           destinationPlaceHolder="search-destination-index"
-          showMultiPointControls
+          showMultiPointControls={this.context.config.viaPointsEnabled}
           viaPoints={this.props.viaPoints}
           updateViaPoints={this.updateViaPoints}
           addAnalyticsEvent={addAnalyticsEvent}
@@ -167,6 +171,7 @@ class OriginDestinationBar extends React.Component {
           }
           modeSet={this.props.modeSet}
           onFocusChange={() => {}}
+          filterResults={filter}
         />{' '}
       </div>
     );

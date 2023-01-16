@@ -2,11 +2,11 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import TileLayerContainer from './TileLayerContainer';
-import CityBikes from './CityBikes';
+import BikeRentalStations from './BikeRentalStations';
 import WeatherStations from './WeatherStations';
 import DatahubTiles from './DatahubTiles';
 import Stops from './Stops';
-import ParkAndRide from './ParkAndRide.bbnavi.js';
+import ParkAndRideForCars from './ParkAndRideForCars.bbnavi.js';
 import ParkAndRideForBikes from './ParkAndRideForBikes.bbnavi.js';
 import Roadworks from './Roadworks';
 import ChargingStations from './ChargingStations';
@@ -19,10 +19,10 @@ export default function VectorTileLayerContainer(props, { config }) {
   layers.push(Stops);
 
   if (props.mapLayers.citybike) {
-    layers.push(CityBikes);
+    layers.push(BikeRentalStations);
   }
   if (props.mapLayers.parkAndRide) {
-    layers.push(ParkAndRide);
+    layers.push(ParkAndRideForCars);
   }
   if (props.mapLayers.parkAndRideForBikes) {
     layers.push(ParkAndRideForBikes);

@@ -32,6 +32,7 @@ const RouteStop = (
     displayNextDeparture,
     shortName,
     prevStop,
+    hideDepartures,
   },
   { config, intl },
 ) => {
@@ -241,7 +242,7 @@ const RouteStop = (
                   key={firstDeparture.scheduledDeparture}
                   className="route-stop-time"
                 >
-                  {fromStopTime(firstDeparture, currentTime)}
+                  {!hideDepartures && fromStopTime(firstDeparture, currentTime)}
                 </div>
               )}
             </div>
@@ -261,7 +262,8 @@ const RouteStop = (
                   key={nextDeparture.scheduledDeparture}
                   className="route-stop-time"
                 >
-                  {fromStopTime(nextDeparture, currentTime, true, true)}
+                  {!hideDepartures &&
+                    fromStopTime(nextDeparture, currentTime, true, true)}
                 </div>
               )}
             </div>
@@ -328,6 +330,7 @@ RouteStop.propTypes = {
   last: PropTypes.bool,
   displayNextDeparture: PropTypes.bool,
   shortName: PropTypes.string,
+  hideDepartures: PropTypes.bool,
 };
 
 RouteStop.defaultProps = {

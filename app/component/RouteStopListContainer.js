@@ -25,6 +25,7 @@ class RouteStopListContainer extends React.PureComponent {
       refetch: PropTypes.func.isRequired,
     }).isRequired,
     breakpoint: PropTypes.string.isRequired,
+    hideDepartures: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -82,6 +83,7 @@ class RouteStopListContainer extends React.PureComponent {
             prevStopPattern ? prevStopPattern.scheduledDeparture : null
           }
           patternId={this.props.patternId.split('-')[1]}
+          hideDepartures={this.props.hideDepartures}
         />
       );
     });

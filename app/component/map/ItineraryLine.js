@@ -34,6 +34,8 @@ class ItineraryLine extends React.Component {
     showIntermediateStops: PropTypes.bool,
     streetMode: PropTypes.string,
     flipBubble: PropTypes.bool,
+    onlyHasWalkingItineraries: PropTypes.bool,
+    loading: PropTypes.bool,
   };
 
   checkStreetMode(leg) {
@@ -97,7 +99,10 @@ class ItineraryLine extends React.Component {
         />,
       );
 
-      if (this.checkStreetMode(leg) && leg.distance > 100) {
+      if (
+        (this.props.onlyHasWalkingItineraries && !this.props.loading) ||
+        (this.checkStreetMode(leg) && leg.distance > 100)
+      ) {
         const duration = durationToString(leg.endTime - leg.startTime);
         objs.push(
           <SpeechBubble

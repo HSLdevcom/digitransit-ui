@@ -1,11 +1,7 @@
 import memoize from 'lodash/memoize';
 import getSelector from './get-selector';
 import glfun from './glfun';
-import {
-  BIKESTATION_ON,
-  BIKESTATION_OFF,
-  BIKESTATION_CLOSED,
-} from './citybikes';
+import { ParkTypes } from '../constants';
 
 /**
  * Corresponds to an arc forming a full circle (Math.PI * 2).
@@ -611,17 +607,28 @@ export function drawHybridStopIcon(
 }
 
 /**
+ * Draws small bike rental station icon. Color can vary.
+ */
+export function drawSmallCitybikeMarker(tile, geom, iconColor) {
+  const radius = 5;
+  const x = geom.x / tile.ratio - radius;
+  const y = geom.y / tile.ratio - radius;
+  getMemoizedStopIcon('CITYBIKE', radius, iconColor).then(image => {
+    tile.ctx.drawImage(image, x, y);
+  });
+}
+
+/**
  * Draw an icon for citybike stations, including indicator to show bike availability. Draw closed icon for closed stations
  * Determine icon size based on zoom level
  */
 export function drawCitybikeIcon(
   tile,
   geom,
-  state,
+  operative,
   bikesAvailable,
   iconName,
   showAvailability,
-  iconColor,
   isHilighted,
 ) {
   const zoom = tile.coords.z - 1;
@@ -636,14 +643,6 @@ export function drawCitybikeIcon(
   const radius = width / 2;
   let x;
   let y;
-  if (style === 'small') {
-    x = geom.x / tile.ratio - radius;
-    y = geom.y / tile.ratio - radius;
-    getMemoizedStopIcon('CITYBIKE', radius, iconColor).then(image => {
-      tile.ctx.drawImage(image, x, y);
-    });
-    return;
-  }
   let color = 'green';
   if (showAvailability) {
     if (!bikesAvailable || bikesAvailable < 1) {
@@ -656,7 +655,7 @@ export function drawCitybikeIcon(
     x = geom.x / tile.ratio - width / 2;
     y = geom.y / tile.ratio - height;
     let icon = `${iconName}_station_${color}_small`;
-    if (state === BIKESTATION_CLOSED || state === BIKESTATION_OFF) {
+    if (!operative) {
       icon = 'icon-icon_citybike_station_closed_small';
     }
     getImageFromSpriteCache(icon, width, height).then(image => {
@@ -673,10 +672,10 @@ export function drawCitybikeIcon(
     const showAvailabilityBadge =
       showAvailability &&
       Number.isSafeInteger(bikesAvailable) &&
-      bikesAvailable > -1 &&
-      (state === BIKESTATION_ON || state === null);
+      bikesAvailable > -1 && 
+      operative;
     let icon = `${iconName}_station_${color}_large`;
-    if (state === BIKESTATION_CLOSED || state === BIKESTATION_OFF) {
+    if (!operative) {
       icon = 'icon-icon_citybike_station_closed_large';
     }
     getImageFromSpriteCache(icon, width, height).then(image => {
@@ -807,14 +806,15 @@ export function drawDatahubTileIcon(tile, geom, isHilighted, properties) {
 }
 
 export function drawParkAndRideIcon(
+  type,
   tile,
   geom,
   width,
   height,
   isHilighted = false,
-  isBikePark = false,
 ) {
-  const img = isBikePark ? 'icon-icon_bike-park' : 'icon-icon_car-park';
+  const img =
+    type === ParkTypes.Bicycle ? 'icon-icon_bike-park' : 'icon-icon_car-park';
   getImageFromSpriteCache(img, width, height).then(image => {
     drawIconImage(image, tile, geom, width, height);
   });
@@ -831,16 +831,6 @@ export function drawParkAndRideIcon(
       },
     );
   }
-}
-
-export function drawParkAndRideForBikesIcon(
-  tile,
-  geom,
-  width,
-  height,
-  isHighlighted = false,
-) {
-  drawParkAndRideIcon(tile, geom, width, height, isHighlighted, true);
 }
 
 export function drawAvailabilityBadge(

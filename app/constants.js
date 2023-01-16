@@ -30,6 +30,8 @@ export const TransportMode = Object.freeze({
   Subway: 'Subway',
   /** Taking the tram */
   Tram: 'TRAM',
+  /** Taking the funicular */
+  Funicular: 'FUNICULAR',
 });
 
 /**
@@ -110,6 +112,11 @@ export const ExtendedRouteTypes = Object.freeze({
   BusExpress: 702,
   BusLocal: 704,
 });
+
+export const ParkTypes = {
+  Bicycle: 'BICYCLE',
+  Car: 'CAR',
+};
 
 /**
  * OpenTripPlanner (v2) plan message enumerations.

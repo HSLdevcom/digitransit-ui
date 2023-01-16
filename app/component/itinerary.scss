@@ -626,6 +626,9 @@ $itinerary-tab-switch-height: 48px;
     &.ferry {
       @include setModeCircles($ferry-color);
     }
+    &.funicular {
+      @include setModeCircles($funicular-color);
+    }
     &.citybike {
       @include setModeCircles($citybike-color);
     }

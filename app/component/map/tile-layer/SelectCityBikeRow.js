@@ -16,6 +16,7 @@ function SelectCityBikeRow({ name, networks, id, desc }, { config }) {
     getCityBikeNetworkId(networks),
     config,
   );
+  // TODO append -stop-lollipop?
   const img = getCityBikeNetworkIcon(networkConfig);
   const formFactor = networkConfig.type || 'citybike';
   const address = desc || (
@@ -25,6 +26,7 @@ function SelectCityBikeRow({ name, networks, id, desc }, { config }) {
     <FormattedMessage id={`${formFactor}-station-no-id`} />
   );
   const showCode = id && id !== 'null' && !networkConfig.hideCode;
+  
   return (
     <Link
       className="stop-popup-choose-row"
@@ -51,10 +53,7 @@ SelectCityBikeRow.displayName = 'SelectCityBikeRow';
 
 SelectCityBikeRow.propTypes = {
   name: PropTypes.string.isRequired,
-  networks: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.arrayOf(PropTypes.string),
-  ]).isRequired,
+  network: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
   desc: PropTypes.string,
 };

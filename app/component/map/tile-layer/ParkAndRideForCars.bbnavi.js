@@ -22,7 +22,7 @@ const getScale = glfun({
   ],
 });
 
-class ParkAndRide {
+class ParkAndRideForCars {
   constructor(tile, config) {
     this.tile = tile;
     this.config = config;
@@ -173,4 +173,4 @@ class ParkAndRide {
   static getName = () => 'parkAndRide';
 }
 
-export default ParkAndRide;
+export default ParkAndRideForCars;

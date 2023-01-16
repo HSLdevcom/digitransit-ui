@@ -1,5 +1,8 @@
 
 @function navbar-icon-color($color) {
+  @if $nav-content-color { // if defined in theme, return nav-content-color
+    @return $nav-content-color
+  }
   $background-color-brightness: (red($color)*299)+(green($color)*587)+(blue($color)*114)/1000;
   $light-color-lightness: round((red(#ffffff)*299)+(green(#ffffff)*587)+(blue(#ffffff)*114)/1000);
   @if abs($background-color-brightness) < ($light-color-lightness / 3) {

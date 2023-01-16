@@ -2,6 +2,7 @@ import React from 'react';
 import Route from 'found/Route';
 import { graphql } from 'react-relay';
 
+import moment from 'moment';
 import Error404 from './component/404';
 import Loading from './component/LoadingPage';
 import {
@@ -16,7 +17,8 @@ import {
   getComponentOrNullRenderer,
   getComponentOrLoadingRenderer,
 } from './util/routerUtils';
-import { prepareDatesForStops, prepareServiceDay } from './util/dateParamUtils';
+import { prepareDatesForStops } from './util/dateParamUtils';
+import { DATE_FORMAT } from './constants';
 
 const queries = {
   stop: {
@@ -230,7 +232,13 @@ export default function getStopRoutes(isTerminal = false) {
                         .catch(errorLoading);
                 }}
                 query={queryMap.pageTimetable}
-                prepareVariables={prepareServiceDay}
+                prepareVariables={(params, { location }) => {
+                  const date = location?.query?.date;
+                  return {
+                    ...params,
+                    date: date || moment().format(DATE_FORMAT),
+                  };
+                }}
                 render={getComponentOrLoadingRenderer}
               />
               <Route

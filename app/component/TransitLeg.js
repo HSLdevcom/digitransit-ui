@@ -199,6 +199,20 @@ class TransitLeg extends React.Component {
     } = this.props;
     const { config, intl } = this.context;
 
+    const routeId = leg.route.gtfsId;
+    const { constantOperationRoutes } = config;
+    const shouldLinkToTrip =
+      !constantOperationRoutes || !constantOperationRoutes[routeId];
+    const originalTime = leg.realTime &&
+      leg.departureDelay &&
+      leg.departureDelay >= config.itinerary.delayThreshold && [
+        <br key="br" />,
+        <span key="time" className="original-time">
+          {moment(leg.startTime)
+            .subtract(leg.departureDelay, 's')
+            .format('HH:mm')}
+        </span>,
+      ];
     const LegRouteName = leg.from.name?.concat(' - ').concat(leg.to.name);
     const modeClassName = mode.toLowerCase();
 
@@ -437,7 +451,9 @@ class TransitLeg extends React.Component {
                 e.stopPropagation();
               }}
               to={
-                `/${PREFIX_ROUTES}/${leg.route.gtfsId}/${PREFIX_STOPS}/${leg.trip.pattern?.code}/${leg.trip.gtfsId}`
+                `/${PREFIX_ROUTES}/${leg.route.gtfsId}/${PREFIX_STOPS}/${
+                  leg.trip.pattern.code
+                }${shouldLinkToTrip ? `/${leg.trip.gtfsId}` : ''}`
                 // TODO: Create a helper function for generationg links
               }
               aria-label={`${intl.formatMessage({
