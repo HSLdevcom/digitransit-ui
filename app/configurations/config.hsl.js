@@ -41,7 +41,8 @@ export default {
       sv: `${POI_MAP_PREFIX}/sv/vehicleParkingGroups/`,
       fi: `${POI_MAP_PREFIX}/fi/vehicleParkingGroups/`,
     },
-    FONT: 'https://cloud.typography.com/6364294/7432412/css/fonts.css',
+    FONT: 'https://www.hsl.fi/fonts/784131/6C5FB8083F348CFBB.css',
+    FONTCOUNTER: 'https://cloud.typography.com/6364294/7432412/css/fonts.css',
     ROOTLINK: rootLink,
     BANNERS: BANNER_URL,
     HSL_FI_SUGGESTIONS: 'https://content.hsl.fi/api/v1/search/suggestions',
@@ -67,7 +68,7 @@ export default {
   // Navbar logo
   logo: 'hsl/reittiopas-logo.svg',
 
-  feedIds: ['HSL', 'HSLlautta'],
+  feedIds: ['HSL'],
 
   showHSLTracking: false,
   allowLogin: true,
@@ -618,10 +619,15 @@ export default {
 
   showSimilarRoutesOnRouteDropDown: true,
 
+  stopCard: {
+    header: {
+      virtualMonitorBaseUrl: 'https://omatnaytot.hsl.fi/',
+    },
+  },
+
   routeNotifications: [
     {
-      showForRoute: route =>
-        route.gtfsId.slice(4).length === 4 && route.gtfsId.slice(4)[0] === '7',
+      showForRoute: route => route.gtfsId.slice(4)[0] === '7',
       id: 'uLineNotification',
       header: {
         fi: 'U-linja',

@@ -315,6 +315,7 @@ class FavouriteEditingModal extends React.Component {
         color={this.props.color}
         hoverColor={this.props.hoverColor}
         fontWeights={this.props.fontWeights}
+        lang={this.props.lang}
       />
     );
   };

@@ -68,7 +68,6 @@ class SummaryPlanContainer extends React.Component {
       itineraries: PropTypes.arrayOf(ItineraryShape),
     }).isRequired,
     showSettingsChangedNotification: PropTypes.func.isRequired,
-    openSettingsModal: PropTypes.func.isRequired,
     driving: PropTypes.bool,
     onlyHasWalkingItineraries: PropTypes.bool,
   };
@@ -303,11 +302,7 @@ class SummaryPlanContainer extends React.Component {
         {this.props.showSettingsChangedNotification(
           this.props.plan,
           this.props.alternativePlan,
-        ) && (
-          <SettingsChangedNotification
-            onButtonClick={this.props.openSettingsModal}
-          />
-        )}
+        ) && <SettingsChangedNotification />}
         {(this.context.match.params.hash &&
           this.context.match.params.hash === 'bikeAndVehicle') ||
         disableButtons ||

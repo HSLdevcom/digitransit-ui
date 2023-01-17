@@ -222,7 +222,48 @@ export default configMerger(walttiConfig, {
     ],
   },
 
-  staticMessages: [],
+  staticMessages: [
+    {
+      id: '1',
+      priority: 0,
+      persistence: 'repeat',
+      content: {
+        fi: [
+          {
+            type: 'heading',
+            content: 'Rauman paikallisliikenne löytyy toistaiseksi palvelusta',
+          },
+          {
+            type: 'a',
+            content: 'opas.matka.fi',
+            href: 'https://opas.matka.fi',
+          },
+        ],
+        en: [
+          {
+            type: 'heading',
+            content: 'For now, traffic information of Rauma is available at',
+          },
+          {
+            type: 'a',
+            content: 'opas.matka.fi',
+            href: 'https://opas.matka.fi',
+          },
+        ],
+        sv: [
+          {
+            type: 'heading',
+            content: 'Raumos kollektivtrafik kan för tillfället hittas på',
+          },
+          {
+            type: 'a',
+            content: 'opas.matka.fi',
+            href: 'https://opas.matka.fi',
+          },
+        ],
+      },
+    },
+  ],
 
   showNearYouButtons: true,
   allowLogin: false,

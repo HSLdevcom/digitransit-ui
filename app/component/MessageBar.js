@@ -17,7 +17,7 @@ import {
   getServiceAlertUrl,
   mapAlertSource,
 } from '../util/alertUtils';
-import { isIe, isKeyboardSelectionEvent } from '../util/browser';
+import { isKeyboardSelectionEvent } from '../util/browser';
 import hashCode from '../util/hashUtil';
 
 /* Small version has constant height,
@@ -241,9 +241,7 @@ class MessageBar extends Component {
     const msgId = messages[index].id;
 
     this.setState({ slideIndex: Math.max(0, index - 1) });
-    // apply delayed closing on iexplorer to avoid app freezing
-    const t = isIe ? 600 : 0;
-    setTimeout(() => this.context.executeAction(markMessageAsRead, msgId), t);
+    this.context.executeAction(markMessageAsRead, msgId);
   };
 
   render() {

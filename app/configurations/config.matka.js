@@ -78,9 +78,9 @@ export default {
     'HSL',
     'LINKKI',
     'tampere',
-    'lautta',
     'OULU',
     'digitraffic',
+    'Rauma',
   ],
 
   stopSearchFilter: stop => {
@@ -377,6 +377,9 @@ export default {
   ],
   useAlternativeNameForModes: ['rail'],
 
+  showVehiclesOnStopPage: true,
+  showVehiclesOnSummaryPage: true,
+
   includeCarSuggestions: true,
   includeParkAndRideSuggestions: true,
   // Include both bike and park and bike and public
@@ -410,11 +413,6 @@ export default {
       fi: 'Jyväskylän seutu',
       sv: 'Jyväskyläregion',
       en: 'Jyväskylä region',
-    },
-    lautta: {
-      fi: 'Lautat',
-      sv: 'Färja',
-      en: 'Ferries',
     },
     OULU: {
       fi: 'Oulu',
