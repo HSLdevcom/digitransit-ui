@@ -61,8 +61,6 @@ export default configMerger(walttiConfig, {
     serviceTimeRange: 60,
   },
 
-  itineraryFiltering: 2.5, // drops 40% worse routes
-
   stopCard: {
     header: {
       virtualMonitorBaseUrl: 'https://tremonitori.digitransit.fi/',

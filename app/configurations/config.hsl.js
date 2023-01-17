@@ -81,8 +81,6 @@ export default {
 
   omitNonPickups: true,
 
-  itineraryFiltering: 2.5, // drops 40% worse routes
-
   parkAndRide: {
     showParkAndRide: true,
     parkAndRideMinZoom: 13,
