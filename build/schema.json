@@ -3250,6 +3250,60 @@
                             "deprecationReason": null
                         },
                         {
+                            "name": "nextLegs",
+                            "description": "A list of later departure options on a leg",
+                            "args": [  {
+                                "name": "originModesWithParentStation",
+                                "description": "List of transportation modes for which only the exact origin stop should be considered when searching for alternative legs",
+                                "type": {
+                                    "kind": "LIST",
+                                    "name": null,
+                                    "ofType": {
+                                        "kind": "INPUT_OBJECT",
+                                        "name": "Mode",
+                                        "ofType": null
+                                    }
+                                },
+                                "defaultValue": null
+                            },
+                            {
+                                "name": "destinationModesWithParentStation",
+                                "description": "List of transportation modes for which only the exact destination stop should be considered when searching for alternative legs",
+                                "type": {
+                                    "kind": "LIST",
+                                    "name": null,
+                                    "ofType": {
+                                        "kind": "INPUT_OBJECT",
+                                        "name": "Mode",
+                                        "ofType": null
+                                    }
+                                },
+                                "defaultValue": null
+                            },
+                            {
+                            "name":"numberOfLegs",
+                            "description": "Number of alternative legs to be generated",
+                            "type": {
+                                "kind": "SCALAR",
+                                "name": "Int",
+                                "ofType": null
+                            }, 
+                            "defaultValue": null 
+                            }],
+                            "type": {
+                                "kind": "LIST",
+                                "name": null,
+                                "ofType": {
+                                    "kind": "OBJECT",
+                                    "name": "Leg",
+                                    "ofType": null
+                                }
+
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
                             "name": "pickupType",
                             "description": "This is used to indicate if boarding this leg is possible only with special arrangements.",
                             "args": [],
