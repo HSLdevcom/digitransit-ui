@@ -188,7 +188,7 @@ export default {
     bikeSpeed: 5.55,
     ticketTypes: 'none',
     walkBoardCost: 600,
-    walkReluctance: 2,
+    walkReluctance: 1.8,
     walkSpeed: 1.2,
     includeBikeSuggestions: true,
     includeParkAndRideSuggestions: false,
@@ -226,8 +226,7 @@ export default {
   // if you enable car suggestions but the linear distance between all points is less than this, then a car route will
   // not be computed
   suggestCarMinDistance: 2000,
-  itineraryFiltering: 1.5, // drops 66% worse routes
-  minTransferTime: 120,
+  minTransferTime: 90,
   optimize: 'GREENWAYS',
   transferPenalty: 0,
   availableLanguages: ['fi', 'sv', 'en', 'fr', 'nb', 'de', 'da', 'es', 'ro'],
