@@ -29,80 +29,18 @@ import LocationStateShape from '../prop-types/LocationStateShape';
 import RoutingErrorShape from '../prop-types/RoutingErrorShape';
 import ChildrenShape from '../prop-types/ChildrenShape';
 
-class SummaryPlanContainer extends React.Component {
-  static propTypes = {
-    activeIndex: PropTypes.number,
-    children: ChildrenShape,
-    currentTime: PropTypes.number.isRequired,
-    error: ErrorShape,
-    itineraries: PropTypes.arrayOf(ItineraryShape).isRequired,
-    locationState: LocationStateShape.isRequired,
-    params: PropTypes.shape({
-      from: PropTypes.string.isRequired,
-      to: PropTypes.string.isRequired,
-      hash: PropTypes.string,
-      secondHash: PropTypes.string,
-    }).isRequired,
-    plan: PropTypes.shape({
-      date: PropTypes.number,
-      itineraries: PropTypes.arrayOf(ItineraryShape),
-    }).isRequired,
-    routingErrors: PropTypes.arrayOf(RoutingErrorShape),
-    serviceTimeRange: PropTypes.shape({
-      start: PropTypes.number.isRequired,
-      end: PropTypes.number.isRequired,
-    }).isRequired,
-    bikeAndPublicItinerariesToShow: PropTypes.number.isRequired,
-    bikeAndParkItinerariesToShow: PropTypes.number.isRequired,
-    walking: PropTypes.bool,
-    biking: PropTypes.bool,
-    showAlternativePlan: PropTypes.bool,
-    separatorPosition: PropTypes.number,
-    loading: PropTypes.bool.isRequired,
-    onLater: PropTypes.func.isRequired,
-    onEarlier: PropTypes.func.isRequired,
-    onDetailsTabFocused: PropTypes.func.isRequired,
-    loadingMoreItineraries: PropTypes.string,
-    alternativePlan: PropTypes.shape({
-      date: PropTypes.number,
-      itineraries: PropTypes.arrayOf(ItineraryShape),
-    }).isRequired,
-    showSettingsChangedNotification: PropTypes.func.isRequired,
-    driving: PropTypes.bool,
-    onlyHasWalkingItineraries: PropTypes.bool,
-  };
-
-  static defaultProps = {
-    activeIndex: 0,
-    children: null,
-    error: undefined,
-    walking: false,
-    biking: false,
-    showAlternativePlan: false,
-    loadingMoreItineraries: undefined,
-    driving: false,
-    routingErrors: [],
-    separatorPosition: undefined,
-  };
-
-  static contextTypes = {
-    router: routerShape.isRequired,
-    match: matchShape.isRequired,
-    intl: intlShape.isRequired,
-    executeAction: PropTypes.func.isRequired,
-  };
-
-  onSelectActive = index => {
-    const subpath = this.getSubPath('');
-    if (this.props.activeIndex === index) {
-      this.onSelectImmediately(index);
+const SummaryPlanContainer = (props, context) => {
+  const onSelectActive = index => {
+    const subpath = getSubPath('');
+    if (props.activeIndex === index) {
+      onSelectImmediately(index);
     } else {
-      this.context.router.replace({
-        ...this.context.match.location,
+      context.router.replace({
+        ...context.match.location,
         state: { summaryPageSelected: index },
         pathname: `${getSummaryPath(
-          this.props.params.from,
-          this.props.params.to,
+          props.params.from,
+          props.params.to,
         )}${subpath}`,
       });
 
@@ -114,17 +52,17 @@ class SummaryPlanContainer extends React.Component {
     }
   };
 
-  getSubPath(fallback) {
+  const getSubPath = (fallback) => {
     const modesWithSubpath = ['bikeAndVehicle', 'parkAndRide'];
-    const { hash } = this.props.params;
+    const { hash } = props.params;
     if (modesWithSubpath.includes(hash)) {
       return `/${hash}/`;
     }
     return fallback;
   }
 
-  onSelectImmediately = index => {
-    const subpath = this.getSubPath('/');
+  const onSelectImmediately = index => {
+    const subpath = getSubPath('/');
     // eslint-disable-next-line compat/compat
     const momentumScroll = document.getElementsByClassName(
       'momentum-scroll',
@@ -140,26 +78,26 @@ class SummaryPlanContainer extends React.Component {
       name: index,
     });
     const newState = {
-      ...this.context.match.location,
+      ...context.match.location,
       state: { summaryPageSelected: index },
     };
     const basePath = `${getSummaryPath(
-      this.props.params.from,
-      this.props.params.to,
+      props.params.from,
+      props.params.to,
     )}${subpath}`;
     const indexPath = `${getSummaryPath(
-      this.props.params.from,
-      this.props.params.to,
+      props.params.from,
+      props.params.to,
     )}${subpath}${index}`;
 
     newState.pathname = basePath;
-    this.context.router.replace(newState);
+    context.router.replace(newState);
     newState.pathname = indexPath;
-    this.context.router.push(newState);
-    this.props.onDetailsTabFocused();
+    context.router.push(newState);
+    props.onDetailsTabFocused();
   };
 
-  onNow = () => {
+  const onNow = () => {
     addAnalyticsEvent({
       event: 'sendMatomoEvent',
       category: 'Itinerary',
@@ -167,25 +105,25 @@ class SummaryPlanContainer extends React.Component {
       name: null,
     });
 
-    replaceQueryParams(this.context.router, this.context.match, {
+    replaceQueryParams(context.router, context.match, {
       time: moment().unix(),
       arriveBy: false, // XXX
     });
   };
 
-  laterButton(reversed = false) {
+  const laterButton = (reversed = false) => {
     return (
       <>
         <button
           type="button"
-          aria-label={this.context.intl.formatMessage({
+          aria-label={context.intl.formatMessage({
             id: 'set-time-later-button-label',
             defaultMessage: 'Set travel time to later',
           })}
           className={`time-navigation-btn ${
             reversed ? 'top-btn' : 'bottom-btn'
           } ${!reversed && isIOS && isSafari ? 'extra-whitespace' : ''} `}
-          onClick={() => this.props.onLater(this.props.itineraries, reversed)}
+          onClick={() => props.onLater(props.itineraries, reversed)}
         >
           <Icon
             img="icon-icon_arrow-collapse"
@@ -201,19 +139,19 @@ class SummaryPlanContainer extends React.Component {
     );
   }
 
-  earlierButton(reversed = false) {
+  const earlierButton = (reversed = false) => {
     return (
       <>
         <button
           type="button"
-          aria-label={this.context.intl.formatMessage({
+          aria-label={context.intl.formatMessage({
             id: 'set-time-earlier-button-label',
             defaultMessage: 'Set travel time to earlier',
           })}
           className={`time-navigation-btn ${
             reversed ? 'bottom-btn' : 'top-btn'
           } ${reversed && isIOS && isSafari ? 'extra-whitespace' : ''}`}
-          onClick={() => this.props.onEarlier(this.props.itineraries, reversed)}
+          onClick={() => props.onEarlier(props.itineraries, reversed)}
         >
           <Icon
             img="icon-icon_arrow-collapse"
@@ -229,92 +167,152 @@ class SummaryPlanContainer extends React.Component {
     );
   }
 
-  render() {
-    const { location } = this.context.match;
-    const { from, to } = this.props.params;
-    const {
-      activeIndex,
-      currentTime,
-      locationState,
-      itineraries,
-      bikeAndPublicItinerariesToShow,
-      bikeAndParkItinerariesToShow,
-      walking,
-      biking,
-      showAlternativePlan,
-      separatorPosition,
-      loading,
-      loadingMoreItineraries,
-      driving,
-      onlyHasWalkingItineraries,
-    } = this.props;
-    const searchTime =
-      this.props.plan?.date ||
-      (location.query &&
-        location.query.time &&
-        moment.unix(location.query.time).valueOf()) ||
-      currentTime;
-    const disableButtons = !itineraries || itineraries.length === 0;
-    const arriveBy = this.context.match.location.query.arriveBy === 'true';
+  const { location } = context.match;
+  const { from, to } = props.params;
+  const {
+    activeIndex,
+    currentTime,
+    locationState,
+    itineraries,
+    bikeAndPublicItinerariesToShow,
+    bikeAndParkItinerariesToShow,
+    walking,
+    biking,
+    showAlternativePlan,
+    separatorPosition,
+    loading,
+    loadingMoreItineraries,
+    driving,
+    onlyHasWalkingItineraries,
+  } = props;
+  const searchTime =
+    props.plan?.date ||
+    (location.query &&
+      location.query.time &&
+      moment.unix(location.query.time).valueOf()) ||
+    currentTime;
+  const disableButtons = !itineraries || itineraries.length === 0;
+  const arriveBy = context.match.location.query.arriveBy === 'true';
 
-    return (
-      <div className="summary">
-        <h2 className="sr-only">
-          <FormattedMessage
-            id="itinerary-summary-page.description"
-            defaultMessage="Route suggestions"
-          />
-        </h2>
-        {(this.context.match.params.hash &&
-          this.context.match.params.hash === 'bikeAndVehicle') ||
-        disableButtons ||
-        onlyHasWalkingItineraries
-          ? null
-          : arriveBy
-          ? this.laterButton(true)
-          : this.earlierButton()}
-        <ItinerarySummaryListContainer
-          activeIndex={activeIndex}
-          currentTime={currentTime}
-          locationState={locationState}
-          error={this.props.error}
-          routingErrors={this.props.routingErrors}
-          from={otpToLocation(from)}
-          intermediatePlaces={getIntermediatePlaces(location.query)}
-          itineraries={itineraries}
-          onSelect={this.onSelectActive}
-          onSelectImmediately={this.onSelectImmediately}
-          searchTime={searchTime}
-          to={otpToLocation(to)}
-          bikeAndPublicItinerariesToShow={bikeAndPublicItinerariesToShow}
-          bikeAndParkItinerariesToShow={bikeAndParkItinerariesToShow}
-          walking={walking}
-          biking={biking}
-          showAlternativePlan={showAlternativePlan}
-          separatorPosition={separatorPosition}
-          loadingMoreItineraries={loadingMoreItineraries}
-          loading={loading}
-          driving={driving}
-          onlyHasWalkingItineraries={onlyHasWalkingItineraries}
-        >
-          {this.props.children}
-        </ItinerarySummaryListContainer>
-        {this.props.showSettingsChangedNotification(
-          this.props.plan,
-          this.props.alternativePlan,
-        ) && <SettingsChangedNotification />}
-        {(this.context.match.params.hash &&
-          this.context.match.params.hash === 'bikeAndVehicle') ||
-        disableButtons ||
-        onlyHasWalkingItineraries
-          ? null
-          : arriveBy
-          ? this.earlierButton(true)
-          : this.laterButton()}
-      </div>
-    );
-  }
+  return (
+    <div className="summary">
+      <h2 className="sr-only">
+        <FormattedMessage
+          id="itinerary-summary-page.description"
+          defaultMessage="Route suggestions"
+        />
+      </h2>
+      {(context.match.params.hash &&
+        context.match.params.hash === 'bikeAndVehicle') ||
+      disableButtons ||
+      onlyHasWalkingItineraries
+        ? null
+        : arriveBy
+        ? laterButton(true)
+        : earlierButton()}
+      <ItinerarySummaryListContainer
+        activeIndex={activeIndex}
+        currentTime={currentTime}
+        locationState={locationState}
+        error={props.error}
+        routingErrors={props.routingErrors}
+        from={otpToLocation(from)}
+        intermediatePlaces={getIntermediatePlaces(location.query)}
+        itineraries={itineraries}
+        onSelect={onSelectActive}
+        onSelectImmediately={onSelectImmediately}
+        searchTime={searchTime}
+        to={otpToLocation(to)}
+        bikeAndPublicItinerariesToShow={bikeAndPublicItinerariesToShow}
+        bikeAndParkItinerariesToShow={bikeAndParkItinerariesToShow}
+        walking={walking}
+        biking={biking}
+        showAlternativePlan={showAlternativePlan}
+        separatorPosition={separatorPosition}
+        loadingMoreItineraries={loadingMoreItineraries}
+        loading={loading}
+        driving={driving}
+        onlyHasWalkingItineraries={onlyHasWalkingItineraries}
+      >
+        {props.children}
+      </ItinerarySummaryListContainer>
+      {props.showSettingsChangedNotification(
+        props.plan,
+        props.alternativePlan,
+      ) && <SettingsChangedNotification />}
+      {(context.match.params.hash &&
+        context.match.params.hash === 'bikeAndVehicle') ||
+      disableButtons ||
+      onlyHasWalkingItineraries
+        ? null
+        : arriveBy
+        ? earlierButton(true)
+        : laterButton()}
+    </div>
+  );
 }
+
+SummaryPlanContainer.propTypes = {
+  activeIndex: PropTypes.number,
+  children: ChildrenShape,
+  currentTime: PropTypes.number.isRequired,
+  error: ErrorShape,
+  itineraries: PropTypes.arrayOf(ItineraryShape).isRequired,
+  locationState: LocationStateShape.isRequired,
+  params: PropTypes.shape({
+    from: PropTypes.string.isRequired,
+    to: PropTypes.string.isRequired,
+    hash: PropTypes.string,
+    secondHash: PropTypes.string,
+  }).isRequired,
+  plan: PropTypes.shape({
+    date: PropTypes.number,
+    itineraries: PropTypes.arrayOf(ItineraryShape),
+  }).isRequired,
+  routingErrors: PropTypes.arrayOf(RoutingErrorShape),
+  serviceTimeRange: PropTypes.shape({
+    start: PropTypes.number.isRequired,
+    end: PropTypes.number.isRequired,
+  }).isRequired,
+  bikeAndPublicItinerariesToShow: PropTypes.number.isRequired,
+  bikeAndParkItinerariesToShow: PropTypes.number.isRequired,
+  walking: PropTypes.bool,
+  biking: PropTypes.bool,
+  showAlternativePlan: PropTypes.bool,
+  separatorPosition: PropTypes.number,
+  loading: PropTypes.bool.isRequired,
+  onLater: PropTypes.func.isRequired,
+  onEarlier: PropTypes.func.isRequired,
+  onDetailsTabFocused: PropTypes.func.isRequired,
+  loadingMoreItineraries: PropTypes.string,
+  alternativePlan: PropTypes.shape({
+    date: PropTypes.number,
+    itineraries: PropTypes.arrayOf(ItineraryShape),
+  }).isRequired,
+  showSettingsChangedNotification: PropTypes.func.isRequired,
+  driving: PropTypes.bool,
+  onlyHasWalkingItineraries: PropTypes.bool,
+};
+
+SummaryPlanContainer.defaultProps = {
+  activeIndex: 0,
+  children: null,
+  error: undefined,
+  walking: false,
+  biking: false,
+  showAlternativePlan: false,
+  loadingMoreItineraries: undefined,
+  driving: false,
+  routingErrors: [],
+  separatorPosition: undefined,
+};
+
+SummaryPlanContainer.contextTypes = {
+  router: routerShape.isRequired,
+  match: matchShape.isRequired,
+  intl: intlShape.isRequired,
+  executeAction: PropTypes.func.isRequired,
+};
 
 const withConfig = getContext({
   config: PropTypes.object.isRequired,

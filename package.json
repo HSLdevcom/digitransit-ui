@@ -212,6 +212,7 @@
     "react-truncate-markup": "5.1.0",
     "recompose": "0.30.0",
     "redis": "2.8.0",
+    "relay-hooks": "^7.2.0",
     "relay-runtime": "14.1.0",
     "serialize-javascript": "4.0.0",
     "suncalc": "1.8.0",

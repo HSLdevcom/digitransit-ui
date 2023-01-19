@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useContext, useEffect, useState, useRef } from 'react';
+import React, { useContext, useEffect, useState, useRef, createContext } from 'react';
 import { ReactRelayContext } from 'react-relay';
 import { matchShape } from 'found';
 import Loading from './Loading';
@@ -16,6 +16,8 @@ const modules = {
     importLazy(import('react-relay/lib/ReactRelayQueryRenderer')),
   SummaryPage: () => importLazy(import('./SummaryPage')),
 };
+
+const { Consumer } = createContext('large')
 
 const SummaryPageContainer = ({ content, match }, { config }) => {
   const { environment } = useContext(ReactRelayContext);
@@ -60,14 +62,23 @@ const SummaryPageContainer = ({ content, match }, { config }) => {
               return innerProps ? (
                 <>
                   {screenReaderAlert}
-                  <SummaryPage
-                    {...innerProps}
-                    content={content}
-                    match={match}
-                    error={error}
-                    loading={false}
-                    alertRef={alertRef}
-                  />
+                  <Consumer>
+                    {breakpoint => (
+                      <ReactRelayContext.Consumer>
+                        {({ environment }) => (
+                        <SummaryPage
+                          {...innerProps}
+                          content={content}
+                          match={match}
+                          error={error}
+                          loading={false}
+                          alertRef={alertRef}
+                          breakpoint={breakpoint}
+                          relayEnvironment={environment}
+                        />)}
+                      </ReactRelayContext.Consumer>
+                    )}
+                  </Consumer>
                 </>
               ) : (
                 <>
