@@ -15,12 +15,13 @@ export default class DatahubTiles {
     this.config = config;
     const scaleratio = (isBrowser && window.devicePixelRatio) || 1;
     this.imageSize = 20 * scaleratio;
-    this.promise = this.getPromise();
   }
 
   static getName = () => 'datahubTiles';
 
-  getPromise() {
+  getPromise(lang) {
+    // TODO respect lang?
+
     return fetch(
       `${this.baseUrl}${
         this.tile.coords.z + (this.tile.props.zoomOffset || 0)

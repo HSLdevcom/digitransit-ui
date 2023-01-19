@@ -57,9 +57,9 @@ export default function VectorTileLayerContainer(props, { config }) {
     });
   }
 
-  if (props.mapLayers.chargingStations) {
-    layers.push(ChargingStations);
-  }
+  // if (props.mapLayers.chargingStations) {
+  //   layers.push(ChargingStations);
+  // }
 
   if (props.mapLayers.roadworks) {
     layers.push(Roadworks);

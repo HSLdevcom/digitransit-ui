@@ -48,6 +48,12 @@ export default configMerger(walttiConfig, {
         WEATHER_STATIONS_MAP: '', // `${API_URL}/map/v1/weather-stations/`,
         CHARGING_STATIONS_MAP: `https://api.ocpdb.de/tiles/`,
         CHARGING_STATION_DETAILS_API: 'https://ocpdb.bbnavi.de/api/ocpi/2.2/location/',
+        RENTAL_STATION_MAP: {
+            default: `${API_URL}/otp/routers/default/vectorTiles/citybikes/`,
+        },
+        REALTIME_RENTAL_STATION_MAP: {
+            default: `${API_URL}/otp/routers/default/vectorTiles/citybikes/`,
+        },
         PELIAS: `${process.env.GEOCODING_BASE_URL || GEOCODING_BASE_URL}/search`,
         PELIAS_REVERSE_GEOCODER: `${
             process.env.GEOCODING_BASE_URL || GEOCODING_BASE_URL
