@@ -3,10 +3,14 @@ name: Process v3 push or PR
 on:
   push:
     branches:
-      - v3
+      # - v3
+      # todo: remove
+      - improve-ci-speed
   pull_request:
     branches:
-      - v3
+      # - v3
+      # todo: remove
+      - improve-ci-speed
 
 env:
   # We tell Playwright not to download browser binaries because we use microsoft/playwright-github-action.
@@ -174,7 +178,8 @@ jobs:
         run: yarn run test-report
 
   docker-push:
-    if: github.ref == 'refs/heads/v3'
+    # todo: re-add this before merging!
+    # if: github.ref == 'refs/heads/v3'
     needs:
       - lint
       - unit-test
@@ -207,8 +212,9 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
+          # todo: re-enable before merging!
+          # hsldevcom/digitransit-ui:v3
           tags: |
-            hsldevcom/digitransit-ui:v3
             hsldevcom/digitransit-ui:${{ steps.docker-tags.outputs.permanent-tag }}
           # https://github.com/docker/build-push-action/blob/9472e9021074a3cb3279ba431598b8836d40433f/docs/advanced/cache.md#github-cache
           # https://github.com/moby/buildkit#registry-push-image-and-cache-separately
