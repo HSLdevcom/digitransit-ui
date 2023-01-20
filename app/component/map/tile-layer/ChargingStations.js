@@ -46,7 +46,7 @@ class ChargingStations {
         this.tile.coords.z + (this.tile.props.zoomOffset || 0),
       );
     return fetch(url).then(res => {
-      if (!res.ok()) {
+      if (!res.ok) {
         return undefined;
       }
 
