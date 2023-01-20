@@ -32,9 +32,10 @@ class Roadworks {
 
     this.scaleratio = (isBrowser && window.devicePixelRatio) || 1;
     this.iconSize = 20 * this.scaleratio * getScale(this.tile.coords.z);
-
-    this.promise = this.fetchWithAction(this.drawStatus);
   }
+
+  // TODO respect lang?
+  getPromise = lang => this.fetchWithAction(this.drawStatus);
 
   fetchWithAction = actionFn =>
     fetch(

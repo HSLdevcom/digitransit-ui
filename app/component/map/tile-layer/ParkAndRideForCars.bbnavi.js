@@ -32,9 +32,10 @@ class ParkAndRideForCars {
       20 * this.scaleratio * getScale(this.tile.coords.z);
     this.availabilityImageSize =
       14 * this.scaleratio * getScale(this.tile.coords.z);
-
-    this.promise = this.fetchWithAction(this.fetchAndDrawStatus);
   }
+
+  // TODO respect lang?
+  getPromise = lang => this.fetchWithAction(this.fetchAndDrawStatus);
 
   fetchWithAction = actionFn =>
     fetch(

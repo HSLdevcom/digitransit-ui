@@ -14,12 +14,13 @@ export default class WeatherStations {
     this.config = config;
     const scaleratio = (isBrowser && window.devicePixelRatio) || 1;
     this.imageSize = 20 * scaleratio;
-    this.promise = this.getPromise();
   }
 
   static getName = () => 'weatherStations';
 
-  getPromise() {
+  getPromise(lang) {
+    // TODO respect lang?
+
     return fetch(
       `${this.config.URL.WEATHER_STATIONS_MAP}${
         this.tile.coords.z + (this.tile.props.zoomOffset || 0)

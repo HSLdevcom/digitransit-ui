@@ -31,10 +31,9 @@ class ChargingStations {
     this.availabilityImageSize =
       14 * this.scaleratio * getScale(this.tile.coords.z);
     this.iconSize = 20 * this.scaleratio * getScale(this.tile.coords.z);
-
-    this.promise = this.fetchWithAction(this.drawStatus);
   }
 
+  getPromise = lang => this.fetchWithAction(this.drawStatus);
 
   fetchWithAction = actionFn => {
     const url = this.config.URL.CHARGING_STATIONS_MAP.replaceAll(
@@ -47,7 +46,7 @@ class ChargingStations {
         this.tile.coords.z + (this.tile.props.zoomOffset || 0),
       );
     return fetch(url).then(res => {
-      if (res.status !== 200) {
+      if (!res.ok()) {
         return undefined;
       }
 
