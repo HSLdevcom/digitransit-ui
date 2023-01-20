@@ -73,6 +73,17 @@ export default {
 
     useFuzzyTripMatching: true, // DT-3473
   },
+  embark: {
+    mqttTopicResolver: walttiTopicResolver,
+
+    mqtt: 'wss://mqtt.waltti.fi/mqtt',
+
+    gtfsrt: true,
+
+    routeSelector: defaultRouteSelector,
+
+    active: true,
+  },
   tampere: {
     mqttTopicResolver: walttiTopicResolver,
 
