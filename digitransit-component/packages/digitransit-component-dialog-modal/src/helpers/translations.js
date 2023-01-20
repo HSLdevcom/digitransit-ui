@@ -11,6 +11,10 @@ const translations = {
   sv: {
     'close-modal': 'Stäng modalen',
   },
+
+  pl: {
+    'close-modal': 'Zamknij modal',
+  },
 };
 
 export default translations;

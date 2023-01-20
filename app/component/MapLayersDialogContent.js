@@ -466,6 +466,96 @@ class MapLayersDialogContent extends React.Component {
               );
             })}
           </div>
+
+          {currentMapMode === MapMode.Bicycle ? (
+            <>
+              <p className="panel-cycling-map-legend-title">
+                <FormattedMessage
+                  id="cycling-map-legend-title"
+                  defaultMessage="legend"
+                />
+              </p>
+              <ul className="panel-cycling-map-legend-container">
+                <li>
+                  <Icon
+                    img="icon-icon_cycling-map-legend-bike-parking"
+                    width={1.5}
+                    height={1.5}
+                  />
+                  <FormattedMessage
+                    id="cycling-map-legend-bike-parking"
+                    defaultMessage="bicycle parking"
+                  />
+                </li>
+                <li>
+                  <Icon
+                    img="icon-icon_cycling-map-legend-bike-parking-covered"
+                    width={1.5}
+                    height={1.5}
+                  />
+                  <FormattedMessage
+                    id="cycling-map-legend-bike-parking-covered"
+                    defaultMessage="covered bicycle parking"
+                  />
+                </li>
+                <li>
+                  <Icon
+                    img="icon-icon_cycling-map-legend-bike-parking-lockable"
+                    width={1.5}
+                    height={1.5}
+                  />
+                  <FormattedMessage
+                    id="cycling-map-legend-bike-parking-lockable"
+                    defaultMessage="lockable bicycle parking"
+                  />
+                </li>
+                <li>
+                  <Icon
+                    img="icon-icon_cycling-map-legend-bike-repair"
+                    width={1.5}
+                    height={1.5}
+                  />
+                  <FormattedMessage
+                    id="cycling-map-legend-bike-repair"
+                    defaultMessage="bicycle repair shop"
+                  />
+                </li>
+                <li>
+                  <Icon
+                    img="icon-icon_cycling-map-legend-bike-lane"
+                    width={1.5}
+                    height={1.5}
+                  />
+                  <FormattedMessage
+                    id="cycling-map-legend-bike-lane"
+                    defaultMessage="bicycle lane"
+                  />
+                </li>
+                <li>
+                  <Icon
+                    img="icon-icon_cycling-map-legend-major-cycling-route"
+                    width={1.5}
+                    height={1.5}
+                  />
+                  <FormattedMessage
+                    id="cycling-map-legend-major-cycling-route"
+                    defaultMessage="major cycling route"
+                  />
+                </li>
+                <li>
+                  <Icon
+                    img="icon-icon_cycling-map-legend-local-cycling-route"
+                    width={1.5}
+                    height={1.5}
+                  />
+                  <FormattedMessage
+                    id="cycling-map-legend-local-cycling-route"
+                    defaultMessage="local cycling route"
+                  />
+                </li>
+              </ul>
+            </>
+          ) : null}
         </div>
       </>
     );

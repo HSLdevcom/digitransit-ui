@@ -38,7 +38,7 @@ export default configMerger(walttiConfig, {
             satellite: 'https://isk.geobasis-bb.de/mapproxy/dop20c_sentinel/service/wms',
             satellite_eu: 'https://isk.geobasis-bb.de/mapproxy/dop20c_sentinel/service/wms?eu',
             semiTransparent: SEMI_TRANSPARENT_MAP_URL,
-            bicycle: 'https://{s}.tile-cyclosm.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png',
+            bicycle: 'https://tiles.stadtnavi.eu/bicycle/{z}/{x}/{y}{r}.png',
         },
         STOP_MAP: `${API_URL}/otp/routers/default/vectorTiles/stops/`,
         PARK_AND_RIDE_MAP: `${API_URL}/otp/routers/default/vectorTiles/parking/`,
@@ -48,7 +48,7 @@ export default configMerger(walttiConfig, {
         RENTAL_STATION_MAP: `${API_URL}/otp/routers/default/vectorTiles/citybikes/`,
         REALTIME_RENTAL_STATION_MAP: `${API_URL}/otp/routers/default/vectorTiles/citybikes/`,
         WEATHER_STATIONS_MAP: '', // `${API_URL}/map/v1/weather-stations/`,
-        CHARGING_STATIONS_MAP: `https://api.ocpdb.de/tiles/`,
+        CHARGING_STATIONS_MAP: 'https://ocpdb.bbnavi.de/tiles/{z}/{x}/{y}.mvt',
         CHARGING_STATION_DETAILS_API: 'https://ocpdb.bbnavi.de/api/ocpi/2.2/location/',
         PELIAS: `${process.env.GEOCODING_BASE_URL || GEOCODING_BASE_URL}/search`,
         PELIAS_REVERSE_GEOCODER: `${
@@ -66,7 +66,7 @@ export default configMerger(walttiConfig, {
         showEmbeddedSearch: false,
     },
 
-    availableLanguages: ['de', 'en'],
+    availableLanguages: ['de', 'en', 'pl'],
     defaultLanguage: 'de',
     issueTrackerUrl: '', // 'https://maengelmelder.service-bw.de/?lat=${lat}&lng=${lon}',
 
@@ -95,6 +95,8 @@ export default configMerger(walttiConfig, {
     itinerary: {
         delayThreshold: 60,
     },
+
+    modesWithNoBike: ['BICYCLE_RENT', 'WALK', 'CARPOOL', 'FLEX_DIRECT', 'FLEX_ACCESS', 'FLEX_EGRESS'],
 
     appBarLink: {
         name: 'Feedback',
@@ -233,7 +235,7 @@ export default configMerger(walttiConfig, {
         showCityBikes: true,
         networks: {
             'nextbike_dc': {
-                icon: 'regiorad',
+                icon: 'nextbike',
                 name: {
                     de: 'Nextbike (Potsdam)',
                     en: 'Nextbike (Potsdam)',
@@ -247,7 +249,7 @@ export default configMerger(walttiConfig, {
                 enabled: true,
             },
             'nextbike_bn': {
-                icon: 'regiorad',
+                icon: 'nextbike',
                 name: {
                     de: 'Nextbike (Berlin)',
                     en: 'Nextbike (Berlin)',
@@ -302,6 +304,20 @@ export default configMerger(walttiConfig, {
                 visibleInSettingsUi: true,
                 enabled: true,
             },
+            'donkey_berlin': {
+                icon: 'donkeyrepublic',
+                name: {
+                    de: 'Donkey Republic',
+                    en: 'Donkey Republic',
+                },
+                type: 'citybike',
+                url: {
+                    de: 'https://www.donkey.bike/de/stadte/fahrradverleih-berlin/',
+                    en: 'https://www.donkey.bike/cities/bike-rental-berlin/',
+                },
+                visibleInSettingsUi: true,
+                enabled: true,
+            },
         }
     },
 
@@ -319,7 +335,6 @@ export default configMerger(walttiConfig, {
 
     modeToOTP: {
         carpool: 'CARPOOL',
-        bus: 'BUS,FLEX_ACCESS,FLEX_EGRESS',
     },
 
     logo: 'bbnavi/stadtnavi-bbnavi-logo.svg',
@@ -690,7 +705,7 @@ export default configMerger(walttiConfig, {
     suggestCarMinDistance: 800,
     suggestWalkMaxDistance: 3000,
     suggestBikeAndPublicMinDistance: 3000,
-    suggestBikeAndParkMinDistance: 3000,
+    suggestBikeAndParkMinDistance: 1000,
 
     // live bus locations
     vehicles: false,

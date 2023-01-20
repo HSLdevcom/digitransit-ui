@@ -397,6 +397,7 @@ class SummaryPage extends React.Component {
       walkPlan: undefined,
       bikePlan: undefined,
       bikeAndPublicPlan: undefined,
+      bikeRentAndPublicPlan: undefined,
       bikeParkPlan: undefined,
       carPlan: undefined,
       parkRidePlan: undefined,
@@ -405,6 +406,8 @@ class SummaryPage extends React.Component {
       isFetchingWalkAndBike: hasStartAndDestination(props.match.params),
       settingsChangedRecently: false,
     };
+    // We mutate this.selectedPlan in render() too. Why?
+    // fixme: merge the two places
     if (this.props.match.params.hash === 'walk') {
       this.selectedPlan = this.state.walkPlan;
     } else if (this.props.match.params.hash === 'bike') {
@@ -414,6 +417,7 @@ class SummaryPage extends React.Component {
         itineraries: [
           ...(this.state.bikeParkPlan?.itineraries || []),
           ...(this.state.bikeAndPublicPlan?.itineraries || []),
+          ...(this.state.bikeRentAndPublicPlan?.itineraries || []),
         ],
       };
     } else if (this.state.streetMode === 'car') {
@@ -510,6 +514,7 @@ class SummaryPage extends React.Component {
       Array.isArray(plan.itineraries) &&
       plan.itineraries.length > 0
     ) {
+      // TODO why only check the first? why does the function's name imply sth else?
       if (plan.itineraries.length === 1) {
         // check that only itinerary contains public transit
         return (
@@ -679,9 +684,12 @@ class SummaryPage extends React.Component {
         $shouldMakeCarQuery: Boolean!
         $shouldMakeParkRideQuery: Boolean!
         $shouldMakeOnDemandTaxiQuery: Boolean!
+        # TODO harmonize names shouldMakeXYZQuery vs showXYZItineraries
         $showBikeAndPublicItineraries: Boolean!
+        $showBikeRentAndPublicItineraries: Boolean!
         $showBikeAndParkItineraries: Boolean!
         $bikeAndPublicModes: [TransportMode!]
+        $bikeRentAndPublicModes: [TransportMode!]
         $onDemandTaxiModes: [TransportMode!]
         $bikeParkModes: [TransportMode!]
         $carParkModes: [TransportMode!]
@@ -692,6 +700,7 @@ class SummaryPage extends React.Component {
         # $preferredBicycleParkingTags: [String]
         # $unpreferredBicycleParkingTagPenalty: Float
         # $useVehicleParkingAvailabilityInformation: Boolean
+        $allowedVehicleRentalNetworks: [String]
       ) {
         walkPlan: plan(
           fromPlace: $fromPlace
@@ -799,6 +808,66 @@ class SummaryPage extends React.Component {
                 gtfsId
                 type
                 shortName
+              }
+              trip {
+                gtfsId
+                directionId
+                stoptimesForDate {
+                  scheduledDeparture
+                }
+                pattern {
+                  ...RouteLine_pattern
+                }
+              }
+              distance
+            }
+          }
+        }
+
+        bikeRentAndPublicPlan: plan(
+          fromPlace: $fromPlace
+          toPlace: $toPlace
+          intermediatePlaces: $intermediatePlaces
+          numItineraries: 6
+          transportModes: $bikeRentAndPublicModes
+          date: $date
+          time: $time
+          walkReluctance: $walkReluctance
+          walkBoardCost: $walkBoardCost
+          minTransferTime: $minTransferTime
+          walkSpeed: $walkSpeed
+          allowedTicketTypes: $ticketTypes
+          arriveBy: $arriveBy
+          transferPenalty: $transferPenalty
+          bikeSpeed: $bikeSpeed
+          optimize: $optimize
+          triangle: $triangle
+          itineraryFiltering: $itineraryFiltering
+          unpreferred: $unpreferred
+          allowedVehicleRentalNetworks: $allowedVehicleRentalNetworks
+          locale: $locale
+        ) @include(if: $showBikeRentAndPublicItineraries) {
+          # todo: does this match the expected data of bike (rent) + public itineraries
+          ...SummaryPlanContainer_plan
+          ...ItineraryTab_plan
+          itineraries {
+            duration
+            startTime
+            endTime
+            ...ItineraryTab_itinerary
+            ...SummaryPlanContainer_itineraries
+            legs {
+              mode
+              ...ItineraryLine_legs
+              transitLeg
+              rentedBike
+              startTime
+              endTime
+              legGeometry {
+                points
+              }
+              route {
+                gtfsId
               }
               trip {
                 gtfsId
@@ -1100,6 +1169,7 @@ class SummaryPage extends React.Component {
             walkPlan: result.walkPlan,
             bikePlan: result.bikePlan,
             bikeAndPublicPlan: result.bikeAndPublicPlan,
+            bikeRentAndPublicPlan: result.bikeRentAndPublicPlan,
             bikeParkPlan: result.bikeParkPlan,
             carPlan: result.carPlan,
             parkRidePlan: result.parkRidePlan,
@@ -1154,6 +1224,7 @@ class SummaryPage extends React.Component {
         $ticketTypes: [String]
         $arriveBy: Boolean
         $transferPenalty: Int
+        # TODO bicycle params are not necessary here, are they?
         $bikeSpeed: Float
         $optimize: OptimizeType
         $itineraryFiltering: Float
@@ -1839,9 +1910,26 @@ class SummaryPage extends React.Component {
     return itineraries;
   };
 
+  // leave out each itinerary that *only* contains walk and/or bicycle legs
   filteredbikeAndPublic = plan => {
     return {
+      // todo: actually, should we filter by `it.legs.some(leg => leg.transitLeg)`?
       itineraries: this.filterOnlyBikeAndWalk(plan?.itineraries) || [],
+    };
+  };
+
+  // Keep each itinerary that
+  // - contains >0 bicycle rent legs, *and*
+  // - contains >0 transit legs.
+  filteredBikeRentAndPublic = plan => {
+    return {
+      itineraries: (plan?.itineraries || [])
+        .filter(it =>
+          it.legs.some(
+            leg => leg.mode === 'BICYCLE' && leg.rentedBike === true,
+          ),
+        )
+        .filter(it => it.legs.some(leg => leg.transitLeg === true)),
     };
   };
 
@@ -2309,6 +2397,9 @@ class SummaryPage extends React.Component {
     const bikeAndPublicPlan = this.filteredbikeAndPublic(
       this.state.bikeAndPublicPlan,
     );
+    const bikeRentAndPublicPlan = this.filteredBikeRentAndPublic(
+      this.state.bikeRentAndPublicPlan,
+    );
     const planHasNoItineraries = this.planHasNoItineraries();
     if (
       planHasNoItineraries &&
@@ -2331,6 +2422,7 @@ class SummaryPage extends React.Component {
       this.state.alternativePlan.itineraries.length > 0;
 
     this.bikeAndPublicItinerariesToShow = 0;
+    this.bikeRentAndPublicItinerariesToShow = 0;
     this.bikeAndParkItinerariesToShow = 0;
     if (this.props.match.params.hash === 'walk') {
       this.stopClient();
@@ -2380,31 +2472,33 @@ class SummaryPage extends React.Component {
         this.toggleStreetMode(''); // go back to showing normal itineraries
         return <Loading />;
       }
-      if (
-        hasBikeAndPublicPlan &&
-        this.hasItinerariesContainingPublicTransit(bikeAndPublicPlan) &&
-        this.hasItinerariesContainingPublicTransit(bikeParkPlan)
-      ) {
-        this.selectedPlan = {
-          itineraries: [
-            ...bikeParkPlan.itineraries.slice(0, 3),
-            ...bikeAndPublicPlan.itineraries.slice(0, 3),
-          ],
-        };
-      } else if (
-        hasBikeAndPublicPlan &&
-        this.hasItinerariesContainingPublicTransit(bikeAndPublicPlan)
-      ) {
-        this.selectedPlan = bikeAndPublicPlan;
-      } else if (this.hasItinerariesContainingPublicTransit(bikeParkPlan)) {
-        this.selectedPlan = bikeParkPlan;
-      }
-      this.bikeAndPublicItinerariesToShow = hasBikeAndPublicPlan
-        ? Math.min(bikeAndPublicPlan.itineraries.length, 3)
-        : 0;
-      this.bikeAndParkItinerariesToShow = hasBikeAndPublicPlan
-        ? Math.min(bikeParkPlan.itineraries.length, 3)
-        : 0;
+      
+      // we have already filtered bike{AndPublic,RentAndPublic,Park}Plan above
+      this.selectedPlan = {
+        itineraries: [
+          ...(bikeParkPlan.itineraries
+            ? bikeParkPlan.itineraries.slice(0, 3)
+            : []),
+          ...(bikeAndPublicPlan.itineraries
+            ? bikeAndPublicPlan.itineraries.slice(0, 3)
+            : []),
+          ...(bikeRentAndPublicPlan.itineraries
+            ? bikeRentAndPublicPlan.itineraries.slice(0, 3)
+            : []),
+        ],
+      };
+      this.bikeAndPublicItinerariesToShow = Math.min(
+        bikeAndPublicPlan.itineraries.length,
+        3,
+      );
+      this.bikeRentAndPublicItinerariesToShow = Math.min(
+        bikeRentAndPublicPlan.itineraries.length,
+        3,
+      );
+      this.bikeAndParkItinerariesToShow = Math.min(
+        bikeParkPlan.itineraries.length,
+        3,
+      );
     } else if (this.props.match.params.hash === 'car') {
       this.stopClient();
       if (this.state.isFetchingWalkAndBike) {
@@ -2470,6 +2564,9 @@ class SummaryPage extends React.Component {
     const bikeAndPublicPlanHasItineraries = this.hasItinerariesContainingPublicTransit(
       bikeAndPublicPlan,
     );
+    const bikeRentAndPublicPlanHasItineraries = this.hasItinerariesContainingPublicTransit(
+      bikeRentAndPublicPlan,
+    );
     const bikeParkPlanHasItineraries = this.hasItinerariesContainingPublicTransit(
       bikeParkPlan,
     );
@@ -2478,9 +2575,11 @@ class SummaryPage extends React.Component {
       ? bikeParkPlanHasItineraries &&
         !currentSettings.accessibilityOption &&
         currentSettings.showBikeAndParkItineraries
-      : (bikeAndPublicPlanHasItineraries || bikeParkPlanHasItineraries) &&
-        !currentSettings.accessibilityOption &&
-        currentSettings.includeBikeSuggestions;
+      : (bikeAndPublicPlanHasItineraries ||
+        bikeRentAndPublicPlanHasItineraries ||
+        bikeParkPlanHasItineraries) &&
+      !currentSettings.accessibilityOption &&
+      currentSettings.includeBikeSuggestions;
 
     const hasCarItinerary = !isEmpty(get(carPlan, 'itineraries'));
     const showCarOptionButton =
@@ -2701,6 +2800,9 @@ class SummaryPage extends React.Component {
               bikeAndPublicItinerariesToShow={
                 this.bikeAndPublicItinerariesToShow
               }
+              bikeRentAndPublicItinerariesToShow={
+                this.bikeRentAndPublicItinerariesToShow
+              }
               bikeAndParkItinerariesToShow={this.bikeAndParkItinerariesToShow}
               car={showCarOptionButton}
               parkAndRide={showParkRideOptionButton}
@@ -2813,6 +2915,7 @@ class SummaryPage extends React.Component {
                   walkPlan={walkPlan}
                   bikePlan={bikePlan}
                   bikeAndPublicPlan={bikeAndPublicPlan}
+                  bikeRentAndPublicPlan={bikeRentAndPublicPlan}
                   bikeParkPlan={bikeParkPlan}
                   carPlan={carPlan}
                   parkRidePlan={parkRidePlan}
@@ -2929,6 +3032,9 @@ class SummaryPage extends React.Component {
               bikeAndPublicItinerariesToShow={
                 this.bikeAndPublicItinerariesToShow
               }
+              bikeRentAndPublicItinerariesToShow={
+                this.bikeRentAndPublicItinerariesToShow
+              }
               bikeAndParkItinerariesToShow={this.bikeAndParkItinerariesToShow}
               car={showCarOptionButton}
               parkAndRide={showParkRideOptionButton}
@@ -2994,6 +3100,7 @@ class SummaryPage extends React.Component {
                   walkPlan={walkPlan}
                   bikePlan={bikePlan}
                   bikeAndPublicPlan={bikeAndPublicPlan}
+                  bikeRentAndPublicPlan={bikeRentAndPublicPlan}
                   bikeParkPlan={bikeParkPlan}
                   carPlan={carPlan}
                   parkRidePlan={parkRidePlan}

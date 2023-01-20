@@ -38,6 +38,7 @@ function ItinerarySummaryListContainer(
     searchTime,
     to,
     bikeAndPublicItinerariesToShow,
+    bikeRentAndPublicItinerariesToShow,
     bikeAndParkItinerariesToShow,
     walking,
     biking,
@@ -99,31 +100,28 @@ function ItinerarySummaryListContainer(
         itineraries.length > bikeAndParkItinerariesToShow &&
         bikeAndPublicItinerariesToShow > 0
       ) {
-        const bikeAndPublicItineraries = itineraries.slice(
-          bikeAndParkItinerariesToShow,
-        );
-        const filteredBikeAndPublicItineraries = bikeAndPublicItineraries.map(
-          i =>
-            i.legs.filter(obj => obj.mode !== 'WALK' && obj.mode !== 'BICYCLE'),
-        );
-        const allModes = Array.from(
-          new Set(
-            filteredBikeAndPublicItineraries.length > 0
-              ? filteredBikeAndPublicItineraries.map(p =>
-                  p[0].mode.toLowerCase(),
-                )
-              : [],
-          ),
-        );
         summaries.splice(
           bikeAndParkItinerariesToShow ? bikeAndParkItinerariesToShow + 1 : 0,
           0,
           <ItinerarySummarySubtitle
-            translationId={`itinerary-summary.bikeAndPublic-${allModes
-              .sort()
-              .join('-')}-title`}
+            translationId="itinerary-summary.bikeAndPublic-title"
             defaultMessage="Biking \u0026 public transport"
             key="itinerary-summary.bikeAndPublic-title"
+          />,
+        );
+      }
+      if (bikeRentAndPublicItinerariesToShow > 0) {
+        // TODO if we'd start from the end, we don't need to check if other results are shown
+        summaries.splice(
+          bikeAndParkItinerariesToShow +
+            bikeAndPublicItinerariesToShow +
+            Math.min(1, bikeAndParkItinerariesToShow) +
+            Math.min(1, bikeAndPublicItinerariesToShow),
+          0,
+          <ItinerarySummarySubtitle
+            translationId="itinerary-summary.bikeRentAndPublic-title"
+            defaultMessage="Bike rental \u0026 public transport"
+            key="itinerary-summary.bikeRentAndPublic-title"
           />,
         );
       }
@@ -302,6 +300,7 @@ ItinerarySummaryListContainer.propTypes = {
   searchTime: PropTypes.number.isRequired,
   to: LocationShape.isRequired,
   bikeAndPublicItinerariesToShow: PropTypes.number.isRequired,
+  bikeRentAndPublicItinerariesToShow: PropTypes.number.isRequired,
   bikeAndParkItinerariesToShow: PropTypes.number.isRequired,
   walking: PropTypes.bool,
   biking: PropTypes.bool,

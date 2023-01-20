@@ -45,6 +45,18 @@ const translations = {
     home: 'Hem',
     work: 'Arbete',
   },
+
+  pl: {
+    'add-destination': 'Ustaw jako miejsce docelowe',
+    'add-favourite': 'Dodaj ulubione',
+    'add-home': 'Dodaj stronę główną',
+    'add-place': 'Dodaj miejsce',
+    'add-work': 'Dodaj pracę',
+    edit: 'Edytuj',
+    'open-favourites': 'Otwórz ulubione',
+    home: ' Strona główna',
+    work: 'zadanie',
+  },
 };
 
 export default translations;

@@ -114,4 +114,16 @@
       border: 3px solid $primary-color;
     }
   }
+
+  .panel-cycling-map-legend-title {
+    padding: 0 1.875em;
+  }
+  .panel-cycling-map-legend-container {
+    list-style: none;
+    font-weight: normal;
+    .icon-container {
+      padding-right: .3em;
+      vertical-align: middle;
+    }
+  }
 }

@@ -18,6 +18,7 @@ export const StreetModeSelector = ({
   walkPlan,
   bikePlan,
   bikeAndPublicPlan,
+  bikeRentAndPublicPlan,
   bikeParkPlan,
   carPlan,
   parkRidePlan,
@@ -29,6 +30,7 @@ export const StreetModeSelector = ({
         itineraries: [
           ...(bikeParkPlan?.itineraries || []),
           ...(bikeAndPublicPlan?.itineraries || []),
+          ...(bikeRentAndPublicPlan?.itineraries || []),
         ],
       }
     : {};
