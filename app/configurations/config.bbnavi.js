@@ -44,7 +44,9 @@ export default configMerger(walttiConfig, {
         PARK_AND_RIDE_MAP: `${API_URL}/otp/routers/default/vectorTiles/parking/`,
         ROADWORKS_MAP: `${API_URL}/map/v1/cifs/`,
         COVID19_MAP: '', // `https://tiles.caresteouvert.fr/public.poi_osm_light/{z}/{x}/{y}.pbf`,
-        CITYBIKE_MAP: `${API_URL}/otp/routers/default/vectorTiles/citybikes/`,
+        // TODO Adapt for all and check 
+        RENTAL_STATION_MAP: `${API_URL}/otp/routers/default/vectorTiles/citybikes/`,
+        REALTIME_RENTAL_STATION_MAP: `${API_URL}/otp/routers/default/vectorTiles/citybikes/`,
         WEATHER_STATIONS_MAP: '', // `${API_URL}/map/v1/weather-stations/`,
         CHARGING_STATIONS_MAP: `https://api.ocpdb.de/tiles/`,
         CHARGING_STATION_DETAILS_API: 'https://ocpdb.bbnavi.de/api/ocpi/2.2/location/',
