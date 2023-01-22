@@ -59,7 +59,7 @@ export default configMerger(walttiConfig, {
   favicon: './app/configurations/images/jyvaskyla/favicon.png',
 
   // Navbar logo
-  logo: 'jyvaskyla/favicon.png',
+  logo: './app/configurations/images/jyvaskyla/favicon.png',
 
   vehicles: true,
   showVehiclesOnStopPage: true,
