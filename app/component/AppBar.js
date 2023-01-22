@@ -37,74 +37,76 @@ const AppBar = (
       {disruptionInfoOpen && <DisruptionInfo setOpen={setDisruptionInfoOpen} />}
       {config.NODE_ENV !== 'test' && <MessageBar breakpoint={breakpoint} />}
       <CanceledLegsBar />
-      <nav className={`top-bar ${breakpoint !== 'large' ? 'mobile' : ''}`}>
-        <section className="title">
-          <button
-            aria-label={intl.formatMessage({
-              id: 'to-frontpage',
-              defaultMessage: 'To frontpage',
-            })}
-            type="button"
-            onClick={e => {
-              titleClicked(e);
-              addAnalyticsEvent({
-                category: 'Navigation',
-                action: 'Home',
-                name: null,
-              });
-            }}
-          >
-            <LogoSmall showLogo={showLogo} logo={logo} title={title} />
-          </button>
-        </section>
-        <section className="controls">
-          {config.allowLogin &&
-            (!user.name ? (
-              <LoginButton loginUrl={`/login?url=${url}&${params}`} />
-            ) : (
-              <UserMenu
-                user={user}
-                menuItems={[
-                  {
-                    key: 'dropdown-item-1',
-                    messageId: 'logout',
-                    href: '/logout',
-                    onClick: event => {
-                      event.preventDefault();
-                      getStore('FavouriteStore').storeFavourites();
-                      window.location.href = '/logout';
+      {config.showTopBar !== false && (
+        <nav className={`top-bar ${breakpoint !== 'large' ? 'mobile' : ''}`}>
+          <section className="title">
+            <button
+              aria-label={intl.formatMessage({
+                id: 'to-frontpage',
+                defaultMessage: 'To frontpage',
+              })}
+              type="button"
+              onClick={e => {
+                titleClicked(e);
+                addAnalyticsEvent({
+                  category: 'Navigation',
+                  action: 'Home',
+                  name: null,
+                });
+              }}
+            >
+              <LogoSmall showLogo={showLogo} logo={logo} title={title} />
+            </button>
+          </section>
+          <section className="controls">
+            {config.allowLogin &&
+              (!user.name ? (
+                <LoginButton loginUrl={`/login?url=${url}&${params}`} />
+              ) : (
+                <UserMenu
+                  user={user}
+                  menuItems={[
+                    {
+                      key: 'dropdown-item-1',
+                      messageId: 'logout',
+                      href: '/logout',
+                      onClick: event => {
+                        event.preventDefault();
+                        getStore('FavouriteStore').storeFavourites();
+                        window.location.href = '/logout';
+                      },
                     },
-                  },
-                ]}
-                isMobile
+                  ]}
+                  isMobile
+                />
+              ))}
+            {!disruptionInfoOpen && menuOpen && (
+              <MainMenuContainer
+                homeUrl={homeUrl}
+                closeMenu={() => setMenuOpenWithAnalytics(false)}
+                breakpoint={breakpoint}
+                setDisruptionInfoOpen={setDisruptionInfoOpen}
               />
-            ))}
-          {!disruptionInfoOpen && menuOpen && (
-            <MainMenuContainer
-              homeUrl={homeUrl}
-              closeMenu={() => setMenuOpenWithAnalytics(false)}
-              breakpoint={breakpoint}
-              setDisruptionInfoOpen={setDisruptionInfoOpen}
-            />
-          )}
-          {config.mainMenu.show ? (
-            <div className="icon-holder cursor-pointer main-menu-toggle">
-              <button
-                type="button"
-                id="openMenuButton"
-                aria-label={intl.formatMessage({
-                  id: 'main-menu-label-open',
-                  defaultMessage: 'Open the main menu',
-                })}
-                onClick={() => setMenuOpenWithAnalytics(true)}
-                className="noborder cursor-pointer"
-              >
-                <Icon img="icon-icon_menu" className="icon" />
-              </button>
-            </div>
-          ) : null}
-        </section>
-      </nav>
+            )}
+            {config.mainMenu.show ? (
+              <div className="icon-holder cursor-pointer main-menu-toggle">
+                <button
+                  type="button"
+                  id="openMenuButton"
+                  aria-label={intl.formatMessage({
+                    id: 'main-menu-label-open',
+                    defaultMessage: 'Open the main menu',
+                  })}
+                  onClick={() => setMenuOpenWithAnalytics(true)}
+                  className="noborder cursor-pointer"
+                >
+                  <Icon img="icon-icon_menu" className="icon" />
+                </button>
+              </div>
+            ) : null}
+          </section>
+        </nav>
+      )}
     </>
   );
 };

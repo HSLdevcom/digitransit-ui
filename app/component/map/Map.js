@@ -209,11 +209,12 @@ export default class Map extends React.Component {
       boundsOptions.paddingBottomRight = [0, this.props.mapBottomPadding];
     }
     const mapBaseUrl =
-      (isDebugTiles && `${config.URL.OTP}inspector/tile/traversal/`) ||
+      (isDebugTiles &&
+        `${config.URL.OTP}inspector/tile/traversal/{z}/{x}/{y}{size}.png`) ||
       getLayerBaseUrl(config.URL.MAP, this.props.lang);
     const mapUrl = config.hasAPISubscriptionQueryParameter
-      ? `${mapBaseUrl}{z}/{x}/{y}{size}.png?${config.API_SUBSCRIPTION_QUERY_PARAMETER_NAME}=${config.API_SUBSCRIPTION_TOKEN}`
-      : `${mapBaseUrl}{z}/{x}/{y}{size}.png`;
+      ? `${mapBaseUrl}?${config.API_SUBSCRIPTION_QUERY_PARAMETER_NAME}=${config.API_SUBSCRIPTION_TOKEN}`
+      : mapBaseUrl;
 
     const leafletObjNew = leafletObjs.concat([
       <VectorTileLayerContainer
