@@ -6,6 +6,9 @@ const APP_TITLE = 'Embark Oklahoma City';
 const APP_DESCRIPTION = 'Uusi Reittiopas - okc';
 
 const API_URL = process.env.API_URL || 'https://otp.okc.leonard.io';
+const OTP_URL = process.env.OTP_URL || API_URL
+const GEOCODING_BASE_URL =
+  process.env.GEOCODING_BASE_URL || `${API_URL}/geocoder`;
 
 const walttiConfig = require('./config.waltti').default;
 
@@ -33,6 +36,7 @@ export default configMerger(walttiConfig, {
     MAP: {
       default: 'https://api.maptiler.com/maps/streets-v2/'
     },
+    OTP: process.env.OTP_URL || `${API_URL}/otp/routers/default/`,
     STOP_MAP: {
       default: `${API_URL}/otp/routers/default/vectorTiles/stops/`,
     },
@@ -41,7 +45,10 @@ export default configMerger(walttiConfig, {
     },
     REALTIME_RENTAL_STATION_MAP: {
       default: `${API_URL}/otp/routers/default/vectorTiles/realtimeRentalStations/`,
-    }
+    },
+    PELIAS: `${GEOCODING_BASE_URL}/search`,
+    PELIAS_REVERSE_GEOCODER: `${GEOCODING_BASE_URL}/reverse`,
+    PELIAS_PLACE: `${GEOCODING_BASE_URL}/place`,
   },
 
   colors: {
