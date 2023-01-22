@@ -139,7 +139,7 @@ export const getMapLayerOptions = (options = {}) => {
  * @param {String} lang The preferred language.
  */
 export const getLayerBaseUrl = (urlOrUrlMap, lang) => {
-  return urlOrUrlMap instanceof String
+  return typeof urlOrUrlMap === 'string' || urlOrUrlMap instanceof String
     ? urlOrUrlMap
     : urlOrUrlMap[lang] || urlOrUrlMap.default;
 };
