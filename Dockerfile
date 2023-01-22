@@ -95,4 +95,9 @@ ENV \
   ASSET_URL='' \
   STATIC_MESSAGE_URL=''
 
+RUN apk add --no-cache curl
+HEALTHCHECK \
+  --interval=5s --timeout=3s --retries=3 --start-period=5s \
+  CMD curl -fsSLI "http://localhost:$PORT/" || exit 1
+
 CMD yarn run start
