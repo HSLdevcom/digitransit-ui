@@ -19,6 +19,9 @@ node_modules
 !/.yarn/plugins
 !/.yarn/releases
 !/.yarn/versions
+# We copy the cache into the Dockerfile for Yarn to use it during `yarn install`.
+# Because we use a multi-stage build, we don't copy it into the final Docker image.
+# !/.yarn/cache
 
 _static
 /app/__generated__

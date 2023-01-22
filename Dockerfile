@@ -31,6 +31,8 @@ RUN \
   export PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 \
   && yarn install --immutable --inline-builds \
   && yarn cache clean --all \
+  # todo: doesn't work yet :/
+  && rm -rf $HOME/.cache/node-gyp \
   && rm -rf /tmp/phantomjs
 
 # Setting $CONFIG causes digitransit-ui to only build assets for *one* instance (see app/configurations).
@@ -45,6 +47,8 @@ RUN \
 
 COPY . .
 
+# todo: $CONFIG as build arg, to reduce the bundling work?
+# todo: pass --no-cache to webpack?
 RUN \
   yarn run build \
   && rm -rf node_modules/.cache \
