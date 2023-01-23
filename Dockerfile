@@ -34,6 +34,12 @@ RUN \
   && yarn cache clean --all \
   && rm -rf /tmp/phantomjs
 
+# Setting $CONFIG causes digitransit-ui to only build assets for *one* instance (see app/configurations).
+# This speeds up the build (because favicons-webpack-plugin is increasingly *very* slow with the nr of
+# configs processed), but the resulting image won't be able to serve other instances.
+ARG CONFIG=''
+ENV CONFIG=${CONFIG}
+
 COPY config ./config
 RUN \
   yarn run build-workspaces
@@ -61,6 +67,9 @@ LABEL org.opencontainers.image.licenses="(AGPL-3.0 OR EUPL-1.2)"
 
 WORKDIR /opt/digitransit-ui
 
+ARG CONFIG=''
+ENV CONFIG=${CONFIG}
+
 EXPOSE 8080
 
 # todo: install production dependencies only, re-use .yarn/cache from above
@@ -80,7 +89,7 @@ ENV \
   OTP_URL='' \
   GEOCODING_BASE_URL='' \
   APP_PATH='' \
-  CONFIG='' \
+  CONFIG=$CONFIG \
   NODE_ENV='' \
   # setting a non-empty default value for NODE_OPTS
   # if you don't do this then yarn/node seem to think that you want to
