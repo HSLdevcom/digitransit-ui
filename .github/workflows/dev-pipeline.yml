@@ -3,10 +3,10 @@ name: Process v3 push or PR
 on:
   push:
     branches:
-      - v3
+      - '*'
   pull_request:
     branches:
-      - v3
+      - '*'
 
 env:
   # We tell Playwright not to download browser binaries because we use microsoft/playwright-github-action.
