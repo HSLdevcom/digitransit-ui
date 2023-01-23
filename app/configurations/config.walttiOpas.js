@@ -1,6 +1,5 @@
 /* eslint-disable */
 import configMerger from '../util/configMerger';
-import { BIKEAVL_WITHMAX } from '../util/citybikes';
 
 const CONFIG = 'walttiOpas';
 const APP_TITLE = 'Waltti-opas';
@@ -38,8 +37,6 @@ export default configMerger(walttiConfig, {
     topBarColor: '#FFC439',
     iconColors: {
       'mode-bus': '#F16522',
-      'mode-citybike': '#f2b62d',
-      'mode-citybike-secondary': '#333333',
     },
   },
   transportModes: {
@@ -51,101 +48,6 @@ export default configMerger(walttiConfig, {
         sv: 'Hållplatser på kartan',
         en: 'Nearby stops on map',
       },
-    },
-    citybike: {
-      availableForSelection: true,
-    },
-  },
-
-  cityBike: {
-    networks: {
-      donkey_kotka: {
-        enabled: true,
-        season: {
-          // 14.4. - 31.10.
-          start: new Date(new Date().getFullYear(), 3, 14),
-          end: new Date(new Date().getFullYear(), 10, 1),
-        },
-        capacity: BIKEAVL_WITHMAX,
-        icon: 'citybike',
-        name: {
-          fi: 'Kotka',
-          sv: 'Kotka',
-          en: 'Kotka',
-        },
-        type: 'citybike',
-        url: {
-          fi: 'https://kaakau.fi/kotka/',
-          sv: 'https://kaakau.fi/kotka/?lang=sv',
-          en: 'https://kaakau.fi/kotka/?lang=en',
-        },
-        returnInstructions: {
-          fi: 'https://kaakau.fi/ohjeet/pyoran-palauttaminen/',
-          sv: 'https://kaakau.fi/ohjeet/pyoran-palauttaminen/',
-          en: 'https://kaakau.fi/ohjeet/pyoran-palauttaminen/',
-        },
-      },
-      donkey_hamina: {
-        enabled: true,
-        season: {
-          // 14.4. - 31.10.
-          start: new Date(new Date().getFullYear(), 3, 14),
-          end: new Date(new Date().getFullYear(), 10, 1),
-        },
-        capacity: BIKEAVL_WITHMAX,
-        icon: 'citybike-secondary',
-        name: {
-          fi: 'Hamina',
-          sv: 'Hamina',
-          en: 'Hamina',
-        },
-        type: 'citybike',
-        url: {
-          fi: 'https://kaakau.fi/hamina/',
-          sv: 'https://kaakau.fi/hamina/?lang=sv',
-          en: 'https://kaakau.fi/hamina/?lang=en',
-        },
-        returnInstructions: {
-          fi: 'https://kaakau.fi/ohjeet/pyoran-palauttaminen/',
-          sv: 'https://kaakau.fi/ohjeet/pyoran-palauttaminen/',
-          en: 'https://kaakau.fi/ohjeet/pyoran-palauttaminen/',
-        },
-      },
-      donkey_kouvola: {
-        enabled: true,
-        season: {
-          // 20.4. - 31.10.
-          start: new Date(new Date().getFullYear(), 3, 20),
-          end: new Date(new Date().getFullYear(), 10, 1),
-        },
-        capacity: BIKEAVL_WITHMAX,
-        icon: 'citybike',
-        name: {
-          fi: 'Kouvola',
-          sv: 'Kouvola',
-          en: 'Kouvola',
-        },
-        type: 'citybike',
-        url: {
-          fi: 'https://kaakau.fi/kouvola/',
-          sv: 'https://kaakau.fi/kouvola/?lang=sv',
-          en: 'https://kaakau.fi/kouvola/?lang=en',
-        },
-        returnInstructions: {
-          fi: 'https://kaakau.fi/ohjeet/pyoran-palauttaminen/',
-          sv: 'https://kaakau.fi/ohjeet/pyoran-palauttaminen/',
-          en: 'https://kaakau.fi/ohjeet/pyoran-palauttaminen/',
-        },
-      },
-    },
-  },
-
-  getAutoSuggestIcons: {
-    citybikes: station => {
-      if (station.properties.source === 'citybikesdonkey_hamina') {
-        return ['citybike-stop-digitransit-secondary', '#f2b62d'];
-      }
-      return ['citybike-stop-digitransit', '#f2b62d'];
     },
   },
 
@@ -159,7 +61,7 @@ export default configMerger(walttiConfig, {
   // Navbar logo
   logo: 'walttiOpas/waltti-logo.png',
 
-  feedIds: ['Kotka', 'Kouvola', 'Salo', 'Kajaani'],
+  feedIds: ['Salo', 'Kajaani'],
 
   defaultEndpoint: {
     address: 'Helsinki-Vantaan Lentoasema',
@@ -255,16 +157,6 @@ export default configMerger(walttiConfig, {
   showVehiclesOnSummaryPage: true,
 
   sourceForAlertsAndDisruptions: {
-    Kotka: {
-      fi: 'Kotkan seutu',
-      sv: 'Kotkaregion',
-      en: 'Kotka region',
-    },
-    Kouvola: {
-      fi: 'Kouvola',
-      sv: 'Kouvola',
-      en: 'Kouvola',
-    },
     Kajaani: {
       fi: 'Kajaani',
       sv: 'Kajaani',
