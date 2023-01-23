@@ -21,6 +21,7 @@ import {
   TAB_NEARBY,
   TAB_FAVOURITES,
   EMBEDDED_SEARCH_PATH,
+  EMBEDDED_ROUTE_SEARCH_PATH,
 } from './util/path';
 import {
   getDefault,
@@ -437,6 +438,15 @@ export default config => {
         getComponent={() =>
           import(
             /* webpackChunkName: "embedded-search" */ './component/EmbeddedSearchContainer'
+          ).then(getDefault)
+        }
+        topBarOptions={{ hidden: true }}
+      />
+      <Route
+        path={EMBEDDED_ROUTE_SEARCH_PATH}
+        getComponent={() =>
+          import(
+            /* webpackChunkName: "embedded-route-search" */ './component/EmbeddedRouteSearchContainer'
           ).then(getDefault)
         }
         topBarOptions={{ hidden: true }}
