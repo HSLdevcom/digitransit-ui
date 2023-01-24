@@ -765,6 +765,7 @@ export default {
   /* Do not change order of theme map lines */
   themeMap: {
     hsl: 'reittiopas',
+    okc: 'okc',
   },
 
   minutesToDepartureLimit: 9,
