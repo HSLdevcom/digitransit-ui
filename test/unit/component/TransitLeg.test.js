@@ -9,9 +9,9 @@ import {
   RealtimeStateType,
   AlertSeverityLevelType,
 } from '../../../app/constants';
-import RouteNumber from '../../../app/component/RouteNumber';
 import ServiceAlertIcon from '../../../app/component/ServiceAlertIcon';
 import { mockContext } from '../helpers/mock-context';
+import LegInfo from '../../../app/component/LegInfo';
 
 const defaultProps = {
   children: <div />,
@@ -458,7 +458,7 @@ describe('<TransitLeg />', () => {
         focusFunction: () => () => {},
       },
     });
-    expect(wrapper.find(RouteNumber).props().alertSeverityLevel).to.equal(
+    expect(wrapper.find(LegInfo).props().alertSeverityLevel).to.equal(
       AlertSeverityLevelType.Warning,
     );
   });
@@ -514,7 +514,7 @@ describe('<TransitLeg />', () => {
         focusFunction: () => () => {},
       },
     });
-    expect(wrapper.find(RouteNumber).props().alertSeverityLevel).to.equal(
+    expect(wrapper.find(LegInfo).props().alertSeverityLevel).to.equal(
       AlertSeverityLevelType.Warning,
     );
   });
@@ -566,7 +566,7 @@ describe('<TransitLeg />', () => {
         focusFunction: () => () => {},
       },
     });
-    expect(wrapper.find(RouteNumber).props().alertSeverityLevel).to.equal(
+    expect(wrapper.find(LegInfo).props().alertSeverityLevel).to.equal(
       AlertSeverityLevelType.Warning,
     );
   });
@@ -618,7 +618,7 @@ describe('<TransitLeg />', () => {
         focusFunction: () => () => {},
       },
     });
-    expect(wrapper.find(RouteNumber).props().alertSeverityLevel).to.equal(
+    expect(wrapper.find(LegInfo).props().alertSeverityLevel).to.equal(
       AlertSeverityLevelType.Warning,
     );
   });
@@ -677,7 +677,7 @@ describe('<TransitLeg />', () => {
         focusFunction: () => () => {},
       },
     });
-    expect(wrapper.find(RouteNumber).props().alertSeverityLevel).to.equal(
+    expect(wrapper.find(LegInfo).props().alertSeverityLevel).to.equal(
       undefined,
     );
   });

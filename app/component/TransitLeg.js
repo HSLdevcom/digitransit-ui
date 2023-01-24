@@ -12,7 +12,6 @@ import Icon from './Icon';
 import IntermediateLeg from './IntermediateLeg';
 import ItineraryCircleLine from './ItineraryCircleLine';
 import PlatformNumber from './PlatformNumber';
-import RouteNumber from './RouteNumber';
 import ServiceAlertIcon from './ServiceAlertIcon';
 import StopCode from './StopCode';
 import {
@@ -37,6 +36,8 @@ import { AlertSeverityLevelType } from '../constants';
 import ZoneIcon from './ZoneIcon';
 import StopInfo from './StopInfo';
 import InterlineInfo from './InterlineInfo';
+import AlternativeLegsInfo from './AlternativeLegsInfo';
+import LegInfo from './LegInfo';
 
 class TransitLeg extends React.Component {
   constructor(props) {
@@ -198,10 +199,6 @@ class TransitLeg extends React.Component {
       interliningLegs,
     } = this.props;
     const { config, intl } = this.context;
-    const routeId = leg.route.gtfsId;
-    const { constantOperationRoutes } = config;
-    const shouldLinkToTrip =
-      !constantOperationRoutes || !constantOperationRoutes[routeId];
     const originalTime = leg.realTime &&
       leg.departureDelay &&
       leg.departureDelay >= config.itinerary.delayThreshold && [
@@ -440,40 +437,40 @@ class TransitLeg extends React.Component {
               />
             </div>
           </div>
-          <div
-            className={cx('itinerary-transit-leg-route', {
-              'long-name': hasNoShortName,
-            })}
-          >
-            <Link
-              onClick={e => {
-                e.stopPropagation();
-              }}
-              to={
-                `/${PREFIX_ROUTES}/${leg.route.gtfsId}/${PREFIX_STOPS}/${
-                  leg.trip.pattern.code
-                }${shouldLinkToTrip ? `/${leg.trip.gtfsId}` : ''}`
-                // TODO: Create a helper function for generationg links
+          <LegInfo
+            leg={leg}
+            hasNoShortName={hasNoShortName}
+            mode={mode}
+            headsign={headsign}
+            alertSeverityLevel={alertSeverityLevel}
+            isAlternativeLeg={false}
+          />
+
+          {this.state.showAlternativeLegs &&
+            leg.nextLegs.map(l => (
+              <LegInfo
+                key={l.route.shortName + l.startTime}
+                leg={l}
+                hasNoShortName={hasNoShortName}
+                headsign={l.trip.tripHeadsign}
+                isAlternativeLeg
+                alertSeverityLevel={getMaximumAlertSeverityLevel(
+                  getActiveLegAlerts(l, l.startTime / 1000, lang),
+                )}
+              />
+            ))}
+          {leg.nextLegs?.length > 0 && (
+            <AlternativeLegsInfo
+              legs={leg.nextLegs}
+              showAlternativeLegs={this.state.showAlternativeLegs}
+              toggle={() =>
+                this.setState(prevState => ({
+                  ...prevState,
+                  showAlternativeLegs: !prevState.showAlternativeLegs,
+                }))
               }
-              aria-label={`${intl.formatMessage({
-                id: mode.toLowerCase(),
-                defaultMessage: 'Vehicle',
-              })} ${leg.route && leg.route.shortName}`}
-            >
-              <span aria-hidden="true">
-                <RouteNumber
-                  mode={mode.toLowerCase()}
-                  alertSeverityLevel={alertSeverityLevel}
-                  color={leg.route ? `#${leg.route.color}` : 'currentColor'}
-                  text={leg.route && leg.route.shortName}
-                  realtime={false}
-                  withBar
-                  fadeLong
-                />
-              </span>
-            </Link>
-            <div className="headsign">{headsign}</div>
-          </div>
+            />
+          )}
           {(alertSeverityLevel === AlertSeverityLevelType.Warning ||
             alertSeverityLevel === AlertSeverityLevelType.Severe ||
             alertSeverityLevel === AlertSeverityLevelType.Unknown) && (
@@ -642,6 +639,7 @@ TransitLeg.propTypes = {
       }),
     ).isRequired,
     interlineWithPreviousLeg: PropTypes.bool.isRequired,
+    nextLegs: PropTypes.array,
   }).isRequired,
   interliningLegs: PropTypes.arrayOf(
     PropTypes.shape({
