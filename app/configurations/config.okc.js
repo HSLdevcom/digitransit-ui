@@ -56,7 +56,6 @@ export default configMerger(walttiConfig, {
   },
 
   vehicles: true,
-  showTopBar: false,
   showVehiclesOnStopPage: true,
   showVehiclesOnSummaryPage: true,
   showWeatherInformation: false,
