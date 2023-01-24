@@ -765,23 +765,6 @@ export default {
   /* Do not change order of theme map lines */
   themeMap: {
     hsl: 'reittiopas',
-    turku: '(turku|foli)',
-    lappeenranta: 'lappeenranta',
-    joensuu: 'joensuu',
-    oulu: 'oulu',
-    hameenlinna: 'hameenlinna',
-    matka: 'matka',
-    vaasa: 'vaasa',
-    walttiOpas: 'waltti',
-    rovaniemi: 'rovaniemi',
-    kouvola: 'kouvola',
-    tampere: 'tampere',
-    mikkeli: 'mikkeli',
-    kotka: 'kotka',
-    jyvaskyla: 'jyvaskyla',
-    lahti: 'lahti',
-    kuopio: 'kuopio',
-    varely: '(seutuplus|varely)',
   },
 
   minutesToDepartureLimit: 9,
