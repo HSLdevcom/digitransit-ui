@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import moment from 'moment';
 import { intlShape } from 'react-intl';
 import { v4 as uuid } from 'uuid';
 import { Link } from 'found';
 import LocalTime from './LocalTime';
 import { getHeadsignFromRouteLongName } from '../util/legUtils';
 import { alertSeverityCompare } from '../util/alertUtils';
+import { localizeTime } from '../util/timeUtils';
 import Icon from './Icon';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
@@ -101,7 +101,7 @@ const DepartureRow = (
             {
               shortName,
               destination: headsign,
-              time: moment(departureTime * 1000).format('HH:mm'),
+              time: localizeTime(departureTime * 1000),
             },
           )}
         />
@@ -181,7 +181,7 @@ const DepartureRow = (
                 },
                 {
                   when: shownTime,
-                  time: moment(departureTime * 1000).format('HH:mm'),
+                  time: localizeTime(departureTime * 1000),
                   realTime: departure.realtime
                     ? intl.formatMessage({ id: 'realtime' })
                     : '',

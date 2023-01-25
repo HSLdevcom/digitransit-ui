@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-export const TIME_PATTERN = 'HH:mm';
+export const TIME_PATTERN = 'LT';
 export const DATE_PATTERN = 'dd D.M.';
 
 // converts the given parameter into a string in format HHmm
@@ -124,6 +124,13 @@ export function isToday(startTime, refTime) {
  */
 export function getFormattedTimeDate(startTime, pattern) {
   return moment(startTime).format(pattern);
+}
+
+/**
+ * Returns formatted time
+ */
+export function localizeTime(time) {
+  return getFormattedTimeDate(time, TIME_PATTERN);
 }
 
 /**

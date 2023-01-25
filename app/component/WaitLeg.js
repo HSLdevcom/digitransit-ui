@@ -1,10 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import moment from 'moment';
 import Link from 'found/Link';
 import { FormattedMessage, intlShape } from 'react-intl';
 import Icon from './Icon';
-import { durationToString } from '../util/timeUtils';
+import { durationToString, localizeTime } from '../util/timeUtils';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
 import { isKeyboardSelectionEvent } from '../util/browser';
 import { PREFIX_STOPS } from '../util/path';
@@ -27,7 +26,7 @@ function WaitLeg(
       </span>
       <div className="small-2 columns itinerary-time-column" aria-hidden="true">
         <div className="itinerary-time-column-time">
-          {moment(startTime).format('HH:mm')}
+          {localizeTime(startTime)}
         </div>
       </div>
       <ItineraryCircleLineWithIcon

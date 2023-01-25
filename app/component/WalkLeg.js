@@ -1,4 +1,3 @@
-import moment from 'moment';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -17,7 +16,7 @@ import {
   getCityBikeNetworkConfig,
 } from '../util/citybikes';
 import { displayDistance } from '../util/geo-utils';
-import { durationToString } from '../util/timeUtils';
+import { durationToString, localizeTime } from '../util/timeUtils';
 import { isKeyboardSelectionEvent } from '../util/browser';
 import { splitStringToAddressAndPlace } from '../util/otpStrings';
 import CityBikeLeg from './CityBikeLeg';
@@ -76,7 +75,7 @@ function WalkLeg(
         <FormattedMessage
           id="itinerary-details.walk-leg"
           values={{
-            time: moment(leg.startTime).format('HH:mm'),
+            time: localizeTime(leg.startTime),
             to: intl.formatMessage({
               id: `modes.to-${
                 leg.to.stop?.vehicleMode?.toLowerCase() || 'place'
@@ -92,9 +91,7 @@ function WalkLeg(
       </span>
       <div className="small-2 columns itinerary-time-column" aria-hidden="true">
         <div className="itinerary-time-column-time">
-          {moment(leg.mode === 'WALK' ? leg.startTime : leg.endTime).format(
-            'HH:mm',
-          )}
+          {localizeTime(leg.mode === 'WALK' ? leg.startTime : leg.endTime)}
         </div>
       </div>
       <ItineraryCircleLineWithIcon

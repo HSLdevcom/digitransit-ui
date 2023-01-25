@@ -391,7 +391,11 @@ class IndexPage extends React.Component {
                     {...locationSearchProps}
                   />
                   <div className="datetimepicker-container">
-                    <DatetimepickerContainer realtime color={color} />
+                    <DatetimepickerContainer
+                      realtime
+                      color={color}
+                      lang={lang}
+                    />
                   </div>
                   <FavouritesContainer
                     favouriteModalAction={this.props.favouriteModalAction}

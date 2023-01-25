@@ -13,6 +13,7 @@ function Duration(props) {
     hour12: false,
   };
   const duration = durationToString(props.duration * 1000);
+  // TODO why isn't moment used here but Intl?`
   const startTime = new Intl.DateTimeFormat('en-US', timeOptions).format(
     new Date(props.startTime),
   );

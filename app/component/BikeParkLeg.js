@@ -1,10 +1,9 @@
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import React from 'react';
-import moment from 'moment';
 import { FormattedMessage, intlShape } from 'react-intl';
 import { displayDistance } from '../util/geo-utils';
-import { durationToString } from '../util/timeUtils';
+import { durationToString, localizeTime } from '../util/timeUtils';
 import { isKeyboardSelectionEvent } from '../util/browser';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
 import Icon from './Icon';
@@ -25,7 +24,7 @@ const BikeParkLeg = (
         <FormattedMessage
           id="itinerary-details.walk-leg"
           values={{
-            time: moment(leg.startTime).format('HH:mm'),
+            time: localizeTime(leg.startTime),
             distance,
             to: intl.formatMessage({
               id: `modes.to-${
@@ -41,7 +40,7 @@ const BikeParkLeg = (
       </span>
       <div className="small-2 columns itinerary-time-column" aria-hidden="true">
         <div className="itinerary-time-column-time">
-          {moment(leg.startTime).format('HH:mm')}
+          {localizeTime(leg.startTime)}
         </div>
       </div>
       <ItineraryCircleLineWithIcon

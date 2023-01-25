@@ -1,12 +1,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import moment from 'moment';
 import { FormattedMessage, intlShape } from 'react-intl';
 import cx from 'classnames';
 import Link from 'found/Link';
 import Icon from './Icon';
 import { displayDistance } from '../util/geo-utils';
-import { durationToString } from '../util/timeUtils';
+import { durationToString, localizeTime } from '../util/timeUtils';
 import ItineraryCircleLine from './ItineraryCircleLine';
 import ItineraryCircleLineLong from './ItineraryCircleLineLong';
 import { PREFIX_STOPS } from '../util/path';
@@ -135,7 +134,7 @@ function BicycleLeg(
         <FormattedMessage
           id="itinerary-details.biking-leg"
           values={{
-            time: moment(leg.startTime).format('HH:mm'),
+            time: localizeTime(leg.startTime),
             to: intl.formatMessage({ id: `modes.to-${getToMode()}` }),
             distance,
             origin,
@@ -146,7 +145,7 @@ function BicycleLeg(
       </span>
       <div className="small-2 columns itinerary-time-column" aria-hidden="true">
         <div className="itinerary-time-column-time">
-          {moment(leg.startTime).format('HH:mm')}
+          {localizeTime(leg.startTime)}
         </div>
       </div>
       {circleLine}

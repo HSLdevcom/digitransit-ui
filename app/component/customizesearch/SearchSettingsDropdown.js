@@ -18,6 +18,7 @@ const roundToOneDecimal = number => {
  * @param {*} options The options to select from.
  */
 export const getFiveStepOptions = options => [
+  // todo: localize distances
   {
     title: 'option-least',
     value: options.least || options[0],

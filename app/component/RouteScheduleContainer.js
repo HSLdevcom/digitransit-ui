@@ -26,6 +26,7 @@ import { PREFIX_ROUTES, PREFIX_TIMETABLE } from '../util/path';
 import { isBrowser } from '../util/browser';
 import ScrollableWrapper from './ScrollableWrapper';
 import getTestData from './RouteScheduleDebugData';
+import { localizeTime } from '../util/timeUtils';
 
 const DATE_FORMAT2 = 'D.M.YYYY';
 
@@ -203,7 +204,7 @@ class RouteScheduleContainer extends PureComponent {
     });
   };
 
-  formatTime = timestamp => moment(timestamp * 1000).format('HH:mm');
+  formatTime = timestamp => localizeTime(timestamp * 1000);
 
   changeDate = newServiceDay => {
     const { location } = this.context.match;

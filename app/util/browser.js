@@ -32,12 +32,13 @@ export const isSamsungBrowser =
   isBrowser && navigator.userAgent.match(/SamsungBrowser/) != null;
 const isIe = isBrowser && navigator.userAgent.match(/Trident/) != null;
 export const isImperial = config => {
-  if (
-    config.imperialEnabled &&
-    (String(navigator.userLanguage).toLowerCase() === 'en-us' ||
-      String(navigator.language).toLowerCase() === 'en-us')
-  ) {
-    return true;
+  // todo: respect language chosen via language switching UI
+  if (config.imperialEnabled) {
+    const browserLanguage = navigator.userLanguage || navigator.language;
+    // return false; // todo remove
+    return ['en-us', 'en-gb', 'en-au'].includes(
+      String(browserLanguage).toLowerCase(),
+    );
   }
   return false;
 };

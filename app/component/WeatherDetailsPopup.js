@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import moment from 'moment';
 import Modal from '@hsl-fi/modal';
 import { FormattedMessage, intlShape } from 'react-intl';
+import { localizeTime } from '../util/timeUtils';
 
 import Icon from './Icon';
 
@@ -25,7 +25,7 @@ function WeatherDetailsPopup({ weatherData, onClose }, { intl }) {
       <div className="weather-details-content">
         <h3 className="weather-title">
           <FormattedMessage id="weather-detail-title" />
-          {` ${moment(weatherData.time).format('HH:mm')}`}
+          {` ${localizeTime(weatherData.time)}`}
         </h3>
         <div className="weather-icon-row">
           <Icon img={`icon-icon_weather_${weatherData.iconId}`} />

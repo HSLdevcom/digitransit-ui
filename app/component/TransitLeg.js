@@ -1,5 +1,4 @@
 import cx from 'classnames';
-import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
@@ -24,7 +23,7 @@ import {
   getMaximumAlertSeverityLevel,
 } from '../util/alertUtils';
 import { PREFIX_ROUTES, PREFIX_STOPS, PREFIX_DISRUPTION } from '../util/path';
-import { durationToString } from '../util/timeUtils';
+import { durationToString, localizeTime } from '../util/timeUtils';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import {
   getZoneLabel,
@@ -202,14 +201,13 @@ class TransitLeg extends React.Component {
     const { constantOperationRoutes } = config;
     const shouldLinkToTrip =
       !constantOperationRoutes || !constantOperationRoutes[routeId];
+
     const originalTime = leg.realTime &&
       leg.departureDelay &&
       leg.departureDelay >= config.itinerary.delayThreshold && [
         <br key="br" />,
         <span key="time" className="original-time">
-          {moment(leg.startTime)
-            .subtract(leg.departureDelay, 's')
-            .format('HH:mm')}
+          {localizeTime(leg.startTime - leg.departureDelay * 1000)}
         </span>,
       ];
     const LegRouteName = leg.from.name.concat(' - ').concat(leg.to.name);
@@ -219,7 +217,7 @@ class TransitLeg extends React.Component {
       <FormattedMessage
         id="itinerary-details.transit-leg-part-1"
         values={{
-          time: moment(leg.startTime).format('HH:mm'),
+          time: localizeTime(leg.startTime),
         }}
       />
     );
@@ -347,7 +345,7 @@ class TransitLeg extends React.Component {
             <div className="itinerary-time-column-time">
               <span className={cx({ realtime: leg.realTime })}>
                 <span className={cx({ canceled: legHasCancelation(leg) })}>
-                  {moment(leg.startTime).format('HH:mm')}
+                  {localizeTime(leg.startTime)}
                 </span>
               </span>
               {originalTime}

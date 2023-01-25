@@ -1,11 +1,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import moment from 'moment';
 import { FormattedMessage, intlShape } from 'react-intl';
 
 import Icon from './Icon';
 import { displayDistance } from '../util/geo-utils';
-import { durationToString } from '../util/timeUtils';
+import { durationToString, localizeTime } from '../util/timeUtils';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
 import { isKeyboardSelectionEvent } from '../util/browser';
 import { splitStringToAddressAndPlace } from '../util/otpStrings';
@@ -57,7 +56,7 @@ function ViaLeg(props, { config, intl }) {
           id="itinerary-details.via-leg"
           defaultMessage="{arrivalTime} saavu välipisteeseen {viaPoint}. {leaveAction}"
           values={{
-            arrivalTime: moment(props.arrivalTime).format('HH:mm'),
+            arrivalTime: localizeTime(props.arrivalTime),
             viaPoint: <>{props.leg.from.name}</>,
             leaveAction: (
               <FormattedMessage
@@ -67,7 +66,7 @@ function ViaLeg(props, { config, intl }) {
                     : 'itinerary-details.walk-leg'
                 }
                 values={{
-                  time: moment(props.leg.startTime).format('HH:mm'),
+                  time: localizeTime(props.leg.startTime),
                   to: intl.formatMessage({
                     id: `modes.to-${
                       props.leg.to.stop?.vehicleMode.toLowerCase() || 'place'
@@ -89,13 +88,13 @@ function ViaLeg(props, { config, intl }) {
         aria-hidden="true"
       >
         <div className="itinerary-time-column-time via-arrival-time">
-          {moment(props.arrivalTime).format('HH:mm')}
+          {localizeTime(props.arrivalTime)}
         </div>
         <div className="itinerary-time-column-time via-divider">
           <div className="via-divider-line" />
         </div>
         <div className="itinerary-time-column-time via-departure-time">
-          {moment(props.leg.startTime).format('HH:mm')}
+          {localizeTime(props.leg.startTime)}
         </div>
       </div>
       <ItineraryCircleLineWithIcon

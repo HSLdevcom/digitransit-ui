@@ -5,10 +5,11 @@ const LocalTime = ({ forceUtc, time }) => {
   const wrapper = Number.isFinite(time)
     ? moment(time < 1e10 ? time * 1000 : time)
     : time;
+  // TODO is forceUtc ever used? In which context?
   if (forceUtc) {
     wrapper.utc();
   }
-  return wrapper.format('HH:mm');
+  return wrapper.format('LT');
 };
 
 LocalTime.displayName = 'LocalTime';

@@ -1,11 +1,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import moment from 'moment';
 import { FormattedMessage, intlShape } from 'react-intl';
 
 import Icon from './Icon';
 import { displayDistance } from '../util/geo-utils';
-import { durationToString } from '../util/timeUtils';
+import { durationToString, localizeTime } from '../util/timeUtils';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
 import { isKeyboardSelectionEvent } from '../util/browser';
 
@@ -28,7 +27,7 @@ function CarLeg(props, { config, intl }) {
         <FormattedMessage
           id="itinerary-details.car-leg"
           values={{
-            time: moment(props.leg.startTime).format('HH:mm'),
+            time: localizeTime(props.leg.startTime),
             distance,
             to: intl.formatMessage({
               id: `modes.to-${props.leg.to.carPark ? 'car-park' : 'place'}`,
@@ -41,7 +40,7 @@ function CarLeg(props, { config, intl }) {
       </span>
       <div className="small-2 columns itinerary-time-column" aria-hidden="true">
         <div className="itinerary-time-column-time">
-          {moment(props.leg.startTime).format('HH:mm')}
+          {localizeTime(props.leg.startTime)}
         </div>
       </div>
       <ItineraryCircleLineWithIcon

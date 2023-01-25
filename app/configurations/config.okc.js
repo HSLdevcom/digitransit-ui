@@ -28,6 +28,7 @@ export default configMerger(walttiConfig, {
 
   appBarLink: { name: 'Embark Oklahoma City', href: 'https://embarkok.com/' },
 
+  // todo: breaks in moment, it doesn't have an explicit en-us
   availableLanguages: ['en'],
   defaultLanguage: 'en',
 
@@ -54,6 +55,9 @@ export default configMerger(walttiConfig, {
   colors: {
     primary: '#RRGGBB'
   },
+
+  // note: this does not enforce imperial units, but it causes digitransit-ui to guess based on the browser language/locale
+  imperialEnabled: true,
 
   vehicles: true,
   showVehiclesOnStopPage: true,

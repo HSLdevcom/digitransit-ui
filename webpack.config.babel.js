@@ -24,7 +24,7 @@ const mode = process.env.NODE_ENV;
 const isProduction = mode === 'production';
 const isDevelopment = !isProduction;
 
-const languageExp = new RegExp(`^./(${languages.join('|')})$`);
+const languageExp = new RegExp(`^./(${languages.join('|')})$`, 'i');
 const momentExpression = /moment[/\\]locale$/;
 const reactIntlExpression = /react-intl[/\\]locale-data$/;
 const intlExpression = /intl[/\\]locale-data[/\\]jsonp$/;

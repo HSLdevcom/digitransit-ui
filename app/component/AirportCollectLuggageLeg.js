@@ -1,12 +1,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
-import moment from 'moment';
 import { Link } from 'found';
 import ItineraryCircleLine from './ItineraryCircleLine';
 import Icon from './Icon';
 import { isKeyboardSelectionEvent } from '../util/browser';
 import { PREFIX_STOPS } from '../util/path';
+import { localizeTime } from '../util/timeUtils';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 function AirportCollectLuggageLeg(props, { config, intl }) {
@@ -17,7 +17,7 @@ function AirportCollectLuggageLeg(props, { config, intl }) {
     <div className="row itinerary-row">
       <div className="small-2 columns itinerary-time-column">
         <div className="itinerary-time-column-time">
-          {moment(props.leg.endTime).format('HH:mm')}
+          {localizeTime(props.leg.endTime)}
         </div>
       </div>
       <ItineraryCircleLine index={props.index} modeClassName={modeClassName} />

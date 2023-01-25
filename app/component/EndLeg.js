@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import moment from 'moment';
 import cx from 'classnames';
 import { matchShape } from 'found';
 
@@ -8,6 +7,7 @@ import { FormattedMessage, intlShape } from 'react-intl';
 import Icon from './Icon';
 import { isKeyboardSelectionEvent } from '../util/browser';
 import { parseLocation } from '../util/path';
+import { localizeTime } from '../util/timeUtils';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 function EndLeg(props, context) {
@@ -25,14 +25,14 @@ function EndLeg(props, context) {
         <FormattedMessage
           id="itinerary-details.end-leg"
           values={{
-            time: moment(props.endTime).format('HH:mm'),
+            time: localizeTime(props.endTime),
             destination: props.to.name,
           }}
         />
       </span>
       <div className="small-2 columns itinerary-time-column" aria-hidden="true">
         <div className="itinerary-time-column-time">
-          {moment(props.endTime).format('HH:mm')}
+          {localizeTime(props.endTime)}
         </div>
       </div>
       <div className={`leg-before ${modeClassName}`} aria-hidden="true">

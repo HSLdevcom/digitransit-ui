@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Link from 'found/Link';
-import moment from 'moment';
 import { FormattedMessage } from 'react-intl';
 
 import RouteNumber from './RouteNumber';
@@ -10,6 +9,7 @@ import StopCode from './StopCode';
 import LegAgencyInfo from './LegAgencyInfo';
 import ItineraryCircleLine from './ItineraryCircleLine';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
+import { localizeTime } from '../util/timeUtils';
 
 class CallAgencyLeg extends React.Component {
   stopCode = stopCode => stopCode && <StopCode code={stopCode} />;
@@ -21,9 +21,9 @@ class CallAgencyLeg extends React.Component {
         this.context.config.itinerary.delayThreshold && [
         <br key="br" />,
         <span key="time" className="original-time">
-          {moment(this.props.leg.startTime)
-            .subtract(this.props.leg.departureDelay, 's')
-            .format('HH:mm')}
+          {localizeTime(
+            this.props.leg.startTime - this.props.leg.departureDelay * 1000,
+          )}
         </span>,
       ];
 
@@ -43,7 +43,7 @@ class CallAgencyLeg extends React.Component {
             }
           >
             <div className="itinerary-time-column-time">
-              <span>{moment(this.props.leg.startTime).format('HH:mm')}</span>
+              <span>{localizeTime(this.props.leg.startTime)}</span>
               {originalTime}
             </div>
           </Link>

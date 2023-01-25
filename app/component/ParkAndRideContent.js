@@ -86,8 +86,8 @@ const ParkAndRideContent = (
         if (to - from - 60 * 60 * 24 === 0) {
           return [`24${intl.formatMessage({ id: 'hour-short' })}`];
         }
-        const formattedFrom = moment.utc(from * 1000).format('HH:mm');
-        const formattedTo = moment.utc(to * 1000).format('HH:mm');
+        const formattedFrom = moment.utc(from * 1000).format('LT');
+        const formattedTo = moment.utc(to * 1000).format('LT');
         return [`${formattedFrom} - ${formattedTo}`];
       }
       let i = 0;
@@ -107,8 +107,8 @@ const ParkAndRideContent = (
           }
           j += 1;
         }
-        const from = moment.utc(timeSpans.from * 1000).format('HH:mm');
-        const to = moment.utc(timeSpans.to * 1000).format('HH:mm');
+        const from = moment.utc(timeSpans.from * 1000).format('LT');
+        const to = moment.utc(timeSpans.to * 1000).format('LT');
         const day = date.toLocaleString(currentLanguage, { weekday: 'short' });
         if (i === j - 1) {
           hoursAsText.push(
