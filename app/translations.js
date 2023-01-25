@@ -1135,7 +1135,7 @@ const translations = {
     'itinerary-page.loading-itineraries': 'Downloading more search results',
     'itinerary-page.show-details': 'Show itinerary details',
     'itinerary-page.show-details-label': 'Show itinerary {number} details',
-    'itinerary-page.title': 'Itinerary',
+    'itinerary-page.title': 'Trip Itinerary',
     'itinerary-page.update-alert': 'Search results updated',
     'itinerary-summary-page-street-mode.update-alert':
       'Walking and biking results updated',
