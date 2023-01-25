@@ -92,6 +92,11 @@ export default configMerger(walttiConfig, {
   feedIds: ['embark'],
 
   transportModes: {
+
+    nearYouTitle: {
+      en: 'Search Stops & Routes',
+    },
+
     bus: {
       availableForSelection: true,
       defaultValue: true,
