@@ -10,33 +10,29 @@ We develop using *one* development branch (`release/int/development`) and *one* 
 
 A `CONFIG` environment variable is used to determine which instance-specific configuration to use; For example, `CONFIG=bbnavi-angermuende` will make it load `app/configurations/config.bbnavi-angermuende.js`. Because we develop from *one* main branch, almost all differences between the instances lead back to a different `config.bbnavi-*.js` file being used because of a different `$CONFIG` value.
 
-[`.gitlab-ci.yml`](.gitlab-ci.yml) defines all steps to be run by the [Gitlab CI service](https://docs.gitlab.com/ee/ci/) in all possible scenarios. Currently, the scenarious relevant to the deployment process are these:
-- on a push to the `bbnavi` (main) branch, the CI system will
-	1. lint & test the code
-	2. build a Docker image tagged with the [Git commit](https://git-scm.com/docs/gitglossary#Documentation/gitglossary.txt-aiddefcommitacommit)'s hash, e.g. `digitransit-ui:157f0ec…`
-	3. push this Docker image to [the repo's *Container Registry*](https://gitlab.tpwd.de/tpwd/bb-navi/digitransit-ui/container_registry), a place to store Docker images
-- when Git tag named `release_<instance>_<date>` or `release_<instance>_<date>_<count>` is pushed, the CI system will
-	1. check if there is a Docker image tagged with the respective commit's hash available in the *Container Registry*
-	2. deploy that Docker image to our infrastructure, using
-		- [*Docker Compose*](https://docs.docker.com/compose/) to compile the environment variables & configuration of the instance from several files
+[`lint-test-deploy.yml`](../.github/workflows/lint-test-deploy.yml) defines all steps to be run by the [*GitHub Actions* CI service](https://docs.github.com/en/actions):
+1. On a push to any branch, the CI system will lint, build & test the code by running the respective `yarn run …` commands.
+2. When Git tag named `release_<instance>_<date>` or `release_<instance>_<date>_<i>` is pushed, the CI system will
+	1. lint, build & test the code, as described above
+	2. build a Docker image tagged with
+		- the Git tag, e.g. `release_frankfurt-oder_2023-02-06_2`
+		- a "stable" tag used to permanently identify one deployment, consisting of the date+time and the [Git commit](https://git-scm.com/docs/gitglossary#Documentation/gitglossary.txt-aiddefcommitacommit)'s hash, e.g. `2023-02-06T09.10.12-abcdefgh`
+	3. push this Docker image [to the *Container Registry*](https://github.com/bbnavi/digitransit-ui/pkgs/container/digitransit-ui)
+	4. deploy that Docker image to our infrastructure, using
+		- [*Docker Compose*](https://docs.docker.com/compose/) to compile both general as well as instance-specific configuration parameters & secrets into a "flat" Docker Swarm stack
 		- [Quantum CLI](https://cli.planetary-quantum.com), a command-line interface to *Planetary Quantum*
 
-With this process,
-- we ensure that **only code can be deployed that has been linted and tested** on the `bbnavi` (main) branch;
-- when deploying many instances at once, we **avoid running the time-consuming Docker image build mulitple times**, siginificantly reducing the total deployment time;
-- we achieve reasonable transparency over what has been deployed where and when.
+Because artifacts (e.g. `node_modules`, intermediate Docker image layers) needed for the CI process are being cached, deploying the same Git commiut to many instances avoids re-doing the time-consuming (full) Docker image build.
 
-*Note:* Currently, [there is a bug in Gitlab](https://gitlab.com/gitlab-org/gitlab/-/issues/358729) that, in the [tags list](https://gitlab.tpwd.de/tpwd/bb-navi/digitransit-ui/-/tags), links the wrong CI pipelines. Be attentive when navigating Gitlab in this direction!
+Also, because all deployments has a corresponding Git tag, we have transparency over what has been deployed where and when.
 
-*Note:* Currently, there is a bug in Gitlab that, when pushing too many Git tags at once (it happened to me with 6), it won't start CI pipelines for all of them. Therefore, when deploying many `*.bbnavi.de` instances, make sure to push the tags in badges of 3-4; Pushing another badge before the previous set of CI pipelines has finished is fine, Gitlab will queue them as pending.
-
-## How to deploy a new `*.bbnavi` instance
+## How to deploy a new `*.bbnavi.de` instance
 
 Assuming an instance name `bbnavi-foo` available at `bar.bbnavi.de`, follow these steps:
 
 1. Create a new configuration `app/configurations/config.bbnavi-foo.js` and customize e.g. the UI color or available transport modes. Let this file partially override/extend `app/configurations/config.bbnavi.js` using the `configMerger` helper. For an example, have a look at `app/configurations/config.bbnavi-bad-belzig.js`.
-2. Test your customizations locally but running the local dev environment with `CONFIG=bbnavi-foo`.
+2. Test your customizations locally by running the local dev environment with `CONFIG=bbnavi-foo`.
 3. Create a new deployment file `deployments/stack.bar.yml` by adapting e.g. `deployments/stack.bad-belzig.yml`. Make sure to set `CONFIG=bbnavi-foo`. This file partially overrides/extends `deployments/stack.yml`.
-4. Make sure your changes are pushed to `bbnavi`, and wait for the CI pipeline to build and push a Docker image `digitransit-ui:<git-commit-sha>`.
-5. Push a Git tag `release_foo_<year>-<month>-<date>` pointing to the (exact) same commit. The CI pipeline should now deploy the instance by creating a new service in the Docker Swarm cluster.
+5. Push your changes to GitHub, either into a separate branch, or into `bbnavi`. Wait for the CI to lint and test your code.
+6. Push a Git tag `release_foo_<year>-<month>-<date>` pointing to the (exact) same commit. The CI pipeline should now deploy the instance by creating a new service in the Docker Swarm cluster.
 6. Soon after, your instance should be available at `https://bar.bbnavi.de`.
