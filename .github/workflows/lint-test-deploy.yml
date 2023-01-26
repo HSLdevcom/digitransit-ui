@@ -294,3 +294,31 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max,oci-mediatypes=true,compression=zstd
           push: true
+
+      - name: generate Docker Swarm stack definition
+        env:
+          DOCKER_IMAGE: ${{ steps.docker-meta.outputs.image }}
+          DOCKER_TAG: ${{ steps.docker-meta.outputs.permanent-tag }}
+          FAHRGEMEINSCHAFT_API_KEY: ${{ secrets.FAHRGEMEINSCHAFT_API_KEY }}
+        run: |
+          set -e -x -u -o pipefail # fail on errors
+          docker-compose \
+            -f docker-compose.yml -f deployment/stack.yml \
+            -f "deployment/stack.${{ steps.bbnavi-config.outputs.cfg }}.yml" \
+            config | tee quantum.yml
+
+      - name: deploy stack using Planetary Quantum CLI
+        env:
+          QUANTUM_ENDPOINT: tpwd-bb-navi
+          QUANTUM_PROJECT: bbnavi-digitransit-ui
+          QUANTUM_USER: ${{ secrets.QUANTUM_USER }}
+          QUANTUM_PASSWORD: ${{ secrets.QUANTUM_PASSWORD }}
+        run: |
+          set -e -x -u -o pipefail # fail on errors
+          # The "bb-" namespace stands for "Brandenburg", in case we ever have instances in other regions.
+          stack="$QUANTUM_PROJECT-bb-${{ steps.bbnavi-config.outputs.cfg }}"
+          docker run --rm -i \
+            -v $PWD:/app:ro -w /app \
+            -e QUANTUM_ENDPOINT -e QUANTUM_PROJECT -e QUANTUM_USER -e QUANTUM_PASSWORD \
+            r.planetary-quantum.com/quantum-public/cli:2 \
+            quantum-cli stack update --create --stack "$stack" --wait
