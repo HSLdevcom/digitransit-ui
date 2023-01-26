@@ -87,9 +87,17 @@ export default configMerger(walttiConfig, {
 
   title: APP_TITLE,
 
-  textLogo: true,
-
+  textLogo: false,
+  logo: 'okc/logo.png',
+  secondaryLogo: 'okc/secondary-logo.png',
+  favicon: './app/configurations/images/okc/secondary-logo.png',
+  
   feedIds: ['embark'],
+
+  mainMenu: {
+    // Whether to show the left menu toggle button at all
+    show: false,
+  },
 
   transportModes: {
     bus: {
