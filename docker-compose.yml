@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   digitransit-ui:
-    image: registry.gitlab.tpwd.de/tpwd/bb-navi/digitransit-ui:latest
+    image: ghcr.io/bbnavi/digitransit-ui:latest
     environment:
       - API_URL=https://api.bbnavi.de
       - DATAHUB_URL=https://datahub.bbnavi.de
