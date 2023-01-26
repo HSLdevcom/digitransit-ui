@@ -100,6 +100,11 @@ export default configMerger(walttiConfig, {
   },
 
   transportModes: {
+
+    nearYouTitle: {
+      en: 'Search Stops & Routes',
+    },
+
     bus: {
       availableForSelection: true,
       defaultValue: true,
