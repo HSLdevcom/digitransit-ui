@@ -33,7 +33,6 @@ export default class ErrorBoundary extends React.Component {
 
   render() {
     if (this.state.error) {
-      console.log("errorboundary", this.state.error)
       if (isRelayNetworkError(this.state.error)) {
         return <NetworkError retry={this.resetState} />;
       }
