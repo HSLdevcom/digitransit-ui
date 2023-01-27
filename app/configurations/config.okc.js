@@ -73,6 +73,8 @@ export default configMerger(walttiConfig, {
     embark: {}
   },
 
+  sprites: 'assets/svg-sprite.okc.svg',
+
   socialMedia: {
     title: APP_TITLE,
     description: APP_DESCRIPTION,
