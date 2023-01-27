@@ -205,9 +205,7 @@ class TopLevel extends React.Component {
                 : 0
             }
           >
-            <Suspense fallback={<Loading />}>
-            {content}
-            </Suspense>
+            <Suspense fallback={<Loading />}>{content}</Suspense>
           </ErrorBoundary>
         </section>
       </Fragment>

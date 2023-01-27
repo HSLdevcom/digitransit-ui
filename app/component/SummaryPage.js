@@ -1,16 +1,10 @@
+/* eslint-disable no-use-before-define */
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable no-nested-ternary */
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import React, { useEffect, useRef, useState } from 'react';
-import {
-  createRefetchContainer,
-  fetchQuery,
-  graphql,
-  ReactRelayContext,
-  useFragment,
-  useLazyLoadQuery,
-} from 'react-relay';
+import React, { useEffect, useState } from 'react';
+import { createRefetchContainer, fetchQuery, graphql } from 'react-relay';
 import { connectToStores } from 'fluxible-addons-react';
 import findIndex from 'lodash/findIndex';
 import pick from 'lodash/pick';
@@ -35,8 +29,12 @@ import {
   validateServiceTimeRange,
   getStartTimeWithColon,
 } from '../util/timeUtils';
-import { planQuery, moreItinerariesQuery, allModesQuery, walkAndBikeQuery } from '../util/queryUtils';
-import withBreakpoint from '../util/withBreakpoint';
+import {
+  planQuery,
+  moreItinerariesQuery,
+  allModesQuery,
+  walkAndBikeQuery,
+} from '../util/queryUtils';
 import { isIOS } from '../util/browser';
 import { itineraryHasCancelation } from '../util/alertUtils';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
@@ -74,6 +72,8 @@ import ErrorShape from '../prop-types/ErrorShape';
 import RoutingErrorShape from '../prop-types/RoutingErrorShape';
 
 const POINT_FOCUS_ZOOM = 16; // used when focusing to a point
+
+const SHOW_VEHICLES_THRESHOLD_MINUTES = 720;
 
 /**
 /**
@@ -300,7 +300,8 @@ let allModesQueryDone = false;
 let isFetching = false;
 
 const SummaryPage = (props, context) => {
-  let params, query;
+  let params;
+  let query;
   const { match } = props;
 
   const setParamsAndQuery = () => {
@@ -308,7 +309,7 @@ const SummaryPage = (props, context) => {
     query = context.match.location.query;
   };
 
-  const setCurrentTimeToURL = (config, match) => {
+  const setCurrentTimeToURL = config => {
     if (config.NODE_ENV !== 'test' && !match.location?.query?.time) {
       const newLocation = {
         ...match.location,
@@ -331,7 +332,7 @@ const SummaryPage = (props, context) => {
     });
   };
 
-  setParamsAndQuery()
+  setParamsAndQuery();
   let originalPlan = props.viewer && props.viewer.plan;
   let expandMap = 0;
 
@@ -339,14 +340,13 @@ const SummaryPage = (props, context) => {
     reportError(props.error);
   }
 
-  let tabHeaderRef = React.createRef(null);
-  let headerRef = React.createRef();
-  let contentRef = React.createRef();
-  let show_vehicles_threshold_minutes = 720;
-  setCurrentTimeToURL(context.config, props.match)
-  let isFirstRender = React.useRef(true)
+  const tabHeaderRef = React.createRef(null);
+  const headerRef = React.createRef();
+  const contentRef = React.createRef();
+  setCurrentTimeToURL(context.config);
+  const isFirstRender = React.useRef(true);
   let mwtRef;
-  let pendingWeatherHash = undefined
+  let pendingWeatherHash;
 
   const [state, setState] = React.useState({
     weatherData: {},
@@ -368,14 +368,18 @@ const SummaryPage = (props, context) => {
     isFetchingWeather: true,
     settingsChangedRecently: false,
     settingsOnOpen: undefined,
-  })
-  const [weatherCallback, setWeatherCallback] = useState(undefined)
-  const [refetchCallback, setRefetchCallback] = useState(undefined)
-  const [resetSelectionCallback, setResetSelectionCallback] = useState(undefined)
-  const [allModesCallback, setAllModesCallback] = useState(undefined)
-  const [settingsOpen, setSettingsOpen] = useState(false)
-  const [resetWalkAndBikeCallback, setResetWalkAndBikeCallback] = useState(undefined)
-  const [screenReaderCallback, setScreenReaderCallback] = useState(undefined)
+  });
+  const [weatherCallback, setWeatherCallback] = useState(undefined);
+  const [refetchCallback, setRefetchCallback] = useState(undefined);
+  const [resetSelectionCallback, setResetSelectionCallback] = useState(
+    undefined,
+  );
+  const [allModesCallback, setAllModesCallback] = useState(undefined);
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  const [resetWalkAndBikeCallback, setResetWalkAndBikeCallback] = useState(
+    undefined,
+  );
+  const [screenReaderCallback, setScreenReaderCallback] = useState(undefined);
 
   let selectedPlan;
   if (props.match.params.hash === 'walk') {
@@ -398,17 +402,15 @@ const SummaryPage = (props, context) => {
   }
 
   const makeQueryWithAllModes = () => {
-    setState({ ...state, loading: true })
+    setState({ ...state, loading: true });
 
     resetSummaryPageSelection();
-
-    const query = allModesQuery
 
     const planParams = preparePlanParams(context.config, true)(
       context.match.params,
       context.match,
     );
-    fetchQuery(props.relayEnvironment, query, planParams, {
+    fetchQuery(props.relayEnvironment, allModesQuery, planParams, {
       force: true,
     })
       .toPromise()
@@ -419,20 +421,18 @@ const SummaryPage = (props, context) => {
           earlierItineraries: [],
           laterItineraries: [],
           separatorPosition: undefined,
-        })
-        setAllModesCallback(true)
+        });
+        setAllModesCallback(true);
       });
   };
 
   const makeWalkAndBikeQueries = () => {
-    const query = walkAndBikeQuery
-
     const planParams = preparePlanParams(context.config, false)(
       context.match.params,
       context.match,
     );
 
-    fetchQuery(props.relayEnvironment, query, planParams)
+    fetchQuery(props.relayEnvironment, walkAndBikeQuery, planParams)
       .toPromise()
       .then(result => {
         setState({
@@ -445,22 +445,22 @@ const SummaryPage = (props, context) => {
           bikeParkPlan: result.bikeParkPlan,
           carPlan: result.carPlan,
           parkRidePlan: result.parkRidePlan,
-        })
-        setWeatherCallback(true)
+        });
+        setWeatherCallback(true);
       })
       .catch(() => {
         setState({ ...state, isFetchingWalkAndBike: false });
       });
   };
 
-  /** EFFECTS **/
+  /** EFFECTS * */
   useEffect(() => {
-    updateLocalStorage(true)
+    updateLocalStorage(true);
     const host =
       context.headers &&
-      (context.headers['x-forwarded-host'] || context.headers.host)
+      (context.headers['x-forwarded-host'] || context.headers.host);
 
-      if (
+    if (
       get(context, 'config.showHSLTracking', false) &&
       host &&
       host.indexOf('127.0.0.1') === -1 &&
@@ -487,19 +487,20 @@ const SummaryPage = (props, context) => {
     /* A query with all modes is made on page load if relevant settings ('modes', 'walkBoardCost', 'ticketTypes', 'walkReluctance') differ from defaults. The all modes query uses default settings. */
     if (
       relevantRoutingSettingsChanged(context.config) &&
-      hasStartAndDestination(context.match.params) && !allModesQueryDone
+      hasStartAndDestination(context.match.params) &&
+      !allModesQueryDone
     ) {
       makeQueryWithAllModes();
     }
-  }, [])
+  }, []);
 
   useEffect(() => {
     // Don't make right away on mount
     if (isFirstRender.current) {
       isFirstRender.current = false;
-      return
+      return;
     }
-    setCurrentTimeToURL(context.config, props.match)
+    setCurrentTimeToURL(context.config);
     // screen reader alert when new itineraries are fetched
     if (
       props.match.params.hash === undefined &&
@@ -516,10 +517,7 @@ const SummaryPage = (props, context) => {
     // Reset walk and bike suggestions when new search is made
     if (
       selectedPlan !== state.alternativePlan &&
-      !isEqual(
-        props.viewer && props.viewer.plan,
-        originalPlan,
-      ) &&
+      !isEqual(props.viewer && props.viewer.plan, originalPlan) &&
       paramsOrQueryHaveChanged() &&
       secondQuerySent &&
       !state.isFetchingWalkAndBike
@@ -527,7 +525,8 @@ const SummaryPage = (props, context) => {
       setParamsAndQuery();
       secondQuerySent = false;
       // eslint-disable-next-line react/no-did-update-set-state
-      setState({ ...state, 
+      setState({
+        ...state,
         isFetchingWalkAndBike: true,
         walkPlan: undefined,
         bikePlan: undefined,
@@ -539,10 +538,10 @@ const SummaryPage = (props, context) => {
         laterItineraries: [],
         weatherData: {},
         separatorPosition: undefined,
-        alternativePlan: undefined, 
-        })
-      setResetWalkAndBikeCallback(true)
-      }
+        alternativePlan: undefined,
+      });
+      setResetWalkAndBikeCallback(true);
+    }
 
     // Public transit routes fetched, now fetch walk and bike itineraries
     if (
@@ -593,65 +592,66 @@ const SummaryPage = (props, context) => {
       }
       if (!isEqual(itineraryTopics, state.itineraryTopics)) {
         // eslint-disable-next-line react/no-did-update-set-state
-        setState({ ...state, itineraryTopics: itineraryTopics });
+        setState({ ...state, itineraryTopics });
       }
     }
-  })
-  
-  /** EFFECTS END **/
+  });
 
-  /** EFFECT CALLBACKS **/
+  /** EFFECTS END * */
+
+  /** EFFECT CALLBACKS * */
 
   // Make weather query after walkAndBikeQuery
   useEffect(() => {
     if (isFirstRender.current) {
       isFirstRender.current = false;
-      return
-    } else if (!weatherCallback) {
-      return
+      return;
     }
-    setState({ ...state, isFetchingWalkAndBike: false })
-    makeWeatherQuery()
+    if (!weatherCallback) {
+      return;
+    }
+    setState({ ...state, isFetchingWalkAndBike: false });
+    makeWeatherQuery();
     // Cleanup
-    setWeatherCallback(undefined)
-  }, [weatherCallback])
+    setWeatherCallback(undefined);
+  }, [weatherCallback]);
 
   useEffect(() => {
     if (isFirstRender.current) {
       isFirstRender.current = false;
-      return
-    } else if (!refetchCallback) {
-      return
+      return;
+    }
+    if (!refetchCallback) {
+      return;
     }
     const planParams = preparePlanParams(context.config, false)(
       context.match.params,
       context.match,
     );
-    
+
     props.relay.refetch(planParams, null, () => {
-      setState(
-        {
-          ...state,
-          loading: false,
-          earlierItineraries: [],
-          laterItineraries: [],
-          separatorPosition: undefined,
-          alternativePlan: undefined,
-          settingsChangedRecently: true,
-        },
-      );
-      setResetSelectionCallback(true)
+      setState({
+        ...state,
+        loading: false,
+        earlierItineraries: [],
+        laterItineraries: [],
+        separatorPosition: undefined,
+        alternativePlan: undefined,
+        settingsChangedRecently: true,
+      });
+      setResetSelectionCallback(true);
     });
     // Cleanup
-    setRefetchCallback(undefined)
-  }, [refetchCallback])
+    setRefetchCallback(undefined);
+  }, [refetchCallback]);
 
   useEffect(() => {
     if (isFirstRender.current) {
       isFirstRender.current = false;
-      return
-    } else if (!resetSelectionCallback) {
-      return
+      return;
+    }
+    if (!resetSelectionCallback) {
+      return;
     }
 
     context.router.replace({
@@ -663,33 +663,35 @@ const SummaryPage = (props, context) => {
     });
 
     // Clean up
-    setResetSelectionCallback(undefined)
-  }, [resetSelectionCallback])
+    setResetSelectionCallback(undefined);
+  }, [resetSelectionCallback]);
 
   useEffect(() => {
     if (isFirstRender.current) {
       isFirstRender.current = false;
-      return
-    } else if (!allModesCallback) {
-      return
+      return;
+    }
+    if (!allModesCallback) {
+      return;
     }
 
-    setLoading(false)
-    setState({ ...state, loading: false })
+    setLoading(false);
+    setState({ ...state, loading: false });
     isFetching = false;
-    setParamsAndQuery()
-    allModesQueryDone = true
+    setParamsAndQuery();
+    allModesQueryDone = true;
 
     // Clean up
-    setAllModesCallback(undefined)
-  }, [allModesCallback])
+    setAllModesCallback(undefined);
+  }, [allModesCallback]);
 
   useEffect(() => {
     if (isFirstRender.current) {
       isFirstRender.current = false;
-      return
-    } else if (!resetWalkAndBikeCallback) {
-      return
+      return;
+    }
+    if (!resetWalkAndBikeCallback) {
+      return;
     }
 
     const hasNonWalkingItinerary = selectedPlan?.itineraries?.some(
@@ -704,26 +706,27 @@ const SummaryPage = (props, context) => {
     }
 
     // Cleanup
-    setResetWalkAndBikeCallback(undefined)
-  }, [resetWalkAndBikeCallback])
+    setResetWalkAndBikeCallback(undefined);
+  }, [resetWalkAndBikeCallback]);
 
   useEffect(() => {
     if (isFirstRender.current) {
       isFirstRender.current = false;
-      return
-    } else if (!screenReaderCallback) {
-      return
+      return;
+    }
+    if (!screenReaderCallback) {
+      return;
     }
 
-    showScreenreaderUpdatedAlert()
-  }, [screenReaderCallback])
+    showScreenreaderUpdatedAlert();
+  }, [screenReaderCallback]);
 
-  /** EFFECT CALLBACKS END **/
+  /** EFFECT CALLBACKS END * */
 
-  /** FUNCTIONS **/
+  /** FUNCTIONS * */
 
   const setLoading = loading => {
-    setState({ ...state, loading: loading });
+    setState({ ...state, loading });
   };
 
   const onlyHasWalkingItineraries = () => {
@@ -866,10 +869,8 @@ const SummaryPage = (props, context) => {
     ).length === 0;
 
   const planHasNoStreetModeItineraries = () =>
-    (!state.bikePlan?.itineraries ||
-      state.bikePlan.itineraries.length === 0) &&
-    (!state.carPlan?.itineraries ||
-      state.carPlan.itineraries.length === 0) &&
+    (!state.bikePlan?.itineraries || state.bikePlan.itineraries.length === 0) &&
+    (!state.carPlan?.itineraries || state.carPlan.itineraries.length === 0) &&
     (!state.parkRidePlan?.itineraries ||
       state.parkRidePlan.itineraries.length === 0) &&
     (!state.bikeParkPlan?.itineraries ||
@@ -911,9 +912,7 @@ const SummaryPage = (props, context) => {
   };
 
   const updateClient = itineraryTopics => {
-    const { client, topics } = context.getStore(
-      'RealTimeInformationStore',
-    );
+    const { client, topics } = context.getStore('RealTimeInformationStore');
 
     if (isEmpty(itineraryTopics) && client) {
       stopClient();
@@ -981,17 +980,16 @@ const SummaryPage = (props, context) => {
       return;
     }
 
-    const useDefaultModes =
-      planHasNoItineraries() && state.alternativePlan;
+    const useDefaultModes = planHasNoItineraries() && state.alternativePlan;
 
-    const params = preparePlanParams(context.config, useDefaultModes)(
+    const planParams = preparePlanParams(context.config, useDefaultModes)(
       context.match.params,
       context.match,
     );
 
     const tunedParams = {
       wheelchair: null,
-      ...params,
+      ...planParams,
       numItineraries: 5,
       arriveBy: false,
       date: latestDepartureTime.format('YYYY-MM-DD'),
@@ -1091,17 +1089,16 @@ const SummaryPage = (props, context) => {
       return;
     }
 
-    const useDefaultModes =
-      planHasNoItineraries() && state.alternativePlan;
+    const useDefaultModes = planHasNoItineraries() && state.alternativePlan;
 
-    const params = preparePlanParams(context.config, useDefaultModes)(
+    const planParams = preparePlanParams(context.config, useDefaultModes)(
       context.match.params,
       context.match,
     );
 
     const tunedParams = {
       wheelchair: null,
-      ...params,
+      ...planParams,
       numItineraries: 5,
       arriveBy: true,
       date: earliestArrivalTime.format('YYYY-MM-DD'),
@@ -1192,7 +1189,6 @@ const SummaryPage = (props, context) => {
 
   const updateLocalStorage = saveEndpoints => {
     const { location } = props.match;
-    const { query } = location;
     const pathArray = decodeURIComponent(location.pathname)
       .substring(1)
       .split('/');
@@ -1229,7 +1225,7 @@ const SummaryPage = (props, context) => {
     context.executeAction(saveFutureRoute, itinerarySearch);
   };
 
-  const setModeToParkRideIfSelected = (tunedParams) => {
+  const setModeToParkRideIfSelected = tunedParams => {
     if (props.match.params.hash === 'parkAndRide') {
       // eslint-disable-next-line no-param-reassign
       tunedParams.modes = [
@@ -1237,7 +1233,7 @@ const SummaryPage = (props, context) => {
         { mode: 'TRANSIT' },
       ];
     }
-  }
+  };
 
   const setError = error => {
     reportError(error);
@@ -1295,7 +1291,7 @@ const SummaryPage = (props, context) => {
 
   const checkDayNight = (iconId, timem, lat, lon) => {
     // These are icons that contains sun
-    let dayNightIconIds = [1, 2, 21, 22, 23, 41, 42, 43, 61, 62, 71, 72, 73];
+    const dayNightIconIds = [1, 2, 21, 22, 23, 41, 42, 43, 61, 62, 71, 72, 73];
 
     const date = timem.toDate();
     const dateMillis = date.getTime();
@@ -1334,9 +1330,7 @@ const SummaryPage = (props, context) => {
     const from = otpToLocation(props.match.params.from);
     const { walkPlan, bikePlan } = state;
     const bikeParkPlan = filteredbikeAndPublic(state.bikeParkPlan);
-    const bikeAndPublicPlan = filteredbikeAndPublic(
-      state.bikeAndPublicPlan,
-    );
+    const bikeAndPublicPlan = filteredbikeAndPublic(state.bikeAndPublicPlan);
     const itin =
       (walkPlan && walkPlan.itineraries && walkPlan.itineraries[0]) ||
       (bikePlan && bikePlan.itineraries && bikePlan.itineraries[0]) ||
@@ -1386,66 +1380,78 @@ const SummaryPage = (props, context) => {
           })
           .catch(err => {
             pendingWeatherHash = undefined;
-            setState({ ...state, isFetchingWeather: false, weatherData: { err } });
+            setState({
+              ...state,
+              isFetchingWeather: false,
+              weatherData: { err },
+            });
           })
           .finally(() => {
             if (props.alertRef.current) {
-              props.alertRef.current.innerHTML = context.intl.formatMessage(
-                {
-                  id: 'itinerary-summary-page-street-mode.update-alert',
-                  defaultMessage: 'Walking and biking results updated',
-                },
-              );
+              // eslint-disable-next-line no-param-reassign
+              props.alertRef.current.innerHTML = context.intl.formatMessage({
+                id: 'itinerary-summary-page-street-mode.update-alert',
+                defaultMessage: 'Walking and biking results updated',
+              });
               setTimeout(() => {
+                // eslint-disable-next-line no-param-reassign
                 props.alertRef.current.innerHTML = null;
               }, 100);
             }
           });
       }
     }
-  }
+  };
 
   const showScreenreaderLoadedAlert = () => {
     if (props.alertRef.current) {
       if (props.alertRef.current.innerHTML) {
+        // eslint-disable-next-line no-param-reassign
         props.alertRef.current.innerHTML = null;
       }
+      // eslint-disable-next-line no-param-reassign
       props.alertRef.current.innerHTML = context.intl.formatMessage({
         id: 'itinerary-page.itineraries-loaded',
         defaultMessage: 'More itineraries loaded',
       });
       setTimeout(() => {
+        // eslint-disable-next-line no-param-reassign
         props.alertRef.current.innerHTML = null;
       }, 100);
     }
-  }
+  };
 
   const showScreenreaderUpdatedAlert = () => {
     if (props.alertRef.current) {
       if (props.alertRef.current.innerHTML) {
+        // eslint-disable-next-line no-param-reassign
         props.alertRef.current.innerHTML = null;
       }
+      // eslint-disable-next-line no-param-reassign
       props.alertRef.current.innerHTML = context.intl.formatMessage({
         id: 'itinerary-page.itineraries-updated',
         defaultMessage: 'search results updated',
       });
       setTimeout(() => {
+        // eslint-disable-next-line no-param-reassign
         props.alertRef.current.innerHTML = null;
       }, 100);
     }
-  }
+  };
 
   const showScreenreaderLoadingAlert = () => {
     if (props.alertRef.current && !props.alertRef.current.innerHTML) {
+      // eslint-disable-next-line no-param-reassign
       props.alertRef.current.innerHTML = context.intl.formatMessage({
         id: 'itinerary-page.loading-itineraries',
         defaultMessage: 'Loading for more itineraries',
       });
       setTimeout(() => {
+        // eslint-disable-next-line no-param-reassign
         props.alertRef.current.innerHTML = null;
       }, 100);
     }
-  }
+  };
 
   const changeHash = index => {
     const isbikeAndVehicle = props.match.params.hash === 'bikeAndVehicle';
@@ -1474,7 +1480,7 @@ const SummaryPage = (props, context) => {
   };
 
   const renderMap = (from, to, viaPoints) => {
-    const { match, breakpoint } = props;
+    const { breakpoint } = props;
     const combinedItineraries = getCombinedItineraries();
     // summary or detail view ?
     const detailView = routeSelected(
@@ -1528,7 +1534,7 @@ const SummaryPage = (props, context) => {
         onlyHasWalkingItineraries={onlyHasWalkingItineraries()}
       />
     );
-  }
+  };
 
   const toggleCustomizeSearchOffcanvas = () => {
     internalSetOffcanvas(!settingsOpen);
@@ -1571,8 +1577,11 @@ const SummaryPage = (props, context) => {
       name: newState ? 'ExtraSettingsPanelOpen' : 'ExtraSettingsPanelClose',
     });
     if (newState) {
-      setState({ ...state, settingsOnOpen: getCurrentSettings(context.config, '') });
-      setSettingsOpen(true)
+      setState({
+        ...state,
+        settingsOnOpen: getCurrentSettings(context.config, ''),
+      });
+      setSettingsOpen(true);
       if (props.breakpoint !== 'large') {
         context.router.push({
           ...props.match.location,
@@ -1583,13 +1592,10 @@ const SummaryPage = (props, context) => {
         });
       }
     } else {
-      setSettingsOpen(false)
+      setSettingsOpen(false);
       if (props.breakpoint !== 'large') {
         if (
-          !isEqual(
-            state.settingsOnOpen,
-            getCurrentSettings(context.config, ''),
-          )
+          !isEqual(state.settingsOnOpen, getCurrentSettings(context.config, ''))
         ) {
           if (
             !isEqual(
@@ -1606,15 +1612,12 @@ const SummaryPage = (props, context) => {
               separatorPosition: undefined,
               alternativePlan: undefined,
               settingsChangedRecently: true,
-            })
-            setScreenReaderCallback(true)
+            });
+            setScreenReaderCallback(true);
           }
         }
       } else if (
-        !isEqual(
-          state.settingsOnOpen,
-          getCurrentSettings(context.config, ''),
-        )
+        !isEqual(state.settingsOnOpen, getCurrentSettings(context.config, ''))
       ) {
         if (
           !isEqual(
@@ -1627,8 +1630,8 @@ const SummaryPage = (props, context) => {
             ...state,
             isFetchingWalkAndBike: true,
             loading: true,
-          })
-          setRefetchCallback(true)
+          });
+          setRefetchCallback(true);
         }
       }
     }
@@ -1642,9 +1645,9 @@ const SummaryPage = (props, context) => {
 
     // Vehicles are typically not shown if they are not in transit. But for some quirk in mqtt, if you
     // search for a route for example tomorrow, real time vehicle would be shown.
-    let inRange =
-      (diff <= show_vehicles_threshold_minutes && diff >= 0) ||
-      (diff >= -1 * show_vehicles_threshold_minutes && diff <= 0);
+    const inRange =
+      (diff <= SHOW_VEHICLES_THRESHOLD_MINUTES && diff >= 0) ||
+      (diff >= -1 * SHOW_VEHICLES_THRESHOLD_MINUTES && diff <= 0);
 
     return !!(
       inRange &&
@@ -1679,18 +1682,13 @@ const SummaryPage = (props, context) => {
   const plan = props.viewer && props.viewer.plan;
 
   const bikeParkPlan = filteredbikeAndPublic(state.bikeParkPlan);
-  const bikeAndPublicPlan = filteredbikeAndPublic(
-    state.bikeAndPublicPlan,
-  );
+  const bikeAndPublicPlan = filteredbikeAndPublic(state.bikeAndPublicPlan);
   if (
     planHasNoItineraries() &&
     userHasChangedModes(context.config) &&
     !isFetching &&
     (!state.alternativePlan ||
-      !isEqual(
-        props.viewer && props.viewer.plan,
-        originalPlan,
-      ))
+      !isEqual(props.viewer && props.viewer.plan, originalPlan))
   ) {
     originalPlan = props.viewer.plan;
     isFetching = true;
@@ -1733,9 +1731,7 @@ const SummaryPage = (props, context) => {
         </>
       );
     }
-    const hasBikeAndPublicPlan = Array.isArray(
-      bikeAndPublicPlan?.itineraries,
-    );
+    const hasBikeAndPublicPlan = Array.isArray(bikeAndPublicPlan?.itineraries);
     const hasBikeParkPlan = Array.isArray(bikeParkPlan?.itineraries);
 
     if (
@@ -1852,9 +1848,7 @@ const SummaryPage = (props, context) => {
     currentSettings.includeCarSuggestions &&
     hasCarItinerary;
 
-  const hasParkAndRideItineraries = !isEmpty(
-    get(parkRidePlan, 'itineraries'),
-  );
+  const hasParkAndRideItineraries = !isEmpty(get(parkRidePlan, 'itineraries'));
   const showParkRideOptionButton =
     context.config.includeParkAndRideSuggestions &&
     currentSettings.includeParkAndRideSuggestions &&
@@ -1875,8 +1869,7 @@ const SummaryPage = (props, context) => {
   if (
     !isFetching &&
     hasItineraries &&
-    (selectedPlan !== state.alternativePlan ||
-      selectedPlan !== plan) &&
+    (selectedPlan !== state.alternativePlan || selectedPlan !== plan) &&
     !isEqual(selectedPlan, state.previouslySelectedPlan)
   ) {
     setState({
@@ -1932,7 +1925,7 @@ const SummaryPage = (props, context) => {
     return React.cloneElement(props.content, {
       itinerary:
         combinedItineraries[hash < combinedItineraries.length ? hash : 0],
-      focusToPoint: focusToPoint,
+      focusToPoint,
       from,
       to,
     });
@@ -1944,9 +1937,7 @@ const SummaryPage = (props, context) => {
   let latestArrivalTime;
 
   if (selectedPlan?.itineraries) {
-    earliestStartTime = Math.min(
-      ...combinedItineraries.map(i => i.startTime),
-    );
+    earliestStartTime = Math.min(...combinedItineraries.map(i => i.startTime));
     latestArrivalTime = Math.max(...combinedItineraries.map(i => i.endTime));
   }
 
@@ -2049,9 +2040,7 @@ const SummaryPage = (props, context) => {
             itineraries={selectedItineraries}
             params={match.params}
             error={error || state.error}
-            bikeAndPublicItinerariesToShow={
-              bikeAndPublicItinerariesToShow
-            }
+            bikeAndPublicItinerariesToShow={bikeAndPublicItinerariesToShow}
             bikeAndParkItinerariesToShow={bikeAndParkItinerariesToShow}
             walking={showWalkOptionButton}
             biking={showBikeOptionButton}
@@ -2081,7 +2070,7 @@ const SummaryPage = (props, context) => {
             {props.content &&
               React.cloneElement(props.content, {
                 itinerary: selectedItineraries?.length && selectedItinerary,
-                focusToPoint: focusToPoint,
+                focusToPoint,
                 plan: selectedPlan,
               })}
           </SummaryPlanContainer>
@@ -2146,8 +2135,7 @@ const SummaryPage = (props, context) => {
               toggleSettings={toggleCustomizeSearchOffcanvas}
             />
             {error ||
-            (!state.isFetchingWalkAndBike &&
-              !showStreetModeSelector) ? null : (
+            (!state.isFetchingWalkAndBike && !showStreetModeSelector) ? null : (
               <StreetModeSelector
                 showWalkOptionButton={showWalkOptionButton}
                 showBikeOptionButton={showBikeOptionButton}
@@ -2186,13 +2174,8 @@ const SummaryPage = (props, context) => {
           </span>
         }
         settingsDrawer={
-          <SettingsDrawer
-            open={settingsOpen}
-            className="offcanvas"
-          >
-            <CustomizeSearch
-              onToggleClick={toggleCustomizeSearchOffcanvas}
-            />
+          <SettingsDrawer open={settingsOpen} className="offcanvas">
+            <CustomizeSearch onToggleClick={toggleCustomizeSearchOffcanvas} />
           </SettingsDrawer>
         }
         map={map}
@@ -2271,9 +2254,7 @@ const SummaryPage = (props, context) => {
             from={match.params.from}
             to={match.params.to}
             intermediatePlaces={viaPoints}
-            bikeAndPublicItinerariesToShow={
-              bikeAndPublicItinerariesToShow
-            }
+            bikeAndPublicItinerariesToShow={bikeAndPublicItinerariesToShow}
             bikeAndParkItinerariesToShow={bikeAndParkItinerariesToShow}
             walking={showWalkOptionButton}
             biking={showBikeOptionButton}
@@ -2322,8 +2303,7 @@ const SummaryPage = (props, context) => {
               toggleSettings={toggleCustomizeSearchOffcanvas}
             />
             {error ||
-            (!state.isFetchingWalkAndBike &&
-              !showStreetModeSelector) ? null : (
+            (!state.isFetchingWalkAndBike && !showStreetModeSelector) ? null : (
               <StreetModeSelector
                 showWalkOptionButton={showWalkOptionButton}
                 showBikeOptionButton={showBikeOptionButton}
@@ -2366,10 +2346,7 @@ const SummaryPage = (props, context) => {
       }
       map={map}
       settingsDrawer={
-        <SettingsDrawer
-          open={settingsOpen}
-          className="offcanvas-mobile"
-        >
+        <SettingsDrawer open={settingsOpen} className="offcanvas-mobile">
           <CustomizeSearch
             onToggleClick={toggleCustomizeSearchOffcanvas}
             mobile
@@ -2379,8 +2356,7 @@ const SummaryPage = (props, context) => {
       expandMap={expandMap}
     />
   );
-  
-}
+};
 
 SummaryPage.contextTypes = {
   config: PropTypes.object,

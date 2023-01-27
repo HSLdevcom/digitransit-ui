@@ -18,7 +18,6 @@ import TimeStore from '../store/TimeStore';
 import PositionStore from '../store/PositionStore';
 import { otpToLocation, getIntermediatePlaces } from '../util/otpStrings';
 import { getSummaryPath } from '../util/path';
-import { replaceQueryParams } from '../util/queryUtils';
 import withBreakpoint from '../util/withBreakpoint';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import { isIOS, isSafari } from '../util/browser';
@@ -30,36 +29,14 @@ import RoutingErrorShape from '../prop-types/RoutingErrorShape';
 import ChildrenShape from '../prop-types/ChildrenShape';
 
 const SummaryPlanContainer = (props, context) => {
-  const onSelectActive = index => {
-    const subpath = getSubPath('');
-    if (props.activeIndex === index) {
-      onSelectImmediately(index);
-    } else {
-      context.router.replace({
-        ...context.match.location,
-        state: { summaryPageSelected: index },
-        pathname: `${getSummaryPath(
-          props.params.from,
-          props.params.to,
-        )}${subpath}`,
-      });
-
-      addAnalyticsEvent({
-        category: 'Itinerary',
-        action: 'HighlightItinerary',
-        name: index,
-      });
-    }
-  };
-
-  const getSubPath = (fallback) => {
+  const getSubPath = fallback => {
     const modesWithSubpath = ['bikeAndVehicle', 'parkAndRide'];
     const { hash } = props.params;
     if (modesWithSubpath.includes(hash)) {
       return `/${hash}/`;
     }
     return fallback;
-  }
+  };
 
   const onSelectImmediately = index => {
     const subpath = getSubPath('/');
@@ -97,18 +74,26 @@ const SummaryPlanContainer = (props, context) => {
     props.onDetailsTabFocused();
   };
 
-  const onNow = () => {
-    addAnalyticsEvent({
-      event: 'sendMatomoEvent',
-      category: 'Itinerary',
-      action: 'ResetJourneyStartTime',
-      name: null,
-    });
+  const onSelectActive = index => {
+    const subpath = getSubPath('');
+    if (props.activeIndex === index) {
+      onSelectImmediately(index);
+    } else {
+      context.router.replace({
+        ...context.match.location,
+        state: { summaryPageSelected: index },
+        pathname: `${getSummaryPath(
+          props.params.from,
+          props.params.to,
+        )}${subpath}`,
+      });
 
-    replaceQueryParams(context.router, context.match, {
-      time: moment().unix(),
-      arriveBy: false, // XXX
-    });
+      addAnalyticsEvent({
+        category: 'Itinerary',
+        action: 'HighlightItinerary',
+        name: index,
+      });
+    }
   };
 
   const laterButton = (reversed = false) => {
@@ -137,7 +122,7 @@ const SummaryPlanContainer = (props, context) => {
         </button>
       </>
     );
-  }
+  };
 
   const earlierButton = (reversed = false) => {
     return (
@@ -165,7 +150,7 @@ const SummaryPlanContainer = (props, context) => {
         </button>
       </>
     );
-  }
+  };
 
   const { location } = context.match;
   const { from, to } = props.params;
@@ -250,7 +235,7 @@ const SummaryPlanContainer = (props, context) => {
         : laterButton()}
     </div>
   );
-}
+};
 
 SummaryPlanContainer.propTypes = {
   activeIndex: PropTypes.number,
