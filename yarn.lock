@@ -5051,135 +5051,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@resvg/resvg-js-android-arm-eabi@npm:2.2.0":
-  version: 2.2.0
-  resolution: "@resvg/resvg-js-android-arm-eabi@npm:2.2.0"
-  checksum: 0ebb84f6c910b47fb46636f75ce0b61cb1fc7ac2b561b03df2e6b77e9b0cc8968c0a5806a3c88d7255a751fab7282ac16d60a9b365be96f2d08651ff83ca1847
-  languageName: node
-  linkType: hard
-
-"@resvg/resvg-js-android-arm64@npm:2.2.0":
-  version: 2.2.0
-  resolution: "@resvg/resvg-js-android-arm64@npm:2.2.0"
-  checksum: ba3c581e9c420d1d4dc6d5933d54bf1ca7a50a572be93052197fe03d6c8b01afc7dcfd48de1af2730199ee312aa464fccc36bf8f7cc423ca558c5521bc65932c
-  languageName: node
-  linkType: hard
-
-"@resvg/resvg-js-darwin-arm64@npm:2.2.0":
-  version: 2.2.0
-  resolution: "@resvg/resvg-js-darwin-arm64@npm:2.2.0"
-  checksum: 7ea8483c5564f785bc47148b7e0e04e8d25c259002c81f6a84e8c2e3a5bf7d32276310adf0561cb1d3c45b162f95507d6621cc066e288bf2547d7725a8496dc4
-  languageName: node
-  linkType: hard
-
-"@resvg/resvg-js-darwin-x64@npm:2.2.0":
-  version: 2.2.0
-  resolution: "@resvg/resvg-js-darwin-x64@npm:2.2.0"
-  checksum: 70019b2419a085eea902970760a636bbbae0f066050f9133f7532c3313e308d13175326c226540efe42a82c32c4f6ca71a00d3e480f88ec0eb83a6bd8a4c3b15
-  languageName: node
-  linkType: hard
-
-"@resvg/resvg-js-linux-arm-gnueabihf@npm:2.2.0":
-  version: 2.2.0
-  resolution: "@resvg/resvg-js-linux-arm-gnueabihf@npm:2.2.0"
-  checksum: 03036f18f0375df79a81bec7921b169cf926614232ee283c726e41232dbc2b37a5d8c8977a3fd06a1297077bbcb23f9448e49af142c62d828417ed571dedf881
-  languageName: node
-  linkType: hard
-
-"@resvg/resvg-js-linux-arm64-gnu@npm:2.2.0":
-  version: 2.2.0
-  resolution: "@resvg/resvg-js-linux-arm64-gnu@npm:2.2.0"
-  checksum: e750a9d42fa7097be6608d3a63660e32dba051b90bb2b9b4fb968cd5eac2d262f987430396472414c51d7375b6a8e7b0928a48a91b7da4831dae048ee381b72f
-  languageName: node
-  linkType: hard
-
-"@resvg/resvg-js-linux-arm64-musl@npm:2.2.0":
-  version: 2.2.0
-  resolution: "@resvg/resvg-js-linux-arm64-musl@npm:2.2.0"
-  checksum: fd69fb81cca5b6e45367a8962313e5bcb9f41d8a681359dfb96ffbd748438459e38fbbab5e0a7eab237a982f9319c109021bc5bb2dd47a5b28e4e21235df7f46
-  languageName: node
-  linkType: hard
-
-"@resvg/resvg-js-linux-x64-gnu@npm:2.2.0":
-  version: 2.2.0
-  resolution: "@resvg/resvg-js-linux-x64-gnu@npm:2.2.0"
-  checksum: ed0ecacc08c839fa60ca95142f23ba166a9242b7068af2d80384dfd115bc627099cd049569916a6f15ec8c72416a3fc02eb1356a14ef7355c540fc45f971106c
-  languageName: node
-  linkType: hard
-
-"@resvg/resvg-js-linux-x64-musl@npm:2.2.0":
-  version: 2.2.0
-  resolution: "@resvg/resvg-js-linux-x64-musl@npm:2.2.0"
-  checksum: 8fc3618fdfb86b48563db5ec1fa875687892ceedf408d4158130852c71960385a994a25409cb3fecb59428d0fa07415d3acb6288783701f267e63bdc2f03e2a3
-  languageName: node
-  linkType: hard
-
-"@resvg/resvg-js-win32-arm64-msvc@npm:2.2.0":
-  version: 2.2.0
-  resolution: "@resvg/resvg-js-win32-arm64-msvc@npm:2.2.0"
-  checksum: 9668d4635d2ae51d6ca34530a687c641a45243059330973c430c076650f9827a04b946aa3176a9c96c015a05d7490b3cb063f1d7e8191027f8dc8455c5cf8528
-  languageName: node
-  linkType: hard
-
-"@resvg/resvg-js-win32-ia32-msvc@npm:2.2.0":
-  version: 2.2.0
-  resolution: "@resvg/resvg-js-win32-ia32-msvc@npm:2.2.0"
-  checksum: 097b7cd4cdd8929b551d77db4b097ea7fc000230f30525f7c106ed89920595c430bc08bcaeb6390e29f061271f95bcddd593604ef3f2c041aa42f50efac11def
-  languageName: node
-  linkType: hard
-
-"@resvg/resvg-js-win32-x64-msvc@npm:2.2.0":
-  version: 2.2.0
-  resolution: "@resvg/resvg-js-win32-x64-msvc@npm:2.2.0"
-  checksum: 4abb3ad390e513afe6f516078c896a9053fe3f95c518cf45a421794ec5adbdc20eb512ca8fbe9eab0482470b4afabb8f29c9126e53b874718bc17641602f4cda
-  languageName: node
-  linkType: hard
-
-"@resvg/resvg-js@npm:^2.1.0":
-  version: 2.2.0
-  resolution: "@resvg/resvg-js@npm:2.2.0"
-  dependencies:
-    "@resvg/resvg-js-android-arm-eabi": 2.2.0
-    "@resvg/resvg-js-android-arm64": 2.2.0
-    "@resvg/resvg-js-darwin-arm64": 2.2.0
-    "@resvg/resvg-js-darwin-x64": 2.2.0
-    "@resvg/resvg-js-linux-arm-gnueabihf": 2.2.0
-    "@resvg/resvg-js-linux-arm64-gnu": 2.2.0
-    "@resvg/resvg-js-linux-arm64-musl": 2.2.0
-    "@resvg/resvg-js-linux-x64-gnu": 2.2.0
-    "@resvg/resvg-js-linux-x64-musl": 2.2.0
-    "@resvg/resvg-js-win32-arm64-msvc": 2.2.0
-    "@resvg/resvg-js-win32-ia32-msvc": 2.2.0
-    "@resvg/resvg-js-win32-x64-msvc": 2.2.0
-  dependenciesMeta:
-    "@resvg/resvg-js-android-arm-eabi":
-      optional: true
-    "@resvg/resvg-js-android-arm64":
-      optional: true
-    "@resvg/resvg-js-darwin-arm64":
-      optional: true
-    "@resvg/resvg-js-darwin-x64":
-      optional: true
-    "@resvg/resvg-js-linux-arm-gnueabihf":
-      optional: true
-    "@resvg/resvg-js-linux-arm64-gnu":
-      optional: true
-    "@resvg/resvg-js-linux-arm64-musl":
-      optional: true
-    "@resvg/resvg-js-linux-x64-gnu":
-      optional: true
-    "@resvg/resvg-js-linux-x64-musl":
-      optional: true
-    "@resvg/resvg-js-win32-arm64-msvc":
-      optional: true
-    "@resvg/resvg-js-win32-ia32-msvc":
-      optional: true
-    "@resvg/resvg-js-win32-x64-msvc":
-      optional: true
-  checksum: af26e88c95322dcd8b02774a13a74f4edd26e90b32de2652352fc1b7f111d380bc176609653bd26edbf184e077922c111375c7b71e94eb6364436ce13b111554
-  languageName: node
-  linkType: hard
-
 "@rollup/plugin-babel@npm:5.2.2":
   version: 5.2.2
   resolution: "@rollup/plugin-babel@npm:5.2.2"
@@ -6031,10 +5902,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xmldom/xmldom@npm:^0.8.3":
-  version: 0.8.6
-  resolution: "@xmldom/xmldom@npm:0.8.6"
-  checksum: 61c0e11ee5864eee1444a41f1ee741710f8c6c9dedc2f750893c3f7aaae6fe8671b8445ccaff7df1a280745ffcc7e1717ec210da2a854dc4d771f3690a8c10df
+"@xmldom/xmldom@npm:^0.7.5":
+  version: 0.7.9
+  resolution: "@xmldom/xmldom@npm:0.7.9"
+  checksum: d09b0000a4e9aa42349a7e8f00bda0558fced2cda0657075331cfbca283cabaf44ad4c8e6366f9a9da0637a8ad4396a51b2d93c8feebbec82754a8008766c243
   languageName: node
   linkType: hard
 
@@ -6591,13 +6462,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"argparse@npm:^2.0.1":
-  version: 2.0.1
-  resolution: "argparse@npm:2.0.1"
-  checksum: 160b7a25d2a7097fd5fdf25eb8a99e037340078f70e6c7cfdef305837ed14d54570b2b13261bcae26c8cd44ad6e9a7136a0110d815ac65a7891c69c7bf2f4afd
-  languageName: node
-  linkType: hard
-
 "argv@npm:0.0.2":
   version: 0.0.2
   resolution: "argv@npm:0.0.2"
@@ -6918,7 +6782,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"async@npm:^3.2.3, async@npm:^3.2.4":
+"async@npm:^3.2.3":
   version: 3.2.4
   resolution: "async@npm:3.2.4"
   checksum: 0b6cc550522408998c6b5d998aff60048c43faa139f403232435c984d65a1c7cf135be45692820c90f8c2aec662b768ab8897c71983726302033a3e9e57eb023
@@ -8651,17 +8515,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cliui@npm:^8.0.1":
-  version: 8.0.1
-  resolution: "cliui@npm:8.0.1"
-  dependencies:
-    string-width: ^4.2.0
-    strip-ansi: ^6.0.1
-    wrap-ansi: ^7.0.0
-  checksum: 45cab52b0553cfd3ff675188827cf7ceb14e6349dbc3a506a476bd65f07fd69f911d5c35592ee02b4140d09ff942960fc6629a2eb6f7532ebb2b703acacb397c
-  languageName: node
-  linkType: hard
-
 "clone-buffer@npm:^1.0.0":
   version: 1.0.0
   resolution: "clone-buffer@npm:1.0.0"
@@ -9058,7 +8911,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"concat-stream@npm:^1.5.0, concat-stream@npm:^1.6.0":
+"concat-stream@npm:^1.5.0, concat-stream@npm:^1.6.0, concat-stream@npm:^1.6.2":
   version: 1.6.2
   resolution: "concat-stream@npm:1.6.2"
   dependencies:
@@ -9957,6 +9810,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"cssmin@npm:^0.4.3":
+  version: 0.4.3
+  resolution: "cssmin@npm:0.4.3"
+  bin:
+    cssmin: ./bin/cssmin
+  checksum: 706560de70a4bf77a710e4e82a949fd7653f7b4f441e693e3f95e4883c76557de5938c836834c7b76e1692d6ba7a1fbc5cd80d599552cfa9d52e42ecce532435
+  languageName: node
+  linkType: hard
+
 "cssnano-preset-default@npm:^4.0.8":
   version: 4.0.8
   resolution: "cssnano-preset-default@npm:4.0.8"
@@ -10773,7 +10635,7 @@ __metadata:
     stylelint: 13.7.0
     stylelint-scss: 3.18.0
     suncalc: 1.8.0
-    svg-sprite: ^2.0.2
+    svg-sprite: ^1.5.4
     swipe-js-iso: 2.1.5
     terser-webpack-plugin: 4.1.0
     universal-cookie: 4.0.4
@@ -12441,6 +12303,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"extract-zip@npm:^1.6.5":
+  version: 1.7.0
+  resolution: "extract-zip@npm:1.7.0"
+  dependencies:
+    concat-stream: ^1.6.2
+    debug: ^2.6.9
+    mkdirp: ^0.5.4
+    yauzl: ^2.10.0
+  bin:
+    extract-zip: cli.js
+  checksum: e90196dc3d874cb5f0684a5465c6a062363632ff1fbea91ad3983c05c79950b32f95c4b74653ae9efc11acff80c0a1cfe4852985804a57aa24ff6a1ca26fa0cb
+  languageName: node
+  linkType: hard
+
 "extsprintf@npm:1.3.0":
   version: 1.3.0
   resolution: "extsprintf@npm:1.3.0"
@@ -13218,6 +13094,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"fs-extra@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "fs-extra@npm:1.0.0"
+  dependencies:
+    graceful-fs: ^4.1.2
+    jsonfile: ^2.1.0
+    klaw: ^1.0.0
+  checksum: b07d107d48524fcb6f055303dcd0546098e7c2f1e02548734abfabc5353a14232bec77738c0acfff670ac41c36e25460af7afda516bac6d647d814df102c9023
+  languageName: node
+  linkType: hard
+
 "fs-extra@npm:^8.1.0":
   version: 8.1.0
   resolution: "fs-extra@npm:8.1.0"
@@ -13843,7 +13730,7 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"glob@npm:^7.2.3":
+"glob@npm:^7.2.0":
   version: 7.2.3
   resolution: "glob@npm:7.2.3"
   dependencies:
@@ -14117,6 +14004,13 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
+"graceful-fs@npm:^4.1.9":
+  version: 4.2.10
+  resolution: "graceful-fs@npm:4.2.10"
+  checksum: f86679a8a53da3d8f10fd9c81a4e22f8064adf56e10a6fdb6a6aa5e6d05fea0067a99e9959c4b939b4a9c39dad02775d977bff4da9fff07d557aea840f72f0e8
+  languageName: node
+  linkType: hard
+
 "graphql-config@npm:^3.0.2":
   version: 3.4.1
   resolution: "graphql-config@npm:3.4.1"
@@ -14346,6 +14240,16 @@ fsevents@~2.1.2:
     inherits: ^2.0.3
     minimalistic-assert: ^1.0.1
   checksum: fceb7fb87e224f4b399212f902d3a34c3ed8512560868b56dde92f617fac9c66b501e583bab2996ed7493be5ab3385e05a69d2209fa6a9144391b22e1c2d245b
+  languageName: node
+  linkType: hard
+
+"hasha@npm:^2.2.0":
+  version: 2.2.0
+  resolution: "hasha@npm:2.2.0"
+  dependencies:
+    is-stream: ^1.0.1
+    pinkie-promise: ^2.0.0
+  checksum: 4233cecb12a60e8e6475466853fd3bd717432d4d441da0fb9eb763a5edb6ba36b1b8a8655c31f69e6b2f47a97502b54414c9235a6a3681f41ffab21f3ee2e79d
   languageName: node
   linkType: hard
 
@@ -16987,7 +16891,7 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"js-yaml@npm:^3.10.0, js-yaml@npm:^3.13.1":
+"js-yaml@npm:^3.10.0, js-yaml@npm:^3.13.1, js-yaml@npm:^3.14.1":
   version: 3.14.1
   resolution: "js-yaml@npm:3.14.1"
   dependencies:
@@ -16996,17 +16900,6 @@ fsevents@~2.1.2:
   bin:
     js-yaml: bin/js-yaml.js
   checksum: 46b61f889796a20d16b0b64580a01b6a02b2e45c1a2744906346da54d07e14cde764e887ab6d1512d8b2541c63711bd4b75859c28eb99605baf59fa173fc38c2
-  languageName: node
-  linkType: hard
-
-"js-yaml@npm:^4.1.0":
-  version: 4.1.0
-  resolution: "js-yaml@npm:4.1.0"
-  dependencies:
-    argparse: ^2.0.1
-  bin:
-    js-yaml: bin/js-yaml.js
-  checksum: 8973cf4296c944cc2551d1e3d3d064e7de0d0a6db3f7bafe40339ee9e5e0329560b52c4b8492b9b22365404c9be0822b62340ab49884e1dedfcc7ff80158abe0
   languageName: node
   linkType: hard
 
@@ -17210,6 +17103,18 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
+"jsonfile@npm:^2.1.0":
+  version: 2.4.0
+  resolution: "jsonfile@npm:2.4.0"
+  dependencies:
+    graceful-fs: ^4.1.6
+  dependenciesMeta:
+    graceful-fs:
+      optional: true
+  checksum: 56a7800db8e652b6e23c2d441cc3fdc8a60b6d6874a9ef8137be6a1b3ddcd946ea480ceb35dd9ce62edab3ccd2ad5e51c41b882d999301d3bdf2a68d5d63b1b1
+  languageName: node
+  linkType: hard
+
 "jsonfile@npm:^4.0.0":
   version: 4.0.0
   resolution: "jsonfile@npm:4.0.0"
@@ -17277,6 +17182,13 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
+"kew@npm:^0.7.0":
+  version: 0.7.0
+  resolution: "kew@npm:0.7.0"
+  checksum: be928d4248c934f38edda580144533bc93751f6b81d34e01cb1ff4196e63faf8957f5d54e7ef5c6529cbfdcc8f63a1acd53511e20955744b27c7eae965445775
+  languageName: node
+  linkType: hard
+
 "keyv@npm:^4.0.0":
   version: 4.1.1
   resolution: "keyv@npm:4.1.1"
@@ -17322,6 +17234,18 @@ fsevents@~2.1.2:
   version: 6.0.3
   resolution: "kind-of@npm:6.0.3"
   checksum: 5de5d6577796af87a983199d6350ed41c670abec4a306cc43ca887c1afdbd6b89af9ab00016e3ca17eb7ad89ebfd9bb817d33baa89f855c6c95398a8b8abbf08
+  languageName: node
+  linkType: hard
+
+"klaw@npm:^1.0.0":
+  version: 1.3.1
+  resolution: "klaw@npm:1.3.1"
+  dependencies:
+    graceful-fs: ^4.1.9
+  dependenciesMeta:
+    graceful-fs:
+      optional: true
+  checksum: af8966b850d39fd9eb48a8d7b28c3bcf6fc47e651f1c6f875150872b108c71638f29807126974f4e28492e72f5b74006f31d83f8638230abbdfd5f1991aba56b
   languageName: node
   linkType: hard
 
@@ -17845,13 +17769,6 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"lodash.merge@npm:^4.6.2":
-  version: 4.6.2
-  resolution: "lodash.merge@npm:4.6.2"
-  checksum: 4e2bb42a87a148991458d7c384bc197e96f7115e9536fc8e2c86ae9e99ce1c1f693ff15eb85761952535f48d72253aed8e673d9f32dde3e671cd91e3fde220a7
-  languageName: node
-  linkType: hard
-
 "lodash.set@npm:^4.3.2":
   version: 4.3.2
   resolution: "lodash.set@npm:4.3.2"
@@ -17882,20 +17799,6 @@ fsevents@~2.1.2:
   dependencies:
     lodash._reinterpolate: ^3.0.0
   checksum: 45546a5b76376b138ef4f01aa2722813127c639428eb9baef3fbac176b509ee2dab5cb9d1ee8267dbeeef8d49371f9a748af3df83649bf8b75fa54993f65b7aa
-  languageName: node
-  linkType: hard
-
-"lodash.trim@npm:^4.5.1":
-  version: 4.5.1
-  resolution: "lodash.trim@npm:4.5.1"
-  checksum: cdb571cd9e42fcd02f4ac2b2b084e02442456076aaed95afd5c183f5841eb3e9d6e9ee35d8f16f17ecf5ae3c72247c86523794c73b2e49fbff358b6d038baf6d
-  languageName: node
-  linkType: hard
-
-"lodash.trimstart@npm:^4.5.1":
-  version: 4.5.1
-  resolution: "lodash.trimstart@npm:4.5.1"
-  checksum: c8917ddf9560a91e964f5f896e8bcfe60ed612e291ee30a60b4391acd334a279c5c37a6d12e62b0902e1636bd4cf0c835f0500bec0d2f1c368de4e97f05eb5d2
   languageName: node
   linkType: hard
 
@@ -19057,6 +18960,17 @@ fsevents@~2.1.2:
   bin:
     mkdirp: bin/cmd.js
   checksum: 9dd9792e891927b14ca02226dbe1daeb717b9517a001620d5e2658bbc72c5e4f06887b6cbcbb60595fa5a56e701073cf250f1ed69c1988a6b89faf9fd6a4d049
+  languageName: node
+  linkType: hard
+
+"mkdirp@npm:^0.5.4":
+  version: 0.5.6
+  resolution: "mkdirp@npm:0.5.6"
+  dependencies:
+    minimist: ^1.2.6
+  bin:
+    mkdirp: bin/cmd.js
+  checksum: d564a43d5d22eed134293453c601c6811d8a51abcae6b6df2762e912fe63b225c5e2465738c9b14cda1f219551479e03a0791f221d11d3442412ef5eca8a550f
   languageName: node
   linkType: hard
 
@@ -21163,6 +21077,25 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
+"phantomjs-prebuilt@npm:^2.1.16":
+  version: 2.1.16
+  resolution: "phantomjs-prebuilt@npm:2.1.16"
+  dependencies:
+    es6-promise: ^4.0.3
+    extract-zip: ^1.6.5
+    fs-extra: ^1.0.0
+    hasha: ^2.2.0
+    kew: ^0.7.0
+    progress: ^1.1.8
+    request: ^2.81.0
+    request-progress: ^2.0.1
+    which: ^1.2.10
+  bin:
+    phantomjs: ./bin/phantomjs
+  checksum: 8a33eef321b6dccce553420597dd8d9c0074e5a357d547e0ea5be61b6e1e61df52efee81b32f5c187cde5743b7ae104e60f538e14228a0f4b8d5be1afc3504d3
+  languageName: node
+  linkType: hard
+
 "phin@npm:^2.9.1":
   version: 2.9.3
   resolution: "phin@npm:2.9.3"
@@ -22186,6 +22119,13 @@ fsevents@~2.1.2:
   version: 2.0.3
   resolution: "progress@npm:2.0.3"
   checksum: c46ef5a1de4d527dfd32fe56a7df0c1c8b420a4c02617196813bf7f10ac7c2a929afc265d44fdd68f5c439a7e7cb3d70d569716c82d6b4148ec72089860a1312
+  languageName: node
+  linkType: hard
+
+"progress@npm:^1.1.8":
+  version: 1.1.8
+  resolution: "progress@npm:1.1.8"
+  checksum: 84a5b0ac6da5051b9bf7044c3f5d4e651b13a2011b54fb0c7f32b4f48d54a2df9e4d1e92cf4c6c11d109fb8a1817abf005b7938d0e1f27611e6c4060af0bffd2
   languageName: node
   linkType: hard
 
@@ -23768,6 +23708,15 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
+"request-progress@npm:^2.0.1":
+  version: 2.0.1
+  resolution: "request-progress@npm:2.0.1"
+  dependencies:
+    throttleit: ^1.0.0
+  checksum: 5c547604c59bd5e58ecb521bd2de1f9c32b6868f72a16b4b9c19f4d19d787fc92e119939d4d6dc44724882affa595bac01e664afba8a699a26d4607ae819f185
+  languageName: node
+  linkType: hard
+
 "request-promise-core@npm:1.1.4":
   version: 1.1.4
   resolution: "request-promise-core@npm:1.1.4"
@@ -23792,7 +23741,7 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"request@npm:^2.65.0, request@npm:^2.87.0, request@npm:^2.88.0":
+"request@npm:^2.65.0, request@npm:^2.81.0, request@npm:^2.87.0, request@npm:^2.88.0":
   version: 2.88.2
   resolution: "request@npm:2.88.2"
   dependencies:
@@ -26136,32 +26085,30 @@ resolve@1.1.7:
   languageName: node
   linkType: hard
 
-"svg-sprite@npm:^2.0.2":
-  version: 2.0.2
-  resolution: "svg-sprite@npm:2.0.2"
+"svg-sprite@npm:^1.5.4":
+  version: 1.5.4
+  resolution: "svg-sprite@npm:1.5.4"
   dependencies:
-    "@resvg/resvg-js": ^2.1.0
-    "@xmldom/xmldom": ^0.8.3
-    async: ^3.2.4
+    "@xmldom/xmldom": ^0.7.5
+    async: ^3.2.3
     css-selector-parser: ^1.4.1
-    csso: ^4.2.0
+    cssmin: ^0.4.3
     cssom: ^0.5.0
-    glob: ^7.2.3
-    js-yaml: ^4.1.0
-    lodash.escape: ^4.0.1
-    lodash.merge: ^4.6.2
-    lodash.trim: ^4.5.1
-    lodash.trimstart: ^4.5.1
+    glob: ^7.2.0
+    js-yaml: ^3.14.1
+    lodash: ^4.17.21
+    mkdirp: ^0.5.5
     mustache: ^4.2.0
+    phantomjs-prebuilt: ^2.1.16
     prettysize: ^2.0.0
-    svgo: ^2.8.0
+    svgo: ^1.3.2
     vinyl: ^2.2.1
-    winston: ^3.8.2
+    winston: ^3.5.1
     xpath: ^0.0.32
-    yargs: ^17.5.1
+    yargs: ^15.4.1
   bin:
     svg-sprite: bin/svg-sprite.js
-  checksum: 9d012e0c070cb87c47ee70dd21699c4c85ec50f7bc5b7fdc36402d472cfae59076c45e71af0ab7e242b7ed156af05e0271d4d04bbe062dc7eb8e4f3277341f67
+  checksum: b4248e07baa3a207f47f6e81c4e7f7c28d9b21c3ddc8e80736311c0562ba529558c4ff0b2a0dd5615a00af36eb2c7d404ceb5e6a67580ba4901cb18029b43e0f
   languageName: node
   linkType: hard
 
@@ -26172,7 +26119,7 @@ resolve@1.1.7:
   languageName: node
   linkType: hard
 
-"svgo@npm:^1.0.0":
+"svgo@npm:^1.0.0, svgo@npm:^1.3.2":
   version: 1.3.2
   resolution: "svgo@npm:1.3.2"
   dependencies:
@@ -26195,7 +26142,7 @@ resolve@1.1.7:
   languageName: node
   linkType: hard
 
-"svgo@npm:^2.0.3, svgo@npm:^2.8.0":
+"svgo@npm:^2.0.3":
   version: 2.8.0
   resolution: "svgo@npm:2.8.0"
   dependencies:
@@ -26558,6 +26505,13 @@ resolve@1.1.7:
   version: 6.0.1
   resolution: "throat@npm:6.0.1"
   checksum: c984a40b4725bbd6e8c49d57b2bd36ab36c5534e8a1bed0d278d480171fdf908f16ba343d61c3e9c2e3ed4b327a59c28432cfa44594453b756ec219a772395a8
+  languageName: node
+  linkType: hard
+
+"throttleit@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "throttleit@npm:1.0.0"
+  checksum: 52f0a29c8b444d49fed2454cc4d6b5bf342db63727e3f8d9b86d1c294779aa8c6655b3264d78dfa7624c2ae073bfe8a472680fbba7c35e7f1cb4a74664814ce1
   languageName: node
   linkType: hard
 
@@ -28347,7 +28301,7 @@ resolve@1.1.7:
   languageName: node
   linkType: hard
 
-"which@npm:1, which@npm:^1.2.12, which@npm:^1.2.14, which@npm:^1.2.9, which@npm:^1.3.0, which@npm:^1.3.1":
+"which@npm:1, which@npm:^1.2.10, which@npm:^1.2.12, which@npm:^1.2.14, which@npm:^1.2.9, which@npm:^1.3.0, which@npm:^1.3.1":
   version: 1.3.1
   resolution: "which@npm:1.3.1"
   dependencies:
@@ -28430,7 +28384,7 @@ resolve@1.1.7:
   languageName: node
   linkType: hard
 
-"winston@npm:^3.8.2":
+"winston@npm:^3.5.1":
   version: 3.8.2
   resolution: "winston@npm:3.8.2"
   dependencies:
@@ -28822,13 +28776,6 @@ resolve@1.1.7:
   languageName: node
   linkType: hard
 
-"yargs-parser@npm:^21.1.1":
-  version: 21.1.1
-  resolution: "yargs-parser@npm:21.1.1"
-  checksum: 192567f8d6f449f608f780f60b77337d2afaa24f9d6546129ad4e7bdcd9bccabb7ab1ba7754d9c9ddfdd0c6de11e5ed8393945c3a98c0804c463dfa8d026ea95
-  languageName: node
-  linkType: hard
-
 "yargs-unparser@npm:1.6.1":
   version: 1.6.1
   resolution: "yargs-unparser@npm:1.6.1"
@@ -28879,7 +28826,7 @@ resolve@1.1.7:
   languageName: node
   linkType: hard
 
-"yargs@npm:^15.0.2, yargs@npm:^15.1.0, yargs@npm:^15.3.1":
+"yargs@npm:^15.0.2, yargs@npm:^15.1.0, yargs@npm:^15.3.1, yargs@npm:^15.4.1":
   version: 15.4.1
   resolution: "yargs@npm:15.4.1"
   dependencies:
@@ -28910,21 +28857,6 @@ resolve@1.1.7:
     y18n: ^5.0.5
     yargs-parser: ^20.2.2
   checksum: a79ce1f043021cd645de1ffebb6149541d382ba68f4a6b5eca5d2ad65af51893371bbd78e240dc3b6cf0cbb419511ba5bda715dec992e4266e6863ea49f14feb
-  languageName: node
-  linkType: hard
-
-"yargs@npm:^17.5.1":
-  version: 17.6.2
-  resolution: "yargs@npm:17.6.2"
-  dependencies:
-    cliui: ^8.0.1
-    escalade: ^3.1.1
-    get-caller-file: ^2.0.5
-    require-directory: ^2.1.1
-    string-width: ^4.2.3
-    y18n: ^5.0.5
-    yargs-parser: ^21.1.1
-  checksum: 6be767b260bbdec87fe6dca8199ea00fbcb6427d654453c4df612423fb7287aa4984544a099bb54c5fc7d1f71b17dd2fde86c2bcb9e9ac2ed3d54e7a735e850c
   languageName: node
   linkType: hard
 

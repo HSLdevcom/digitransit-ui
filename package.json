@@ -302,7 +302,7 @@
     "style-loader": "1.2.1",
     "stylelint": "13.7.0",
     "stylelint-scss": "3.18.0",
-    "svg-sprite": "^2.0.2",
+    "svg-sprite": "^1.5.4",
     "terser-webpack-plugin": "4.1.0",
     "url-loader": "3.0.0",
     "webpack": "^4.46.0",
