@@ -154,7 +154,7 @@ function translateFutureRouteSuggestionTime(item) {
   } else {
     str = `${str} ${time.format('dd D.M.')}`;
   }
-  str = `${str} ${moment(time).format('HH:mm')}`;
+  str = `${str} ${moment(time).format('LT')}`;
   return str;
 }
 /**

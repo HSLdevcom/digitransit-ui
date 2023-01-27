@@ -172,26 +172,19 @@ function Datetimepicker({
 
   // param time is timestamp
   const getTimeDisplay = time => {
-    return moment(time).format('HH:mm');
+    return moment(time).format('LT');
   };
 
   const validateTime = (inputValue, currentTimestamp) => {
     const trimmed = inputValue.trim();
-    if (trimmed.match(/^[0-9]{1,2}(\.|:)[0-9]{2}$/) !== null) {
-      const splitter = trimmed.includes('.') ? '.' : ':';
-      const values = trimmed.split(splitter);
-      const hours = Number(values[0]);
-      const hoursValid = !Number.isNaN(hours) && hours >= 0 && hours <= 23;
-      const minutes = Number(values[1]);
-      const minutesValid =
-        !Number.isNaN(minutes) && minutes >= 0 && minutes <= 59;
-      if (!minutesValid || !hoursValid) {
-        return null;
-      }
-      const newStamp = moment(currentTimestamp)
-        .hours(hours)
-        .minutes(minutes)
-        .valueOf();
+    const acceptedFormats = ['LT', 'h:mm A', 'H:mm', 'HH:mm', 'h:mma'];
+    const time = moment(trimmed, acceptedFormats, true);
+    if (time.isValid()) {
+      const newStamp = moment(currentTimestamp).set({
+        hour: time.get('hour'),
+        minute: time.get('minute'),
+        second: 0,
+      });
       return newStamp;
     }
     return null;
