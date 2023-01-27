@@ -33,9 +33,10 @@ const StopNearYou = ({
   const isStation = !!stop.parentStation || !!stopId;
   const gtfsId =
     (stop.parentStation && stop.parentStation.gtfsId) || stop.gtfsId;
+  const urlEncodedGtfsId = gtfsId.replace('/', '%2F');
   const linkAddress = isStation
-    ? `/${PREFIX_TERMINALS}/${gtfsId}`
-    : `/${PREFIX_STOPS}/${gtfsId}`;
+    ? `/${PREFIX_TERMINALS}/${urlEncodedGtfsId}`
+    : `/${PREFIX_STOPS}/${urlEncodedGtfsId}`;
   return (
     <span role="listitem">
       <div className="stop-near-you-container">
