@@ -91,17 +91,19 @@ function faviconPluginFromConfig(config) {
     title: config.title,
     appName: config.title,
     appDescription: config.meta.description,
-    icons: {
-      android: true,
-      appleIcon: true,
-      appleStartup: true,
-      coast: false,
-      favicons: true,
-      firefox: true,
-      opengraph: false,
-      twitter: false,
-      yandex: false,
-      windows: false,
+    favicons: {
+      icons: {
+        android: true,
+        appleIcon: true,
+        appleStartup: true,
+        coast: false,
+        favicons: true,
+        firefox: true,
+        opengraph: false,
+        twitter: false,
+        yandex: false,
+        windows: false,
+      },
     },
   });
 }
