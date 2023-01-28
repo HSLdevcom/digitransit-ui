@@ -20,6 +20,7 @@ export const PREFIX_TERMINALS = 'terminals';
 export const PREFIX_ITINERARY_SUMMARY = 'summary';
 export const PREFIX_DISRUPTION = 'alert';
 export const PREFIX_TIMETABLE = 'schedule';
+export const PREFIX_ALERTS = 'alerts';
 export const stopUrl = id => id;
 export const LOCAL_STORAGE_EMITTER_PATH = '/local-storage-emitter';
 export const EMBEDDED_SEARCH_PATH = '/search';

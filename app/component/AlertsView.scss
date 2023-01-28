@@ -1,0 +1,25 @@
+.alerts-view {
+	// background-color: red;
+}
+
+.alerts-view-alert {
+	padding: 0 1em;
+	border-bottom: 1px solid #ccc;
+
+	.general-notice {
+		background-color: #fff5af;
+		border: 1px solid #fff082;
+	}
+
+	> * {
+		margin: .5em 0;
+	}
+}
+.alerts-view-alert:last-child {
+	border-bottom: none;
+}
+
+.alerts-view-alert-time-frame {
+	color: $dark-gray;
+	font-size: 85%;
+}

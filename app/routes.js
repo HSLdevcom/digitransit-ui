@@ -17,6 +17,7 @@ import {
   PREFIX_BIKESTATIONS,
   PREFIX_BIKEPARK,
   PREFIX_CARPARK,
+  PREFIX_ALERTS,
   createReturnPath,
   TAB_NEARBY,
   TAB_FAVOURITES,
@@ -417,6 +418,53 @@ export default config => {
           ),
         }}
       </Route>
+      <Route
+        path={`/${PREFIX_ALERTS}`}
+        getComponent={() =>
+          import(
+            /* webpackChunkName: "itinerary" */ './component/AlertsView'
+          ).then(getDefault)
+        }
+        render={getComponentOrLoadingRenderer}
+        // alerts(
+        // feeds: [String!]
+        // severityLevel: [AlertSeverityLevelType!]
+        // effect: [AlertEffectType!]
+        // cause: [AlertCauseType!]
+        // route: [String!]
+        // stop: [String!]
+        // ): [Alert]
+        // todo: filter by feed?
+        query={graphql`
+          query routes_alerts_Query {
+            alerts {
+              id
+              # alertId
+              alertHeaderText
+              alertDescriptionText
+              effectiveStartDate
+              effectiveEndDate
+              entities {
+                ... on Route {
+                  gtfsId
+                  shortName
+                  longName
+                  mode
+                  color
+                }
+                ... on Stop {
+                  locationType
+                  gtfsId
+                  code
+                  # name(language: $language)
+                  vehicleMode
+                }
+                # todo: how to handle others?
+              }
+            }
+          }
+        `}
+      />
       <Route
         path="/tietoja-palvelusta"
         getComponent={() =>
