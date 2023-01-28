@@ -95,7 +95,7 @@ function faviconPluginFromConfig(config) {
       icons: {
         android: true,
         appleIcon: true,
-        appleStartup: true,
+        appleStartup: false,
         coast: false,
         favicons: true,
         firefox: true,
