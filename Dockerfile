@@ -25,13 +25,16 @@ COPY digitransit-search-util ./digitransit-search-util
 COPY digitransit-component ./digitransit-component
 COPY digitransit-store ./digitransit-store
 
-RUN \
+# Using a cache mount allows us to re-use `.yarn/cache` across builds.
+# Thus, even if a change in any of the above steps (e.g. a modified yarn.lock) has happened,
+# we don't have to re-download all packages.
+# I don't know if Yarn's cache behaviour is truly ACID, so we put `sharing=locked`.
+RUN --mount=type=cache,id=yarn-cache,target=.yarn/cache,sharing=locked \
   # Tell Playwright not to download browser binaries, as it is only used for testing (not building).
   # https://github.com/microsoft/playwright/blob/v1.16.2/installation-tests/installation-tests.sh#L200-L216
   export PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 \
   && yarn install --immutable --inline-builds \
   && yarn run node14-patch \
-  && yarn cache clean --all \
   && rm -rf /tmp/phantomjs
 
 # Setting $CONFIG causes digitransit-ui to only build assets for *one* instance (see app/configurations).
