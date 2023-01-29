@@ -354,7 +354,6 @@
             }
             .vehicle-number {
               @include font-narrow-medium;
-              color: $white;
               font-size: 15px;
               padding: 1px 0 0 0;
             }
@@ -404,26 +403,6 @@
       align-items: center;
     }
 
-    div.bar {
-      width: 100%;
-      background-color: currentColor;
-      height: 1.5rem;
-      border-radius: $border-radius;
-      &.call {
-        border-color: #aaa;
-      }
-      &.wait {
-        background-color: white;
-        border: 1px solid $light-gray;
-      }
-      &.walk, &.bicycle_walk {
-        background-color: $light-gray;
-      }
-      &.bicycle {
-        color: #f4f4f5; // Override default bike color
-        border: solid 1px rgba(0, 0, 0, 0.3);
-      }
-    }
     .line {
       text-align: center;
 
@@ -544,6 +523,32 @@
     display: flex;
     flex: auto;
   }
+}
+
+.bar {
+  width: 100%;
+  background-color: currentColor;
+  height: 1.5rem;
+  border-radius: $border-radius;
+  &.call {
+    border-color: #aaa;
+  }
+  &.wait {
+    background-color: white;
+    border: 1px solid $light-gray;
+  }
+  &.walk, &.bicycle_walk {
+    background-color: $light-gray;
+    border: 0px;
+  }
+  &.bicycle {
+    color: #f4f4f5; // Override default bike color
+    border: solid 1px rgba(0, 0, 0, 0.3);
+  }
+}
+
+.vehicle-number {
+  color: $white;
 }
 
 .additional-canceled-itineraries {

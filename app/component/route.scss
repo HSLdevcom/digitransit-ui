@@ -1416,7 +1416,6 @@ $margin-left-right: 21.3px;
 nav.top-bar .title .route-number {
   font-size: 24px;
   .vehicle-number {
-    color: $title-color;
     vertical-align: middle;
   }
   .route-number-title {
@@ -1429,6 +1428,10 @@ nav.top-bar .title .route-number {
       }
     }
   }
+}
+
+.vehicle-number {
+  color: $title-color;
 }
 
 .desktop {

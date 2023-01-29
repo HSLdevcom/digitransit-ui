@@ -1321,7 +1321,6 @@ $itinerary-tab-switch-height: 48px;
         }
         .bar {
           width: 100%;
-          background-color: currentColor;
           height: 1.5em;
           border-radius: $border-radius;
         }
@@ -1336,7 +1335,6 @@ $itinerary-tab-switch-height: 48px;
         .vehicle-number-container-v {
           width: calc(100% - 1.5em);
           .vehicle-number {
-            color: $white;
             left: 1.5em;
             width: 2.25em;
             text-align: center;
@@ -1949,8 +1947,14 @@ div.itinerary-container-content {
   }
 }
 
+/* TODO: should be renamed to leg-bar */
+.bar {
+  background-color: currentColor;
+}
+
 .vehicle-number-container-v {
   .vehicle-number {
+    color: $white;
     mask-image: none;
     max-width: none;
   }
