@@ -9,10 +9,27 @@ nav.top-bar {
    route-color for outline and vehicle symbol */
 .bar {
 	border-color: currentColor;
-	background-color: white;
+	background-color: $white;
 	border: 1px solid;
 }
 
 .vehicle-number-container-v .vehicle-number {
 	color: black;
 }
+
+/* EMBARK map leg bar styling shall use
+   route-color for outline and vehicle symbol */
+
+.map .legmarker div {
+	border-color: currentColor;
+	background-color: $white;
+	border: 1px solid;
+}
+
+.map-route-number {
+  color: black;
+}
+
+/* mode colors */
+$bus-color: $okc-bus-blue;
+$tram-color: $okc-tram-pink;
