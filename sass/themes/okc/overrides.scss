@@ -1,0 +1,18 @@
+/* OKC top bar styling */
+nav.top-bar {
+	border-bottom-width: 6px;
+	border-bottom-style: inset;
+	border-bottom-color: $primary-color;
+}
+
+/* EMBARK leg / vehicle bar styling shall use
+   route-color for outline and vehicle symbol */
+.bar {
+	border-color: currentColor;
+	background-color: white;
+	border: 1px solid;
+}
+
+.vehicle-number-container-v .vehicle-number {
+	color: black;
+}

@@ -16,35 +16,3 @@ $link-color: $primary-color;
 $desktop-title-color: $primary-color;
 $desktop-title-arrow-icon-color: $secondary-color;
 $top-bar-color: #ffffff;
-
-/* OKC top bar styling */
-nav.top-bar {
-	border-bottom-width: 6px;
-	border-bottom-style: inset;
-	border-bottom-color: $primary-color;
-}
-
-/* When redefining styles, be more specific as original style
-   definition, so that it gets applied. And mind, that default styles
-   might define additional modifications for classes that will get
-   overriden ... */
-.itinerary-summary-row {
-	.itinerary-legs {
-		.leg {
-			.bar-container {
-				div.bar {
-					border-color: currentColor;
-					background-color: white;
-					border: 1px solid;
-				}
-				.route-number {
-					.vehicle-number-container-v {
-						.vehicle-number {
-							color: black;
-						}
-					}
-				}
-			}
-		}
-	}
-}
