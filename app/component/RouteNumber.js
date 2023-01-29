@@ -157,10 +157,7 @@ function RouteNumber(props, context) {
     <>
       {props.withBar ? (
         <div className={cx('bar-container', { long: hasNoShortName })}>
-          <div
-            className={cx('bar', mode)}
-            style={{ backgroundColor: getColor() }}
-          >
+          <div className={cx('bar', mode)} style={{ color: getColor() }}>
             {rNumber}
           </div>
         </div>
