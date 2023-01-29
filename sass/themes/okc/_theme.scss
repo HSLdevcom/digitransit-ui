@@ -1,13 +1,20 @@
 @import '../../base/waltti';
 
+/* EMBARK OKC colors */
+$okc-bus-blue: #009ad7;
+$okc-tram-pink: #d51067;
+
 /* main theme colors */
 $primary-color: #686869;
 $secondary-color: #414143;
 $hilight-color: $primary-color;
 $action-color: $primary-color;
-$bus-color: $primary-color;
 $viewpoint-marker-color: $primary-color;
 $current-location-color: $primary-color;
+
+/* mode colors */
+$bus-color: $okc-bus-blue;
+$tram-color: $okc-tram-pink;
 
 $standalone-btn-color: $primary-color;
 $link-color: $primary-color;

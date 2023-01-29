@@ -55,8 +55,9 @@ export default configMerger(walttiConfig, {
   colors: {
     primary: '#RRGGBB',
     iconColors: {
-      'mode-bus': '#4497d1',
-      'mode-tram': '#c32e67',
+      'mode-bus': '#009ad7',
+      'mode-tram': '#d51067',
+      'mode-citybike': '#ea6529',
     },
   },
 
