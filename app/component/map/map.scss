@@ -849,8 +849,8 @@ div.origin-popup {
   }
   div {
     @include font-narrow-medium;
-    //background-color: currentColor;
     border-radius: 3px;
+    background-color: currentColor;
     height: 18px;
     width: 100%;
     margin-left: -50%;
@@ -863,9 +863,12 @@ div.origin-popup {
       display: flex;
       justify-content: center;
       padding-right: 3px;
-      color: $white;
     }
   }
+}
+
+.map-route-number {
+  color: $white;
 }
 
 .map .leg-halo.call {

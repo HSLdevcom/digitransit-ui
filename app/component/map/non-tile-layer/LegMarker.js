@@ -58,7 +58,7 @@ class LegMarker extends React.Component {
         interactive={false}
         icon={L.divIcon({
           html: `
-            <div class="${className}" style="background-color: ${color}">
+            <div class="${className}" style="color: ${color}">
             ${Icon.asString({
               img: `icon-icon_${this.props.mode}`,
               className: 'map-route-icon',
