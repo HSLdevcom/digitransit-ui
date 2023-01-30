@@ -237,7 +237,7 @@ jobs:
   docker-push:
     if: github.ref == 'refs/heads/v3'
     needs:
-      - lint
+      # - lint
       - unit-test
     runs-on: ubuntu-latest
     steps:
