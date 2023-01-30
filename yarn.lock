@@ -4481,17 +4481,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@restart/hooks@npm:^0.3.1":
-  version: 0.3.27
-  resolution: "@restart/hooks@npm:0.3.27"
-  dependencies:
-    dequal: ^2.0.2
-  peerDependencies:
-    react: ">=16.8.0"
-  checksum: a9f32355c53741ea27a51531f2d6bcf4a4c1b238e8d6832a45a73d51528b30c33c76b7cf2807b304b38753db97567cdefeae493c358283118670b475daae0e87
-  languageName: node
-  linkType: hard
-
 "@rollup/plugin-babel@npm:5.2.2":
   version: 5.2.2
   resolution: "@rollup/plugin-babel@npm:5.2.2"
@@ -10111,7 +10100,6 @@ __metadata:
     recompose: 0.30.0
     redis: 2.8.0
     relay-compiler: 14.1.0
-    relay-hooks: ^7.2.0
     relay-runtime: 14.1.0
     rollup: 2.35.1
     rollup-plugin-babel: 4.4.0
@@ -12110,7 +12098,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fbjs@npm:^3.0.0, fbjs@npm:^3.0.2":
+"fbjs@npm:^3.0.2":
   version: 3.0.4
   resolution: "fbjs@npm:3.0.4"
   dependencies:
@@ -23113,19 +23101,6 @@ fsevents@~2.1.2:
   bin:
     relay-compiler: cli.js
   checksum: ee8175237e432ada46462499f18f7eda152659e8bacf878f434fdcaf5a8c612a66be797db8f3b488d70abc81c511bd31ba6c04451a17651e3b68aab02b0046d6
-  languageName: node
-  linkType: hard
-
-"relay-hooks@npm:^7.2.0":
-  version: 7.2.0
-  resolution: "relay-hooks@npm:7.2.0"
-  dependencies:
-    "@restart/hooks": ^0.3.1
-    fbjs: ^3.0.0
-  peerDependencies:
-    react: ^16.9.0 || ^17 || ^18
-    relay-runtime: ^13.0.2 || ^14.0.0
-  checksum: 1c76aae06912ff4102a555268ee33eb98e2200a2e0e27e0bd3de1f68fa0ffbceec3f7b850458e76db012862ef86551ef9f8aa2571a15ca621089977c9aab01a4
   languageName: node
   linkType: hard
 
