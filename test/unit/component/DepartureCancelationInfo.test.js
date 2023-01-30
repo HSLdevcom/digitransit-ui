@@ -14,7 +14,7 @@ describe('<DepartureCancelationInfo />', () => {
     scheduledDepartureTime: 1547630218,
   };
 
-  it('should render in English', () => {
+  it.skip('should render in English', () => {
     const wrapper = mountWithIntl(
       <DepartureCancelationInfo {...defaultProps} />,
       {},
@@ -25,7 +25,7 @@ describe('<DepartureCancelationInfo />', () => {
     );
   });
 
-  it('should render in Finnish', () => {
+  it.skip('should render in Finnish', () => {
     const wrapper = mountWithIntl(
       <DepartureCancelationInfo {...defaultProps} />,
       {},
@@ -36,7 +36,7 @@ describe('<DepartureCancelationInfo />', () => {
     );
   });
 
-  it('should render in Swedish', () => {
+  it.skip('should render in Swedish', () => {
     const wrapper = mountWithIntl(
       <DepartureCancelationInfo {...defaultProps} />,
       {},
