@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import { createRefetchContainer, fetchQuery, graphql } from 'react-relay';
-import { connectToStores } from 'fluxible-addons-react';
 import findIndex from 'lodash/findIndex';
 import pick from 'lodash/pick';
 import get from 'lodash/get';
@@ -65,7 +64,6 @@ import { saveFutureRoute } from '../action/FutureRoutesActions';
 import { saveSearch } from '../action/SearchActions';
 import CustomizeSearch from './CustomizeSearchNew';
 import { mapLayerShape } from '../store/MapLayerStore';
-import { getMapLayerOptions } from '../util/mapLayerUtils';
 import { mapLayerOptionsShape } from '../util/shapes';
 import ItineraryShape from '../prop-types/ItineraryShape';
 import ErrorShape from '../prop-types/ErrorShape';
@@ -2402,30 +2400,8 @@ SummaryPage.defaultProps = {
   loading: false,
 };
 
-// const SummaryPageWithBreakpoint = withBreakpoint(props => (
-//   <ReactRelayContext.Consumer>
-//     {({ environment }) => (
-//       <SummaryPage {...props} relayEnvironment={environment} />
-//     )}
-//   </ReactRelayContext.Consumer>
-// ));
-
-const SummaryPageWithStores = connectToStores(
-  SummaryPage,
-  ['MapLayerStore'],
-  ({ getStore }) => ({
-    mapLayers: getStore('MapLayerStore').getMapLayers({
-      notThese: ['stop', 'citybike', 'vehicles'],
-    }),
-    mapLayerOptions: getMapLayerOptions({
-      lockedMapLayers: ['vehicles', 'citybike', 'stop'],
-      selectedMapLayers: ['vehicles'],
-    }),
-  }),
-);
-
 const containerComponent = createRefetchContainer(
-  SummaryPageWithStores,
+  SummaryPage,
   {
     viewer: graphql`
       fragment SummaryPage_viewer on QueryType

@@ -1,20 +1,19 @@
 import PropTypes from 'prop-types';
-import React, {
-  useContext,
-  useEffect,
-  useState,
-  useRef,
-  createContext,
-} from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { ReactRelayContext } from 'react-relay';
 import { matchShape } from 'found';
+import connectToStores from 'fluxible-addons-react/connectToStores';
 import Loading from './Loading';
+import { mapLayerShape } from '../store/MapLayerStore';
+import { getMapLayerOptions } from '../util/mapLayerUtils';
+import { mapLayerOptionsShape } from '../util/shapes';
 import { validateServiceTimeRange } from '../util/timeUtils';
 import { planQuery } from '../util/queryUtils';
 import {
   hasStartAndDestination,
   preparePlanParams,
 } from '../util/planParamUtil';
+import withBreakpoint from '../util/withBreakpoint';
 import LazilyLoad, { importLazy } from './LazilyLoad';
 
 const modules = {
@@ -23,10 +22,10 @@ const modules = {
   SummaryPage: () => importLazy(import('./SummaryPage')),
 };
 
-const { Consumer } = createContext('large');
-
-const SummaryPageContainer = ({ content, match }, { config }) => {
-  const { environment } = useContext(ReactRelayContext);
+const SummaryPageContainer = (
+  { content, match, breakpoint, mapLayers, mapLayerOptions, relayEnvironment },
+  { config },
+) => {
   const [isClient, setClient] = useState(false);
   const alertRef = useRef();
 
@@ -57,35 +56,33 @@ const SummaryPageContainer = ({ content, match }, { config }) => {
               serviceTimeRange={validateServiceTimeRange()}
               loading={false}
               alertRef={alertRef}
+              breakpoint={breakpoint}
+              mapLayers={mapLayers}
+              mapLayerOptions={mapLayerOptions}
+              relayEnvironment={relayEnvironment}
             />
           </>
         ) : (
           <QueryRenderer
             query={planQuery}
             variables={preparePlanParams(config, false)(match.params, match)}
-            environment={environment}
+            environment={relayEnvironment}
             render={({ props: innerProps, error }) => {
               return innerProps ? (
                 <>
                   {screenReaderAlert}
-                  <Consumer>
-                    {breakpoint => (
-                      <ReactRelayContext.Consumer>
-                        {relayProps => (
-                          <SummaryPage
-                            {...innerProps}
-                            content={content}
-                            match={match}
-                            error={error}
-                            loading={false}
-                            alertRef={alertRef}
-                            breakpoint={breakpoint}
-                            relayEnvironment={relayProps.environment}
-                          />
-                        )}
-                      </ReactRelayContext.Consumer>
-                    )}
-                  </Consumer>
+                  <SummaryPage
+                    {...innerProps}
+                    content={content}
+                    match={match}
+                    error={error}
+                    loading={false}
+                    alertRef={alertRef}
+                    breakpoint={breakpoint}
+                    mapLayers={mapLayers}
+                    mapLayerOptions={mapLayerOptions}
+                    relayEnvironment={relayEnvironment}
+                  />
                 </>
               ) : (
                 <>
@@ -98,6 +95,10 @@ const SummaryPageContainer = ({ content, match }, { config }) => {
                     loading
                     error={error}
                     alertRef={alertRef}
+                    breakpoint={breakpoint}
+                    mapLayers={mapLayers}
+                    mapLayerOptions={mapLayerOptions}
+                    relayEnvironment={relayEnvironment}
                   />
                 </>
               );
@@ -111,6 +112,28 @@ const SummaryPageContainer = ({ content, match }, { config }) => {
   );
 };
 
+const SummaryPageContainerWithBreakpoint = withBreakpoint(props => (
+  <ReactRelayContext.Consumer>
+    {({ environment }) => (
+      <SummaryPageContainer {...props} relayEnvironment={environment} />
+    )}
+  </ReactRelayContext.Consumer>
+));
+
+const SummaryPageContainerWithStores = connectToStores(
+  SummaryPageContainerWithBreakpoint,
+  ['MapLayerStore'],
+  ({ getStore }) => ({
+    mapLayers: getStore('MapLayerStore').getMapLayers({
+      notThese: ['stop', 'citybike', 'vehicles'],
+    }),
+    mapLayerOptions: getMapLayerOptions({
+      lockedMapLayers: ['vehicles', 'citybike', 'stop'],
+      selectedMapLayers: ['vehicles'],
+    }),
+  }),
+);
+
 SummaryPageContainer.contextTypes = {
   config: PropTypes.object.isRequired,
 };
@@ -118,6 +141,10 @@ SummaryPageContainer.contextTypes = {
 SummaryPageContainer.propTypes = {
   content: PropTypes.node,
   match: matchShape.isRequired,
+  breakpoint: PropTypes.string.isRequired,
+  mapLayers: mapLayerShape.isRequired,
+  mapLayerOptions: mapLayerOptionsShape.isRequired,
+  relayEnvironment: PropTypes.object.isRequired,
 };
 
-export default SummaryPageContainer;
+export default SummaryPageContainerWithStores;
