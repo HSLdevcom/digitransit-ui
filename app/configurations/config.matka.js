@@ -60,7 +60,7 @@ export default {
   favicon: './app/configurations/images/matka/favicon.svg',
 
   colors: {
-    primary: '#026273',
+    primary: '#002c74',
     iconColors: {
       'mode-airplane': '#0046AD',
       'mode-bus': '#007ac9',
