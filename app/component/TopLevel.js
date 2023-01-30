@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { Fragment, Suspense } from 'react';
+import React, { Fragment } from 'react';
 import some from 'lodash/some';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { matchShape, routerShape } from 'found';
@@ -19,7 +19,6 @@ import { DesktopOrMobile } from '../util/withBreakpoint';
 import { getUser } from '../util/apiUtils';
 import setUser from '../action/userActions';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
-import Loading from './Loading';
 
 class TopLevel extends React.Component {
   static propTypes = {
@@ -205,7 +204,7 @@ class TopLevel extends React.Component {
                 : 0
             }
           >
-            <Suspense fallback={<Loading />}>{content}</Suspense>
+            {content}
           </ErrorBoundary>
         </section>
       </Fragment>
