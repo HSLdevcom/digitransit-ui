@@ -60,7 +60,7 @@ export default {
   favicon: './app/configurations/images/matka/favicon.svg',
 
   colors: {
-    primary: '#026273',
+    primary: '#002c74',
     iconColors: {
       'mode-airplane': '#0046AD',
       'mode-bus': '#007ac9',
@@ -73,7 +73,15 @@ export default {
       'mode-citybike-secondary': '#333333',
     },
   },
-  feedIds: ['MATKA', 'HSL', 'LINKKI', 'tampere', 'OULU', 'digitraffic'],
+  feedIds: [
+    'MATKA',
+    'HSL',
+    'LINKKI',
+    'tampere',
+    'OULU',
+    'digitraffic',
+    'Rauma',
+  ],
 
   stopSearchFilter: stop => {
     const props = stop.properties;
@@ -368,6 +376,9 @@ export default {
     'airplane',
   ],
   useAlternativeNameForModes: ['rail'],
+
+  showVehiclesOnStopPage: true,
+  showVehiclesOnSummaryPage: true,
 
   includeCarSuggestions: true,
   includeParkAndRideSuggestions: true,

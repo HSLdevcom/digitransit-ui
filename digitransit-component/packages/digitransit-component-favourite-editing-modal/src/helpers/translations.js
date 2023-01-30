@@ -50,7 +50,7 @@ const translations = {
     delete: 'Ta bort',
     'delete-place-header': 'Vill du ta bort platsen?',
     'delete-place-name': 'Ta bort platsen: {{favourite.name}}',
-    'edit-places': 'Rediger platser',
+    'edit-places': 'Redigera platser',
     'edit-place-name': 'Edit place: {{favourite.name}}',
     'edit-modal-on-open': 'Favourite editing modal.',
     'choose-icon': 'Välj platsens ikon',

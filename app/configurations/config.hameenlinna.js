@@ -73,8 +73,6 @@ export default configMerger(walttiConfig, {
     lon: 24.4662911533486,
   },
 
-  minTransferTime: 60,
-
   menu: {
     copyright: { label: `© Hameenlinna ${walttiConfig.YEAR}` },
     content: [

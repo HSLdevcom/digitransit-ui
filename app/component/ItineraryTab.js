@@ -366,6 +366,43 @@ const withRelay = createFragmentContainer(
         }
         legs {
           mode
+          nextLegs(numberOfLegs: 2  originModesWithParentStation: [RAIL]  destinationModesWithParentStation: [RAIL]) {
+            mode
+            route {
+              alerts {
+                alertSeverityLevel
+              }
+              shortName
+              mode
+              type
+              gtfsId
+            }
+            from {
+              stop {
+                platformCode
+                alerts {
+                  alertSeverityLevel
+                }
+              }
+            }
+            to {
+              stop {
+                alerts {
+                  alertSeverityLevel
+                }
+              }
+            }
+            startTime
+            trip {
+              tripHeadsign
+              pattern {
+                code
+              } 
+              
+              gtfsId
+            }
+            realTime
+          }
           ...LegAgencyInfo_leg
           from {
             lat

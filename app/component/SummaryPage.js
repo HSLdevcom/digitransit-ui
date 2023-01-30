@@ -617,7 +617,6 @@ class SummaryPage extends React.Component {
       query SummaryPage_WalkBike_Query(
         $fromPlace: String!
         $toPlace: String!
-        $intermediatePlaces: [InputCoordinates!]
         $date: String!
         $time: String!
         $walkReluctance: Float
@@ -630,9 +629,7 @@ class SummaryPage extends React.Component {
         $transferPenalty: Int
         $bikeSpeed: Float
         $optimize: OptimizeType
-        $itineraryFiltering: Float
         $unpreferred: InputUnpreferred
-        $locale: String
         $shouldMakeWalkQuery: Boolean!
         $shouldMakeBikeQuery: Boolean!
         $shouldMakeCarQuery: Boolean!
@@ -645,14 +642,12 @@ class SummaryPage extends React.Component {
         walkPlan: plan(
           fromPlace: $fromPlace
           toPlace: $toPlace
-          intermediatePlaces: $intermediatePlaces
           transportModes: [{ mode: WALK }]
           date: $date
           time: $time
           walkSpeed: $walkSpeed
           wheelchair: $wheelchair
           arriveBy: $arriveBy
-          locale: $locale
         ) @include(if: $shouldMakeWalkQuery) {
           ...SummaryPlanContainer_plan
           ...ItineraryTab_plan
@@ -677,7 +672,6 @@ class SummaryPage extends React.Component {
         bikePlan: plan(
           fromPlace: $fromPlace
           toPlace: $toPlace
-          intermediatePlaces: $intermediatePlaces
           transportModes: [{ mode: BICYCLE }]
           date: $date
           time: $time
@@ -685,7 +679,6 @@ class SummaryPage extends React.Component {
           arriveBy: $arriveBy
           bikeSpeed: $bikeSpeed
           optimize: $optimize
-          locale: $locale
         ) @include(if: $shouldMakeBikeQuery) {
           ...SummaryPlanContainer_plan
           ...ItineraryTab_plan
@@ -709,7 +702,6 @@ class SummaryPage extends React.Component {
         bikeAndPublicPlan: plan(
           fromPlace: $fromPlace
           toPlace: $toPlace
-          intermediatePlaces: $intermediatePlaces
           numItineraries: 6
           transportModes: $bikeAndPublicModes
           date: $date
@@ -723,9 +715,7 @@ class SummaryPage extends React.Component {
           transferPenalty: $transferPenalty
           bikeSpeed: $bikeSpeed
           optimize: $optimize
-          itineraryFiltering: $itineraryFiltering
           unpreferred: $unpreferred
-          locale: $locale
         ) @include(if: $showBikeAndPublicItineraries) {
           ...SummaryPlanContainer_plan
           ...ItineraryTab_plan
@@ -765,7 +755,6 @@ class SummaryPage extends React.Component {
         bikeParkPlan: plan(
           fromPlace: $fromPlace
           toPlace: $toPlace
-          intermediatePlaces: $intermediatePlaces
           numItineraries: 6
           transportModes: $bikeParkModes
           date: $date
@@ -779,9 +768,7 @@ class SummaryPage extends React.Component {
           transferPenalty: $transferPenalty
           bikeSpeed: $bikeSpeed
           optimize: $optimize
-          itineraryFiltering: $itineraryFiltering
           unpreferred: $unpreferred
-          locale: $locale
         ) @include(if: $showBikeAndParkItineraries) {
           ...SummaryPlanContainer_plan
           ...ItineraryTab_plan
@@ -827,7 +814,6 @@ class SummaryPage extends React.Component {
         carPlan: plan(
           fromPlace: $fromPlace
           toPlace: $toPlace
-          intermediatePlaces: $intermediatePlaces
           numItineraries: 5
           transportModes: [{ mode: CAR }]
           date: $date
@@ -841,9 +827,7 @@ class SummaryPage extends React.Component {
           transferPenalty: $transferPenalty
           bikeSpeed: $bikeSpeed
           optimize: $optimize
-          itineraryFiltering: $itineraryFiltering
           unpreferred: $unpreferred
-          locale: $locale
         ) @include(if: $shouldMakeCarQuery) {
           ...SummaryPlanContainer_plan
           ...ItineraryTab_plan
@@ -889,7 +873,6 @@ class SummaryPage extends React.Component {
         parkRidePlan: plan(
           fromPlace: $fromPlace
           toPlace: $toPlace
-          intermediatePlaces: $intermediatePlaces
           numItineraries: 5
           transportModes: [{ mode: CAR, qualifier: PARK }, { mode: TRANSIT }]
           date: $date
@@ -903,9 +886,7 @@ class SummaryPage extends React.Component {
           transferPenalty: $transferPenalty
           bikeSpeed: $bikeSpeed
           optimize: $optimize
-          itineraryFiltering: $itineraryFiltering
           unpreferred: $unpreferred
-          locale: $locale
         ) @include(if: $shouldMakeParkRideQuery) {
           ...SummaryPlanContainer_plan
           ...ItineraryTab_plan
@@ -988,7 +969,6 @@ class SummaryPage extends React.Component {
       query SummaryPage_Query(
         $fromPlace: String!
         $toPlace: String!
-        $intermediatePlaces: [InputCoordinates!]
         $numItineraries: Int!
         $modes: [TransportMode!]
         $date: String!
@@ -1003,15 +983,12 @@ class SummaryPage extends React.Component {
         $transferPenalty: Int
         $bikeSpeed: Float
         $optimize: OptimizeType
-        $itineraryFiltering: Float
         $unpreferred: InputUnpreferred
         $allowedBikeRentalNetworks: [String]
-        $locale: String
       ) {
         plan: plan(
           fromPlace: $fromPlace
           toPlace: $toPlace
-          intermediatePlaces: $intermediatePlaces
           numItineraries: $numItineraries
           transportModes: $modes
           date: $date
@@ -1026,10 +1003,8 @@ class SummaryPage extends React.Component {
           transferPenalty: $transferPenalty
           bikeSpeed: $bikeSpeed
           optimize: $optimize
-          itineraryFiltering: $itineraryFiltering
           unpreferred: $unpreferred
           allowedVehicleRentalNetworks: $allowedBikeRentalNetworks
-          locale: $locale
         ) {
           routingErrors {
             code
@@ -2864,7 +2839,6 @@ const containerComponent = createRefetchContainer(
       @argumentDefinitions(
         fromPlace: { type: "String!" }
         toPlace: { type: "String!" }
-        intermediatePlaces: { type: "[InputCoordinates!]" }
         numItineraries: { type: "Int!" }
         modes: { type: "[TransportMode!]" }
         date: { type: "String!" }
@@ -2879,16 +2853,13 @@ const containerComponent = createRefetchContainer(
         transferPenalty: { type: "Int" }
         bikeSpeed: { type: "Float" }
         optimize: { type: "OptimizeType" }
-        itineraryFiltering: { type: "Float" }
         unpreferred: { type: "InputUnpreferred" }
         allowedBikeRentalNetworks: { type: "[String]" }
-        locale: { type: "String" }
         modeWeight: { type: "InputModeWeight" }
       ) {
         plan(
           fromPlace: $fromPlace
           toPlace: $toPlace
-          intermediatePlaces: $intermediatePlaces
           numItineraries: $numItineraries
           transportModes: $modes
           date: $date
@@ -2903,10 +2874,8 @@ const containerComponent = createRefetchContainer(
           transferPenalty: $transferPenalty
           bikeSpeed: $bikeSpeed
           optimize: $optimize
-          itineraryFiltering: $itineraryFiltering
           unpreferred: $unpreferred
           allowedVehicleRentalNetworks: $allowedBikeRentalNetworks
-          locale: $locale
           modeWeight: $modeWeight
         ) {
           ...SummaryPlanContainer_plan
