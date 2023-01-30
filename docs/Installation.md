@@ -16,21 +16,21 @@ You also need a C compiler:
 
 ## Install watchman
 
+### Version
+
+A bit newer version of watchman is now required and 4.9.0 is no longer supported.
+Version 20220320.140531.0, for example, works.
+
 ### OS X
 
 `brew install watchman`
 
 ### Other
 
-```
-git clone https://github.com/facebook/watchman.git -b v4.9.0 --depth 1
-cd watchman
-./autogen.sh
-./configure --enable-lenient --without-python
-make
-sudo make install
-watchman -v
-```
+It's possible to run prebuilt binaries from [some release](https://github.com/facebook/watchman/releases)
+with [these instructions](https://facebook.github.io/watchman/docs/install.html#prebuilt-binaries-2)
+or in some systems to build the binaries from code following
+[these instructions](https://facebook.github.io/watchman/docs/install.html#-building-from-source).
 
 ## Installation
 - `yarn install && yarn setup`
