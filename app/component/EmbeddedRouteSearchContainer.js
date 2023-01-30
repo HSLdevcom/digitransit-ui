@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
 import { matchShape, routerShape } from 'found';
-
 import DTAutoSuggest from '@digitransit-component/digitransit-component-autosuggest';
+import Icon from './Icon';
+
 import LazilyLoad, { importLazy } from './LazilyLoad';
 
 import withSearchContext from './WithSearchContext';
@@ -22,10 +23,31 @@ class EmbeddedRouteSearchContainer extends React.Component {
     config: PropTypes.object.isRequired,
   };
 
+  secondaryLogoPath = null;
+
+  componentDidMount() {
+    const { secondaryLogo } = this.context.config;
+
+    self = this;
+    import(
+      /* webpackChunkName: "embedded-search" */ `../configurations/images/${secondaryLogo}`
+    )
+      .then(({ default: pathToLogo }) => {
+        self.secondaryLogoPath = pathToLogo;
+      })
+      .catch(err => {
+        console.error(
+          'EmbeddedRouteSearchContainer: failed to import() config.secondaryLogo',
+          err,
+        );
+      });
+  }
+
   render() {
     const { config } = this.context;
     const { lang } = this.props;
     const { trafficNowLink, colors, fontWeights } = config;
+    const { secondaryLogoPath } = this;
     const color = colors.primary;
     const hoverColor = colors.hover; // || LightenDarkenColor(colors.primary, -20);
     const accessiblePrimaryColor = colors.accessiblePrimary || colors.primary;
@@ -68,29 +90,43 @@ class EmbeddedRouteSearchContainer extends React.Component {
     // TODO this path is not handled by digitransit-ui
     const systemAlertsPath = '/systemalerts';
     return (
-      <div className="embedded-seach-container" id="#app">
+      <div
+        className="embedded-seach-container embedded-route-search-container"
+        id="#app"
+      >
         <div className="control-panel-container">
-          <h1>Find A Ride</h1>
+          <h1 className="embedded-route-search-container-heading">
+            {secondaryLogoPath ? (
+              <img
+                className="embedded-route-search-container-heading-logo"
+                src={secondaryLogoPath}
+                alt="Embark logo"
+              />
+            ) : null}
+            Find A Ride
+          </h1>
           <StopRouteSearch isMobile {...stopRouteSearchProps} />
           <ul
             style={{ listStyle: 'none', paddingLeft: 0, fontWeight: 'normal' }}
           >
-            <li style={{ display: 'inline-block', marginLeft: '1em' }}>
+            <li style={{ display: 'inline-block' }}>
               <a
                 href={systemAlertsPath}
                 target="_top"
                 style={{ color: 'red', textDecoration: 'none' }}
               >
-                System Alerts
+                {/* todo: aria-hidden=true */}
+                <Icon img="icon-icon_caution" height={1} /> System Alerts
               </a>
             </li>
-            <li style={{ display: 'inline-block', marginLeft: '1em' }}>
+            <li style={{ display: 'inline-block', marginLeft: '2em' }}>
               <a
                 href="/"
                 target="_top"
                 style={{ color: 'inherit', textDecoration: 'none' }}
               >
-                Plan A Trip
+                {/* todo: aria-hidden=true */}
+                <Icon img="icon-icon_show-on-map" height={1} /> Plan A Trip
               </a>
             </li>
           </ul>
