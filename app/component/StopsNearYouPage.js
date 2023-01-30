@@ -439,7 +439,7 @@ class StopsNearYouPage extends React.Component {
                 $first: Int!
                 $maxResults: Int!
                 $maxDistance: Int!
-                $omitNonPickups: Boolean
+                $omitNonPickups: Boolean!
                 $feedIds: [String!]
               ) {
                 stopPatterns: viewer {
@@ -725,7 +725,7 @@ class StopsNearYouPage extends React.Component {
             $first: Int!
             $maxResults: Int!
             $maxDistance: Int!
-            $omitNonPickups: Boolean
+            $omitNonPickups: Boolean!
             $prioritizedStopIds: [String!]!
           ) {
             stops: viewer {

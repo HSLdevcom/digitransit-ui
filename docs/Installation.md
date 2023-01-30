@@ -5,9 +5,8 @@
 
 You need [Node](https://nodejs.org/), [Yarn](https://yarnpkg.com) (or npm) and watchman.
 
-- `node -v` should be >= 10.19.
+- `node -v` should be >= 12.x
   - We recommend that you use [`nvm`](https://github.com/nvm-sh/nvm) to install a specific Node.js version. Optionally, you can also set up [its automatic version switching shell integration](https://github.com/nvm-sh/nvm/tree/e6fa80cb6178ff4e9735265281b5eae811f05f11#deeper-shell-integration).
-  - With Node.js versions >= 12, there might be problems.
 - `yarn --version` should be >= 1.22.0. The project will then use yarn 2 from the included file. (or `npm -v` should be >= 3)
 
 You also need a C compiler:
@@ -17,21 +16,21 @@ You also need a C compiler:
 
 ## Install watchman
 
+### Version
+
+A bit newer version of watchman is now required and 4.9.0 is no longer supported.
+Version 20220320.140531.0, for example, works.
+
 ### OS X
 
 `brew install watchman`
 
 ### Other
 
-```
-git clone https://github.com/facebook/watchman.git -b v4.9.0 --depth 1
-cd watchman
-./autogen.sh
-./configure --enable-lenient --without-python
-make
-sudo make install
-watchman -v
-```
+It's possible to run prebuilt binaries from [some release](https://github.com/facebook/watchman/releases)
+with [these instructions](https://facebook.github.io/watchman/docs/install.html#prebuilt-binaries-2)
+or in some systems to build the binaries from code following
+[these instructions](https://facebook.github.io/watchman/docs/install.html#-building-from-source).
 
 ## Installation
 - `yarn install && yarn setup`

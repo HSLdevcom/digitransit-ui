@@ -214,9 +214,11 @@ function StopsNearYouMap(
       }
     `;
     if (stop.distance < walkRoutingThreshold) {
-      fetchQuery(environment, query, variables).then(({ plan: result }) => {
-        setFirstPlan({ itinerary: result, isFetching: false, stop });
-      });
+      fetchQuery(environment, query, variables)
+        .toPromise()
+        .then(({ plan: result }) => {
+          setFirstPlan({ itinerary: result, isFetching: false, stop });
+        });
     } else {
       setFirstPlan({ itinerary: [], isFetching: false, stop });
     }
