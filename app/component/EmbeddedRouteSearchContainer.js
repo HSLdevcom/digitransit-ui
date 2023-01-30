@@ -28,14 +28,16 @@ class EmbeddedRouteSearchContainer extends React.Component {
   componentDidMount() {
     const { secondaryLogo } = this.context.config;
 
-    self = this;
+    // eslint-disable-next-line no-underscore-dangle
+    const _this = this;
     import(
       /* webpackChunkName: "embedded-search" */ `../configurations/images/${secondaryLogo}`
     )
       .then(({ default: pathToLogo }) => {
-        self.secondaryLogoPath = pathToLogo;
+        _this.secondaryLogoPath = pathToLogo;
       })
       .catch(err => {
+        // eslint-disable-next-line no-console
         console.error(
           'EmbeddedRouteSearchContainer: failed to import() config.secondaryLogo',
           err,
