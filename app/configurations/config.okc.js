@@ -53,7 +53,11 @@ export default configMerger(walttiConfig, {
   },
 
   colors: {
-    primary: '#RRGGBB'
+    primary: '#RRGGBB',
+    iconColors: {
+      'mode-bus': '#4497d1',
+      'mode-tram': '#c32e67',
+    },
   },
 
   // note: this does not enforce imperial units, but it causes digitransit-ui to guess based on the browser language/locale
