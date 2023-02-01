@@ -15,8 +15,12 @@ import { findNearestOption } from '../../util/planParamUtil';
 class BikingOptionsSection extends React.Component {
   render() {
     const { defaultSettings, bikeSpeed, overrideStyle } = this.props;
-    const { intl } = this.context;
-    const options = getFiveStepOptionsNumerical(this.props.bikeSpeedOptions);
+    const { intl, config } = this.context;
+    const options = getFiveStepOptionsNumerical(
+      this.props.bikeSpeedOptions,
+      config,
+      intl.formatNumber,
+    );
     const currentSelection =
       options.find(option => option.value === bikeSpeed) ||
       options.find(
@@ -61,6 +65,7 @@ BikingOptionsSection.propTypes = {
 };
 
 BikingOptionsSection.contextTypes = {
+  config: PropTypes.object.isRequired,
   match: matchShape.isRequired,
   intl: intlShape.isRequired,
   executeAction: PropTypes.func.isRequired,

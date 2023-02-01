@@ -4,6 +4,10 @@ import unzip from 'lodash/unzip';
 import distance from '@digitransit-search-util/digitransit-search-util-distance';
 import { isImperial } from './browser';
 
+const FEET_PER_METER = 3.2808399;
+const FEET_PER_MILE = 5280;
+const KM_PER_MILE = 1.60934;
+
 function toRad(deg) {
   return deg * (Math.PI / 180);
 }
@@ -52,7 +56,7 @@ export function getDistanceToNearestStop(lat, lon, stops) {
 }
 
 export function displayImperialDistance(meters) {
-  const feet = meters * 3.2808399;
+  const feet = meters * FEET_PER_METER;
 
   /* eslint-disable yoda */
 
@@ -62,7 +66,27 @@ export function displayImperialDistance(meters) {
   if (feet < 1000) {
     return `${Math.round(feet / 50) * 50} ft`; // fifty feet
   }
-  return `${Math.round(feet / 528) / 10} mi`; // tenth of a mile
+  return `${Math.round((feet * 10) / FEET_PER_MILE) / 10} mi`; // tenth of a mile
+}
+
+const roundToOneDecimal = number => {
+  return Math.round(number * 10) / 10;
+};
+
+/**
+ * Returns speed with locale format (fraction digits is 0)
+ * e.g. fi/sv - 20 km/h, en - 20 km
+ * @param {*} meters/second
+ * @param {*} config
+ * @param {*} formatNumber
+ */
+export function formatSpeedWithLocale(metersPerSecond, config, formatNumber) {
+  if (isImperial(config)) {
+    return `${formatNumber(
+      roundToOneDecimal((metersPerSecond * 3.6) / KM_PER_MILE),
+    )} mph`;
+  }
+  return `${formatNumber(roundToOneDecimal(metersPerSecond * 3.6))} km/h`;
 }
 
 /**

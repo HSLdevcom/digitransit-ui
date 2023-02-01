@@ -4,11 +4,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
 import Icon from '../Icon';
-
-const roundToOneDecimal = number => {
-  const rounded = Math.round(number * 10) / 10;
-  return rounded.toFixed(1).replace('.', ',');
-};
+import { formatSpeedWithLocale } from '../../util/geo-utils';
 
 /**
  * Builds an array of options: least, less, default, more, most with preset
@@ -17,45 +13,52 @@ const roundToOneDecimal = number => {
  *
  * @param {*} options The options to select from.
  */
-export const getFiveStepOptions = options => [
-  // todo: localize distances
-  {
-    title: 'option-least',
-    value: options.least || options[0],
-    kmhValue: `${roundToOneDecimal(options[0] * 3.6)} km/h`,
-  },
-  {
-    title: 'option-less',
-    value: options.less || options[1],
-    kmhValue: `${roundToOneDecimal(options[1] * 3.6)} km/h`,
-  },
-  {
-    title: 'option-default',
-    value: options[2],
-    kmhValue: `${roundToOneDecimal(options[2] * 3.6)} km/h`,
-  },
-  {
-    title: 'option-more',
-    value: options.more || options[3],
-    kmhValue: `${roundToOneDecimal(options[3] * 3.6)} km/h`,
-  },
-  {
-    title: 'option-most',
-    value: options.most || options[4],
-    kmhValue: `${roundToOneDecimal(options[4] * 3.6)} km/h`,
-  },
-];
+export function getFiveStepOptions(options, config, formatNumber) {
+  return [
+    {
+      title: 'option-least',
+      value: options.least || options[0],
+      kmhValue: formatSpeedWithLocale(options[0], config, formatNumber),
+    },
+    {
+      title: 'option-less',
+      value: options.less || options[1],
+      kmhValue: formatSpeedWithLocale(options[1], config, formatNumber),
+    },
+    {
+      title: 'option-default',
+      value: options[2],
+      kmhValue: formatSpeedWithLocale(options[2], config, formatNumber),
+    },
+    {
+      title: 'option-more',
+      value: options.more || options[3],
+      kmhValue: formatSpeedWithLocale(options[3], config, formatNumber),
+    },
+    {
+      title: 'option-most',
+      value: options.most || options[4],
+      kmhValue: formatSpeedWithLocale(options[4], config, formatNumber),
+    },
+  ];
+}
 
-export const getFiveStepOptionsNumerical = options => {
+export function getFiveStepOptionsNumerical(options, config, formatNumber) {
   const numericalOptions = [];
-  options.forEach(item => {
+  options.forEach(speedOptionInMetersPerSecond => {
     numericalOptions.push({
-      title: `${Math.round(item * 3.6)} km/h`,
-      value: item,
+      // FIXME: with react-intl v4 this should work
+      // title: intl.formatNumber(Math.round(item * 3.6), {style: 'unit', unit: 'kilometer'}),
+      title: formatSpeedWithLocale(
+        speedOptionInMetersPerSecond,
+        config,
+        formatNumber,
+      ),
+      value: speedOptionInMetersPerSecond,
     });
   });
   return numericalOptions;
-};
+}
 
 /**
  * Represents the types of acceptable values.

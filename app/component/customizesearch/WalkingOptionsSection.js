@@ -12,8 +12,8 @@ import { findNearestOption } from '../../util/planParamUtil';
 
 const WalkingOptionsSection = (
   { currentSettings, defaultSettings, walkSpeedOptions, walkReluctanceOptions },
-  { intl, executeAction },
-  options = getFiveStepOptions(walkSpeedOptions),
+  { intl, executeAction, config },
+  options = getFiveStepOptions(walkSpeedOptions, config, intl.formatNumber),
   currentSelection = options.find(
     option => option.value === currentSettings.walkSpeed,
   ) ||
@@ -89,6 +89,7 @@ WalkingOptionsSection.propTypes = {
 };
 
 WalkingOptionsSection.contextTypes = {
+  config: PropTypes.object.isRequired,
   intl: intlShape.isRequired,
   executeAction: PropTypes.func.isRequired,
 };
