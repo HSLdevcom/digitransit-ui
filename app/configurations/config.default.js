@@ -214,7 +214,9 @@ export default {
       more: 1,
       most: 0.2,
     },
+    // converted from 1.5, 2.2, 2.7, 3.7, 5 mph to m/s
     walkSpeed: [0.69, 0.97, 1.2, 1.67, 2.22],
+    // converted from mph 10, 12.5, 15, 17.5, 20 to m/s
     bikeSpeed: [2.77, 4.15, 5.55, 6.94, 8.33],
   },
 
