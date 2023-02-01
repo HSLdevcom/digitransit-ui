@@ -42,12 +42,17 @@ export const showCitybikeNetwork = network => {
   return (
     network?.enabled &&
     (isCitybikeSeasonActive(network?.season) ||
-      isCitybikePreSeasonActive(network?.season))
+      isCitybikePreSeasonActive(network?.season) ||
+      process.env.NODE_ENV === 'development')
   );
 };
 
 export const citybikeRoutingIsActive = network => {
-  return network?.enabled && isCitybikeSeasonActive(network?.season);
+  return (
+    network?.enabled &&
+    (isCitybikeSeasonActive(network?.season) ||
+      process.env.NODE_ENV === 'development')
+  );
 };
 
 export const networkIsActive = (config, networkName) => {
