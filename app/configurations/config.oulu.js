@@ -84,10 +84,6 @@ export default configMerger(walttiConfig, {
     lon: 25.4702,
   },
 
-  defaultSettings: {
-    walkBoardCost: 900,
-  },
-
   menu: {
     copyright: { label: `© Oulu ${walttiConfig.YEAR}` },
     content: [
