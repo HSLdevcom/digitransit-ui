@@ -70,6 +70,11 @@ export default configMerger(walttiConfig, {
   showWeatherInformation: false,
   showItineraryMapActions: false,
 
+  defaultOptions: {
+    walkSpeed: [0.69, 0.97, 1.2, 1.67, 2.22],
+    bikeSpeed: [4.47, 5.59, 6.71, 7.82, 8.94],
+  },
+
   realtime: { embark: realtimeOkc },
 
   showTicketInformation: false,
