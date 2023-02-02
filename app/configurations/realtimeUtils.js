@@ -262,7 +262,7 @@ export default {
   Mikkeli: {
     mqttTopicResolver: walttiTopicResolver,
 
-    mqtt: 'wss://mqtt.waltti.fi/mqtt',
+    mqtt: 'wss://mqtt.digitransit.fi',
 
     credentials: { username: 'user', password: 'userpass' },
 
