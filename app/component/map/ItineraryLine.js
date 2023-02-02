@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import polyUtil from 'polyline-encoded';
+import { intlShape } from 'react-intl';
+import moment from 'moment';
 import { getRouteMode } from '../../util/modeUtils';
 import StopMarker from './non-tile-layer/StopMarker';
 import LegMarker from './non-tile-layer/LegMarker';
@@ -24,6 +26,7 @@ import { durationToString } from '../../util/timeUtils';
 class ItineraryLine extends React.Component {
   static contextTypes = {
     config: PropTypes.object.isRequired,
+    intl: intlShape.isRequired,
   };
 
   static propTypes = {
@@ -48,12 +51,36 @@ class ItineraryLine extends React.Component {
     return false;
   }
 
+  getLastTransitLegIndex() {
+    return this.props.legs.map(leg => leg.transitLeg).lastIndexOf(true);
+  }
+
+  nextTransitLeg(currentLegIndex) {
+    for (let i = currentLegIndex + 1; i < this.props.legs.length; i++) {
+      if (this.props.legs[i].transitLeg) {
+        return this.props.legs[i];
+      }
+    }
+    return undefined;
+  }
+
+  speechBubbleText(currentLeg, nextLeg) {
+    const transferDuration = moment(
+      nextLeg.startTime - currentLeg.endTime,
+    ).minutes();
+    return `${this.context.intl.formatMessage({
+      id: 'transfer',
+      defaultMessage: 'Transfer',
+    })}: ${transferDuration === 0 ? '<1' : transferDuration} min`;
+  }
+
   render() {
     if (!isBrowser) {
       return false;
     }
 
     const objs = [];
+    const lastTransitLegIndex = this.getLastTransitLegIndex();
     this.props.legs.forEach((leg, i) => {
       if (!leg || leg.mode === 'WAIT') {
         return;
@@ -125,6 +152,7 @@ class ItineraryLine extends React.Component {
               objs.push(
                 <StopMarker
                   disableModeIcons
+                  limitZoom={14}
                   stop={place.stop}
                   key={`intermediate-${place.stop.gtfsId}`}
                   mode={modePlusClass}
@@ -194,7 +222,6 @@ class ItineraryLine extends React.Component {
                 />,
               );
             }
-
             objs.push(
               <StopMarker
                 key={`${i},${leg.mode}marker,from`}
@@ -225,6 +252,17 @@ class ItineraryLine extends React.Component {
                 renderText={leg.transitLeg && this.props.showTransferLabels}
               />,
             );
+            // Display speechbubbles at stops that end a transit leg to indicate transfer, excluding the final stop
+            if (i !== lastTransitLegIndex) {
+              objs.push(
+                <SpeechBubble
+                  key={`speech_${leg.to.stop.gtfsId}`}
+                  flip={this.props.flipBubble}
+                  position={{ lat: leg.to.lat, lon: leg.to.lon }}
+                  text={this.speechBubbleText(leg, this.nextTransitLeg(i))}
+                />,
+              );
+            }
           }
         }
       }

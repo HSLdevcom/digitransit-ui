@@ -45,7 +45,8 @@ class LegMarker extends React.Component {
     this.forceUpdate();
   };
 
-  getLegMarker() {
+  // An arrow marker will be displayed if the normal marker can't fit
+  getLegMarker(withArrow = false) {
     const color = this.props.color ? this.props.color : 'currentColor';
     const className = this.props.wide ? 'wide' : '';
     return (
@@ -58,7 +59,7 @@ class LegMarker extends React.Component {
         interactive={false}
         icon={L.divIcon({
           html: `
-            <div class="${className}" style="background-color: ${color}">
+            <div class="${className}" style="--background-color: ${color}">
             ${Icon.asString({
               img: `icon-icon_${this.props.mode}`,
               className: 'map-route-icon',
@@ -66,7 +67,9 @@ class LegMarker extends React.Component {
             })}
               <span class="map-route-number">${this.props.leg.name}</span>
             </div>`,
-          className: `legmarker ${this.props.mode}`,
+          className: `${withArrow ? 'legmarker-with-arrow' : 'legmarker'} ${
+            this.props.mode
+          }`,
           iconSize: null,
         })}
         zIndexOffset={this.props.zIndexOffset}
@@ -85,7 +88,7 @@ class LegMarker extends React.Component {
     const distance = p1.distanceTo(p2);
     const minDistanceToShow = 64;
 
-    return <div>{distance >= minDistanceToShow && this.getLegMarker()}</div>;
+    return <div>{this.getLegMarker(distance < minDistanceToShow)}</div>;
   }
 }
 

@@ -31,6 +31,7 @@ class StopMarker extends React.Component {
     mode: PropTypes.string.isRequired,
     renderName: PropTypes.bool,
     disableModeIcons: PropTypes.bool,
+    limitZoom: PropTypes.number,
     selected: PropTypes.bool,
     colorOverride: PropTypes.string,
   };
@@ -91,10 +92,16 @@ class StopMarker extends React.Component {
 
   getIcon = zoom => {
     const scale = this.props.stop.transfer || this.props.selected ? 1.5 : 1;
-    const calcZoom =
-      this.props.stop.transfer || this.props.selected
-        ? Math.max(zoom, 15)
-        : zoom || 15;
+
+    let calcZoom;
+    if (this.props.limitZoom) {
+      calcZoom = Math.min(zoom, this.props.limitZoom);
+    } else {
+      calcZoom =
+        this.props.stop.transfer || this.props.selected
+          ? Math.max(zoom, 15)
+          : zoom || 15;
+    }
 
     const radius = getCaseRadius(calcZoom) * scale;
     const stopRadius = getStopRadius(calcZoom) * scale;

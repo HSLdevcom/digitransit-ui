@@ -757,6 +757,54 @@ div.origin-popup {
   fill-opacity: $stop-thin-opacity;
 }
 
+.map .legmarker-with-arrow {
+  display: flex;
+  align-items: center;
+  min-width: 50px;
+  height: 18px;
+  .wide {
+    min-width: 64px;
+  }
+  .map-route-icon {
+    border: none;
+    font-size: 18px;
+  }
+  div {
+    @include font-narrow-medium;
+    border-radius: 3px;
+    height: 18px;
+    width: 100%;
+    margin-left: -50%;
+    margin-top: -9px;
+    display: flex;
+    position: relative;
+    left: -65%;
+    top: 100%;
+    white-space: nowrap;
+    background-color: var(--background-color);
+    .map-route-number {
+      width: calc(100% - 18px);
+      display: flex;
+      justify-content: center;
+      padding-right: 3px;
+      color: $white;
+    }
+    &::before {
+      content: '';
+      width: 0px;
+      height: 0px;
+      position: absolute;
+      border-left: 0px solid var(--background-color);
+      border-right: 15px solid transparent;
+      border-top: 0px solid transparent;
+      border-bottom: 15px solid var(--background-color);
+      right: -10px;
+      top: -14px;
+      transform: skewX(-60deg);
+    }
+  }
+}
+
 .map .legmarker {
   display: flex;
   align-items: center;
@@ -849,7 +897,7 @@ div.origin-popup {
   }
   div {
     @include font-narrow-medium;
-    //background-color: currentColor;
+    background-color: var(--background-color);
     border-radius: 3px;
     height: 18px;
     width: 100%;
