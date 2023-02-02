@@ -7,6 +7,7 @@ import { getCustomizedSettings } from '../store/localStorage';
 import { isInBoundingBox } from './geo-utils';
 import { addAnalyticsEvent } from './analyticsUtils';
 import { ExtendedRouteTypes, TransportMode } from '../constants';
+import { isDevelopmentEnvironment } from './envUtils';
 
 export const isCitybikeSeasonActive = season => {
   if (!season) {
@@ -42,12 +43,16 @@ export const showCitybikeNetwork = network => {
   return (
     network?.enabled &&
     (isCitybikeSeasonActive(network?.season) ||
-      isCitybikePreSeasonActive(network?.season))
+      isCitybikePreSeasonActive(network?.season) ||
+      isDevelopmentEnvironment())
   );
 };
 
 export const citybikeRoutingIsActive = network => {
-  return network?.enabled && isCitybikeSeasonActive(network?.season);
+  return (
+    network?.enabled &&
+    (isCitybikeSeasonActive(network?.season) || isDevelopmentEnvironment())
+  );
 };
 
 export const networkIsActive = (config, networkName) => {
