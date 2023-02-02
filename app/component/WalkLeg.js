@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
 import Link from 'found/Link';
-
 import Icon from './Icon';
+import ItineraryMapAction from './ItineraryMapAction';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
 import PlatformNumber from './PlatformNumber';
 import ServiceAlertIcon from './ServiceAlertIcon';
@@ -17,7 +17,6 @@ import {
 } from '../util/citybikes';
 import { displayDistance } from '../util/geo-utils';
 import { durationToString, localizeTime } from '../util/timeUtils';
-import { isKeyboardSelectionEvent } from '../util/browser';
 import { splitStringToAddressAndPlace } from '../util/otpStrings';
 import CityBikeLeg from './CityBikeLeg';
 
@@ -123,22 +122,10 @@ function WalkLeg(
               </div>
               <div className="place">{place}</div>
             </div>
-            <div
-              className="itinerary-map-action"
-              onClick={focusAction}
-              onKeyPress={e => isKeyboardSelectionEvent(e) && focusAction(e)}
-              role="button"
-              tabIndex="0"
-              aria-label={intl.formatMessage(
-                { id: 'itinerary-summary.show-on-map' },
-                { target: leg[toOrFrom].name || '' },
-              )}
-            >
-              <Icon
-                img="icon-icon_show-on-map"
-                className="itinerary-search-icon"
-              />
-            </div>
+            <ItineraryMapAction
+              target={leg[toOrFrom].name || ''}
+              focusAction={focusAction}
+            />
           </div>
         ) : (
           <div
@@ -214,22 +201,10 @@ function WalkLeg(
               </div>
             </div>
             {!returnNotice && (
-              <div
-                className="itinerary-map-action"
-                onClick={focusAction}
-                onKeyPress={e => isKeyboardSelectionEvent(e) && focusAction(e)}
-                role="button"
-                tabIndex="0"
-                aria-label={intl.formatMessage(
-                  { id: 'itinerary-summary.show-on-map' },
-                  { target: leg[toOrFrom].name || '' },
-                )}
-              >
-                <Icon
-                  img="icon-icon_show-on-map"
-                  className="itinerary-search-icon"
-                />
-              </div>
+              <ItineraryMapAction
+                target={leg[toOrFrom].name || ''}
+                focusAction={focusAction}
+              />
             )}
           </div>
         )}
@@ -241,21 +216,11 @@ function WalkLeg(
               values={{ distance, duration }}
               defaultMessage="Walk {distance} ({duration})"
             />
-            <div
-              className="itinerary-map-action"
-              onClick={focusToLeg}
-              onKeyPress={e => isKeyboardSelectionEvent(e) && focusToLeg(e)}
-              role="button"
-              tabIndex="0"
-              aria-label={intl.formatMessage({
-                id: 'itinerary-summary-row.clickable-area-description',
-              })}
-            >
-              <Icon
-                img="icon-icon_show-on-map"
-                className="itinerary-search-icon"
-              />
-            </div>
+            <ItineraryMapAction
+              target=""
+              ariaLabelId="itinerary-summary-row.clickable-area-description"
+              focusAction={focusToLeg}
+            />
           </div>
         </div>
       </div>

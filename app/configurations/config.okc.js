@@ -67,6 +67,7 @@ export default configMerger(walttiConfig, {
   showVehiclesOnStopPage: true,
   showVehiclesOnSummaryPage: true,
   showWeatherInformation: false,
+  showItineraryMapActions: false,
 
   realtime: { embark: realtimeOkc },
 

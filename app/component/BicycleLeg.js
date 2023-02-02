@@ -4,6 +4,7 @@ import { FormattedMessage, intlShape } from 'react-intl';
 import cx from 'classnames';
 import Link from 'found/Link';
 import Icon from './Icon';
+import ItineraryMapAction from './ItineraryMapAction';
 import { displayDistance } from '../util/geo-utils';
 import { durationToString, localizeTime } from '../util/timeUtils';
 import ItineraryCircleLine from './ItineraryCircleLine';
@@ -14,7 +15,6 @@ import {
   getCityBikeNetworkId,
   CityBikeNetworkType,
 } from '../util/citybikes';
-import { isKeyboardSelectionEvent } from '../util/browser';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
 import { splitStringToAddressAndPlace } from '../util/otpStrings';
 import CityBikeLeg from './CityBikeLeg';
@@ -193,22 +193,10 @@ function BicycleLeg(
               )}
               <div className="place">{place}</div>
             </div>
-            <div
-              className="itinerary-map-action"
-              onClick={focusAction}
-              onKeyPress={e => isKeyboardSelectionEvent(e) && focusAction(e)}
-              role="button"
-              tabIndex="0"
-              aria-label={intl.formatMessage(
-                { id: 'itinerary-summary.show-on-map' },
-                { target: leg.from.name || '' },
-              )}
-            >
-              <Icon
-                img="icon-icon_show-on-map"
-                className="itinerary-search-icon"
-              />
-            </div>
+            <ItineraryMapAction
+              target={leg.from.name || ''}
+              focusAction={focusAction}
+            />
           </div>
         ) : (
           <CityBikeLeg
@@ -251,43 +239,21 @@ function BicycleLeg(
                   }}
                 />
               )}
-              <div
-                className="itinerary-map-action"
-                onClick={focusAction}
-                onKeyPress={e => isKeyboardSelectionEvent(e) && focusAction(e)}
-                role="button"
-                tabIndex="0"
-                aria-label={intl.formatMessage(
-                  { id: 'itinerary-summary.show-on-map' },
-                  { target: leg.from.name || '' },
-                )}
-              >
-                <Icon
-                  img="icon-icon_show-on-map"
-                  className="itinerary-search-icon"
-                />
-              </div>
+              <ItineraryMapAction
+                target={leg.from.name || ''}
+                focusAction={focusAction}
+              />
             </div>
           </div>
         )}
         <div className={cx('itinerary-leg-action', 'bike')}>
           <div className="itinerary-leg-action-content">
             {stopsDescription}
-            <div
-              className="itinerary-map-action"
-              onClick={focusToLeg}
-              onKeyPress={e => isKeyboardSelectionEvent(e) && focusToLeg(e)}
-              role="button"
-              tabIndex="0"
-              aria-label={intl.formatMessage({
-                id: 'itinerary-summary-row.clickable-area-description',
-              })}
-            >
-              <Icon
-                img="icon-icon_show-on-map"
-                className="itinerary-search-icon"
-              />
-            </div>
+            <ItineraryMapAction
+              target=""
+              ariaLabelId="itinerary-summary-row.clickable-area-description"
+              focusAction={focusToLeg}
+            />
           </div>
         </div>
         {bicycleWalkLeg && bicycleWalkLeg?.to.stop && (
@@ -324,22 +290,10 @@ function BicycleLeg(
                   }}
                 />
               )}
-              <div
-                className="itinerary-map-action"
-                onClick={focusAction}
-                onKeyPress={e => isKeyboardSelectionEvent(e) && focusAction(e)}
-                role="button"
-                tabIndex="0"
-                aria-label={intl.formatMessage(
-                  { id: 'itinerary-summary.show-on-map' },
-                  { target: leg.from.name || '' },
-                )}
-              >
-                <Icon
-                  img="icon-icon_show-on-map"
-                  className="itinerary-search-icon"
-                />
-              </div>
+              <ItineraryMapAction
+                target={leg.from.name || ''}
+                focusAction={focusAction}
+              />
             </div>
           </div>
         )}

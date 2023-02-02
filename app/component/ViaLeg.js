@@ -1,12 +1,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
-
-import Icon from './Icon';
 import { displayDistance } from '../util/geo-utils';
 import { durationToString, localizeTime } from '../util/timeUtils';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
-import { isKeyboardSelectionEvent } from '../util/browser';
+import ItineraryMapAction from './ItineraryMapAction';
 import { splitStringToAddressAndPlace } from '../util/otpStrings';
 
 const getDescription = (mode, distance, duration) => {
@@ -126,46 +124,15 @@ function ViaLeg(props, { config, intl }) {
             )}
             {props.children}
           </div>
-          <div
-            className="itinerary-map-action"
-            onClick={props.focusAction}
-            onKeyPress={e =>
-              isKeyboardSelectionEvent(e) && props.focusAction(e)
-            }
-            role="button"
-            tabIndex="0"
-            aria-label={intl.formatMessage(
-              { id: 'itinerary-summary.show-on-map' },
-              { target: props.leg.from.name || '' },
-            )}
-          >
-            <Icon
-              img="icon-icon_show-on-map"
-              className="itinerary-search-icon"
-            />
-          </div>
+          <ItineraryMapAction
+            target={props.leg.from.name || ''}
+            focusAction={props.focusAction}
+          />
         </div>
         <div className="itinerary-leg-action">
           <div className="itinerary-leg-action-content">
             {getDescription(props.leg.mode, distance, duration)}
-            <div
-              className="itinerary-map-action"
-              onClick={props.focusToLeg}
-              onKeyPress={e =>
-                isKeyboardSelectionEvent(e) && props.focusToLeg(e)
-              }
-              role="button"
-              tabIndex="0"
-              aria-label={intl.formatMessage(
-                { id: 'itinerary-summary.show-on-map' },
-                { target: '' },
-              )}
-            >
-              <Icon
-                img="icon-icon_show-on-map"
-                className="itinerary-search-icon"
-              />
-            </div>
+            <ItineraryMapAction target="" focusAction={props.focusToLeg} />
           </div>
         </div>
       </div>

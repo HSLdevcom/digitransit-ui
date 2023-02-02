@@ -310,6 +310,8 @@ export default {
     showLayerSelector: true, // DT-3470
     showStopMarkerPopupOnMobile: true, // DT-3470
     showScaleBar: true, // DT-3470
+    showItineraryMapActions: true, // https://github.com/embarkokc/digitransit-ui/pull/13
+
     attribution:
       '<a tabIndex="-1" href="http://osm.org/copyright">© OpenStreetMap</a>', // DT-3470, DT-3397
 

@@ -1,15 +1,15 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { FormattedMessage, intlShape } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import { Link } from 'found';
 import ItineraryCircleLine from './ItineraryCircleLine';
 import Icon from './Icon';
-import { isKeyboardSelectionEvent } from '../util/browser';
+import ItineraryMapAction from './ItineraryMapAction';
 import { PREFIX_STOPS } from '../util/path';
 import { localizeTime } from '../util/timeUtils';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
-function AirportCheckInLeg(props, { config, intl }) {
+function AirportCheckInLeg(props, { config }) {
   const modeClassName = 'airport-wait';
   const { name } = props.leg.from;
   const { focusAction } = props;
@@ -42,22 +42,7 @@ function AirportCheckInLeg(props, { config, intl }) {
             </Link>
             <div className="stop-code-container">{props.children}</div>
           </div>
-          <div
-            className="itinerary-map-action"
-            onClick={focusAction}
-            onKeyPress={e => isKeyboardSelectionEvent(e) && focusAction(e)}
-            role="button"
-            tabIndex="0"
-            aria-label={intl.formatMessage(
-              { id: 'itinerary-summary.show-on-map' },
-              { target: name || '' },
-            )}
-          >
-            <Icon
-              img="icon-icon_show-on-map"
-              className="itinerary-search-icon"
-            />
-          </div>
+          <ItineraryMapAction target={name || ''} focusAction={focusAction} />
         </div>
 
         <div className="info-message">
@@ -100,7 +85,6 @@ AirportCheckInLeg.propTypes = {
 
 AirportCheckInLeg.contextTypes = {
   config: PropTypes.object.isRequired,
-  intl: intlShape.isRequired,
 };
 
 export default AirportCheckInLeg;
