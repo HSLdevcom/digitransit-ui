@@ -3250,60 +3250,6 @@
                             "deprecationReason": null
                         },
                         {
-                            "name": "nextLegs",
-                            "description": "A list of later departure options on a leg",
-                            "args": [  {
-                                "name": "originModesWithParentStation",
-                                "description": "List of transportation modes for which only the exact origin stop should be considered when searching for alternative legs",
-                                "type": {
-                                    "kind": "LIST",
-                                    "name": null,
-                                    "ofType": {
-                                        "kind": "INPUT_OBJECT",
-                                        "name": "Mode",
-                                        "ofType": null
-                                    }
-                                },
-                                "defaultValue": null
-                            },
-                            {
-                                "name": "destinationModesWithParentStation",
-                                "description": "List of transportation modes for which only the exact destination stop should be considered when searching for alternative legs",
-                                "type": {
-                                    "kind": "LIST",
-                                    "name": null,
-                                    "ofType": {
-                                        "kind": "INPUT_OBJECT",
-                                        "name": "Mode",
-                                        "ofType": null
-                                    }
-                                },
-                                "defaultValue": null
-                            },
-                            {
-                            "name":"numberOfLegs",
-                            "description": "Number of alternative legs to be generated",
-                            "type": {
-                                "kind": "SCALAR",
-                                "name": "Int",
-                                "ofType": null
-                            }, 
-                            "defaultValue": null 
-                            }],
-                            "type": {
-                                "kind": "LIST",
-                                "name": null,
-                                "ofType": {
-                                    "kind": "OBJECT",
-                                    "name": "Leg",
-                                    "ofType": null
-                                }
-
-                            },
-                            "isDeprecated": false,
-                            "deprecationReason": null
-                        },
-                        {
                             "name": "pickupType",
                             "description": "This is used to indicate if boarding this leg is possible only with special arrangements.",
                             "args": [],
@@ -3359,6 +3305,77 @@
                                 "kind": "OBJECT",
                                 "name": "BookingInfo",
                                 "ofType": null
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "nextLegs",
+                            "description": "Future legs with same origin and destination stops or stations",
+                            "args": [
+                                {
+                                    "name": "numberOfLegs",
+                                    "description": "The number of alternative legs searched. If fewer than the requested number are found,\nthen only the found legs are returned.",
+                                    "type": {
+                                        "kind": "NON_NULL",
+                                        "name": null,
+                                        "ofType": {
+                                            "kind": "SCALAR",
+                                            "name": "Int",
+                                            "ofType": null
+                                        }
+                                    },
+                                    "defaultValue": null
+                                },
+                                {
+                                    "name": "originModesWithParentStation",
+                                    "description": "Transportation modes for which all stops in the parent station are used as possible origin stops\nfor the next legs. For modes not listed, only the exact origin stop of the leg is considered.",
+                                    "type": {
+                                        "kind": "LIST",
+                                        "name": null,
+                                        "ofType": {
+                                            "kind": "NON_NULL",
+                                            "name": null,
+                                            "ofType": {
+                                                "kind": "ENUM",
+                                                "name": "TransitMode",
+                                                "ofType": null
+                                            }
+                                        }
+                                    },
+                                    "defaultValue": null
+                                },
+                                {
+                                    "name": "destinationModesWithParentStation",
+                                    "description": "Transportation modes for which all stops in the parent station are used as possible destination stops\nfor the next legs. For modes not listed, only the exact destination stop of the leg is considered.",
+                                    "type": {
+                                        "kind": "LIST",
+                                        "name": null,
+                                        "ofType": {
+                                            "kind": "NON_NULL",
+                                            "name": null,
+                                            "ofType": {
+                                                "kind": "ENUM",
+                                                "name": "TransitMode",
+                                                "ofType": null
+                                            }
+                                        }
+                                    },
+                                    "defaultValue": null
+                                }
+                            ],
+                            "type": {
+                                "kind": "LIST",
+                                "name": null,
+                                "ofType": {
+                                    "kind": "NON_NULL",
+                                    "name": null,
+                                    "ofType": {
+                                        "kind": "OBJECT",
+                                        "name": "Leg",
+                                        "ofType": null
+                                    }
+                                }
                             },
                             "isDeprecated": false,
                             "deprecationReason": null
@@ -9079,6 +9096,89 @@
                     "possibleTypes": null
                 },
                 {
+                    "kind": "ENUM",
+                    "name": "TransitMode",
+                    "description": null,
+                    "fields": null,
+                    "inputFields": null,
+                    "interfaces": null,
+                    "enumValues": [
+                        {
+                            "name": "AIRPLANE",
+                            "description": "AIRPLANE",
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "BUS",
+                            "description": "BUS",
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "CABLE_CAR",
+                            "description": "CABLE_CAR",
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "COACH",
+                            "description": "COACH",
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "FERRY",
+                            "description": "FERRY",
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "FUNICULAR",
+                            "description": "FUNICULAR",
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "GONDOLA",
+                            "description": "GONDOLA",
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "RAIL",
+                            "description": "RAIL",
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "SUBWAY",
+                            "description": "SUBWAY",
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "TRAM",
+                            "description": "TRAM",
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "CARPOOL",
+                            "description": "\"Private car trips shared with others.",
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "TAXI",
+                            "description": "A taxi, possibly operated by a public transport agency.",
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        }
+                    ],
+                    "possibleTypes": null
+                },
+                {
                     "kind": "OBJECT",
                     "name": "TranslatedString",
                     "description": "Text with language",
@@ -10580,42 +10680,6 @@
                             },
                             "isDeprecated": false,
                             "deprecationReason": null
-                        },
-                        {
-                            "name": "onOperation",
-                            "description": null,
-                            "args": [],
-                            "type": {
-                                "kind": "SCALAR",
-                                "name": "Boolean",
-                                "ofType": null
-                            },
-                            "isDeprecated": true,
-                            "deprecationReason": "Use `locations`."
-                        },
-                        {
-                            "name": "onFragment",
-                            "description": null,
-                            "args": [],
-                            "type": {
-                                "kind": "SCALAR",
-                                "name": "Boolean",
-                                "ofType": null
-                            },
-                            "isDeprecated": true,
-                            "deprecationReason": "Use `locations`."
-                        },
-                        {
-                            "name": "onField",
-                            "description": null,
-                            "args": [],
-                            "type": {
-                                "kind": "SCALAR",
-                                "name": "Boolean",
-                                "ofType": null
-                            },
-                            "isDeprecated": true,
-                            "deprecationReason": "Use `locations`."
                         }
                     ],
                     "inputFields": null,
@@ -11326,7 +11390,7 @@
                             "deprecationReason": null
                         },
                         {
-                            "name": "specifiedByUrl",
+                            "name": "specifiedByURL",
                             "description": null,
                             "args": [],
                             "type": {
@@ -11336,6 +11400,18 @@
                             },
                             "isDeprecated": false,
                             "deprecationReason": null
+                        },
+                        {
+                            "name": "specifiedByUrl",
+                            "description": null,
+                            "args": [],
+                            "type": {
+                                "kind": "SCALAR",
+                                "name": "String",
+                                "ofType": null
+                            },
+                            "isDeprecated": true,
+                            "deprecationReason": "This legacy name has been replaced by `specifiedByURL`"
                         }
                     ],
                     "inputFields": null,
@@ -11353,7 +11429,7 @@
                     "enumValues": [
                         {
                             "name": "SCALAR",
-                            "description": "Indicates this type is a scalar. 'specifiedByUrl' is a valid field",
+                            "description": "Indicates this type is a scalar. 'specifiedByURL' is a valid field",
                             "isDeprecated": false,
                             "deprecationReason": null
                         },
@@ -12173,6 +12249,14 @@
                             "defaultValue": null
                         }
                     ]
+                },
+                {
+                    "name": "async",
+                    "description": "Use an asynchronous data fetcher on a separate thread for this field.\n\nThis is useful when adding several queries in the same HTTP request, for example by using a batch: Those\nfields annotated with this directive run in parallel.\n\nThis is only worth it when the execution is long running, i.e. more than ~50 milliseconds, so this doesn't happen by default.",
+                    "locations": [
+                        "FIELD_DEFINITION"
+                    ],
+                    "args": []
                 },
                 {
                     "name": "deprecated",
