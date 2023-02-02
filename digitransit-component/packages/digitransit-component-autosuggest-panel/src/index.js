@@ -189,6 +189,7 @@ class DTAutosuggestPanel extends React.Component {
     showScroll: PropTypes.bool,
     onFocusChange: PropTypes.func,
     isEmbedded: PropTypes.bool,
+    showViaPointEdit: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -217,6 +218,7 @@ class DTAutosuggestPanel extends React.Component {
     showScroll: false,
     onFocusChange: undefined,
     isEmbedded: false,
+    showViaPointEdit: false,
   };
 
   constructor(props) {
@@ -656,7 +658,10 @@ class DTAutosuggestPanel extends React.Component {
             showScroll={this.props.showScroll}
             isEmbedded={this.props.isEmbedded}
           />
-          {showMultiPointControls && (
+          {showMultiPointControls && !this.props.showViaPointEdit && (
+            <div className={styles['search-panel-whitespace']} />
+          )}
+          {this.props.showViaPointEdit && (
             <ItinerarySearchControl
               className={cx(styles['add-via-point'], styles.more, {
                 collapsed: viaPoints.length > 4,
