@@ -141,7 +141,7 @@ ItinerarySearchControl.propTypes = {
  *    destinationPlaceHolder={'Give destination'} // Optional Give string shown initally inside destination search field
  *    initialViaPoints={[]} // Optional.  If showViapointControl is set to true, pass initial via points to the panel. Currently no default implementation is given.
  *    updateViaPoints={() => return []} // Optional. If showViapointControl is set to true, define how to update your via point list with this function. Currenlty no default implementation is given.
- *    swapOrder={() => return null} // Optional. If showViapointControl is set to true, define how to swap order of your points (origin, destination, viapoints). Currently no default implementation is given.
+ *    swapOrder={() => return null} // Optional. If showSwapControl is set to true, define how to swap order of your points (origin, destination, viapoints). Currently no default implementation is given.
  *    searchContext={searchContext}
  *    getAutoSuggestIcons={getAutoSuggestIcons}
  *    onSelect={this.onSelect}
