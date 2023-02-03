@@ -73,6 +73,7 @@ class CityBikes {
                   this.tile.stopsToShow.includes(id)) &&
                 showCitybikeNetwork(
                   this.config.cityBike.networks[feature.properties.networks],
+                  this.config,
                 )
               ) {
                 [[feature.geom]] = feature.loadGeometry();
