@@ -6,10 +6,10 @@ import cx from 'classnames';
 
 import { Link } from 'found';
 import Icon from './Icon';
+import ItineraryMapAction from './ItineraryMapAction';
 import { displayDistance } from '../util/geo-utils';
 import { durationToString } from '../util/timeUtils';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
-import { isKeyboardSelectionEvent } from '../util/browser';
 import { PREFIX_CARPARK } from '../util/path';
 import ItineraryCircleLine from './ItineraryCircleLine';
 
@@ -89,24 +89,10 @@ function CarParkLeg(props, { config, intl }) {
             <div className="place">{props.carPark.name}</div>
           </div>
           <div>{props.children}</div>
-          <div
-            className="itinerary-map-action"
-            onClick={props.focusAction}
-            onKeyPress={e =>
-              isKeyboardSelectionEvent(e) && props.focusAction(e)
-            }
-            role="button"
-            tabIndex="0"
-            aria-label={intl.formatMessage(
-              { id: 'itinerary-summary.show-on-map' },
-              { target: props.leg.from.name || '' },
-            )}
-          >
-            <Icon
-              img="icon-icon_show-on-map"
-              className="itinerary-search-icon"
-            />
-          </div>
+          <ItineraryMapAction
+            target={props.leg.from.name || ''}
+            focusAction={props.focusAction}
+          />
         </div>
         {!props.noWalk && (
           <div className={cx('itinerary-leg-action', 'car')}>
@@ -116,24 +102,10 @@ function CarParkLeg(props, { config, intl }) {
                 values={{ distance, duration }}
                 defaultMessage="Walk {distance} ({duration})"
               />
-              <div
-                className="itinerary-map-action"
-                onClick={props.focusAction}
-                onKeyPress={e =>
-                  isKeyboardSelectionEvent(e) && props.focusAction(e)
-                }
-                role="button"
-                tabIndex="0"
-                aria-label={intl.formatMessage(
-                  { id: 'itinerary-summary.show-on-map' },
-                  { target: props.leg.from.name || '' },
-                )}
-              >
-                <Icon
-                  img="icon-icon_show-on-map"
-                  className="itinerary-search-icon"
-                />
-              </div>
+              <ItineraryMapAction
+                target={props.leg.from.name || ''}
+                focusAction={props.focusAction}
+              />
             </div>
           </div>
         )}

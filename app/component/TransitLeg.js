@@ -11,6 +11,7 @@ import LegAgencyInfo from './LegAgencyInfo';
 import Icon from './Icon';
 import IntermediateLeg from './IntermediateLeg';
 import ItineraryCircleLine from './ItineraryCircleLine';
+import ItineraryMapAction from './ItineraryMapAction';
 import PlatformNumber from './PlatformNumber';
 import ServiceAlertIcon from './ServiceAlertIcon';
 import StopCode from './StopCode';
@@ -30,7 +31,6 @@ import {
   getHeadsignFromRouteLongName,
   getStopHeadsignFromStoptimes,
 } from '../util/legUtils';
-import { isKeyboardSelectionEvent } from '../util/browser';
 import { shouldShowFareInfo } from '../util/fareUtils';
 import { AlertSeverityLevelType } from '../constants';
 import ZoneIcon from './ZoneIcon';
@@ -420,22 +420,10 @@ class TransitLeg extends React.Component {
                 />
               </div>
             </div>
-            <div
-              className="itinerary-map-action"
-              onClick={focusAction}
-              onKeyPress={e => isKeyboardSelectionEvent(e) && focusAction(e)}
-              role="button"
-              tabIndex="0"
-              aria-label={intl.formatMessage(
-                { id: 'itinerary-summary.show-on-map' },
-                { target: leg.from.name || '' },
-              )}
-            >
-              <Icon
-                img="icon-icon_show-on-map"
-                className="itinerary-search-icon"
-              />
-            </div>
+            <ItineraryMapAction
+              target={leg.from.name || ''}
+              focusAction={focusAction}
+            />
           </div>
           <LegInfo
             leg={leg}

@@ -3,10 +3,9 @@ import React from 'react';
 import moment from 'moment';
 import cx from 'classnames';
 import { matchShape } from 'found';
-
 import { FormattedMessage, intlShape } from 'react-intl';
 import Icon from './Icon';
-import { isKeyboardSelectionEvent } from '../util/browser';
+import ItineraryMapAction from './ItineraryMapAction';
 import { parseLocation } from '../util/path';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
@@ -56,24 +55,10 @@ function EndLeg(props, context) {
             <div className="address">{!stop ? address : addressFromUrl}</div>
             <div className="place">{place || placeFromUrl}</div>
           </div>
-          <div
-            className="itinerary-map-action"
-            onClick={props.focusAction}
-            onKeyPress={e =>
-              isKeyboardSelectionEvent(e) && props.focusAction(e)
-            }
-            role="button"
-            tabIndex="0"
-            aria-label={context.intl.formatMessage(
-              { id: 'itinerary-summary.show-on-map' },
-              { target: props.to.name },
-            )}
-          >
-            <Icon
-              img="icon-icon_show-on-map"
-              className="itinerary-search-icon"
-            />
-          </div>
+          <ItineraryMapAction
+            target={props.to.name}
+            focusAction={props.focusAction}
+          />
         </div>
       </div>
     </div>
