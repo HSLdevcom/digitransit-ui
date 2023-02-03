@@ -68,7 +68,7 @@ export const getCityBikeNetworkConfig = (networkId, config) => {
 export const getDefaultNetworks = config => {
   const mappedNetworks = [];
   Object.entries(config.cityBike.networks).forEach(n => {
-    if (citybikeRoutingIsActive(n[1])) {
+    if (citybikeRoutingIsActive(n[1], config)) {
       mappedNetworks.push(n[0]);
     }
   });
@@ -78,7 +78,7 @@ export const getDefaultNetworks = config => {
 export const mapDefaultNetworkProperties = config => {
   const mappedNetworks = [];
   Object.keys(config.cityBike.networks).forEach(key => {
-    if (citybikeRoutingIsActive(config.cityBike.networks[key])) {
+    if (citybikeRoutingIsActive(config.cityBike.networks[key], config)) {
       mappedNetworks.push({
         networkName: key,
         ...config.cityBike.networks[key],

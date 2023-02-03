@@ -39,49 +39,52 @@ export const isCitybikePreSeasonActive = season => {
   return false;
 };
 
-export const showCitybikeNetwork = network => {
+export const showCitybikeNetwork = (network, config) => {
   return (
     network?.enabled &&
     (isCitybikeSeasonActive(network?.season) ||
       isCitybikePreSeasonActive(network?.season) ||
-      isDevelopmentEnvironment())
+      isDevelopmentEnvironment(config))
   );
 };
 
-export const citybikeRoutingIsActive = network => {
+export const citybikeRoutingIsActive = (network, config) => {
   return (
     network?.enabled &&
-    (isCitybikeSeasonActive(network?.season) || isDevelopmentEnvironment())
+    (isCitybikeSeasonActive(network?.season) ||
+      isDevelopmentEnvironment(config))
   );
 };
 
 export const networkIsActive = (config, networkName) => {
   const networks = config?.cityBike?.networks;
 
-  return citybikeRoutingIsActive(networks[networkName]);
+  return citybikeRoutingIsActive(networks[networkName], config);
 };
 
-export const useCitybikes = networks => {
+export const useCitybikes = (networks, config) => {
   if (!networks) {
     return false;
   }
   return Object.values(networks).some(network =>
-    citybikeRoutingIsActive(network),
+    citybikeRoutingIsActive(network, config),
   );
 };
 
-export const showCityBikes = networks => {
+export const showCityBikes = (networks, config) => {
   if (!networks) {
     return false;
   }
-  return Object.values(networks).some(network => showCitybikeNetwork(network));
+  return Object.values(networks).some(network =>
+    showCitybikeNetwork(network, config),
+  );
 };
 
 export const getNearYouModes = config => {
   if (!config.cityBike || !config.cityBike.networks) {
     return config.nearYouModes;
   }
-  if (!useCitybikes(config.cityBike.networks)) {
+  if (!useCitybikes(config.cityBike.networks, config)) {
     return config.nearYouModes.filter(mode => mode !== 'citybike');
   }
   return config.nearYouModes;
@@ -91,7 +94,7 @@ export const getTransportModes = config => {
   if (
     config.cityBike &&
     config.cityBike.networks &&
-    !useCitybikes(config.cityBike.networks)
+    !useCitybikes(config.cityBike.networks, config)
   ) {
     return {
       ...config.transportModes,
