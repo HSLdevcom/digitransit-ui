@@ -38,11 +38,14 @@ const ItinerarySearchControl = ({
   enabled,
   onClick,
   onKeyPress,
+  wide,
   ...rest
-}) =>
-  enabled &&
-  onClick && (
-    <div className={styles['itinerary-search-control']}>
+}) => (
+  <div
+    className={styles['itinerary-search-control']}
+    style={{ '--width': wide ? '47px' : '40px' }}
+  >
+    {onClick && enabled && (
       <div
         {...rest}
         className={className}
@@ -53,8 +56,9 @@ const ItinerarySearchControl = ({
       >
         {children}
       </div>
-    </div>
-  );
+    )}
+  </div>
+);
 
 ItinerarySearchControl.propTypes = {
   children: PropTypes.node,
@@ -62,6 +66,7 @@ ItinerarySearchControl.propTypes = {
   enabled: PropTypes.bool.isRequired,
   onClick: PropTypes.func.isRequired,
   onKeyPress: PropTypes.func.isRequired,
+  wide: PropTypes.bool,
 };
 
 /**
@@ -134,10 +139,9 @@ ItinerarySearchControl.propTypes = {
  *    destination={destination} // Selected destination point
  *    originPlaceHolder={'Give origin'} // Optional Give string shown initially inside origin search field
  *    destinationPlaceHolder={'Give destination'} // Optional Give string shown initally inside destination search field
- *    showMultiPointControls={false} // Optional. If true, controls for via points and reversing is being shown.
- *    initialViaPoints={[]} // Optional.  If showMultiPointControls is set to true, pass initial via points to the panel. Currently no default implementation is given.
- *    updateViaPoints={() => return []} // Optional. If showMultiPointControls is set to true, define how to update your via point list with this function. Currenlty no default implementation is given.
- *    swapOrder={() => return null} // Optional. If showMultiPointControls is set to true, define how to swap order of your points (origin, destination, viapoints). Currently no default implementation is given.
+ *    initialViaPoints={[]} // Optional.  If showViapointControl is set to true, pass initial via points to the panel. Currently no default implementation is given.
+ *    updateViaPoints={() => return []} // Optional. If showViapointControl is set to true, define how to update your via point list with this function. Currenlty no default implementation is given.
+ *    swapOrder={() => return null} // Optional. If showSwapControl is set to true, define how to swap order of your points (origin, destination, viapoints). Currently no default implementation is given.
  *    searchContext={searchContext}
  *    getAutoSuggestIcons={getAutoSuggestIcons}
  *    onSelect={this.onSelect}
@@ -151,13 +155,14 @@ ItinerarySearchControl.propTypes = {
  *    originMobileLabel="Origin label" // Optional. Custom label text for origin field on mobile.
  *    destinationMobileLabel="Destination label" // Optional. Custom label text for destination field on mobile.
  *    handleFocusChange={() => {}} // Optional. If defined overrides default onFocusChange behaviour
+ *    showSwapControl={false} // Optional.
+ *    showViapointControl={false} // Optional.
  */
 class DTAutosuggestPanel extends React.Component {
   static propTypes = {
     appElement: PropTypes.string.isRequired,
     origin: PropTypes.object.isRequired,
     destination: PropTypes.object.isRequired,
-    showMultiPointControls: PropTypes.bool,
     originPlaceHolder: PropTypes.string,
     destinationPlaceHolder: PropTypes.string,
     viaPoints: PropTypes.arrayOf(PropTypes.object),
@@ -189,11 +194,12 @@ class DTAutosuggestPanel extends React.Component {
     showScroll: PropTypes.bool,
     onFocusChange: PropTypes.func,
     isEmbedded: PropTypes.bool,
+    showSwapControl: PropTypes.bool,
+    showViapointControl: PropTypes.bool,
   };
 
   static defaultProps = {
     viaPoints: [],
-    showMultiPointControls: false,
     originPlaceHolder: 'give-origin',
     destinationPlaceHolder: 'give-destination',
     swapOrder: undefined,
@@ -217,6 +223,8 @@ class DTAutosuggestPanel extends React.Component {
     showScroll: false,
     onFocusChange: undefined,
     isEmbedded: false,
+    showSwapControl: false,
+    showViapointControl: false,
   };
 
   constructor(props) {
@@ -394,7 +402,6 @@ class DTAutosuggestPanel extends React.Component {
 
   render = () => {
     const {
-      showMultiPointControls,
       origin,
       searchPanelText,
       searchContext,
@@ -404,6 +411,8 @@ class DTAutosuggestPanel extends React.Component {
       destinationMobileLabel,
       fontWeights,
       onFocusChange,
+      showSwapControl,
+      showViapointControl,
     } = this.props;
     const { activeSlackInputs } = this.state;
     const slackTime = this.getSlackTimeOptions();
@@ -420,7 +429,6 @@ class DTAutosuggestPanel extends React.Component {
           styles['autosuggest-panel'],
           {
             small: this.props.isMobile,
-            showMultiPointControls,
           },
         ])}
         style={{
@@ -471,17 +479,19 @@ class DTAutosuggestPanel extends React.Component {
             showScroll={this.props.showScroll}
             isEmbedded={this.props.isEmbedded}
           />
-          <ItinerarySearchControl
-            className={styles.opposite}
-            enabled={showMultiPointControls}
-            onClick={() => this.handleSwapOrderClick()}
-            onKeyPress={e =>
-              this.isKeyboardSelectionEvent(e) && this.handleSwapOrderClick()
-            }
-            aria-label={i18next.t('swap-order-button-label')}
-          >
-            <Icon img="opposite" color={this.props.color} />
-          </ItinerarySearchControl>
+          {(showSwapControl || showViapointControl) && (
+            <ItinerarySearchControl
+              className={styles.opposite}
+              enabled={showSwapControl}
+              onClick={() => this.handleSwapOrderClick()}
+              onKeyPress={e =>
+                this.isKeyboardSelectionEvent(e) && this.handleSwapOrderClick()
+              }
+              aria-label={i18next.t('swap-order-button-label')}
+            >
+              <Icon img="opposite" color={this.props.color} />
+            </ItinerarySearchControl>
+          )}
         </div>
         {viaPoints.length === 0 && (
           <div className={styles['rectangle-container']}>
@@ -554,7 +564,7 @@ class DTAutosuggestPanel extends React.Component {
                   </div>
                   <ItinerarySearchControl
                     className={styles['add-via-point-slack']}
-                    enabled={showMultiPointControls}
+                    enabled={this.props.showViapointControl}
                     onClick={() => this.handleToggleViaPointSlackClick(i)}
                     onKeyPress={e =>
                       this.isKeyboardSelectionEvent(e) &&
@@ -566,6 +576,7 @@ class DTAutosuggestPanel extends React.Component {
                         : 'add-via-duration-button-label-close',
                       { index: i + 1 },
                     )}
+                    wide
                   >
                     <Icon img="time" color={this.props.color} />
                   </ItinerarySearchControl>
@@ -608,7 +619,7 @@ class DTAutosuggestPanel extends React.Component {
               </div>
               <ItinerarySearchControl
                 className={styles['remove-via-point']}
-                enabled={showMultiPointControls}
+                enabled={this.props.showViapointControl}
                 onClick={() => this.handleRemoveViaPointClick(i)}
                 onKeyPress={e =>
                   this.isKeyboardSelectionEvent(e) &&
@@ -656,12 +667,12 @@ class DTAutosuggestPanel extends React.Component {
             showScroll={this.props.showScroll}
             isEmbedded={this.props.isEmbedded}
           />
-          {showMultiPointControls && (
+          {(showSwapControl || showViapointControl) && (
             <ItinerarySearchControl
               className={cx(styles['add-via-point'], styles.more, {
                 collapsed: viaPoints.length > 4,
               })}
-              enabled={showMultiPointControls}
+              enabled={showViapointControl}
               onClick={() => this.handleAddViaPointClick()}
               onKeyPress={e =>
                 this.isKeyboardSelectionEvent(e) &&
