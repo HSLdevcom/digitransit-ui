@@ -37,7 +37,7 @@ class MapLayerStore extends Store {
     super(dispatcher);
 
     const { config } = dispatcher.getContext();
-    this.mapLayers.citybike = showCityBikes(config.cityBike?.networks);
+    this.mapLayers.citybike = showCityBikes(config.cityBike?.networks, config);
 
     const storedMapLayers = getMapLayerSettings();
     if (Object.keys(storedMapLayers).length > 0) {
