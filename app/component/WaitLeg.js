@@ -2,17 +2,17 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
 import Link from 'found/Link';
-import { FormattedMessage, intlShape } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import Icon from './Icon';
 import { durationToString } from '../util/timeUtils';
+import ItineraryMapAction from './ItineraryMapAction';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
-import { isKeyboardSelectionEvent } from '../util/browser';
 import { PREFIX_STOPS } from '../util/path';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 function WaitLeg(
   { children, leg, startTime, waitTime, focusAction, index },
-  { config, intl },
+  { config },
 ) {
   const modeClassName = 'wait';
   return (
@@ -58,22 +58,10 @@ function WaitLeg(
             </Link>
             <div className="stop-code-container">{children}</div>
           </div>
-          <div
-            className="itinerary-map-action"
-            onClick={focusAction}
-            onKeyPress={e => isKeyboardSelectionEvent(e) && focusAction(e)}
-            role="button"
-            tabIndex="0"
-            aria-label={intl.formatMessage(
-              { id: 'itinerary-summary.show-on-map' },
-              { target: leg.to.name || '' },
-            )}
-          >
-            <Icon
-              img="icon-icon_show-on-map"
-              className="itinerary-search-icon"
-            />
-          </div>
+          <ItineraryMapAction
+            target={leg.to.name || ''}
+            focusAction={focusAction}
+          />
         </div>
         <div className="itinerary-leg-action">
           <div className="itinerary-leg-action-content">
@@ -82,22 +70,7 @@ function WaitLeg(
               values={{ duration: `(${durationToString(waitTime)})` }}
               defaultMessage="Wait {duration}"
             />
-            <div
-              className="itinerary-map-action"
-              onClick={focusAction}
-              onKeyPress={e => isKeyboardSelectionEvent(e) && focusAction(e)}
-              role="button"
-              tabIndex="0"
-              aria-label={intl.formatMessage(
-                { id: 'itinerary-summary.show-on-map' },
-                { target: '' },
-              )}
-            >
-              <Icon
-                img="icon-icon_show-on-map"
-                className="itinerary-search-icon"
-              />
-            </div>
+            <ItineraryMapAction target="" focusAction={focusAction} />
           </div>
         </div>
       </div>
@@ -129,7 +102,6 @@ WaitLeg.propTypes = {
 
 WaitLeg.contextTypes = {
   config: PropTypes.object.isRequired,
-  intl: intlShape.isRequired,
 };
 
 export default WaitLeg;
