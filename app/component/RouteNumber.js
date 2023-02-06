@@ -72,6 +72,7 @@ function RouteNumber(props, context) {
           })}
           img={icon || `icon-icon_${mode}`}
           subIcon=""
+          mode={mode}
         />
         {withBicycle && (
           <Icon
@@ -88,6 +89,7 @@ function RouteNumber(props, context) {
       className={cx('route-number', {
         vertical: props.vertical,
       })}
+      // style={mode === 'call' ? { display: "inline-block", textAlign: "center" } : null}
     >
       <span
         className={cx('vcenter-children', props.className)}
