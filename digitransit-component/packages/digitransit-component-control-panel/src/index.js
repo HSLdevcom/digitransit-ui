@@ -273,6 +273,7 @@ function NearStopsAndRoutes({
                     : modeIconColors[`mode-${mode}`] || buttonStyle['color']
                 }`,
                 '--borderRadius': `${buttonStyle.borderRadius}`,
+                fill: '#fff',
               }}
             >
               <Icon img={getIconName(mode, modeSet)} />
