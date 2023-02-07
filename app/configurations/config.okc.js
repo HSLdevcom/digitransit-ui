@@ -69,6 +69,7 @@ export default configMerger(walttiConfig, {
   showVehiclesOnSummaryPage: true,
   showWeatherInformation: false,
   showItineraryMapActions: false,
+  showSwipeableTabs: false,
 
   defaultSettings: {
     bikeSpeed: 5.59,

@@ -24,31 +24,36 @@ const StopNearYou = ({ stop, stopId }, { config, intl }) => {
     <span role="listitem">
       <div className="stop-near-you-container">
         <Link
-          // todo: `as: 'div'`?
+          as="button"
           to={linkAddress}
+          className="stop-near-you-inner-container"
         >
-          <div className="stop-near-you-inner-container">
-            <div className="stop-near-you-left-col">
-              <span className={mode}>
-                {/* <Icon color={config.colors.iconColors[mode]} img={`${mode}-stop`} /> */}
-                <Icon
-                  color={config.colors.iconColors[mode]}
-                  img={`icon-icon_${mode}-stop`}
-                  width={2}
-                  height={2}
-                  ariaLabel={intl.formatMessage({ id: mode })}
-                />
-              </span>
-              <div>
-                <StopCode code={stop.code} />
-              </div>
+          <div className="stop-near-you-left-col">
+            <span className={mode}>
+              {/* <Icon color={config.colors.iconColors[mode]} img={`${mode}-stop`} /> */}
+              <Icon
+                color={config.colors.iconColors[mode]}
+                img={`icon-icon_${mode}-stop`}
+                width={2}
+                height={2}
+                ariaLabel={intl.formatMessage({ id: mode })}
+              />
+            </span>
+            <div>
+              <StopCode code={stop.code} />
             </div>
-            <div className="stop-near-you-right-col">
-              <h3 className="stop-near-you-name">
-                {stop.name}
-                {/* todo: arrow icon */}
-                {/* <Icon img={`icon-icon_todo`} /> */}
-              </h3>
+          </div>
+          <div className="stop-near-you-right-col">
+            <div className="stop-near-you-name">
+              {stop.name}
+              <Icon
+                img="icon-icon_arrow-collapse--right"
+                className="itinerary-arrow-icon"
+              />
+            </div>
+            <div className="stop-near-you-direction">
+              <Icon img="icon-icon_arrow-right" className="direction-arrow" />{' '}
+              Inbound
             </div>
           </div>
         </Link>

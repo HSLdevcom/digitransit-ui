@@ -611,14 +611,19 @@ class StopsNearYouPage extends React.Component {
                     </div>
                   )}
                   {props && (
-                    <StopsNearYouContainer
-                      prioritizedStops={prioritizedStops}
-                      setLoadState={this.setLoadState}
-                      match={this.props.match}
-                      stopPatterns={props.stopPatterns}
-                      position={this.state.searchPosition}
-                      withSeparator={!renderSearch}
-                    />
+                    <>
+                      <h2>
+                        <FormattedMessage id="nearby-stops" />
+                      </h2>
+                      <StopsNearYouContainer
+                        prioritizedStops={prioritizedStops}
+                        setLoadState={this.setLoadState}
+                        match={this.props.match}
+                        stopPatterns={props.stopPatterns}
+                        position={this.state.searchPosition}
+                        withSeparator={!renderSearch}
+                      />
+                    </>
                   )}
                 </div>
               );
@@ -628,7 +633,7 @@ class StopsNearYouPage extends React.Component {
       );
     });
 
-    if (tabs.length > 1) {
+    if (this.context.config.showSwipeableTabs && tabs.length > 1) {
       return (
         <SwipeableTabs
           tabIndex={index}
@@ -642,7 +647,7 @@ class StopsNearYouPage extends React.Component {
         />
       );
     }
-    return tabs[0];
+    return tabs[index];
   };
 
   renderMap = () => {

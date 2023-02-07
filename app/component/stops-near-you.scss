@@ -152,7 +152,7 @@
     }
   }
   .show-more-button {
-    margin: 0 6.25em 20px;
+    margin: 1em 6.25em 20px;
     font-weight: $font-weight-medium;
     background-color: $white;
     color: $primary-color;
@@ -197,9 +197,10 @@
     animation: fadeIn 0.7s;
 
     .stop-near-you-inner-container {
+      width: 100%;
       display: flex;
       flex-direction: row;
-      align-items: flex-start;
+      align-items: center;
       gap: 1em;
 
       .stop-near-you-left-col {
@@ -215,8 +216,26 @@
       }
 
       .stop-near-you-right-col {
+        font-weight: normal;
+        text-align: left;
+
         .stop-near-you-name {
-          text-decoration: none;
+          width: 100%;
+        }
+        .stop-near-you-direction {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          padding: 8px 0px;
+
+          .direction-arrow {
+            font-size: 20px;
+            margin-right: 10px;
+          }
+        }
+        .itinerary-arrow-icon {
+          font-size: 14px;
+          margin-left: 6px;
         }
       }
     }
@@ -294,7 +313,7 @@
       }
     }
     .stop-near-you-more-departures {
-      margin: 0 0 19px 20px;
+      margin: 10 10 19px 20px;
       padding: 5px 20px 5px;
       border-radius: 25px;
       border: solid 1px #a6a6a6;

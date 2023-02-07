@@ -1238,7 +1238,8 @@ const translations = {
     'move-on-map': 'Move on the map',
     'move-to-tab': 'Go to tab {number}',
     navigate: 'Navigate',
-    nearest: 'Nearby Stops',
+    'nearby-stops': 'Nearby Stops',
+    nearest: 'Search Stops & Routes',
     'nearest-favorites': 'Stops nearby me',
     'nearest-favorites-browse-stops': 'Browse and select stops',
     'nearest-favorites-no-favorites':
