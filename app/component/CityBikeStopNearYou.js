@@ -23,6 +23,7 @@ const CityBikeStopNearYou = ({ stop, relay, currentTime, currentMode }) => {
       );
     }
   }, [currentTime]);
+  // todo
   return (
     <span role="listitem">
       <div className="stop-near-you-container">

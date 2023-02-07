@@ -1,5 +1,5 @@
 import { graphql, createRefetchContainer } from 'react-relay';
-import StopNearYou from './StopNearYou';
+import StopNearYou from './StopNearYou.okc.js';
 
 const containerComponent = createRefetchContainer(
   StopNearYou,

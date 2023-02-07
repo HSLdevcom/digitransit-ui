@@ -191,11 +191,36 @@
     }
   }
   .stop-near-you-container {
-    border: 1px solid #d9d9d9;
-    border-radius: 10px;
     width: 100%;
-    margin-bottom: 10px;
+    padding: 1em;
+    border-bottom: 1px solid #d9d9d9;
     animation: fadeIn 0.7s;
+
+    .stop-near-you-inner-container {
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      gap: 1em;
+
+      .stop-near-you-left-col {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 0;
+        flex-basis: 3em;
+        text-align: center;
+
+        .itinerary-stop-code {
+          margin-right: 0;
+        }
+      }
+
+      .stop-near-you-right-col {
+        .stop-near-you-name {
+          text-decoration: none;
+        }
+      }
+    }
+
     .alert-container {
       margin: 0 14px 4px;
     }
