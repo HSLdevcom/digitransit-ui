@@ -4,12 +4,12 @@ import Link from 'found/Link';
 import moment from 'moment';
 import { FormattedMessage } from 'react-intl';
 
-import RouteNumber from './RouteNumber';
 import Icon from './Icon';
 import StopCode from './StopCode';
 import LegAgencyInfo from './LegAgencyInfo';
 import ItineraryCircleLine from './ItineraryCircleLine';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
+import CallAgencyIcon from './CallAgencyIcon';
 
 class CallAgencyLeg extends React.Component {
   stopCode = stopCode => stopCode && <StopCode code={stopCode} />;
@@ -69,13 +69,7 @@ class CallAgencyLeg extends React.Component {
             />
           </div>
           <div className="itinerary-transit-leg-route call">
-            <RouteNumber
-              mode="call"
-              className="leg-call"
-              realtime={false}
-              vertical
-              fadeLong
-            />
+            <CallAgencyIcon />
             <span className="warning-message">
               <FormattedMessage
                 id="warning-call-agency"

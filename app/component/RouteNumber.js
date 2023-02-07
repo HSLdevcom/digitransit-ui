@@ -72,6 +72,7 @@ function RouteNumber(props, context) {
           })}
           img={icon || `icon-icon_${mode}`}
           subIcon=""
+          mode={mode}
         />
         {withBicycle && (
           <Icon

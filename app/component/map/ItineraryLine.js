@@ -187,7 +187,7 @@ class ItineraryLine extends React.Component {
                 }}
                 className="call"
                 icon={{
-                  element: <Icon img="icon-icon_call" />,
+                  element: <Icon img="icon-icon_call" viewBox="0 0 51 51" />,
                   iconAnchor: [9, 9],
                   iconSize: [18, 18],
                   className: 'call',

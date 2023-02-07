@@ -16,6 +16,7 @@ const IconWithIcon = (
     subIcon,
     subIconClassName,
     subIconShape,
+    mode,
   },
   { intl },
 ) => (
@@ -27,6 +28,7 @@ const IconWithIcon = (
         badgeTextFill={badgeTextFill}
         color={color}
         img={img}
+        viewBox={mode === 'call' ? '0 0 60 60' : undefined}
       />
     </span>
     {subIcon && (
@@ -53,6 +55,7 @@ IconWithIcon.propTypes = {
   subIcon: PropTypes.string,
   subIconClassName: PropTypes.string,
   subIconShape: PropTypes.string,
+  mode: PropTypes.string,
 };
 
 IconWithIcon.contextTypes = {
@@ -68,6 +71,7 @@ IconWithIcon.defaultProps = {
   subIcon: '',
   subIconClassName: '',
   subIconShape: undefined,
+  mode: undefined,
 };
 
 export default IconWithIcon;
