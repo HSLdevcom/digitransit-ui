@@ -98,6 +98,9 @@ $favourite-highlight-background-color: #F4F4F5;
     }
 
     .favourite-location {
+      // EMBARK
+      text-transform: capitalize;
+      // /EMBARK
       white-space: nowrap;
       overflow: hidden;
       text-align: start;

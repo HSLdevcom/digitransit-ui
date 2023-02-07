@@ -30,6 +30,10 @@ nav.top-bar {
   color: $black;
 }
 
+input[type='text'] {
+   text-transform: capitalize;
+}
+
 /* mode colors */
 $bus-color: $okc-bus-blue;
 $tram-color: $okc-tram-pink;
