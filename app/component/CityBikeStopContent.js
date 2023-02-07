@@ -12,7 +12,7 @@ import {
   BIKESTATION_CLOSED,
 } from '../util/citybikes';
 
-const CityBikeStopContent = ({ bikeRentalStation }, { config }) => {
+const CityBikeStopContent = ({ bikeRentalStation, showIcon }, { config }) => {
   const citybikeCapacity = getCitybikeCapacity(
     config,
     bikeRentalStation.networks[0],
@@ -41,7 +41,7 @@ const CityBikeStopContent = ({ bikeRentalStation }, { config }) => {
   );
   return (
     <div className="citybike-content-container">
-      <Icon img={citybikeicon} />
+      {showIcon && <Icon img={citybikeicon} />}
       <CityBikeAvailability
         disabled={disabled}
         bikesAvailable={bikeRentalStation.bikesAvailable}
@@ -65,5 +65,9 @@ CityBikeStopContent.propTypes = {
     networks: PropTypes.arrayOf(PropTypes.string),
     state: PropTypes.string.isRequired,
   }),
+  showIcon: PropTypes.bool,
+};
+CityBikeStopContent.defaultProps = {
+  showIcon: true,
 };
 export default CityBikeStopContent;

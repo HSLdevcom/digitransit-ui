@@ -31,12 +31,12 @@
   animation: fadeIn 0.4s;
 }
 .citybike-content-container {
-  padding: 15px 14px 22px;
+  padding: 15px 0px 10px;
   display: flex;
   height: 45px;
   box-sizing: content-box;
   .availability-container {
-    padding-left: 15px;
+    padding-left: 0px;
     flex: 1;
     .sub-header-h4 {
       font-size: 0.813rem;
@@ -240,6 +240,10 @@
       }
     }
 
+    .bike-station-code {
+      font-size: 0.813rem;
+      font-weight: normal;
+    }
     .alert-container {
       margin: 0 14px 4px;
     }
@@ -255,10 +259,6 @@
         a {
           text-decoration: none;
           color: #333;
-        }
-        .bike-station-code {
-          font-size: 0.813rem;
-          font-weight: normal;
         }
       }
       padding: 14px 15px 1px 20px;
