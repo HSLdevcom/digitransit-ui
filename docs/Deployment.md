@@ -28,11 +28,16 @@ Also, because all deployments has a corresponding Git tag, we have transparency 
 
 ## How to deploy a new `*.bbnavi.de` instance
 
-Assuming an instance name `bbnavi-foo` available at `bar.bbnavi.de`, follow these steps:
+Assuming an instance name `bbnavi-foo` available at `bar.bbnavi.de`, and an already existing MATOMO-Container for the new instance, follow these steps below. Note: in most cases, `bar.bbnavi.de` will be equal to `foo.bbnavi.de`, but other domain names (e.g. `mitfahrenbb.de`) may be chosen also. 
 
-1. Create a new configuration `app/configurations/config.bbnavi-foo.js` and customize e.g. the UI color or available transport modes. Let this file partially override/extend `app/configurations/config.bbnavi.js` using the `configMerger` helper. For an example, have a look at `app/configurations/config.bbnavi-bad-belzig.js`.
-2. Test your customizations locally by running the local dev environment with `CONFIG=bbnavi-foo`.
-3. Create a new deployment file `deployments/stack.bar.yml` by adapting e.g. `deployments/stack.bad-belzig.yml`. Make sure to set `CONFIG=bbnavi-foo`. This file partially overrides/extends `deployments/stack.yml`.
-5. Push your changes to GitHub, either into a separate branch, or into `bbnavi`. Wait for the CI to lint and test your code.
-6. Push a Git tag `release_foo_<year>-<month>-<date>` pointing to the (exact) same commit. The CI pipeline should now deploy the instance by creating a new service in the Docker Swarm cluster.
-6. Soon after, your instance should be available at `https://bar.bbnavi.de`.
+1. Create a new configuration `app/configurations/config.bbnavi-foo.js`, e.g. by copying `app/configurations/config.bbnavi-bad-belzig.js`, and customize it: 
+	* Adapt the `CONFIG`, `APP_TITLE`, `HEADER_TITLE` variables
+	* For MATOMO_URL, specify the URL of the monitoring container, e.g. 'https://nutzung.bbnavi.de/js/container_XXXXXX.js', where XXXX is instance specific. If no tracking is intended, remove all references to MATOMO.
+	* for `searchParams` and `defaultEndpoint`, choose the center location of the choosen regions, e.g. figured out via https://osm.org
+2. Copy the styles customizations from an existing instance, e.g. via `cp -r sass/themes/bbnavi-{bad-belzig,foo}`
+3. Test your customizations locally by running the local dev environment with `CONFIG=bbnavi-foo`. For more information, see the [installation documentation](https://github.com/bbnavi/digitransit-ui/blob/c8c5d7eeaa1303c2c81d4000131dbddbb1fea2b4/docs/Installation.md#start-development-version)
+4. Create a new deployment file `deployments/stack.foo.yml` by copying and adapting e.g. `deployments/stack.bad-belzig.yml`. Make sure to set `CONFIG=bbnavi-foo` and to configure `traefik.frontend.rule: Host:bar.bbnavi.de`. This file partially overrides/extends `deployments/stack.yml`.
+5. Optional: if the instance should be accessible only with [basic authentication](https://en.wikipedia.org/wiki/Basic_access_authentication), configure `traefik.frontend.auth.basic.users` in `deployments/stack.foo.yml` like e.g. for the [Bernau instance]( https://github.com/bbnavi/digitransit-ui/blob/c8c5d7eeaa1303c2c81d4000131dbddbb1fea2b4/deployment/stack.bernau-bei-berlin.yml#L10-L11). The password can be encrypted via [`htpasswd`](https://httpd.apache.org/docs/2.4/programs/htpasswd.html) (see [traefik docs](https://doc.traefik.io/traefik/v1.7/configuration/entrypoints/#basic-authentication) for details)
+6. Push your changes to GitHub, either into a separate branch, or into `bbnavi`. Wait for the CI to lint and test your code. After an initial test deployment, we usually merge the changes into `bbnavi`.
+7. Create a Git tag `release_foo_<year>-<month>-<date>`, e.g. by running `git tag release_foo_2023-04-05`, and push it via `git push --no-verify origin release_foo_2023-04-05`. A resulting CI workflow run (see [the workflows list](https://github.com/bbnavi/digitransit-ui/actions)) should now lint and test the code, and then deploy the instance by creating a new service in the Docker Swarm cluster.
+8. Soon after, your instance should be available at `https://bar.bbnavi.de`.
