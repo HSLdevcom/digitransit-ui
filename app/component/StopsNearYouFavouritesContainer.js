@@ -4,7 +4,7 @@ import { graphql, createFragmentContainer } from 'react-relay';
 import distance from '@digitransit-search-util/digitransit-search-util-distance';
 import { dtLocationShape } from '../util/shapes';
 import StopNearYouContainer from './StopNearYouContainer';
-import CityBikeStopNearYou from './CityBikeStopNearYou';
+import CityBikeStopNearYouContainer from './CityBikeStopNearYouContainer';
 
 function StopsNearYouFavouritesContainer({
   stops,
@@ -67,7 +67,7 @@ function StopsNearYouFavouritesContainer({
           />
         );
       case 'bikeRentalStation':
-        return <CityBikeStopNearYou key={stop.name} stop={stop} />;
+        return <CityBikeStopNearYouContainer key={stop.name} stop={stop} />;
       default:
         return null;
     }

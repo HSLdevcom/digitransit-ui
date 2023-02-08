@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, intlShape } from 'react-intl';
 import { Link } from 'found';
-import { graphql, createRefetchContainer } from 'react-relay';
 import CityBikeStopContent from './CityBikeStopContent';
 import { PREFIX_BIKESTATIONS } from '../util/path';
 import { hasStationCode } from '../util/citybikes';
@@ -61,28 +60,4 @@ CityBikeStopNearYou.contextTypes = {
   intl: intlShape.isRequired,
 };
 
-const containerComponent = createRefetchContainer(
-  CityBikeStopNearYou,
-  {
-    stop: graphql`
-      fragment CityBikeStopNearYou_stop on BikeRentalStation {
-        stationId
-        name
-        bikesAvailable
-        spacesAvailable
-        capacity
-        networks
-        state
-      }
-    `,
-  },
-  graphql`
-    query CityBikeStopNearYouRefetchQuery($stopId: String!) {
-      bikeRentalStation(id: $stopId) {
-        ...CityBikeStopNearYou_stop
-      }
-    }
-  `,
-);
-
-export { containerComponent as default, CityBikeStopNearYou as Component };
+export default CityBikeStopNearYou;

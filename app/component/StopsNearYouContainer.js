@@ -7,7 +7,7 @@ import { matchShape } from 'found';
 import StopNearYouContainer from './StopNearYouContainer';
 import withBreakpoint from '../util/withBreakpoint';
 import { sortNearbyRentalStations, sortNearbyStops } from '../util/sortUtils';
-import CityBikeStopNearYou from './CityBikeStopNearYou.okc';
+import CityBikeStopNearYouContainer from './CityBikeStopNearYouContainer';
 import Loading from './Loading';
 import Icon from './Icon';
 import { getDefaultNetworks } from '../util/citybikes';
@@ -258,7 +258,7 @@ class StopsNearYouContainer extends React.Component {
           break;
         case 'BikeRentalStation':
           return (
-            <CityBikeStopNearYou
+            <CityBikeStopNearYouContainer
               key={`${stop.stationId}`}
               stop={stop}
               color={this.context.config.colors.primary}
@@ -395,7 +395,7 @@ const refetchContainer = createPaginationContainer(
               place {
                 __typename
                 ... on BikeRentalStation {
-                  ...CityBikeStopNearYou_stop
+                  ...CityBikeStopNearYouContainer_stop
                   stationId
                   networks
                 }
