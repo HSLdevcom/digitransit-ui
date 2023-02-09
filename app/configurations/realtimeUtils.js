@@ -173,8 +173,6 @@ export default {
 
     mqtt: 'wss://mqtt.digitransit.fi',
 
-    credentials: { username: 'user', password: 'userpass' },
-
     gtfsrt: true,
 
     routeSelector: defaultRouteSelector,
@@ -263,8 +261,6 @@ export default {
     mqttTopicResolver: walttiTopicResolver,
 
     mqtt: 'wss://mqtt.digitransit.fi',
-
-    credentials: { username: 'user', password: 'userpass' },
 
     gtfsrt: true,
 
