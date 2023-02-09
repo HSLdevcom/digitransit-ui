@@ -171,7 +171,7 @@ export default {
       );
     },
 
-    mqtt: 'wss://mqtt.waltti.fi/mqtt',
+    mqtt: 'wss://mqtt.digitransit.fi',
 
     credentials: { username: 'user', password: 'userpass' },
 
