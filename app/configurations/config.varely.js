@@ -267,4 +267,6 @@ export default configMerger(walttiConfig, {
 
   showNearYouButtons: true,
   allowLogin: false,
+
+  showAlternativeLegs: false,
 });

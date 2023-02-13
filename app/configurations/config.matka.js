@@ -377,8 +377,8 @@ export default {
   ],
   useAlternativeNameForModes: ['rail'],
 
-  showVehiclesOnStopPage: true,
-  showVehiclesOnSummaryPage: true,
+  showVehiclesOnStopPage: false,
+  showVehiclesOnSummaryPage: false,
 
   includeCarSuggestions: true,
   includeParkAndRideSuggestions: true,

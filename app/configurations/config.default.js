@@ -847,4 +847,6 @@ export default {
         'Skapa ett ruttsökningselement och lägg det till din egen tjänst. Sök rutt-knappen i sökkomponenten tar dig till reseplaneraren.',
     },
   },
+
+  showAlternativeLegs: true,
 };
