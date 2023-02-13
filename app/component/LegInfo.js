@@ -9,7 +9,14 @@ import RouteNumber from './RouteNumber';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
 
 const LegInfo = (
-  { leg, hasNoShortName, headsign, alertSeverityLevel, isAlternativeLeg },
+  {
+    leg,
+    hasNoShortName,
+    headsign,
+    alertSeverityLevel,
+    isAlternativeLeg,
+    displayTime,
+  },
   { config, intl },
 ) => {
   const { constantOperationRoutes } = config;
@@ -51,9 +58,11 @@ const LegInfo = (
         </span>
       </Link>
       <div className="headsign">{headsign}</div>
-      <span className={cx('leg-departure-time', { realtime: leg.realTime })}>
-        {moment(leg.startTime).format('HH:mm')}
-      </span>
+      {displayTime && (
+        <span className={cx('leg-departure-time', { realtime: leg.realTime })}>
+          {moment(leg.startTime).format('HH:mm')}
+        </span>
+      )}
     </div>
   );
 };
@@ -65,6 +74,7 @@ LegInfo.propTypes = {
   headsign: PropTypes.string.isRequired,
   alertSeverityLevel: PropTypes.string,
   isAlternativeLeg: PropTypes.bool.isRequired,
+  displayTime: PropTypes.bool.isRequired,
 };
 
 LegInfo.contextTypes = {

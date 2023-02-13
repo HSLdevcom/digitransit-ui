@@ -49,6 +49,10 @@ class TransitLeg extends React.Component {
 
   stopCode = stopCode => stopCode && <StopCode code={stopCode} />;
 
+  displayAlternativeLegs = () =>
+    this.context.config.showAlternativeLegs &&
+    this.props.leg.nextLegs?.length > 0;
+
   toggleShowIntermediateStops = () => {
     addAnalyticsEvent({
       event: 'sendMatomoEvent',
@@ -432,6 +436,7 @@ class TransitLeg extends React.Component {
             headsign={headsign}
             alertSeverityLevel={alertSeverityLevel}
             isAlternativeLeg={false}
+            displayTime={this.displayAlternativeLegs()}
           />
 
           {this.state.showAlternativeLegs &&
@@ -445,9 +450,10 @@ class TransitLeg extends React.Component {
                 alertSeverityLevel={getMaximumAlertSeverityLevel(
                   getActiveLegAlerts(l, l.startTime / 1000, lang),
                 )}
+                displayTime
               />
             ))}
-          {leg.nextLegs?.length > 0 && (
+          {this.displayAlternativeLegs() && (
             <AlternativeLegsInfo
               legs={leg.nextLegs}
               showAlternativeLegs={this.state.showAlternativeLegs}
