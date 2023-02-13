@@ -275,22 +275,17 @@ const compareItineraries = (itineraries, defaultItineraries) => {
 };
 
 const relevantRoutingSettingsChanged = config => {
-  const settingsToCompare = [
-    'modes',
-    'walkBoardCost',
-    'ticketTypes',
-    'walkReluctance',
-  ];
-  const defaultSettingsToCompare = pick(
-    getDefaultSettings(config),
-    settingsToCompare,
-  );
-  const currentSettingsToCompare = pick(
-    getCurrentSettings(config),
-    settingsToCompare,
-  );
+  const settingsToCompare = ['walkBoardCost', 'ticketTypes', 'walkReluctance'];
 
-  return !isEqual(defaultSettingsToCompare, currentSettingsToCompare);
+  const defaultSettings = getDefaultSettings(config);
+  const currentSettings = getCurrentSettings(config);
+  const defaultSettingsToCompare = pick(defaultSettings, settingsToCompare);
+  const currentSettingsToCompare = pick(currentSettings, settingsToCompare);
+
+  return !(
+    isEqual(defaultSettingsToCompare, currentSettingsToCompare) &&
+    defaultSettings.modes.every(m => currentSettings.modes.includes(m))
+  );
 };
 
 const setCurrentTimeToURL = (config, match) => {
