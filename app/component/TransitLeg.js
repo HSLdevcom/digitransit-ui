@@ -50,7 +50,7 @@ class TransitLeg extends React.Component {
   stopCode = stopCode => stopCode && <StopCode code={stopCode} />;
 
   displayAlternativeLegs = () =>
-    this.context.config.showAlternativeLegs &&
+    !!this.context.config.showAlternativeLegs &&
     this.props.leg.nextLegs?.length > 0;
 
   toggleShowIntermediateStops = () => {
