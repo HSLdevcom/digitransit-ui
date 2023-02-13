@@ -81,6 +81,10 @@ export default {
 
   omitNonPickups: true,
 
+  defaultSettings: {
+    walkBoardCost: 0,
+  },
+
   parkAndRide: {
     showParkAndRide: true,
     parkAndRideMinZoom: 13,
