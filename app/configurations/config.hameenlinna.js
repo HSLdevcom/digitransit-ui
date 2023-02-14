@@ -48,7 +48,7 @@ export default configMerger(walttiConfig, {
           sv: 'Zoner',
           en: 'Zones',
         },
-        url: '/assets/geojson/hml_zone_lines_20210222.geojson',
+        url: '/assets/geojson/hml_zone_lines_20230214.geojson',
       },
     ],
   },
@@ -138,8 +138,6 @@ export default configMerger(walttiConfig, {
     5: 'E',
     6: 'F',
     7: 'G',
-    8: 'H',
-    9: 'I',
   },
 
   vehicles: true,
