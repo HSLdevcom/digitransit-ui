@@ -7,8 +7,10 @@ import i18next from 'i18next';
 // import isEmpty from 'lodash/isEmpty';
 import Shimmer from '@hsl-fi/shimmer';
 // import SuggestionItem from '@digitransit-component/digitransit-component-suggestion-item';
+import { getIconProperties } from '@digitransit-component/digitransit-component-suggestion-item';
+// import { getSuggestionContent } from '@digitransit-component/digitransit-component-autosuggest';
 import Icon from '@digitransit-component/digitransit-component-icon';
-// import { formatFavouritePlaceLabel } from '@digitransit-search-util/digitransit-search-util-uniq-by-label';
+import { formatFavouritePlaceLabel } from '@digitransit-search-util/digitransit-search-util-uniq-by-label';
 import styles from './helpers/styles.scss';
 import translations from './helpers/translations';
 
@@ -411,6 +413,64 @@ class FavouriteBar extends React.Component {
             </Shimmer>
           </button> */}
           {/* eslint-enable jsx-a11y/role-supports-aria-props */}
+          {favourites.map((item, index) => {
+            const key = item.gid || `favourite-location-${index}`;
+            const [address] = formatFavouritePlaceLabel(
+              item.name,
+              item.address,
+            );
+            // const content = getSuggestionContent(item);
+            // item,
+            // color,
+            // modes = undefined,
+            // modeSet,
+            // stopCode,
+            // getIcons,
+            const [iconId, _color] = getIconProperties(
+              {
+                ...item,
+                type: `Favourite${item.type.slice(0, 1).toUpperCase()}${item.type.slice(1)}`,
+                // todo: modes[] ?
+              },
+              this.props.color,
+              // modes, modeSet,
+              // stopCode,
+              // getIcons
+            );
+            console.error({
+              item,
+              address,
+              // content,
+              iconId,
+              _color,
+            });
+
+            // return this.renderSuggestion(
+            //   {
+            //     ...item,
+            //     address,
+            //     iconColor: this.props.color,
+            //   },
+            //   index,
+            //   `, ${i18next.t('add-destination')}`,
+            // );
+            return (
+              <FavouriteLocation
+                key={key}
+                text={item.name}
+                label={address}
+                clickItem={() => onClickFavourite(item)}
+                // iconId={
+                //   item && item.selectedIconId
+                //     ? FavouriteBar.FavouriteIconIdToNameMap[item.selectedIconId]
+                //     : 'work' // todo
+                // }
+                iconId={iconId}
+                isLoading={isLoading}
+                color={this.props.color}
+              />
+            );
+          })} 
         </div>
         {/* <div className={styles['favourite-suggestion-container']}>
            {listOpen && (

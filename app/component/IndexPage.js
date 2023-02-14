@@ -182,7 +182,9 @@ class IndexPage extends React.Component {
       action: 'ClickFavourite',
       name: null,
     });
-    this.context.executeAction(storeDestination, favourite);
+    console.error('favourite', favourite)
+    // todo: `getStopRoutePath` expects an object with `.properties`, but we have a different shape
+    this.context.router.push(getStopRoutePath(favourite));
   };
 
   // DT-3551: handle logic for Traffic now link

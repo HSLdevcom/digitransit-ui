@@ -31,7 +31,7 @@ function getAriaDescription(ariaContentArray) {
   return description;
 }
 
-function getIconProperties(
+export function getIconProperties(
   item,
   color,
   modes = undefined,

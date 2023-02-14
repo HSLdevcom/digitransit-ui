@@ -56,7 +56,7 @@ const getPlatform = addendum => {
   return [type, platform];
 };
 
-function getSuggestionContent(item) {
+export function getSuggestionContent(item) {
   if (item.type !== 'FutureRoute') {
     if (item.type === 'SelectFromMap') {
       return ['', i18next.t('select-from-map')];

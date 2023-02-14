@@ -325,9 +325,7 @@ class FavouritesContainer extends React.Component {
     const { requireLoggedIn, isLoggedIn } = this.props;
     const targets = ['Locations', 'CurrentPosition', 'MapPosition'];
     const { fontWeights } = this.context.config;
-    const favouritePlaces = this.props.favourites.filter(
-      item => item.type === 'place',
-    );
+    const { favourites } = this.props;
     if (useCitybikes(this.context.config.cityBike?.networks)) {
       targets.push('BikeRentalStations');
     }
@@ -337,7 +335,7 @@ class FavouritesContainer extends React.Component {
     return (
       <React.Fragment>
         <FavouriteBar
-          favourites={favouritePlaces}
+          favourites={favourites}
           onClickFavourite={this.props.onClickFavourite}
           onAddPlace={() =>
             !requireLoggedIn || isLoggedIn
@@ -403,7 +401,7 @@ class FavouritesContainer extends React.Component {
         <FavouriteEditModal
           appElement="#app"
           isModalOpen={this.state.editModalOpen}
-          favourites={favouritePlaces}
+          favourites={favourites}
           updateFavourites={this.updateFavourites}
           handleClose={() => this.closeModal(false)}
           saveFavourite={this.saveFavourite}
