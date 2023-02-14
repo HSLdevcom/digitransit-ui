@@ -862,6 +862,7 @@ const translations = {
     all: 'All',
     'alternative-legs':
       'Also {leg1} at {startTime1} and {leg2} at {startTime2}',
+    'alternative-legs-single': 'Also {leg1} at {startTime1}',
     'aria-itinerary-summary':
       'Total journey time {duration}. Departing at {inFuture} {departureTime} and arriving at {arrivalTime}',
     'aria-itinerary-summary-bike-distance':
@@ -1990,6 +1991,7 @@ const translations = {
     all: 'Kaikki',
     'alternative-legs':
       'Myös {leg1} klo {startTime1} ja {leg2} klo {startTime2}',
+    'alternative-legs-single': 'Myös {leg1} klo {startTime1}',
     'aria-itinerary-summary':
       'Matkan kokonaiskesto {duration}. Lähtö {inFuture} kello {departureTime}. Perillä kello {arrivalTime}.',
     'aria-itinerary-summary-bike-distance':
@@ -3915,6 +3917,7 @@ const translations = {
     all: 'Allt',
     'alternative-legs':
       'Också {leg1} kl. {startTime1} och {leg2} kl.{startTime2}',
+    'alternative-legs-single': 'Också {leg1} kl. {startTime1}',
     'aria-itinerary-summary':
       'Den totala restiden {duration}. Avgång {inFuture} klockan {departureTime}. Framme klockan {arrivalTime}',
     'aria-itinerary-summary-bike-distance':

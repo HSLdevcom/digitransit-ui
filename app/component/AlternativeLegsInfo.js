@@ -7,39 +7,58 @@ import Icon from './Icon';
 import { isKeyboardSelectionEvent } from '../util/browser';
 
 const AlternativeLegsInfo = ({ legs, showAlternativeLegs, toggle }) => {
-  const message = (showAlternativeLegs && (
-    <FormattedMessage
-      className="alternative-leg-info"
-      id="itinerary-hide-alternative-legs"
-      defaultMessage="Hide alternative legs"
-    />
-  )) || (
-    <FormattedMessage
-      className="alternative-leg-info"
-      id="alternative-legs"
-      values={{
-        leg1: legs[0].route.shortName,
-        leg2: legs[1].route.shortName,
-        startTime1: (
-          <span
-            className={cx({ realtime: legs[0].realTime })}
-            style={{ fontWeight: 500 }}
-          >
-            {moment(legs[0].startTime).format('HH:mm')}
-          </span>
-        ),
-        startTime2: (
-          <span
-            className={cx({ realtime: legs[1].realTime })}
-            style={{ fontWeight: 500 }}
-          >
-            {moment(legs[1].startTime).format('HH:mm')}
-          </span>
-        ),
-      }}
-      defaultMessage="Also {leg1} at {startTime1} and {leg2} at {startTime2}"
-    />
-  );
+  const message =
+    (showAlternativeLegs && (
+      <FormattedMessage
+        className="alternative-leg-info"
+        id="itinerary-hide-alternative-legs"
+        defaultMessage="Hide alternative legs"
+      />
+    )) ||
+    (legs.length > 1 ? (
+      <FormattedMessage
+        className="alternative-leg-info"
+        id="alternative-legs"
+        values={{
+          leg1: legs[0].route.shortName,
+          leg2: legs[1].route.shortName,
+          startTime1: (
+            <span
+              className={cx({ realtime: legs[0].realTime })}
+              style={{ fontWeight: 500 }}
+            >
+              {moment(legs[0].startTime).format('HH:mm')}
+            </span>
+          ),
+          startTime2: (
+            <span
+              className={cx({ realtime: legs[1].realTime })}
+              style={{ fontWeight: 500 }}
+            >
+              {moment(legs[1].startTime).format('HH:mm')}
+            </span>
+          ),
+        }}
+        defaultMessage="Also {leg1} at {startTime1} and {leg2} at {startTime2}"
+      />
+    ) : (
+      <FormattedMessage
+        className="alternative-leg-info"
+        id="alternative-legs-single"
+        values={{
+          leg1: legs[0].route.shortName,
+          startTime1: (
+            <span
+              className={cx({ realtime: legs[0].realTime })}
+              style={{ fontWeight: 500 }}
+            >
+              {moment(legs[0].startTime).format('HH:mm')}
+            </span>
+          ),
+        }}
+        defaultMessage="Also {leg1} at {startTime1}"
+      />
+    ));
 
   return legs ? (
     <div
