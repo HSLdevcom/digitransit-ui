@@ -80,7 +80,7 @@ class ItineraryLine extends React.Component {
     }
 
     const objs = [];
-    const lastTransitLegIndex = this.getLastTransitLegIndex();
+    // const lastTransitLegIndex = this.getLastTransitLegIndex();
     this.props.legs.forEach((leg, i) => {
       if (!leg || leg.mode === 'WAIT') {
         return;
@@ -253,16 +253,16 @@ class ItineraryLine extends React.Component {
               />,
             );
             // Display speechbubbles at stops that end a transit leg to indicate transfer, excluding the final stop
-            if (i !== lastTransitLegIndex) {
-              objs.push(
-                <SpeechBubble
-                  key={`speech_${leg.to.stop.gtfsId}`}
-                  flip={this.props.flipBubble}
-                  position={{ lat: leg.to.lat, lon: leg.to.lon }}
-                  text={this.speechBubbleText(leg, this.nextTransitLeg(i))}
-                />,
-              );
-            }
+            // if (i !== lastTransitLegIndex) {
+            //   objs.push(
+            //     <SpeechBubble
+            //       key={`speech_${leg.to.stop.gtfsId}`}
+            //       flip={this.props.flipBubble}
+            //       position={{ lat: leg.to.lat, lon: leg.to.lon }}
+            //       text={this.speechBubbleText(leg, this.nextTransitLeg(i))}
+            //     />,
+            //   );
+            // }
           }
         }
       }
