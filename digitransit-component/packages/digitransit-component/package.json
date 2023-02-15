@@ -23,5 +23,25 @@
     "@digitransit-component/digitransit-component-icon": "^0.2.0",
     "@digitransit-component/digitransit-component-suggestion-item": "^1.1.1",
     "@digitransit-component/digitransit-component-with-breakpoint": "^0.0.5"
+  },
+  "peerDependencies": {
+    "@digitransit-component/digitransit-component-dialog-modal": "^0.3.4",
+    "@hsl-fi/container-spinner": "0.3.1",
+    "@hsl-fi/modal": "^0.3.1",
+    "@hsl-fi/sass": "^0.2.0",
+    "@hsl-fi/shimmer": "0.1.2",
+    "classnames": "2.2.6",
+    "hoist-non-react-statics": "2.5.4",
+    "i18next": "^19.3.3",
+    "lodash": "4.17.21",
+    "lodash-es": "4.17.21",
+    "prop-types": "^15.7.2",
+    "react": "^16.13.0",
+    "react-autosuggest": "10.0.0",
+    "react-autowhatever": "10.2.1",
+    "react-cookie": "^4.0.3",
+    "react-modal": "~3.11.2",
+    "react-sortablejs": "2.0.11",
+    "recompose": "0.30.0"
   }
 }
