@@ -168,6 +168,4 @@ export default configMerger(walttiConfig, {
       en: 'Salo',
     },
   },
-
-  showAlternativeLegs: false,
 });
