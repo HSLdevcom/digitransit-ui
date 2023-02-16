@@ -29,6 +29,7 @@
   "license": "(AGPL-3.0 OR EUPL-1.2)",
   "peerDependencies": {
     "babel-plugin-relay": "14.1.0",
+    "graphql": "15.5.0",
     "lodash": "4.17.21",
     "moment": "2.29.1",
     "react-relay": "14.1.0"
