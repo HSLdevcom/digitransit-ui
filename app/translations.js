@@ -3916,7 +3916,7 @@ const translations = {
     'add-work': 'Lägg till arbete',
     all: 'Allt',
     'alternative-legs':
-      'Också {leg1} kl. {startTime1} och {leg2} kl.{startTime2}',
+      'Också {leg1} kl. {startTime1} och {leg2} kl. {startTime2}',
     'alternative-legs-single': 'Också {leg1} kl. {startTime1}',
     'aria-itinerary-summary':
       'Den totala restiden {duration}. Avgång {inFuture} klockan {departureTime}. Framme klockan {arrivalTime}',
