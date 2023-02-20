@@ -212,7 +212,7 @@ export default {
     bikeSpeed: [2.77, 4.15, 5.55, 6.94, 8.33],
   },
 
-  walkBoardCostHigh: 1200,
+  walkBoardCostHigh: 1600,
 
   suggestWalkMaxDistance: 10000,
   suggestBikeMaxDistance: 30000,
