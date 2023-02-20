@@ -10,7 +10,12 @@ if (isBrowser) {
   Marker = require('react-leaflet/es/Marker').default;
 }
 
-export default function SpeechBubble({ position, text, flip }) {
+export default function SpeechBubble({
+  position,
+  text,
+  zIndexOffset,
+  speechBubbleStyle,
+}) {
   return (
     <Marker
       key="_text"
@@ -20,12 +25,12 @@ export default function SpeechBubble({ position, text, flip }) {
       }}
       interactive={false}
       icon={L.divIcon({
-        html: `<div class="shadow"></div>
-            <div>${text}</div>`,
-        className: `legmarker speech-bubble ${flip ? 'flip' : 'normal'}`,
+        html: `<div>${text}</div>`,
+        className: `legmarker speech-bubble-${speechBubbleStyle}`,
         iconSize: null,
       })}
       keyboard={false}
+      zIndexOffset={zIndexOffset}
     />
   );
 }
@@ -35,5 +40,9 @@ SpeechBubble.propTypes = {
     lon: PropTypes.number,
   }),
   text: PropTypes.string,
-  flip: PropTypes.bool,
+  speechBubbleStyle: PropTypes.string,
+  zIndexOffset: PropTypes.string,
+};
+SpeechBubble.defaultProps = {
+  speechBubbleStyle: 'topRight',
 };

@@ -5,10 +5,8 @@ import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import polyUtil from 'polyline-encoded';
 import { intlShape } from 'react-intl';
-import moment from 'moment';
 import { getRouteMode } from '../../util/modeUtils';
 import StopMarker from './non-tile-layer/StopMarker';
-import LegMarker from './non-tile-layer/LegMarker';
 import Line from './Line';
 import Icon from '../Icon';
 import CityBikeMarker from './non-tile-layer/CityBikeMarker';
@@ -22,6 +20,7 @@ import {
 import IconMarker from './IconMarker';
 import SpeechBubble from './SpeechBubble';
 import { durationToString } from '../../util/timeUtils';
+import TransitLegMarkers from './non-tile-layer/TransitLegMarkers';
 
 class ItineraryLine extends React.Component {
   static contextTypes = {
@@ -36,7 +35,6 @@ class ItineraryLine extends React.Component {
     showTransferLabels: PropTypes.bool,
     showIntermediateStops: PropTypes.bool,
     streetMode: PropTypes.string,
-    flipBubble: PropTypes.bool,
     onlyHasWalkingItineraries: PropTypes.bool,
     loading: PropTypes.bool,
   };
@@ -51,36 +49,14 @@ class ItineraryLine extends React.Component {
     return false;
   }
 
-  getLastTransitLegIndex() {
-    return this.props.legs.map(leg => leg.transitLeg).lastIndexOf(true);
-  }
-
-  nextTransitLeg(currentLegIndex) {
-    for (let i = currentLegIndex + 1; i < this.props.legs.length; i++) {
-      if (this.props.legs[i].transitLeg) {
-        return this.props.legs[i];
-      }
-    }
-    return undefined;
-  }
-
-  speechBubbleText(currentLeg, nextLeg) {
-    const transferDuration = moment(
-      nextLeg.startTime - currentLeg.endTime,
-    ).minutes();
-    return `${this.context.intl.formatMessage({
-      id: 'transfer',
-      defaultMessage: 'Transfer',
-    })}: ${transferDuration === 0 ? '<1' : transferDuration} min`;
-  }
-
   render() {
     if (!isBrowser) {
       return false;
     }
 
     const objs = [];
-    // const lastTransitLegIndex = this.getLastTransitLegIndex();
+    const transitLegs = [];
+
     this.props.legs.forEach((leg, i) => {
       if (!leg || leg.mode === 'WAIT') {
         return;
@@ -134,7 +110,6 @@ class ItineraryLine extends React.Component {
         objs.push(
           <SpeechBubble
             key={`speech_${this.props.hash}_${i}_${mode}`}
-            flip={this.props.flipBubble}
             position={middle}
             text={duration}
           />,
@@ -196,31 +171,15 @@ class ItineraryLine extends React.Component {
             );
           } else {
             if (!leg?.interlineWithPreviousLeg) {
-              objs.push(
-                <LegMarker
-                  key={`${i},${leg.mode}legmarker`}
-                  disableModeIcons
-                  renderName
-                  wide={
-                    nextLeg?.interlineWithPreviousLeg &&
-                    interliningWithRoute !== leg.route.shortName
-                  }
-                  color={
-                    leg.route && leg.route.color ? `#${leg.route.color}` : null
-                  }
-                  leg={{
-                    from: leg.from,
-                    to: nextLeg?.interlineWithPreviousLeg ? nextLeg.to : leg.to,
-                    lat: middle.lat,
-                    lon: middle.lon,
-                    name,
-                    gtfsId: leg.from.stop.gtfsId,
-                    code: leg.from.stop.code,
-                  }}
-                  mode={mode.toLowerCase()}
-                  zIndexOffset={300} // Make sure the LegMarker always stays above the StopMarkers
-                />,
-              );
+              transitLegs.push({
+                ...leg,
+                nextLeg,
+                index: i,
+                mode: mode.toLowerCase(),
+                legName: name,
+                zIndexOffset: 300,
+                interliningWithRoute,
+              });
             }
             objs.push(
               <StopMarker
@@ -252,21 +211,15 @@ class ItineraryLine extends React.Component {
                 renderText={leg.transitLeg && this.props.showTransferLabels}
               />,
             );
-            // Display speechbubbles at stops that end a transit leg to indicate transfer, excluding the final stop
-            // if (i !== lastTransitLegIndex) {
-            //   objs.push(
-            //     <SpeechBubble
-            //       key={`speech_${leg.to.stop.gtfsId}`}
-            //       flip={this.props.flipBubble}
-            //       position={{ lat: leg.to.lat, lon: leg.to.lon }}
-            //       text={this.speechBubbleText(leg, this.nextTransitLeg(i))}
-            //     />,
-            //   );
-            // }
           }
         }
       }
     });
+
+    // Add dynamic transit leg and transfer stop markers
+    if (!this.props.passive) {
+      objs.push(<TransitLegMarkers transitLegs={transitLegs} />);
+    }
 
     return <div style={{ display: 'none' }}>{objs}</div>;
   }
