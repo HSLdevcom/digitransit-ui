@@ -12,7 +12,12 @@ import Icon from './Icon';
 import RouteNumber from './RouteNumber';
 import ServiceAlertIcon from './ServiceAlertIcon';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
-import { mapAlertSource } from '../util/alertUtils';
+import {
+  entityCompare,
+  getEntitiesOfType,
+  mapAlertSource,
+} from '../util/alertUtils';
+import { getRouteMode } from '../util/modeUtils';
 
 export const getTimePeriod = ({ currentTime, startTime, endTime, intl }) => {
   const at = intl.formatMessage({
@@ -41,37 +46,81 @@ export const getTimePeriod = ({ currentTime, startTime, endTime, intl }) => {
   return `${start} - ${end}`;
 };
 
-export default function RouteAlertsRow(
+const getColor = entities => {
+  if (Array.isArray(entities)) {
+    const routeEntities = getEntitiesOfType(entities, 'Route');
+    return routeEntities.length > 0 && `#${routeEntities[0].color}`;
+  }
+  return null;
+};
+
+const getMode = entities => {
+  if (Array.isArray(entities)) {
+    const routeEntities = getEntitiesOfType(entities, 'Route');
+    return routeEntities.length > 0 && getRouteMode(routeEntities[0]);
+  }
+  return 'bus';
+};
+
+const getGtfsIds = entities => entities?.map(entity => entity.gtfsId) || [];
+
+const getEntityIdentifiers = entities =>
+  entities?.map(
+    entity =>
+      entity.shortName ||
+      (entity.code ? `${entity.name} (${entity.code})` : entity.name),
+  );
+
+const getEntitiesWithUniqueIdentifiers = entities => {
+  const entitiesByIdentifier = {};
+  entities?.forEach(entity => {
+    entitiesByIdentifier[
+      entity.shortName ||
+        (entity.code ? `${entity.name} (${entity.code})` : entity.name)
+    ] = entity;
+  });
+  return Object.values(entitiesByIdentifier);
+};
+
+export default function AlertRow(
   {
-    color,
     currentTime,
     description,
+    color,
     endTime,
-    entityIdentifier,
-    entityMode,
-    entityType,
-    expired,
+    entities,
+    feed,
+    header,
+    mode,
     severityLevel,
+    showRouteNameLink,
+    showRouteIcon,
     startTime,
     url,
-    gtfsIds,
-    showRouteNameLink,
-    header,
-    source,
   },
   { intl, config },
 ) {
   const showTime = startTime && endTime && currentTime;
-  const gtfsIdList = gtfsIds ? gtfsIds.split(',') : [];
+  const uniqueEntities = getEntitiesWithUniqueIdentifiers(entities).sort(
+    entityCompare,
+  );
+  const gtfsIdList = getGtfsIds(uniqueEntities);
+  const entityIdentifiers = getEntityIdentifiers(uniqueEntities);
+
+  const routeColor = showRouteIcon && (color || getColor(uniqueEntities));
+  const routeMode = showRouteIcon && (mode || getMode(uniqueEntities));
+
+  const entityType =
+    getEntitiesOfType(uniqueEntities, 'Stop').length > 0 ? 'Stop' : 'Route';
 
   const routeLinks =
-    entityType === 'route' && entityIdentifier && gtfsIds
-      ? entityIdentifier.split(',').map((identifier, i) => (
+    entityType === 'Route' && entityIdentifiers && gtfsIdList
+      ? entityIdentifiers.map((identifier, i) => (
           <Link
             key={gtfsIdList[i]}
             to={`/${PREFIX_ROUTES}/${gtfsIdList[i]}/${PREFIX_STOPS}`}
-            className={cx('route-alert-row-link', entityMode)}
-            style={{ color }}
+            className={cx('route-alert-row-link', routeMode)}
+            style={{ routeColor }}
           >
             {' '}
             {identifier}
@@ -80,12 +129,12 @@ export default function RouteAlertsRow(
       : [];
 
   const stopLinks =
-    entityType === 'stop' && entityIdentifier && gtfsIds
-      ? entityIdentifier.split(',').map((identifier, i) => (
+    entityType === 'Stop' && entityIdentifiers && gtfsIdList
+      ? entityIdentifiers.map((identifier, i) => (
           <Link
             key={gtfsIdList[i]}
             to={`/${PREFIX_STOPS}/${gtfsIdList[i]}`}
-            className={cx('route-alert-row-link', entityMode)}
+            className={cx('route-alert-row-link', routeMode)}
           >
             {' '}
             {identifier}
@@ -105,18 +154,15 @@ export default function RouteAlertsRow(
     if (typeof header === 'string') {
       genericCancellation = header;
     } else if (header.props) {
-      const {
-        headsign,
-        routeMode,
-        shortName,
-        scheduledDepartureTime,
-      } = header.props;
+      const { headsign, shortName, scheduledDepartureTime } = header.props;
       if (headsign && routeMode && shortName && scheduledDepartureTime) {
-        const mode = intl.formatMessage({ id: routeMode.toLowerCase() });
+        const modeForTranslations = intl.formatMessage({
+          id: routeMode.toLowerCase(),
+        });
         genericCancellation = intl.formatMessage(
           { id: 'generic-cancelation' },
           {
-            mode,
+            modeForTranslations,
             route: shortName,
             headsign,
             time: moment.unix(scheduledDepartureTime).format('HH:mm'),
@@ -127,19 +173,15 @@ export default function RouteAlertsRow(
   }
 
   return (
-    <div
-      className={cx('route-alert-row', { expired })}
-      role="listitem"
-      tabIndex={0}
-    >
-      {(entityType === 'route' && entityMode && (
+    <div className="route-alert-row" role="listitem" tabIndex={0}>
+      {(showRouteIcon && (
         <RouteNumber
           alertSeverityLevel={severityLevel}
-          color={color}
-          mode={entityMode}
+          color={routeColor}
+          mode={routeMode}
         />
       )) ||
-        (entityType === 'stop' && (
+        (entityType === 'Stop' && (
           <div className="route-number">
             {severityLevel === 'INFO' ? (
               <Icon img="icon-icon_info" className="stop-disruption info" />
@@ -156,26 +198,28 @@ export default function RouteAlertsRow(
           </div>
         )}
       <div className="route-alert-contents">
-        {mapAlertSource(config, intl.locale, source)}
-        {(entityIdentifier || showTime) && (
+        {mapAlertSource(config, intl.locale, feed)}
+        {(entityIdentifiers || showTime) && (
           <div className="route-alert-top-row">
-            {entityIdentifier &&
-              ((entityType === 'route' &&
+            {entityIdentifiers &&
+              ((entityType === 'Route' &&
                 showRouteNameLink &&
                 routeLinks.length > 0 && <>{routeLinks} </>) ||
                 (!showRouteNameLink && (
                   <div
-                    className={cx('route-alert-entityid', entityMode)}
-                    style={{ color }}
+                    className={cx('route-alert-entityid', routeMode)}
+                    style={{ routeColor }}
                   >
-                    {entityIdentifier}{' '}
+                    {entityIdentifiers.split(' ')}{' '}
                   </div>
                 )) ||
-                (entityType === 'stop' &&
+                (entityType === 'Stop' &&
                   showRouteNameLink &&
                   stopLinks.length > 0 && <>{stopLinks} </>) ||
                 (!showRouteNameLink && (
-                  <div className={entityMode}>{entityIdentifier}</div>
+                  <div className={routeMode}>
+                    {entityIdentifiers.split(' ')}
+                  </div>
                 )))}
             {showTime && (
               <>
@@ -204,36 +248,30 @@ export default function RouteAlertsRow(
   );
 }
 
-RouteAlertsRow.propTypes = {
-  color: PropTypes.string,
+AlertRow.propTypes = {
   currentTime: PropTypes.number,
   description: PropTypes.string,
   endTime: PropTypes.number,
-  entityIdentifier: PropTypes.string,
-  entityMode: PropTypes.string,
-  entityType: PropTypes.oneOf(['route', 'stop']),
-  expired: PropTypes.bool,
+  entities: PropTypes.object,
+  color: PropTypes.string,
+  mode: PropTypes.string,
   severityLevel: PropTypes.string,
   startTime: PropTypes.number,
   url: PropTypes.string,
-  gtfsIds: PropTypes.string,
   showRouteNameLink: PropTypes.bool,
+  showRouteIcon: PropTypes.bool,
   header: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
-  source: PropTypes.string,
+  feed: PropTypes.string,
 };
 
-RouteAlertsRow.contextTypes = {
+AlertRow.contextTypes = {
   config: PropTypes.object.isRequired,
   intl: intlShape.isRequired,
 };
 
-RouteAlertsRow.defaultProps = {
+AlertRow.defaultProps = {
   currentTime: moment().unix(),
   endTime: undefined,
-  expired: false,
-  entityIdentifier: undefined,
-  entityMode: undefined,
-  entityType: 'route',
   severityLevel: undefined,
   startTime: undefined,
   header: undefined,

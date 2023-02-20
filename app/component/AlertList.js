@@ -5,31 +5,40 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
-import RouteAlertsRow from './RouteAlertsRow';
-import { createUniqueAlertList } from '../util/alertUtils';
+import AlertRow from './AlertRow';
+import {
+  getServiceAlertDescription,
+  getServiceAlertHeader,
+  getServiceAlertUrl,
+  alertCompare,
+} from '../util/alertUtils';
 import withBreakpoint from '../util/withBreakpoint';
-import { getRouteMode } from '../util/modeUtils';
+
+const mapAlert = (alert, locale) => ({
+  description: getServiceAlertDescription(alert, locale),
+  header: getServiceAlertHeader(alert, locale),
+  entities: alert.entities,
+  severityLevel: alert.alertSeverityLevel,
+  url: getServiceAlertUrl(alert, locale),
+  validityPeriod: alert.validityPeriod,
+  feed: alert.feed,
+});
 
 const AlertList = ({
-  cancelations,
+  // cancelations, TODO
+  color,
   currentTime,
   disableScrolling,
-  showExpired,
+  mode,
   serviceAlerts,
   showRouteNameLink,
+  showRouteIcon,
   breakpoint,
+  lang,
 }) => {
-  const groupedAlerts =
-    createUniqueAlertList(
-      serviceAlerts,
-      cancelations,
-      currentTime,
-      showExpired,
-    ) || [];
-
-  if (groupedAlerts.length === 0) {
+  if (serviceAlerts.length === 0) {
     return (
-      <div className="stop-no-alerts-container" tabIndex="0" aria-live="polite">
+      <div className="no-alerts-container" tabIndex="0" aria-live="polite">
         <FormattedMessage
           id="disruption-info-no-alerts"
           defaultMessage="No known disruptions or diversions."
@@ -38,56 +47,54 @@ const AlertList = ({
     );
   }
 
+  const simplifiedAlertsSorted = serviceAlerts
+    .map(alert => mapAlert(alert, lang))
+    .sort(alertCompare);
+
   return (
-    <div className="route-alerts-content-wrapper">
+    <div className="alerts-content-wrapper">
       <div
-        className={cx('route-alerts-list-wrapper', {
+        className={cx('alerts-list-wrapper', {
           'bp-large': breakpoint === 'large',
         })}
         aria-live="polite"
       >
         <div
-          className={cx('route-alerts-list', {
+          className={cx('alerts-list', {
             'momentum-scroll': !disableScrolling,
           })}
         >
-          {groupedAlerts.map(
+          {simplifiedAlertsSorted.map(
             (
               {
                 description,
-                expired,
                 header,
-                route: { color, mode, type, shortName, routeGtfsId } = {},
+                entities,
                 severityLevel,
-                stop: { code, vehicleMode, stopGtfsId, nameAndCode } = {},
                 url,
                 validityPeriod: { startTime, endTime },
-                source,
+                feed,
               },
               i,
             ) => (
-              <RouteAlertsRow
-                color={color ? `#${color}` : null}
+              <AlertRow
+                color={color}
                 currentTime={currentTime}
                 description={description}
                 endTime={endTime}
-                entityIdentifier={shortName || nameAndCode || code}
-                entityMode={
-                  (mode && getRouteMode({ mode, type })) ||
-                  (vehicleMode && vehicleMode.toLowerCase())
-                }
-                entityType={
-                  (shortName && 'route') || ((nameAndCode || code) && 'stop')
-                }
-                expired={expired}
+                entities={entities}
+                feed={feed}
                 header={header}
-                key={`alert-${shortName}-${severityLevel}-${i}`} // eslint-disable-line react/no-array-index-key
+                // eslint-disable-next-line react/no-array-index-key
+                key={`alert-${
+                  showRouteIcon ? 'route' : 'general'
+                }-${severityLevel}-${i}`}
+                mode={mode}
                 severityLevel={severityLevel}
+                showRouteIcon={showRouteIcon}
+                showRouteNameLink={showRouteNameLink}
                 startTime={startTime}
                 url={url}
-                gtfsIds={routeGtfsId || stopGtfsId}
-                showRouteNameLink={showRouteNameLink}
-                source={source}
               />
             ),
           )}
@@ -118,27 +125,33 @@ const alertShape = PropTypes.shape({
 });
 
 AlertList.propTypes = {
-  cancelations: PropTypes.arrayOf(alertShape),
+  // cancelations: PropTypes.arrayOf(alertShape), TODO
+  color: PropTypes.string,
   currentTime: PropTypes.PropTypes.number.isRequired,
   disableScrolling: PropTypes.bool,
+  mode: PropTypes.string,
   serviceAlerts: PropTypes.arrayOf(alertShape),
-  showExpired: PropTypes.bool,
   showRouteNameLink: PropTypes.bool,
+  showRouteIcon: PropTypes.bool,
   breakpoint: PropTypes.string,
+  lang: PropTypes.string.isRequired,
 };
 
 AlertList.defaultProps = {
-  cancelations: [],
+  // cancelations: [], TODO
+  color: undefined,
   disableScrolling: false,
+  mode: undefined,
   serviceAlerts: [],
-  showExpired: false,
+  showRouteIcon: false,
 };
 
 const connectedComponent = connectToStores(
   withBreakpoint(AlertList),
-  ['TimeStore'],
+  ['TimeStore', 'PreferencesStore'],
   context => ({
     currentTime: context.getStore('TimeStore').getCurrentTime().unix(),
+    lang: context.getStore('PreferencesStore').getLanguage(),
   }),
 );
 

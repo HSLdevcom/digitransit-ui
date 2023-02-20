@@ -1,81 +1,20 @@
 import find from 'lodash/find';
 import isNumber from 'lodash/isNumber';
 import uniqBy from 'lodash/uniqBy';
-import isEmpty from 'lodash/isEmpty';
-import groupBy from 'lodash/groupBy';
 import routeNameCompare from '@digitransit-search-util/digitransit-search-util-route-name-compare';
-import { getRouteMode } from './modeUtils';
 
-import {
-  RealtimeStateType,
-  AlertSeverityLevelType,
-  AlertEffectType,
-} from '../constants';
-
-/**
- * Checks if the alert is for the given pattern code.
- *
- * @param {Object.<string, *>} alert the alert object to check.
- * @param {string} patternId the pattern's id, optional.
- */
-export const patternIdPredicate = (alert, patternId = undefined) => {
-  if (!alert) {
-    return false;
-  }
-
-  if (!patternId) {
-    return true;
-  }
-
-  if (!alert.entities) {
-    return true;
-  }
-
-  return Boolean(
-    alert.entities?.find(
-      alertEntity =>
-        // eslint-disable-next-line no-underscore-dangle
-        alertEntity.__typename === 'Route' &&
-        alertEntity?.patterns?.some(({ code }) => code === patternId),
-    ),
-  );
-};
-
-/**
- * Checks if the stop has any alerts.
- *
- * @param {*} stop the stop object to check.
- */
-export const stopHasServiceAlert = stop => {
-  if (!stop || !Array.isArray(stop.alerts)) {
-    return false;
-  }
-  return stop.alerts.length > 0;
-};
+import { RealtimeStateType, AlertSeverityLevelType } from '../constants';
 
 /**
  * Checks if the route has any alerts.
  *
  * @param {*} route the route object to check.
- * @param {string} patternId the pattern's id, optional.
  */
-export const routeHasServiceAlert = (route, patternId = undefined) => {
+export const routeHasServiceAlert = route => {
   if (!route || !Array.isArray(route.alerts)) {
     return false;
   }
-  return route.alerts.some(alert => patternIdPredicate(alert, patternId));
-};
-
-/**
- * Checks if the route related to the given pattern has any alerts.
- *
- * @param {*} pattern the pattern object to check.
- */
-export const patternHasServiceAlert = pattern => {
-  if (!pattern) {
-    return false;
-  }
-  return routeHasServiceAlert(pattern.route);
+  return route.alerts?.length > 0;
 };
 
 /**
@@ -132,34 +71,6 @@ export const tripHasCancelation = trip => {
   }
   return trip.stoptimes.every(stoptimeHasCancelation);
 };
-
-/**
- * Checks if the pattern has a cancelation.
- *
- * @param {*} pattern the pattern object to check.
- */
-export const patternHasCancelation = pattern => {
-  if (!pattern || !Array.isArray(pattern.trips)) {
-    return false;
-  }
-  return pattern.trips.some(tripHasCancelation);
-};
-
-/**
- * Checks if the route has a cancelation.
- *
- * @param {*} route the route object to check.
- * @param {string} patternId the pattern's id, optional.
- */
-export const routeHasCancelation = (route, patternId = undefined) => {
-  if (!route || !Array.isArray(route.patterns)) {
-    return false;
-  }
-  return route.patterns
-    .filter(pattern => (patternId ? patternId === pattern.code : true))
-    .some(patternHasCancelation);
-};
-
 /**
  * Checks if the leg has a cancelation.
  *
@@ -371,23 +282,16 @@ const getServiceAlerts = (
  * maps them to the format understood by the UI.
  *
  * @param {Object.<string,*>} route the route object to retrieve alerts from.
- * @param {string} patternId the pattern's id, optional.
  * @param {string} [locale] the locale to use, defaults to 'en'.
  */
-export const getServiceAlertsForRoute = (
-  route,
-  patternId = undefined,
-  locale = 'en',
-) => {
+export const getServiceAlertsForRoute = (route, locale = 'en') => {
   if (!route || !Array.isArray(route.alerts)) {
     return [];
   }
 
   return getServiceAlerts(
     {
-      alerts: route.alerts.filter(alert =>
-        patternIdPredicate(alert, patternId),
-      ),
+      alerts: route.alerts,
     },
     { ...route, routeGtfsId: route && route.gtfsId },
     locale,
@@ -427,6 +331,8 @@ export const getServiceAlertsForTerminalStops = (
 };
 
 /**
+ * TODO we should also consider other relevant alert entity types here.
+ *
  * Retrieves OTP-style Service Alerts from the given route's
  * pattern's stops and maps them to the format understood by the UI.
  *
@@ -437,17 +343,26 @@ export const getServiceAlertsForTerminalStops = (
 export const getServiceAlertsForRouteStops = (
   route,
   patternId,
-  locale = 'en',
+  // locale = 'en', TODO
 ) => {
   if (!route || !Array.isArray(route.patterns)) {
     return [];
   }
-  return route.patterns
+  const patternStopIds = route.patterns
     .filter(pattern => patternId === pattern.code)
-    .map(pattern => pattern.stops)
-    .reduce((a, b) => a.concat(b), [])
-    .map(stop => getServiceAlerts(stop, route, locale))
-    .reduce((a, b) => a.concat(b), []);
+    .flatMap(pattern => pattern.stops)
+    .map(stop => stop.gtfsId);
+  return route?.alerts
+    .map(alert => {
+      const patternStopEntities = alert.entities?.filter(
+        entity =>
+          // eslint-disable-next-line no-underscore-dangle
+          entity.__typename === 'Stop' &&
+          patternStopIds.includes(entity.gtfsId),
+      );
+      return { ...alert, entities: patternStopEntities };
+    })
+    .filter(alert => alert.entities.length > 0);
 };
 
 /**
@@ -471,7 +386,7 @@ export const getServiceAlertsForStopRoutes = (stop, locale = 'en') => {
       })),
     route => route.shortName,
   )
-    .map(route => getServiceAlertsForRoute(route, route.patternId, locale))
+    .map(route => getServiceAlertsForRoute(route, locale))
     .reduce((a, b) => a.concat(b), []);
 };
 
@@ -546,33 +461,6 @@ export const getActiveAlertSeverityLevel = (alerts, referenceUnixTime) => {
 };
 
 /**
- * Iterates through the alerts and returns 'NO_SERVICE' if that is found.
- * Returns 'EFFECT_UNKNOWN' if there are alerts but none of them have an
- * effect of 'NO_SERVICE'. Returns undefined if the effect cannot be
- * determined.
- *
- * @param {*} alerts the alerts to check.
- */
-export const getMaximumAlertEffect = alerts => {
-  if (!isValidArray(alerts)) {
-    return undefined;
-  }
-  const effects = alerts
-    .map(alert => alert.alertEffect)
-    .reduce((obj, effect) => {
-      if (effect) {
-        obj[effect] = effect; // eslint-disable-line no-param-reassign
-      }
-      return obj;
-    }, {});
-  return (
-    effects[AlertEffectType.NoService] ||
-    (Object.keys(effects).length > 0 && AlertEffectType.Unknown) ||
-    undefined
-  );
-};
-
-/**
  * Checks if any of the given cancelations or alerts are active at the given time.
  *
  * @param {*} cancelations the cancelations to check.
@@ -623,7 +511,7 @@ export const getActiveLegAlertSeverityLevel = leg => {
   const { route, trip } = leg;
 
   const serviceAlerts = [
-    ...getServiceAlertsForRoute(route, trip?.pattern?.code),
+    ...getServiceAlertsForRoute(route),
     ...getServiceAlertsForStop(leg?.from?.stop),
     ...getServiceAlertsForStop(leg?.to?.stop),
     ...getServiceAlertsForTrip(trip, route),
@@ -650,7 +538,7 @@ export const getActiveLegAlerts = (leg, legStartTime, locale = 'en') => {
   const { route, trip } = leg;
 
   const serviceAlerts = [
-    ...getServiceAlertsForRoute(route, trip?.pattern?.code, locale),
+    ...getServiceAlertsForRoute(route, locale),
     ...getServiceAlertsForStop(leg?.from.stop, locale),
     ...getServiceAlertsForStop(leg?.to.stop, locale),
     ...getServiceAlertsForTrip(trip, route),
@@ -660,34 +548,43 @@ export const getActiveLegAlerts = (leg, legStartTime, locale = 'en') => {
 };
 
 /**
- * Compares the given alerts in order to sort them.
+ * Compares the given alert entities in order to sort them based route shortName
+ * or the stop name (and code).
  *
- * @param {*} a the first alert to compare.
- * @param {*} b the second alert to compare.
+ * @param {*} entityA the first entity to compare.
+ * @param {*} entityB the second entity to compare.
  */
-export const alertCompare = (a, b) => {
-  // sort by expiration status
-  if (a.expired !== b.expired) {
-    return a.expired ? 1 : -1;
+export const entityCompare = (entityA, entityB) => {
+  if (entityA.shortName) {
+    return routeNameCompare(entityA, entityB);
   }
-
-  // sort by missing route information (for stop level alerts)
-  if (!a.route || !a.route.shortName) {
-    // sort by stop information if it exists
-    if (a.stop && b.stop) {
-      return `${a.stop.code}`.localeCompare(`${b.stop.code}`);
-    }
-    return -1;
+  const nameCompare = `${entityA.name}`.localeCompare(entityB.name);
+  if (nameCompare !== 0) {
+    return nameCompare;
   }
-
-  // sort by route information
-  const routeOrder = routeNameCompare(a.route || {}, b.route || {});
-  if (routeOrder !== 0) {
-    return routeOrder;
+  if (entityA.code && entityB.code) {
+    return `${entityA.code}`.localeCompare(entityB.code);
   }
+  return nameCompare;
+};
 
-  // sort by alert validity period
-  return b.validityPeriod.startTime - a.validityPeriod.startTime;
+/**
+ * Compares the given alerts in order to sort them based on the entities
+ * and the validity period (in that order).
+ *
+ * @param {*} alertA the first alert to compare.
+ * @param {*} alertB the second alert to compare.
+ */
+export const alertCompare = (alertA, alertB) => {
+  const aEntitiesSorted = alertA.entities?.sort(entityCompare);
+  const bEntitiesSorted = alertB.entities?.sort(entityCompare);
+  const bestEntitiesCompared = entityCompare(
+    aEntitiesSorted[0],
+    bEntitiesSorted[0],
+  );
+  return bestEntitiesCompared === 0
+    ? alertB.validityPeriod.startTime - alertA.validityPeriod.startTime
+    : bestEntitiesCompared;
 };
 
 /**
@@ -722,107 +619,6 @@ export const alertSeverityCompare = (a, b) => {
 };
 
 /**
- * Creates a list of unique alerts grouped under one header
- *@param {*} serviceAlerts The list of Service alerts to be mapped and filtered,
-  @param {*} cancelations The list of Cancelations to be mapped and filtered,
-  @param {*} currentTime The current time to check for alert validity,
-  @param {*} showExpired If the expired alerts need to be shown,
- */
-export const createUniqueAlertList = (
-  serviceAlerts,
-  cancelations,
-  currentTime,
-  showExpired,
-) => {
-  const hasRoute = alert => alert && !isEmpty(alert.route);
-  const hasStop = alert => alert && !isEmpty(alert.stop);
-
-  const getRoute = alert => alert.route || {};
-  const getMode = alert => getRoute(alert).mode;
-  const getShortName = alert => getRoute(alert).shortName;
-  const getRouteGtfsId = alert => getRoute(alert).gtfsId;
-  const getRouteColor = alert => getRoute(alert).color;
-
-  const getStop = alert => alert.stop || {};
-  const getVehicleMode = alert => getStop(alert).vehicleMode;
-  const getCode = alert => getStop(alert).code;
-  const getStopGtfsId = alert => getStop(alert).gtfsId;
-  const getStopName = alert => getStop(alert).name;
-
-  const getGroupKey = alert =>
-    `${alert.severityLevel}${
-      (hasRoute(alert) && `route_${getMode(alert)}`) ||
-      (hasStop(alert) && `stop_${getVehicleMode(alert)}`)
-    }${alert.header}${alert.description}`;
-  const getUniqueId = alert =>
-    `${getShortName(alert) || getCode(alert)}${getGroupKey(alert)}`;
-
-  const uniqueAlerts = uniqBy(
-    [
-      ...(Array.isArray(cancelations)
-        ? cancelations
-            .map(cancelation => ({
-              ...cancelation,
-              severityLevel: AlertSeverityLevelType.Warning,
-              expired: !isAlertValid(cancelation, currentTime, {
-                isFutureValid: true,
-              }),
-            }))
-            .filter(alert => (showExpired ? true : !alert.expired))
-        : []),
-      ...(Array.isArray(serviceAlerts)
-        ? serviceAlerts
-            .map(alert => ({
-              ...alert,
-              expired: !isAlertValid(alert, currentTime),
-            }))
-            .filter(alert => (showExpired ? true : !alert.expired))
-        : []),
-    ],
-    getUniqueId,
-  );
-
-  const alertGroups = groupBy(uniqueAlerts, getGroupKey);
-
-  const groupedAlerts = Object.keys(alertGroups).map(key => {
-    const alerts = alertGroups[key];
-    const alert = alerts[0];
-    return {
-      ...alert,
-      route:
-        (hasRoute(alert) && {
-          mode: getRouteMode(alert.route),
-          routeGtfsId: alerts.sort(alertCompare).map(getRouteGtfsId).join(','),
-          shortName: alerts.sort(alertCompare).map(getShortName).join(', '),
-          color: getRouteColor(alert),
-          type: getRoute(alert).type,
-        }) ||
-        undefined,
-      stop:
-        (hasStop(alert) && {
-          stopGtfsId: alerts.sort(alertCompare).map(getStopGtfsId).join(','),
-          code: alerts.sort(alertCompare).map(getCode).join(', '),
-          vehicleMode: getVehicleMode(alert),
-          nameAndCode: alerts
-            .sort(alertCompare)
-            .map(a => {
-              const stopName = getStopName(a);
-              const stopCode = getCode(a);
-              return (
-                (stopName && stopCode && `${stopName} (${stopCode})`) ||
-                stopName
-              );
-            })
-            .join(', '),
-        }) ||
-        undefined,
-    };
-  });
-
-  return groupedAlerts.sort(alertCompare);
-};
-
-/**
  * Checks whether the alert to be displayed has meaningful data (header or description) or not.
  * Used to decide whether to render the box for the alert or not.
  * @param {*} alerts list of alerts.
@@ -853,3 +649,33 @@ export const mapAlertSource = (config, lang, feedName) => {
   }
   return '';
 };
+
+/**
+ * Returns entities of only the given entity type.
+ *
+ * @param {*} entities the entities to filter.
+ * @param {String} entityType the entity type.
+ */
+export const getEntitiesOfType = (entities, entityType) =>
+  // eslint-disable-next-line no-underscore-dangle
+  entities?.filter(entity => entity.__typename === entityType);
+
+/**
+ * Returns entities of only the given entity type from an alert.
+ *
+ * @param {*} alert the alert which can contain entities.
+ * @param {String} entityType the entity type.
+ */
+export const getEntitiesOfTypeFromAlert = (alert, entityType) =>
+  // eslint-disable-next-line no-underscore-dangle
+  alert?.entities?.filter(entity => entity.__typename === entityType);
+
+/**
+ * Checks if the alert has at least one entity of the given entity type.
+ *
+ * @param {*} alert the alert which can contain entities.
+ * @param {String} entityType the entity type.
+ */
+export const hasEntitiesOfType = (alert, entityType) =>
+  // eslint-disable-next-line no-underscore-dangle
+  alert?.entities?.some(entity => entity.__typename === entityType);

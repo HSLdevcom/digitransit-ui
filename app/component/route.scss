@@ -595,7 +595,7 @@ $margin-left-right: 21.3px;
 
 // Schedule or alert list
 .route-schedule-content-wrapper,
-.route-alerts-content-wrapper {
+.alerts-content-wrapper {
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -615,7 +615,7 @@ $margin-left-right: 21.3px;
 }
 
 .route-schedule-list-wrapper,
-.route-alerts-list-wrapper {
+.alerts-list-wrapper {
   margin-top: 14px;
   &.bp-large {
     flex: 1;
@@ -1298,7 +1298,7 @@ $margin-left-right: 21.3px;
   }
 }
 
-.route-alerts-list {
+.alerts-list {
   background: $white;
   padding-bottom: 0.7em;
   flex: 1;
