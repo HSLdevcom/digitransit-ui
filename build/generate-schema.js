@@ -22,9 +22,8 @@ const copySchema = (src, dest) => {
 };
 
 fetch(
-  `${
-    process.env.SERVER_ROOT || 'https://dev-api.digitransit.fi/routing/v2'
-  }/routers/hsl/index/graphql`,
+  process.env.OTP_URL ||
+    'https://dev-api.digitransit.fi/routing/v2/routers/hsl/index/graphql',
   {
     method: 'post',
     headers: {

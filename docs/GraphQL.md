@@ -4,11 +4,11 @@
   `cd build; node generate-schema.js`
 
   If you need to fetch the schema from some non-default location, `SCHEMA_SRC` changes
-  the URL or filepath for the schema file in graphls format and `SERVER_ROOT` fetches json format
+  the URL or filepath for the schema file in graphls format and `OTP_URL` fetches json format
   schema from a running OTP instance:
 
-  `cd build; SCHEMA_SRC=where-schema-file-is-located SERVER_ROOT=http://your-otp-host node generate-schema.js`
+  `cd build; SCHEMA_SRC=where-schema-file-is-located OTP_URL=http://your-otp-host/routers/hsl/index/graphql node generate-schema.js`
 
   When running otp in localhost, this usually translates to something like:
 
-  `cd build; SCHEMA_SRC=~/OpenTripPlanner/src/ext/resources/legacygraphqlapi/schema.graphqls SERVER_ROOT=http://localhost:8080/otp node generate-schema.js`
+  `cd build; SCHEMA_SRC=~/OpenTripPlanner/src/ext/resources/legacygraphqlapi/schema.graphqls OTP_URL=http://localhost:8080/otp/routers/hsl/index/graphql node generate-schema.js`
