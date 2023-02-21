@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import React, { useState, useEffect, useRef } from 'react';
 import { intlShape } from 'react-intl';
 import { matchShape } from 'found';
+import { Helmet } from 'react-helmet';
 import LazilyLoad, { importLazy } from './LazilyLoad';
 import { clearOldSearches, clearFutureRoutes } from '../util/storeUtils';
 import { getJson } from '../util/xhrPromise';
@@ -107,26 +108,39 @@ const AppBarHsl = ({ lang, user, favourites }, context) => {
   useEffect(() => siteHeaderRef.current?.fetchNotifications()[favourites]);
 
   return (
-    <LazilyLoad modules={modules}>
-      {({ SiteHeader, SharedLocalStorageObserver }) => (
-        <>
-          <SharedLocalStorageObserver
-            keys={['saved-searches', 'favouriteStore']}
-            url={config.localStorageEmitter}
+    <>
+      {config.useCookiesPrompt && (
+        <Helmet>
+          <script
+            id="CookieConsent"
+            src="https://policy.app.cookieinformation.com/uc.js"
+            data-culture="FI"
+            type="text/javascript"
           />
-          <SiteHeader
-            ref={siteHeaderRef}
-            hslFiUrl={config.URL.ROOTLINK}
-            lang={lang}
-            {...userMenu}
-            languageMenu={languages}
-            banners={banners}
-            suggestionsApiUrl={config.URL.HSL_FI_SUGGESTIONS}
-            notificationApiUrls={notificationApiUrls}
-          />
-        </>
+        </Helmet>
       )}
-    </LazilyLoad>
+
+      <LazilyLoad modules={modules}>
+        {({ SiteHeader, SharedLocalStorageObserver }) => (
+          <>
+            <SharedLocalStorageObserver
+              keys={['saved-searches', 'favouriteStore']}
+              url={config.localStorageEmitter}
+            />
+            <SiteHeader
+              ref={siteHeaderRef}
+              hslFiUrl={config.URL.ROOTLINK}
+              lang={lang}
+              {...userMenu}
+              languageMenu={languages}
+              banners={banners}
+              suggestionsApiUrl={config.URL.HSL_FI_SUGGESTIONS}
+              notificationApiUrls={notificationApiUrls}
+            />
+          </>
+        )}
+      </LazilyLoad>
+    </>
   );
 };
 
