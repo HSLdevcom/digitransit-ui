@@ -1,12 +1,11 @@
 /* eslint-disable prefer-template */
-import configMerger from '../util/configMerger';
-import { BIKEAVL_BIKES } from '../util/citybikes';
+import configMerger from '../util/configMerger.js';
+import walttiConfig from './config.waltti.js';
+import { BIKEAVL_BIKES } from '../util/citybikes.js';
 
 const CONFIG = 'kuopio';
 const APP_TITLE = 'Reittiopas Kuopio';
 const APP_DESCRIPTION = 'Reittiopas Kuopio';
-
-const walttiConfig = require('./config.waltti').default;
 
 export default configMerger(walttiConfig, {
   CONFIG,

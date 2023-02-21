@@ -105,7 +105,7 @@ export default async () => {
         nodeResolve(),
         babel({
           runtimeHelpers: true,
-          configFile: './config/babel.config.js',
+          configFile: './config/babel.config.json',
           exclude: /node_modules/,
         }),
         commonjs({

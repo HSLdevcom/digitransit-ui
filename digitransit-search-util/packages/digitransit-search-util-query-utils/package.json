@@ -2,14 +2,16 @@
   "name": "@digitransit-search-util/digitransit-search-util-query-utils",
   "version": "2.0.7",
   "description": "digitransit-search-util query-utils module",
+  "type": "module",
+  "module": "src/index.js",
   "main": "lib/index.js",
   "publishConfig": {
     "access": "public"
   },
   "scripts": {
     "clean": "rm -rf lib ./node_modules",
-    "test": "mocha -r esm test.js",
-    "docs": "node -r esm ../../scripts/generate-readmes",
+    "test": "mocha test.js",
+    "docs": "node ../../scripts/generate-readmes",
     "relay": "relay-compiler && mkdir lib && mv src/__generated__ lib/"
   },
   "relay": {

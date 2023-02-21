@@ -2,10 +2,11 @@
   "name": "@digitransit-util/digitransit-util-enrich-patterns",
   "version": "1.1.2",
   "description": "digitransit-util enrich-patterns module",
+  "type": "module",
   "main": "index.js",
   "scripts": {
-    "test": "mocha -r esm test.js",
-    "docs": "node -r esm ../../scripts/generate-readmes"
+    "test": "mocha test.js",
+    "docs": "node ../../scripts/generate-readmes"
   },
   "repository": {
     "type": "git",

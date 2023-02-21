@@ -1,6 +1,7 @@
 /* eslint-disable prefer-template */
-import configMerger from '../util/configMerger';
-import { BIKEAVL_WITHMAX } from '../util/citybikes';
+import configMerger from '../util/configMerger.js';
+import { BIKEAVL_WITHMAX } from '../util/citybikes.js';
+import walttiConfig from './config.waltti.js';
 
 const CONFIG = 'turku';
 const APP_TITLE = 'Fölin reittiopas';
@@ -35,8 +36,6 @@ const CONSTANT_OPERATION_PARAGRAPHS = {
     },
   },
 };
-
-const walttiConfig = require('./config.waltti').default;
 
 export default configMerger(walttiConfig, {
   CONFIG,

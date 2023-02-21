@@ -1,27 +1,35 @@
-/* eslint-disable global-require */
+// todo
+
 /* eslint import/no-extraneous-dependencies: ["error", {"devDependencies": true}] */
 
-const fs = require('fs');
+import fs from 'fs';
+import FaviconsWebpackPlugin from 'favicons-webpack-plugin';
 
-const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
+async function getNamedConfig(config) {
+  const { getNamedConfiguration } = await import('../app/config.js');
+  return getNamedConfiguration(config);
+}
 
-function getAllConfigs() {
+async function getAllConfigs() {
   if (process.env.CONFIG && process.env.CONFIG !== '') {
-    return [require('../app/config').getNamedConfiguration(process.env.CONFIG)];
+    return [
+      await getNamedConfig(process.env.CONFIG),
+    ];
   }
 
   const srcDirectory = './app/configurations';
-  return fs
+  const importTasks = fs
     .readdirSync(srcDirectory)
     .filter(file => /^config\.\w+\.js$/.test(file))
-    .map(file => {
+    .map(async file => {
       const theme = file.replace('config.', '').replace('.js', '');
-      return require('../app/config').getNamedConfiguration(theme);
+      return await getNamedConfig(theme);
     });
+  return await Promise.all(importTasks);
 }
 
-function getAllPossibleLanguages() {
-  return getAllConfigs()
+async function getAllPossibleLanguages() {
+  return (await getAllConfigs())
     .map(config => config.availableLanguages)
     .reduce((languages, languages2) => languages.concat(languages2)) // TODO use Set
     .filter(
@@ -45,18 +53,16 @@ function getEntries(theme, sprites = null) {
   };
 }
 
-function getAllThemeEntries() {
+async function getAllThemeEntries() {
   if (process.env.CONFIG && process.env.CONFIG !== '') {
-    const config = require('../app/config').getNamedConfiguration(
-      process.env.CONFIG,
-    );
+    const config = await getNamedConfig(process.env.CONFIG);
 
     return {
       ...getEntries('default'),
       ...getEntries(process.env.CONFIG, config.sprites),
     };
   }
-  return getAllConfigs().reduce(
+  return (await getAllConfigs()).reduce(
     (prev, config) => ({
       ...prev,
       ...getEntries(config.CONFIG, config.sprites),
@@ -106,12 +112,10 @@ function faviconPluginFromConfig(config) {
   });
 }
 
-function getAllFaviconPlugins() {
-  return getAllConfigs().map(faviconPluginFromConfig);
+async function getAllFaviconPlugins() {
+  return (await getAllConfigs()).map(faviconPluginFromConfig);
 }
 
-module.exports = {
-  languages: getAllPossibleLanguages(),
-  themeEntries: getAllThemeEntries(),
-  faviconPlugins: getAllFaviconPlugins(),
-};
+export const languages = await getAllPossibleLanguages();
+export const themeEntries = await getAllThemeEntries();
+export const faviconPlugins = await getAllFaviconPlugins();

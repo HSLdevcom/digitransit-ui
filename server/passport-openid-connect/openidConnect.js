@@ -1,11 +1,12 @@
 /* eslint-disable func-names, no-console */
-const passport = require('passport');
-const session = require('express-session');
-const redis = require('redis');
-const axios = require('axios');
-const moment = require('moment');
-const RedisStore = require('connect-redis')(session);
-const LoginStrategy = require('./Strategy').Strategy;
+import passport from 'passport';
+import session from 'express-session';
+import redis from 'redis';
+import axios from 'axios';
+import moment from 'moment';
+import _connectRedis from 'connect-redis';
+const RedisStore = _connectRedis(session);
+import LoginStrategy from './Strategy.js';
 
 const clearAllUserSessions = false; // set true if logout should erase all user's sessions
 

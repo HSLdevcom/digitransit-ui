@@ -2,7 +2,9 @@
   "name": "@digitransit-store/digitransit-store-future-route",
   "version": "0.1.1",
   "description": "digitransit-store future-route module",
+  "type": "module",
   "main": "lib/index.js",
+  "module": "src/index.js",
   "publishConfig": {
     "access": "public"
   },
@@ -10,8 +12,8 @@
     "build:test": "babel test.js --presets=@babel/preset-react,@babel/preset-env --plugins=@babel/plugin-proposal-class-properties,@babel/plugin-proposal-numeric-separator --out-file test.generated",
     "watch": "ENV=development webpack --watch --config webpack.config.babel.js",
     "clean": "rm -rf ./lib ./node_modules",
-    "test": "mocha -r esm -r mock-local-storage test.generated",
-    "docs": "node -r esm ../../scripts/generate-readmes"
+    "test": "mocha -r mock-local-storage test.generated",
+    "docs": "node ../../scripts/generate-readmes"
   },
   "repository": {
     "type": "git",

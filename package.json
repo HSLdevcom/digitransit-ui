@@ -41,7 +41,7 @@
     "es-lint": "eslint .",
     "lint": "yarn run es-lint && yarn run stylelint",
     "stylelint": "stylelint sass/**/*.scss app/**/*.scss --syntax scss",
-    "build": "NODE_ENV=production && yarn prebuild && node --max_old_space_size=4096 node_modules/.bin/webpack --progress --color --display-error-details",
+    "build": "NODE_ENV=production && yarn prebuild && node --max_old_space_size=4096 node_modules/.bin/webpack --progress",
     "build-workspaces": "yarn build-components && yarn build-search-utils && yarn build-store",
     "win-build": "set NODE_ENV=production&& webpack --progress --color",
     "start": "NODE_ENV=production node $NODE_OPTS server/server",
@@ -70,6 +70,7 @@
     "build-store": "lerna run clean --scope '@digitransit-store/*' && NODE_ENV=production SCOPE='@digitransit-store/*' rollup -c ./config/rollup.config.js",
     "node14-patch": "rm -f ./node_modules/react-leaflet/node_modules/@babel/runtime/helpers/esm/package.json ./node_modules/@babel/runtime/helpers/esm/package.json"
   },
+  "type": "module",
   "main": "server.js",
   "repository": {
     "type": "git",

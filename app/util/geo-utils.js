@@ -1,8 +1,8 @@
 /* eslint-disable camelcase */
-import unzip from 'lodash/unzip';
+import unzip from 'lodash/unzip.js';
 
 import distance from '@digitransit-search-util/digitransit-search-util-distance';
-import { isImperial } from './browser';
+import { isImperial } from './browser.js';
 
 function toRad(deg) {
   return deg * (Math.PI / 180);

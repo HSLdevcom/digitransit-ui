@@ -1,12 +1,11 @@
 /* eslint-disable prefer-template */
-import configMerger from '../util/configMerger';
-import { BIKEAVL_WITHMAX } from '../util/citybikes';
+import configMerger from '../util/configMerger.js';
+import walttiConfig from './config.waltti.js';
+import { BIKEAVL_WITHMAX } from '../util/citybikes.js';
 
 const CONFIG = 'kouvola';
 const APP_TITLE = 'Kouvolan reittiopas';
 const APP_DESCRIPTION = 'Kouvolan reittiopas';
-
-const walttiConfig = require('./config.waltti').default;
 
 const minLat = 60.574886232976134;
 const maxLat = 61.2909051236272;

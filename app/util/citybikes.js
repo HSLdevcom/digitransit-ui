@@ -1,8 +1,8 @@
-import isString from 'lodash/isString';
-import without from 'lodash/without';
-import { getCustomizedSettings } from '../store/localStorage';
-import { addAnalyticsEvent } from './analyticsUtils';
-import { citybikeRoutingIsActive } from './modeUtils';
+import isString from 'lodash/isString.js';
+import without from 'lodash/without.js';
+import { getCustomizedSettings } from '../store/localStorage.js';
+import { addAnalyticsEvent } from './analyticsUtils.js';
+import { citybikeRoutingIsActive } from './modeUtils.js';
 
 export const BIKESTATION_ON = 'Station on';
 export const BIKESTATION_OFF = 'Station off';

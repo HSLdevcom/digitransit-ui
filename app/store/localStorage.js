@@ -1,4 +1,4 @@
-import { isBrowser } from '../util/browser';
+import { isBrowser } from '../util/browser.js';
 
 function handleSecurityError(error, logMessage) {
   if (error.name === 'SecurityError') {

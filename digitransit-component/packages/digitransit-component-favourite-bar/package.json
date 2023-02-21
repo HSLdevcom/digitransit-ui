@@ -2,6 +2,7 @@
   "name": "@digitransit-component/digitransit-component-favourite-bar",
   "version": "1.1.1",
   "description": "digitransit-component favourite-bar module",
+  "type": "module",
   "main": "index.js",
   "files": [
     "/lib",
@@ -15,8 +16,8 @@
     "build:test": "babel test.js --presets=@babel/preset-react,@babel/preset-env --plugins=@babel/plugin-proposal-class-properties,@babel/plugin-proposal-numeric-separator --out-file test.generated",
     "watch": "ENV=development NAME=digitransit-component-favourite-bar webpack --watch --config ../webpack.config.babel.js",
     "clean": "rm -rf ./lib ./node_modules",
-    "test": "mocha -r esm test.generated",
-    "docs": "node -r esm ../../scripts/generate-readmes"
+    "test": "mocha test.generated",
+    "docs": "node ../../scripts/generate-readmes"
   },
   "repository": {
     "type": "git",
