@@ -19,6 +19,7 @@ ENV \
   APP_PATH='' \
   CONFIG='' \
   NODE_ENV='' \
+  RUN_ENV='' \
   # setting a non-empty default value for NODE_OPTS
   # if you don't do this then yarn/node seem to think that you want to
   # execute a file called "" (empty string) and doesn't start the server
