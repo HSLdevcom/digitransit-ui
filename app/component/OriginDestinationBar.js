@@ -126,7 +126,9 @@ class OriginDestinationBar extends React.Component {
       this.props.locationState,
     );
     const desktopTargets = ['Locations', 'CurrentPosition', 'Stops'];
-    if (useCitybikes(this.context.config.cityBike?.networks)) {
+    if (
+      useCitybikes(this.context.config.cityBike?.networks, this.context.config)
+    ) {
       desktopTargets.push('BikeRentalStations');
     }
     const mobileTargets = [...desktopTargets, 'MapPosition'];
