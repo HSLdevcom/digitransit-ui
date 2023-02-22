@@ -757,7 +757,7 @@ div.origin-popup {
   fill-opacity: $stop-thin-opacity;
 }
 
-.map .legmarker-with-arrow {
+.map .arrow-bottomLeft {
   display: flex;
   align-items: center;
   min-width: 50px;
@@ -805,6 +805,149 @@ div.origin-popup {
   }
 }
 
+.map .arrow-bottomRight {
+  display: flex;
+  align-items: center;
+  min-width: 50px;
+  height: 18px;
+  .wide {
+    min-width: 64px;
+  }
+  .map-route-icon {
+    border: none;
+    font-size: 18px;
+  }
+  div {
+    @include font-narrow-medium;
+    border-radius: 3px;
+    height: 18px;
+    width: 100%;
+    margin-left: -50%;
+    margin-top: -9px;
+    display: flex;
+    position: relative;
+    left: 65%;
+    top: 100%;
+    white-space: nowrap;
+    background-color: var(--background-color);
+    .map-route-number {
+      width: calc(100% - 18px);
+      display: flex;
+      justify-content: center;
+      padding-right: 3px;
+      color: $white;
+    }
+    &::before {
+      content: '';
+      width: 0px;
+      height: 0px;
+      position: absolute;
+      border-left: 0px solid var(--background-color);
+      border-right: 15px solid transparent;
+      border-top: 0px solid transparent;
+      border-bottom: 15px solid var(--background-color);
+      top: -14px;
+      transform: skewX(40deg);
+    }
+  }
+}
+
+.map .arrow-topRight {
+  display: flex;
+  align-items: center;
+  min-width: 50px;
+  height: 18px;
+  .wide {
+    min-width: 64px;
+  }
+  .map-route-icon {
+    border: none;
+    font-size: 18px;
+  }
+  div {
+    @include font-narrow-medium;
+    border-radius: 3px;
+    height: 18px;
+    width: 100%;
+    margin-left: -50%;
+    margin-top: -9px;
+    display: flex;
+    position: relative;
+    left: 65%;
+    top: -130%;
+    white-space: nowrap;
+    background-color: var(--background-color);
+    .map-route-number {
+      width: calc(100% - 18px);
+      display: flex;
+      justify-content: center;
+      padding-right: 3px;
+      color: $white;
+    }
+    &::before {
+      content: '';
+      width: 0px;
+      height: 0px;
+      position: absolute;
+      border-right: 0px solid var(--background-color);
+      border-left: 15px solid transparent;
+      border-bottom: 0px solid transparent;
+      border-top: 15px solid var(--background-color);
+      top: 15px;
+      transform: skewX(120deg);
+      right: 42px;
+    }
+  }
+}
+
+.map .arrow-topLeft {
+  display: flex;
+  align-items: center;
+  min-width: 50px;
+  height: 18px;
+  .wide {
+    min-width: 64px;
+  }
+  .map-route-icon {
+    border: none;
+    font-size: 18px;
+  }
+  div {
+    @include font-narrow-medium;
+    border-radius: 3px;
+    height: 18px;
+    width: 100%;
+    margin-left: -50%;
+    margin-top: -9px;
+    display: flex;
+    position: relative;
+    left: -70%;
+    top: -130%;
+    white-space: nowrap;
+    background-color: var(--background-color);
+    .map-route-number {
+      width: calc(100% - 18px);
+      display: flex;
+      justify-content: center;
+      padding-right: 3px;
+      color: $white;
+    }
+    &::before {
+      content: '';
+      width: 0px;
+      height: 0px;
+      position: absolute;
+      border-right: 0px solid var(--background-color);
+      border-left: 15px solid transparent;
+      border-bottom: 0px solid transparent;
+      border-top: 15px solid var(--background-color);
+      top: 15px;
+      transform: skewX(45deg);
+      right: -5px;
+    }
+  }
+}
+
 .map .legmarker {
   display: flex;
   align-items: center;
@@ -813,10 +956,10 @@ div.origin-popup {
   .wide {
     min-width: 64px;
   }
-  &.speech-bubble.normal {
+  &.speech-bubble-topRight {
     background-color: transparent;
     div {
-      box-shadow: -3px 5px 8px 0 rgba(0, 0, 0, 0.3);
+      box-shadow: -8px 9px 8px 0 rgba(0, 0, 0, 0.3);
       @include font-medium;
       font-size: 15px;
       border-radius: 8px;
@@ -841,20 +984,13 @@ div.origin-popup {
       left: -12px;
       bottom: -11px;
       transform: skewX(-60deg);
-    }
-    .shadow {
-      top: -15px;
-      box-shadow: -10px 6px 8px 0 rgba(0, 0, 0, 0.5);
-      width: 5px;
-      height: 5px;
-      background-color: transparent;
-      position: absolute;
-      bottom: -11px;
+      box-shadow: #333333;
     }
   }
-  &.speech-bubble.flip {
+  &.speech-bubble-topLeft {
+    background-color: transparent;
     div {
-      box-shadow: -3px 5px 8px 0 rgba(0, 0, 0, 0.3);
+      box-shadow: 7px 10px 11px 0 rgba(0, 0, 0, 0.3);
       @include font-medium;
       font-size: 15px;
       border-radius: 8px;
@@ -864,7 +1000,36 @@ div.origin-popup {
       margin: 0;
       line-height: 2;
       position: relative;
-      left: calc(-100% - 7px);
+      left: -110%;
+      top: -35px;
+    }
+    :before {
+      content: '';
+      width: 0px;
+      height: 0px;
+      position: absolute;
+      border-left: 0px solid transparent;
+      border-right: 15px solid #ffffff;
+      border-top: 0px solid #ffffff;
+      border-bottom: 15px solid transparent;
+      left: 95px;
+      bottom: -11px;
+      transform: skewX(30deg);
+    }
+  }
+  &.speech-bubble-bottomLeft {
+    div {
+      box-shadow: 10px -5px 17px 0 rgba(0, 0, 0, 0.3);
+      @include font-medium;
+      font-size: 15px;
+      border-radius: 8px;
+      height: 30px;
+      padding: 0 7px;
+      background-color: $white;
+      margin: 0;
+      line-height: 2;
+      position: relative;
+      left: calc(-100% - 10px);
       top: 90%;
     }
     :before {
@@ -880,15 +1045,34 @@ div.origin-popup {
       top: -11px;
       transform: skewX(-60deg);
     }
-    .shadow {
-      top: 10px;
-      left: -22px;
-      box-shadow: 2px 2px 8px 0 rgba(0, 0, 0, 0.5);
-      width: 5px;
-      height: 5px;
-      background-color: transparent;
+  }
+  &.speech-bubble-bottomRight {
+    div {
+      box-shadow: -10px -7px 12px 0 rgba(0, 0, 0, 0.3);
+      @include font-medium;
+      font-size: 15px;
+      border-radius: 8px;
+      height: 30px;
+      padding: 0 7px;
+      background-color: $white;
+      margin: 0;
+      line-height: 2;
+      position: relative;
+      left: 15px;
+      top: 90%;
+    }
+    :before {
+      content: '';
+      width: 0px;
+      height: 0px;
       position: absolute;
-      bottom: -11px;
+      border-left: 0px solid #ffffff;
+      border-right: 15px solid transparent;
+      border-top: 0px solid transparent;
+      border-bottom: 15px solid #ffffff;
+      right: 95px;
+      top: -11px;
+      transform: skewX(-140deg);
     }
   }
   .map-route-icon {

@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { withLeaflet } from 'react-leaflet/es/context';
 import Icon from '../../Icon';
 
 import { isBrowser } from '../../../util/browser';
@@ -17,15 +16,9 @@ class LegMarker extends React.Component {
     leg: PropTypes.object.isRequired,
     mode: PropTypes.string.isRequired,
     color: PropTypes.string,
-    leaflet: PropTypes.shape({
-      map: PropTypes.shape({
-        latLngToLayerPoint: PropTypes.func.isRequired,
-        on: PropTypes.func.isRequired,
-        off: PropTypes.func.isRequired,
-      }).isRequired,
-    }).isRequired,
     zIndexOffset: PropTypes.number,
     wide: PropTypes.bool,
+    style: PropTypes.string,
   };
 
   static defaultProps = {
@@ -33,20 +26,8 @@ class LegMarker extends React.Component {
     zIndexOffset: undefined,
   };
 
-  componentDidMount() {
-    this.props.leaflet.map.on('zoomend', this.onMapZoom);
-  }
-
-  componentWillUnmount = () => {
-    this.props.leaflet.map.off('zoomend', this.onMapZoom);
-  };
-
-  onMapZoom = () => {
-    this.forceUpdate();
-  };
-
   // An arrow marker will be displayed if the normal marker can't fit
-  getLegMarker(withArrow = false) {
+  getLegMarker() {
     const color = this.props.color ? this.props.color : 'currentColor';
     const className = this.props.wide ? 'wide' : '';
     return (
@@ -67,9 +48,9 @@ class LegMarker extends React.Component {
             })}
               <span class="map-route-number">${this.props.leg.name}</span>
             </div>`,
-          className: `${withArrow ? 'legmarker-with-arrow' : 'legmarker'} ${
-            this.props.mode
-          }`,
+          className: `${
+            this.props.style ? `arrow-${this.props.style}` : 'legmarker'
+          } ${this.props.mode}`,
           iconSize: null,
         })}
         zIndexOffset={this.props.zIndexOffset}
@@ -83,13 +64,8 @@ class LegMarker extends React.Component {
       return '';
     }
 
-    const p1 = this.props.leaflet.map.latLngToLayerPoint(this.props.leg.from);
-    const p2 = this.props.leaflet.map.latLngToLayerPoint(this.props.leg.to);
-    const distance = p1.distanceTo(p2);
-    const minDistanceToShow = 64;
-
-    return <div>{this.getLegMarker(distance < minDistanceToShow)}</div>;
+    return <div>{this.getLegMarker()}</div>;
   }
 }
 
-export default withLeaflet(LegMarker);
+export default LegMarker;
