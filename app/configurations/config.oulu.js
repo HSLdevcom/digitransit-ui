@@ -146,8 +146,20 @@ export default configMerger(walttiConfig, {
       },
     ],
   },
+  geoJson: {
+    layers: [
+      {
+        name: {
+          fi: 'Vyöhykkeet',
+          sv: 'Zoner',
+          en: 'Zones',
+        },
+        url: '/assets/geojson/oulu_zone_lines_20230223.geojson',
+      },
+    ],
+  },
   zoneIdMapping: {
-    1: 'A-city',
+    1: 'L',
     2: 'A',
     3: 'B',
     4: 'C',
