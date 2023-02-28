@@ -49,9 +49,14 @@ class TransitLeg extends React.Component {
 
   stopCode = stopCode => stopCode && <StopCode code={stopCode} />;
 
+  isRouteConstantOperation = () =>
+    this.context.config.constantOperationRoutes &&
+    !!this.context.config.constantOperationRoutes[this.props.leg.route.gtfsId];
+
   displayAlternativeLegs = () =>
     !!this.context.config.showAlternativeLegs &&
-    this.props.leg.nextLegs?.length > 0;
+    this.props.leg.nextLegs?.length > 0 &&
+    !this.isRouteConstantOperation();
 
   toggleShowIntermediateStops = () => {
     addAnalyticsEvent({
@@ -440,6 +445,7 @@ class TransitLeg extends React.Component {
           />
 
           {this.state.showAlternativeLegs &&
+            !this.isRouteConstantOperation() &&
             leg.nextLegs.map(l => (
               <LegInfo
                 key={l.route.shortName + l.startTime}
