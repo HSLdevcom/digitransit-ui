@@ -4,15 +4,14 @@ import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
 import { createFragmentContainer, graphql } from 'react-relay';
-import AlertList from './AlertList';
+import DisruptionPageAlertList from './DisruptionPageAlertList';
 import Icon from './Icon';
 import { AlertSeverityLevelType } from '../constants';
 import {
-  getServiceAlertDescription,
-  getServiceAlertHeader,
-  getServiceAlertUrl,
+  getEntitiesOfTypeFromAlert,
+  getServiceAlertMetadata,
+  hasEntitiesOfType,
   isAlertValid,
-  createUniqueAlertList,
 } from '../util/alertUtils';
 import { isKeyboardSelectionEvent } from '../util/browser';
 import withBreakpoint from '../util/withBreakpoint';
@@ -21,19 +20,21 @@ const isDisruption = alert =>
   alert && alert.severityLevel !== AlertSeverityLevelType.Info;
 const isInfo = alert => !isDisruption(alert);
 
-const mapAlert = (alert, locale) => ({
-  description: getServiceAlertDescription(alert, locale),
-  header: getServiceAlertHeader(alert, locale),
-  route: { ...alert.route },
-  severityLevel: alert.alertSeverityLevel,
-  stop: { ...alert.stop },
-  url: getServiceAlertUrl(alert, locale),
-  validityPeriod: {
-    endTime: alert.effectiveEndDate,
-    startTime: alert.effectiveStartDate,
-  },
-  source: alert.feed,
-});
+const splitAlertByRouteModeAndColor = alert => {
+  const entitiesByModeAndColor = {};
+  alert.entities?.forEach(entity => {
+    // eslint-disable-next-line no-underscore-dangle
+    if (entity.__typename === 'Route') {
+      const color = entity.color ? entity.color.toLowerCase() : null;
+      const mapKey = `${entity.mode}-${color}`;
+      entitiesByModeAndColor[mapKey] = entitiesByModeAndColor[mapKey] || [];
+      entitiesByModeAndColor[mapKey].push(entity);
+    }
+  });
+  return Object.values(entitiesByModeAndColor).map(entities => {
+    return { ...alert, entities };
+  });
+};
 
 function DisruptionListContainer(
   { breakpoint, currentTime, viewer },
@@ -41,7 +42,7 @@ function DisruptionListContainer(
 ) {
   if (!viewer || !viewer.alerts || viewer.alerts.length === 0) {
     return (
-      <div className="stop-no-alerts-container">
+      <div className="no-alerts-container">
         <FormattedMessage
           id="disruption-info-no-alerts"
           defaultMessage="No known disruptions or diversions."
@@ -50,57 +51,30 @@ function DisruptionListContainer(
     );
   }
 
-  const routeAlerts = [];
-  const stopAlerts = [];
-  const mappedRouteDisruptions = [];
-  const mappedRouteServiceAlerts = [];
+  const validAlertsMapped = viewer.alerts
+    .map(alert => {
+      return { ...alert, ...getServiceAlertMetadata(alert) };
+    })
+    .filter(alert => isAlertValid(alert, currentTime));
 
-  const mappedStopDisruptions = [];
-  const mappedStopServiceAlerts = [];
-
-  viewer.alerts.forEach(alert => {
-    const mappedAlert = mapAlert(alert, intl.locale);
-    if (!isAlertValid(mappedAlert, currentTime)) {
-      return;
-    }
-    if (!isDisruption(mappedAlert)) {
-      if (alert.route) {
-        mappedRouteServiceAlerts.push(mappedAlert);
-      } else if (alert.stop) {
-        mappedStopServiceAlerts.push(mappedAlert);
-      }
-    } else if (alert.route) {
-      mappedRouteDisruptions.push(mappedAlert);
-    } else if (alert.stop) {
-      mappedStopDisruptions.push(mappedAlert);
-    }
-
-    if (alert.route) {
-      routeAlerts.push(mappedAlert);
-    } else if (alert.stop) {
-      stopAlerts.push(mappedAlert);
-    }
-  });
-
-  const disruptionCount =
-    createUniqueAlertList(mappedRouteDisruptions, false, currentTime, true)
-      .length +
-    createUniqueAlertList(mappedStopDisruptions, false, currentTime, true)
-      .length;
-  const infoCount =
-    createUniqueAlertList(mappedRouteServiceAlerts, false, currentTime, true)
-      .length +
-    createUniqueAlertList(mappedStopServiceAlerts, false, currentTime, true)
-      .length;
+  const disruptionCount = validAlertsMapped.filter(isDisruption).length;
+  const infoCount = validAlertsMapped.filter(isInfo).length;
 
   const [showDisruptions, setShowDisruptions] = useState(disruptionCount > 0);
 
-  const routeAlertsToShow = routeAlerts.filter(
-    showDisruptions ? isDisruption : isInfo,
-  );
-  const stopAlertsToShow = stopAlerts.filter(
-    showDisruptions ? isDisruption : isInfo,
-  );
+  const routeAlertsToShow = validAlertsMapped
+    .filter(alert => hasEntitiesOfType(alert, 'Route'))
+    .filter(showDisruptions ? isDisruption : isInfo)
+    .map(alert => {
+      return { ...alert, entities: getEntitiesOfTypeFromAlert(alert, 'Route') };
+    })
+    .flatMap(splitAlertByRouteModeAndColor);
+  const stopAlertsToShow = validAlertsMapped
+    .filter(alert => hasEntitiesOfType(alert, 'Stop'))
+    .filter(showDisruptions ? isDisruption : isInfo)
+    .map(alert => {
+      return { ...alert, entities: getEntitiesOfTypeFromAlert(alert, 'Stop') };
+    });
 
   return (
     <div className="disruption-list-container">
@@ -167,10 +141,11 @@ function DisruptionListContainer(
             <div>
               <FormattedMessage id="routes" tagName="h2" />
             </div>
-            <AlertList
+            <DisruptionPageAlertList
               disableScrolling
               showRouteNameLink
               serviceAlerts={routeAlertsToShow}
+              showRouteIcon
             />
           </React.Fragment>
         )}
@@ -179,7 +154,7 @@ function DisruptionListContainer(
             <div>
               <FormattedMessage id="stops" tagName="h2" />
             </div>
-            <AlertList
+            <DisruptionPageAlertList
               disableScrolling
               showRouteNameLink
               serviceAlerts={stopAlertsToShow}
@@ -210,9 +185,10 @@ DisruptionListContainer.defaultProps = {
 const containerComponent = createFragmentContainer(
   connectToStores(
     withBreakpoint(DisruptionListContainer),
-    ['TimeStore'],
+    ['TimeStore', 'PreferencesStore'],
     context => ({
       currentTime: context.getStore('TimeStore').getCurrentTime().unix(),
+      lang: context.getStore('PreferencesStore').getLanguage(),
     }),
   ),
   {
@@ -241,17 +217,21 @@ const containerComponent = createFragmentContainer(
             language
             text
           }
-          route {
-            color
-            mode
-            shortName
-            gtfsId
-          }
-          stop {
-            name
-            code
-            vehicleMode
-            gtfsId
+          entities {
+            __typename
+            ... on Stop {
+              name
+              code
+              vehicleMode
+              gtfsId
+            }
+            ... on Route {
+              color
+              type
+              mode
+              shortName
+              gtfsId
+            }
           }
         }
       }
