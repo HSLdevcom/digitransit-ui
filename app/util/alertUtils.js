@@ -691,6 +691,48 @@ export const alertCompare = (a, b) => {
 };
 
 /**
+ * Compares the given alert entities in order to sort them based route shortName
+ * or the stop name (and code).
+ *
+ * @param {*} entityA the first entity to compare.
+ * @param {*} entityB the second entity to compare.
+ */
+export const entityCompare = (entityA, entityB) => {
+  if (entityA.shortName) {
+    return routeNameCompare(entityA, entityB);
+  }
+  const nameCompare = `${entityA.name}`.localeCompare(entityB.name);
+  if (nameCompare !== 0) {
+    return nameCompare;
+  }
+  if (entityA.code && entityB.code) {
+    return `${entityA.code}`.localeCompare(entityB.code);
+  }
+  return nameCompare;
+};
+
+/**
+ * TODO replace old alert compare
+ *
+ * Compares the given alerts in order to sort them based on the entities
+ * and the validity period (in that order).
+ *
+ * @param {*} alertA the first alert to compare.
+ * @param {*} alertB the second alert to compare.
+ */
+export const newAlertCompare = (alertA, alertB) => {
+  const aEntitiesSorted = alertA.entities?.sort(entityCompare);
+  const bEntitiesSorted = alertB.entities?.sort(entityCompare);
+  const bestEntitiesCompared = entityCompare(
+    aEntitiesSorted[0],
+    bEntitiesSorted[0],
+  );
+  return bestEntitiesCompared === 0
+    ? alertB.validityPeriod.startTime - alertA.validityPeriod.startTime
+    : bestEntitiesCompared;
+};
+
+/**
  * Compares the given alerts in order to sort them based on severity level and affected entity.
  * The most severe alerts are sorted first, and alerts that affect routes are sorted before alerts
  * that don't affect a route.
@@ -853,3 +895,33 @@ export const mapAlertSource = (config, lang, feedName) => {
   }
   return '';
 };
+
+/**
+ * Returns entities of only the given entity type.
+ *
+ * @param {*} entities the entities to filter.
+ * @param {String} entityType the entity type.
+ */
+export const getEntitiesOfType = (entities, entityType) =>
+  // eslint-disable-next-line no-underscore-dangle
+  entities?.filter(entity => entity.__typename === entityType);
+
+/**
+ * Returns entities of only the given entity type from an alert.
+ *
+ * @param {*} alert the alert which can contain entities.
+ * @param {String} entityType the entity type.
+ */
+export const getEntitiesOfTypeFromAlert = (alert, entityType) =>
+  // eslint-disable-next-line no-underscore-dangle
+  alert?.entities?.filter(entity => entity.__typename === entityType);
+
+/**
+ * Checks if the alert has at least one entity of the given entity type.
+ *
+ * @param {*} alert the alert which can contain entities.
+ * @param {String} entityType the entity type.
+ */
+export const hasEntitiesOfType = (alert, entityType) =>
+  // eslint-disable-next-line no-underscore-dangle
+  alert?.entities?.some(entity => entity.__typename === entityType);
