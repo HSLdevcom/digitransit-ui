@@ -10,7 +10,7 @@ import { displayDistance } from '../util/geo-utils';
 import { durationToString } from '../util/timeUtils';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
 import { isKeyboardSelectionEvent } from '../util/browser';
-import { PREFIX_CARPARK } from '../util/path';
+import { PREFIX_CARPARK, joinPrefixAndId } from '../util/path';
 import ItineraryCircleLine from './ItineraryCircleLine';
 
 function CarParkLeg(props, { config, intl }) {
@@ -73,7 +73,7 @@ function CarParkLeg(props, { config, intl }) {
               onClick={e => {
                 e.stopPropagation();
               }}
-              to={`/${PREFIX_CARPARK}/${props.carPark.carParkId}`}
+              to={joinPrefixAndId(PREFIX_CARPARK, props.carPark.carParkId)}
             >
               <div className="address">
                 <FormattedMessage id="car_park" defaultMessage="Park & Ride" />

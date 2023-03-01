@@ -48,6 +48,10 @@ export const pathJoin = segments =>
     }, [])
     .join('/');
 
+export const joinPrefixAndId = (prefix, id) => {
+  // The prefix might contain intentional path separators, so we don't encode it here
+  return `/${prefix}/${encodeURIComponent(id)}`;
+};
 /**
  * @param {Object.<string, string>} params
  * @returns {string}
