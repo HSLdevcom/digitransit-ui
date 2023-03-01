@@ -21,14 +21,10 @@ jobs:
         uses: zcong1993/setup-timezone@master
         with:
           timezone: "Europe/Helsinki"
-      - uses: docker/setup-qemu-action@v2 
-        with:
-          platforms: arm64
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node-version }}         
-          architecture: 'arm64'
+          node-version: ${{ matrix.node-version }}          
       - name: Install dependencies
         run: yarn
       - name: Install dependencies and build shared components
@@ -51,15 +47,11 @@ jobs:
       - name: "Set time zone to Europe/Helsinki"
         uses: zcong1993/setup-timezone@master
         with:
-          timezone: "Europe/Helsinki"
-      - uses: docker/setup-qemu-action@v2 
-        with:
-          platforms: arm64
+          timezone: "Europe/Helsinki"     
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node-version }}
-          architecture: 'arm64'
+          node-version: ${{ matrix.node-version }}         
       - name: Install dependencies
         run: yarn
       - name: Install dependencies and build shared components
