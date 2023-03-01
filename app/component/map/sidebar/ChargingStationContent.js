@@ -211,52 +211,40 @@ const ChargingStationContent = ({ match }, { intl, config }) => {
     );
   };
 
-  const getPaymentTypes = () => {
-    const capabilities = details?.evses
-      ? details.evses[0].capabilities
-      : undefined;
-    const supportsRfid = capabilities?.includes('RFID_READER');
-    const rfidMessage = intl.formatMessage({
-      id: 'charging-payment-rfid',
-      defaultMessage: 'RFID',
-    });
-    const supportsCreditCard = capabilities?.includes('CREDIT_CARD_PAYABLE');
-    const creditCardMessage = intl.formatMessage({
-      id: 'charging-payment-credit',
-      defaultMessage: 'Credit Card',
-    });
-    const supportsDebitCard = capabilities?.includes('DEBIT_CARD_PAYABLE');
-    const debitCardMessage = intl.formatMessage({
-      id: 'charging-payment-debit',
-      defaultMessage: 'Debit Card',
-    });
-    const supportsContactless = capabilities?.includes(
-      'CONTACTLESS_CARD_SUPPORT',
-    );
-    const contactlessMessage = intl.formatMessage({
-      id: 'charging-payment-contactless',
-      defaultMessage: 'Contactless',
-    });
-    const unknownPaymentMessage = intl.formatMessage({
-      id: 'charging-payment-unknown',
-      defaultMessage: 'Unknown',
-    });
+  const knownPaymentTypes = [
+    ['RFID_READER', 'charging-payment-rfid', 'RFID'],
+    ['CREDIT_CARD_PAYABLE', 'charging-payment-credit', 'Credit Card'],
+    ['DEBIT_CARD_PAYABLE', 'charging-payment-debit', 'Debit Card'],
+    ['CONTACTLESS_CARD_SUPPORT', 'charging-payment-contactless', 'Contactless'],
+  ];
 
+  const getPaymentTypes = () => {
+    const capabilities = (details.evses || [])[0]?.capabilities || [];
+    const paymentTypes = knownPaymentTypes
+      .filter(([identifier]) => capabilities.includes(identifier))
+      .map(([identifier, messageId, defaultMessage]) => {
+        return (
+          <span key={identifier}>
+            {intl.formatMessage({
+              id: messageId,
+              defaultMessage,
+            })}
+          </span>
+        );
+      })
+      .reduce((acc, paymentType) => [...acc, ', ', paymentType], [])
+      .slice(1);
+
+    if (paymentTypes.length === 0) {
+      return null;
+    }
     return (
-      capabilities && (
-        <div>
-          {supportsRfid && <span>{`${rfidMessage}`}</span>}
-          {supportsCreditCard && <span>{`, ${creditCardMessage}`}</span>}
-          {supportsDebitCard && <span>{`, ${debitCardMessage}`}</span>}
-          {supportsContactless && <span>{`, ${contactlessMessage}`}</span>}
-          {!(
-            supportsRfid ||
-            supportsCreditCard ||
-            supportsDebitCard ||
-            supportsContactless
-          ) && <span>{`${unknownPaymentMessage}`}</span>}
-        </div>
-      )
+      <div className="text-light sidebar-info-container">
+        <Icon className="sidebar-info-icon" img="icon-icon_payment" />
+        <span className="text-alignment">
+          {paymentTypes}
+        </span>
+      </div>
     );
   };
 
@@ -287,10 +275,7 @@ const ChargingStationContent = ({ match }, { intl, config }) => {
           {getCapacity()}
         </div>
         <div className="divider" />
-        <div className="text-light sidebar-info-container">
-          <Icon className="sidebar-info-icon" img="icon-icon_payment" />
-          <span className="text-alignment">{getPaymentTypes()}</span>
-        </div>
+        {getPaymentTypes()}
         <div className="text-light sidebar-info-container">
           <Icon className="sidebar-info-icon" img="icon-icon_place" />
           <span className="text-alignment">{getAddress()}</span>
