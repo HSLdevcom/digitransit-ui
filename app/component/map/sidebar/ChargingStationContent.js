@@ -169,22 +169,19 @@ const ChargingStationContent = ({ match }, { intl, config }) => {
 
   const getOpeningTimes = () => {
     const openingTimes = details?.opening_times;
+    if (!openingTimes?.twentyfourseven) {
+      return null;
+    }
     return (
-      (openingTimes?.twentyfourseven && (
-        <div>
+      <div className="text-light opening-times-container">
+        <Icon className="sidebar-info-icon" img="icon-icon_schedule" />
+        <span className="text-alignment">
           {intl.formatMessage({
             id: 'open-24-7',
             defaultMessage: 'Open 24/7',
           })}
-        </div>
-      )) || (
-        <div>
-          {intl.formatMessage({
-            id: 'charging-opening-hours-unknown',
-            defaultMessage: 'Unknown opening hours',
-          })}
-        </div>
-      )
+        </span>
+      </div>
     );
   };
 
@@ -276,10 +273,7 @@ const ChargingStationContent = ({ match }, { intl, config }) => {
       newLayout
     >
       <div className="content">
-        <div className="text-light opening-times-container">
-          <Icon className="sidebar-info-icon" img="icon-icon_schedule" />
-          <span className="text-alignment">{getOpeningTimes()}</span>
-        </div>
+        {getOpeningTimes()}
         <div className="divider" />
         <div className="sidebar-info-container">
           <div className="connector-container">
