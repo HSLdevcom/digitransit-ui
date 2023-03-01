@@ -60,7 +60,7 @@ const getConnectors = evses => {
         return {
           id: String(connector.evse_id),
           standard: connector.standard,
-          maxAmperage: connector.max_amperage,
+          maxPower: connector.max_electric_power,
         };
       }),
     ],
@@ -70,13 +70,20 @@ const getConnectors = evses => {
     new Map(connectors?.map(item => [item.standard, item])).values(),
   );
 
-  return uniqueConnectors?.map(connector => ({
-    id: connector.id,
-    icon: CONNECTOR_ICONS_MAP[connector.standard],
-    text: `${CONNECTOR_TYPES_MAP[connector.standard] || connector.standard} - ${
-      connector.maxAmperage
-    } kW`,
-  }));
+  return uniqueConnectors?.map(connector => {
+    let text = '';
+    if (Number.isInteger(connector.maxPower)) {
+      const powerInKw = Math.floor(connector.maxPower / 1000);
+      text = `${
+        CONNECTOR_TYPES_MAP[connector.standard] || connector.standard
+      } - ${powerInKw} kW`;
+    }
+    return {
+      id: connector.id,
+      icon: CONNECTOR_ICONS_MAP[connector.standard],
+      text,
+    };
+  });
 };
 
 const ChargingStationContent = ({ match }, { intl, config }) => {
