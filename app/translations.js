@@ -629,6 +629,8 @@ const translations = {
     'itinerary-summary.bikePark-title': 'Fahrrad abstellen und weiterfahren',
     'itinerary-summary.interline-wait': 'Die Route ({shortName}) und Ziel ({destination}) werden sich am Halt {stop} verändern. Die Wartezeit beträgt {time}. Bitte bleiben Sie sitzen.',
     'itinerary-summary.show-on-map': 'Auf Karte zeigen {target}',
+    // TODO: rename to itinerary-summary....
+    'leave-your-car-park-and-ride': 'Am P&R-Parkplatz parken und weiterfahren',
     'disabled-parking-spaces-available':'{freeDisabled} von {totalDisabled} barrierefreien Stellplätzen verfügbar',
     'itinerary-ticket.title': 'Benötigte Fahrkarte',
     'itinerary-tickets.title': 'Benötigte Fahrkarten',

@@ -93,6 +93,8 @@ export default configMerger(walttiConfig, {
         includeParkAndRideSuggestions: true,
         includeCarSuggestions: true,
     },
+    // TODO shouldn't boolean be reversed? See https://github.com/HSLdevcom/digitransit-ui/pull/4648#discussion_r1121671721 
+    separatedParkAndRideSwitch: false,
 
     defaultOptions: {
         walkSpeed: [0.83, 1.38, 1.94],

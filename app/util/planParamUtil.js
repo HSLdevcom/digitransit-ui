@@ -440,14 +440,18 @@ export const preparePlanParams = (config, useDefaultModes) => (
         ? { mode: 'CAR', qualifier: 'PARK' }
         : { mode: 'CAR' },
     ],
-    parkRideModes: modesAsOTPModes(
-      filterModes(
-        config,
-        ['CAR_PARK', 'BUS', 'RAIL', 'SUBWAY'],
-        from,
-        to,
-        intermediatePlaces || [],
-      ),
-    ),
+    parkRideModes: 
+      [
+        { mode: 'CAR', qualifier: 'PARK' },
+        ...modesAsOTPModes(
+          filterModes(
+            config,
+            ['BUS', 'RAIL', 'SUBWAY'],
+            from,
+            to,
+            intermediatePlaces || [],
+          ),
+        ),
+      ]
   };
 };

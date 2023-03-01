@@ -215,10 +215,11 @@ export const filterModes = (config, modes, from, to, intermediatePlaces) => {
   if (!isString(modesStr)) {
     return [];
   }
-  const filtered = modesStr
+  let filtered = modesStr
     .split(',')
-    .filter(mode => isModeAvailable(config, mode))
-    .filter(mode =>
+    .filter(mode => isModeAvailable(config, mode));
+  filtered= 
+    filtered.filter(mode =>
       isModeAvailableInsidePolygons(config, mode, [
         from,
         to,
