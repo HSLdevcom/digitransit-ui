@@ -141,6 +141,7 @@ const ParkAndRideContent = (
   const showSpacesAvailable = !realtime && spacesAvailable;
 
   return (
+    // TODO refactor class name prefix
     <div className="bike-station-page-container">
       <ParkOrStationHeader parkOrStation={park} />
       <div className="park-content-container">
@@ -157,20 +158,21 @@ const ParkAndRideContent = (
               </span>
             </div>
           )}
-          {realtime && (
-            <span>
-              {intl.formatMessage({ id: 'park-and-ride-availability' })} &#160;
-              <p>
-                {spacesAvailable} / {maxCapacity}
-              </p>
-            </span>
-          )}
-          {showSpacesAvailable && (
-            <span>
-              {intl.formatMessage({ id: 'number-of-spaces' })} &#160;
-              <p>{spacesAvailable}</p>
-            </span>
-          )}
+          {Number.isInteger(maxCapacity) &&
+            (showSpacesAvailable ? (
+              <span>
+                {intl.formatMessage({ id: 'park-and-ride-availability' })}{' '}
+                &#160;
+                <p>
+                  {spacesAvailable} / {maxCapacity}
+                </p>
+              </span>
+            ) : (
+              <span>
+                {intl.formatMessage({ id: 'number-of-spaces' })} &#160;
+                <p>{maxCapacity}</p>
+              </span>
+            ))}
           {(parkIsFree || parkIsPaid) && (
             <span>
               {parkIsFree && intl.formatMessage({ id: 'free-of-charge' })}
