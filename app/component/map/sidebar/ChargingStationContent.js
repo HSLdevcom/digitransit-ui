@@ -58,6 +58,7 @@ const getConnectors = evses => {
       ...previous,
       ...evse.connectors.map(connector => {
         return {
+          id: String(connector.evse_id),
           standard: connector.standard,
           maxAmperage: connector.max_amperage,
         };
@@ -70,6 +71,7 @@ const getConnectors = evses => {
   );
 
   return uniqueConnectors?.map(connector => ({
+    id: connector.id,
     icon: CONNECTOR_ICONS_MAP[connector.standard],
     text: `${CONNECTOR_TYPES_MAP[connector.standard] || connector.standard} - ${
       connector.maxAmperage
@@ -275,7 +277,7 @@ const ChargingStationContent = ({ match }, { intl, config }) => {
         <div className="sidebar-info-container">
           <div className="connector-container">
             {connectors.map(connector => (
-              <div key={connector.text}>
+              <div key={connector.id}>
                 <span className="connector-icon">{connector.icon}</span>
                 <span className="text-alignment">{connector.text}</span>
               </div>
