@@ -195,19 +195,19 @@ const ChargingStationContent = ({ match }, { intl, config }) => {
     );
   };
 
-  const getPhoneNumber = () => {
+  const getPhoneInfo = () => {
     const { evses } = details;
     const phone = evses ? evses[0].phone : undefined;
+    if (!phone) {
+      return null;
+    }
     return (
-      (phone && <div>{phone.replace('00', '+')}</div>) || (
-        <div>
-          {' '}
-          {intl.formatMessage({
-            id: 'charging-payment-unknown',
-            defaultMessage: 'Unknown',
-          })}
-        </div>
-      )
+      <div className="text-light sidebar-info-container">
+        <Icon className="sidebar-info-icon" img="icon-icon_call" />
+        <span className="text-alignment">
+          <div>{phone.replace('00', '+')}</div>
+        </span>
+      </div>
     );
   };
 
@@ -295,10 +295,7 @@ const ChargingStationContent = ({ match }, { intl, config }) => {
           <Icon className="sidebar-info-icon" img="icon-icon_place" />
           <span className="text-alignment">{getAddress()}</span>
         </div>
-        <div className="text-light sidebar-info-container">
-          <Icon className="sidebar-info-icon" img="icon-icon_call" />
-          <span className="text-alignment">{getPhoneNumber()}</span>
-        </div>
+        {getPhoneInfo()}
         <div className="divider" />
         {getDirectDeepLink()}
       </div>
