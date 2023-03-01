@@ -16,15 +16,16 @@ jobs:
         node-version: [12.x]
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: "Set time zone to Europe/Helsinki"
         uses: zcong1993/setup-timezone@master
         with:
           timezone: "Europe/Helsinki"
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: ${{ matrix.node-version }}         
+          architecture: 'arm64'
       - name: Install dependencies
         run: yarn
       - name: Install dependencies and build shared components
@@ -43,15 +44,16 @@ jobs:
         node-version: [12.x]
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: "Set time zone to Europe/Helsinki"
         uses: zcong1993/setup-timezone@master
         with:
           timezone: "Europe/Helsinki"
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
+          architecture: 'arm64'
       - name: Install dependencies
         run: yarn
       - name: Install dependencies and build shared components
@@ -71,7 +73,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Set time zone to Europe/Helsinki
         uses: zcong1993/setup-timezone@master
