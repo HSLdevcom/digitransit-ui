@@ -300,7 +300,9 @@ const translations = {
     'weekday-su': 'Sonntag',
     'weekday-ph': 'Gesetzlicher Feiertag',
     'opening-hours': 'Öffnungszeiten',
+    // duplicate of `number-of-spaces`
     'parking-spaces-in-total': '{total} Stellplätze',
+    // duplicate of `park-and-ride-availability`
     'parking-spaces-available': '{free} von {total} Stellplätzen verfügbar',
     'map-layer-dynamic-parking-lots': 'Parkplätze',
     'map-layer-roadworks': 'Baustellen',
@@ -415,6 +417,10 @@ const translations = {
     'bike-not-allowed-bus': 'Keine Fahrradmitnahme im Bus',
     'bike-not-allowed-tram': 'Keine Fahrradmitnahme in der Straßenbahn',
     'bike-park': 'Fahrrad abstellen',
+    'bike-park-disclaimer':
+      'Stelle dein Fahrrad an der Fahrradabstellanlage ab und fahre mit den öffentlichen Verkehrsmitteln weiter.',
+    'bike-park-disclaimer-header': 'Parke dein Fahrrad',
+    'bike-park-disclaimer-link': 'Erfahre mehr zu Fahrradabstellmöglichkeiten',
     'bike-station-disabled': 'Leihstation außer Betrieb.',
     'bikes-available': 'Fahrräder verfügbar',
     'biketransport-citybike': 'Ich benutze ein Leihrad',
@@ -438,6 +444,10 @@ const translations = {
     'car-distance-duration': 'Fahren {duration} ({distance})',
     'car-park-full': 'Volle Parkplätze ausschließen',
     car_park: 'Park & Ride',
+    'car-park-disclaimer':
+      'Parke dein Auto und fahre mit den öffentlichen Verkehrsmitteln weiter.',
+    'car-park-disclaimer-header': 'Parke dein Auto',
+    'car-park-disclaimer-link': 'Weitere Informationen',
     carpool: 'Fahrgemeinschaft',
     'carpool-legal-notice': 'Dies ist ein Angebot des externen Anbieters ride2Go GmbH.',
     'card-header-back-to-result-list' : 'Zurück zu den Ergebnissen',
@@ -757,6 +767,8 @@ const translations = {
       '{number, plural, =0 {Keine Zwischenstopps} one {1 Zwischenstopp} other {{number} Zwischenstopps} }',
     'number-of-minutes':
       '{number, plural, =0 {0 Minuten} one {1 Minute} other {{number} Minuten}}',
+    // duplicate of `parking-spaces-in-total`
+    'number-of-spaces': 'Anzahl der Stellplätze:',
     'off-canvas-info':
       'Mit einer Anmeldung können Sie Favoriten speichern und auf anderen Geräten wieder verwenden.',
     'only-public-transport-disclaimer': 'Preisauskunft nur für ÖPNV gültig.',
@@ -786,6 +798,7 @@ const translations = {
     'position-disclaimer': 'Position ist geschätzt. Letzte bekannte Position von {time} Uhr.',
     'page-not-found': 'Oh! Seite wurde nicht gefunden ੨( ･᷄ ︵･᷅ )ｼ',
     'park-and-ride': 'Park-and-Ride',
+    // duplicate of `parking-spaces-available`
     'park-and-ride-availability': 'Plätze verfügbar',
     'park-and-ride-unknown': 'Unbekannte Kapazität',
     'pay-attention': 'Achtung',
