@@ -325,10 +325,8 @@ class IndexPage extends React.Component {
             origin={origin}
             omitLanguageUrl
             onClick={this.clickStopNearIcon}
-            buttonStyle={
-              narrowButtons ? undefined : transportModes?.nearYouButton
-            }
-            title={narrowButtons ? undefined : transportModes?.nearYouTitle}
+            buttonStyle={narrowButtons ? undefined : config.nearYouButton}
+            title={narrowButtons ? undefined : config.nearYouTitle}
             modes={narrowButtons ? undefined : modeTitles}
             modeSet={config.nearbyModeSet || config.iconModeSet}
             modeIconColors={config.colors.iconColors}
