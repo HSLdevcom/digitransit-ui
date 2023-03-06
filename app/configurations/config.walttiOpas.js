@@ -168,4 +168,22 @@ export default configMerger(walttiConfig, {
       en: 'Salo',
     },
   },
+
+  useSearchPolygon: true,
+
+  areaPolygon: [
+    // Kajaani:
+    [63.7, 28.2],
+    [64.0, 26.7],
+    [64.5, 26.6],
+    [64.5, 29.5],
+    [63.8, 29.4],
+    [63.7, 28.2],
+    // Salo:
+    [60.6, 22.7],
+    [60.6, 23.9],
+    [60.2, 23.7],
+    [59.9, 22.8],
+    [60.6, 22.7],
+  ],
 });
