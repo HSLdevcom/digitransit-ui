@@ -166,7 +166,4 @@ export default configMerger(walttiConfig, {
     stops: true,
     itinerary: true,
   },
-
-  // DT-4802 Toggling this off shows the alert bodytext instead of the header
-  showAlertHeader: false,
 });
