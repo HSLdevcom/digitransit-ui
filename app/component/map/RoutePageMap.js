@@ -15,6 +15,7 @@ import { mapLayerShape } from '../../store/MapLayerStore';
 import { boundWithMinimumArea } from '../../util/geo-utils';
 import { getMapLayerOptions } from '../../util/mapLayerUtils';
 import { mapLayerOptionsShape } from '../../util/shapes';
+import CookieSettingsButton from '../CookieSettingsButton';
 
 class RoutePageMap extends React.Component {
   constructor(props) {
@@ -175,6 +176,7 @@ class RoutePageMap extends React.Component {
             />
           </React.Fragment>
         )}
+        {this.context.config.useCookiesPrompt && <CookieSettingsButton />}
       </MapWithTracking>
     );
   }
