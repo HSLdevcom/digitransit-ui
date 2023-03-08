@@ -25,7 +25,8 @@ const splitAlertByRouteModeAndColor = alert => {
   alert.entities?.forEach(entity => {
     // eslint-disable-next-line no-underscore-dangle
     if (entity.__typename === 'Route') {
-      const mapKey = `${entity.mode}-${entity.color}`;
+      const color = entity.color ? entity.color.toLowerCase() : null;
+      const mapKey = `${entity.mode}-${color}`;
       entitiesByModeAndColor[mapKey] = entitiesByModeAndColor[mapKey] || [];
       entitiesByModeAndColor[mapKey].push(entity);
     }
