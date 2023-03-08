@@ -11,6 +11,7 @@ import {
   getEntitiesOfTypeFromAlert,
   getServiceAlertMetadata,
   hasEntitiesOfType,
+  hasEntitiesOfTypes,
   isAlertValid,
 } from '../util/alertUtils';
 import { isKeyboardSelectionEvent } from '../util/browser';
@@ -55,7 +56,8 @@ function DisruptionListContainer(
     .map(alert => {
       return { ...alert, ...getServiceAlertMetadata(alert) };
     })
-    .filter(alert => isAlertValid(alert, currentTime));
+    .filter(alert => isAlertValid(alert, currentTime))
+    .filter(alert => hasEntitiesOfTypes(alert, ['Route', 'Stop']));
 
   const disruptionCount = validAlertsMapped.filter(isDisruption).length;
   const infoCount = validAlertsMapped.filter(isInfo).length;

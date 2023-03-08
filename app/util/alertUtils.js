@@ -582,6 +582,19 @@ export const hasEntitiesOfType = (alert, entityType) =>
   alert?.entities?.some(entity => entity.__typename === entityType);
 
 /**
+ * Checks if the alert has at least one entity of the given entity type.
+ *
+ * @param {*} alert the alert which can contain entities.
+ * @param {Array.<String>} entityTypes the entity type of which at least one
+ *                                     should exist in the alert.
+ */
+export const hasEntitiesOfTypes = (alert, entityTypes) =>
+  alert?.entities?.some(entity =>
+    // eslint-disable-next-line no-underscore-dangle
+    entityTypes.includes(entity.__typename),
+  );
+
+/**
  * Filters away entities from alert that are not of the given type
  *
  * @param {*} alert the alert which can contain entities.
