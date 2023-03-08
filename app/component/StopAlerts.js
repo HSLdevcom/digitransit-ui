@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { intlShape } from 'react-intl';
 
 import AlertList from './AlertList';
 import DepartureCancelationInfo from './DepartureCancelationInfo';
@@ -16,16 +15,15 @@ import { ServiceAlertShape } from '../util/shapes';
 
 /**
  * @param {Object.<string,*>} stop
- * @param {Object.<string,*>} intl
  * @returns {Array.<Object>}
  */
-export const findCancellationsAndServiceAlerts = (stop, locale) => {
+export const findCancellationsAndServiceAlerts = stop => {
   const serviceAlertsForRoutes = [];
 
   if (stop.routes) {
     stop.routes.forEach(route => {
       if (routeHasServiceAlert(route)) {
-        serviceAlertsForRoutes.push(...getServiceAlertsForRoute(route, locale));
+        serviceAlertsForRoutes.push(...getServiceAlertsForRoute(route));
       }
     });
   }
@@ -33,14 +31,14 @@ export const findCancellationsAndServiceAlerts = (stop, locale) => {
   const isTerminal = !stop.code;
   return [
     // Alerts for terminal's stops.
-    ...getServiceAlertsForTerminalStops(isTerminal, stop, locale),
-    ...getServiceAlertsForStop(stop, locale),
-    ...getServiceAlertsForStopRoutes(stop, locale),
+    ...getServiceAlertsForTerminalStops(isTerminal, stop),
+    ...getServiceAlertsForStop(stop),
+    ...getServiceAlertsForStopRoutes(stop),
     ...serviceAlertsForRoutes,
   ];
 };
 
-const StopAlerts = ({ stop }, { intl }) => {
+const StopAlerts = ({ stop }) => {
   const cancelations = getCancelationsForStop(stop).map(stoptime => {
     const { color, mode, shortName } = stoptime.trip.route;
     const departureTime = stoptime.serviceDay + stoptime.scheduledDeparture;
@@ -65,7 +63,7 @@ const StopAlerts = ({ stop }, { intl }) => {
     };
   });
 
-  const serviceAlerts = findCancellationsAndServiceAlerts(stop, intl.locale);
+  const serviceAlerts = findCancellationsAndServiceAlerts(stop);
 
   return (
     <AlertList
@@ -115,10 +113,6 @@ StopAlerts.propTypes = {
       }),
     ).isRequired,
   }).isRequired,
-};
-
-StopAlerts.contextTypes = {
-  intl: intlShape.isRequired,
 };
 
 export default StopAlerts;

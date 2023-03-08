@@ -61,18 +61,6 @@ const containerComponent = createFragmentContainer(TerminalAlertsContainer, {
           alertUrl
           effectiveEndDate
           effectiveStartDate
-          alertDescriptionTextTranslations {
-            language
-            text
-          }
-          alertHeaderTextTranslations {
-            language
-            text
-          }
-          alertUrlTranslations {
-            language
-            text
-          }
           entities {
             __typename
             ... on Route {
@@ -99,18 +87,6 @@ const containerComponent = createFragmentContainer(TerminalAlertsContainer, {
           alertUrl
           effectiveEndDate
           effectiveStartDate
-          alertDescriptionTextTranslations {
-            language
-            text
-          }
-          alertHeaderTextTranslations {
-            language
-            text
-          }
-          alertUrlTranslations {
-            language
-            text
-          }
         }
       }
       alerts {
@@ -122,18 +98,6 @@ const containerComponent = createFragmentContainer(TerminalAlertsContainer, {
         alertUrl
         effectiveEndDate
         effectiveStartDate
-        alertDescriptionTextTranslations {
-          language
-          text
-        }
-        alertHeaderTextTranslations {
-          language
-          text
-        }
-        alertUrlTranslations {
-          language
-          text
-        }
       }
       stoptimes: stoptimesWithoutPatterns(
         startTime: $startTime
@@ -163,18 +127,6 @@ const containerComponent = createFragmentContainer(TerminalAlertsContainer, {
               alertUrl
               effectiveEndDate
               effectiveStartDate
-              alertDescriptionTextTranslations {
-                language
-                text
-              }
-              alertHeaderTextTranslations {
-                language
-                text
-              }
-              alertUrlTranslations {
-                language
-                text
-              }
             }
           }
           stops {

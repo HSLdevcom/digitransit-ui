@@ -48,20 +48,8 @@ export const FareShape = PropTypes.shape({
  */
 export const ServiceAlertShape = PropTypes.shape({
   alertDescriptionText: PropTypes.string,
-  alertDescriptionTextTranslations: PropTypes.arrayOf(
-    PropTypes.shape({
-      language: PropTypes.string,
-      text: PropTypes.string,
-    }),
-  ),
   alertHash: PropTypes.number,
   alertHeaderText: PropTypes.string,
-  alertHeaderTextTranslations: PropTypes.arrayOf(
-    PropTypes.shape({
-      language: PropTypes.string,
-      text: PropTypes.string,
-    }),
-  ),
   alertSeverityLevel: PropTypes.string,
   effectiveEndDate: PropTypes.number,
   effectiveStartDate: PropTypes.number,

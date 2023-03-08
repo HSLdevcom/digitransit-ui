@@ -205,18 +205,6 @@ const containerComponent = createFragmentContainer(
           alertUrl
           effectiveEndDate
           effectiveStartDate
-          alertDescriptionTextTranslations {
-            language
-            text
-          }
-          alertHeaderTextTranslations {
-            language
-            text
-          }
-          alertUrlTranslations {
-            language
-            text
-          }
           entities {
             __typename
             ... on Stop {

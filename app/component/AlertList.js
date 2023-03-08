@@ -6,20 +6,15 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import AlertRow from './AlertRow';
-import {
-  getServiceAlertDescription,
-  getServiceAlertHeader,
-  getServiceAlertUrl,
-  alertCompare,
-} from '../util/alertUtils';
+import { alertCompare } from '../util/alertUtils';
 import withBreakpoint from '../util/withBreakpoint';
 
-const mapAlert = (alert, locale) => ({
-  description: getServiceAlertDescription(alert, locale),
-  header: getServiceAlertHeader(alert, locale),
+const mapAlert = alert => ({
+  description: alert.alertDescriptionText,
+  header: alert.alertHeaderText,
   entities: alert.entities,
   severityLevel: alert.alertSeverityLevel,
-  url: getServiceAlertUrl(alert, locale),
+  url: alert.alertUrl,
   validityPeriod: alert.validityPeriod,
   feed: alert.feed,
 });
@@ -34,7 +29,6 @@ const AlertList = ({
   showRouteNameLink,
   showRouteIcon,
   breakpoint,
-  lang,
 }) => {
   if (serviceAlerts.length === 0) {
     return (
@@ -48,7 +42,7 @@ const AlertList = ({
   }
 
   const simplifiedAlertsSorted = serviceAlerts
-    .map(alert => mapAlert(alert, lang))
+    .map(alert => mapAlert(alert))
     .sort(alertCompare);
 
   return (
@@ -134,7 +128,6 @@ AlertList.propTypes = {
   showRouteNameLink: PropTypes.bool,
   showRouteIcon: PropTypes.bool,
   breakpoint: PropTypes.string,
-  lang: PropTypes.string.isRequired,
 };
 
 AlertList.defaultProps = {
@@ -151,7 +144,6 @@ const connectedComponent = connectToStores(
   ['TimeStore', 'PreferencesStore'],
   context => ({
     currentTime: context.getStore('TimeStore').getCurrentTime().unix(),
-    lang: context.getStore('PreferencesStore').getLanguage(),
   }),
 );
 

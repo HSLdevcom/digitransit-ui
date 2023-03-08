@@ -1,4 +1,3 @@
-import find from 'lodash/find';
 import isNumber from 'lodash/isNumber';
 import uniqBy from 'lodash/uniqBy';
 import routeNameCompare from '@digitransit-search-util/digitransit-search-util-route-name-compare';
@@ -185,52 +184,6 @@ export const getCancelationsForStop = stop => {
   return stop.stoptimes.filter(stoptimeHasCancelation);
 };
 
-const getTranslation = (translations, defaultValue, locale) => {
-  if (!Array.isArray(translations)) {
-    return defaultValue;
-  }
-  const translation =
-    find(translations, t => t.language === locale) ||
-    find(translations, t => !t.language && t.text) ||
-    find(translations, t => t.language === 'en');
-  return translation ? translation.text : defaultValue;
-};
-
-/**
- * Attempts to find the alert's header in the given language.
- *
- * @param {*} alert the alert object to look into.
- * @param {*} locale the locale to use, defaults to 'en'.
- */
-export const getServiceAlertHeader = (alert, locale = 'en') =>
-  getTranslation(
-    alert.alertHeaderTextTranslations,
-    alert.alertHeaderText || '',
-    locale,
-  );
-
-/**
- * Attempts to find the alert's description in the given language.
- *
- * @param {*} alert the alert object to look into.
- * @param {*} locale the locale to use, defaults to 'en'.
- */
-export const getServiceAlertDescription = (alert, locale = 'en') =>
-  getTranslation(
-    alert.alertDescriptionTextTranslations,
-    alert.alertDescriptionText || '',
-    locale,
-  );
-
-/**
- * Attempts to find alert's url in the given language.
- *
- * @param {*} alert the alert object to look into.
- * @param {*} locale the locale to use, defaults to 'en'.
- */
-export const getServiceAlertUrl = (alert, locale = 'en') =>
-  getTranslation(alert.alertUrlTranslations, alert.alertUrl || '', locale);
-
 /**
  * Maps the OTP-style Service Alert's properties that
  * are most relevant to deciding whether the alert should be
@@ -249,20 +202,18 @@ export const getServiceAlertMetadata = (alert = {}) => ({
 /**
  * @param {Object.<string, *>} entityWithAlert
  * @param {Object.<atring, *>} route
- * @param {string} [locale]
  * @returns {Array.<Object.<string,*>>} formatted alerts
  */
 const getServiceAlerts = (
   { alerts } = {},
   { color, mode, shortName, routeGtfsId, stopGtfsId, type } = {},
-  locale = 'en',
 ) =>
   Array.isArray(alerts)
     ? alerts.map(alert => ({
         ...getServiceAlertMetadata(alert),
-        description: getServiceAlertDescription(alert, locale),
+        description: alert.alertDescriptionText,
         hash: alert.alertHash,
-        header: getServiceAlertHeader(alert, locale),
+        header: alert.alertHeaderText,
         route: {
           color,
           mode,
@@ -273,7 +224,7 @@ const getServiceAlerts = (
         stop: {
           gtfsId: stopGtfsId,
         },
-        url: getServiceAlertUrl(alert, locale),
+        url: alert.alertUrl,
       }))
     : [];
 
@@ -282,9 +233,8 @@ const getServiceAlerts = (
  * maps them to the format understood by the UI.
  *
  * @param {Object.<string,*>} route the route object to retrieve alerts from.
- * @param {string} [locale] the locale to use, defaults to 'en'.
  */
-export const getServiceAlertsForRoute = (route, locale = 'en') => {
+export const getServiceAlertsForRoute = route => {
   if (!route || !Array.isArray(route.alerts)) {
     return [];
   }
@@ -294,7 +244,6 @@ export const getServiceAlertsForRoute = (route, locale = 'en') => {
       alerts: route.alerts,
     },
     { ...route, routeGtfsId: route && route.gtfsId },
-    locale,
   );
 };
 
@@ -303,10 +252,9 @@ export const getServiceAlertsForRoute = (route, locale = 'en') => {
  * maps them to the format understood by the UI.
  *
  * @param {*} stop the stop object to retrieve alerts from.
- * @param {*} locale the locale to use, defaults to 'en'.
  */
-export const getServiceAlertsForStop = (stop, locale = 'en') =>
-  getServiceAlerts(stop, { stopGtfsId: stop && stop.gtfsId }, locale);
+export const getServiceAlertsForStop = stop =>
+  getServiceAlerts(stop, { stopGtfsId: stop && stop.gtfsId });
 
 /**
  * Retrieves OTP-style Service Alerts from the given Terminal stop's stops  and
@@ -314,17 +262,12 @@ export const getServiceAlertsForStop = (stop, locale = 'en') =>
  *
  * @param {boolean} isTerminal Check that this stop is indeed terminal.
  * @param {string} stop the stop object to retrieve alerts from.
- * @param {*} locale the locale to use, defaults to 'en'.
  */
-export const getServiceAlertsForTerminalStops = (
-  isTerminal,
-  stop,
-  locale = 'en',
-) => {
+export const getServiceAlertsForTerminalStops = (isTerminal, stop) => {
   const alerts =
     isTerminal && stop.stops
       ? stop.stops
-          .map(terminalStop => getServiceAlertsForStop(terminalStop, locale))
+          .map(terminalStop => getServiceAlertsForStop(terminalStop))
           .filter(arr => arr.length > 0)
       : [];
   return alerts.reduce((a, b) => a.concat(b), []);
@@ -336,9 +279,8 @@ export const getServiceAlertsForTerminalStops = (
  * by the UI.
  *
  * @param {*} stop the stop object to retrieve alerts from.
- * @param {*} locale the locale to use, defaults to 'en'.
  */
-export const getServiceAlertsForStopRoutes = (stop, locale = 'en') => {
+export const getServiceAlertsForStopRoutes = stop => {
   if (!stop || !Array.isArray(stop.stoptimes)) {
     return [];
   }
@@ -351,7 +293,7 @@ export const getServiceAlertsForStopRoutes = (stop, locale = 'en') => {
       })),
     route => route.shortName,
   )
-    .map(route => getServiceAlertsForRoute(route, locale))
+    .map(route => getServiceAlertsForRoute(route))
     .reduce((a, b) => a.concat(b), []);
 };
 
@@ -361,17 +303,12 @@ export const getServiceAlertsForStopRoutes = (stop, locale = 'en') => {
  *
  * @param {Object.<string,*>} trip
  * @param {Object.<string,*>} route
- * @param {string} [locale]
  *
  * @returns {Array.<Object.<string,*>>}
  */
-const getServiceAlertsForTrip = (trip, route, locale = 'en') =>
+const getServiceAlertsForTrip = (trip, route) =>
   trip?.alerts
-    ? getServiceAlerts(
-        trip,
-        { ...(route || []), routeGtfsId: route?.gtfsId },
-        locale,
-      )
+    ? getServiceAlerts(trip, { ...(route || []), routeGtfsId: route?.gtfsId })
     : [];
 
 const isValidArray = array => Array.isArray(array) && array.length > 0;
@@ -493,9 +430,8 @@ export const getActiveLegAlertSeverityLevel = leg => {
  *
  * @param {*} leg the itinerary leg to check.
  * @param {*} legStartTime the reference unix time stamp (in seconds).
- * @param {*} locale the locale to use, defaults to 'en'.
  */
-export const getActiveLegAlerts = (leg, legStartTime, locale = 'en') => {
+export const getActiveLegAlerts = (leg, legStartTime) => {
   if (!leg) {
     return undefined;
   }
@@ -503,9 +439,9 @@ export const getActiveLegAlerts = (leg, legStartTime, locale = 'en') => {
   const { route, trip } = leg;
 
   const serviceAlerts = [
-    ...getServiceAlertsForRoute(route, locale),
-    ...getServiceAlertsForStop(leg?.from.stop, locale),
-    ...getServiceAlertsForStop(leg?.to.stop, locale),
+    ...getServiceAlertsForRoute(route),
+    ...getServiceAlertsForStop(leg?.from.stop),
+    ...getServiceAlertsForStop(leg?.to.stop),
     ...getServiceAlertsForTrip(trip, route),
   ].filter(alert => isAlertActive([{}], alert, legStartTime) !== false);
 
@@ -593,8 +529,8 @@ export const hasMeaningfulData = alerts => {
     return false;
   }
   const alertForDisplaying = [...alerts].sort(alertSeverityCompare)[0];
-  const header = getServiceAlertHeader(alertForDisplaying);
-  const description = getServiceAlertDescription(alertForDisplaying);
+  const header = alertForDisplaying.alertHeaderText;
+  const description = alertForDisplaying.alertDescriptionText;
   if (
     (header && header.length > 0) ||
     (description && description.length > 0)
@@ -662,7 +598,6 @@ export const getAlertWithEntitiesOfTypeOnly = (alert, entityType) => {
  * Retrieves OTP-style Service Alerts from the given pattern's stops.
  *
  * @param {*} pattern the pattern object to retrieve alerts from.
- * @param {*} locale the locale to use, defaults to 'en'.
  */
 export const getServiceAlertsForPatternsStops = patterns => {
   if (!patterns || !Array.isArray(patterns)) {
@@ -685,7 +620,6 @@ export const getServiceAlertsForPatternsStops = patterns => {
  * Retrieves OTP-style Service Alerts from the given pattern's stops.
  *
  * @param {*} pattern the pattern object to retrieve alerts from.
- * @param {*} locale the locale to use, defaults to 'en'.
  */
 export const getServiceAlertsForPatternStops = pattern => {
   if (!pattern) {

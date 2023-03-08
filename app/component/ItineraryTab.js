@@ -431,20 +431,8 @@ const withRelay = createFragmentContainer(
                 effectiveEndDate
                 effectiveStartDate
                 alertHeaderText
-                alertHeaderTextTranslations {
-                  text
-                  language
-                }
                 alertDescriptionText
-                alertDescriptionTextTranslations {
-                  text
-                  language
-                }
                 alertUrl
-                alertUrlTranslations {
-                  text
-                  language
-                }
               }
             }
           }
@@ -475,20 +463,8 @@ const withRelay = createFragmentContainer(
                 effectiveEndDate
                 effectiveStartDate
                 alertHeaderText
-                alertHeaderTextTranslations {
-                  text
-                  language
-                }
                 alertDescriptionText
-                alertDescriptionTextTranslations {
-                  text
-                  language
-                }
                 alertUrl
-                alertUrlTranslations {
-                  text
-                  language
-                }
               }
             }
             bikePark {
@@ -553,20 +529,8 @@ const withRelay = createFragmentContainer(
                 }
               }
               alertHeaderText
-              alertHeaderTextTranslations {
-                text
-                language
-              }
               alertDescriptionText
-              alertDescriptionTextTranslations {
-                text
-                language
-              }
               alertUrl
-              alertUrlTranslations {
-                text
-                language
-              }
             }
           }
           trip {

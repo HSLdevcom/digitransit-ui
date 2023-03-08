@@ -253,7 +253,7 @@ class TransitLeg extends React.Component {
       />
     );
 
-    const alerts = getActiveLegAlerts(leg, leg.startTime / 1000, lang); // legStartTime converted to ms format
+    const alerts = getActiveLegAlerts(leg, leg.startTime / 1000); // legStartTime converted to ms format
     const alert =
       alerts && alerts.length > 0
         ? alerts.sort(alertSeverityCompare)[0]
@@ -448,7 +448,7 @@ class TransitLeg extends React.Component {
                 headsign={l.trip.tripHeadsign}
                 isAlternativeLeg
                 alertSeverityLevel={getMaximumAlertSeverityLevel(
-                  getActiveLegAlerts(l, l.startTime / 1000, lang),
+                  getActiveLegAlerts(l, l.startTime / 1000),
                 )}
                 displayTime
               />

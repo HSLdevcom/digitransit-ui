@@ -176,10 +176,7 @@ const containerComponent = createFragmentContainer(withBreakpoint(RoutePage), {
         alertSeverityLevel
         effectiveEndDate
         effectiveStartDate
-        alertDescriptionTextTranslations {
-          language
-          text
-        }
+        alertDescriptionText
         entities {
           __typename
           ... on Route {
@@ -207,18 +204,6 @@ const containerComponent = createFragmentContainer(withBreakpoint(RoutePage), {
           alertUrl
           effectiveEndDate
           effectiveStartDate
-          alertDescriptionTextTranslations {
-            language
-            text
-          }
-          alertHeaderTextTranslations {
-            language
-            text
-          }
-          alertUrlTranslations {
-            language
-            text
-          }
           entities {
             __typename
             ... on Stop {

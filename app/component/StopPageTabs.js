@@ -2,7 +2,7 @@ import cx from 'classnames';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import React, { useState, useRef } from 'react';
-import { FormattedMessage, intlShape } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import { matchShape } from 'found';
 import { AlertSeverityLevelType } from '../constants';
 import {
@@ -46,7 +46,7 @@ const getActiveTab = pathname => {
   return Tab.RightNow;
 };
 
-function StopPageTabs({ stop }, { intl, match }) {
+function StopPageTabs({ stop }, { match }) {
   const { router } = match;
   if (!stop) {
     return null;
@@ -75,12 +75,9 @@ function StopPageTabs({ stop }, { intl, match }) {
     currentTime,
   );
   const hasActiveServiceAlerts =
+    getActiveAlertSeverityLevel(getServiceAlertsForStop(stop), currentTime) ||
     getActiveAlertSeverityLevel(
-      getServiceAlertsForStop(stop, intl),
-      currentTime,
-    ) ||
-    getActiveAlertSeverityLevel(
-      getServiceAlertsForStopRoutes(stop, intl),
+      getServiceAlertsForStopRoutes(stop),
       currentTime,
     );
 
@@ -301,7 +298,6 @@ StopPageTabs.defaultProps = {
 };
 
 StopPageTabs.contextTypes = {
-  intl: intlShape.isRequired,
   match: matchShape.isRequired,
 };
 

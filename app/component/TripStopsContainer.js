@@ -135,18 +135,6 @@ const containerComponent = createFragmentContainer(pureComponent, {
             alertUrl
             effectiveEndDate
             effectiveStartDate
-            alertDescriptionTextTranslations {
-              language
-              text
-            }
-            alertHeaderTextTranslations {
-              language
-              text
-            }
-            alertUrlTranslations {
-              language
-              text
-            }
           }
         }
         trips: tripsForDate(serviceDate: $date) {

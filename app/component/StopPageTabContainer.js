@@ -68,18 +68,6 @@ const containerComponent = createFragmentContainer(StopPageTabContainer, {
           alertUrl
           effectiveEndDate
           effectiveStartDate
-          alertDescriptionTextTranslations {
-            language
-            text
-          }
-          alertHeaderTextTranslations {
-            language
-            text
-          }
-          alertUrlTranslations {
-            language
-            text
-          }
         }
       }
       alerts {
@@ -91,18 +79,6 @@ const containerComponent = createFragmentContainer(StopPageTabContainer, {
         alertUrl
         effectiveEndDate
         effectiveStartDate
-        alertDescriptionTextTranslations {
-          language
-          text
-        }
-        alertHeaderTextTranslations {
-          language
-          text
-        }
-        alertUrlTranslations {
-          language
-          text
-        }
       }
       vehicleMode
       stoptimes: stoptimesWithoutPatterns(
@@ -131,18 +107,6 @@ const containerComponent = createFragmentContainer(StopPageTabContainer, {
               alertUrl
               effectiveEndDate
               effectiveStartDate
-              alertDescriptionTextTranslations {
-                language
-                text
-              }
-              alertHeaderTextTranslations {
-                language
-                text
-              }
-              alertUrlTranslations {
-                language
-                text
-              }
               entities {
                 __typename
                 ... on Route {
@@ -172,18 +136,6 @@ const containerComponent = createFragmentContainer(StopPageTabContainer, {
           alertUrl
           effectiveEndDate
           effectiveStartDate
-          alertDescriptionTextTranslations {
-            language
-            text
-          }
-          alertHeaderTextTranslations {
-            language
-            text
-          }
-          alertUrlTranslations {
-            language
-            text
-          }
           entities {
             __typename
             ... on Route {
@@ -206,18 +158,6 @@ const containerComponent = createFragmentContainer(StopPageTabContainer, {
             alertUrl
             effectiveEndDate
             effectiveStartDate
-            alertDescriptionTextTranslations {
-              language
-              text
-            }
-            alertHeaderTextTranslations {
-              language
-              text
-            }
-            alertUrlTranslations {
-              language
-              text
-            }
             entities {
               __typename
               ... on Stop {

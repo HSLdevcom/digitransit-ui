@@ -132,14 +132,6 @@ const containerComponent = createFragmentContainer(
         alertEffect
         alertCause
         alertDescriptionText
-        alertHeaderTextTranslations {
-          text
-          language
-        }
-        alertDescriptionTextTranslations {
-          text
-          language
-        }
         effectiveStartDate
         effectiveEndDate
         entities {

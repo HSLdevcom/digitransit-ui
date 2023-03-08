@@ -5,11 +5,7 @@ import { intlShape } from 'react-intl';
 
 import Icon from './Icon';
 import TruncatedMessage from './TruncatedMessage';
-import {
-  getServiceAlertDescription,
-  getServiceAlertHeader,
-  mapAlertSource,
-} from '../util/alertUtils';
+import { mapAlertSource } from '../util/alertUtils';
 import { ServiceAlertShape } from '../util/shapes';
 
 const DisruptionBannerAlert = (
@@ -18,8 +14,8 @@ const DisruptionBannerAlert = (
 ) => {
   const [renderLink, setRenderLink] = useState(false);
 
-  let header = getServiceAlertHeader(alert, language);
-  let message = getServiceAlertDescription(alert, language);
+  let header = alert.alertHeaderText;
+  let message = alert.alertDescriptionText;
   const useHeader =
     config.showAlertHeader &&
     header &&

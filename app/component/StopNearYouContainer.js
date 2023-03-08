@@ -20,10 +20,6 @@ const containerComponent = createRefetchContainer(
         alerts {
           alertSeverityLevel
           alertDescriptionText
-          alertDescriptionTextTranslations {
-            text
-            language
-          }
         }
         zoneId
         platformCode
@@ -77,10 +73,6 @@ const containerComponent = createRefetchContainer(
           alerts {
             alertSeverityLevel
             alertDescriptionText
-            alertDescriptionTextTranslations {
-              text
-              language
-            }
           }
           stoptimesWithoutPatterns(
             startTime: $startTime

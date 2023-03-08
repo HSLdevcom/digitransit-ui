@@ -136,18 +136,6 @@ export default createFragmentContainer(withBreakpoint(PatternStopsContainer), {
             alertUrl
             effectiveEndDate
             effectiveStartDate
-            alertDescriptionTextTranslations {
-              language
-              text
-            }
-            alertHeaderTextTranslations {
-              language
-              text
-            }
-            alertUrlTranslations {
-              language
-              text
-            }
           }
         }
         trips: tripsForDate(serviceDate: $date) {
