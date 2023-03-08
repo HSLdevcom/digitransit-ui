@@ -237,19 +237,30 @@ export const preparePlanParams = (config, useDefaultModes) => (
         intermediatePlaceLocations,
       );
   const defaultSettings = { ...getDefaultSettings(config) };
-  const allowedVehicleRentalNetworks = getDefaultNetworks(config);
+  // network enabled in config, regardless of user preferences
+  const availableVehicleRentalNetworks = getDefaultNetworks(config);
+  const allowedVehicleRentalNetworks = Array.isArray(
+    settings.allowedVehicleRentalNetworks,
+  )
+    ? settings.allowedVehicleRentalNetworks
+    : [];
+  const lowerCasedAllowedVehicleRentalNetworks = allowedVehicleRentalNetworks.map(
+    network => network.toLowerCase(),
+  );
+
   // legacy settings used to set network name in uppercase in localstorage
+  // Note: Both `settings.allowedVehicleRentalNetworks` and `availableVehicleRentalNetworks` might contain arbitrarily cased network "IDs"; We prefer the "most exact" match.
   const allowedVehicleRentalNetworksMapped =
-    Array.isArray(settings.allowedVehicleRentalNetworks) &&
-    settings.allowedVehicleRentalNetworks.length > 0
-      ? settings.allowedVehicleRentalNetworks
-          .filter(
-            network =>
-              allowedVehicleRentalNetworks.includes(network) ||
-              allowedVehicleRentalNetworks.includes(network.toLowerCase()),
-          )
+    allowedVehicleRentalNetworks.length > 0
+      ? availableVehicleRentalNetworks.filter(
+          network =>
+            allowedVehicleRentalNetworks.includes(network) ||
+            lowerCasedAllowedVehicleRentalNetworks.includes(
+              network.toLowerCase(),
+            ),
+        )
       : defaultSettings.allowedVehicleRentalNetworks;
-  
+
   const includeBikeRentSuggestions = modesOrDefault.includes('BICYCLE_RENT');
   // We need to remove BIYCLE_RENT as it is requested via Batch and not standard query
   const modesWithoutBikeRent = modesOrDefault.filter(mode => mode !== 'BICYCLE_RENT');

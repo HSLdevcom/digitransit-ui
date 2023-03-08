@@ -313,14 +313,15 @@ describe('planParamUtil', () => {
 
     it('should use same letter case for citybike networks from custom settings as in default settings', () => {
       setCustomizedSettings({
-        allowedVehicleRentalNetworks: ['FOO'],
+        // On purpose, bar is not included here.
+        allowedVehicleRentalNetworks: ['FoO', 'baz'],
       });
       const configWithCitybikes = {
         ...defaultConfig,
         cityBike: {
           capacity: 'Bikes on station',
           networks: {
-            foo: {
+            FoO: {
               enabled: true,
               icon: 'citybike',
               name: {
@@ -333,6 +334,14 @@ describe('planParamUtil', () => {
               icon: 'citybike',
               name: {
                 en: 'Bar bikes',
+              },
+              type: 'citybike',
+            },
+            BAZ: {
+              enabled: true,
+              icon: 'citybike',
+              name: {
+                en: 'Baaaz',
               },
               type: 'citybike',
             },
@@ -351,7 +360,8 @@ describe('planParamUtil', () => {
         },
       );
       const { allowedVehicleRentalNetworks } = params;
-      expect(allowedVehicleRentalNetworks).to.deep.equal(['foo']);
+      // We expect `config.cityBike.network`'s casing here.
+      expect(allowedVehicleRentalNetworks).to.deep.equal(['FoO', 'BAZ']);
     });
   });
 
