@@ -331,41 +331,6 @@ export const getServiceAlertsForTerminalStops = (
 };
 
 /**
- * TODO we should also consider other relevant alert entity types here.
- *
- * Retrieves OTP-style Service Alerts from the given route's
- * pattern's stops and maps them to the format understood by the UI.
- *
- * @param {*} route the route object to retrieve alerts from.
- * @param {*} patternId the pattern's id.
- * @param {*} locale the locale to use, defaults to 'en'.
- */
-export const getServiceAlertsForRouteStops = (
-  route,
-  patternId,
-  // locale = 'en', TODO
-) => {
-  if (!route || !Array.isArray(route.patterns)) {
-    return [];
-  }
-  const patternStopIds = route.patterns
-    .filter(pattern => patternId === pattern.code)
-    .flatMap(pattern => pattern.stops)
-    .map(stop => stop.gtfsId);
-  return route?.alerts
-    .map(alert => {
-      const patternStopEntities = alert.entities?.filter(
-        entity =>
-          // eslint-disable-next-line no-underscore-dangle
-          entity.__typename === 'Stop' &&
-          patternStopIds.includes(entity.gtfsId),
-      );
-      return { ...alert, entities: patternStopEntities };
-    })
-    .filter(alert => alert.entities.length > 0);
-};
-
-/**
  * Retrieves OTP-style Service Alerts from the given stop's
  * stoptimes' trips' routes and maps them to the format understood
  * by the UI.
@@ -679,3 +644,54 @@ export const getEntitiesOfTypeFromAlert = (alert, entityType) =>
 export const hasEntitiesOfType = (alert, entityType) =>
   // eslint-disable-next-line no-underscore-dangle
   alert?.entities?.some(entity => entity.__typename === entityType);
+
+/**
+ * Filters away entities from alert that are not of the given type
+ *
+ * @param {*} alert the alert which can contain entities.
+ * @param {String} entityType the entity type.
+ */
+export const getAlertWithEntitiesOfTypeOnly = (alert, entityType) => {
+  const patternStopEntities = getEntitiesOfTypeFromAlert(alert, entityType);
+  return { ...alert, entities: patternStopEntities };
+};
+
+/**
+ * TODO we should also consider other relevant alert entity types here.
+ *
+ * Retrieves OTP-style Service Alerts from the given pattern's stops.
+ *
+ * @param {*} pattern the pattern object to retrieve alerts from.
+ * @param {*} locale the locale to use, defaults to 'en'.
+ */
+export const getServiceAlertsForPatternsStops = patterns => {
+  if (!patterns || !Array.isArray(patterns)) {
+    return [];
+  }
+  const alertsForPatterns = patterns
+    .flatMap(pattern => pattern.alerts)
+    .filter(alert => hasEntitiesOfType(alert, 'Stop'));
+  const uniqueAlertsForPatterns = Array.from(
+    new Set(alertsForPatterns.map(JSON.stringify)),
+  ).map(JSON.parse);
+  return uniqueAlertsForPatterns.map(alert =>
+    getAlertWithEntitiesOfTypeOnly(alert, 'Stop'),
+  );
+};
+
+/**
+ * TODO we should also consider other relevant alert entity types here.
+ *
+ * Retrieves OTP-style Service Alerts from the given pattern's stops.
+ *
+ * @param {*} pattern the pattern object to retrieve alerts from.
+ * @param {*} locale the locale to use, defaults to 'en'.
+ */
+export const getServiceAlertsForPatternStops = pattern => {
+  if (!pattern) {
+    return [];
+  }
+  return pattern.alerts
+    .map(alert => getAlertWithEntitiesOfTypeOnly(alert, 'Stop'))
+    .filter(alert => alert.entities.length > 0);
+};

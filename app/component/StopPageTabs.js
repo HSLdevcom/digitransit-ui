@@ -13,7 +13,7 @@ import {
   getActiveAlertSeverityLevel,
   getCancelationsForRoute,
   getServiceAlertsForRoute,
-  getServiceAlertsForRouteStops,
+  getServiceAlertsForPatternStops,
 } from '../util/alertUtils';
 import withBreakpoint from '../util/withBreakpoint';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
@@ -91,21 +91,19 @@ function StopPageTabs({ stop }, { intl, match }) {
   if (stop.routes?.length > 0) {
     stop.routes.forEach(route => {
       modesByRoute.push(route.mode); // DT-3387
-      const hasActiveRouteAlert = route.patterns.some(({ code }) =>
+      const hasActiveRouteAlert = route.patterns.some(pattern =>
         isAlertActive(
-          getCancelationsForRoute(route, code),
+          getCancelationsForRoute(route, pattern.code),
           [
-            ...getServiceAlertsForRoute(route, code),
-            ...getServiceAlertsForRouteStops(route, code),
+            ...getServiceAlertsForRoute(route),
+            ...getServiceAlertsForPatternStops(pattern),
           ],
           currentTime,
         ),
       );
-      const hasActiveRouteServiceAlerts = route.patterns.some(({ code }) =>
-        getActiveAlertSeverityLevel(
-          getServiceAlertsForRoute(route, code),
-          currentTime,
-        ),
+      const hasActiveRouteServiceAlerts = getActiveAlertSeverityLevel(
+        getServiceAlertsForRoute(route),
+        currentTime,
       );
 
       return (

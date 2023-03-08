@@ -122,7 +122,7 @@ const containerComponent = createFragmentContainer(StopPageTabContainer, {
             longName
             mode
             color
-            alerts {
+            alerts(types: [ROUTE]) {
               id
               alertDescriptionText
               alertHash
@@ -143,9 +143,14 @@ const containerComponent = createFragmentContainer(StopPageTabContainer, {
                 language
                 text
               }
-              trip {
-                pattern {
-                  code
+              entities {
+                __typename
+                ... on Route {
+                  color
+                  type
+                  mode
+                  shortName
+                  gtfsId
                 }
               }
             }
@@ -158,7 +163,7 @@ const containerComponent = createFragmentContainer(StopPageTabContainer, {
         longName
         mode
         color
-        alerts {
+        alerts(types: [ROUTE]) {
           id
           alertDescriptionText
           alertHash
@@ -182,14 +187,47 @@ const containerComponent = createFragmentContainer(StopPageTabContainer, {
           entities {
             __typename
             ... on Route {
-              patterns {
-                code
-              }
+              color
+              type
+              mode
+              shortName
+              gtfsId
             }
           }
         }
         patterns {
           code
+          alerts(types: [STOPS_ON_PATTERN]) {
+            id
+            alertDescriptionText
+            alertHash
+            alertHeaderText
+            alertSeverityLevel
+            alertUrl
+            effectiveEndDate
+            effectiveStartDate
+            alertDescriptionTextTranslations {
+              language
+              text
+            }
+            alertHeaderTextTranslations {
+              language
+              text
+            }
+            alertUrlTranslations {
+              language
+              text
+            }
+            entities {
+              __typename
+              ... on Stop {
+                name
+                code
+                vehicleMode
+                gtfsId
+              }
+            }
+          }
         }
       }
     }

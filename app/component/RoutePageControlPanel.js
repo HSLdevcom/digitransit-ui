@@ -11,7 +11,7 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 import CallAgencyWarning from './CallAgencyWarning';
 import RoutePatternSelect from './RoutePatternSelect';
 import RouteNotification from './routeNotification';
-import { AlertSeverityLevelType, DATE_FORMAT } from '../constants';
+import { DATE_FORMAT } from '../constants';
 import {
   startRealTimeClient,
   stopRealTimeClient,
@@ -20,12 +20,9 @@ import {
 import {
   getCancelationsForRoute,
   getServiceAlertsForRoute,
-  getServiceAlertsForRouteStops,
+  getServiceAlertsForPatternsStops,
   isAlertActive,
   getActiveAlertSeverityLevel,
-  getServiceAlertsForStop,
-  getCancelationsForStop,
-  getServiceAlertsForStopRoutes,
 } from '../util/alertUtils';
 import { isActiveDate } from '../util/patternUtils';
 import {
@@ -388,53 +385,20 @@ class RoutePageControlPanel extends React.Component {
     const hasActiveAlert = isAlertActive(
       getCancelationsForRoute(route, patternId),
       [
-        ...getServiceAlertsForRoute(route, patternId),
-        ...getServiceAlertsForRouteStops(route, patternId),
+        ...getServiceAlertsForRoute(route),
+        ...getServiceAlertsForPatternsStops(route.patterns),
       ],
       currentTime,
     );
 
-    const routePatternStopAlerts = [];
-
-    if (route.patterns && route.patterns.length > 0) {
-      route.patterns.forEach(
-        pattern =>
-          pattern.stops &&
-          pattern.stops.forEach(stop => {
-            return (
-              getActiveAlertSeverityLevel(
-                [
-                  ...getCancelationsForStop(stop),
-                  ...getServiceAlertsForStop(stop),
-                  ...getServiceAlertsForStopRoutes(stop),
-                ],
-                currentTime,
-              ) && routePatternStopAlerts.push(...stop.alerts)
-            );
-          }),
-      );
-    }
-
     const hasActiveServiceAlerts = getActiveAlertSeverityLevel(
-      getServiceAlertsForRoute(route, patternId),
+      getServiceAlertsForRoute(route),
       currentTime,
     );
 
     const disruptionClassName =
-      ((hasActiveAlert ||
-        routePatternStopAlerts.find(
-          alert =>
-            alert.severityLevel ===
-            (AlertSeverityLevelType.Severe || AlertSeverityLevelType.Warning),
-        )) &&
-        'active-disruption-alert') ||
-      ((hasActiveServiceAlerts ||
-        routePatternStopAlerts.find(
-          alert =>
-            alert.severityLevel !==
-            (AlertSeverityLevelType.Severe || AlertSeverityLevelType.Warning),
-        )) &&
-        'active-service-alert');
+      (hasActiveAlert && 'active-disruption-alert') ||
+      (hasActiveServiceAlerts && 'active-service-alert');
 
     const useCurrentTime = activeTab === Tab.Stops; // DT-3182
 

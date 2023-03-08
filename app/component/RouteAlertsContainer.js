@@ -1,20 +1,19 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
-import { intlShape } from 'react-intl';
 import { matchShape } from 'found';
 
 import AlertList from './AlertList';
 import DepartureCancelationInfo from './DepartureCancelationInfo';
 import {
   getServiceAlertsForRoute,
-  getServiceAlertsForRouteStops,
+  getServiceAlertsForPatternsStops,
   tripHasCancelation,
 } from '../util/alertUtils';
 import { getRouteMode } from '../util/modeUtils';
 import { ServiceAlertShape } from '../util/shapes';
 
-function RouteAlertsContainer({ route }, { intl, match }) {
+function RouteAlertsContainer({ route }, { match }) {
   const { shortName } = route;
   const { patternId } = match.params;
   const cancelations = route.patterns
@@ -45,8 +44,8 @@ function RouteAlertsContainer({ route }, { intl, match }) {
       };
     });
   const serviceAlerts = [
-    ...getServiceAlertsForRoute(route, patternId, intl.locale),
-    ...getServiceAlertsForRouteStops(route, patternId, intl.locale),
+    ...getServiceAlertsForRoute(route),
+    ...getServiceAlertsForPatternsStops(route.patterns),
   ];
 
   return (
@@ -94,7 +93,6 @@ RouteAlertsContainer.propTypes = {
 };
 
 RouteAlertsContainer.contextTypes = {
-  intl: intlShape,
   match: matchShape,
 };
 
@@ -106,7 +104,7 @@ const containerComponent = createFragmentContainer(RouteAlertsContainer, {
       mode
       type
       shortName
-      alerts {
+      alerts(types: [ROUTE]) {
         id
         alertDescriptionText
         alertHash
@@ -127,39 +125,47 @@ const containerComponent = createFragmentContainer(RouteAlertsContainer, {
           language
           text
         }
-        trip {
-          pattern {
-            code
+        entities {
+          __typename
+          ... on Route {
+            color
+            type
+            mode
+            shortName
+            gtfsId
           }
         }
       }
       patterns {
         code
-        stops {
+        alerts(types: [STOPS_ON_PATTERN]) {
           id
-          gtfsId
-          code
-          name
-          alerts {
-            id
-            alertDescriptionText
-            alertHash
-            alertHeaderText
-            alertSeverityLevel
-            alertUrl
-            effectiveEndDate
-            effectiveStartDate
-            alertDescriptionTextTranslations {
-              language
-              text
-            }
-            alertHeaderTextTranslations {
-              language
-              text
-            }
-            alertUrlTranslations {
-              language
-              text
+          alertDescriptionText
+          alertHash
+          alertHeaderText
+          alertSeverityLevel
+          alertUrl
+          effectiveEndDate
+          effectiveStartDate
+          alertDescriptionTextTranslations {
+            language
+            text
+          }
+          alertHeaderTextTranslations {
+            language
+            text
+          }
+          alertUrlTranslations {
+            language
+            text
+          }
+          entities {
+            __typename
+            ... on Stop {
+              name
+              code
+              vehicleMode
+              gtfsId
             }
           }
         }

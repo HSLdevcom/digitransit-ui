@@ -24,13 +24,9 @@ export const findCancellationsAndServiceAlerts = (stop, locale) => {
 
   if (stop.routes) {
     stop.routes.forEach(route => {
-      route.patterns.forEach(pattern => {
-        if (routeHasServiceAlert(route)) {
-          serviceAlertsForRoutes.push(
-            ...getServiceAlertsForRoute(route, pattern.code, locale),
-          );
-        }
-      });
+      if (routeHasServiceAlert(route)) {
+        serviceAlertsForRoutes.push(...getServiceAlertsForRoute(route, locale));
+      }
     });
   }
 

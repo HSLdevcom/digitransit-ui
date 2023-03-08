@@ -172,7 +172,7 @@ const containerComponent = createFragmentContainer(withBreakpoint(RoutePage), {
       type
       ...RouteAgencyInfo_route
       ...RoutePatternSelect_route @arguments(date: $date)
-      alerts {
+      alerts(types: [ROUTE]) {
         alertSeverityLevel
         effectiveEndDate
         effectiveStartDate
@@ -183,9 +183,11 @@ const containerComponent = createFragmentContainer(withBreakpoint(RoutePage), {
         entities {
           __typename
           ... on Route {
-            patterns {
-              code
-            }
+            color
+            type
+            mode
+            shortName
+            gtfsId
           }
         }
       }
@@ -196,30 +198,34 @@ const containerComponent = createFragmentContainer(withBreakpoint(RoutePage), {
       patterns {
         headsign
         code
-        stops {
+        alerts(types: [STOPS_ON_PATTERN]) {
           id
-          gtfsId
-          code
-          alerts {
-            id
-            alertDescriptionText
-            alertHash
-            alertHeaderText
-            alertSeverityLevel
-            alertUrl
-            effectiveEndDate
-            effectiveStartDate
-            alertDescriptionTextTranslations {
-              language
-              text
-            }
-            alertHeaderTextTranslations {
-              language
-              text
-            }
-            alertUrlTranslations {
-              language
-              text
+          alertDescriptionText
+          alertHash
+          alertHeaderText
+          alertSeverityLevel
+          alertUrl
+          effectiveEndDate
+          effectiveStartDate
+          alertDescriptionTextTranslations {
+            language
+            text
+          }
+          alertHeaderTextTranslations {
+            language
+            text
+          }
+          alertUrlTranslations {
+            language
+            text
+          }
+          entities {
+            __typename
+            ... on Stop {
+              name
+              code
+              vehicleMode
+              gtfsId
             }
           }
         }

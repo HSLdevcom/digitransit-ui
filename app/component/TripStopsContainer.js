@@ -108,17 +108,12 @@ const containerComponent = createFragmentContainer(pureComponent, {
       type
       ...RouteAgencyInfo_route
       ...RoutePatternSelect_route @arguments(date: $date)
-      alerts {
+      alerts(types: [ROUTE]) {
         alertSeverityLevel
         effectiveEndDate
         effectiveStartDate
         entities {
           __typename
-          ... on Route {
-            patterns {
-              code
-            }
-          }
         }
       }
       agency {
