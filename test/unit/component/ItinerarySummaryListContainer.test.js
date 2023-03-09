@@ -28,6 +28,7 @@ const PROPS_TEMPLATE = {
   searchTime: 1656509749000,
   to: {},
   bikeAndPublicItinerariesToShow: 0,
+  bikeRentAndPublicItinerariesToShow: 0,
   bikeAndParkItinerariesToShow: 0,
   walking: true,
   biking: false,
