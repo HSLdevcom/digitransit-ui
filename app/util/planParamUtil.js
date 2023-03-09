@@ -227,7 +227,7 @@ export const preparePlanParams = (config, useDefaultModes) => (
   const intermediatePlaceLocations = getIntermediatePlaces({
     intermediatePlaces,
   });
-  let modesOrDefault = useDefaultModes
+  const modesOrDefault = useDefaultModes
     ? getDefaultModes(config)
     : filterModes(
         config,
@@ -263,7 +263,9 @@ export const preparePlanParams = (config, useDefaultModes) => (
 
   const includeBikeRentSuggestions = modesOrDefault.includes('BICYCLE_RENT');
   // We need to remove BIYCLE_RENT as it is requested via Batch and not standard query
-  const modesWithoutBikeRent = modesOrDefault.filter(mode => mode !== 'BICYCLE_RENT');
+  const modesWithoutBikeRent = modesOrDefault.filter(
+    mode => mode !== 'BICYCLE_RENT',
+  );
   const formattedModes = modesAsOTPModes(modesWithoutBikeRent);
   const wheelchair =
     getNumberValueOrDefault(settings.accessibilityOption, defaultSettings) ===
@@ -315,13 +317,13 @@ export const preparePlanParams = (config, useDefaultModes) => (
         to: toLocation,
         intermediatePlaces: intermediatePlaceLocations,
         numItineraries: 5,
+        // todo
         date: parsedTime.format('YYYY-MM-DD'),
         time: parsedTime.format('HH:mm:ss'),
         date: (time ? moment(time * 1000) : moment()).format('YYYY-MM-DD'),
         time: (time ? moment(time * 1000) : moment()).format('HH:mm:ss'),
-        // TODO Check why HSL did not retrieve from settings
-        walkReluctance: settings.walkReluctance,
-        walkBoardCost: settings.walkBoardCost,
+        walkReluctance,
+        walkBoardCost,
         minTransferTime: config.minTransferTime,
         walkSpeed: settings.walkSpeed,
         arriveBy: arriveBy === 'true',
@@ -362,10 +364,7 @@ export const preparePlanParams = (config, useDefaultModes) => (
         : []),
       ...formattedModes,
     ],
-    ticketTypes: getTicketTypes(
-      settings.ticketTypes,
-      defaultSettings.ticketTypes,
-    ),
+    ticketTypes,
     modeWeight: config.customWeights,
     allowedVehicleRentalNetworks: allowedVehicleRentalNetworksMapped,
     shouldMakeWalkQuery:
@@ -451,18 +450,17 @@ export const preparePlanParams = (config, useDefaultModes) => (
         ? { mode: 'CAR', qualifier: 'PARK' }
         : { mode: 'CAR' },
     ],
-    parkRideModes: 
-      [
-        { mode: 'CAR', qualifier: 'PARK' },
-        ...modesAsOTPModes(
-          filterModes(
-            config,
-            ['BUS', 'RAIL', 'SUBWAY'],
-            from,
-            to,
-            intermediatePlaces || [],
-          ),
+    parkRideModes: [
+      { mode: 'CAR', qualifier: 'PARK' },
+      ...modesAsOTPModes(
+        filterModes(
+          config,
+          ['BUS', 'RAIL', 'SUBWAY'],
+          from,
+          to,
+          intermediatePlaces || [],
         ),
-      ]
+      ),
+    ],
   };
 };
