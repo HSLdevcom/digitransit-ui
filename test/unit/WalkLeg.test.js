@@ -222,6 +222,8 @@ describe('<WalkLeg />', () => {
         startTime: 1668600030868,
         endTime: 1668600108525,
       },
+      // arbitrary previous leg's end time
+      startTime: 1668600030700,
     };
 
     shallowWithIntl(<WalkLeg {...props} />, {

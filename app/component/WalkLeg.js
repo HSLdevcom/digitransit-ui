@@ -332,6 +332,8 @@ WalkLeg.propTypes = {
   leg: walkLegShape.isRequired,
   previousLeg: walkLegShape,
   focusToLeg: PropTypes.func.isRequired,
+  // This is not necessarily the `leg`'s start time!
+  // Usually, it seems to be the previous leg's end time.
   startTime: PropTypes.number.isRequired,
 };
 
