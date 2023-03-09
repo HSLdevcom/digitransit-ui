@@ -11,9 +11,9 @@ import {
 import { PREFIX_BIKESTATIONS } from '../../../util/path';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
-function SelectCityBikeRow({ name, networks, id, desc }, { config }) {
+function SelectCityBikeRow({ name, network, id, desc }, { config }) {
   const networkConfig = getCityBikeNetworkConfig(
-    getCityBikeNetworkId(networks),
+    getCityBikeNetworkId(network),
     config,
   );
   // TODO append -stop-lollipop?
@@ -26,7 +26,7 @@ function SelectCityBikeRow({ name, networks, id, desc }, { config }) {
     <FormattedMessage id={`${formFactor}-station-no-id`} />
   );
   const showCode = id && id !== 'null' && !networkConfig.hideCode;
-  
+
   return (
     <Link
       className="stop-popup-choose-row"
