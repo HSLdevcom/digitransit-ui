@@ -961,11 +961,12 @@ class SummaryPage extends React.Component {
           itineraryFiltering: $itineraryFiltering
           unpreferred: $unpreferred
           locale: $locale
-          # TODO still be added in upstream OTP
-          # bannedVehicleParkingTags: $bannedBicycleParkingTags
-          # preferredVehicleParkingTags: $preferredBicycleParkingTags
-          # unpreferredVehicleParkingTagPenalty: $unpreferredBicycleParkingTagPenalty
-        ) @include(if: $showBikeAndParkItineraries) {
+        )
+        # TODO still be added in upstream OTP
+        # bannedVehicleParkingTags: $bannedBicycleParkingTags
+        # preferredVehicleParkingTags: $preferredBicycleParkingTags
+        # unpreferredVehicleParkingTagPenalty: $unpreferredBicycleParkingTagPenalty
+        @include(if: $showBikeAndParkItineraries) {
           ...SummaryPlanContainer_plan
           ...ItineraryTab_plan
           itineraries {
@@ -1100,10 +1101,11 @@ class SummaryPage extends React.Component {
           itineraryFiltering: $itineraryFiltering
           unpreferred: $unpreferred
           locale: $locale
-          # TODO add to upstream OTP
-          # useVehicleParkingAvailabilityInformation: $useVehicleParkingAvailabilityInformation
-          # bannedVehicleParkingTags: $bannedVehicleParkingTags
-        ) @include(if: $shouldMakeParkRideQuery) {
+        )
+        # TODO add to upstream OTP
+        # useVehicleParkingAvailabilityInformation: $useVehicleParkingAvailabilityInformation
+        # bannedVehicleParkingTags: $bannedVehicleParkingTags
+        @include(if: $shouldMakeParkRideQuery) {
           ...SummaryPlanContainer_plan
           ...ItineraryTab_plan
           itineraries {
@@ -2472,7 +2474,7 @@ class SummaryPage extends React.Component {
         this.toggleStreetMode(''); // go back to showing normal itineraries
         return <Loading />;
       }
-      
+
       // we have already filtered bike{AndPublic,RentAndPublic,Park}Plan above
       this.selectedPlan = {
         itineraries: [
@@ -2576,10 +2578,10 @@ class SummaryPage extends React.Component {
         !currentSettings.accessibilityOption &&
         currentSettings.showBikeAndParkItineraries
       : (bikeAndPublicPlanHasItineraries ||
-        bikeRentAndPublicPlanHasItineraries ||
-        bikeParkPlanHasItineraries) &&
-      !currentSettings.accessibilityOption &&
-      currentSettings.includeBikeSuggestions;
+          bikeRentAndPublicPlanHasItineraries ||
+          bikeParkPlanHasItineraries) &&
+        !currentSettings.accessibilityOption &&
+        currentSettings.includeBikeSuggestions;
 
     const hasCarItinerary = !isEmpty(get(carPlan, 'itineraries'));
     const showCarOptionButton =
@@ -2793,7 +2795,7 @@ class SummaryPage extends React.Component {
               activeIndex={activeIndex}
               plan={this.selectedPlan}
               serviceTimeRange={serviceTimeRange}
-              /*routingErrors={this.selectedPlan.routingErrors}*/
+              /* routingErrors={this.selectedPlan.routingErrors} */
               itineraries={selectedItineraries}
               params={match.params}
               error={error || this.state.error}
@@ -3022,7 +3024,7 @@ class SummaryPage extends React.Component {
               }
               plan={this.selectedPlan}
               serviceTimeRange={serviceTimeRange}
-              /*routingErrors={this.selectedPlan.routingErrors}*/
+              /* routingErrors={this.selectedPlan.routingErrors} */
               itineraries={combinedItineraries}
               params={match.params}
               error={error || this.state.error}

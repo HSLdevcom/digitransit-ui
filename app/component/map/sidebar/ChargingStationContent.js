@@ -241,9 +241,7 @@ const ChargingStationContent = ({ match }, { intl, config }) => {
     return (
       <div className="text-light sidebar-info-container">
         <Icon className="sidebar-info-icon" img="icon-icon_payment" />
-        <span className="text-alignment">
-          {paymentTypes}
-        </span>
+        <span className="text-alignment">{paymentTypes}</span>
       </div>
     );
   };

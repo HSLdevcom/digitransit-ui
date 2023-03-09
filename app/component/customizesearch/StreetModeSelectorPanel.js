@@ -115,7 +115,10 @@ const StreetModeSelectorPanel = (
                     />
                   </div>
                   {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-                  <label className="mode-name" htmlFor="settings-toggle-parkAndRide">
+                  <label
+                    className="mode-name"
+                    htmlFor="settings-toggle-parkAndRide"
+                  >
                     <FormattedMessage
                       className="mode-name"
                       id={prId}

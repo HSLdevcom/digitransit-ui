@@ -202,7 +202,6 @@ function getImageFromSpriteSync(icon, width, height, fill) {
   }
   const symbol = document.getElementById(icon);
   if (!symbol) {
-    // eslint-disable-next-line no-console
     throw new Error(`Could not find icon '${icon}'`);
   }
   const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
@@ -640,7 +639,7 @@ export function drawCitybikeIcon(
   if (!styles) {
     return;
   }
-  const radius = width / 2;
+  const radius = width / 2; // todo: needed?
   let x;
   let y;
   let color = 'green';
@@ -672,31 +671,39 @@ export function drawCitybikeIcon(
     const showAvailabilityBadge =
       showAvailability &&
       Number.isSafeInteger(bikesAvailable) &&
-      bikesAvailable > -1 && 
+      bikesAvailable > -1 &&
       operative;
     let icon = `${iconName}_station_${color}_large`;
     if (!operative) {
       icon = 'icon-icon_citybike_station_closed_large';
     }
-    getImageFromSpriteCache(icon, width, height).then(image => {
-      tile.ctx.drawImage(image, x, y);
-      x = x + width - smallCircleRadius;
-      y += smallCircleRadius;
-      if (showAvailabilityBadge) {
-        /* eslint-disable no-param-reassign */
-        tile.ctx.font = `${
-          10.8 * tile.scaleratio
-        }px Gotham XNarrow SSm A, Gotham XNarrow SSm B, Gotham Rounded A, Gotham Rounded B, Arial, sans-serif`;
-        tile.ctx.fillStyle = color === 'yellow' ? '#000' : '#fff';
-        tile.ctx.textAlign = 'center';
-        tile.ctx.textBaseline = 'middle';
-        tile.ctx.fillText(bikesAvailable, x, y);
-        /* eslint-enable no-param-reassign */
-      }
-      // if (isHilighted) {
-      //  drawSelectionCircle(tile, iconX, iconY, radius, true, true);
-      // }
-    });
+    getImageFromSpriteCache(icon, width, height)
+      .then(image => {
+        tile.ctx.drawImage(image, x, y);
+        x = x + width - smallCircleRadius;
+        y += smallCircleRadius;
+        if (showAvailabilityBadge) {
+          /* eslint-disable no-param-reassign */
+          tile.ctx.font = `${
+            10.8 * tile.scaleratio
+          }px Gotham XNarrow SSm A, Gotham XNarrow SSm B, Gotham Rounded A, Gotham Rounded B, Arial, sans-serif`;
+          tile.ctx.fillStyle = color === 'yellow' ? '#000' : '#fff';
+          tile.ctx.textAlign = 'center';
+          tile.ctx.textBaseline = 'middle';
+          tile.ctx.fillText(bikesAvailable, x, y);
+          /* eslint-enable no-param-reassign */
+        }
+        // if (isHilighted) {
+        //  drawSelectionCircle(tile, iconX, iconY, radius, true, true);
+        // }
+      })
+      .catch(err => {
+        // eslint-disable-next-line no-console
+        console.error(
+          { icon, width, height, showAvailabilityBadge, isHilighted },
+          err,
+        );
+      });
   }
 }
 

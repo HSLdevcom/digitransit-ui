@@ -218,14 +218,13 @@ export const filterModes = (config, modes, from, to, intermediatePlaces) => {
   let filtered = modesStr
     .split(',')
     .filter(mode => isModeAvailable(config, mode));
-  filtered= 
-    filtered.filter(mode =>
-      isModeAvailableInsidePolygons(config, mode, [
-        from,
-        to,
-        ...intermediatePlaces,
-      ]),
-    );
+  filtered = filtered.filter(mode =>
+    isModeAvailableInsidePolygons(config, mode, [
+      from,
+      to,
+      ...intermediatePlaces,
+    ]),
+  );
   const mapped = flatMap(filtered, mode => {
     const mapping = getOTPMode(config, mode);
     return mapping === undefined ? [] : mapping.split(',');

@@ -60,7 +60,7 @@ class CityBikes {
         `${this.tile.coords.x}/${this.tile.coords.y}.pbf`,
       this.config,
       // TODO handle lang appropriatly
-      'de'
+      'de',
     ).then(res => {
       if (res.status !== 200) {
         return undefined;
