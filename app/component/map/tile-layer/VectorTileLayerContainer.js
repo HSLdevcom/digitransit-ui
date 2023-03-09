@@ -20,7 +20,9 @@ export default function VectorTileLayerContainer(props, { config }) {
 
   if (props.mapLayers.citybike) {
     layers.push(BikeRentalStations);
+    // TODO Push (to be created) RentalVehicles layer as well
   }
+
   if (props.mapLayers.parkAndRide) {
     layers.push(ParkAndRideForCars);
   }
