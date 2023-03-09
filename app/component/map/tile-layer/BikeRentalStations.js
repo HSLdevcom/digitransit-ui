@@ -65,12 +65,11 @@ class BikeRentalStations {
           return undefined;
         }
 
-        return res.arrayBuffer()
-          .then(buf => {
+        return res.arrayBuffer().then(
+          buf => {
             const vt = new VectorTile(new Protobuf(buf));
 
             this.features = [];
-
             const layer =
               vt.layers.rentalStations || vt.layers.realtimeRentalStations;
 
@@ -78,14 +77,9 @@ class BikeRentalStations {
               for (let i = 0, ref = layer.length - 1; i <= ref; i++) {
                 const feature = layer.feature(i);
                 [[feature.geom]] = feature.loadGeometry();
-                console.info(feature.properties.id, feature.properties);
+
                 // TODO use feedScopedId here
                 feature.properties.id = getIdWithoutFeed(feature.properties.id);
-
-                // todo
-                // feature.properties.network = feature.properties.networks;
-                // feature.properties.operative = true;
-                // feature.properties.vehiclesAvailable = 2;
 
                 this.features.push(pick(feature, ['geom', 'properties']));
               }
