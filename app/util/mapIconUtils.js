@@ -639,7 +639,8 @@ export function drawCitybikeIcon(
   if (!styles) {
     return;
   }
-  const radius = width / 2; // todo: needed?
+  // stadtnavi/bbnavi should not show selectionCircle
+  // const radius = width / 2;
   let x;
   let y;
   let color = 'green';
@@ -659,6 +660,7 @@ export function drawCitybikeIcon(
     }
     getImageFromSpriteCache(icon, width, height).then(image => {
       tile.ctx.drawImage(image, x, y);
+      // stadtnavi/bbnavi should not show selectionCircle
       // if (isHilighted) {
       //  drawSelectionCircle(tile, x, y, radius, false, false);
       // }
