@@ -317,11 +317,8 @@ export const preparePlanParams = (config, useDefaultModes) => (
         to: toLocation,
         intermediatePlaces: intermediatePlaceLocations,
         numItineraries: 5,
-        // todo
         date: parsedTime.format('YYYY-MM-DD'),
         time: parsedTime.format('HH:mm:ss'),
-        date: (time ? moment(time * 1000) : moment()).format('YYYY-MM-DD'),
-        time: (time ? moment(time * 1000) : moment()).format('HH:mm:ss'),
         walkReluctance,
         walkBoardCost,
         minTransferTime: config.minTransferTime,
