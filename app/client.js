@@ -37,10 +37,7 @@ import oldParamParser from './util/oldParamParser';
 import { ClientProvider as ClientBreakpointProvider } from './util/withBreakpoint';
 import meta from './meta';
 import { isIOSApp } from './util/browser';
-import {
-  initAnalyticsClientSide,
-  addAnalyticsEvent,
-} from './util/analyticsUtils';
+import { addAnalyticsEvent } from './util/analyticsUtils';
 
 const plugContext = f => () => ({
   plugComponentContext: f,
@@ -102,9 +99,6 @@ async function init() {
   const context = await app.rehydrate(window.state);
 
   window.context = context;
-
-  // For Google Tag Manager
-  initAnalyticsClientSide();
 
   if (process.env.NODE_ENV === 'development') {
     if (config.AXE) {
