@@ -3,7 +3,7 @@ import Protobuf from 'pbf';
 import pick from 'lodash/pick';
 import last from 'lodash/last';
 
-import range from 'lodash-es/range';
+import range from 'lodash/range';
 import { isBrowser } from '../../../util/browser';
 import { drawIcon } from '../../../util/mapIconUtils';
 import glfun from '../../../util/glfun';
