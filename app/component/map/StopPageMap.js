@@ -22,6 +22,7 @@ import ItineraryLine from './ItineraryLine';
 import Loading from '../Loading';
 import { getMapLayerOptions } from '../../util/mapLayerUtils';
 import MapRoutingButton from '../mapRoutingButton';
+import CookieSettingsButton from '../CookieSettingsButton';
 
 const getModeFromProps = props => {
   if (props.citybike) {
@@ -131,6 +132,9 @@ const StopPageMap = (
         <SelectedStopPopupContent stop={stop} />
       </SelectedStopPopup>,
     );
+    if (config.useCookiesPrompt) {
+      children.push(<CookieSettingsButton />);
+    }
   } else {
     children.push(
       <BackButton

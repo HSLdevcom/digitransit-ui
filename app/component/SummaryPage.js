@@ -1120,13 +1120,13 @@ class SummaryPage extends React.Component {
       return;
     }
 
-    const useDefaultModes =
+    const useRelaxedRoutingPreferences =
       this.planHasNoItineraries() && this.state.alternativePlan;
 
-    const params = preparePlanParams(this.context.config, useDefaultModes)(
-      this.context.match.params,
-      this.context.match,
-    );
+    const params = preparePlanParams(
+      this.context.config,
+      useRelaxedRoutingPreferences,
+    )(this.context.match.params, this.context.match);
 
     const tunedParams = {
       wheelchair: null,
@@ -1228,13 +1228,13 @@ class SummaryPage extends React.Component {
       return;
     }
 
-    const useDefaultModes =
+    const useRelaxedRoutingPreferences =
       this.planHasNoItineraries() && this.state.alternativePlan;
 
-    const params = preparePlanParams(this.context.config, useDefaultModes)(
-      this.context.match.params,
-      this.context.match,
-    );
+    const params = preparePlanParams(
+      this.context.config,
+      useRelaxedRoutingPreferences,
+    )(this.context.match.params, this.context.match);
 
     const tunedParams = {
       wheelchair: null,
