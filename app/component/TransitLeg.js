@@ -203,16 +203,6 @@ class TransitLeg extends React.Component {
     const { constantOperationRoutes } = config;
     const shouldLinkToTrip =
       !constantOperationRoutes || !constantOperationRoutes[routeId];
-    const originalTime = leg.realTime &&
-      leg.departureDelay &&
-      leg.departureDelay >= config.itinerary.delayThreshold && [
-        <br key="br" />,
-        <span key="time" className="original-time">
-          {moment(leg.startTime)
-            .subtract(leg.departureDelay, 's')
-            .format('HH:mm')}
-        </span>,
-      ];
     const LegRouteName = leg.from.name?.concat(' - ').concat(leg.to.name);
     const modeClassName = mode.toLowerCase();
 
