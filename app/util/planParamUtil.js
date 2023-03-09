@@ -185,7 +185,7 @@ const getShouldMakeCarQuery = (
 export const hasStartAndDestination = ({ from, to }) =>
   from && to && from !== '-' && to !== '-';
 
-export const preparePlanParams = (config, useDefaultModes) => (
+export const preparePlanParams = (config, useRelaxedRoutingPreferences) => (
   { from, to },
   {
     location: {
@@ -199,7 +199,7 @@ export const preparePlanParams = (config, useDefaultModes) => (
   const intermediatePlaceLocations = getIntermediatePlaces({
     intermediatePlaces,
   });
-  let modesOrDefault = useDefaultModes
+  let modesOrDefault = useRelaxedRoutingPreferences
     ? getDefaultModes(config)
     : filterModes(
         config,
@@ -248,13 +248,13 @@ export const preparePlanParams = (config, useDefaultModes) => (
   );
 
   // Use defaults or user given settings
-  const ticketTypes = useDefaultModes
+  const ticketTypes = useRelaxedRoutingPreferences
     ? null
     : getTicketTypes(settings.ticketTypes, defaultSettings.ticketTypes);
-  const walkReluctance = useDefaultModes
+  const walkReluctance = useRelaxedRoutingPreferences
     ? defaultSettings.walkReluctance
     : settings.walkReluctance;
-  const walkBoardCost = useDefaultModes
+  const walkBoardCost = useRelaxedRoutingPreferences
     ? defaultSettings.walkBoardCost
     : settings.walkBoardCost;
 
