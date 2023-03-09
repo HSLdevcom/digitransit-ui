@@ -34,8 +34,8 @@ class ParkAndRideForCars {
       14 * this.scaleratio * getScale(this.tile.coords.z);
   }
 
-  // TODO respect lang?
-  getPromise = lang => this.fetchWithAction(this.fetchAndDrawStatus);
+  // map display is language independent, so no lang param required
+  getPromise = () => this.fetchWithAction(this.fetchAndDrawStatus);
 
   fetchWithAction = actionFn =>
     fetch(

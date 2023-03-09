@@ -18,9 +18,10 @@ export default class WeatherStations {
 
   static getName = () => 'weatherStations';
 
-  getPromise(lang) {
-    // TODO respect lang?
-
+  // Retrieves WEATHER_STATIONS_MAP tile and draws every retrieved on the map
+  // (either as point, if zoomLevel is less than config.weatherStations.smallIconZoom
+  // or via drawWeatherStationIcon). The layer is not language-dependent.
+  getPromise() {
     return fetch(
       `${this.config.URL.WEATHER_STATIONS_MAP}${
         this.tile.coords.z + (this.tile.props.zoomOffset || 0)

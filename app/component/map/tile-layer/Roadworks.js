@@ -34,8 +34,7 @@ class Roadworks {
     this.iconSize = 20 * this.scaleratio * getScale(this.tile.coords.z);
   }
 
-  // TODO respect lang?
-  getPromise = lang => this.fetchWithAction(this.drawStatus);
+  getPromise = () => this.fetchWithAction(this.drawStatus);
 
   fetchWithAction = actionFn =>
     fetch(

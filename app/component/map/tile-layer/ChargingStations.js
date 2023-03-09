@@ -33,7 +33,8 @@ class ChargingStations {
     this.iconSize = 20 * this.scaleratio * getScale(this.tile.coords.z);
   }
 
-  getPromise = lang => this.fetchWithAction(this.drawStatus);
+  // map display is language independent, so no lang param required
+  getPromise = () => this.fetchWithAction(this.drawStatus);
 
   fetchWithAction = actionFn => {
     const url = this.config.URL.CHARGING_STATIONS_MAP.replaceAll(

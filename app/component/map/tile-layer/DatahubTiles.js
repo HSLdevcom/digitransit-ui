@@ -19,9 +19,8 @@ export default class DatahubTiles {
 
   static getName = () => 'datahubTiles';
 
-  getPromise(lang) {
-    // TODO respect lang?
-
+  // map display is language independent, so no lang param required
+  getPromise() {
     return fetch(
       `${this.baseUrl}${
         this.tile.coords.z + (this.tile.props.zoomOffset || 0)
