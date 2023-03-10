@@ -45,11 +45,15 @@ const ParkOrBikeStationHeader = ({ parkOrStation, breakpoint }, { config }) => {
       parkOrStation.networks[0],
       config,
     );
+    // TODO need to distinguish between rental station and free floating vehicle
     subheaderMsgId = `${networkConfig?.type || 'citybike'}-station-no-id`;
   } else {
     subheaderMsgId = bikeParkId ? 'bike-park' : 'car_park';
   }
 
+  // TODO OTP returns the ID of free floating vehicle as name, we should not disply the random string:
+  // https://github.com/opentripplanner/OpenTripPlanner/blob/215af2cd009e402612be9bfd8d38cc8ba5a3c957/src/main/java/org/opentripplanner/updater/vehicle_rental/datasources/GbfsFreeVehicleStatusMapper.java#L36
+  // TODO don't show FavouriteBikeRentalStationContainer for free floating vehicles
   return (
     <div className="bike-station-header">
       {breakpoint === 'large' && (

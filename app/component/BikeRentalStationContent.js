@@ -158,6 +158,7 @@ const connectedComponent = connectToStores(
 );
 
 const containerComponent = createFragmentContainer(connectedComponent, {
+  // TODO: distinguish between stations and vehicles
   bikeRentalStation: graphql`
     fragment BikeRentalStationContent_bikeRentalStation on BikeRentalStation {
       lat
