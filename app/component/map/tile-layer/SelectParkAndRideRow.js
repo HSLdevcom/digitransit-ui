@@ -5,7 +5,7 @@ import Icon from '../../Icon';
 import { PREFIX_BIKEPARK, PREFIX_CARPARK } from '../../../util/path';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
-function SelectParkAndRideRow(props, {}) {
+function SelectParkAndRideRow(props) {
   const { name, bikeParkId, carParkId } = props;
 
   const id = bikeParkId || carParkId;

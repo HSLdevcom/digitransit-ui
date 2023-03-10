@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Icon from '../../Icon';
-import BikeParks from './BikeParks';
+import ParkandRideForBikes from './ParkAndRideForBikes.bbnavi';
 
 export default function SelectBikeParkRow(props, { intl }) {
   const { selectRow, properties } = props;
-  const icon = BikeParks.getIcon(properties);
+  const icon = ParkandRideForBikes.getIcon(properties);
   const { name } = properties;
 
   function cleanName(otpBikeparkName) {

@@ -58,7 +58,9 @@ const BikeParkLeg = (
               onClick={e => {
                 e.stopPropagation();
               }}
-              to={`/${PREFIX_BIKEPARK}?id=${bikePark.bikeParkId}&lat=${leg.from.lat}&lng=${leg.from.lon}`}
+              to={`/${PREFIX_BIKEPARK}/${encodeURIComponent(
+                bikePark.bikeParkId,
+              )}`}
             >
               <div className="address">
                 <FormattedMessage id="bike-park" />

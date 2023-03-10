@@ -9,8 +9,6 @@ import createRender from 'found/createRender';
 import Error404 from './component/404';
 import TopLevel from './component/TopLevel';
 
-import { prepareWeekDays } from './util/dateParamUtils';
-
 import {
   PREFIX_ITINERARY_SUMMARY,
   PREFIX_NEARYOU,
@@ -29,7 +27,6 @@ import {
 } from './util/path';
 import {
   getDefault,
-  errorLoading,
   getComponentOrLoadingRenderer,
   getComponentOrNullRenderer,
 } from './util/routerUtils';
@@ -245,64 +242,36 @@ export default config => {
           ),
         }}
       </Route>
-      <Route path={`/${PREFIX_BIKEPARK}`}>
-        <Route Component={Error404} />
-        <Route path=":id">
-          {{
-            content: (
-              <Route
-                getComponent={() =>
-                  // todo: use bbnavi code
-                  import(
-                    /* webpackChunkName: "bikepark" */ './component/BikeParkContent'
-                  )
-                    .then(getDefault)
-                    .catch(errorLoading)
+      <Route path={`/${PREFIX_BIKEPARK}/:id`}>
+        {{
+          content: (
+            <Route
+              getComponent={() =>
+                import(
+                  /* webpackChunkName: "bike park" */ './component/map/sidebar/BikeParkContent'
+                ).then(getDefault)
+              }
+            />
+          ),
+          map: (
+            <Route
+              path="(.*)?"
+              getComponent={() =>
+                import(
+                  /* webpackChunkName: "bikepark" */ './component/VehicleParkingMapContainer'
+                ).then(getDefault)
+              }
+              query={graphql`
+                query routes_BikeParkMap_Query($id: String!) {
+                  vehicleParking(id: $id) {
+                    ...VehicleParkingMapContainer_vehicleParking
+                  }
                 }
-                prepareVariables={prepareWeekDays}
-                query={graphql`
-                  query routes_BikePark_Query(
-                    $id: String!
-                    $dates: [String!]!
-                  ) {
-                    bikePark(id: $id) {
-                      ...BikeParkContent_bikePark @arguments(dates: $dates)
-                    }
-                  }
-                `}
-                render={({ Component, props, error, match, retry }) => {
-                  if (Component && (props || error)) {
-                    return <Component {...props} match={match} error={error} />;
-                  }
-                  return getComponentOrLoadingRenderer({
-                    Component,
-                    props,
-                    error,
-                    retry,
-                  });
-                }}
-              />
-            ),
-            map: (
-              <Route
-                path="(.*)?"
-                getComponent={() =>
-                  import(
-                    /* webpackChunkName: "bikepark" */ './component/BikeParkMapContainer'
-                  ).then(getDefault)
-                }
-                query={graphql`
-                  query routes_BikeParkMap_Query($id: String!) {
-                    bikePark(id: $id) {
-                      ...BikeParkMapContainer_bikePark
-                    }
-                  }
-                `}
-                render={getComponentOrNullRenderer}
-              />
-            ),
-          }}
-        </Route>
+              `}
+              render={getComponentOrNullRenderer}
+            />
+          ),
+        }}
       </Route>
       <Route path={`/${PREFIX_CARPARK}`}>
         <Route Component={Error404} />
@@ -311,32 +280,17 @@ export default config => {
             content: (
               <Route
                 getComponent={() =>
-                  // todo: use bbnavi code
                   import(
-                    /* webpackChunkName: "carpark" */ './component/CarParkContent'
-                  )
-                    .then(getDefault)
-                    .catch(errorLoading)
+                    /* webpackChunkName: "parking lots" */ './component/map/sidebar/DynamicParkingLotsContent'
+                  ).then(getDefault)
                 }
                 query={graphql`
-                  query routes_CarPark_Query($id: String!, $dates: [String!]!) {
-                    carPark(id: $id) {
-                      ...CarParkContent_carPark @arguments(dates: $dates)
+                  query routes_DynamicParkingLot_Query($id: String!) {
+                    vehicleParking(id: $id) {
+                      ...DynamicParkingLotsContent_vehicleParking
                     }
                   }
                 `}
-                prepareVariables={prepareWeekDays}
-                render={({ Component, props, error, match, retry }) => {
-                  if (Component && (props || error)) {
-                    return <Component {...props} match={match} error={error} />;
-                  }
-                  return getComponentOrLoadingRenderer({
-                    Component,
-                    props,
-                    error,
-                    retry,
-                  });
-                }}
               />
             ),
             map: (
@@ -344,13 +298,13 @@ export default config => {
                 path="(.*)?"
                 getComponent={() =>
                   import(
-                    /* webpackChunkName: "carpark" */ './component/CarParkMapContainer'
+                    /* webpackChunkName: "carpark" */ './component/VehicleParkingMapContainer'
                   ).then(getDefault)
                 }
                 query={graphql`
                   query routes_CarParkMap_Query($id: String!) {
-                    carPark(id: $id) {
-                      ...CarParkMapContainer_carPark
+                    vehicleParking(id: $id) {
+                      ...VehicleParkingMapContainer_vehicleParking
                     }
                   }
                 `}

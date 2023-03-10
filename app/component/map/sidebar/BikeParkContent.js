@@ -6,7 +6,7 @@ import ReactRelayContext from 'react-relay/lib/ReactRelayContext';
 import SidebarContainer from './SidebarContainer';
 
 const BikeParkContent = ({ match }, { intl }) => {
-  const { lat, lng, id } = match.location.query;
+  const { id } = match.params;
 
   const getTagValue = (tags, key) => {
     for (let i = 0; i < tags.length; i++) {
@@ -73,8 +73,8 @@ const BikeParkContent = ({ match }, { intl }) => {
         <div style={{ padding: '15px 0px' }}>
           <a
             style={{ textDecoration: 'none' }}
-            // eslint-disable-next-line react/jsx-no-target-blank
             target="_blank"
+            rel="noopener noreferrer"
             className="standalone-btn"
             href={props.vehicleParking.detailsUrl}
           >
@@ -146,8 +146,8 @@ const BikeParkContent = ({ match }, { intl }) => {
               name={getName(props)}
               location={{
                 address: getName(props),
-                lat: Number(lat),
-                lon: Number(lng),
+                lat: Number(props?.vehicleParking?.lat),
+                lon: Number(props?.vehicleParking?.lng),
               }}
               photoUrl={props?.vehicleParking?.imageUrl}
             >
