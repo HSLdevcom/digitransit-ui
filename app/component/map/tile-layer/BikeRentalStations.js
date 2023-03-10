@@ -49,12 +49,20 @@ class BikeRentalStations {
 
   getPromise = lang => this.fetchAndDraw(lang);
 
+  getLayerBaseUrl = zoomedIn => {
+    return zoomedIn
+      ? this.config.URL.REALTIME_RENTAL_STATION_MAP
+      : this.config.URL.RENTAL_STATION_MAP;
+  };
+
+  getLayerName = zoomedIn => {
+    return zoomedIn ? 'realtimeRentalStations' : 'rentalStations';
+  };
+
   fetchAndDraw = lang => {
     const zoomedIn =
       this.tile.coords.z > this.config.cityBike.cityBikeSmallIconZoom;
-    const baseUrl = zoomedIn
-      ? getLayerBaseUrl(this.config.URL.REALTIME_RENTAL_STATION_MAP, lang)
-      : getLayerBaseUrl(this.config.URL.RENTAL_STATION_MAP, lang);
+    const baseUrl = getLayerBaseUrl(this.getLayerBaseUrl(zoomedIn), lang);
     const tileUrl = `${baseUrl}${
       this.tile.coords.z + (this.tile.props.zoomOffset || 0)
     }/${this.tile.coords.x}/${this.tile.coords.y}.pbf`;
@@ -70,8 +78,8 @@ class BikeRentalStations {
             const vt = new VectorTile(new Protobuf(buf));
 
             this.features = [];
-            const layer =
-              vt.layers.rentalStations || vt.layers.realtimeRentalStations;
+
+            const layer = vt.layers[this.getLayerName(zoomedIn)];
 
             if (layer) {
               for (let i = 0, ref = layer.length - 1; i <= ref; i++) {
