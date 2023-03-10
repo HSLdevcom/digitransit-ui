@@ -21,7 +21,9 @@ export default function VectorTileLayerContainer(props, { config }) {
 
   if (props.mapLayers.citybike) {
     layers.push(BikeRentalStations);
-    layers.push(RentalVehicles);
+    if (config.URL.RENTAL_VEHICLE_MAP) {
+      layers.push(RentalVehicles);
+    }
   }
 
   if (props.mapLayers.parkAndRide) {
