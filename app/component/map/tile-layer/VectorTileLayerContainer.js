@@ -3,6 +3,7 @@ import React from 'react';
 
 import TileLayerContainer from './TileLayerContainer';
 import BikeRentalStations from './BikeRentalStations';
+import RentalVehicles from './RentalVehicles';
 import WeatherStations from './WeatherStations';
 import DatahubTiles from './DatahubTiles';
 import Stops from './Stops';
@@ -20,7 +21,7 @@ export default function VectorTileLayerContainer(props, { config }) {
 
   if (props.mapLayers.citybike) {
     layers.push(BikeRentalStations);
-    // TODO Push (to be created) RentalVehicles layer as well
+    layers.push(RentalVehicles);
   }
 
   if (props.mapLayers.parkAndRide) {
