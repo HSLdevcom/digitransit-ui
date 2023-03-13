@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { useRef, useLayoutEffect, useState } from 'react';
-import { FormattedMessage } from 'react-intl';
 import MapBottomsheetContext from './map/MapBottomsheetContext';
+import MobileFooter from './MobileFooter';
 
 function slowlyScrollTo(el, to = 0, duration = 1000) {
   const element = el;
@@ -35,18 +35,15 @@ Math.easeInOutQuad = function (a, b, c, d) {
   return (-c / 2) * (t * (t - 2) - 1) + b;
 };
 
-export default function MobileView(
-  {
-    header,
-    map,
-    content,
-    settingsDrawer,
-    selectFromMapHeader,
-    expandMap,
-    searchBox,
-  },
-  { config },
-) {
+export default function MobileView({
+  header,
+  map,
+  content,
+  settingsDrawer,
+  selectFromMapHeader,
+  expandMap,
+  searchBox,
+}) {
   if (settingsDrawer && settingsDrawer.props.open) {
     return <div className="mobile">{settingsDrawer}</div>;
   }
@@ -121,33 +118,13 @@ export default function MobileView(
           </div>
         </>
       ) : (
-        <div role="main">
-          {header}
-          {content}
+        <div role="main" className="mobile-main-container">
+          <div className="mobile-main-content-container">
+            {header}
+            {content}
+          </div>
 
-          {config.useCookiesPrompt && (
-            <div className="mobile-footer">
-              <div style={{ margin: '15px' }}>
-                <div>{config.copyrightText || ''}</div>
-                <div>
-                  <button
-                    type="button"
-                    onClick={() =>
-                      window.CookieConsent.renew && window.CookieConsent.renew()
-                    }
-                  >
-                    <FormattedMessage
-                      id="cookie-settings"
-                      default="Cookie settings"
-                    />
-                  </button>
-                </div>
-              </div>
-              <div className="mobile-footer-bar-container">
-                <div className="mobile-footer-bar" />
-              </div>
-            </div>
-          )}
+          <MobileFooter />
         </div>
       )}
     </div>
