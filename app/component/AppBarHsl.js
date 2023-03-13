@@ -110,7 +110,7 @@ const AppBarHsl = ({ lang, user, favourites }, context) => {
   useEffect(() => siteHeaderRef.current?.fetchNotifications()[favourites]);
 
   const cookieConsent = useIsConsentGiven('cookie_cat_statistic');
-  if (!cookieConsent) {
+  if (config.useCookiesPrompt && !cookieConsent) {
     window.dataLayer = null;
   } else {
     initAnalyticsClientSide();
