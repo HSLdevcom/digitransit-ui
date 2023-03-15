@@ -189,7 +189,7 @@ export default {
     accessibilityOption: 0,
     bikeSpeed: 5.55,
     ticketTypes: 'none',
-    walkBoardCost: 90,
+    walkBoardCost: 120,
     walkReluctance: 1.8,
     walkSpeed: 1.2,
     includeBikeSuggestions: true,
