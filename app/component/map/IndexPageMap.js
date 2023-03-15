@@ -14,7 +14,6 @@ import storeOrigin from '../../action/originActions';
 import storeDestination from '../../action/destinationActions';
 // eslint-disable-next-line import/no-named-as-default
 import { mapLayerShape } from '../../store/MapLayerStore';
-import CookieSettingsButton from '../CookieSettingsButton';
 
 const locationMarkerModules = {
   LocationMarker: () =>
@@ -88,7 +87,6 @@ function IndexPageMap(
 
   return (
     <>
-      {config.useCookiesPrompt && <CookieSettingsButton />}
       <MapWithTracking
         {...mwtProps}
         mapLayers={mapLayers}
