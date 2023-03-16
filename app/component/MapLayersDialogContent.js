@@ -5,7 +5,6 @@ import React from 'react';
 import { intlShape, FormattedMessage } from 'react-intl';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { routerShape, withRouter } from 'found';
-import merge from 'lodash/merge';
 import { isKeyboardSelectionEvent } from '../util/browser';
 import Icon from './Icon';
 import GeoJsonStore from '../store/GeoJsonStore';
@@ -95,9 +94,7 @@ class MapLayersDialogContent extends React.Component {
   }
 
   updateSetting = newSetting => {
-    this.props.updateMapLayers({
-      ...newSetting,
-    });
+    this.props.updateMapLayers(newSetting);
   };
 
   updateStopAndTerminalSetting = newSetting => {
@@ -213,9 +210,7 @@ class MapLayersDialogContent extends React.Component {
                 defaultMessage: 'Public Transit',
               })}
               icon="icon-icon_material_rail"
-              onChange={newSettings => {
-                this.updateSetting(merge(this.props.mapLayers, newSettings));
-              }}
+              onChange={this.updateSetting}
               options={[
                 isTransportModeEnabled(transportModes.bus) && {
                   checked: stop.bus,
@@ -271,9 +266,7 @@ class MapLayersDialogContent extends React.Component {
                 defaultMessage: 'Bicycle',
               })}
               icon="icon-icon_material_bike"
-              onChange={newSettings => {
-                this.updateSetting(merge(this.props.mapLayers, newSettings));
-              }}
+              onChange={this.updateSetting}
               options={[
                 this.context.config.parkAndRideForBikes &&
                   this.context.config.parkAndRideForBikes.show && {
@@ -314,9 +307,7 @@ class MapLayersDialogContent extends React.Component {
                 defaultMessage: 'Sharing',
               })}
               icon="icon-icon_material_bike_scooter"
-              onChange={newSettings => {
-                this.updateSetting(merge(this.props.mapLayers, newSettings));
-              }}
+              onChange={this.updateSetting}
               options={[
                 showCityBikes(this.context.config?.cityBike?.networks) && {
                   checked: citybike,
@@ -341,9 +332,7 @@ class MapLayersDialogContent extends React.Component {
                 defaultMessage: 'Car',
               })}
               icon="icon-icon_material_car"
-              onChange={newSettings => {
-                this.updateSetting(merge(this.props.mapLayers, newSettings));
-              }}
+              onChange={this.updateSetting}
               options={[
                 this.context.config.parkAndRide &&
                   this.context.config.parkAndRide.show && {
@@ -382,9 +371,7 @@ class MapLayersDialogContent extends React.Component {
                 defaultMessage: 'Others',
               })}
               icon="icon-icon_material_map"
-              onChange={newSettings => {
-                this.updateSetting(merge(this.props.mapLayers, newSettings));
-              }}
+              onChange={this.updateSetting}
               options={[
                 publicToiletsLayer && {
                   checked:
@@ -609,8 +596,7 @@ const connectedComponent = connectToStores(
       },
     },
     mapLayers: getStore(MapLayerStore).getMapLayers(),
-    updateMapLayers: mapLayers =>
-      executeAction(updateMapLayers, { ...mapLayers }),
+    updateMapLayers: mapLayers => executeAction(updateMapLayers, mapLayers),
     lang: getStore('PreferencesStore').getLanguage(),
     mapMode: getStore('MapModeStore').getMapMode(),
     setMapMode: mapMode => executeAction(setMapMode, mapMode),
