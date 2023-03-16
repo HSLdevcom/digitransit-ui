@@ -30,6 +30,7 @@ import Loading from '../Loading';
 import LazilyLoad, { importLazy } from '../LazilyLoad';
 import { getDefaultNetworks } from '../../util/citybikes';
 import { getRouteMode } from '../../util/modeUtils';
+import CookieSettingsButton from '../CookieSettingsButton';
 
 const locationMarkerModules = {
   LocationMarker: () =>
@@ -462,6 +463,7 @@ function StopsNearYouMap(
   if (breakpoint === 'large') {
     return (
       <>
+        {context.config.useCookiesPrompt && <CookieSettingsButton />}
         <MapWithTracking {...mapProps} />
       </>
     );
