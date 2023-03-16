@@ -63,6 +63,9 @@ class MapLayerStore extends Store {
       this.mapLayers = {
         ...this.mapLayers,
         ...storedMapLayers,
+        // todo: stop?
+        // todo: geoJson?
+        // todo: datahubTiles?
         terminal: { ...this.mapLayers.terminal, ...storedMapLayers.terminal },
       };
     }

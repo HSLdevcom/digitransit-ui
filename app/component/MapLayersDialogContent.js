@@ -97,6 +97,7 @@ class MapLayersDialogContent extends React.Component {
     this.props.updateMapLayers(newSetting);
   };
 
+  // todo: not used?
   updateStopAndTerminalSetting = newSetting => {
     const { mapLayers } = this.props;
     const stop = {
@@ -110,6 +111,7 @@ class MapLayersDialogContent extends React.Component {
     this.updateSetting({ stop, terminal });
   };
 
+  // todo: not used?
   updateStopSetting = newSetting => {
     const stop = {
       ...newSetting,
@@ -117,6 +119,7 @@ class MapLayersDialogContent extends React.Component {
     this.updateSetting({ stop });
   };
 
+  // todo: not used?
   updateGeoJsonSetting = newSetting => {
     const geoJson = {
       ...this.props.mapLayers.geoJson,

@@ -30,6 +30,7 @@ const onlyUpdateCoordChanges = onlyUpdateForKeys([
   'bounds',
   'mapTracking',
   'mapLayers',
+  // todo: 'mapLayerOptions', ?
   'children',
   'leafletObjs',
   'bottomButtons',
