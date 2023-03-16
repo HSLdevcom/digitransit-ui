@@ -17,7 +17,9 @@ export function addAnalyticsEvent(event) {
     // this is the default event field if none is defined
     newEvent = { event: 'sendMatomoEvent', ...event };
   }
-  window.dataLayer.push(newEvent);
+  if (window.dataLayer) {
+    window.dataLayer.push(newEvent);
+  }
 }
 
 /**

@@ -101,10 +101,12 @@ async function init() {
 
   const context = await app.rehydrate(window.state);
 
-  window.context = context;
-
   // For Google Tag Manager
-  initAnalyticsClientSide();
+  if (!config.useCookiesPrompt) {
+    initAnalyticsClientSide();
+  }
+
+  window.context = context;
 
   if (process.env.NODE_ENV === 'development') {
     if (config.AXE) {
