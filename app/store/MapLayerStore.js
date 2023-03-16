@@ -1,5 +1,7 @@
 import Store from 'fluxible/addons/BaseStore';
 import PropTypes from 'prop-types';
+import defaultsDeep from 'lodash/defaultsDeep';
+import cloneDeep from 'lodash/cloneDeep';
 import { setMapLayerSettings, getMapLayerSettings } from './localStorage';
 import { showCityBikes } from '../util/modeUtils';
 
@@ -99,14 +101,7 @@ class MapLayerStore extends Store {
   };
 
   updateMapLayers = mapLayers => {
-    this.mapLayers = {
-      ...this.mapLayers,
-      ...mapLayers,
-      stop: {
-        ...this.mapLayers.stop,
-        ...mapLayers.stop,
-      },
-    };
+    this.mapLayers = defaultsDeep(cloneDeep(mapLayers), this.mapLayers);
     setMapLayerSettings({ ...this.mapLayers });
     this.emitChange();
   };
