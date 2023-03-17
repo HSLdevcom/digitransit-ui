@@ -12,8 +12,8 @@
     "digitransit-store/packages/*"
   ],
   "scripts": {
-    "postinstall": "yarn run node14-patch",
-    "setup": "yarn install && yarn build-workspaces && yarn node14-patch",
+    "postinstall": "yarn run node14-patch && yarn react-charging-station-connector-icons-patch",
+    "setup": "yarn install && yarn build-workspaces",
     "static": "mkdir -p _static/js; mkdir -p _static/css; cp -r static/* _static",
     "win-static": "xcopy static\\* _static /e /s /y /i& if not exist _static\\js mkdir _static\\js& if not exist _static\\css mkdir _static\\css",
     "prebuild": "yarn run static && yarn run relay && yarn run relay-bbnavi-datahub",
