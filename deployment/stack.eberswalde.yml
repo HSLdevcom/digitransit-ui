@@ -3,7 +3,7 @@ version: '3.7'
 services:
   digitransit-ui:
     environment:
-      - CONFIG=bbnavi-michendorf
+      - CONFIG=bbnavi-eberswalde
     deploy:
       labels:
-        traefik.frontend.rule: Host:michendorf.bbnavi.de
+        traefik.frontend.rule: Host:eberswalde.bbnavi.de

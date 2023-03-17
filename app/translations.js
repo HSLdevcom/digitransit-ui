@@ -974,6 +974,7 @@ const translations = {
     'stops-near-you.description': 'Stop timetables and vehicles near your',
     'stops-near-you.title': 'Near by stops timetables',
     street: 'Straße',
+    bicycle: 'Fahrrad',
     'street-mode-bicycle': 'Fahrrad',
     'street-mode-bike-aria':
       'Zeige Fahrradroute. Dauer {duration}, Strecke {length}',
@@ -1928,6 +1929,7 @@ const translations = {
     stops: 'Stops',
     'stops-near-you.description': 'Stop timetables and vehicles near your',
     'stops-near-you.title': 'Near by stops timetables',
+    bicycle: 'Bicycle',
     'street-mode-bicycle': 'Bicycle',
     'street-mode-bike-aria':
       'Show cycle route. Duration {duration}, distance {length}',
