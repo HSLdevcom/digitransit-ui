@@ -2,6 +2,8 @@ version: '3.7'
 # This file partially overrides stack.yml.
 services:
   digitransit-ui:
+    environment:
+      - CONFIG=bbnavi-staging
     deploy:
       labels:
         traefik.frontend.rule: Host:staging.bbnavi.de
