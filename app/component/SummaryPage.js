@@ -2572,16 +2572,13 @@ class SummaryPage extends React.Component {
     const bikeParkPlanHasItineraries = this.hasItinerariesContainingPublicTransit(
       bikeParkPlan,
     );
-    const showBikeAndPublicOptionButton = !this.context.config
-      .includePublicWithBikePlan
-      ? bikeParkPlanHasItineraries &&
-        !currentSettings.accessibilityOption &&
-        currentSettings.showBikeAndParkItineraries
-      : (bikeAndPublicPlanHasItineraries ||
-          bikeRentAndPublicPlanHasItineraries ||
-          bikeParkPlanHasItineraries) &&
-        !currentSettings.accessibilityOption &&
-        currentSettings.includeBikeSuggestions;
+
+    // NOTE: here, in contrast to HSL, we don't inspect config and ignore most settings,
+    // as these already should have been respected in the request
+    const showBikeAndPublicOptionButton =
+      bikeAndPublicPlanHasItineraries ||
+      bikeRentAndPublicPlanHasItineraries ||
+      bikeParkPlanHasItineraries;
 
     const hasCarItinerary = !isEmpty(get(carPlan, 'itineraries'));
     const showCarOptionButton =
