@@ -651,6 +651,16 @@ section.content {
   // 100px and 18px are the height of the message bar, but is specified in js
 }
 
+.mobile-main-container {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.mobile-main-content-container {
+  flex-grow: 1;
+}
+
 .mobile-footer {
   border-top: 1px solid #DDDDDD;
 }

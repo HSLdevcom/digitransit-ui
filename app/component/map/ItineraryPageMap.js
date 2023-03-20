@@ -99,7 +99,9 @@ function ItineraryPageMap(
         />
       )}
 
-      {breakpoint === 'large' && <CookieSettingsButton />}
+      {breakpoint === 'large' && config.useCookiesPrompt && (
+        <CookieSettingsButton />
+      )}
     </MapWithTracking>
   );
 }

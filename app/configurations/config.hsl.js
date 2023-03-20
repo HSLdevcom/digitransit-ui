@@ -396,7 +396,7 @@ export default {
     ferry: ['HSL:1030701'],
   },
 
-  showTicketSelector: true,
+  showTicketSelector: false,
 
   staticMessages: [
     // {
