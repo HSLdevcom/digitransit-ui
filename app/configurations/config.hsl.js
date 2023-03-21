@@ -71,6 +71,8 @@ export default {
   useCookiesPrompt: false,
   copyrightText: '© Copyright HSL',
 
+  useRoutingFeedbackPrompt: true,
+
   feedIds: ['HSL'],
 
   showHSLTracking: false,
