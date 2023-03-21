@@ -42,28 +42,10 @@ export default class FavouriteStore extends Store {
   constructor(dispatcher) {
     super(dispatcher);
     this.config = dispatcher.getContext().config;
-    this.fetchingOrUpdating();
-    if (this.config.allowLogin) {
-      getFavourites()
-        .then(res => {
-          if (this.config.allowFavouritesFromLocalstorage) {
-            this.mergeWithLocalstorage(res);
-          } else {
-            this.favourites = res;
-            this.fetchComplete();
-          }
-        })
-        .catch(() => {
-          if (this.config.allowFavouritesFromLocalstorage) {
-            this.favourites = getFavouriteStorage();
-            this.fetchComplete();
-          } else {
-            this.fetchFailed();
-          }
-        });
-    } else {
+    if (!this.config.allowLogin) {
       this.favourites = getFavouriteStorage();
-      this.fetchComplete();
+    } else {
+      this.status = FavouriteStore.STATUS_FETCHING_OR_UPDATING;
     }
     // this.migrateRoutes();
     // this.migrateStops();
@@ -83,6 +65,27 @@ export default class FavouriteStore extends Store {
   fetchFailed() {
     this.status = FavouriteStore.FETCH_FAILED;
     this.emitChange();
+  }
+
+  fetchFavourites() {
+    this.fetchingOrUpdating();
+    getFavourites()
+      .then(res => {
+        if (this.config.allowFavouritesFromLocalstorage) {
+          this.mergeWithLocalstorage(res);
+        } else {
+          this.favourites = res;
+          this.fetchComplete();
+        }
+      })
+      .catch(() => {
+        if (this.config.allowFavouritesFromLocalstorage) {
+          this.favourites = getFavouriteStorage();
+          this.fetchComplete();
+        } else {
+          this.fetchFailed();
+        }
+      });
   }
 
   getStatus() {
@@ -392,5 +395,7 @@ export default class FavouriteStore extends Store {
     SaveFavourite: 'saveFavourite',
     UpdateFavourites: 'updateFavourites',
     DeleteFavourite: 'deleteFavourite',
+    FetchFavourites: 'fetchFavourites',
+    FetchFavouritesComplete: 'fetchComplete',
   };
 }

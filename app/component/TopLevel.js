@@ -18,6 +18,10 @@ import ErrorBoundary from './ErrorBoundary';
 import { DesktopOrMobile } from '../util/withBreakpoint';
 import { getUser } from '../util/apiUtils';
 import setUser from '../action/userActions';
+import {
+  fetchFavourites,
+  fetchFavouritesComplete,
+} from '../action/FavouriteActions';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 class TopLevel extends React.Component {
@@ -69,9 +73,11 @@ class TopLevel extends React.Component {
           this.context.executeAction(setUser, {
             ...user,
           });
+          this.context.executeAction(fetchFavourites);
         })
         .catch(() => {
           this.context.executeAction(setUser, { notLogged: true });
+          this.context.executeAction(fetchFavouritesComplete);
         });
     }
   }
