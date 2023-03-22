@@ -9,16 +9,6 @@ import AlertRow from './AlertRow';
 import { alertCompare } from '../util/alertUtils';
 import withBreakpoint from '../util/withBreakpoint';
 
-const mapAlert = alert => ({
-  description: alert.alertDescriptionText,
-  header: alert.alertHeaderText,
-  entities: alert.entities,
-  severityLevel: alert.alertSeverityLevel,
-  url: alert.alertUrl,
-  validityPeriod: alert.validityPeriod,
-  feed: alert.feed,
-});
-
 const AlertList = ({
   // cancelations, TODO
   color,
@@ -41,9 +31,7 @@ const AlertList = ({
     );
   }
 
-  const simplifiedAlertsSorted = serviceAlerts
-    .map(alert => mapAlert(alert))
-    .sort(alertCompare);
+  const alertsSorted = serviceAlerts.sort(alertCompare);
 
   return (
     <div className="alerts-content-wrapper">
@@ -58,15 +46,16 @@ const AlertList = ({
             'momentum-scroll': !disableScrolling,
           })}
         >
-          {simplifiedAlertsSorted.map(
+          {alertsSorted.map(
             (
               {
-                description,
-                header,
+                alertDescriptionText,
+                alertHeaderText,
                 entities,
-                severityLevel,
-                url,
-                validityPeriod: { startTime, endTime },
+                alertSeverityLevel,
+                alertUrl,
+                effectiveStartDate,
+                effectiveEndDate,
                 feed,
               },
               i,
@@ -74,21 +63,21 @@ const AlertList = ({
               <AlertRow
                 color={color}
                 currentTime={currentTime}
-                description={description}
-                endTime={endTime}
+                description={alertDescriptionText}
+                endTime={effectiveEndDate}
                 entities={entities}
                 feed={feed}
-                header={header}
+                header={alertHeaderText}
                 // eslint-disable-next-line react/no-array-index-key
                 key={`alert-${
                   showRouteIcon ? 'route' : 'general'
-                }-${severityLevel}-${i}`}
+                }-${alertSeverityLevel}-${i}`}
                 mode={mode}
-                severityLevel={severityLevel}
+                severityLevel={alertSeverityLevel}
                 showRouteIcon={showRouteIcon}
                 showRouteNameLink={showRouteNameLink}
-                startTime={startTime}
-                url={url}
+                startTime={effectiveStartDate}
+                url={alertUrl}
               />
             ),
           )}
@@ -100,22 +89,20 @@ const AlertList = ({
 
 const alertShape = PropTypes.shape({
   description: PropTypes.string,
+  effectiveEndDate: PropTypes.number,
+  effectiveStartDate: PropTypes.number.isRequired,
   header: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
   route: PropTypes.shape({
     color: PropTypes.string,
     mode: PropTypes.string,
     shortName: PropTypes.string,
   }),
-  severityLevel: PropTypes.string,
+  alertSeverityLevel: PropTypes.string,
   stop: PropTypes.shape({
     code: PropTypes.string,
     vehicleMode: PropTypes.string,
   }),
   url: PropTypes.string,
-  validityPeriod: PropTypes.shape({
-    startTime: PropTypes.number.isRequired,
-    endTime: PropTypes.number,
-  }).isRequired,
 });
 
 AlertList.propTypes = {

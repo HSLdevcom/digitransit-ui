@@ -57,9 +57,7 @@ const StopAlerts = ({ stop }) => {
         mode,
         shortName,
       },
-      validityPeriod: {
-        startTime: departureTime,
-      },
+      effectiveStartDate: departureTime,
     };
   });
 

@@ -283,11 +283,9 @@ RouteStop.propTypes = {
     platformCode: PropTypes.string,
     alerts: PropTypes.arrayOf(
       PropTypes.shape({
-        severityLevel: PropTypes.string,
-        validityPeriod: PropTypes.shape({
-          startTime: PropTypes.number,
-          endTime: PropTypes.number,
-        }),
+        effectiveStartDate: PropTypes.number,
+        effectiveEndDate: PropTypes.number,
+        alertSeverityLevel: PropTypes.string,
       }),
     ),
     stopTimesForPattern: PropTypes.arrayOf(

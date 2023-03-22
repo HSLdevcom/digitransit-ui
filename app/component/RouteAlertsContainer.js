@@ -37,10 +37,8 @@ function RouteAlertsContainer({ route }, { match }) {
         route: {
           ...route,
         },
-        validityPeriod: {
-          startTime: departureTime,
-          endTime: last.serviceDay + last.scheduledArrival,
-        },
+        effectiveStartDate: departureTime,
+        effectiveEndDate: last.serviceDay + last.scheduledArrival,
       };
     });
   const serviceAlerts = [

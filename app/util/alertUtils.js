@@ -90,7 +90,7 @@ export const DEFAULT_VALIDITY = 5 * 60;
 /**
  * Checks if the given validity period is valid or not.
  *
- * @param {{ startTime: number, endTime: number }} validityPeriod the validity period to check.
+ * @param {{ effectiveStartDate: number, effectiveEndDate: number }} alert containing validity period.
  * @param {number} referenceUnixTime the reference unix time stamp (in seconds).
  * @param {number} defaultValidity the default validity period length in seconds.
  */
@@ -102,21 +102,18 @@ export const isAlertValid = (
   if (!alert) {
     return false;
   }
-  const { validityPeriod } = alert;
-  if (!validityPeriod || !isNumber(referenceUnixTime)) {
+  const { effectiveStartDate, effectiveEndDate } = alert;
+  if (!effectiveStartDate || !isNumber(referenceUnixTime)) {
     return true;
   }
-  const { startTime, endTime } = validityPeriod;
-  if (!startTime && !endTime) {
-    return true;
-  }
-  if (isFutureValid && referenceUnixTime < startTime) {
+  if (isFutureValid && referenceUnixTime < effectiveStartDate) {
     return true;
   }
 
   return (
-    startTime <= referenceUnixTime &&
-    referenceUnixTime <= (endTime || startTime + defaultValidity)
+    effectiveStartDate <= referenceUnixTime &&
+    referenceUnixTime <=
+      (effectiveEndDate || effectiveStartDate + defaultValidity)
   );
 };
 
@@ -132,10 +129,8 @@ export const cancelationHasExpired = (
 ) =>
   !isAlertValid(
     {
-      validityPeriod: {
-        startTime: serviceDay + scheduledArrival,
-        endTime: serviceDay + scheduledDeparture,
-      },
+      effectiveStartDate: serviceDay + scheduledArrival,
+      effectiveEndDate: serviceDay + scheduledDeparture,
     },
     referenceUnixTime,
     { isFutureValid: true },
@@ -185,52 +180,7 @@ export const getCancelationsForStop = stop => {
 };
 
 /**
- * Maps the OTP-style Service Alert's properties that
- * are most relevant to deciding whether the alert should be
- * shown to the user.
- *
- * @param {*} alert the Service Alert to map.
- */
-export const getServiceAlertMetadata = (alert = {}) => ({
-  severityLevel: alert.alertSeverityLevel,
-  validityPeriod: {
-    startTime: alert.effectiveStartDate,
-    endTime: alert.effectiveEndDate,
-  },
-});
-
-/**
- * @param {Object.<string, *>} entityWithAlert
- * @param {Object.<atring, *>} route
- * @returns {Array.<Object.<string,*>>} formatted alerts
- */
-const getServiceAlerts = (
-  { alerts } = {},
-  { color, mode, shortName, routeGtfsId, stopGtfsId, type } = {},
-) =>
-  Array.isArray(alerts)
-    ? alerts.map(alert => ({
-        ...getServiceAlertMetadata(alert),
-        description: alert.alertDescriptionText,
-        hash: alert.alertHash,
-        header: alert.alertHeaderText,
-        route: {
-          color,
-          mode,
-          shortName,
-          type,
-          gtfsId: routeGtfsId,
-        },
-        stop: {
-          gtfsId: stopGtfsId,
-        },
-        url: alert.alertUrl,
-      }))
-    : [];
-
-/**
- * Retrieves OTP-style Service Alerts from the given route and
- * maps them to the format understood by the UI.
+ * Retrieves Service Alerts from the given route.
  *
  * @param {Object.<string,*>} route the route object to retrieve alerts from.
  */
@@ -239,22 +189,21 @@ export const getServiceAlertsForRoute = route => {
     return [];
   }
 
-  return getServiceAlerts(
-    {
-      alerts: route.alerts,
-    },
-    { ...route, routeGtfsId: route && route.gtfsId },
-  );
+  return route.alerts;
 };
 
 /**
- * Retrieves OTP-style Service Alerts from the given stop and
- * maps them to the format understood by the UI.
+ * Retrieves Service Alerts from the given stop.
  *
  * @param {*} stop the stop object to retrieve alerts from.
  */
-export const getServiceAlertsForStop = stop =>
-  getServiceAlerts(stop, { stopGtfsId: stop && stop.gtfsId });
+export const getServiceAlertsForStop = stop => {
+  if (!stop || !Array.isArray(stop.alerts)) {
+    return [];
+  }
+
+  return stop.alerts;
+};
 
 /**
  * Retrieves OTP-style Service Alerts from the given Terminal stop's stops  and
@@ -298,18 +247,14 @@ export const getServiceAlertsForStopRoutes = stop => {
 };
 
 /**
- * Retrieves OTP-style Service Alerts for trip on route and maps them
- * to the format understood by the UI.
+ * Retrieves Service Alerts for trip on route.
  *
  * @param {Object.<string,*>} trip
  * @param {Object.<string,*>} route
  *
  * @returns {Array.<Object.<string,*>>}
  */
-const getServiceAlertsForTrip = (trip, route) =>
-  trip?.alerts
-    ? getServiceAlerts(trip, { ...(route || []), routeGtfsId: route?.gtfsId })
-    : [];
+const getServiceAlertsForTrip = trip => (trip?.alerts ? trip.alerts : []);
 
 const isValidArray = array => Array.isArray(array) && array.length > 0;
 
@@ -325,7 +270,7 @@ export const getMaximumAlertSeverityLevel = alerts => {
     return undefined;
   }
   const levels = alerts
-    .map(alert => alert.alertSeverityLevel || alert.severityLevel)
+    .map(alert => alert.alertSeverityLevel)
     .reduce((obj, level) => {
       if (level) {
         obj[level] = level; // eslint-disable-line no-param-reassign
@@ -355,9 +300,6 @@ export const getActiveAlertSeverityLevel = (alerts, referenceUnixTime) => {
   return getMaximumAlertSeverityLevel(
     alerts
       .filter(alert => !!alert)
-      .map(alert =>
-        alert.validityPeriod ? { ...alert } : getServiceAlertMetadata(alert),
-      )
       .filter(alert => isAlertValid(alert, referenceUnixTime)),
   );
 };
@@ -484,7 +426,7 @@ export const alertCompare = (alertA, alertB) => {
     bEntitiesSorted[0],
   );
   return bestEntitiesCompared === 0
-    ? alertB.validityPeriod.startTime - alertA.validityPeriod.startTime
+    ? alertB.effectiveStartDate - alertA.effectiveEndDate
     : bestEntitiesCompared;
 };
 
@@ -505,8 +447,8 @@ export const alertSeverityCompare = (a, b) => {
   ];
 
   const severityLevelDifference =
-    severityLevels.indexOf(b.severityLevel) -
-    severityLevels.indexOf(a.severityLevel);
+    severityLevels.indexOf(b.alertSeverityLevel) -
+    severityLevels.indexOf(a.alertSeverityLevel);
 
   if (severityLevelDifference === 0) {
     if (a.route && a.route.gtfsId) {

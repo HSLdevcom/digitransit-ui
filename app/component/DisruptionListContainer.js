@@ -9,7 +9,6 @@ import Icon from './Icon';
 import { AlertSeverityLevelType } from '../constants';
 import {
   getEntitiesOfTypeFromAlert,
-  getServiceAlertMetadata,
   hasEntitiesOfType,
   hasEntitiesOfTypes,
   isAlertValid,
@@ -18,7 +17,7 @@ import { isKeyboardSelectionEvent } from '../util/browser';
 import withBreakpoint from '../util/withBreakpoint';
 
 const isDisruption = alert =>
-  alert && alert.severityLevel !== AlertSeverityLevelType.Info;
+  alert && alert.alertSeverityLevel !== AlertSeverityLevelType.Info;
 const isInfo = alert => !isDisruption(alert);
 
 const splitAlertByRouteModeAndColor = alert => {
@@ -52,26 +51,23 @@ function DisruptionListContainer(
     );
   }
 
-  const validAlertsMapped = viewer.alerts
-    .map(alert => {
-      return { ...alert, ...getServiceAlertMetadata(alert) };
-    })
+  const validAlerts = viewer.alerts
     .filter(alert => isAlertValid(alert, currentTime))
     .filter(alert => hasEntitiesOfTypes(alert, ['Route', 'Stop']));
 
-  const disruptionCount = validAlertsMapped.filter(isDisruption).length;
-  const infoCount = validAlertsMapped.filter(isInfo).length;
+  const disruptionCount = validAlerts.filter(isDisruption).length;
+  const infoCount = validAlerts.filter(isInfo).length;
 
   const [showDisruptions, setShowDisruptions] = useState(disruptionCount > 0);
 
-  const routeAlertsToShow = validAlertsMapped
+  const routeAlertsToShow = validAlerts
     .filter(alert => hasEntitiesOfType(alert, 'Route'))
     .filter(showDisruptions ? isDisruption : isInfo)
     .map(alert => {
       return { ...alert, entities: getEntitiesOfTypeFromAlert(alert, 'Route') };
     })
     .flatMap(splitAlertByRouteModeAndColor);
-  const stopAlertsToShow = validAlertsMapped
+  const stopAlertsToShow = validAlerts
     .filter(alert => hasEntitiesOfType(alert, 'Stop'))
     .filter(showDisruptions ? isDisruption : isInfo)
     .map(alert => {
@@ -187,10 +183,9 @@ DisruptionListContainer.defaultProps = {
 const containerComponent = createFragmentContainer(
   connectToStores(
     withBreakpoint(DisruptionListContainer),
-    ['TimeStore', 'PreferencesStore'],
+    ['TimeStore'],
     context => ({
       currentTime: context.getStore('TimeStore').getCurrentTime().unix(),
-      lang: context.getStore('PreferencesStore').getLanguage(),
     }),
   ),
   {

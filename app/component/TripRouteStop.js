@@ -179,11 +179,9 @@ TripRouteStop.propTypes = {
     gtfsId: PropTypes.string,
     alerts: PropTypes.arrayOf(
       PropTypes.shape({
-        severityLevel: PropTypes.string,
-        validityPeriod: PropTypes.shape({
-          startTime: PropTypes.number,
-          endTime: PropTypes.number,
-        }),
+        effectiveStartDate: PropTypes.number,
+        effectiveEndDate: PropTypes.number,
+        alertSeverityLevel: PropTypes.string,
       }),
     ),
     zoneId: PropTypes.string,
