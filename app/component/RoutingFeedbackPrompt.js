@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 const RoutingFeedbackPrompt = (props, { config }) => {
   return config.useRoutingFeedbackPrompt ? (
     <div className="routing-feedback-container">
-      <div style={{ padding: '15px' }}>
+      <div className="routing-feedback-header-container">
         <FormattedMessage id="routing-feedback-header" />
       </div>
       <a

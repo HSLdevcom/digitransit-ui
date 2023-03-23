@@ -2728,7 +2728,7 @@ class SummaryPage extends React.Component {
               alternativePlan={this.state.alternativePlan}
               driving={showCarOptionButton || showParkRideOptionButton}
               onlyHasWalkingItineraries={onlyHasWalkingItineraries}
-              routingFeedbackPosition={4}
+              routingFeedbackPosition={this.state.routingFeedbackPosition}
             />
           </>
         );
