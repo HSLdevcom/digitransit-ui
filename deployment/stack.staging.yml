@@ -4,6 +4,7 @@ services:
   digitransit-ui:
     environment:
       - CONFIG=bbnavi-staging
+      - API_URL=https://staging.api.bbnavi.de
     deploy:
       labels:
         traefik.frontend.rule: Host:staging.bbnavi.de
