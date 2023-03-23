@@ -2389,3 +2389,22 @@ $font-print-decrease: 0.7;
 .in-the-past {
   font-weight: $font-weight-medium;
 }
+
+.routing-feedback-container {
+  background-color: #f4f4f4;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.routing-feedback-link {
+  background: white;
+  width: 60%;
+  border-radius: 50vh;
+  padding: 5px;
+  color: #007ac9;
+  border: 1px solid #888;
+  text-align: center;
+  text-decoration: none;
+  margin-bottom: 30px;
+}
