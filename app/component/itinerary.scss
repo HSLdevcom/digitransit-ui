@@ -1,4 +1,5 @@
 @charset "UTF-8";
+@import "../../sass/themes/hsl/theme";
 
 $topbar-height: 40px;
 $itinerary-tab-switch-height: 48px;
@@ -2405,7 +2406,7 @@ $font-print-decrease: 0.7;
   width: 60%;
   border-radius: 50vh;
   padding: 5px;
-  color: #007ac9;
+  color:  $hsl-blue;
   border: 1px solid #888;
   text-align: center;
   text-decoration: none;
