@@ -1172,6 +1172,9 @@ class SummaryPage extends React.Component {
                 ...result.itineraries,
               ],
               loadingMoreItineraries: undefined,
+              routingFeedbackPosition: prevState.routingFeedbackPosition
+                ? prevState.routingFeedbackPosition + result.itineraries.length
+                : result.itineraries.length,
             };
           });
         }
@@ -1284,6 +1287,9 @@ class SummaryPage extends React.Component {
               loadingMoreItineraries: undefined,
               separatorPosition: prevState.separatorPosition
                 ? prevState.separatorPosition + reversedItineraries.length
+                : reversedItineraries.length,
+              routingFeedbackPosition: prevState.routingFeedbackPosition
+                ? prevState.routingFeedbackPosition
                 : reversedItineraries.length,
             };
           });
@@ -2499,6 +2505,7 @@ class SummaryPage extends React.Component {
               alternativePlan={this.state.alternativePlan}
               driving={showCarOptionButton || showParkRideOptionButton}
               onlyHasWalkingItineraries={onlyHasWalkingItineraries}
+              routingFeedbackPosition={this.state.routingFeedbackPosition}
             >
               {this.props.content &&
                 React.cloneElement(this.props.content, {
@@ -2721,6 +2728,7 @@ class SummaryPage extends React.Component {
               alternativePlan={this.state.alternativePlan}
               driving={showCarOptionButton || showParkRideOptionButton}
               onlyHasWalkingItineraries={onlyHasWalkingItineraries}
+              routingFeedbackPosition={this.state.routingFeedbackPosition}
             />
           </>
         );
