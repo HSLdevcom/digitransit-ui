@@ -126,4 +126,3 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max,oci-mediatypes=true,compression=zstd
           push: true
-          platforms: linux/arm64
