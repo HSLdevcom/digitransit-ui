@@ -70,6 +70,7 @@ class SummaryPlanContainer extends React.Component {
     showSettingsChangedNotification: PropTypes.func.isRequired,
     driving: PropTypes.bool,
     onlyHasWalkingItineraries: PropTypes.bool,
+    routingFeedbackPosition: PropTypes.number,
   };
 
   static defaultProps = {
@@ -83,6 +84,7 @@ class SummaryPlanContainer extends React.Component {
     driving: false,
     routingErrors: [],
     separatorPosition: undefined,
+    routingFeedbackPosition: undefined,
   };
 
   static contextTypes = {
@@ -247,6 +249,7 @@ class SummaryPlanContainer extends React.Component {
       loadingMoreItineraries,
       driving,
       onlyHasWalkingItineraries,
+      routingFeedbackPosition,
     } = this.props;
     const searchTime =
       this.props.plan?.date ||
@@ -296,6 +299,7 @@ class SummaryPlanContainer extends React.Component {
           loading={loading}
           driving={driving}
           onlyHasWalkingItineraries={onlyHasWalkingItineraries}
+          routingFeedbackPosition={routingFeedbackPosition}
         >
           {this.props.children}
         </ItinerarySummaryListContainer>
