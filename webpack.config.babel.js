@@ -332,14 +332,17 @@ module.exports = {
     'fbjs/lib/Map': 'var Map',
   },
   devServer: {
-    publicPath: '/',
-    noInfo: true,
     compress: true,
+    devMiddleware: {
+      publicPath: '/',
+    },
     host: '0.0.0.0',
     port: process.env.HOT_LOAD_PORT || 9000,
     headers: {
       'Access-Control-Allow-Origin': '*',
     },
-    overlay: true,
+    client: {
+      overlay: true,
+    },
   },
 };
