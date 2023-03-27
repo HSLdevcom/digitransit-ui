@@ -11,6 +11,8 @@ const RoutingFeedbackPrompt = (props, { config }) => {
       <a
         className="routing-feedback-link"
         href="https://link.webropol.com/s/otp2"
+        target="_blank"
+        rel="noreferrer"
       >
         <FormattedMessage id="routing-feedback-link" />
       </a>
