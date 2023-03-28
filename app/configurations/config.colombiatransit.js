@@ -2,15 +2,15 @@
 import configMerger from '../util/configMerger';
 
 const CONFIG = 'colombiatransit';
-const APP_TITLE = 'ColombiaTransitColombiaTransit';
+const APP_TITLE = 'ColombiaTransit';
 const APP_DESCRIPTION = 'Uusi Reittiopas - colombiatransit';
 
 const walttiConfig = require('./config.waltti').default;
 
 const API_URL = process.env.API_URL || 'https://api.colombiatransit.co';
-const OTP_URL = process.env.OTP_URL || `${API_URL}/api/otp/v2`;
+const OTP_URL = process.env.OTP_URL || `${API_URL}/api/otp/v2/`;
 const MAP_URL =
-  process.env.MAP_URL || 'https://tileserver.colombiatransit.co/';
+  process.env.MAP_URL || 'https://tileserver.colombiatransit.co';
 const POI_MAP_PREFIX = `${OTP_URL}/vectorTiles`;
 
 const rootLink = process.env.ROOTLINK || 'https://digitransit.colombiatransit.co';
@@ -138,4 +138,11 @@ export default configMerger(walttiConfig, {
       },
     ],
   },
-});
+  hostnames: [
+    // DEV hostnames    
+    'https://digitransit.colombiatransit.co',    
+    // PROD hostnames
+    'https://colombiatransit.co',
+  ],
+},
+);
