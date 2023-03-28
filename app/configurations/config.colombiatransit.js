@@ -8,13 +8,12 @@ const APP_DESCRIPTION = 'Uusi Reittiopas - colombiatransit';
 const walttiConfig = require('./config.waltti').default;
 
 const API_URL = process.env.API_URL || 'https://api.colombiatransit.co';
-const OTP_URL = process.env.OTP_URL || `${API_URL}//api/otp/v2`;
+const OTP_URL = process.env.OTP_URL || `${API_URL}/api/otp/v2`;
 const MAP_URL =
   process.env.MAP_URL || 'https://tileserver.colombiatransit.co/';
-const POI_MAP_PREFIX = `${MAP_URL}/map/v3/hsl`;
+const POI_MAP_PREFIX = `${OTP_URL}/vectorTiles`;
 
-const rootLink = process.env.ROOTLINK || 'https://test.hslfi.hsldev.com';
-const BANNER_URL = 'https://content.hsl.fi/api/v1/banners?site=JourneyPlanner';
+const rootLink = process.env.ROOTLINK || 'https://digitransit.colombiatransit.co';
 
 const minLat = -83.23104;
 const maxLat = -66.8147199;
@@ -30,19 +29,19 @@ export default configMerger(walttiConfig, {
       default: `${MAP_URL}/styles/osm-bright/`,      
     },
     STOP_MAP: {
-      default: `${POI_MAP_PREFIX}/fi/stops,stations/`,      
+      default: `${POI_MAP_PREFIX}/stops,stations/`,      
     },
     RENTAL_STATION_MAP: {
-      default: `${POI_MAP_PREFIX}/fi/rentalStations/`,
+      default: `${POI_MAP_PREFIX}/rentalStations/`,
     },
     REALTIME_RENTAL_STATION_MAP: {
-      default: `${POI_MAP_PREFIX}/fi/realtimeRentalStations/`,
+      default: `${POI_MAP_PREFIX}/realtimeRentalStations/`,
     },
     PARK_AND_RIDE_MAP: {
-      default: `${POI_MAP_PREFIX}/en/vehicleParking/`,      
+      default: `${POI_MAP_PREFIX}/vehicleParking/`,      
     },
     PARK_AND_RIDE_GROUP_MAP: {
-      default: `${POI_MAP_PREFIX}/en/vehicleParkingGroups/`,
+      default: `${POI_MAP_PREFIX}/vehicleParkingGroups/`,
     },    
     ROOTLINK: rootLink,    
   },
