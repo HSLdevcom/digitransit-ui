@@ -11,14 +11,14 @@ const API_URL = process.env.API_URL || 'https://api.colombiatransit.co';
 const OTP_URL = process.env.OTP_URL || `${API_URL}/api/otp/v2/`;
 const MAP_URL =
   process.env.MAP_URL || 'https://tileserver.colombiatransit.co';
-const POI_MAP_PREFIX = `${OTP_URL}/vectorTiles`;
+const POI_MAP_PREFIX = `${OTP_URL}vectorTiles`;
 
 const rootLink = process.env.ROOTLINK || 'https://digitransit.colombiatransit.co';
 
-const minLat = -83.23104;
-const maxLat = -66.8147199;
-const minLon = -4.25732;
-const maxLon = 16.5940699;
+const minLat = -4.2316872;
+const maxLat = 16.0571269;
+const minLon = -82.1243666;
+const maxLon = -66.8511907;
 
 export default configMerger(walttiConfig, {
   CONFIG,
@@ -49,7 +49,7 @@ export default configMerger(walttiConfig, {
   appBarLink: { name: 'Colombiatransit', href: 'http://colombiatransit.co/' },
 
   colors: {
-    primary: '#RRGGBB',
+    primary: '#dc0451',
     iconColors: {
       'mode-bus': '#007ac9',
       'mode-bus-express': '#CA4000',
@@ -90,9 +90,9 @@ export default configMerger(walttiConfig, {
   ],
 
   defaultEndpoint: {
-    address: 'Colombiatransit',
-    lat: 0.5 * (minLat + maxLat),
-    lon: 0.5 * (minLon + maxLon),
+    address: 'Bogotá Eldorado Airport',
+    lat: 4.701944,
+    lon: -74.147222,
   },
 
   menu: {
@@ -108,27 +108,10 @@ export default configMerger(walttiConfig, {
           'https://kauppa.waltti.fi/media/authority/154/files/Saavutettavuusseloste_Waltti-reittiopas_JyQfJhC.htm',
       },
     ],
-  },
+  },  
 
   aboutThisService: {
-    fi: [
-      {
-        header: 'Tietoja palvelusta',
-        paragraphs: [
-          'Tämän palvelun tarjoaa Colombiatransit reittisuunnittelua varten Colombiatransit alueella. Palvelu kattaa joukkoliikenteen, kävelyn, pyöräilyn ja yksityisautoilun rajatuilta osin. Palvelu perustuu Digitransit-palvelualustaan.',
-        ],
-      },
-    ],
-
-    sv: [
-      {
-        header: 'Om tjänsten',
-        paragraphs: [
-          'Den här tjänsten erbjuds av Colombiatransit för reseplanering inom Colombiatransit region. Reseplaneraren täcker med vissa begränsningar kollektivtrafik, promenad, cykling samt privatbilism. Tjänsten baserar sig på Digitransit-plattformen.',
-        ],
-      },
-    ],
-
+    
     en: [
       {
         header: 'About this service',
