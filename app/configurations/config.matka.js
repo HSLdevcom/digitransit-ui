@@ -81,6 +81,18 @@ export default {
     'OULU',
     'digitraffic',
     'Rauma',
+    'Hameenlinna',
+    'Kotka',
+    'Kouvola',
+    'Lappeenranta',
+    'Mikkeli',
+    'Vaasa',
+    'Joensuu',
+    'FOLI',
+    'Lahti',
+    'Kuopio',
+    'Rovaniemi',
+    'Kajaani',
   ],
 
   stopSearchFilter: stop => {
