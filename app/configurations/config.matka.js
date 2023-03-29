@@ -93,6 +93,7 @@ export default {
     'Kuopio',
     'Rovaniemi',
     'Kajaani',
+    'Salo',
   ],
 
   stopSearchFilter: stop => {
