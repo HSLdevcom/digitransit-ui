@@ -1,11 +1,16 @@
 module.exports = {
-  parser: 'babel-eslint',
+  parserOptions: {
+    sourceType: 'module',
+    // ecmaVersion: 2020,
+    // ecmaFeatures: {
+    //   jsx: true,
+    // },
+  },
   extends: [
     'plugin:compat/recommended',
     'plugin:jsx-a11y/recommended',
     'airbnb',
-    'prettier',
-    'prettier/react',
+    'plugin:prettier/recommended',
   ],
   rules: {
     curly: ['error', 'all'],
@@ -15,10 +20,11 @@ module.exports = {
     'no-console': 'error',
     'import/no-extraneous-dependencies': 'off',
     'import/no-named-default': 'off',
+    'import/extensions': ['error', 'always'],
     // react
     'react/button-has-type': 'warn',
     'react/destructuring-assignment': 'off',
-    'react/jsx-filename-extension': ['error', { extensions: ['.js'] }],
+    // 'react/jsx-filename-extension': ['error', { extensions: ['.js'] }],
     'react/jsx-fragments': 'off',
     'react/jsx-key': 'error',
     'react/jsx-props-no-spreading': 'off',
