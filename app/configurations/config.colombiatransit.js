@@ -44,25 +44,13 @@ export default configMerger(walttiConfig, {
       default: `${POI_MAP_PREFIX}/vehicleParkingGroups/`,
     },    
     ROOTLINK: rootLink,
-    PELIAS: `${process.env.GEOCODING_BASE_URL || GEOCODING_BASE_URL}/search${
-      hasAPISubscriptionQueryParameter
-        ? `?${API_SUBSCRIPTION_QUERY_PARAMETER_NAME}=${API_SUBSCRIPTION_TOKEN}`
-        : ''
-    }`,
+    PELIAS: `${process.env.GEOCODING_BASE_URL || GEOCODING_BASE_URL}/search`,
     PELIAS_REVERSE_GEOCODER: `${
       process.env.GEOCODING_BASE_URL || GEOCODING_BASE_URL
-    }/reverse${
-      hasAPISubscriptionQueryParameter
-        ? `?${API_SUBSCRIPTION_QUERY_PARAMETER_NAME}=${API_SUBSCRIPTION_TOKEN}`
-        : ''
-    }`,
+    }/reverse`,
     PELIAS_PLACE: `${
       process.env.GEOCODING_BASE_URL || GEOCODING_BASE_URL
-    }/place${
-      hasAPISubscriptionQueryParameter
-        ? `?${API_SUBSCRIPTION_QUERY_PARAMETER_NAME}=${API_SUBSCRIPTION_TOKEN}`
-        : ''
-    }`,  
+    }/place`,  
   },
 
   appBarLink: { name: 'Colombiatransit', href: 'http://colombiatransit.co/' },
