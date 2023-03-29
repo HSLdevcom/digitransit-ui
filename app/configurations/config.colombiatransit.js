@@ -10,7 +10,7 @@ const walttiConfig = require('./config.waltti').default;
 const API_URL = process.env.API_URL || 'https://api.colombiatransit.co';
 const OTP_URL = process.env.OTP_URL || `${API_URL}/api/otp/v2/`;
 const MAP_URL = process.env.MAP_URL || 'https://tileserver.colombiatransit.co';
-const GEOCODING_BASE_URL = process.env.GEOCODING_BASE_URL || `${API_URL}/api/pelias`;
+const GEOCODING_BASE_URL = process.env.GEOCODING_BASE_URL || `${API_URL}/api/pelias/v1`;
 const POI_MAP_PREFIX = `${OTP_URL}vectorTiles`;
 
 const rootLink = process.env.ROOTLINK || 'https://digitransit.colombiatransit.co';
@@ -79,8 +79,6 @@ export default configMerger(walttiConfig, {
       availableForSelection: true,
       defaultValue: true,
       nearYouLabel: {
-        fi: 'Bussit ja lähipysäkit kartalla',
-        sv: 'Bussar och hållplatser på kartan',
         en: 'Buses and nearby stops on map',
       },
     },
@@ -89,8 +87,6 @@ export default configMerger(walttiConfig, {
       availableForSelection: false,
       defaultValue: false,
       nearYouLabel: {
-        fi: 'Junat ja lähiasemat kartalla',
-        sv: 'Tåg och stationer på kartan',
         en: 'Trains and nearby stations on map',
       },
     },
@@ -99,8 +95,6 @@ export default configMerger(walttiConfig, {
       availableForSelection: false,
       defaultValue: false,
       nearYouLabel: {
-        fi: 'Raitiovaunut ja lähipysäkit kartalla',
-        sv: 'Spårvagnar och hållplatser på kartan',
         en: 'Trams and nearby stops on map',
       },
     },
@@ -153,7 +147,7 @@ export default configMerger(walttiConfig, {
   textLogo: true,
   useCookiesPrompt: true,
 
-  feedIds: ["LAN-Taganga","Rápido Duitama","SotrapeÃ±ol","Cootrasana","COSTALINE","Monserrate","Sotramagdalena","112","90","94","10","BERLINAVE","11","12","14","COFLONORTE","18","Cootracegua","19","Exalpa","METROSINU","Expreso Paz de Rio S.A.","Cootranstame","Flotaospina","Autoboy","1","4","6","Expreso cafetero","Lineas del Valle","Coomultransvilla","Transportes Tisquesusa","21","YAMEYA","22","Sotraretiro S.C.A.","25","26","Sotracor","27","Cootrasan","Morichal","Flota huila","Coochoferes","CONTINENTAL","Transporteslusitania","corredordelpacifico","POPAYAN","Transportes Marsol","Expreso Gaviota","Transportes Gomez Hernandez","33","Tebaida","Almirante Padilla S.A.","38","Expreso Sideral","sotrasanvicente","Sotrauraba","RMR","BOG-SB","Concorde","41","FLOTA-GRANADA","44","Taxmeta S.A.","Cootransunidos","Superstar","Flota La Macarena","55","Cootrasaravita","Taxlaferia","VAL-SIVA","transipiales","Lineas Verdes","Transportesjerico","Empresa Arauca","Libertadores","Cooptmotilon","Tax Belalcazar","Tax Central S.A.","Cootranstol","61","63","Cotrasangil","65","Cootrayal","67","Expreso Palmira","Cootranshuila","RÃ¡pido Ochoa","Berlinas del Fonce","Omega","Unitransco","Las Acacias","Flota Occidental","Rapido Tolima","72","EXPRESO-GAITANA","73","75","Taxis Verdes","Cotrans","76","77","Rápido El Carmen","Transportes La Esperanza S.A.","TRANS-LUZ","Berlitur","Cootransmagdalena","102","104","Flota Aguila","81","Sugamuxi","EXPRESO-BELMIRA"],
+  feedIds: [],
 
   searchParams: {
     'boundary.rect.min_lat': minLat,
@@ -175,6 +169,21 @@ export default configMerger(walttiConfig, {
     lon: -74.147222,
   },
 
+  walkBoardCostHigh: 1600,
+
+  suggestWalkMaxDistance: 10000,
+  suggestBikeMaxDistance: 30000,
+  // if you enable car suggestions but the linear distance between all points is less than this, then a car route will
+  // not be computed
+  suggestCarMinDistance: 2000,
+  minTransferTime: 90,
+  optimize: 'SAFE',
+  transferPenalty: 0,
+  availableLanguages: ['en',  'es'],
+  defaultLanguage: 'en',
+  // This timezone data will expire in 2037
+  timezoneData:'America/Bogota|LMT BMT -05 -04|4U.g 4U.g 50 40|01232|-3sTv3.I 1eIo0 38yo3.I 1PX0|90e5',
+
   menu: {
     copyright: { label: `© Colombiatransit ${walttiConfig.YEAR}` },
     content: [
@@ -191,9 +200,9 @@ export default configMerger(walttiConfig, {
   },  
 
   map: {
-    useRetinaTiles: true,
-    tileSize: 512,
-    zoomOffset: -1,
+    useRetinaTiles: false,
+    tileSize: 256,
+    zoomOffset: 0,
     minZoom: 1,
     maxZoom: 14,
     controls: {
