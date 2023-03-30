@@ -4009,6 +4009,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@lcdp/offline-plugin@npm:^5.1.1":
+  version: 5.1.1
+  resolution: "@lcdp/offline-plugin@npm:5.1.1"
+  dependencies:
+    deep-extend: ^0.5.1
+    ejs: ^3.1.6
+    loader-utils: 0.2.x
+    minimatch: ^3.0.3
+    slash: ^1.0.0
+  checksum: 73c0f6bc51bbb09fcffa3608407914a7b91c3818e008ee21cc46855aa05d0e8632b52b9e11bae695627c7064c3af0b03d587c490b0f82a0d2550147efcfaf52a
+  languageName: node
+  linkType: hard
+
 "@leichtgewicht/ip-codec@npm:^2.0.1":
   version: 2.0.4
   resolution: "@leichtgewicht/ip-codec@npm:2.0.4"
@@ -7249,7 +7262,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"async@npm:^3.2.2":
+"async@npm:^3.2.2, async@npm:^3.2.3":
   version: 3.2.4
   resolution: "async@npm:3.2.4"
   checksum: 43d07459a4e1d09b84a20772414aa684ff4de085cbcaec6eea3c7a8f8150e8c62aa6cd4e699fe8ee93c3a5b324e777d34642531875a0817a35697522c1b02e89
@@ -8525,7 +8538,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chalk@npm:^4.0, chalk@npm:^4.0.0, chalk@npm:^4.1.0":
+"chalk@npm:^4.0, chalk@npm:^4.0.0, chalk@npm:^4.0.2, chalk@npm:^4.1.0":
   version: 4.1.2
   resolution: "chalk@npm:4.1.2"
   dependencies:
@@ -10828,6 +10841,7 @@ __metadata:
     "@hsl-fi/shared-local-storage": 0.4.0
     "@hsl-fi/shimmer": 0.1.2
     "@hsl-fi/site-header": 4.2.2
+    "@lcdp/offline-plugin": ^5.1.1
     "@lerna/batch-packages": 3.16.0
     "@lerna/filter-packages": 3.18.0
     "@lerna/project": 3.21.0
@@ -10924,7 +10938,6 @@ __metadata:
     node-sass: ^6.0.1
     nodemon: 1.18.10
     nyc: 15.0.1
-    offline-plugin: 5.0.7
     openid-client: 4.9.1
     optimize-css-assets-webpack-plugin: ^6.0.1
     passport: 0.4.1
@@ -11403,10 +11416,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ejs@npm:^2.3.4, ejs@npm:^2.6.1":
+"ejs@npm:^2.6.1":
   version: 2.7.4
   resolution: "ejs@npm:2.7.4"
   checksum: a1d2bfc7d1f0b39e99ae19b20c9469a25aeddba1ffc225db098110b18d566f73772fcdcc740b108cfda7452276f67d7b64eb359f90285414c942f4ae70713371
+  languageName: node
+  linkType: hard
+
+"ejs@npm:^3.1.6":
+  version: 3.1.9
+  resolution: "ejs@npm:3.1.9"
+  dependencies:
+    jake: ^10.8.5
+  bin:
+    ejs: bin/cli.js
+  checksum: af6f10eb815885ff8a8cfacc42c6b6cf87daf97a4884f87a30e0c3271fedd85d76a3a297d9c33a70e735b97ee632887f85e32854b9cdd3a2d97edf931519a35f
   languageName: node
   linkType: hard
 
@@ -13026,6 +13050,15 @@ __metadata:
   version: 1.0.0
   resolution: "file-uri-to-path@npm:1.0.0"
   checksum: b648580bdd893a008c92c7ecc96c3ee57a5e7b6c4c18a9a09b44fb5d36d79146f8e442578bc0e173dc027adf3987e254ba1dfd6e3ec998b7c282873010502144
+  languageName: node
+  linkType: hard
+
+"filelist@npm:^1.0.4":
+  version: 1.0.4
+  resolution: "filelist@npm:1.0.4"
+  dependencies:
+    minimatch: ^5.0.1
+  checksum: a303573b0821e17f2d5e9783688ab6fbfce5d52aaac842790ae85e704a6f5e4e3538660a63183d6453834dedf1e0f19a9dadcebfa3e926c72397694ea11f5160
   languageName: node
   linkType: hard
 
@@ -16584,6 +16617,20 @@ fsevents@~2.1.2:
     es-get-iterator: ^1.0.2
     iterate-iterator: ^1.0.1
   checksum: 446a4181657df1872e5020713206806757157db6ab375dee05eb4565b66e1244d7a99cd36ce06862261ad4bd059e66ba8192f62b5d1ff41d788c3b61953af6c3
+  languageName: node
+  linkType: hard
+
+"jake@npm:^10.8.5":
+  version: 10.8.7
+  resolution: "jake@npm:10.8.7"
+  dependencies:
+    async: ^3.2.3
+    chalk: ^4.0.2
+    filelist: ^1.0.4
+    minimatch: ^3.1.2
+  bin:
+    jake: bin/cli.js
+  checksum: a23fd2273fb13f0d0d845502d02c791fd55ef5c6a2d207df72f72d8e1eac6d2b8ffa6caf660bc8006b3242e0daaa88a3ecc600194d72b5c6016ad56e9cd43553
   languageName: node
   linkType: hard
 
@@ -20847,19 +20894,6 @@ fsevents@~2.1.2:
   version: 1.1.0
   resolution: "octokit-pagination-methods@npm:1.1.0"
   checksum: 1fb85baa6b7ce2b8e738139a806b863de80f1e9fffe30283f880a2b257cfda144c79000b61ab2b05a742818fdc3a13865a704a29b59f9a86e2498f5a9249f72f
-  languageName: node
-  linkType: hard
-
-"offline-plugin@npm:5.0.7":
-  version: 5.0.7
-  resolution: "offline-plugin@npm:5.0.7"
-  dependencies:
-    deep-extend: ^0.5.1
-    ejs: ^2.3.4
-    loader-utils: 0.2.x
-    minimatch: ^3.0.3
-    slash: ^1.0.0
-  checksum: 4787bba12d80c76bfb63667f881a1fa667540fe7f5f741518365683642949b1eded61acfdf357537174e3462495b2c5a31e3a886038530bd1bff8e48a880e3b2
   languageName: node
   linkType: hard
 

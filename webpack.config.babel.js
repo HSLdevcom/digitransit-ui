@@ -5,7 +5,7 @@ import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import TerserJsPlugin from 'terser-webpack-plugin';
 import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
 
-import OfflinePlugin from 'offline-plugin';
+import OfflinePlugin from '@lcdp/offline-plugin';
 
 import CompressionPlugin from 'compression-webpack-plugin';
 
