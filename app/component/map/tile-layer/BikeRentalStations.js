@@ -18,6 +18,7 @@ import {
   getCitybikeCapacity,
   BIKEAVL_UNKNOWN,
 } from '../../../util/citybikes';
+import { getIdWithoutFeed } from '../../../util/feedScopedIdUtils';
 import { fetchWithLanguageAndSubscription } from '../../../util/fetchUtils';
 import { getLayerBaseUrl } from '../../../util/mapLayerUtils';
 
@@ -84,6 +85,9 @@ class BikeRentalStations {
               for (let i = 0, ref = layer.length - 1; i <= ref; i++) {
                 const feature = layer.feature(i);
                 [[feature.geom]] = feature.loadGeometry();
+
+                // TODO use feedScopedId here
+                feature.properties.id = getIdWithoutFeed(feature.properties.id);
 
                 this.features.push(pick(feature, ['geom', 'properties']));
               }
