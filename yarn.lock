@@ -8332,7 +8332,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chalk@npm:^2.0, chalk@npm:^2.0.0, chalk@npm:^2.0.1, chalk@npm:^2.3.0, chalk@npm:^2.3.1, chalk@npm:^2.4.1, chalk@npm:^2.4.2":
+"chalk@npm:^2.0.0, chalk@npm:^2.0.1, chalk@npm:^2.3.0, chalk@npm:^2.3.1, chalk@npm:^2.4.1, chalk@npm:^2.4.2":
   version: 2.4.2
   resolution: "chalk@npm:2.4.2"
   dependencies:
@@ -8343,7 +8343,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chalk@npm:^4.0.0, chalk@npm:^4.1.0":
+"chalk@npm:^4.0, chalk@npm:^4.0.0, chalk@npm:^4.1.0":
   version: 4.1.2
   resolution: "chalk@npm:4.1.2"
   dependencies:
@@ -10411,6 +10411,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"deepmerge@npm:^4.0":
+  version: 4.3.1
+  resolution: "deepmerge@npm:4.3.1"
+  checksum: 59d9e3ef18059970256d35a6cb280c9058185e2d713cf768f29aab02afede348ee7593841f575b47ec4bbdfe244762724c9d5d2b25d593d98d6d2593d7138523
+  languageName: node
+  linkType: hard
+
 "deepmerge@npm:^4.2.2":
   version: 4.3.0
   resolution: "deepmerge@npm:4.3.0"
@@ -10862,7 +10869,7 @@ __metadata:
     url-loader: 3.0.0
     uuid: 8.3.0
     webpack: ^4.46.0
-    webpack-assets-manifest: 3.1.1
+    webpack-assets-manifest: ^4.0.0
     webpack-bundle-analyzer: 3.6.0
     webpack-cli: ^3.3.12
     webpack-dev-server: ^3.11.3
@@ -18337,6 +18344,15 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
+"lockfile@npm:^1.0":
+  version: 1.0.4
+  resolution: "lockfile@npm:1.0.4"
+  dependencies:
+    signal-exit: ^3.0.2
+  checksum: b7e33be9777cf6fd8a2f9771ee7621bb6d091c4e076f51459e42a2c6a21837bdea9fe0a248e73334ed80fbd9aaade929d5fbd8d9a0315a91a38374d0d48e29dd
+  languageName: node
+  linkType: hard
+
 "lodash-es@npm:4.17.21":
   version: 4.17.21
   resolution: "lodash-es@npm:4.17.21"
@@ -19619,7 +19635,7 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"mkdirp@npm:>=0.5 0, mkdirp@npm:^0.5, mkdirp@npm:^0.5.0, mkdirp@npm:^0.5.1, mkdirp@npm:^0.5.3, mkdirp@npm:^0.5.5, mkdirp@npm:^0.5.6, mkdirp@npm:~0.5.1":
+"mkdirp@npm:>=0.5 0, mkdirp@npm:^0.5.0, mkdirp@npm:^0.5.1, mkdirp@npm:^0.5.3, mkdirp@npm:^0.5.5, mkdirp@npm:^0.5.6, mkdirp@npm:~0.5.1":
   version: 0.5.6
   resolution: "mkdirp@npm:0.5.6"
   dependencies:
@@ -19630,7 +19646,7 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"mkdirp@npm:^1.0.3, mkdirp@npm:^1.0.4":
+"mkdirp@npm:^1.0, mkdirp@npm:^1.0.3, mkdirp@npm:^1.0.4":
   version: 1.0.4
   resolution: "mkdirp@npm:1.0.4"
   bin:
@@ -25019,6 +25035,17 @@ resolve@1.1.7:
   languageName: node
   linkType: hard
 
+"schema-utils@npm:^3.0":
+  version: 3.1.2
+  resolution: "schema-utils@npm:3.1.2"
+  dependencies:
+    "@types/json-schema": ^7.0.8
+    ajv: ^6.12.5
+    ajv-keywords: ^3.5.2
+  checksum: bad33d97ef77f0483d1b0eade835b0281ffc49d9902edd409316b4f88670d0fee414f5a5aa466752eb7ae3fe2a5963ab6aa5a7662d7bd83dd746355e25d4dcdd
+  languageName: node
+  linkType: hard
+
 "schema-utils@npm:^3.0.0":
   version: 3.1.1
   resolution: "schema-utils@npm:3.1.1"
@@ -26844,7 +26871,7 @@ resolve@1.1.7:
   languageName: node
   linkType: hard
 
-"tapable@npm:^1.0.0, tapable@npm:^1.1.3":
+"tapable@npm:^1.0, tapable@npm:^1.0.0, tapable@npm:^1.1.3":
   version: 1.1.3
   resolution: "tapable@npm:1.1.3"
   checksum: b2c2ab20260394b867fd249d8b6ab3e4645e00f9cce16b558b0de5a86291ef05f536f578744549d1618c9032c7f99bc1d6f68967e4aa11cb0dca4461dc4714bc
@@ -28654,20 +28681,22 @@ resolve@1.1.7:
   languageName: node
   linkType: hard
 
-"webpack-assets-manifest@npm:3.1.1":
-  version: 3.1.1
-  resolution: "webpack-assets-manifest@npm:3.1.1"
+"webpack-assets-manifest@npm:^4.0.0":
+  version: 4.0.6
+  resolution: "webpack-assets-manifest@npm:4.0.6"
   dependencies:
-    chalk: ^2.0
+    chalk: ^4.0
+    deepmerge: ^4.0
+    lockfile: ^1.0
     lodash.get: ^4.0
     lodash.has: ^4.0
-    mkdirp: ^0.5
-    schema-utils: ^1.0.0
-    tapable: ^1.0.0
-    webpack-sources: ^1.0.0
+    mkdirp: ^1.0
+    schema-utils: ^3.0
+    tapable: ^1.0
+    webpack-sources: ^1.0
   peerDependencies:
-    webpack: ">=4.4.0"
-  checksum: a1821cf827dd2c9234e4abbe59522102af1e09d1ad21935ed1446c2576c830304549b05928f781cff63e64dd535513a9ff9e5b81e7ccf59a49e02b4e3da5b04d
+    webpack: ^4.40.0
+  checksum: c16026b4da80555ca7c9b2d9433298e1a1a4120e15e65dd55c0c9e8278aad4dd0751252d4f90e749cba226388904f484959c297e5d93d76ffe601a3ced51f6f2
   languageName: node
   linkType: hard
 
@@ -28790,7 +28819,7 @@ resolve@1.1.7:
   languageName: node
   linkType: hard
 
-"webpack-sources@npm:^1.0.0, webpack-sources@npm:^1.1.0, webpack-sources@npm:^1.4.0, webpack-sources@npm:^1.4.1, webpack-sources@npm:^1.4.3":
+"webpack-sources@npm:^1.0, webpack-sources@npm:^1.1.0, webpack-sources@npm:^1.4.0, webpack-sources@npm:^1.4.1, webpack-sources@npm:^1.4.3":
   version: 1.4.3
   resolution: "webpack-sources@npm:1.4.3"
   dependencies:
