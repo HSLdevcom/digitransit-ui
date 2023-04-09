@@ -212,7 +212,7 @@ class TransitLegMarkers extends React.Component {
     return `${this.context.intl.formatMessage({
       id: 'transfer',
       defaultMessage: 'Transfer',
-    })}: ${duration}min`;
+    })}: ${duration} min`;
   }
 
   componentDidMount() {

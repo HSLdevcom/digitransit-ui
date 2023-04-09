@@ -4641,7 +4641,7 @@ const translations = {
     'track-short-no-num': 'Spår',
     tram: 'Spårvagn',
     'tram-with-route-number': 'Spårvagn {routeNumber} {headSign}',
-    transfer: 'Byten',
+    transfer: 'Byte',
     transfers: 'Antal byten',
     'transfers-allowed': 'Flera byten',
     'transfers-margin': 'Bytestid minst',
