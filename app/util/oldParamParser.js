@@ -64,7 +64,7 @@ function parseLocation(location, input, config) {
 }
 
 function parseTime(query, config) {
-  const time = moment.tz(config.timezoneData.split('|')[0]);
+  const time = moment.tz(config.timezone);
   let hasTime;
   let timeStr = '';
 
@@ -100,7 +100,7 @@ function parseTime(query, config) {
 
   if (hasTime) {
     if (config.queryMaxAgeDays) {
-      const now = moment.tz(config.timezoneData.split('|')[0]);
+      const now = moment.tz(config.timezone);
       if (now.diff(time, 'days') < config.queryMaxAgeDays) {
         timeStr = `time=${time.unix()}`;
       }

@@ -98,7 +98,7 @@ function DatetimepickerContainer(
       embedWhenOpen={embedWhenOpen}
       lang={lang}
       color={color}
-      timeZone={config.timezoneData.split('|')[0]}
+      timeZone={config.timezone}
       serviceTimeRange={context.config.itinerary.serviceTimeRange}
       fontWeights={config.fontWeights}
       onOpen={onOpen}

@@ -28,7 +28,7 @@ export function validateParams(req, config) {
   let url;
 
   if (config.queryMaxAgeDays && req.query.time) {
-    const now = moment.tz(config.timezoneData.split('|')[0]).unix();
+    const now = moment.tz(config.timezone).unix();
     if (now - req.query.time > config.queryMaxAgeDays * 24 * 3600) {
       url = removeUrlParam(req, 'time');
     }
