@@ -269,7 +269,7 @@ class DTAutosuggest extends React.Component {
     mobileLabel: PropTypes.string,
     lock: PropTypes.func.isRequired,
     unlock: PropTypes.func.isRequired,
-    refPoint: PropTypes.object,
+    refPoint: PropTypes.string,
     inputClassName: PropTypes.string,
     fontWeights: PropTypes.shape({
       medium: PropTypes.number,
