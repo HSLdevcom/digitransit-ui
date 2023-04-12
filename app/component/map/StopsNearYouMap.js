@@ -57,13 +57,10 @@ const handleStopsAndStations = edges => {
 
 const getRealTimeSettings = (routes, context) => {
   const { realTime } = context.config;
-  let agency;
   /* handle multiple feedid case */
-  context.config.feedIds.forEach(ag => {
-    if (!agency && realTime[ag]) {
-      agency = ag;
-    }
-  });
+  const agency = context.config.feedIds.find(
+    ag => realTime[ag] && routes[0].feedId === ag,
+  );
   const source = agency && realTime[agency];
   if (source && source.active && routes.length > 0) {
     return {
@@ -166,7 +163,7 @@ function StopsNearYouMap(
     isFetching: false,
     stop: null,
   });
-  const prevMode = useRef();
+  const prevPlace = useRef();
   const { mode } = match.params;
   const isTransitMode = mode !== 'CITYBIKE';
   const walkRoutingThreshold =
@@ -259,7 +256,7 @@ function StopsNearYouMap(
     }
   };
   useEffect(() => {
-    prevMode.current = match.params.mode;
+    prevPlace.current = match.params.place;
     return function cleanup() {
       stopClient(context);
     };
@@ -314,9 +311,9 @@ function StopsNearYouMap(
       if (!clientOn) {
         startClient(context, uniqueRealtimeTopics);
         setClientOn(true);
-      } else if (match.params.mode !== prevMode.current) {
+      } else if (match.params.place !== prevPlace.current) {
         updateClient(context, uniqueRealtimeTopics);
-        prevMode.current = match.params.mode;
+        prevPlace.current = match.params.place;
       }
     }
   }, [uniqueRealtimeTopics]);
