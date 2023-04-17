@@ -164,6 +164,7 @@ function StopsNearYouMap(
     stop: null,
   });
   const prevPlace = useRef();
+  const prevMode = useRef();
   const { mode } = match.params;
   const isTransitMode = mode !== 'CITYBIKE';
   const walkRoutingThreshold =
@@ -257,6 +258,7 @@ function StopsNearYouMap(
   };
   useEffect(() => {
     prevPlace.current = match.params.place;
+    prevMode.current = match.params.mode;
     return function cleanup() {
       stopClient(context);
     };
@@ -311,9 +313,13 @@ function StopsNearYouMap(
       if (!clientOn) {
         startClient(context, uniqueRealtimeTopics);
         setClientOn(true);
-      } else if (match.params.place !== prevPlace.current) {
+      } else if (
+        match.params.place !== prevPlace.current ||
+        match.params.mode !== prevMode.current
+      ) {
         updateClient(context, uniqueRealtimeTopics);
         prevPlace.current = match.params.place;
+        prevMode.current = match.params.mode;
       }
     }
   }, [uniqueRealtimeTopics]);
