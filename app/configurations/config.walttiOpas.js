@@ -44,9 +44,9 @@ export default configMerger(walttiConfig, {
       availableForSelection: true,
       defaultValue: true,
       nearYouLabel: {
-        fi: 'Lähipysäkit kartalla',
-        sv: 'Hållplatser på kartan',
-        en: 'Nearby stops on map',
+        fi: 'Bussit ja lähipysäkit kartalla',
+        sv: 'Bussar och hållplatser på kartan',
+        en: 'Buses and nearby stops on map',
       },
     },
   },

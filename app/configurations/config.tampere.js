@@ -237,7 +237,7 @@ export default configMerger(walttiConfig, {
           sv: 'https://www.nysse.fi/en/city-bikes.html',
           en: 'https://www.nysse.fi/en/city-bikes.html',
         },
-        timeBeforeSurcharge: 45 * 60,
+        timeBeforeSurcharge: 60 * 60,
       },
     },
     buyUrl: {
