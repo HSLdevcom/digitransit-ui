@@ -7,7 +7,7 @@ const APP_DESCRIPTION = 'Uusi Reittiopas - colombiatransit';
 
 const walttiConfig = require('./config.waltti').default;
 
-const API_URL = process.env.API_URL || 'https://api.colombiatransit.co';
+const API_URL = process.env.API_URL || 'https://apiv2.colombiatransit.co';
 const OTP_URL = process.env.OTP_URL || `${API_URL}/api/otp/v2/`;
 const MAP_URL = process.env.MAP_URL || 'https://tileserver.colombiatransit.co';
 const GEOCODING_BASE_URL = process.env.GEOCODING_BASE_URL || `${API_URL}/api/pelias/v1`;
