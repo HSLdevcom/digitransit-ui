@@ -84,16 +84,16 @@ export default configMerger(walttiConfig, {
     },
 
     rail: {
-      availableForSelection: false,
-      defaultValue: false,
+      availableForSelection: true,
+      defaultValue: true,
       nearYouLabel: {
         en: 'Trains and nearby stations on map',
       },
     },
 
     tram: {
-      availableForSelection: false,
-      defaultValue: false,
+      availableForSelection: true,
+      defaultValue: true,
       nearYouLabel: {
         en: 'Trams and nearby stops on map',
       },
@@ -204,7 +204,7 @@ export default configMerger(walttiConfig, {
     tileSize: 256,
     zoomOffset: 0,
     minZoom: 1,
-    maxZoom: 14,
+    maxZoom: 20,
     controls: {
       zoom: {
         // available controls positions: 'topleft', 'topright', 'bottomleft, 'bottomright'
