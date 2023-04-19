@@ -73,7 +73,7 @@ export default {
 
   useRoutingFeedbackPrompt: true,
 
-  feedIds: ['HSL'],
+  feedIds: ['HSL', 'HSLlautta'],
 
   showHSLTracking: false,
   allowLogin: true,
