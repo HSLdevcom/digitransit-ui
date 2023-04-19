@@ -5,6 +5,7 @@
   "author": "digitransit@hsl.fi",
   "license": "(AGPL-3.0 OR EUPL-1.2)",
   "private": true,
+  "packageManager": "yarn@3.4.1",
   "workspaces": [
     "digitransit-util/packages/*",
     "digitransit-search-util/packages/*",
