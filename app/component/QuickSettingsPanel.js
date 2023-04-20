@@ -43,7 +43,9 @@ class QuickSettingsPanel extends React.Component {
             embedWhenOpen={
               <div className="open-embed-container">
                 <div className="open-advanced-settings open-embed">
-                  <RightOffcanvasToggle onToggleClick={toggleSettings} />
+                  {!this.context.config.hideItinerarySettings && (
+                    <RightOffcanvasToggle onToggleClick={toggleSettings} />
+                  )}
                 </div>
               </div>
             }
