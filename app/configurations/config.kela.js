@@ -32,4 +32,5 @@ export default configMerger(defaultConfig, {
   includeCarSuggestions: true,
   showDistanceBeforeDuration: true,
   hideItinerarySettings: true,
+  showTransitLegDistance: true,
 });
