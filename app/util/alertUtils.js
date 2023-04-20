@@ -419,14 +419,20 @@ export const entityCompare = (entityA, entityB) => {
  * @param {*} alertB the second alert to compare.
  */
 export const alertCompare = (alertA, alertB) => {
-  const aEntitiesSorted = alertA.entities?.sort(entityCompare);
-  const bEntitiesSorted = alertB.entities?.sort(entityCompare);
+  if (!alertA.entities) {
+    return 1;
+  }
+  if (!alertB.entities) {
+    return -1;
+  }
+  const aEntitiesSorted = [...alertA.entities].sort(entityCompare);
+  const bEntitiesSorted = [...alertB.entities].sort(entityCompare);
   const bestEntitiesCompared = entityCompare(
     aEntitiesSorted[0],
     bEntitiesSorted[0],
   );
   return bestEntitiesCompared === 0
-    ? alertB.effectiveStartDate - alertA.effectiveEndDate
+    ? alertA.effectiveStartDate - alertB.effectiveStartDate
     : bestEntitiesCompared;
 };
 
