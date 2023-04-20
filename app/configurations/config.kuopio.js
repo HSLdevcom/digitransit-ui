@@ -1,6 +1,6 @@
 /* eslint-disable prefer-template */
 import configMerger from '../util/configMerger';
-// import { BIKEAVL_BIKES } from '../util/citybikes';
+import { BIKEAVL_BIKES } from '../util/citybikes';
 
 const CONFIG = 'kuopio';
 const APP_TITLE = 'Reittiopas Kuopio';
@@ -76,13 +76,12 @@ export default configMerger(walttiConfig, {
   showVehiclesOnStopPage: true,
   showVehiclesOnSummaryPage: true,
 
-  /*
   cityBike: {
     networks: {
       vilkku: {
         enabled: true,
         season: {
-          start: new Date(new Date().getFullYear(), 3, 26),
+          start: new Date(new Date().getFullYear(), 5, 26),
           end: new Date(new Date().getFullYear(), 10, 1),
         },
         capacity: BIKEAVL_BIKES,
@@ -101,11 +100,10 @@ export default configMerger(walttiConfig, {
       },
     },
   },
-  */
 
   transportModes: {
     citybike: {
-      availableForSelection: false,
+      availableForSelection: true,
     },
   },
 
