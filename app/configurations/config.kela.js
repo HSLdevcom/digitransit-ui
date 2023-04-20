@@ -7,6 +7,7 @@ const APP_DESCRIPTION = 'Kelan matkalaskuri';
 
 export default configMerger(defaultConfig, {
   title: APP_TITLE,
+
   appBarLink: {
     name: 'Kela',
     href: 'https://www.kela.fi/',
@@ -26,4 +27,9 @@ export default configMerger(defaultConfig, {
       default: true,
     },
   },
+
+  showWeatherLabel: false,
+  includeCarSuggestions: true,
+  showDistanceBeforeDuration: true,
+  hideItinerarySettings: true,
 });
