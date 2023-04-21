@@ -213,7 +213,7 @@ export default {
           en: 'https://www.foli.fi/en/föli-bikes',
         },
       },
-      vilkku: {
+      freebike_kuopio: {
         enabled: KuopioConfig.cityBike.networks.freebike_kuopio.enabled,
         season: KuopioConfig.cityBike.networks.freebike_kuopio.season,
         capacity: BIKEAVL_WITHMAX,
