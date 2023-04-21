@@ -6,7 +6,7 @@ import { matchShape } from 'found';
 import AlertList from './AlertList';
 import DepartureCancelationInfo from './DepartureCancelationInfo';
 import {
-  getServiceAlertsForRoute,
+  getAlertsForObject,
   getServiceAlertsForPatternsStops,
   tripHasCancelation,
 } from '../util/alertUtils';
@@ -42,13 +42,13 @@ function RouteAlertsContainer({ route }, { match }) {
       };
     });
   const serviceAlerts = [
-    ...getServiceAlertsForRoute(route),
+    ...getAlertsForObject(route),
     ...getServiceAlertsForPatternsStops(route.patterns),
   ];
 
   return (
     <AlertList
-      showRouteNameLink={false}
+      showLinks={false}
       cancelations={cancelations}
       serviceAlerts={serviceAlerts}
     />

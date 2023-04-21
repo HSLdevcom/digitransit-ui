@@ -1,20 +1,7 @@
 import isNumber from 'lodash/isNumber';
-import uniqBy from 'lodash/uniqBy';
 import routeNameCompare from '@digitransit-search-util/digitransit-search-util-route-name-compare';
 
 import { RealtimeStateType, AlertSeverityLevelType } from '../constants';
-
-/**
- * Checks if the route has any alerts.
- *
- * @param {*} route the route object to check.
- */
-export const routeHasServiceAlert = route => {
-  if (!route || !Array.isArray(route.alerts)) {
-    return false;
-  }
-  return route.alerts?.length > 0;
-};
 
 /**
  * Checks if the stoptime has a cancelation.
@@ -180,46 +167,29 @@ export const getCancelationsForStop = stop => {
 };
 
 /**
- * Retrieves Service Alerts from the given route.
+ * Retrieves Service Alerts from the given object (or an empty list if no alerts exist).
  *
- * @param {Object.<string,*>} route the route object to retrieve alerts from.
+ * @param {Object.<string,*>} object should contain alerts key.
  */
-export const getServiceAlertsForRoute = route => {
-  if (!route || !Array.isArray(route.alerts)) {
+export const getAlertsForObject = object => {
+  if (!object || !Array.isArray(object.alerts)) {
     return [];
   }
 
-  return route.alerts;
+  return object.alerts;
 };
 
 /**
- * Retrieves Service Alerts from the given stop.
+ * Retrieves Service Alerts from the given station and its stops
+ * or an empty array.
  *
- * @param {*} stop the stop object to retrieve alerts from.
+ * @param {string} station the stop object to retrieve alerts from.
  */
-export const getServiceAlertsForStop = stop => {
-  if (!stop || !Array.isArray(stop.alerts)) {
-    return [];
-  }
-
-  return stop.alerts;
-};
-
-/**
- * Retrieves OTP-style Service Alerts from the given Terminal stop's stops  and
- * maps them to the format understood by the UI. Filter out empty arrays from alerts.
- *
- * @param {boolean} isTerminal Check that this stop is indeed terminal.
- * @param {string} stop the stop object to retrieve alerts from.
- */
-export const getServiceAlertsForTerminalStops = (isTerminal, stop) => {
-  const alerts =
-    isTerminal && stop.stops
-      ? stop.stops
-          .map(terminalStop => getServiceAlertsForStop(terminalStop))
-          .filter(arr => arr.length > 0)
-      : [];
-  return alerts.reduce((a, b) => a.concat(b), []);
+export const getServiceAlertsForStation = station => {
+  const stopAlerts = station.stops
+    ? station.stops.flatMap(stop => getAlertsForObject(stop))
+    : [];
+  return [...getAlertsForObject(station), ...stopAlerts];
 };
 
 /**
@@ -229,22 +199,6 @@ export const getServiceAlertsForTerminalStops = (isTerminal, stop) => {
  *
  * @param {*} stop the stop object to retrieve alerts from.
  */
-export const getServiceAlertsForStopRoutes = stop => {
-  if (!stop || !Array.isArray(stop.stoptimes)) {
-    return [];
-  }
-  return uniqBy(
-    stop.stoptimes
-      .map(stoptime => stoptime.trip)
-      .map(trip => ({
-        ...trip.route,
-        patternId: (trip.pattern && trip.pattern.code) || undefined,
-      })),
-    route => route.shortName,
-  )
-    .map(route => getServiceAlertsForRoute(route))
-    .reduce((a, b) => a.concat(b), []);
-};
 
 /**
  * Retrieves Service Alerts for trip on route.
@@ -355,9 +309,9 @@ export const getActiveLegAlertSeverityLevel = leg => {
   const { route, trip } = leg;
 
   const serviceAlerts = [
-    ...getServiceAlertsForRoute(route),
-    ...getServiceAlertsForStop(leg?.from?.stop),
-    ...getServiceAlertsForStop(leg?.to?.stop),
+    ...getAlertsForObject(route),
+    ...getAlertsForObject(leg?.from?.stop),
+    ...getAlertsForObject(leg?.to?.stop),
     ...getServiceAlertsForTrip(trip, route),
   ];
 
@@ -381,9 +335,9 @@ export const getActiveLegAlerts = (leg, legStartTime) => {
   const { route, trip } = leg;
 
   const serviceAlerts = [
-    ...getServiceAlertsForRoute(route),
-    ...getServiceAlertsForStop(leg?.from.stop),
-    ...getServiceAlertsForStop(leg?.to.stop),
+    ...getAlertsForObject(route),
+    ...getAlertsForObject(leg?.from.stop),
+    ...getAlertsForObject(leg?.to.stop),
     ...getServiceAlertsForTrip(trip, route),
   ].filter(alert => isAlertActive([{}], alert, legStartTime) !== false);
 
@@ -409,31 +363,6 @@ export const entityCompare = (entityA, entityB) => {
     return `${entityA.code}`.localeCompare(entityB.code);
   }
   return nameCompare;
-};
-
-/**
- * Compares the given alerts in order to sort them based on the entities
- * and the validity period (in that order).
- *
- * @param {*} alertA the first alert to compare.
- * @param {*} alertB the second alert to compare.
- */
-export const alertCompare = (alertA, alertB) => {
-  if (!alertA.entities) {
-    return 1;
-  }
-  if (!alertB.entities) {
-    return -1;
-  }
-  const aEntitiesSorted = [...alertA.entities].sort(entityCompare);
-  const bEntitiesSorted = [...alertB.entities].sort(entityCompare);
-  const bestEntitiesCompared = entityCompare(
-    aEntitiesSorted[0],
-    bEntitiesSorted[0],
-  );
-  return bestEntitiesCompared === 0
-    ? alertA.effectiveStartDate - alertB.effectiveStartDate
-    : bestEntitiesCompared;
 };
 
 /**
@@ -465,6 +394,36 @@ export const alertSeverityCompare = (a, b) => {
     }
   }
   return severityLevelDifference;
+};
+
+/**
+ * Compares the given alerts in order to sort them based on the severity,
+ * entities and the validity period (in that order).
+ *
+ * @param {*} alertA the first alert to compare.
+ * @param {*} alertB the second alert to compare.
+ */
+export const alertCompare = (alertA, alertB) => {
+  const severityScore = alertSeverityCompare(alertA, alertB);
+  if (severityScore !== 0) {
+    return severityScore;
+  }
+
+  if (!alertA.entities && alertA.entities.length > 0) {
+    return 1;
+  }
+  if (!alertB.entities && alertB.entities.length > 0) {
+    return -1;
+  }
+  const aEntitiesSorted = [...alertA.entities].sort(entityCompare);
+  const bEntitiesSorted = [...alertB.entities].sort(entityCompare);
+  const bestEntitiesCompared = entityCompare(
+    aEntitiesSorted[0],
+    bEntitiesSorted[0],
+  );
+  return bestEntitiesCompared === 0
+    ? alertA.effectiveStartDate - alertB.effectiveStartDate
+    : bestEntitiesCompared;
 };
 
 /**

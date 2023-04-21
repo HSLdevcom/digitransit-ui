@@ -141,7 +141,7 @@ function DisruptionListContainer(
             </div>
             <AlertList
               disableScrolling
-              showRouteNameLink
+              showLinks
               serviceAlerts={routeAlertsToShow}
               showRouteIcon
             />
@@ -154,7 +154,7 @@ function DisruptionListContainer(
             </div>
             <AlertList
               disableScrolling
-              showRouteNameLink
+              showLinks
               serviceAlerts={stopAlertsToShow}
             />
           </React.Fragment>

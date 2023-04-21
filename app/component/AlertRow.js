@@ -65,11 +65,13 @@ const getMode = entities => {
 const getGtfsIds = entities => entities?.map(entity => entity.gtfsId) || [];
 
 const getEntityIdentifiers = entities =>
-  entities?.map(
-    entity =>
-      entity.shortName ||
-      (entity.code ? `${entity.name} (${entity.code})` : entity.name),
-  );
+  entities
+    ?.map(
+      entity =>
+        entity.shortName ||
+        (entity.code ? `${entity.name} (${entity.code})` : entity.name),
+    )
+    .filter(identifier => identifier);
 
 const getEntitiesWithUniqueIdentifiers = entities => {
   const entitiesByIdentifier = {};
@@ -93,7 +95,7 @@ export default function AlertRow(
     header,
     mode,
     severityLevel,
-    showRouteNameLink,
+    showLinks,
     showRouteIcon,
     startTime,
     url,
@@ -174,7 +176,7 @@ export default function AlertRow(
 
   return (
     <div className="route-alert-row" role="listitem" tabIndex={0}>
-      {(showRouteIcon && (
+      {(entityType === 'Route' && showRouteIcon && (
         <RouteNumber
           alertSeverityLevel={severityLevel}
           color={routeColor}
@@ -199,27 +201,26 @@ export default function AlertRow(
         )}
       <div className="route-alert-contents">
         {mapAlertSource(config, intl.locale, feed)}
-        {(entityIdentifiers || showTime) && (
+        {((entityIdentifiers && entityIdentifiers.length > 0) || showTime) && (
           <div className="route-alert-top-row">
             {entityIdentifiers &&
+              entityIdentifiers.length > 0 &&
               ((entityType === 'Route' &&
-                showRouteNameLink &&
+                showLinks &&
                 routeLinks.length > 0 && <>{routeLinks} </>) ||
-                (!showRouteNameLink && (
+                (!showLinks && (
                   <div
                     className={cx('route-alert-entityid', routeMode)}
                     style={{ routeColor }}
                   >
-                    {entityIdentifiers.split(' ')}{' '}
+                    {entityIdentifiers.join(', ')}{' '}
                   </div>
                 )) ||
-                (entityType === 'Stop' &&
-                  showRouteNameLink &&
-                  stopLinks.length > 0 && <>{stopLinks} </>) ||
-                (!showRouteNameLink && (
-                  <div className={routeMode}>
-                    {entityIdentifiers.split(' ')}
-                  </div>
+                (entityType === 'Stop' && showLinks && stopLinks.length > 0 && (
+                  <>{stopLinks} </>
+                )) ||
+                (!showLinks && (
+                  <div className={routeMode}>{entityIdentifiers.join(' ')}</div>
                 )))}
             {showTime && (
               <>
@@ -258,7 +259,7 @@ AlertRow.propTypes = {
   severityLevel: PropTypes.string,
   startTime: PropTypes.number,
   url: PropTypes.string,
-  showRouteNameLink: PropTypes.bool,
+  showLinks: PropTypes.bool,
   showRouteIcon: PropTypes.bool,
   header: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
   feed: PropTypes.string,

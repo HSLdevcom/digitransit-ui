@@ -7,12 +7,10 @@ import { matchShape } from 'found';
 import { AlertSeverityLevelType } from '../constants';
 import {
   getCancelationsForStop,
-  getServiceAlertsForStop,
-  getServiceAlertsForStopRoutes,
+  getAlertsForObject,
   isAlertActive,
   getActiveAlertSeverityLevel,
   getCancelationsForRoute,
-  getServiceAlertsForRoute,
   getServiceAlertsForPatternStops,
 } from '../util/alertUtils';
 import withBreakpoint from '../util/withBreakpoint';
@@ -71,15 +69,13 @@ function StopPageTabs({ stop }, { match }) {
 
   const hasActiveAlert = isAlertActive(
     getCancelationsForStop(stop),
-    [...getServiceAlertsForStop(stop), ...getServiceAlertsForStopRoutes(stop)],
+    getAlertsForObject(stop),
     currentTime,
   );
-  const hasActiveServiceAlerts =
-    getActiveAlertSeverityLevel(getServiceAlertsForStop(stop), currentTime) ||
-    getActiveAlertSeverityLevel(
-      getServiceAlertsForStopRoutes(stop),
-      currentTime,
-    );
+  const hasActiveServiceAlerts = getActiveAlertSeverityLevel(
+    getAlertsForObject(stop),
+    currentTime,
+  );
 
   const stopRoutesWithAlerts = [];
 
@@ -92,14 +88,14 @@ function StopPageTabs({ stop }, { match }) {
         isAlertActive(
           getCancelationsForRoute(route, pattern.code),
           [
-            ...getServiceAlertsForRoute(route),
+            ...getAlertsForObject(route),
             ...getServiceAlertsForPatternStops(pattern),
           ],
           currentTime,
         ),
       );
       const hasActiveRouteServiceAlerts = getActiveAlertSeverityLevel(
-        getServiceAlertsForRoute(route),
+        getAlertsForObject(route),
         currentTime,
       );
 

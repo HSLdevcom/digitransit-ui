@@ -16,7 +16,7 @@ const AlertList = ({
   disableScrolling,
   mode,
   serviceAlerts,
-  showRouteNameLink,
+  showLinks,
   showRouteIcon,
   breakpoint,
 }) => {
@@ -75,7 +75,7 @@ const AlertList = ({
                 mode={mode}
                 severityLevel={alertSeverityLevel}
                 showRouteIcon={showRouteIcon}
-                showRouteNameLink={showRouteNameLink}
+                showLinks={showLinks}
                 startTime={effectiveStartDate}
                 url={alertUrl}
               />
@@ -112,7 +112,7 @@ AlertList.propTypes = {
   disableScrolling: PropTypes.bool,
   mode: PropTypes.string,
   serviceAlerts: PropTypes.arrayOf(alertShape),
-  showRouteNameLink: PropTypes.bool,
+  showLinks: PropTypes.bool,
   showRouteIcon: PropTypes.bool,
   breakpoint: PropTypes.string,
 };

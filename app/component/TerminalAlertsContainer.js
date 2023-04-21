@@ -46,13 +46,15 @@ const containerComponent = createFragmentContainer(TerminalAlertsContainer, {
       startTime: { type: "Long" }
       timeRange: { type: "Int", defaultValue: 900 }
     ) {
-      routes {
+      gtfsId
+      locationType
+      stops {
+        id
         gtfsId
-        shortName
-        longName
-        mode
-        color
-        alerts {
+        routes {
+          gtfsId
+        }
+        alerts(types: [STOP, ROUTES]) {
           id
           alertDescriptionText
           alertHash
@@ -64,32 +66,19 @@ const containerComponent = createFragmentContainer(TerminalAlertsContainer, {
           entities {
             __typename
             ... on Route {
-              patterns {
-                code
-              }
+              color
+              type
+              mode
+              shortName
+              gtfsId
+            }
+            ... on Stop {
+              gtfsId
             }
           }
         }
       }
-      id
-      gtfsId
-      code
-      name
-      stops {
-        id
-        gtfsId
-        alerts {
-          id
-          alertDescriptionText
-          alertHash
-          alertHeaderText
-          alertSeverityLevel
-          alertUrl
-          effectiveEndDate
-          effectiveStartDate
-        }
-      }
-      alerts {
+      alerts(types: [STOP]) {
         id
         alertDescriptionText
         alertHash
@@ -98,6 +87,12 @@ const containerComponent = createFragmentContainer(TerminalAlertsContainer, {
         alertUrl
         effectiveEndDate
         effectiveStartDate
+        entities {
+          __typename
+          ... on Stop {
+            gtfsId
+          }
+        }
       }
       stoptimes: stoptimesWithoutPatterns(
         startTime: $startTime
@@ -105,32 +100,9 @@ const containerComponent = createFragmentContainer(TerminalAlertsContainer, {
         numberOfDepartures: 100
         omitCanceled: false
       ) {
-        headsign
-        realtimeState
-        scheduledDeparture
-        serviceDay
         trip {
-          pattern {
-            code
-          }
           route {
-            color
-            mode
-            shortName
             gtfsId
-            alerts {
-              id
-              alertDescriptionText
-              alertHash
-              alertHeaderText
-              alertSeverityLevel
-              alertUrl
-              effectiveEndDate
-              effectiveStartDate
-            }
-          }
-          stops {
-            name
           }
         }
       }

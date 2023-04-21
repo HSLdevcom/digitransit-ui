@@ -1,41 +1,56 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { uniq } from 'lodash';
 
 import AlertList from './AlertList';
 import DepartureCancelationInfo from './DepartureCancelationInfo';
 import {
   getCancelationsForStop,
-  getServiceAlertsForStop,
-  getServiceAlertsForStopRoutes,
-  getServiceAlertsForTerminalStops,
-  routeHasServiceAlert,
-  getServiceAlertsForRoute,
+  getAlertsForObject,
+  getServiceAlertsForStation,
 } from '../util/alertUtils';
 import { ServiceAlertShape } from '../util/shapes';
+
+export const isRelevantEntity = (entity, stopIds, routeIds) =>
+  // eslint-disable-next-line no-underscore-dangle
+  (entity.__typename === 'Stop' && stopIds.includes(entity.gtfsId)) ||
+  // eslint-disable-next-line no-underscore-dangle
+  (entity.__typename === 'Route' && routeIds.includes(entity.gtfsId));
+
+export const getRouteIdsForStop = stop =>
+  uniq(stop?.routes.map(route => route.gtfsId));
+
+export const filterAlertEntities = (stop, alerts) => {
+  const alertsToFilter = [...alerts];
+  const isStation = stop.locationType === 'STATION';
+  const routeIds = isStation
+    ? stop.stops.flatMap(stationStop => getRouteIdsForStop(stationStop))
+    : getRouteIdsForStop(stop);
+  const stopIds = isStation
+    ? stop.stops.map(stationStop => stationStop.gtfsId)
+    : [stop.gtfsId];
+  return alertsToFilter
+    .map(alert => {
+      return {
+        ...alert,
+        entities: alert.entities.filter(entity =>
+          isRelevantEntity(entity, stopIds, routeIds),
+        ),
+      };
+    })
+    .filter(alert => alert.entities.length > 0);
+};
 
 /**
  * @param {Object.<string,*>} stop
  * @returns {Array.<Object>}
  */
-export const findCancellationsAndServiceAlerts = stop => {
-  const serviceAlertsForRoutes = [];
-
-  if (stop.routes) {
-    stop.routes.forEach(route => {
-      if (routeHasServiceAlert(route)) {
-        serviceAlertsForRoutes.push(...getServiceAlertsForRoute(route));
-      }
-    });
-  }
-
-  const isTerminal = !stop.code;
-  return [
-    // Alerts for terminal's stops.
-    ...getServiceAlertsForTerminalStops(isTerminal, stop),
-    ...getServiceAlertsForStop(stop),
-    ...getServiceAlertsForStopRoutes(stop),
-    ...serviceAlertsForRoutes,
-  ];
+export const findCancellationsAndAlerts = stop => {
+  const isStation = stop.locationType === 'STATION';
+  return filterAlertEntities(
+    stop,
+    isStation ? getServiceAlertsForStation(stop) : getAlertsForObject(stop),
+  );
 };
 
 const StopAlerts = ({ stop }) => {
@@ -61,13 +76,14 @@ const StopAlerts = ({ stop }) => {
     };
   });
 
-  const serviceAlerts = findCancellationsAndServiceAlerts(stop);
+  const serviceAlerts = findCancellationsAndAlerts(stop);
 
   return (
     <AlertList
-      showRouteNameLink={false}
+      showLinks={false}
       cancelations={cancelations}
       serviceAlerts={serviceAlerts}
+      showRouteIcon
     />
   );
 };
