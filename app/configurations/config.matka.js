@@ -1,5 +1,5 @@
 /* eslint-disable prefer-template */
-import { BIKEAVL_BIKES, BIKEAVL_WITHMAX } from '../util/citybikes';
+import BIKEAVL_WITHMAX from '../util/citybikes';
 import HSLConfig from './config.hsl';
 import TurkuConfig from './config.turku';
 import LappeenrantaConfig from './config.lappeenranta';
@@ -214,9 +214,9 @@ export default {
         },
       },
       vilkku: {
-        enabled: KuopioConfig.cityBike.networks.vilkku.enabled,
-        season: KuopioConfig.cityBike.networks.vilkku.season,
-        capacity: BIKEAVL_BIKES,
+        enabled: KuopioConfig.cityBike.networks.freebike_kuopio.enabled,
+        season: KuopioConfig.cityBike.networks.freebike_kuopio.season,
+        capacity: BIKEAVL_WITHMAX,
         icon: 'citybike',
         name: {
           fi: 'Vilkku',

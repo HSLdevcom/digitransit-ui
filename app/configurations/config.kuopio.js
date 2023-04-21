@@ -78,7 +78,7 @@ export default configMerger(walttiConfig, {
 
   cityBike: {
     networks: {
-      vilkku: {
+      freebike_kuopio: {
         enabled: true,
         season: {
           start: new Date(new Date().getFullYear(), 3, 24),
