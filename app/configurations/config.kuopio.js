@@ -81,7 +81,7 @@ export default configMerger(walttiConfig, {
       vilkku: {
         enabled: true,
         season: {
-          start: new Date(new Date().getFullYear(), 5, 24),
+          start: new Date(new Date().getFullYear(), 3, 24),
           end: new Date(new Date().getFullYear(), 10, 1),
         },
         capacity: BIKEAVL_WITHMAX,
