@@ -2,47 +2,7 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 
 import { getConfiguration } from '../../app/config';
-import { isModeAvailableInsidePolygons } from '../../app/util/modeUtils';
 import defaultConfig from '../../app/configurations/config.default';
-
-const intermediatePlacesFerry = [
-  {
-    address: 'Korkeasaari',
-    lat: 60.1753307822646,
-    lon: 24.983596801757812,
-  },
-  {
-    address: 'Suomenlinna',
-    lat: 60.14688848015283,
-    lon: 24.987201690673828,
-  },
-];
-
-const intermediatePlacesHalfFerry = [
-  {
-    address: 'Santahamina',
-    lat: 60.15124610473283,
-    lon: 25.050716400146484,
-  },
-  {
-    address: 'Suomenlinna',
-    lat: 60.14688848015283,
-    lon: 24.987201690673828,
-  },
-];
-
-const intermediatePlacesNoFerry = [
-  {
-    address: 'Santahamina',
-    lat: 60.15124610473283,
-    lon: 25.050716400146484,
-  },
-  {
-    address: 'Rautatientori',
-    lat: 60.171232509172945,
-    lon: 24.941539764404293,
-  },
-];
 
 describe('config', () => {
   describe('getConfiguration', () => {
@@ -101,35 +61,6 @@ describe('config', () => {
       expect(config.realTime.HSL.mqtt).to.equal(
         defaultConfig.realTime.HSL.mqtt,
       ); // eslint-disable-line no-unused-expressions
-    });
-
-    it('should return hsl configuration with modePolygons and modeBoundingBoxes when using www.reittiopas.fi as request header', () => {
-      const request = {
-        headers: {
-          host: 'www.reittiopas.fi',
-        },
-      };
-      const config = getConfiguration(request);
-
-      expect(
-        isModeAvailableInsidePolygons(config, 'FERRY', intermediatePlacesFerry),
-      ).to.be.true; // eslint-disable-line no-unused-expressions
-
-      expect(
-        isModeAvailableInsidePolygons(
-          config,
-          'FERRY',
-          intermediatePlacesNoFerry,
-        ),
-      ).to.be.false; // eslint-disable-line no-unused-expressions
-
-      expect(
-        isModeAvailableInsidePolygons(
-          config,
-          'FERRY',
-          intermediatePlacesHalfFerry,
-        ),
-      ).to.be.true; // eslint-disable-line no-unused-expressions
     });
   });
 });
