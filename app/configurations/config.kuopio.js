@@ -1,6 +1,6 @@
 /* eslint-disable prefer-template */
 import configMerger from '../util/configMerger';
-import { BIKEAVL_WITHMAX } from '../util/citybikes';
+import { BIKEAVL_BIKES } from '../util/citybikes';
 
 const CONFIG = 'kuopio';
 const APP_TITLE = 'Reittiopas Kuopio';
@@ -84,7 +84,7 @@ export default configMerger(walttiConfig, {
           start: new Date(new Date().getFullYear(), 3, 24),
           end: new Date(new Date().getFullYear(), 10, 1),
         },
-        capacity: BIKEAVL_WITHMAX,
+        capacity: BIKEAVL_BIKES,
         icon: 'citybike',
         name: {
           fi: 'Vilkku',
