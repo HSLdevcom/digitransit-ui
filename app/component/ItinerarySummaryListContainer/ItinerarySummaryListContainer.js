@@ -389,11 +389,6 @@ const containerComponent = createFragmentContainer(
               }
               pickupType
             }
-            alerts {
-              alertSeverityLevel
-              effectiveEndDate
-              effectiveStartDate
-            }
           }
           from {
             name

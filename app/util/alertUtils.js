@@ -192,24 +192,6 @@ export const getServiceAlertsForStation = station => {
   return [...getAlertsForObject(station), ...stopAlerts];
 };
 
-/**
- * Retrieves OTP-style Service Alerts from the given stop's
- * stoptimes' trips' routes and maps them to the format understood
- * by the UI.
- *
- * @param {*} stop the stop object to retrieve alerts from.
- */
-
-/**
- * Retrieves Service Alerts for trip on route.
- *
- * @param {Object.<string,*>} trip
- * @param {Object.<string,*>} route
- *
- * @returns {Array.<Object.<string,*>>}
- */
-const getServiceAlertsForTrip = trip => (trip?.alerts ? trip.alerts : []);
-
 const isValidArray = array => Array.isArray(array) && array.length > 0;
 
 /**
@@ -306,13 +288,12 @@ export const getActiveLegAlertSeverityLevel = leg => {
     return AlertSeverityLevelType.Warning;
   }
 
-  const { route, trip } = leg;
+  const { route } = leg;
 
   const serviceAlerts = [
     ...getAlertsForObject(route),
     ...getAlertsForObject(leg?.from?.stop),
     ...getAlertsForObject(leg?.to?.stop),
-    ...getServiceAlertsForTrip(trip, route),
   ];
 
   return getActiveAlertSeverityLevel(
@@ -332,13 +313,12 @@ export const getActiveLegAlerts = (leg, legStartTime) => {
     return undefined;
   }
 
-  const { route, trip } = leg;
+  const { route } = leg;
 
   const serviceAlerts = [
     ...getAlertsForObject(route),
     ...getAlertsForObject(leg?.from.stop),
     ...getAlertsForObject(leg?.to.stop),
-    ...getServiceAlertsForTrip(trip, route),
   ].filter(alert => isAlertActive([{}], alert, legStartTime) !== false);
 
   return serviceAlerts;
