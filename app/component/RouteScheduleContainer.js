@@ -1073,20 +1073,11 @@ const containerComponent = createFragmentContainer(
         type
         ...RouteAgencyInfo_route
         ...RoutePatternSelect_route @arguments(date: $date)
-        alerts(types: [ROUTE]) {
+        alerts(types: [ROUTE, STOPS_ON_ROUTE]) {
+          id
           alertSeverityLevel
           effectiveEndDate
           effectiveStartDate
-          entities {
-            __typename
-            ... on Route {
-              color
-              type
-              mode
-              shortName
-              gtfsId
-            }
-          }
         }
         agency {
           phone
@@ -1094,25 +1085,6 @@ const containerComponent = createFragmentContainer(
         patterns {
           headsign
           code
-          alerts(types: [STOPS_ON_PATTERN]) {
-            id
-            alertDescriptionText
-            alertHash
-            alertHeaderText
-            alertSeverityLevel
-            alertUrl
-            effectiveEndDate
-            effectiveStartDate
-            entities {
-              __typename
-              ... on Stop {
-                name
-                code
-                vehicleMode
-                gtfsId
-              }
-            }
-          }
           stops {
             name
           }

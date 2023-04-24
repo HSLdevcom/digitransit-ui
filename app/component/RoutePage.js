@@ -17,7 +17,7 @@ import { isBrowser } from '../util/browser';
 import LazilyLoad, { importLazy } from './LazilyLoad';
 import { getRouteMode } from '../util/modeUtils';
 import AlertBanner from './AlertBanner';
-import { hasMeaningfulData } from '../util/alertUtils';
+import { hasEntitiesOfType, hasMeaningfulData } from '../util/alertUtils';
 
 const modules = {
   FavouriteRouteContainer: () =>
@@ -75,6 +75,9 @@ class RoutePage extends React.Component {
     const label = route.shortName ? route.shortName : route.longName || '';
     const headsign =
       patternId && route.patterns.find(p => p.code === patternId).headsign;
+    const filteredAlerts = route.alerts.filter(alert =>
+      hasEntitiesOfType(alert, 'Route'),
+    );
 
     return (
       <div className={cx('route-page-container')}>
@@ -135,10 +138,10 @@ class RoutePage extends React.Component {
               </LazilyLoad>
             )}
           </div>
-          {tripId && hasMeaningfulData(route.alerts) && (
+          {tripId && hasMeaningfulData(filteredAlerts) && (
             <div className="trip-page-alert-container">
               <AlertBanner
-                alerts={route.alerts}
+                alerts={filteredAlerts}
                 linkAddress={`/${PREFIX_ROUTES}/${this.props.match.params.routeId}/${PREFIX_DISRUPTION}/${this.props.match.params.patternId}`}
               />
             </div>
@@ -172,11 +175,15 @@ const containerComponent = createFragmentContainer(withBreakpoint(RoutePage), {
       type
       ...RouteAgencyInfo_route
       ...RoutePatternSelect_route @arguments(date: $date)
-      alerts(types: [ROUTE]) {
+      alerts(types: [ROUTE, STOPS_ON_ROUTE]) {
+        id
+        alertDescriptionText
+        alertHash
+        alertHeaderText
         alertSeverityLevel
+        alertUrl
         effectiveEndDate
         effectiveStartDate
-        alertDescriptionText
         entities {
           __typename
           ... on Route {
@@ -184,6 +191,12 @@ const containerComponent = createFragmentContainer(withBreakpoint(RoutePage), {
             type
             mode
             shortName
+            gtfsId
+          }
+          ... on Stop {
+            name
+            code
+            vehicleMode
             gtfsId
           }
         }
@@ -195,25 +208,6 @@ const containerComponent = createFragmentContainer(withBreakpoint(RoutePage), {
       patterns {
         headsign
         code
-        alerts(types: [STOPS_ON_PATTERN]) {
-          id
-          alertDescriptionText
-          alertHash
-          alertHeaderText
-          alertSeverityLevel
-          alertUrl
-          effectiveEndDate
-          effectiveStartDate
-          entities {
-            __typename
-            ... on Stop {
-              name
-              code
-              vehicleMode
-              gtfsId
-            }
-          }
-        }
         trips: tripsForDate(serviceDate: $date) {
           stoptimes: stoptimesForDate(serviceDate: $date) {
             realtimeState

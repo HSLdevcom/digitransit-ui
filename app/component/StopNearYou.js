@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { FormattedMessage, intlShape } from 'react-intl';
 import { Link } from 'found';
 import connectToStores from 'fluxible-addons-react/connectToStores';
+import { hasEntitiesOfType } from '../util/alertUtils';
 import { PREFIX_STOPS, PREFIX_TERMINALS } from '../util/path';
 import StopNearYouHeader from './StopNearYouHeader';
 import AlertBanner from './AlertBanner';
@@ -36,6 +37,9 @@ const StopNearYou = (
   const { constantOperationStops } = config;
   const { locale } = intl;
   const isConstantOperation = constantOperationStops[stop.gtfsId];
+  const filteredAlerts = stop.alerts.filter(alert =>
+    hasEntitiesOfType(alert, 'Stop'),
+  );
   return (
     <span role="listitem">
       <div className="stop-near-you-container">
@@ -51,9 +55,9 @@ const StopNearYou = (
             default="The departure list and estimated departure times will update in real time."
           />
         </span>
-        {stop.alerts.length > 0 && (
+        {filteredAlerts.length > 0 && (
           <AlertBanner
-            alerts={stop.alerts}
+            alerts={filteredAlerts}
             linkAddress={`${linkAddress}/hairiot`}
           />
         )}
