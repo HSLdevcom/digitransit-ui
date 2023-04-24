@@ -1,12 +1,15 @@
 import configMerger from '../util/configMerger';
 
-const defaultConfig = require('./config.default').default;
+const matkaConfig = require('./config.matka').default;
 
-const APP_TITLE = 'Kelan matkalaskuri';
+const CONFIG = 'kela';
+const APP_TITLE = 'Matkalaskuri';
 const APP_DESCRIPTION = 'Kelan matkalaskuri';
 
-export default configMerger(defaultConfig, {
+export default configMerger(matkaConfig, {
+  CONFIG,
   title: APP_TITLE,
+  textLogo: true,
 
   appBarLink: {
     name: 'Kela',
@@ -24,13 +27,15 @@ export default configMerger(defaultConfig, {
     },
     airplane: {
       availableForSelection: false,
-      default: true,
+      default: false,
     },
   },
 
   showWeatherLabel: false,
   includeCarSuggestions: true,
+  includeBikeSuggestions: false,
   showDistanceBeforeDuration: true,
   hideItinerarySettings: true,
   showTransitLegDistance: true,
+  showDistanceInItinerarySummary: true,
 });

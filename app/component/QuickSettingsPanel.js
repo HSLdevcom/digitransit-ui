@@ -36,9 +36,11 @@ class QuickSettingsPanel extends React.Component {
           <DatetimepickerContainer
             realtime={false}
             embedWhenClosed={
-              <div className="open-advanced-settings">
-                <RightOffcanvasToggle onToggleClick={toggleSettings} />
-              </div>
+              !this.context.config.hideItinerarySettings && (
+                <div className="open-advanced-settings">
+                  <RightOffcanvasToggle onToggleClick={toggleSettings} />
+                </div>
+              )
             }
             embedWhenOpen={
               <div className="open-embed-container">

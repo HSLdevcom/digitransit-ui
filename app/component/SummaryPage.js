@@ -2248,7 +2248,6 @@ class SummaryPage extends React.Component {
       bikePlan.itineraries.every(itinerary =>
         itinerary.legs.every(leg => leg.mode === 'WALK'),
       );
-
     const showBikeOptionButton = Boolean(
       bikePlan &&
         bikePlan.itineraries &&
