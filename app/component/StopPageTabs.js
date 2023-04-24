@@ -11,7 +11,6 @@ import {
   isAlertActive,
   getActiveAlertSeverityLevel,
   getCancelationsForRoute,
-  getServiceAlertsForPatternStops,
 } from '../util/alertUtils';
 import withBreakpoint from '../util/withBreakpoint';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
@@ -87,10 +86,7 @@ function StopPageTabs({ stop }, { match }) {
       const hasActiveRouteAlert = route.patterns.some(pattern =>
         isAlertActive(
           getCancelationsForRoute(route, pattern.code),
-          [
-            ...getAlertsForObject(route),
-            ...getServiceAlertsForPatternStops(pattern),
-          ],
+          getAlertsForObject(route),
           currentTime,
         ),
       );

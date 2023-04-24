@@ -513,39 +513,11 @@ export const getAlertWithEntitiesOfTypeOnly = (alert, entityType) => {
 };
 
 /**
- * TODO we should also consider other relevant alert entity types here.
+ * Sets the given entity to be the only entity on an alert.
  *
- * Retrieves OTP-style Service Alerts from the given pattern's stops.
- *
- * @param {*} pattern the pattern object to retrieve alerts from.
+ * @param {*} alert the alert which can already contain entities which are removed.
+ * @param {*} entity the entity that will be the only entity on the returned alert.
  */
-export const getServiceAlertsForPatternsStops = patterns => {
-  if (!patterns || !Array.isArray(patterns)) {
-    return [];
-  }
-  const alertsForPatterns = patterns
-    .flatMap(pattern => pattern.alerts)
-    .filter(alert => hasEntitiesOfType(alert, 'Stop'));
-  const uniqueAlertsForPatterns = Array.from(
-    new Set(alertsForPatterns.map(JSON.stringify)),
-  ).map(JSON.parse);
-  return uniqueAlertsForPatterns.map(alert =>
-    getAlertWithEntitiesOfTypeOnly(alert, 'Stop'),
-  );
-};
-
-/**
- * TODO we should also consider other relevant alert entity types here.
- *
- * Retrieves OTP-style Service Alerts from the given pattern's stops.
- *
- * @param {*} pattern the pattern object to retrieve alerts from.
- */
-export const getServiceAlertsForPatternStops = pattern => {
-  if (!pattern) {
-    return [];
-  }
-  return pattern.alerts
-    .map(alert => getAlertWithEntitiesOfTypeOnly(alert, 'Stop'))
-    .filter(alert => alert.entities.length > 0);
+export const setEntityForAlert = (alert, entity) => {
+  return { ...alert, entities: [entity] };
 };

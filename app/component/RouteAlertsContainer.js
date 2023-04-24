@@ -7,8 +7,8 @@ import AlertList from './AlertList';
 import DepartureCancelationInfo from './DepartureCancelationInfo';
 import {
   getAlertsForObject,
-  getServiceAlertsForPatternsStops,
   tripHasCancelation,
+  setEntityForAlert,
 } from '../util/alertUtils';
 import { getRouteMode } from '../util/modeUtils';
 import { ServiceAlertShape } from '../util/shapes';
@@ -41,10 +41,18 @@ function RouteAlertsContainer({ route }, { match }) {
         effectiveEndDate: last.serviceDay + last.scheduledArrival,
       };
     });
-  const serviceAlerts = [
-    ...getAlertsForObject(route),
-    ...getServiceAlertsForPatternsStops(route.patterns),
-  ];
+
+  const entity = {
+    __typename: 'Route',
+    color: route.color,
+    type: route.type,
+    mode: route.mode,
+    shortName: route.shortName,
+    gtfsId: route.gtfsId,
+  };
+  const serviceAlerts = getAlertsForObject(route).map(alert =>
+    setEntityForAlert(alert, entity),
+  );
 
   return (
     <AlertList
@@ -59,8 +67,10 @@ RouteAlertsContainer.propTypes = {
   route: PropTypes.shape({
     alerts: PropTypes.arrayOf(ServiceAlertShape).isRequired,
     color: PropTypes.string,
+    type: PropTypes.number,
     mode: PropTypes.string.isRequired,
     shortName: PropTypes.string.isRequired,
+    gtfsId: PropTypes.string.isRequired,
     patterns: PropTypes.arrayOf(
       PropTypes.shape({
         code: PropTypes.string,
@@ -102,7 +112,8 @@ const containerComponent = createFragmentContainer(RouteAlertsContainer, {
       mode
       type
       shortName
-      alerts(types: [ROUTE]) {
+      gtfsId
+      alerts(types: [ROUTE, STOPS_ON_ROUTE]) {
         id
         alertDescriptionText
         alertHash
@@ -120,29 +131,15 @@ const containerComponent = createFragmentContainer(RouteAlertsContainer, {
             shortName
             gtfsId
           }
+          ... on Stop {
+            name
+            code
+            vehicleMode
+            gtfsId
+          }
         }
       }
       patterns {
-        code
-        alerts(types: [STOPS_ON_PATTERN]) {
-          id
-          alertDescriptionText
-          alertHash
-          alertHeaderText
-          alertSeverityLevel
-          alertUrl
-          effectiveEndDate
-          effectiveStartDate
-          entities {
-            __typename
-            ... on Stop {
-              name
-              code
-              vehicleMode
-              gtfsId
-            }
-          }
-        }
         trips: tripsForDate(serviceDate: $date) {
           tripHeadsign
           stoptimes: stoptimesForDate(serviceDate: $date) {

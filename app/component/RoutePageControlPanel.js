@@ -20,7 +20,6 @@ import {
 import {
   getCancelationsForRoute,
   getAlertsForObject,
-  getServiceAlertsForPatternsStops,
   isAlertActive,
   getActiveAlertSeverityLevel,
 } from '../util/alertUtils';
@@ -384,10 +383,7 @@ class RoutePageControlPanel extends React.Component {
     const currentTime = moment().unix();
     const hasActiveAlert = isAlertActive(
       getCancelationsForRoute(route, patternId),
-      [
-        ...getAlertsForObject(route),
-        ...getServiceAlertsForPatternsStops(route.patterns),
-      ],
+      getAlertsForObject(route),
       currentTime,
     );
 
