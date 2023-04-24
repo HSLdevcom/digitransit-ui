@@ -51,6 +51,7 @@ function RouteAlertsContainer({ route }, { match }) {
     gtfsId: route.gtfsId,
   };
   const serviceAlerts = getAlertsForObject(route).map(alert =>
+    // We display all alerts as they would for route in this view
     setEntityForAlert(alert, entity),
   );
 
