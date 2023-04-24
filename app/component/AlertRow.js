@@ -122,7 +122,7 @@ export default function AlertRow(
             key={gtfsIdList[i]}
             to={`/${PREFIX_ROUTES}/${gtfsIdList[i]}/${PREFIX_STOPS}`}
             className={cx('route-alert-row-link', routeMode)}
-            style={{ routeColor }}
+            style={{ color: routeColor }}
           >
             {' '}
             {identifier}
@@ -211,7 +211,7 @@ export default function AlertRow(
                 (!showLinks && (
                   <div
                     className={cx('route-alert-entityid', routeMode)}
-                    style={{ routeColor }}
+                    style={{ color: routeColor }}
                   >
                     {entityIdentifiers.join(', ')}{' '}
                   </div>
