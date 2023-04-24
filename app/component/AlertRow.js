@@ -96,7 +96,6 @@ export default function AlertRow(
     mode,
     severityLevel,
     showLinks,
-    showRouteIcon,
     startTime,
     url,
   },
@@ -109,11 +108,12 @@ export default function AlertRow(
   const gtfsIdList = getGtfsIds(uniqueEntities);
   const entityIdentifiers = getEntityIdentifiers(uniqueEntities);
 
-  const routeColor = showRouteIcon && (color || getColor(uniqueEntities));
-  const routeMode = showRouteIcon && (mode || getMode(uniqueEntities));
-
   const entityType =
     getEntitiesOfType(uniqueEntities, 'Stop').length > 0 ? 'Stop' : 'Route';
+
+  const routeColor =
+    entityType === 'Route' && (color || getColor(uniqueEntities));
+  const routeMode = entityType === 'Route' && (mode || getMode(uniqueEntities));
 
   const routeLinks =
     entityType === 'Route' && entityIdentifiers && gtfsIdList
@@ -176,7 +176,7 @@ export default function AlertRow(
 
   return (
     <div className="route-alert-row" role="listitem" tabIndex={0}>
-      {(entityType === 'Route' && showRouteIcon && (
+      {(entityType === 'Route' && (
         <RouteNumber
           alertSeverityLevel={severityLevel}
           color={routeColor}
@@ -260,7 +260,6 @@ AlertRow.propTypes = {
   startTime: PropTypes.number,
   url: PropTypes.string,
   showLinks: PropTypes.bool,
-  showRouteIcon: PropTypes.bool,
   header: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
   feed: PropTypes.string,
 };

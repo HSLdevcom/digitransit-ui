@@ -83,7 +83,6 @@ const StopAlerts = ({ stop }) => {
       showLinks={false}
       cancelations={cancelations}
       serviceAlerts={serviceAlerts}
-      showRouteIcon
     />
   );
 };

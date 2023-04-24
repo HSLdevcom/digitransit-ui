@@ -6,7 +6,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import AlertRow from './AlertRow';
-import { alertCompare } from '../util/alertUtils';
+import { alertCompare, getEntitiesOfType } from '../util/alertUtils';
 import withBreakpoint from '../util/withBreakpoint';
 
 const AlertList = ({
@@ -17,7 +17,6 @@ const AlertList = ({
   mode,
   serviceAlerts,
   showLinks,
-  showRouteIcon,
   breakpoint,
 }) => {
   if (serviceAlerts.length === 0) {
@@ -59,27 +58,30 @@ const AlertList = ({
                 feed,
               },
               i,
-            ) => (
-              <AlertRow
-                color={color}
-                currentTime={currentTime}
-                description={alertDescriptionText}
-                endTime={effectiveEndDate}
-                entities={entities}
-                feed={feed}
-                header={alertHeaderText}
-                // eslint-disable-next-line react/no-array-index-key
-                key={`alert-${
-                  showRouteIcon ? 'route' : 'general'
-                }-${alertSeverityLevel}-${i}`}
-                mode={mode}
-                severityLevel={alertSeverityLevel}
-                showRouteIcon={showRouteIcon}
-                showLinks={showLinks}
-                startTime={effectiveStartDate}
-                url={alertUrl}
-              />
-            ),
+            ) => {
+              const entityType =
+                getEntitiesOfType(entities, 'Stop').length > 0
+                  ? 'stop'
+                  : 'route';
+              return (
+                <AlertRow
+                  color={color}
+                  currentTime={currentTime}
+                  description={alertDescriptionText}
+                  endTime={effectiveEndDate}
+                  entities={entities}
+                  feed={feed}
+                  header={alertHeaderText}
+                  // eslint-disable-next-line react/no-array-index-key
+                  key={`alert-${entityType}-${alertSeverityLevel}-${i}`}
+                  mode={mode}
+                  severityLevel={alertSeverityLevel}
+                  showLinks={showLinks}
+                  startTime={effectiveStartDate}
+                  url={alertUrl}
+                />
+              );
+            },
           )}
         </div>
       </div>
@@ -113,7 +115,6 @@ AlertList.propTypes = {
   mode: PropTypes.string,
   serviceAlerts: PropTypes.arrayOf(alertShape),
   showLinks: PropTypes.bool,
-  showRouteIcon: PropTypes.bool,
   breakpoint: PropTypes.string,
 };
 
@@ -123,7 +124,6 @@ AlertList.defaultProps = {
   disableScrolling: false,
   mode: undefined,
   serviceAlerts: [],
-  showRouteIcon: false,
 };
 
 const connectedComponent = connectToStores(

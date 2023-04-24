@@ -143,7 +143,6 @@ function DisruptionListContainer(
               disableScrolling
               showLinks
               serviceAlerts={routeAlertsToShow}
-              showRouteIcon
             />
           </React.Fragment>
         )}
