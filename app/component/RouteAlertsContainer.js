@@ -15,18 +15,11 @@ import { getRouteMode } from '../util/modeUtils';
 import { ServiceAlertShape } from '../util/shapes';
 import { AlertSeverityLevelType } from '../constants';
 
-function RouteAlertsContainer({ route }, { match, intl }) {
-  const { shortName } = route;
-  const { patternId } = match.params;
-  const entity = {
-    __typename: 'Route',
-    color: route.color,
-    type: route.type,
-    mode: route.mode,
-    shortName: route.shortName,
-    gtfsId: route.gtfsId,
-  };
-  const cancelations = route.patterns
+/**
+ * This returns the trips mapped as alerts for the route.
+ */
+const getCancelations = (route, entity, patternId, intl) =>
+  route.patterns
     .filter(pattern => pattern.code === patternId)
     .map(pattern => pattern.trips.filter(tripHasCancelation))
     .reduce((a, b) => a.concat(b), [])
@@ -42,17 +35,31 @@ function RouteAlertsContainer({ route }, { match, intl }) {
           { id: 'generic-cancelation' },
           {
             mode,
-            route: shortName,
+            route: route.shortName,
             headsign: first.headsign || trip.tripHeadsign,
             time: moment.unix(departureTime).format('HH:mm'),
           },
         ),
         entities: [entity],
-        effectiveStartDate: departureTime,
-        effectiveEndDate: last.serviceDay + last.scheduledArrival,
+        // 1 hour before departure
+        effectiveStartDate: departureTime - 3600,
+        // 15 minutes after arrival to last stop
+        effectiveEndDate: last.serviceDay + last.scheduledArrival + 900,
         alertSeverityLevel: AlertSeverityLevelType.Severe,
       };
     });
+
+function RouteAlertsContainer({ route }, { match, intl }) {
+  const { patternId } = match.params;
+  const entity = {
+    __typename: 'Route',
+    color: route.color,
+    type: route.type,
+    mode: route.mode,
+    shortName: route.shortName,
+    gtfsId: route.gtfsId,
+  };
+  const cancelations = getCancelations(route, entity, patternId, intl);
 
   const serviceAlerts = getAlertsForObject(route).map(alert =>
     // We display all alerts as they would for route in this view
