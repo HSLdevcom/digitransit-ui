@@ -1,15 +1,17 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import moment from 'moment';
+import { intlShape } from 'react-intl';
 import { uniq } from 'lodash';
 
 import AlertList from './AlertList';
-import DepartureCancelationInfo from './DepartureCancelationInfo';
 import {
   getCancelationsForStop,
   getAlertsForObject,
   getServiceAlertsForStation,
 } from '../util/alertUtils';
 import { ServiceAlertShape } from '../util/shapes';
+import { AlertSeverityLevelType } from '../constants';
 
 export const isRelevantEntity = (entity, stopIds, routeIds) =>
   // eslint-disable-next-line no-underscore-dangle
@@ -42,10 +44,44 @@ export const filterAlertEntities = (stop, alerts) => {
 };
 
 /**
+ * This returns the canceled stoptimes mapped as alerts for the stoptimes'
+ * routes.
+ */
+export const getCancelations = (stop, intl) => {
+  return getCancelationsForStop(stop).map(stoptime => {
+    const { color, mode, shortName, gtfsId, type } = stoptime.trip.route;
+    const entity = {
+      __typename: 'Route',
+      color,
+      type,
+      mode,
+      shortName,
+      gtfsId,
+    };
+    const departureTime = stoptime.serviceDay + stoptime.scheduledDeparture;
+    return {
+      alertDescriptionText: intl.formatMessage(
+        { id: 'generic-cancelation' },
+        {
+          mode,
+          route: shortName,
+          headsign: stoptime.headsign || stoptime.trip.tripHeadsign,
+          time: moment.unix(departureTime).format('HH:mm'),
+        },
+      ),
+      entities: [entity],
+      effectiveStartDate: departureTime - 3600, // 1h before departure
+      effectiveEndDate: departureTime + 1800, // 30 minutes after departure
+      alertSeverityLevel: AlertSeverityLevelType.Severe,
+    };
+  });
+};
+
+/**
  * @param {Object.<string,*>} stop
  * @returns {Array.<Object>}
  */
-export const findCancellationsAndAlerts = stop => {
+export const getAlerts = stop => {
   const isStation = stop.locationType === 'STATION';
   return filterAlertEntities(
     stop,
@@ -53,30 +89,9 @@ export const findCancellationsAndAlerts = stop => {
   );
 };
 
-const StopAlerts = ({ stop }) => {
-  const cancelations = getCancelationsForStop(stop).map(stoptime => {
-    const { color, mode, shortName } = stoptime.trip.route;
-    const departureTime = stoptime.serviceDay + stoptime.scheduledDeparture;
-    return {
-      header: (
-        <DepartureCancelationInfo
-          firstStopName={stoptime.trip.stops[0].name}
-          headsign={stoptime.headsign}
-          routeMode={mode}
-          scheduledDepartureTime={departureTime}
-          shortName={shortName}
-        />
-      ),
-      route: {
-        color,
-        mode,
-        shortName,
-      },
-      effectiveStartDate: departureTime,
-    };
-  });
-
-  const serviceAlerts = findCancellationsAndAlerts(stop);
+const StopAlerts = ({ stop }, { intl }) => {
+  const cancelations = getCancelations(stop, intl);
+  const serviceAlerts = getAlerts(stop);
 
   return (
     <AlertList
@@ -126,6 +141,10 @@ StopAlerts.propTypes = {
       }),
     ).isRequired,
   }).isRequired,
+};
+
+StopAlerts.contextTypes = {
+  intl: intlShape,
 };
 
 export default StopAlerts;

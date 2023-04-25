@@ -80,9 +80,18 @@ const containerComponent = createFragmentContainer(StopAlertsContainer, {
         numberOfDepartures: 100
         omitCanceled: false
       ) {
+        serviceDay
+        scheduledDeparture
+        headsign
+        realtimeState
         trip {
+          tripHeadsign
           route {
             gtfsId
+            type
+            color
+            mode
+            shortName
           }
         }
       }
