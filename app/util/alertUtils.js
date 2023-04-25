@@ -303,28 +303,6 @@ export const getActiveLegAlertSeverityLevel = leg => {
 };
 
 /**
- * Returns an array of currently active alerts for the legs' route and origin/destination stops
- *
- * @param {*} leg the itinerary leg to check.
- * @param {*} legStartTime the reference unix time stamp (in seconds).
- */
-export const getActiveLegAlerts = (leg, legStartTime) => {
-  if (!leg) {
-    return undefined;
-  }
-
-  const { route } = leg;
-
-  const serviceAlerts = [
-    ...getAlertsForObject(route),
-    ...getAlertsForObject(leg?.from.stop),
-    ...getAlertsForObject(leg?.to.stop),
-  ].filter(alert => isAlertActive([{}], alert, legStartTime) !== false);
-
-  return serviceAlerts;
-};
-
-/**
  * Compares the given alert entities in order to sort them based route shortName
  * or the stop name (and code).
  *
@@ -482,17 +460,6 @@ export const hasEntitiesOfTypes = (alert, entityTypes) =>
   );
 
 /**
- * Filters away entities from alert that are not of the given type
- *
- * @param {*} alert the alert which can contain entities.
- * @param {String} entityType the entity type.
- */
-export const getAlertWithEntitiesOfTypeOnly = (alert, entityType) => {
-  const patternStopEntities = getEntitiesOfTypeFromAlert(alert, entityType);
-  return { ...alert, entities: patternStopEntities };
-};
-
-/**
  * Sets the given entity to be the only entity on an alert.
  *
  * @param {*} alert the alert which can already contain entities which are removed.
@@ -500,4 +467,47 @@ export const getAlertWithEntitiesOfTypeOnly = (alert, entityType) => {
  */
 export const setEntityForAlert = (alert, entity) => {
   return { ...alert, entities: [entity] };
+};
+
+/**
+ * Returns an array of currently active alerts for the legs' route and origin/destination stops
+ *
+ * @param {*} leg the itinerary leg to check.
+ * @param {*} legStartTime the reference unix time stamp (in seconds).
+ */
+export const getActiveLegAlerts = (leg, legStartTime) => {
+  if (!leg) {
+    return undefined;
+  }
+
+  const { route } = leg;
+
+  const serviceAlerts = [
+    ...getAlertsForObject(route).map(alert => {
+      return {
+        ...alert,
+        entities: getEntitiesOfTypeFromAlert(alert, 'Route').filter(
+          entity => entity.gtfsId === route.gtfsId,
+        ),
+      };
+    }),
+    ...getAlertsForObject(leg?.from.stop).map(alert => {
+      return {
+        ...alert,
+        entities: getEntitiesOfTypeFromAlert(alert, 'Stop').filter(
+          entity => entity.gtfsId === leg?.from.stop.gtfsId,
+        ),
+      };
+    }),
+    ...getAlertsForObject(leg?.to.stop).map(alert => {
+      return {
+        ...alert,
+        entities: getEntitiesOfTypeFromAlert(alert, 'Stop').filter(
+          entity => entity.gtfsId === leg?.to.stop.gtfsId,
+        ),
+      };
+    }),
+  ].filter(alert => isAlertActive([{}], alert, legStartTime));
+
+  return serviceAlerts;
 };

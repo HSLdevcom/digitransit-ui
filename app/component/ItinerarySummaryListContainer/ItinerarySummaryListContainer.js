@@ -368,14 +368,6 @@ const containerComponent = createFragmentContainer(
               alertSeverityLevel
               effectiveEndDate
               effectiveStartDate
-              entities {
-                __typename
-                ... on Route {
-                  patterns {
-                    code
-                  }
-                }
-              }
             }
           }
           trip {

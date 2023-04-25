@@ -432,7 +432,12 @@ const withRelay = createFragmentContainer(
                 effectiveStartDate
                 alertHeaderText
                 alertDescriptionText
-                alertUrl
+                entities {
+                  __typename
+                  ... on Stop {
+                    gtfsId
+                  }
+                }
               }
             }
           }
@@ -459,12 +464,14 @@ const withRelay = createFragmentContainer(
                 alertSeverityLevel
                 effectiveEndDate
                 effectiveStartDate
-                alertSeverityLevel
-                effectiveEndDate
-                effectiveStartDate
                 alertHeaderText
                 alertDescriptionText
-                alertUrl
+                entities {
+                  __typename
+                  ... on Stop {
+                    gtfsId
+                  }
+                }
               }
             }
             bikePark {
@@ -520,17 +527,14 @@ const withRelay = createFragmentContainer(
               alertSeverityLevel
               effectiveEndDate
               effectiveStartDate
+              alertHeaderText
+              alertDescriptionText
               entities {
                 __typename
                 ... on Route {
-                  patterns {
-                    code
-                  }
+                  gtfsId
                 }
               }
-              alertHeaderText
-              alertDescriptionText
-              alertUrl
             }
           }
           trip {
