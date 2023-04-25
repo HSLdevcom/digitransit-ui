@@ -11,6 +11,7 @@ export default configMerger(matkaConfig, {
   title: APP_TITLE,
   textLogo: true,
 
+  favicon: './app/configurations/images/kela/favicon.ico',
   appBarLink: {
     name: 'Kela',
     href: 'https://www.kela.fi/',
@@ -29,13 +30,28 @@ export default configMerger(matkaConfig, {
       availableForSelection: false,
       default: false,
     },
+    walk: {
+      availableForSelection: false,
+      default: false,
+    },
+    car: {
+      availableForSelection: true,
+      default: false,
+    },
   },
 
   showWeatherLabel: false,
-  includeCarSuggestions: true,
-  includeBikeSuggestions: false,
   showDistanceBeforeDuration: true,
   hideItinerarySettings: true,
   showTransitLegDistance: true,
   showDistanceInItinerarySummary: true,
+  showWalkOption: false,
+  alwaysShowDistanceInKm: true,
+  defaultSettings: {
+    ...matkaConfig.defaultSettings,
+    includeCarSuggestions: true,
+    includeBikeSuggestions: false,
+  },
+
+  nearYouModes: ['bus', 'tram', 'subway', 'rail', 'ferry', 'citybike'],
 });
