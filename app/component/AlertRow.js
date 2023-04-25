@@ -118,7 +118,7 @@ export default function AlertRow(
           <Link
             key={gtfsIdList[i]}
             to={`/${PREFIX_ROUTES}/${gtfsIdList[i]}/${PREFIX_STOPS}`}
-            className={cx('route-alert-row-link', routeMode)}
+            className={cx('alert-row-link', routeMode)}
             style={{ color: routeColor }}
           >
             {' '}
@@ -133,7 +133,7 @@ export default function AlertRow(
           <Link
             key={gtfsIdList[i]}
             to={`/${PREFIX_STOPS}/${gtfsIdList[i]}`}
-            className={cx('route-alert-row-link', routeMode)}
+            className={cx('alert-row-link', routeMode)}
           >
             {' '}
             {identifier}
@@ -149,7 +149,7 @@ export default function AlertRow(
   }
 
   return (
-    <div className="route-alert-row" role="listitem" tabIndex={0}>
+    <div className="alert-row" role="listitem" tabIndex={0}>
       {(entityType === 'Route' && (
         <RouteNumber
           alertSeverityLevel={severityLevel}
@@ -173,10 +173,10 @@ export default function AlertRow(
             <ServiceAlertIcon severityLevel={severityLevel} />
           </div>
         )}
-      <div className="route-alert-contents">
+      <div className="alert-contents">
         {mapAlertSource(config, intl.locale, feed)}
         {entityIdentifiers && entityIdentifiers.length > 0 && (
-          <div className="route-alert-top-row">
+          <div className="alert-top-row">
             {entityIdentifiers &&
               entityIdentifiers.length > 0 &&
               ((entityType === 'Route' &&
@@ -209,10 +209,10 @@ export default function AlertRow(
           </div>
         )}
         {description && (
-          <div className="route-alert-body">
+          <div className="alert-body">
             {description}
             {url && (
-              <ExternalLink className="route-alert-url" href={checkedUrl}>
+              <ExternalLink className="alert-url" href={checkedUrl}>
                 {intl.formatMessage({ id: 'extra-info' })}
               </ExternalLink>
             )}
