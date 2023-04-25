@@ -175,39 +175,37 @@ export default function AlertRow(
         )}
       <div className="alert-contents">
         {mapAlertSource(config, intl.locale, feed)}
-        {entityIdentifiers && entityIdentifiers.length > 0 && (
-          <div className="alert-top-row">
-            {entityIdentifiers &&
-              entityIdentifiers.length > 0 &&
-              ((entityType === 'Route' &&
-                showLinks &&
-                routeLinks.length > 0 && <>{routeLinks} </>) ||
-                (!showLinks && (
-                  <div
-                    className={cx('route-alert-entityid', routeMode)}
-                    style={{ color: routeColor }}
-                  >
-                    {entityIdentifiers.join(', ')}{' '}
-                  </div>
-                )) ||
-                (entityType === 'Stop' && showLinks && stopLinks.length > 0 && (
-                  <>{stopLinks} </>
-                )) ||
-                (!showLinks && (
-                  <div className={routeMode}>{entityIdentifiers.join(' ')}</div>
-                )))}
-            {showTime && (
-              <>
-                {getTimePeriod({
-                  currentTime: moment.unix(currentTime),
-                  startTime: moment.unix(startTime),
-                  endTime: endTime ? moment.unix(endTime) : undefined,
-                  intl,
-                })}
-              </>
-            )}
-          </div>
-        )}
+        <div className="alert-top-row">
+          {entityIdentifiers &&
+            entityIdentifiers.length > 0 &&
+            ((entityType === 'Route' && showLinks && routeLinks.length > 0 && (
+              <>{routeLinks} </>
+            )) ||
+              (!showLinks && (
+                <div
+                  className={cx('route-alert-entityid', routeMode)}
+                  style={{ color: routeColor }}
+                >
+                  {entityIdentifiers.join(', ')}{' '}
+                </div>
+              )) ||
+              (entityType === 'Stop' && showLinks && stopLinks.length > 0 && (
+                <>{stopLinks} </>
+              )) ||
+              (!showLinks && (
+                <div className={routeMode}>{entityIdentifiers.join(' ')}</div>
+              )))}
+          {showTime && (
+            <>
+              {getTimePeriod({
+                currentTime: moment.unix(currentTime),
+                startTime: moment.unix(startTime),
+                endTime: endTime ? moment.unix(endTime) : undefined,
+                intl,
+              })}
+            </>
+          )}
+        </div>
         {description && (
           <div className="alert-body">
             {description}
