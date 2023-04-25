@@ -290,4 +290,13 @@ export default {
 
     active: true,
   },
+  Pori: {
+    mqttTopicResolver: walttiTopicResolver,
+
+    mqtt: 'wss://mqtt.digitransit.fi',
+
+    gtfsrt: true,
+
+    active: false,
+  },
 };
