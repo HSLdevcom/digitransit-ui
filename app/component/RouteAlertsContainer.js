@@ -1,10 +1,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import moment from 'moment';
 import { createFragmentContainer, graphql } from 'react-relay';
+import { intlShape } from 'react-intl';
 import { matchShape } from 'found';
 
 import AlertList from './AlertList';
-import DepartureCancelationInfo from './DepartureCancelationInfo';
 import {
   getAlertsForObject,
   tripHasCancelation,
@@ -12,36 +13,11 @@ import {
 } from '../util/alertUtils';
 import { getRouteMode } from '../util/modeUtils';
 import { ServiceAlertShape } from '../util/shapes';
+import { AlertSeverityLevelType } from '../constants';
 
-function RouteAlertsContainer({ route }, { match }) {
+function RouteAlertsContainer({ route }, { match, intl }) {
   const { shortName } = route;
   const { patternId } = match.params;
-  const cancelations = route.patterns
-    .filter(pattern => pattern.code === patternId)
-    .map(pattern => pattern.trips.filter(tripHasCancelation))
-    .reduce((a, b) => a.concat(b), [])
-    .map(trip => {
-      const first = trip.stoptimes[0];
-      const departureTime = first.serviceDay + first.scheduledDeparture;
-      const last = trip.stoptimes[trip.stoptimes.length - 1];
-      return {
-        header: (
-          <DepartureCancelationInfo
-            firstStopName={first.stop.name}
-            headsign={first.headsign || trip.tripHeadsign}
-            routeMode={getRouteMode(route)}
-            scheduledDepartureTime={departureTime}
-            shortName={shortName}
-          />
-        ),
-        route: {
-          ...route,
-        },
-        effectiveStartDate: departureTime,
-        effectiveEndDate: last.serviceDay + last.scheduledArrival,
-      };
-    });
-
   const entity = {
     __typename: 'Route',
     color: route.color,
@@ -50,6 +26,34 @@ function RouteAlertsContainer({ route }, { match }) {
     shortName: route.shortName,
     gtfsId: route.gtfsId,
   };
+  const cancelations = route.patterns
+    .filter(pattern => pattern.code === patternId)
+    .map(pattern => pattern.trips.filter(tripHasCancelation))
+    .reduce((a, b) => a.concat(b), [])
+    .map(trip => {
+      const first = trip.stoptimes[0];
+      const departureTime = first.serviceDay + first.scheduledDeparture;
+      const last = trip.stoptimes[trip.stoptimes.length - 1];
+      const mode = intl.formatMessage({
+        id: getRouteMode(route).toLowerCase(),
+      });
+      return {
+        alertDescriptionText: intl.formatMessage(
+          { id: 'generic-cancelation' },
+          {
+            mode,
+            route: shortName,
+            headsign: first.headsign || trip.tripHeadsign,
+            time: moment.unix(departureTime).format('HH:mm'),
+          },
+        ),
+        entities: [entity],
+        effectiveStartDate: departureTime,
+        effectiveEndDate: last.serviceDay + last.scheduledArrival,
+        alertSeverityLevel: AlertSeverityLevelType.Severe,
+      };
+    });
+
   const serviceAlerts = getAlertsForObject(route).map(alert =>
     // We display all alerts as they would for route in this view
     setEntityForAlert(alert, entity),
@@ -103,6 +107,7 @@ RouteAlertsContainer.propTypes = {
 
 RouteAlertsContainer.contextTypes = {
   match: matchShape,
+  intl: intlShape,
 };
 
 const containerComponent = createFragmentContainer(RouteAlertsContainer, {
@@ -141,6 +146,7 @@ const containerComponent = createFragmentContainer(RouteAlertsContainer, {
         }
       }
       patterns {
+        code
         trips: tripsForDate(serviceDate: $date) {
           tripHeadsign
           stoptimes: stoptimesForDate(serviceDate: $date) {

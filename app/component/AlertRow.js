@@ -88,12 +88,10 @@ export default function AlertRow(
   {
     currentTime,
     description,
-    color,
     endTime,
     entities,
     feed,
     header,
-    mode,
     severityLevel,
     showLinks,
     startTime,
@@ -101,7 +99,7 @@ export default function AlertRow(
   },
   { intl, config },
 ) {
-  const showTime = startTime && endTime && currentTime;
+  const showTime = startTime && currentTime;
   const uniqueEntities = getEntitiesWithUniqueIdentifiers(entities).sort(
     entityCompare,
   );
@@ -111,9 +109,8 @@ export default function AlertRow(
   const entityType =
     getEntitiesOfType(uniqueEntities, 'Stop').length > 0 ? 'Stop' : 'Route';
 
-  const routeColor =
-    entityType === 'Route' && (color || getColor(uniqueEntities));
-  const routeMode = entityType === 'Route' && (mode || getMode(uniqueEntities));
+  const routeColor = entityType === 'Route' && getColor(uniqueEntities);
+  const routeMode = entityType === 'Route' && getMode(uniqueEntities);
 
   const routeLinks =
     entityType === 'Route' && entityIdentifiers && gtfsIdList
@@ -151,29 +148,6 @@ export default function AlertRow(
     return null;
   }
 
-  let genericCancellation;
-  if (!description) {
-    if (typeof header === 'string') {
-      genericCancellation = header;
-    } else if (header.props) {
-      const { headsign, shortName, scheduledDepartureTime } = header.props;
-      if (headsign && routeMode && shortName && scheduledDepartureTime) {
-        const modeForTranslations = intl.formatMessage({
-          id: routeMode.toLowerCase(),
-        });
-        genericCancellation = intl.formatMessage(
-          { id: 'generic-cancelation' },
-          {
-            modeForTranslations,
-            route: shortName,
-            headsign,
-            time: moment.unix(scheduledDepartureTime).format('HH:mm'),
-          },
-        );
-      }
-    }
-  }
-
   return (
     <div className="route-alert-row" role="listitem" tabIndex={0}>
       {(entityType === 'Route' && (
@@ -201,7 +175,7 @@ export default function AlertRow(
         )}
       <div className="route-alert-contents">
         {mapAlertSource(config, intl.locale, feed)}
-        {((entityIdentifiers && entityIdentifiers.length > 0) || showTime) && (
+        {entityIdentifiers && entityIdentifiers.length > 0 && (
           <div className="route-alert-top-row">
             {entityIdentifiers &&
               entityIdentifiers.length > 0 &&
@@ -227,16 +201,16 @@ export default function AlertRow(
                 {getTimePeriod({
                   currentTime: moment.unix(currentTime),
                   startTime: moment.unix(startTime),
-                  endTime: description ? moment.unix(endTime) : undefined,
+                  endTime: endTime ? moment.unix(endTime) : undefined,
                   intl,
                 })}
               </>
             )}
           </div>
         )}
-        {(description || genericCancellation) && (
+        {description && (
           <div className="route-alert-body">
-            {description || genericCancellation}
+            {description}
             {url && (
               <ExternalLink className="route-alert-url" href={checkedUrl}>
                 {intl.formatMessage({ id: 'extra-info' })}
@@ -254,8 +228,6 @@ AlertRow.propTypes = {
   description: PropTypes.string,
   endTime: PropTypes.number,
   entities: PropTypes.object,
-  color: PropTypes.string,
-  mode: PropTypes.string,
   severityLevel: PropTypes.string,
   startTime: PropTypes.number,
   url: PropTypes.string,

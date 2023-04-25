@@ -10,16 +10,14 @@ import { alertCompare, getEntitiesOfType } from '../util/alertUtils';
 import withBreakpoint from '../util/withBreakpoint';
 
 const AlertList = ({
-  // cancelations, TODO
-  color,
+  cancelations,
   currentTime,
   disableScrolling,
-  mode,
   serviceAlerts,
   showLinks,
   breakpoint,
 }) => {
-  if (serviceAlerts.length === 0) {
+  if (serviceAlerts.length === 0 && cancelations.length === 0) {
     return (
       <div className="no-alerts-container" tabIndex="0" aria-live="polite">
         <FormattedMessage
@@ -30,7 +28,12 @@ const AlertList = ({
     );
   }
 
-  const alertsSorted = serviceAlerts.sort(alertCompare);
+  const alertsSorted = [
+    ...cancelations.sort(alertCompare).map(cancelation => {
+      return { ...cancelation, isCancelation: true };
+    }),
+    ...serviceAlerts.sort(alertCompare),
+  ];
 
   return (
     <div className="alerts-content-wrapper">
@@ -56,6 +59,7 @@ const AlertList = ({
                 effectiveStartDate,
                 effectiveEndDate,
                 feed,
+                isCancelation,
               },
               i,
             ) => {
@@ -65,16 +69,14 @@ const AlertList = ({
                   : 'route';
               return (
                 <AlertRow
-                  color={color}
                   currentTime={currentTime}
                   description={alertDescriptionText}
-                  endTime={effectiveEndDate}
+                  endTime={isCancelation ? undefined : effectiveEndDate}
                   entities={entities}
                   feed={feed}
                   header={alertHeaderText}
                   // eslint-disable-next-line react/no-array-index-key
                   key={`alert-${entityType}-${alertSeverityLevel}-${i}`}
-                  mode={mode}
                   severityLevel={alertSeverityLevel}
                   showLinks={showLinks}
                   startTime={effectiveStartDate}
@@ -90,39 +92,30 @@ const AlertList = ({
 };
 
 const alertShape = PropTypes.shape({
-  description: PropTypes.string,
+  alertDescriptionText: PropTypes.string,
   effectiveEndDate: PropTypes.number,
   effectiveStartDate: PropTypes.number.isRequired,
-  header: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
-  route: PropTypes.shape({
-    color: PropTypes.string,
-    mode: PropTypes.string,
-    shortName: PropTypes.string,
-  }),
+  alertHeaderText: PropTypes.string,
   alertSeverityLevel: PropTypes.string,
-  stop: PropTypes.shape({
-    code: PropTypes.string,
-    vehicleMode: PropTypes.string,
+  alertUrl: PropTypes.string,
+  entities: PropTypes.shape({
+    __typename: PropTypes.string.isRequired,
+    gtfsId: PropTypes.string.isRequired,
   }),
-  url: PropTypes.string,
 });
 
 AlertList.propTypes = {
-  // cancelations: PropTypes.arrayOf(alertShape), TODO
-  color: PropTypes.string,
+  cancelations: PropTypes.arrayOf(alertShape),
   currentTime: PropTypes.PropTypes.number.isRequired,
   disableScrolling: PropTypes.bool,
-  mode: PropTypes.string,
   serviceAlerts: PropTypes.arrayOf(alertShape),
   showLinks: PropTypes.bool,
   breakpoint: PropTypes.string,
 };
 
 AlertList.defaultProps = {
-  // cancelations: [], TODO
-  color: undefined,
+  cancelations: [],
   disableScrolling: false,
-  mode: undefined,
   serviceAlerts: [],
 };
 
