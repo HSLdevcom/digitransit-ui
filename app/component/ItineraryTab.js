@@ -376,6 +376,7 @@ const withRelay = createFragmentContainer(
               mode
               type
               gtfsId
+              color
             }
             from {
               stop {
