@@ -6,7 +6,11 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import AlertRow from './AlertRow';
-import { alertCompare, getEntitiesOfType } from '../util/alertUtils';
+import {
+  alertCompare,
+  getEntitiesOfType,
+  isAlertValid,
+} from '../util/alertUtils';
 import withBreakpoint from '../util/withBreakpoint';
 
 const AlertList = ({
@@ -17,7 +21,14 @@ const AlertList = ({
   showLinks,
   breakpoint,
 }) => {
-  if (serviceAlerts.length === 0 && cancelations.length === 0) {
+  const validAlerts = serviceAlerts.filter(alert =>
+    isAlertValid(alert, currentTime),
+  );
+  const validCancelations = cancelations.filter(cancelation =>
+    isAlertValid(cancelation, currentTime),
+  );
+
+  if (validAlerts.length === 0 && validCancelations.length === 0) {
     return (
       <div className="no-alerts-container" tabIndex="0" aria-live="polite">
         <FormattedMessage
@@ -29,10 +40,10 @@ const AlertList = ({
   }
 
   const alertsSorted = [
-    ...cancelations.sort(alertCompare).map(cancelation => {
+    ...validCancelations.sort(alertCompare).map(cancelation => {
       return { ...cancelation, isCancelation: true };
     }),
-    ...serviceAlerts.sort(alertCompare),
+    ...validAlerts.sort(alertCompare),
   ];
 
   return (
