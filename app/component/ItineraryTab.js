@@ -368,6 +368,7 @@ const withRelay = createFragmentContainer(
           mode
           nextLegs(numberOfLegs: 2  originModesWithParentStation: [RAIL]  destinationModesWithParentStation: [RAIL]) {
             mode
+            distance
             route {
               alerts {
                 alertSeverityLevel

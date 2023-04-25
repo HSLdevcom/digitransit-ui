@@ -58,6 +58,9 @@ const LegInfo = (
         </span>
       </Link>
       <div className="headsign">{headsign}</div>
+      {config.showTransitLegDistance && (
+        <div>{(leg.distance / 1000).toFixed(1)} km</div>
+      )}
       {displayTime && (
         <span className={cx('leg-departure-time', { realtime: leg.realTime })}>
           {moment(leg.startTime).format('HH:mm')}
