@@ -20,6 +20,10 @@ const containerComponent = createRefetchContainer(
         alerts {
           alertSeverityLevel
           alertDescriptionText
+          alertHeaderText
+          entities {
+            __typename
+          }
         }
         zoneId
         platformCode
