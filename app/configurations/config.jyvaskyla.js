@@ -56,6 +56,8 @@ export default configMerger(walttiConfig, {
 
   title: APP_TITLE,
 
+  favicon: './app/configurations/images/jyvaskyla/favicon.png',
+
   // Navbar logo
   logo: 'jyvaskyla/favicon.png',
 

@@ -29,6 +29,7 @@ export default configMerger(walttiConfig, {
   },
 
   title: APP_TITLE,
+  favicon: './app/configurations/images/rovaniemi/favicon.png',
   // Navbar logo
   logo: 'rovaniemi/rovaniemi-logo.svg',
   feedIds: ['Rovaniemi'],
