@@ -124,4 +124,17 @@ export default configMerger(walttiConfig, {
   vehicles: true,
   showVehiclesOnStopPage: true,
   showVehiclesOnSummaryPage: true,
+
+  stopCard: {
+    header: {
+      virtualMonitorBaseUrl: 'https://pysakit-vaasa.digitransit.fi/',
+    },
+  },
+
+  mainMenu: {
+    stopMonitor: {
+      show: true,
+      url: 'https://pysakit-vaasa.digitransit.fi/createview',
+    },
+  },
 });

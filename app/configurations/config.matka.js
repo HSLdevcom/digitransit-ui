@@ -433,4 +433,9 @@ export default {
       en: 'Oulu',
     },
   },
+  stopCard: {
+    header: {
+      virtualMonitorBaseUrl: 'https://matkamonitori.digitransit.fi/',
+    },
+  },
 };
