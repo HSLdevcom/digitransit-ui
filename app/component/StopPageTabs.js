@@ -8,9 +8,8 @@ import { AlertSeverityLevelType } from '../constants';
 import {
   getCancelationsForStop,
   getAlertsForObject,
-  isAlertActive,
+  getServiceAlertsForStation,
   getActiveAlertSeverityLevel,
-  getCancelationsForRoute,
 } from '../util/alertUtils';
 import withBreakpoint from '../util/withBreakpoint';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
@@ -66,69 +65,35 @@ function StopPageTabs({ stop }, { match }) {
 
   const currentTime = moment().unix();
 
-  const hasActiveAlert = isAlertActive(
-    getCancelationsForStop(stop),
-    getAlertsForObject(stop),
-    currentTime,
-  );
-  const hasActiveServiceAlerts = getActiveAlertSeverityLevel(
-    getAlertsForObject(stop),
+  const cancelations = getCancelationsForStop(stop);
+
+  const maxAlertSeverity = getActiveAlertSeverityLevel(
+    isTerminal ? getServiceAlertsForStation(stop) : getAlertsForObject(stop),
     currentTime,
   );
 
-  const stopRoutesWithAlerts = [];
-
-  const modesByRoute = []; // DT-3387
-
-  if (stop.routes?.length > 0) {
-    stop.routes.forEach(route => {
-      modesByRoute.push(route.mode); // DT-3387
-      const hasActiveRouteAlert = route.patterns.some(pattern =>
-        isAlertActive(
-          getCancelationsForRoute(route, pattern.code),
-          getAlertsForObject(route),
-          currentTime,
-        ),
-      );
-      const hasActiveRouteServiceAlerts = getActiveAlertSeverityLevel(
-        getAlertsForObject(route),
-        currentTime,
-      );
-
-      return (
-        (hasActiveRouteAlert || hasActiveRouteServiceAlerts) &&
-        stopRoutesWithAlerts.push(...route.alerts)
-      );
-    });
-  }
-
-  const disruptionClassName =
-    ((hasActiveAlert ||
-      stopRoutesWithAlerts.some(
-        alert =>
-          alert.alertSeverityLevel === AlertSeverityLevelType.Severe ||
-          alert.alertSeverityLevel === AlertSeverityLevelType.Warning,
-      )) &&
-      'active-disruption-alert') ||
-    ((hasActiveServiceAlerts ||
-      stopRoutesWithAlerts.some(
-        alert =>
-          alert.alertSeverityLevel === AlertSeverityLevelType.Severe ||
-          alert.alertSeverityLevel === AlertSeverityLevelType.Warning,
-      )) &&
-      'active-service-alert');
+  let disruptionClassName;
   let disruptionIcon;
-  if (disruptionClassName === 'active-disruption-alert') {
+  if (
+    cancelations.length > 0 ||
+    maxAlertSeverity === AlertSeverityLevelType.Severe ||
+    maxAlertSeverity === AlertSeverityLevelType.Warning ||
+    maxAlertSeverity === AlertSeverityLevelType.Unknown
+  ) {
+    disruptionClassName = 'active-disruption-alert';
     disruptionIcon = (
       <Icon
         className="disrution-icon"
         img="icon-icon_caution-no-excl-no-stroke"
       />
     );
-  } else if (disruptionClassName === 'active-service-alert') {
+  } else if (maxAlertSeverity === AlertSeverityLevelType.Info) {
+    disruptionClassName = 'active-service-alert';
     disruptionIcon = (
       <Icon className="service-alert-icon" img="icon-icon_info" />
     );
+  } else {
+    disruptionClassName = 'no-alerts';
   }
 
   return (
@@ -211,9 +176,9 @@ function StopPageTabs({ stop }, { match }) {
           type="button"
           className={cx('stop-tab-singletab', {
             active: activeTab === Tab.Disruptions,
-            'alert-active': hasActiveAlert || stopRoutesWithAlerts.length > 0,
+            'alert-active': disruptionClassName === 'active-disruption-alert',
             'service-alert-active':
-              hasActiveServiceAlerts || stopRoutesWithAlerts.length > 0,
+              disruptionClassName === 'active-service-alert',
           })}
           onClick={() => {
             router.replace(`${urlBase}/${Tab.Disruptions}${search}`);
@@ -229,12 +194,12 @@ function StopPageTabs({ stop }, { match }) {
           aria-selected={activeTab === Tab.Disruptions}
         >
           <div className="stop-tab-singletab-container">
-            <div className={`${disruptionClassName || `no-alerts`}`}>
+            <div className={disruptionClassName}>
               {disruptionIcon}
               <FormattedMessage id="disruptions" />
             </div>
             <span className="sr-only">
-              {disruptionClassName ? (
+              {disruptionClassName !== 'no-alerts' ? (
                 <FormattedMessage id="disruptions-tab.sr-disruptions" />
               ) : (
                 <FormattedMessage id="disruptions-tab.sr-no-disruptions" />

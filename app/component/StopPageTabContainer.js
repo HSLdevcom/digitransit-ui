@@ -56,31 +56,12 @@ const containerComponent = createFragmentContainer(StopPageTabContainer, {
       id
       gtfsId
       code
-      stops {
+      alerts(types: [STOP, ROUTES]) {
         id
-        gtfsId
-        alerts {
-          id
-          alertDescriptionText
-          alertHash
-          alertHeaderText
-          alertSeverityLevel
-          alertUrl
-          effectiveEndDate
-          effectiveStartDate
-        }
-      }
-      alerts {
-        id
-        alertDescriptionText
-        alertHash
-        alertHeaderText
         alertSeverityLevel
-        alertUrl
         effectiveEndDate
         effectiveStartDate
       }
-      vehicleMode
       stoptimes: stoptimesWithoutPatterns(
         startTime: $startTime
         timeRange: $timeRange
@@ -88,87 +69,6 @@ const containerComponent = createFragmentContainer(StopPageTabContainer, {
         omitCanceled: false
       ) {
         realtimeState
-        trip {
-          pattern {
-            code
-          }
-          route {
-            gtfsId
-            shortName
-            longName
-            mode
-            color
-            alerts(types: [ROUTE]) {
-              id
-              alertDescriptionText
-              alertHash
-              alertHeaderText
-              alertSeverityLevel
-              alertUrl
-              effectiveEndDate
-              effectiveStartDate
-              entities {
-                __typename
-                ... on Route {
-                  color
-                  type
-                  mode
-                  shortName
-                  gtfsId
-                }
-              }
-            }
-          }
-        }
-      }
-      routes {
-        gtfsId
-        shortName
-        longName
-        mode
-        color
-        alerts(types: [ROUTE]) {
-          id
-          alertDescriptionText
-          alertHash
-          alertHeaderText
-          alertSeverityLevel
-          alertUrl
-          effectiveEndDate
-          effectiveStartDate
-          entities {
-            __typename
-            ... on Route {
-              color
-              type
-              mode
-              shortName
-              gtfsId
-            }
-          }
-        }
-        patterns {
-          code
-          alerts(types: [STOPS_ON_PATTERN]) {
-            id
-            alertDescriptionText
-            alertHash
-            alertHeaderText
-            alertSeverityLevel
-            alertUrl
-            effectiveEndDate
-            effectiveStartDate
-            entities {
-              __typename
-              ... on Stop {
-                name
-                code
-                vehicleMode
-                gtfsId
-              }
-            }
-          }
-        }
       }
     }
   `,
