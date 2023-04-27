@@ -500,6 +500,23 @@ class SummaryPage extends React.Component {
     return false;
   };
 
+  addBikeStationMapForRentalBikeItineraries = itineraries => {
+    const activeItinerary =
+      itineraries[getActiveIndex(this.props.match.location, itineraries)];
+    const itineraryContainsBikeRentalStation = activeItinerary?.legs.some(
+      leg => leg.from.bikeRentalStation,
+    );
+    let { mapLayerOptions } = this.props;
+
+    if (itineraryContainsBikeRentalStation) {
+      mapLayerOptions = getMapLayerOptions({
+        lockedMapLayers: ['vehicles', 'citybike', 'stop'],
+        selectedMapLayers: ['vehicles', 'citybike'],
+      });
+    }
+    return mapLayerOptions;
+  };
+
   planHasNoItineraries = () =>
     this.props.viewer &&
     this.props.viewer.plan &&
@@ -1855,7 +1872,9 @@ class SummaryPage extends React.Component {
       mwtProps.bounds = getBounds(filteredItineraries, from, to, viaPoints);
     }
     const onlyHasWalkingItineraries = this.onlyHasWalkingItineraries();
-
+    const mapLayerOptions = this.addBikeStationMapForRentalBikeItineraries(
+      filteredItineraries,
+    );
     return (
       <ItineraryPageMap
         {...mwtProps}
@@ -1864,7 +1883,7 @@ class SummaryPage extends React.Component {
         viaPoints={viaPoints}
         zoom={POINT_FOCUS_ZOOM}
         mapLayers={this.props.mapLayers}
-        mapLayerOptions={this.props.mapLayerOptions}
+        mapLayerOptions={mapLayerOptions}
         setMWTRef={this.setMWTRef}
         breakpoint={breakpoint}
         itineraries={filteredItineraries}
