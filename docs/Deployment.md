@@ -11,7 +11,9 @@ We develop using *one* development branch (`release/int/development`) and *one* 
 A `CONFIG` environment variable is used to determine which instance-specific configuration to use; For example, `CONFIG=bbnavi-angermuende` will make it load `app/configurations/config.bbnavi-angermuende.js`. Because we develop from *one* main branch, almost all differences between the instances lead back to a different `config.bbnavi-*.js` file being used because of a different `$CONFIG` value.
 
 [`lint-test-deploy.yml`](../.github/workflows/lint-test-deploy.yml) defines all steps to be run by the [*GitHub Actions* CI service](https://docs.github.com/en/actions):
-1. On a push to any branch, the CI system will lint, build & test the code by running the respective `yarn run …` commands.
+1. On a push to any branch, the CI system will 
+	a. lint, build & test the code by running the respective `yarn run …` commands
+	b. build a Docker image, but only cache the image's layers (to speed up subsequent builds) without pushing it
 2. When Git tag named `release_<instance>_<date>` or `release_<instance>_<date>_<i>` is pushed, the CI system will
 	1. lint, build & test the code, as described above
 	2. build a Docker image tagged with
@@ -22,9 +24,9 @@ A `CONFIG` environment variable is used to determine which instance-specific con
 		- [*Docker Compose*](https://docs.docker.com/compose/) to compile both general as well as instance-specific configuration parameters & secrets into a "flat" Docker Swarm stack
 		- [Quantum CLI](https://cli.planetary-quantum.com), a command-line interface to *Planetary Quantum*
 
-Because artifacts (e.g. `node_modules`, intermediate Docker image layers) needed for the CI process are being cached, deploying the same Git commiut to many instances avoids re-doing the time-consuming (full) Docker image build.
+Because artifacts (e.g. `node_modules`, intermediate Docker image layers) needed for the CI process are being cached, deploying the same Git commiut to many instances avoids re-doing the time-consuming (full) Docker image build (with [some notable exceptions](https://docs.github.com/en/actions/using-workflows/caching-dependencies-to-speed-up-workflows#restrictions-for-accessing-a-cache)).
 
-Also, because all deployments has a corresponding Git tag, we have transparency over what has been deployed where and when.
+Also, because each deployment is represented as a Git tag, we have transparency over what has been deployed where and when.
 
 ## How to deploy a new `*.bbnavi.de` instance
 

@@ -237,7 +237,17 @@ jobs:
         run: yarn run test-report
 
   docker-push:
-    if: github.ref_type == 'tag' && startsWith(github.ref_name, 'release_')
+    # Because we use one full CI run for a deployment of *each* instance (i.e. n deployments for n instances),
+    # in order to deploy reasonably quickly, we assume the the Docker build caches intermediate layers across
+    # CI runs.
+    # The docker/build-push-action's GitHub caching option (cache-from, cache-to, see https://github.com/docker/build-push-action/blob/v4/README.md#customizing)
+    # uses BuildKit's GitHub caching feature (https://github.com/moby/buildkit/blob/c81deef18855d952247915d3418371f405719a23/README.md#github-actions-cache-experimental),
+    # which follows the general GitHub Actions caching restrictions (https://docs.github.com/en/actions/using-workflows/caching-dependencies-to-speed-up-workflows#restrictions-for-accessing-a-cache).
+    # The means that Git tag CI runs *cannot* access each other's cached Docker layers, but only the default
+    # branch's one. This is why, on the default branch (`bbnavi`), we *do* build & cache the Docker layers
+    # but don't push and don't deploy the resulting image.
+    # todo: as of 2023-04-27, this fails because of https://github.com/moby/buildkit/issues/2887
+    if: github.ref_name == 'bbnavi' || (github.ref_type == 'tag' && startsWith(github.ref_name, 'release_'))
     needs:
       - lint
       - unit-test
@@ -271,7 +281,13 @@ jobs:
           set -e -u -o pipefail # fail on errors
           sudo apt install --no-install-recommends -qq -y pcre2-utils
           set -x
-          cfg="$(echo -n "${{ github.ref_name }}" | pcre2grep -o1 '(?:release_)([\w-]+)(?:_\d{4}-\d{2}-\d{2})')"
+          # https://mattdood.com/2022/3/github-actions-conditional-environment-variables-20220325012837
+          if [[ -n "${{ github.ref_type == 'tag' && startsWith(github.ref_name, 'release_') || '' }}" ]]; then
+            cfg="$(echo -n "${{ github.ref_name }}" | pcre2grep -o1 '(?:release_)([\w-]+)(?:_\d{4}-\d{2}-\d{2})')"
+            echo 'should-deploy="yes"' >>$GITHUB_OUTPUT  
+          else
+            cfg="${{ github.ref_name }}"
+          fi
           echo "cfg=\"$cfg\"" >>$GITHUB_OUTPUT
 
       - name: compute Docker image metadata
@@ -293,9 +309,10 @@ jobs:
           # https://github.com/moby/buildkit#registry-push-image-and-cache-separately
           cache-from: type=gha
           cache-to: type=gha,mode=max,oci-mediatypes=true,compression=zstd
-          push: true
+          push: ${{ steps.bbnavi-config.outputs.should-deploy == 'yes' }}
 
       - name: generate Docker Swarm stack definition
+        if: ${{ steps.bbnavi-config.outputs.should-deploy == 'yes' }}
         env:
           DOCKER_IMAGE: ${{ steps.docker-meta.outputs.image }}
           DOCKER_TAG: ${{ steps.docker-meta.outputs.permanent-tag }}
@@ -308,6 +325,7 @@ jobs:
             config | tee quantum.yml
 
       - name: deploy stack using Planetary Quantum CLI
+        if: ${{ steps.bbnavi-config.outputs.should-deploy == 'yes' }}
         env:
           QUANTUM_ENDPOINT: tpwd-bb-navi
           QUANTUM_PROJECT: bbnavi-digitransit-ui
