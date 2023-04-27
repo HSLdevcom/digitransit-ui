@@ -44,6 +44,12 @@ export const filterAlertEntities = (stop, alerts) => {
     .filter(alert => alert.entities.length > 0);
 };
 
+export const getUniqueAlerts = alerts => {
+  return uniq(alerts.map(alert => JSON.stringify(alert))).map(alert =>
+    JSON.parse(alert),
+  );
+};
+
 /**
  * This returns the canceled stoptimes mapped as alerts for the stoptimes'
  * routes.
@@ -87,9 +93,11 @@ export const getCancelations = (stop, intl) => {
  */
 export const getAlerts = stop => {
   const isStation = stop.locationType === 'STATION';
-  return filterAlertEntities(
-    stop,
-    isStation ? getServiceAlertsForStation(stop) : getAlertsForObject(stop),
+  return getUniqueAlerts(
+    filterAlertEntities(
+      stop,
+      isStation ? getServiceAlertsForStation(stop) : getAlertsForObject(stop),
+    ),
   );
 };
 
