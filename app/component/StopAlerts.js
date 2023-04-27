@@ -80,8 +80,6 @@ export const getCancelations = (stop, intl) => {
         },
       ),
       entities: [entity],
-      effectiveStartDate: departureTime - 3600, // 1h before departure
-      effectiveEndDate: departureTime + 1800, // 30 minutes after departure
       alertSeverityLevel: AlertSeverityLevelType.Severe,
     };
   });

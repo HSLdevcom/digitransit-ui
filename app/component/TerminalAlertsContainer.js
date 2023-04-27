@@ -44,7 +44,7 @@ const containerComponent = createFragmentContainer(TerminalAlertsContainer, {
     fragment TerminalAlertsContainer_station on Stop
     @argumentDefinitions(
       startTime: { type: "Long" }
-      timeRange: { type: "Int", defaultValue: 900 }
+      timeRange: { type: "Int", defaultValue: 3600 }
     ) {
       gtfsId
       locationType

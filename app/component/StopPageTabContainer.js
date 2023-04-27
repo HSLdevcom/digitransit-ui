@@ -51,7 +51,7 @@ const containerComponent = createFragmentContainer(StopPageTabContainer, {
     fragment StopPageTabContainer_stop on Stop
     @argumentDefinitions(
       startTime: { type: "Long" }
-      timeRange: { type: "Int", defaultValue: 900 }
+      timeRange: { type: "Int", defaultValue: 3600 }
     ) {
       id
       gtfsId
