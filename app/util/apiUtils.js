@@ -74,13 +74,13 @@ export function getWeatherData(baseURL, time, lat, lon) {
 
 export function getRefPoint(origin, destination, location) {
   if (!isEmpty(origin)) {
-    return origin;
+    return JSON.stringify(origin);
   }
   if (!isEmpty(destination)) {
-    return destination;
+    return JSON.stringify(destination);
   }
   if (location && location.hasLocation) {
-    return location;
+    return JSON.stringify(location);
   }
   return null;
 }
