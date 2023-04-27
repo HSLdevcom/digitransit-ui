@@ -10,6 +10,7 @@ import {
   getAlertsForObject,
   getServiceAlertsForStation,
 } from '../util/alertUtils';
+import { getRouteMode } from '../util/modeUtils';
 import { ServiceAlertShape } from '../util/shapes';
 import { AlertSeverityLevelType } from '../constants';
 
@@ -59,11 +60,14 @@ export const getCancelations = (stop, intl) => {
       gtfsId,
     };
     const departureTime = stoptime.serviceDay + stoptime.scheduledDeparture;
+    const translatedMode = intl.formatMessage({
+      id: getRouteMode(stoptime.trip.route).toLowerCase(),
+    });
     return {
       alertDescriptionText: intl.formatMessage(
         { id: 'generic-cancelation' },
         {
-          mode,
+          mode: translatedMode,
           route: shortName,
           headsign: stoptime.headsign || stoptime.trip.tripHeadsign,
           time: moment.unix(departureTime).format('HH:mm'),
