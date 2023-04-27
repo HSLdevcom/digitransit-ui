@@ -147,11 +147,14 @@ export const getCancelationsForRoute = (route, patternId = undefined) => {
   }
   return route.patterns
     .filter(pattern => (patternId ? pattern.code === patternId : true))
-    .map(pattern => pattern.trips || [])
+    .map(pattern =>
+      Array.isArray(pattern.trips)
+        ? pattern.trips.filter(tripHasCancelation)
+        : [],
+    )
     .reduce((a, b) => a.concat(b), [])
     .map(trip => trip.stoptimes || [])
-    .reduce((a, b) => a.concat(b), [])
-    .filter(stoptimeHasCancelation);
+    .reduce((a, b) => a.concat(b), []);
 };
 
 /**
