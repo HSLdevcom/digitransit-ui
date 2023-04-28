@@ -184,7 +184,7 @@ class DTAutosuggestPanel extends React.Component {
     hoverColor: PropTypes.string,
     originMobileLabel: PropTypes.string,
     destinationMobileLabel: PropTypes.string,
-    refPoint: PropTypes.string,
+    refPoint: PropTypes.object,
     modeSet: PropTypes.string,
     modeIconColors: PropTypes.object,
     getAutoSuggestIcons: PropTypes.object,
