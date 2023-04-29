@@ -95,9 +95,16 @@
     line-height: normal;
     font-style: normal;
     padding-top: 17px;
-    display: flex;
 
+    .itinerary-start-time-and-end-time {
+      float: left;
+    }
+    .itinerary-duration {
+      float: right;
+    }
     .itinerary-start-date {
+      padding-right: 5px;
+      float: left;
       text-transform: capitalize;
       .tomorrow {
         text-transform: capitalize;
@@ -105,12 +112,6 @@
       & > span {
         text-transform: lowercase;
       }
-    }
-    .itinerary-total-distance {
-      //float: right;
-      //padding-left: 20px;
-      flex-grow: 1;
-      margin-right: 20px;
     }
   }
 

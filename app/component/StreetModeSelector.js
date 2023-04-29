@@ -5,26 +5,23 @@ import { StreetModeSelectorButton } from './StreetModeSelectorButton';
 import { StreetModeSelectorWeatherLabel } from './StreetModeSelectorWeatherLabel';
 import { StreetModeSelectorShimmer } from './StreetModeSelectorShimmer';
 
-export const StreetModeSelector = (
-  {
-    showWalkOptionButton,
-    showBikeOptionButton,
-    showBikeAndPublicOptionButton,
-    showCarOptionButton,
-    showParkRideOptionButton,
-    toggleStreetMode,
-    setStreetModeAndSelect,
-    weatherData,
-    walkPlan,
-    bikePlan,
-    bikeAndPublicPlan,
-    bikeParkPlan,
-    carPlan,
-    parkRidePlan,
-    loading,
-  },
-  { config },
-) => {
+export const StreetModeSelector = ({
+  showWalkOptionButton,
+  showBikeOptionButton,
+  showBikeAndPublicOptionButton,
+  showCarOptionButton,
+  showParkRideOptionButton,
+  toggleStreetMode,
+  setStreetModeAndSelect,
+  weatherData,
+  walkPlan,
+  bikePlan,
+  bikeAndPublicPlan,
+  bikeParkPlan,
+  carPlan,
+  parkRidePlan,
+  loading,
+}) => {
   const bikeAndVehicle = !loading
     ? {
         itineraries: [
@@ -38,16 +35,14 @@ export const StreetModeSelector = (
       <StreetModeSelectorShimmer loading={loading} />
       {!loading && (
         <div className="street-mode-button-row">
-          {config.showWeatherLabel && (
-            <StreetModeSelectorWeatherLabel
-              active={
-                showWalkOptionButton ||
-                showBikeOptionButton ||
-                showBikeAndPublicOptionButton
-              }
-              weatherData={weatherData}
-            />
-          )}
+          <StreetModeSelectorWeatherLabel
+            active={
+              showWalkOptionButton ||
+              showBikeOptionButton ||
+              showBikeAndPublicOptionButton
+            }
+            weatherData={weatherData}
+          />
           {showWalkOptionButton && (
             <StreetModeSelectorButton
               icon="icon-icon_walk"
@@ -123,10 +118,6 @@ StreetModeSelector.defaultProps = {
   bikeAndPublicPlan: undefined,
   bikeParkPlan: undefined,
   loading: undefined,
-};
-
-StreetModeSelector.contextTypes = {
-  config: PropTypes.object,
 };
 
 export default StreetModeSelector;
