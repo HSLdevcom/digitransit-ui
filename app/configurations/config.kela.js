@@ -52,5 +52,14 @@ export default configMerger(matkaConfig, {
     includeCarSuggestions: true,
     includeBikeSuggestions: false,
   },
-  nearYouModes: ['bus', 'tram', 'subway', 'rail', 'ferry', 'citybike'],
+  mainMenu: {
+    showDisruptions: false,
+    stopMonitor: {
+      show: false,
+    },
+    showEmbeddedSearch: false,
+  },
+  showNearYouButtons: false,
+  hideFavourites: true,
+  hideStopRouteSearch: true,
 });
