@@ -108,3 +108,14 @@ export const shouldShowFareInfo = config =>
   config.availableTickets &&
   Array.isArray(config.feedIds) &&
   config.feedIds.some(feedId => config.availableTickets[feedId]);
+
+export const shouldShowHSLFareInfo = (config, breakpoint, fares) => {
+  const unknownFares = fares.some(fare => fare.isUnknown);
+
+  return (
+    !unknownFares &&
+    fares?.length === 1 &&
+    config.CONFIG === 'hsl' &&
+    breakpoint !== 'large'
+  );
+};

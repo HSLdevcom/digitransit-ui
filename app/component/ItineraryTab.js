@@ -13,6 +13,7 @@ import RouteInformation from './RouteInformation';
 import ItinerarySummary from './ItinerarySummary';
 import ItineraryLegs from './ItineraryLegs';
 import BackButton from './BackButton';
+import HSLMobileTicketInformation from './HSLMobileTicketInformation';
 import {
   getRoutes,
   getZones,
@@ -27,7 +28,11 @@ import {
 } from '../util/legUtils';
 import { BreakpointConsumer } from '../util/withBreakpoint';
 
-import { getFares, shouldShowFareInfo } from '../util/fareUtils';
+import {
+  getFares,
+  shouldShowFareInfo,
+  shouldShowHSLFareInfo,
+} from '../util/fareUtils';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import {
   isToday,
@@ -271,11 +276,16 @@ class ItineraryTab extends React.Component {
               />
             ),
             shouldShowFareInfo(config) && (
-              <TicketInformation
+              shouldShowHSLFareInfo(config,breakpoint,fares) ? (
+              <HSLMobileTicketInformation 
+                fares={fares}
+                zones={getZones(itinerary.legs)}
+                />) :
+            (  <TicketInformation
                 fares={fares}
                 zones={getZones(itinerary.legs)}
                 legs={itinerary.legs}
-              />
+              />)
             ),
             <div
               className={cx('momentum-scroll itinerary-tabs__scroll', {
