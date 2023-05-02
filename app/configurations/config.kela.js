@@ -40,12 +40,12 @@ export default configMerger(matkaConfig, {
     },
   },
 
-  showWeatherLabel: false,
+  hideWeatherLabel: true,
   showDistanceBeforeDuration: true,
   hideItinerarySettings: true,
   showTransitLegDistance: true,
   showDistanceInItinerarySummary: true,
-  showWalkOption: false,
+  hideWalkOption: true,
   alwaysShowDistanceInKm: true,
   defaultSettings: {
     ...matkaConfig.defaultSettings,

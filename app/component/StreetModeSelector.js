@@ -38,7 +38,7 @@ export const StreetModeSelector = (
       <StreetModeSelectorShimmer loading={loading} />
       {!loading && (
         <div className="street-mode-button-row">
-          {config.showWeatherLabel && (
+          {!config.hideWeatherLabel && (
             <StreetModeSelectorWeatherLabel
               active={
                 showWalkOptionButton ||

@@ -2235,7 +2235,7 @@ class SummaryPage extends React.Component {
     }
 
     const showWalkOptionButton = Boolean(
-      this.context.config.showWalkOption &&
+      !this.context.config.hideWalkOption &&
         walkPlan &&
         walkPlan.itineraries &&
         walkPlan.itineraries.length > 0 &&
