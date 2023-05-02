@@ -1,0 +1,119 @@
+@charset "UTF-8";
+
+.itinerary-ticket-information-hsl {
+  display: flex;
+  color: $gray;
+  font-weight: $font-weight-book;
+  font-size: $font-size-small;
+  margin: 0 10px;
+
+  .ticket-type-agency-link {
+    flex: 0;
+    .external-link-container {
+      width: 120px;
+      text-align: center;
+      border-radius: 25px;
+      border: 1px solid #888;
+      min-height: 28px;
+      .external-link {
+        font-weight: $font-weight-medium;
+        color: $primary-color;
+        padding-top: 3px;
+        font-size: 15px;
+      }
+      &:hover {
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+        cursor: pointer;
+      }
+    }
+    @media print {
+      display: none;
+    }
+  }
+
+  .itinerary-hsl-ticket-type {
+    .ticket-type-title {
+        color: #FFFFFF
+    }
+    .app-link {
+        .external-link-container {
+            border: 0;
+            a.external-link {
+                font-size: 20px;
+                color: #007ac9
+        }
+    }
+        margin-right: 10px;
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        padding: 3px 10px 5px 10px;
+        min-width: 10.375em;
+        height: 2.75em;
+        right: 15px;
+        top: 25px;
+        background: #FFF;
+        font-weight: $font-weight-medium;
+        box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.15);
+        border-radius: 20px;
+    }
+
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-grow: 1;
+    flex-shrink: 1;
+    white-space: normal;
+    line-height: 1.33;
+    background-color: #007ac9;
+    justify-content: space-between;
+    .ticket-container {
+      display: grid;
+      align-items: center;
+      justify-content: space-between;
+      margin: 11px 10px 10px 15px;
+      @include min-width(tablet) {
+        margin-right: 15px;
+      }
+    }
+
+    .ticket-type-zone {
+      @include font-book;
+      align-items: center;
+      color: $gray;
+      display: flex;
+      justify-content: space-between;
+
+      .fare-container {
+        display: flex;
+        align-items: center;
+        font-size: 1.125rem;
+      }
+      a {
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        font-size: $font-size-normal;
+      }
+      .ticket-description {
+        display: flex;
+        color: #FFFFFF;
+      }
+      .ticket-identifier {
+        @include font-medium;
+        color: $black;
+        padding-right: 6px;
+      }
+    }
+  }
+}
+
+.zone-ticket {
+    &.hsl {
+        color: #FFFF;
+        letter-spacing: -0.03em;
+        line-height: 22px;
+        text-align: center;
+    }
+}
