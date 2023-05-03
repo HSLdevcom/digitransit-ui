@@ -16,6 +16,7 @@ import {
   getLegBadgeProps,
   isCallAgencyPickupType,
   getInterliningLegs,
+  getTotalDistance,
 } from '../util/legUtils';
 import { dateOrEmpty, isTomorrow } from '../util/timeUtils';
 import withBreakpoint from '../util/withBreakpoint';
@@ -772,6 +773,13 @@ const SummaryRow = (
                 <div className="itinerary-start-time-and-end-time">
                   {itineraryStartAndEndTime}
                 </div>
+
+                <div style={{ flexGrow: 1 }} />
+                {config.showDistanceInItinerarySummary && (
+                  <div className="itinerary-total-distance">
+                    {(getTotalDistance(data) / 1000).toFixed(1)} km
+                  </div>
+                )}
                 <div className="itinerary-duration">
                   <RelativeDuration duration={duration} />
                 </div>

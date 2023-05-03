@@ -40,17 +40,26 @@ export default configMerger(matkaConfig, {
     },
   },
 
-  showWeatherLabel: false,
+  hideWeatherLabel: true,
   showDistanceBeforeDuration: true,
   hideItinerarySettings: true,
   showTransitLegDistance: true,
   showDistanceInItinerarySummary: true,
-  showWalkOption: false,
+  hideWalkOption: true,
   alwaysShowDistanceInKm: true,
   defaultSettings: {
     ...matkaConfig.defaultSettings,
     includeCarSuggestions: true,
     includeBikeSuggestions: false,
   },
-  nearYouModes: ['bus', 'tram', 'subway', 'rail', 'ferry', 'citybike'],
+  mainMenu: {
+    showDisruptions: false,
+    stopMonitor: {
+      show: false,
+    },
+    showEmbeddedSearch: false,
+  },
+  showNearYouButtons: false,
+  hideFavourites: true,
+  hideStopRouteSearch: true,
 });
