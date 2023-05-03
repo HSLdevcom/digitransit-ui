@@ -111,7 +111,13 @@ export const shouldShowFareInfo = config =>
 
 export const shouldShowHSLFareInfo = (config, breakpoint, fares) => {
   const unknownFares = fares.some(fare => fare.isUnknown);
-
+  // Windows phones or Huawei should only show ticket information.
+  const { userAgent } = navigator;
+  const huaweiPattern = /(?:huaweibrowser|huawei|emui|hmscore|honor)/i;
+  const windowsPattern = /windows phone/i;
+  if (huaweiPattern.test(userAgent) || windowsPattern.test(userAgent)) {
+    return false;
+  }
   return (
     !unknownFares &&
     fares?.length === 1 &&
