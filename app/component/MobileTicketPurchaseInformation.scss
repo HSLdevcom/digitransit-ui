@@ -1,6 +1,6 @@
 @charset "UTF-8";
 
-.itinerary-ticket-information-hsl {
+.itinerary-ticket-information-purchase {
   display: flex;
   color: $gray;
   font-weight: $font-weight-book;
@@ -31,7 +31,7 @@
     }
   }
 
-  .itinerary-hsl-ticket-type {
+  .itinerary-pinfo-ticket-type {
     .ticket-type-title {
         color: #FFFFFF
     }
@@ -110,7 +110,7 @@
 }
 
 .zone-ticket {
-    &.hsl {
+    &.purchase {
         color: #FFFF;
         letter-spacing: -0.03em;
         line-height: 22px;

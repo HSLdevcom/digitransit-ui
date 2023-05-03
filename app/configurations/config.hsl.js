@@ -425,7 +425,7 @@ export default {
   },
 
   useTicketIcons: true,
-  hslAppLink: 'https://open.app.hsl.fi/zoneTicketWizard',
+  ticketPurchaseLink: 'https://open.app.hsl.fi/zoneTicketWizard',
   trafficNowLink: {
     fi: 'matkustaminen/liikenne',
     en: 'travelling/services-now',

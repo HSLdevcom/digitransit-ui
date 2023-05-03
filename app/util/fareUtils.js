@@ -109,7 +109,7 @@ export const shouldShowFareInfo = config =>
   Array.isArray(config.feedIds) &&
   config.feedIds.some(feedId => config.availableTickets[feedId]);
 
-export const shouldShowHSLFareInfo = (config, breakpoint, fares) => {
+export const shouldShowFarePurchaseInfo = (config, breakpoint, fares) => {
   const unknownFares = fares.some(fare => fare.isUnknown);
   // Windows phones or Huawei should only show ticket information.
   const { userAgent } = navigator;
@@ -121,7 +121,7 @@ export const shouldShowHSLFareInfo = (config, breakpoint, fares) => {
   return (
     !unknownFares &&
     fares?.length === 1 &&
-    config.CONFIG === 'hsl' &&
+    config.ticketPurchaseLink &&
     breakpoint !== 'large'
   );
 };

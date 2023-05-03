@@ -8,7 +8,7 @@ import { getAlternativeFares } from '../util/fareUtils';
 import { FareShape } from '../util/shapes';
 import ExternalLink from './ExternalLink';
 
-export default function HSLMobileTicketInformation(
+export default function MobileTicketPurchaseInformation(
   { fares, zones },
   { config, intl },
 ) {
@@ -45,10 +45,10 @@ export default function HSLMobileTicketInformation(
       </div>
     );
   };
-  const link = `${config.hslAppLink}/TICKET_TYPE_SINGLE_TICKET/${fare.ticketName}/adult/`;
+  const link = `${config.ticketPurchaseLink}/TICKET_TYPE_SINGLE_TICKET/${fare.ticketName}/adult/`;
   return (
-    <div className="itinerary-ticket-information-hsl">
-      <div className="itinerary-hsl-ticket-type">
+    <div className="itinerary-ticket-information-purchase">
+      <div className="itinerary-pinfo-ticket-type">
         {faresInfo()}
         <div className="app-link">
           <ExternalLink href={link}>
@@ -59,19 +59,19 @@ export default function HSLMobileTicketInformation(
     </div>
   );
 }
-HSLMobileTicketInformation.propTypes = {
+MobileTicketPurchaseInformation.propTypes = {
   fares: PropTypes.arrayOf(FareShape),
   zones: PropTypes.arrayOf(PropTypes.string),
 };
 
-HSLMobileTicketInformation.defaultProps = {
+MobileTicketPurchaseInformation.defaultProps = {
   fares: [],
   zones: [],
 };
 
-HSLMobileTicketInformation.contextTypes = {
+MobileTicketPurchaseInformation.contextTypes = {
   config: PropTypes.object,
   intl: intlShape.isRequired,
 };
 
-HSLMobileTicketInformation.displayName = 'TicketInformation';
+MobileTicketPurchaseInformation.displayName = 'TicketInformation';

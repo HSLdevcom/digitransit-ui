@@ -9,7 +9,7 @@ import { FormattedMessage } from 'react-intl';
  * @param {*} fareId the fareId (without feedId, for example AB)
  * @param {*} alternativeFares fares that should be shown in addition to the one given by OpenTripPlanner.
  */
-export const renderZoneTicket = (fareId, alternativeFares, hslMobile) => {
+export const renderZoneTicket = (fareId, alternativeFares, hasPurchaseLink) => {
   if (Array.isArray(alternativeFares) && alternativeFares.length > 0) {
     const options = [<ZoneTicket key={fareId} ticketType={fareId} />];
     for (let i = 0; i < alternativeFares.length; i++) {
@@ -28,14 +28,14 @@ export const renderZoneTicket = (fareId, alternativeFares, hslMobile) => {
 
     return <div className="zone-ticket-multiple-options">{options}</div>;
   }
-  return <ZoneTicket ticketType={fareId} isHSL={hslMobile} />;
+  return <ZoneTicket ticketType={fareId} hasPurchaseLink={hasPurchaseLink} />;
 };
 
-const ZoneTicket = ({ ticketType, isHSL }) =>
+const ZoneTicket = ({ ticketType, hasPurchaseLink }) =>
   ticketType ? (
     <span
       className={cx('zone-ticket', {
-        hsl: isHSL,
+        purchase: hasPurchaseLink,
       })}
     >
       {ticketType}
@@ -44,10 +44,10 @@ const ZoneTicket = ({ ticketType, isHSL }) =>
 
 ZoneTicket.propTypes = {
   ticketType: PropTypes.string.isRequired,
-  isHSL: PropTypes.bool,
+  hasPurchaseLink: PropTypes.bool,
 };
 
 ZoneTicket.defaultProps = {
-  isHSL: false,
+  hasPurchaseLink: false,
 };
 export default ZoneTicket;

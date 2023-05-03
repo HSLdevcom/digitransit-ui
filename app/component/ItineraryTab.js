@@ -13,7 +13,7 @@ import RouteInformation from './RouteInformation';
 import ItinerarySummary from './ItinerarySummary';
 import ItineraryLegs from './ItineraryLegs';
 import BackButton from './BackButton';
-import HSLMobileTicketInformation from './HSLMobileTicketInformation';
+import MobileTicketPurchaseInformation from './MobileTicketPurchaseInformation';
 import {
   getRoutes,
   getZones,
@@ -31,7 +31,7 @@ import { BreakpointConsumer } from '../util/withBreakpoint';
 import {
   getFares,
   shouldShowFareInfo,
-  shouldShowHSLFareInfo,
+  shouldShowFarePurchaseInfo,
 } from '../util/fareUtils';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import {
@@ -276,8 +276,8 @@ class ItineraryTab extends React.Component {
               />
             ),
             shouldShowFareInfo(config) && (
-              shouldShowHSLFareInfo(config,breakpoint,fares) ? (
-              <HSLMobileTicketInformation 
+              shouldShowFarePurchaseInfo(config,breakpoint,fares) ? (
+              <MobileTicketPurchaseInformation 
                 fares={fares}
                 zones={getZones(itinerary.legs)}
                 />) :
