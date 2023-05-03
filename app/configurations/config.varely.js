@@ -30,13 +30,6 @@ export default configMerger(walttiConfig, {
 
   feedIds: ['VARELY', 'FOLI'],
 
-  searchParams: {
-    'boundary.rect.min_lat': 59.475641,
-    'boundary.rect.max_lat': 61.133482,
-    'boundary.rect.min_lon': 20.377529,
-    'boundary.rect.max_lon': 23.920549,
-  },
-
   colors: {
     primary: colorPrimary,
     hover: '#00BF6F',
@@ -68,6 +61,8 @@ export default configMerger(walttiConfig, {
       color: colorPrimary,
     },
   },
+
+  useSearchPolygon: true,
 
   // Varsinais-Suomi (acquired from: https://github.com/varmais/maakunnat/blob/master/maakunnat.geojson?short_path=81dbd20#L184)
   areaPolygon: [
