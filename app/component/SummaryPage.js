@@ -500,21 +500,23 @@ class SummaryPage extends React.Component {
     return false;
   };
 
-  addBikeStationMapForRentalBikeItineraries = itineraries => {
-    const activeItinerary =
-      itineraries[getActiveIndex(this.props.match.location, itineraries)];
-    const itineraryContainsBikeRentalStation = activeItinerary?.legs.some(
-      leg => leg.from.bikeRentalStation,
-    );
-    let { mapLayerOptions } = this.props;
+  addBikeStationMapForRentalBikeItineraries = () => {
+    return getMapLayerOptions({
+      lockedMapLayers: ['vehicles', 'citybike', 'stop'],
+      selectedMapLayers: ['vehicles', 'citybike'],
+    });
+  };
 
+  getListOfHiddenStops = (
+    itineraryContainsBikeRentalStation,
+    activeItinerary,
+  ) => {
     if (itineraryContainsBikeRentalStation) {
-      mapLayerOptions = getMapLayerOptions({
-        lockedMapLayers: ['vehicles', 'citybike', 'stop'],
-        selectedMapLayers: ['vehicles', 'citybike'],
-      });
+      return activeItinerary?.legs
+        ?.filter(leg => leg.from.bikeRentalStation)
+        ?.map(station => station.from.name);
     }
-    return mapLayerOptions;
+    return [];
   };
 
   planHasNoItineraries = () =>
@@ -1872,8 +1874,18 @@ class SummaryPage extends React.Component {
       mwtProps.bounds = getBounds(filteredItineraries, from, to, viaPoints);
     }
     const onlyHasWalkingItineraries = this.onlyHasWalkingItineraries();
-    const mapLayerOptions = this.addBikeStationMapForRentalBikeItineraries(
-      filteredItineraries,
+
+    const itineraryContainsBikeRentalStation = filteredItineraries[
+      activeIndex
+    ]?.legs.some(leg => leg.from.bikeRentalStation);
+
+    const mapLayerOptions = itineraryContainsBikeRentalStation
+      ? this.addBikeStationMapForRentalBikeItineraries(filteredItineraries)
+      : this.props.mapLayerOptions;
+
+    const stopsToHide = this.getListOfHiddenStops(
+      itineraryContainsBikeRentalStation,
+      filteredItineraries[activeIndex],
     );
     return (
       <ItineraryPageMap
@@ -1892,6 +1904,7 @@ class SummaryPage extends React.Component {
         showActive={detailView}
         showVehicles={this.showVehicles()}
         onlyHasWalkingItineraries={onlyHasWalkingItineraries}
+        stopsToHide={stopsToHide}
       />
     );
   }

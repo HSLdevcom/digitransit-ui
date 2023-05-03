@@ -60,6 +60,7 @@ class TileLayerContainer extends GridLayer {
     relayEnvironment: PropTypes.object.isRequired,
     hilightedStops: PropTypes.arrayOf(PropTypes.string),
     stopsToShow: PropTypes.arrayOf(PropTypes.string),
+    stopsToHide: PropTypes.arrayOf(PropTypes.string),
     vehicles: PropTypes.object,
     lang: PropTypes.string,
   };
@@ -171,6 +172,7 @@ class TileLayerContainer extends GridLayer {
       this.props.hilightedStops,
       this.props.vehicles,
       this.props.stopsToShow,
+      this.props.stopsToHide,
       this.props.lang,
     );
     tile.onSelectableTargetClicked = (

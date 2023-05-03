@@ -89,6 +89,7 @@ class BikeRentalStations {
               !this.features.some(feature =>
                 this.shouldShowStation(
                   feature.properties.id,
+                  feature.properties.name,
                   feature.properties.network,
                 ),
               )
@@ -111,8 +112,8 @@ class BikeRentalStations {
   };
 
   draw = (feature, zoomedIn) => {
-    const { id, network } = feature.properties;
-    if (!this.shouldShowStation(id, network)) {
+    const { id, name, network } = feature.properties;
+    if (!this.shouldShowStation(id, name, network)) {
       return;
     }
 
@@ -199,8 +200,9 @@ class BikeRentalStations {
     }
   };
 
-  shouldShowStation = (id, network) =>
+  shouldShowStation = (id, name, network) =>
     (!this.tile.stopsToShow || this.tile.stopsToShow.includes(id)) &&
+    !this.tile.stopsToHide.includes(name) &&
     showCitybikeNetwork(this.config.cityBike.networks[network], this.config);
 
   static getName = () => 'citybike';
