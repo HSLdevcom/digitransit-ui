@@ -425,6 +425,10 @@ export default {
   },
 
   useTicketIcons: true,
+  ticketPurchaseLink: function purchaseTicketLink(ticket) {
+    return `https://open.app.hsl.fi/zoneTicketWizard/TICKET_TYPE_SINGLE_TICKET/${ticket}/adult/`;
+  },
+
   trafficNowLink: {
     fi: 'matkustaminen/liikenne',
     en: 'travelling/services-now',
