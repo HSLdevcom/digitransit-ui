@@ -45,13 +45,13 @@ export default function MobileTicketPurchaseInformation(
       </div>
     );
   };
-  const link = `${config.ticketPurchaseLink}/TICKET_TYPE_SINGLE_TICKET/${fare.ticketName}/adult/`;
+
   return (
     <div className="itinerary-ticket-information-purchase">
       <div className="itinerary-pinfo-ticket-type">
         {faresInfo()}
         <div className="app-link">
-          <ExternalLink href={link}>
+          <ExternalLink href={config.ticketPurchaseLink(fare.ticketname)}>
             <FormattedMessage id="buy-single-ticket" />
           </ExternalLink>
         </div>
