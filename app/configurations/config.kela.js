@@ -100,7 +100,7 @@ export default configMerger(matkaConfig, {
   hideWalkLegDurationSummary: true,
   emphasizeDistance: true,
 
-  terminalStopsMinZoom: 18,
+  terminalStopsMinZoom: 14,
 
   aboutThisService: {
     fi: [
