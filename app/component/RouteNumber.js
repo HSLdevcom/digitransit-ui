@@ -145,7 +145,7 @@ function RouteNumber(props, context) {
             </span>
           </div>
         )}
-        {!context.config.hideWalkLegDurationSummary &&
+        {!context.config?.hideWalkLegDurationSummary &&
           props.isTransitLeg === false &&
           props.duration > 0 && (
             <div className={`leg-duration-container ${mode} `}>
