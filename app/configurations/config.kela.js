@@ -14,7 +14,6 @@ const POI_MAP_PREFIX = `${MAP_URL}/map/v3/kela`;
 export default configMerger(matkaConfig, {
   CONFIG,
   title: APP_TITLE,
-  textLogo: true,
 
   URL: {
     OTP: OTP_URL,
@@ -29,6 +28,7 @@ export default configMerger(matkaConfig, {
   feedIds: ['kela'],
 
   favicon: './app/configurations/images/kela/favicon.png',
+  logo: 'kela/favicon.png',
   appBarLink: {
     name: 'Kela',
     href: 'https://www.kela.fi/',
@@ -99,6 +99,8 @@ export default configMerger(matkaConfig, {
 
   hideWalkLegDurationSummary: true,
   emphasizeDistance: true,
+
+  terminalStopsMinZoom: 18,
 
   aboutThisService: {
     fi: [
