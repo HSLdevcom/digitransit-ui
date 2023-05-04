@@ -14,7 +14,7 @@ const POI_MAP_PREFIX = `${MAP_URL}/map/v3/kela`;
 export default configMerger(matkaConfig, {
   CONFIG,
   title: APP_TITLE,
-  logo: 'kela/logo-kela-rgb.png',
+  textLogo: true,
 
   URL: {
     OTP: OTP_URL,
