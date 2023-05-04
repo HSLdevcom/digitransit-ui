@@ -507,16 +507,14 @@ class SummaryPage extends React.Component {
     });
   };
 
-  getListOfHiddenStops = (
-    itineraryContainsBikeRentalStation,
-    activeItinerary,
-  ) => {
+  getHiddenObjects = (itineraryContainsBikeRentalStation, activeItinerary) => {
+    const hiddenObjects = { vehicleRentalStations: [] };
     if (itineraryContainsBikeRentalStation) {
-      return activeItinerary?.legs
+      hiddenObjects.vehicleRentalStations = activeItinerary?.legs
         ?.filter(leg => leg.from.bikeRentalStation)
-        ?.map(station => station.from.name);
+        ?.map(station => station.from.bikeRentalStation.stationId);
     }
-    return [];
+    return hiddenObjects;
   };
 
   planHasNoItineraries = () =>
@@ -1875,16 +1873,16 @@ class SummaryPage extends React.Component {
     }
     const onlyHasWalkingItineraries = this.onlyHasWalkingItineraries();
 
-    const itineraryContainsBikeRentalStation = filteredItineraries[
+    const itineraryContainsDepartureFromBikeRentalStation = filteredItineraries[
       activeIndex
     ]?.legs.some(leg => leg.from.bikeRentalStation);
 
-    const mapLayerOptions = itineraryContainsBikeRentalStation
+    const mapLayerOptions = itineraryContainsDepartureFromBikeRentalStation
       ? this.addBikeStationMapForRentalBikeItineraries(filteredItineraries)
       : this.props.mapLayerOptions;
 
-    const stopsToHide = this.getListOfHiddenStops(
-      itineraryContainsBikeRentalStation,
+    const objectsToHide = this.getHiddenObjects(
+      itineraryContainsDepartureFromBikeRentalStation,
       filteredItineraries[activeIndex],
     );
     return (
@@ -1904,7 +1902,7 @@ class SummaryPage extends React.Component {
         showActive={detailView}
         showVehicles={this.showVehicles()}
         onlyHasWalkingItineraries={onlyHasWalkingItineraries}
-        stopsToHide={stopsToHide}
+        objectsToHide={objectsToHide}
       />
     );
   }
@@ -2956,6 +2954,7 @@ const containerComponent = createRefetchContainer(
                   zoneId
                 }
                 bikeRentalStation {
+                  stationId
                   bikesAvailable
                   networks
                 }

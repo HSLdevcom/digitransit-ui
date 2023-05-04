@@ -60,7 +60,7 @@ export default class Map extends React.Component {
     boundsOptions: PropTypes.object,
     hilightedStops: PropTypes.array,
     stopsToShow: PropTypes.array,
-    stopsToHide: PropTypes.array,
+    objectsToHide: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)),
     lang: PropTypes.string.isRequired,
     leafletEvents: PropTypes.object,
     leafletObjs: PropTypes.array,
@@ -87,6 +87,7 @@ export default class Map extends React.Component {
     topButtons: null,
     mergeStops: true,
     mapLayers: { geoJson: {} },
+    objectsToHide: { vehicleRentalStations: [] },
   };
 
   static contextTypes = {
@@ -222,7 +223,7 @@ export default class Map extends React.Component {
         hilightedStops={this.props.hilightedStops}
         mergeStops={this.props.mergeStops}
         stopsToShow={this.props.stopsToShow}
-        stopsToHide={this.props.stopsToHide}
+        objectsToHide={this.props.objectsToHide}
         locationPopup={locationPopup}
         onSelectLocation={onSelectLocation}
         mapLayers={this.props.mapLayers}
