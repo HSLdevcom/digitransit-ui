@@ -97,6 +97,9 @@ export default configMerger(matkaConfig, {
   hideFavourites: true,
   hideStopRouteSearch: true,
 
+  hideWalkLegDurationSummary: true,
+  emphasizeDistance: true,
+
   aboutThisService: {
     fi: [
       {
