@@ -99,6 +99,10 @@ export default function AlertRow(
   },
   { intl, config },
 ) {
+  if (!description && !header) {
+    return null;
+  }
+
   const showTime = startTime && currentTime;
   const uniqueEntities = getEntitiesWithUniqueIdentifiers(entities).sort(
     entityCompare,
@@ -143,10 +147,6 @@ export default function AlertRow(
 
   const checkedUrl =
     url && (url.match(/^[a-zA-Z]+:\/\//) ? url : `http://${url}`);
-
-  if (!description && !header) {
-    return null;
-  }
 
   return (
     <div className="alert-row" role="listitem" tabIndex={0}>
@@ -230,7 +230,7 @@ AlertRow.propTypes = {
   startTime: PropTypes.number,
   url: PropTypes.string,
   showLinks: PropTypes.bool,
-  header: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
+  header: PropTypes.string,
   feed: PropTypes.string,
 };
 

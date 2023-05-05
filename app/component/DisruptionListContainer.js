@@ -15,6 +15,7 @@ import {
 } from '../util/alertUtils';
 import { isKeyboardSelectionEvent } from '../util/browser';
 import withBreakpoint from '../util/withBreakpoint';
+import { AlertShape } from '../util/shapes';
 
 const isDisruption = alert =>
   alert && alert.alertSeverityLevel !== AlertSeverityLevelType.Info;
@@ -171,7 +172,7 @@ DisruptionListContainer.propTypes = {
   breakpoint: PropTypes.string,
   currentTime: PropTypes.number.isRequired,
   viewer: PropTypes.shape({
-    alerts: PropTypes.array,
+    alerts: PropTypes.arrayOf(AlertShape),
   }).isRequired,
 };
 

@@ -13,7 +13,7 @@ import {
   setEntityForAlert,
 } from '../util/alertUtils';
 import { getRouteMode } from '../util/modeUtils';
-import { ServiceAlertShape } from '../util/shapes';
+import { AlertShape } from '../util/shapes';
 import { AlertSeverityLevelType } from '../constants';
 
 /**
@@ -82,7 +82,7 @@ function RouteAlertsContainer({ currentTime, route }, { match, intl, config }) {
   );
 
   const serviceAlerts = getAlertsForObject(route).map(alert =>
-    // We display all alerts as they would for route in this view
+    // We display all alerts as they would be for the route in this view
     setEntityForAlert(alert, entity),
   );
 
@@ -98,7 +98,7 @@ function RouteAlertsContainer({ currentTime, route }, { match, intl, config }) {
 RouteAlertsContainer.propTypes = {
   currentTime: PropTypes.number.isRequired,
   route: PropTypes.shape({
-    alerts: PropTypes.arrayOf(ServiceAlertShape).isRequired,
+    alerts: PropTypes.arrayOf(AlertShape).isRequired,
     color: PropTypes.string,
     type: PropTypes.number,
     mode: PropTypes.string.isRequired,
@@ -109,7 +109,7 @@ RouteAlertsContainer.propTypes = {
         code: PropTypes.string,
         stops: PropTypes.arrayOf(
           PropTypes.shape({
-            alerts: PropTypes.arrayOf(ServiceAlertShape).isRequired,
+            alerts: PropTypes.arrayOf(AlertShape).isRequired,
           }),
         ),
         trips: PropTypes.arrayOf(

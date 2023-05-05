@@ -11,6 +11,7 @@ import {
   getEntitiesOfType,
   isAlertValid,
 } from '../util/alertUtils';
+import { AlertShape } from '../util/shapes';
 import withBreakpoint from '../util/withBreakpoint';
 
 const AlertList = ({
@@ -99,24 +100,11 @@ const AlertList = ({
   );
 };
 
-const alertShape = PropTypes.shape({
-  alertDescriptionText: PropTypes.string,
-  effectiveEndDate: PropTypes.number,
-  effectiveStartDate: PropTypes.number.isRequired,
-  alertHeaderText: PropTypes.string,
-  alertSeverityLevel: PropTypes.string,
-  alertUrl: PropTypes.string,
-  entities: PropTypes.shape({
-    __typename: PropTypes.string.isRequired,
-    gtfsId: PropTypes.string.isRequired,
-  }),
-});
-
 AlertList.propTypes = {
-  cancelations: PropTypes.arrayOf(alertShape),
+  cancelations: PropTypes.arrayOf(AlertShape),
   currentTime: PropTypes.PropTypes.number.isRequired,
   disableScrolling: PropTypes.bool,
-  serviceAlerts: PropTypes.arrayOf(alertShape),
+  serviceAlerts: PropTypes.arrayOf(AlertShape),
   showLinks: PropTypes.bool,
   breakpoint: PropTypes.string,
 };

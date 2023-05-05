@@ -6,7 +6,7 @@ import { intlShape } from 'react-intl';
 import Icon from './Icon';
 import TruncatedMessage from './TruncatedMessage';
 import { mapAlertSource } from '../util/alertUtils';
-import { ServiceAlertShape } from '../util/shapes';
+import { AlertShape } from '../util/shapes';
 
 const DisruptionBannerAlert = (
   { language, alert, openAllAlerts, truncate, onClose },
@@ -100,7 +100,7 @@ const DisruptionBannerAlert = (
 };
 
 DisruptionBannerAlert.propTypes = {
-  alert: ServiceAlertShape.isRequired,
+  alert: AlertShape.isRequired,
   language: PropTypes.string.isRequired,
   truncate: PropTypes.bool,
   openAllAlerts: PropTypes.func,
