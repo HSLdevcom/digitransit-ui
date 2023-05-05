@@ -1230,6 +1230,8 @@ const translations = {
     'minute-short': 'min',
     minutes: 'min',
     'minutes-or-route': 'Min / Route',
+    'mobile-ticket-purcahse-aria':
+      'Mobile ticket purchase information. Buy {ticketName} for {price}. Buy ticket from HSL app or download the app',
     'modes.to-bike': 'city bike station',
     'modes.to-bike-park': 'bike park',
     'modes.to-bus': 'bus stop',
@@ -2365,6 +2367,8 @@ const translations = {
     'minute-short': 'min',
     minutes: 'min',
     'minutes-or-route': 'Min / Linja',
+    'mobile-ticket-purcahse-aria':
+      'Mobiililipun osto. Osta {ticketName} lippu hintaan {price}. Osta lippu HSL sovelluksesta tai lataa sovellus',
     'modes.to-bike': 'kaupunkipyöräasemalle',
     'modes.to-bike-park': 'liityntäpyöräparkkiin',
     'modes.to-bus': 'bussipysäkille',
@@ -4286,6 +4290,8 @@ const translations = {
     'minute-short': 'min',
     minutes: 'min',
     'minutes-or-route': 'Min / Linje',
+    'mobile-ticket-purcahse-aria':
+      'Köp av mobilbiljett. Köp en {ticketName}-biljett för {price}. Köp biljetten i HSL-appen eller ladda ner appen.',
     'modes.to-bike': 'stadscykelstation',
     'modes.to-bike-park': 'anslutningsparkering för cyklar',
     'modes.to-bus': 'busshållplats',
@@ -4306,7 +4312,7 @@ const translations = {
     'nearest-favorites-no-favorites':
       'Tidtabeller och fordon vid de valda hållplatserna på kartan',
     'nearest-no-stops':
-      'Inga stationer eller hållplatser för det valda trafikfordonet i närheten.',
+      'Inga stationer eller hållplatser för det valda trafikfordont i närheten.',
     'nearest-stops': 'Närliggande hållplatser',
     'nearest-stops-airplane': 'flygplatser',
     'nearest-stops-bus': 'busshållplatser',
