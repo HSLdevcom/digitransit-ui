@@ -40,9 +40,7 @@ const AlertList = ({
   }
 
   const alertsSorted = [
-    ...validCancelations.sort(alertCompare).map(cancelation => {
-      return { ...cancelation, isCancelation: true };
-    }),
+    ...validCancelations.sort(alertCompare),
     ...validAlerts.sort(alertCompare),
   ];
 
@@ -70,7 +68,6 @@ const AlertList = ({
                 effectiveStartDate,
                 effectiveEndDate,
                 feed,
-                isCancelation,
               },
               i,
             ) => {
@@ -82,7 +79,7 @@ const AlertList = ({
                 <AlertRow
                   currentTime={currentTime}
                   description={alertDescriptionText}
-                  endTime={isCancelation ? undefined : effectiveEndDate}
+                  endTime={effectiveEndDate}
                   entities={entities}
                   feed={feed}
                   header={alertHeaderText}
