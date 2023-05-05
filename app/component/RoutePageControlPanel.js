@@ -382,7 +382,12 @@ class RoutePageControlPanel extends React.Component {
     const activeTab = getActiveTab(match.location.pathname);
     const currentTime = moment().unix();
     const hasActiveAlert = isAlertActive(
-      getCancelationsForRoute(route, patternId),
+      getCancelationsForRoute(
+        route,
+        patternId,
+        currentTime,
+        config.routeCancelationAlertValidity,
+      ),
       getAlertsForObject(route),
       currentTime,
     );

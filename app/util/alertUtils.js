@@ -44,11 +44,25 @@ export const tripHasCancelationForStop = (trip, stop) => {
  * Checks if the trip has a cancelation.
  *
  * @param {*} trip the trip object to check.
+ * @param {number} currentTime the current unix time.
+ * @param { before: number, after: number } validityPeriod validity before/after current time.
  */
-export const tripHasCancelation = trip => {
+export const tripHasCancelation = (trip, currentTime, validityPeriod) => {
   if (
     !trip ||
     (!Array.isArray(trip.stoptimes) && !Array.isArray(trip.stoptimesForDate))
+  ) {
+    return false;
+  }
+  const first = trip.stoptimes[0];
+  const departureTime = first.serviceDay + first.scheduledDeparture;
+  const last = trip.stoptimes[trip.stoptimes.length - 1];
+  if (
+    validityPeriod &&
+    currentTime &&
+    (currentTime < departureTime - validityPeriod.before ||
+      currentTime >
+        last.serviceDay + last.scheduledArrival + validityPeriod.after)
   ) {
     return false;
   }
@@ -140,8 +154,15 @@ export const itineraryHasCancelation = itinerary => {
  *
  * @param {*} route the route to get cancelations for.
  * @param {*} patternId the pattern's id, optional.
+ * @param {number} currentTime the current unix time.
+ * @param { before: number, after: number } validityPeriod validity before/after current time.
  */
-export const getCancelationsForRoute = (route, patternId = undefined) => {
+export const getCancelationsForRoute = (
+  route,
+  patternId,
+  currentTime,
+  validityPeriod,
+) => {
   if (!route || !Array.isArray(route.patterns)) {
     return [];
   }
@@ -149,7 +170,9 @@ export const getCancelationsForRoute = (route, patternId = undefined) => {
     .filter(pattern => (patternId ? pattern.code === patternId : true))
     .map(pattern =>
       Array.isArray(pattern.trips)
-        ? pattern.trips.filter(tripHasCancelation)
+        ? pattern.trips.filter(trip =>
+            tripHasCancelation(trip, currentTime, validityPeriod),
+          )
         : [],
     )
     .reduce((a, b) => a.concat(b), [])

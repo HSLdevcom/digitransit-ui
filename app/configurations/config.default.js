@@ -779,6 +779,11 @@ export default {
 
   minutesToDepartureLimit: 9,
 
+  routeCancelationAlertValidity: {
+    before: 3600, // 1 hour
+    after: 900, // 15 minutes
+  },
+
   imperialEnabled: false,
   // this flag when true enables imperial measurements  'feet/miles system'
 
