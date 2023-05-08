@@ -114,39 +114,40 @@ const StopAlerts = ({ stop }, { intl }) => {
 
 StopAlerts.propTypes = {
   stop: PropTypes.shape({
-    name: PropTypes.string,
-    code: PropTypes.string,
+    gtfsId: PropTypes.string.isRequired,
+    locationType: PropTypes.string.isRequired,
     routes: PropTypes.arrayOf(
       PropTypes.shape({
-        gtfsId: PropTypes.string,
-        mode: PropTypes.string,
-        shortName: PropTypes.string,
-        color: PropTypes.string,
-        type: PropTypes.number,
+        gtfsId: PropTypes.string.isRequired,
       }),
-    ).isRequired,
+    ),
     alerts: PropTypes.arrayOf(AlertShape).isRequired,
+    stops: PropTypes.arrayOf(
+      PropTypes.shape({
+        gtfsId: PropTypes.string.isRequired,
+        routes: PropTypes.arrayOf(
+          PropTypes.shape({
+            gtfsId: PropTypes.string.isRequired,
+          }),
+        ).isRequired,
+        alerts: PropTypes.arrayOf(AlertShape).isRequired,
+      }),
+    ),
     stoptimes: PropTypes.arrayOf(
       PropTypes.shape({
-        headsign: PropTypes.string.isRequired,
+        headsign: PropTypes.string,
         realtimeState: PropTypes.string,
         scheduledDeparture: PropTypes.number,
         serviceDay: PropTypes.number,
         trip: PropTypes.shape({
-          pattern: PropTypes.shape({
-            code: PropTypes.string,
-          }),
+          tripHeadsign: PropTypes.string.isRequired,
           route: PropTypes.shape({
-            alerts: PropTypes.arrayOf(AlertShape).isRequired,
+            gtfsId: PropTypes.string.isRequired,
             color: PropTypes.string,
             mode: PropTypes.string.isRequired,
             shortName: PropTypes.string.isRequired,
+            type: PropTypes.number,
           }).isRequired,
-          stops: PropTypes.arrayOf(
-            PropTypes.shape({
-              name: PropTypes.string,
-            }),
-          ).isRequired,
         }).isRequired,
       }),
     ).isRequired,

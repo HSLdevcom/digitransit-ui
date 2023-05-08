@@ -115,6 +115,7 @@ export default createFragmentContainer(withBreakpoint(PatternStopsContainer), {
       }
       agency {
         phone
+        name
       }
       patterns {
         headsign

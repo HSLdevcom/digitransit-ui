@@ -116,6 +116,7 @@ const containerComponent = createFragmentContainer(pureComponent, {
       }
       agency {
         phone
+        name
       }
       patterns {
         headsign

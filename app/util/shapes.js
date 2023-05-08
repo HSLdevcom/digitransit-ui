@@ -51,18 +51,12 @@ export const AlertShape = PropTypes.shape({
   alertHeaderText: PropTypes.string,
   alertSeverityLevel: PropTypes.string,
   alertUrl: PropTypes.string,
-  entities: PropTypes.shape({
-    __typename: PropTypes.string.isRequired,
-    gtfsId: PropTypes.string.isRequired,
-  }),
-});
-
-export const PatternShape = PropTypes.shape({
-  code: PropTypes.string.isRequired,
-  route: PropTypes.shape({
-    mode: PropTypes.string,
-    type: PropTypes.number,
-  }),
+  entities: PropTypes.arrayOf(
+    PropTypes.shape({
+      __typename: PropTypes.string.isRequired,
+      gtfsId: PropTypes.string.isRequired,
+    }),
+  ),
 });
 
 export const RouteShape = PropTypes.shape({

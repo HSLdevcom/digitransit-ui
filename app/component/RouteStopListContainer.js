@@ -12,11 +12,20 @@ import moment from 'moment';
 import RouteStop from './RouteStop';
 import withBreakpoint from '../util/withBreakpoint';
 import { getRouteMode } from '../util/modeUtils';
-import { PatternShape, VehicleShape } from '../util/shapes';
+import { VehicleShape } from '../util/shapes';
 
 class RouteStopListContainer extends React.PureComponent {
   static propTypes = {
-    pattern: PatternShape.isRequired,
+    pattern: PropTypes.shape({
+      route: PropTypes.shape({
+        mode: PropTypes.string,
+        type: PropTypes.number,
+        color: PropTypes.string,
+        shortName: PropTypes.string,
+      }),
+      directionId: PropTypes.number.isRequired,
+      stops: PropTypes.array.isRequired,
+    }).isRequired,
     className: PropTypes.string,
     vehicles: PropTypes.objectOf(VehicleShape),
     currentTime: PropTypes.instanceOf(moment).isRequired,

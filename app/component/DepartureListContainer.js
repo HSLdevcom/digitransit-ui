@@ -87,7 +87,7 @@ const StopTimeShape = PropTypes.shape({
 class DepartureListContainer extends Component {
   static propTypes = {
     stoptimes: PropTypes.arrayOf(StopTimeShape).isRequired,
-    mode: PropTypes.string.isRequired,
+    mode: PropTypes.string,
     currentTime: PropTypes.number.isRequired,
     limit: PropTypes.number,
     infiniteScroll: PropTypes.bool,
@@ -102,6 +102,7 @@ class DepartureListContainer extends Component {
     className: undefined,
     isTerminal: false,
     isStopPage: false,
+    mode: 'BUS',
   };
 
   static contextTypes = {

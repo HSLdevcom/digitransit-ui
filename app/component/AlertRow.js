@@ -225,7 +225,12 @@ AlertRow.propTypes = {
   currentTime: PropTypes.number,
   description: PropTypes.string,
   endTime: PropTypes.number,
-  entities: PropTypes.object,
+  entities: PropTypes.arrayOf(
+    PropTypes.shape({
+      __typename: PropTypes.string.isRequired,
+      gtfsId: PropTypes.string.isRequired,
+    }),
+  ),
   severityLevel: PropTypes.string,
   startTime: PropTypes.number,
   url: PropTypes.string,

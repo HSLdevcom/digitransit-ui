@@ -1080,6 +1080,7 @@ const containerComponent = createFragmentContainer(
           effectiveStartDate
         }
         agency {
+          name
           phone
         }
         patterns {
