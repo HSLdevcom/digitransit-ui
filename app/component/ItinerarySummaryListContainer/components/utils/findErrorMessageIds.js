@@ -133,6 +133,45 @@ const getOutsideBoundsNumerator = (polygon, from, to) => {
   );
 };
 
+const distanceTooShortMessage = (
+  query,
+  locationState,
+  minDistanceBetweenFromAndTo,
+) => {
+  const hasLocation = locationState && locationState.hasLocation;
+  const userNearOrigin =
+    hasLocation &&
+    distance(query.from, locationState) < minDistanceBetweenFromAndTo;
+  const userNearDestination =
+    hasLocation &&
+    distance(query.to, locationState) < minDistanceBetweenFromAndTo;
+
+  if (userNearOrigin || userNearDestination) {
+    return 'no-route-already-at-destination';
+  }
+
+  if (isLocationEqual(query.from, query.to)) {
+    return 'no-route-origin-same-as-destination';
+  }
+
+  return undefined;
+};
+
+const limitedTravelModesAvailableMessage = query => {
+  if (query.driving) {
+    return 'walk-bike-itinerary-4';
+  }
+
+  if (query.walking && !query.biking) {
+    return 'walk-bike-itinerary-1';
+  }
+
+  if (!query.walking && query.biking) {
+    return 'walk-bike-itinerary-2';
+  }
+  return 'walk-bike-itinerary-3';
+};
+
 /**
  * Find error message ids for user query and application state.
  *
@@ -146,7 +185,6 @@ const findQueryError = (query, queryContext) => {
     minDistanceBetweenFromAndTo = 0.0,
     error,
     currentTime,
-    hasSettingsChanges,
     areaPolygon,
   } = queryContext;
 
@@ -172,40 +210,19 @@ const findQueryError = (query, queryContext) => {
     query.to &&
     distance(query.from, query.to) < minDistanceBetweenFromAndTo
   ) {
-    const hasLocation = locationState && locationState.hasLocation;
-    const userNearOrigin =
-      hasLocation &&
-      distance(query.from, locationState) < minDistanceBetweenFromAndTo;
-    const userNearDestination =
-      hasLocation &&
-      distance(query.to, locationState) < minDistanceBetweenFromAndTo;
+    return distanceTooShortMessage(
+      query,
+      locationState,
+      minDistanceBetweenFromAndTo,
+    );
+  }
+  const yesterday = currentTime - 24 * 60 * 60 * 1000;
+  if (query.searchTime < yesterday) {
+    return 'itinerary-in-the-past';
+  }
 
-    if (userNearOrigin || userNearDestination) {
-      return 'no-route-already-at-destination';
-    }
-    if (isLocationEqual(query.from, query.to)) {
-      return 'no-route-origin-same-as-destination';
-    }
-  } else if (query.walking || query.biking || query.driving) {
-    const yesterday = currentTime - 24 * 60 * 60 * 1000;
-    if (query.searchTime < yesterday) {
-      return 'itinerary-in-the-past';
-    }
-
-    if (query.driving) {
-      return 'walk-bike-itinerary-4';
-    }
-
-    if (query.walking && !query.biking) {
-      return 'walk-bike-itinerary-1';
-    }
-
-    if (!query.walking && query.biking) {
-      return 'walk-bike-itinerary-2';
-    }
-    return 'walk-bike-itinerary-3';
-  } else if (hasSettingsChanges) {
-    return 'no-route-msg-with-changes';
+  if (query.walking || query.biking || query.driving) {
+    return limitedTravelModesAvailableMessage(query);
   }
 
   return undefined;
@@ -226,10 +243,14 @@ const findErrorMessageIds = (
   query = {},
   queryContext = {},
 ) => {
-  return [
-    ...findRoutingErrors(routingErrors),
-    ...asArray(findQueryError(query, queryContext)),
-  ];
+  const routingErrorMessages = findRoutingErrors(routingErrors);
+  let queryErrorMessage = findQueryError(query, queryContext);
+
+  if (!queryErrorMessage && routingErrorMessages.length === 0) {
+    queryErrorMessage = 'no-route-msg-with-changes';
+  }
+
+  return [...routingErrorMessages, ...asArray(queryErrorMessage)];
 };
 
 export default findErrorMessageIds;

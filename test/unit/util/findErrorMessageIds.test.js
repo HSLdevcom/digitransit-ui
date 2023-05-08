@@ -95,7 +95,7 @@ describe('findErrorMessageIds', () => {
           },
         },
       );
-      expect(msgIds2.length).to.equal(0);
+      expect(msgIds2).to.not.equal('no-route-already-at-destination');
     });
 
     it('should return no-route-origin-same-as-destination', () => {

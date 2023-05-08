@@ -4,13 +4,6 @@ import { createFragmentContainer, graphql } from 'react-relay';
 import { FormattedMessage } from 'react-intl';
 import cx from 'classnames';
 import { matchShape } from 'found';
-
-import isEqual from 'lodash/isEqual';
-import {
-  getCurrentSettings,
-  getDefaultSettings,
-} from '../../util/planParamUtil';
-
 import Icon from '../Icon';
 import SummaryRow from '../SummaryRow';
 import { isBrowser } from '../../util/browser';
@@ -267,11 +260,6 @@ function ItinerarySummaryListContainer(
     }
   }
 
-  const hasSettingsChanges = !isEqual(
-    getCurrentSettings(config),
-    getDefaultSettings(config),
-  );
-
   return (
     <ItinerarySummaryMessage
       areaPolygon={config.areaPolygon}
@@ -287,7 +275,6 @@ function ItinerarySummaryListContainer(
       currentTime={currentTime}
       to={to}
       walking={walking}
-      hasSettingsChanges={hasSettingsChanges}
     />
   );
 }
@@ -330,6 +317,7 @@ ItinerarySummaryListContainer.defaultProps = {
   loadingMoreItineraries: undefined,
   routingErrors: [],
   routingFeedbackPosition: undefined,
+  onlyHasWalkingItineraries: false,
 };
 
 ItinerarySummaryListContainer.contextTypes = {
