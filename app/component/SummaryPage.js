@@ -511,8 +511,8 @@ class SummaryPage extends React.Component {
     const hiddenObjects = { vehicleRentalStations: [] };
     if (itineraryContainsBikeRentalStation) {
       hiddenObjects.vehicleRentalStations = activeItinerary?.legs
-        ?.filter(leg => leg.from.bikeRentalStation)
-        ?.map(station => station.from.bikeRentalStation.stationId);
+        ?.filter(leg => leg.from?.bikeRentalStation)
+        ?.map(station => station.from?.bikeRentalStation.stationId);
     }
     return hiddenObjects;
   };
@@ -1876,7 +1876,7 @@ class SummaryPage extends React.Component {
 
     const itineraryContainsDepartureFromBikeRentalStation = filteredItineraries[
       activeIndex
-    ]?.legs.some(leg => leg.from.bikeRentalStation);
+    ]?.legs.some(leg => leg.from?.bikeRentalStation);
 
     const mapLayerOptions = itineraryContainsDepartureFromBikeRentalStation
       ? this.addBikeStationMapForRentalBikeItineraries(filteredItineraries)
