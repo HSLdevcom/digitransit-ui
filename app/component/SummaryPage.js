@@ -2102,6 +2102,7 @@ class SummaryPage extends React.Component {
       bikeAndPublicDuration = this.getDuration(this.state.bikeAndPublicPlan);
     }
     if (
+      !walkDuration ||
       (bikeDuration && bikeDuration < walkDuration) ||
       (carDuration && carDuration < walkDuration) ||
       (parkAndRideDuration && parkAndRideDuration < walkDuration) ||
