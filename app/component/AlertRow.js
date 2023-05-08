@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/no-noninteractive-tabindex */
 import cx from 'classnames';
 import capitalize from 'lodash/capitalize';
 import moment from 'moment';
@@ -96,6 +95,7 @@ export default function AlertRow(
     showLinks,
     startTime,
     url,
+    index,
   },
   { intl, config },
 ) {
@@ -120,12 +120,14 @@ export default function AlertRow(
     entityType === 'Route' && entityIdentifiers && gtfsIdList
       ? entityIdentifiers.map((identifier, i) => (
           <Link
-            key={gtfsIdList[i]}
+            onClick={e => {
+              e.stopPropagation();
+            }}
+            key={`${gtfsIdList[i]}-${index}`}
             to={`/${PREFIX_ROUTES}/${gtfsIdList[i]}/${PREFIX_STOPS}`}
             className={cx('alert-row-link', routeMode)}
             style={{ color: routeColor }}
           >
-            {' '}
             {identifier}
           </Link>
         ))
@@ -135,11 +137,13 @@ export default function AlertRow(
     entityType === 'Stop' && entityIdentifiers && gtfsIdList
       ? entityIdentifiers.map((identifier, i) => (
           <Link
-            key={gtfsIdList[i]}
+            onClick={e => {
+              e.stopPropagation();
+            }}
+            key={`${gtfsIdList[i]}-${index}`}
             to={`/${PREFIX_STOPS}/${gtfsIdList[i]}`}
             className={cx('alert-row-link', routeMode)}
           >
-            {' '}
             {identifier}
           </Link>
         ))
@@ -149,7 +153,7 @@ export default function AlertRow(
     url && (url.match(/^[a-zA-Z]+:\/\//) ? url : `http://${url}`);
 
   return (
-    <div className="alert-row" role="listitem" tabIndex={0}>
+    <div className="alert-row" role="listitem">
       {(entityType === 'Route' && (
         <RouteNumber
           alertSeverityLevel={severityLevel}
@@ -237,6 +241,7 @@ AlertRow.propTypes = {
   showLinks: PropTypes.bool,
   header: PropTypes.string,
   feed: PropTypes.string,
+  index: PropTypes.number.isRequired,
 };
 
 AlertRow.contextTypes = {

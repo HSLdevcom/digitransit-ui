@@ -90,6 +90,7 @@ const AlertList = ({
                   showLinks={showLinks}
                   startTime={effectiveStartDate}
                   url={alertUrl}
+                  index={i}
                 />
               );
             },

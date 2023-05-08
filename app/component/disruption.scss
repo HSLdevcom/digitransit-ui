@@ -99,9 +99,8 @@
     }
 
     .alert-row-link {
-      display: contents;
-      padding-right: 1px;
-      padding-left: 1px;
+      padding-right: 4px;
+      text-decoration: none;
     }
     + .alert-row {
       border-top: 1px solid $light-gray;
@@ -111,7 +110,6 @@
       vertical-align: bottom;
 
       .alert-top-row {
-        display: inline-flex;
         align-items: center;
         font-size: 15px;
         .route-alert-entityid {
@@ -119,6 +117,7 @@
           font-size: 21px;
           font-weight: $font-weight-medium;
           margin-right: 15px;
+          display: inline;
         }
       }
     }
