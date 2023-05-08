@@ -296,6 +296,7 @@ export const moreItinerariesQuery = graphql`
               zoneId
             }
             bikeRentalStation {
+              stationId
               bikesAvailable
               networks
             }
