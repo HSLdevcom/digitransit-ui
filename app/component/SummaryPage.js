@@ -1059,6 +1059,7 @@ class SummaryPage extends React.Component {
                   zoneId
                 }
                 bikeRentalStation {
+                  stationId
                   bikesAvailable
                   networks
                 }
