@@ -12,7 +12,7 @@ describe('<DisruptionListContainer />', () => {
       viewer: {},
     };
     const wrapper = shallowWithIntl(<DisruptionListContainer {...props} />);
-    expect(wrapper.find('.stop-no-alerts-container')).to.have.lengthOf(1);
+    expect(wrapper.find('.no-alerts-container')).to.have.lengthOf(1);
   });
 
   it('should render warning level service alerts for stops and routes', () => {
@@ -21,22 +21,34 @@ describe('<DisruptionListContainer />', () => {
       viewer: {
         alerts: [
           {
+            alertHeaderText: 'servicealert',
             alertSeverityLevel: AlertSeverityLevelType.Warning,
             effectiveEndDate: 100,
             effectiveStartDate: 0,
-            route: {
-              mode: 'BUS',
-              shortName: '63',
-            },
+            entities: [
+              {
+                __typename: 'Route',
+                type: 200,
+                mode: 'BUS',
+                shortName: '63',
+                gtfsId: 'foo:bar',
+              },
+            ],
           },
           {
+            alertHeaderText: 'servicealert2',
             alertSeverityLevel: AlertSeverityLevelType.Warning,
             effectiveEndDate: 100,
             effectiveStartDate: 0,
-            stop: {
-              code: '1234',
-              vehicleMode: 'RAIL',
-            },
+            entities: [
+              {
+                __typename: 'Stop',
+                gtfsId: 'foo:bar',
+                name: 'foo',
+                code: '123',
+                vehicleMode: 'BUS',
+              },
+            ],
           },
         ],
       },
@@ -51,22 +63,34 @@ describe('<DisruptionListContainer />', () => {
       viewer: {
         alerts: [
           {
+            alertHeaderText: 'servicealert',
             alertSeverityLevel: AlertSeverityLevelType.Info,
             effectiveEndDate: 100,
             effectiveStartDate: 0,
-            route: {
-              mode: 'BUS',
-              shortName: '63',
-            },
+            entities: [
+              {
+                __typename: 'Route',
+                type: 200,
+                mode: 'BUS',
+                shortName: '63',
+                gtfsId: 'foo:bar',
+              },
+            ],
           },
           {
+            alertHeaderText: 'servicealert2',
             alertSeverityLevel: AlertSeverityLevelType.Info,
             effectiveEndDate: 100,
             effectiveStartDate: 0,
-            stop: {
-              code: '1234',
-              vehicleMode: 'RAIL',
-            },
+            entities: [
+              {
+                __typename: 'Stop',
+                gtfsId: 'foo:bar',
+                name: 'foo',
+                code: '123',
+                vehicleMode: 'BUS',
+              },
+            ],
           },
         ],
       },
@@ -84,19 +108,29 @@ describe('<DisruptionListContainer />', () => {
             alertSeverityLevel: AlertSeverityLevelType.Info,
             effectiveEndDate: 100,
             effectiveStartDate: 0,
-            route: {
-              mode: 'BUS',
-              shortName: '63',
-            },
+            entities: [
+              {
+                __typename: 'Route',
+                type: 200,
+                mode: 'BUS',
+                shortName: '63',
+                gtfsId: 'foo:bar',
+              },
+            ],
           },
           {
             alertSeverityLevel: AlertSeverityLevelType.Info,
             effectiveEndDate: 100,
             effectiveStartDate: 0,
-            stop: {
-              code: '1234',
-              vehicleMode: 'RAIL',
-            },
+            entities: [
+              {
+                __typename: 'Stop',
+                gtfsId: 'foo:bar',
+                name: 'foo',
+                code: '1234',
+                vehicleMode: 'RAIL',
+              },
+            ],
           },
         ],
       },
@@ -114,19 +148,29 @@ describe('<DisruptionListContainer />', () => {
             alertSeverityLevel: AlertSeverityLevelType.Info,
             effectiveEndDate: 100,
             effectiveStartDate: 0,
-            route: {
-              mode: 'BUS',
-              shortName: '63',
-            },
+            entities: [
+              {
+                __typename: 'Route',
+                type: 200,
+                mode: 'BUS',
+                shortName: '63',
+                gtfsId: 'foo:bar',
+              },
+            ],
           },
           {
             alertSeverityLevel: AlertSeverityLevelType.Warning,
             effectiveEndDate: 100,
             effectiveStartDate: 0,
-            stop: {
-              code: '1234',
-              vehicleMode: 'RAIL',
-            },
+            entities: [
+              {
+                __typename: 'Stop',
+                gtfsId: 'foo:bar',
+                name: 'foo',
+                code: '1234',
+                vehicleMode: 'RAIL',
+              },
+            ],
           },
         ],
       },

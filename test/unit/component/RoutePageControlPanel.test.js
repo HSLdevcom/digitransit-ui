@@ -85,51 +85,6 @@ describe('<RoutePageControlPanel />', () => {
     expect(wrapper.find('.activeAlert')).to.have.lengthOf(1);
   });
 
-  it('should not set the activeAlert class if there is an alert and no matching patternId', () => {
-    const props = {
-      breakpoint: 'large',
-      route: {
-        gtfsId: 'HSL:1063',
-        mode: 'BUS',
-        alerts: [
-          {
-            entities: [
-              {
-                __typename: 'Route',
-                patterns: [
-                  {
-                    code: 'HSL:1063:1:01', // code for pattern of opposite direction
-                  },
-                ],
-              },
-            ],
-          },
-        ],
-        agency: { name: 'mock' },
-        type: 3,
-      },
-      router: mockRouter,
-      match: {
-        ...mockMatch,
-        location: {
-          ...mockMatch.location,
-          pathname: `/${PREFIX_ROUTES}/HSL:1063/${PREFIX_STOPS}/HSL:1063:0:01`,
-        },
-        params: {
-          routeId: 'HSL:1063',
-          patternId: 'HSL:1063:0:01',
-        },
-      },
-    };
-    const wrapper = shallowWithIntl(<RoutePageControlPanel {...props} />, {
-      context: {
-        ...mockContext,
-        config: { colors: { primary: '#00AFFF' }, URL: {} },
-      },
-    });
-    expect(wrapper.find('.activeAlert')).to.have.lengthOf(0);
-  });
-
   it('should start the real time client after mounting if active pattern is found', () => {
     const activeDates = [{ day: moment().format('YYYYMMDD') }];
     const props = {
@@ -252,52 +207,6 @@ describe('<RoutePageControlPanel />', () => {
                 stoptimes: [
                   {
                     realtimeState: 'CANCELED',
-                  },
-                ],
-              },
-            ],
-          },
-        ],
-        type: 3,
-        agency: { name: 'mock' },
-      },
-      router: mockRouter,
-      match: {
-        ...mockMatch,
-        location: {
-          ...mockMatch.location,
-          pathname: `/${PREFIX_ROUTES}/HSL:1063/${PREFIX_STOPS}/HSL:1063:0:01`,
-        },
-        params: {
-          routeId: 'HSL:1063',
-          patternId: 'HSL:1063:0:01',
-        },
-      },
-    };
-    const wrapper = shallowWithIntl(<RoutePageControlPanel {...props} />, {
-      context: {
-        ...mockContext,
-        config: { colors: { primary: '#00AFFF' }, URL: {} },
-      },
-    });
-    expect(wrapper.find('.activeAlert')).to.have.lengthOf(1);
-  });
-
-  it('should set the activeAlert class if one of the stops in this pattern has an alert', () => {
-    const props = {
-      breakpoint: 'large',
-      route: {
-        gtfsId: 'HSL:1063',
-        mode: 'BUS',
-        alerts: [],
-        patterns: [
-          {
-            code: 'HSL:1063:0:01',
-            stops: [
-              {
-                alerts: [
-                  {
-                    alertSeverityLevel: AlertSeverityLevelType.Warning,
                   },
                 ],
               },

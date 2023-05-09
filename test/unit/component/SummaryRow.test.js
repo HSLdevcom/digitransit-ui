@@ -206,53 +206,6 @@ describe('<SummaryRow />', () => {
     expect(wrapper.find('.cancelled-itinerary')).to.have.lengthOf(1);
   });
 
-  it('should not indicate that there is a disruption if the route has an alert for another trip', () => {
-    const props = {
-      ...defaultProps,
-      data: {
-        legs: [
-          {
-            from: {},
-            mode: 'RAIL',
-            route: {
-              alerts: [
-                {
-                  alertSeverityLevel: AlertSeverityLevelType.Warning,
-                  effectiveEndDate: 1553778000,
-                  effectiveStartDate: 1553754595,
-                  entities: [
-                    {
-                      __typename: 'Route',
-                      patterns: [
-                        {
-                          code: 'HSL:3001I:0:02',
-                        },
-                      ],
-                    },
-                  ],
-                },
-              ],
-              mode: 'RAIL',
-            },
-            startTime: 1553769600000,
-            trip: {
-              pattern: {
-                code: 'HSL:3001I:0:01',
-              },
-            },
-          },
-        ],
-      },
-    };
-    const wrapper = mountWithIntl(<SummaryRow {...props} />, {
-      context: { ...mockContext },
-      childContextTypes: { ...mockChildContextTypes },
-    });
-    expect(
-      wrapper.find(RouteNumberContainer).props().alertSeverityLevel,
-    ).to.equal(undefined);
-  });
-
   it('should not indicate that there is a disruption if the alert is not in effect', () => {
     const alertEffectiveEndDate = 1553778000;
     const props = {

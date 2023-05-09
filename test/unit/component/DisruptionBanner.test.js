@@ -22,6 +22,7 @@ describe('<DisruptionBanner />', () => {
               __typename: 'Route',
               mode: 'BUS',
               shortName: '1',
+              gtfsId: 'foo:1',
             },
           ],
         },
