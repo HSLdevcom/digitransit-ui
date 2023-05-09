@@ -350,9 +350,8 @@ export const entityCompare = (entityA, entityB) => {
 };
 
 /**
- * Compares the given alerts in order to sort them based on severity level and affected entity.
- * The most severe alerts are sorted first, and alerts that affect routes are sorted before alerts
- * that don't affect a route.
+ * Compares the given alerts in order to sort them based on severity level.
+ * The most severe alerts are sorted first.
  *
  * @param {*} a the first alert to compare.
  * @param {*} b the second alert to compare.
@@ -368,15 +367,6 @@ export const alertSeverityCompare = (a, b) => {
   const severityLevelDifference =
     severityLevels.indexOf(b.alertSeverityLevel) -
     severityLevels.indexOf(a.alertSeverityLevel);
-
-  if (severityLevelDifference === 0) {
-    if (a.route && a.route.gtfsId) {
-      return -1;
-    }
-    if (b.route && b.route.gtfsId) {
-      return 1;
-    }
-  }
   return severityLevelDifference;
 };
 

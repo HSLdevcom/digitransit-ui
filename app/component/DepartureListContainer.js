@@ -451,11 +451,6 @@ const containerComponent = createFragmentContainer(DepartureListContainer, {
         stops {
           id
         }
-        alerts {
-          alertSeverityLevel
-          effectiveEndDate
-          effectiveStartDate
-        }
         pattern {
           route {
             gtfsId
