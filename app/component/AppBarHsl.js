@@ -3,9 +3,12 @@ import PropTypes from 'prop-types';
 import React, { useState, useEffect, useRef } from 'react';
 import { intlShape } from 'react-intl';
 import { matchShape } from 'found';
+import { Helmet } from 'react-helmet';
+import { useIsConsentGiven } from '@hsl-fi/cookies';
 import LazilyLoad, { importLazy } from './LazilyLoad';
 import { clearOldSearches, clearFutureRoutes } from '../util/storeUtils';
 import { getJson } from '../util/xhrPromise';
+import { initAnalyticsClientSide } from '../util/analyticsUtils';
 
 const modules = {
   SiteHeader: () => importLazy(import('@hsl-fi/site-header')),
@@ -106,27 +109,47 @@ const AppBarHsl = ({ lang, user, favourites }, context) => {
   const siteHeaderRef = useRef(null);
   useEffect(() => siteHeaderRef.current?.fetchNotifications()[favourites]);
 
+  const cookieConsent = useIsConsentGiven('cookie_cat_statistic');
+  if (config.useCookiesPrompt && !cookieConsent) {
+    window.dataLayer = null;
+  } else {
+    initAnalyticsClientSide();
+  }
+
   return (
-    <LazilyLoad modules={modules}>
-      {({ SiteHeader, SharedLocalStorageObserver }) => (
-        <>
-          <SharedLocalStorageObserver
-            keys={['saved-searches', 'favouriteStore']}
-            url={config.localStorageEmitter}
+    <>
+      {config.useCookiesPrompt && (
+        <Helmet>
+          <script
+            id="CookieConsent"
+            src="https://policy.app.cookieinformation.com/uc.js"
+            data-culture="FI"
+            type="text/javascript"
           />
-          <SiteHeader
-            ref={siteHeaderRef}
-            hslFiUrl={config.URL.ROOTLINK}
-            lang={lang}
-            {...userMenu}
-            languageMenu={languages}
-            banners={banners}
-            suggestionsApiUrl={config.URL.HSL_FI_SUGGESTIONS}
-            notificationApiUrls={notificationApiUrls}
-          />
-        </>
+        </Helmet>
       )}
-    </LazilyLoad>
+
+      <LazilyLoad modules={modules}>
+        {({ SiteHeader, SharedLocalStorageObserver }) => (
+          <>
+            <SharedLocalStorageObserver
+              keys={['saved-searches', 'favouriteStore']}
+              url={config.localStorageEmitter}
+            />
+            <SiteHeader
+              ref={siteHeaderRef}
+              hslFiUrl={config.URL.ROOTLINK}
+              lang={lang}
+              {...userMenu}
+              languageMenu={languages}
+              banners={banners}
+              suggestionsApiUrl={config.URL.HSL_FI_SUGGESTIONS}
+              notificationApiUrls={notificationApiUrls}
+            />
+          </>
+        )}
+      </LazilyLoad>
+    </>
   );
 };
 

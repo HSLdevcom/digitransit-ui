@@ -216,7 +216,14 @@ function WalkLeg(
           <div className="itinerary-leg-action-content">
             <FormattedMessage
               id="walk-distance-duration"
-              values={{ distance, duration }}
+              values={{
+                distance: config.emphasizeDistance ? (
+                  <b>{distance}</b>
+                ) : (
+                  distance
+                ),
+                duration,
+              }}
               defaultMessage="Walk {distance} ({duration})"
             />
             <ItineraryMapAction

@@ -820,7 +820,9 @@ class StopsNearYouPage extends React.Component {
       getAutoSuggestIcons: this.context.config.getAutoSuggestIcons,
     };
     const targets = ['Locations', 'Stops'];
-    if (useCitybikes(this.context.config.cityBike?.networks)) {
+    if (
+      useCitybikes(this.context.config.cityBike?.networks, this.context.config)
+    ) {
       targets.push('BikeRentalStations');
     }
     if (this.context.config.includeParkAndRideSuggestions && onMap) {
@@ -974,7 +976,7 @@ const PositioningWrapper = connectToStores(
       .filter(stop => stop.type === 'station')
       .map(stop => stop.gtfsId);
     let favouriteBikeStationIds = [];
-    if (useCitybikes(context.config.cityBike?.networks)) {
+    if (useCitybikes(context.config.cityBike?.networks, context.config)) {
       favouriteBikeStationIds = context
         .getStore('FavouriteStore')
         .getBikeRentalStations()

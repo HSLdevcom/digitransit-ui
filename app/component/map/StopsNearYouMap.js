@@ -30,6 +30,7 @@ import Loading from '../Loading';
 import LazilyLoad, { importLazy } from '../LazilyLoad';
 import { getDefaultNetworks } from '../../util/citybikes';
 import { getRouteMode } from '../../util/modeUtils';
+import CookieSettingsButton from '../CookieSettingsButton';
 
 const locationMarkerModules = {
   LocationMarker: () =>
@@ -56,13 +57,10 @@ const handleStopsAndStations = edges => {
 
 const getRealTimeSettings = (routes, context) => {
   const { realTime } = context.config;
-  let agency;
   /* handle multiple feedid case */
-  context.config.feedIds.forEach(ag => {
-    if (!agency && realTime[ag]) {
-      agency = ag;
-    }
-  });
+  const agency = context.config.feedIds.find(
+    ag => realTime[ag] && routes[0].feedId === ag,
+  );
   const source = agency && realTime[agency];
   if (source && source.active && routes.length > 0) {
     return {
@@ -165,6 +163,7 @@ function StopsNearYouMap(
     isFetching: false,
     stop: null,
   });
+  const prevPlace = useRef();
   const prevMode = useRef();
   const { mode } = match.params;
   const isTransitMode = mode !== 'CITYBIKE';
@@ -258,6 +257,7 @@ function StopsNearYouMap(
     }
   };
   useEffect(() => {
+    prevPlace.current = match.params.place;
     prevMode.current = match.params.mode;
     return function cleanup() {
       stopClient(context);
@@ -313,8 +313,12 @@ function StopsNearYouMap(
       if (!clientOn) {
         startClient(context, uniqueRealtimeTopics);
         setClientOn(true);
-      } else if (match.params.mode !== prevMode.current) {
+      } else if (
+        match.params.place !== prevPlace.current ||
+        match.params.mode !== prevMode.current
+      ) {
         updateClient(context, uniqueRealtimeTopics);
+        prevPlace.current = match.params.place;
         prevMode.current = match.params.mode;
       }
     }
@@ -460,7 +464,12 @@ function StopsNearYouMap(
   };
 
   if (breakpoint === 'large') {
-    return <MapWithTracking {...mapProps} />;
+    return (
+      <>
+        {context.config.useCookiesPrompt && <CookieSettingsButton />}
+        <MapWithTracking {...mapProps} />
+      </>
+    );
   }
   return (
     <>

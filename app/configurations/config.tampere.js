@@ -38,9 +38,9 @@ export default configMerger(walttiConfig, {
   // Navbar logo
   logo: 'tampere/tampere-logo.png',
 
-  favicon: './sass/themes/tampere/favicon.png',
+  favicon: './app/configurations/images/tampere/favicon.png',
 
-  feedIds: ['tampere', 'TampereVR', 'tampereDRT'],
+  feedIds: ['tampere', 'digitraffic', 'tampereDRT'],
 
   geoJson: {
     layers: [
@@ -237,7 +237,7 @@ export default configMerger(walttiConfig, {
           sv: 'https://www.nysse.fi/en/city-bikes.html',
           en: 'https://www.nysse.fi/en/city-bikes.html',
         },
-        timeBeforeSurcharge: 45 * 60,
+        timeBeforeSurcharge: 60 * 60,
       },
     },
     buyUrl: {

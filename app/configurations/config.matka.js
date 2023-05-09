@@ -1,5 +1,5 @@
 /* eslint-disable prefer-template */
-import { BIKEAVL_BIKES, BIKEAVL_WITHMAX } from '../util/citybikes';
+import { BIKEAVL_WITHMAX, BIKEAVL_BIKES } from '../util/citybikes';
 import HSLConfig from './config.hsl';
 import TurkuConfig from './config.turku';
 import LappeenrantaConfig from './config.lappeenranta';
@@ -81,6 +81,19 @@ export default {
     'OULU',
     'digitraffic',
     'Rauma',
+    'Hameenlinna',
+    'Kotka',
+    'Kouvola',
+    'Lappeenranta',
+    'Mikkeli',
+    'Vaasa',
+    'Joensuu',
+    'FOLI',
+    'Lahti',
+    'Kuopio',
+    'Rovaniemi',
+    'Kajaani',
+    'Salo',
   ],
 
   stopSearchFilter: stop => {
@@ -200,9 +213,9 @@ export default {
           en: 'https://www.foli.fi/en/föli-bikes',
         },
       },
-      vilkku: {
-        enabled: KuopioConfig.cityBike.networks.vilkku.enabled,
-        season: KuopioConfig.cityBike.networks.vilkku.season,
+      freebike_kuopio: {
+        enabled: KuopioConfig.cityBike.networks.freebike_kuopio.enabled,
+        season: KuopioConfig.cityBike.networks.freebike_kuopio.season,
         capacity: BIKEAVL_BIKES,
         icon: 'citybike',
         name: {

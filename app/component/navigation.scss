@@ -651,6 +651,43 @@ section.content {
   // 100px and 18px are the height of the message bar, but is specified in js
 }
 
+.mobile-main-container {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.mobile-main-content-container {
+  flex-grow: 1;
+}
+
+.mobile-footer {
+  border-top: 1px solid #DDDDDD;
+}
+ .mobile-footer div:nth-of-type(1){
+  position: relative;
+  bottom: 0;
+  display: flex;
+  justify-content: space-between;
+  color: #333;
+  font-weight: 325;
+  //letter-spacing: -0.03em;
+  align-items: center;
+  text-align: right;
+
+}
+ .mobile-footer-bar-container {
+  display: flex;
+  justify-content: center;
+ }
+
+ .mobile-footer-bar {
+  background-color: #020202;
+  height: 5px;
+  width: 139px;
+  border-radius: 5px;
+  margin-bottom: 5px;
+ }
 .message-bar {
   @media print {
     display: none;

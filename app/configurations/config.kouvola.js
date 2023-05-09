@@ -48,9 +48,9 @@ export default configMerger(walttiConfig, {
       donkey_kouvola: {
         enabled: true,
         season: {
-          // 20.4. - 31.10.
-          start: new Date(new Date().getFullYear(), 3, 20),
-          end: new Date(new Date().getFullYear(), 10, 1),
+          // 28.4. - 30.11.
+          start: new Date(new Date().getFullYear(), 3, 28),
+          end: new Date(new Date().getFullYear(), 11, 1),
         },
         capacity: BIKEAVL_WITHMAX,
         icon: 'citybike',

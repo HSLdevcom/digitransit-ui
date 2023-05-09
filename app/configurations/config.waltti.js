@@ -59,17 +59,6 @@ export default {
   defaultLanguage: 'fi',
 
   transportModes: {
-    nearYouButton: {
-      borderRadius: '50%',
-      color: '#000F94',
-    },
-
-    nearYouTitle: {
-      fi: 'Aikataulut ja linjat',
-      sv: 'Tidtabeller och linjer',
-      en: 'Timetables and routes',
-    },
-
     bus: {
       availableForSelection: true,
       defaultValue: true,
@@ -167,6 +156,16 @@ export default {
   },
 
   showNearYouButtons: true,
+  nearYouButton: {
+    borderRadius: '50%',
+    color: '#000F94',
+  },
+  nearYouTitle: {
+    fi: 'Aikataulut ja linjat',
+    sv: 'Tidtabeller och linjer',
+    en: 'Timetables and routes',
+  },
+
   allowLogin: false,
 
   messageBarAlerts: true,

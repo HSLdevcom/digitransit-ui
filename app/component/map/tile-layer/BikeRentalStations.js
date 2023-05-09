@@ -201,7 +201,8 @@ class BikeRentalStations {
 
   shouldShowStation = (id, network) =>
     (!this.tile.stopsToShow || this.tile.stopsToShow.includes(id)) &&
-    showCitybikeNetwork(this.config.cityBike.networks[network]);
+    !this.tile.objectsToHide.vehicleRentalStations.includes(id) &&
+    showCitybikeNetwork(this.config.cityBike.networks[network], this.config);
 
   static getName = () => 'citybike';
 }

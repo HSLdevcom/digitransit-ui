@@ -78,11 +78,10 @@ export default configMerger(walttiConfig, {
 
   cityBike: {
     networks: {
-      vilkku: {
+      freebike_kuopio: {
         enabled: true,
         season: {
-          // 26.4. - 31.10.
-          start: new Date(new Date().getFullYear(), 3, 26),
+          start: new Date(new Date().getFullYear(), 3, 24),
           end: new Date(new Date().getFullYear(), 10, 1),
         },
         capacity: BIKEAVL_BIKES,

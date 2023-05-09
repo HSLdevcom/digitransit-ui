@@ -19,6 +19,7 @@ const {
   API_SUBSCRIPTION_QUERY_PARAMETER_NAME,
   API_SUBSCRIPTION_HEADER_NAME,
   API_SUBSCRIPTION_TOKEN,
+  RUN_ENV,
 } = process.env;
 const hasAPISubscriptionQueryParameter =
   API_SUBSCRIPTION_QUERY_PARAMETER_NAME && API_SUBSCRIPTION_TOKEN;
@@ -103,6 +104,7 @@ export default {
   API_SUBSCRIPTION_QUERY_PARAMETER_NAME,
   API_SUBSCRIPTION_HEADER_NAME,
   API_SUBSCRIPTION_TOKEN,
+  RUN_ENV,
 
   hasAPISubscriptionQueryParameter,
 
@@ -187,7 +189,7 @@ export default {
     accessibilityOption: 0,
     bikeSpeed: 5.55,
     ticketTypes: 'none',
-    walkBoardCost: 90,
+    walkBoardCost: 120,
     walkReluctance: 1.8,
     walkSpeed: 1.2,
     includeBikeSuggestions: true,
@@ -212,7 +214,7 @@ export default {
     bikeSpeed: [2.77, 4.15, 5.55, 6.94, 8.33],
   },
 
-  walkBoardCostHigh: 1200,
+  walkBoardCostHigh: 1600,
 
   suggestWalkMaxDistance: 10000,
   suggestBikeMaxDistance: 30000,
@@ -756,14 +758,15 @@ export default {
   ],
 
   /* Do not change order of theme map lines */
+  /* key: name of theme, value: regex matching part of host name */
   themeMap: {
-    hsl: 'reittiopas',
+    hsl: '(reittiopas|next-dev.digitransit)',
     turku: '(turku|foli)',
     lappeenranta: 'lappeenranta',
     joensuu: 'joensuu',
     oulu: 'oulu',
     hameenlinna: 'hameenlinna',
-    matka: 'matka',
+    matka: '(matka|^dev.digitransit)',
     vaasa: 'vaasa',
     walttiOpas: 'waltti',
     rovaniemi: 'rovaniemi',
@@ -775,6 +778,8 @@ export default {
     lahti: 'lahti',
     kuopio: 'kuopio',
     varely: '(seutuplus|varely)',
+    kela: 'kelareitit',
+    pori: 'pori',
   },
 
   minutesToDepartureLimit: 9,

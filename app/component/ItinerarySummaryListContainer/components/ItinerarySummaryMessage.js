@@ -39,7 +39,6 @@ const ItinerarySummaryMessage = (
     to,
     walking,
     routingErrors,
-    hasSettingsChanges,
   },
   context,
 ) => {
@@ -52,7 +51,6 @@ const ItinerarySummaryMessage = (
     minDistanceBetweenFromAndTo,
     error,
     currentTime,
-    hasSettingsChanges,
   };
   const errorMessageIds = findErrorMessageIds(
     routingErrors,
@@ -107,7 +105,6 @@ ItinerarySummaryMessage.propTypes = {
   to: LocationShape.isRequired,
   walking: PropTypes.bool,
   routingErrors: PropTypes.arrayOf(RoutingErrorShape),
-  hasSettingsChanges: PropTypes.bool,
 };
 
 ItinerarySummaryMessage.defaultProps = {
@@ -118,7 +115,6 @@ ItinerarySummaryMessage.defaultProps = {
   minDistanceBetweenFromAndTo: 0,
   walking: false,
   routingErrors: [],
-  hasSettingsChanges: false,
 };
 
 ItinerarySummaryMessage.contextTypes = {

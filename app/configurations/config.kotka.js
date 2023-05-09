@@ -49,8 +49,8 @@ export default configMerger(walttiConfig, {
       donkey_kotka: {
         enabled: true,
         season: {
-          // 14.4. - 31.10.
-          start: new Date(new Date().getFullYear(), 3, 14),
+          // 28.4. - 31.10.
+          start: new Date(new Date().getFullYear(), 3, 28),
           end: new Date(new Date().getFullYear(), 10, 1),
         },
         capacity: BIKEAVL_WITHMAX,
@@ -75,8 +75,8 @@ export default configMerger(walttiConfig, {
       donkey_hamina: {
         enabled: true,
         season: {
-          // 14.4. - 31.10.
-          start: new Date(new Date().getFullYear(), 3, 14),
+          // 28.4. - 31.10.
+          start: new Date(new Date().getFullYear(), 3, 28),
           end: new Date(new Date().getFullYear(), 10, 1),
         },
         capacity: BIKEAVL_WITHMAX,

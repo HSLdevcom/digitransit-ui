@@ -1,6 +1,14 @@
 import { addMessage } from './MessageActions';
 import { failedFavouriteMessage, favouriteTypes } from '../util/messageUtils';
 
+export function fetchFavourites(actionContext) {
+  actionContext.dispatch('FetchFavourites');
+}
+
+export function fetchFavouritesComplete(actionContext) {
+  actionContext.dispatch('FetchFavouritesComplete');
+}
+
 export function saveFavourite(actionContext, data) {
   const favouriteType =
     typeof data === 'object' && favouriteTypes.includes(data.type)

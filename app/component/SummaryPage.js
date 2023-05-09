@@ -500,6 +500,23 @@ class SummaryPage extends React.Component {
     return false;
   };
 
+  addBikeStationMapForRentalBikeItineraries = () => {
+    return getMapLayerOptions({
+      lockedMapLayers: ['vehicles', 'citybike', 'stop'],
+      selectedMapLayers: ['vehicles', 'citybike'],
+    });
+  };
+
+  getHiddenObjects = (itineraryContainsBikeRentalStation, activeItinerary) => {
+    const hiddenObjects = { vehicleRentalStations: [] };
+    if (itineraryContainsBikeRentalStation) {
+      hiddenObjects.vehicleRentalStations = activeItinerary?.legs
+        ?.filter(leg => leg.from?.bikeRentalStation)
+        ?.map(station => station.from?.bikeRentalStation.stationId);
+    }
+    return hiddenObjects;
+  };
+
   planHasNoItineraries = () =>
     this.props.viewer &&
     this.props.viewer.plan &&
@@ -1042,6 +1059,7 @@ class SummaryPage extends React.Component {
                   zoneId
                 }
                 bikeRentalStation {
+                  stationId
                   bikesAvailable
                   networks
                 }
@@ -1120,13 +1138,13 @@ class SummaryPage extends React.Component {
       return;
     }
 
-    const useDefaultModes =
+    const useRelaxedRoutingPreferences =
       this.planHasNoItineraries() && this.state.alternativePlan;
 
-    const params = preparePlanParams(this.context.config, useDefaultModes)(
-      this.context.match.params,
-      this.context.match,
-    );
+    const params = preparePlanParams(
+      this.context.config,
+      useRelaxedRoutingPreferences,
+    )(this.context.match.params, this.context.match);
 
     const tunedParams = {
       wheelchair: null,
@@ -1172,6 +1190,9 @@ class SummaryPage extends React.Component {
                 ...result.itineraries,
               ],
               loadingMoreItineraries: undefined,
+              routingFeedbackPosition: prevState.routingFeedbackPosition
+                ? prevState.routingFeedbackPosition + result.itineraries.length
+                : result.itineraries.length,
             };
           });
         }
@@ -1228,13 +1249,13 @@ class SummaryPage extends React.Component {
       return;
     }
 
-    const useDefaultModes =
+    const useRelaxedRoutingPreferences =
       this.planHasNoItineraries() && this.state.alternativePlan;
 
-    const params = preparePlanParams(this.context.config, useDefaultModes)(
-      this.context.match.params,
-      this.context.match,
-    );
+    const params = preparePlanParams(
+      this.context.config,
+      useRelaxedRoutingPreferences,
+    )(this.context.match.params, this.context.match);
 
     const tunedParams = {
       wheelchair: null,
@@ -1284,6 +1305,9 @@ class SummaryPage extends React.Component {
               loadingMoreItineraries: undefined,
               separatorPosition: prevState.separatorPosition
                 ? prevState.separatorPosition + reversedItineraries.length
+                : reversedItineraries.length,
+              routingFeedbackPosition: prevState.routingFeedbackPosition
+                ? prevState.routingFeedbackPosition
                 : reversedItineraries.length,
             };
           });
@@ -1850,6 +1874,18 @@ class SummaryPage extends React.Component {
     }
     const onlyHasWalkingItineraries = this.onlyHasWalkingItineraries();
 
+    const itineraryContainsDepartureFromBikeRentalStation = filteredItineraries[
+      activeIndex
+    ]?.legs.some(leg => leg.from?.bikeRentalStation);
+
+    const mapLayerOptions = itineraryContainsDepartureFromBikeRentalStation
+      ? this.addBikeStationMapForRentalBikeItineraries(filteredItineraries)
+      : this.props.mapLayerOptions;
+
+    const objectsToHide = this.getHiddenObjects(
+      itineraryContainsDepartureFromBikeRentalStation,
+      filteredItineraries[activeIndex],
+    );
     return (
       <ItineraryPageMap
         {...mwtProps}
@@ -1858,7 +1894,7 @@ class SummaryPage extends React.Component {
         viaPoints={viaPoints}
         zoom={POINT_FOCUS_ZOOM}
         mapLayers={this.props.mapLayers}
-        mapLayerOptions={this.props.mapLayerOptions}
+        mapLayerOptions={mapLayerOptions}
         setMWTRef={this.setMWTRef}
         breakpoint={breakpoint}
         itineraries={filteredItineraries}
@@ -1867,6 +1903,7 @@ class SummaryPage extends React.Component {
         showActive={detailView}
         showVehicles={this.showVehicles()}
         onlyHasWalkingItineraries={onlyHasWalkingItineraries}
+        objectsToHide={objectsToHide}
       />
     );
   }
@@ -2065,6 +2102,7 @@ class SummaryPage extends React.Component {
       bikeAndPublicDuration = this.getDuration(this.state.bikeAndPublicPlan);
     }
     if (
+      !walkDuration ||
       (bikeDuration && bikeDuration < walkDuration) ||
       (carDuration && carDuration < walkDuration) ||
       (parkAndRideDuration && parkAndRideDuration < walkDuration) ||
@@ -2229,7 +2267,8 @@ class SummaryPage extends React.Component {
     }
 
     const showWalkOptionButton = Boolean(
-      walkPlan &&
+      !this.context.config.hideWalkOption &&
+        walkPlan &&
         walkPlan.itineraries &&
         walkPlan.itineraries.length > 0 &&
         !currentSettings.accessibilityOption &&
@@ -2242,7 +2281,6 @@ class SummaryPage extends React.Component {
       bikePlan.itineraries.every(itinerary =>
         itinerary.legs.every(leg => leg.mode === 'WALK'),
       );
-
     const showBikeOptionButton = Boolean(
       bikePlan &&
         bikePlan.itineraries &&
@@ -2499,6 +2537,7 @@ class SummaryPage extends React.Component {
               alternativePlan={this.state.alternativePlan}
               driving={showCarOptionButton || showParkRideOptionButton}
               onlyHasWalkingItineraries={onlyHasWalkingItineraries}
+              routingFeedbackPosition={this.state.routingFeedbackPosition}
             >
               {this.props.content &&
                 React.cloneElement(this.props.content, {
@@ -2721,6 +2760,7 @@ class SummaryPage extends React.Component {
               alternativePlan={this.state.alternativePlan}
               driving={showCarOptionButton || showParkRideOptionButton}
               onlyHasWalkingItineraries={onlyHasWalkingItineraries}
+              routingFeedbackPosition={this.state.routingFeedbackPosition}
             />
           </>
         );
@@ -2916,6 +2956,7 @@ const containerComponent = createRefetchContainer(
                   zoneId
                 }
                 bikeRentalStation {
+                  stationId
                   bikesAvailable
                   networks
                 }

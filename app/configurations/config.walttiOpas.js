@@ -44,9 +44,9 @@ export default configMerger(walttiConfig, {
       availableForSelection: true,
       defaultValue: true,
       nearYouLabel: {
-        fi: 'Lähipysäkit kartalla',
-        sv: 'Hållplatser på kartan',
-        en: 'Nearby stops on map',
+        fi: 'Bussit ja lähipysäkit kartalla',
+        sv: 'Bussar och hållplatser på kartan',
+        en: 'Buses and nearby stops on map',
       },
     },
   },
@@ -61,7 +61,7 @@ export default configMerger(walttiConfig, {
   // Navbar logo
   logo: 'walttiOpas/waltti-logo.png',
 
-  feedIds: ['Salo', 'Kajaani'],
+  feedIds: ['Salo', 'Kajaani', 'Raasepori'],
 
   defaultEndpoint: {
     address: 'Helsinki-Vantaan Lentoasema',
@@ -167,5 +167,34 @@ export default configMerger(walttiConfig, {
       sv: 'Salo',
       en: 'Salo',
     },
+    Raasepori: {
+      fi: 'Raasepori',
+      sv: 'Raasepori',
+      en: 'Raasepori',
+    }
   },
+
+  useSearchPolygon: true,
+
+  areaPolygon: [
+    // Kajaani:
+    [28.1, 63.8],
+    [27.6, 63.9],
+    [26.7, 64],
+    [26.6, 64.5],
+    [28.5, 64.5],
+    [29.2, 64.1],
+    [28.7, 63.9],
+    [28.1, 63.8],
+    // Salo + Raasepori:
+    [23.1, 60.6],
+    [23.898, 60.207],
+    [23.942, 60.129],
+    [23.836, 59.980],
+    [23.847, 59.892],
+    [23.581, 59.796],
+    [22.8, 59.9],
+    [22.7, 60.4],
+    [23.1, 60.6],
+  ],
 });

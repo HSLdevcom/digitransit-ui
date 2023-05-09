@@ -4,13 +4,6 @@ import { createFragmentContainer, graphql } from 'react-relay';
 import { FormattedMessage } from 'react-intl';
 import cx from 'classnames';
 import { matchShape } from 'found';
-
-import isEqual from 'lodash/isEqual';
-import {
-  getCurrentSettings,
-  getDefaultSettings,
-} from '../../util/planParamUtil';
-
 import Icon from '../Icon';
 import SummaryRow from '../SummaryRow';
 import { isBrowser } from '../../util/browser';
@@ -23,6 +16,7 @@ import ItinerarySummaryMessage from './components/ItinerarySummaryMessage';
 import LocationShape from '../../prop-types/LocationShape';
 import ErrorShape from '../../prop-types/ErrorShape';
 import RoutingErrorShape from '../../prop-types/RoutingErrorShape';
+import RoutingFeedbackPrompt from '../RoutingFeedbackPrompt';
 
 function ItinerarySummaryListContainer(
   {
@@ -48,6 +42,7 @@ function ItinerarySummaryListContainer(
     driving,
     onlyHasWalkingItineraries,
     routingErrors,
+    routingFeedbackPosition,
   },
   context,
 ) {
@@ -136,6 +131,9 @@ function ItinerarySummaryListContainer(
           key={`summary-list-separator-${separatorPosition}`}
         />,
       );
+    }
+    if (routingFeedbackPosition) {
+      summaries.splice(routingFeedbackPosition, 0, <RoutingFeedbackPrompt />);
     }
 
     if (loading) {
@@ -262,11 +260,6 @@ function ItinerarySummaryListContainer(
     }
   }
 
-  const hasSettingsChanges = !isEqual(
-    getCurrentSettings(config),
-    getDefaultSettings(config),
-  );
-
   return (
     <ItinerarySummaryMessage
       areaPolygon={config.areaPolygon}
@@ -282,7 +275,6 @@ function ItinerarySummaryListContainer(
       currentTime={currentTime}
       to={to}
       walking={walking}
-      hasSettingsChanges={hasSettingsChanges}
     />
   );
 }
@@ -310,6 +302,7 @@ ItinerarySummaryListContainer.propTypes = {
   loadingMoreItineraries: PropTypes.string,
   loading: PropTypes.bool.isRequired,
   onlyHasWalkingItineraries: PropTypes.bool,
+  routingFeedbackPosition: PropTypes.number,
 };
 
 ItinerarySummaryListContainer.defaultProps = {
@@ -323,6 +316,8 @@ ItinerarySummaryListContainer.defaultProps = {
   separatorPosition: undefined,
   loadingMoreItineraries: undefined,
   routingErrors: [],
+  routingFeedbackPosition: undefined,
+  onlyHasWalkingItineraries: false,
 };
 
 ItinerarySummaryListContainer.contextTypes = {

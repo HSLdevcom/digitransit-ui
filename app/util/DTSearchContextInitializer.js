@@ -39,7 +39,10 @@ export default function intializeSearchContext(context, searchContext) {
   searchContext.URL_PELIAS_PLACE = config.URL.PELIAS_PLACE;
   // FeedId's like  [HSL, HSLLautta]
   searchContext.feedIDs = config.feedIds;
-  searchContext.cityBikeNetworks = useCitybikes(config.cityBike.networks)
+  searchContext.cityBikeNetworks = useCitybikes(
+    config.cityBike.networks,
+    config,
+  )
     ? getDefaultNetworks(config).map(t => `citybikes${t}`)
     : [];
   // searchSources e.g. [oa,osm,nlsfi.]

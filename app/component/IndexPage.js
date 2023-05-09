@@ -223,7 +223,7 @@ class IndexPage extends React.Component {
       'Stops',
     ];
 
-    if (useCitybikes(config.cityBike?.networks)) {
+    if (useCitybikes(config.cityBike?.networks, config)) {
       stopAndRouteSearchTargets.push('BikeRentalStations');
       locationSearchTargets.push('BikeRentalStations');
     }
@@ -325,10 +325,8 @@ class IndexPage extends React.Component {
             origin={origin}
             omitLanguageUrl
             onClick={this.clickStopNearIcon}
-            buttonStyle={
-              narrowButtons ? undefined : transportModes?.nearYouButton
-            }
-            title={narrowButtons ? undefined : transportModes?.nearYouTitle}
+            buttonStyle={narrowButtons ? undefined : config.nearYouButton}
+            title={narrowButtons ? undefined : config.nearYouTitle}
             modes={narrowButtons ? undefined : modeTitles}
             modeSet={config.nearbyModeSet || config.iconModeSet}
             modeIconColors={config.colors.iconColors}
@@ -393,15 +391,24 @@ class IndexPage extends React.Component {
                   <div className="datetimepicker-container">
                     <DatetimepickerContainer realtime color={color} />
                   </div>
-                  <FavouritesContainer
-                    favouriteModalAction={this.props.favouriteModalAction}
-                    onClickFavourite={this.clickFavourite}
-                    lang={lang}
-                  />
-                  <CtrlPanel.SeparatorLine usePaddingBottom20 />
-                  <>{NearStops(CtrlPanel)}</>
-                  <StopRouteSearch {...stopRouteSearchProps} />
-                  <CtrlPanel.SeparatorLine />
+                  {!config.hideFavourites && (
+                    <>
+                      <FavouritesContainer
+                        favouriteModalAction={this.props.favouriteModalAction}
+                        onClickFavourite={this.clickFavourite}
+                        lang={lang}
+                      />
+                      <CtrlPanel.SeparatorLine usePaddingBottom20 />
+                    </>
+                  )}
+
+                  {!config.hideStopRouteSearch && (
+                    <>
+                      <>{NearStops(CtrlPanel)}</>
+                      <StopRouteSearch {...stopRouteSearchProps} />{' '}
+                      <CtrlPanel.SeparatorLine />
+                    </>
+                  )}
                   {!trafficNowLink ||
                     (trafficNowLink[lang] !== '' && (
                       <TrafficNowLink

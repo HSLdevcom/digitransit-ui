@@ -8,6 +8,7 @@ import MapWithTracking from './MapWithTracking';
 import { onLocationPopup } from '../../util/queryUtils';
 import BackButton from '../BackButton';
 import VehicleMarkerContainer from './VehicleMarkerContainer'; // DT-3473
+import CookieSettingsButton from '../CookieSettingsButton';
 
 function ItineraryPageMap(
   {
@@ -96,6 +97,10 @@ function ItineraryPageMap(
           iconClassName="arrow-icon"
           fallback="pop"
         />
+      )}
+
+      {breakpoint === 'large' && config.useCookiesPrompt && (
+        <CookieSettingsButton />
       )}
     </MapWithTracking>
   );

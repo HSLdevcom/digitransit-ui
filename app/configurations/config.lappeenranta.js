@@ -66,18 +66,14 @@ export default configMerger(walttiConfig, {
 
   feedIds: ['Lappeenranta'],
 
-  searchParams: {
-    'boundary.rect.min_lat': 61.016901,
-    'boundary.rect.max_lat': 61.102794,
-    'boundary.rect.min_lon': 28.030938,
-    'boundary.rect.max_lon': 28.329905,
-  },
+  useSearchPolygon: true,
 
   areaPolygon: [
-    [28.031, 61.017],
-    [28.031, 61.1028],
-    [28.33, 61.1028],
-    [28.33, 61.017],
+    [27.804, 61.061],
+    [27.702, 60.796],
+    [27.947, 60.71],
+    [28.944, 61.209],
+    [28.859, 61.275],
   ],
 
   defaultEndpoint: {

@@ -36,7 +36,7 @@ describe('<AppBar />', () => {
 
   it('should show text logo when textLogo is true', () => {
     const wrapper = shallowWithIntl(
-      <AppBar titleClicked={() => {}} logo="/" homeUrl="/" />,
+      <AppBar titleClicked={() => {}} homeUrl="/" />,
       {
         context: {
           config: {
@@ -55,12 +55,11 @@ describe('<AppBar />', () => {
     );
 
     expect(wrapper.find('section.title.title')).to.have.lengthOf(1);
-    expect(wrapper.find(LogoSmall).props().showLogo).to.equal(false);
   });
 
   it('should open the menu modal on button click', () => {
     const wrapper = shallowWithIntl(
-      <AppBar titleClicked={() => {}} logo="/" homeUrl="/" showLogo />,
+      <AppBar titleClicked={() => {}} logo="/" homeUrl="/" />,
       {
         context: {
           config: {

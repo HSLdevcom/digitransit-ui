@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { useRef, useLayoutEffect, useState } from 'react';
 import MapBottomsheetContext from './map/MapBottomsheetContext';
+import MobileFooter from './MobileFooter';
 
 function slowlyScrollTo(el, to = 0, duration = 1000) {
   const element = el;
@@ -117,9 +118,13 @@ export default function MobileView({
           </div>
         </>
       ) : (
-        <div role="main">
-          {header}
-          {content}
+        <div role="main" className="mobile-main-container">
+          <div className="mobile-main-content-container">
+            {header}
+            {content}
+          </div>
+
+          <MobileFooter />
         </div>
       )}
     </div>
@@ -134,4 +139,8 @@ MobileView.propTypes = {
   selectFromMapHeader: PropTypes.node,
   searchBox: PropTypes.node,
   expandMap: PropTypes.number,
+};
+
+MobileView.contextTypes = {
+  config: PropTypes.object.isRequired,
 };

@@ -34,6 +34,8 @@ export default configMerger(walttiConfig, {
 
   title: APP_TITLE,
 
+  favicon: './app/configurations/images/oulu/favicon.png',
+
   // Navbar logo
   logo: 'oulu/oulu-logo.png',
   secondaryLogo: 'oulu/secondary-oulu-logo.png',
@@ -110,6 +112,19 @@ export default configMerger(walttiConfig, {
     ],
   },
 
+  geoJson: {
+    layers: [
+      {
+        name: {
+          fi: 'Vyöhykkeet',
+          sv: 'Zoner',
+          en: 'Zones',
+        },
+        url: '/assets/geojson/oulu_zone_lines_20230223.geojson',
+      },
+    ],
+  },
+
   vehicles: true,
   showVehiclesOnStopPage: true,
   showVehiclesOnSummaryPage: true,
@@ -143,7 +158,7 @@ export default configMerger(walttiConfig, {
     ],
   },
   zoneIdMapping: {
-    1: 'A-city',
+    1: 'L',
     2: 'A',
     3: 'B',
     4: 'C',
@@ -153,7 +168,4 @@ export default configMerger(walttiConfig, {
     stops: true,
     itinerary: true,
   },
-
-  // DT-4802 Toggling this off shows the alert bodytext instead of the header
-  showAlertHeader: false,
 });

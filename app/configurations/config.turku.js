@@ -56,7 +56,7 @@ export default configMerger(walttiConfig, {
     iconColors: {
       'mode-bus': '#e8aa27',
       'mode-rail': '#8c4799',
-      'mode-ferry': '#35b5b3',
+      'mode-ferry': '#0064f0',
       'mode-ferry-pier': '#666666',
       'mode-funicular': '#ff00ff',
     },
@@ -79,6 +79,8 @@ export default configMerger(walttiConfig, {
 
   title: APP_TITLE,
 
+  favicon: './app/configurations/images/turku/favicon.png',
+
   // Navbar logo
   logo: 'turku/foli-logo.png',
 
@@ -88,8 +90,8 @@ export default configMerger(walttiConfig, {
         capacity: BIKEAVL_WITHMAX,
         enabled: true,
         season: {
-          // 1.6. - 30.9.
-          start: new Date(new Date().getFullYear(), 5, 1),
+          // 1.4. - 31.10.
+          start: new Date(new Date().getFullYear(), 3, 1),
           end: new Date(new Date().getFullYear(), 10, 1),
         },
         icon: 'citybike',
@@ -116,7 +118,7 @@ export default configMerger(walttiConfig, {
     ferry: {
       availableForSelection: true,
       defaultValue: true,
-      color: '#35b5b3',
+      color: '#0064f0',
     },
 
     funicular: {
@@ -234,13 +236,13 @@ export default configMerger(walttiConfig, {
   showNearYouButtons: true,
   allowLogin: false,
   constantOperationStops: {
-    'FOLI:9900': CONSTANT_OPERATION_PARAGRAPHS.fori,
-    'FOLI:9901': CONSTANT_OPERATION_PARAGRAPHS.fori,
+    'FUNI:9900': CONSTANT_OPERATION_PARAGRAPHS.fori,
+    'FUNI:9901': CONSTANT_OPERATION_PARAGRAPHS.fori,
     'FUNI:9902': CONSTANT_OPERATION_PARAGRAPHS.funi,
     'FUNI:9903': CONSTANT_OPERATION_PARAGRAPHS.funi,
   },
   constantOperationRoutes: {
-    'FOLI:180': CONSTANT_OPERATION_PARAGRAPHS.fori,
+    'FUNI:1': CONSTANT_OPERATION_PARAGRAPHS.fori,
     'FUNI:2': CONSTANT_OPERATION_PARAGRAPHS.funi,
   },
   customWeights: {

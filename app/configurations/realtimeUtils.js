@@ -170,33 +170,7 @@ export default {
     active: true,
   },
   OULU: {
-    mqttTopicResolver: function mqttTopicResolver(
-      route,
-      direction, // eslint-disable-line no-unused-vars
-      tripStartTime, // eslint-disable-line no-unused-vars
-      headsign, // eslint-disable-line no-unused-vars
-      feedId,
-      tripId,
-      geoHash,
-    ) {
-      return (
-        '/gtfsrt/vp/' +
-        feedId +
-        '/+/+/+/' +
-        route +
-        '/+/+/' +
-        tripId +
-        '/+/+/+/' +
-        geoHash[0] +
-        '/' +
-        geoHash[1] +
-        '/' +
-        geoHash[2] +
-        '/' +
-        geoHash[3] +
-        '/#'
-      );
-    },
+    mqttTopicResolver: walttiTopicResolver,
 
     mqtt: 'wss://mqtt.digitransit.fi',
 
@@ -315,5 +289,14 @@ export default {
     routeSelector: defaultRouteSelector,
 
     active: true,
+  },
+  Pori: {
+    mqttTopicResolver: walttiTopicResolver,
+
+    mqtt: 'wss://mqtt.digitransit.fi',
+
+    gtfsrt: true,
+
+    active: false,
   },
 };

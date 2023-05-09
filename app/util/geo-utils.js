@@ -98,6 +98,9 @@ function displayDistanceWithLocale(meters, formatNumber) {
 }
 
 export function displayDistance(meters, config, formatNumber) {
+  if (config.alwaysShowDistanceInKm) {
+    return `${(meters / 1000).toFixed(1)}  km`;
+  }
   if (isImperial(config)) {
     return displayImperialDistance(meters);
   }
@@ -119,6 +122,10 @@ export function displayDistance(meters, config, formatNumber) {
   return `${Math.round(meters / 10000) * 10} km`; // tens of kilometers
 }
 
+/* export function displayDistance2(meters) {
+  return `${(meters / 1000).toFixed(1)}  km`;
+}
+ */
 /* eslint-enable yoda */
 
 // Return the bounding box of a latlon array of length > 0
