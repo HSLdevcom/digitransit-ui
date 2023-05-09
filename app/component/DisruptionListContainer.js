@@ -41,7 +41,11 @@ function DisruptionListContainer(
   { breakpoint, currentTime, viewer },
   { intl },
 ) {
-  if (!viewer || !viewer.alerts || viewer.alerts.length === 0) {
+  const validAlerts = viewer?.alerts
+    ?.filter(alert => isAlertValid(alert, currentTime))
+    .filter(alert => hasEntitiesOfTypes(alert, ['Route', 'Stop']));
+
+  if (!validAlerts || validAlerts.length === 0) {
     return (
       <div className="no-alerts-container">
         <FormattedMessage
@@ -51,10 +55,6 @@ function DisruptionListContainer(
       </div>
     );
   }
-
-  const validAlerts = viewer.alerts
-    .filter(alert => isAlertValid(alert, currentTime))
-    .filter(alert => hasEntitiesOfTypes(alert, ['Route', 'Stop']));
 
   const disruptionCount = validAlerts.filter(isDisruption).length;
   const infoCount = validAlerts.filter(isInfo).length;
