@@ -54,7 +54,6 @@ export const AlertShape = PropTypes.shape({
   entities: PropTypes.arrayOf(
     PropTypes.shape({
       __typename: PropTypes.string.isRequired,
-      gtfsId: PropTypes.string.isRequired,
     }),
   ),
 });
