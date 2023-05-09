@@ -58,7 +58,7 @@ const getCancelations = (
           },
         ),
         entities: [entity],
-        alertSeverityLevel: AlertSeverityLevelType.Severe,
+        alertSeverityLevel: AlertSeverityLevelType.Warning,
       };
     });
 
