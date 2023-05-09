@@ -4,7 +4,10 @@ import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
 import Icon from '../../../app/component/Icon';
 import AlertRow from '../../../app/component/AlertRow';
 import RouteNumber from '../../../app/component/RouteNumber';
-import { AlertSeverityLevelType } from '../../../app/constants';
+import {
+  AlertSeverityLevelType,
+  AlertEntityType,
+} from '../../../app/constants';
 import { PREFIX_STOPS, PREFIX_ROUTES } from '../../../app/util/path';
 
 describe('<AlertRow />', () => {
@@ -14,7 +17,7 @@ describe('<AlertRow />', () => {
       index: 0,
       entities: [
         {
-          __typename: 'Route',
+          __typename: AlertEntityType.Route,
           mode: 'BUS',
           shortName: '1',
           gtfsId: 'foo:1',
@@ -32,7 +35,7 @@ describe('<AlertRow />', () => {
       index: 0,
       entities: [
         {
-          __typename: 'Route',
+          __typename: AlertEntityType.Route,
           mode: 'BUS',
           shortName: '1',
           gtfsId: 'foo:1',
@@ -49,7 +52,7 @@ describe('<AlertRow />', () => {
       index: 0,
       entities: [
         {
-          __typename: 'Route',
+          __typename: AlertEntityType.Route,
           mode: 'BUS',
           shortName: '1',
           gtfsId: 'foo:1',
@@ -67,7 +70,7 @@ describe('<AlertRow />', () => {
       index: 0,
       entities: [
         {
-          __typename: 'Route',
+          __typename: AlertEntityType.Route,
           mode: 'BUS',
           shortName: '1',
           gtfsId: 'foo:1',
@@ -82,7 +85,7 @@ describe('<AlertRow />', () => {
     const props = {
       entities: [
         {
-          __typename: 'Stop',
+          __typename: AlertEntityType.Stop,
           gtfsId: 'foo:1',
         },
       ],
@@ -103,7 +106,7 @@ describe('<AlertRow />', () => {
       index: 0,
       entities: [
         {
-          __typename: 'Stop',
+          __typename: AlertEntityType.Stop,
           gtfsId: 'foo:1',
         },
       ],
@@ -119,7 +122,7 @@ describe('<AlertRow />', () => {
       index: 0,
       entities: [
         {
-          __typename: 'Route',
+          __typename: AlertEntityType.Route,
           mode: 'BUS',
           shortName: '97N',
           gtfsId: 'foo:1',
@@ -137,7 +140,7 @@ describe('<AlertRow />', () => {
       index: 0,
       entities: [
         {
-          __typename: 'Route',
+          __typename: AlertEntityType.Route,
           mode: 'BUS',
           shortName: '97N',
           gtfsId: 'HSL:2097N',
@@ -157,7 +160,7 @@ describe('<AlertRow />', () => {
       index: 0,
       entities: [
         {
-          __typename: 'Route',
+          __typename: AlertEntityType.Route,
           mode: 'BUS',
           shortName: '97N',
           gtfsId: 'HSL:2097N',
@@ -175,7 +178,7 @@ describe('<AlertRow />', () => {
       index: 0,
       entities: [
         {
-          __typename: 'Route',
+          __typename: AlertEntityType.Route,
           mode: 'BUS',
           shortName: '97N',
           gtfsId: 'HSL:2097N',
@@ -194,7 +197,7 @@ describe('<AlertRow />', () => {
       index: 0,
       entities: [
         {
-          __typename: 'Route',
+          __typename: AlertEntityType.Route,
           mode: 'BUS',
           shortName: '97N',
           gtfsId: 'HSL:2097N',

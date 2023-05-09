@@ -18,6 +18,7 @@ import LazilyLoad, { importLazy } from './LazilyLoad';
 import { getRouteMode } from '../util/modeUtils';
 import AlertBanner from './AlertBanner';
 import { hasEntitiesOfType, hasMeaningfulData } from '../util/alertUtils';
+import { AlertEntityType } from '../constants';
 
 const modules = {
   FavouriteRouteContainer: () =>
@@ -76,7 +77,7 @@ class RoutePage extends React.Component {
     const headsign =
       patternId && route.patterns.find(p => p.code === patternId).headsign;
     const filteredAlerts = route.alerts.filter(alert =>
-      hasEntitiesOfType(alert, 'Route'),
+      hasEntitiesOfType(alert, AlertEntityType.Route),
     );
 
     return (

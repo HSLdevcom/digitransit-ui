@@ -8,6 +8,7 @@ import DisruptionBannerAlert from './DisruptionBannerAlert';
 import SwipeableTabs from './SwipeableTabs';
 import withBreakpoint from '../util/withBreakpoint';
 import { AlertShape } from '../util/shapes';
+import { AlertEntityType } from '../constants';
 
 class DisruptionBanner extends React.Component {
   constructor(props) {
@@ -45,8 +46,10 @@ class DisruptionBanner extends React.Component {
     alerts.forEach(alert => {
       if (
         alert?.entities.some(
-          // eslint-disable-next-line no-underscore-dangle
-          e => e.__typename === 'Route' && e.mode === this.props.mode,
+          e =>
+            // eslint-disable-next-line no-underscore-dangle
+            e.__typename === AlertEntityType.Route &&
+            e.mode === this.props.mode,
         ) &&
         !isEmpty(alert.alertDescriptionText) &&
         isAlertValid(alert, this.props.currentTime)

@@ -34,7 +34,7 @@ import {
   getStopHeadsignFromStoptimes,
 } from '../util/legUtils';
 import { shouldShowFareInfo } from '../util/fareUtils';
-import { AlertSeverityLevelType } from '../constants';
+import { AlertSeverityLevelType, AlertEntityType } from '../constants';
 import ZoneIcon from './ZoneIcon';
 import StopInfo from './StopInfo';
 import InterlineInfo from './InterlineInfo';
@@ -475,9 +475,9 @@ class TransitLeg extends React.Component {
               <div className="disruption-link-container">
                 <Link
                   to={
-                    (hasEntitiesOfType(alert, 'Route') &&
+                    (hasEntitiesOfType(alert, AlertEntityType.Route) &&
                       `/${PREFIX_ROUTES}/${leg.route.gtfsId}/${PREFIX_DISRUPTION}/${leg.trip.pattern.code}`) ||
-                    (hasEntitiesOfType(alert, 'Stop') &&
+                    (hasEntitiesOfType(alert, AlertEntityType.Stop) &&
                       `/${PREFIX_STOPS}/${alert.entities[0].gtfsId}/${PREFIX_DISRUPTION}/`)
                   }
                   className="disruption-link"

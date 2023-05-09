@@ -13,6 +13,7 @@ import {
 } from '../util/alertUtils';
 import { AlertShape } from '../util/shapes';
 import withBreakpoint from '../util/withBreakpoint';
+import { AlertEntityType } from '../constants';
 
 const AlertList = ({
   cancelations,
@@ -73,7 +74,7 @@ const AlertList = ({
               i,
             ) => {
               const entityType =
-                getEntitiesOfType(entities, 'Stop').length > 0
+                getEntitiesOfType(entities, AlertEntityType.Stop).length > 0
                   ? 'stop'
                   : 'route';
               return (

@@ -3,6 +3,7 @@ import React from 'react';
 import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
 import { Component as AlertList } from '../../../app/component/AlertList';
 import AlertRow from '../../../app/component/AlertRow';
+import { AlertEntityType } from '../../../app/constants';
 
 describe('<AlertList />', () => {
   it('should show a "no alerts" message', () => {
@@ -25,7 +26,7 @@ describe('<AlertList />', () => {
           effectiveStartDate: 1547464413,
           entities: [
             {
-              __typename: 'Route',
+              __typename: AlertEntityType.Route,
               mode: 'BUS',
               shortName: '37N',
               gtfsId: 'foo:2037N',
@@ -38,7 +39,7 @@ describe('<AlertList />', () => {
           effectiveStartDate: 1547464413,
           entities: [
             {
-              __typename: 'Route',
+              __typename: AlertEntityType.Route,
               mode: 'RAIL',
               shortName: 'A',
               gtfsId: 'foo:2000A',
@@ -53,7 +54,7 @@ describe('<AlertList />', () => {
           effectiveStartDate: 1547464413,
           entities: [
             {
-              __typename: 'Route',
+              __typename: AlertEntityType.Route,
               mode: 'BUS',
               shortName: '138',
               gtfsId: 'foo:138',
@@ -66,7 +67,7 @@ describe('<AlertList />', () => {
           effectiveStartDate: 1547464413,
           entities: [
             {
-              __typename: 'Route',
+              __typename: AlertEntityType.Route,
               mode: 'TRAM',
               shortName: '8A',
               gtfsId: 'foo:8A',
@@ -94,7 +95,7 @@ describe('<AlertList />', () => {
           effectiveEndDate: 99,
           entities: [
             {
-              __typename: 'Route',
+              __typename: AlertEntityType.Route,
               mode: 'TRAM',
               shortName: '8A',
               gtfsId: 'foo:8A',
@@ -116,7 +117,7 @@ describe('<AlertList />', () => {
           alertSeverityLevel: 'SEVERE',
           entities: [
             {
-              __typename: 'Route',
+              __typename: AlertEntityType.Route,
               mode: 'TRAM',
               shortName: '8A',
               gtfsId: 'foo:8A',
@@ -132,7 +133,7 @@ describe('<AlertList />', () => {
           effectiveEndDate: 100,
           entities: [
             {
-              __typename: 'Route',
+              __typename: AlertEntityType.Route,
               mode: 'TRAM',
               shortName: '8A',
               gtfsId: 'foo:8A',
@@ -156,7 +157,7 @@ describe('<AlertList />', () => {
           effectiveEndDate: 200,
           entities: [
             {
-              __typename: 'Route',
+              __typename: AlertEntityType.Route,
               mode: 'TRAM',
               shortName: '8A',
               gtfsId: 'foo:8A',

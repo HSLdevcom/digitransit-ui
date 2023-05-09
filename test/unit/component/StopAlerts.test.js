@@ -3,7 +3,10 @@ import { describe, it } from 'mocha';
 import React from 'react';
 
 import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
-import { AlertSeverityLevelType } from '../../../app/constants';
+import {
+  AlertSeverityLevelType,
+  AlertEntityType,
+} from '../../../app/constants';
 import AlertList from '../../../app/component/AlertList';
 import StopAlerts from '../../../app/component/StopAlerts';
 
@@ -56,7 +59,7 @@ describe('<StopAlerts />', () => {
           {
             entities: [
               {
-                __typename: 'Route',
+                __typename: AlertEntityType.Route,
                 gtfsId: 'feed:101',
               },
             ],
@@ -119,7 +122,7 @@ describe('<StopAlerts />', () => {
             alertSeverityLevel: AlertSeverityLevelType.Warning,
             entities: [
               {
-                __typename: 'Stop',
+                __typename: AlertEntityType.Stop,
                 gtfsId: 'feed:bar',
               },
             ],

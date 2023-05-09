@@ -1,6 +1,7 @@
 import {
   AlertSeverityLevelType,
   RealtimeStateType,
+  AlertEntityType,
 } from '../../../app/constants';
 import * as utils from '../../../app/util/alertUtils';
 
@@ -604,7 +605,7 @@ describe('alertUtils', () => {
               effectiveStartDate: 1553754595,
               entities: [
                 {
-                  __typename: 'Route',
+                  __typename: AlertEntityType.Route,
                 },
               ],
             },

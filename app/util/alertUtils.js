@@ -1,7 +1,11 @@
 import isNumber from 'lodash/isNumber';
 import routeNameCompare from '@digitransit-search-util/digitransit-search-util-route-name-compare';
 
-import { RealtimeStateType, AlertSeverityLevelType } from '../constants';
+import {
+  RealtimeStateType,
+  AlertSeverityLevelType,
+  AlertEntityType,
+} from '../constants';
 
 /**
  * Checks if the stoptime has a cancelation.
@@ -502,7 +506,9 @@ export const getActiveLegAlerts = (leg, legStartTime) => {
     ...getAlertsForObject(route).map(alert => {
       return {
         ...alert,
-        entities: getEntitiesOfTypeFromAlert(alert, 'Route').filter(
+        entities: getEntitiesOfTypeFromAlert(
+          alert,
+          AlertEntityType.Route,
           entity => entity.gtfsId === route.gtfsId,
         ),
       };
@@ -510,7 +516,9 @@ export const getActiveLegAlerts = (leg, legStartTime) => {
     ...getAlertsForObject(leg?.from.stop).map(alert => {
       return {
         ...alert,
-        entities: getEntitiesOfTypeFromAlert(alert, 'Stop').filter(
+        entities: getEntitiesOfTypeFromAlert(
+          alert,
+          AlertEntityType.Stop,
           entity => entity.gtfsId === leg?.from.stop.gtfsId,
         ),
       };
@@ -518,7 +526,9 @@ export const getActiveLegAlerts = (leg, legStartTime) => {
     ...getAlertsForObject(leg?.to.stop).map(alert => {
       return {
         ...alert,
-        entities: getEntitiesOfTypeFromAlert(alert, 'Stop').filter(
+        entities: getEntitiesOfTypeFromAlert(
+          alert,
+          AlertEntityType.Stop,
           entity => entity.gtfsId === leg?.to.stop.gtfsId,
         ),
       };

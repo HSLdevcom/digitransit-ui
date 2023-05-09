@@ -3,7 +3,10 @@ import React from 'react';
 import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
 import AlertList from '../../../app/component/AlertList';
 import { Component as DisruptionListContainer } from '../../../app/component/DisruptionListContainer';
-import { AlertSeverityLevelType } from '../../../app/constants';
+import {
+  AlertSeverityLevelType,
+  AlertEntityType,
+} from '../../../app/constants';
 
 describe('<DisruptionListContainer />', () => {
   it('should indicate that there are no alerts', () => {
@@ -27,7 +30,7 @@ describe('<DisruptionListContainer />', () => {
             effectiveStartDate: 0,
             entities: [
               {
-                __typename: 'Route',
+                __typename: AlertEntityType.Route,
                 type: 200,
                 mode: 'BUS',
                 shortName: '63',
@@ -42,7 +45,7 @@ describe('<DisruptionListContainer />', () => {
             effectiveStartDate: 0,
             entities: [
               {
-                __typename: 'Stop',
+                __typename: AlertEntityType.Stop,
                 gtfsId: 'foo:bar',
                 name: 'foo',
                 code: '123',
@@ -69,7 +72,7 @@ describe('<DisruptionListContainer />', () => {
             effectiveStartDate: 0,
             entities: [
               {
-                __typename: 'Route',
+                __typename: AlertEntityType.Route,
                 type: 200,
                 mode: 'BUS',
                 shortName: '63',
@@ -84,7 +87,7 @@ describe('<DisruptionListContainer />', () => {
             effectiveStartDate: 0,
             entities: [
               {
-                __typename: 'Stop',
+                __typename: AlertEntityType.Stop,
                 gtfsId: 'foo:bar',
                 name: 'foo',
                 code: '123',
@@ -111,14 +114,14 @@ describe('<DisruptionListContainer />', () => {
             effectiveStartDate: 0,
             entities: [
               {
-                __typename: 'Route',
+                __typename: AlertEntityType.Route,
                 type: 200,
                 mode: 'BUS',
                 shortName: '63',
                 gtfsId: 'foo:bar',
               },
               {
-                __typename: 'Stop',
+                __typename: AlertEntityType.Stop,
                 gtfsId: 'foo:bar',
                 name: 'foo',
                 code: '123',
@@ -145,14 +148,14 @@ describe('<DisruptionListContainer />', () => {
             effectiveStartDate: 0,
             entities: [
               {
-                __typename: 'Route',
+                __typename: AlertEntityType.Route,
                 type: 200,
                 mode: 'BUS',
                 shortName: '63',
                 gtfsId: 'foo:bar',
               },
               {
-                __typename: 'Route',
+                __typename: AlertEntityType.Route,
                 type: 300,
                 mode: 'TRAM',
                 shortName: '3',
@@ -181,7 +184,7 @@ describe('<DisruptionListContainer />', () => {
             effectiveStartDate: 0,
             entities: [
               {
-                __typename: 'Route',
+                __typename: AlertEntityType.Route,
                 type: 200,
                 mode: 'BUS',
                 shortName: '63',
@@ -189,7 +192,7 @@ describe('<DisruptionListContainer />', () => {
                 color: 'ffffff',
               },
               {
-                __typename: 'Route',
+                __typename: AlertEntityType.Route,
                 type: 300,
                 mode: 'BUS',
                 shortName: '75',
@@ -219,7 +222,7 @@ describe('<DisruptionListContainer />', () => {
             effectiveStartDate: 0,
             entities: [
               {
-                __typename: 'Route',
+                __typename: AlertEntityType.Route,
                 type: 200,
                 mode: 'BUS',
                 shortName: '63',
@@ -227,7 +230,7 @@ describe('<DisruptionListContainer />', () => {
                 color: 'ffffff',
               },
               {
-                __typename: 'Route',
+                __typename: AlertEntityType.Route,
                 type: 300,
                 mode: 'BUS',
                 shortName: '75',
@@ -257,10 +260,10 @@ describe('<DisruptionListContainer />', () => {
             effectiveStartDate: 0,
             entities: [
               {
-                __typename: 'Unknown',
+                __typename: AlertEntityType.Unknown,
               },
               {
-                __typename: 'StopOnRoute',
+                __typename: AlertEntityType.StopOnRoute,
               },
             ],
           },
@@ -282,7 +285,7 @@ describe('<DisruptionListContainer />', () => {
             effectiveStartDate: 0,
             entities: [
               {
-                __typename: 'Route',
+                __typename: AlertEntityType.Route,
                 type: 200,
                 mode: 'BUS',
                 shortName: '63',
@@ -296,7 +299,7 @@ describe('<DisruptionListContainer />', () => {
             effectiveStartDate: 0,
             entities: [
               {
-                __typename: 'Stop',
+                __typename: AlertEntityType.Stop,
                 gtfsId: 'foo:bar',
                 name: 'foo',
                 code: '1234',
@@ -322,7 +325,7 @@ describe('<DisruptionListContainer />', () => {
             effectiveStartDate: 0,
             entities: [
               {
-                __typename: 'Route',
+                __typename: AlertEntityType.Route,
                 type: 200,
                 mode: 'BUS',
                 shortName: '63',
@@ -336,7 +339,7 @@ describe('<DisruptionListContainer />', () => {
             effectiveStartDate: 0,
             entities: [
               {
-                __typename: 'Stop',
+                __typename: AlertEntityType.Stop,
                 gtfsId: 'foo:bar',
                 name: 'foo',
                 code: '1234',

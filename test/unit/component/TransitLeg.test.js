@@ -8,6 +8,7 @@ import IntermediateLeg from '../../../app/component/IntermediateLeg';
 import {
   RealtimeStateType,
   AlertSeverityLevelType,
+  AlertEntityType,
 } from '../../../app/constants';
 import ServiceAlertIcon from '../../../app/component/ServiceAlertIcon';
 import { mockContext } from '../helpers/mock-context';
@@ -429,7 +430,7 @@ describe('<TransitLeg />', () => {
               alertSeverityLevel: AlertSeverityLevelType.Warning,
               entities: [
                 {
-                  __typename: 'Route',
+                  __typename: AlertEntityType.Route,
                   gtfsId: 'A',
                 },
               ],
@@ -484,7 +485,7 @@ describe('<TransitLeg />', () => {
                 alertSeverityLevel: AlertSeverityLevelType.Warning,
                 entities: [
                   {
-                    __typename: 'Stop',
+                    __typename: AlertEntityType.Stop,
                     gtfsId: 'A',
                   },
                 ],
@@ -555,7 +556,7 @@ describe('<TransitLeg />', () => {
                 alertSeverityLevel: AlertSeverityLevelType.Warning,
                 entities: [
                   {
-                    __typename: 'Stop',
+                    __typename: AlertEntityType.Stop,
                     gtfsId: 'B',
                   },
                 ],
@@ -612,7 +613,7 @@ describe('<TransitLeg />', () => {
                   alertSeverityLevel: AlertSeverityLevelType.Warning,
                   entities: [
                     {
-                      __typename: 'Stop',
+                      __typename: AlertEntityType.Stop,
                       gtfsId: 'foobar',
                     },
                   ],
@@ -785,7 +786,7 @@ describe('<TransitLeg />', () => {
                 effectiveStartDate: startTime - 1,
                 entities: [
                   {
-                    __typename: 'Stop',
+                    __typename: AlertEntityType.Stop,
                     gtfsId: 'A',
                   },
                 ],
@@ -853,7 +854,7 @@ describe('<TransitLeg />', () => {
               alertHeaderText: 'unkown header',
               entities: [
                 {
-                  __typename: 'Route',
+                  __typename: AlertEntityType.Route,
                   gtfsId: 'A1234',
                 },
               ],
@@ -865,7 +866,7 @@ describe('<TransitLeg />', () => {
               alertHeaderText: 'severe header',
               entities: [
                 {
-                  __typename: 'Route',
+                  __typename: AlertEntityType.Route,
                   gtfsId: 'A1234',
                 },
               ],
@@ -877,7 +878,7 @@ describe('<TransitLeg />', () => {
               alertHeaderText: 'warning header',
               entities: [
                 {
-                  __typename: 'Route',
+                  __typename: AlertEntityType.Route,
                   gtfsId: 'A1234',
                 },
               ],
@@ -937,7 +938,7 @@ describe('<TransitLeg />', () => {
               alertHeaderText: 'unknown header',
               entities: [
                 {
-                  __typename: 'Route',
+                  __typename: AlertEntityType.Route,
                   gtfsId: 'A1234',
                 },
               ],

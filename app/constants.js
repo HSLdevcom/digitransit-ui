@@ -76,6 +76,22 @@ export const AlertSeverityLevelType = Object.freeze({
   Warning: 'WARNING',
 });
 
+/**
+ * AlertEntityType is an OTP enum for different entity selector
+ * types on GTFS RT service alerts.
+ */
+export const AlertEntityType = Object.freeze({
+  Agency: 'Agency',
+  Route: 'Route',
+  Pattern: 'Pattern',
+  Stop: 'Stop',
+  Trip: 'Trip',
+  StopOnRoute: 'StopOnRoute',
+  StopOnTrip: 'StopOnTrip',
+  RouteType: 'RouteType',
+  Unknown: 'Unknown',
+});
+
 export const ExtendedRouteTypes = Object.freeze({
   BusExpress: 702,
   BusLocal: 704,

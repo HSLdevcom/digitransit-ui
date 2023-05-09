@@ -16,6 +16,7 @@ import {
   getEntitiesOfType,
   mapAlertSource,
 } from '../util/alertUtils';
+import { AlertEntityType } from '../constants';
 import { getRouteMode } from '../util/modeUtils';
 
 export const getTimePeriod = ({ currentTime, startTime, endTime, intl }) => {
@@ -47,7 +48,7 @@ export const getTimePeriod = ({ currentTime, startTime, endTime, intl }) => {
 
 const getColor = entities => {
   if (Array.isArray(entities)) {
-    const routeEntities = getEntitiesOfType(entities, 'Route');
+    const routeEntities = getEntitiesOfType(entities, AlertEntityType.Route);
     return routeEntities.length > 0 && `#${routeEntities[0].color}`;
   }
   return null;
@@ -55,7 +56,7 @@ const getColor = entities => {
 
 const getMode = entities => {
   if (Array.isArray(entities)) {
-    const routeEntities = getEntitiesOfType(entities, 'Route');
+    const routeEntities = getEntitiesOfType(entities, AlertEntityType.Route);
     return routeEntities.length > 0 && getRouteMode(routeEntities[0]);
   }
   return 'bus';
@@ -111,13 +112,17 @@ export default function AlertRow(
   const entityIdentifiers = getEntityIdentifiers(uniqueEntities);
 
   const entityType =
-    getEntitiesOfType(uniqueEntities, 'Stop').length > 0 ? 'Stop' : 'Route';
+    getEntitiesOfType(uniqueEntities, AlertEntityType.Stop).length > 0
+      ? AlertEntityType.Stop
+      : AlertEntityType.Route;
 
-  const routeColor = entityType === 'Route' && getColor(uniqueEntities);
-  const routeMode = entityType === 'Route' && getMode(uniqueEntities);
+  const routeColor =
+    entityType === AlertEntityType.Route && getColor(uniqueEntities);
+  const routeMode =
+    entityType === AlertEntityType.Route && getMode(uniqueEntities);
 
   const routeLinks =
-    entityType === 'Route' && entityIdentifiers && gtfsIdList
+    entityType === AlertEntityType.Route && entityIdentifiers && gtfsIdList
       ? entityIdentifiers.map((identifier, i) => (
           <Link
             onClick={e => {
@@ -137,7 +142,7 @@ export default function AlertRow(
       : [];
 
   const stopLinks =
-    entityType === 'Stop' && entityIdentifiers && gtfsIdList
+    entityType === AlertEntityType.Stop && entityIdentifiers && gtfsIdList
       ? entityIdentifiers.map((identifier, i) => (
           <Link
             onClick={e => {
@@ -160,14 +165,14 @@ export default function AlertRow(
 
   return (
     <div className="alert-row" role="listitem">
-      {(entityType === 'Route' && (
+      {(entityType === AlertEntityType.Route && (
         <RouteNumber
           alertSeverityLevel={severityLevel}
           color={routeColor}
           mode={routeMode}
         />
       )) ||
-        (entityType === 'Stop' && (
+        (entityType === AlertEntityType.Stop && (
           <div className="route-number">
             {severityLevel === 'INFO' ? (
               <Icon img="icon-icon_info" className="stop-disruption info" />
@@ -188,9 +193,9 @@ export default function AlertRow(
         <div className="alert-top-row">
           {entityIdentifiers &&
             entityIdentifiers.length > 0 &&
-            ((entityType === 'Route' && showLinks && routeLinks.length > 0 && (
-              <>{routeLinks} </>
-            )) ||
+            ((entityType === AlertEntityType.Route &&
+              showLinks &&
+              routeLinks.length > 0 && <>{routeLinks} </>) ||
               (!showLinks && (
                 <div
                   className={cx('route-alert-entityid', routeMode)}
@@ -199,9 +204,9 @@ export default function AlertRow(
                   {entityIdentifiers.join(', ')}{' '}
                 </div>
               )) ||
-              (entityType === 'Stop' && showLinks && stopLinks.length > 0 && (
-                <>{stopLinks} </>
-              )) ||
+              (entityType === AlertEntityType.Stop &&
+                showLinks &&
+                stopLinks.length > 0 && <>{stopLinks} </>) ||
               (!showLinks && (
                 <div className={routeMode}>{entityIdentifiers.join(' ')}</div>
               )))}

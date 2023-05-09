@@ -14,7 +14,7 @@ import {
 } from '../util/alertUtils';
 import { getRouteMode } from '../util/modeUtils';
 import { AlertShape } from '../util/shapes';
-import { AlertSeverityLevelType } from '../constants';
+import { AlertSeverityLevelType, AlertEntityType } from '../constants';
 
 /**
  * This returns the trips mapped as alerts for the route.
@@ -65,7 +65,7 @@ const getCancelations = (
 function RouteAlertsContainer({ currentTime, route }, { match, intl, config }) {
   const { patternId } = match.params;
   const entity = {
-    __typename: 'Route',
+    __typename: AlertEntityType.Route,
     color: route.color,
     type: route.type,
     mode: route.mode,

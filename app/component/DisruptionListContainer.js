@@ -6,7 +6,7 @@ import { FormattedMessage, intlShape } from 'react-intl';
 import { createFragmentContainer, graphql } from 'react-relay';
 import AlertList from './AlertList';
 import Icon from './Icon';
-import { AlertSeverityLevelType } from '../constants';
+import { AlertSeverityLevelType, AlertEntityType } from '../constants';
 import {
   getEntitiesOfTypeFromAlert,
   hasEntitiesOfType,
@@ -25,7 +25,7 @@ const splitAlertByRouteModeAndColor = alert => {
   const entitiesByModeAndColor = {};
   alert.entities?.forEach(entity => {
     // eslint-disable-next-line no-underscore-dangle
-    if (entity.__typename === 'Route') {
+    if (entity.__typename === AlertEntityType.Route) {
       const color = entity.color ? entity.color.toLowerCase() : null;
       const mapKey = `${entity.mode}-${color}`;
       entitiesByModeAndColor[mapKey] = entitiesByModeAndColor[mapKey] || [];
@@ -43,7 +43,9 @@ function DisruptionListContainer(
 ) {
   const validAlerts = viewer?.alerts
     ?.filter(alert => isAlertValid(alert, currentTime))
-    .filter(alert => hasEntitiesOfTypes(alert, ['Route', 'Stop']));
+    .filter(alert =>
+      hasEntitiesOfTypes(alert, [AlertEntityType.Route, AlertEntityType.Stop]),
+    );
 
   if (!validAlerts || validAlerts.length === 0) {
     return (
@@ -62,17 +64,23 @@ function DisruptionListContainer(
   const [showDisruptions, setShowDisruptions] = useState(disruptionCount > 0);
 
   const routeAlertsToShow = validAlerts
-    .filter(alert => hasEntitiesOfType(alert, 'Route'))
+    .filter(alert => hasEntitiesOfType(alert, AlertEntityType.Route))
     .filter(showDisruptions ? isDisruption : isInfo)
     .map(alert => {
-      return { ...alert, entities: getEntitiesOfTypeFromAlert(alert, 'Route') };
+      return {
+        ...alert,
+        entities: getEntitiesOfTypeFromAlert(alert, AlertEntityType.Route),
+      };
     })
     .flatMap(splitAlertByRouteModeAndColor);
   const stopAlertsToShow = validAlerts
-    .filter(alert => hasEntitiesOfType(alert, 'Stop'))
+    .filter(alert => hasEntitiesOfType(alert, AlertEntityType.Stop))
     .filter(showDisruptions ? isDisruption : isInfo)
     .map(alert => {
-      return { ...alert, entities: getEntitiesOfTypeFromAlert(alert, 'Stop') };
+      return {
+        ...alert,
+        entities: getEntitiesOfTypeFromAlert(alert, AlertEntityType.Stop),
+      };
     });
 
   return (

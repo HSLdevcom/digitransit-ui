@@ -12,13 +12,15 @@ import {
 } from '../util/alertUtils';
 import { getRouteMode } from '../util/modeUtils';
 import { AlertShape } from '../util/shapes';
-import { AlertSeverityLevelType } from '../constants';
+import { AlertSeverityLevelType, AlertEntityType } from '../constants';
 
 export const isRelevantEntity = (entity, stopIds, routeIds) =>
   // eslint-disable-next-line no-underscore-dangle
-  (entity.__typename === 'Stop' && stopIds.includes(entity.gtfsId)) ||
+  (entity.__typename === AlertEntityType.Stop &&
+    stopIds.includes(entity.gtfsId)) ||
   // eslint-disable-next-line no-underscore-dangle
-  (entity.__typename === 'Route' && routeIds.includes(entity.gtfsId));
+  (entity.__typename === AlertEntityType.Route &&
+    routeIds.includes(entity.gtfsId));
 
 export const getRouteIdsForStop = stop =>
   uniq(stop?.routes.map(route => route.gtfsId));
@@ -58,7 +60,7 @@ export const getCancelations = (stop, intl) => {
   return getCancelationsForStop(stop).map(stoptime => {
     const { color, mode, shortName, gtfsId, type } = stoptime.trip.route;
     const entity = {
-      __typename: 'Route',
+      __typename: AlertEntityType,
       color,
       type,
       mode,

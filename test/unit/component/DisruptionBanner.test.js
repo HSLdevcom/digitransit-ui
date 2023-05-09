@@ -3,6 +3,10 @@ import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
 
 import { Component as DisruptionBanner } from '../../../app/component/DisruptionBanner';
 import DisruptionBannerAlert from '../../../app/component/DisruptionBannerAlert';
+import {
+  AlertSeverityLevelType,
+  AlertEntityType,
+} from '../../../app/constants';
 
 describe('<DisruptionBanner />', () => {
   it('should render a service alert', () => {
@@ -14,12 +18,12 @@ describe('<DisruptionBanner />', () => {
       alerts: [
         {
           alertDescriptionText: 'mock-description',
-          alertSeverityLevel: 'SEVERE',
+          alertSeverityLevel: AlertSeverityLevelType.Severe,
           effectiveStartDate: 1000,
           effectiveEndDate: 2000,
           entities: [
             {
-              __typename: 'Route',
+              __typename: AlertEntityType.Route,
               mode: 'BUS',
               shortName: '1',
               gtfsId: 'foo:1',
