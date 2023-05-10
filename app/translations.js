@@ -1230,7 +1230,7 @@ const translations = {
     'minute-short': 'min',
     minutes: 'min',
     'minutes-or-route': 'Min / Route',
-    'mobile-ticket-purcahse-aria':
+    'mobile-ticket-purchase-aria':
       'Mobile ticket purchase information. Buy {ticketName} for {price}. Buy ticket from HSL app or download the app',
     'modes.to-bike': 'city bike station',
     'modes.to-bike-park': 'bike park',
@@ -2367,7 +2367,7 @@ const translations = {
     'minute-short': 'min',
     minutes: 'min',
     'minutes-or-route': 'Min / Linja',
-    'mobile-ticket-purcahse-aria':
+    'mobile-ticket-purchase-aria':
       'Mobiililipun osto. Osta {ticketName} lippu hintaan {price}. Osta lippu HSL sovelluksesta tai lataa sovellus',
     'modes.to-bike': 'kaupunkipyöräasemalle',
     'modes.to-bike-park': 'liityntäpyöräparkkiin',
@@ -4290,7 +4290,7 @@ const translations = {
     'minute-short': 'min',
     minutes: 'min',
     'minutes-or-route': 'Min / Linje',
-    'mobile-ticket-purcahse-aria':
+    'mobile-ticket-purchase-aria':
       'Köp av mobilbiljett. Köp en {ticketName}-biljett för {price}. Köp biljetten i HSL-appen eller ladda ner appen.',
     'modes.to-bike': 'stadscykelstation',
     'modes.to-bike-park': 'anslutningsparkering för cyklar',

@@ -30,7 +30,7 @@ export default function MobileTicketPurchaseInformation(
       <div className="ticket-container">
         <div className="sr-only">
           <FormattedMessage
-            id="mobile-ticket-purcahse-aria"
+            id="mobile-ticket-purchase-aria"
             values={{
               ticketName: fare.ticketName,
               price,
