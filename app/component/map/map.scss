@@ -1166,10 +1166,6 @@ div.origin-popup {
   }
 }
 
-.leaflet-marker-icon > svg {
-  position: absolute;
-}
-
 div.map-click-prevent-overlay {
   position: absolute;
   top: 0;
@@ -1283,25 +1279,10 @@ div.leaflet-control-scale-line {
   }
 }
 
-.z1,
-.z2,
-.z3,
-.z4,
-.z5,
-.z6,
-.z7,
-.z8,
-.z9,
-.z10,
-.z11,
-.z12,
-.z13,
-.z14 {
-  .leaflet-marker-icon > svg {
-    position: absolute;
-    border-radius: 50%;
-    border: solid 1px $white;
-  }
+.leaflet-marker-icon > svg {
+  position: absolute;
+  border-radius: 50%;
+  border: solid 1px $white;
 }
 
 .z-1,
