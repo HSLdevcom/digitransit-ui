@@ -3,11 +3,8 @@ import React from 'react';
 
 import { isBrowser } from '../util/browser';
 
-const LogoSmall = (
-  { showLogo, showTitles, logo, title, subTitle, className },
-  { config },
-) => {
-  if (config.textLogo || !showLogo) {
+const LogoSmall = ({ logo, title }, { config }) => {
+  if (config.textLogo && !logo) {
     return (
       <span className="title" role="heading" aria-level="1">
         {title}
@@ -16,33 +13,26 @@ const LogoSmall = (
   }
   return (
     <div
-      className={className}
+      className="logo"
       style={{ backgroundImage: isBrowser && logo ? `url(${logo})` : 'none' }}
     >
-      {showTitles && title && <span className="logo-title">{title}</span>}
-      {showTitles && subTitle && (
-        <span className="logo-sub-title">{subTitle}</span>
+      {config.textLogo && title && (
+        <span className="title" role="heading" aria-level="1">
+          {title}
+        </span>
       )}
     </div>
   );
 };
 
 LogoSmall.propTypes = {
-  showLogo: PropTypes.bool,
-  showTitles: PropTypes.bool,
   logo: PropTypes.string,
   title: PropTypes.node,
-  subTitle: PropTypes.string,
-  className: PropTypes.string,
 };
 
 LogoSmall.defaultProps = {
-  showLogo: false,
-  showTitles: false,
   logo: undefined,
   title: undefined,
-  subTitle: undefined,
-  className: 'logo',
 };
 
 LogoSmall.contextTypes = {

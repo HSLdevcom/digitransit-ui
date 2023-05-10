@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape, FormattedMessage } from 'react-intl';
 
-import { v4 as uuid } from 'uuid';
 import { renderZoneTicket } from './ZoneTicket';
 import { getAlternativeFares } from '../util/fareUtils';
 import { FareShape } from '../util/shapes';
@@ -28,7 +27,7 @@ export default function MobileTicketPurchaseInformation(
       defaultMessage: 'Required ticket',
     })}:`;
     return (
-      <div key={uuid()} className="ticket-container">
+      <div className="ticket-container">
         <div className="sr-only">
           <FormattedMessage
             id="mobile-ticket-purcahse-aria"
@@ -40,7 +39,7 @@ export default function MobileTicketPurchaseInformation(
           />
         </div>
         <div className="ticket-type-title">{header}</div>
-        <div className="ticket-type-zone" key={uuid()}>
+        <div className="ticket-type-zone">
           <div className="fare-container">
             <div className="ticket-identifier">
               {config.useTicketIcons

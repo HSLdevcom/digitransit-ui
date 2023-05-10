@@ -59,7 +59,9 @@ const LegInfo = (
       </Link>
       <div className="headsign">{headsign}</div>
       {config.showTransitLegDistance && (
-        <div>{(leg.distance / 1000).toFixed(1)} km</div>
+        <div className={cx({ 'distance-bold': config.emphasizeDistance })}>
+          {(leg.distance / 1000).toFixed(1)} km
+        </div>
       )}
       {displayTime && (
         <span className={cx('leg-departure-time', { realtime: leg.realTime })}>

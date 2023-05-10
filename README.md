@@ -27,6 +27,7 @@ Visual tests are run with jest and playwright.
 
 More information about [testing](docs/Tests.md).
 
+
 ## Documentation
 
 - [Terms](docs/Terms.md)

@@ -21,6 +21,7 @@ class TileContainer {
     hilightedStops,
     vehicles,
     stopsToShow,
+    objectsToHide,
     lang,
   ) {
     const markersMinZoom = Math.min(
@@ -43,6 +44,7 @@ class TileContainer {
     this.hilightedStops = hilightedStops;
     this.vehicles = vehicles;
     this.stopsToShow = stopsToShow;
+    this.objectsToHide = objectsToHide;
 
     if (events.listenerCount('vehiclesChanged') === 0) {
       events.on('vehiclesChanged', this.onVehiclesChange);

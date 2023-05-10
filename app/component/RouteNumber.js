@@ -145,11 +145,13 @@ function RouteNumber(props, context) {
             </span>
           </div>
         )}
-        {props.isTransitLeg === false && props.duration > 0 && (
-          <div className={`leg-duration-container ${mode} `}>
-            <span className="leg-duration">{props.duration}</span>
-          </div>
-        )}
+        {!context.config?.hideWalkLegDurationSummary &&
+          props.isTransitLeg === false &&
+          props.duration > 0 && (
+            <div className={`leg-duration-container ${mode} `}>
+              <span className="leg-duration">{props.duration}</span>
+            </div>
+          )}
       </span>
     </span>
   );
@@ -214,6 +216,7 @@ RouteNumber.defaultProps = {
 
 RouteNumber.contextTypes = {
   intl: intlShape.isRequired,
+  config: PropTypes.object,
 };
 
 RouteNumber.displayName = 'RouteNumber';

@@ -500,6 +500,23 @@ class SummaryPage extends React.Component {
     return false;
   };
 
+  addBikeStationMapForRentalBikeItineraries = () => {
+    return getMapLayerOptions({
+      lockedMapLayers: ['vehicles', 'citybike', 'stop'],
+      selectedMapLayers: ['vehicles', 'citybike'],
+    });
+  };
+
+  getHiddenObjects = (itineraryContainsBikeRentalStation, activeItinerary) => {
+    const hiddenObjects = { vehicleRentalStations: [] };
+    if (itineraryContainsBikeRentalStation) {
+      hiddenObjects.vehicleRentalStations = activeItinerary?.legs
+        ?.filter(leg => leg.from?.bikeRentalStation)
+        ?.map(station => station.from?.bikeRentalStation.stationId);
+    }
+    return hiddenObjects;
+  };
+
   planHasNoItineraries = () =>
     this.props.viewer &&
     this.props.viewer.plan &&
@@ -1042,6 +1059,7 @@ class SummaryPage extends React.Component {
                   zoneId
                 }
                 bikeRentalStation {
+                  stationId
                   bikesAvailable
                   networks
                 }
@@ -1856,6 +1874,18 @@ class SummaryPage extends React.Component {
     }
     const onlyHasWalkingItineraries = this.onlyHasWalkingItineraries();
 
+    const itineraryContainsDepartureFromBikeRentalStation = filteredItineraries[
+      activeIndex
+    ]?.legs.some(leg => leg.from?.bikeRentalStation);
+
+    const mapLayerOptions = itineraryContainsDepartureFromBikeRentalStation
+      ? this.addBikeStationMapForRentalBikeItineraries(filteredItineraries)
+      : this.props.mapLayerOptions;
+
+    const objectsToHide = this.getHiddenObjects(
+      itineraryContainsDepartureFromBikeRentalStation,
+      filteredItineraries[activeIndex],
+    );
     return (
       <ItineraryPageMap
         {...mwtProps}
@@ -1864,7 +1894,7 @@ class SummaryPage extends React.Component {
         viaPoints={viaPoints}
         zoom={POINT_FOCUS_ZOOM}
         mapLayers={this.props.mapLayers}
-        mapLayerOptions={this.props.mapLayerOptions}
+        mapLayerOptions={mapLayerOptions}
         setMWTRef={this.setMWTRef}
         breakpoint={breakpoint}
         itineraries={filteredItineraries}
@@ -1873,6 +1903,7 @@ class SummaryPage extends React.Component {
         showActive={detailView}
         showVehicles={this.showVehicles()}
         onlyHasWalkingItineraries={onlyHasWalkingItineraries}
+        objectsToHide={objectsToHide}
       />
     );
   }
@@ -2924,6 +2955,7 @@ const containerComponent = createRefetchContainer(
                   zoneId
                 }
                 bikeRentalStation {
+                  stationId
                   bikesAvailable
                   networks
                 }

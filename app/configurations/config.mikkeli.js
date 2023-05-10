@@ -48,6 +48,7 @@ export default configMerger(walttiConfig, {
   title: APP_TITLE,
 
   textLogo: true, // title text instead of logo img
+  logo: null,
 
   feedIds: ['Mikkeli'],
 
