@@ -168,4 +168,16 @@ export default configMerger(walttiConfig, {
     stops: true,
     itinerary: true,
   },
+  stopCard: {
+    header: {
+      virtualMonitorBaseUrl: 'https://pysakkinaytto.osl.fi/',
+    },
+  },
+
+  mainMenu: {
+    stopMonitor: {
+      show: true,
+      url: 'https://pysakkinaytto.osl.fi/createview',
+    },
+  },
 });
