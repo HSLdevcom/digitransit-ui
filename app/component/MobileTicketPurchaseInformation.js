@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape, FormattedMessage } from 'react-intl';
 
-import { v4 as uuid } from 'uuid';
 import { renderZoneTicket } from './ZoneTicket';
 import { getAlternativeFares } from '../util/fareUtils';
 import { FareShape } from '../util/shapes';
@@ -21,15 +20,26 @@ export default function MobileTicketPurchaseInformation(
     !fare.isUnknown,
     config.availableTickets,
   );
+  const price = `${(fare.cents / 100).toFixed(2)} €`;
   const faresInfo = () => {
     const header = `${intl.formatMessage({
       id: 'itinerary-ticket.title',
       defaultMessage: 'Required ticket',
     })}:`;
     return (
-      <div key={uuid()} className="ticket-container">
+      <div className="ticket-container">
+        <div className="sr-only">
+          <FormattedMessage
+            id="mobile-ticket-purchase-aria"
+            values={{
+              ticketName: fare.ticketName,
+              price,
+            }}
+            defaultMessage="Mobile ticket purchase information. Buy {ticketName} for {price}"
+          />
+        </div>
         <div className="ticket-type-title">{header}</div>
-        <div className="ticket-type-zone" key={uuid()}>
+        <div className="ticket-type-zone">
           <div className="fare-container">
             <div className="ticket-identifier">
               {config.useTicketIcons
@@ -37,9 +47,7 @@ export default function MobileTicketPurchaseInformation(
                 : fare.ticketName}
             </div>
 
-            <div className="ticket-description">
-              {`${(fare.cents / 100).toFixed(2)} €`}
-            </div>
+            <div className="ticket-description">{price}</div>
           </div>
         </div>
       </div>
