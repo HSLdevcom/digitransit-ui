@@ -60,7 +60,7 @@ export const getCancelations = (stop, intl) => {
   return getCancelationsForStop(stop).map(stoptime => {
     const { color, mode, shortName, gtfsId, type } = stoptime.trip.route;
     const entity = {
-      __typename: AlertEntityType,
+      __typename: AlertEntityType.Route,
       color,
       type,
       mode,
@@ -82,7 +82,7 @@ export const getCancelations = (stop, intl) => {
         },
       ),
       entities: [entity],
-      alertSeverityLevel: AlertSeverityLevelType.Severe,
+      alertSeverityLevel: AlertSeverityLevelType.Warning,
     };
   });
 };

@@ -14,7 +14,7 @@ import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
 import { getRouteMode } from '../util/modeUtils';
 
 const getMostSevereAlert = route => {
-  const alerts = getAlertsForObject(route);
+  const alerts = [...getAlertsForObject(route)];
   return alerts.sort(alertSeverityCompare)[0];
 };
 
