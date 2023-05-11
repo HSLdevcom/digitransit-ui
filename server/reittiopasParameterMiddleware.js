@@ -51,7 +51,8 @@ const fixLocaleParam = (req, lang) => {
 };
 
 export const dropPathLanguageAndFixLocaleParam = (req, lang) => {
-  return req.path.replace(`/${lang}/`, '/') + fixLocaleParam(req, lang);
+  const newPath = req.path.replace(`/${lang}`, '/').replace('//', '/');
+  return newPath + fixLocaleParam(req, lang);
 };
 
 const dropPathLanguageAndRedirect = (req, res, lang) => {
