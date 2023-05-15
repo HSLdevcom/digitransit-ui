@@ -98,8 +98,12 @@ export default configMerger(matkaConfig, {
   hideFavourites: true,
   hideStopRouteSearch: true,
 
+  hideMapLayersByDefault: true,
+  hideCarSuggestionDuration: true,
+
   hideWalkLegDurationSummary: true,
   emphasizeDistance: true,
+  emphasizeOneWayJourney: true,
 
   terminalStopsMinZoom: 14,
 

@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import PropTypes from 'prop-types';
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { StreetModeSelectorButton } from './StreetModeSelectorButton';
 import { StreetModeSelectorWeatherLabel } from './StreetModeSelectorWeatherLabel';
 import { StreetModeSelectorShimmer } from './StreetModeSelectorShimmer';
@@ -88,6 +89,15 @@ export const StreetModeSelector = (
               plan={carPlan}
               onClick={setStreetModeAndSelect}
             />
+          )}
+
+          {config.emphasizeOneWayJourney && (
+            <div style={{ alignSelf: 'center' }}>
+              <FormattedMessage
+                id="one-way-journey"
+                defaultMessage="One way journey"
+              />
+            </div>
           )}
         </div>
       )}

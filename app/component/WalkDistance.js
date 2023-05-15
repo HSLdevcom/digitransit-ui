@@ -26,10 +26,16 @@ function WalkDistance(props, { config, intl }) {
         />
       </span>
       <Icon img={icon} className={cx(props.mode)} />
-      <span aria-hidden className="walk-distance">
-        {walkDuration}
-        <span data-text={walkDistance} />
-      </span>
+      {!(config.hideCarSuggestionDuration && props.mode === 'car') ? (
+        <span aria-hidden className="walk-distance">
+          {walkDuration}
+          {<span data-text={walkDistance} />}
+        </span>
+      ) : (
+        <span aria-hidden className={cx('walk-distance', 'no-duration')}>
+          {walkDistance}
+        </span>
+      )}
     </span>
   );
 }
