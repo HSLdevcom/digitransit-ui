@@ -87,6 +87,11 @@ $content-background-color: $background-color;
     text-align: center;
     color: $top-navigation-title-color;
   }
+
+  .with-logo {
+    font-size: 40px;
+    margin-left: 10px;
+  }
   .logo {
     height: 100%;
     min-height: 40px;

@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import cx from 'classnames';
 
 import { isBrowser } from '../util/browser';
 
@@ -11,12 +12,12 @@ const LogoSmall = ({ logo, title }, { config }) => {
       </span>
     );
   }
-  if (config.logo && config.textLogo && title) {
+  if (logo && config.textLogo && title) {
     return (
       <div style={{ display: 'flex', alignItems: 'center' }}>
         <img style={{ height: '40px', width: '40px' }} src={logo} alt="logo" />
         <span
-          style={{ fontSize: '40px', marginLeft: '10px' }}
+          className={cx('title', { 'with-logo': true })}
           role="heading"
           aria-level="1"
         >
