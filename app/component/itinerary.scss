@@ -286,6 +286,9 @@ $itinerary-tab-switch-height: 48px;
         content: attr(data-text);
       }
     }
+    &.no-duration {
+      align-self: center;
+    }
   }
 }
 

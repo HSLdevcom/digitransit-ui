@@ -1309,6 +1309,7 @@ const translations = {
     'number-of-spaces': 'Number of spaces:',
     'off-canvas-info':
       'Log in to the service to save your favorites and utilize them on other devices',
+    'one-way-journey': 'One-way journey',
     'option-default': 'Average',
     'option-least': 'Slow',
     'option-less': 'Calm',
@@ -2445,6 +2446,7 @@ const translations = {
     'number-of-spaces': 'Paikkojen määrä:',
     'off-canvas-info':
       'Kirjautumalla palveluun saat suosikit talteen ja voit hyödyntää niitä muillakin laitteillasi',
+    'one-way-journey': 'Yhdensuuntainen matka',
     'option-default': 'Keskimääräinen',
     'option-least': 'Hidas',
     'option-less': 'Rauhallinen',
@@ -4368,6 +4370,7 @@ const translations = {
     'number-of-spaces': 'Antalet platser:',
     'off-canvas-info':
       'Genom att logga in kan du spara dina favoriter och använda dem med dina andra enheter.',
+    'one-way-journey': 'Enkelriktad resa',
     'option-default': 'Standard',
     'option-least': 'Minst',
     'option-less': 'Mindre',
