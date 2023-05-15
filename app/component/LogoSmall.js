@@ -11,17 +11,26 @@ const LogoSmall = ({ logo, title }, { config }) => {
       </span>
     );
   }
+  if (config.logo && config.textLogo && title) {
+    return (
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        <img style={{ height: '40px', width: '40px' }} src={logo} alt="logo" />
+        <span
+          style={{ fontSize: '40px', marginLeft: '10px' }}
+          role="heading"
+          aria-level="1"
+        >
+          {title}
+        </span>
+      </div>
+    );
+  }
+
   return (
     <div
       className="logo"
       style={{ backgroundImage: isBrowser && logo ? `url(${logo})` : 'none' }}
-    >
-      {config.textLogo && title && (
-        <span className="title" role="heading" aria-level="1">
-          {title}
-        </span>
-      )}
-    </div>
+    />
   );
 };
 
