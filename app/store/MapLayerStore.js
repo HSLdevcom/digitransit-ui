@@ -41,7 +41,7 @@ class MapLayerStore extends Store {
     this.mapLayers.citybike = showCityBikes(config.cityBike?.networks, config);
 
     if (config.hideMapLayersByDefault) {
-      Object.keys(this.mapLayers.stop).map(() => false);
+      this.mapLayers.stop = Object.keys(this.mapLayers.stop).map(() => false);
 
       this.mapLayers.citybike = false;
     }
