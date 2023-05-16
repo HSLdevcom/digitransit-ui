@@ -410,7 +410,7 @@ export const alertCompare = (alertA, alertB) => {
  * @param {*} alerts list of alerts.
  */
 export const hasMeaningfulData = alerts => {
-  if (alerts.length === 0) {
+  if (!isValidArray(alerts)) {
     return false;
   }
   const alertForDisplaying = [...alerts].sort(alertSeverityCompare)[0];

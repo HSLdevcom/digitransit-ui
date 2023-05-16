@@ -4,7 +4,6 @@ import React from 'react';
 import moment from 'moment';
 import { createFragmentContainer, graphql } from 'react-relay';
 import { intlShape } from 'react-intl';
-import { matchShape } from 'found';
 
 import AlertList from './AlertList';
 import {
@@ -22,18 +21,13 @@ import { AlertSeverityLevelType, AlertEntityType } from '../constants';
 const getCancelations = (
   route,
   entity,
-  patternId,
+  pattern,
   intl,
   currentTime,
   validityPeriod,
 ) =>
-  route.patterns
-    .filter(pattern => pattern.code === patternId)
-    .map(pattern =>
-      pattern.trips.filter(trip =>
-        tripHasCancelation(trip, currentTime, validityPeriod),
-      ),
-    )
+  pattern.trips
+    .filter(trip => tripHasCancelation(trip, currentTime, validityPeriod))
     .reduce((a, b) => a.concat(b), [])
     .sort(
       (a, b) =>
@@ -62,8 +56,10 @@ const getCancelations = (
       };
     });
 
-function RouteAlertsContainer({ currentTime, route }, { match, intl, config }) {
-  const { patternId } = match.params;
+function RouteAlertsContainer(
+  { currentTime, route, pattern },
+  { intl, config },
+) {
   const entity = {
     __typename: AlertEntityType.Route,
     color: route.color,
@@ -75,13 +71,13 @@ function RouteAlertsContainer({ currentTime, route }, { match, intl, config }) {
   const cancelations = getCancelations(
     route,
     entity,
-    patternId,
+    pattern,
     intl,
     currentTime,
     config.routeCancelationAlertValidity,
   );
 
-  const serviceAlerts = getAlertsForObject(route).map(alert =>
+  const serviceAlerts = getAlertsForObject(pattern).map(alert =>
     // We display all alerts as they would be for the route in this view
     setEntityForAlert(alert, entity),
   );
@@ -98,34 +94,26 @@ function RouteAlertsContainer({ currentTime, route }, { match, intl, config }) {
 RouteAlertsContainer.propTypes = {
   currentTime: PropTypes.number.isRequired,
   route: PropTypes.shape({
-    alerts: PropTypes.arrayOf(AlertShape).isRequired,
     color: PropTypes.string,
     type: PropTypes.number,
     mode: PropTypes.string.isRequired,
     shortName: PropTypes.string.isRequired,
     gtfsId: PropTypes.string.isRequired,
-    patterns: PropTypes.arrayOf(
+  }).isRequired,
+  pattern: PropTypes.shape({
+    alerts: PropTypes.arrayOf(AlertShape).isRequired,
+    trips: PropTypes.arrayOf(
       PropTypes.shape({
-        code: PropTypes.string,
-        stops: PropTypes.arrayOf(
+        tripHeadsign: PropTypes.string,
+        stoptimes: PropTypes.arrayOf(
           PropTypes.shape({
-            alerts: PropTypes.arrayOf(AlertShape).isRequired,
-          }),
-        ),
-        trips: PropTypes.arrayOf(
-          PropTypes.shape({
-            tripHeadsign: PropTypes.string,
-            stoptimes: PropTypes.arrayOf(
-              PropTypes.shape({
-                headsign: PropTypes.string,
-                realtimeState: PropTypes.string,
-                scheduledDeparture: PropTypes.number,
-                serviceDay: PropTypes.number,
-                stop: PropTypes.shape({
-                  name: PropTypes.string,
-                }).isRequired,
-              }),
-            ).isRequired,
+            headsign: PropTypes.string,
+            realtimeState: PropTypes.string,
+            scheduledDeparture: PropTypes.number,
+            serviceDay: PropTypes.number,
+            stop: PropTypes.shape({
+              name: PropTypes.string,
+            }).isRequired,
           }),
         ).isRequired,
       }),
@@ -134,7 +122,6 @@ RouteAlertsContainer.propTypes = {
 };
 
 RouteAlertsContainer.contextTypes = {
-  match: matchShape,
   intl: intlShape,
   config: PropTypes.shape({
     routeCancelationAlertValidity: PropTypes.shape({
@@ -150,14 +137,18 @@ const containerComponent = createFragmentContainer(
   })),
   {
     route: graphql`
-      fragment RouteAlertsContainer_route on Route
-      @argumentDefinitions(date: { type: "String" }) {
+      fragment RouteAlertsContainer_route on Route {
         color
         mode
         type
         shortName
         gtfsId
-        alerts(types: [ROUTE, STOPS_ON_ROUTE]) {
+      }
+    `,
+    pattern: graphql`
+      fragment RouteAlertsContainer_pattern on Pattern
+      @argumentDefinitions(date: { type: "String" }) {
+        alerts(types: [ROUTE, STOPS_ON_PATTERN]) {
           id
           alertDescriptionText
           alertHash
@@ -183,19 +174,16 @@ const containerComponent = createFragmentContainer(
             }
           }
         }
-        patterns {
-          code
-          trips: tripsForDate(serviceDate: $date) {
-            tripHeadsign
-            stoptimes: stoptimesForDate(serviceDate: $date) {
-              headsign
-              realtimeState
-              scheduledArrival
-              scheduledDeparture
-              serviceDay
-              stop {
-                name
-              }
+        trips: tripsForDate(serviceDate: $date) {
+          tripHeadsign
+          stoptimes: stoptimesForDate(serviceDate: $date) {
+            headsign
+            realtimeState
+            scheduledArrival
+            scheduledDeparture
+            serviceDay
+            stop {
+              name
             }
           }
         }
