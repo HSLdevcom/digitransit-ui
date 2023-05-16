@@ -13,27 +13,25 @@ describe('<RouteAlertsContainer />', () => {
       currentTime: 1558599526,
       route: {
         gtfsId: 'HSL:1063',
-        alerts: [],
         mode: 'BUS',
-        patterns: [
+        shortName: '63',
+      },
+      pattern: {
+        alerts: [],
+        code: 'HSL:1063:0:01',
+        trips: [
           {
-            code: 'HSL:1063:0:01',
-            trips: [
+            stoptimes: [
               {
-                stoptimes: [
-                  {
-                    headsign: 'Kamppi',
-                    realtimeState: 'SCHEDULED',
-                    stop: {
-                      name: 'Saramäentie',
-                    },
-                  },
-                ],
+                headsign: 'Kamppi',
+                realtimeState: 'SCHEDULED',
+                stop: {
+                  name: 'Saramäentie',
+                },
               },
             ],
           },
         ],
-        shortName: '63',
       },
     };
     const wrapper = shallowWithIntl(<RouteAlertsContainer {...props} />, {
@@ -49,84 +47,41 @@ describe('<RouteAlertsContainer />', () => {
     });
   });
 
-  it('should indicate that there are no alerts if there are canceled stoptimes but not for the current patternId', () => {
+  it('should indicate that there are cancelations if there are canceled stoptimes for the selected pattern', () => {
     const props = {
       currentTime: 1558599526,
       route: {
         gtfsId: 'HSL:1063',
-        alerts: [],
         mode: 'BUS',
-        patterns: [
+        shortName: '63',
+      },
+      pattern: {
+        alerts: [],
+        code: 'HSL:1063:0:01',
+        trips: [
           {
-            code: 'HSL:1063:0:01',
-            trips: [
+            stoptimes: [
               {
-                stoptimes: [
-                  {
-                    headsign: 'Kamppi',
-                    realtimeState: 'CANCELED',
-                    stop: {
-                      name: 'Saramäentie',
-                    },
-                  },
-                ],
+                headsign: 'Kamppi',
+                realtimeState: 'CANCELED',
+                stop: {
+                  name: 'Saramäentie',
+                },
+              },
+            ],
+          },
+          {
+            stoptimes: [
+              {
+                headsign: 'Kamppi',
+                realtimeState: 'SCHEDULED',
+                stop: {
+                  name: 'Saramäentie',
+                },
               },
             ],
           },
         ],
-        shortName: '63',
-      },
-    };
-    const wrapper = shallowWithIntl(<RouteAlertsContainer {...props} />, {
-      context: {
-        ...mockContext,
-        match: { params: { patternId: 'HSL:1063:0:02' } },
-      },
-    });
-    expect(wrapper.find(AlertList).props()).to.deep.equal({
-      cancelations: [],
-      serviceAlerts: [],
-      showLinks: false,
-    });
-  });
-
-  it('should indicate that there are cancelations if there are canceled stoptimes with the current patternId', () => {
-    const props = {
-      currentTime: 1558599526,
-      route: {
-        gtfsId: 'HSL:1063',
-        alerts: [],
-        mode: 'BUS',
-        patterns: [
-          {
-            code: 'HSL:1063:0:01',
-            trips: [
-              {
-                stoptimes: [
-                  {
-                    headsign: 'Kamppi',
-                    realtimeState: 'CANCELED',
-                    stop: {
-                      name: 'Saramäentie',
-                    },
-                  },
-                ],
-              },
-              {
-                stoptimes: [
-                  {
-                    headsign: 'Kamppi',
-                    realtimeState: 'SCHEDULED',
-                    stop: {
-                      name: 'Saramäentie',
-                    },
-                  },
-                ],
-              },
-            ],
-          },
-        ],
-        shortName: '63',
       },
     };
     const wrapper = shallowWithIntl(<RouteAlertsContainer {...props} />, {
@@ -143,6 +98,17 @@ describe('<RouteAlertsContainer />', () => {
       currentTime: 1558599526,
       route: {
         gtfsId: 'HSL:2335',
+        color: null,
+        mode: 'BUS',
+        patterns: [
+          {
+            code: 'HSL:2335:0:01',
+          },
+        ],
+        shortName: '335',
+      },
+      pattern: {
+        code: 'HSL:2335:0:01',
         alerts: [
           {
             alertHeaderText: null,
@@ -150,10 +116,7 @@ describe('<RouteAlertsContainer />', () => {
               'Vantaan sisäisen liikenteen linja 335 Linnaisista, klo 11:59 peruttu. Syy: tilapäinen häiriö.',
           },
         ],
-        color: null,
-        mode: 'BUS',
-        patterns: [],
-        shortName: '335',
+        trips: [],
       },
     };
     const wrapper = shallowWithIntl(<RouteAlertsContainer {...props} />, {
@@ -167,31 +130,29 @@ describe('<RouteAlertsContainer />', () => {
       currentTime: 1558599526,
       route: {
         gtfsId: 'HSL:1063',
-        alerts: [],
         mode: 'BUS',
-        patterns: [
+        shortName: '63',
+      },
+      pattern: {
+        alerts: [],
+        code: 'HSL:1063:0:01',
+        trips: [
           {
-            code: 'HSL:1063:0:01',
-            trips: [
+            tripHeadsign: 'foobar',
+            stoptimes: [
               {
-                tripHeadsign: 'foobar',
-                stoptimes: [
-                  {
-                    headsign: null,
-                    realtimeState: 'CANCELED',
-                    scheduledArrival: 1,
-                    scheduledDeparture: 2,
-                    serviceDay: 3,
-                    stop: {
-                      name: 'Saramäentie 11',
-                    },
-                  },
-                ],
+                headsign: null,
+                realtimeState: 'CANCELED',
+                scheduledArrival: 1,
+                scheduledDeparture: 2,
+                serviceDay: 3,
+                stop: {
+                  name: 'Saramäentie 11',
+                },
               },
             ],
           },
         ],
-        shortName: '63',
       },
     };
     const wrapper = shallowWithIntl(<RouteAlertsContainer {...props} />, {
