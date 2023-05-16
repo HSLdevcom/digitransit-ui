@@ -83,8 +83,8 @@ class RoutePage extends React.Component {
     const selectedPattern =
       patternId && route.patterns.find(p => p.code === patternId);
     const headsign = selectedPattern?.headsign;
-    const filteredAlerts = selectedPattern.alerts
-      .filter(alert => hasEntitiesOfType(alert, AlertEntityType.Route))
+    const filteredAlerts = selectedPattern?.alerts
+      ?.filter(alert => hasEntitiesOfType(alert, AlertEntityType.Route))
       .filter(alert => isAlertValid(alert, currentTime));
 
     return (
