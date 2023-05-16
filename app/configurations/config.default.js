@@ -46,6 +46,7 @@ export default {
     MAP: {
       default: `${MAP_URL}/map/${MAP_VERSION}/hsl-map/`,
       sv: `${MAP_URL}/map/${MAP_VERSION}/hsl-map-sv/`,
+      en: `${MAP_URL}/map/${MAP_VERSION}/hsl-map-en/`,
     },
     STOP_MAP: {
       default: `${POI_MAP_PREFIX}/fi/stops,stations/`,
