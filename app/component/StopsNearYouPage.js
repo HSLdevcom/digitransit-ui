@@ -84,6 +84,19 @@ class StopsNearYouPage extends React.Component {
     favouriteBikeStationIds: PropTypes.arrayOf(PropTypes.string),
     mapLayers: mapLayerShape.isRequired,
     favouritesFetched: PropTypes.bool,
+    originFromStore: PropTypes.shape({
+      address: PropTypes.string,
+      lat: PropTypes.number,
+      lon: PropTypes.number,
+    }),
+  };
+
+  static defaultProps = {
+    favouriteStopIds: [],
+    favouriteStationIds: [],
+    favouriteBikeStationIds: [],
+    favouritesFetched: false,
+    originFromStore: {},
   };
 
   constructor(props) {
@@ -114,18 +127,18 @@ class StopsNearYouPage extends React.Component {
       this.setState({ showCityBikeTeaser });
     }
     checkPositioningPermission().then(permission => {
-      const { origin, place } = this.props.match.params;
+      const { origin: matchParamsOrigin, place } = this.props.match.params;
       const savedPermission = getGeolocationState();
       const { state } = permission;
       const newState = {};
 
-      if (origin) {
-        newState.searchPosition = otpToLocation(origin);
+      if (matchParamsOrigin) {
+        newState.searchPosition = otpToLocation(matchParamsOrigin);
       } else {
         newState.searchPosition = this.context.config.defaultEndpoint;
       }
       if (savedPermission === 'unknown') {
-        if (!origin) {
+        if (!matchParamsOrigin) {
           // state = 'error' means no permission api, so we assume geolocation will work
           if (state === 'prompt' || state === 'granted' || state === 'error') {
             newState.phase = PH_SEARCH_GEOLOCATION;
@@ -143,7 +156,7 @@ class StopsNearYouPage extends React.Component {
         // reason to expect that geolocation will work
         newState.phase = PH_GEOLOCATIONING;
         this.context.executeAction(startLocationWatch);
-      } else if (origin) {
+      } else if (matchParamsOrigin) {
         newState.phase = PH_USEDEFAULTPOS;
       } else if (state === 'error') {
         // No permission api.
@@ -494,6 +507,7 @@ class StopsNearYouPage extends React.Component {
                       mode={nearByStopMode}
                       breakpoint={this.props.breakpoint}
                       lang={this.props.lang}
+                      origin={this.props.originFromStore}
                     />
                   )}
                   {this.state.showCityBikeTeaser &&
@@ -983,6 +997,7 @@ const PositioningWrapper = connectToStores(
         .map(station => station.stationId);
     }
     const status = context.getStore('FavouriteStore').getStatus();
+    const originFromStore = context.getStore('OriginStore').getOrigin();
     return {
       ...props,
       position: context.getStore('PositionStore').getLocationState(),
@@ -994,6 +1009,7 @@ const PositioningWrapper = connectToStores(
       favouriteBikeStationIds,
       favouriteStationIds,
       favouritesFetched: status !== FavouriteStore.STATUS_FETCHING_OR_UPDATING,
+      originFromStore,
     };
   },
 );
