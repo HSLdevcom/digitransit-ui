@@ -86,6 +86,13 @@ class StopsNearYouPage extends React.Component {
     favouritesFetched: PropTypes.bool,
   };
 
+  static defaultProps = {
+    favouriteStopIds: [],
+    favouriteStationIds: [],
+    favouriteBikeStationIds: [],
+    favouritesFetched: false,
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -114,18 +121,18 @@ class StopsNearYouPage extends React.Component {
       this.setState({ showCityBikeTeaser });
     }
     checkPositioningPermission().then(permission => {
-      const { origin, place } = this.props.match.params;
+      const { origin: matchParamsOrigin, place } = this.props.match.params;
       const savedPermission = getGeolocationState();
       const { state } = permission;
       const newState = {};
 
-      if (origin) {
-        newState.searchPosition = otpToLocation(origin);
+      if (matchParamsOrigin) {
+        newState.searchPosition = otpToLocation(matchParamsOrigin);
       } else {
         newState.searchPosition = this.context.config.defaultEndpoint;
       }
       if (savedPermission === 'unknown') {
-        if (!origin) {
+        if (!matchParamsOrigin) {
           // state = 'error' means no permission api, so we assume geolocation will work
           if (state === 'prompt' || state === 'granted' || state === 'error') {
             newState.phase = PH_SEARCH_GEOLOCATION;
@@ -143,7 +150,7 @@ class StopsNearYouPage extends React.Component {
         // reason to expect that geolocation will work
         newState.phase = PH_GEOLOCATIONING;
         this.context.executeAction(startLocationWatch);
-      } else if (origin) {
+      } else if (matchParamsOrigin) {
         newState.phase = PH_USEDEFAULTPOS;
       } else if (state === 'error') {
         // No permission api.
@@ -494,6 +501,7 @@ class StopsNearYouPage extends React.Component {
                       mode={nearByStopMode}
                       breakpoint={this.props.breakpoint}
                       lang={this.props.lang}
+                      origin={this.state.searchPosition}
                     />
                   )}
                   {this.state.showCityBikeTeaser &&

@@ -10,7 +10,10 @@ import { getStopRoutePath } from '../util/path';
 const DTAutoSuggestWithSearchContext = withSearchContext(DTAutoSuggest);
 const searchSources = ['Favourite', 'History', 'Datasource'];
 
-function StopsNearYouSearch({ mode, breakpoint, lang }, { router, config }) {
+function StopsNearYouSearch(
+  { mode, breakpoint, lang, originLocation },
+  { router, config },
+) {
   const isMobile = breakpoint !== 'large';
   const transportMode = `route-${mode}`;
 
@@ -30,7 +33,7 @@ function StopsNearYouSearch({ mode, breakpoint, lang }, { router, config }) {
           icon="search"
           id="stop-route-station"
           lang={lang}
-          refPoint={origin}
+          refPoint={originLocation}
           className="destination"
           placeholder={`stop-near-you-${mode.toLowerCase()}`}
           transportMode={transportMode}
@@ -56,6 +59,15 @@ StopsNearYouSearch.propTypes = {
   mode: PropTypes.string.isRequired,
   breakpoint: PropTypes.string.isRequired,
   lang: PropTypes.string.isRequired,
+  originLocation: PropTypes.shape({
+    address: PropTypes.string,
+    lat: PropTypes.number,
+    lon: PropTypes.number,
+  }),
+};
+
+StopsNearYouSearch.defaultProps = {
+  originLocation: {},
 };
 
 StopsNearYouSearch.contextTypes = {
