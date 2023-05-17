@@ -1819,11 +1819,11 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digitransit-component/digitransit-component-autosuggest-panel@^2.0.1, @digitransit-component/digitransit-component-autosuggest-panel@workspace:digitransit-component/packages/digitransit-component-autosuggest-panel":
+"@digitransit-component/digitransit-component-autosuggest-panel@^2.0.2, @digitransit-component/digitransit-component-autosuggest-panel@workspace:digitransit-component/packages/digitransit-component-autosuggest-panel":
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-autosuggest-panel@workspace:digitransit-component/packages/digitransit-component-autosuggest-panel"
   peerDependencies:
-    "@digitransit-component/digitransit-component-autosuggest": ^1.9.5
+    "@digitransit-component/digitransit-component-autosuggest": ^1.9.6
     "@digitransit-component/digitransit-component-icon": ^0.2.0
     "@hsl-fi/sass": ^0.2.0
     classnames: 2.2.6
@@ -1839,7 +1839,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digitransit-component/digitransit-component-autosuggest@^1.9.5, @digitransit-component/digitransit-component-autosuggest@workspace:digitransit-component/packages/digitransit-component-autosuggest":
+"@digitransit-component/digitransit-component-autosuggest@^1.9.6, @digitransit-component/digitransit-component-autosuggest@workspace:digitransit-component/packages/digitransit-component-autosuggest":
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-autosuggest@workspace:digitransit-component/packages/digitransit-component-autosuggest"
   dependencies:
@@ -2016,8 +2016,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component@workspace:digitransit-component/packages/digitransit-component"
   dependencies:
-    "@digitransit-component/digitransit-component-autosuggest": ^1.9.5
-    "@digitransit-component/digitransit-component-autosuggest-panel": ^2.0.1
+    "@digitransit-component/digitransit-component-autosuggest": ^1.9.6
+    "@digitransit-component/digitransit-component-autosuggest-panel": ^2.0.2
     "@digitransit-component/digitransit-component-control-panel": ^1.1.1
     "@digitransit-component/digitransit-component-favourite-bar": 1.1.1
     "@digitransit-component/digitransit-component-favourite-editing-modal": ^1.1.2

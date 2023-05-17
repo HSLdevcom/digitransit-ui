@@ -84,11 +84,6 @@ class StopsNearYouPage extends React.Component {
     favouriteBikeStationIds: PropTypes.arrayOf(PropTypes.string),
     mapLayers: mapLayerShape.isRequired,
     favouritesFetched: PropTypes.bool,
-    originFromStore: PropTypes.shape({
-      address: PropTypes.string,
-      lat: PropTypes.number,
-      lon: PropTypes.number,
-    }),
   };
 
   static defaultProps = {
@@ -96,7 +91,6 @@ class StopsNearYouPage extends React.Component {
     favouriteStationIds: [],
     favouriteBikeStationIds: [],
     favouritesFetched: false,
-    originFromStore: {},
   };
 
   constructor(props) {
@@ -507,7 +501,7 @@ class StopsNearYouPage extends React.Component {
                       mode={nearByStopMode}
                       breakpoint={this.props.breakpoint}
                       lang={this.props.lang}
-                      origin={this.props.originFromStore}
+                      origin={this.state.searchPosition}
                     />
                   )}
                   {this.state.showCityBikeTeaser &&
@@ -997,7 +991,6 @@ const PositioningWrapper = connectToStores(
         .map(station => station.stationId);
     }
     const status = context.getStore('FavouriteStore').getStatus();
-    const originFromStore = context.getStore('OriginStore').getOrigin();
     return {
       ...props,
       position: context.getStore('PositionStore').getLocationState(),
@@ -1009,7 +1002,6 @@ const PositioningWrapper = connectToStores(
       favouriteBikeStationIds,
       favouriteStationIds,
       favouritesFetched: status !== FavouriteStore.STATUS_FETCHING_OR_UPDATING,
-      originFromStore,
     };
   },
 );
