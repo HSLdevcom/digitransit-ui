@@ -11,12 +11,7 @@ import Icon from './Icon';
 import MessageBarMessage from './MessageBarMessage';
 import { markMessageAsRead } from '../action/MessageActions';
 import { getReadMessageIds } from '../store/localStorage';
-import {
-  getServiceAlertDescription,
-  getServiceAlertHeader,
-  getServiceAlertUrl,
-  mapAlertSource,
-} from '../util/alertUtils';
+import { mapAlertSource } from '../util/alertUtils';
 import { isKeyboardSelectionEvent } from '../util/browser';
 import hashCode from '../util/hashUtil';
 
@@ -38,18 +33,6 @@ const fetchServiceAlerts = async (feedids, relayEnvironment) => {
         alertUrl
         effectiveEndDate
         effectiveStartDate
-        alertDescriptionTextTranslations {
-          language
-          text
-        }
-        alertHeaderTextTranslations {
-          language
-          text
-        }
-        alertUrlTranslations {
-          language
-          text
-        }
       }
     }
   `;
@@ -70,52 +53,26 @@ export const getServiceAlertId = alert =>
      ${alert.feed}`,
   );
 
-const toMessage = (alert, intl, config) => {
-  const source = {
-    en: mapAlertSource(config, 'en', alert.feed),
-    fi: mapAlertSource(config, 'fi', alert.feed),
-    sv: mapAlertSource(config, 'sv', alert.feed),
-  };
+const toMessage = (alert, intl, config, lang) => {
+  const source = mapAlertSource(config, lang, alert.feed);
+  const content = {};
+  content[lang] = [
+    {
+      type: 'heading',
+      content: source
+        ? source.concat(alert.alertHeaderText)
+        : alert.alertHeaderText,
+    },
+    { type: 'text', content: alert.alertDescriptionText },
+    {
+      type: 'a',
+      content: intl.formatMessage({ id: 'extra-info' }),
+      href: alert.alertUrl,
+    },
+  ];
 
   return {
-    content: {
-      en: [
-        {
-          type: 'heading',
-          content: source.en.concat(getServiceAlertHeader(alert, 'en')),
-        },
-        { type: 'text', content: getServiceAlertDescription(alert, 'en') },
-        {
-          type: 'a',
-          content: intl.formatMessage({ id: 'extra-info' }),
-          href: getServiceAlertUrl(alert, 'en'),
-        },
-      ],
-      fi: [
-        {
-          type: 'heading',
-          content: source.fi.concat(getServiceAlertHeader(alert, 'fi')),
-        },
-        { type: 'text', content: getServiceAlertDescription(alert, 'fi') },
-        {
-          type: 'a',
-          content: intl.formatMessage({ id: 'extra-info' }),
-          href: getServiceAlertUrl(alert, 'fi'),
-        },
-      ],
-      sv: [
-        {
-          type: 'heading',
-          content: source.sv.concat(getServiceAlertHeader(alert, 'sv')),
-        },
-        { type: 'text', content: getServiceAlertDescription(alert, 'sv') },
-        {
-          type: 'a',
-          content: intl.formatMessage({ id: 'extra-info' }),
-          href: getServiceAlertUrl(alert, 'sv'),
-        },
-      ],
-    },
+    content,
     icon: 'caution',
     id: getServiceAlertId(alert),
     persistence: 'repeat',
@@ -223,7 +180,9 @@ class MessageBar extends Component {
     );
     const { lang, messages } = this.props;
     return [
-      ...filteredServiceAlerts.map(alert => toMessage(alert, intl, config)),
+      ...filteredServiceAlerts.map(alert =>
+        toMessage(alert, intl, config, lang),
+      ),
       ...messages,
     ].filter(el => {
       if (

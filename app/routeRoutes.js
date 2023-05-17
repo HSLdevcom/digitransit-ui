@@ -413,10 +413,14 @@ export default function routeRoutes(config) {
               query={graphql`
                 query routeRoutes_RouteAlertsContainer_Query(
                   $routeId: String!
+                  $patternId: String!
                   $date: String!
                 ) {
                   route(id: $routeId) {
-                    ...RouteAlertsContainer_route @arguments(date: $date)
+                    ...RouteAlertsContainer_route
+                  }
+                  pattern(id: $patternId) {
+                    ...RouteAlertsContainer_pattern @arguments(date: $date)
                   }
                 }
               `}

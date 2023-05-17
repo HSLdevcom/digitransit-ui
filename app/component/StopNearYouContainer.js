@@ -20,9 +20,9 @@ const containerComponent = createRefetchContainer(
         alerts {
           alertSeverityLevel
           alertDescriptionText
-          alertDescriptionTextTranslations {
-            text
-            language
+          alertHeaderText
+          entities {
+            __typename
           }
         }
         zoneId
@@ -77,10 +77,6 @@ const containerComponent = createRefetchContainer(
           alerts {
             alertSeverityLevel
             alertDescriptionText
-            alertDescriptionTextTranslations {
-              text
-              language
-            }
           }
           stoptimesWithoutPatterns(
             startTime: $startTime

@@ -593,29 +593,7 @@ $margin-left-right: 21.3px;
   }
 }
 
-// Schedule or alert list
-.route-schedule-content-wrapper,
-.route-alerts-content-wrapper {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  background: $white;
-  padding: 0 20px 0 20px;
-  &.bp-large {
-    padding: 0 3.5rem 0 3.5rem;
-  }
-
-  @media print {
-    display: block;
-  }
-
-  .route-page-control-panel-container {
-    padding: 10px 20px 0;
-  }
-}
-
-.route-schedule-list-wrapper,
-.route-alerts-list-wrapper {
+.route-schedule-list-wrapper {
   margin-top: 14px;
   &.bp-large {
     flex: 1;
@@ -1295,112 +1273,6 @@ $margin-left-right: 21.3px;
   }
   @media print {
     display: none;
-  }
-}
-
-.route-alerts-list {
-  background: $white;
-  padding-bottom: 0.7em;
-  flex: 1;
-  flex-basis: 0;
-
-  &.bp-large {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .route-alert-row {
-    display: flex;
-    padding: 0.8em 0.8em 0.8em 0.8em;
-    position: relative;
-
-    .icon.stop-disruption {
-      width: 2em;
-      color: #fff;
-      &.warning {
-        fill: $disruption-color;
-      }
-      &.info {
-        fill: $gray-blue;
-      }
-    }
-
-    .route-alert-row-link {
-      display: contents;
-      padding-right: 1px;
-      padding-left: 1px;
-    }
-    + .route-alert-row {
-      border-top: 1px solid $light-gray;
-    }
-    .route-alert-contents {
-      flex-grow: 1;
-      vertical-align: bottom;
-
-      .route-alert-top-row {
-        display: inline-flex;
-        align-items: center;
-        font-size: 15px;
-        .route-alert-entityid {
-          font-family: $font-family-narrow;
-          font-size: 21px;
-          font-weight: $font-weight-medium;
-          margin-right: 15px;
-        }
-      }
-    }
-
-    .route-number {
-      padding-top: 0.2em;
-      padding-right: 0.8em;
-      flex-shrink: 0;
-
-      .icon {
-        width: 2.5em;
-        height: 2.5em;
-        position: relative;
-        .subicon-info,
-        .subicon-caution {
-          bottom: -5px;
-          left: -5px;
-          .icon {
-            height: 1.5em;
-            width: 1.5em;
-          }
-        }
-      }
-      .vehicle-number {
-        margin-top: -0.3em;
-        font-size: $font-size-xsmall;
-      }
-    }
-
-    .route-alert-body {
-      font-size: $font-size-small;
-      font-weight: 200;
-
-      .route-alert-url {
-        color: $primary-color;
-        margin-left: 5px;
-
-        .external-link {
-          color: $primary-color;
-        }
-      }
-    }
-
-    &.expired {
-      filter: grayscale(1);
-
-      .route-number {
-        filter: brightness(1.5);
-      }
-
-      .caution {
-        filter: contrast(0.6) brightness(1.5);
-      }
-    }
   }
 }
 

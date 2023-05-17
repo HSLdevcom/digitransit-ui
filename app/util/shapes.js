@@ -43,36 +43,19 @@ export const FareShape = PropTypes.shape({
   ticketName: PropTypes.string,
 });
 
-/**
- * Describes the type information for an OTP Service Alert object.
- */
-export const ServiceAlertShape = PropTypes.shape({
+export const AlertShape = PropTypes.shape({
   alertDescriptionText: PropTypes.string,
-  alertDescriptionTextTranslations: PropTypes.arrayOf(
-    PropTypes.shape({
-      language: PropTypes.string,
-      text: PropTypes.string,
-    }),
-  ),
-  alertHash: PropTypes.number,
-  alertHeaderText: PropTypes.string,
-  alertHeaderTextTranslations: PropTypes.arrayOf(
-    PropTypes.shape({
-      language: PropTypes.string,
-      text: PropTypes.string,
-    }),
-  ),
-  alertSeverityLevel: PropTypes.string,
   effectiveEndDate: PropTypes.number,
   effectiveStartDate: PropTypes.number,
-});
-
-export const PatternShape = PropTypes.shape({
-  code: PropTypes.string.isRequired,
-  route: PropTypes.shape({
-    mode: PropTypes.string,
-    type: PropTypes.number,
-  }),
+  alertHash: PropTypes.number,
+  alertHeaderText: PropTypes.string,
+  alertSeverityLevel: PropTypes.string,
+  alertUrl: PropTypes.string,
+  entities: PropTypes.arrayOf(
+    PropTypes.shape({
+      __typename: PropTypes.string.isRequired,
+    }),
+  ),
 });
 
 export const RouteShape = PropTypes.shape({
@@ -82,7 +65,7 @@ export const RouteShape = PropTypes.shape({
   longName: PropTypes.string,
   color: PropTypes.string,
   type: PropTypes.number,
-  alerts: PropTypes.arrayOf(ServiceAlertShape),
+  alerts: PropTypes.arrayOf(AlertShape),
 });
 
 export const VehicleShape = PropTypes.shape({

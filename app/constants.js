@@ -77,22 +77,19 @@ export const AlertSeverityLevelType = Object.freeze({
 });
 
 /**
- * AlertEffectType is used to describe the kind of effect that the alert has on
- * the related entity.
- *
- * see: https://developers.google.com/transit/gtfs-realtime/guides/service-alerts
+ * AlertEntityType is an OTP enum for different entity selector
+ * types on GTFS RT service alerts.
  */
-export const AlertEffectType = Object.freeze({
-  AdditionalService: 'ADDITIONAL_SERVICE',
-  Detour: 'DETOUR',
-  ModifiedService: 'MODIFIED_SERVICE',
-  NoEffect: 'NO_EFFECT',
-  NoService: 'NO_SERVICE',
-  OtherEffect: 'OTHER_EFFECT',
-  ReducedService: 'REDUCED_SERVICE',
-  SignificantDelays: 'SIGNIFICANT_DELAYS',
-  StopMoved: 'STOP_MOVED',
-  Unknown: 'UNKNOWN_EFFECT',
+export const AlertEntityType = Object.freeze({
+  Agency: 'Agency',
+  Route: 'Route',
+  Pattern: 'Pattern',
+  Stop: 'Stop',
+  Trip: 'Trip',
+  StopOnRoute: 'StopOnRoute',
+  StopOnTrip: 'StopOnTrip',
+  RouteType: 'RouteType',
+  Unknown: 'Unknown',
 });
 
 export const ExtendedRouteTypes = Object.freeze({

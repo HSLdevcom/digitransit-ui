@@ -387,6 +387,7 @@ const withRelay = createFragmentContainer(
               mode
               type
               gtfsId
+              color
             }
             from {
               stop {
@@ -442,19 +443,12 @@ const withRelay = createFragmentContainer(
                 effectiveEndDate
                 effectiveStartDate
                 alertHeaderText
-                alertHeaderTextTranslations {
-                  text
-                  language
-                }
                 alertDescriptionText
-                alertDescriptionTextTranslations {
-                  text
-                  language
-                }
-                alertUrl
-                alertUrlTranslations {
-                  text
-                  language
+                entities {
+                  __typename
+                  ... on Stop {
+                    gtfsId
+                  }
                 }
               }
             }
@@ -482,23 +476,13 @@ const withRelay = createFragmentContainer(
                 alertSeverityLevel
                 effectiveEndDate
                 effectiveStartDate
-                alertSeverityLevel
-                effectiveEndDate
-                effectiveStartDate
                 alertHeaderText
-                alertHeaderTextTranslations {
-                  text
-                  language
-                }
                 alertDescriptionText
-                alertDescriptionTextTranslations {
-                  text
-                  language
-                }
-                alertUrl
-                alertUrlTranslations {
-                  text
-                  language
+                entities {
+                  __typename
+                  ... on Stop {
+                    gtfsId
+                  }
                 }
               }
             }
@@ -555,28 +539,13 @@ const withRelay = createFragmentContainer(
               alertSeverityLevel
               effectiveEndDate
               effectiveStartDate
+              alertHeaderText
+              alertDescriptionText
               entities {
                 __typename
                 ... on Route {
-                  patterns {
-                    code
-                  }
+                  gtfsId
                 }
-              }
-              alertHeaderText
-              alertHeaderTextTranslations {
-                text
-                language
-              }
-              alertDescriptionText
-              alertDescriptionTextTranslations {
-                text
-                language
-              }
-              alertUrl
-              alertUrlTranslations {
-                text
-                language
               }
             }
           }

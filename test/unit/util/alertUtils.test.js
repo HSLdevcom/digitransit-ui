@@ -1,107 +1,11 @@
 import {
-  AlertEffectType,
   AlertSeverityLevelType,
   RealtimeStateType,
+  AlertEntityType,
 } from '../../../app/constants';
-import { disruptions, serviceAlerts } from '../test-data/dt3138';
 import * as utils from '../../../app/util/alertUtils';
 
 describe('alertUtils', () => {
-  describe('routeHasServiceAlert', () => {
-    it('should return false if route is undefined', () => {
-      expect(utils.routeHasServiceAlert(undefined)).to.equal(false);
-    });
-
-    it('should return false if route has no array "alerts"', () => {
-      expect(utils.routeHasServiceAlert({ alerts: undefined })).to.equal(false);
-    });
-
-    it('should return false if route has an empty alerts array', () => {
-      expect(utils.routeHasServiceAlert({ alerts: [] })).to.equal(false);
-    });
-
-    it('should return true if route has a non-empty alerts array', () => {
-      expect(utils.routeHasServiceAlert({ alerts: [{}] })).to.equal(true);
-    });
-
-    it('should optionally filter by the given patternId', () => {
-      const patternId = 'foo';
-      const alerts = [
-        {
-          entities: [
-            {
-              __typename: 'Route',
-              patterns: [
-                {
-                  code: patternId,
-                },
-              ],
-            },
-          ],
-        },
-      ];
-      expect(utils.routeHasServiceAlert({ alerts }, patternId)).to.equal(true);
-      expect(utils.routeHasServiceAlert({ alerts }, 'bar')).to.equal(false);
-    });
-
-    it('should ignore missing trip information when filtering by patternId', () => {
-      const patternId = 'foo';
-      const alerts = [
-        {
-          hash: 'mock',
-        },
-      ];
-      expect(utils.routeHasServiceAlert({ alerts }, patternId)).to.equal(true);
-    });
-
-    it('should not ignore missing pattern and code information when filtering by patternId', () => {
-      const patternId = 'foo';
-      const alerts = [
-        {
-          entities: [
-            {
-              __typename: 'Route',
-              patterns: [
-                {
-                  code: 'not-match',
-                },
-              ],
-            },
-            {
-              __typename: 'Route',
-              patterns: [{}],
-            },
-          ],
-        },
-        {
-          entities: [
-            {
-              __typename: 'Route',
-              patterns: [
-                {
-                  code: undefined,
-                },
-              ],
-            },
-          ],
-        },
-      ];
-      expect(utils.routeHasServiceAlert({ alerts }, patternId)).to.equal(false);
-    });
-  });
-
-  describe('patternHasServiceAlert', () => {
-    it('should return false if pattern is undefined', () => {
-      expect(utils.patternHasServiceAlert(undefined)).to.equal(false);
-    });
-
-    it('should return true if the route related to the pattern has a non-empty alerts array', () => {
-      expect(
-        utils.patternHasServiceAlert({ route: { alerts: [{}] } }),
-      ).to.equal(true);
-    });
-  });
-
   describe('stoptimeHasCancelation', () => {
     it('should return false if stoptime is undefined', () => {
       expect(utils.stoptimeHasCancelation(undefined)).to.equal(false);
@@ -218,82 +122,6 @@ describe('alertUtils', () => {
     });
   });
 
-  describe('patternHasCancelation', () => {
-    it('should return false if pattern is undefined', () => {
-      expect(utils.patternHasCancelation(undefined)).to.equal(false);
-    });
-
-    it('should return false if pattern has no array "trips"', () => {
-      expect(utils.patternHasCancelation({ trips: undefined })).to.equal(false);
-    });
-
-    it('should return true if one of the trips has been canceled', () => {
-      const pattern = {
-        trips: [
-          {
-            stoptimes: [
-              {
-                realtimeState: 'CANCELED',
-              },
-            ],
-          },
-        ],
-      };
-      expect(utils.patternHasCancelation(pattern)).to.equal(true);
-    });
-  });
-
-  describe('routeHasCancelation', () => {
-    it('should return false if route is undefined', () => {
-      expect(utils.routeHasCancelation(undefined)).to.equal(false);
-    });
-
-    it('should return false if route has no array "patterns"', () => {
-      expect(utils.routeHasCancelation({ patterns: undefined })).to.equal(
-        false,
-      );
-    });
-
-    it('should return true if one of the patterns has been canceled', () => {
-      const route = {
-        patterns: [
-          {
-            trips: [
-              {
-                stoptimes: [
-                  {
-                    realtimeState: 'CANCELED',
-                  },
-                ],
-              },
-            ],
-          },
-        ],
-      };
-      expect(utils.routeHasCancelation(route)).to.equal(true);
-    });
-
-    it('should return true if a matching pattern has been canceled', () => {
-      const route = {
-        patterns: [
-          {
-            code: 'foo',
-            trips: [
-              {
-                stoptimes: [
-                  {
-                    realtimeState: 'CANCELED',
-                  },
-                ],
-              },
-            ],
-          },
-        ],
-      };
-      expect(utils.routeHasCancelation(route, 'foo')).to.equal(true);
-    });
-  });
-
   describe('legHasCancelation', () => {
     it('should return false if leg is falsy', () => {
       expect(utils.legHasCancelation(undefined)).to.equal(false);
@@ -345,216 +173,6 @@ describe('alertUtils', () => {
           ],
         }),
       ).to.equal(true);
-    });
-  });
-
-  describe('getServiceAlertHeader', () => {
-    it('should return an empty string if there are no translations and no alertHeaderText', () => {
-      expect(utils.getServiceAlertHeader({})).to.equal('');
-      expect(
-        utils.getServiceAlertHeader({
-          alertHeaderTextTranslations: [],
-        }),
-      ).to.equal('');
-    });
-
-    it('should return alertHeaderText if there are no translations', () => {
-      const alert = {
-        alertHeaderText: 'foo',
-      };
-      expect(utils.getServiceAlertHeader(alert)).to.equal('foo');
-    });
-
-    it('should return a matching translation', () => {
-      const alert = {
-        alertHeaderTextTranslations: [
-          {
-            language: 'fi',
-            text: 'Testi',
-          },
-        ],
-      };
-      expect(utils.getServiceAlertHeader(alert, 'fi')).to.equal('Testi');
-    });
-
-    it('should return the English translation if no other matches are found', () => {
-      const alert = {
-        alertHeaderTextTranslations: [
-          {
-            language: 'en',
-            text: 'Test',
-          },
-          {
-            language: 'fi',
-            text: 'Testi',
-          },
-        ],
-      };
-      expect(utils.getServiceAlertHeader(alert, 'sv')).to.equal('Test');
-    });
-
-    it('should return the "multi-language translation" if no direct matches are found', () => {
-      const alert = {
-        alertHeaderTextTranslations: [
-          {
-            text: 'Testi/Test',
-          },
-          {
-            text: 'Test',
-            language: 'en',
-          },
-        ],
-      };
-      expect(utils.getServiceAlertHeader(alert, 'fi')).to.equal('Testi/Test');
-    });
-  });
-
-  describe('getServiceAlertDescription', () => {
-    it('should return an empty string if there are no translations and no alertDescriptionText', () => {
-      const alert = {};
-      expect(utils.getServiceAlertDescription(alert)).to.equal('');
-    });
-
-    it('should return alertDescriptionText if there are no translations', () => {
-      const alert = {
-        alertDescriptionText: 'foo',
-      };
-      expect(utils.getServiceAlertDescription(alert)).to.equal('foo');
-    });
-  });
-
-  describe('getServiceAlertUrl', () => {
-    it('should return an empty string if there are no translations and no alertUrl', () => {
-      const alert = {};
-      expect(utils.getServiceAlertUrl(alert)).to.equal('');
-    });
-
-    it('should return alertUrl if there are no translations', () => {
-      const alert = {
-        alertUrl: 'foo',
-      };
-      expect(utils.getServiceAlertUrl(alert)).to.equal('foo');
-    });
-
-    it('should return the localized alertUrl', () => {
-      const alert = {
-        alertUrlTranslations: [
-          {
-            text: 'bar',
-            language: 'en',
-          },
-        ],
-      };
-      expect(utils.getServiceAlertUrl(alert)).to.equal('bar');
-    });
-  });
-
-  describe('getServiceAlertsForRoute', () => {
-    it('should return an empty array if the route does not exist', () => {
-      expect(utils.getServiceAlertsForRoute(undefined)).to.deep.equal([]);
-    });
-
-    it('should return an empty array if the route has no array "alerts"', () => {
-      expect(
-        utils.getServiceAlertsForRoute({ alerts: undefined }),
-      ).to.deep.equal([]);
-    });
-
-    it('should return mapped alerts for the given route', () => {
-      const route = {
-        alerts: [
-          {
-            alertDescriptionText:
-              'Pysäkki Rantatie (1007) toistaiseksi pois käytöstä työmaan vuoksi.',
-            alertDescriptionTextTranslations: [
-              {
-                language: 'fi',
-                text:
-                  'Pysäkki Rantatie (1007) toistaiseksi pois käytöstä työmaan vuoksi.',
-              },
-              {
-                language: 'en',
-                text:
-                  'Stop Rantatie (1007) is temporarily out of use due to a construction site',
-              },
-            ],
-            alertHash: 123456789,
-            alertHeaderText:
-              'Pysäkki Rantatie (1007) toistaiseksi pois käytöstä',
-            alertHeaderTextTranslations: [
-              {
-                language: 'fi',
-                text: 'Pysäkki Rantatie (1007) toistaiseksi pois käytöstä',
-              },
-              {
-                language: 'en',
-                text: 'Stop Rantatie (1007) is temporarily out of use',
-              },
-            ],
-            alertSeverityLevel: 'foo',
-            alertUrl: 'https://www.hsl.fi',
-            alertUrlTranslations: [
-              {
-                language: 'fi',
-                text: 'https://www.hsl.fi',
-              },
-              {
-                language: 'en',
-                text: 'https://www.hsl.fi/en',
-              },
-            ],
-            effectiveEndDate: 1577829548,
-            effectiveStartDate: 1543183208,
-          },
-        ],
-        color: 'pink',
-        mode: 'BUS',
-        type: 700,
-        shortName: 'foobar',
-        gtfsId: 'foo: 1',
-      };
-      expect(utils.getServiceAlertsForRoute(route)).to.deep.equal([
-        {
-          description:
-            'Stop Rantatie (1007) is temporarily out of use due to a construction site',
-          hash: 123456789,
-          header: 'Stop Rantatie (1007) is temporarily out of use',
-          route: {
-            color: 'pink',
-            mode: 'BUS',
-            shortName: 'foobar',
-            gtfsId: 'foo: 1',
-            type: 700,
-          },
-          stop: {
-            gtfsId: undefined,
-          },
-          severityLevel: 'foo',
-          url: 'https://www.hsl.fi/en',
-          validityPeriod: {
-            endTime: 1577829548,
-            startTime: 1543183208,
-          },
-        },
-      ]);
-    });
-  });
-
-  describe('stopHasServiceAlert', () => {
-    it('should return false if stop is undefined', () => {
-      expect(utils.stopHasServiceAlert(undefined)).to.equal(false);
-    });
-
-    it('should return false if stop has no array "alerts"', () => {
-      expect(utils.stopHasServiceAlert({ alerts: undefined })).to.equal(false);
-    });
-
-    it('should return false if stop has an empty alerts array', () => {
-      expect(utils.stopHasServiceAlert({ alerts: [] })).to.equal(false);
-    });
-
-    it('should return true if stop has a non-empty alerts array', () => {
-      expect(utils.stopHasServiceAlert({ alerts: [{}] })).to.equal(true);
     });
   });
 
@@ -613,89 +231,17 @@ describe('alertUtils', () => {
         AlertSeverityLevelType.Info,
       );
     });
-
-    it('should fall back to field "severityLevel" if "alertSeverityLevel" is missing', () => {
-      const alerts = [
-        { alertSeverityLevel: AlertSeverityLevelType.Info },
-        { severityLevel: AlertSeverityLevelType.Warning },
-      ];
-      expect(utils.getMaximumAlertSeverityLevel(alerts)).to.equal(
-        AlertSeverityLevelType.Warning,
-      );
-    });
-  });
-
-  describe('getMaximumAlertEffect', () => {
-    it('should return undefined if the alerts array is not an array', () => {
-      expect(utils.getMaximumAlertEffect(undefined)).to.equal(undefined);
-    });
-
-    it('should return undefined if the alerts array is empty', () => {
-      expect(utils.getMaximumAlertEffect([])).to.equal(undefined);
-    });
-
-    it('should return undefined if the effect cannot be determined', () => {
-      expect(utils.getMaximumAlertEffect([{ foo: 'bar' }])).to.equal(undefined);
-    });
-
-    it('should ignore alerts that are missing an effect', () => {
-      const alerts = [
-        { foo: 'bar' },
-        { alertEffect: AlertEffectType.NoService },
-        { foo: 'baz' },
-      ];
-      expect(utils.getMaximumAlertEffect(alerts)).to.equal(
-        AlertEffectType.NoService,
-      );
-    });
-
-    it('should prioritize no service over everything else', () => {
-      const alerts = [
-        { alertEffect: AlertEffectType.AdditionalService },
-        { alertEffect: AlertEffectType.Detour },
-        { alertEffect: AlertEffectType.ModifiedService },
-        { alertEffect: AlertEffectType.NoEffect },
-        { alertEffect: AlertEffectType.NoService },
-        { alertEffect: AlertEffectType.OtherEffect },
-        { alertEffect: AlertEffectType.ReducedService },
-        { alertEffect: AlertEffectType.SignificantDelays },
-        { alertEffect: AlertEffectType.StopMoved },
-        { alertEffect: AlertEffectType.Unknown },
-      ];
-      expect(utils.getMaximumAlertEffect(alerts)).to.equal(
-        AlertEffectType.NoService,
-      );
-    });
-
-    it('should return unknown if there are no alerts with the effect of no service', () => {
-      const alerts = [
-        { alertEffect: AlertEffectType.AdditionalService },
-        { alertEffect: AlertEffectType.Detour },
-        { alertEffect: AlertEffectType.ModifiedService },
-        { alertEffect: AlertEffectType.NoEffect },
-        { alertEffect: AlertEffectType.OtherEffect },
-        { alertEffect: AlertEffectType.ReducedService },
-        { alertEffect: AlertEffectType.SignificantDelays },
-        { alertEffect: AlertEffectType.StopMoved },
-        { alertEffect: AlertEffectType.Unknown },
-      ];
-      expect(utils.getMaximumAlertEffect(alerts)).to.equal(
-        AlertEffectType.Unknown,
-      );
-    });
   });
 
   describe('isAlertValid', () => {
     it('should mark an alert missing its validity period as valid', () => {
-      expect(utils.isAlertValid({ validityPeriod: undefined }, 1)).to.equal(
-        true,
-      );
+      expect(utils.isAlertValid({}, 1)).to.equal(true);
     });
 
     it('should mark an alert missing its validity start and end times as valid', () => {
       expect(
         utils.isAlertValid(
-          { validityPeriod: { startTime: null, endTime: null } },
+          { effectiveStartDate: null, effectiveEndDate: null },
           1000,
         ),
       ).to.equal(true);
@@ -704,7 +250,7 @@ describe('alertUtils', () => {
     it('should mark an alert in the past as invalid', () => {
       expect(
         utils.isAlertValid(
-          { validityPeriod: { startTime: 1000, endTime: 2000 } },
+          { effectiveStartDate: 1000, effectiveEndDate: 2000 },
           2500,
         ),
       ).to.equal(false);
@@ -713,7 +259,7 @@ describe('alertUtils', () => {
     it('should mark a current alert as valid', () => {
       expect(
         utils.isAlertValid(
-          { validityPeriod: { startTime: 1000, endTime: 2000 } },
+          { effectiveStartDate: 1000, effectiveEndDate: 2000 },
           1500,
         ),
       ).to.equal(true);
@@ -721,7 +267,7 @@ describe('alertUtils', () => {
 
     it('should mark a current alert within DEFAULT_VALIDITY period as valid', () => {
       expect(
-        utils.isAlertValid({ validityPeriod: { startTime: 1000 } }, 1100, {
+        utils.isAlertValid({ effectiveStartDate: 1000 }, 1100, {
           defaultValidity: 200,
         }),
       ).to.equal(true);
@@ -729,7 +275,7 @@ describe('alertUtils', () => {
 
     it('should mark an alert after the DEFAULT_VALIDITY period as invalid', () => {
       expect(
-        utils.isAlertValid({ validityPeriod: { startTime: 1000 } }, 1300, {
+        utils.isAlertValid({ effectiveStartDate: 1000 }, 1300, {
           defaultValidity: 200,
         }),
       ).to.equal(false);
@@ -738,7 +284,7 @@ describe('alertUtils', () => {
     it('should mark an alert in the future as invalid', () => {
       expect(
         utils.isAlertValid(
-          { validityPeriod: { startTime: 1000, endTime: 2000 } },
+          { effectiveStartDate: 1000, effectiveEndDate: 2000 },
           500,
         ),
       ).to.equal(false);
@@ -747,7 +293,7 @@ describe('alertUtils', () => {
     it('should mark an alert as valid if the given reference time is not a number', () => {
       expect(
         utils.isAlertValid(
-          { validityPeriod: { startTime: 0, endTime: 1000 } },
+          { effectiveStartDate: 0, effectiveEndDate: 1000 },
           undefined,
         ),
       ).to.equal(true);
@@ -757,10 +303,8 @@ describe('alertUtils', () => {
       expect(
         utils.isAlertValid(
           {
-            validityPeriod: {
-              endTime: 1559941140,
-              startTime: 1558904400,
-            },
+            effectiveStartDate: 1558904400,
+            effectiveEndDate: 1559941140,
           },
           1558678507424 / 1000,
         ),
@@ -774,7 +318,7 @@ describe('alertUtils', () => {
     it('should return true if the alert is in the future when configured', () => {
       expect(
         utils.isAlertValid(
-          { validityPeriod: { startTime: 100, endTime: 100 } },
+          { effectiveStartDate: 100, effectiveEndDate: 100 },
           99,
           { isFutureValid: true },
         ),
@@ -874,10 +418,8 @@ describe('alertUtils', () => {
           [],
           [
             {
-              validityPeriod: {
-                startTime: 1,
-                endTime: 100,
-              },
+              effectiveStartDate: 1,
+              effectiveEndDate: 100,
             },
           ],
           50,
@@ -891,11 +433,9 @@ describe('alertUtils', () => {
           [],
           [
             {
-              severityLevel: AlertSeverityLevelType.Warning,
-              validityPeriod: {
-                startTime: 1,
-                endTime: 100,
-              },
+              alertSeverityLevel: AlertSeverityLevelType.Warning,
+              effectiveStartDate: 1,
+              effectiveEndDate: 100,
             },
           ],
           50,
@@ -909,11 +449,9 @@ describe('alertUtils', () => {
           [],
           [
             {
-              severityLevel: AlertSeverityLevelType.Info,
-              validityPeriod: {
-                startTime: 1,
-                endTime: 100,
-              },
+              alertSeverityLevel: AlertSeverityLevelType.Info,
+              effectiveStartDate: 1,
+              effectiveEndDate: 100,
             },
           ],
           50,
@@ -927,10 +465,8 @@ describe('alertUtils', () => {
           [],
           [
             {
-              validityPeriod: {
-                startTime: 1,
-                endTime: 100,
-              },
+              effectiveStartDate: 1,
+              effectiveEndDate: 100,
             },
           ],
           200,
@@ -938,18 +474,8 @@ describe('alertUtils', () => {
       ).to.equal(false);
     });
 
-    it('should return true by default for service alerts that have no validityPeriod', () => {
-      expect(
-        utils.isAlertActive(
-          [],
-          [
-            {
-              validityPeriod: undefined,
-            },
-          ],
-          200,
-        ),
-      ).to.equal(true);
+    it('should return true by default for service alerts that have no start or end', () => {
+      expect(utils.isAlertActive([], [{}], 200)).to.equal(true);
     });
   });
 
@@ -1079,12 +605,7 @@ describe('alertUtils', () => {
               effectiveStartDate: 1553754595,
               entities: [
                 {
-                  __typename: 'Route',
-                  patterns: [
-                    {
-                      code: 'HSL:3001I:0:01',
-                    },
-                  ],
+                  __typename: AlertEntityType.Route,
                 },
               ],
             },
@@ -1100,61 +621,6 @@ describe('alertUtils', () => {
       expect(utils.getActiveLegAlertSeverityLevel(leg)).to.equal(
         AlertSeverityLevelType.Warning,
       );
-    });
-
-    it('should return "WARNING" if there is an active trip alert', () => {
-      const leg = {
-        route: {
-          gtfsId: 'HSL:3001I',
-        },
-        startTime: 1553769600000,
-        trip: {
-          pattern: {
-            code: 'HSL:3001I:0:01',
-          },
-          alerts: [
-            {
-              alertSeverityLevel: AlertSeverityLevelType.Warning,
-              effectiveEndDate: 1553778000,
-              effectiveStartDate: 1553754595,
-            },
-          ],
-        },
-      };
-      expect(utils.getActiveLegAlertSeverityLevel(leg)).to.equal(
-        AlertSeverityLevelType.Warning,
-      );
-    });
-
-    it('should return undefined if there is an active route alert for another pattern', () => {
-      const leg = {
-        route: {
-          alerts: [
-            {
-              alertSeverityLevel: AlertSeverityLevelType.Warning,
-              effectiveEndDate: 1553778000,
-              effectiveStartDate: 1553754595,
-              entities: [
-                {
-                  __typename: 'Route',
-                  patterns: [
-                    {
-                      code: 'HSL:3001I:0:02',
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
-        },
-        startTime: 1553769600000,
-        trip: {
-          pattern: {
-            code: 'HSL:3001I:0:01',
-          },
-        },
-      };
-      expect(utils.getActiveLegAlertSeverityLevel(leg)).to.equal(undefined);
     });
 
     it('should return "WARNING" if there is an active stop alert at the "from" stop', () => {
@@ -1265,32 +731,14 @@ describe('alertUtils', () => {
       );
     });
 
-    it('should also work for mapped service alerts', () => {
-      const currentTime = 1000;
-      const alerts = [
-        {
-          severityLevel: AlertSeverityLevelType.Info,
-          validityPeriod: {
-            endTime: currentTime + 100,
-            startTime: currentTime - 100,
-          },
-        },
-      ];
-      expect(utils.getActiveAlertSeverityLevel(alerts, currentTime)).to.equal(
-        AlertSeverityLevelType.Info,
-      );
-    });
-
     it('should ignore falsy alerts', () => {
       const currentTime = 1000;
       const alerts = [
         undefined,
         {
-          severityLevel: AlertSeverityLevelType.Info,
-          validityPeriod: {
-            endTime: currentTime + 100,
-            startTime: currentTime - 100,
-          },
+          alertSeverityLevel: AlertSeverityLevelType.Info,
+          effectiveStartDate: currentTime - 100,
+          effectiveEndDate: currentTime + 100,
         },
       ];
       expect(utils.getActiveAlertSeverityLevel(alerts, currentTime)).to.equal(
@@ -1299,134 +747,35 @@ describe('alertUtils', () => {
     });
   });
 
-  describe('patternIdPredicate', () => {
-    it('should return true if alert exists but patternId does not', () => {
-      expect(utils.patternIdPredicate({}, undefined)).to.equal(true);
-    });
-
-    it('should return true if alert exists but patternId does not', () => {
-      expect(
-        utils.patternIdPredicate(
-          { entities: [{}, { __typename: 'Stop' }] },
-          undefined,
-        ),
-      ).to.equal(true);
-    });
-
-    it('should return false if patternId exists but alert does not', () => {
-      expect(utils.patternIdPredicate(undefined, 'foobar')).to.equal(false);
-    });
-
-    it('should return false if patternId exists but alert entity is not for pattern', () => {
-      expect(utils.patternIdPredicate({ entities: [{}] }, 'foobar')).to.equal(
-        false,
-      );
-    });
-
-    it('should return true if the path alert.trip.pattern.code matches the given patternId', () => {
-      expect(
-        utils.patternIdPredicate(
-          {
-            entities: [{ __typename: 'Route', patterns: [{ code: 'foobar' }] }],
-          },
-          'foobar',
-        ),
-      ).to.equal(true);
-
-      expect(
-        utils.patternIdPredicate(
-          {
-            entities: [{ __typename: 'Route', patterns: [{ code: 'foobar' }] }],
-          },
-          'foobar',
-        ),
-      ).to.equal(true);
-    });
-
-    it('should return false if the path alert.trip.pattern.code does not match the given patternId', () => {
-      expect(
-        utils.patternIdPredicate(
-          {
-            entities: [{ __typename: 'Route', patterns: [{ code: 'foobaz' }] }],
-          },
-          'foobar',
-        ),
-      ).to.equal(false);
-    });
-  });
-
-  describe('createUniqueAlertList', () => {
-    it('should group disruptions under unique headers', () => {
-      expect(
-        utils.createUniqueAlertList(disruptions, false, 1566199501, true)
-          .length,
-      ).to.equal(1);
-    });
-    it('should group service alerts under unique headers', () => {
-      expect(
-        utils.createUniqueAlertList(serviceAlerts, false, 1566199501, true)
-          .length,
-      ).to.equal(11);
-    });
-  });
   describe('alertSeverityCompare', () => {
     it('should sort alerts SEVERE alerts first', () => {
       const alerts = [
-        { severityLevel: AlertSeverityLevelType.Warning },
-        { severityLevel: AlertSeverityLevelType.Severe },
-        { severityLevel: AlertSeverityLevelType.Info },
-        { severityLevel: AlertSeverityLevelType.Severe },
-        { severityLevel: 'foo' },
+        { alertSeverityLevel: AlertSeverityLevelType.Warning },
+        { alertSeverityLevel: AlertSeverityLevelType.Severe },
+        { alertSeverityLevel: AlertSeverityLevelType.Info },
+        { alertSeverityLevel: AlertSeverityLevelType.Severe },
+        { alertSeverityLevel: 'foo' },
       ];
       const sortedAlerts = alerts.sort(utils.alertSeverityCompare);
-      expect(sortedAlerts[0].severityLevel).to.equal(
+      expect(sortedAlerts[0].alertSeverityLevel).to.equal(
         AlertSeverityLevelType.Severe,
       );
     });
 
     it('should sort alerts WARNING alerts first if there are no SEVERE alerts', () => {
       const alerts = [
-        { severityLevel: AlertSeverityLevelType.Unknown },
-        { severityLevel: AlertSeverityLevelType.Warning },
-        { severityLevel: AlertSeverityLevelType.Info },
-        { severityLevel: 'foo' },
+        { alertSeverityLevel: AlertSeverityLevelType.Unknown },
+        { alertSeverityLevel: AlertSeverityLevelType.Warning },
+        { alertSeverityLevel: AlertSeverityLevelType.Info },
+        { alertSeverityLevel: 'foo' },
       ];
       const sortedAlerts = alerts.sort(utils.alertSeverityCompare);
-      expect(sortedAlerts[0].severityLevel).to.equal(
+      expect(sortedAlerts[0].alertSeverityLevel).to.equal(
         AlertSeverityLevelType.Warning,
       );
     });
-
-    it('should sort alert that affects a route before a route that affects a stop if severity level is the same', () => {
-      const alerts = [
-        {
-          severityLevel: AlertSeverityLevelType.Severe,
-          stop: { gtfsId: 'foo:1' },
-        },
-        {
-          severityLevel: AlertSeverityLevelType.Severe,
-          route: { gtfsId: 'foo:1' },
-        },
-      ];
-      const sortedAlerts = alerts.sort(utils.alertSeverityCompare);
-      expect(sortedAlerts[0].route.gtfsId).to.equal('foo:1');
-    });
-
-    it('should not sort alert that affects a route before a route that affects a stop if route alert is less severe', () => {
-      const alerts = [
-        {
-          severityLevel: AlertSeverityLevelType.Severe,
-          stop: { gtfsId: 'foo:1' },
-        },
-        {
-          severityLevel: AlertSeverityLevelType.Warning,
-          route: { gtfsId: 'foo:1' },
-        },
-      ];
-      const sortedAlerts = alerts.sort(utils.alertSeverityCompare);
-      expect(sortedAlerts[0].stop.gtfsId).to.equal('foo:1');
-    });
   });
+
   describe('hasMeaningfulData', () => {
     it('should return false if there are no alerts', () => {
       const alerts = [];
@@ -1434,9 +783,9 @@ describe('alertUtils', () => {
     });
     it('should return true if header or description present', () => {
       const alerts = [
-        { severityLevel: AlertSeverityLevelType.Warning },
+        { alertSeverityLevel: AlertSeverityLevelType.Warning },
         {
-          severityLevel: AlertSeverityLevelType.Severe,
+          alertSeverityLevel: AlertSeverityLevelType.Severe,
           alertDescriptionText: 'foo',
         },
       ];
@@ -1444,19 +793,19 @@ describe('alertUtils', () => {
     });
     it('should return false if neither header or description are present', () => {
       const alerts = [
-        { severityLevel: AlertSeverityLevelType.Warning },
-        { severityLevel: AlertSeverityLevelType.Severe },
+        { alertSeverityLevel: AlertSeverityLevelType.Warning },
+        { alertSeverityLevel: AlertSeverityLevelType.Severe },
       ];
       expect(utils.hasMeaningfulData(alerts)).to.equal(false);
     });
     it('should return false if no meaningful data is included in header or description fields', () => {
       const alerts = [
         {
-          severityLevel: AlertSeverityLevelType.Warning,
+          alertSeverityLevel: AlertSeverityLevelType.Warning,
           alertDescriptionText: 'meaningful but not priority',
         },
         {
-          severityLevel: AlertSeverityLevelType.Severe,
+          alertSeverityLevel: AlertSeverityLevelType.Severe,
           alertDescriptionText: '',
           alertHeaderText: '',
         },

@@ -2,18 +2,14 @@ import cx from 'classnames';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import React, { useState, useRef } from 'react';
-import { FormattedMessage, intlShape } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import { matchShape } from 'found';
 import { AlertSeverityLevelType } from '../constants';
 import {
   getCancelationsForStop,
-  getServiceAlertsForStop,
-  getServiceAlertsForStopRoutes,
-  isAlertActive,
+  getAlertsForObject,
+  getServiceAlertsForStation,
   getActiveAlertSeverityLevel,
-  getCancelationsForRoute,
-  getServiceAlertsForRoute,
-  getServiceAlertsForRouteStops,
 } from '../util/alertUtils';
 import withBreakpoint from '../util/withBreakpoint';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
@@ -46,7 +42,7 @@ const getActiveTab = pathname => {
   return Tab.RightNow;
 };
 
-function StopPageTabs({ stop }, { intl, match }) {
+function StopPageTabs({ stop }, { match }) {
   const { router } = match;
   if (!stop) {
     return null;
@@ -69,79 +65,35 @@ function StopPageTabs({ stop }, { intl, match }) {
 
   const currentTime = moment().unix();
 
-  const hasActiveAlert = isAlertActive(
-    getCancelationsForStop(stop),
-    [...getServiceAlertsForStop(stop), ...getServiceAlertsForStopRoutes(stop)],
+  const cancelations = getCancelationsForStop(stop);
+
+  const maxAlertSeverity = getActiveAlertSeverityLevel(
+    isTerminal ? getServiceAlertsForStation(stop) : getAlertsForObject(stop),
     currentTime,
   );
-  const hasActiveServiceAlerts =
-    getActiveAlertSeverityLevel(
-      getServiceAlertsForStop(stop, intl),
-      currentTime,
-    ) ||
-    getActiveAlertSeverityLevel(
-      getServiceAlertsForStopRoutes(stop, intl),
-      currentTime,
-    );
 
-  const stopRoutesWithAlerts = [];
-
-  const modesByRoute = []; // DT-3387
-
-  if (stop.routes?.length > 0) {
-    stop.routes.forEach(route => {
-      modesByRoute.push(route.mode); // DT-3387
-      const hasActiveRouteAlert = route.patterns.some(({ code }) =>
-        isAlertActive(
-          getCancelationsForRoute(route, code),
-          [
-            ...getServiceAlertsForRoute(route, code),
-            ...getServiceAlertsForRouteStops(route, code),
-          ],
-          currentTime,
-        ),
-      );
-      const hasActiveRouteServiceAlerts = route.patterns.some(({ code }) =>
-        getActiveAlertSeverityLevel(
-          getServiceAlertsForRoute(route, code),
-          currentTime,
-        ),
-      );
-
-      return (
-        (hasActiveRouteAlert || hasActiveRouteServiceAlerts) &&
-        stopRoutesWithAlerts.push(...route.alerts)
-      );
-    });
-  }
-
-  const disruptionClassName =
-    ((hasActiveAlert ||
-      stopRoutesWithAlerts.some(
-        alert =>
-          alert.alertSeverityLevel === AlertSeverityLevelType.Severe ||
-          alert.alertSeverityLevel === AlertSeverityLevelType.Warning,
-      )) &&
-      'active-disruption-alert') ||
-    ((hasActiveServiceAlerts ||
-      stopRoutesWithAlerts.some(
-        alert =>
-          alert.alertSeverityLevel === AlertSeverityLevelType.Severe ||
-          alert.alertSeverityLevel === AlertSeverityLevelType.Warning,
-      )) &&
-      'active-service-alert');
+  let disruptionClassName;
   let disruptionIcon;
-  if (disruptionClassName === 'active-disruption-alert') {
+  if (
+    cancelations.length > 0 ||
+    maxAlertSeverity === AlertSeverityLevelType.Severe ||
+    maxAlertSeverity === AlertSeverityLevelType.Warning ||
+    maxAlertSeverity === AlertSeverityLevelType.Unknown
+  ) {
+    disruptionClassName = 'active-disruption-alert';
     disruptionIcon = (
       <Icon
         className="disrution-icon"
         img="icon-icon_caution-no-excl-no-stroke"
       />
     );
-  } else if (disruptionClassName === 'active-service-alert') {
+  } else if (maxAlertSeverity === AlertSeverityLevelType.Info) {
+    disruptionClassName = 'active-service-alert';
     disruptionIcon = (
       <Icon className="service-alert-icon" img="icon-icon_info" />
     );
+  } else {
+    disruptionClassName = 'no-alerts';
   }
 
   return (
@@ -224,9 +176,9 @@ function StopPageTabs({ stop }, { intl, match }) {
           type="button"
           className={cx('stop-tab-singletab', {
             active: activeTab === Tab.Disruptions,
-            'alert-active': hasActiveAlert || stopRoutesWithAlerts.length > 0,
+            'alert-active': disruptionClassName === 'active-disruption-alert',
             'service-alert-active':
-              hasActiveServiceAlerts || stopRoutesWithAlerts.length > 0,
+              disruptionClassName === 'active-service-alert',
           })}
           onClick={() => {
             router.replace(`${urlBase}/${Tab.Disruptions}${search}`);
@@ -242,12 +194,12 @@ function StopPageTabs({ stop }, { intl, match }) {
           aria-selected={activeTab === Tab.Disruptions}
         >
           <div className="stop-tab-singletab-container">
-            <div className={`${disruptionClassName || `no-alerts`}`}>
+            <div className={disruptionClassName}>
               {disruptionIcon}
               <FormattedMessage id="disruptions" />
             </div>
             <span className="sr-only">
-              {disruptionClassName ? (
+              {disruptionClassName !== 'no-alerts' ? (
                 <FormattedMessage id="disruptions-tab.sr-disruptions" />
               ) : (
                 <FormattedMessage id="disruptions-tab.sr-no-disruptions" />
@@ -303,7 +255,6 @@ StopPageTabs.defaultProps = {
 };
 
 StopPageTabs.contextTypes = {
-  intl: intlShape.isRequired,
   match: matchShape.isRequired,
 };
 

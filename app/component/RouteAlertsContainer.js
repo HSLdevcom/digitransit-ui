@@ -1,57 +1,90 @@
 import PropTypes from 'prop-types';
+import connectToStores from 'fluxible-addons-react/connectToStores';
 import React from 'react';
+import moment from 'moment';
 import { createFragmentContainer, graphql } from 'react-relay';
 import { intlShape } from 'react-intl';
-import { matchShape } from 'found';
 
 import AlertList from './AlertList';
-import DepartureCancelationInfo from './DepartureCancelationInfo';
 import {
-  getServiceAlertsForRoute,
-  getServiceAlertsForRouteStops,
+  getAlertsForObject,
   tripHasCancelation,
+  setEntityForAlert,
 } from '../util/alertUtils';
 import { getRouteMode } from '../util/modeUtils';
-import { ServiceAlertShape } from '../util/shapes';
+import { AlertShape } from '../util/shapes';
+import { AlertSeverityLevelType, AlertEntityType } from '../constants';
 
-function RouteAlertsContainer({ route }, { intl, match }) {
-  const { shortName } = route;
-  const { patternId } = match.params;
-  const cancelations = route.patterns
-    .filter(pattern => pattern.code === patternId)
-    .map(pattern => pattern.trips.filter(tripHasCancelation))
+/**
+ * This returns the trips mapped as alerts for the route.
+ */
+const getCancelations = (
+  route,
+  entity,
+  pattern,
+  intl,
+  currentTime,
+  validityPeriod,
+) =>
+  pattern.trips
+    .filter(trip => tripHasCancelation(trip, currentTime, validityPeriod))
     .reduce((a, b) => a.concat(b), [])
+    .sort(
+      (a, b) =>
+        a.stoptimes[0].serviceDay +
+        a.stoptimes[0].scheduledDeparture -
+        (b.stoptimes[0].serviceDay + b.stoptimes[0].scheduledDeparture),
+    )
     .map(trip => {
       const first = trip.stoptimes[0];
       const departureTime = first.serviceDay + first.scheduledDeparture;
-      const last = trip.stoptimes[trip.stoptimes.length - 1];
+      const mode = intl.formatMessage({
+        id: getRouteMode(route).toLowerCase(),
+      });
       return {
-        header: (
-          <DepartureCancelationInfo
-            firstStopName={first.stop.name}
-            headsign={first.headsign || trip.tripHeadsign}
-            routeMode={getRouteMode(route)}
-            scheduledDepartureTime={departureTime}
-            shortName={shortName}
-          />
+        alertDescriptionText: intl.formatMessage(
+          { id: 'generic-cancelation' },
+          {
+            mode,
+            route: route.shortName,
+            headsign: first.headsign || trip.tripHeadsign,
+            time: moment.unix(departureTime).format('HH:mm'),
+          },
         ),
-        route: {
-          ...route,
-        },
-        validityPeriod: {
-          startTime: departureTime,
-          endTime: last.serviceDay + last.scheduledArrival,
-        },
+        entities: [entity],
+        alertSeverityLevel: AlertSeverityLevelType.Warning,
       };
     });
-  const serviceAlerts = [
-    ...getServiceAlertsForRoute(route, patternId, intl.locale),
-    ...getServiceAlertsForRouteStops(route, patternId, intl.locale),
-  ];
+
+function RouteAlertsContainer(
+  { currentTime, route, pattern },
+  { intl, config },
+) {
+  const entity = {
+    __typename: AlertEntityType.Route,
+    color: route.color,
+    type: route.type,
+    mode: route.mode,
+    shortName: route.shortName,
+    gtfsId: route.gtfsId,
+  };
+  const cancelations = getCancelations(
+    route,
+    entity,
+    pattern,
+    intl,
+    currentTime,
+    config.routeCancelationAlertValidity,
+  );
+
+  const serviceAlerts = getAlertsForObject(pattern).map(alert =>
+    // We display all alerts as they would be for the route in this view
+    setEntityForAlert(alert, entity),
+  );
 
   return (
     <AlertList
-      showRouteNameLink={false}
+      showLinks={false}
       cancelations={cancelations}
       serviceAlerts={serviceAlerts}
     />
@@ -59,33 +92,28 @@ function RouteAlertsContainer({ route }, { intl, match }) {
 }
 
 RouteAlertsContainer.propTypes = {
+  currentTime: PropTypes.number.isRequired,
   route: PropTypes.shape({
-    alerts: PropTypes.arrayOf(ServiceAlertShape).isRequired,
     color: PropTypes.string,
+    type: PropTypes.number,
     mode: PropTypes.string.isRequired,
     shortName: PropTypes.string.isRequired,
-    patterns: PropTypes.arrayOf(
+    gtfsId: PropTypes.string.isRequired,
+  }).isRequired,
+  pattern: PropTypes.shape({
+    alerts: PropTypes.arrayOf(AlertShape).isRequired,
+    trips: PropTypes.arrayOf(
       PropTypes.shape({
-        code: PropTypes.string,
-        stops: PropTypes.arrayOf(
+        tripHeadsign: PropTypes.string,
+        stoptimes: PropTypes.arrayOf(
           PropTypes.shape({
-            alerts: PropTypes.arrayOf(ServiceAlertShape).isRequired,
-          }),
-        ),
-        trips: PropTypes.arrayOf(
-          PropTypes.shape({
-            tripHeadsign: PropTypes.string,
-            stoptimes: PropTypes.arrayOf(
-              PropTypes.shape({
-                headsign: PropTypes.string,
-                realtimeState: PropTypes.string,
-                scheduledDeparture: PropTypes.number,
-                serviceDay: PropTypes.number,
-                stop: PropTypes.shape({
-                  name: PropTypes.string,
-                }).isRequired,
-              }),
-            ).isRequired,
+            headsign: PropTypes.string,
+            realtimeState: PropTypes.string,
+            scheduledDeparture: PropTypes.number,
+            serviceDay: PropTypes.number,
+            stop: PropTypes.shape({
+              name: PropTypes.string,
+            }).isRequired,
           }),
         ).isRequired,
       }),
@@ -95,71 +123,54 @@ RouteAlertsContainer.propTypes = {
 
 RouteAlertsContainer.contextTypes = {
   intl: intlShape,
-  match: matchShape,
+  config: PropTypes.shape({
+    routeCancelationAlertValidity: PropTypes.shape({
+      before: PropTypes.number,
+      after: PropTypes.number,
+    }),
+  }).isRequired,
 };
 
-const containerComponent = createFragmentContainer(RouteAlertsContainer, {
-  route: graphql`
-    fragment RouteAlertsContainer_route on Route
-    @argumentDefinitions(date: { type: "String" }) {
-      color
-      mode
-      type
-      shortName
-      alerts {
-        id
-        alertDescriptionText
-        alertHash
-        alertHeaderText
-        alertSeverityLevel
-        alertUrl
-        effectiveEndDate
-        effectiveStartDate
-        alertDescriptionTextTranslations {
-          language
-          text
-        }
-        alertHeaderTextTranslations {
-          language
-          text
-        }
-        alertUrlTranslations {
-          language
-          text
-        }
-        trip {
-          pattern {
-            code
-          }
-        }
+const containerComponent = createFragmentContainer(
+  connectToStores(RouteAlertsContainer, ['TimeStore'], context => ({
+    currentTime: context.getStore('TimeStore').getCurrentTime().unix(),
+  })),
+  {
+    route: graphql`
+      fragment RouteAlertsContainer_route on Route {
+        color
+        mode
+        type
+        shortName
+        gtfsId
       }
-      patterns {
-        code
-        stops {
+    `,
+    pattern: graphql`
+      fragment RouteAlertsContainer_pattern on Pattern
+      @argumentDefinitions(date: { type: "String" }) {
+        alerts(types: [ROUTE, STOPS_ON_PATTERN]) {
           id
-          gtfsId
-          code
-          name
-          alerts {
-            id
-            alertDescriptionText
-            alertHash
-            alertHeaderText
-            alertSeverityLevel
-            alertUrl
-            effectiveEndDate
-            effectiveStartDate
-            alertDescriptionTextTranslations {
-              language
-              text
+          alertDescriptionText
+          alertHash
+          alertHeaderText
+          alertSeverityLevel
+          alertUrl
+          effectiveEndDate
+          effectiveStartDate
+          entities {
+            __typename
+            ... on Route {
+              color
+              type
+              mode
+              shortName
+              gtfsId
             }
-            alertHeaderTextTranslations {
-              language
-              text
-            }
-            alertUrlTranslations {
-              language
-              text
+            ... on Stop {
+              name
+              code
+              vehicleMode
+              gtfsId
             }
           }
         }
@@ -177,8 +188,8 @@ const containerComponent = createFragmentContainer(RouteAlertsContainer, {
           }
         }
       }
-    }
-  `,
-});
+    `,
+  },
+);
 
 export { containerComponent as default, RouteAlertsContainer as Component };

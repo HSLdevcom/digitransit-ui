@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
-import { ServiceAlertShape } from '../util/shapes';
+import { AlertShape } from '../util/shapes';
 
 import StopAlerts from './StopAlerts';
 
@@ -11,28 +11,35 @@ const TerminalAlertsContainer = ({ station }) => {
 
 TerminalAlertsContainer.propTypes = {
   station: PropTypes.shape({
-    alerts: PropTypes.arrayOf(ServiceAlertShape).isRequired,
+    gtfsId: PropTypes.string.isRequired,
+    locationType: PropTypes.string.isRequired,
+    alerts: PropTypes.arrayOf(AlertShape).isRequired,
+    stops: PropTypes.arrayOf(
+      PropTypes.shape({
+        gtfsId: PropTypes.string.isRequired,
+        routes: PropTypes.arrayOf(
+          PropTypes.shape({
+            gtfsId: PropTypes.string.isRequired,
+          }),
+        ).isRequired,
+        alerts: PropTypes.arrayOf(AlertShape).isRequired,
+      }),
+    ),
     stoptimes: PropTypes.arrayOf(
       PropTypes.shape({
-        headsign: PropTypes.string.isRequired,
+        headsign: PropTypes.string,
         realtimeState: PropTypes.string,
         scheduledDeparture: PropTypes.number,
         serviceDay: PropTypes.number,
         trip: PropTypes.shape({
-          pattern: PropTypes.shape({
-            code: PropTypes.string,
-          }),
+          tripHeadsign: PropTypes.string.isRequired,
           route: PropTypes.shape({
-            alerts: PropTypes.arrayOf(ServiceAlertShape).isRequired,
+            gtfsId: PropTypes.string.isRequired,
             color: PropTypes.string,
             mode: PropTypes.string.isRequired,
             shortName: PropTypes.string.isRequired,
+            type: PropTypes.number,
           }).isRequired,
-          stops: PropTypes.arrayOf(
-            PropTypes.shape({
-              name: PropTypes.string,
-            }),
-          ).isRequired,
         }).isRequired,
       }),
     ).isRequired,
@@ -44,15 +51,17 @@ const containerComponent = createFragmentContainer(TerminalAlertsContainer, {
     fragment TerminalAlertsContainer_station on Stop
     @argumentDefinitions(
       startTime: { type: "Long" }
-      timeRange: { type: "Int", defaultValue: 900 }
+      timeRange: { type: "Int", defaultValue: 3600 }
     ) {
-      routes {
+      gtfsId
+      locationType
+      stops {
+        id
         gtfsId
-        shortName
-        longName
-        mode
-        color
-        alerts {
+        routes {
+          gtfsId
+        }
+        alerts(types: [STOP, ROUTES]) {
           id
           alertDescriptionText
           alertHash
@@ -61,59 +70,22 @@ const containerComponent = createFragmentContainer(TerminalAlertsContainer, {
           alertUrl
           effectiveEndDate
           effectiveStartDate
-          alertDescriptionTextTranslations {
-            language
-            text
-          }
-          alertHeaderTextTranslations {
-            language
-            text
-          }
-          alertUrlTranslations {
-            language
-            text
-          }
           entities {
             __typename
             ... on Route {
-              patterns {
-                code
-              }
+              color
+              type
+              mode
+              shortName
+              gtfsId
+            }
+            ... on Stop {
+              gtfsId
             }
           }
         }
       }
-      id
-      gtfsId
-      code
-      name
-      stops {
-        id
-        gtfsId
-        alerts {
-          id
-          alertDescriptionText
-          alertHash
-          alertHeaderText
-          alertSeverityLevel
-          alertUrl
-          effectiveEndDate
-          effectiveStartDate
-          alertDescriptionTextTranslations {
-            language
-            text
-          }
-          alertHeaderTextTranslations {
-            language
-            text
-          }
-          alertUrlTranslations {
-            language
-            text
-          }
-        }
-      }
-      alerts {
+      alerts(types: [STOP]) {
         id
         alertDescriptionText
         alertHash
@@ -122,17 +94,11 @@ const containerComponent = createFragmentContainer(TerminalAlertsContainer, {
         alertUrl
         effectiveEndDate
         effectiveStartDate
-        alertDescriptionTextTranslations {
-          language
-          text
-        }
-        alertHeaderTextTranslations {
-          language
-          text
-        }
-        alertUrlTranslations {
-          language
-          text
+        entities {
+          __typename
+          ... on Stop {
+            gtfsId
+          }
         }
       }
       stoptimes: stoptimesWithoutPatterns(
@@ -141,44 +107,18 @@ const containerComponent = createFragmentContainer(TerminalAlertsContainer, {
         numberOfDepartures: 100
         omitCanceled: false
       ) {
+        serviceDay
+        scheduledDeparture
         headsign
         realtimeState
-        scheduledDeparture
-        serviceDay
         trip {
-          pattern {
-            code
-          }
+          tripHeadsign
           route {
+            gtfsId
+            type
             color
             mode
             shortName
-            gtfsId
-            alerts {
-              id
-              alertDescriptionText
-              alertHash
-              alertHeaderText
-              alertSeverityLevel
-              alertUrl
-              effectiveEndDate
-              effectiveStartDate
-              alertDescriptionTextTranslations {
-                language
-                text
-              }
-              alertHeaderTextTranslations {
-                language
-                text
-              }
-              alertUrlTranslations {
-                language
-                text
-              }
-            }
-          }
-          stops {
-            name
           }
         }
       }

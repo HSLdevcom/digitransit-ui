@@ -1073,51 +1073,21 @@ const containerComponent = createFragmentContainer(
         type
         ...RouteAgencyInfo_route
         ...RoutePatternSelect_route @arguments(date: $date)
-        alerts {
-          alertSeverityLevel
-          effectiveEndDate
-          effectiveStartDate
-          entities {
-            __typename
-            ... on Route {
-              patterns {
-                code
-              }
-            }
-          }
-        }
         agency {
+          name
           phone
         }
         patterns {
+          alerts(types: [ROUTE, STOPS_ON_PATTERN]) {
+            id
+            alertSeverityLevel
+            effectiveEndDate
+            effectiveStartDate
+          }
           headsign
           code
           stops {
-            id
-            gtfsId
-            code
-            alerts {
-              id
-              alertDescriptionText
-              alertHash
-              alertHeaderText
-              alertSeverityLevel
-              alertUrl
-              effectiveEndDate
-              effectiveStartDate
-              alertDescriptionTextTranslations {
-                language
-                text
-              }
-              alertHeaderTextTranslations {
-                language
-                text
-              }
-              alertUrlTranslations {
-                language
-                text
-              }
-            }
+            name
           }
           trips: tripsForDate(serviceDate: $serviceDate) {
             stoptimes: stoptimesForDate(serviceDate: $serviceDate) {

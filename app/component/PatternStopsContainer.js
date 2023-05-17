@@ -107,49 +107,19 @@ export default createFragmentContainer(withBreakpoint(PatternStopsContainer), {
       type
       ...RouteAgencyInfo_route
       ...RoutePatternSelect_route @arguments(date: $date)
-      alerts {
-        alertSeverityLevel
-        effectiveEndDate
-        effectiveStartDate
-        trip {
-          pattern {
-            code
-          }
-        }
-      }
       agency {
         phone
+        name
       }
       patterns {
+        alerts(types: [ROUTE, STOPS_ON_PATTERN]) {
+          id
+          alertSeverityLevel
+          effectiveEndDate
+          effectiveStartDate
+        }
         headsign
         code
-        stops {
-          id
-          gtfsId
-          code
-          alerts {
-            id
-            alertDescriptionText
-            alertHash
-            alertHeaderText
-            alertSeverityLevel
-            alertUrl
-            effectiveEndDate
-            effectiveStartDate
-            alertDescriptionTextTranslations {
-              language
-              text
-            }
-            alertHeaderTextTranslations {
-              language
-              text
-            }
-            alertUrlTranslations {
-              language
-              text
-            }
-          }
-        }
         trips: tripsForDate(serviceDate: $date) {
           stoptimes: stoptimesForDate(serviceDate: $date) {
             realtimeState

@@ -8,6 +8,7 @@ import IntermediateLeg from '../../../app/component/IntermediateLeg';
 import {
   RealtimeStateType,
   AlertSeverityLevelType,
+  AlertEntityType,
 } from '../../../app/constants';
 import ServiceAlertIcon from '../../../app/component/ServiceAlertIcon';
 import { mockContext } from '../helpers/mock-context';
@@ -427,63 +428,12 @@ describe('<TransitLeg />', () => {
           alerts: [
             {
               alertSeverityLevel: AlertSeverityLevelType.Warning,
-            },
-          ],
-          gtfsId: 'A',
-        },
-        startTime: 1553856180000,
-        to: {
-          name: 'Testitie',
-          stop: {},
-        },
-        trip: {
-          gtfsId: 'A12345',
-          pattern: {
-            code: 'A',
-          },
-          tripHeadsign: 'foo - bar',
-        },
-        interlineWithPreviousLeg: false,
-      },
-      mode: 'BUS',
-    };
-    const wrapper = shallowWithIntl(<TransitLeg {...props} />, {
-      context: {
-        ...mockContext,
-        config: {
-          itinerary: {},
-          zones: { itinerary: true },
-          colors: { primary: 'ffffff' },
-          showAlternativeLegs: true,
-        },
-        focusFunction: () => () => {},
-      },
-    });
-    expect(wrapper.find(LegInfo).props().alertSeverityLevel).to.equal(
-      AlertSeverityLevelType.Warning,
-    );
-  });
-
-  it('should apply alertSeverityLevel due to a trip alert', () => {
-    const props = {
-      ...defaultProps,
-      leg: {
-        endTime: 1553856420000,
-        from: {
-          name: 'Testilahti',
-          stop: {},
-        },
-        duration: 10000,
-        intermediatePlaces: [],
-        route: {
-          alerts: [
-            {
-              alertSeverityLevel: AlertSeverityLevelType.Warning,
-              trip: {
-                pattern: {
-                  code: 'A',
+              entities: [
+                {
+                  __typename: AlertEntityType.Route,
+                  gtfsId: 'A',
                 },
-              },
+              ],
             },
           ],
           gtfsId: 'A',
@@ -529,9 +479,16 @@ describe('<TransitLeg />', () => {
         from: {
           name: 'Testilahti',
           stop: {
+            gtfsId: 'A',
             alerts: [
               {
                 alertSeverityLevel: AlertSeverityLevelType.Warning,
+                entities: [
+                  {
+                    __typename: AlertEntityType.Stop,
+                    gtfsId: 'A',
+                  },
+                ],
               },
             ],
           },
@@ -565,6 +522,7 @@ describe('<TransitLeg />', () => {
           zones: { itinerary: true },
           colors: { primary: 'ffffff' },
           showAlternativeLegs: true,
+          feedIds: [],
         },
         focusFunction: () => () => {},
       },
@@ -592,9 +550,16 @@ describe('<TransitLeg />', () => {
         to: {
           name: 'Testitie',
           stop: {
+            gtfsId: 'B',
             alerts: [
               {
                 alertSeverityLevel: AlertSeverityLevelType.Warning,
+                entities: [
+                  {
+                    __typename: AlertEntityType.Stop,
+                    gtfsId: 'B',
+                  },
+                ],
               },
             ],
           },
@@ -646,6 +611,12 @@ describe('<TransitLeg />', () => {
               alerts: [
                 {
                   alertSeverityLevel: AlertSeverityLevelType.Warning,
+                  entities: [
+                    {
+                      __typename: AlertEntityType.Stop,
+                      gtfsId: 'foobar',
+                    },
+                  ],
                 },
               ],
             },
@@ -807,11 +778,18 @@ describe('<TransitLeg />', () => {
         from: {
           name: 'Test',
           stop: {
+            gtfsId: 'A',
             alerts: [
               {
                 alertSeverityLevel: AlertSeverityLevelType.Info,
                 effectiveEndDate: startTime + 1,
                 effectiveStartDate: startTime - 1,
+                entities: [
+                  {
+                    __typename: AlertEntityType.Stop,
+                    gtfsId: 'A',
+                  },
+                ],
               },
             ],
           },
@@ -845,6 +823,7 @@ describe('<TransitLeg />', () => {
           itinerary: {},
           zones: { itinerary: true },
           colors: { primary: '#007ac9' },
+          feedIds: [],
         },
         focusFunction: () => () => {},
       },
@@ -873,18 +852,36 @@ describe('<TransitLeg />', () => {
               effectiveEndDate: startTime + 1,
               effectiveStartDate: startTime - 1,
               alertHeaderText: 'unkown header',
+              entities: [
+                {
+                  __typename: AlertEntityType.Route,
+                  gtfsId: 'A1234',
+                },
+              ],
             },
             {
               alertSeverityLevel: AlertSeverityLevelType.Severe,
               effectiveEndDate: startTime + 1,
               effectiveStartDate: startTime - 1,
               alertHeaderText: 'severe header',
+              entities: [
+                {
+                  __typename: AlertEntityType.Route,
+                  gtfsId: 'A1234',
+                },
+              ],
             },
             {
               alertSeverityLevel: AlertSeverityLevelType.Warning,
               effectiveEndDate: startTime + 1,
               effectiveStartDate: startTime - 1,
               alertHeaderText: 'warning header',
+              entities: [
+                {
+                  __typename: AlertEntityType.Route,
+                  gtfsId: 'A1234',
+                },
+              ],
             },
           ],
         },
@@ -939,6 +936,12 @@ describe('<TransitLeg />', () => {
               effectiveEndDate: startTime + 1,
               effectiveStartDate: startTime - 1,
               alertHeaderText: 'unknown header',
+              entities: [
+                {
+                  __typename: AlertEntityType.Route,
+                  gtfsId: 'A1234',
+                },
+              ],
             },
           ],
         },

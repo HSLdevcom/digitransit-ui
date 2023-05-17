@@ -3,11 +3,12 @@ import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import isEmpty from 'lodash/isEmpty';
-import { isAlertValid, getServiceAlertMetadata } from '../util/alertUtils';
+import { isAlertValid } from '../util/alertUtils';
 import DisruptionBannerAlert from './DisruptionBannerAlert';
 import SwipeableTabs from './SwipeableTabs';
 import withBreakpoint from '../util/withBreakpoint';
-import { ServiceAlertShape } from '../util/shapes';
+import { AlertShape } from '../util/shapes';
+import { AlertEntityType } from '../constants';
 
 class DisruptionBanner extends React.Component {
   constructor(props) {
@@ -20,7 +21,7 @@ class DisruptionBanner extends React.Component {
   }
 
   static propTypes = {
-    alerts: PropTypes.arrayOf(ServiceAlertShape).isRequired,
+    alerts: PropTypes.arrayOf(AlertShape).isRequired,
     currentTime: PropTypes.number.isRequired,
     language: PropTypes.string.isRequired,
     mode: PropTypes.string.isRequired,
@@ -43,26 +44,23 @@ class DisruptionBanner extends React.Component {
     const { alerts } = this.props;
     const activeAlerts = [];
     alerts.forEach(alert => {
-      const currAlert = {
-        ...alert,
-        ...getServiceAlertMetadata(alert),
-      };
       if (
         alert?.entities.some(
-          // eslint-disable-next-line no-underscore-dangle
-          e => e.__typename === 'Route' && e.mode === this.props.mode,
+          e =>
+            // eslint-disable-next-line no-underscore-dangle
+            e.__typename === AlertEntityType.Route &&
+            e.mode === this.props.mode,
         ) &&
         !isEmpty(alert.alertDescriptionText) &&
-        isAlertValid(currAlert, this.props.currentTime)
+        isAlertValid(alert, this.props.currentTime)
       ) {
         if (
           !activeAlerts.find(
             activeAlert =>
-              activeAlert.alertDescriptionText ===
-              currAlert.alertDescriptionText,
+              activeAlert.alertDescriptionText === alert.alertDescriptionText,
           )
         ) {
-          activeAlerts.push(currAlert);
+          activeAlerts.push(alert);
         }
       }
     });
@@ -132,14 +130,6 @@ const containerComponent = createFragmentContainer(
         alertEffect
         alertCause
         alertDescriptionText
-        alertHeaderTextTranslations {
-          text
-          language
-        }
-        alertDescriptionTextTranslations {
-          text
-          language
-        }
         effectiveStartDate
         effectiveEndDate
         entities {

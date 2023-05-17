@@ -7,14 +7,18 @@ import { v4 as uuid } from 'uuid';
 import { Link } from 'found';
 import LocalTime from './LocalTime';
 import { getHeadsignFromRouteLongName } from '../util/legUtils';
-import { alertSeverityCompare } from '../util/alertUtils';
+import {
+  alertSeverityCompare,
+  getAlertsForObject,
+  isAlertValid,
+} from '../util/alertUtils';
 import Icon from './Icon';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
 import { getRouteMode } from '../util/modeUtils';
 
-const getMostSevereAlert = (route, trip) => {
-  const alerts = [...(route?.alerts || []), ...(trip?.alerts || [])];
+const getMostSevereAlert = route => {
+  const alerts = [...getAlertsForObject(route)];
   return alerts.sort(alertSeverityCompare)[0];
 };
 
@@ -32,8 +36,11 @@ const DepartureRow = (
   let iconColor;
   let backgroundShape;
   let sr;
-  if (route?.alerts?.length > 0) {
-    const alert = getMostSevereAlert(route, trip);
+  if (
+    route?.alerts?.filter(alert => isAlertValid(alert, props.currentTime))
+      ?.length > 0
+  ) {
+    const alert = getMostSevereAlert(route);
     sr = (
       <span className="sr-only">
         {intl.formatMessage({

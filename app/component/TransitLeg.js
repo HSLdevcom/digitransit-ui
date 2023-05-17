@@ -20,8 +20,10 @@ import {
   legHasCancelation,
   tripHasCancelationForStop,
   getActiveLegAlerts,
+  getActiveLegAlertSeverityLevel,
   alertSeverityCompare,
   getMaximumAlertSeverityLevel,
+  hasEntitiesOfType,
 } from '../util/alertUtils';
 import { PREFIX_ROUTES, PREFIX_STOPS, PREFIX_DISRUPTION } from '../util/path';
 import { durationToString } from '../util/timeUtils';
@@ -32,7 +34,7 @@ import {
   getStopHeadsignFromStoptimes,
 } from '../util/legUtils';
 import { shouldShowFareInfo } from '../util/fareUtils';
-import { AlertSeverityLevelType } from '../constants';
+import { AlertSeverityLevelType, AlertEntityType } from '../constants';
 import ZoneIcon from './ZoneIcon';
 import StopInfo from './StopInfo';
 import InterlineInfo from './InterlineInfo';
@@ -258,7 +260,7 @@ class TransitLeg extends React.Component {
       />
     );
 
-    const alerts = getActiveLegAlerts(leg, leg.startTime / 1000, lang); // legStartTime converted to ms format
+    const alerts = getActiveLegAlerts(leg, leg.startTime / 1000); // legStartTime converted to ms format
     const alert =
       alerts && alerts.length > 0
         ? alerts.sort(alertSeverityCompare)[0]
@@ -453,8 +455,9 @@ class TransitLeg extends React.Component {
                 hasNoShortName={hasNoShortName}
                 headsign={l.trip.tripHeadsign}
                 isAlternativeLeg
-                alertSeverityLevel={getMaximumAlertSeverityLevel(
-                  getActiveLegAlerts(l, l.startTime / 1000, lang),
+                alertSeverityLevel={getActiveLegAlertSeverityLevel(
+                  l,
+                  l.startTime / 1000,
                 )}
                 displayTime
               />
@@ -478,12 +481,10 @@ class TransitLeg extends React.Component {
               <div className="disruption-link-container">
                 <Link
                   to={
-                    (alert.route &&
-                      alert.route.gtfsId &&
+                    (hasEntitiesOfType(alert, AlertEntityType.Route) &&
                       `/${PREFIX_ROUTES}/${leg.route.gtfsId}/${PREFIX_DISRUPTION}/${leg.trip.pattern.code}`) ||
-                    (alert.stop &&
-                      alert.stop.gtfsId &&
-                      `/${PREFIX_STOPS}/${alert.stop.gtfsId}/${PREFIX_DISRUPTION}/`)
+                    (hasEntitiesOfType(alert, AlertEntityType.Stop) &&
+                      `/${PREFIX_STOPS}/${alert.entities[0].gtfsId}/${PREFIX_DISRUPTION}/`)
                   }
                   className="disruption-link"
                 >
@@ -493,11 +494,11 @@ class TransitLeg extends React.Component {
                       severityLevel={alertSeverityLevel}
                     />
                   </div>
-                  {config.showAlertHeader ? (
-                    <div className="description">{alert.header}</div>
-                  ) : (
-                    <div className="description">{alert.description}</div>
-                  )}
+                  <div className="description">
+                    {config.showAlertHeader
+                      ? alert.alertHeaderText
+                      : alert.alertDescriptionText}
+                  </div>
                   <Icon
                     img="icon-icon_arrow-collapse--right"
                     className="disruption-link-arrow"

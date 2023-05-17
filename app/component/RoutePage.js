@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import connectToStores from 'fluxible-addons-react/connectToStores';
 import { createFragmentContainer, graphql } from 'react-relay';
 import { FormattedMessage, intlShape } from 'react-intl';
 import cx from 'classnames';
@@ -17,7 +18,12 @@ import { isBrowser } from '../util/browser';
 import LazilyLoad, { importLazy } from './LazilyLoad';
 import { getRouteMode } from '../util/modeUtils';
 import AlertBanner from './AlertBanner';
-import { hasMeaningfulData } from '../util/alertUtils';
+import {
+  hasEntitiesOfType,
+  hasMeaningfulData,
+  isAlertValid,
+} from '../util/alertUtils';
+import { AlertEntityType } from '../constants';
 
 const modules = {
   FavouriteRouteContainer: () =>
@@ -39,6 +45,7 @@ class RoutePage extends React.Component {
     router: routerShape.isRequired,
     breakpoint: PropTypes.string.isRequired,
     error: PropTypes.object,
+    currentTime: PropTypes.number.isRequired,
   };
 
   componentDidMount() {
@@ -50,7 +57,7 @@ class RoutePage extends React.Component {
 
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions, jsx-a11y/anchor-is-valid */
   render() {
-    const { breakpoint, router, route, error } = this.props;
+    const { breakpoint, router, route, error, currentTime } = this.props;
     const { config } = this.context;
     const tripId = this.props.match.params?.tripId;
     const patternId = this.props.match.params?.patternId;
@@ -73,8 +80,12 @@ class RoutePage extends React.Component {
     }
     const mode = getRouteMode(route);
     const label = route.shortName ? route.shortName : route.longName || '';
-    const headsign =
-      patternId && route.patterns.find(p => p.code === patternId).headsign;
+    const selectedPattern =
+      patternId && route.patterns.find(p => p.code === patternId);
+    const headsign = selectedPattern?.headsign;
+    const filteredAlerts = selectedPattern?.alerts
+      ?.filter(alert => hasEntitiesOfType(alert, AlertEntityType.Route))
+      .filter(alert => isAlertValid(alert, currentTime));
 
     return (
       <div className={cx('route-page-container')}>
@@ -135,10 +146,10 @@ class RoutePage extends React.Component {
               </LazilyLoad>
             )}
           </div>
-          {tripId && hasMeaningfulData(route.alerts) && (
+          {tripId && hasMeaningfulData(filteredAlerts) && (
             <div className="trip-page-alert-container">
               <AlertBanner
-                alerts={route.alerts}
+                alerts={filteredAlerts}
                 linkAddress={`/${PREFIX_ROUTES}/${this.props.match.params.routeId}/${PREFIX_DISRUPTION}/${this.props.match.params.patternId}`}
               />
             </div>
@@ -160,47 +171,28 @@ class RoutePage extends React.Component {
 }
 
 // DT-2531: added activeDates
-const containerComponent = createFragmentContainer(withBreakpoint(RoutePage), {
-  route: graphql`
-    fragment RoutePage_route on Route
-    @argumentDefinitions(date: { type: "String" }) {
-      gtfsId
-      color
-      shortName
-      longName
-      mode
-      type
-      ...RouteAgencyInfo_route
-      ...RoutePatternSelect_route @arguments(date: $date)
-      alerts {
-        alertSeverityLevel
-        effectiveEndDate
-        effectiveStartDate
-        alertDescriptionTextTranslations {
-          language
-          text
+const containerComponent = createFragmentContainer(
+  connectToStores(withBreakpoint(RoutePage), ['TimeStore'], context => ({
+    currentTime: context.getStore('TimeStore').getCurrentTime().unix(),
+  })),
+  {
+    route: graphql`
+      fragment RoutePage_route on Route
+      @argumentDefinitions(date: { type: "String" }) {
+        gtfsId
+        color
+        shortName
+        longName
+        mode
+        type
+        ...RouteAgencyInfo_route
+        ...RoutePatternSelect_route @arguments(date: $date)
+        agency {
+          name
+          phone
         }
-        entities {
-          __typename
-          ... on Route {
-            patterns {
-              code
-            }
-          }
-        }
-      }
-      agency {
-        name
-        phone
-      }
-      patterns {
-        headsign
-        code
-        stops {
-          id
-          gtfsId
-          code
-          alerts {
+        patterns {
+          alerts(types: [ROUTE, STOPS_ON_PATTERN]) {
             id
             alertDescriptionText
             alertHash
@@ -209,35 +201,41 @@ const containerComponent = createFragmentContainer(withBreakpoint(RoutePage), {
             alertUrl
             effectiveEndDate
             effectiveStartDate
-            alertDescriptionTextTranslations {
-              language
-              text
-            }
-            alertHeaderTextTranslations {
-              language
-              text
-            }
-            alertUrlTranslations {
-              language
-              text
+            entities {
+              __typename
+              ... on Route {
+                color
+                type
+                mode
+                shortName
+                gtfsId
+              }
+              ... on Stop {
+                name
+                code
+                vehicleMode
+                gtfsId
+              }
             }
           }
-        }
-        trips: tripsForDate(serviceDate: $date) {
-          stoptimes: stoptimesForDate(serviceDate: $date) {
-            realtimeState
-            scheduledArrival
-            scheduledDeparture
-            serviceDay
+          headsign
+          code
+          trips: tripsForDate(serviceDate: $date) {
+            stoptimes: stoptimesForDate(serviceDate: $date) {
+              realtimeState
+              scheduledArrival
+              scheduledDeparture
+              serviceDay
+            }
           }
-        }
-        activeDates: trips {
-          serviceId
-          day: activeDates
+          activeDates: trips {
+            serviceId
+            day: activeDates
+          }
         }
       }
-    }
-  `,
-});
+    `,
+  },
+);
 
 export { containerComponent as default, RoutePage as Component };

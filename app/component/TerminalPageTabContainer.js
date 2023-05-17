@@ -46,7 +46,7 @@ const containerComponent = createFragmentContainer(TerminalPageTabContainer, {
     fragment TerminalPageTabContainer_station on Stop
     @argumentDefinitions(
       startTime: { type: "Long" }
-      timeRange: { type: "Int", defaultValue: 900 }
+      timeRange: { type: "Int", defaultValue: 3600 }
     ) {
       id
       gtfsId
@@ -54,52 +54,19 @@ const containerComponent = createFragmentContainer(TerminalPageTabContainer, {
       stops {
         id
         gtfsId
-        alerts {
+        alerts(types: [STOP, ROUTES]) {
           id
-          alertDescriptionText
-          alertHash
-          alertHeaderText
           alertSeverityLevel
-          alertUrl
           effectiveEndDate
           effectiveStartDate
-          alertDescriptionTextTranslations {
-            language
-            text
-          }
-          alertHeaderTextTranslations {
-            language
-            text
-          }
-          alertUrlTranslations {
-            language
-            text
-          }
         }
       }
-      alerts {
+      alerts(types: [STOP]) {
         id
-        alertDescriptionText
-        alertHash
-        alertHeaderText
         alertSeverityLevel
-        alertUrl
         effectiveEndDate
         effectiveStartDate
-        alertDescriptionTextTranslations {
-          language
-          text
-        }
-        alertHeaderTextTranslations {
-          language
-          text
-        }
-        alertUrlTranslations {
-          language
-          text
-        }
       }
-      vehicleMode
       stoptimes: stoptimesWithoutPatterns(
         startTime: $startTime
         timeRange: $timeRange
@@ -107,77 +74,6 @@ const containerComponent = createFragmentContainer(TerminalPageTabContainer, {
         omitCanceled: false
       ) {
         realtimeState
-        trip {
-          pattern {
-            code
-          }
-          route {
-            gtfsId
-            shortName
-            longName
-            mode
-            color
-            alerts {
-              id
-              alertDescriptionText
-              alertHash
-              alertHeaderText
-              alertSeverityLevel
-              alertUrl
-              effectiveEndDate
-              effectiveStartDate
-              alertDescriptionTextTranslations {
-                language
-                text
-              }
-              alertHeaderTextTranslations {
-                language
-                text
-              }
-              alertUrlTranslations {
-                language
-                text
-              }
-            }
-          }
-        }
-      }
-      routes {
-        gtfsId
-        shortName
-        longName
-        mode
-        color
-        alerts {
-          id
-          alertDescriptionText
-          alertHash
-          alertHeaderText
-          alertSeverityLevel
-          alertUrl
-          effectiveEndDate
-          effectiveStartDate
-          alertDescriptionTextTranslations {
-            language
-            text
-          }
-          alertHeaderTextTranslations {
-            language
-            text
-          }
-          alertUrlTranslations {
-            language
-            text
-          }
-          trip {
-            pattern {
-              code
-            }
-          }
-        }
-        patterns {
-          code
-        }
       }
     }
   `,
