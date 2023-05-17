@@ -56,41 +56,15 @@ export default configMerger(walttiConfig, {
         capacity: BIKEAVL_WITHMAX,
         icon: 'citybike',
         name: {
-          fi: 'Kotka',
-          sv: 'Kotka',
-          en: 'Kotka',
+          fi: 'Kotkan-Haminan seutu',
+          sv: 'Kotka-Fredrikshamnsregionen',
+          en: 'Kotka-Hamina region',
         },
         type: 'citybike',
         url: {
           fi: 'https://kaakau.fi/kotka/',
           sv: 'https://kaakau.fi/kotka/?lang=sv',
           en: 'https://kaakau.fi/kotka/?lang=en',
-        },
-        returnInstructions: {
-          fi: 'https://kaakau.fi/ohjeet/pyoran-palauttaminen/',
-          sv: 'https://kaakau.fi/ohjeet/pyoran-palauttaminen/',
-          en: 'https://kaakau.fi/ohjeet/pyoran-palauttaminen/',
-        },
-      },
-      donkey_hamina: {
-        enabled: true,
-        season: {
-          // 28.4. - 31.10.
-          start: new Date(new Date().getFullYear(), 3, 28),
-          end: new Date(new Date().getFullYear(), 10, 1),
-        },
-        capacity: BIKEAVL_WITHMAX,
-        icon: 'citybike-secondary',
-        name: {
-          fi: 'Hamina',
-          sv: 'Hamina',
-          en: 'Hamina',
-        },
-        type: 'citybike',
-        url: {
-          fi: 'https://kaakau.fi/hamina/',
-          sv: 'https://kaakau.fi/hamina/?lang=sv',
-          en: 'https://kaakau.fi/hamina/?lang=en',
         },
         returnInstructions: {
           fi: 'https://kaakau.fi/ohjeet/pyoran-palauttaminen/',
