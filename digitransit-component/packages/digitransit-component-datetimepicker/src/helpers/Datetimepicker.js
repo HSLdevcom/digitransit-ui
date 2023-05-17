@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useState, useEffect, useRef, useLayoutEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import moment from 'moment-timezone';
 import 'moment/locale/fi';
 import uniqueId from 'lodash/uniqueId';
@@ -140,19 +140,6 @@ function Datetimepicker({
   const prevIsOpenRef = useRef();
   useEffect(() => {
     prevIsOpenRef.current = isOpen;
-  });
-  const prevIsOpen = prevIsOpenRef.current;
-
-  useLayoutEffect(() => {
-    if (!prevIsOpen === isOpen) {
-      if (isOpen) {
-        if (inputRef) {
-          inputRef.current?.focus();
-        }
-      } else if (openPickerRef) {
-        openPickerRef.current?.focus();
-      }
-    }
   });
 
   // param date is timestamp
