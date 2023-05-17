@@ -61,12 +61,10 @@ if (process.env.NODE_ENV !== 'development') {
   mainAssets = require('../stats.json').entrypoints.main.assets.filter(
     asset => !asset.endsWith('.map'),
   );
-  console.error('mainAssets', mainAssets)
 
   const manifestFiles = mainAssets.filter(asset =>
     asset.startsWith('js/runtime'),
   );
-  console.error('manifestFiles', manifestFiles)
 
   manifest = manifestFiles
     .map(manifestFile =>
@@ -75,7 +73,6 @@ if (process.env.NODE_ENV !== 'development') {
     .join('\n');
 
   mainAssets = mainAssets.filter(asset => !manifestFiles.includes(asset));
-  console.error('mainAssets after filtering', mainAssets)
 }
 
 function getPolyfills(userAgent, config) {
