@@ -274,7 +274,6 @@ jobs:
         with:
           context: .
           # todo: update to v3 before merging!
-          hsldevcom/digitransit-ui:node-migration
           tags: |
             hsldevcom/digitransit-ui:node-migration
             hsldevcom/digitransit-ui:${{ steps.docker-tags.outputs.permanent-tag }}
