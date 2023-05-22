@@ -68,7 +68,7 @@ export default {
   // Navbar logo
   logo: 'hsl/reittiopas-logo.svg',
 
-  useCookiesPrompt: true,
+  useCookiesPrompt: false,
   copyrightText: '© Copyright HSL',
 
   useRoutingFeedbackPrompt: true,
@@ -425,9 +425,9 @@ export default {
   },
 
   useTicketIcons: true,
-  ticketPurchaseLink: function purchaseTicketLink(ticket) {
+  /* ticketPurchaseLink: function purchaseTicketLink(ticket) {
     return `https://open.app.hsl.fi/zoneTicketWizard/TICKET_TYPE_SINGLE_TICKET/${ticket}/adult/`;
-  },
+  }, */
 
   trafficNowLink: {
     fi: 'matkustaminen/liikenne',
