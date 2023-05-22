@@ -81,6 +81,7 @@ class ItineraryLine extends React.Component {
 
       const geometry = polyUtil.decode(leg.legGeometry.points);
       let middle = getMiddleOf(geometry);
+      let { to, endTime } = leg;
 
       if (interliningLegs.length > 0) {
         // merge the geometries of legs where user can wait in the vehicle and find the middle point
@@ -90,6 +91,8 @@ class ItineraryLine extends React.Component {
           .flat();
         const interlinedGeometry = [...geometry, ...points];
         middle = getMiddleOf(interlinedGeometry);
+        to = interliningLegs[interliningLegs.length - 1].to;
+        endTime = interliningLegs[interliningLegs.length - 1].endTime;
       }
 
       objs.push(
@@ -173,6 +176,8 @@ class ItineraryLine extends React.Component {
             if (!leg?.interlineWithPreviousLeg) {
               transitLegs.push({
                 ...leg,
+                to,
+                endTime,
                 nextLeg,
                 index: i,
                 mode: mode.toLowerCase(),
