@@ -64,9 +64,19 @@ const LegInfo = (
         </div>
       )}
       {displayTime && (
-        <span className={cx('leg-departure-time', { realtime: leg.realTime })}>
-          {moment(leg.startTime).format('HH:mm')}
-        </span>
+        <>
+          <span className="sr-only">
+            {`${moment(leg.startTime).format('HH:mm')} ${
+              leg.realTime ? intl.formatMessage({ id: 'realtime' }) : ''
+            }`}
+          </span>
+          <span
+            className={cx('leg-departure-time', { realtime: leg.realTime })}
+            aria-hidden="true"
+          >
+            {moment(leg.startTime).format('HH:mm')}
+          </span>
+        </>
       )}
     </div>
   );

@@ -228,6 +228,7 @@ class TransitLeg extends React.Component {
         id="itinerary-details.transit-leg-part-1"
         values={{
           time: moment(leg.startTime).format('HH:mm'),
+          realtime: leg.realTime ? intl.formatMessage({ id: 'realtime' }) : '',
         }}
       />
     );

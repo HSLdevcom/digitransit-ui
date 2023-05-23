@@ -52,6 +52,14 @@ function DepartureTime(props, context) {
           >
             {shownTime}
           </span>
+          {props.realtime && (
+            <span className="sr-only">
+              {context.intl.formatMessage({
+                id: 'realtime',
+                defaultMessage: 'Realtime',
+              })}
+            </span>
+          )}
         </>
       )}
       <span
