@@ -349,7 +349,7 @@ class SummaryPage extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.isFetching = false;
-    this.secondQuerySent = false;
+    this.walkBikeQuerySent = false;
     this.setParamsAndQuery();
     this.originalPlan = this.props.viewer && this.props.viewer.plan;
     this.origin = undefined;
@@ -1444,7 +1444,7 @@ class SummaryPage extends React.Component {
       this.props.viewer &&
       this.props.viewer.plan &&
       this.props.viewer.plan.itineraries &&
-      !this.secondQuerySent
+      !this.walkBikeQuerySent
     ) {
       this.showScreenreaderLoadedAlert();
     }
@@ -1491,12 +1491,13 @@ class SummaryPage extends React.Component {
         this.props.viewer && this.props.viewer.plan,
         this.originalPlan,
       ) &&
-      this.paramsOrQueryHaveChanged() &&
-      this.secondQuerySent &&
+      (this.paramsOrQueryHaveChanged() ||
+        relevantRoutingSettingsChanged(this.context.config)) &&
+      this.walkBikeQuerySent &&
       !this.state.isFetchingWalkAndBike
     ) {
       this.setParamsAndQuery();
-      this.secondQuerySent = false;
+      this.walkBikeQuerySent = false;
       // eslint-disable-next-line react/no-did-update-set-state
       this.setState(
         {
@@ -1514,13 +1515,13 @@ class SummaryPage extends React.Component {
           alternativePlan: undefined,
         },
         () => {
-          const hasNonWalkingItinerary = this.selectedPlan?.itineraries?.some(
+          const vehicleItinerariesFound = this.selectedPlan?.itineraries?.some(
             itinerary => !itinerary.legs.every(leg => leg.mode === 'WALK'),
           );
           if (
             relevantRoutingSettingsChanged(this.context.config) &&
             hasStartAndDestination(this.context.match.params) &&
-            hasNonWalkingItinerary
+            !vehicleItinerariesFound
           ) {
             this.makeQueryWithAllModes();
           }
@@ -1533,10 +1534,9 @@ class SummaryPage extends React.Component {
       this.props.viewer &&
       this.props.viewer.plan &&
       this.props.viewer.plan.itineraries &&
-      !this.secondQuerySent
+      !this.walkBikeQuerySent
     ) {
       this.originalPlan = this.props.viewer.plan;
-      this.secondQuerySent = true;
       if (
         !isEqual(
           otpToLocation(this.context.match.params.from),
@@ -1544,6 +1544,7 @@ class SummaryPage extends React.Component {
         ) ||
         viaPoints.length > 0
       ) {
+        this.walkBikeQuerySent = true;
         this.makeWalkAndBikeQueries();
       } else {
         // eslint-disable-next-line react/no-did-update-set-state
