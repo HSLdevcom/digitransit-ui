@@ -297,6 +297,8 @@ export default {
 
     gtfsrt: true,
 
-    active: false,
+    routeSelector: defaultRouteSelector,
+
+    active: true,
   },
 };

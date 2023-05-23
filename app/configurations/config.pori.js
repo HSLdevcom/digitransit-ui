@@ -88,10 +88,9 @@ export default configMerger(walttiConfig, {
     ],
   },
 
-  // Temporarily disable realtime
-  vehicles: false,
-  showVehiclesOnStopPage: false,
-  showVehiclesOnSummaryPage: false,
+  vehicles: true,
+  showVehiclesOnStopPage: true,
+  showVehiclesOnSummaryPage: true,
 
   aboutThisService: {
     fi: [
