@@ -230,8 +230,7 @@ class RoutePageControlPanel extends React.Component {
             this.context.config.itinerary.serviceTimeRange,
           )
         : route.patterns.filter(x => x.code === newPattern);
-
-    const isActivePattern = isActiveDate(pattern);
+    const isActivePattern = isActiveDate(pattern[0]);
 
     // if config contains mqtt feed and old client has not been removed
     if (client) {
@@ -250,7 +249,7 @@ class RoutePageControlPanel extends React.Component {
               route: id,
               mode: route.mode.toLowerCase(),
               gtfsId: routeParts[1],
-              headsign: pattern.headsign,
+              headsign: pattern[0].headsign,
             },
           ],
           oldTopics: topics,
@@ -261,7 +260,7 @@ class RoutePageControlPanel extends React.Component {
         executeAction(stopRealTimeClient, client);
       }
     } else if (isActivePattern) {
-      this.startClient(pattern);
+      this.startClient(pattern[0]);
     }
 
     let newPathname = decodeURIComponent(match.location.pathname).replace(
