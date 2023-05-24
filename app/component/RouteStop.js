@@ -90,6 +90,9 @@ const RouteStop = (
     if (patternExists) {
       text += `${intl.formatMessage({ id: 'leaves' })},`;
       text += `${getDepartureTime(stop.stopTimesForPattern[0])},`;
+      if (firstDeparture.realtime) {
+        text += `${intl.formatMessage({ id: 'realtime' })},`;
+      }
       if (stop.stopTimesForPattern[0].stop.platformCode) {
         text += `${intl.formatMessage({ id: 'platform' })},`;
         text += `${stop.stopTimesForPattern[0].stop.platformCode},`;
@@ -100,6 +103,9 @@ const RouteStop = (
           stop.stopTimesForPattern[1],
           currentTime,
         )},`;
+        if (nextDeparture.realtime) {
+          text += `${intl.formatMessage({ id: 'realtime' })},`;
+        }
         if (
           stop.stopTimesForPattern[1] &&
           stop.stopTimesForPattern[1].stop.platformCode

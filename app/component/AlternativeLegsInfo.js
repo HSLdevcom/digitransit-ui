@@ -28,6 +28,11 @@ const AlternativeLegsInfo = ({ legs, showAlternativeLegs, toggle }) => {
               style={{ fontWeight: 500 }}
             >
               {moment(legs[0].startTime).format('HH:mm')}
+              {legs[0].realTime && (
+                <span className="sr-only">
+                  <FormattedMessage id="realtime" />
+                </span>
+              )}
             </span>
           ),
           startTime2: (
@@ -36,6 +41,11 @@ const AlternativeLegsInfo = ({ legs, showAlternativeLegs, toggle }) => {
               style={{ fontWeight: 500 }}
             >
               {moment(legs[1].startTime).format('HH:mm')}
+              {legs[1].realTime && (
+                <span className="sr-only">
+                  <FormattedMessage id="realtime" />
+                </span>
+              )}
             </span>
           ),
         }}
@@ -53,6 +63,11 @@ const AlternativeLegsInfo = ({ legs, showAlternativeLegs, toggle }) => {
               style={{ fontWeight: 500 }}
             >
               {moment(legs[0].startTime).format('HH:mm')}
+              {legs[0].realTime && (
+                <span className="sr-only">
+                  <FormattedMessage id="realtime" />
+                </span>
+              )}
             </span>
           ),
         }}

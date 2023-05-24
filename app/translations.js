@@ -1104,7 +1104,7 @@ const translations = {
     'itinerary-details.route-has-warning-alert': 'Route has disruptions.',
     'itinerary-details.scooter-leg':
       'At {time} ride your kick scooter {distance} from {origin} to {destination}. Estimated time {duration}',
-    'itinerary-details.transit-leg-part-1': 'At {time} take',
+    'itinerary-details.transit-leg-part-1': 'At {time} {realtime} take',
     'itinerary-details.transit-leg-part-2':
       'from stop {startStop} {startZoneInfo} {trackInfo} to stop {endStop} {endZoneInfo}. Estimated duration {duration}',
     'itinerary-details.via-leg':
@@ -2236,7 +2236,7 @@ const translations = {
     'itinerary-details.route-has-warning-alert': 'Reitillä on häiriöitä.',
     'itinerary-details.scooter-leg':
       '{time} potkulautaile {distance} kohteesta {origin} kohteeseen {destination}. Matka-aika {duration}',
-    'itinerary-details.transit-leg-part-1': '{time} ota',
+    'itinerary-details.transit-leg-part-1': '{time} {realtime} ota',
     'itinerary-details.transit-leg-part-2':
       'pysäkiltä {startStop} {startZoneInfo} {trackInfo} pysäkille {endStop} {endZoneInfo}. Arvioitu matka-aika {duration}',
     'itinerary-details.via-leg':
@@ -4142,7 +4142,7 @@ const translations = {
     'itinerary-details.route-has-warning-alert': 'Störningar längs rutten..',
     'itinerary-details.scooter-leg':
       '{time} sparkcykla {distance} från {origin} till destinationen {destination}. Restid {duration}',
-    'itinerary-details.transit-leg-part-1': '{time} ta',
+    'itinerary-details.transit-leg-part-1': '{time} {realtime} ta',
     'itinerary-details.transit-leg-part-2':
       'från hållplats {startStop} {startZoneInfo} {trackInfo} till hållplats {endStop} {endZoneInfo}. Beräknad restid {duration}',
     'itinerary-details.via-leg':
