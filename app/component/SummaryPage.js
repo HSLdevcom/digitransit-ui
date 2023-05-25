@@ -1491,8 +1491,7 @@ class SummaryPage extends React.Component {
         this.props.viewer && this.props.viewer.plan,
         this.originalPlan,
       ) &&
-      (this.paramsOrQueryHaveChanged() ||
-        relevantRoutingSettingsChanged(this.context.config)) &&
+      this.paramsOrQueryHaveChanged() &&
       this.walkBikeQuerySent &&
       !this.state.isFetchingWalkAndBike
     ) {
@@ -2424,7 +2423,11 @@ class SummaryPage extends React.Component {
       /* Should render content if
       1. Fetching public itineraries is complete
       2. Don't have to wait for walk and bike query to complete
-      3. Result has non-walking itineraries OR if not, query with all modes is completed or query is made with default settings
+      3. Result has non-walking itineraries OR 
+         result has only walking itineraries AND 
+          a. all modes query is finished
+          OR 
+          b. relevant settings have changed (alternative routes are not fetched when user chooses to limit the results)
       If all conditions don't apply, render spinner */
       if (
         loadingPublicDone &&
@@ -2432,7 +2435,7 @@ class SummaryPage extends React.Component {
         (!onlyHasWalkingItineraries ||
           (onlyHasWalkingItineraries &&
             (this.allModesQueryDone ||
-              !relevantRoutingSettingsChanged(this.context.config))))
+              relevantRoutingSettingsChanged(this.context.config))))
       ) {
         const activeIndex =
           hash || getActiveIndex(match.location, combinedItineraries);
