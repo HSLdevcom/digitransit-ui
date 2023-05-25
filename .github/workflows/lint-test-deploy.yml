@@ -284,7 +284,7 @@ jobs:
           # https://mattdood.com/2022/3/github-actions-conditional-environment-variables-20220325012837
           if [[ -n "${{ github.ref_type == 'tag' && startsWith(github.ref_name, 'release_') || '' }}" ]]; then
             cfg="$(echo -n "${{ github.ref_name }}" | pcre2grep -o1 '(?:release_)([\w-]+)(?:_\d{4}-\d{2}-\d{2})')"
-            echo 'should-deploy="yes"' >>$GITHUB_OUTPUT  
+            echo 'should-deploy=yes' >>$GITHUB_OUTPUT  
           else
             cfg="${{ github.ref_name }}"
           fi
