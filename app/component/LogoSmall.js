@@ -16,7 +16,13 @@ const LogoSmall = ({ logo, title }, { config }) => {
     <div
       className="logo"
       style={{ backgroundImage: isBrowser && logo ? `url(${logo})` : 'none' }}
-    />
+    >
+      {config.textLogo && title && (
+        <span className="title" role="heading" aria-level="1">
+          {title}
+        </span>
+      )}
+    </div>
   );
 };
 
