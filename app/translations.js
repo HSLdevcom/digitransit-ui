@@ -888,6 +888,25 @@ const translations = {
     'route-page.title': 'Route {shortName}',
     'route-page.title-short': 'Linie',
     'route-to-stop': 'Linie zur Haltestelle',
+    'router-only-walk':
+      'Es wurden keine schnelleren Routen gefunden als zu-Fuß-Routen.',
+    'router-outside-bounds-3':
+      'Es wurden keine Routen gefunden, weil Start- und Zielort außerhalb des abgedeckten Gebiets liegen.',
+    'router-outside-service-period':
+      'Es sind keine Fahrpläne für diesen Zeitraum hinterlegt.',
+    'router-stops-in-range-1':
+      'Es sind keine Haltestellen in der Nähe des Zielorts bekannt.',
+    'router-stops-in-range-2':
+      'Es sind keine Haltestellen in der Nähe des Startorts bekannt.',
+    'router-stops-in-range-3':
+      'Es sind keine Haltestellen in der Nähe des Start- und Zielorts bekannt.',
+    'router-system-error':
+      'Es ist ein Fehler aufgetreten. Bitte versuche es später noch einmal.',
+    'router-transit-connection':
+      'Probiere, den Start- und Zielort zu ändern.',
+    'router-transit-connection-in-search-window':
+      'Es sind keine Fahrpläne für diesen Zeitraum hinterlegt.',
+    'router-unable': 'Es konnten keine Routen berechnet werden.',
     routes: 'Linien',
     'routes-platforms': 'Linien, Steige',
     'routes-tracks': 'Linien, Gleise',
