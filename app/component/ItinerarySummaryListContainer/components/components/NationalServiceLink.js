@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl';
 import { connectToStores } from 'fluxible-addons-react';
 
 const NationalServiceLink = ({ currentLanguage, nationalServiceLink }) => {
-  if (!nationalServiceLink) {
+  if (!nationalServiceLink || nationalServiceLink[currentLanguage]) {
     return null;
   }
 

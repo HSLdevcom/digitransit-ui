@@ -399,8 +399,14 @@ export default configMerger(walttiConfig, {
     ],
 
     nationalServiceLink: {
-        name: 'reiseauskunft.bahn.de',
-        href: 'https://reiseauskunft.bahn.de/bin/query.exe/dn?protocol=https:'
+        de: {
+            name: 'reiseauskunft.bahn.de',
+            href: 'https://reiseauskunft.bahn.de/bin/query.exe/dn?protocol=https:',
+        },
+        en: {
+            name: 'reiseauskunft.bahn.de',
+            href: 'https://reiseauskunft.bahn.de/bin/query.exe/dn?protocol=https:',
+        },
     },
 
     defaultEndpoint: {
