@@ -159,7 +159,7 @@ export default configMerger(walttiConfig, {
   sourceForAlertsAndDisruptions: {
     Kajaani: {
       fi: 'Kajaani',
-      sv: 'Kajaani',
+      sv: 'Kajana',
       en: 'Kajaani',
     },
     Salo: {
@@ -169,7 +169,7 @@ export default configMerger(walttiConfig, {
     },
     Raasepori: {
       fi: 'Raasepori',
-      sv: 'Raasepori',
+      sv: 'Raseborg',
       en: 'Raasepori',
     }
   },

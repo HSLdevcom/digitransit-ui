@@ -94,6 +94,7 @@ export default {
     'Rovaniemi',
     'Kajaani',
     'Salo',
+    'Pori',
   ],
 
   stopSearchFilter: stop => {
@@ -405,6 +406,81 @@ export default {
       fi: 'Oulu',
       sv: 'Uleåborg',
       en: 'Oulu',
+    },
+    Rauma: {
+      fi: 'Rauma',
+      sv: 'Raumo',
+      en: 'Rauma',
+    },
+    Hameenlinna: {
+      fi: 'Hämeenlinna',
+      sv: 'Tavastehus',
+      en: 'Hämeenlinna',
+    },
+    Kotka: {
+      fi: 'Kotkan seutu',
+      sv: 'Kotkaregion',
+      en: 'Kotka region',
+    },
+    Kouvola: {
+      fi: 'Kouvola',
+      sv: 'Kouvola',
+      en: 'Kouvola',
+    },
+    Lappeenranta: {
+      fi: 'Lappeenranta',
+      sv: 'Villmanstrand',
+      en: 'Lappeenranta',
+    },
+    Mikkeli: {
+      fi: 'Mikkeli',
+      sv: 'S:t Michel',
+      en: 'Mikkeli',
+    },
+    Vaasa: {
+      fi: 'Vaasan seutu',
+      sv: 'Vasaregion',
+      en: 'Vaasa region',
+    },
+    Joensuu: {
+      fi: 'Joensuun seutu',
+      sv: 'Joensuuregion',
+      en: 'Joensuu region',
+    },
+    FOLI: {
+      fi: 'Turun seutu',
+      sv: 'Åboregion',
+      en: 'Turku region',
+    },
+    Lahti: {
+      fi: 'Lahden seutu',
+      sv: 'Lahtisregion',
+      en: 'Lahti region',
+    },
+    Kuopio: {
+      fi: 'Kuopion seutu',
+      sv: 'Kuopioregion',
+      en: 'Kuopio region',
+    },
+    Rovaniemi: {
+      fi: 'Rovaniemi',
+      sv: 'Rovaniemi',
+      en: 'Rovaniemi',
+    },
+    Kajaani: {
+      fi: 'Kajaani',
+      sv: 'Kajana',
+      en: 'Kajaani',
+    },
+    Salo: {
+      fi: 'Salo',
+      sv: 'Salo',
+      en: 'Salo',
+    },
+    Pori: {
+      fi: 'Pori',
+      sv: 'Björneborg',
+      en: 'Pori',
     },
   },
   stopCard: {
