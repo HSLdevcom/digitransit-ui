@@ -26,10 +26,8 @@ export default configMerger(matkaConfig, {
   },
 
   feedIds: ['kela'],
-
-  favicon: './app/configurations/images/kela/favicon.png',
   textLogo: true,
-  logo: 'kela/favicon.png',
+  logo: '', // override default logo from matka config
   appBarLink: {
     name: 'Kela',
     href: 'https://www.kela.fi/',
