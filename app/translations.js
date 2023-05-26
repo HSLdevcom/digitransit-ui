@@ -949,6 +949,7 @@ const translations = {
     'canceled-legs': 'Canceled departures on the route',
     car: 'Car',
     'car-distance-duration': 'Drive {duration} ({distance})',
+    'car-distance-no-duration': 'Drive {distance}',
     'car-park-disclaimer':
       'You can conveniently combine car and public transport: leave your car at a Park & Ride and continue by train, bus, metro or tram. Car parking is free of charge and there are no time limits.',
     'car-park-disclaimer-header': 'Park your car',
@@ -1295,6 +1296,7 @@ const translations = {
     'number-of-spaces': 'Number of spaces:',
     'off-canvas-info':
       'Log in to the service to save your favorites and utilize them on other devices',
+    'one-way-journey': 'The length of a one-way journey',
     'option-default': 'Average',
     'option-least': 'Slow',
     'option-less': 'Calm',
@@ -2082,6 +2084,7 @@ const translations = {
     'canceled-legs': 'Reitillä peruttuja vuoroja',
     car: 'Auto',
     'car-distance-duration': 'Autoile {duration} ({distance})',
+    'car-distance-no-duration': 'Autoile {distance}',
     'car-park-disclaimer':
       'Voit yhdistää kätevästi joukkoliikenteen ja autoilun, kun jätät autosi liityntäpysäköintiin ja jatkat matkaasi junalla, bussilla, metrolla tai ratikalla. Auton pysäköinti on useissa paikoissa maksutonta eikä siinä ole aikarajaa.',
     'car-park-disclaimer-header': 'Jätä auto parkkiin',
@@ -2423,6 +2426,7 @@ const translations = {
     'number-of-spaces': 'Paikkojen määrä:',
     'off-canvas-info':
       'Kirjautumalla palveluun saat suosikit talteen ja voit hyödyntää niitä muillakin laitteillasi',
+    'one-way-journey': 'Yhdensuuntaisen matkan pituus',
     'option-default': 'Keskimääräinen',
     'option-least': 'Hidas',
     'option-less': 'Rauhallinen',
@@ -3986,6 +3990,7 @@ const translations = {
     'canceled-legs': 'Inställda avgångar på linjen',
     car: 'Bil',
     'car-distance-duration': 'Kör {duration} ({distance})',
+    'car-distance-no-duration': 'Kör {distance}',
     'car-park-disclaimer':
       'Du kan enkelt kombinera kollektivtrafiken med bilkörning, när du lämnar din bil i anslutningsparkering och fortsätter din resa med tåg, buss, metro eller spårvagn. Parkeringen är gratis och den har inte en begränsad parkeringstid.',
     'car-park-disclaimer-header': 'Lämna din bil i parkeringen',
@@ -4331,6 +4336,7 @@ const translations = {
     'number-of-spaces': 'Antalet platser:',
     'off-canvas-info':
       'Genom att logga in kan du spara dina favoriter och använda dem med dina andra enheter.',
+    'one-way-journey': ' Längden på en enkel resa',
     'option-default': 'Standard',
     'option-least': 'Minst',
     'option-less': 'Mindre',

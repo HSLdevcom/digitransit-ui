@@ -25,15 +25,11 @@ export default configMerger(matkaConfig, {
     },
   },
 
+  favicon: './app/configurations/images/default/favicon.png',
   feedIds: ['kela'],
-
-  favicon: './app/configurations/images/kela/favicon.png',
   textLogo: true,
-  logo: 'kela/favicon.png',
-  appBarLink: {
-    name: 'Kela',
-    href: 'https://www.kela.fi/',
-  },
+  logo: '', // override default logo from matka config
+  appBarLink: false, // override default config - would show Traficom otherwise
 
   meta: {
     description: APP_DESCRIPTION,
@@ -98,8 +94,12 @@ export default configMerger(matkaConfig, {
   hideFavourites: true,
   hideStopRouteSearch: true,
 
+  hideMapLayersByDefault: true,
+  hideCarSuggestionDuration: true,
+
   hideWalkLegDurationSummary: true,
   emphasizeDistance: true,
+  emphasizeOneWayJourney: true,
 
   terminalStopsMinZoom: 14,
 
