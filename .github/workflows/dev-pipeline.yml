@@ -174,8 +174,8 @@ jobs:
 
       - name: Run unit tests
         run: yarn run test-coverage
-      - name: Send test coverage report
-        run: yarn run test-report
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
 
   docker-push:
     # todo: re-add this before merging!
