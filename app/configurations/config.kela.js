@@ -25,13 +25,11 @@ export default configMerger(matkaConfig, {
     },
   },
 
+  favicon: './app/configurations/images/default/favicon.png',
   feedIds: ['kela'],
   textLogo: true,
   logo: '', // override default logo from matka config
-  appBarLink: {
-    name: 'Kela',
-    href: 'https://www.kela.fi/',
-  },
+  appBarLink: false, // override default config - would show Traficom otherwise
 
   meta: {
     description: APP_DESCRIPTION,
