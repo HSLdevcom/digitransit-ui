@@ -35,6 +35,12 @@ export default configMerger(matkaConfig, {
     description: APP_DESCRIPTION,
   },
 
+  socialMedia: {
+    title: APP_TITLE,
+    description: APP_DESCRIPTION,
+    locale: 'fi_FI',
+  },
+
   menu: {
     content: [
       {
