@@ -3,7 +3,7 @@ const OTP_URL = process.env.OTP_URL || `${API_URL}/routing/v2/routers/waltti/`;
 const MAP_URL =
   process.env.MAP_URL || 'https://digitransit-dev-cdn-origin.azureedge.net';
 const POI_MAP_PREFIX = `${MAP_URL}/map/v3/waltti`;
-const APP_DESCRIPTION = 'Uusi Reittiopas';
+const APP_DESCRIPTION = 'Digitransit-reittiopas';
 const YEAR = 1900 + new Date().getYear();
 const HSLParkAndRideUtils = require('../util/ParkAndRideUtils').default.HSL;
 

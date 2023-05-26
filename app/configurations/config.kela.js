@@ -4,7 +4,7 @@ const matkaConfig = require('./config.matka').default;
 
 const CONFIG = 'kela';
 const APP_TITLE = 'Reittiopas';
-const APP_DESCRIPTION = 'Kelan matkalaskuri';
+const APP_DESCRIPTION = 'Digitransit-reittiopas';
 const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
 const OTP_URL = process.env.OTP_URL || `${API_URL}/routing/v2/routers/kela/`;
 const MAP_URL =
@@ -42,6 +42,7 @@ export default configMerger(matkaConfig, {
   },
 
   menu: {
+    copyright: null,
     content: [
       {
         name: 'accessibility-statement',
