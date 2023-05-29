@@ -115,9 +115,9 @@ export default configMerger(matkaConfig, {
       {
         header: 'Tietoja palvelusta',
         paragraphs: [
-          'Tervetuloa Kelan reittioppaaseen! Palvelu perustuu Digitransit-palvelualustaan.',
+          'Reittiopasta käytetään Kelan matkaetuuksien hakemisessa ja myöntämisessä. Voit selvittää reittioppaalla matkasi tietoja kuten matkan pituuden, kulkutavan ja matkustusajan. Reittiopasta hyödynnetään Kelan <a href="https://www.kela.fi/koulumatkatuki">koulumatkatuessa</a> sekä <a href="https://www.kela.fi/matkat">terveydenhuollon ja kuntoutuksen matkakorvauksissa</a>.',
+          'Kela ei vastaa reittioppaan tiedoista. Jos havaitset reittioppaassa puutteita tai virheitä, ole yhteydessä palvelun tietojen toimittajaan.',
         ],
-        link: 'https://kela.fi',
       },
     ],
 
@@ -125,7 +125,8 @@ export default configMerger(matkaConfig, {
       {
         header: 'Om tjänsten',
         paragraphs: [
-          'Den här tjänsten erbjuds av Fpa för reseplanering. Tjänsten baserar sig på Digitransit-plattformen.',
+          'Reseplaneraren används vid ansökan om och beviljande av reseförmåner från FPA. Med hjälp av reseplaneraren ser du uppgifter om din resa, såsom resans längd, färdsätt och restid. Reseplaneraren används för FPA:s <a href="https://www.kela.fi/skolresestod">skoleresestöd</a> samt <a href="https://www.kela.fi/resor">reseersättningar i samband med hälso- och sjukvård och rehabilitering</a>.',
+          'FPA svarar inte för uppgifterna i reseplaneraren. Om du märker brister eller fel i reseplaneraren ska du kontakta den som levererar uppgifter till tjänsten.',
         ],
       },
     ],
@@ -134,7 +135,8 @@ export default configMerger(matkaConfig, {
       {
         header: 'About this service',
         paragraphs: [
-          'This service is provided by Kela for route planning. Service is built on Digitransit platform.',
+          'The journey planner is used when applying for and granting travel-related benefits from Kela. In the journey planner, you can see information about your trip, for instance travel distance, mode of transport and travel time. The journey planner is used for <a href="https://www.kela.fi/school-transport-subsidy">school transport subsidy</a> and <a href="https://www.kela.fi/travel-costs">reimbursements of travel expenses in connection with health care and rehabilitation</a>.',
+          'Kela is not responsible for the information in the journey planner. If you notice inaccuracies or incorrect information in the journey planner, you should contact the supplier of information to the service.',
         ],
       },
     ],
