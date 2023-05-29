@@ -276,14 +276,18 @@ const EmbeddedSearch = (props, context) => {
   };
 
   useEffect(() => {
-    import(
-      /* webpackChunkName: "embedded-search" */ `../../configurations/images/${
-        config.secondaryLogo || config.logo
-      }`
-    ).then(l => {
-      setLogo(l.default);
+    if (config.secondaryLogo || config.logo) {
+      import(
+        /* webpackChunkName: "embedded-search" */ `../../configurations/images/${
+          config.secondaryLogo || config.logo
+        }`
+      ).then(l => {
+        setLogo(l.default);
+        setLoading(false);
+      });
+    } else {
       setLoading(false);
-    });
+    }
   }, []);
 
   if (i18next.language !== lang) {
@@ -318,11 +322,15 @@ const EmbeddedSearch = (props, context) => {
             {...locationSearchProps}
           />
           <div className="embedded-search-button-container">
-            <img
-              src={logo}
-              className="brand-logo"
-              alt={`${config.title} logo`}
-            />
+            {logo ? (
+              <img
+                src={logo}
+                className="brand-logo"
+                alt={`${config.title} logo`}
+              />
+            ) : (
+              <span className="brand-logo">{config.title}</span>
+            )}
             <button
               ref={buttonRef}
               className="search-button"
