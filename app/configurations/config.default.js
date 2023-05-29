@@ -624,13 +624,13 @@ export default {
       {
         header: 'Digitransit-palvelualusta',
         paragraphs: [
-          'Digitransit-palvelualusta on HSL:n ja Traficomin kehittämä avoimen lähdekoodin reititystuote.',
+          'Reittiopas perustuu Digitransit-palvelualustaan, joka on Liikenteenohjausyhtiö Fintraffic Oy:n, Helsingin seudun liikenteen (HSL) ja Waltti Solutions Oy:n tarjoama avoimen lähdekoodin reititysalusta. Reittiehdotukset perustuvat arvioituihin ajoaikoihin. Digitransit tai muut tiedon hyödyntäjät eivät takaa ehdotetun yhteyden toteutumista eivätkä korvaa kulkuyhteyden toteutumatta jäämisestä mahdollisesti aiheutuvia vahinkoja. Palvelun käyttäjien tietoja ei tallenneta palveluun.',
         ],
       },
       {
         header: 'Tietolähteet',
         paragraphs: [
-          'Kartat, tiedot kaduista, rakennuksista, pysäkkien sijainnista ynnä muusta tarjoaa © OpenStreetMap contributors. Osoitetiedot tuodaan Digi- ja väestötietoviraston rakennustietorekisteristä. Joukkoliikenteen reitit ja aikataulut ladataan Traficomin valtakunnallisesta joukkoliikenteen tietokannasta.',
+          'Tiedot perustuvat joukkoliikenneviranomaisten, liikennöitsijöiden, Matkahuollon, VR:n ja Finavian toimittamiin tietoihin. Tietolähteinä hyödynnetään Fintrafficin liikkumisen tietopalveluita, erityisesti liikkumispalveluiden avointa yhteyspistettä <a href="https://www.finap.fi/#/">Finap-palvelua</a>. Kartat, tiedot kaduista, rakennuksista, pysäkkien sijainnista ynnä muusta tarjoaa © OpenStreetMap contributors. Osoitetiedot tuodaan Digi- ja väestötietoviraston rakennusten osoitetietokannasta.',
         ],
       },
     ],
@@ -645,13 +645,13 @@ export default {
       {
         header: 'Digitransit-plattformen',
         paragraphs: [
-          'Digitransit-plattformen är en öppen programvara utvecklad av HRT och Traficom.',
+          'Reseplaneraren baseras på tjänsteplattformen Digitransit med öppen källkod, som är en tjänst som underhålls och utvecklas av Helsingforsregionens Trafik (HRT) Fintraffic Oy och Waltti Solutions Oy. Digitransit eller andra användare av informationen garanterar inte realiseringen av den föreslagna anslutningen och ersätter inte för eventuella skador som kan uppstå på grund av att transportförbindelsen inte fungerar. Tjänstanvändarnas information lagras inte i tjänsten.',
         ],
       },
       {
         header: 'Datakällor',
         paragraphs: [
-          'Kartor, gator, byggnader, hållplatser och dylik information erbjuds av © OpenStreetMap contributors. Addressinformation hämtas från BRC:s byggnadsinformationsregister. Kollektivtrafikens rutter och tidtabeller hämtas från Traficoms landsomfattande kollektivtrafiksdatabas.',
+          'Tjänsteinformationen baseras på information om kollektivtrafiken som tillhandahålls av kollektivtrafikmyndigheter, trafik operatörer, Matkahuolto, VR och Finavia. Fintraffics mobilitetsinformationstjänster används som datakällor, särskilt <a href="https://www.finap.fi/#/">National Access Point</a> för mobilitetstjänster FINAP Kartor, information om gator, byggnader, hållplatser och mer tillhandahålls av © OpenStreetMap-bidragsgivare. Adressuppgifter importeras från adressdatabasen till Myndigheten för Digitalisering och Befolkninsdata (DVV).',
         ],
       },
     ],
@@ -666,13 +666,13 @@ export default {
       {
         header: 'Digitransit platform',
         paragraphs: [
-          'The Digitransit service platform is an open source routing platform developed by HSL and Traficom.',
+          "The route planner is based on the open source Digitransit service platform, which is an service maintained and developed by Helsinki Region Transport (HRT) Traffic Management Company Fintraffic Oy and Waltti Solutions Oy. Route suggestions are based on estimated times. Digitransit or other users of the information do not guarantee the realization of the proposed connection and do not compensate for any damages that may arise from the failure of the transport connection. The service users' information is not stored in the service.",
         ],
       },
       {
         header: 'Data sources',
         paragraphs: [
-          "Maps, streets, buildings, stop locations etc. are provided by © OpenStreetMap contributors. Address data is retrieved from the Building and Dwelling Register of the Finnish Population Register Center. Public transport routes and timetables are downloaded from Traficom's national public transit database.",
+          "The service information is based on public transport route information provided by public transport authorities, operators, Matkahuolto, VR and Finavia. Fintraffic's mobility information services are used as data sources, especially National Access Point for mobility services <a href='https://www.finap.fi/#/'>FINAP</a>. Maps, information about streets, buildings, bus stop locations and more is provided by © OpenStreetMap contributors. Address information is imported from the address database of the buildings of the Digital and Population Data Services Agency (DVV).",
         ],
       },
     ],
