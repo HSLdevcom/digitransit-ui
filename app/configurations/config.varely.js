@@ -177,12 +177,6 @@ export default configMerger(walttiConfig, {
           'Tervetuloa reittioppaaseen! Reittiopas kertoo, miten pääset nopeasti ja helposti perille joukkoliikenteellä Turussa, Aurassa, Maskussa, Mynämäellä, Nousiaisissa, Paimiossa ja Paraisilla. Reittiopas-palvelun tarjoaa Varsinais-Suomen ELY-keskus, ja se perustuu Digitransit –palvelualustaan.',
         ],
       },
-      {
-        header: 'Tietolähteet',
-        paragraphs: [
-          'Kartat, tiedot kaduista, rakennuksista, pysäkkien sijainnista ynnä muusta tarjoaa OpenStreetMap contributions. Osoitetiedot tuodaan Digi-ja väestötietoviraston rakennustietorekisteristä. Joukkoliikenteen reitit ja aikataulut perustuvat Seutu+ tuottamaan GTFS-aineistoon.',
-        ],
-      },
     ],
 
     sv: [
@@ -192,12 +186,6 @@ export default configMerger(walttiConfig, {
           'Den här tjänsten är för reseplanering inom Egentliga Finland (Åbo, Aura, Masku, Mynämäki, Nousis, Pemar and Pargas). Reseplaneraren täcker med vissa begränsningar kollektivtrafik, promenad, cykling samt privatbilism. Tjänsten baserar sig på Digitransit-plattformen.',
         ],
       },
-      {
-        header: 'Datakällor',
-        paragraphs: [
-          'Kartor, gator, byggnader, hållplatser och dylik information erbjuds av © OpenStreetMap contributors. Addressinformation hämtas från BRC:s byggnadsinformationsregister. Kollektivtrafikens rutter och tidtabeller är baserade på Seutu+ data.',
-        ],
-      },
     ],
 
     en: [
@@ -205,12 +193,6 @@ export default configMerger(walttiConfig, {
         header: 'About this service',
         paragraphs: [
           'Welcome to the Journey Planner! The Journey Planner shows you how to get to your destination fast and easy by public transport in Turku, Aura, Masku, Mynämäki, Nousiainen, Paimio and Parainen. You can also use the planner to find fast walking and cycling routes, and to an extent, for driving directions. The Journey Planner is provided by Centre for Economic Development, Transport and the Environment of Southwest Finland and it is based on the Digitransit service platform.',
-        ],
-      },
-      {
-        header: 'Data sources',
-        paragraphs: [
-          'Maps, streets, buildings, stop locations etc. are provided by © OpenStreetMap contributors. Address data is retrieved from the Building and Dwelling Register of the Finnish Population Register Center. Public transport routes and timetables are based on GTFS data produced by Seutu+.',
         ],
       },
     ],

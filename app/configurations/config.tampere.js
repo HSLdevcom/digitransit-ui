@@ -151,18 +151,6 @@ export default configMerger(walttiConfig, {
         ],
         link: 'https://www.nysse.fi/reittiopas-ohje.html',
       },
-      {
-        header: 'Digitransit-palvelualusta',
-        paragraphs: [
-          'Digitransit-palvelualusta on HSL:n ja Traficomin kehittämä avoimen lähdekoodin reititystuote.',
-        ],
-      },
-      {
-        header: 'Tietolähteet',
-        paragraphs: [
-          'Kartat, tiedot kaduista, rakennuksista, pysäkkien sijainnista ynnä muusta tarjoaa © OpenStreetMap contributors. Osoitetiedot tuodaan Digi- ja väestötietoviraston rakennustietorekisteristä. Joukkoliikenteen reitit ja aikataulut perustuvat Nyssen tuottamaan GTFS-aineistoon.',
-        ],
-      },
     ],
 
     sv: [
@@ -172,18 +160,6 @@ export default configMerger(walttiConfig, {
           'Den här tjänsten erbjuds av Tampereen seudun joukkoliikenne (Nysse) för reseplanering inom Tampere region (Kangasala, Lempäälä, Nokia, Orivesi, Pirkkala, Tampere, Vesilahti ja Ylöjärvi). Tjänsten baserar sig på Digitransit-plattformen.',
         ],
       },
-      {
-        header: 'Digitransit-plattformen',
-        paragraphs: [
-          'Digitransit-plattformen är en öppen programvara utvecklad av HRT och Traficom.',
-        ],
-      },
-      {
-        header: 'Datakällor',
-        paragraphs: [
-          'Kartor, gator, byggnader, hållplatser och dylik information erbjuds av © OpenStreetMap contributors. Addressinformation hämtas från BRC:s byggnadsinformationsregister. Kollektivtrafikens rutter och tidtabeller är baserad på GTFS data från Nysse.',
-        ],
-      },
     ],
 
     en: [
@@ -191,18 +167,6 @@ export default configMerger(walttiConfig, {
         header: 'About this service',
         paragraphs: [
           'This service is provided by Tampereen seudun Joukkoliikenne (Nysse) for route planning in Tampere region (Kangasala, Lempäälä, Nokia, Orivesi, Pirkkala, Tampere, Vesilahti ja Ylöjärvi). Service is built on Digitransit platform.',
-        ],
-      },
-      {
-        header: 'Digitransit platform',
-        paragraphs: [
-          'The Digitransit service platform is an open source routing platform developed by HSL and Traficom.',
-        ],
-      },
-      {
-        header: 'Data sources',
-        paragraphs: [
-          'Maps, streets, buildings, stop locations etc. are provided by © OpenStreetMap contributors. Address data is retrieved from the Building and Dwelling Register of the Finnish Population Register Center. Public transport routes and timetables are based on GTFS data produced by Nysse.',
         ],
       },
     ],
