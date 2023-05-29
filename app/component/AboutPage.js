@@ -1,12 +1,15 @@
 import PropTypes from 'prop-types';
 /* eslint-disable react/no-array-index-key */
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'found/Link';
 import { FormattedMessage } from 'react-intl';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 
 const AboutPage = ({ currentLanguage }, { config }) => {
-  const about = config.aboutThisService[currentLanguage];
+  const [about, setAbout] = useState([]);
+  useEffect(() => {
+    setAbout(config.aboutThisService[currentLanguage]);
+  }, []);
   return (
     <div className="about-page fullscreen">
       <div className="page-frame fullscreen momentum-scroll">
@@ -16,7 +19,10 @@ const AboutPage = ({ currentLanguage }, { config }) => {
               <h1 className="about-header">{section.header}</h1>
               {section.paragraphs &&
                 section.paragraphs.map((p, j) => (
-                  <p key={`about-section-${i}-p-${j}`}>{p}</p>
+                  <p
+                    key={`about-section-${i}-p-${j}`}
+                    dangerouslySetInnerHTML={{ __html: p }}
+                  />
                 ))}
               {section.link && (
                 <a href={section.link}>
