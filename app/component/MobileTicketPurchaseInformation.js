@@ -4,7 +4,11 @@ import { intlShape, FormattedMessage } from 'react-intl';
 
 import { v4 as uuid } from 'uuid';
 import { renderZoneTicket } from './ZoneTicket';
-import { getAlternativeFares } from '../util/fareUtils';
+import {
+  getAlternativeFares,
+  formatPriceInEuros,
+  fortmatPriceForAria,
+} from '../util/fareUtils';
 import { FareShape } from '../util/shapes';
 import ExternalLink from './ExternalLink';
 
@@ -27,7 +31,17 @@ export default function MobileTicketPurchaseInformation(
       defaultMessage: 'Required ticket',
     })}:`;
     return (
-      <div key={uuid()} className="ticket-container">
+      <div className="ticket-container">
+        <div className="sr-only">
+          <FormattedMessage
+            id="mobile-ticket-purchase-aria"
+            values={{
+              ticketName: fare.ticketName,
+              price: fortmatPriceForAria(fare.cents),
+            }}
+            defaultMessage="Mobile ticket purchase information. Buy {ticketName} for {price}"
+          />
+        </div>
         <div className="ticket-type-title">{header}</div>
         <div className="ticket-type-zone" key={uuid()}>
           <div className="fare-container">
@@ -38,7 +52,7 @@ export default function MobileTicketPurchaseInformation(
             </div>
 
             <div className="ticket-description">
-              {`${(fare.cents / 100).toFixed(2)} €`}
+              {formatPriceInEuros(fare.cents)}
             </div>
           </div>
         </div>

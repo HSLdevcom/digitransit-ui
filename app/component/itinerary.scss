@@ -232,6 +232,11 @@ $itinerary-tab-switch-height: 48px;
 
   .divider-top,
   .divider-bottom {
+
+    &.hidden {
+      border-top: 0px !important
+    }
+
     position: relative;
     width: 400px;
     height: 1px;

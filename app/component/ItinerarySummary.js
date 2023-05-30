@@ -12,7 +12,10 @@ const ItinerarySummary = ({
   futureText,
   isMultiRow,
   isMobile,
+  hasTicketPurchaseLink,
 }) => {
+  const hideDivider = isMobile && hasTicketPurchaseLink;
+
   return (
     <div className="itinerary-summary">
       {!isMobile && <div className="divider-top" />}
@@ -50,7 +53,7 @@ const ItinerarySummary = ({
           mode="car"
         />
       )}
-      <div className={cx('divider-bottom')} />
+      <div className={cx('divider-bottom', { hidden: hideDivider })} />
     </div>
   );
 };
@@ -66,6 +69,7 @@ ItinerarySummary.propTypes = {
   futureText: PropTypes.string,
   isMultiRow: PropTypes.bool,
   isMobile: PropTypes.bool,
+  hasTicketPurchaseLink: PropTypes.func,
 };
 
 ItinerarySummary.defaultTypes = {
@@ -75,6 +79,7 @@ ItinerarySummary.defaultTypes = {
   futureText: '',
   isMultiRow: false,
   isMobile: false,
+  hasTicketPurchaseLink: undefined,
 };
 
 ItinerarySummary.displayName = 'ItinerarySummary';

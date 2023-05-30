@@ -1,4 +1,6 @@
 import uniq from 'lodash/uniq';
+import React from 'react';
+import { FormattedNumber } from 'react-intl';
 
 // returns null or non-empty array of ticket names
 export function mapFares(fares, config) {
@@ -125,3 +127,33 @@ export const shouldShowFarePurchaseInfo = (config, breakpoint, fares) => {
     breakpoint !== 'large'
   );
 };
+
+/**
+ * Converts the price in cents to euros and returns the formatted amount.
+ *
+ * @param {number} price - The price in cents.
+ * @returns {React.ReactNode} - The formatted amount as a React node.
+ */
+export const formatPriceInEuros = price => {
+  const amountInEuros = price / 100; // Convert cents to euros
+
+  return (
+    <FormattedNumber
+      value={amountInEuros}
+      // eslint-disable-next-line react/style-prop-object
+      style="currency"
+      currency="EUR"
+      minimumFractionDigits={2}
+      maximumFractionDigits={2}
+      aria-label={`Price: ${amountInEuros} euros`}
+    />
+  );
+};
+
+/**
+ * Converts the price in cents to euros and returns the formatted amount suitable for aria.
+ *
+ * @param {number} price - The price in cents.
+ * @returns {string} - The formatted amount as a string.
+ */
+export const fortmatPriceForAria = price => `${(price / 100).toFixed(2)} €`;

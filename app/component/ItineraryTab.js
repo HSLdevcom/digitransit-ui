@@ -235,6 +235,7 @@ class ItineraryTab extends React.Component {
                 futureText={extraProps.futureText}
                 isMultiRow={extraProps.isMultiRow}
                 isMobile={this.props.isMobile}
+                hasTicketPurchaseLink={config.ticketPurchaseLink}
               />
             ) : (
               <>
@@ -265,6 +266,7 @@ class ItineraryTab extends React.Component {
                     futureText={extraProps.futureText}
                     isMultiRow={extraProps.isMultiRow}
                     isMobile={this.props.isMobile}
+                    hasTicketPurchaseLink={config.ticketPurchaseLink}
                   />
                 </div>
               </>
