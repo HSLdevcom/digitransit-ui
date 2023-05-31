@@ -1902,7 +1902,9 @@ class SummaryPage extends React.Component {
         active={activeIndex}
         showActive={detailView}
         showVehicles={this.showVehicles()}
-        onlyHasWalkingItineraries={onlyHasWalkingItineraries}
+        onlyHasWalkingItineraries={
+          onlyHasWalkingItineraries && !this.state.alternativePlan
+        }
         objectsToHide={objectsToHide}
       />
     );
