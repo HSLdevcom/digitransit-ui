@@ -765,7 +765,7 @@ export default {
     turku: '(turku|foli)',
     lappeenranta: 'lappeenranta',
     joensuu: 'joensuu',
-    oulu: 'oulu',
+    oulu: '(oulu|osl)',
     hameenlinna: 'hameenlinna',
     matka: '(matka|^dev.digitransit)',
     vaasa: 'vaasa',
