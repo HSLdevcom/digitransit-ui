@@ -63,9 +63,7 @@ function SelectStopRow(
         ? 'icon-icon_ferry'
         : 'icon-icon_stop_ferry';
       iconOptions.className = 'ferry-stop';
-      if (iconOptions.iconId === 'icon-icon_stop_ferry') {
-        iconOptions.color = colors.iconColors['mode-ferry-pier'];
-      }
+      iconOptions.color = colors.iconColors['mode-ferry'];
       break;
     case 'AIRPLANE':
       iconOptions.iconId = 'icon-icon_airplane';

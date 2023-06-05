@@ -166,11 +166,11 @@ function getIconProperties(
     ],
     [
       'FERRY-default',
-      { icon: 'search-ferry-stop-default', color: 'mode-ferry-pier' },
+      { icon: 'search-ferry-stop-default', color: 'mode-ferry' },
     ],
     [
       'FERRY-digitransit',
-      { icon: 'search-ferry-stop-digitransit', color: 'mode-ferry-pier' },
+      { icon: 'search-ferry-stop-digitransit', color: 'mode-ferry' },
     ],
 
     [
@@ -524,7 +524,6 @@ SuggestionItem.defaultProps = {
     'mode-tram': '#008151',
     'mode-metro': '#ed8c00',
     'mode-ferry': '#007A97',
-    'mode-ferry-pier': '#666666',
     'mode-funicular': '#ff00ff',
     'mode-citybike': '#f2b62d',
     'mode-bus-express': '#CA4000',

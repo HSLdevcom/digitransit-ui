@@ -68,7 +68,6 @@ export default {
       'mode-metro': '#CA4000',
       'mode-rail': '#8E5EA0',
       'mode-ferry': '#247C7B',
-      'mode-ferry-pier': '#666666',
       'mode-citybike': '#FCBC19',
       'mode-citybike-secondary': '#333333',
     },
