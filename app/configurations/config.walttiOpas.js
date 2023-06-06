@@ -33,10 +33,10 @@ export default configMerger(walttiConfig, {
   appBarLink: { name: 'Waltti', href: 'https://waltti.fi/' },
 
   colors: {
-    primary: '#F16522',
-    topBarColor: '#FFC439',
+    primary: '#5959a8',
+    topBarColor: '#17083b',
     iconColors: {
-      'mode-bus': '#F16522',
+      'mode-bus': '#5959a8',
     },
   },
   transportModes: {
@@ -70,7 +70,7 @@ export default configMerger(walttiConfig, {
   },
 
   menu: {
-    copyright: { label: `© TVV lippu- ja maksujärjestelmä Oy ${walttiConfig.YEAR}` },
+    copyright: { label: `© Waltti Solutions Oy ${walttiConfig.YEAR}` },
     content: [
       {
         name: 'about-this-service',
@@ -92,7 +92,7 @@ export default configMerger(walttiConfig, {
       {
         header: 'Tietoja palvelusta',
         paragraphs: [
-          'Waltti-reittiopas on TVV lippu- ja maksujärjestelmä Oy:n tarjoama kansallisen tason reittiopaspalvelu. Palvelu paikantaa sinulle sijainnin ja kertoo lähimmät linjat, pysäkit, reitit ja aikataulutiedot. Se suodattaa tarpeettoman tiedon ja kertoo, miten sujuvimmin pääset perille. Reittiopas-palvelu toimii kaikilla päätelaitteilla, mutta on tehty palvelemaan erityisen hyvin mobiilikäyttäjiä. Palvelu perustuu Digitransit-palvelualustaan.',
+          'Waltti-reittiopas on Waltti Solutions Oy:n tarjoama kansallisen tason reittiopaspalvelu. Palvelu paikantaa sinulle sijainnin ja kertoo lähimmät linjat, pysäkit, reitit ja aikataulutiedot. Se suodattaa tarpeettoman tiedon ja kertoo, miten sujuvimmin pääset perille. Reittiopas-palvelu toimii kaikilla päätelaitteilla, mutta on tehty palvelemaan erityisen hyvin mobiilikäyttäjiä. Palvelu perustuu Digitransit-palvelualustaan.',
         ],
       },
     ],
@@ -101,7 +101,7 @@ export default configMerger(walttiConfig, {
       {
         header: 'Om tjänsten',
         paragraphs: [
-          'Waltti-rutguide är en nationell reseplanera som erbjuds av TVV lippu- ja maksujärjestelmä Oy. Tjänsten lokaliserar din plats och visar de närmsta linjerna och hållplatserna samt rutter och tidtabeller. Tjänsten filtrerar onödig information och anger hur du lättast kommer dit du ska. Ruttguidetjänsten fungerar på alla dataterminaler men är särskilt ägnad att betjäna dem som använder mobilenheter. Tjänsten är baserad på Digitransit, som är riksomfattande serviceplattform för reseplanerare.',
+          'Waltti-rutguide är en nationell reseplanera som erbjuds av Waltti Solutions Oy. Tjänsten lokaliserar din plats och visar de närmsta linjerna och hållplatserna samt rutter och tidtabeller. Tjänsten filtrerar onödig information och anger hur du lättast kommer dit du ska. Ruttguidetjänsten fungerar på alla dataterminaler men är särskilt ägnad att betjäna dem som använder mobilenheter. Tjänsten är baserad på Digitransit, som är riksomfattande serviceplattform för reseplanerare.',
         ],
       },
     ],
@@ -110,7 +110,7 @@ export default configMerger(walttiConfig, {
       {
         header: 'About this service',
         paragraphs: [
-          'Waltti Journey planner is a national journey planner offered by TVV lippu- ja maksujärjestelmä Oy. The service finds your location and tells you the closest lines, stops, routes and timetables. It filters out unnecessary information and tells you the smoothest way to get to your destination. The Journey planner service works on all devices but is designed to best serve mobile users. Service is built on Digitransit platform.',
+          'Waltti Journey planner is a national journey planner offered by Waltti Solutions Oy. The service finds your location and tells you the closest lines, stops, routes and timetables. It filters out unnecessary information and tells you the smoothest way to get to your destination. The Journey planner service works on all devices but is designed to best serve mobile users. Service is built on Digitransit platform.',
         ],
       },
     ],
