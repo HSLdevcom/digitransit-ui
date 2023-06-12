@@ -286,23 +286,27 @@ export const preparePlanParams = (config, useRelaxedRoutingPreferences) => (
     modeWeight: config.customWeights,
     allowedBikeRentalNetworks: allowedBikeRentalNetworksMapped,
     shouldMakeWalkQuery:
-      !wheelchair && linearDistance < config.suggestWalkMaxDistance,
+      !wheelchair &&
+      linearDistance < config.suggestWalkMaxDistance &&
+      !config.onlyCarPlan,
     shouldMakeBikeQuery:
       !wheelchair &&
       linearDistance < config.suggestBikeMaxDistance &&
-      includeBikeSuggestions,
+      includeBikeSuggestions &&
+      !config.onlyCarPlan,
     shouldMakeCarQuery: getShouldMakeCarQuery(
       linearDistance,
       config,
       settings,
       defaultSettings,
     ),
-    shouldMakeParkRideQuery: getShouldMakeParkRideQuery(
-      linearDistance,
-      config,
-      settings,
-      defaultSettings,
-    ),
+    shouldMakeParkRideQuery:
+      getShouldMakeParkRideQuery(
+        linearDistance,
+        config,
+        settings,
+        defaultSettings,
+      ) && !config.onlyCarPlan,
     showBikeAndPublicItineraries:
       !wheelchair &&
       config.showBikeAndPublicItineraries &&

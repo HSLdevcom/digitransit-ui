@@ -110,6 +110,8 @@ export default configMerger(matkaConfig, {
 
   terminalStopsMinZoom: 14,
 
+  onlyCarPlan: true,
+
   aboutThisService: {
     fi: [
       {
