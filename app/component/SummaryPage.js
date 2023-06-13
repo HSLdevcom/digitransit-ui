@@ -349,7 +349,7 @@ class SummaryPage extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.isFetching = false;
-    this.secondQuerySent = false;
+    this.walkBikeQuerySent = false;
     this.setParamsAndQuery();
     this.originalPlan = this.props.viewer && this.props.viewer.plan;
     this.origin = undefined;
@@ -1444,7 +1444,7 @@ class SummaryPage extends React.Component {
       this.props.viewer &&
       this.props.viewer.plan &&
       this.props.viewer.plan.itineraries &&
-      !this.secondQuerySent
+      !this.walkBikeQuerySent
     ) {
       this.showScreenreaderLoadedAlert();
     }
@@ -1492,11 +1492,11 @@ class SummaryPage extends React.Component {
         this.originalPlan,
       ) &&
       this.paramsOrQueryHaveChanged() &&
-      this.secondQuerySent &&
+      this.walkBikeQuerySent &&
       !this.state.isFetchingWalkAndBike
     ) {
       this.setParamsAndQuery();
-      this.secondQuerySent = false;
+      this.walkBikeQuerySent = false;
       // eslint-disable-next-line react/no-did-update-set-state
       this.setState(
         {
@@ -1514,13 +1514,13 @@ class SummaryPage extends React.Component {
           alternativePlan: undefined,
         },
         () => {
-          const hasNonWalkingItinerary = this.selectedPlan?.itineraries?.some(
+          const vehicleItinerariesFound = this.selectedPlan?.itineraries?.some(
             itinerary => !itinerary.legs.every(leg => leg.mode === 'WALK'),
           );
           if (
             relevantRoutingSettingsChanged(this.context.config) &&
             hasStartAndDestination(this.context.match.params) &&
-            hasNonWalkingItinerary
+            !vehicleItinerariesFound
           ) {
             this.makeQueryWithAllModes();
           }
@@ -1533,10 +1533,9 @@ class SummaryPage extends React.Component {
       this.props.viewer &&
       this.props.viewer.plan &&
       this.props.viewer.plan.itineraries &&
-      !this.secondQuerySent
+      !this.walkBikeQuerySent
     ) {
       this.originalPlan = this.props.viewer.plan;
-      this.secondQuerySent = true;
       if (
         !isEqual(
           otpToLocation(this.context.match.params.from),
@@ -1544,6 +1543,7 @@ class SummaryPage extends React.Component {
         ) ||
         viaPoints.length > 0
       ) {
+        this.walkBikeQuerySent = true;
         this.makeWalkAndBikeQueries();
       } else {
         // eslint-disable-next-line react/no-did-update-set-state
@@ -2425,7 +2425,11 @@ class SummaryPage extends React.Component {
       /* Should render content if
       1. Fetching public itineraries is complete
       2. Don't have to wait for walk and bike query to complete
-      3. Result has non-walking itineraries OR if not, query with all modes is completed or query is made with default settings
+      3. Result has non-walking itineraries OR 
+         result has only walking itineraries AND 
+          a. all modes query is finished
+          OR 
+          b. relevant settings have changed (alternative routes are not fetched when user chooses to limit the results)
       If all conditions don't apply, render spinner */
       if (
         loadingPublicDone &&
@@ -2433,7 +2437,7 @@ class SummaryPage extends React.Component {
         (!onlyHasWalkingItineraries ||
           (onlyHasWalkingItineraries &&
             (this.allModesQueryDone ||
-              !relevantRoutingSettingsChanged(this.context.config))))
+              relevantRoutingSettingsChanged(this.context.config))))
       ) {
         const activeIndex =
           hash || getActiveIndex(match.location, combinedItineraries);
