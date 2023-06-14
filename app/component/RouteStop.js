@@ -103,7 +103,7 @@ const RouteStop = (
           stop.stopTimesForPattern[1],
           currentTime,
         )},`;
-        if (nextDeparture.realtime) {
+        if (nextDeparture?.realtime) {
           text += `${intl.formatMessage({ id: 'realtime' })},`;
         }
         if (
