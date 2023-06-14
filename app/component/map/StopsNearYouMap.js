@@ -87,9 +87,11 @@ const stopClient = context => {
 const updateClient = (context, topics) => {
   const { client } = context.getStore('RealTimeInformationStore');
   const config = getRealTimeSettings(topics, context);
-  config.client = client;
-  if (client) {
-    context.executeAction(changeRealTimeClientTopics, config, client);
+  if (config) {
+    config.client = client;
+    if (client) {
+      context.executeAction(changeRealTimeClientTopics, config, client);
+    }
   }
 };
 
