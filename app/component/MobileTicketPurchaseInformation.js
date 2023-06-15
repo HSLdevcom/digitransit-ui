@@ -66,7 +66,7 @@ export default function MobileTicketPurchaseInformation(
               addAnalyticsEvent({ event: 'journey_planner_open_app' })
             }
           >
-            <FormattedMessage id="buy-single-ticket" />
+            <FormattedMessage id="open-app" />
           </ExternalLink>
         </div>
       </div>
