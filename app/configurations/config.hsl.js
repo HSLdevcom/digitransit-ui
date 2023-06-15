@@ -60,6 +60,9 @@ export default {
   title: 'Reittiopas',
 
   availableLanguages: ['fi', 'sv', 'en'],
+  availableTickets: {
+    Sipoo: true,
+  },
   defaultLanguage: 'fi',
   passLanguageToRootLink: true,
 
@@ -73,7 +76,7 @@ export default {
 
   useRoutingFeedbackPrompt: true,
 
-  feedIds: ['HSL', 'HSLlautta'],
+  feedIds: ['HSL', 'HSLlautta', 'Sipoo'],
 
   showHSLTracking: false,
   allowLogin: true,
