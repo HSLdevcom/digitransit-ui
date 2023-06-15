@@ -411,7 +411,7 @@ export default {
 
   useTicketIcons: true,
   ticketPurchaseLink: function purchaseTicketLink(ticket) {
-    return `https://open.app.hsl.fi/zoneTicketWizard/TICKET_TYPE_SINGLE_TICKET/${ticket}/adult/`;
+    return `https://open.app.hsl.fi/zoneTicketWizard/TICKET_TYPE_SINGLE_TICKET/${ticket}/adult/?utm_campaign=reittiopas&utm_medium=reittiopasohjaus`;
   },
 
   trafficNowLink: {
