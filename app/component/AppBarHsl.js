@@ -9,7 +9,6 @@ import LazilyLoad, { importLazy } from './LazilyLoad';
 import { clearOldSearches, clearFutureRoutes } from '../util/storeUtils';
 import { getJson } from '../util/xhrPromise';
 import { initAnalyticsClientSide } from '../util/analyticsUtils';
-import './override-hsl-styles.scss';
 
 const modules = {
   SiteHeader: () => importLazy(import('@hsl-fi/site-header')),
@@ -120,16 +119,14 @@ const AppBarHsl = ({ lang, user, favourites }, context) => {
   return (
     <>
       {config.useCookiesPrompt && (
-        <div className="override-hsl-buttons">
-          <Helmet>
-            <script
-              id="CookieConsent"
-              src="https://policy.app.cookieinformation.com/uc.js"
-              data-culture="FI"
-              type="text/javascript"
-            />
-          </Helmet>
-        </div>
+        <Helmet>
+          <script
+            id="CookieConsent"
+            src="https://policy.app.cookieinformation.com/uc.js"
+            data-culture="FI"
+            type="text/javascript"
+          />
+        </Helmet>
       )}
 
       <LazilyLoad modules={modules}>
