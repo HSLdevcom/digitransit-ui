@@ -120,16 +120,16 @@ const AppBarHsl = ({ lang, user, favourites }, context) => {
   return (
     <>
       {config.useCookiesPrompt && (
-        <Helmet>
-          <div className="override-hsl-buttons">
+        <div className="override-hsl-buttons">
+          <Helmet>
             <script
               id="CookieConsent"
               src="https://policy.app.cookieinformation.com/uc.js"
               data-culture="FI"
               type="text/javascript"
             />
-          </div>
-        </Helmet>
+          </Helmet>
+        </div>
       )}
 
       <LazilyLoad modules={modules}>
