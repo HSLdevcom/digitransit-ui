@@ -38,6 +38,7 @@
     .app-link {
         .external-link-container {
             border: 0;
+	    line-height: 25px;
             a.external-link {
                 font-size: 16px;
                 color: #0074BF
@@ -65,14 +66,14 @@
     flex-grow: 1;
     flex-shrink: 1;
     white-space: normal;
-    line-height: 1.33;
+    line-height: 1.1;
     background-color: $primary-color;
     justify-content: space-between;
     .ticket-container {
       display: grid;
       align-items: center;
       justify-content: space-between;
-      margin: 11px 6px 6px 15px;
+      margin: 11px 6px 9px 15px;
       @include min-width(tablet) {
         margin-right: 15px;
       }
