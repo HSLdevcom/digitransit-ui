@@ -12,14 +12,14 @@
     .external-link-container {
       width: 120px;
       text-align: center;
-      border-radius: 25px;
+      border-radius: 23px;
       border: 1px solid #888;
-      min-height: 28px;
+      min-height: 26px;
       .external-link {
         font-weight: $font-weight-medium;
         color: $primary-color;
         padding-top: 3px;
-        font-size: 15px;
+        font-size: 13px;
       }
       &:hover {
         box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
@@ -38,18 +38,19 @@
     .app-link {
         .external-link-container {
             border: 0;
+	    line-height: 25px;
             a.external-link {
-                font-size: 20px;
-                color: $primary-color;
+                font-size: 16px;
+                color: #0074BF
         }
     }
-        margin-right: 10px;
+        margin-right: 16px;
         display: flex;
         justify-content: space-evenly;
         align-items: center;
         padding: 3px 10px 5px 10px;
-        min-width: 10.375em;
-        height: 2.75em;
+        min-width: 10.9em;
+        height: 2.4em;
         right: 15px;
         top: 25px;
         background: #FFF;
@@ -65,14 +66,14 @@
     flex-grow: 1;
     flex-shrink: 1;
     white-space: normal;
-    line-height: 1.33;
+    line-height: 1.1;
     background-color: $primary-color;
     justify-content: space-between;
     .ticket-container {
       display: grid;
       align-items: center;
       justify-content: space-between;
-      margin: 11px 10px 10px 15px;
+      margin: 11px 6px 9px 15px;
       @include min-width(tablet) {
         margin-right: 15px;
       }
