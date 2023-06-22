@@ -95,6 +95,8 @@ export default {
     'Kajaani',
     'Salo',
     'Pori',
+    'Viro',
+    'Viking Line',
   ],
 
   stopSearchFilter: stop => {
@@ -141,7 +143,13 @@ export default {
   },
 
   redirectReittiopasParams: true,
-  map: { minZoom: 5 },
+  map: {
+    minZoom: 5,
+    areaBounds: {
+      corner1: [70.25, 32.25],
+      corner2: [55.99, 17.75],
+    },
+  },
   suggestBikeMaxDistance: 2000000,
 
   cityBike: {
