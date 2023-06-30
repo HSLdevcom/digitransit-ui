@@ -4,6 +4,7 @@ import { intlShape } from 'react-intl';
 import getJson from '@digitransit-search-util/digitransit-search-util-get-json';
 import suggestionToLocation from '@digitransit-search-util/digitransit-search-util-suggestion-to-location';
 import connectToStores from 'fluxible-addons-react/connectToStores';
+import isEqual from 'lodash/isEqual';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import {
   PREFIX_ITINERARY_SUMMARY,
@@ -16,6 +17,7 @@ import SelectFromMapHeader from './SelectFromMapHeader';
 import SelectFromMap from './map/SelectFromMap';
 import DTModal from './DTModal';
 import FromMapModal from './FromMapModal';
+import { removeSearch } from '../action/SearchActions';
 
 const PATH_OPTS = {
   stopsPrefix: PREFIX_STOPS,
@@ -192,12 +194,24 @@ export default function withSearchContext(
         })
           .then(res => {
             const newItem = { ...item };
+            let save = true;
             if (res.features != null && res.features.length > 0) {
-              // update only position. It is surprising if, say, the name changes at selection.
-              const geom = res.features[0].geometry;
-              newItem.geometry.coordinates = geom.coordinates;
+              if (!isEqual(newItem.properties, res.features[0].properties)) {
+                save = false;
+              } else {
+                // update position
+                newItem.geometry.coordinates =
+                  res.features[0].geometry.coordinates;
+              }
             }
-            this.saveOldSearch(newItem, type, id);
+            if (save) {
+              this.saveOldSearch(newItem, type, id);
+            } else {
+              this.context.executeAction(removeSearch, {
+                item: newItem,
+                type,
+              });
+            }
             this.onSuggestionSelected(item, id);
           })
           .catch(() => {
