@@ -96,7 +96,7 @@ export default {
     'Salo',
     'Pori',
     'Viro',
-    'Viking Line',
+    'Vikingline',
   ],
 
   stopSearchFilter: stop => {
