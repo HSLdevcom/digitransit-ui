@@ -193,19 +193,24 @@ export default function withSearchContext(
         })
           .then(res => {
             const newItem = { ...item };
-            let save = true;
-            if (res.features?.length > 0) {
+            let canSave = true;
+            if (res.features != null && res.features.length > 0) {
+              // update only position. It is surprising if, say, the name changes at selection.
+              const geom = res.features[0].geometry;
+              newItem.geometry.coordinates = geom.coordinates;
               if (
-                newItem.properties.label !== res.features[0].properties.label
+                newItem.properties.name !== res.features[0].properties.name ||
+                newItem.properties.street !==
+                  res.features[0].properties.street ||
+                newItem.properties.housenumber !==
+                  res.features[0].properties.housenumber
               ) {
-                save = false;
-              } else {
-                // update position
-                newItem.geometry.coordinates =
-                  res.features[0].geometry.coordinates;
+                // Item properties have changed unexpectedly. For example,
+                // an enterprise may have moved to new premises. Remove outdated information.
+                canSave = false;
               }
             }
-            if (save) {
+            if (canSave) {
               this.saveOldSearch(newItem, type, id);
             } else {
               this.context.executeAction(removeSearch, {
