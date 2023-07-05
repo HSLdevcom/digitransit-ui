@@ -12,6 +12,7 @@ const ItinerarySummary = ({
   futureText,
   isMultiRow,
   isMobile,
+  hideBottomDivider,
 }) => {
   return (
     <div className="itinerary-summary">
@@ -50,7 +51,7 @@ const ItinerarySummary = ({
           mode="car"
         />
       )}
-      <div className={cx('divider-bottom')} />
+      {!hideBottomDivider && <div className={cx('divider-bottom')} />}
     </div>
   );
 };
@@ -66,6 +67,7 @@ ItinerarySummary.propTypes = {
   futureText: PropTypes.string,
   isMultiRow: PropTypes.bool,
   isMobile: PropTypes.bool,
+  hideBottomDivider: PropTypes.bool,
 };
 
 ItinerarySummary.defaultTypes = {
@@ -75,6 +77,7 @@ ItinerarySummary.defaultTypes = {
   futureText: '',
   isMultiRow: false,
   isMobile: false,
+  hideBottomDivider: false,
 };
 
 ItinerarySummary.displayName = 'ItinerarySummary';

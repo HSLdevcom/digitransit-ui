@@ -937,7 +937,6 @@ const translations = {
     'bus-local': 'Neighbourhood bus',
     'bus-with-route-number': 'Bus {routeNumber} {headSign}',
     buy: 'Buy',
-    'buy-single-ticket': 'Buy a ticket',
     'buy-ticket': 'How to buy a ticket',
     call: 'Call',
     cancel: 'Cancel',
@@ -1297,6 +1296,7 @@ const translations = {
     'off-canvas-info':
       'Log in to the service to save your favorites and utilize them on other devices',
     'one-way-journey': 'The length of a one-way journey',
+    'open-app': 'Open the app',
     'option-default': 'Average',
     'option-least': 'Slow',
     'option-less': 'Calm',
@@ -2072,7 +2072,6 @@ const translations = {
     'bus-local': 'Lähibussi',
     'bus-with-route-number': 'Bussi {routeNumber} {headSign}',
     buy: 'Osta',
-    'buy-single-ticket': 'Osta lippu',
     'buy-ticket': 'Näin ostat lipun',
     call: 'Soita',
     cancel: 'Peruuta',
@@ -2431,6 +2430,7 @@ const translations = {
     'off-canvas-info':
       'Kirjautumalla palveluun saat suosikit talteen ja voit hyödyntää niitä muillakin laitteillasi',
     'one-way-journey': 'Yhdensuuntaisen matkan pituus',
+    'open-app': 'Avaa sovellus',
     'option-default': 'Keskimääräinen',
     'option-least': 'Hidas',
     'option-less': 'Rauhallinen',
@@ -3982,7 +3982,6 @@ const translations = {
     'bus-local': 'närbuss',
     'bus-with-route-number': 'Buss {routeNumber} {headSign}',
     buy: 'Köp',
-    'buy-single-ticket': 'Köp en biljett',
     'buy-ticket': 'Så här köper du biljetten',
     call: 'Ring',
     cancel: 'Avbryt',
@@ -4341,6 +4340,7 @@ const translations = {
     'off-canvas-info':
       'Genom att logga in kan du spara dina favoriter och använda dem med dina andra enheter.',
     'one-way-journey': ' Längden på en enkel resa',
+    'open-app': ' Öppna appen',
     'option-default': 'Standard',
     'option-least': 'Minst',
     'option-less': 'Mindre',

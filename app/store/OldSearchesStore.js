@@ -74,6 +74,27 @@ class OldSearchesStore extends Store {
     this.emitChange();
   }
 
+  removeSearch(search) {
+    if (isCurrentLocationItem(search)) {
+      return;
+    }
+    const { items } = this.getStorageObject();
+
+    const key = getNameLabel(search.item.properties, true);
+    for (let i = 0; i < items.length; i++) {
+      if (isEqual(key, getNameLabel(items[i].item.properties, true))) {
+        // remove
+        items.splice(i, 1);
+        setOldSearchesStorage({
+          version: STORE_VERSION,
+          items: orderBy(items, 'count', 'desc'),
+        });
+        this.emitChange();
+        break;
+      }
+    }
+  }
+
   getOldSearches(type) {
     const { items } = this.getStorageObject();
     const timestamp = moment().unix();
@@ -119,6 +140,7 @@ class OldSearchesStore extends Store {
 
   static handlers = {
     SaveSearch: 'saveSearch',
+    RemoveSearch: 'removeSearch',
     SaveSearchItems: 'saveOldSearchItems',
   };
 }

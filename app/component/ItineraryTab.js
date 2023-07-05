@@ -243,6 +243,7 @@ class ItineraryTab extends React.Component {
                 futureText={extraProps.futureText}
                 isMultiRow={extraProps.isMultiRow}
                 isMobile={this.props.isMobile}
+		hideBottomDivider={shouldShowFarePurchaseInfo(config,breakpoint,fares)}
               />
             ) : (
               <>
