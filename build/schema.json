@@ -3071,6 +3071,18 @@
                             "deprecationReason": null
                         },
                         {
+                            "name": "emissions",
+                            "description": null,
+                            "args": [],
+                            "type": {
+                                "kind": "SCALAR",
+                                "name": "Float",
+                                "ofType": null
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
                             "name": "legs",
                             "description": "A list of Legs. Each Leg is either a walking (cycling, car) portion of the\nitinerary, or a transit leg on a particular vehicle. So a itinerary where the\nuser walks to the Q train, transfers to the 6, then walks to their\ndestination, has four legs.",
                             "args": [],
