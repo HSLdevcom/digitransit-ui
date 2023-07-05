@@ -41,6 +41,10 @@ import {
   initAnalyticsClientSide,
   addAnalyticsEvent,
 } from './util/analyticsUtils';
+import {
+  getCountryFeedId,
+  getGeocodingCountryCode,
+} from './util/countryMapper';
 
 const plugContext = f => () => ({
   plugComponentContext: f,
@@ -100,6 +104,32 @@ async function init() {
   }
 
   const context = await app.rehydrate(window.state);
+
+  if (config.mainMenu.countrySelection) {
+    const selectedCountries = context.getStore('CountryStore').getCountries();
+    const keys = Object.keys(selectedCountries);
+    let boundaries = 'FIN';
+    let feedIds = [...config.feedIds];
+    keys.forEach(key => {
+      if (selectedCountries[key]) {
+        boundaries += `,${getGeocodingCountryCode(key)}`;
+        const countryFeedIds = getCountryFeedId(key);
+        feedIds = [...feedIds, ...countryFeedIds];
+      }
+    });
+
+    if (boundaries !== 'FIN') {
+      if (!config.searchParams) {
+        config.searchParams = {};
+      }
+      config.searchParams = {
+        ...config.searchParams,
+        'boundary.country': boundaries,
+      };
+    }
+
+    config.feedIds = feedIds;
+  }
 
   // For Google Tag Manager
   if (!config.useCookiesPrompt) {
