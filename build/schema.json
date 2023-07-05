@@ -3072,7 +3072,7 @@
                         },
                         {
                             "name": "emissions",
-                            "description": null,
+                            "description": "CO2 emissions of the trip on this itinerary, in grams per person.",
                             "args": [],
                             "type": {
                                 "kind": "SCALAR",
