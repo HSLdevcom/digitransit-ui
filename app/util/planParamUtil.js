@@ -174,11 +174,15 @@ const getShouldMakeCarQuery = (
   settings,
   defaultSettings,
 ) => {
+  const forceCarRouting = config.forceCarRouting
+    ? config.forceCarRouting
+    : defaultSettings.forceCarRouting;
+  const includeCarSuggestions = settings.includeCarSuggestions
+    ? settings.includeCarSuggestions
+    : defaultSettings.includeCarSuggestions;
   return (
-    linearDistance > config.suggestCarMinDistance &&
-    (settings.includeCarSuggestions
-      ? settings.includeCarSuggestions
-      : defaultSettings.includeCarSuggestions)
+    forceCarRouting ||
+    (linearDistance > config.suggestCarMinDistance && includeCarSuggestions)
   );
 };
 

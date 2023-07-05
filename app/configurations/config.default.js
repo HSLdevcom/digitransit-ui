@@ -189,6 +189,7 @@ export default {
   defaultSettings: {
     accessibilityOption: 0,
     bikeSpeed: 5.55,
+    forceCarRouting: false,
     ticketTypes: 'none',
     walkBoardCost: 120,
     walkReluctance: 1.8,
@@ -197,6 +198,7 @@ export default {
     includeParkAndRideSuggestions: false,
     includeCarSuggestions: false,
     showBikeAndParkItineraries: false,
+    showCO2InItinerarySummary: false,
   },
 
   /**
@@ -860,4 +862,8 @@ export default {
   },
 
   showAlternativeLegs: true,
+
+  // DT-5325
+  showCO2InItinerarySummary: false,
+  forceCarRouting: false,
 };

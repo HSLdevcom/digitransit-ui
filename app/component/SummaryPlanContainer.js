@@ -344,6 +344,7 @@ const connectedContainer = createFragmentContainer(
         itineraries {
           startTime
           endTime
+          emissions
           legs {
             mode
             ...ItineraryLine_legs
@@ -398,6 +399,7 @@ const connectedContainer = createFragmentContainer(
         ...ItinerarySummaryListContainer_itineraries
         endTime
         startTime
+        emissions
         legs {
           mode
           to {

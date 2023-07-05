@@ -7,6 +7,7 @@ import { matchShape, routerShape } from 'found';
 import { FormattedMessage, intlShape } from 'react-intl';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 
+import Link from 'found/Link';
 import Icon from './Icon';
 import TicketInformation from './TicketInformation';
 import RouteInformation from './RouteInformation';
@@ -43,6 +44,7 @@ import {
 import CityBikeDurationInfo from './CityBikeDurationInfo';
 import { getCityBikeNetworkId } from '../util/citybikes';
 import { FareShape } from '../util/shapes';
+import Loading from './Loading';
 
 const AlertShape = PropTypes.shape({ alertSeverityLevel: PropTypes.string });
 
@@ -66,6 +68,7 @@ const ItineraryShape = PropTypes.shape({
     }),
   ),
   fares: PropTypes.arrayOf(FareShape),
+  emissions: PropTypes.number,
 });
 
 /* eslint-disable prettier/prettier */
@@ -80,10 +83,12 @@ class ItineraryTab extends React.Component {
     isMobile: PropTypes.bool.isRequired,
     currentTime: PropTypes.number.isRequired,
     hideTitle: PropTypes.bool,
+    carItinerary: PropTypes.array,
   };
 
   static defaultProps = {
     hideTitle: false,
+    carItinerary: [],
   };
 
   static contextTypes = {
@@ -213,6 +218,9 @@ class ItineraryTab extends React.Component {
     const suggestionIndex = this.context.match.params.secondHash
       ? Number(this.context.match.params.secondHash) + 1
       : Number(this.context.match.params.hash) + 1;
+    const co2value = itinerary.emissions ? Math.round(itinerary.emissions) : 0;
+    const carCo2Value = this.props.carItinerary && this.props.carItinerary.length > 0 ? Math.round(this.props.carItinerary[0].emissions) : 0;
+    const co2percentage = co2value > 0 && carCo2Value > 0 ? Math.round((co2value / carCo2Value) * 100) : 0;
     return (
       <div className="itinerary-tab">
         <h2 className="sr-only">
@@ -277,15 +285,36 @@ class ItineraryTab extends React.Component {
             ),
             shouldShowFareInfo(config) && (
               shouldShowFarePurchaseInfo(config,breakpoint,fares) ? (
-              <MobileTicketPurchaseInformation 
-                fares={fares}
-                zones={getZones(itinerary.legs)}
+                <MobileTicketPurchaseInformation
+                  fares={fares}
+                  zones={getZones(itinerary.legs)}
                 />) :
             (  <TicketInformation
-                fares={fares}
-                zones={getZones(itinerary.legs)}
-                legs={itinerary.legs}
-              />)
+                  fares={fares}
+                  zones={getZones(itinerary.legs)}
+                  legs={itinerary.legs}
+                />)
+            ),
+            config.showCO2InItinerarySummary && co2value > 0 && (
+              <div className="itinerary-co2-information">
+                <div className="itinerary-co2-line">
+                  <div className="co2-container">
+                    <div className="co2-title-container">
+                      <Icon img="icon-icon_co2_leaf" className="co2-leaf" />
+                      <span className="itinerary-co2-title" aria-hidden>
+                        <FormattedMessage
+                          id="itinerary-co2.title"
+                          defaultMessage="CO2 emissions for this route"
+                        />
+                      </span>
+                    </div>
+                    <div className="itinerary-co2-value-container">
+                      <div className="itinerary-co2-value">{co2value} g</div>
+                    </div>
+                  </div>
+                  <div className={cx('divider-bottom')} />
+                </div>
+              </div>
             ),
             <div
               className={cx('momentum-scroll itinerary-tabs__scroll', {
@@ -325,6 +354,45 @@ class ItineraryTab extends React.Component {
                 />
                 {config.showRouteInformation && <RouteInformation />}
               </div>
+              {config.showCO2InItinerarySummary && co2value > 0 && co2percentage > 0 ? (
+                <div className="itinerary-co2-comparison">
+                  <div className="itinerary-co2-line">
+                    <div className={cx('divider-top')} />
+                    <div className="co2-container">
+                      <div className="co2-description-container">
+                        <Icon img="icon-icon_co2_leaf" className="co2-leaf" />
+                        <span className="itinerary-co2-description" aria-hidden>
+                          <FormattedMessage
+                            id="itinerary-co2.description"
+                            defaultMessage="CO2 emissions for this route"
+                            values={{
+                              co2value,
+                              co2percentage,
+                            }}
+                          />
+                          {config.URL.EMISSIONSINFO && (
+                          <div className='co2link'>
+                            <Link style={{ textDecoration: 'none', fontWeight: '450' }}
+                              to={`${config.URL.EMISSIONSINFO}`}
+                              target="_blank"
+                            >
+                              <FormattedMessage
+                                id="itinerary-co2.link"
+                                defaultMessage="Näin vähennämme päästöjä ›"
+                              />
+                            </Link>
+                          </div>
+                         )}
+                        </span>
+                      </div>
+                    </div>
+                    <div className={cx('divider-bottom')} />
+                  </div>
+                </div>
+              ) : config.forceCarRouting &&
+              (<div style={{ position: 'relative', height: 200 }}>
+                <Loading />
+              </div>)}
               {this.shouldShowDisclaimer(config) && (
                 <div className="itinerary-disclaimer">
                   <FormattedMessage
@@ -374,6 +442,7 @@ const withRelay = createFragmentContainer(
           }
           type
         }
+        emissions
         legs {
           mode
           nextLegs(numberOfLegs: 2  originModesWithParentStation: [RAIL]  destinationModesWithParentStation: [RAIL]) {

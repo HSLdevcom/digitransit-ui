@@ -264,6 +264,7 @@ export const moreItinerariesQuery = graphql`
         endTime
         ...ItineraryTab_itinerary
         ...SummaryPlanContainer_itineraries
+        emissions
         legs {
           mode
           ...ItineraryLine_legs

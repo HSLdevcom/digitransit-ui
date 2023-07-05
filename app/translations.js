@@ -2228,6 +2228,10 @@ const translations = {
     inquiry: 'Mitä pidät uudesta Reittioppaasta? Kerro se meille! ',
     instructions: 'Ohjeet',
     'is-open': 'Avoinna:',
+    'itinerary-co2.description':
+      'Tämän matkan CO2 päästö on {co2value} g, joka on {co2percentage} % verrattuna henkilöautolla suoritettuun matkaan.',
+    'itinerary-co2.link': 'Näin vähennämme päästöjä ›',
+    'itinerary-co2.title': 'Matkan CO2-päästöt',
     'itinerary-details.biking-leg':
       '{time} pyöräile kohteesta {origin} {distance} {to} {destination}. Matka-aika {duration}',
     'itinerary-details.car-leg':

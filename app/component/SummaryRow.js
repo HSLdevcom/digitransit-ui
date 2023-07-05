@@ -221,6 +221,7 @@ const SummaryRow = (
     intermediatePlaces,
     zones,
     onlyHasWalkingItineraries,
+    lowestCo2value,
     ...props
   },
   { intl, intl: { formatMessage }, config },
@@ -236,6 +237,7 @@ const SummaryRow = (
   const startTime = moment(data.startTime);
   const endTime = moment(data.endTime);
   const duration = endTime.diff(startTime);
+  const co2value = Math.round(data.emissions);
 
   const mobile = bp => !(bp === 'large');
   const legs = [];
@@ -780,6 +782,14 @@ const SummaryRow = (
                     {(getTotalDistance(data) / 1000).toFixed(1)} km
                   </div>
                 )}
+                {config.showCO2InItinerarySummary && co2value > 0 && (
+                  <div className="itinerary-co2-value-container">
+                    {lowestCo2value === co2value && (
+                      <Icon img="icon-icon_co2_leaf" className="co2-leaf" />
+                    )}
+                    <div className="itinerary-co2-value">{co2value} g</div>
+                  </div>
+                )}
                 <div className="itinerary-duration">
                   <RelativeDuration duration={duration} />
                 </div>
@@ -874,10 +884,17 @@ SummaryRow.propTypes = {
   showCancelled: PropTypes.bool,
   zones: PropTypes.arrayOf(PropTypes.string),
   onlyHasWalkingItineraries: PropTypes.bool,
+  lowestCo2value: PropTypes.number,
 };
 
 SummaryRow.defaultProps = {
   zones: [],
+  passive: false,
+  intermediatePlaces: [],
+  isCancelled: false,
+  showCancelled: false,
+  onlyHasWalkingItineraries: false,
+  lowestCo2value: 0,
 };
 
 SummaryRow.contextTypes = {

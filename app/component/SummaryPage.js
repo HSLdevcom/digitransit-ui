@@ -737,6 +737,7 @@ class SummaryPage extends React.Component {
             endTime
             ...ItineraryTab_itinerary
             ...SummaryPlanContainer_itineraries
+            emissions
             legs {
               mode
               ...ItineraryLine_legs
@@ -790,6 +791,7 @@ class SummaryPage extends React.Component {
             endTime
             ...ItineraryTab_itinerary
             ...SummaryPlanContainer_itineraries
+            emissions
             legs {
               mode
               ...ItineraryLine_legs
@@ -849,6 +851,7 @@ class SummaryPage extends React.Component {
             endTime
             ...ItineraryTab_itinerary
             ...SummaryPlanContainer_itineraries
+            emissions
             legs {
               mode
               ...ItineraryLine_legs
@@ -1029,6 +1032,7 @@ class SummaryPage extends React.Component {
             endTime
             ...ItineraryTab_itinerary
             ...SummaryPlanContainer_itineraries
+            emissions
             legs {
               mode
               ...ItineraryLine_legs
@@ -2471,6 +2475,7 @@ class SummaryPage extends React.Component {
                   focusToPoint={this.focusToPoint}
                   focusToLeg={this.focusToLeg}
                   isMobile={false}
+                  carItinerary={this.state.carPlan?.itineraries}
                 />
               </div>
             );
@@ -2930,6 +2935,7 @@ const containerComponent = createRefetchContainer(
             endTime
             ...ItineraryTab_itinerary
             ...SummaryPlanContainer_itineraries
+            emissions
             legs {
               mode
               ...ItineraryLine_legs

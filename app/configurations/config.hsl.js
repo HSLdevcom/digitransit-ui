@@ -47,6 +47,7 @@ export default {
     BANNERS: BANNER_URL,
     HSL_FI_SUGGESTIONS: 'https://content.hsl.fi/api/v1/search/suggestions',
     EMBEDDED_SEARCH_GENERATION: '/reittiopas-elementti',
+    EMISSIONSINFO: 'https://www.hsl.fi/hsl/sahkobussit/ymparisto-lukuina',
   },
 
   indexPath: 'etusivu',
@@ -497,6 +498,10 @@ export default {
   showVehiclesOnSummaryPage: true,
   showBikeAndPublicItineraries: true,
   showBikeAndParkItineraries: true,
+
+  // DT-5325
+  showCO2InItinerarySummary: true,
+  forceCarRouting: true,
 
   includeCarSuggestions: false,
   includeParkAndRideSuggestions: true,
