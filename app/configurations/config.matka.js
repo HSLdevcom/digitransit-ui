@@ -93,6 +93,19 @@ export default {
     'Pori',
   ],
 
+  additionalFeedIds: {
+    estonia: ['Vikingline', 'Viro'],
+  },
+
+  additionalSearchParams: {
+    default: {
+      'boundary.country': 'FIN',
+    },
+    estonia: {
+      'boundary.country': 'EST',
+    },
+  },
+
   stopSearchFilter: stop => {
     const props = stop.properties;
     if (
