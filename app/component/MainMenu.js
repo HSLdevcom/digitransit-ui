@@ -11,7 +11,6 @@ import MainMenuLinks from './MainMenuLinks';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import { updateCountries } from '../action/CountryActions';
 import Toggle from './customizesearch/Toggle';
-import { configureCountry } from '../util/configureCountry';
 
 function MainMenu(props, { config, intl }) {
   const [countries, setCountries] = useState(props.countries);
@@ -105,10 +104,7 @@ function MainMenu(props, { config, intl }) {
                         ...countries,
                         [country]: !countries[country],
                       });
-                      configureCountry(config, {
-                        ...countries,
-                        [country]: !countries[country],
-                      });
+                      window.location.reload();
                     }}
                   />
                 </label>
