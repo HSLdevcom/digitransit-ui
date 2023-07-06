@@ -1,15 +1,19 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useState } from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
 import Link from 'found/Link';
 
+import { connectToStores } from 'fluxible-addons-react';
 import DisruptionInfoButtonContainer from './DisruptionInfoButtonContainer';
 import Icon from './Icon';
 import LangSelect from './LangSelect';
 import MainMenuLinks from './MainMenuLinks';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
+import { updateCountries } from '../action/CountryActions';
+import Toggle from './customizesearch/Toggle';
 
 function MainMenu(props, { config, intl }) {
+  const [countries, setCountries] = useState(props.countries);
   return (
     <div className="main-menu no-select">
       <div className="main-menu-top-section">
@@ -77,23 +81,56 @@ function MainMenu(props, { config, intl }) {
             </Link>
           </div>
         )}
-        {config.appBarLink && config.appBarLink.name && config.appBarLink.href && (
-          <div className="offcanvas-section">
-            <a
-              id="appBarLink"
-              href={config.appBarLink.href}
-              onClick={() => {
-                addAnalyticsEvent({
-                  category: 'Navigation',
-                  action: 'appBarLink',
-                  name: null,
-                });
-              }}
-            >
-              {config.appBarLink.name}
-            </a>
-          </div>
-        )}
+        {config.mainMenu.countrySelection &&
+          config.mainMenu.countrySelection.map(country => (
+            <div key={country} className="offcanvas-section">
+              <FormattedMessage
+                id={`include-${country}`}
+                defaultMessage={`include-${country}`}
+              />
+              <div style={{ float: 'right', display: 'inline-block' }}>
+                {/* eslint-disable jsx-a11y/label-has-associated-control */}
+                <label key={country} htmlFor={`toggle-${country}`}>
+                  <Toggle
+                    id={`toggle-${country}`}
+                    toggled={!!countries[country]}
+                    title={`toggle-${country}`}
+                    onToggle={() => {
+                      setCountries({
+                        ...countries,
+                        [country]: !countries[country],
+                      });
+                      props.updateCountries({
+                        ...countries,
+                        [country]: !countries[country],
+                      });
+                      window.location.reload();
+                    }}
+                  />
+                </label>
+              </div>
+            </div>
+          ))}
+        {config.appBarLink &&
+          config.appBarLink.name &&
+          config.appBarLink.href &&
+          !config.hideAppBarLink && (
+            <div className="offcanvas-section">
+              <a
+                id="appBarLink"
+                href={config.appBarLink.href}
+                onClick={() => {
+                  addAnalyticsEvent({
+                    category: 'Navigation',
+                    action: 'appBarLink',
+                    name: null,
+                  });
+                }}
+              >
+                {config.appBarLink.name}
+              </a>
+            </div>
+          )}
       </section>
       <section className="menu-section secondary-links">
         <MainMenuLinks
@@ -113,6 +150,8 @@ MainMenu.propTypes = {
   setDisruptionInfoOpen: PropTypes.func.isRequired,
   closeMenu: PropTypes.func.isRequired,
   homeUrl: PropTypes.string.isRequired,
+  countries: PropTypes.object,
+  updateCountries: PropTypes.func,
 };
 
 MainMenu.contextTypes = {
@@ -121,4 +160,16 @@ MainMenu.contextTypes = {
   intl: intlShape.isRequired,
 };
 
-export default MainMenu;
+const connectedComponent = connectToStores(
+  MainMenu,
+  ['CountryStore'],
+  ({ getStore, executeAction }) => ({
+    countries: getStore('CountryStore').getCountries(),
+    updateCountries: countries => executeAction(updateCountries, countries),
+  }),
+  {
+    executeAction: PropTypes.func,
+  },
+);
+
+export { connectedComponent as default, MainMenu as Component };

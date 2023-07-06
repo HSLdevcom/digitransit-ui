@@ -29,6 +29,7 @@ export default {
       show: true,
       url: 'https://matkamonitori.digitransit.fi/createview',
     },
+    countrySelection: ['estonia'],
   },
 
   contactName: {
@@ -39,12 +40,7 @@ export default {
 
   availableLanguages: ['fi', 'sv', 'en'],
   defaultLanguage: 'fi',
-
-  appBarLink: {
-    name: 'Traficom',
-    href:
-      'https://www.traficom.fi/fi/liikenne/liikennejarjestelma/joukkoliikenteen-informaatiopalvelut',
-  },
+  hideAppBarLink: true,
 
   socialMedia: {
     title: APP_TITLE,
@@ -95,9 +91,20 @@ export default {
     'Kajaani',
     'Salo',
     'Pori',
-    'Viro',
-    'Vikingline',
   ],
+
+  additionalFeedIds: {
+    estonia: ['Vikingline', 'Viro'],
+  },
+
+  additionalSearchParams: {
+    default: {
+      'boundary.country': 'FIN',
+    },
+    estonia: {
+      'boundary.country': 'EST',
+    },
+  },
 
   stopSearchFilter: stop => {
     const props = stop.properties;
@@ -123,6 +130,11 @@ export default {
   menu: {
     copyright: { label: `© Matka.fi ${YEAR}` },
     content: [
+      {
+        name: 'Traficom',
+        href:
+          'https://www.traficom.fi/fi/liikenne/liikennejarjestelma/joukkoliikenteen-informaatiopalvelut',
+      },
       {
         name: 'about-service-feedback',
         href: 'http://www.matka.fi',
