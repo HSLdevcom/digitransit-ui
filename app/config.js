@@ -19,7 +19,18 @@ function addMetaData(config) {
   const dirName = `icons-${config.CONFIG}-`;
   let manifestName = '';
   const manifestDir = path.join(appRoot, '_static', 'assets');
+  let hasManifest = false;
 
+  try {
+    if (fs.existsSync(manifestDir)) {
+      hasManifest = true;
+    }
+  } catch (e) {
+    return;
+  }
+  if (!hasManifest) {
+    return;
+  }
   const files = fs.readdirSync(manifestDir);
   for (let i = 0; i < files.length; i++) {
     const file = files[i];
