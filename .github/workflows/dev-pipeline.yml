@@ -6,11 +6,15 @@ on:
       # - v3
       # todo: remove
       - improve-ci-speed
+      # todo: remove
+      - node16-upstream
   pull_request:
     branches:
       # - v3
       # todo: remove
       - improve-ci-speed
+      # todo: remove
+      - node16-upstream
 
 env:
   # We tell Playwright not to download browser binaries because we use microsoft/playwright-github-action.
@@ -23,7 +27,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [14.x]
+        node-version: [16.x]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -65,7 +69,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [14.x]
+        node-version: [16.x]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -118,7 +122,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [14.x]
+        node-version: [16.x]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -174,8 +178,8 @@ jobs:
 
       - name: Run unit tests
         run: yarn run test-coverage
-      - name: Send test coverage report
-        run: yarn run test-report
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
 
   docker-push:
     # todo: re-add this before merging!

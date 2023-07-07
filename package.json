@@ -26,7 +26,6 @@
     "dev-nowatch": "bash -c 'NODE_ENV=development node server/server.js & NODE_ENV=development webpack-dev-server'",
     "test-accessibility": "./test/accessibility.sh",
     "test-coverage": "NODE_ENV=test nyc yarn run test-unit",
-    "test-report": "codecov",
     "test-unit": "yarn test-unit:components && yarn test-unit:store && yarn test-unit:app",
     "test-unit:app": "mocha --require mock-local-storage --file test/unit/helpers/babel-register.js --file test/unit/helpers/init.js \"test/unit/**/*.test.js\"",
     "test-unit:store": "yarn lerna run build:test --scope '@digitransit-store/*'",
@@ -79,7 +78,7 @@
   },
   "engineStrict": true,
   "engines": {
-    "node": ">=12.0.0",
+    "node": ">=16.17",
     "npm": ">=3.0"
   },
   "browserslist": [
@@ -256,11 +255,10 @@
     "babel-plugin-optimize-clsx": "2.6.1",
     "babel-plugin-transform-react-remove-prop-types": "0.4.24",
     "base64-arraybuffer": "0.1.5",
-    "chai": "4.2.0",
-    "codecov": "3.7.2",
+    "chai": "4.3.7",
     "compression-webpack-plugin": "5.0.2",
     "copy-webpack-plugin": "6.1.0",
-    "css-loader": "3.6.0",
+    "css-loader": "^5.2.7",
     "documentation": "13.2.5",
     "enzyme": "3.11.0",
     "enzyme-adapter-react-16": "1.15.4",
@@ -296,9 +294,9 @@
     "mocha": "8.1.3",
     "mock-local-storage": "1.1.15",
     "mockdate": "3.0.2",
-    "node-sass": "4.14.1",
+    "node-sass": "^6.0.1",
     "nodemon": "1.18.10",
-    "nyc": "15.0.1",
+    "nyc": "15.1.0",
     "optimize-css-assets-webpack-plugin": "5.0.4",
     "playwright": "1.16.2",
     "postcss": "8.2.1",
@@ -312,7 +310,7 @@
     "rollup-plugin-peer-deps-external": "2.2.4",
     "rollup-plugin-postcss": "4.0.0",
     "rollup-plugin-terser": "7.0.2",
-    "sass-loader": "10.0.2",
+    "sass-loader": "^10.4.1",
     "selenium-webdriver": "4.0.0-alpha.1",
     "sinon": "9.0.3",
     "stats-webpack-plugin": "0.7.0",
@@ -328,6 +326,8 @@
     "webpack-dev-server": "^3.11.3"
   },
   "resolutions": {
-    "html-webpack-plugin": "4.5.2"
+    "html-webpack-plugin": "4.5.2",
+    "node-sass/node-gyp": "^8.4.1",
+    "sharp": "0.31.3"
   }
 }
