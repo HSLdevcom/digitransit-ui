@@ -31,7 +31,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@axe-core/react@npm:^4.2.0":
+"@axe-core/react@npm:^4.7.3":
   version: 4.7.3
   resolution: "@axe-core/react@npm:4.7.3"
   dependencies:
@@ -41,7 +41,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@axe-core/webdriverjs@npm:^4.3.1":
+"@axe-core/webdriverjs@npm:^4.7.3":
   version: 4.7.3
   resolution: "@axe-core/webdriverjs@npm:4.7.3"
   dependencies:
@@ -7064,7 +7064,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axe-core@npm:^4.2.1, axe-core@npm:^4.7.0":
+"axe-core@npm:^4.7.0, axe-core@npm:^4.7.2":
   version: 4.7.2
   resolution: "axe-core@npm:4.7.2"
   checksum: 5d86fa0f45213b0e54cbb5d713ce885c4a8fe3a72b92dd915a47aa396d6fd149c4a87fec53aa978511f6d941402256cfeb26f2db35129e370f25a453c688655a
@@ -10638,8 +10638,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "digitransit-ui@workspace:."
   dependencies:
-    "@axe-core/react": ^4.2.0
-    "@axe-core/webdriverjs": ^4.3.1
+    "@axe-core/react": ^4.7.3
+    "@axe-core/webdriverjs": ^4.7.3
     "@azure/storage-blob": ^12.8.0
     "@babel/cli": 7.19.3
     "@babel/core": 7.11.5
@@ -10674,7 +10674,7 @@ __metadata:
     "@testing-library/react-hooks": ^8.0.0
     async: ^3.2.2
     autoprefixer: 9.8.6
-    axe-core: ^4.2.1
+    axe-core: ^4.7.2
     axios: 0.26.0
     babel-core: 7.0.0-bridge.0
     babel-eslint: 10.1.0

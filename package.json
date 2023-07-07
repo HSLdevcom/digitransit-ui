@@ -229,8 +229,8 @@
     "typescript": ">2.7"
   },
   "devDependencies": {
-    "@axe-core/react": "^4.2.0",
-    "@axe-core/webdriverjs": "^4.3.1",
+    "@axe-core/react": "^4.7.3",
+    "@axe-core/webdriverjs": "^4.7.3",
     "@azure/storage-blob": "^12.8.0",
     "@babel/cli": "7.19.3",
     "@babel/plugin-proposal-object-rest-spread": "7.20.2",
@@ -247,7 +247,7 @@
     "@testing-library/react-hooks": "^8.0.0",
     "async": "^3.2.2",
     "autoprefixer": "9.8.6",
-    "axe-core": "^4.2.1",
+    "axe-core": "^4.7.2",
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "10.1.0",
     "babel-loader": "8.2.5",

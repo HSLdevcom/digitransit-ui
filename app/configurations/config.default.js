@@ -14,7 +14,7 @@ const OTP_URL = process.env.OTP_URL || `${API_URL}/routing/v2/routers/finland/`;
 const APP_PATH = process.env.APP_CONTEXT || '';
 const {
   SENTRY_DSN,
-  AXE,
+  // AXE,
   NODE_ENV,
   API_SUBSCRIPTION_QUERY_PARAMETER_NAME,
   API_SUBSCRIPTION_HEADER_NAME,
@@ -34,7 +34,7 @@ const REALTIME_PATCH = safeJsonParse(process.env.REALTIME_PATCH) || {};
 export default {
   SENTRY_DSN,
   PORT,
-  AXE,
+  // AXE,
   CONFIG,
   NODE_ENV,
   OTPTimeout: OTP_TIMEOUT,
