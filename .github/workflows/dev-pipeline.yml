@@ -204,7 +204,7 @@ jobs:
 
       - name: compute Docker image tag
         id: docker-tags
-	# todo: update to v3 before merging!
+        # todo: update to v3 before merging!
         run: |
           echo "permanent-tag=node-migration-$(date +"%Y-%m-%dT%H.%M.%S")-${GITHUB_SHA:0:7}" >>$GITHUB_OUTPUT
       - name: build and push Docker image
