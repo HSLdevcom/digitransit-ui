@@ -813,6 +813,7 @@ section.content {
       .message-bar-container {
         .react-swipe-container, .single-alert {
           .message-content {
+            white-space: pre-wrap;
             .message-bar-link {
               color: $white;
             }
