@@ -58,6 +58,10 @@ function SelectStopRow(
       iconOptions.iconId = 'icon-icon_funicular-stop-lollipop';
       iconOptions.className = 'funicular-stop';
       break;
+    case 'SPEEDTRAM':
+      iconOptions.iconId = 'icon-icon_speedtram-stop-lollipop';
+      iconOptions.className = 'speedtram-stop';
+      break;
     case 'FERRY':
       iconOptions.iconId = !isNull(code)
         ? 'icon-icon_ferry'

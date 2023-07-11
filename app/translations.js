@@ -1485,6 +1485,7 @@ const translations = {
     'skip-to-content': 'Skip to content',
     slow: 'Slow',
     'specify-location': 'Specify location',
+    speedtram: 'Jokeri Light Rail',
     'splash-locating': 'Detecting location',
     'splash-or-choose': 'or select your origin',
     'splash-use-positioning': 'Use location services',
@@ -2615,6 +2616,7 @@ const translations = {
     'skip-to-content': 'Siirry sisältöön',
     slow: 'Hidas',
     'specify-location': 'Määritä sijainti',
+    speedtram: 'Raide-Jokeri',
     'splash-locating': 'Paikannetaan',
     'splash-or-choose': 'tai valitse lähtöpaikaksi',
     'splash-use-positioning': 'Käytä paikannusta',
@@ -4530,6 +4532,7 @@ const translations = {
     'skip-to-content': 'Till innehållet',
     slow: 'Långsam',
     'specify-location': 'Ange en plats',
+    speedtram: 'Spårjokern',
     'splash-locating': 'Söker din plats...',
     'splash-or-choose': 'eller välj en avfärdsplats',
     'splash-please-allow-positioning':

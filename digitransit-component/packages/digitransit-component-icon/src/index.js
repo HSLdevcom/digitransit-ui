@@ -39,6 +39,7 @@ import CautionWhite from './assets/caution_white_exclamation.svg';
 import Trash from './assets/trash.svg';
 import ModeBus from './assets/mode_bus.svg';
 import ModeBusExpress from './assets/bus-express.svg';
+import Speedtram from './assets/speedtram.svg';
 import ModeBusLocal from './assets/bus-local.svg';
 import ModeRail from './assets/mode_rail.svg';
 import ModeTram from './assets/mode_tram.svg';
@@ -76,6 +77,7 @@ import SearchFerryStopDigitransit from './assets/search-ferry-stop-digitransit.s
 import SearchRailStopDigitransit from './assets/search-rail-stop-digitransit.svg';
 import SearchRailStationDigitransit from './assets/search-rail-station-digitransit.svg';
 import SearchTramStopDigitransit from './assets/search-tram-stop-digitransit.svg';
+import SearchSpeedtramStopDigitransit from './assets/search-speedtram-stop-digitransit.svg';
 import Funicular from './assets/funicular.svg';
 
 const IconMap = style => {
@@ -122,6 +124,7 @@ const IconMap = style => {
     'mode-bus': <ModeBus style={style} />,
     'mode-bus-express': <ModeBusExpress style={style} />,
     'mode-bus-local': <ModeBusLocal style={style} />,
+    'mode-speedtram': <Speedtram style={style} />,
     'mode-rail': <ModeRail style={style} />,
     'mode-tram': <ModeTram style={style} />,
     'mode-subway': <Subway style={style} />,
@@ -179,6 +182,9 @@ const IconMap = style => {
     ),
     'search-tram-stop-digitransit': <SearchTramStopDigitransit style={style} />,
     funicular: <Funicular style={style} />,
+    'search-speedtram-stop-digitransit': (
+      <SearchSpeedtramStopDigitransit style={style} />
+    ),
   };
 };
 

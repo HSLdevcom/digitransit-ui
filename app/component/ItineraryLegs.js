@@ -29,6 +29,7 @@ import { addAnalyticsEvent } from '../util/analyticsUtils';
 import ItineraryProfile from './ItineraryProfile';
 import BikeParkLeg from './BikeParkLeg';
 import FunicularLeg from './FunicularLeg';
+import SpeedTramLeg from './SpeedTramLeg';
 
 class ItineraryLegs extends React.Component {
   static childContextTypes = {
@@ -235,6 +236,15 @@ class ItineraryLegs extends React.Component {
       } else if (leg.mode === 'TRAM' && !leg.interlineWithPreviousLeg) {
         legs.push(
           <TramLeg
+            index={j}
+            leg={leg}
+            interliningLegs={interliningLegs}
+            focusAction={this.focus(leg.from)}
+          />,
+        );
+      } else if (leg.mode === 'SPEEDTRAM' && !leg.interlineWithPreviousLeg) {
+        legs.push(
+          <SpeedTramLeg
             index={j}
             leg={leg}
             interliningLegs={interliningLegs}

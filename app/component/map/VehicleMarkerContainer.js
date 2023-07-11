@@ -14,6 +14,7 @@ const MODES_WITH_ICONS = [
   'rail',
   'subway',
   'ferry',
+  'speedtram',
 ];
 
 function getVehicleIcon(
@@ -80,8 +81,14 @@ function VehicleMarkerContainer(props) {
   return visibleVehicles.map(([id, message]) => {
     const type = props.topics?.find(t => t.shortName === message.shortName)
       ?.type;
-    const mode =
-      type === ExtendedRouteTypes.BusExpress ? 'bus-express' : message.mode;
+    let mode;
+    if (type === ExtendedRouteTypes.BusExpress) {
+      mode = 'bus-express';
+    } else if (type === ExtendedRouteTypes.SpeedTram) {
+      mode = 'speedtram';
+    } else {
+      mode = message.mode;
+    }
     return (
       <IconMarker
         key={id}
