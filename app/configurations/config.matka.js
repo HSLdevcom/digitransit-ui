@@ -29,7 +29,7 @@ export default {
       show: true,
       url: 'https://matkamonitori.digitransit.fi/createview',
     },
-    // countrySelection: ['estonia'],
+    countrySelection: ['estonia'],
   },
 
   contactName: {
