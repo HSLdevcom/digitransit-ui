@@ -500,6 +500,9 @@ $content-background-color: $background-color;
       display: none;
     }
   }
+  .non-link-menu-item span {
+    cursor: default;
+  }
   .disruption-info {
     height: 35px;
     align-items: center;

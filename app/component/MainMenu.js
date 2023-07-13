@@ -84,10 +84,13 @@ function MainMenu(props, { config, intl }) {
         {config.mainMenu.countrySelection &&
           config.mainMenu.countrySelection.map(country => (
             <div key={country} className="offcanvas-section">
-              <FormattedMessage
-                id={`include-${country}`}
-                defaultMessage={`include-${country}`}
-              />
+              <span className="non-link-menu-item">
+                <FormattedMessage
+                  id={`include-${country}`}
+                  className="non-link-menu-item"
+                  defaultMessage={`include-${country}`}
+                />
+              </span>
               <div style={{ float: 'right', display: 'inline-block' }}>
                 {/* eslint-disable jsx-a11y/label-has-associated-control */}
                 <label key={country} htmlFor={`toggle-${country}`}>
