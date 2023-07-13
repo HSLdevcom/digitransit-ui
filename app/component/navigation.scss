@@ -370,6 +370,20 @@ $content-background-color: $background-color;
     text-decoration: none;
   }
 
+  label {
+    color: $offcanvas-link-color;
+    text-decoration: none;
+    font-weight: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    display: flex;
+    justify-content: space-between;
+
+    .option-toggle-container {
+      display: flex;
+      align-self: center;
+    }
+  }
   span {
     cursor: pointer;
     color: $offcanvas-link-color;
@@ -499,9 +513,6 @@ $content-background-color: $background-color;
     .icon {
       display: none;
     }
-  }
-  .non-link-menu-item span {
-    cursor: default;
   }
   .disruption-info {
     height: 35px;

@@ -84,34 +84,28 @@ function MainMenu(props, { config, intl }) {
         {config.mainMenu.countrySelection &&
           config.mainMenu.countrySelection.map(country => (
             <div key={country} className="offcanvas-section">
-              <span className="non-link-menu-item">
+              {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
+              <label key={country} htmlFor={`toggle-${country}`}>
                 <FormattedMessage
                   id={`include-${country}`}
-                  className="non-link-menu-item"
                   defaultMessage={`include-${country}`}
                 />
-              </span>
-              <div style={{ float: 'right', display: 'inline-block' }}>
-                {/* eslint-disable jsx-a11y/label-has-associated-control */}
-                <label key={country} htmlFor={`toggle-${country}`}>
-                  <Toggle
-                    id={`toggle-${country}`}
-                    toggled={!!countries[country]}
-                    title={`toggle-${country}`}
-                    onToggle={() => {
-                      setCountries({
-                        ...countries,
-                        [country]: !countries[country],
-                      });
-                      props.updateCountries({
-                        ...countries,
-                        [country]: !countries[country],
-                      });
-                      window.location.reload();
-                    }}
-                  />
-                </label>
-              </div>
+                <Toggle
+                  id={`toggle-${country}`}
+                  toggled={!!countries[country]}
+                  onToggle={() => {
+                    setCountries({
+                      ...countries,
+                      [country]: !countries[country],
+                    });
+                    props.updateCountries({
+                      ...countries,
+                      [country]: !countries[country],
+                    });
+                    window.location.reload();
+                  }}
+                />
+              </label>
             </div>
           ))}
         {config.appBarLink &&
