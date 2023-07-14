@@ -57,6 +57,7 @@ export default configMerger(walttiConfig, {
       'mode-bus': '#e8aa27',
       'mode-rail': '#8c4799',
       'mode-ferry': '#0064f0',
+      'mode-ferry-pier': '#666666',
       'mode-funicular': '#ff00ff',
     },
   },

@@ -372,7 +372,10 @@ export function drawStopIcon(
     return;
   }
   const mode = `mode-${type.toLowerCase()}`;
-  const color = modeIconColors[mode];
+  const color =
+    mode === 'mode-ferry' && !isFerryTerminal
+      ? modeIconColors['mode-ferry-pier']
+      : modeIconColors[mode];
   const zoom = tile.coords.z - 1;
   const drawNumber = zoom >= 16;
   const styles = getStopIconStyles('stop', zoom, isHilighted);
