@@ -1,3 +1,6 @@
+import _parkAndRideUtils from '../util/ParkAndRideUtils.js';
+const { HSL: HSLParkAndRideUtils } = _parkAndRideUtils;
+
 const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
 const OTP_URL = process.env.OTP_URL || `${API_URL}/routing/v2/routers/waltti/`;
 const MAP_URL =
@@ -5,7 +8,6 @@ const MAP_URL =
 const POI_MAP_PREFIX = `${MAP_URL}/map/v3/waltti`;
 const APP_DESCRIPTION = 'Digitransit-reittiopas';
 const YEAR = 1900 + new Date().getYear();
-const HSLParkAndRideUtils = require('../util/ParkAndRideUtils').default.HSL;
 
 export default {
   YEAR,

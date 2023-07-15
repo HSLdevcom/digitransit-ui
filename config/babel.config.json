@@ -1,0 +1,70 @@
+{
+  "env": {
+    "production": {
+      "presets": [
+        [
+          "@babel/preset-react",
+          {
+            "development": false,
+            "useBuiltIns": true,
+          },
+        ],
+      ],
+      "plugins": [
+        [
+          "babel-plugin-transform-react-remove-prop-types",
+          {
+            "mode": "unsafe-wrap",
+          },
+        ],
+      ],
+    },
+  },
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "bugfixes": true,
+        "modules": "auto",
+      },
+    ],
+    [
+      "@babel/preset-react",
+      {
+        "development": true,
+        "useBuiltIns": true,
+      },
+    ],
+  ],
+  "plugins": [
+    [
+      "relay",
+      {
+        "compat": true,
+        "schema": "schema.json"
+      }
+    ],
+    "babel-plugin-optimize-clsx",
+    [
+      "@babel/plugin-proposal-class-properties",
+      {
+        "loose": true
+      }
+    ],
+    [
+      "@babel/plugin-proposal-object-rest-spread",
+      {
+        "loose": true
+      }
+    ],
+    [
+      "@babel/plugin-transform-runtime",
+      {
+        "helpers": true,
+        "regenerator": true,
+        "useESModules": true,
+      },
+    ],
+    ["inline-react-svg"],
+  ],
+}

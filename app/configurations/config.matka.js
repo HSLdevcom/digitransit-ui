@@ -1,20 +1,22 @@
 /* eslint-disable prefer-template */
 import { BIKEAVL_WITHMAX, BIKEAVL_BIKES } from '../util/citybikes';
-import HSLConfig from './config.hsl';
-import TurkuConfig from './config.turku';
-import LappeenrantaConfig from './config.lappeenranta';
-import TampereConfig from './config.tampere';
-import KuopioConfig from './config.kuopio';
+import HSLConfig from './config.hsl.js';
+import TurkuConfig from './config.turku.js';
+import LappeenrantaConfig from './config.lappeenranta.js';
+import TampereConfig from './config.tampere.js';
+import KuopioConfig from './config.kuopio.js';
 
 const CONFIG = 'matka';
 const APP_DESCRIPTION = 'Matka.fi–palvelu.';
 const APP_TITLE = 'Matka.fi';
 const YEAR = 1900 + new Date().getYear();
 
-const HSLParkAndRideUtils = require('../util/ParkAndRideUtils').default.HSL;
+import _parkAndRideUtils from '../util/ParkAndRideUtils.js';
+const { HSL: HSLParkAndRideUtils } = _parkAndRideUtils;
 
 // route timetable data needs to be up-to-date before this is enabled
-// const HSLRouteTimetable = require('./timetableConfigUtils').default.HSLRoutes;
+// import _timetableConfigUtils from './timetableConfigUtils.js';
+// const { HSLRoutes: HSLRouteTimetable } = _timetableConfigUtils;
 
 export default {
   CONFIG,

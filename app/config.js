@@ -1,7 +1,7 @@
 import htmlParser from 'htm-to-json';
-import defaultConfig from './configurations/config.default';
-import configMerger from './util/configMerger';
-import { boundWithMinimumAreaSimple } from './util/geo-utils';
+import defaultConfig from './configurations/config.default.js';
+import configMerger from './util/configMerger.js';
+import { boundWithMinimumAreaSimple } from './util/geo-utils.js';
 
 const configs = {}; // cache merged configs for speed
 const themeMap = {};
@@ -61,14 +61,13 @@ function addMetaData(config) {
   });
 }
 
-export function getNamedConfiguration(configName) {
+export async function getNamedConfiguration(configName) {
   if (!configs[configName]) {
     let additionalConfig;
 
     if (configName !== 'default') {
       // eslint-disable-next-line global-require, import/no-dynamic-require
-      additionalConfig = require(`./configurations/config.${configName}`)
-        .default;
+      additionalConfig = await import (`./configurations/config.${configName}.js`).default;
     }
 
     // use cached baseConfig that is potentially patched in server start up

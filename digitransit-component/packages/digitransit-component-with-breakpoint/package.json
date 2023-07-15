@@ -2,6 +2,8 @@
   "name": "@digitransit-component/digitransit-component-with-breakpoint",
   "version": "0.0.5",
   "description": "digitransit-component with-breakpoint module",
+  "type": "module",
+  "module": "src/index.js",
   "main": "lib/index.js",
   "files": [
     "/lib"
@@ -12,8 +14,8 @@
   "scripts": {
     "build:index": "ENV=production NAME=digitransit-component--with-breakpoint webpack --config ../webpack.config.babel.js && yarn run docs",
     "build:test": "babel test.js --presets=@babel/preset-react,@babel/preset-env --plugins=@babel/plugin-proposal-class-properties --out-file test.generated",
-    "test": "mocha -r esm test.generated",
-    "docs": "node -r esm ../../scripts/generate-readmes"
+    "test": "mocha test.generated",
+    "docs": "node ../../scripts/generate-readmes"
   },
   "repository": {
     "type": "git",

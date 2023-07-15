@@ -1,11 +1,10 @@
 /* eslint-disable prefer-template */
-import configMerger from '../util/configMerger';
+import configMerger from '../util/configMerger.js';
+import walttiConfig from './config.waltti.js';
 
 const CONFIG = 'oulu';
 const APP_DESCRIPTION = 'Oulun seudun reittiopas';
 const APP_TITLE = 'Reittiopas';
-
-const walttiConfig = require('./config.waltti').default;
 
 export default configMerger(walttiConfig, {
   CONFIG,

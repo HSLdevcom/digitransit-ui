@@ -1,24 +1,24 @@
-const path = require('path');
-const webpack = require('webpack');
+import { fileURLToPath } from 'url';
+import webpack from 'webpack';
 
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const TerserJsPlugin = require('terser-webpack-plugin');
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import TerserJsPlugin from 'terser-webpack-plugin';
+import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
 
-const OfflinePlugin = require('offline-plugin');
+import OfflinePlugin from '@lcdp/offline-plugin';
 
-const CompressionPlugin = require('compression-webpack-plugin');
+import CompressionPlugin from 'compression-webpack-plugin';
 
-const WebpackAssetsManifest = require('webpack-assets-manifest');
-const StatsPlugin = require('stats-webpack-plugin');
+import WebpackAssetsManifest from 'webpack-assets-manifest';
+import StatsPlugin from 'stats-webpack-plugin';
 
-const CopyWebpackPlugin = require('copy-webpack-plugin');
+import CopyWebpackPlugin from 'copy-webpack-plugin';
 
-const {
+import {
   languages,
   themeEntries,
   faviconPlugins,
-} = require('./build/contextHelper');
+} from './build/contextHelper.js';
 
 const mode = process.env.NODE_ENV;
 const isProduction = mode === 'production';
@@ -141,26 +141,32 @@ const productionPlugins = [
   new CopyWebpackPlugin({
     patterns: [
       {
-        from: path.join(__dirname, 'static/assets/geojson'),
+        from: fileURLToPath(new URL('./static/assets/geojson', import.meta.url).href),
         transform: function minify(content) {
           return JSON.stringify(JSON.parse(content.toString()));
         },
-        to: path.join(__dirname, '_static/assets/geojson'),
+        to: fileURLToPath(new URL('./_static/assets/geojson', import.meta.url).href),
       },
     ],
   }),
-  new StatsPlugin('../stats.json', { chunkModules: true }),
+  new StatsPlugin('../stats.json', {
+    // We use stats.json in app/server.js to know which assets to serve. We
+    // only need `.entrypoints.main.assets` for that.
+    // https://github.com/webpack/webpack/blob/v4.44.1/declarations/WebpackOptions.d.ts#L1250-L1458
+    all: false,
+    entrypoints: true,
+  }),
   new WebpackAssetsManifest({ output: '../manifest.json' }),
 ];
 
-module.exports = {
+export default {
   mode,
   entry: {
     main: ['./app/util/publicPath', './app/client'],
     ...(isProduction ? themeEntries : {}),
   },
   output: {
-    path: path.join(__dirname, '_static'),
+    path: fileURLToPath(new URL('./_static', import.meta.url).href),
     filename: isDevelopment ? 'js/[name].js' : 'js/[name].[chunkhash].js',
     chunkFilename: 'js/[chunkhash].js',
     publicPath: isDevelopment ? '/proxy/' : `${process.env.APP_PATH || ''}/`,
@@ -170,7 +176,9 @@ module.exports = {
     rules: [
       {
         test: /\.js$/,
-        include: [path.resolve(__dirname, 'app')],
+        include: [
+          fileURLToPath(new URL('./app', import.meta.url).href),
+        ],
         loader: 'babel-loader',
         options: {
           configFile: false,
@@ -180,7 +188,7 @@ module.exports = {
               {
                 // loose is needed by older Androids < 4.3 and IE10
                 loose: true,
-                modules: false,
+                modules: true,
               },
             ],
             [
@@ -228,7 +236,10 @@ module.exports = {
       },
     ],
   },
-  devtool: isProduction ? 'source-map' : 'eval',
+  devtool:
+    process.env.WEBPACK_DEVTOOL === 'false'
+      ? false
+      : process.env.WEBPACK_DEVTOOL || (isProduction ? 'source-map' : 'eval'),
   plugins: [
     new webpack.ContextReplacementPlugin(momentExpression, languageExp),
     new webpack.ContextReplacementPlugin(reactIntlExpression, languageExp),
@@ -242,7 +253,7 @@ module.exports = {
       new TerserJsPlugin({
         cache: true,
         parallel: true,
-        sourceMap: true, // set to true if you want JS source maps
+        sourceMap: !isProduction,
       }),
       new OptimizeCSSAssetsPlugin({}),
     ],
@@ -266,10 +277,6 @@ module.exports = {
     runtimeChunk: isProduction,
   },
   performance: { hints: false },
-  node: {
-    net: 'empty',
-    tls: 'empty',
-  },
   cache: true,
   resolve: {
     mainFields: ['browser', 'module', 'jsnext:main', 'main'],
@@ -277,14 +284,12 @@ module.exports = {
       lodash: 'lodash-es',
       'lodash.merge': 'lodash-es/merge',
       moment$: 'moment/moment.js',
-      'babel-runtime/helpers/slicedToArray': path.join(
-        __dirname,
-        'app/util/slicedToArray',
-      ),
-      'babel-runtime/core-js/get-iterator': path.join(
-        __dirname,
-        'app/util/getIterator',
-      ),
+      'babel-runtime/helpers/slicedToArray': fileURLToPath(new URL('./app/util/slicedToArray', import.meta.url).href),
+      'babel-runtime/core-js/get-iterator': fileURLToPath(new URL('./app/util/getIterator', import.meta.url).href),
+    },
+    fallback: {
+      net: false,
+      tls: false,
     },
   },
   externals: {
@@ -323,14 +328,17 @@ module.exports = {
     'fbjs/lib/Map': 'var Map',
   },
   devServer: {
-    publicPath: '/',
-    noInfo: true,
     compress: true,
+    devMiddleware: {
+      publicPath: '/',
+    },
     host: '0.0.0.0',
     port: process.env.HOT_LOAD_PORT || 9000,
     headers: {
       'Access-Control-Allow-Origin': '*',
     },
-    overlay: true,
+    client: {
+      overlay: true,
+    },
   },
 };

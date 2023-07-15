@@ -1,4 +1,4 @@
-class User {
+export class User {
   constructor(data) {
     this.data = data;
   }
@@ -26,6 +26,4 @@ class User {
     }
     return u;
   }
-}
-
-exports.User = User;
+};

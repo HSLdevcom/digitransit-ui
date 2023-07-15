@@ -1,11 +1,10 @@
 /* eslint-disable prefer-template */
-import configMerger from '../util/configMerger';
+import configMerger from '../util/configMerger.js';
+import walttiConfig from './config.waltti.js';
 
 const CONFIG = 'mikkeli';
 const APP_TITLE = 'Mikkelin Reittiopas';
 const APP_DESCRIPTION = 'Mikkelin julkisen liikenteen reittiopas';
-
-const walttiConfig = require('./config.waltti').default;
 
 const minLat = 61.65922;
 const maxLat = 61.717372;

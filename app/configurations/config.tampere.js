@@ -1,13 +1,13 @@
 /* eslint-disable prefer-template */
-import configMerger from '../util/configMerger';
-import { BIKEAVL_WITHMAX } from '../util/citybikes';
+import configMerger from '../util/configMerger.js';
+import { BIKEAVL_WITHMAX } from '../util/citybikes.js';
+import walttiConfig from './config.waltti.js';
+import _timetableConfigUtils from './timetableConfigUtils.js';
+const { tampere: tampereTimetables } = _timetableConfigUtils;
 
 const CONFIG = 'tampere';
 const APP_TITLE = 'Nyssen reittiopas';
 const APP_DESCRIPTION = 'Nyssen reittiopas';
-
-const walttiConfig = require('./config.waltti').default;
-const tampereTimetables = require('./timetableConfigUtils').default.tampere;
 
 const minLat = 61.16;
 const maxLat = 62.31;

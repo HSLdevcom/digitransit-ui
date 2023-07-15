@@ -1,11 +1,10 @@
 /* eslint-disable prefer-template */
-import configMerger from '../util/configMerger';
+import configMerger from '../util/configMerger.js';
+import walttiConfig from './config.waltti.js';
 
 const CONFIG = 'jyvaskyla';
 const APP_TITLE = 'Reittiopas Jyväskylä';
 const APP_DESCRIPTION = 'Jyväskylän uusi reittiopas';
-
-const walttiConfig = require('./config.waltti').default;
 
 const minLat = 61.835318;
 const maxLat = 62.603473;
@@ -59,7 +58,7 @@ export default configMerger(walttiConfig, {
   favicon: './app/configurations/images/jyvaskyla/favicon.png',
 
   // Navbar logo
-  logo: 'jyvaskyla/favicon.png',
+  logo: './app/configurations/images/jyvaskyla/favicon.png',
 
   vehicles: true,
   showVehiclesOnStopPage: true,

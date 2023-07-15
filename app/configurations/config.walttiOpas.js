@@ -1,11 +1,10 @@
 /* eslint-disable */
-import configMerger from '../util/configMerger';
+import configMerger from '../util/configMerger.js';
+import walttiConfig from './config.waltti.js';
 
 const CONFIG = 'walttiOpas';
 const APP_TITLE = 'Waltti-opas';
 const APP_DESCRIPTION = 'Uusi Reittiopas - Waltti-opas';
-
-const walttiConfig = require('./config.waltti').default;
 
 const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
 const OTP_URL = process.env.OTP_URL || `${API_URL}/routing/v2/routers/waltti-alt/`

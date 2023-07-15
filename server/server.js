@@ -1,11 +1,11 @@
-/* eslint-disable no-param-reassign, no-console, strict, global-require, no-unused-vars, func-names */
-
-'use strict';
+/* eslint-disable no-param-reassign, no-console, strict, no-unused-vars, func-names */
 
 /* ********* Polyfills (for node) ********* */
-const path = require('path');
-const fs = require('fs');
-require('@babel/register')({
+import path from 'path';
+import fs from 'fs';
+
+import configureBabelRequireHook from '@babel/register';
+configureBabelRequireHook({
   // This will override `node_modules` ignoring - you can alternatively pass
   // an array of strings to be explicitly matched or a regex / glob
   ignore: [
@@ -13,16 +13,17 @@ require('@babel/register')({
   ],
 });
 
-global.fetch = require('node-fetch');
-const proxy = require('express-http-proxy');
-
+import fetch from 'node-fetch';
+global.fetch = fetch;
 global.self = { fetch: global.fetch };
+import proxy from 'express-http-proxy';
 
 let Raven;
 const devhost = '';
 
 if (process.env.NODE_ENV === 'production' && process.env.SENTRY_SECRET_DSN) {
-  Raven = require('raven');
+  // todo: does this work?
+  Raven = await import('raven').default;
   Raven.config(process.env.SENTRY_SECRET_DSN, {
     captureUnhandledRejections: true,
   }).install();
@@ -33,13 +34,17 @@ if (process.env.NODE_ENV === 'production' && process.env.SENTRY_SECRET_DSN) {
 }
 
 /* ********* Server ********* */
-const express = require('express');
-const expressStaticGzip = require('express-static-gzip');
-const cookieParser = require('cookie-parser');
-const bodyParser = require('body-parser');
-const logger = require('morgan');
-const { retryFetch } = require('../app/util/fetchUtils');
-const config = require('../app/config').getConfiguration();
+import express from 'express';
+import expressStaticGzip from 'express-static-gzip';
+import cookieParser from 'cookie-parser';
+import bodyParser from 'body-parser';
+import logger from 'morgan';
+import { retryFetch } from '../app/util/fetchUtils.js';
+import { getConfiguration } from '../app/config.js';
+
+import reittiopasParameterMiddleware from './reittiopasParameterMiddleware.js';
+// import appServer from '../app/server.js';
+const appServer = await import('../app/server.js');
 
 /* ********* Global ********* */
 const port = config.PORT || 8080;
@@ -47,8 +52,10 @@ const app = express();
 const { indexPath, hostnames } = config;
 
 /* Setup functions */
-function setUpOpenId() {
-  const setUpOIDC = require('./passport-openid-connect/openidConnect').default;
+async function setUpOpenId() {
+  const helmet = await import('helmet').default;
+  const setUpOIDC = await import('./passport-openid-connect/openidConnect').default;
+
   if (process.env.DEBUGLOGGING) {
     app.use(logger('dev'));
   }
@@ -56,7 +63,7 @@ function setUpOpenId() {
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(cookieParser());
   app.use(
-    require('helmet')({
+    helmet({
       contentSecurityPolicy: false,
       referrerPolicy: false,
       expectCt: false,
@@ -151,9 +158,9 @@ function setUpErrorHandling() {
 function setUpRoutes() {
   app.use(
     ['/', '/fi/', '/en/', '/sv/', '/ru/', '/slangi/'],
-    require('./reittiopasParameterMiddleware').default,
+    reittiopasParameterMiddleware,
   );
-  app.use(require('../app/server').default);
+  app.use(appServer);
 
   // Make sure req has the correct hostname extracted from the proxy info
   app.enable('trust proxy');
@@ -303,7 +310,7 @@ function startServer() {
 
 /* ********* Init ********* */
 if (process.env.OIDC_CLIENT_ID) {
-  setUpOpenId();
+  await setUpOpenId();
 }
 setUpRaven();
 setUpStaticFolders();

@@ -1,4 +1,4 @@
-import mergeWith from 'lodash/mergeWith';
+import mergeWith from 'lodash/mergeWith.js';
 
 // merge two arrays by identifying array items by their 'header' field.
 // matching src values overwrite objvalues
