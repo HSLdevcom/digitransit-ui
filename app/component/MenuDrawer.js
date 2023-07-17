@@ -26,6 +26,7 @@ function MenuDrawer({
       className={classNames}
       overlayClassName={overlayClassNames}
       onRequestClose={onRequestChange}
+      shouldFocusAfterRender={false}
     >
       {children}
     </Modal>
