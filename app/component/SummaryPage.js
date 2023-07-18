@@ -2164,6 +2164,7 @@ class SummaryPage extends React.Component {
     const { walkPlan, bikePlan, carPlan, parkRidePlan } = this.state;
 
     let plan;
+    /* NOTE: as a temporary solution, do filtering by feedId in UI */
     if (this.context.config.feedIdFiltering) {
       plan = this.filterItinerariesByFeedId(this.props.viewer?.plan);
     } else {

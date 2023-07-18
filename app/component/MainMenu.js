@@ -95,7 +95,6 @@ function MainMenu(props, { config, intl }) {
                   <Toggle
                     id={`toggle-${country}`}
                     toggled={!!countries[country]}
-                    title={`toggle-${country}`}
                     onToggle={() => {
                       setCountries({
                         ...countries,
