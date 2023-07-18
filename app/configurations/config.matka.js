@@ -106,6 +106,8 @@ export default {
     },
   },
 
+  feedIdFiltering: true,
+
   stopSearchFilter: stop => {
     const props = stop.properties;
     if (
