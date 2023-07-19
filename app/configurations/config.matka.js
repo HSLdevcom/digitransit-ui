@@ -106,6 +106,8 @@ export default {
     },
   },
 
+  feedIdFiltering: true,
+
   stopSearchFilter: stop => {
     const props = stop.properties;
     if (
@@ -131,7 +133,7 @@ export default {
     copyright: { label: `© Matka.fi ${YEAR}` },
     content: [
       {
-        name: 'Traficom',
+        name: 'traficom',
         href:
           'https://www.traficom.fi/fi/liikenne/liikennejarjestelma/joukkoliikenteen-informaatiopalvelut',
       },
