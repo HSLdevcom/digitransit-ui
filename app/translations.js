@@ -1092,6 +1092,10 @@ const translations = {
     inquiry: 'How did you find the new Journey Planner? Please tell us!',
     instructions: 'Instructions',
     'is-open': 'Open:',
+    'itinerary-co2.description':
+      'Tämän matkan CO2 päästö on {co2value} g, joka on {co2percentage} % verrattuna henkilöautolla suoritettuun matkaan.',
+    'itinerary-co2.link': 'Näin vähennämme päästöjä ›',
+    'itinerary-co2.title': 'Matkan CO2-päästöt',
     'itinerary-details.biking-leg':
       'At {time} cycle {distance} from {origin} to {to} {destination}. Estimated time {duration}',
     'itinerary-details.car-leg':
@@ -4137,6 +4141,10 @@ const translations = {
     inquiry: 'Vad tycker du om den nya Reseplaneraren. Berätta för oss!',
     instructions: 'Anvisningar',
     'is-open': 'Öppet:',
+    'itinerary-co2.description':
+      'Tämän matkan CO2 päästö on {co2value} g, joka on {co2percentage} % verrattuna henkilöautolla suoritettuun matkaan.',
+    'itinerary-co2.link': 'Näin vähennämme päästöjä ›',
+    'itinerary-co2.title': 'Matkan CO2-päästöt',
     'itinerary-details.biking-leg':
       '{time} cykla {distance} från {origin} till {to} {destination}. Restid {duration}',
     'itinerary-details.car-leg':
