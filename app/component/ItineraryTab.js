@@ -186,7 +186,6 @@ class ItineraryTab extends React.Component {
     if (!itinerary || !itinerary.legs[0]) {
       return null;
     }
-
     const fares = getFares(itinerary.fares, getRoutes(itinerary.legs), config);
     const extraProps = this.setExtraProps(itinerary);
     const legsWithRentalBike = compressLegs(itinerary.legs).filter(leg =>
@@ -297,9 +296,9 @@ class ItineraryTab extends React.Component {
                 />)
             ),
             config.showCO2InItinerarySummary && co2value > 0 && (
-              <div className="itinerary-co2-information">
+              <div className={cx("itinerary-co2-information",{ mobile: this.props.isMobile})}>
                 <div className="itinerary-co2-line">
-                  <div className="co2-container">
+                  <div className={cx("co2-container",{mobile: this.props.isMobile})}>
                     <div className="co2-title-container">
                       <Icon img="icon-icon_co2_leaf" className="co2-leaf" />
                       <span className="itinerary-co2-title" aria-hidden>

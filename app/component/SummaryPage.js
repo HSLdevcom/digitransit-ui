@@ -2471,7 +2471,7 @@ class SummaryPage extends React.Component {
                   focusToPoint={this.focusToPoint}
                   focusToLeg={this.focusToLeg}
                   isMobile={false}
-                  carItinerary={this.state.carPlan?.itineraries}
+                  carItinerary={carPlan?.itineraries}
                 />
               </div>
             );
@@ -2703,6 +2703,7 @@ class SummaryPage extends React.Component {
           serviceTimeRange={this.props.serviceTimeRange}
           focusToLeg={this.focusToLeg}
           onSwipe={this.changeHash}
+          carItinerary={carPlan?.itineraries}
         >
           {this.props.content &&
             combinedItineraries.map((itinerary, i) =>

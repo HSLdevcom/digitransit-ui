@@ -40,6 +40,7 @@ const MobileItineraryWrapper = (props, context) => {
           focusToPoint={props.focusToPoint}
           focusToLeg={props.focusToLeg}
           isMobile
+          carItinerary={props.carItinerary}
         />
       </div>
     );
@@ -72,12 +73,14 @@ MobileItineraryWrapper.propTypes = {
   plan: PropTypes.object,
   serviceTimeRange: PropTypes.object.isRequired,
   onSwipe: PropTypes.func,
+  carItinerary: PropTypes.array,
 };
 
 MobileItineraryWrapper.contextTypes = {
   router: routerShape.isRequired,
   match: matchShape.isRequired,
   intl: intlShape.isRequired,
+  carItinerary: [],
 };
 
 export default MobileItineraryWrapper;
