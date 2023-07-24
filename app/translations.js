@@ -1094,6 +1094,8 @@ const translations = {
     'is-open': 'Open:',
     'itinerary-co2.description':
       'Tämän matkan CO2 päästö on {co2value} g, joka on {co2percentage} % verrattuna henkilöautolla suoritettuun matkaan.',
+    'itinerary-co2.description-simple':
+      'Tämän matkan CO2 päästö on {co2value} g.',
     'itinerary-co2.link': 'Näin vähennämme päästöjä ›',
     'itinerary-co2.title': 'Matkan CO2-päästöt',
     'itinerary-details.biking-leg':
@@ -2233,6 +2235,8 @@ const translations = {
     'is-open': 'Avoinna:',
     'itinerary-co2.description':
       'Tämän matkan CO2 päästö on {co2value} g, joka on {co2percentage} % verrattuna henkilöautolla suoritettuun matkaan.',
+    'itinerary-co2.description-simple':
+      'Tämän matkan CO2 päästö on {co2value} g.',
     'itinerary-co2.link': 'Näin vähennämme päästöjä ›',
     'itinerary-co2.title': 'Matkan CO2-päästöt',
     'itinerary-details.biking-leg':
@@ -4143,6 +4147,8 @@ const translations = {
     'is-open': 'Öppet:',
     'itinerary-co2.description':
       'Tämän matkan CO2 päästö on {co2value} g, joka on {co2percentage} % verrattuna henkilöautolla suoritettuun matkaan.',
+    'itinerary-co2.description-simple':
+      'Tämän matkan CO2 päästö on {co2value} g.',
     'itinerary-co2.link': 'Näin vähennämme päästöjä ›',
     'itinerary-co2.title': 'Matkan CO2-päästöt',
     'itinerary-details.biking-leg':
