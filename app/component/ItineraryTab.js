@@ -44,7 +44,6 @@ import {
 import CityBikeDurationInfo from './CityBikeDurationInfo';
 import { getCityBikeNetworkId } from '../util/citybikes';
 import { FareShape } from '../util/shapes';
-import Loading from './Loading';
 
 const AlertShape = PropTypes.shape({ alertSeverityLevel: PropTypes.string });
 
@@ -396,10 +395,8 @@ class ItineraryTab extends React.Component {
                     <div className={cx('divider-bottom')} />
                   </div>
                 </div>
-              ) : config.forceCarRouting &&
-              (<div style={{ position: 'relative', height: 200 }}>
-                <Loading />
-              </div>)}
+              ) : 
+              (null)}
               {this.shouldShowDisclaimer(config) && (
                 <div className="itinerary-disclaimer">
                   <FormattedMessage
