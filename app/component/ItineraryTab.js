@@ -81,6 +81,7 @@ class ItineraryTab extends React.Component {
     focusToLeg: PropTypes.func.isRequired,
     isMobile: PropTypes.bool.isRequired,
     currentTime: PropTypes.number.isRequired,
+    lang: PropTypes.string.isRequired,
     hideTitle: PropTypes.bool,
     carItinerary: PropTypes.array,
   };
@@ -220,6 +221,7 @@ class ItineraryTab extends React.Component {
     const carCo2Value = this.props.carItinerary && this.props.carItinerary.length > 0 ? Math.round(this.props.carItinerary[0].emissions) : 0;
     const co2percentage = co2value > 0 && carCo2Value > 0 ? Math.round((co2value / carCo2Value) * 100) : 0;
     const co2SimpleDesc = co2percentage === 0 && carCo2Value === 0;
+
     return (
       <div className="itinerary-tab">
         <h2 className="sr-only">
@@ -379,7 +381,7 @@ class ItineraryTab extends React.Component {
                           {config.URL.EMISSIONSINFO && (
                           <div className='co2link'>
                             <Link style={{ textDecoration: 'none', fontWeight: '450' }}
-                              to={`${config.URL.EMISSIONSINFO}`}
+                              to={`${config.URL.EMISSIONSINFO[this.props.lang]}`}
                               target="_blank"
                             >
                               <FormattedMessage
@@ -415,8 +417,9 @@ class ItineraryTab extends React.Component {
 }
 
 const withRelay = createFragmentContainer(
-  connectToStores(ItineraryTab, ['TimeStore'], context => ({
+  connectToStores(ItineraryTab, ['TimeStore', 'PreferencesStore'], context => ({
     currentTime: context.getStore('TimeStore').getCurrentTime().unix(),
+    lang:  context.getStore('PreferencesStore').getLanguage(),
   })),
   {
     plan: graphql`

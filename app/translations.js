@@ -1096,7 +1096,7 @@ const translations = {
       'Tämän matkan CO2 päästö on {co2value} g, joka on {co2percentage} % verrattuna henkilöautolla suoritettuun matkaan.',
     'itinerary-co2.description-simple':
       'Tämän matkan CO2 päästö on {co2value} g.',
-    'itinerary-co2.link': 'Näin vähennämme päästöjä ›',
+    'itinerary-co2.link': 'This is how we reduce emissions ›',
     'itinerary-co2.title': 'Matkan CO2-päästöt',
     'itinerary-details.biking-leg':
       'At {time} cycle {distance} from {origin} to {to} {destination}. Estimated time {duration}',
@@ -4149,7 +4149,7 @@ const translations = {
       'Tämän matkan CO2 päästö on {co2value} g, joka on {co2percentage} % verrattuna henkilöautolla suoritettuun matkaan.',
     'itinerary-co2.description-simple':
       'Tämän matkan CO2 päästö on {co2value} g.',
-    'itinerary-co2.link': 'Näin vähennämme päästöjä ›',
+    'itinerary-co2.link': 'Så minskar vi utsläppen ›',
     'itinerary-co2.title': 'Matkan CO2-päästöt',
     'itinerary-details.biking-leg':
       '{time} cykla {distance} från {origin} till {to} {destination}. Restid {duration}',

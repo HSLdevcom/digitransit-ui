@@ -47,7 +47,11 @@ export default {
     BANNERS: BANNER_URL,
     HSL_FI_SUGGESTIONS: 'https://content.hsl.fi/api/v1/search/suggestions',
     EMBEDDED_SEARCH_GENERATION: '/reittiopas-elementti',
-    EMISSIONSINFO: 'https://www.hsl.fi/hsl/sahkobussit/ymparisto-lukuina',
+    EMISSIONSINFO: {
+      fi: 'https://www.hsl.fi/hsl/sahkobussit/ymparisto-lukuina',
+      sv: ' http://www.hsl.fi/sv/reseplaneraren_co2',
+      en: ' http://www.hsl.fi/en/journey_planner_co2',
+    },
   },
 
   indexPath: 'etusivu',
