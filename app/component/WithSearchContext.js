@@ -16,6 +16,7 @@ import SelectFromMapHeader from './SelectFromMapHeader';
 import SelectFromMap from './map/SelectFromMap';
 import DTModal from './DTModal';
 import FromMapModal from './FromMapModal';
+import { removeSearch } from '../action/SearchActions';
 
 const PATH_OPTS = {
   stopsPrefix: PREFIX_STOPS,
@@ -192,12 +193,31 @@ export default function withSearchContext(
         })
           .then(res => {
             const newItem = { ...item };
+            let canSave = true;
             if (res.features != null && res.features.length > 0) {
               // update only position. It is surprising if, say, the name changes at selection.
               const geom = res.features[0].geometry;
               newItem.geometry.coordinates = geom.coordinates;
+              if (
+                newItem.properties.name !== res.features[0].properties.name ||
+                newItem.properties.street !==
+                  res.features[0].properties.street ||
+                newItem.properties.housenumber !==
+                  res.features[0].properties.housenumber
+              ) {
+                // Item properties have changed unexpectedly. For example,
+                // an enterprise may have moved to new premises. Remove outdated information.
+                canSave = false;
+              }
             }
-            this.saveOldSearch(newItem, type, id);
+            if (canSave) {
+              this.saveOldSearch(newItem, type, id);
+            } else {
+              this.context.executeAction(removeSearch, {
+                item: newItem,
+                type,
+              });
+            }
             this.onSuggestionSelected(item, id);
           })
           .catch(() => {

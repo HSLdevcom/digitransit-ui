@@ -11,6 +11,7 @@ const LogoSmall = ({ logo, title }, { config }) => {
       </span>
     );
   }
+
   return (
     <div
       className="logo"

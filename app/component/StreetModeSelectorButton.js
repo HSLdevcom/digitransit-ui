@@ -127,7 +127,9 @@ export const StreetModeSelectorButton = (
           {config.showDistanceBeforeDuration ? (
             <>
               <div className="street-mode-button-time">{distance}</div>
-              <div className="street-mode-button-length">{duration}</div>
+              {!config.hideCarSuggestionDuration && (
+                <div className="street-mode-button-length">{duration}</div>
+              )}
             </>
           ) : (
             <>

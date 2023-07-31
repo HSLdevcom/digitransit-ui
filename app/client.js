@@ -41,6 +41,7 @@ import {
   initAnalyticsClientSide,
   addAnalyticsEvent,
 } from './util/analyticsUtils';
+import { configureCountry } from './util/configureCountry';
 
 const plugContext = f => () => ({
   plugComponentContext: f,
@@ -100,6 +101,12 @@ async function init() {
   }
 
   const context = await app.rehydrate(window.state);
+
+  // Get additional feedIds and searchParams from localstorage
+  if (config.mainMenu.countrySelection) {
+    const selectedCountries = context.getStore('CountryStore').getCountries();
+    configureCountry(config, selectedCountries);
+  }
 
   // For Google Tag Manager
   if (!config.useCookiesPrompt) {

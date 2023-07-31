@@ -80,20 +80,6 @@ export default configMerger(walttiConfig, {
           'Tämän palvelun tarjoaa Rovaniemen kaupungin joukkoliikenne reittisuunnittelua varten Rovaniemen alueella. ',
         ],
       },
-
-      {
-        header: 'Digitransit-palvelualusta',
-        paragraphs: [
-          'Palvelu perustuu Digitransit-palvelualustaan, joka on HSL:n ja Traficomin kehittämä avoimen lähdekoodin reititystuote.',
-        ],
-      },
-
-      {
-        header: 'Tietolähteet',
-        paragraphs: [
-          'Kartat, tiedot kaduista, rakennuksista, pysäkkien sijainnista ynnä muusta tarjoaa © OpenStreetMap contributors. Osoitetiedot tuodaan Digi- ja väestötietoviraston rakennustietorekisteristä. Joukkoliikenteen reitit ja aikataulut ladataan Rovaniemen kaupungin tuottamasta aineistosta.',
-        ],
-      },
     ],
   },
   vehicles: true,

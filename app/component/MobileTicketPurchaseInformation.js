@@ -6,6 +6,7 @@ import { renderZoneTicket } from './ZoneTicket';
 import { getAlternativeFares } from '../util/fareUtils';
 import { FareShape } from '../util/shapes';
 import ExternalLink from './ExternalLink';
+import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 export default function MobileTicketPurchaseInformation(
   { fares, zones },
@@ -20,7 +21,8 @@ export default function MobileTicketPurchaseInformation(
     !fare.isUnknown,
     config.availableTickets,
   );
-  const price = `${(fare.cents / 100).toFixed(2)} €`;
+  const price = `${(fare.cents / 100).toFixed(2)} €`.replace('.', ',');
+
   const faresInfo = () => {
     const header = `${intl.formatMessage({
       id: 'itinerary-ticket.title',
@@ -59,8 +61,13 @@ export default function MobileTicketPurchaseInformation(
       <div className="itinerary-pinfo-ticket-type">
         {faresInfo()}
         <div className="app-link">
-          <ExternalLink href={config.ticketPurchaseLink(fare.ticketname)}>
-            <FormattedMessage id="buy-single-ticket" />
+          <ExternalLink
+            href={config.ticketPurchaseLink(fare.ticketname)}
+            onClick={() =>
+              addAnalyticsEvent({ event: 'journey_planner_open_app' })
+            }
+          >
+            <FormattedMessage id="open-app" />
           </ExternalLink>
         </div>
       </div>

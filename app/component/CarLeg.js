@@ -74,7 +74,11 @@ function CarLeg(props, { config, intl }) {
         <div className="itinerary-leg-action">
           <div className="itinerary-leg-action-content">
             <FormattedMessage
-              id="car-distance-duration"
+              id={
+                config.hideCarSuggestionDuration
+                  ? 'car-distance-no-duration'
+                  : 'car-distance-duration'
+              }
               values={{ distance, duration }}
               defaultMessage="Drive {distance} ({duration})}"
             />
