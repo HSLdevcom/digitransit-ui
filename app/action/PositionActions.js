@@ -11,13 +11,23 @@ let geoWatchId;
 function reverseGeocodeAddress(actionContext, location) {
   const language = actionContext.getStore('PreferencesStore').getLanguage();
 
-  return getJson(actionContext.config.URL.PELIAS_REVERSE_GEOCODER, {
+  const searchParams = {
     'point.lat': location.lat,
     'point.lon': location.lon,
     lang: language,
     size: 1,
     layers: 'address',
-  }).then(data => {
+  };
+
+  if (actionContext.config.searchParams['boundary.country']) {
+    searchParams['boundary.country'] =
+      actionContext.config.searchParams['boundary.country'];
+  }
+
+  return getJson(
+    actionContext.config.URL.PELIAS_REVERSE_GEOCODER,
+    searchParams,
+  ).then(data => {
     if (data.features != null && data.features.length > 0) {
       const match = data.features[0].properties;
       actionContext.dispatch('AddressFound', {
