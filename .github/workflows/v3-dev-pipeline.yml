@@ -79,7 +79,7 @@ jobs:
           timezone: "Europe/Helsinki"
 
       - name: Create buildInfo.js file content
-        run: printf "%s\n" "export const COMMIT_ID = \"${GITHUB_SHA}\";" "export const BUILD_TIME = \"$(date -Iminutes -u)\";" > buildInfo.js
+        run: printf "%s\n" "export const COMMIT_ID = \"${GITHUB_SHA}\";" "export const BUILD_TIME = \"$(date -Iminutes -u)\";" > app/buildInfo.js
 
       - name: Configure Docker Buildx
         uses: docker/setup-buildx-action@v2
