@@ -79,14 +79,7 @@ jobs:
           timezone: "Europe/Helsinki"
 
       - name: Create buildInfo.js file content
-        id: build-info
-        run: echo "content=export const COMMIT_ID = \"${GITHUB_SHA}\";\nexport const BUILD_TIME = \"$(date -Iminutes -u)\";}" >> $GITHUB_OUTPUT
-
-      - name: Create buildInfo.js file
-        uses: finnp/create-file-action@2.0.0
-        env:
-          FILE_NAME: "app/buildInfo.js"
-          FILE_DATA: ${{ steps.build-info.outputs.content }}
+        run: printf "%s\n" "export const COMMIT_ID = \"${GITHUB_SHA}\";" "export const BUILD_TIME = \"$(date -Iminutes -u)\";" > buildInfo.js
 
       - name: Configure Docker Buildx
         uses: docker/setup-buildx-action@v2
