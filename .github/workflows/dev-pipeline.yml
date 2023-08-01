@@ -116,11 +116,11 @@ jobs:
       - name: disregard changed yarn.lock
         run: git update-index --assume-unchanged yarn.lock
       - name: Publish shared components to npm
-        run: echo ::set-output name=publish-logs::$(yarn digitransit-npm-autopublish)
+        run: echo "publish-logs=$(yarn digitransit-npm-autopublish)" >> $GITHUB_OUTPUT
         shell: bash
         id: publish
       - name: Parse publish logs
-        run: echo ::set-output name=published-packages::$(echo "${{ steps.publish.outputs.publish-logs }}" | grep -o -P '(Successfully published:).*')
+        run: echo "published-packages=$(echo "${{ steps.publish.outputs.publish-logs }}" | grep -o -P '(Successfully published:).*')" >> $GITHUB_OUTPUT
         shell: bash
         id: log-parse
       - name: Send published packages to slack

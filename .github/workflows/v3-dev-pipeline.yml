@@ -80,7 +80,7 @@ jobs:
 
       - name: Create buildInfo.js file content
         id: build-info
-        run: echo "::set-output name=content::export const COMMIT_ID = \"${GITHUB_SHA}\";\nexport const BUILD_TIME = \"$(date -Iminutes -u)\";"
+        run: echo "content=export const COMMIT_ID = \"${GITHUB_SHA}\";\nexport const BUILD_TIME = \"$(date -Iminutes -u)\";}" >> $GITHUB_OUTPUT
 
       - name: Create buildInfo.js file
         uses: finnp/create-file-action@2.0.0
@@ -107,7 +107,7 @@ jobs:
       - name: Create Docker image tag
         id: docker-tags
         run: |
-          echo "::set-output name=permanent-tag::v3-$(date +"%Y-%m-%dT%H.%M.%S")-${GITHUB_SHA:0:7}"
+          echo "permanent-tag=v3-$(date +"%Y-%m-%dT%H.%M.%S")-${GITHUB_SHA:0:7}" >> $GITHUB_OUTPUT
 
       - name: build and push Docker image
         uses: docker/build-push-action@v2
