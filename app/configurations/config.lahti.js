@@ -21,6 +21,7 @@ export default configMerger(walttiConfig, {
     primary: '#0066B3',
     iconColors: {
       'mode-bus': '#0066B3',
+      'mode-citybike': '#f2b62d',
     },
   },
 
