@@ -132,7 +132,7 @@ $itinerary-tab-switch-height: 48px;
     }
   }
 
-  div.itinerary-ticket-information {
+  div.itinerary-ticket-information, .itinerary-co2-information {
     flex-grow: 0;
     flex-shrink: 0;
   }
@@ -189,35 +189,12 @@ $itinerary-tab-switch-height: 48px;
 }
 
 .itinerary-co2-information {
-  padding: 0 65px;
   &.mobile {
     padding: 0 15px;
     .divider-bottom {
       width: 365px;
     }
   }
-}
-
-.itinerary-co2-comparison {
-  padding: 0 0;
-
-  .itinerary-co2-line {
-    position: relative;
-
-    .divider-top,
-    .divider-bottom {
-      position: relative;
-      width: 400px;
-      height: 1px;
-      left: 10px;
-      border-top: 1px solid #dddddd;
-      box-sizing: border-box;
-      @media print {
-        border: none;
-      }
-    }
-  }
-
 }
 
 .itinerary-co2-line {
@@ -609,7 +586,7 @@ $itinerary-tab-switch-height: 48px;
   }
 }
 
-.itinerary-ticket-information {
+.itinerary-ticket-information, .itinerary-co2-information {
   display: flex;
   color: $gray;
   font-weight: $font-weight-book;
@@ -641,7 +618,7 @@ $itinerary-tab-switch-height: 48px;
     }
   }
 
-  .itinerary-ticket-type {
+  .itinerary-ticket-type, .itinerary-co2-line {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
@@ -739,7 +716,7 @@ $itinerary-tab-switch-height: 48px;
 }
 
 .desktop {
-  .itinerary-ticket-information {
+  .itinerary-ticket-information, .itinerary-co2-information {
     font-size: 0.9375rem;
     width: 400px;
     margin: 0 60px;

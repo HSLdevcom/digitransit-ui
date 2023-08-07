@@ -314,7 +314,6 @@ class ItineraryTab extends React.Component {
                       <div className="itinerary-co2-value">{co2value} g</div>
                     </div>
                   </div>
-                  <div className={cx('divider-bottom')} />
                 </div>
               </div>
             ),
