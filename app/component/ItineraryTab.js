@@ -416,9 +416,8 @@ class ItineraryTab extends React.Component {
 }
 
 const withRelay = createFragmentContainer(
-  connectToStores(ItineraryTab, ['TimeStore', 'PreferencesStore'], context => ({
+  connectToStores(ItineraryTab, ['TimeStore'], context => ({
     currentTime: context.getStore('TimeStore').getCurrentTime().unix(),
-    lang:  context.getStore('PreferencesStore').getLanguage(),
   })),
   {
     plan: graphql`

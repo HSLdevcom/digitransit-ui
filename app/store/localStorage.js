@@ -132,14 +132,6 @@ export function setCustomizedSettings(data) {
       data.showBikeAndParkItineraries,
       oldSettings.showBikeAndParkItineraries,
     ),
-    forceCarRouting: getValueOrDefault(
-      data.forceCarRouting,
-      oldSettings.forceCarRouting,
-    ),
-    showCO2InItinerarySummary: getValueOrDefault(
-      data.showCO2InItinerarySummary,
-      oldSettings.showCO2InItinerarySummary,
-    ),
   };
 
   setItem('customizedSettings', newSettings);

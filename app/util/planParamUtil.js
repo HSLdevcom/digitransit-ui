@@ -174,9 +174,10 @@ const getShouldMakeCarQuery = (
   settings,
   defaultSettings,
 ) => {
-  const forceCarRouting = config.forceCarRouting
-    ? config.forceCarRouting
-    : defaultSettings.forceCarRouting;
+  const forceCarRouting = config.showCO2InItinerarySummary
+    ? config.showCO2InItinerarySummary
+    : defaultSettings.showCO2InItinerarySummary;
+
   const includeCarSuggestions = settings.includeCarSuggestions
     ? settings.includeCarSuggestions
     : defaultSettings.includeCarSuggestions;

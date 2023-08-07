@@ -508,7 +508,6 @@ export default {
 
   // DT-5325
   showCO2InItinerarySummary: true,
-  forceCarRouting: true,
 
   includeCarSuggestions: false,
   includeParkAndRideSuggestions: true,
