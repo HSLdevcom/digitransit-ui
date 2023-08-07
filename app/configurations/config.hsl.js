@@ -506,7 +506,7 @@ export default {
   showBikeAndPublicItineraries: true,
   showBikeAndParkItineraries: true,
 
-  // DT-5325
+  // DT-5325 Notice! Turning on this setting forces the search for car routes.
   showCO2InItinerarySummary: true,
 
   includeCarSuggestions: false,

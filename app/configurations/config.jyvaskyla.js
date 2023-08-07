@@ -163,7 +163,6 @@ export default configMerger(walttiConfig, {
     stops: true,
     itinerary: true,
   },
-  // DT-5325
+  // DT-5325 Notice! Turning on this setting forces the search for car routes.
   showCO2InItinerarySummary: true,
-  forceCarRouting: true,
 });
