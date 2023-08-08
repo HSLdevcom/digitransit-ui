@@ -303,7 +303,7 @@ class ItineraryTab extends React.Component {
                   <div className={cx("co2-container",{mobile: this.props.isMobile})}>
                     <div className="co2-title-container">
                       <Icon img="icon-icon_co2_leaf" className="co2-leaf" />
-                      <span className="itinerary-co2-title" aria-hidden>
+                      <span className="itinerary-co2-title">
                         <FormattedMessage
                           id="itinerary-co2.title"
                           defaultMessage="CO2 emissions for this route"
@@ -362,7 +362,7 @@ class ItineraryTab extends React.Component {
                     <div className="co2-container">
                       <div className="co2-description-container">
                         <Icon img="icon-icon_co2_leaf" className="co2-leaf" />
-                        <span className={cx("itinerary-co2-description", {simple: co2SimpleDesc})} aria-hidden>
+                        <span className={cx("itinerary-co2-description", {simple: co2SimpleDesc})}>
  {                       carCo2Value > 0 && co2percentage > 0 ? ( <FormattedMessage
                             id="itinerary-co2.description"
                             defaultMessage="CO2 emissions for this route"
@@ -371,33 +371,33 @@ class ItineraryTab extends React.Component {
                               co2percentage,
                             }}
                           />):
-                          <FormattedMessage id="itinerary-co2.description-simple"
-                          defaultMessage="CO2 emissions for this route2"
-                          values={{
-                            co2value,
-                          }}
+                              <FormattedMessage id="itinerary-co2.description-simple"
+                                defaultMessage="CO2 emissions for this route2"
+                                values={{
+                                  co2value,
+                                }}
                           />}
                           {config.URL.EMISSIONSINFO && (
-                          <div className='co2link'>
-                            <Link style={{ textDecoration: 'none', fontWeight: '450' }}
-                              to={`${config.URL.EMISSIONSINFO[this.props.lang]}`}
-                              target="_blank"
-                            >
-                              <FormattedMessage
-                                id="itinerary-co2.link"
-                                defaultMessage="Näin vähennämme päästöjä ›"
-                              />
-                            </Link>
-                          </div>
-                         )}
+                            <div className='co2link'>
+                              <Link style={{ textDecoration: 'none', fontWeight: '450' }}
+                                to={`${config.URL.EMISSIONSINFO[this.props.lang]}`}
+                                target="_blank"
+                              >
+                                <FormattedMessage
+                                  id="itinerary-co2.link"
+                                  defaultMessage="Näin vähennämme päästöjä ›"
+                                />
+                              </Link>
+                            </div>
+                          )}
                         </span>
                       </div>
                     </div>
                     <div className={cx('divider-bottom')} />
                   </div>
                 </div>
-              ) : 
-              (null)}
+              ) :
+                (null)}
               {this.shouldShowDisclaimer(config) && (
                 <div className="itinerary-disclaimer">
                   <FormattedMessage

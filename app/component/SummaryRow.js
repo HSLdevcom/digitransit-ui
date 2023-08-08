@@ -698,6 +698,17 @@ const SummaryRow = (
       />
     </div>
   );
+  const co2summary = (
+    <div className="sr-only">
+      <FormattedMessage
+        id="itinerary-co2.description-simple"
+        defaultMessage="CO2 emissions for this route"
+        values={{
+          co2value,
+        }}
+      />
+    </div>
+  );
 
   const ariaLabelMessage = intl.formatMessage(
     {
@@ -733,6 +744,7 @@ const SummaryRow = (
         />
       </h3>
       {textSummary}
+      {config.showCO2InItinerarySummary && co2value > 0 && co2summary}
       <div
         className="itinerary-summary-visible"
         style={{
