@@ -27,6 +27,8 @@ export default configMerger(matkaConfig, {
 
   favicon: './app/configurations/images/default/favicon.png',
   feedIds: ['kela', 'matkahuolto'],
+  additionalFeedIds: undefined,
+  additionalSearchParams: undefined,
   textLogo: true,
   logo: null, // override default logo from matka config
   appBarLink: false, // override default config - would show Traficom otherwise
@@ -96,6 +98,7 @@ export default configMerger(matkaConfig, {
       show: false,
     },
     showEmbeddedSearch: false,
+    countrySelection: [],
   },
   showNearYouButtons: false,
   hideFavourites: true,
