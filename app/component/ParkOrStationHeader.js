@@ -17,14 +17,20 @@ const modules = {
 const ParkOrBikeStationHeader = ({ parkOrStation, breakpoint }, { config }) => {
   const [zoneId, setZoneId] = useState(undefined);
   useEffect(() => {
-    getJson(config.URL.PELIAS_REVERSE_GEOCODER, {
+    const searchParams = {
       'point.lat': parkOrStation.lat,
       'point.lon': parkOrStation.lon,
       'boundary.circle.radius': 0.2,
       layers: 'address',
       size: 1,
       zones: 1,
-    }).then(data => {
+    };
+    if (config.searchParams['boundary.country']) {
+      searchParams['boundary.country'] =
+        config.searchParams['boundary.country'];
+    }
+
+    getJson(config.URL.PELIAS_REVERSE_GEOCODER, searchParams).then(data => {
       if (data.features != null && data.features.length > 0) {
         const match = data.features[0].properties;
         const id = getZoneId(config, match.zones, data.zones);

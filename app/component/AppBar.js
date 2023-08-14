@@ -19,7 +19,9 @@ const AppBar = (
 ) => {
   const { location } = match;
   const [disruptionInfoOpen, setDisruptionInfoOpen] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(
+    window.sessionStorage.menuOpen === 'true',
+  );
   const url = encodeURI(`${window.location?.origin || ''}${location.pathname}`);
   const params = location.search && location.search.substring(1);
 
@@ -29,6 +31,8 @@ const AppBar = (
       action: newState ? 'OpenMenu' : 'CloseMenu',
       name: null,
     });
+    // Set sessionStorage menuOpen to false on closing the menu so it doesn't pop up opened on later refreshes.
+    window.sessionStorage.setItem('menuOpen', false);
     setMenuOpen(newState);
   };
 

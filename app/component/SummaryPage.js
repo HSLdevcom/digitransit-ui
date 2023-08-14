@@ -2134,11 +2134,42 @@ class SummaryPage extends React.Component {
     return false;
   };
 
+  filterItinerariesByFeedId = plan => {
+    if (!plan || !plan.itineraries) {
+      return plan;
+    }
+    let filteredPlan = { ...plan, itineraries: [] };
+
+    plan.itineraries.forEach(itinerary => {
+      const feedIds = itinerary.legs.map(leg =>
+        leg.route && leg.route.gtfsId ? leg.route.gtfsId.split(':')[0] : null,
+      );
+      if (
+        feedIds.every(
+          id => !id || this.context.config.feedIds.indexOf(id) !== -1,
+        )
+      ) {
+        filteredPlan = {
+          ...filteredPlan,
+          itineraries: [...filteredPlan.itineraries, itinerary],
+        };
+      }
+    });
+
+    return filteredPlan;
+  };
+
   render() {
     const { match, error } = this.props;
     const { walkPlan, bikePlan, carPlan, parkRidePlan } = this.state;
 
-    const plan = this.props.viewer && this.props.viewer.plan;
+    let plan;
+    /* NOTE: as a temporary solution, do filtering by feedId in UI */
+    if (this.context.config.feedIdFiltering) {
+      plan = this.filterItinerariesByFeedId(this.props.viewer?.plan);
+    } else {
+      plan = this.props.viewer?.plan;
+    }
 
     const bikeParkPlan = this.filteredbikeAndPublic(this.state.bikeParkPlan);
     const bikeAndPublicPlan = this.filteredbikeAndPublic(

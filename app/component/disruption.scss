@@ -150,6 +150,7 @@
     .alert-body {
       font-size: $font-size-small;
       font-weight: 200;
+      white-space: pre-wrap;
 
       .alert-url {
         color: $primary-color;

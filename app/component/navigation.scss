@@ -370,6 +370,20 @@ $content-background-color: $background-color;
     text-decoration: none;
   }
 
+  label {
+    color: $offcanvas-link-color;
+    text-decoration: none;
+    font-weight: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    display: flex;
+    justify-content: space-between;
+
+    .option-toggle-container {
+      display: flex;
+      align-self: center;
+    }
+  }
   span {
     cursor: pointer;
     color: $offcanvas-link-color;
@@ -813,6 +827,7 @@ section.content {
       .message-bar-container {
         .react-swipe-container, .single-alert {
           .message-content {
+            white-space: pre-wrap;
             .message-bar-link {
               color: $white;
             }

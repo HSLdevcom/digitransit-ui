@@ -59,7 +59,8 @@ class SelectFromMapPageMap extends React.Component {
 
   setAddress = (lat, lon) => {
     const { intl } = this.context;
-    getJson(this.context.config.URL.PELIAS_REVERSE_GEOCODER, {
+
+    const searchParams = {
       'point.lat': lat,
       'point.lon': lon,
       'boundary.circle.radius': 0.1, // 100m
@@ -67,7 +68,14 @@ class SelectFromMapPageMap extends React.Component {
       size: 1,
       layers: 'address',
       zones: 1,
-    }).then(
+    };
+    if (this.context.config.searchParams['boundary.country']) {
+      searchParams['boundary.country'] = this.context.config.searchParams[
+        'boundary.country'
+      ];
+    }
+
+    getJson(this.context.config.URL.PELIAS_REVERSE_GEOCODER, searchParams).then(
       data => {
         if (data.features != null && data.features.length > 0) {
           const match = data.features[0].properties;

@@ -420,6 +420,10 @@ export function getSearchResults(
       const geocodingLayers = ['stop', 'station'];
       const searchParams =
         geocodingSize && geocodingSize !== 10 ? { size: geocodingSize } : {};
+      if (geocodingSearchParams && geocodingSearchParams['boundary.country']) {
+        searchParams['boundary.country'] =
+          geocodingSearchParams['boundary.country'];
+      }
       // a little hack: when searching location data, automatically dedupe stops
       // this could be a new explicit prop
       if (allTargets || targets.includes('Locations')) {
