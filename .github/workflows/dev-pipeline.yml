@@ -175,7 +175,7 @@ jobs:
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
 
-publish-npm:
+  publish-npm:
     if: github.ref == 'node-migration'
     needs:
       - lint
@@ -257,6 +257,7 @@ publish-npm:
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           PUBLISHED_PACKAGES: ${{ steps.log-parse.outputs.published-packages }}
+        shell: bash
 
   docker-push:
     if: github.ref == 'node-migration'
