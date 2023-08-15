@@ -255,10 +255,8 @@ jobs:
       - name: Parse publish logs
         run: |
           {
-            echo "${{ steps.publish.outputs.publish-logs }}"
-            echo "-----------------"
             echo 'published-packages<<EOF' >> $GITHUB_OUTPUT
-            echo "${{ steps.publish.outputs.publish-logs }}" | grep -o -P '(Successfully published:).*' >> $GITHUB_OUTPUT
+            echo "${{ steps.publish.outputs.publish-logs }}" | grep -A100 'Successfully published' >> $GITHUB_OUTPUT
             echo 'EOF' >> $GITHUB_OUTPUT
           }
         shell: bash
@@ -266,10 +264,7 @@ jobs:
       - name: Send published packages to slack
         if:  steps.log-parse.outputs.published-packages != ''
         run: |
-          {
-            echo "${{ steps.log-parse.outputs.published-packages }}"
-            ./.github/workflows/scripts/slack_message.sh
-          }
+          ./.github/workflows/scripts/slack_message.sh
         env:
           SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_ID }}
           SLACK_ACCESS_TOKEN: ${{ secrets.SLACK_ACCESS_TOKEN }}
