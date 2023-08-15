@@ -265,7 +265,8 @@ jobs:
         if:  steps.log-parse.outputs.published-packages != ''
         run: ./.github/workflows/scripts/slack_message.sh
         env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_ID }}
+          SLACK_ACCESS_TOKEN: ${{ secrets.SLACK_ACCESS_TOKEN }}
           PUBLISHED_PACKAGES: ${{ steps.log-parse.outputs.published-packages }}
         shell: bash
 
