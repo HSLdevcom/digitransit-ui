@@ -257,7 +257,6 @@ publish-npm:
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           PUBLISHED_PACKAGES: ${{ steps.log-parse.outputs.published-packages }}
-        shell: bash
 
   docker-push:
     if: github.ref == 'node-migration'
