@@ -176,7 +176,7 @@ jobs:
         uses: codecov/codecov-action@v3
 
   publish-npm:
-    if: github.ref == 'node-migration'
+    if: github.ref == 'refs/heads/node-migration'
     needs:
       - lint
       - unit-test
@@ -260,7 +260,7 @@ jobs:
         shell: bash
 
   docker-push:
-    if: github.ref == 'node-migration'
+    if: github.ref == 'refs/heads/node-migration'
     needs:
       - lint
       - unit-test
