@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 export const configureCountry = (config, selectedCountries) => {
-  if (config.mainMenu.countrySelection?.length) {
+  if (config.mainMenu.countrySelection?.length > 0) {
     const keys = Object.keys(selectedCountries);
     let boundaries = config.additionalSearchParams.default['boundary.country'];
     let feedIds = [...config.feedIds];
