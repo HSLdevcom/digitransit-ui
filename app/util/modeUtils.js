@@ -110,8 +110,8 @@ export const getRouteMode = route => {
       return 'bus-express';
     case ExtendedRouteTypes.BusLocal:
       return 'bus-local';
-    case ExtendedRouteTypes.SpeedTram:
-      return 'speedtram';
+    case ExtendedRouteTypes.TramLocal:
+      return 'tram-local';
     default:
       return route.mode?.toLowerCase();
   }

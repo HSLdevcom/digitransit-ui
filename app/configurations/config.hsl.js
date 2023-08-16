@@ -22,8 +22,8 @@ export default {
   URL: {
     OTP: OTP_URL,
     STOP_MAP: {
-      default: `${POI_MAP_PREFIX}/fi/stops,stations/`,
-      sv: `${POI_MAP_PREFIX}/sv/stops,stations/`,
+      default: `${OTP_URL}vectorTiles/stops,stations/`,
+      sv: `${OTP_URL}vectorTiles/stops,stations/`,
     },
     RENTAL_STATION_MAP: {
       default: `${POI_MAP_PREFIX}/fi/rentalStations/`,
@@ -122,7 +122,7 @@ export default {
       'mode-metro': '#CA4000',
       'mode-citybike': '#f2b62d',
       'mode-citybike-secondary': '#333333',
-      'mode-speedtram': '#007E79',
+      'mode-tram-local': '#007E79',
     },
   },
   getAutoSuggestIcons: {

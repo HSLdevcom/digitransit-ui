@@ -19,6 +19,11 @@ function SelectStopRow(
     if (patternArray.some(p => p.gtfsType === ExtendedRouteTypes.BusExpress)) {
       mode = 'bus-express';
     }
+  } else if (patterns && type === 'TRAM' && config.useExtendedRouteTypes) {
+    const patternArray = JSON.parse(patterns);
+    if (patternArray.some(p => p.gtfsType === ExtendedRouteTypes.TramLocal)) {
+      mode = 'tram-local';
+    }
   }
   const iconOptions = {};
   switch (mode) {
@@ -58,9 +63,9 @@ function SelectStopRow(
       iconOptions.iconId = 'icon-icon_funicular-stop-lollipop';
       iconOptions.className = 'funicular-stop';
       break;
-    case 'SPEEDTRAM':
-      iconOptions.iconId = 'icon-icon_speedtram-stop-lollipop';
-      iconOptions.className = 'speedtram-stop';
+    case 'tram-local':
+      iconOptions.iconId = 'icon-tram-local-stop-lollipop';
+      iconOptions.className = 'tram-local-stop';
       break;
     case 'FERRY':
       iconOptions.iconId = !isNull(code)
