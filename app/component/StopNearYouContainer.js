@@ -31,7 +31,7 @@ const containerComponent = createRefetchContainer(
           startTime: $startTime
           omitNonPickups: $omitNonPickups
         ) {
-          realtimeArrival
+          realtimeDeparture
           realtime
           realtimeState
           serviceDay
@@ -85,7 +85,7 @@ const containerComponent = createRefetchContainer(
             stop {
               platformCode
             }
-            realtimeArrival
+            realtimeDeparture
             realtime
             serviceDay
             headsign
