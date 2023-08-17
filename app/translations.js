@@ -4214,6 +4214,7 @@ const translations = {
     'itinerary-tickets.title': 'Biljetter som behövs',
     'itinerary-time.title': 'Restid',
     'itinerary-walk.title': 'Gång totalt',
+    'journey-planner-manual': 'Reittioppaan käyttöohje',
     'journeyplanner.title': 'HRT Reseplaneraren',
     'language-selection': 'Språk: {language}',
     later: 'Senare avgångar',
