@@ -181,9 +181,6 @@ const DepartureRow = (
             >
               <LocalTime time={departureTime} />
             </span>
-            <span>
-              <Icon className="test" img="icon-icon_capacityTest" color="red" />
-            </span>
             <span className="sr-only">
               {intl.formatMessage(
                 {
@@ -200,6 +197,17 @@ const DepartureRow = (
             </span>
           </>,
         )}
+      </td>
+      <td className="capacity-cell">
+        <span className="capacity-icon-container">
+          <Icon
+            className="test"
+            width="1.5"
+            height="1.5"
+            img="icon-icon_capacityTest"
+            color="red"
+          />
+        </span>
       </td>
       {showPlatformCode && (
         <td className="platform-cell">

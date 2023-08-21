@@ -255,7 +255,16 @@
       justify-content: center;
     }
   }
-
+  .capacity-cell {
+    width: 25px;
+    .capacity-icon-container {
+      padding-left: 7px;
+      margin-top: 15px;
+      svg {
+        margin-top: 4px;
+      }
+    }
+  }
   .headsign {
     color: #333;
   }

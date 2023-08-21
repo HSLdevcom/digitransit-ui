@@ -470,7 +470,7 @@
 -->
 	<use x="850" y="830" width="550" height="550" class="fill-color14" xlink:href="#icon-icon_user" fill="#fff"/>
 </symbol>
-<symbol id="icon-icon_capacityTest" width="24" height="15" viewBox="0 0 24 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+<symbol id="icon-icon_capacityTest" viewBox="0 0 24 15" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g opacity="0.4">
 <path fill-rule="evenodd" clip-rule="evenodd" d="M16.1248 6.9982C16.6764 7.31734 17.3169 7.5 18 7.5C20.0711 7.5 21.75 5.82107 21.75 3.75C21.75 1.67893 20.0711 0 18 0C17.3169 0 16.6764 0.182658 16.1248 0.501799C16.8295 1.39544 17.25 2.52361 17.25 3.75C17.25 4.97639 16.8295 6.10456 16.1248 6.9982Z" fill="#007AC9"/>
 <path fill-rule="evenodd" clip-rule="evenodd" d="M19.5 15H24V12C24 10.3431 22.6568 9 21 9H18.3541C19.0667 9.79613 19.5 10.8475 19.5 12V15Z" fill="#007AC9"/>
