@@ -22,8 +22,8 @@ export default {
   URL: {
     OTP: OTP_URL,
     STOP_MAP: {
-      default: `${OTP_URL}vectorTiles/stops,stations/`,
-      sv: `${OTP_URL}vectorTiles/stops,stations/`,
+      default: `${POI_MAP_PREFIX}/fi/stops,stations/`,
+      sv: `${POI_MAP_PREFIX}/sv/stops,stations/`,
     },
     RENTAL_STATION_MAP: {
       default: `${POI_MAP_PREFIX}/fi/rentalStations/`,
