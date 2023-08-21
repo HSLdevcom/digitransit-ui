@@ -181,6 +181,9 @@ const DepartureRow = (
             >
               <LocalTime time={departureTime} />
             </span>
+            <span>
+              <Icon className="test" img="icon-icon_capacityTest" color="red" />
+            </span>
             <span className="sr-only">
               {intl.formatMessage(
                 {

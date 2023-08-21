@@ -470,6 +470,18 @@
 -->
 	<use x="850" y="830" width="550" height="550" class="fill-color14" xlink:href="#icon-icon_user" fill="#fff"/>
 </symbol>
+<symbol id="icon-icon_capacityTest" width="24" height="15" viewBox="0 0 24 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g opacity="0.4">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M16.1248 6.9982C16.6764 7.31734 17.3169 7.5 18 7.5C20.0711 7.5 21.75 5.82107 21.75 3.75C21.75 1.67893 20.0711 0 18 0C17.3169 0 16.6764 0.182658 16.1248 0.501799C16.8295 1.39544 17.25 2.52361 17.25 3.75C17.25 4.97639 16.8295 6.10456 16.1248 6.9982Z" fill="#007AC9"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M19.5 15H24V12C24 10.3431 22.6568 9 21 9H18.3541C19.0667 9.79613 19.5 10.8475 19.5 12V15Z" fill="#007AC9"/>
+</g>
+<g opacity="0.4">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M10.1248 6.9982C10.6764 7.31734 11.3169 7.5 12 7.5C14.0711 7.5 15.75 5.82107 15.75 3.75C15.75 1.67893 14.0711 0 12 0C11.3169 0 10.6764 0.182658 10.1248 0.501799C10.8295 1.39544 11.25 2.52361 11.25 3.75C11.25 4.97639 10.8295 6.10456 10.1248 6.9982Z" fill="#007AC9"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M13.5 15H18V12C18 10.3431 16.6568 9 15 9H12.3541C13.0667 9.79613 13.5 10.8475 13.5 12V15Z" fill="#007AC9"/>
+</g>
+<path d="M0.75 12C0.75 10.7574 1.75736 9.75 3 9.75H9C10.2426 9.75 11.25 10.7574 11.25 12V14.25H0.75V12Z" stroke="#007AC9" stroke-width="1.5"/>
+<rect x="3" y="0.75" width="6" height="6" rx="3" stroke="#007AC9" stroke-width="1.5"/>
+</symbol>
 <symbol id="icon-icon_no_route_found" viewBox="0 0 283.46 283.46" enable-background="new 0 0 283.46 283.46">
   <g display="none"> </g>
   <g>
