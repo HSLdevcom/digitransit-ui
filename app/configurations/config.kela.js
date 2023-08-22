@@ -96,6 +96,7 @@ export default configMerger(matkaConfig, {
       show: false,
     },
     showEmbeddedSearch: false,
+    countrySelection: [],
   },
   showNearYouButtons: false,
   hideFavourites: true,
