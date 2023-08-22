@@ -23,7 +23,14 @@ const getMostSevereAlert = route => {
 };
 
 const DepartureRow = (
-  { departure, departureTime, showPlatformCode, canceled, ...props },
+  {
+    departure,
+    departureTime,
+    showPlatformCode,
+    canceled,
+    onCapacityClick,
+    ...props
+  },
   { config, intl },
 ) => {
   const { trip, trip: { route } = {} } = departure;
@@ -199,12 +206,15 @@ const DepartureRow = (
         )}
       </td>
       <td className="capacity-cell">
-        <span className="capacity-icon-container">
+        <span
+          className="capacity-icon-container"
+          onClick={() => onCapacityClick()}
+        >
           <Icon
             className="test"
             width="1.5"
             height="1.5"
-            img="icon-icon_capacityTest"
+            img="icon-icon_many-seats-available"
             color="red"
           />
         </span>
@@ -236,6 +246,7 @@ DepartureRow.propTypes = {
   showPlatformCode: PropTypes.bool,
   canceled: PropTypes.bool,
   className: PropTypes.string,
+  onCapacityClick: PropTypes.func.isRequired,
 };
 
 DepartureRow.contextTypes = {
