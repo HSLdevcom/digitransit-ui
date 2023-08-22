@@ -128,6 +128,10 @@ function getIconProperties(
       { icon: 'search-bus-stop-express-default', color: 'mode-bus-express' },
     ],
     [
+      'TRAM-LOCAL-default',
+      { icon: 'search-tram-local-stop-default', color: 'mode-tram-local' },
+    ],
+    [
       'BUS-digitransit',
       { icon: 'search-bus-stop-digitransit', color: 'mode-bus' },
     ],
@@ -154,14 +158,6 @@ function getIconProperties(
     [
       'TRAM-digitransit',
       { icon: 'search-tram-stop-digitransit', color: 'mode-tram' },
-    ],
-    [
-      'TRAM-LOCAL-default',
-      { icon: 'search-tram-local-stop-digitransit', color: 'mode-tram-local' },
-    ],
-    [
-      'TRAM-LOCAL-digitransit',
-      { icon: 'search-tram-stop-default', color: 'mode-tram-local' },
     ],
     ['SUBWAY-default', { icon: 'subway', color: 'mode-metro' }],
     ['SUBWAY-digitransit', { icon: 'subway', color: 'mode-metro' }],
