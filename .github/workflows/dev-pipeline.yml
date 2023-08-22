@@ -253,6 +253,7 @@ jobs:
         shell: bash
         id: publish
       - name: Parse publish logs
+        if:  steps.publish.outputs.publish-logs != ''
         run: |
           {
             echo 'published-packages<<EOF' >> $GITHUB_OUTPUT
