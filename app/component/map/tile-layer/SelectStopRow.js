@@ -10,18 +10,18 @@ function isNull(val) {
 }
 
 function SelectStopRow(
-  { code, type, desc, gtfsId, name, patterns, terminal, colors },
+  { code, type, desc, gtfsId, name, terminal, colors, routes },
   { config },
 ) {
   let mode = type;
-  if (patterns && type === 'BUS' && config.useExtendedRouteTypes) {
-    const patternArray = JSON.parse(patterns);
-    if (patternArray.some(p => p.gtfsType === ExtendedRouteTypes.BusExpress)) {
+  if (routes && type === 'BUS' && config.useExtendedRouteTypes) {
+    const routesArray = JSON.parse(routes);
+    if (routesArray.some(p => p.gtfsType === ExtendedRouteTypes.BusExpress)) {
       mode = 'bus-express';
     }
-  } else if (patterns && type === 'TRAM' && config.useExtendedRouteTypes) {
-    const patternArray = JSON.parse(patterns);
-    if (patternArray.some(p => p.gtfsType === ExtendedRouteTypes.TramLocal)) {
+  } else if (routes && type === 'TRAM' && config.useExtendedRouteTypes) {
+    const routesArray = JSON.parse(routes);
+    if (routesArray.some(p => p.gtfsType === ExtendedRouteTypes.TramLocal)) {
       mode = 'tram-local';
     }
   }
@@ -64,7 +64,7 @@ function SelectStopRow(
       iconOptions.className = 'funicular-stop';
       break;
     case 'tram-local':
-      iconOptions.iconId = 'icon-tram-local-stop-lollipop';
+      iconOptions.iconId = 'icon-icon_tram-local-stop-lollipop';
       iconOptions.className = 'tram-local-stop';
       break;
     case 'FERRY':
@@ -122,7 +122,7 @@ SelectStopRow.propTypes = {
   gtfsId: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  patterns: PropTypes.string,
+  routes: PropTypes.string,
   code: PropTypes.string,
   desc: PropTypes.string,
   terminal: PropTypes.bool,
