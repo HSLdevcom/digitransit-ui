@@ -122,6 +122,7 @@ export default {
       'mode-metro': '#CA4000',
       'mode-citybike': '#f2b62d',
       'mode-citybike-secondary': '#333333',
+      'mode-tram-local': '#007E79',
     },
   },
   getAutoSuggestIcons: {
@@ -629,6 +630,35 @@ export default {
         sv: [
           'Närbusslinjerna är planerade i synnerhet med tanke på seniorer och rörelsehindrade. ',
           'Närbussarna kan inom ramen för trafikreglerna också stanna annanstans än vid markerade hållplatser. ',
+        ],
+      },
+      closeButtonLabel: {
+        fi: 'Mitä lähibussi tarkoittaa?',
+        en: 'What does a neigbourhood route mean?',
+        sv: 'Vad betyder en närbuss?',
+      },
+      link: {
+        fi: 'hsl.fi/matkustaminen/lahibussit',
+        en: 'hsl.fi/matkustaminen/lahibussit',
+        sv: 'hsl.fi/matkustaminen/lahibussit',
+      },
+    },
+    {
+      showForRoute: route => route.type === 902,
+      header: {
+        fi: 'Raide-Jokeri',
+        en: 'Jokeri Light Rail',
+        sv: 'Spårjokern',
+      },
+      content: {
+        fi: [
+          'Sed nibh ante, sodales non tortor vel, ullamcorper auctor massa. Nulla facilisi. Sed pharetra malesuada mauris, et auctor diam luctus at.',
+        ],
+        en: [
+          'Sed nibh ante, sodales non tortor vel, ullamcorper auctor massa. Nulla facilisi. Sed pharetra malesuada mauris, et auctor diam luctus at.',
+        ],
+        sv: [
+          'Sed nibh ante, sodales non tortor vel, ullamcorper auctor massa. Nulla facilisi. Sed pharetra malesuada mauris, et auctor diam luctus at.',
         ],
       },
       closeButtonLabel: {

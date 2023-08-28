@@ -1,13 +1,25 @@
 .git
 .gitignore
 .*swp
+
+.github
+
 LICENSE*
-VERSION
-README.md
 Changelog.md
-Makefile
-docker-compose.yml
 win-launch-scripts/
 docs/
+/test
+
+/Dockerfile
+
 node_modules
+/.yarn
+# todo: keep?
+# !/.yarn/install-state.gz
+!/.yarn/plugins
+!/.yarn/releases
+!/.yarn/versions
+
 _static
+/app/__generated__
+/app/**/__generated__
