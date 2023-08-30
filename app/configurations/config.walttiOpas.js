@@ -162,4 +162,6 @@ export default configMerger(walttiConfig, {
     [22.7, 60.4],
     [23.1, 60.6],
   ],
+
+  showDisclaimer: true,
 });

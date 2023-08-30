@@ -220,4 +220,6 @@ export default {
     'https://tampere.digitransit.fi',
     'https://opas.waltti.fi',
   ],
+
+  showDisclaimer: true,
 };
