@@ -387,6 +387,8 @@ export function getSearchResults(
         'bikestation',
         'bikeRentalStation',
         'back',
+        'stop',
+        'station',
       ];
       dropLayers.push(...routeLayers);
       dropLayers.push(...locationLayers);
