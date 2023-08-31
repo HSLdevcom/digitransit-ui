@@ -40,7 +40,7 @@ const translations = {
   },
   sv: {
     'own-position': 'Min position',
-    'find-bike-route': 'Sök en cyckelrutt',
+    'find-bike-route': 'Sök en cykelrutt',
     'find-walk-route': 'Sök en promenadsrutt',
     'find-route': 'Sök en rutt',
     'search-fields-sr-instructions': '',

@@ -3956,7 +3956,7 @@ const translations = {
     'avoid-walking': 'Undvik gång',
     'back-button-title': 'Tillbaka till föregående sida',
     'back-to-front-page': 'Tillbaka till framsidan ›',
-    bicycle: 'cyckel',
+    bicycle: 'cykel',
     'bicycle-distance-duration': 'Cykla {duration} ({distance})',
     'bicycle-walk-from-transit':
       'Ta cykeln från {transportMode} och led cykeln {distance} ({duration})',
