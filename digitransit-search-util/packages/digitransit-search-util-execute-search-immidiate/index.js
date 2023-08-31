@@ -54,7 +54,7 @@ function getStopsFromGeocoding(stops, URL_PELIAS_PLACE) {
     });
   });
 }
-function getFavouriteLocations(favourites, input) {
+function filterFavouriteLocations(favourites, input) {
   return Promise.resolve(
     filterMatchingToInput(favourites, input, ['address', 'name']).map(item => ({
       type: 'FavouritePlace',
@@ -165,7 +165,7 @@ function getBackSuggestion() {
   ]);
 }
 
-function getFavouriteStops(stopsAndStations, input) {
+function filterFavouriteStops(stopsAndStations, input) {
   return stopsAndStations.then(stops => {
     return filterMatchingToInput(stops, input, [
       'properties.name',
@@ -175,7 +175,7 @@ function getFavouriteStops(stopsAndStations, input) {
   });
 }
 
-function getOldSearches(oldSearches, input, dropLayers) {
+function filterOldSearches(oldSearches, input, dropLayers) {
   let matchingOldSearches = filterMatchingToInput(oldSearches, input, [
     'properties.name',
     'properties.label',
@@ -203,13 +203,15 @@ function getOldSearches(oldSearches, input, dropLayers) {
   );
 }
 
-function hasFavourites(context, locations, stops) {
-  const favouriteLocations = locations(context);
-  if (favouriteLocations && favouriteLocations.length > 0) {
+function hasFavourites(searchContext) {
+  const favouriteLocations = searchContext.getFavouriteLocations(
+    searchContext.context,
+  );
+  if (favouriteLocations?.length > 0) {
     return true;
   }
-  const favouriteStops = stops(context);
-  return favouriteStops && favouriteStops.length > 0;
+  const favouriteStops = searchContext.getFavouriteStops(searchContext.context);
+  return favouriteStops?.length > 0;
 }
 
 const routeLayers = [
@@ -240,9 +242,9 @@ export function getSearchResults(
 ) {
   const {
     getPositions,
-    getFavouriteLocations: locations,
-    getOldSearches: prevSearches,
-    getFavouriteStops: stops,
+    getFavouriteLocations,
+    getOldSearches,
+    getFavouriteStops,
     parkingAreaSources,
     getLanguage,
     getStopAndStationsQuery,
@@ -295,7 +297,7 @@ export function getSearchResults(
   }
   if (
     targets.includes('SelectFromOwnLocations') &&
-    hasFavourites(context, locations, stops)
+    hasFavourites(searchContext)
   ) {
     searchComponents.push(selectFromOwnLocations(input));
   }
@@ -303,8 +305,10 @@ export function getSearchResults(
     // eslint-disable-next-line prefer-destructuring
     const searchParams = geocodingSearchParams;
     if (sources.includes('Favourite')) {
-      const favouriteLocations = locations(context);
-      searchComponents.push(getFavouriteLocations(favouriteLocations, input));
+      const favouriteLocations = getFavouriteLocations(context);
+      searchComponents.push(
+        filterFavouriteLocations(favouriteLocations, input),
+      );
       if (sources.includes('Back')) {
         searchComponents.push(getBackSuggestion());
       }
@@ -328,7 +332,7 @@ export function getSearchResults(
       );
     }
     if (allSources || sources.includes('History')) {
-      const locationHistory = prevSearches(context, 'endpoint');
+      const locationHistory = getOldSearches(context, 'endpoint');
       const dropLayers = [
         'currentPosition',
         'selectFromMap',
@@ -341,7 +345,9 @@ export function getSearchResults(
         'back',
       ];
       dropLayers.push(...routeLayers);
-      searchComponents.push(getOldSearches(locationHistory, input, dropLayers));
+      searchComponents.push(
+        filterOldSearches(locationHistory, input, dropLayers),
+      );
     }
   }
   if (allTargets || targets.includes('ParkingAreas')) {
@@ -371,7 +377,7 @@ export function getSearchResults(
       );
     }
     if (allSources || sources.includes('History')) {
-      const history = prevSearches(context);
+      const history = getOldSearches(context);
       const dropLayers = [
         'currentPosition',
         'selectFromMap',
@@ -384,13 +390,13 @@ export function getSearchResults(
       ];
       dropLayers.push(...routeLayers);
       dropLayers.push(...locationLayers);
-      searchComponents.push(getOldSearches(history, input, dropLayers));
+      searchComponents.push(filterOldSearches(history, input, dropLayers));
     }
   }
 
   if (allTargets || targets.includes('Stops')) {
     if (sources.includes('Favourite')) {
-      const favouriteStops = stops(context);
+      const favouriteStops = getFavouriteStops(context);
       let stopsAndStations;
       if (favouriteStops.every(stop => stop.type === 'station')) {
         stopsAndStations = getStopsFromGeocoding(
@@ -414,7 +420,7 @@ export function getSearchResults(
             return results;
           });
       }
-      searchComponents.push(getFavouriteStops(stopsAndStations, input));
+      searchComponents.push(filterFavouriteStops(stopsAndStations, input));
     }
     if (allSources || sources.includes('Datasource')) {
       const geocodingLayers = ['stop', 'station'];
@@ -449,7 +455,7 @@ export function getSearchResults(
       );
     }
     if (allSources || sources.includes('History')) {
-      const stopHistory = prevSearches(context).filter(item => {
+      const stopHistory = getOldSearches(context).filter(item => {
         if (item.properties.gid) {
           return item.properties.gid.includes('GTFS:');
         }
@@ -473,12 +479,14 @@ export function getSearchResults(
           dropLayers.push('bikestation');
         }
         searchComponents.push(
-          getOldSearches(stopHistory, input, dropLayers).then(result =>
+          filterOldSearches(stopHistory, input, dropLayers).then(result =>
             filterResults ? filterResults(result, mode) : result,
           ),
         );
       } else {
-        searchComponents.push(getOldSearches(stopHistory, input, dropLayers));
+        searchComponents.push(
+          filterOldSearches(stopHistory, input, dropLayers),
+        );
       }
     }
   }
@@ -503,7 +511,7 @@ export function getSearchResults(
       ),
     );
     if (allSources || sources.includes('History')) {
-      const routeHistory = prevSearches(context);
+      const routeHistory = getOldSearches(context);
       const dropLayers = [
         'currentPosition',
         'selectFromMap',
@@ -525,7 +533,7 @@ export function getSearchResults(
       }
       dropLayers.push(...locationLayers);
       searchComponents.push(
-        getOldSearches(routeHistory, input, dropLayers).then(results =>
+        filterOldSearches(routeHistory, input, dropLayers).then(results =>
           filterResults ? filterResults(results, mode, 'Routes') : results,
         ),
       );
