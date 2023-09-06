@@ -427,6 +427,8 @@ export default {
     primaryAgencyName: ...,
     */
   },
+  // DT-5890
+  showCallAgencyDisclaimer: false,
 
   useTicketIcons: false,
   showRouteInformation: false,
