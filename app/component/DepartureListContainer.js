@@ -13,6 +13,8 @@ import {
   changeRealTimeClientTopics,
 } from '../action/realTimeClientAction';
 import { getHeadsignFromRouteLongName } from '../util/legUtils';
+import { connectToStores } from 'fluxible-addons-react';
+import withBreakpoint from '../util/withBreakpoint';
 
 const getDropoffMessage = (hasOnlyDropoff, hasNoStop) => {
   if (hasNoStop) {
@@ -128,23 +130,18 @@ class DepartureListContainer extends Component {
         }
       }, 100);
     }
-    if (this.context.config.showVehiclesOnStopPage && this.props.isStopPage) {
-      const departures = asDepartures(this.props.stoptimes)
-        .filter(departure => !(this.props.isTerminal && departure.isArrival))
-        .filter(departure => this.props.currentTime < departure.stoptime);
-      this.startClient(departures);
-    }
+    const departures = asDepartures(this.props.stoptimes)
+      .filter(departure => !(this.props.isTerminal && departure.isArrival))
+      .filter(departure => this.props.currentTime < departure.stoptime).filter(departure => departure.realtime && !departure.canceled);
+    this.startClient(departures);
   }
 
   componentDidUpdate() {
-    if (this.context.config.showVehiclesOnStopPage && this.props.isStopPage) {
-      const departures = asDepartures(this.props.stoptimes)
-        .filter(departure => !(this.props.isTerminal && departure.isArrival))
-        .filter(departure => this.props.currentTime < departure.stoptime)
-        .filter(departure => departure.realtime);
-
-      this.updateClient(departures);
-    }
+    const departures = asDepartures(this.props.stoptimes)
+      .filter(departure => !(this.props.isTerminal && departure.isArrival))
+      .filter(departure => this.props.currentTime < departure.stoptime)
+      .filter(departure => departure.realtime).filter(departure => departure.realtime && !departure.canceled);
+    this.updateClient(departures);
   }
 
   componentWillUnmount() {
@@ -353,6 +350,14 @@ class DepartureListContainer extends Component {
       };
 
       const nextDeparture = departuresWithDayDividers[index + 1];
+      // if (Object.keys(this.props.vehicles).length !== 0) {
+      //   console.log("ROW", row)
+      //   console.log(Object.keys(this.props.vehicles).map(key => this.props.vehicles[key]).filter(vehicle => vehicle.shortName === "73"))
+      //   const scheduledDeparture = row.trip.gtfsId.split("_")[4]
+      //   const matchingRealtimeVehicle = Object.keys(this.props.vehicles).map(key => this.props.vehicles[key]).filter(vehicle => vehicle.shortName === row.trip.route.shortName)
+      //   // console.log("Matching vehicle", matchingRealtimeVehicle)
+      // }
+
 
       const departureObj = (
         <DepartureRow
@@ -426,7 +431,18 @@ DepartureListContainer.contextTypes = {
   intl: intlShape.isRequired,
 };
 
-const containerComponent = createFragmentContainer(DepartureListContainer, {
+const DepartureListWithRealtime = connectToStores(
+  withBreakpoint(DepartureListContainer),
+  ['RealTimeInformationStore'],
+  ({ getStore }) => {
+    const { vehicles } = getStore('RealTimeInformationStore')
+    return ({
+      vehicles: vehicles 
+    })
+  }
+)
+
+const containerComponent = createFragmentContainer(DepartureListWithRealtime, {
   stoptimes: graphql`
     fragment DepartureListContainer_stoptimes on Stoptime @relay(plural: true) {
       realtimeState

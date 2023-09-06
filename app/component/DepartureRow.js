@@ -29,6 +29,7 @@ const DepartureRow = (
     showPlatformCode,
     canceled,
     onCapacityClick,
+    capacity,
     ...props
   },
   { config, intl },
@@ -205,6 +206,7 @@ const DepartureRow = (
           </>,
         )}
       </td>
+      {departure.realtime && capacity &&
       <td className="capacity-cell">
         <span
           className="capacity-icon-container"
@@ -214,11 +216,11 @@ const DepartureRow = (
             className="test"
             width="1.5"
             height="1.5"
-            img="icon-icon_many-seats-available"
-            color="red"
+            img={`icon-icon_${capacity}`}
+            color="#007AC9"
           />
         </span>
-      </td>
+      </td>}
       {showPlatformCode && (
         <td className="platform-cell">
           {renderWithLink(
@@ -252,5 +254,6 @@ DepartureRow.propTypes = {
 DepartureRow.contextTypes = {
   config: PropTypes.object.isRequired,
   intl: intlShape.isRequired,
+  executeAction: PropTypes.func
 };
 export default DepartureRow;

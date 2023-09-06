@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React from 'react';
-import PropTypes from 'prop-types';
 import Icon from './Icon';
+import { FormattedMessage } from 'react-intl';
 
 const CapacityModal = ({}) => {
   return (
@@ -20,9 +20,15 @@ const CapacityModal = ({}) => {
             height="1.5"
           />
         </div>
-        <span className="info-heading">Ei tungosta</span>
+        <span className="info-heading"><FormattedMessage
+            id="capacity-modal.many-seats-available-heading"
+            defaultMessage="Not crowded"
+          /></span>
       </div>
-      <p className="capacity-info-explanation">Paljon istumapaikkoja</p>
+      <p className="capacity-info-explanation"><FormattedMessage
+            id="capacity-modal.many-seats-available-body"
+            defaultMessage="Plenty of seats available"
+          /></p>
       <div className="capacity-info-row">
         <div className="icon">
           <Icon
@@ -32,9 +38,15 @@ const CapacityModal = ({}) => {
             height="1.5"
           />
         </div>
-        <span className="info-heading">Ei liikaa tungosta</span>
+        <span className="info-heading"><FormattedMessage
+            id="capacity-modal.few-seats-available-heading"
+            defaultMessage="Not too crowded"
+          /></span>
       </div>
-      <p className="capacity-info-explanation">Joitakin istumapaikkoja</p>
+      <p className="capacity-info-explanation"><FormattedMessage
+            id="capacity-modal.few-seats-available-body"
+            defaultMessage="Some seats available"
+          /></p>
       <div className="capacity-info-row">
         <div className="icon">
           <Icon
@@ -44,23 +56,35 @@ const CapacityModal = ({}) => {
             height="1.5"
           />
         </div>
-        <span className="info-heading">Lähes täynnä</span>
+        <span className="info-heading"><FormattedMessage
+            id="capacity-modal.standing-room-only-heading"
+            defaultMessage="Nearly full"
+          /></span>
       </div>
       <p className="capacity-info-explanation">
-        Vain vähän istuma- ja seisomapaikkoja
+          <FormattedMessage
+            id="capacity-modal.standing-room-only-body"
+            defaultMessage="Only a few seats and a little standing room available"
+          />
       </p>
       <div className="capacity-info-row">
         <div className="icon">
           <Icon
-            img="icon-icon_crushed_standing_room_only"
+            img="icon-icon_crushed-standing-room-only"
             color="red"
             width="1.5"
             height="1.5"
           />
         </div>
-        <span className="info-heading">Kova tungos</span>
+        <span className="info-heading"><FormattedMessage
+            id="capacity-modal.crushed-standing-room-only-heading"
+            defaultMessage="Very crowded"
+          /></span>
       </div>
-      <p className="capacity-info-explanation">Vain vähän seisompaikkoja</p>
+      <p className="capacity-info-explanation"><FormattedMessage
+            id="capacity-modal.crushed-standing-room-only-body"
+            defaultMessage="Only a little standing room available"
+          /></p>
       <div className="capacity-info-row">
         <div className="icon">
           <Icon
@@ -70,9 +94,15 @@ const CapacityModal = ({}) => {
             height="1.5"
           />
         </div>
-        <span className="info-heading">Täynnä</span>
+        <span className="info-heading"><FormattedMessage
+            id="capacity-modal.full-capacity-heading"
+            defaultMessage="Full"
+          /></span>
       </div>
-      <p className="capacity-info-explanation">Ei vapaita paikkoja</p>
+      <p className="capacity-info-explanation"><FormattedMessage
+            id="capacity-modal.full-capacity-body"
+            defaultMessage="No seats or standing room available"
+          /></p>
     </div>
   );
 };

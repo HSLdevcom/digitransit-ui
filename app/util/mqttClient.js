@@ -99,6 +99,7 @@ export function parseMessage(topic, message, agency) {
       mode: getMode(mode),
       next_stop: `${agency}:${nextStop}`,
       timestamp: parsedMessage.tsi,
+      occu: parsedMessage.occu,
       lat: ceil(parsedMessage.lat, 5),
       long: ceil(parsedMessage.long, 5),
       shortName: parsedMessage.desi,
@@ -153,7 +154,7 @@ export function startMqttClient(settings, actionContext) {
               settings.agency,
             );
             parsedMessages.forEach(message => {
-              actionContext.dispatch('RealTimeClientMessage', message);
+              actionContext.dispatch('RealTimeClientMessage', { ...message, timeout: 3000 });
             });
           });
 

@@ -11,6 +11,7 @@ const RouteNumberContainer = (
     route,
     isCallAgency,
     withBicycle,
+    hasOneTransitLeg,
     ...props
   },
   { config },
@@ -24,6 +25,7 @@ const RouteNumberContainer = (
       mode={route.mode}
       text={getLegText(route, config, interliningWithRoute)}
       withBicycle={withBicycle}
+      hasOneTransitLeg={hasOneTransitLeg}
       {...props}
     />
   );
