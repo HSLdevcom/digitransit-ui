@@ -39,6 +39,7 @@ import CautionWhite from './assets/caution_white_exclamation.svg';
 import Trash from './assets/trash.svg';
 import ModeBus from './assets/mode_bus.svg';
 import ModeBusExpress from './assets/bus-express.svg';
+import ModeTramLocal from './assets/tram-local.svg';
 import ModeBusLocal from './assets/bus-local.svg';
 import ModeRail from './assets/mode_rail.svg';
 import ModeTram from './assets/mode_tram.svg';
@@ -59,6 +60,7 @@ import TramWaltti from './assets/tram-waltti.svg';
 import Check from './assets/check.svg';
 import SearchBusStopDefault from './assets/search-bus-stop-default.svg';
 import SearchBusStopExpressDefault from './assets/search-bus-stop-express-default.svg';
+import SearchTramLocalStopDefault from './assets/search-tram-local-stop-default.svg';
 import SearchRailStopDefault from './assets/search-rail-stop-default.svg';
 import SearchFerryDefault from './assets/search-ferry-default.svg';
 import SearchFerryStopDefault from './assets/search-ferry-stop-default.svg';
@@ -122,6 +124,7 @@ const IconMap = style => {
     'mode-bus': <ModeBus style={style} />,
     'mode-bus-express': <ModeBusExpress style={style} />,
     'mode-bus-local': <ModeBusLocal style={style} />,
+    'mode-tram-local': <ModeTramLocal style={style} />,
     'mode-rail': <ModeRail style={style} />,
     'mode-tram': <ModeTram style={style} />,
     'mode-subway': <Subway style={style} />,
@@ -147,6 +150,9 @@ const IconMap = style => {
     'search-bus-stop-default': <SearchBusStopDefault style={style} />,
     'search-bus-stop-express-default': (
       <SearchBusStopExpressDefault style={style} />
+    ),
+    'search-tram-local-stop-default': (
+      <SearchTramLocalStopDefault style={style} />
     ),
     'search-rail-stop-default': <SearchRailStopDefault style={style} />,
     'search-ferry-default': <SearchFerryDefault style={style} />,

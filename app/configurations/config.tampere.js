@@ -168,6 +168,7 @@ export default configMerger(walttiConfig, {
         paragraphs: [
           'This service is provided by Tampereen seudun Joukkoliikenne (Nysse) for route planning in Tampere region (Kangasala, Lempäälä, Nokia, Orivesi, Pirkkala, Tampere, Vesilahti ja Ylöjärvi). Service is built on Digitransit platform.',
         ],
+        link: 'https://www.nysse.fi/en/journey-planner-manual.html',
       },
     ],
   },

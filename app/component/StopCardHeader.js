@@ -27,33 +27,42 @@ class StopCardHeader extends React.Component {
       name = `${name} ${stop.code}`;
     }
 
-    getJson(this.context.config.URL.PELIAS_REVERSE_GEOCODER, {
+    const searchParams = {
       'point.lat': stop.lat,
       'point.lon': stop.lon,
       'boundary.circle.radius': 0.2,
       size: 1,
-    }).then(data => {
-      if (data.features != null && data.features.length > 0) {
-        const match = data.features[0].properties;
-        const city = match.localadmin;
+    };
+    if (this.context.config.searchParams['boundary.country']) {
+      searchParams['boundary.country'] = this.context.config.searchParams[
+        'boundary.country'
+      ];
+    }
 
-        this.context.executeAction(saveSearch, {
-          item: {
-            geometry: { coordinates: [stop.lon, stop.lat] },
-            properties: {
-              name,
-              id,
-              gid: `gtfs:${layer}:${id}`,
-              layer,
-              label: `${stop.name}, ${city}`,
-              localadmin: city,
+    getJson(this.context.config.URL.PELIAS_REVERSE_GEOCODER, searchParams).then(
+      data => {
+        if (data.features != null && data.features.length > 0) {
+          const match = data.features[0].properties;
+          const city = match.localadmin;
+
+          this.context.executeAction(saveSearch, {
+            item: {
+              geometry: { coordinates: [stop.lon, stop.lat] },
+              properties: {
+                name,
+                id,
+                gid: `gtfs:${layer}:${id}`,
+                layer,
+                label: `${stop.name}, ${city}`,
+                localadmin: city,
+              },
+              type: 'Feature',
             },
-            type: 'Feature',
-          },
-          type: 'endpoint',
-        });
-      }
-    });
+            type: 'endpoint',
+          });
+        }
+      },
+    );
   }
 
   get headerConfig() {

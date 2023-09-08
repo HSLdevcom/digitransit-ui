@@ -41,6 +41,7 @@ function MarkerSelectPopup(props) {
           {...option.feature.properties}
           key={option.feature.properties.gtfsId}
           colors={props.colors}
+          routes={option.feature.properties.routes}
         />
       );
     }

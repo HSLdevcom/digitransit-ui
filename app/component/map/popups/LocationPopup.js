@@ -44,7 +44,7 @@ class LocationPopup extends React.Component {
     const { lat, lon } = this.props;
     const { config } = this.context;
 
-    getJson(config.URL.PELIAS_REVERSE_GEOCODER, {
+    const searchParams = {
       'point.lat': lat,
       'point.lon': lon,
       'boundary.circle.radius': 0.1, // 100m
@@ -52,7 +52,13 @@ class LocationPopup extends React.Component {
       size: 1,
       layers: 'address',
       zones: 1,
-    }).then(
+    };
+    if (config.searchParams['boundary.country']) {
+      searchParams['boundary.country'] =
+        config.searchParams['boundary.country'];
+    }
+
+    getJson(config.URL.PELIAS_REVERSE_GEOCODER, searchParams).then(
       data => {
         let pointName;
         if (data.features != null && data.features.length > 0) {

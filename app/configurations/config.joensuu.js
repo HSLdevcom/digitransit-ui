@@ -73,6 +73,19 @@ export default configMerger(walttiConfig, {
     ],
   },
 
+  geoJson: {
+    layers: [
+      {
+        name: {
+          fi: 'Vyöhykkeet',
+          sv: 'Zoner',
+          en: 'Zones',
+        },
+        url: '/assets/geojson/joensuu_zone_lines_20230830.geojson',
+      },
+    ],
+  },
+
   defaultEndpoint: {
     address: 'Keskusta, Joensuu',
     lat: 62.6024263,
@@ -112,13 +125,14 @@ export default configMerger(walttiConfig, {
     ],
   },
   zoneIdMapping: {
-    1: 'A',
-    2: 'B',
-    3: 'C',
-    4: 'D',
-    5: 'E',
-    6: 'F',
-    7: 'G',
+    1: 'City',
+    2: 'A',
+    3: 'B',
+    4: 'C',
+    5: 'D',
+    6: 'E',
+    7: 'F',
+    8: 'G',
   },
   zones: {
     stops: true,

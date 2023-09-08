@@ -149,7 +149,13 @@ const productionPlugins = [
       },
     ],
   }),
-  new StatsPlugin('../stats.json', { chunkModules: true }),
+  new StatsPlugin('../stats.json', {
+    // We use stats.json in app/server.js to know which assets to serve. We
+    // only need `.entrypoints.main.assets` for that.
+    // https://github.com/webpack/webpack/blob/v4.44.1/declarations/WebpackOptions.d.ts#L1250-L1458
+    all: false,
+    entrypoints: true,
+  }),
   new WebpackAssetsManifest({ output: '../manifest.json' }),
 ];
 
@@ -228,7 +234,10 @@ module.exports = {
       },
     ],
   },
-  devtool: isProduction ? 'source-map' : 'eval',
+  devtool:
+    process.env.WEBPACK_DEVTOOL === 'false'
+      ? false
+      : process.env.WEBPACK_DEVTOOL || (isProduction ? 'source-map' : 'eval'),
   plugins: [
     new webpack.ContextReplacementPlugin(momentExpression, languageExp),
     new webpack.ContextReplacementPlugin(reactIntlExpression, languageExp),
@@ -242,7 +251,7 @@ module.exports = {
       new TerserJsPlugin({
         cache: true,
         parallel: true,
-        sourceMap: true, // set to true if you want JS source maps
+        sourceMap: !isProduction,
       }),
       new OptimizeCSSAssetsPlugin({}),
     ],
