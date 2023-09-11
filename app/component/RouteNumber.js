@@ -157,7 +157,7 @@ function RouteNumber(props, context) {
         <span
           style={{ color: 'white', marginLeft: 'auto', paddingRight: '3px' }}
         >
-          <Icon img="icon-icon_few-seats-available" height="1.5" width="1.5" />
+          <Icon img="icon-icon_few-seats-available" height={1.5} width={1.5} />
         </span>
       )}
     </span>

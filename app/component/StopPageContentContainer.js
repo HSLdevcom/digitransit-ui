@@ -60,7 +60,7 @@ const asDepartures = stoptimes =>
       });
 
 const StopShape = PropTypes.shape({
-  id: PropTypes.string.isRequired,
+  id: PropTypes.string,
 });
 
 const TripShape = PropTypes.shape({
@@ -68,15 +68,15 @@ const TripShape = PropTypes.shape({
 });
 
 const StopTimeShape = PropTypes.shape({
-  dropoffType: PropTypes.string.isRequired,
-  pickupType: PropTypes.string.isRequired,
+  dropoffType: PropTypes.string,
+  pickupType: PropTypes.string,
   trip: TripShape,
 });
 
 class StopPageContent extends React.Component {
   static propTypes = {
     stop: PropTypes.shape({
-      stoptimes: PropTypes.arrayOf(StopTimeShape).isRequired,
+      stoptimes: PropTypes.arrayOf(StopTimeShape),
     }).isRequired,
     relay: PropTypes.shape({
       refetch: PropTypes.func.isRequired,
