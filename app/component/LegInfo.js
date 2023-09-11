@@ -54,6 +54,7 @@ const LegInfo = (
             realtime={false}
             withBar
             fadeLong
+            hasOneTransitLeg
           />
         </span>
       </Link>

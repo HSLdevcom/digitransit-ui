@@ -20,29 +20,36 @@ const StopNearYouDepartureRowContainer = ({
         (b.serviceDay + b.realtimeDeparture),
     );
 
-  const mapCapacityToText = (occu) => {
+  const mapCapacityToText = occu => {
     if (occu >= 0 && occu < 5) {
-      return "many-seats-available"
-    } else if (occu >= 5 && occu < 20) {
-      return "few-seats-available"
-    } else if (occu >= 20 && occu < 50) {
-      return "standing-room-only"
-    } else if (occu >= 50 && occu < 70) {
-      return "crushed-standing-room-only"
-    } else {
-      return "full-capacity"
+      return 'many-seats-available';
     }
-  }
+    if (occu >= 5 && occu < 20) {
+      return 'few-seats-available';
+    }
+    if (occu >= 20 && occu < 50) {
+      return 'standing-room-only';
+    }
+    if (occu >= 50 && occu < 70) {
+      return 'crushed-standing-room-only';
+    }
+    return 'full-capacity';
+  };
 
   const departures = sortedStopTimes.map(row => {
     const departureTime = row.serviceDay + row.realtimeDeparture;
     // Find matching live vehicle with route and departure time
-    const scheduledDeparture = row.trip.gtfsId.split("_")[4]
-    const matchingRealtimeVehicle = Object.keys(vehicles).map(key => vehicles[key]).filter(vehicle => vehicle.shortName === row.trip.route.shortName && vehicle.tripStartTime === scheduledDeparture)[0]
-    var capacityText
+    const scheduledDeparture = row.trip.gtfsId.split('_')[4];
+    const matchingRealtimeVehicle = Object.keys(vehicles)
+      .map(key => vehicles[key])
+      .filter(
+        vehicle =>
+          vehicle.shortName === row.trip.route.shortName &&
+          vehicle.tripStartTime === scheduledDeparture,
+      )[0];
+    let capacityText;
     if (matchingRealtimeVehicle) {
-      capacityText = mapCapacityToText(matchingRealtimeVehicle?.occu)
-      console.log(capacityText)
+      capacityText = mapCapacityToText(matchingRealtimeVehicle?.occu);
     }
     return (
       <DepartureRow
@@ -53,7 +60,7 @@ const StopNearYouDepartureRowContainer = ({
         showPlatformCode={props.isStation}
         showLink
         onCapacityClick={() => setCapacityModalOpen(true)}
-        capacity={capacityText || "few-seats-available"}
+        capacity={capacityText || 'few-seats-available'}
       />
     );
   });
@@ -93,5 +100,6 @@ StopNearYouDepartureRowContainer.propTypes = {
   isStation: PropTypes.bool.isRequired,
   currentTime: PropTypes.number.isRequired,
   setCapacityModalOpen: PropTypes.func.isRequired,
+  vehicles: PropTypes.object,
 };
 export default StopNearYouDepartureRowContainer;

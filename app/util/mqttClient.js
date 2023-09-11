@@ -154,7 +154,10 @@ export function startMqttClient(settings, actionContext) {
               settings.agency,
             );
             parsedMessages.forEach(message => {
-              actionContext.dispatch('RealTimeClientMessage', { ...message, timeout: 3000 });
+              actionContext.dispatch('RealTimeClientMessage', {
+                ...message,
+                timeout: 3000,
+              });
             });
           });
 

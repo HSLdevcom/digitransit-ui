@@ -1,9 +1,9 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React from 'react';
-import Icon from './Icon';
 import { FormattedMessage } from 'react-intl';
+import Icon from './Icon';
 
-const CapacityModal = ({}) => {
+const CapacityModal = () => {
   return (
     <div className="capacity-information-modal">
       <h2 className="capacity-heading">Onko kulkuneuvossa tilaa?</h2>
@@ -20,15 +20,19 @@ const CapacityModal = ({}) => {
             height="1.5"
           />
         </div>
-        <span className="info-heading"><FormattedMessage
+        <span className="info-heading">
+          <FormattedMessage
             id="capacity-modal.many-seats-available-heading"
             defaultMessage="Not crowded"
-          /></span>
+          />
+        </span>
       </div>
-      <p className="capacity-info-explanation"><FormattedMessage
-            id="capacity-modal.many-seats-available-body"
-            defaultMessage="Plenty of seats available"
-          /></p>
+      <p className="capacity-info-explanation">
+        <FormattedMessage
+          id="capacity-modal.many-seats-available-body"
+          defaultMessage="Plenty of seats available"
+        />
+      </p>
       <div className="capacity-info-row">
         <div className="icon">
           <Icon
@@ -38,15 +42,19 @@ const CapacityModal = ({}) => {
             height="1.5"
           />
         </div>
-        <span className="info-heading"><FormattedMessage
+        <span className="info-heading">
+          <FormattedMessage
             id="capacity-modal.few-seats-available-heading"
             defaultMessage="Not too crowded"
-          /></span>
+          />
+        </span>
       </div>
-      <p className="capacity-info-explanation"><FormattedMessage
-            id="capacity-modal.few-seats-available-body"
-            defaultMessage="Some seats available"
-          /></p>
+      <p className="capacity-info-explanation">
+        <FormattedMessage
+          id="capacity-modal.few-seats-available-body"
+          defaultMessage="Some seats available"
+        />
+      </p>
       <div className="capacity-info-row">
         <div className="icon">
           <Icon
@@ -56,16 +64,18 @@ const CapacityModal = ({}) => {
             height="1.5"
           />
         </div>
-        <span className="info-heading"><FormattedMessage
+        <span className="info-heading">
+          <FormattedMessage
             id="capacity-modal.standing-room-only-heading"
             defaultMessage="Nearly full"
-          /></span>
+          />
+        </span>
       </div>
       <p className="capacity-info-explanation">
-          <FormattedMessage
-            id="capacity-modal.standing-room-only-body"
-            defaultMessage="Only a few seats and a little standing room available"
-          />
+        <FormattedMessage
+          id="capacity-modal.standing-room-only-body"
+          defaultMessage="Only a few seats and a little standing room available"
+        />
       </p>
       <div className="capacity-info-row">
         <div className="icon">
@@ -76,15 +86,19 @@ const CapacityModal = ({}) => {
             height="1.5"
           />
         </div>
-        <span className="info-heading"><FormattedMessage
+        <span className="info-heading">
+          <FormattedMessage
             id="capacity-modal.crushed-standing-room-only-heading"
             defaultMessage="Very crowded"
-          /></span>
+          />
+        </span>
       </div>
-      <p className="capacity-info-explanation"><FormattedMessage
-            id="capacity-modal.crushed-standing-room-only-body"
-            defaultMessage="Only a little standing room available"
-          /></p>
+      <p className="capacity-info-explanation">
+        <FormattedMessage
+          id="capacity-modal.crushed-standing-room-only-body"
+          defaultMessage="Only a little standing room available"
+        />
+      </p>
       <div className="capacity-info-row">
         <div className="icon">
           <Icon
@@ -94,15 +108,19 @@ const CapacityModal = ({}) => {
             height="1.5"
           />
         </div>
-        <span className="info-heading"><FormattedMessage
+        <span className="info-heading">
+          <FormattedMessage
             id="capacity-modal.full-capacity-heading"
             defaultMessage="Full"
-          /></span>
+          />
+        </span>
       </div>
-      <p className="capacity-info-explanation"><FormattedMessage
-            id="capacity-modal.full-capacity-body"
-            defaultMessage="No seats or standing room available"
-          /></p>
+      <p className="capacity-info-explanation">
+        <FormattedMessage
+          id="capacity-modal.full-capacity-body"
+          defaultMessage="No seats or standing room available"
+        />
+      </p>
     </div>
   );
 };

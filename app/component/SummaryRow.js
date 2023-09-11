@@ -69,7 +69,7 @@ export const RouteLeg = ({
   interliningWithRoute,
   fitRouteNumber,
   withBicycle,
-  hasOneTransitLeg
+  hasOneTransitLeg,
 }) => {
   const isCallAgency = isCallAgencyPickupType(leg);
   let routeNumber;
@@ -126,6 +126,7 @@ RouteLeg.propTypes = {
   interliningWithRoute: PropTypes.number,
   isTransitLeg: PropTypes.bool,
   withBicycle: PropTypes.bool.isRequired,
+  hasOneTransitLeg: PropTypes.bool,
 };
 
 RouteLeg.defaultProps = {
@@ -216,10 +217,9 @@ const bikeWasParked = legs => {
   return legs.length;
 };
 
-const hasOneTransitLeg = (data) => {
-  console.log(data.legs)
-  return data.legs.filter(leg => leg.transitLeg).length === 1
-}
+const hasOneTransitLeg = data => {
+  return data.legs.filter(leg => leg.transitLeg).length === 1;
+};
 
 const SummaryRow = (
   {

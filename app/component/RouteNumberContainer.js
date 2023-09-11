@@ -39,6 +39,7 @@ RouteNumberContainer.propTypes = {
   className: PropTypes.string,
   fadeLong: PropTypes.bool,
   withBicycle: PropTypes.bool,
+  hasOneTransitLeg: PropTypes.bool,
 };
 
 RouteNumberContainer.defaultProps = {

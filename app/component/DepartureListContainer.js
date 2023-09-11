@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import { intlShape, FormattedMessage } from 'react-intl';
+import { connectToStores } from 'fluxible-addons-react';
 import Icon from './Icon';
 import DepartureRow from './DepartureRow';
 import { isBrowser } from '../util/browser';
@@ -13,7 +14,6 @@ import {
   changeRealTimeClientTopics,
 } from '../action/realTimeClientAction';
 import { getHeadsignFromRouteLongName } from '../util/legUtils';
-import { connectToStores } from 'fluxible-addons-react';
 import withBreakpoint from '../util/withBreakpoint';
 
 const getDropoffMessage = (hasOnlyDropoff, hasNoStop) => {
@@ -132,7 +132,8 @@ class DepartureListContainer extends Component {
     }
     const departures = asDepartures(this.props.stoptimes)
       .filter(departure => !(this.props.isTerminal && departure.isArrival))
-      .filter(departure => this.props.currentTime < departure.stoptime).filter(departure => departure.realtime && !departure.canceled);
+      .filter(departure => this.props.currentTime < departure.stoptime)
+      .filter(departure => departure.realtime && !departure.canceled);
     this.startClient(departures);
   }
 
@@ -140,7 +141,8 @@ class DepartureListContainer extends Component {
     const departures = asDepartures(this.props.stoptimes)
       .filter(departure => !(this.props.isTerminal && departure.isArrival))
       .filter(departure => this.props.currentTime < departure.stoptime)
-      .filter(departure => departure.realtime).filter(departure => departure.realtime && !departure.canceled);
+      .filter(departure => departure.realtime)
+      .filter(departure => departure.realtime && !departure.canceled);
     this.updateClient(departures);
   }
 
@@ -358,7 +360,6 @@ class DepartureListContainer extends Component {
       //   // console.log("Matching vehicle", matchingRealtimeVehicle)
       // }
 
-
       const departureObj = (
         <DepartureRow
           key={id}
@@ -435,12 +436,12 @@ const DepartureListWithRealtime = connectToStores(
   withBreakpoint(DepartureListContainer),
   ['RealTimeInformationStore'],
   ({ getStore }) => {
-    const { vehicles } = getStore('RealTimeInformationStore')
-    return ({
-      vehicles: vehicles 
-    })
-  }
-)
+    const { vehicles } = getStore('RealTimeInformationStore');
+    return {
+      vehicles,
+    };
+  },
+);
 
 const containerComponent = createFragmentContainer(DepartureListWithRealtime, {
   stoptimes: graphql`

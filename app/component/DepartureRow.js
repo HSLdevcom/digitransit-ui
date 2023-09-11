@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
@@ -206,21 +207,22 @@ const DepartureRow = (
           </>,
         )}
       </td>
-      {departure.realtime && capacity &&
-      <td className="capacity-cell">
-        <span
-          className="capacity-icon-container"
-          onClick={() => onCapacityClick()}
-        >
-          <Icon
-            className="test"
-            width="1.5"
-            height="1.5"
-            img={`icon-icon_${capacity}`}
-            color="#007AC9"
-          />
-        </span>
-      </td>}
+      {departure.realtime && capacity && (
+        <td className="capacity-cell">
+          <span
+            className="capacity-icon-container"
+            onClick={() => onCapacityClick()}
+          >
+            <Icon
+              className="test"
+              width="1.5"
+              height="1.5"
+              img={`icon-icon_${capacity}`}
+              color="#007AC9"
+            />
+          </span>
+        </td>
+      )}
       {showPlatformCode && (
         <td className="platform-cell">
           {renderWithLink(
@@ -249,11 +251,12 @@ DepartureRow.propTypes = {
   canceled: PropTypes.bool,
   className: PropTypes.string,
   onCapacityClick: PropTypes.func.isRequired,
+  capacity: PropTypes.string,
 };
 
 DepartureRow.contextTypes = {
   config: PropTypes.object.isRequired,
   intl: intlShape.isRequired,
-  executeAction: PropTypes.func
+  executeAction: PropTypes.func,
 };
 export default DepartureRow;

@@ -136,6 +136,7 @@ StopNearYou.propTypes = {
   currentMode: PropTypes.string.isRequired,
   desc: PropTypes.string,
   relay: PropTypes.any,
+  vehicles: PropTypes.object,
 };
 
 StopNearYou.contextTypes = {
