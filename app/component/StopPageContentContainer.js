@@ -11,72 +11,11 @@ import Icon from './Icon';
 import ScrollableWrapper from './ScrollableWrapper';
 import { isBrowser } from '../util/browser';
 import { PREFIX_STOPS } from '../util/path';
-import { startRealTimeClient } from '../action/realTimeClientAction';
-
-const asDepartures = stoptimes =>
-  !stoptimes
-    ? []
-    : stoptimes.map(stoptime => {
-        const hasDropoff = stoptime.dropoffType !== 'NONE';
-        const hasPickup = stoptime.pickupType !== 'NONE';
-        const hasNoStop = !hasPickup && !hasDropoff;
-        const isArrival = !hasPickup;
-        let isLastStop = false;
-        if (stoptime.trip && stoptime.trip.stops) {
-          const lastStop = stoptime.trip.stops.slice(-1).pop();
-          isLastStop = stoptime.stop.id === lastStop.id;
-        }
-        const hasOnlyDropoff = !hasPickup && !isLastStop;
-        /* OTP returns either scheduled time or realtime prediction in
-         * 'realtimeDeparture' and 'realtimeArrival' fields.
-         * EXCEPT when state is CANCELLED, then it returns -1 for realtime  */
-        const canceled = stoptime.realtimeState === 'CANCELED';
-        const arrivalTime =
-          stoptime.serviceDay +
-          (!canceled ? stoptime.realtimeArrival : stoptime.scheduledArrival);
-        const departureTime =
-          stoptime.serviceDay +
-          (!canceled
-            ? stoptime.realtimeDeparture
-            : stoptime.scheduledDeparture);
-        const stoptimeTime = isArrival ? arrivalTime : departureTime;
-
-        const { pattern } = stoptime.trip;
-        return {
-          canceled,
-          isArrival,
-          hasNoStop,
-          hasOnlyDropoff,
-          isLastStop,
-          stoptime: stoptimeTime,
-          stop: stoptime.stop,
-          realtime: stoptime.realtime,
-          pattern,
-          headsign: stoptime.headsign,
-          trip: stoptime.trip,
-          pickupType: stoptime.pickupType,
-          serviceDay: stoptime.serviceDay,
-        };
-      });
-
-const StopShape = PropTypes.shape({
-  id: PropTypes.string,
-});
-
-const TripShape = PropTypes.shape({
-  stops: PropTypes.arrayOf(StopShape),
-});
-
-const StopTimeShape = PropTypes.shape({
-  dropoffType: PropTypes.string,
-  pickupType: PropTypes.string,
-  trip: TripShape,
-});
 
 class StopPageContent extends React.Component {
   static propTypes = {
     stop: PropTypes.shape({
-      stoptimes: PropTypes.arrayOf(StopTimeShape),
+      stoptimes: PropTypes.array,
     }).isRequired,
     relay: PropTypes.shape({
       refetch: PropTypes.func.isRequired,
@@ -90,7 +29,6 @@ class StopPageContent extends React.Component {
   static contextTypes = {
     intl: intlShape.isRequired,
     config: PropTypes.object.isRequired,
-    executeAction: PropTypes.func,
   };
 
   // eslint-disable-next-line camelcase
@@ -104,57 +42,11 @@ class StopPageContent extends React.Component {
   }
 
   componentDidMount() {
-    const departures = asDepartures(this.props.stop.stoptimes)
-      .filter(departure => !(false && departure.isArrival))
-      .filter(departure => this.props.currentTime < departure.stoptime)
-      .filter(departure => departure.realtime && !departure.canceled);
-    this.startClient(departures);
     // Throw error in client side if relay fails to fetch data
     if (this.props.error && !this.props.stop) {
       throw this.props.error.message;
     }
   }
-
-  configClient = departures => {
-    const trips = departures
-      .filter(departure => departure.realtime)
-      .filter(
-        departure =>
-          departure.pattern.stops
-            .map(stop => stop.code)
-            .indexOf(departure.stop.code) >= 0,
-      )
-      .map(departure => ({
-        tripId: departure.trip.gtfsId.split(':')[1],
-      }));
-
-    const { config } = this.context;
-    const { realTime } = config;
-    let agency;
-
-    /* handle multiple feedid case */
-    config.feedIds.forEach(ag => {
-      if (!agency && realTime[ag]) {
-        agency = ag;
-      }
-    });
-    const source = agency && realTime[agency];
-    if (source && source.active) {
-      return {
-        ...source,
-        agency,
-        options: trips,
-      };
-    }
-    return null;
-  };
-
-  startClient = departures => {
-    const clientConfig = this.configClient(departures);
-    if (clientConfig) {
-      this.context.executeAction(startRealTimeClient, clientConfig);
-    }
-  };
 
   render() {
     // Render something in client side to clear SSR
