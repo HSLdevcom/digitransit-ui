@@ -297,7 +297,7 @@ class ItineraryTab extends React.Component {
                   legs={itinerary.legs}
                 />)
             ),
-            config.showCO2InItinerarySummary && co2value > 0 && (
+            config.showCO2InItinerarySummary && co2value >= 0 && (
               <div className={cx("itinerary-co2-information",{ mobile: this.props.isMobile})}>
                 <div className="itinerary-co2-line">
                   <div className={cx("co2-container",{mobile: this.props.isMobile})}>
@@ -355,7 +355,7 @@ class ItineraryTab extends React.Component {
                 />
                 {config.showRouteInformation && <RouteInformation />}
               </div>
-              {config.showCO2InItinerarySummary && co2value > 0 ? (
+              {config.showCO2InItinerarySummary && co2value >= 0 ? (
                 <div className="itinerary-co2-comparison">
                   <div className="itinerary-co2-line">
                     <div className={cx('divider-top')} />
@@ -363,7 +363,7 @@ class ItineraryTab extends React.Component {
                       <div className="co2-description-container">
                         <Icon img="icon-icon_co2_leaf" className="co2-leaf" />
                         <span className={cx("itinerary-co2-description", {simple: co2SimpleDesc})}>
- {                       carCo2Value > 0 && co2percentage > 0 ? ( <FormattedMessage
+ {                       carCo2Value >= 0 && co2percentage >= 0 ? ( <FormattedMessage
                             id="itinerary-co2.description"
                             defaultMessage="CO2 emissions for this route"
                             values={{
