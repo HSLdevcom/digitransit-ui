@@ -1,0 +1,24 @@
+/* Raasepori theme */
+
+/* Base theme */
+@import '../../base/waltti';
+
+/* Operator palette */
+$raasepori-green: #5B7B32;
+
+/* Application palette */
+$primary-color: $raasepori-green;
+$favourite-color: $raasepori-green;
+$current-location-color: $primary-color;
+
+/* Component palette */
+$viewpoint-marker-color: $raasepori-green;
+$link-color: $primary-color;
+$desktop-title-color: $primary-color;
+$top-bar-color: $primary-color;
+
+/* Vehicle palette */
+$bus-color: $raasepori-green;
+
+/* Navbar dimensions */
+$nav-logo-height: 3em;
