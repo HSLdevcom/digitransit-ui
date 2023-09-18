@@ -332,7 +332,7 @@ class TransitLeg extends React.Component {
                 <div className="info-notification">
                   <h3 className="info-header">{notification.header[lang]}</h3>
                   <div className="info-content">
-                    {notification.content[lang]}
+                    {notification.content[lang].join(' ')}
                   </div>
                 </div>
                 <Icon

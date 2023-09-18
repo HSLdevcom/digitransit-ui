@@ -554,15 +554,15 @@ export default {
       },
       content: {
         fi: [
-          'Mm. lastenvaunujen osalta noudatetaan liikennöitsijän sääntöjä. ',
+          'Mm. lastenvaunujen osalta noudatetaan liikennöitsijän sääntöjä.',
           'HSL-alueen ulkopuolelle käytetään liikennöitsijän lippuja.',
         ],
         en: [
-          "The bus operators' regulations are applied e.g. to the transport of prams. ",
+          "The bus operators' regulations are applied e.g. to the transport of prams.",
           "The bus operators' tickets are used outside the HSL area.",
         ],
         sv: [
-          'Trafikföretagets regler tillämpas t.ex. på barnvagnar. ',
+          'Trafikföretagets regler tillämpas t.ex. på barnvagnar.',
           'Trafikföretagets egna biljetter gäller utanför HRT-området.',
         ],
       },
@@ -587,16 +587,16 @@ export default {
       },
       content: {
         fi: [
-          'Pääset kyytiin myös keskiovista näyttämättä lippua kuljettajalle. ',
-          'Linja käyttää valikoituja pysäkkejä eli ei pysähdy kaikilla pysäkeillä. ',
+          'Pääset kyytiin myös keskiovista näyttämättä lippua kuljettajalle.',
+          'Linja käyttää valikoituja pysäkkejä eli ei pysähdy kaikilla pysäkeillä.',
         ],
         en: [
-          'Passengers can board the buses also through the middle doors. ',
-          'The bus will not serve all stops along the route. ',
+          'Passengers can board the buses also through the middle doors.',
+          'The bus will not serve all stops along the route.',
         ],
         sv: [
-          'Man kan stiga på genom mittdörren och behöver inte visa upp sin biljett för föraren. ',
-          'För att snabba upp trafiken stannar bussarna inte vid alla hållplatser. ',
+          'Man kan stiga på genom mittdörren och behöver inte visa upp sin biljett för föraren.',
+          'För att snabba upp trafiken stannar bussarna inte vid alla hållplatser.',
         ],
       },
       closeButtonLabel: {
@@ -615,21 +615,21 @@ export default {
       id: 'localRouteNotification',
       header: {
         fi: 'Lähibussi',
-        en: 'Neighborhood route',
+        en: 'Neighbourhood route',
         sv: 'Närbuss',
       },
       content: {
         fi: [
-          'Lähibussit on suunniteltu erityisesti ikäihmisille ja liikuntarajoitteisille. ',
-          'Kyytiin voi nousta ja kyydistä poistua pysäkkien lisäksi myös muualla, liikennesääntöjen puitteissa. ',
+          'Lähibussit on suunniteltu erityisesti ikäihmisille ja liikuntarajoitteisille.',
+          'Kyytiin voi nousta ja kyydistä poistua pysäkkien lisäksi myös muualla, liikennesääntöjen puitteissa.',
         ],
         en: [
-          'The routes and timetables have been planned to serve, in particular, the needs of senior citizens. ',
-          'In addition to regular bus stops, the buses can stop at other locations, as long as it is safe to do so. ',
+          'The routes and timetables have been planned to serve, in particular, the needs of senior citizens.',
+          'In addition to regular bus stops, the buses can stop at other locations, as long as it is safe to do so.',
         ],
         sv: [
-          'Närbusslinjerna är planerade i synnerhet med tanke på seniorer och rörelsehindrade. ',
-          'Närbussarna kan inom ramen för trafikreglerna också stanna annanstans än vid markerade hållplatser. ',
+          'Närbusslinjerna är planerade i synnerhet med tanke på seniorer och rörelsehindrade.',
+          'Närbussarna kan inom ramen för trafikreglerna också stanna annanstans än vid markerade hållplatser.',
         ],
       },
       closeButtonLabel: {
@@ -645,6 +645,7 @@ export default {
     },
     {
       showForRoute: route => route.type === 902,
+      id: 'speedtramNotification',
       header: {
         fi: 'Mitä pikaratikka tarkoittaa?',
         en: 'What is light rail?',
