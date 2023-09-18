@@ -606,8 +606,8 @@ export default {
       },
       link: {
         fi: 'hsl.fi/hsl/runkoverkko',
-        en: 'hsl.fi/hsl/runkoverkko',
-        sv: 'hsl.fi/hsl/runkoverkko',
+        en: 'hsl.fi/en/hsl/trunk-route-network',
+        sv: 'hsl.fi/sv/hrt/stomnatet',
       },
     },
     {
@@ -639,8 +639,8 @@ export default {
       },
       link: {
         fi: 'hsl.fi/matkustaminen/lahibussit',
-        en: 'hsl.fi/matkustaminen/lahibussit',
-        sv: 'hsl.fi/matkustaminen/lahibussit',
+        en: 'hsl.fi/en/travelling/neighborhood-buses',
+        sv: 'hsl.fi/sv/att-resa/narbussar',
       },
     },
     {
