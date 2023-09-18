@@ -646,30 +646,33 @@ export default {
     {
       showForRoute: route => route.type === 902,
       header: {
-        fi: 'Raide-Jokeri',
-        en: 'Jokeri Light Rail',
-        sv: 'Spårjokern',
+        fi: 'Mitä pikaratikka tarkoittaa?',
+        en: 'What is light rail?',
+        sv: 'Vad är en snabbspårvagn?',
       },
       content: {
         fi: [
-          'Sed nibh ante, sodales non tortor vel, ullamcorper auctor massa. Nulla facilisi. Sed pharetra malesuada mauris, et auctor diam luctus at.',
+          'Pikaratikat kulkevat nopeammin ja pääosin omalla kaistalla erillään muusta liikenteestä.',
+          'Pikaratikat ovat aiempaa tilavampia, joten matkustaminen sujuu mukavasti.',
         ],
         en: [
-          'Sed nibh ante, sodales non tortor vel, ullamcorper auctor massa. Nulla facilisi. Sed pharetra malesuada mauris, et auctor diam luctus at.',
+          'Light rail runs faster and mostly on a dedicated lane, separated from other traffic.',
+          'Light rail vehicles are more spacious than traditional trams, improving travel comfort.',
         ],
         sv: [
-          'Sed nibh ante, sodales non tortor vel, ullamcorper auctor massa. Nulla facilisi. Sed pharetra malesuada mauris, et auctor diam luctus at.',
+          'Snabbspårvagnarna är snabbare och använder i regel en egen fil som är skild från annan trafik.',
+          'Snabbspårvagnarna har mer utrymme och bidrar till bekvämare resor.',
         ],
       },
       closeButtonLabel: {
-        fi: 'Mitä lähibussi tarkoittaa?',
-        en: 'What does a neigbourhood route mean?',
-        sv: 'Vad betyder en närbuss?',
+        fi: '',
+        en: '',
+        sv: '',
       },
       link: {
-        fi: 'hsl.fi/matkustaminen/lahibussit',
-        en: 'hsl.fi/matkustaminen/lahibussit',
-        sv: 'hsl.fi/matkustaminen/lahibussit',
+        fi: 'hsl.fi/reittiopas-pikaratikka',
+        en: 'hsl.fi/en/campaigns/light-rail',
+        sv: 'hsl.fi/sv/kampanjer/snabbsparvag',
       },
     },
   ],
