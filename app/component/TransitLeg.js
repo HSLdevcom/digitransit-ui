@@ -50,11 +50,15 @@ class TransitLeg extends React.Component {
   }
 
   // Some next legs might be for example 24h in the future which seems confusing. Only show alternatives that are less than 12h in the future.
-  filterNextLegs = leg =>
-    leg.nextLegs.filter(
+  filterNextLegs = leg => {
+    if (!leg.nextLegs) {
+      return [];
+    }
+    return leg.nextLegs.filter(
       nextLeg =>
         moment(nextLeg.startTime).diff(moment(leg.startTime), 'hours') < 12,
     );
+  };
 
   stopCode = stopCode => stopCode && <StopCode code={stopCode} />;
 
