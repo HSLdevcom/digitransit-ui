@@ -510,4 +510,6 @@ export default {
       virtualMonitorBaseUrl: 'https://matkamonitori.digitransit.fi/',
     },
   },
+  // Notice! Turning on this setting forces the search for car routes.
+  showCO2InItinerarySummary: true,
 };
