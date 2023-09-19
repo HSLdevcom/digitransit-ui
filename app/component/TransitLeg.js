@@ -49,6 +49,17 @@ class TransitLeg extends React.Component {
     };
   }
 
+  // Some next legs might be for example 24h in the future which seems confusing. Only show alternatives that are less than 12h in the future.
+  filterNextLegs = leg => {
+    if (!leg.nextLegs) {
+      return [];
+    }
+    return leg.nextLegs.filter(
+      nextLeg =>
+        moment(nextLeg.startTime).diff(moment(leg.startTime), 'hours') < 12,
+    );
+  };
+
   stopCode = stopCode => stopCode && <StopCode code={stopCode} />;
 
   isRouteConstantOperation = () =>
@@ -57,7 +68,7 @@ class TransitLeg extends React.Component {
 
   displayAlternativeLegs = () =>
     !!this.context.config.showAlternativeLegs &&
-    this.props.leg.nextLegs?.length > 0 &&
+    this.filterNextLegs(this.props.leg).length > 0 &&
     !this.isRouteConstantOperation();
 
   toggleShowIntermediateStops = () => {
@@ -465,7 +476,7 @@ class TransitLeg extends React.Component {
             ))}
           {this.displayAlternativeLegs() && (
             <AlternativeLegsInfo
-              legs={leg.nextLegs}
+              legs={this.filterNextLegs(leg)}
               showAlternativeLegs={this.state.showAlternativeLegs}
               toggle={() =>
                 this.setState(prevState => ({
