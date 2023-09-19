@@ -620,16 +620,16 @@ export default {
       },
       content: {
         fi: [
-          'Lähibussit on suunniteltu erityisesti ikäihmisille ja liikuntarajoitteisille.',
           'Kyytiin voi nousta ja kyydistä poistua pysäkkien lisäksi myös muualla, liikennesääntöjen puitteissa.',
+          'Lähibussit soveltuvat myös ikäihmisten ja liikuntarajoitteisten käyttötarkoituksiin.',
         ],
         en: [
-          'The routes and timetables have been planned to serve, in particular, the needs of senior citizens.',
           'In addition to regular bus stops, the buses can stop at other locations, as long as it is safe to do so.',
+          'The routes and timetables also serve the needs of senior citizens.',
         ],
         sv: [
-          'Närbusslinjerna är planerade i synnerhet med tanke på seniorer och rörelsehindrade.',
           'Närbussarna kan inom ramen för trafikreglerna också stanna annanstans än vid markerade hållplatser.',
+          'Rutterna och tidtabellerna servar även seniorer och rörelsehindrade.',
         ],
       },
       closeButtonLabel: {
