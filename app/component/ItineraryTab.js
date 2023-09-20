@@ -308,21 +308,21 @@ class ItineraryTab extends React.Component {
                       <div className="icon-container">
                         <Icon className="info" img="icon-icon_info" />
                       </div>
-                      {config.showCallAgencyDisclaimer && itineraryContainsCallLegs ?
+                      {config.callAgencyInfo && itineraryContainsCallLegs ?
                         (<div className="description-container">
                           <FormattedMessage
                             id="separate-ticket-required-for-call-agency-disclaimer"
                             values={{
                               callAgencyInfoUrl: get(
                                 config,
-                                'ticketInformation.callAgencyInfoLink',
+                                'callAgencyInfo.callAgencyInfoLink',
                               ),
                             }}
                           />
-                          <a href={config.ticketInformation.callAgencyInfoLink}>
+                          <a href={config.callAgencyInfo.callAgencyInfoLink}>
                             <FormattedMessage
-                              id={config.ticketInformation.callAgencyInfoLinkText}
-                              defaultMessage={config.ticketInformation.callAgencyInfoLinkText}
+                              id={config.callAgencyInfo.callAgencyInfoLinkText}
+                              defaultMessage={config.callAgencyInfo.callAgencyInfoLinkText}
                             />
                           </a>
                         </div>

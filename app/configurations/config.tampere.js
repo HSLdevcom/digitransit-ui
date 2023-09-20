@@ -76,13 +76,14 @@ export default configMerger(walttiConfig, {
 
   ticketInformation: {
     primaryAgencyName: 'Tampereen seudun joukkoliikenne',
+  },
+
+  ticketLink: 'https://www.nysse.fi/liput-ja-hinnat.html',
+
+  callAgencyInfo: {
     callAgencyInfoLink: 'https://nysse.fi/nyssykka',
     callAgencyInfoLinkText: 'nysse.fi/nyssykka',
   },
-
-  showCallAgencyDisclaimer: true,
-
-  ticketLink: 'https://www.nysse.fi/liput-ja-hinnat.html',
 
   // mapping fareId from OTP fare identifiers to human readable form
   fareMapping: function mapFareId(fareId) {
