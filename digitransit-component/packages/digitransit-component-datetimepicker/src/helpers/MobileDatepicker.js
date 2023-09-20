@@ -81,7 +81,6 @@ function MobileDatepicker({
               onBlur: () => {
                 changeOpen(false);
               },
-              id: inputId,
               'aria-labelledby': labelId,
               'aria-autocomplete': 'none',
               readOnly: true,
