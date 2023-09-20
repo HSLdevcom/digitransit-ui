@@ -237,8 +237,10 @@ const SummaryRow = (
   const startTime = moment(data.startTime);
   const endTime = moment(data.endTime);
   const duration = endTime.diff(startTime);
-  const co2value = data.emissions ? Math.round(data.emissions) : -1;
-
+  const co2value =
+    typeof data.emissions === 'number' && data.emissions >= 0
+      ? Math.round(data.emissions)
+      : -1;
   const mobile = bp => !(bp === 'large');
   const legs = [];
   let noTransitLegs = true;

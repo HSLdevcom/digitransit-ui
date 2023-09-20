@@ -217,7 +217,7 @@ class ItineraryTab extends React.Component {
     const suggestionIndex = this.context.match.params.secondHash
       ? Number(this.context.match.params.secondHash) + 1
       : Number(this.context.match.params.hash) + 1;
-    const co2value = itinerary.emissions ? Math.round(itinerary.emissions) : -1;
+    const co2value = typeof itinerary.emissions === 'number' && itinerary.emissions >= 0 ? Math.round(itinerary.emissions) : -1;
     const carCo2Value = this.props.carItinerary && this.props.carItinerary.length > 0 ? Math.round(this.props.carItinerary[0].emissions) : 0;
     const co2percentage = co2value > 0 && carCo2Value > 0 ? Math.round((co2value / carCo2Value) * 100) : 0;
     const co2SimpleDesc = co2percentage === 0 || carCo2Value === 0;
