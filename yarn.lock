@@ -1976,7 +1976,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digitransit-component/digitransit-component-suggestion-item@^1.1.4, @digitransit-component/digitransit-component-suggestion-item@workspace:digitransit-component/packages/digitransit-component-suggestion-item":
+"@digitransit-component/digitransit-component-suggestion-item@^1.1.5, @digitransit-component/digitransit-component-suggestion-item@workspace:digitransit-component/packages/digitransit-component-suggestion-item":
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-suggestion-item@workspace:digitransit-component/packages/digitransit-component-suggestion-item"
   dependencies:
@@ -2026,7 +2026,7 @@ __metadata:
     "@digitransit-component/digitransit-component-favourite-editing-modal": ^1.1.5
     "@digitransit-component/digitransit-component-favourite-modal": ^1.0.3
     "@digitransit-component/digitransit-component-icon": ^1.0.0
-    "@digitransit-component/digitransit-component-suggestion-item": ^1.1.4
+    "@digitransit-component/digitransit-component-suggestion-item": ^1.1.5
     "@digitransit-component/digitransit-component-with-breakpoint": ^0.0.5
   peerDependencies:
     "@digitransit-component/digitransit-component-dialog-modal": ^0.3.4

@@ -21,7 +21,7 @@
     "@digitransit-component/digitransit-component-favourite-editing-modal": "^1.1.5",
     "@digitransit-component/digitransit-component-favourite-modal": "^1.0.3",
     "@digitransit-component/digitransit-component-icon": "^1.0.0",
-    "@digitransit-component/digitransit-component-suggestion-item": "^1.1.4",
+    "@digitransit-component/digitransit-component-suggestion-item": "^1.1.5",
     "@digitransit-component/digitransit-component-with-breakpoint": "^0.0.5"
   },
   "peerDependencies": {
