@@ -122,7 +122,7 @@ export default {
       'mode-metro': '#CA4000',
       'mode-citybike': '#f2b62d',
       'mode-citybike-secondary': '#333333',
-      'mode-tram-local': '#007E79',
+      'mode-speedtram': '#007E79',
     },
   },
   getAutoSuggestIcons: {

@@ -14,7 +14,7 @@ const MODES_WITH_ICONS = [
   'rail',
   'subway',
   'ferry',
-  'tram-local',
+  'speedtram',
 ];
 
 function getVehicleIcon(
@@ -84,8 +84,8 @@ function VehicleMarkerContainer(props) {
     let mode;
     if (type === ExtendedRouteTypes.BusExpress) {
       mode = 'bus-express';
-    } else if (type === ExtendedRouteTypes.TramLocal) {
-      mode = 'tram-local';
+    } else if (type === ExtendedRouteTypes.SpeedTram) {
+      mode = 'speedtram';
     } else {
       mode = message.mode;
     }

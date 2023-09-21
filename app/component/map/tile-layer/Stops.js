@@ -50,7 +50,7 @@ class Stops {
       this.config.useExtendedRouteTypes
     ) {
       const routes = JSON.parse(feature.properties.routes);
-      if (routes.some(p => p.gtfsType === ExtendedRouteTypes.TramLocal)) {
+      if (routes.some(p => p.gtfsType === ExtendedRouteTypes.SpeedTram)) {
         hasLocalTramRoute = true;
       }
     }
@@ -75,7 +75,7 @@ class Stops {
         mode = 'bus-express';
       }
       if (hasLocalTramRoute) {
-        mode = 'tram-local';
+        mode = 'speedtram';
       }
 
       drawStopIcon(
