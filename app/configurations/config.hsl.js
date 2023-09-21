@@ -644,7 +644,7 @@ export default {
       },
     },
     {
-      showForRoute: route => route.type === 902,
+      showForRoute: route => route.type === 900,
       id: 'speedtramNotification',
       header: {
         fi: 'Mitä pikaratikka tarkoittaa?',

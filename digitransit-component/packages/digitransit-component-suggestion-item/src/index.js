@@ -8,7 +8,7 @@ import styles from './helpers/styles.scss';
 
 const BUS_EXPRESS = 702;
 const BUS_LOCAL = 704;
-const TRAM_LOCAL = 902;
+const TRAM_LOCAL = 900;
 
 const getRouteMode = props => {
   switch (props.type) {
