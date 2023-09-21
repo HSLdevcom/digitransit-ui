@@ -80,6 +80,11 @@ export default configMerger(walttiConfig, {
 
   ticketLink: 'https://www.nysse.fi/liput-ja-hinnat.html',
 
+  callAgencyInfo: {
+    callAgencyInfoLink: 'https://nysse.fi/nyssykka',
+    callAgencyInfoLinkText: 'nysse.fi/nyssykka',
+  },
+
   // mapping fareId from OTP fare identifiers to human readable form
   fareMapping: function mapFareId(fareId) {
     return fareId && fareId.substring
