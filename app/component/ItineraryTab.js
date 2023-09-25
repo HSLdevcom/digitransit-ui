@@ -81,10 +81,12 @@ class ItineraryTab extends React.Component {
     isMobile: PropTypes.bool.isRequired,
     currentTime: PropTypes.number.isRequired,
     hideTitle: PropTypes.bool,
+    currentLanguage: PropTypes.string,
   };
 
   static defaultProps = {
     hideTitle: false,
+    currentLanguage: "fi"
   };
 
   static contextTypes = {
@@ -176,7 +178,7 @@ class ItineraryTab extends React.Component {
   };
 
   render() {
-    const { itinerary } = this.props;
+    const { itinerary, currentLanguage } = this.props;
     const { config } = this.context;
 
     if (!itinerary || !itinerary.legs[0]) {
@@ -315,14 +317,14 @@ class ItineraryTab extends React.Component {
                             values={{
                               callAgencyInfoUrl: get(
                                 config,
-                                'callAgencyInfo.callAgencyInfoLink',
+                                `callAgencyInfo.${currentLanguage}.callAgencyInfoLink`,
                               ),
                             }}
                           />
-                          <a href={config.callAgencyInfo.callAgencyInfoLink}>
+                          <a href={config.callAgencyInfo[currentLanguage].callAgencyInfoLink}>
                             <FormattedMessage
-                              id={config.callAgencyInfo.callAgencyInfoLinkText}
-                              defaultMessage={config.callAgencyInfo.callAgencyInfoLinkText}
+                              id={config.callAgencyInfo[currentLanguage].callAgencyInfoLinkText}
+                              defaultMessage={config.callAgencyInfo[currentLanguage].callAgencyInfoLinkText}
                             />
                           </a>
                         </div>
@@ -369,6 +371,7 @@ class ItineraryTab extends React.Component {
 const withRelay = createFragmentContainer(
   connectToStores(ItineraryTab, ['TimeStore'], context => ({
     currentTime: context.getStore('TimeStore').getCurrentTime().unix(),
+    currentLanguage: context.getStore('PreferencesStore').getLanguage(),
   })),
   {
     plan: graphql`
