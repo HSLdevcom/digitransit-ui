@@ -81,8 +81,18 @@ export default configMerger(walttiConfig, {
   ticketLink: 'https://www.nysse.fi/liput-ja-hinnat.html',
 
   callAgencyInfo: {
-    callAgencyInfoLink: 'https://nysse.fi/nyssykka',
-    callAgencyInfoLinkText: 'nysse.fi/nyssykka',
+    fi: {
+      callAgencyInfoLink: 'https://nysse.fi/kutsuliikenne',
+      callAgencyInfoLinkText: 'https://nysse.fi/kutsuliikenne',
+    },
+    sv: {
+      callAgencyInfoLink: 'https://nysse.fi/kutsuliikenne',
+      callAgencyInfoLinkText: 'https://nysse.fi/kutsuliikenne',
+    },
+    en: {
+      callAgencyInfoLink: 'https://nysse.fi/drt',
+      callAgencyInfoLinkText: 'https://nysse.fi/drt',
+    },
   },
 
   // mapping fareId from OTP fare identifiers to human readable form

@@ -1465,7 +1465,7 @@ const translations = {
     'separate-ticket-required-disclaimer':
       'This itinerary contains one or more legs for which {agencyName} does not sell tickets.',
     'separate-ticket-required-for-call-agency-disclaimer':
-      'Voit tarkistaa kutsuliikenteen maksutavat ja käytännöt ',
+      'The journey includes demand responsive transport service. Please check the payment methods and practices on ',
     'set-specific-settings': 'Set more specific settings',
     'set-stop-as-routes': "Set the stop as route's",
     settings: 'Settings',
@@ -2601,7 +2601,7 @@ const translations = {
     'separate-ticket-required-disclaimer':
       'Matka sisältää yhden tai useamman osuuden, jonka lippujen myynnistä {agencyName} ei vastaa.',
     'separate-ticket-required-for-call-agency-disclaimer':
-      'Voit tarkistaa kutsuliikenteen maksutavat ja käytännöt ',
+      'Matka sisältää kutsuliikennettä. Voit tarkistaa maksutavat ja käytännöt ',
     'set-specific-settings': 'Aseta tarkemmat asetukset',
     'set-stop-as-routes': 'Aseta pysäkki reitin',
     settings: 'Asetukset',
@@ -4521,7 +4521,7 @@ const translations = {
     'separate-ticket-required-disclaimer':
       'Resan består av en eller fleta etapper vilka kräver biljetter som inte säljs av {agencyName}.',
     'separate-ticket-required-for-call-agency-disclaimer':
-      'Voit tarkistaa kutsuliikenteen maksutavat ja käytännöt ',
+      'I resan ingår anropsbusstrafiken. Bekanta dig med betalningsmetoder och praxis på ',
     'set-specific-settings': 'Ställa avancerade inställningar',
     'set-stop-as-routes': 'Ställa hållplats som rutter',
     settings: 'Anpassa',
