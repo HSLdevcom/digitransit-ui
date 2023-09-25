@@ -67,7 +67,6 @@ const ItineraryShape = PropTypes.shape({
     }),
   ),
   fares: PropTypes.arrayOf(FareShape),
-  currentLanguage: PropTypes.string.isRequired,
 });
 
 /* eslint-disable prettier/prettier */
@@ -82,11 +81,12 @@ class ItineraryTab extends React.Component {
     isMobile: PropTypes.bool.isRequired,
     currentTime: PropTypes.number.isRequired,
     hideTitle: PropTypes.bool,
-    currentLanguage: PropTypes.string.isRequired,
+    currentLanguage: PropTypes.string,
   };
 
   static defaultProps = {
     hideTitle: false,
+    currentLanguage: "fi"
   };
 
   static contextTypes = {
