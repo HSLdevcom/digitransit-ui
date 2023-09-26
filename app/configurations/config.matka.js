@@ -511,6 +511,11 @@ export default {
       sv: 'Raseborg',
       en: 'Raasepori',
     },
+    VARELY: {
+      fi: 'Seutu+',
+      sv: 'Seutu+',
+      en: 'Seutu+',
+    },
   },
   stopCard: {
     header: {

@@ -139,6 +139,19 @@ export default configMerger(walttiConfig, {
     ],
   },
 
+  sourceForAlertsAndDisruptions: {
+    VARELY: {
+      fi: 'Seutu+',
+      sv: 'Seutu+',
+      en: 'Seutu+',
+    },
+    Rauma: {
+      fi: 'Rauma',
+      sv: 'Raumo',
+      en: 'Rauma',
+    },
+  },
+
   staticMessages: [],
 
   showNearYouButtons: true,
