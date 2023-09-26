@@ -2880,20 +2880,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hsl-fi/error-view@npm:^0.1.0":
-  version: 0.1.0
-  resolution: "@hsl-fi/error-view@npm:0.1.0"
-  dependencies:
-    "@hsl-fi/button": ^1.2.3
-    "@hsl-fi/content-delivery-api-types": ^0.1.5
-  checksum: 6372347923d248af9e03441e5430d527d638df2adbd6c1814baed1e527be182ae6f5f278405cf8644162bc1b3f4bbadcf9f0c4d5f11dc2d768f6e9247fd7a2d2
-  languageName: node
-  linkType: hard
-
 "@hsl-fi/hooks@npm:1.2.3, @hsl-fi/hooks@npm:^1.0.0, @hsl-fi/hooks@npm:^1.2.3":
   version: 1.2.3
   resolution: "@hsl-fi/hooks@npm:1.2.3"
   checksum: 65641cea7d2411a8c4e1d96769753e6d8ebfeeefb8b0c8bfc6794b8adf4a8e64b22c290e7805135321a020ba6f51092480e3bff9ddd1f0101ea1c5b7983d337a
+  languageName: node
+  linkType: hard
+
+"@hsl-fi/hooks@npm:^1.2.0":
+  version: 1.2.4
+  resolution: "@hsl-fi/hooks@npm:1.2.4"
+  checksum: 7b92cb2705a0189d02cd79c5ebc35dee6a9713131bda461be8ba4e7621bdd2b68d2d06eef2b876a5ec7441f63dec294eff15c0f3b597a11f3115ea98b251db8b
   languageName: node
   linkType: hard
 
@@ -2977,16 +2974,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hsl-fi/site-header@npm:4.3.3":
-  version: 4.3.3
-  resolution: "@hsl-fi/site-header@npm:4.3.3"
+"@hsl-fi/site-header@npm:4.2.2":
+  version: 4.2.2
+  resolution: "@hsl-fi/site-header@npm:4.2.2"
   dependencies:
     "@hsl-fi/animated-spinner": ^0.2.0
     "@hsl-fi/button": ^1.2.3
     "@hsl-fi/container-spinner": ^0.3.1
     "@hsl-fi/content-delivery-api-types": ^0.1.5
-    "@hsl-fi/error-view": ^0.1.0
-    "@hsl-fi/hooks": ^1.2.3
+    "@hsl-fi/hooks": ^1.2.0
     "@hsl-fi/hsl-link": 1.0.0
     "@hsl-fi/icons": ^1.0.4
     "@hsl-fi/sass": ^0.2.0
@@ -2997,7 +2993,7 @@ __metadata:
     "@hsl-fi/utilities": ^0.2.14
     lodash: 4.17.21
     react-animate-height: ^2.0.21
-  checksum: a873700bb255167c3f00cddcb57640ed9b43e4fa3345e48905783a0db098d29287af193afceb2c70330943cd0f6bd969c80930de6a76addfdd66c35245978765
+  checksum: bba797aefa0e72149e1dc44fef91dfd2dca7be4c65c61790497a39f16f44acec8153f1ae7d4eba7c15d26c4a919a65c32bb0faaefef2fb06dac9d2e69ab3108a
   languageName: node
   linkType: hard
 
@@ -10663,7 +10659,7 @@ __metadata:
     "@hsl-fi/sass": " ^0.2.0"
     "@hsl-fi/shared-local-storage": 0.4.0
     "@hsl-fi/shimmer": 0.1.2
-    "@hsl-fi/site-header": 4.3.3
+    "@hsl-fi/site-header": 4.2.2
     "@lerna/batch-packages": 3.16.0
     "@lerna/filter-packages": 3.18.0
     "@lerna/project": 3.21.0
