@@ -32,7 +32,7 @@ export default configMerger(walttiConfig, {
     },
   },
 
-  feedIds: ['VARELY', 'FOLI'],
+  feedIds: ['VARELY', 'FOLI', 'Rauma'],
 
   colors: {
     primary: colorPrimary,

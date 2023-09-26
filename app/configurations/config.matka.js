@@ -92,6 +92,7 @@ export default {
     'Salo',
     'Pori',
     'Raasepori',
+    'VARELY',
   ],
 
   additionalFeedIds: {

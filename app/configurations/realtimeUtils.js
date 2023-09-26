@@ -301,4 +301,15 @@ export default {
 
     active: true,
   },
+  VARELY: {
+    mqttTopicResolver: walttiTopicResolver,
+
+    mqtt: 'wss://mqtt.digitransit.fi',
+
+    gtfsrt: true,
+
+    routeSelector: defaultRouteSelector,
+
+    active: true,
+  },
 };
