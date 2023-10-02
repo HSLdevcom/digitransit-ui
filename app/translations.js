@@ -953,11 +953,15 @@ const translations = {
     'capacity-modal.few-seats-available-heading': 'Not crowded',
     'capacity-modal.full-capacity-body': 'No seats or standing room available',
     'capacity-modal.full-capacity-heading': 'Full',
+    'capacity-modal.heading': 'Is there room in the vehicle?',
+    'capacity-modal.legend': 'Legend for the symbols',
     'capacity-modal.many-seats-available-body': 'Some seats available',
     'capacity-modal.many-seats-available-heading': 'Not too crowded',
     'capacity-modal.standing-room-only-body':
       'Only a few seats and little standing room available',
     'capacity-modal.standing-room-only-heading': 'Nearly full',
+    'capacity-modal.subheading':
+      'Real-time capacity information is available for some vehicles',
     car: 'Car',
     'car-distance-duration': 'Drive {duration} ({distance})',
     'car-distance-no-duration': 'Drive {distance}',
@@ -2104,11 +2108,15 @@ const translations = {
     'capacity-modal.few-seats-available-heading': 'Ei liikaa tungosta',
     'capacity-modal.full-capacity-body': 'Ei vapaita paikkoja',
     'capacity-modal.full-capacity-heading': 'Täynnä',
+    'capacity-modal.heading': 'Onko kulkuneuvossa tilaa?',
+    'capacity-modal.legend': 'Merkkien selitteet',
     'capacity-modal.many-seats-available-body': 'Paljon istumapaikkoja',
     'capacity-modal.many-seats-available-heading': 'Ei tungosta',
     'capacity-modal.standing-room-only-body':
       'Vain vähän istuma- ja seisomapaikkoja',
     'capacity-modal.standing-room-only-heading': 'Lähes täynnä',
+    'capacity-modal.subheading':
+      'Osasta kulkuneuvoja on saatavilla reaaliaikainen kapasiteettitieto',
     car: 'Auto',
     'car-distance-duration': 'Autoile {duration} ({distance})',
     'car-distance-no-duration': 'Autoile {distance}',
@@ -4026,11 +4034,15 @@ const translations = {
     'capacity-modal.few-seats-available-heading': 'Ingen trängel',
     'capacity-modal.full-capacity-body': 'Inga lediga platser',
     'capacity-modal.full-capacity-heading': 'Fullt',
+    'capacity-modal.heading': 'Finns det plats ombord?',
+    'capacity-modal.legend': 'Teckenförklaringar',
     'capacity-modal.many-seats-available-body': 'Några sittplatser',
     'capacity-modal.many-seats-available-heading': 'Ingen stor trängsel',
     'capacity-modal.standing-room-only-body':
       'Endast några få sitt- och ståplatser',
     'capacity-modal.standing-room-only-heading': 'Nästan fullt',
+    'capacity-modal.subheading':
+      'Information om kapaciteten i realtid finns att rå om vissa fordon',
     car: 'Bil',
     'car-distance-duration': 'Kör {duration} ({distance})',
     'car-distance-no-duration': 'Kör {distance}',

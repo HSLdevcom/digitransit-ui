@@ -6,15 +6,25 @@ import Icon from './Icon';
 const CapacityModal = () => {
   return (
     <div className="capacity-information-modal">
-      <h2 className="capacity-heading">Onko kulkuneuvossa tilaa?</h2>
+      <h2 className="capacity-heading">
+        <FormattedMessage
+          id="capacity-modal.heading"
+          defaultMessage="Is there room in the vehicle?"
+        />
+      </h2>
       <p className="capacity-text">
-        Osasta kulkuneuvoja on saatavilla reaaliaikainen kapasiteettitieto.
+        <FormattedMessage
+          id="capacity-modal.subheading"
+          defaultMessage="Real-time capacity information is available for some vehicles"
+        />
       </p>
-      <span className="explanations-heading">Merkkien selitteet</span>
+      <span className="explanations-heading">
+        <FormattedMessage id="capacity-modal.legend" defaultMessage="Legend" />
+      </span>
       <div className="capacity-info-row">
-        <div className="icon">
+        <div className="icon" style={{ color: '#007AC9' }}>
           <Icon
-            img="icon-icon_many-seats-available"
+            img="icon-icon_MANY_SEATS_AVAILABLE"
             color="red"
             width="1.5"
             height="1.5"
@@ -34,9 +44,9 @@ const CapacityModal = () => {
         />
       </p>
       <div className="capacity-info-row">
-        <div className="icon">
+        <div className="icon" style={{ color: '#007AC9' }}>
           <Icon
-            img="icon-icon_few-seats-available"
+            img="icon-icon_FEW_SEATS_AVAILABLE"
             color="red"
             width="1.5"
             height="1.5"
@@ -56,9 +66,9 @@ const CapacityModal = () => {
         />
       </p>
       <div className="capacity-info-row">
-        <div className="icon">
+        <div className="icon" style={{ color: '#007AC9' }}>
           <Icon
-            img="icon-icon_standing-room-only"
+            img="icon-icon_STANDING_ROOM_ONLY"
             color="red"
             width="1.5"
             height="1.5"
@@ -78,9 +88,9 @@ const CapacityModal = () => {
         />
       </p>
       <div className="capacity-info-row">
-        <div className="icon">
+        <div className="icon" style={{ color: '#007AC9' }}>
           <Icon
-            img="icon-icon_crushed-standing-room-only"
+            img="icon-icon_CRUSHED_STANDING_ROOM_ONLY"
             color="red"
             width="1.5"
             height="1.5"
@@ -100,13 +110,8 @@ const CapacityModal = () => {
         />
       </p>
       <div className="capacity-info-row">
-        <div className="icon">
-          <Icon
-            img="icon-icon_full-capacity"
-            color="red"
-            width="1.5"
-            height="1.5"
-          />
+        <div className="icon" style={{ color: '#007AC9' }}>
+          <Icon img="icon-icon_FULL" color="red" width="1.5" height="1.5" />
         </div>
         <span className="info-heading">
           <FormattedMessage

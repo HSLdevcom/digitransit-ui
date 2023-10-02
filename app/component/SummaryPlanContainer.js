@@ -364,6 +364,9 @@ const connectedContainer = createFragmentContainer(
               pattern {
                 ...RouteLine_pattern
               }
+              occupancy {
+                occupancyStatus
+              }
             }
             from {
               name

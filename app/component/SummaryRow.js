@@ -103,6 +103,8 @@ export const RouteLeg = ({
         isTransitLeg={isTransitLeg}
         withBicycle={withBicycle}
         hasOneTransitLeg={hasOneTransitLeg}
+        occupancyStatus={leg.trip?.occupancy.occupancyStatus}
+        leg={leg}
       />
     );
   }

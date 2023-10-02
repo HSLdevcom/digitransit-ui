@@ -564,6 +564,9 @@ const withRelay = createFragmentContainer(
                 gtfsId
               }
             }
+            occupancy {
+              occupancyStatus
+            }
           }
         }
       }

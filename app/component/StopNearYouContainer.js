@@ -42,6 +42,9 @@ const containerComponent = createRefetchContainer(
           trip {
             gtfsId
             tripHeadsign
+            occupancy {
+              occupancyStatus
+            }
             pattern {
               code
               route {
@@ -90,6 +93,9 @@ const containerComponent = createRefetchContainer(
             serviceDay
             headsign
             trip {
+              occupancy {
+                occupancyStatus
+              }
               gtfsId
               pattern {
                 code

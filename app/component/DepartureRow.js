@@ -17,6 +17,7 @@ import Icon from './Icon';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
 import { getRouteMode } from '../util/modeUtils';
+import { mapStatus } from '../util/occupancyUtil';
 
 const getMostSevereAlert = route => {
   const alerts = [...getAlertsForObject(route)];
@@ -207,22 +208,6 @@ const DepartureRow = (
           </>,
         )}
       </td>
-      {departure.realtime && capacity && (
-        <td className="capacity-cell">
-          <span
-            className="capacity-icon-container"
-            onClick={() => onCapacityClick()}
-          >
-            <Icon
-              className="test"
-              width="1.5"
-              height="1.5"
-              img={`icon-icon_${capacity}`}
-              color="#007AC9"
-            />
-          </span>
-        </td>
-      )}
       {showPlatformCode && (
         <td className="platform-cell">
           {renderWithLink(
@@ -240,6 +225,23 @@ const DepartureRow = (
           )}
         </td>
       )}
+      {config.useRealtimeTravellerCapacities &&
+        trip.occupancy?.occupancyStatus !== 'NO_DATA_AVAILABLE' &&
+        timeDiffInMinutes <= 10 && (
+          <td className="capacity-cell">
+            <span
+              className="capacity-icon-container"
+              onClick={() => onCapacityClick()}
+            >
+              <Icon
+                width="1.5"
+                height="1.5"
+                img={`icon-icon_${mapStatus(trip.occupancy.occupancyStatus)}`}
+                color="#007AC9"
+              />
+            </span>
+          </td>
+        )}
     </tr>
   );
 };

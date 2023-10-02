@@ -48,7 +48,6 @@ function ItinerarySummaryListContainer(
 ) {
   const [showCancelled, setShowCancelled] = useState(false);
   const { config } = context;
-
   if (
     !error &&
     itineraries &&
@@ -375,6 +374,9 @@ const containerComponent = createFragmentContainer(
                 gtfsId
               }
               pickupType
+            }
+            occupancy {
+              occupancyStatus
             }
           }
           from {

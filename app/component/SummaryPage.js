@@ -1049,6 +1049,9 @@ class SummaryPage extends React.Component {
                 pattern {
                   ...RouteLine_pattern
                 }
+                occupancy {
+                  occupancyStatus
+                }
               }
               from {
                 name
@@ -2972,6 +2975,9 @@ const containerComponent = createRefetchContainer(
               trip {
                 gtfsId
                 directionId
+                occupancy {
+                  occupancyStatus
+                }
                 stoptimesForDate {
                   scheduledDeparture
                   pickupType
