@@ -106,12 +106,6 @@ export default function getMetadata(lang, host, url, config) {
     ],
   };
 
-  if (process.env.NOINDEX) {
-    baseData.meta.push({
-      name: 'robots',
-      content: 'noindex,nofollow',
-    });
-  }
   if (config.metaData) {
     return {
       meta: baseData.meta.concat(config.metaData.meta),
