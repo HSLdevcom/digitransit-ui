@@ -213,7 +213,7 @@ class StopsNearYouPage extends React.Component {
 
   getQueryVariables = mode => {
     const { searchPosition } = this.state;
-    let placeTypes = 'STOP';
+    let placeTypes = ['STOP', 'STOP_OR_STATION'];
     let modes = [mode];
     if (mode === 'CITYBIKE') {
       placeTypes = 'BICYCLE_RENT';

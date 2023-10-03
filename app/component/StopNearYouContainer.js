@@ -27,6 +27,7 @@ const containerComponent = createRefetchContainer(
         }
         zoneId
         platformCode
+        locationType
         stoptimesWithoutPatterns(
           startTime: $startTime
           omitNonPickups: $omitNonPickups
@@ -123,6 +124,11 @@ const containerComponent = createRefetchContainer(
       $omitNonPickups: Boolean!
     ) {
       stop(id: $stopId) {
+        ...StopNearYouContainer_stop
+        @arguments(startTime: $startTime, omitNonPickups: $omitNonPickups)
+      }
+
+      station(id: $stopId) {
         ...StopNearYouContainer_stop
         @arguments(startTime: $startTime, omitNonPickups: $omitNonPickups)
       }
