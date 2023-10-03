@@ -1167,6 +1167,7 @@ const translations = {
     'itinerary-tickets.title': 'Required tickets',
     'itinerary-time.title': 'Duration',
     'itinerary-walk.title': 'Total walking distance',
+    'journey-planner-manual': 'Journey planner manual',
     'journeyplanner.title': 'HSL Journey Planner',
     'language-selection': 'Language: {language}',
     later: 'Later departures',
@@ -1463,6 +1464,8 @@ const translations = {
       'A separate ticket is required for this part of the itinerary.',
     'separate-ticket-required-disclaimer':
       'This itinerary contains one or more legs for which {agencyName} does not sell tickets.',
+    'separate-ticket-required-for-call-agency-disclaimer':
+      'The journey includes demand responsive transport service. Please check the payment methods and practices on ',
     'set-specific-settings': 'Set more specific settings',
     'set-stop-as-routes': "Set the stop as route's",
     settings: 'Settings',
@@ -1485,6 +1488,7 @@ const translations = {
     'skip-to-content': 'Skip to content',
     slow: 'Slow',
     'specify-location': 'Specify location',
+    speedtram: 'Jokeri Light Rail',
     'splash-locating': 'Detecting location',
     'splash-or-choose': 'or select your origin',
     'splash-use-positioning': 'Use location services',
@@ -2300,6 +2304,7 @@ const translations = {
     'itinerary-tickets.title': 'Reitillä tarvittavat liput',
     'itinerary-time.title': 'Matka-aika',
     'itinerary-walk.title': 'Kävelyä',
+    'journey-planner-manual': 'Reittioppaan käyttöohje',
     'journeyplanner.title': 'HSL Reittiopas',
     'language-selection': 'Kieli: {language}',
     later: 'Myöhempiä lähtöjä',
@@ -2595,6 +2600,8 @@ const translations = {
       'Tälle matkan osuudelle tarvitaan erillinen lippu.',
     'separate-ticket-required-disclaimer':
       'Matka sisältää yhden tai useamman osuuden, jonka lippujen myynnistä {agencyName} ei vastaa.',
+    'separate-ticket-required-for-call-agency-disclaimer':
+      'Matka sisältää kutsuliikennettä. Voit tarkistaa maksutavat ja käytännöt ',
     'set-specific-settings': 'Aseta tarkemmat asetukset',
     'set-stop-as-routes': 'Aseta pysäkki reitin',
     settings: 'Asetukset',
@@ -2616,6 +2623,7 @@ const translations = {
     'skip-to-content': 'Siirry sisältöön',
     slow: 'Hidas',
     'specify-location': 'Määritä sijainti',
+    speedtram: 'Raide-Jokeri',
     'splash-locating': 'Paikannetaan',
     'splash-or-choose': 'tai valitse lähtöpaikaksi',
     'splash-use-positioning': 'Käytä paikannusta',
@@ -3952,7 +3960,7 @@ const translations = {
     'avoid-walking': 'Undvik gång',
     'back-button-title': 'Tillbaka till föregående sida',
     'back-to-front-page': 'Tillbaka till framsidan ›',
-    bicycle: 'cyckel',
+    bicycle: 'cykel',
     'bicycle-distance-duration': 'Cykla {duration} ({distance})',
     'bicycle-walk-from-transit':
       'Ta cykeln från {transportMode} och led cykeln {distance} ({duration})',
@@ -4212,6 +4220,7 @@ const translations = {
     'itinerary-tickets.title': 'Biljetter som behövs',
     'itinerary-time.title': 'Restid',
     'itinerary-walk.title': 'Gång totalt',
+    'journey-planner-manual': 'Reittioppaan käyttöohje',
     'journeyplanner.title': 'HRT Reseplaneraren',
     'language-selection': 'Språk: {language}',
     later: 'Senare avgångar',
@@ -4511,6 +4520,8 @@ const translations = {
       'Denna etapp av resan kräver en separat biljett.',
     'separate-ticket-required-disclaimer':
       'Resan består av en eller fleta etapper vilka kräver biljetter som inte säljs av {agencyName}.',
+    'separate-ticket-required-for-call-agency-disclaimer':
+      'I resan ingår anropsbusstrafiken. Bekanta dig med betalningsmetoder och praxis på ',
     'set-specific-settings': 'Ställa avancerade inställningar',
     'set-stop-as-routes': 'Ställa hållplats som rutter',
     settings: 'Anpassa',
@@ -4532,6 +4543,7 @@ const translations = {
     'skip-to-content': 'Till innehållet',
     slow: 'Långsam',
     'specify-location': 'Ange en plats',
+    speedtram: 'Spårjokern',
     'splash-locating': 'Söker din plats...',
     'splash-or-choose': 'eller välj en avfärdsplats',
     'splash-please-allow-positioning':

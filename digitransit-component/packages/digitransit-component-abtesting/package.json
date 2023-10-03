@@ -1,6 +1,6 @@
 {
   "name": "@digitransit-component/digitransit-component-abtesting",
-  "version": "0.1.2",
+  "version": "0.1.8",
   "description": "digitransit-component abtesting module",
   "main": "index.js",
   "files": [

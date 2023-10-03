@@ -107,7 +107,11 @@ const AppBarHsl = ({ lang, user, favourites }, context) => {
       : {};
 
   const siteHeaderRef = useRef(null);
-  useEffect(() => siteHeaderRef.current?.fetchNotifications()[favourites]);
+
+  useEffect(() => {
+    // Refetch notifications
+    siteHeaderRef.current?.fetchNotifications();
+  }, [favourites]);
 
   const cookieConsent = useIsConsentGiven('cookie_cat_statistic');
   if (config.useCookiesPrompt && !cookieConsent) {

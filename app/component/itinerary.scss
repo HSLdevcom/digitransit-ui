@@ -18,6 +18,9 @@ $itinerary-tab-switch-height: 48px;
   &.bus-express {
     @include getCircleSvg($bus-express-color, $fill);
   }
+  &.speedtram {
+    @include getCircleSvg($speedtram-color, $fill);
+  }
   &.airplane {
     @include getCircleSvg($airplane-color, $fill);
   }

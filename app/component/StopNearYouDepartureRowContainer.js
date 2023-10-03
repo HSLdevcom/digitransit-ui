@@ -9,10 +9,12 @@ const StopNearYouDepartureRowContainer = ({ stopTimes, mode, ...props }) => {
     .slice()
     .sort(
       (a, b) =>
-        a.serviceDay + a.realtimeArrival - (b.serviceDay + b.realtimeArrival),
+        a.serviceDay +
+        a.realtimeDeparture -
+        (b.serviceDay + b.realtimeDeparture),
     );
   const departures = sortedStopTimes.map(row => {
-    const departureTime = row.serviceDay + row.realtimeArrival;
+    const departureTime = row.serviceDay + row.realtimeDeparture;
     return (
       <DepartureRow
         key={uuid()}

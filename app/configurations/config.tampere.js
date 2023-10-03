@@ -80,6 +80,21 @@ export default configMerger(walttiConfig, {
 
   ticketLink: 'https://www.nysse.fi/liput-ja-hinnat.html',
 
+  callAgencyInfo: {
+    fi: {
+      callAgencyInfoLink: 'https://nysse.fi/kutsuliikenne',
+      callAgencyInfoLinkText: 'https://nysse.fi/kutsuliikenne',
+    },
+    sv: {
+      callAgencyInfoLink: 'https://nysse.fi/kutsuliikenne',
+      callAgencyInfoLinkText: 'https://nysse.fi/kutsuliikenne',
+    },
+    en: {
+      callAgencyInfoLink: 'https://nysse.fi/drt',
+      callAgencyInfoLinkText: 'https://nysse.fi/drt',
+    },
+  },
+
   // mapping fareId from OTP fare identifiers to human readable form
   fareMapping: function mapFareId(fareId) {
     return fareId && fareId.substring
@@ -168,6 +183,7 @@ export default configMerger(walttiConfig, {
         paragraphs: [
           'This service is provided by Tampereen seudun Joukkoliikenne (Nysse) for route planning in Tampere region (Kangasala, Lempäälä, Nokia, Orivesi, Pirkkala, Tampere, Vesilahti ja Ylöjärvi). Service is built on Digitransit platform.',
         ],
+        link: 'https://www.nysse.fi/en/journey-planner-manual.html',
       },
     ],
   },

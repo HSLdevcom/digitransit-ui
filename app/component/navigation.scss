@@ -89,7 +89,7 @@ $content-background-color: $background-color;
   }
 
   .logo {
-    height: 100%;
+    height: $nav-logo-height;
     min-height: 40px;
     min-width: 13em;
     background-size: contain;

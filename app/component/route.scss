@@ -84,13 +84,14 @@ $margin-left-right: 21.3px;
   }
   .button-block {
     display: flex;
-    max-height: 24px;
+    margin-left: 24px;
     label {
       color: $primary-color;
       font-weight: bold;
       margin-right: 10px;
     }
     .route-notification-collapse-button {
+      max-height: 25px;
       .route-notification-collapse-icon {
         width: 10px;
         height: 10px;
@@ -119,7 +120,8 @@ $margin-left-right: 21.3px;
   }
 }
 .route-notification.minimized {
-  max-height: 25px;
+  min-height: 25px;
+  padding-bottom: 0;
 }
 
 .route-page-content {

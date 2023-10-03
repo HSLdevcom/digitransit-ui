@@ -35,6 +35,7 @@ class Stops {
       this.tile.hilightedStops &&
       this.tile.hilightedStops.includes(feature.properties.gtfsId);
     let hasTrunkRoute = false;
+    let hasLocalTramRoute = false;
     if (
       feature.properties.type === 'BUS' &&
       this.config.useExtendedRouteTypes
@@ -42,6 +43,15 @@ class Stops {
       const routes = JSON.parse(feature.properties.routes);
       if (routes.some(p => p.gtfsType === ExtendedRouteTypes.BusExpress)) {
         hasTrunkRoute = true;
+      }
+    }
+    if (
+      feature.properties.type === 'TRAM' &&
+      this.config.useExtendedRouteTypes
+    ) {
+      const routes = JSON.parse(feature.properties.routes);
+      if (routes.some(p => p.gtfsType === ExtendedRouteTypes.SpeedTram)) {
+        hasLocalTramRoute = true;
       }
     }
     const ignoreMinZoomLevel =
@@ -60,10 +70,18 @@ class Stops {
         return;
       }
 
+      let mode = feature.properties.type;
+      if (hasTrunkRoute) {
+        mode = 'bus-express';
+      }
+      if (hasLocalTramRoute) {
+        mode = 'speedtram';
+      }
+
       drawStopIcon(
         this.tile,
         feature.geom,
-        hasTrunkRoute ? 'bus-express' : feature.properties.type,
+        mode,
         !isNull(feature.properties.platform)
           ? feature.properties.platform
           : false,

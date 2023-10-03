@@ -1,6 +1,6 @@
 {
   "name": "@digitransit-search-util/digitransit-search-util-query-utils",
-  "version": "2.0.7",
+  "version": "2.0.8",
   "description": "digitransit-search-util query-utils module",
   "main": "lib/index.js",
   "publishConfig": {
@@ -31,7 +31,7 @@
     "babel-plugin-relay": "14.1.0",
     "graphql": "15.5.0",
     "lodash": "4.17.21",
-    "moment": "2.29.1",
+    "moment": "2.29.4",
     "react-relay": "14.1.0"
   },
   "devDependencies": {

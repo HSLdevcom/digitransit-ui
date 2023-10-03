@@ -25,6 +25,7 @@ import {
   legContainsRentalBike,
   getTotalDrivingDuration,
   getTotalDrivingDistance,
+  isCallAgencyPickupType,
 } from '../util/legUtils';
 import { BreakpointConsumer } from '../util/withBreakpoint';
 
@@ -80,10 +81,12 @@ class ItineraryTab extends React.Component {
     isMobile: PropTypes.bool.isRequired,
     currentTime: PropTypes.number.isRequired,
     hideTitle: PropTypes.bool,
+    currentLanguage: PropTypes.string,
   };
 
   static defaultProps = {
     hideTitle: false,
+    currentLanguage: "fi"
   };
 
   static contextTypes = {
@@ -175,7 +178,7 @@ class ItineraryTab extends React.Component {
   };
 
   render() {
-    const { itinerary } = this.props;
+    const { itinerary, currentLanguage } = this.props;
     const { config } = this.context;
 
     if (!itinerary || !itinerary.legs[0]) {
@@ -213,6 +216,8 @@ class ItineraryTab extends React.Component {
     const suggestionIndex = this.context.match.params.secondHash
       ? Number(this.context.match.params.secondHash) + 1
       : Number(this.context.match.params.hash) + 1;
+    const itineraryContainsCallLegs = itinerary.legs.some(leg => isCallAgencyPickupType(leg));
+    
     return (
       <div className="itinerary-tab">
         <h2 className="sr-only">
@@ -235,7 +240,7 @@ class ItineraryTab extends React.Component {
                 futureText={extraProps.futureText}
                 isMultiRow={extraProps.isMultiRow}
                 isMobile={this.props.isMobile}
-		hideBottomDivider={shouldShowFarePurchaseInfo(config,breakpoint,fares)}
+                hideBottomDivider={shouldShowFarePurchaseInfo(config, breakpoint, fares)}
               />
             ) : (
               <>
@@ -278,15 +283,15 @@ class ItineraryTab extends React.Component {
             ),
             shouldShowFareInfo(config) && (
               shouldShowFarePurchaseInfo(config,breakpoint,fares) ? (
-              <MobileTicketPurchaseInformation 
-                fares={fares}
-                zones={getZones(itinerary.legs)}
+                <MobileTicketPurchaseInformation
+                  fares={fares}
+                  zones={getZones(itinerary.legs)}
                 />) :
             (  <TicketInformation
-                fares={fares}
-                zones={getZones(itinerary.legs)}
-                legs={itinerary.legs}
-              />)
+                  fares={fares}
+                  zones={getZones(itinerary.legs)}
+                  legs={itinerary.legs}
+                />)
             ),
             <div
               className={cx('momentum-scroll itinerary-tabs__scroll', {
@@ -305,17 +310,37 @@ class ItineraryTab extends React.Component {
                       <div className="icon-container">
                         <Icon className="info" img="icon-icon_info" />
                       </div>
-                      <div className="description-container">
-                        <FormattedMessage
-                          id="separate-ticket-required-disclaimer"
-                          values={{
-                            agencyName: get(
-                              config,
-                              'ticketInformation.primaryAgencyName',
-                            ),
-                          }}
-                        />
-                      </div>
+                      {config.callAgencyInfo && itineraryContainsCallLegs ?
+                        (<div className="description-container">
+                          <FormattedMessage
+                            id="separate-ticket-required-for-call-agency-disclaimer"
+                            values={{
+                              callAgencyInfoUrl: get(
+                                config,
+                                `callAgencyInfo.${currentLanguage}.callAgencyInfoLink`,
+                              ),
+                            }}
+                          />
+                          <a href={config.callAgencyInfo[currentLanguage].callAgencyInfoLink}>
+                            <FormattedMessage
+                              id={config.callAgencyInfo[currentLanguage].callAgencyInfoLinkText}
+                              defaultMessage={config.callAgencyInfo[currentLanguage].callAgencyInfoLinkText}
+                            />
+                          </a>
+                        </div>
+                        ) : (
+                          <div className="description-container">
+                            <FormattedMessage
+                              id="separate-ticket-required-disclaimer"
+                              values={{
+                                agencyName: get(
+                                  config,
+                                  'ticketInformation.primaryAgencyName',
+                                ),
+                              }}
+                            />
+                          </div>
+                        )}
                     </div>
                   )}
                 <ItineraryLegs
@@ -346,6 +371,7 @@ class ItineraryTab extends React.Component {
 const withRelay = createFragmentContainer(
   connectToStores(ItineraryTab, ['TimeStore'], context => ({
     currentTime: context.getStore('TimeStore').getCurrentTime().unix(),
+    currentLanguage: context.getStore('PreferencesStore').getLanguage(),
   })),
   {
     plan: graphql`
