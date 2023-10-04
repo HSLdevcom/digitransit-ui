@@ -159,6 +159,10 @@ export const getCityBikeMinZoomOnStopsNearYou = (config, override) => {
  * @param vehicleRentalStation bike rental station from OTP
  */
 export const hasStationCode = vehicleRentalStation => {
+  if (vehicleRentalStation.stationId.includes('smoove')) {
+    return true;
+  }
+
   return (
     vehicleRentalStation &&
     vehicleRentalStation.stationId &&
@@ -167,4 +171,11 @@ export const hasStationCode = vehicleRentalStation => {
     // eslint-disable-next-line no-restricted-globals
     !isNaN(parseFloat(vehicleRentalStation.stationId))
   );
+};
+
+/** *
+ * Parse id number from stationId.
+ */
+export const parseVehicleIdNumber = stationId => {
+  return stationId.split(':')[1];
 };
