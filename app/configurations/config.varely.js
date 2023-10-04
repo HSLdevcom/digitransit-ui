@@ -150,6 +150,11 @@ export default configMerger(walttiConfig, {
       sv: 'Raumo',
       en: 'Rauma',
     },
+    FOLI: {
+      fi: 'Turun seutu',
+      sv: 'Åboregion',
+      en: 'Turku region',
+    },
   },
 
   staticMessages: [],
