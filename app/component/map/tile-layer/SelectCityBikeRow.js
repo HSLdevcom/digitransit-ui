@@ -8,6 +8,7 @@ import {
   getCityBikeNetworkIcon,
   getCityBikeNetworkId,
   hasStationCode,
+  parseVehicleIdNumber,
 } from '../../../util/citybikes';
 import { PREFIX_BIKESTATIONS } from '../../../util/path';
 
@@ -30,7 +31,9 @@ function SelectCityBikeRow({ name, network, id, desc }, { config }) {
         <span className="choose-row-text">
           <span className="choose-row-address">{address}</span>
           {hasStationCode({ stationId: id }) && (
-            <span className="choose-row-number">{id}</span>
+            <span className="choose-row-number">
+              {parseVehicleIdNumber(id)}
+            </span>
           )}
         </span>
       </span>

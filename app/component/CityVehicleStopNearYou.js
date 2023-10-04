@@ -7,7 +7,7 @@ import CityVehicleStopContent from './CityVehicleStopContent';
 import FavouriteVehicleRentalStationContainer from './FavouriteVehicleRentalStationContainer';
 import { PREFIX_BIKESTATIONS } from '../util/path';
 import { isKeyboardSelectionEvent } from '../util/browser';
-import { hasStationCode } from '../util/citybikes';
+import { hasStationCode, parseVehicleIdNumber } from '../util/citybikes';
 
 const CityVehicleStopNearYou = ({ stop, relay, currentTime, currentMode }) => {
   useEffect(() => {
@@ -45,7 +45,9 @@ const CityVehicleStopNearYou = ({ stop, relay, currentTime, currentMode }) => {
               <FormattedMessage
                 id="citybike-station"
                 values={{
-                  stationId: hasStationCode(stop) ? stop.stationId : '',
+                  stationId: hasStationCode(stop)
+                    ? parseVehicleIdNumber(stop.stationId)
+                    : '',
                 }}
               />
             </div>
