@@ -196,7 +196,7 @@ class ItineraryTab extends React.Component {
       for (let i = 0; i < legsWithRentalBike.length; i++) {
         const leg = legsWithRentalBike[i];
         const network = getCityBikeNetworkId(
-          leg.from.bikeRentalStation?.networks,
+          leg.from.vehicleRentalStation?.network,
         );
         if (
           config.cityBike.networks[network]?.timeBeforeSurcharge &&
@@ -452,9 +452,9 @@ const withRelay = createFragmentContainer(
               bikeParkId
               name
             }
-            bikeRentalStation {
-              networks
-              bikesAvailable
+            vehicleRentalStation {
+              network
+              vehiclesAvailable
               lat
               lon
               stationId
@@ -485,12 +485,12 @@ const withRelay = createFragmentContainer(
             lon
             name
             vertexType
-            bikeRentalStation {
+            vehicleRentalStation {
               lat
               lon
               stationId
-              networks
-              bikesAvailable
+              network
+              vehiclesAvailable
             }
             stop {
               gtfsId

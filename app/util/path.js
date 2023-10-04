@@ -146,7 +146,7 @@ export const getStopRoutePath = searchObj => {
       path = `/${PREFIX_TERMINALS}/`;
       id = id.replace('GTFS:', '').replace(':', '%3A');
       break;
-    case 'bikeRentalStation':
+    case 'vehicleRentalStation':
       path = `/${PREFIX_BIKESTATIONS}/`;
       id = searchObj.properties.labelId;
       break;
@@ -154,8 +154,8 @@ export const getStopRoutePath = searchObj => {
       path = `/${PREFIX_BIKESTATIONS}/`;
       id = searchObj.properties.id;
       break;
-    case 'favouriteBikestation':
-    case 'favouriteBikeRentalStation':
+    case 'favouriteVehiclestation':
+    case 'favouriteVehicleRentalStation':
       path = `/${PREFIX_BIKESTATIONS}/`;
       id = searchObj.properties.labelId;
       break;

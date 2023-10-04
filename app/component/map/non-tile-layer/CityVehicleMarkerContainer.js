@@ -5,9 +5,9 @@ import ReactRelayContext from 'react-relay/lib/ReactRelayContext';
 
 import { withLeaflet } from 'react-leaflet/es/context';
 
-import CityBikeMarker from './CityBikeMarker';
+import CityVehicleMarker from './CityVehicleMarker';
 
-class CityBikeMarkerContainer extends React.Component {
+class CityVehicleMarkerContainer extends React.Component {
   static contextTypes = {
     config: PropTypes.object.isRequired,
   };
@@ -45,14 +45,14 @@ class CityBikeMarkerContainer extends React.Component {
           <QueryRenderer
             environment={environment}
             query={graphql`
-              query CityBikeMarkerContainerQuery {
+              query CityVehicleMarkerContainerQuery {
                 viewer {
-                  stations: bikeRentalStations {
+                  stations: vehicleRentalStations {
                     lat
                     lon
                     stationId
-                    networks
-                    bikesAvailable
+                    network
+                    vehiclesAvailable
                   }
                 }
               }
@@ -62,7 +62,10 @@ class CityBikeMarkerContainer extends React.Component {
                 {props &&
                   Array.isArray(props.viewer.stations) &&
                   props.viewer.stations.map(station => (
-                    <CityBikeMarker station={station} key={station.stationId} />
+                    <CityVehicleMarker
+                      station={station}
+                      key={station.stationId}
+                    />
                   ))}
               </div>
             )}
@@ -73,4 +76,4 @@ class CityBikeMarkerContainer extends React.Component {
   }
 }
 
-export default withLeaflet(CityBikeMarkerContainer);
+export default withLeaflet(CityVehicleMarkerContainer);

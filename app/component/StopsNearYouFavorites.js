@@ -10,7 +10,7 @@ import Loading from './Loading';
 function StopsNearYouFavorites({
   favoriteStops,
   favoriteStations,
-  favoriteBikeRentalStationIds,
+  favoriteVehicleRentalStationIds,
   relayEnvironment,
   searchPosition,
   breakpoint,
@@ -50,7 +50,7 @@ function StopsNearYouFavorites({
         query StopsNearYouFavoritesQuery(
           $stopIds: [String!]!
           $stationIds: [String!]!
-          $bikeRentalStationIds: [String!]!
+          $vehicleRentalStationIds: [String!]!
         ) {
           stops: stops(ids: $stopIds) {
             ...StopsNearYouFavouritesContainer_stops
@@ -58,7 +58,7 @@ function StopsNearYouFavorites({
           stations: stations(ids: $stationIds) {
             ...StopsNearYouFavouritesContainer_stations
           }
-          bikeStations: bikeRentalStations(ids: $bikeRentalStationIds) {
+          bikeStations: vehicleRentalStations(ids: $vehicleRentalStationIds) {
             ...StopsNearYouFavouritesContainer_bikeStations
           }
         }
@@ -66,7 +66,7 @@ function StopsNearYouFavorites({
       variables={{
         stopIds: favoriteStops || [],
         stationIds: favoriteStations || [],
-        bikeRentalStationIds: favoriteBikeRentalStationIds || [],
+        vehicleRentalStationIds: favoriteVehicleRentalStationIds || [],
       }}
       environment={relayEnvironment}
       render={({ props }) => {
@@ -88,7 +88,7 @@ function StopsNearYouFavorites({
 StopsNearYouFavorites.propTypes = {
   favoriteStops: PropTypes.array,
   favoriteStations: PropTypes.array,
-  favoriteBikeRentalStationIds: PropTypes.array,
+  favoriteVehicleRentalStationIds: PropTypes.array,
   relayEnvironment: PropTypes.object.isRequired,
   searchPosition: dtLocationShape.isRequired,
   stops: PropTypes.array,

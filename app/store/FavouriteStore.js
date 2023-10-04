@@ -99,7 +99,7 @@ export default class FavouriteStore extends Store {
     return includes(ids, id);
   }
 
-  isFavouriteBikeRentalStation(id, networks) {
+  isFavouriteVehicleRentalStation(id, networks) {
     const ids = this.favourites
       .filter(
         favourite =>
@@ -168,7 +168,7 @@ export default class FavouriteStore extends Store {
     return this.favourites.filter(favourite => favourite.type === 'place');
   }
 
-  getBikeRentalStations() {
+  getVehicleRentalStations() {
     return this.favourites.filter(
       favourite => favourite.type === 'bikeStation',
     );

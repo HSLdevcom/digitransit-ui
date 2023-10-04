@@ -4,53 +4,53 @@ import Favourite from './Favourite';
 import { saveFavourite, deleteFavourite } from '../action/FavouriteActions';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 
-const FavouriteBikeRentalStationContainer = connectToStores(
+const FavouriteVehicleRentalStationContainer = connectToStores(
   Favourite,
   ['FavouriteStore', 'UserStore', 'PreferencesStore'],
-  (context, { bikeRentalStation }) => ({
+  (context, { vehicleRentalStation }) => ({
     favourite: context
       .getStore('FavouriteStore')
-      .isFavouriteBikeRentalStation(
-        bikeRentalStation.stationId,
-        bikeRentalStation.networks,
+      .isFavouriteVehicleRentalStation(
+        vehicleRentalStation.stationId,
+        vehicleRentalStation.network,
       ),
     isFetching: context.getStore('FavouriteStore').getStatus() === 'fetching',
     addFavourite: () => {
       context.executeAction(saveFavourite, {
-        lat: bikeRentalStation.lat,
-        lon: bikeRentalStation.lon,
-        networks: bikeRentalStation.networks,
-        name: bikeRentalStation.name,
-        stationId: bikeRentalStation.stationId,
+        lat: vehicleRentalStation.lat,
+        lon: vehicleRentalStation.lon,
+        networks: vehicleRentalStation.network,
+        name: vehicleRentalStation.name,
+        stationId: vehicleRentalStation.stationId,
         type: 'bikeStation',
       });
       addAnalyticsEvent({
-        category: 'BikeRentalStation',
-        action: 'MarkBikeRentalStationAsFavourite',
+        category: 'VehicleRentalStation',
+        action: 'MarkVehicleRentalStationAsFavourite',
         name: !context
           .getStore('FavouriteStore')
-          .isFavouriteBikeRentalStation(
-            bikeRentalStation.stationId,
-            bikeRentalStation.networks,
+          .isFavouriteVehicleRentalStation(
+            vehicleRentalStation.stationId,
+            vehicleRentalStation.network,
           ),
       });
     },
     deleteFavourite: () => {
-      const bikeRentalStationToDelete = context
+      const vehicleRentalStationToDelete = context
         .getStore('FavouriteStore')
         .getByStationIdAndNetworks(
-          bikeRentalStation.stationId,
-          bikeRentalStation.networks,
+          vehicleRentalStation.stationId,
+          vehicleRentalStation.network,
         );
-      context.executeAction(deleteFavourite, bikeRentalStationToDelete);
+      context.executeAction(deleteFavourite, vehicleRentalStationToDelete);
       addAnalyticsEvent({
-        category: 'BikeRentalStation',
-        action: 'MarkBikeRentalStationAsFavourite',
+        category: 'VehicleRentalStation',
+        action: 'MarkVehicleRentalStationAsFavourite',
         name: !context
           .getStore('FavouriteStore')
-          .isFavouriteBikeRentalStation(
-            bikeRentalStation.stationId,
-            bikeRentalStation.networks,
+          .isFavouriteVehicleRentalStation(
+            vehicleRentalStation.stationId,
+            vehicleRentalStation.network,
           ),
       });
     },
@@ -62,10 +62,10 @@ const FavouriteBikeRentalStationContainer = connectToStores(
   }),
 );
 
-FavouriteBikeRentalStationContainer.contextTypes = {
+FavouriteVehicleRentalStationContainer.contextTypes = {
   getStore: PropTypes.func.isRequired,
   executeAction: PropTypes.func.isRequired,
   config: PropTypes.object.isRequired,
 };
 
-export default FavouriteBikeRentalStationContainer;
+export default FavouriteVehicleRentalStationContainer;

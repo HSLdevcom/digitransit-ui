@@ -9,7 +9,7 @@ export default {
         lon: 24.933973,
         name: 'Pasila, Helsinki',
         vertexType: 'NORMAL',
-        bikeRentalStation: null,
+        vehicleRentalStation: null,
         stop: null,
       },
       to: {
@@ -18,7 +18,7 @@ export default {
         lon: 24.940652,
         name: 'Opastinsilta 6, Helsinki',
         vertexType: 'NORMAL',
-        bikeRentalStation: null,
+        vehicleRentalStation: null,
         stop: null,
       },
       legGeometry: {
@@ -52,7 +52,7 @@ export default {
       lon: 24.933973,
       name: 'Pasila, Helsinki',
       vertexType: 'NORMAL',
-      bikeRentalStation: null,
+      vehicleRentalStation: null,
       stop: null,
     },
     to: {},

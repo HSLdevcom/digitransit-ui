@@ -12,8 +12,8 @@ import {
 } from '../../../util/citybikes';
 import { isBrowser } from '../../../util/browser';
 import {
-  getCityBikeAvailabilityIndicatorColor,
-  getCityBikeAvailabilityTextColor,
+  getCityVehicleAvailabilityIndicatorColor,
+  getCityVehicleAvailabilityTextColor,
 } from '../../../util/legUtils';
 
 import { PREFIX_BIKESTATIONS } from '../../../util/path';
@@ -36,8 +36,8 @@ const smallIconSvg = `
   </svg>
 `;
 
-export default class CityBikeMarker extends React.Component {
-  static displayName = 'CityBikeMarker';
+export default class CityVehicleMarker extends React.Component {
+  static displayName = 'CityVehicleMarker';
 
   static propTypes = {
     showBikeAvailability: PropTypes.bool,
@@ -86,11 +86,11 @@ export default class CityBikeMarker extends React.Component {
             ? Icon.asString({
                 img: iconName,
                 className: 'city-bike-medium-size',
-                badgeFill: getCityBikeAvailabilityIndicatorColor(
+                badgeFill: getCityVehicleAvailabilityIndicatorColor(
                   station.bikesAvailable,
                   config,
                 ),
-                badgeTextFill: getCityBikeAvailabilityTextColor(
+                badgeTextFill: getCityVehicleAvailabilityTextColor(
                   station.bikesAvailable,
                   config,
                 ),
