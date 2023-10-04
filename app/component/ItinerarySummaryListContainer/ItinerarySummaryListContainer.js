@@ -57,7 +57,12 @@ function ItinerarySummaryListContainer(
   ) {
     const lowestCo2value = Math.round(
       itineraries
-        .filter(itinerary => itinerary.emissions >= 0)
+        .filter(
+          itinerary =>
+            itinerary.emissions !== undefined &&
+            itinerary.emissions !== null &&
+            itinerary.emissions >= 0,
+        )
         .reduce((a, b) => {
           return a.emissions < b.emissions ? a : b;
         }, 0).emissions,
