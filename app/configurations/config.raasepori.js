@@ -16,6 +16,10 @@ export default configMerger(walttiConfig, {
   appBarLink: {
     name: 'Bosse',
     href: 'https://raasepori.fi/bosse',
+    alternativeHref: {
+      sv: 'https://raseborg.fi/bosse',
+      en: 'https://raseborg.fi/bosse',
+    },
   },
 
   colors: {
@@ -58,9 +62,9 @@ export default configMerger(walttiConfig, {
   ],
 
   defaultEndpoint: {
-    address: 'Ekenäs, Raasepori',
-    lat: 59.975,
-    lon: 23.436111,
+    address: 'Bockbodantie, Raasepori',
+    lat: 60.04,
+    lon: 23.56,
   },
 
   menu: {
