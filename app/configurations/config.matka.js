@@ -512,9 +512,9 @@ export default {
       en: 'Raasepori',
     },
     VARELY: {
-      fi: 'Seutu+',
-      sv: 'Seutu+',
-      en: 'Seutu+',
+      fi: 'Varsinais-Suomi',
+      sv: 'Egentliga Finland',
+      en: 'Varsinais-Suomi',
     },
   },
   stopCard: {

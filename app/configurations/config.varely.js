@@ -141,9 +141,9 @@ export default configMerger(walttiConfig, {
 
   sourceForAlertsAndDisruptions: {
     VARELY: {
-      fi: 'Seutu+',
-      sv: 'Seutu+',
-      en: 'Seutu+',
+      fi: 'Varsinais-Suomi',
+      sv: 'Egentliga Finland',
+      en: 'Varsinais-Suomi',
     },
     Rauma: {
       fi: 'Rauma',
