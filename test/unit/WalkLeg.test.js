@@ -115,7 +115,7 @@ describe('<WalkLeg />', () => {
         distance: 3297.017000000001,
         duration: 904,
         from: {
-          vehicleRentalStation: {
+          bikeRentalStation: {
             networks: ['foobar'],
           },
           name: 'Kaisaniemenpuisto',

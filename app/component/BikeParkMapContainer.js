@@ -28,7 +28,7 @@ BikeParkPageMapContainer.defaultProps = {
 
 const containerComponent = createFragmentContainer(BikeParkPageMapContainer, {
   bikePark: graphql`
-    fragment VehicleParkMapContainer_vehiclePark on BikePark {
+    fragment BikeParkMapContainer_bikePark on BikePark {
       lat
       lon
       name

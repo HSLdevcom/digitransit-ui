@@ -24,7 +24,7 @@ const dt2830 = {
         lat: 60.218765,
         lon: 24.968244,
         stop: null,
-        vehicleRentalStation: null,
+        bikeRentalStation: null,
       },
       to: {
         __dataID__: 'client:-65662218113',
@@ -475,7 +475,7 @@ const dt2830 = {
           ],
           zoneId: '01',
         },
-        vehicleRentalStation: null,
+        bikeRentalStation: null,
       },
       to: {
         __dataID__: 'client:-65662218116',
@@ -602,7 +602,7 @@ const dt2830 = {
           ],
           zoneId: '01',
         },
-        vehicleRentalStation: null,
+        bikeRentalStation: null,
       },
       to: {
         __dataID__: 'client:-65662218160',

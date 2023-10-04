@@ -81,7 +81,7 @@ class StopsNearYouPage extends React.Component {
     match: matchShape.isRequired,
     favouriteStopIds: PropTypes.arrayOf(PropTypes.string),
     favouriteStationIds: PropTypes.arrayOf(PropTypes.string),
-    favouriteVehicleStationIds: PropTypes.arrayOf(PropTypes.string),
+    favouriteBikeStationIds: PropTypes.arrayOf(PropTypes.string),
     mapLayers: mapLayerShape.isRequired,
     favouritesFetched: PropTypes.bool,
   };
@@ -89,7 +89,7 @@ class StopsNearYouPage extends React.Component {
   static defaultProps = {
     favouriteStopIds: [],
     favouriteStationIds: [],
-    favouriteVehicleStationIds: [],
+    favouriteBikeStationIds: [],
     favouritesFetched: false,
   };
 
@@ -384,7 +384,7 @@ class StopsNearYouPage extends React.Component {
     return (
       !this.props.favouriteStopIds.length &&
       !this.props.favouriteStationIds.length &&
-      !this.props.favouriteVehicleStationIds.length
+      !this.props.favouriteBikeStationIds.length
     );
   };
 
@@ -422,9 +422,7 @@ class StopsNearYouPage extends React.Component {
               match={this.props.match}
               favoriteStops={this.props.favouriteStopIds}
               favoriteStations={this.props.favouriteStationIds}
-              favoriteVehicleRentalStationIds={
-                this.props.favouriteVehicleStationIds
-              }
+              favoriteBikeRentalStationIds={this.props.favouriteBikeStationIds}
               noFavorites={noFavs}
               favouritesFetched={this.props.favouritesFetched}
             />
@@ -664,7 +662,7 @@ class StopsNearYouPage extends React.Component {
             query StopsNearYouPageFavoritesMapQuery(
               $stopIds: [String!]!
               $stationIds: [String!]!
-              $vehicleRentalStationIds: [String!]!
+              $bikeRentalStationIds: [String!]!
             ) {
               stops: stops(ids: $stopIds) {
                 ...StopsNearYouFavoritesMapContainer_stops
@@ -672,17 +670,15 @@ class StopsNearYouPage extends React.Component {
               stations: stations(ids: $stationIds) {
                 ...StopsNearYouFavoritesMapContainer_stations
               }
-              vehicleStations: vehicleRentalStations(
-                ids: $vehicleRentalStationIds
-              ) {
-                ...StopsNearYouFavoritesMapContainer_vehicleStations
+              bikeStations: bikeRentalStations(ids: $bikeRentalStationIds) {
+                ...StopsNearYouFavoritesMapContainer_bikeStations
               }
             }
           `}
           variables={{
             stopIds: this.props.favouriteStopIds,
             stationIds: this.props.favouriteStationIds,
-            vehicleRentalStationIds: this.props.favouriteVehicleStationIds,
+            bikeRentalStationIds: this.props.favouriteBikeStationIds,
           }}
           environment={this.props.relayEnvironment}
           render={({ props }) => {
@@ -704,7 +700,7 @@ class StopsNearYouPage extends React.Component {
                   favouriteIds={[
                     ...this.props.favouriteStopIds,
                     ...this.props.favouriteStationIds,
-                    ...this.props.favouriteVehicleStationIds,
+                    ...this.props.favouriteBikeStationIds,
                   ]}
                   breakpoint={this.props.breakpoint}
                 />
@@ -835,7 +831,7 @@ class StopsNearYouPage extends React.Component {
     if (
       useCitybikes(this.context.config.cityBike?.networks, this.context.config)
     ) {
-      targets.push('VehicleRentalStations');
+      targets.push('BikeRentalStations');
     }
     if (this.context.config.includeParkAndRideSuggestions && onMap) {
       targets.push('ParkingAreas');
@@ -987,11 +983,11 @@ const PositioningWrapper = connectToStores(
       .getStopsAndStations()
       .filter(stop => stop.type === 'station')
       .map(stop => stop.gtfsId);
-    let favouriteVehicleStationIds = [];
+    let favouriteBikeStationIds = [];
     if (useCitybikes(context.config.cityBike?.networks, context.config)) {
-      favouriteVehicleStationIds = context
+      favouriteBikeStationIds = context
         .getStore('FavouriteStore')
-        .getVehicleRentalStations()
+        .getBikeRentalStations()
         .map(station => station.stationId);
     }
     const status = context.getStore('FavouriteStore').getStatus();
@@ -1003,7 +999,7 @@ const PositioningWrapper = connectToStores(
         .getStore('MapLayerStore')
         .getMapLayers({ notThese: ['vehicles'] }),
       favouriteStopIds,
-      favouriteVehicleStationIds,
+      favouriteBikeStationIds,
       favouriteStationIds,
       favouritesFetched: status !== FavouriteStore.STATUS_FETCHING_OR_UPDATING,
     };

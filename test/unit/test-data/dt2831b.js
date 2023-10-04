@@ -23,7 +23,7 @@ export const exampleData = {
         lon: 24.940641,
         name: 'Opastinsilta 6, Helsinki',
         vertexType: 'NORMAL',
-        vehicleRentalStation: null,
+        bikeRentalStation: null,
         stop: null,
       },
       to: {
@@ -31,7 +31,7 @@ export const exampleData = {
         lon: 24.933032,
         name: 'Pasila',
         vertexType: 'TRANSIT',
-        vehicleRentalStation: null,
+        bikeRentalStation: null,
         stop: {
           gtfsId: 'HSL:1174553',
           code: '0089',
@@ -64,7 +64,7 @@ export const exampleData = {
         lon: 24.933032,
         name: 'Pasila',
         vertexType: 'TRANSIT',
-        vehicleRentalStation: null,
+        bikeRentalStation: null,
         stop: {
           gtfsId: 'HSL:1174553',
           code: '0089',
@@ -77,7 +77,7 @@ export const exampleData = {
         lon: 24.941401,
         name: 'Helsinki',
         vertexType: 'TRANSIT',
-        vehicleRentalStation: null,
+        bikeRentalStation: null,
         stop: {
           gtfsId: 'HSL:1020551',
           code: '0070',
@@ -186,7 +186,7 @@ export const exampleData = {
         lon: 24.941401,
         name: 'Helsinki',
         vertexType: 'TRANSIT',
-        vehicleRentalStation: null,
+        bikeRentalStation: null,
         stop: {
           gtfsId: 'HSL:1020551',
           code: '0070',
@@ -199,7 +199,7 @@ export const exampleData = {
         lon: 24.942572,
         name: 'Rautatieasema',
         vertexType: 'NORMAL',
-        vehicleRentalStation: null,
+        bikeRentalStation: null,
         stop: null,
       },
       legGeometry: {

@@ -42,9 +42,7 @@ function StopsNearYouSearch(
           filterResults={filter}
           sources={searchSources}
           targets={
-            mode === 'CITYBIKE'
-              ? ['VehicleRentalStations']
-              : ['Stops', 'Routes']
+            mode === 'CITYBIKE' ? ['BikeRentalStations'] : ['Stops', 'Routes']
           }
           isMobile={isMobile}
           selectHandler={selectHandler} // prop for context handler

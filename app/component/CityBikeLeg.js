@@ -5,10 +5,10 @@ import PropTypes from 'prop-types';
 import cx from 'classnames';
 import {
   BIKEAVL_UNKNOWN,
-  getCitybikeCapacity,
   getCityBikeNetworkConfig,
   getCityBikeNetworkIcon,
   getCityBikeNetworkId,
+  getCitybikeCapacity,
   hasStationCode,
 } from '../util/citybikes';
 
@@ -16,21 +16,15 @@ import withBreakpoint from '../util/withBreakpoint';
 import Icon from './Icon';
 import { PREFIX_BIKESTATIONS } from '../util/path';
 import {
-  getCityVehicleAvailabilityTextColor,
-  getCityVehicleAvailabilityIndicatorColor,
+  getCityBikeAvailabilityIndicatorColor,
+  getCityBikeAvailabilityTextColor,
 } from '../util/legUtils';
 
 function CityBikeLeg(
-  {
-    stationName,
-    isScooter,
-    vehicleRentalStation,
-    returnBike = false,
-    breakpoint,
-  },
+  { stationName, isScooter, bikeRentalStation, returnBike = false, breakpoint },
   { config, intl },
 ) {
-  if (!vehicleRentalStation) {
+  if (!bikeRentalStation) {
     return null;
   }
   // eslint-disable-next-line no-nested-ternary
@@ -48,22 +42,22 @@ function CityBikeLeg(
   );
   const citybikeicon = getCityBikeNetworkIcon(
     getCityBikeNetworkConfig(
-      getCityBikeNetworkId(vehicleRentalStation.network),
+      getCityBikeNetworkId(bikeRentalStation.networks),
       config,
     ),
   );
-  const availabilityIndicatorColor = getCityVehicleAvailabilityIndicatorColor(
-    vehicleRentalStation.vehiclesAvailable,
+  const availabilityIndicatorColor = getCityBikeAvailabilityIndicatorColor(
+    bikeRentalStation.bikesAvailable,
     config,
   );
-  const availabilityTextColor = getCityVehicleAvailabilityTextColor(
-    vehicleRentalStation.vehiclesAvailable,
+  const availabilityTextColor = getCityBikeAvailabilityTextColor(
+    bikeRentalStation.bikesAvailable,
     config,
   );
   const mobileReturn = breakpoint === 'small' && returnBike;
   const citybikeCapacity = getCitybikeCapacity(
     config,
-    vehicleRentalStation?.network,
+    bikeRentalStation?.networks[0],
   );
   return (
     <>
@@ -77,7 +71,7 @@ function CityBikeLeg(
               height={1.655}
               badgeText={
                 citybikeCapacity !== BIKEAVL_UNKNOWN && !returnBike
-                  ? vehicleRentalStation.vehiclesAvailable
+                  ? bikeRentalStation.bikesAvailable
                   : null
               }
               badgeFill={returnBike ? null : availabilityIndicatorColor}
@@ -91,18 +85,16 @@ function CityBikeLeg(
                 id: 'citybike-station-no-id',
                 defaultMessage: 'Bike station',
               })}
-              {hasStationCode(vehicleRentalStation) && (
+              {hasStationCode(bikeRentalStation) && (
                 <span className="itinerary-stop-code">
-                  {vehicleRentalStation.stationId}
+                  {bikeRentalStation.stationId}
                 </span>
               )}
             </span>
           </div>
         </div>
         <div className="link-to-stop">
-          <Link
-            to={`/${PREFIX_BIKESTATIONS}/${vehicleRentalStation.stationId}`}
-          >
+          <Link to={`/${PREFIX_BIKESTATIONS}/${bikeRentalStation.stationId}`}>
             <Icon
               img="icon-icon_arrow-collapse--right"
               color="#007ac9"
@@ -115,9 +107,8 @@ function CityBikeLeg(
     </>
   );
 }
-
 CityBikeLeg.propTypes = {
-  vehicleRentalStation: PropTypes.object,
+  bikeRentalStation: PropTypes.object,
   stationName: PropTypes.string,
   isScooter: PropTypes.bool,
   returnBike: PropTypes.bool,

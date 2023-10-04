@@ -23,7 +23,7 @@ import { fetchWithLanguageAndSubscription } from '../../../util/fetchUtils';
 import { getLayerBaseUrl } from '../../../util/mapLayerUtils';
 
 const query = graphql`
-  query VehicleRentalStationsQuery($id: String!) {
+  query BikeRentalStationsQuery($id: String!) {
     station: vehicleRentalStation(id: $id) {
       vehiclesAvailable
       operative
@@ -33,7 +33,7 @@ const query = graphql`
 
 const REALTIME_REFETCH_FREQUENCY = 60000; // 60 seconds
 
-class VehicleRentalStations {
+class BikeRentalStations {
   constructor(tile, config, mapLayers, relayEnvironment) {
     this.tile = tile;
     this.config = config;
@@ -78,6 +78,8 @@ class VehicleRentalStations {
               for (let i = 0, ref = layer.length - 1; i <= ref; i++) {
                 const feature = layer.feature(i);
                 [[feature.geom]] = feature.loadGeometry();
+                // TODO use feedScopedId here
+                feature.properties.id = getIdWithoutFeed(feature.properties.id);
                 this.features.push(pick(feature, ['geom', 'properties']));
               }
             }
@@ -205,4 +207,4 @@ class VehicleRentalStations {
   static getName = () => 'citybike';
 }
 
-export default VehicleRentalStations;
+export default BikeRentalStations;

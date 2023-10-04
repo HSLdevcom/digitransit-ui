@@ -373,9 +373,9 @@ const connectedContainer = createFragmentContainer(
                 gtfsId
                 zoneId
               }
-              vehicleRentalStation {
-                vehiclesAvailable
-                network
+              bikeRentalStation {
+                bikesAvailable
+                networks
               }
             }
             to {

@@ -71,8 +71,8 @@ export const getNameLabel = memoize(
         return [suggestion.labelId];
       case 'favouritePlace':
         return formatFavouritePlaceLabel(suggestion.name, suggestion.address);
-      case 'favouriteVehicleRentalStation':
-      case 'vehicleRentalStation':
+      case 'favouriteBikeRentalStation':
+      case 'bikeRentalStation':
         return [suggestion.name];
       case 'favouriteRoute':
       case 'route-BUS':

@@ -137,13 +137,13 @@ export const ModeLeg = (
   let networkIcon;
   if (
     (mode === 'CITYBIKE' || mode === 'BICYCLE') &&
-    leg.from.vehicleRentalStation
+    leg.from.bikeRentalStation
   ) {
     networkIcon =
-      leg.from.vehicleRentalStation &&
+      leg.from.bikeRentalStation &&
       getCityBikeNetworkIcon(
         getCityBikeNetworkConfig(
-          leg.from.vehicleRentalStation.network[0],
+          leg.from.bikeRentalStation.networks[0],
           config,
         ),
       );
@@ -382,7 +382,7 @@ const SummaryRow = (
     ) {
       const bikingTime = Math.floor((leg.endTime - leg.startTime) / 1000 / 60);
       // eslint-disable-next-line prefer-destructuring
-      bikeNetwork = getCityBikeNetworkId(leg.from.vehicleRentalStation.network);
+      bikeNetwork = getCityBikeNetworkId(leg.from.bikeRentalStation.networks);
       if (
         config.cityBike.networks &&
         config.cityBike.networks[bikeNetwork]?.timeBeforeSurcharge &&
@@ -582,13 +582,12 @@ const SummaryRow = (
           <div>
             {getCitybikeCapacity(
               config,
-              firstDeparture.from.vehicleRentalStation.network[0],
+              firstDeparture.from.bikeRentalStation.networks[0],
             ) !== BIKEAVL_UNKNOWN && (
               <FormattedMessage
                 id="bikes-available"
                 values={{
-                  amount:
-                    firstDeparture.from.vehicleRentalStation.vehiclesAvailable,
+                  amount: firstDeparture.from.bikeRentalStation.bikesAvailable,
                 }}
               />
             )}

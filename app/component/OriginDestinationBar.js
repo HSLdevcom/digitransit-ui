@@ -129,7 +129,7 @@ class OriginDestinationBar extends React.Component {
     if (
       useCitybikes(this.context.config.cityBike?.networks, this.context.config)
     ) {
-      desktopTargets.push('VehicleRentalStations');
+      desktopTargets.push('BikeRentalStations');
     }
     const mobileTargets = [...desktopTargets, 'MapPosition'];
     const filter = config.stopSearchFilter

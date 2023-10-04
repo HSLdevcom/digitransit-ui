@@ -16,7 +16,7 @@ const StopsNearYouMapWithStores = connectToStores(
       match.params.mode === 'CITYBIKE'
         ? new Set(
             getStore('FavouriteStore')
-              .getVehicleRentalStations()
+              .getBikeRentalStations()
               .map(station => station.stationId),
           )
         : new Set(
@@ -64,12 +64,12 @@ const containerComponent = createPaginationContainer(
               distance
               place {
                 __typename
-                ... on VehicleRentalStation {
+                ... on BikeRentalStation {
                   name
                   lat
                   lon
                   stationId
-                  network
+                  networks
                 }
                 ... on Stop {
                   gtfsId

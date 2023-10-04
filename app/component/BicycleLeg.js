@@ -41,9 +41,9 @@ function BicycleLeg(
   const [address, place] = splitStringToAddressAndPlace(leg.from.name);
   const networkConfig =
     leg.rentedBike &&
-    leg.from.vehicleRentalStation &&
+    leg.from.bikeRentalStation &&
     getCityBikeNetworkConfig(
-      getCityBikeNetworkId(leg.from.vehicleRentalStation.network),
+      getCityBikeNetworkId(leg.from.bikeRentalStation.networks),
       config,
     );
   const isFirstLeg = i => i === 0;
@@ -203,7 +203,7 @@ function BicycleLeg(
           <CityBikeLeg
             stationName={leg.from.name}
             isScooter={isScooter}
-            vehicleRentalStation={leg.from.vehicleRentalStation}
+            bikeRentalStation={leg.from.bikeRentalStation}
           />
         )}
         {bicycleWalkLeg?.from.stop && (
@@ -311,9 +311,9 @@ BicycleLeg.propTypes = {
     distance: PropTypes.number.isRequired,
     from: PropTypes.shape({
       name: PropTypes.string.isRequired,
-      vehicleRentalStation: PropTypes.shape({
+      bikeRentalStation: PropTypes.shape({
         bikesAvailable: PropTypes.number.isRequired,
-        network: PropTypes.string.isRequired,
+        networks: PropTypes.array.isRequired,
       }),
       stop: PropTypes.object,
     }).isRequired,
@@ -332,9 +332,9 @@ BicycleLeg.propTypes = {
     startTime: PropTypes.number.isRequired,
     from: PropTypes.shape({
       name: PropTypes.string.isRequired,
-      vehicleRentalStation: PropTypes.shape({
+      bikeRentalStation: PropTypes.shape({
         bikesAvailable: PropTypes.number.isRequired,
-        network: PropTypes.string.isRequired,
+        networks: PropTypes.array.isRequired,
       }),
       stop: PropTypes.object,
     }).isRequired,
@@ -344,7 +344,7 @@ BicycleLeg.propTypes = {
     }).isRequired,
     mode: PropTypes.string.isRequired,
     rentedBike: PropTypes.bool.isRequired,
-  }).isRequired,
+  }),
   index: PropTypes.number.isRequired,
   focusAction: PropTypes.func.isRequired,
   focusToLeg: PropTypes.func.isRequired,

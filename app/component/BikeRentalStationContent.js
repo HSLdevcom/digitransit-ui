@@ -5,7 +5,7 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 import { FormattedMessage } from 'react-intl';
 import { routerShape, RedirectException } from 'found';
 
-import CityVehicleStopContent from './CityVehicleStopContent';
+import CityBikeStopContent from './CityBikeStopContent';
 import ParkOrStationHeader from './ParkOrStationHeader';
 import Icon from './Icon';
 import withBreakpoint from '../util/withBreakpoint';
@@ -13,23 +13,22 @@ import { getCityBikeNetworkConfig } from '../util/citybikes';
 import { isBrowser } from '../util/browser';
 import { PREFIX_BIKESTATIONS } from '../util/path';
 
-const VehicleRentalStationContent = (
-  { vehicleRentalStation, breakpoint, language, router, error },
+const BikeRentalStationContent = (
+  { bikeRentalStation, breakpoint, language, router, error },
   { config },
 ) => {
   const [isClient, setClient] = useState(false);
-
   useEffect(() => {
     // To prevent SSR from rendering something https://reactjs.org/docs/react-dom.html#hydrate
     setClient(true);
   });
 
   // throw error in client side relay query fails
-  if (isClient && error && !vehicleRentalStation) {
+  if (isClient && error && !bikeRentalStation) {
     throw error.message;
   }
 
-  if (!vehicleRentalStation && !error) {
+  if (!bikeRentalStation && !error) {
     if (isBrowser) {
       router.replace(`/${PREFIX_BIKESTATIONS}`);
     } else {
@@ -37,11 +36,11 @@ const VehicleRentalStationContent = (
     }
     return null;
   }
-  const { bikesAvailable, capacity } = vehicleRentalStation;
+  const { bikesAvailable, capacity } = bikeRentalStation;
   const isFull = bikesAvailable >= capacity;
 
   const networkConfig = getCityBikeNetworkConfig(
-    vehicleRentalStation.network[0],
+    bikeRentalStation.networks[0],
     config,
   );
   const cityBikeNetworkUrl = networkConfig?.url?.[language];
@@ -58,10 +57,10 @@ const VehicleRentalStationContent = (
   return (
     <div className="bike-station-page-container">
       <ParkOrStationHeader
-        parkOrStation={vehicleRentalStation}
+        parkOrStation={bikeRentalStation}
         breakpoint={breakpoint}
       />
-      <CityVehicleStopContent vehicleRentalStation={vehicleRentalStation} />
+      <CityBikeStopContent bikeRentalStation={bikeRentalStation} />
       {cityBike.showFullInfo && isFull && (
         <div className="citybike-full-station-guide">
           <FormattedMessage id="citybike-return-full" />
@@ -106,25 +105,22 @@ const VehicleRentalStationContent = (
     </div>
   );
 };
-
-VehicleRentalStationContent.propTypes = {
-  vehicleRentalStation: PropTypes.any,
+BikeRentalStationContent.propTypes = {
+  bikeRentalStation: PropTypes.any,
   breakpoint: PropTypes.string.isRequired,
   language: PropTypes.string.isRequired,
   router: routerShape.isRequired,
   error: PropTypes.object,
 };
-
-VehicleRentalStationContent.contextTypes = {
+BikeRentalStationContent.contextTypes = {
   config: PropTypes.object.isRequired,
 };
-
-const VehicleRentalStationContentWithBreakpoint = withBreakpoint(
-  VehicleRentalStationContent,
+const BikeRentalStationContentWithBreakpoint = withBreakpoint(
+  BikeRentalStationContent,
 );
 
 const connectedComponent = connectToStores(
-  VehicleRentalStationContentWithBreakpoint,
+  BikeRentalStationContentWithBreakpoint,
   ['PreferencesStore'],
   context => ({
     language: context.getStore('PreferencesStore').getLanguage(),
@@ -132,22 +128,22 @@ const connectedComponent = connectToStores(
 );
 
 const containerComponent = createFragmentContainer(connectedComponent, {
-  vehicleRentalStation: graphql`
-    fragment VehicleRentalStationContent_vehicleRentalStation on VehicleRentalStation {
+  bikeRentalStation: graphql`
+    fragment BikeRentalStationContent_bikeRentalStation on BikeRentalStation {
       lat
       lon
       name
       spacesAvailable
-      vehiclesAvailable
+      bikesAvailable
       capacity
-      network
+      networks
       stationId
-      operative
+      state
     }
   `,
 });
 
 export {
   containerComponent as default,
-  VehicleRentalStationContentWithBreakpoint as Component,
+  BikeRentalStationContentWithBreakpoint as Component,
 };

@@ -156,15 +156,15 @@ export const getCityBikeMinZoomOnStopsNearYou = (config, override) => {
 /** *
  * Checks if stationId is a number. We don't want to display random hashes or names.
  *
- * @param vehicleRentalStation bike rental station from OTP
+ * @param bikeRentalStation bike rental station from OTP
  */
-export const hasStationCode = vehicleRentalStation => {
+export const hasStationCode = bikeRentalStation => {
   return (
-    vehicleRentalStation &&
-    vehicleRentalStation.stationId &&
+    bikeRentalStation &&
+    bikeRentalStation.stationId &&
     // eslint-disable-next-line no-restricted-globals
-    !isNaN(vehicleRentalStation.stationId) &&
+    !isNaN(bikeRentalStation.stationId) &&
     // eslint-disable-next-line no-restricted-globals
-    !isNaN(parseFloat(vehicleRentalStation.stationId))
+    !isNaN(parseFloat(bikeRentalStation.stationId))
   );
 };

@@ -224,8 +224,8 @@ class IndexPage extends React.Component {
     ];
 
     if (useCitybikes(config.cityBike?.networks, config)) {
-      stopAndRouteSearchTargets.push('VehicleRentalStations');
-      locationSearchTargets.push('VehicleRentalStations');
+      stopAndRouteSearchTargets.push('BikeRentalStations');
+      locationSearchTargets.push('BikeRentalStations');
     }
     if (config.includeParkAndRideSuggestions) {
       stopAndRouteSearchTargets.push('ParkingAreas');

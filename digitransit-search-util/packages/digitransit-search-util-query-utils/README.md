@@ -58,9 +58,9 @@ Returns Favourite Route objects depending on input
 -   `pathOpts`  an object containing two properties routesPrefix and stopsPrefix to override the URL paths returned
            by this method
 
-## getFavouriteVehicleRentalStationsQuery
+## getFavouriteBikeRentalStationsQuery
 
-Returns Favourite VehicleRentalStation objects depending on input
+Returns Favourite BikeRentalStation objects depending on input
 
 ### Parameters
 

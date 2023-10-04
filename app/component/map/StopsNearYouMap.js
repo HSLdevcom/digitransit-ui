@@ -488,11 +488,11 @@ function StopsNearYouMap(
 
 StopsNearYouMap.propTypes = {
   currentTime: PropTypes.number.isRequired,
-  stopsNearYou: PropTypes.object,
+  stopsNearYou: PropTypes.object.isRequired,
   prioritizedStopsNearYou: PropTypes.array,
   favouriteIds: PropTypes.object.isRequired,
   mapLayers: PropTypes.object.isRequired,
-  mapLayerOptions: mapLayerOptionsShape,
+  mapLayerOptions: mapLayerOptionsShape.isRequired,
   position: dtLocationShape.isRequired,
   match: matchShape.isRequired,
   breakpoint: PropTypes.string.isRequired,

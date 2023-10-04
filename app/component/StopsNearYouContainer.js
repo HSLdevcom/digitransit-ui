@@ -7,7 +7,7 @@ import { matchShape } from 'found';
 import StopNearYouContainer from './StopNearYouContainer';
 import withBreakpoint from '../util/withBreakpoint';
 import { sortNearbyRentalStations, sortNearbyStops } from '../util/sortUtils';
-import CityBikeStopNearYou from './CityVehicleStopNearYou';
+import CityBikeStopNearYou from './CityBikeStopNearYou';
 import Loading from './Loading';
 import Icon from './Icon';
 import { getDefaultNetworks } from '../util/citybikes';
@@ -204,11 +204,11 @@ class StopsNearYouContainer extends React.Component {
     let sortedPatterns;
     if (isCityBikeView) {
       const withNetworks = stopPatterns.filter(pattern => {
-        return !!pattern.node.place?.network;
+        return !!pattern.node.place?.networks;
       });
       const filteredCityBikeStopPatterns = withNetworks.filter(pattern => {
-        return getDefaultNetworks(this.context.config).includes(
-          pattern.node.place?.network,
+        return pattern.node.place?.networks.every(network =>
+          getDefaultNetworks(this.context.config).includes(network),
         );
       });
       sortedPatterns = filteredCityBikeStopPatterns
@@ -256,7 +256,7 @@ class StopsNearYouContainer extends React.Component {
             }
           }
           break;
-        case 'VehicleRentalStation':
+        case 'BikeRentalStation':
           return (
             <CityBikeStopNearYou
               key={`${stop.stationId}`}
@@ -347,7 +347,7 @@ const connectedContainer = connectToStores(
       match.params.mode === 'CITYBIKE'
         ? new Set(
             getStore('FavouriteStore')
-              .getVehicleRentalStations()
+              .getBikeRentalStations()
               .map(station => station.stationId),
           )
         : new Set(
@@ -394,10 +394,10 @@ const refetchContainer = createPaginationContainer(
               distance
               place {
                 __typename
-                ... on VehicleRentalStation {
-                  ...CityVehicleStopNearYou_stop
+                ... on BikeRentalStation {
+                  ...CityBikeStopNearYou_stop
                   stationId
-                  network
+                  networks
                 }
                 ... on Stop {
                   ...StopNearYouContainer_stop

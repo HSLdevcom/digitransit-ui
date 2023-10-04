@@ -9,7 +9,7 @@ import { getRouteMode } from '../../util/modeUtils';
 import StopMarker from './non-tile-layer/StopMarker';
 import Line from './Line';
 import Icon from '../Icon';
-import CityVehicleMarker from './non-tile-layer/CityVehicleMarker';
+import CityBikeMarker from './non-tile-layer/CityBikeMarker';
 import { getMiddleOf } from '../../util/geo-utils';
 import { isBrowser } from '../../util/browser';
 import {
@@ -142,10 +142,10 @@ class ItineraryLine extends React.Component {
 
         if (leg.from.vertexType === 'BIKESHARE') {
           objs.push(
-            <CityVehicleMarker
-              key={leg.from.vehicleRentalStation.stationId}
+            <CityBikeMarker
+              key={leg.from.bikeRentalStation.stationId}
               showBikeAvailability={leg.mode === 'BICYCLE'}
-              station={leg.from.vehicleRentalStation}
+              station={leg.from.bikeRentalStation}
               transit
             />,
           );
@@ -256,12 +256,12 @@ export default createFragmentContainer(ItineraryLine, {
         lon
         name
         vertexType
-        vehicleRentalStation {
+        bikeRentalStation {
           lat
           lon
           stationId
-          network
-          vehiclesAvailable
+          networks
+          bikesAvailable
         }
         stop {
           gtfsId
@@ -274,12 +274,12 @@ export default createFragmentContainer(ItineraryLine, {
         lon
         name
         vertexType
-        vehicleRentalStation {
+        bikeRentalStation {
           lat
           lon
           stationId
-          network
-          vehiclesAvailable
+          networks
+          bikesAvailable
         }
         stop {
           gtfsId

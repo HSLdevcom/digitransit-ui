@@ -58,6 +58,7 @@ export const citybikeRoutingIsActive = (network, config) => {
 
 export const networkIsActive = (config, networkName) => {
   const networks = config?.cityBike?.networks;
+
   return citybikeRoutingIsActive(networks[networkName], config);
 };
 

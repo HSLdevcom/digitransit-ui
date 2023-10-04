@@ -4,7 +4,7 @@ import { graphql, createFragmentContainer } from 'react-relay';
 import distance from '@digitransit-search-util/digitransit-search-util-distance';
 import { dtLocationShape } from '../util/shapes';
 import StopNearYouContainer from './StopNearYouContainer';
-import CityBikeStopNearYou from './CityVehicleStopNearYou';
+import CityBikeStopNearYou from './CityBikeStopNearYou';
 
 function StopsNearYouFavouritesContainer({
   stops,
@@ -40,7 +40,7 @@ function StopsNearYouFavouritesContainer({
       .filter(s => s)
       .map(stop => {
         return {
-          type: 'vehicleRentalStation',
+          type: 'bikeRentalStation',
           distance: distance(searchPosition, stop),
           ...stop,
         };
@@ -66,7 +66,7 @@ function StopsNearYouFavouritesContainer({
             stopId={stop.stops[0].gtfsId}
           />
         );
-      case 'vehicleRentalStation':
+      case 'bikeRentalStation':
         return <CityBikeStopNearYou key={stop.name} stop={stop} />;
       default:
         return null;
@@ -110,14 +110,14 @@ const refetchContainer = createFragmentContainer(
       }
     `,
     bikeStations: graphql`
-      fragment StopsNearYouFavouritesContainer_bikeStations on VehicleRentalStation
+      fragment StopsNearYouFavouritesContainer_bikeStations on BikeRentalStation
       @relay(plural: true) {
         stationId
         name
-        vehiclesAvailable
+        bikesAvailable
         spacesAvailable
         capacity
-        network
+        networks
         lat
         lon
       }

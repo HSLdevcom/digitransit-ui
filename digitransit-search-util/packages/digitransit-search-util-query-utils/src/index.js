@@ -66,9 +66,9 @@ const alertsQuery = graphql`
   }
 `;
 
-const searchVehicleRentalStationsQuery = graphql`
-  query srcSearchVehicleRentalStationsQuery {
-    vehicleRentalStations {
+const searchBikeRentalStationsQuery = graphql`
+  query srcSearchBikeRentalStationsQuery {
+    bikeRentalStations {
       name
       stationId
       lon
@@ -141,9 +141,9 @@ const favouriteRoutesQuery = graphql`
   }
 `;
 
-const favouriteVehicleRentalQuery = graphql`
-  query srcFavouriteVehicleRentalStationsQuery($ids: [String!]!) {
-    vehicleRentalStations(ids: $ids) {
+const favouriteBikeRentalQuery = graphql`
+  query srcFavouriteBikeRentalStationsQuery($ids: [String!]!) {
+    bikeRentalStations(ids: $ids) {
       name
       stationId
       lat
@@ -285,7 +285,7 @@ export function getAllBikeRentalStations() {
   }
   return fetchQuery(
     relayEnvironment,
-    searchVehicleRentalStationsQuery,
+    searchBikeRentalStationsQuery,
   ).toPromise();
 }
 
@@ -416,11 +416,11 @@ export function getFavouriteRoutesQuery(
     );
 }
 /**
- * Returns Favourite VehicleRentalStation objects depending on input
+ * Returns Favourite BikeRentalStation objects depending on input
  * @param {String} input Search text, if empty no objects are returned
  * @param {*} favourites
  */
-export function getFavouriteVehicleRentalStationsQuery(favourites, input) {
+export function getFavouriteBikeRentalStationsQuery(favourites, input) {
   if (
     !relayEnvironment ||
     !Array.isArray(favourites) ||
@@ -429,11 +429,11 @@ export function getFavouriteVehicleRentalStationsQuery(favourites, input) {
     return Promise.resolve([]);
   }
   const favouriteIds = favourites.map(station => station.stationId);
-  return fetchQuery(relayEnvironment, favouriteVehicleRentalQuery, {
+  return fetchQuery(relayEnvironment, favouriteBikeRentalQuery, {
     ids: favouriteIds,
   })
     .toPromise()
-    .then(data => data.vehicleRentalStations)
+    .then(data => data.bikeRentalStations)
     .then(stations => stations.filter(station => !!station))
     .then(stations =>
       stations.map(favourite => ({
@@ -443,9 +443,9 @@ export function getFavouriteVehicleRentalStationsQuery(favourites, input) {
         properties: {
           name: favourite.name,
           labelId: favourite.stationId,
-          layer: 'favouriteVehicleRentalStation',
+          layer: 'favouriteBikeRentalStation',
         },
-        type: 'FavouriteVehicleRentalStation',
+        type: 'FavouriteBikeRentalStation',
       })),
     )
     .then(stations =>

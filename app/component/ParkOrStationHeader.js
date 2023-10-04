@@ -11,8 +11,8 @@ import withBreakpoint from '../util/withBreakpoint';
 import { hasStationCode } from '../util/citybikes';
 
 const modules = {
-  FavouriteVehicleRentalStationContainer: () =>
-    importLazy(import('./FavouriteVehicleRentalStationContainer')),
+  FavouriteBikeRentalStationContainer: () =>
+    importLazy(import('./FavouriteBikeRentalStationContainer')),
 };
 const ParkOrBikeStationHeader = ({ parkOrStation, breakpoint }, { config }) => {
   const [zoneId, setZoneId] = useState(undefined);
@@ -67,9 +67,9 @@ const ParkOrBikeStationHeader = ({ parkOrStation, breakpoint }, { config }) => {
       </div>
       {stationId && (
         <LazilyLoad modules={modules}>
-          {({ FavouriteVehicleRentalStationContainer }) => (
-            <FavouriteVehicleRentalStationContainer
-              vehicleRentalStation={parkOrStation}
+          {({ FavouriteBikeRentalStationContainer }) => (
+            <FavouriteBikeRentalStationContainer
+              bikeRentalStation={parkOrStation}
             />
           )}
         </LazilyLoad>
