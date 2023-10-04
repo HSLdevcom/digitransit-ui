@@ -1042,6 +1042,9 @@ class SummaryPage extends React.Component {
               trip {
                 gtfsId
                 directionId
+                occupancy {
+                  occupancyStatus
+                }
                 stoptimesForDate {
                   scheduledDeparture
                   pickupType
@@ -2972,6 +2975,9 @@ const containerComponent = createRefetchContainer(
               trip {
                 gtfsId
                 directionId
+                occupancy {
+                  occupancyStatus
+                }
                 stoptimesForDate {
                   scheduledDeparture
                   pickupType

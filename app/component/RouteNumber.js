@@ -5,6 +5,7 @@ import { intlShape } from 'react-intl';
 import IconWithBigCaution from './IconWithBigCaution';
 import IconWithIcon from './IconWithIcon';
 import Icon from './Icon';
+import { isDepartureWithinTenMinutes, mapStatus } from '../util/occupancyUtil';
 
 const LONG_ROUTE_NUMBER_LENGTH = 6;
 
@@ -153,6 +154,21 @@ function RouteNumber(props, context) {
             </div>
           )}
       </span>
+      {context.config?.useRealtimeTravellerCapacities &&
+        props.hasOneTransitLeg &&
+        props.occupancyStatus &&
+        props.occupancyStatus !== 'NO_DATA_AVAILABLE' &&
+        isDepartureWithinTenMinutes(props.leg.startTime) && (
+          <span
+            style={{ color: 'white', marginLeft: 'auto', paddingRight: '3px' }}
+          >
+            <Icon
+              img={`icon-icon_${mapStatus(props.occupancyStatus)}`}
+              height={1.5}
+              width={1.5}
+            />
+          </span>
+        )}
     </span>
   );
 
@@ -194,6 +210,9 @@ RouteNumber.propTypes = {
   withBicycle: PropTypes.bool,
   card: PropTypes.bool,
   appendClass: PropTypes.string,
+  hasOneTransitLeg: PropTypes.bool,
+  occupancyStatus: PropTypes.string,
+  leg: PropTypes.object,
 };
 
 RouteNumber.defaultProps = {

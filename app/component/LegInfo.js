@@ -54,6 +54,11 @@ const LegInfo = (
             realtime={false}
             withBar
             fadeLong
+            hasOneTransitLeg
+            occupancyStatus={
+              leg.trip.occupancy ? leg.trip.occupancy.occupancyStatus : null
+            }
+            leg={leg}
           />
         </span>
       </Link>

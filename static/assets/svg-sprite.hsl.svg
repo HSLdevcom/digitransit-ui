@@ -332,6 +332,49 @@
   <path fill="#FFF" d="M6.5 10c0-1.93 1.57-3.5 3.5-3.5s3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5-3.5-1.57-3.5-3.5z"/>
 </symbol>
 
+<symbol id="icon-icon_MANY_SEATS_AVAILABLE" viewBox="0 0 24 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g opacity="0.4">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M16.1248 6.9982C16.6764 7.31734 17.3169 7.5 18 7.5C20.0711 7.5 21.75 5.82107 21.75 3.75C21.75 1.67893 20.0711 0 18 0C17.3169 0 16.6764 0.182658 16.1248 0.501799C16.8295 1.39544 17.25 2.52361 17.25 3.75C17.25 4.97639 16.8295 6.10456 16.1248 6.9982Z" fill="currentColor"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M19.5 15H24V12C24 10.3431 22.6568 9 21 9H18.3541C19.0667 9.79613 19.5 10.8475 19.5 12V15Z" fill="currentColor"/>
+</g>
+<g opacity="0.4">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M10.1248 6.9982C10.6764 7.31734 11.3169 7.5 12 7.5C14.0711 7.5 15.75 5.82107 15.75 3.75C15.75 1.67893 14.0711 0 12 0C11.3169 0 10.6764 0.182658 10.1248 0.501799C10.8295 1.39544 11.25 2.52361 11.25 3.75C11.25 4.97639 10.8295 6.10456 10.1248 6.9982Z" fill="currentColor"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M13.5 15H18V12C18 10.3431 16.6568 9 15 9H12.3541C13.0667 9.79613 13.5 10.8475 13.5 12V15Z" fill="currentColor"/>
+</g>
+<path d="M0.75 12C0.75 10.7574 1.75736 9.75 3 9.75H9C10.2426 9.75 11.25 10.7574 11.25 12V14.25H0.75V12Z" stroke="currentColor" stroke-width="1.5"/>
+<rect x="3" y="0.75" width="6" height="6" rx="3" stroke="currentColor" stroke-width="1.5"/>
+</symbol>
+<symbol id="icon-icon_FEW_SEATS_AVAILABLE" viewBox="0 0 24 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g opacity="0.4">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M16.1248 6.9982C16.6764 7.31734 17.3169 7.5 18 7.5C20.0711 7.5 21.75 5.82107 21.75 3.75C21.75 1.67893 20.0711 0 18 0C17.3169 0 16.6764 0.182658 16.1248 0.501799C16.8295 1.39544 17.25 2.52361 17.25 3.75C17.25 4.97639 16.8295 6.10456 16.1248 6.9982Z" fill="currentColor"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M19.5 15H24V12C24 10.3431 22.6569 9 21 9H18.3542C19.0667 9.79613 19.5 10.8475 19.5 12V15Z" fill="currentColor"/>
+</g>
+<g opacity="0.4">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M10.1248 6.9982C10.6764 7.31734 11.3169 7.5 12 7.5C14.0711 7.5 15.75 5.82107 15.75 3.75C15.75 1.67893 14.0711 0 12 0C11.3169 0 10.6764 0.182658 10.1248 0.501799C10.8295 1.39544 11.25 2.52361 11.25 3.75C11.25 4.97639 10.8295 6.10456 10.1248 6.9982Z" fill="currentColor"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M13.5 15H18V12C18 10.3431 16.6569 9 15 9H12.3542C13.0667 9.79613 13.5 10.8475 13.5 12V15Z" fill="currentColor"/>
+</g>
+<path d="M0 12C0 10.3431 1.34315 9 3 9H9C10.6569 9 12 10.3431 12 12V15H0V12Z" fill="currentColor"/>
+<rect x="2.25" width="7.5" height="7.5" rx="3.75" fill="currentColor"/>
+</symbol>
+<symbol id="icon-icon_STANDING_ROOM_ONLY" viewBox="0 0 24 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g opacity="0.4">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M16.1248 6.9982C16.6764 7.31734 17.3169 7.5 18 7.5C20.0711 7.5 21.75 5.82107 21.75 3.75C21.75 1.67893 20.0711 0 18 0C17.3169 0 16.6764 0.182658 16.1248 0.501799C16.8295 1.39544 17.25 2.52361 17.25 3.75C17.25 4.97639 16.8295 6.10456 16.1248 6.9982Z" fill="currentColor"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M19.5 15H24V12C24 10.3431 22.6569 9 21 9H18.3542C19.0667 9.79613 19.5 10.8475 19.5 12V15Z" fill="currentColor"/>
+</g>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M10.1248 6.9982C10.6764 7.31734 11.3169 7.5 12 7.5C14.0711 7.5 15.75 5.82107 15.75 3.75C15.75 1.67893 14.0711 0 12 0C11.3169 0 10.6764 0.182658 10.1248 0.501799C10.8295 1.39544 11.25 2.52361 11.25 3.75C11.25 4.97639 10.8295 6.10456 10.1248 6.9982Z" fill="currentColor"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M13.5 15H18V12C18 10.3431 16.6569 9 15 9H12.3542C13.0667 9.79613 13.5 10.8475 13.5 12V15Z" fill="currentColor"/>
+<path d="M0 12C0 10.3431 1.34315 9 3 9H9C10.6569 9 12 10.3431 12 12V15H0V12Z" fill="currentColor"/>
+<rect x="2.25" width="7.5" height="7.5" rx="3.75" fill="currentColor"/>
+</symbol>
+<symbol id="icon-icon_CRUSHED_STANDING_ROOM_ONLY" viewBox="0 0 24 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M10.1248 6.9982C10.6764 7.31734 11.3169 7.5 12 7.5C14.0711 7.5 15.75 5.82107 15.75 3.75C15.75 1.67893 14.0711 0 12 0C11.3169 0 10.6764 0.182658 10.1248 0.501799C10.8295 1.39544 11.25 2.52361 11.25 3.75C11.25 4.97639 10.8295 6.10456 10.1248 6.9982ZM18 7.5C17.3169 7.5 16.6764 7.31734 16.1248 6.9982C16.8295 6.10456 17.25 4.97639 17.25 3.75C17.25 2.52361 16.8295 1.39544 16.1248 0.501799C16.6764 0.182658 17.3169 0 18 0C20.0711 0 21.75 1.67893 21.75 3.75C21.75 5.82107 20.0711 7.5 18 7.5ZM24 15H19.5V12C19.5 10.8475 19.0667 9.79613 18.3542 9H21C22.6569 9 24 10.3431 24 12V15ZM18 15H13.5V12C13.5 10.8475 13.0667 9.79613 12.3542 9H15C16.6569 9 18 10.3431 18 12V15ZM0 12C0 10.3431 1.34315 9 3 9H9C10.6569 9 12 10.3431 12 12V15H0V12ZM6 0C3.92893 0 2.25 1.67893 2.25 3.75C2.25 5.82107 3.92893 7.5 6 7.5C8.07107 7.5 9.75 5.82107 9.75 3.75C9.75 1.67893 8.07107 0 6 0Z" fill="currentColor"/>
+</symbol>
+<symbol id="icon-icon_FULL" viewBox="0 0 16 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M8 0C5.92893 0 4.25 1.67893 4.25 3.75C4.25 5.82107 5.92893 7.5 8 7.5C10.0711 7.5 11.75 5.82107 11.75 3.75C11.75 1.67893 10.0711 0 8 0ZM5 9C3.34315 9 2 10.3431 2 12V15H14V12C14 10.3431 12.6569 9 11 9H5Z" fill="currentColor"/>
+<rect x="1.41428" width="20" height="2" transform="rotate(45 1.41428 0)" fill="white"/>
+<rect x="1.41428" y="2" width="20" height="2" rx="1" transform="rotate(45 1.41428 2)" fill="currentColor"/>
+</symbol>
+
 <symbol id="icon-icon_place" viewBox="0 0 1024 1024">
 	<path class="path1" d="M864.309 343.535c0 188.974-340.8 683.218-340.8 683.218s-340.8-494.245-340.8-683.218c0-187.359 151.826-340.8 340.8-340.8s340.8 153.441 340.8 340.8zM675.336 341.92c0-82.372-67.839-150.211-151.826-150.211-83.991 0-151.826 67.836-151.826 150.211 0 83.991 67.836 151.826 151.826 151.826 83.987 0 151.826-67.839 151.826-151.826z"></path>
 </symbol>

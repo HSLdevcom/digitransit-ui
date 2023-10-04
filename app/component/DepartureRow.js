@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
@@ -16,6 +17,7 @@ import Icon from './Icon';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
 import { getRouteMode } from '../util/modeUtils';
+import { mapStatus } from '../util/occupancyUtil';
 
 const getMostSevereAlert = route => {
   const alerts = [...getAlertsForObject(route)];
@@ -23,7 +25,15 @@ const getMostSevereAlert = route => {
 };
 
 const DepartureRow = (
-  { departure, departureTime, showPlatformCode, canceled, ...props },
+  {
+    departure,
+    departureTime,
+    showPlatformCode,
+    canceled,
+    onCapacityClick,
+    capacity,
+    ...props
+  },
   { config, intl },
 ) => {
   const { trip, trip: { route } = {} } = departure;
@@ -215,6 +225,23 @@ const DepartureRow = (
           )}
         </td>
       )}
+      {config.useRealtimeTravellerCapacities &&
+        trip.occupancy?.occupancyStatus !== 'NO_DATA_AVAILABLE' &&
+        timeDiffInMinutes <= 10 && (
+          <td className="capacity-cell">
+            <span
+              className="capacity-icon-container"
+              onClick={() => onCapacityClick()}
+            >
+              <Icon
+                width="1.5"
+                height="1.5"
+                img={`icon-icon_${mapStatus(trip.occupancy.occupancyStatus)}`}
+                color="#007AC9"
+              />
+            </span>
+          </td>
+        )}
     </tr>
   );
 };
@@ -225,6 +252,8 @@ DepartureRow.propTypes = {
   showPlatformCode: PropTypes.bool,
   canceled: PropTypes.bool,
   className: PropTypes.string,
+  onCapacityClick: PropTypes.func.isRequired,
+  capacity: PropTypes.string,
 };
 
 DepartureRow.contextTypes = {

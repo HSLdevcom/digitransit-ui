@@ -69,6 +69,7 @@ export const RouteLeg = ({
   interliningWithRoute,
   fitRouteNumber,
   withBicycle,
+  hasOneTransitLeg,
 }) => {
   const isCallAgency = isCallAgencyPickupType(leg);
   let routeNumber;
@@ -101,6 +102,9 @@ export const RouteLeg = ({
         withBar
         isTransitLeg={isTransitLeg}
         withBicycle={withBicycle}
+        hasOneTransitLeg={hasOneTransitLeg}
+        occupancyStatus={leg.trip?.occupancy?.occupancyStatus}
+        leg={leg}
       />
     );
   }
@@ -124,6 +128,7 @@ RouteLeg.propTypes = {
   interliningWithRoute: PropTypes.number,
   isTransitLeg: PropTypes.bool,
   withBicycle: PropTypes.bool.isRequired,
+  hasOneTransitLeg: PropTypes.bool,
 };
 
 RouteLeg.defaultProps = {
@@ -212,6 +217,10 @@ const bikeWasParked = legs => {
     }
   }
   return legs.length;
+};
+
+const hasOneTransitLeg = data => {
+  return data.legs.filter(leg => leg.transitLeg).length === 1;
 };
 
 const SummaryRow = (
@@ -499,6 +508,7 @@ const SummaryRow = (
             legLength={legLength}
             large={breakpoint === 'large'}
             withBicycle={withBicycle}
+            hasOneTransitLeg={hasOneTransitLeg(data)}
           />,
         );
       }

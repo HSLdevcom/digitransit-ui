@@ -537,6 +537,8 @@ export default {
 
   showSimilarRoutesOnRouteDropDown: true,
 
+  useRealtimeTravellerCapacities: true,
+
   stopCard: {
     header: {
       virtualMonitorBaseUrl: 'https://omatnaytot.hsl.fi/',

@@ -437,7 +437,9 @@ const withRelay = createFragmentContainer(
               pattern {
                 code
               } 
-              
+              occupancy {
+                occupancyStatus
+              }
               gtfsId
             }
             realTime
@@ -589,6 +591,9 @@ const withRelay = createFragmentContainer(
               stop {
                 gtfsId
               }
+            }
+            occupancy {
+              occupancyStatus
             }
           }
         }
