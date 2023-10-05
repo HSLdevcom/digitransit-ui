@@ -142,10 +142,7 @@ export const ModeLeg = (
     networkIcon =
       leg.from.vehicleRentalStation &&
       getCityBikeNetworkIcon(
-        getCityBikeNetworkConfig(
-          leg.from.vehicleRentalStation.network[0],
-          config,
-        ),
+        getCityBikeNetworkConfig(leg.from.vehicleRentalStation.network, config),
       );
   }
   const routeNumber = (
@@ -582,7 +579,7 @@ const SummaryRow = (
           <div>
             {getCitybikeCapacity(
               config,
-              firstDeparture.from.vehicleRentalStation.network[0],
+              firstDeparture.from.vehicleRentalStation.network,
             ) !== BIKEAVL_UNKNOWN && (
               <FormattedMessage
                 id="bikes-available"

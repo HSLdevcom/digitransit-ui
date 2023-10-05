@@ -116,7 +116,7 @@ describe('<WalkLeg />', () => {
         duration: 904,
         from: {
           vehicleRentalStation: {
-            networks: ['foobar'],
+            network: 'foobar',
           },
           name: 'Kaisaniemenpuisto',
           stop: null,
