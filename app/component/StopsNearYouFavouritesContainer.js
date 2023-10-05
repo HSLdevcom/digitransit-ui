@@ -9,7 +9,7 @@ import CityBikeStopNearYou from './CityVehicleStopNearYou';
 function StopsNearYouFavouritesContainer({
   stops,
   stations,
-  bikeStations,
+  vehicleStations,
   searchPosition,
 }) {
   const stopList = [];
@@ -36,7 +36,7 @@ function StopsNearYouFavouritesContainer({
       }),
   );
   stopList.push(
-    ...bikeStations
+    ...vehicleStations
       .filter(s => s)
       .map(stop => {
         return {
@@ -77,7 +77,7 @@ function StopsNearYouFavouritesContainer({
 StopsNearYouFavouritesContainer.propTypes = {
   stops: PropTypes.array,
   stations: PropTypes.array,
-  bikeStations: PropTypes.array,
+  vehicleStations: PropTypes.array,
   searchPosition: dtLocationShape,
   relay: PropTypes.shape({
     refetch: PropTypes.func.isRequired,
@@ -109,8 +109,8 @@ const refetchContainer = createFragmentContainer(
         }
       }
     `,
-    bikeStations: graphql`
-      fragment StopsNearYouFavouritesContainer_bikeStations on VehicleRentalStation
+    vehicleStations: graphql`
+      fragment StopsNearYouFavouritesContainer_vehicleStations on VehicleRentalStation
       @relay(plural: true) {
         stationId
         name
@@ -120,6 +120,7 @@ const refetchContainer = createFragmentContainer(
         network
         lat
         lon
+        operative
       }
     `,
   },
