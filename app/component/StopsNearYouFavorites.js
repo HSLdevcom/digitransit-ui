@@ -58,8 +58,10 @@ function StopsNearYouFavorites({
           stations: stations(ids: $stationIds) {
             ...StopsNearYouFavouritesContainer_stations
           }
-          bikeStations: vehicleRentalStations(ids: $vehicleRentalStationIds) {
-            ...StopsNearYouFavouritesContainer_bikeStations
+          vehicleStations: vehicleRentalStations(
+            ids: $vehicleRentalStationIds
+          ) {
+            ...StopsNearYouFavouritesContainer_vehicleStations
           }
         }
       `}
@@ -76,7 +78,7 @@ function StopsNearYouFavorites({
               searchPosition={searchPosition}
               stops={props.stops}
               stations={props.stations}
-              bikeStations={props.bikeStations}
+              vehicleStations={props.vehicleStations}
             />
           );
         }
@@ -93,7 +95,7 @@ StopsNearYouFavorites.propTypes = {
   searchPosition: dtLocationShape.isRequired,
   stops: PropTypes.array,
   stations: PropTypes.array,
-  bikeStations: PropTypes.array,
+  vehicleStations: PropTypes.array,
   breakpoint: PropTypes.string,
   noFavorites: PropTypes.bool,
   favouritesFetched: PropTypes.bool,
