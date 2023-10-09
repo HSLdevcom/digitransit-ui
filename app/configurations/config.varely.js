@@ -32,7 +32,7 @@ export default configMerger(walttiConfig, {
     },
   },
 
-  feedIds: ['VARELY', 'FOLI'],
+  feedIds: ['VARELY', 'FOLI', 'Rauma'],
 
   colors: {
     primary: colorPrimary,
@@ -107,8 +107,8 @@ export default configMerger(walttiConfig, {
   /* Enable real-time map layer for vehicle positions */
   vehicles: false,
   viaPointsEnabled: false,
-  showVehiclesOnStopPage: false,
-  showVehiclesOnSummaryPage: false,
+  showVehiclesOnStopPage: true,
+  showVehiclesOnSummaryPage: true,
 
   aboutThisService: {
     fi: [
@@ -137,6 +137,24 @@ export default configMerger(walttiConfig, {
         ],
       },
     ],
+  },
+
+  sourceForAlertsAndDisruptions: {
+    VARELY: {
+      fi: 'Varsinais-Suomi',
+      sv: 'Egentliga Finland',
+      en: 'Varsinais-Suomi',
+    },
+    Rauma: {
+      fi: 'Rauma',
+      sv: 'Raumo',
+      en: 'Rauma',
+    },
+    FOLI: {
+      fi: 'Turun seutu',
+      sv: 'Åboregion',
+      en: 'Turku region',
+    },
   },
 
   staticMessages: [],
