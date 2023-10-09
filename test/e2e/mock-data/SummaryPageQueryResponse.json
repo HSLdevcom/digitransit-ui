@@ -42,7 +42,7 @@
                            "lon":24.939846,
                            "name":"Rautatientori, Helsinki",
                            "vertexType":"NORMAL",
-                           "bikeRentalStation":null,
+                           "vehicleRentalStation":null,
                            "stop":null
                         },
                         "to":{
@@ -50,7 +50,7 @@
                            "lon":24.9377,
                            "name":"Lasipalatsi",
                            "vertexType":"TRANSIT",
-                           "bikeRentalStation":null,
+                           "vehicleRentalStation":null,
                            "stop":{
                               "gtfsId":"HSL:1020444",
                               "code":"H0101",
@@ -97,7 +97,7 @@
                            "lon":24.9377,
                            "name":"Lasipalatsi",
                            "vertexType":"TRANSIT",
-                           "bikeRentalStation":null,
+                           "vehicleRentalStation":null,
                            "stop":{
                               "gtfsId":"HSL:1020444",
                               "code":"H0101",
@@ -115,7 +115,7 @@
                            "lon":24.90646,
                            "name":"Jalavatie",
                            "vertexType":"TRANSIT",
-                           "bikeRentalStation":null,
+                           "vehicleRentalStation":null,
                            "stop":{
                               "gtfsId":"HSL:1180439",
                               "code":"H0135",
@@ -1316,7 +1316,7 @@
                            "lon":24.90646,
                            "name":"Jalavatie",
                            "vertexType":"TRANSIT",
-                           "bikeRentalStation":null,
+                           "vehicleRentalStation":null,
                            "stop":{
                               "gtfsId":"HSL:1180439",
                               "code":"H0135",
@@ -1334,7 +1334,7 @@
                            "lon":24.904975891113285,
                            "name":"Mannerheimintie 89, Helsinki",
                            "vertexType":"NORMAL",
-                           "bikeRentalStation":null,
+                           "vehicleRentalStation":null,
                            "stop":null,
                            "bikePark":null
                         },
@@ -1398,7 +1398,7 @@
                            "lon":24.939846,
                            "name":"Rautatientori, Helsinki",
                            "vertexType":"NORMAL",
-                           "bikeRentalStation":null,
+                           "vehicleRentalStation":null,
                            "stop":null
                         },
                         "to":{
@@ -1406,7 +1406,7 @@
                            "lon":24.939716,
                            "name":"Elielinaukio",
                            "vertexType":"TRANSIT",
-                           "bikeRentalStation":null,
+                           "vehicleRentalStation":null,
                            "stop":{
                               "gtfsId":"HSL:1020132",
                               "code":"H2025",
@@ -1453,7 +1453,7 @@
                            "lon":24.939716,
                            "name":"Elielinaukio",
                            "vertexType":"TRANSIT",
-                           "bikeRentalStation":null,
+                           "vehicleRentalStation":null,
                            "stop":{
                               "gtfsId":"HSL:1020132",
                               "code":"H2025",
@@ -1471,7 +1471,7 @@
                            "lon":24.90259,
                            "name":"Kuusitie",
                            "vertexType":"TRANSIT",
-                           "bikeRentalStation":null,
+                           "vehicleRentalStation":null,
                            "stop":{
                               "gtfsId":"HSL:1180203",
                               "code":"H1925",
@@ -3842,7 +3842,7 @@
                            "lon":24.90259,
                            "name":"Kuusitie",
                            "vertexType":"TRANSIT",
-                           "bikeRentalStation":null,
+                           "vehicleRentalStation":null,
                            "stop":{
                               "gtfsId":"HSL:1180203",
                               "code":"H1925",
@@ -3860,7 +3860,7 @@
                            "lon":24.904975891113285,
                            "name":"Mannerheimintie 89, Helsinki",
                            "vertexType":"NORMAL",
-                           "bikeRentalStation":null,
+                           "vehicleRentalStation":null,
                            "stop":null,
                            "bikePark":null
                         },
@@ -3924,7 +3924,7 @@
                            "lon":24.939846,
                            "name":"Rautatientori, Helsinki",
                            "vertexType":"NORMAL",
-                           "bikeRentalStation":null,
+                           "vehicleRentalStation":null,
                            "stop":null
                         },
                         "to":{
@@ -3932,7 +3932,7 @@
                            "lon":24.939733,
                            "name":"Elielinaukio",
                            "vertexType":"TRANSIT",
-                           "bikeRentalStation":null,
+                           "vehicleRentalStation":null,
                            "stop":{
                               "gtfsId":"HSL:1020131",
                               "code":"H2022",
@@ -3979,7 +3979,7 @@
                            "lon":24.939733,
                            "name":"Elielinaukio",
                            "vertexType":"TRANSIT",
-                           "bikeRentalStation":null,
+                           "vehicleRentalStation":null,
                            "stop":{
                               "gtfsId":"HSL:1020131",
                               "code":"H2022",
@@ -3997,7 +3997,7 @@
                            "lon":24.90303,
                            "name":"Kuusitie",
                            "vertexType":"TRANSIT",
-                           "bikeRentalStation":null,
+                           "vehicleRentalStation":null,
                            "stop":{
                               "gtfsId":"HSL:1180103",
                               "code":"H1923",
@@ -7184,7 +7184,7 @@
                            "lon":24.90303,
                            "name":"Kuusitie",
                            "vertexType":"TRANSIT",
-                           "bikeRentalStation":null,
+                           "vehicleRentalStation":null,
                            "stop":{
                               "gtfsId":"HSL:1180103",
                               "code":"H1923",
@@ -7202,7 +7202,7 @@
                            "lon":24.904975891113285,
                            "name":"Mannerheimintie 89, Helsinki",
                            "vertexType":"NORMAL",
-                           "bikeRentalStation":null,
+                           "vehicleRentalStation":null,
                            "stop":null,
                            "bikePark":null
                         },
@@ -7266,7 +7266,7 @@
                            "lon":24.939846,
                            "name":"Rautatientori, Helsinki",
                            "vertexType":"NORMAL",
-                           "bikeRentalStation":null,
+                           "vehicleRentalStation":null,
                            "stop":null
                         },
                         "to":{
@@ -7274,7 +7274,7 @@
                            "lon":24.939698,
                            "name":"Elielinaukio",
                            "vertexType":"TRANSIT",
-                           "bikeRentalStation":null,
+                           "vehicleRentalStation":null,
                            "stop":{
                               "gtfsId":"HSL:1020243",
                               "code":"H2028",
@@ -7321,7 +7321,7 @@
                            "lon":24.939698,
                            "name":"Elielinaukio",
                            "vertexType":"TRANSIT",
-                           "bikeRentalStation":null,
+                           "vehicleRentalStation":null,
                            "stop":{
                               "gtfsId":"HSL:1020243",
                               "code":"H2028",
@@ -7339,7 +7339,7 @@
                            "lon":24.90259,
                            "name":"Kuusitie",
                            "vertexType":"TRANSIT",
-                           "bikeRentalStation":null,
+                           "vehicleRentalStation":null,
                            "stop":{
                               "gtfsId":"HSL:1180203",
                               "code":"H1925",
@@ -10241,7 +10241,7 @@
                            "lon":24.90259,
                            "name":"Kuusitie",
                            "vertexType":"TRANSIT",
-                           "bikeRentalStation":null,
+                           "vehicleRentalStation":null,
                            "stop":{
                               "gtfsId":"HSL:1180203",
                               "code":"H1925",
@@ -10259,7 +10259,7 @@
                            "lon":24.904975891113285,
                            "name":"Mannerheimintie 89, Helsinki",
                            "vertexType":"NORMAL",
-                           "bikeRentalStation":null,
+                           "vehicleRentalStation":null,
                            "stop":null,
                            "bikePark":null
                         },
@@ -10323,7 +10323,7 @@
                            "lon":24.939846,
                            "name":"Rautatientori, Helsinki",
                            "vertexType":"NORMAL",
-                           "bikeRentalStation":null,
+                           "vehicleRentalStation":null,
                            "stop":null
                         },
                         "to":{
@@ -10331,7 +10331,7 @@
                            "lon":24.939722,
                            "name":"Elielinaukio",
                            "vertexType":"TRANSIT",
-                           "bikeRentalStation":null,
+                           "vehicleRentalStation":null,
                            "stop":{
                               "gtfsId":"HSL:1020135",
                               "code":"H2024",
@@ -10378,7 +10378,7 @@
                            "lon":24.939722,
                            "name":"Elielinaukio",
                            "vertexType":"TRANSIT",
-                           "bikeRentalStation":null,
+                           "vehicleRentalStation":null,
                            "stop":{
                               "gtfsId":"HSL:1020135",
                               "code":"H2024",
@@ -10396,7 +10396,7 @@
                            "lon":24.90303,
                            "name":"Kuusitie",
                            "vertexType":"TRANSIT",
-                           "bikeRentalStation":null,
+                           "vehicleRentalStation":null,
                            "stop":{
                               "gtfsId":"HSL:1180103",
                               "code":"H1923",
@@ -13297,7 +13297,7 @@
                            "lon":24.90303,
                            "name":"Kuusitie",
                            "vertexType":"TRANSIT",
-                           "bikeRentalStation":null,
+                           "vehicleRentalStation":null,
                            "stop":{
                               "gtfsId":"HSL:1180103",
                               "code":"H1923",
@@ -13315,7 +13315,7 @@
                            "lon":24.904975891113285,
                            "name":"Mannerheimintie 89, Helsinki",
                            "vertexType":"NORMAL",
-                           "bikeRentalStation":null,
+                           "vehicleRentalStation":null,
                            "stop":null,
                            "bikePark":null
                         },

@@ -179,8 +179,8 @@ function translateFutureRouteSuggestionTime(item) {
  *   getAllBikeRentalStations: () => ({}), // Function that returns all bike rental stations from graphql API.
  *   getStopAndStationsQuery: () => ({}),  // Function that fetches favourite stops and stations from graphql API.
  *   getFavouriteRoutesQuery: () => ({}),  // Function that returns query for fetching favourite routes.
- *   getFavouriteBikeRentalStations: () => ({}),  // Function that returns favourite bike rental station.
- *   getFavouriteBikeRentalStationsQuery: () => ({}), // Function that returns query for fetching favourite bike rental stations.
+ *   getFavouriteVehicleRentalStations: () => ({}),  // Function that returns favourite bike rental station.
+ *   getFavouriteVehicleRentalStationsQuery: () => ({}), // Function that returns query for fetching favourite bike rental stations.
  *   startLocationWatch: () => ({}),       // Function that locates users geolocation.
  *   saveSearch: () => ({}),               // Function that saves search to old searches store.
  *   clearOldSearches: () => ({}),         // Function that clears old searches store.
@@ -206,7 +206,7 @@ function translateFutureRouteSuggestionTime(item) {
  * }
  * const transportMode = undefined;
  * const placeholder = "stop-near-you";
- * const targets = ['Locations', 'Stops', 'Routes']; // Defines what you are searching. all available options are Locations, Stops, Routes, BikeRentalStations, FutureRoutes, MapPosition and CurrentPosition. Leave empty to search all targets.
+ * const targets = ['Locations', 'Stops', 'Routes']; // Defines what you are searching. all available options are Locations, Stops, Routes, VehicleRentalStations, FutureRoutes, MapPosition and CurrentPosition. Leave empty to search all targets.
  * const sources = ['Favourite', 'History', 'Datasource'] // Defines where you are searching. all available are: Favourite, History (previously searched searches) and Datasource. Leave empty to use all sources.
  * return (
  *  <DTAutosuggest

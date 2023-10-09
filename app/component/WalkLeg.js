@@ -45,8 +45,8 @@ function WalkLeg(
     getCityBikeNetworkId(
       previousLeg &&
         previousLeg.rentedBike &&
-        previousLeg[toOrFrom].bikeRentalStation &&
-        previousLeg[toOrFrom].bikeRentalStation.networks,
+        previousLeg[toOrFrom].vehicleRentalStation &&
+        previousLeg[toOrFrom].vehicleRentalStation.network,
     ),
     config,
   ).type;
@@ -168,7 +168,7 @@ function WalkLeg(
                     <CityBikeLeg
                       isScooter={isScooter}
                       stationName={leg[toOrFrom].name}
-                      bikeRentalStation={leg[toOrFrom].bikeRentalStation}
+                      vehicleRentalStation={leg[toOrFrom].vehicleRentalStation}
                       returnBike
                     />
                   ) : (
@@ -250,7 +250,7 @@ const walkLegShape = PropTypes.shape({
       platformCode: PropTypes.string,
       vehicleMode: PropTypes.string,
     }),
-    bikeRentalStation: PropTypes.shape({
+    vehicleRentalStation: PropTypes.shape({
       networks: PropTypes.array,
     }),
   }).isRequired,
@@ -263,7 +263,7 @@ const walkLegShape = PropTypes.shape({
       platformCode: PropTypes.string,
       vehicleMode: PropTypes.string,
     }),
-    bikeRentalStation: PropTypes.shape({
+    vehicleRentalStation: PropTypes.shape({
       networks: PropTypes.array,
     }),
   }).isRequired,

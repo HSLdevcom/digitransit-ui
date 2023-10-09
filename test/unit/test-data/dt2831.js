@@ -28,7 +28,7 @@ const dt2831 = {
         lon: 24.9408328,
         name: 'Opastinsilta 6 Ak, Helsinki',
         vertexType: 'NORMAL',
-        bikeRentalStation: null,
+        vehicleRentalStation: null,
         stop: null,
       },
       to: {
@@ -37,7 +37,7 @@ const dt2831 = {
         lon: 24.933683,
         name: 'Pasila',
         vertexType: 'TRANSIT',
-        bikeRentalStation: null,
+        vehicleRentalStation: null,
         stop: {
           __dataID__: 'U3RvcDpIU0w6MTE3NDU1MQ==',
           gtfsId: 'HSL:1174551',
@@ -76,7 +76,7 @@ const dt2831 = {
         lon: 24.933683,
         name: 'Pasila',
         vertexType: 'TRANSIT',
-        bikeRentalStation: null,
+        vehicleRentalStation: null,
         stop: {
           __dataID__: 'U3RvcDpIU0w6MTE3NDU1MQ==',
           gtfsId: 'HSL:1174551',
@@ -168,7 +168,7 @@ const dt2831 = {
         lon: 24.941576,
         name: 'Helsinki',
         vertexType: 'TRANSIT',
-        bikeRentalStation: null,
+        vehicleRentalStation: null,
         stop: {
           __dataID__: 'U3RvcDpIU0w6MTAyMDU1Mw==',
           gtfsId: 'HSL:1020553',
@@ -461,7 +461,7 @@ const dt2831 = {
         lon: 24.941576,
         name: 'Helsinki',
         vertexType: 'TRANSIT',
-        bikeRentalStation: null,
+        vehicleRentalStation: null,
         stop: {
           __dataID__: 'U3RvcDpIU0w6MTAyMDU1Mw==',
           gtfsId: 'HSL:1020553',
@@ -553,7 +553,7 @@ const dt2831 = {
         lon: 24.942572,
         name: 'Rautatieasema',
         vertexType: 'NORMAL',
-        bikeRentalStation: null,
+        vehicleRentalStation: null,
         stop: null,
       },
       legGeometry: {

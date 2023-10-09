@@ -47,7 +47,7 @@ function StopsNearYouFavoritesMapContainer(props) {
       .filter(s => s)
       .map(stop => {
         return {
-          type: 'bikeRentalStation',
+          type: 'vehicleRentalStation',
           node: {
             distance: distance(position, stop),
             place: {
@@ -65,7 +65,7 @@ function StopsNearYouFavoritesMapContainer(props) {
 StopsNearYouFavoritesMapContainer.propTypes = {
   stops: PropTypes.array,
   stations: PropTypes.array,
-  bikeStations: PropTypes.array,
+  vehicleStations: PropTypes.array,
   position: dtLocationShape.isRequired,
 };
 
@@ -140,8 +140,8 @@ const containerComponent = createFragmentContainer(StopsNearYouMapWithStores, {
       }
     }
   `,
-  bikeStations: graphql`
-    fragment StopsNearYouFavoritesMapContainer_bikeStations on BikeRentalStation
+  vehicleStations: graphql`
+    fragment StopsNearYouFavoritesMapContainer_vehicleStations on VehicleRentalStation
     @relay(plural: true) {
       name
       lat

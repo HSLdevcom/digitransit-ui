@@ -28,7 +28,7 @@ const LayerType = {
   Stop: 'stop',
   Street: 'street',
   Venue: 'venue',
-  BikeRentalStation: 'bikestation',
+  VehicleRentalStation: 'bikestation',
   CarPark: 'carpark',
   BikePark: 'bikepark',
 };
@@ -135,7 +135,7 @@ export const getLayerRank = (layer, source) => {
       return 0.38;
     case LayerType.BikePark:
       return 0.38;
-    case LayerType.BikeRentalStation:
+    case LayerType.VehicleRentalStation:
       return 0.38;
     case LayerType.Stop:
       return 0.36;
@@ -207,7 +207,7 @@ export const sortSearchResults = (lineRegexp, results, term = '') => {
             return confidence - 0.05;
           case LayerType.BikePark:
             return confidence - 0.05;
-          case LayerType.BikeRentalStation:
+          case LayerType.VehicleRentalStation:
             return confidence - 0.04;
           default:
             return confidence;

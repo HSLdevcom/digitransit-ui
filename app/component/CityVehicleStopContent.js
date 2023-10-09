@@ -8,14 +8,12 @@ import {
   getCitybikeCapacity,
   BIKEAVL_UNKNOWN,
   BIKEAVL_WITHMAX,
-  BIKESTATION_OFF,
-  BIKESTATION_CLOSED,
 } from '../util/citybikes';
 
-const CityBikeStopContent = ({ bikeRentalStation }, { config }) => {
+const CityVehicleStopContent = ({ vehicleRentalStation }, { config }) => {
   const citybikeCapacity = getCitybikeCapacity(
     config,
-    bikeRentalStation.networks[0],
+    vehicleRentalStation.network,
   );
   if (citybikeCapacity === BIKEAVL_UNKNOWN) {
     return null;
@@ -26,17 +24,16 @@ const CityBikeStopContent = ({ bikeRentalStation }, { config }) => {
 
   if (citybikeCapacity === BIKEAVL_WITHMAX) {
     totalSpaces =
-      bikeRentalStation.capacity ||
-      bikeRentalStation.bikesAvailable + bikeRentalStation.spacesAvailable;
+      vehicleRentalStation.capacity ||
+      vehicleRentalStation.vehiclesAvailable +
+        vehicleRentalStation.spacesAvailable;
     fewAvailableCount = Math.floor(totalSpaces / 3);
     fewerAvailableCount = Math.floor(totalSpaces / 6);
   }
-  const disabled =
-    bikeRentalStation.state === BIKESTATION_OFF ||
-    bikeRentalStation.state === BIKESTATION_CLOSED;
+  const disabled = !vehicleRentalStation.operative;
 
   const citybikeicon = getCityBikeNetworkIcon(
-    getCityBikeNetworkConfig(bikeRentalStation.networks[0], config),
+    getCityBikeNetworkConfig(vehicleRentalStation.network, config),
     disabled,
   );
   return (
@@ -44,7 +41,7 @@ const CityBikeStopContent = ({ bikeRentalStation }, { config }) => {
       <Icon img={citybikeicon} />
       <CityBikeAvailability
         disabled={disabled}
-        bikesAvailable={bikeRentalStation.bikesAvailable}
+        bikesAvailable={vehicleRentalStation.vehiclesAvailable}
         totalSpaces={totalSpaces}
         fewAvailableCount={fewAvailableCount}
         fewerAvailableCount={fewerAvailableCount}
@@ -54,16 +51,16 @@ const CityBikeStopContent = ({ bikeRentalStation }, { config }) => {
   );
 };
 
-CityBikeStopContent.contextTypes = {
+CityVehicleStopContent.contextTypes = {
   config: PropTypes.object.isRequired,
 };
-CityBikeStopContent.propTypes = {
-  bikeRentalStation: PropTypes.shape({
-    bikesAvailable: PropTypes.number.isRequired,
+CityVehicleStopContent.propTypes = {
+  vehicleRentalStation: PropTypes.shape({
+    vehiclesAvailable: PropTypes.number.isRequired,
     spacesAvailable: PropTypes.number.isRequired,
     capacity: PropTypes.number.isRequired,
-    networks: PropTypes.arrayOf(PropTypes.string),
-    state: PropTypes.string.isRequired,
+    network: PropTypes.string,
+    operative: PropTypes.bool.isRequired,
   }),
 };
-export default CityBikeStopContent;
+export default CityVehicleStopContent;

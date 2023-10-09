@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'found';
 import { graphql, createRefetchContainer } from 'react-relay';
-import CityBikeStopContent from './CityBikeStopContent';
-import FavouriteBikeRentalStationContainer from './FavouriteBikeRentalStationContainer';
+import CityVehicleStopContent from './CityVehicleStopContent';
+import FavouriteVehicleRentalStationContainer from './FavouriteVehicleRentalStationContainer';
 import { PREFIX_BIKESTATIONS } from '../util/path';
 import { isKeyboardSelectionEvent } from '../util/browser';
 import { hasStationCode } from '../util/citybikes';
 
-const CityBikeStopNearYou = ({ stop, relay, currentTime, currentMode }) => {
+const CityVehicleStopNearYou = ({ stop, relay, currentTime, currentMode }) => {
   useEffect(() => {
     const { stationId } = stop;
     if (currentMode === 'CITYBIKE') {
@@ -50,17 +50,17 @@ const CityBikeStopNearYou = ({ stop, relay, currentTime, currentMode }) => {
               />
             </div>
           </div>
-          <FavouriteBikeRentalStationContainer
-            bikeRentalStation={stop}
+          <FavouriteVehicleRentalStationContainer
+            vehicleRentalStation={stop}
             className="bike-rental-favourite-container"
           />
         </div>
-        <CityBikeStopContent bikeRentalStation={stop} />
+        <CityVehicleStopContent vehicleRentalStation={stop} />
       </div>
     </span>
   );
 };
-CityBikeStopNearYou.propTypes = {
+CityVehicleStopNearYou.propTypes = {
   stop: PropTypes.object.isRequired,
   currentTime: PropTypes.number.isRequired,
   currentMode: PropTypes.string.isRequired,
@@ -68,27 +68,27 @@ CityBikeStopNearYou.propTypes = {
 };
 
 const containerComponent = createRefetchContainer(
-  CityBikeStopNearYou,
+  CityVehicleStopNearYou,
   {
     stop: graphql`
-      fragment CityBikeStopNearYou_stop on BikeRentalStation {
+      fragment CityVehicleStopNearYou_stop on VehicleRentalStation {
         stationId
         name
-        bikesAvailable
+        vehiclesAvailable
         spacesAvailable
         capacity
-        networks
-        state
+        network
+        operative
       }
     `,
   },
   graphql`
-    query CityBikeStopNearYouRefetchQuery($stopId: String!) {
-      bikeRentalStation(id: $stopId) {
-        ...CityBikeStopNearYou_stop
+    query CityVehicleStopNearYouRefetchQuery($stopId: String!) {
+      vehicleRentalStation(id: $stopId) {
+        ...CityVehicleStopNearYou_stop
       }
     }
   `,
 );
 
-export { containerComponent as default, CityBikeStopNearYou as Component };
+export { containerComponent as default, CityVehicleStopNearYou as Component };
