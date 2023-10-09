@@ -4,11 +4,18 @@ import { intlShape } from 'react-intl';
 import Icon from './Icon';
 import { displayDistance } from '../util/geo-utils';
 import { durationToString } from '../util/timeUtils';
+import { getRouteMode } from '../util/modeUtils';
 import {
   getTotalDistance,
   getTotalBikingDistance,
   compressLegs,
 } from '../util/legUtils';
+
+const getMode = (leg, config) => {
+  return config.useExtendedRouteTypes
+    ? getRouteMode(leg.route) || leg.mode.toLowerCase()
+    : leg.mode.toLowerCase();
+};
 
 export const StreetModeSelectorButton = (
   { icon, name, plan, onClick },
@@ -61,7 +68,7 @@ export const StreetModeSelectorButton = (
       obj => obj.mode !== 'WALK' && obj.mode !== 'BICYCLE',
     );
     if (publicModes.length > 0) {
-      const firstMode = publicModes[0].mode.toLowerCase();
+      const firstMode = getMode(publicModes[0], config);
       secondaryIcon = `icon-icon_${firstMode}`;
       if (firstMode === 'subway') {
         metroColor = '#CA4000';
@@ -75,7 +82,7 @@ export const StreetModeSelectorButton = (
           obj.mode !== 'WALK' && obj.mode !== 'BICYCLE' && obj.mode !== 'CAR',
       );
       if (publicModes.length > 0) {
-        mode = publicModes[0].mode.toLowerCase();
+        mode = getMode(publicModes[0], config);
         break;
       }
     }
