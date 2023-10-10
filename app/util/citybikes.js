@@ -172,10 +172,3 @@ export const hasStationCode = vehicleRentalStation => {
     !isNaN(parseFloat(vehicleRentalStation.stationId))
   );
 };
-
-/** *
- * Parse id number from stationId.
- */
-export const parseVehicleIdNumber = stationId => {
-  return stationId.split(':')[1];
-};
