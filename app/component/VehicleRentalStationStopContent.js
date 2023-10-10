@@ -10,7 +10,10 @@ import {
   BIKEAVL_WITHMAX,
 } from '../util/citybikes';
 
-const CityVehicleStopContent = ({ vehicleRentalStation }, { config }) => {
+const VehicleRentalStationStopContent = (
+  { vehicleRentalStation },
+  { config },
+) => {
   const citybikeCapacity = getCitybikeCapacity(
     config,
     vehicleRentalStation.network,
@@ -51,10 +54,10 @@ const CityVehicleStopContent = ({ vehicleRentalStation }, { config }) => {
   );
 };
 
-CityVehicleStopContent.contextTypes = {
+VehicleRentalStationStopContent.contextTypes = {
   config: PropTypes.object.isRequired,
 };
-CityVehicleStopContent.propTypes = {
+VehicleRentalStationStopContent.propTypes = {
   vehicleRentalStation: PropTypes.shape({
     vehiclesAvailable: PropTypes.number.isRequired,
     spacesAvailable: PropTypes.number.isRequired,
@@ -63,4 +66,4 @@ CityVehicleStopContent.propTypes = {
     operative: PropTypes.bool.isRequired,
   }),
 };
-export default CityVehicleStopContent;
+export default VehicleRentalStationStopContent;

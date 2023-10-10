@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'found';
 import { graphql, createRefetchContainer } from 'react-relay';
-import CityVehicleStopContent from './CityVehicleStopContent';
+import VehicleRentalStationStopContent from './VehicleRentalStationStopContent';
 import FavouriteVehicleRentalStationContainer from './FavouriteVehicleRentalStationContainer';
 import { PREFIX_BIKESTATIONS } from '../util/path';
 import { isKeyboardSelectionEvent } from '../util/browser';
@@ -58,7 +58,7 @@ const CityVehicleStopNearYou = ({ stop, relay, currentTime, currentMode }) => {
             className="bike-rental-favourite-container"
           />
         </div>
-        <CityVehicleStopContent vehicleRentalStation={stop} />
+        <VehicleRentalStationStopContent vehicleRentalStation={stop} />
       </div>
     </span>
   );
