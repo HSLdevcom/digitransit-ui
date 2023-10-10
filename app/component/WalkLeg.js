@@ -15,7 +15,7 @@ import {
   CityBikeNetworkType,
   getCityBikeNetworkId,
   getCityBikeNetworkConfig,
-} from '../util/citybikes';
+} from '../util/vehicleRentalUtils';
 import { displayDistance } from '../util/geo-utils';
 import { durationToString } from '../util/timeUtils';
 import { splitStringToAddressAndPlace } from '../util/otpStrings';

@@ -1,5 +1,5 @@
 /* eslint-disable prefer-template */
-import { BIKEAVL_WITHMAX, BIKEAVL_BIKES } from '../util/citybikes';
+import { BIKEAVL_WITHMAX, BIKEAVL_BIKES } from '../util/vehicleRentalUtils';
 import HSLConfig from './config.hsl';
 import TurkuConfig from './config.turku';
 import LappeenrantaConfig from './config.lappeenranta';

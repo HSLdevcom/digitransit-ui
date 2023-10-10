@@ -28,7 +28,7 @@ import ItineraryLine from './ItineraryLine';
 import { dtLocationShape, mapLayerOptionsShape } from '../../util/shapes';
 import Loading from '../Loading';
 import LazilyLoad, { importLazy } from '../LazilyLoad';
-import { getDefaultNetworks } from '../../util/citybikes';
+import { getDefaultNetworks } from '../../util/vehicleRentalUtils';
 import { getRouteMode } from '../../util/modeUtils';
 import CookieSettingsButton from '../CookieSettingsButton';
 

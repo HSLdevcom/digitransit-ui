@@ -10,7 +10,7 @@ import { sortNearbyRentalStations, sortNearbyStops } from '../util/sortUtils';
 import CityBikeStopNearYou from './CityVehicleStopNearYou';
 import Loading from './Loading';
 import Icon from './Icon';
-import { getDefaultNetworks } from '../util/citybikes';
+import { getDefaultNetworks } from '../util/vehicleRentalUtils';
 
 class StopsNearYouContainer extends React.Component {
   static propTypes = {

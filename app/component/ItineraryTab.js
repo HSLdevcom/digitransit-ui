@@ -42,7 +42,7 @@ import {
   getCurrentMillis,
 } from '../util/timeUtils';
 import CityBikeDurationInfo from './CityBikeDurationInfo';
-import { getCityBikeNetworkId } from '../util/citybikes';
+import { getCityBikeNetworkId } from '../util/vehicleRentalUtils';
 import { FareShape } from '../util/shapes';
 
 const AlertShape = PropTypes.shape({ alertSeverityLevel: PropTypes.string });

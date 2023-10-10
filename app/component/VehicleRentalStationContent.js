@@ -9,7 +9,7 @@ import VehicleRentalStationStopContent from './VehicleRentalStationStopContent';
 import ParkOrStationHeader from './ParkOrStationHeader';
 import Icon from './Icon';
 import withBreakpoint from '../util/withBreakpoint';
-import { getCityBikeNetworkConfig } from '../util/citybikes';
+import { getCityBikeNetworkConfig } from '../util/vehicleRentalUtils';
 import { isBrowser } from '../util/browser';
 import { PREFIX_BIKESTATIONS } from '../util/path';
 

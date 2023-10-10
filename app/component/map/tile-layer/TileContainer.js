@@ -7,7 +7,7 @@ import { isBrowser } from '../../../util/browser';
 import { isLayerEnabled } from '../../../util/mapLayerUtils';
 import { getStopIconStyles } from '../../../util/mapIconUtils';
 
-import { getCityBikeMinZoomOnStopsNearYou } from '../../../util/citybikes';
+import { getCityBikeMinZoomOnStopsNearYou } from '../../../util/vehicleRentalUtils';
 import events from '../../../util/events';
 
 class TileContainer {

@@ -8,7 +8,7 @@ import {
   getCitybikeCapacity,
   BIKEAVL_UNKNOWN,
   BIKEAVL_WITHMAX,
-} from '../util/citybikes';
+} from '../util/vehicleRentalUtils';
 
 const VehicleRentalStationStopContent = (
   { vehicleRentalStation },

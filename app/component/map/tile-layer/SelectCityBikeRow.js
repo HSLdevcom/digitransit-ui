@@ -8,7 +8,7 @@ import {
   getCityBikeNetworkIcon,
   getCityBikeNetworkId,
   hasStationCode,
-} from '../../../util/citybikes';
+} from '../../../util/vehicleRentalUtils';
 import { PREFIX_BIKESTATIONS } from '../../../util/path';
 import { getIdWithoutFeed } from '../../../util/feedScopedIdUtils';
 

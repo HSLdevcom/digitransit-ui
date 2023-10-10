@@ -8,7 +8,7 @@ import { getJson } from '../util/xhrPromise';
 import getZoneId from '../util/zoneIconUtils';
 import ZoneIcon from './ZoneIcon';
 import withBreakpoint from '../util/withBreakpoint';
-import { hasStationCode } from '../util/citybikes';
+import { hasStationCode } from '../util/vehicleRentalUtils';
 import { getIdWithoutFeed } from '../util/feedScopedIdUtils';
 
 const modules = {

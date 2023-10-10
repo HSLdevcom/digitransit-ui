@@ -10,7 +10,7 @@ import {
   getCityBikeNetworkIcon,
   getCityBikeNetworkId,
   hasStationCode,
-} from '../util/citybikes';
+} from '../util/vehicleRentalUtils';
 
 import withBreakpoint from '../util/withBreakpoint';
 import Icon from './Icon';

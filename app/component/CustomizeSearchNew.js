@@ -14,7 +14,7 @@ import CityBikeNetworkSelector from './customizesearch/CityBikeNetworkSelector';
 import { showModeSettings, useCitybikes } from '../util/modeUtils';
 import ScrollableWrapper from './ScrollableWrapper';
 import { getDefaultSettings } from '../util/planParamUtil';
-import { getCitybikeNetworks } from '../util/citybikes';
+import { getCitybikeNetworks } from '../util/vehicleRentalUtils';
 
 class CustomizeSearch extends React.Component {
   static contextTypes = {

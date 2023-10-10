@@ -1,6 +1,6 @@
 /* eslint-disable prefer-template */
 import configMerger from '../util/configMerger';
-import { BIKEAVL_BIKES } from '../util/citybikes';
+import { BIKEAVL_BIKES } from '../util/vehicleRentalUtils';
 
 const CONFIG = 'kuopio';
 const APP_TITLE = 'Reittiopas Kuopio';

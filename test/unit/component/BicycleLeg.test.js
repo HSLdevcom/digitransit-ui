@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl';
 
 import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
 import BicycleLeg from '../../../app/component/BicycleLeg';
-import { CityBikeNetworkType } from '../../../app/util/citybikes';
+import { CityBikeNetworkType } from '../../../app/util/vehicleRentalUtils';
 
 describe('<BicycleLeg />', () => {
   it('should guide the user to rent a citybike', () => {

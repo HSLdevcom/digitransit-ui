@@ -17,8 +17,7 @@ import {
   getCityBikeNetworkId,
   getCitybikeCapacity,
   BIKEAVL_UNKNOWN,
-} from '../../../util/citybikes';
-import { getIdWithoutFeed } from '../../../util/feedScopedIdUtils';
+} from '../../../util/vehicleRentalUtils';
 import { fetchWithLanguageAndSubscription } from '../../../util/fetchUtils';
 import { getLayerBaseUrl } from '../../../util/mapLayerUtils';
 

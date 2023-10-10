@@ -4,9 +4,9 @@ import {
   getCityBikeNetworkIcon,
   getCityBikeNetworkName,
   getCityBikeNetworkConfig,
-} from '../../../app/util/citybikes';
+} from '../../../app/util/vehicleRentalUtils';
 
-describe('citybikes', () => {
+describe('vehiclerental', () => {
   describe('getCityBikeNetworkId', () => {
     it('should default to undefined', () => {
       expect(getCityBikeNetworkId(undefined)).to.equal(undefined);

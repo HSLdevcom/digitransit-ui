@@ -15,7 +15,7 @@ import {
   getCityBikeNetworkConfig,
   getCityBikeNetworkId,
   CityBikeNetworkType,
-} from '../util/citybikes';
+} from '../util/vehicleRentalUtils';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
 import { splitStringToAddressAndPlace } from '../util/otpStrings';
 import VehicleRentalLeg from './VehicleRentalLeg';

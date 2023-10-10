@@ -1,6 +1,6 @@
 /* eslint-disable prefer-template */
 import safeJsonParse from '../util/safeJsonParser';
-import { BIKEAVL_WITHMAX } from '../util/citybikes';
+import { BIKEAVL_WITHMAX } from '../util/vehicleRentalUtils';
 
 const CONFIG = process.env.CONFIG || 'default';
 const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';

@@ -22,7 +22,7 @@ import { startLocationWatch } from '../action/PositionActions';
 import { saveSearch } from '../action/SearchActions';
 import { saveFutureRoute } from '../action/FutureRoutesActions';
 import { useCitybikes } from './modeUtils';
-import { getDefaultNetworks } from './citybikes';
+import { getDefaultNetworks } from './vehicleRentalUtils';
 
 export default function intializeSearchContext(context, searchContext) {
   // DT-3424: Set SearchContext for Autosuggest and searchUtils.

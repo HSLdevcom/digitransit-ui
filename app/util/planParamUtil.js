@@ -10,7 +10,7 @@ import {
   isTransportModeAvailable,
 } from './modeUtils';
 import { otpToLocation, getIntermediatePlaces } from './otpStrings';
-import { getCitybikeNetworks, getDefaultNetworks } from './citybikes';
+import { getCitybikeNetworks, getDefaultNetworks } from './vehicleRentalUtils';
 import { getCustomizedSettings } from '../store/localStorage';
 import { estimateItineraryDistance } from './geo-utils';
 

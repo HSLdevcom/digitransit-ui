@@ -1,5 +1,5 @@
 /* eslint-disable prefer-template */
-import { BIKEAVL_WITHMAX } from '../util/citybikes';
+import { BIKEAVL_WITHMAX } from '../util/vehicleRentalUtils';
 
 const CONFIG = 'hsl';
 const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';

@@ -27,7 +27,7 @@ import {
   getCityBikeNetworkConfig,
   getCityBikeNetworkId,
   getCitybikeCapacity,
-} from '../util/citybikes';
+} from '../util/vehicleRentalUtils';
 import { getRouteMode } from '../util/modeUtils';
 
 const Leg = ({

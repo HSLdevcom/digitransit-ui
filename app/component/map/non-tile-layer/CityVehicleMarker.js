@@ -9,7 +9,7 @@ import {
   getCityBikeNetworkIcon,
   getCityBikeNetworkId,
   getCitybikeCapacity,
-} from '../../../util/citybikes';
+} from '../../../util/vehicleRentalUtils';
 import { isBrowser } from '../../../util/browser';
 import {
   getCityVehicleAvailabilityIndicatorColor,

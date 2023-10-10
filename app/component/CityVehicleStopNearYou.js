@@ -7,7 +7,7 @@ import VehicleRentalStationStopContent from './VehicleRentalStationStopContent';
 import FavouriteVehicleRentalStationContainer from './FavouriteVehicleRentalStationContainer';
 import { PREFIX_BIKESTATIONS } from '../util/path';
 import { isKeyboardSelectionEvent } from '../util/browser';
-import { hasStationCode } from '../util/citybikes';
+import { hasStationCode } from '../util/vehicleRentalUtils';
 import { getIdWithoutFeed } from '../util/feedScopedIdUtils';
 
 const CityVehicleStopNearYou = ({ stop, relay, currentTime, currentMode }) => {

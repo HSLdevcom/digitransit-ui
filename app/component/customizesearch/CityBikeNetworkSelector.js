@@ -10,7 +10,7 @@ import {
   getCityBikeNetworkConfig,
   updateCitybikeNetworks,
   getCitybikeNetworks,
-} from '../../util/citybikes';
+} from '../../util/vehicleRentalUtils';
 import { getModes } from '../../util/modeUtils';
 import { TransportMode } from '../../constants';
 

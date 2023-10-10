@@ -39,7 +39,7 @@ import { mapLayerShape } from '../store/MapLayerStore';
 import {
   getCityBikeNetworkConfig,
   getCityBikeNetworkId,
-} from '../util/citybikes';
+} from '../util/vehicleRentalUtils';
 import { getMapLayerOptions } from '../util/mapLayerUtils';
 import {
   getTransportModes,

@@ -1,6 +1,6 @@
 import cloneDeep from 'lodash/cloneDeep';
 import get from 'lodash/get';
-import { BIKEAVL_UNKNOWN } from './citybikes';
+import { BIKEAVL_UNKNOWN } from './vehicleRentalUtils';
 
 function filterLegStops(leg, filter) {
   if (leg.from.stop && leg.to.stop && leg.trip) {

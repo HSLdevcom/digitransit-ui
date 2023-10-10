@@ -7,7 +7,7 @@ import {
   getCityBikeNetworkConfig,
   getCityBikeNetworkIcon,
   getCityBikeNetworkId,
-} from '../util/citybikes';
+} from '../util/vehicleRentalUtils';
 
 function CityBikeDurationInfo(props) {
   const { networks, lang, config } = props;
