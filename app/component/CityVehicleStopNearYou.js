@@ -7,7 +7,8 @@ import CityVehicleStopContent from './CityVehicleStopContent';
 import FavouriteVehicleRentalStationContainer from './FavouriteVehicleRentalStationContainer';
 import { PREFIX_BIKESTATIONS } from '../util/path';
 import { isKeyboardSelectionEvent } from '../util/browser';
-import { hasStationCode, parseVehicleIdNumber } from '../util/citybikes';
+import { hasStationCode } from '../util/citybikes';
+import { getIdWithoutFeed } from '../util/feedScopedIdUtils';
 
 const CityVehicleStopNearYou = ({ stop, relay, currentTime, currentMode }) => {
   useEffect(() => {
@@ -46,7 +47,7 @@ const CityVehicleStopNearYou = ({ stop, relay, currentTime, currentMode }) => {
                 id="citybike-station"
                 values={{
                   stationId: hasStationCode(stop)
-                    ? parseVehicleIdNumber(stop.stationId)
+                    ? getIdWithoutFeed(stop.stationId)
                     : '',
                 }}
               />

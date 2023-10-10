@@ -8,7 +8,8 @@ import { getJson } from '../util/xhrPromise';
 import getZoneId from '../util/zoneIconUtils';
 import ZoneIcon from './ZoneIcon';
 import withBreakpoint from '../util/withBreakpoint';
-import { hasStationCode, parseVehicleIdNumber } from '../util/citybikes';
+import { hasStationCode } from '../util/citybikes';
+import { getIdWithoutFeed } from '../util/feedScopedIdUtils';
 
 const modules = {
   FavouriteVehicleRentalStationContainer: () =>
@@ -58,7 +59,7 @@ const ParkOrBikeStationHeader = ({ parkOrStation, breakpoint }, { config }) => {
             id={stationId ? 'citybike-station-no-id' : parkHeaderId}
           />
           {hasStationCode(parkOrStation) && (
-            <StopCode code={parseVehicleIdNumber(stationId)} />
+            <StopCode code={getIdWithoutFeed(stationId)} />
           )}
           {zoneId && (
             <span className="bike-station-zone-icon">
