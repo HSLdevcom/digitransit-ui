@@ -18,7 +18,7 @@ import {
 } from '../util/citybikes';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
 import { splitStringToAddressAndPlace } from '../util/otpStrings';
-import CityBikeLeg from './CityBikeLeg';
+import VehicleRentalLeg from './VehicleRentalLeg';
 import StopCode from './StopCode';
 import PlatformNumber from './PlatformNumber';
 
@@ -200,7 +200,7 @@ function BicycleLeg(
             />
           </div>
         ) : (
-          <CityBikeLeg
+          <VehicleRentalLeg
             stationName={leg.from.name}
             isScooter={isScooter}
             vehicleRentalStation={leg.from.vehicleRentalStation}

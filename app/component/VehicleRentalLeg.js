@@ -20,7 +20,7 @@ import {
   getCityVehicleAvailabilityIndicatorColor,
 } from '../util/legUtils';
 
-function CityBikeLeg(
+function VehicleRentalLeg(
   {
     stationName,
     isScooter,
@@ -116,16 +116,16 @@ function CityBikeLeg(
   );
 }
 
-CityBikeLeg.propTypes = {
+VehicleRentalLeg.propTypes = {
   vehicleRentalStation: PropTypes.object,
   stationName: PropTypes.string,
   isScooter: PropTypes.bool,
   returnBike: PropTypes.bool,
   breakpoint: PropTypes.string,
 };
-CityBikeLeg.contextTypes = {
+VehicleRentalLeg.contextTypes = {
   config: PropTypes.object.isRequired,
   intl: intlShape.isRequired,
 };
-const connectedComponent = withBreakpoint(CityBikeLeg);
-export { connectedComponent as default, CityBikeLeg as Component };
+const connectedComponent = withBreakpoint(VehicleRentalLeg);
+export { connectedComponent as default, VehicleRentalLeg as Component };

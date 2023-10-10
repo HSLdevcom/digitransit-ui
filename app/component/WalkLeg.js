@@ -19,7 +19,7 @@ import {
 import { displayDistance } from '../util/geo-utils';
 import { durationToString } from '../util/timeUtils';
 import { splitStringToAddressAndPlace } from '../util/otpStrings';
-import CityBikeLeg from './CityBikeLeg';
+import VehicleRentalLeg from './VehicleRentalLeg';
 
 function WalkLeg(
   { children, focusAction, focusToLeg, index, leg, previousLeg },
@@ -165,7 +165,7 @@ function WalkLeg(
               ) : (
                 <div>
                   {returnNotice ? (
-                    <CityBikeLeg
+                    <VehicleRentalLeg
                       isScooter={isScooter}
                       stationName={leg[toOrFrom].name}
                       vehicleRentalStation={leg[toOrFrom].vehicleRentalStation}
