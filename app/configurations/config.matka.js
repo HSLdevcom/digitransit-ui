@@ -91,7 +91,6 @@ export default {
     'Kajaani',
     'Salo',
     'Pori',
-    'Raasepori',
     'VARELY',
   ],
 
@@ -505,11 +504,6 @@ export default {
       fi: 'Pori',
       sv: 'Björneborg',
       en: 'Pori',
-    },
-    Raasepori: {
-      fi: 'Raasepori',
-      sv: 'Raseborg',
-      en: 'Raasepori',
     },
     VARELY: {
       fi: 'Varsinais-Suomi',
