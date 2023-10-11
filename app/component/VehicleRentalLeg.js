@@ -19,6 +19,7 @@ import {
   getCityVehicleAvailabilityTextColor,
   getCityVehicleAvailabilityIndicatorColor,
 } from '../util/legUtils';
+import { getIdWithoutFeed } from '../util/feedScopedIdUtils';
 
 function VehicleRentalLeg(
   {
@@ -93,7 +94,7 @@ function VehicleRentalLeg(
               })}
               {hasStationCode(vehicleRentalStation) && (
                 <span className="itinerary-stop-code">
-                  {vehicleRentalStation.stationId}
+                  {getIdWithoutFeed(vehicleRentalStation.stationId)}
                 </span>
               )}
             </span>
