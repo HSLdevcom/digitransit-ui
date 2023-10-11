@@ -31,7 +31,6 @@ const DepartureRow = (
     showPlatformCode,
     canceled,
     onCapacityClick,
-    capacity,
     ...props
   },
   { config, intl },
@@ -226,6 +225,7 @@ const DepartureRow = (
         </td>
       )}
       {config.useRealtimeTravellerCapacities &&
+        trip.occupancy?.occupancyStatus &&
         trip.occupancy?.occupancyStatus !== 'NO_DATA_AVAILABLE' &&
         timeDiffInMinutes <= 10 && (
           <td className="capacity-cell">
@@ -253,7 +253,6 @@ DepartureRow.propTypes = {
   canceled: PropTypes.bool,
   className: PropTypes.string,
   onCapacityClick: PropTypes.func.isRequired,
-  capacity: PropTypes.string,
 };
 
 DepartureRow.contextTypes = {

@@ -251,6 +251,11 @@
         display: flex;
         min-width: 0;
         height: 1.5rem;
+        .occupancy-icon-container {
+          color: white;
+          margin-left: auto;
+          padding-right: 3px;
+        }
         .vcenter-children {
           .empty {
             float: left;

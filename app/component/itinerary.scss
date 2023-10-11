@@ -1346,6 +1346,11 @@ $itinerary-tab-switch-height: 48px;
           height: 1.5em;
           border-radius: $border-radius;
         }
+        .occupancy-icon-container {
+          color: white;
+          margin-left: auto;
+          padding-right: 3px;
+        }
         .vcenter-children {
           width: 100%;
           display: flex;

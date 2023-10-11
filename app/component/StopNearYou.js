@@ -104,8 +104,8 @@ const StopNearYou = (
       </div>
       <Modal
         appElement="#app"
-        contentLabel="Testi"
-        closeButtonLabel="Sulje"
+        contentLabel="Capacity modal"
+        closeButtonLabel="Close"
         variant="small"
         isOpen={capacityModalOpen}
         onCrossClick={() => setCapacityModalOpen(false)}

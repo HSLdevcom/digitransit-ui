@@ -22,7 +22,7 @@ const CapacityModal = () => {
         <FormattedMessage id="capacity-modal.legend" defaultMessage="Legend" />
       </span>
       <div className="capacity-info-row">
-        <div className="icon" style={{ color: '#007AC9' }}>
+        <div className="icon">
           <Icon
             img="icon-icon_MANY_SEATS_AVAILABLE"
             color="red"
@@ -44,7 +44,7 @@ const CapacityModal = () => {
         />
       </p>
       <div className="capacity-info-row">
-        <div className="icon" style={{ color: '#007AC9' }}>
+        <div className="icon">
           <Icon
             img="icon-icon_FEW_SEATS_AVAILABLE"
             color="red"
@@ -66,7 +66,7 @@ const CapacityModal = () => {
         />
       </p>
       <div className="capacity-info-row">
-        <div className="icon" style={{ color: '#007AC9' }}>
+        <div className="icon">
           <Icon
             img="icon-icon_STANDING_ROOM_ONLY"
             color="red"
@@ -88,7 +88,7 @@ const CapacityModal = () => {
         />
       </p>
       <div className="capacity-info-row">
-        <div className="icon" style={{ color: '#007AC9' }}>
+        <div className="icon">
           <Icon
             img="icon-icon_CRUSHED_STANDING_ROOM_ONLY"
             color="red"
@@ -110,7 +110,7 @@ const CapacityModal = () => {
         />
       </p>
       <div className="capacity-info-row">
-        <div className="icon" style={{ color: '#007AC9' }}>
+        <div className="icon">
           <Icon img="icon-icon_FULL" color="red" width="1.5" height="1.5" />
         </div>
         <span className="info-heading">

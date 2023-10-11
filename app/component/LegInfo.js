@@ -7,6 +7,7 @@ import { intlShape } from 'react-intl';
 import { getRouteMode } from '../util/modeUtils';
 import RouteNumber from './RouteNumber';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
+import { getCapacity } from '../util/occupancyUtil';
 
 const LegInfo = (
   {
@@ -23,6 +24,7 @@ const LegInfo = (
   const shouldLinkToTrip =
     !constantOperationRoutes || !constantOperationRoutes[leg.route.gtfsId];
   const mode = getRouteMode({ mode: leg.mode, type: leg.route.type });
+
   return (
     <div
       className={cx('itinerary-transit-leg-route', {
@@ -54,11 +56,7 @@ const LegInfo = (
             realtime={false}
             withBar
             fadeLong
-            hasOneTransitLeg
-            occupancyStatus={
-              leg.trip.occupancy ? leg.trip.occupancy.occupancyStatus : null
-            }
-            leg={leg}
+            occupancyStatus={getCapacity(config, leg)}
           />
         </span>
       </Link>
