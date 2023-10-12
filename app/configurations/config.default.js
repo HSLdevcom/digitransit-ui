@@ -781,6 +781,7 @@ export default {
     varely: '(seutuplus|varely)',
     kela: 'kelareitit',
     pori: 'pori',
+    raasepori: '(raasepori|bosse)',
   },
 
   minutesToDepartureLimit: 9,
