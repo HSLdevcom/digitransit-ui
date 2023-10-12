@@ -28,8 +28,7 @@ const StopNearYou = (
     }
   }, [currentTime, currentMode]);
   const description = desc || stop.desc;
-  const isStation =
-    stop.locationType === 'STATION' || !!stop.parentStation || !!stopId;
+  const isStation = stop.locationType === 'STATION';
   const gtfsId =
     (stop.parentStation && stop.parentStation.gtfsId) || stop.gtfsId;
   const urlEncodedGtfsId = gtfsId.replace('/', '%2F');
