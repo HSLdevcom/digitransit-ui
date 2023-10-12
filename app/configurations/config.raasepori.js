@@ -18,7 +18,7 @@ export default configMerger(walttiConfig, {
     href: 'https://raasepori.fi/bosse',
     alternativeHref: {
       sv: 'https://raseborg.fi/bosse',
-      en: 'https://raseborg.fi/bosse',
+      en: 'https://raasepori.fi/bosse',
     },
   },
 
@@ -63,9 +63,10 @@ export default configMerger(walttiConfig, {
 
   defaultEndpoint: {
     address: 'Bockbodantie, Raasepori',
-    lat: 60.04,
-    lon: 23.56,
+    lat: 60.03,
+    lon: 23.57,
   },
+  defaultMapZoom: 11,
 
   menu: {
     copyright: { label: `© Raasepori ${walttiConfig.YEAR}` },

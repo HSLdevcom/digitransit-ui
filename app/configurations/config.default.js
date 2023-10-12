@@ -607,6 +607,8 @@ export default {
     lon: 24.9690395,
   },
 
+  defaultMapZoom: 12,
+
   availableRouteTimetables: {},
 
   routeTimetableUrlResolver: {},
