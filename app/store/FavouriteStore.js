@@ -11,18 +11,19 @@ import getGeocodingResults from '@digitransit-search-util/digitransit-search-uti
 import { isStop } from '@digitransit-search-util/digitransit-search-util-helpers';
 import {
   clearFavouriteStorage,
-  getFavouriteStorage,
-  setFavouriteStorage,
+  getFavouriteLocationsStorage,
   getFavouriteRoutesStorage,
   getFavouriteStopsStorage,
-  getFavouriteLocationsStorage,
+  getFavouriteStorage,
   removeItem,
+  setFavouriteStorage,
 } from './localStorage';
 import {
+  deleteFavourites,
   getFavourites,
   updateFavourites,
-  deleteFavourites,
 } from '../util/apiUtils';
+import { getIdWithoutFeed } from '../util/feedScopedIdUtils';
 
 export default class FavouriteStore extends Store {
   static storeName = 'FavouriteStore';
@@ -106,7 +107,7 @@ export default class FavouriteStore extends Store {
           favourite.type === 'bikeStation' &&
           isEqual(sortBy(favourite.networks), sortBy(networks)),
       )
-      .map(favourite => favourite.stationId);
+      .map(favourite => `${favourite.networks}:${favourite.stationId}`);
     return includes(ids, id);
   }
 
@@ -143,7 +144,7 @@ export default class FavouriteStore extends Store {
     return find(
       this.favourites,
       favourite =>
-        stationId === favourite.stationId &&
+        getIdWithoutFeed(stationId) === favourite.stationId &&
         isEqual(sortBy(favourite.networks), sortBy(networks)),
     );
   }
@@ -169,8 +170,12 @@ export default class FavouriteStore extends Store {
   }
 
   getVehicleRentalStations() {
-    return this.favourites.filter(
-      favourite => favourite.type === 'bikeStation',
+    return this.favourites.map(
+      favourite =>
+        favourite.type === 'bikeStation' && {
+          ...favourite,
+          stationId: `${favourite.networks}:${favourite.stationId}`,
+        },
     );
   }
 
@@ -209,12 +214,16 @@ export default class FavouriteStore extends Store {
    * and on fail callback function under onFail key
    */
   saveFavourite(actionData) {
-    const { onFail, ...data } = actionData;
+    let { ...data } = actionData;
+    const { onFail } = actionData;
     if (typeof data !== 'object') {
       onFail();
       throw new Error(`New favourite is not a object:${JSON.stringify(data)}`);
     }
     this.fetchingOrUpdating();
+    if (data.type === 'bikeStation') {
+      data = { ...data, stationId: data.stationId.split(':')[1] };
+    }
     const newFavourites = this.favourites.slice();
     const editIndex = findIndex(
       this.favourites,
@@ -332,7 +341,11 @@ export default class FavouriteStore extends Store {
   migrateRoutes() {
     const routes = getFavouriteRoutesStorage();
     routes.forEach(route => {
-      this.saveFavourite({ type: 'route', gtfsId: route, onFail: () => {} });
+      this.saveFavourite({
+        type: 'route',
+        gtfsId: route,
+        onFail: () => {},
+      });
     });
     removeItem('favouriteRoutes');
   }
@@ -350,7 +363,10 @@ export default class FavouriteStore extends Store {
         layer: stop.layer,
         selectedIconId: stop.selectedIconId,
       };
-      this.saveFavourite({ ...newStop, onFail: () => {} });
+      this.saveFavourite({
+        ...newStop,
+        onFail: () => {},
+      });
     });
     removeItem('favouriteStops');
   }
@@ -384,7 +400,10 @@ export default class FavouriteStore extends Store {
             layer: data.properties.layer,
             selectedIconId: location.selectedIconId,
           };
-          this.saveFavourite({ ...newLocation, onFail: () => {} });
+          this.saveFavourite({
+            ...newLocation,
+            onFail: () => {},
+          });
         }
       });
     });
