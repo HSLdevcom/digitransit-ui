@@ -140,6 +140,7 @@ export const getStopRoutePath = searchObj => {
     ? searchObj.properties.id
     : searchObj.properties.gtfsId;
   let path;
+  const network = searchObj.properties.source.split('citybikes')[1];
   switch (searchObj.properties.layer) {
     case 'station':
     case 'favouriteStation':
@@ -152,7 +153,7 @@ export const getStopRoutePath = searchObj => {
       break;
     case 'bikestation':
       path = `/${PREFIX_BIKESTATIONS}/`;
-      id = searchObj.properties.id;
+      id = `${network}%3A${searchObj.properties.id}`;
       break;
     case 'favouriteVehiclestation':
     case 'favouriteVehicleRentalStation':
