@@ -490,7 +490,7 @@ StopsNearYouMap.propTypes = {
   currentTime: PropTypes.number.isRequired,
   stopsNearYou: PropTypes.object,
   prioritizedStopsNearYou: PropTypes.array,
-  favouriteIds: PropTypes.object.isRequired,
+  favouriteIds: PropTypes.arrayOf(PropTypes.string.isRequired),
   mapLayers: PropTypes.object.isRequired,
   mapLayerOptions: mapLayerOptionsShape,
   position: dtLocationShape.isRequired,
