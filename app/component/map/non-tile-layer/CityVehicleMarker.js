@@ -69,9 +69,9 @@ export default class CityVehicleMarker extends React.Component {
   getIcon = zoom => {
     const { showBikeAvailability, station, transit } = this.props;
     const { config } = this.context;
-    const citybikeCapacity = getCitybikeCapacity(config, station.networks[0]);
+    const citybikeCapacity = getCitybikeCapacity(config, station.network);
     const iconName = `${getCityBikeNetworkIcon(
-      getCityBikeNetworkConfig(getCityBikeNetworkId(station.networks), config),
+      getCityBikeNetworkConfig(getCityBikeNetworkId(station.network), config),
     )}-lollipop`;
 
     return !transit && zoom <= config.stopsSmallMaxZoom
@@ -87,16 +87,16 @@ export default class CityVehicleMarker extends React.Component {
                 img: iconName,
                 className: 'city-bike-medium-size',
                 badgeFill: getCityVehicleAvailabilityIndicatorColor(
-                  station.bikesAvailable,
+                  station.vehiclesAvailable,
                   config,
                 ),
                 badgeTextFill: getCityVehicleAvailabilityTextColor(
-                  station.bikesAvailable,
+                  station.vehiclesAvailable,
                   config,
                 ),
                 badgeText:
                   citybikeCapacity !== BIKEAVL_UNKNOWN
-                    ? station.bikesAvailable
+                    ? station.vehiclesAvailable
                     : null,
               })
             : Icon.asString({
