@@ -329,7 +329,7 @@ export const getCityVehicleAvailabilityIndicatorColor = (
  * @param {number} bikesAvailable the number of bikes currently available
  * @param {*} config the configuration for the software installation/
  */
-export const getCityVehicleAvailabilityTextColor = (bikesAvailable, config) =>
+export const getVehicleAvailabilityTextColor = (bikesAvailable, config) =>
   bikesAvailable <= config.cityBike.fewAvailableCount && bikesAvailable > 0
     ? '#333'
     : '#fff';
@@ -355,7 +355,7 @@ export const getLegBadgeProps = (leg, config) => {
   return {
     badgeFill: getCityVehicleAvailabilityIndicatorColor(bikesAvailable, config),
     badgeText: `${bikesAvailable}`,
-    badgeTextFill: getCityVehicleAvailabilityTextColor(bikesAvailable, config),
+    badgeTextFill: getVehicleAvailabilityTextColor(bikesAvailable, config),
   };
 };
 

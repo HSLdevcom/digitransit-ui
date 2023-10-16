@@ -13,7 +13,7 @@ import {
 import { isBrowser } from '../../../util/browser';
 import {
   getCityVehicleAvailabilityIndicatorColor,
-  getCityVehicleAvailabilityTextColor,
+  getVehicleAvailabilityTextColor,
 } from '../../../util/legUtils';
 
 import { PREFIX_BIKESTATIONS } from '../../../util/path';
@@ -90,7 +90,7 @@ export default class CityVehicleMarker extends React.Component {
                   station.vehiclesAvailable,
                   config,
                 ),
-                badgeTextFill: getCityVehicleAvailabilityTextColor(
+                badgeTextFill: getVehicleAvailabilityTextColor(
                   station.vehiclesAvailable,
                   config,
                 ),

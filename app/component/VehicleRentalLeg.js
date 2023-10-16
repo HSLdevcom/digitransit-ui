@@ -16,7 +16,7 @@ import withBreakpoint from '../util/withBreakpoint';
 import Icon from './Icon';
 import { PREFIX_BIKESTATIONS } from '../util/path';
 import {
-  getCityVehicleAvailabilityTextColor,
+  getVehicleAvailabilityTextColor,
   getCityVehicleAvailabilityIndicatorColor,
 } from '../util/legUtils';
 import { getIdWithoutFeed } from '../util/feedScopedIdUtils';
@@ -57,7 +57,7 @@ function VehicleRentalLeg(
     vehicleRentalStation.vehiclesAvailable,
     config,
   );
-  const availabilityTextColor = getCityVehicleAvailabilityTextColor(
+  const availabilityTextColor = getVehicleAvailabilityTextColor(
     vehicleRentalStation.vehiclesAvailable,
     config,
   );
