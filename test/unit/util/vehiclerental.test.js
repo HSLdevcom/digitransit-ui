@@ -7,7 +7,7 @@ import {
 } from '../../../app/util/vehicleRentalUtils';
 
 describe('vehiclerental', () => {
-  describe('getCityBikeNetworkId', () => {
+  describe('getVehicleRentalStationNetworkId', () => {
     it('should default to undefined', () => {
       expect(getVehicleRentalStationNetworkId(undefined)).to.equal(undefined);
       expect(getVehicleRentalStationNetworkId([])).to.equal(undefined);
@@ -24,7 +24,7 @@ describe('vehiclerental', () => {
     });
   });
 
-  describe('getCityBikeNetworkConfig', () => {
+  describe('getVehicleRentalStationNetworkId', () => {
     it('should default to a default config', () => {
       expect(getVehicleRentalStationNetworkConfig(undefined, {})).to.equal(
         defaultNetworkConfig,
@@ -80,7 +80,7 @@ describe('vehiclerental', () => {
     });
   });
 
-  describe('getCityBikeNetworkIcon', () => {
+  describe('getVehicleRentalStationNetworkIcon', () => {
     it('should default to "icon-icon_citybike"', () => {
       const result = getVehicleRentalStationNetworkIcon();
       expect(result).to.equal('icon-icon_citybike');
@@ -103,7 +103,7 @@ describe('vehiclerental', () => {
     });
   });
 
-  describe('getCityBikeNetworkName', () => {
+  describe('getVehicleRentalStationNetworkName', () => {
     it('should default to undefined', () => {
       const result = getVehicleRentalStationNetworkName();
       expect(result).to.equal(undefined);
