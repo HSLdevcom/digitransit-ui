@@ -17,7 +17,7 @@ import Icon from './Icon';
 import { PREFIX_BIKESTATIONS } from '../util/path';
 import {
   getVehicleAvailabilityTextColor,
-  getCityVehicleAvailabilityIndicatorColor,
+  getVehicleAvailabilityIndicatorColor,
 } from '../util/legUtils';
 import { getIdWithoutFeed } from '../util/feedScopedIdUtils';
 
@@ -53,7 +53,7 @@ function VehicleRentalLeg(
       config,
     ),
   );
-  const availabilityIndicatorColor = getCityVehicleAvailabilityIndicatorColor(
+  const availabilityIndicatorColor = getVehicleAvailabilityIndicatorColor(
     vehicleRentalStation.vehiclesAvailable,
     config,
   );

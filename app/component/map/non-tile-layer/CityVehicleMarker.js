@@ -12,7 +12,7 @@ import {
 } from '../../../util/vehicleRentalUtils';
 import { isBrowser } from '../../../util/browser';
 import {
-  getCityVehicleAvailabilityIndicatorColor,
+  getVehicleAvailabilityIndicatorColor,
   getVehicleAvailabilityTextColor,
 } from '../../../util/legUtils';
 
@@ -86,7 +86,7 @@ export default class CityVehicleMarker extends React.Component {
             ? Icon.asString({
                 img: iconName,
                 className: 'city-bike-medium-size',
-                badgeFill: getCityVehicleAvailabilityIndicatorColor(
+                badgeFill: getVehicleAvailabilityIndicatorColor(
                   station.vehiclesAvailable,
                   config,
                 ),

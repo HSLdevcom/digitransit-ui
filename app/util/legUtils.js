@@ -313,10 +313,7 @@ export const getTotalDistance = itinerary => sumDistances(itinerary.legs);
  * @param {number} bikesAvailable the number of bikes currently available
  * @param {*} config the configuration for the software installation
  */
-export const getCityVehicleAvailabilityIndicatorColor = (
-  bikesAvailable,
-  config,
-) =>
+export const getVehicleAvailabilityIndicatorColor = (bikesAvailable, config) =>
   // eslint-disable-next-line no-nested-ternary
   bikesAvailable === 0
     ? '#DC0451'
@@ -353,7 +350,7 @@ export const getLegBadgeProps = (leg, config) => {
   }
   const { bikesAvailable } = leg.from.vehicleRentalStation || 0;
   return {
-    badgeFill: getCityVehicleAvailabilityIndicatorColor(bikesAvailable, config),
+    badgeFill: getVehicleAvailabilityIndicatorColor(bikesAvailable, config),
     badgeText: `${bikesAvailable}`,
     badgeTextFill: getVehicleAvailabilityTextColor(bikesAvailable, config),
   };
