@@ -18,7 +18,6 @@ export default configMerger(walttiConfig, {
     href: 'https://raasepori.fi/bosse',
     alternativeHref: {
       sv: 'https://raseborg.fi/bosse',
-      en: 'https://raasepori.fi/bosse',
     },
   },
 

@@ -17,10 +17,8 @@ import intializeSearchContext from '../util/DTSearchContextInitializer';
 function MainMenu(props, { config, intl }) {
   const [countries, setCountries] = useState(props.countries);
   const appBarLinkHref =
-    config.appBarLink.alternativeHref &&
-    config.appBarLink.alternativeHref[props.currentLanguage]
-      ? config.appBarLink.alternativeHref[props.currentLanguage]
-      : config.appBarLink.href;
+    config.appBarLink.alternativeHref?.[props.currentLanguage] ||
+    config.appBarLink.href;
   return (
     <div className="main-menu no-select" tabIndex={-1}>
       <div className="main-menu-top-section">
@@ -120,26 +118,23 @@ function MainMenu(props, { config, intl }) {
               </div>
             </div>
           ))}
-        {config.appBarLink &&
-          config.appBarLink.name &&
-          appBarLinkHref &&
-          !config.hideAppBarLink && (
-            <div className="offcanvas-section">
-              <a
-                id="appBarLink"
-                href={appBarLinkHref}
-                onClick={() => {
-                  addAnalyticsEvent({
-                    category: 'Navigation',
-                    action: 'appBarLink',
-                    name: null,
-                  });
-                }}
-              >
-                {config.appBarLink.name}
-              </a>
-            </div>
-          )}
+        {config.appBarLink?.name && appBarLinkHref && !config.hideAppBarLink && (
+          <div className="offcanvas-section">
+            <a
+              id="appBarLink"
+              href={appBarLinkHref}
+              onClick={() => {
+                addAnalyticsEvent({
+                  category: 'Navigation',
+                  action: 'appBarLink',
+                  name: null,
+                });
+              }}
+            >
+              {config.appBarLink.name}
+            </a>
+          </div>
+        )}
       </section>
       <section className="menu-section secondary-links">
         <MainMenuLinks
