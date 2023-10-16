@@ -58,10 +58,8 @@ const ParkOrBikeStationHeader = ({ parkOrStation, breakpoint }, { config }) => {
           <FormattedMessage
             id={stationId ? 'citybike-station-no-id' : parkHeaderId}
           />
-          {hasStationCode(parkOrStation) && (
-            <StopCode
-              code={stationId ? getIdWithoutFeed(stationId) : bikeParkId}
-            />
+          {stationId && hasStationCode(parkOrStation) && (
+            <StopCode code={getIdWithoutFeed(stationId)} />
           )}
           {zoneId && (
             <span className="bike-station-zone-icon">
