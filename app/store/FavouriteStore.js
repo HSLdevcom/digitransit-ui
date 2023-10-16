@@ -105,9 +105,9 @@ export default class FavouriteStore extends Store {
       .filter(
         favourite =>
           favourite.type === 'bikeStation' &&
-          isEqual(sortBy(favourite.networks), sortBy(networks)),
+          isEqual(sortBy(favourite.networks[0]), sortBy(networks)),
       )
-      .map(favourite => `${favourite.networks}:${favourite.stationId}`);
+      .map(favourite => `${favourite.networks[0]}:${favourite.stationId}`);
     return includes(ids, id);
   }
 
@@ -145,7 +145,7 @@ export default class FavouriteStore extends Store {
       this.favourites,
       favourite =>
         getIdWithoutFeed(stationId) === favourite.stationId &&
-        isEqual(sortBy(favourite.networks), sortBy(networks)),
+        isEqual(sortBy(favourite.networks[0]), sortBy(networks)),
     );
   }
 
@@ -170,13 +170,14 @@ export default class FavouriteStore extends Store {
   }
 
   getVehicleRentalStations() {
-    return this.favourites.map(
-      favourite =>
-        favourite.type === 'bikeStation' && {
+    return this.favourites
+      .filter(favourite => favourite.type === 'bikeStation')
+      .map(favourite => {
+        return {
           ...favourite,
-          stationId: `${favourite.networks}:${favourite.stationId}`,
-        },
-    );
+          stationId: `${favourite.networks[0]}:${favourite.stationId}`,
+        };
+      });
   }
 
   /**
@@ -222,7 +223,11 @@ export default class FavouriteStore extends Store {
     }
     this.fetchingOrUpdating();
     if (data.type === 'bikeStation') {
-      data = { ...data, stationId: data.stationId.split(':')[1] };
+      data = {
+        ...data,
+        stationId: data.stationId.split(':')[1],
+        networks: [data.networks],
+      };
     }
     const newFavourites = this.favourites.slice();
     const editIndex = findIndex(
