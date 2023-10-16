@@ -9,7 +9,7 @@ import { getRouteMode } from '../../util/modeUtils';
 import StopMarker from './non-tile-layer/StopMarker';
 import Line from './Line';
 import Icon from '../Icon';
-import CityVehicleMarker from './non-tile-layer/CityVehicleMarker';
+import VehicleMarker from './non-tile-layer/VehicleMarker';
 import { getMiddleOf } from '../../util/geo-utils';
 import { isBrowser } from '../../util/browser';
 import {
@@ -142,7 +142,7 @@ class ItineraryLine extends React.Component {
 
         if (leg.from.vertexType === 'BIKESHARE') {
           objs.push(
-            <CityVehicleMarker
+            <VehicleMarker
               key={leg.from.vehicleRentalStation.stationId}
               showBikeAvailability={leg.mode === 'BICYCLE'}
               station={leg.from.vehicleRentalStation}

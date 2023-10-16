@@ -36,8 +36,8 @@ const smallIconSvg = `
   </svg>
 `;
 
-export default class CityVehicleMarker extends React.Component {
-  static displayName = 'CityVehicleMarker';
+export default class VehicleMarker extends React.Component {
+  static displayName = 'VehicleMarker';
 
   static propTypes = {
     showBikeAvailability: PropTypes.bool,
