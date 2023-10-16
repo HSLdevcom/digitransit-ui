@@ -96,7 +96,7 @@ export const getVehicleCapacity = (config, network = undefined) => {
  * @param {*} config The configuration for the software installation
  */
 
-export const getCitybikeNetworks = () => {
+export const getVehicleRentalStationNetworks = () => {
   const { allowedBikeRentalNetworks } = getCustomizedSettings();
   return allowedBikeRentalNetworks || [];
 };

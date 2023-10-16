@@ -14,7 +14,7 @@ import VehicleRentalStationNetworkSelector from './customizesearch/VehicleRental
 import { showModeSettings, useCitybikes } from '../util/modeUtils';
 import ScrollableWrapper from './ScrollableWrapper';
 import { getDefaultSettings } from '../util/planParamUtil';
-import { getCitybikeNetworks } from '../util/vehicleRentalUtils';
+import { getVehicleRentalStationNetworks } from '../util/vehicleRentalUtils';
 
 class CustomizeSearch extends React.Component {
   static contextTypes = {
@@ -127,7 +127,7 @@ class CustomizeSearch extends React.Component {
                   </legend>
                   <div className="transport-modes-container">
                     <VehicleRentalStationNetworkSelector
-                      currentOptions={getCitybikeNetworks(config)}
+                      currentOptions={getVehicleRentalStationNetworks(config)}
                     />
                   </div>
                 </fieldset>

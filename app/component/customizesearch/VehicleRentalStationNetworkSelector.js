@@ -9,7 +9,7 @@ import {
   getVehicleRentalStationNetworkName,
   getVehicleRentalStationNetworkConfig,
   updateCitybikeNetworks,
-  getCitybikeNetworks,
+  getVehicleRentalStationNetworks,
 } from '../../util/vehicleRentalUtils';
 import { getModes } from '../../util/modeUtils';
 import { TransportMode } from '../../constants';
@@ -54,7 +54,7 @@ const VehicleRentalStationNetworkSelector = (
             }
             onToggle={() => {
               const newNetworks = updateCitybikeNetworks(
-                getCitybikeNetworks(config),
+                getVehicleRentalStationNetworks(config),
                 network.networkName,
               );
               const modes = getModes(config);
