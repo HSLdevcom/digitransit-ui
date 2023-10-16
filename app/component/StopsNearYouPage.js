@@ -38,7 +38,7 @@ import StopsNearYouFavoritesMapContainer from './StopsNearYouFavoritesMapContain
 import { mapLayerShape } from '../store/MapLayerStore';
 import {
   getVehicleRentalStationNetworkConfig,
-  getCityBikeNetworkId,
+  getVehicleRentalStationNetworkId,
 } from '../util/vehicleRentalUtils';
 import { getMapLayerOptions } from '../util/mapLayerUtils';
 import {
@@ -483,7 +483,9 @@ class StopsNearYouPage extends React.Component {
               // Use general information about using city bike, if one network config is available
               if (Object.keys(cityBike.networks).length === 1) {
                 cityBikeNetworkUrl = getVehicleRentalStationNetworkConfig(
-                  getCityBikeNetworkId(Object.keys(cityBike.networks)),
+                  getVehicleRentalStationNetworkId(
+                    Object.keys(cityBike.networks),
+                  ),
                   this.context.config,
                 ).url;
               }

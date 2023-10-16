@@ -1,6 +1,6 @@
 import {
   defaultNetworkConfig,
-  getCityBikeNetworkId,
+  getVehicleRentalStationNetworkId,
   getVehicleRentalStationNetworkIcon,
   getCityBikeNetworkName,
   getVehicleRentalStationNetworkConfig,
@@ -9,18 +9,18 @@ import {
 describe('vehiclerental', () => {
   describe('getCityBikeNetworkId', () => {
     it('should default to undefined', () => {
-      expect(getCityBikeNetworkId(undefined)).to.equal(undefined);
-      expect(getCityBikeNetworkId([])).to.equal(undefined);
+      expect(getVehicleRentalStationNetworkId(undefined)).to.equal(undefined);
+      expect(getVehicleRentalStationNetworkId([])).to.equal(undefined);
     });
 
     it('should pick the first networkId', () => {
       const networks = ['Samocat', 'Smoove'];
-      expect(getCityBikeNetworkId(networks)).to.equal('Samocat');
+      expect(getVehicleRentalStationNetworkId(networks)).to.equal('Samocat');
     });
 
     it('should also accept an input string', () => {
       const networks = 'Samocat';
-      expect(getCityBikeNetworkId(networks)).to.equal('Samocat');
+      expect(getVehicleRentalStationNetworkId(networks)).to.equal('Samocat');
     });
   });
 

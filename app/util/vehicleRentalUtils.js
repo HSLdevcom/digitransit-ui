@@ -34,7 +34,7 @@ export const getVehicleRentalStationNetworkIcon = (
   disabled,
 ) => `icon-icon_${networkConfig.icon || 'citybike'}${disabled ? '_off' : ''}`;
 
-export const getCityBikeNetworkId = networks => {
+export const getVehicleRentalStationNetworkId = networks => {
   if (isString(networks) && networks.length > 0) {
     return networks;
   }

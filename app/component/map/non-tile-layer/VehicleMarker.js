@@ -7,7 +7,7 @@ import {
   BIKEAVL_UNKNOWN,
   getVehicleRentalStationNetworkConfig,
   getVehicleRentalStationNetworkIcon,
-  getCityBikeNetworkId,
+  getVehicleRentalStationNetworkId,
   getCitybikeCapacity,
 } from '../../../util/vehicleRentalUtils';
 import { isBrowser } from '../../../util/browser';
@@ -72,7 +72,7 @@ export default class VehicleMarker extends React.Component {
     const citybikeCapacity = getCitybikeCapacity(config, station.network);
     const iconName = `${getVehicleRentalStationNetworkIcon(
       getVehicleRentalStationNetworkConfig(
-        getCityBikeNetworkId(station.network),
+        getVehicleRentalStationNetworkId(station.network),
         config,
       ),
     )}-lollipop`;

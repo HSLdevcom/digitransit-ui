@@ -6,13 +6,15 @@ import Icon from './Icon';
 import {
   getVehicleRentalStationNetworkConfig,
   getVehicleRentalStationNetworkIcon,
-  getCityBikeNetworkId,
+  getVehicleRentalStationNetworkId,
 } from '../util/vehicleRentalUtils';
 
 function CityBikeDurationInfo(props) {
   const { networks, lang, config } = props;
   if (networks.length === 1) {
-    const vehicleRentalStationNetwork = getCityBikeNetworkId(networks);
+    const vehicleRentalStationNetwork = getVehicleRentalStationNetworkId(
+      networks,
+    );
     const vehicleIcon = getVehicleRentalStationNetworkIcon(
       getVehicleRentalStationNetworkConfig(vehicleRentalStationNetwork, config),
     );

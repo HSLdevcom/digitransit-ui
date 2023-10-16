@@ -25,7 +25,7 @@ import {
   BIKEAVL_UNKNOWN,
   getVehicleRentalStationNetworkIcon,
   getVehicleRentalStationNetworkConfig,
-  getCityBikeNetworkId,
+  getVehicleRentalStationNetworkId,
   getCitybikeCapacity,
 } from '../util/vehicleRentalUtils';
 import { getRouteMode } from '../util/modeUtils';
@@ -382,7 +382,9 @@ const SummaryRow = (
     ) {
       const bikingTime = Math.floor((leg.endTime - leg.startTime) / 1000 / 60);
       // eslint-disable-next-line prefer-destructuring
-      bikeNetwork = getCityBikeNetworkId(leg.from.vehicleRentalStation.network);
+      bikeNetwork = getVehicleRentalStationNetworkId(
+        leg.from.vehicleRentalStation.network,
+      );
       if (
         config.cityBike.networks &&
         config.cityBike.networks[bikeNetwork]?.timeBeforeSurcharge &&
@@ -399,7 +401,7 @@ const SummaryRow = (
         if (!citybikeicon) {
           citybikeicon = getVehicleRentalStationNetworkIcon(
             getVehicleRentalStationNetworkConfig(
-              getCityBikeNetworkId(bikeNetwork),
+              getVehicleRentalStationNetworkId(bikeNetwork),
               config,
             ),
           );

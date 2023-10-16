@@ -6,7 +6,7 @@ import Icon from '../../Icon';
 import {
   getVehicleRentalStationNetworkConfig,
   getVehicleRentalStationNetworkIcon,
-  getCityBikeNetworkId,
+  getVehicleRentalStationNetworkId,
   hasStationCode,
 } from '../../../util/vehicleRentalUtils';
 import { PREFIX_BIKESTATIONS } from '../../../util/path';
@@ -15,7 +15,10 @@ import { getIdWithoutFeed } from '../../../util/feedScopedIdUtils';
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 function SelectCityBikeRow({ name, network, id, desc }, { config }) {
   const img = `${getVehicleRentalStationNetworkIcon(
-    getVehicleRentalStationNetworkConfig(getCityBikeNetworkId(network), config),
+    getVehicleRentalStationNetworkConfig(
+      getVehicleRentalStationNetworkId(network),
+      config,
+    ),
   )}-stop-lollipop`;
   const address = desc || <FormattedMessage id="citybike-station-no-id" />;
   return (

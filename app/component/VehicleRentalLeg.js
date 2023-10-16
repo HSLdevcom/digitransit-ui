@@ -8,7 +8,7 @@ import {
   getCitybikeCapacity,
   getVehicleRentalStationNetworkConfig,
   getVehicleRentalStationNetworkIcon,
-  getCityBikeNetworkId,
+  getVehicleRentalStationNetworkId,
   hasStationCode,
 } from '../util/vehicleRentalUtils';
 
@@ -47,9 +47,9 @@ function VehicleRentalLeg(
       <FormattedMessage id={id} defaultMessage="Fetch a bike" />
     </span>
   );
-  const citybikeicon = getVehicleRentalStationNetworkIcon(
+  const vehicleIcon = getVehicleRentalStationNetworkIcon(
     getVehicleRentalStationNetworkConfig(
-      getCityBikeNetworkId(vehicleRentalStation.network),
+      getVehicleRentalStationNetworkId(vehicleRentalStation.network),
       config,
     ),
   );
@@ -62,7 +62,7 @@ function VehicleRentalLeg(
     config,
   );
   const mobileReturn = breakpoint === 'small' && returnBike;
-  const citybikeCapacity = getCitybikeCapacity(
+  const vehicleCapacity = getCitybikeCapacity(
     config,
     vehicleRentalStation?.network,
   );
@@ -73,11 +73,11 @@ function VehicleRentalLeg(
         <div className="citybike-itinerary">
           <div className={cx('citybike-icon', { small: mobileReturn })}>
             <Icon
-              img={citybikeicon}
+              img={vehicleIcon}
               width={1.655}
               height={1.655}
               badgeText={
-                citybikeCapacity !== BIKEAVL_UNKNOWN && !returnBike
+                vehicleCapacity !== BIKEAVL_UNKNOWN && !returnBike
                   ? vehicleRentalStation.vehiclesAvailable
                   : null
               }
