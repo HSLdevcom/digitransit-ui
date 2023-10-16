@@ -156,11 +156,11 @@ export const getCityBikeMinZoomOnStopsNearYou = (config, override) => {
  */
 export const hasStationCode = vehicleRentalStation => {
   return (
-    vehicleRentalStation &&
-    vehicleRentalStation.stationId &&
+    (vehicleRentalStation &&
+      vehicleRentalStation.stationId &&
+      // eslint-disable-next-line no-restricted-globals
+      !isNaN(vehicleRentalStation.stationId)) ||
     // eslint-disable-next-line no-restricted-globals
-    !isNaN(vehicleRentalStation.stationId) &&
-    // eslint-disable-next-line no-restricted-globals
-    !isNaN(parseFloat(vehicleRentalStation.stationId.split(':')[0]))
+    !isNaN(parseFloat(vehicleRentalStation.stationId.split(':')[1]))
   );
 };
