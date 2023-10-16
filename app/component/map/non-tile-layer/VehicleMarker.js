@@ -6,7 +6,7 @@ import GenericMarker from '../GenericMarker';
 import {
   BIKEAVL_UNKNOWN,
   getVehicleRentalStationNetworkConfig,
-  getCityBikeNetworkIcon,
+  getVehicleRentalStationNetworkIcon,
   getCityBikeNetworkId,
   getCitybikeCapacity,
 } from '../../../util/vehicleRentalUtils';
@@ -70,7 +70,7 @@ export default class VehicleMarker extends React.Component {
     const { showBikeAvailability, station, transit } = this.props;
     const { config } = this.context;
     const citybikeCapacity = getCitybikeCapacity(config, station.network);
-    const iconName = `${getCityBikeNetworkIcon(
+    const iconName = `${getVehicleRentalStationNetworkIcon(
       getVehicleRentalStationNetworkConfig(
         getCityBikeNetworkId(station.network),
         config,

@@ -13,7 +13,7 @@ import { showCitybikeNetwork } from '../../../util/modeUtils';
 
 import {
   getVehicleRentalStationNetworkConfig,
-  getCityBikeNetworkIcon,
+  getVehicleRentalStationNetworkIcon,
   getCityBikeNetworkId,
   getCitybikeCapacity,
   BIKEAVL_UNKNOWN,
@@ -113,7 +113,7 @@ class VehicleRentalStations {
       return;
     }
 
-    const iconName = getCityBikeNetworkIcon(
+    const iconName = getVehicleRentalStationNetworkIcon(
       getVehicleRentalStationNetworkConfig(
         getCityBikeNetworkId(network),
         this.config,

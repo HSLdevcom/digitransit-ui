@@ -5,26 +5,28 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 import Icon from './Icon';
 import {
   getVehicleRentalStationNetworkConfig,
-  getCityBikeNetworkIcon,
+  getVehicleRentalStationNetworkIcon,
   getCityBikeNetworkId,
 } from '../util/vehicleRentalUtils';
 
 function CityBikeDurationInfo(props) {
   const { networks, lang, config } = props;
   if (networks.length === 1) {
-    const cityBikeNetwork = getCityBikeNetworkId(networks);
-    const citybikeicon = getCityBikeNetworkIcon(
-      getVehicleRentalStationNetworkConfig(cityBikeNetwork, config),
+    const vehicleRentalStationNetwork = getCityBikeNetworkId(networks);
+    const vehicleIcon = getVehicleRentalStationNetworkIcon(
+      getVehicleRentalStationNetworkConfig(vehicleRentalStationNetwork, config),
     );
     const cityBikeNetworkDurationInfoLink =
-      config.cityBike.networks[cityBikeNetwork].durationInstructions[lang];
+      config.cityBike.networks[vehicleRentalStationNetwork]
+        .durationInstructions[lang];
     const duration =
-      config.cityBike.networks[cityBikeNetwork].timeBeforeSurcharge / 60;
+      config.cityBike.networks[vehicleRentalStationNetwork]
+        .timeBeforeSurcharge / 60;
 
     return (
       <div className="citybike-duration-infobox">
         <div className="left-column">
-          <Icon img={citybikeicon} width={2.2} height={2.2} />
+          <Icon img={vehicleIcon} width={2.2} height={2.2} />
         </div>
         <div className="right-column">
           <span>
@@ -49,7 +51,7 @@ function CityBikeDurationInfo(props) {
       </div>
     );
   }
-  const citybikeicon = getCityBikeNetworkIcon(
+  const citybikeicon = getVehicleRentalStationNetworkIcon(
     getVehicleRentalStationNetworkConfig(networks[0], config),
   );
   const durationInfoLinks = {};

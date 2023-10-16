@@ -29,7 +29,7 @@ export const getCityBikeNetworkName = (
   language = 'en',
 ) => (networkConfig.name && networkConfig.name[language]) || undefined;
 
-export const getCityBikeNetworkIcon = (
+export const getVehicleRentalStationNetworkIcon = (
   networkConfig = defaultNetworkConfig,
   disabled,
 ) => `icon-icon_${networkConfig.icon || 'citybike'}${disabled ? '_off' : ''}`;

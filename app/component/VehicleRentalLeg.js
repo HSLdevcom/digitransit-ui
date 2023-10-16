@@ -7,7 +7,7 @@ import {
   BIKEAVL_UNKNOWN,
   getCitybikeCapacity,
   getVehicleRentalStationNetworkConfig,
-  getCityBikeNetworkIcon,
+  getVehicleRentalStationNetworkIcon,
   getCityBikeNetworkId,
   hasStationCode,
 } from '../util/vehicleRentalUtils';
@@ -47,7 +47,7 @@ function VehicleRentalLeg(
       <FormattedMessage id={id} defaultMessage="Fetch a bike" />
     </span>
   );
-  const citybikeicon = getCityBikeNetworkIcon(
+  const citybikeicon = getVehicleRentalStationNetworkIcon(
     getVehicleRentalStationNetworkConfig(
       getCityBikeNetworkId(vehicleRentalStation.network),
       config,

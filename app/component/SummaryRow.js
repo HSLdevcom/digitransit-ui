@@ -23,7 +23,7 @@ import withBreakpoint from '../util/withBreakpoint';
 import { isKeyboardSelectionEvent } from '../util/browser';
 import {
   BIKEAVL_UNKNOWN,
-  getCityBikeNetworkIcon,
+  getVehicleRentalStationNetworkIcon,
   getVehicleRentalStationNetworkConfig,
   getCityBikeNetworkId,
   getCitybikeCapacity,
@@ -141,7 +141,7 @@ export const ModeLeg = (
   ) {
     networkIcon =
       leg.from.vehicleRentalStation &&
-      getCityBikeNetworkIcon(
+      getVehicleRentalStationNetworkIcon(
         getVehicleRentalStationNetworkConfig(
           leg.from.vehicleRentalStation.network,
           config,
@@ -397,7 +397,7 @@ const SummaryRow = (
         showRentalBikeDurationWarning =
           showRentalBikeDurationWarning || rentDurationOverSurchargeLimit;
         if (!citybikeicon) {
-          citybikeicon = getCityBikeNetworkIcon(
+          citybikeicon = getVehicleRentalStationNetworkIcon(
             getVehicleRentalStationNetworkConfig(
               getCityBikeNetworkId(bikeNetwork),
               config,

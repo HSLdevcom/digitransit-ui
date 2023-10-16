@@ -1,7 +1,7 @@
 import {
   defaultNetworkConfig,
   getCityBikeNetworkId,
-  getCityBikeNetworkIcon,
+  getVehicleRentalStationNetworkIcon,
   getCityBikeNetworkName,
   getVehicleRentalStationNetworkConfig,
 } from '../../../app/util/vehicleRentalUtils';
@@ -82,7 +82,7 @@ describe('vehiclerental', () => {
 
   describe('getCityBikeNetworkIcon', () => {
     it('should default to "icon-icon_citybike"', () => {
-      const result = getCityBikeNetworkIcon();
+      const result = getVehicleRentalStationNetworkIcon();
       expect(result).to.equal('icon-icon_citybike');
     });
 
@@ -90,7 +90,7 @@ describe('vehiclerental', () => {
       const networkConfig = {
         icon: undefined,
       };
-      const result = getCityBikeNetworkIcon(networkConfig);
+      const result = getVehicleRentalStationNetworkIcon(networkConfig);
       expect(result).to.equal('icon-icon_citybike');
     });
 
@@ -98,7 +98,7 @@ describe('vehiclerental', () => {
       const networkConfig = {
         icon: 'foobar',
       };
-      const result = getCityBikeNetworkIcon(networkConfig);
+      const result = getVehicleRentalStationNetworkIcon(networkConfig);
       expect(result).to.equal('icon-icon_foobar');
     });
   });
