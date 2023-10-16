@@ -24,7 +24,7 @@ export const defaultNetworkConfig = {
   type: CityBikeNetworkType.CityBike,
 };
 
-export const getCityBikeNetworkName = (
+export const getVehicleRentalStationNetworkName = (
   networkConfig = defaultNetworkConfig,
   language = 'en',
 ) => (networkConfig.name && networkConfig.name[language]) || undefined;

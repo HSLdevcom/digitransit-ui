@@ -6,7 +6,7 @@ import { saveRoutingSettings } from '../../action/SearchSettingsActions';
 import Icon from '../Icon';
 import {
   mapDefaultNetworkProperties,
-  getCityBikeNetworkName,
+  getVehicleRentalStationNetworkName,
   getVehicleRentalStationNetworkConfig,
   updateCitybikeNetworks,
   getCitybikeNetworks,
@@ -38,7 +38,7 @@ const CityBikeNetworkSelector = (
             />
           </div>
           <span className="mode-name">
-            {getCityBikeNetworkName(
+            {getVehicleRentalStationNetworkName(
               getVehicleRentalStationNetworkConfig(network.networkName, config),
               getStore('PreferencesStore').getLanguage(),
             )}

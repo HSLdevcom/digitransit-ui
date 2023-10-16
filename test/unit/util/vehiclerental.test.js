@@ -2,7 +2,7 @@ import {
   defaultNetworkConfig,
   getVehicleRentalStationNetworkId,
   getVehicleRentalStationNetworkIcon,
-  getCityBikeNetworkName,
+  getVehicleRentalStationNetworkName,
   getVehicleRentalStationNetworkConfig,
 } from '../../../app/util/vehicleRentalUtils';
 
@@ -105,21 +105,27 @@ describe('vehiclerental', () => {
 
   describe('getCityBikeNetworkName', () => {
     it('should default to undefined', () => {
-      const result = getCityBikeNetworkName();
+      const result = getVehicleRentalStationNetworkName();
       expect(result).to.equal(undefined);
     });
 
     it('should return undefined if no matching language term exists', () => {
       const networkConfig = { name: { en: 'Test' } };
       const language = 'sv';
-      const result = getCityBikeNetworkName(networkConfig, language);
+      const result = getVehicleRentalStationNetworkName(
+        networkConfig,
+        language,
+      );
       expect(result).to.equal(undefined);
     });
 
     it('should pick the name for the given language', () => {
       const networkConfig = { name: { fi: 'Testi' } };
       const language = 'fi';
-      const result = getCityBikeNetworkName(networkConfig, language);
+      const result = getVehicleRentalStationNetworkName(
+        networkConfig,
+        language,
+      );
       expect(result).to.equal('Testi');
     });
   });
