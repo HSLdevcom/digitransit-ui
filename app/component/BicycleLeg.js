@@ -12,7 +12,7 @@ import ItineraryCircleLine from './ItineraryCircleLine';
 import ItineraryCircleLineLong from './ItineraryCircleLineLong';
 import { PREFIX_STOPS } from '../util/path';
 import {
-  getCityBikeNetworkConfig,
+  getVehicleRentalStationNetworkConfig,
   getCityBikeNetworkId,
   CityBikeNetworkType,
 } from '../util/vehicleRentalUtils';
@@ -42,7 +42,7 @@ function BicycleLeg(
   const networkConfig =
     leg.rentedBike &&
     leg.from.vehicleRentalStation &&
-    getCityBikeNetworkConfig(
+    getVehicleRentalStationNetworkConfig(
       getCityBikeNetworkId(leg.from.vehicleRentalStation.network),
       config,
     );

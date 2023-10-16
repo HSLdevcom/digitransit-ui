@@ -4,7 +4,7 @@ import React from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import Icon from './Icon';
 import {
-  getCityBikeNetworkConfig,
+  getVehicleRentalStationNetworkConfig,
   getCityBikeNetworkIcon,
   getCityBikeNetworkId,
 } from '../util/vehicleRentalUtils';
@@ -14,7 +14,7 @@ function CityBikeDurationInfo(props) {
   if (networks.length === 1) {
     const cityBikeNetwork = getCityBikeNetworkId(networks);
     const citybikeicon = getCityBikeNetworkIcon(
-      getCityBikeNetworkConfig(cityBikeNetwork, config),
+      getVehicleRentalStationNetworkConfig(cityBikeNetwork, config),
     );
     const cityBikeNetworkDurationInfoLink =
       config.cityBike.networks[cityBikeNetwork].durationInstructions[lang];
@@ -50,7 +50,7 @@ function CityBikeDurationInfo(props) {
     );
   }
   const citybikeicon = getCityBikeNetworkIcon(
-    getCityBikeNetworkConfig(networks[0], config),
+    getVehicleRentalStationNetworkConfig(networks[0], config),
   );
   const durationInfoLinks = {};
   for (let i = 0; i < networks.length; i++) {

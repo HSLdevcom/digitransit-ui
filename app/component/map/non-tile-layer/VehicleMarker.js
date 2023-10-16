@@ -5,7 +5,7 @@ import Icon from '../../Icon';
 import GenericMarker from '../GenericMarker';
 import {
   BIKEAVL_UNKNOWN,
-  getCityBikeNetworkConfig,
+  getVehicleRentalStationNetworkConfig,
   getCityBikeNetworkIcon,
   getCityBikeNetworkId,
   getCitybikeCapacity,
@@ -71,7 +71,10 @@ export default class VehicleMarker extends React.Component {
     const { config } = this.context;
     const citybikeCapacity = getCitybikeCapacity(config, station.network);
     const iconName = `${getCityBikeNetworkIcon(
-      getCityBikeNetworkConfig(getCityBikeNetworkId(station.network), config),
+      getVehicleRentalStationNetworkConfig(
+        getCityBikeNetworkId(station.network),
+        config,
+      ),
     )}-lollipop`;
 
     return !transit && zoom <= config.stopsSmallMaxZoom

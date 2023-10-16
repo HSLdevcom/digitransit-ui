@@ -45,7 +45,7 @@ class VehicleMarkerContainer extends React.Component {
           <QueryRenderer
             environment={environment}
             query={graphql`
-              query CityVehicleMarkerContainerQuery {
+              query VehicleMarkerContainerQuery {
                 viewer {
                   stations: vehicleRentalStations {
                     lat

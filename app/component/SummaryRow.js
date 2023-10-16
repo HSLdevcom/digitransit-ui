@@ -24,7 +24,7 @@ import { isKeyboardSelectionEvent } from '../util/browser';
 import {
   BIKEAVL_UNKNOWN,
   getCityBikeNetworkIcon,
-  getCityBikeNetworkConfig,
+  getVehicleRentalStationNetworkConfig,
   getCityBikeNetworkId,
   getCitybikeCapacity,
 } from '../util/vehicleRentalUtils';
@@ -142,7 +142,10 @@ export const ModeLeg = (
     networkIcon =
       leg.from.vehicleRentalStation &&
       getCityBikeNetworkIcon(
-        getCityBikeNetworkConfig(leg.from.vehicleRentalStation.network, config),
+        getVehicleRentalStationNetworkConfig(
+          leg.from.vehicleRentalStation.network,
+          config,
+        ),
       );
   }
   const routeNumber = (
@@ -395,7 +398,10 @@ const SummaryRow = (
           showRentalBikeDurationWarning || rentDurationOverSurchargeLimit;
         if (!citybikeicon) {
           citybikeicon = getCityBikeNetworkIcon(
-            getCityBikeNetworkConfig(getCityBikeNetworkId(bikeNetwork), config),
+            getVehicleRentalStationNetworkConfig(
+              getCityBikeNetworkId(bikeNetwork),
+              config,
+            ),
           );
         }
       }

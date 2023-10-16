@@ -44,7 +44,7 @@ export const getCityBikeNetworkId = networks => {
   return networks[0];
 };
 
-export const getCityBikeNetworkConfig = (networkId, config) => {
+export const getVehicleRentalStationNetworkConfig = (networkId, config) => {
   if (!networkId || !networkId.toLowerCase) {
     return defaultNetworkConfig;
   }

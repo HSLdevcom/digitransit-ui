@@ -4,7 +4,7 @@ import Link from 'found/Link';
 import { FormattedMessage } from 'react-intl';
 import Icon from '../../Icon';
 import {
-  getCityBikeNetworkConfig,
+  getVehicleRentalStationNetworkConfig,
   getCityBikeNetworkIcon,
   getCityBikeNetworkId,
   hasStationCode,
@@ -15,7 +15,7 @@ import { getIdWithoutFeed } from '../../../util/feedScopedIdUtils';
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 function SelectCityBikeRow({ name, network, id, desc }, { config }) {
   const img = `${getCityBikeNetworkIcon(
-    getCityBikeNetworkConfig(getCityBikeNetworkId(network), config),
+    getVehicleRentalStationNetworkConfig(getCityBikeNetworkId(network), config),
   )}-stop-lollipop`;
   const address = desc || <FormattedMessage id="citybike-station-no-id" />;
   return (

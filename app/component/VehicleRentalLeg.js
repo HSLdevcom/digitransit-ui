@@ -6,7 +6,7 @@ import cx from 'classnames';
 import {
   BIKEAVL_UNKNOWN,
   getCitybikeCapacity,
-  getCityBikeNetworkConfig,
+  getVehicleRentalStationNetworkConfig,
   getCityBikeNetworkIcon,
   getCityBikeNetworkId,
   hasStationCode,
@@ -48,7 +48,7 @@ function VehicleRentalLeg(
     </span>
   );
   const citybikeicon = getCityBikeNetworkIcon(
-    getCityBikeNetworkConfig(
+    getVehicleRentalStationNetworkConfig(
       getCityBikeNetworkId(vehicleRentalStation.network),
       config,
     ),

@@ -7,7 +7,7 @@ import Icon from '../Icon';
 import {
   mapDefaultNetworkProperties,
   getCityBikeNetworkName,
-  getCityBikeNetworkConfig,
+  getVehicleRentalStationNetworkConfig,
   updateCitybikeNetworks,
   getCitybikeNetworks,
 } from '../../util/vehicleRentalUtils';
@@ -39,7 +39,7 @@ const CityBikeNetworkSelector = (
           </div>
           <span className="mode-name">
             {getCityBikeNetworkName(
-              getCityBikeNetworkConfig(network.networkName, config),
+              getVehicleRentalStationNetworkConfig(network.networkName, config),
               getStore('PreferencesStore').getLanguage(),
             )}
           </span>

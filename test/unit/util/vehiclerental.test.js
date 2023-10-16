@@ -3,7 +3,7 @@ import {
   getCityBikeNetworkId,
   getCityBikeNetworkIcon,
   getCityBikeNetworkName,
-  getCityBikeNetworkConfig,
+  getVehicleRentalStationNetworkConfig,
 } from '../../../app/util/vehicleRentalUtils';
 
 describe('vehiclerental', () => {
@@ -26,20 +26,22 @@ describe('vehiclerental', () => {
 
   describe('getCityBikeNetworkConfig', () => {
     it('should default to a default config', () => {
-      expect(getCityBikeNetworkConfig(undefined, {})).to.equal(
+      expect(getVehicleRentalStationNetworkConfig(undefined, {})).to.equal(
         defaultNetworkConfig,
       );
-      expect(getCityBikeNetworkConfig('Smoove', {})).to.equal(
-        defaultNetworkConfig,
-      );
-      expect(getCityBikeNetworkConfig('Smoove', { cityBike: {} })).to.equal(
+      expect(getVehicleRentalStationNetworkConfig('Smoove', {})).to.equal(
         defaultNetworkConfig,
       );
       expect(
-        getCityBikeNetworkConfig('Smoove', { cityBike: { networks: {} } }),
+        getVehicleRentalStationNetworkConfig('Smoove', { cityBike: {} }),
       ).to.equal(defaultNetworkConfig);
       expect(
-        getCityBikeNetworkConfig('Smoove', {
+        getVehicleRentalStationNetworkConfig('Smoove', {
+          cityBike: { networks: {} },
+        }),
+      ).to.equal(defaultNetworkConfig);
+      expect(
+        getVehicleRentalStationNetworkConfig('Smoove', {
           cityBike: { networks: { smoove: {} } },
         }),
       ).to.equal(defaultNetworkConfig);
@@ -56,7 +58,7 @@ describe('vehiclerental', () => {
           },
         },
       };
-      expect(getCityBikeNetworkConfig('foobar', config)).to.equal(
+      expect(getVehicleRentalStationNetworkConfig('foobar', config)).to.equal(
         config.cityBike.networks.foobar,
       );
     });
@@ -72,7 +74,7 @@ describe('vehiclerental', () => {
           },
         },
       };
-      expect(getCityBikeNetworkConfig('Foobar', config)).to.equal(
+      expect(getVehicleRentalStationNetworkConfig('Foobar', config)).to.equal(
         config.cityBike.networks.foobar,
       );
     });

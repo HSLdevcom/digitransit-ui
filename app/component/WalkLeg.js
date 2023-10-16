@@ -14,7 +14,7 @@ import { PREFIX_STOPS } from '../util/path';
 import {
   CityBikeNetworkType,
   getCityBikeNetworkId,
-  getCityBikeNetworkConfig,
+  getVehicleRentalStationNetworkConfig,
 } from '../util/vehicleRentalUtils';
 import { displayDistance } from '../util/geo-utils';
 import { durationToString } from '../util/timeUtils';
@@ -41,7 +41,7 @@ function WalkLeg(
   const isFirstLeg = i => i === 0;
   const [address, place] = splitStringToAddressAndPlace(leg[toOrFrom].name);
 
-  const networkType = getCityBikeNetworkConfig(
+  const networkType = getVehicleRentalStationNetworkConfig(
     getCityBikeNetworkId(
       previousLeg &&
         previousLeg.rentedBike &&

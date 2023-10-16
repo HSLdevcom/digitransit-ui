@@ -4,7 +4,7 @@ import CityBikeAvailability from './CityBikeAvailability';
 import Icon from './Icon';
 import {
   getCityBikeNetworkIcon,
-  getCityBikeNetworkConfig,
+  getVehicleRentalStationNetworkConfig,
   getCitybikeCapacity,
   BIKEAVL_UNKNOWN,
   BIKEAVL_WITHMAX,
@@ -36,7 +36,7 @@ const VehicleRentalStationStopContent = (
   const disabled = !vehicleRentalStation.operative;
 
   const citybikeicon = getCityBikeNetworkIcon(
-    getCityBikeNetworkConfig(vehicleRentalStation.network, config),
+    getVehicleRentalStationNetworkConfig(vehicleRentalStation.network, config),
     disabled,
   );
   return (

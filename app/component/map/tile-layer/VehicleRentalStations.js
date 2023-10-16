@@ -12,7 +12,7 @@ import {
 import { showCitybikeNetwork } from '../../../util/modeUtils';
 
 import {
-  getCityBikeNetworkConfig,
+  getVehicleRentalStationNetworkConfig,
   getCityBikeNetworkIcon,
   getCityBikeNetworkId,
   getCitybikeCapacity,
@@ -114,7 +114,10 @@ class VehicleRentalStations {
     }
 
     const iconName = getCityBikeNetworkIcon(
-      getCityBikeNetworkConfig(getCityBikeNetworkId(network), this.config),
+      getVehicleRentalStationNetworkConfig(
+        getCityBikeNetworkId(network),
+        this.config,
+      ),
     );
     const isHilighted = this.tile.hilightedStops?.includes(id);
 
