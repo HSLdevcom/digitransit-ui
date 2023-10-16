@@ -14,7 +14,7 @@ import {
 import { getModes } from '../../util/modeUtils';
 import { TransportMode } from '../../constants';
 
-const CityBikeNetworkSelector = (
+const VehicleRentalStationNetworkSelector = (
   { currentOptions },
   { config, getStore, executeAction },
 ) => (
@@ -75,14 +75,14 @@ const CityBikeNetworkSelector = (
   </React.Fragment>
 );
 
-CityBikeNetworkSelector.propTypes = {
+VehicleRentalStationNetworkSelector.propTypes = {
   currentOptions: PropTypes.array.isRequired,
 };
 
-CityBikeNetworkSelector.contextTypes = {
+VehicleRentalStationNetworkSelector.contextTypes = {
   config: PropTypes.object.isRequired,
   getStore: PropTypes.func.isRequired,
   executeAction: PropTypes.func.isRequired,
 };
 
-export default CityBikeNetworkSelector;
+export default VehicleRentalStationNetworkSelector;
