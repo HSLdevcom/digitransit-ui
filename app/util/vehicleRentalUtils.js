@@ -120,7 +120,7 @@ const addAnalytics = (action, name) => {
  * @returns the updated citybike networks
  */
 
-export const updateCitybikeNetworks = (currentSettings, newValue) => {
+export const updateVehicleNetworks = (currentSettings, newValue) => {
   let chosenNetworks;
 
   if (currentSettings) {

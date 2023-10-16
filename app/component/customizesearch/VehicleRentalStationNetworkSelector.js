@@ -8,7 +8,7 @@ import {
   mapDefaultNetworkProperties,
   getVehicleRentalStationNetworkName,
   getVehicleRentalStationNetworkConfig,
-  updateCitybikeNetworks,
+  updateVehicleNetworks,
   getVehicleRentalStationNetworks,
 } from '../../util/vehicleRentalUtils';
 import { getModes } from '../../util/modeUtils';
@@ -53,7 +53,7 @@ const VehicleRentalStationNetworkSelector = (
               ).length > 0
             }
             onToggle={() => {
-              const newNetworks = updateCitybikeNetworks(
+              const newNetworks = updateVehicleNetworks(
                 getVehicleRentalStationNetworks(config),
                 network.networkName,
               );
