@@ -7,7 +7,7 @@ import { isBrowser } from '../../../util/browser';
 import { isLayerEnabled } from '../../../util/mapLayerUtils';
 import { getStopIconStyles } from '../../../util/mapIconUtils';
 
-import { getCityBikeMinZoomOnStopsNearYou } from '../../../util/vehicleRentalUtils';
+import { getVehicleMinZoomOnStopsNearYou } from '../../../util/vehicleRentalUtils';
 import events from '../../../util/events';
 
 class TileContainer {
@@ -25,7 +25,7 @@ class TileContainer {
     lang,
   ) {
     const markersMinZoom = Math.min(
-      getCityBikeMinZoomOnStopsNearYou(
+      getVehicleMinZoomOnStopsNearYou(
         config,
         props.mapLayers.citybikeOverrideMinZoom,
       ),
@@ -91,7 +91,7 @@ class TileContainer {
         if (
           layerName === 'citybike' &&
           this.coords.z >=
-            getCityBikeMinZoomOnStopsNearYou(
+            getVehicleMinZoomOnStopsNearYou(
               config,
               props.mapLayers.citybikeOverrideMinZoom,
             )

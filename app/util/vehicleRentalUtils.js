@@ -142,7 +142,7 @@ export const updateCitybikeNetworks = (currentSettings, newValue) => {
   return chosenNetworks;
 };
 
-export const getCityBikeMinZoomOnStopsNearYou = (config, override) => {
+export const getVehicleMinZoomOnStopsNearYou = (config, override) => {
   if (override && config.cityBike.minZoomStopsNearYou) {
     return config.cityBike.minZoomStopsNearYou;
   }
