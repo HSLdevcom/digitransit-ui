@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import cx from 'classnames';
 import {
   BIKEAVL_UNKNOWN,
-  getCitybikeCapacity,
+  getVehicleCapacity,
   getVehicleRentalStationNetworkConfig,
   getVehicleRentalStationNetworkIcon,
   getVehicleRentalStationNetworkId,
@@ -62,7 +62,7 @@ function VehicleRentalLeg(
     config,
   );
   const mobileReturn = breakpoint === 'small' && returnBike;
-  const vehicleCapacity = getCitybikeCapacity(
+  const vehicleCapacity = getVehicleCapacity(
     config,
     vehicleRentalStation?.network,
   );

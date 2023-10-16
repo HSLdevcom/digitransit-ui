@@ -15,7 +15,7 @@ import {
   getVehicleRentalStationNetworkConfig,
   getVehicleRentalStationNetworkIcon,
   getVehicleRentalStationNetworkId,
-  getCitybikeCapacity,
+  getVehicleCapacity,
   BIKEAVL_UNKNOWN,
 } from '../../../util/vehicleRentalUtils';
 import { fetchWithLanguageAndSubscription } from '../../../util/fetchUtils';
@@ -136,7 +136,7 @@ class VehicleRentalStations {
     iconName,
     isHilighted,
   ) => {
-    const citybikeCapacity = getCitybikeCapacity(this.config, network);
+    const citybikeCapacity = getVehicleCapacity(this.config, network);
 
     drawCitybikeIcon(
       this.tile,
@@ -150,7 +150,7 @@ class VehicleRentalStations {
   };
 
   drawHighlighted = ({ geom, properties: { id, network } }, iconName) => {
-    const citybikeCapacity = getCitybikeCapacity(this.config, network);
+    const citybikeCapacity = getVehicleCapacity(this.config, network);
 
     const callback = ({ station: result }) => {
       if (result) {

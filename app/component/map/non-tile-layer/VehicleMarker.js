@@ -8,7 +8,7 @@ import {
   getVehicleRentalStationNetworkConfig,
   getVehicleRentalStationNetworkIcon,
   getVehicleRentalStationNetworkId,
-  getCitybikeCapacity,
+  getVehicleCapacity,
 } from '../../../util/vehicleRentalUtils';
 import { isBrowser } from '../../../util/browser';
 import {
@@ -69,7 +69,7 @@ export default class VehicleMarker extends React.Component {
   getIcon = zoom => {
     const { showBikeAvailability, station, transit } = this.props;
     const { config } = this.context;
-    const citybikeCapacity = getCitybikeCapacity(config, station.network);
+    const vehicleCapacity = getVehicleCapacity(config, station.network);
     const iconName = `${getVehicleRentalStationNetworkIcon(
       getVehicleRentalStationNetworkConfig(
         getVehicleRentalStationNetworkId(station.network),
@@ -98,7 +98,7 @@ export default class VehicleMarker extends React.Component {
                   config,
                 ),
                 badgeText:
-                  citybikeCapacity !== BIKEAVL_UNKNOWN
+                  vehicleCapacity !== BIKEAVL_UNKNOWN
                     ? station.vehiclesAvailable
                     : null,
               })

@@ -26,7 +26,7 @@ import {
   getVehicleRentalStationNetworkIcon,
   getVehicleRentalStationNetworkConfig,
   getVehicleRentalStationNetworkId,
-  getCitybikeCapacity,
+  getVehicleCapacity,
 } from '../util/vehicleRentalUtils';
 import { getRouteMode } from '../util/modeUtils';
 
@@ -585,7 +585,7 @@ const SummaryRow = (
             }}
           />
           <div>
-            {getCitybikeCapacity(
+            {getVehicleCapacity(
               config,
               firstDeparture.from.vehicleRentalStation.network,
             ) !== BIKEAVL_UNKNOWN && (

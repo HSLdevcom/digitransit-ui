@@ -84,7 +84,7 @@ export const mapDefaultNetworkProperties = config => {
   return mappedNetworks;
 };
 
-export const getCitybikeCapacity = (config, network = undefined) => {
+export const getVehicleCapacity = (config, network = undefined) => {
   return (
     config.cityBike?.networks[network]?.capacity || config.cityBike.capacity
   );

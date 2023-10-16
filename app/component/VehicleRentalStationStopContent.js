@@ -5,7 +5,7 @@ import Icon from './Icon';
 import {
   getVehicleRentalStationNetworkIcon,
   getVehicleRentalStationNetworkConfig,
-  getCitybikeCapacity,
+  getVehicleCapacity,
   BIKEAVL_UNKNOWN,
   BIKEAVL_WITHMAX,
 } from '../util/vehicleRentalUtils';
@@ -14,7 +14,7 @@ const VehicleRentalStationStopContent = (
   { vehicleRentalStation },
   { config },
 ) => {
-  const citybikeCapacity = getCitybikeCapacity(
+  const citybikeCapacity = getVehicleCapacity(
     config,
     vehicleRentalStation.network,
   );
