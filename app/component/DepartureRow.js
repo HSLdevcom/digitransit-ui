@@ -17,7 +17,7 @@ import Icon from './Icon';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
 import { getRouteMode } from '../util/modeUtils';
-import { mapStatus } from '../util/occupancyUtil';
+import { getCapacity } from '../util/occupancyUtil';
 
 const getMostSevereAlert = route => {
   const alerts = [...getAlertsForObject(route)];
@@ -228,7 +228,8 @@ const DepartureRow = (
         trip.occupancy?.occupancyStatus &&
         trip.occupancy?.occupancyStatus !== 'NO_DATA_AVAILABLE' &&
         timeDiffInMinutes <= 10 && (
-          <td className="capacity-cell">
+          // Use inline styles here for simplicity, some overrides make it impossible via the SASS-file
+          <td className="capacity-cell" style={{ marginRight: '8px' }}>
             <span
               className="capacity-icon-container"
               onClick={() => onCapacityClick()}
@@ -236,7 +237,7 @@ const DepartureRow = (
               <Icon
                 width="1.5"
                 height="1.5"
-                img={`icon-icon_${mapStatus(trip.occupancy.occupancyStatus)}`}
+                img={`icon-icon_${getCapacity(trip.occupancy.occupancyStatus)}`}
                 color="#007AC9"
               />
             </span>

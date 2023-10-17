@@ -1,5 +1,10 @@
 import moment from 'moment';
 
+/**
+ * Maps status to corresponding string.
+ *
+ * @param {*} status status from OTP.
+ */
 export function mapStatus(status) {
   switch (status) {
     case 'EMPTY':
@@ -21,6 +26,11 @@ export function mapStatus(status) {
   }
 }
 
+/**
+ * Checks that departure is within 10 minutes from now.
+ *
+ * @param {*} departureTime departure time in Unix.
+ */
 export function isDepartureWithinTenMinutes(departureTime) {
   return (
     moment(departureTime).diff(moment(), 'minutes') <= 10 &&
@@ -28,13 +38,28 @@ export function isDepartureWithinTenMinutes(departureTime) {
   );
 }
 
-export function getCapacity(config, leg) {
+/**
+ * Returns mapped capacity string.
+ *
+ * @param {*} occupancyStatus status from OTP.
+ */
+export function getCapacity(occupancyStatus) {
+  return mapStatus(occupancyStatus);
+}
+
+/**
+ * Returns capacity string for leg.
+ *
+ * @param {*} config configuration object.
+ * @param {*} leg leg object.
+ */
+export function getCapacityForLeg(config, leg) {
   if (
     config.useRealtimeTravellerCapacities &&
     leg.trip?.occupancy?.occupancyStatus !== 'NO_DATA_AVAILABLE' &&
     isDepartureWithinTenMinutes(leg.startTime)
   ) {
-    return mapStatus(leg.trip.occupancy.occupancyStatus);
+    return getCapacity(leg.trip.occupancy.occupancyStatus);
   }
   return undefined;
 }

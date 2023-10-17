@@ -7,7 +7,7 @@ import { intlShape } from 'react-intl';
 import { getRouteMode } from '../util/modeUtils';
 import RouteNumber from './RouteNumber';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
-import { getCapacity } from '../util/occupancyUtil';
+import { getCapacityForLeg } from '../util/occupancyUtil';
 
 const LegInfo = (
   {
@@ -24,6 +24,11 @@ const LegInfo = (
   const shouldLinkToTrip =
     !constantOperationRoutes || !constantOperationRoutes[leg.route.gtfsId];
   const mode = getRouteMode({ mode: leg.mode, type: leg.route.type });
+  const capacity = getCapacityForLeg(config, leg);
+  let capacityTranslation;
+  if (capacity) {
+    capacityTranslation = capacity.toLowerCase().replaceAll('_', '-');
+  }
 
   return (
     <div
@@ -45,7 +50,14 @@ const LegInfo = (
         aria-label={`${intl.formatMessage({
           id: mode.toLowerCase(),
           defaultMessage: 'Vehicle',
-        })} ${leg.route && leg.route.shortName}`}
+        })} ${leg.route && leg.route.shortName} ${
+          capacityTranslation
+            ? intl.formatMessage({
+                id: capacityTranslation,
+                defaultMessage: 'Capacity status',
+              })
+            : ''
+        }`}
       >
         <span aria-hidden="true">
           <RouteNumber
@@ -56,7 +68,7 @@ const LegInfo = (
             realtime={false}
             withBar
             fadeLong
-            occupancyStatus={getCapacity(config, leg)}
+            occupancyStatus={getCapacityForLeg(config, leg)}
           />
         </span>
       </Link>

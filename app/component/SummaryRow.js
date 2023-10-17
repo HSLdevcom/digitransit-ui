@@ -29,7 +29,7 @@ import {
   getCitybikeCapacity,
 } from '../util/citybikes';
 import { getRouteMode } from '../util/modeUtils';
-import { getCapacity } from '../util/occupancyUtil';
+import { getCapacityForLeg } from '../util/occupancyUtil';
 
 const Leg = ({
   mode,
@@ -81,7 +81,7 @@ export const RouteLeg = (
 
   const getOccupancyStatus = () => {
     if (hasOneTransitLeg) {
-      return getCapacity(config, leg);
+      return getCapacityForLeg(config, leg);
     }
     return undefined;
   };

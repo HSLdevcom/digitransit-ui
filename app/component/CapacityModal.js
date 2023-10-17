@@ -6,126 +6,135 @@ import Icon from './Icon';
 const CapacityModal = () => {
   return (
     <div className="capacity-information-modal">
-      <h2 className="capacity-heading">
-        <FormattedMessage
-          id="capacity-modal.heading"
-          defaultMessage="Is there room in the vehicle?"
-        />
-      </h2>
-      <p className="capacity-text">
-        <FormattedMessage
-          id="capacity-modal.subheading"
-          defaultMessage="Real-time capacity information is available for some vehicles"
-        />
-      </p>
-      <span className="explanations-heading">
-        <FormattedMessage id="capacity-modal.legend" defaultMessage="Legend" />
-      </span>
-      <div className="capacity-info-row">
-        <div className="icon">
-          <Icon
-            img="icon-icon_MANY_SEATS_AVAILABLE"
-            color="red"
-            width="1.5"
-            height="1.5"
-          />
-        </div>
-        <span className="info-heading">
+      <section>
+        <h2 className="capacity-heading">
           <FormattedMessage
-            id="capacity-modal.many-seats-available-heading"
-            defaultMessage="Not crowded"
+            id="capacity-modal.heading"
+            defaultMessage="Is there room in the vehicle?"
+          />
+        </h2>
+        <p className="capacity-text">
+          <FormattedMessage
+            id="capacity-modal.subheading"
+            defaultMessage="Real-time capacity information is available for some vehicles"
+          />
+        </p>
+      </section>
+      <section>
+        <span className="explanations-heading">
+          <FormattedMessage
+            id="capacity-modal.legend"
+            defaultMessage="Legend"
           />
         </span>
-      </div>
-      <p className="capacity-info-explanation">
-        <FormattedMessage
-          id="capacity-modal.many-seats-available-body"
-          defaultMessage="Plenty of seats available"
-        />
-      </p>
-      <div className="capacity-info-row">
-        <div className="icon">
-          <Icon
-            img="icon-icon_FEW_SEATS_AVAILABLE"
-            color="red"
-            width="1.5"
-            height="1.5"
-          />
+      </section>
+      <section>
+        <div className="capacity-info-row">
+          <div className="icon">
+            <Icon
+              img="icon-icon_MANY_SEATS_AVAILABLE"
+              width="1.5"
+              height="1.5"
+            />
+          </div>
+          <span className="info-heading">
+            <FormattedMessage
+              id="capacity-modal.many-seats-available-heading"
+              defaultMessage="Not crowded"
+            />
+          </span>
         </div>
-        <span className="info-heading">
+        <p className="capacity-info-explanation">
           <FormattedMessage
-            id="capacity-modal.few-seats-available-heading"
-            defaultMessage="Not too crowded"
+            id="capacity-modal.many-seats-available-body"
+            defaultMessage="Plenty of seats available"
           />
-        </span>
-      </div>
-      <p className="capacity-info-explanation">
-        <FormattedMessage
-          id="capacity-modal.few-seats-available-body"
-          defaultMessage="Some seats available"
-        />
-      </p>
-      <div className="capacity-info-row">
-        <div className="icon">
-          <Icon
-            img="icon-icon_STANDING_ROOM_ONLY"
-            color="red"
-            width="1.5"
-            height="1.5"
-          />
+        </p>
+      </section>
+      <section>
+        <div className="capacity-info-row">
+          <div className="icon">
+            <Icon
+              img="icon-icon_FEW_SEATS_AVAILABLE"
+              width="1.5"
+              height="1.5"
+            />
+          </div>
+          <span className="info-heading">
+            <FormattedMessage
+              id="capacity-modal.few-seats-available-heading"
+              defaultMessage="Not too crowded"
+            />
+          </span>
         </div>
-        <span className="info-heading">
+        <p className="capacity-info-explanation">
           <FormattedMessage
-            id="capacity-modal.standing-room-only-heading"
-            defaultMessage="Nearly full"
+            id="capacity-modal.few-seats-available-body"
+            defaultMessage="Some seats available"
           />
-        </span>
-      </div>
-      <p className="capacity-info-explanation">
-        <FormattedMessage
-          id="capacity-modal.standing-room-only-body"
-          defaultMessage="Only a few seats and a little standing room available"
-        />
-      </p>
-      <div className="capacity-info-row">
-        <div className="icon">
-          <Icon
-            img="icon-icon_CRUSHED_STANDING_ROOM_ONLY"
-            color="red"
-            width="1.5"
-            height="1.5"
-          />
+        </p>
+      </section>
+      <section>
+        <div className="capacity-info-row">
+          <div className="icon">
+            <Icon img="icon-icon_STANDING_ROOM_ONLY" width="1.5" height="1.5" />
+          </div>
+          <span className="info-heading">
+            <FormattedMessage
+              id="capacity-modal.standing-room-only-heading"
+              defaultMessage="Nearly full"
+            />
+          </span>
         </div>
-        <span className="info-heading">
+        <p className="capacity-info-explanation">
           <FormattedMessage
-            id="capacity-modal.crushed-standing-room-only-heading"
-            defaultMessage="Very crowded"
+            id="capacity-modal.standing-room-only-body"
+            defaultMessage="Only a few seats and a little standing room available"
           />
-        </span>
-      </div>
-      <p className="capacity-info-explanation">
-        <FormattedMessage
-          id="capacity-modal.crushed-standing-room-only-body"
-          defaultMessage="Only a little standing room available"
-        />
-      </p>
-      <div className="capacity-info-row">
-        <div className="icon">
-          <Icon img="icon-icon_FULL" color="red" width="1.5" height="1.5" />
+        </p>
+      </section>
+      <section>
+        <div className="capacity-info-row">
+          <div className="icon">
+            <Icon
+              img="icon-icon_CRUSHED_STANDING_ROOM_ONLY"
+              width="1.5"
+              height="1.5"
+            />
+          </div>
+          <span className="info-heading">
+            <FormattedMessage
+              id="capacity-modal.crushed-standing-room-only-heading"
+              defaultMessage="Very crowded"
+            />
+          </span>
         </div>
-        <span className="info-heading">
+        <p className="capacity-info-explanation">
           <FormattedMessage
-            id="capacity-modal.full-capacity-heading"
-            defaultMessage="Full"
+            id="capacity-modal.crushed-standing-room-only-body"
+            defaultMessage="Only a little standing room available"
           />
-        </span>
-      </div>
-      <p className="capacity-info-explanation">
-        <FormattedMessage
-          id="capacity-modal.full-capacity-body"
-          defaultMessage="No seats or standing room available"
-        />
-      </p>
+        </p>
+      </section>
+      <section>
+        <div className="capacity-info-row">
+          <div className="icon">
+            <Icon img="icon-icon_FULL" width="1.5" height="1.5" />
+          </div>
+          <span className="info-heading">
+            <FormattedMessage
+              id="capacity-modal.full-capacity-heading"
+              defaultMessage="Full"
+            />
+          </span>
+        </div>
+        <p className="capacity-info-explanation">
+          <FormattedMessage
+            id="capacity-modal.full-capacity-body"
+            defaultMessage="No seats or standing room available"
+          />
+        </p>
+      </section>
     </div>
   );
 };
