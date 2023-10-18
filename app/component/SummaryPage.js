@@ -737,7 +737,9 @@ class SummaryPage extends React.Component {
             endTime
             ...ItineraryTab_itinerary
             ...SummaryPlanContainer_itineraries
-            emissions
+            emissions {
+              co2grams
+            }
             legs {
               mode
               ...ItineraryLine_legs
@@ -791,7 +793,9 @@ class SummaryPage extends React.Component {
             endTime
             ...ItineraryTab_itinerary
             ...SummaryPlanContainer_itineraries
-            emissions
+            emissions {
+              co2grams
+            }
             legs {
               mode
               ...ItineraryLine_legs
@@ -851,7 +855,9 @@ class SummaryPage extends React.Component {
             endTime
             ...ItineraryTab_itinerary
             ...SummaryPlanContainer_itineraries
-            emissions
+            emissions {
+              co2grams
+            }
             legs {
               mode
               ...ItineraryLine_legs
@@ -1032,7 +1038,9 @@ class SummaryPage extends React.Component {
             endTime
             ...ItineraryTab_itinerary
             ...SummaryPlanContainer_itineraries
-            emissions
+            emissions {
+              co2grams
+            }
             legs {
               mode
               ...ItineraryLine_legs
@@ -2963,7 +2971,9 @@ const containerComponent = createRefetchContainer(
             endTime
             ...ItineraryTab_itinerary
             ...SummaryPlanContainer_itineraries
-            emissions
+            emissions {
+              co2grams
+            }
             legs {
               mode
               ...ItineraryLine_legs

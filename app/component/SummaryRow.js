@@ -238,8 +238,9 @@ const SummaryRow = (
   const endTime = moment(data.endTime);
   const duration = endTime.diff(startTime);
   const co2value =
-    typeof data.emissions === 'number' && data.emissions >= 0
-      ? Math.round(data.emissions)
+    typeof data.emissions?.co2grams === 'number' &&
+    data.emissions?.co2grams >= 0
+      ? Math.round(data.emissions?.co2grams)
       : -1;
   const mobile = bp => !(bp === 'large');
   const legs = [];
