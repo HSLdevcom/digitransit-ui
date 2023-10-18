@@ -144,6 +144,14 @@ export default configMerger(walttiConfig, {
         },
         url: '/assets/geojson/jkl_zone_lines_20210222.geojson',
       },
+      {
+        name: {
+          fi: 'Palvelupisteet',
+          sv: 'Servicekontorer',
+          en: 'Service points',
+        },
+        url: '/assets/geojson/jkl_service_points_20231018-0.geojson',
+      },
     ],
   },
 
