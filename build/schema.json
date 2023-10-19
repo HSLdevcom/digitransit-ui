@@ -2179,7 +2179,7 @@
                     "description": null,
                     "fields": [
                         {
-                            "name": "co2grams",
+                            "name": "co2Grams",
                             "description": "CO₂ emissions of the trip on this itinerary, in grams per person.",
                             "args": [],
                             "type": {
@@ -3173,8 +3173,8 @@
                             "deprecationReason": null
                         },
                         {
-                            "name": "emissions",
-                            "description": "Emissions of the trip on this itinerary.",
+                            "name": "emissionsPerPerson",
+                            "description": "Emissions of this itinerary per traveler.",
                             "args": [],
                             "type": {
                                 "kind": "OBJECT",

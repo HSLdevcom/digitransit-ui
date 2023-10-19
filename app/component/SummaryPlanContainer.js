@@ -344,8 +344,8 @@ const connectedContainer = createFragmentContainer(
         itineraries {
           startTime
           endTime
-          emissions {
-            co2grams
+          emissionsPerPerson {
+            co2Grams
           }
           legs {
             mode
@@ -401,8 +401,8 @@ const connectedContainer = createFragmentContainer(
         ...ItinerarySummaryListContainer_itineraries
         endTime
         startTime
-        emissions {
-          co2grams
+        emissionsPerPerson {
+          co2Grams
         }
         legs {
           mode

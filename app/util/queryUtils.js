@@ -264,8 +264,8 @@ export const moreItinerariesQuery = graphql`
         endTime
         ...ItineraryTab_itinerary
         ...SummaryPlanContainer_itineraries
-        emissions {
-          co2grams
+        emissionsPerPerson {
+          co2Grams
         }
         legs {
           mode
