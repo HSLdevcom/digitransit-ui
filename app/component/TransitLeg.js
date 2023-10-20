@@ -5,8 +5,8 @@ import React from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
 import Link from 'found/Link';
 import connectToStores from 'fluxible-addons-react/connectToStores';
+import get from 'lodash/get';
 
-import ExternalLink from './ExternalLink';
 import LegAgencyInfo from './LegAgencyInfo';
 import Icon from './Icon';
 import IntermediateLeg from './IntermediateLeg';
@@ -231,7 +231,6 @@ class TransitLeg extends React.Component {
             .format('HH:mm')}
         </span>,
       ];
-    const LegRouteName = leg.from.name.concat(' - ').concat(leg.to.name);
     const modeClassName = mode.toLowerCase();
 
     const textVersionBeforeLink = (
@@ -547,27 +546,23 @@ class TransitLeg extends React.Component {
           {leg.fare && leg.fare.isUnknown && shouldShowFareInfo(config) && (
             <div className="disclaimer-container unknown-fare-disclaimer__leg">
               <div className="description-container">
-                <span className="accent">
-                  {`${intl.formatMessage({ id: 'pay-attention' })} `}
-                </span>
-                {intl.formatMessage({ id: 'separate-ticket-required' })}
-              </div>
-              <div className="ticket-info">
-                <div className="accent">{LegRouteName}</div>
-                {leg.fare.agency &&
-                  !config.hideExternalOperator(leg.fare.agency) && (
-                    <React.Fragment>
-                      <div>{leg.fare.agency.name}</div>
-                      {leg.fare.agency.fareUrl && (
-                        <ExternalLink
-                          className="agency-link"
-                          href={leg.fare.agency.fareUrl}
-                        >
-                          {intl.formatMessage({ id: 'extra-info' })}
-                        </ExternalLink>
-                      )}
-                    </React.Fragment>
-                  )}
+                <FormattedMessage
+                  id="nysse-ticket-limited"
+                  values={{
+                    agencyName: get(
+                      config,
+                      'ticketInformation.primaryAgencyName',
+                    ),
+                  }}
+                />
+                <a href={config.callTampereInfo[lang].callTampereInfoLink}>
+                  <FormattedMessage
+                    id={config.callTampereInfo[lang].callTampereInfoLinkText}
+                    defaultMessage={
+                      config.callTampereInfo[lang].callTampereInfoLinkText
+                    }
+                  />
+                </a>
               </div>
             </div>
           )}
