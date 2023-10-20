@@ -331,7 +331,7 @@ class ItineraryTab extends React.Component {
                         ) : (
                           <div className="description-container">
                             <FormattedMessage
-                              id="separate-ticket-required-disclaimer"
+                              id="nysse-ticket-limited"
                               values={{
                                 agencyName: get(
                                   config,
@@ -339,6 +339,12 @@ class ItineraryTab extends React.Component {
                                 ),
                               }}
                             />
+                            <a href={config.callTampereInfo[currentLanguage].callTampereInfoLink}>
+                              <FormattedMessage
+                                id={config.callTampereInfo[currentLanguage].callTampereInfoLinkText}
+                                defaultMessage={config.callTampereInfo[currentLanguage].callTampereInfoLinkText}
+                              />
+                            </a>
                           </div>
                         )}
                     </div>
