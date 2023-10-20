@@ -1295,6 +1295,8 @@ const translations = {
     'number-of-minutes':
       '{number, plural, =0 {0 minutes} one {1 minute} other {{number} minutes}}',
     'number-of-spaces': 'Number of spaces:',
+    'nysse-ticket-limited':
+      'Nysse tickets are valid on trains in the Nysse area with some limitations. Read more on ',
     'off-canvas-info':
       'Log in to the service to save your favorites and utilize them on other devices',
     'one-way-journey': 'The length of a one-way journey',
@@ -2431,6 +2433,8 @@ const translations = {
     'number-of-minutes':
       '{number, plural, =0 {0 minuuttia} one {1 minuutti} other {{number} minuuttia}}',
     'number-of-spaces': 'Paikkojen määrä:',
+    'nysse-ticket-limited':
+      'Nyssen liput käyvät junaliikenteessä rajoitetusti vain Nysse-alueella. Lue lisää ',
     'off-canvas-info':
       'Kirjautumalla palveluun saat suosikit talteen ja voit hyödyntää niitä muillakin laitteillasi',
     'one-way-journey': 'Yhdensuuntaisen matkan pituus',
@@ -4347,6 +4351,8 @@ const translations = {
     'number-of-minutes':
       '{number, plural, =0 {0 minuter} one {1 minut} other {{number} minuter}}',
     'number-of-spaces': 'Antalet platser:',
+    'nysse-ticket-limited':
+      'Nysse-biljetter är giltiga på tåg i Nysse-området, med vissa begränsningar. Läs mer på ',
     'off-canvas-info':
       'Genom att logga in kan du spara dina favoriter och använda dem med dina andra enheter.',
     'one-way-journey': ' Längden på en enkel resa',
