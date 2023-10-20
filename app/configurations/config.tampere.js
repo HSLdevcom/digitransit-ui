@@ -95,6 +95,23 @@ export default configMerger(walttiConfig, {
     },
   },
 
+  callTampereInfo: {
+    fi: {
+      callTampereInfoLink: 'https://www.nysse.fi/junat',
+      callTampereInfoLinkText: 'nysse.fi/junat',
+    },
+    sv: {
+      callTampereInfoLink: 'https://www.nysse.fi/en/ways-to-get-around/train',
+      callTampereInfoLinkText:
+        'Trains in the Nysse area - Nysse, Tampere regional transport',
+    },
+    en: {
+      callTampereInfoLink: 'https://www.nysse.fi/en/ways-to-get-around/train',
+      callTampereInfoLinkText:
+        'Trains in the Nysse area - Nysse, Tampere regional transport',
+    },
+  },
+
   // mapping fareId from OTP fare identifiers to human readable form
   fareMapping: function mapFareId(fareId) {
     return fareId && fareId.substring
