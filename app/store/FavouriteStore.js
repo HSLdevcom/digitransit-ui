@@ -140,12 +140,12 @@ export default class FavouriteStore extends Store {
     );
   }
 
-  getByStationIdAndNetworks(stationId, networks) {
+  getByStationIdAndNetworks(stationId, network) {
     return find(
       this.favourites,
       favourite =>
         getIdWithoutFeed(stationId) === favourite.stationId &&
-        isEqual(sortBy(favourite.networks[0]), sortBy(networks)),
+        isEqual(sortBy(favourite.networks[0]), sortBy(network)),
     );
   }
 
