@@ -95,19 +95,21 @@ export default configMerger(walttiConfig, {
     },
   },
 
-  callTampereInfo: {
+  showTrainLimitation: {
     fi: {
-      callTampereInfoLink: 'https://www.nysse.fi/junat',
-      callTampereInfoLinkText: 'nysse.fi/junat',
+      showTrainLimitationInfoLink: 'https://www.nysse.fi/junat',
+      showTrainLimitationInfoLinkText: 'nysse.fi/junat',
     },
     sv: {
-      callTampereInfoLink: 'https://www.nysse.fi/en/ways-to-get-around/train',
-      callTampereInfoLinkText:
+      showTrainLimitationInfoLink:
+        'https://www.nysse.fi/en/ways-to-get-around/train',
+      showTrainLimitationInfoLinkText:
         'Trains in the Nysse area - Nysse, Tampere regional transport',
     },
     en: {
-      callTampereInfoLink: 'https://www.nysse.fi/en/ways-to-get-around/train',
-      callTampereInfoLinkText:
+      showTrainLimitationInfoLink:
+        'https://www.nysse.fi/en/ways-to-get-around/train',
+      showTrainLimitationInfoLinkText:
         'Trains in the Nysse area - Nysse, Tampere regional transport',
     },
   },
