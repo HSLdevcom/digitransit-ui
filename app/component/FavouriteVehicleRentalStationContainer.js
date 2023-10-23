@@ -25,8 +25,8 @@ const FavouriteVehicleRentalStationContainer = connectToStores(
         type: 'bikeStation',
       });
       addAnalyticsEvent({
-        category: 'VehicleRentalStation',
-        action: 'MarkVehicleRentalStationAsFavourite',
+        category: 'BikeRentalStation',
+        action: 'MarkBikeRentalStationAsFavourite',
         name: !context
           .getStore('FavouriteStore')
           .isFavouriteVehicleRentalStation(
@@ -44,8 +44,8 @@ const FavouriteVehicleRentalStationContainer = connectToStores(
         );
       context.executeAction(deleteFavourite, vehicleRentalStationToDelete);
       addAnalyticsEvent({
-        category: 'VehicleRentalStation',
-        action: 'MarkVehicleRentalStationAsFavourite',
+        category: 'BikeRentalStation',
+        action: 'MarkBikeRentalStationAsFavourite',
         name: !context
           .getStore('FavouriteStore')
           .isFavouriteVehicleRentalStation(
