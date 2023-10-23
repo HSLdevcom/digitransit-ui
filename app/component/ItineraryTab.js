@@ -15,17 +15,17 @@ import ItineraryLegs from './ItineraryLegs';
 import BackButton from './BackButton';
 import MobileTicketPurchaseInformation from './MobileTicketPurchaseInformation';
 import {
-  getRoutes,
-  getZones,
   compressLegs,
+  getRoutes,
   getTotalBikingDistance,
   getTotalBikingDuration,
+  getTotalDrivingDistance,
+  getTotalDrivingDuration,
   getTotalWalkingDistance,
   getTotalWalkingDuration,
-  legContainsRentalBike,
-  getTotalDrivingDuration,
-  getTotalDrivingDistance,
+  getZones,
   isCallAgencyPickupType,
+  legContainsRentalBike,
 } from '../util/legUtils';
 import { BreakpointConsumer } from '../util/withBreakpoint';
 
@@ -36,10 +36,10 @@ import {
 } from '../util/fareUtils';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import {
+  getCurrentMillis,
+  getFormattedTimeDate,
   isToday,
   isTomorrow,
-  getFormattedTimeDate,
-  getCurrentMillis,
 } from '../util/timeUtils';
 import CityBikeDurationInfo from './CityBikeDurationInfo';
 import { getCityBikeNetworkId } from '../util/citybikes';
@@ -86,7 +86,7 @@ class ItineraryTab extends React.Component {
 
   static defaultProps = {
     hideTitle: false,
-    currentLanguage: "fi"
+    currentLanguage: 'fi',
   };
 
   static contextTypes = {
@@ -216,8 +216,79 @@ class ItineraryTab extends React.Component {
     const suggestionIndex = this.context.match.params.secondHash
       ? Number(this.context.match.params.secondHash) + 1
       : Number(this.context.match.params.hash) + 1;
-    const itineraryContainsCallLegs = itinerary.legs.some(leg => isCallAgencyPickupType(leg));
-    
+    const itineraryContainsCallLegs = itinerary.legs.some(leg =>
+      isCallAgencyPickupType(leg),
+    );
+
+    const infoBoxText = () => {
+      if (config.callAgencyInfo && itineraryContainsCallLegs) {
+        return (
+          <div className="description-container">
+            <FormattedMessage
+              id="separate-ticket-required-for-call-agency-disclaimer"
+              values={{
+                callAgencyInfoUrl: get(
+                  config,
+                  `callAgencyInfo.${currentLanguage}.callAgencyInfoLink`,
+                ),
+              }}
+            />
+            <a href={config.callAgencyInfo[currentLanguage].callAgencyInfoLink}>
+              <FormattedMessage
+                id={
+                  config.callAgencyInfo[currentLanguage].callAgencyInfoLinkText
+                }
+                defaultMessage={
+                  config.callAgencyInfo[currentLanguage].callAgencyInfoLinkText
+                }
+              />
+            </a>
+          </div>
+        );
+      }
+
+      if (config.showTrainLimitationInfo) {
+        return (
+          <div className="description-container">
+            <FormattedMessage
+              id="nysse-ticket-limited"
+              values={{
+                agencyName: get(config, 'ticketInformation.primaryAgencyName'),
+              }}
+            />
+            <a
+              href={
+                config.showTrainLimitationInfo[currentLanguage]
+                  .showTrainLimitationInfoLink
+              }
+            >
+              <FormattedMessage
+                id={
+                  config.showTrainLimitationInfo[currentLanguage]
+                    .showTrainLimitationInfoLinkText
+                }
+                defaultMessage={
+                  config.showTrainLimitationInfo[currentLanguage]
+                    .showTrainLimitationInfoLinkText
+                }
+              />
+            </a>
+          </div>
+        );
+      }
+
+      return (
+        <div className="description-container">
+          <FormattedMessage
+            id="separate-ticket-required-disclaimer"
+            values={{
+              agencyName: get(config, 'ticketInformation.primaryAgencyName'),
+            }}
+          />
+        </div>
+      );
+    };
+
     return (
       <div className="itinerary-tab">
         <h2 className="sr-only">
@@ -240,7 +311,11 @@ class ItineraryTab extends React.Component {
                 futureText={extraProps.futureText}
                 isMultiRow={extraProps.isMultiRow}
                 isMobile={this.props.isMobile}
-                hideBottomDivider={shouldShowFarePurchaseInfo(config, breakpoint, fares)}
+                hideBottomDivider={shouldShowFarePurchaseInfo(
+                  config,
+                  breakpoint,
+                  fares,
+                )}
               />
             ) : (
               <>
@@ -281,18 +356,19 @@ class ItineraryTab extends React.Component {
                 config={config}
               />
             ),
-            shouldShowFareInfo(config) && (
-              shouldShowFarePurchaseInfo(config,breakpoint,fares) ? (
+            shouldShowFareInfo(config) &&
+              (shouldShowFarePurchaseInfo(config, breakpoint, fares) ? (
                 <MobileTicketPurchaseInformation
                   fares={fares}
                   zones={getZones(itinerary.legs)}
-                />) :
-            (  <TicketInformation
+                />
+              ) : (
+                <TicketInformation
                   fares={fares}
                   zones={getZones(itinerary.legs)}
                   legs={itinerary.legs}
-                />)
-            ),
+                />
+              )),
             <div
               className={cx('momentum-scroll itinerary-tabs__scroll', {
                 multirow: extraProps.isMultiRow,
@@ -310,43 +386,7 @@ class ItineraryTab extends React.Component {
                       <div className="icon-container">
                         <Icon className="info" img="icon-icon_info" />
                       </div>
-                      {config.callAgencyInfo && itineraryContainsCallLegs ?
-                        (<div className="description-container">
-                          <FormattedMessage
-                            id="separate-ticket-required-for-call-agency-disclaimer"
-                            values={{
-                              callAgencyInfoUrl: get(
-                                config,
-                                `callAgencyInfo.${currentLanguage}.callAgencyInfoLink`,
-                              ),
-                            }}
-                          />
-                          <a href={config.callAgencyInfo[currentLanguage].callAgencyInfoLink}>
-                            <FormattedMessage
-                              id={config.callAgencyInfo[currentLanguage].callAgencyInfoLinkText}
-                              defaultMessage={config.callAgencyInfo[currentLanguage].callAgencyInfoLinkText}
-                            />
-                          </a>
-                        </div>
-                        ) : (
-                          <div className="description-container">
-                            <FormattedMessage
-                              id="nysse-ticket-limited"
-                              values={{
-                                agencyName: get(
-                                  config,
-                                  'ticketInformation.primaryAgencyName',
-                                ),
-                              }}
-                            />
-                            <a href={config.callTampereInfo[currentLanguage].callTampereInfoLink}>
-                              <FormattedMessage
-                                id={config.callTampereInfo[currentLanguage].callTampereInfoLinkText}
-                                defaultMessage={config.callTampereInfo[currentLanguage].callTampereInfoLinkText}
-                              />
-                            </a>
-                          </div>
-                        )}
+                      {infoBoxText()}
                     </div>
                   )}
                 <ItineraryLegs
@@ -409,7 +449,11 @@ const withRelay = createFragmentContainer(
         }
         legs {
           mode
-          nextLegs(numberOfLegs: 2  originModesWithParentStation: [RAIL]  destinationModesWithParentStation: [RAIL]) {
+          nextLegs(
+            numberOfLegs: 2
+            originModesWithParentStation: [RAIL]
+            destinationModesWithParentStation: [RAIL]
+          ) {
             mode
             distance
             route {
@@ -442,8 +486,8 @@ const withRelay = createFragmentContainer(
               tripHeadsign
               pattern {
                 code
-              } 
-              
+              }
+
               gtfsId
             }
             realTime
