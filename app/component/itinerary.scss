@@ -238,11 +238,10 @@ $itinerary-tab-switch-height: 48px;
 
     .itinerary-co2-description {
       width: 275px;
-      height: 80px;
       left: 70px;
       top: 528px;
       &.simple {
-        height: 0;
+        width: auto;
       }
       font-family: $font-family;
       font-style: normal;

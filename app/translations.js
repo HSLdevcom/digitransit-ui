@@ -1094,9 +1094,9 @@ const translations = {
     instructions: 'Instructions',
     'is-open': 'Open:',
     'itinerary-co2.description':
-      'Tämän matkan CO2 päästö on {co2value} g, joka on {co2percentage} % verrattuna henkilöautolla suoritettuun matkaan.',
+      '{co2value} g of CO2 emissions will be generated on this journey. A car would generate {carCo2Value} g of CO2 on the same journey.',
     'itinerary-co2.description-simple':
-      'Tämän matkan CO2 päästö on {co2value} g.',
+      '{co2value} g of CO2 emissions will be generated on this journey.',
     'itinerary-co2.link': 'This is how we reduce emissions ›',
     'itinerary-co2.title': 'Matkan CO2-päästöt',
     'itinerary-details.biking-leg':
@@ -2239,7 +2239,7 @@ const translations = {
     instructions: 'Ohjeet',
     'is-open': 'Avoinna:',
     'itinerary-co2.description':
-      'Tämän matkan CO2 päästö on {co2value} g, joka on {co2percentage} % verrattuna henkilöautolla suoritettuun matkaan.',
+      'Tämän matkan CO2 päästö on {co2value} g. Autolla kuljettuna se olisi ollut {carCo2Value} g.',
     'itinerary-co2.description-simple':
       'Tämän matkan CO2 päästö on {co2value} g.',
     'itinerary-co2.link': 'Näin vähennämme päästöjä ›',
@@ -4155,9 +4155,9 @@ const translations = {
     instructions: 'Anvisningar',
     'is-open': 'Öppet:',
     'itinerary-co2.description':
-      'Tämän matkan CO2 päästö on {co2value} g, joka on {co2percentage} % verrattuna henkilöautolla suoritettuun matkaan.',
+      'CO2-utsläppen för denna resa är {co2value} g. En bil skulle generera {carCo2Value} g CO2 på samma resa.',
     'itinerary-co2.description-simple':
-      'Tämän matkan CO2 päästö on {co2value} g.',
+      'CO2-utsläppen för denna resa är {co2value} g.',
     'itinerary-co2.link': 'Så minskar vi utsläppen ›',
     'itinerary-co2.title': 'Matkan CO2-päästöt',
     'itinerary-details.biking-leg':

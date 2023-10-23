@@ -221,8 +221,7 @@ class ItineraryTab extends React.Component {
       : Number(this.context.match.params.hash) + 1;
     const co2value = typeof itinerary.emissionsPerPerson?.co2Grams === 'number' && itinerary.emissionsPerPerson?.co2Grams >= 0 ? Math.round(itinerary.emissionsPerPerson?.co2Grams) : -1;
     const carCo2Value = this.props.carItinerary && this.props.carItinerary.length > 0 ? Math.round(this.props.carItinerary[0].emissionsPerPerson?.co2Grams) : 0;
-    const co2percentage = co2value > 0 && carCo2Value > 0 ? Math.round((co2value / carCo2Value) * 100) : 0;
-    const co2SimpleDesc = co2percentage === 0 || carCo2Value === 0;
+    const co2SimpleDesc =  carCo2Value === 0;
     return (
       <div className="itinerary-tab">
         <h2 className="sr-only">
@@ -377,7 +376,7 @@ class ItineraryTab extends React.Component {
                               defaultMessage="CO2 emissions for this route"
                               values={{
                                 co2value,
-                                co2percentage,
+                                carCo2Value,
                               }}
                             />
                           }
