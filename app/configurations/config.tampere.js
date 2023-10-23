@@ -95,7 +95,7 @@ export default configMerger(walttiConfig, {
     },
   },
 
-  showTrainLimitation: {
+  showTrainLimitationInfo: {
     fi: {
       showTrainLimitationInfoLink: 'https://www.nysse.fi/junat',
       showTrainLimitationInfoLinkText: 'nysse.fi/junat',
