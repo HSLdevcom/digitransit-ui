@@ -44,7 +44,7 @@ const VehicleRentalStationStopContent = (
       <Icon img={citybikeicon} />
       <CityBikeAvailability
         disabled={disabled}
-        bikesAvailable={vehicleRentalStation.vehiclesAvailable}
+        vehiclesAvailable={vehicleRentalStation.vehiclesAvailable}
         totalSpaces={totalSpaces}
         fewAvailableCount={fewAvailableCount}
         fewerAvailableCount={fewerAvailableCount}
@@ -64,6 +64,6 @@ VehicleRentalStationStopContent.propTypes = {
     capacity: PropTypes.number.isRequired,
     network: PropTypes.string,
     operative: PropTypes.bool.isRequired,
-  }),
+  }).isRequired,
 };
 export default VehicleRentalStationStopContent;

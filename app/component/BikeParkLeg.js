@@ -111,7 +111,7 @@ BikeParkLeg.propTypes = {
     from: PropTypes.shape({
       name: PropTypes.string.isRequired,
       vehicleRentalStation: PropTypes.shape({
-        bikesAvailable: PropTypes.number.isRequired,
+        vehiclesAvailable: PropTypes.number.isRequired,
         network: PropTypes.string.isRequired,
       }),
       stop: PropTypes.object,

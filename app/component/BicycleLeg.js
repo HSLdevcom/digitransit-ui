@@ -312,7 +312,7 @@ BicycleLeg.propTypes = {
     from: PropTypes.shape({
       name: PropTypes.string.isRequired,
       vehicleRentalStation: PropTypes.shape({
-        bikesAvailable: PropTypes.number.isRequired,
+        vehiclesAvailable: PropTypes.number.isRequired,
         network: PropTypes.string.isRequired,
       }),
       stop: PropTypes.object,
@@ -333,7 +333,7 @@ BicycleLeg.propTypes = {
     from: PropTypes.shape({
       name: PropTypes.string.isRequired,
       vehicleRentalStation: PropTypes.shape({
-        bikesAvailable: PropTypes.number.isRequired,
+        vehiclesAvailable: PropTypes.number.isRequired,
         network: PropTypes.string.isRequired,
       }),
       stop: PropTypes.object,
@@ -344,7 +344,7 @@ BicycleLeg.propTypes = {
     }).isRequired,
     mode: PropTypes.string.isRequired,
     rentedBike: PropTypes.bool.isRequired,
-  }),
+  }).isRequired,
   index: PropTypes.number.isRequired,
   focusAction: PropTypes.func.isRequired,
   focusToLeg: PropTypes.func.isRequired,

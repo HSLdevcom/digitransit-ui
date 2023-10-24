@@ -8,7 +8,7 @@ import { mountWithIntl } from '../helpers/mock-intl-enzyme';
 describe('<CityBikeAvailability />', () => {
   it('should render CityBikeAvailability with valid props', () => {
     const props = {
-      bikesAvailable: 1,
+      vehiclesAvailable: 1,
       totalSpaces: 3,
       fewAvailableCount: 3,
       fewerAvailableCount: 2,

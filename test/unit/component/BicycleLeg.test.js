@@ -21,7 +21,7 @@ describe('<BicycleLeg />', () => {
         from: {
           name: 'Hertanmäenkatu',
           vehicleRentalStation: {
-            bikesAvailable: 0,
+            vehiclesAvailable: 0,
             network: 'foobar',
           },
         },
@@ -59,7 +59,7 @@ describe('<BicycleLeg />', () => {
         from: {
           name: 'Hertanmäenkatu',
           vehicleRentalStation: {
-            bikesAvailable: 0,
+            vehiclesAvailable: 0,
             network: 'foobar',
           },
         },
@@ -97,7 +97,7 @@ describe('<BicycleLeg />', () => {
         from: {
           name: 'Hertanmäenkatu',
           vehicleRentalStation: {
-            bikesAvailable: 0,
+            vehiclesAvailable: 0,
             network: 'foobar',
           },
         },
@@ -138,7 +138,7 @@ describe('<BicycleLeg />', () => {
         from: {
           name: 'Hertanmäenkatu',
           vehicleRentalStation: {
-            bikesAvailable: 0,
+            vehiclesAvailable: 0,
             network: 'foobar',
           },
         },
@@ -179,7 +179,7 @@ describe('<BicycleLeg />', () => {
         from: {
           name: 'Hertanmäenkatu',
           vehicleRentalStation: {
-            bikesAvailable: 0,
+            vehiclesAvailable: 0,
             network: 'foobar',
           },
         },
@@ -217,7 +217,7 @@ describe('<BicycleLeg />', () => {
         from: {
           name: 'Hertanmäenkatu',
           vehicleRentalStation: {
-            bikesAvailable: 0,
+            vehiclesAvailable: 0,
             network: 'foobar',
           },
         },

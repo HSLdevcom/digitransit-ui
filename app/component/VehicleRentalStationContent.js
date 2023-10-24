@@ -37,11 +37,11 @@ const VehicleRentalStationContent = (
     }
     return null;
   }
-  const { bikesAvailable, capacity } = vehicleRentalStation;
-  const isFull = bikesAvailable >= capacity;
+  const { vehiclesAvailable, capacity } = vehicleRentalStation;
+  const isFull = vehiclesAvailable >= capacity;
 
   const networkConfig = getVehicleRentalStationNetworkConfig(
-    vehicleRentalStation.network[0],
+    vehicleRentalStation.network,
     config,
   );
   const cityBikeNetworkUrl = networkConfig?.url?.[language];
@@ -110,7 +110,7 @@ const VehicleRentalStationContent = (
 };
 
 VehicleRentalStationContent.propTypes = {
-  vehicleRentalStation: PropTypes.any,
+  vehicleRentalStation: PropTypes.any.isRequired,
   breakpoint: PropTypes.string.isRequired,
   language: PropTypes.string.isRequired,
   router: routerShape.isRequired,

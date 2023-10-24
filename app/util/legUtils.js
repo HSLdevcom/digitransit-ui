@@ -310,24 +310,28 @@ export const getTotalDistance = itinerary => sumDistances(itinerary.legs);
 /**
  * Gets the indicator color for the current amount of citybikes available.
  *
- * @param {number} bikesAvailable the number of bikes currently available
+ * @param {number} vehiclesAvailable the number of bikes currently available
  * @param {*} config the configuration for the software installation
  */
-export const getVehicleAvailabilityIndicatorColor = (bikesAvailable, config) =>
+export const getVehicleAvailabilityIndicatorColor = (
+  vehiclesAvailable,
+  config,
+) =>
   // eslint-disable-next-line no-nested-ternary
-  bikesAvailable === 0
+  vehiclesAvailable === 0
     ? '#DC0451'
-    : bikesAvailable > config.cityBike.fewAvailableCount
+    : vehiclesAvailable > config.cityBike.fewAvailableCount
     ? '#3B7F00'
     : '#FCBC19';
 
 /* Gets the indicator text color if  few bikes are available
  *
- * @param {number} bikesAvailable the number of bikes currently available
+ * @param {number} vehiclesAvailable the number of bikes currently available
  * @param {*} config the configuration for the software installation/
  */
-export const getVehicleAvailabilityTextColor = (bikesAvailable, config) =>
-  bikesAvailable <= config.cityBike.fewAvailableCount && bikesAvailable > 0
+export const getVehicleAvailabilityTextColor = (vehiclesAvailable, config) =>
+  vehiclesAvailable <= config.cityBike.fewAvailableCount &&
+  vehiclesAvailable > 0
     ? '#333'
     : '#fff';
 
@@ -348,11 +352,11 @@ export const getLegBadgeProps = (leg, config) => {
   ) {
     return undefined;
   }
-  const { bikesAvailable } = leg.from.vehicleRentalStation || 0;
+  const { vehiclesAvailable } = leg.from.vehicleRentalStation || 0;
   return {
-    badgeFill: getVehicleAvailabilityIndicatorColor(bikesAvailable, config),
-    badgeText: `${bikesAvailable}`,
-    badgeTextFill: getVehicleAvailabilityTextColor(bikesAvailable, config),
+    badgeFill: getVehicleAvailabilityIndicatorColor(vehiclesAvailable, config),
+    badgeText: `${vehiclesAvailable}`,
+    badgeTextFill: getVehicleAvailabilityTextColor(vehiclesAvailable, config),
   };
 };
 
