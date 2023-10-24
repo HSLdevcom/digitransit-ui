@@ -8,7 +8,7 @@ import Availability from './Availability';
 const CityBikeAvailability = mapProps(
   ({
     disabled,
-    bikesAvailable,
+    vehiclesAvailable,
     totalSpaces,
     fewAvailableCount,
     fewerAvailableCount,
@@ -16,7 +16,7 @@ const CityBikeAvailability = mapProps(
     useSpacesAvailable,
   }) => {
     const total = Number.isNaN(totalSpaces) ? 0 : totalSpaces;
-    const available = Number.isNaN(bikesAvailable) ? 0 : bikesAvailable;
+    const available = Number.isNaN(vehiclesAvailable) ? 0 : vehiclesAvailable;
     if (disabled) {
       return {
         available,
@@ -55,7 +55,7 @@ const CityBikeAvailability = mapProps(
 CityBikeAvailability.displayName = 'CityBikeAvailability';
 
 CityBikeAvailability.propTypes = {
-  bikesAvailable: PropTypes.number.isRequired,
+  vehiclesAvailable: PropTypes.number.isRequired,
   totalSpaces: PropTypes.number.isRequired,
   fewAvailableCount: PropTypes.number.isRequired,
   type: PropTypes.string,
