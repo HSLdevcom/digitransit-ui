@@ -5,6 +5,6 @@ export default PropTypes.shape({
   startTime: PropTypes.number,
   legs: PropTypes.arrayOf(PropTypes.object),
   emissionsPerPerson: PropTypes.shape({
-    co2Grams: PropTypes.number,
+    co2: PropTypes.number,
   }),
 });

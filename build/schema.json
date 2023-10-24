@@ -2179,12 +2179,12 @@
                     "description": null,
                     "fields": [
                         {
-                            "name": "co2Grams",
-                            "description": "CO₂ emissions of the trip on this itinerary, in grams per person.",
+                            "name": "co2",
+                            "description": "CO₂ emissions in grams.",
                             "args": [],
                             "type": {
                                 "kind": "SCALAR",
-                                "name": "Float",
+                                "name": "Grams",
                                 "ofType": null
                             },
                             "isDeprecated": false,
@@ -2606,6 +2606,16 @@
                     ],
                     "inputFields": null,
                     "interfaces": [],
+                    "enumValues": null,
+                    "possibleTypes": null
+                },
+                {
+                    "kind": "SCALAR",
+                    "name": "Grams",
+                    "description": "",
+                    "fields": null,
+                    "inputFields": null,
+                    "interfaces": null,
                     "enumValues": null,
                     "possibleTypes": null
                 },

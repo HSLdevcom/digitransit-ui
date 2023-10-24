@@ -738,7 +738,7 @@ class SummaryPage extends React.Component {
             ...ItineraryTab_itinerary
             ...SummaryPlanContainer_itineraries
             emissionsPerPerson {
-              co2Grams
+              co2
             }
             legs {
               mode
@@ -794,7 +794,7 @@ class SummaryPage extends React.Component {
             ...ItineraryTab_itinerary
             ...SummaryPlanContainer_itineraries
             emissionsPerPerson {
-              co2Grams
+              co2
             }
             legs {
               mode
@@ -856,7 +856,7 @@ class SummaryPage extends React.Component {
             ...ItineraryTab_itinerary
             ...SummaryPlanContainer_itineraries
             emissionsPerPerson {
-              co2Grams
+              co2
             }
             legs {
               mode
@@ -1039,7 +1039,7 @@ class SummaryPage extends React.Component {
             ...ItineraryTab_itinerary
             ...SummaryPlanContainer_itineraries
             emissionsPerPerson {
-              co2Grams
+              co2
             }
             legs {
               mode
@@ -2972,7 +2972,7 @@ const containerComponent = createRefetchContainer(
             ...ItineraryTab_itinerary
             ...SummaryPlanContainer_itineraries
             emissionsPerPerson {
-              co2Grams
+              co2
             }
             legs {
               mode

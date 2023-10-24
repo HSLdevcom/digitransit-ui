@@ -238,9 +238,9 @@ const SummaryRow = (
   const endTime = moment(data.endTime);
   const duration = endTime.diff(startTime);
   const co2value =
-    typeof data.emissionsPerPerson?.co2Grams === 'number' &&
-    data.emissionsPerPerson?.co2Grams >= 0
-      ? Math.round(data.emissionsPerPerson?.co2Grams)
+    typeof data.emissionsPerPerson?.co2 === 'number' &&
+    data.emissionsPerPerson?.co2 >= 0
+      ? Math.round(data.emissionsPerPerson?.co2)
       : -1;
   const mobile = bp => !(bp === 'large');
   const legs = [];

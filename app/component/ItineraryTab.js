@@ -68,7 +68,7 @@ const ItineraryShape = PropTypes.shape({
   ),
   fares: PropTypes.arrayOf(FareShape),
   emissionsPerPerson: PropTypes.shape({
-    co2Grams: PropTypes.number,
+    co2: PropTypes.number,
   }),
 });
 
@@ -219,8 +219,8 @@ class ItineraryTab extends React.Component {
     const suggestionIndex = this.context.match.params.secondHash
       ? Number(this.context.match.params.secondHash) + 1
       : Number(this.context.match.params.hash) + 1;
-    const co2value = typeof itinerary.emissionsPerPerson?.co2Grams === 'number' && itinerary.emissionsPerPerson?.co2Grams >= 0 ? Math.round(itinerary.emissionsPerPerson?.co2Grams) : -1;
-    const carCo2Value = this.props.carItinerary && this.props.carItinerary.length > 0 ? Math.round(this.props.carItinerary[0].emissionsPerPerson?.co2Grams) : 0;
+    const co2value = typeof itinerary.emissionsPerPerson?.co2 === 'number' && itinerary.emissionsPerPerson?.co2 >= 0 ? Math.round(itinerary.emissionsPerPerson?.co2) : -1;
+    const carCo2Value = this.props.carItinerary && this.props.carItinerary.length > 0 ? Math.round(this.props.carItinerary[0].emissionsPerPerson?.co2) : 0;
     const co2SimpleDesc =  carCo2Value === 0;
     return (
       <div className="itinerary-tab">
@@ -451,7 +451,7 @@ const withRelay = createFragmentContainer(
           type
         }
         emissionsPerPerson {
-          co2Grams
+          co2
         }
         legs {
           mode

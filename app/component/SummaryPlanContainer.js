@@ -345,7 +345,7 @@ const connectedContainer = createFragmentContainer(
           startTime
           endTime
           emissionsPerPerson {
-            co2Grams
+            co2
           }
           legs {
             mode
@@ -402,7 +402,7 @@ const connectedContainer = createFragmentContainer(
         endTime
         startTime
         emissionsPerPerson {
-          co2Grams
+          co2
         }
         legs {
           mode
