@@ -342,11 +342,11 @@ function StopsNearYouMap(
       let sortedEdges;
       if (!isTransitMode) {
         const withNetworks = stopsNearYou.nearest.edges.filter(edge => {
-          return !!edge.node.place?.networks;
+          return !!edge.node.place?.network;
         });
         const filteredCityBikeEdges = withNetworks.filter(pattern => {
-          return pattern.node.place?.networks.every(network =>
-            getDefaultNetworks(context.config).includes(network),
+          return getDefaultNetworks(context.config).includes(
+            pattern.node.place?.network,
           );
         });
         sortedEdges = filteredCityBikeEdges
