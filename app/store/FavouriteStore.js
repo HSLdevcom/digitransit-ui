@@ -100,12 +100,12 @@ export default class FavouriteStore extends Store {
     return includes(ids, id);
   }
 
-  isFavouriteVehicleRentalStation(id, networks) {
+  isFavouriteVehicleRentalStation(id, network) {
     const ids = this.favourites
       .filter(
         favourite =>
           favourite.type === 'bikeStation' &&
-          isEqual(sortBy(favourite.networks[0]), sortBy(networks)),
+          isEqual(sortBy(favourite.networks[0]), sortBy(network)),
       )
       .map(favourite => `${favourite.networks[0]}:${favourite.stationId}`);
     return includes(ids, id);
@@ -226,7 +226,7 @@ export default class FavouriteStore extends Store {
       data = {
         ...data,
         stationId: data.stationId.split(':')[1],
-        networks: [data.networks],
+        networks: [data.network],
       };
     }
     const newFavourites = this.favourites.slice();

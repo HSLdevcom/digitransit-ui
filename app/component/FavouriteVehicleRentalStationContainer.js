@@ -19,7 +19,7 @@ const FavouriteVehicleRentalStationContainer = connectToStores(
       context.executeAction(saveFavourite, {
         lat: vehicleRentalStation.lat,
         lon: vehicleRentalStation.lon,
-        networks: vehicleRentalStation.network,
+        network: vehicleRentalStation.network,
         name: vehicleRentalStation.name,
         stationId: vehicleRentalStation.stationId,
         type: 'bikeStation',
