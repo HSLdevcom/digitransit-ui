@@ -44,7 +44,7 @@ import ModeBusLocal from './assets/bus-local.svg';
 import ModeRail from './assets/mode_rail.svg';
 import ModeTram from './assets/mode_tram.svg';
 import ModeFerry from './assets/mode_ferry.svg';
-import ModeVehicleRentalStation from './assets/mode_citybike.svg';
+import ModeBikeRentalStation from './assets/mode_citybike.svg';
 import ModeAirplane from './assets/mode_airplane.svg';
 import ModeDigiTram from './assets/mode_digi_tram.svg';
 import ModeDigiVehicleRentalStation from './assets/mode_digi_citybike.svg';
@@ -129,7 +129,7 @@ const IconMap = style => {
     'mode-tram': <ModeTram style={style} />,
     'mode-subway': <Subway style={style} />,
     'mode-ferry': <ModeFerry style={style} />,
-    'mode-citybike': <ModeVehicleRentalStation style={style} />,
+    'mode-citybike': <ModeBikeRentalStation style={style} />,
     'mode-digitransit-bus': <SearchBusStationDigitransit style={style} />,
     'mode-digitransit-rail': <SearchRailStationDigitransit style={style} />,
     'mode-digitransit-ferry': <SearchFerryDigitransit style={style} />,
