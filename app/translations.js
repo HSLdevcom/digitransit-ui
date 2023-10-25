@@ -868,8 +868,11 @@ const translations = {
     'as-destination': 'Destination',
     'as-origin': 'Origin',
     'as-viapoint': 'Viapoint',
-    'search-autosuggest-label':
-      'Venue, place and stopsearch. Navigate list with arrow keys and select with enter key',
+    'search-autosuggest-label': 'Venue, place and stopsearch.',
+    'search-autosuggest-label-instructions':
+      'Navigate list with arrow keys and select with enter key.',
+    'search-autosuggest-label-move-to-destination':
+      'After selecting the starting location you are automatically moved to the destination field.',
     'search-autosuggest-len':
       'There {len, plural, =1 {is 1 suggestion} other {are {len} suggestions}} available',
     'search-current-suggestion': 'Current selection: {selection}',
@@ -2004,8 +2007,11 @@ const translations = {
     'as-destination': 'Määränpääksi',
     'as-origin': 'Lähtöpaikaksi',
     'as-viapoint': 'Välipisteeksi',
-    'search-autosuggest-label':
-      'Paikka, linja ja pysäkkihaku. Navigoi listassa nuolinäppäimillä ja valitse enterillä',
+    'search-autosuggest-label': 'Paikka, linja ja pysäkkihaku.',
+    'search-autosuggest-label-instructions':
+      'Navigoi listassa nuolinäppäimillä ja valitse enterillä.',
+    'search-autosuggest-label-move-to-destination':
+      'Valittuasi lähtöpaikan siirrytään suoraan määränpää-kenttään.',
     'search-autosuggest-len':
       ' Löydettiin {len, plural, =1 {1 ehdotus} other {{len} ehdotusta}}',
     'search-current-suggestion': 'Tämänhetkinen valinta: {selection}',
@@ -3929,8 +3935,10 @@ const translations = {
     'as-destination': 'Destination',
     'as-origin': 'Avfärdsplats',
     'as-viapoint': 'Via punkt',
-    'search-autosuggest-label':
-      'Plats, linje och hållplatssökning. Navigera listan med piltangenterna och välj med Enter-tangeten',
+    'search-autosuggest-label': 'Plats, linje och hållplatssökning.',
+    'search-autosuggest-label-instructions':
+      'Navigera listan med piltangenterna och välj med Enter-tangeten.',
+    'search-autosuggest-label-move-to-destination': 'TO DO',
     'search-autosuggest-len': 'Hittade {len} förslag',
     'search-current-suggestion': 'Nuvarande val: {selection}',
     'select-date': 'Välj datum',
