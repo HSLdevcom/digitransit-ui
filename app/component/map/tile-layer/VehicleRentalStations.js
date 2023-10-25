@@ -151,7 +151,6 @@ class VehicleRentalStations {
 
   drawHighlighted = ({ geom, properties: { id, network } }, iconName) => {
     const citybikeCapacity = getVehicleCapacity(this.config, network);
-
     const callback = ({ station: result }) => {
       if (result) {
         drawCitybikeIcon(
@@ -167,14 +166,7 @@ class VehicleRentalStations {
       return this;
     };
 
-    const idForFetching = `${network}:${id}`;
-
-    fetchQuery(
-      this.relayEnvironment,
-      query,
-      { id: idForFetching },
-      { force: true },
-    )
+    fetchQuery(this.relayEnvironment, query, { id }, { force: true })
       .toPromise()
       .then(callback);
   };
