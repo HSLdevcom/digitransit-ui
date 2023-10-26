@@ -2143,8 +2143,12 @@ class SummaryPage extends React.Component {
       let skip = false;
       for (let i = 0; i < itinerary.legs.length; i++) {
         const feedId = itinerary.legs[i].route?.gtfsId?.split(':')[0];
-        skip = feedId ? !this.context.config.feedIds.includes(feedId) : false;
-        if (skip) {
+
+        if (
+          feedId && // if feedId is undefined, leg  is non transit -> don't drop
+          !this.context.config.feedIds.includes(feedId) // feedId is not allowed
+        ) {
+          skip = true;
           break;
         }
       }
