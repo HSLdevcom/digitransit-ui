@@ -74,7 +74,7 @@ function getSuggestionContent(item) {
       item.properties.layer.toLowerCase().includes('bikerental') ||
       item.properties.layer.toLowerCase().includes('bikestation')
     ) {
-      suggestionType = i18next.t('bikerentalstation');
+      suggestionType = i18next.t('vehiclerentalstation');
       const stopCode = item.properties.labelId;
       return [suggestionType, name, undefined, stopCode];
     }
