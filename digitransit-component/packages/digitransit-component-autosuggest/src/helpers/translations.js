@@ -164,7 +164,7 @@ const translations = {
     airplane: 'Lentokone',
     arrival: 'Perillä',
     back: 'Takaisin',
-    bikerentalstation: 'Pyöräasema',
+    vehiclerentalstation: 'Pyöräasema',
     bikepark: 'Liityntäpyöräparkki',
     bus: 'bussi',
     cancel: 'Peruuta',
