@@ -5,7 +5,7 @@ import VehiclesRentalStationAvailability from '../../../app/component/VehiclesRe
 import Availability from '../../../app/component/Availability';
 import { mountWithIntl } from '../helpers/mock-intl-enzyme';
 
-describe('<CityBikeAvailability />', () => {
+describe('<VehicleRentalStationAvailability />', () => {
   it('should render CityBikeAvailability with valid props', () => {
     const props = {
       vehiclesAvailable: 1,

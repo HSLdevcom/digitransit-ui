@@ -41,7 +41,7 @@ import {
   getFormattedTimeDate,
   getCurrentMillis,
 } from '../util/timeUtils';
-import CityBikeDurationInfo from './CityBikeDurationInfo';
+import CityBikeDurationInfo from './VehicleRentalStationDurationInfo';
 import { getVehicleRentalStationNetworkId } from '../util/vehicleRentalUtils';
 import { FareShape } from '../util/shapes';
 

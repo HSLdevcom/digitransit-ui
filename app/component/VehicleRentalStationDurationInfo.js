@@ -9,7 +9,7 @@ import {
   getVehicleRentalStationNetworkId,
 } from '../util/vehicleRentalUtils';
 
-function CityBikeDurationInfo(props) {
+function VehicleRentalStationDurationInfo(props) {
   const { networks, lang, config } = props;
   if (networks.length === 1) {
     const vehicleRentalStationNetwork = getVehicleRentalStationNetworkId(
@@ -18,7 +18,7 @@ function CityBikeDurationInfo(props) {
     const vehicleIcon = getVehicleRentalStationNetworkIcon(
       getVehicleRentalStationNetworkConfig(vehicleRentalStationNetwork, config),
     );
-    const cityBikeNetworkDurationInfoLink =
+    const vehicleRentalStationNetworkDurationInfoLink =
       config.cityBike.networks[vehicleRentalStationNetwork]
         .durationInstructions[lang];
     const duration =
@@ -45,7 +45,7 @@ function CityBikeDurationInfo(props) {
               defaultMessage=""
             />
             &nbsp;
-            <a href={cityBikeNetworkDurationInfoLink}>
+            <a href={vehicleRentalStationNetworkDurationInfoLink}>
               <FormattedMessage id="read-more" defaultMessage="Read more" /> ›
             </a>
           </p>
@@ -102,14 +102,14 @@ function CityBikeDurationInfo(props) {
   );
 }
 
-CityBikeDurationInfo.propTypes = {
+VehicleRentalStationDurationInfo.propTypes = {
   networks: PropTypes.array.isRequired,
   lang: PropTypes.string.isRequired,
   config: PropTypes.object.isRequired,
 };
 
 const connectedComponent = connectToStores(
-  CityBikeDurationInfo,
+  VehicleRentalStationDurationInfo,
   ['UserStore', 'PreferencesStore'],
   context => ({
     lang: context.getStore('PreferencesStore').getLanguage(), // DT-3376
