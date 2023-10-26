@@ -251,7 +251,7 @@ const walkLegShape = PropTypes.shape({
       vehicleMode: PropTypes.string,
     }),
     vehicleRentalStation: PropTypes.shape({
-      networks: PropTypes.array,
+      network: PropTypes.string,
     }),
   }).isRequired,
   to: PropTypes.shape({
@@ -264,7 +264,7 @@ const walkLegShape = PropTypes.shape({
       vehicleMode: PropTypes.string,
     }),
     vehicleRentalStation: PropTypes.shape({
-      networks: PropTypes.array,
+      network: PropTypes.string,
     }),
   }).isRequired,
   mode: PropTypes.string.isRequired,
