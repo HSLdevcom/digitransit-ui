@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { mockChildContextTypes } from '../helpers/mock-context';
-import CityBikeAvailability from '../../../app/component/CityBikeAvailability';
+import VehiclesRentalStationAvailability from '../../../app/component/VehiclesRentalStationAvailability';
 import Availability from '../../../app/component/Availability';
 import { mountWithIntl } from '../helpers/mock-intl-enzyme';
 
@@ -15,14 +15,17 @@ describe('<CityBikeAvailability />', () => {
       type: 'citybike',
       useSpacesAvailable: true,
     };
-    const wrapper = mountWithIntl(<CityBikeAvailability {...props} />, {
-      context: {
-        config: {
-          cityBike: { useSpacesAvailable: true },
+    const wrapper = mountWithIntl(
+      <VehiclesRentalStationAvailability {...props} />,
+      {
+        context: {
+          config: {
+            cityBike: { useSpacesAvailable: true },
+          },
         },
+        childContextTypes: { ...mockChildContextTypes },
       },
-      childContextTypes: { ...mockChildContextTypes },
-    });
+    );
     expect(wrapper.find(Availability)).to.have.lengthOf(1);
     expect(wrapper.find('.availability-header')).to.have.lengthOf(1);
   });

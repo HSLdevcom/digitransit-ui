@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl';
 
 import Availability from './Availability';
 
-const CityBikeAvailability = mapProps(
+const VehiclesRentalStationAvailability = mapProps(
   ({
     disabled,
     vehiclesAvailable,
@@ -52,17 +52,17 @@ const CityBikeAvailability = mapProps(
   },
 )(Availability);
 
-CityBikeAvailability.displayName = 'CityBikeAvailability';
+VehiclesRentalStationAvailability.displayName = 'CityBikeAvailability';
 
-CityBikeAvailability.propTypes = {
+VehiclesRentalStationAvailability.propTypes = {
   vehiclesAvailable: PropTypes.number.isRequired,
   totalSpaces: PropTypes.number.isRequired,
   fewAvailableCount: PropTypes.number.isRequired,
   type: PropTypes.string,
   useSpacesAvailable: PropTypes.bool.isRequired,
 };
-CityBikeAvailability.defaultProps = {
+VehiclesRentalStationAvailability.defaultProps = {
   type: 'citybike',
 };
 
-export default CityBikeAvailability;
+export default VehiclesRentalStationAvailability;

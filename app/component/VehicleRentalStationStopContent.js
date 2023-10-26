@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import CityBikeAvailability from './CityBikeAvailability';
+import VehiclesRentalStationAvailability from './VehiclesRentalStationAvailability';
 import Icon from './Icon';
 import {
   getVehicleRentalStationNetworkIcon,
@@ -42,7 +42,7 @@ const VehicleRentalStationStopContent = (
   return (
     <div className="citybike-content-container">
       <Icon img={citybikeicon} />
-      <CityBikeAvailability
+      <VehiclesRentalStationAvailability
         disabled={disabled}
         vehiclesAvailable={vehicleRentalStation.vehiclesAvailable}
         totalSpaces={totalSpaces}
