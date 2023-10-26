@@ -13,7 +13,10 @@ import { PREFIX_BIKESTATIONS } from '../../../util/path';
 import { getIdWithoutFeed } from '../../../util/feedScopedIdUtils';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
-function SelectCityBikeRow({ name, network, id, desc }, { config }) {
+function SelectVehicleRentalStationRow(
+  { name, network, id, desc },
+  { config },
+) {
   const img = `${getVehicleRentalStationNetworkIcon(
     getVehicleRentalStationNetworkConfig(
       getVehicleRentalStationNetworkId(network),
@@ -45,21 +48,21 @@ function SelectCityBikeRow({ name, network, id, desc }, { config }) {
   );
 }
 
-SelectCityBikeRow.displayName = 'SelectCityBikeRow';
+SelectVehicleRentalStationRow.displayName = 'SelectVehicleRentalStationRow';
 
-SelectCityBikeRow.propTypes = {
+SelectVehicleRentalStationRow.propTypes = {
   name: PropTypes.string.isRequired,
   network: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
   desc: PropTypes.string,
 };
 
-SelectCityBikeRow.defaultProps = {
+SelectVehicleRentalStationRow.defaultProps = {
   desc: undefined,
 };
 
-SelectCityBikeRow.contextTypes = {
+SelectVehicleRentalStationRow.contextTypes = {
   config: PropTypes.object.isRequired,
 };
 
-export default SelectCityBikeRow;
+export default SelectVehicleRentalStationRow;
