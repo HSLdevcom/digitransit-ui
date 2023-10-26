@@ -51,8 +51,8 @@ function getIconProperties(
   // but we do not want to show those icons
   if (item.type === 'FavouriteStop') {
     iconId = 'favouriteStop';
-  } else if (item.type === 'FavouriteStation') {
-    iconId = 'favouriteStation';
+  } else if (item.type === 'favouriteVehicleRentalStation') {
+    iconId = 'favouriteVehicleRentalStation';
   } else if (item.type === 'Route') {
     const mode =
       modeSet === 'default'
@@ -96,7 +96,7 @@ function getIconProperties(
     ['favouritePlace', 'star'],
     ['favouriteRoute', 'star'],
     ['favouriteStop', 'star'],
-    ['favouriteStation', 'star'],
+    ['favouriteVehicleRentalStation', 'star'],
     ['favouriteBikeRentalStation', 'star'],
     ['favourite', 'star'],
     ['address', 'place'],
@@ -317,7 +317,7 @@ const SuggestionItem = pure(
     const isBikeRentalStation =
       item.properties &&
       (item.properties.layer === 'bikeRentalStation' ||
-        item.properties.layer === 'favouriteBikeRentalStation' ||
+        item.properties.layer === 'favouriteVehicleRentalStation' ||
         item.properties.layer === 'bikestation');
     const isParkingArea =
       item.properties?.layer === 'carpark' ||
