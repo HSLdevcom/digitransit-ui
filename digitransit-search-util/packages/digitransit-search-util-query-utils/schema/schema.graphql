@@ -476,7 +476,7 @@ type BikeRentalStation implements Node & PlaceInterface {
     Number of bikes currently available on the rental station.
     See field `allowPickupNow` to know if is currently possible to pick up a bike.
     """
-    vehiclesAvailable: Int
+    bikesAvailable: Int
 
     """
     Number of free spaces currently available on the rental station.
@@ -493,8 +493,8 @@ type BikeRentalStation implements Node & PlaceInterface {
     state: String @deprecated(reason: "Use operative instead")
 
     """
-    If true, values of `vehiclesAvailable` and `spacesAvailable` are updated from a
-    real-time source. If false, values of `vehiclesAvailable` and `spacesAvailable`
+    If true, values of `bikesAvailable` and `spacesAvailable` are updated from a
+    real-time source. If false, values of `bikesAvailable` and `spacesAvailable`
     are always the total capacity divided by two.
     """
     realtime: Boolean
