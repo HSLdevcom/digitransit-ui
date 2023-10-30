@@ -338,7 +338,7 @@ export function getSearchResults(
         'selectFromMap',
         'futureRoute',
         'ownLocations',
-        'vehicleRentalStation',
+        'VehicleRentalStation',
         'bikepark',
         'carpark',
         'stop',
@@ -385,7 +385,7 @@ export function getSearchResults(
         'ownLocations',
         'favouritePlace',
         'bikestation',
-        'vehicleRentalStation',
+        'VehicleRentalStation',
         'back',
         'stop',
         'station',
@@ -469,7 +469,7 @@ export function getSearchResults(
         'futureRoute',
         'ownLocations',
         'favouritePlace',
-        'vehicleRentalStation',
+        'VehicleRentalStation',
         'back',
       ];
       dropLayers.push(...routeLayers);
@@ -477,7 +477,7 @@ export function getSearchResults(
       dropLayers.push(...parkingLayers);
       if (transportMode) {
         if (transportMode !== 'route-CITYBIKE') {
-          dropLayers.push('vehicleRentalStation');
+          dropLayers.push('VehicleRentalStation');
           dropLayers.push('bikestation');
         }
         searchComponents.push(
@@ -528,7 +528,7 @@ export function getSearchResults(
       ];
       if (transportMode) {
         if (transportMode !== 'route-CITYBIKE') {
-          dropLayers.push('vehicleRentalStation');
+          dropLayers.push('VehicleRentalStation');
           dropLayers.push('bikestation');
         }
         dropLayers.push(...routeLayers.filter(i => !(i === transportMode)));
