@@ -593,9 +593,9 @@ class DTAutosuggest extends React.Component {
           }
           if (
             isEmpty(this.props.targets) ||
-            this.props.targets.includes('BikeRentalStations')
+            this.props.targets.includes('VehicleRentalStations')
           ) {
-            targets.push('BikeRentalStations');
+            targets.push('VehicleRentalStations');
           }
         } else if (!isEmpty(this.props.targets)) {
           targets = [...this.props.targets];
