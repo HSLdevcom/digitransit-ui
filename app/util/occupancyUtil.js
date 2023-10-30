@@ -40,11 +40,20 @@ export function isDepartureWithinTenMinutes(departureTime) {
 
 /**
  * Returns mapped capacity string.
- *
+ * @param {*} config configuration object.
  * @param {*} occupancyStatus status from OTP.
+ * @param {*} departureTime departure time in Unix.
  */
-export function getCapacity(occupancyStatus) {
-  return mapStatus(occupancyStatus);
+export function getCapacity(config, occupancyStatus, departureTime) {
+  if (
+    config.useRealtimeTravellerCapacities &&
+    occupancyStatus &&
+    occupancyStatus !== 'NO_DATA_AVAILABLE' &&
+    isDepartureWithinTenMinutes(departureTime)
+  ) {
+    return mapStatus(occupancyStatus);
+  }
+  return null;
 }
 
 /**
@@ -54,12 +63,9 @@ export function getCapacity(occupancyStatus) {
  * @param {*} leg leg object.
  */
 export function getCapacityForLeg(config, leg) {
-  if (
-    config.useRealtimeTravellerCapacities &&
-    leg.trip?.occupancy?.occupancyStatus !== 'NO_DATA_AVAILABLE' &&
-    isDepartureWithinTenMinutes(leg.startTime)
-  ) {
-    return getCapacity(leg.trip.occupancy.occupancyStatus);
-  }
-  return undefined;
+  return getCapacity(
+    config,
+    leg.trip?.occupancy?.occupancyStatus,
+    leg.startTime,
+  );
 }

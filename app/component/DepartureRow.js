@@ -224,25 +224,30 @@ const DepartureRow = (
           )}
         </td>
       )}
-      {config.useRealtimeTravellerCapacities &&
-        trip.occupancy?.occupancyStatus &&
-        trip.occupancy?.occupancyStatus !== 'NO_DATA_AVAILABLE' &&
-        timeDiffInMinutes <= 10 && (
-          // Use inline styles here for simplicity, some overrides make it impossible via the SASS-file
-          <td className="capacity-cell" style={{ marginRight: '8px' }}>
-            <span
-              className="capacity-icon-container"
-              onClick={() => onCapacityClick()}
-            >
-              <Icon
-                width="1.5"
-                height="1.5"
-                img={`icon-icon_${getCapacity(trip.occupancy.occupancyStatus)}`}
-                color="#007AC9"
-              />
-            </span>
-          </td>
-        )}
+      {getCapacity(
+        config,
+        trip.occupancy?.occupancyStatus,
+        departureTime * 1000,
+      ) && (
+        // Use inline styles here for simplicity, some overrides make it impossible via the SASS-file
+        <td className="capacity-cell" style={{ marginRight: '8px' }}>
+          <span
+            className="capacity-icon-container"
+            onClick={() => onCapacityClick()}
+          >
+            <Icon
+              width="1.5"
+              height="1.5"
+              img={`icon-icon_${getCapacity(
+                config,
+                trip.occupancy.occupancyStatus,
+                departureTime * 1000,
+              )}`}
+              color="#007AC9"
+            />
+          </span>
+        </td>
+      )}
     </tr>
   );
 };

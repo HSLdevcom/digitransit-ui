@@ -21,12 +21,12 @@ const CapacityModal = () => {
         </p>
       </section>
       <section>
-        <span className="explanations-heading">
+        <h3 className="explanations-heading">
           <FormattedMessage
             id="capacity-modal.legend"
             defaultMessage="Legend"
           />
-        </span>
+        </h3>
       </section>
       <section>
         <div className="capacity-info-row">
@@ -37,12 +37,12 @@ const CapacityModal = () => {
               height="1.5"
             />
           </div>
-          <span className="info-heading">
+          <h4 className="info-heading">
             <FormattedMessage
               id="capacity-modal.many-seats-available-heading"
               defaultMessage="Not crowded"
             />
-          </span>
+          </h4>
         </div>
         <p className="capacity-info-explanation">
           <FormattedMessage
@@ -60,12 +60,12 @@ const CapacityModal = () => {
               height="1.5"
             />
           </div>
-          <span className="info-heading">
+          <h4 className="info-heading">
             <FormattedMessage
               id="capacity-modal.few-seats-available-heading"
               defaultMessage="Not too crowded"
             />
-          </span>
+          </h4>
         </div>
         <p className="capacity-info-explanation">
           <FormattedMessage
@@ -79,12 +79,12 @@ const CapacityModal = () => {
           <div className="icon">
             <Icon img="icon-icon_STANDING_ROOM_ONLY" width="1.5" height="1.5" />
           </div>
-          <span className="info-heading">
+          <h4 className="info-heading">
             <FormattedMessage
               id="capacity-modal.standing-room-only-heading"
               defaultMessage="Nearly full"
             />
-          </span>
+          </h4>
         </div>
         <p className="capacity-info-explanation">
           <FormattedMessage
@@ -102,12 +102,12 @@ const CapacityModal = () => {
               height="1.5"
             />
           </div>
-          <span className="info-heading">
+          <h4 className="info-heading">
             <FormattedMessage
               id="capacity-modal.crushed-standing-room-only-heading"
               defaultMessage="Very crowded"
             />
-          </span>
+          </h4>
         </div>
         <p className="capacity-info-explanation">
           <FormattedMessage
@@ -121,12 +121,12 @@ const CapacityModal = () => {
           <div className="icon">
             <Icon img="icon-icon_FULL" width="1.5" height="1.5" />
           </div>
-          <span className="info-heading">
+          <h4 className="info-heading">
             <FormattedMessage
               id="capacity-modal.full-capacity-heading"
               defaultMessage="Full"
             />
-          </span>
+          </h4>
         </div>
         <p className="capacity-info-explanation">
           <FormattedMessage

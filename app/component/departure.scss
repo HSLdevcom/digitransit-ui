@@ -232,8 +232,12 @@
     display: flex;
     height: 20px;
     margin-top: 8px;
-    .info-heading {
+    h4 {
+      text-transform: none;
+      margin-top: 0;
+      padding-top: 0;
       padding-left: 20px;
+      font-size: 15px;
     }
   }
   .capacity-info-explanation {
