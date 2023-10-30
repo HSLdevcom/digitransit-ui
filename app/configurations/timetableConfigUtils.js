@@ -35,17 +35,15 @@ export default {
     ) {
       this.availableRouteTimetables = timetables;
     },
-    stopPdfUrlResolver: function stopPdfUrlResolver(
-      baseURL,
-      stop,
-      subscriptionParam,
-      subscriptionToken,
-    ) {
-      const stopIdSplitted = stop.gtfsId.split(':');
-      const url = new URL(`${baseURL}${stopIdSplitted[1]}.pdf`);
-      if (subscriptionParam && subscriptionToken) {
-        url.searchParams.set(subscriptionParam, subscriptionToken);
-      }
+    stopPdfUrlResolver: function stopPdfUrlResolver(baseURL, stop, date) {
+      const stopId = stop.gtfsId.split(':')[1];
+      // From YYYYMMDD to YYYY-MM-DD
+      const formattedDate = date.replace(/(\d{4})(\d{2})(\d{2})/g, '$1-$2-$3');
+      const defaultSearchParams =
+        'props[isSummerTimetable]=false&props[printTimetablesAsA4]=true&props[printTimetablesAsGreyscale]=false&props[template]=default&props[showAddressInfo]=false&props[showPrintButton]=true&props[redirect]=false&template=default';
+      const url = new URL(`${baseURL}&${defaultSearchParams}`);
+      url.searchParams.append('props[stopId]', stopId);
+      url.searchParams.append('props[date]', formattedDate);
       return url;
     },
   },
@@ -59,12 +57,7 @@ export default {
       const routeNumber = route.shortName.replace(/\D/g, '');
       return new URL(`${baseURL}${routeNumber}.html`);
     },
-    stopPdfUrlResolver: function stopPdfUrlResolver(
-      baseURL,
-      stop,
-      subscriptionParam,
-      subscriptionToken,
-    ) {
+    stopPdfUrlResolver: function stopPdfUrlResolver(baseURL, stop, date) {
       const stopIdSplitted = stop.gtfsId.split(':');
       return new URL(`${baseURL}${parseInt(stopIdSplitted[1], 10)}.pdf`);
     },

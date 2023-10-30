@@ -11,6 +11,8 @@ const MAP_URL =
 const MAP_VERSION = process.env.MAP_VERSION || 'v2';
 const POI_MAP_PREFIX = `${MAP_URL}/map/v3/finland`;
 const OTP_URL = process.env.OTP_URL || `${API_URL}/routing/v2/routers/finland/`;
+const STOP_TIMETABLES_URL =
+  process.env.STOP_TIMETABLES_URL || 'https://dev.kartat.hsl.fi';
 const APP_PATH = process.env.APP_CONTEXT || '';
 const {
   SENTRY_DSN,
@@ -95,7 +97,7 @@ export default {
       tampere: 'https://www.nysse.fi/aikataulut-ja-reitit/linjat/',
     },
     STOP_TIMETABLES: {
-      HSL: `${API_URL}/timetables/v1/hsl/stops/`,
+      HSL: `${STOP_TIMETABLES_URL}/julkaisin-render/?component=Timetable`,
     },
     WEATHER_DATA:
       'https://opendata.fmi.fi/wfs?service=WFS&version=2.0.0&request=getFeature&storedquery_id=fmi::forecast::harmonie::surface::point::simple&timestep=5&parameters=temperature,WindSpeedMS,WeatherSymbol3',

@@ -225,6 +225,7 @@ class Timetable extends React.Component {
     // Check if stop is constant operation
     const { constantOperationStops } = this.context.config;
     const stopId = this.props.stop.gtfsId;
+    const { date } = this.props;
     const { locale } = this.context.intl;
     if (constantOperationStops && constantOperationStops[stopId]) {
       return (
@@ -304,8 +305,7 @@ class Timetable extends React.Component {
         ? stopTimetableHandler.stopPdfUrlResolver(
             this.context.config.URL.STOP_TIMETABLES[stopIdSplitted[0]],
             this.props.stop,
-            this.context.config.API_SUBSCRIPTION_QUERY_PARAMETER_NAME,
-            this.context.config.API_SUBSCRIPTION_TOKEN,
+            date,
           )
         : null;
     const virtualMonitorUrl =
