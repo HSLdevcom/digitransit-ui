@@ -6,7 +6,6 @@ import Icon from '../../Icon';
 import {
   getVehicleRentalStationNetworkConfig,
   getVehicleRentalStationNetworkIcon,
-  getVehicleRentalStationNetworkId,
   hasStationCode,
 } from '../../../util/vehicleRentalUtils';
 import { PREFIX_BIKESTATIONS } from '../../../util/path';
@@ -18,10 +17,7 @@ function SelectVehicleRentalStationRow(
   { config },
 ) {
   const img = `${getVehicleRentalStationNetworkIcon(
-    getVehicleRentalStationNetworkConfig(
-      getVehicleRentalStationNetworkId(network),
-      config,
-    ),
+    getVehicleRentalStationNetworkConfig(network, config),
   )}-stop-lollipop`;
   const address = desc || <FormattedMessage id="citybike-station-no-id" />;
   return (

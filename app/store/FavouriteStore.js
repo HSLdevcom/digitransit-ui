@@ -2,20 +2,12 @@ import Store from 'fluxible/addons/BaseStore';
 import includes from 'lodash/includes';
 import find from 'lodash/find';
 import findIndex from 'lodash/findIndex';
-import isEqual from 'lodash/isEqual';
-import sortBy from 'lodash/sortBy';
 import isEmpty from 'lodash/isEmpty';
 import moment from 'moment';
 import { v4 as uuid } from 'uuid';
-import getGeocodingResults from '@digitransit-search-util/digitransit-search-util-get-geocoding-results';
-import { isStop } from '@digitransit-search-util/digitransit-search-util-helpers';
 import {
   clearFavouriteStorage,
-  getFavouriteLocationsStorage,
-  getFavouriteRoutesStorage,
-  getFavouriteStopsStorage,
   getFavouriteStorage,
-  removeItem,
   setFavouriteStorage,
 } from './localStorage';
 import {
@@ -24,6 +16,10 @@ import {
   updateFavourites,
 } from '../util/apiUtils';
 import { getIdWithoutFeed } from '../util/feedScopedIdUtils';
+import {
+  mapVehicleRentalFromStore,
+  mapVehicleRentalToStore,
+} from '../util/vehicleRentalUtils';
 
 export default class FavouriteStore extends Store {
   static storeName = 'FavouriteStore';
@@ -104,8 +100,7 @@ export default class FavouriteStore extends Store {
     const ids = this.favourites
       .filter(
         favourite =>
-          favourite.type === 'bikeStation' &&
-          isEqual(sortBy(favourite.networks[0]), sortBy(network)),
+          favourite.type === 'bikeStation' && favourite.networks[0] === network,
       )
       .map(favourite => `${favourite.networks[0]}:${favourite.stationId}`);
     return includes(ids, id);
@@ -123,7 +118,11 @@ export default class FavouriteStore extends Store {
   }
 
   getFavourites() {
-    return this.favourites;
+    return this.favourites.map(favourite =>
+      favourite.type === 'bikeStation'
+        ? mapVehicleRentalFromStore(favourite)
+        : favourite,
+    );
   }
 
   getByGtfsId(gtfsId, type) {
@@ -133,19 +132,12 @@ export default class FavouriteStore extends Store {
     );
   }
 
-  getByFavouriteId(favouriteId) {
-    return find(
-      this.favourites,
-      favourite => favouriteId === favourite.favouriteId,
-    );
-  }
-
   getByStationIdAndNetworks(stationId, network) {
     return find(
       this.favourites,
       favourite =>
         getIdWithoutFeed(stationId) === favourite.stationId &&
-        isEqual(sortBy(favourite.networks[0]), sortBy(network)),
+        favourite.networks[0] === network,
     );
   }
 
@@ -172,12 +164,7 @@ export default class FavouriteStore extends Store {
   getVehicleRentalStations() {
     return this.favourites
       .filter(favourite => favourite.type === 'bikeStation')
-      .map(favourite => {
-        return {
-          ...favourite,
-          stationId: `${favourite.networks[0]}:${favourite.stationId}`,
-        };
-      });
+      .map(favourite => mapVehicleRentalFromStore(favourite));
   }
 
   /**
@@ -223,11 +210,7 @@ export default class FavouriteStore extends Store {
     }
     this.fetchingOrUpdating();
     if (data.type === 'bikeStation') {
-      data = {
-        ...data,
-        stationId: data.stationId.split(':')[1],
-        networks: [data.network],
-      };
+      data = mapVehicleRentalToStore(data);
     }
     const newFavourites = this.favourites.slice();
     const editIndex = findIndex(
@@ -282,10 +265,15 @@ export default class FavouriteStore extends Store {
         `New favourites is not an array:${JSON.stringify(newFavourites)}`,
       );
     }
+    const newFavouriteMapped = newFavourites.map(favourite =>
+      favourite.type === 'bikeStation'
+        ? mapVehicleRentalToStore(favourite)
+        : favourite,
+    );
     this.fetchingOrUpdating();
     if (this.config.allowLogin) {
       // Update favourites to backend service
-      updateFavourites(newFavourites)
+      updateFavourites(newFavouriteMapped)
         .then(res => {
           this.favourites = res;
           this.fetchComplete();
@@ -293,13 +281,13 @@ export default class FavouriteStore extends Store {
         .catch(() => {
           onFail();
           if (this.config.allowFavouritesFromLocalstorage) {
-            this.favourites = newFavourites;
+            this.favourites = newFavouriteMapped;
             this.storeFavourites();
           }
           this.fetchComplete();
         });
     } else {
-      this.favourites = newFavourites;
+      this.favourites = newFavouriteMapped;
       this.storeFavourites();
       this.fetchComplete();
     }
@@ -341,78 +329,6 @@ export default class FavouriteStore extends Store {
       this.storeFavourites();
       this.fetchComplete();
     }
-  }
-
-  migrateRoutes() {
-    const routes = getFavouriteRoutesStorage();
-    routes.forEach(route => {
-      this.saveFavourite({
-        type: 'route',
-        gtfsId: route,
-        onFail: () => {},
-      });
-    });
-    removeItem('favouriteRoutes');
-  }
-
-  migrateStops() {
-    const stops = getFavouriteStopsStorage();
-    stops.forEach(stop => {
-      const newStop = {
-        type: isStop(stop) ? 'stop' : 'station',
-        name: stop.locationName,
-        gtfsId: stop.gtfsId,
-        address: stop.address,
-        lon: stop.lon,
-        lat: stop.lat,
-        layer: stop.layer,
-        selectedIconId: stop.selectedIconId,
-      };
-      this.saveFavourite({
-        ...newStop,
-        onFail: () => {},
-      });
-    });
-    removeItem('favouriteStops');
-  }
-
-  migrateLocations() {
-    const locations = getFavouriteLocationsStorage();
-    locations.forEach(location => {
-      getGeocodingResults(
-        location.address,
-        this.config.searchParams,
-        null,
-        null,
-        null,
-        this.config.URL.pelias,
-      ).then(res => {
-        const data = find(
-          res,
-          elem =>
-            elem.properties.label === location.address ||
-            (location.lon === elem.geometry.coordinates[0] &&
-              location.lat === elem.geometry.coordinates[1]),
-        );
-        if (data) {
-          const newLocation = {
-            type: 'place',
-            id: data.properties.gid,
-            address: data.properties.label,
-            name: location.locationName,
-            lon: data.geometry.coordinates[0],
-            lat: data.geometry.coordinates[1],
-            layer: data.properties.layer,
-            selectedIconId: location.selectedIconId,
-          };
-          this.saveFavourite({
-            ...newLocation,
-            onFail: () => {},
-          });
-        }
-      });
-    });
-    removeItem('favouriteLocations');
   }
 
   static handlers = {

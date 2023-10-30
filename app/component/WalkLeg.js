@@ -13,7 +13,6 @@ import { getActiveAlertSeverityLevel } from '../util/alertUtils';
 import { PREFIX_STOPS } from '../util/path';
 import {
   CityBikeNetworkType,
-  getVehicleRentalStationNetworkId,
   getVehicleRentalStationNetworkConfig,
 } from '../util/vehicleRentalUtils';
 import { displayDistance } from '../util/geo-utils';
@@ -42,12 +41,10 @@ function WalkLeg(
   const [address, place] = splitStringToAddressAndPlace(leg[toOrFrom].name);
 
   const networkType = getVehicleRentalStationNetworkConfig(
-    getVehicleRentalStationNetworkId(
-      previousLeg &&
-        previousLeg.rentedBike &&
-        previousLeg[toOrFrom].vehicleRentalStation &&
-        previousLeg[toOrFrom].vehicleRentalStation.network,
-    ),
+    previousLeg &&
+      previousLeg.rentedBike &&
+      previousLeg[toOrFrom].vehicleRentalStation &&
+      previousLeg[toOrFrom].vehicleRentalStation.network,
     config,
   ).type;
 

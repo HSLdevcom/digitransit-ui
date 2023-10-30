@@ -7,7 +7,6 @@ import {
   BIKEAVL_UNKNOWN,
   getVehicleRentalStationNetworkConfig,
   getVehicleRentalStationNetworkIcon,
-  getVehicleRentalStationNetworkId,
   getVehicleCapacity,
 } from '../../../util/vehicleRentalUtils';
 import { isBrowser } from '../../../util/browser';
@@ -71,10 +70,7 @@ export default class VehicleMarker extends React.Component {
     const { config } = this.context;
     const vehicleCapacity = getVehicleCapacity(config, station.network);
     const iconName = `${getVehicleRentalStationNetworkIcon(
-      getVehicleRentalStationNetworkConfig(
-        getVehicleRentalStationNetworkId(station.network),
-        config,
-      ),
+      getVehicleRentalStationNetworkConfig(station.network, config),
     )}-lollipop`;
 
     return !transit && zoom <= config.stopsSmallMaxZoom

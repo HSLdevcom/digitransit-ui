@@ -14,7 +14,6 @@ import { showCitybikeNetwork } from '../../../util/modeUtils';
 import {
   getVehicleRentalStationNetworkConfig,
   getVehicleRentalStationNetworkIcon,
-  getVehicleRentalStationNetworkId,
   getVehicleCapacity,
   BIKEAVL_UNKNOWN,
 } from '../../../util/vehicleRentalUtils';
@@ -114,10 +113,7 @@ class VehicleRentalStations {
     }
 
     const iconName = getVehicleRentalStationNetworkIcon(
-      getVehicleRentalStationNetworkConfig(
-        getVehicleRentalStationNetworkId(network),
-        this.config,
-      ),
+      getVehicleRentalStationNetworkConfig(network, this.config),
     );
     const isHilighted = this.tile.hilightedStops?.includes(id);
 

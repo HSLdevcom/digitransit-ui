@@ -3,6 +3,7 @@ import without from 'lodash/without';
 import { getCustomizedSettings } from '../store/localStorage';
 import { addAnalyticsEvent } from './analyticsUtils';
 import { citybikeRoutingIsActive } from './modeUtils';
+import { getIdWithoutFeed } from './feedScopedIdUtils';
 
 export const BIKEAVL_UNKNOWN = 'No availability';
 export const BIKEAVL_BIKES = 'Bikes on station';
@@ -163,4 +164,26 @@ export const hasStationCode = vehicleRentalStation => {
     // eslint-disable-next-line no-restricted-globals
     !isNaN(parseFloat(id))
   );
+};
+
+export const mapVehicleRentalFromStore = vehicleRentalStation => {
+  const network = vehicleRentalStation.networks[0];
+  const newStation = {
+    ...vehicleRentalStation,
+    network,
+    stationId: `${network}:${vehicleRentalStation.stationId}`,
+  };
+  delete newStation.networks;
+  return newStation;
+};
+
+export const mapVehicleRentalToStore = vehicleRentalStation => {
+  const { network } = vehicleRentalStation;
+  const newStation = {
+    ...vehicleRentalStation,
+    networks: [network],
+    stationId: getIdWithoutFeed(vehicleRentalStation.stationId),
+  };
+  delete newStation.network;
+  return newStation;
 };

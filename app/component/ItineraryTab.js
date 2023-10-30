@@ -42,7 +42,6 @@ import {
   getCurrentMillis,
 } from '../util/timeUtils';
 import CityBikeDurationInfo from './VehicleRentalStationDurationInfo';
-import { getVehicleRentalStationNetworkId } from '../util/vehicleRentalUtils';
 import { FareShape } from '../util/shapes';
 
 const AlertShape = PropTypes.shape({ alertSeverityLevel: PropTypes.string });
@@ -195,9 +194,7 @@ class ItineraryTab extends React.Component {
     if (legsWithRentalBike.length > 0) {
       for (let i = 0; i < legsWithRentalBike.length; i++) {
         const leg = legsWithRentalBike[i];
-        const network = getVehicleRentalStationNetworkId(
-          leg.from.vehicleRentalStation?.network,
-        );
+        const network = leg.from.vehicleRentalStation?.network;
         if (
           config.cityBike.networks[network]?.timeBeforeSurcharge &&
           config.cityBike.networks[network]?.durationInstructions

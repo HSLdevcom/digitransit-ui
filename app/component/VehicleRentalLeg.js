@@ -8,7 +8,6 @@ import {
   getVehicleCapacity,
   getVehicleRentalStationNetworkConfig,
   getVehicleRentalStationNetworkIcon,
-  getVehicleRentalStationNetworkId,
   hasStationCode,
 } from '../util/vehicleRentalUtils';
 
@@ -48,10 +47,7 @@ function VehicleRentalLeg(
     </span>
   );
   const vehicleIcon = getVehicleRentalStationNetworkIcon(
-    getVehicleRentalStationNetworkConfig(
-      getVehicleRentalStationNetworkId(vehicleRentalStation.network),
-      config,
-    ),
+    getVehicleRentalStationNetworkConfig(vehicleRentalStation.network, config),
   );
   const availabilityIndicatorColor = getVehicleAvailabilityIndicatorColor(
     vehicleRentalStation.vehiclesAvailable,
