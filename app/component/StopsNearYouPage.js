@@ -837,7 +837,7 @@ class StopsNearYouPage extends React.Component {
     if (
       useCitybikes(this.context.config.cityBike?.networks, this.context.config)
     ) {
-      targets.push('VehicleRentalStations');
+      targets.push('VehicleRentalStation');
     }
     if (this.context.config.includeParkAndRideSuggestions && onMap) {
       targets.push('ParkingAreas');
