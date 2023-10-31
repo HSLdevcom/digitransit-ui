@@ -338,7 +338,7 @@ export function getSearchResults(
         'selectFromMap',
         'futureRoute',
         'ownLocations',
-        'VehicleRentalStation',
+        'vehicleRentalStation',
         'bikepark',
         'carpark',
         'stop',
@@ -385,7 +385,7 @@ export function getSearchResults(
         'ownLocations',
         'favouritePlace',
         'bikestation',
-        'VehicleRentalStation',
+        'vehicleRentalStation',
         'back',
         'stop',
         'station',
@@ -469,7 +469,7 @@ export function getSearchResults(
         'futureRoute',
         'ownLocations',
         'favouritePlace',
-        'VehicleRentalStation',
+        'vehicleRentalStation',
         'back',
       ];
       dropLayers.push(...routeLayers);
@@ -477,7 +477,7 @@ export function getSearchResults(
       dropLayers.push(...parkingLayers);
       if (transportMode) {
         if (transportMode !== 'route-CITYBIKE') {
-          dropLayers.push('VehicleRentalStation');
+          dropLayers.push('vehicleRentalStation');
           dropLayers.push('bikestation');
         }
         searchComponents.push(
@@ -528,7 +528,7 @@ export function getSearchResults(
       ];
       if (transportMode) {
         if (transportMode !== 'route-CITYBIKE') {
-          dropLayers.push('VehicleRentalStation');
+          dropLayers.push('vehicleRentalStation');
           dropLayers.push('bikestation');
         }
         dropLayers.push(...routeLayers.filter(i => !(i === transportMode)));
@@ -541,7 +541,7 @@ export function getSearchResults(
       );
     }
   }
-  if (allTargets || targets.includes('VehicleRentalStation')) {
+  if (allTargets || targets.includes('vehicleRentalStation')) {
     if (sources.includes('Favourite')) {
       const favouriteBikeStations = getFavouriteVehicleRentalStations(context);
       searchComponents.push(
@@ -564,7 +564,7 @@ export function getSearchResults(
           geocodingLayers,
         ).then(results => {
           if (filterResults) {
-            return filterResults(results, mode, 'VehicleRentalStation');
+            return filterResults(results, mode, 'vehicleRentalStation');
           }
           return results;
         }),
