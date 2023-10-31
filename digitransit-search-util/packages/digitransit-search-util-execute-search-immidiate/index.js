@@ -541,11 +541,16 @@ export function getSearchResults(
       );
     }
   }
-  if (allTargets || targets.includes('vehicleRentalStation')) {
+  if (allTargets || targets.includes('VehicleRentalStation')) {
     if (sources.includes('Favourite')) {
-      const favouriteBikeStations = getFavouriteVehicleRentalStations(context);
+      const favouriteVehicleRentalStation = getFavouriteVehicleRentalStations(
+        context,
+      );
       searchComponents.push(
-        getFavouriteVehicleRentalStationsQuery(favouriteBikeStations, input),
+        getFavouriteVehicleRentalStationsQuery(
+          favouriteVehicleRentalStation,
+          input,
+        ),
       );
     }
     if (allSources || sources.includes('Datasource')) {
@@ -564,7 +569,7 @@ export function getSearchResults(
           geocodingLayers,
         ).then(results => {
           if (filterResults) {
-            return filterResults(results, mode, 'vehicleRentalStation');
+            return filterResults(results, mode, 'VehicleRentalStation');
           }
           return results;
         }),
