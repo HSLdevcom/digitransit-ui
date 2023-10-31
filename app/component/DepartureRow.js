@@ -126,6 +126,12 @@ const DepartureRow = (
     );
   };
 
+  const capacity = getCapacity(
+    config,
+    trip.occupancy.occupancyStatus,
+    departureTime * 1000,
+  );
+
   return (
     <tr
       className={cx(
@@ -224,11 +230,7 @@ const DepartureRow = (
           )}
         </td>
       )}
-      {getCapacity(
-        config,
-        trip.occupancy?.occupancyStatus,
-        departureTime * 1000,
-      ) && (
+      {capacity && (
         // Use inline styles here for simplicity, some overrides make it impossible via the SASS-file
         <td className="capacity-cell" style={{ marginRight: '8px' }}>
           <span
@@ -238,11 +240,7 @@ const DepartureRow = (
             <Icon
               width="1.5"
               height="1.5"
-              img={`icon-icon_${getCapacity(
-                config,
-                trip.occupancy.occupancyStatus,
-                departureTime * 1000,
-              )}`}
+              img={`icon-icon_${capacity}`}
               color="#007AC9"
             />
           </span>
