@@ -1,9 +1,10 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React from 'react';
+import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import Icon from './Icon';
 
-const CapacityModal = () => {
+const CapacityModal = ({ config }) => {
   return (
     <div className="capacity-information-modal">
       <section>
@@ -30,7 +31,7 @@ const CapacityModal = () => {
       </section>
       <section>
         <div className="capacity-info-row">
-          <div className="icon">
+          <div className="icon" style={{ color: config.colors.primary }}>
             <Icon
               img="icon-icon_MANY_SEATS_AVAILABLE"
               width="1.5"
@@ -58,6 +59,7 @@ const CapacityModal = () => {
               img="icon-icon_FEW_SEATS_AVAILABLE"
               width="1.5"
               height="1.5"
+              color={config.colors.primary}
             />
           </div>
           <h4 className="info-heading">
@@ -77,7 +79,12 @@ const CapacityModal = () => {
       <section>
         <div className="capacity-info-row">
           <div className="icon">
-            <Icon img="icon-icon_STANDING_ROOM_ONLY" width="1.5" height="1.5" />
+            <Icon
+              img="icon-icon_STANDING_ROOM_ONLY"
+              width="1.5"
+              height="1.5"
+              color={config.colors.primary}
+            />
           </div>
           <h4 className="info-heading">
             <FormattedMessage
@@ -100,6 +107,7 @@ const CapacityModal = () => {
               img="icon-icon_CRUSHED_STANDING_ROOM_ONLY"
               width="1.5"
               height="1.5"
+              color={config.colors.primary}
             />
           </div>
           <h4 className="info-heading">
@@ -119,7 +127,12 @@ const CapacityModal = () => {
       <section>
         <div className="capacity-info-row">
           <div className="icon">
-            <Icon img="icon-icon_FULL" width="1.5" height="1.5" />
+            <Icon
+              img="icon-icon_FULL"
+              width="1.5"
+              height="1.5"
+              color={config.colors.primary}
+            />
           </div>
           <h4 className="info-heading">
             <FormattedMessage
@@ -139,7 +152,9 @@ const CapacityModal = () => {
   );
 };
 
-CapacityModal.propTypes = {};
+CapacityModal.propTypes = {
+  config: PropTypes.object.isRequired,
+};
 
 CapacityModal.defaultProps = {};
 

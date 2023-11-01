@@ -232,7 +232,10 @@ const DepartureRow = (
       )}
       {capacity && (
         // Use inline styles here for simplicity, some overrides make it impossible via the SASS-file
-        <td className="capacity-cell" style={{ marginRight: '8px' }}>
+        <td
+          className="capacity-cell"
+          style={{ marginRight: '8px', color: config.colors.primary }}
+        >
           <span
             className="capacity-icon-container"
             onClick={() => onCapacityClick()}
@@ -241,7 +244,7 @@ const DepartureRow = (
               width="1.5"
               height="1.5"
               img={`icon-icon_${capacity}`}
-              color="#007AC9"
+              color={config.colors.primary}
             />
           </span>
         </td>

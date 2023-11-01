@@ -159,6 +159,7 @@ function RouteNumber(props, context) {
             img={`icon-icon_${props.occupancyStatus}`}
             height={1.5}
             width={1.5}
+            color="white"
           />
         </span>
       )}

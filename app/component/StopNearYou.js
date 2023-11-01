@@ -110,7 +110,7 @@ const StopNearYou = (
         isOpen={capacityModalOpen}
         onCrossClick={() => setCapacityModalOpen(false)}
       >
-        <CapacityModal />
+        <CapacityModal config={config} />
       </Modal>
     </span>
   );
