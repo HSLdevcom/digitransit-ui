@@ -6,6 +6,7 @@ import { FormattedMessage, intlShape } from 'react-intl';
 import Link from 'found/Link';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 
+import get from 'lodash/get';
 import LegAgencyInfo from './LegAgencyInfo';
 import Icon from './Icon';
 import IntermediateLeg from './IntermediateLeg';
@@ -550,7 +551,12 @@ class TransitLeg extends React.Component {
             (config.showTrainLimitationInfo ? (
               <div className="disclaimer-container unknown-fare-disclaimer__leg">
                 <div className="description-container">
-                  <FormattedMessage id="nysse-ticket-limited" />
+                  <FormattedMessage
+                    id="train-ticket-limited"
+                    values={{
+                      agencyName: get(config, 'appBarLink.name'),
+                    }}
+                  />
                   <a
                     href={
                       config.showTrainLimitationInfo[lang]

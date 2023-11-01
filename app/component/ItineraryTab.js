@@ -251,9 +251,9 @@ class ItineraryTab extends React.Component {
         return (
           <div className="description-container">
             <FormattedMessage
-              id="nysse-ticket-limited"
+              id="train-ticket-limited"
               values={{
-                agencyName: get(config, 'ticketInformation.primaryAgencyName'),
+                agencyName: get(config, 'appBarLink.name'),
               }}
             />
             <a
