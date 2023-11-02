@@ -53,7 +53,7 @@ export default {
   // Navbar logo
   logo: 'matka/matka-logo.svg',
 
-  favicon: './app/configurations/images/matka/favicon.svg',
+  favicon: './app/configurations/images/matka/matka-favicon.svg',
 
   colors: {
     primary: '#002c74',

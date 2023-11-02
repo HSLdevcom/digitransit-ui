@@ -88,7 +88,7 @@ export default configMerger(walttiConfig, {
   logo: 'kouvola/logo.png',
   secondaryLogo: 'kouvola/secondary-logo.png',
 
-  favicon: './app/configurations/images/kouvola/favicon.png',
+  favicon: './app/configurations/images/kouvola/kouvola-favicon.png',
 
   feedIds: ['Kouvola'],
 
