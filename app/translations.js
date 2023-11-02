@@ -868,8 +868,11 @@ const translations = {
     'as-destination': 'Destination',
     'as-origin': 'Origin',
     'as-viapoint': 'Viapoint',
-    'search-autosuggest-label':
-      'Venue, place and stopsearch. Navigate list with arrow keys and select with enter key',
+    'search-autosuggest-label': 'Venue, place and stopsearch.',
+    'search-autosuggest-label-instructions':
+      'Navigate list with arrow keys and select with enter key.',
+    'search-autosuggest-label-move-to-destination':
+      'After selecting the starting location you are automatically moved to the destination field.',
     'search-autosuggest-len':
       'There {len, plural, =1 {is 1 suggestion} other {are {len} suggestions}} available',
     'search-current-suggestion': 'Current selection: {selection}',
@@ -1446,7 +1449,7 @@ const translations = {
     'search-destination-results-but-no-search':
       'View results in the adjacent “Destination” tab',
     'search-fields.sr-instructions':
-      'Route search will take place automatically when you enter origin and destination. Changing search parameters will trigger a new search.',
+      'Route search will take place automatically when you enter origin and destination. Changing search parameters will trigger a new search. Navigate to the search fields using the tab key',
     'search-no-results': 'No location',
     'search-origin': 'Search origin, route or stop',
     'search-origin-index': 'Enter origin',
@@ -2004,8 +2007,11 @@ const translations = {
     'as-destination': 'Määränpääksi',
     'as-origin': 'Lähtöpaikaksi',
     'as-viapoint': 'Välipisteeksi',
-    'search-autosuggest-label':
-      'Paikka, linja ja pysäkkihaku. Navigoi listassa nuolinäppäimillä ja valitse enterillä',
+    'search-autosuggest-label': 'Paikka, linja ja pysäkkihaku.',
+    'search-autosuggest-label-instructions':
+      'Navigoi listassa nuolinäppäimillä ja valitse enterillä.',
+    'search-autosuggest-label-move-to-destination':
+      'Valittuasi lähtöpaikan siirrytään suoraan määränpää-kenttään.',
     'search-autosuggest-len':
       ' Löydettiin {len, plural, =1 {1 ehdotus} other {{len} ehdotusta}}',
     'search-current-suggestion': 'Tämänhetkinen valinta: {selection}',
@@ -2582,7 +2588,7 @@ const translations = {
     'search-destination-results-but-no-search':
       'Katso tulokset viereiseltä Määränpää-välilehdeltä',
     'search-fields.sr-instructions':
-      'Reittihaku tehdään automaattisesti kun lähtöpaikka ja määränpää on asetettu. Haun parametrien muuttaminen laukaisee uuden reittihaun',
+      'Reittihaku tehdään automaattisesti kun lähtöpaikka ja määränpää on asetettu. Haun parametrien muuttaminen laukaisee uuden reittihaun. Navigoi hakukenttiin tab-näppäimellä.',
     'search-no-results': 'Ei tuloksia',
     'search-origin': 'Hae lähtöpaikkaa, linjaa tai pysäkkiä',
     'search-origin-index': 'Syötä lähtöpaikka',
@@ -3929,8 +3935,11 @@ const translations = {
     'as-destination': 'Destination',
     'as-origin': 'Avfärdsplats',
     'as-viapoint': 'Via punkt',
-    'search-autosuggest-label':
-      'Plats, linje och hållplatssökning. Navigera listan med piltangenterna och välj med Enter-tangeten',
+    'search-autosuggest-label': 'Plats, linje och hållplatssökning.',
+    'search-autosuggest-label-instructions':
+      'Navigera listan med piltangenterna och välj med Enter-tangeten.',
+    'search-autosuggest-label-move-to-destination':
+      'Efter att du valt avgångsplatsen tas du direkt till Destination-fältet.',
     'search-autosuggest-len': 'Hittade {len} förslag',
     'search-current-suggestion': 'Nuvarande val: {selection}',
     'select-date': 'Välj datum',
@@ -4497,7 +4506,7 @@ const translations = {
     'search-destination-results-but-no-search':
       'Se resultaten under fliken Destination',
     'search-fields.sr-instructions':
-      'Ruttsökning görs automatiskt när du skriver in avgångsplats och destination. Om du ändrar sökvillkoren, startas en ny ruttsökning automatiskt.',
+      'Ruttsökning görs automatiskt när du skriver in avgångsplats och destination. Om du ändrar sökvillkoren, startas en ny ruttsökning automatiskt. Navigera till sökfälten med tabbtangenten.',
     'search-no-results': 'Inga sökresultat',
     'search-origin': 'Sök avfärdsplats, linje eller hållplats',
     'search-origin-index': 'Skriv avfärdsplats',
