@@ -949,10 +949,7 @@ class DTAutosuggest extends React.Component {
       this.props.id === 'origin'
         ? i18next.t('search-autosuggest-label-move-to-destination')
         : '';
-    const ariaLabelText = i18next
-      .t('search-autosuggest-label')
-      .concat(' ')
-      .concat(ariaLabelInstructions)
+    const ariaLabelText = ariaLabelInstructions
       .concat(' ')
       .concat(movingToDestinationFieldText);
 
@@ -1044,13 +1041,11 @@ class DTAutosuggest extends React.Component {
                   this.props.inputClassName &&
                     `${this.props.inputClassName}-input-icon`,
                 ])}
-                aria-label={ariaRequiredText // simple, descriptive label for arrow key navigation
+                aria-label={ariaRequiredText
                   .concat(' ')
                   .concat(SearchBarId)
                   .concat(' ')
-                  .concat(i18next.t('search-autosuggest-label'))
-                  .concat(' ')
-                  .concat(ariaCurrentSuggestion())}
+                  .concat(i18next.t('search-autosuggest-label'))}
               >
                 <Icon img={`${this.props.icon}`} />
               </div>

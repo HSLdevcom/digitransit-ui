@@ -295,7 +295,8 @@ const translations = {
       'Navigera listan med piltangenterna och välj med Enter-tangeten.',
     'search-autosuggest-label-instructions-mobile':
       'Ange platsen och navigera i listan genom att svepa.',
-    'search-autosuggest-label-move-to-destination': 'TO DO',
+    'search-autosuggest-label-move-to-destination':
+      'Efter att du valt avgångsplatsen tas du direkt till Destination-fältet.',
     'search-autosuggest-len': 'Hittade {{count}} förslag',
     'search-current-suggestion': 'Nuvarande val: {{selection}}',
     street: 'Gata',
