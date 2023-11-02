@@ -52,6 +52,7 @@ class Timetable extends React.Component {
       onDateChange: PropTypes.func,
     }).isRequired,
     date: PropTypes.string,
+    language: PropTypes.string.isRequired,
   };
 
   static contextTypes = {
@@ -301,11 +302,13 @@ class Timetable extends React.Component {
     const stopPDFURL =
       stopTimetableHandler &&
       this.context.config.URL.STOP_TIMETABLES[stopIdSplitted[0]] &&
-      locationType !== 'STATION'
+      locationType !== 'STATION' &&
+      date
         ? stopTimetableHandler.stopPdfUrlResolver(
             this.context.config.URL.STOP_TIMETABLES[stopIdSplitted[0]],
             this.props.stop,
-            date,
+            this.props.date,
+            this.props.language,
           )
         : null;
     const virtualMonitorUrl =

@@ -35,7 +35,7 @@ export default {
     ) {
       this.availableRouteTimetables = timetables;
     },
-    stopPdfUrlResolver: function stopPdfUrlResolver(baseURL, stop, date) {
+    stopPdfUrlResolver: function stopPdfUrlResolver(baseURL, stop, date, lang) {
       const stopId = stop.gtfsId.split(':')[1];
       // From YYYYMMDD to YYYY-MM-DD
       const formattedDate = date.replace(/(\d{4})(\d{2})(\d{2})/g, '$1-$2-$3');
@@ -44,6 +44,7 @@ export default {
       const url = new URL(`${baseURL}&${defaultSearchParams}`);
       url.searchParams.append('props[stopId]', stopId);
       url.searchParams.append('props[date]', formattedDate);
+      url.searchParams.append('props[lang]', lang);
       return url;
     },
   },
@@ -57,7 +58,7 @@ export default {
       const routeNumber = route.shortName.replace(/\D/g, '');
       return new URL(`${baseURL}${routeNumber}.html`);
     },
-    stopPdfUrlResolver: function stopPdfUrlResolver(baseURL, stop, date) {
+    stopPdfUrlResolver: function stopPdfUrlResolver(baseURL, stop, date, lang) {
       const stopIdSplitted = stop.gtfsId.split(':');
       return new URL(`${baseURL}${parseInt(stopIdSplitted[1], 10)}.pdf`);
     },
