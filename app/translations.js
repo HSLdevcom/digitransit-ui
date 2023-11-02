@@ -4506,7 +4506,7 @@ const translations = {
     'search-destination-results-but-no-search':
       'Se resultaten under fliken Destination',
     'search-fields.sr-instructions':
-      'Ruttsökning görs automatiskt när du skriver in avgångsplats och destination. Om du ändrar sökvillkoren, startas en ny ruttsökning automatiskt.',
+      'Ruttsökning görs automatiskt när du skriver in avgångsplats och destination. Om du ändrar sökvillkoren, startas en ny ruttsökning automatiskt. Navigera till sökfälten med tabbtangenten.',
     'search-no-results': 'Inga sökresultat',
     'search-origin': 'Sök avfärdsplats, linje eller hållplats',
     'search-origin-index': 'Skriv avfärdsplats',
