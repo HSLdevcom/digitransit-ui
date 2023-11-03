@@ -66,7 +66,7 @@ export default {
   defaultLanguage: 'fi',
   passLanguageToRootLink: true,
 
-  favicon: './app/configurations/images/hsl/favicon.png',
+  favicon: './app/configurations/images/hsl/hsl-favicon.png',
 
   // Navbar logo
   logo: 'hsl/reittiopas-logo.svg',

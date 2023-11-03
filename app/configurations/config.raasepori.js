@@ -38,7 +38,7 @@ export default configMerger(walttiConfig, {
   // Navbar logo
   logo: 'raasepori/raasepori_logo_valkoinen.png',
   secondaryLogo: 'raasepori/raasepori_logo_musta.png',
-  favicon: './app/configurations/images/raasepori/favicon.png',
+  favicon: './app/configurations/images/raasepori/raasepori-favicon.png',
 
   useSearchPolygon: true,
 

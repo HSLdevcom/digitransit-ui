@@ -38,7 +38,7 @@ export default configMerger(walttiConfig, {
   // Navbar logo
   logo: 'tampere/tampere-logo.png',
 
-  favicon: './app/configurations/images/tampere/favicon.png',
+  favicon: './app/configurations/images/tampere/tampere-favicon.png',
 
   feedIds: ['tampere', 'digitraffic', 'tampereDRT'],
 
