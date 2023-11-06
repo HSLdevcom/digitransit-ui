@@ -21,6 +21,8 @@ const LegInfo = (
     alertSeverityLevel,
     isAlternativeLeg,
     displayTime,
+    changeHash,
+    tabIndex,
   },
   { config, intl },
 ) => {
@@ -113,7 +115,14 @@ const LegInfo = (
         closeButtonLabel="Close"
         variant="small"
         isOpen={capacityModalOpen}
-        onCrossClick={() => setCapacityModalOpen(false)}
+        onCrossClick={() => {
+          setCapacityModalOpen(false);
+          if (changeHash) {
+            setTimeout(() => {
+              changeHash(tabIndex);
+            }, 500);
+          }
+        }}
       >
         <CapacityModal config={config} />
       </Modal>
@@ -129,6 +138,8 @@ LegInfo.propTypes = {
   alertSeverityLevel: PropTypes.string,
   isAlternativeLeg: PropTypes.bool.isRequired,
   displayTime: PropTypes.bool.isRequired,
+  changeHash: PropTypes.func,
+  tabIndex: PropTypes.number,
 };
 
 LegInfo.contextTypes = {

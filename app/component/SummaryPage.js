@@ -2732,6 +2732,7 @@ class SummaryPage extends React.Component {
           serviceTimeRange={this.props.serviceTimeRange}
           focusToLeg={this.focusToLeg}
           onSwipe={this.changeHash}
+          changeHash={this.changeHash}
         >
           {this.props.content &&
             combinedItineraries.map((itinerary, i) =>

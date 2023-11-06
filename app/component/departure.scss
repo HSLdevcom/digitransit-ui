@@ -290,11 +290,9 @@
     .capacity-icon-container {
       padding-left: 7px;
       margin-top: 15px;
+      cursor: pointer;
       svg {
         margin-top: 4px;
-      }
-      &:hover {
-        cursor: pointer;
       }
     }
   }
