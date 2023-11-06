@@ -1,15 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import cx from 'classnames';
 import Link from 'found/Link';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import { intlShape } from 'react-intl';
+import Modal from '@hsl-fi/modal';
 import { getRouteMode } from '../util/modeUtils';
 import RouteNumber from './RouteNumber';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
 import { getCapacityForLeg } from '../util/occupancyUtil';
 import Icon from './Icon';
+import CapacityModal from './CapacityModal';
 
+/* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 const LegInfo = (
   {
     leg,
@@ -21,6 +24,7 @@ const LegInfo = (
   },
   { config, intl },
 ) => {
+  const [capacityModalOpen, setCapacityModalOpen] = useState(false);
   const { constantOperationRoutes } = config;
   const shouldLinkToTrip =
     !constantOperationRoutes || !constantOperationRoutes[leg.route.gtfsId];
@@ -79,7 +83,10 @@ const LegInfo = (
         </div>
       )}
       {capacity && (
-        <span className="capacity-icon-container">
+        <span
+          className="capacity-icon-container"
+          onClick={() => setCapacityModalOpen(true)}
+        >
           <Icon
             width="1.75"
             height="1.75"
@@ -103,6 +110,16 @@ const LegInfo = (
           </span>
         </>
       )}
+      <Modal
+        appElement="#app"
+        contentLabel="Capacity modal"
+        closeButtonLabel="Close"
+        variant="small"
+        isOpen={capacityModalOpen}
+        onCrossClick={() => setCapacityModalOpen(false)}
+      >
+        <CapacityModal config={config} />
+      </Modal>
     </div>
   );
 };
