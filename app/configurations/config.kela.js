@@ -113,6 +113,8 @@ export default configMerger(matkaConfig, {
 
   onlyCarPlan: true,
 
+  useRealtimeTravellerCapacities: false,
+
   aboutThisService: {
     fi: [
       {

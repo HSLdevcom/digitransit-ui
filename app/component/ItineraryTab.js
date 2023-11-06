@@ -82,6 +82,7 @@ class ItineraryTab extends React.Component {
     currentTime: PropTypes.number.isRequired,
     hideTitle: PropTypes.bool,
     currentLanguage: PropTypes.string,
+    changeHash: PropTypes.func,
   };
 
   static defaultProps = {
@@ -348,6 +349,8 @@ class ItineraryTab extends React.Component {
                   itinerary={itinerary}
                   focusToPoint={this.handleFocus}
                   focusToLeg={this.props.focusToLeg}
+                  changeHash={this.props.changeHash}
+                  tabIndex={suggestionIndex - 1}
                 />
                 {config.showRouteInformation && <RouteInformation />}
               </div>
@@ -437,7 +440,9 @@ const withRelay = createFragmentContainer(
               pattern {
                 code
               } 
-              
+              occupancy {
+                occupancyStatus
+              }
               gtfsId
             }
             realTime
@@ -589,6 +594,9 @@ const withRelay = createFragmentContainer(
               stop {
                 gtfsId
               }
+            }
+            occupancy {
+              occupancyStatus
             }
           }
         }

@@ -1346,6 +1346,11 @@ $itinerary-tab-switch-height: 48px;
           height: 1.5em;
           border-radius: $border-radius;
         }
+        .occupancy-icon-container {
+          color: white;
+          margin-left: auto;
+          padding-right: 8px;
+        }
         .vcenter-children {
           width: 100%;
           display: flex;
@@ -1394,6 +1399,11 @@ $itinerary-tab-switch-height: 48px;
       &.alternative-leg-suggestion {
         border: 2px solid #f4f4f5;
         background-color: white;
+      }
+      .capacity-icon-container {
+        color: #007ac9;
+        margin-top: 2px;
+        cursor: pointer;
       }
     }
     .itinerary-leg-text-gray {

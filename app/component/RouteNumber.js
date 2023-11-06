@@ -153,6 +153,16 @@ function RouteNumber(props, context) {
             </div>
           )}
       </span>
+      {props.occupancyStatus && (
+        <span className="occupancy-icon-container">
+          <Icon
+            img={`icon-icon_${props.occupancyStatus}`}
+            height={1.5}
+            width={1.5}
+            color="white"
+          />
+        </span>
+      )}
     </span>
   );
 
@@ -194,6 +204,7 @@ RouteNumber.propTypes = {
   withBicycle: PropTypes.bool,
   card: PropTypes.bool,
   appendClass: PropTypes.string,
+  occupancyStatus: PropTypes.string,
 };
 
 RouteNumber.defaultProps = {
