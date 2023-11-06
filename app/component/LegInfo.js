@@ -83,7 +83,7 @@ const LegInfo = (
         </div>
       )}
       {capacity && (
-        <span
+        <button
           className="capacity-icon-container"
           onClick={() => setCapacityModalOpen(true)}
         >
@@ -93,7 +93,7 @@ const LegInfo = (
             img={`icon-icon_${capacity}`}
             color={config.colors.primary}
           />
-        </span>
+        </button>
       )}
       {displayTime && (
         <>
