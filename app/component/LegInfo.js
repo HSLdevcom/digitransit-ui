@@ -55,14 +55,7 @@ const LegInfo = (
         aria-label={`${intl.formatMessage({
           id: mode.toLowerCase(),
           defaultMessage: 'Vehicle',
-        })} ${leg.route && leg.route.shortName} ${
-          capacityTranslation
-            ? intl.formatMessage({
-                id: capacityTranslation,
-                defaultMessage: 'Capacity status',
-              })
-            : ''
-        }`}
+        })} ${leg.route && leg.route.shortName}}`}
       >
         <span aria-hidden="true">
           <RouteNumber
@@ -86,6 +79,10 @@ const LegInfo = (
         <button
           className="capacity-icon-container"
           onClick={() => setCapacityModalOpen(true)}
+          aria-label={intl.formatMessage({
+            id: capacityTranslation,
+            defaultMessage: 'Capacity status',
+          })}
         >
           <Icon
             width="1.75"
