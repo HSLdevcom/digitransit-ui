@@ -1400,6 +1400,10 @@ $itinerary-tab-switch-height: 48px;
         border: 2px solid #f4f4f5;
         background-color: white;
       }
+      .capacity-icon-container {
+        color: #007ac9;
+        margin-top: 2px;
+      }
     }
     .itinerary-leg-text-gray {
       @include font-book;

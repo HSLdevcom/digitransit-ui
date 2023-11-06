@@ -128,7 +128,7 @@ const DepartureRow = (
 
   const capacity = getCapacity(
     config,
-    trip.occupancy.occupancyStatus,
+    trip?.occupancy?.occupancyStatus,
     departureTime * 1000,
   );
 

@@ -8,6 +8,7 @@ import { getRouteMode } from '../util/modeUtils';
 import RouteNumber from './RouteNumber';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
 import { getCapacityForLeg } from '../util/occupancyUtil';
+import Icon from './Icon';
 
 const LegInfo = (
   {
@@ -68,7 +69,6 @@ const LegInfo = (
             realtime={false}
             withBar
             fadeLong
-            occupancyStatus={getCapacityForLeg(config, leg)}
           />
         </span>
       </Link>
@@ -77,6 +77,16 @@ const LegInfo = (
         <div className={cx({ 'distance-bold': config.emphasizeDistance })}>
           {(leg.distance / 1000).toFixed(1)} km
         </div>
+      )}
+      {capacity && (
+        <span className="capacity-icon-container">
+          <Icon
+            width="1.75"
+            height="1.75"
+            img={`icon-icon_${capacity}`}
+            color={config.colors.primary}
+          />
+        </span>
       )}
       {displayTime && (
         <>
