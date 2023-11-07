@@ -705,7 +705,7 @@ const SummaryRow = (
     <div className="sr-only">
       <FormattedMessage
         id="itinerary-co2.description-simple"
-        defaultMessage="CO2 emissions for this route"
+        defaultMessage="CO₂ emissions for this route"
         values={{
           co2value,
         }}

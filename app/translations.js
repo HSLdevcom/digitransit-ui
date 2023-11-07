@@ -1094,11 +1094,11 @@ const translations = {
     instructions: 'Instructions',
     'is-open': 'Open:',
     'itinerary-co2.description':
-      '{co2value} g of CO2 emissions will be generated on this journey. A car would generate {carCo2Value} g of CO2 on the same journey.',
+      '{co2value} g of CO₂ emissions will be generated on this journey. A car would generate {carCo2Value} g of CO₂ on the same journey.',
     'itinerary-co2.description-simple':
-      '{co2value} g of CO2 emissions will be generated on this journey.',
+      '{co2value} g of CO₂ emissions will be generated on this journey.',
     'itinerary-co2.link': 'This is how we reduce emissions ›',
-    'itinerary-co2.title': 'Matkan CO2-päästöt',
+    'itinerary-co2.title': 'CO₂ emissions of the journey',
     'itinerary-details.biking-leg':
       'At {time} cycle {distance} from {origin} to {to} {destination}. Estimated time {duration}',
     'itinerary-details.car-leg':
@@ -2239,11 +2239,11 @@ const translations = {
     instructions: 'Ohjeet',
     'is-open': 'Avoinna:',
     'itinerary-co2.description':
-      'Tämän matkan CO2 päästö on {co2value} g. Autolla kuljettuna se olisi ollut {carCo2Value} g.',
+      'Tämän matkan CO₂ päästö on {co2value} g. Autolla kuljettuna se olisi ollut {carCo2Value} g.',
     'itinerary-co2.description-simple':
-      'Tämän matkan CO2 päästö on {co2value} g.',
+      'Tämän matkan CO₂ päästö on {co2value} g.',
     'itinerary-co2.link': 'Näin vähennämme päästöjä ›',
-    'itinerary-co2.title': 'Matkan CO2-päästöt',
+    'itinerary-co2.title': 'Matkan CO₂-päästöt',
     'itinerary-details.biking-leg':
       '{time} pyöräile kohteesta {origin} {distance} {to} {destination}. Matka-aika {duration}',
     'itinerary-details.car-leg':
@@ -4155,11 +4155,11 @@ const translations = {
     instructions: 'Anvisningar',
     'is-open': 'Öppet:',
     'itinerary-co2.description':
-      'CO2-utsläppen för denna resa är {co2value} g. En bil skulle generera {carCo2Value} g CO2 på samma resa.',
+      'CO₂-utsläppen för denna resa är {co2value} g. En bil skulle generera {carCo2Value} g CO₂ på samma resa.',
     'itinerary-co2.description-simple':
-      'CO2-utsläppen för denna resa är {co2value} g.',
+      'CO₂-utsläppen för denna resa är {co2value} g.',
     'itinerary-co2.link': 'Så minskar vi utsläppen ›',
-    'itinerary-co2.title': 'Matkan CO2-päästöt',
+    'itinerary-co2.title': 'Rejsens CO₂-udslip',
     'itinerary-details.biking-leg':
       '{time} cykla {distance} från {origin} till {to} {destination}. Restid {duration}',
     'itinerary-details.car-leg':

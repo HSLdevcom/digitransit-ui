@@ -365,7 +365,7 @@ class ItineraryTab extends React.Component {
                         <span className={cx("itinerary-co2-description", { simple: co2SimpleDesc })}>
                           {co2SimpleDesc ?
                             <FormattedMessage id="itinerary-co2.description-simple"
-                              defaultMessage="CO2 emissions for this route2"
+                              defaultMessage="CO₂ emissions for this route2"
                               values={{
                                 co2value,
                               }}
@@ -373,7 +373,7 @@ class ItineraryTab extends React.Component {
                             :
                             <FormattedMessage
                               id="itinerary-co2.description"
-                              defaultMessage="CO2 emissions for this route"
+                              defaultMessage="CO₂ emissions for this route"
                               values={{
                                 co2value,
                                 carCo2Value,
