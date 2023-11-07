@@ -4247,6 +4247,71 @@
                     ]
                 },
                 {
+                    "kind": "ENUM",
+                    "name": "OccupancyStatus",
+                    "description": "Occupancy status of a vehicle.",
+                    "fields": null,
+                    "inputFields": null,
+                    "interfaces": null,
+                    "enumValues": [
+                        {
+                            "name": "NO_DATA_AVAILABLE",
+                            "description": "Default. There is no occupancy-data on this departure.",
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "EMPTY",
+                            "description": "The vehicle is considered empty by most measures, and has few or no passengers onboard, but is\nstill accepting passengers. There isn't a big difference between this and MANY_SEATS_AVAILABLE\nso it's possible to handle them as the same value, if one wants to limit the number of different\nvalues.",
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "MANY_SEATS_AVAILABLE",
+                            "description": "The vehicle or carriage has a large number of seats available. The amount of free seats out of\nthe total seats available to be considered large enough to fall into this category is\ndetermined at the discretion of the producer. There isn't a big difference between this and\nEMPTY so it's possible to handle them as the same value, if one wants to limit the number of\ndifferent values.",
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "FEW_SEATS_AVAILABLE",
+                            "description": "The vehicle or carriage has a small number of seats available. The amount of free seats out of\nthe total seats available to be considered small enough to fall into this category is\ndetermined at the discretion of the producer.",
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "STANDING_ROOM_ONLY",
+                            "description": "The vehicle or carriage can currently accommodate only standing passengers.",
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "CRUSHED_STANDING_ROOM_ONLY",
+                            "description": "The vehicle or carriage can currently accommodate only standing passengers and has limited\nspace for them. There isn't a big difference between this and FULL so it's possible to handle\nthem as the same value, if one wants to limit the number of different values.",
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "FULL",
+                            "description": "The vehicle is considered full by most measures, but may still be allowing passengers to\nboard.",
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "NOT_ACCEPTING_PASSENGERS",
+                            "description": "The vehicle or carriage is not accepting passengers. The vehicle or carriage usually accepts\npassengers for boarding.",
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "NOT_BOARDABLE",
+                            "description": "The vehicle or carriage is not boardable and never accepts passengers. Useful for special\nvehicles or carriages (engine, maintenance carriage, etc…). It might not make sense to show\nthese types of trips to passengers at all.",
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        }
+                    ],
+                    "possibleTypes": null
+                },
+                {
                     "kind": "OBJECT",
                     "name": "OpeningHours",
                     "description": null,
@@ -10420,6 +10485,18 @@
                             },
                             "isDeprecated": false,
                             "deprecationReason": null
+                        },
+                        {
+                            "name": "occupancy",
+                            "description": "The latest realtime occupancy information for the latest occurance of this\ntrip.",
+                            "args": [],
+                            "type": {
+                                "kind": "OBJECT",
+                                "name": "TripOccupancy",
+                                "ofType": null
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
                         }
                     ],
                     "inputFields": null,
@@ -10478,6 +10555,29 @@
                             "deprecationReason": null
                         }
                     ],
+                    "possibleTypes": null
+                },
+                {
+                    "kind": "OBJECT",
+                    "name": "TripOccupancy",
+                    "description": "Occupancy of a vehicle on a trip. This should include the most recent occupancy information\navailable for a trip. Historic data might not be available.",
+                    "fields": [
+                        {
+                            "name": "occupancyStatus",
+                            "description": "Occupancy information mapped to a limited set of descriptive states.",
+                            "args": [],
+                            "type": {
+                                "kind": "ENUM",
+                                "name": "OccupancyStatus",
+                                "ofType": null
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        }
+                    ],
+                    "inputFields": null,
+                    "interfaces": [],
+                    "enumValues": null,
                     "possibleTypes": null
                 },
                 {

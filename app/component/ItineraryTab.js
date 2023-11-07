@@ -26,6 +26,7 @@ import {
   legContainsRentalBike,
   getTotalDrivingDuration,
   getTotalDrivingDistance,
+  isCallAgencyPickupType,
 } from '../util/legUtils';
 import { BreakpointConsumer } from '../util/withBreakpoint';
 
@@ -86,11 +87,14 @@ class ItineraryTab extends React.Component {
     lang: PropTypes.string.isRequired,
     hideTitle: PropTypes.bool,
     carItinerary: PropTypes.array,
+    currentLanguage: PropTypes.string,
+    changeHash: PropTypes.func,
   };
 
   static defaultProps = {
     hideTitle: false,
     carItinerary: [],
+    currentLanguage: "fi"
   };
 
   static contextTypes = {
@@ -182,7 +186,7 @@ class ItineraryTab extends React.Component {
   };
 
   render() {
-    const { itinerary } = this.props;
+    const { itinerary, currentLanguage } = this.props;
     const { config } = this.context;
 
     if (!itinerary || !itinerary.legs[0]) {
@@ -219,9 +223,13 @@ class ItineraryTab extends React.Component {
     const suggestionIndex = this.context.match.params.secondHash
       ? Number(this.context.match.params.secondHash) + 1
       : Number(this.context.match.params.hash) + 1;
+
     const co2value = typeof itinerary.emissionsPerPerson?.co2 === 'number' && itinerary.emissionsPerPerson?.co2 >= 0 ? Math.round(itinerary.emissionsPerPerson?.co2) : -1;
     const carCo2Value = this.props.carItinerary && this.props.carItinerary.length > 0 ? Math.round(this.props.carItinerary[0].emissionsPerPerson?.co2) : 0;
     const co2SimpleDesc =  carCo2Value === 0;
+
+    const itineraryContainsCallLegs = itinerary.legs.some(leg => isCallAgencyPickupType(leg));
+
     return (
       <div className="itinerary-tab">
         <h2 className="sr-only">
@@ -286,7 +294,7 @@ class ItineraryTab extends React.Component {
               />
             ),
             shouldShowFareInfo(config) && (
-              shouldShowFarePurchaseInfo(config, breakpoint, fares) ? (
+              shouldShowFarePurchaseInfo(config,breakpoint,fares) ? (
                 <MobileTicketPurchaseInformation
                   fares={fares}
                   zones={getZones(itinerary.legs)}
@@ -334,17 +342,37 @@ class ItineraryTab extends React.Component {
                       <div className="icon-container">
                         <Icon className="info" img="icon-icon_info" />
                       </div>
-                      <div className="description-container">
-                        <FormattedMessage
-                          id="separate-ticket-required-disclaimer"
-                          values={{
-                            agencyName: get(
-                              config,
-                              'ticketInformation.primaryAgencyName',
-                            ),
-                          }}
-                        />
-                      </div>
+                      {config.callAgencyInfo && itineraryContainsCallLegs ?
+                        (<div className="description-container">
+                          <FormattedMessage
+                            id="separate-ticket-required-for-call-agency-disclaimer"
+                            values={{
+                              callAgencyInfoUrl: get(
+                                config,
+                                `callAgencyInfo.${currentLanguage}.callAgencyInfoLink`,
+                              ),
+                            }}
+                          />
+                          <a href={config.callAgencyInfo[currentLanguage].callAgencyInfoLink}>
+                            <FormattedMessage
+                              id={config.callAgencyInfo[currentLanguage].callAgencyInfoLinkText}
+                              defaultMessage={config.callAgencyInfo[currentLanguage].callAgencyInfoLinkText}
+                            />
+                          </a>
+                        </div>
+                        ) : (
+                          <div className="description-container">
+                            <FormattedMessage
+                              id="separate-ticket-required-disclaimer"
+                              values={{
+                                agencyName: get(
+                                  config,
+                                  'ticketInformation.primaryAgencyName',
+                                ),
+                              }}
+                            />
+                          </div>
+                        )}
                     </div>
                   )}
                 <ItineraryLegs
@@ -352,6 +380,8 @@ class ItineraryTab extends React.Component {
                   itinerary={itinerary}
                   focusToPoint={this.handleFocus}
                   focusToLeg={this.props.focusToLeg}
+                  changeHash={this.props.changeHash}
+                  tabIndex={suggestionIndex - 1}
                 />
                 {config.showRouteInformation && <RouteInformation />}
               </div>
@@ -421,6 +451,7 @@ class ItineraryTab extends React.Component {
 const withRelay = createFragmentContainer(
   connectToStores(ItineraryTab, ['TimeStore'], context => ({
     currentTime: context.getStore('TimeStore').getCurrentTime().unix(),
+    currentLanguage: context.getStore('PreferencesStore').getLanguage(),
   })),
   {
     plan: graphql`
@@ -489,7 +520,9 @@ const withRelay = createFragmentContainer(
               pattern {
                 code
               } 
-              
+              occupancy {
+                occupancyStatus
+              }
               gtfsId
             }
             realTime
@@ -641,6 +674,9 @@ const withRelay = createFragmentContainer(
               stop {
                 gtfsId
               }
+            }
+            occupancy {
+              occupancyStatus
             }
           }
         }

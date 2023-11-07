@@ -23,7 +23,7 @@ export default configMerger(walttiConfig, {
 
   title: APP_TITLE,
 
-  favicon: './app/configurations/images/joensuu/favicon.png',
+  favicon: './app/configurations/images/joensuu/joensuu-favicon.png',
 
   // Navbar logo
   logo: 'joensuu/jojo-logo.png',
@@ -125,14 +125,13 @@ export default configMerger(walttiConfig, {
     ],
   },
   zoneIdMapping: {
-    1: 'City',
-    2: 'A',
-    3: 'B',
-    4: 'C',
-    5: 'D',
-    6: 'E',
-    7: 'F',
-    8: 'G',
+    1: 'A',
+    2: 'B',
+    3: 'C',
+    4: 'D',
+    5: 'E',
+    6: 'F',
+    7: 'G',
   },
   zones: {
     stops: true,

@@ -53,7 +53,7 @@ export default {
   // Navbar logo
   logo: 'matka/matka-logo.svg',
 
-  favicon: './app/configurations/images/matka/favicon.svg',
+  favicon: './app/configurations/images/matka/matka-favicon.svg',
 
   colors: {
     primary: '#002c74',
@@ -91,6 +91,8 @@ export default {
     'Kajaani',
     'Salo',
     'Pori',
+    'Raasepori',
+    'VARELY',
   ],
 
   additionalFeedIds: {
@@ -344,6 +346,8 @@ export default {
     },
   },
 
+  useRealtimeTravellerCapacities: true,
+
   aboutThisService: {
     fi: [
       {
@@ -503,6 +507,16 @@ export default {
       fi: 'Pori',
       sv: 'Björneborg',
       en: 'Pori',
+    },
+    Raasepori: {
+      fi: 'Raasepori',
+      sv: 'Raseborg',
+      en: 'Raasepori',
+    },
+    VARELY: {
+      fi: 'Varsinais-Suomi',
+      sv: 'Egentliga Finland',
+      en: 'Varsinais-Suomi',
     },
   },
   stopCard: {

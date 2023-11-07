@@ -27,7 +27,7 @@ export default configMerger(walttiConfig, {
 
   title: APP_TITLE,
 
-  favicon: './app/configurations/images/kuopio/favicon.png',
+  favicon: './app/configurations/images/kuopio/kuopio-favicon.png',
 
   // Navbar logo
   logo: 'kuopio/logo.png',
@@ -70,6 +70,10 @@ export default configMerger(walttiConfig, {
     address: 'Kuopion tori',
     lat: 62.892511,
     lon: 27.678136,
+  },
+
+  defaultSettings: {
+    showBikeAndParkItineraries: true,
   },
 
   vehicles: true,

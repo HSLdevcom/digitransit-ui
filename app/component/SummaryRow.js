@@ -29,6 +29,7 @@ import {
   getCitybikeCapacity,
 } from '../util/citybikes';
 import { getRouteMode } from '../util/modeUtils';
+import { getCapacityForLeg } from '../util/occupancyUtil';
 
 const Leg = ({
   mode,
@@ -60,19 +61,31 @@ Leg.propTypes = {
   renderModeIcons: PropTypes.bool,
 };
 
-export const RouteLeg = ({
-  leg,
-  large,
-  intl,
-  legLength,
-  isTransitLeg,
-  interliningWithRoute,
-  fitRouteNumber,
-  withBicycle,
-}) => {
+export const RouteLeg = (
+  {
+    leg,
+    large,
+    intl,
+    legLength,
+    isTransitLeg,
+    interliningWithRoute,
+    fitRouteNumber,
+    withBicycle,
+    hasOneTransitLeg,
+  },
+  { config },
+) => {
   const isCallAgency = isCallAgencyPickupType(leg);
   let routeNumber;
   const mode = getRouteMode(leg.route);
+
+  const getOccupancyStatus = () => {
+    if (hasOneTransitLeg) {
+      return getCapacityForLeg(config, leg);
+    }
+    return undefined;
+  };
+
   if (isCallAgency) {
     const message = intl.formatMessage({
       id: 'pay-attention',
@@ -101,6 +114,7 @@ export const RouteLeg = ({
         withBar
         isTransitLeg={isTransitLeg}
         withBicycle={withBicycle}
+        occupancyStatus={getOccupancyStatus()}
       />
     );
   }
@@ -124,6 +138,11 @@ RouteLeg.propTypes = {
   interliningWithRoute: PropTypes.number,
   isTransitLeg: PropTypes.bool,
   withBicycle: PropTypes.bool.isRequired,
+  hasOneTransitLeg: PropTypes.bool,
+};
+
+RouteLeg.contextTypes = {
+  config: PropTypes.object.isRequired,
 };
 
 RouteLeg.defaultProps = {
@@ -212,6 +231,10 @@ const bikeWasParked = legs => {
     }
   }
   return legs.length;
+};
+
+const hasOneTransitLeg = data => {
+  return data.legs.filter(leg => leg.transitLeg).length === 1;
 };
 
 const SummaryRow = (
@@ -504,6 +527,7 @@ const SummaryRow = (
             legLength={legLength}
             large={breakpoint === 'large'}
             withBicycle={withBicycle}
+            hasOneTransitLeg={hasOneTransitLeg(data)}
           />,
         );
       }

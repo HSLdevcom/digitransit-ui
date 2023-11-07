@@ -360,6 +360,9 @@ const connectedContainer = createFragmentContainer(
             trip {
               gtfsId
               directionId
+              occupancy {
+                occupancyStatus
+              }
               stoptimesForDate {
                 scheduledDeparture
                 pickupType

@@ -868,8 +868,11 @@ const translations = {
     'as-destination': 'Destination',
     'as-origin': 'Origin',
     'as-viapoint': 'Viapoint',
-    'search-autosuggest-label':
-      'Venue, place and stopsearch. Navigate list with arrow keys and select with enter key',
+    'search-autosuggest-label': 'Venue, place and stopsearch.',
+    'search-autosuggest-label-instructions':
+      'Navigate list with arrow keys and select with enter key.',
+    'search-autosuggest-label-move-to-destination':
+      'After selecting the starting location you are automatically moved to the destination field.',
     'search-autosuggest-len':
       'There {len, plural, =1 {is 1 suggestion} other {are {len} suggestions}} available',
     'search-current-suggestion': 'Current selection: {selection}',
@@ -946,6 +949,22 @@ const translations = {
     'canceled-itineraries-amount-hide':
       'Hide canceled itineraries ({itineraryAmount})',
     'canceled-legs': 'Canceled departures on the route',
+    'capacity-modal.crushed-standing-room-only-body':
+      'Only a little standing room available',
+    'capacity-modal.crushed-standing-room-only-heading': 'Very crowded',
+    'capacity-modal.few-seats-available-body': 'Some seats available',
+    'capacity-modal.few-seats-available-heading': 'Not too crowded',
+    'capacity-modal.full-capacity-body': 'No seats or standing room available',
+    'capacity-modal.full-capacity-heading': 'Full',
+    'capacity-modal.heading': 'Is there room in the vehicle?',
+    'capacity-modal.legend': 'Legend for the symbols',
+    'capacity-modal.many-seats-available-body': 'Plenty of seats available',
+    'capacity-modal.many-seats-available-heading': 'Not crowded',
+    'capacity-modal.standing-room-only-body':
+      'Only a few seats and little standing room available',
+    'capacity-modal.standing-room-only-heading': 'Nearly full',
+    'capacity-modal.subheading':
+      'Real-time capacity information is available for some vehicles',
     car: 'Car',
     'car-distance-duration': 'Drive {duration} ({distance})',
     'car-distance-no-duration': 'Drive {distance}',
@@ -992,6 +1011,7 @@ const translations = {
     'create-account': 'Create {contactName} account',
     'create-embedded-search': 'Create a route search element',
     'create-stop-monitor': 'Create a stop display',
+    'crushed-standing-room-only': 'Crushed standing room only',
     'cycle-distance-duration': 'Cycle {duration} ({distance})',
     'cyclewalk-distance-duration': 'Walk your bike {duration} ({distance})',
     // eslint-disable-next-line sort-keys
@@ -1052,6 +1072,7 @@ const translations = {
     ferry: 'Ferry',
     'ferry-with-route-number': 'Ferry {routeNumber} {headSign}',
     'fetch-new-route': 'Fetch a new route',
+    'few-seats-available': 'Few seats available',
     finnish: 'Finnish',
     'free-of-charge': 'Free',
     'from-ferry': 'ferry',
@@ -1060,6 +1081,7 @@ const translations = {
     'from-stop': 'from stop',
     'from-subway': 'subway',
     frontpage: 'Frontpage',
+    full: 'Full capacity',
     funicular: 'Funicular',
     'generic-cancelation': '{mode} {route} {headsign} at {time} is cancelled.',
     'generic-error': 'There was an error',
@@ -1205,6 +1227,7 @@ const translations = {
     'main-menu-label-close': 'Close the main menu',
     'main-menu-label-open': 'Open the main menu',
     'main-mode': "I'm traveling by",
+    'many-seats-available': 'Many seats available',
     map: 'Map',
     'map-layer-citybike': 'Citybike stations',
     'map-layer-park-and-ride': 'Park & ride sites',
@@ -1452,7 +1475,7 @@ const translations = {
     'search-destination-results-but-no-search':
       'View results in the adjacent “Destination” tab',
     'search-fields.sr-instructions':
-      'Route search will take place automatically when you enter origin and destination. Changing search parameters will trigger a new search.',
+      'Route search will take place automatically when you enter origin and destination. Changing search parameters will trigger a new search. Navigate to the search fields using the tab key',
     'search-no-results': 'No location',
     'search-origin': 'Search origin, route or stop',
     'search-origin-index': 'Enter origin',
@@ -1470,6 +1493,8 @@ const translations = {
       'A separate ticket is required for this part of the itinerary.',
     'separate-ticket-required-disclaimer':
       'This itinerary contains one or more legs for which {agencyName} does not sell tickets.',
+    'separate-ticket-required-for-call-agency-disclaimer':
+      'The journey includes demand responsive transport service. Please check the payment methods and practices on ',
     'set-specific-settings': 'Set more specific settings',
     'set-stop-as-routes': "Set the stop as route's",
     settings: 'Settings',
@@ -1492,11 +1517,13 @@ const translations = {
     'skip-to-content': 'Skip to content',
     slow: 'Slow',
     'specify-location': 'Specify location',
+    speedtram: 'Jokeri Light Rail',
     'splash-locating': 'Detecting location',
     'splash-or-choose': 'or select your origin',
     'splash-use-positioning': 'Use location services',
     'splash-welcome': 'How do you wish to start?',
     'splash-you-can-also': 'or',
+    'standing-room-only': 'Standing room only',
     station: 'Station',
     stop: 'Stop',
     'stop-departure-time-future': 'Departure time is in {minutes} minutes',
@@ -1581,7 +1608,6 @@ const translations = {
     'track-short-no-num': 'Track',
     traficom: 'Traficom',
     tram: 'Tram',
-    'tram-local': 'Jokeri Light Rail',
     'tram-with-route-number': 'Tram {routeNumber} {headSign}',
     transfer: 'Transfer',
     transfers: 'Number of transfers',
@@ -2008,8 +2034,11 @@ const translations = {
     'as-destination': 'Määränpääksi',
     'as-origin': 'Lähtöpaikaksi',
     'as-viapoint': 'Välipisteeksi',
-    'search-autosuggest-label':
-      'Paikka, linja ja pysäkkihaku. Navigoi listassa nuolinäppäimillä ja valitse enterillä',
+    'search-autosuggest-label': 'Paikka, linja ja pysäkkihaku.',
+    'search-autosuggest-label-instructions':
+      'Navigoi listassa nuolinäppäimillä ja valitse enterillä.',
+    'search-autosuggest-label-move-to-destination':
+      'Valittuasi lähtöpaikan siirrytään suoraan määränpää-kenttään.',
     'search-autosuggest-len':
       ' Löydettiin {len, plural, =1 {1 ehdotus} other {{len} ehdotusta}}',
     'search-current-suggestion': 'Tämänhetkinen valinta: {selection}',
@@ -2091,6 +2120,22 @@ const translations = {
     'canceled-itineraries-amount-hide':
       'Piilota perutut reittiehdotukset ({itineraryAmount})',
     'canceled-legs': 'Reitillä peruttuja vuoroja',
+    'capacity-modal.crushed-standing-room-only-body':
+      'Vain vähän seisomapaikkoja',
+    'capacity-modal.crushed-standing-room-only-heading': 'Kova tungos',
+    'capacity-modal.few-seats-available-body': 'Joitain istumapaikkoja',
+    'capacity-modal.few-seats-available-heading': 'Ei liikaa tungosta',
+    'capacity-modal.full-capacity-body': 'Ei vapaita paikkoja',
+    'capacity-modal.full-capacity-heading': 'Täynnä',
+    'capacity-modal.heading': 'Onko kulkuneuvossa tilaa?',
+    'capacity-modal.legend': 'Merkkien selitteet',
+    'capacity-modal.many-seats-available-body': 'Paljon istumapaikkoja',
+    'capacity-modal.many-seats-available-heading': 'Ei tungosta',
+    'capacity-modal.standing-room-only-body':
+      'Vain vähän istuma- ja seisomapaikkoja',
+    'capacity-modal.standing-room-only-heading': 'Lähes täynnä',
+    'capacity-modal.subheading':
+      'Osasta kulkuneuvoja on saatavilla reaaliaikainen kapasiteettitieto',
     car: 'Auto',
     'car-distance-duration': 'Autoile {duration} ({distance})',
     'car-distance-no-duration': 'Autoile {distance}',
@@ -2138,6 +2183,7 @@ const translations = {
     'create-account': 'Luo {contactName} tunnus',
     'create-embedded-search': 'Luo reittihakuelementti',
     'create-stop-monitor': 'Luo pysäkkinäyttö',
+    'crushed-standing-room-only': 'Kova tungos',
     'cycle-distance-duration': 'Pyöräile {duration} ({distance})',
     'cyclewalk-distance-duration': 'Taluta pyörää {duration} ({distance})',
     // eslint-disable-next-line sort-keys
@@ -2200,6 +2246,7 @@ const translations = {
     ferry: 'Lautta',
     'ferry-with-route-number': 'Lautta {routeNumber} {headSign}',
     'fetch-new-route': 'Hae uusi reitti',
+    'few-seats-available': 'Joitakin istumapaikkoja vapaana',
     finnish: 'Suomi',
     'free-of-charge': 'Maksuton',
     'from-ferry': 'lautasta',
@@ -2208,6 +2255,7 @@ const translations = {
     'from-stop': 'pysäkiltä',
     'from-subway': 'metrosta',
     frontpage: 'Etusivu',
+    full: 'Täynnä',
     funicular: 'Funikulaari',
     'generic-cancelation': '{mode} {route} {headsign} kello {time} on peruttu.',
     'generic-error': 'Tapahtui virhe',
@@ -2346,6 +2394,7 @@ const translations = {
     'main-menu-label-close': 'Sulje päävalikko',
     'main-menu-label-open': 'Avaa päävalikko',
     'main-mode': 'Kulkumuoto',
+    'many-seats-available': 'Paljon istumapaikkoja vapaana',
     map: 'Kartta',
     'map-layer-citybike': 'Kaupunkipyöräasemat',
     'map-layer-park-and-ride': 'Liityntäpysäköintipaikat',
@@ -2592,7 +2641,7 @@ const translations = {
     'search-destination-results-but-no-search':
       'Katso tulokset viereiseltä Määränpää-välilehdeltä',
     'search-fields.sr-instructions':
-      'Reittihaku tehdään automaattisesti kun lähtöpaikka ja määränpää on asetettu. Haun parametrien muuttaminen laukaisee uuden reittihaun',
+      'Reittihaku tehdään automaattisesti kun lähtöpaikka ja määränpää on asetettu. Haun parametrien muuttaminen laukaisee uuden reittihaun. Navigoi hakukenttiin tab-näppäimellä.',
     'search-no-results': 'Ei tuloksia',
     'search-origin': 'Hae lähtöpaikkaa, linjaa tai pysäkkiä',
     'search-origin-index': 'Syötä lähtöpaikka',
@@ -2610,6 +2659,8 @@ const translations = {
       'Tälle matkan osuudelle tarvitaan erillinen lippu.',
     'separate-ticket-required-disclaimer':
       'Matka sisältää yhden tai useamman osuuden, jonka lippujen myynnistä {agencyName} ei vastaa.',
+    'separate-ticket-required-for-call-agency-disclaimer':
+      'Matka sisältää kutsuliikennettä. Voit tarkistaa maksutavat ja käytännöt ',
     'set-specific-settings': 'Aseta tarkemmat asetukset',
     'set-stop-as-routes': 'Aseta pysäkki reitin',
     settings: 'Asetukset',
@@ -2631,11 +2682,13 @@ const translations = {
     'skip-to-content': 'Siirry sisältöön',
     slow: 'Hidas',
     'specify-location': 'Määritä sijainti',
+    speedtram: 'Raide-Jokeri',
     'splash-locating': 'Paikannetaan',
     'splash-or-choose': 'tai valitse lähtöpaikaksi',
     'splash-use-positioning': 'Käytä paikannusta',
     'splash-welcome': 'Miten haluat aloittaa?',
     'splash-you-can-also': 'tai',
+    'standing-room-only': 'Lähes täynnä',
     station: 'Asema',
     stop: 'Pysäkki',
     'stop-departure-time-future': 'Lähtöaika {minutes} min päästä',
@@ -2723,7 +2776,6 @@ const translations = {
     'track-short-no-num': 'Raide',
     traficom: 'Traficom',
     tram: 'Raitiovaunu',
-    'tram-local': 'Raide-Jokeri',
     'tram-with-route-number': 'Raitiovaunu {routeNumber} {headSign}',
     transfer: 'Vaihto',
     transfers: 'Vaihtojen määrä',
@@ -3937,8 +3989,11 @@ const translations = {
     'as-destination': 'Destination',
     'as-origin': 'Avfärdsplats',
     'as-viapoint': 'Via punkt',
-    'search-autosuggest-label':
-      'Plats, linje och hållplatssökning. Navigera listan med piltangenterna och välj med Enter-tangeten',
+    'search-autosuggest-label': 'Plats, linje och hållplatssökning.',
+    'search-autosuggest-label-instructions':
+      'Navigera listan med piltangenterna och välj med Enter-tangeten.',
+    'search-autosuggest-label-move-to-destination':
+      'Efter att du valt avgångsplatsen tas du direkt till Destination-fältet.',
     'search-autosuggest-len': 'Hittade {len} förslag',
     'search-current-suggestion': 'Nuvarande val: {selection}',
     'select-date': 'Välj datum',
@@ -4007,6 +4062,21 @@ const translations = {
     'canceled-itineraries-amount-hide':
       'Dölja inställda reseförslag ({itineraryAmount})',
     'canceled-legs': 'Inställda avgångar på linjen',
+    'capacity-modal.crushed-standing-room-only-body': 'Endast några ståplatser',
+    'capacity-modal.crushed-standing-room-only-heading': 'Nästan fullt',
+    'capacity-modal.few-seats-available-body': 'Några sittplatser',
+    'capacity-modal.few-seats-available-heading': 'Ingen stor trängsel',
+    'capacity-modal.full-capacity-body': 'Inga lediga platser',
+    'capacity-modal.full-capacity-heading': 'Fullt',
+    'capacity-modal.heading': 'Finns det plats ombord?',
+    'capacity-modal.legend': 'Teckenförklaringar',
+    'capacity-modal.many-seats-available-body': 'Många sittplatser',
+    'capacity-modal.many-seats-available-heading': 'Ingen trängsel',
+    'capacity-modal.standing-room-only-body':
+      'Endast några få sitt- och ståplatser',
+    'capacity-modal.standing-room-only-heading': 'Stor trängsel',
+    'capacity-modal.subheading':
+      'Information om kapaciteten i realtid finns att rå om vissa fordon',
     car: 'Bil',
     'car-distance-duration': 'Kör {duration} ({distance})',
     'car-distance-no-duration': 'Kör {distance}',
@@ -4054,6 +4124,7 @@ const translations = {
     'create-account': 'Skapa {contactName} konto',
     'create-embedded-search': 'Skapa ett ruttsökningselement',
     'create-stop-monitor': 'Skapa hållplatsskärm',
+    'crushed-standing-room-only': 'Nästan fullt',
     'cycle-distance-duration': 'Cykla {duration} ({distance})',
     'cyclewalk-distance-duration': 'Led cykeln {duration} ({distance})',
     // eslint-disable-next-line sort-keys
@@ -4115,6 +4186,7 @@ const translations = {
     ferry: 'Färja',
     'ferry-with-route-number': 'Färja {routeNumber} {headSign}',
     'fetch-new-route': 'Sök en ny rutt',
+    'few-seats-available': 'Några sittplatser',
     finnish: 'Finska',
     'free-of-charge': 'Kostnadsfri',
     'from-ferry': 'färjan',
@@ -4123,6 +4195,7 @@ const translations = {
     'from-stop': 'från hållplats',
     'from-subway': 'metron',
     frontpage: 'Framsidan',
+    full: 'Fullt',
     funicular: 'Bergbanan',
     'generic-cancelation': '{mode} {route} {headsign} kl. {time} ställs in.',
     'generic-error': 'Det hände ett fel',
@@ -4266,6 +4339,7 @@ const translations = {
     'main-menu-label-close': 'Stäng huvudmenyn',
     'main-menu-label-open': 'Öppna huvudmenyn',
     'main-mode': 'Jag använder',
+    'many-seats-available': 'Många sittplatser',
     map: 'Karta',
     'map-layer-citybike': 'Stadscykelstation',
     'map-layer-park-and-ride': 'Infartsparkering',
@@ -4511,7 +4585,7 @@ const translations = {
     'search-destination-results-but-no-search':
       'Se resultaten under fliken Destination',
     'search-fields.sr-instructions':
-      'Ruttsökning görs automatiskt när du skriver in avgångsplats och destination. Om du ändrar sökvillkoren, startas en ny ruttsökning automatiskt.',
+      'Ruttsökning görs automatiskt när du skriver in avgångsplats och destination. Om du ändrar sökvillkoren, startas en ny ruttsökning automatiskt. Navigera till sökfälten med tabbtangenten.',
     'search-no-results': 'Inga sökresultat',
     'search-origin': 'Sök avfärdsplats, linje eller hållplats',
     'search-origin-index': 'Skriv avfärdsplats',
@@ -4534,6 +4608,8 @@ const translations = {
       'Denna etapp av resan kräver en separat biljett.',
     'separate-ticket-required-disclaimer':
       'Resan består av en eller fleta etapper vilka kräver biljetter som inte säljs av {agencyName}.',
+    'separate-ticket-required-for-call-agency-disclaimer':
+      'I resan ingår anropsbusstrafiken. Bekanta dig med betalningsmetoder och praxis på ',
     'set-specific-settings': 'Ställa avancerade inställningar',
     'set-stop-as-routes': 'Ställa hållplats som rutter',
     settings: 'Anpassa',
@@ -4555,12 +4631,14 @@ const translations = {
     'skip-to-content': 'Till innehållet',
     slow: 'Långsam',
     'specify-location': 'Ange en plats',
+    speedtram: 'Spårjokern',
     'splash-locating': 'Söker din plats...',
     'splash-or-choose': 'eller välj en avfärdsplats',
     'splash-please-allow-positioning':
       'Tjänsten fungerar bäst om du delar din plats.',
     'splash-use-positioning': 'Använd min plats',
     'splash-you-can-also': 'alternativt',
+    'standing-room-only': 'Stor trängsel',
     station: 'Station',
     stop: 'Hållplats',
     'stop-departure-time-future': 'Avgångstid är i {minutes} minuter',
@@ -4647,7 +4725,6 @@ const translations = {
     'track-short-no-num': 'Spår',
     traficom: 'Traficom',
     tram: 'Spårvagn',
-    'tram-local': 'Spårjokern',
     'tram-with-route-number': 'Spårvagn {routeNumber} {headSign}',
     transfer: 'Byte',
     transfers: 'Antal byten',

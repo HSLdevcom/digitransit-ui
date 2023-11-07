@@ -8,7 +8,7 @@ import styles from './helpers/styles.scss';
 
 const BUS_EXPRESS = 702;
 const BUS_LOCAL = 704;
-const TRAM_LOCAL = 902;
+const SPEEDTRAM = 900;
 
 const getRouteMode = props => {
   switch (props.type) {
@@ -16,8 +16,8 @@ const getRouteMode = props => {
       return 'bus-local';
     case BUS_EXPRESS:
       return 'bus-express';
-    case TRAM_LOCAL:
-      return 'tram-local';
+    case SPEEDTRAM:
+      return 'speedtram';
     default:
       return props?.mode?.toLowerCase() || 'bus';
   }
@@ -128,8 +128,8 @@ function getIconProperties(
       { icon: 'search-bus-stop-express-default', color: 'mode-bus-express' },
     ],
     [
-      'TRAM-LOCAL-default',
-      { icon: 'search-tram-local-stop-default', color: 'mode-tram-local' },
+      'SPEEDTRAM-default',
+      { icon: 'search-speedtram-stop-default', color: 'mode-speedtram' },
     ],
     [
       'BUS-digitransit',
@@ -208,8 +208,8 @@ function getIconProperties(
       }
     } else if (modes.includes('BUS-EXPRESS') && modeSet === 'default') {
       iconStr = [layerIcon.get('BUS-EXPRESS'.concat('-').concat(modeSet))];
-    } else if (modes.includes('TRAM-LOCAL') && modeSet === 'default') {
-      iconStr = [layerIcon.get('TRAM-LOCAL'.concat('-').concat(modeSet))];
+    } else if (modes.includes('SPEEDTRAM') && modeSet === 'default') {
+      iconStr = [layerIcon.get('SPEEDTRAM'.concat('-').concat(modeSet))];
     } else {
       iconStr = [layerIcon.get(mode.concat('-').concat(modeSet))];
     }

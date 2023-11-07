@@ -21,8 +21,8 @@ function SelectStopRow(
     }
   } else if (routes && type === 'TRAM' && config.useExtendedRouteTypes) {
     const routesArray = JSON.parse(routes);
-    if (routesArray.some(p => p.gtfsType === ExtendedRouteTypes.TramLocal)) {
-      mode = 'tram-local';
+    if (routesArray.some(p => p.gtfsType === ExtendedRouteTypes.SpeedTram)) {
+      mode = 'speedtram';
     }
   }
   const iconOptions = {};
@@ -63,9 +63,9 @@ function SelectStopRow(
       iconOptions.iconId = 'icon-icon_funicular-stop-lollipop';
       iconOptions.className = 'funicular-stop';
       break;
-    case 'tram-local':
-      iconOptions.iconId = 'icon-icon_tram-local-stop-lollipop';
-      iconOptions.className = 'tram-local-stop';
+    case 'speedtram':
+      iconOptions.iconId = 'icon-icon_speedtram-stop-lollipop';
+      iconOptions.className = 'speedtram-stop';
       break;
     case 'FERRY':
       iconOptions.iconId = !isNull(code)

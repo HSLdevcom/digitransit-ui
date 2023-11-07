@@ -607,11 +607,15 @@ export default {
     lon: 24.9690395,
   },
 
+  defaultMapZoom: 12,
+
   availableRouteTimetables: {},
 
   routeTimetableUrlResolver: {},
 
   showTenWeeksOnRouteSchedule: true,
+
+  useRealtimeTravellerCapacities: false,
 
   aboutThisService: {
     fi: [
@@ -781,6 +785,7 @@ export default {
     varely: '(seutuplus|varely)',
     kela: 'kelareitit',
     pori: 'pori',
+    raasepori: '(raasepori|bosse)',
   },
 
   minutesToDepartureLimit: 9,

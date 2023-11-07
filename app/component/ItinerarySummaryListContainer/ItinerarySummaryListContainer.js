@@ -387,6 +387,9 @@ const containerComponent = createFragmentContainer(
               }
               pickupType
             }
+            occupancy {
+              occupancyStatus
+            }
           }
           from {
             name

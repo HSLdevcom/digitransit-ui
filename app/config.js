@@ -66,6 +66,12 @@ function addMetaData(config) {
         break;
     }
   });
+  if (process.env.NOINDEX) {
+    config.metaData.meta.push({
+      name: 'robots',
+      content: 'noindex,nofollow',
+    });
+  }
 }
 
 export function getNamedConfiguration(configName) {
