@@ -34,6 +34,13 @@ export function isCallAgencyPickupType(leg) {
   );
 }
 
+export function isTrainLimitationPickupType(leg) {
+  return (
+    filterLegStops(leg, stoptime => stoptime.pickupType === 'SCHEDULED')
+      .length > 0
+  );
+}
+
 export function isCallAgencyDeparture(departure) {
   return departure.pickupType === 'CALL_AGENCY';
 }

@@ -25,6 +25,7 @@ import {
   getTotalWalkingDuration,
   getZones,
   isCallAgencyPickupType,
+  isTrainLimitationPickupType,
   legContainsRentalBike,
 } from '../util/legUtils';
 import { BreakpointConsumer } from '../util/withBreakpoint';
@@ -219,6 +220,9 @@ class ItineraryTab extends React.Component {
     const itineraryContainsCallLegs = itinerary.legs.some(leg =>
       isCallAgencyPickupType(leg),
     );
+    const isTrainLimitation = itinerary.legs.some(leg =>
+      isTrainLimitationPickupType(leg),
+    );
 
     const infoBoxText = () => {
       if (config.callAgencyInfo && itineraryContainsCallLegs) {
@@ -247,7 +251,7 @@ class ItineraryTab extends React.Component {
         );
       }
 
-      if (config.showTrainLimitationInfo) {
+      if (config.showTrainLimitationInfo && isTrainLimitation) {
         return (
           <div className="description-container">
             <FormattedMessage
