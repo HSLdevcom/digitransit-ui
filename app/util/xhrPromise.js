@@ -1,3 +1,5 @@
+import { fetchWithErrors } from './fetchUtils';
+
 function serialize(obj, prefix) {
   if (!obj) {
     return '';
@@ -17,7 +19,7 @@ function serialize(obj, prefix) {
 
 // Return Promise for a url json get request
 export function getJson(url, params) {
-  return fetch(
+  return fetchWithErrors(
     encodeURI(url) +
       (params ? (url.search(/\?/) === -1 ? '?' : '&') + serialize(params) : ''),
     {
@@ -33,7 +35,7 @@ export function getJson(url, params) {
 
 // Return Promise for a json post request
 export function postJson(url, params, payload) {
-  return fetch(
+  return fetchWithErrors(
     encodeURI(url) +
       (params ? (url.search(/\?/) === -1 ? '?' : '&') + serialize(params) : ''),
     {
