@@ -615,6 +615,8 @@ export default {
 
   showTenWeeksOnRouteSchedule: true,
 
+  useRealtimeTravellerCapacities: false,
+
   aboutThisService: {
     fi: [
       {

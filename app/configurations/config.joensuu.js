@@ -23,7 +23,7 @@ export default configMerger(walttiConfig, {
 
   title: APP_TITLE,
 
-  favicon: './app/configurations/images/joensuu/favicon.png',
+  favicon: './app/configurations/images/joensuu/joensuu-favicon.png',
 
   // Navbar logo
   logo: 'joensuu/jojo-logo.png',

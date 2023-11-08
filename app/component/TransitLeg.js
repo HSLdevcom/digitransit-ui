@@ -457,6 +457,8 @@ class TransitLeg extends React.Component {
             alertSeverityLevel={alertSeverityLevel}
             isAlternativeLeg={false}
             displayTime={this.displayAlternativeLegs()}
+            changeHash={this.props.changeHash}
+            tabIndex={this.props.tabIndex}
           />
 
           {this.state.showAlternativeLegs &&
@@ -727,6 +729,8 @@ TransitLeg.propTypes = {
   children: PropTypes.node.isRequired,
   lang: PropTypes.string.isRequired,
   omitDivider: PropTypes.bool,
+  changeHash: PropTypes.func,
+  tabIndex: PropTypes.number,
 };
 
 TransitLeg.defaultProps = {

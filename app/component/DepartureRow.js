@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
@@ -16,6 +17,7 @@ import Icon from './Icon';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
 import { getRouteMode } from '../util/modeUtils';
+import { getCapacity } from '../util/occupancyUtil';
 
 const getMostSevereAlert = route => {
   const alerts = [...getAlertsForObject(route)];
@@ -23,7 +25,14 @@ const getMostSevereAlert = route => {
 };
 
 const DepartureRow = (
-  { departure, departureTime, showPlatformCode, canceled, ...props },
+  {
+    departure,
+    departureTime,
+    showPlatformCode,
+    canceled,
+    onCapacityClick,
+    ...props
+  },
   { config, intl },
 ) => {
   const { trip, trip: { route } = {} } = departure;
@@ -116,6 +125,12 @@ const DepartureRow = (
       </>
     );
   };
+
+  const capacity = getCapacity(
+    config,
+    trip?.occupancy?.occupancyStatus,
+    departureTime * 1000,
+  );
 
   return (
     <tr
@@ -215,6 +230,25 @@ const DepartureRow = (
           )}
         </td>
       )}
+      {capacity && (
+        // Use inline styles here for simplicity, some overrides make it impossible via the SASS-file
+        <td
+          className="capacity-cell"
+          style={{ marginRight: '8px', color: config.colors.primary }}
+        >
+          <span
+            className="capacity-icon-container"
+            onClick={() => onCapacityClick()}
+          >
+            <Icon
+              width="1.5"
+              height="1.5"
+              img={`icon-icon_${capacity}`}
+              color={config.colors.primary}
+            />
+          </span>
+        </td>
+      )}
     </tr>
   );
 };
@@ -225,6 +259,7 @@ DepartureRow.propTypes = {
   showPlatformCode: PropTypes.bool,
   canceled: PropTypes.bool,
   className: PropTypes.string,
+  onCapacityClick: PropTypes.func.isRequired,
 };
 
 DepartureRow.contextTypes = {

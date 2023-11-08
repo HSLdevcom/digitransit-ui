@@ -25,7 +25,7 @@ export default configMerger(matkaConfig, {
     },
   },
 
-  favicon: './app/configurations/images/default/favicon.png',
+  favicon: './app/configurations/images/default/default-favicon.png',
   feedIds: ['kela', 'matkahuolto'],
   textLogo: true,
   logo: null, // override default logo from matka config
@@ -112,6 +112,8 @@ export default configMerger(matkaConfig, {
   terminalStopsMinZoom: 14,
 
   onlyCarPlan: true,
+
+  useRealtimeTravellerCapacities: false,
 
   aboutThisService: {
     fi: [

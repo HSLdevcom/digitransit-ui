@@ -11,4 +11,4 @@
 
   When running otp in localhost, this usually translates to something like:
 
-  `cd build; SCHEMA_SRC=~/OpenTripPlanner/src/ext/resources/legacygraphqlapi/schema.graphqls OTP_URL=http://localhost:8080/otp/routers/hsl/index/graphql node generate-schema.js`
+  `cd build; SCHEMA_SRC=~/OpenTripPlanner/src/main/resources/org/opentripplanner/apis/gtfs/schema.graphqls OTP_URL=http://localhost:8080/otp/routers/hsl/index/graphql node generate-schema.js`

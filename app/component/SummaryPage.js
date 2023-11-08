@@ -1042,6 +1042,9 @@ class SummaryPage extends React.Component {
               trip {
                 gtfsId
                 directionId
+                occupancy {
+                  occupancyStatus
+                }
                 stoptimesForDate {
                   scheduledDeparture
                   pickupType
@@ -2135,28 +2138,28 @@ class SummaryPage extends React.Component {
   };
 
   filterItinerariesByFeedId = plan => {
-    if (!plan || !plan.itineraries) {
+    if (!plan?.itineraries) {
       return plan;
     }
-    let filteredPlan = { ...plan, itineraries: [] };
-
+    const newItineraries = [];
     plan.itineraries.forEach(itinerary => {
-      const feedIds = itinerary.legs.map(leg =>
-        leg.route && leg.route.gtfsId ? leg.route.gtfsId.split(':')[0] : null,
-      );
-      if (
-        feedIds.every(
-          id => !id || this.context.config.feedIds.indexOf(id) !== -1,
-        )
-      ) {
-        filteredPlan = {
-          ...filteredPlan,
-          itineraries: [...filteredPlan.itineraries, itinerary],
-        };
+      let skip = false;
+      for (let i = 0; i < itinerary.legs.length; i++) {
+        const feedId = itinerary.legs[i].route?.gtfsId?.split(':')[0];
+
+        if (
+          feedId && // if feedId is undefined, leg  is non transit -> don't drop
+          !this.context.config.feedIds.includes(feedId) // feedId is not allowed
+        ) {
+          skip = true;
+          break;
+        }
+      }
+      if (!skip) {
+        newItineraries.push(itinerary);
       }
     });
-
-    return filteredPlan;
+    return { ...plan, itineraries: newItineraries };
   };
 
   render() {
@@ -2729,6 +2732,7 @@ class SummaryPage extends React.Component {
           serviceTimeRange={this.props.serviceTimeRange}
           focusToLeg={this.focusToLeg}
           onSwipe={this.changeHash}
+          changeHash={this.changeHash}
         >
           {this.props.content &&
             combinedItineraries.map((itinerary, i) =>
@@ -2972,6 +2976,9 @@ const containerComponent = createRefetchContainer(
               trip {
                 gtfsId
                 directionId
+                occupancy {
+                  occupancyStatus
+                }
                 stoptimesForDate {
                   scheduledDeparture
                   pickupType
