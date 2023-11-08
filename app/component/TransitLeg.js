@@ -32,6 +32,7 @@ import {
   getHeadsignFromRouteLongName,
   getStopHeadsignFromStoptimes,
   getZoneLabel,
+  LegMode,
 } from '../util/legUtils';
 import { shouldShowFareInfo } from '../util/fareUtils';
 import { AlertEntityType, AlertSeverityLevelType } from '../constants';
@@ -550,7 +551,7 @@ class TransitLeg extends React.Component {
           {leg.fare &&
             leg.fare.isUnknown &&
             shouldShowFareInfo(config) &&
-            (mode === 'RAIL' && config.showTrainLimitationInfo ? (
+            (mode === LegMode.Rail && config.showTrainLimitationInfo ? (
               <div className="disclaimer-container unknown-fare-disclaimer__leg">
                 <div className="description-container">
                   <FormattedMessage

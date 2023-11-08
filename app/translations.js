@@ -1318,7 +1318,6 @@ const translations = {
     'number-of-minutes':
       '{number, plural, =0 {0 minutes} one {1 minute} other {{number} minutes}}',
     'number-of-spaces': 'Number of spaces:',
-
     'off-canvas-info':
       'Log in to the service to save your favorites and utilize them on other devices',
     'one-way-journey': 'The length of a one-way journey',
