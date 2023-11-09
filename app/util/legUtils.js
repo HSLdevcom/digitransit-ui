@@ -17,23 +17,6 @@ function filterLegStops(leg, filter) {
   return false;
 }
 
-/**
- * Check if legs start stop pickuptype or end stop pickupType is CALL_AGENCY
- *
- * leg must have:
- * from.stop.gtfsId
- * to.stop.gtfsId
- * trip.stoptimes (with props:)
- *   stop.gtfsId
- *   pickupType
- */
-export function isCallAgencyPickupType(leg) {
-  return (
-    filterLegStops(leg, stoptime => stoptime.pickupType === 'CALL_AGENCY')
-      .length > 0
-  );
-}
-
 export function isCallAgencyDeparture(departure) {
   return departure.pickupType === 'CALL_AGENCY';
 }
@@ -101,6 +84,26 @@ export const getLegMode = legOrMode => {
       return undefined;
   }
 };
+
+/**
+ * Check if legs start stop pickuptype or end stop pickupType is CALL_AGENCY
+ *
+ * leg must have:
+ * from.stop.gtfsId
+ * to.stop.gtfsId
+ * trip.stoptimes (with props:)
+ *   stop.gtfsId
+ *   pickupType
+ */
+export function isCallAgencyPickupType(leg) {
+  if (getLegMode(leg) === LegMode.Rail) {
+    return false;
+  }
+  return (
+    filterLegStops(leg, stoptime => stoptime.pickupType === 'CALL_AGENCY')
+      .length > 0
+  );
+}
 
 export function isTrainLimitationPickupType(leg) {
   return getLegMode(leg) === LegMode.Rail;
