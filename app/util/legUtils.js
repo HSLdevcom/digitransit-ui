@@ -96,9 +96,6 @@ export const getLegMode = legOrMode => {
  *   pickupType
  */
 export function isCallAgencyPickupType(leg) {
-  if (getLegMode(leg) === LegMode.Rail) {
-    return false;
-  }
   return (
     filterLegStops(leg, stoptime => stoptime.pickupType === 'CALL_AGENCY')
       .length > 0
