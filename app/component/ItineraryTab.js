@@ -225,71 +225,24 @@ class ItineraryTab extends React.Component {
       isTrainLimitationPickupType(leg),
     );
 
-    const infoBoxText = () => {
-      if (config.callAgencyInfo && itineraryContainsCallLegs) {
-        return (
-          <div className="description-container">
-            <FormattedMessage
-              id="separate-ticket-required-for-call-agency-disclaimer"
-              values={{
-                callAgencyInfoUrl: get(
-                  config,
-                  `callAgencyInfo.${currentLanguage}.callAgencyInfoLink`,
-                ),
-              }}
-            />
-            <a href={config.callAgencyInfo[currentLanguage].callAgencyInfoLink}>
-              <FormattedMessage
-                id={
-                  config.callAgencyInfo[currentLanguage].callAgencyInfoLinkText
-                }
-                defaultMessage={
-                  config.callAgencyInfo[currentLanguage].callAgencyInfoLinkText
-                }
-              />
-            </a>
-          </div>
-        );
-      }
-
-      if (config.showTrainLimitationInfo && isTrainLimitation) {
-        return (
-          <div className="description-container">
-            <FormattedMessage
-              id="train-ticket-limited"
-              values={{
-                agencyName: get(config, 'appBarLink.name'),
-              }}
-            />
-            <a
-              href={
-                config.showTrainLimitationInfo[currentLanguage]
-                  .showTrainLimitationInfoLink
-              }
-            >
-              <FormattedMessage
-                id={
-                  config.showTrainLimitationInfo[currentLanguage]
-                    .showTrainLimitationInfoLinkText
-                }
-                defaultMessage={
-                  config.showTrainLimitationInfo[currentLanguage]
-                    .showTrainLimitationInfoLinkText
-                }
-              />
-            </a>
-          </div>
-        );
-      }
-
+    const infoBoxText = (textId, values, href, configData, isNeedLink) => {
       return (
-        <div className="description-container">
-          <FormattedMessage
-            id="separate-ticket-required-disclaimer"
-            values={{
-              agencyName: get(config, 'ticketInformation.primaryAgencyName'),
-            }}
-          />
+        <div className="disclaimer-container unknown-fare-disclaimer__top">
+          <div className="icon-container">
+            <Icon className="info" img="icon-icon_info" />
+          </div>
+          <div className="description-container">
+            <FormattedMessage
+              id={textId}
+              values={{ agencyName: get(config, values) }}
+            />
+
+            {isNeedLink && (
+              <a href={href}>
+                <FormattedMessage id={configData} defaultMessage={configData} />
+              </a>
+            )}
+          </div>
         </div>
       );
     };
@@ -387,12 +340,43 @@ class ItineraryTab extends React.Component {
               >
                 {shouldShowFareInfo(config) &&
                   fares.some(fare => fare.isUnknown) && (
-                    <div className="disclaimer-container unknown-fare-disclaimer__top">
-                      <div className="icon-container">
-                        <Icon className="info" img="icon-icon_info" />
-                      </div>
-                      {infoBoxText()}
-                    </div>
+                    <>
+                      {config.showTrainLimitationInfo &&
+                        isTrainLimitation &&
+                        infoBoxText(
+                          'train-ticket-limited',
+                          'appBarLink.name',
+                          config.showTrainLimitationInfo[currentLanguage]
+                            .showTrainLimitationInfoLink,
+                          config.showTrainLimitationInfo[currentLanguage]
+                            .showTrainLimitationInfoLinkText,
+                          true,
+                        )}
+
+                      {config.callAgencyInfo &&
+                        itineraryContainsCallLegs &&
+                        infoBoxText(
+                          'separate-ticket-required-for-call-agency-disclaimer',
+                          `callAgencyInfo.${currentLanguage}.callAgencyInfoLink`,
+                          config.callAgencyInfo[currentLanguage]
+                            .callAgencyInfoLink,
+                          config.callAgencyInfo[currentLanguage]
+                            .callAgencyInfoLinkText,
+                          true,
+                        )}
+
+                      {!config.callAgencyInfo &&
+                        !isTrainLimitation &&
+                        !config.callAgencyInfo &&
+                        !itineraryContainsCallLegs &&
+                        infoBoxText(
+                          'separate-ticket-required-disclaimer',
+                          'ticketInformation.primaryAgencyName',
+                          '',
+                          '',
+                          false,
+                        )}
+                    </>
                   )}
                 <ItineraryLegs
                   fares={fares}
