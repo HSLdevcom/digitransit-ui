@@ -225,7 +225,7 @@ class ItineraryTab extends React.Component {
       isTrainLimitationPickupType(leg),
     );
 
-    const infoBoxText = (textId, values, href, configData, isNeedLink) => {
+    const infoBoxText = (textId, values, href = null, configData = null) => {
       return (
         <div className="disclaimer-container unknown-fare-disclaimer__top">
           <div className="icon-container">
@@ -237,7 +237,7 @@ class ItineraryTab extends React.Component {
               values={{ agencyName: get(config, values) }}
             />
 
-            {isNeedLink && (
+            {href && (
               <a href={href}>
                 <FormattedMessage id={configData} defaultMessage={configData} />
               </a>
@@ -350,7 +350,6 @@ class ItineraryTab extends React.Component {
                             .showTrainLimitationInfoLink,
                           config.showTrainLimitationInfo[currentLanguage]
                             .showTrainLimitationInfoLinkText,
-                          true,
                         )}
 
                       {config.callAgencyInfo &&
@@ -362,20 +361,15 @@ class ItineraryTab extends React.Component {
                             .callAgencyInfoLink,
                           config.callAgencyInfo[currentLanguage]
                             .callAgencyInfoLinkText,
-                          true,
                         )}
 
-                      {!config.callAgencyInfo &&
-                        !isTrainLimitation &&
-                        !config.callAgencyInfo &&
-                        !itineraryContainsCallLegs &&
-                        infoBoxText(
-                          'separate-ticket-required-disclaimer',
-                          'ticketInformation.primaryAgencyName',
-                          '',
-                          '',
-                          false,
-                        )}
+                      {(!config.callAgencyInfo && !isTrainLimitation) ||
+                        (!config.callAgencyInfo &&
+                          !itineraryContainsCallLegs &&
+                          infoBoxText(
+                            'separate-ticket-required-disclaimer',
+                            'ticketInformation.primaryAgencyName',
+                          ))}
                     </>
                   )}
                 <ItineraryLegs
