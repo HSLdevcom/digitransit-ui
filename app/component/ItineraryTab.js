@@ -1,4 +1,3 @@
-import get from 'lodash/get';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
@@ -6,8 +5,6 @@ import cx from 'classnames';
 import { matchShape, routerShape } from 'found';
 import { FormattedMessage, intlShape } from 'react-intl';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-
-import Icon from './Icon';
 import TicketInformation from './TicketInformation';
 import RouteInformation from './RouteInformation';
 import ItinerarySummary from './ItinerarySummary';
@@ -45,6 +42,7 @@ import {
 import CityBikeDurationInfo from './CityBikeDurationInfo';
 import { getCityBikeNetworkId } from '../util/citybikes';
 import { FareShape } from '../util/shapes';
+import InfoBox from './InfoBox';
 
 const AlertShape = PropTypes.shape({ alertSeverityLevel: PropTypes.string });
 
@@ -160,7 +158,7 @@ class ItineraryTab extends React.Component {
       walkingDistance > 0 &&
       (bikingDistance > 0 || drivingDistance > 0) &&
       futureText !== '';
-    const extraProps = {
+    return {
       walking: {
         duration: walkingDuration,
         distance: walkingDistance,
@@ -176,7 +174,6 @@ class ItineraryTab extends React.Component {
       futureText,
       isMultiRow,
     };
-    return extraProps;
   };
 
   render() {
@@ -224,28 +221,6 @@ class ItineraryTab extends React.Component {
     const isTrainLimitation = itinerary.legs.some(leg =>
       isTrainLimitationPickupType(leg),
     );
-
-    const infoBoxText = (textId, values, href = null, configData = null) => {
-      return (
-        <div className="disclaimer-container unknown-fare-disclaimer__top">
-          <div className="icon-container">
-            <Icon className="info" img="icon-icon_info" />
-          </div>
-          <div className="description-container">
-            <FormattedMessage
-              id={textId}
-              values={{ agencyName: get(config, values) }}
-            />
-
-            {href && (
-              <a href={href}>
-                <FormattedMessage id={configData} defaultMessage={configData} />
-              </a>
-            )}
-          </div>
-        </div>
-      );
-    };
 
     return (
       <div className="itinerary-tab">
@@ -341,35 +316,46 @@ class ItineraryTab extends React.Component {
                 {shouldShowFareInfo(config) &&
                   fares.some(fare => fare.isUnknown) && (
                     <>
-                      {config.showTrainLimitationInfo &&
-                        isTrainLimitation &&
-                        infoBoxText(
-                          'train-ticket-limited',
-                          'appBarLink.name',
-                          config.showTrainLimitationInfo[currentLanguage]
-                            .showTrainLimitationInfoLink,
-                          config.showTrainLimitationInfo[currentLanguage]
-                            .showTrainLimitationInfoLinkText,
-                        )}
+                      {config.showTrainLimitationInfo && isTrainLimitation && (
+                        <InfoBox
+                          textId='train-ticket-limited'
+                          values='appBarLink.name'
+                          href={
+                            config.showTrainLimitationInfo[currentLanguage]
+                              .showTrainLimitationInfoLink
+                          }
+                          configData={
+                            config.showTrainLimitationInfo[currentLanguage]
+                              .showTrainLimitationInfoLinkText
+                          }
+                        />
+                      )}
 
-                      {config.callAgencyInfo &&
-                        itineraryContainsCallLegs &&
-                        infoBoxText(
-                          'separate-ticket-required-for-call-agency-disclaimer',
-                          `callAgencyInfo.${currentLanguage}.callAgencyInfoLink`,
-                          config.callAgencyInfo[currentLanguage]
-                            .callAgencyInfoLink,
-                          config.callAgencyInfo[currentLanguage]
-                            .callAgencyInfoLinkText,
-                        )}
+                      {config.callAgencyInfo && itineraryContainsCallLegs && (
+                        <InfoBox
+                          textId=
+                            'separate-ticket-required-for-call-agency-disclaimer'
 
-                      {(!config.callAgencyInfo && !isTrainLimitation) ||
+                          values={`callAgencyInfo.${currentLanguage}.callAgencyInfoLink`}
+                          href={
+                            config.callAgencyInfo[currentLanguage]
+                              .callAgencyInfoLink
+                          }
+                          configData={
+                            config.callAgencyInfo[currentLanguage]
+                              .callAgencyInfoLinkText
+                          }
+                        />
+                      )}
+
+                      {((!config.callAgencyInfo && !isTrainLimitation) ||
                         (!config.callAgencyInfo &&
-                          !itineraryContainsCallLegs &&
-                          infoBoxText(
-                            'separate-ticket-required-disclaimer',
-                            'ticketInformation.primaryAgencyName',
-                          ))}
+                          !itineraryContainsCallLegs)) && (
+                        <InfoBox
+                          textId='separate-ticket-required-disclaimer'
+                          values='ticketInformation.primaryAgencyName'
+                        />
+                      )}
                     </>
                   )}
                 <ItineraryLegs
