@@ -222,6 +222,11 @@ class ItineraryTab extends React.Component {
       isTrainLimitationPickupType(leg),
     );
 
+    const isShowTrainLimitationInfo =
+      config.showTrainLimitationInfo && isTrainLimitation;
+    const isShowItineraryContainsCallLegsInfo =
+      config.callAgencyInfo && itineraryContainsCallLegs;
+
     return (
       <div className="itinerary-tab">
         <h2 className="sr-only">
@@ -316,10 +321,10 @@ class ItineraryTab extends React.Component {
                 {shouldShowFareInfo(config) &&
                   fares.some(fare => fare.isUnknown) && (
                     <>
-                      {config.showTrainLimitationInfo && isTrainLimitation && (
+                      {isShowTrainLimitationInfo && (
                         <InfoBox
-                          textId='train-ticket-limited'
-                          values='appBarLink.name'
+                          textId="train-ticket-limited"
+                          values="appBarLink.name"
                           href={
                             config.showTrainLimitationInfo[currentLanguage]
                               .showTrainLimitationInfoLink
@@ -331,11 +336,9 @@ class ItineraryTab extends React.Component {
                         />
                       )}
 
-                      {config.callAgencyInfo && itineraryContainsCallLegs && (
+                      {isShowItineraryContainsCallLegsInfo && (
                         <InfoBox
-                          textId=
-                            'separate-ticket-required-for-call-agency-disclaimer'
-
+                          textId="separate-ticket-required-for-call-agency-disclaimer"
                           values={`callAgencyInfo.${currentLanguage}.callAgencyInfoLink`}
                           href={
                             config.callAgencyInfo[currentLanguage]
@@ -348,14 +351,12 @@ class ItineraryTab extends React.Component {
                         />
                       )}
 
-                      {((!config.callAgencyInfo && !isTrainLimitation) ||
-                        (!config.callAgencyInfo &&
-                          !itineraryContainsCallLegs)) && (
-                        <InfoBox
-                          textId='separate-ticket-required-disclaimer'
-                          values='ticketInformation.primaryAgencyName'
-                        />
-                      )}
+                      {!isShowItineraryContainsCallLegsInfo && !isShowTrainLimitationInfo && (
+                          <InfoBox
+                            textId="separate-ticket-required-disclaimer"
+                            values="ticketInformation.primaryAgencyName"
+                          />
+                        )}
                     </>
                   )}
                 <ItineraryLegs
