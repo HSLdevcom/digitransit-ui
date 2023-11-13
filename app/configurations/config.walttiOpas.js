@@ -64,6 +64,19 @@ export default configMerger(walttiConfig, {
 
   feedIds: ['Salo', 'Kajaani'],
 
+  geoJson: {
+    layers: [
+      {
+        name: {
+          fi: 'Vyöhykkeet',
+          sv: 'Zoner',
+          en: 'Zones',
+        },
+        url: '/assets/geojson/kajaani_zone_lines_20231110.geojson',
+      },
+    ],
+  },
+
   defaultEndpoint: {
     address: 'Helsinki-Vantaan Lentoasema',
     lat: 60.317429,
