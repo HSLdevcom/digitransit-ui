@@ -15,7 +15,6 @@ import ItineraryLegs from './ItineraryLegs';
 import BackButton from './BackButton';
 import MobileTicketPurchaseInformation from './MobileTicketPurchaseInformation';
 import {
-  getRoutes,
   getZones,
   compressLegs,
   getTotalBikingDistance,
@@ -30,7 +29,7 @@ import {
 import { BreakpointConsumer } from '../util/withBreakpoint';
 
 import {
-  getFares,
+  getFaresFromLegs,
   shouldShowFareInfo,
   shouldShowFarePurchaseInfo,
 } from '../util/fareUtils';
@@ -186,7 +185,8 @@ class ItineraryTab extends React.Component {
       return null;
     }
 
-    const fares = getFares(itinerary.fares, getRoutes(itinerary.legs), config);
+    const fares = getFaresFromLegs(itinerary.legs, config);
+
     const extraProps = this.setExtraProps(itinerary);
     const legsWithRentalBike = compressLegs(itinerary.legs).filter(leg =>
       legContainsRentalBike(leg),
@@ -388,23 +388,19 @@ const withRelay = createFragmentContainer(
         duration
         startTime
         endTime
-        fares {
-          cents
-          components {
-            cents
-            fareId
-            routes {
-              agency {
-                gtfsId
-                fareUrl
-                name
+      
+        legs {
+          fareProducts {
+            id
+            product {
+              id
+              ... on DefaultFareProduct {
+                price {
+                  amount
+                }
               }
-              gtfsId
             }
           }
-          type
-        }
-        legs {
           mode
           nextLegs(numberOfLegs: 2  originModesWithParentStation: [RAIL]  destinationModesWithParentStation: [RAIL]) {
             mode

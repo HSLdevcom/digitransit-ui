@@ -24,6 +24,11 @@ export default function TicketInformation(
   if (fares.length === 0) {
     return null;
   }
+
+  const totalPrice = fares
+    .filter(f => f.fareProducts?.length > 0)
+    .map(fp => fp.fareProducts[0].product.price.amount)
+    .reduce((acc, newValue) => acc + newValue, 0);
   const isMultiComponent = fares.length > 1;
   const alternativeFares = getAlternativeFares(
     zones,
@@ -52,6 +57,7 @@ export default function TicketInformation(
 
   const faresInfo = fares.map((fare, i) => {
     let header;
+
     if (i === 0) {
       header = `${intl.formatMessage({
         id: isMultiComponent
@@ -81,7 +87,11 @@ export default function TicketInformation(
               <a href={config.ticketLink}>
                 <div className="ticket-identifier">
                   {config.useTicketIcons
-                    ? renderZoneTicket(fare.ticketName, alternativeFares)
+                    ? renderZoneTicket(
+                        // fare.product.id.split(':')[1],
+                        fare.ticketName,
+                        alternativeFares,
+                      )
                     : fare.ticketName}
                 </div>
                 {config.showTicketPrice && (
@@ -95,12 +105,16 @@ export default function TicketInformation(
               <div className="fare-container">
                 <div className="ticket-identifier">
                   {config.useTicketIcons
-                    ? renderZoneTicket(fare.ticketName, alternativeFares)
+                    ? renderZoneTicket(
+                        // fare.product.id.split(':')[1],
+                        fare.ticketName,
+                        alternativeFares,
+                      )
                     : fare.ticketName}
                 </div>
                 {config.showTicketPrice && (
                   <div className="ticket-description">
-                    {`${(fare.cents / 100).toFixed(2)} €`}
+                    {`${totalPrice.toFixed(2)} €`}
                   </div>
                 )}
               </div>

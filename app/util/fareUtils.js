@@ -1,4 +1,54 @@
 import uniq from 'lodash/uniq';
+import { uniqBy } from 'lodash';
+
+export const getFaresFromLegs = (legs, config) => {
+  if (
+    !Array.isArray(legs) ||
+    legs.size === 0 ||
+    !config.showTicketInformation
+  ) {
+    return null;
+  }
+  const availableTickets = Object.values(config.availableTickets)
+    .map(r => Object.keys(r))
+    .flat();
+  const knownFareLegs = uniqBy(
+    legs
+      .filter(leg => leg.fareProducts.length > 0)
+      .map(leg => ({
+        fareProducts: leg.fareProducts.filter(fp =>
+          availableTickets.includes(fp.product.id),
+        ),
+        agency: leg.route.agency,
+      })),
+    'fareProducts[0].id',
+  ).map(fp => ({
+    fareProducts: fp.fareProducts,
+    agency: fp.agency,
+    price: fp.fareProducts[0].product.price.amount,
+    ticketName:
+      // E2E-testing does not work without this check
+      (config.NODE_ENV === 'test' &&
+        fp.fareProducts[0].product.id.split(':')[1]) ||
+      config.fareMapping(fp.fareProducts[0].product.id),
+  }));
+
+  // Legs that have empty fares but still have a route, i.e. transit legs
+  const unknownFareLegs = legs
+    .filter(leg => leg.fareProducts.length === 0 && leg.route)
+    .map(leg => leg.route)
+    .map(route => ({
+      agency: {
+        fareUrl: route.agency.fareUrl,
+        gtfsId: route.agency.gtfsId,
+        name: route.agency.name,
+      },
+      isUnknown: true,
+      routeGtfsId: route.gtfsId,
+      routeName: route.longName,
+    }));
+  return [...knownFareLegs, ...unknownFareLegs];
+};
 
 // returns null or non-empty array of ticket names
 export function mapFares(fares, config) {
@@ -76,7 +126,8 @@ export const getFares = (fares, routes, config) => {
 export const getAlternativeFares = (zones, currentFares, allFares) => {
   const alternativeFares = [];
   if (zones.length === 1 && currentFares.length === 1 && allFares) {
-    const { fareId } = currentFares[0];
+    const { fareProducts } = currentFares[0];
+    const fareId = fareProducts[0].product.id;
     const ticketFeed = fareId.split(':')[0];
     const faresForFeed = allFares[ticketFeed];
     if (faresForFeed && faresForFeed[fareId]) {
@@ -125,3 +176,8 @@ export const shouldShowFarePurchaseInfo = (config, breakpoint, fares) => {
     breakpoint !== 'large'
   );
 };
+/* 
+export const uniqueFareProducts = (fares, config) => {
+   const availableTickets = Object.values(config.availableTickets).map( r => Object.keys(r)).flat();
+  return uniqBy(fares, 'id').filter(fp => availableTickets.includes(fp.product.id));
+}; */
