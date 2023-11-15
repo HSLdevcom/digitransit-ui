@@ -102,7 +102,7 @@ export function isCallAgencyPickupType(leg) {
   );
 }
 
-export function isTrainLimitationPickupType(leg) {
+export function hasLegMode(leg) {
   return getLegMode(leg) === LegMode.Rail;
 }
 
