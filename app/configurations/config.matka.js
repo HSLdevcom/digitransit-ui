@@ -91,7 +91,6 @@ export default {
     'Kajaani',
     'Salo',
     'Pori',
-    'Raasepori',
     'VARELY',
   ],
 
