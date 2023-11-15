@@ -22,7 +22,7 @@ import {
   getTotalWalkingDuration,
   getZones,
   isCallAgencyPickupType,
-  isTrainLimitationPickupType,
+  hasLegMode,
   legContainsRentalBike,
 } from '../util/legUtils';
 import { BreakpointConsumer } from '../util/withBreakpoint';
@@ -42,7 +42,7 @@ import {
 import CityBikeDurationInfo from './CityBikeDurationInfo';
 import { getCityBikeNetworkId } from '../util/citybikes';
 import { FareShape } from '../util/shapes';
-import InfoBox from './InfoBox';
+import FareDisclaimer from './FareDisclaimer';
 
 const AlertShape = PropTypes.shape({ alertSeverityLevel: PropTypes.string });
 
@@ -218,13 +218,10 @@ class ItineraryTab extends React.Component {
     const itineraryContainsCallLegs = itinerary.legs.some(leg =>
       isCallAgencyPickupType(leg),
     );
-    const isTrainLimitation = itinerary.legs.some(leg =>
-      isTrainLimitationPickupType(leg),
-    );
+    const hasTrainLegs = itinerary.legs.some(leg => hasLegMode(leg));
 
-    const isShowTrainLimitationInfo =
-      config.showTrainLimitationInfo && isTrainLimitation;
-    const isShowItineraryContainsCallLegsInfo =
+    const showLegModeDisclaimer = config.modeDisclaimers.rail && hasTrainLegs;
+    const showCallAgencyDisclaimer =
       config.callAgencyInfo && itineraryContainsCallLegs;
 
     return (
@@ -321,23 +318,23 @@ class ItineraryTab extends React.Component {
                 {shouldShowFareInfo(config) &&
                   fares.some(fare => fare.isUnknown) && (
                     <>
-                      {isShowTrainLimitationInfo && (
-                        <InfoBox
+                      {showLegModeDisclaimer && (
+                        <FareDisclaimer
                           textId="train-ticket-limited"
                           values="appBarLink.name"
                           href={
-                            config.showTrainLimitationInfo[currentLanguage]
+                            config.modeDisclaimers.rail[currentLanguage]
                               .showTrainLimitationInfoLink
                           }
                           configData={
-                            config.showTrainLimitationInfo[currentLanguage]
+                            config.modeDisclaimers.rail[currentLanguage]
                               .showTrainLimitationInfoLinkText
                           }
                         />
                       )}
 
-                      {isShowItineraryContainsCallLegsInfo && (
-                        <InfoBox
+                      {showCallAgencyDisclaimer && (
+                        <FareDisclaimer
                           textId="separate-ticket-required-for-call-agency-disclaimer"
                           values={`callAgencyInfo.${currentLanguage}.callAgencyInfoLink`}
                           href={
@@ -351,12 +348,12 @@ class ItineraryTab extends React.Component {
                         />
                       )}
 
-                      {!isShowItineraryContainsCallLegsInfo && !isShowTrainLimitationInfo && (
-                          <InfoBox
-                            textId="separate-ticket-required-disclaimer"
-                            values="ticketInformation.primaryAgencyName"
-                          />
-                        )}
+                      {!showCallAgencyDisclaimer && !showLegModeDisclaimer && (
+                        <FareDisclaimer
+                          textId="separate-ticket-required-disclaimer"
+                          values="ticketInformation.primaryAgencyName"
+                        />
+                      )}
                     </>
                   )}
                 <ItineraryLegs
