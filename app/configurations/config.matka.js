@@ -346,7 +346,7 @@ export default {
     },
   },
 
-  // useRealtimeTravellerCapacities: true,
+  useRealtimeTravellerCapacities: true,
 
   aboutThisService: {
     fi: [
