@@ -551,7 +551,7 @@ class TransitLeg extends React.Component {
           {leg.fare &&
             leg.fare.isUnknown &&
             shouldShowFareInfo(config) &&
-            (mode === LegMode.Rail && config.showTrainLimitationInfo ? (
+            (mode === LegMode.Rail && config.modeDisclaimers.rail ? (
               <div className="disclaimer-container unknown-fare-disclaimer__leg">
                 <div className="description-container">
                   <FormattedMessage
@@ -562,17 +562,17 @@ class TransitLeg extends React.Component {
                   />
                   <a
                     href={
-                      config.showTrainLimitationInfo[lang]
+                      config.modeDisclaimers.rail[lang]
                         .showTrainLimitationInfoLink
                     }
                   >
                     <FormattedMessage
                       id={
-                        config.showTrainLimitationInfo[lang]
+                        config.modeDisclaimers.rail[lang]
                           .showTrainLimitationInfoLinkText
                       }
                       defaultMessage={
-                        config.showTrainLimitationInfo[lang]
+                        config.modeDisclaimers.rail[lang]
                           .showTrainLimitationInfoLinkText
                       }
                     />
