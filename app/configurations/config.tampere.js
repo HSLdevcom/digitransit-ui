@@ -95,22 +95,24 @@ export default configMerger(walttiConfig, {
     },
   },
 
-  showTrainLimitationInfo: {
-    fi: {
-      showTrainLimitationInfoLink: 'https://www.nysse.fi/junat',
-      showTrainLimitationInfoLinkText: 'nysse.fi/junat',
-    },
-    sv: {
-      showTrainLimitationInfoLink:
-        'https://www.nysse.fi/en/ways-to-get-around/train',
-      showTrainLimitationInfoLinkText:
-        'Trains in the Nysse area - Nysse, Tampere regional transport',
-    },
-    en: {
-      showTrainLimitationInfoLink:
-        'https://www.nysse.fi/en/ways-to-get-around/train',
-      showTrainLimitationInfoLinkText:
-        'Trains in the Nysse area - Nysse, Tampere regional transport',
+  modeDisclaimers: {
+    rail: {
+      fi: {
+        showTrainLimitationInfoLink: 'https://www.nysse.fi/junat',
+        showTrainLimitationInfoLinkText: 'nysse.fi/junat',
+      },
+      sv: {
+        showTrainLimitationInfoLink:
+          'https://www.nysse.fi/en/ways-to-get-around/train',
+        showTrainLimitationInfoLinkText:
+          'Trains in the Nysse area - Nysse, Tampere regional transport',
+      },
+      en: {
+        showTrainLimitationInfoLink:
+          'https://www.nysse.fi/en/ways-to-get-around/train',
+        showTrainLimitationInfoLinkText:
+          'Trains in the Nysse area - Nysse, Tampere regional transport',
+      },
     },
   },
 
