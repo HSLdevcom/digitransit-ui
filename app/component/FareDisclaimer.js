@@ -4,7 +4,7 @@ import get from 'lodash/get';
 import PropTypes from 'prop-types';
 import Icon from './Icon';
 
-const InfoBox = (
+const FareDisclaimer = (
   { textId, values, href = null, configData = null },
   { config },
 ) => {
@@ -29,15 +29,20 @@ const InfoBox = (
   );
 };
 
-InfoBox.propTypes = {
+FareDisclaimer.propTypes = {
   textId: PropTypes.string.isRequired,
   values: PropTypes.string.isRequired,
   href: PropTypes.string,
   configData: PropTypes.string,
 };
 
-InfoBox.contextTypes = {
+FareDisclaimer.defaultProps = {
+  href: null,
+  configData: null,
+};
+
+FareDisclaimer.contextTypes = {
   config: PropTypes.object.isRequired,
 };
 
-export default InfoBox;
+export default FareDisclaimer;
