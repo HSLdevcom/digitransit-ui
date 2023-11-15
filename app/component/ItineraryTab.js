@@ -220,7 +220,8 @@ class ItineraryTab extends React.Component {
     );
     const hasTrainLegs = itinerary.legs.some(leg => hasLegMode(leg));
 
-    const showLegModeDisclaimer = config.modeDisclaimers.rail && hasTrainLegs;
+    const showLegModeDisclaimer =
+      config.modeDisclaimers && config.modeDisclaimers.rail && hasTrainLegs;
     const showCallAgencyDisclaimer =
       config.callAgencyInfo && itineraryContainsCallLegs;
 
