@@ -225,8 +225,10 @@ class ItineraryTab extends React.Component {
       : Number(this.context.match.params.hash) + 1;
 
     const co2value = typeof itinerary.emissionsPerPerson?.co2 === 'number' && itinerary.emissionsPerPerson?.co2 >= 0 ? Math.round(itinerary.emissionsPerPerson?.co2) : -1;
-    const carCo2Value = this.props.carItinerary && this.props.carItinerary.length > 0 ? Math.round(this.props.carItinerary[0].emissionsPerPerson?.co2) : 0;
-    const co2SimpleDesc =  carCo2Value === 0;
+    const itineraryIsCar = itinerary.legs.every((leg) => leg.mode === 'CAR');
+    const carCo2Value = !itineraryIsCar && this.props.carItinerary && this.props.carItinerary.length > 0 ? Math.round(this.props.carItinerary[0].emissionsPerPerson?.co2) : 0;
+    const co2SimpleDesc = carCo2Value === 0 || itineraryIsCar;
+    const co2DescriptionId = co2SimpleDesc ? "itinerary-co2.description-simple" : "itinerary-co2.description";
 
     const itineraryContainsCallLegs = itinerary.legs.some(leg => isCallAgencyPickupType(leg));
 
@@ -311,9 +313,15 @@ class ItineraryTab extends React.Component {
                   <div className={cx("co2-container", { mobile: this.props.isMobile })}>
                     <div className="co2-title-container">
                       <Icon img="icon-icon_co2_leaf" className="co2-leaf" />
-                      <span className="itinerary-co2-title">
+                      <span aria-hidden="true" className="itinerary-co2-title">
                         <FormattedMessage
-                          id="itinerary-co2.title"
+                          id="itinerary-co2.title"ss
+                          defaultMessage="CO2 emissions for this route"
+                        />
+                      </span>
+                      <span className="sr-only">
+                        <FormattedMessage
+                          id="itinerary-co2.title-sr"
                           defaultMessage="CO2 emissions for this route"
                         />
                       </span>
@@ -393,23 +401,24 @@ class ItineraryTab extends React.Component {
                       <div className="co2-description-container">
                         <Icon img="icon-icon_co2_leaf" className="co2-leaf" />
                         <span className={cx("itinerary-co2-description", { simple: co2SimpleDesc })}>
-                          {co2SimpleDesc ?
-                            <FormattedMessage id="itinerary-co2.description-simple"
-                              defaultMessage="CO₂ emissions for this route2"
-                              values={{
-                                co2value,
-                              }}
-                            />
-                            :
-                            <FormattedMessage
-                              id="itinerary-co2.description"
-                              defaultMessage="CO₂ emissions for this route"
+                          <span aria-hidden="true">
+                            <FormattedMessage id={co2DescriptionId}
+                              defaultMessage={`CO₂ emissions for this route: ${co2value} g`}
                               values={{
                                 co2value,
                                 carCo2Value,
                               }}
                             />
-                          }
+                          </span>
+                          <span className="sr-only">
+                            <FormattedMessage id={`${co2DescriptionId}-sr`}
+                              defaultMessage={`Carbondioxide emissions for this route: ${co2value} g`}
+                              values={{
+                                co2value,
+                                carCo2Value,
+                              }}
+                            />
+                          </span>
                           {config.URL.EMISSIONSINFO && (
                             <div className='co2link'>
                               <Link style={{ textDecoration: 'none', fontWeight: '450' }}

@@ -1119,8 +1119,13 @@ const translations = {
       '{co2value} g of CO₂ emissions will be generated on this journey. A car would generate {carCo2Value} g of CO₂ on the same journey.',
     'itinerary-co2.description-simple':
       '{co2value} g of CO₂ emissions will be generated on this journey.',
+    'itinerary-co2.description-simple-sr':
+      '{co2value} g of carbondioxide emissions will be generated on this journey.',
+    'itinerary-co2.description-sr':
+      '{co2value} g of carbondioxide emissions will be generated on this journey. A car would generate {carCo2Value} g of carbondioxide on the same journey.',
     'itinerary-co2.link': 'This is how we reduce emissions ›',
     'itinerary-co2.title': 'CO₂ emissions of the journey',
+    'itinerary-co2.title-sr': 'Carbondioxide emissions of the journey',
     'itinerary-details.biking-leg':
       'At {time} cycle {distance} from {origin} to {to} {destination}. Estimated time {duration}',
     'itinerary-details.car-leg':
@@ -1617,6 +1622,7 @@ const translations = {
     'travel-time-label': 'Travel time',
     'travel-time-with-hours': '{h} h {min} min',
     'trip-co2-emissions': 'CO2 emissions of the journey',
+    'trip-co2-emissions-sr': 'Carbondioxide emissions of the journey',
     'trip-information': 'Trip information',
     'trip-page.description': 'Route {route_short_name} - {route_long_name}',
     'trip-page.title': 'Route {route_short_name}',
@@ -2287,11 +2293,16 @@ const translations = {
     instructions: 'Ohjeet',
     'is-open': 'Avoinna:',
     'itinerary-co2.description':
-      'Tämän matkan CO₂ päästö on {co2value} g. Autolla kuljettuna se olisi ollut {carCo2Value} g.',
+      'Tämän matkan CO₂-päästöt on {co2value} g. Autolla kuljettuna se olisi ollut {carCo2Value} g.',
     'itinerary-co2.description-simple':
-      'Tämän matkan CO₂ päästö on {co2value} g.',
+      'Tämän matkan CO₂-päästöt on {co2value} g.',
+    'itinerary-co2.description-simple-sr':
+      'Tämän matkan hiilidioksidipäästöt on {co2value} g.',
+    'itinerary-co2.description-sr':
+      'Tämän matkan hiilidioksidipäästöt on {co2value} g. Autolla kuljettuna se olisi ollut {carCo2Value} g.',
     'itinerary-co2.link': 'Näin vähennämme päästöjä ›',
     'itinerary-co2.title': 'Matkan CO₂-päästöt',
+    'itinerary-co2.title-sr': 'Matkan hiilidioksidipäästöt',
     'itinerary-details.biking-leg':
       '{time} pyöräile kohteesta {origin} {distance} {to} {destination}. Matka-aika {duration}',
     'itinerary-details.car-leg':
@@ -2784,7 +2795,8 @@ const translations = {
     'travel-time': '{min} min',
     'travel-time-label': 'Matka-aika',
     'travel-time-with-hours': '{h} h {min} min',
-    'trip-co2-emissions': 'Reitin CO2 päästöt',
+    'trip-co2-emissions': 'Reitin CO₂-päästöt',
+    'trip-co2-emissions-sr': 'Reitin hiilidioksidipäästöt',
     'trip-information': 'Lähdön tiedot',
     'trip-page.description': 'Linja {shortName}, {longName}',
     'trip-page.title': 'Linja {shortName}',
@@ -4231,8 +4243,13 @@ const translations = {
       'CO₂-utsläppen för denna resa är {co2value} g. En bil skulle generera {carCo2Value} g CO₂ på samma resa.',
     'itinerary-co2.description-simple':
       'CO₂-utsläppen för denna resa är {co2value} g.',
+    'itinerary-co2.description-simple-sr':
+      'Koldioxidutsläppen för denna resa är {co2value} g.',
+    'itinerary-co2.description-sr':
+      'Koldioxidutsläppen för denna resa är {co2value} g. En bil skulle generera {carCo2Value} g koldioxid på samma resa.',
     'itinerary-co2.link': 'Så minskar vi utsläppen ›',
     'itinerary-co2.title': 'Rejsens CO₂-udslip',
+    'itinerary-co2.title-sr': 'Rejsens koldioxidutsläpp',
     'itinerary-details.biking-leg':
       '{time} cykla {distance} från {origin} till {to} {destination}. Restid {duration}',
     'itinerary-details.car-leg':
@@ -4734,6 +4751,7 @@ const translations = {
     'travel-time-label': 'Restid',
     'travel-time-with-hours': '{h} h {min} min',
     'trip-co2-emissions': 'Resans CO2-utsläpp',
+    'trip-co2-emissions-sr': 'Resans koldioxidutsläpp',
     'trip-information': 'Visa avgång',
     'trip-page.description': 'Linje {shortName} - {longName}',
     'trip-page.title': 'Linje {shortName}',
