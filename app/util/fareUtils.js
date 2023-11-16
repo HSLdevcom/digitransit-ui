@@ -1,4 +1,3 @@
-import uniq from 'lodash/uniq';
 import { uniqBy } from 'lodash';
 
 export const getFaresFromLegs = (legs, config) => {
@@ -48,72 +47,6 @@ export const getFaresFromLegs = (legs, config) => {
       routeName: route.longName,
     }));
   return [...knownFareLegs, ...unknownFareLegs];
-};
-
-// returns null or non-empty array of ticket names
-export function mapFares(fares, config) {
-  if (!Array.isArray(fares) || !config.showTicketInformation) {
-    return null;
-  }
-
-  const [regularFare] = fares.filter(fare => fare.type === 'regular');
-  if (!regularFare) {
-    return null;
-  }
-
-  const { components } = regularFare;
-  if (!Array.isArray(components) || components.length === 0) {
-    return null;
-  }
-
-  return components.map(fare => ({
-    ...fare,
-    agency:
-      (Array.isArray(fare.routes) &&
-        fare.routes.length > 0 &&
-        fare.routes[0].agency) ||
-      undefined,
-    ticketName:
-      // E2E-testing does not work without this check
-      (config.NODE_ENV === 'test' &&
-        (fare.fareId && fare.fareId.substring
-          ? fare.fareId.substring(fare.fareId.indexOf(':') + 1)
-          : '')) ||
-      config.fareMapping(fare.fareId),
-  }));
-}
-
-export const getFares = (fares, routes, config) => {
-  const knownFares = mapFares(fares, config) || [];
-
-  const routesWithFares = uniq(
-    knownFares
-      .map(fare => (Array.isArray(fare.routes) && fare.routes) || [])
-      .reduce((a, b) => a.concat(b), [])
-      .map(route => route.gtfsId),
-  );
-
-  const unknownTotalFare =
-    fares && fares[0] && fares[0].type === 'regular' && fares[0].cents === -1;
-  const unknownFares = (
-    ((unknownTotalFare || !fares || fares.length === 0) &&
-      Array.isArray(routes) &&
-      routes) ||
-    []
-  )
-    .filter(route => !routesWithFares.includes(route.gtfsId))
-    .map(route => ({
-      agency: {
-        fareUrl: route.agency.fareUrl,
-        gtfsId: route.agency.gtfsId,
-        name: route.agency.name,
-      },
-      isUnknown: true,
-      routeGtfsId: route.gtfsId,
-      routeName: route.longName,
-    }));
-
-  return [...knownFares, ...unknownFares];
 };
 
 /**
