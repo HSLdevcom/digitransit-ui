@@ -245,7 +245,10 @@ class ItineraryTab extends React.Component {
         });
       }
 
-      if (!config.modeDisclaimers[leg.mode] && !showCallAgencyDisclaimer) {
+      if (
+        !(config.modeDisclaimers && config.modeDisclaimers[leg.mode]) &&
+        !showCallAgencyDisclaimer
+      ) {
         disclaimers.push({
           id: 3,
           textId: 'separate-ticket-required-disclaimer',
