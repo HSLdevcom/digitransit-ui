@@ -25,10 +25,6 @@ export default function TicketInformation(
     return null;
   }
 
-  const totalPrice = fares
-    .filter(f => f.fareProducts?.length > 0)
-    .map(fp => fp.fareProducts[0].product.price.amount)
-    .reduce((acc, newValue) => acc + newValue, 0);
   const isMultiComponent = fares.length > 1;
   const alternativeFares = getAlternativeFares(
     zones,
@@ -114,7 +110,7 @@ export default function TicketInformation(
                 </div>
                 {config.showTicketPrice && (
                   <div className="ticket-description">
-                    {`${totalPrice.toFixed(2)} €`}
+                    {`${fare.price.toFixed(2)} €`}
                   </div>
                 )}
               </div>
