@@ -225,37 +225,50 @@ class ItineraryTab extends React.Component {
 
     itinerary.legs.forEach(leg => {
       if (config.modeDisclaimers && config.modeDisclaimers[leg.mode]) {
-        disclaimers.push({
+        const disclaimerItem = {
           id: 1,
           textId: 'train-ticket-limited',
           values: 'appBarLink.name',
           href: config.modeDisclaimers[leg.mode][currentLanguage].link,
           linkText: config.modeDisclaimers[leg.mode][currentLanguage].link,
-        });
+        };
+
+        if (!disclaimers.some(item => item.id === disclaimerItem.id)) {
+          disclaimers.push(disclaimerItem);
+        }
       }
 
       if (showCallAgencyDisclaimer) {
-        disclaimers.push({
+        const disclaimerItem = {
           id: 2,
           textId: 'separate-ticket-required-for-call-agency-disclaimer',
           values: `callAgencyInfo.${currentLanguage}.callAgencyInfoLink`,
           href: config.callAgencyInfo[currentLanguage].callAgencyInfoLink,
           linkText:
             config.callAgencyInfo[currentLanguage].callAgencyInfoLinkText,
-        });
+        };
+
+        if (!disclaimers.some(item => item.id === disclaimerItem.id)) {
+          disclaimers.push(disclaimerItem);
+        }
       }
 
       if (
-        !(config.modeDisclaimers && config.modeDisclaimers[leg.mode]) &&
+        !config.modeDisclaimers &&
+        !config.modeDisclaimers[leg.mode] &&
         !showCallAgencyDisclaimer
       ) {
-        disclaimers.push({
+        const disclaimerItem = {
           id: 3,
           textId: 'separate-ticket-required-disclaimer',
           values: 'ticketInformation.primaryAgencyName',
           href: null,
           linkText: null,
-        });
+        };
+
+        if (!disclaimers.some(item => item.id === disclaimerItem.id)) {
+          disclaimers.push(disclaimerItem);
+        }
       }
     });
 
