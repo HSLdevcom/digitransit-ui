@@ -22,7 +22,6 @@ import {
   getTotalWalkingDuration,
   getZones,
   isCallAgencyPickupType,
-  hasLegMode,
   legContainsRentalBike,
 } from '../util/legUtils';
 import { BreakpointConsumer } from '../util/withBreakpoint';
@@ -218,12 +217,44 @@ class ItineraryTab extends React.Component {
     const itineraryContainsCallLegs = itinerary.legs.some(leg =>
       isCallAgencyPickupType(leg),
     );
-    const hasTrainLegs = itinerary.legs.some(leg => hasLegMode(leg));
 
-    const showLegModeDisclaimer =
-      config.modeDisclaimers && config.modeDisclaimers.rail && hasTrainLegs;
     const showCallAgencyDisclaimer =
       config.callAgencyInfo && itineraryContainsCallLegs;
+
+    const disclaimers = [];
+
+    itinerary.legs.forEach(leg => {
+      if (config.modeDisclaimers && config.modeDisclaimers[leg.mode]) {
+        disclaimers.push({
+          id: 1,
+          textId: 'train-ticket-limited',
+          values: 'appBarLink.name',
+          href: config.modeDisclaimers[leg.mode][currentLanguage].link,
+          linkText: config.modeDisclaimers[leg.mode][currentLanguage].link,
+        });
+      }
+
+      if (showCallAgencyDisclaimer) {
+        disclaimers.push({
+          id: 2,
+          textId: 'separate-ticket-required-for-call-agency-disclaimer',
+          values: `callAgencyInfo.${currentLanguage}.callAgencyInfoLink`,
+          href: config.callAgencyInfo[currentLanguage].callAgencyInfoLink,
+          linkText:
+            config.callAgencyInfo[currentLanguage].callAgencyInfoLinkText,
+        });
+      }
+
+      if (!config.modeDisclaimers[leg.mode] && !showCallAgencyDisclaimer) {
+        disclaimers.push({
+          id: 3,
+          textId: 'separate-ticket-required-disclaimer',
+          values: 'ticketInformation.primaryAgencyName',
+          href: null,
+          linkText: null,
+        });
+      }
+    });
 
     return (
       <div className="itinerary-tab">
@@ -317,46 +348,16 @@ class ItineraryTab extends React.Component {
                 })}
               >
                 {shouldShowFareInfo(config) &&
-                  fares.some(fare => fare.isUnknown) && (
-                    <>
-                      {showLegModeDisclaimer && (
-                        <FareDisclaimer
-                          textId="train-ticket-limited"
-                          values="appBarLink.name"
-                          href={
-                            config.modeDisclaimers.rail[currentLanguage]
-                              .showTrainLimitationInfoLink
-                          }
-                          configData={
-                            config.modeDisclaimers.rail[currentLanguage]
-                              .showTrainLimitationInfoLinkText
-                          }
-                        />
-                      )}
-
-                      {showCallAgencyDisclaimer && (
-                        <FareDisclaimer
-                          textId="separate-ticket-required-for-call-agency-disclaimer"
-                          values={`callAgencyInfo.${currentLanguage}.callAgencyInfoLink`}
-                          href={
-                            config.callAgencyInfo[currentLanguage]
-                              .callAgencyInfoLink
-                          }
-                          configData={
-                            config.callAgencyInfo[currentLanguage]
-                              .callAgencyInfoLinkText
-                          }
-                        />
-                      )}
-
-                      {!showCallAgencyDisclaimer && !showLegModeDisclaimer && (
-                        <FareDisclaimer
-                          textId="separate-ticket-required-disclaimer"
-                          values="ticketInformation.primaryAgencyName"
-                        />
-                      )}
-                    </>
-                  )}
+                  fares.some(fare => fare.isUnknown) &&
+                  disclaimers.map(disclaimer => (
+                    <FareDisclaimer
+                      key={disclaimer.id}
+                      textId={disclaimer.textId}
+                      values={disclaimer.values}
+                      href={disclaimer.href}
+                      linkText={disclaimer.linkText}
+                    />
+                  ))}
                 <ItineraryLegs
                   fares={fares}
                   itinerary={itinerary}
