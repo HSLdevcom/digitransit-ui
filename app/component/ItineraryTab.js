@@ -221,6 +221,10 @@ class ItineraryTab extends React.Component {
     const showCallAgencyDisclaimer =
       config.callAgencyInfo && itineraryContainsCallLegs;
 
+    const showLegModeDisclaimer = itinerary.legs.some(leg => {
+      return !!(config.modeDisclaimers && config.modeDisclaimers[leg.mode]);
+    });
+
     const disclaimers = [];
 
     itinerary.legs.forEach(leg => {
@@ -253,11 +257,7 @@ class ItineraryTab extends React.Component {
         }
       }
 
-      if (
-        !config.modeDisclaimers &&
-        !config.modeDisclaimers[leg.mode] &&
-        !showCallAgencyDisclaimer
-      ) {
+      if (!showLegModeDisclaimer && !showCallAgencyDisclaimer) {
         const disclaimerItem = {
           id: 3,
           textId: 'separate-ticket-required-disclaimer',
