@@ -109,8 +109,3 @@ export const shouldShowFarePurchaseInfo = (config, breakpoint, fares) => {
     breakpoint !== 'large'
   );
 };
-/* 
-export const uniqueFareProducts = (fares, config) => {
-   const availableTickets = Object.values(config.availableTickets).map( r => Object.keys(r)).flat();
-  return uniqBy(fares, 'id').filter(fp => availableTickets.includes(fp.product.id));
-}; */
