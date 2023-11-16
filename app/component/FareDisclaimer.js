@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import Icon from './Icon';
 
 const FareDisclaimer = (
-  { textId, values, href = null, configData = null },
+  { textId, values, href = null, linkText = null },
   { config },
 ) => {
   return (
@@ -21,7 +21,7 @@ const FareDisclaimer = (
 
         {href && (
           <a href={href}>
-            <FormattedMessage id={configData} defaultMessage={configData} />
+            <FormattedMessage id={linkText} defaultMessage={linkText} />
           </a>
         )}
       </div>
@@ -33,12 +33,12 @@ FareDisclaimer.propTypes = {
   textId: PropTypes.string.isRequired,
   values: PropTypes.string.isRequired,
   href: PropTypes.string,
-  configData: PropTypes.string,
+  linkText: PropTypes.string,
 };
 
 FareDisclaimer.defaultProps = {
   href: null,
-  configData: null,
+  linkText: null,
 };
 
 FareDisclaimer.contextTypes = {
