@@ -102,10 +102,6 @@ export function isCallAgencyPickupType(leg) {
   );
 }
 
-export function hasLegMode(leg) {
-  return getLegMode(leg) === LegMode.Rail;
-}
-
 /**
  * Checks if both of the legs exist and are taken with mode 'BICYCLE'.
  *
