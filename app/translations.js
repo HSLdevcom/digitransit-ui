@@ -1601,8 +1601,6 @@ const translations = {
     'track-short': 'Track {platformCode}',
     'track-short-no-num': 'Track',
     traficom: 'Traficom',
-    'train-ticket-limited':
-      '{agencyName} tickets are valid on trains in the {agencyName} area with some limitations. Read more on ',
     tram: 'Tram',
     'tram-with-route-number': 'Tram {routeNumber} {headSign}',
     transfer: 'Transfer',
@@ -2765,8 +2763,6 @@ const translations = {
     'track-short': 'Raide {platformCode}',
     'track-short-no-num': 'Raide',
     traficom: 'Traficom',
-    'train-ticket-limited':
-      '{agencyName} liput käyvät junaliikenteessä rajoitetusti vain {agencyName}-alueella. Lue lisää ',
     tram: 'Raitiovaunu',
     'tram-with-route-number': 'Raitiovaunu {routeNumber} {headSign}',
     transfer: 'Vaihto',
@@ -4710,8 +4706,6 @@ const translations = {
     'track-short': 'Spår {platformCode}',
     'track-short-no-num': 'Spår',
     traficom: 'Traficom',
-    'train-ticket-limited':
-      '{agencyName}-biljetter är giltiga på tåg i {agencyName}-området, med vissa begränsningar. Läs mer på ',
     tram: 'Spårvagn',
     'tram-with-route-number': 'Spårvagn {routeNumber} {headSign}',
     transfer: 'Byte',
