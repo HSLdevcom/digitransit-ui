@@ -6,7 +6,6 @@ import { FormattedMessage, intlShape } from 'react-intl';
 import Link from 'found/Link';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 
-import get from 'lodash/get';
 import LegAgencyInfo from './LegAgencyInfo';
 import Icon from './Icon';
 import IntermediateLeg from './IntermediateLeg';
@@ -32,7 +31,6 @@ import {
   getHeadsignFromRouteLongName,
   getStopHeadsignFromStoptimes,
   getZoneLabel,
-  LegMode,
 } from '../util/legUtils';
 import { shouldShowFareInfo } from '../util/fareUtils';
 import { AlertEntityType, AlertSeverityLevelType } from '../constants';
@@ -548,17 +546,13 @@ class TransitLeg extends React.Component {
               />
             )}
           </div>
-          {leg.fare &&
-            leg.fare.isUnknown &&
+          {leg.fare?.isUnknown &&
             shouldShowFareInfo(config) &&
-            (mode === LegMode.Rail && config.modeDisclaimers[mode] ? (
+            (config.modeDisclaimers[mode] ? (
               <div className="disclaimer-container unknown-fare-disclaimer__leg">
                 <div className="description-container">
                   <FormattedMessage
-                    id="train-ticket-limited"
-                    values={{
-                      agencyName: get(config, 'appBarLink.name'),
-                    }}
+                    id={config.modeDisclaimers[mode][lang].disclaimer}
                   />
                   <a href={config.modeDisclaimers[mode][lang].link}>
                     <FormattedMessage
