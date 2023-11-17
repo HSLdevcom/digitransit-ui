@@ -24,15 +24,18 @@ const FareDisclaimer = ({ textId, values, href = null, linkText = null }) => {
 
 FareDisclaimer.propTypes = {
   textId: PropTypes.string.isRequired,
-  values: PropTypes.shape({
-    agencyName: PropTypes.string,
-  }),
+  values: PropTypes.oneOfType([
+    PropTypes.shape({
+      agencyName: PropTypes.string,
+    }),
+    PropTypes.object,
+  ]),
   href: PropTypes.string,
   linkText: PropTypes.string,
 };
 
 FareDisclaimer.defaultProps = {
-  values: null,
+  values: {},
   href: null,
   linkText: null,
 };
