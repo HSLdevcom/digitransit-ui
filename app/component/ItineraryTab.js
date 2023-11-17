@@ -241,8 +241,8 @@ class ItineraryTab extends React.Component {
     itinerary.legs.forEach(leg => {
       if (config.modeDisclaimers && config.modeDisclaimers[leg.mode]) {
         const modeDisclaimer = {
-          textId: 'train-ticket-limited',
-          values: 'appBarLink.name',
+          textId: config.modeDisclaimers[leg.mode][currentLanguage].disclaimer,
+          values: null,
           href: config.modeDisclaimers[leg.mode][currentLanguage].link,
           linkText: config.modeDisclaimers[leg.mode][currentLanguage].link,
         };
