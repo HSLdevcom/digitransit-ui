@@ -226,49 +226,45 @@ class ItineraryTab extends React.Component {
     });
 
     const disclaimers = [];
+    const uniqueMessages = new Set();
+
+    function pushUniqueMessage(message) {
+      if (!uniqueMessages.has(JSON.stringify(message))) {
+        disclaimers.push(message);
+        uniqueMessages.add(JSON.stringify(message));
+      }
+    }
 
     itinerary.legs.forEach(leg => {
       if (config.modeDisclaimers && config.modeDisclaimers[leg.mode]) {
-        const disclaimerItem = {
-          id: 1,
+        const message = {
           textId: 'train-ticket-limited',
           values: 'appBarLink.name',
           href: config.modeDisclaimers[leg.mode][currentLanguage].link,
           linkText: config.modeDisclaimers[leg.mode][currentLanguage].link,
         };
-
-        if (!disclaimers.some(item => item.id === disclaimerItem.id)) {
-          disclaimers.push(disclaimerItem);
-        }
+        pushUniqueMessage(message);
       }
 
       if (showCallAgencyDisclaimer) {
-        const disclaimerItem = {
-          id: 2,
+        const message = {
           textId: 'separate-ticket-required-for-call-agency-disclaimer',
           values: `callAgencyInfo.${currentLanguage}.callAgencyInfoLink`,
           href: config.callAgencyInfo[currentLanguage].callAgencyInfoLink,
           linkText:
             config.callAgencyInfo[currentLanguage].callAgencyInfoLinkText,
         };
-
-        if (!disclaimers.some(item => item.id === disclaimerItem.id)) {
-          disclaimers.push(disclaimerItem);
-        }
+        pushUniqueMessage(message);
       }
 
       if (!showLegModeDisclaimer && !showCallAgencyDisclaimer) {
-        const disclaimerItem = {
-          id: 3,
+        const message = {
           textId: 'separate-ticket-required-disclaimer',
           values: 'ticketInformation.primaryAgencyName',
           href: null,
           linkText: null,
         };
-
-        if (!disclaimers.some(item => item.id === disclaimerItem.id)) {
-          disclaimers.push(disclaimerItem);
-        }
+        pushUniqueMessage(message);
       }
     });
 
@@ -365,9 +361,10 @@ class ItineraryTab extends React.Component {
               >
                 {shouldShowFareInfo(config) &&
                   fares.some(fare => fare.isUnknown) &&
-                  disclaimers.map(disclaimer => (
+                  disclaimers.map((disclaimer, index) => (
                     <FareDisclaimer
-                      key={disclaimer.id}
+                      /* eslint-disable-next-line react/no-array-index-key */
+                      key={index}
                       textId={disclaimer.textId}
                       values={disclaimer.values}
                       href={disclaimer.href}
