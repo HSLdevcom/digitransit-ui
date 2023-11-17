@@ -243,6 +243,7 @@ class ItineraryTab extends React.Component {
           disclaimers.push(
             <FareDisclaimer
               key={leg.mode}
+              values={{}}
               textId={disclaimer.disclaimer}
               href={disclaimer.link}
               linkText={disclaimer.text}
