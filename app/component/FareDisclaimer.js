@@ -24,12 +24,15 @@ const FareDisclaimer = ({ textId, values, href = null, linkText = null }) => {
 
 FareDisclaimer.propTypes = {
   textId: PropTypes.string.isRequired,
-  values: PropTypes.object.isRequired,
+  values: PropTypes.shape({
+    agencyName: PropTypes.string,
+  }),
   href: PropTypes.string,
   linkText: PropTypes.string,
 };
 
 FareDisclaimer.defaultProps = {
+  values: null,
   href: null,
   linkText: null,
 };
