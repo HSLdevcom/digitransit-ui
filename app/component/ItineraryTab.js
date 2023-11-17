@@ -227,49 +227,59 @@ class ItineraryTab extends React.Component {
     });
 
     const disclaimers = [];
-    const uniqueMessages = new Set();
+    const showFareDisclaimer =
+      shouldShowFareInfo(config) && fares.some(fare => fare.isUnknown);
 
-    function pushUniqueMessage(message) {
-      const updatedMessage = { ...message };
-      updatedMessage.id = (updatedMessage.id || 0) + 1;
-      if (!uniqueMessages.has(JSON.stringify(updatedMessage))) {
-        disclaimers.push(updatedMessage);
-        uniqueMessages.add(JSON.stringify(updatedMessage));
-      }
-    }
-
-    itinerary.legs.forEach(leg => {
-      if (config.modeDisclaimers && config.modeDisclaimers[leg.mode]) {
-        const modeDisclaimer = {
-          textId: config.modeDisclaimers[leg.mode][currentLanguage].disclaimer,
-          values: null,
-          href: config.modeDisclaimers[leg.mode][currentLanguage].link,
-          linkText: config.modeDisclaimers[leg.mode][currentLanguage].link,
-        };
-        pushUniqueMessage(modeDisclaimer);
-      }
+    if (showFareDisclaimer) {
+      const found = {};
+      itinerary.legs.forEach(leg => {
+        if (
+          config.modeDisclaimers &&
+          config.modeDisclaimers[leg.mode] &&
+          !found[leg.mode]
+        ) {
+          found[leg.mode] = true;
+          const disclaimer = config.modeDisclaimers[leg.mode][currentLanguage];
+          disclaimers.push(
+            <FareDisclaimer
+              key={leg.mode}
+              textId={disclaimer.disclaimer}
+              href={disclaimer.link}
+              linkText={disclaimer.text}
+            />,
+          );
+        }
+      });
 
       if (showCallAgencyDisclaimer) {
-        const callAgencyMessage = {
-          textId: 'separate-ticket-required-for-call-agency-disclaimer',
-          values: `callAgencyInfo.${currentLanguage}.callAgencyInfoLink`,
-          href: config.callAgencyInfo[currentLanguage].callAgencyInfoLink,
-          linkText:
-            config.callAgencyInfo[currentLanguage].callAgencyInfoLinkText,
-        };
-        pushUniqueMessage(callAgencyMessage);
+        disclaimers.push(
+          <FareDisclaimer
+            textId="separate-ticket-required-for-call-agency-disclaimer"
+            values={{
+              agencyName: get(
+                config,
+                `callAgencyInfo.${currentLanguage}.callAgencyInfoLink`,
+              ),
+            }}
+            href={config.callAgencyInfo[currentLanguage].callAgencyInfoLink}
+            linkText={
+              config.callAgencyInfo[currentLanguage].callAgencyInfoLinkText
+            }
+          />,
+        );
       }
 
       if (!showLegModeDisclaimer && !showCallAgencyDisclaimer) {
-        const defaultMessage = {
-          textId: 'separate-ticket-required-disclaimer',
-          values: 'ticketInformation.primaryAgencyName',
-          href: null,
-          linkText: null,
-        };
-        pushUniqueMessage(defaultMessage);
+        disclaimers.push(
+          <FareDisclaimer
+            textId="separate-ticket-required-for-call-agency-disclaimer"
+            values={{
+              agencyName: get(config, 'ticketInformation.primaryAgencyName'),
+            }}
+          />,
+        );
       }
-    });
+    }
 
     return (
       <div className="itinerary-tab">
@@ -362,17 +372,7 @@ class ItineraryTab extends React.Component {
                   'bp-large': breakpoint === 'large',
                 })}
               >
-                {shouldShowFareInfo(config) &&
-                  fares.some(fare => fare.isUnknown) &&
-                  disclaimers.map(disclaimer => (
-                    <FareDisclaimer
-                      key={disclaimer.id}
-                      textId={disclaimer.textId}
-                      values={{ agencyName: get(config, disclaimer.values) }}
-                      href={disclaimer.href}
-                      linkText={disclaimer.linkText}
-                    />
-                  ))}
+                <>{disclaimers}</>
                 <ItineraryLegs
                   fares={fares}
                   itinerary={itinerary}
