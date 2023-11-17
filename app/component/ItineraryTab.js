@@ -5,6 +5,7 @@ import cx from 'classnames';
 import { matchShape, routerShape } from 'found';
 import { FormattedMessage, intlShape } from 'react-intl';
 import connectToStores from 'fluxible-addons-react/connectToStores';
+import get from 'lodash/get';
 import TicketInformation from './TicketInformation';
 import RouteInformation from './RouteInformation';
 import ItinerarySummary from './ItinerarySummary';
@@ -367,7 +368,7 @@ class ItineraryTab extends React.Component {
                     <FareDisclaimer
                       key={disclaimer.id}
                       textId={disclaimer.textId}
-                      values={disclaimer.values}
+                      values={{ agencyName: get(config, disclaimer.values) }}
                       href={disclaimer.href}
                       linkText={disclaimer.linkText}
                     />
