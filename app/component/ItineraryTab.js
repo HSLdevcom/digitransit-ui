@@ -215,27 +215,14 @@ class ItineraryTab extends React.Component {
     const suggestionIndex = this.context.match.params.secondHash
       ? Number(this.context.match.params.secondHash) + 1
       : Number(this.context.match.params.hash) + 1;
-    const itineraryContainsCallLegs = itinerary.legs.some(leg =>
-      isCallAgencyPickupType(leg),
-    );
-
-    const showCallAgencyDisclaimer =
-      config.callAgencyInfo && itineraryContainsCallLegs;
-
-    const showLegModeDisclaimer = itinerary.legs.some(leg => {
-      return !!(config.modeDisclaimers && config.modeDisclaimers[leg.mode]);
-    });
 
     const disclaimers = [];
-    const showFareDisclaimer =
-      shouldShowFareInfo(config) && fares.some(fare => fare.isUnknown);
 
-    if (showFareDisclaimer) {
+    if (shouldShowFareInfo(config) && fares.some(fare => fare.isUnknown)) {
       const found = {};
       itinerary.legs.forEach(leg => {
         if (
-          config.modeDisclaimers &&
-          config.modeDisclaimers[leg.mode] &&
+          config.modeDisclaimers?.[leg.mode] &&
           !found[leg.mode]
         ) {
           found[leg.mode] = true;
@@ -252,7 +239,7 @@ class ItineraryTab extends React.Component {
         }
       });
 
-      if (showCallAgencyDisclaimer) {
+      if (config.callAgencyInfo && itinerary.legs.some(leg => isCallAgencyPickupType(leg))) {
         disclaimers.push(
           <FareDisclaimer
             textId="separate-ticket-required-for-call-agency-disclaimer"
@@ -270,7 +257,7 @@ class ItineraryTab extends React.Component {
         );
       }
 
-      if (!showLegModeDisclaimer && !showCallAgencyDisclaimer) {
+      if (!disclaimers.length) {
         disclaimers.push(
           <FareDisclaimer
             textId="separate-ticket-required-for-call-agency-disclaimer"
