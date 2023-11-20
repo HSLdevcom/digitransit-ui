@@ -260,7 +260,7 @@ class ItineraryTab extends React.Component {
       if (!disclaimers.length) {
         disclaimers.push(
           <FareDisclaimer
-            textId="separate-ticket-required-for-call-agency-disclaimer"
+            textId="separate-ticket-required-disclaimer"
             values={{
               agencyName: get(config, 'ticketInformation.primaryAgencyName'),
             }}
