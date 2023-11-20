@@ -530,22 +530,24 @@ class TransitLeg extends React.Component {
           )}
           {routeNotifications}
           <LegAgencyInfo leg={leg} />
-          <div className="intermediate-stops-button-container">
-            {leg.intermediatePlaces.length > 1 && (
-              <StopInfo
-                toggleFunction={this.toggleShowIntermediateStops}
-                leg={leg}
-                intermediateStopCount={intermediateStopCount}
-                duration={
-                  interliningLegs.length > 0
-                    ? interliningLegs[interliningLegs.length - 1].endTime -
-                      leg.startTime
-                    : leg.duration * 1000
-                }
-                showIntermediateStops={this.state.showIntermediateStops}
-              />
-            )}
-          </div>
+          {intermediateStopCount !== 0 && (
+            <div className="intermediate-stops-button-container">
+              {leg.intermediatePlaces.length > 1 && (
+                <StopInfo
+                  toggleFunction={this.toggleShowIntermediateStops}
+                  leg={leg}
+                  intermediateStopCount={intermediateStopCount}
+                  duration={
+                    interliningLegs.length > 0
+                      ? interliningLegs[interliningLegs.length - 1].endTime -
+                        leg.startTime
+                      : leg.duration * 1000
+                  }
+                  showIntermediateStops={this.state.showIntermediateStops}
+                />
+              )}
+            </div>
+          )}
           {leg.fare?.isUnknown &&
             shouldShowFareInfo(config) &&
             (config.modeDisclaimers && config.modeDisclaimers[mode] ? (
