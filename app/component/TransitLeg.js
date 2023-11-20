@@ -6,7 +6,6 @@ import { FormattedMessage, intlShape } from 'react-intl';
 import Link from 'found/Link';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 
-import ExternalLink from './ExternalLink';
 import LegAgencyInfo from './LegAgencyInfo';
 import Icon from './Icon';
 import IntermediateLeg from './IntermediateLeg';
@@ -16,30 +15,31 @@ import PlatformNumber from './PlatformNumber';
 import ServiceAlertIcon from './ServiceAlertIcon';
 import StopCode from './StopCode';
 import {
+  alertSeverityCompare,
   getActiveAlertSeverityLevel,
-  legHasCancelation,
-  tripHasCancelationForStop,
   getActiveLegAlerts,
   getActiveLegAlertSeverityLevel,
-  alertSeverityCompare,
   getMaximumAlertSeverityLevel,
   hasEntitiesOfType,
+  legHasCancelation,
+  tripHasCancelationForStop,
 } from '../util/alertUtils';
-import { PREFIX_ROUTES, PREFIX_STOPS, PREFIX_DISRUPTION } from '../util/path';
+import { PREFIX_DISRUPTION, PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
 import { durationToString } from '../util/timeUtils';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import {
-  getZoneLabel,
   getHeadsignFromRouteLongName,
   getStopHeadsignFromStoptimes,
+  getZoneLabel,
 } from '../util/legUtils';
 import { shouldShowFareInfo } from '../util/fareUtils';
-import { AlertSeverityLevelType, AlertEntityType } from '../constants';
+import { AlertEntityType, AlertSeverityLevelType } from '../constants';
 import ZoneIcon from './ZoneIcon';
 import StopInfo from './StopInfo';
 import InterlineInfo from './InterlineInfo';
 import AlternativeLegsInfo from './AlternativeLegsInfo';
 import LegInfo from './LegInfo';
+import ExternalLink from './ExternalLink';
 
 class TransitLeg extends React.Component {
   constructor(props) {
@@ -231,8 +231,8 @@ class TransitLeg extends React.Component {
             .format('HH:mm')}
         </span>,
       ];
-    const LegRouteName = leg.from.name.concat(' - ').concat(leg.to.name);
     const modeClassName = mode.toLowerCase();
+    const LegRouteName = leg.from.name.concat(' - ').concat(leg.to.name);
 
     const textVersionBeforeLink = (
       <FormattedMessage
@@ -546,35 +546,51 @@ class TransitLeg extends React.Component {
               />
             )}
           </div>
-          {leg.fare && leg.fare.isUnknown && shouldShowFareInfo(config) && (
-            <div className="disclaimer-container unknown-fare-disclaimer__leg">
-              <div className="description-container">
-                <span className="accent">
-                  {`${intl.formatMessage({ id: 'pay-attention' })} `}
-                </span>
-                {intl.formatMessage({ id: 'separate-ticket-required' })}
+          {leg.fare?.isUnknown &&
+            shouldShowFareInfo(config) &&
+            (config.modeDisclaimers && config.modeDisclaimers[mode] ? (
+              <div className="disclaimer-container unknown-fare-disclaimer__leg">
+                <div className="description-container">
+                  <FormattedMessage
+                    id={config.modeDisclaimers[mode][lang].disclaimer}
+                  />
+                  <a href={config.modeDisclaimers[mode][lang].link}>
+                    <FormattedMessage
+                      id={config.modeDisclaimers[mode][lang].text}
+                      defaultMessage={config.modeDisclaimers[mode][lang].text}
+                    />
+                  </a>
+                </div>
               </div>
-              <div className="ticket-info">
-                <div className="accent">{LegRouteName}</div>
-                {leg.fare.agency &&
-                  !config.hideExternalOperator(leg.fare.agency) && (
-                    <React.Fragment>
-                      <div>{leg.fare.agency.name}</div>
-                      {leg.fare.agency.fareUrl && (
-                        <ExternalLink
-                          className="agency-link"
-                          href={leg.fare.agency.fareUrl}
-                        >
-                          {intl.formatMessage({ id: 'extra-info' })}
-                        </ExternalLink>
-                      )}
-                    </React.Fragment>
-                  )}
+            ) : (
+              <div className="disclaimer-container unknown-fare-disclaimer__leg">
+                <div className="description-container">
+                  <span className="accent">
+                    {`${intl.formatMessage({ id: 'pay-attention' })} `}
+                  </span>
+                  {intl.formatMessage({ id: 'separate-ticket-required' })}
+                </div>
+                <div className="ticket-info">
+                  <div className="accent">{LegRouteName}</div>
+                  {leg.fare.agency &&
+                    !config.hideExternalOperator(leg.fare.agency) && (
+                      <React.Fragment>
+                        <div>{leg.fare.agency.name}</div>
+                        {leg.fare.agency.fareUrl && (
+                          <ExternalLink
+                            className="agency-link"
+                            href={leg.fare.agency.fareUrl}
+                          >
+                            {intl.formatMessage({ id: 'extra-info' })}
+                          </ExternalLink>
+                        )}
+                      </React.Fragment>
+                    )}
+                </div>
               </div>
-            </div>
-          )}
+            ))}
         </div>
-        <span className="sr-only">{alertSeverityDescription}</span>
+        <span className="sr-only">{alertSeverityDescription}</span>;
       </div>
     );
   };
