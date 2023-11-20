@@ -193,7 +193,7 @@ $itinerary-tab-switch-height: 48px;
 
 .itinerary-co2-information {
   &.mobile {
-    padding: 0 15px;
+    padding-left: 5px;
     .divider-bottom {
       width: 365px;
     }
@@ -285,7 +285,7 @@ $itinerary-tab-switch-height: 48px;
       }
 
       .itinerary-co2-title {
-        width: 250px;
+        max-width: 250px;
         height: 18px;
         left: 48px;
         top: 528px;
@@ -326,7 +326,7 @@ $itinerary-tab-switch-height: 48px;
         min-width: 29px;
         height: 16px;
 
-        font-family: $font-family; //'Gotham Rounded';
+        font-family: $font-family;
         font-style: normal;
         font-weight: 325;
         font-size: 13px;

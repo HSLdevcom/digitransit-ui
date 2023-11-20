@@ -6,8 +6,6 @@ import cx from 'classnames';
 import { matchShape, routerShape } from 'found';
 import { FormattedMessage, intlShape } from 'react-intl';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-
-import Link from 'found/Link';
 import Icon from './Icon';
 import TicketInformation from './TicketInformation';
 import RouteInformation from './RouteInformation';
@@ -84,16 +82,15 @@ class ItineraryTab extends React.Component {
     focusToLeg: PropTypes.func.isRequired,
     isMobile: PropTypes.bool.isRequired,
     currentTime: PropTypes.number.isRequired,
-    lang: PropTypes.string.isRequired,
     hideTitle: PropTypes.bool,
-    carItinerary: PropTypes.array,
+    carItineraries: PropTypes.array,
     currentLanguage: PropTypes.string,
     changeHash: PropTypes.func,
   };
 
   static defaultProps = {
     hideTitle: false,
-    carItinerary: [],
+    carItineraries: [],
     currentLanguage: "fi"
   };
 
@@ -224,11 +221,11 @@ class ItineraryTab extends React.Component {
       ? Number(this.context.match.params.secondHash) + 1
       : Number(this.context.match.params.hash) + 1;
 
-    const co2value = typeof itinerary.emissionsPerPerson?.co2 === 'number' && itinerary.emissionsPerPerson?.co2 >= 0 ? Math.round(itinerary.emissionsPerPerson?.co2) : -1;
+    const co2value = typeof itinerary.emissionsPerPerson?.co2 === 'number' && itinerary.emissionsPerPerson?.co2 >= 0 ? Math.round(itinerary.emissionsPerPerson?.co2) : null;
     const itineraryIsCar = itinerary.legs.every((leg) => leg.mode === 'CAR');
-    const carCo2Value = !itineraryIsCar && this.props.carItinerary && this.props.carItinerary.length > 0 ? Math.round(this.props.carItinerary[0].emissionsPerPerson?.co2) : 0;
-    const co2SimpleDesc = carCo2Value === 0 || itineraryIsCar;
-    const co2DescriptionId = co2SimpleDesc ? "itinerary-co2.description-simple" : "itinerary-co2.description";
+    const carCo2Value = !itineraryIsCar && this.props.carItineraries?.length > 0 ? Math.round(this.props.carItineraries[0].emissionsPerPerson?.co2) : null;
+    const useCo2SimpleDesc = !carCo2Value || itineraryIsCar;
+    const co2DescriptionId = useCo2SimpleDesc ? "itinerary-co2.description-simple" : "itinerary-co2.description";
 
     const itineraryContainsCallLegs = itinerary.legs.some(leg => isCallAgencyPickupType(leg));
 
@@ -316,7 +313,6 @@ class ItineraryTab extends React.Component {
                       <span aria-hidden="true" className="itinerary-co2-title">
                         <FormattedMessage
                           id="itinerary-co2.title"
-                          ss
                           defaultMessage="CO2 emissions for this route"
                         />
                       </span>
@@ -401,7 +397,7 @@ class ItineraryTab extends React.Component {
                     <div className="co2-container">
                       <div className="co2-description-container">
                         <Icon img="icon-icon_co2_leaf" className="co2-leaf" />
-                        <span className={cx("itinerary-co2-description", { simple: co2SimpleDesc })}>
+                        <span className={cx("itinerary-co2-description", { simple: useCo2SimpleDesc })}>
                           <span aria-hidden="true">
                             <FormattedMessage id={co2DescriptionId}
                               defaultMessage={`CO₂ emissions for this route: ${co2value} g`}
@@ -422,15 +418,12 @@ class ItineraryTab extends React.Component {
                           </span>
                           {config.URL.EMISSIONSINFO && (
                             <div className='co2link'>
-                              <Link style={{ textDecoration: 'none', fontWeight: '450' }}
-                                to={`${config.URL.EMISSIONSINFO[this.props.lang]}`}
-                                target="_blank"
-                              >
+                              <a href={`${config.URL.EMISSIONSINFO[currentLanguage]}`}>
                                 <FormattedMessage
                                   id="itinerary-co2.link"
                                   defaultMessage="Näin vähennämme päästöjä ›"
                                 />
-                              </Link>
+                              </a>
                             </div>
                           )}
                         </span>

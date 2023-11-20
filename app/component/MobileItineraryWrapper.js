@@ -41,7 +41,7 @@ const MobileItineraryWrapper = (props, context) => {
           focusToLeg={props.focusToLeg}
           changeHash={props.changeHash}
           isMobile
-          carItinerary={props.carItinerary}
+          carItineraries={props.carItineraries}
         />
       </div>
     );
@@ -74,7 +74,7 @@ MobileItineraryWrapper.propTypes = {
   plan: PropTypes.object,
   serviceTimeRange: PropTypes.object.isRequired,
   onSwipe: PropTypes.func,
-  carItinerary: PropTypes.array,
+  carItineraries: PropTypes.array,
   changeHash: PropTypes.func,
 };
 
@@ -82,7 +82,7 @@ MobileItineraryWrapper.contextTypes = {
   router: routerShape.isRequired,
   match: matchShape.isRequired,
   intl: intlShape.isRequired,
-  carItinerary: [],
+  carItineraries: [],
 };
 
 export default MobileItineraryWrapper;

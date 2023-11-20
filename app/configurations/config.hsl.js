@@ -49,8 +49,8 @@ export default {
     EMBEDDED_SEARCH_GENERATION: '/reittiopas-elementti',
     EMISSIONSINFO: {
       fi: 'https://www.hsl.fi/hsl/sahkobussit/ymparisto-lukuina',
-      sv: ' http://www.hsl.fi/sv/reseplaneraren_co2',
-      en: ' http://www.hsl.fi/en/journey_planner_co2',
+      sv: 'https://www.hsl.fi/sv/reseplaneraren_co2',
+      en: 'https://www.hsl.fi/en/journey_planner_co2',
     },
   },
 
@@ -507,7 +507,7 @@ export default {
   showBikeAndPublicItineraries: true,
   showBikeAndParkItineraries: true,
 
-  // DT-5325 Notice! Turning on this setting forces the search for car routes.
+  // DT-5325 Notice! Turning on this setting forces the search for car routes (for the CO2 comparison only).
   showCO2InItinerarySummary: true,
 
   includeCarSuggestions: false,
