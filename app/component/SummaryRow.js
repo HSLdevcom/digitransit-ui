@@ -30,6 +30,7 @@ import {
 } from '../util/citybikes';
 import { getRouteMode } from '../util/modeUtils';
 import { getCapacityForLeg } from '../util/occupancyUtil';
+import { getCo2Value } from '../util/itineraryUtils';
 
 const Leg = ({
   mode,
@@ -260,11 +261,7 @@ const SummaryRow = (
   const startTime = moment(data.startTime);
   const endTime = moment(data.endTime);
   const duration = endTime.diff(startTime);
-  const co2value =
-    typeof data.emissionsPerPerson?.co2 === 'number' &&
-    data.emissionsPerPerson?.co2 >= 0
-      ? Math.round(data.emissionsPerPerson?.co2)
-      : -1;
+  const co2value = getCo2Value(data);
   const mobile = bp => !(bp === 'large');
   const legs = [];
   let noTransitLegs = true;

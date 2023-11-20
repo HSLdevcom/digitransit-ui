@@ -43,6 +43,7 @@ import {
 import CityBikeDurationInfo from './CityBikeDurationInfo';
 import { getCityBikeNetworkId } from '../util/citybikes';
 import { FareShape } from '../util/shapes';
+import { getCo2Value } from '../util/itineraryUtils';
 
 const AlertShape = PropTypes.shape({ alertSeverityLevel: PropTypes.string });
 
@@ -220,7 +221,7 @@ class ItineraryTab extends React.Component {
       ? Number(this.context.match.params.secondHash) + 1
       : Number(this.context.match.params.hash) + 1;
 
-    const co2value = typeof itinerary.emissionsPerPerson?.co2 === 'number' && itinerary.emissionsPerPerson?.co2 >= 0 ? Math.round(itinerary.emissionsPerPerson?.co2) : null;
+    const co2value = getCo2Value(itinerary);
     const itineraryIsCar = itinerary.legs.every((leg) => leg.mode === 'CAR');
     const carCo2Value = !itineraryIsCar && this.props.carItinerary ? Math.round(this.props.carItinerary?.emissionsPerPerson?.co2) : null;
     const useCo2SimpleDesc = !carCo2Value || itineraryIsCar;
