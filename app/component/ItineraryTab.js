@@ -315,7 +315,8 @@ class ItineraryTab extends React.Component {
                       <Icon img="icon-icon_co2_leaf" className="co2-leaf" />
                       <span aria-hidden="true" className="itinerary-co2-title">
                         <FormattedMessage
-                          id="itinerary-co2.title"ss
+                          id="itinerary-co2.title"
+                          ss
                           defaultMessage="CO2 emissions for this route"
                         />
                       </span>
