@@ -83,14 +83,13 @@ class ItineraryTab extends React.Component {
     isMobile: PropTypes.bool.isRequired,
     currentTime: PropTypes.number.isRequired,
     hideTitle: PropTypes.bool,
-    carItineraries: PropTypes.array,
+    carItinerary: ItineraryShape,
     currentLanguage: PropTypes.string,
     changeHash: PropTypes.func,
   };
 
   static defaultProps = {
     hideTitle: false,
-    carItineraries: [],
     currentLanguage: "fi"
   };
 
@@ -223,7 +222,7 @@ class ItineraryTab extends React.Component {
 
     const co2value = typeof itinerary.emissionsPerPerson?.co2 === 'number' && itinerary.emissionsPerPerson?.co2 >= 0 ? Math.round(itinerary.emissionsPerPerson?.co2) : null;
     const itineraryIsCar = itinerary.legs.every((leg) => leg.mode === 'CAR');
-    const carCo2Value = !itineraryIsCar && this.props.carItineraries?.length > 0 ? Math.round(this.props.carItineraries[0].emissionsPerPerson?.co2) : null;
+    const carCo2Value = !itineraryIsCar && this.props.carItinerary ? Math.round(this.props.carItinerary?.emissionsPerPerson?.co2) : null;
     const useCo2SimpleDesc = !carCo2Value || itineraryIsCar;
     const co2DescriptionId = useCo2SimpleDesc ? "itinerary-co2.description-simple" : "itinerary-co2.description";
 
@@ -417,7 +416,7 @@ class ItineraryTab extends React.Component {
                             />
                           </span>
                           {config.URL.EMISSIONSINFO && (
-                            <div className='co2link'>
+                            <div>
                               <a href={`${config.URL.EMISSIONSINFO[currentLanguage]}`}>
                                 <FormattedMessage
                                   id="itinerary-co2.link"
