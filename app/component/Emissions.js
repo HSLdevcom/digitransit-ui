@@ -54,7 +54,11 @@ const Emissions = ({ itinerary, carItinerary, emissionsInfolink }) => {
                 </span>
                 {emissionsInfolink && (
                   <div>
-                    <a href={`${emissionsInfolink}`}>
+                    <a
+                      href={`${emissionsInfolink}`}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
                       <FormattedMessage
                         id="itinerary-co2.link"
                         defaultMessage="Näin vähennämme päästöjä ›"
