@@ -2293,13 +2293,13 @@ const translations = {
     instructions: 'Ohjeet',
     'is-open': 'Avoinna:',
     'itinerary-co2.description':
-      'Tämän matkan CO₂-päästöt on {co2value} g. Autolla kuljettuna se olisi ollut {carCo2Value} g.',
+      'Tämän matkan CO₂-päästöt ovat {co2value} g. Autolla kuljettuna ne olisivat olleet {carCo2Value} g.',
     'itinerary-co2.description-simple':
-      'Tämän matkan CO₂-päästöt on {co2value} g.',
+      'Tämän matkan CO₂-päästöt ovat {co2value} g.',
     'itinerary-co2.description-simple-sr':
-      'Tämän matkan hiilidioksidipäästöt on {co2value} g.',
+      'Tämän matkan hiilidioksidipäästöt ovat {co2value} g.',
     'itinerary-co2.description-sr':
-      'Tämän matkan hiilidioksidipäästöt on {co2value} g. Autolla kuljettuna se olisi ollut {carCo2Value} g.',
+      'Tämän matkan hiilidioksidipäästöt ovat {co2value} g. Autolla kuljettuna ne olisivat olleet {carCo2Value} g.',
     'itinerary-co2.link': 'Näin vähennämme päästöjä ›',
     'itinerary-co2.title': 'Matkan CO₂-päästöt',
     'itinerary-co2.title-sr': 'Matkan hiilidioksidipäästöt',
