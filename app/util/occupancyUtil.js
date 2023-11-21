@@ -10,7 +10,7 @@ export function mapStatus(status) {
     case 'EMPTY':
       return 'MANY_SEATS_AVAILABLE';
     case 'NOT_ACCEPTING_PASSENGERS':
-      return 'FULL';
+      return 'CRUSHED_STANDING_ROOM_ONLY';
     case 'MANY_SEATS_AVAILABLE':
       return 'MANY_SEATS_AVAILABLE';
     case 'FEW_SEATS_AVAILABLE':
@@ -20,7 +20,7 @@ export function mapStatus(status) {
     case 'CRUSHED_STANDING_ROOM_ONLY':
       return 'CRUSHED_STANDING_ROOM_ONLY';
     case 'FULL':
-      return 'FULL';
+      return 'CRUSHED_STANDING_ROOM_ONLY';
     default:
       return 'NO_DATA_AVAILABLE';
   }
