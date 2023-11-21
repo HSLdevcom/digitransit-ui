@@ -43,7 +43,8 @@ import {
 import CityBikeDurationInfo from './CityBikeDurationInfo';
 import { getCityBikeNetworkId } from '../util/citybikes';
 import { FareShape } from '../util/shapes';
-import { getCo2Value } from '../util/itineraryUtils';
+import Emissions from './Emissions';
+import EmissionsInfo from './EmissionsInfo';
 
 const AlertShape = PropTypes.shape({ alertSeverityLevel: PropTypes.string });
 
@@ -221,12 +222,6 @@ class ItineraryTab extends React.Component {
       ? Number(this.context.match.params.secondHash) + 1
       : Number(this.context.match.params.hash) + 1;
 
-    const co2value = getCo2Value(itinerary);
-    const itineraryIsCar = itinerary.legs.every((leg) => leg.mode === 'CAR');
-    const carCo2Value = !itineraryIsCar && this.props.carItinerary ? Math.round(this.props.carItinerary?.emissionsPerPerson?.co2) : null;
-    const useCo2SimpleDesc = !carCo2Value || itineraryIsCar;
-    const co2DescriptionId = useCo2SimpleDesc ? "itinerary-co2.description-simple" : "itinerary-co2.description";
-
     const itineraryContainsCallLegs = itinerary.legs.some(leg => isCallAgencyPickupType(leg));
 
     return (
@@ -304,32 +299,7 @@ class ItineraryTab extends React.Component {
                   legs={itinerary.legs}
                 />)
             ),
-            config.showCO2InItinerarySummary && co2value >= 0 && (
-              <div className={cx("itinerary-co2-information", { mobile: this.props.isMobile })}>
-                <div className="itinerary-co2-line">
-                  <div className={cx("co2-container", { mobile: this.props.isMobile })}>
-                    <div className="co2-title-container">
-                      <Icon img="icon-icon_co2_leaf" className="co2-leaf" />
-                      <span aria-hidden="true" className="itinerary-co2-title">
-                        <FormattedMessage
-                          id="itinerary-co2.title"
-                          defaultMessage="CO2 emissions for this route"
-                        />
-                      </span>
-                      <span className="sr-only">
-                        <FormattedMessage
-                          id="itinerary-co2.title-sr"
-                          defaultMessage="CO2 emissions for this route"
-                        />
-                      </span>
-                    </div>
-                    <div className="itinerary-co2-value-container">
-                      <div className="itinerary-co2-value">{co2value} g</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ),
+            config.showCO2InItinerarySummary && <EmissionsInfo itinerary={itinerary} isMobile={this.props.isMobile} />,
             <div
               className={cx('momentum-scroll itinerary-tabs__scroll', {
                 multirow: extraProps.isMultiRow,
@@ -390,50 +360,13 @@ class ItineraryTab extends React.Component {
                 />
                 {config.showRouteInformation && <RouteInformation />}
               </div>
-              {config.showCO2InItinerarySummary && co2value >= 0 ? (
-                <div className="itinerary-co2-comparison">
-                  <div className="itinerary-co2-line">
-                    <div className={cx('divider-top')} />
-                    <div className="co2-container">
-                      <div className="co2-description-container">
-                        <Icon img="icon-icon_co2_leaf" className="co2-leaf" />
-                        <span className={cx("itinerary-co2-description", { simple: useCo2SimpleDesc })}>
-                          <span aria-hidden="true">
-                            <FormattedMessage id={co2DescriptionId}
-                              defaultMessage={`CO₂ emissions for this route: ${co2value} g`}
-                              values={{
-                                co2value,
-                                carCo2Value,
-                              }}
-                            />
-                          </span>
-                          <span className="sr-only">
-                            <FormattedMessage id={`${co2DescriptionId}-sr`}
-                              defaultMessage={`Carbondioxide emissions for this route: ${co2value} g`}
-                              values={{
-                                co2value,
-                                carCo2Value,
-                              }}
-                            />
-                          </span>
-                          {config.URL.EMISSIONSINFO && (
-                            <div>
-                              <a href={`${config.URL.EMISSIONSINFO[currentLanguage]}`}>
-                                <FormattedMessage
-                                  id="itinerary-co2.link"
-                                  defaultMessage="Näin vähennämme päästöjä ›"
-                                />
-                              </a>
-                            </div>
-                          )}
-                        </span>
-                      </div>
-                    </div>
-                    <div className={cx('divider-bottom')} />
-                  </div>
-                </div>
-              ) :
-                (null)}
+              {config.showCO2InItinerarySummary &&
+                <Emissions
+                  config={config}
+                  itinerary={itinerary}
+                  carItinerary={this.props.carItinerary}
+                  emissionsInfolink={config.URL.EMISSIONS_INFO?.[currentLanguage]}
+                />}
               {this.shouldShowDisclaimer(config) && (
                 <div className="itinerary-disclaimer">
                   <FormattedMessage
