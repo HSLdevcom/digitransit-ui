@@ -312,4 +312,15 @@ export default {
 
     active: true,
   },
+  digitraffic: {
+    mqttTopicResolver: walttiTopicResolver,
+
+    mqtt: 'wss://mqtt.digitransit.fi',
+
+    gtfsrt: true,
+
+    routeSelector: defaultRouteSelector,
+
+    active: true,
+  },
 };
