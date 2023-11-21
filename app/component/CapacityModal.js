@@ -124,7 +124,7 @@ const CapacityModal = ({ config }) => {
           />
         </p>
       </section>
-      <section>
+      {/* <section>
         <div className="capacity-info-row">
           <div className="icon">
             <Icon
@@ -147,7 +147,7 @@ const CapacityModal = ({ config }) => {
             defaultMessage="No seats or standing room available"
           />
         </p>
-      </section>
+      </section> */}
     </div>
   );
 };
