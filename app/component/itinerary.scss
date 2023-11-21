@@ -205,12 +205,9 @@ $itinerary-tab-switch-height: 48px;
 
   .divider-top,
   .divider-bottom {
-    position: relative;
-    width: 400px;
-    height: 1px;
-    left: -5px;
-    border-top: 1px solid #dddddd;
-    box-sizing: border-box;
+    border-bottom: 1px solid #dddddd;
+    margin-left: 10px;
+    margin-right: 10px;
 
     @media print {
       border: none;
@@ -237,7 +234,7 @@ $itinerary-tab-switch-height: 48px;
     }
 
     .itinerary-co2-description {
-      width: 275px;
+      width: auto;
       left: 70px;
       top: 528px;
       &.simple {
