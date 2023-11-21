@@ -17,23 +17,6 @@ function filterLegStops(leg, filter) {
   return false;
 }
 
-/**
- * Check if legs start stop pickuptype or end stop pickupType is CALL_AGENCY
- *
- * leg must have:
- * from.stop.gtfsId
- * to.stop.gtfsId
- * trip.stoptimes (with props:)
- *   stop.gtfsId
- *   pickupType
- */
-export function isCallAgencyPickupType(leg) {
-  return (
-    filterLegStops(leg, stoptime => stoptime.pickupType === 'CALL_AGENCY')
-      .length > 0
-  );
-}
-
 export function isCallAgencyDeparture(departure) {
   return departure.pickupType === 'CALL_AGENCY';
 }
@@ -70,6 +53,7 @@ export const LegMode = {
   CityBike: 'CITYBIKE',
   Walk: 'WALK',
   Car: 'CAR',
+  Rail: 'RAIL',
 };
 
 /**
@@ -94,10 +78,29 @@ export const getLegMode = legOrMode => {
       return LegMode.Walk;
     case LegMode.Car:
       return LegMode.Car;
+    case LegMode.Rail:
+      return LegMode.Rail;
     default:
       return undefined;
   }
 };
+
+/**
+ * Check if legs start stop pickuptype or end stop pickupType is CALL_AGENCY
+ *
+ * leg must have:
+ * from.stop.gtfsId
+ * to.stop.gtfsId
+ * trip.stoptimes (with props:)
+ *   stop.gtfsId
+ *   pickupType
+ */
+export function isCallAgencyPickupType(leg) {
+  return (
+    filterLegStops(leg, stoptime => stoptime.pickupType === 'CALL_AGENCY')
+      .length > 0
+  );
+}
 
 /**
  * Checks if both of the legs exist and are taken with mode 'BICYCLE'.
