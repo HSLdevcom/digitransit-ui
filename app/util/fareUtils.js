@@ -11,13 +11,21 @@ export const getFaresFromLegs = (legs, config) => {
   const availableTickets = Object.values(config.availableTickets)
     .map(r => Object.keys(r))
     .flat();
+  const filteredLegs = legs.map(leg => ({
+    ...leg,
+    fareProducts: leg.fareProducts.filter(fp =>
+      availableTickets.includes(fp.product.id),
+    ),
+  }));
+
   const knownFareLegs = uniqBy(
-    legs
-      .filter(leg => leg.fareProducts.length > 0)
+    filteredLegs
+      .filter(l => l.fareProducts.length > 0)
       .map(leg => ({
         fareProducts: leg.fareProducts.filter(fp =>
           availableTickets.includes(fp.product.id),
         ),
+        route: leg.route,
         agency: leg.route.agency,
       })),
     'fareProducts[0].id',
@@ -33,8 +41,8 @@ export const getFaresFromLegs = (legs, config) => {
   }));
 
   // Legs that have empty fares but still have a route, i.e. transit legs
-  const unknownFareLegs = legs
-    .filter(leg => leg.fareProducts.length === 0 && leg.route)
+  const unknownFareLegs = filteredLegs
+    .filter(l => l.fareProducts.length === 0 && l.route)
     .map(leg => leg.route)
     .map(route => ({
       agency: {
