@@ -9,6 +9,7 @@ import { getCo2Value } from '../util/itineraryUtils';
 const EmissionsInfo = ({ itinerary, isMobile }) => {
   const co2value = getCo2Value(itinerary);
   return (
+    co2value !== null &&
     co2value >= 0 && (
       <div
         className={cx('itinerary-co2-information', {

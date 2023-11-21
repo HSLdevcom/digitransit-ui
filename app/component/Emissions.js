@@ -19,6 +19,7 @@ const Emissions = ({ itinerary, carItinerary, emissionsInfolink }) => {
     : 'itinerary-co2.description';
 
   return (
+    co2value !== null &&
     co2value >= 0 && (
       <div className="itinerary-co2-comparison">
         <div className="itinerary-co2-line">

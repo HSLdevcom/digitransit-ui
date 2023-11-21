@@ -768,7 +768,10 @@ const SummaryRow = (
         />
       </h3>
       {textSummary}
-      {config.showCO2InItinerarySummary && co2value >= 0 && co2summary}
+      {config.showCO2InItinerarySummary &&
+        co2value !== null &&
+        co2value >= 0 &&
+        co2summary}
       <div
         className="itinerary-summary-visible"
         style={{
@@ -818,14 +821,16 @@ const SummaryRow = (
                     {(getTotalDistance(data) / 1000).toFixed(1)} km
                   </div>
                 )}
-                {config.showCO2InItinerarySummary && co2value >= 0 && (
-                  <div className="itinerary-co2-value-container">
-                    {lowestCo2value === co2value && (
-                      <Icon img="icon-icon_co2_leaf" className="co2-leaf" />
-                    )}
-                    <div className="itinerary-co2-value">{co2value} g</div>
-                  </div>
-                )}
+                {config.showCO2InItinerarySummary &&
+                  co2value !== null &&
+                  co2value >= 0 && (
+                    <div className="itinerary-co2-value-container">
+                      {lowestCo2value === co2value && (
+                        <Icon img="icon-icon_co2_leaf" className="co2-leaf" />
+                      )}
+                      <div className="itinerary-co2-value">{co2value} g</div>
+                    </div>
+                  )}
                 <div className="itinerary-duration">
                   <RelativeDuration duration={duration} />
                 </div>
