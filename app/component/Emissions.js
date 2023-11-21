@@ -8,7 +8,9 @@ import { getCo2Value } from '../util/itineraryUtils';
 
 const Emissions = ({ itinerary, carItinerary, emissionsInfolink }) => {
   const co2value = getCo2Value(itinerary);
-  const itineraryIsCar = itinerary.legs.every(leg => leg.mode === 'CAR');
+  const itineraryIsCar = itinerary.legs.every(
+    leg => leg.mode === 'CAR' || leg.mode === 'WALK',
+  );
   const carCo2Value =
     !itineraryIsCar && carItinerary
       ? Math.round(carItinerary?.emissionsPerPerson?.co2)
@@ -53,18 +55,17 @@ const Emissions = ({ itinerary, carItinerary, emissionsInfolink }) => {
                   />
                 </span>
                 {emissionsInfolink && (
-                  <div>
-                    <a
-                      href={`${emissionsInfolink}`}
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      <FormattedMessage
-                        id="itinerary-co2.link"
-                        defaultMessage="Näin vähennämme päästöjä ›"
-                      />
-                    </a>
-                  </div>
+                  <a
+                    className="emissions-info-link"
+                    href={`${emissionsInfolink}`}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <FormattedMessage
+                      id="itinerary-co2.link"
+                      defaultMessage="Näin vähennämme päästöjä ›"
+                    />
+                  </a>
                 )}
               </span>
             </div>

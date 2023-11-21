@@ -253,7 +253,13 @@ $itinerary-tab-switch-height: 48px;
       flex-direction: column;
       color: #666666;
     }
+  }
 
+  .emissions-info-link {
+    text-decoration: none;
+    font-weight: $font-weight-medium;
+    color: $primary-color;
+    font-size: $font-size-small;
   }
 
   .co2-container {
