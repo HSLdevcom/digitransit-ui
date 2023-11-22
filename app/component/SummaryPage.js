@@ -737,6 +737,9 @@ class SummaryPage extends React.Component {
             endTime
             ...ItineraryTab_itinerary
             ...SummaryPlanContainer_itineraries
+            emissionsPerPerson {
+              co2
+            }
             legs {
               mode
               ...ItineraryLine_legs
@@ -790,6 +793,9 @@ class SummaryPage extends React.Component {
             endTime
             ...ItineraryTab_itinerary
             ...SummaryPlanContainer_itineraries
+            emissionsPerPerson {
+              co2
+            }
             legs {
               mode
               ...ItineraryLine_legs
@@ -849,6 +855,9 @@ class SummaryPage extends React.Component {
             endTime
             ...ItineraryTab_itinerary
             ...SummaryPlanContainer_itineraries
+            emissionsPerPerson {
+              co2
+            }
             legs {
               mode
               ...ItineraryLine_legs
@@ -1029,6 +1038,9 @@ class SummaryPage extends React.Component {
             endTime
             ...ItineraryTab_itinerary
             ...SummaryPlanContainer_itineraries
+            emissionsPerPerson {
+              co2
+            }
             legs {
               mode
               ...ItineraryLine_legs
@@ -2501,6 +2513,7 @@ class SummaryPage extends React.Component {
                   focusToPoint={this.focusToPoint}
                   focusToLeg={this.focusToLeg}
                   isMobile={false}
+                  carItinerary={carPlan?.itineraries[0]}
                 />
               </div>
             );
@@ -2732,6 +2745,7 @@ class SummaryPage extends React.Component {
           serviceTimeRange={this.props.serviceTimeRange}
           focusToLeg={this.focusToLeg}
           onSwipe={this.changeHash}
+          carItinerary={carPlan?.itineraries[0]}
           changeHash={this.changeHash}
         >
           {this.props.content &&
@@ -2961,6 +2975,9 @@ const containerComponent = createRefetchContainer(
             endTime
             ...ItineraryTab_itinerary
             ...SummaryPlanContainer_itineraries
+            emissionsPerPerson {
+              co2
+            }
             legs {
               mode
               ...ItineraryLine_legs

@@ -42,6 +42,8 @@ import {
 import CityBikeDurationInfo from './CityBikeDurationInfo';
 import { getCityBikeNetworkId } from '../util/citybikes';
 import { FareShape } from '../util/shapes';
+import Emissions from './Emissions';
+import EmissionsInfo from './EmissionsInfo';
 import FareDisclaimer from './FareDisclaimer';
 
 const AlertShape = PropTypes.shape({ alertSeverityLevel: PropTypes.string });
@@ -66,6 +68,9 @@ const ItineraryShape = PropTypes.shape({
     }),
   ),
   fares: PropTypes.arrayOf(FareShape),
+  emissionsPerPerson: PropTypes.shape({
+    co2: PropTypes.number,
+  }),
 });
 
 /* eslint-disable prettier/prettier */
@@ -80,6 +85,7 @@ class ItineraryTab extends React.Component {
     isMobile: PropTypes.bool.isRequired,
     currentTime: PropTypes.number.isRequired,
     hideTitle: PropTypes.bool,
+    carItinerary: ItineraryShape,
     currentLanguage: PropTypes.string,
     changeHash: PropTypes.func,
   };
@@ -183,7 +189,6 @@ class ItineraryTab extends React.Component {
     if (!itinerary || !itinerary.legs[0]) {
       return null;
     }
-
     const fares = getFares(itinerary.fares, getRoutes(itinerary.legs), config);
     const extraProps = this.setExtraProps(itinerary);
     const legsWithRentalBike = compressLegs(itinerary.legs).filter(leg =>
@@ -349,6 +354,7 @@ class ItineraryTab extends React.Component {
                   legs={itinerary.legs}
                 />
               )),
+            config.showCO2InItinerarySummary && <EmissionsInfo itinerary={itinerary} isMobile={this.props.isMobile} />,
             <div
               className={cx('momentum-scroll itinerary-tabs__scroll', {
                 multirow: extraProps.isMultiRow,
@@ -371,6 +377,13 @@ class ItineraryTab extends React.Component {
                 />
                 {config.showRouteInformation && <RouteInformation />}
               </div>
+              {config.showCO2InItinerarySummary &&
+                <Emissions
+                  config={config}
+                  itinerary={itinerary}
+                  carItinerary={this.props.carItinerary}
+                  emissionsInfolink={config.URL.EMISSIONS_INFO?.[currentLanguage]}
+                />}
               {this.shouldShowDisclaimer(config) && (
                 <div className="itinerary-disclaimer">
                   <FormattedMessage
@@ -420,6 +433,9 @@ const withRelay = createFragmentContainer(
             }
           }
           type
+        }
+        emissionsPerPerson {
+          co2
         }
         legs {
           mode
