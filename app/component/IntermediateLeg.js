@@ -32,17 +32,24 @@ function IntermediateLeg(
   const isTripleZone = currentZoneId && previousZoneId && nextZoneId;
 
   const zoneNamesStyle = () => {
-    if (placesCount === 1) {
+    if (placesCount === 1 && previousZoneId && currentZoneId && nextZoneId) {
       return { position: 'absolute', right: -3, top: '35%' };
     }
     return { position: 'relative' };
   };
 
   const zonesCircleStyle = () => {
-    if (placesCount === 1) {
+    if (placesCount === 1 && previousZoneId && currentZoneId && nextZoneId) {
       return { position: 'absolute', right: -3, top: '35%' };
     }
     return { position: 'absolute' };
+  };
+
+  const stationNameStyle = () => {
+    if (placesCount <= 2) {
+      return { paddingBottom: '15px' };
+    }
+    return { paddingBottom: '22px' };
   };
 
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
@@ -127,11 +134,7 @@ function IntermediateLeg(
         >
           <div
             className="itinerary-leg-row-intermediate"
-            style={
-              placesCount === 2
-                ? { paddingBottom: '15px' }
-                : { paddingBottom: '22px' }
-            }
+            style={stationNameStyle()}
           >
             <div className="itinerary-intermediate-stop-name">
               <span className={cx({ realtime: realTime })}>
