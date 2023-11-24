@@ -2873,13 +2873,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hsl-fi/cookies@npm:1.0.0":
-  version: 1.0.0
-  resolution: "@hsl-fi/cookies@npm:1.0.0"
-  checksum: a34013d1d8f54c6b10ebddc20fd566522595c1aafc2bf439dda1fd36e59d9a235e5a37407388f706cf9e0b7c4ac5fe034b6033da37faef1a80405d9be960fa96
-  languageName: node
-  linkType: hard
-
 "@hsl-fi/hooks@npm:1.2.3, @hsl-fi/hooks@npm:^1.0.0, @hsl-fi/hooks@npm:^1.2.3":
   version: 1.2.3
   resolution: "@hsl-fi/hooks@npm:1.2.3"
@@ -10653,7 +10646,6 @@ __metadata:
     "@commitlint/cli": 9.1.2
     "@commitlint/config-conventional": 9.1.2
     "@hsl-fi/container-spinner": 0.3.1
-    "@hsl-fi/cookies": 1.0.0
     "@hsl-fi/hooks": 1.2.3
     "@hsl-fi/modal": " ^0.3.1"
     "@hsl-fi/sass": " ^0.2.0"
