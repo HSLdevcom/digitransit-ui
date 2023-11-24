@@ -109,9 +109,7 @@ async function init() {
   }
 
   // For Google Tag Manager
-  if (!config.useCookiesPrompt) {
-    initAnalyticsClientSide();
-  }
+  initAnalyticsClientSide();
 
   window.context = context;
 
