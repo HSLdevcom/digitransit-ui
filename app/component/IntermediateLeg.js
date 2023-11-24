@@ -9,6 +9,7 @@ import Icon from './Icon';
 
 function IntermediateLeg(
   {
+    placesCount,
     color,
     mode,
     name,
@@ -30,14 +31,28 @@ function IntermediateLeg(
   const isDualZone = currentZoneId && (previousZoneId || nextZoneId);
   const isTripleZone = currentZoneId && previousZoneId && nextZoneId;
 
+  const zoneNamesStyle = () => {
+    if (placesCount === 1) {
+      return { position: 'absolute', right: -3, top: '35%' };
+    }
+    return { position: 'relative' };
+  };
+
+  const zonesCircleStyle = () => {
+    if (placesCount === 1) {
+      return { position: 'absolute', right: -3, top: '35%' };
+    }
+    return { position: 'absolute' };
+  };
+
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   return (
     <div
-      style={{ width: '100%' }}
+      style={{ width: '100%', position: 'relative' }}
       className={cx(
         'row itinerary-row',
         showZoneLimits && {
-          'zone-dual': isDualZone && !isTripleZone,
+          'zone-dual': !isDualZone && !isTripleZone,
           'zone-triple': isTripleZone,
           'zone-previous': currentZoneId && previousZoneId,
         },
@@ -70,8 +85,12 @@ function IntermediateLeg(
             </div>
           )}
       </div>
+
       <div className={`leg-before ${modeClassName}`}>
-        <div className={`leg-before-circle circle-fill ${modeClassName}`}>
+        <div
+          style={zonesCircleStyle()}
+          className={`leg-before-circle circle-fill ${modeClassName}`}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width={28}
@@ -95,7 +114,9 @@ function IntermediateLeg(
           </div>
         )}
       </div>
+
       <div
+        style={zoneNamesStyle()}
         className={`small-9 columns itinerary-instruction-column intermediate ${modeClassName}`}
       >
         <Link
@@ -104,7 +125,14 @@ function IntermediateLeg(
           }}
           to={`/${PREFIX_STOPS}/${gtfsId}`}
         >
-          <div className="itinerary-leg-row-intermediate">
+          <div
+            className="itinerary-leg-row-intermediate"
+            style={
+              placesCount === 2
+                ? { paddingBottom: '15px' }
+                : { paddingBottom: '22px' }
+            }
+          >
             <div className="itinerary-intermediate-stop-name">
               <span className={cx({ realtime: realTime })}>
                 <span className={cx({ canceled: isCanceled })}>
@@ -126,6 +154,7 @@ function IntermediateLeg(
 }
 
 IntermediateLeg.propTypes = {
+  placesCount: PropTypes.number.isRequired,
   focusFunction: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
   arrivalTime: PropTypes.number.isRequired,
