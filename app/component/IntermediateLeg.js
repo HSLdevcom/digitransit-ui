@@ -52,7 +52,7 @@ function IntermediateLeg(
       className={cx(
         'row itinerary-row',
         showZoneLimits && {
-          'zone-dual': !isDualZone && !isTripleZone,
+          'zone-dual': isDualZone && !isTripleZone,
           'zone-triple': isTripleZone,
           'zone-previous': currentZoneId && previousZoneId,
         },
@@ -154,7 +154,7 @@ function IntermediateLeg(
 }
 
 IntermediateLeg.propTypes = {
-  placesCount: PropTypes.number.isRequired,
+  placesCount: PropTypes.number,
   focusFunction: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
   arrivalTime: PropTypes.number.isRequired,
@@ -172,6 +172,7 @@ IntermediateLeg.propTypes = {
 };
 
 IntermediateLeg.defaultProps = {
+  placesCount: 0,
   showCurrentZoneDelimiter: false,
   showZoneLimits: false,
   previousZoneId: undefined,
