@@ -13,15 +13,15 @@
  */
 export function addAnalyticsEvent(event) {
   let newEvent = event;
-  const { config } = window.state.context.plugins['extra-context-plugin'];
+  const { config } = window.state?.context?.plugins['extra-context-plugin'];
   if (event.event === undefined) {
     // this is the default event field if none is defined
     newEvent = { event: 'sendMatomoEvent', ...event };
   }
   if (
-    (config.useCookiesPrompt &&
+    (config?.useCookiesPrompt &&
       window.CookieInformation?.getConsentGivenFor('cookie_cat_statistics')) ||
-    !config.useCookiesPrompt
+    !config?.useCookiesPrompt
   ) {
     window.dataLayer.push(newEvent);
   }
