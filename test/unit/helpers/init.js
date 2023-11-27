@@ -44,8 +44,11 @@ global.navigator = {
 };
 copyProps(window, global);
 
+const config = {
+  useCookiesPrompt: false,
+};
 // For Google Tag Manager
-initAnalyticsClientSide();
+initAnalyticsClientSide(config);
 
 // set up unit test globals
 global.expect = expect;

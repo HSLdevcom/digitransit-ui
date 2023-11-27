@@ -56,7 +56,13 @@ const handleChange = () => {
  *
  * @return void
  */
-export function initAnalyticsClientSide() {
+export function initAnalyticsClientSide(config) {
   window.dataLayer = window.dataLayer || [];
-  window.addEventListener('CookieInformationConsentGiven', handleChange, false);
+  if (config?.useCookiesPrompt) {
+    window.addEventListener(
+      'CookieInformationConsentGiven',
+      handleChange,
+      false,
+    );
+  }
 }
