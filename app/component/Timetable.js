@@ -314,7 +314,7 @@ class Timetable extends React.Component {
         ? stopTimetableHandler.stopPdfUrlResolver(
             this.context.config.URL.STOP_TIMETABLES[stopIdSplitted[0]],
             this.props.stop,
-            this.props.date,
+            date,
             this.props.language,
           )
         : null;
