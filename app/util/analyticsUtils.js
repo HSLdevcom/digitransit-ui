@@ -58,5 +58,12 @@ const handleChange = () => {
  */
 export function initAnalyticsClientSide() {
   window.dataLayer = window.dataLayer || [];
-  window.addEventListener('CookieInformationConsentGiven', handleChange, false);
+  const config = window.state?.context?.plugins['extra-context-plugin'].config;
+  if (config?.useCookiesPrompt) {
+    window.addEventListener(
+      'CookieInformationConsentGiven',
+      handleChange,
+      false,
+    );
+  }
 }
