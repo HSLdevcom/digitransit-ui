@@ -135,14 +135,7 @@ export function changeTopics(settings, actionContext) {
 
 export function startMqttClient(settings, actionContext) {
   const options = settings.options || [{}];
-  let topics = options.map(option => getTopic(option, settings));
-  // If a general topic is returned, at least limit it to instances feed ids
-  if (topics[0] === '/gtfsrt/vp/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/#') {
-    const { feedIds } = actionContext.config;
-    topics = feedIds.map(
-      feedId => `/gtfsrt/vp/${feedId}/+/+/+/+/+/+/+/+/+/+/+/+/+/+/#`,
-    );
-  }
+  const topics = options.map(option => getTopic(option, settings));
 
   return import(/* webpackChunkName: "mqtt" */ 'mqtt').then(mqtt => {
     if (settings.gtfsrt) {
