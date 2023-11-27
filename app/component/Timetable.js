@@ -6,7 +6,7 @@ import sortBy from 'lodash/sortBy';
 import groupBy from 'lodash/groupBy';
 import padStart from 'lodash/padStart';
 import { FormattedMessage, intlShape } from 'react-intl';
-import { matchShape, routerShape } from 'found';
+import { matchShape, routerShape, RedirectException } from 'found';
 import cx from 'classnames';
 import Icon from './Icon';
 import FilterTimeTableModal from './FilterTimeTableModal';
@@ -18,6 +18,8 @@ import { addAnalyticsEvent } from '../util/analyticsUtils';
 import DateSelect from './DateSelect';
 import ScrollableWrapper from './ScrollableWrapper';
 import { replaceQueryParams } from '../util/queryUtils';
+import { isBrowser } from '../util/browser';
+import { PREFIX_STOPS } from '../util/path';
 
 class Timetable extends React.Component {
   static propTypes = {
@@ -52,6 +54,7 @@ class Timetable extends React.Component {
       onDateChange: PropTypes.func,
     }).isRequired,
     date: PropTypes.string,
+    language: PropTypes.string.isRequired,
   };
 
   static contextTypes = {
@@ -64,7 +67,12 @@ class Timetable extends React.Component {
   constructor(props) {
     super(props);
     if (!this.props.stop) {
-      throw new Error('Empty stop');
+      const path = `/${PREFIX_STOPS}`;
+      if (isBrowser) {
+        this.context.router.replace(path);
+      } else {
+        throw new RedirectException(path);
+      }
     }
     this.state = {
       showRoutes: [],
@@ -225,6 +233,7 @@ class Timetable extends React.Component {
     // Check if stop is constant operation
     const { constantOperationStops } = this.context.config;
     const stopId = this.props.stop.gtfsId;
+    const { date } = this.props;
     const { locale } = this.context.intl;
     if (constantOperationStops && constantOperationStops[stopId]) {
       return (
@@ -300,12 +309,13 @@ class Timetable extends React.Component {
     const stopPDFURL =
       stopTimetableHandler &&
       this.context.config.URL.STOP_TIMETABLES[stopIdSplitted[0]] &&
-      locationType !== 'STATION'
+      locationType !== 'STATION' &&
+      date
         ? stopTimetableHandler.stopPdfUrlResolver(
             this.context.config.URL.STOP_TIMETABLES[stopIdSplitted[0]],
             this.props.stop,
-            this.context.config.API_SUBSCRIPTION_QUERY_PARAMETER_NAME,
-            this.context.config.API_SUBSCRIPTION_TOKEN,
+            date,
+            this.props.language,
           )
         : null;
     const virtualMonitorUrl =
