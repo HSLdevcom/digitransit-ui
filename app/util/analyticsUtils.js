@@ -45,7 +45,12 @@ export function getAnalyticsInitCode(GTMid) {
         'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
         })(window,document,'script','dataLayer','${GTMid}');</script>\n`;
 }
-
+const handleChange = () => {
+  if (!window.CookieInformation) {
+    return false;
+  }
+  return window.CookieInformation.getConsentGivenFor('cookie_cat_statistics');
+};
 /**
  * Client side intialization for UI analytics
  *
@@ -53,4 +58,5 @@ export function getAnalyticsInitCode(GTMid) {
  */
 export function initAnalyticsClientSide() {
   window.dataLayer = window.dataLayer || [];
+  window.addEventListener('CookieInformationConsentGiven', handleChange, false);
 }
