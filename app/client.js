@@ -109,7 +109,7 @@ async function init() {
   }
 
   // For Google Tag Manager
-  initAnalyticsClientSide();
+  initAnalyticsClientSide(config);
 
   window.context = context;
 
