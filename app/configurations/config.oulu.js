@@ -14,7 +14,7 @@ export default configMerger(walttiConfig, {
 
   appBarLink: {
     name: 'Oulun seudun liikenne',
-    href: 'http://www.oulunseudunliikenne.fi/',
+    href: 'https://www.osl.fi/',
   },
 
   colors: {
@@ -92,9 +92,9 @@ export default configMerger(walttiConfig, {
       {
         name: 'menu-feedback',
         href: {
-          fi: 'http://www.oulunjoukkoliikenne.fi/palautteet',
-          sv: 'http://www.oulunjoukkoliikenne.fi/palautteet',
-          en: 'https://www.ouka.fi/oulu/public-transport/customer-service',
+          fi: 'https://www.osl.fi/asiakaspalvelu/#palaute',
+          sv: 'https://www.osl.fi/asiakaspalvelu/#palaute',
+          en: 'https://www.osl.fi/asiakaspalvelu/#palaute',
         },
       },
       {
