@@ -18,9 +18,10 @@ export function addAnalyticsEvent(event) {
     // this is the default event field if none is defined
     newEvent = { event: 'sendMatomoEvent', ...event };
   }
+
   if (
     (config?.useCookiesPrompt &&
-      window.CookieInformation?.getConsentGivenFor('cookie_cat_statistics')) ||
+      window.CookieInformation?.getConsentGivenFor('cookie_cat_statistic')) ||
     !config?.useCookiesPrompt
   ) {
     window.dataLayer.push(newEvent);
