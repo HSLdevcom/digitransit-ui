@@ -1,4 +1,4 @@
-/* import {
+import {
   addAnalyticsEvent,
   getAnalyticsInitCode,
   initAnalyticsClientSide,
@@ -44,4 +44,4 @@ describe('analytics utils', () => {
       expect(Array.isArray(window.dataLayer)).to.equal(true);
     });
   });
-}); */
+});
