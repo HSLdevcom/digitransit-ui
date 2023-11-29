@@ -348,6 +348,8 @@ export default {
 
   useRealtimeTravellerCapacities: true,
 
+  parseVehicleNumbers: true,
+
   aboutThisService: {
     fi: [
       {

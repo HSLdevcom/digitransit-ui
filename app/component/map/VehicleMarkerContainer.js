@@ -23,11 +23,20 @@ function getVehicleIcon(
   vehicleNumber,
   color,
   useLargeIcon = true,
+  parseVehicleNumbers,
 ) {
   if (!isBrowser) {
     return null;
   }
   const modeOrDefault = MODES_WITH_ICONS.indexOf(mode) !== -1 ? mode : 'bus';
+
+  if (parseVehicleNumbers) {
+    if (vehicleNumber.indexOf(' ') !== -1) {
+      // eslint-disable-next-line prefer-destructuring, no-param-reassign
+      vehicleNumber = vehicleNumber.split(' ')[1];
+    }
+  }
+
   return {
     element: (
       <VehicleIcon
@@ -65,7 +74,7 @@ function shouldShowVehicle(message, direction, tripStart, pattern, headsign) {
   );
 }
 
-function VehicleMarkerContainer(props) {
+function VehicleMarkerContainer(props, { config }) {
   const visibleVehicles = Object.entries(props.vehicles).filter(([, message]) =>
     shouldShowVehicle(
       message,
@@ -103,6 +112,7 @@ function VehicleMarkerContainer(props) {
           message.shortName ? message.shortName : message.route.split(':')[1],
           message.color,
           props.useLargeIcon,
+          config?.parseVehicleNumbers,
         )}
       />
     );
@@ -129,6 +139,10 @@ VehicleMarkerContainer.propTypes = {
 VehicleMarkerContainer.defaultProps = {
   tripStart: undefined,
   direction: undefined,
+};
+
+VehicleMarkerContainer.contextTypes = {
+  config: PropTypes.object,
 };
 
 const connectedComponent = connectToStores(
