@@ -356,7 +356,33 @@ export default {
     vehicleNumberParser: defaulVehicleNumberParser,
   },
   digitraffic: {
-    mqttTopicResolver: walttiTopicResolver,
+    mqttTopicResolver: function mqttTopicResolver(
+      route,
+      direction,
+      tripStartTime,
+      headsign,
+      feedId,
+      tripId,
+      geoHash,
+    ) {
+      return (
+        '/gtfsrt/vp/' +
+        feedId +
+        '/+/+/+/' +
+        route +
+        '/+/+/' +
+        tripId +
+        '/+/+/+/' +
+        geoHash[0] +
+        '/' +
+        geoHash[1] +
+        '/' +
+        geoHash[2] +
+        '/' +
+        geoHash[3] +
+        '/#'
+      );
+    },
 
     mqtt: 'wss://mqtt.digitransit.fi',
 

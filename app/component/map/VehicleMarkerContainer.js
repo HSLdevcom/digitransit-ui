@@ -58,6 +58,7 @@ function shouldShowVehicle(message, direction, tripStart, pattern, headsign) {
       message.headsign === undefined ||
       headsign === message.headsign) &&
     (direction === undefined ||
+      direction === -1 ||
       message.direction === undefined ||
       message.direction === direction) &&
     (tripStart === undefined ||
