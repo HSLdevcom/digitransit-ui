@@ -3,6 +3,9 @@ function defaultRouteSelector(routePageProps) {
   const route = routePageProps.route.gtfsId.split(':');
   return route[1];
 }
+function defaulVehicleNumberParser(vehicleNumber) {
+  return vehicleNumber;
+}
 function walttiTopicResolver(
   route,
   direction,
@@ -72,6 +75,8 @@ export default {
     active: true,
 
     useFuzzyTripMatching: true, // DT-3473
+
+    vehicleNumberParser: defaulVehicleNumberParser,
   },
   tampere: {
     mqttTopicResolver: walttiTopicResolver,
@@ -83,6 +88,8 @@ export default {
     routeSelector: defaultRouteSelector,
 
     active: true,
+
+    vehicleNumberParser: defaulVehicleNumberParser,
   },
   LINKKI: {
     mqttTopicResolver: walttiTopicResolver,
@@ -94,6 +101,8 @@ export default {
     routeSelector: defaultRouteSelector,
 
     active: true,
+
+    vehicleNumberParser: defaulVehicleNumberParser,
   },
   Lappeenranta: {
     mqttTopicResolver: walttiTopicResolver,
@@ -105,6 +114,8 @@ export default {
     routeSelector: defaultRouteSelector,
 
     active: true,
+
+    vehicleNumberParser: defaulVehicleNumberParser,
   },
   Joensuu: {
     mqttTopicResolver: walttiTopicResolver,
@@ -116,6 +127,8 @@ export default {
     routeSelector: defaultRouteSelector,
 
     active: true,
+
+    vehicleNumberParser: defaulVehicleNumberParser,
   },
   Kuopio: {
     mqttTopicResolver: walttiTopicResolver,
@@ -127,6 +140,8 @@ export default {
     routeSelector: defaultRouteSelector,
 
     active: true,
+
+    vehicleNumberParser: defaulVehicleNumberParser,
   },
   FOLI: {
     mqttTopicResolver: function mqttTopicResolver(
@@ -168,6 +183,8 @@ export default {
     routeSelector: defaultRouteSelector,
 
     active: true,
+
+    vehicleNumberParser: defaulVehicleNumberParser,
   },
   OULU: {
     mqttTopicResolver: walttiTopicResolver,
@@ -179,6 +196,8 @@ export default {
     routeSelector: defaultRouteSelector,
 
     active: true,
+
+    vehicleNumberParser: defaulVehicleNumberParser,
   },
   Hameenlinna: {
     mqttTopicResolver: walttiTopicResolver,
@@ -190,6 +209,8 @@ export default {
     routeSelector: defaultRouteSelector,
 
     active: true,
+
+    vehicleNumberParser: defaulVehicleNumberParser,
   },
   Lahti: {
     mqttTopicResolver: walttiTopicResolver,
@@ -201,6 +222,8 @@ export default {
     routeSelector: defaultRouteSelector,
 
     active: true,
+
+    vehicleNumberParser: defaulVehicleNumberParser,
   },
   Vaasa: {
     mqttTopicResolver: walttiTopicResolver,
@@ -212,6 +235,8 @@ export default {
     routeSelector: defaultRouteSelector,
 
     active: true,
+
+    vehicleNumberParser: defaulVehicleNumberParser,
   },
   Mikkeli: {
     mqttTopicResolver: walttiTopicResolver,
@@ -223,6 +248,8 @@ export default {
     routeSelector: defaultRouteSelector,
 
     active: true,
+
+    vehicleNumberParser: defaulVehicleNumberParser,
   },
   Salo: {
     mqttTopicResolver: walttiTopicResolver,
@@ -234,6 +261,8 @@ export default {
     routeSelector: defaultRouteSelector,
 
     active: true,
+
+    vehicleNumberParser: defaulVehicleNumberParser,
   },
   Kouvola: {
     mqttTopicResolver: walttiTopicResolver,
@@ -245,6 +274,8 @@ export default {
     routeSelector: defaultRouteSelector,
 
     active: true,
+
+    vehicleNumberParser: defaulVehicleNumberParser,
   },
   Kotka: {
     mqttTopicResolver: walttiTopicResolver,
@@ -256,6 +287,8 @@ export default {
     routeSelector: defaultRouteSelector,
 
     active: true,
+
+    vehicleNumberParser: defaulVehicleNumberParser,
   },
   Rovaniemi: {
     mqttTopicResolver: walttiTopicResolver,
@@ -267,6 +300,8 @@ export default {
     routeSelector: defaultRouteSelector,
 
     active: true,
+
+    vehicleNumberParser: defaulVehicleNumberParser,
   },
   Kajaani: {
     mqttTopicResolver: walttiTopicResolver,
@@ -278,6 +313,8 @@ export default {
     routeSelector: defaultRouteSelector,
 
     active: true,
+
+    vehicleNumberParser: defaulVehicleNumberParser,
   },
   Rauma: {
     mqttTopicResolver: walttiTopicResolver,
@@ -289,6 +326,8 @@ export default {
     routeSelector: defaultRouteSelector,
 
     active: true,
+
+    vehicleNumberParser: defaulVehicleNumberParser,
   },
   Pori: {
     mqttTopicResolver: walttiTopicResolver,
@@ -300,6 +339,8 @@ export default {
     routeSelector: defaultRouteSelector,
 
     active: true,
+
+    vehicleNumberParser: defaulVehicleNumberParser,
   },
   VARELY: {
     mqttTopicResolver: walttiTopicResolver,
@@ -311,6 +352,8 @@ export default {
     routeSelector: defaultRouteSelector,
 
     active: true,
+
+    vehicleNumberParser: defaulVehicleNumberParser,
   },
   digitraffic: {
     mqttTopicResolver: walttiTopicResolver,
@@ -322,5 +365,11 @@ export default {
     routeSelector: defaultRouteSelector,
 
     active: true,
+
+    vehicleNumberParser: function vehicleNumberParser(vehicleNumber) {
+      return vehicleNumber.indexOf(' ') !== -1
+        ? vehicleNumber.split(' ')[1]
+        : vehicleNumber;
+    },
   },
 };
