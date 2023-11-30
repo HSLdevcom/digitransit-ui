@@ -35,12 +35,13 @@ function getTopic(options, settings) {
   const tripStartTime = options.tripStartTime
     ? convertTo24HourFormat(options.tripStartTime)
     : '+';
+  const feedId = options.feedId ? options.feedId : '+';
   const topic = settings.mqttTopicResolver(
     route,
     direction,
     tripStartTime,
     headsign,
-    settings.topicFeedId || settings.agency, // TODO topicFeedId can be removed once testing with alternative tampere trams is done
+    feedId,
     tripId,
     geoHash,
   );

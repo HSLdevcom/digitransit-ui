@@ -348,6 +348,8 @@ export default {
 
   useRealtimeTravellerCapacities: true,
 
+  parseVehicleNumbers: true,
+
   aboutThisService: {
     fi: [
       {
@@ -392,7 +394,7 @@ export default {
   useAlternativeNameForModes: ['rail'],
 
   showVehiclesOnStopPage: false,
-  showVehiclesOnSummaryPage: false,
+  showVehiclesOnSummaryPage: true,
 
   includeCarSuggestions: true,
   includeParkAndRideSuggestions: true,

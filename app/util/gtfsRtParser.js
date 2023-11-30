@@ -32,8 +32,8 @@ export const parseFeedMQTT = (feedParser, data, topic, agency) => {
   feed.entity.forEach(entity => {
     const vehiclePos = entity.vehicle;
     if (vehiclePos) {
-      const { trip, position, vehicle } = vehiclePos;
-      if (trip && position && vehicle) {
+      const { trip, position } = vehiclePos;
+      if (trip && position) {
         const message = {
           id: `${agency}:${vehicleId}`,
           route: `${agency}:${routeId}`,

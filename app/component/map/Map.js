@@ -45,6 +45,9 @@ const startClient = context => {
     const config = {
       ...source,
       agency,
+      options: context.config.feedIds
+        .filter(feedId => realTime[feedId]?.active)
+        .map(feedId => ({ feedId })),
     };
     context.executeAction(startRealTimeClient, config);
   }
