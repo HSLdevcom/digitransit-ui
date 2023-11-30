@@ -174,11 +174,16 @@ const getShouldMakeCarQuery = (
   settings,
   defaultSettings,
 ) => {
+  const forceCarRouting = config.showCO2InItinerarySummary
+    ? config.showCO2InItinerarySummary
+    : defaultSettings.showCO2InItinerarySummary;
+
+  const includeCarSuggestions = settings.includeCarSuggestions
+    ? settings.includeCarSuggestions
+    : defaultSettings.includeCarSuggestions;
   return (
-    linearDistance > config.suggestCarMinDistance &&
-    (settings.includeCarSuggestions
-      ? settings.includeCarSuggestions
-      : defaultSettings.includeCarSuggestions)
+    forceCarRouting ||
+    (linearDistance > config.suggestCarMinDistance && includeCarSuggestions)
   );
 };
 

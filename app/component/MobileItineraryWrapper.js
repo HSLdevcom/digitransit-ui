@@ -4,6 +4,7 @@ import { matchShape, routerShape } from 'found';
 import { FormattedMessage, intlShape } from 'react-intl';
 import ItineraryTab from './ItineraryTab';
 import SwipeableTabs from './SwipeableTabs';
+import ItineraryShape from '../prop-types/ItineraryShape';
 
 const MobileItineraryWrapper = (props, context) => {
   const index = props.params.secondHash
@@ -41,6 +42,7 @@ const MobileItineraryWrapper = (props, context) => {
           focusToLeg={props.focusToLeg}
           changeHash={props.changeHash}
           isMobile
+          carItinerary={props.carItinerary}
         />
       </div>
     );
@@ -73,6 +75,7 @@ MobileItineraryWrapper.propTypes = {
   plan: PropTypes.object,
   serviceTimeRange: PropTypes.object.isRequired,
   onSwipe: PropTypes.func,
+  carItinerary: ItineraryShape,
   changeHash: PropTypes.func,
 };
 

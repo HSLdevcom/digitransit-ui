@@ -346,7 +346,7 @@ export default {
     },
   },
 
-  // useRealtimeTravellerCapacities: true,
+  useRealtimeTravellerCapacities: true,
 
   aboutThisService: {
     fi: [
@@ -524,4 +524,6 @@ export default {
       virtualMonitorBaseUrl: 'https://matkamonitori.digitransit.fi/',
     },
   },
+  // Notice! Turning on this setting forces the search for car routes (for the CO2 comparison only).
+  showCO2InItinerarySummary: true,
 };

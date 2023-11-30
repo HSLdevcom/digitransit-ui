@@ -147,4 +147,5 @@ export default configMerger(matkaConfig, {
       },
     ],
   },
+  showCO2InItinerarySummary: false,
 });
