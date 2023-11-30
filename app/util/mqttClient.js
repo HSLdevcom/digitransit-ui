@@ -147,12 +147,7 @@ export function startMqttClient(settings, actionContext) {
           const client = mqtt.default.connect(settings.mqtt, credentials);
           client.on('connect', () => client.subscribe(topics));
           client.on('message', (topic, messages) => {
-            const parsedMessages = parseFeedMQTT(
-              feedReader,
-              messages,
-              topic,
-              settings.agency,
-            );
+            const parsedMessages = parseFeedMQTT(feedReader, messages, topic);
             parsedMessages.forEach(message => {
               actionContext.dispatch('RealTimeClientMessage', message);
             });
