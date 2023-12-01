@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import DTAutosuggest from '@digitransit-component/digitransit-component-autosuggest';
@@ -22,6 +22,7 @@ const EmbeddedSearchGenerator = (props, context) => {
   const { breakpoint, lang } = props;
   const { config, intl } = context;
   const { colors, fontWeights } = config;
+  const [isTimepickerSelected, setIsTimepickerSelected] = useState(false);
   const MIN_WIDTH = 360;
   const MAX_WIDTH = 640;
 
@@ -31,7 +32,6 @@ const EmbeddedSearchGenerator = (props, context) => {
 
   const [chooseFreely, setChooseFreely] = useState(true);
   const [searchOriginDefined, setSearchOriginDefined] = useState(false);
-  const [isTimepickerSelected, setIsTimepickerSelected] = useState(false);
   const [searchOrigin, setSearchOrigin] = useState();
   const [searchDestinationDefined, setSearchDestinationDefined] = useState(
     false,
@@ -128,8 +128,10 @@ const EmbeddedSearchGenerator = (props, context) => {
   const generateComponentString = () => {
     const currentURL = window.location.origin;
     let iframeHTML = `<iframe width="${searchWidth}" height=${
-      isTimepickerSelected ? 400 : 250
-    } style="border-radius: 10px;" src="${currentURL}${EMBEDDED_SEARCH_PATH}?${searchModeRestriction}&lang=${searchLang}&timepicker=${isTimepickerSelected}`;
+      isTimepickerSelected ? 300 : 250
+    } style="border-radius: 10px;" src="${currentURL}${EMBEDDED_SEARCH_PATH}?${searchModeRestriction}&lang=${searchLang}${
+      isTimepickerSelected ? '&timepicker=true' : ''
+    }`;
     if (!chooseFreely) {
       if (searchOriginDefined && searchOrigin) {
         if (originIsCurrentLocation()) {
@@ -173,6 +175,14 @@ const EmbeddedSearchGenerator = (props, context) => {
       setSearchWidth(MAX_WIDTH);
     }
   };
+
+  useEffect(() => {
+    if (isTimepickerSelected) {
+      setSearchWidth(MIN_WIDTH + 90);
+    } else {
+      setSearchWidth(MIN_WIDTH);
+    }
+  }, [isTimepickerSelected]);
 
   return (
     <section id="mainContent" className="content">
@@ -460,7 +470,9 @@ const EmbeddedSearchGenerator = (props, context) => {
               <FormattedMessage id="preview" defaultMessage="Preview" />
             </h3>
             <div
-              className="embedded-search-container"
+              className={`embedded-search-container ${
+                isTimepickerSelected ? 'with-timepicker' : ''
+              }`}
               id="embedded-search-container-id"
               style={{
                 height: isTimepickerSelected ? 300 : 250,

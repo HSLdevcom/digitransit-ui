@@ -76,6 +76,10 @@ const EmbeddedSearch = (props, context) => {
       ? document.referrer
       : document.location.href;
 
+  const previewComponent = window.location.pathname.match(
+    config.URL.EMBEDDED_SEARCH_GENERATION,
+  );
+
   const buttonRef = useRef(null);
 
   useEffect(() => {
@@ -300,27 +304,18 @@ const EmbeddedSearch = (props, context) => {
     return <Loading />;
   }
 
-  const previewStyles = () => {
-    if (window.location.pathname === '/reittihakuelementti') {
-      return {
-        position: 'absolute',
-        bottom: '120px',
-        left: '-15px',
-      };
-    }
-    return { position: 'relative', marginTop: '10px', maxWidth: '399px' };
-  };
-
   return (
     <div
-      style={{ height: isTimepickerSelected ? '400px' : '250px' }}
       className={`embedded-seach-container ${
         bikeOnly ? 'bike' : walkOnly ? 'walk' : ''
       }`}
       id={appElement}
     >
       <div className="background-container">{drawBackgroundIcon()}</div>
-      <div className="control-panel-container" style={{ position: 'relative' }}>
+      <div
+        className={`control-panel-container `}
+        style={{ position: 'relative' }}
+      >
         <CtrlPanel
           instance="HSL"
           language={lang}
@@ -337,14 +332,20 @@ const EmbeddedSearch = (props, context) => {
           />
 
           {isTimepickerSelected && (
-            <div className="datetimepicker-container" style={previewStyles()}>
+            <div
+              className={`datetimepicker-container ${
+                previewComponent ? 'preview-component' : 'ready-component'
+              }`}
+            >
               <DatetimepickerContainer realtime />
             </div>
           )}
 
           <div
             className="embedded-search-button-container"
-            style={{ marginTop: isTimepickerSelected ? '50px' : '' }}
+            style={{
+              marginTop: previewComponent && isTimepickerSelected ? '50px' : '',
+            }}
           >
             {logo ? (
               <img
