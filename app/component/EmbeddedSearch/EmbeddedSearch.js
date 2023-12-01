@@ -18,6 +18,7 @@ import Icon from '../Icon';
 import Loading from '../Loading';
 import { addAnalyticsEvent } from '../../util/analyticsUtils';
 import useUTMCampaignParams from './hooks/useUTMCampaignParams';
+import DatetimepickerContainer from '../DatetimepickerContainer';
 
 const LocationSearch = withSearchContext(DTAutosuggestPanel, true);
 
@@ -103,6 +104,7 @@ const EmbeddedSearch = (props, context) => {
     name: query.address2,
   };
   const useDestinationLocation = query?.destinationLoc;
+  const isTimepickerSelected = query.timepicker;
   const [logo, setLogo] = useState();
   const [origin, setOrigin] = useState(
     useOriginLocation
@@ -298,15 +300,27 @@ const EmbeddedSearch = (props, context) => {
     return <Loading />;
   }
 
+  const previewStyles = () => {
+    if (window.location.pathname === '/reittihakuelementti') {
+      return {
+        position: 'absolute',
+        bottom: '120px',
+        left: '-15px',
+      };
+    }
+    return { position: 'relative', marginTop: '10px', maxWidth: '399px' };
+  };
+
   return (
     <div
+      style={{ height: isTimepickerSelected ? '400px' : '250px' }}
       className={`embedded-seach-container ${
         bikeOnly ? 'bike' : walkOnly ? 'walk' : ''
       }`}
       id={appElement}
     >
       <div className="background-container">{drawBackgroundIcon()}</div>
-      <div className="control-panel-container">
+      <div className="control-panel-container" style={{ position: 'relative' }}>
         <CtrlPanel
           instance="HSL"
           language={lang}
@@ -321,7 +335,17 @@ const EmbeddedSearch = (props, context) => {
             targets={locationSearchTargets}
             {...locationSearchProps}
           />
-          <div className="embedded-search-button-container">
+
+          {isTimepickerSelected && (
+            <div className="datetimepicker-container" style={previewStyles()}>
+              <DatetimepickerContainer realtime />
+            </div>
+          )}
+
+          <div
+            className="embedded-search-button-container"
+            style={{ marginTop: isTimepickerSelected ? '50px' : '' }}
+          >
             {logo ? (
               <img
                 src={logo}
