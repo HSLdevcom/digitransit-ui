@@ -54,6 +54,14 @@ const TripRouteStop = (props, { config }) => {
       first,
       last,
     );
+    const vehicleWithParsedShortname = {
+      ...vehicle,
+      shortName:
+        vehicle.shortName &&
+        config.realTime[vehicle.route?.split(':')[0]].vehicleNumberParser(
+          vehicle.shortName,
+        ),
+    };
     const linkProps = {
       stopName: vehicleState === 'arriving' ? prevStop?.name : stop.name,
       nextStopName: vehicleState === 'arriving' ? stop?.name : nextStop?.name,
@@ -61,7 +69,7 @@ const TripRouteStop = (props, { config }) => {
       mode,
       pattern: props.pattern,
       route: props.route,
-      vehicleNumber: vehicle.shortName || shortName,
+      vehicleNumber: vehicleWithParsedShortname.shortName || shortName,
       selected:
         props.selectedVehicle && props.selectedVehicle.id === vehicle.id,
       color: !stopPassed ? vehicle.color : '',
@@ -75,11 +83,15 @@ const TripRouteStop = (props, { config }) => {
           <TripLink
             key={vehicle.id}
             shortName={shortName}
-            vehicle={vehicle}
+            vehicle={vehicleWithParsedShortname}
             {...linkProps}
           />
         ) : (
-          <FuzzyTripLink key={vehicle.id} vehicle={vehicle} {...linkProps} />
+          <FuzzyTripLink
+            key={vehicle.id}
+            vehicle={vehicleWithParsedShortname}
+            {...linkProps}
+          />
         )}
       </div>
     );
