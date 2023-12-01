@@ -17,7 +17,6 @@ describe('gtfsRtParser', () => {
         bindings.FeedMessage.read,
         arrayBuffer,
         '/gtfsrt/vp/tampere///TRAM/8/1/Atala/5645934646/123456/14:35/130210/61;23/47/62/47/8/000000/',
-        'tampere',
       );
 
       expect(result).to.deep.equal([
@@ -47,7 +46,6 @@ describe('gtfsRtParser', () => {
         bindings.FeedMessage.read,
         arrayBuffer,
         '/gtfsrt/vp/tampere////15//////TKL_23/61;23/47/62/47//',
-        'tampere',
       );
 
       expect(result).to.deep.equal([

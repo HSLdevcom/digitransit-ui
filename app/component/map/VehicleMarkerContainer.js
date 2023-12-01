@@ -23,19 +23,11 @@ function getVehicleIcon(
   vehicleNumber,
   color,
   useLargeIcon = true,
-  parseVehicleNumbers,
 ) {
   if (!isBrowser) {
     return null;
   }
   const modeOrDefault = MODES_WITH_ICONS.indexOf(mode) !== -1 ? mode : 'bus';
-
-  if (parseVehicleNumbers) {
-    if (vehicleNumber.indexOf(' ') !== -1) {
-      // eslint-disable-next-line prefer-destructuring, no-param-reassign
-      vehicleNumber = vehicleNumber.split(' ')[1];
-    }
-  }
 
   return {
     element: (
@@ -66,6 +58,7 @@ function shouldShowVehicle(message, direction, tripStart, pattern, headsign) {
       message.headsign === undefined ||
       headsign === message.headsign) &&
     (direction === undefined ||
+      direction === -1 ||
       message.direction === undefined ||
       message.direction === direction) &&
     (tripStart === undefined ||
@@ -98,6 +91,10 @@ function VehicleMarkerContainer(props, { config }) {
     } else {
       mode = message.mode;
     }
+    const feed = message.route?.split(':')[0];
+    const vehicleNumber = message.shortName
+      ? config.realTime[feed].vehicleNumberParser(message.shortName)
+      : message.route.split(':')[1];
     return (
       <IconMarker
         key={id}
@@ -109,10 +106,9 @@ function VehicleMarkerContainer(props, { config }) {
         icon={getVehicleIcon(
           mode,
           message.heading,
-          message.shortName ? message.shortName : message.route.split(':')[1],
+          vehicleNumber,
           message.color,
           props.useLargeIcon,
-          config?.parseVehicleNumbers,
         )}
       />
     );

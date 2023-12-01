@@ -619,8 +619,6 @@ export default {
 
   useRealtimeTravellerCapacities: false,
 
-  parseVehicleNumbers: false,
-
   aboutThisService: {
     fi: [
       {

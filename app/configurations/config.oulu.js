@@ -40,26 +40,6 @@ export default configMerger(walttiConfig, {
   logo: 'oulu/oulu-logo.png',
   secondaryLogo: 'oulu/secondary-oulu-logo.png',
 
-  cityBike: {
-    networks: {
-      oulu: {
-        enabled: false,
-        icon: 'citybike',
-        name: {
-          fi: 'Oulu',
-          sv: 'Uleåborg',
-          en: 'Oulu',
-        },
-        type: 'citybike',
-        url: {
-          fi: 'https://kaupunkipyorat.ouka.fi/',
-          sv: 'https://kaupunkipyorat.ouka.fi/home',
-          en: 'https://kaupunkipyorat.ouka.fi/home',
-        },
-      },
-    },
-  },
-
   searchParams: {
     'boundary.rect.min_lat': 64.71,
     'boundary.rect.max_lat': 65.38,

@@ -275,6 +275,4 @@ export default configMerger(walttiConfig, {
   modesWithNoBike: ['BICYCLE_RENT', 'WALK', 'RAIL'],
 
   showTenWeeksOnRouteSchedule: true,
-
-  parseVehicleNumbers: true,
 });
