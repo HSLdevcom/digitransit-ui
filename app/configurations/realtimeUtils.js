@@ -40,6 +40,15 @@ function walttiTopicResolver(
   );
 }
 
+const walttiMqtt = {
+  mqttTopicResolver: walttiTopicResolver,
+  mqtt: 'wss://mqtt.digitransit.fi',
+  gtfsrt: true,
+  routeSelector: defaultRouteSelector,
+  active: true,
+  vehicleNumberParser: defaulVehicleNumberParser,
+};
+
 export default {
   HSL: {
     mqttTopicResolver: function mqttTopicResolver(
@@ -65,84 +74,31 @@ export default {
         '/#'
       );
     },
-
     mqtt: 'wss://mqtt.hsl.fi',
-
     gtfsrt: false,
-
     routeSelector: defaultRouteSelector,
-
     active: true,
-
-    useFuzzyTripMatching: true, // DT-3473
-
+    useFuzzyTripMatching: true,
     vehicleNumberParser: defaulVehicleNumberParser,
   },
-  tampere: {
-    mqttTopicResolver: walttiTopicResolver,
-
-    mqtt: 'wss://mqtt.digitransit.fi',
-
-    gtfsrt: true,
-
-    routeSelector: defaultRouteSelector,
-
-    active: true,
-
-    vehicleNumberParser: defaulVehicleNumberParser,
-  },
-  LINKKI: {
-    mqttTopicResolver: walttiTopicResolver,
-
-    mqtt: 'wss://mqtt.digitransit.fi',
-
-    gtfsrt: true,
-
-    routeSelector: defaultRouteSelector,
-
-    active: true,
-
-    vehicleNumberParser: defaulVehicleNumberParser,
-  },
-  Lappeenranta: {
-    mqttTopicResolver: walttiTopicResolver,
-
-    mqtt: 'wss://mqtt.digitransit.fi',
-
-    gtfsrt: true,
-
-    routeSelector: defaultRouteSelector,
-
-    active: true,
-
-    vehicleNumberParser: defaulVehicleNumberParser,
-  },
-  Joensuu: {
-    mqttTopicResolver: walttiTopicResolver,
-
-    mqtt: 'wss://mqtt.digitransit.fi',
-
-    gtfsrt: true,
-
-    routeSelector: defaultRouteSelector,
-
-    active: true,
-
-    vehicleNumberParser: defaulVehicleNumberParser,
-  },
-  Kuopio: {
-    mqttTopicResolver: walttiTopicResolver,
-
-    mqtt: 'wss://mqtt.digitransit.fi',
-
-    gtfsrt: true,
-
-    routeSelector: defaultRouteSelector,
-
-    active: true,
-
-    vehicleNumberParser: defaulVehicleNumberParser,
-  },
+  tampere: walttiMqtt,
+  LINKKI: walttiMqtt,
+  Lappeenranta: walttiMqtt,
+  Joensuu: walttiMqtt,
+  Kuopio: walttiMqtt,
+  OULU: walttiMqtt,
+  Hameenlinna: walttiMqtt,
+  Lahti: walttiMqtt,
+  Vaasa: walttiMqtt,
+  Mikkeli: walttiMqtt,
+  Salo: walttiMqtt,
+  Kouvola: walttiMqtt,
+  Kotka: walttiMqtt,
+  Rovaniemi: walttiMqtt,
+  Kajaani: walttiMqtt,
+  Rauma: walttiMqtt,
+  Pori: walttiMqtt,
+  VARELY: walttiMqtt,
   FOLI: {
     mqttTopicResolver: function mqttTopicResolver(
       route,
@@ -175,184 +131,10 @@ export default {
         '/#'
       );
     },
-
     mqtt: 'wss://mqtt.digitransit.fi',
-
     gtfsrt: true,
-
     routeSelector: defaultRouteSelector,
-
     active: true,
-
-    vehicleNumberParser: defaulVehicleNumberParser,
-  },
-  OULU: {
-    mqttTopicResolver: walttiTopicResolver,
-
-    mqtt: 'wss://mqtt.digitransit.fi',
-
-    gtfsrt: true,
-
-    routeSelector: defaultRouteSelector,
-
-    active: true,
-
-    vehicleNumberParser: defaulVehicleNumberParser,
-  },
-  Hameenlinna: {
-    mqttTopicResolver: walttiTopicResolver,
-
-    mqtt: 'wss://mqtt.digitransit.fi',
-
-    gtfsrt: true,
-
-    routeSelector: defaultRouteSelector,
-
-    active: true,
-
-    vehicleNumberParser: defaulVehicleNumberParser,
-  },
-  Lahti: {
-    mqttTopicResolver: walttiTopicResolver,
-
-    mqtt: 'wss://mqtt.digitransit.fi',
-
-    gtfsrt: true,
-
-    routeSelector: defaultRouteSelector,
-
-    active: true,
-
-    vehicleNumberParser: defaulVehicleNumberParser,
-  },
-  Vaasa: {
-    mqttTopicResolver: walttiTopicResolver,
-
-    mqtt: 'wss://mqtt.digitransit.fi',
-
-    gtfsrt: true,
-
-    routeSelector: defaultRouteSelector,
-
-    active: true,
-
-    vehicleNumberParser: defaulVehicleNumberParser,
-  },
-  Mikkeli: {
-    mqttTopicResolver: walttiTopicResolver,
-
-    mqtt: 'wss://mqtt.digitransit.fi',
-
-    gtfsrt: true,
-
-    routeSelector: defaultRouteSelector,
-
-    active: true,
-
-    vehicleNumberParser: defaulVehicleNumberParser,
-  },
-  Salo: {
-    mqttTopicResolver: walttiTopicResolver,
-
-    mqtt: 'wss://mqtt.digitransit.fi',
-
-    gtfsrt: true,
-
-    routeSelector: defaultRouteSelector,
-
-    active: true,
-
-    vehicleNumberParser: defaulVehicleNumberParser,
-  },
-  Kouvola: {
-    mqttTopicResolver: walttiTopicResolver,
-
-    mqtt: 'wss://mqtt.digitransit.fi',
-
-    gtfsrt: true,
-
-    routeSelector: defaultRouteSelector,
-
-    active: true,
-
-    vehicleNumberParser: defaulVehicleNumberParser,
-  },
-  Kotka: {
-    mqttTopicResolver: walttiTopicResolver,
-
-    mqtt: 'wss://mqtt.digitransit.fi',
-
-    gtfsrt: true,
-
-    routeSelector: defaultRouteSelector,
-
-    active: true,
-
-    vehicleNumberParser: defaulVehicleNumberParser,
-  },
-  Rovaniemi: {
-    mqttTopicResolver: walttiTopicResolver,
-
-    mqtt: 'wss://mqtt.digitransit.fi',
-
-    gtfsrt: true,
-
-    routeSelector: defaultRouteSelector,
-
-    active: true,
-
-    vehicleNumberParser: defaulVehicleNumberParser,
-  },
-  Kajaani: {
-    mqttTopicResolver: walttiTopicResolver,
-
-    mqtt: 'wss://mqtt.digitransit.fi',
-
-    gtfsrt: true,
-
-    routeSelector: defaultRouteSelector,
-
-    active: true,
-
-    vehicleNumberParser: defaulVehicleNumberParser,
-  },
-  Rauma: {
-    mqttTopicResolver: walttiTopicResolver,
-
-    mqtt: 'wss://mqtt.digitransit.fi',
-
-    gtfsrt: true,
-
-    routeSelector: defaultRouteSelector,
-
-    active: true,
-
-    vehicleNumberParser: defaulVehicleNumberParser,
-  },
-  Pori: {
-    mqttTopicResolver: walttiTopicResolver,
-
-    mqtt: 'wss://mqtt.digitransit.fi',
-
-    gtfsrt: true,
-
-    routeSelector: defaultRouteSelector,
-
-    active: true,
-
-    vehicleNumberParser: defaulVehicleNumberParser,
-  },
-  VARELY: {
-    mqttTopicResolver: walttiTopicResolver,
-
-    mqtt: 'wss://mqtt.digitransit.fi',
-
-    gtfsrt: true,
-
-    routeSelector: defaultRouteSelector,
-
-    active: true,
-
     vehicleNumberParser: defaulVehicleNumberParser,
   },
   digitraffic: {
@@ -383,15 +165,10 @@ export default {
         '/#'
       );
     },
-
     mqtt: 'wss://mqtt.digitransit.fi',
-
     gtfsrt: true,
-
     routeSelector: defaultRouteSelector,
-
     active: true,
-
     vehicleNumberParser: function vehicleNumberParser(vehicleNumber) {
       return vehicleNumber.indexOf(' ') !== -1
         ? vehicleNumber.split(' ')[1]
