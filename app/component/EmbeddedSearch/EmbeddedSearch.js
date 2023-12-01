@@ -310,6 +310,7 @@ const EmbeddedSearch = (props, context) => {
         bikeOnly ? 'bike' : walkOnly ? 'walk' : ''
       }`}
       id={appElement}
+      style={{ height: isTimepickerSelected ? '380px' : '250px' }}
     >
       <div className="background-container">{drawBackgroundIcon()}</div>
       <div

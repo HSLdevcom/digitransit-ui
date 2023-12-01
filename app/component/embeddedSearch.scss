@@ -1,7 +1,7 @@
 .embedded-seach-container {
     display: grid;
     padding: 10px;
-    //height: 250px;
+    height: 250px;
     width: 100vw;
     max-width: 100%;
     overflow: hidden;
@@ -12,7 +12,7 @@
 
         .preview-component {
             position: absolute;
-            bottom: 0;
+            bottom: 100px;
             left: -15px;
         }
 
@@ -71,6 +71,6 @@
 }
 
 .with-timepicker {
-    //height: 400px !important;
+    height: 380px;
     width: 450px;
 }

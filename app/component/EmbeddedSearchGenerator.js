@@ -128,7 +128,7 @@ const EmbeddedSearchGenerator = (props, context) => {
   const generateComponentString = () => {
     const currentURL = window.location.origin;
     let iframeHTML = `<iframe width="${searchWidth}" height=${
-      isTimepickerSelected ? 300 : 250
+      isTimepickerSelected ? '380' : '250'
     } style="border-radius: 10px;" src="${currentURL}${EMBEDDED_SEARCH_PATH}?${searchModeRestriction}&lang=${searchLang}${
       isTimepickerSelected ? '&timepicker=true' : ''
     }`;
@@ -475,7 +475,6 @@ const EmbeddedSearchGenerator = (props, context) => {
               }`}
               id="embedded-search-container-id"
               style={{
-                height: isTimepickerSelected ? 300 : 250,
                 width: searchWidth,
                 minWidth: MIN_WIDTH,
                 maxWidth: MAX_WIDTH,
