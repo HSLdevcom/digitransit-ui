@@ -31,6 +31,7 @@ const EmbeddedSearchGenerator = (props, context) => {
 
   const [chooseFreely, setChooseFreely] = useState(true);
   const [searchOriginDefined, setSearchOriginDefined] = useState(false);
+  const [isTimepickerSelected, setIsTimepickerSelected] = useState(false);
   const [searchOrigin, setSearchOrigin] = useState();
   const [searchDestinationDefined, setSearchDestinationDefined] = useState(
     false,
@@ -112,14 +113,23 @@ const EmbeddedSearchGenerator = (props, context) => {
     mode[searchModeRestriction.substring(0, searchModeRestriction.length - 2)] =
       'true';
     const searchMatch = {
-      location: { query: { ...mode, ...locData, lang: searchLang } },
+      location: {
+        query: {
+          ...mode,
+          ...locData,
+          lang: searchLang,
+          timepicker: isTimepickerSelected,
+        },
+      },
     };
     return <EmbeddedSearch match={searchMatch} />;
   };
 
   const generateComponentString = () => {
     const currentURL = window.location.origin;
-    let iframeHTML = `<iframe width="${searchWidth}" height="250" style="border-radius: 10px;" src="${currentURL}${EMBEDDED_SEARCH_PATH}?${searchModeRestriction}&lang=${searchLang}`;
+    let iframeHTML = `<iframe width="${searchWidth}" height=${
+      isTimepickerSelected ? 400 : 250
+    } style="border-radius: 10px;" src="${currentURL}${EMBEDDED_SEARCH_PATH}?${searchModeRestriction}&lang=${searchLang}&timepicker=${isTimepickerSelected}`;
     if (!chooseFreely) {
       if (searchOriginDefined && searchOrigin) {
         if (originIsCurrentLocation()) {
@@ -254,7 +264,7 @@ const EmbeddedSearchGenerator = (props, context) => {
                   hanldeWidthOnBlur(event.target.value);
                 }}
               />
-              <span> px x 250px</span>
+              <span> px x {isTimepickerSelected ? '400px' : '250px'}</span>
             </label>
           </fieldset>
 
@@ -411,6 +421,34 @@ const EmbeddedSearchGenerator = (props, context) => {
             )}
           </fieldset>
 
+          <fieldset id="timePicker">
+            <legend>
+              <h3>
+                <FormattedMessage
+                  id="timepicker-component"
+                  defaultMessage="Time selector"
+                />
+              </h3>
+            </legend>
+
+            <label htmlFor="choose-timepicker">
+              <input
+                type="checkbox"
+                value="0"
+                name="origin-and-destination"
+                id="choose-timepicker"
+                onChange={() =>
+                  setIsTimepickerSelected(prevState => !prevState)
+                }
+                checked={isTimepickerSelected}
+              />
+              <FormattedMessage
+                id="choose-timepicker"
+                defaultMessage="Add a timepicker"
+              />
+            </label>
+          </fieldset>
+
           <div
             className="embed-preview"
             onFocus={e => {
@@ -425,7 +463,7 @@ const EmbeddedSearchGenerator = (props, context) => {
               className="embedded-search-container"
               id="embedded-search-container-id"
               style={{
-                height: 250,
+                height: isTimepickerSelected ? 300 : 250,
                 width: searchWidth,
                 minWidth: MIN_WIDTH,
                 maxWidth: MAX_WIDTH,
