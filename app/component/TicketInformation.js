@@ -83,16 +83,12 @@ export default function TicketInformation(
               <a href={config.ticketLink}>
                 <div className="ticket-identifier">
                   {config.useTicketIcons
-                    ? renderZoneTicket(
-                        // fare.product.id.split(':')[1],
-                        fare.ticketName,
-                        alternativeFares,
-                      )
+                    ? renderZoneTicket(fare.ticketName, alternativeFares)
                     : fare.ticketName}
                 </div>
                 {config.showTicketPrice && (
                   <div className="ticket-description">
-                    {`${(fare.cents / 100).toFixed(2)} €`}
+                    {`${fare.price.toFixed(2)} €`}
                   </div>
                 )}
                 <Icon img="icon-icon_arrow-collapse--right" />
@@ -101,11 +97,7 @@ export default function TicketInformation(
               <div className="fare-container">
                 <div className="ticket-identifier">
                   {config.useTicketIcons
-                    ? renderZoneTicket(
-                        // fare.product.id.split(':')[1],
-                        fare.ticketName,
-                        alternativeFares,
-                      )
+                    ? renderZoneTicket(fare.ticketName, alternativeFares)
                     : fare.ticketName}
                 </div>
                 {config.showTicketPrice && (

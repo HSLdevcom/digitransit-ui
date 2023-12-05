@@ -19,40 +19,31 @@ export const getFaresFromLegs = (legs, config) => {
   }));
 
   const knownFareLegs = uniqBy(
-    filteredLegs
-      .filter(l => l.fareProducts.length > 0)
-      .map(leg => ({
-        fareProducts: leg.fareProducts.filter(fp =>
-          availableTickets.includes(fp.product.id),
-        ),
-        route: leg.route,
-        agency: leg.route.agency,
-      })),
+    filteredLegs.filter(l => l.fareProducts.length > 0),
     'fareProducts[0].id',
-  ).map(fp => ({
-    fareProducts: fp.fareProducts,
-    agency: fp.agency,
-    price: fp.fareProducts[0].product.price.amount,
+  ).map(leg => ({
+    fareProducts: leg.fareProducts,
+    agency: leg.route.agency,
+    price: leg.fareProducts[0].product.price.amount,
     ticketName:
       // E2E-testing does not work without this check
       (config.NODE_ENV === 'test' &&
-        fp.fareProducts[0].product.id.split(':')[1]) ||
-      config.fareMapping(fp.fareProducts[0].product.id),
+        leg.fareProducts[0].product.id.split(':')[1]) ||
+      config.fareMapping(leg.fareProducts[0].product.id),
   }));
 
   // Legs that have empty fares but still have a route, i.e. transit legs
   const unknownFareLegs = filteredLegs
     .filter(l => l.fareProducts.length === 0 && l.route)
-    .map(leg => leg.route)
-    .map(route => ({
+    .map(leg => ({
       agency: {
-        fareUrl: route.agency.fareUrl,
-        gtfsId: route.agency.gtfsId,
-        name: route.agency.name,
+        fareUrl: leg.route.agency.fareUrl,
+        gtfsId: leg.route.agency.gtfsId,
+        name: leg.route.agency.name,
       },
       isUnknown: true,
-      routeGtfsId: route.gtfsId,
-      routeName: route.longName,
+      routeGtfsId: leg.route.gtfsId,
+      routeName: leg.route.longName,
     }));
   return [...knownFareLegs, ...unknownFareLegs];
 };
