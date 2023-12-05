@@ -27,7 +27,7 @@ export default configMerger(walttiConfig, {
 
   title: APP_TITLE,
 
-  favicon: './app/configurations/images/kuopio/favicon.png',
+  favicon: './app/configurations/images/kuopio/kuopio-favicon.png',
 
   // Navbar logo
   logo: 'kuopio/logo.png',

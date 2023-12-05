@@ -1,4 +1,3 @@
-import get from 'lodash/get';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
@@ -6,8 +5,7 @@ import cx from 'classnames';
 import { matchShape, routerShape } from 'found';
 import { FormattedMessage, intlShape } from 'react-intl';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-
-import Icon from './Icon';
+import get from 'lodash/get';
 import TicketInformation from './TicketInformation';
 import RouteInformation from './RouteInformation';
 import ItinerarySummary from './ItinerarySummary';
@@ -15,17 +13,17 @@ import ItineraryLegs from './ItineraryLegs';
 import BackButton from './BackButton';
 import MobileTicketPurchaseInformation from './MobileTicketPurchaseInformation';
 import {
-  getRoutes,
-  getZones,
   compressLegs,
+  getRoutes,
   getTotalBikingDistance,
   getTotalBikingDuration,
+  getTotalDrivingDistance,
+  getTotalDrivingDuration,
   getTotalWalkingDistance,
   getTotalWalkingDuration,
-  legContainsRentalBike,
-  getTotalDrivingDuration,
-  getTotalDrivingDistance,
+  getZones,
   isCallAgencyPickupType,
+  legContainsRentalBike,
 } from '../util/legUtils';
 import { BreakpointConsumer } from '../util/withBreakpoint';
 
@@ -36,13 +34,16 @@ import {
 } from '../util/fareUtils';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import {
+  getCurrentMillis,
+  getFormattedTimeDate,
   isToday,
   isTomorrow,
-  getFormattedTimeDate,
-  getCurrentMillis,
 } from '../util/timeUtils';
 import CityBikeDurationInfo from './VehicleRentalStationDurationInfo';
 import { FareShape } from '../util/shapes';
+import Emissions from './Emissions';
+import EmissionsInfo from './EmissionsInfo';
+import FareDisclaimer from './FareDisclaimer';
 
 const AlertShape = PropTypes.shape({ alertSeverityLevel: PropTypes.string });
 
@@ -66,6 +67,9 @@ const ItineraryShape = PropTypes.shape({
     }),
   ),
   fares: PropTypes.arrayOf(FareShape),
+  emissionsPerPerson: PropTypes.shape({
+    co2: PropTypes.number,
+  }),
 });
 
 /* eslint-disable prettier/prettier */
@@ -80,7 +84,9 @@ class ItineraryTab extends React.Component {
     isMobile: PropTypes.bool.isRequired,
     currentTime: PropTypes.number.isRequired,
     hideTitle: PropTypes.bool,
+    carItinerary: ItineraryShape,
     currentLanguage: PropTypes.string,
+    changeHash: PropTypes.func,
   };
 
   static defaultProps = {
@@ -157,7 +163,7 @@ class ItineraryTab extends React.Component {
       walkingDistance > 0 &&
       (bikingDistance > 0 || drivingDistance > 0) &&
       futureText !== '';
-    const extraProps = {
+    return {
       walking: {
         duration: walkingDuration,
         distance: walkingDistance,
@@ -173,7 +179,6 @@ class ItineraryTab extends React.Component {
       futureText,
       isMultiRow,
     };
-    return extraProps;
   };
 
   render() {
@@ -183,7 +188,6 @@ class ItineraryTab extends React.Component {
     if (!itinerary || !itinerary.legs[0]) {
       return null;
     }
-
     const fares = getFares(itinerary.fares, getRoutes(itinerary.legs), config);
     const extraProps = this.setExtraProps(itinerary);
     const legsWithRentalBike = compressLegs(itinerary.legs).filter(leg =>
@@ -213,9 +217,63 @@ class ItineraryTab extends React.Component {
     const suggestionIndex = this.context.match.params.secondHash
       ? Number(this.context.match.params.secondHash) + 1
       : Number(this.context.match.params.hash) + 1;
-    const itineraryContainsCallLegs = itinerary.legs.some(leg =>
-      isCallAgencyPickupType(leg),
-    );
+
+    const disclaimers = [];
+
+    if (shouldShowFareInfo(config) && fares.some(fare => fare.isUnknown)) {
+      const found = {};
+      itinerary.legs.forEach(leg => {
+        if (
+          config.modeDisclaimers?.[leg.mode] &&
+          !found[leg.mode]
+        ) {
+          found[leg.mode] = true;
+          const disclaimer = config.modeDisclaimers[leg.mode][currentLanguage];
+          disclaimers.push(
+            <FareDisclaimer
+              key={leg.mode}
+              values={{}}
+              textId={disclaimer.disclaimer}
+              href={disclaimer.link}
+              linkText={disclaimer.text}
+            />,
+          );
+        }
+      });
+
+      if (config.callAgencyInfo && itinerary.legs.some(leg => isCallAgencyPickupType(leg))) {
+        disclaimers.push(
+          <FareDisclaimer
+            textId="separate-ticket-required-for-call-agency-disclaimer"
+            values={{
+              agencyName: get(
+                config,
+                `callAgencyInfo.${currentLanguage}.callAgencyInfoLink`,
+              ),
+            }}
+            href={config.callAgencyInfo[currentLanguage].callAgencyInfoLink}
+            linkText={
+              config.callAgencyInfo[currentLanguage].callAgencyInfoLinkText
+            }
+          />,
+        );
+      }
+
+      if (!disclaimers.length) {
+        disclaimers.push(
+          <FareDisclaimer
+            textId="separate-ticket-required-disclaimer"
+            values={{
+              agencyName: get(config, 'ticketInformation.primaryAgencyName'),
+            }}
+          />,
+        );
+      }
+    }
+
+    // const itineraryContainsCallLegs = itinerary.legs.some(leg =>
+    //   isCallAgencyPickupType(leg),
+    // );
 
     return (
       <div className="itinerary-tab">
@@ -297,6 +355,7 @@ class ItineraryTab extends React.Component {
                   legs={itinerary.legs}
                 />
               )),
+            config.showCO2InItinerarySummary && <EmissionsInfo itinerary={itinerary} isMobile={this.props.isMobile} />,
             <div
               className={cx('momentum-scroll itinerary-tabs__scroll', {
                 multirow: extraProps.isMultiRow,
@@ -308,64 +367,24 @@ class ItineraryTab extends React.Component {
                   'bp-large': breakpoint === 'large',
                 })}
               >
-                {shouldShowFareInfo(config) &&
-                  fares.some(fare => fare.isUnknown) && (
-                    <div className="disclaimer-container unknown-fare-disclaimer__top">
-                      <div className="icon-container">
-                        <Icon className="info" img="icon-icon_info" />
-                      </div>
-                      {config.callAgencyInfo && itineraryContainsCallLegs ? (
-                        <div className="description-container">
-                          <FormattedMessage
-                            id="separate-ticket-required-for-call-agency-disclaimer"
-                            values={{
-                              callAgencyInfoUrl: get(
-                                config,
-                                `callAgencyInfo.${currentLanguage}.callAgencyInfoLink`,
-                              ),
-                            }}
-                          />
-                          <a
-                            href={
-                              config.callAgencyInfo[currentLanguage]
-                                .callAgencyInfoLink
-                            }
-                          >
-                            <FormattedMessage
-                              id={
-                                config.callAgencyInfo[currentLanguage]
-                                  .callAgencyInfoLinkText
-                              }
-                              defaultMessage={
-                                config.callAgencyInfo[currentLanguage]
-                                  .callAgencyInfoLinkText
-                              }
-                            />
-                          </a>
-                        </div>
-                      ) : (
-                        <div className="description-container">
-                          <FormattedMessage
-                            id="separate-ticket-required-disclaimer"
-                            values={{
-                              agencyName: get(
-                                config,
-                                'ticketInformation.primaryAgencyName',
-                              ),
-                            }}
-                          />
-                        </div>
-                      )}
-                    </div>
-                  )}
+                <>{disclaimers}</>
                 <ItineraryLegs
                   fares={fares}
                   itinerary={itinerary}
                   focusToPoint={this.handleFocus}
                   focusToLeg={this.props.focusToLeg}
+                  changeHash={this.props.changeHash}
+                  tabIndex={suggestionIndex - 1}
                 />
                 {config.showRouteInformation && <RouteInformation />}
               </div>
+              {config.showCO2InItinerarySummary &&
+                <Emissions
+                  config={config}
+                  itinerary={itinerary}
+                  carItinerary={this.props.carItinerary}
+                  emissionsInfolink={config.URL.EMISSIONS_INFO?.[currentLanguage]}
+                />}
               {this.shouldShowDisclaimer(config) && (
                 <div className="itinerary-disclaimer">
                   <FormattedMessage
@@ -416,6 +435,9 @@ const withRelay = createFragmentContainer(
           }
           type
         }
+        emissionsPerPerson {
+          co2
+        }
         legs {
           mode
           nextLegs(
@@ -456,7 +478,9 @@ const withRelay = createFragmentContainer(
               pattern {
                 code
               }
-
+              occupancy {
+                occupancyStatus
+              }
               gtfsId
             }
             realTime
@@ -608,6 +632,9 @@ const withRelay = createFragmentContainer(
               stop {
                 gtfsId
               }
+            }
+            occupancy {
+              occupancyStatus
             }
           }
         }

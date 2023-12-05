@@ -140,10 +140,18 @@ const RouteStop = (
         first,
         last,
       );
+      const vehicleWithParsedShortname = {
+        ...vehicle,
+        shortName:
+          vehicle.shortName &&
+          config.realTime[vehicle.route?.split(':')[0]].vehicleNumberParser(
+            vehicle.shortName,
+          ),
+      };
       vehicleTripLink = vehicle.tripId ? (
         <TripLink
           key={vehicle.id}
-          vehicle={vehicle}
+          vehicle={vehicleWithParsedShortname}
           shortName={shortName}
           mode={mode}
         />
@@ -155,7 +163,7 @@ const RouteStop = (
           }
           mode={mode}
           key={vehicle.id}
-          vehicle={vehicle}
+          vehicle={vehicleWithParsedShortname}
         />
       );
     }

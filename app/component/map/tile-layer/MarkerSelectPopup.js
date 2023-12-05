@@ -42,6 +42,7 @@ function MarkerSelectPopup(props) {
           key={option.feature.properties.gtfsId}
           colors={props.colors}
           routes={option.feature.properties.routes}
+          platform={option.feature.properties.platform}
         />
       );
     }

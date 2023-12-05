@@ -868,8 +868,11 @@ const translations = {
     'as-destination': 'Destination',
     'as-origin': 'Origin',
     'as-viapoint': 'Viapoint',
-    'search-autosuggest-label':
-      'Venue, place and stopsearch. Navigate list with arrow keys and select with enter key',
+    'search-autosuggest-label': 'Venue, place and stopsearch.',
+    'search-autosuggest-label-instructions':
+      'Navigate list with arrow keys and select with enter key.',
+    'search-autosuggest-label-move-to-destination':
+      'After selecting the starting location you are automatically moved to the destination field.',
     'search-autosuggest-len':
       'There {len, plural, =1 {is 1 suggestion} other {are {len} suggestions}} available',
     'search-current-suggestion': 'Current selection: {selection}',
@@ -946,6 +949,22 @@ const translations = {
     'canceled-itineraries-amount-hide':
       'Hide canceled itineraries ({itineraryAmount})',
     'canceled-legs': 'Canceled departures on the route',
+    'capacity-modal.crushed-standing-room-only-body':
+      'Only a little standing room available',
+    'capacity-modal.crushed-standing-room-only-heading': 'Very crowded',
+    'capacity-modal.few-seats-available-body': 'Some seats available',
+    'capacity-modal.few-seats-available-heading': 'Not too crowded',
+    'capacity-modal.full-capacity-body': 'No seats or standing room available',
+    'capacity-modal.full-capacity-heading': 'Full',
+    'capacity-modal.heading': 'Is there room in the vehicle?',
+    'capacity-modal.legend': 'Legend for the symbols',
+    'capacity-modal.many-seats-available-body': 'Plenty of seats available',
+    'capacity-modal.many-seats-available-heading': 'Not crowded',
+    'capacity-modal.standing-room-only-body':
+      'Only a few seats and little standing room available',
+    'capacity-modal.standing-room-only-heading': 'Nearly full',
+    'capacity-modal.subheading':
+      'Real-time capacity information is available for some vehicles',
     car: 'Car',
     'car-distance-duration': 'Drive {duration} ({distance})',
     'car-distance-no-duration': 'Drive {distance}',
@@ -992,6 +1011,7 @@ const translations = {
     'create-account': 'Create {contactName} account',
     'create-embedded-search': 'Create a route search element',
     'create-stop-monitor': 'Create a stop display',
+    'crushed-standing-room-only': 'Crushed standing room only',
     'cycle-distance-duration': 'Cycle {duration} ({distance})',
     'cyclewalk-distance-duration': 'Walk your bike {duration} ({distance})',
     // eslint-disable-next-line sort-keys
@@ -1052,6 +1072,7 @@ const translations = {
     ferry: 'Ferry',
     'ferry-with-route-number': 'Ferry {routeNumber} {headSign}',
     'fetch-new-route': 'Fetch a new route',
+    'few-seats-available': 'Few seats available',
     finnish: 'Finnish',
     'free-of-charge': 'Free',
     'from-ferry': 'ferry',
@@ -1060,6 +1081,7 @@ const translations = {
     'from-stop': 'from stop',
     'from-subway': 'subway',
     frontpage: 'Frontpage',
+    full: 'Full capacity',
     funicular: 'Funicular',
     'generic-cancelation': '{mode} {route} {headsign} at {time} is cancelled.',
     'generic-error': 'There was an error',
@@ -1093,6 +1115,17 @@ const translations = {
     inquiry: 'How did you find the new Journey Planner? Please tell us!',
     instructions: 'Instructions',
     'is-open': 'Open:',
+    'itinerary-co2.description':
+      '{co2value} g of CO₂ emissions will be generated on this journey. A car would generate {carCo2Value} g of CO₂ on the same journey.',
+    'itinerary-co2.description-simple':
+      '{co2value} g of CO₂ emissions will be generated on this journey.',
+    'itinerary-co2.description-simple-sr':
+      '{co2value} g of carbondioxide emissions will be generated on this journey.',
+    'itinerary-co2.description-sr':
+      '{co2value} g of carbondioxide emissions will be generated on this journey. A car would generate {carCo2Value} g of carbondioxide on the same journey.',
+    'itinerary-co2.link': 'This is how we reduce emissions ›',
+    'itinerary-co2.title': 'CO₂ emissions of the journey',
+    'itinerary-co2.title-sr': 'Carbondioxide emissions of the journey',
     'itinerary-details.biking-leg':
       'At {time} cycle {distance} from {origin} to {to} {destination}. Estimated time {duration}',
     'itinerary-details.car-leg':
@@ -1199,6 +1232,7 @@ const translations = {
     'main-menu-label-close': 'Close the main menu',
     'main-menu-label-open': 'Open the main menu',
     'main-mode': "I'm traveling by",
+    'many-seats-available': 'Many seats available',
     map: 'Map',
     'map-layer-citybike': 'Citybike stations',
     'map-layer-park-and-ride': 'Park & ride sites',
@@ -1446,7 +1480,7 @@ const translations = {
     'search-destination-results-but-no-search':
       'View results in the adjacent “Destination” tab',
     'search-fields.sr-instructions':
-      'Route search will take place automatically when you enter origin and destination. Changing search parameters will trigger a new search.',
+      'Route search will take place automatically when you enter origin and destination. Changing search parameters will trigger a new search. Navigate to the search fields using the tab key',
     'search-no-results': 'No location',
     'search-origin': 'Search origin, route or stop',
     'search-origin-index': 'Enter origin',
@@ -1494,6 +1528,7 @@ const translations = {
     'splash-use-positioning': 'Use location services',
     'splash-welcome': 'How do you wish to start?',
     'splash-you-can-also': 'or',
+    'standing-room-only': 'Standing room only',
     station: 'Station',
     stop: 'Stop',
     'stop-departure-time-future': 'Departure time is in {minutes} minutes',
@@ -1587,6 +1622,7 @@ const translations = {
     'travel-time-label': 'Travel time',
     'travel-time-with-hours': '{h} h {min} min',
     'trip-co2-emissions': 'CO2 emissions of the journey',
+    'trip-co2-emissions-sr': 'Carbondioxide emissions of the journey',
     'trip-information': 'Trip information',
     'trip-page.description': 'Route {route_short_name} - {route_long_name}',
     'trip-page.title': 'Route {route_short_name}',
@@ -2004,8 +2040,11 @@ const translations = {
     'as-destination': 'Määränpääksi',
     'as-origin': 'Lähtöpaikaksi',
     'as-viapoint': 'Välipisteeksi',
-    'search-autosuggest-label':
-      'Paikka, linja ja pysäkkihaku. Navigoi listassa nuolinäppäimillä ja valitse enterillä',
+    'search-autosuggest-label': 'Paikka, linja ja pysäkkihaku.',
+    'search-autosuggest-label-instructions':
+      'Navigoi listassa nuolinäppäimillä ja valitse enterillä.',
+    'search-autosuggest-label-move-to-destination':
+      'Valittuasi lähtöpaikan siirrytään suoraan määränpää-kenttään.',
     'search-autosuggest-len':
       ' Löydettiin {len, plural, =1 {1 ehdotus} other {{len} ehdotusta}}',
     'search-current-suggestion': 'Tämänhetkinen valinta: {selection}',
@@ -2087,6 +2126,22 @@ const translations = {
     'canceled-itineraries-amount-hide':
       'Piilota perutut reittiehdotukset ({itineraryAmount})',
     'canceled-legs': 'Reitillä peruttuja vuoroja',
+    'capacity-modal.crushed-standing-room-only-body':
+      'Vain vähän seisomapaikkoja',
+    'capacity-modal.crushed-standing-room-only-heading': 'Kova tungos',
+    'capacity-modal.few-seats-available-body': 'Joitain istumapaikkoja',
+    'capacity-modal.few-seats-available-heading': 'Ei liikaa tungosta',
+    'capacity-modal.full-capacity-body': 'Ei vapaita paikkoja',
+    'capacity-modal.full-capacity-heading': 'Täynnä',
+    'capacity-modal.heading': 'Onko kulkuneuvossa tilaa?',
+    'capacity-modal.legend': 'Merkkien selitteet',
+    'capacity-modal.many-seats-available-body': 'Paljon istumapaikkoja',
+    'capacity-modal.many-seats-available-heading': 'Ei tungosta',
+    'capacity-modal.standing-room-only-body':
+      'Vain vähän istuma- ja seisomapaikkoja',
+    'capacity-modal.standing-room-only-heading': 'Lähes täynnä',
+    'capacity-modal.subheading':
+      'Osasta kulkuneuvoja on saatavilla reaaliaikainen kapasiteettitieto',
     car: 'Auto',
     'car-distance-duration': 'Autoile {duration} ({distance})',
     'car-distance-no-duration': 'Autoile {distance}',
@@ -2134,6 +2189,7 @@ const translations = {
     'create-account': 'Luo {contactName} tunnus',
     'create-embedded-search': 'Luo reittihakuelementti',
     'create-stop-monitor': 'Luo pysäkkinäyttö',
+    'crushed-standing-room-only': 'Kova tungos',
     'cycle-distance-duration': 'Pyöräile {duration} ({distance})',
     'cyclewalk-distance-duration': 'Taluta pyörää {duration} ({distance})',
     // eslint-disable-next-line sort-keys
@@ -2196,6 +2252,7 @@ const translations = {
     ferry: 'Lautta',
     'ferry-with-route-number': 'Lautta {routeNumber} {headSign}',
     'fetch-new-route': 'Hae uusi reitti',
+    'few-seats-available': 'Joitakin istumapaikkoja vapaana',
     finnish: 'Suomi',
     'free-of-charge': 'Maksuton',
     'from-ferry': 'lautasta',
@@ -2204,6 +2261,7 @@ const translations = {
     'from-stop': 'pysäkiltä',
     'from-subway': 'metrosta',
     frontpage: 'Etusivu',
+    full: 'Täynnä',
     funicular: 'Funikulaari',
     'generic-cancelation': '{mode} {route} {headsign} kello {time} on peruttu.',
     'generic-error': 'Tapahtui virhe',
@@ -2234,6 +2292,17 @@ const translations = {
     inquiry: 'Mitä pidät uudesta Reittioppaasta? Kerro se meille! ',
     instructions: 'Ohjeet',
     'is-open': 'Avoinna:',
+    'itinerary-co2.description':
+      'Tämän matkan CO₂-päästöt ovat {co2value} g. Autolla kuljettuna ne olisivat olleet {carCo2Value} g.',
+    'itinerary-co2.description-simple':
+      'Tämän matkan CO₂-päästöt ovat {co2value} g.',
+    'itinerary-co2.description-simple-sr':
+      'Tämän matkan hiilidioksidipäästöt ovat {co2value} g.',
+    'itinerary-co2.description-sr':
+      'Tämän matkan hiilidioksidipäästöt ovat {co2value} g. Autolla kuljettuna ne olisivat olleet {carCo2Value} g.',
+    'itinerary-co2.link': 'Näin vähennämme päästöjä ›',
+    'itinerary-co2.title': 'Matkan CO₂-päästöt',
+    'itinerary-co2.title-sr': 'Matkan hiilidioksidipäästöt',
     'itinerary-details.biking-leg':
       '{time} pyöräile kohteesta {origin} {distance} {to} {destination}. Matka-aika {duration}',
     'itinerary-details.car-leg':
@@ -2336,6 +2405,7 @@ const translations = {
     'main-menu-label-close': 'Sulje päävalikko',
     'main-menu-label-open': 'Avaa päävalikko',
     'main-mode': 'Kulkumuoto',
+    'many-seats-available': 'Paljon istumapaikkoja vapaana',
     map: 'Kartta',
     'map-layer-citybike': 'Kaupunkipyöräasemat',
     'map-layer-park-and-ride': 'Liityntäpysäköintipaikat',
@@ -2582,7 +2652,7 @@ const translations = {
     'search-destination-results-but-no-search':
       'Katso tulokset viereiseltä Määränpää-välilehdeltä',
     'search-fields.sr-instructions':
-      'Reittihaku tehdään automaattisesti kun lähtöpaikka ja määränpää on asetettu. Haun parametrien muuttaminen laukaisee uuden reittihaun',
+      'Reittihaku tehdään automaattisesti kun lähtöpaikka ja määränpää on asetettu. Haun parametrien muuttaminen laukaisee uuden reittihaun. Navigoi hakukenttiin tab-näppäimellä.',
     'search-no-results': 'Ei tuloksia',
     'search-origin': 'Hae lähtöpaikkaa, linjaa tai pysäkkiä',
     'search-origin-index': 'Syötä lähtöpaikka',
@@ -2629,6 +2699,7 @@ const translations = {
     'splash-use-positioning': 'Käytä paikannusta',
     'splash-welcome': 'Miten haluat aloittaa?',
     'splash-you-can-also': 'tai',
+    'standing-room-only': 'Lähes täynnä',
     station: 'Asema',
     stop: 'Pysäkki',
     'stop-departure-time-future': 'Lähtöaika {minutes} min päästä',
@@ -2724,7 +2795,8 @@ const translations = {
     'travel-time': '{min} min',
     'travel-time-label': 'Matka-aika',
     'travel-time-with-hours': '{h} h {min} min',
-    'trip-co2-emissions': 'Reitin CO2 päästöt',
+    'trip-co2-emissions': 'Reitin CO₂-päästöt',
+    'trip-co2-emissions-sr': 'Reitin hiilidioksidipäästöt',
     'trip-information': 'Lähdön tiedot',
     'trip-page.description': 'Linja {shortName}, {longName}',
     'trip-page.title': 'Linja {shortName}',
@@ -3929,8 +4001,11 @@ const translations = {
     'as-destination': 'Destination',
     'as-origin': 'Avfärdsplats',
     'as-viapoint': 'Via punkt',
-    'search-autosuggest-label':
-      'Plats, linje och hållplatssökning. Navigera listan med piltangenterna och välj med Enter-tangeten',
+    'search-autosuggest-label': 'Plats, linje och hållplatssökning.',
+    'search-autosuggest-label-instructions':
+      'Navigera listan med piltangenterna och välj med Enter-tangeten.',
+    'search-autosuggest-label-move-to-destination':
+      'Efter att du valt avgångsplatsen tas du direkt till Destination-fältet.',
     'search-autosuggest-len': 'Hittade {len} förslag',
     'search-current-suggestion': 'Nuvarande val: {selection}',
     'select-date': 'Välj datum',
@@ -3999,6 +4074,21 @@ const translations = {
     'canceled-itineraries-amount-hide':
       'Dölja inställda reseförslag ({itineraryAmount})',
     'canceled-legs': 'Inställda avgångar på linjen',
+    'capacity-modal.crushed-standing-room-only-body': 'Endast några ståplatser',
+    'capacity-modal.crushed-standing-room-only-heading': 'Nästan fullt',
+    'capacity-modal.few-seats-available-body': 'Några sittplatser',
+    'capacity-modal.few-seats-available-heading': 'Ingen stor trängsel',
+    'capacity-modal.full-capacity-body': 'Inga lediga platser',
+    'capacity-modal.full-capacity-heading': 'Fullt',
+    'capacity-modal.heading': 'Finns det plats ombord?',
+    'capacity-modal.legend': 'Teckenförklaringar',
+    'capacity-modal.many-seats-available-body': 'Många sittplatser',
+    'capacity-modal.many-seats-available-heading': 'Ingen trängsel',
+    'capacity-modal.standing-room-only-body':
+      'Endast några få sitt- och ståplatser',
+    'capacity-modal.standing-room-only-heading': 'Stor trängsel',
+    'capacity-modal.subheading':
+      'Information om kapaciteten i realtid finns att rå om vissa fordon',
     car: 'Bil',
     'car-distance-duration': 'Kör {duration} ({distance})',
     'car-distance-no-duration': 'Kör {distance}',
@@ -4046,6 +4136,7 @@ const translations = {
     'create-account': 'Skapa {contactName} konto',
     'create-embedded-search': 'Skapa ett ruttsökningselement',
     'create-stop-monitor': 'Skapa hållplatsskärm',
+    'crushed-standing-room-only': 'Nästan fullt',
     'cycle-distance-duration': 'Cykla {duration} ({distance})',
     'cyclewalk-distance-duration': 'Led cykeln {duration} ({distance})',
     // eslint-disable-next-line sort-keys
@@ -4107,6 +4198,7 @@ const translations = {
     ferry: 'Färja',
     'ferry-with-route-number': 'Färja {routeNumber} {headSign}',
     'fetch-new-route': 'Sök en ny rutt',
+    'few-seats-available': 'Några sittplatser',
     finnish: 'Finska',
     'free-of-charge': 'Kostnadsfri',
     'from-ferry': 'färjan',
@@ -4115,6 +4207,7 @@ const translations = {
     'from-stop': 'från hållplats',
     'from-subway': 'metron',
     frontpage: 'Framsidan',
+    full: 'Fullt',
     funicular: 'Bergbanan',
     'generic-cancelation': '{mode} {route} {headsign} kl. {time} ställs in.',
     'generic-error': 'Det hände ett fel',
@@ -4146,6 +4239,17 @@ const translations = {
     inquiry: 'Vad tycker du om den nya Reseplaneraren. Berätta för oss!',
     instructions: 'Anvisningar',
     'is-open': 'Öppet:',
+    'itinerary-co2.description':
+      'CO₂-utsläppen för denna resa är {co2value} g. En bil skulle generera {carCo2Value} g CO₂ på samma resa.',
+    'itinerary-co2.description-simple':
+      'CO₂-utsläppen för denna resa är {co2value} g.',
+    'itinerary-co2.description-simple-sr':
+      'Koldioxidutsläppen för denna resa är {co2value} g.',
+    'itinerary-co2.description-sr':
+      'Koldioxidutsläppen för denna resa är {co2value} g. En bil skulle generera {carCo2Value} g koldioxid på samma resa.',
+    'itinerary-co2.link': 'Så minskar vi utsläppen ›',
+    'itinerary-co2.title': 'Rejsens CO₂-udslip',
+    'itinerary-co2.title-sr': 'Rejsens koldioxidutsläpp',
     'itinerary-details.biking-leg':
       '{time} cykla {distance} från {origin} till {to} {destination}. Restid {duration}',
     'itinerary-details.car-leg':
@@ -4252,6 +4356,7 @@ const translations = {
     'main-menu-label-close': 'Stäng huvudmenyn',
     'main-menu-label-open': 'Öppna huvudmenyn',
     'main-mode': 'Jag använder',
+    'many-seats-available': 'Många sittplatser',
     map: 'Karta',
     'map-layer-citybike': 'Stadscykelstation',
     'map-layer-park-and-ride': 'Infartsparkering',
@@ -4497,7 +4602,7 @@ const translations = {
     'search-destination-results-but-no-search':
       'Se resultaten under fliken Destination',
     'search-fields.sr-instructions':
-      'Ruttsökning görs automatiskt när du skriver in avgångsplats och destination. Om du ändrar sökvillkoren, startas en ny ruttsökning automatiskt.',
+      'Ruttsökning görs automatiskt när du skriver in avgångsplats och destination. Om du ändrar sökvillkoren, startas en ny ruttsökning automatiskt. Navigera till sökfälten med tabbtangenten.',
     'search-no-results': 'Inga sökresultat',
     'search-origin': 'Sök avfärdsplats, linje eller hållplats',
     'search-origin-index': 'Skriv avfärdsplats',
@@ -4550,6 +4655,7 @@ const translations = {
       'Tjänsten fungerar bäst om du delar din plats.',
     'splash-use-positioning': 'Använd min plats',
     'splash-you-can-also': 'alternativt',
+    'standing-room-only': 'Stor trängsel',
     station: 'Station',
     stop: 'Hållplats',
     'stop-departure-time-future': 'Avgångstid är i {minutes} minuter',
@@ -4645,6 +4751,7 @@ const translations = {
     'travel-time-label': 'Restid',
     'travel-time-with-hours': '{h} h {min} min',
     'trip-co2-emissions': 'Resans CO2-utsläpp',
+    'trip-co2-emissions-sr': 'Resans koldioxidutsläpp',
     'trip-information': 'Visa avgång',
     'trip-page.description': 'Linje {shortName} - {longName}',
     'trip-page.title': 'Linje {shortName}',

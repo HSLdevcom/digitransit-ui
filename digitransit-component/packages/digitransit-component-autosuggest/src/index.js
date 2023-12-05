@@ -938,13 +938,21 @@ class DTAutosuggest extends React.Component {
     };
     const ariaBarId = this.props.id.replace('searchfield-', '');
     let SearchBarId = this.props.ariaLabel || i18next.t(ariaBarId);
-    SearchBarId = SearchBarId.replace('searchfield-', '');
+    SearchBarId = SearchBarId.replace('searchfield-', '').concat('.'); // Full stop makes screen reader speech clearer.
     const ariaRequiredText = this.props.required
       ? `${i18next.t('required')}.`
       : '';
-    const ariaLabelText = this.props.isMobile
-      ? i18next.t('search-autosuggest-label-mobile')
-      : i18next.t('search-autosuggest-label-desktop');
+    const ariaLabelInstructions = this.props.isMobile
+      ? i18next.t('search-autosuggest-label-instructions-mobile')
+      : i18next.t('search-autosuggest-label-instructions-desktop');
+    const movingToDestinationFieldText =
+      this.props.id === 'origin'
+        ? i18next.t('search-autosuggest-label-move-to-destination')
+        : '';
+    const ariaLabelText = ariaLabelInstructions
+      .concat(' ')
+      .concat(movingToDestinationFieldText);
+
     const ariaSuggestionLen = i18next.t('search-autosuggest-len', {
       count: suggestions.length,
     });
@@ -1033,6 +1041,11 @@ class DTAutosuggest extends React.Component {
                   this.props.inputClassName &&
                     `${this.props.inputClassName}-input-icon`,
                 ])}
+                aria-label={ariaRequiredText
+                  .concat(' ')
+                  .concat(SearchBarId)
+                  .concat(' ')
+                  .concat(i18next.t('search-autosuggest-label'))}
               >
                 <Icon img={`${this.props.icon}`} />
               </div>

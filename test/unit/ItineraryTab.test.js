@@ -19,6 +19,7 @@ describe('<ItineraryTab />', () => {
       },
       isMobile: false,
       currentTime: 0,
+      lang: 'fi',
     };
     const wrapper = shallowWithIntl(<ItineraryTab {...props} />, {
       context: { ...mockContext },

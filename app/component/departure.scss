@@ -227,6 +227,35 @@
   }
 }
 
+.capacity-information-modal {
+  .capacity-info-row {
+    display: flex;
+    height: 20px;
+    margin-top: 8px;
+    h4 {
+      text-transform: none;
+      margin-top: 0;
+      padding-top: 0;
+      padding-left: 20px;
+      font-size: 15px;
+    }
+  }
+  .capacity-info-explanation {
+    margin: 0;
+    margin-left: 36px;
+    font-size: 13px;
+  }
+  .explanations-heading {
+    font-size: 15px;
+  }
+  .capacity-heading {
+    margin-bottom: 5px;
+  }
+  .capacity-text {
+    margin-top: 0;
+  }
+}
+
 .departure-row:focus-within {
   outline: 2px auto #333 !important;
 }
@@ -253,6 +282,18 @@
     .platform-code {
       display: flex;
       justify-content: center;
+    }
+  }
+
+  .capacity-cell {
+    width: 25px;
+    .capacity-icon-container {
+      padding-left: 7px;
+      margin-top: 15px;
+      cursor: pointer;
+      svg {
+        margin-top: 4px;
+      }
     }
   }
 

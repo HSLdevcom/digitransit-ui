@@ -16,6 +16,9 @@ import intializeSearchContext from '../util/DTSearchContextInitializer';
 
 function MainMenu(props, { config, intl }) {
   const [countries, setCountries] = useState(props.countries);
+  const appBarLinkHref =
+    config.appBarLink.alternativeHref?.[props.currentLanguage] ||
+    config.appBarLink.href;
   return (
     <div className="main-menu no-select" tabIndex={-1}>
       <div className="main-menu-top-section">
@@ -115,26 +118,23 @@ function MainMenu(props, { config, intl }) {
               </div>
             </div>
           ))}
-        {config.appBarLink &&
-          config.appBarLink.name &&
-          config.appBarLink.href &&
-          !config.hideAppBarLink && (
-            <div className="offcanvas-section">
-              <a
-                id="appBarLink"
-                href={config.appBarLink.href}
-                onClick={() => {
-                  addAnalyticsEvent({
-                    category: 'Navigation',
-                    action: 'appBarLink',
-                    name: null,
-                  });
-                }}
-              >
-                {config.appBarLink.name}
-              </a>
-            </div>
-          )}
+        {config.appBarLink?.name && appBarLinkHref && !config.hideAppBarLink && (
+          <div className="offcanvas-section">
+            <a
+              id="appBarLink"
+              href={appBarLinkHref}
+              onClick={() => {
+                addAnalyticsEvent({
+                  category: 'Navigation',
+                  action: 'appBarLink',
+                  name: null,
+                });
+              }}
+            >
+              {config.appBarLink.name}
+            </a>
+          </div>
+        )}
       </section>
       <section className="menu-section secondary-links">
         <MainMenuLinks
@@ -156,6 +156,11 @@ MainMenu.propTypes = {
   homeUrl: PropTypes.string.isRequired,
   countries: PropTypes.object,
   updateCountries: PropTypes.func,
+  currentLanguage: PropTypes.string,
+};
+
+MainMenu.defaultProps = {
+  currentLanguage: 'fi',
 };
 
 MainMenu.contextTypes = {
@@ -166,10 +171,11 @@ MainMenu.contextTypes = {
 
 const connectedComponent = connectToStores(
   MainMenu,
-  ['CountryStore'],
+  ['CountryStore', 'PreferencesStore'],
   ({ getStore, executeAction }) => ({
     countries: getStore('CountryStore').getCountries(),
     updateCountries: countries => executeAction(updateCountries, countries),
+    currentLanguage: getStore('PreferencesStore').getLanguage(),
   }),
   {
     executeAction: PropTypes.func,

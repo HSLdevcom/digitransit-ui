@@ -45,7 +45,7 @@
 .stop-popup-choose-row {
   display: flex;
   align-items: center;
-  height: 50px;
+  min-height: 50px;
   padding: 4px 8px 0 8px;
   border-bottom: 1px solid #dddddd;
   text-decoration: none;
@@ -102,7 +102,7 @@
     align-items: center;
   }
 
-  .choose-row-address {
+  .choose-row-address, .choose-row-platform {
     font-size: 11px;
     font-weight: normal;
     font-stretch: normal;
@@ -135,4 +135,23 @@
       width: 16px;
     }
   }
+}
+
+.choose-row-info-row {
+  &.small-margin {
+    margin-top: -3px;
+  }
+  &:last-child {
+    margin-bottom: 3px;
+  }
+}
+
+.platform-number-wrapper {
+  padding: 0px 7px 0px 7px;
+  border-radius: 3px;
+  margin: 0px 3px 0px 3px;
+  background-color: #f4f4f5;
+  font-weight: $font-weight-medium;
+  color: #666666;
+  font-size: 10px;
 }

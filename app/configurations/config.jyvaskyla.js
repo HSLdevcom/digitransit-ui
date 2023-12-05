@@ -56,10 +56,10 @@ export default configMerger(walttiConfig, {
 
   title: APP_TITLE,
 
-  favicon: './app/configurations/images/jyvaskyla/favicon.png',
+  favicon: './app/configurations/images/jyvaskyla/jyvaskyla-favicon.png',
 
   // Navbar logo
-  logo: 'jyvaskyla/favicon.png',
+  logo: 'jyvaskyla/jyvaskyla-favicon.png',
 
   vehicles: true,
   showVehiclesOnStopPage: true,
@@ -163,4 +163,6 @@ export default configMerger(walttiConfig, {
     stops: true,
     itinerary: true,
   },
+  // DT-5325 Notice! Turning on this setting forces the search for car routes (for the CO2 comparison only).
+  showCO2InItinerarySummary: false,
 });

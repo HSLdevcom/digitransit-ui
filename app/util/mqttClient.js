@@ -35,12 +35,13 @@ function getTopic(options, settings) {
   const tripStartTime = options.tripStartTime
     ? convertTo24HourFormat(options.tripStartTime)
     : '+';
+  const feedId = options.feedId ? options.feedId : '+';
   const topic = settings.mqttTopicResolver(
     route,
     direction,
     tripStartTime,
     headsign,
-    settings.topicFeedId || settings.agency, // TODO topicFeedId can be removed once testing with alternative tampere trams is done
+    feedId,
     tripId,
     geoHash,
   );
@@ -146,12 +147,7 @@ export function startMqttClient(settings, actionContext) {
           const client = mqtt.default.connect(settings.mqtt, credentials);
           client.on('connect', () => client.subscribe(topics));
           client.on('message', (topic, messages) => {
-            const parsedMessages = parseFeedMQTT(
-              feedReader,
-              messages,
-              topic,
-              settings.agency,
-            );
+            const parsedMessages = parseFeedMQTT(feedReader, messages, topic);
             parsedMessages.forEach(message => {
               actionContext.dispatch('RealTimeClientMessage', message);
             });

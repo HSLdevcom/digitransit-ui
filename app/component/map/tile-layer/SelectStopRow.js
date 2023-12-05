@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Link from 'found/Link';
+import { FormattedMessage } from 'react-intl';
 import Icon from '../../Icon';
 import { PREFIX_TERMINALS, PREFIX_STOPS } from '../../../util/path';
 import { ExtendedRouteTypes } from '../../../constants';
@@ -10,7 +11,7 @@ function isNull(val) {
 }
 
 function SelectStopRow(
-  { code, type, desc, gtfsId, name, terminal, colors, routes },
+  { code, type, desc, gtfsId, name, terminal, colors, routes, platform },
   { config },
 ) {
   let mode = type;
@@ -102,12 +103,26 @@ function SelectStopRow(
       </span>
       <span className="choose-row-center-column">
         <h5 className="choose-row-header">{name}</h5>
-        {(showDesc || showCode) && (
-          <span className="choose-row-text">
-            {showDesc && <span className="choose-row-address">{desc}</span>}
-            {showCode && <span className="choose-row-number">{code}</span>}
-          </span>
-        )}
+        <div
+          className={`choose-row-info-row ${platform ? 'small-margin' : ''}`}
+        >
+          {(showDesc || showCode) && (
+            <span className="choose-row-text">
+              {showDesc && <span className="choose-row-address">{desc}</span>}
+              {showCode && <span className="choose-row-number">{code}</span>}
+            </span>
+          )}
+        </div>
+        <div className="choose-row-info-row small-margin">
+          {platform && (
+            <span className="choose-row-text">
+              <span className="choose-row-platform">
+                <FormattedMessage id="platform" defaultMessage="platform" />
+              </span>
+              <span className="platform-number-wrapper">{platform}</span>
+            </span>
+          )}
+        </div>
       </span>
       <span className="choose-row-right-column">
         <Icon img="icon-icon_arrow-collapse--right" />
@@ -127,6 +142,7 @@ SelectStopRow.propTypes = {
   desc: PropTypes.string,
   terminal: PropTypes.bool,
   colors: PropTypes.object,
+  platform: PropTypes.string,
 };
 
 SelectStopRow.defaultProps = {

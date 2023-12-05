@@ -1923,8 +1923,97 @@
                 },
                 {
                     "kind": "OBJECT",
+                    "name": "DefaultFareProduct",
+                    "description": "The standard case of a fare product: it only has a single price to be paid by the passenger\nand no discounts are applied.",
+                    "fields": [
+                        {
+                            "name": "id",
+                            "description": "Identifier for the fare product.",
+                            "args": [],
+                            "type": {
+                                "kind": "NON_NULL",
+                                "name": null,
+                                "ofType": {
+                                    "kind": "SCALAR",
+                                    "name": "String",
+                                    "ofType": null
+                                }
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "name",
+                            "description": "Human readable name of the product, for example example \"Day pass\" or \"Single ticket\".",
+                            "args": [],
+                            "type": {
+                                "kind": "NON_NULL",
+                                "name": null,
+                                "ofType": {
+                                    "kind": "SCALAR",
+                                    "name": "String",
+                                    "ofType": null
+                                }
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "price",
+                            "description": "The price of the product",
+                            "args": [],
+                            "type": {
+                                "kind": "NON_NULL",
+                                "name": null,
+                                "ofType": {
+                                    "kind": "OBJECT",
+                                    "name": "Money",
+                                    "ofType": null
+                                }
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "riderCategory",
+                            "description": "The category of riders this product applies to, for example students or pensioners.",
+                            "args": [],
+                            "type": {
+                                "kind": "OBJECT",
+                                "name": "RiderCategory",
+                                "ofType": null
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "medium",
+                            "description": "The 'medium' that this product applies to, for example \"Oyster Card\" or \"Berlin Ticket App\".\n\nThis communicates to riders that a specific way of buying or keeping this product is required.",
+                            "args": [],
+                            "type": {
+                                "kind": "OBJECT",
+                                "name": "FareMedium",
+                                "ofType": null
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        }
+                    ],
+                    "inputFields": null,
+                    "interfaces": [
+                        {
+                            "kind": "INTERFACE",
+                            "name": "FareProduct",
+                            "ofType": null
+                        }
+                    ],
+                    "enumValues": null,
+                    "possibleTypes": null
+                },
+                {
+                    "kind": "OBJECT",
                     "name": "DepartureRow",
-                    "description": "Departure row is a location, which lists departures of a certain pattern from a\nstop. Departure rows are identified with the pattern, so querying departure rows\nwill return only departures from one stop per pattern",
+                    "description": "Departure row is a combination of a pattern and a stop of that pattern.\n\nThey are de-duplicated so for each pattern there will only be a single departure row.\n\nThis is useful if you want to show a list of stop/pattern combinations but want each pattern to be\nlisted only once.",
                     "fields": [
                         {
                             "name": "id",
@@ -2086,6 +2175,29 @@
                 },
                 {
                     "kind": "OBJECT",
+                    "name": "Emissions",
+                    "description": null,
+                    "fields": [
+                        {
+                            "name": "co2",
+                            "description": "CO₂ emissions in grams.",
+                            "args": [],
+                            "type": {
+                                "kind": "SCALAR",
+                                "name": "Grams",
+                                "ofType": null
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        }
+                    ],
+                    "inputFields": null,
+                    "interfaces": [],
+                    "enumValues": null,
+                    "possibleTypes": null
+                },
+                {
+                    "kind": "OBJECT",
                     "name": "FareMedium",
                     "description": "A 'medium' that a fare product applies to, for example cash, 'Oyster Card' or 'DB Navigator App'.",
                     "fields": [
@@ -2124,7 +2236,7 @@
                     "possibleTypes": null
                 },
                 {
-                    "kind": "OBJECT",
+                    "kind": "INTERFACE",
                     "name": "FareProduct",
                     "description": "A fare product (a ticket) to be bought by a passenger",
                     "fields": [
@@ -2161,22 +2273,6 @@
                             "deprecationReason": null
                         },
                         {
-                            "name": "price",
-                            "description": "The price of the product",
-                            "args": [],
-                            "type": {
-                                "kind": "NON_NULL",
-                                "name": null,
-                                "ofType": {
-                                    "kind": "OBJECT",
-                                    "name": "Money",
-                                    "ofType": null
-                                }
-                            },
-                            "isDeprecated": false,
-                            "deprecationReason": null
-                        },
-                        {
                             "name": "riderCategory",
                             "description": "The category of riders this product applies to, for example students or pensioners.",
                             "args": [],
@@ -2204,7 +2300,13 @@
                     "inputFields": null,
                     "interfaces": [],
                     "enumValues": null,
-                    "possibleTypes": null
+                    "possibleTypes": [
+                        {
+                            "kind": "OBJECT",
+                            "name": "DefaultFareProduct",
+                            "ofType": null
+                        }
+                    ]
                 },
                 {
                     "kind": "OBJECT",
@@ -2213,7 +2315,7 @@
                     "fields": [
                         {
                             "name": "id",
-                            "description": "Identifier local to the itinerary that allows to cross-reference and deduplicate\nfare products that span more than one leg.\n\nIf you want to uniquely identify the fare product itself (not its use) use the product's `id`.\n\n### Example: Day pass\n\nWhen a day pass is valid for all three legs in the itinerary it will appear\nfor each leg but with the same use-`id`.\n\n*It is the responsibility of the API consumers to display the day pass as a product for the\nentire itinerary rather than three day passes!*\n\n### Example: Several single tickets\n\nIf you have two legs and need to buy two single tickets they will appear in each leg with the\nsame `product.id` but different use-`id`.",
+                            "description": "Represents the use of a single instance of a fare product throughout the itinerary. It can\nbe used to cross-reference and de-duplicate fare products that are applicable for more than one\nleg.\n\nIf you want to uniquely identify the fare product itself (not its use) use the product's `id`.\n\n### Example: Day pass\n\nThe day pass is valid for both legs in the itinerary. It is listed as the applicable `product` for each leg,\nand the same FareProductUse id is shown, indicating that only one pass was used/bought.\n\n**Illustration**\n```yaml\nitinerary:\n  leg1:\n    fareProducts:\n      id: \"AAA\" // id of a FareProductUse instance\n      product:\n        id: \"day-pass\" // product id\n        name: \"Day Pass\"\n  leg2:\n    fareProducts:\n      id: \"AAA\" // identical to leg1. the passenger needs to buy ONE pass, not two.\n      product:\n        id: \"day-pass\"  // product id\n        name: \"Day Pass\"\n```\n\n**It is the responsibility of the API consumers to display the day pass as a product for the\nentire itinerary rather than two day passes!**\n\n### Example: Several single tickets\n\nIf you have two legs and need to buy two single tickets they will appear in each leg with the\nsame `FareProduct.id` but different `FareProductUse.id`.\n\n**Illustration**\n```yaml\nitinerary:\n  leg1:\n    fareProducts:\n      id: \"AAA\" // id of a FareProductUse instance, not product id\n      product:\n        id: \"single-ticket\" // product id\n        name: \"Single Ticket\"\n  leg2:\n    fareProducts:\n      id: \"BBB\" // different to leg1. the passenger needs to buy two single tickets.\n      product:\n        id: \"single-ticket\"  // product id\n        name: \"Single Ticket\"\n```",
                             "args": [],
                             "type": {
                                 "kind": "NON_NULL",
@@ -2232,7 +2334,7 @@
                             "description": "The purchasable fare product",
                             "args": [],
                             "type": {
-                                "kind": "OBJECT",
+                                "kind": "INTERFACE",
                                 "name": "FareProduct",
                                 "ofType": null
                             },
@@ -2504,6 +2606,16 @@
                     ],
                     "inputFields": null,
                     "interfaces": [],
+                    "enumValues": null,
+                    "possibleTypes": null
+                },
+                {
+                    "kind": "SCALAR",
+                    "name": "Grams",
+                    "description": "",
+                    "fields": null,
+                    "inputFields": null,
+                    "interfaces": null,
                     "enumValues": null,
                     "possibleTypes": null
                 },
@@ -3071,6 +3183,18 @@
                             "deprecationReason": null
                         },
                         {
+                            "name": "emissionsPerPerson",
+                            "description": "Emissions of this itinerary per traveler.",
+                            "args": [],
+                            "type": {
+                                "kind": "OBJECT",
+                                "name": "Emissions",
+                                "ofType": null
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
                             "name": "legs",
                             "description": "A list of Legs. Each Leg is either a walking (cycling, car) portion of the\nitinerary, or a transit leg on a particular vehicle. So a itinerary where the\nuser walks to the Q train, transfers to the 6, then walks to their\ndestination, has four legs.",
                             "args": [],
@@ -3089,22 +3213,6 @@
                             },
                             "isDeprecated": false,
                             "deprecationReason": null
-                        },
-                        {
-                            "name": "fares",
-                            "description": "Information about the fares for this itinerary. This is primarily a GTFS Fares V1 interface\nwill be removed in the future.",
-                            "args": [],
-                            "type": {
-                                "kind": "LIST",
-                                "name": null,
-                                "ofType": {
-                                    "kind": "OBJECT",
-                                    "name": "fare",
-                                    "ofType": null
-                                }
-                            },
-                            "isDeprecated": true,
-                            "deprecationReason": "Use the leg's `fareProducts`."
                         },
                         {
                             "name": "elevationGained",
@@ -3173,6 +3281,22 @@
                             },
                             "isDeprecated": false,
                             "deprecationReason": null
+                        },
+                        {
+                            "name": "fares",
+                            "description": "Information about the fares for this itinerary. This is primarily a GTFS Fares V1 interface\nwill be removed in the future.",
+                            "args": [],
+                            "type": {
+                                "kind": "LIST",
+                                "name": null,
+                                "ofType": {
+                                    "kind": "OBJECT",
+                                    "name": "fare",
+                                    "ofType": null
+                                }
+                            },
+                            "isDeprecated": true,
+                            "deprecationReason": "Use the leg's `fareProducts`."
                         }
                     ],
                     "inputFields": null,
@@ -3479,7 +3603,7 @@
                         },
                         {
                             "name": "steps",
-                            "description": null,
+                            "description": "The turn-by-turn navigation instructions.",
                             "args": [],
                             "type": {
                                 "kind": "LIST",
@@ -3489,6 +3613,18 @@
                                     "name": "step",
                                     "ofType": null
                                 }
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "headsign",
+                            "description": "For transit legs, the headsign that the vehicle shows at the stop where the passenger boards.\nFor non-transit legs, null.",
+                            "args": [],
+                            "type": {
+                                "kind": "SCALAR",
+                                "name": "String",
+                                "ofType": null
                             },
                             "isDeprecated": false,
                             "deprecationReason": null
@@ -3888,8 +4024,8 @@
                         {
                             "name": "LEG_SWITCH",
                             "description": "Only used internally. No use for API users.",
-                            "isDeprecated": false,
-                            "deprecationReason": null
+                            "isDeprecated": true,
+                            "deprecationReason": "No longer supported"
                         },
                         {
                             "name": "RAIL",
@@ -3977,7 +4113,7 @@
                         },
                         {
                             "name": "amount",
-                            "description": "Money as a fractional amount, so 3.10 USD is represented as `3.1`.",
+                            "description": "Money in the major currency unit, so 3.10 USD is represented as `3.1`.\n\nIf you want to get the minor currency unit (310 cents), multiply with\n(10 to the power of `currency.digits`).",
                             "args": [],
                             "type": {
                                 "kind": "NON_NULL",
@@ -4109,6 +4245,71 @@
                             "ofType": null
                         }
                     ]
+                },
+                {
+                    "kind": "ENUM",
+                    "name": "OccupancyStatus",
+                    "description": "Occupancy status of a vehicle.",
+                    "fields": null,
+                    "inputFields": null,
+                    "interfaces": null,
+                    "enumValues": [
+                        {
+                            "name": "NO_DATA_AVAILABLE",
+                            "description": "Default. There is no occupancy-data on this departure.",
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "EMPTY",
+                            "description": "The vehicle is considered empty by most measures, and has few or no passengers onboard, but is\nstill accepting passengers. There isn't a big difference between this and MANY_SEATS_AVAILABLE\nso it's possible to handle them as the same value, if one wants to limit the number of different\nvalues.",
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "MANY_SEATS_AVAILABLE",
+                            "description": "The vehicle or carriage has a large number of seats available. The amount of free seats out of\nthe total seats available to be considered large enough to fall into this category is\ndetermined at the discretion of the producer. There isn't a big difference between this and\nEMPTY so it's possible to handle them as the same value, if one wants to limit the number of\ndifferent values.",
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "FEW_SEATS_AVAILABLE",
+                            "description": "The vehicle or carriage has a small number of seats available. The amount of free seats out of\nthe total seats available to be considered small enough to fall into this category is\ndetermined at the discretion of the producer.",
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "STANDING_ROOM_ONLY",
+                            "description": "The vehicle or carriage can currently accommodate only standing passengers.",
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "CRUSHED_STANDING_ROOM_ONLY",
+                            "description": "The vehicle or carriage can currently accommodate only standing passengers and has limited\nspace for them. There isn't a big difference between this and FULL so it's possible to handle\nthem as the same value, if one wants to limit the number of different values.",
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "FULL",
+                            "description": "The vehicle is considered full by most measures, but may still be allowing passengers to\nboard.",
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "NOT_ACCEPTING_PASSENGERS",
+                            "description": "The vehicle or carriage is not accepting passengers. The vehicle or carriage usually accepts\npassengers for boarding.",
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "NOT_BOARDABLE",
+                            "description": "The vehicle or carriage is not boardable and never accepts passengers. Useful for special\nvehicles or carriages (engine, maintenance carriage, etc…). It might not make sense to show\nthese types of trips to passengers at all.",
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        }
+                    ],
+                    "possibleTypes": null
                 },
                 {
                     "kind": "OBJECT",
@@ -4821,16 +5022,16 @@
                             "deprecationReason": null
                         },
                         {
-                            "name": "bikeRentalStation",
-                            "description": "The bike rental station related to the place",
+                            "name": "stopPosition",
+                            "description": "The position of the stop in the pattern. This is not required to start from 0 or be consecutive - any\nincreasing integer sequence along the stops is valid.\n\nThe purpose of this field is to identify the stop within the pattern so it can be cross-referenced\nbetween it and the itinerary. It is safe to cross-reference when done quickly, i.e. within seconds.\nHowever, it should be noted that realtime updates can change the values, so don't store it for\nlonger amounts of time.\n\nDepending on the source data, this might not be the GTFS `stop_sequence` but another value, perhaps\neven generated.\n\nThe position can be either at a certain stop or in between two for trips where this is possible.",
                             "args": [],
                             "type": {
-                                "kind": "OBJECT",
-                                "name": "BikeRentalStation",
+                                "kind": "UNION",
+                                "name": "StopPosition",
                                 "ofType": null
                             },
-                            "isDeprecated": true,
-                            "deprecationReason": "Use vehicleRentalStation and rentalVehicle instead"
+                            "isDeprecated": false,
+                            "deprecationReason": null
                         },
                         {
                             "name": "vehicleRentalStation",
@@ -4857,6 +5058,30 @@
                             "deprecationReason": null
                         },
                         {
+                            "name": "vehicleParking",
+                            "description": "The vehicle parking related to the place",
+                            "args": [],
+                            "type": {
+                                "kind": "OBJECT",
+                                "name": "VehicleParking",
+                                "ofType": null
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "bikeRentalStation",
+                            "description": "The bike rental station related to the place",
+                            "args": [],
+                            "type": {
+                                "kind": "OBJECT",
+                                "name": "BikeRentalStation",
+                                "ofType": null
+                            },
+                            "isDeprecated": true,
+                            "deprecationReason": "Use vehicleRentalStation and rentalVehicle instead"
+                        },
+                        {
                             "name": "bikePark",
                             "description": "The bike parking related to the place",
                             "args": [],
@@ -4879,18 +5104,6 @@
                             },
                             "isDeprecated": true,
                             "deprecationReason": "carPark is deprecated. Use vehicleParking instead."
-                        },
-                        {
-                            "name": "vehicleParking",
-                            "description": "The vehicle parking related to the place",
-                            "args": [],
-                            "type": {
-                                "kind": "OBJECT",
-                                "name": "VehicleParking",
-                                "ofType": null
-                            },
-                            "isDeprecated": false,
-                            "deprecationReason": null
                         }
                     ],
                     "inputFields": null,
@@ -5212,6 +5425,64 @@
                     "fields": null,
                     "inputFields": null,
                     "interfaces": null,
+                    "enumValues": null,
+                    "possibleTypes": null
+                },
+                {
+                    "kind": "OBJECT",
+                    "name": "PositionAtStop",
+                    "description": "Stop position at a specific stop.",
+                    "fields": [
+                        {
+                            "name": "position",
+                            "description": "Position of the stop in the pattern. Positions are not required to start from 0 or be consecutive.",
+                            "args": [],
+                            "type": {
+                                "kind": "SCALAR",
+                                "name": "Int",
+                                "ofType": null
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        }
+                    ],
+                    "inputFields": null,
+                    "interfaces": [],
+                    "enumValues": null,
+                    "possibleTypes": null
+                },
+                {
+                    "kind": "OBJECT",
+                    "name": "PositionBetweenStops",
+                    "description": "The board/alight position in between two stops of the pattern of a trip with continuous pickup/drop off.",
+                    "fields": [
+                        {
+                            "name": "previousPosition",
+                            "description": "Position of the previous stop in the pattern. Positions are not required to start from 0 or be consecutive.",
+                            "args": [],
+                            "type": {
+                                "kind": "SCALAR",
+                                "name": "Int",
+                                "ofType": null
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "nextPosition",
+                            "description": "Position of the next stop in the pattern. Positions are not required to start from 0 or be consecutive.",
+                            "args": [],
+                            "type": {
+                                "kind": "SCALAR",
+                                "name": "Int",
+                                "ofType": null
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        }
+                    ],
+                    "inputFields": null,
+                    "interfaces": [],
                     "enumValues": null,
                     "possibleTypes": null
                 },
@@ -5751,7 +6022,7 @@
                                 },
                                 {
                                     "name": "filterByPlaceTypes",
-                                    "description": "Only return places that are one of these types, e.g. `STOP` or `BICYCLE_RENT`",
+                                    "description": "Only return places that are one of these types, e.g. `STOP` or `VEHICLE_RENT`",
                                     "type": {
                                         "kind": "LIST",
                                         "name": null,
@@ -7523,6 +7794,24 @@
                             "description": null,
                             "isDeprecated": false,
                             "deprecationReason": null
+                        },
+                        {
+                            "name": "ENTER_STATION",
+                            "description": null,
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "EXIT_STATION",
+                            "description": null,
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "FOLLOW_SIGNS",
+                            "description": null,
+                            "isDeprecated": false,
+                            "deprecationReason": null
                         }
                     ],
                     "possibleTypes": null
@@ -8297,49 +8586,43 @@
                     "enumValues": [
                         {
                             "name": "NO_TRANSIT_CONNECTION",
-                            "description": "No transit connection was found between the origin and destination withing the operating day or the next day",
+                            "description": "No transit connection was found between the origin and destination within the operating day or\nthe next day, not even sub-optimal ones.",
                             "isDeprecated": false,
                             "deprecationReason": null
                         },
                         {
                             "name": "NO_TRANSIT_CONNECTION_IN_SEARCH_WINDOW",
-                            "description": "Transit connection was found, but it was outside the search window, see metadata for the next search window",
+                            "description": "A transit connection was found, but it was outside the search window. See the metadata for a token\nfor retrieving the result outside the search window.",
                             "isDeprecated": false,
                             "deprecationReason": null
                         },
                         {
                             "name": "OUTSIDE_SERVICE_PERIOD",
-                            "description": "The date specified is outside the range of data currently loaded into the system",
+                            "description": "The date specified is outside the range of data currently loaded into the system as it is too\nfar into the future or the past.\n\nThe specific date range of the system is configurable by an administrator and also depends on\nthe input data provided.",
                             "isDeprecated": false,
                             "deprecationReason": null
                         },
                         {
                             "name": "OUTSIDE_BOUNDS",
-                            "description": "The coordinates are outside the bounds of the data currently loaded into the system",
+                            "description": "The coordinates are outside the geographic bounds of the transit and street data currently loaded\ninto the system and therefore cannot return any results.",
                             "isDeprecated": false,
                             "deprecationReason": null
                         },
                         {
                             "name": "LOCATION_NOT_FOUND",
-                            "description": "The specified location is not close to any streets or transit stops",
+                            "description": "The specified location is not close to any streets or transit stops currently loaded into the\nsystem, even though it is generally within its bounds.\n\nThis can happen when there is only transit but no street data coverage at the location in\nquestion.",
                             "isDeprecated": false,
                             "deprecationReason": null
                         },
                         {
                             "name": "NO_STOPS_IN_RANGE",
-                            "description": "No stops are reachable from the location specified. You can try searching using a different access or egress mode",
+                            "description": "No stops are reachable from the start or end locations specified.\n\nYou can try searching using a different access or egress mode, for example cycling instead of walking,\nincrease the walking/cycling/driving speed or have an administrator change the system's configuration\nso that stops further away are considered.",
                             "isDeprecated": false,
                             "deprecationReason": null
                         },
                         {
                             "name": "WALKING_BETTER_THAN_TRANSIT",
-                            "description": "The origin and destination are so close to each other, that walking is always better, but no direct mode was specified for the search",
-                            "isDeprecated": false,
-                            "deprecationReason": null
-                        },
-                        {
-                            "name": "SYSTEM_ERROR",
-                            "description": "An unknown error happened during the search. The details have been logged to the server logs",
+                            "description": "Transit connections were requested and found but because it is easier to just walk all the way\nto the destination they were removed.\n\nIf you want to still show the transit results, you need to make walking less desirable by\nincreasing the walk reluctance.",
                             "isDeprecated": false,
                             "deprecationReason": null
                         }
@@ -9192,6 +9475,27 @@
                     "possibleTypes": null
                 },
                 {
+                    "kind": "UNION",
+                    "name": "StopPosition",
+                    "description": null,
+                    "fields": null,
+                    "inputFields": null,
+                    "interfaces": null,
+                    "enumValues": null,
+                    "possibleTypes": [
+                        {
+                            "kind": "OBJECT",
+                            "name": "PositionAtStop",
+                            "ofType": null
+                        },
+                        {
+                            "kind": "OBJECT",
+                            "name": "PositionBetweenStops",
+                            "ofType": null
+                        }
+                    ]
+                },
+                {
                     "kind": "OBJECT",
                     "name": "StopRelationship",
                     "description": "Upcoming or current stop and how close the vehicle is to it.",
@@ -9246,6 +9550,18 @@
                             "type": {
                                 "kind": "OBJECT",
                                 "name": "Stop",
+                                "ofType": null
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "stopPosition",
+                            "description": "The sequence of the stop in the pattern. This is not required to start from 0 or be consecutive - any\nincreasing integer sequence along the stops is valid.\n\nThe purpose of this field is to identify the stop within the pattern so it can be cross-referenced\nbetween it and the itinerary. It is safe to cross-reference when done quickly, i.e. within seconds.\nHowever, it should be noted that realtime updates can change the values, so don't store it for\nlonger amounts of time.\n\nDepending on the source data, this might not be the GTFS `stop_sequence` but another value, perhaps\neven generated.",
+                            "args": [],
+                            "type": {
+                                "kind": "SCALAR",
+                                "name": "Int",
                                 "ofType": null
                             },
                             "isDeprecated": false,
@@ -9877,7 +10193,7 @@
                             "args": [
                                 {
                                     "name": "language",
-                                    "description": "If translated headsign is found from gtfs translation.txt and wanted language is not same as\nfeed's language then returns wanted translation. Otherwise uses name from trip_headsign.txt.",
+                                    "description": "If a translated headsign is found from GTFS translation.txt and wanted language is not same as\nfeed's language then returns wanted translation. Otherwise uses name from trip_headsign.txt.",
                                     "type": {
                                         "kind": "SCALAR",
                                         "name": "String",
@@ -10169,6 +10485,18 @@
                             },
                             "isDeprecated": false,
                             "deprecationReason": null
+                        },
+                        {
+                            "name": "occupancy",
+                            "description": "The latest realtime occupancy information for the latest occurance of this\ntrip.",
+                            "args": [],
+                            "type": {
+                                "kind": "OBJECT",
+                                "name": "TripOccupancy",
+                                "ofType": null
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
                         }
                     ],
                     "inputFields": null,
@@ -10227,6 +10555,29 @@
                             "deprecationReason": null
                         }
                     ],
+                    "possibleTypes": null
+                },
+                {
+                    "kind": "OBJECT",
+                    "name": "TripOccupancy",
+                    "description": "Occupancy of a vehicle on a trip. This should include the most recent occupancy information\navailable for a trip. Historic data might not be available.",
+                    "fields": [
+                        {
+                            "name": "occupancyStatus",
+                            "description": "Occupancy information mapped to a limited set of descriptive states.",
+                            "args": [],
+                            "type": {
+                                "kind": "ENUM",
+                                "name": "OccupancyStatus",
+                                "ofType": null
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        }
+                    ],
+                    "inputFields": null,
+                    "interfaces": [],
+                    "enumValues": null,
                     "possibleTypes": null
                 },
                 {

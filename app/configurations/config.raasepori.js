@@ -16,6 +16,9 @@ export default configMerger(walttiConfig, {
   appBarLink: {
     name: 'Bosse',
     href: 'https://raasepori.fi/bosse',
+    alternativeHref: {
+      sv: 'https://raseborg.fi/bosse',
+    },
   },
 
   colors: {
@@ -35,7 +38,7 @@ export default configMerger(walttiConfig, {
   // Navbar logo
   logo: 'raasepori/raasepori_logo_valkoinen.png',
   secondaryLogo: 'raasepori/raasepori_logo_musta.png',
-  favicon: './app/configurations/images/raasepori/favicon.png',
+  favicon: './app/configurations/images/raasepori/raasepori-favicon.png',
 
   useSearchPolygon: true,
 
@@ -58,10 +61,11 @@ export default configMerger(walttiConfig, {
   ],
 
   defaultEndpoint: {
-    address: 'Ekenäs, Raasepori',
-    lat: 59.975,
-    lon: 23.436111,
+    address: 'Bockbodantie, Raasepori',
+    lat: 60.03,
+    lon: 23.57,
   },
+  defaultMapZoom: 11,
 
   menu: {
     copyright: { label: `© Raasepori ${walttiConfig.YEAR}` },

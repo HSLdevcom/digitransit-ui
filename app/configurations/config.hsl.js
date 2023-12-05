@@ -47,6 +47,11 @@ export default {
     BANNERS: BANNER_URL,
     HSL_FI_SUGGESTIONS: 'https://content.hsl.fi/api/v1/search/suggestions',
     EMBEDDED_SEARCH_GENERATION: '/reittiopas-elementti',
+    EMISSIONS_INFO: {
+      fi: 'https://www.hsl.fi/hsl/sahkobussit/ymparisto-lukuina',
+      sv: 'https://www.hsl.fi/sv/reseplaneraren_co2',
+      en: 'https://www.hsl.fi/en/journey_planner_co2',
+    },
   },
 
   indexPath: 'etusivu',
@@ -66,7 +71,7 @@ export default {
   defaultLanguage: 'fi',
   passLanguageToRootLink: true,
 
-  favicon: './app/configurations/images/hsl/favicon.png',
+  favicon: './app/configurations/images/hsl/hsl-favicon.png',
 
   // Navbar logo
   logo: 'hsl/reittiopas-logo.svg',
@@ -502,6 +507,9 @@ export default {
   showBikeAndPublicItineraries: true,
   showBikeAndParkItineraries: true,
 
+  // DT-5325 Notice! Turning on this setting forces the search for car routes (for the CO2 comparison only).
+  showCO2InItinerarySummary: false,
+
   includeCarSuggestions: false,
   includeParkAndRideSuggestions: true,
   // Include both bike and park and bike and public
@@ -536,6 +544,8 @@ export default {
   },
 
   showSimilarRoutesOnRouteDropDown: true,
+
+  useRealtimeTravellerCapacities: true,
 
   stopCard: {
     header: {

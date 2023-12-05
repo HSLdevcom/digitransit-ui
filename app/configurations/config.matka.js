@@ -53,7 +53,7 @@ export default {
   // Navbar logo
   logo: 'matka/matka-logo.svg',
 
-  favicon: './app/configurations/images/matka/favicon.svg',
+  favicon: './app/configurations/images/matka/matka-favicon.svg',
 
   colors: {
     primary: '#002c74',
@@ -346,6 +346,8 @@ export default {
     },
   },
 
+  useRealtimeTravellerCapacities: true,
+
   aboutThisService: {
     fi: [
       {
@@ -390,7 +392,7 @@ export default {
   useAlternativeNameForModes: ['rail'],
 
   showVehiclesOnStopPage: false,
-  showVehiclesOnSummaryPage: false,
+  showVehiclesOnSummaryPage: true,
 
   includeCarSuggestions: true,
   includeParkAndRideSuggestions: true,
@@ -522,4 +524,6 @@ export default {
       virtualMonitorBaseUrl: 'https://matkamonitori.digitransit.fi/',
     },
   },
+  // Notice! Turning on this setting forces the search for car routes (for the CO2 comparison only).
+  showCO2InItinerarySummary: false,
 };

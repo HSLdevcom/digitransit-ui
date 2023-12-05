@@ -3,6 +3,9 @@ function defaultRouteSelector(routePageProps) {
   const route = routePageProps.route.gtfsId.split(':');
   return route[1];
 }
+function defaulVehicleNumberParser(vehicleNumber) {
+  return vehicleNumber;
+}
 function walttiTopicResolver(
   route,
   direction,
@@ -37,6 +40,15 @@ function walttiTopicResolver(
   );
 }
 
+const walttiMqtt = {
+  mqttTopicResolver: walttiTopicResolver,
+  mqtt: 'wss://mqtt.digitransit.fi',
+  gtfsrt: true,
+  routeSelector: defaultRouteSelector,
+  active: true,
+  vehicleNumberParser: defaulVehicleNumberParser,
+};
+
 export default {
   HSL: {
     mqttTopicResolver: function mqttTopicResolver(
@@ -62,72 +74,31 @@ export default {
         '/#'
       );
     },
-
     mqtt: 'wss://mqtt.hsl.fi',
-
     gtfsrt: false,
-
     routeSelector: defaultRouteSelector,
-
     active: true,
-
-    useFuzzyTripMatching: true, // DT-3473
+    useFuzzyTripMatching: true,
+    vehicleNumberParser: defaulVehicleNumberParser,
   },
-  tampere: {
-    mqttTopicResolver: walttiTopicResolver,
-
-    mqtt: 'wss://mqtt.digitransit.fi',
-
-    gtfsrt: true,
-
-    routeSelector: defaultRouteSelector,
-
-    active: true,
-  },
-  LINKKI: {
-    mqttTopicResolver: walttiTopicResolver,
-
-    mqtt: 'wss://mqtt.digitransit.fi',
-
-    gtfsrt: true,
-
-    routeSelector: defaultRouteSelector,
-
-    active: true,
-  },
-  Lappeenranta: {
-    mqttTopicResolver: walttiTopicResolver,
-
-    mqtt: 'wss://mqtt.digitransit.fi',
-
-    gtfsrt: true,
-
-    routeSelector: defaultRouteSelector,
-
-    active: true,
-  },
-  Joensuu: {
-    mqttTopicResolver: walttiTopicResolver,
-
-    mqtt: 'wss://mqtt.digitransit.fi',
-
-    gtfsrt: true,
-
-    routeSelector: defaultRouteSelector,
-
-    active: true,
-  },
-  Kuopio: {
-    mqttTopicResolver: walttiTopicResolver,
-
-    mqtt: 'wss://mqtt.digitransit.fi',
-
-    gtfsrt: true,
-
-    routeSelector: defaultRouteSelector,
-
-    active: true,
-  },
+  tampere: walttiMqtt,
+  LINKKI: walttiMqtt,
+  Lappeenranta: walttiMqtt,
+  Joensuu: walttiMqtt,
+  Kuopio: walttiMqtt,
+  OULU: walttiMqtt,
+  Hameenlinna: walttiMqtt,
+  Lahti: walttiMqtt,
+  Vaasa: walttiMqtt,
+  Mikkeli: walttiMqtt,
+  Salo: walttiMqtt,
+  Kouvola: walttiMqtt,
+  Kotka: walttiMqtt,
+  Rovaniemi: walttiMqtt,
+  Kajaani: walttiMqtt,
+  Rauma: walttiMqtt,
+  Pori: walttiMqtt,
+  VARELY: walttiMqtt,
   FOLI: {
     mqttTopicResolver: function mqttTopicResolver(
       route,
@@ -160,156 +131,48 @@ export default {
         '/#'
       );
     },
-
     mqtt: 'wss://mqtt.digitransit.fi',
-
     gtfsrt: true,
-
     routeSelector: defaultRouteSelector,
-
     active: true,
+    vehicleNumberParser: defaulVehicleNumberParser,
   },
-  OULU: {
-    mqttTopicResolver: walttiTopicResolver,
-
+  digitraffic: {
+    mqttTopicResolver: function mqttTopicResolver(
+      route,
+      direction,
+      tripStartTime,
+      headsign,
+      feedId,
+      tripId,
+      geoHash,
+    ) {
+      return (
+        '/gtfsrt/vp/' +
+        feedId +
+        '/+/+/+/' +
+        route +
+        '/+/+/' +
+        tripId +
+        '/+/+/+/' +
+        geoHash[0] +
+        '/' +
+        geoHash[1] +
+        '/' +
+        geoHash[2] +
+        '/' +
+        geoHash[3] +
+        '/#'
+      );
+    },
     mqtt: 'wss://mqtt.digitransit.fi',
-
     gtfsrt: true,
-
     routeSelector: defaultRouteSelector,
-
     active: true,
-  },
-  Hameenlinna: {
-    mqttTopicResolver: walttiTopicResolver,
-
-    mqtt: 'wss://mqtt.digitransit.fi',
-
-    gtfsrt: true,
-
-    routeSelector: defaultRouteSelector,
-
-    active: true,
-  },
-  Lahti: {
-    mqttTopicResolver: walttiTopicResolver,
-
-    mqtt: 'wss://mqtt.digitransit.fi',
-
-    gtfsrt: true,
-
-    routeSelector: defaultRouteSelector,
-
-    active: true,
-  },
-  Vaasa: {
-    mqttTopicResolver: walttiTopicResolver,
-
-    mqtt: 'wss://mqtt.digitransit.fi',
-
-    gtfsrt: true,
-
-    routeSelector: defaultRouteSelector,
-
-    active: true,
-  },
-  Mikkeli: {
-    mqttTopicResolver: walttiTopicResolver,
-
-    mqtt: 'wss://mqtt.digitransit.fi',
-
-    gtfsrt: true,
-
-    routeSelector: defaultRouteSelector,
-
-    active: true,
-  },
-  Salo: {
-    mqttTopicResolver: walttiTopicResolver,
-
-    mqtt: 'wss://mqtt.digitransit.fi',
-
-    gtfsrt: true,
-
-    routeSelector: defaultRouteSelector,
-
-    active: true,
-  },
-  Kouvola: {
-    mqttTopicResolver: walttiTopicResolver,
-
-    mqtt: 'wss://mqtt.digitransit.fi',
-
-    gtfsrt: true,
-
-    routeSelector: defaultRouteSelector,
-
-    active: true,
-  },
-  Kotka: {
-    mqttTopicResolver: walttiTopicResolver,
-
-    mqtt: 'wss://mqtt.digitransit.fi',
-
-    gtfsrt: true,
-
-    routeSelector: defaultRouteSelector,
-
-    active: true,
-  },
-  Rovaniemi: {
-    mqttTopicResolver: walttiTopicResolver,
-
-    mqtt: 'wss://mqtt.digitransit.fi',
-
-    gtfsrt: true,
-
-    routeSelector: defaultRouteSelector,
-
-    active: true,
-  },
-  Kajaani: {
-    mqttTopicResolver: walttiTopicResolver,
-
-    mqtt: 'wss://mqtt.digitransit.fi',
-
-    gtfsrt: true,
-
-    routeSelector: defaultRouteSelector,
-
-    active: true,
-  },
-  Rauma: {
-    mqttTopicResolver: walttiTopicResolver,
-
-    mqtt: 'wss://mqtt.digitransit.fi',
-
-    gtfsrt: true,
-
-    routeSelector: defaultRouteSelector,
-
-    active: true,
-  },
-  Pori: {
-    mqttTopicResolver: walttiTopicResolver,
-
-    mqtt: 'wss://mqtt.digitransit.fi',
-
-    gtfsrt: true,
-
-    routeSelector: defaultRouteSelector,
-
-    active: true,
-  },
-  VARELY: {
-    mqttTopicResolver: walttiTopicResolver,
-
-    mqtt: 'wss://mqtt.digitransit.fi',
-
-    gtfsrt: true,
-
-    routeSelector: defaultRouteSelector,
-
-    active: true,
+    vehicleNumberParser: function vehicleNumberParser(vehicleNumber) {
+      return vehicleNumber.indexOf(' ') !== -1
+        ? vehicleNumber.split(' ')[1]
+        : vehicleNumber;
+    },
   },
 };

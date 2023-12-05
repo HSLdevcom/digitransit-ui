@@ -33,6 +33,7 @@
                         "type":"regular"
                      }
                   ],
+                  "emissions": 123.4,
                   "legs":[
                      {
                         "mode":"WALK",
@@ -1389,6 +1390,7 @@
                         "type":"regular"
                      }
                   ],
+                  "emissions": 123.4,
                   "legs":[
                      {
                         "mode":"WALK",
@@ -3915,6 +3917,7 @@
                         "type":"regular"
                      }
                   ],
+                  "emissions": 123.4,
                   "legs":[
                      {
                         "mode":"WALK",
@@ -7257,6 +7260,7 @@
                         "type":"regular"
                      }
                   ],
+                  "emissions": 123.4,
                   "legs":[
                      {
                         "mode":"WALK",
@@ -10314,6 +10318,7 @@
                         "type":"regular"
                      }
                   ],
+                  "emissions": 123.4,
                   "legs":[
                      {
                         "mode":"WALK",

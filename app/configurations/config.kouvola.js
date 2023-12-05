@@ -48,9 +48,9 @@ export default configMerger(walttiConfig, {
       donkey_kouvola: {
         enabled: true,
         season: {
-          // 28.4. - 30.11.
+          // 28.4. - 21.11.
           start: new Date(new Date().getFullYear(), 3, 28),
-          end: new Date(new Date().getFullYear(), 11, 1),
+          end: new Date(new Date().getFullYear(), 10, 21),
         },
         capacity: BIKEAVL_WITHMAX,
         icon: 'citybike',
@@ -88,7 +88,7 @@ export default configMerger(walttiConfig, {
   logo: 'kouvola/logo.png',
   secondaryLogo: 'kouvola/secondary-logo.png',
 
-  favicon: './app/configurations/images/kouvola/favicon.png',
+  favicon: './app/configurations/images/kouvola/kouvola-favicon.png',
 
   feedIds: ['Kouvola'],
 

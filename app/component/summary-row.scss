@@ -114,6 +114,49 @@
       flex-grow: 1;
       margin-right: 20px;
     }
+
+    .itinerary-co2-value-container {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+      align-items: center;
+      padding: 2px 4px;
+      gap: 4px;
+      margin-right: 6.38px;
+      min-width: 37px;
+      height: 20px;
+      right: 82.38px;
+      top: 416px;
+      overflow: visible;
+      background: rgba(100, 190, 30, 0.15);
+      border-radius: 4px;
+
+      .icon-container {
+        .icon {
+          &.co2-leaf {
+            width: 11px;
+            height: 11px;
+            margin-left: 2px;
+          }
+        }
+      }
+      .itinerary-co2-value {
+        min-width: 29px;
+        height: 16px;
+
+        font-family: $font-family;
+        font-style: normal;
+        font-weight: 325;
+        font-size: 13px;
+        line-height: 16px;
+        color: #3B7F00;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        letter-spacing: -0.03em;
+      }
+    }
   }
 
   .itinerary-end-time-and-distance {
@@ -251,6 +294,11 @@
         display: flex;
         min-width: 0;
         height: 1.5rem;
+        .occupancy-icon-container {
+          color: white;
+          margin-left: auto;
+          padding-right: 8px;
+        }
         .vcenter-children {
           .empty {
             float: left;
