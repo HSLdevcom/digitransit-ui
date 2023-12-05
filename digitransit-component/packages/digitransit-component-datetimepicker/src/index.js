@@ -60,6 +60,7 @@ function DatetimepickerStateContainer({
   onOpen,
   onClose,
   openPicker,
+  isHideCloseButton = false,
 }) {
   moment.locale(lang);
   moment.tz.setDefault(timeZone);
@@ -185,6 +186,7 @@ function DatetimepickerStateContainer({
       onOpen={onOpen}
       onClose={onClose}
       openPicker={openPicker}
+      isHideCloseButton={isHideCloseButton}
     />
   );
 }
@@ -210,6 +212,7 @@ DatetimepickerStateContainer.propTypes = {
   onOpen: PropTypes.func,
   onClose: PropTypes.func,
   openPicker: PropTypes.bool,
+  isHideCloseButton: PropTypes.bool,
 };
 
 DatetimepickerStateContainer.defaultProps = {
@@ -227,6 +230,7 @@ DatetimepickerStateContainer.defaultProps = {
   onOpen: null,
   onClose: null,
   openPicker: undefined,
+  isHideCloseButton: false,
 };
 
 export default DatetimepickerStateContainer;

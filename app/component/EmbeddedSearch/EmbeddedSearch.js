@@ -70,16 +70,11 @@ const EmbeddedSearch = (props, context) => {
   const { colors, fontWeights } = config;
   const bikeOnly = query?.bikeOnly;
   const walkOnly = query?.walkOnly;
-  const openPicker = !!query.setTime;
   const lang = query.lang || 'fi';
   const url =
     window.location !== window.parent.location
       ? document.referrer
       : document.location.href;
-
-  const previewComponent = window.location.pathname.match(
-    config.URL.EMBEDDED_SEARCH_GENERATION,
-  );
 
   const buttonRef = useRef(null);
 
@@ -94,7 +89,8 @@ const EmbeddedSearch = (props, context) => {
   });
 
   const [state, setState] = useState({
-    open: false,
+    open: true,
+    isHideCloseButton: true,
     time: undefined,
     arriveBy: false,
     keepPickerOpen: false,
@@ -393,10 +389,7 @@ const EmbeddedSearch = (props, context) => {
       style={{ height: isTimepickerSelected ? '380px' : '250px' }}
     >
       <div className="background-container">{drawBackgroundIcon()}</div>
-      <div
-        className={`control-panel-container `}
-        style={{ position: 'relative' }}
-      >
+      <div className="control-panel-container" style={{ position: 'relative' }}>
         <CtrlPanel
           instance="HSL"
           language={lang}
@@ -413,11 +406,7 @@ const EmbeddedSearch = (props, context) => {
           />
 
           {isTimepickerSelected && (
-            <div
-              className={`datetimepicker-container ${
-                previewComponent ? 'preview-component' : 'ready-component'
-              }`}
-            >
+            <div className="datetimepicker-container">
               <Datetimepicker
                 realtime={false}
                 initialTimestamp={state.time}
@@ -436,16 +425,15 @@ const EmbeddedSearch = (props, context) => {
                 fontWeights={config.fontWeights}
                 onOpen={onOpen}
                 onClose={onClose}
-                openPicker={openPicker}
+                openPicker={state.open}
+                isHideCloseButton={state.isHideCloseButton}
               />
             </div>
           )}
 
           <div
             className="embedded-search-button-container"
-            style={{
-              marginTop: previewComponent && isTimepickerSelected ? '50px' : '',
-            }}
+            style={{ margin: '10px 0 0 0' }}
           >
             {logo ? (
               <img

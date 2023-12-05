@@ -253,6 +253,7 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle,
   .datetimepicker-select-container {
     position: relative;
     height: 40px;
+    width: 100%;
     // use global scope because react-select is not quite compatible with csss module local scoping
     :global .datetimepicker-select__control {
       cursor: inherit;

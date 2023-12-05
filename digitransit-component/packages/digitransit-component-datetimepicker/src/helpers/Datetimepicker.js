@@ -75,6 +75,7 @@ function Datetimepicker({
   onOpen,
   onClose,
   openPicker,
+  isHideCloseButton,
 }) {
   moment.tz.setDefault(timeZone);
   const [isOpen, changeOpen] = useState(openPicker || false);
@@ -358,28 +359,30 @@ function Datetimepicker({
             >
               {i18next.t('departure-now', translationSettings)}
             </button>
-            <span className={styles['right-edge']}>
-              <button
-                type="button"
-                className={styles['close-button']}
-                aria-controls={`${htmlId}-root`}
-                aria-expanded="true"
-                onClick={() => {
-                  changeOpen(false);
-                  showScreenreaderCloseAlert();
-                  if (onClose) {
-                    onClose();
-                  }
-                }}
-              >
-                <span className={styles['close-icon']}>
-                  <Icon img="close" color={color} />
-                </span>
-                <span className={styles['sr-only']}>
-                  {i18next.t('accessible-close', translationSettings)}
-                </span>
-              </button>
-            </span>
+            {!isHideCloseButton && (
+              <span className={styles['right-edge']}>
+                <button
+                  type="button"
+                  className={styles['close-button']}
+                  aria-controls={`${htmlId}-root`}
+                  aria-expanded="true"
+                  onClick={() => {
+                    changeOpen(false);
+                    showScreenreaderCloseAlert();
+                    if (onClose) {
+                      onClose();
+                    }
+                  }}
+                >
+                  <span className={styles['close-icon']}>
+                    <Icon img="close" color={color} />
+                  </span>
+                  <span className={styles['sr-only']}>
+                    {i18next.t('accessible-close', translationSettings)}
+                  </span>
+                </button>
+              </span>
+            )}
           </div>
           <div
             className={
@@ -541,6 +544,7 @@ Datetimepicker.propTypes = {
   onOpen: PropTypes.func,
   onClose: PropTypes.func,
   openPicker: PropTypes.bool,
+  isHideCloseButton: PropTypes.bool,
 };
 
 Datetimepicker.defaultProps = {
@@ -553,6 +557,7 @@ Datetimepicker.defaultProps = {
   onOpen: null,
   onClose: null,
   openPicker: undefined,
+  isHideCloseButton: false,
 };
 
 export default Datetimepicker;
