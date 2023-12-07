@@ -82,6 +82,16 @@
                     z-index: 1;
                 }
             }
+
+            .datetimepicker-container {
+                margin-top: 1rem;
+
+                & fieldset {
+                    margin: 0 !important;
+                    padding: 0 !important;
+                    max-width: 399px !important;
+                }
+            }
         }
     }
 
