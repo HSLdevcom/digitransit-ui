@@ -9,18 +9,6 @@
     .background-container, .control-panel-container{
         grid-column: 1;
         grid-row: 1;
-
-        .preview-component {
-            position: absolute;
-            bottom: 100px;
-            left: -15px;
-        }
-
-        .ready-component {
-            position: relative;
-            margin-top: 10px;
-            max-width: 399px;
-        }
     }
     h1 {
         margin-top: 25px;

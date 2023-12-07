@@ -89,11 +89,9 @@ const EmbeddedSearch = (props, context) => {
   });
 
   const [state, setState] = useState({
-    open: true,
-    isHideCloseButton: true,
+    isAlwaysOpen: true,
     time: undefined,
     arriveBy: false,
-    keepPickerOpen: false,
   });
   const defaultOriginExists = query.lat1 && query.lon1;
   const defaultOrigin = {
@@ -315,7 +313,7 @@ const EmbeddedSearch = (props, context) => {
   }
 
   const onDepartureClick = time => {
-    setState({ ...state, time, arriveBy: false, keepPickerOpen: true });
+    setState({ ...state, time, arriveBy: false });
     addAnalyticsEvent({
       event: 'sendMatomoEvent',
       category: 'EmbeddedSearch',
@@ -325,12 +323,11 @@ const EmbeddedSearch = (props, context) => {
   };
 
   const onTimeChange = (time, arriveBy, onSubmit = false) => {
-    const keepPickerOpen = onSubmit === false;
     setState({
       ...state,
       time,
       arriveBy: !!arriveBy,
-      keepPickerOpen,
+      onSubmit,
     });
     addAnalyticsEvent({
       action: 'EditJourneyTime',
@@ -344,7 +341,6 @@ const EmbeddedSearch = (props, context) => {
       ...state,
       time,
       arriveBy: !!arriveBy,
-      keepPickerOpen: true,
     });
     addAnalyticsEvent({
       action: 'EditJourneyDate',
@@ -358,12 +354,11 @@ const EmbeddedSearch = (props, context) => {
       ...state,
       time: undefined,
       arriveBy: false,
-      keepPickerOpen: false,
     });
   };
 
   const onArrivalClick = time => {
-    setState({ ...state, time, arriveBy: true, keepPickerOpen: true });
+    setState({ ...state, time, arriveBy: true });
     addAnalyticsEvent({
       event: 'sendMatomoEvent',
       category: 'EmbeddedSearch',
@@ -372,24 +367,15 @@ const EmbeddedSearch = (props, context) => {
     });
   };
 
-  const onClose = () => {
-    setState({ ...state, open: false });
-  };
-
-  const onOpen = () => {
-    setState({ ...state, open: true });
-  };
-
   return (
     <div
       className={`embedded-seach-container ${
         bikeOnly ? 'bike' : walkOnly ? 'walk' : ''
-      }`}
+      } ${isTimepickerSelected ? 'with-timepicker' : ''}`}
       id={appElement}
-      style={{ height: isTimepickerSelected ? '380px' : '250px' }}
     >
       <div className="background-container">{drawBackgroundIcon()}</div>
-      <div className="control-panel-container" style={{ position: 'relative' }}>
+      <div className="control-panel-container">
         <CtrlPanel
           instance="HSL"
           language={lang}
@@ -423,18 +409,15 @@ const EmbeddedSearch = (props, context) => {
                 timeZone={config.timezoneData.split('|')[0]}
                 serviceTimeRange={context.config.itinerary.serviceTimeRange}
                 fontWeights={config.fontWeights}
-                onOpen={onOpen}
-                onClose={onClose}
-                openPicker={state.open}
-                isHideCloseButton={state.isHideCloseButton}
+                onOpen={null}
+                onClose={null}
+                openPicker
+                isAlwaysOpen={state.isAlwaysOpen}
               />
             </div>
           )}
 
-          <div
-            className="embedded-search-button-container"
-            style={{ margin: '10px 0 0 0' }}
-          >
+          <div className="embedded-search-button-container">
             {logo ? (
               <img
                 src={logo}

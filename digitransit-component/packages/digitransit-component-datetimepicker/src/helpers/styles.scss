@@ -45,6 +45,10 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle,
     display: none;
   }
 
+  .blankContainer {
+    background-color: white !important;
+  }
+
   .datetimepicker-open-container {
     background-color: #f4f4f5;
     border-radius: 5px;

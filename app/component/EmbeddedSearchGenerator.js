@@ -431,7 +431,7 @@ const EmbeddedSearchGenerator = (props, context) => {
             )}
           </fieldset>
 
-          <fieldset id="timePicker">
+          <fieldset id="time-picker">
             <legend>
               <h3>
                 <FormattedMessage

@@ -75,7 +75,7 @@ function Datetimepicker({
   onOpen,
   onClose,
   openPicker,
-  isHideCloseButton,
+  isAlwaysOpen,
 }) {
   moment.tz.setDefault(timeZone);
   const [isOpen, changeOpen] = useState(openPicker || false);
@@ -284,7 +284,7 @@ function Datetimepicker({
         <div
           className={`${styles['datetimepicker-open-container']} ${
             !isOpen ? styles.hidden : ''
-          }`}
+          } ${isAlwaysOpen ? styles.blankContainer : ''}`}
         >
           <div
             className={
@@ -359,7 +359,7 @@ function Datetimepicker({
             >
               {i18next.t('departure-now', translationSettings)}
             </button>
-            {!isHideCloseButton && (
+            {!isAlwaysOpen && (
               <span className={styles['right-edge']}>
                 <button
                   type="button"
@@ -544,7 +544,7 @@ Datetimepicker.propTypes = {
   onOpen: PropTypes.func,
   onClose: PropTypes.func,
   openPicker: PropTypes.bool,
-  isHideCloseButton: PropTypes.bool,
+  isAlwaysOpen: PropTypes.bool,
 };
 
 Datetimepicker.defaultProps = {
@@ -557,7 +557,7 @@ Datetimepicker.defaultProps = {
   onOpen: null,
   onClose: null,
   openPicker: undefined,
-  isHideCloseButton: false,
+  isAlwaysOpen: false,
 };
 
 export default Datetimepicker;
