@@ -104,7 +104,7 @@ class ItineraryLegs extends React.Component {
       ...leg,
       fare:
         (leg.route &&
-          fares.find(fare => fare.routeGtfsId === leg.route.gtfsId)) ||
+          fares?.find(fare => fare.routeGtfsId === leg.route.gtfsId)) ||
         undefined,
     }));
     const numberOfLegs = compressedLegs.length;
