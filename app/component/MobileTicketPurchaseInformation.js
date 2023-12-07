@@ -21,7 +21,7 @@ export default function MobileTicketPurchaseInformation(
     !fare.isUnknown,
     config.availableTickets,
   );
-  const price = `${(fare.cents / 100).toFixed(2)} €`.replace('.', ',');
+  const price = `${fare.price.toFixed(2)} €`.replace('.', ',');
 
   const faresInfo = () => {
     const header = `${intl.formatMessage({
