@@ -4,13 +4,13 @@ import cloneDeep from 'lodash/cloneDeep';
 import defaultConfig from './configurations/config.default';
 import configMerger from './util/configMerger';
 import { boundWithMinimumAreaSimple } from './util/geo-utils';
+import metaDataTemplate from './ssrmeta';
 
 const configs = {}; // cache merged configs for speed
 const themeMap = {};
 // Look up paths for various asset files
 const appRoot = `${process.cwd()}/`;
 // eslint-disable-next-line global-require
-const metaDataTemplate = require('./ssrmeta.json');
 
 if (defaultConfig.themeMap) {
   Object.keys(defaultConfig.themeMap).forEach(theme => {
