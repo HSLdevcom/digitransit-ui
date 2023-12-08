@@ -554,7 +554,7 @@ export function getSearchResults(
       );
     }
     if (allSources || sources.includes('Datasource')) {
-      const geocodingLayers = ['vehicleRentalStation'];
+      const geocodingLayers = ['bikestation'];
       const searchParams =
         geocodingSize && geocodingSize !== 10 ? { size: geocodingSize } : {};
       searchComponents.push(
