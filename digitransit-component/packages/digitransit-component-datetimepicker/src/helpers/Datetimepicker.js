@@ -284,7 +284,7 @@ function Datetimepicker({
         <div
           className={`${styles['datetimepicker-open-container']} ${
             !isOpen ? styles.hidden : ''
-          } ${isAlwaysOpen ? styles.blankContainer : ''}`}
+          } ${isAlwaysOpen ? styles['blank-container'] : ''}`}
         >
           <div
             className={

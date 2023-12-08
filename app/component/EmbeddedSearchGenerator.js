@@ -201,7 +201,7 @@ const EmbeddedSearchGenerator = (props, context) => {
             />
           </h2>
 
-          <fieldset id="lang">
+          <fieldset id="lang" className="fieldset">
             <legend>
               <h3>
                 <FormattedMessage
@@ -248,7 +248,7 @@ const EmbeddedSearchGenerator = (props, context) => {
             </label>
           </fieldset>
 
-          <fieldset id="width">
+          <fieldset id="width" className="fieldset">
             <legend>
               <h3>
                 <FormattedMessage
@@ -278,7 +278,7 @@ const EmbeddedSearchGenerator = (props, context) => {
             </label>
           </fieldset>
 
-          <fieldset id="mode-restrictions">
+          <fieldset id="mode-restrictions" className="fieldset">
             <legend>
               <h3>
                 <FormattedMessage
@@ -326,7 +326,7 @@ const EmbeddedSearchGenerator = (props, context) => {
             </label>
           </fieldset>
 
-          <fieldset id="origin-and-destination">
+          <fieldset id="origin-and-destination" className="fieldset">
             <legend>
               <h3>
                 <FormattedMessage
@@ -431,7 +431,7 @@ const EmbeddedSearchGenerator = (props, context) => {
             )}
           </fieldset>
 
-          <fieldset id="time-picker">
+          <fieldset id="time-picker" className="fieldset">
             <legend>
               <h3>
                 <FormattedMessage

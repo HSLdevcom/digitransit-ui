@@ -45,14 +45,17 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle,
     display: none;
   }
 
-  .blankContainer {
-    background-color: white !important;
-  }
-
   .datetimepicker-open-container {
     background-color: #f4f4f5;
     border-radius: 5px;
     padding: 15px;
+
+    &.blank-container {
+      background-color: white;
+      margin: 10px 0 0 0;
+      padding: 1rem;
+      max-width: 399px;
+    }
   }
 
   .top-row-container {
@@ -93,6 +96,8 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle,
     }
     label {
       cursor: pointer;
+      display: flex;
+      justify-content: center;
       &.label-open {
         align-items: flex-start;
         display: flex;
