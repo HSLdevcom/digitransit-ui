@@ -14,16 +14,16 @@
 
 ```javascript
 const searchContext = {
-  isPeliasLocationAware: false // true / false does Let Pelias suggest based on current user location
-  minimalRegexp: undefined // used for testing min. regexp. For example: new RegExp('.{2,}'),
-  lineRegexp: undefined //  identify searches for route numbers/labels: bus | train | metro. For example: new RegExp(
+  isPeliasLocationAware: false, // true / false does Let Pelias suggest based on current user location
+  minimalRegexp: undefined, // used for testing min. regexp. For example: new RegExp('.{2,}'),
+  lineRegexp: undefined, //  identify searches for route numbers/labels: bus | train | metro. For example: new RegExp(
    //   '(^[0-9]+[a-z]?$|^[yuleapinkrtdz]$|(^m[12]?b?$))',
    //  'i',
    //  ),
-  URL_PELIAS: '' // url for pelias searches
-  feedIDs: ['HSL', 'HSLLautta'] // FeedId's like  [HSL, HSLLautta]
-  geocodingSources: ['oa','osm','nlsfi']  // sources for geocoding
-  geocodingSearchParams; {}  // Searchparmas fro geocoding
+  URL_PELIAS: '', // url for pelias searches
+  feedIDs: ['HSL', 'HSLLautta'], // FeedId's like  [HSL, HSLLautta]
+  geocodingSources: ['oa','osm','nlsfi'],  // sources for geocoding
+  geocodingSearchParams: {},  // Searchparmas fro geocoding
   getFavouriteLocations: () => ({}),    // Function that returns array of favourite locations.
   getFavouriteStops: () => ({}),        // Function that returns array of favourite stops.
   getLanguage: () => ({}),              // Function that returns current language.
