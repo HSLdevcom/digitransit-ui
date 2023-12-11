@@ -490,7 +490,7 @@ StopsNearYouMap.propTypes = {
   currentTime: PropTypes.number.isRequired,
   stopsNearYou: PropTypes.object,
   prioritizedStopsNearYou: PropTypes.array,
-  favouriteIds: PropTypes.arrayOf(PropTypes.string.isRequired),
+  favouriteIds: PropTypes.objectOf(PropTypes.string.isRequired),
   mapLayers: PropTypes.object.isRequired,
   mapLayerOptions: mapLayerOptionsShape,
   position: dtLocationShape.isRequired,
@@ -512,6 +512,7 @@ StopsNearYouMap.propTypes = {
 StopsNearYouMap.defaultProps = {
   showWalkRoute: false,
   loading: false,
+  favouriteIds: {},
 };
 
 StopsNearYouMap.contextTypes = {
