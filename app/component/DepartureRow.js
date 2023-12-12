@@ -259,7 +259,8 @@ DepartureRow.propTypes = {
   showPlatformCode: PropTypes.bool,
   canceled: PropTypes.bool,
   className: PropTypes.string,
-  onCapacityClick: PropTypes.func.isRequired,
+  // eslint-disable-next-line react/require-default-props
+  onCapacityClick: PropTypes.func,
 };
 
 DepartureRow.contextTypes = {

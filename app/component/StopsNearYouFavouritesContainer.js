@@ -79,9 +79,9 @@ StopsNearYouFavouritesContainer.propTypes = {
   stations: PropTypes.array,
   vehicleStations: PropTypes.array,
   searchPosition: dtLocationShape,
-  relay: PropTypes.shape({
-    refetch: PropTypes.func.isRequired,
-  }).isRequired,
+  // relay: PropTypes.shape({
+  //   refetch: PropTypes.func.isRequired,
+  // }).isRequired,
 };
 
 const refetchContainer = createFragmentContainer(

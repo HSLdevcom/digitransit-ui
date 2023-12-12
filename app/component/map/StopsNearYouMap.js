@@ -488,9 +488,13 @@ function StopsNearYouMap(
 
 StopsNearYouMap.propTypes = {
   currentTime: PropTypes.number.isRequired,
-  stopsNearYou: PropTypes.object,
+  stopsNearYou: PropTypes.shape({
+    nearest: PropTypes.shape({
+      edges: PropTypes.arrayOf(PropTypes.object).isRequired,
+    }).isRequired,
+  }),
   prioritizedStopsNearYou: PropTypes.array,
-  favouriteIds: PropTypes.objectOf(PropTypes.string.isRequired),
+  favouriteIds: PropTypes.object,
   mapLayers: PropTypes.object.isRequired,
   mapLayerOptions: mapLayerOptionsShape,
   position: dtLocationShape.isRequired,
@@ -510,9 +514,10 @@ StopsNearYouMap.propTypes = {
 };
 
 StopsNearYouMap.defaultProps = {
+  stopsNearYou: null,
   showWalkRoute: false,
   loading: false,
-  favouriteIds: {},
+  favouriteIds: undefined,
 };
 
 StopsNearYouMap.contextTypes = {

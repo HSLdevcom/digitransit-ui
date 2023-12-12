@@ -64,10 +64,27 @@ const VehicleStopNearYou = ({ stop, relay, currentTime, currentMode }) => {
   );
 };
 VehicleStopNearYou.propTypes = {
-  stop: PropTypes.object.isRequired,
-  currentTime: PropTypes.number.isRequired,
-  currentMode: PropTypes.string.isRequired,
+  stop: PropTypes.shape({
+    capacity: PropTypes.number,
+    distance: PropTypes.number,
+    lat: PropTypes.number,
+    lon: PropTypes.number,
+    name: PropTypes.string,
+    network: PropTypes.string,
+    operative: PropTypes.bool,
+    spacesAvailable: PropTypes.number,
+    stationId: PropTypes.string,
+    type: PropTypes.string,
+    vehiclesAvailable: PropTypes.number,
+  }).isRequired,
+  currentTime: PropTypes.number,
+  currentMode: PropTypes.string,
   relay: PropTypes.any,
+};
+
+VehicleStopNearYou.defaultProps = {
+  currentTime: undefined,
+  currentMode: undefined,
 };
 
 const containerComponent = createRefetchContainer(
