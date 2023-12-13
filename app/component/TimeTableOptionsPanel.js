@@ -55,8 +55,12 @@ class TimeTableOptionsPanel extends React.Component {
         break;
       }
     }
-
-    let stopVehicle = this.props.stop.stoptimesForServiceDate[0].pattern.route.mode.toLowerCase();
+    // If stop/station is cancelled, or it has no departures from some other reason, stop.stoptimesForServiceDate length is 0.
+    // This check prevents UI from crashing
+    const len = this.props.stop.stoptimesForServiceDate.length;
+    let stopVehicle = len
+      ? this.props.stop.stoptimesForServiceDate[0].pattern?.route.mode.toLowerCase()
+      : null;
     if (stopVehicle === 'bus') {
       stopVehicle = this.props.stop.stoptimesForServiceDate.some(
         stopTime =>
