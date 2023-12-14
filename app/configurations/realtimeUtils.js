@@ -99,6 +99,7 @@ export default {
   Rauma: walttiMqtt,
   Pori: walttiMqtt,
   VARELY: walttiMqtt,
+  Harma: walttiMqtt,
   FOLI: {
     mqttTopicResolver: function mqttTopicResolver(
       route,
