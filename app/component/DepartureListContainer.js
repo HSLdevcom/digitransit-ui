@@ -33,7 +33,7 @@ const asDepartures = stoptimes =>
         const hasNoStop = !hasPickup && !hasDropoff;
         const isArrival = !hasPickup;
         let isLastStop = false;
-        if (stoptime.trip && stoptime.trip.stops) {
+        if (stoptime.trip?.stops?.length) {
           const lastStop = stoptime.trip.stops.slice(-1).pop();
           isLastStop = stoptime.stop.id === lastStop.id;
         }
