@@ -115,7 +115,7 @@ const DepartureRow = (
               id: 'departure-page-sr',
             },
             {
-              shortName,
+              shortName: shortName.toLowerCase(),
               destination: headsign,
               time: moment(departureTime * 1000).format('HH:mm'),
             },

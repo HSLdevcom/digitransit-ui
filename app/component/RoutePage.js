@@ -118,6 +118,7 @@ class RoutePage extends React.Component {
             </div>
             <div className="route-info">
               <h1
+                aria-label={label.toLowerCase()}
                 className={cx('route-short-name', mode.toLowerCase())}
                 style={{ color: route.color ? `#${route.color}` : null }}
               >

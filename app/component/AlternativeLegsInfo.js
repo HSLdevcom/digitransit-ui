@@ -17,11 +17,26 @@ const AlternativeLegsInfo = ({ legs, showAlternativeLegs, toggle }) => {
     )) ||
     (legs.length > 1 ? (
       <FormattedMessage
+        aria-hidden="true"
         className="alternative-leg-info"
         id="alternative-legs"
         values={{
-          leg1: legs[0].route.shortName,
-          leg2: legs[1].route.shortName,
+          leg1: (
+            <>
+              <span aria-hidden="true">{legs[0].route.shortName}</span>
+              <span className="sr-only">
+                {legs[1].route.shortName.toLowerCase()}
+              </span>
+            </>
+          ),
+          leg2: (
+            <>
+              <span aria-hidden="true">{legs[1].route.shortName}</span>
+              <span className="sr-only">
+                {legs[1].route.shortName.toLowerCase()}
+              </span>
+            </>
+          ),
           startTime1: (
             <span
               className={cx({ realtime: legs[0].realTime })}
@@ -53,10 +68,18 @@ const AlternativeLegsInfo = ({ legs, showAlternativeLegs, toggle }) => {
       />
     ) : (
       <FormattedMessage
+        aria-hidden="true"
         className="alternative-leg-info"
         id="alternative-legs-single"
         values={{
-          leg1: legs[0].route.shortName,
+          leg1: (
+            <>
+              <span aria-hidden="true">{legs[0].route.shortName}</span>
+              <span className="sr-only">
+                {legs[0].route.shortName.toLowerCase()}
+              </span>
+            </>
+          ),
           startTime1: (
             <span
               className={cx({ realtime: legs[0].realTime })}

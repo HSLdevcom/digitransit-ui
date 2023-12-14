@@ -134,6 +134,7 @@ function RouteNumber(props, context) {
             )}
           >
             <span
+              aria-hidden="true"
               className={cx(
                 'vehicle-number'.concat(props.card ? '-map' : ''),
                 mode,
@@ -143,6 +144,7 @@ function RouteNumber(props, context) {
             >
               {props.text}
             </span>
+            <span className="sr-only">{props.text.toLowerCase()}</span>
           </div>
         )}
         {!context.config?.hideWalkLegDurationSummary &&
