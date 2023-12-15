@@ -125,12 +125,8 @@ const AppBarHsl = ({ lang, user, favourites }, context) => {
       )}
 
       <LazilyLoad modules={modules}>
-        {({ SiteHeader, SharedLocalStorageObserver }) => (
+        {({ SiteHeader }) => (
           <>
-            <SharedLocalStorageObserver
-              keys={['saved-searches', 'favouriteStore']}
-              url={config.localStorageEmitter}
-            />
             <SiteHeader
               ref={siteHeaderRef}
               hslFiUrl={config.URL.ROOTLINK}
@@ -144,6 +140,20 @@ const AppBarHsl = ({ lang, user, favourites }, context) => {
           </>
         )}
       </LazilyLoad>
+      {config.useLocalStorageEmitter && (
+        <LazilyLoad modules={modules}>
+          {({ SharedLocalStorageObserver }) => (
+            <>
+              {config.useLocalStorageEmitter && (
+                <SharedLocalStorageObserver
+                  keys={['saved-searches', 'favouriteStore']}
+                  url={config.localStorageEmitter}
+                />
+              )}
+            </>
+          )}
+        </LazilyLoad>
+      )}
     </>
   );
 };

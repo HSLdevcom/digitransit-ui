@@ -111,7 +111,7 @@ function setUpStaticFolders() {
     }),
   );
 
-  if (config.localStorageEmitter) {
+  if (config.localStorageEmitter && config.useLocalStorageEmitter) {
     app.use(
       '/local-storage-emitter',
       express.static(path.join(staticFolder, 'emitter')),
