@@ -109,6 +109,10 @@ export default configMerger(walttiConfig, {
     citybike: {
       availableForSelection: true,
     },
+    rail: {
+      availableForSelection: true,
+      defaultValue: true,
+    },
   },
 
   menu: {
