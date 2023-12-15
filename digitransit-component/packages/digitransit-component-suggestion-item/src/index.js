@@ -208,8 +208,11 @@ function getIconProperties(
       }
     } else if (modes.includes('BUS-EXPRESS') && modeSet === 'default') {
       iconStr = [layerIcon.get('BUS-EXPRESS'.concat('-').concat(modeSet))];
-    } else if (modes.includes('SPEEDTRAM') && modeSet === 'default') {
-      iconStr = [layerIcon.get('SPEEDTRAM'.concat('-').concat(modeSet))];
+    } else if (
+      (modes.includes('SPEEDTRAM') && modeSet === 'default') ||
+      (modes.includes('SPEEDTRAM') && modeSet === 'digitransit')
+    ) {
+      iconStr = [layerIcon.get('SPEEDTRAM'.concat('-').concat('default'))];
     } else {
       iconStr = [layerIcon.get(mode.concat('-').concat(modeSet))];
     }

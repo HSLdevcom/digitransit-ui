@@ -1853,7 +1853,7 @@ __metadata:
   peerDependencies:
     "@digitransit-component/digitransit-component-dialog-modal": ^0.3.4
     "@digitransit-component/digitransit-component-icon": ^1.0.0
-    "@digitransit-component/digitransit-component-suggestion-item": ^1.1.5
+    "@digitransit-component/digitransit-component-suggestion-item": ^1.1.6
     "@hsl-fi/sass": ^0.2.0
     classnames: 2.2.6
     i18next: ^19.3.3
@@ -1913,14 +1913,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digitransit-component/digitransit-component-favourite-bar@1.1.5, @digitransit-component/digitransit-component-favourite-bar@workspace:digitransit-component/packages/digitransit-component-favourite-bar":
+"@digitransit-component/digitransit-component-favourite-bar@1.1.6, @digitransit-component/digitransit-component-favourite-bar@workspace:digitransit-component/packages/digitransit-component-favourite-bar":
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-favourite-bar@workspace:digitransit-component/packages/digitransit-component-favourite-bar"
   dependencies:
     "@digitransit-search-util/digitransit-search-util-uniq-by-label": ^1.1.0
   peerDependencies:
     "@digitransit-component/digitransit-component-icon": ^1.0.0
-    "@digitransit-component/digitransit-component-suggestion-item": ^1.1.5
+    "@digitransit-component/digitransit-component-suggestion-item": ^1.1.6
     "@hsl-fi/sass": ^0.2.0
     "@hsl-fi/shimmer": 0.1.2
     classnames: 2.2.6
@@ -1976,7 +1976,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digitransit-component/digitransit-component-suggestion-item@^1.1.5, @digitransit-component/digitransit-component-suggestion-item@workspace:digitransit-component/packages/digitransit-component-suggestion-item":
+"@digitransit-component/digitransit-component-suggestion-item@^1.1.6, @digitransit-component/digitransit-component-suggestion-item@workspace:digitransit-component/packages/digitransit-component-suggestion-item":
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-suggestion-item@workspace:digitransit-component/packages/digitransit-component-suggestion-item"
   dependencies:
@@ -2022,11 +2022,11 @@ __metadata:
     "@digitransit-component/digitransit-component-autosuggest": ^2.0.0
     "@digitransit-component/digitransit-component-autosuggest-panel": ^3.0.0
     "@digitransit-component/digitransit-component-control-panel": ^1.1.4
-    "@digitransit-component/digitransit-component-favourite-bar": 1.1.5
+    "@digitransit-component/digitransit-component-favourite-bar": 1.1.6
     "@digitransit-component/digitransit-component-favourite-editing-modal": ^1.1.5
     "@digitransit-component/digitransit-component-favourite-modal": ^1.0.3
     "@digitransit-component/digitransit-component-icon": ^1.0.0
-    "@digitransit-component/digitransit-component-suggestion-item": ^1.1.5
+    "@digitransit-component/digitransit-component-suggestion-item": ^1.1.6
     "@digitransit-component/digitransit-component-with-breakpoint": ^0.0.5
   peerDependencies:
     "@digitransit-component/digitransit-component-dialog-modal": ^0.3.4

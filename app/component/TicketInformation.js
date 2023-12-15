@@ -24,6 +24,7 @@ export default function TicketInformation(
   if (fares.length === 0) {
     return null;
   }
+
   const isMultiComponent = fares.length > 1;
   const alternativeFares = getAlternativeFares(
     zones,
@@ -52,6 +53,7 @@ export default function TicketInformation(
 
   const faresInfo = fares.map((fare, i) => {
     let header;
+
     if (i === 0) {
       header = `${intl.formatMessage({
         id: isMultiComponent
@@ -86,7 +88,7 @@ export default function TicketInformation(
                 </div>
                 {config.showTicketPrice && (
                   <div className="ticket-description">
-                    {`${(fare.cents / 100).toFixed(2)} €`}
+                    {`${fare.price.toFixed(2)} €`}
                   </div>
                 )}
                 <Icon img="icon-icon_arrow-collapse--right" />
@@ -100,7 +102,7 @@ export default function TicketInformation(
                 </div>
                 {config.showTicketPrice && (
                   <div className="ticket-description">
-                    {`${(fare.cents / 100).toFixed(2)} €`}
+                    {`${fare.price.toFixed(2)} €`}
                   </div>
                 )}
               </div>
