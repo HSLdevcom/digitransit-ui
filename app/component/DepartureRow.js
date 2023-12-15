@@ -100,7 +100,11 @@ const DepartureRow = (
     return (
       <>
         <Link
-          to={`/${PREFIX_ROUTES}/${departure.trip.pattern.route.gtfsId}/${PREFIX_STOPS}/${departure.trip.pattern.code}/${departure.trip.gtfsId}`}
+          to={`/${PREFIX_ROUTES}/${encodeURIComponent(
+            departure.trip.pattern.route.gtfsId,
+          )}/${PREFIX_STOPS}/${encodeURIComponent(
+            departure.trip.pattern.code,
+          )}/${encodeURIComponent(departure.trip.gtfsId)}`}
           onClick={() => {
             addAnalyticsEvent({
               category: 'Stop',
