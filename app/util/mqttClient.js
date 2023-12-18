@@ -48,7 +48,8 @@ function getTopic(options, settings) {
   return topic;
 }
 
-export function parseMessage(topic, message, agency) {
+// parse HSL mqtt
+export function parseMessage(topic, message, defaultFeedId) {
   let parsedMessage;
   const [
     ,
@@ -67,7 +68,7 @@ export function parseMessage(topic, message, agency) {
     nextStop,
     ...rest // eslint-disable-line no-unused-vars
   ] = topic.split('/');
-  const vehid = `${agency}_${id}`;
+  const vehid = `${defaultFeedId}_${id}`;
   if (message instanceof Uint8Array) {
     parsedMessage = JSON.parse(message).VP;
   } else {
@@ -90,7 +91,7 @@ export function parseMessage(topic, message, agency) {
         : startTime.replace(/:/g, '');
     return {
       id: vehid,
-      route: `${agency}:${line}`,
+      route: `${defaultFeedId}:${line}`,
       direction: parseInt(dir, 10) - 1,
       tripStartTime,
       operatingDay:
@@ -98,7 +99,7 @@ export function parseMessage(topic, message, agency) {
           ? parsedMessage.oday
           : moment().format('YYYY-MM-DD'),
       mode: getMode(mode),
-      next_stop: `${agency}:${nextStop}`,
+      next_stop: `${defaultFeedId}:${nextStop}`,
       timestamp: parsedMessage.tsi,
       lat: ceil(parsedMessage.lat, 5),
       long: ceil(parsedMessage.long, 5),
@@ -162,7 +163,7 @@ export function startMqttClient(settings, actionContext) {
     client.on('message', (topic, message) =>
       actionContext.dispatch(
         'RealTimeClientMessage',
-        parseMessage(topic, message, settings.agency),
+        parseMessage(topic, message, settings.feedId),
       ),
     );
     return { client, topics };
