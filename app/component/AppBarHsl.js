@@ -8,8 +8,11 @@ import LazilyLoad, { importLazy } from './LazilyLoad';
 import { clearOldSearches, clearFutureRoutes } from '../util/storeUtils';
 import { getJson } from '../util/xhrPromise';
 
-const modules = {
+const headerModules = {
   SiteHeader: () => importLazy(import('@hsl-fi/site-header')),
+};
+
+const emitterModules = {
   SharedLocalStorageObserver: () =>
     importLazy(import('@hsl-fi/shared-local-storage')),
 };
@@ -124,7 +127,7 @@ const AppBarHsl = ({ lang, user, favourites }, context) => {
         </Helmet>
       )}
 
-      <LazilyLoad modules={modules}>
+      <LazilyLoad modules={headerModules}>
         {({ SiteHeader }) => (
           <>
             <SiteHeader
@@ -140,16 +143,14 @@ const AppBarHsl = ({ lang, user, favourites }, context) => {
           </>
         )}
       </LazilyLoad>
-      {config.useLocalStorageEmitter && (
-        <LazilyLoad modules={modules}>
+      {config.localStorageEmitter && (
+        <LazilyLoad modules={emitterModules}>
           {({ SharedLocalStorageObserver }) => (
             <>
-              {config.useLocalStorageEmitter && (
-                <SharedLocalStorageObserver
-                  keys={['saved-searches', 'favouriteStore']}
-                  url={config.localStorageEmitter}
-                />
-              )}
+              <SharedLocalStorageObserver
+                keys={['saved-searches', 'favouriteStore']}
+                url={config.localStorageEmitter}
+              />
             </>
           )}
         </LazilyLoad>
