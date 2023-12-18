@@ -58,14 +58,14 @@ const handleStopsAndStations = edges => {
 const getRealTimeSettings = (routes, context) => {
   const { realTime } = context.config;
   /* handle multiple feedid case */
-  const agency = context.config.feedIds.find(
-    ag => realTime[ag] && routes[0].feedId === ag,
+  const feedId = context.config.feedIds.find(
+    f => realTime[f] && routes[0].feedId === f,
   );
-  const source = agency && realTime[agency];
-  if (source && source.active && routes.length > 0) {
+  const source = feedId && realTime[feedId];
+  if (source && source.active) {
     return {
       ...source,
-      agency,
+      feedId,
       options: routes,
     };
   }
