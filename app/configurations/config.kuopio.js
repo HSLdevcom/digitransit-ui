@@ -33,7 +33,7 @@ export default configMerger(walttiConfig, {
   logo: 'kuopio/logo.png',
   secondaryLogo: 'kuopio/secondary-logo.png',
 
-  feedIds: ['Kuopio'],
+  feedIds: ['Kuopio', 'digitraffic'],
 
   showTicketInformation: true,
 
