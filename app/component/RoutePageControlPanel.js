@@ -302,7 +302,6 @@ class RoutePageControlPanel extends React.Component {
 
     const patternIdSplit = match.params.patternId.split(':');
     const direction = patternIdSplit[patternIdSplit.length - 2];
-    const directionInt = parseInt(direction, 10);
 
     executeAction(startRealTimeClient, {
       ...source,
@@ -312,10 +311,11 @@ class RoutePageControlPanel extends React.Component {
           route: id,
           // add some information from the context
           // to compensate potentially missing feed data
+          feedId: agency,
           mode: route.mode.toLowerCase(),
           gtfsId: routeParts[1],
           headsign: pattern.headsign,
-          directionInt,
+          direction,
           tripStartTime,
         },
       ],
