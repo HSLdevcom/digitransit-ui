@@ -80,6 +80,14 @@ function DesktopDatetimepicker({
   );
   const inputId = `${id}-input`;
   const labelId = `${id}-label`;
+  const filterOptions = (option, input) => {
+    const hour = input.length <= 2 ? input : input.split(':')[0];
+    const isValidHour = /^([0-1]?[0-9]|2[0-3])$/.test(hour);
+    const comp = input.length === 1 ? '0'.concat(input) : input;
+    return isValidHour
+      ? option.label.split(':')[0] === comp.split(':')[0]
+      : true;
+  };
   return (
     <>
       <label className={styles['combobox-container']} htmlFor={inputId}>
@@ -131,7 +139,12 @@ function DesktopDatetimepicker({
           onInputChange={onInputChange}
           inputValue={!disableTyping && displayValue}
           value={closestOption}
-          filterOption={() => true}
+          filterOption={(option, input) => {
+            if (input.length < 1 || input.length > 5) {
+              return true;
+            }
+            return filterOptions(option, input);
+          }}
           controlShouldRenderValue={disableTyping}
           tabSelectsValue={false}
           placeholder=""
