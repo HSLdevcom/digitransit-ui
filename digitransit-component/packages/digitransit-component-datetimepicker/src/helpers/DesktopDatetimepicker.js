@@ -18,6 +18,7 @@ import styles from './styles.scss';
  * @param {string} label                Text to show as input label
  * @param {node} icon                   JSX for icon to show in input
  * @param {boolean} disableTyping       Set to true to disable typing in the input
+ * @param {boolean} datePicker          Is the picker DatePicer or TimePicker
  *
  * @example
  * <DesktopDatetimepicker
@@ -29,6 +30,7 @@ import styles from './styles.scss';
  *   id="timeinput"
  *   icon="<Icon />"
  *   disableTyping={false} // can be omitted if not true
+ *   datePicker={true} // can be omitted if not true
  */
 function DesktopDatetimepicker({
   value,
@@ -41,6 +43,7 @@ function DesktopDatetimepicker({
   icon,
   disableTyping,
   timeZone,
+  datePicker,
 }) {
   moment.tz.setDefault(timeZone);
   const [displayValue, changeDisplayValue] = useState(getDisplay(value));
@@ -61,9 +64,16 @@ function DesktopDatetimepicker({
     }
     onChange(asNumber);
   };
-
+  function isValidInput(str) {
+    const clockRegex = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/;
+    const regex = /[a-zA-Z§ÄäÖö\s]/g;
+    if (regex.test(str)) {
+      return false;
+    }
+    return clockRegex.test(str) || str.length < 5;
+  }
   const onInputChange = (newValue, { action }) => {
-    if (disableTyping) {
+    if (disableTyping || !isValidInput(newValue)) {
       return;
     }
     if (action === 'input-change') {
@@ -83,7 +93,7 @@ function DesktopDatetimepicker({
   const filterOptions = (option, input) => {
     const hour = input.length <= 2 ? input : input.split(':')[0];
     const isValidHour = /^([0-1]?[0-9]|2[0-3])$/.test(hour);
-    const comp = input.length === 1 ? '0'.concat(input) : input;
+    const comp = hour.length === 1 ? '0'.concat(input) : input;
     return isValidHour
       ? option.label.split(':')[0] === comp.split(':')[0]
       : true;
@@ -140,6 +150,9 @@ function DesktopDatetimepicker({
           inputValue={!disableTyping && displayValue}
           value={closestOption}
           filterOption={(option, input) => {
+            if (datePicker) {
+              return true;
+            }
             if (input.length < 1 || input.length > 5) {
               return true;
             }
@@ -188,11 +201,13 @@ DesktopDatetimepicker.propTypes = {
   icon: PropTypes.node.isRequired,
   disableTyping: PropTypes.bool,
   timeZone: PropTypes.string,
+  datePicker: PropTypes.bool,
 };
 
 DesktopDatetimepicker.defaultProps = {
   disableTyping: false,
   timeZone: 'Europe/Helsinki',
+  datePicker: false,
 };
 
 export default DesktopDatetimepicker;
