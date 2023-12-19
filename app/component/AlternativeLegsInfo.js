@@ -25,7 +25,7 @@ const AlternativeLegsInfo = ({ legs, showAlternativeLegs, toggle }) => {
             <>
               <span aria-hidden="true">{legs[0].route.shortName}</span>
               <span className="sr-only">
-                {legs[1].route.shortName.toLowerCase()}
+                {legs[0].route.shortName.toLowerCase()}
               </span>
             </>
           ),
