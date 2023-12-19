@@ -99,7 +99,42 @@ export default {
   Rauma: walttiMqtt,
   Pori: walttiMqtt,
   VARELY: walttiMqtt,
-  Harma: walttiMqtt,
+  Harma: {
+    mqttTopicResolver: function mqttTopicResolver(
+      route,
+      direction,
+      tripStartTime,
+      headsign,
+      feedId,
+      tripId,
+      geoHash,
+    ) {
+      return (
+        '/gtfsrt/vp/' +
+        feedId +
+        '/+/+/+/' +
+        '+' + // route +
+        '/+/+/' +
+        tripId +
+        '/+/' +
+        tripStartTime +
+        '/+/' +
+        geoHash[0] +
+        '/' +
+        geoHash[1] +
+        '/' +
+        geoHash[2] +
+        '/' +
+        geoHash[3] +
+        '/#'
+      );
+    },
+    mqtt: 'wss://mqtt.digitransit.fi',
+    gtfsrt: true,
+    routeSelector: defaultRouteSelector,
+    active: true,
+    vehicleNumberParser: defaulVehicleNumberParser,
+  },
   FOLI: {
     mqttTopicResolver: function mqttTopicResolver(
       route,

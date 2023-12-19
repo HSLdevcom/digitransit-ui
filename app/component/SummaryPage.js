@@ -556,7 +556,7 @@ class SummaryPage extends React.Component {
     if (source && source.active) {
       return {
         ...source,
-        agency: feedId,
+        feedId,
         options: itineraryTopics.length > 0 ? itineraryTopics : null,
       };
     }

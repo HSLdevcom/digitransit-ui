@@ -33,21 +33,21 @@ const zoomInText = `<svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/x
 
 const startClient = context => {
   const { realTime } = context.config;
-  let agency;
+  let feedId;
   /* handle multiple feedid case */
-  context.config.feedIds.forEach(ag => {
-    if (!agency && realTime[ag]) {
-      agency = ag;
+  context.config.feedIds.forEach(f => {
+    if (!feedId && realTime[f]) {
+      feedId = f;
     }
   });
-  const source = agency && realTime[agency];
+  const source = feedId && realTime[feedId];
   if (source && source.active) {
     const config = {
       ...source,
-      agency,
+      feedId,
       options: context.config.feedIds
-        .filter(feedId => realTime[feedId]?.active)
-        .map(feedId => ({ feedId })),
+        .filter(f => realTime[f]?.active)
+        .map(f => ({ feedId: f })),
     };
     context.executeAction(startRealTimeClient, config);
   }
