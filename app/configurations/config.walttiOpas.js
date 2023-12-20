@@ -158,9 +158,8 @@ export default configMerger(walttiConfig, {
 
   staticMessages: [
     {
-      id: '1',
+      id: 'raasepori_msg_20.12.2023',
       priority: -1,
-      shouldTrigger: true,
       persistence: 'repeat',
       content: {
         fi: [
