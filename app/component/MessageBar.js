@@ -124,16 +124,20 @@ class MessageBar extends Component {
         ? config.feedIds
         : null;
     if (config.messageBarAlerts) {
+      const serviceAlerts = uniqBy(
+        (await getServiceAlertsAsync(feedIds, relayEnvironment)).filter(
+          alert =>
+            alert.effectiveStartDate <= currentTime &&
+            alert.effectiveEndDate >= currentTime,
+        ),
+        alert => alert.alertHash,
+      );
+      if (config?.persistentAlert) {
+        serviceAlerts.push(config?.persistentAlert?.[this.props.lang]);
+      }
       this.setState({
         ready: true,
-        serviceAlerts: uniqBy(
-          (await getServiceAlertsAsync(feedIds, relayEnvironment)).filter(
-            alert =>
-              alert.effectiveStartDate <= currentTime &&
-              alert.effectiveEndDate >= currentTime,
-          ),
-          alert => alert.alertHash,
-        ),
+        serviceAlerts,
       });
     } else {
       this.setState({

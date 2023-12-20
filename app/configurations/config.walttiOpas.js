@@ -155,4 +155,33 @@ export default configMerger(walttiConfig, {
   ],
 
   showDisclaimer: true,
+
+  persistentAlert: {
+    fi: 
+      {
+        alertHeaderText: "HUOM! Raaseporin oma reittiopas siirtyy sivulle bosse.digitransit.fi",
+        alertDescriptionText: [
+          'Vinkki: tallenna osoite aloitusnäytöllesi niin saat aikataulut vaivattomasti näkyville.',
+        ],
+        alertSeverityLevel:	"INFO",
+      },
+    sv: 
+      {
+        alertHeaderText: "OBS! Raseborgs egen reseplanerare flyttas till bosse.digitransit.fi/?locale=sv",
+        alertDescriptionText: [
+          'Tips: spara sidan till startskärmen för en smidig tillgång till tidtabellerna',
+        ],
+        alertSeverityLevel:	"INFO",
+
+      },
+
+    en: 
+      {
+        alertHeaderText: "NOTE! The travel guide for Raseborg is available at bosse.digitransit.fi/?locale=en",
+        alertDescriptionText: [
+          'Tip: save the page to your start screen for easy access to the timetables',
+        ],
+        alertSeverityLevel:	"INFO",
+      },
+  },
 });
