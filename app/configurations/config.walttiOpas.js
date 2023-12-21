@@ -173,7 +173,7 @@ export default configMerger(walttiConfig, {
 
           },
         ],
-        en: [
+        sv: [
           {
             type: 'heading',
             content: "OBS! Raseborgs egen reseplanerare flyttas till bosse.digitransit.fi/?locale=sv",
@@ -185,7 +185,7 @@ export default configMerger(walttiConfig, {
   
           },
         ],
-        sv: [
+        en: [
             {
               type: 'heading',
               content: "NOTE! The travel guide for Raseborg is available at bosse.digitransit.fi/?locale=en",
