@@ -113,7 +113,7 @@ export default {
         '/gtfsrt/vp/' +
         feedId +
         '/+/+/+/' +
-        '+' + // route +
+        route +
         '/+/+/' +
         tripId +
         '/+/' +
