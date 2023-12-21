@@ -5,7 +5,6 @@ import {
   sortSearchResults,
   isStop,
 } from '@digitransit-search-util/digitransit-search-util-helpers';
-import uniqByLabel from '@digitransit-search-util/digitransit-search-util-uniq-by-label';
 import filterMatchingToInput from '@digitransit-search-util/digitransit-search-util-filter-matching-to-input';
 import getGeocodingResults from '@digitransit-search-util/digitransit-search-util-get-geocoding-results';
 import getJson from '@digitransit-search-util/digitransit-search-util-get-json';
@@ -574,7 +573,6 @@ export function getSearchResults(
 
   const searchResultsPromise = Promise.all(searchComponents)
     .then(flatten)
-    .then(uniqByLabel)
     .then(results => {
       searches.results = results;
     })
