@@ -18,7 +18,7 @@ import styles from './styles.scss';
  * @param {string} label                Text to show as input label
  * @param {node} icon                   JSX for icon to show in input
  * @param {boolean} disableTyping       Set to true to disable typing in the input
- * @param {boolean} datePicker          Is the picker DatePicer or TimePicker
+ * @param {boolean} datePicker          Is the picker DatePicker or TimePicker
  *
  * @example
  * <DesktopDatetimepicker
