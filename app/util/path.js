@@ -153,7 +153,6 @@ export const getStopRoutePath = searchObj => {
       path = `/${PREFIX_BIKESTATIONS}/`;
       id = `${network}%3A${searchObj.properties.id}`;
       break;
-    case 'favouriteVehiclestation':
     case 'favouriteVehicleRentalStation':
       path = `/${PREFIX_BIKESTATIONS}/`;
       id = searchObj.properties.labelId;
