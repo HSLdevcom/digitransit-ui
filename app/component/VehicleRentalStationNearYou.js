@@ -10,7 +10,12 @@ import { isKeyboardSelectionEvent } from '../util/browser';
 import { hasStationCode } from '../util/vehicleRentalUtils';
 import { getIdWithoutFeed } from '../util/feedScopedIdUtils';
 
-const VehicleStopNearYou = ({ stop, relay, currentTime, currentMode }) => {
+const VehicleRentalStationNearYou = ({
+  stop,
+  relay,
+  currentTime,
+  currentMode,
+}) => {
   useEffect(() => {
     const { stationId } = stop;
     if (currentMode === 'CITYBIKE') {
@@ -63,7 +68,7 @@ const VehicleStopNearYou = ({ stop, relay, currentTime, currentMode }) => {
     </span>
   );
 };
-VehicleStopNearYou.propTypes = {
+VehicleRentalStationNearYou.propTypes = {
   stop: PropTypes.shape({
     capacity: PropTypes.number,
     distance: PropTypes.number,
@@ -82,13 +87,13 @@ VehicleStopNearYou.propTypes = {
   relay: PropTypes.any,
 };
 
-VehicleStopNearYou.defaultProps = {
+VehicleRentalStationNearYou.defaultProps = {
   currentTime: undefined,
   currentMode: undefined,
 };
 
 const containerComponent = createRefetchContainer(
-  VehicleStopNearYou,
+  VehicleRentalStationNearYou,
   {
     stop: graphql`
       fragment VehicleStopNearYou_stop on VehicleRentalStation {
@@ -111,4 +116,7 @@ const containerComponent = createRefetchContainer(
   `,
 );
 
-export { containerComponent as default, VehicleStopNearYou as Component };
+export {
+  containerComponent as default,
+  VehicleRentalStationNearYou as Component,
+};

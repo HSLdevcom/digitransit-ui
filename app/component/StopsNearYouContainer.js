@@ -7,7 +7,7 @@ import { matchShape } from 'found';
 import StopNearYouContainer from './StopNearYouContainer';
 import withBreakpoint from '../util/withBreakpoint';
 import { sortNearbyRentalStations, sortNearbyStops } from '../util/sortUtils';
-import CityBikeStopNearYou from './VehicleStopNearYou';
+import CityBikeStopNearYou from './VehicleRentalStationNearYou';
 import Loading from './Loading';
 import Icon from './Icon';
 import { getDefaultNetworks } from '../util/vehicleRentalUtils';
