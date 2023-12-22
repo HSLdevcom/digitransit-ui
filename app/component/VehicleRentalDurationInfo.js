@@ -9,7 +9,7 @@ import {
   getVehicleRentalStationNetworkId,
 } from '../util/vehicleRentalUtils';
 
-function VehicleRentalStationDurationInfo(props) {
+function VehicleRentalDurationInfo(props) {
   const { networks, lang, config } = props;
   if (networks.length === 1) {
     const vehicleRentalStationNetwork = getVehicleRentalStationNetworkId(
@@ -102,14 +102,14 @@ function VehicleRentalStationDurationInfo(props) {
   );
 }
 
-VehicleRentalStationDurationInfo.propTypes = {
+VehicleRentalDurationInfo.propTypes = {
   networks: PropTypes.array.isRequired,
   lang: PropTypes.string.isRequired,
   config: PropTypes.object.isRequired,
 };
 
 const connectedComponent = connectToStores(
-  VehicleRentalStationDurationInfo,
+  VehicleRentalDurationInfo,
   ['UserStore', 'PreferencesStore'],
   context => ({
     lang: context.getStore('PreferencesStore').getLanguage(), // DT-3376

@@ -38,7 +38,7 @@ import {
   isToday,
   isTomorrow,
 } from '../util/timeUtils';
-import CityBikeDurationInfo from './VehicleRentalStationDurationInfo';
+import VehicleRentalDurationInfo from './VehicleRentalDurationInfo';
 import { FareShape } from '../util/shapes';
 import Emissions from './Emissions';
 import EmissionsInfo from './EmissionsInfo';
@@ -334,7 +334,7 @@ class ItineraryTab extends React.Component {
               </>
             ),
             showRentalBikeDurationWarning && (
-              <CityBikeDurationInfo
+              <VehicleRentalDurationInfo
                 networks={Array.from(rentalBikeNetworks)}
                 config={config}
               />
