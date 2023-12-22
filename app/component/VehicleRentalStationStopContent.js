@@ -14,18 +14,18 @@ const VehicleRentalStationStopContent = (
   { vehicleRentalStation },
   { config },
 ) => {
-  const citybikeCapacity = getVehicleCapacity(
+  const vehicleCapacity = getVehicleCapacity(
     config,
     vehicleRentalStation.network,
   );
-  if (citybikeCapacity === BIKEAVL_UNKNOWN) {
+  if (vehicleCapacity === BIKEAVL_UNKNOWN) {
     return null;
   }
   let totalSpaces;
   let fewAvailableCount;
   let fewerAvailableCount;
 
-  if (citybikeCapacity === BIKEAVL_WITHMAX) {
+  if (vehicleCapacity === BIKEAVL_WITHMAX) {
     totalSpaces =
       vehicleRentalStation.capacity ||
       vehicleRentalStation.vehiclesAvailable +
@@ -35,20 +35,20 @@ const VehicleRentalStationStopContent = (
   }
   const disabled = !vehicleRentalStation.operative;
 
-  const citybikeicon = getVehicleRentalStationNetworkIcon(
+  const vehicleIcon = getVehicleRentalStationNetworkIcon(
     getVehicleRentalStationNetworkConfig(vehicleRentalStation.network, config),
     disabled,
   );
   return (
     <div className="citybike-content-container">
-      <Icon img={citybikeicon} />
+      <Icon img={vehicleIcon} />
       <VehicleRentalAvailability
         disabled={disabled}
         vehiclesAvailable={vehicleRentalStation.vehiclesAvailable}
         totalSpaces={totalSpaces}
         fewAvailableCount={fewAvailableCount}
         fewerAvailableCount={fewerAvailableCount}
-        useSpacesAvailable={citybikeCapacity === BIKEAVL_WITHMAX}
+        useSpacesAvailable={vehicleCapacity === BIKEAVL_WITHMAX}
       />
     </div>
   );
