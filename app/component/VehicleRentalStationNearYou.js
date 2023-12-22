@@ -96,7 +96,7 @@ const containerComponent = createRefetchContainer(
   VehicleRentalStationNearYou,
   {
     stop: graphql`
-      fragment VehicleStopNearYou_stop on VehicleRentalStation {
+      fragment VehicleRentalStationNearYou_stop on VehicleRentalStation {
         stationId
         name
         vehiclesAvailable
@@ -108,9 +108,9 @@ const containerComponent = createRefetchContainer(
     `,
   },
   graphql`
-    query VehicleStopNearYouRefetchQuery($stopId: String!) {
+    query VehicleRentalStationNearYouRefetchQuery($stopId: String!) {
       vehicleRentalStation(id: $stopId) {
-        ...VehicleStopNearYou_stop
+        ...VehicleRentalStationNearYou_stop
       }
     }
   `,

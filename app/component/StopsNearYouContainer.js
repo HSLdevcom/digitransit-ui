@@ -395,7 +395,7 @@ const refetchContainer = createPaginationContainer(
               place {
                 __typename
                 ... on VehicleRentalStation {
-                  ...VehicleStopNearYou_stop
+                  ...VehicleRentalStationNearYou_stop
                   stationId
                   network
                 }
