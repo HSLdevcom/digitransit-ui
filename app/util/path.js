@@ -149,10 +149,6 @@ export const getStopRoutePath = searchObj => {
       path = `/${PREFIX_TERMINALS}/`;
       id = id.replace('GTFS:', '').replace(':', '%3A');
       break;
-    case 'vehicleRentalStation':
-      path = `/${PREFIX_BIKESTATIONS}/`;
-      id = searchObj.properties.labelId;
-      break;
     case 'bikestation':
       path = `/${PREFIX_BIKESTATIONS}/`;
       id = `${network}%3A${searchObj.properties.id}`;
