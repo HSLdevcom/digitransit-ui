@@ -224,10 +224,7 @@ class ItineraryTab extends React.Component {
     if (shouldShowFareInfo(config) && fares.some(fare => fare.isUnknown)) {
       const found = {};
       itinerary.legs.forEach(leg => {
-        if (
-          config.modeDisclaimers?.[leg.mode] &&
-          !found[leg.mode]
-        ) {
+        if (config.modeDisclaimers?.[leg.mode] && !found[leg.mode]) {
           found[leg.mode] = true;
           const disclaimer = config.modeDisclaimers[leg.mode][currentLanguage];
           disclaimers.push(
@@ -242,7 +239,10 @@ class ItineraryTab extends React.Component {
         }
       });
 
-      if (config.callAgencyInfo && itinerary.legs.some(leg => isCallAgencyPickupType(leg))) {
+      if (
+        config.callAgencyInfo &&
+        itinerary.legs.some(leg => isCallAgencyPickupType(leg))
+      ) {
         disclaimers.push(
           <FareDisclaimer
             textId="separate-ticket-required-for-call-agency-disclaimer"
@@ -271,10 +271,6 @@ class ItineraryTab extends React.Component {
         );
       }
     }
-
-    // const itineraryContainsCallLegs = itinerary.legs.some(leg =>
-    //   isCallAgencyPickupType(leg),
-    // );
 
     return (
       <div className="itinerary-tab">
@@ -356,7 +352,12 @@ class ItineraryTab extends React.Component {
                   legs={itinerary.legs}
                 />
               )),
-            config.showCO2InItinerarySummary && <EmissionsInfo itinerary={itinerary} isMobile={this.props.isMobile} />,
+            config.showCO2InItinerarySummary && (
+              <EmissionsInfo
+                itinerary={itinerary}
+                isMobile={this.props.isMobile}
+              />
+            ),
             <div
               className={cx('momentum-scroll itinerary-tabs__scroll', {
                 multirow: extraProps.isMultiRow,
@@ -379,13 +380,16 @@ class ItineraryTab extends React.Component {
                 />
                 {config.showRouteInformation && <RouteInformation />}
               </div>
-              {config.showCO2InItinerarySummary &&
+              {config.showCO2InItinerarySummary && (
                 <Emissions
                   config={config}
                   itinerary={itinerary}
                   carItinerary={this.props.carItinerary}
-                  emissionsInfolink={config.URL.EMISSIONS_INFO?.[currentLanguage]}
-                />}
+                  emissionsInfolink={
+                    config.URL.EMISSIONS_INFO?.[currentLanguage]
+                  }
+                />
+              )}
               {this.shouldShowDisclaimer(config) && (
                 <div className="itinerary-disclaimer">
                   <FormattedMessage
@@ -434,7 +438,6 @@ const withRelay = createFragmentContainer(
                 }
               }
             }
-      
           }
           mode
           nextLegs(
