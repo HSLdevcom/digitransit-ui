@@ -176,7 +176,7 @@
     "i18next": "19.8.4",
     "intl": "1.2.5",
     "leaflet": "1.6.0",
-    "lodash": "4.17.19",
+    "lodash": "4.17.21",
     "lru-cache": "6.0.0",
     "moment": "2.29.4",
     "moment-timezone": "0.5.43",

@@ -16,6 +16,9 @@ const rootLink = process.env.ROOTLINK || 'https://test.hslfi.hsldev.com';
 const BANNER_URL = 'https://content.hsl.fi/api/v1/banners?site=JourneyPlanner';
 // 'https://test-api.hslfi.hsldev.com/api/v1/banners?site=JourneyPlanner';
 
+const localStorageEmitter =
+  process.env.USE_EMITTER && rootLink + '/local-storage-emitter';
+
 export default {
   CONFIG,
 
@@ -426,8 +429,7 @@ export default {
     sv: 'att-resa/Trafiken-just-nu',
   },
 
-  localStorageEmitter: rootLink + '/local-storage-emitter',
-  localStorageTarget: rootLink,
+  localStorageEmitter,
 
   cityBike: {
     minZoomStopsNearYou: 10,

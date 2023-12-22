@@ -144,6 +144,15 @@ export default configMerger(walttiConfig, {
         },
         url: '/assets/geojson/jkl_zone_lines_20210222.geojson',
       },
+      {
+        name: {
+          fi: 'Myyntipisteet',
+          sv: 'Servicekontorer',
+          en: 'Service points',
+        },
+        url:
+          'https://jakoon.jkl.fi/reittiopas/Asiakaspalvelupisteet/myyntipisteet.geojson',
+      },
     ],
   },
 

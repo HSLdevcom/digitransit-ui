@@ -171,19 +171,19 @@ class DepartureListContainer extends Component {
 
     const { config } = this.context;
     const { realTime } = config;
-    let agency;
+    let feedId;
 
     /* handle multiple feedid case */
-    config.feedIds.forEach(ag => {
-      if (!agency && realTime[ag]) {
-        agency = ag;
+    config.feedIds.forEach(f => {
+      if (!feedId && realTime[f]) {
+        feedId = f;
       }
     });
-    const source = agency && realTime[agency];
+    const source = feedId && realTime[feedId];
     if (source && source.active) {
       return {
         ...source,
-        agency,
+        feedId,
         options: trips,
       };
     }

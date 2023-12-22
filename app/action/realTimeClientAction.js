@@ -6,8 +6,7 @@ export function startRealTimeClient(actionContext, settings, done) {
     return;
   }
   actionContext.dispatch('RealTimeClientReset');
-  const startClient = startMqttClient;
-  startClient(settings, actionContext).then(data => {
+  startMqttClient(settings, actionContext).then(data => {
     actionContext.dispatch('RealTimeClientStarted', data);
     done();
   });
