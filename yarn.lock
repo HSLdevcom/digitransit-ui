@@ -2101,7 +2101,17 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digitransit-search-util/digitransit-search-util-helpers@1.0.6, @digitransit-search-util/digitransit-search-util-helpers@workspace:digitransit-search-util/packages/digitransit-search-util-helpers":
+"@digitransit-search-util/digitransit-search-util-helpers@npm:1.0.6":
+  version: 1.0.6
+  resolution: "@digitransit-search-util/digitransit-search-util-helpers@npm:1.0.6"
+  dependencies:
+    "@digitransit-search-util/digitransit-search-util-is-duplicate": 1.0.0
+    lodash: 4.17.21
+  checksum: 49b04e7a38d4d7d97288d0e3f6de0889702f05986a6ecb3d4e83988177055e082c89a93fade11702f397ecc7419ff894de288ee147d9bdb4fcc7eca9f2d79f52
+  languageName: node
+  linkType: hard
+
+"@digitransit-search-util/digitransit-search-util-helpers@workspace:digitransit-search-util/packages/digitransit-search-util-helpers":
   version: 0.0.0-use.local
   resolution: "@digitransit-search-util/digitransit-search-util-helpers@workspace:digitransit-search-util/packages/digitransit-search-util-helpers"
   dependencies:
@@ -2110,7 +2120,16 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digitransit-search-util/digitransit-search-util-is-duplicate@1.0.0, @digitransit-search-util/digitransit-search-util-is-duplicate@workspace:digitransit-search-util/packages/digitransit-search-util-is-duplicate":
+"@digitransit-search-util/digitransit-search-util-is-duplicate@npm:1.0.0":
+  version: 1.0.0
+  resolution: "@digitransit-search-util/digitransit-search-util-is-duplicate@npm:1.0.0"
+  dependencies:
+    "@digitransit-search-util/digitransit-search-util-tru-eq": 0.0.2
+  checksum: d941e0d4dcb6ecae6369c4e44315e57670cbd601fe6a58913535f74aa15374c9657d5ebd6ccd2c410afa33348871a5d4201180d1f43d11cf8da1cecb60fd615e
+  languageName: node
+  linkType: hard
+
+"@digitransit-search-util/digitransit-search-util-is-duplicate@workspace:digitransit-search-util/packages/digitransit-search-util-is-duplicate":
   version: 0.0.0-use.local
   resolution: "@digitransit-search-util/digitransit-search-util-is-duplicate@workspace:digitransit-search-util/packages/digitransit-search-util-is-duplicate"
   dependencies:
