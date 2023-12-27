@@ -1,6 +1,6 @@
 /* eslint-disable prefer-template */
 import configMerger from '../util/configMerger';
-import { BIKEAVL_BIKES } from '../util/citybikes';
+import { BIKEAVL_BIKES } from '../util/vehicleRentalUtils';
 
 const CONFIG = 'lahti';
 const APP_TITLE = 'LSL reittiopas';
@@ -21,7 +21,6 @@ export default configMerger(walttiConfig, {
     primary: '#0066B3',
     iconColors: {
       'mode-bus': '#0066B3',
-      'mode-citybike': '#f2b62d',
     },
   },
 
@@ -172,8 +171,8 @@ export default configMerger(walttiConfig, {
         type: 'citybike',
         url: {
           fi: 'https://kaupunkipyorat.lahti.fi/',
-          sv: 'https://kaupunkipyorat.lahti.fi/?lang=2',
-          en: 'https://kaupunkipyorat.lahti.fi/?lang=19',
+          sv: 'https://kaupunkipyorat.lahti.fi/?lang=19',
+          en: 'https://kaupunkipyorat.lahti.fi/?lang=2',
         },
       },
     },
