@@ -3,7 +3,7 @@ import ParkAndRideContent from './ParkAndRideContent';
 
 const containerComponent = createFragmentContainer(ParkAndRideContent, {
   bikePark: graphql`
-    fragment BikeParkContent_bikePark on BikePark
+    fragment VehicleParkContent_bikePark on BikePark
     @argumentDefinitions(dates: { type: "[String!]!" }) {
       bikeParkId
       spacesAvailable

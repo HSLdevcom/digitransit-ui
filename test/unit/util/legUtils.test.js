@@ -167,7 +167,7 @@ describe('legUtils', () => {
         lon: 24.51058387756348,
         name: 'Jorvaksenkaari 13, Kirkkonummi',
         vertexType: 'NORMAL',
-        bikeRentalStation: null,
+        vehicleRentalStation: null,
         stop: null,
       },
       to: {
@@ -176,7 +176,7 @@ describe('legUtils', () => {
         lon: 24.512710900000002,
         name: 'corner of path and parking aisle',
         vertexType: 'NORMAL',
-        bikeRentalStation: null,
+        vehicleRentalStation: null,
         stop: null,
       },
       legGeometry: {
@@ -207,7 +207,7 @@ describe('legUtils', () => {
         lon: 24.512710900000002,
         name: 'corner of path and parking aisle',
         vertexType: 'NORMAL',
-        bikeRentalStation: null,
+        vehicleRentalStation: null,
         stop: null,
       },
       to: {
@@ -216,7 +216,7 @@ describe('legUtils', () => {
         lon: 24.512328,
         name: 'Jorvas, Kirkkonummi',
         vertexType: 'NORMAL',
-        bikeRentalStation: null,
+        vehicleRentalStation: null,
         stop: null,
       },
       legGeometry: {
@@ -246,7 +246,7 @@ describe('legUtils', () => {
         lon: 24.512328,
         name: 'Jorvas, Kirkkonummi',
         vertexType: 'NORMAL',
-        bikeRentalStation: null,
+        vehicleRentalStation: null,
         stop: null,
       },
       to: {
@@ -255,7 +255,7 @@ describe('legUtils', () => {
         lon: 24.512489000000002,
         name: 'corner of Platform 1 and service road',
         vertexType: 'NORMAL',
-        bikeRentalStation: null,
+        vehicleRentalStation: null,
         stop: null,
       },
       legGeometry: {
@@ -285,7 +285,7 @@ describe('legUtils', () => {
         lon: 24.512489000000002,
         name: 'corner of Platform 1 and service road',
         vertexType: 'NORMAL',
-        bikeRentalStation: null,
+        vehicleRentalStation: null,
         stop: null,
       },
       to: {
@@ -294,7 +294,7 @@ describe('legUtils', () => {
         lon: 24.505533,
         name: 'Elfvinginkuja 7, Kirkkonummi',
         vertexType: 'NORMAL',
-        bikeRentalStation: null,
+        vehicleRentalStation: null,
         stop: null,
       },
       legGeometry: {
@@ -325,7 +325,7 @@ describe('legUtils', () => {
         lon: 24.505533,
         name: 'Elfvinginkuja 7, Kirkkonummi',
         vertexType: 'NORMAL',
-        bikeRentalStation: null,
+        vehicleRentalStation: null,
         stop: null,
       },
       to: {
@@ -334,7 +334,7 @@ describe('legUtils', () => {
         lon: 24.51303005218506,
         name: 'Kolmenkylänkuja 3, Kirkkonummi',
         vertexType: 'NORMAL',
-        bikeRentalStation: null,
+        vehicleRentalStation: null,
         stop: null,
       },
       legGeometry: {

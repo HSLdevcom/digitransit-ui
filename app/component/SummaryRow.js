@@ -23,11 +23,10 @@ import withBreakpoint from '../util/withBreakpoint';
 import { isKeyboardSelectionEvent } from '../util/browser';
 import {
   BIKEAVL_UNKNOWN,
-  getCityBikeNetworkIcon,
-  getCityBikeNetworkConfig,
-  getCityBikeNetworkId,
-  getCitybikeCapacity,
-} from '../util/citybikes';
+  getVehicleRentalStationNetworkIcon,
+  getVehicleRentalStationNetworkConfig,
+  getVehicleCapacity,
+} from '../util/vehicleRentalUtils';
 import { getRouteMode } from '../util/modeUtils';
 import { getCapacityForLeg } from '../util/occupancyUtil';
 import { getCo2Value } from '../util/itineraryUtils';
@@ -157,13 +156,13 @@ export const ModeLeg = (
   let networkIcon;
   if (
     (mode === 'CITYBIKE' || mode === 'BICYCLE') &&
-    leg.from.bikeRentalStation
+    leg.from.vehicleRentalStation
   ) {
     networkIcon =
-      leg.from.bikeRentalStation &&
-      getCityBikeNetworkIcon(
-        getCityBikeNetworkConfig(
-          leg.from.bikeRentalStation.networks[0],
+      leg.from.vehicleRentalStation &&
+      getVehicleRentalStationNetworkIcon(
+        getVehicleRentalStationNetworkConfig(
+          leg.from.vehicleRentalStation.network,
           config,
         ),
       );
@@ -407,7 +406,7 @@ const SummaryRow = (
     ) {
       const bikingTime = Math.floor((leg.endTime - leg.startTime) / 1000 / 60);
       // eslint-disable-next-line prefer-destructuring
-      bikeNetwork = getCityBikeNetworkId(leg.from.bikeRentalStation.networks);
+      bikeNetwork = leg.from.vehicleRentalStation.network;
       if (
         config.cityBike.networks &&
         config.cityBike.networks[bikeNetwork]?.timeBeforeSurcharge &&
@@ -422,8 +421,8 @@ const SummaryRow = (
         showRentalBikeDurationWarning =
           showRentalBikeDurationWarning || rentDurationOverSurchargeLimit;
         if (!citybikeicon) {
-          citybikeicon = getCityBikeNetworkIcon(
-            getCityBikeNetworkConfig(getCityBikeNetworkId(bikeNetwork), config),
+          citybikeicon = getVehicleRentalStationNetworkIcon(
+            getVehicleRentalStationNetworkConfig(bikeNetwork, config),
           );
         }
       }
@@ -606,14 +605,15 @@ const SummaryRow = (
             }}
           />
           <div>
-            {getCitybikeCapacity(
+            {getVehicleCapacity(
               config,
-              firstDeparture.from.bikeRentalStation.networks[0],
+              firstDeparture.from.vehicleRentalStation.network,
             ) !== BIKEAVL_UNKNOWN && (
               <FormattedMessage
                 id="bikes-available"
                 values={{
-                  amount: firstDeparture.from.bikeRentalStation.bikesAvailable,
+                  amount:
+                    firstDeparture.from.vehicleRentalStation.vehiclesAvailable,
                 }}
               />
             )}

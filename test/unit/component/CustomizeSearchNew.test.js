@@ -4,7 +4,7 @@ import { after, before, describe, it } from 'mocha';
 import React from 'react';
 
 import CustomizeSearch from '../../../app/component/CustomizeSearchNew';
-import CityBikeNetworkSelector from '../../../app/component/CityBikeNetworkSelector';
+import VehicleRentalStationNetworkSelector from '../../../app/component/VehicleRentalStationNetworkSelector';
 
 import { mockContext, mockChildContextTypes } from '../helpers/mock-context';
 import { mountWithIntl } from '../helpers/mock-intl-enzyme';
@@ -59,7 +59,7 @@ describe('<CustomizeSearch />', () => {
         },
       },
     );
-    expect(wrapper.find(CityBikeNetworkSelector)).to.have.lengthOf(1);
+    expect(wrapper.find(VehicleRentalStationNetworkSelector)).to.have.lengthOf(1);
   });
 
   it.skip('should hide citybike network selector when citybike routing is disabled', () => {
@@ -83,7 +83,7 @@ describe('<CustomizeSearch />', () => {
         },
       },
     );
-    expect(wrapper.find(CityBikeNetworkSelector)).to.have.lengthOf(0);
+    expect(wrapper.find(VehicleRentalStationNetworkSelector)).to.have.lengthOf(0);
   });
 });
 */

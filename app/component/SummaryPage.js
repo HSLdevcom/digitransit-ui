@@ -500,19 +500,22 @@ class SummaryPage extends React.Component {
     return false;
   };
 
-  addBikeStationMapForRentalBikeItineraries = () => {
+  addBikeStationMapForRentalVehicleItineraries = () => {
     return getMapLayerOptions({
       lockedMapLayers: ['vehicles', 'citybike', 'stop'],
       selectedMapLayers: ['vehicles', 'citybike'],
     });
   };
 
-  getHiddenObjects = (itineraryContainsBikeRentalStation, activeItinerary) => {
+  getHiddenObjects = (
+    itineraryContainsVehicleRentalStation,
+    activeItinerary,
+  ) => {
     const hiddenObjects = { vehicleRentalStations: [] };
-    if (itineraryContainsBikeRentalStation) {
+    if (itineraryContainsVehicleRentalStation) {
       hiddenObjects.vehicleRentalStations = activeItinerary?.legs
-        ?.filter(leg => leg.from?.bikeRentalStation)
-        ?.map(station => station.from?.bikeRentalStation.stationId);
+        ?.filter(leg => leg.from?.vehicleRentalStation)
+        ?.map(station => station.from?.vehicleRentalStation.stationId);
     }
     return hiddenObjects;
   };
@@ -1073,10 +1076,10 @@ class SummaryPage extends React.Component {
                   gtfsId
                   zoneId
                 }
-                bikeRentalStation {
+                vehicleRentalStation {
                   stationId
-                  bikesAvailable
-                  networks
+                  vehiclesAvailable
+                  network
                 }
               }
               to {
@@ -1889,16 +1892,16 @@ class SummaryPage extends React.Component {
     }
     const onlyHasWalkingItineraries = this.onlyHasWalkingItineraries();
 
-    const itineraryContainsDepartureFromBikeRentalStation = filteredItineraries[
+    const itineraryContainsDepartureFromVehicleRentalStation = filteredItineraries[
       activeIndex
-    ]?.legs.some(leg => leg.from?.bikeRentalStation);
+    ]?.legs.some(leg => leg.from?.vehicleRentalStation);
 
-    const mapLayerOptions = itineraryContainsDepartureFromBikeRentalStation
-      ? this.addBikeStationMapForRentalBikeItineraries(filteredItineraries)
+    const mapLayerOptions = itineraryContainsDepartureFromVehicleRentalStation
+      ? this.addBikeStationMapForRentalVehicleItineraries(filteredItineraries)
       : this.props.mapLayerOptions;
 
     const objectsToHide = this.getHiddenObjects(
-      itineraryContainsDepartureFromBikeRentalStation,
+      itineraryContainsDepartureFromVehicleRentalStation,
       filteredItineraries[activeIndex],
     );
     return (
@@ -3012,10 +3015,10 @@ const containerComponent = createRefetchContainer(
                   gtfsId
                   zoneId
                 }
-                bikeRentalStation {
+                vehicleRentalStation {
                   stationId
-                  bikesAvailable
-                  networks
+                  vehiclesAvailable
+                  network
                 }
               }
               to {

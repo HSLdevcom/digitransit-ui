@@ -4,27 +4,31 @@ import React from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import Icon from './Icon';
 import {
-  getCityBikeNetworkConfig,
-  getCityBikeNetworkIcon,
-  getCityBikeNetworkId,
-} from '../util/citybikes';
+  getVehicleRentalStationNetworkConfig,
+  getVehicleRentalStationNetworkIcon,
+  getVehicleRentalStationNetworkId,
+} from '../util/vehicleRentalUtils';
 
-function CityBikeDurationInfo(props) {
+function VehicleRentalDurationInfo(props) {
   const { networks, lang, config } = props;
   if (networks.length === 1) {
-    const cityBikeNetwork = getCityBikeNetworkId(networks);
-    const citybikeicon = getCityBikeNetworkIcon(
-      getCityBikeNetworkConfig(cityBikeNetwork, config),
+    const vehicleRentalStationNetwork = getVehicleRentalStationNetworkId(
+      networks,
     );
-    const cityBikeNetworkDurationInfoLink =
-      config.cityBike.networks[cityBikeNetwork].durationInstructions[lang];
+    const vehicleIcon = getVehicleRentalStationNetworkIcon(
+      getVehicleRentalStationNetworkConfig(vehicleRentalStationNetwork, config),
+    );
+    const vehicleRentalStationNetworkDurationInfoLink =
+      config.cityBike.networks[vehicleRentalStationNetwork]
+        .durationInstructions[lang];
     const duration =
-      config.cityBike.networks[cityBikeNetwork].timeBeforeSurcharge / 60;
+      config.cityBike.networks[vehicleRentalStationNetwork]
+        .timeBeforeSurcharge / 60;
 
     return (
       <div className="citybike-duration-infobox">
         <div className="left-column">
-          <Icon img={citybikeicon} width={2.2} height={2.2} />
+          <Icon img={vehicleIcon} width={2.2} height={2.2} />
         </div>
         <div className="right-column">
           <span>
@@ -41,7 +45,7 @@ function CityBikeDurationInfo(props) {
               defaultMessage=""
             />
             &nbsp;
-            <a href={cityBikeNetworkDurationInfoLink}>
+            <a href={vehicleRentalStationNetworkDurationInfoLink}>
               <FormattedMessage id="read-more" defaultMessage="Read more" /> ›
             </a>
           </p>
@@ -49,8 +53,8 @@ function CityBikeDurationInfo(props) {
       </div>
     );
   }
-  const citybikeicon = getCityBikeNetworkIcon(
-    getCityBikeNetworkConfig(networks[0], config),
+  const citybikeicon = getVehicleRentalStationNetworkIcon(
+    getVehicleRentalStationNetworkConfig(networks[0], config),
   );
   const durationInfoLinks = {};
   for (let i = 0; i < networks.length; i++) {
@@ -98,14 +102,14 @@ function CityBikeDurationInfo(props) {
   );
 }
 
-CityBikeDurationInfo.propTypes = {
+VehicleRentalDurationInfo.propTypes = {
   networks: PropTypes.array.isRequired,
   lang: PropTypes.string.isRequired,
   config: PropTypes.object.isRequired,
 };
 
 const connectedComponent = connectToStores(
-  CityBikeDurationInfo,
+  VehicleRentalDurationInfo,
   ['UserStore', 'PreferencesStore'],
   context => ({
     lang: context.getStore('PreferencesStore').getLanguage(), // DT-3376

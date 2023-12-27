@@ -247,8 +247,8 @@ export function getSearchResults(
     parkingAreaSources,
     getLanguage,
     getStopAndStationsQuery,
-    getFavouriteBikeRentalStationsQuery,
-    getFavouriteBikeRentalStations,
+    getFavouriteVehicleRentalStationsQuery,
+    getFavouriteVehicleRentalStations,
     getFavouriteRoutesQuery,
     getFavouriteRoutes,
     getRoutesQuery,
@@ -337,7 +337,7 @@ export function getSearchResults(
         'selectFromMap',
         'futureRoute',
         'ownLocations',
-        'bikeRentalStation',
+        'vehicleRentalStation',
         'bikepark',
         'carpark',
         'stop',
@@ -384,7 +384,7 @@ export function getSearchResults(
         'ownLocations',
         'favouritePlace',
         'bikestation',
-        'bikeRentalStation',
+        'vehicleRentalStation',
         'back',
         'stop',
         'station',
@@ -468,7 +468,7 @@ export function getSearchResults(
         'futureRoute',
         'ownLocations',
         'favouritePlace',
-        'bikeRentalStation',
+        'vehicleRentalStation',
         'back',
       ];
       dropLayers.push(...routeLayers);
@@ -476,7 +476,7 @@ export function getSearchResults(
       dropLayers.push(...parkingLayers);
       if (transportMode) {
         if (transportMode !== 'route-CITYBIKE') {
-          dropLayers.push('bikeRentalStation');
+          dropLayers.push('vehicleRentalStation');
           dropLayers.push('bikestation');
         }
         searchComponents.push(
@@ -527,7 +527,7 @@ export function getSearchResults(
       ];
       if (transportMode) {
         if (transportMode !== 'route-CITYBIKE') {
-          dropLayers.push('bikeRentalStation');
+          dropLayers.push('vehicleRentalStation');
           dropLayers.push('bikestation');
         }
         dropLayers.push(...routeLayers.filter(i => !(i === transportMode)));
@@ -540,11 +540,16 @@ export function getSearchResults(
       );
     }
   }
-  if (allTargets || targets.includes('BikeRentalStations')) {
+  if (allTargets || targets.includes('VehicleRentalStations')) {
     if (sources.includes('Favourite')) {
-      const favouriteBikeStations = getFavouriteBikeRentalStations(context);
+      const favouriteVehicleRentalStation = getFavouriteVehicleRentalStations(
+        context,
+      );
       searchComponents.push(
-        getFavouriteBikeRentalStationsQuery(favouriteBikeStations, input),
+        getFavouriteVehicleRentalStationsQuery(
+          favouriteVehicleRentalStation,
+          input,
+        ),
       );
     }
     if (allSources || sources.includes('Datasource')) {
@@ -563,7 +568,7 @@ export function getSearchResults(
           geocodingLayers,
         ).then(results => {
           if (filterResults) {
-            return filterResults(results, mode, 'BikeRentalStations');
+            return filterResults(results, mode, 'VehicleRentalStations');
           }
           return results;
         }),

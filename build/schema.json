@@ -1038,7 +1038,7 @@
                             "deprecationReason": null
                         },
                         {
-                            "name": "bikesAvailable",
+                            "name": "vehiclesAvailable",
                             "description": "Number of bikes currently available on the rental station.\nSee field `allowPickupNow` to know if is currently possible to pick up a bike.",
                             "args": [],
                             "type": {
@@ -1075,7 +1075,7 @@
                         },
                         {
                             "name": "realtime",
-                            "description": "If true, values of `bikesAvailable` and `spacesAvailable` are updated from a\nreal-time source. If false, values of `bikesAvailable` and `spacesAvailable`\nare always the total capacity divided by two.",
+                            "description": "If true, values of `vehiclesAvailable` and `spacesAvailable` are updated from a\nreal-time source. If false, values of `vehiclesAvailable` and `spacesAvailable`\nare always the total capacity divided by two.",
                             "args": [],
                             "type": {
                                 "kind": "SCALAR",

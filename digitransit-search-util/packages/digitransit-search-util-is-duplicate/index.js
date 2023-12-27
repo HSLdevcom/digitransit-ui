@@ -24,6 +24,18 @@ import truEq from '@digitransit-search-util/digitransit-search-util-tru-eq';
  */
 
 const gtfsStopLayers = ['stop', 'station', 'favouriteStop', 'favouriteStation'];
+const vehicleRentalLayers = ['favouriteVehicleRentalStation', 'bikestation'];
+
+function labelIdToGid(id) {
+  if (!id) {
+    return '';
+  }
+  const parts = id.split(':');
+  if (parts.length === 0) {
+    return '';
+  }
+  return `citybikes${parts[0]}:bikestation:${parts[1]}`;
+}
 
 export default function isDuplicate(item1, item2) {
   const props1 = item1.properties;
@@ -44,13 +56,12 @@ export default function isDuplicate(item1, item2) {
     return false;
   }
   if (
-    ((props1.layer === 'bikeRentalStation' ||
-      props1.layer === 'favouriteBikeRentalStation') &&
-      (props2.layer === 'bikeRentalStation' ||
-        props2.layer === 'favouriteBikeRentalStation')) ||
-    (props1.layer === 'bikestation' && props2.layer === 'bikestation')
+    vehicleRentalLayers.includes(props1.layer) &&
+    vehicleRentalLayers.includes(props2.layer)
   ) {
-    return props1.labelId === props2.labelId;
+    const id1 = props1.gid || labelIdToGid(props1.labelId);
+    const id2 = props2.gid || labelIdToGid(props2.labelId);
+    return id1 === id2;
   }
   if (props1.gtfsId && props2.gtfsId) {
     return props1.gtfsId === props2.gtfsId;

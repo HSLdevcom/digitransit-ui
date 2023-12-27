@@ -8,7 +8,7 @@ export default {
       lon: 24.935198,
       name: 'Veturitori',
       vertexType: 'BIKESHARE',
-      bikeRentalStation: {
+      vehicleRentalStation: {
         __dataID__: 'QmlrZVJlbnRhbFN0YXRpb246MTEz',
         __fragments__: {
           '7::client': [{}],
@@ -22,7 +22,7 @@ export default {
       lon: 24.939067,
       name: 'Opastinsilta 7, Helsinki',
       vertexType: 'NORMAL',
-      bikeRentalStation: null,
+      vehicleRentalStation: null,
       stop: null,
     },
     legGeometry: {
@@ -56,7 +56,7 @@ export default {
         lon: 24.941457,
         name: 'Helsingin rautatieasema, Helsinki',
         vertexType: 'NORMAL',
-        bikeRentalStation: null,
+        vehicleRentalStation: null,
         stop: null,
       },
       to: {
@@ -65,7 +65,7 @@ export default {
         lon: 24.94292,
         name: 'Kaisaniemenpuisto',
         vertexType: 'BIKESHARE',
-        bikeRentalStation: {
+        vehicleRentalStation: {
           __dataID__: 'QmlrZVJlbnRhbFN0YXRpb246MDIw',
           __fragments__: {
             '7::client': {},
@@ -102,7 +102,7 @@ export default {
         lon: 24.94292,
         name: 'Kaisaniemenpuisto',
         vertexType: 'BIKESHARE',
-        bikeRentalStation: {
+        vehicleRentalStation: {
           __dataID__: 'QmlrZVJlbnRhbFN0YXRpb246MDIw',
           __fragments__: {
             '7::client': {},
@@ -116,7 +116,7 @@ export default {
         lon: 24.935198,
         name: 'Veturitori',
         vertexType: 'BIKESHARE',
-        bikeRentalStation: {
+        vehicleRentalStation: {
           __dataID__: 'QmlrZVJlbnRhbFN0YXRpb246MTEz',
           __fragments__: {
             '7::client': {},
@@ -154,7 +154,7 @@ export default {
         lon: 24.935198,
         name: 'Veturitori',
         vertexType: 'BIKESHARE',
-        bikeRentalStation: {
+        vehicleRentalStation: {
           __dataID__: 'QmlrZVJlbnRhbFN0YXRpb246MTEz',
           __fragments__: {
             '7::client': {},
@@ -168,7 +168,7 @@ export default {
         lon: 24.939067,
         name: 'Opastinsilta 7, Helsinki',
         vertexType: 'NORMAL',
-        bikeRentalStation: null,
+        vehicleRentalStation: null,
         stop: null,
       },
       legGeometry: {

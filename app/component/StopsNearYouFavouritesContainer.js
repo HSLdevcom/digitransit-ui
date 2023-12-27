@@ -4,12 +4,12 @@ import { graphql, createFragmentContainer } from 'react-relay';
 import distance from '@digitransit-search-util/digitransit-search-util-distance';
 import { dtLocationShape } from '../util/shapes';
 import StopNearYouContainer from './StopNearYouContainer';
-import CityBikeStopNearYou from './CityBikeStopNearYou';
+import CityBikeStopNearYou from './VehicleRentalStationNearYou';
 
 function StopsNearYouFavouritesContainer({
   stops,
   stations,
-  bikeStations,
+  vehicleStations,
   searchPosition,
 }) {
   const stopList = [];
@@ -36,11 +36,11 @@ function StopsNearYouFavouritesContainer({
       }),
   );
   stopList.push(
-    ...bikeStations
+    ...vehicleStations
       .filter(s => s)
       .map(stop => {
         return {
-          type: 'bikeRentalStation',
+          type: 'vehicleRentalStation',
           distance: distance(searchPosition, stop),
           ...stop,
         };
@@ -66,7 +66,7 @@ function StopsNearYouFavouritesContainer({
             stopId={stop.stops[0].gtfsId}
           />
         );
-      case 'bikeRentalStation':
+      case 'vehicleRentalStation':
         return <CityBikeStopNearYou key={stop.name} stop={stop} />;
       default:
         return null;
@@ -77,11 +77,8 @@ function StopsNearYouFavouritesContainer({
 StopsNearYouFavouritesContainer.propTypes = {
   stops: PropTypes.array,
   stations: PropTypes.array,
-  bikeStations: PropTypes.array,
+  vehicleStations: PropTypes.array,
   searchPosition: dtLocationShape,
-  relay: PropTypes.shape({
-    refetch: PropTypes.func.isRequired,
-  }).isRequired,
 };
 
 const refetchContainer = createFragmentContainer(
@@ -109,17 +106,18 @@ const refetchContainer = createFragmentContainer(
         }
       }
     `,
-    bikeStations: graphql`
-      fragment StopsNearYouFavouritesContainer_bikeStations on BikeRentalStation
+    vehicleStations: graphql`
+      fragment StopsNearYouFavouritesContainer_vehicleStations on VehicleRentalStation
       @relay(plural: true) {
         stationId
         name
-        bikesAvailable
+        vehiclesAvailable
         spacesAvailable
         capacity
-        networks
+        network
         lat
         lon
+        operative
       }
     `,
   },

@@ -5,26 +5,32 @@ import PropTypes from 'prop-types';
 import cx from 'classnames';
 import {
   BIKEAVL_UNKNOWN,
-  getCityBikeNetworkConfig,
-  getCityBikeNetworkIcon,
-  getCityBikeNetworkId,
-  getCitybikeCapacity,
+  getVehicleCapacity,
+  getVehicleRentalStationNetworkConfig,
+  getVehicleRentalStationNetworkIcon,
   hasStationCode,
-} from '../util/citybikes';
+} from '../util/vehicleRentalUtils';
 
 import withBreakpoint from '../util/withBreakpoint';
 import Icon from './Icon';
 import { PREFIX_BIKESTATIONS } from '../util/path';
 import {
-  getCityBikeAvailabilityIndicatorColor,
-  getCityBikeAvailabilityTextColor,
+  getVehicleAvailabilityTextColor,
+  getVehicleAvailabilityIndicatorColor,
 } from '../util/legUtils';
+import { getIdWithoutFeed } from '../util/feedScopedIdUtils';
 
-function CityBikeLeg(
-  { stationName, isScooter, bikeRentalStation, returnBike = false, breakpoint },
+function VehicleRentalLeg(
+  {
+    stationName,
+    isScooter,
+    vehicleRentalStation,
+    returnBike = false,
+    breakpoint,
+  },
   { config, intl },
 ) {
-  if (!bikeRentalStation) {
+  if (!vehicleRentalStation) {
     return null;
   }
   // eslint-disable-next-line no-nested-ternary
@@ -40,24 +46,21 @@ function CityBikeLeg(
       <FormattedMessage id={id} defaultMessage="Fetch a bike" />
     </span>
   );
-  const citybikeicon = getCityBikeNetworkIcon(
-    getCityBikeNetworkConfig(
-      getCityBikeNetworkId(bikeRentalStation.networks),
-      config,
-    ),
+  const vehicleIcon = getVehicleRentalStationNetworkIcon(
+    getVehicleRentalStationNetworkConfig(vehicleRentalStation.network, config),
   );
-  const availabilityIndicatorColor = getCityBikeAvailabilityIndicatorColor(
-    bikeRentalStation.bikesAvailable,
+  const availabilityIndicatorColor = getVehicleAvailabilityIndicatorColor(
+    vehicleRentalStation.vehiclesAvailable,
     config,
   );
-  const availabilityTextColor = getCityBikeAvailabilityTextColor(
-    bikeRentalStation.bikesAvailable,
+  const availabilityTextColor = getVehicleAvailabilityTextColor(
+    vehicleRentalStation.vehiclesAvailable,
     config,
   );
   const mobileReturn = breakpoint === 'small' && returnBike;
-  const citybikeCapacity = getCitybikeCapacity(
+  const vehicleCapacity = getVehicleCapacity(
     config,
-    bikeRentalStation?.networks[0],
+    vehicleRentalStation?.network,
   );
   return (
     <>
@@ -66,12 +69,12 @@ function CityBikeLeg(
         <div className="citybike-itinerary">
           <div className={cx('citybike-icon', { small: mobileReturn })}>
             <Icon
-              img={citybikeicon}
+              img={vehicleIcon}
               width={1.655}
               height={1.655}
               badgeText={
-                citybikeCapacity !== BIKEAVL_UNKNOWN && !returnBike
-                  ? bikeRentalStation.bikesAvailable
+                vehicleCapacity !== BIKEAVL_UNKNOWN && !returnBike
+                  ? vehicleRentalStation.vehiclesAvailable
                   : null
               }
               badgeFill={returnBike ? null : availabilityIndicatorColor}
@@ -85,16 +88,18 @@ function CityBikeLeg(
                 id: 'citybike-station-no-id',
                 defaultMessage: 'Bike station',
               })}
-              {hasStationCode(bikeRentalStation) && (
+              {hasStationCode(vehicleRentalStation) && (
                 <span className="itinerary-stop-code">
-                  {bikeRentalStation.stationId}
+                  {getIdWithoutFeed(vehicleRentalStation.stationId)}
                 </span>
               )}
             </span>
           </div>
         </div>
         <div className="link-to-stop">
-          <Link to={`/${PREFIX_BIKESTATIONS}/${bikeRentalStation.stationId}`}>
+          <Link
+            to={`/${PREFIX_BIKESTATIONS}/${vehicleRentalStation.stationId}`}
+          >
             <Icon
               img="icon-icon_arrow-collapse--right"
               color="#007ac9"
@@ -107,16 +112,17 @@ function CityBikeLeg(
     </>
   );
 }
-CityBikeLeg.propTypes = {
-  bikeRentalStation: PropTypes.object,
+
+VehicleRentalLeg.propTypes = {
+  vehicleRentalStation: PropTypes.object,
   stationName: PropTypes.string,
   isScooter: PropTypes.bool,
   returnBike: PropTypes.bool,
   breakpoint: PropTypes.string,
 };
-CityBikeLeg.contextTypes = {
+VehicleRentalLeg.contextTypes = {
   config: PropTypes.object.isRequired,
   intl: intlShape.isRequired,
 };
-const connectedComponent = withBreakpoint(CityBikeLeg);
-export { connectedComponent as default, CityBikeLeg as Component };
+const connectedComponent = withBreakpoint(VehicleRentalLeg);
+export { connectedComponent as default, VehicleRentalLeg as Component };

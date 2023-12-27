@@ -3,10 +3,7 @@ import without from 'lodash/without';
 import { getCustomizedSettings } from '../store/localStorage';
 import { addAnalyticsEvent } from './analyticsUtils';
 import { citybikeRoutingIsActive } from './modeUtils';
-
-export const BIKESTATION_ON = 'Station on';
-export const BIKESTATION_OFF = 'Station off';
-export const BIKESTATION_CLOSED = 'Station closed';
+import { getIdWithoutFeed } from './feedScopedIdUtils';
 
 export const BIKEAVL_UNKNOWN = 'No availability';
 export const BIKEAVL_BIKES = 'Bikes on station';
@@ -28,17 +25,17 @@ export const defaultNetworkConfig = {
   type: CityBikeNetworkType.CityBike,
 };
 
-export const getCityBikeNetworkName = (
+export const getVehicleRentalStationNetworkName = (
   networkConfig = defaultNetworkConfig,
   language = 'en',
 ) => (networkConfig.name && networkConfig.name[language]) || undefined;
 
-export const getCityBikeNetworkIcon = (
+export const getVehicleRentalStationNetworkIcon = (
   networkConfig = defaultNetworkConfig,
   disabled,
 ) => `icon-icon_${networkConfig.icon || 'citybike'}${disabled ? '_off' : ''}`;
 
-export const getCityBikeNetworkId = networks => {
+export const getVehicleRentalStationNetworkId = networks => {
   if (isString(networks) && networks.length > 0) {
     return networks;
   }
@@ -48,7 +45,7 @@ export const getCityBikeNetworkId = networks => {
   return networks[0];
 };
 
-export const getCityBikeNetworkConfig = (networkId, config) => {
+export const getVehicleRentalStationNetworkConfig = (networkId, config) => {
   if (!networkId || !networkId.toLowerCase) {
     return defaultNetworkConfig;
   }
@@ -88,7 +85,7 @@ export const mapDefaultNetworkProperties = config => {
   return mappedNetworks;
 };
 
-export const getCitybikeCapacity = (config, network = undefined) => {
+export const getVehicleCapacity = (config, network = undefined) => {
   return (
     config.cityBike?.networks[network]?.capacity || config.cityBike.capacity
   );
@@ -100,7 +97,7 @@ export const getCitybikeCapacity = (config, network = undefined) => {
  * @param {*} config The configuration for the software installation
  */
 
-export const getCitybikeNetworks = () => {
+export const getVehicleRentalStationNetworks = () => {
   const { allowedBikeRentalNetworks } = getCustomizedSettings();
   return allowedBikeRentalNetworks || [];
 };
@@ -124,7 +121,7 @@ const addAnalytics = (action, name) => {
  * @returns the updated citybike networks
  */
 
-export const updateCitybikeNetworks = (currentSettings, newValue) => {
+export const updateVehicleNetworks = (currentSettings, newValue) => {
   let chosenNetworks;
 
   if (currentSettings) {
@@ -146,7 +143,7 @@ export const updateCitybikeNetworks = (currentSettings, newValue) => {
   return chosenNetworks;
 };
 
-export const getCityBikeMinZoomOnStopsNearYou = (config, override) => {
+export const getVehicleMinZoomOnStopsNearYou = (config, override) => {
   if (override && config.cityBike.minZoomStopsNearYou) {
     return config.cityBike.minZoomStopsNearYou;
   }
@@ -156,15 +153,37 @@ export const getCityBikeMinZoomOnStopsNearYou = (config, override) => {
 /** *
  * Checks if stationId is a number. We don't want to display random hashes or names.
  *
- * @param bikeRentalStation bike rental station from OTP
+ * @param vehicleRentalStation bike rental station from OTP
  */
-export const hasStationCode = bikeRentalStation => {
+export const hasStationCode = vehicleRentalStation => {
+  const id = vehicleRentalStation.stationId.split(':')[1];
   return (
-    bikeRentalStation &&
-    bikeRentalStation.stationId &&
+    id &&
     // eslint-disable-next-line no-restricted-globals
-    !isNaN(bikeRentalStation.stationId) &&
+    !isNaN(id) &&
     // eslint-disable-next-line no-restricted-globals
-    !isNaN(parseFloat(bikeRentalStation.stationId))
+    !isNaN(parseFloat(id))
   );
+};
+
+export const mapVehicleRentalFromStore = vehicleRentalStation => {
+  const network = vehicleRentalStation.networks[0];
+  const newStation = {
+    ...vehicleRentalStation,
+    network,
+    stationId: `${network}:${vehicleRentalStation.stationId}`,
+  };
+  delete newStation.networks;
+  return newStation;
+};
+
+export const mapVehicleRentalToStore = vehicleRentalStation => {
+  const { network } = vehicleRentalStation;
+  const newStation = {
+    ...vehicleRentalStation,
+    networks: [network],
+    stationId: getIdWithoutFeed(vehicleRentalStation.stationId),
+  };
+  delete newStation.network;
+  return newStation;
 };

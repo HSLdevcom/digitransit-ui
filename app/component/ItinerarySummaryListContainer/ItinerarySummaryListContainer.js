@@ -405,9 +405,9 @@ const containerComponent = createFragmentContainer(
                 effectiveStartDate
               }
             }
-            bikeRentalStation {
-              bikesAvailable
-              networks
+            vehicleRentalStation {
+              vehiclesAvailable
+              network
             }
           }
           to {

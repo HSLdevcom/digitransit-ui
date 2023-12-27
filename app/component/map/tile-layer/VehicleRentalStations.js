@@ -12,18 +12,16 @@ import {
 import { showCitybikeNetwork } from '../../../util/modeUtils';
 
 import {
-  getCityBikeNetworkConfig,
-  getCityBikeNetworkIcon,
-  getCityBikeNetworkId,
-  getCitybikeCapacity,
+  getVehicleRentalStationNetworkConfig,
+  getVehicleRentalStationNetworkIcon,
+  getVehicleCapacity,
   BIKEAVL_UNKNOWN,
-} from '../../../util/citybikes';
-import { getIdWithoutFeed } from '../../../util/feedScopedIdUtils';
+} from '../../../util/vehicleRentalUtils';
 import { fetchWithLanguageAndSubscription } from '../../../util/fetchUtils';
 import { getLayerBaseUrl } from '../../../util/mapLayerUtils';
 
 const query = graphql`
-  query BikeRentalStationsQuery($id: String!) {
+  query VehicleRentalStationsQuery($id: String!) {
     station: vehicleRentalStation(id: $id) {
       vehiclesAvailable
       operative
@@ -33,7 +31,7 @@ const query = graphql`
 
 const REALTIME_REFETCH_FREQUENCY = 60000; // 60 seconds
 
-class BikeRentalStations {
+class VehicleRentalStations {
   constructor(tile, config, mapLayers, relayEnvironment) {
     this.tile = tile;
     this.config = config;
@@ -78,8 +76,6 @@ class BikeRentalStations {
               for (let i = 0, ref = layer.length - 1; i <= ref; i++) {
                 const feature = layer.feature(i);
                 [[feature.geom]] = feature.loadGeometry();
-                // TODO use feedScopedId here
-                feature.properties.id = getIdWithoutFeed(feature.properties.id);
                 this.features.push(pick(feature, ['geom', 'properties']));
               }
             }
@@ -116,8 +112,8 @@ class BikeRentalStations {
       return;
     }
 
-    const iconName = getCityBikeNetworkIcon(
-      getCityBikeNetworkConfig(getCityBikeNetworkId(network), this.config),
+    const iconName = getVehicleRentalStationNetworkIcon(
+      getVehicleRentalStationNetworkConfig(network, this.config),
     );
     const isHilighted = this.tile.hilightedStops?.includes(id);
 
@@ -136,7 +132,7 @@ class BikeRentalStations {
     iconName,
     isHilighted,
   ) => {
-    const citybikeCapacity = getCitybikeCapacity(this.config, network);
+    const citybikeCapacity = getVehicleCapacity(this.config, network);
 
     drawCitybikeIcon(
       this.tile,
@@ -150,8 +146,7 @@ class BikeRentalStations {
   };
 
   drawHighlighted = ({ geom, properties: { id, network } }, iconName) => {
-    const citybikeCapacity = getCitybikeCapacity(this.config, network);
-
+    const citybikeCapacity = getVehicleCapacity(this.config, network);
     const callback = ({ station: result }) => {
       if (result) {
         drawCitybikeIcon(
@@ -167,14 +162,7 @@ class BikeRentalStations {
       return this;
     };
 
-    const idForFetching = `${network}:${id}`;
-
-    fetchQuery(
-      this.relayEnvironment,
-      query,
-      { id: idForFetching },
-      { force: true },
-    )
+    fetchQuery(this.relayEnvironment, query, { id }, { force: true })
       .toPromise()
       .then(callback);
   };
@@ -207,4 +195,4 @@ class BikeRentalStations {
   static getName = () => 'citybike';
 }
 
-export default BikeRentalStations;
+export default VehicleRentalStations;

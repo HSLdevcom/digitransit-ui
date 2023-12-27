@@ -38,8 +38,7 @@ import {
   isToday,
   isTomorrow,
 } from '../util/timeUtils';
-import CityBikeDurationInfo from './CityBikeDurationInfo';
-import { getCityBikeNetworkId } from '../util/citybikes';
+import VehicleRentalDurationInfo from './VehicleRentalDurationInfo';
 import { FareShape } from '../util/shapes';
 import Emissions from './Emissions';
 import EmissionsInfo from './EmissionsInfo';
@@ -200,9 +199,7 @@ class ItineraryTab extends React.Component {
     if (legsWithRentalBike.length > 0) {
       for (let i = 0; i < legsWithRentalBike.length; i++) {
         const leg = legsWithRentalBike[i];
-        const network = getCityBikeNetworkId(
-          leg.from.bikeRentalStation?.networks,
-        );
+        const network = leg.from.vehicleRentalStation?.network;
         if (
           config.cityBike.networks[network]?.timeBeforeSurcharge &&
           config.cityBike.networks[network]?.durationInstructions
@@ -227,10 +224,7 @@ class ItineraryTab extends React.Component {
     if (shouldShowFareInfo(config) && fares.some(fare => fare.isUnknown)) {
       const found = {};
       itinerary.legs.forEach(leg => {
-        if (
-          config.modeDisclaimers?.[leg.mode] &&
-          !found[leg.mode]
-        ) {
+        if (config.modeDisclaimers?.[leg.mode] && !found[leg.mode]) {
           found[leg.mode] = true;
           const disclaimer = config.modeDisclaimers[leg.mode][currentLanguage];
           disclaimers.push(
@@ -245,7 +239,10 @@ class ItineraryTab extends React.Component {
         }
       });
 
-      if (config.callAgencyInfo && itinerary.legs.some(leg => isCallAgencyPickupType(leg))) {
+      if (
+        config.callAgencyInfo &&
+        itinerary.legs.some(leg => isCallAgencyPickupType(leg))
+      ) {
         disclaimers.push(
           <FareDisclaimer
             textId="separate-ticket-required-for-call-agency-disclaimer"
@@ -337,7 +334,7 @@ class ItineraryTab extends React.Component {
               </>
             ),
             showRentalBikeDurationWarning && (
-              <CityBikeDurationInfo
+              <VehicleRentalDurationInfo
                 networks={Array.from(rentalBikeNetworks)}
                 config={config}
               />
@@ -355,7 +352,12 @@ class ItineraryTab extends React.Component {
                   legs={itinerary.legs}
                 />
               )),
-            config.showCO2InItinerarySummary && <EmissionsInfo itinerary={itinerary} isMobile={this.props.isMobile} />,
+            config.showCO2InItinerarySummary && (
+              <EmissionsInfo
+                itinerary={itinerary}
+                isMobile={this.props.isMobile}
+              />
+            ),
             <div
               className={cx('momentum-scroll itinerary-tabs__scroll', {
                 multirow: extraProps.isMultiRow,
@@ -378,13 +380,16 @@ class ItineraryTab extends React.Component {
                 />
                 {config.showRouteInformation && <RouteInformation />}
               </div>
-              {config.showCO2InItinerarySummary &&
+              {config.showCO2InItinerarySummary && (
                 <Emissions
                   config={config}
                   itinerary={itinerary}
                   carItinerary={this.props.carItinerary}
-                  emissionsInfolink={config.URL.EMISSIONS_INFO?.[currentLanguage]}
-                />}
+                  emissionsInfolink={
+                    config.URL.EMISSIONS_INFO?.[currentLanguage]
+                  }
+                />
+              )}
               {this.shouldShowDisclaimer(config) && (
                 <div className="itinerary-disclaimer">
                   <FormattedMessage
@@ -433,7 +438,6 @@ const withRelay = createFragmentContainer(
                 }
               }
             }
-      
           }
           mode
           nextLegs(
@@ -491,9 +495,9 @@ const withRelay = createFragmentContainer(
               bikeParkId
               name
             }
-            bikeRentalStation {
-              networks
-              bikesAvailable
+            vehicleRentalStation {
+              network
+              vehiclesAvailable
               lat
               lon
               stationId
@@ -524,12 +528,12 @@ const withRelay = createFragmentContainer(
             lon
             name
             vertexType
-            bikeRentalStation {
+            vehicleRentalStation {
               lat
               lon
               stationId
-              networks
-              bikesAvailable
+              network
+              vehiclesAvailable
             }
             stop {
               gtfsId

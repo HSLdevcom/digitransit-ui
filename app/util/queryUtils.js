@@ -298,10 +298,10 @@ export const moreItinerariesQuery = graphql`
               gtfsId
               zoneId
             }
-            bikeRentalStation {
+            vehicleRentalStation {
               stationId
-              bikesAvailable
-              networks
+              vehiclesAvailable
+              network
             }
           }
           to {

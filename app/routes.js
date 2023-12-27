@@ -87,13 +87,13 @@ export default config => {
             <Route
               getComponent={() =>
                 import(
-                  /* webpackChunkName: "itinerary" */ './component/BikeRentalStationContent'
+                  /* webpackChunkName: "itinerary" */ './component/VehicleRentalStationContent'
                 ).then(getDefault)
               }
               query={graphql`
-                query routes_BikeRentalStation_Query($id: String!) {
-                  bikeRentalStation(id: $id) {
-                    ...BikeRentalStationContent_bikeRentalStation
+                query routes_VehicleRentalStation_Query($id: String!) {
+                  vehicleRentalStation(id: $id) {
+                    ...VehicleRentalStationContent_vehicleRentalStation
                   }
                 }
               `}
@@ -115,13 +115,13 @@ export default config => {
               path="(.*)?"
               getComponent={() =>
                 import(
-                  /* webpackChunkName: "itinerary" */ './component/BikeRentalStationPageMapContainer'
+                  /* webpackChunkName: "itinerary" */ './component/VehicleRentalStationPageMapContainer'
                 ).then(getDefault)
               }
               query={graphql`
-                query routes_BikeRentalStationMap_Query($id: String!) {
-                  bikeRentalStation(id: $id) {
-                    ...BikeRentalStationPageMapContainer_bikeRentalStation
+                query routes_VehicleRentalStationMap_Query($id: String!) {
+                  vehicleRentalStation(id: $id) {
+                    ...VehicleRentalStationPageMapContainer_vehicleRentalStation
                   }
                 }
               `}
@@ -138,19 +138,19 @@ export default config => {
               <Route
                 getComponent={() =>
                   import(
-                    /* webpackChunkName: "bikepark" */ './component/BikeParkContent'
+                    /* webpackChunkName: "bikepark" */ './component/VehicleParkContent'
                   )
                     .then(getDefault)
                     .catch(errorLoading)
                 }
                 prepareVariables={prepareWeekDays}
                 query={graphql`
-                  query routes_BikePark_Query(
+                  query routes_VehiclePark_Query(
                     $id: String!
                     $dates: [String!]!
                   ) {
                     bikePark(id: $id) {
-                      ...BikeParkContent_bikePark @arguments(dates: $dates)
+                      ...VehicleParkContent_bikePark @arguments(dates: $dates)
                     }
                   }
                 `}
@@ -172,13 +172,13 @@ export default config => {
                 path="(.*)?"
                 getComponent={() =>
                   import(
-                    /* webpackChunkName: "bikepark" */ './component/BikeParkMapContainer'
+                    /* webpackChunkName: "bikepark" */ './component/VehicleParkMapContainer'
                   ).then(getDefault)
                 }
                 query={graphql`
-                  query routes_BikeParkMap_Query($id: String!) {
+                  query routes_VehicleParkMap_Query($id: String!) {
                     bikePark(id: $id) {
-                      ...BikeParkMapContainer_bikePark
+                      ...VehicleParkMapContainer_vehiclePark
                     }
                   }
                 `}

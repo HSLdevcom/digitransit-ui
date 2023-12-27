@@ -10,7 +10,10 @@ import {
   isTransportModeAvailable,
 } from './modeUtils';
 import { otpToLocation, getIntermediatePlaces } from './otpStrings';
-import { getCitybikeNetworks, getDefaultNetworks } from './citybikes';
+import {
+  getVehicleRentalStationNetworks,
+  getDefaultNetworks,
+} from './vehicleRentalUtils';
 import { getCustomizedSettings } from '../store/localStorage';
 import { estimateItineraryDistance } from './geo-utils';
 
@@ -52,7 +55,7 @@ export const getCurrentSettings = config => {
           'WALK',
         ].sort()
       : defaultSettings.modes,
-    allowedBikeRentalNetworks: getCitybikeNetworks(),
+    allowedBikeRentalNetworks: getVehicleRentalStationNetworks(),
   };
 };
 

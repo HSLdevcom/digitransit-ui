@@ -14,16 +14,16 @@
 
 ```javascript
 const searchContext = {
-  isPeliasLocationAware: false // true / false does Let Pelias suggest based on current user location
-  minimalRegexp: undefined // used for testing min. regexp. For example: new RegExp('.{2,}'),
-  lineRegexp: undefined //  identify searches for route numbers/labels: bus | train | metro. For example: new RegExp(
+  isPeliasLocationAware: false, // true / false does Let Pelias suggest based on current user location
+  minimalRegexp: undefined, // used for testing min. regexp. For example: new RegExp('.{2,}'),
+  lineRegexp: undefined, //  identify searches for route numbers/labels: bus | train | metro. For example: new RegExp(
    //   '(^[0-9]+[a-z]?$|^[yuleapinkrtdz]$|(^m[12]?b?$))',
    //  'i',
    //  ),
-  URL_PELIAS: '' // url for pelias searches
-  feedIDs: ['HSL', 'HSLLautta'] // FeedId's like  [HSL, HSLLautta]
-  geocodingSources: ['oa','osm','nlsfi']  // sources for geocoding
-  geocodingSearchParams; {}  // Searchparmas fro geocoding
+  URL_PELIAS: '', // url for pelias searches
+  feedIDs: ['HSL', 'HSLLautta'], // FeedId's like  [HSL, HSLLautta]
+  geocodingSources: ['oa','osm','nlsfi'],  // sources for geocoding
+  geocodingSearchParams: {},  // Searchparmas fro geocoding
   getFavouriteLocations: () => ({}),    // Function that returns array of favourite locations.
   getFavouriteStops: () => ({}),        // Function that returns array of favourite stops.
   getLanguage: () => ({}),              // Function that returns current language.
@@ -33,8 +33,8 @@ const searchContext = {
   getAllBikeRentalStations: () => ({}), // Function that returns all bike rental stations from graphql API.
   getStopAndStationsQuery: () => ({}),  // Function that fetches favourite stops and stations from graphql API.
   getFavouriteRoutesQuery: () => ({}),  // Function that returns query for fetching favourite routes.
-  getFavouriteBikeRentalStations: () => ({}),  // Function that returns favourite bike rental station.
-  getFavouriteBikeRentalStationsQuery: () => ({}), // Function that returns query for fetching favourite bike rental stations.
+  getFavouriteVehicleRentalStations: () => ({}),  // Function that returns favourite bike rental station.
+  getFavouriteVehicleRentalStationsQuery: () => ({}), // Function that returns query for fetching favourite bike rental stations.
   startLocationWatch: () => ({}),       // Function that locates users geolocation.
   saveSearch: () => ({}),               // Function that saves search to old searches store.
   clearOldSearches: () => ({}),         // Function that clears old searches store.
@@ -60,7 +60,7 @@ const getAutoSuggestIcons: {
 }
 const transportMode = undefined;
 const placeholder = "stop-near-you";
-const targets = ['Locations', 'Stops', 'Routes']; // Defines what you are searching. all available options are Locations, Stops, Routes, BikeRentalStations, FutureRoutes, MapPosition and CurrentPosition. Leave empty to search all targets.
+const targets = ['Locations', 'Stops', 'Routes']; // Defines what you are searching. all available options are Locations, Stops, Routes, VehicleRentalStation, FutureRoutes, MapPosition and CurrentPosition. Leave empty to search all targets.
 const sources = ['Favourite', 'History', 'Datasource'] // Defines where you are searching. all available are: Favourite, History (previously searched searches) and Datasource. Leave empty to use all sources.
 return (
  <DTAutosuggest
