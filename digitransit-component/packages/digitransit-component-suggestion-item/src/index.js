@@ -316,14 +316,14 @@ const SuggestionItem = pure(
       </div>
     );
     const isFutureRoute = iconId === 'future-route';
-    const isBikeRentalStation =
+    const isVehicleRentalStation =
       item.properties?.layer === 'favouriteVehicleRentalStation' ||
       item.properties?.layer === 'bikestation';
     const isParkingArea =
       item.properties?.layer === 'carpark' ||
       item.properties?.layer === 'bikepark';
     const labelWithLocationType =
-      isBikeRentalStation || isParkingArea
+      isVehicleRentalStation || isParkingArea
         ? suggestionType.concat(
             item.properties.localadmin ? `, ${item.properties.localadmin}` : '',
           )
@@ -359,11 +359,13 @@ const SuggestionItem = pure(
                   {name}
                 </div>
                 <div className={styles['suggestion-label']}>
-                  {isBikeRentalStation || isParkingArea
+                  {isVehicleRentalStation || isParkingArea
                     ? labelWithLocationType
                     : label}{' '}
-                  {((!isBikeRentalStation && stopCode && stopCode !== name) ||
-                    (isBikeRentalStation &&
+                  {((!isVehicleRentalStation &&
+                    stopCode &&
+                    stopCode !== name) ||
+                    (isVehicleRentalStation &&
                       hasVehicleStationCode(
                         stopCode || item.properties.id,
                       ))) && (
