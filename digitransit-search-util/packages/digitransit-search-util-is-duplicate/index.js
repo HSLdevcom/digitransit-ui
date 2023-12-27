@@ -24,6 +24,7 @@ import truEq from '@digitransit-search-util/digitransit-search-util-tru-eq';
  */
 
 const gtfsStopLayers = ['stop', 'station', 'favouriteStop', 'favouriteStation'];
+const vehicleRentalLayers = ['favouriteVehicleRentalStation', 'bikestation'];
 
 export default function isDuplicate(item1, item2) {
   const props1 = item1.properties;
@@ -44,11 +45,8 @@ export default function isDuplicate(item1, item2) {
     return false;
   }
   if (
-    ((props1.layer === 'vehicleRentalStation' ||
-      props1.layer === 'favouriteVehicleRentalStation') &&
-      (props2.layer === 'vehicleRentalStation' ||
-        props2.layer === 'favouriteVehicleRentalStation')) ||
-    (props1.layer === 'bikestation' && props2.layer === 'bikestation')
+    vehicleRentalLayers.includes(props1.layer) &&
+    vehicleRentalLayers.includes(props2.layer)
   ) {
     return props1.labelId === props2.labelId;
   }
