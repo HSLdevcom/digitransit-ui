@@ -90,14 +90,13 @@ function getIconProperties(
     iconColor = color;
   }
   const layerIcon = new Map([
-    ['bikeRentalStation', 'citybike'],
     ['bikestation', 'citybike'],
     ['currentPosition', 'locate'],
     ['favouritePlace', 'star'],
     ['favouriteRoute', 'star'],
     ['favouriteStop', 'star'],
+    ['favouriteStation', 'star'],
     ['favouriteVehicleRentalStation', 'star'],
-    ['favouriteBikeRentalStation', 'star'],
     ['favourite', 'star'],
     ['address', 'place'],
     ['stop', 'busstop'],
@@ -318,10 +317,8 @@ const SuggestionItem = pure(
     );
     const isFutureRoute = iconId === 'future-route';
     const isBikeRentalStation =
-      item.properties &&
-      (item.properties.layer === 'bikeRentalStation' ||
-        item.properties.layer === 'favouriteVehicleRentalStation' ||
-        item.properties.layer === 'bikestation');
+      item.properties?.layer === 'favouriteVehicleRentalStation' ||
+      item.properties?.layer === 'bikestation';
     const isParkingArea =
       item.properties?.layer === 'carpark' ||
       item.properties?.layer === 'bikepark';
