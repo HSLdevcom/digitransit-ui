@@ -1,6 +1,6 @@
 /* eslint-disable prefer-template */
 import configMerger from '../util/configMerger';
-import { BIKEAVL_WITHMAX } from '../util/citybikes';
+import { BIKEAVL_BIKES } from '../util/vehicleRentalUtils';
 
 const CONFIG = 'lahti';
 const APP_TITLE = 'LSL reittiopas';
@@ -161,7 +161,7 @@ export default configMerger(walttiConfig, {
           start: new Date(new Date().getFullYear(), 3, 24),
           end: new Date(new Date().getFullYear(), 10, 18),
         },
-        capacity: BIKEAVL_WITHMAX,
+        capacity: BIKEAVL_BIKES,
         icon: 'citybike',
         name: {
           fi: 'Mankeli',
@@ -171,8 +171,8 @@ export default configMerger(walttiConfig, {
         type: 'citybike',
         url: {
           fi: 'https://kaupunkipyorat.lahti.fi/',
-          sv: 'https://kaupunkipyorat.lahti.fi/?lang=2',
-          en: 'https://kaupunkipyorat.lahti.fi/?lang=19',
+          sv: 'https://kaupunkipyorat.lahti.fi/?lang=19',
+          en: 'https://kaupunkipyorat.lahti.fi/?lang=2',
         },
       },
     },
