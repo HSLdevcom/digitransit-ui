@@ -1,69 +1,51 @@
-import uniq from 'lodash/uniq';
+import { uniqBy } from 'lodash';
 
-// returns null or non-empty array of ticket names
-export function mapFares(fares, config) {
-  if (!Array.isArray(fares) || !config.showTicketInformation) {
+export const getFaresFromLegs = (legs, config) => {
+  if (
+    !Array.isArray(legs) ||
+    legs.size === 0 ||
+    !config.showTicketInformation
+  ) {
     return null;
   }
+  const availableTickets = Object.values(config.availableTickets)
+    .map(r => Object.keys(r))
+    .flat();
+  const filteredLegs = legs.map(leg => ({
+    ...leg,
+    fareProducts: leg.fareProducts.filter(fp =>
+      availableTickets.includes(fp.product.id),
+    ),
+  }));
 
-  const [regularFare] = fares.filter(fare => fare.type === 'regular');
-  if (!regularFare) {
-    return null;
-  }
-
-  const { components } = regularFare;
-  if (!Array.isArray(components) || components.length === 0) {
-    return null;
-  }
-
-  return components.map(fare => ({
-    ...fare,
-    agency:
-      (Array.isArray(fare.routes) &&
-        fare.routes.length > 0 &&
-        fare.routes[0].agency) ||
-      undefined,
+  const knownFareLegs = uniqBy(
+    filteredLegs.filter(l => l.fareProducts.length > 0),
+    'fareProducts[0].id',
+  ).map(leg => ({
+    fareProducts: leg.fareProducts,
+    agency: leg.route.agency,
+    price: leg.fareProducts[0].product.price.amount,
     ticketName:
       // E2E-testing does not work without this check
       (config.NODE_ENV === 'test' &&
-        (fare.fareId && fare.fareId.substring
-          ? fare.fareId.substring(fare.fareId.indexOf(':') + 1)
-          : '')) ||
-      config.fareMapping(fare.fareId),
+        leg.fareProducts[0].product.id.split(':')[1]) ||
+      config.fareMapping(leg.fareProducts[0].product.id),
   }));
-}
 
-export const getFares = (fares, routes, config) => {
-  const knownFares = mapFares(fares, config) || [];
-
-  const routesWithFares = uniq(
-    knownFares
-      .map(fare => (Array.isArray(fare.routes) && fare.routes) || [])
-      .reduce((a, b) => a.concat(b), [])
-      .map(route => route.gtfsId),
-  );
-
-  const unknownTotalFare =
-    fares && fares[0] && fares[0].type === 'regular' && fares[0].cents === -1;
-  const unknownFares = (
-    ((unknownTotalFare || !fares || fares.length === 0) &&
-      Array.isArray(routes) &&
-      routes) ||
-    []
-  )
-    .filter(route => !routesWithFares.includes(route.gtfsId))
-    .map(route => ({
+  // Legs that have empty fares but still have a route, i.e. transit legs
+  const unknownFareLegs = filteredLegs
+    .filter(l => l.fareProducts.length === 0 && l.route)
+    .map(leg => ({
       agency: {
-        fareUrl: route.agency.fareUrl,
-        gtfsId: route.agency.gtfsId,
-        name: route.agency.name,
+        fareUrl: leg.route.agency.fareUrl,
+        gtfsId: leg.route.agency.gtfsId,
+        name: leg.route.agency.name,
       },
       isUnknown: true,
-      routeGtfsId: route.gtfsId,
-      routeName: route.longName,
+      routeGtfsId: leg.route.gtfsId,
+      routeName: leg.route.longName,
     }));
-
-  return [...knownFares, ...unknownFares];
+  return [...knownFareLegs, ...unknownFareLegs];
 };
 
 /**
@@ -76,7 +58,8 @@ export const getFares = (fares, routes, config) => {
 export const getAlternativeFares = (zones, currentFares, allFares) => {
   const alternativeFares = [];
   if (zones.length === 1 && currentFares.length === 1 && allFares) {
-    const { fareId } = currentFares[0];
+    const { fareProducts } = currentFares[0];
+    const fareId = fareProducts[0].product.id;
     const ticketFeed = fareId.split(':')[0];
     const faresForFeed = allFares[ticketFeed];
     if (faresForFeed && faresForFeed[fareId]) {

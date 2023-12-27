@@ -1,5 +1,5 @@
 /* eslint-disable prefer-template */
-import { BIKEAVL_WITHMAX } from '../util/citybikes';
+import { BIKEAVL_WITHMAX } from '../util/vehicleRentalUtils';
 
 const CONFIG = 'hsl';
 const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
@@ -15,6 +15,9 @@ const HSLParkAndRideUtils = require('../util/ParkAndRideUtils').default.HSL;
 const rootLink = process.env.ROOTLINK || 'https://test.hslfi.hsldev.com';
 const BANNER_URL = 'https://content.hsl.fi/api/v1/banners?site=JourneyPlanner';
 // 'https://test-api.hslfi.hsldev.com/api/v1/banners?site=JourneyPlanner';
+
+const localStorageEmitter =
+  process.env.USE_EMITTER && rootLink + '/local-storage-emitter';
 
 export default {
   CONFIG,
@@ -47,10 +50,10 @@ export default {
     BANNERS: BANNER_URL,
     HSL_FI_SUGGESTIONS: 'https://content.hsl.fi/api/v1/search/suggestions',
     EMBEDDED_SEARCH_GENERATION: '/reittiopas-elementti',
-    EMISSIONSINFO: {
+    EMISSIONS_INFO: {
       fi: 'https://www.hsl.fi/hsl/sahkobussit/ymparisto-lukuina',
-      sv: ' http://www.hsl.fi/sv/reseplaneraren_co2',
-      en: ' http://www.hsl.fi/en/journey_planner_co2',
+      sv: 'https://www.hsl.fi/sv/reseplaneraren_co2',
+      en: 'https://www.hsl.fi/en/journey_planner_co2',
     },
   },
 
@@ -71,7 +74,7 @@ export default {
   defaultLanguage: 'fi',
   passLanguageToRootLink: true,
 
-  favicon: './app/configurations/images/hsl/favicon.png',
+  favicon: './app/configurations/images/hsl/hsl-favicon.png',
 
   // Navbar logo
   logo: 'hsl/reittiopas-logo.svg',
@@ -127,6 +130,7 @@ export default {
       'mode-metro': '#CA4000',
       'mode-citybike': '#f2b62d',
       'mode-citybike-secondary': '#333333',
+      'mode-speedtram': '#007E79',
     },
   },
   getAutoSuggestIcons: {
@@ -425,8 +429,7 @@ export default {
     sv: 'att-resa/Trafiken-just-nu',
   },
 
-  localStorageEmitter: rootLink + '/local-storage-emitter',
-  localStorageTarget: rootLink,
+  localStorageEmitter,
 
   cityBike: {
     minZoomStopsNearYou: 10,
@@ -506,9 +509,8 @@ export default {
   showBikeAndPublicItineraries: true,
   showBikeAndParkItineraries: true,
 
-  // DT-5325
+  // DT-5325 Notice! Turning on this setting forces the search for car routes (for the CO2 comparison only).
   showCO2InItinerarySummary: true,
-  forceCarRouting: true,
 
   includeCarSuggestions: false,
   includeParkAndRideSuggestions: true,
@@ -545,6 +547,8 @@ export default {
 
   showSimilarRoutesOnRouteDropDown: true,
 
+  useRealtimeTravellerCapacities: true,
+
   stopCard: {
     header: {
       virtualMonitorBaseUrl: 'https://omatnaytot.hsl.fi/',
@@ -562,15 +566,15 @@ export default {
       },
       content: {
         fi: [
-          'Mm. lastenvaunujen osalta noudatetaan liikennöitsijän sääntöjä. ',
+          'Mm. lastenvaunujen osalta noudatetaan liikennöitsijän sääntöjä.',
           'HSL-alueen ulkopuolelle käytetään liikennöitsijän lippuja.',
         ],
         en: [
-          "The bus operators' regulations are applied e.g. to the transport of prams. ",
+          "The bus operators' regulations are applied e.g. to the transport of prams.",
           "The bus operators' tickets are used outside the HSL area.",
         ],
         sv: [
-          'Trafikföretagets regler tillämpas t.ex. på barnvagnar. ',
+          'Trafikföretagets regler tillämpas t.ex. på barnvagnar.',
           'Trafikföretagets egna biljetter gäller utanför HRT-området.',
         ],
       },
@@ -595,16 +599,16 @@ export default {
       },
       content: {
         fi: [
-          'Pääset kyytiin myös keskiovista näyttämättä lippua kuljettajalle. ',
-          'Linja käyttää valikoituja pysäkkejä eli ei pysähdy kaikilla pysäkeillä. ',
+          'Pääset kyytiin myös keskiovista näyttämättä lippua kuljettajalle.',
+          'Linja käyttää valikoituja pysäkkejä eli ei pysähdy kaikilla pysäkeillä.',
         ],
         en: [
-          'Passengers can board the buses also through the middle doors. ',
-          'The bus will not serve all stops along the route. ',
+          'Passengers can board the buses also through the middle doors.',
+          'The bus will not serve all stops along the route.',
         ],
         sv: [
-          'Man kan stiga på genom mittdörren och behöver inte visa upp sin biljett för föraren. ',
-          'För att snabba upp trafiken stannar bussarna inte vid alla hållplatser. ',
+          'Man kan stiga på genom mittdörren och behöver inte visa upp sin biljett för föraren.',
+          'För att snabba upp trafiken stannar bussarna inte vid alla hållplatser.',
         ],
       },
       closeButtonLabel: {
@@ -614,8 +618,8 @@ export default {
       },
       link: {
         fi: 'hsl.fi/hsl/runkoverkko',
-        en: 'hsl.fi/hsl/runkoverkko',
-        sv: 'hsl.fi/hsl/runkoverkko',
+        en: 'hsl.fi/en/hsl/trunk-route-network',
+        sv: 'hsl.fi/sv/hrt/stomnatet',
       },
     },
     {
@@ -623,21 +627,21 @@ export default {
       id: 'localRouteNotification',
       header: {
         fi: 'Lähibussi',
-        en: 'Neighborhood route',
+        en: 'Neighbourhood route',
         sv: 'Närbuss',
       },
       content: {
         fi: [
-          'Lähibussit on suunniteltu erityisesti ikäihmisille ja liikuntarajoitteisille. ',
-          'Kyytiin voi nousta ja kyydistä poistua pysäkkien lisäksi myös muualla, liikennesääntöjen puitteissa. ',
+          'Kyytiin voi nousta ja kyydistä poistua pysäkkien lisäksi myös muualla, liikennesääntöjen puitteissa.',
+          'Lähibussit soveltuvat myös ikäihmisten ja liikuntarajoitteisten käyttötarkoituksiin.',
         ],
         en: [
-          'The routes and timetables have been planned to serve, in particular, the needs of senior citizens. ',
-          'In addition to regular bus stops, the buses can stop at other locations, as long as it is safe to do so. ',
+          'In addition to regular bus stops, the buses can stop at other locations, as long as it is safe to do so.',
+          'The routes and timetables also serve the needs of senior citizens.',
         ],
         sv: [
-          'Närbusslinjerna är planerade i synnerhet med tanke på seniorer och rörelsehindrade. ',
-          'Närbussarna kan inom ramen för trafikreglerna också stanna annanstans än vid markerade hållplatser. ',
+          'Närbussarna kan inom ramen för trafikreglerna också stanna annanstans än vid markerade hållplatser.',
+          'Rutterna och tidtabellerna servar även seniorer och rörelsehindrade.',
         ],
       },
       closeButtonLabel: {
@@ -647,8 +651,41 @@ export default {
       },
       link: {
         fi: 'hsl.fi/matkustaminen/lahibussit',
-        en: 'hsl.fi/matkustaminen/lahibussit',
-        sv: 'hsl.fi/matkustaminen/lahibussit',
+        en: 'hsl.fi/en/travelling/neighborhood-buses',
+        sv: 'hsl.fi/sv/att-resa/narbussar',
+      },
+    },
+    {
+      showForRoute: route => route.type === 900,
+      id: 'speedtramNotification',
+      header: {
+        fi: 'Mitä pikaratikka tarkoittaa?',
+        en: 'What is light rail?',
+        sv: 'Vad är en snabbspårvagn?',
+      },
+      content: {
+        fi: [
+          'Pikaratikat kulkevat nopeammin ja pääosin omalla kaistalla erillään muusta liikenteestä.',
+          'Pikaratikat ovat aiempaa tilavampia, joten matkustaminen sujuu mukavasti.',
+        ],
+        en: [
+          'Light rail runs faster and mostly on a dedicated lane, separated from other traffic.',
+          'Light rail vehicles are more spacious than traditional trams, improving travel comfort.',
+        ],
+        sv: [
+          'Snabbspårvagnarna är snabbare och använder i regel en egen fil som är skild från annan trafik.',
+          'Snabbspårvagnarna har mer utrymme och bidrar till bekvämare resor.',
+        ],
+      },
+      closeButtonLabel: {
+        fi: '',
+        en: '',
+        sv: '',
+      },
+      link: {
+        fi: 'hsl.fi/reittiopas-pikaratikka',
+        en: 'hsl.fi/en/campaigns/light-rail',
+        sv: 'hsl.fi/sv/kampanjer/snabbsparvag',
       },
     },
   ],

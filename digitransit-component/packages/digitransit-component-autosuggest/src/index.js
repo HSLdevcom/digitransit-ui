@@ -74,7 +74,7 @@ function getSuggestionContent(item) {
       item.properties.layer.toLowerCase().includes('bikerental') ||
       item.properties.layer.toLowerCase().includes('bikestation')
     ) {
-      suggestionType = i18next.t('bikerentalstation');
+      suggestionType = i18next.t('vehiclerentalstation');
       const stopCode = item.properties.labelId;
       return [suggestionType, name, undefined, stopCode];
     }
@@ -176,11 +176,10 @@ function translateFutureRouteSuggestionTime(item) {
  *   getFavouriteRoutes: () => ({}),       // Function that returns array of favourite routes.
  *   getPositions: () => ({}),             // Function that returns user's geolocation.
  *   getRoutesQuery: () => ({}),           // Function that returns query for fetching routes.
- *   getAllBikeRentalStations: () => ({}), // Function that returns all bike rental stations from graphql API.
  *   getStopAndStationsQuery: () => ({}),  // Function that fetches favourite stops and stations from graphql API.
  *   getFavouriteRoutesQuery: () => ({}),  // Function that returns query for fetching favourite routes.
- *   getFavouriteBikeRentalStations: () => ({}),  // Function that returns favourite bike rental station.
- *   getFavouriteBikeRentalStationsQuery: () => ({}), // Function that returns query for fetching favourite bike rental stations.
+ *   getFavouriteVehicleRentalStations: () => ({}),  // Function that returns favourite bike rental station.
+ *   getFavouriteVehicleRentalStationsQuery: () => ({}), // Function that returns query for fetching favourite bike rental stations.
  *   startLocationWatch: () => ({}),       // Function that locates users geolocation.
  *   saveSearch: () => ({}),               // Function that saves search to old searches store.
  *   clearOldSearches: () => ({}),         // Function that clears old searches store.
@@ -206,7 +205,7 @@ function translateFutureRouteSuggestionTime(item) {
  * }
  * const transportMode = undefined;
  * const placeholder = "stop-near-you";
- * const targets = ['Locations', 'Stops', 'Routes']; // Defines what you are searching. all available options are Locations, Stops, Routes, BikeRentalStations, FutureRoutes, MapPosition and CurrentPosition. Leave empty to search all targets.
+ * const targets = ['Locations', 'Stops', 'Routes']; // Defines what you are searching. all available options are Locations, Stops, Routes, VehicleRentalStations, FutureRoutes, MapPosition and CurrentPosition. Leave empty to search all targets.
  * const sources = ['Favourite', 'History', 'Datasource'] // Defines where you are searching. all available are: Favourite, History (previously searched searches) and Datasource. Leave empty to use all sources.
  * return (
  *  <DTAutosuggest
@@ -593,9 +592,9 @@ class DTAutosuggest extends React.Component {
           }
           if (
             isEmpty(this.props.targets) ||
-            this.props.targets.includes('BikeRentalStations')
+            this.props.targets.includes('VehicleRentalStations')
           ) {
-            targets.push('BikeRentalStations');
+            targets.push('VehicleRentalStations');
           }
         } else if (!isEmpty(this.props.targets)) {
           targets = [...this.props.targets];
@@ -938,13 +937,21 @@ class DTAutosuggest extends React.Component {
     };
     const ariaBarId = this.props.id.replace('searchfield-', '');
     let SearchBarId = this.props.ariaLabel || i18next.t(ariaBarId);
-    SearchBarId = SearchBarId.replace('searchfield-', '');
+    SearchBarId = SearchBarId.replace('searchfield-', '').concat('.'); // Full stop makes screen reader speech clearer.
     const ariaRequiredText = this.props.required
       ? `${i18next.t('required')}.`
       : '';
-    const ariaLabelText = this.props.isMobile
-      ? i18next.t('search-autosuggest-label-mobile')
-      : i18next.t('search-autosuggest-label-desktop');
+    const ariaLabelInstructions = this.props.isMobile
+      ? i18next.t('search-autosuggest-label-instructions-mobile')
+      : i18next.t('search-autosuggest-label-instructions-desktop');
+    const movingToDestinationFieldText =
+      this.props.id === 'origin'
+        ? i18next.t('search-autosuggest-label-move-to-destination')
+        : '';
+    const ariaLabelText = ariaLabelInstructions
+      .concat(' ')
+      .concat(movingToDestinationFieldText);
+
     const ariaSuggestionLen = i18next.t('search-autosuggest-len', {
       count: suggestions.length,
     });
@@ -1033,6 +1040,11 @@ class DTAutosuggest extends React.Component {
                   this.props.inputClassName &&
                     `${this.props.inputClassName}-input-icon`,
                 ])}
+                aria-label={ariaRequiredText
+                  .concat(' ')
+                  .concat(SearchBarId)
+                  .concat(' ')
+                  .concat(i18next.t('search-autosuggest-label'))}
               >
                 <Icon img={`${this.props.icon}`} />
               </div>

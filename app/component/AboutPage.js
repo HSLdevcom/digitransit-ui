@@ -27,8 +27,8 @@ const AboutPage = ({ currentLanguage }, { config }) => {
               {section.link && (
                 <a href={section.link}>
                   <FormattedMessage
-                    id="extra-info"
-                    defaultMessage="More information"
+                    id="journey-planner-manual"
+                    defaultMessage="Journey planner manual"
                   />
                 </a>
               )}

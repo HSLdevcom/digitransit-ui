@@ -42,6 +42,8 @@ class ItineraryLegs extends React.Component {
     toggleCanceledLegsBanner: PropTypes.func.isRequired,
     waitThreshold: PropTypes.number.isRequired,
     focusToLeg: PropTypes.func,
+    changeHash: PropTypes.func,
+    tabIndex: PropTypes.number,
   };
 
   static defaultProps = {
@@ -102,7 +104,7 @@ class ItineraryLegs extends React.Component {
       ...leg,
       fare:
         (leg.route &&
-          fares.find(fare => fare.routeGtfsId === leg.route.gtfsId)) ||
+          fares?.find(fare => fare.routeGtfsId === leg.route.gtfsId)) ||
         undefined,
     }));
     const numberOfLegs = compressedLegs.length;
@@ -230,6 +232,8 @@ class ItineraryLegs extends React.Component {
             leg={leg}
             interliningLegs={interliningLegs}
             focusAction={this.focus(leg.from)}
+            changeHash={this.props.changeHash}
+            tabIndex={this.props.tabIndex}
           />,
         );
       } else if (leg.mode === 'TRAM' && !leg.interlineWithPreviousLeg) {
@@ -239,6 +243,8 @@ class ItineraryLegs extends React.Component {
             leg={leg}
             interliningLegs={interliningLegs}
             focusAction={this.focus(leg.from)}
+            changeHash={this.props.changeHash}
+            tabIndex={this.props.tabIndex}
           />,
         );
       } else if (leg.mode === 'FERRY' && !leg.interlineWithPreviousLeg) {
@@ -248,6 +254,8 @@ class ItineraryLegs extends React.Component {
             leg={leg}
             interliningLegs={interliningLegs}
             focusAction={this.focus(leg.from)}
+            changeHash={this.props.changeHash}
+            tabIndex={this.props.tabIndex}
           />,
         );
       } else if (leg.mode === 'FUNICULAR' && !leg.interlineWithPreviousLeg) {
@@ -257,6 +265,8 @@ class ItineraryLegs extends React.Component {
             leg={leg}
             interliningLegs={interliningLegs}
             focusAction={this.focus(leg.from)}
+            changeHash={this.props.changeHash}
+            tabIndex={this.props.tabIndex}
           />,
         );
       } else if (leg.mode === 'RAIL' && !leg.interlineWithPreviousLeg) {
@@ -266,6 +276,8 @@ class ItineraryLegs extends React.Component {
             leg={leg}
             interliningLegs={interliningLegs}
             focusAction={this.focus(leg.from)}
+            changeHash={this.props.changeHash}
+            tabIndex={this.props.tabIndex}
           />,
         );
       } else if (leg.mode === 'SUBWAY' && !leg.interlineWithPreviousLeg) {
@@ -275,6 +287,8 @@ class ItineraryLegs extends React.Component {
             leg={leg}
             interliningLegs={interliningLegs}
             focusAction={this.focus(leg.from)}
+            changeHash={this.props.changeHash}
+            tabIndex={this.props.tabIndex}
           />,
         );
       } else if (leg.mode === 'AIRPLANE') {

@@ -6,10 +6,11 @@ const CONFIG = 'kela';
 const APP_TITLE = 'Reittiopas';
 const APP_DESCRIPTION = 'Digitransit-reittiopas';
 const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
-const OTP_URL = process.env.OTP_URL || `${API_URL}/routing/v2/routers/kela/`;
+const OTP_URL =
+  process.env.OTP_URL || `${API_URL}/routing/v2-kela/routers/kela/`;
 const MAP_URL =
   process.env.MAP_URL || 'https://digitransit-dev-cdn-origin.azureedge.net';
-const POI_MAP_PREFIX = `${MAP_URL}/map/v3/kela`;
+const POI_MAP_PREFIX = `${MAP_URL}/map/v3-kela/kela`;
 
 export default configMerger(matkaConfig, {
   CONFIG,
@@ -25,7 +26,7 @@ export default configMerger(matkaConfig, {
     },
   },
 
-  favicon: './app/configurations/images/default/favicon.png',
+  favicon: './app/configurations/images/default/default-favicon.png',
   feedIds: ['kela', 'matkahuolto'],
   textLogo: true,
   logo: null, // override default logo from matka config
@@ -96,6 +97,7 @@ export default configMerger(matkaConfig, {
       show: false,
     },
     showEmbeddedSearch: false,
+    countrySelection: [],
   },
   showNearYouButtons: false,
   hideFavourites: true,
@@ -111,6 +113,11 @@ export default configMerger(matkaConfig, {
   terminalStopsMinZoom: 14,
 
   onlyCarPlan: true,
+
+  useRealtimeTravellerCapacities: false,
+
+  showVehiclesOnStopPage: false,
+  showVehiclesOnSummaryPage: false,
 
   aboutThisService: {
     fi: [
@@ -143,4 +150,5 @@ export default configMerger(matkaConfig, {
       },
     ],
   },
+  showCO2InItinerarySummary: false,
 });

@@ -264,7 +264,9 @@ export const moreItinerariesQuery = graphql`
         endTime
         ...ItineraryTab_itinerary
         ...SummaryPlanContainer_itineraries
-        emissions
+        emissionsPerPerson {
+          co2
+        }
         legs {
           mode
           ...ItineraryLine_legs
@@ -296,10 +298,10 @@ export const moreItinerariesQuery = graphql`
               gtfsId
               zoneId
             }
-            bikeRentalStation {
+            vehicleRentalStation {
               stationId
-              bikesAvailable
-              networks
+              vehiclesAvailable
+              network
             }
           }
           to {

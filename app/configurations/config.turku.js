@@ -1,6 +1,6 @@
 /* eslint-disable prefer-template */
 import configMerger from '../util/configMerger';
-import { BIKEAVL_WITHMAX } from '../util/citybikes';
+import { BIKEAVL_WITHMAX } from '../util/vehicleRentalUtils';
 
 const CONFIG = 'turku';
 const APP_TITLE = 'Fölin reittiopas';
@@ -79,7 +79,7 @@ export default configMerger(walttiConfig, {
 
   title: APP_TITLE,
 
-  favicon: './app/configurations/images/turku/favicon.png',
+  favicon: './app/configurations/images/turku/turku-favicon.png',
 
   // Navbar logo
   logo: 'turku/foli-logo.png',
@@ -90,9 +90,9 @@ export default configMerger(walttiConfig, {
         capacity: BIKEAVL_WITHMAX,
         enabled: true,
         season: {
-          // 1.4. - 31.10.
+          // 1.4. - 23.12.
           start: new Date(new Date().getFullYear(), 3, 1),
-          end: new Date(new Date().getFullYear(), 10, 1),
+          end: new Date(new Date().getFullYear(), 11, 24),
         },
         icon: 'citybike',
         name: {

@@ -14,7 +14,7 @@ export default configMerger(walttiConfig, {
 
   appBarLink: {
     name: 'Oulun seudun liikenne',
-    href: 'http://www.oulunseudunliikenne.fi/',
+    href: 'https://www.osl.fi/',
   },
 
   colors: {
@@ -34,31 +34,11 @@ export default configMerger(walttiConfig, {
 
   title: APP_TITLE,
 
-  favicon: './app/configurations/images/oulu/favicon.png',
+  favicon: './app/configurations/images/oulu/oulu-favicon.png',
 
   // Navbar logo
   logo: 'oulu/oulu-logo.png',
   secondaryLogo: 'oulu/secondary-oulu-logo.png',
-
-  cityBike: {
-    networks: {
-      oulu: {
-        enabled: false,
-        icon: 'citybike',
-        name: {
-          fi: 'Oulu',
-          sv: 'Uleåborg',
-          en: 'Oulu',
-        },
-        type: 'citybike',
-        url: {
-          fi: 'https://kaupunkipyorat.ouka.fi/',
-          sv: 'https://kaupunkipyorat.ouka.fi/home',
-          en: 'https://kaupunkipyorat.ouka.fi/home',
-        },
-      },
-    },
-  },
 
   searchParams: {
     'boundary.rect.min_lat': 64.71,
@@ -92,9 +72,9 @@ export default configMerger(walttiConfig, {
       {
         name: 'menu-feedback',
         href: {
-          fi: 'http://www.oulunjoukkoliikenne.fi/palautteet',
-          sv: 'http://www.oulunjoukkoliikenne.fi/palautteet',
-          en: 'https://www.ouka.fi/oulu/public-transport/customer-service',
+          fi: 'https://www.osl.fi/asiakaspalvelu/#palaute',
+          sv: 'https://www.osl.fi/asiakaspalvelu/#palaute',
+          en: 'https://www.osl.fi/asiakaspalvelu/#palaute',
         },
       },
       {

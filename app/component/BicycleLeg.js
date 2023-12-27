@@ -12,13 +12,12 @@ import ItineraryCircleLine from './ItineraryCircleLine';
 import ItineraryCircleLineLong from './ItineraryCircleLineLong';
 import { PREFIX_STOPS } from '../util/path';
 import {
-  getCityBikeNetworkConfig,
-  getCityBikeNetworkId,
+  getVehicleRentalStationNetworkConfig,
   CityBikeNetworkType,
-} from '../util/citybikes';
+} from '../util/vehicleRentalUtils';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
 import { splitStringToAddressAndPlace } from '../util/otpStrings';
-import CityBikeLeg from './CityBikeLeg';
+import VehicleRentalLeg from './VehicleRentalLeg';
 import StopCode from './StopCode';
 import PlatformNumber from './PlatformNumber';
 
@@ -41,9 +40,9 @@ function BicycleLeg(
   const [address, place] = splitStringToAddressAndPlace(leg.from.name);
   const networkConfig =
     leg.rentedBike &&
-    leg.from.bikeRentalStation &&
-    getCityBikeNetworkConfig(
-      getCityBikeNetworkId(leg.from.bikeRentalStation.networks),
+    leg.from.vehicleRentalStation &&
+    getVehicleRentalStationNetworkConfig(
+      leg.from.vehicleRentalStation.network,
       config,
     );
   const isFirstLeg = i => i === 0;
@@ -200,10 +199,10 @@ function BicycleLeg(
             />
           </div>
         ) : (
-          <CityBikeLeg
+          <VehicleRentalLeg
             stationName={leg.from.name}
             isScooter={isScooter}
-            bikeRentalStation={leg.from.bikeRentalStation}
+            vehicleRentalStation={leg.from.vehicleRentalStation}
           />
         )}
         {bicycleWalkLeg?.from.stop && (
@@ -311,9 +310,9 @@ BicycleLeg.propTypes = {
     distance: PropTypes.number.isRequired,
     from: PropTypes.shape({
       name: PropTypes.string.isRequired,
-      bikeRentalStation: PropTypes.shape({
-        bikesAvailable: PropTypes.number.isRequired,
-        networks: PropTypes.array.isRequired,
+      vehicleRentalStation: PropTypes.shape({
+        vehiclesAvailable: PropTypes.number.isRequired,
+        network: PropTypes.string.isRequired,
       }),
       stop: PropTypes.object,
     }).isRequired,
@@ -332,12 +331,12 @@ BicycleLeg.propTypes = {
     startTime: PropTypes.number.isRequired,
     from: PropTypes.shape({
       name: PropTypes.string.isRequired,
-      bikeRentalStation: PropTypes.shape({
-        bikesAvailable: PropTypes.number.isRequired,
-        networks: PropTypes.array.isRequired,
+      vehicleRentalStation: PropTypes.shape({
+        vehiclesAvailable: PropTypes.number.isRequired,
+        network: PropTypes.string.isRequired,
       }),
       stop: PropTypes.object,
-    }).isRequired,
+    }),
     to: PropTypes.shape({
       name: PropTypes.string.isRequired,
       stop: PropTypes.object,

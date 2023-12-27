@@ -5,7 +5,6 @@ import {
   sortSearchResults,
   isStop,
 } from '@digitransit-search-util/digitransit-search-util-helpers';
-import uniqByLabel from '@digitransit-search-util/digitransit-search-util-uniq-by-label';
 import filterMatchingToInput from '@digitransit-search-util/digitransit-search-util-filter-matching-to-input';
 import getGeocodingResults from '@digitransit-search-util/digitransit-search-util-get-geocoding-results';
 import getJson from '@digitransit-search-util/digitransit-search-util-get-json';
@@ -54,7 +53,7 @@ function getStopsFromGeocoding(stops, URL_PELIAS_PLACE) {
     });
   });
 }
-function getFavouriteLocations(favourites, input) {
+function filterFavouriteLocations(favourites, input) {
   return Promise.resolve(
     filterMatchingToInput(favourites, input, ['address', 'name']).map(item => ({
       type: 'FavouritePlace',
@@ -165,7 +164,7 @@ function getBackSuggestion() {
   ]);
 }
 
-function getFavouriteStops(stopsAndStations, input) {
+function filterFavouriteStops(stopsAndStations, input) {
   return stopsAndStations.then(stops => {
     return filterMatchingToInput(stops, input, [
       'properties.name',
@@ -175,7 +174,7 @@ function getFavouriteStops(stopsAndStations, input) {
   });
 }
 
-function getOldSearches(oldSearches, input, dropLayers) {
+function filterOldSearches(oldSearches, input, dropLayers) {
   let matchingOldSearches = filterMatchingToInput(oldSearches, input, [
     'properties.name',
     'properties.label',
@@ -203,13 +202,15 @@ function getOldSearches(oldSearches, input, dropLayers) {
   );
 }
 
-function hasFavourites(context, locations, stops) {
-  const favouriteLocations = locations(context);
-  if (favouriteLocations && favouriteLocations.length > 0) {
+function hasFavourites(searchContext) {
+  const favouriteLocations = searchContext.getFavouriteLocations(
+    searchContext.context,
+  );
+  if (favouriteLocations?.length > 0) {
     return true;
   }
-  const favouriteStops = stops(context);
-  return favouriteStops && favouriteStops.length > 0;
+  const favouriteStops = searchContext.getFavouriteStops(searchContext.context);
+  return favouriteStops?.length > 0;
 }
 
 const routeLayers = [
@@ -240,14 +241,14 @@ export function getSearchResults(
 ) {
   const {
     getPositions,
-    getFavouriteLocations: locations,
-    getOldSearches: prevSearches,
-    getFavouriteStops: stops,
+    getFavouriteLocations,
+    getOldSearches,
+    getFavouriteStops,
     parkingAreaSources,
     getLanguage,
     getStopAndStationsQuery,
-    getFavouriteBikeRentalStationsQuery,
-    getFavouriteBikeRentalStations,
+    getFavouriteVehicleRentalStationsQuery,
+    getFavouriteVehicleRentalStations,
     getFavouriteRoutesQuery,
     getFavouriteRoutes,
     getRoutesQuery,
@@ -295,7 +296,7 @@ export function getSearchResults(
   }
   if (
     targets.includes('SelectFromOwnLocations') &&
-    hasFavourites(context, locations, stops)
+    hasFavourites(searchContext)
   ) {
     searchComponents.push(selectFromOwnLocations(input));
   }
@@ -303,8 +304,10 @@ export function getSearchResults(
     // eslint-disable-next-line prefer-destructuring
     const searchParams = geocodingSearchParams;
     if (sources.includes('Favourite')) {
-      const favouriteLocations = locations(context);
-      searchComponents.push(getFavouriteLocations(favouriteLocations, input));
+      const favouriteLocations = getFavouriteLocations(context);
+      searchComponents.push(
+        filterFavouriteLocations(favouriteLocations, input),
+      );
       if (sources.includes('Back')) {
         searchComponents.push(getBackSuggestion());
       }
@@ -328,20 +331,22 @@ export function getSearchResults(
       );
     }
     if (allSources || sources.includes('History')) {
-      const locationHistory = prevSearches(context, 'endpoint');
+      const locationHistory = getOldSearches(context, 'endpoint');
       const dropLayers = [
         'currentPosition',
         'selectFromMap',
         'futureRoute',
         'ownLocations',
-        'bikeRentalStation',
+        'vehicleRentalStation',
         'bikepark',
         'carpark',
         'stop',
         'back',
       ];
       dropLayers.push(...routeLayers);
-      searchComponents.push(getOldSearches(locationHistory, input, dropLayers));
+      searchComponents.push(
+        filterOldSearches(locationHistory, input, dropLayers),
+      );
     }
   }
   if (allTargets || targets.includes('ParkingAreas')) {
@@ -371,7 +376,7 @@ export function getSearchResults(
       );
     }
     if (allSources || sources.includes('History')) {
-      const history = prevSearches(context);
+      const history = getOldSearches(context);
       const dropLayers = [
         'currentPosition',
         'selectFromMap',
@@ -379,18 +384,20 @@ export function getSearchResults(
         'ownLocations',
         'favouritePlace',
         'bikestation',
-        'bikeRentalStation',
+        'vehicleRentalStation',
         'back',
+        'stop',
+        'station',
       ];
       dropLayers.push(...routeLayers);
       dropLayers.push(...locationLayers);
-      searchComponents.push(getOldSearches(history, input, dropLayers));
+      searchComponents.push(filterOldSearches(history, input, dropLayers));
     }
   }
 
   if (allTargets || targets.includes('Stops')) {
     if (sources.includes('Favourite')) {
-      const favouriteStops = stops(context);
+      const favouriteStops = getFavouriteStops(context);
       let stopsAndStations;
       if (favouriteStops.every(stop => stop.type === 'station')) {
         stopsAndStations = getStopsFromGeocoding(
@@ -414,12 +421,16 @@ export function getSearchResults(
             return results;
           });
       }
-      searchComponents.push(getFavouriteStops(stopsAndStations, input));
+      searchComponents.push(filterFavouriteStops(stopsAndStations, input));
     }
     if (allSources || sources.includes('Datasource')) {
       const geocodingLayers = ['stop', 'station'];
       const searchParams =
         geocodingSize && geocodingSize !== 10 ? { size: geocodingSize } : {};
+      if (geocodingSearchParams && geocodingSearchParams['boundary.country']) {
+        searchParams['boundary.country'] =
+          geocodingSearchParams['boundary.country'];
+      }
       // a little hack: when searching location data, automatically dedupe stops
       // this could be a new explicit prop
       if (allTargets || targets.includes('Locations')) {
@@ -445,7 +456,7 @@ export function getSearchResults(
       );
     }
     if (allSources || sources.includes('History')) {
-      const stopHistory = prevSearches(context).filter(item => {
+      const stopHistory = getOldSearches(context).filter(item => {
         if (item.properties.gid) {
           return item.properties.gid.includes('GTFS:');
         }
@@ -457,7 +468,7 @@ export function getSearchResults(
         'futureRoute',
         'ownLocations',
         'favouritePlace',
-        'bikeRentalStation',
+        'vehicleRentalStation',
         'back',
       ];
       dropLayers.push(...routeLayers);
@@ -465,16 +476,18 @@ export function getSearchResults(
       dropLayers.push(...parkingLayers);
       if (transportMode) {
         if (transportMode !== 'route-CITYBIKE') {
-          dropLayers.push('bikeRentalStation');
+          dropLayers.push('vehicleRentalStation');
           dropLayers.push('bikestation');
         }
         searchComponents.push(
-          getOldSearches(stopHistory, input, dropLayers).then(result =>
+          filterOldSearches(stopHistory, input, dropLayers).then(result =>
             filterResults ? filterResults(result, mode) : result,
           ),
         );
       } else {
-        searchComponents.push(getOldSearches(stopHistory, input, dropLayers));
+        searchComponents.push(
+          filterOldSearches(stopHistory, input, dropLayers),
+        );
       }
     }
   }
@@ -499,7 +512,7 @@ export function getSearchResults(
       ),
     );
     if (allSources || sources.includes('History')) {
-      const routeHistory = prevSearches(context);
+      const routeHistory = getOldSearches(context);
       const dropLayers = [
         'currentPosition',
         'selectFromMap',
@@ -514,24 +527,29 @@ export function getSearchResults(
       ];
       if (transportMode) {
         if (transportMode !== 'route-CITYBIKE') {
-          dropLayers.push('bikeRentalStation');
+          dropLayers.push('vehicleRentalStation');
           dropLayers.push('bikestation');
         }
         dropLayers.push(...routeLayers.filter(i => !(i === transportMode)));
       }
       dropLayers.push(...locationLayers);
       searchComponents.push(
-        getOldSearches(routeHistory, input, dropLayers).then(results =>
+        filterOldSearches(routeHistory, input, dropLayers).then(results =>
           filterResults ? filterResults(results, mode, 'Routes') : results,
         ),
       );
     }
   }
-  if (allTargets || targets.includes('BikeRentalStations')) {
+  if (allTargets || targets.includes('VehicleRentalStations')) {
     if (sources.includes('Favourite')) {
-      const favouriteBikeStations = getFavouriteBikeRentalStations(context);
+      const favouriteVehicleRentalStation = getFavouriteVehicleRentalStations(
+        context,
+      );
       searchComponents.push(
-        getFavouriteBikeRentalStationsQuery(favouriteBikeStations, input),
+        getFavouriteVehicleRentalStationsQuery(
+          favouriteVehicleRentalStation,
+          input,
+        ),
       );
     }
     if (allSources || sources.includes('Datasource')) {
@@ -550,7 +568,7 @@ export function getSearchResults(
           geocodingLayers,
         ).then(results => {
           if (filterResults) {
-            return filterResults(results, mode, 'BikeRentalStations');
+            return filterResults(results, mode, 'VehicleRentalStations');
           }
           return results;
         }),
@@ -560,7 +578,6 @@ export function getSearchResults(
 
   const searchResultsPromise = Promise.all(searchComponents)
     .then(flatten)
-    .then(uniqByLabel)
     .then(results => {
       searches.results = results;
     })

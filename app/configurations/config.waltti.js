@@ -214,10 +214,12 @@ export default {
     'https://lahti.digitransit.fi',
     'https://lappeenranta.digitransit.fi',
     'https://mikkeli.digitransit.fi',
-    'https://oulu.digitransit.fi',
+    'https://reittiopas.osl.fi',
     'https://rovaniemi.digitransit.fi',
     'https://reittiopas.tampere.fi',
     'https://tampere.digitransit.fi',
     'https://opas.waltti.fi',
   ],
+
+  showDisclaimer: true,
 };

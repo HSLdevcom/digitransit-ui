@@ -26,10 +26,10 @@ const searchContext = {
   getFavouriteRoutesQuery() {
     return Promise.resolve([]);
   },
-  getFavouriteBikeRentalStations() {
+  getFavouriteVehicleRentalStations() {
     return Promise.resolve([]);
   },
-  getFavouriteBikeRentalStationsQuery() {
+  getFavouriteVehicleRentalStationsQuery() {
     return Promise.resolve([]);
   },
   getPositions: () => {

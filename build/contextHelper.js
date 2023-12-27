@@ -30,14 +30,18 @@ function getAllPossibleLanguages() {
     );
 }
 
-function getEntries(theme, sprites) {
+function getEntries(theme, sprites = null) {
   let themeCss = `./sass/themes/${theme}/main.scss`;
   if (!fs.existsSync(themeCss)) {
     themeCss = './sass/themes/default/main.scss';
   }
   return {
     [`${theme}_theme`]: themeCss,
-    [sprites]: `./static/${sprites}`,
+    ...(sprites !== null
+      ? {
+          [sprites]: `./static/${sprites}`,
+        }
+      : {}),
   };
 }
 
@@ -64,9 +68,9 @@ function getAllThemeEntries() {
 function faviconPluginFromConfig(config) {
   let logo =
     config.favicon ||
-    `./app/configurations/images/${config.CONFIG}/favicon.png`;
+    `./app/configurations/images/${config.CONFIG}/${config.CONFIG}-favicon.png`;
   if (!fs.existsSync(logo)) {
-    logo = './app/configurations/images/default/favicon.png';
+    logo = './app/configurations/images/default/default-favicon.png';
   }
 
   return new FaviconsWebpackPlugin({
@@ -90,7 +94,7 @@ function faviconPluginFromConfig(config) {
     icons: {
       android: true,
       appleIcon: true,
-      appleStartup: true,
+      appleStartup: false,
       coast: false,
       favicons: true,
       firefox: true,

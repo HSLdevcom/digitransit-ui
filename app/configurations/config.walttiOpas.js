@@ -60,9 +60,9 @@ export default configMerger(walttiConfig, {
 
   // Navbar logo
   logo: 'walttiOpas/waltti-logo.png',
-  favicon: './app/configurations/images/walttiOpas/favicon.png',
+  favicon: './app/configurations/images/walttiOpas/walttiOpas-favicon.png',
 
-  feedIds: ['Salo', 'Kajaani', 'Raasepori'],
+  feedIds: ['Salo', 'Kajaani'],
 
   defaultEndpoint: {
     address: 'Helsinki-Vantaan Lentoasema',
@@ -131,11 +131,6 @@ export default configMerger(walttiConfig, {
       fi: 'Salo',
       sv: 'Salo',
       en: 'Salo',
-    },
-    Raasepori: {
-      fi: 'Raasepori',
-      sv: 'Raseborg',
-      en: 'Raasepori',
     }
   },
 
@@ -151,15 +146,56 @@ export default configMerger(walttiConfig, {
     [29.2, 64.1],
     [28.7, 63.9],
     [28.1, 63.8],
-    // Salo + Raasepori:
+    // Salo:
     [23.1, 60.6],
-    [23.898, 60.207],
-    [23.942, 60.129],
-    [23.836, 59.980],
-    [23.847, 59.892],
-    [23.581, 59.796],
+    [23.7, 60.2],
     [22.8, 59.9],
     [22.7, 60.4],
     [23.1, 60.6],
+  ],
+
+  showDisclaimer: true,
+
+  staticMessages: [
+    {
+      id: 'raasepori_msg_20.12.2023',
+      priority: -1,
+      persistence: 'repeat',
+      content: {
+        fi: [
+          {
+            type: 'heading',
+            content: 'HUOM! Raaseporin oma reittiopas siirtyy sivulle bosse.digitransit.fi',
+          },
+          {
+            type: 'text',
+            content: 'Vinkki: tallenna osoite aloitusnäytöllesi niin saat aikataulut vaivattomasti näkyville.',
+
+          },
+        ],
+        sv: [
+          {
+            type: 'heading',
+            content: "OBS! Raseborgs egen reseplanerare flyttas till bosse.digitransit.fi/?locale=sv",
+
+          },
+          {
+            type: 'text',
+            content: 'Tips: spara sidan till startskärmen för en smidig tillgång till tidtabellerna',
+  
+          },
+        ],
+        en: [
+            {
+              type: 'heading',
+              content: "NOTE! The travel guide for Raseborg is available at bosse.digitransit.fi/?locale=en",
+            },
+            {
+            type: 'text',
+            content: 'Tip: save the page to your start screen for easy access to the timetables',
+          },
+        ],
+      },
+    },
   ],
 });

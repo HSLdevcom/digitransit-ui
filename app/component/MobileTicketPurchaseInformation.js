@@ -21,7 +21,7 @@ export default function MobileTicketPurchaseInformation(
     !fare.isUnknown,
     config.availableTickets,
   );
-  const price = `${(fare.cents / 100).toFixed(2)} €`.replace('.', ',');
+  const price = `${fare.price.toFixed(2)} €`.replace('.', ',');
 
   const faresInfo = () => {
     const header = `${intl.formatMessage({
@@ -62,7 +62,7 @@ export default function MobileTicketPurchaseInformation(
         {faresInfo()}
         <div className="app-link">
           <ExternalLink
-            href={config.ticketPurchaseLink(fare.ticketname)}
+            href={config.ticketPurchaseLink(fare.ticketName)}
             onClick={() =>
               addAnalyticsEvent({ event: 'journey_planner_open_app' })
             }

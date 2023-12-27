@@ -58,7 +58,6 @@ export const citybikeRoutingIsActive = (network, config) => {
 
 export const networkIsActive = (config, networkName) => {
   const networks = config?.cityBike?.networks;
-
   return citybikeRoutingIsActive(networks[networkName], config);
 };
 
@@ -110,6 +109,8 @@ export const getRouteMode = route => {
       return 'bus-express';
     case ExtendedRouteTypes.BusLocal:
       return 'bus-local';
+    case ExtendedRouteTypes.SpeedTram:
+      return 'speedtram';
     default:
       return route.mode?.toLowerCase();
   }

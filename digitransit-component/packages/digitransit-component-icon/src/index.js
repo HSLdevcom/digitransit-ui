@@ -39,34 +39,36 @@ import CautionWhite from './assets/caution_white_exclamation.svg';
 import Trash from './assets/trash.svg';
 import ModeBus from './assets/mode_bus.svg';
 import ModeBusExpress from './assets/bus-express.svg';
+import ModeSpeedTram from './assets/speedtram.svg';
 import ModeBusLocal from './assets/bus-local.svg';
 import ModeRail from './assets/mode_rail.svg';
 import ModeTram from './assets/mode_tram.svg';
 import ModeFerry from './assets/mode_ferry.svg';
-import ModeCitybike from './assets/mode_citybike.svg';
+import ModeBikeRentalStation from './assets/mode_citybike.svg';
 import ModeAirplane from './assets/mode_airplane.svg';
 import ModeDigiTram from './assets/mode_digi_tram.svg';
-import ModeDigiCitybike from './assets/mode_digi_citybike.svg';
+import ModeDigiBikeRentalStation from './assets/mode_digi_citybike.svg';
 import ModeDigiFunicular from './assets/mode_digi_funicular.svg';
 import FutureRoute from './assets/icon-route.svg';
 import Position from './assets/position.svg';
 import SearchStreetName from './assets/search-streetname.svg';
 import BusWaltti from './assets/bus-waltti.svg';
 import FerryWaltti from './assets/ferry-waltti.svg';
-import CitybikeWaltti from './assets/citybike-waltti.svg';
+import BikeRentalStationWaltti from './assets/citybike-waltti.svg';
 import RailWaltti from './assets/rail-waltti.svg';
 import TramWaltti from './assets/tram-waltti.svg';
 import Check from './assets/check.svg';
 import SearchBusStopDefault from './assets/search-bus-stop-default.svg';
 import SearchBusStopExpressDefault from './assets/search-bus-stop-express-default.svg';
+import SearchSpeedTramStopDefault from './assets/search-speedtram-stop-default.svg';
 import SearchRailStopDefault from './assets/search-rail-stop-default.svg';
 import SearchFerryDefault from './assets/search-ferry-default.svg';
 import SearchFerryStopDefault from './assets/search-ferry-stop-default.svg';
-import CityBikeStopDefault from './assets/citybike-stop-default.svg';
-import CityBikeStopDefaultSecondary from './assets/citybike-stop-default-secondary.svg';
+import CityBikeRentalStationDefault from './assets/citybike-stop-default.svg';
+import CityBikeRentalStationDefaultSecondary from './assets/citybike-stop-default-secondary.svg';
 import SearchTramStopDefault from './assets/search-tram-stop-default.svg';
-import CityBikeStopDigitransit from './assets/citybike-stop-digitransit.svg';
-import CityBikeStopDigitransitSecondary from './assets/citybike-stop-digitransit-secondary.svg';
+import CityBikeRentalStationDigitransit from './assets/citybike-stop-digitransit.svg';
+import CityBikeRentalStationDigitransitSecondary from './assets/citybike-stop-digitransit-secondary.svg';
 import SearchAirplaneDigitransit from './assets/search-airplane-digitransit.svg';
 import SearchBusStationDigitransit from './assets/search-bus-station-digitransit.svg';
 import SearchBusStopDigitransit from './assets/search-bus-stop-digitransit.svg';
@@ -86,7 +88,7 @@ const IconMap = style => {
     busstop: <Busstop style={style} />,
     caution: <CautionWhite style={style} />,
     city: <City style={style} />,
-    citybike: <CityBikeStopDefault style={style} />,
+    citybike: <CityBikeRentalStationDefault style={style} />,
     edit: <Edit style={style} />,
     ferry: <Ferry style={style} />,
     home: <Home style={style} />,
@@ -122,21 +124,22 @@ const IconMap = style => {
     'mode-bus': <ModeBus style={style} />,
     'mode-bus-express': <ModeBusExpress style={style} />,
     'mode-bus-local': <ModeBusLocal style={style} />,
+    'mode-speedtram': <ModeSpeedTram style={style} />,
     'mode-rail': <ModeRail style={style} />,
     'mode-tram': <ModeTram style={style} />,
     'mode-subway': <Subway style={style} />,
     'mode-ferry': <ModeFerry style={style} />,
-    'mode-citybike': <ModeCitybike style={style} />,
+    'mode-citybike': <ModeBikeRentalStation style={style} />,
     'mode-digitransit-bus': <SearchBusStationDigitransit style={style} />,
     'mode-digitransit-rail': <SearchRailStationDigitransit style={style} />,
     'mode-digitransit-ferry': <SearchFerryDigitransit style={style} />,
     'mode-digitransit-tram': <ModeDigiTram style={style} />,
-    'mode-digitransit-citybike': <ModeDigiCitybike style={style} />,
+    'mode-digitransit-citybike': <ModeDigiBikeRentalStation style={style} />,
     'mode-digitransit-airplane': <ModeAirplane style={style} />,
     'mode-digitransit-subway': <Subway style={style} />,
     'mode-digitransit-funicular': <ModeDigiFunicular style={style} />,
     'mode-waltti-bus': <BusWaltti style={style} />,
-    'mode-waltti-citybike': <CitybikeWaltti style={style} />,
+    'mode-waltti-citybike': <BikeRentalStationWaltti style={style} />,
     'mode-waltti-ferry': <FerryWaltti style={style} />,
     'mode-waltti-rail': <RailWaltti style={style} />,
     'mode-waltti-tram': <TramWaltti style={style} />,
@@ -148,17 +151,22 @@ const IconMap = style => {
     'search-bus-stop-express-default': (
       <SearchBusStopExpressDefault style={style} />
     ),
+    'search-speedtram-stop-default': (
+      <SearchSpeedTramStopDefault style={style} />
+    ),
     'search-rail-stop-default': <SearchRailStopDefault style={style} />,
     'search-ferry-default': <SearchFerryDefault style={style} />,
     'search-ferry-stop-default': <SearchFerryStopDefault style={style} />,
     'search-tram-stop-default': <SearchTramStopDefault style={style} />,
-    'citybike-stop-digitransit': <CityBikeStopDigitransit style={style} />,
-    'citybike-stop-digitransit-secondary': (
-      <CityBikeStopDigitransitSecondary style={style} />
+    'citybike-stop-digitransit': (
+      <CityBikeRentalStationDigitransit style={style} />
     ),
-    'citybike-stop-default': <CityBikeStopDefault style={style} />,
+    'citybike-stop-digitransit-secondary': (
+      <CityBikeRentalStationDigitransitSecondary style={style} />
+    ),
+    'citybike-stop-default': <CityBikeRentalStationDefault style={style} />,
     'citybike-stop-default-secondary': (
-      <CityBikeStopDefaultSecondary style={style} />
+      <CityBikeRentalStationDefaultSecondary style={style} />
     ),
     'search-airplane-digitransit': <SearchAirplaneDigitransit style={style} />,
     'search-bus-station-digitransit': (

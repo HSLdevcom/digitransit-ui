@@ -5,15 +5,14 @@ import Icon from '../../Icon';
 import GenericMarker from '../GenericMarker';
 import {
   BIKEAVL_UNKNOWN,
-  getCityBikeNetworkConfig,
-  getCityBikeNetworkIcon,
-  getCityBikeNetworkId,
-  getCitybikeCapacity,
-} from '../../../util/citybikes';
+  getVehicleRentalStationNetworkConfig,
+  getVehicleRentalStationNetworkIcon,
+  getVehicleCapacity,
+} from '../../../util/vehicleRentalUtils';
 import { isBrowser } from '../../../util/browser';
 import {
-  getCityBikeAvailabilityIndicatorColor,
-  getCityBikeAvailabilityTextColor,
+  getVehicleAvailabilityIndicatorColor,
+  getVehicleAvailabilityTextColor,
 } from '../../../util/legUtils';
 
 import { PREFIX_BIKESTATIONS } from '../../../util/path';
@@ -36,8 +35,8 @@ const smallIconSvg = `
   </svg>
 `;
 
-export default class CityBikeMarker extends React.Component {
-  static displayName = 'CityBikeMarker';
+export default class VehicleMarker extends React.Component {
+  static displayName = 'VehicleMarker';
 
   static propTypes = {
     showBikeAvailability: PropTypes.bool,
@@ -69,9 +68,9 @@ export default class CityBikeMarker extends React.Component {
   getIcon = zoom => {
     const { showBikeAvailability, station, transit } = this.props;
     const { config } = this.context;
-    const citybikeCapacity = getCitybikeCapacity(config, station.networks[0]);
-    const iconName = `${getCityBikeNetworkIcon(
-      getCityBikeNetworkConfig(getCityBikeNetworkId(station.networks), config),
+    const vehicleCapacity = getVehicleCapacity(config, station.network);
+    const iconName = `${getVehicleRentalStationNetworkIcon(
+      getVehicleRentalStationNetworkConfig(station.network, config),
     )}-lollipop`;
 
     return !transit && zoom <= config.stopsSmallMaxZoom
@@ -86,17 +85,17 @@ export default class CityBikeMarker extends React.Component {
             ? Icon.asString({
                 img: iconName,
                 className: 'city-bike-medium-size',
-                badgeFill: getCityBikeAvailabilityIndicatorColor(
-                  station.bikesAvailable,
+                badgeFill: getVehicleAvailabilityIndicatorColor(
+                  station.vehiclesAvailable,
                   config,
                 ),
-                badgeTextFill: getCityBikeAvailabilityTextColor(
-                  station.bikesAvailable,
+                badgeTextFill: getVehicleAvailabilityTextColor(
+                  station.vehiclesAvailable,
                   config,
                 ),
                 badgeText:
-                  citybikeCapacity !== BIKEAVL_UNKNOWN
-                    ? station.bikesAvailable
+                  vehicleCapacity !== BIKEAVL_UNKNOWN
+                    ? station.vehiclesAvailable
                     : null,
               })
             : Icon.asString({

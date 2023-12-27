@@ -85,6 +85,8 @@ class TripStopListContainer extends React.PureComponent {
       .filter(
         vehicle =>
           vehicle.direction === undefined ||
+          trip.pattern.directionId === undefined ||
+          trip.pattern.directionId === -1 ||
           vehicle.direction === trip.pattern.directionId,
       )
       .filter(

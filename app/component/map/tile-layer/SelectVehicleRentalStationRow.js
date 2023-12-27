@@ -4,17 +4,20 @@ import Link from 'found/Link';
 import { FormattedMessage } from 'react-intl';
 import Icon from '../../Icon';
 import {
-  getCityBikeNetworkConfig,
-  getCityBikeNetworkIcon,
-  getCityBikeNetworkId,
+  getVehicleRentalStationNetworkConfig,
+  getVehicleRentalStationNetworkIcon,
   hasStationCode,
-} from '../../../util/citybikes';
+} from '../../../util/vehicleRentalUtils';
 import { PREFIX_BIKESTATIONS } from '../../../util/path';
+import { getIdWithoutFeed } from '../../../util/feedScopedIdUtils';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
-function SelectCityBikeRow({ name, network, id, desc }, { config }) {
-  const img = `${getCityBikeNetworkIcon(
-    getCityBikeNetworkConfig(getCityBikeNetworkId(network), config),
+function SelectVehicleRentalStationRow(
+  { name, network, id, desc },
+  { config },
+) {
+  const img = `${getVehicleRentalStationNetworkIcon(
+    getVehicleRentalStationNetworkConfig(network, config),
   )}-stop-lollipop`;
   const address = desc || <FormattedMessage id="citybike-station-no-id" />;
   return (
@@ -30,7 +33,7 @@ function SelectCityBikeRow({ name, network, id, desc }, { config }) {
         <span className="choose-row-text">
           <span className="choose-row-address">{address}</span>
           {hasStationCode({ stationId: id }) && (
-            <span className="choose-row-number">{id}</span>
+            <span className="choose-row-number">{getIdWithoutFeed(id)}</span>
           )}
         </span>
       </span>
@@ -41,21 +44,21 @@ function SelectCityBikeRow({ name, network, id, desc }, { config }) {
   );
 }
 
-SelectCityBikeRow.displayName = 'SelectCityBikeRow';
+SelectVehicleRentalStationRow.displayName = 'SelectVehicleRentalStationRow';
 
-SelectCityBikeRow.propTypes = {
+SelectVehicleRentalStationRow.propTypes = {
   name: PropTypes.string.isRequired,
   network: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
   desc: PropTypes.string,
 };
 
-SelectCityBikeRow.defaultProps = {
+SelectVehicleRentalStationRow.defaultProps = {
   desc: undefined,
 };
 
-SelectCityBikeRow.contextTypes = {
+SelectVehicleRentalStationRow.contextTypes = {
   config: PropTypes.object.isRequired,
 };
 
-export default SelectCityBikeRow;
+export default SelectVehicleRentalStationRow;

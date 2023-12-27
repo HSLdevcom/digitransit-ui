@@ -3,7 +3,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import SelectStopRow from './SelectStopRow';
-import SelectCityBikeRow from './SelectCityBikeRow';
+import SelectVehicleRentalStationRow from './SelectVehicleRentalStationRow';
 import SelectParkAndRideRow from './SelectParkAndRideRow';
 import SelectVehicleContainer from './SelectVehicleContainer';
 import { getIdWithoutFeed } from '../../../util/feedScopedIdUtils';
@@ -41,12 +41,14 @@ function MarkerSelectPopup(props) {
           {...option.feature.properties}
           key={option.feature.properties.gtfsId}
           colors={props.colors}
+          routes={option.feature.properties.routes}
+          platform={option.feature.properties.platform}
         />
       );
     }
     if (option.layer === 'citybike') {
       return (
-        <SelectCityBikeRow
+        <SelectVehicleRentalStationRow
           {...option.feature.properties}
           key={`citybike:${option.feature.properties.id}`}
         />

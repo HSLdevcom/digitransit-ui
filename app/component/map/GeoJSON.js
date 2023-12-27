@@ -2,6 +2,7 @@ import L from 'leaflet';
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import uniqBy from 'lodash/uniqBy';
 import PointFeatureMarker from './PointFeatureMarker';
 import { isBrowser } from '../../util/browser';
 import {
@@ -95,7 +96,7 @@ class GeoJSON extends React.Component {
     data: PropTypes.shape({
       features: PropTypes.arrayOf(
         PropTypes.shape({
-          id: PropTypes.string,
+          id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
           geometry: PropTypes.shape({
             coordinates: PropTypes.array.isRequired,
             type: PropTypes.string.isRequired,
@@ -265,7 +266,7 @@ class GeoJSON extends React.Component {
 
     return (
       <React.Fragment>
-        {data.features
+        {uniqBy(data.features, 'id')
           .filter(feature => {
             const [lon, lat] = feature.geometry.coordinates;
             if (bounds) {

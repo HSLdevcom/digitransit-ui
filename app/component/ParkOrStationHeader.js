@@ -8,23 +8,30 @@ import { getJson } from '../util/xhrPromise';
 import getZoneId from '../util/zoneIconUtils';
 import ZoneIcon from './ZoneIcon';
 import withBreakpoint from '../util/withBreakpoint';
-import { hasStationCode } from '../util/citybikes';
+import { hasStationCode } from '../util/vehicleRentalUtils';
+import { getIdWithoutFeed } from '../util/feedScopedIdUtils';
 
 const modules = {
-  FavouriteBikeRentalStationContainer: () =>
-    importLazy(import('./FavouriteBikeRentalStationContainer')),
+  FavouriteVehicleRentalStationContainer: () =>
+    importLazy(import('./FavouriteVehicleRentalStationContainer')),
 };
 const ParkOrBikeStationHeader = ({ parkOrStation, breakpoint }, { config }) => {
   const [zoneId, setZoneId] = useState(undefined);
   useEffect(() => {
-    getJson(config.URL.PELIAS_REVERSE_GEOCODER, {
+    const searchParams = {
       'point.lat': parkOrStation.lat,
       'point.lon': parkOrStation.lon,
       'boundary.circle.radius': 0.2,
       layers: 'address',
       size: 1,
       zones: 1,
-    }).then(data => {
+    };
+    if (config.searchParams['boundary.country']) {
+      searchParams['boundary.country'] =
+        config.searchParams['boundary.country'];
+    }
+
+    getJson(config.URL.PELIAS_REVERSE_GEOCODER, searchParams).then(data => {
       if (data.features != null && data.features.length > 0) {
         const match = data.features[0].properties;
         const id = getZoneId(config, match.zones, data.zones);
@@ -51,7 +58,9 @@ const ParkOrBikeStationHeader = ({ parkOrStation, breakpoint }, { config }) => {
           <FormattedMessage
             id={stationId ? 'citybike-station-no-id' : parkHeaderId}
           />
-          {hasStationCode(parkOrStation) && <StopCode code={stationId} />}
+          {stationId && hasStationCode(parkOrStation) && (
+            <StopCode code={getIdWithoutFeed(stationId)} />
+          )}
           {zoneId && (
             <span className="bike-station-zone-icon">
               <ZoneIcon zoneId={zoneId.toUpperCase()} />
@@ -61,9 +70,9 @@ const ParkOrBikeStationHeader = ({ parkOrStation, breakpoint }, { config }) => {
       </div>
       {stationId && (
         <LazilyLoad modules={modules}>
-          {({ FavouriteBikeRentalStationContainer }) => (
-            <FavouriteBikeRentalStationContainer
-              bikeRentalStation={parkOrStation}
+          {({ FavouriteVehicleRentalStationContainer }) => (
+            <FavouriteVehicleRentalStationContainer
+              vehicleRentalStation={parkOrStation}
             />
           )}
         </LazilyLoad>

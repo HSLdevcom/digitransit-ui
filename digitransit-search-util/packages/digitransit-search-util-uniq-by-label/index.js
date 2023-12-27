@@ -71,8 +71,8 @@ export const getNameLabel = memoize(
         return [suggestion.labelId];
       case 'favouritePlace':
         return formatFavouritePlaceLabel(suggestion.name, suggestion.address);
-      case 'favouriteBikeRentalStation':
-      case 'bikeRentalStation':
+      case 'favouriteVehicleRentalStation':
+      case 'bikestation':
         return [suggestion.name];
       case 'favouriteRoute':
       case 'route-BUS':
@@ -148,15 +148,12 @@ export const getNameLabel = memoize(
  */
 export default function uniqByLabel(features) {
   return uniqWith(features, (feat1, feat2) => {
-    const bool =
-      isEqual(getNameLabel(feat1.properties), getNameLabel(feat2.properties)) &&
-      feat1.properties.layer === feat2.properties.layer;
-    if (
-      bool &&
-      (feat1.type === 'FutureRoute' || feat2.type === 'FutureRoute')
-    ) {
+    if (feat1.type === 'FutureRoute' || feat2.type === 'FutureRoute') {
       return false;
     }
-    return bool;
+    return (
+      isEqual(getNameLabel(feat1.properties), getNameLabel(feat2.properties)) &&
+      feat1.properties.layer === feat2.properties.layer
+    );
   });
 }

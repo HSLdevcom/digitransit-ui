@@ -41,6 +41,7 @@ import {
   initAnalyticsClientSide,
   addAnalyticsEvent,
 } from './util/analyticsUtils';
+import { configureCountry } from './util/configureCountry';
 
 const plugContext = f => () => ({
   plugComponentContext: f,
@@ -101,22 +102,26 @@ async function init() {
 
   const context = await app.rehydrate(window.state);
 
-  // For Google Tag Manager
-  if (!config.useCookiesPrompt) {
-    initAnalyticsClientSide();
+  // Get additional feedIds and searchParams from localstorage
+  if (config.mainMenu.countrySelection) {
+    const selectedCountries = context.getStore('CountryStore').getCountries();
+    configureCountry(config, selectedCountries);
   }
+
+  // For Google Tag Manager
+  initAnalyticsClientSide(config);
 
   window.context = context;
 
   if (process.env.NODE_ENV === 'development') {
-    if (config.AXE) {
+    /* if (config.AXE) {
       const axeConfig = {
         resultTypes: ['violations'],
       };
       // eslint-disable-next-line global-require
       const axe = require('@axe-core/react');
       axe(React, ReactDOM, 2500, axeConfig);
-    }
+    } */
     try {
       // eslint-disable-next-line global-require, import/no-dynamic-require
       require(`../sass/themes/${config.CONFIG}/main.scss`);

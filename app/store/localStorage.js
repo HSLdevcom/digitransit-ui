@@ -132,14 +132,6 @@ export function setCustomizedSettings(data) {
       data.showBikeAndParkItineraries,
       oldSettings.showBikeAndParkItineraries,
     ),
-    forceCarRouting: getValueOrDefault(
-      data.forceCarRouting,
-      oldSettings.forceCarRouting,
-    ),
-    showCO2InItinerarySummary: getValueOrDefault(
-      data.showCO2InItinerarySummary,
-      oldSettings.showCO2InItinerarySummary,
-    ),
   };
 
   setItem('customizedSettings', newSettings);
@@ -217,7 +209,13 @@ export const setMapLayerSettings = settings => {
   setItem('map-layers', settings);
 };
 
+export const setCountries = countries => {
+  setItem('countries', countries);
+};
+
 export const getMapLayerSettings = () => getItemAsJson('map-layers', '{}');
+
+export const getCountries = () => getItemAsJson('countries', '{}');
 
 /**
  * Sets the seen state of the given dialog.

@@ -13,13 +13,12 @@ import { getActiveAlertSeverityLevel } from '../util/alertUtils';
 import { PREFIX_STOPS } from '../util/path';
 import {
   CityBikeNetworkType,
-  getCityBikeNetworkId,
-  getCityBikeNetworkConfig,
-} from '../util/citybikes';
+  getVehicleRentalStationNetworkConfig,
+} from '../util/vehicleRentalUtils';
 import { displayDistance } from '../util/geo-utils';
 import { durationToString } from '../util/timeUtils';
 import { splitStringToAddressAndPlace } from '../util/otpStrings';
-import CityBikeLeg from './CityBikeLeg';
+import VehicleRentalLeg from './VehicleRentalLeg';
 
 function WalkLeg(
   { children, focusAction, focusToLeg, index, leg, previousLeg },
@@ -41,13 +40,11 @@ function WalkLeg(
   const isFirstLeg = i => i === 0;
   const [address, place] = splitStringToAddressAndPlace(leg[toOrFrom].name);
 
-  const networkType = getCityBikeNetworkConfig(
-    getCityBikeNetworkId(
-      previousLeg &&
-        previousLeg.rentedBike &&
-        previousLeg[toOrFrom].bikeRentalStation &&
-        previousLeg[toOrFrom].bikeRentalStation.networks,
-    ),
+  const networkType = getVehicleRentalStationNetworkConfig(
+    previousLeg &&
+      previousLeg.rentedBike &&
+      previousLeg[toOrFrom].vehicleRentalStation &&
+      previousLeg[toOrFrom].vehicleRentalStation.network,
     config,
   ).type;
 
@@ -165,10 +162,10 @@ function WalkLeg(
               ) : (
                 <div>
                   {returnNotice ? (
-                    <CityBikeLeg
+                    <VehicleRentalLeg
                       isScooter={isScooter}
                       stationName={leg[toOrFrom].name}
-                      bikeRentalStation={leg[toOrFrom].bikeRentalStation}
+                      vehicleRentalStation={leg[toOrFrom].vehicleRentalStation}
                       returnBike
                     />
                   ) : (
@@ -250,8 +247,8 @@ const walkLegShape = PropTypes.shape({
       platformCode: PropTypes.string,
       vehicleMode: PropTypes.string,
     }),
-    bikeRentalStation: PropTypes.shape({
-      networks: PropTypes.array,
+    vehicleRentalStation: PropTypes.shape({
+      network: PropTypes.string,
     }),
   }).isRequired,
   to: PropTypes.shape({
@@ -263,8 +260,8 @@ const walkLegShape = PropTypes.shape({
       platformCode: PropTypes.string,
       vehicleMode: PropTypes.string,
     }),
-    bikeRentalStation: PropTypes.shape({
-      networks: PropTypes.array,
+    vehicleRentalStation: PropTypes.shape({
+      network: PropTypes.string,
     }),
   }).isRequired,
   mode: PropTypes.string.isRequired,

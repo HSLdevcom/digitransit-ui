@@ -47,6 +47,8 @@ const props = {
       },
     ],
   },
+  date: '20231031',
+  language: 'en',
 };
 
 describe('<Timetable />', () => {

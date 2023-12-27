@@ -1,114 +1,242 @@
-name: Process v2 push or pr
+name: Process v3 push or PR
+
 on:
   push:
     branches:
-      - v2
+      - v3
+      - node-migration
   pull_request:
     branches:
-      - v2
+      - v3
+      - node-migration
+
+env:
+  # We tell Playwright not to download browser binaries because we use microsoft/playwright-github-action.
+  # https://github.com/microsoft/playwright/blob/v1.16.2/installation-tests/installation-tests.sh#L200-L216
+  PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
+
 jobs:
-  lint:
+  # install dependencies, build shared components, cache both for subsequent jobs
+  install:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [10.x]
+        node-version: [16.x]
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      # https://github.com/actions/cache/blob/8f1e2e02865c42348f9baddbbaafb1841dce610a/examples.md#node---yarn-2
+      - name: Cache node_modules
+        id: cache-node-modules
+        uses: actions/cache@v3
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/yarn.lock') }}
+      - name: Cache .yarn/cache
+        if: ${{ steps.cache-node-modules.outputs.cache-hit != 'true' }}
+        uses: actions/cache@v3
+        with:
+          path: '.yarn/cache'
+          key: yarn-v3-cache-${{ github.ref_name }}
+          restore-keys: yarn-v3-cache-v3
+      - name: Install dependencies
+        if: ${{ steps.cache-node-modules.outputs.cache-hit != 'true' }}
+        run: yarn install --immutable
+
+      - name: cache shared components
+        id: cache-shared-components
+        uses: actions/cache@v3
+        with:
+          path: 'digitransit-*'
+          key: ${{ runner.os }}-shared-components-${{ hashFiles('digitransit-*') }}
+      - name: build shared components
+        if: ${{ steps.cache-shared-components.outputs.cache-hit != 'true' }}
+        run: yarn run build-workspaces
+
+  lint:
+    needs: install
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.x]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
       - name: "Set time zone to Europe/Helsinki"
         uses: zcong1993/setup-timezone@master
         with:
           timezone: "Europe/Helsinki"
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
+
+      # https://github.com/actions/cache/blob/8f1e2e02865c42348f9baddbbaafb1841dce610a/examples.md#node---yarn-2
+      - name: Cache node_modules
+        id: cache-node-modules
+        uses: actions/cache@v3
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/yarn.lock') }}
+      - name: Cache .yarn/cache
+        if: ${{ steps.cache-node-modules.outputs.cache-hit != 'true' }}
+        uses: actions/cache@v3
+        with:
+          path: '.yarn/cache'
+          key: yarn-v3-cache-${{ github.ref_name }}
+          restore-keys: yarn-v3-cache-v3
       - name: Install dependencies
-        run: yarn
-      - name: Install dependencies and build shared components
-        run: yarn setup
+        if: ${{ steps.cache-node-modules.outputs.cache-hit != 'true' }}
+        run: yarn install --immutable
+
+      - name: cache shared components
+        id: cache-shared-components
+        uses: actions/cache@v3
+        with:
+          path: 'digitransit-*'
+          key: ${{ runner.os }}-shared-components-${{ hashFiles('digitransit-*') }}
+      - name: Build shared components
+        if: ${{ steps.cache-shared-components.outputs.cache-hit != 'true' }}
+        run: yarn run build-workspaces
+
       - name: Run linters
         run: yarn lint
+      - name: lint SVG sprites using xmllint
+        run: |
+          sudo apt install -y libxml2-utils
+          xmllint --nonet --noout static/assets/svg-sprite.*.svg
+
   unit-test:
+    needs: install
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [10.x]
+        node-version: [16.x]
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: "Set time zone to Europe/Helsinki"
         uses: zcong1993/setup-timezone@master
         with:
           timezone: "Europe/Helsinki"
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
+
+      # https://github.com/actions/cache/blob/8f1e2e02865c42348f9baddbbaafb1841dce610a/examples.md#node---yarn-2
+      - name: Cache node_modules
+        id: cache-node-modules
+        uses: actions/cache@v3
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/yarn.lock') }}
+      - name: Cache .yarn/cache
+        if: ${{ steps.cache-node-modules.outputs.cache-hit != 'true' }}
+        uses: actions/cache@v3
+        with:
+          path: '.yarn/cache'
+          key: yarn-v3-cache-${{ github.ref_name }}
+          restore-keys: yarn-v3-cache-v3
       - name: Install dependencies
-        run: yarn
-      - name: Install dependencies and build shared components
-        run: yarn setup
-      - name: build relay queries
-        run: yarn relay
+        if: ${{ steps.cache-node-modules.outputs.cache-hit != 'true' }}
+        run: yarn install --immutable
+
+      - name: cache shared components
+        id: cache-shared-components
+        uses: actions/cache@v3
+        with:
+          path: 'digitransit-*'
+          key: ${{ runner.os }}-shared-components-${{ hashFiles('digitransit-*') }}
+      - name: Build shared components
+        if: ${{ steps.cache-shared-components.outputs.cache-hit != 'true' }}
+        run: yarn run build-workspaces
+
+      - name: cache built Relay queries
+        id: cache-relay
+        uses: actions/cache@v3
+        with:
+          path: |
+            ./__generated__
+            **/__generated__
+          key: ${{ runner.os }}-relay-${{ github.sha }}
+      - name: build Relay queries
+        if: ${{ steps.cache-relay.outputs.cache-hit != 'true' }}
+        run: |
+          yarn run relay
+
       - name: Run unit tests
         run: yarn run test-coverage
-      - name: Send test coverage report
-        run: yarn run test-report
-  # build:
-  #   needs: install
-  #   runs-on: ubuntu-latest
-  #   strategy:
-  #     matrix:
-  #       node-version: [10.x]
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v2
-  #     - name: "Set time zone to Europe/Helsinki"
-  #       uses: zcong1993/setup-timezone@master
-  #       with:
-  #         timezone: "Europe/Helsinki"
-  #     - name: Use Node.js ${{ matrix.node-version }}
-  #       uses: actions/setup-node@v1
-  #       with:
-  #         node-version: ${{ matrix.node-version }}
-  #     - name: Build shared components
-  #       run: yarn setup
-  #     - name: Build UI
-  #       run: yarn build
-  #     - name: Cache build
-  #       id: cache-build
-  #       uses: actions/cache@v2
-  #       with:
-  #         path: |
-  #           '**/_static'
-  #           './manifest.json'
-  #         key: ${{ runner.os }}-build-${{ github.run_id }}
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+
   publish-npm:
-    if: github.ref == 'refs/heads/v2'
+    if: github.ref == 'refs/heads/v3'
     needs:
       - lint
       - unit-test
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [ 10.x ]
+        node-version: [ 16.x ]
     steps:
-      - uses: actions/checkout@v2
-      - name: Set time zone to Europe/Helsinki
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: "Set time zone to Europe/Helsinki"
         uses: zcong1993/setup-timezone@master
         with:
           timezone: "Europe/Helsinki"
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
+
+      # https://github.com/actions/cache/blob/8f1e2e02865c42348f9baddbbaafb1841dce610a/examples.md#node---yarn-2
+      - name: Cache node_modules
+        id: cache-node-modules
+        uses: actions/cache@v3
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/yarn.lock') }}
+      - name: Cache .yarn/cache
+        if: ${{ steps.cache-node-modules.outputs.cache-hit != 'true' }}
+        uses: actions/cache@v3
+        with:
+          path: '.yarn/cache'
+          key: yarn-v3-cache-${{ github.ref_name }}
+          restore-keys: yarn-v3-cache-v3
       - name: Install dependencies
-        run: yarn
-      - name: Install dependencies and build shared components
-        run: yarn setup
-      - name: build relay queries
-        run: yarn relay
+        if: ${{ steps.cache-node-modules.outputs.cache-hit != 'true' }}
+        run: yarn install --immutable
+
+      - name: cache shared components
+        id: cache-shared-components
+        uses: actions/cache@v3
+        with:
+          path: 'digitransit-*'
+          key: ${{ runner.os }}-shared-components-${{ hashFiles('digitransit-*') }}
+      - name: Build shared components
+        if: ${{ steps.cache-shared-components.outputs.cache-hit != 'true' }}
+        run: yarn run build-workspaces
+
+      - name: cache built Relay queries
+        id: cache-relay
+        uses: actions/cache@v3
+        with:
+          path: |
+            ./__generated__
+            **/__generated__
+          key: ${{ runner.os }}-relay-${{ github.sha }}
+      - name: build Relay queries
+        if: ${{ steps.cache-relay.outputs.cache-hit != 'true' }}
+        run: |
+          yarn run relay
+
       - name: Authenticate with registry
         run: echo //registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN} > .npmrc
         env:
@@ -116,37 +244,74 @@ jobs:
       - name: disregard changed yarn.lock
         run: git update-index --assume-unchanged yarn.lock
       - name: Publish shared components to npm
-        run: echo ::set-output name=publish-logs::$(yarn digitransit-npm-autopublish)
+        run: |
+          {
+            echo 'publish-logs<<EOF' >> $GITHUB_OUTPUT
+            yarn digitransit-npm-autopublish >> $GITHUB_OUTPUT
+            echo 'EOF' >> $GITHUB_OUTPUT
+          }
         shell: bash
         id: publish
       - name: Parse publish logs
-        run: echo ::set-output name=published-packages::$(echo "${{ steps.publish.outputs.publish-logs }}" | grep -o -P '(Successfully published:).*')
+        if:  steps.publish.outputs.publish-logs != ''
+        run: |
+          {
+            echo 'published-packages<<EOF' >> $GITHUB_OUTPUT
+            echo "${{ steps.publish.outputs.publish-logs }}" | grep -A100 'Successfully published' >> $GITHUB_OUTPUT
+            echo 'EOF' >> $GITHUB_OUTPUT
+          }
         shell: bash
         id: log-parse
       - name: Send published packages to slack
         if:  steps.log-parse.outputs.published-packages != ''
-        run: ./.github/workflows/scripts/slack_message.sh
+        run: |
+          ./.github/workflows/scripts/slack_message.sh
         env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_ID }}
+          SLACK_ACCESS_TOKEN: ${{ secrets.SLACK_ACCESS_TOKEN }}
           PUBLISHED_PACKAGES: ${{ steps.log-parse.outputs.published-packages }}
         shell: bash
 
   docker-push:
-    if: github.ref == 'refs/heads/v2'
+    if: github.ref == 'refs/heads/v3'
     needs:
       - lint
-      - publish-npm
       - unit-test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Set time zone to Europe/Helsinki
         uses: zcong1993/setup-timezone@master
         with:
           timezone: "Europe/Helsinki"
-      - name: Build docker image from v2 and push it
-        run: ./.github/workflows/scripts/build_and_push_dev.sh
-        env:
-          DOCKER_USER: ${{ secrets.DOCKER_USER }}
-          DOCKER_AUTH: ${{ secrets.DOCKER_AUTH }}
+
+      - name: Create buildInfo.js file
+        run: |
+          echo -e "export const COMMIT_ID = \"${GITHUB_SHA}\";\nexport const BUILD_TIME = \"$(date -Iminutes -u)\";" >app/buildInfo.js
+      - name: Configure Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Log in to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USER }}
+          password: ${{ secrets.DOCKER_AUTH }}
+
+      - name: compute Docker image tag
+        id: docker-tags
+        # todo: update to v3 before merging!
+        run: |
+          echo "permanent-tag=v3-$(date +"%Y-%m-%dT%H.%M.%S")-${GITHUB_SHA:0:7}" >>$GITHUB_OUTPUT
+      - name: build and push Docker image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          tags: |
+            hsldevcom/digitransit-ui:v3
+            hsldevcom/digitransit-ui:${{ steps.docker-tags.outputs.permanent-tag }}
+          # https://github.com/docker/build-push-action/blob/9472e9021074a3cb3279ba431598b8836d40433f/docs/advanced/cache.md#github-cache
+          # https://github.com/moby/buildkit#registry-push-image-and-cache-separately
+          cache-from: type=gha
+          cache-to: type=gha,mode=max,oci-mediatypes=true,compression=zstd
+          push: true

@@ -95,6 +95,7 @@ export const AlertEntityType = Object.freeze({
 export const ExtendedRouteTypes = Object.freeze({
   BusExpress: 702,
   BusLocal: 704,
+  SpeedTram: 900,
 });
 
 export const ParkTypes = {

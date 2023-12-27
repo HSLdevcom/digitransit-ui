@@ -193,8 +193,8 @@ class RoutePageControlPanel extends React.Component {
     }
 
     const routeParts = route.gtfsId.split(':');
-    const agency = routeParts[0];
-    const source = realTime[agency];
+    const feedId = routeParts[0];
+    const source = realTime[feedId];
     if (!source || !source.active) {
       return;
     }
@@ -236,17 +236,18 @@ class RoutePageControlPanel extends React.Component {
     if (client) {
       const { realTime } = config;
       const routeParts = route.gtfsId.split(':');
-      const agency = routeParts[0];
-      const source = realTime[agency];
+      const feedId = routeParts[0];
+      const source = realTime[feedId];
 
       if (isActivePattern) {
         const id = source.routeSelector(this.props);
         executeAction(changeRealTimeClientTopics, {
           ...source,
-          agency,
+          feedId,
           options: [
             {
               route: id,
+              feedId,
               mode: route.mode.toLowerCase(),
               gtfsId: routeParts[1],
               headsign: pattern[0].headsign,
@@ -290,8 +291,8 @@ class RoutePageControlPanel extends React.Component {
     }
 
     const routeParts = route.gtfsId.split(':');
-    const agency = routeParts[0];
-    const source = realTime[agency];
+    const feedId = routeParts[0];
+    const source = realTime[feedId];
     const id =
       pattern.code !== match.params.patternId
         ? routeParts[1]
@@ -302,20 +303,20 @@ class RoutePageControlPanel extends React.Component {
 
     const patternIdSplit = match.params.patternId.split(':');
     const direction = patternIdSplit[patternIdSplit.length - 2];
-    const directionInt = parseInt(direction, 10);
 
     executeAction(startRealTimeClient, {
       ...source,
-      agency,
+      feedId,
       options: [
         {
           route: id,
           // add some information from the context
           // to compensate potentially missing feed data
+          feedId,
           mode: route.mode.toLowerCase(),
           gtfsId: routeParts[1],
           headsign: pattern.headsign,
-          directionInt,
+          direction,
           tripStartTime,
         },
       ],

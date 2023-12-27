@@ -140,22 +140,20 @@ export const getStopRoutePath = searchObj => {
     ? searchObj.properties.id
     : searchObj.properties.gtfsId;
   let path;
+  const network =
+    searchObj.properties.source &&
+    searchObj.properties.source.split('citybikes')[1];
   switch (searchObj.properties.layer) {
     case 'station':
     case 'favouriteStation':
       path = `/${PREFIX_TERMINALS}/`;
       id = id.replace('GTFS:', '').replace(':', '%3A');
       break;
-    case 'bikeRentalStation':
-      path = `/${PREFIX_BIKESTATIONS}/`;
-      id = searchObj.properties.labelId;
-      break;
     case 'bikestation':
       path = `/${PREFIX_BIKESTATIONS}/`;
-      id = searchObj.properties.id;
+      id = `${network}%3A${searchObj.properties.id}`;
       break;
-    case 'favouriteBikestation':
-    case 'favouriteBikeRentalStation':
+    case 'favouriteVehicleRentalStation':
       path = `/${PREFIX_BIKESTATIONS}/`;
       id = searchObj.properties.labelId;
       break;

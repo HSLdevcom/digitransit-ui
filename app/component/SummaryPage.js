@@ -500,19 +500,22 @@ class SummaryPage extends React.Component {
     return false;
   };
 
-  addBikeStationMapForRentalBikeItineraries = () => {
+  addBikeStationMapForRentalVehicleItineraries = () => {
     return getMapLayerOptions({
       lockedMapLayers: ['vehicles', 'citybike', 'stop'],
       selectedMapLayers: ['vehicles', 'citybike'],
     });
   };
 
-  getHiddenObjects = (itineraryContainsBikeRentalStation, activeItinerary) => {
+  getHiddenObjects = (
+    itineraryContainsVehicleRentalStation,
+    activeItinerary,
+  ) => {
     const hiddenObjects = { vehicleRentalStations: [] };
-    if (itineraryContainsBikeRentalStation) {
+    if (itineraryContainsVehicleRentalStation) {
       hiddenObjects.vehicleRentalStations = activeItinerary?.legs
-        ?.filter(leg => leg.from?.bikeRentalStation)
-        ?.map(station => station.from?.bikeRentalStation.stationId);
+        ?.filter(leg => leg.from?.vehicleRentalStation)
+        ?.map(station => station.from?.vehicleRentalStation.stationId);
     }
     return hiddenObjects;
   };
@@ -556,7 +559,7 @@ class SummaryPage extends React.Component {
     if (source && source.active) {
       return {
         ...source,
-        agency: feedId,
+        feedId,
         options: itineraryTopics.length > 0 ? itineraryTopics : null,
       };
     }
@@ -737,7 +740,9 @@ class SummaryPage extends React.Component {
             endTime
             ...ItineraryTab_itinerary
             ...SummaryPlanContainer_itineraries
-            emissions
+            emissionsPerPerson {
+              co2
+            }
             legs {
               mode
               ...ItineraryLine_legs
@@ -791,7 +796,9 @@ class SummaryPage extends React.Component {
             endTime
             ...ItineraryTab_itinerary
             ...SummaryPlanContainer_itineraries
-            emissions
+            emissionsPerPerson {
+              co2
+            }
             legs {
               mode
               ...ItineraryLine_legs
@@ -851,7 +858,9 @@ class SummaryPage extends React.Component {
             endTime
             ...ItineraryTab_itinerary
             ...SummaryPlanContainer_itineraries
-            emissions
+            emissionsPerPerson {
+              co2
+            }
             legs {
               mode
               ...ItineraryLine_legs
@@ -1032,7 +1041,9 @@ class SummaryPage extends React.Component {
             endTime
             ...ItineraryTab_itinerary
             ...SummaryPlanContainer_itineraries
-            emissions
+            emissionsPerPerson {
+              co2
+            }
             legs {
               mode
               ...ItineraryLine_legs
@@ -1046,6 +1057,9 @@ class SummaryPage extends React.Component {
               trip {
                 gtfsId
                 directionId
+                occupancy {
+                  occupancyStatus
+                }
                 stoptimesForDate {
                   scheduledDeparture
                   pickupType
@@ -1062,10 +1076,10 @@ class SummaryPage extends React.Component {
                   gtfsId
                   zoneId
                 }
-                bikeRentalStation {
+                vehicleRentalStation {
                   stationId
-                  bikesAvailable
-                  networks
+                  vehiclesAvailable
+                  network
                 }
               }
               to {
@@ -1878,16 +1892,16 @@ class SummaryPage extends React.Component {
     }
     const onlyHasWalkingItineraries = this.onlyHasWalkingItineraries();
 
-    const itineraryContainsDepartureFromBikeRentalStation = filteredItineraries[
+    const itineraryContainsDepartureFromVehicleRentalStation = filteredItineraries[
       activeIndex
-    ]?.legs.some(leg => leg.from?.bikeRentalStation);
+    ]?.legs.some(leg => leg.from?.vehicleRentalStation);
 
-    const mapLayerOptions = itineraryContainsDepartureFromBikeRentalStation
-      ? this.addBikeStationMapForRentalBikeItineraries(filteredItineraries)
+    const mapLayerOptions = itineraryContainsDepartureFromVehicleRentalStation
+      ? this.addBikeStationMapForRentalVehicleItineraries(filteredItineraries)
       : this.props.mapLayerOptions;
 
     const objectsToHide = this.getHiddenObjects(
-      itineraryContainsDepartureFromBikeRentalStation,
+      itineraryContainsDepartureFromVehicleRentalStation,
       filteredItineraries[activeIndex],
     );
     return (
@@ -2138,11 +2152,42 @@ class SummaryPage extends React.Component {
     return false;
   };
 
+  filterItinerariesByFeedId = plan => {
+    if (!plan?.itineraries) {
+      return plan;
+    }
+    const newItineraries = [];
+    plan.itineraries.forEach(itinerary => {
+      let skip = false;
+      for (let i = 0; i < itinerary.legs.length; i++) {
+        const feedId = itinerary.legs[i].route?.gtfsId?.split(':')[0];
+
+        if (
+          feedId && // if feedId is undefined, leg  is non transit -> don't drop
+          !this.context.config.feedIds.includes(feedId) // feedId is not allowed
+        ) {
+          skip = true;
+          break;
+        }
+      }
+      if (!skip) {
+        newItineraries.push(itinerary);
+      }
+    });
+    return { ...plan, itineraries: newItineraries };
+  };
+
   render() {
     const { match, error } = this.props;
     const { walkPlan, bikePlan, carPlan, parkRidePlan } = this.state;
 
-    const plan = this.props.viewer && this.props.viewer.plan;
+    let plan;
+    /* NOTE: as a temporary solution, do filtering by feedId in UI */
+    if (this.context.config.feedIdFiltering) {
+      plan = this.filterItinerariesByFeedId(this.props.viewer?.plan);
+    } else {
+      plan = this.props.viewer?.plan;
+    }
 
     const bikeParkPlan = this.filteredbikeAndPublic(this.state.bikeParkPlan);
     const bikeAndPublicPlan = this.filteredbikeAndPublic(
@@ -2471,7 +2516,7 @@ class SummaryPage extends React.Component {
                   focusToPoint={this.focusToPoint}
                   focusToLeg={this.focusToLeg}
                   isMobile={false}
-                  carItinerary={carPlan?.itineraries}
+                  carItinerary={carPlan?.itineraries[0]}
                 />
               </div>
             );
@@ -2703,7 +2748,8 @@ class SummaryPage extends React.Component {
           serviceTimeRange={this.props.serviceTimeRange}
           focusToLeg={this.focusToLeg}
           onSwipe={this.changeHash}
-          carItinerary={carPlan?.itineraries}
+          carItinerary={carPlan?.itineraries[0]}
+          changeHash={this.changeHash}
         >
           {this.props.content &&
             combinedItineraries.map((itinerary, i) =>
@@ -2932,7 +2978,9 @@ const containerComponent = createRefetchContainer(
             endTime
             ...ItineraryTab_itinerary
             ...SummaryPlanContainer_itineraries
-            emissions
+            emissionsPerPerson {
+              co2
+            }
             legs {
               mode
               ...ItineraryLine_legs
@@ -2948,6 +2996,9 @@ const containerComponent = createRefetchContainer(
               trip {
                 gtfsId
                 directionId
+                occupancy {
+                  occupancyStatus
+                }
                 stoptimesForDate {
                   scheduledDeparture
                   pickupType
@@ -2964,10 +3015,10 @@ const containerComponent = createRefetchContainer(
                   gtfsId
                   zoneId
                 }
-                bikeRentalStation {
+                vehicleRentalStation {
                   stationId
-                  bikesAvailable
-                  networks
+                  vehiclesAvailable
+                  network
                 }
               }
               to {

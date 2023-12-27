@@ -6,7 +6,6 @@ import { FormattedMessage, intlShape } from 'react-intl';
 import Link from 'found/Link';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 
-import ExternalLink from './ExternalLink';
 import LegAgencyInfo from './LegAgencyInfo';
 import Icon from './Icon';
 import IntermediateLeg from './IntermediateLeg';
@@ -16,30 +15,31 @@ import PlatformNumber from './PlatformNumber';
 import ServiceAlertIcon from './ServiceAlertIcon';
 import StopCode from './StopCode';
 import {
+  alertSeverityCompare,
   getActiveAlertSeverityLevel,
-  legHasCancelation,
-  tripHasCancelationForStop,
   getActiveLegAlerts,
   getActiveLegAlertSeverityLevel,
-  alertSeverityCompare,
   getMaximumAlertSeverityLevel,
   hasEntitiesOfType,
+  legHasCancelation,
+  tripHasCancelationForStop,
 } from '../util/alertUtils';
-import { PREFIX_ROUTES, PREFIX_STOPS, PREFIX_DISRUPTION } from '../util/path';
+import { PREFIX_DISRUPTION, PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
 import { durationToString } from '../util/timeUtils';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import {
-  getZoneLabel,
   getHeadsignFromRouteLongName,
   getStopHeadsignFromStoptimes,
+  getZoneLabel,
 } from '../util/legUtils';
 import { shouldShowFareInfo } from '../util/fareUtils';
-import { AlertSeverityLevelType, AlertEntityType } from '../constants';
+import { AlertEntityType, AlertSeverityLevelType } from '../constants';
 import ZoneIcon from './ZoneIcon';
 import StopInfo from './StopInfo';
 import InterlineInfo from './InterlineInfo';
 import AlternativeLegsInfo from './AlternativeLegsInfo';
 import LegInfo from './LegInfo';
+import ExternalLink from './ExternalLink';
 
 class TransitLeg extends React.Component {
   constructor(props) {
@@ -49,6 +49,17 @@ class TransitLeg extends React.Component {
     };
   }
 
+  // Some next legs might be for example 24h in the future which seems confusing. Only show alternatives that are less than 12h in the future.
+  filterNextLegs = leg => {
+    if (!leg.nextLegs) {
+      return [];
+    }
+    return leg.nextLegs.filter(
+      nextLeg =>
+        moment(nextLeg.startTime).diff(moment(leg.startTime), 'hours') < 12,
+    );
+  };
+
   stopCode = stopCode => stopCode && <StopCode code={stopCode} />;
 
   isRouteConstantOperation = () =>
@@ -57,7 +68,7 @@ class TransitLeg extends React.Component {
 
   displayAlternativeLegs = () =>
     !!this.context.config.showAlternativeLegs &&
-    this.props.leg.nextLegs?.length > 0 &&
+    this.filterNextLegs(this.props.leg).length > 0 &&
     !this.isRouteConstantOperation();
 
   toggleShowIntermediateStops = () => {
@@ -157,6 +168,7 @@ class TransitLeg extends React.Component {
         const showCurrentZoneId = previousZoneIdDiffers || nextZoneIdDiffers;
         return (
           <IntermediateLeg
+            placesCount={places.length}
             color={leg.route ? `#${leg.route.color}` : 'currentColor'}
             key={place.stop.gtfsId}
             gtfsId={place.stop.gtfsId}
@@ -220,8 +232,8 @@ class TransitLeg extends React.Component {
             .format('HH:mm')}
         </span>,
       ];
-    const LegRouteName = leg.from.name.concat(' - ').concat(leg.to.name);
     const modeClassName = mode.toLowerCase();
+    const LegRouteName = leg.from.name.concat(' - ').concat(leg.to.name);
 
     const textVersionBeforeLink = (
       <FormattedMessage
@@ -332,7 +344,7 @@ class TransitLeg extends React.Component {
                 <div className="info-notification">
                   <h3 className="info-header">{notification.header[lang]}</h3>
                   <div className="info-content">
-                    {notification.content[lang]}
+                    {notification.content[lang].join(' ')}
                   </div>
                 </div>
                 <Icon
@@ -445,6 +457,8 @@ class TransitLeg extends React.Component {
             alertSeverityLevel={alertSeverityLevel}
             isAlternativeLeg={false}
             displayTime={this.displayAlternativeLegs()}
+            changeHash={this.props.changeHash}
+            tabIndex={this.props.tabIndex}
           />
 
           {this.state.showAlternativeLegs &&
@@ -465,7 +479,7 @@ class TransitLeg extends React.Component {
             ))}
           {this.displayAlternativeLegs() && (
             <AlternativeLegsInfo
-              legs={leg.nextLegs}
+              legs={this.filterNextLegs(leg)}
               showAlternativeLegs={this.state.showAlternativeLegs}
               toggle={() =>
                 this.setState(prevState => ({
@@ -517,51 +531,69 @@ class TransitLeg extends React.Component {
           )}
           {routeNotifications}
           <LegAgencyInfo leg={leg} />
-          <div className="intermediate-stops-button-container">
-            {leg.intermediatePlaces.length > 1 && (
-              <StopInfo
-                toggleFunction={this.toggleShowIntermediateStops}
-                leg={leg}
-                intermediateStopCount={intermediateStopCount}
-                duration={
-                  interliningLegs.length > 0
-                    ? interliningLegs[interliningLegs.length - 1].endTime -
-                      leg.startTime
-                    : leg.duration * 1000
-                }
-                showIntermediateStops={this.state.showIntermediateStops}
-              />
-            )}
-          </div>
-          {leg.fare && leg.fare.isUnknown && shouldShowFareInfo(config) && (
-            <div className="disclaimer-container unknown-fare-disclaimer__leg">
-              <div className="description-container">
-                <span className="accent">
-                  {`${intl.formatMessage({ id: 'pay-attention' })} `}
-                </span>
-                {intl.formatMessage({ id: 'separate-ticket-required' })}
-              </div>
-              <div className="ticket-info">
-                <div className="accent">{LegRouteName}</div>
-                {leg.fare.agency &&
-                  !config.hideExternalOperator(leg.fare.agency) && (
-                    <React.Fragment>
-                      <div>{leg.fare.agency.name}</div>
-                      {leg.fare.agency.fareUrl && (
-                        <ExternalLink
-                          className="agency-link"
-                          href={leg.fare.agency.fareUrl}
-                        >
-                          {intl.formatMessage({ id: 'extra-info' })}
-                        </ExternalLink>
-                      )}
-                    </React.Fragment>
-                  )}
-              </div>
+          {intermediateStopCount !== 0 && (
+            <div className="intermediate-stops-button-container">
+              {leg.intermediatePlaces.length > 1 && (
+                <StopInfo
+                  toggleFunction={this.toggleShowIntermediateStops}
+                  leg={leg}
+                  intermediateStopCount={intermediateStopCount}
+                  duration={
+                    interliningLegs.length > 0
+                      ? interliningLegs[interliningLegs.length - 1].endTime -
+                        leg.startTime
+                      : leg.duration * 1000
+                  }
+                  showIntermediateStops={this.state.showIntermediateStops}
+                />
+              )}
             </div>
           )}
+          {leg.fare?.isUnknown &&
+            shouldShowFareInfo(config) &&
+            (config.modeDisclaimers && config.modeDisclaimers[mode] ? (
+              <div className="disclaimer-container unknown-fare-disclaimer__leg">
+                <div className="description-container">
+                  <FormattedMessage
+                    id={config.modeDisclaimers[mode][lang].disclaimer}
+                  />
+                  <a href={config.modeDisclaimers[mode][lang].link}>
+                    <FormattedMessage
+                      id={config.modeDisclaimers[mode][lang].text}
+                      defaultMessage={config.modeDisclaimers[mode][lang].text}
+                    />
+                  </a>
+                </div>
+              </div>
+            ) : (
+              <div className="disclaimer-container unknown-fare-disclaimer__leg">
+                <div className="description-container">
+                  <span className="accent">
+                    {`${intl.formatMessage({ id: 'pay-attention' })} `}
+                  </span>
+                  {intl.formatMessage({ id: 'separate-ticket-required' })}
+                </div>
+                <div className="ticket-info">
+                  <div className="accent">{LegRouteName}</div>
+                  {leg.fare.agency &&
+                    !config.hideExternalOperator(leg.fare.agency) && (
+                      <React.Fragment>
+                        <div>{leg.fare.agency.name}</div>
+                        {leg.fare.agency.fareUrl && (
+                          <ExternalLink
+                            className="agency-link"
+                            href={leg.fare.agency.fareUrl}
+                          >
+                            {intl.formatMessage({ id: 'extra-info' })}
+                          </ExternalLink>
+                        )}
+                      </React.Fragment>
+                    )}
+                </div>
+              </div>
+            ))}
         </div>
-        <span className="sr-only">{alertSeverityDescription}</span>
+        <span className="sr-only">{alertSeverityDescription}</span>;
       </div>
     );
   };
@@ -684,6 +716,8 @@ TransitLeg.propTypes = {
   children: PropTypes.node.isRequired,
   lang: PropTypes.string.isRequired,
   omitDivider: PropTypes.bool,
+  changeHash: PropTypes.func,
+  tabIndex: PropTypes.number,
 };
 
 TransitLeg.defaultProps = {

@@ -4,15 +4,22 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import DepartureRow from './DepartureRow';
 
-const StopNearYouDepartureRowContainer = ({ stopTimes, mode, ...props }) => {
+const StopNearYouDepartureRowContainer = ({
+  stopTimes,
+  mode,
+  setCapacityModalOpen,
+  ...props
+}) => {
   const sortedStopTimes = stopTimes
     .slice()
     .sort(
       (a, b) =>
-        a.serviceDay + a.realtimeArrival - (b.serviceDay + b.realtimeArrival),
+        a.serviceDay +
+        a.realtimeDeparture -
+        (b.serviceDay + b.realtimeDeparture),
     );
   const departures = sortedStopTimes.map(row => {
-    const departureTime = row.serviceDay + row.realtimeArrival;
+    const departureTime = row.serviceDay + row.realtimeDeparture;
     return (
       <DepartureRow
         key={uuid()}
@@ -21,6 +28,7 @@ const StopNearYouDepartureRowContainer = ({ stopTimes, mode, ...props }) => {
         currentTime={props.currentTime}
         showPlatformCode={props.isStation}
         showLink
+        onCapacityClick={() => setCapacityModalOpen(true)}
       />
     );
   });
@@ -59,5 +67,6 @@ StopNearYouDepartureRowContainer.propTypes = {
   mode: PropTypes.string.isRequired,
   isStation: PropTypes.bool.isRequired,
   currentTime: PropTypes.number.isRequired,
+  setCapacityModalOpen: PropTypes.func.isRequired,
 };
 export default StopNearYouDepartureRowContainer;

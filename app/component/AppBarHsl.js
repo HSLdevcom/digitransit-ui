@@ -4,14 +4,15 @@ import React, { useState, useEffect, useRef } from 'react';
 import { intlShape } from 'react-intl';
 import { matchShape } from 'found';
 import { Helmet } from 'react-helmet';
-import { useIsConsentGiven } from '@hsl-fi/cookies';
 import LazilyLoad, { importLazy } from './LazilyLoad';
 import { clearOldSearches, clearFutureRoutes } from '../util/storeUtils';
 import { getJson } from '../util/xhrPromise';
-import { initAnalyticsClientSide } from '../util/analyticsUtils';
 
-const modules = {
+const headerModules = {
   SiteHeader: () => importLazy(import('@hsl-fi/site-header')),
+};
+
+const emitterModules = {
   SharedLocalStorageObserver: () =>
     importLazy(import('@hsl-fi/shared-local-storage')),
 };
@@ -107,14 +108,11 @@ const AppBarHsl = ({ lang, user, favourites }, context) => {
       : {};
 
   const siteHeaderRef = useRef(null);
-  useEffect(() => siteHeaderRef.current?.fetchNotifications()[favourites]);
 
-  const cookieConsent = useIsConsentGiven('cookie_cat_statistic');
-  if (config.useCookiesPrompt && !cookieConsent) {
-    window.dataLayer = null;
-  } else {
-    initAnalyticsClientSide();
-  }
+  useEffect(() => {
+    // Refetch notifications
+    siteHeaderRef.current?.fetchNotifications();
+  }, [favourites]);
 
   return (
     <>
@@ -129,13 +127,9 @@ const AppBarHsl = ({ lang, user, favourites }, context) => {
         </Helmet>
       )}
 
-      <LazilyLoad modules={modules}>
-        {({ SiteHeader, SharedLocalStorageObserver }) => (
+      <LazilyLoad modules={headerModules}>
+        {({ SiteHeader }) => (
           <>
-            <SharedLocalStorageObserver
-              keys={['saved-searches', 'favouriteStore']}
-              url={config.localStorageEmitter}
-            />
             <SiteHeader
               ref={siteHeaderRef}
               hslFiUrl={config.URL.ROOTLINK}
@@ -149,6 +143,18 @@ const AppBarHsl = ({ lang, user, favourites }, context) => {
           </>
         )}
       </LazilyLoad>
+      {config.localStorageEmitter && (
+        <LazilyLoad modules={emitterModules}>
+          {({ SharedLocalStorageObserver }) => (
+            <>
+              <SharedLocalStorageObserver
+                keys={['saved-searches', 'favouriteStore']}
+                url={config.localStorageEmitter}
+              />
+            </>
+          )}
+        </LazilyLoad>
+      )}
     </>
   );
 };

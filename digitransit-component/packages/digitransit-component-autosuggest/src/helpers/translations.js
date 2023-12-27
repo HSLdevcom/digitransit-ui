@@ -43,9 +43,13 @@ const translations = {
     'search-origin': 'Suche Startort, Linie oder Haltestelle',
     'search-origin-index': 'Startort eingeben',
     'search-position': 'Standort ermitteln',
-    'search-autosuggest-label-desktop':
-      'Venue, place and stopsearch. Navigate list with arrow keys and select with enter key',
-    'search-autosuggest-label-mobile': 'Venue, place and stopsearch.',
+    'search-autosuggest-label': 'Venue, place and stopsearch.',
+    'search-autosuggest-label-instructions-desktop':
+      'Navigate list with arrow keys and select with enter key.',
+    'search-autosuggest-label-instructions-mobile':
+      'Enter the location and navigate in the list by swiping.',
+    'search-autosuggest-label-move-to-destination':
+      'After selecting the starting location you are automatically moved to the destination field.',
     'search-autosuggest-len': 'There is {{count}} suggestion available',
     'search-autosuggest-len_plural':
       'There are {{count}} suggestions available',
@@ -119,10 +123,13 @@ const translations = {
     'search-origin': 'Search origin, route or stop',
     'search-origin-index': 'Enter origin',
     'search-position': 'Detect location',
-    'search-autosuggest-label-desktop':
-      'Venue, place and stopsearch. Navigate list with arrow keys and select with enter key',
-    'search-autosuggest-label-mobile':
-      'Venue, place and stopsearch. Enter the location and navigate in the list by swiping.',
+    'search-autosuggest-label': 'Venue, place and stopsearch.',
+    'search-autosuggest-label-instructions-desktop':
+      'Navigate list with arrow keys and select with enter key.',
+    'search-autosuggest-label-instructions-mobile':
+      'Enter the location and navigate in the list by swiping.',
+    'search-autosuggest-label-move-to-destination':
+      'After selecting the starting location you are automatically moved to the destination field.',
     'search-autosuggest-len': 'There is {{count}} suggestion available',
     'search-autosuggest-len_plural':
       'There are {{count}} suggestions available',
@@ -164,7 +171,7 @@ const translations = {
     airplane: 'Lentokone',
     arrival: 'Perillä',
     back: 'Takaisin',
-    bikerentalstation: 'Pyöräasema',
+    vehiclerentalstation: 'Pyöräasema',
     bikepark: 'Liityntäpyöräparkki',
     bus: 'bussi',
     cancel: 'Peruuta',
@@ -199,10 +206,13 @@ const translations = {
     'search-no-results': 'Ei tuloksia',
     'search-origin': 'Hae lähtöpaikkaa, linjaa tai pysäkkiä',
     'search-origin-index': 'Syötä lähtöpaikka',
-    'search-autosuggest-label-desktop':
-      'Paikka, linja ja pysäkkihaku. Navigoi listassa nuolinäppäimillä ja valitse enterillä',
-    'search-autosuggest-label-mobile':
-      'Paikka, linja ja pysäkkihaku. Syötä sijainti ja navigoi listassa pyyhkäisemällä.',
+    'search-autosuggest-label': 'Paikka, linja ja pysäkkihaku.',
+    'search-autosuggest-label-instructions-desktop':
+      'Navigoi listassa nuolinäppäimillä ja valitse enterillä.',
+    'search-autosuggest-label-instructions-mobile':
+      'Syötä sijainti ja navigoi listassa pyyhkäisemällä.',
+    'search-autosuggest-label-move-to-destination':
+      'Valittuasi lähtöpaikan siirrytään suoraan määränpää-kenttään.',
     'search-autosuggest-len': ' Löydettiin {{count}} ehdotus',
     'search-autosuggest-len_plural': ' Löydettiin {{count}} ehdotusta',
     'search-current-suggestion': 'Tämänhetkinen valinta: {{selection}}',
@@ -280,10 +290,13 @@ const translations = {
     'search-origin': 'Sök avfärdsplats, linje eller hållplats',
     'search-origin-index': 'Skriv avfärdsplats',
     'search-position': 'Sök position',
-    'search-autosuggest-label-desktop':
-      'Plats, linje och hållplatssökning. Navigera listan med piltangenterna och välj med Enter-tangeten',
-    'search-autosuggest-label-mobile':
-      'Plats, linje och hållplatssökning. Ange platsen och navigera i listan genom att svepa.',
+    'search-autosuggest-label': 'Plats, linje och hållplatssökning.',
+    'search-autosuggest-label-instructions-desktop':
+      'Navigera listan med piltangenterna och välj med Enter-tangeten.',
+    'search-autosuggest-label-instructions-mobile':
+      'Ange platsen och navigera i listan genom att svepa.',
+    'search-autosuggest-label-move-to-destination':
+      'Efter att du valt avgångsplatsen tas du direkt till Destination-fältet.',
     'search-autosuggest-len': 'Hittade {{count}} förslag',
     'search-current-suggestion': 'Nuvarande val: {{selection}}',
     street: 'Gata',

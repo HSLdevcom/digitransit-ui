@@ -1,5 +1,5 @@
 /* eslint-disable prefer-template */
-import { BIKEAVL_WITHMAX, BIKEAVL_BIKES } from '../util/citybikes';
+import { BIKEAVL_WITHMAX, BIKEAVL_BIKES } from '../util/vehicleRentalUtils';
 import HSLConfig from './config.hsl';
 import TurkuConfig from './config.turku';
 import LappeenrantaConfig from './config.lappeenranta';
@@ -29,6 +29,7 @@ export default {
       show: true,
       url: 'https://matkamonitori.digitransit.fi/createview',
     },
+    countrySelection: ['estonia'],
   },
 
   contactName: {
@@ -39,12 +40,7 @@ export default {
 
   availableLanguages: ['fi', 'sv', 'en'],
   defaultLanguage: 'fi',
-
-  appBarLink: {
-    name: 'Traficom',
-    href:
-      'https://www.traficom.fi/fi/liikenne/liikennejarjestelma/joukkoliikenteen-informaatiopalvelut',
-  },
+  hideAppBarLink: true,
 
   socialMedia: {
     title: APP_TITLE,
@@ -57,7 +53,7 @@ export default {
   // Navbar logo
   logo: 'matka/matka-logo.svg',
 
-  favicon: './app/configurations/images/matka/favicon.svg',
+  favicon: './app/configurations/images/matka/matka-favicon.svg',
 
   colors: {
     primary: '#002c74',
@@ -95,9 +91,25 @@ export default {
     'Kajaani',
     'Salo',
     'Pori',
-    'Viro',
-    'Vikingline',
+    'Raasepori',
+    'VARELY',
+    'Harma',
   ],
+
+  additionalFeedIds: {
+    estonia: ['Vikingline', 'Viro'],
+  },
+
+  additionalSearchParams: {
+    default: {
+      'boundary.country': 'FIN',
+    },
+    estonia: {
+      'boundary.country': 'EST',
+    },
+  },
+
+  feedIdFiltering: true,
 
   stopSearchFilter: stop => {
     const props = stop.properties;
@@ -123,6 +135,11 @@ export default {
   menu: {
     copyright: { label: `© Matka.fi ${YEAR}` },
     content: [
+      {
+        name: 'traficom',
+        href:
+          'https://www.traficom.fi/fi/liikenne/liikennejarjestelma/joukkoliikenteen-informaatiopalvelut',
+      },
       {
         name: 'about-service-feedback',
         href: 'http://www.matka.fi',
@@ -330,6 +347,8 @@ export default {
     },
   },
 
+  useRealtimeTravellerCapacities: true,
+
   aboutThisService: {
     fi: [
       {
@@ -374,7 +393,7 @@ export default {
   useAlternativeNameForModes: ['rail'],
 
   showVehiclesOnStopPage: false,
-  showVehiclesOnSummaryPage: false,
+  showVehiclesOnSummaryPage: true,
 
   includeCarSuggestions: true,
   includeParkAndRideSuggestions: true,
@@ -490,10 +509,22 @@ export default {
       sv: 'Björneborg',
       en: 'Pori',
     },
+    Raasepori: {
+      fi: 'Raasepori',
+      sv: 'Raseborg',
+      en: 'Raasepori',
+    },
+    VARELY: {
+      fi: 'Varsinais-Suomi',
+      sv: 'Egentliga Finland',
+      en: 'Varsinais-Suomi',
+    },
   },
   stopCard: {
     header: {
       virtualMonitorBaseUrl: 'https://matkamonitori.digitransit.fi/',
     },
   },
+  // Notice! Turning on this setting forces the search for car routes (for the CO2 comparison only).
+  showCO2InItinerarySummary: true,
 };

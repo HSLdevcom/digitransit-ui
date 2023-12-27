@@ -846,9 +846,12 @@ type debugOutput {
 }
 
 """
-Departure row is a location, which lists departures of a certain pattern from a
-stop. Departure rows are identified with the pattern, so querying departure rows
-will return only departures from one stop per pattern
+Departure row is a combination of a pattern and a stop of that pattern.
+
+They are de-duplicated so for each pattern there will only be a single departure row.
+
+This is useful if you want to show a list of stop/pattern combinations but want each pattern to be
+listed only once.
 """
 type DepartureRow implements Node & PlaceInterface {
     """
@@ -895,6 +898,13 @@ type elevationProfileComponent {
 
     """The elevation at this distance, in meters."""
     elevation: Float
+}
+
+type Emissions {
+    """
+    CO₂ emissions in grams.
+    """
+    co2: Grams
 }
 
 type fare {
@@ -997,6 +1007,8 @@ type Geometry {
 }
 
 scalar GeoJson
+
+scalar Grams
 
 type StopGeometries {
     """Representation of the stop geometries as GeoJSON (https://geojson.org/)"""
@@ -1236,29 +1248,59 @@ input InputUnpreferred {
 }
 
 enum RoutingErrorCode {
-    """No transit connection was found between the origin and destination withing the operating day or the next day"""
+    """
+    No transit connection was found between the origin and destination within the operating day or
+    the next day, not even sub-optimal ones.
+    """
     NO_TRANSIT_CONNECTION
 
-    """Transit connection was found, but it was outside the search window, see metadata for the next search window"""
+    """
+    A transit connection was found, but it was outside the search window. See the metadata for a token
+    for retrieving the result outside the search window.
+    """
     NO_TRANSIT_CONNECTION_IN_SEARCH_WINDOW
 
-    """The date specified is outside the range of data currently loaded into the system"""
+    """
+    The date specified is outside the range of data currently loaded into the system as it is too
+    far into the future or the past.
+
+    The specific date range of the system is configurable by an administrator and also depends on
+    the input data provided.
+    """
     OUTSIDE_SERVICE_PERIOD
 
-    """The coordinates are outside the bounds of the data currently loaded into the system"""
+    """
+    The coordinates are outside the geographic bounds of the transit and street data currently loaded
+    into the system and therefore cannot return any results.
+    """
     OUTSIDE_BOUNDS
 
-    """The specified location is not close to any streets or transit stops"""
+    """
+    The specified location is not close to any streets or transit stops currently loaded into the
+    system, even though it is generally within its bounds.
+
+    This can happen when there is only transit but no street data coverage at the location in
+    question.
+    """
     LOCATION_NOT_FOUND
 
-    """No stops are reachable from the location specified. You can try searching using a different access or egress mode"""
+    """
+    No stops are reachable from the start or end locations specified.
+
+    You can try searching using a different access or egress mode, for example cycling instead of walking,
+    increase the walking/cycling/driving speed or have an administrator change the system's configuration
+    so that stops further away are considered.
+    """
     NO_STOPS_IN_RANGE
 
-    """The origin and destination are so close to each other, that walking is always better, but no direct mode was specified for the search"""
-    WALKING_BETTER_THAN_TRANSIT
+    """
+    Transit connections were requested and found but because it is easier to just walk all the way
+    to the destination they were removed.
 
-    """An unknown error happened during the search. The details have been logged to the server logs"""
-    SYSTEM_ERROR
+    If you want to still show the transit results, you need to make walking less desirable by
+    increasing the walk reluctance.
+    """
+    WALKING_BETTER_THAN_TRANSIT
 }
 
 enum InputField {
@@ -1300,23 +1342,59 @@ type FareMedium {
 "A container for both a fare product (a ticket) and its relationship to the itinerary."
 type FareProductUse {
     """
-    Identifier local to the itinerary that allows to cross-reference and deduplicate
-    fare products that span more than one leg.
+    Represents the use of a single instance of a fare product throughout the itinerary. It can
+    be used to cross-reference and de-duplicate fare products that are applicable for more than one
+    leg.
 
     If you want to uniquely identify the fare product itself (not its use) use the product's `id`.
 
     ### Example: Day pass
 
-    When a day pass is valid for all three legs in the itinerary it will appear
-    for each leg but with the same use-`id`.
+    The day pass is valid for both legs in the itinerary. It is listed as the applicable `product` for each leg,
+    and the same FareProductUse id is shown, indicating that only one pass was used/bought.
 
-    *It is the responsibility of the API consumers to display the day pass as a product for the
-    entire itinerary rather than three day passes!*
+    **Illustration**
+    ```yaml
+    itinerary:
+      leg1:
+        fareProducts:
+          id: "AAA" // id of a FareProductUse instance
+          product:
+            id: "day-pass" // product id
+            name: "Day Pass"
+      leg2:
+        fareProducts:
+          id: "AAA" // identical to leg1. the passenger needs to buy ONE pass, not two.
+          product:
+            id: "day-pass"  // product id
+            name: "Day Pass"
+    ```
+
+    **It is the responsibility of the API consumers to display the day pass as a product for the
+    entire itinerary rather than two day passes!**
 
     ### Example: Several single tickets
 
     If you have two legs and need to buy two single tickets they will appear in each leg with the
-    same `product.id` but different use-`id`.
+    same `FareProduct.id` but different `FareProductUse.id`.
+
+    **Illustration**
+    ```yaml
+    itinerary:
+      leg1:
+        fareProducts:
+          id: "AAA" // id of a FareProductUse instance, not product id
+          product:
+            id: "single-ticket" // product id
+            name: "Single Ticket"
+      leg2:
+        fareProducts:
+          id: "BBB" // different to leg1. the passenger needs to buy two single tickets.
+          product:
+            id: "single-ticket"  // product id
+            name: "Single Ticket"
+    ```
+
     """
     id: String!
 
@@ -1325,7 +1403,31 @@ type FareProductUse {
 }
 
 "A fare product (a ticket) to be bought by a passenger"
-type FareProduct {
+interface FareProduct {
+    "Identifier for the fare product."
+    id: String!
+
+    """
+    Human readable name of the product, for example example "Day pass" or "Single ticket".
+    """
+    name: String!
+
+    "The category of riders this product applies to, for example students or pensioners."
+    riderCategory: RiderCategory
+
+    """
+    The 'medium' that this product applies to, for example "Oyster Card" or "Berlin Ticket App".
+
+    This communicates to riders that a specific way of buying or keeping this product is required.
+    """
+    medium: FareMedium
+}
+
+"""
+The standard case of a fare product: it only has a single price to be paid by the passenger
+and no discounts are applied.
+"""
+type DefaultFareProduct implements FareProduct {
     "Identifier for the fare product."
     id: String!
 
@@ -1374,8 +1476,8 @@ type Itinerary {
     """How far the user has to walk, in meters."""
     walkDistance: Float
 
-    """CO2 emissions of the trip on this itinerary, in grams per person."""
-    emissions: Float
+    """Emissions of this itinerary per traveler."""
+    emissionsPerPerson: Emissions
     
     """
     A list of Legs. Each Leg is either a walking (cycling, car) portion of the
@@ -1384,12 +1486,6 @@ type Itinerary {
     destination, has four legs.
     """
     legs: [Leg]!
-
-    """
-    Information about the fares for this itinerary. This is primarily a GTFS Fares V1 interface
-    will be removed in the future.
-    """
-    fares: [fare] @deprecated(reason: "Use the leg's `fareProducts`.")
 
     """
     How much elevation is gained, in total, over the course of the itinerary, in meters.
@@ -1423,13 +1519,24 @@ type Itinerary {
     More information is available in the [feature documentation](https://docs.opentripplanner.org/en/dev-2.x/sandbox/IBIAccessibilityScore/).
     """
     accessibilityScore: Float
+
+    #
+    # deprecated fields
+    #
+
+    """
+    Information about the fares for this itinerary. This is primarily a GTFS Fares V1 interface
+    will be removed in the future.
+    """
+    fares: [fare] @deprecated(reason: "Use the leg's `fareProducts`.")
 }
 
 "A currency"
 type Currency {
     "ISO-4217 currency code, for example `USD` or `EUR`."
     code: String!
-    """Fractional digits of this currency. A value of 2 would express that in this currency
+    """
+    Fractional digits of this currency. A value of 2 would express that in this currency
     100 minor units make up one major unit.
 
     Expressed more concretely: 100 Euro-cents make up one Euro.
@@ -1446,7 +1553,10 @@ type Money {
     "The currency of this money amount."
     currency: Currency!
     """
-    Money as a fractional amount, so 3.10 USD is represented as `3.1`.
+    Money in the major currency unit, so 3.10 USD is represented as `3.1`.
+
+    If you want to get the minor currency unit (310 cents), multiply with
+    (10 to the power of `currency.digits`).
     """
     amount: Float!
 }
@@ -1573,7 +1683,15 @@ type Leg {
     Whether the destination of this leg (field `to`) is one of the intermediate places specified in the query.
     """
     intermediatePlace: Boolean
+
+    "The turn-by-turn navigation instructions."
     steps: [step]
+
+    """
+    For transit legs, the headsign that the vehicle shows at the stop where the passenger boards.
+    For non-transit legs, null.
+    """
+    headsign: String
 
     """
     This is used to indicate if boarding this leg is possible only with special arrangements.
@@ -1719,7 +1837,7 @@ enum Mode {
     GONDOLA
 
     """Only used internally. No use for API users."""
-    LEG_SWITCH
+    LEG_SWITCH @deprecated
 
     """RAIL"""
     RAIL
@@ -2052,6 +2170,22 @@ type BookingInfo {
     dropOffMessage: String
 }
 
+"The board/alight position in between two stops of the pattern of a trip with continuous pickup/drop off."
+type PositionBetweenStops {
+    "Position of the previous stop in the pattern. Positions are not required to start from 0 or be consecutive."
+    previousPosition: Int
+    "Position of the next stop in the pattern. Positions are not required to start from 0 or be consecutive."
+    nextPosition: Int
+}
+
+"Stop position at a specific stop."
+type PositionAtStop {
+    "Position of the stop in the pattern. Positions are not required to start from 0 or be consecutive."
+    position: Int
+}
+
+union StopPosition = PositionAtStop | PositionBetweenStops
+
 type Place {
     """
     For transit stops, the name of the stop. For points of interest, the name of the POI.
@@ -2083,8 +2217,21 @@ type Place {
     """The stop related to the place."""
     stop: Stop
 
-    """The bike rental station related to the place"""
-    bikeRentalStation: BikeRentalStation @deprecated(reason: "Use vehicleRentalStation and rentalVehicle instead")
+    """
+    The position of the stop in the pattern. This is not required to start from 0 or be consecutive - any
+    increasing integer sequence along the stops is valid.
+
+    The purpose of this field is to identify the stop within the pattern so it can be cross-referenced
+    between it and the itinerary. It is safe to cross-reference when done quickly, i.e. within seconds.
+    However, it should be noted that realtime updates can change the values, so don't store it for
+    longer amounts of time.
+
+    Depending on the source data, this might not be the GTFS `stop_sequence` but another value, perhaps
+    even generated.
+
+    The position can be either at a certain stop or in between two for trips where this is possible.
+    """
+    stopPosition: StopPosition
 
     """The vehicle rental station related to the place"""
     vehicleRentalStation: VehicleRentalStation
@@ -2092,14 +2239,17 @@ type Place {
     """The rental vehicle related to the place"""
     rentalVehicle: RentalVehicle
 
+    """The vehicle parking related to the place"""
+    vehicleParking: VehicleParking
+
+    """The bike rental station related to the place"""
+    bikeRentalStation: BikeRentalStation @deprecated(reason: "Use vehicleRentalStation and rentalVehicle instead")
+
     """The bike parking related to the place"""
     bikePark: BikePark @deprecated(reason: "bikePark is deprecated. Use vehicleParking instead.")
 
     """The car parking related to the place"""
     carPark: CarPark @deprecated(reason: "carPark is deprecated. Use vehicleParking instead.")
-
-    """The vehicle parking related to the place"""
-    vehicleParking: VehicleParking
 }
 
 type placeAtDistance implements Node {
@@ -2363,7 +2513,7 @@ type QueryType {
         maxResults: Int = 20
 
         """
-        Only return places that are one of these types, e.g. `STOP` or `BICYCLE_RENT`
+        Only return places that are one of these types, e.g. `STOP` or `VEHICLE_RENT`
         """
         filterByPlaceTypes: [FilterPlaceType]
 
@@ -2601,6 +2751,8 @@ type QueryType {
     Get a single vehicle rental station based on its ID, i.e. value of field `stationId`
     """
     vehicleRentalStation(id: String!): VehicleRentalStation
+
+    ## Deprecated fields
 
     """Get all bike parks"""
     bikeParks: [BikePark] @deprecated(reason: "bikeParks is deprecated. Use vehicleParkings instead.")
@@ -3237,6 +3389,9 @@ enum RelativeDirection {
   ELEVATOR
   UTURN_LEFT
   UTURN_RIGHT
+  ENTER_STATION
+  EXIT_STATION
+  FOLLOW_SIGNS
 }
 
 """The cardinal (compass) direction taken when engaging a walking/driving step."""
@@ -3249,6 +3404,65 @@ enum AbsoluteDirection {
   SOUTHWEST
   WEST
   NORTHWEST
+}
+
+"""Occupancy status of a vehicle."""
+enum OccupancyStatus {
+  """Default. There is no occupancy-data on this departure."""
+  NO_DATA_AVAILABLE
+
+  """
+  The vehicle is considered empty by most measures, and has few or no passengers onboard, but is
+  still accepting passengers. There isn't a big difference between this and MANY_SEATS_AVAILABLE
+  so it's possible to handle them as the same value, if one wants to limit the number of different
+  values.
+  """
+  EMPTY
+
+  """
+  The vehicle or carriage has a large number of seats available. The amount of free seats out of
+  the total seats available to be considered large enough to fall into this category is
+  determined at the discretion of the producer. There isn't a big difference between this and
+  EMPTY so it's possible to handle them as the same value, if one wants to limit the number of
+  different values.
+  """
+  MANY_SEATS_AVAILABLE
+
+  """
+  The vehicle or carriage has a small number of seats available. The amount of free seats out of
+  the total seats available to be considered small enough to fall into this category is
+  determined at the discretion of the producer.
+  """
+  FEW_SEATS_AVAILABLE
+
+  """The vehicle or carriage can currently accommodate only standing passengers."""
+  STANDING_ROOM_ONLY
+
+  """
+  The vehicle or carriage can currently accommodate only standing passengers and has limited
+  space for them. There isn't a big difference between this and FULL so it's possible to handle
+  them as the same value, if one wants to limit the number of different values.
+  """
+  CRUSHED_STANDING_ROOM_ONLY
+
+  """
+  The vehicle is considered full by most measures, but may still be allowing passengers to
+  board.
+  """
+  FULL
+
+  """
+  The vehicle or carriage is not accepting passengers. The vehicle or carriage usually accepts
+  passengers for boarding.
+  """
+  NOT_ACCEPTING_PASSENGERS
+
+  """
+  The vehicle or carriage is not boardable and never accepts passengers. Useful for special
+  vehicles or carriages (engine, maintenance carriage, etc…). It might not make sense to show
+  these types of trips to passengers at all.
+  """
+  NOT_BOARDABLE
 }
 
 type step {
@@ -3591,6 +3805,20 @@ type Stoptime {
     stop: Stop
 
     """
+    The sequence of the stop in the pattern. This is not required to start from 0 or be consecutive - any
+    increasing integer sequence along the stops is valid.
+
+    The purpose of this field is to identify the stop within the pattern so it can be cross-referenced
+    between it and the itinerary. It is safe to cross-reference when done quickly, i.e. within seconds.
+    However, it should be noted that realtime updates can change the values, so don't store it for
+    longer amounts of time.
+
+    Depending on the source data, this might not be the GTFS `stop_sequence` but another value, perhaps
+    even generated.
+    """
+    stopPosition: Int
+
+    """
     Scheduled arrival time. Format: seconds since midnight of the departure date
     """
     scheduledArrival: Int
@@ -3732,9 +3960,10 @@ type Trip implements Node {
     """List of dates when this trip is in service. Format: YYYYMMDD"""
     activeDates: [String]
     tripShortName: String
+
     """Headsign of the vehicle when running on this trip"""
     tripHeadsign(
-        """If translated headsign is found from gtfs translation.txt and wanted language is not same as
+        """If a translated headsign is found from GTFS translation.txt and wanted language is not same as
         feed's language then returns wanted translation. Otherwise uses name from trip_headsign.txt.
         """
         language: String): String
@@ -3814,6 +4043,12 @@ type Trip implements Node {
         """
         types: [TripAlertType]
     ): [Alert]
+
+    """
+    The latest realtime occupancy information for the latest occurance of this
+    trip.
+    """
+    occupancy: TripOccupancy
 }
 
 """Entities, which are relevant for a trip and can contain alerts"""
@@ -3838,6 +4073,17 @@ enum TripAlertType {
     Some of the alerts can only affect the trip or its route on the stop.
     """
     STOPS_ON_TRIP
+}
+
+"""
+Occupancy of a vehicle on a trip. This should include the most recent occupancy information
+available for a trip. Historic data might not be available.
+"""
+type TripOccupancy {
+    """
+    Occupancy information mapped to a limited set of descriptive states.
+    """
+    occupancyStatus: OccupancyStatus
 }
 
 """

@@ -1,21 +1,29 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useState } from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
 import Link from 'found/Link';
 
+import { connectToStores } from 'fluxible-addons-react';
 import DisruptionInfoButtonContainer from './DisruptionInfoButtonContainer';
 import Icon from './Icon';
 import LangSelect from './LangSelect';
 import MainMenuLinks from './MainMenuLinks';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
+import { updateCountries } from '../action/CountryActions';
+import Toggle from './customizesearch/Toggle';
+import searchContext from '../util/searchContext';
+import intializeSearchContext from '../util/DTSearchContextInitializer';
 
 function MainMenu(props, { config, intl }) {
+  const [countries, setCountries] = useState(props.countries);
+  const appBarLinkHref =
+    config.appBarLink.alternativeHref?.[props.currentLanguage] ||
+    config.appBarLink.href;
   return (
-    <div className="main-menu no-select">
+    <div className="main-menu no-select" tabIndex={-1}>
       <div className="main-menu-top-section">
         <button
           type="button"
-          ref={input => input && input.focus()}
           onClick={props.closeMenu}
           className="close-button cursor-pointer"
           aria-label={intl.formatMessage({
@@ -77,11 +85,44 @@ function MainMenu(props, { config, intl }) {
             </Link>
           </div>
         )}
-        {config.appBarLink && config.appBarLink.name && config.appBarLink.href && (
+        {config.mainMenu.countrySelection &&
+          config.mainMenu.countrySelection.map(country => (
+            <div key={country} className="offcanvas-section">
+              <FormattedMessage
+                id={`include-${country}`}
+                defaultMessage={`include-${country}`}
+              />
+              <div style={{ float: 'right', display: 'inline-block' }}>
+                {/* eslint-disable jsx-a11y/label-has-associated-control */}
+                <label key={country} htmlFor={`toggle-${country}`}>
+                  <Toggle
+                    id={`toggle-${country}`}
+                    toggled={!!countries[country]}
+                    onToggle={() => {
+                      setCountries({
+                        ...countries,
+                        [country]: !countries[country],
+                      });
+                      props.updateCountries({
+                        ...countries,
+                        [country]: !countries[country],
+                      });
+                      // Update searchContext to reflect changes in config
+                      intializeSearchContext({ config }, searchContext);
+                      // On changing country filters, set sessionStorage menuOpen to true. This item is used in AppBar.js to initially open the menu after refresh for visual confirmation.
+                      window.sessionStorage.setItem('menuOpen', true);
+                      window.location.reload();
+                    }}
+                  />
+                </label>
+              </div>
+            </div>
+          ))}
+        {config.appBarLink?.name && appBarLinkHref && !config.hideAppBarLink && (
           <div className="offcanvas-section">
             <a
               id="appBarLink"
-              href={config.appBarLink.href}
+              href={appBarLinkHref}
               onClick={() => {
                 addAnalyticsEvent({
                   category: 'Navigation',
@@ -113,6 +154,13 @@ MainMenu.propTypes = {
   setDisruptionInfoOpen: PropTypes.func.isRequired,
   closeMenu: PropTypes.func.isRequired,
   homeUrl: PropTypes.string.isRequired,
+  countries: PropTypes.object,
+  updateCountries: PropTypes.func,
+  currentLanguage: PropTypes.string,
+};
+
+MainMenu.defaultProps = {
+  currentLanguage: 'fi',
 };
 
 MainMenu.contextTypes = {
@@ -121,4 +169,17 @@ MainMenu.contextTypes = {
   intl: intlShape.isRequired,
 };
 
-export default MainMenu;
+const connectedComponent = connectToStores(
+  MainMenu,
+  ['CountryStore', 'PreferencesStore'],
+  ({ getStore, executeAction }) => ({
+    countries: getStore('CountryStore').getCountries(),
+    updateCountries: countries => executeAction(updateCountries, countries),
+    currentLanguage: getStore('PreferencesStore').getLanguage(),
+  }),
+  {
+    executeAction: PropTypes.func,
+  },
+);
+
+export { connectedComponent as default, MainMenu as Component };

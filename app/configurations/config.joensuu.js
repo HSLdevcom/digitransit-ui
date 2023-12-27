@@ -23,7 +23,7 @@ export default configMerger(walttiConfig, {
 
   title: APP_TITLE,
 
-  favicon: './app/configurations/images/joensuu/favicon.png',
+  favicon: './app/configurations/images/joensuu/joensuu-favicon.png',
 
   // Navbar logo
   logo: 'joensuu/jojo-logo.png',
@@ -69,6 +69,19 @@ export default configMerger(walttiConfig, {
           sv: 'https://www.digitransit.fi/accessibility',
           en: 'https://www.digitransit.fi/en/accessibility',
         },
+      },
+    ],
+  },
+
+  geoJson: {
+    layers: [
+      {
+        name: {
+          fi: 'Vyöhykkeet',
+          sv: 'Zoner',
+          en: 'Zones',
+        },
+        url: '/assets/geojson/joensuu_zone_lines_20230830.geojson',
       },
     ],
   },

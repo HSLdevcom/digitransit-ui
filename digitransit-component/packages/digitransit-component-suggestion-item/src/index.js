@@ -8,6 +8,7 @@ import styles from './helpers/styles.scss';
 
 const BUS_EXPRESS = 702;
 const BUS_LOCAL = 704;
+const SPEEDTRAM = 900;
 
 const getRouteMode = props => {
   switch (props.type) {
@@ -15,6 +16,8 @@ const getRouteMode = props => {
       return 'bus-local';
     case BUS_EXPRESS:
       return 'bus-express';
+    case SPEEDTRAM:
+      return 'speedtram';
     default:
       return props?.mode?.toLowerCase() || 'bus';
   }
@@ -48,8 +51,8 @@ function getIconProperties(
   // but we do not want to show those icons
   if (item.type === 'FavouriteStop') {
     iconId = 'favouriteStop';
-  } else if (item.type === 'FavouriteStation') {
-    iconId = 'favouriteStation';
+  } else if (item.type === 'FavouriteVehicleRentalStation') {
+    iconId = 'favouriteVehicleRentalStation';
   } else if (item.type === 'Route') {
     const mode =
       modeSet === 'default'
@@ -87,14 +90,13 @@ function getIconProperties(
     iconColor = color;
   }
   const layerIcon = new Map([
-    ['bikeRentalStation', 'citybike'],
     ['bikestation', 'citybike'],
     ['currentPosition', 'locate'],
     ['favouritePlace', 'star'],
     ['favouriteRoute', 'star'],
     ['favouriteStop', 'star'],
     ['favouriteStation', 'star'],
-    ['favouriteBikeRentalStation', 'star'],
+    ['favouriteVehicleRentalStation', 'star'],
     ['favourite', 'star'],
     ['address', 'place'],
     ['stop', 'busstop'],
@@ -123,6 +125,10 @@ function getIconProperties(
     [
       'BUS-EXPRESS-default',
       { icon: 'search-bus-stop-express-default', color: 'mode-bus-express' },
+    ],
+    [
+      'SPEEDTRAM-default',
+      { icon: 'search-speedtram-stop-default', color: 'mode-speedtram' },
     ],
     [
       'BUS-digitransit',
@@ -201,6 +207,11 @@ function getIconProperties(
       }
     } else if (modes.includes('BUS-EXPRESS') && modeSet === 'default') {
       iconStr = [layerIcon.get('BUS-EXPRESS'.concat('-').concat(modeSet))];
+    } else if (
+      (modes.includes('SPEEDTRAM') && modeSet === 'default') ||
+      (modes.includes('SPEEDTRAM') && modeSet === 'digitransit')
+    ) {
+      iconStr = [layerIcon.get('SPEEDTRAM'.concat('-').concat('default'))];
     } else {
       iconStr = [layerIcon.get(mode.concat('-').concat(modeSet))];
     }
@@ -305,16 +316,14 @@ const SuggestionItem = pure(
       </div>
     );
     const isFutureRoute = iconId === 'future-route';
-    const isBikeRentalStation =
-      item.properties &&
-      (item.properties.layer === 'bikeRentalStation' ||
-        item.properties.layer === 'favouriteBikeRentalStation' ||
-        item.properties.layer === 'bikestation');
+    const isVehicleRentalStation =
+      item.properties?.layer === 'favouriteVehicleRentalStation' ||
+      item.properties?.layer === 'bikestation';
     const isParkingArea =
       item.properties?.layer === 'carpark' ||
       item.properties?.layer === 'bikepark';
     const labelWithLocationType =
-      isBikeRentalStation || isParkingArea
+      isVehicleRentalStation || isParkingArea
         ? suggestionType.concat(
             item.properties.localadmin ? `, ${item.properties.localadmin}` : '',
           )
@@ -350,11 +359,13 @@ const SuggestionItem = pure(
                   {name}
                 </div>
                 <div className={styles['suggestion-label']}>
-                  {isBikeRentalStation || isParkingArea
+                  {isVehicleRentalStation || isParkingArea
                     ? labelWithLocationType
                     : label}{' '}
-                  {((!isBikeRentalStation && stopCode && stopCode !== name) ||
-                    (isBikeRentalStation &&
+                  {((!isVehicleRentalStation &&
+                    stopCode &&
+                    stopCode !== name) ||
+                    (isVehicleRentalStation &&
                       hasVehicleStationCode(
                         stopCode || item.properties.id,
                       ))) && (

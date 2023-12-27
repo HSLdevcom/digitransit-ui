@@ -6,15 +6,15 @@ import { saveRoutingSettings } from '../../action/SearchSettingsActions';
 import Icon from '../Icon';
 import {
   mapDefaultNetworkProperties,
-  getCityBikeNetworkName,
-  getCityBikeNetworkConfig,
-  updateCitybikeNetworks,
-  getCitybikeNetworks,
-} from '../../util/citybikes';
+  getVehicleRentalStationNetworkName,
+  getVehicleRentalStationNetworkConfig,
+  updateVehicleNetworks,
+  getVehicleRentalStationNetworks,
+} from '../../util/vehicleRentalUtils';
 import { getModes } from '../../util/modeUtils';
 import { TransportMode } from '../../constants';
 
-const CityBikeNetworkSelector = (
+const VehicleRentalStationNetworkSelector = (
   { currentOptions },
   { config, getStore, executeAction },
 ) => (
@@ -38,8 +38,8 @@ const CityBikeNetworkSelector = (
             />
           </div>
           <span className="mode-name">
-            {getCityBikeNetworkName(
-              getCityBikeNetworkConfig(network.networkName, config),
+            {getVehicleRentalStationNetworkName(
+              getVehicleRentalStationNetworkConfig(network.networkName, config),
               getStore('PreferencesStore').getLanguage(),
             )}
           </span>
@@ -53,8 +53,8 @@ const CityBikeNetworkSelector = (
               ).length > 0
             }
             onToggle={() => {
-              const newNetworks = updateCitybikeNetworks(
-                getCitybikeNetworks(config),
+              const newNetworks = updateVehicleNetworks(
+                getVehicleRentalStationNetworks(config),
                 network.networkName,
               );
               const modes = getModes(config);
@@ -75,14 +75,14 @@ const CityBikeNetworkSelector = (
   </React.Fragment>
 );
 
-CityBikeNetworkSelector.propTypes = {
+VehicleRentalStationNetworkSelector.propTypes = {
   currentOptions: PropTypes.array.isRequired,
 };
 
-CityBikeNetworkSelector.contextTypes = {
+VehicleRentalStationNetworkSelector.contextTypes = {
   config: PropTypes.object.isRequired,
   getStore: PropTypes.func.isRequired,
   executeAction: PropTypes.func.isRequired,
 };
 
-export default CityBikeNetworkSelector;
+export default VehicleRentalStationNetworkSelector;

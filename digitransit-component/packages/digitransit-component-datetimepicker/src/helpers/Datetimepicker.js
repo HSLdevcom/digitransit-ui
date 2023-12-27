@@ -409,6 +409,7 @@ function Datetimepicker({
                   label={i18next.t('date', translationSettings)}
                   disableTyping
                   timeZone={timeZone}
+                  datePicker
                 />
               </span>
               <span className={styles['combobox-right']}>

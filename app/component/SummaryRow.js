@@ -23,12 +23,13 @@ import withBreakpoint from '../util/withBreakpoint';
 import { isKeyboardSelectionEvent } from '../util/browser';
 import {
   BIKEAVL_UNKNOWN,
-  getCityBikeNetworkIcon,
-  getCityBikeNetworkConfig,
-  getCityBikeNetworkId,
-  getCitybikeCapacity,
-} from '../util/citybikes';
+  getVehicleRentalStationNetworkIcon,
+  getVehicleRentalStationNetworkConfig,
+  getVehicleCapacity,
+} from '../util/vehicleRentalUtils';
 import { getRouteMode } from '../util/modeUtils';
+import { getCapacityForLeg } from '../util/occupancyUtil';
+import { getCo2Value } from '../util/itineraryUtils';
 
 const Leg = ({
   mode,
@@ -60,19 +61,31 @@ Leg.propTypes = {
   renderModeIcons: PropTypes.bool,
 };
 
-export const RouteLeg = ({
-  leg,
-  large,
-  intl,
-  legLength,
-  isTransitLeg,
-  interliningWithRoute,
-  fitRouteNumber,
-  withBicycle,
-}) => {
+export const RouteLeg = (
+  {
+    leg,
+    large,
+    intl,
+    legLength,
+    isTransitLeg,
+    interliningWithRoute,
+    fitRouteNumber,
+    withBicycle,
+    hasOneTransitLeg,
+  },
+  { config },
+) => {
   const isCallAgency = isCallAgencyPickupType(leg);
   let routeNumber;
   const mode = getRouteMode(leg.route);
+
+  const getOccupancyStatus = () => {
+    if (hasOneTransitLeg) {
+      return getCapacityForLeg(config, leg);
+    }
+    return undefined;
+  };
+
   if (isCallAgency) {
     const message = intl.formatMessage({
       id: 'pay-attention',
@@ -101,6 +114,7 @@ export const RouteLeg = ({
         withBar
         isTransitLeg={isTransitLeg}
         withBicycle={withBicycle}
+        occupancyStatus={getOccupancyStatus()}
       />
     );
   }
@@ -124,6 +138,11 @@ RouteLeg.propTypes = {
   interliningWithRoute: PropTypes.number,
   isTransitLeg: PropTypes.bool,
   withBicycle: PropTypes.bool.isRequired,
+  hasOneTransitLeg: PropTypes.bool,
+};
+
+RouteLeg.contextTypes = {
+  config: PropTypes.object.isRequired,
 };
 
 RouteLeg.defaultProps = {
@@ -137,13 +156,13 @@ export const ModeLeg = (
   let networkIcon;
   if (
     (mode === 'CITYBIKE' || mode === 'BICYCLE') &&
-    leg.from.bikeRentalStation
+    leg.from.vehicleRentalStation
   ) {
     networkIcon =
-      leg.from.bikeRentalStation &&
-      getCityBikeNetworkIcon(
-        getCityBikeNetworkConfig(
-          leg.from.bikeRentalStation.networks[0],
+      leg.from.vehicleRentalStation &&
+      getVehicleRentalStationNetworkIcon(
+        getVehicleRentalStationNetworkConfig(
+          leg.from.vehicleRentalStation.network,
           config,
         ),
       );
@@ -214,6 +233,10 @@ const bikeWasParked = legs => {
   return legs.length;
 };
 
+const hasOneTransitLeg = data => {
+  return data.legs.filter(leg => leg.transitLeg).length === 1;
+};
+
 const SummaryRow = (
   {
     data,
@@ -237,8 +260,7 @@ const SummaryRow = (
   const startTime = moment(data.startTime);
   const endTime = moment(data.endTime);
   const duration = endTime.diff(startTime);
-  const co2value = Math.round(data.emissions);
-
+  const co2value = getCo2Value(data);
   const mobile = bp => !(bp === 'large');
   const legs = [];
   let noTransitLegs = true;
@@ -384,7 +406,7 @@ const SummaryRow = (
     ) {
       const bikingTime = Math.floor((leg.endTime - leg.startTime) / 1000 / 60);
       // eslint-disable-next-line prefer-destructuring
-      bikeNetwork = getCityBikeNetworkId(leg.from.bikeRentalStation.networks);
+      bikeNetwork = leg.from.vehicleRentalStation.network;
       if (
         config.cityBike.networks &&
         config.cityBike.networks[bikeNetwork]?.timeBeforeSurcharge &&
@@ -399,8 +421,8 @@ const SummaryRow = (
         showRentalBikeDurationWarning =
           showRentalBikeDurationWarning || rentDurationOverSurchargeLimit;
         if (!citybikeicon) {
-          citybikeicon = getCityBikeNetworkIcon(
-            getCityBikeNetworkConfig(getCityBikeNetworkId(bikeNetwork), config),
+          citybikeicon = getVehicleRentalStationNetworkIcon(
+            getVehicleRentalStationNetworkConfig(bikeNetwork, config),
           );
         }
       }
@@ -501,6 +523,7 @@ const SummaryRow = (
             legLength={legLength}
             large={breakpoint === 'large'}
             withBicycle={withBicycle}
+            hasOneTransitLeg={hasOneTransitLeg(data)}
           />,
         );
       }
@@ -582,14 +605,15 @@ const SummaryRow = (
             }}
           />
           <div>
-            {getCitybikeCapacity(
+            {getVehicleCapacity(
               config,
-              firstDeparture.from.bikeRentalStation.networks[0],
+              firstDeparture.from.vehicleRentalStation.network,
             ) !== BIKEAVL_UNKNOWN && (
               <FormattedMessage
                 id="bikes-available"
                 values={{
-                  amount: firstDeparture.from.bikeRentalStation.bikesAvailable,
+                  amount:
+                    firstDeparture.from.vehicleRentalStation.vehiclesAvailable,
                 }}
               />
             )}
@@ -698,6 +722,17 @@ const SummaryRow = (
       />
     </div>
   );
+  const co2summary = (
+    <div className="sr-only">
+      <FormattedMessage
+        id="itinerary-co2.description-simple"
+        defaultMessage="CO₂ emissions for this route"
+        values={{
+          co2value,
+        }}
+      />
+    </div>
+  );
 
   const ariaLabelMessage = intl.formatMessage(
     {
@@ -733,6 +768,10 @@ const SummaryRow = (
         />
       </h3>
       {textSummary}
+      {config.showCO2InItinerarySummary &&
+        co2value !== null &&
+        co2value >= 0 &&
+        co2summary}
       <div
         className="itinerary-summary-visible"
         style={{
@@ -782,14 +821,16 @@ const SummaryRow = (
                     {(getTotalDistance(data) / 1000).toFixed(1)} km
                   </div>
                 )}
-                {config.showCO2InItinerarySummary && co2value > 0 && (
-                  <div className="itinerary-co2-value-container">
-                    {lowestCo2value === co2value && (
-                      <Icon img="icon-icon_co2_leaf" className="co2-leaf" />
-                    )}
-                    <div className="itinerary-co2-value">{co2value} g</div>
-                  </div>
-                )}
+                {config.showCO2InItinerarySummary &&
+                  co2value !== null &&
+                  co2value >= 0 && (
+                    <div className="itinerary-co2-value-container">
+                      {lowestCo2value === co2value && (
+                        <Icon img="icon-icon_co2_leaf" className="co2-leaf" />
+                      )}
+                      <div className="itinerary-co2-value">{co2value} g</div>
+                    </div>
+                  )}
                 <div className="itinerary-duration">
                   <RelativeDuration duration={duration} />
                 </div>

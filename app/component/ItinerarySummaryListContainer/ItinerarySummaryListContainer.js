@@ -57,10 +57,10 @@ function ItinerarySummaryListContainer(
   ) {
     const lowestCo2value = Math.round(
       itineraries
-        .filter(itinerary => itinerary.emissions > 0)
+        .filter(itinerary => itinerary.emissionsPerPerson?.co2 >= 0)
         .reduce((a, b) => {
-          return a.emissions < b.emissions ? a : b;
-        }, 0).emissions,
+          return a.emissionsPerPerson?.co2 < b.emissionsPerPerson?.co2 ? a : b;
+        }, 0).emissionsPerPerson?.co2,
     );
     const summaries = itineraries.map((itinerary, i) => (
       <SummaryRow
@@ -342,7 +342,9 @@ const containerComponent = createFragmentContainer(
         walkDistance
         startTime
         endTime
-        emissions
+        emissionsPerPerson {
+          co2
+        }
         legs {
           realTime
           realtimeState
@@ -385,6 +387,9 @@ const containerComponent = createFragmentContainer(
               }
               pickupType
             }
+            occupancy {
+              occupancyStatus
+            }
           }
           from {
             name
@@ -400,9 +405,9 @@ const containerComponent = createFragmentContainer(
                 effectiveStartDate
               }
             }
-            bikeRentalStation {
-              bikesAvailable
-              networks
+            vehicleRentalStation {
+              vehiclesAvailable
+              network
             }
           }
           to {

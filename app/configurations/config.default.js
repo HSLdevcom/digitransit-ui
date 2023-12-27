@@ -1,6 +1,6 @@
 /* eslint-disable prefer-template */
 import safeJsonParse from '../util/safeJsonParser';
-import { BIKEAVL_WITHMAX } from '../util/citybikes';
+import { BIKEAVL_WITHMAX } from '../util/vehicleRentalUtils';
 
 const CONFIG = process.env.CONFIG || 'default';
 const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
@@ -11,10 +11,12 @@ const MAP_URL =
 const MAP_VERSION = process.env.MAP_VERSION || 'v2';
 const POI_MAP_PREFIX = `${MAP_URL}/map/v3/finland`;
 const OTP_URL = process.env.OTP_URL || `${API_URL}/routing/v2/routers/finland/`;
+const STOP_TIMETABLES_URL =
+  process.env.STOP_TIMETABLES_URL || 'https://dev.kartat.hsl.fi';
 const APP_PATH = process.env.APP_CONTEXT || '';
 const {
   SENTRY_DSN,
-  AXE,
+  // AXE,
   NODE_ENV,
   API_SUBSCRIPTION_QUERY_PARAMETER_NAME,
   API_SUBSCRIPTION_HEADER_NAME,
@@ -34,7 +36,7 @@ const REALTIME_PATCH = safeJsonParse(process.env.REALTIME_PATCH) || {};
 export default {
   SENTRY_DSN,
   PORT,
-  AXE,
+  // AXE,
   CONFIG,
   NODE_ENV,
   OTPTimeout: OTP_TIMEOUT,
@@ -95,7 +97,7 @@ export default {
       tampere: 'https://www.nysse.fi/aikataulut-ja-reitit/linjat/',
     },
     STOP_TIMETABLES: {
-      HSL: `${API_URL}/timetables/v1/hsl/stops/`,
+      HSL: `${STOP_TIMETABLES_URL}/julkaisin-render/?component=Timetable`,
     },
     WEATHER_DATA:
       'https://opendata.fmi.fi/wfs?service=WFS&version=2.0.0&request=getFeature&storedquery_id=fmi::forecast::harmonie::surface::point::simple&timestep=5&parameters=temperature,WindSpeedMS,WeatherSymbol3',
@@ -189,7 +191,6 @@ export default {
   defaultSettings: {
     accessibilityOption: 0,
     bikeSpeed: 5.55,
-    forceCarRouting: false,
     ticketTypes: 'none',
     walkBoardCost: 120,
     walkReluctance: 1.8,
@@ -198,7 +199,6 @@ export default {
     includeParkAndRideSuggestions: false,
     includeCarSuggestions: false,
     showBikeAndParkItineraries: false,
-    showCO2InItinerarySummary: false,
   },
 
   /**
@@ -609,11 +609,15 @@ export default {
     lon: 24.9690395,
   },
 
+  defaultMapZoom: 12,
+
   availableRouteTimetables: {},
 
   routeTimetableUrlResolver: {},
 
   showTenWeeksOnRouteSchedule: true,
+
+  useRealtimeTravellerCapacities: false,
 
   aboutThisService: {
     fi: [
@@ -783,6 +787,7 @@ export default {
     varely: '(seutuplus|varely)',
     kela: 'kelareitit',
     pori: 'pori',
+    raasepori: '(raasepori|bosse)',
   },
 
   minutesToDepartureLimit: 9,
@@ -863,7 +868,6 @@ export default {
 
   showAlternativeLegs: true,
 
-  // DT-5325
+  // Notice! Turning on this setting forces the search for car routes (for the CO2 comparison only).
   showCO2InItinerarySummary: false,
-  forceCarRouting: false,
 };

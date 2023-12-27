@@ -14,6 +14,7 @@ const MODES_WITH_ICONS = [
   'rail',
   'subway',
   'ferry',
+  'speedtram',
 ];
 
 function getVehicleIcon(
@@ -27,6 +28,7 @@ function getVehicleIcon(
     return null;
   }
   const modeOrDefault = MODES_WITH_ICONS.indexOf(mode) !== -1 ? mode : 'bus';
+
   return {
     element: (
       <VehicleIcon
@@ -56,6 +58,7 @@ function shouldShowVehicle(message, direction, tripStart, pattern, headsign) {
       message.headsign === undefined ||
       headsign === message.headsign) &&
     (direction === undefined ||
+      direction === -1 ||
       message.direction === undefined ||
       message.direction === direction) &&
     (tripStart === undefined ||
@@ -64,7 +67,7 @@ function shouldShowVehicle(message, direction, tripStart, pattern, headsign) {
   );
 }
 
-function VehicleMarkerContainer(props) {
+function VehicleMarkerContainer(props, { config }) {
   const visibleVehicles = Object.entries(props.vehicles).filter(([, message]) =>
     shouldShowVehicle(
       message,
@@ -80,8 +83,18 @@ function VehicleMarkerContainer(props) {
   return visibleVehicles.map(([id, message]) => {
     const type = props.topics?.find(t => t.shortName === message.shortName)
       ?.type;
-    const mode =
-      type === ExtendedRouteTypes.BusExpress ? 'bus-express' : message.mode;
+    let mode;
+    if (type === ExtendedRouteTypes.BusExpress) {
+      mode = 'bus-express';
+    } else if (type === ExtendedRouteTypes.SpeedTram) {
+      mode = 'speedtram';
+    } else {
+      mode = message.mode;
+    }
+    const feed = message.route?.split(':')[0];
+    const vehicleNumber = message.shortName
+      ? config.realTime[feed].vehicleNumberParser(message.shortName)
+      : message.route.split(':')[1];
     return (
       <IconMarker
         key={id}
@@ -93,7 +106,7 @@ function VehicleMarkerContainer(props) {
         icon={getVehicleIcon(
           mode,
           message.heading,
-          message.shortName ? message.shortName : message.route.split(':')[1],
+          vehicleNumber,
           message.color,
           props.useLargeIcon,
         )}
@@ -122,6 +135,10 @@ VehicleMarkerContainer.propTypes = {
 VehicleMarkerContainer.defaultProps = {
   tripStart: undefined,
   direction: undefined,
+};
+
+VehicleMarkerContainer.contextTypes = {
+  config: PropTypes.object,
 };
 
 const connectedComponent = connectToStores(
