@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'found';
 import { graphql, createRefetchContainer } from 'react-relay';
-import VehicleRentalStationStopContent from './VehicleRentalStationStopContent';
+import VehicleRentalStation from './VehicleRentalStation';
 import FavouriteVehicleRentalStationContainer from './FavouriteVehicleRentalStationContainer';
 import { PREFIX_BIKESTATIONS } from '../util/path';
 import { isKeyboardSelectionEvent } from '../util/browser';
@@ -63,7 +63,7 @@ const VehicleRentalStationNearYou = ({
             className="bike-rental-favourite-container"
           />
         </div>
-        <VehicleRentalStationStopContent vehicleRentalStation={stop} />
+        <VehicleRentalStation vehicleRentalStation={stop} />
       </div>
     </span>
   );

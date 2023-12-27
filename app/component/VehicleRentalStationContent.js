@@ -5,7 +5,7 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 import { FormattedMessage } from 'react-intl';
 import { routerShape, RedirectException } from 'found';
 
-import VehicleRentalStationStopContent from './VehicleRentalStationStopContent';
+import VehicleRentalStation from './VehicleRentalStation';
 import ParkOrStationHeader from './ParkOrStationHeader';
 import Icon from './Icon';
 import withBreakpoint from '../util/withBreakpoint';
@@ -61,9 +61,7 @@ const VehicleRentalStationContent = (
         parkOrStation={vehicleRentalStation}
         breakpoint={breakpoint}
       />
-      <VehicleRentalStationStopContent
-        vehicleRentalStation={vehicleRentalStation}
-      />
+      <VehicleRentalStation vehicleRentalStation={vehicleRentalStation} />
       {cityBike.showFullInfo && isFull && (
         <div className="citybike-full-station-guide">
           <FormattedMessage id="citybike-return-full" />
