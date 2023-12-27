@@ -540,7 +540,7 @@ export function getSearchResults(
       );
     }
   }
-  if (allTargets || targets.includes('VehicleRentalStation')) {
+  if (allTargets || targets.includes('VehicleRentalStations')) {
     if (sources.includes('Favourite')) {
       const favouriteVehicleRentalStation = getFavouriteVehicleRentalStations(
         context,
@@ -568,7 +568,7 @@ export function getSearchResults(
           geocodingLayers,
         ).then(results => {
           if (filterResults) {
-            return filterResults(results, mode, 'VehicleRentalStation');
+            return filterResults(results, mode, 'VehicleRentalStations');
           }
           return results;
         }),

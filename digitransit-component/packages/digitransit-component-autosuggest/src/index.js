@@ -205,7 +205,7 @@ function translateFutureRouteSuggestionTime(item) {
  * }
  * const transportMode = undefined;
  * const placeholder = "stop-near-you";
- * const targets = ['Locations', 'Stops', 'Routes']; // Defines what you are searching. all available options are Locations, Stops, Routes, VehicleRentalStation, FutureRoutes, MapPosition and CurrentPosition. Leave empty to search all targets.
+ * const targets = ['Locations', 'Stops', 'Routes']; // Defines what you are searching. all available options are Locations, Stops, Routes, VehicleRentalStations, FutureRoutes, MapPosition and CurrentPosition. Leave empty to search all targets.
  * const sources = ['Favourite', 'History', 'Datasource'] // Defines where you are searching. all available are: Favourite, History (previously searched searches) and Datasource. Leave empty to use all sources.
  * return (
  *  <DTAutosuggest
@@ -592,9 +592,9 @@ class DTAutosuggest extends React.Component {
           }
           if (
             isEmpty(this.props.targets) ||
-            this.props.targets.includes('VehicleRentalStation')
+            this.props.targets.includes('VehicleRentalStations')
           ) {
-            targets.push('VehicleRentalStation');
+            targets.push('VehicleRentalStations');
           }
         } else if (!isEmpty(this.props.targets)) {
           targets = [...this.props.targets];
