@@ -176,7 +176,6 @@ function translateFutureRouteSuggestionTime(item) {
  *   getFavouriteRoutes: () => ({}),       // Function that returns array of favourite routes.
  *   getPositions: () => ({}),             // Function that returns user's geolocation.
  *   getRoutesQuery: () => ({}),           // Function that returns query for fetching routes.
- *   getAllBikeRentalStations: () => ({}), // Function that returns all bike rental stations from graphql API.
  *   getStopAndStationsQuery: () => ({}),  // Function that fetches favourite stops and stations from graphql API.
  *   getFavouriteRoutesQuery: () => ({}),  // Function that returns query for fetching favourite routes.
  *   getFavouriteVehicleRentalStations: () => ({}),  // Function that returns favourite bike rental station.
