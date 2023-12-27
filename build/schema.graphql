@@ -476,7 +476,7 @@ type BikeRentalStation implements Node & PlaceInterface {
     Number of bikes currently available on the rental station.
     See field `allowPickupNow` to know if is currently possible to pick up a bike.
     """
-    vehiclesAvailable: Int
+    bikesAvailable: Int
 
     """
     Number of free spaces currently available on the rental station.
