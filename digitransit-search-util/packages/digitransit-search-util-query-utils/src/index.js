@@ -279,7 +279,7 @@ export function getStopAndStationsQuery(favourites) {
     });
 }
 
-export function getAllBikeRentalStations() {
+export function getAllVehicleRentalStations() {
   if (!relayEnvironment) {
     return Promise.resolve([]);
   }
