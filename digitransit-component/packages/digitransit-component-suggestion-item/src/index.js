@@ -51,7 +51,7 @@ function getIconProperties(
   // but we do not want to show those icons
   if (item.type === 'FavouriteStop') {
     iconId = 'favouriteStop';
-  } else if (item.type === 'favouriteVehicleRentalStation') {
+  } else if (item.type === 'FavouriteVehicleRentalStation') {
     iconId = 'favouriteVehicleRentalStation';
   } else if (item.type === 'Route') {
     const mode =
