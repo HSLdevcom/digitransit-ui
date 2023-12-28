@@ -57,10 +57,24 @@ const handleStopsAndStations = edges => {
 
 const getRealTimeSettings = (routes, context) => {
   const { realTime } = context.config;
-  /* handle multiple feedid case */
-  const feedId = context.config.feedIds.find(
-    f => realTime[f] && routes[0].feedId === f,
-  );
+
+  /* handle multiple feedid case by taking most popular feedid */
+  const feeds = {};
+  routes.forEach(r => {
+    if (realTime[r.feedId]) {
+      feeds[r.feedId] = feeds[r.feedId] ? feeds[r.feedId] + 1 : 1;
+    }
+  });
+  let best = 0;
+  let feedId;
+  Object.keys(feeds).forEach(key => {
+    const value = feeds[key];
+    if (value > best) {
+      best = value;
+      feedId = key;
+    }
+  });
+
   const source = feedId && realTime[feedId];
   if (source && source.active) {
     return {
