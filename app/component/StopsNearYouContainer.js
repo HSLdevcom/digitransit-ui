@@ -58,7 +58,6 @@ class StopsNearYouContainer extends React.Component {
 
   static getDerivedStateFromProps = (nextProps, prevState) => {
     let newState = null;
-    const terminals = [];
     if (
       !prevState.currentPosition ||
       (!prevState.currentPosition.address &&
@@ -70,36 +69,18 @@ class StopsNearYouContainer extends React.Component {
         currentPosition: nextProps.position,
       };
     }
-    const checkStops = (t, n) => {
-      return n.every(stop => {
-        return (
-          stop.node.place.parentStation &&
-          t.indexOf(stop.node.place.parentStation.name) !== -1
-        );
-      });
-    };
     if (nextProps.stopPatterns) {
       const stopsForFiltering = [...nextProps.stopPatterns.nearest.edges];
       const newestStops = stopsForFiltering.splice(
         stopsForFiltering.length - 5,
       );
-      stopsForFiltering.forEach(stop => {
-        const node = stop.node.place;
-        if (
-          node.parentStation &&
-          terminals.indexOf(node.parentStation.name) === -1
-        ) {
-          terminals.push(node.parentStation.name);
-        }
-      });
       if (
-        (newestStops.every(stop => {
+        newestStops.every(stop => {
           return (
             stop.node.place.stoptimesWithoutPatterns &&
             stop.node.place.stoptimesWithoutPatterns.length === 0
           );
-        }) ||
-          checkStops(terminals, newestStops)) &&
+        }) &&
         prevState.refetches < prevState.maxRefetches
       ) {
         newState = {
@@ -199,7 +180,6 @@ class StopsNearYouContainer extends React.Component {
     const walkRoutingThreshold =
       mode === 'RAIL' || mode === 'SUBWAY' || mode === 'FERRY' ? 3000 : 1500;
     const stopPatterns = this.props.stopPatterns.nearest.edges;
-    const terminalNames = [];
     const isCityBikeView = this.props.match.params.mode === 'CITYBIKE';
     let sortedPatterns;
     if (isCityBikeView) {
@@ -232,27 +212,13 @@ class StopsNearYouContainer extends React.Component {
             stop.stoptimesWithoutPatterns.length > 0
           ) {
             if (!this.props.prioritizedStops?.includes(stop.gtfsId)) {
-              if (stop.parentStation) {
-                if (terminalNames.indexOf(stop.parentStation.name) === -1) {
-                  terminalNames.push(stop.parentStation.name);
-                  return (
-                    <StopNearYouContainer
-                      key={`${stop.gtfsId}`}
-                      stop={stop}
-                      currentMode={this.props.match.params.mode}
-                      stopIsStation
-                    />
-                  );
-                }
-              } else {
-                return (
-                  <StopNearYouContainer
-                    key={`${stop.gtfsId}`}
-                    stop={stop}
-                    currentMode={this.props.match.params.mode}
-                  />
-                );
-              }
+              return (
+                <StopNearYouContainer
+                  key={`${stop.gtfsId}`}
+                  stop={stop}
+                  currentMode={this.props.match.params.mode}
+                />
+              );
             }
           }
           break;
@@ -413,9 +379,6 @@ const refetchContainer = createPaginationContainer(
                     omitNonPickups: $omitNonPickups
                   ) {
                     scheduledArrival
-                  }
-                  parentStation {
-                    name
                   }
                 }
               }

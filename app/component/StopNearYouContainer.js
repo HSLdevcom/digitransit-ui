@@ -65,55 +65,6 @@ const containerComponent = createRefetchContainer(
             }
           }
         }
-        parentStation {
-          id
-          name
-          gtfsId
-          code
-          desc
-          lat
-          lon
-          zoneId
-          platformCode
-          alerts {
-            alertSeverityLevel
-            alertDescriptionText
-          }
-          stoptimesWithoutPatterns(
-            startTime: $startTime
-            omitNonPickups: $omitNonPickups
-          ) {
-            stop {
-              platformCode
-            }
-            realtimeDeparture
-            realtime
-            serviceDay
-            headsign
-            trip {
-              gtfsId
-              pattern {
-                code
-                route {
-                  gtfsId
-                }
-              }
-              route {
-                alerts {
-                  alertSeverityLevel
-                }
-                type
-                shortName
-                longName
-                gtfsId
-                mode
-                patterns {
-                  headsign
-                }
-              }
-            }
-          }
-        }
       }
     `,
   },
