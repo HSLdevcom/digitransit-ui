@@ -81,7 +81,11 @@ function getIconProperties(
     if (item.properties.layer === 'bikepark') {
       return [`bike-park`, 'mode-bikepark'];
     }
-    iconId = item.properties.selectedIconId || item.properties.layer;
+    if (item.properties.label?.split(',').length === 1) {
+      iconId = 'localadmin'; // plain city name
+    } else {
+      iconId = item.properties.selectedIconId || item.properties.layer;
+    }
   }
   if (item && item.iconColor) {
     // eslint-disable-next-line prefer-destructuring
