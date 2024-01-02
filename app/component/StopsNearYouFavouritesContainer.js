@@ -50,20 +50,12 @@ function StopsNearYouFavouritesContainer({
   const stopElements = stopList.map(stop => {
     switch (stop.type) {
       case 'stop':
-        return (
-          <StopNearYouContainer
-            key={stop.gtfsId}
-            stop={stop}
-            currentMode="FAVORITE"
-          />
-        );
       case 'station':
         return (
           <StopNearYouContainer
             key={stop.gtfsId}
             stop={stop}
-            desc={stop.stops[0].desc}
-            stopId={stop.stops[0].gtfsId}
+            currentMode="FAVORITE"
           />
         );
       case 'vehicleRentalStation':

@@ -92,12 +92,6 @@ const containerComponent = createFragmentContainer(StopsNearYouMapWithStores, {
       lat
       lon
       name
-      parentStation {
-        lat
-        lon
-        name
-        gtfsId
-      }
       patterns {
         route {
           gtfsId

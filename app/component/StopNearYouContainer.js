@@ -27,6 +27,7 @@ const containerComponent = createRefetchContainer(
         }
         zoneId
         platformCode
+        locationType
         stoptimesWithoutPatterns(
           startTime: $startTime
           omitNonPickups: $omitNonPickups
@@ -67,58 +68,6 @@ const containerComponent = createRefetchContainer(
             }
           }
         }
-        parentStation {
-          id
-          name
-          gtfsId
-          code
-          desc
-          lat
-          lon
-          zoneId
-          platformCode
-          alerts {
-            alertSeverityLevel
-            alertDescriptionText
-          }
-          stoptimesWithoutPatterns(
-            startTime: $startTime
-            omitNonPickups: $omitNonPickups
-          ) {
-            stop {
-              platformCode
-            }
-            realtimeDeparture
-            realtime
-            serviceDay
-            headsign
-            trip {
-              gtfsId
-              occupancy {
-                occupancyStatus
-              }
-              pattern {
-                code
-                route {
-                  gtfsId
-                }
-              }
-              route {
-                alerts {
-                  alertSeverityLevel
-                }
-                type
-                shortName
-                longName
-                gtfsId
-                mode
-                patterns {
-                  headsign
-                }
-              }
-            }
-          }
-        }
       }
     `,
   },
@@ -129,6 +78,11 @@ const containerComponent = createRefetchContainer(
       $omitNonPickups: Boolean!
     ) {
       stop(id: $stopId) {
+        ...StopNearYouContainer_stop
+        @arguments(startTime: $startTime, omitNonPickups: $omitNonPickups)
+      }
+
+      station(id: $stopId) {
         ...StopNearYouContainer_stop
         @arguments(startTime: $startTime, omitNonPickups: $omitNonPickups)
       }

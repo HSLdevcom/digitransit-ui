@@ -5,7 +5,6 @@ import { graphql, fetchQuery } from 'react-relay';
 import moment from 'moment';
 import uniqBy from 'lodash/uniqBy';
 import compact from 'lodash/compact';
-import indexOf from 'lodash/indexOf';
 import isEqual from 'lodash/isEqual';
 import polyline from 'polyline-encoded';
 import distance from '@digitransit-search-util/digitransit-search-util-distance';
@@ -37,20 +36,9 @@ const locationMarkerModules = {
     importLazy(import(/* webpackChunkName: "map" */ './LocationMarker')),
 };
 const handleStopsAndStations = edges => {
-  const terminalNames = [];
   const stopsAndStations = edges.map(({ node }) => {
     const stop = { ...node.place, distance: node.distance };
-    if (
-      stop.parentStation &&
-      indexOf(terminalNames, stop.parentStation.name) === -1
-    ) {
-      terminalNames.push(stop.parentStation.name);
-      return { ...stop.parentStation, distance: node.distance };
-    }
-    if (!stop.parentStation) {
-      return stop;
-    }
-    return null;
+    return stop;
   });
   return compact(stopsAndStations);
 };

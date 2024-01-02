@@ -16,9 +16,11 @@ const StopNearYou = (
   { stop, desc, stopId, currentTime, currentMode, relay },
   { config, intl },
 ) => {
+  if (!stop.stoptimesWithoutPatterns) {
+    return null;
+  }
   const [capacityModalOpen, setCapacityModalOpen] = useState(false);
-  const stopOrStation = stop.parentStation ? stop.parentStation : stop;
-  const stopMode = stopOrStation.stoptimesWithoutPatterns[0]?.trip.route.mode;
+  const stopMode = stop.stoptimesWithoutPatterns[0]?.trip.route.mode;
   useEffect(() => {
     let id = stop.gtfsId;
     if (stopId) {
@@ -31,9 +33,8 @@ const StopNearYou = (
     }
   }, [currentTime, currentMode]);
   const description = desc || stop.desc;
-  const isStation = !!stop.parentStation || !!stopId;
-  const gtfsId =
-    (stop.parentStation && stop.parentStation.gtfsId) || stop.gtfsId;
+  const isStation = stop.locationType === 'STATION';
+  const { gtfsId } = stop;
   const urlEncodedGtfsId = gtfsId.replace('/', '%2F');
   const linkAddress = isStation
     ? `/${PREFIX_TERMINALS}/${urlEncodedGtfsId}`
@@ -49,7 +50,7 @@ const StopNearYou = (
     <span role="listitem">
       <div className="stop-near-you-container">
         <StopNearYouHeader
-          stop={stopOrStation}
+          stop={stop}
           desc={description}
           isStation={isStation}
           linkAddress={linkAddress}
@@ -82,7 +83,7 @@ const StopNearYou = (
             <StopNearYouDepartureRowContainer
               currentTime={currentTime}
               mode={stopMode}
-              stopTimes={stopOrStation.stoptimesWithoutPatterns}
+              stopTimes={stop.stoptimesWithoutPatterns}
               isStation={isStation && stopMode !== 'SUBWAY'}
               setCapacityModalOpen={() => setCapacityModalOpen(true)}
             />
