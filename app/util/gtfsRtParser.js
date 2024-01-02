@@ -1,7 +1,7 @@
 import ceil from 'lodash/ceil';
 import Pbf from 'pbf';
 // eslint-disable-next-line import/prefer-default-export
-export const parseFeedMQTT = (feedParser, data, topic, agency) => {
+export const parseFeedMQTT = (feedParser, data, topic) => {
   const pbf = new Pbf(data);
   const feed = feedParser(pbf);
 
@@ -10,7 +10,7 @@ export const parseFeedMQTT = (feedParser, data, topic, agency) => {
     ,
     ,
     ,
-    ,
+    feedId,
     ,
     ,
     mode,
@@ -32,24 +32,24 @@ export const parseFeedMQTT = (feedParser, data, topic, agency) => {
   feed.entity.forEach(entity => {
     const vehiclePos = entity.vehicle;
     if (vehiclePos) {
-      const { trip, position, vehicle } = vehiclePos;
-      if (trip && position && vehicle) {
+      const { trip, position } = vehiclePos;
+      if (trip && position) {
         const message = {
-          id: `${agency}:${vehicleId}`,
-          route: `${agency}:${routeId}`,
+          id: `${feedId}:${vehicleId}`,
+          route: `${feedId}:${routeId}`,
           direction:
             directionId === '' ? undefined : parseInt(directionId, 10) || 0,
           tripStartTime:
             startTime === '' ? undefined : startTime.replace(/:/g, ''),
           operatingDay: trip.start_date,
           mode: mode === '' ? 'bus' : mode.toLowerCase(),
-          next_stop: stopId === '' ? undefined : `${agency}:${stopId}`,
+          next_stop: stopId === '' ? undefined : `${feedId}:${stopId}`,
           timestamp: vehiclePos.timestamp || feed.header.timestamp,
           lat: ceil(position.latitude, 5),
           long: ceil(position.longitude, 5),
           heading: position.bearing ? Math.floor(position.bearing) : undefined,
           headsign: headsign === '' ? undefined : headsign,
-          tripId: tripId === '' ? undefined : `${agency}:${tripId}`,
+          tripId: tripId === '' ? undefined : `${feedId}:${tripId}`,
           geoHash: [geoHashDeg1, geoHashDeg2, geoHashDeg3, geoHashDeg4],
           shortName: shortName === '' ? undefined : shortName,
           color: color === '' ? undefined : color,

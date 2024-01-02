@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl';
 
 import { shallowWithIntl } from './helpers/mock-intl-enzyme';
 import WalkLeg from '../../app/component/WalkLeg';
-import { CityBikeNetworkType } from '../../app/util/citybikes';
+import { CityBikeNetworkType } from '../../app/util/vehicleRentalUtils';
 import ServiceAlertIcon from '../../app/component/ServiceAlertIcon';
 import { AlertSeverityLevelType } from '../../app/constants';
 
@@ -115,8 +115,8 @@ describe('<WalkLeg />', () => {
         distance: 3297.017000000001,
         duration: 904,
         from: {
-          bikeRentalStation: {
-            networks: ['foobar'],
+          vehicleRentalStation: {
+            network: 'foobar',
           },
           name: 'Kaisaniemenpuisto',
           stop: null,

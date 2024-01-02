@@ -135,7 +135,7 @@ $itinerary-tab-switch-height: 48px;
     }
   }
 
-  div.itinerary-ticket-information {
+  div.itinerary-ticket-information, .itinerary-co2-information {
     flex-grow: 0;
     flex-shrink: 0;
   }
@@ -186,6 +186,160 @@ $itinerary-tab-switch-height: 48px;
         > div {
           flex-grow: 0;
         }
+      }
+    }
+  }
+}
+
+.itinerary-co2-information {
+  &.mobile {
+    padding-left: 5px;
+    .divider-bottom {
+      width: 365px;
+    }
+  }
+}
+
+.itinerary-co2-line {
+  position: relative;
+
+  .divider-top,
+  .divider-bottom {
+    border-bottom: 1px solid #dddddd;
+    margin-left: 10px;
+    margin-right: 10px;
+
+    @media print {
+      border: none;
+    }
+  }
+
+  .co2-description-container {
+    display: flex;
+    gap: 20.01px;
+    justify-content: space-between;
+    align-items: start;
+    margin-top: 5px;
+    margin-bottom: 5px;
+
+    .icon-container {
+      .icon {
+        &.co2-leaf {
+          height: 25.06px;
+          width: 25.6px;
+          margin-top: 5px;
+          margin-left: 5px;
+        }
+      }
+    }
+
+    .itinerary-co2-description {
+      width: auto;
+      left: 70px;
+      top: 528px;
+      &.simple {
+        width: auto;
+      }
+      font-family: $font-family;
+      font-style: normal;
+      font-weight: 325;
+      font-size: 15px;
+      line-height: 20px;
+      letter-spacing: -0.03em;
+      display: flex;
+      flex-direction: column;
+      color: #666666;
+    }
+  }
+
+  .emissions-info-link {
+    text-decoration: none;
+    font-weight: $font-weight-medium;
+    color: $primary-color;
+    font-size: $font-size-small;
+  }
+
+  .co2-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 11px 10px 10px 15px;
+    &.mobile {
+      flex-direction: row;
+      margin: 11px 10px 10px 6px
+    }
+    @include min-width(tablet) {
+      margin-right: 15px;
+    }
+
+    .co2-title-container {
+      display: flex;
+      gap: 11.34px;
+      justify-content: space-between;
+      align-items: center;
+
+      .icon-container {
+        .icon {
+          &.co2-leaf {
+            height: 13.91px;
+            width: 14.22px;
+          }
+        }
+      }
+
+      .itinerary-co2-title {
+        max-width: 250px;
+        height: 18px;
+        left: 48px;
+        top: 528px;
+
+        font-family: $font-family;
+        font-style: normal;
+        font-weight: 325;
+        font-size: 15px;
+        line-height: 18px;
+        /* identical to box height */
+        display: flex;
+        align-items: center;
+        letter-spacing: -0.03em;
+
+        color: #666666;
+      }
+    }
+
+    .itinerary-co2-value-container {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+      align-items: center;
+      padding: 2px 4px;
+      gap: 4px;
+
+      min-width: 37px;
+      height: 20px;
+      right: 82.38px;
+      top: 416px;
+      overflow: visible;
+
+      background: rgba(100, 190, 30, 0.15);
+      border-radius: 4px;
+
+      .itinerary-co2-value {
+        min-width: 29px;
+        height: 16px;
+
+        font-family: $font-family;
+        font-style: normal;
+        font-weight: 325;
+        font-size: 13px;
+        line-height: 16px;
+        color: #3B7F00;
+        /* identical to box height */
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        letter-spacing: -0.03em;
       }
     }
   }
@@ -436,7 +590,7 @@ $itinerary-tab-switch-height: 48px;
   }
 }
 
-.itinerary-ticket-information {
+.itinerary-ticket-information, .itinerary-co2-information {
   display: flex;
   color: $gray;
   font-weight: $font-weight-book;
@@ -468,7 +622,7 @@ $itinerary-tab-switch-height: 48px;
     }
   }
 
-  .itinerary-ticket-type {
+  .itinerary-ticket-type, .itinerary-co2-line {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
@@ -566,7 +720,7 @@ $itinerary-tab-switch-height: 48px;
 }
 
 .desktop {
-  .itinerary-ticket-information {
+  .itinerary-ticket-information, .itinerary-co2-information {
     font-size: 0.9375rem;
     width: 400px;
     margin: 0 60px;
@@ -1346,6 +1500,11 @@ $itinerary-tab-switch-height: 48px;
           height: 1.5em;
           border-radius: $border-radius;
         }
+        .occupancy-icon-container {
+          color: white;
+          margin-left: auto;
+          padding-right: 8px;
+        }
         .vcenter-children {
           width: 100%;
           display: flex;
@@ -1394,6 +1553,11 @@ $itinerary-tab-switch-height: 48px;
       &.alternative-leg-suggestion {
         border: 2px solid #f4f4f5;
         background-color: white;
+      }
+      .capacity-icon-container {
+        color: #007ac9;
+        margin-top: 2px;
+        cursor: pointer;
       }
     }
     .itinerary-leg-text-gray {

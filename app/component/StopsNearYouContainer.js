@@ -7,10 +7,10 @@ import { matchShape } from 'found';
 import StopNearYouContainer from './StopNearYouContainer';
 import withBreakpoint from '../util/withBreakpoint';
 import { sortNearbyRentalStations, sortNearbyStops } from '../util/sortUtils';
-import CityBikeStopNearYou from './CityBikeStopNearYou';
+import CityBikeStopNearYou from './VehicleRentalStationNearYou';
 import Loading from './Loading';
 import Icon from './Icon';
-import { getDefaultNetworks } from '../util/citybikes';
+import { getDefaultNetworks } from '../util/vehicleRentalUtils';
 
 class StopsNearYouContainer extends React.Component {
   static propTypes = {
@@ -184,11 +184,11 @@ class StopsNearYouContainer extends React.Component {
     let sortedPatterns;
     if (isCityBikeView) {
       const withNetworks = stopPatterns.filter(pattern => {
-        return !!pattern.node.place?.networks;
+        return !!pattern.node.place?.network;
       });
       const filteredCityBikeStopPatterns = withNetworks.filter(pattern => {
-        return pattern.node.place?.networks.every(network =>
-          getDefaultNetworks(this.context.config).includes(network),
+        return getDefaultNetworks(this.context.config).includes(
+          pattern.node.place?.network,
         );
       });
       sortedPatterns = filteredCityBikeStopPatterns
@@ -222,7 +222,7 @@ class StopsNearYouContainer extends React.Component {
             }
           }
           break;
-        case 'BikeRentalStation':
+        case 'VehicleRentalStation':
           return (
             <CityBikeStopNearYou
               key={`${stop.stationId}`}
@@ -313,7 +313,7 @@ const connectedContainer = connectToStores(
       match.params.mode === 'CITYBIKE'
         ? new Set(
             getStore('FavouriteStore')
-              .getBikeRentalStations()
+              .getVehicleRentalStations()
               .map(station => station.stationId),
           )
         : new Set(
@@ -360,10 +360,10 @@ const refetchContainer = createPaginationContainer(
               distance
               place {
                 __typename
-                ... on BikeRentalStation {
-                  ...CityBikeStopNearYou_stop
+                ... on VehicleRentalStation {
+                  ...VehicleRentalStationNearYou_stop
                   stationId
-                  networks
+                  network
                 }
                 ... on Stop {
                   ...StopNearYouContainer_stop

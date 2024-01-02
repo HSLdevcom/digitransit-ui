@@ -1,6 +1,6 @@
 import cloneDeep from 'lodash/cloneDeep';
 import get from 'lodash/get';
-import { BIKEAVL_UNKNOWN } from './citybikes';
+import { BIKEAVL_UNKNOWN } from './vehicleRentalUtils';
 
 function filterLegStops(leg, filter) {
   if (leg.from.stop && leg.to.stop && leg.trip) {
@@ -17,32 +17,15 @@ function filterLegStops(leg, filter) {
   return false;
 }
 
-/**
- * Check if legs start stop pickuptype or end stop pickupType is CALL_AGENCY
- *
- * leg must have:
- * from.stop.gtfsId
- * to.stop.gtfsId
- * trip.stoptimes (with props:)
- *   stop.gtfsId
- *   pickupType
- */
-export function isCallAgencyPickupType(leg) {
-  return (
-    filterLegStops(leg, stoptime => stoptime.pickupType === 'CALL_AGENCY')
-      .length > 0
-  );
-}
-
 export function isCallAgencyDeparture(departure) {
   return departure.pickupType === 'CALL_AGENCY';
 }
 
 const sameBicycleNetwork = (leg1, leg2) => {
-  if (leg1.from.bikeRentalStation && leg2.from.bikeRentalStation) {
+  if (leg1.from.vehicleRentalStation && leg2.from.vehicleRentalStation) {
     return (
-      leg1.from.bikeRentalStation.networks[0] ===
-      leg2.from.bikeRentalStation.networks[0]
+      leg1.from.vehicleRentalStation.network ===
+      leg2.from.vehicleRentalStation.network
     );
   }
   return true;
@@ -70,6 +53,7 @@ export const LegMode = {
   CityBike: 'CITYBIKE',
   Walk: 'WALK',
   Car: 'CAR',
+  Rail: 'RAIL',
 };
 
 /**
@@ -94,10 +78,29 @@ export const getLegMode = legOrMode => {
       return LegMode.Walk;
     case LegMode.Car:
       return LegMode.Car;
+    case LegMode.Rail:
+      return LegMode.Rail;
     default:
       return undefined;
   }
 };
+
+/**
+ * Check if legs start stop pickuptype or end stop pickupType is CALL_AGENCY
+ *
+ * leg must have:
+ * from.stop.gtfsId
+ * to.stop.gtfsId
+ * trip.stoptimes (with props:)
+ *   stop.gtfsId
+ *   pickupType
+ */
+export function isCallAgencyPickupType(leg) {
+  return (
+    filterLegStops(leg, stoptime => stoptime.pickupType === 'CALL_AGENCY')
+      .length > 0
+  );
+}
 
 /**
  * Checks if both of the legs exist and are taken with mode 'BICYCLE'.
@@ -148,7 +151,7 @@ export const getInterliningLegs = (legs, index) => {
 };
 
 const bikingEnded = leg1 => {
-  return leg1.from.bikeRentalStation && leg1.mode === 'WALK';
+  return leg1.from.vehicleRentalStation && leg1.mode === 'WALK';
 };
 /**
  * Compresses the incoming legs (affects only legs with mode BICYCLE, WALK or CITYBIKE). These are combined
@@ -310,24 +313,28 @@ export const getTotalDistance = itinerary => sumDistances(itinerary.legs);
 /**
  * Gets the indicator color for the current amount of citybikes available.
  *
- * @param {number} bikesAvailable the number of bikes currently available
+ * @param {number} vehiclesAvailable the number of bikes currently available
  * @param {*} config the configuration for the software installation
  */
-export const getCityBikeAvailabilityIndicatorColor = (bikesAvailable, config) =>
+export const getVehicleAvailabilityIndicatorColor = (
+  vehiclesAvailable,
+  config,
+) =>
   // eslint-disable-next-line no-nested-ternary
-  bikesAvailable === 0
+  vehiclesAvailable === 0
     ? '#DC0451'
-    : bikesAvailable > config.cityBike.fewAvailableCount
+    : vehiclesAvailable > config.cityBike.fewAvailableCount
     ? '#3B7F00'
     : '#FCBC19';
 
 /* Gets the indicator text color if  few bikes are available
  *
- * @param {number} bikesAvailable the number of bikes currently available
+ * @param {number} vehiclesAvailable the number of bikes currently available
  * @param {*} config the configuration for the software installation/
  */
-export const getCityBikeAvailabilityTextColor = (bikesAvailable, config) =>
-  bikesAvailable <= config.cityBike.fewAvailableCount && bikesAvailable > 0
+export const getVehicleAvailabilityTextColor = (vehiclesAvailable, config) =>
+  vehiclesAvailable <= config.cityBike.fewAvailableCount &&
+  vehiclesAvailable > 0
     ? '#333'
     : '#fff';
 
@@ -342,17 +349,17 @@ export const getLegBadgeProps = (leg, config) => {
   if (
     !leg.rentedBike ||
     !leg.from ||
-    !leg.from.bikeRentalStation ||
+    !leg.from.vehicleRentalStation ||
     config.cityBike.capacity === BIKEAVL_UNKNOWN ||
     leg.mode === 'WALK'
   ) {
     return undefined;
   }
-  const { bikesAvailable } = leg.from.bikeRentalStation || 0;
+  const { vehiclesAvailable } = leg.from.vehicleRentalStation || 0;
   return {
-    badgeFill: getCityBikeAvailabilityIndicatorColor(bikesAvailable, config),
-    badgeText: `${bikesAvailable}`,
-    badgeTextFill: getCityBikeAvailabilityTextColor(bikesAvailable, config),
+    badgeFill: getVehicleAvailabilityIndicatorColor(vehiclesAvailable, config),
+    badgeText: `${vehiclesAvailable}`,
+    badgeTextFill: getVehicleAvailabilityTextColor(vehiclesAvailable, config),
   };
 };
 

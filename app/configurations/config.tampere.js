@@ -1,6 +1,6 @@
 /* eslint-disable prefer-template */
 import configMerger from '../util/configMerger';
-import { BIKEAVL_WITHMAX } from '../util/citybikes';
+import { BIKEAVL_WITHMAX } from '../util/vehicleRentalUtils';
 
 const CONFIG = 'tampere';
 const APP_TITLE = 'Nyssen reittiopas';
@@ -38,7 +38,7 @@ export default configMerger(walttiConfig, {
   // Navbar logo
   logo: 'tampere/tampere-logo.png',
 
-  favicon: './app/configurations/images/tampere/favicon.png',
+  favicon: './app/configurations/images/tampere/tampere-favicon.png',
 
   feedIds: ['tampere', 'digitraffic', 'tampereDRT'],
 
@@ -92,6 +92,29 @@ export default configMerger(walttiConfig, {
     en: {
       callAgencyInfoLink: 'https://nysse.fi/drt',
       callAgencyInfoLinkText: 'https://nysse.fi/drt',
+    },
+  },
+
+  modeDisclaimers: {
+    RAIL: {
+      fi: {
+        disclaimer:
+          'Nyssen liput käyvät junaliikenteessä rajoitetusti vain Nysse-alueella. Lue lisää ',
+        link: 'https://www.nysse.fi/junat',
+        text: 'nysse.fi/junat',
+      },
+      sv: {
+        disclaimer:
+          'Nysse-biljetter är giltiga på tåg i Nysse-området, med vissa begränsningar. Läs mer på ',
+        link: 'https://www.nysse.fi/en/ways-to-get-around/train',
+        text: 'Trains in the Nysse area - Nysse, Tampere regional transport',
+      },
+      en: {
+        disclaimer:
+          'Nysse tickets are valid on trains in the Nysse area with some limitations. Read more on ',
+        link: 'https://www.nysse.fi/en/ways-to-get-around/train',
+        text: 'Trains in the Nysse area - Nysse, Tampere regional transport',
+      },
     },
   },
 

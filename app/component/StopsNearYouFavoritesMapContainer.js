@@ -10,7 +10,7 @@ import FavouriteStore from '../store/FavouriteStore';
 import { dtLocationShape } from '../util/shapes';
 
 function StopsNearYouFavoritesMapContainer(props) {
-  const { stops, stations, bikeStations, position } = props;
+  const { stops, stations, vehicleStations, position } = props;
   const stopList = [];
   stopList.push(
     ...stops
@@ -42,21 +42,23 @@ function StopsNearYouFavoritesMapContainer(props) {
         };
       }),
   );
-  stopList.push(
-    ...bikeStations
-      .filter(s => s)
-      .map(stop => {
-        return {
-          type: 'bikeRentalStation',
-          node: {
-            distance: distance(position, stop),
-            place: {
-              ...stop,
+  if (vehicleStations !== null) {
+    stopList.push(
+      ...vehicleStations
+        .filter(s => s)
+        .map(stop => {
+          return {
+            type: 'vehicleRentalStation',
+            node: {
+              distance: distance(position, stop),
+              place: {
+                ...stop,
+              },
             },
-          },
-        };
-      }),
-  );
+          };
+        }),
+    );
+  }
   stopList.sort((a, b) => a.node.distance - b.node.distance);
 
   return <StopsNearYouMap {...props} stopsNearYou={stopList} />;
@@ -65,7 +67,7 @@ function StopsNearYouFavoritesMapContainer(props) {
 StopsNearYouFavoritesMapContainer.propTypes = {
   stops: PropTypes.array,
   stations: PropTypes.array,
-  bikeStations: PropTypes.array,
+  vehicleStations: PropTypes.array,
   position: dtLocationShape.isRequired,
 };
 
@@ -134,8 +136,8 @@ const containerComponent = createFragmentContainer(StopsNearYouMapWithStores, {
       }
     }
   `,
-  bikeStations: graphql`
-    fragment StopsNearYouFavoritesMapContainer_bikeStations on BikeRentalStation
+  vehicleStations: graphql`
+    fragment StopsNearYouFavoritesMapContainer_vehicleStations on VehicleRentalStation
     @relay(plural: true) {
       name
       lat

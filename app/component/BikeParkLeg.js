@@ -102,7 +102,7 @@ BikeParkLeg.contextTypes = {
 BikeParkLeg.propTypes = {
   index: PropTypes.number.isRequired,
   focusAction: PropTypes.func.isRequired,
-  bikePark: PropTypes.object,
+  bikePark: PropTypes.object.isRequired,
   leg: PropTypes.shape({
     endTime: PropTypes.number.isRequired,
     duration: PropTypes.number.isRequired,
@@ -110,9 +110,9 @@ BikeParkLeg.propTypes = {
     distance: PropTypes.number.isRequired,
     from: PropTypes.shape({
       name: PropTypes.string.isRequired,
-      bikeRentalStation: PropTypes.shape({
-        bikesAvailable: PropTypes.number.isRequired,
-        networks: PropTypes.array.isRequired,
+      vehicleRentalStation: PropTypes.shape({
+        vehiclesAvailable: PropTypes.number.isRequired,
+        network: PropTypes.string.isRequired,
       }),
       stop: PropTypes.object,
     }).isRequired,

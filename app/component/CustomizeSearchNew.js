@@ -10,11 +10,11 @@ import TransportModesSection from './customizesearch/TransportModesSection';
 import WalkingOptionsSection from './customizesearch/WalkingOptionsSection';
 import AccessibilityOptionSection from './customizesearch/AccessibilityOptionSection';
 import TransferOptionsSection from './customizesearch/TransferOptionsSection';
-import CityBikeNetworkSelector from './customizesearch/CityBikeNetworkSelector';
+import VehicleRentalStationNetworkSelector from './customizesearch/VehicleRentalStationNetworkSelector';
 import { showModeSettings, useCitybikes } from '../util/modeUtils';
 import ScrollableWrapper from './ScrollableWrapper';
 import { getDefaultSettings } from '../util/planParamUtil';
-import { getCitybikeNetworks } from '../util/citybikes';
+import { getVehicleRentalStationNetworks } from '../util/vehicleRentalUtils';
 
 class CustomizeSearch extends React.Component {
   static contextTypes = {
@@ -126,8 +126,8 @@ class CustomizeSearch extends React.Component {
                     />
                   </legend>
                   <div className="transport-modes-container">
-                    <CityBikeNetworkSelector
-                      currentOptions={getCitybikeNetworks(config)}
+                    <VehicleRentalStationNetworkSelector
+                      currentOptions={getVehicleRentalStationNetworks(config)}
                     />
                   </div>
                 </fieldset>

@@ -3,13 +3,19 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'found';
 import { graphql, createRefetchContainer } from 'react-relay';
-import CityBikeStopContent from './CityBikeStopContent';
-import FavouriteBikeRentalStationContainer from './FavouriteBikeRentalStationContainer';
+import VehicleRentalStation from './VehicleRentalStation';
+import FavouriteVehicleRentalStationContainer from './FavouriteVehicleRentalStationContainer';
 import { PREFIX_BIKESTATIONS } from '../util/path';
 import { isKeyboardSelectionEvent } from '../util/browser';
-import { hasStationCode } from '../util/citybikes';
+import { hasStationCode } from '../util/vehicleRentalUtils';
+import { getIdWithoutFeed } from '../util/feedScopedIdUtils';
 
-const CityBikeStopNearYou = ({ stop, relay, currentTime, currentMode }) => {
+const VehicleRentalStationNearYou = ({
+  stop,
+  relay,
+  currentTime,
+  currentMode,
+}) => {
   useEffect(() => {
     const { stationId } = stop;
     if (currentMode === 'CITYBIKE') {
@@ -45,50 +51,72 @@ const CityBikeStopNearYou = ({ stop, relay, currentTime, currentMode }) => {
               <FormattedMessage
                 id="citybike-station"
                 values={{
-                  stationId: hasStationCode(stop) ? stop.stationId : '',
+                  stationId: hasStationCode(stop)
+                    ? getIdWithoutFeed(stop.stationId)
+                    : '',
                 }}
               />
             </div>
           </div>
-          <FavouriteBikeRentalStationContainer
-            bikeRentalStation={stop}
+          <FavouriteVehicleRentalStationContainer
+            vehicleRentalStation={stop}
             className="bike-rental-favourite-container"
           />
         </div>
-        <CityBikeStopContent bikeRentalStation={stop} />
+        <VehicleRentalStation vehicleRentalStation={stop} />
       </div>
     </span>
   );
 };
-CityBikeStopNearYou.propTypes = {
-  stop: PropTypes.object.isRequired,
-  currentTime: PropTypes.number.isRequired,
-  currentMode: PropTypes.string.isRequired,
+VehicleRentalStationNearYou.propTypes = {
+  stop: PropTypes.shape({
+    capacity: PropTypes.number,
+    distance: PropTypes.number,
+    lat: PropTypes.number,
+    lon: PropTypes.number,
+    name: PropTypes.string,
+    network: PropTypes.string,
+    operative: PropTypes.bool,
+    spacesAvailable: PropTypes.number,
+    stationId: PropTypes.string,
+    type: PropTypes.string,
+    vehiclesAvailable: PropTypes.number,
+  }).isRequired,
+  currentTime: PropTypes.number,
+  currentMode: PropTypes.string,
   relay: PropTypes.any,
 };
 
+VehicleRentalStationNearYou.defaultProps = {
+  currentTime: undefined,
+  currentMode: undefined,
+};
+
 const containerComponent = createRefetchContainer(
-  CityBikeStopNearYou,
+  VehicleRentalStationNearYou,
   {
     stop: graphql`
-      fragment CityBikeStopNearYou_stop on BikeRentalStation {
+      fragment VehicleRentalStationNearYou_stop on VehicleRentalStation {
         stationId
         name
-        bikesAvailable
+        vehiclesAvailable
         spacesAvailable
         capacity
-        networks
-        state
+        network
+        operative
       }
     `,
   },
   graphql`
-    query CityBikeStopNearYouRefetchQuery($stopId: String!) {
-      bikeRentalStation(id: $stopId) {
-        ...CityBikeStopNearYou_stop
+    query VehicleRentalStationNearYouRefetchQuery($stopId: String!) {
+      vehicleRentalStation(id: $stopId) {
+        ...VehicleRentalStationNearYou_stop
       }
     }
   `,
 );
 
-export { containerComponent as default, CityBikeStopNearYou as Component };
+export {
+  containerComponent as default,
+  VehicleRentalStationNearYou as Component,
+};

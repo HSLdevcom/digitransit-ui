@@ -60,7 +60,7 @@ export default configMerger(walttiConfig, {
 
   // Navbar logo
   logo: 'walttiOpas/waltti-logo.png',
-  favicon: './app/configurations/images/walttiOpas/favicon.png',
+  favicon: './app/configurations/images/walttiOpas/walttiOpas-favicon.png',
 
   feedIds: ['Salo', 'Kajaani'],
 
@@ -155,4 +155,59 @@ export default configMerger(walttiConfig, {
   ],
 
   showDisclaimer: true,
+
+  staticMessages: [
+    {
+      id: 'raasepori_msg_20.12.2023',
+      priority: -1,
+      persistence: 'repeat',
+      content: {
+        fi: [
+          {
+            type: 'heading',
+            content: 'HUOM! Raaseporin oma reittiopas siirtyy sivulle bosse.digitransit.fi',
+          },
+          {
+            type: 'text',
+            content: 'Vinkki: tallenna osoite aloitusnäytöllesi niin saat aikataulut vaivattomasti näkyville.',
+          },
+          {
+            type: 'a',
+            content: 'bosse.digitransit.fi',
+	    href: 'https://bosse.digitransit.fi',
+          },
+        ],
+        sv: [
+          {
+            type: 'heading',
+            content: 'OBS! Raseborgs egen reseplanerare flyttas till bosse.digitransit.fi',
+          },
+          {
+            type: 'text',
+            content: 'Tips: spara sidan till startskärmen för en smidig tillgång till tidtabellerna.',
+          },
+          {
+            type: 'a',
+            content: 'bosse.digitransit.fi',
+	    href: 'https://bosse.digitransit.fi/?locale=sv',
+          },
+        ],
+        en: [
+          {
+            type: 'heading',
+            content: 'NOTE! The travel guide for Raseborg is available at bosse.digitransit.fi',
+          },
+          {
+            type: 'text',
+            content: 'Tip: save the page to your start screen for easy access to the timetables.',
+          },
+          {
+            type: 'a',
+            content: 'bosse.digitransit.fi',
+	    href: 'https://bosse.digitransit.fi/?locale=en',
+          },
+        ],
+      },
+    },
+  ],
 });

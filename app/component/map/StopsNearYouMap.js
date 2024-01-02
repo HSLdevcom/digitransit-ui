@@ -27,7 +27,7 @@ import ItineraryLine from './ItineraryLine';
 import { dtLocationShape, mapLayerOptionsShape } from '../../util/shapes';
 import Loading from '../Loading';
 import LazilyLoad, { importLazy } from '../LazilyLoad';
-import { getDefaultNetworks } from '../../util/citybikes';
+import { getDefaultNetworks } from '../../util/vehicleRentalUtils';
 import { getRouteMode } from '../../util/modeUtils';
 import CookieSettingsButton from '../CookieSettingsButton';
 
@@ -45,15 +45,29 @@ const handleStopsAndStations = edges => {
 
 const getRealTimeSettings = (routes, context) => {
   const { realTime } = context.config;
-  /* handle multiple feedid case */
-  const agency = context.config.feedIds.find(
-    ag => realTime[ag] && routes[0].feedId === ag,
-  );
-  const source = agency && realTime[agency];
-  if (source && source.active && routes.length > 0) {
+
+  /* handle multiple feedid case by taking most popular feedid */
+  const feeds = {};
+  routes.forEach(r => {
+    if (realTime[r.feedId]) {
+      feeds[r.feedId] = feeds[r.feedId] ? feeds[r.feedId] + 1 : 1;
+    }
+  });
+  let best = 0;
+  let feedId;
+  Object.keys(feeds).forEach(key => {
+    const value = feeds[key];
+    if (value > best) {
+      best = value;
+      feedId = key;
+    }
+  });
+
+  const source = feedId && realTime[feedId];
+  if (source && source.active) {
     return {
       ...source,
-      agency,
+      feedId,
       options: routes,
     };
   }
@@ -330,11 +344,11 @@ function StopsNearYouMap(
       let sortedEdges;
       if (!isTransitMode) {
         const withNetworks = stopsNearYou.nearest.edges.filter(edge => {
-          return !!edge.node.place?.networks;
+          return !!edge.node.place?.network;
         });
         const filteredCityBikeEdges = withNetworks.filter(pattern => {
-          return pattern.node.place?.networks.every(network =>
-            getDefaultNetworks(context.config).includes(network),
+          return getDefaultNetworks(context.config).includes(
+            pattern.node.place?.network,
           );
         });
         sortedEdges = filteredCityBikeEdges
@@ -476,11 +490,15 @@ function StopsNearYouMap(
 
 StopsNearYouMap.propTypes = {
   currentTime: PropTypes.number.isRequired,
-  stopsNearYou: PropTypes.object.isRequired,
+  stopsNearYou: PropTypes.shape({
+    nearest: PropTypes.shape({
+      edges: PropTypes.arrayOf(PropTypes.object).isRequired,
+    }).isRequired,
+  }),
   prioritizedStopsNearYou: PropTypes.array,
-  favouriteIds: PropTypes.object.isRequired,
+  favouriteIds: PropTypes.object,
   mapLayers: PropTypes.object.isRequired,
-  mapLayerOptions: mapLayerOptionsShape.isRequired,
+  mapLayerOptions: mapLayerOptionsShape,
   position: dtLocationShape.isRequired,
   match: matchShape.isRequired,
   breakpoint: PropTypes.string.isRequired,
@@ -498,8 +516,10 @@ StopsNearYouMap.propTypes = {
 };
 
 StopsNearYouMap.defaultProps = {
+  stopsNearYou: null,
   showWalkRoute: false,
   loading: false,
+  favouriteIds: undefined,
 };
 
 StopsNearYouMap.contextTypes = {

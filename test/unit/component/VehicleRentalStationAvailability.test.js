@@ -1,21 +1,21 @@
 import React from 'react';
 
 import { mockChildContextTypes } from '../helpers/mock-context';
-import CityBikeAvailability from '../../../app/component/CityBikeAvailability';
+import VehicleRentalAvailability from '../../../app/component/VehicleRentalAvailability';
 import Availability from '../../../app/component/Availability';
 import { mountWithIntl } from '../helpers/mock-intl-enzyme';
 
-describe('<CityBikeAvailability />', () => {
+describe('<VehicleRentalStationAvailability />', () => {
   it('should render CityBikeAvailability with valid props', () => {
     const props = {
-      bikesAvailable: 1,
+      vehiclesAvailable: 1,
       totalSpaces: 3,
       fewAvailableCount: 3,
       fewerAvailableCount: 2,
       type: 'citybike',
       useSpacesAvailable: true,
     };
-    const wrapper = mountWithIntl(<CityBikeAvailability {...props} />, {
+    const wrapper = mountWithIntl(<VehicleRentalAvailability {...props} />, {
       context: {
         config: {
           cityBike: { useSpacesAvailable: true },

@@ -8,11 +8,12 @@ import { getJson } from '../util/xhrPromise';
 import getZoneId from '../util/zoneIconUtils';
 import ZoneIcon from './ZoneIcon';
 import withBreakpoint from '../util/withBreakpoint';
-import { hasStationCode } from '../util/citybikes';
+import { hasStationCode } from '../util/vehicleRentalUtils';
+import { getIdWithoutFeed } from '../util/feedScopedIdUtils';
 
 const modules = {
-  FavouriteBikeRentalStationContainer: () =>
-    importLazy(import('./FavouriteBikeRentalStationContainer')),
+  FavouriteVehicleRentalStationContainer: () =>
+    importLazy(import('./FavouriteVehicleRentalStationContainer')),
 };
 const ParkOrBikeStationHeader = ({ parkOrStation, breakpoint }, { config }) => {
   const [zoneId, setZoneId] = useState(undefined);
@@ -57,7 +58,9 @@ const ParkOrBikeStationHeader = ({ parkOrStation, breakpoint }, { config }) => {
           <FormattedMessage
             id={stationId ? 'citybike-station-no-id' : parkHeaderId}
           />
-          {hasStationCode(parkOrStation) && <StopCode code={stationId} />}
+          {stationId && hasStationCode(parkOrStation) && (
+            <StopCode code={getIdWithoutFeed(stationId)} />
+          )}
           {zoneId && (
             <span className="bike-station-zone-icon">
               <ZoneIcon zoneId={zoneId.toUpperCase()} />
@@ -67,9 +70,9 @@ const ParkOrBikeStationHeader = ({ parkOrStation, breakpoint }, { config }) => {
       </div>
       {stationId && (
         <LazilyLoad modules={modules}>
-          {({ FavouriteBikeRentalStationContainer }) => (
-            <FavouriteBikeRentalStationContainer
-              bikeRentalStation={parkOrStation}
+          {({ FavouriteVehicleRentalStationContainer }) => (
+            <FavouriteVehicleRentalStationContainer
+              vehicleRentalStation={parkOrStation}
             />
           )}
         </LazilyLoad>

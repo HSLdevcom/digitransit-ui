@@ -1,14 +1,16 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, intlShape } from 'react-intl';
 import { Link } from 'found';
 import connectToStores from 'fluxible-addons-react/connectToStores';
+import Modal from '@hsl-fi/modal';
 import { hasEntitiesOfType } from '../util/alertUtils';
 import { PREFIX_STOPS, PREFIX_TERMINALS } from '../util/path';
 import { AlertEntityType } from '../constants';
 import StopNearYouHeader from './StopNearYouHeader';
 import AlertBanner from './AlertBanner';
 import StopNearYouDepartureRowContainer from './StopNearYouDepartureRowContainer';
+import CapacityModal from './CapacityModal';
 
 const StopNearYou = (
   { stop, desc, stopId, currentTime, currentMode, relay },
@@ -17,6 +19,7 @@ const StopNearYou = (
   if (!stop.stoptimesWithoutPatterns) {
     return null;
   }
+  const [capacityModalOpen, setCapacityModalOpen] = useState(false);
   const stopMode = stop.stoptimesWithoutPatterns[0]?.trip.route.mode;
   useEffect(() => {
     let id = stop.gtfsId;
@@ -82,6 +85,7 @@ const StopNearYou = (
               mode={stopMode}
               stopTimes={stop.stoptimesWithoutPatterns}
               isStation={isStation && stopMode !== 'SUBWAY'}
+              setCapacityModalOpen={() => setCapacityModalOpen(true)}
             />
             <Link
               className="stop-near-you-more-departures"
@@ -99,6 +103,16 @@ const StopNearYou = (
           </>
         )}
       </div>
+      <Modal
+        appElement="#app"
+        contentLabel="Capacity modal"
+        closeButtonLabel="Close"
+        variant="small"
+        isOpen={capacityModalOpen}
+        onCrossClick={() => setCapacityModalOpen(false)}
+      >
+        <CapacityModal config={config} />
+      </Modal>
     </span>
   );
 };
