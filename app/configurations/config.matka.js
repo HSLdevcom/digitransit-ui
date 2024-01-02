@@ -21,7 +21,7 @@ export default {
   OTPTimeout: process.env.OTP_TIMEOUT || 30000,
   URL: {
     FONT:
-      'https://digitransit-prod-cdn-origin.azureedge.net/matka-fonts/roboto/roboto+montserrat.css',
+      'https://digitransit-prod-cdn-origin.azureedge.net/matka-fonts/montserrat/montserrat.css',
   },
 
   mainMenu: {
