@@ -168,6 +168,19 @@ export function reportError(error) {
   });
 }
 
+function addFeedbackly(context) {
+  const host = context.headers['x-forwarded-host'] || context.headers.host;
+  if (
+    get(context, 'config.showHSLTracking', false) &&
+    host &&
+    host.indexOf('127.0.0.1') === -1 &&
+    host.indexOf('localhost') === -1
+  ) {
+    // eslint-disable-next-line no-unused-expressions
+    import('../util/feedbackly');
+  }
+}
+
 const getTopicOptions = (context, planitineraries, match) => {
   const { config } = context;
   const { realTime, feedIds } = config;
@@ -1418,19 +1431,7 @@ class SummaryPage extends React.Component {
 
   componentDidMount() {
     this.updateLocalStorage(true);
-    const host =
-      this.context.headers &&
-      (this.context.headers['x-forwarded-host'] || this.context.headers.host);
-
-    if (
-      get(this.context, 'config.showHSLTracking', false) &&
-      host &&
-      host.indexOf('127.0.0.1') === -1 &&
-      host.indexOf('localhost') === -1
-    ) {
-      // eslint-disable-next-line no-unused-expressions
-      import('../util/feedbackly');
-    }
+    addFeedbackly(this.context);
     if (this.showVehicles()) {
       const { client } = this.context.getStore('RealTimeInformationStore');
       // If user comes from eg. RoutePage, old client may not have been completely shut down yet.
@@ -1459,9 +1460,7 @@ class SummaryPage extends React.Component {
     // screen reader alert when new itineraries are fetched
     if (
       this.props.match.params.hash === undefined &&
-      this.props.viewer &&
-      this.props.viewer.plan &&
-      this.props.viewer.plan.itineraries &&
+      this.props.viewer?.plan?.itineraries &&
       !this.secondQuerySent
     ) {
       this.showScreenreaderLoadedAlert();
@@ -1469,12 +1468,9 @@ class SummaryPage extends React.Component {
 
     const viaPoints = getIntermediatePlaces(this.props.match.location.query);
     if (
-      this.props.match.params.hash &&
-      (this.props.match.params.hash === 'walk' ||
-        this.props.match.params.hash === 'bike' ||
-        this.props.match.params.hash === 'bikeAndVehicle' ||
-        this.props.match.params.hash === 'car' ||
-        this.props.match.params.hash === 'parkAndRide')
+      ['walk', 'bike', 'bikeAndVehicle', 'car', 'parkAndRide'].includes(
+        this.props.match.params.hash,
+      )
     ) {
       // Reset streetmode selection if intermediate places change
       if (
@@ -1676,29 +1672,23 @@ class SummaryPage extends React.Component {
     return iconId;
   };
 
-  filterOnlyBikeAndWalk = itineraries => {
-    if (Array.isArray(itineraries)) {
-      return itineraries.filter(
+  filteredBikeAndPublic = plan => {
+    if (Array.isArray(plan?.itineraries)) {
+      return plan.itineraries.filter(
         itinerary =>
           !itinerary.legs.every(
             leg => leg.mode === 'WALK' || leg.mode === 'BICYCLE',
           ),
       );
     }
-    return itineraries;
-  };
-
-  filteredbikeAndPublic = plan => {
-    return {
-      itineraries: this.filterOnlyBikeAndWalk(plan?.itineraries),
-    };
+    return null;
   };
 
   makeWeatherQuery() {
     const from = otpToLocation(this.props.match.params.from);
     const { walkPlan, bikePlan } = this.state;
-    const bikeParkPlan = this.filteredbikeAndPublic(this.state.bikeParkPlan);
-    const bikeAndPublicPlan = this.filteredbikeAndPublic(
+    const bikeParkPlan = this.filteredBikeAndPublic(this.state.bikeParkPlan);
+    const bikeAndPublicPlan = this.filteredBikeAndPublic(
       this.state.bikeAndPublicPlan,
     );
     const itin =
@@ -2185,8 +2175,8 @@ class SummaryPage extends React.Component {
       plan = this.props.viewer?.plan;
     }
 
-    const bikeParkPlan = this.filteredbikeAndPublic(this.state.bikeParkPlan);
-    const bikeAndPublicPlan = this.filteredbikeAndPublic(
+    const bikeParkPlan = this.filteredBikeAndPublic(this.state.bikeParkPlan);
+    const bikeAndPublicPlan = this.filteredBikeAndPublic(
       this.state.bikeAndPublicPlan,
     );
     const planHasNoItineraries = this.planHasNoItineraries();
