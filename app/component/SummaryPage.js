@@ -1934,10 +1934,6 @@ class SummaryPage extends React.Component {
     this.internalSetOffcanvas(!this.getOffcanvasState());
   };
 
-  onRequestChange = newState => {
-    this.internalSetOffcanvas(newState);
-  };
-
   internalSetOffcanvas = newState => {
     if (this.headerRef.current && this.contentRef.current) {
       setTimeout(() => {
