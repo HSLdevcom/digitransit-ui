@@ -101,7 +101,7 @@ export const getActiveIndex = (
    * page by an external link, we check if an itinerary selection is
    * supplied in URL and make that the active selection.
    */
-  const lastURLSegment = pathname && pathname.split('/').pop();
+  const lastURLSegment = pathname?.split('/').pop();
   if (!Number.isNaN(Number(lastURLSegment))) {
     if (Number(lastURLSegment) >= itineraries.length) {
       return defaultValue;
@@ -132,22 +132,15 @@ export const getHashNumber = hash => {
   return undefined;
 };
 
-export const routeSelected = (hash, secondHash, itineraries) => {
+// this func is a bit fuzzy because it mopares strings and numbers
+const streetModeHash = ['walk', 'bike', 'car'];
+export const showDetailView = (hash, secondHash, itineraries) => {
   if (hash === 'bikeAndVehicle' || hash === 'parkAndRide') {
-    if (secondHash && secondHash < itineraries.length) {
-      return true;
-    }
-    return false;
+    // note that '0' < 1 in javascript, because strings are converted to numbers
+    return secondHash < itineraries.length;
   }
-  if (
-    (hash && hash < itineraries.length) ||
-    hash === 'walk' ||
-    hash === 'bike' ||
-    hash === 'car'
-  ) {
-    return true;
-  }
-  return false;
+  // note: (undefined < 1) === false
+  return streetModeHash.includes(hash) || hash < itineraries.length;
 };
 
 /**
@@ -184,11 +177,11 @@ function addFeedbackly(context) {
 const getTopicOptions = (context, planitineraries, match) => {
   const { config } = context;
   const { realTime, feedIds } = config;
-  const itineraries =
-    planitineraries &&
-    planitineraries.every(itinerary => itinerary !== undefined)
-      ? planitineraries
-      : [];
+  const itineraries = planitineraries?.every(
+    itinerary => itinerary !== undefined,
+  )
+    ? planitineraries
+    : [];
   const activeIndex =
     getHashNumber(
       match.params.secondHash ? match.params.secondHash : match.params.hash,
@@ -267,11 +260,11 @@ const getBounds = (itineraries, from, to, viaPoints) => {
  * @param {*} defaultItineraries
  * @returns boolean indicating weather or not the default settings provide a better plan
  */
+const legValuesToCompare = ['to', 'from', 'route', 'mode'];
 const compareItineraries = (itineraries, defaultItineraries) => {
   if (!itineraries || !defaultItineraries) {
     return false;
   }
-  const legValuesToCompare = ['to', 'from', 'route', 'mode'];
   for (let i = 0; i < itineraries.length; i++) {
     for (let j = 0; j < itineraries[i].legs.length; j++) {
       if (
@@ -287,9 +280,8 @@ const compareItineraries = (itineraries, defaultItineraries) => {
   return false;
 };
 
+const settingsToCompare = ['walkBoardCost', 'ticketTypes', 'walkReluctance'];
 const relevantRoutingSettingsChanged = config => {
-  const settingsToCompare = ['walkBoardCost', 'ticketTypes', 'walkReluctance'];
-
   const defaultSettings = getDefaultSettings(config);
   const currentSettings = getCurrentSettings(config);
   const defaultSettingsToCompare = pick(defaultSettings, settingsToCompare);
@@ -320,7 +312,7 @@ class SummaryPage extends React.Component {
     executeAction: PropTypes.func.isRequired,
     headers: PropTypes.object.isRequired,
     getStore: PropTypes.func,
-    router: routerShape.isRequired, // DT-3358
+    router: routerShape.isRequired,
     match: matchShape.isRequired,
     intl: intlShape.isRequired,
   };
@@ -365,8 +357,6 @@ class SummaryPage extends React.Component {
     this.secondQuerySent = false;
     this.setParamsAndQuery();
     this.originalPlan = this.props.viewer && this.props.viewer.plan;
-    this.origin = undefined;
-    this.destination = undefined;
     this.expandMap = 0;
     this.allModesQueryDone = false;
 
@@ -1849,12 +1839,11 @@ class SummaryPage extends React.Component {
     const { match, breakpoint } = this.props;
     const combinedItineraries = this.getCombinedItineraries();
     // summary or detail view ?
-    const detailView = routeSelected(
+    const detailView = showDetailView(
       match.params.hash,
       match.params.secondHash,
       combinedItineraries,
     );
-
     if (!detailView && breakpoint !== 'large') {
       // no map on mobile summary view
       return null;
@@ -2477,7 +2466,7 @@ class SummaryPage extends React.Component {
           ? selectedItineraries[activeIndex]
           : undefined;
         if (
-          routeSelected(
+          showDetailView(
             match.params.hash,
             match.params.secondHash,
             combinedItineraries,
@@ -2718,7 +2707,7 @@ class SummaryPage extends React.Component {
       }
     }
     if (
-      routeSelected(
+      showDetailView(
         match.params.hash,
         match.params.secondHash,
         combinedItineraries,
@@ -2810,7 +2799,7 @@ class SummaryPage extends React.Component {
     return (
       <MobileView
         header={
-          !routeSelected(
+          !showDetailView(
             match.params.hash,
             match.params.secondHash,
             combinedItineraries,
