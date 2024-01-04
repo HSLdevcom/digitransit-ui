@@ -122,7 +122,8 @@ export const getActiveIndex = (
   return itineraryIndex > 0 ? itineraryIndex : defaultValue;
 };
 
-export const getHashNumber = hash => {
+export const getHashIndex = params => {
+  const hash = params.secondHash || params.hash;
   if (hash) {
     if (hash === 'walk' || hash === 'bike' || hash === 'car') {
       return 0;
@@ -183,9 +184,7 @@ const getTopicOptions = (context, planitineraries, match) => {
     ? planitineraries
     : [];
   const activeIndex =
-    getHashNumber(
-      match.params.secondHash ? match.params.secondHash : match.params.hash,
-    ) || getActiveIndex(match.location, itineraries);
+    getHashIndex(match.params) || getActiveIndex(match.location, itineraries);
   const itineraryTopics = [];
 
   if (itineraries.length > 0) {
@@ -1856,9 +1855,8 @@ class SummaryPage extends React.Component {
     }
 
     const activeIndex =
-      getHashNumber(
-        match.params.secondHash ? match.params.secondHash : match.params.hash,
-      ) || getActiveIndex(match.location, filteredItineraries);
+      getHashIndex(match.params) ||
+      getActiveIndex(match.location, filteredItineraries);
 
     const mwtProps = {};
     if (this.state.bounds) {
@@ -2157,6 +2155,8 @@ class SummaryPage extends React.Component {
     const { match, error } = props;
     const { walkPlan, bikePlan, carPlan, parkRidePlan } = state;
     const { config } = context;
+    const { params } = match;
+    const { hash, secondHash } = params;
 
     let plan;
     /* NOTE: as a temporary solution, do filtering by feedId in UI */
@@ -2190,7 +2190,7 @@ class SummaryPage extends React.Component {
 
     this.bikeAndPublicItinerariesToShow = 0;
     this.bikeAndParkItinerariesToShow = 0;
-    if (match.params.hash === 'walk') {
+    if (hash === 'walk') {
       this.stopClient();
       if (state.isFetchingWalkAndBike) {
         return (
@@ -2200,7 +2200,7 @@ class SummaryPage extends React.Component {
         );
       }
       this.selectedPlan = walkPlan;
-    } else if (match.params.hash === 'bike') {
+    } else if (hash === 'bike') {
       this.stopClient();
       if (state.isFetchingWalkAndBike) {
         return (
@@ -2210,7 +2210,7 @@ class SummaryPage extends React.Component {
         );
       }
       this.selectedPlan = bikePlan;
-    } else if (match.params.hash === 'bikeAndVehicle') {
+    } else if (hash === 'bikeAndVehicle') {
       if (state.isFetchingWalkAndBike) {
         return (
           <>
@@ -2256,13 +2256,13 @@ class SummaryPage extends React.Component {
       this.bikeAndParkItinerariesToShow = hasBikeAndPublicPlan
         ? Math.min(bikeParkPlan.itineraries.length, 3)
         : 0;
-    } else if (match.params.hash === 'car') {
+    } else if (hash === 'car') {
       this.stopClient();
       if (state.isFetchingWalkAndBike) {
         return <Loading />;
       }
       this.selectedPlan = carPlan;
-    } else if (match.params.hash === 'parkAndRide') {
+    } else if (hash === 'parkAndRide') {
       if (state.isFetchingWalkAndBike) {
         return <Loading />;
       }
@@ -2350,8 +2350,8 @@ class SummaryPage extends React.Component {
         showBikeAndPublicOptionButton ||
         showCarOptionButton ||
         showParkRideOptionButton) &&
-      match.params.hash !== 'bikeAndVehicle' &&
-      match.params.hash !== 'parkAndRide';
+      hash !== 'bikeAndVehicle' &&
+      hash !== 'parkAndRide';
 
     const hasItineraries =
       this.selectedPlan && Array.isArray(this.selectedPlan.itineraries);
@@ -2388,8 +2388,8 @@ class SummaryPage extends React.Component {
 
     if (
       combinedItineraries.length > 0 &&
-      match.params.hash !== 'walk' &&
-      match.params.hash !== 'bikeAndVehicle' &&
+      hash !== 'walk' &&
+      hash !== 'bikeAndVehicle' &&
       !onlyHasWalkingItineraries
     ) {
       combinedItineraries = combinedItineraries.filter(
@@ -2402,18 +2402,18 @@ class SummaryPage extends React.Component {
       combinedItineraries = [];
     }
 
-    const hash = getHashNumber(
-      match.params.secondHash ? match.params.secondHash : match.params.hash,
-    );
+    const itineraryIndex = getHashIndex(params);
 
-    const from = otpToLocation(match.params.from);
-    const to = otpToLocation(match.params.to);
+    const from = otpToLocation(params.from);
+    const to = otpToLocation(params.to);
     const viaPoints = getIntermediatePlaces(match.location.query);
 
     if (match.routes.some(route => route.printPage) && hasItineraries) {
       return React.cloneElement(props.content, {
         itinerary:
-          combinedItineraries[hash < combinedItineraries.length ? hash : 0],
+          combinedItineraries[
+            itineraryIndex < combinedItineraries.length ? itineraryIndex : 0
+          ],
         focusToPoint: this.focusToPoint,
         from,
         to,
@@ -2456,17 +2456,13 @@ class SummaryPage extends React.Component {
               !relevantRoutingSettingsChanged(config))))
       ) {
         const activeIndex =
-          hash || getActiveIndex(match.location, combinedItineraries);
+          itineraryIndex || getActiveIndex(match.location, combinedItineraries);
         const selectedItineraries = combinedItineraries;
         const selectedItinerary = selectedItineraries
           ? selectedItineraries[activeIndex]
           : undefined;
         if (
-          showDetailView(
-            match.params.hash,
-            match.params.secondHash,
-            combinedItineraries,
-          ) &&
+          showDetailView(hash, secondHash, combinedItineraries) &&
           combinedItineraries.length > 0
         ) {
           const currentTime = {
@@ -2530,7 +2526,7 @@ class SummaryPage extends React.Component {
               serviceTimeRange={serviceTimeRange}
               routingErrors={this.selectedPlan.routingErrors}
               itineraries={selectedItineraries}
-              params={match.params}
+              params={params}
               error={error || state.error}
               bikeAndPublicItinerariesToShow={
                 this.bikeAndPublicItinerariesToShow
@@ -2577,7 +2573,7 @@ class SummaryPage extends React.Component {
             <Loading />
           </div>
         );
-        return hash !== undefined ? (
+        return itineraryIndex !== undefined ? (
           <DesktopView
             title={
               <FormattedMessage
@@ -2600,7 +2596,7 @@ class SummaryPage extends React.Component {
             }
             header={
               <React.Fragment>
-                <SummaryNavigation params={match.params} />
+                <SummaryNavigation params={params} />
                 <StreetModeSelector loading />
               </React.Fragment>
             }
@@ -2617,13 +2613,11 @@ class SummaryPage extends React.Component {
               defaultMessage="Itinerary suggestions"
             />
           }
-          bckBtnFallback={
-            match.params.hash === 'bikeAndVehicle' ? 'pop' : undefined
-          }
+          bckBtnFallback={hash === 'bikeAndVehicle' ? 'pop' : undefined}
           header={
             <span aria-hidden={this.getOffcanvasState()} ref={this.headerRef}>
               <SummaryNavigation
-                params={match.params}
+                params={params}
                 serviceTimeRange={serviceTimeRange}
                 startTime={earliestStartTime}
                 endTime={latestArrivalTime}
@@ -2654,7 +2648,7 @@ class SummaryPage extends React.Component {
                   }
                 />
               )}
-              {match.params.hash === 'parkAndRide' && (
+              {hash === 'parkAndRide' && (
                 <div className="street-mode-info">
                   <FormattedMessage
                     id="leave-your-car-park-and-ride"
@@ -2698,22 +2692,18 @@ class SummaryPage extends React.Component {
           <Loading />
         </div>
       );
-      if (hash !== undefined) {
+      if (itineraryIndex !== undefined) {
         return content;
       }
     }
     if (
-      showDetailView(
-        match.params.hash,
-        match.params.secondHash,
-        combinedItineraries,
-      ) &&
+      showDetailView(hash, secondHash, combinedItineraries) &&
       combinedItineraries.length > 0
     ) {
       content = (
         <MobileItineraryWrapper
           itineraries={combinedItineraries}
-          params={match.params}
+          params={params}
           focusToPoint={this.focusToPoint}
           plan={this.selectedPlan}
           serviceTimeRange={props.serviceTimeRange}
@@ -2746,16 +2736,17 @@ class SummaryPage extends React.Component {
           <>
             <SummaryPlanContainer
               activeIndex={
-                hash || getActiveIndex(match.location, combinedItineraries)
+                itineraryIndex ||
+                getActiveIndex(match.location, combinedItineraries)
               }
               plan={this.selectedPlan}
               serviceTimeRange={serviceTimeRange}
               routingErrors={this.selectedPlan.routingErrors}
               itineraries={combinedItineraries}
-              params={match.params}
+              params={params}
               error={error || state.error}
-              from={match.params.from}
-              to={match.params.to}
+              from={params.from}
+              to={params.to}
               intermediatePlaces={viaPoints}
               bikeAndPublicItinerariesToShow={
                 this.bikeAndPublicItinerariesToShow
@@ -2795,14 +2786,10 @@ class SummaryPage extends React.Component {
     return (
       <MobileView
         header={
-          !showDetailView(
-            match.params.hash,
-            match.params.secondHash,
-            combinedItineraries,
-          ) ? (
+          !showDetailView(hash, secondHash, combinedItineraries) ? (
             <span aria-hidden={this.getOffcanvasState()} ref={this.headerRef}>
               <SummaryNavigation
-                params={match.params}
+                params={params}
                 serviceTimeRange={serviceTimeRange}
                 startTime={earliestStartTime}
                 endTime={latestArrivalTime}
@@ -2833,7 +2820,7 @@ class SummaryPage extends React.Component {
                   }
                 />
               )}
-              {match.params.hash === 'parkAndRide' && (
+              {hash === 'parkAndRide' && (
                 <div className="street-mode-info">
                   <FormattedMessage
                     id="leave-your-car-park-and-ride"
