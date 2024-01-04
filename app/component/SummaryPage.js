@@ -84,11 +84,11 @@ const POINT_FOCUS_ZOOM = 16; // used when focusing to a point
  * @param {*} itineraries the itineraries retrieved from OTP.
  * @param {number} defaultValue the default value, defaults to 0.
  */
-export const getActiveIndex = (
+export function getActiveIndex(
   { pathname, state } = {},
   itineraries = [],
   defaultValue = 0,
-) => {
+) {
   if (state) {
     if (state.summaryPageSelected >= itineraries.length) {
       return defaultValue;
@@ -120,9 +120,9 @@ export const getActiveIndex = (
     return defaultValue;
   }
   return itineraryIndex > 0 ? itineraryIndex : defaultValue;
-};
+}
 
-export const getHashIndex = params => {
+export function getHashIndex(params) {
   const hash = params.secondHash || params.hash;
   if (hash) {
     if (hash === 'walk' || hash === 'bike' || hash === 'car') {
@@ -131,7 +131,7 @@ export const getHashIndex = params => {
     return Number(hash);
   }
   return undefined;
-};
+}
 
 // this func is a bit fuzzy because it mopares strings and numbers
 const streetModeHash = ['walk', 'bike', 'car'];
@@ -162,7 +162,7 @@ export function reportError(error) {
   });
 }
 
-function addFeedbackly(context) {
+export function addFeedbackly(context) {
   const host = context.headers['x-forwarded-host'] || context.headers.host;
   if (
     get(context, 'config.showHSLTracking', false) &&
@@ -174,7 +174,7 @@ function addFeedbackly(context) {
   }
 }
 
-const getTopicOptions = (config, planitineraries, match) => {
+export function getTopicOptions(config, planitineraries, match) {
   const { realTime, feedIds } = config;
   const itineraries = planitineraries?.every(
     itinerary => itinerary !== undefined,
@@ -224,9 +224,9 @@ const getTopicOptions = (config, planitineraries, match) => {
     });
   }
   return itineraryTopics;
-};
+}
 
-const getBounds = (itineraries, from, to, viaPoints) => {
+export function getBounds(itineraries, from, to, viaPoints) {
   // Decode all legs of all itineraries into latlong arrays,
   // and concatenate into one big latlong array
   const bounds = [
@@ -247,7 +247,7 @@ const getBounds = (itineraries, from, to, viaPoints) => {
       )
       .filter(a => a[0] && a[1]),
   );
-};
+}
 
 /**
  * Compares the current plans itineraries with the itineraries with default settings, if plan with default settings provides different
@@ -258,7 +258,7 @@ const getBounds = (itineraries, from, to, viaPoints) => {
  * @returns boolean indicating weather or not the default settings provide a better plan
  */
 const legValuesToCompare = ['to', 'from', 'route', 'mode'];
-const compareItineraries = (itineraries, defaultItineraries) => {
+export function compareItineraries(itineraries, defaultItineraries) {
   if (!itineraries || !defaultItineraries) {
     return false;
   }
@@ -275,10 +275,10 @@ const compareItineraries = (itineraries, defaultItineraries) => {
     }
   }
   return false;
-};
+}
 
 const settingsToCompare = ['walkBoardCost', 'ticketTypes', 'walkReluctance'];
-const relevantRoutingSettingsChanged = config => {
+export function relevantRoutingSettingsChanged(config) {
   const defaultSettings = getDefaultSettings(config);
   const currentSettings = getCurrentSettings(config);
   const defaultSettingsToCompare = pick(defaultSettings, settingsToCompare);
@@ -288,9 +288,9 @@ const relevantRoutingSettingsChanged = config => {
     isEqual(defaultSettingsToCompare, currentSettingsToCompare) &&
     defaultSettings.modes.every(m => currentSettings.modes.includes(m))
   );
-};
+}
 
-const setCurrentTimeToURL = (config, match) => {
+export function setCurrentTimeToURL(config, match) {
   if (config.NODE_ENV !== 'test' && !match.location?.query?.time) {
     const newLocation = {
       ...match.location,
@@ -301,7 +301,7 @@ const setCurrentTimeToURL = (config, match) => {
     };
     match.router.replace(newLocation);
   }
-};
+}
 
 class SummaryPage extends React.Component {
   static contextTypes = {
