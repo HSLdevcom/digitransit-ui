@@ -66,7 +66,7 @@ function TripLinkWithScroll(
           stopName,
           nextStopName,
           mode: localizedMode,
-          shortName: vehicleNumber,
+          shortName: vehicleNumber.toLowerCase(),
         },
       )
     : context.intl.formatMessage(
@@ -74,7 +74,11 @@ function TripLinkWithScroll(
           id: 'route-page-vehicle-position',
           defaultMessage: '{mode} {shortName} is at {stopName}',
         },
-        { stopName, mode: localizedMode, shortName: vehicleNumber },
+        {
+          stopName,
+          mode: localizedMode,
+          shortName: vehicleNumber.toLowerCase(),
+        },
       );
   if (selected) {
     ariaMessage += context.intl.formatMessage({

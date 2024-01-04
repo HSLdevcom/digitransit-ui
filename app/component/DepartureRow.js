@@ -150,7 +150,10 @@ const DepartureRow = (
       >
         {renderWithLink(
           <>
-            <div className="route-number">{shortName}</div>
+            <div aria-hidden="true" className="route-number">
+              {shortName}
+            </div>
+            <span className="sr-only">{shortName.toLowerCase()}</span>
             {icon && (
               <>
                 <Icon

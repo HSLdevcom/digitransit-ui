@@ -118,7 +118,6 @@ class RoutePage extends React.Component {
             </div>
             <div className="route-info">
               <h1
-                aria-label={label.toLowerCase()}
                 className={cx('route-short-name', mode.toLowerCase())}
                 style={{ color: route.color ? `#${route.color}` : null }}
               >
@@ -126,8 +125,9 @@ class RoutePage extends React.Component {
                   {this.context.intl.formatMessage({
                     id: mode.toLowerCase(),
                   })}{' '}
+                  {label.toLowerCase()}
                 </span>
-                {label}
+                <span aria-hidden="true">{label}</span>
               </h1>
               {tripId && headsign && (
                 <div className="trip-destination">

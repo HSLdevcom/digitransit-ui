@@ -677,7 +677,6 @@ const SummaryRow = (
       <LocalTime time={endTime} />
     </div>
   );
-
   //  accessible representation for summary
   const textSummary = (
     <div className="sr-only" key="screenReader">
@@ -694,7 +693,7 @@ const SummaryRow = (
                 <FormattedMessage
                   id="itinerary-summary-row.first-departure"
                   values={{
-                    vehicle: vehicleNames[0],
+                    vehicle: vehicleNames[0].toLowerCase(),
                     departureTime: firstDeparture ? (
                       <LocalTime time={firstDeparture.startTime} />
                     ) : (
