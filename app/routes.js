@@ -97,9 +97,9 @@ export default config => {
                   }
                 }
               `}
-              render={({ Component, props, error, match, retry }) => {
+              render={({ Component, props, error, retry }) => {
                 if (Component && (props || error)) {
-                  return <Component {...props} match={match} error={error} />;
+                  return <Component {...props} error={error} />;
                 }
                 return getComponentOrLoadingRenderer({
                   Component,
@@ -154,9 +154,9 @@ export default config => {
                     }
                   }
                 `}
-                render={({ Component, props, error, match, retry }) => {
+                render={({ Component, props, error, retry }) => {
                   if (Component && (props || error)) {
-                    return <Component {...props} match={match} error={error} />;
+                    return <Component {...props} error={error} />;
                   }
                   return getComponentOrLoadingRenderer({
                     Component,
@@ -209,9 +209,9 @@ export default config => {
                   }
                 `}
                 prepareVariables={prepareWeekDays}
-                render={({ Component, props, error, match, retry }) => {
+                render={({ Component, props, error, retry }) => {
                   if (Component && (props || error)) {
-                    return <Component {...props} match={match} error={error} />;
+                    return <Component {...props} error={error} />;
                   }
                   return getComponentOrLoadingRenderer({
                     Component,
@@ -252,12 +252,12 @@ export default config => {
                   /* webpackChunkName: "nearyou" */ './component/StopsNearYouPage'
                 ).then(getDefault)
               }
-              render={({ Component, props, error, match }) => {
+              render={({ Component, props, error }) => {
                 if (Component) {
                   return props ? (
-                    <Component {...props} match={match} error={error} />
+                    <Component {...props} error={error} />
                   ) : (
-                    <Component match={match} error={error} />
+                    <Component error={error} />
                   );
                 }
                 return undefined;
@@ -380,9 +380,9 @@ export default config => {
                   /* webpackChunkName: "itinerary" */ './component/SummaryPageContainer'
                 ).then(getDefault)
               }
-              render={({ Component, props, match }) => {
+              render={({ Component, props }) => {
                 if (Component) {
-                  return <Component {...props} match={match} />;
+                  return <Component {...props} />;
                 }
                 return undefined;
               }}
