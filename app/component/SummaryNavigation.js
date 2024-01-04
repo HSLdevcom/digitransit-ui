@@ -26,7 +26,6 @@ class SummaryNavigation extends React.Component {
       end: PropTypes.number.isRequired,
     }).isRequired,
     toggleSettings: PropTypes.func.isRequired,
-    scrolled: PropTypes.bool.isRequired,
   };
 
   static defaultProps = {
@@ -71,11 +70,7 @@ class SummaryNavigation extends React.Component {
   render() {
     const className = cx({ 'bp-large': this.props.breakpoint === 'large' });
     return (
-      <div
-        className={cx('summary-navigation-container', {
-          'summary-navigation-container-scrolled': this.props.scrolled,
-        })}
-      >
+      <div className="summary-navigation-container">
         {this.props.breakpoint !== 'large' && (
           <BackButton
             title={
