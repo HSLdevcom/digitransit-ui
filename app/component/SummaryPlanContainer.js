@@ -141,7 +141,7 @@ class SummaryPlanContainer extends React.Component {
       action: 'OpenItineraryDetails',
       name: index,
     });
-    const newState = {
+    const newLocation = {
       ...this.context.match.location,
       state: { summaryPageSelected: index },
     };
@@ -154,10 +154,10 @@ class SummaryPlanContainer extends React.Component {
       this.props.params.to,
     )}${subpath}${index}`;
 
-    newState.pathname = basePath;
-    this.context.router.replace(newState);
-    newState.pathname = indexPath;
-    this.context.router.push(newState);
+    newLocation.pathname = basePath;
+    this.context.router.replace(newLocation);
+    newLocation.pathname = indexPath;
+    this.context.router.push(newLocation);
     this.props.onDetailsTabFocused();
   };
 
