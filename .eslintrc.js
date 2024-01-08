@@ -1,11 +1,10 @@
 module.exports = {
-  parser: 'babel-eslint',
+  parser: '@babel/eslint-parser',
   extends: [
     'plugin:compat/recommended',
     'plugin:jsx-a11y/recommended',
     'airbnb',
-    'prettier',
-    'prettier/react',
+    'plugin:prettier/recommended',
   ],
   rules: {
     curly: ['error', 'all'],
