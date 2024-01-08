@@ -93,7 +93,7 @@ export const shouldShowFareInfo = config =>
   config.feedIds.some(feedId => config.availableTickets[feedId]);
 
 export const shouldShowFarePurchaseInfo = (config, breakpoint, fares) => {
-  const unknownFares = fares.some(fare => fare.isUnknown);
+  const unknownFares = fares?.some(fare => fare.isUnknown);
   // Windows phones or Huawei should only show ticket information.
   const { userAgent } = navigator;
   const huaweiPattern = /(?:huaweibrowser|huawei|emui|hmscore|honor)/i;

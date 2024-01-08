@@ -48,7 +48,7 @@ function DesktopDatetimepicker({
   moment.tz.setDefault(timeZone);
   const [displayValue, changeDisplayValue] = useState(getDisplay(value));
   const [typing, setTyping] = useState(false);
-
+  const [showAllOptions, setShowAllOptions] = useState(true);
   useEffect(() => changeDisplayValue(getDisplay(value)), [value]);
 
   // newValue is string
@@ -73,7 +73,13 @@ function DesktopDatetimepicker({
     return clockRegex.test(str) || str.length < 5;
   }
   const onInputChange = (newValue, { action }) => {
-    if (disableTyping || !isValidInput(newValue)) {
+    if (action === 'menu-close') {
+      setShowAllOptions(true);
+    } else if (showAllOptions) {
+      setShowAllOptions(false);
+    }
+
+    if (disableTyping || (newValue && !isValidInput(newValue))) {
       return;
     }
     if (action === 'input-change') {
@@ -150,7 +156,7 @@ function DesktopDatetimepicker({
           inputValue={!disableTyping && displayValue}
           value={closestOption}
           filterOption={(option, input) => {
-            if (datePicker) {
+            if (datePicker || showAllOptions) {
               return true;
             }
             if (input.length < 1 || input.length > 5) {

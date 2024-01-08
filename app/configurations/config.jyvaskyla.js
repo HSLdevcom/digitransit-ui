@@ -156,6 +156,8 @@ export default configMerger(walttiConfig, {
     ],
   },
 
+  geoJsonSvgSize: 30,
+
   zoneIdMapping: {
     1: 'A',
     2: 'B',

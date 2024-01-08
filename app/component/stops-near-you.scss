@@ -450,6 +450,10 @@
     .disruption-source-label {
       font-weight: $font-weight-medium;
     }
+
+    .disruption-message-font-weight {
+      font-weight: $disruption-message-font-weight;
+    }
   }
   .disruption-show-more {
     font-weight: $font-weight-medium;

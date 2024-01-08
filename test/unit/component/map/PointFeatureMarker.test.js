@@ -146,7 +146,7 @@ describe('<PointFeatureMarker />', () => {
 
   describe('getCustomIcon', () => {
     it('should return a scaled custom icon', () => {
-      const icon = getCustomIcon(CUSTOM_ICON_MIN_ZOOM, 'foobar');
+      const icon = getCustomIcon(CUSTOM_ICON_MIN_ZOOM, 'foobar', 20);
       expect(icon.options.iconAnchor[0]).to.equal(
         (icon.options.iconSize[0] * 1) / 2,
       );

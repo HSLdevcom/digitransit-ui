@@ -149,7 +149,7 @@
 
     .alert-body {
       font-size: $font-size-small;
-      font-weight: 200;
+      font-weight: $disruption-message-font-weight;
       white-space: pre-wrap;
 
       .alert-url {

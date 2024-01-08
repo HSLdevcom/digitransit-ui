@@ -284,6 +284,7 @@ class GeoJSON extends React.Component {
               key={feature.id}
               locationPopup={this.props.locationPopup}
               onSelectLocation={this.props.onSelectLocation}
+              size={this.context.config.geoJsonSvgSize}
             />
           ))}
       </React.Fragment>

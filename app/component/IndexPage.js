@@ -289,6 +289,7 @@ class IndexPage extends React.Component {
       fontWeights,
       modeIconColors: config.colors.iconColors,
       modeSet: config.iconModeSet,
+      geocodingSize: 25,
     };
 
     if (config.stopSearchFilter) {
