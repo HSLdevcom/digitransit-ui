@@ -117,7 +117,7 @@ class FavouriteEditingModal extends React.Component {
     });
   }
 
-  static getDerivedStateFromProps = (nextProps, prevState) => {
+  static getDerivedStateFromProps(nextProps, prevState) {
     const nextFavourites = nextProps.favourites;
     const prevFavourites = prevState.favourites;
     if (
@@ -132,13 +132,13 @@ class FavouriteEditingModal extends React.Component {
       };
     }
     return null;
-  };
+  }
 
-  componentDidUpdate = () => {
+  componentDidUpdate() {
     if (i18next.language !== this.props.lang) {
       i18next.changeLanguage(this.props.lang);
     }
-  };
+  }
 
   moveFavourite = (i, direction) => {
     const { favourites } = this.state;

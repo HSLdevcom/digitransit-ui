@@ -338,12 +338,8 @@ class FavouriteBar extends React.Component {
 
   render() {
     const { onClickFavourite, isLoading, fontWeights } = this.props;
-    const {
-      listOpen,
-      favourites,
-      firstFavourite,
-      secondFavourite,
-    } = this.state;
+    const { listOpen, favourites, firstFavourite, secondFavourite } =
+      this.state;
     const expandIcon = this.props.favourites.length === 0 ? 'plus' : 'arrow';
 
     if (i18next.language !== this.props.lang) {

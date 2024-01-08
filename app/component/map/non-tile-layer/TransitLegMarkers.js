@@ -219,9 +219,9 @@ class TransitLegMarkers extends React.Component {
     this.props.leaflet.map.on('zoomend', this.onMapZoom);
   }
 
-  componentWillUnmount = () => {
+  componentWillUnmount() {
     this.props.leaflet.map.off('zoomend', this.onMapZoom);
-  };
+  }
 
   onMapZoom = () => {
     this.forceUpdate();

@@ -73,12 +73,9 @@ export default configMerger(walttiConfig, {
       {
         name: 'menu-feedback',
         href: {
-          fi:
-            'https://www.raasepori.fi/asuminen-ja-ymparisto/liikenne-ja-veneily/joukkoliikenteen-yhteystiedot/',
-          sv:
-            'https://www.raseborg.fi/boende-och-miljo/trafik-och-batliv/kollektivtrafikens-kontaktuppgifter/',
-          en:
-            'https://www.raseborg.fi/boende-och-miljo/trafik-och-batliv/kollektivtrafikens-kontaktuppgifter/',
+          fi: 'https://www.raasepori.fi/asuminen-ja-ymparisto/liikenne-ja-veneily/joukkoliikenteen-yhteystiedot/',
+          sv: 'https://www.raseborg.fi/boende-och-miljo/trafik-och-batliv/kollektivtrafikens-kontaktuppgifter/',
+          en: 'https://www.raseborg.fi/boende-och-miljo/trafik-och-batliv/kollektivtrafikens-kontaktuppgifter/',
         },
       },
       {

@@ -12,9 +12,8 @@ import {
 function VehicleRentalDurationInfo(props) {
   const { networks, lang, config } = props;
   if (networks.length === 1) {
-    const vehicleRentalStationNetwork = getVehicleRentalStationNetworkId(
-      networks,
-    );
+    const vehicleRentalStationNetwork =
+      getVehicleRentalStationNetworkId(networks);
     const vehicleIcon = getVehicleRentalStationNetworkIcon(
       getVehicleRentalStationNetworkConfig(vehicleRentalStationNetwork, config),
     );

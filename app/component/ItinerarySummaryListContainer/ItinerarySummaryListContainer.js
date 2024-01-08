@@ -148,8 +148,9 @@ function ItinerarySummaryListContainer(
       return null;
     }
 
-    const canceledItinerariesCount = itineraries.filter(itineraryHasCancelation)
-      .length;
+    const canceledItinerariesCount = itineraries.filter(
+      itineraryHasCancelation,
+    ).length;
     return (
       <>
         <div className="summary-list-container" role="list">

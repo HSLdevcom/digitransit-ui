@@ -29,45 +29,43 @@ function MobileTimepicker({
     }
   }, []);
   return (
-    <>
-      <label className={styles['input-container']} htmlFor={inputId}>
-        <span>{icon}</span>
-        <span className={styles['sr-only']} id={labelId}>
-          {label}
-        </span>
-        <input
-          id={inputId}
-          inputMode="numeric"
-          type="text"
-          maxLength="6"
-          className={styles['time-input-mobile']}
-          value={inputValue}
-          onFocus={e => {
-            e.target.setSelectionRange(0, 0); // set caret to start of input
-          }}
-          onChange={event => {
-            let newValue = event.target.value;
-            if (
-              // number typed as first char => clear rest of the input
-              newValue.match(/[0-9]{3}:[0-9]{2}/) &&
-              newValue.slice(1) === inputValue
-            ) {
-              newValue = newValue.charAt(0);
-            }
-            if (newValue.length > 5) {
-              return;
-            }
-            const actual = utils.parseTypedTime(newValue);
-            changeInputValue(actual);
-            const timestamp = validate(actual, value);
-            if (timestamp) {
-              onChange(timestamp);
-            }
-          }}
-          ref={timeInputRef}
-        />
-      </label>
-    </>
+    <label className={styles['input-container']} htmlFor={inputId}>
+      <span>{icon}</span>
+      <span className={styles['sr-only']} id={labelId}>
+        {label}
+      </span>
+      <input
+        id={inputId}
+        inputMode="numeric"
+        type="text"
+        maxLength="6"
+        className={styles['time-input-mobile']}
+        value={inputValue}
+        onFocus={e => {
+          e.target.setSelectionRange(0, 0); // set caret to start of input
+        }}
+        onChange={event => {
+          let newValue = event.target.value;
+          if (
+            // number typed as first char => clear rest of the input
+            newValue.match(/[0-9]{3}:[0-9]{2}/) &&
+            newValue.slice(1) === inputValue
+          ) {
+            newValue = newValue.charAt(0);
+          }
+          if (newValue.length > 5) {
+            return;
+          }
+          const actual = utils.parseTypedTime(newValue);
+          changeInputValue(actual);
+          const timestamp = validate(actual, value);
+          if (timestamp) {
+            onChange(timestamp);
+          }
+        }}
+        ref={timeInputRef}
+      />
+    </label>
   );
 }
 MobileTimepicker.propTypes = {

@@ -81,15 +81,8 @@ class RoutePageMap extends React.Component {
   }
 
   render() {
-    const {
-      pattern,
-      lat,
-      lon,
-      match,
-      breakpoint,
-      mapLayers,
-      mapLayerOptions,
-    } = this.props;
+    const { pattern, lat, lon, match, breakpoint, mapLayers, mapLayerOptions } =
+      this.props;
     if (!pattern) {
       return false;
     }
@@ -169,12 +162,10 @@ class RoutePageMap extends React.Component {
         setMWTRef={this.setMWTRef}
       >
         {breakpoint !== 'large' && (
-          <React.Fragment>
-            <BackButton
-              icon="icon-icon_arrow-collapse--left"
-              iconClassName="arrow-icon"
-            />
-          </React.Fragment>
+          <BackButton
+            icon="icon-icon_arrow-collapse--left"
+            iconClassName="arrow-icon"
+          />
         )}
         {this.context.config.useCookiesPrompt && <CookieSettingsButton />}
       </MapWithTracking>

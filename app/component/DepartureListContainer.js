@@ -116,12 +116,11 @@ class DepartureListContainer extends Component {
 
   componentDidMount() {
     if (this.pageLoadedAlertRef.current) {
-      this.pageLoadedAlertRef.current.innerHTML = this.context.intl.formatMessage(
-        {
+      this.pageLoadedAlertRef.current.innerHTML =
+        this.context.intl.formatMessage({
           id: 'stop-page.right-now.loaded',
           defaultMessage: 'Right now stop page loaded',
-        },
-      );
+        });
       setTimeout(() => {
         if (this.pageLoadedAlertRef?.current) {
           this.pageLoadedAlertRef.current.innerHTML = null;

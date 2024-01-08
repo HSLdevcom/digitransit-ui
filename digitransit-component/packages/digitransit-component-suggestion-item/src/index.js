@@ -276,14 +276,8 @@ const SuggestionItem = pure(
     getAutoSuggestIcons,
     modeSet = 'default',
   }) => {
-    const [
-      suggestionType,
-      name,
-      label,
-      stopCode,
-      modes,
-      platform,
-    ] = content || ['', item.name, item.address];
+    const [suggestionType, name, label, stopCode, modes, platform] =
+      content || ['', item.name, item.address];
     const [iconId, iconColor] = getIconProperties(
       item,
       color,

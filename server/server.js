@@ -310,9 +310,8 @@ setUpStaticFolders();
 setUpMiddleware();
 setUpRoutes();
 setUpErrorHandling();
-Promise.all([
-  setUpAvailableRouteTimetables(),
-  setUpAvailableTickets(),
-]).then(() => startServer());
+Promise.all([setUpAvailableRouteTimetables(), setUpAvailableTickets()]).then(
+  () => startServer(),
+);
 
 module.exports.app = app;

@@ -219,13 +219,8 @@ export default class SwipeableTabs extends React.Component {
   };
 
   render() {
-    const {
-      tabs,
-      hideArrows,
-      navigationOnBottom,
-      ariaFrom,
-      ariaFromHeader,
-    } = this.props;
+    const { tabs, hideArrows, navigationOnBottom, ariaFrom, ariaFromHeader } =
+      this.props;
     const { intl } = this.context;
     const tabBalls = this.tabBalls(tabs.length);
     const disabled = tabBalls.length < 2;

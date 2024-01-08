@@ -108,14 +108,12 @@ class SummaryNavigation extends React.Component {
           modeSet={this.context.config.iconModeSet}
         />
         {isBrowser && (
-          <React.Fragment>
-            <QuickSettingsPanel
-              timeSelectorStartTime={this.props.startTime}
-              timeSelectorEndTime={this.props.endTime}
-              timeSelectorServiceTimeRange={this.props.serviceTimeRange}
-              toggleSettings={this.props.toggleSettings}
-            />
-          </React.Fragment>
+          <QuickSettingsPanel
+            timeSelectorStartTime={this.props.startTime}
+            timeSelectorEndTime={this.props.endTime}
+            timeSelectorServiceTimeRange={this.props.serviceTimeRange}
+            toggleSettings={this.props.toggleSettings}
+          />
         )}
       </div>
     );

@@ -32,9 +32,8 @@ const EmbeddedSearchGenerator = (props, context) => {
   const [chooseFreely, setChooseFreely] = useState(true);
   const [searchOriginDefined, setSearchOriginDefined] = useState(false);
   const [searchOrigin, setSearchOrigin] = useState();
-  const [searchDestinationDefined, setSearchDestinationDefined] = useState(
-    false,
-  );
+  const [searchDestinationDefined, setSearchDestinationDefined] =
+    useState(false);
   const [searchDestination, setSearchDestination] = useState();
 
   const originIsCurrentLocation = () =>

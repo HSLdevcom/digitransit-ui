@@ -186,27 +186,27 @@ export const planQuery = graphql`
   ) {
     viewer {
       ...SummaryPage_viewer
-      @arguments(
-        fromPlace: $fromPlace
-        toPlace: $toPlace
-        numItineraries: $numItineraries
-        modes: $modes
-        date: $date
-        time: $time
-        walkReluctance: $walkReluctance
-        walkBoardCost: $walkBoardCost
-        minTransferTime: $minTransferTime
-        walkSpeed: $walkSpeed
-        wheelchair: $wheelchair
-        ticketTypes: $ticketTypes
-        arriveBy: $arriveBy
-        transferPenalty: $transferPenalty
-        bikeSpeed: $bikeSpeed
-        optimize: $optimize
-        unpreferred: $unpreferred
-        allowedBikeRentalNetworks: $allowedBikeRentalNetworks
-        modeWeight: $modeWeight
-      )
+        @arguments(
+          fromPlace: $fromPlace
+          toPlace: $toPlace
+          numItineraries: $numItineraries
+          modes: $modes
+          date: $date
+          time: $time
+          walkReluctance: $walkReluctance
+          walkBoardCost: $walkBoardCost
+          minTransferTime: $minTransferTime
+          walkSpeed: $walkSpeed
+          wheelchair: $wheelchair
+          ticketTypes: $ticketTypes
+          arriveBy: $arriveBy
+          transferPenalty: $transferPenalty
+          bikeSpeed: $bikeSpeed
+          optimize: $optimize
+          unpreferred: $unpreferred
+          allowedBikeRentalNetworks: $allowedBikeRentalNetworks
+          modeWeight: $modeWeight
+        )
     }
 
     serviceTimeRange {

@@ -20,51 +20,49 @@ const SelectFromMapHeaderComponent = (props, { config, intl }) => {
   }`;
 
   return (
-    <React.Fragment>
-      <div className="select-from-map-nav-container">
-        <button
-          className={`from-map-modal-nav-button ${backBtnCursorPointerClassName}`}
-          onClick={props.hideBackBtn ? undefined : props.onBackBtnClick}
-          aria-label={intl.formatMessage({
-            id: 'back-button-title',
-            defaultMessage: 'Go back to previous page',
-          })}
-        >
-          {!props.hideBackBtn && (
-            <Icon
-              img={props.backBtnIcon}
-              color={config.colors.primary}
-              className={`${props.iconClassName} ${backBtnCursorPointerClassName}`}
-            />
-          )}
-        </button>
-        {title && !props.titleClassName && !props.titleCustomStyle && (
-          <div className="select-from-map-nav-title">{title}</div>
+    <div className="select-from-map-nav-container">
+      <button
+        className={`from-map-modal-nav-button ${backBtnCursorPointerClassName}`}
+        onClick={props.hideBackBtn ? undefined : props.onBackBtnClick}
+        aria-label={intl.formatMessage({
+          id: 'back-button-title',
+          defaultMessage: 'Go back to previous page',
+        })}
+      >
+        {!props.hideBackBtn && (
+          <Icon
+            img={props.backBtnIcon}
+            color={config.colors.primary}
+            className={`${props.iconClassName} ${backBtnCursorPointerClassName}`}
+          />
         )}
-        {title && props.titleClassName && !props.titleCustomStyle && (
-          <span className={props.titleClassName}>{title}</span>
+      </button>
+      {title && !props.titleClassName && !props.titleCustomStyle && (
+        <div className="select-from-map-nav-title">{title}</div>
+      )}
+      {title && props.titleClassName && !props.titleCustomStyle && (
+        <span className={props.titleClassName}>{title}</span>
+      )}
+      {title && props.titleCustomStyle && (
+        <span style={props.titleCustomStyle}>{title}</span>
+      )}
+      <button
+        className={`from-map-modal-nav-button ${closeBtnCursorPointerClassName}`}
+        onClick={props.hideCloseBtn ? undefined : props.onCloseBtnClick}
+        aria-label={intl.formatMessage({
+          id: 'back-button-title',
+          defaultMessage: 'Go back to previous page',
+        })}
+      >
+        {!props.hideCloseBtn && (
+          <Icon
+            img={props.closeBtnIcon}
+            color={config.colors.primary}
+            className={`${props.iconClassName} ${closeBtnCursorPointerClassName}`}
+          />
         )}
-        {title && props.titleCustomStyle && (
-          <span style={props.titleCustomStyle}>{title}</span>
-        )}
-        <button
-          className={`from-map-modal-nav-button ${closeBtnCursorPointerClassName}`}
-          onClick={props.hideCloseBtn ? undefined : props.onCloseBtnClick}
-          aria-label={intl.formatMessage({
-            id: 'back-button-title',
-            defaultMessage: 'Go back to previous page',
-          })}
-        >
-          {!props.hideCloseBtn && (
-            <Icon
-              img={props.closeBtnIcon}
-              color={config.colors.primary}
-              className={`${props.iconClassName} ${closeBtnCursorPointerClassName}`}
-            />
-          )}
-        </button>
-      </div>
-    </React.Fragment>
+      </button>
+    </div>
   );
 };
 

@@ -317,7 +317,9 @@ describe('Testing @digitransit-util/digitransit-util-day-range-allowed-diff', ()
     testsForMonday.forEach(function (test) {
       it(`should return "${
         test.allowedDiff
-      }" when day number\`s string is "${Array.from(new Set(test.dayNoArray.sort())).join('')}"`, () => {
+      }" when day number\`s string is "${Array.from(
+        new Set(test.dayNoArray.sort()),
+      ).join('')}"`, () => {
         const retValue = dayRangeAllowedDiff(test.dayNoArray, 1);
         expect(retValue).to.equal(test.allowedDiff);
       });
@@ -327,7 +329,9 @@ describe('Testing @digitransit-util/digitransit-util-day-range-allowed-diff', ()
     testsforTuesday.forEach(function (test) {
       it(`should return "${
         test.allowedDiff
-      }" when day number\`s string is "${Array.from(new Set(test.dayNoArray.sort())).join('')}"`, () => {
+      }" when day number\`s string is "${Array.from(
+        new Set(test.dayNoArray.sort()),
+      ).join('')}"`, () => {
         const retValue = dayRangeAllowedDiff(test.dayNoArray, 2);
         expect(retValue).to.equal(test.allowedDiff);
       });
@@ -337,7 +341,9 @@ describe('Testing @digitransit-util/digitransit-util-day-range-allowed-diff', ()
     testsForWednesday.forEach(function (test) {
       it(`should return "${
         test.allowedDiff
-      }" when day number\`s string is "${Array.from(new Set(test.dayNoArray.sort())).join('')}"`, () => {
+      }" when day number\`s string is "${Array.from(
+        new Set(test.dayNoArray.sort()),
+      ).join('')}"`, () => {
         const retValue = dayRangeAllowedDiff(test.dayNoArray, 3);
         expect(retValue).to.equal(test.allowedDiff);
       });
@@ -347,7 +353,9 @@ describe('Testing @digitransit-util/digitransit-util-day-range-allowed-diff', ()
     testsForThursday.forEach(function (test) {
       it(`should return "${
         test.allowedDiff
-      }" when day number\`s string is "${Array.from(new Set(test.dayNoArray.sort())).join('')}"`, () => {
+      }" when day number\`s string is "${Array.from(
+        new Set(test.dayNoArray.sort()),
+      ).join('')}"`, () => {
         const retValue = dayRangeAllowedDiff(test.dayNoArray, 4);
         expect(retValue).to.equal(test.allowedDiff);
       });
@@ -357,7 +365,9 @@ describe('Testing @digitransit-util/digitransit-util-day-range-allowed-diff', ()
     testsForFriday.forEach(function (test) {
       it(`should return "${
         test.allowedDiff
-      }" when day number\`s string is "${Array.from(new Set(test.dayNoArray.sort())).join('')}"`, () => {
+      }" when day number\`s string is "${Array.from(
+        new Set(test.dayNoArray.sort()),
+      ).join('')}"`, () => {
         const retValue = dayRangeAllowedDiff(test.dayNoArray, 5);
         expect(retValue).to.equal(test.allowedDiff);
       });
@@ -367,7 +377,9 @@ describe('Testing @digitransit-util/digitransit-util-day-range-allowed-diff', ()
     testForSaturday.forEach(function (test) {
       it(`should return "${
         test.allowedDiff
-      }" when day number\`s string is "${Array.from(new Set(test.dayNoArray.sort())).join('')}"`, () => {
+      }" when day number\`s string is "${Array.from(
+        new Set(test.dayNoArray.sort()),
+      ).join('')}"`, () => {
         const retValue = dayRangeAllowedDiff(test.dayNoArray, 6);
         expect(retValue).to.equal(test.allowedDiff);
       });
@@ -377,7 +389,9 @@ describe('Testing @digitransit-util/digitransit-util-day-range-allowed-diff', ()
     testsForSunday.forEach(function (test) {
       it(`should return "${
         test.allowedDiff
-      }" when day number\`s string is "${Array.from(new Set(test.dayNoArray.sort())).join('')}"`, () => {
+      }" when day number\`s string is "${Array.from(
+        new Set(test.dayNoArray.sort()),
+      ).join('')}"`, () => {
         const retValue = dayRangeAllowedDiff(test.dayNoArray, 7);
         expect(retValue).to.equal(test.allowedDiff);
       });

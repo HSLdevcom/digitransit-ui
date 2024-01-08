@@ -60,8 +60,10 @@ export default function intializeSearchContext(context, searchContext) {
   searchContext.getRoutesQuery = getRoutesQuery;
   searchContext.getStopAndStationsQuery = getStopAndStationsQuery;
   searchContext.getFavouriteRoutesQuery = getFavouriteRoutesQuery;
-  searchContext.getFavouriteVehicleRentalStations = getFavouriteVehicleRentalStations;
-  searchContext.getFavouriteVehicleRentalStationsQuery = getFavouriteVehicleRentalStationsQuery;
+  searchContext.getFavouriteVehicleRentalStations =
+    getFavouriteVehicleRentalStations;
+  searchContext.getFavouriteVehicleRentalStationsQuery =
+    getFavouriteVehicleRentalStationsQuery;
   searchContext.startLocationWatch = startLocationWatch;
   searchContext.saveSearch = saveSearch;
   searchContext.clearOldSearches = clearOldSearches;

@@ -122,12 +122,9 @@ export default configMerger(walttiConfig, {
       {
         name: 'menu-feedback',
         href: {
-          fi:
-            'https://kartta.kouvola.fi/eFeedback/fi/Feedback/34-Joukkoliikenne',
-          sv:
-            'https://kartta.kouvola.fi/eFeedback/fi/Feedback/34-Joukkoliikenne',
-          en:
-            'https://kartta.kouvola.fi/eFeedback/en/Feedback/34-Joukkoliikenne',
+          fi: 'https://kartta.kouvola.fi/eFeedback/fi/Feedback/34-Joukkoliikenne',
+          sv: 'https://kartta.kouvola.fi/eFeedback/fi/Feedback/34-Joukkoliikenne',
+          en: 'https://kartta.kouvola.fi/eFeedback/en/Feedback/34-Joukkoliikenne',
         },
       },
       {

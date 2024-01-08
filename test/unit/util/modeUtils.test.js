@@ -61,9 +61,8 @@ const intermediatePlaces = [
 describe('modeUtils', () => {
   describe('getAvailableTransportModeConfigs', () => {
     it('should return only available transport modes from config', () => {
-      const transportModeConfigs = utils.getAvailableTransportModeConfigs(
-        config,
-      );
+      const transportModeConfigs =
+        utils.getAvailableTransportModeConfigs(config);
       expect(transportModeConfigs.length).to.equal(3);
       expect(transportModeConfigs[0].name).to.equal(TransportMode.Bus);
       expect(transportModeConfigs[1].name).to.equal(TransportMode.Rail);

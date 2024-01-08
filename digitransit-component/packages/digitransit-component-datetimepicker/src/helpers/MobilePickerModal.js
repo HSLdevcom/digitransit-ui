@@ -40,9 +40,8 @@ function MobilePickerModal({
 
   const [displayTimestamp, changeTimestamp] = useState(timestamp);
 
-  const [departureOrArrivalCurrent, changeDepartureOrArrival] = useState(
-    departureOrArrival,
-  );
+  const [departureOrArrivalCurrent, changeDepartureOrArrival] =
+    useState(departureOrArrival);
 
   function onArrivalClick() {
     changeDepartureOrArrival('arrival');

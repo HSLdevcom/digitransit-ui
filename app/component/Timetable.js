@@ -82,19 +82,19 @@ class Timetable extends React.Component {
   }
 
   // eslint-disable-next-line camelcase
-  UNSAFE_componentWillReceiveProps = () => {
+  UNSAFE_componentWillReceiveProps() {
     if (this.props.stop.gtfsId !== this.state.oldStopId) {
       this.resetStopOptions(this.props.stop.gtfsId);
     }
-  };
+  }
 
-  componentDidMount = () => {
+  componentDidMount() {
     if (this.context.match.location.query.routes) {
       this.setState({
         showRoutes: this.context.match.location.query.routes?.split(',') || [],
       });
     }
-  };
+  }
 
   setParams = (routes, date) => {
     replaceQueryParams(this.context.router, this.context.match, {
@@ -122,10 +122,9 @@ class Timetable extends React.Component {
       );
 
     const routesWithDupes = [];
-    Object.entries(
-      groupBy(routesToCheck, 'shortName'),
-    ).forEach(([key, value]) =>
-      value.length > 1 ? routesWithDupes.push(key) : undefined,
+    Object.entries(groupBy(routesToCheck, 'shortName')).forEach(
+      ([key, value]) =>
+        value.length > 1 ? routesWithDupes.push(key) : undefined,
     );
 
     return routesWithDupes;

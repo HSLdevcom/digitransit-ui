@@ -279,8 +279,8 @@ class MapWithTrackingStateHandler extends React.Component {
     const img = position.locationingFailed
       ? 'icon-tracking-off-v2'
       : this.state.mapTracking
-      ? 'icon-tracking-on-v2'
-      : 'icon-tracking-offline-v2';
+        ? 'icon-tracking-on-v2'
+        : 'icon-tracking-offline-v2';
 
     const iconColor = this.state.mapTracking ? '#ff0000' : '#78909c';
 

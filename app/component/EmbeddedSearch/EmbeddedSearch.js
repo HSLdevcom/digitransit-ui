@@ -112,8 +112,8 @@ const EmbeddedSearch = (props, context) => {
           address: i18next.t('own-position'),
         }
       : defaultOriginExists
-      ? defaultOrigin
-      : {},
+        ? defaultOrigin
+        : {},
   );
   const [destination, setDestination] = useState(
     useDestinationLocation
@@ -123,8 +123,8 @@ const EmbeddedSearch = (props, context) => {
           address: i18next.t('own-position'),
         }
       : defaultDestinationExists
-      ? defaultDestination
-      : {},
+        ? defaultDestination
+        : {},
   );
   const [loading, setLoading] = useState(true);
 
@@ -137,8 +137,8 @@ const EmbeddedSearch = (props, context) => {
             address: i18next.t('own-position'),
           }
         : defaultOriginExists
-        ? defaultOrigin
-        : {},
+          ? defaultOrigin
+          : {},
     );
     setDestination(
       useDestinationLocation
@@ -148,8 +148,8 @@ const EmbeddedSearch = (props, context) => {
             address: i18next.t('own-position'),
           }
         : defaultDestinationExists
-        ? defaultDestination
-        : {},
+          ? defaultDestination
+          : {},
     );
   }, [query]);
 

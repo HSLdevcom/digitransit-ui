@@ -316,24 +316,22 @@ class IndexPage extends React.Component {
         nearYouModes?.length > 0 ? nearYouModes : Object.keys(modeTitles);
 
       return config.showNearYouButtons ? (
-        <>
-          <CtrlPanel.NearStopsAndRoutes
-            modeArray={modes}
-            urlPrefix={`/${PREFIX_NEARYOU}`}
-            language={lang}
-            showTitle
-            alertsContext={alertsContext}
-            origin={origin}
-            omitLanguageUrl
-            onClick={this.clickStopNearIcon}
-            buttonStyle={narrowButtons ? undefined : config.nearYouButton}
-            title={narrowButtons ? undefined : config.nearYouTitle}
-            modes={narrowButtons ? undefined : modeTitles}
-            modeSet={config.nearbyModeSet || config.iconModeSet}
-            modeIconColors={config.colors.iconColors}
-            fontWeights={fontWeights}
-          />
-        </>
+        <CtrlPanel.NearStopsAndRoutes
+          modeArray={modes}
+          urlPrefix={`/${PREFIX_NEARYOU}`}
+          language={lang}
+          showTitle
+          alertsContext={alertsContext}
+          origin={origin}
+          omitLanguageUrl
+          onClick={this.clickStopNearIcon}
+          buttonStyle={narrowButtons ? undefined : config.nearYouButton}
+          title={narrowButtons ? undefined : config.nearYouTitle}
+          modes={narrowButtons ? undefined : modeTitles}
+          modeSet={config.nearbyModeSet || config.iconModeSet}
+          modeIconColors={config.colors.iconColors}
+          fontWeights={fontWeights}
+        />
       ) : (
         <div className="stops-near-you-text">
           <h2>

@@ -81,8 +81,9 @@ function VehicleMarkerContainer(props, { config }) {
   props.setVisibleVehicles(visibleVehicleIds);
 
   return visibleVehicles.map(([id, message]) => {
-    const type = props.topics?.find(t => t.shortName === message.shortName)
-      ?.type;
+    const type = props.topics?.find(
+      t => t.shortName === message.shortName,
+    )?.type;
     let mode;
     if (type === ExtendedRouteTypes.BusExpress) {
       mode = 'bus-express';

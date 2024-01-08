@@ -369,7 +369,7 @@ class ItineraryTab extends React.Component {
                   'bp-large': breakpoint === 'large',
                 })}
               >
-                <>{disclaimers}</>
+                {disclaimers}
                 <ItineraryLegs
                   fares={fares}
                   itinerary={itinerary}

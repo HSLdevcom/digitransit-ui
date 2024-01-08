@@ -86,7 +86,7 @@ class RouteScheduleContainer extends PureComponent {
 
   hasMergedData = false;
 
-  componentDidMount = () => {
+  componentDidMount() {
     const { match } = this.props;
     const date = moment(match.location.query.serviceDay, DATE_FORMAT, true);
     // Don't allow past dates (before current week) because we might have no data from them
@@ -98,7 +98,7 @@ class RouteScheduleContainer extends PureComponent {
     ) {
       match.router.replace(decodeURIComponent(match.location.pathname));
     }
-  };
+  }
 
   onFromSelectChange = selectFrom => {
     const from = Number(selectFrom);
@@ -1208,31 +1208,31 @@ const containerComponent = createFragmentContainer(
           }
         }
         wk6mon: tripsForDate(serviceDate: $wk6day1)
-        @include(if: $showTenWeeks) {
+          @include(if: $showTenWeeks) {
           departureStoptime {
             scheduledDeparture
           }
         }
         wk7mon: tripsForDate(serviceDate: $wk7day1)
-        @include(if: $showTenWeeks) {
+          @include(if: $showTenWeeks) {
           departureStoptime {
             scheduledDeparture
           }
         }
         wk8mon: tripsForDate(serviceDate: $wk8day1)
-        @include(if: $showTenWeeks) {
+          @include(if: $showTenWeeks) {
           departureStoptime {
             scheduledDeparture
           }
         }
         wk9mon: tripsForDate(serviceDate: $wk9day1)
-        @include(if: $showTenWeeks) {
+          @include(if: $showTenWeeks) {
           departureStoptime {
             scheduledDeparture
           }
         }
         wk10mon: tripsForDate(serviceDate: $wk10day1)
-        @include(if: $showTenWeeks) {
+          @include(if: $showTenWeeks) {
           departureStoptime {
             scheduledDeparture
           }
@@ -1263,31 +1263,31 @@ const containerComponent = createFragmentContainer(
           }
         }
         wk6tue: tripsForDate(serviceDate: $wk6day2)
-        @include(if: $showTenWeeks) {
+          @include(if: $showTenWeeks) {
           departureStoptime {
             scheduledDeparture
           }
         }
         wk7tue: tripsForDate(serviceDate: $wk7day2)
-        @include(if: $showTenWeeks) {
+          @include(if: $showTenWeeks) {
           departureStoptime {
             scheduledDeparture
           }
         }
         wk8tue: tripsForDate(serviceDate: $wk8day2)
-        @include(if: $showTenWeeks) {
+          @include(if: $showTenWeeks) {
           departureStoptime {
             scheduledDeparture
           }
         }
         wk9tue: tripsForDate(serviceDate: $wk9day2)
-        @include(if: $showTenWeeks) {
+          @include(if: $showTenWeeks) {
           departureStoptime {
             scheduledDeparture
           }
         }
         wk10tue: tripsForDate(serviceDate: $wk10day2)
-        @include(if: $showTenWeeks) {
+          @include(if: $showTenWeeks) {
           departureStoptime {
             scheduledDeparture
           }
@@ -1318,31 +1318,31 @@ const containerComponent = createFragmentContainer(
           }
         }
         wk6wed: tripsForDate(serviceDate: $wk6day3)
-        @include(if: $showTenWeeks) {
+          @include(if: $showTenWeeks) {
           departureStoptime {
             scheduledDeparture
           }
         }
         wk7wed: tripsForDate(serviceDate: $wk7day3)
-        @include(if: $showTenWeeks) {
+          @include(if: $showTenWeeks) {
           departureStoptime {
             scheduledDeparture
           }
         }
         wk8wed: tripsForDate(serviceDate: $wk8day3)
-        @include(if: $showTenWeeks) {
+          @include(if: $showTenWeeks) {
           departureStoptime {
             scheduledDeparture
           }
         }
         wk9wed: tripsForDate(serviceDate: $wk9day3)
-        @include(if: $showTenWeeks) {
+          @include(if: $showTenWeeks) {
           departureStoptime {
             scheduledDeparture
           }
         }
         wk10wed: tripsForDate(serviceDate: $wk10day3)
-        @include(if: $showTenWeeks) {
+          @include(if: $showTenWeeks) {
           departureStoptime {
             scheduledDeparture
           }
@@ -1373,31 +1373,31 @@ const containerComponent = createFragmentContainer(
           }
         }
         wk6thu: tripsForDate(serviceDate: $wk6day4)
-        @include(if: $showTenWeeks) {
+          @include(if: $showTenWeeks) {
           departureStoptime {
             scheduledDeparture
           }
         }
         wk7thu: tripsForDate(serviceDate: $wk7day4)
-        @include(if: $showTenWeeks) {
+          @include(if: $showTenWeeks) {
           departureStoptime {
             scheduledDeparture
           }
         }
         wk8thu: tripsForDate(serviceDate: $wk8day4)
-        @include(if: $showTenWeeks) {
+          @include(if: $showTenWeeks) {
           departureStoptime {
             scheduledDeparture
           }
         }
         wk9thu: tripsForDate(serviceDate: $wk9day4)
-        @include(if: $showTenWeeks) {
+          @include(if: $showTenWeeks) {
           departureStoptime {
             scheduledDeparture
           }
         }
         wk10thu: tripsForDate(serviceDate: $wk10day4)
-        @include(if: $showTenWeeks) {
+          @include(if: $showTenWeeks) {
           departureStoptime {
             scheduledDeparture
           }
@@ -1428,31 +1428,31 @@ const containerComponent = createFragmentContainer(
           }
         }
         wk6fri: tripsForDate(serviceDate: $wk6day5)
-        @include(if: $showTenWeeks) {
+          @include(if: $showTenWeeks) {
           departureStoptime {
             scheduledDeparture
           }
         }
         wk7fri: tripsForDate(serviceDate: $wk7day5)
-        @include(if: $showTenWeeks) {
+          @include(if: $showTenWeeks) {
           departureStoptime {
             scheduledDeparture
           }
         }
         wk8fri: tripsForDate(serviceDate: $wk8day5)
-        @include(if: $showTenWeeks) {
+          @include(if: $showTenWeeks) {
           departureStoptime {
             scheduledDeparture
           }
         }
         wk9fri: tripsForDate(serviceDate: $wk9day5)
-        @include(if: $showTenWeeks) {
+          @include(if: $showTenWeeks) {
           departureStoptime {
             scheduledDeparture
           }
         }
         wk10fri: tripsForDate(serviceDate: $wk10day5)
-        @include(if: $showTenWeeks) {
+          @include(if: $showTenWeeks) {
           departureStoptime {
             scheduledDeparture
           }
@@ -1483,31 +1483,31 @@ const containerComponent = createFragmentContainer(
           }
         }
         wk6sat: tripsForDate(serviceDate: $wk6day6)
-        @include(if: $showTenWeeks) {
+          @include(if: $showTenWeeks) {
           departureStoptime {
             scheduledDeparture
           }
         }
         wk7sat: tripsForDate(serviceDate: $wk7day6)
-        @include(if: $showTenWeeks) {
+          @include(if: $showTenWeeks) {
           departureStoptime {
             scheduledDeparture
           }
         }
         wk8sat: tripsForDate(serviceDate: $wk8day6)
-        @include(if: $showTenWeeks) {
+          @include(if: $showTenWeeks) {
           departureStoptime {
             scheduledDeparture
           }
         }
         wk9sat: tripsForDate(serviceDate: $wk9day6)
-        @include(if: $showTenWeeks) {
+          @include(if: $showTenWeeks) {
           departureStoptime {
             scheduledDeparture
           }
         }
         wk10sat: tripsForDate(serviceDate: $wk10day6)
-        @include(if: $showTenWeeks) {
+          @include(if: $showTenWeeks) {
           departureStoptime {
             scheduledDeparture
           }
@@ -1538,31 +1538,31 @@ const containerComponent = createFragmentContainer(
           }
         }
         wk6sun: tripsForDate(serviceDate: $wk6day7)
-        @include(if: $showTenWeeks) {
+          @include(if: $showTenWeeks) {
           departureStoptime {
             scheduledDeparture
           }
         }
         wk7sun: tripsForDate(serviceDate: $wk7day7)
-        @include(if: $showTenWeeks) {
+          @include(if: $showTenWeeks) {
           departureStoptime {
             scheduledDeparture
           }
         }
         wk8sun: tripsForDate(serviceDate: $wk8day7)
-        @include(if: $showTenWeeks) {
+          @include(if: $showTenWeeks) {
           departureStoptime {
             scheduledDeparture
           }
         }
         wk9sun: tripsForDate(serviceDate: $wk9day7)
-        @include(if: $showTenWeeks) {
+          @include(if: $showTenWeeks) {
           departureStoptime {
             scheduledDeparture
           }
         }
         wk10sun: tripsForDate(serviceDate: $wk10day7)
-        @include(if: $showTenWeeks) {
+          @include(if: $showTenWeeks) {
           departureStoptime {
             scheduledDeparture
           }

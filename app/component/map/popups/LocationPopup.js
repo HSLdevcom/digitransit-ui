@@ -86,9 +86,8 @@ class LocationPopup extends React.Component {
           }));
           pointName = 'NoAddress';
         }
-        const pathPrefixMatch = window.location.pathname.match(
-          /^\/([a-z]{2,})\//,
-        );
+        const pathPrefixMatch =
+          window.location.pathname.match(/^\/([a-z]{2,})\//);
         const context =
           pathPrefixMatch && pathPrefixMatch[1] !== config.indexPath
             ? pathPrefixMatch[1]

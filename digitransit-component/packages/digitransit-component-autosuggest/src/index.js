@@ -354,21 +354,21 @@ class DTAutosuggest extends React.Component {
     return !isEqual(nextState, this.state) || !isEqual(nextProps, this.props);
   }
 
-  componentDidUpdate = () => {
+  componentDidUpdate() {
     if (i18next.language !== this.props.lang) {
       i18next.changeLanguage(this.props.lang);
     }
-  };
+  }
 
   // eslint-disable-next-line camelcase
-  UNSAFE_componentWillReceiveProps = nextProps => {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     // wait until address is set or geolocationing fails
     if (nextProps.value !== this.state.value && !this.state.editing) {
       this.setState({
         value: nextProps.value,
       });
     }
-  };
+  }
 
   onChange = (event, { newValue, method }) => {
     const newState = {
@@ -863,11 +863,8 @@ class DTAutosuggest extends React.Component {
   };
 
   clearOldSearches = () => {
-    const {
-      context,
-      clearOldSearches,
-      clearFutureRoutes,
-    } = this.props.searchContext;
+    const { context, clearOldSearches, clearFutureRoutes } =
+      this.props.searchContext;
     if (context && clearOldSearches) {
       clearOldSearches(context);
       if (clearFutureRoutes) {
@@ -912,12 +909,8 @@ class DTAutosuggest extends React.Component {
     if (i18next.language !== this.props.lang) {
       i18next.changeLanguage(this.props.lang);
     }
-    const {
-      value,
-      suggestions,
-      renderMobileSearch,
-      cleanExecuted,
-    } = this.state;
+    const { value, suggestions, renderMobileSearch, cleanExecuted } =
+      this.state;
     const inputProps = {
       placeholder: this.props.translatedPlaceholder
         ? this.props.translatedPlaceholder

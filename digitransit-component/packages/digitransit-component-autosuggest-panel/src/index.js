@@ -238,15 +238,15 @@ class DTAutosuggestPanel extends React.Component {
     });
   }
 
-  componentDidMount = () => {
+  componentDidMount() {
     i18next.changeLanguage(this.props.lang);
-  };
+  }
 
-  componentDidUpdate = () => {
+  componentDidUpdate() {
     if (i18next.language !== this.props.lang) {
       i18next.changeLanguage(this.props.lang);
     }
-  };
+  }
 
   getSlackTimeOptions = () => {
     const timeOptions = [];
@@ -399,7 +399,7 @@ class DTAutosuggestPanel extends React.Component {
     return `${slackInSeconds / 60} ${i18next.t('minute-short')}`;
   };
 
-  render = () => {
+  render() {
     const {
       origin,
       searchPanelText,
@@ -690,7 +690,7 @@ class DTAutosuggestPanel extends React.Component {
         </div>
       </div>
     );
-  };
+  }
 }
 
 export default DTAutosuggestPanel;

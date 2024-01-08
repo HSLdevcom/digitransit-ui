@@ -183,7 +183,7 @@ const containerComponent = createRefetchContainer(
     ) {
       pattern(id: $patternId) {
         ...RouteStopListContainer_pattern
-        @arguments(currentTime: $currentTime, patternId: $patternId)
+          @arguments(currentTime: $currentTime, patternId: $patternId)
       }
     }
   `,

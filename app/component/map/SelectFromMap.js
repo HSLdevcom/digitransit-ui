@@ -70,9 +70,8 @@ class SelectFromMapPageMap extends React.Component {
       zones: 1,
     };
     if (this.context.config.searchParams['boundary.country']) {
-      searchParams['boundary.country'] = this.context.config.searchParams[
-        'boundary.country'
-      ];
+      searchParams['boundary.country'] =
+        this.context.config.searchParams['boundary.country'];
     }
 
     getJson(this.context.config.URL.PELIAS_REVERSE_GEOCODER, searchParams).then(

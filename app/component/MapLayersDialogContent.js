@@ -109,13 +109,8 @@ class MapLayersDialogContent extends React.Component {
   };
 
   render() {
-    const {
-      citybike,
-      parkAndRide,
-      stop,
-      geoJson,
-      vehicles,
-    } = this.props.mapLayers;
+    const { citybike, parkAndRide, stop, geoJson, vehicles } =
+      this.props.mapLayers;
     let arr;
     if (this.props.geoJson) {
       arr = Object.entries(this.props.geoJson)?.map(([k, v]) => {
@@ -166,19 +161,17 @@ class MapLayersDialogContent extends React.Component {
         )}
         <div className="checkbox-grouping">
           {isTransportModeEnabled(transportModes.bus) && (
-            <Fragment>
-              <Checkbox
-                large
-                checked={stop.bus}
-                disabled={!!this.props.mapLayerOptions?.stop?.bus?.isLocked}
-                defaultMessage="Bus stop"
-                labelId="map-layer-stop-bus"
-                onChange={e => {
-                  this.updateStopSetting({ bus: e.target.checked });
-                  this.sendLayerChangeAnalytic('BusStop', e.target.checked);
-                }}
-              />
-            </Fragment>
+            <Checkbox
+              large
+              checked={stop.bus}
+              disabled={!!this.props.mapLayerOptions?.stop?.bus?.isLocked}
+              defaultMessage="Bus stop"
+              labelId="map-layer-stop-bus"
+              onChange={e => {
+                this.updateStopSetting({ bus: e.target.checked });
+                this.sendLayerChangeAnalytic('BusStop', e.target.checked);
+              }}
+            />
           )}
           {isTransportModeEnabled(transportModes.tram) && (
             <Checkbox

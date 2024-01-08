@@ -128,9 +128,8 @@ class SummaryPlanContainer extends React.Component {
   onSelectImmediately = index => {
     const subpath = this.getSubPath('/');
     // eslint-disable-next-line compat/compat
-    const momentumScroll = document.getElementsByClassName(
-      'momentum-scroll',
-    )[0];
+    const momentumScroll =
+      document.getElementsByClassName('momentum-scroll')[0];
     if (momentumScroll) {
       momentumScroll.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
     }
@@ -177,57 +176,53 @@ class SummaryPlanContainer extends React.Component {
 
   laterButton(reversed = false) {
     return (
-      <>
-        <button
-          type="button"
-          aria-label={this.context.intl.formatMessage({
-            id: 'set-time-later-button-label',
-            defaultMessage: 'Set travel time to later',
-          })}
-          className={`time-navigation-btn ${
-            reversed ? 'top-btn' : 'bottom-btn'
-          } ${!reversed && isIOS && isSafari ? 'extra-whitespace' : ''} `}
-          onClick={() => this.props.onLater(this.props.itineraries, reversed)}
-        >
-          <Icon
-            img="icon-icon_arrow-collapse"
-            className={`cursor-pointer back ${reversed ? 'arrow-up' : ''}`}
-          />
-          <FormattedMessage
-            id="later"
-            defaultMessage="Later"
-            className="time-navigation-text"
-          />
-        </button>
-      </>
+      <button
+        type="button"
+        aria-label={this.context.intl.formatMessage({
+          id: 'set-time-later-button-label',
+          defaultMessage: 'Set travel time to later',
+        })}
+        className={`time-navigation-btn ${
+          reversed ? 'top-btn' : 'bottom-btn'
+        } ${!reversed && isIOS && isSafari ? 'extra-whitespace' : ''} `}
+        onClick={() => this.props.onLater(this.props.itineraries, reversed)}
+      >
+        <Icon
+          img="icon-icon_arrow-collapse"
+          className={`cursor-pointer back ${reversed ? 'arrow-up' : ''}`}
+        />
+        <FormattedMessage
+          id="later"
+          defaultMessage="Later"
+          className="time-navigation-text"
+        />
+      </button>
     );
   }
 
   earlierButton(reversed = false) {
     return (
-      <>
-        <button
-          type="button"
-          aria-label={this.context.intl.formatMessage({
-            id: 'set-time-earlier-button-label',
-            defaultMessage: 'Set travel time to earlier',
-          })}
-          className={`time-navigation-btn ${
-            reversed ? 'bottom-btn' : 'top-btn'
-          } ${reversed && isIOS && isSafari ? 'extra-whitespace' : ''}`}
-          onClick={() => this.props.onEarlier(this.props.itineraries, reversed)}
-        >
-          <Icon
-            img="icon-icon_arrow-collapse"
-            className={`cursor-pointer ${reversed ? '' : 'arrow-up'}`}
-          />
-          <FormattedMessage
-            id="earlier"
-            defaultMessage="Earlier"
-            className="time-navigation-text"
-          />
-        </button>
-      </>
+      <button
+        type="button"
+        aria-label={this.context.intl.formatMessage({
+          id: 'set-time-earlier-button-label',
+          defaultMessage: 'Set travel time to earlier',
+        })}
+        className={`time-navigation-btn ${
+          reversed ? 'bottom-btn' : 'top-btn'
+        } ${reversed && isIOS && isSafari ? 'extra-whitespace' : ''}`}
+        onClick={() => this.props.onEarlier(this.props.itineraries, reversed)}
+      >
+        <Icon
+          img="icon-icon_arrow-collapse"
+          className={`cursor-pointer ${reversed ? '' : 'arrow-up'}`}
+        />
+        <FormattedMessage
+          id="earlier"
+          defaultMessage="Earlier"
+          className="time-navigation-text"
+        />
+      </button>
     );
   }
 
@@ -274,8 +269,8 @@ class SummaryPlanContainer extends React.Component {
         onlyHasWalkingItineraries
           ? null
           : arriveBy
-          ? this.laterButton(true)
-          : this.earlierButton()}
+            ? this.laterButton(true)
+            : this.earlierButton()}
         <ItinerarySummaryListContainer
           activeIndex={activeIndex}
           currentTime={currentTime}
@@ -313,8 +308,8 @@ class SummaryPlanContainer extends React.Component {
         onlyHasWalkingItineraries
           ? null
           : arriveBy
-          ? this.earlierButton(true)
-          : this.laterButton()}
+            ? this.earlierButton(true)
+            : this.laterButton()}
       </div>
     );
   }

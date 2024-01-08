@@ -144,14 +144,14 @@ class BubbleDialog extends React.Component {
     );
   }
 
-  render = () => {
+  render() {
     if (!isBrowser && !getIsBrowser()) {
       return null;
     }
     const { breakpoint, isFullscreenOnMobile } = this.props;
     const isFullscreen = breakpoint !== 'large' && isFullscreenOnMobile;
     return this.renderContainer(isFullscreen);
-  };
+  }
 }
 
 BubbleDialog.propTypes = {

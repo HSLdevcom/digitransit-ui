@@ -54,17 +54,17 @@ class ItineraryLegs extends React.Component {
     return { focusFunction: this.focus };
   }
 
-  componentDidMount = () => {
+  componentDidMount() {
     const { itinerary, toggleCanceledLegsBanner } = this.props;
     if (itineraryHasCancelation(itinerary)) {
       toggleCanceledLegsBanner(true);
     }
-  };
+  }
 
-  componentWillUnmount = () => {
+  componentWillUnmount() {
     const { toggleCanceledLegsBanner } = this.props;
     toggleCanceledLegsBanner(false);
-  };
+  }
 
   focus = position => e => {
     e.stopPropagation();

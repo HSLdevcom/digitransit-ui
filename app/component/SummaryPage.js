@@ -1754,12 +1754,11 @@ class SummaryPage extends React.Component {
           })
           .finally(() => {
             if (this.props.alertRef.current) {
-              this.props.alertRef.current.innerHTML = this.context.intl.formatMessage(
-                {
+              this.props.alertRef.current.innerHTML =
+                this.context.intl.formatMessage({
                   id: 'itinerary-summary-page-street-mode.update-alert',
                   defaultMessage: 'Walking and biking results updated',
-                },
-              );
+                });
               setTimeout(() => {
                 this.props.alertRef.current.innerHTML = null;
               }, 100);
@@ -1892,9 +1891,10 @@ class SummaryPage extends React.Component {
     }
     const onlyHasWalkingItineraries = this.onlyHasWalkingItineraries();
 
-    const itineraryContainsDepartureFromVehicleRentalStation = filteredItineraries[
-      activeIndex
-    ]?.legs.some(leg => leg.from?.vehicleRentalStation);
+    const itineraryContainsDepartureFromVehicleRentalStation =
+      filteredItineraries[activeIndex]?.legs.some(
+        leg => leg.from?.vehicleRentalStation,
+      );
 
     const mapLayerOptions = itineraryContainsDepartureFromVehicleRentalStation
       ? this.addBikeStationMapForRentalVehicleItineraries(filteredItineraries)
@@ -2219,30 +2219,18 @@ class SummaryPage extends React.Component {
     if (this.props.match.params.hash === 'walk') {
       this.stopClient();
       if (this.state.isFetchingWalkAndBike) {
-        return (
-          <>
-            <Loading />
-          </>
-        );
+        return <Loading />;
       }
       this.selectedPlan = walkPlan;
     } else if (this.props.match.params.hash === 'bike') {
       this.stopClient();
       if (this.state.isFetchingWalkAndBike) {
-        return (
-          <>
-            <Loading />
-          </>
-        );
+        return <Loading />;
       }
       this.selectedPlan = bikePlan;
     } else if (this.props.match.params.hash === 'bikeAndVehicle') {
       if (this.state.isFetchingWalkAndBike) {
-        return (
-          <>
-            <Loading />
-          </>
-        );
+        return <Loading />;
       }
       const hasBikeAndPublicPlan = Array.isArray(
         bikeAndPublicPlan?.itineraries,
@@ -2342,12 +2330,10 @@ class SummaryPage extends React.Component {
         itineraryBikeDistance < this.context.config.suggestBikeMaxDistance,
     );
 
-    const bikeAndPublicPlanHasItineraries = this.hasItinerariesContainingPublicTransit(
-      bikeAndPublicPlan,
-    );
-    const bikeParkPlanHasItineraries = this.hasItinerariesContainingPublicTransit(
-      bikeParkPlan,
-    );
+    const bikeAndPublicPlanHasItineraries =
+      this.hasItinerariesContainingPublicTransit(bikeAndPublicPlan);
+    const bikeParkPlanHasItineraries =
+      this.hasItinerariesContainingPublicTransit(bikeParkPlan);
     const showBikeAndPublicOptionButton = !this.context.config
       .includePublicWithBikePlan
       ? bikeParkPlanHasItineraries &&
@@ -2552,53 +2538,49 @@ class SummaryPage extends React.Component {
           );
         }
         content = (
-          <>
-            <SummaryPlanContainer
-              activeIndex={activeIndex}
-              plan={this.selectedPlan}
-              serviceTimeRange={serviceTimeRange}
-              routingErrors={this.selectedPlan.routingErrors}
-              itineraries={selectedItineraries}
-              params={match.params}
-              error={error || this.state.error}
-              bikeAndPublicItinerariesToShow={
-                this.bikeAndPublicItinerariesToShow
-              }
-              bikeAndParkItinerariesToShow={this.bikeAndParkItinerariesToShow}
-              walking={showWalkOptionButton}
-              biking={showBikeOptionButton}
-              showAlternativePlan={
-                planHasNoItineraries &&
-                hasAlternativeItineraries &&
-                !onlyWalkingAlternatives
-              }
-              separatorPosition={this.state.separatorPosition}
-              loading={this.isLoading(
-                onlyHasWalkingItineraries,
-                onlyWalkingAlternatives,
-              )}
-              onLater={this.onLater}
-              onEarlier={this.onEarlier}
-              onDetailsTabFocused={() => {
-                this.onDetailsTabFocused();
-              }}
-              loadingMoreItineraries={this.state.loadingMoreItineraries}
-              showSettingsChangedNotification={
-                this.shouldShowSettingsChangedNotification
-              }
-              alternativePlan={this.state.alternativePlan}
-              driving={showCarOptionButton || showParkRideOptionButton}
-              onlyHasWalkingItineraries={onlyHasWalkingItineraries}
-              routingFeedbackPosition={this.state.routingFeedbackPosition}
-            >
-              {this.props.content &&
-                React.cloneElement(this.props.content, {
-                  itinerary: selectedItineraries?.length && selectedItinerary,
-                  focusToPoint: this.focusToPoint,
-                  plan: this.selectedPlan,
-                })}
-            </SummaryPlanContainer>
-          </>
+          <SummaryPlanContainer
+            activeIndex={activeIndex}
+            plan={this.selectedPlan}
+            serviceTimeRange={serviceTimeRange}
+            routingErrors={this.selectedPlan.routingErrors}
+            itineraries={selectedItineraries}
+            params={match.params}
+            error={error || this.state.error}
+            bikeAndPublicItinerariesToShow={this.bikeAndPublicItinerariesToShow}
+            bikeAndParkItinerariesToShow={this.bikeAndParkItinerariesToShow}
+            walking={showWalkOptionButton}
+            biking={showBikeOptionButton}
+            showAlternativePlan={
+              planHasNoItineraries &&
+              hasAlternativeItineraries &&
+              !onlyWalkingAlternatives
+            }
+            separatorPosition={this.state.separatorPosition}
+            loading={this.isLoading(
+              onlyHasWalkingItineraries,
+              onlyWalkingAlternatives,
+            )}
+            onLater={this.onLater}
+            onEarlier={this.onEarlier}
+            onDetailsTabFocused={() => {
+              this.onDetailsTabFocused();
+            }}
+            loadingMoreItineraries={this.state.loadingMoreItineraries}
+            showSettingsChangedNotification={
+              this.shouldShowSettingsChangedNotification
+            }
+            alternativePlan={this.state.alternativePlan}
+            driving={showCarOptionButton || showParkRideOptionButton}
+            onlyHasWalkingItineraries={onlyHasWalkingItineraries}
+            routingFeedbackPosition={this.state.routingFeedbackPosition}
+          >
+            {this.props.content &&
+              React.cloneElement(this.props.content, {
+                itinerary: selectedItineraries?.length && selectedItinerary,
+                focusToPoint: this.focusToPoint,
+                plan: this.selectedPlan,
+              })}
+          </SummaryPlanContainer>
         );
       } else {
         content = (
@@ -2772,51 +2754,47 @@ class SummaryPage extends React.Component {
         );
       } else {
         content = (
-          <>
-            <SummaryPlanContainer
-              activeIndex={
-                hash || getActiveIndex(match.location, combinedItineraries)
-              }
-              plan={this.selectedPlan}
-              serviceTimeRange={serviceTimeRange}
-              routingErrors={this.selectedPlan.routingErrors}
-              itineraries={combinedItineraries}
-              params={match.params}
-              error={error || this.state.error}
-              from={match.params.from}
-              to={match.params.to}
-              intermediatePlaces={viaPoints}
-              bikeAndPublicItinerariesToShow={
-                this.bikeAndPublicItinerariesToShow
-              }
-              bikeAndParkItinerariesToShow={this.bikeAndParkItinerariesToShow}
-              walking={showWalkOptionButton}
-              biking={showBikeOptionButton}
-              showAlternativePlan={
-                planHasNoItineraries &&
-                hasAlternativeItineraries &&
-                !onlyWalkingAlternatives
-              }
-              separatorPosition={this.state.separatorPosition}
-              loading={this.isLoading(
-                onlyHasWalkingItineraries,
-                onlyWalkingAlternatives,
-              )}
-              onLater={this.onLater}
-              onEarlier={this.onEarlier}
-              onDetailsTabFocused={() => {
-                this.onDetailsTabFocused();
-              }}
-              loadingMoreItineraries={this.state.loadingMoreItineraries}
-              showSettingsChangedNotification={
-                this.shouldShowSettingsChangedNotification
-              }
-              alternativePlan={this.state.alternativePlan}
-              driving={showCarOptionButton || showParkRideOptionButton}
-              onlyHasWalkingItineraries={onlyHasWalkingItineraries}
-              routingFeedbackPosition={this.state.routingFeedbackPosition}
-            />
-          </>
+          <SummaryPlanContainer
+            activeIndex={
+              hash || getActiveIndex(match.location, combinedItineraries)
+            }
+            plan={this.selectedPlan}
+            serviceTimeRange={serviceTimeRange}
+            routingErrors={this.selectedPlan.routingErrors}
+            itineraries={combinedItineraries}
+            params={match.params}
+            error={error || this.state.error}
+            from={match.params.from}
+            to={match.params.to}
+            intermediatePlaces={viaPoints}
+            bikeAndPublicItinerariesToShow={this.bikeAndPublicItinerariesToShow}
+            bikeAndParkItinerariesToShow={this.bikeAndParkItinerariesToShow}
+            walking={showWalkOptionButton}
+            biking={showBikeOptionButton}
+            showAlternativePlan={
+              planHasNoItineraries &&
+              hasAlternativeItineraries &&
+              !onlyWalkingAlternatives
+            }
+            separatorPosition={this.state.separatorPosition}
+            loading={this.isLoading(
+              onlyHasWalkingItineraries,
+              onlyWalkingAlternatives,
+            )}
+            onLater={this.onLater}
+            onEarlier={this.onEarlier}
+            onDetailsTabFocused={() => {
+              this.onDetailsTabFocused();
+            }}
+            loadingMoreItineraries={this.state.loadingMoreItineraries}
+            showSettingsChangedNotification={
+              this.shouldShowSettingsChangedNotification
+            }
+            alternativePlan={this.state.alternativePlan}
+            driving={showCarOptionButton || showParkRideOptionButton}
+            onlyHasWalkingItineraries={onlyHasWalkingItineraries}
+            routingFeedbackPosition={this.state.routingFeedbackPosition}
+          />
         );
       }
     }
