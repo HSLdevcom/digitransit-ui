@@ -4,7 +4,7 @@ import { ReactRelayContext } from 'react-relay';
 import { matchShape } from 'found';
 import Loading from './Loading';
 import { validateServiceTimeRange } from '../util/timeUtils';
-import { planQuery } from '../util/queryUtils';
+import { planQuery } from './ItineraryQueries';
 import {
   hasStartAndDestination,
   preparePlanParams,

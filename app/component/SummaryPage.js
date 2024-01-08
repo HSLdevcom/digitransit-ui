@@ -39,7 +39,7 @@ import {
   walkAndBikeQuery,
   allModesQuery,
   viewerQuery,
-} from '../util/queryUtils';
+} from './ItineraryQueries';
 import withBreakpoint from '../util/withBreakpoint';
 import { isIOS } from '../util/browser';
 import { itineraryHasCancelation } from '../util/alertUtils';
