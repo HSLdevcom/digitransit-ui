@@ -7,7 +7,7 @@ import { matchShape, routerShape } from 'found';
 import RightOffcanvasToggle from './RightOffcanvasToggle';
 import DatetimepickerContainer from './DatetimepickerContainer';
 
-class QuickSettingsPanel extends React.Component {
+class AltTravelBar extends React.Component {
   // TODO decide if these are needed for new datepicker
   /* eslint-disable react/no-unused-prop-types */
   static propTypes = {
@@ -59,4 +59,4 @@ class QuickSettingsPanel extends React.Component {
   }
 }
 
-export default QuickSettingsPanel;
+export default AltTravelBar;

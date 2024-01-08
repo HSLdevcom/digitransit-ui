@@ -23,7 +23,7 @@ import DesktopView from './DesktopView';
 import MobileView from './MobileView';
 import ItineraryPageMap from './map/ItineraryPageMap';
 import SummaryPlanContainer from './SummaryPlanContainer';
-import SummaryNavigation from './SummaryNavigation';
+import ItineraryPageControls from './ItineraryPageControls';
 import MobileItineraryWrapper from './MobileItineraryWrapper';
 import { getWeatherData } from '../util/apiUtils';
 import Loading from './Loading';
@@ -2136,7 +2136,7 @@ class ItineraryPage extends React.Component {
             }
             header={
               <React.Fragment>
-                <SummaryNavigation params={params} />
+                <ItineraryPageControls params={params} />
                 <StreetModeSelector loading />
               </React.Fragment>
             }
@@ -2156,7 +2156,7 @@ class ItineraryPage extends React.Component {
           bckBtnFallback={hash === 'bikeAndVehicle' ? 'pop' : undefined}
           header={
             <span aria-hidden={this.getOffcanvasState()} ref={this.headerRef}>
-              <SummaryNavigation
+              <ItineraryPageControls
                 params={params}
                 serviceTimeRange={serviceTimeRange}
                 startTime={earliestStartTime}
@@ -2328,7 +2328,7 @@ class ItineraryPage extends React.Component {
         header={
           !showDetailView(hash, secondHash, combinedItineraries) ? (
             <span aria-hidden={this.getOffcanvasState()} ref={this.headerRef}>
-              <SummaryNavigation
+              <ItineraryPageControls
                 params={params}
                 serviceTimeRange={serviceTimeRange}
                 startTime={earliestStartTime}
