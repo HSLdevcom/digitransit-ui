@@ -62,7 +62,7 @@ import {
   stopRealTimeClient,
   changeRealTimeClientTopics,
 } from '../action/realTimeClientAction';
-import ItineraryTab from './ItineraryTab';
+import ItineraryDetailView from './ItineraryDetailView';
 import { StreetModeSelector } from './StreetModeSelector';
 import SwipeableTabs from './SwipeableTabs';
 import {
@@ -987,14 +987,16 @@ class ItineraryPage extends React.Component {
 
   filteredBikeAndPublic = plan => {
     if (Array.isArray(plan?.itineraries)) {
-      return plan.itineraries.filter(
-        itinerary =>
-          !itinerary.legs.every(
-            leg => leg.mode === 'WALK' || leg.mode === 'BICYCLE',
-          ),
-      );
+      return {
+        itineraries: plan.itineraries.filter(
+          itinerary =>
+            !itinerary.legs.every(
+              leg => leg.mode === 'WALK' || leg.mode === 'BICYCLE',
+            ),
+        ),
+      };
     }
-    return null;
+    return { itineraries: undefined };
   };
 
   makeWeatherQuery() {
@@ -1791,7 +1793,7 @@ class ItineraryPage extends React.Component {
                 key={itinerary.key}
                 aria-hidden={activeIndex !== i}
               >
-                <ItineraryTab
+                <ItineraryDetailView
                   hideTitle
                   plan={currentTime}
                   itinerary={itinerary}
