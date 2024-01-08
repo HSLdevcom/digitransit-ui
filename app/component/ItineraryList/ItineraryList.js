@@ -10,7 +10,7 @@ import { isBrowser } from '../../util/browser';
 import { getZones } from '../../util/legUtils';
 import CanceledItineraryToggler from '../CanceledItineraryToggler';
 import { itineraryHasCancelation } from '../../util/alertUtils';
-import { ItinerarySummarySubtitle } from '../ItinerarySummarySubtitle';
+import { ItineraryListHeader } from './ItineraryListHeader';
 import Loading from '../Loading';
 import ItinerarySummaryMessage from './ItinerarySummaryMessage';
 import LocationShape from '../../prop-types/LocationShape';
@@ -90,7 +90,7 @@ function ItineraryList(
         summaries.splice(
           0,
           0,
-          <ItinerarySummarySubtitle
+          <ItineraryListHeader
             translationId="itinerary-summary.bikePark-title"
             defaultMessage="Biking \u0026 public transport \u0026 walking"
             key="itinerary-summary.bikePark-title"
@@ -120,7 +120,7 @@ function ItineraryList(
         summaries.splice(
           bikeAndParkItinerariesToShow ? bikeAndParkItinerariesToShow + 1 : 0,
           0,
-          <ItinerarySummarySubtitle
+          <ItineraryListHeader
             translationId={`itinerary-summary.bikeAndPublic-${allModes
               .sort()
               .join('-')}-title`}
