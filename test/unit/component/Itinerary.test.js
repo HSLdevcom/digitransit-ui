@@ -5,11 +5,11 @@ import React from 'react';
 import { mockContext, mockChildContextTypes } from '../helpers/mock-context';
 import { mountWithIntl, shallowWithIntl } from '../helpers/mock-intl-enzyme';
 import {
-  component as SummaryRow,
+  component as Itinerary,
   ModeLeg,
   ViaLeg,
   RouteLeg,
-} from '../../../app/component/SummaryRow';
+} from '../../../app/component/Itinerary';
 import { AlertSeverityLevelType } from '../../../app/constants';
 import RouteNumberContainer from '../../../app/component/RouteNumberContainer';
 
@@ -24,7 +24,7 @@ const defaultProps = {
   refTime: 0,
 };
 
-describe('<SummaryRow />', () => {
+describe('<Itinerary />', () => {
   it('should display both walking legs in the summary view', () => {
     const props = {
       ...defaultProps,
@@ -34,7 +34,7 @@ describe('<SummaryRow />', () => {
       passive: false,
       refTime: dcw12.walkingRouteWithIntermediatePlace.refTime,
     };
-    const wrapper = shallowWithIntl(<SummaryRow {...props} />, {
+    const wrapper = shallowWithIntl(<Itinerary {...props} />, {
       context: { config: {} },
     });
 
@@ -52,7 +52,7 @@ describe('<SummaryRow />', () => {
       passive: false,
       refTime: dcw12.cityBikeRouteWithIntermediatePlaces.refTime,
     };
-    const wrapper = mountWithIntl(<SummaryRow {...props} />, {
+    const wrapper = mountWithIntl(<Itinerary {...props} />, {
       context: {
         ...mockContext,
         config: { cityBike: { fewAvailableCount: 3 } },
@@ -73,7 +73,7 @@ describe('<SummaryRow />', () => {
       passive: false,
       refTime: dcw12.bikingRouteWithIntermediatePlaces.refTime,
     };
-    const wrapper = mountWithIntl(<SummaryRow {...props} />, {
+    const wrapper = mountWithIntl(<Itinerary {...props} />, {
       context: { ...mockContext },
       childContextTypes: { ...mockChildContextTypes },
     });
@@ -97,7 +97,7 @@ describe('<SummaryRow />', () => {
       passive: false,
       refTime: dcw12.transitRouteWithWalkConnectingIntermediatePlaces.refTime,
     };
-    const wrapper = mountWithIntl(<SummaryRow {...props} />, {
+    const wrapper = mountWithIntl(<Itinerary {...props} />, {
       context: { ...mockContext },
       childContextTypes: { ...mockChildContextTypes },
     });
@@ -118,7 +118,7 @@ describe('<SummaryRow />', () => {
       refTime:
         dcw12.transitRouteWithShortWalkAtEndAfterIntermediatePlace.refTime,
     };
-    const wrapper = mountWithIntl(<SummaryRow {...props} />, {
+    const wrapper = mountWithIntl(<Itinerary {...props} />, {
       context: { ...mockContext },
       childContextTypes: { ...mockChildContextTypes },
     });
@@ -140,7 +140,7 @@ describe('<SummaryRow />', () => {
       refTime:
         dcw12.transitRouteWithShortWalkAtStartBeforeIntermediatePlace.refTime,
     };
-    const wrapper = mountWithIntl(<SummaryRow {...props} />, {
+    const wrapper = mountWithIntl(<Itinerary {...props} />, {
       context: { ...mockContext },
       childContextTypes: { ...mockChildContextTypes },
     });
@@ -160,7 +160,7 @@ describe('<SummaryRow />', () => {
       passive: false,
       refTime: dcw12.transitRouteWithIntermediatePlaceAtStop.refTime,
     };
-    const wrapper = mountWithIntl(<SummaryRow {...props} />, {
+    const wrapper = mountWithIntl(<Itinerary {...props} />, {
       context: { ...mockContext },
       childContextTypes: { ...mockChildContextTypes },
     });
@@ -177,7 +177,7 @@ describe('<SummaryRow />', () => {
       passive: false,
       refTime: dcw12.shortWalkingFirstLegWithMultipleViaPoints.refTime,
     };
-    const wrapper = mountWithIntl(<SummaryRow {...props} />, {
+    const wrapper = mountWithIntl(<Itinerary {...props} />, {
       context: { ...mockContext },
       childContextTypes: { ...mockChildContextTypes },
     });
@@ -198,7 +198,7 @@ describe('<SummaryRow />', () => {
       showCancelled: true,
     };
 
-    const wrapper = mountWithIntl(<SummaryRow {...props} />, {
+    const wrapper = mountWithIntl(<Itinerary {...props} />, {
       context: { ...mockContext },
       childContextTypes: { ...mockChildContextTypes },
     });
@@ -230,7 +230,7 @@ describe('<SummaryRow />', () => {
         ],
       },
     };
-    const wrapper = mountWithIntl(<SummaryRow {...props} />, {
+    const wrapper = mountWithIntl(<Itinerary {...props} />, {
       context: { ...mockContext },
       childContextTypes: { ...mockChildContextTypes },
     });
@@ -272,7 +272,7 @@ describe('<SummaryRow />', () => {
         ],
       },
     };
-    const wrapper = mountWithIntl(<SummaryRow {...props} />, {
+    const wrapper = mountWithIntl(<Itinerary {...props} />, {
       context: { ...mockContext },
       childContextTypes: { ...mockChildContextTypes },
     });
@@ -305,7 +305,7 @@ describe('<SummaryRow />', () => {
         ],
       },
     };
-    const wrapper = mountWithIntl(<SummaryRow {...props} />, {
+    const wrapper = mountWithIntl(<Itinerary {...props} />, {
       context: { ...mockContext },
       childContextTypes: { ...mockChildContextTypes },
     });
@@ -342,7 +342,7 @@ describe('<SummaryRow />', () => {
         ],
       },
     };
-    const wrapper = mountWithIntl(<SummaryRow {...props} />, {
+    const wrapper = mountWithIntl(<Itinerary {...props} />, {
       context: { ...mockContext },
       childContextTypes: { ...mockChildContextTypes },
     });
@@ -379,7 +379,7 @@ describe('<SummaryRow />', () => {
         ],
       },
     };
-    const wrapper = mountWithIntl(<SummaryRow {...props} />, {
+    const wrapper = mountWithIntl(<Itinerary {...props} />, {
       context: { ...mockContext },
       childContextTypes: { ...mockChildContextTypes },
     });
@@ -426,7 +426,7 @@ describe('<SummaryRow />', () => {
         ],
       },
     };
-    const wrapper = mountWithIntl(<SummaryRow {...props} />, {
+    const wrapper = mountWithIntl(<Itinerary {...props} />, {
       context: { ...mockContext },
       childContextTypes: { ...mockChildContextTypes },
     });
