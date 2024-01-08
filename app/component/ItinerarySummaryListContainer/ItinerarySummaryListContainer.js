@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl';
 import cx from 'classnames';
 import { matchShape } from 'found';
 import Icon from '../Icon';
-import SummaryRow from '../SummaryRow';
+import Itinerary from '../Itinerary';
 import { isBrowser } from '../../util/browser';
 import { getZones } from '../../util/legUtils';
 import CanceledItineraryToggler from '../CanceledItineraryToggler';
@@ -63,7 +63,7 @@ function ItinerarySummaryListContainer(
         }, 0).emissionsPerPerson?.co2,
     );
     const summaries = itineraries.map((itinerary, i) => (
-      <SummaryRow
+      <Itinerary
         refTime={searchTime}
         key={i} // eslint-disable-line react/no-array-index-key
         hash={i}
