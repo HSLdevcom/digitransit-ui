@@ -65,6 +65,7 @@ function WalkLeg(
   if (returnNotice) {
     appendClass = 'return-citybike';
   }
+
   return (
     <div key={index} className="row itinerary-row">
       <span className="sr-only">
@@ -88,9 +89,11 @@ function WalkLeg(
       </span>
       <div className="small-2 columns itinerary-time-column" aria-hidden="true">
         <div className="itinerary-time-column-time">
-          {moment(leg.mode === 'WALK' ? leg.startTime : leg.endTime).format(
-            'HH:mm',
-          )}
+          <span className={cx({ realtime: previousLeg?.realTime })}>
+            {moment(leg.mode === 'WALK' ? leg.startTime : leg.endTime).format(
+              'HH:mm',
+            )}
+          </span>
         </div>
       </div>
       <ItineraryCircleLineWithIcon
@@ -266,6 +269,7 @@ const walkLegShape = PropTypes.shape({
   }).isRequired,
   mode: PropTypes.string.isRequired,
   rentedBike: PropTypes.bool,
+  realTime: PropTypes.bool,
   startTime: PropTypes.number.isRequired,
   endTime: PropTypes.number.isRequired,
 });
