@@ -97,14 +97,14 @@ export const moreItinerariesQuery = graphql`
       unpreferred: $unpreferred
       allowedVehicleRentalNetworks: $allowedBikeRentalNetworks
     ) {
-      ...SummaryPlanContainer_plan
+      ...ItineraryListContainer_plan
       ...ItineraryTab_plan
       itineraries {
         duration
         startTime
         endTime
         ...ItineraryTab_itinerary
-        ...SummaryPlanContainer_itineraries
+        ...ItineraryListContainer_itineraries
         emissionsPerPerson {
           co2
         }
@@ -201,7 +201,7 @@ export const walkAndBikeQuery = graphql`
       wheelchair: $wheelchair
       arriveBy: $arriveBy
     ) @include(if: $shouldMakeWalkQuery) {
-      ...SummaryPlanContainer_plan
+      ...ItineraryListContainer_plan
       ...ItineraryTab_plan
       itineraries {
         walkDistance
@@ -209,7 +209,7 @@ export const walkAndBikeQuery = graphql`
         startTime
         endTime
         ...ItineraryTab_itinerary
-        ...SummaryPlanContainer_itineraries
+        ...ItineraryListContainer_itineraries
         legs {
           mode
           ...ItineraryLine_legs
@@ -231,14 +231,14 @@ export const walkAndBikeQuery = graphql`
       bikeSpeed: $bikeSpeed
       optimize: $optimize
     ) @include(if: $shouldMakeBikeQuery) {
-      ...SummaryPlanContainer_plan
+      ...ItineraryListContainer_plan
       ...ItineraryTab_plan
       itineraries {
         duration
         startTime
         endTime
         ...ItineraryTab_itinerary
-        ...SummaryPlanContainer_itineraries
+        ...ItineraryListContainer_itineraries
         legs {
           mode
           ...ItineraryLine_legs
@@ -267,14 +267,14 @@ export const walkAndBikeQuery = graphql`
       optimize: $optimize
       unpreferred: $unpreferred
     ) @include(if: $showBikeAndPublicItineraries) {
-      ...SummaryPlanContainer_plan
+      ...ItineraryListContainer_plan
       ...ItineraryTab_plan
       itineraries {
         duration
         startTime
         endTime
         ...ItineraryTab_itinerary
-        ...SummaryPlanContainer_itineraries
+        ...ItineraryListContainer_itineraries
         emissionsPerPerson {
           co2
         }
@@ -322,14 +322,14 @@ export const walkAndBikeQuery = graphql`
       optimize: $optimize
       unpreferred: $unpreferred
     ) @include(if: $showBikeAndParkItineraries) {
-      ...SummaryPlanContainer_plan
+      ...ItineraryListContainer_plan
       ...ItineraryTab_plan
       itineraries {
         duration
         startTime
         endTime
         ...ItineraryTab_itinerary
-        ...SummaryPlanContainer_itineraries
+        ...ItineraryListContainer_itineraries
         emissionsPerPerson {
           co2
         }
@@ -383,14 +383,14 @@ export const walkAndBikeQuery = graphql`
       optimize: $optimize
       unpreferred: $unpreferred
     ) @include(if: $shouldMakeCarQuery) {
-      ...SummaryPlanContainer_plan
+      ...ItineraryListContainer_plan
       ...ItineraryTab_plan
       itineraries {
         duration
         startTime
         endTime
         ...ItineraryTab_itinerary
-        ...SummaryPlanContainer_itineraries
+        ...ItineraryListContainer_itineraries
         emissionsPerPerson {
           co2
         }
@@ -444,14 +444,14 @@ export const walkAndBikeQuery = graphql`
       optimize: $optimize
       unpreferred: $unpreferred
     ) @include(if: $shouldMakeParkRideQuery) {
-      ...SummaryPlanContainer_plan
+      ...ItineraryListContainer_plan
       ...ItineraryTab_plan
       itineraries {
         duration
         startTime
         endTime
         ...ItineraryTab_itinerary
-        ...SummaryPlanContainer_itineraries
+        ...ItineraryListContainer_itineraries
         legs {
           mode
           ...ItineraryLine_legs
@@ -533,13 +533,13 @@ export const allModesQuery = graphql`
         code
         inputField
       }
-      ...SummaryPlanContainer_plan
+      ...ItineraryListContainer_plan
       ...ItineraryTab_plan
       itineraries {
         startTime
         endTime
         ...ItineraryTab_itinerary
-        ...SummaryPlanContainer_itineraries
+        ...ItineraryListContainer_itineraries
         emissionsPerPerson {
           co2
         }
@@ -641,7 +641,7 @@ export const viewerQuery = graphql`
       allowedVehicleRentalNetworks: $allowedBikeRentalNetworks
       modeWeight: $modeWeight
     ) {
-      ...SummaryPlanContainer_plan
+      ...ItineraryListContainer_plan
       ...ItineraryTab_plan
       routingErrors {
         code
@@ -651,7 +651,7 @@ export const viewerQuery = graphql`
         startTime
         endTime
         ...ItineraryTab_itinerary
-        ...SummaryPlanContainer_itineraries
+        ...ItineraryListContainer_itineraries
         emissionsPerPerson {
           co2
         }

@@ -2,7 +2,7 @@ import React from 'react';
 
 import { mockContext, mockChildContextTypes } from '../helpers/mock-context';
 import { mountWithIntl } from '../helpers/mock-intl-enzyme';
-import { Component as ItinerarySummaryListContainer } from '../../../app/component/ItinerarySummaryListContainer/ItinerarySummaryListContainer';
+import { Component as ItineraryList } from '../../../app/component/ItineraryList/ItineraryList';
 
 const noop = () => {};
 
@@ -36,7 +36,7 @@ const PROPS_TEMPLATE = {
   driving: false,
 };
 
-describe('<ItinerarySummaryListContainer />', () => {
+describe('<ItineraryList />', () => {
   xit('should render the component for canceled itineraries', () => {
     // TODO: enzyme is currently missing support for react hooks
     const props = {
@@ -46,7 +46,7 @@ describe('<ItinerarySummaryListContainer />', () => {
     };
     const wrapper = mountWithIntl(
       <div>
-        <ItinerarySummaryListContainer {...props} />
+        <ItineraryList {...props} />
       </div>,
       { context: mockContext, childContextTypes: mockChildContextTypes },
     );
@@ -61,7 +61,7 @@ describe('<ItinerarySummaryListContainer />', () => {
 
     const wrapper = mountWithIntl(
       <div>
-        <ItinerarySummaryListContainer {...props} />
+        <ItineraryList {...props} />
       </div>,
       { context: mockContext, childContextTypes: mockChildContextTypes },
     );

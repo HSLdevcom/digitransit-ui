@@ -2,13 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { matchShape } from 'found';
 
-import LocationStateShape from '../../../prop-types/LocationStateShape';
-import LocationShape from '../../../prop-types/LocationShape';
-import ErrorShape from '../../../prop-types/ErrorShape';
-import RoutingErrorShape from '../../../prop-types/RoutingErrorShape';
-import ErrorCard from './components/ErrorCard';
-import findErrorMessageIds from './utils/findErrorMessageIds';
-import errorCardProps from './utils/errorCardProperties';
+import LocationStateShape from '../../prop-types/LocationStateShape';
+import LocationShape from '../../prop-types/LocationShape';
+import ErrorShape from '../../prop-types/ErrorShape';
+import RoutingErrorShape from '../../prop-types/RoutingErrorShape';
+import ErrorCard from './ErrorCard';
+import findErrorMessageIds from './findErrorMessageIds';
+import errorCardProps from './errorCardProperties';
 
 /**
  * Get error message visual properties.

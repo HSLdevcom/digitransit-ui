@@ -22,7 +22,7 @@ import SunCalc from 'suncalc';
 import DesktopView from './DesktopView';
 import MobileView from './MobileView';
 import ItineraryPageMap from './map/ItineraryPageMap';
-import SummaryPlanContainer from './SummaryPlanContainer';
+import ItineraryListContainer from './ItineraryListContainer';
 import ItineraryPageControls from './ItineraryPageControls';
 import MobileItineraryWrapper from './MobileItineraryWrapper';
 import { getWeatherData } from '../util/apiUtils';
@@ -2060,7 +2060,7 @@ class ItineraryPage extends React.Component {
         }
         content = (
           <>
-            <SummaryPlanContainer
+            <ItineraryListContainer
               activeIndex={activeIndex}
               plan={this.selectedPlan}
               serviceTimeRange={serviceTimeRange}
@@ -2104,7 +2104,7 @@ class ItineraryPage extends React.Component {
                   focusToPoint: this.focusToPoint,
                   plan: this.selectedPlan,
                 })}
-            </SummaryPlanContainer>
+            </ItineraryListContainer>
           </>
         );
       } else {
@@ -2274,7 +2274,7 @@ class ItineraryPage extends React.Component {
       } else {
         content = (
           <>
-            <SummaryPlanContainer
+            <ItineraryListContainer
               activeIndex={
                 itineraryIndex ||
                 getActiveIndex(match.location, combinedItineraries)
