@@ -51,7 +51,7 @@ export const planQuery = graphql`
     }
 
     serviceTimeRange {
-      ...SummaryPage_serviceTimeRange
+      ...ItineraryPage_serviceTimeRange
     }
   }
 `;

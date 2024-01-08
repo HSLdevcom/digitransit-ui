@@ -368,7 +368,7 @@ export default config => {
               path="(.*)?"
               getComponent={() =>
                 import(
-                  /* webpackChunkName: "itinerary" */ './component/SummaryTitle'
+                  /* webpackChunkName: "itinerary" */ './component/ItineraryPageTitle'
                 ).then(getDefault)
               }
             />
@@ -377,7 +377,7 @@ export default config => {
             <Route
               getComponent={() =>
                 import(
-                  /* webpackChunkName: "itinerary" */ './component/SummaryPageContainer'
+                  /* webpackChunkName: "itinerary" */ './component/ItineraryPageContainer'
                 ).then(getDefault)
               }
               render={({ Component, props }) => {
@@ -409,7 +409,7 @@ export default config => {
               path="(.*)?"
               getComponent={() =>
                 import(
-                  /* webpackChunkName: "itinerary" */ './component/SummaryPageMeta'
+                  /* webpackChunkName: "itinerary" */ './component/ItineraryPageMeta'
                 ).then(getDefault)
               }
             />

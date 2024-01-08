@@ -162,7 +162,7 @@ export function reportError(error) {
   addAnalyticsEvent({
     category: 'Itinerary',
     action: 'ErrorLoading',
-    name: 'SummaryPage',
+    name: 'ItineraryPage',
     message: error.message || error,
     stack: error.stack || null,
   });
@@ -309,7 +309,7 @@ export function setCurrentTimeToURL(config, match) {
   }
 }
 
-class SummaryPage extends React.Component {
+class ItineraryPage extends React.Component {
   static contextTypes = {
     config: PropTypes.object,
     executeAction: PropTypes.func.isRequired,
@@ -613,7 +613,7 @@ class SummaryPage extends React.Component {
     this.query = this.props.match.location.query;
   };
 
-  resetSummaryPageSelection = () => {
+  resetItineraryPageSelection = () => {
     this.context.router.replace({
       ...this.props.match.location,
       state: {
@@ -655,7 +655,7 @@ class SummaryPage extends React.Component {
   makeQueryWithAllModes = () => {
     this.setLoading(true);
 
-    this.resetSummaryPageSelection();
+    this.resetItineraryPageSelection();
 
     const planParams = preparePlanParams(this.context.config, true)(
       this.props.match.params,
@@ -758,7 +758,7 @@ class SummaryPage extends React.Component {
                 : reversedItineraries.length,
             };
           });
-          this.resetSummaryPageSelection();
+          this.resetItineraryPageSelection();
         } else {
           this.setState(prevState => {
             return {
@@ -889,7 +889,7 @@ class SummaryPage extends React.Component {
             };
           });
 
-          this.resetSummaryPageSelection();
+          this.resetItineraryPageSelection();
         }
       });
   };
@@ -981,7 +981,7 @@ class SummaryPage extends React.Component {
     if (this.showVehicles()) {
       const { client } = this.context.getStore('RealTimeInformationStore');
       // If user comes from eg. RoutePage, old client may not have been completely shut down yet.
-      // This will prevent situation where RoutePages vehicles would appear on SummaryPage
+      // This will prevent situation where RoutePages vehicles would appear on ItineraryPage
       if (!client) {
         const combinedItineraries = this.getCombinedItineraries();
         const itineraryTopics = getTopicOptions(
@@ -1574,7 +1574,7 @@ class SummaryPage extends React.Component {
                   },
                   () => {
                     this.showScreenreaderUpdatedAlert();
-                    this.resetSummaryPageSelection();
+                    this.resetItineraryPageSelection();
                   },
                 );
               });
@@ -1599,7 +1599,7 @@ class SummaryPage extends React.Component {
 
     return !!(
       this.inRange &&
-      this.context.config.showVehiclesOnSummaryPage &&
+      this.context.config.showVehiclesOnItineraryPage &&
       hash !== 'walk' &&
       hash !== 'bike' &&
       hash !== 'car' &&
@@ -2396,16 +2396,16 @@ class SummaryPage extends React.Component {
   }
 }
 
-const SummaryPageWithBreakpoint = withBreakpoint(props => (
+const ItineraryPageWithBreakpoint = withBreakpoint(props => (
   <ReactRelayContext.Consumer>
     {({ environment }) => (
-      <SummaryPage {...props} relayEnvironment={environment} />
+      <ItineraryPage {...props} relayEnvironment={environment} />
     )}
   </ReactRelayContext.Consumer>
 ));
 
-const SummaryPageWithStores = connectToStores(
-  SummaryPageWithBreakpoint,
+const ItineraryPageWithStores = connectToStores(
+  ItineraryPageWithBreakpoint,
   ['MapLayerStore'],
   ({ getStore }) => ({
     mapLayers: getStore('MapLayerStore').getMapLayers({
@@ -2419,11 +2419,11 @@ const SummaryPageWithStores = connectToStores(
 );
 
 const containerComponent = createRefetchContainer(
-  SummaryPageWithStores,
+  ItineraryPageWithStores,
   {
     viewer: viewerQuery,
     serviceTimeRange: graphql`
-      fragment SummaryPage_serviceTimeRange on serviceTimeRange {
+      fragment ItineraryPage_serviceTimeRange on serviceTimeRange {
         start
         end
       }
@@ -2434,5 +2434,5 @@ const containerComponent = createRefetchContainer(
 
 export {
   containerComponent as default,
-  SummaryPageWithBreakpoint as Component,
+  ItineraryPageWithBreakpoint as Component,
 };

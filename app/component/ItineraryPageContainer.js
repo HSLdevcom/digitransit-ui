@@ -14,10 +14,10 @@ import LazilyLoad, { importLazy } from './LazilyLoad';
 const modules = {
   QueryRenderer: () =>
     importLazy(import('react-relay/lib/ReactRelayQueryRenderer')),
-  SummaryPage: () => importLazy(import('./SummaryPage')),
+  ItineraryPage: () => importLazy(import('./ItineraryPage')),
 };
 
-const SummaryPageContainer = ({ content, match }, { config }) => {
+const ItineraryPageContainer = ({ content, match }, { config }) => {
   const { environment } = useContext(ReactRelayContext);
   const [isClient, setClient] = useState(false);
   const alertRef = useRef();
@@ -37,12 +37,12 @@ const SummaryPageContainer = ({ content, match }, { config }) => {
   });
   return isClient ? (
     <LazilyLoad modules={modules}>
-      {({ QueryRenderer, SummaryPage }) =>
+      {({ QueryRenderer, ItineraryPage }) =>
         /* Don't make a query if start or destination is invalid, only render */
         !hasStartAndDestination(match.params) ? (
           <>
             {screenReaderAlert}
-            <SummaryPage
+            <ItineraryPage
               content={content}
               match={match}
               viewer={{ plan: {} }}
@@ -60,7 +60,7 @@ const SummaryPageContainer = ({ content, match }, { config }) => {
               return innerProps ? (
                 <>
                   {screenReaderAlert}
-                  <SummaryPage
+                  <ItineraryPage
                     {...innerProps}
                     content={content}
                     match={match}
@@ -72,7 +72,7 @@ const SummaryPageContainer = ({ content, match }, { config }) => {
               ) : (
                 <>
                   {screenReaderAlert}
-                  <SummaryPage
+                  <ItineraryPage
                     content={content}
                     match={match}
                     viewer={{ plan: {} }}
@@ -93,13 +93,13 @@ const SummaryPageContainer = ({ content, match }, { config }) => {
   );
 };
 
-SummaryPageContainer.contextTypes = {
+ItineraryPageContainer.contextTypes = {
   config: PropTypes.object.isRequired,
 };
 
-SummaryPageContainer.propTypes = {
+ItineraryPageContainer.propTypes = {
   content: PropTypes.node,
   match: matchShape.isRequired,
 };
 
-export default SummaryPageContainer;
+export default ItineraryPageContainer;
