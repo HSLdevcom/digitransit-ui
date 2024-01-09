@@ -189,9 +189,12 @@ function Datetimepicker({
   let timeChoices = [];
   const current = moment(timeSelectStartTime);
   while (current.isSame(timeSelectStartTime, 'day')) {
-    // TODO! HANDLE MOBILE DIFFERENTLY!
     timeChoices.push(current.valueOf());
-    current.add(1, 'minutes');
+    if (isMobile()) {
+      current.add(15, 'minutes');
+    } else {
+      current.add(1, 'minutes');
+    }
   }
   if (timestamp === null) {
     // if time is set to now
