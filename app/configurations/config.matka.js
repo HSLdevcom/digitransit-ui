@@ -5,6 +5,7 @@ import TurkuConfig from './config.turku';
 import LappeenrantaConfig from './config.lappeenranta';
 import TampereConfig from './config.tampere';
 import KuopioConfig from './config.kuopio';
+import LahtiConfig from './config.lahti';
 
 const CONFIG = 'matka';
 const APP_DESCRIPTION = 'Matka.fi–palvelu.';
@@ -255,6 +256,15 @@ export default {
           sv: 'https://kaupunkipyorat.kuopio.fi/?lang=2',
           en: 'https://kaupunkipyorat.kuopio.fi/?lang=2',
         },
+      },
+      freebike_lahti: {
+        enabled: LahtiConfig.cityBike.networks.freebike_lahti.enabled,
+        season: LahtiConfig.cityBike.networks.freebike_lahti.season,
+        capacity: BIKEAVL_BIKES,
+        icon: LahtiConfig.cityBike.networks.freebike_lahti.icon,
+        name: LahtiConfig.cityBike.networks.freebike_lahti.name,
+        type: LahtiConfig.cityBike.networks.freebike_lahti.type,
+        url: LahtiConfig.cityBike.networks.freebike_lahti.url,
       },
       donkey_lappeenranta: {
         enabled:
