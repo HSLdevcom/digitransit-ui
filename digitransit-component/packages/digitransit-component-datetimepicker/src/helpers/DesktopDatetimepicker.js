@@ -133,14 +133,23 @@ function DesktopDatetimepicker({
           options={options}
           inputId={inputId}
           onChange={time => {
+            const currentTime = moment(value).format('HH:mm');
+            const validated = validate(displayValue, value);
             if (typing) {
-              const validated = validate(displayValue, value);
               if (validated !== null) {
-                handleTimestamp(validated);
+                if (currentTime !== displayValue && time.value === value) {
+                  handleTimestamp(validated);
+                } else {
+                  handleTimestamp(time.value);
+                }
                 setTyping(false);
               } else {
-                // reset value
-                changeDisplayValue(getDisplay(value));
+                if (time.value !== value) {
+                  handleTimestamp(time.value);
+                } else {
+                  // reset value
+                  changeDisplayValue(getDisplay(value));
+                }
                 setTyping(false);
               }
               return;
@@ -156,13 +165,26 @@ function DesktopDatetimepicker({
           inputValue={!disableTyping && displayValue}
           value={closestOption}
           filterOption={(option, input) => {
-            if (datePicker || showAllOptions) {
+            const completeInput =
+              input.length === 5 ||
+              (input.length === 4 && input.split(':')[0].length === 1);
+            const isMod15 = option.label.split(':')[1] % 15 === 0;
+            if (datePicker) {
               return true;
             }
-            if (input.length < 1 || input.length > 5) {
+            if (showAllOptions && isMod15) {
               return true;
             }
-            return filterOptions(option, input);
+            if (completeInput) {
+              return input.length === 4
+                ? '0'.concat(input) === option.label
+                : input === option.label;
+            }
+            if (isMod15) {
+              return filterOptions(option, input);
+            }
+
+            return false;
           }}
           controlShouldRenderValue={disableTyping}
           tabSelectsValue={false}
