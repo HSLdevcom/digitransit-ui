@@ -18,19 +18,8 @@ class ItineraryPageControls extends React.Component {
       to: PropTypes.string,
       hash: PropTypes.string,
     }).isRequired,
-    startTime: PropTypes.number,
-    endTime: PropTypes.number,
     breakpoint: PropTypes.string.isRequired,
-    serviceTimeRange: PropTypes.shape({
-      start: PropTypes.number.isRequired,
-      end: PropTypes.number.isRequired,
-    }).isRequired,
     toggleSettings: PropTypes.func.isRequired,
-  };
-
-  static defaultProps = {
-    startTime: null,
-    endTime: null,
   };
 
   static contextTypes = {
@@ -104,12 +93,7 @@ class ItineraryPageControls extends React.Component {
         />
         {isBrowser && (
           <React.Fragment>
-            <AltTravelBar
-              timeSelectorStartTime={this.props.startTime}
-              timeSelectorEndTime={this.props.endTime}
-              timeSelectorServiceTimeRange={this.props.serviceTimeRange}
-              toggleSettings={this.props.toggleSettings}
-            />
+            <AltTravelBar toggleSettings={this.props.toggleSettings} />
           </React.Fragment>
         )}
       </div>
