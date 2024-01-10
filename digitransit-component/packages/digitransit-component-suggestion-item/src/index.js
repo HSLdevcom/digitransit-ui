@@ -24,7 +24,7 @@ const getRouteMode = props => {
 };
 
 function isFavourite(item) {
-  return item && item.type && item.type.includes('Favourite');
+  return item?.type?.includes('Favourite');
 }
 
 function getAriaDescription(ariaContentArray) {
@@ -81,7 +81,7 @@ function getIconProperties(
     if (item.properties.layer === 'bikepark') {
       return [`bike-park`, 'mode-bikepark'];
     }
-    if (item.properties.label?.split(',').length === 1) {
+    if (item.properties.label?.split(',').length === 1 && !isFavourite(item)) {
       iconId = 'localadmin'; // plain city name
     } else {
       iconId = item.properties.selectedIconId || item.properties.layer;

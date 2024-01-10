@@ -1,6 +1,6 @@
 import inside from 'point-in-polygon';
 import distance from '@digitransit-search-util/digitransit-search-util-distance';
-import { PlannerMessageType } from '../../../../constants';
+import { PlannerMessageType } from '../../constants';
 
 /**
  * @typedef {Object} QueryContext

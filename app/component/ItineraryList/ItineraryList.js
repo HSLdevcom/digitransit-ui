@@ -5,20 +5,20 @@ import { FormattedMessage } from 'react-intl';
 import cx from 'classnames';
 import { matchShape } from 'found';
 import Icon from '../Icon';
-import SummaryRow from '../SummaryRow';
+import Itinerary from '../Itinerary';
 import { isBrowser } from '../../util/browser';
 import { getZones } from '../../util/legUtils';
 import CanceledItineraryToggler from '../CanceledItineraryToggler';
 import { itineraryHasCancelation } from '../../util/alertUtils';
-import { ItinerarySummarySubtitle } from '../ItinerarySummarySubtitle';
+import { ItineraryListHeader } from './ItineraryListHeader';
 import Loading from '../Loading';
-import ItinerarySummaryMessage from './components/ItinerarySummaryMessage';
+import ItinerarySummaryMessage from './ItinerarySummaryMessage';
 import LocationShape from '../../prop-types/LocationShape';
 import ErrorShape from '../../prop-types/ErrorShape';
 import RoutingErrorShape from '../../prop-types/RoutingErrorShape';
 import RoutingFeedbackPrompt from '../RoutingFeedbackPrompt';
 
-function ItinerarySummaryListContainer(
+function ItineraryList(
   {
     activeIndex,
     currentTime,
@@ -63,7 +63,7 @@ function ItinerarySummaryListContainer(
         }, 0).emissionsPerPerson?.co2,
     );
     const summaries = itineraries.map((itinerary, i) => (
-      <SummaryRow
+      <Itinerary
         refTime={searchTime}
         key={i} // eslint-disable-line react/no-array-index-key
         hash={i}
@@ -90,7 +90,7 @@ function ItinerarySummaryListContainer(
         summaries.splice(
           0,
           0,
-          <ItinerarySummarySubtitle
+          <ItineraryListHeader
             translationId="itinerary-summary.bikePark-title"
             defaultMessage="Biking \u0026 public transport \u0026 walking"
             key="itinerary-summary.bikePark-title"
@@ -120,7 +120,7 @@ function ItinerarySummaryListContainer(
         summaries.splice(
           bikeAndParkItinerariesToShow ? bikeAndParkItinerariesToShow + 1 : 0,
           0,
-          <ItinerarySummarySubtitle
+          <ItineraryListHeader
             translationId={`itinerary-summary.bikeAndPublic-${allModes
               .sort()
               .join('-')}-title`}
@@ -288,7 +288,7 @@ function ItinerarySummaryListContainer(
   );
 }
 
-ItinerarySummaryListContainer.propTypes = {
+ItineraryList.propTypes = {
   activeIndex: PropTypes.number.isRequired,
   currentTime: PropTypes.number.isRequired,
   error: ErrorShape,
@@ -314,7 +314,7 @@ ItinerarySummaryListContainer.propTypes = {
   routingFeedbackPosition: PropTypes.number,
 };
 
-ItinerarySummaryListContainer.defaultProps = {
+ItineraryList.defaultProps = {
   error: undefined,
   intermediatePlaces: [],
   itineraries: [],
@@ -329,114 +329,107 @@ ItinerarySummaryListContainer.defaultProps = {
   onlyHasWalkingItineraries: false,
 };
 
-ItinerarySummaryListContainer.contextTypes = {
+ItineraryList.contextTypes = {
   config: PropTypes.object.isRequired,
   match: matchShape.isRequired,
 };
 
-const containerComponent = createFragmentContainer(
-  ItinerarySummaryListContainer,
-  {
-    itineraries: graphql`
-      fragment ItinerarySummaryListContainer_itineraries on Itinerary
-      @relay(plural: true) {
-        walkDistance
+const containerComponent = createFragmentContainer(ItineraryList, {
+  itineraries: graphql`
+    fragment ItineraryList_itineraries on Itinerary @relay(plural: true) {
+      walkDistance
+      startTime
+      endTime
+      emissionsPerPerson {
+        co2
+      }
+      legs {
+        realTime
+        realtimeState
+        transitLeg
         startTime
         endTime
-        emissionsPerPerson {
-          co2
-        }
-        legs {
-          realTime
-          realtimeState
-          transitLeg
-          startTime
-          endTime
-          mode
-          distance
-          duration
-          rentedBike
-          interlineWithPreviousLeg
-          intermediatePlace
-          intermediatePlaces {
-            stop {
-              zoneId
-            }
+        mode
+        distance
+        duration
+        rentedBike
+        interlineWithPreviousLeg
+        intermediatePlace
+        intermediatePlaces {
+          stop {
+            zoneId
           }
-          route {
-            mode
-            shortName
-            type
-            color
-            agency {
-              name
+        }
+        route {
+          mode
+          shortName
+          type
+          color
+          agency {
+            name
+          }
+          alerts {
+            alertSeverityLevel
+            effectiveEndDate
+            effectiveStartDate
+          }
+        }
+        trip {
+          pattern {
+            code
+          }
+          stoptimes {
+            realtimeState
+            stop {
+              gtfsId
             }
+            pickupType
+          }
+          occupancy {
+            occupancyStatus
+          }
+        }
+        from {
+          name
+          lat
+          lon
+          stop {
+            gtfsId
+            zoneId
+            platformCode
             alerts {
               alertSeverityLevel
               effectiveEndDate
               effectiveStartDate
             }
           }
-          trip {
-            pattern {
-              code
-            }
-            stoptimes {
-              realtimeState
-              stop {
-                gtfsId
-              }
-              pickupType
-            }
-            occupancy {
-              occupancyStatus
+          vehicleRentalStation {
+            vehiclesAvailable
+            network
+          }
+        }
+        to {
+          stop {
+            gtfsId
+            zoneId
+            alerts {
+              alertSeverityLevel
+              effectiveEndDate
+              effectiveStartDate
             }
           }
-          from {
+          bikePark {
+            bikeParkId
             name
-            lat
-            lon
-            stop {
-              gtfsId
-              zoneId
-              platformCode
-              alerts {
-                alertSeverityLevel
-                effectiveEndDate
-                effectiveStartDate
-              }
-            }
-            vehicleRentalStation {
-              vehiclesAvailable
-              network
-            }
           }
-          to {
-            stop {
-              gtfsId
-              zoneId
-              alerts {
-                alertSeverityLevel
-                effectiveEndDate
-                effectiveStartDate
-              }
-            }
-            bikePark {
-              bikeParkId
-              name
-            }
-            carPark {
-              carParkId
-              name
-            }
+          carPark {
+            carParkId
+            name
           }
         }
       }
-    `,
-  },
-);
+    }
+  `,
+});
 
-export {
-  containerComponent as default,
-  ItinerarySummaryListContainer as Component,
-};
+export { containerComponent as default, ItineraryList as Component };

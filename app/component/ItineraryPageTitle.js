@@ -2,7 +2,7 @@ import React from 'react';
 import { matchShape } from 'found';
 import { FormattedMessage } from 'react-intl';
 
-export default function SummaryTitle(props) {
+export default function ItineraryPageTitle(props) {
   return (
     <span>
       {props.match.params.hash == null ? (
@@ -20,6 +20,6 @@ export default function SummaryTitle(props) {
   );
 }
 
-SummaryTitle.propTypes = {
+ItineraryPageTitle.propTypes = {
   match: matchShape.isRequired,
 };

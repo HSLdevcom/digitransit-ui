@@ -205,22 +205,6 @@
   margin-right: 0;
 }
 
-.quicksettings-separator-line {
-  display: block;
-  width: auto;
-  margin: 0 auto;
-  margin-left: 1em;
-  margin-right: 1em;
-  margin-top: 0.3em;
-  border-top: 1px solid #ddd;
-  background: $background-color-lighter;
-}
-
-.mobile .quicksettings-separator-line {
-  margin-left: 6px;
-  margin-right: 6px;
-}
-
 .time-selector-settings-row {
   background-color: $background-color-lighter;
   display: flex;

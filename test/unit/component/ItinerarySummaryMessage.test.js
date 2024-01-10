@@ -2,7 +2,7 @@ import React from 'react';
 
 import { mockContext, mockChildContextTypes } from '../helpers/mock-context';
 import { mountWithIntl, shallowWithIntl } from '../helpers/mock-intl-enzyme';
-import ItinerarySummaryMessage from '../../../app/component/ItinerarySummaryListContainer/components/ItinerarySummaryMessage';
+import ItinerarySummaryMessage from '../../../app/component/ItineraryList/ItinerarySummaryMessage';
 import { PlannerMessageType } from '../../../app/constants';
 
 const TestLocation = {

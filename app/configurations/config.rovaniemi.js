@@ -84,7 +84,7 @@ export default configMerger(walttiConfig, {
   },
   vehicles: true,
   showVehiclesOnStopPage: true,
-  showVehiclesOnSummaryPage: true,
+  showVehiclesOnItineraryPage: true,
   zoneIdMapping: {
     1: 'A',
     2: 'B',

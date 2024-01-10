@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import findErrorMessageIds from '../../../app/component/ItinerarySummaryListContainer/components/utils/findErrorMessageIds';
+import findErrorMessageIds from '../../../app/component/ItineraryList/findErrorMessageIds';
 
 const expectSingleValue = (arr, expected) => {
   expect(arr.length).to.equal(1);
