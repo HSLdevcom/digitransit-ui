@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { matchShape, routerShape } from 'found';
 import { FormattedMessage, intlShape } from 'react-intl';
-import ItineraryDetailView from './ItineraryDetailView';
+import ItineraryDetails from './ItineraryDetails';
 import SwipeableTabs from './SwipeableTabs';
 import ItineraryShape from '../prop-types/ItineraryShape';
 
@@ -31,7 +31,7 @@ const MobileItineraryWrapper = (props, context) => {
         className={`swipeable-tab ${index !== i && 'inactive'}`}
         key={child.key}
       >
-        <ItineraryDetailView
+        <ItineraryDetails
           key={child.key}
           activeIndex={index + i}
           plan={props.plan}

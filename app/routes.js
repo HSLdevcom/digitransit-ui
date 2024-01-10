@@ -394,7 +394,7 @@ export default config => {
                     <Route
                       getComponent={() =>
                         import(
-                          /* webpackChunkName: "itinerary" */ './component/ItineraryDetailView'
+                          /* webpackChunkName: "itinerary" */ './component/ItineraryDetails'
                         ).then(getDefault)
                       }
                       render={getComponentOrLoadingRenderer}

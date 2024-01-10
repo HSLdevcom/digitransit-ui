@@ -62,7 +62,7 @@ import {
   stopRealTimeClient,
   changeRealTimeClientTopics,
 } from '../action/realTimeClientAction';
-import ItineraryDetailView from './ItineraryDetailView';
+import ItineraryDetails from './ItineraryDetails';
 import { StreetModeSelector } from './StreetModeSelector';
 import SwipeableTabs from './SwipeableTabs';
 import {
@@ -1793,7 +1793,7 @@ class ItineraryPage extends React.Component {
                 key={itinerary.key}
                 aria-hidden={activeIndex !== i}
               >
-                <ItineraryDetailView
+                <ItineraryDetails
                   hideTitle
                   plan={currentTime}
                   itinerary={itinerary}
