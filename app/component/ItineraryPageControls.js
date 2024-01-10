@@ -5,7 +5,7 @@ import { matchShape, routerShape } from 'found';
 import { FormattedMessage } from 'react-intl';
 
 import OriginDestinationBar from './OriginDestinationBar';
-import AltTravelBar from './AltTravelBar';
+import SearchSettings from './SearchSettings';
 import { isBrowser } from '../util/browser';
 import { parseLocation, PREFIX_ITINERARY_SUMMARY } from '../util/path';
 import withBreakpoint from '../util/withBreakpoint';
@@ -93,7 +93,7 @@ class ItineraryPageControls extends React.Component {
         />
         {isBrowser && (
           <React.Fragment>
-            <AltTravelBar toggleSettings={this.props.toggleSettings} />
+            <SearchSettings toggleSettings={this.props.toggleSettings} />
           </React.Fragment>
         )}
       </div>

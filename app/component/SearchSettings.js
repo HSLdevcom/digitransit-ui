@@ -5,7 +5,7 @@ import cx from 'classnames';
 import RightOffcanvasToggle from './RightOffcanvasToggle';
 import DatetimepickerContainer from './DatetimepickerContainer';
 
-class AltTravelBar extends React.Component {
+class SearchSettings extends React.Component {
   static propTypes = {
     toggleSettings: PropTypes.func.isRequired,
   };
@@ -49,4 +49,4 @@ class AltTravelBar extends React.Component {
   }
 }
 
-export default AltTravelBar;
+export default SearchSettings;
