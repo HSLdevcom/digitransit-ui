@@ -144,7 +144,7 @@ export default configMerger(walttiConfig, {
 
   vehicles: true,
   showVehiclesOnStopPage: true,
-  showVehiclesOnSummaryPage: true,
+  showVehiclesOnItineraryPage: true,
 
   transportModes: {
     citybike: {

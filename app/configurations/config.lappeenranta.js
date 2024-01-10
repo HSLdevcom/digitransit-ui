@@ -84,7 +84,7 @@ export default configMerger(walttiConfig, {
 
   vehicles: true,
   showVehiclesOnStopPage: true,
-  showVehiclesOnSummaryPage: true,
+  showVehiclesOnItineraryPage: true,
 
   menu: {
     copyright: { label: `© Lappeenranta ${walttiConfig.YEAR}` },
