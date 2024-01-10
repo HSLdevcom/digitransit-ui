@@ -237,7 +237,7 @@ const hasOneTransitLeg = data => {
   return data.legs.filter(leg => leg.transitLeg).length === 1;
 };
 
-const SummaryRow = (
+const Itinerary = (
   {
     data,
     breakpoint,
@@ -911,7 +911,7 @@ const SummaryRow = (
   );
 };
 
-SummaryRow.propTypes = {
+Itinerary.propTypes = {
   refTime: PropTypes.number.isRequired,
   data: PropTypes.object.isRequired,
   passive: PropTypes.bool,
@@ -928,7 +928,7 @@ SummaryRow.propTypes = {
   lowestCo2value: PropTypes.number,
 };
 
-SummaryRow.defaultProps = {
+Itinerary.defaultProps = {
   zones: [],
   passive: false,
   intermediatePlaces: [],
@@ -938,13 +938,13 @@ SummaryRow.defaultProps = {
   lowestCo2value: 0,
 };
 
-SummaryRow.contextTypes = {
+Itinerary.contextTypes = {
   intl: intlShape.isRequired,
   config: PropTypes.object.isRequired,
 };
 
-SummaryRow.displayName = 'SummaryRow';
+Itinerary.displayName = 'Itinerary';
 
-const SummaryRowWithBreakpoint = withBreakpoint(SummaryRow);
+const ItineraryWithBreakpoint = withBreakpoint(Itinerary);
 
-export { SummaryRow as component, SummaryRowWithBreakpoint as default };
+export { Itinerary as component, ItineraryWithBreakpoint as default };

@@ -1,4 +1,4 @@
-.quicksettings-container {
+.searchsettings-container {
   display: block;
   background-color: $white;
   margin: 0 60px;
@@ -162,7 +162,7 @@
     }
   }
 }
-.mobile .quicksettings-container {
+.mobile .searchsettings-container {
   margin: 0 auto;
   .bottom-row .select-wrapper {
     flex: 1 1 auto;

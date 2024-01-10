@@ -117,7 +117,7 @@ export default configMerger(matkaConfig, {
   useRealtimeTravellerCapacities: false,
 
   showVehiclesOnStopPage: false,
-  showVehiclesOnSummaryPage: false,
+  showVehiclesOnItineraryPage: false,
 
   aboutThisService: {
     fi: [

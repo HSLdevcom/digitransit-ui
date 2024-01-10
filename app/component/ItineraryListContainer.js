@@ -13,7 +13,7 @@ import getContext from 'recompose/getContext';
 
 import { intlShape, FormattedMessage } from 'react-intl';
 import Icon from './Icon';
-import ItinerarySummaryListContainer from './ItinerarySummaryListContainer';
+import ItineraryList from './ItineraryList/ItineraryList';
 import TimeStore from '../store/TimeStore';
 import PositionStore from '../store/PositionStore';
 import { otpToLocation, getIntermediatePlaces } from '../util/otpStrings';
@@ -29,7 +29,7 @@ import LocationStateShape from '../prop-types/LocationStateShape';
 import RoutingErrorShape from '../prop-types/RoutingErrorShape';
 import ChildrenShape from '../prop-types/ChildrenShape';
 
-class SummaryPlanContainer extends React.Component {
+class ItineraryListContainer extends React.Component {
   static propTypes = {
     activeIndex: PropTypes.number,
     children: ChildrenShape,
@@ -141,7 +141,7 @@ class SummaryPlanContainer extends React.Component {
       action: 'OpenItineraryDetails',
       name: index,
     });
-    const newState = {
+    const newLocation = {
       ...this.context.match.location,
       state: { summaryPageSelected: index },
     };
@@ -154,10 +154,10 @@ class SummaryPlanContainer extends React.Component {
       this.props.params.to,
     )}${subpath}${index}`;
 
-    newState.pathname = basePath;
-    this.context.router.replace(newState);
-    newState.pathname = indexPath;
-    this.context.router.push(newState);
+    newLocation.pathname = basePath;
+    this.context.router.replace(newLocation);
+    newLocation.pathname = indexPath;
+    this.context.router.push(newLocation);
     this.props.onDetailsTabFocused();
   };
 
@@ -276,7 +276,7 @@ class SummaryPlanContainer extends React.Component {
           : arriveBy
           ? this.laterButton(true)
           : this.earlierButton()}
-        <ItinerarySummaryListContainer
+        <ItineraryList
           activeIndex={activeIndex}
           currentTime={currentTime}
           locationState={locationState}
@@ -302,7 +302,7 @@ class SummaryPlanContainer extends React.Component {
           routingFeedbackPosition={routingFeedbackPosition}
         >
           {this.props.children}
-        </ItinerarySummaryListContainer>
+        </ItineraryList>
         {this.props.showSettingsChangedNotification(
           this.props.plan,
           this.props.alternativePlan,
@@ -326,7 +326,7 @@ const withConfig = getContext({
   withBreakpoint(props => (
     <ReactRelayContext.Consumer>
       {({ environment }) => (
-        <SummaryPlanContainer {...props} relayEnvironment={environment} />
+        <ItineraryListContainer {...props} relayEnvironment={environment} />
       )}
     </ReactRelayContext.Consumer>
   )),
@@ -339,7 +339,7 @@ const connectedContainer = createFragmentContainer(
   })),
   {
     plan: graphql`
-      fragment SummaryPlanContainer_plan on Plan {
+      fragment ItineraryListContainer_plan on Plan {
         date
         itineraries {
           startTime
@@ -399,9 +399,9 @@ const connectedContainer = createFragmentContainer(
       }
     `,
     itineraries: graphql`
-      fragment SummaryPlanContainer_itineraries on Itinerary
+      fragment ItineraryListContainer_itineraries on Itinerary
       @relay(plural: true) {
-        ...ItinerarySummaryListContainer_itineraries
+        ...ItineraryList_itineraries
         endTime
         startTime
         emissionsPerPerson {
@@ -439,4 +439,4 @@ const connectedContainer = createFragmentContainer(
   },
 );
 
-export { connectedContainer as default, SummaryPlanContainer as Component };
+export { connectedContainer as default, ItineraryListContainer as Component };
