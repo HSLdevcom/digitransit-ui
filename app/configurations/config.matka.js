@@ -257,33 +257,9 @@ export default {
           en: 'https://kaupunkipyorat.kuopio.fi/?lang=2',
         },
       },
-      freebike_lahti: {
-        enabled: LahtiConfig.cityBike.networks.freebike_lahti.enabled,
-        season: LahtiConfig.cityBike.networks.freebike_lahti.season,
-        capacity: BIKEAVL_BIKES,
-        icon: LahtiConfig.cityBike.networks.freebike_lahti.icon,
-        name: LahtiConfig.cityBike.networks.freebike_lahti.name,
-        type: LahtiConfig.cityBike.networks.freebike_lahti.type,
-        url: LahtiConfig.cityBike.networks.freebike_lahti.url,
-      },
-      donkey_lappeenranta: {
-        enabled:
-          LappeenrantaConfig.cityBike.networks.donkey_lappeenranta.enabled,
-        season: LappeenrantaConfig.cityBike.networks.donkey_lappeenranta.season,
-        capacity: BIKEAVL_WITHMAX,
-        icon: 'citybike',
-        name: {
-          fi: 'Lappeenranta',
-          sv: 'Vilmanstrand',
-          en: 'Lappeenranta',
-        },
-        type: 'citybike',
-        url: {
-          fi: 'https://kaakau.fi/lappeenranta/',
-          sv: 'https://kaakau.fi/lappeenranta/?lang=sv',
-          en: 'https://kaakau.fi/lappeenranta/?lang=en',
-        },
-      },
+      freebike_lahti: LahtiConfig.cityBike.networks.freebike_lahti,
+      donkey_lappeenranta:
+        LappeenrantaConfig.cityBike.networks.donkey_lappeenranta,
       donkey_kotka: {
         enabled: true,
         season: {
