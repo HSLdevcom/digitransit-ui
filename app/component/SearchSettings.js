@@ -21,7 +21,7 @@ class SearchSettings extends React.Component {
     const { toggleSettings } = this.props;
 
     return (
-      <div className={cx(['quicksettings-container'])}>
+      <div className={cx(['searchsettings-container'])}>
         <div className="datetimepicker-container">
           <DatetimepickerContainer
             realtime={false}
