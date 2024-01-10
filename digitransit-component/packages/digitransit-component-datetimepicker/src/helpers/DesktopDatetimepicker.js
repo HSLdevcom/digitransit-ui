@@ -91,9 +91,18 @@ function DesktopDatetimepicker({
   const options = timeChoices.map(t => {
     return { value: t.toString(), label: getDisplay(t) };
   });
-  const closestOption = options.reduce((a, b) =>
-    Math.abs(value - a.value) < Math.abs(value - b.value) ? a : b,
-  );
+
+  // Time picker has a list of minutes, instead of 15 minutes. We need to filter those out
+  // so closest option will show up in the list.
+  const closestOptions = datePicker
+    ? options
+    : options.filter(o => o.label.split(':')[1] % 15 === 0);
+  const closestOption =
+    closestOptions.length > 0
+      ? closestOptions?.reduce((a, b) =>
+          Math.abs(value - a.value) < Math.abs(value - b.value) ? a : b,
+        )
+      : undefined;
   const inputId = `${id}-input`;
   const labelId = `${id}-label`;
   const filterOptions = (option, input) => {
@@ -175,7 +184,7 @@ function DesktopDatetimepicker({
             if (showAllOptions && isMod15) {
               return true;
             }
-            if (completeInput) {
+            if (completeInput && !showAllOptions) {
               return input.length === 4
                 ? '0'.concat(input) === option.label
                 : input === option.label;
