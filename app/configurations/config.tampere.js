@@ -179,7 +179,6 @@ export default configMerger(walttiConfig, {
     [23.59453, 61.81945],
     [23.21133, 61.73389],
     [23.21056, 61.65544],
-    [23.33685, 61.63721],
   ],
 
   defaultEndpoint: {
