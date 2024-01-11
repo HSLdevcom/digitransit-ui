@@ -186,9 +186,70 @@ class IndexPage extends React.Component {
     }${this.context.config.trafficNowLink[lang]}`;
   };
 
+  clickStopNearIcon = (url, kbdEvent) => {
+    if (kbdEvent && !isKeyboardSelectionEvent(kbdEvent)) {
+      return;
+    }
+    this.context.router.push(url);
+  };
+
+  NearStops(CtrlPanel) {
+    const { intl, config } = this.context;
+    const { colors, fontWeights } = config;
+    const { lang } = this.props;
+    const transportModes = getTransportModes(config);
+    const nearYouModes = getNearYouModes(config);
+
+    // Styles are defined by which button type is configured (narrow/wide)
+    const narrowButtons = config.narrowNearYouButtons;
+    const modeTitles = filterObject(
+      transportModes,
+      'availableForSelection',
+      true,
+    );
+    // If nearYouModes is configured, display those. Otherwise, display all configured transport modes
+    const modes =
+      nearYouModes?.length > 0 ? nearYouModes : Object.keys(modeTitles);
+
+    const alertsContext = {
+      currentTime: this.props.currentTime,
+      getModesWithAlerts,
+      feedIds: config.feedIds,
+    };
+
+    return config.showNearYouButtons ? (
+      <CtrlPanel.NearStopsAndRoutes
+        modeArray={modes}
+        urlPrefix={`/${PREFIX_NEARYOU}`}
+        language={lang}
+        showTitle
+        alertsContext={alertsContext}
+        origin={this.props.origin}
+        omitLanguageUrl
+        onClick={this.clickStopNearIcon}
+        buttonStyle={narrowButtons ? undefined : config.nearYouButton}
+        title={narrowButtons ? undefined : config.nearYouTitle}
+        modes={narrowButtons ? undefined : modeTitles}
+        modeSet={config.nearbyModeSet || config.iconModeSet}
+        modeIconColors={colors.iconColors}
+        fontWeights={fontWeights}
+      />
+    ) : (
+      <div className="stops-near-you-text">
+        <h2>
+          {' '}
+          {intl.formatMessage({
+            id: 'stop-near-you-title',
+            defaultMessage: 'Stops and lines near you',
+          })}
+        </h2>
+      </div>
+    );
+  }
+
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   render() {
-    const { intl, config, router } = this.context;
+    const { intl, config } = this.context;
     const { trafficNowLink, colors, fontWeights } = config;
     const color = colors.primary;
     const hoverColor = colors.hover || LightenDarkenColor(colors.primary, -20);
@@ -218,12 +279,6 @@ class IndexPage extends React.Component {
       'MapPosition',
     ];
 
-    const alertsContext = {
-      currentTime: this.props.currentTime,
-      getModesWithAlerts,
-      feedIds: config.feedIds,
-    };
-
     const showSpinner =
       (origin.type === 'CurrentLocation' && !origin.address) ||
       (destination.type === 'CurrentLocation' && !destination.address);
@@ -249,7 +304,7 @@ class IndexPage extends React.Component {
       onGeolocationStart: this.onSelectLocation,
       fromMap: this.props.fromMap,
       fontWeights,
-      modeIconColors: config.colors.iconColors,
+      modeIconColors: colors.iconColors,
       modeSet: config.iconModeSet,
     };
 
@@ -269,7 +324,7 @@ class IndexPage extends React.Component {
       sources,
       targets: stopAndRouteSearchTargets,
       fontWeights,
-      modeIconColors: config.colors.iconColors,
+      modeIconColors: colors.iconColors,
       modeSet: config.iconModeSet,
       geocodingSize: 25,
     };
@@ -281,60 +336,6 @@ class IndexPage extends React.Component {
       locationSearchProps.filterResults = results =>
         results.filter(config.stopSearchFilter);
     }
-
-    const transportModes = getTransportModes(config);
-    const nearYouModes = getNearYouModes(config);
-
-    // TODO this probably needs refactoring as nested components are against best practices
-    // eslint-disable-next-line react/no-unstable-nested-components
-    const NearStops = CtrlPanel => {
-      // Styles are defined by which button type is configured (narrow/wide)
-      const narrowButtons = config.narrowNearYouButtons;
-      const modeTitles = filterObject(
-        transportModes,
-        'availableForSelection',
-        true,
-      );
-      // If nearYouModes is configured, display those. Otherwise, display all configured transport modes
-      const modes =
-        nearYouModes?.length > 0 ? nearYouModes : Object.keys(modeTitles);
-
-      const clickStopNearIcon = (url, kbdEvent) => {
-        if (kbdEvent && !isKeyboardSelectionEvent(kbdEvent)) {
-          return;
-        }
-        router.push(url);
-      };
-
-      return config.showNearYouButtons ? (
-        <CtrlPanel.NearStopsAndRoutes
-          modeArray={modes}
-          urlPrefix={`/${PREFIX_NEARYOU}`}
-          language={lang}
-          showTitle
-          alertsContext={alertsContext}
-          origin={origin}
-          omitLanguageUrl
-          onClick={clickStopNearIcon}
-          buttonStyle={narrowButtons ? undefined : config.nearYouButton}
-          title={narrowButtons ? undefined : config.nearYouTitle}
-          modes={narrowButtons ? undefined : modeTitles}
-          modeSet={config.nearbyModeSet || config.iconModeSet}
-          modeIconColors={config.colors.iconColors}
-          fontWeights={fontWeights}
-        />
-      ) : (
-        <div className="stops-near-you-text">
-          <h2>
-            {' '}
-            {intl.formatMessage({
-              id: 'stop-near-you-title',
-              defaultMessage: 'Stops and lines near you',
-            })}
-          </h2>
-        </div>
-      );
-    };
 
     return (
       <LazilyLoad modules={modules}>
@@ -394,7 +395,7 @@ class IndexPage extends React.Component {
 
                   {!config.hideStopRouteSearch && (
                     <>
-                      <>{NearStops(CtrlPanel)}</>
+                      <>{this.NearStops(CtrlPanel)}</>
                       <StopRouteSearch {...stopRouteSearchProps} />{' '}
                       <CtrlPanel.SeparatorLine />
                     </>
@@ -444,7 +445,7 @@ class IndexPage extends React.Component {
                     isMobile
                   />
                   <CtrlPanel.SeparatorLine />
-                  <>{NearStops(CtrlPanel)}</>
+                  <>{this.NearStops(CtrlPanel)}</>
                   <div className="stop-route-search-container">
                     <StopRouteSearch isMobile {...stopRouteSearchProps} />
                   </div>
