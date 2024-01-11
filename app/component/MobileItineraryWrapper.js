@@ -48,7 +48,7 @@ const MobileItineraryWrapper = (props, context) => {
     );
   });
 
-  const itinerary = (
+  return (
     <SwipeableTabs
       tabs={itineraryTabs}
       tabIndex={index}
@@ -58,8 +58,6 @@ const MobileItineraryWrapper = (props, context) => {
       ariaFromHeader="swipe-summary-page-header"
     />
   );
-  /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
-  return <>{itinerary}</>;
 };
 
 MobileItineraryWrapper.propTypes = {

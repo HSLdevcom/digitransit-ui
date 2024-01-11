@@ -165,7 +165,7 @@ export default {
     peliasMapping: {},
     peliasLayer: null,
     peliasLocalization: null,
-    minimalRegexp: new RegExp('.{2,}'),
+    minimalRegexp: /.{2,}/,
   },
 
   nearbyRoutes: {

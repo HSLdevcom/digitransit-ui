@@ -31,7 +31,6 @@ import {
   shouldShowFareInfo,
   shouldShowFarePurchaseInfo,
 } from '../util/fareUtils';
-import { addAnalyticsEvent } from '../util/analyticsUtils';
 import {
   getCurrentMillis,
   getFormattedTimeDate,
@@ -111,23 +110,6 @@ class ItineraryDetails extends React.Component {
       this.context.match.params.hash !== 'walk' &&
       this.context.match.params.hash !== 'bike'
     );
-  };
-
-  printItinerary = e => {
-    e.stopPropagation();
-
-    addAnalyticsEvent({
-      event: 'sendMatomoEvent',
-      category: 'Itinerary',
-      action: 'Print',
-      name: null,
-    });
-
-    const printPath = `${this.context.match.location.pathname}/tulosta`;
-    this.context.router.push({
-      ...this.context.match.location,
-      pathname: printPath,
-    });
   };
 
   getFutureText = (startTime, currentTime) => {

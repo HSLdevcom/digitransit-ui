@@ -71,6 +71,11 @@ import {
   hasStartAndDestination,
 } from '../util/planParamUtil';
 import { getTotalBikingDistance } from '../util/legUtils';
+import {
+  getBikeAndPublic,
+  getDuration,
+  hasItinerariesContainingPublicTransit,
+} from '../util/itineraryUtils';
 import { userHasChangedModes } from '../util/modeUtils';
 import { saveFutureRoute } from '../action/FutureRoutesActions';
 import { saveSearch } from '../action/SearchActions';
@@ -83,6 +88,33 @@ import ErrorShape from '../prop-types/ErrorShape';
 import RoutingErrorShape from '../prop-types/RoutingErrorShape';
 
 const POINT_FOCUS_ZOOM = 16; // used when focusing to a point
+
+const addBikeStationMapForRentalVehicleItineraries = () => {
+  return getMapLayerOptions({
+    lockedMapLayers: ['vehicles', 'citybike', 'stop'],
+    selectedMapLayers: ['vehicles', 'citybike'],
+  });
+};
+
+/**
+ * Return an object containing key vehicleRentalStations that is a list of rental
+ * station ids to hide on map.
+ *
+ * @param {Boolean} hasVehicleRentalStation if there are rental stations.
+ * @param {*} activeItinerary itinerary which can contain rental stations.
+ */
+const getRentalStationsToHideOnMap = (
+  hasVehicleRentalStation,
+  activeItinerary,
+) => {
+  const objectsToHide = { vehicleRentalStations: [] };
+  if (hasVehicleRentalStation) {
+    objectsToHide.vehicleRentalStations = activeItinerary?.legs
+      ?.filter(leg => leg.from?.vehicleRentalStation)
+      .map(station => station.from?.vehicleRentalStation.stationId);
+  }
+  return objectsToHide;
+};
 
 class ItineraryPage extends React.Component {
   static contextTypes = {
@@ -257,44 +289,6 @@ class ItineraryPage extends React.Component {
     this.context.router.replace(newState);
     newState.pathname = indexPath;
     this.context.router.push(newState);
-  };
-
-  hasItinerariesContainingPublicTransit = plan => {
-    if (plan?.itineraries?.length) {
-      if (plan.itineraries.length === 1) {
-        // check that only itinerary contains public transit
-        return (
-          plan.itineraries[0].legs.filter(
-            obj =>
-              obj.mode !== 'WALK' &&
-              obj.mode !== 'BICYCLE' &&
-              obj.mode !== 'CAR',
-          ).length > 0
-        );
-      }
-      return true;
-    }
-    return false;
-  };
-
-  addBikeStationMapForRentalVehicleItineraries = () => {
-    return getMapLayerOptions({
-      lockedMapLayers: ['vehicles', 'citybike', 'stop'],
-      selectedMapLayers: ['vehicles', 'citybike'],
-    });
-  };
-
-  getHiddenObjects = (
-    itineraryContainsVehicleRentalStation,
-    activeItinerary,
-  ) => {
-    const hiddenObjects = { vehicleRentalStations: [] };
-    if (itineraryContainsVehicleRentalStation) {
-      hiddenObjects.vehicleRentalStations = activeItinerary?.legs
-        ?.filter(leg => leg.from?.vehicleRentalStation)
-        .map(station => station.from?.vehicleRentalStation.stationId);
-    }
-    return hiddenObjects;
   };
 
   // this must be fixed, totally twisted logic which is corrected by some counter bugs elsewhere
@@ -985,27 +979,11 @@ class ItineraryPage extends React.Component {
     return iconId;
   };
 
-  filteredBikeAndPublic = plan => {
-    if (Array.isArray(plan?.itineraries)) {
-      return {
-        itineraries: plan.itineraries.filter(
-          itinerary =>
-            !itinerary.legs.every(
-              leg => leg.mode === 'WALK' || leg.mode === 'BICYCLE',
-            ),
-        ),
-      };
-    }
-    return { itineraries: undefined };
-  };
-
   makeWeatherQuery() {
     const from = otpToLocation(this.props.match.params.from);
     const { walkPlan, bikePlan } = this.state;
-    const bikeParkPlan = this.filteredBikeAndPublic(this.state.bikeParkPlan);
-    const bikeAndPublicPlan = this.filteredBikeAndPublic(
-      this.state.bikeAndPublicPlan,
-    );
+    const bikeParkPlan = getBikeAndPublic(this.state.bikeParkPlan);
+    const bikeAndPublicPlan = getBikeAndPublic(this.state.bikeAndPublicPlan);
     const itin =
       walkPlan?.itineraries?.[0] ||
       bikePlan?.itineraries?.[0] ||
@@ -1198,10 +1176,10 @@ class ItineraryPage extends React.Component {
       );
 
     const mapLayerOptions = itineraryContainsDepartureFromVehicleRentalStation
-      ? this.addBikeStationMapForRentalVehicleItineraries(filteredItineraries)
+      ? addBikeStationMapForRentalVehicleItineraries(filteredItineraries)
       : this.props.mapLayerOptions;
 
-    const objectsToHide = this.getHiddenObjects(
+    const objectsToHide = getRentalStationsToHideOnMap(
       itineraryContainsDepartureFromVehicleRentalStation,
       filteredItineraries[activeIndex],
     );
@@ -1409,14 +1387,14 @@ class ItineraryPage extends React.Component {
   };
 
   isWalkingFastest = () => {
-    const walkDuration = this.getDuration(this.state.walkPlan);
-    const bikeDuration = this.getDuration(this.state.bikePlan);
-    const carDuration = this.getDuration(this.state.carPlan);
-    const parkAndRideDuration = this.getDuration(this.state.parkRidePlan);
-    const bikeParkDuration = this.getDuration(this.state.bikeParkPlan);
+    const walkDuration = getDuration(this.state.walkPlan);
+    const bikeDuration = getDuration(this.state.bikePlan);
+    const carDuration = getDuration(this.state.carPlan);
+    const parkAndRideDuration = getDuration(this.state.parkRidePlan);
+    const bikeParkDuration = getDuration(this.state.bikeParkPlan);
     let bikeAndPublicDuration;
     if (this.context.config.includePublicWithBikePlan) {
-      bikeAndPublicDuration = this.getDuration(this.state.bikeAndPublicPlan);
+      bikeAndPublicDuration = getDuration(this.state.bikeAndPublicPlan);
     }
     if (
       !walkDuration ||
@@ -1429,14 +1407,6 @@ class ItineraryPage extends React.Component {
       return false;
     }
     return true;
-  };
-
-  getDuration = plan => {
-    if (!plan) {
-      return null;
-    }
-    const min = Math.min(...plan.itineraries.map(itin => itin.duration));
-    return min;
   };
 
   isLoading = (onlyWalkingItins, onlyWalkingAlternatives) => {
@@ -1490,10 +1460,8 @@ class ItineraryPage extends React.Component {
       plan = props.viewer?.plan;
     }
 
-    const bikeParkPlan = this.filteredBikeAndPublic(state.bikeParkPlan);
-    const bikeAndPublicPlan = this.filteredBikeAndPublic(
-      state.bikeAndPublicPlan,
-    );
+    const bikeParkPlan = getBikeAndPublic(state.bikeParkPlan);
+    const bikeAndPublicPlan = getBikeAndPublic(state.bikeAndPublicPlan);
     const planHasNoItineraries = this.planHasNoItineraries();
     if (
       planHasNoItineraries &&
@@ -1543,8 +1511,8 @@ class ItineraryPage extends React.Component {
       }
       if (
         hasBikeAndPublicPlan &&
-        this.hasItinerariesContainingPublicTransit(bikeAndPublicPlan) &&
-        this.hasItinerariesContainingPublicTransit(bikeParkPlan)
+        hasItinerariesContainingPublicTransit(bikeAndPublicPlan) &&
+        hasItinerariesContainingPublicTransit(bikeParkPlan)
       ) {
         this.selectedPlan = {
           itineraries: [
@@ -1554,10 +1522,10 @@ class ItineraryPage extends React.Component {
         };
       } else if (
         hasBikeAndPublicPlan &&
-        this.hasItinerariesContainingPublicTransit(bikeAndPublicPlan)
+        hasItinerariesContainingPublicTransit(bikeAndPublicPlan)
       ) {
         this.selectedPlan = bikeAndPublicPlan;
-      } else if (this.hasItinerariesContainingPublicTransit(bikeParkPlan)) {
+      } else if (hasItinerariesContainingPublicTransit(bikeParkPlan)) {
         this.selectedPlan = bikeParkPlan;
       }
       this.bikeAndPublicItinerariesToShow = hasBikeAndPublicPlan
@@ -1623,9 +1591,9 @@ class ItineraryPage extends React.Component {
     );
 
     const bikeAndPublicPlanHasItineraries =
-      this.hasItinerariesContainingPublicTransit(bikeAndPublicPlan);
+      hasItinerariesContainingPublicTransit(bikeAndPublicPlan);
     const bikeParkPlanHasItineraries =
-      this.hasItinerariesContainingPublicTransit(bikeParkPlan);
+      hasItinerariesContainingPublicTransit(bikeParkPlan);
     const showBikeAndPublicOptionButton = !config.includePublicWithBikePlan
       ? bikeParkPlanHasItineraries &&
         !currentSettings.accessibilityOption &&

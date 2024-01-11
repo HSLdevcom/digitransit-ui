@@ -29,6 +29,7 @@ import Geomover from './Geomover';
 import scrollTop from '../util/scroll';
 import { LightenDarkenColor } from '../util/colorUtils';
 import { getRefPoint } from '../util/apiUtils';
+import { filterObject } from '../util/filterUtils';
 import { isKeyboardSelectionEvent } from '../util/browser';
 import LazilyLoad, { importLazy } from './LazilyLoad';
 import {
@@ -158,13 +159,6 @@ class IndexPage extends React.Component {
     this.context.router.push(getStopRoutePath(item));
   };
 
-  clickStopNearIcon = (url, kbdEvent) => {
-    if (kbdEvent && !isKeyboardSelectionEvent(kbdEvent)) {
-      return;
-    }
-    this.context.router.push(url);
-  };
-
   onSelectLocation = (item, id) => {
     const { router, executeAction } = this.context;
     if (item.type === 'FutureRoute') {
@@ -192,21 +186,9 @@ class IndexPage extends React.Component {
     }${this.context.config.trafficNowLink[lang]}`;
   };
 
-  filterObject = (obj, filter, filterValue) =>
-    Object.keys(obj).reduce(
-      (acc, val) =>
-        obj[val][filter] === filterValue
-          ? {
-              ...acc,
-              [val]: obj[val],
-            }
-          : acc,
-      {},
-    );
-
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   render() {
-    const { intl, config } = this.context;
+    const { intl, config, router } = this.context;
     const { trafficNowLink, colors, fontWeights } = config;
     const color = colors.primary;
     const hoverColor = colors.hover || LightenDarkenColor(colors.primary, -20);
@@ -303,10 +285,12 @@ class IndexPage extends React.Component {
     const transportModes = getTransportModes(config);
     const nearYouModes = getNearYouModes(config);
 
+    // TODO this probably needs refactoring as nested components are against best practices
+    // eslint-disable-next-line react/no-unstable-nested-components
     const NearStops = CtrlPanel => {
       // Styles are defined by which button type is configured (narrow/wide)
       const narrowButtons = config.narrowNearYouButtons;
-      const modeTitles = this.filterObject(
+      const modeTitles = filterObject(
         transportModes,
         'availableForSelection',
         true,
@@ -314,6 +298,13 @@ class IndexPage extends React.Component {
       // If nearYouModes is configured, display those. Otherwise, display all configured transport modes
       const modes =
         nearYouModes?.length > 0 ? nearYouModes : Object.keys(modeTitles);
+
+      const clickStopNearIcon = (url, kbdEvent) => {
+        if (kbdEvent && !isKeyboardSelectionEvent(kbdEvent)) {
+          return;
+        }
+        router.push(url);
+      };
 
       return config.showNearYouButtons ? (
         <CtrlPanel.NearStopsAndRoutes
@@ -324,7 +315,7 @@ class IndexPage extends React.Component {
           alertsContext={alertsContext}
           origin={origin}
           omitLanguageUrl
-          onClick={this.clickStopNearIcon}
+          onClick={clickStopNearIcon}
           buttonStyle={narrowButtons ? undefined : config.nearYouButton}
           title={narrowButtons ? undefined : config.nearYouTitle}
           modes={narrowButtons ? undefined : modeTitles}

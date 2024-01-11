@@ -201,10 +201,7 @@ export default {
 
   search: {
     /* identify searches for route numbers/labels: bus | train | metro */
-    lineRegexp: new RegExp(
-      '(^[0-9]+[a-z]?$|^[yuleapinkrtdz]$|(^m[12]?b?$))',
-      'i',
-    ),
+    lineRegexp: /(^[0-9]+[a-z]?$|^[yuleapinkrtdz]$|(^m[12]?b?$))/i,
   },
 
   // modes that should not coexist with BICYCLE mode

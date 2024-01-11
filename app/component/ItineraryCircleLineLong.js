@@ -69,7 +69,7 @@ const ItineraryCircleLineLong = props => {
         style={legBeforeLineStyle}
         className={cx('leg-before-line bottom', props.modeClassNames[1])}
       />
-      {props.renderBottomMarker && <>{bottomMarker}</>}
+      {props.renderBottomMarker && bottomMarker}
     </div>
   );
 };

@@ -49,7 +49,7 @@ export const getCurrentSettings = config => {
     ...customizedSettings,
     modes: customizedSettings?.modes
       ? [
-          ...customizedSettings?.modes.filter(mode =>
+          ...customizedSettings.modes.filter(mode =>
             isTransportModeAvailable(config, mode),
           ),
           'WALK',

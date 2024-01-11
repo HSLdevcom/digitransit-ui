@@ -157,6 +157,17 @@ function translateFutureRouteSuggestionTime(item) {
   str = `${str} ${moment(time).format('HH:mm')}`;
   return str;
 }
+
+const getSuggestionValue = suggestion => {
+  if (
+    suggestion.type === 'SelectFromOwnLocations' ||
+    suggestion.type === 'back'
+  ) {
+    return '';
+  }
+  return getLabel(suggestion.properties);
+};
+
 /**
  * @example
  * const searchContext = {
@@ -499,16 +510,6 @@ class DTAutosuggest extends React.Component {
       ownPlaces: false,
       editing: false,
     });
-  };
-
-  getSuggestionValue = suggestion => {
-    if (
-      suggestion.type === 'SelectFromOwnLocations' ||
-      suggestion.type === 'back'
-    ) {
-      return '';
-    }
-    return getLabel(suggestion.properties);
   };
 
   checkPendingSelection = () => {
@@ -988,7 +989,7 @@ class DTAutosuggest extends React.Component {
             }}
             fetchFunction={this.fetchFunction}
             onSuggestionsClearRequested={this.onSuggestionsClearRequested}
-            getSuggestionValue={this.getSuggestionValue}
+            getSuggestionValue={getSuggestionValue}
             renderSuggestion={this.renderItem}
             closeHandle={this.closeMobileSearch}
             ariaLabel={ariaRequiredText
@@ -1048,7 +1049,7 @@ class DTAutosuggest extends React.Component {
               suggestions={suggestions}
               onSuggestionsFetchRequested={this.fetchFunction}
               onSuggestionsClearRequested={this.onSuggestionsClearRequested}
-              getSuggestionValue={this.getSuggestionValue}
+              getSuggestionValue={getSuggestionValue}
               renderSuggestion={this.renderItem}
               inputProps={{
                 ...inputProps,

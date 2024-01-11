@@ -274,6 +274,15 @@ export const onlyBiking = itinerary =>
 export const containsBiking = itinerary => itinerary.legs.some(isBikingLeg);
 
 /**
+ * Checks if leg is just walking.
+ *
+ * @param {*} leg a leg which has a mode
+ */
+export const isLegOnFoot = leg => {
+  return leg.mode === 'WALK';
+};
+
+/**
  * Checks if any of the legs in the given itinerary contains biking with rental bike.
  *
  * @param {*} leg

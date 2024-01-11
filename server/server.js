@@ -169,9 +169,9 @@ function setUpAvailableRouteTimetables() {
       // try to fetch available route timetables every four seconds with 4 retries
       retryFetch(
         `${config.URL.ROUTE_TIMETABLES.HSL}routes.json`,
-        {},
         4,
         4000,
+        {},
         config,
       )
         .then(res => res.json())
@@ -189,9 +189,9 @@ function setUpAvailableRouteTimetables() {
             // Continue attempts to fetch available routes in the background for one day once every minute
             retryFetch(
               `${config.URL.ROUTE_TIMETABLES.HSL}routes.json`,
-              {},
               1440,
               60000,
+              {},
               config,
             )
               .then(res => res.json())
@@ -252,9 +252,9 @@ function setUpAvailableTickets() {
     // try to fetch available ticketTypes every four seconds with 4 retries
     retryFetch(
       `${config.URL.OTP}index/graphql${queryParameters}`,
-      options,
       4,
       4000,
+      options,
     )
       .then(res => res.json())
       .then(
@@ -276,9 +276,9 @@ function setUpAvailableTickets() {
             // Continue attempts to fetch available ticketTypes in the background for one day once every minute
             retryFetch(
               `${config.URL.OTP}index/graphql${queryParameters}`,
-              options,
               1440,
               60000,
+              options,
             )
               .then(res => res.json())
               .then(

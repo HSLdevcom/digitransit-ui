@@ -32,7 +32,7 @@ export const getVehicleRentalStationNetworkName = (
 
 export const getVehicleRentalStationNetworkIcon = (
   networkConfig = defaultNetworkConfig,
-  disabled,
+  disabled = false,
 ) => `icon-icon_${networkConfig.icon || 'citybike'}${disabled ? '_off' : ''}`;
 
 export const getVehicleRentalStationNetworkId = networks => {

@@ -13,7 +13,6 @@ const TransferOptionsSection = (
     currentSettings.walkBoardCost !== defaultSettings.walkBoardCost;
   return (
     <div className="mode-option-container toggle-container avoid-transfers-container">
-      {/* eslint jsx-a11y/label-has-associated-control: ["error", { assert: "either" } ] */}
       <label htmlFor="settings-toggle-transfers" className="settings-header">
         <FormattedMessage
           id="avoid-transfers"

@@ -89,10 +89,6 @@ class BubbleDialog extends React.Component {
     });
   };
 
-  handleClickOutside() {
-    this.closeTooltip();
-  }
-
   renderTooltip() {
     const { tooltip } = this.props;
     const { isTooltipOpen } = this.state;

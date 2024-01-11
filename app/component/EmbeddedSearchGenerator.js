@@ -275,7 +275,6 @@ const EmbeddedSearchGenerator = (props, context) => {
                 id="mode-all"
                 onChange={event => setSearchModeRestriction(event.target.value)}
                 checked={searchModeRestriction === ''}
-                invalid
               />
               <FormattedMessage id="all" defaultMessage="All" />
             </label>

@@ -18,7 +18,6 @@ import TimeStore from '../store/TimeStore';
 import PositionStore from '../store/PositionStore';
 import { otpToLocation, getIntermediatePlaces } from '../util/otpStrings';
 import { getSummaryPath } from '../util/path';
-import { replaceQueryParams } from '../util/queryUtils';
 import withBreakpoint from '../util/withBreakpoint';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import { isIOS, isSafari } from '../util/browser';
@@ -158,20 +157,6 @@ class ItineraryListContainer extends React.Component {
     newLocation.pathname = indexPath;
     this.context.router.push(newLocation);
     this.props.onDetailsTabFocused();
-  };
-
-  onNow = () => {
-    addAnalyticsEvent({
-      event: 'sendMatomoEvent',
-      category: 'Itinerary',
-      action: 'ResetJourneyStartTime',
-      name: null,
-    });
-
-    replaceQueryParams(this.context.router, this.context.match, {
-      time: moment().unix(),
-      arriveBy: false, // XXX
-    });
   };
 
   laterButton(reversed = false) {

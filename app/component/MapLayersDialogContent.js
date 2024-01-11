@@ -56,6 +56,15 @@ const mapLayersConfigShape = PropTypes.shape({
   vehicles: PropTypes.bool,
 });
 
+const sendLayerChangeAnalytic = (name, enable) => {
+  const action = enable ? 'ShowMapLayer' : 'HideMapLayer';
+  addAnalyticsEvent({
+    category: 'Map',
+    action,
+    name,
+  });
+};
+
 class MapLayersDialogContent extends React.Component {
   static propTypes = {
     mapLayers: mapLayerShape.isRequired,
@@ -69,15 +78,6 @@ class MapLayersDialogContent extends React.Component {
 
   static defaultProps = {
     mapLayerOptions: null,
-  };
-
-  sendLayerChangeAnalytic = (name, enable) => {
-    const action = enable ? 'ShowMapLayer' : 'HideMapLayer';
-    addAnalyticsEvent({
-      category: 'Map',
-      action,
-      name,
-    });
   };
 
   handlePanelState(open) {
@@ -154,7 +154,7 @@ class MapLayersDialogContent extends React.Component {
               labelId="map-layer-vehicles"
               onChange={e => {
                 this.updateSetting({ vehicles: e.target.checked });
-                this.sendLayerChangeAnalytic('Vehicles', e.target.checked);
+                sendLayerChangeAnalytic('Vehicles', e.target.checked);
               }}
             />
           </div>
@@ -169,7 +169,7 @@ class MapLayersDialogContent extends React.Component {
               labelId="map-layer-stop-bus"
               onChange={e => {
                 this.updateStopSetting({ bus: e.target.checked });
-                this.sendLayerChangeAnalytic('BusStop', e.target.checked);
+                sendLayerChangeAnalytic('BusStop', e.target.checked);
               }}
             />
           )}
@@ -182,7 +182,7 @@ class MapLayersDialogContent extends React.Component {
               labelId="map-layer-stop-tram"
               onChange={e => {
                 this.updateStopSetting({ tram: e.target.checked });
-                this.sendLayerChangeAnalytic('TramStop', e.target.checked);
+                sendLayerChangeAnalytic('TramStop', e.target.checked);
               }}
             />
           )}
@@ -195,7 +195,7 @@ class MapLayersDialogContent extends React.Component {
               labelId="map-layer-stop-ferry"
               onChange={e => {
                 this.updateStopSetting({ ferry: e.target.checked });
-                this.sendLayerChangeAnalytic('FerryStop', e.target.checked);
+                sendLayerChangeAnalytic('FerryStop', e.target.checked);
               }}
             />
           )}
@@ -211,7 +211,7 @@ class MapLayersDialogContent extends React.Component {
               labelId="map-layer-citybike"
               onChange={e => {
                 this.updateSetting({ citybike: e.target.checked });
-                this.sendLayerChangeAnalytic('Citybike', e.target.checked);
+                sendLayerChangeAnalytic('Citybike', e.target.checked);
               }}
             />
           )}
@@ -224,7 +224,7 @@ class MapLayersDialogContent extends React.Component {
               labelId="map-layer-stop-funicular"
               onChange={e => {
                 this.updateStopSetting({ funicular: e.target.checked });
-                this.sendLayerChangeAnalytic('FunicularStop', e.target.checked);
+                sendLayerChangeAnalytic('FunicularStop', e.target.checked);
               }}
             />
           )}
@@ -238,7 +238,7 @@ class MapLayersDialogContent extends React.Component {
                 labelId="map-layer-park-and-ride"
                 onChange={e => {
                   this.updateSetting({ parkAndRide: e.target.checked });
-                  this.sendLayerChangeAnalytic('ParkAndRide', e.target.checked);
+                  sendLayerChangeAnalytic('ParkAndRide', e.target.checked);
                 }}
               />
             )}
@@ -258,7 +258,7 @@ class MapLayersDialogContent extends React.Component {
                   const newSetting = {};
                   newSetting[gj.url] = e.target.checked;
                   this.updateGeoJsonSetting(newSetting);
-                  this.sendLayerChangeAnalytic('Zones', e.target.checked);
+                  sendLayerChangeAnalytic('Zones', e.target.checked);
                 }}
               />
             ))}

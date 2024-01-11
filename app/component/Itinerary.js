@@ -860,7 +860,7 @@ const Itinerary = (
                     id="citybike-duration-info-short"
                     values={{
                       duration:
-                        config.cityBike?.networks[bikeNetwork]
+                        config.cityBike.networks[bikeNetwork]
                           .timeBeforeSurcharge / 60,
                     }}
                     defaultMessage=""

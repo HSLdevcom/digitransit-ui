@@ -5,7 +5,7 @@ import React, { PureComponent } from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import { matchShape, routerShape, RedirectException } from 'found';
 import moment from 'moment';
-import { intlShape, FormattedMessage } from 'react-intl';
+import { intlShape } from 'react-intl';
 import sortBy from 'lodash/sortBy';
 import cx from 'classnames';
 import { dayRangePattern } from '@digitransit-util/digitransit-util';
@@ -15,11 +15,11 @@ import RouteScheduleHeader from './RouteScheduleHeader';
 import RouteScheduleTripRow from './RouteScheduleTripRow';
 import SecondaryButton from './SecondaryButton';
 import Loading from './Loading';
-import Icon from './Icon';
 import { DATE_FORMAT, RealtimeStateType } from '../constants';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import withBreakpoint from '../util/withBreakpoint';
 import hashCode from '../util/hashUtil';
+import { getFormattedTimeDate } from '../util/timeUtils';
 import RouteScheduleDropdown from './RouteScheduleDropdown';
 import RoutePageControlPanel from './RoutePageControlPanel';
 import { PREFIX_ROUTES, PREFIX_TIMETABLE } from '../util/path';
@@ -33,6 +33,300 @@ const isTripCanceled = trip =>
   trip.stoptimes &&
   trip.stoptimes.length > 0 &&
   trip.stoptimes.every(st => st.realtimeState === RealtimeStateType.Canceled);
+
+const getMostFrequent = arr => {
+  const hashmap = arr.reduce((acc, val) => {
+    acc[hashCode(val.map(v => v[0]).join())] =
+      (acc[hashCode(val.map(v => v[0]).join())] || 0) + 1;
+    return acc;
+  }, {});
+  const hash = Object.keys(hashmap).reduce((a, b) =>
+    hashmap[a] > hashmap[b] ? a : b,
+  );
+  let retValue;
+  arr.forEach(a => {
+    const tmpHash = hashCode(a.map(v => v[0]).join());
+    if (!retValue && Number(hash) === tmpHash) {
+      retValue = a;
+    }
+  });
+  return retValue;
+};
+
+const openRoutePDF = (e, routePDFUrl) => {
+  e.stopPropagation();
+  window.open(routePDFUrl.href);
+};
+
+const printRouteTimetable = e => {
+  e.stopPropagation();
+  window.print();
+};
+
+const modifyDepartures = departures => {
+  if (departures) {
+    const departuresCount = Object.entries(departures).length;
+    const modifiedDepartures = [];
+    for (let z = 1; z <= departuresCount / 7; z++) {
+      let sortedData = [];
+      // eslint-disable-next-line no-restricted-syntax
+      for (const [key, value] of Object.entries(departures)) {
+        const lengthToCheck = `${z}`.length + 5;
+        if (key.length === lengthToCheck && key.indexOf(`wk${z}`) !== -1) {
+          sortedData = {
+            ...sortedData,
+            [key]: sortBy(value, 'departureStoptime.scheduledDeparture'),
+          };
+        }
+      }
+      const obj = Object.values(sortedData);
+      const result = Object.values(
+        obj.reduce((c, v, i) => {
+          const departure = obj[i]
+            .map(x => x.departureStoptime.scheduledDeparture)
+            .join(',');
+          const hash = hashCode(departure);
+          i += 1;
+          c[hash] = c[hash] || ['', hash, departure];
+          c[hash][0] += i;
+          return c;
+        }, {}),
+      );
+      modifiedDepartures.push(result.sort());
+    }
+    if (modifiedDepartures.length > 0) {
+      return modifiedDepartures;
+    }
+  }
+  return departures;
+};
+
+const isEmptyWeek = departures => {
+  return (
+    departures[0][0] === '1234567' &&
+    departures[0][1] === 0 &&
+    departures[0][2] === ''
+  );
+};
+
+const getFirstDepartureDate = (departures, dateIn) => {
+  if (departures.length > 0) {
+    const date = dateIn || moment();
+    const dayNo = moment(date).isoWeekday();
+    const idx = departures.findIndex(
+      departure => departure[0].indexOf(dayNo) !== -1,
+    );
+    if (idx > 0 && departures[idx][1] === 0 && departures[idx][2] === '') {
+      // get departure day on current week
+      if (departures[idx - 1][1] !== 0 && departures[idx - 1][2] !== '') {
+        const newDayNo = Number(departures[idx - 1][0].substring(0, 1));
+        return moment(date)
+          .subtract(dayNo - newDayNo, 'd')
+          .format(DATE_FORMAT);
+      }
+    } else if (
+      idx === 0 &&
+      departures[idx][1] !== 0 &&
+      departures[idx][2] !== ''
+    ) {
+      if (
+        !isEqual(
+          moment(date).startOf('isoWeek').format(DATE_FORMAT),
+          moment().startOf('isoWeek').format(DATE_FORMAT),
+        )
+      ) {
+        return moment(date).format(DATE_FORMAT);
+      }
+      return moment().format(DATE_FORMAT);
+    }
+  }
+  return undefined;
+};
+
+const populateData = (wantedDayIn, departures, isMerged, dataExistsDay) => {
+  const departureCount = departures.length;
+
+  const wantedDay = wantedDayIn || moment();
+  const startOfWeek = moment().startOf('isoWeek');
+  const today = moment();
+
+  const currentAndNextWeekAreSame =
+    departureCount >= 2 && isEqual(departures[0], departures[1]);
+
+  const weekStarts = [
+    currentAndNextWeekAreSame
+      ? startOfWeek.format(DATE_FORMAT)
+      : today.format(DATE_FORMAT),
+  ];
+
+  let pastDate;
+  if (
+    !currentAndNextWeekAreSame &&
+    departures &&
+    departures.length > 0 &&
+    departures[0].length > 0
+  ) {
+    const minDayNo = Math.min(...departures[0][0][0].split('').map(Number));
+    pastDate = startOfWeek
+      .clone()
+      .add(minDayNo - 1)
+      .format(DATE_FORMAT);
+    weekStarts[0] = pastDate;
+  }
+
+  const weekEnds = [startOfWeek.clone().endOf('isoWeek').format(DATE_FORMAT)];
+  const days = [[]];
+  const indexToRemove = [];
+  const emptyWeek = [];
+  for (let x = 1; x < departures.length; x++) {
+    // check also first week
+    if (isEmptyWeek(departures[x - 1])) {
+      emptyWeek.push(
+        startOfWeek
+          .clone()
+          .add(x - 1, 'w')
+          .format(DATE_FORMAT),
+      );
+    }
+    if (isEmptyWeek(departures[x])) {
+      emptyWeek.push(startOfWeek.clone().add(x, 'w').format(DATE_FORMAT));
+    }
+    weekStarts.push(startOfWeek.clone().add(x, 'w').format(DATE_FORMAT));
+    weekEnds.push(
+      startOfWeek.clone().endOf('isoWeek').add(x, 'w').format(DATE_FORMAT),
+    );
+    days.push([]);
+  }
+
+  // find empty and populate days
+  let notEmptyWeekFound = false;
+  departures.forEach((d, idx) => {
+    if (d.length === 0) {
+      indexToRemove.push(idx);
+    } else {
+      if (d.length === 1) {
+        if (d[0][1] === 0) {
+          if (!notEmptyWeekFound) {
+            indexToRemove.push(idx);
+          }
+        } else {
+          notEmptyWeekFound = true;
+        }
+      } else {
+        notEmptyWeekFound = true;
+        // remove days with no departures otherwise showing later on tabs
+        d = d.filter(z => z[1] !== 0);
+      }
+      d.forEach(x => {
+        days[idx].push(x[0]);
+      });
+    }
+  });
+
+  // remove empty
+  indexToRemove
+    .sort((a, b) => b - a)
+    .forEach(i => {
+      weekStarts.splice(i, 1);
+      weekEnds.splice(i, 1);
+      days.splice(i, 1);
+      departures.splice(i, 1);
+    });
+
+  // clear indexToRemove
+  indexToRemove.splice(0, indexToRemove.length);
+
+  departures.forEach((d, idx) => {
+    if (idx > 0 && isEqual(departures[idx - 1], d)) {
+      indexToRemove.push(idx);
+    }
+  });
+
+  indexToRemove.sort((a, b) => b - a);
+
+  indexToRemove.forEach(i => {
+    days.splice(i, 1);
+    weekStarts.splice(i, 1);
+    weekEnds.splice(i - 1, 1);
+  });
+
+  let range = [
+    wantedDay.format(DATE_FORMAT2),
+    wantedDay.format(DATE_FORMAT),
+    wantedDay.format('E'),
+    '',
+    wantedDay.clone().startOf('isoWeek').format(DATE_FORMAT),
+  ];
+  const options = weekStarts.map((w, idx) => {
+    const currentDayNo = moment().format('E');
+    const firstServiceDay = days[idx][0];
+    const isSameWeek =
+      startOfWeek.format(DATE_FORMAT) ===
+      moment(w).startOf('isoWeek').format(DATE_FORMAT);
+    const timeRangeStart =
+      moment(w).format('E') <= firstServiceDay[0] &&
+      departureCount === 1 &&
+      (isSameWeek || idx === 0)
+        ? moment(w)
+            .clone()
+            .add(firstServiceDay[0] - 1, 'd')
+        : moment(w);
+    const timeRange =
+      days.length === 1 && days[idx][0].length === 1 && wantedDayIn && !isMerged
+        ? wantedDay.format(DATE_FORMAT2)
+        : `${timeRangeStart.format(DATE_FORMAT2)} - ${moment(
+            weekEnds[idx],
+          ).format(DATE_FORMAT2)}`;
+    if (
+      !(wantedDay.isSameOrAfter(w) && wantedDay.isSameOrBefore(weekEnds[idx]))
+    ) {
+      return {
+        label: `${timeRange}`,
+        value:
+          idx === 0 &&
+          days[idx].indexOf(currentDayNo) !== -1 &&
+          Number(currentDayNo) > Number(firstServiceDay)
+            ? moment(w)
+                .clone()
+                .add(currentDayNo - 1, 'd')
+                .format(DATE_FORMAT)
+            : moment(w)
+                .clone()
+                .add(firstServiceDay[0] - 1, 'd')
+                .format(DATE_FORMAT),
+      };
+    }
+
+    range = [
+      timeRange,
+      wantedDay.format(DATE_FORMAT),
+      wantedDay.format('E'),
+      days[idx],
+      moment(weekStarts[idx]).format(DATE_FORMAT),
+    ];
+    return undefined;
+  });
+
+  if (!pastDate) {
+    pastDate = startOfWeek
+      .clone()
+      .add(dataExistsDay - 1, 'd')
+      .format(DATE_FORMAT);
+  }
+
+  return [
+    weekStarts,
+    days,
+    range,
+    options
+      .filter(o => o)
+      .filter(o => {
+        return !emptyWeek.includes(o.value);
+      }),
+    currentAndNextWeekAreSame,
+    pastDate,
+  ];
+};
 
 class RouteScheduleContainer extends PureComponent {
   static sortTrips(trips) {
@@ -77,7 +371,6 @@ class RouteScheduleContainer extends PureComponent {
     from: 0,
     to:
       (this.props.pattern && this.props.pattern.stops.length - 1) || undefined,
-    serviceDay: this.props.serviceDay,
     hasLoaded: false,
     focusedTab: null,
   };
@@ -185,11 +478,13 @@ class RouteScheduleContainer extends PureComponent {
     return trips.map(trip => {
       const fromSt = trip.stoptimes[from];
       const toSt = trip.stoptimes[to];
-      const departureTime = this.formatTime(
-        fromSt.serviceDay + fromSt.scheduledDeparture,
+      const departureTime = getFormattedTimeDate(
+        (fromSt.serviceDay + fromSt.scheduledDeparture) * 1000,
+        'HH:mm',
       );
-      const arrivalTime = this.formatTime(
-        toSt.serviceDay + toSt.scheduledArrival,
+      const arrivalTime = getFormattedTimeDate(
+        (toSt.serviceDay + toSt.scheduledArrival) * 1000,
+        'HH:mm',
       );
 
       return (
@@ -202,8 +497,6 @@ class RouteScheduleContainer extends PureComponent {
       );
     });
   };
-
-  formatTime = timestamp => moment(timestamp * 1000).format('HH:mm');
 
   changeDate = newServiceDay => {
     const { location } = this.context.match;
@@ -222,35 +515,6 @@ class RouteScheduleContainer extends PureComponent {
     this.context.router.replace(newPath);
   };
 
-  dateForPrinting = () => {
-    const selectedDate = moment(this.state.serviceDay);
-    return (
-      <div className="printable-date-container">
-        <div className="printable-date-icon">
-          <Icon className="large-icon" img="icon-icon_schedule" />
-        </div>
-        <div className="printable-date-right">
-          <div className="printable-date-header">
-            <FormattedMessage id="date" defaultMessage="Date" />
-          </div>
-          <div className="printable-date-content">
-            {moment(selectedDate).format('dd DD.MM.YYYY')}
-          </div>
-        </div>
-      </div>
-    );
-  };
-
-  openRoutePDF = (e, routePDFUrl) => {
-    e.stopPropagation();
-    window.open(routePDFUrl.href);
-  };
-
-  printRouteTimetable = e => {
-    e.stopPropagation();
-    window.print();
-  };
-
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.pattern.code !== this.props.pattern.code) {
@@ -260,44 +524,6 @@ class RouteScheduleContainer extends PureComponent {
       });
     }
   }
-
-  modifyDepartures = departures => {
-    if (departures) {
-      const departuresCount = Object.entries(departures).length;
-      const modifiedDepartures = [];
-      for (let z = 1; z <= departuresCount / 7; z++) {
-        let sortedData = [];
-        // eslint-disable-next-line no-restricted-syntax
-        for (const [key, value] of Object.entries(departures)) {
-          const lengthToCheck = `${z}`.length + 5;
-          if (key.length === lengthToCheck && key.indexOf(`wk${z}`) !== -1) {
-            sortedData = {
-              ...sortedData,
-              [key]: sortBy(value, 'departureStoptime.scheduledDeparture'),
-            };
-          }
-        }
-        const obj = Object.values(sortedData);
-        const result = Object.values(
-          obj.reduce((c, v, i) => {
-            const departure = obj[i]
-              .map(x => x.departureStoptime.scheduledDeparture)
-              .join(',');
-            const hash = hashCode(departure);
-            i += 1;
-            c[hash] = c[hash] || ['', hash, departure];
-            c[hash][0] += i;
-            return c;
-          }, {}),
-        );
-        modifiedDepartures.push(result.sort());
-      }
-      if (modifiedDepartures.length > 0) {
-        return modifiedDepartures;
-      }
-    }
-    return departures;
-  };
 
   renderDayTabs = data => {
     const dayArray =
@@ -449,236 +675,6 @@ class RouteScheduleContainer extends PureComponent {
     return '';
   };
 
-  isEmptyWeek = departures => {
-    return (
-      departures[0][0] === '1234567' &&
-      departures[0][1] === 0 &&
-      departures[0][2] === ''
-    );
-  };
-
-  getFirstDepartureDate = (departures, dateIn) => {
-    if (departures.length > 0) {
-      const date = dateIn || moment();
-      const dayNo = moment(date).isoWeekday();
-      const idx = departures.findIndex(
-        departure => departure[0].indexOf(dayNo) !== -1,
-      );
-      if (idx > 0 && departures[idx][1] === 0 && departures[idx][2] === '') {
-        // get departure day on current week
-        if (departures[idx - 1][1] !== 0 && departures[idx - 1][2] !== '') {
-          const newDayNo = Number(departures[idx - 1][0].substring(0, 1));
-          return moment(date)
-            .subtract(dayNo - newDayNo, 'd')
-            .format(DATE_FORMAT);
-        }
-      } else if (
-        idx === 0 &&
-        departures[idx][1] !== 0 &&
-        departures[idx][2] !== ''
-      ) {
-        if (
-          !isEqual(
-            moment(date).startOf('isoWeek').format(DATE_FORMAT),
-            moment().startOf('isoWeek').format(DATE_FORMAT),
-          )
-        ) {
-          return moment(date).format(DATE_FORMAT);
-        }
-        return moment().format(DATE_FORMAT);
-      }
-    }
-    return undefined;
-  };
-
-  populateData = (wantedDayIn, departures, isMerged, dataExistsDay) => {
-    const departureCount = departures.length;
-
-    const wantedDay = wantedDayIn || moment();
-    const startOfWeek = moment().startOf('isoWeek');
-    const today = moment();
-
-    const currentAndNextWeekAreSame =
-      departureCount >= 2 && isEqual(departures[0], departures[1]);
-
-    const weekStarts = [
-      currentAndNextWeekAreSame
-        ? startOfWeek.format(DATE_FORMAT)
-        : today.format(DATE_FORMAT),
-    ];
-
-    let pastDate;
-    if (
-      !currentAndNextWeekAreSame &&
-      departures &&
-      departures.length > 0 &&
-      departures[0].length > 0
-    ) {
-      const minDayNo = Math.min(...departures[0][0][0].split('').map(Number));
-      pastDate = startOfWeek
-        .clone()
-        .add(minDayNo - 1)
-        .format(DATE_FORMAT);
-      weekStarts[0] = pastDate;
-    }
-
-    const weekEnds = [startOfWeek.clone().endOf('isoWeek').format(DATE_FORMAT)];
-    const days = [[]];
-    const indexToRemove = [];
-    const emptyWeek = [];
-    for (let x = 1; x < departures.length; x++) {
-      // check also first week
-      if (this.isEmptyWeek(departures[x - 1])) {
-        emptyWeek.push(
-          startOfWeek
-            .clone()
-            .add(x - 1, 'w')
-            .format(DATE_FORMAT),
-        );
-      }
-      if (this.isEmptyWeek(departures[x])) {
-        emptyWeek.push(startOfWeek.clone().add(x, 'w').format(DATE_FORMAT));
-      }
-      weekStarts.push(startOfWeek.clone().add(x, 'w').format(DATE_FORMAT));
-      weekEnds.push(
-        startOfWeek.clone().endOf('isoWeek').add(x, 'w').format(DATE_FORMAT),
-      );
-      days.push([]);
-    }
-
-    // find empty and populate days
-    let notEmptyWeekFound = false;
-    departures.forEach((d, idx) => {
-      if (d.length === 0) {
-        indexToRemove.push(idx);
-      } else {
-        if (d.length === 1) {
-          if (d[0][1] === 0) {
-            if (!notEmptyWeekFound) {
-              indexToRemove.push(idx);
-            }
-          } else {
-            notEmptyWeekFound = true;
-          }
-        } else {
-          notEmptyWeekFound = true;
-          // remove days with no departures otherwise showing later on tabs
-          d = d.filter(z => z[1] !== 0);
-        }
-        d.forEach(x => {
-          days[idx].push(x[0]);
-        });
-      }
-    });
-
-    // remove empty
-    indexToRemove
-      .sort((a, b) => b - a)
-      .forEach(i => {
-        weekStarts.splice(i, 1);
-        weekEnds.splice(i, 1);
-        days.splice(i, 1);
-        departures.splice(i, 1);
-      });
-
-    // clear indexToRemove
-    indexToRemove.splice(0, indexToRemove.length);
-
-    departures.forEach((d, idx) => {
-      if (idx > 0 && isEqual(departures[idx - 1], d)) {
-        indexToRemove.push(idx);
-      }
-    });
-
-    indexToRemove.sort((a, b) => b - a);
-
-    indexToRemove.forEach(i => {
-      days.splice(i, 1);
-      weekStarts.splice(i, 1);
-      weekEnds.splice(i - 1, 1);
-    });
-
-    let range = [
-      wantedDay.format(DATE_FORMAT2),
-      wantedDay.format(DATE_FORMAT),
-      wantedDay.format('E'),
-      '',
-      wantedDay.clone().startOf('isoWeek').format(DATE_FORMAT),
-    ];
-    const options = weekStarts.map((w, idx) => {
-      const currentDayNo = moment().format('E');
-      const firstServiceDay = days[idx][0];
-      const isSameWeek =
-        startOfWeek.format(DATE_FORMAT) ===
-        moment(w).startOf('isoWeek').format(DATE_FORMAT);
-      const timeRangeStart =
-        moment(w).format('E') <= firstServiceDay[0] &&
-        departureCount === 1 &&
-        (isSameWeek || idx === 0)
-          ? moment(w)
-              .clone()
-              .add(firstServiceDay[0] - 1, 'd')
-          : moment(w);
-      const timeRange =
-        days.length === 1 &&
-        days[idx][0].length === 1 &&
-        wantedDayIn &&
-        !isMerged
-          ? wantedDay.format(DATE_FORMAT2)
-          : `${timeRangeStart.format(DATE_FORMAT2)} - ${moment(
-              weekEnds[idx],
-            ).format(DATE_FORMAT2)}`;
-      if (
-        !(wantedDay.isSameOrAfter(w) && wantedDay.isSameOrBefore(weekEnds[idx]))
-      ) {
-        return {
-          label: `${timeRange}`,
-          value:
-            idx === 0 &&
-            days[idx].indexOf(currentDayNo) !== -1 &&
-            Number(currentDayNo) > Number(firstServiceDay)
-              ? moment(w)
-                  .clone()
-                  .add(currentDayNo - 1, 'd')
-                  .format(DATE_FORMAT)
-              : moment(w)
-                  .clone()
-                  .add(firstServiceDay[0] - 1, 'd')
-                  .format(DATE_FORMAT),
-        };
-      }
-
-      range = [
-        timeRange,
-        wantedDay.format(DATE_FORMAT),
-        wantedDay.format('E'),
-        days[idx],
-        moment(weekStarts[idx]).format(DATE_FORMAT),
-      ];
-      return undefined;
-    });
-
-    if (!pastDate) {
-      pastDate = startOfWeek
-        .clone()
-        .add(dataExistsDay - 1, 'd')
-        .format(DATE_FORMAT);
-    }
-
-    return [
-      weekStarts,
-      days,
-      range,
-      options
-        .filter(o => o)
-        .filter(o => {
-          return !emptyWeek.includes(o.value);
-        }),
-      currentAndNextWeekAreSame,
-      pastDate,
-    ];
-  };
-
   redirectWithServiceDay = serviceDay => {
     const { location } = this.context.match;
     const newPath = {
@@ -693,25 +689,6 @@ class RouteScheduleContainer extends PureComponent {
     } else {
       throw new RedirectException(newPath);
     }
-  };
-
-  getMostFrequent = arr => {
-    const hashmap = arr.reduce((acc, val) => {
-      acc[hashCode(val.map(v => v[0]).join())] =
-        (acc[hashCode(val.map(v => v[0]).join())] || 0) + 1;
-      return acc;
-    }, {});
-    const hash = Object.keys(hashmap).reduce((a, b) =>
-      hashmap[a] > hashmap[b] ? a : b,
-    );
-    let retValue;
-    arr.forEach(a => {
-      const tmpHash = hashCode(a.map(v => v[0]).join());
-      if (!retValue && Number(hash) === tmpHash) {
-        retValue = a;
-      }
-    });
-    return retValue;
   };
 
   render() {
@@ -787,8 +764,8 @@ class RouteScheduleContainer extends PureComponent {
     } else {
       dataToHandle = this.props.firstDepartures;
     }
-    const firstDepartures = this.modifyDepartures(dataToHandle);
-    const firstWeekEmpty = this.isEmptyWeek(firstDepartures[0]);
+    const firstDepartures = modifyDepartures(dataToHandle);
+    const firstWeekEmpty = isEmptyWeek(firstDepartures[0]);
     // If we are missing data from the start of the week, see if we can merge it with next week
     if (
       !firstWeekEmpty &&
@@ -798,7 +775,7 @@ class RouteScheduleContainer extends PureComponent {
       const [thisWeekData, normalWeekData] =
         Number(this.testNum) === 0
           ? firstDepartures
-          : [firstDepartures[0], this.getMostFrequent(firstDepartures)];
+          : [firstDepartures[0], getMostFrequent(firstDepartures)];
       const thisWeekHashes = [];
       const nextWeekHashes = [];
 
@@ -851,7 +828,7 @@ class RouteScheduleContainer extends PureComponent {
       .add(1, 'w')
       .format(DATE_FORMAT);
 
-    const firstDepartureDate = this.getFirstDepartureDate(
+    const firstDepartureDate = getFirstDepartureDate(
       firstDepartures[0],
       wantedDay,
     );
@@ -878,7 +855,7 @@ class RouteScheduleContainer extends PureComponent {
       }
     }
 
-    const data = this.populateData(
+    const data = populateData(
       wantedDay,
       firstDepartures,
       this.hasMergedData,
@@ -1014,7 +991,7 @@ class RouteScheduleContainer extends PureComponent {
                 ariaLabel="print-timetable"
                 buttonName="print-timetable"
                 buttonClickAction={e => {
-                  this.openRoutePDF(e, routeTimetableUrl);
+                  openRoutePDF(e, routeTimetableUrl);
                   addAnalyticsEvent({
                     category: 'Route',
                     action: 'PrintWeeklyTimetable',
@@ -1029,7 +1006,7 @@ class RouteScheduleContainer extends PureComponent {
               ariaLabel="print"
               buttonName="print"
               buttonClickAction={e => {
-                this.printRouteTimetable(e);
+                printRouteTimetable(e);
                 addAnalyticsEvent({
                   category: 'Route',
                   action: 'PrintTimetable',
