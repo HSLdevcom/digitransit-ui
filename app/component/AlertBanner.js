@@ -10,7 +10,7 @@ const AlertBanner = ({ alerts, linkAddress }, { config }) => {
   const message = alert.alertDescriptionText;
   const header = alert.alertHeaderText;
   if (!message && !header) {
-    return <></>;
+    return null;
   }
   const icon =
     alert.alertSeverityLevel !== 'INFO'

@@ -345,7 +345,9 @@ function getSmallStopIcon(type, radius, color) {
   ctx.arc(x, y, radius - 1, 0, FULL_CIRCLE);
   ctx.fill();
 
-  return new Promise(r => r(canvas));
+  return new Promise(r => {
+    r(canvas);
+  });
 }
 
 const getMemoizedStopIcon = memoize(

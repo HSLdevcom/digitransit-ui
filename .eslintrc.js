@@ -1,11 +1,10 @@
 module.exports = {
-  parser: 'babel-eslint',
+  parser: '@babel/eslint-parser',
   extends: [
     'plugin:compat/recommended',
     'plugin:jsx-a11y/recommended',
     'airbnb',
-    'prettier',
-    'prettier/react',
+    'plugin:prettier/recommended',
   ],
   rules: {
     curly: ['error', 'all'],
@@ -13,8 +12,10 @@ module.exports = {
     'no-else-return': 'warn',
     'no-plusplus': ['error', { allowForLoopAfterthoughts: true }],
     'no-console': 'error',
+    'no-restricted-exports': 'off',
     'import/no-extraneous-dependencies': 'off',
     'import/no-named-default': 'off',
+    'import/extensions': 'off',
     // react
     'react/button-has-type': 'warn',
     'react/destructuring-assignment': 'off',
@@ -27,6 +28,7 @@ module.exports = {
     'react/sort-comp': 'off',
     'react/state-in-constructor': 'off',
     'react/static-property-placement': 'off',
+    'react/function-component-definition': 'off',
 
     // jsx-a11y
     'jsx-a11y/anchor-is-valid': [
@@ -37,8 +39,9 @@ module.exports = {
         aspects: ['noHref', 'invalidHref', 'preferButton'],
       },
     ],
-    'jsx-a11y/label-has-associated-control': 'error',
+    'jsx-a11y/label-has-associated-control': 'off', // this has a bug with FormattedMessage
     'jsx-a11y/label-has-for': 'off', // deprecated in 6.1.0, does not support select tags
+    'jsx-a11y/control-has-associated-label': 'off', // this has a bug with FormattedMessage
 
     // compat
     'compat/compat': 'warn',

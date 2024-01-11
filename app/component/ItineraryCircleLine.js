@@ -127,7 +127,7 @@ class ItineraryCircleLine extends React.Component {
           style={legBeforeLineStyle}
           className={cx('leg-before-line', this.props.modeClassName)}
         />
-        {this.props.renderBottomMarker && <>{bottomMarker}</>}
+        {this.props.renderBottomMarker && bottomMarker}
       </div>
     );
   }

@@ -56,7 +56,7 @@ class StopsNearYouContainer extends React.Component {
     };
   }
 
-  static getDerivedStateFromProps = (nextProps, prevState) => {
+  static getDerivedStateFromProps(nextProps, prevState) {
     let newState = null;
     if (
       !prevState.currentPosition ||
@@ -95,7 +95,7 @@ class StopsNearYouContainer extends React.Component {
       }
     }
     return newState;
-  };
+  }
 
   componentDidUpdate(prevProps, prevState) {
     const { position } = prevProps;
@@ -115,12 +115,11 @@ class StopsNearYouContainer extends React.Component {
       prevState.isLoadingmoreStops &&
       !this.state.isLoadingmoreStops
     ) {
-      this.resultsUpdatedAlertRef.current.innerHTML = this.context.intl.formatMessage(
-        {
+      this.resultsUpdatedAlertRef.current.innerHTML =
+        this.context.intl.formatMessage({
           id: 'stop-near-you-update-alert',
           defaultMessage: 'Search results updated',
-        },
-      );
+        });
       setTimeout(() => {
         this.resultsUpdatedAlertRef.current.innerHTML = null;
       }, 100);
@@ -367,10 +366,10 @@ const refetchContainer = createPaginationContainer(
                 }
                 ... on Stop {
                   ...StopNearYouContainer_stop
-                  @arguments(
-                    startTime: $startTime
-                    omitNonPickups: $omitNonPickups
-                  )
+                    @arguments(
+                      startTime: $startTime
+                      omitNonPickups: $omitNonPickups
+                    )
                   id
                   name
                   gtfsId
@@ -421,18 +420,18 @@ const refetchContainer = createPaginationContainer(
       ) {
         viewer {
           ...StopsNearYouContainer_stopPatterns
-          @arguments(
-            startTime: $startTime
-            omitNonPickups: $omitNonPickups
-            lat: $lat
-            lon: $lon
-            filterByPlaceTypes: $filterByPlaceTypes
-            filterByModes: $filterByModes
-            first: $first
-            after: $after
-            maxResults: $maxResults
-            maxDistance: $maxDistance
-          )
+            @arguments(
+              startTime: $startTime
+              omitNonPickups: $omitNonPickups
+              lat: $lat
+              lon: $lon
+              filterByPlaceTypes: $filterByPlaceTypes
+              filterByModes: $filterByModes
+              first: $first
+              after: $after
+              maxResults: $maxResults
+              maxDistance: $maxDistance
+            )
         }
       }
     `,

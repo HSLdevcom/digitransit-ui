@@ -37,10 +37,10 @@ function getAriaDescription(ariaContentArray) {
 function getIconProperties(
   item,
   color,
-  modes = undefined,
   modeSet,
   stopCode,
   getIcons,
+  modes = undefined,
 ) {
   let iconId;
   let iconColor = '#888888';
@@ -276,21 +276,15 @@ const SuggestionItem = pure(
     getAutoSuggestIcons,
     modeSet = 'default',
   }) => {
-    const [
-      suggestionType,
-      name,
-      label,
-      stopCode,
-      modes,
-      platform,
-    ] = content || ['', item.name, item.address];
+    const [suggestionType, name, label, stopCode, modes, platform] =
+      content || ['', item.name, item.address];
     const [iconId, iconColor] = getIconProperties(
       item,
       color,
-      modes,
       modeSet,
       stopCode,
       getAutoSuggestIcons,
+      modes,
     );
     const modeIconColor = modeIconColors[iconColor] || modeIconColors[iconId];
     // Arrow clicked is for street. Instead of selecting item when a user clicks on arrow,

@@ -129,29 +129,25 @@ const AppBarHsl = ({ lang, user, favourites }, context) => {
 
       <LazilyLoad modules={headerModules}>
         {({ SiteHeader }) => (
-          <>
-            <SiteHeader
-              ref={siteHeaderRef}
-              hslFiUrl={config.URL.ROOTLINK}
-              lang={lang}
-              {...userMenu}
-              languageMenu={languages}
-              banners={banners}
-              suggestionsApiUrl={config.URL.HSL_FI_SUGGESTIONS}
-              notificationApiUrls={notificationApiUrls}
-            />
-          </>
+          <SiteHeader
+            ref={siteHeaderRef}
+            hslFiUrl={config.URL.ROOTLINK}
+            lang={lang}
+            {...userMenu}
+            languageMenu={languages}
+            banners={banners}
+            suggestionsApiUrl={config.URL.HSL_FI_SUGGESTIONS}
+            notificationApiUrls={notificationApiUrls}
+          />
         )}
       </LazilyLoad>
       {config.localStorageEmitter && (
         <LazilyLoad modules={emitterModules}>
           {({ SharedLocalStorageObserver }) => (
-            <>
-              <SharedLocalStorageObserver
-                keys={['saved-searches', 'favouriteStore']}
-                url={config.localStorageEmitter}
-              />
-            </>
+            <SharedLocalStorageObserver
+              keys={['saved-searches', 'favouriteStore']}
+              url={config.localStorageEmitter}
+            />
           )}
         </LazilyLoad>
       )}

@@ -690,20 +690,18 @@ const Itinerary = (
           arrivalTime: <LocalTime time={endTime} />,
           firstDeparture:
             vehicleNames.length === 0 ? null : (
-              <>
-                <FormattedMessage
-                  id="itinerary-summary-row.first-departure"
-                  values={{
-                    vehicle: vehicleNames[0],
-                    departureTime: firstDeparture ? (
-                      <LocalTime time={firstDeparture.startTime} />
-                    ) : (
-                      'ggh'
-                    ),
-                    stopName: stopNames[0],
-                  }}
-                />
-              </>
+              <FormattedMessage
+                id="itinerary-summary-row.first-departure"
+                values={{
+                  vehicle: vehicleNames[0],
+                  departureTime: firstDeparture ? (
+                    <LocalTime time={firstDeparture.startTime} />
+                  ) : (
+                    'ggh'
+                  ),
+                  stopName: stopNames[0],
+                }}
+              />
             ),
           transfers: vehicleNames.map((name, index) => {
             if (index === 0) {
@@ -781,131 +779,129 @@ const Itinerary = (
         {/* This next clickable region does not have proper accessible role, tabindex and keyboard handler
             because screen reader works weirdly with nested buttons. Same functonality works from the inner button */
         /* eslint-disable jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */}
-        <>
-          <div className="itinerary-summary-header">
-            <div
-              className="summary-clickable-area"
-              onClick={e => {
-                if (mobile(breakpoint)) {
-                  e.stopPropagation();
-                  props.onSelectImmediately(props.hash);
-                } else {
-                  props.onSelect(props.hash);
-                }
-              }}
-              onKeyPress={e =>
-                isKeyboardSelectionEvent(e) && props.onSelect(props.hash)
+        <div className="itinerary-summary-header">
+          <div
+            className="summary-clickable-area"
+            onClick={e => {
+              if (mobile(breakpoint)) {
+                e.stopPropagation();
+                props.onSelectImmediately(props.hash);
+              } else {
+                props.onSelect(props.hash);
               }
+            }}
+            onKeyPress={e =>
+              isKeyboardSelectionEvent(e) && props.onSelect(props.hash)
+            }
+            tabIndex="0"
+            role="button"
+            aria-label={ariaLabelMessage}
+          >
+            <span key="ShowOnMapScreenReader" className="sr-only">
+              <FormattedMessage id="itinerary-summary-row.clickable-area-description" />
+            </span>
+            <div
+              className="itinerary-duration-container"
+              key="startTime"
+              aria-hidden="true"
+            >
+              {startDate && (
+                <div className="itinerary-start-date">{startDate}</div>
+              )}
+              <div className="itinerary-start-time-and-end-time">
+                {itineraryStartAndEndTime}
+              </div>
+
+              <div style={{ flexGrow: 1 }} />
+              {config.showDistanceInItinerarySummary && (
+                <div className="itinerary-total-distance">
+                  {(getTotalDistance(data) / 1000).toFixed(1)} km
+                </div>
+              )}
+              {config.showCO2InItinerarySummary &&
+                co2value !== null &&
+                co2value >= 0 && (
+                  <div className="itinerary-co2-value-container">
+                    {lowestCo2value === co2value && (
+                      <Icon img="icon-icon_co2_leaf" className="co2-leaf" />
+                    )}
+                    <div className="itinerary-co2-value">{co2value} g</div>
+                  </div>
+                )}
+              <div className="itinerary-duration">
+                <RelativeDuration duration={duration} />
+              </div>
+            </div>
+            <div
+              className="legs-container"
+              style={{ '--minus': `${iconLegsInPixels}px` }}
+              key="legs"
+              aria-hidden="true"
+            >
+              <div
+                className="itinerary-legs"
+                style={{ '--plus': `${iconLegsInPercents}%` }}
+              >
+                {legs}
+              </div>
+            </div>
+            <div
+              className="itinerary-first-leg-start-time-container"
+              key="endtime-distance"
+              aria-hidden="true"
+            >
+              {firstLegStartTime}
+            </div>
+            {showRentalBikeDurationWarning &&
+              (citybikeNetworks.size === 1 ? (
+                <div className="citybike-duration-info-short">
+                  <Icon img={citybikeicon} height={1.2} width={1.2} />
+                  <FormattedMessage
+                    id="citybike-duration-info-short"
+                    values={{
+                      duration:
+                        config.cityBike.networks[bikeNetwork]
+                          .timeBeforeSurcharge / 60,
+                    }}
+                    defaultMessage=""
+                  />
+                </div>
+              ) : (
+                <div className="citybike-duration-info-short">
+                  <Icon img={citybikeicon} height={1.2} width={1.2} />
+                  <FormattedMessage
+                    id="citybike-duration-general-header"
+                    defaultMessage=""
+                  />
+                </div>
+              ))}
+          </div>
+          {mobile(breakpoint) !== true && (
+            <div
               tabIndex="0"
               role="button"
+              title={formatMessage({
+                id: 'itinerary-page.show-details',
+              })}
+              key="arrow"
+              className="action-arrow-click-area flex-vertical noborder"
+              onClick={e => {
+                e.stopPropagation();
+                props.onSelectImmediately(props.hash);
+              }}
+              onKeyPress={e =>
+                isKeyboardSelectionEvent(e) &&
+                props.onSelectImmediately(props.hash)
+              }
               aria-label={ariaLabelMessage}
             >
-              <span key="ShowOnMapScreenReader" className="sr-only">
-                <FormattedMessage id="itinerary-summary-row.clickable-area-description" />
-              </span>
-              <div
-                className="itinerary-duration-container"
-                key="startTime"
-                aria-hidden="true"
-              >
-                {startDate && (
-                  <div className="itinerary-start-date">{startDate}</div>
-                )}
-                <div className="itinerary-start-time-and-end-time">
-                  {itineraryStartAndEndTime}
-                </div>
-
-                <div style={{ flexGrow: 1 }} />
-                {config.showDistanceInItinerarySummary && (
-                  <div className="itinerary-total-distance">
-                    {(getTotalDistance(data) / 1000).toFixed(1)} km
-                  </div>
-                )}
-                {config.showCO2InItinerarySummary &&
-                  co2value !== null &&
-                  co2value >= 0 && (
-                    <div className="itinerary-co2-value-container">
-                      {lowestCo2value === co2value && (
-                        <Icon img="icon-icon_co2_leaf" className="co2-leaf" />
-                      )}
-                      <div className="itinerary-co2-value">{co2value} g</div>
-                    </div>
-                  )}
-                <div className="itinerary-duration">
-                  <RelativeDuration duration={duration} />
-                </div>
+              <div className="action-arrow flex-grow">
+                <Icon img="icon-icon_arrow-collapse--right" />
               </div>
-              <div
-                className="legs-container"
-                style={{ '--minus': `${iconLegsInPixels}px` }}
-                key="legs"
-                aria-hidden="true"
-              >
-                <div
-                  className="itinerary-legs"
-                  style={{ '--plus': `${iconLegsInPercents}%` }}
-                >
-                  {legs}
-                </div>
-              </div>
-              <div
-                className="itinerary-first-leg-start-time-container"
-                key="endtime-distance"
-                aria-hidden="true"
-              >
-                {firstLegStartTime}
-              </div>
-              {showRentalBikeDurationWarning &&
-                (citybikeNetworks.size === 1 ? (
-                  <div className="citybike-duration-info-short">
-                    <Icon img={citybikeicon} height={1.2} width={1.2} />
-                    <FormattedMessage
-                      id="citybike-duration-info-short"
-                      values={{
-                        duration:
-                          config.cityBike?.networks[bikeNetwork]
-                            .timeBeforeSurcharge / 60,
-                      }}
-                      defaultMessage=""
-                    />
-                  </div>
-                ) : (
-                  <div className="citybike-duration-info-short">
-                    <Icon img={citybikeicon} height={1.2} width={1.2} />
-                    <FormattedMessage
-                      id="citybike-duration-general-header"
-                      defaultMessage=""
-                    />
-                  </div>
-                ))}
             </div>
-            {mobile(breakpoint) !== true && (
-              <div
-                tabIndex="0"
-                role="button"
-                title={formatMessage({
-                  id: 'itinerary-page.show-details',
-                })}
-                key="arrow"
-                className="action-arrow-click-area flex-vertical noborder"
-                onClick={e => {
-                  e.stopPropagation();
-                  props.onSelectImmediately(props.hash);
-                }}
-                onKeyPress={e =>
-                  isKeyboardSelectionEvent(e) &&
-                  props.onSelectImmediately(props.hash)
-                }
-                aria-label={ariaLabelMessage}
-              >
-                <div className="action-arrow flex-grow">
-                  <Icon img="icon-icon_arrow-collapse--right" />
-                </div>
-              </div>
-            )}
-          </div>
-          <span className="itinerary-details-container" aria-expanded="false" />
-        </>
+          )}
+        </div>
+        <span className="itinerary-details-container" aria-expanded="false" />
       </div>
     </span>
   );

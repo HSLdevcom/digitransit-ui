@@ -169,11 +169,11 @@ const connectedComponent = createRefetchContainer(
     ) {
       station(id: $terminalId) {
         ...TerminalPageContentContainer_station
-        @arguments(
-          startTime: $startTime
-          timeRange: $timeRange
-          numberOfDepartures: $numberOfDepartures
-        )
+          @arguments(
+            startTime: $startTime
+            timeRange: $timeRange
+            numberOfDepartures: $numberOfDepartures
+          )
       }
     }
   `,

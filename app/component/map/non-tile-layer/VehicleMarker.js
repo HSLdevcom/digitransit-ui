@@ -53,11 +53,6 @@ export default class VehicleMarker extends React.Component {
     showBikeAvailability: false,
   };
 
-  static contextTypes = {
-    config: PropTypes.object.isRequired,
-    router: routerShape.isRequired,
-  };
-
   handleClick() {
     const { stationId } = this.props.station;
     this.context.router.push(

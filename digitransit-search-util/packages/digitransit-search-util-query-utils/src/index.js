@@ -260,8 +260,7 @@ export function getStopAndStationsQuery(favourites) {
         // eslint-disable-next-line no-param-reassign
         map[stopOrStation.gtfsId] = stopOrStation;
         return map;
-      },
-      {});
+      }, {});
       return verify(stopStationMap, favourites).map(stop => {
         const favourite = {
           type: 'FavouriteStop',

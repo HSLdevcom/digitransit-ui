@@ -190,18 +190,18 @@ const containerComponent = createPaginationContainer(
       ) {
         viewer {
           ...StopsNearYouMapContainer_stopsNearYou
-          @arguments(
-            startTime: $startTime
-            omitNonPickups: $omitNonPickups
-            lat: $lat
-            lon: $lon
-            filterByPlaceTypes: $filterByPlaceTypes
-            filterByModes: $filterByModes
-            first: $first
-            after: $after
-            maxResults: $maxResults
-            maxDistance: $maxDistance
-          )
+            @arguments(
+              startTime: $startTime
+              omitNonPickups: $omitNonPickups
+              lat: $lat
+              lon: $lon
+              filterByPlaceTypes: $filterByPlaceTypes
+              filterByModes: $filterByModes
+              first: $first
+              after: $after
+              maxResults: $maxResults
+              maxDistance: $maxDistance
+            )
         }
       }
     `,

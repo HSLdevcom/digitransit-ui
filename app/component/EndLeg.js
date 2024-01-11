@@ -16,7 +16,7 @@ function EndLeg(props, context) {
   const [addressFromUrl, placeFromUrl] = !parsedAddress
     ? [address, place]
     : parsedAddress.split(/, (.+)/);
-  const { stop } = props?.to;
+  const { stop } = props.to;
   const modeClassName = 'end';
   return (
     <div key={props.index} className={cx('row', 'itinerary-row')}>

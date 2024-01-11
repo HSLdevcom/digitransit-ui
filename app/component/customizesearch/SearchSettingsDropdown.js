@@ -251,10 +251,10 @@ class SearchSettingsDropdown extends React.Component {
               {displayValueFormatter
                 ? displayValueFormatter(currentSelection.title)
                 : translateLabels
-                ? `${intl.formatMessage({
-                    id: currentSelection.title,
-                  })}`
-                : currentSelection.title}
+                  ? `${intl.formatMessage({
+                      id: currentSelection.title,
+                    })}`
+                  : currentSelection.title}
             </p>
             <span className="sr-only">
               {intl.formatMessage({

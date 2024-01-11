@@ -47,8 +47,7 @@ describe('<MarkerSelectPopup />', () => {
               y: 2778,
             },
             properties: {
-              name:
-                '{"fi":"Tapiola Park","sv":"Tapiola Park","en":"Tapiola Park"}',
+              name: '{"fi":"Tapiola Park","sv":"Tapiola Park","en":"Tapiola Park"}',
               id: 'liipi:990',
               carPlaces: true,
             },
@@ -62,8 +61,7 @@ describe('<MarkerSelectPopup />', () => {
               y: 2778,
             },
             properties: {
-              name:
-                '{"fi":"Tapiola Bicycle Park","sv":"Tapiola Bicycle Park","en":"Tapiola Bicycle Park"}',
+              name: '{"fi":"Tapiola Bicycle Park","sv":"Tapiola Bicycle Park","en":"Tapiola Bicycle Park"}',
               id: 'liipi:995',
               bicyclePlaces: true,
             },

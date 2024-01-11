@@ -7,6 +7,61 @@ import Icon from './Icon';
 import { isKeyboardSelectionEvent } from '../util/browser';
 import ScrollableWrapper from './ScrollableWrapper';
 
+const setFocusables = () => {
+  // Set inactive tab focusables to unfocusable and for active tab set previously made unfocusable elements to focusable
+  const focusableTags =
+    'a, button, input, textarea, select, details, [tabindex="0"]';
+  const unFocusableTags =
+    'a, button, input, textarea, select, details, [tabindex="-2"]';
+  const swipeableTabs = document.getElementsByClassName('swipeable-tab');
+
+  for (let i = 0; i < swipeableTabs.length; i++) {
+    const focusables = swipeableTabs[i].querySelectorAll(focusableTags);
+    const unFocusables = swipeableTabs[i].querySelectorAll(unFocusableTags);
+    if (swipeableTabs[i].className === 'swipeable-tab inactive') {
+      focusables.forEach(focusable => {
+        // eslint-disable-next-line no-param-reassign
+        focusable.tabIndex = '-2';
+      });
+    } else {
+      unFocusables.forEach(unFocusable => {
+        // eslint-disable-next-line no-param-reassign
+        unFocusable.tabIndex = '0';
+      });
+    }
+  }
+};
+
+const setDecreasingAttributes = tabBalls => {
+  const newTabBalls = tabBalls;
+  for (let i = 0; i < tabBalls.length; i++) {
+    const prev = tabBalls[i - 1];
+    const current = tabBalls[i];
+    const next = tabBalls[i + 1];
+    if (prev && prev.hidden && !current.hidden) {
+      current.smaller = true;
+      next.small = true;
+      newTabBalls[i] = current;
+      newTabBalls[i + 1] = next;
+      break;
+    }
+  }
+  return newTabBalls;
+};
+
+const handleKeyPress = (e, reactSwipeEl) => {
+  switch (e.keyCode) {
+    case 37:
+      reactSwipeEl.prev();
+      break;
+    case 39:
+      reactSwipeEl.next();
+      break;
+    default:
+      break;
+  }
+};
+
 export default class SwipeableTabs extends React.Component {
   constructor(props) {
     super();
@@ -36,55 +91,13 @@ export default class SwipeableTabs extends React.Component {
   };
 
   componentDidMount() {
-    window.addEventListener('resize', this.setFocusables);
-    this.setFocusables();
+    window.addEventListener('resize', setFocusables);
+    setFocusables();
   }
 
   componentDidUpdate() {
-    this.setFocusables();
+    setFocusables();
   }
-
-  setFocusables = () => {
-    // Set inactive tab focusables to unfocusable and for active tab set previously made unfocusable elements to focusable
-    const focusableTags =
-      'a, button, input, textarea, select, details, [tabindex="0"]';
-    const unFocusableTags =
-      'a, button, input, textarea, select, details, [tabindex="-2"]';
-    const swipeableTabs = document.getElementsByClassName('swipeable-tab');
-
-    for (let i = 0; i < swipeableTabs.length; i++) {
-      const focusables = swipeableTabs[i].querySelectorAll(focusableTags);
-      const unFocusables = swipeableTabs[i].querySelectorAll(unFocusableTags);
-      if (swipeableTabs[i].className === 'swipeable-tab inactive') {
-        focusables.forEach(focusable => {
-          // eslint-disable-next-line no-param-reassign
-          focusable.tabIndex = '-2';
-        });
-      } else {
-        unFocusables.forEach(unFocusable => {
-          // eslint-disable-next-line no-param-reassign
-          unFocusable.tabIndex = '0';
-        });
-      }
-    }
-  };
-
-  setDecreasingAttributes = tabBalls => {
-    const newTabBalls = tabBalls;
-    for (let i = 0; i < tabBalls.length; i++) {
-      const prev = tabBalls[i - 1];
-      const current = tabBalls[i];
-      const next = tabBalls[i + 1];
-      if (prev && prev.hidden && !current.hidden) {
-        current.smaller = true;
-        next.small = true;
-        newTabBalls[i] = current;
-        newTabBalls[i + 1] = next;
-        break;
-      }
-    }
-    return newTabBalls;
-  };
 
   tabBalls = tabsLength => {
     const tabIndex = parseInt(this.state.tabIndex, 10);
@@ -128,8 +141,8 @@ export default class SwipeableTabs extends React.Component {
       tabBalls.push(ballObj);
     }
 
-    tabBalls = this.setDecreasingAttributes(tabBalls);
-    tabBalls = this.setDecreasingAttributes(tabBalls.reverse());
+    tabBalls = setDecreasingAttributes(tabBalls);
+    tabBalls = setDecreasingAttributes(tabBalls.reverse());
     tabBalls.reverse();
     const ballDivs = tabBalls.map((ball, index) => {
       const key = ball.toString().length + index;
@@ -169,19 +182,6 @@ export default class SwipeableTabs extends React.Component {
     return ballDivs;
   };
 
-  handleKeyPress = (e, reactSwipeEl) => {
-    switch (e.keyCode) {
-      case 37:
-        reactSwipeEl.prev();
-        break;
-      case 39:
-        reactSwipeEl.next();
-        break;
-      default:
-        break;
-    }
-  };
-
   constructAriaMessage = (from, position) => {
     const fromMessage = this.context.intl
       .formatMessage({
@@ -219,13 +219,8 @@ export default class SwipeableTabs extends React.Component {
   };
 
   render() {
-    const {
-      tabs,
-      hideArrows,
-      navigationOnBottom,
-      ariaFrom,
-      ariaFromHeader,
-    } = this.props;
+    const { tabs, hideArrows, navigationOnBottom, ariaFrom, ariaFromHeader } =
+      this.props;
     const { intl } = this.context;
     const tabBalls = this.tabBalls(tabs.length);
     const disabled = tabBalls.length < 2;
@@ -278,7 +273,7 @@ export default class SwipeableTabs extends React.Component {
           <button
             className="sr-only"
             type="button"
-            onKeyDown={e => this.handleKeyPress(e, reactSwipeEl)}
+            onKeyDown={e => handleKeyPress(e, reactSwipeEl)}
             aria-label={ariaHeader}
           >
             {ariaHeader}

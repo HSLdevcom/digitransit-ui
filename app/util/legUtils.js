@@ -202,8 +202,8 @@ export const compressLegs = (originalLegs, keepBicycleWalk = false) => {
       const newBikePark = compressedLeg.to.bikePark
         ? compressedLeg.to.bikePark
         : currentLeg.to.bikePark
-        ? currentLeg.to.bikePark
-        : null;
+          ? currentLeg.to.bikePark
+          : null;
       compressedLeg.duration += currentLeg.duration;
       compressedLeg.distance += currentLeg.distance;
       compressedLeg.to = { ...currentLeg.to, ...{ bikePark: newBikePark } };
@@ -274,6 +274,15 @@ export const onlyBiking = itinerary =>
 export const containsBiking = itinerary => itinerary.legs.some(isBikingLeg);
 
 /**
+ * Checks if leg is just walking.
+ *
+ * @param {*} leg a leg which has a mode
+ */
+export const isLegOnFoot = leg => {
+  return leg.mode === 'WALK';
+};
+
+/**
  * Checks if any of the legs in the given itinerary contains biking with rental bike.
  *
  * @param {*} leg
@@ -324,8 +333,8 @@ export const getVehicleAvailabilityIndicatorColor = (
   vehiclesAvailable === 0
     ? '#DC0451'
     : vehiclesAvailable > config.cityBike.fewAvailableCount
-    ? '#3B7F00'
-    : '#FCBC19';
+      ? '#3B7F00'
+      : '#FCBC19';
 
 /* Gets the indicator text color if  few bikes are available
  *

@@ -40,73 +40,69 @@ function MobileDatepicker({
   const inputId = `${id}-input`;
   const labelId = `${id}-label`;
   return (
-    <>
-      <label className={styles['input-container']} htmlFor={inputId}>
-        <span>{icon}</span>
-        <span className={styles['sr-only']} id={labelId}>
-          {label}
-        </span>
-        {nativeInput ? (
-          <>
-            <select
-              className={styles['mobile-input-display']}
-              onChange={e => onChange(Number(e.target.value))}
-              value={value}
-            >
-              {dateChoices.map(date => {
-                return (
-                  <option key={date} value={date}>
-                    {getDisplay(date)}
-                  </option>
-                );
-              })}
-            </select>
-          </>
-        ) : (
-          <Autosuggest
-            id={id}
-            suggestions={dateChoices}
-            getSuggestionValue={s => s.toString()}
-            renderSuggestion={s => getDisplay(s)}
-            onSuggestionsFetchRequested={() => null}
-            shouldRenderSuggestions={() => true}
-            inputProps={{
-              value: getDisplay(value),
-              onChange: (_, { newValue }) => {
-                onChange(Number(newValue));
-              },
-              onFocus: () => {
-                changeOpen(true);
-              },
-              onBlur: () => {
-                changeOpen(false);
-              },
-              'aria-labelledby': labelId,
-              'aria-autocomplete': 'none',
-              readOnly: true,
-            }}
-            focusInputOnSuggestionClick={false}
-            onSuggestionsClearRequested={() => null}
-            renderSuggestionsContainer={({ containerProps, children }) => {
-              // set refs for autosuggest library and scrollbar positioning
-              const { ref, ...otherRefs } = containerProps;
-              const containerRef = elem => {
-                if (elem) {
-                  scrollRef.current = elem;
-                  ref(elem);
-                }
-              };
-              return (
-                <div tabIndex="-1" {...otherRefs} ref={containerRef}>
-                  {children}
-                </div>
-              );
-            }}
-            theme={styles}
-          />
-        )}
-      </label>
-    </>
+    <label className={styles['input-container']} htmlFor={inputId}>
+      <span>{icon}</span>
+      <span className={styles['sr-only']} id={labelId}>
+        {label}
+      </span>
+      {nativeInput ? (
+        <select
+          className={styles['mobile-input-display']}
+          onChange={e => onChange(Number(e.target.value))}
+          value={value}
+        >
+          {dateChoices.map(date => {
+            return (
+              <option key={date} value={date}>
+                {getDisplay(date)}
+              </option>
+            );
+          })}
+        </select>
+      ) : (
+        <Autosuggest
+          id={id}
+          suggestions={dateChoices}
+          getSuggestionValue={s => s.toString()}
+          renderSuggestion={s => getDisplay(s)}
+          onSuggestionsFetchRequested={() => null}
+          shouldRenderSuggestions={() => true}
+          inputProps={{
+            value: getDisplay(value),
+            onChange: (_, { newValue }) => {
+              onChange(Number(newValue));
+            },
+            onFocus: () => {
+              changeOpen(true);
+            },
+            onBlur: () => {
+              changeOpen(false);
+            },
+            'aria-labelledby': labelId,
+            'aria-autocomplete': 'none',
+            readOnly: true,
+          }}
+          focusInputOnSuggestionClick={false}
+          onSuggestionsClearRequested={() => null}
+          renderSuggestionsContainer={({ containerProps, children }) => {
+            // set refs for autosuggest library and scrollbar positioning
+            const { ref, ...otherRefs } = containerProps;
+            const containerRef = elem => {
+              if (elem) {
+                scrollRef.current = elem;
+                ref(elem);
+              }
+            };
+            return (
+              <div tabIndex="-1" {...otherRefs} ref={containerRef}>
+                {children}
+              </div>
+            );
+          }}
+          theme={styles}
+        />
+      )}
+    </label>
   );
 }
 MobileDatepicker.propTypes = {

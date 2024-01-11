@@ -80,9 +80,10 @@ const ParkAndRideContent = (
       );
       if (
         sameOpeningHoursEveryday &&
-        filteredOpeningHours.length === openingHoursDates.length
+        filteredOpeningHours.length === openingHoursDates.length &&
+        filteredOpeningHours.length
       ) {
-        const { to, from } = filteredOpeningHours[0]?.timeSpans;
+        const { to, from } = filteredOpeningHours[0].timeSpans;
         if (to - from - 60 * 60 * 24 === 0) {
           return [`24${intl.formatMessage({ id: 'hour-short' })}`];
         }

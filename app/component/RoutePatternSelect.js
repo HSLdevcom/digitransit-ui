@@ -52,7 +52,7 @@ function patternTextWithIcon(pattern) {
       </>
     );
   }
-  return <></>;
+  return null;
 }
 
 function filterSimilarRoutes(routes, currentRoute) {
@@ -112,13 +112,12 @@ function renderPatternSelectSuggestion(item, currentPattern) {
       </Link>
     );
   }
-  return <></>;
+  return null;
 }
 
 class RoutePatternSelect extends Component {
   constructor(props, context) {
     super(props, context);
-    this.resultsUpdatedAlertRef = React.createRef();
     this.state = {
       similarRoutes: [],
       loadingSimilar: true,
@@ -150,8 +149,6 @@ class RoutePatternSelect extends Component {
     getStore: PropTypes.func.isRequired, // DT-3347
     intl: intlShape.isRequired,
   };
-
-  similarRoutesToOptions = () => {};
 
   fetchSimilarRoutes = (route, callFetch) => {
     if (callFetch) {

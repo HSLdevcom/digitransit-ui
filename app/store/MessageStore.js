@@ -139,8 +139,6 @@ class MessageStore extends Store {
     }
   };
 
-  getReadMessageIds = () => getReadMessageIds();
-
   getMessages = () => {
     const arr = [];
     this.messages.forEach(msg => {

@@ -92,9 +92,7 @@ class ItineraryPageControls extends React.Component {
           modeSet={this.context.config.iconModeSet}
         />
         {isBrowser && (
-          <React.Fragment>
-            <SearchSettings toggleSettings={this.props.toggleSettings} />
-          </React.Fragment>
+          <SearchSettings toggleSettings={this.props.toggleSettings} />
         )}
       </div>
     );
