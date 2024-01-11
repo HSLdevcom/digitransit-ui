@@ -186,19 +186,22 @@ export const isItinerarySearchObjects = (origin, destination) => {
  * use objects instead of strings If both are set it's itinerary search...
  */
 export const getPathWithEndpointObjects = (origin, destination, rootPath) => {
+  let originGtfsId;
+  if (origin.gtfsId !== undefined) {
+    originGtfsId = origin.gtfsId;
+  }
   const r =
     rootPath === PREFIX_ITINERARY_SUMMARY ||
     isItinerarySearchObjects(origin, destination)
       ? getSummaryPath(
-          addressToItinerarySearch(origin),
+          originGtfsId || addressToItinerarySearch(origin),
           addressToItinerarySearch(destination),
         )
       : getIndexPath(
-          locationToOTP(origin),
+          originGtfsId || locationToOTP(origin),
           locationToOTP(destination),
           rootPath,
         );
-
   return r;
 };
 
