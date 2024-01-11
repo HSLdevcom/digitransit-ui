@@ -693,7 +693,7 @@ const SummaryRow = (
                 <FormattedMessage
                   id="itinerary-summary-row.first-departure"
                   values={{
-                    vehicle: vehicleNames[0].toLowerCase(),
+                    vehicle: vehicleNames[0]?.toLowerCase(),
                     departureTime: firstDeparture ? (
                       <LocalTime time={firstDeparture.startTime} />
                     ) : (

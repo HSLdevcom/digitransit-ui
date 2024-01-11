@@ -66,7 +66,7 @@ function TripLinkWithScroll(
           stopName,
           nextStopName,
           mode: localizedMode,
-          shortName: vehicleNumber.toLowerCase(),
+          shortName: vehicleNumber?.toLowerCase(),
         },
       )
     : context.intl.formatMessage(
@@ -77,7 +77,7 @@ function TripLinkWithScroll(
         {
           stopName,
           mode: localizedMode,
-          shortName: vehicleNumber.toLowerCase(),
+          shortName: vehicleNumber?.toLowerCase(),
         },
       );
   if (selected) {

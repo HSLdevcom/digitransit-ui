@@ -125,7 +125,7 @@ class RoutePage extends React.Component {
                   {this.context.intl.formatMessage({
                     id: mode.toLowerCase(),
                   })}{' '}
-                  {label.toLowerCase()}
+                  {label?.toLowerCase()}
                 </span>
                 <span aria-hidden="true">{label}</span>
               </h1>

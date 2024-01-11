@@ -92,7 +92,7 @@ function FuzzyTripLink({ vehicle, stopName, nextStopName, ...rest }, context) {
                 stopName,
                 nextStopName,
                 mode: localizedMode,
-                shortName: shortName.toLowerCase(),
+                shortName: shortName?.toLowerCase(),
               },
             )
           : context.intl.formatMessage(
@@ -103,7 +103,7 @@ function FuzzyTripLink({ vehicle, stopName, nextStopName, ...rest }, context) {
               {
                 stopName,
                 mode: localizedMode,
-                shortName: shortName.toLowerCase(),
+                shortName: shortName?.toLowerCase(),
               },
             );
 

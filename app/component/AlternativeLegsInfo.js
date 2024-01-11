@@ -17,7 +17,6 @@ const AlternativeLegsInfo = ({ legs, showAlternativeLegs, toggle }) => {
     )) ||
     (legs.length > 1 ? (
       <FormattedMessage
-        aria-hidden="true"
         className="alternative-leg-info"
         id="alternative-legs"
         values={{
@@ -25,7 +24,7 @@ const AlternativeLegsInfo = ({ legs, showAlternativeLegs, toggle }) => {
             <>
               <span aria-hidden="true">{legs[0].route.shortName}</span>
               <span className="sr-only">
-                {legs[0].route.shortName.toLowerCase()}
+                {legs[0].route.shortName?.toLowerCase()}
               </span>
             </>
           ),
@@ -33,7 +32,7 @@ const AlternativeLegsInfo = ({ legs, showAlternativeLegs, toggle }) => {
             <>
               <span aria-hidden="true">{legs[1].route.shortName}</span>
               <span className="sr-only">
-                {legs[1].route.shortName.toLowerCase()}
+                {legs[1].route.shortName?.toLowerCase()}
               </span>
             </>
           ),
@@ -68,7 +67,6 @@ const AlternativeLegsInfo = ({ legs, showAlternativeLegs, toggle }) => {
       />
     ) : (
       <FormattedMessage
-        aria-hidden="true"
         className="alternative-leg-info"
         id="alternative-legs-single"
         values={{
@@ -76,7 +74,7 @@ const AlternativeLegsInfo = ({ legs, showAlternativeLegs, toggle }) => {
             <>
               <span aria-hidden="true">{legs[0].route.shortName}</span>
               <span className="sr-only">
-                {legs[0].route.shortName.toLowerCase()}
+                {legs[0].route.shortName?.toLowerCase()}
               </span>
             </>
           ),

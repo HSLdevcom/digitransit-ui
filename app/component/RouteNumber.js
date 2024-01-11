@@ -144,7 +144,7 @@ function RouteNumber(props, context) {
             >
               {props.text}
             </span>
-            <span className="sr-only">{props.text.toLowerCase()}</span>
+            <span className="sr-only">{props.text?.toLowerCase()}</span>
           </div>
         )}
         {!context.config?.hideWalkLegDurationSummary &&
