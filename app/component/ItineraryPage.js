@@ -15,7 +15,6 @@ import { FormattedMessage, intlShape } from 'react-intl';
 import { matchShape, routerShape } from 'found';
 import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
-import SunCalc from 'suncalc';
 import polyline from 'polyline-encoded';
 import DesktopView from './DesktopView';
 import MobileView from './MobileView';
@@ -49,6 +48,10 @@ import {
   startClient,
   updateClient,
   stopClient,
+  getRentalStationsToHideOnMap,
+  addBikeStationMapForRentalVehicleItineraries,
+  checkDayNight,
+  filterItinerariesByFeedId,
 } from './ItineraryPageUtils';
 import withBreakpoint from '../util/withBreakpoint';
 import { isIOS } from '../util/browser';
@@ -86,33 +89,6 @@ import ErrorShape from '../prop-types/ErrorShape';
 import RoutingErrorShape from '../prop-types/RoutingErrorShape';
 
 const POINT_FOCUS_ZOOM = 16; // used when focusing to a point
-
-const addBikeStationMapForRentalVehicleItineraries = () => {
-  return getMapLayerOptions({
-    lockedMapLayers: ['vehicles', 'citybike', 'stop'],
-    selectedMapLayers: ['vehicles', 'citybike'],
-  });
-};
-
-/**
- * Return an object containing key vehicleRentalStations that is a list of rental
- * station ids to hide on map.
- *
- * @param {Boolean} hasVehicleRentalStation if there are rental stations.
- * @param {*} activeItinerary itinerary which can contain rental stations.
- */
-const getRentalStationsToHideOnMap = (
-  hasVehicleRentalStation,
-  activeItinerary,
-) => {
-  const objectsToHide = { vehicleRentalStations: [] };
-  if (hasVehicleRentalStation) {
-    objectsToHide.vehicleRentalStations = activeItinerary?.legs
-      ?.filter(leg => leg.from?.vehicleRentalStation)
-      .map(station => station.from?.vehicleRentalStation.stationId);
-  }
-  return objectsToHide;
-};
 
 class ItineraryPage extends React.Component {
   static contextTypes = {
@@ -892,25 +868,6 @@ class ItineraryPage extends React.Component {
     });
   };
 
-  // These are icons that contains sun
-  dayNightIconIds = [1, 2, 21, 22, 23, 41, 42, 43, 61, 62, 71, 72, 73];
-
-  checkDayNight = (iconId, timem, lat, lon) => {
-    const date = timem.toDate();
-    const dateMillis = date.getTime();
-    const sunCalcTimes = SunCalc.getTimes(date, lat, lon);
-    const sunrise = sunCalcTimes.sunrise.getTime();
-    const sunset = sunCalcTimes.sunset.getTime();
-    if (
-      (sunrise > dateMillis || sunset < dateMillis) &&
-      this.dayNightIconIds.includes(iconId)
-    ) {
-      // Night icon = iconId + 100
-      return iconId + 100;
-    }
-    return iconId;
-  };
-
   makeWeatherQuery() {
     const from = otpToLocation(this.props.match.params.from);
     const { walkPlan, bikePlan } = this.state;
@@ -949,8 +906,8 @@ class ItineraryPage extends React.Component {
                   windSpeed: res[1].ParameterValue,
                   weatherHash,
                   time,
-                  // Icon id's and descriptions: https://www.ilmatieteenlaitos.fi/latauspalvelun-pikaohje ->  Sääsymbolien selitykset ennusteissa.
-                  iconId: this.checkDayNight(
+                  // Icon id's and descriptions: www.ilmatieteenlaitos.fi/latauspalvelun-pikaohje ->  Sääsymbolien selitykset ennusteissa
+                  iconId: checkDayNight(
                     res[2].ParameterValue,
                     timem,
                     from.lat,
@@ -1351,31 +1308,6 @@ class ItineraryPage extends React.Component {
     return false;
   };
 
-  filterItinerariesByFeedId = plan => {
-    if (!plan?.itineraries) {
-      return plan;
-    }
-    const newItineraries = [];
-    plan.itineraries.forEach(itinerary => {
-      let skip = false;
-      for (let i = 0; i < itinerary.legs.length; i++) {
-        const feedId = itinerary.legs[i].route?.gtfsId?.split(':')[0];
-
-        if (
-          feedId && // if feedId is undefined, leg  is non transit -> don't drop
-          !this.context.config.feedIds.includes(feedId) // feedId is not allowed
-        ) {
-          skip = true;
-          break;
-        }
-      }
-      if (!skip) {
-        newItineraries.push(itinerary);
-      }
-    });
-    return { ...plan, itineraries: newItineraries };
-  };
-
   render() {
     const { props, context, state } = this;
     const { match, error } = props;
@@ -1387,7 +1319,7 @@ class ItineraryPage extends React.Component {
     let plan;
     /* NOTE: as a temporary solution, do filtering by feedId in UI */
     if (config.feedIdFiltering) {
-      plan = this.filterItinerariesByFeedId(props.viewer?.plan);
+      plan = filterItinerariesByFeedId(props.viewer?.plan, this.context.config);
     } else {
       plan = props.viewer?.plan;
     }

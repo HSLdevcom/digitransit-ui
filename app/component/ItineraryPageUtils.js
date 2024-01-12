@@ -5,6 +5,7 @@ import findIndex from 'lodash/findIndex';
 import get from 'lodash/get';
 import polyline from 'polyline-encoded';
 import moment from 'moment';
+import SunCalc from 'suncalc';
 import { boundWithMinimumArea } from '../util/geo-utils';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import { itineraryHasCancelation } from '../util/alertUtils';
@@ -15,6 +16,7 @@ import {
   stopRealTimeClient,
   changeRealTimeClientTopics,
 } from '../action/realTimeClientAction';
+import { getMapLayerOptions } from '../util/mapLayerUtils';
 
 export const streetModeHash = ['walk', 'bike', 'car'];
 
@@ -221,6 +223,31 @@ export function compareItineraries(itineraries, defaultItineraries) {
   return false;
 }
 
+export function filterItinerariesByFeedId(plan, config) {
+  if (!plan?.itineraries) {
+    return plan;
+  }
+  const newItineraries = [];
+  plan.itineraries.forEach(itinerary => {
+    let skip = false;
+    for (let i = 0; i < itinerary.legs.length; i++) {
+      const feedId = itinerary.legs[i].route?.gtfsId?.split(':')[0];
+
+      if (
+        feedId && // if feedId is undefined, leg  is non transit -> don't drop
+        !config.feedIds.includes(feedId) // feedId is not allowed
+      ) {
+        skip = true;
+        break;
+      }
+    }
+    if (!skip) {
+      newItineraries.push(itinerary);
+    }
+  });
+  return { ...plan, itineraries: newItineraries };
+}
+
 const settingsToCompare = ['walkBoardCost', 'ticketTypes', 'walkReluctance'];
 export function settingsLimitRouting(config) {
   const defaultSettings = getDefaultSettings(config);
@@ -304,4 +331,50 @@ export function updateClient(itineraryTopics, context) {
     stopClient(context);
   }
   startClient(itineraryTopics, context);
+}
+
+export function addBikeStationMapForRentalVehicleItineraries() {
+  return getMapLayerOptions({
+    lockedMapLayers: ['vehicles', 'citybike', 'stop'],
+    selectedMapLayers: ['vehicles', 'citybike'],
+  });
+}
+
+/**
+ * Return an object containing key vehicleRentalStations that is a list of rental
+ * station ids to hide on map.
+ *
+ * @param {Boolean} hasVehicleRentalStation if there are rental stations.
+ * @param {*} activeItinerary itinerary which can contain rental stations.
+ */
+export function getRentalStationsToHideOnMap(
+  hasVehicleRentalStation,
+  activeItinerary,
+) {
+  const objectsToHide = { vehicleRentalStations: [] };
+  if (hasVehicleRentalStation) {
+    objectsToHide.vehicleRentalStations = activeItinerary?.legs
+      ?.filter(leg => leg.from?.vehicleRentalStation)
+      .map(station => station.from?.vehicleRentalStation.stationId);
+  }
+  return objectsToHide;
+}
+
+// These are icons that contains sun
+const dayNightIconIds = [1, 2, 21, 22, 23, 41, 42, 43, 61, 62, 71, 72, 73];
+
+export function checkDayNight(iconId, timem, lat, lon) {
+  const date = timem.toDate();
+  const dateMillis = date.getTime();
+  const sunCalcTimes = SunCalc.getTimes(date, lat, lon);
+  const sunrise = sunCalcTimes.sunrise.getTime();
+  const sunset = sunCalcTimes.sunset.getTime();
+  if (
+    (sunrise > dateMillis || sunset < dateMillis) &&
+    dayNightIconIds.includes(iconId)
+  ) {
+    // Night icon = iconId + 100
+    return iconId + 100;
+  }
+  return iconId;
 }
