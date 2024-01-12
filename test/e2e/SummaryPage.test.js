@@ -83,7 +83,9 @@ describe(`Summary page with ${config} config`, () => {
         page.waitForSelector('.summary-list-container'),
         page.waitForSelector('.street-mode-button-row'),
         page.waitForSelector('.street-mode-selector-weather-container'),
-        new Promise(res => setTimeout(res, 2000)),
+        new Promise(res => {
+          setTimeout(res, 2000);
+        }),
       ]);
 
       let image;

@@ -82,30 +82,28 @@ const DialogModal = ({
           )}
         </div>
         <div className={styles['digitransit-dialog-modal-buttons']}>
-          {
-            <a
-              type="button"
-              role="button"
-              tabIndex="0"
-              className={cx(
-                styles['digitransit-dialog-modal-button'],
-                styles.primary,
-              )}
-              href={href}
-              onKeyDown={e => {
-                if (isKeyboardSelectionEvent(e)) {
-                  e.stopPropagation();
-                  primaryButtonOnClick(e);
-                }
-              }}
-              onClick={e => {
+          <a
+            type="button"
+            role="button"
+            tabIndex="0"
+            className={cx(
+              styles['digitransit-dialog-modal-button'],
+              styles.primary,
+            )}
+            href={href}
+            onKeyDown={e => {
+              if (isKeyboardSelectionEvent(e)) {
                 e.stopPropagation();
                 primaryButtonOnClick(e);
-              }}
-            >
-              {primaryButtonText}
-            </a>
-          }
+              }
+            }}
+            onClick={e => {
+              e.stopPropagation();
+              primaryButtonOnClick(e);
+            }}
+          >
+            {primaryButtonText}
+          </a>
           {secondaryButtonText && secondaryButtonOnClick && (
             <button
               type="button"

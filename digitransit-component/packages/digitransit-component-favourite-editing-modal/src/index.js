@@ -106,7 +106,6 @@ class FavouriteEditingModal extends React.Component {
   constructor(props) {
     super(props);
     i18next.changeLanguage(props.lang);
-    this.draggableFavourites = [];
     this.state = {
       favourites: props.favourites,
       showDeletePlaceModal: false,
@@ -117,7 +116,7 @@ class FavouriteEditingModal extends React.Component {
     });
   }
 
-  static getDerivedStateFromProps = (nextProps, prevState) => {
+  static getDerivedStateFromProps(nextProps, prevState) {
     const nextFavourites = nextProps.favourites;
     const prevFavourites = prevState.favourites;
     if (
@@ -132,13 +131,13 @@ class FavouriteEditingModal extends React.Component {
       };
     }
     return null;
-  };
+  }
 
-  componentDidUpdate = () => {
+  componentDidUpdate() {
     if (i18next.language !== this.props.lang) {
       i18next.changeLanguage(this.props.lang);
     }
-  };
+  }
 
   moveFavourite = (i, direction) => {
     const { favourites } = this.state;
@@ -170,7 +169,6 @@ class FavouriteEditingModal extends React.Component {
           {index > 0 && (
             <button
               className={styles['favourite-edit-list-arrow-hidden']}
-              styles={{ color: this.props.color }}
               type="button"
               aria-label={i18next.t('up')}
               onClick={() => {
@@ -183,7 +181,6 @@ class FavouriteEditingModal extends React.Component {
           {index < this.state.favourites.length - 1 && (
             <button
               className={styles['favourite-edit-list-arrow-hidden']}
-              styles={{ color: this.props.color }}
               type="button"
               aria-label={i18next.t('down')}
               onClick={() => {

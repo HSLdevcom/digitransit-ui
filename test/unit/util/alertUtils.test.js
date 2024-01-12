@@ -391,30 +391,27 @@ describe('alertUtils', () => {
 
   describe('isAlertActive', () => {
     it('should not crash even if cancelations or alerts is not defined', () => {
-      expect(utils.isAlertActive(undefined, [], 1)).to.equal(false);
-      expect(utils.isAlertActive([], undefined, 1)).to.equal(false);
+      expect(utils.isAlertActive(1, undefined, [])).to.equal(false);
+      expect(utils.isAlertActive(1, [], undefined)).to.equal(false);
     });
 
     it('should return true if there is an active cancelation', () => {
       expect(
-        utils.isAlertActive(
-          [
-            {
-              realtimeState: RealtimeStateType.Canceled,
-              scheduledArrival: 1,
-              scheduledDeparture: 100,
-              serviceDay: 0,
-            },
-          ],
-          [],
-          50,
-        ),
+        utils.isAlertActive(50, [
+          {
+            realtimeState: RealtimeStateType.Canceled,
+            scheduledArrival: 1,
+            scheduledDeparture: 100,
+            serviceDay: 0,
+          },
+        ]),
       ).to.equal(true);
     });
 
     it('should return true if there is an active alert with no severity level', () => {
       expect(
         utils.isAlertActive(
+          50,
           [],
           [
             {
@@ -422,7 +419,6 @@ describe('alertUtils', () => {
               effectiveEndDate: 100,
             },
           ],
-          50,
         ),
       ).to.equal(true);
     });
@@ -430,6 +426,7 @@ describe('alertUtils', () => {
     it('should return true if there is an active alert with a severity level !== INFO', () => {
       expect(
         utils.isAlertActive(
+          50,
           [],
           [
             {
@@ -438,7 +435,6 @@ describe('alertUtils', () => {
               effectiveEndDate: 100,
             },
           ],
-          50,
         ),
       ).to.equal(true);
     });
@@ -446,6 +442,7 @@ describe('alertUtils', () => {
     it('should return false if there is an active alert with a severity level === INFO', () => {
       expect(
         utils.isAlertActive(
+          50,
           [],
           [
             {
@@ -454,7 +451,6 @@ describe('alertUtils', () => {
               effectiveEndDate: 100,
             },
           ],
-          50,
         ),
       ).to.equal(false);
     });
@@ -462,6 +458,7 @@ describe('alertUtils', () => {
     it('should return false if there is an expired service alert', () => {
       expect(
         utils.isAlertActive(
+          200,
           [],
           [
             {
@@ -469,13 +466,12 @@ describe('alertUtils', () => {
               effectiveEndDate: 100,
             },
           ],
-          200,
         ),
       ).to.equal(false);
     });
 
     it('should return true by default for service alerts that have no start or end', () => {
-      expect(utils.isAlertActive([], [{}], 200)).to.equal(true);
+      expect(utils.isAlertActive(200, [], [{}])).to.equal(true);
     });
   });
 
@@ -486,7 +482,7 @@ describe('alertUtils', () => {
         scheduledDeparture: 20,
         serviceDay: 0,
       };
-      expect(utils.cancelationHasExpired(cancelation, 25)).to.equal(true);
+      expect(utils.cancelationHasExpired(25, cancelation)).to.equal(true);
     });
 
     it('should return false for an active cancelation', () => {
@@ -495,7 +491,7 @@ describe('alertUtils', () => {
         scheduledDeparture: 20,
         serviceDay: 0,
       };
-      expect(utils.cancelationHasExpired(cancelation, 15)).to.equal(false);
+      expect(utils.cancelationHasExpired(15, cancelation)).to.equal(false);
     });
 
     it('should return false for a future cancelation', () => {
@@ -504,7 +500,7 @@ describe('alertUtils', () => {
         scheduledDeparture: 10,
         serviceDay: 0,
       };
-      expect(utils.cancelationHasExpired(cancelation, 5)).to.equal(false);
+      expect(utils.cancelationHasExpired(5, cancelation)).to.equal(false);
     });
   });
 

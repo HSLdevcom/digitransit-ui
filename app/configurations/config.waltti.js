@@ -44,7 +44,7 @@ export default {
   cityBike: {},
 
   search: {
-    minimalRegexp: new RegExp('.+'),
+    minimalRegexp: /.+/,
   },
 
   agency: {

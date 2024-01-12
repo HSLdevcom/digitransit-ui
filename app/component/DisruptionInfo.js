@@ -66,11 +66,9 @@ function DisruptionInfo(props, context) {
   );
 
   return (
-    <React.Fragment>
-      <LazilyLoad modules={disruptionModalModules}>
-        {({ Modal }) => renderContent(Modal)}
-      </LazilyLoad>
-    </React.Fragment>
+    <LazilyLoad modules={disruptionModalModules}>
+      {({ Modal }) => renderContent(Modal)}
+    </LazilyLoad>
   );
 }
 

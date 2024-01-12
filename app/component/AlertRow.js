@@ -105,9 +105,8 @@ export default function AlertRow(
   }
 
   const showTime = startTime && currentTime;
-  const uniqueEntities = getEntitiesWithUniqueIdentifiers(entities).sort(
-    entityCompare,
-  );
+  const uniqueEntities =
+    getEntitiesWithUniqueIdentifiers(entities).sort(entityCompare);
   const gtfsIdList = getGtfsIds(uniqueEntities);
   const entityIdentifiers = getEntityIdentifiers(uniqueEntities);
 

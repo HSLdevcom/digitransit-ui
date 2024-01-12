@@ -36,9 +36,9 @@ const addLocaleParam = (url, lang) => {
 // Uses retryDelay (ms) between requests. url and options are normal fetch parameters
 export const retryFetch = (
   URL,
-  options = {},
   retryCount,
   retryDelay,
+  options = {},
   config = {},
 ) => {
   return new Promise((resolve, reject) => {

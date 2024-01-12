@@ -36,31 +36,29 @@ function TripStopsContainer({ breakpoint, match, trip, route }) {
   };
 
   return (
-    <>
-      <ScrollableWrapper
-        className={cx('route-page-content', {
-          'bp-large': breakpoint === 'large',
-        })}
-        id="trip-route-page-content"
-        onScroll={debounce(handleScroll, 100, { leading: true })}
-      >
-        {route && route.patterns && (
-          <RoutePageControlPanel
-            match={match}
-            route={route}
-            breakpoint={breakpoint}
-            tripStartTime={tripStartTime}
-          />
-        )}
-        <TripStopListContainer
-          key="list"
-          trip={trip}
-          tripStart={tripStartTime}
-          keepTracking={keepTracking}
-          setHumanScrolling={setHumanScrolling}
+    <ScrollableWrapper
+      className={cx('route-page-content', {
+        'bp-large': breakpoint === 'large',
+      })}
+      id="trip-route-page-content"
+      onScroll={debounce(handleScroll, 100, { leading: true })}
+    >
+      {route && route.patterns && (
+        <RoutePageControlPanel
+          match={match}
+          route={route}
+          breakpoint={breakpoint}
+          tripStartTime={tripStartTime}
         />
-      </ScrollableWrapper>
-    </>
+      )}
+      <TripStopListContainer
+        key="list"
+        trip={trip}
+        tripStart={tripStartTime}
+        keepTracking={keepTracking}
+        setHumanScrolling={setHumanScrolling}
+      />
+    </ScrollableWrapper>
   );
 }
 

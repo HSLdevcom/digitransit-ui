@@ -51,7 +51,8 @@ TruncatedMessage.propTypes = {
   message: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
   className: PropTypes.string,
   truncate: PropTypes.bool,
-  unTruncate: PropTypes.func,
+  onShowMore: PropTypes.func,
+  onTruncate: PropTypes.func,
 };
 
 TruncatedMessage.contextTypes = {

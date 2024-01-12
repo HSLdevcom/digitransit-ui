@@ -220,17 +220,15 @@ const DepartureRow = (
       {showPlatformCode && (
         <td className="platform-cell">
           {renderWithLink(
-            <>
-              <div
-                className={
-                  !departure.stop?.platformCode
-                    ? 'platform-code empty'
-                    : 'platform-code'
-                }
-              >
-                {departure.stop?.platformCode}
-              </div>
-            </>,
+            <div
+              className={
+                !departure.stop?.platformCode
+                  ? 'platform-code empty'
+                  : 'platform-code'
+              }
+            >
+              {departure.stop?.platformCode}
+            </div>,
           )}
         </td>
       )}

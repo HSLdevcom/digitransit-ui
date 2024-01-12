@@ -37,6 +37,26 @@ const onlyUpdateCoordChanges = onlyUpdateForKeys([
 
 const MapCont = onlyUpdateCoordChanges(MapContainer);
 
+const getForcedLayersFromMapLayerOptions = mapLayerOptions => {
+  const forcedLayers = {};
+  Object.keys(mapLayerOptions).forEach(key => {
+    const layer = mapLayerOptions[key];
+    if (layer?.isLocked === undefined) {
+      Object.keys(layer).forEach(subKey => {
+        if (layer[subKey].isLocked) {
+          if (!forcedLayers[key]) {
+            forcedLayers[key] = {};
+          }
+          forcedLayers[key][subKey] = layer[subKey].isSelected;
+        }
+      });
+    } else if (layer?.isLocked) {
+      forcedLayers[key] = layer.isSelected;
+    }
+  });
+  return forcedLayers;
+};
+
 class MapWithTrackingStateHandler extends React.Component {
   static propTypes = {
     lat: PropTypes.number,
@@ -109,26 +129,6 @@ class MapWithTrackingStateHandler extends React.Component {
     }
   }
 
-  getForcedLayersFromMapLayerOptions = mapLayerOptions => {
-    const forcedLayers = {};
-    Object.keys(mapLayerOptions).forEach(key => {
-      const layer = mapLayerOptions[key];
-      if (layer?.isLocked === undefined) {
-        Object.keys(layer).forEach(subKey => {
-          if (layer[subKey].isLocked) {
-            if (!forcedLayers[key]) {
-              forcedLayers[key] = {};
-            }
-            forcedLayers[key][subKey] = layer[subKey].isSelected;
-          }
-        });
-      } else if (layer?.isLocked) {
-        forcedLayers[key] = layer.isSelected;
-      }
-    });
-    return forcedLayers;
-  };
-
   setMapElementRef = element => {
     if (element && this.mapElement !== element) {
       this.mapElement = element;
@@ -156,6 +156,8 @@ class MapWithTrackingStateHandler extends React.Component {
     });
   };
 
+  // this is used outside of this component
+  // eslint-disable-next-line react/no-unused-class-component-methods
   forceRefresh = () => {
     this.refresh = true;
   };
@@ -183,7 +185,7 @@ class MapWithTrackingStateHandler extends React.Component {
   getMapLayers = () => {
     let forcedLayers;
     if (this.props.mapLayerOptions) {
-      forcedLayers = this.getForcedLayersFromMapLayerOptions(
+      forcedLayers = getForcedLayersFromMapLayerOptions(
         this.props.mapLayerOptions,
       );
     }
@@ -279,8 +281,8 @@ class MapWithTrackingStateHandler extends React.Component {
     const img = position.locationingFailed
       ? 'icon-tracking-off-v2'
       : this.state.mapTracking
-      ? 'icon-tracking-on-v2'
-      : 'icon-tracking-offline-v2';
+        ? 'icon-tracking-on-v2'
+        : 'icon-tracking-offline-v2';
 
     const iconColor = this.state.mapTracking ? '#ff0000' : '#78909c';
 

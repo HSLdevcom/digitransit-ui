@@ -20,27 +20,25 @@ class MainMenuContainer extends Component {
     MainMenu: () => importLazy(import('./MainMenu')),
   };
 
-  render = () => {
+  render() {
     return (
-      <>
-        <LazilyLoad modules={this.mainMenuModules}>
-          {({ MenuDrawer, MainMenu }) => (
-            <MenuDrawer
-              open
-              onRequestChange={this.props.closeMenu}
-              breakpoint={this.props.breakpoint}
-            >
-              <MainMenu
-                closeMenu={this.props.closeMenu}
-                homeUrl={this.props.homeUrl}
-                setDisruptionInfoOpen={this.props.setDisruptionInfoOpen}
-              />
-            </MenuDrawer>
-          )}
-        </LazilyLoad>
-      </>
+      <LazilyLoad modules={this.mainMenuModules}>
+        {({ MenuDrawer, MainMenu }) => (
+          <MenuDrawer
+            open
+            onRequestChange={this.props.closeMenu}
+            breakpoint={this.props.breakpoint}
+          >
+            <MainMenu
+              closeMenu={this.props.closeMenu}
+              homeUrl={this.props.homeUrl}
+              setDisruptionInfoOpen={this.props.setDisruptionInfoOpen}
+            />
+          </MenuDrawer>
+        )}
+      </LazilyLoad>
     );
-  };
+  }
 }
 
 export default MainMenuContainer;

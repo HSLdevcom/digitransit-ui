@@ -23,9 +23,8 @@ describe('config', () => {
       };
       const config = getConfiguration(request);
 
-      const boundaryPolygon = config.searchParams['boundary.polygon'].split(
-        ' ',
-      );
+      const boundaryPolygon =
+        config.searchParams['boundary.polygon'].split(' ');
 
       expect(config.CONFIG).to.equal('hsl');
       // first coordinate is lon

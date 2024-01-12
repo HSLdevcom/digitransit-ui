@@ -143,11 +143,11 @@ const connectedComponent = createRefetchContainer(
     ) {
       stop(id: $stopId) {
         ...StopPageContentContainer_stop
-        @arguments(
-          startTime: $startTime
-          timeRange: $timeRange
-          numberOfDepartures: $numberOfDepartures
-        )
+          @arguments(
+            startTime: $startTime
+            timeRange: $timeRange
+            numberOfDepartures: $numberOfDepartures
+          )
       }
     }
   `,

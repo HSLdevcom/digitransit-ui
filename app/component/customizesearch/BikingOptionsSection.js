@@ -25,28 +25,26 @@ class BikingOptionsSection extends React.Component {
           findNearestOption(bikeSpeed, this.props.bikeSpeedOptions),
       );
     return (
-      <React.Fragment>
-        <SearchSettingsDropdown
-          name="bike-speed-selector"
-          currentSelection={currentSelection}
-          defaultValue={defaultSettings.bikeSpeed}
-          onOptionSelected={value => {
-            this.context.executeAction(saveRoutingSettings, {
-              bikeSpeed: value,
-            });
-            addAnalyticsEvent({
-              category: 'ItinerarySettings',
-              action: 'ChangeBikingSpeed',
-              name: value,
-            });
-          }}
-          options={options}
-          formatOptions
-          labelText={intl.formatMessage({ id: 'biking-speed' })}
-          translateLabels={false}
-          overrideStyle={overrideStyle}
-        />
-      </React.Fragment>
+      <SearchSettingsDropdown
+        name="bike-speed-selector"
+        currentSelection={currentSelection}
+        defaultValue={defaultSettings.bikeSpeed}
+        onOptionSelected={value => {
+          this.context.executeAction(saveRoutingSettings, {
+            bikeSpeed: value,
+          });
+          addAnalyticsEvent({
+            category: 'ItinerarySettings',
+            action: 'ChangeBikingSpeed',
+            name: value,
+          });
+        }}
+        options={options}
+        formatOptions
+        labelText={intl.formatMessage({ id: 'biking-speed' })}
+        translateLabels={false}
+        overrideStyle={overrideStyle}
+      />
     );
   }
 }

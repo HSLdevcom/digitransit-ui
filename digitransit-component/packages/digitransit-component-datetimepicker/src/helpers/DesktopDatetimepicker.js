@@ -105,95 +105,93 @@ function DesktopDatetimepicker({
       : true;
   };
   return (
-    <>
-      <label className={styles['combobox-container']} htmlFor={inputId}>
-        <span className={styles['sr-only']} id={labelId}>
-          {label} {displayValue}
-        </span>
-        {icon}
-        <Select
-          aria-labelledby={labelId}
-          ariaLiveMessages={{
-            guidance: () => {
-              return '.'; // this can't be empty for some reason
-            },
-            onChange: () => {
-              return '';
-            },
-            onFilter: () => {
-              return '';
-            },
-            onFocus: ({ context, label: itemLabel }) => {
-              if (context === 'menu') {
-                return itemLabel;
-              }
-              return '';
-            },
-          }}
-          options={options}
-          inputId={inputId}
-          onChange={time => {
-            if (typing) {
-              const validated = validate(displayValue, value);
-              if (validated !== null) {
-                handleTimestamp(validated);
-                setTyping(false);
-              } else {
-                // reset value
-                changeDisplayValue(getDisplay(value));
-                setTyping(false);
-              }
-              return;
+    <label className={styles['combobox-container']} htmlFor={inputId}>
+      <span className={styles['sr-only']} id={labelId}>
+        {label} {displayValue}
+      </span>
+      {icon}
+      <Select
+        aria-labelledby={labelId}
+        ariaLiveMessages={{
+          guidance: () => {
+            return '.'; // this can't be empty for some reason
+          },
+          onChange: () => {
+            return '';
+          },
+          onFilter: () => {
+            return '';
+          },
+          onFocus: ({ context, label: itemLabel }) => {
+            if (context === 'menu') {
+              return itemLabel;
             }
-            handleTimestamp(time.value);
-          }}
-          components={{
-            IndicatorsContainer: () => null,
-          }}
-          className={styles['datetimepicker-select-container']}
-          classNamePrefix="datetimepicker-select"
-          onInputChange={onInputChange}
-          inputValue={!disableTyping && displayValue}
-          value={closestOption}
-          filterOption={(option, input) => {
-            if (datePicker || showAllOptions) {
-              return true;
-            }
-            if (input.length < 1 || input.length > 5) {
-              return true;
-            }
-            return filterOptions(option, input);
-          }}
-          controlShouldRenderValue={disableTyping}
-          tabSelectsValue={false}
-          placeholder=""
-          onFocus={e => {
-            if (!disableTyping) {
-              e.target.select();
-            }
-          }}
-          onBlur={() => {
-            // removing focus also locks in value
-            if (typing) {
-              const validated = validate(displayValue, value);
-              if (validated !== null) {
-                handleTimestamp(validated);
-                setTyping(false);
-              } else {
-                changeDisplayValue(getDisplay(value));
-                setTyping(false);
-              }
-            }
-          }}
-          onKeyDown={e => {
-            if (['ArrowDown', 'ArrowUp'].includes(e.key)) {
+            return '';
+          },
+        }}
+        options={options}
+        inputId={inputId}
+        onChange={time => {
+          if (typing) {
+            const validated = validate(displayValue, value);
+            if (validated !== null) {
+              handleTimestamp(validated);
+              setTyping(false);
+            } else {
+              // reset value
+              changeDisplayValue(getDisplay(value));
               setTyping(false);
             }
-          }}
-          isSearchable={!disableTyping}
-        />
-      </label>
-    </>
+            return;
+          }
+          handleTimestamp(time.value);
+        }}
+        components={{
+          IndicatorsContainer: () => null,
+        }}
+        className={styles['datetimepicker-select-container']}
+        classNamePrefix="datetimepicker-select"
+        onInputChange={onInputChange}
+        inputValue={!disableTyping && displayValue}
+        value={closestOption}
+        filterOption={(option, input) => {
+          if (datePicker || showAllOptions) {
+            return true;
+          }
+          if (input.length < 1 || input.length > 5) {
+            return true;
+          }
+          return filterOptions(option, input);
+        }}
+        controlShouldRenderValue={disableTyping}
+        tabSelectsValue={false}
+        placeholder=""
+        onFocus={e => {
+          if (!disableTyping) {
+            e.target.select();
+          }
+        }}
+        onBlur={() => {
+          // removing focus also locks in value
+          if (typing) {
+            const validated = validate(displayValue, value);
+            if (validated !== null) {
+              handleTimestamp(validated);
+              setTyping(false);
+            } else {
+              changeDisplayValue(getDisplay(value));
+              setTyping(false);
+            }
+          }
+        }}
+        onKeyDown={e => {
+          if (['ArrowDown', 'ArrowUp'].includes(e.key)) {
+            setTyping(false);
+          }
+        }}
+        isSearchable={!disableTyping}
+      />
+    </label>
   );
 }
 DesktopDatetimepicker.propTypes = {

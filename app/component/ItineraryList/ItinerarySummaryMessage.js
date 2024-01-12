@@ -58,13 +58,8 @@ const ItinerarySummaryMessage = (
     queryContext,
   );
 
-  const {
-    LinkComponent,
-    titleId,
-    bodyId,
-    iconImg,
-    iconType,
-  } = getErrorCardProps(errorMessageIds);
+  const { LinkComponent, titleId, bodyId, iconImg, iconType } =
+    getErrorCardProps(errorMessageIds);
 
   const linkCompProps = {
     nationalServiceLink,

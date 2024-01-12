@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unstable-nested-components */
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
@@ -168,7 +169,7 @@ class StopsNearYouPage extends React.Component {
     });
   }
 
-  componentDidUpdate = prevProps => {
+  componentDidUpdate(prevProps) {
     if (this.context.config.map.showLayerSelector) {
       const { mode } = this.props.match.params;
       const { mode: prevMode } = prevProps.match.params;
@@ -176,9 +177,9 @@ class StopsNearYouPage extends React.Component {
         this.setMapLayerOptions();
       }
     }
-  };
+  }
 
-  static getDerivedStateFromProps = (nextProps, prevState) => {
+  static getDerivedStateFromProps(nextProps, prevState) {
     let newState = null;
     if (prevState.phase === PH_GEOLOCATIONING) {
       if (nextProps.position.locationingFailed) {
@@ -192,7 +193,7 @@ class StopsNearYouPage extends React.Component {
       return newState;
     }
     return newState;
-  };
+  }
 
   setLoadState = () => {
     // trigger a state update in this component to force a rerender when stop data is received for the first time.
@@ -226,9 +227,8 @@ class StopsNearYouPage extends React.Component {
       lon: searchPosition.lon,
       maxResults: 2000,
       first: this.context.config.maxNearbyStopAmount,
-      maxDistance: this.context.config.maxNearbyStopDistance[
-        mode.toLowerCase()
-      ],
+      maxDistance:
+        this.context.config.maxNearbyStopDistance[mode.toLowerCase()],
       filterByModes: modes,
       filterByPlaceTypes: placeTypes,
       omitNonPickups: this.context.config.omitNonPickups,
@@ -453,16 +453,16 @@ class StopsNearYouPage extends React.Component {
               ) {
                 stopPatterns: viewer {
                   ...StopsNearYouContainer_stopPatterns
-                  @arguments(
-                    lat: $lat
-                    lon: $lon
-                    filterByPlaceTypes: $filterByPlaceTypes
-                    filterByModes: $filterByModes
-                    first: $first
-                    maxResults: $maxResults
-                    maxDistance: $maxDistance
-                    omitNonPickups: $omitNonPickups
-                  )
+                    @arguments(
+                      lat: $lat
+                      lon: $lon
+                      filterByPlaceTypes: $filterByPlaceTypes
+                      filterByModes: $filterByModes
+                      first: $first
+                      maxResults: $maxResults
+                      maxDistance: $maxDistance
+                      omitNonPickups: $omitNonPickups
+                    )
                 }
                 alerts: alerts(feeds: $feedIds, severityLevel: [SEVERE]) {
                   ...DisruptionBanner_alerts
@@ -489,8 +489,10 @@ class StopsNearYouPage extends React.Component {
                   this.context.config,
                 ).url;
               }
-              const prioritizedStops = this.context.config
-                .prioritizedStopsNearYou[nearByStopMode.toLowerCase()];
+              const prioritizedStops =
+                this.context.config.prioritizedStopsNearYou[
+                  nearByStopMode.toLowerCase()
+                ];
               return (
                 <div className="stops-near-you-page">
                   {renderDisruptionBanner && (
@@ -584,10 +586,10 @@ class StopsNearYouPage extends React.Component {
                           stops: stops(ids: $stopIds) {
                             gtfsId
                             ...StopNearYouContainer_stop
-                            @arguments(
-                              startTime: $startTime
-                              omitNonPickups: $omitNonPickups
-                            )
+                              @arguments(
+                                startTime: $startTime
+                                omitNonPickups: $omitNonPickups
+                              )
                           }
                         }
                       `}
@@ -744,16 +746,16 @@ class StopsNearYouPage extends React.Component {
           ) {
             stops: viewer {
               ...StopsNearYouMapContainer_stopsNearYou
-              @arguments(
-                lat: $lat
-                lon: $lon
-                filterByPlaceTypes: $filterByPlaceTypes
-                filterByModes: $filterByModes
-                first: $first
-                maxResults: $maxResults
-                maxDistance: $maxDistance
-                omitNonPickups: $omitNonPickups
-              )
+                @arguments(
+                  lat: $lat
+                  lon: $lon
+                  filterByPlaceTypes: $filterByPlaceTypes
+                  filterByModes: $filterByModes
+                  first: $first
+                  maxResults: $maxResults
+                  maxDistance: $maxDistance
+                  omitNonPickups: $omitNonPickups
+                )
             }
             prioritizedStops: stops(ids: $prioritizedStopIds) {
               ...StopsNearYouMapContainer_prioritizedStopsNearYou

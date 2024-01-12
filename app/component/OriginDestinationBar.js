@@ -19,9 +19,8 @@ import { LightenDarkenColor } from '../util/colorUtils';
 import { getRefPoint } from '../util/apiUtils';
 import { useCitybikes } from '../util/modeUtils';
 
-const DTAutosuggestPanelWithSearchContext = withSearchContext(
-  DTAutosuggestPanel,
-);
+const DTAutosuggestPanelWithSearchContext =
+  withSearchContext(DTAutosuggestPanel);
 
 class OriginDestinationBar extends React.Component {
   static propTypes = {

@@ -385,6 +385,7 @@ class RoutePageControlPanel extends React.Component {
       pattern => pattern.code === patternId,
     );
     const hasActiveAlert = isAlertActive(
+      currentTime,
       getCancelationsForRoute(
         route,
         patternId,
@@ -392,7 +393,6 @@ class RoutePageControlPanel extends React.Component {
         config.routeCancelationAlertValidity,
       ),
       getAlertsForObject(selectedPattern),
-      currentTime,
     );
 
     const hasActiveServiceAlerts = getActiveAlertSeverityLevel(

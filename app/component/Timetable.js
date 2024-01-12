@@ -21,6 +21,39 @@ import { replaceQueryParams } from '../util/queryUtils';
 import { isBrowser } from '../util/browser';
 import { PREFIX_STOPS } from '../util/path';
 
+const mapStopTimes = stoptimesObject =>
+  stoptimesObject
+    .map(stoptime =>
+      stoptime.stoptimes
+        .filter(st => st.pickupType !== 'NONE')
+        .map(st => ({
+          id: stoptime.pattern.code,
+          name: stoptime.pattern.route.shortName || stoptime.pattern.headsign,
+          scheduledDeparture: st.scheduledDeparture,
+          serviceDay: st.serviceDay,
+          headsign: stoptime.pattern.headsign,
+          longName: stoptime.pattern.route.longName,
+          isCanceled: st.realtimeState === RealtimeStateType.Canceled,
+          mode: stoptime.pattern.route.mode,
+        })),
+    )
+    .reduce((acc, val) => acc.concat(val), []);
+
+const groupArrayByHour = stoptimesArray =>
+  groupBy(stoptimesArray, stoptime =>
+    Math.floor(stoptime.scheduledDeparture / (60 * 60)),
+  );
+
+const printStop = e => {
+  e.stopPropagation();
+  window.print();
+};
+
+const printStopPDF = (e, stopPDFURL) => {
+  e.stopPropagation();
+  window.open(stopPDFURL.href);
+};
+
 class Timetable extends React.Component {
   static propTypes = {
     stop: PropTypes.shape({
@@ -82,19 +115,19 @@ class Timetable extends React.Component {
   }
 
   // eslint-disable-next-line camelcase
-  UNSAFE_componentWillReceiveProps = () => {
+  UNSAFE_componentWillReceiveProps() {
     if (this.props.stop.gtfsId !== this.state.oldStopId) {
       this.resetStopOptions(this.props.stop.gtfsId);
     }
-  };
+  }
 
-  componentDidMount = () => {
+  componentDidMount() {
     if (this.context.match.location.query.routes) {
       this.setState({
         showRoutes: this.context.match.location.query.routes?.split(',') || [],
       });
     }
-  };
+  }
 
   setParams = (routes, date) => {
     replaceQueryParams(this.context.router, this.context.match, {
@@ -104,9 +137,7 @@ class Timetable extends React.Component {
   };
 
   getDuplicatedRoutes = () => {
-    const routesToCheck = this.mapStopTimes(
-      this.props.stop.stoptimesForServiceDate,
-    )
+    const routesToCheck = mapStopTimes(this.props.stop.stoptimesForServiceDate)
       .map(o => {
         const obj = {};
         obj.shortName = o.name;
@@ -122,10 +153,9 @@ class Timetable extends React.Component {
       );
 
     const routesWithDupes = [];
-    Object.entries(
-      groupBy(routesToCheck, 'shortName'),
-    ).forEach(([key, value]) =>
-      value.length > 1 ? routesWithDupes.push(key) : undefined,
+    Object.entries(groupBy(routesToCheck, 'shortName')).forEach(
+      ([key, value]) =>
+        value.length > 1 ? routesWithDupes.push(key) : undefined,
     );
 
     return routesWithDupes;
@@ -147,29 +177,6 @@ class Timetable extends React.Component {
     this.setState({ showFilterModal: val });
   };
 
-  mapStopTimes = stoptimesObject =>
-    stoptimesObject
-      .map(stoptime =>
-        stoptime.stoptimes
-          .filter(st => st.pickupType !== 'NONE')
-          .map(st => ({
-            id: stoptime.pattern.code,
-            name: stoptime.pattern.route.shortName || stoptime.pattern.headsign,
-            scheduledDeparture: st.scheduledDeparture,
-            serviceDay: st.serviceDay,
-            headsign: stoptime.pattern.headsign,
-            longName: stoptime.pattern.route.longName,
-            isCanceled: st.realtimeState === RealtimeStateType.Canceled,
-            mode: stoptime.pattern.route.mode,
-          })),
-      )
-      .reduce((acc, val) => acc.concat(val), []);
-
-  groupArrayByHour = stoptimesArray =>
-    groupBy(stoptimesArray, stoptime =>
-      Math.floor(stoptime.scheduledDeparture / (60 * 60)),
-    );
-
   dateForPrinting = () => {
     const selectedDate = moment(this.props.propsForDateSelect.selectedDate);
     return (
@@ -187,16 +194,6 @@ class Timetable extends React.Component {
         </div>
       </div>
     );
-  };
-
-  printStop = e => {
-    e.stopPropagation();
-    window.print();
-  };
-
-  printStopPDF = (e, stopPDFURL) => {
-    e.stopPropagation();
-    window.open(stopPDFURL.href);
   };
 
   formTimeRow = (timetableMap, hour) => {
@@ -257,7 +254,7 @@ class Timetable extends React.Component {
     const variantList = groupBy(
       sortBy(
         uniqBy(
-          this.mapStopTimes(
+          mapStopTimes(
             this.props.stop.stoptimesForServiceDate.filter(
               o => o.pattern.route.shortName,
             ),
@@ -290,7 +287,7 @@ class Timetable extends React.Component {
 
     variantsWithMarks = [].concat(...variantsWithMarks);
 
-    const routesWithDetails = this.mapStopTimes(
+    const routesWithDetails = mapStopTimes(
       this.props.stop.stoptimesForServiceDate,
     ).map(o => {
       const obj = Object.assign(o);
@@ -300,7 +297,7 @@ class Timetable extends React.Component {
       obj.duplicate = getDuplicate ? getDuplicate.duplicate : false;
       return obj;
     });
-    const timetableMap = this.groupArrayByHour(routesWithDetails);
+    const timetableMap = groupArrayByHour(routesWithDetails);
     const { locationType } = this.props.stop;
     const stopIdSplitted = this.props.stop.gtfsId.split(':');
     const stopTimetableHandler =
@@ -462,7 +459,7 @@ class Timetable extends React.Component {
               ariaLabel="print"
               buttonName="print"
               buttonClickAction={e => {
-                this.printStop(e);
+                printStop(e);
                 addAnalyticsEvent({
                   category: 'Stop',
                   action: 'PrintTimetable',
@@ -477,7 +474,7 @@ class Timetable extends React.Component {
                 ariaLabel="print-timetable"
                 buttonName="print-timetable"
                 buttonClickAction={e => {
-                  this.printStopPDF(e, stopPDFURL);
+                  printStopPDF(e, stopPDFURL);
                   addAnalyticsEvent({
                     category: 'Stop',
                     action: 'PrintWeeklyTimetable',

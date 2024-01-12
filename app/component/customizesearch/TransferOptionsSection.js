@@ -12,34 +12,31 @@ const TransferOptionsSection = (
   const avoidTransfers =
     currentSettings.walkBoardCost !== defaultSettings.walkBoardCost;
   return (
-    <React.Fragment>
-      <div className="mode-option-container toggle-container avoid-transfers-container">
-        {/* eslint jsx-a11y/label-has-associated-control: ["error", { assert: "either" } ] */}
-        <label htmlFor="settings-toggle-transfers" className="settings-header">
-          <FormattedMessage
-            id="avoid-transfers"
-            defaultMessage="Avoid transfers"
-          />
-          <Toggle
-            id="settings-toggle-transfers"
-            toggled={avoidTransfers}
-            onToggle={() => {
-              executeAction(saveRoutingSettings, {
-                walkBoardCost: avoidTransfers
-                  ? defaultSettings.walkBoardCost
-                  : walkBoardCostHigh,
-              });
-              addAnalyticsEvent({
-                category: 'ItinerarySettings',
-                action: 'changeNumberOfTransfers',
-                name: avoidTransfers,
-              });
-            }}
-            title="transfers"
-          />
-        </label>
-      </div>
-    </React.Fragment>
+    <div className="mode-option-container toggle-container avoid-transfers-container">
+      <label htmlFor="settings-toggle-transfers" className="settings-header">
+        <FormattedMessage
+          id="avoid-transfers"
+          defaultMessage="Avoid transfers"
+        />
+        <Toggle
+          id="settings-toggle-transfers"
+          toggled={avoidTransfers}
+          onToggle={() => {
+            executeAction(saveRoutingSettings, {
+              walkBoardCost: avoidTransfers
+                ? defaultSettings.walkBoardCost
+                : walkBoardCostHigh,
+            });
+            addAnalyticsEvent({
+              category: 'ItinerarySettings',
+              action: 'changeNumberOfTransfers',
+              name: avoidTransfers,
+            });
+          }}
+          title="transfers"
+        />
+      </label>
+    </div>
   );
 };
 

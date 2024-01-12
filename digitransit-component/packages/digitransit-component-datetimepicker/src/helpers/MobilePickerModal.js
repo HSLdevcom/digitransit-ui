@@ -40,9 +40,8 @@ function MobilePickerModal({
 
   const [displayTimestamp, changeTimestamp] = useState(timestamp);
 
-  const [departureOrArrivalCurrent, changeDepartureOrArrival] = useState(
-    departureOrArrival,
-  );
+  const [departureOrArrivalCurrent, changeDepartureOrArrival] =
+    useState(departureOrArrival);
 
   function onArrivalClick() {
     changeDepartureOrArrival('arrival');
@@ -50,14 +49,6 @@ function MobilePickerModal({
 
   function onDepartureClick() {
     changeDepartureOrArrival('departure');
-  }
-
-  function onDateChange(newValue) {
-    changeTimestamp(newValue);
-  }
-
-  function onTimeChange(newValue) {
-    changeTimestamp(newValue);
   }
 
   // for input labels
@@ -147,7 +138,7 @@ function MobilePickerModal({
           <MobileDatepicker
             value={displayTimestamp}
             getDisplay={getDateDisplay}
-            onChange={onDateChange}
+            onChange={changeTimestamp}
             itemCount={dateSelectItemCount}
             startTime={dateSelectStartTime}
             id={`${htmlId}-date`}
@@ -164,7 +155,7 @@ function MobilePickerModal({
           <MobileTimepicker
             value={displayTimestamp}
             getDisplay={getTimeDisplay}
-            onChange={onTimeChange}
+            onChange={changeTimestamp}
             id={`${htmlId}-time`}
             label={i18next.t('time', translationSettings)}
             icon={

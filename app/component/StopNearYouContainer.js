@@ -79,12 +79,12 @@ const containerComponent = createRefetchContainer(
     ) {
       stop(id: $stopId) {
         ...StopNearYouContainer_stop
-        @arguments(startTime: $startTime, omitNonPickups: $omitNonPickups)
+          @arguments(startTime: $startTime, omitNonPickups: $omitNonPickups)
       }
 
       station(id: $stopId) {
         ...StopNearYouContainer_stop
-        @arguments(startTime: $startTime, omitNonPickups: $omitNonPickups)
+          @arguments(startTime: $startTime, omitNonPickups: $omitNonPickups)
       }
     }
   `,

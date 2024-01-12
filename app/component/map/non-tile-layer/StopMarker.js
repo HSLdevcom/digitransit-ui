@@ -47,9 +47,8 @@ class StopMarker extends React.Component {
       window.location.pathname.indexOf('bike') === -1 &&
       window.location.pathname.indexOf('walk') === -1
     ) {
-      const pathPrefixMatch = window.location.pathname.match(
-        /^\/([a-z]{2,})\//,
-      );
+      const pathPrefixMatch =
+        window.location.pathname.match(/^\/([a-z]{2,})\//);
       const context =
         pathPrefixMatch && pathPrefixMatch[1] !== this.context.config.indexPath
           ? pathPrefixMatch[1]
@@ -114,8 +113,8 @@ class StopMarker extends React.Component {
     let iconSvg = `
       <svg viewBox="0 0 ${radius * 2} ${radius * 2}">
         <circle class="stop" cx="${radius}" cy="${radius}" r="${inner}" stroke-width="${stroke}" color="${
-      this.props.colorOverride
-    }" />
+          this.props.colorOverride
+        }" />
         ${
           inner > 7 && this.props.stop.platformCode
             ? `<text x="${radius}" y="${radius}" text-anchor="middle" dominant-baseline="central"

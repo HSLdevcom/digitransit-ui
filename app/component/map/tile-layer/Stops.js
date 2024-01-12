@@ -19,6 +19,22 @@ function isNull(val) {
   return val === 'null' || val === undefined || val === null;
 }
 
+const shouldRenderTerminalIcon = (mode, path, vehicles) => {
+  const modesWithoutIcon = ['SUBWAY'];
+  const viewsWithoutIcon = [PREFIX_ITINERARY_SUMMARY];
+  const selectedMode = vehicles ? Object.values(vehicles)[0]?.mode : undefined;
+  if (
+    modesWithoutIcon.includes(mode) &&
+    (viewsWithoutIcon.some(view => path.includes(view)) ||
+      (!!selectedMode &&
+        modesWithoutIcon.includes(selectedMode.toUpperCase()) &&
+        path.includes(PREFIX_ROUTES)))
+  ) {
+    return false;
+  }
+  return true;
+};
+
 class Stops {
   constructor(tile, config, mapLayers, relayEnvironment, mergeStops) {
     this.tile = tile;
@@ -101,24 +117,6 @@ class Stops {
     }
     return true;
   }
-
-  shouldRenderTerminalIcon = (mode, path, vehicles) => {
-    const modesWithoutIcon = ['SUBWAY'];
-    const viewsWithoutIcon = [PREFIX_ITINERARY_SUMMARY];
-    const selectedMode = vehicles
-      ? Object.values(vehicles)[0]?.mode
-      : undefined;
-    if (
-      modesWithoutIcon.includes(mode) &&
-      (viewsWithoutIcon.some(view => path.includes(view)) ||
-        (!!selectedMode &&
-          modesWithoutIcon.includes(selectedMode.toUpperCase()) &&
-          path.includes(PREFIX_ROUTES)))
-    ) {
-      return false;
-    }
-    return true;
-  };
 
   getPromise(lang) {
     return fetchWithLanguageAndSubscription(
@@ -282,7 +280,7 @@ class Stops {
                   !isHybridStation &&
                   (isHilighted ||
                     this.tile.coords.z >= this.config.terminalStopsMinZoom) &&
-                  this.shouldRenderTerminalIcon(
+                  shouldRenderTerminalIcon(
                     feature.properties.type,
                     window.location.pathname,
                     this.tile?.vehicles,
