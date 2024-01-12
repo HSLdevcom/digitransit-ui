@@ -92,6 +92,7 @@ class IndexPage extends React.Component {
 
     // synchronizing page init using fluxible is - hard -
     // see navigation conditions in componentDidUpdate below
+
     if (!sameLocations(this.props.origin, origin)) {
       this.pendingOrigin = origin;
       this.context.executeAction(storeOrigin, origin);

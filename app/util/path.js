@@ -190,15 +190,19 @@ export const getPathWithEndpointObjects = (origin, destination, rootPath) => {
   if (origin.gtfsId !== undefined) {
     originGtfsId = origin.gtfsId;
   }
+  let destinationGtfsId;
+  if (destination.gtfsId !== undefined) {
+    destinationGtfsId = destination.gtfsId;
+  }
   const r =
     rootPath === PREFIX_ITINERARY_SUMMARY ||
     isItinerarySearchObjects(origin, destination)
       ? getSummaryPath(
           originGtfsId || addressToItinerarySearch(origin),
-          addressToItinerarySearch(destination),
+          destinationGtfsId || addressToItinerarySearch(destination),
         )
       : getIndexPath(
-          originGtfsId || locationToOTP(origin),
+          locationToOTP(origin),
           locationToOTP(destination),
           rootPath,
         );
@@ -216,9 +220,7 @@ export const parseLocation = location => {
   if (location === 'POS') {
     return { type: 'CurrentLocation' };
   }
-  const parsed = otpToLocation(decodeURIComponent(location));
-
-  return parsed;
+  return otpToLocation(decodeURIComponent(location));
 };
 
 export const getHomeUrl = (origin, indexPath) => {
