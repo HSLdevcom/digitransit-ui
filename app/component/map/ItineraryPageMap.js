@@ -21,8 +21,7 @@ function ItineraryPageMap(
     breakpoint,
     showVehicles,
     topics,
-    onlyHasWalkingItineraries,
-    loading,
+    showDurationBubble,
     ...rest
   },
   { match, router, executeAction, config },
@@ -58,8 +57,7 @@ function ItineraryPageMap(
         legs={itineraries[active].legs}
         showTransferLabels={showActive}
         showIntermediateStops
-        onlyHasWalkingItineraries={onlyHasWalkingItineraries}
-        loading={loading}
+        showDurationBubble={showDurationBubble}
       />,
     );
   }
@@ -116,8 +114,7 @@ ItineraryPageMap.propTypes = {
   from: PropTypes.object.isRequired,
   to: PropTypes.object.isRequired,
   viaPoints: PropTypes.array.isRequired,
-  onlyHasWalkingItineraries: PropTypes.bool,
-  loading: PropTypes.bool,
+  showDurationBubble: PropTypes.bool,
 };
 
 ItineraryPageMap.contextTypes = {

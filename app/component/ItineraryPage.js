@@ -1092,7 +1092,7 @@ class ItineraryPage extends React.Component {
         active={activeIndex}
         showActive={detailView}
         showVehicles={this.showVehicles()}
-        onlyHasWalkingItineraries={
+        showDurationBubble={
           onlyHasWalkingItineraries && !this.state.alternativePlan
         }
         objectsToHide={objectsToHide}
