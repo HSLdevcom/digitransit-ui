@@ -1,4 +1,5 @@
 import isEqual from 'lodash/isEqual';
+import isEmpty from 'lodash/isEmpty';
 import pick from 'lodash/pick';
 import findIndex from 'lodash/findIndex';
 import get from 'lodash/get';
@@ -9,6 +10,11 @@ import { addAnalyticsEvent } from '../util/analyticsUtils';
 import { itineraryHasCancelation } from '../util/alertUtils';
 import { getStartTimeWithColon } from '../util/timeUtils';
 import { getCurrentSettings, getDefaultSettings } from '../util/planParamUtil';
+import {
+  startRealTimeClient,
+  stopRealTimeClient,
+  changeRealTimeClientTopics,
+} from '../action/realTimeClientAction';
 
 /**
 /**
@@ -239,4 +245,63 @@ export function setCurrentTimeToURL(config, match) {
     };
     match.router.replace(newLocation);
   }
+}
+
+function configClient(itineraryTopics, config) {
+  const { realTime } = config;
+  const feedIds = Array.from(
+    new Set(itineraryTopics.map(topic => topic.feedId)),
+  );
+  let feedId;
+  /* handle multiple feedid case */
+  feedIds.forEach(fId => {
+    if (!feedId && realTime[fId]) {
+      feedId = fId;
+    }
+  });
+  const source = feedId && realTime[feedId];
+  if (source && source.active) {
+    return {
+      ...source,
+      feedId,
+      options: itineraryTopics.length ? itineraryTopics : null,
+    };
+  }
+  return null;
+}
+
+export function stopClient(context) {
+  const { client } = context.getStore('RealTimeInformationStore');
+  if (client) {
+    context.executeAction(stopRealTimeClient, client);
+  }
+}
+
+export function startClient(itineraryTopics, context) {
+  if (!isEmpty(itineraryTopics)) {
+    const clientConfig = configClient(itineraryTopics, context.config);
+    context.executeAction(startRealTimeClient, clientConfig);
+  }
+}
+
+export function updateClient(itineraryTopics, context) {
+  const { client, topics } = context.getStore('RealTimeInformationStore');
+
+  if (isEmpty(itineraryTopics)) {
+    stopClient(context);
+    return;
+  }
+  if (client) {
+    const clientConfig = configClient(itineraryTopics, context.config);
+    if (clientConfig) {
+      context.executeAction(changeRealTimeClientTopics, {
+        ...clientConfig,
+        client,
+        oldTopics: topics,
+      });
+      return;
+    }
+    stopClient(context);
+  }
+  startClient(itineraryTopics, context);
 }

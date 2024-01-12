@@ -46,6 +46,9 @@ import {
   compareItineraries,
   settingsLimitRouting,
   setCurrentTimeToURL,
+  startClient,
+  updateClient,
+  stopClient,
 } from './ItineraryPageUtils';
 import withBreakpoint from '../util/withBreakpoint';
 import { isIOS } from '../util/browser';
@@ -57,11 +60,6 @@ import {
 } from '../util/otpStrings';
 import { SettingsDrawer } from './SettingsDrawer';
 
-import {
-  startRealTimeClient,
-  stopRealTimeClient,
-  changeRealTimeClientTopics,
-} from '../action/realTimeClientAction';
 import ItineraryDetails from './ItineraryDetails';
 import { StreetModeSelector } from './StreetModeSelector';
 import SwipeableTabs from './SwipeableTabs';
@@ -231,6 +229,11 @@ class ItineraryPage extends React.Component {
     }
   }
 
+  stopClientAndUpdateTopics() {
+    stopClient(this.context);
+    this.setState({ itineraryTopics: undefined });
+  }
+
   toggleStreetMode = newStreetMode => {
     const newState = {
       ...this.props.match.location,
@@ -296,69 +299,6 @@ class ItineraryPage extends React.Component {
     !this.state.parkRidePlan?.itineraries?.length &&
     !this.state.bikeParkPlan?.itineraries?.length &&
     !this.state.bikeAndPublicPlan?.itineraries?.length;
-
-  configClient = itineraryTopics => {
-    const { config } = this.context;
-    const { realTime } = config;
-    const feedIds = Array.from(
-      new Set(itineraryTopics.map(topic => topic.feedId)),
-    );
-    let feedId;
-    /* handle multiple feedid case */
-    feedIds.forEach(fId => {
-      if (!feedId && realTime[fId]) {
-        feedId = fId;
-      }
-    });
-    const source = feedId && realTime[feedId];
-    if (source && source.active) {
-      return {
-        ...source,
-        feedId,
-        options: itineraryTopics.length ? itineraryTopics : null,
-      };
-    }
-    return null;
-  };
-
-  startClient = itineraryTopics => {
-    if (!isEmpty(itineraryTopics)) {
-      const clientConfig = this.configClient(itineraryTopics);
-      this.context.executeAction(startRealTimeClient, clientConfig);
-    }
-  };
-
-  updateClient = itineraryTopics => {
-    const { client, topics } = this.context.getStore(
-      'RealTimeInformationStore',
-    );
-
-    if (isEmpty(itineraryTopics) && client) {
-      this.stopClient();
-      return;
-    }
-    if (client) {
-      const clientConfig = this.configClient(itineraryTopics);
-      if (clientConfig) {
-        this.context.executeAction(changeRealTimeClientTopics, {
-          ...clientConfig,
-          client,
-          oldTopics: topics,
-        });
-        return;
-      }
-      this.stopClient();
-    }
-    this.startClient(itineraryTopics);
-  };
-
-  stopClient = () => {
-    const { client } = this.context.getStore('RealTimeInformationStore');
-    if (client && this.state.itineraryTopics) {
-      this.context.executeAction(stopRealTimeClient, client);
-      this.setState({ itineraryTopics: undefined });
-    }
-  };
 
   paramsOrQueryHaveChanged = () => {
     return (
@@ -748,7 +688,7 @@ class ItineraryPage extends React.Component {
           combinedItineraries,
           this.props.match,
         );
-        this.startClient(itineraryTopics);
+        startClient(itineraryTopics, this.context);
         this.setState({ itineraryTopics });
       }
     }
@@ -756,7 +696,7 @@ class ItineraryPage extends React.Component {
 
   componentWillUnmount() {
     if (this.showVehicles()) {
-      this.stopClient();
+      stopClient(this.context);
     }
   }
 
@@ -884,7 +824,7 @@ class ItineraryPage extends React.Component {
       const { client } = this.context.getStore('RealTimeInformationStore');
       // Client may not be initialized yet if there was an client before ComponentDidMount
       if (!isEqual(itineraryTopics, this.state.itineraryTopics) || !client) {
-        this.updateClient(itineraryTopics);
+        updateClient(itineraryTopics, this.context);
       }
       if (!isEqual(itineraryTopics, this.state.itineraryTopics)) {
         // eslint-disable-next-line react/no-did-update-set-state
@@ -1471,13 +1411,13 @@ class ItineraryPage extends React.Component {
     this.bikeAndPublicItinerariesToShow = 0;
     this.bikeAndParkItinerariesToShow = 0;
     if (hash === 'walk') {
-      this.stopClient();
+      this.stopClientAndUpdateTopics();
       if (state.isFetchingWalkAndBike) {
         return <Loading />;
       }
       this.selectedPlan = walkPlan;
     } else if (hash === 'bike') {
-      this.stopClient();
+      this.stopClientAndUpdateTopics();
       if (state.isFetchingWalkAndBike) {
         return <Loading />;
       }
@@ -1525,7 +1465,7 @@ class ItineraryPage extends React.Component {
         ? Math.min(bikeParkPlan.itineraries.length, 3)
         : 0;
     } else if (hash === 'car') {
-      this.stopClient();
+      this.stopClientAndUpdateTopics();
       if (state.isFetchingWalkAndBike) {
         return <Loading />;
       }
