@@ -1100,13 +1100,11 @@ class ItineraryPage extends React.Component {
     );
   }
 
-  getOffcanvasState = () => this.state.settingsOpen;
-
-  toggleCustomizeSearchOffcanvas = () => {
-    this.internalSetOffcanvas(!this.getOffcanvasState());
+  toggleSearchSettings = () => {
+    this.showSettingsPanel(!this.state.settingsOpen);
   };
 
-  internalSetOffcanvas = newState => {
+  showSettingsPanel(isOpen) {
     if (this.headerRef.current && this.contentRef.current) {
       setTimeout(() => {
         let inputs = Array.from(
@@ -1122,7 +1120,7 @@ class ItineraryPage extends React.Component {
           ),
         );
         /* eslint-disable no-param-reassign */
-        if (newState) {
+        if (isOpen) {
           // hide inputs from screen reader
           inputs.forEach(elem => {
             elem.tabIndex = '-1';
@@ -1140,16 +1138,16 @@ class ItineraryPage extends React.Component {
       event: 'sendMatomoEvent',
       category: 'ItinerarySettings',
       action: 'ExtraSettingsPanelClick',
-      name: newState ? 'ExtraSettingsPanelOpen' : 'ExtraSettingsPanelClose',
+      name: isOpen ? 'ExtraSettingsPanelOpen' : 'ExtraSettingsPanelClose',
     });
-    if (newState) {
-      this.setState({ settingsOpen: newState });
+    if (isOpen) {
+      this.setState({ settingsOpen: true });
       if (this.props.breakpoint !== 'large') {
         this.context.router.push({
           ...this.props.match.location,
           state: {
             ...this.props.match.location.state,
-            customizeSearchOffcanvas: newState,
+            customizeSearchOffcanvas: isOpen,
           },
         });
       }
@@ -1157,7 +1155,7 @@ class ItineraryPage extends React.Component {
         settingsOnOpen: getCurrentSettings(this.context.config, ''),
       });
     } else {
-      this.setState({ settingsOpen: newState });
+      this.setState({ settingsOpen: false });
       if (this.props.breakpoint !== 'large') {
         if (
           !isEqual(
@@ -1231,7 +1229,7 @@ class ItineraryPage extends React.Component {
         }
       }
     }
-  };
+  }
 
   showVehicles() {
     const now = moment();
@@ -1746,13 +1744,13 @@ class ItineraryPage extends React.Component {
           }
           bckBtnFallback={hash === 'bikeAndVehicle' ? 'pop' : undefined}
           header={
-            <span aria-hidden={this.getOffcanvasState()} ref={this.headerRef}>
+            <span aria-hidden={this.state.settingsOpen} ref={this.headerRef}>
               <ItineraryPageControls
                 params={params}
                 serviceTimeRange={serviceTimeRange}
                 startTime={earliestStartTime}
                 endTime={latestArrivalTime}
-                toggleSettings={this.toggleCustomizeSearchOffcanvas}
+                toggleSettings={this.toggleSearchSettings}
               />
               {error ||
               (!state.isFetchingWalkAndBike &&
@@ -1790,18 +1788,16 @@ class ItineraryPage extends React.Component {
             </span>
           }
           content={
-            <span aria-hidden={this.getOffcanvasState()} ref={this.contentRef}>
+            <span aria-hidden={this.state.settingsOpen} ref={this.contentRef}>
               {content}
             </span>
           }
           settingsDrawer={
             <SettingsDrawer
-              open={this.getOffcanvasState()}
+              open={this.state.settingsOpen}
               className="offcanvas"
             >
-              <CustomizeSearch
-                onToggleClick={this.toggleCustomizeSearchOffcanvas}
-              />
+              <CustomizeSearch onToggleClick={this.toggleSearchSettings} />
             </SettingsDrawer>
           }
           map={map}
@@ -1910,13 +1906,13 @@ class ItineraryPage extends React.Component {
       <MobileView
         header={
           !showDetailView(hash, secondHash, combinedItineraries) ? (
-            <span aria-hidden={this.getOffcanvasState()} ref={this.headerRef}>
+            <span aria-hidden={this.state.settingsOpen} ref={this.headerRef}>
               <ItineraryPageControls
                 params={params}
                 serviceTimeRange={serviceTimeRange}
                 startTime={earliestStartTime}
                 endTime={latestArrivalTime}
-                toggleSettings={this.toggleCustomizeSearchOffcanvas}
+                toggleSettings={this.toggleSearchSettings}
               />
               {error ||
               (!state.isFetchingWalkAndBike &&
@@ -1957,20 +1953,17 @@ class ItineraryPage extends React.Component {
           )
         }
         content={
-          <span aria-hidden={this.getOffcanvasState()} ref={this.contentRef}>
+          <span aria-hidden={this.state.settingsOpen} ref={this.contentRef}>
             {content}
           </span>
         }
         map={map}
         settingsDrawer={
           <SettingsDrawer
-            open={this.getOffcanvasState()}
+            open={this.state.settingsOpen}
             className="offcanvas-mobile"
           >
-            <CustomizeSearch
-              onToggleClick={this.toggleCustomizeSearchOffcanvas}
-              mobile
-            />
+            <CustomizeSearch onToggleClick={this.toggleSearchSettings} mobile />
           </SettingsDrawer>
         }
         expandMap={this.expandMap}
