@@ -830,6 +830,8 @@ class ItineraryPage extends React.Component {
         // eslint-disable-next-line react/no-did-update-set-state
         this.setState({ itineraryTopics });
       }
+    } else if (!isEmpty(this.state.itineraryTopics)) {
+      this.stopClientAndUpdateTopics();
     }
   }
 
@@ -1411,13 +1413,11 @@ class ItineraryPage extends React.Component {
     this.bikeAndPublicItinerariesToShow = 0;
     this.bikeAndParkItinerariesToShow = 0;
     if (hash === 'walk') {
-      this.stopClientAndUpdateTopics();
       if (state.isFetchingWalkAndBike) {
         return <Loading />;
       }
       this.selectedPlan = walkPlan;
     } else if (hash === 'bike') {
-      this.stopClientAndUpdateTopics();
       if (state.isFetchingWalkAndBike) {
         return <Loading />;
       }
@@ -1465,7 +1465,6 @@ class ItineraryPage extends React.Component {
         ? Math.min(bikeParkPlan.itineraries.length, 3)
         : 0;
     } else if (hash === 'car') {
-      this.stopClientAndUpdateTopics();
       if (state.isFetchingWalkAndBike) {
         return <Loading />;
       }
@@ -1474,10 +1473,7 @@ class ItineraryPage extends React.Component {
       if (state.isFetchingWalkAndBike) {
         return <Loading />;
       }
-      if (
-        !state.isFetchingWalkAndBike &&
-        !Array.isArray(parkRidePlan?.itineraries)
-      ) {
+      if (!Array.isArray(parkRidePlan?.itineraries)) {
         this.toggleStreetMode(''); // go back to showing normal itineraries
         return <Loading />;
       }

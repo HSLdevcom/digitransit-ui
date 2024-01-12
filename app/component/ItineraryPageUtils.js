@@ -16,6 +16,8 @@ import {
   changeRealTimeClientTopics,
 } from '../action/realTimeClientAction';
 
+export const streetModeHash = ['walk', 'bike', 'car'];
+
 /**
 /**
  * Returns the actively selected itinerary's index. Attempts to look for
@@ -64,8 +66,6 @@ export function getActiveIndex(
   }
   return itineraryIndex > 0 ? itineraryIndex : defaultValue;
 }
-
-const streetModeHash = ['walk', 'bike', 'car'];
 
 export function getHashIndex(params) {
   const hash = params.secondHash || params.hash;
