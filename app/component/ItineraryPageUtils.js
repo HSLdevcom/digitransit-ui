@@ -216,7 +216,7 @@ export function compareItineraries(itineraries, defaultItineraries) {
 }
 
 const settingsToCompare = ['walkBoardCost', 'ticketTypes', 'walkReluctance'];
-export function relevantRoutingSettingsChanged(config) {
+export function settingsLimitRouting(config) {
   const defaultSettings = getDefaultSettings(config);
   const currentSettings = getCurrentSettings(config);
   const defaultSettingsToCompare = pick(defaultSettings, settingsToCompare);

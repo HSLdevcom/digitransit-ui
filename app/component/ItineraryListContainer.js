@@ -21,7 +21,7 @@ import { getSummaryPath } from '../util/path';
 import withBreakpoint from '../util/withBreakpoint';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import { isIOS, isSafari } from '../util/browser';
-import SettingsChangedNotification from './SettingsChangedNotification';
+import SettingsNotification from './SettingsNotification';
 import ItineraryShape from '../prop-types/ItineraryShape';
 import ErrorShape from '../prop-types/ErrorShape';
 import LocationStateShape from '../prop-types/LocationStateShape';
@@ -66,7 +66,7 @@ class ItineraryListContainer extends React.Component {
       date: PropTypes.number,
       itineraries: PropTypes.arrayOf(ItineraryShape),
     }).isRequired,
-    showSettingsChangedNotification: PropTypes.func.isRequired,
+    settingsNotification: PropTypes.bool,
     driving: PropTypes.bool,
     onlyHasWalkingItineraries: PropTypes.bool,
     routingFeedbackPosition: PropTypes.number,
@@ -84,6 +84,7 @@ class ItineraryListContainer extends React.Component {
     routingErrors: [],
     separatorPosition: undefined,
     routingFeedbackPosition: undefined,
+    settingsNotification: false,
   };
 
   static contextTypes = {
@@ -283,10 +284,7 @@ class ItineraryListContainer extends React.Component {
         >
           {this.props.children}
         </ItineraryList>
-        {this.props.showSettingsChangedNotification(
-          this.props.plan,
-          this.props.alternativePlan,
-        ) && <SettingsChangedNotification />}
+        {this.props.settingsNotification && <SettingsNotification />}
         {(this.context.match.params.hash &&
           this.context.match.params.hash === 'bikeAndVehicle') ||
         disableButtons ||

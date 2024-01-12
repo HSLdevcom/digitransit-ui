@@ -44,7 +44,7 @@ import {
   getTopicOptions,
   getBounds,
   compareItineraries,
-  relevantRoutingSettingsChanged,
+  settingsLimitRouting,
   setCurrentTimeToURL,
 } from './ItineraryPageUtils';
 import withBreakpoint from '../util/withBreakpoint';
@@ -220,26 +220,16 @@ class ItineraryPage extends React.Component {
     } else {
       this.selectedPlan = props.viewer && props.viewer.plan;
     }
-    /* A query with all modes is made on page load if relevant settings ('modes', 'walkBoardCost', 'ticketTypes', 'walkReluctance') differ from defaults. The all modes query uses default settings. */
+    /* A query with all modes is made on page load if search settings
+       ('modes', 'walkBoardCost', 'ticketTypes', 'walkReluctance') differ from defaults.
+       The all modes query uses default settings. */
     if (
-      relevantRoutingSettingsChanged(context.config) &&
+      settingsLimitRouting(context.config) &&
       hasStartAndDestination(props.match.params)
     ) {
       this.makeQueryWithAllModes();
     }
   }
-
-  shouldShowSettingsChangedNotification = (plan, alternativePlan) => {
-    if (
-      relevantRoutingSettingsChanged(this.context.config) &&
-      !this.state.settingsChangedRecently &&
-      !this.planHasNoItineraries() &&
-      compareItineraries(plan?.itineraries, alternativePlan?.itineraries)
-    ) {
-      return true;
-    }
-    return false;
-  };
 
   toggleStreetMode = newStreetMode => {
     const newState = {
@@ -844,7 +834,7 @@ class ItineraryPage extends React.Component {
             itinerary => !itinerary.legs.every(leg => leg.mode === 'WALK'),
           );
           if (
-            relevantRoutingSettingsChanged(this.context.config) &&
+            settingsLimitRouting(this.context.config) &&
             hasStartAndDestination(this.props.match.params) &&
             hasNonWalkingItinerary
           ) {
@@ -1711,6 +1701,16 @@ class ItineraryPage extends React.Component {
       state.loading === false && (error || props.loading === false);
     const waitForBikeAndWalk = () =>
       planHasNoItineraries && state.isFetchingWalkAndBike;
+
+    const showSettingsNotification =
+      settingsLimitRouting(this.context.config) &&
+      !state.settingsChangedRecently &&
+      !this.planHasNoItineraries() &&
+      compareItineraries(
+        this.selectedPlan?.itineraries,
+        state.alternativePlan?.itineraries,
+      );
+
     if (props.breakpoint === 'large') {
       let content;
       /* Should render content if
@@ -1723,8 +1723,7 @@ class ItineraryPage extends React.Component {
         !waitForBikeAndWalk() &&
         (!onlyHasWalkingItineraries ||
           (onlyHasWalkingItineraries &&
-            (this.allModesQueryDone ||
-              !relevantRoutingSettingsChanged(config))))
+            (this.allModesQueryDone || !settingsLimitRouting(config))))
       ) {
         const activeIndex =
           itineraryIndex || getActiveIndex(match.location, combinedItineraries);
@@ -1818,9 +1817,7 @@ class ItineraryPage extends React.Component {
               this.onDetailsTabFocused();
             }}
             loadingMoreItineraries={state.loadingMoreItineraries}
-            showSettingsChangedNotification={
-              this.shouldShowSettingsChangedNotification
-            }
+            settingsNotification={showSettingsNotification}
             alternativePlan={state.alternativePlan}
             driving={showCarOptionButton || showParkRideOptionButton}
             onlyHasWalkingItineraries={onlyHasWalkingItineraries}
@@ -2034,9 +2031,7 @@ class ItineraryPage extends React.Component {
               this.onDetailsTabFocused();
             }}
             loadingMoreItineraries={state.loadingMoreItineraries}
-            showSettingsChangedNotification={
-              this.shouldShowSettingsChangedNotification
-            }
+            settingsNotification={showSettingsNotification}
             alternativePlan={state.alternativePlan}
             driving={showCarOptionButton || showParkRideOptionButton}
             onlyHasWalkingItineraries={onlyHasWalkingItineraries}
