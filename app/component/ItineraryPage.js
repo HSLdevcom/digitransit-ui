@@ -1683,7 +1683,6 @@ class ItineraryPage extends React.Component {
             onDetailsTabFocused={this.onDetailsTabFocused}
             loadingMoreItineraries={state.loadingMoreItineraries}
             settingsNotification={showSettingsNotification}
-            alternativePlan={state.alternativePlan}
             driving={showCarOptionButton || showParkRideOptionButton}
             onlyHasWalkingItineraries={onlyHasWalkingItineraries}
             routingFeedbackPosition={state.routingFeedbackPosition}
@@ -1893,7 +1892,6 @@ class ItineraryPage extends React.Component {
             onDetailsTabFocused={this.onDetailsTabFocused()}
             loadingMoreItineraries={state.loadingMoreItineraries}
             settingsNotification={showSettingsNotification}
-            alternativePlan={state.alternativePlan}
             driving={showCarOptionButton || showParkRideOptionButton}
             onlyHasWalkingItineraries={onlyHasWalkingItineraries}
             routingFeedbackPosition={state.routingFeedbackPosition}

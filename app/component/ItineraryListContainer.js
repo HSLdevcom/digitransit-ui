@@ -62,10 +62,6 @@ class ItineraryListContainer extends React.Component {
     onEarlier: PropTypes.func.isRequired,
     onDetailsTabFocused: PropTypes.func.isRequired,
     loadingMoreItineraries: PropTypes.string,
-    alternativePlan: PropTypes.shape({
-      date: PropTypes.number,
-      itineraries: PropTypes.arrayOf(ItineraryShape),
-    }).isRequired,
     settingsNotification: PropTypes.bool,
     driving: PropTypes.bool,
     onlyHasWalkingItineraries: PropTypes.bool,
