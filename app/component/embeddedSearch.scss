@@ -5,6 +5,7 @@
     width: 100vw;
     max-width: 100%;
     overflow: hidden;
+
     .background-container, .control-panel-container{
         grid-column: 1;
         grid-row: 1;
@@ -55,4 +56,9 @@
             right: -26%;
         }
     }
+}
+
+.with-timepicker {
+    height: 380px;
+    width: 450px;
 }

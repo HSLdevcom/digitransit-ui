@@ -6,6 +6,7 @@ import { matchShape } from 'found';
 import DTAutosuggestPanel from '@digitransit-component/digitransit-component-autosuggest-panel';
 import CtrlPanel from '@digitransit-component/digitransit-component-control-panel';
 import i18next from 'i18next';
+import Datetimepicker from '@digitransit-component/digitransit-component-datetimepicker';
 import { getRefPoint } from '../../util/apiUtils';
 import withSearchContext from '../WithSearchContext';
 import {
@@ -87,6 +88,11 @@ const EmbeddedSearch = (props, context) => {
     });
   });
 
+  const [state, setState] = useState({
+    isAlwaysOpen: true,
+    time: undefined,
+    arriveBy: false,
+  });
   const defaultOriginExists = query.lat1 && query.lon1;
   const defaultOrigin = {
     lat: Number(query.lat1),
@@ -103,6 +109,7 @@ const EmbeddedSearch = (props, context) => {
     name: query.address2,
   };
   const useDestinationLocation = query?.destinationLoc;
+  const isTimepickerSelected = query.timepicker;
   const [logo, setLogo] = useState();
   const [origin, setOrigin] = useState(
     useOriginLocation
@@ -241,6 +248,13 @@ const EmbeddedSearch = (props, context) => {
     ]);
 
     targetUrl.search += buildQueryString(utmCampaignParams);
+    if (state.time !== undefined) {
+      targetUrl.search += `&time=${state.time}`;
+    }
+
+    if (state.arriveBy) {
+      targetUrl.search += `&arriveBy=${state.arriveBy}`;
+    }
 
     addAnalyticsEvent({
       category: 'EmbeddedSearch',
@@ -298,11 +312,66 @@ const EmbeddedSearch = (props, context) => {
     return <Loading />;
   }
 
+  const onDepartureClick = time => {
+    setState({ ...state, time, arriveBy: false });
+    addAnalyticsEvent({
+      event: 'sendMatomoEvent',
+      category: 'EmbeddedSearch',
+      action: 'LeavingArrivingSelection',
+      name: 'SelectLeaving',
+    });
+  };
+
+  const onTimeChange = (time, arriveBy, onSubmit = false) => {
+    setState({
+      ...state,
+      time,
+      arriveBy: !!arriveBy,
+      onSubmit,
+    });
+    addAnalyticsEvent({
+      action: 'EditJourneyTime',
+      category: 'EmbeddedSearch',
+      name: null,
+    });
+  };
+
+  const onDateChange = (time, arriveBy) => {
+    setState({
+      ...state,
+      time,
+      arriveBy: !!arriveBy,
+    });
+    addAnalyticsEvent({
+      action: 'EditJourneyDate',
+      category: 'EmbeddedSearch',
+      name: null,
+    });
+  };
+
+  const onNowClick = () => {
+    setState({
+      ...state,
+      time: undefined,
+      arriveBy: false,
+    });
+  };
+
+  const onArrivalClick = time => {
+    setState({ ...state, time, arriveBy: true });
+    addAnalyticsEvent({
+      event: 'sendMatomoEvent',
+      category: 'EmbeddedSearch',
+      action: 'LeavingArrivingSelection',
+      name: 'SelectArriving',
+    });
+  };
+
   return (
     <div
       className={`embedded-seach-container ${
         bikeOnly ? 'bike' : walkOnly ? 'walk' : ''
-      }`}
+      } ${isTimepickerSelected ? 'with-timepicker' : ''}`}
       id={appElement}
     >
       <div className="background-container">{drawBackgroundIcon()}</div>
@@ -321,6 +390,33 @@ const EmbeddedSearch = (props, context) => {
             targets={locationSearchTargets}
             {...locationSearchProps}
           />
+
+          {isTimepickerSelected && (
+            <div className="datetimepicker-container">
+              <Datetimepicker
+                realtime={false}
+                initialTimestamp={state.time}
+                initialArriveBy={state.arriveBy}
+                onTimeChange={onTimeChange}
+                onDateChange={onDateChange}
+                onNowClick={onNowClick}
+                onDepartureClick={onDepartureClick}
+                onArrivalClick={onArrivalClick}
+                embedWhenClosed={null}
+                embedWhenOpen={null}
+                lang={lang}
+                color={colors.primary}
+                timeZone={config.timezoneData.split('|')[0]}
+                serviceTimeRange={context.config.itinerary.serviceTimeRange}
+                fontWeights={config.fontWeights}
+                onOpen={null}
+                onClose={null}
+                openPicker
+                isAlwaysOpen={state.isAlwaysOpen}
+              />
+            </div>
+          )}
+
           <div className="embedded-search-button-container">
             {logo ? (
               <img
