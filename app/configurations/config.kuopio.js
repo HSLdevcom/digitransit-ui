@@ -72,10 +72,6 @@ export default configMerger(walttiConfig, {
     lon: 27.678136,
   },
 
-  defaultSettings: {
-    showBikeAndParkItineraries: true,
-  },
-
   vehicles: true,
   showVehiclesOnStopPage: true,
   showVehiclesOnItineraryPage: true,
