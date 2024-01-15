@@ -5,6 +5,7 @@
 
 .dd-header {
   display: flex;
+
   svg {
     position: relative;
     top: 4px;
@@ -19,7 +20,8 @@
   font-size: 13px;
   line-height: 16px;
   letter-spacing: -0.03em;
-  color: #666666;
+  color: #666;
+
   &.alignRight {
     text-align: right;
     right: 0;
@@ -46,6 +48,7 @@
 
   .dd__control--menu-is-open, .dd-right__control--menu-is-open, .dd-timerange__control--menu-is-open {
     border-style: none;
+
     svg {
       transform: rotate(-180deg);
     }
@@ -72,6 +75,7 @@
     color: $primary-color;
     white-space: nowrap;
     margin: 0;
+
     svg {
       margin-left: 5px;
     }
@@ -86,8 +90,8 @@
     width: calc(100% + 85px + 32px - 2rem);
     max-height: 44vh;
     border-radius: 4px;
-    box-shadow: 0px 4px 13px rgba(0, 0, 0, 0.15);
-    border: solid 1px #dddddd;
+    box-shadow: 0 4px 13px rgba(0, 0, 0, 0.15);
+    border: solid 1px #ddd;
     overflow-x: hidden;
     overflow-y: hidden;
     background-color: white;
@@ -117,15 +121,19 @@
     letter-spacing: -0.03em;
     color: #333;
     white-space: nowrap;
+
     &:not(:last-child) {
-      border-bottom: 1px solid #dddddd;
+      border-bottom: 1px solid #ddd;
     }
+
     &:hover, &:focus {
       background-color: #f4f4f5;
     }
+
     &--is-selected, &--is-focused {
       background-color: #F4F4F5;
     }
+
     svg {
       position: absolute;
       right: 5px;

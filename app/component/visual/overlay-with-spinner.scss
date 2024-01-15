@@ -4,17 +4,19 @@ div.overlay-with-spinner {
   width:100%;
   height:100%;
   position: absolute;
-  top: 0px;
-  right: 0px;
+  top: 0;
+  right: 0;
   justify-content: center;
   display:flex;
   flex-direction: column;
+
   div {
     display:flex;
     height: 68px;
     justify-content: center;
     margin-bottom:20px;
   }
+
   span {
     text-align: center;
   }

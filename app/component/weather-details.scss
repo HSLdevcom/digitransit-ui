@@ -7,8 +7,9 @@
   width: calc(min(90vw, 335px)); // sass complains without the extra calc
   border-radius: 5px;
   box-shadow: 0 4px 10px 0 rgba(0,0,0,0.2);
+
   &:focus {
-    /* The modal itself does not need a focus style*/
+    /* The modal itself does not need a focus style */
     outline: none;
   }
 }
@@ -20,22 +21,26 @@
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
+
   .weather-title {
     font-size: 18px;
     font-weight: $font-weight-medium;
     line-height: 1.17;
     letter-spacing: -0.6px;
-    color: #333333;
+    color: #333;
     text-align: center;
     max-width: 250px;
   }
+
   .weather-icon-row {
     display: flex;
     margin: 25px 0 15px 0;
+
     .icon {
       width: 41px;
       height: 41px;
     }
+
     .weather-temperature {
       font-size: 24px;
       font-weight: $font-weight-medium;
@@ -44,25 +49,28 @@
       margin: 5px 3px 0 25px;
     }
   }
+
   .weather-description {
     margin: 0 10px 27px 0;
     font-size: 15px;
     letter-spacing: -0.5px;
     line-height: 1.2;
     text-align: center;
-    color: #333333;
+    color: #333;
     flex-grow: 1;
   }
+
   .weather-data-source {
     font-size: 13px;
     letter-spacing: -0.43px;
     line-height: 1.38;
     text-align: center;
-    color: #666666;
+    color: #666;
     margin: 0;
     font-weight: normal;
   }
 }
+
 .weather-modal-overlay {
   position: fixed;
   height: 100%;

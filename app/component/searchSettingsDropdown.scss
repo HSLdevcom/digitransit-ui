@@ -2,10 +2,11 @@
   .inverted {
     transform: rotate(180deg);
   }
+
   .settings-dropdown {
     list-style-type: none;
     display: inline-block;
-    padding: 0px 16px 0 16px;
+    padding: 0 16px 0 16px;
     width: 100%;
 
     .settings-dropdown-choice {
@@ -21,32 +22,40 @@
       background-color: #f4f4f5;
       padding: 3.75px 3.75px 3.75px 15px;
       line-height: 30px;
+
       &:focus-within {
         @include default-focus-outline;
       }
+
       input {
         opacity: 0;
         width: 0;
       }
+
       .right-side {
         display: flex;
       }
+
       &.selected {
-        border: 1px solid #888888;
-        background-color: #ffffff;
+        border: 1px solid #888;
+        background-color: #fff;
+
         .selected-checkmark {
           color: $primary-color;
-          margin: 9px 15px 0px 0px;
+          margin: 9px 15px 0 0;
         }
+
         .icon-container {
           margin: -2px;
         }
       }
+
       .kmh-value {
         float: right;
         font-weight: normal;
         color: $gray;
       }
+
       .checkmark {
         float: right;
         min-width: 3em;
@@ -61,7 +70,7 @@
       display: flex;
       justify-content: space-between;
       flex-wrap: wrap;
-      padding: 0px 0px 0px 16px;
+      padding: 0 0 0 16px;
       margin: 0;
       background: unset;
       border: none;
@@ -81,6 +90,7 @@
         text-align: start;
         margin: 16px 0;
       }
+
       .settings-dropdown-label-value {
         font-size: $font-size-small;
         float: right;
@@ -95,7 +105,7 @@
 
   .icon-container {
       float: right;
-      margin: 0.9em 0px 0px 0px;
+      margin: 0.9em 0 0 0;
       color: $primary-color;
   }
 }

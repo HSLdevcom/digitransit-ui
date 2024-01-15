@@ -2,102 +2,127 @@
   display: block;
   background-color: $white;
   margin: 0 60px;
+
   .datetimepicker-container {
     margin: 9px 9px 9px 0;
+
     .datetimepicker-top-row {
       @media (max-width: 500px) {
         margin: 0 0 0 7px;
       }
     }
   }
+
   .bottom-row {
     margin-top: 0.3em;
     display: flex;
     flex-direction: row;
     height: 2em;
+
     .toggle-modes {
       flex: 1 1 auto;
+
       .btn {
         background: #bbb;
+
         &.bus {
           background-color: $btn-bus-active-background-color;
+
           &:hover,
           &:active,
           &:focus {
             background-color: $btn-bus-active-background-color;
           }
         }
+
         &.tram {
           background-color: $btn-tram-active-background-color;
+
           &:hover,
           &:active,
           &:focus {
             background-color: $btn-tram-active-background-color;
           }
         }
+
         &.rail {
           background-color: $btn-rail-active-background-color;
+
           &:hover,
           &:active,
           &:focus {
             background-color: $btn-rail-active-background-color;
           }
         }
+
         &.subway {
           background-color: $btn-subway-active-background-color;
+
           &:hover,
           &:active,
           &:focus {
             background-color: $btn-subway-active-background-color;
           }
+
           .icon-holder > span > svg.icon {
             font-size: 1.4em;
             margin-top: -0.2em;
           }
         }
+
         &.ferry {
           background-color: $btn-ferry-active-background-color;
+
           &:hover,
           &:active,
           &:focus {
             background-color: $btn-ferry-active-background-color;
           }
         }
+
         &.airplane {
           background-color: $btn-air-active-background-color;
+
           &:hover,
           &:active,
           &:focus {
             background-color: $btn-air-active-background-color;
           }
         }
+
         &.citybike {
           background-color: $btn-citybike-active-background-color;
+
           &:hover,
           &:active,
           &:focus {
             background-color: $btn-citybike-active-background-color;
           }
         }
+
         &:focus {
           opacity: 0.9;
         }
       }
+
       .mode-icon {
         border-radius: 3px;
         border-right: none;
         margin-bottom: 0;
         height: 2em;
         max-width: 2em;
+
         .icon-holder {
           padding-bottom: 0.3em;
           padding-top: 0.3em;
+
           .icon {
             width: 1.4em;
             height: 1.4em;
           }
         }
       }
+
       .mode-icon ~ .mode-icon {
         margin-left: $padding-xsmall;
       }
@@ -110,10 +135,12 @@
     color: $link-color;
     margin-left: 0.5em;
     width: 50%;
+
     > span {
       margin-left: -1.4rem;
       pointer-events: none;
     }
+
     .fake-select-arrow {
       font-size: 0.7rem;
       color: $primary-color;
@@ -141,19 +168,23 @@
       background-color: $white;
       border: solid 1px #007ac9;
     }
+
     &:focus {
       background-color: $white;
     }
+
     &.text-time-selector,
     &.desktop {
       padding: 0 0.5em 0 0.5em;
       margin: 0 -0.5em 0 0;
       text-align: center;
     }
+
     &.arrive {
       padding: 0 1.5rem 0 0.9em;
       overflow: hidden;
     }
+
     &.select-route-modes {
       padding: 0 1.5rem 0 0.9em;
       overflow: hidden;
@@ -162,8 +193,10 @@
     }
   }
 }
+
 .mobile .searchsettings-container {
   margin: 0 auto;
+
   .bottom-row .select-wrapper {
     flex: 1 1 auto;
     overflow: hidden;
@@ -174,8 +207,9 @@
 .open-embed-container{
   display: flex;
   width: 100%;
+
   .open-embed {
-    margin: 12px 0px 8px auto;
+    margin: 12px 0 8px auto;
   }
 }
 
@@ -184,20 +218,24 @@
     margin-left: 12px;
     margin-top: 3px;
   }
+
   span {
     color: $link-color;
     letter-spacing: -0.5px;
     font-weight: $font-weight-medium;
     text-align: center;
   }
+
   width: auto;
   margin: 0;
   color: $link-color;
   display: flex;
   align-items: center;
   line-height: 1;
+
   > div {
     padding: 0;
+
     > div {
       display: flex;
     }

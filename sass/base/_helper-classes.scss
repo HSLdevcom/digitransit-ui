@@ -7,74 +7,98 @@
 .airplane {
   color: $airplane-color;
 }
+
 .bus {
   color: $bus-color;
 }
+
 .bus-local {
   color: $bus-color;
 }
+
 .bus-express {
   color: $bus-express-color;
 }
+
 .speedtram {
   color: $speedtram-color;
 }
+
 .map .call {
   color: $white;
 }
+
 .tram {
   color: $tram-color;
 }
+
 .subway {
   color: $metro-color;
 }
+
 .rail {
   color: $rail-color;
 }
+
 .ferry {
   color: $ferry-color;
 }
+
 .funicular {
   color: $funicular-color;
 }
+
 .car {
   color: $car-color;
 }
+
 .citybike {
   color: $citybike-color;
 }
+
 .citybike_walk {
   color: $citybike-color;
 }
+
 .citybike-off {
   color: $citybike-color;
 }
+
 .walk {
   color: $walk-color;
 }
+
 .bicycle {
   color: $bicycle-color;
 }
+
 .bicycle_walk {
   color: $bicycle-color;
 }
+
 .via {
   color: $walk-color;
 }
+
 .from {
   color: $from-color;
 }
+
 .realtime {
   color: $realtime-color;
 }
+
 .to {
   color: $to-color;
 }
+
 .viewpoint {
   color: $viewpoint-marker-color;
 }
+
 .gray {
   color: $gray;
+
   p {
     color: $gray;
   }
@@ -88,30 +112,38 @@
 .left {
   float: left;
 }
+
 .right {
   float: right;
 }
+
 .text-center {
   text-align: center;
 }
+
 .text-right {
   text-align: right;
 }
+
 .text-left {
   text-align: left;
 }
+
 .inline-block {
   display: inline-block;
 }
+
 .clear {
   float: none;
   clear: both;
 }
+
 // parent DOM-element requires overflow:hidden; height: x;
 .scrollable {
   overflow: auto;
   flex: 1;
 }
+
 .fullscreen {
   position: relative;
   height: 100%;
@@ -136,60 +168,76 @@
 .padding-normal {
   padding: 0.7em 1em;
 }
+
 .padding-vertical-small {
   padding: 0.45em 0;
 }
+
 .padding-vertical-normal {
   padding: 0.6em 0;
 }
+
 .padding-horizontal {
   padding: 0 1em;
 }
+
 .padding-horizontal-large {
   padding: 0 2em;
 }
+
 .no-padding {
   padding: 0 !important;
 }
+
 .no-margin {
   margin: 0 !important;
 }
+
 /* Appearance */
 .cursor-grab {
   cursor: grab !important;
 }
+
 .cursor-pointer {
   cursor: pointer;
 }
 
 .no-decoration {
   text-decoration: none;
+
   &.medium {
     font-weight: $font-weight-medium;
   }
 }
+
 .large-text {
   font-size: 1.1em;
 }
+
 .uppercase {
   text-transform: uppercase;
 }
+
 .capitalize {
   text-transform: capitalize;
 }
+
 .hover {
   &:hover {
     opacity: 0.8;
     transition: 0.1s ease-in-out;
   }
 }
+
 .hide-dropdown {
   background-image: none;
 }
+
 .large-icon {
   width: 20px;
   height: 20px;
 }
+
 body .large {
   //font-size: 23px;
   & .icon {
@@ -197,18 +245,23 @@ body .large {
     height: 20px;
   }
 }
+
 .border-bottom {
   border-bottom: 1px solid $light-gray;
 }
+
 .border-top {
   border-top: 1px solid $light-gray;
 }
+
 .border-dashed {
   border: 1px dashed $light-gray;
 }
+
 .collapsed {
   display: none !important;
 }
+
 .hidden {
   visibility: hidden;
 }
@@ -219,6 +272,7 @@ body .large {
 
 .call-to-action-button {
   @include font-medium;
+
   color: white;
   background: $standalone-btn-color;
   vertical-align: middle;
@@ -245,6 +299,7 @@ body .large {
 
   .icon-container {
     margin-top: 1.25rem;
+
     svg {
       height: 130px;
       width: 150px;
@@ -253,12 +308,14 @@ body .large {
 
   p {
     font-size: $font-size-large;
+
     a {
       font-size: $font-size-large;
       color: $primary-color;
       border-bottom: 1px dotted;
       text-decoration: none;
     }
+
     button {
       margin: 0;
     }

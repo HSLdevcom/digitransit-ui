@@ -6,14 +6,13 @@ $foundation-version: $font-family;
 /* Transparency settings */
 $transparency: 0.5;
 $transparent-color: $white;
-
 $spinner-size: 68px;
 
 html {
   /* Fix font display on webkit based browsers */
   -webkit-font-smoothing: antialiased;
+
   /* Disable touch delay on ms-devices */
-  -ms-touch-action: manipulation;
   touch-action: manipulation;
   font-size: 15px !important;
 }
@@ -32,7 +31,7 @@ html {
 
 @media print {
   @page {
-    size: A4 portrait;
+    size: a4 portrait;
   }
 
   /* TODO: Remove after foundation is removed */
@@ -48,8 +47,9 @@ body {
   font-family: $font-family;
   font-weight: $font-weight-medium;
   letter-spacing: $letter-spacing;
+
   /* Remove Mobile Safari automatic font size adjustments */
-  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 #main {
@@ -72,9 +72,11 @@ p {
   font-weight: $font-weight-book;
   font-size: $font-size-normal;
   color: $black;
+
   /* Remove Android FontBoosting */
   max-height: 999999px;
 }
+
 a {
   color: $link-color;
 }
@@ -89,6 +91,7 @@ h1,
   color: $black;
   text-transform: none;
 }
+
 h2,
 .h2 {
   font-family: $heading-font-family;
@@ -109,6 +112,7 @@ h3,
   margin: 0;
   text-transform: none;
 }
+
 h4,
 .h4 {
   font-family: $heading-font-family;
@@ -118,10 +122,12 @@ h4,
   line-height: $line-height-normal;
   color: $black;
 }
+
 a h4,
 a .h4 {
   color: $link-color;
 }
+
 h1 a {
   color: inherit;
   text-decoration: none;
@@ -135,6 +141,7 @@ h1 a {
   margin: 0 !important;
   color: $gray;
 }
+
 .sub-header-h5 {
   font-family: $heading-font-family;
   font-weight: $font-weight-book;
@@ -144,9 +151,11 @@ h1 a {
 }
 
 .route-list {
-  padding: 0em 1em 0.25em;
+  padding: 0 1em 0.25em;
+
   div {
     @include font-narrow-medium;
+
     font-size: 12pt;
     line-height: $line-height-normal;
   }
@@ -174,6 +183,7 @@ div.spinner-loader {
     transform: rotate(360deg);
   }
 }
+
 hr {
   clear: both;
 }
@@ -198,21 +208,25 @@ body select {
   color: crimson;
   padding: 0 10px;
 }
+
 .color-code {
   display: inline-block;
   padding-bottom: 20px;
 }
+
 .color-palette {
   margin-bottom: -20px;
 }
+
 .sub-header {
   font-weight: $font-weight-medium;
   font-size: 20px;
   text-transform: uppercase;
   padding: 10px 0;
 }
+
 .leaflet-container a {
-  color: currentColor;
+  color: currentcolor;
 }
 
 .subicon-caution,
@@ -221,6 +235,7 @@ body select {
   position: absolute;
   bottom: -4px;
   left: -2px;
+
   .icon {
     display: block;
     overflow: visible;
@@ -235,6 +250,7 @@ body select {
     width: 13px;
   }
 }
+
 .ReactModal__Body--open {
   width: 100%;
 }
@@ -251,10 +267,11 @@ body select {
     stroke-width: 12;
   }
 }
+
 /*
   Use this for content only intended for screen readers
 */
-.sr-only:not(:focus):not(:active) {
+.sr-only:not(:focus, :active) {
   clip: rect(0 0 0 0);
   clip-path: inset(50%);
   height: 1px;

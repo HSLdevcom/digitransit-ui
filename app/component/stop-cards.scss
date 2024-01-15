@@ -1,5 +1,6 @@
 .departure-list .date-row {
   @include font-medium;
+
   font-size: 12pt;
   text-transform: capitalize;
   color: $black;
@@ -10,6 +11,7 @@
 
   .missing-routes {
     @include font-book;
+
     font-size: $font-size-small;
     margin: 0.5em 0 0;
     padding: 0;
@@ -22,17 +24,20 @@
 /* STOP PAGE */
 .stop-page {
   overflow-y: auto;
+
   &.card-header {
     //display: flex;
-    padding: 48px 60px 0em 60px;
+    padding: 48px 60px 0 60px;
     position: relative;
     flex: 0 0 auto;
     overflow: hidden;
     min-height: 3em;
+
     .link-arrow {
       display: none;
     }
   }
+
   .card-sub-header {
     margin-top: -7px;
     min-height: 2.75rem;
@@ -43,9 +48,10 @@
 
     .card-sub-header-address {
       font-size: 13px;
-      color: #666666;
+      color: #666;
     }
   }
+
   a {
     color: $black;
     text-decoration: none;
@@ -59,18 +65,22 @@
   margin-right: 1.3em;
   margin-top: 10px;
 }
+
 .mobile {
   background-color: $white;
+
   .stop-page-header_icon-container {
     display: none;
   }
+
   .stop-page {
     &.card-header {
-      padding: 0 16px 0em 16px;
+      padding: 0 16px 0 16px;
       z-index: 2;
       position: relative;
     }
   }
+
   .card-header-wrapper {
     h1 {
       font-family: $heading-font-family;
@@ -80,8 +90,10 @@
       line-height: 22px;
       letter-spacing: -0.03em;
     }
+
     .card-sub-header {
       min-height: 2.5rem;
+
       .card-sub-header-address {
         margin-top: 0.5em;
       }
@@ -91,6 +103,7 @@
 
 .header-primary {
   @include font-medium;
+
   font-size: $font-size-small;
   text-transform: uppercase;
   color: $link-color;

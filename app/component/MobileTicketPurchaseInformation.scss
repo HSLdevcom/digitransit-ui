@@ -9,23 +9,27 @@
 
   .ticket-type-agency-link {
     flex: 0;
+
     .external-link-container {
       width: 120px;
       text-align: center;
       border-radius: 23px;
       border: 1px solid #888;
       min-height: 26px;
+
       .external-link {
         font-weight: $font-weight-medium;
         color: $primary-color;
         padding-top: 3px;
         font-size: 13px;
       }
+
       &:hover {
         box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
         cursor: pointer;
       }
     }
+
     @media print {
       display: none;
     }
@@ -33,17 +37,20 @@
 
   .itinerary-pinfo-ticket-type {
     .ticket-type-title {
-        color: #FFFFFF
+        color: #FFF
     }
+
     .app-link {
         .external-link-container {
             border: 0;
 	    line-height: 25px;
+
             a.external-link {
                 font-size: 16px;
                 color: #0074BF
         }
     }
+
         margin-right: 16px;
         display: flex;
         justify-content: space-evenly;
@@ -55,7 +62,7 @@
         top: 25px;
         background: #FFF;
         font-weight: $font-weight-medium;
-        box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.15);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
         border-radius: 20px;
     }
 
@@ -69,11 +76,13 @@
     line-height: 1.1;
     background-color: $primary-color;
     justify-content: space-between;
+
     .ticket-container {
       display: grid;
       align-items: center;
       justify-content: space-between;
       margin: 11px 6px 9px 15px;
+
       @include min-width(tablet) {
         margin-right: 15px;
       }
@@ -81,6 +90,7 @@
 
     .ticket-type-zone {
       @include font-book;
+
       align-items: center;
       color: $gray;
       display: flex;
@@ -91,18 +101,22 @@
         align-items: center;
         font-size: 1.125rem;
       }
+
       a {
         display: flex;
         align-items: center;
         text-decoration: none;
         font-size: $font-size-normal;
       }
+
       .ticket-description {
         display: flex;
-        color: #FFFFFF;
+        color: #FFF;
       }
+
       .ticket-identifier {
         @include font-medium;
+
         color: $black;
         padding-right: 6px;
       }

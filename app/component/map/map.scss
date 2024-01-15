@@ -5,15 +5,17 @@ $top-bar-height: 64px;
 div.map {
   max-height: 100%;
   position: relative;
+
   .leaflet-container .leaflet-control-attribution {
     height: 22px;
     opacity: 0.7;
     border-radius: 11px;
-    background-color: #ffffff;
+    background-color: #fff;
     margin: 10px;
     position: relative;
     top: -5px;
   }
+
   .leaflet-container .leaflet-popup-close-button {
     color: $primary-color;
     font-size: 25px;
@@ -24,6 +26,7 @@ div.map {
     right: 4px;
     padding: 0;
   }
+
   .leaflet-container .leaflet-control-attribution a {
     height: 11px;
     font-family: $font-family;
@@ -34,7 +37,7 @@ div.map {
     line-height: normal;
     letter-spacing: -0.7px;
     text-align: right;
-    color: #666666;
+    color: #666;
     vertical-align: -3px;
   }
 }
@@ -48,6 +51,7 @@ div.map {
     div.leaflet-control-scale.leaflet-control {
       margin-right: 15px;
     }
+
     z-index: index($zindex, map-container);
   }
 
@@ -56,26 +60,30 @@ div.map {
     height: 100%;
     position: absolute;
     width: 100%;
+
     .drawer-padding {
       height: 90%;
       width: 0;
     }
+
     .drawer-content {
       min-height: 50vh;
       background: white;
       position: relative;
       z-index: index($zindex, mobile-drawer);
+
       .drag-line {
         width: 30px;
         height: 4px;
         border-radius: 2px;
-        background-color: #cccccc;
+        background-color: #ccc;
         display: block;
         z-index: index($zindex, mobile-drawer-drag-line);
         margin: auto;
         position: relative;
         top: -5px;
       }
+
       .content-container {
         position: relative;
         top: -15px;
@@ -94,13 +102,16 @@ div.map {
     bottom: 10%;
     transition: transform 0.1s;
   }
+
   .map .leaflet-bottom {
     bottom: 10%;
     transition: transform 0.1s;
+
     .leaflet-control-attribution {
       background-color: rgba(0, 0, 0, 0);
     }
   }
+
   .map-with-tracking-buttons {
     right: 15px;
     bottom: 45px;
@@ -110,7 +121,7 @@ div.map {
     .icon-holder,
     .icon-holder:focus,
     .icon-holder:hover {
-      padding: 0.55em 0.2em 0px 0px !important;
+      padding: 0.55em 0.2em 0 0 !important;
       font-size: 16px;
       z-index: index($zindex, map-buttons);
       background: white;
@@ -120,9 +131,11 @@ div.map {
       box-shadow: 0 2px 20px 0 rgba(0, 0, 0, 0.2);
       left: 20px;
       top: 25px;
+
       button {
         outline: none;
       }
+
       .icon-container {
         height: inherit;
       }
@@ -135,9 +148,11 @@ div.map {
     }
   }
 }
+
 div.map.small {
   min-height: $small-map-height;
 }
+
 div.map.full {
   position: relative;
   min-height: $small-map-height;
@@ -154,16 +169,19 @@ div.leaflet-bottom.leaflet-right div.leaflet-control-zoom {
   width: 36px;
   height: 73px;
   border-radius: 5px;
-  background-color: #ffffff;
+  background-color: #fff;
   margin-right: 30px;
   margin-bottom: 24px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+
   &.leaflet-bar {
     border: none;
   }
+
   .icon {
     font-size: 18px;
   }
+
   a {
     display: flex;
     align-items: center;
@@ -192,6 +210,7 @@ div.leaflet-container {
   height: 100%;
   background: none;
   z-index: index($zindex, map-container);
+
   @include font-map-container;
 
   .leaflet-marker-icon {
@@ -249,6 +268,7 @@ div.leaflet-marker-icon.vehicle-icon {
     max-height: 36px;
     max-width: 36px;
     cursor: pointer;
+
     &:hover {
       background: #f4f4f4;
     }
@@ -261,6 +281,7 @@ div.leaflet-marker-icon.vehicle-icon {
   & > *:not(:first-child) {
     margin-left: 0.5em;
   }
+
   // DT-3470
   &.roomForZoomControl {
     margin-left: 48px;
@@ -296,29 +317,29 @@ div.leaflet-marker-icon.vehicle-icon {
   justify-content: space-evenly;
   align-items: flex-start;
   padding: 7px 10px 5px 10px;
-
   position: absolute;
   min-width: 10.375em;
   height: 2.125em;
   right: 15px;
   top: 25px;
   z-index: 3;
-
   background: #FFF;
   color: $primary-color;
   font-weight: $font-weight-medium;
-  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
   border-radius: 8px;
 
   &:hover {
     color: $primary-color;
-    background: darken($color: #FFFFFF, $amount: 10);
+    background: darken($color: #FFF, $amount: 10);
   }
+
   &:focus {
     background: #FFF;
     outline: 1px solid black;
     color: $primary-color;
   }
+
   .map-routing-button-icon {
     color: $primary-color;
     margin: 3px 5px 0 0;
@@ -340,8 +361,8 @@ div.leaflet-marker-icon.vehicle-icon {
   position: absolute;
   left: 50%;
   top: 50%;
-  background: #FFFFFF;
-  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.15);
+  background: #FFF;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
   border-radius: 5px;
   width: 100%;
   transform: translate(-50%, -50%);
@@ -352,33 +373,35 @@ div.leaflet-marker-icon.vehicle-icon {
     font-family: $heading-font-family;
     font-size: $font-size-large;
     font-weight: $font-weight-medium;
-
     margin: 0 0 20px;
     display: flex;
     align-items: center;
     letter-spacing: -0.3px;
-    color: #333333;
+    color: #333;
   }
+
   .map-routing-modal-button-container {
-    border: 1px solid #DDDDDD;
+    border: 1px solid #DDD;
     box-sizing: border-box;
     border-radius: 8px;
     width: 295px;
     display: flex;
     flex-direction: column;
+
     .map-routing-modal-button {
         width: 100%;
         height: 50px;
-        background: #FFFFFF;
+        background: #FFF;
         font-weight: $font-weight-medium;
         color: $primary-color;
         padding-left: 20px;
         text-align: left;
 
       }
+
     .map-routing-modal-button:nth-of-type(2) {
-      border-top: 1px solid #DDDDDD;
-      border-bottom: 1px solid #DDDDDD;
+      border-top: 1px solid #DDD;
+      border-bottom: 1px solid #DDD;
     }
   }
 }
@@ -408,21 +431,27 @@ div.leaflet-marker-icon.vehicle-icon {
     padding: 0;
     margin-bottom: 5px;
   }
+
   .leaflet-popup-content {
     margin: 0;
     width: 18rem !important;
+
     &.leaflet-popup-scrolled {
       overflow: inherit;
     }
+
     .card-sub-header {
       display: flex;
     }
   }
+
   .card {
     border: none;
+
     > a {
       display: block;
     }
+
     hr {
       height: 1px;
       color: #ddd;
@@ -435,12 +464,14 @@ div.leaflet-marker-icon.vehicle-icon {
       display: none;
     }
   }
+
   .card-header {
     border-radius: $border-radius;
   }
 
   .bottom {
     @include font-medium;
+
     font-size: $font-size-small;
     line-height: $line-height-normal;
     color: $link-color;
@@ -470,7 +501,8 @@ div.leaflet-marker-icon.vehicle-icon {
 
   .leaflet-popup-tip-container {
     margin: -5px 5px;
-    left: 0px;
+    left: 0;
+
     .leaflet-popup-tip {
       background: $background-color;
     }
@@ -482,28 +514,35 @@ div.leaflet-marker-icon.vehicle-icon {
   flex-direction: column;
   font-size: 16px;
   margin: 15px 14px 10px;
+
   .location-address {
     font-size: 0.9375em;
     font-weight: $font-weight-medium;
   }
+
   .location-place {
     margin-top: 4px;
     font-size: 0.8125em;
     display: flex;
     flex-direction: row;
+
     .zone-icon-container {
       margin-left: 6px;
     }
+
     .circle {
-      padding: 0px 3px 0px 2px;
+      padding: 0 3px 0 2px;
+
       &.A {
-        padding: 0px 3px 0px 3px;
+        padding: 0 3px 0 3px;
       }
+
       &.B {
-        padding: 0px 3px 0px 2.5px;
+        padding: 0 3px 0 2.5px;
       }
+
       &.D {
-        padding: 0px 3px 0px 3px;
+        padding: 0 3px 0 3px;
       }
     }
   }
@@ -521,19 +560,24 @@ div.leaflet-marker-icon.vehicle-icon {
     margin-bottom: 5px;
     border-radius: 5px;
   }
+
   .leaflet-popup-content {
     margin: 0;
+
     &.leaflet-popup-scrolled {
       overflow: inherit;
       height: auto !important;
     }
   }
+
   .card {
     border: none;
     border-radius: 4px;
+
     > a {
       display: block;
     }
+
     hr {
       height: 1px;
       color: #ddd;
@@ -546,15 +590,18 @@ div.leaflet-marker-icon.vehicle-icon {
       display: none;
     }
   }
+
   .card.no-margin {
     margin: 0;
   }
+
   .card-header {
     border-radius: $border-radius;
   }
 
   .bottom {
     @include font-medium;
+
     font-size: 16px;
     line-height: $line-height-normal;
     color: $link-color;
@@ -579,10 +626,12 @@ div.leaflet-marker-icon.vehicle-icon {
       text-align: center;
       text-decoration: none;
       border-left: 1px solid $light-gray;
+
       &:first-child {
         border-left: none;
       }
     }
+
     button {
       @include font-medium;
     }
@@ -590,6 +639,7 @@ div.leaflet-marker-icon.vehicle-icon {
 
   .leaflet-popup-tip-container {
     margin-top: -6px;
+
     .leaflet-popup-tip {
       width: 15px;
       height: 15px;
@@ -602,6 +652,7 @@ div.leaflet-marker-icon.vehicle-icon {
     width: 320px;
   }
 }
+
 .narrow-popup {
   .leaflet-popup-content {
     width: 220px;
@@ -628,6 +679,7 @@ div.origin-popup {
 
   .origin-popup-header {
     @include font-medium;
+
     text-transform: uppercase;
     color: $link-color;
     width: 90%;
@@ -646,9 +698,11 @@ div.origin-popup {
 
     .leaflet-popup-content {
       margin: 12px 8px 8px 8px;
+
       svg.right-arrow {
         height: 9px;
       }
+
       .card-code {
         margin-right: 5px;
         padding: 2px;
@@ -658,6 +712,7 @@ div.origin-popup {
 
   .origin-popup-name {
     @include font-book;
+
     height: 1.5em;
     width: 200px;
     text-transform: none;
@@ -677,14 +732,16 @@ div.origin-popup {
 
   .leaflet-popup-tip-container {
     position: relative;
-    left: 0px;
-    margin: 0px 0px;
+    left: 0;
+    margin: 0 0;
   }
 }
+
 .vehicle-number-container-v-map {
   position: relative;
   bottom: 40px;
   left: 41px;
+
   .vehicle-number-map {
     margin-right: 1.5em;
     margin-left: 0.3em;
@@ -713,7 +770,7 @@ div.origin-popup {
 }
 
 .map .stop {
-  stroke: currentColor;
+  stroke: currentcolor;
   stroke-opacity: 1;
   fill: #fff;
   fill-opacity: 1;
@@ -755,7 +812,7 @@ div.origin-popup {
 .map .stop-small {
   stroke: #fff;
   stroke-opacity: 1;
-  fill: currentColor;
+  fill: currentcolor;
   fill-opacity: 1;
 }
 
@@ -778,15 +835,19 @@ div.origin-popup {
   align-items: center;
   min-width: 50px;
   height: 18px;
+
   .wide {
     min-width: 64px;
   }
+
   .map-route-icon {
     border: none;
     font-size: 18px;
   }
+
   div {
     @include font-narrow-medium;
+
     border-radius: 3px;
     height: 18px;
     width: 100%;
@@ -798,6 +859,7 @@ div.origin-popup {
     top: 100%;
     white-space: nowrap;
     background-color: var(--background-color);
+
     .map-route-number {
       width: calc(100% - 18px);
       display: flex;
@@ -805,14 +867,15 @@ div.origin-popup {
       padding-right: 3px;
       color: $white;
     }
+
     &::before {
       content: '';
-      width: 0px;
-      height: 0px;
+      width: 0;
+      height: 0;
       position: absolute;
-      border-left: 0px solid var(--background-color);
+      border-left: 0 solid var(--background-color);
       border-right: 15px solid transparent;
-      border-top: 0px solid transparent;
+      border-top: 0 solid transparent;
       border-bottom: 15px solid var(--background-color);
       right: -10px;
       top: -14px;
@@ -826,15 +889,19 @@ div.origin-popup {
   align-items: center;
   min-width: 50px;
   height: 18px;
+
   .wide {
     min-width: 64px;
   }
+
   .map-route-icon {
     border: none;
     font-size: 18px;
   }
+
   div {
     @include font-narrow-medium;
+
     border-radius: 3px;
     height: 18px;
     width: 100%;
@@ -846,6 +913,7 @@ div.origin-popup {
     top: 100%;
     white-space: nowrap;
     background-color: var(--background-color);
+
     .map-route-number {
       width: calc(100% - 18px);
       display: flex;
@@ -853,14 +921,15 @@ div.origin-popup {
       padding-right: 3px;
       color: $white;
     }
+
     &::before {
       content: '';
-      width: 0px;
-      height: 0px;
+      width: 0;
+      height: 0;
       position: absolute;
-      border-left: 0px solid var(--background-color);
+      border-left: 0 solid var(--background-color);
       border-right: 15px solid transparent;
-      border-top: 0px solid transparent;
+      border-top: 0 solid transparent;
       border-bottom: 15px solid var(--background-color);
       top: -14px;
       transform: skewX(40deg);
@@ -873,15 +942,19 @@ div.origin-popup {
   align-items: center;
   min-width: 50px;
   height: 18px;
+
   .wide {
     min-width: 64px;
   }
+
   .map-route-icon {
     border: none;
     font-size: 18px;
   }
+
   div {
     @include font-narrow-medium;
+
     border-radius: 3px;
     height: 18px;
     width: 100%;
@@ -893,6 +966,7 @@ div.origin-popup {
     top: -130%;
     white-space: nowrap;
     background-color: var(--background-color);
+
     .map-route-number {
       width: calc(100% - 18px);
       display: flex;
@@ -900,14 +974,15 @@ div.origin-popup {
       padding-right: 3px;
       color: $white;
     }
+
     &::before {
       content: '';
-      width: 0px;
-      height: 0px;
+      width: 0;
+      height: 0;
       position: absolute;
-      border-right: 0px solid var(--background-color);
+      border-right: 0 solid var(--background-color);
       border-left: 15px solid transparent;
-      border-bottom: 0px solid transparent;
+      border-bottom: 0 solid transparent;
       border-top: 15px solid var(--background-color);
       top: 15px;
       transform: skewX(120deg);
@@ -921,15 +996,19 @@ div.origin-popup {
   align-items: center;
   min-width: 50px;
   height: 18px;
+
   .wide {
     min-width: 64px;
   }
+
   .map-route-icon {
     border: none;
     font-size: 18px;
   }
+
   div {
     @include font-narrow-medium;
+
     border-radius: 3px;
     height: 18px;
     width: 100%;
@@ -941,6 +1020,7 @@ div.origin-popup {
     top: -130%;
     white-space: nowrap;
     background-color: var(--background-color);
+
     .map-route-number {
       width: calc(100% - 18px);
       display: flex;
@@ -948,14 +1028,15 @@ div.origin-popup {
       padding-right: 3px;
       color: $white;
     }
+
     &::before {
       content: '';
-      width: 0px;
-      height: 0px;
+      width: 0;
+      height: 0;
       position: absolute;
-      border-right: 0px solid var(--background-color);
+      border-right: 0 solid var(--background-color);
       border-left: 15px solid transparent;
-      border-bottom: 0px solid transparent;
+      border-bottom: 0 solid transparent;
       border-top: 15px solid var(--background-color);
       top: 15px;
       transform: skewX(45deg);
@@ -969,14 +1050,19 @@ div.origin-popup {
   align-items: center;
   min-width: 50px;
   height: 18px;
+
   .wide {
     min-width: 64px;
   }
+
   &.speech-bubble-topRight {
     background-color: transparent;
+
     div {
       box-shadow: -8px 9px 8px 0 rgba(0, 0, 0, 0.3);
+
       @include font-medium;
+
       font-size: 15px;
       border-radius: 8px;
       height: 30px;
@@ -988,26 +1074,31 @@ div.origin-popup {
       left: 15%;
       top: -35px;
     }
-    :before {
+
+    ::before {
       content: '';
-      width: 0px;
-      height: 0px;
+      width: 0;
+      height: 0;
       position: absolute;
-      border-left: 0px solid transparent;
-      border-right: 15px solid #ffffff;
-      border-top: 0px solid #ffffff;
+      border-left: 0 solid transparent;
+      border-right: 15px solid #fff;
+      border-top: 0 solid #fff;
       border-bottom: 15px solid transparent;
       left: -12px;
       bottom: -11px;
       transform: skewX(-60deg);
-      box-shadow: #333333;
+      box-shadow: #333;
     }
   }
+
   &.speech-bubble-topLeft {
     background-color: transparent;
+
     div {
       box-shadow: 7px 10px 11px 0 rgba(0, 0, 0, 0.3);
+
       @include font-medium;
+
       font-size: 15px;
       border-radius: 8px;
       height: 30px;
@@ -1019,24 +1110,28 @@ div.origin-popup {
       left: -110%;
       top: -35px;
     }
-    :before {
+
+    ::before {
       content: '';
-      width: 0px;
-      height: 0px;
+      width: 0;
+      height: 0;
       position: absolute;
-      border-left: 0px solid transparent;
-      border-right: 15px solid #ffffff;
-      border-top: 0px solid #ffffff;
+      border-left: 0 solid transparent;
+      border-right: 15px solid #fff;
+      border-top: 0 solid #fff;
       border-bottom: 15px solid transparent;
       left: 95px;
       bottom: -11px;
       transform: skewX(30deg);
     }
   }
+
   &.speech-bubble-bottomLeft {
     div {
       box-shadow: 10px -5px 17px 0 rgba(0, 0, 0, 0.3);
+
       @include font-medium;
+
       font-size: 15px;
       border-radius: 8px;
       height: 30px;
@@ -1048,24 +1143,28 @@ div.origin-popup {
       left: calc(-100% - 10px);
       top: 90%;
     }
-    :before {
+
+    ::before {
       content: '';
-      width: 0px;
-      height: 0px;
+      width: 0;
+      height: 0;
       position: absolute;
-      border-left: 0px solid #ffffff;
+      border-left: 0 solid #fff;
       border-right: 15px solid transparent;
-      border-top: 0px solid transparent;
-      border-bottom: 15px solid #ffffff;
+      border-top: 0 solid transparent;
+      border-bottom: 15px solid #fff;
       right: -10px;
       top: -11px;
       transform: skewX(-60deg);
     }
   }
+
   &.speech-bubble-bottomRight {
     div {
       box-shadow: -10px -7px 12px 0 rgba(0, 0, 0, 0.3);
+
       @include font-medium;
+
       font-size: 15px;
       border-radius: 8px;
       height: 30px;
@@ -1077,26 +1176,30 @@ div.origin-popup {
       left: 15px;
       top: 90%;
     }
-    :before {
+
+    ::before {
       content: '';
-      width: 0px;
-      height: 0px;
+      width: 0;
+      height: 0;
       position: absolute;
-      border-left: 0px solid #ffffff;
+      border-left: 0 solid #fff;
       border-right: 15px solid transparent;
-      border-top: 0px solid transparent;
-      border-bottom: 15px solid #ffffff;
+      border-top: 0 solid transparent;
+      border-bottom: 15px solid #fff;
       right: 95px;
       top: -11px;
       transform: skewX(-140deg);
     }
   }
+
   .map-route-icon {
     border: none;
     font-size: 18px;
   }
+
   div {
     @include font-narrow-medium;
+
     background-color: var(--background-color);
     border-radius: 3px;
     height: 18px;
@@ -1104,8 +1207,10 @@ div.origin-popup {
     margin-left: -50%;
     margin-top: -9px;
     display: flex;
+
     //flex-shrink: 0; /* work around iOS bug with flex sizes */
     white-space: nowrap;
+
     .map-route-number {
       width: calc(100% - 18px);
       display: flex;
@@ -1118,15 +1223,19 @@ div.origin-popup {
 
 .map .leg-halo.call {
   stroke: gray;
+
   //    stroke-opacity: 0.8;
 }
+
 .map .leg-halo {
   stroke: #fff;
   stroke-opacity: 1;
+
   &.opaque {
-    stroke: currentColor;
+    stroke: currentcolor;
     stroke-opacity: 0.5;
   }
+
   &.walk,
   &.bicycle_walk,
   &.citybike_walk {
@@ -1137,10 +1246,12 @@ div.origin-popup {
 
 .map .leg {
   stroke-opacity: 1;
+
   &.opaque {
     stroke: #fff;
     stroke-opacity: 0.4;
   }
+
   &.walk,
   &.bicycle_walk,
   &.citybike_walk {
@@ -1160,6 +1271,7 @@ div.origin-popup {
   &.icon-badge {
     transform: translate(-0.5em, -2.5em);
     border-radius: 50%;
+
     > .badge-circle {
       stroke-width: 14%;
     }
@@ -1210,9 +1322,9 @@ div.leaflet-control-scale-line {
 .leaflet-control-scale::after {
   content: '';
   display: block;
-  border-bottom: 1px solid #888888;
-  border-left: 1px solid #888888;
-  border-right: 1px solid #888888;
+  border-bottom: 1px solid #888;
+  border-left: 1px solid #888;
+  border-right: 1px solid #888;
   height: 4px;
   background: none;
   cursor: grab;
@@ -1231,6 +1343,7 @@ div.leaflet-control-scale-line {
   border: none;
   background: transparent;
   cursor: none;
+
   // interactive: false;
   font-size: 50px;
   color: $primary-color;
@@ -1238,6 +1351,7 @@ div.leaflet-control-scale-line {
 
 .leaflet-popup.geoJsonPopup {
   @include font-medium;
+
   .leaflet-popup-content-wrapper {
     border-radius: $border-radius;
   }
@@ -1259,7 +1373,7 @@ div.leaflet-control-scale-line {
   line-height: normal;
   letter-spacing: -0.6px;
   text-align: center;
-  color: #ffffff;
+  color: #fff;
   max-width: 300px;
 
   &:hover {
@@ -1269,12 +1383,12 @@ div.leaflet-control-scale-line {
   }
 
   &.select-from-map-confirm-button[disabled]:hover {
-    background-color: #bbbbbb;
+    background-color: #bbb;
     opacity: 1;
   }
 
   &.disabled {
-    background-color: #bbbbbb;
+    background-color: #bbb;
     opacity: 1;
   }
 }

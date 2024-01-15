@@ -47,6 +47,7 @@
   flex: 1;
   background: $white;
   padding: 0 20px 0 20px;
+
   &.bp-large {
     padding: 0 3.5rem 0 3.5rem;
   }
@@ -58,6 +59,7 @@
 
 .alerts-list-wrapper {
   margin-top: 14px;
+
   &.bp-large {
     flex: 1;
     display: flex;
@@ -90,9 +92,11 @@
     .icon.stop-disruption {
       width: 2em;
       color: #fff;
+
       &.warning {
         fill: $disruption-color;
       }
+
       &.info {
         fill: $gray-blue;
       }
@@ -102,9 +106,11 @@
       padding-right: 4px;
       text-decoration: none;
     }
+
     + .alert-row {
       border-top: 1px solid $light-gray;
     }
+
     .alert-contents {
       flex-grow: 1;
       vertical-align: bottom;
@@ -112,6 +118,7 @@
       .alert-top-row {
         align-items: center;
         font-size: 15px;
+
         .route-alert-entityid {
           font-family: $font-family-narrow;
           font-size: 21px;
@@ -131,16 +138,19 @@
         width: 2.5em;
         height: 2.5em;
         position: relative;
+
         .subicon-info,
         .subicon-caution {
           bottom: -5px;
           left: -5px;
+
           .icon {
             height: 1.5em;
             width: 1.5em;
           }
         }
       }
+
       .vehicle-number {
         margin-top: -0.3em;
         font-size: $font-size-xsmall;

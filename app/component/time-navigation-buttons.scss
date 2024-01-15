@@ -22,12 +22,14 @@
     &:last-child {
       margin-right: 0;
     }
+
     &:hover {
       border: 1px solid #333;
       color: #333;
       background-color: $white;
     }
   }
+
   &.bp-large {
     margin: 30px 4.0625em 30px 3.4375em;
 

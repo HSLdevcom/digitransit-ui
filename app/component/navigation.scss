@@ -3,26 +3,27 @@
   @if $nav-content-color { // if defined in theme, return nav-content-color
     @return $nav-content-color
   }
+
   $background-color-brightness: (red($color)*299)+(green($color)*587)+(blue($color)*114)/1000;
-  $light-color-lightness: round((red(#ffffff)*299)+(green(#ffffff)*587)+(blue(#ffffff)*114)/1000);
+  $light-color-lightness: round((red(#fff)*299)+(green(#fff)*587)+(blue(#fff)*114)/1000);
+
   @if abs($background-color-brightness) < ($light-color-lightness / 3) {
     @return #ffffff;
-  }
-  @else {
+  } @else {
     @return #333333;
   }
 }
 
 /* foundation override */
 $menu-slide: 'transform 200ms ease';
-$offcanvas-background: #333333;
+$offcanvas-background: #333;
 $offcanvas-background-hover: scale-color($gray, $lightness: -30%);
 $offcanvas-background-active: scale-color($gray, $lightness: -30%);
 
 /* top bar */
 $topbar-height: 40px;
-
 $top-navigation-icon-color: navbar-icon-color($top-bar-color) !default;
+
 //$top-navigation-icon-color: $top-menu-navigation-icon-color;
 $top-navigation-title-color: navbar-icon-color($top-bar-color);
 
@@ -64,6 +65,7 @@ $content-background-color: $background-color;
     height: 60px;
     align-items: center;
     line-height: 1.8em;
+
     // DT-3470 removed: box-shadow: 2px 0px 2px #575757;
 
     @media print {
@@ -75,10 +77,12 @@ $content-background-color: $background-color;
     margin: $padding-medium;
     align-self: stretch;
   }
+
   .icon {
     color: $top-navigation-icon-color;
     vertical-align: middle;
   }
+
   section.title {
     padding-left: $padding-medium;
     display: flex;
@@ -107,13 +111,14 @@ $content-background-color: $background-color;
   min-height: 50px;
   z-index: 1000;
   background: $top-bar-color;
+
   .logo {
     min-height: 30px;
   }
 }
 
 #skip-to-content-link {
-  height: 0px;
+  height: 0;
 
   @media print {
     display: none;
@@ -128,20 +133,24 @@ $content-background-color: $background-color;
 #lang-select {
   margin-top: 45px;
   padding-bottom: 10px;
+
   .lang {
     text-decoration: none;
     line-height: normal;
     color: $primary-color;
+
     @include font-medium;
+
     font-size: $font-size-large;
     display: inline-block;
     text-transform: uppercase;
     cursor: pointer;
     padding: 8px 13px;
-    margin: 0px 2px;
+    margin: 0 2px;
+
     &.selected {
       color: $white;
-      background-color: #333333;
+      background-color: #333;
     }
   }
 }
@@ -149,7 +158,8 @@ $content-background-color: $background-color;
 .navi-languages {
   //desktop
   #lang-select {
-    border-bottom: 0px;
+    border-bottom: 0;
+
     .lang.selected {
       background: $selected-lang-background;
     }
@@ -162,15 +172,18 @@ $content-background-color: $background-color;
 
 .login-button-container {
   width: 100%;
+
   > button {
     display: flex;
     align-items: center;
     height: 100%;
     margin-right: 0.7rem;
   }
+
   .icon {
     font-size: 2em;
     color: $top-navigation-icon-color;
+
     &.caution-topbar {
       fill: $caution-icon-color;
       color: $caution-icon-font-color;
@@ -210,6 +223,7 @@ $content-background-color: $background-color;
   color: $top-navigation-icon-color;
   max-width: 4.5rem;
   font-size: 1rem;
+
   @include min-width(tablet) {
     font-size: $font-size-normal;
   }
@@ -231,6 +245,7 @@ $content-background-color: $background-color;
     top: 50px;
     right: -25px;
     opacity: 1;
+
     @include min-width(tablet) {
       right: 0;
       top: 61px;
@@ -242,6 +257,7 @@ $content-background-color: $background-color;
   list-style-type: none;
   padding: 10px 0 15px;
   margin: 0;
+
   .usermenu-list-item {
     flex-direction: row;
     justify-content: flex-start;
@@ -251,6 +267,7 @@ $content-background-color: $background-color;
     font-weight: $font-weight-medium;
     border-top: 1px solid transparent;
     font-size: $font-size-normal;
+
     > a {
       position: relative;
       display: block;
@@ -263,12 +280,15 @@ $content-background-color: $background-color;
       margin: 0 15px;
     }
   }
+
   .usermenu-list-item:not(:last-child) > a {
     border-bottom: 1px solid rgba(0,0,0,0.2);
+
     @include min-width(tablet) {
       border-bottom: none;
     }
   }
+
   .usermenu-list-item:hover {
     background: darken($primary-color, 5%);
   }
@@ -279,13 +299,16 @@ $content-background-color: $background-color;
     font-size: 1.8em;
     color: $primary-color;
     fill: $top-navigation-icon-color;
+
     &.caution-topbar {
       fill: $caution-icon-color;
       color: $caution-icon-font-color;
     }
   }
+
   width: 50px;
 }
+
 .main-menu-toggle {
   .icon {
     font-size: 1.75em;
@@ -302,16 +325,19 @@ $content-background-color: $background-color;
     position: absolute;
     left: -2px;
     top: 4px;
+
     .icon {
       height: 1.3em;
       width: 1.3em;
     }
   }
+
   h1 {
     font-size: 1.2em;
     margin: 0 0 0 2.5em;
     font-weight: $font-weight-medium;
     font-family: $heading-font-family;
+
     &::first-letter {
       text-transform: capitalize;
     }
@@ -322,7 +348,7 @@ $content-background-color: $background-color;
   display: flex;
   align-items: center;
   height: 55px;
-  background-color: #ffffff;
+  background-color: #fff;
 }
 
 .select-from-map-nav-title {
@@ -335,7 +361,7 @@ $content-background-color: $background-color;
   letter-spacing: -0.6;
   text-align: center;
   vertical-align: text-top;
-  color: #333333;
+  color: #333;
   position: relative;
   white-space: nowrap;
 }
@@ -359,12 +385,14 @@ $content-background-color: $background-color;
   height: 100%;
   overflow-y: auto;
   text-align: left;
+
   @include font-medium;
 
   i.icon-profile {
     font-size: $offcanvas-profile-icon-size;
     color: $offcanvas-profile-icon-color;
   }
+
   a {
     color: $offcanvas-link-color;
     text-decoration: none;
@@ -384,13 +412,16 @@ $content-background-color: $background-color;
       align-self: center;
     }
   }
+
   span {
     cursor: pointer;
     color: $offcanvas-link-color;
     text-decoration: none;
   }
+
   .icon {
     fill: $offcanvas-link-color;
+
     &.small {
       width: 10px;
       height: 10px;
@@ -401,39 +432,47 @@ $content-background-color: $background-color;
       height: 16px;
     }
   }
+
   .close-button {
-    padding: 15px 0px;
+    padding: 15px 0;
     float: right;
     background: none;
   }
 
   button.noborder {
     @include font-medium;
+
     font-family: $button-font-family;
   }
 
   .menu-section {
-    border-bottom: 1px solid #DDDDDD;
+    border-bottom: 1px solid #DDD;
     padding-bottom: 15px;
     padding-top: 15px;
+
     &.main-links {
       .offcanvas-section {
         font-family: $heading-font-family;
+
         button {
           font-weight: $font-weight-medium;
         }
       }
+
       font-weight: $font-weight-medium !important;
     }
+
     &.secondary-links .offcanvas-section button {
       font-weight: $font-weight-book;
     }
   }
+
   .menu-section:last-of-type {
     .menu-item {
       font-weight: $font-weight-book;
     }
   }
+
   .copyright {
     font-family: $heading-font-family;
     font-weight: $font-weight-book;
@@ -457,7 +496,7 @@ $content-background-color: $background-color;
   height: 100%;
   width: 100%;
   top: 0;
-  left: 0px;
+  left: 0;
   opacity: 0;
   z-index: 1200;
   transition: left 0ms cubic-bezier(0.23, 1, 0.32, 1) 0ms,
@@ -467,6 +506,7 @@ $content-background-color: $background-color;
 .menu-background-close {
   opacity: 0 !important;
 }
+
 .menu-background-open {
   opacity: 1;
 }
@@ -475,16 +515,18 @@ $content-background-color: $background-color;
   background-color: #333;
   position: fixed;
   left: auto;
-  right: 0px;
+  right: 0;
   height: 100%;
   z-index: 1300;
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 10px, rgba(0, 0, 0, 0.23) 0px 3px 10px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0 3px 10px, rgba(0, 0, 0, 0.23) 0 3px 10px;
   transition: transform 450ms cubic-bezier(0.23, 1, 0.32, 1);
   transform: translate(100%, 0);
 }
+
 .menu-content-close {
   transform: translate(100%, 0) !important;
 }
+
 .menu-content-open {
   transform: translate(0, 0);
 }
@@ -493,6 +535,7 @@ $content-background-color: $background-color;
   .main-menu {
     width: 100%;
   }
+
   .menu-content {
     width: 100%;
   }
@@ -501,22 +544,27 @@ $content-background-color: $background-color;
 .offcanvas-section {
   line-height: 35px;
   padding: 0.5em 0;
+
   .menu-item {
-    margin: 0px;
+    margin: 0;
     display: inline-block;
     font-size: $font-size-normal;
     font-family: $heading-font-family;
+
     button {
       font-family: $button-font-family;
       font-size: $font-size-normal;
     }
+
     .icon {
       display: none;
     }
   }
+
   .disruption-info {
     height: 35px;
     align-items: center;
+
     .icon.disruption-info {
       font-family: $heading-font-family;
       padding-left: 0;
@@ -540,6 +588,7 @@ section.content {
     flex-direction: column;
     height: 100%;
     position: relative;
+
     .back-button {
       left: 0;
     }
@@ -553,10 +602,11 @@ section.content {
     @media print {
       display: block;
     }
+
     .desktop-title {
-      background: #ffffff; // DT-3358: was $desktop-title-color
+      background: #fff; // DT-3358: was $desktop-title-color
       &-bordered {
-        &:after {
+        &::after {
           content: '';
           display: block;
           position: absolute;
@@ -567,41 +617,52 @@ section.content {
           background-color: $light-gray;
         }
       }
+
       a {
         color: $desktop-title-arrow-icon-color; // DT-3358: was $primary-font-color
       }
+
       .title-container {
         @include font-medium;
-        color: #333333; // DT-3358: was $primary-font-color
+
+        color: #333; // DT-3358: was $primary-font-color
         margin: 50px 0 16px 0;
         line-height: 1;
+
         .back-button {
           position: static;
+
           button {
             left: 0.5em;
             top: auto;
           }
         }
       }
+
       h1 {
         @include font-medium;
+
         font-family: $heading-font-family;
-        color: #333333; // DT-3358: was $primary-font-color
+        color: #333; // DT-3358: was $primary-font-color
         // line-height: 1;
         display: inline;
       }
+
       .home-icon {
         font-size: 0.8em;
       }
+
       .arrow-icon {
         margin: 2px 1em;
         color: $desktop-title-arrow-icon-color;
       }
     }
+
     .back-button {
       position: absolute;
       left: 24px;
     }
+
     .main-content {
       width: 520px;
       height: 100%;
@@ -616,7 +677,7 @@ section.content {
 
       .scrollable-content-wrapper {
         display: flex;
-        flex-basis: 0px;
+        flex-basis: 0;
         flex-direction: column;
         flex-grow: 1;
         flex-shrink: 0;
@@ -663,6 +724,7 @@ section.content {
 
 .content:nth-child(5) {
   height: calc(100% - #{$topbar-height} - 100px - 18px);
+
   // 100px and 18px are the height of the message bar, but is specified in js
 }
 
@@ -677,8 +739,9 @@ section.content {
 }
 
 .mobile-footer {
-  border-top: 1px solid #DDDDDD;
+  border-top: 1px solid #DDD;
 }
+
  .mobile-footer div:nth-of-type(1){
   position: relative;
   bottom: 0;
@@ -686,11 +749,13 @@ section.content {
   justify-content: space-between;
   color: #333;
   font-weight: 325;
+
   //letter-spacing: -0.03em;
   align-items: center;
   text-align: right;
 
 }
+
  .mobile-footer-bar-container {
   display: flex;
   justify-content: center;
@@ -703,6 +768,7 @@ section.content {
   border-radius: 5px;
   margin-bottom: 5px;
  }
+
 .message-bar {
   @media print {
     display: none;
@@ -712,12 +778,15 @@ section.content {
     from { opacity: 0; }
     to   { opacity: 1; }
   }
+
   animation: fadein 1s;
   position: relative;
   z-index: 802;
   width: 100%;
   display: block;
+
   @include font-book;
+
   font-size: 15px;
   line-height: 21px;
   letter-spacing: -0.42px;
@@ -738,19 +807,22 @@ section.content {
 
     .message-bar-container {
       overflow: hidden;
-      padding: 10px 10px 0px 10px;
+      padding: 10px 10px 0 10px;
 
       .single-alert {
         margin-bottom: 15px;
+
         .message-content {
           .message-heading {
             min-height: 11px;
           }
+
           button {
             text-decoration: underline;
             font-weight: $font-weight-bold;
             font-family: $font-family;
           }
+
           .message-bar-link {
             word-break: normal;
             color: $primary-color;
@@ -772,10 +844,12 @@ section.content {
           .message-heading {
             min-height: 11px;
           }
+
           button {
             text-decoration: underline;
             font-weight: $font-weight-bold;
           }
+
           .message-bar-link {
             word-break: normal;
             color: $primary-color;
@@ -786,12 +860,15 @@ section.content {
       .swipe-header {
         justify-content: center;
       }
+
       .swipe-tab-indicator {
         flex-grow: 0;
       }
+
       .swipe-button .icon {
         height: 14px;
         width: 14px;
+
         &.disabled {
           fill: $medium-gray;
         }
@@ -812,8 +889,10 @@ section.content {
         color: $disruption-color;
         fill: white;
       }
+
       #close-message-bar {
         display: inline-block;
+
         .icon {
           fill: white !important;
         }
@@ -824,10 +903,12 @@ section.content {
       h2 {
         color: white;
       }
+
       .message-bar-container {
         .react-swipe-container, .single-alert {
           .message-content {
             white-space: pre-wrap;
+
             .message-bar-link {
               color: $white;
             }
@@ -852,6 +933,7 @@ section.content {
         }
       }
     }
+
     &.message-bar-disruption {
       a {
         color: white;
@@ -875,7 +957,8 @@ section.content {
 
   a {
     @include font-medium;
-    padding: 0px 4px;
+
+    padding: 0 4px;
   }
 
   svg.message-bar-link-icon {
@@ -887,7 +970,7 @@ section.content {
 
 #close-message-bar {
   span {
-    margin: -3px -5px 0px 0px;
+    margin: -3px -5px 0 0;
   }
 }
 
@@ -927,13 +1010,14 @@ section.content {
   right: -1px;
   font-size: 7px;
 }
+
 .external-link-container {
   position: relative;
   display: inline-block;
   line-height: 22px;
   font-size: 18px;
-  margin: 0px;
-  padding: 0px 6px;
+  margin: 0;
+  padding: 0 6px;
   border: 1px solid rgba(0, 0, 0, 0.15);
   border-radius: 4px;
 
