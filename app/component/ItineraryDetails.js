@@ -55,19 +55,22 @@ const TripShape = PropTypes.shape({
   }),
 });
 
-const ItineraryShape = PropTypes.shape({
-  legs: PropTypes.arrayOf(
-    PropTypes.shape({
-      route: RouteShape,
-      trip: TripShape,
-      distance: PropTypes.number,
-      fares: PropTypes.arrayOf(FareShape),
+const ItineraryShape = PropTypes.oneOfType([
+  PropTypes.any,
+  PropTypes.shape({
+    legs: PropTypes.arrayOf(
+      PropTypes.shape({
+        route: RouteShape,
+        trip: TripShape,
+        distance: PropTypes.number,
+        fares: PropTypes.arrayOf(FareShape),
+      }),
+    ),
+    emissionsPerPerson: PropTypes.shape({
+      co2: PropTypes.number,
     }),
-  ),
-  emissionsPerPerson: PropTypes.shape({
-    co2: PropTypes.number,
   }),
-});
+]);
 
 /* eslint-disable prettier/prettier */
 class ItineraryDetails extends React.Component {
@@ -89,6 +92,8 @@ class ItineraryDetails extends React.Component {
   static defaultProps = {
     hideTitle: false,
     currentLanguage: 'fi',
+    carItinerary: undefined,
+    changeHash: () => {},
   };
 
   static contextTypes = {
@@ -191,9 +196,15 @@ class ItineraryDetails extends React.Component {
         }
       }
     }
-    const suggestionIndex = this.context.match.params.secondHash
-      ? Number(this.context.match.params.secondHash) + 1
-      : Number(this.context.match.params.hash) + 1;
+    let itineraryIndex = this.context.match.params.secondHash
+      ? Number(this.context.match.params.secondHash)
+      : Number(this.context.match.params.hash);
+
+    if (Number.isNaN(itineraryIndex)) {
+      itineraryIndex = 1;
+    } else {
+      itineraryIndex += 1;
+    }
 
     const disclaimers = [];
 
@@ -254,7 +265,7 @@ class ItineraryDetails extends React.Component {
           <FormattedMessage
             id="summary-page.row-label"
             values={{
-              number: suggestionIndex,
+              number: itineraryIndex,
             }}
           />
 	</h2>,
@@ -341,7 +352,7 @@ class ItineraryDetails extends React.Component {
                   focusToPoint={this.props.focusToPoint}
                   focusToLeg={this.props.focusToLeg}
                   changeHash={this.props.changeHash}
-                  tabIndex={suggestionIndex - 1}
+                  tabIndex={itineraryIndex - 1}
                 />
                 {config.showRouteInformation && <RouteInformation key="routeInfo"/>}
               </div>
