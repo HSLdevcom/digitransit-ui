@@ -1,7 +1,9 @@
 {
   "extends": "stylelint-config-standard-scss",
   "rules": {
+    "alpha-value-notation": false,
     "block-no-empty": true,
+    "color-function-notation": false,
     "color-no-invalid-hex": true,
     "comment-no-empty": true,
     "declaration-block-no-duplicate-properties": true,
