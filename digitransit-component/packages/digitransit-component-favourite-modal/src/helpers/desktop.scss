@@ -27,7 +27,8 @@
         position: relative;
         width: 100%;
         height: 44px;
-        font-family: 'Gotham Rounded A', 'Gotham Rounded B', 'Roboto', Arial, Georgia, Serif;
+        font-family: 'Gotham Rounded A', 'Gotham Rounded B', 'Roboto', Arial,
+          Georgia, Serif;
         border-radius: 5px;
         border: solid 1px #888888;
         background-color: #ffffff;
@@ -81,7 +82,8 @@
       width: 100%;
       height: 50px;
       font-size: 18px;
-      font-family: 'Gotham Rounded A', 'Gotham Rounded B', 'Roboto', Arial, Georgia, Serif;
+      font-family: 'Gotham Rounded A', 'Gotham Rounded B', 'Roboto', Arial,
+        Georgia, Serif;
       font-weight: var(--font-weight-medium);
       letter-spacing: -0.5px;
       background: var(--color);
@@ -95,7 +97,9 @@
       border-radius: 25px;
       cursor: pointer;
       &.save {
-        &:active, &:focus, &:hover {
+        &:active,
+        &:focus,
+        &:hover {
           border-color: var(--hover-color);
           background: var(--hover-color);
           color: #fff;
@@ -112,7 +116,8 @@
         background: #fff;
         border: solid 1px var(--color);
         color: var(--color);
-        &:active, &:hover {
+        &:active,
+        &:hover {
           border-color: var(--hover-color);
           background-color: #fff;
           color: var(--hover-color);

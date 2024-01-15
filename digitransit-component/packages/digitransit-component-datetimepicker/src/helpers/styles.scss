@@ -9,10 +9,11 @@
   outline: 5px auto -webkit-focus-ring-color; /* stylelint-disable-line declaration-block-no-duplicate-properties */
 }
 
-$zindex: base, map-container, map-gradient, map-fullscreen-toggle,
-  map-buttons, context-panel, search-panel, search-overlay, stop-route-station-input, destination-input,
-  viapoint-input-5, viapoint-input-4, viapoint-input-3, viapoint-input-2,
-  viapoint-input-1, origin-input, search-input-focus, search-input-icon, autosuggest-suggestion-container, front;
+$zindex: base, map-container, map-gradient, map-fullscreen-toggle, map-buttons,
+  context-panel, search-panel, search-overlay, stop-route-station-input,
+  destination-input, viapoint-input-5, viapoint-input-4, viapoint-input-3,
+  viapoint-input-2, viapoint-input-1, origin-input, search-input-focus,
+  search-input-icon, autosuggest-suggestion-container, front;
 
 .sr-only:not(:focus):not(:active) {
   clip: rect(0 0 0 0);
@@ -31,14 +32,16 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle,
   font-size: 15px;
   font-weight: var(--font-weight-medium);
 
-  button, label {
+  button,
+  label {
     font-size: 1em;
     font-weight: inherit;
   }
 
   label button {
     cursor: pointer;
-    font-family: 'Gotham Rounded A', 'Gotham Rounded B', 'Roboto', Arial, Georgia, Serif;
+    font-family: 'Gotham Rounded A', 'Gotham Rounded B', 'Roboto', Arial,
+      Georgia, Serif;
   }
 
   .hidden {
@@ -94,7 +97,8 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle,
         display: flex;
       }
     }
-    button, label {
+    button,
+    label {
       font-size: 1em;
       letter-spacing: -0.5px;
       line-height: 1;
@@ -107,7 +111,7 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle,
     border: none;
     color: #666666;
     padding: 0;
-    @include min-width(tablet)  {
+    @include min-width(tablet) {
       margin-left: 14px;
     }
 
@@ -160,7 +164,6 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle,
       margin: 0;
       display: flex;
       align-items: flex-start;
-
     }
   }
 
@@ -295,7 +298,7 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle,
       max-height: 250px;
       border-radius: 5px;
       box-shadow: 0 2px 0 0 rgba(0, 0, 0, 0.06);
-      border: 1px rgba(0,0,0,0.1) solid;
+      border: 1px rgba(0, 0, 0, 0.1) solid;
       :global .datetimepicker-select__menu-list {
         max-height: 250px;
         padding: 0;
@@ -335,7 +338,8 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle,
   z-index: 1000;
 }
 .mobile-modal-content {
-  font-family: 'Gotham Rounded A', 'Gotham Rounded B', 'Roboto', Arial, Georgia, Serif;
+  font-family: 'Gotham Rounded A', 'Gotham Rounded B', 'Roboto', Arial, Georgia,
+    Serif;
   background: white;
   width: 89%;
   position: absolute;
@@ -431,7 +435,7 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle,
         border: none;
         position: relative;
         top: 3px;
-        &.time-input-icon>svg {
+        &.time-input-icon > svg {
           height: 20px;
         }
       }
@@ -486,7 +490,7 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle,
         }
       }
 
-      .container  {
+      .container {
         position: absolute;
         width: calc((100% - 50px) * 0.6);
         height: 25px;
@@ -502,7 +506,7 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle,
           margin: 0;
           padding: 0 0 0 16px;
           // letter-spacing: -0.6px;
-          color: rgba(0,0, 0, 0.87);
+          color: rgba(0, 0, 0, 0.87);
           background: white;
         }
         .suggestionHighlighted {
@@ -517,7 +521,7 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle,
           overflow-y: scroll;
           border-radius: 5px;
           box-shadow: 0 2px 0 0 rgba(0, 0, 0, 0.06);
-          border: 1px rgba(0,0,0,0.1) solid;
+          border: 1px rgba(0, 0, 0, 0.1) solid;
           top: 42px;
           left: -2px;
           width: 100%;
@@ -552,7 +556,7 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle,
     }
   }
   .buttons-row {
-    display:flex;
+    display: flex;
     flex-direction: column;
     font-size: 16px;
     font-weight: var(--font-weight-medium);

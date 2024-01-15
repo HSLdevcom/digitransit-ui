@@ -1,11 +1,12 @@
 $font-weight-medium: 500;
 $primary-color: #007ac9;
-$suggestion-highlight-background-color: #F4F4F5;
+$suggestion-highlight-background-color: #f4f4f5;
 
-$zindex: base, map-container, map-gradient, map-fullscreen-toggle,
-  map-buttons, context-panel, search-panel, search-overlay, stop-route-station-input, destination-input,
-  viapoint-input-5, viapoint-input-4, viapoint-input-3, viapoint-input-2,
-  viapoint-input-1, origin-input, search-input-focus, search-input-icon, rectangle, autosuggest-suggestion-container, front;
+$zindex: base, map-container, map-gradient, map-fullscreen-toggle, map-buttons,
+  context-panel, search-panel, search-overlay, stop-route-station-input,
+  destination-input, viapoint-input-5, viapoint-input-4, viapoint-input-3,
+  viapoint-input-2, viapoint-input-1, origin-input, search-input-focus,
+  search-input-icon, rectangle, autosuggest-suggestion-container, front;
 
 .combobox-container {
   background-color: #fff;
@@ -36,7 +37,7 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle,
   margin-top: 4px;
 }
 
-.container  {
+.container {
   position: relative;
   .suggestion {
     font-size: 15px;
@@ -62,7 +63,7 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle,
     overflow-y: scroll;
     border-radius: 5px;
     box-shadow: 0 2px 0 0 rgba(0, 0, 0, 0.06);
-    border: 1px rgba(0,0,0,0.1) solid;
+    border: 1px rgba(0, 0, 0, 0.1) solid;
     top: 35px;
     width: calc(100% + 45px); // 43px == width of icon next to input
     ul {

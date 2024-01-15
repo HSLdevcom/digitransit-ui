@@ -1,4 +1,4 @@
-/* stylelint-disable */ 
+/* stylelint-disable */
 @import '~@hsl-fi/sass/colors';
 @import '~@hsl-fi/sass/mixins/screen';
 @import '~@hsl-fi/sass/mixins/text';
@@ -66,7 +66,7 @@ li:last-child > div.suggestion-item-container.mobile {
       }
 
       &.favouriteCustom {
-        color: #0074BE;
+        color: #0074be;
         font-size: 15px;
       }
 
@@ -122,7 +122,8 @@ li:last-child > div.suggestion-item-container.mobile {
         height: 16px;
         width: 24px;
         align-self: center;
-        font-family: 'Gotham XNarrow SSm A', 'Gotham XNarrow SSm B', 'Roboto Condensed', Arial, Georgia, Serif;
+        font-family: 'Gotham XNarrow SSm A', 'Gotham XNarrow SSm B',
+          'Roboto Condensed', Arial, Georgia, Serif;
       }
       &.futureroute {
         height: 18px;
@@ -145,10 +146,8 @@ li:last-child > div.suggestion-item-container.mobile {
       height: 17px;
     }
 
-
-
     &.mobile {
-      &.fill-input{
+      &.fill-input {
         border-left: 1px solid #ddd;
         width: 48px;
         height: 40px;
@@ -173,25 +172,31 @@ li:last-child > div.suggestion-item-container.mobile {
     width: 22px;
     height: 22px;
   }
-  .place, .busstop, .select-from-map {
+  .place,
+  .busstop,
+  .select-from-map {
     svg {
       width: 24px;
       height: 24px;
     }
   }
-  .locate, .edit {
+  .locate,
+  .edit {
     svg {
       width: 22px;
       height: 22px;
     }
   }
-  .star, .work {
+  .star,
+  .work {
     svg {
       width: 20px;
       height: 20px;
     }
   }
-  .school, .sport, .shopping {
+  .school,
+  .sport,
+  .shopping {
     svg {
       width: 18px;
       height: 18px;
