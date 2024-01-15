@@ -99,7 +99,7 @@
     "scss/at-import-partial-extension-whitelist": true,
     "scss/at-mixin-argumentless-call-parentheses": true,
     "scss/dollar-variable-colon-newline-after": true,
-    "scss/dollar-variable-colon-space-after": true,
+    "scss/dollar-variable-colon-space-after": false,
     "scss/dollar-variable-colon-space-before": true,
     "scss/dollar-variable-empty-line-before": true,
     "scss/dollar-variable-no-missing-interpolation": true,
