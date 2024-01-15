@@ -1608,7 +1608,7 @@ class ItineraryPage extends React.Component {
             return (
               <div
                 className={`swipeable-tab ${activeIndex !== i && 'inactive'}`}
-                key={itinerary.key}
+                key={`itinerary-${i}`}
                 aria-hidden={activeIndex !== i}
               >
                 <ItineraryDetails
