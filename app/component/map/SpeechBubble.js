@@ -41,7 +41,7 @@ SpeechBubble.propTypes = {
   }),
   text: PropTypes.string,
   speechBubbleStyle: PropTypes.string,
-  zIndexOffset: PropTypes.string,
+  zIndexOffset: PropTypes.number,
 };
 SpeechBubble.defaultProps = {
   speechBubbleStyle: 'topRight',

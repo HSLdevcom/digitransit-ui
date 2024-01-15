@@ -70,6 +70,7 @@ import {
   preparePlanParams,
   hasStartAndDestination,
 } from '../util/planParamUtil';
+import { refShape, mapLayerOptionsShape } from '../util/shapes';
 import { getTotalBikingDistance } from '../util/legUtils';
 import {
   getBikeAndPublic,
@@ -82,7 +83,6 @@ import { saveSearch } from '../action/SearchActions';
 import CustomizeSearch from './CustomizeSearchNew';
 import { mapLayerShape } from '../store/MapLayerStore';
 import { getMapLayerOptions } from '../util/mapLayerUtils';
-import { mapLayerOptionsShape } from '../util/shapes';
 import ItineraryShape from '../prop-types/ItineraryShape';
 import ErrorShape from '../prop-types/ErrorShape';
 import RoutingErrorShape from '../prop-types/RoutingErrorShape';
@@ -112,7 +112,7 @@ class ItineraryPage extends React.Component {
       start: PropTypes.number.isRequired,
       end: PropTypes.number.isRequired,
     }).isRequired,
-    content: PropTypes.node.isRequired,
+    content: PropTypes.node,
     map: PropTypes.shape({
       type: PropTypes.func.isRequired,
     }),
@@ -125,7 +125,7 @@ class ItineraryPage extends React.Component {
     }).isRequired,
     mapLayers: mapLayerShape.isRequired,
     mapLayerOptions: mapLayerOptionsShape.isRequired,
-    alertRef: PropTypes.string.isRequired,
+    alertRef: refShape,
   };
 
   static defaultProps = {
@@ -1331,6 +1331,10 @@ class ItineraryPage extends React.Component {
     const { config } = context;
     const { params } = match;
     const { hash, secondHash } = params;
+    const streetModeSelectorCallbacks = {
+      toggleStreetMode: this.toggleStreetMode,
+      setStreetModeAndSelect: this.setStreetModeAndSelect,
+    };
 
     let plan;
     /* NOTE: as a temporary solution, do filtering by feedId in UI */
@@ -1717,8 +1721,11 @@ class ItineraryPage extends React.Component {
             }
             header={
               <React.Fragment>
-                <ItineraryPageControls params={params} />
-                <StreetModeSelector loading />
+                <ItineraryPageControls
+                  params={params}
+                  toggleSettings={this.toggleSearchSettings}
+                />
+                <StreetModeSelector loading {...streetModeSelectorCallbacks} />
               </React.Fragment>
             }
             content={content}
@@ -1750,8 +1757,7 @@ class ItineraryPage extends React.Component {
                   showBikeAndPublicOptionButton={showBikeAndPublicOptionButton}
                   showCarOptionButton={showCarOptionButton}
                   showParkRideOptionButton={showParkRideOptionButton}
-                  toggleStreetMode={this.toggleStreetMode}
-                  setStreetModeAndSelect={this.setStreetModeAndSelect}
+                  {...streetModeSelectorCallbacks}
                   weatherData={state.weatherData}
                   walkPlan={walkPlan}
                   bikePlan={bikePlan}
@@ -1907,7 +1913,7 @@ class ItineraryPage extends React.Component {
                   showBikeAndPublicOptionButton={showBikeAndPublicOptionButton}
                   showCarOptionButton={showCarOptionButton}
                   showParkRideOptionButton={showParkRideOptionButton}
-                  toggleStreetMode={this.toggleStreetMode}
+                  {...streetModeSelectorCallbacks}
                   setStreetModeAndSelect={this.setStreetModeAndSelect}
                   weatherData={state.weatherData}
                   walkPlan={walkPlan}

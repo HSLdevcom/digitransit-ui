@@ -106,11 +106,11 @@ export const StreetModeSelector = (
 };
 
 StreetModeSelector.propTypes = {
-  showWalkOptionButton: PropTypes.bool.isRequired,
-  showBikeOptionButton: PropTypes.bool.isRequired,
-  showBikeAndPublicOptionButton: PropTypes.bool.isRequired,
-  showCarOptionButton: PropTypes.bool.isRequired,
-  showParkRideOptionButton: PropTypes.bool.isRequired,
+  showWalkOptionButton: PropTypes.bool,
+  showBikeOptionButton: PropTypes.bool,
+  showBikeAndPublicOptionButton: PropTypes.bool,
+  showCarOptionButton: PropTypes.bool,
+  showParkRideOptionButton: PropTypes.bool,
   toggleStreetMode: PropTypes.func.isRequired,
   setStreetModeAndSelect: PropTypes.func.isRequired,
   walkPlan: PropTypes.object,

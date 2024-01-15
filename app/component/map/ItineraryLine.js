@@ -222,7 +222,9 @@ class ItineraryLine extends React.Component {
 
     // Add dynamic transit leg and transfer stop markers
     if (!this.props.passive) {
-      objs.push(<TransitLegMarkers transitLegs={transitLegs} />);
+      objs.push(
+        <TransitLegMarkers key="transitlegmarkers" transitLegs={transitLegs} />,
+      );
     }
 
     return <div style={{ display: 'none' }}>{objs}</div>;

@@ -1,6 +1,11 @@
 /* eslint-disable import/prefer-default-export */
 import PropTypes from 'prop-types';
 
+export const refShape = PropTypes.oneOfType([
+  PropTypes.func,
+  PropTypes.shape({ current: PropTypes.any }),
+]);
+
 export const dtLocationShape = PropTypes.shape({
   lat: PropTypes.number,
   lon: PropTypes.number,
