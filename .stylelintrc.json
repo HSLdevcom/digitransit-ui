@@ -47,7 +47,8 @@
     "selector-type-no-unknown": true,
     "string-no-newline": true,
     "unit-no-unknown": true,
-    "scss/operator-no-newline-after": null
+    "scss/operator-no-newline-after": null,
+    "scss/dollar-variable-colon-space-after": null
   },
   "to_be_added_rules": {
     "at-rule-empty-line-before": [
@@ -111,7 +112,6 @@
     "scss/at-import-partial-extension-whitelist": true,
     "scss/at-mixin-argumentless-call-parentheses": true,
     "scss/dollar-variable-colon-newline-after": true,
-    "scss/dollar-variable-colon-space-after": false,
     "scss/dollar-variable-colon-space-before": true,
     "scss/dollar-variable-empty-line-before": true,
     "scss/dollar-variable-no-missing-interpolation": true,
