@@ -1596,6 +1596,10 @@ class ItineraryPage extends React.Component {
           showDetailView(hash, secondHash, combinedItineraries) &&
           combinedItineraries.length
         ) {
+          const currentTime = {
+            date: moment().valueOf(),
+          };
+
           const itineraryTabs = selectedItineraries.map((itinerary, i) => {
             return (
               <div
@@ -1605,6 +1609,7 @@ class ItineraryPage extends React.Component {
               >
                 <ItineraryDetails
                   hideTitle
+                  plan={currentTime}
                   itinerary={itinerary}
                   focusToPoint={this.focusToPoint}
                   focusToLeg={this.focusToLeg}
