@@ -9,11 +9,6 @@ const APP_DESCRIPTION = 'Nyssen reittiopas';
 const walttiConfig = require('./config.waltti').default;
 const tampereTimetables = require('./timetableConfigUtils').default.tampere;
 
-const minLat = 61.16;
-const maxLat = 62.31;
-const minLon = 22.68;
-const maxLon = 24.9;
-
 export default configMerger(walttiConfig, {
   CONFIG,
 
@@ -123,13 +118,6 @@ export default configMerger(walttiConfig, {
     return fareId && fareId.substring
       ? fareId.substring(fareId.indexOf(':') + 1)
       : '';
-  },
-
-  searchParams: {
-    'boundary.rect.min_lat': minLat,
-    'boundary.rect.max_lat': maxLat,
-    'boundary.rect.min_lon': minLon,
-    'boundary.rect.max_lon': maxLon,
   },
 
   useSearchPolygon: true,
