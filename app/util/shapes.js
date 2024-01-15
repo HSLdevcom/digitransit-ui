@@ -24,11 +24,26 @@ const mapLayerOptionStopOrTerminalShape = PropTypes.shape({
 });
 
 export const mapLayerOptionsShape = PropTypes.shape({
-  parkAndRide: PropTypes.shape(mapLayerOptionShape),
-  stop: PropTypes.shape(mapLayerOptionStopOrTerminalShape),
-  terminal: PropTypes.shape(mapLayerOptionStopOrTerminalShape),
-  vehicles: PropTypes.shape(mapLayerOptionShape),
-  citybike: PropTypes.shape(mapLayerOptionShape),
+  parkAndRide: PropTypes.oneOfType([
+    PropTypes.shape(mapLayerOptionShape),
+    PropTypes.any,
+  ]),
+  stop: PropTypes.oneOfType([
+    PropTypes.shape(mapLayerOptionStopOrTerminalShape),
+    PropTypes.any,
+  ]),
+  terminal: PropTypes.oneOfType([
+    PropTypes.shape(mapLayerOptionStopOrTerminalShape),
+    PropTypes.any,
+  ]),
+  vehicles: PropTypes.oneOfType([
+    PropTypes.shape(mapLayerOptionShape),
+    PropTypes.any,
+  ]),
+  citybike: PropTypes.oneOfType([
+    PropTypes.shape(mapLayerOptionShape),
+    PropTypes.any,
+  ]),
 });
 
 export const FareShape = PropTypes.shape({
