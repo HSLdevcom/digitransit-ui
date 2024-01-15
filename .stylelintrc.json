@@ -46,7 +46,8 @@
     "selector-pseudo-element-no-unknown": true,
     "selector-type-no-unknown": true,
     "string-no-newline": true,
-    "unit-no-unknown": true
+    "unit-no-unknown": true,
+    "scss/operator-no-newline-after": null
   },
   "to_be_added_rules": {
     "at-rule-empty-line-before": [
@@ -120,7 +121,6 @@
     "scss/declaration-nested-properties": true,
     "scss/declaration-nested-properties-no-divided-groups": true,
     "scss/media-feature-value-dollar-variable": true,
-    "scss/operator-no-newline-after": true,
     "scss/operator-no-newline-before": true,
     "scss/operator-no-unspaced": true,
     "scss/partial-no-import": true
