@@ -49,7 +49,64 @@ function DesktopDatetimepicker({
   const [displayValue, changeDisplayValue] = useState(getDisplay(value));
   const [typing, setTyping] = useState(false);
   const [showAllOptions, setShowAllOptions] = useState(true);
-  useEffect(() => changeDisplayValue(getDisplay(value)), [value]);
+  const [validInput, setValidInput] = useState(true);
+  useEffect(() => {
+    changeDisplayValue(getDisplay(value));
+    setValidInput(true);
+  }, [value]);
+  useEffect(() => {
+    document.body.style.setProperty(
+      '--input-color',
+      validInput ? 'black' : 'red',
+    );
+  }, [validInput]);
+
+  const validateClock = (hours, minutes) => {
+    const hoursValid = !Number.isNaN(hours) && hours >= 0 && hours <= 23;
+    const minutesLen = minutes > 10 ? 2 : 1;
+    const minutesValid =
+      !Number.isNaN(minutes) && minutesLen === 2
+        ? minutes >= 0 && minutes <= 59
+        : minutes >= 0 && minutes <= 5;
+    return hoursValid && minutesValid;
+  };
+  const validateTime = inputValue => {
+    if (inputValue.length <= 2) {
+      // Too many options, don't  validate
+      return undefined;
+    }
+    if (inputValue.length === 3) {
+      let hours;
+      let minutes;
+      if (inputValue.includes(':')) {
+        [hours, minutes] = inputValue.split(':');
+      } else if (inputValue.startsWith('0')) {
+        hours = inputValue.substring(0, inputValue.length - 1);
+        minutes = inputValue.substring(inputValue.length - 1 || 0);
+        if (Number(minutes) > 5) {
+          return false;
+        }
+      } else {
+        hours = inputValue.substring(0, inputValue.length - 2);
+        minutes = inputValue.substring(inputValue.length - 2) || 0;
+      }
+      return validateClock(Number(hours), Number(minutes));
+    }
+    if (inputValue.length === 5 || inputValue.length === 4) {
+      const values = inputValue.split(':');
+      const hours = values[0];
+      const minutes = values[1];
+      if (
+        inputValue.startsWith('0') &&
+        minutes.length === 1 &&
+        Number(minutes) > 5
+      ) {
+        return false;
+      }
+      return validateClock(Number(hours), Number(minutes));
+    }
+    return undefined;
+  };
 
   // newValue is string
   const handleTimestamp = newValue => {
@@ -65,12 +122,24 @@ function DesktopDatetimepicker({
     onChange(asNumber);
   };
   function isValidInput(str) {
-    const clockRegex = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/;
-    const regex = /[a-zA-Z§ÄäÖö\s]/g;
+    const regex = /[a-zA-Z§ÄäÖö.-\s]/g;
+    if (str.length < displayValue?.length) {
+      const valid = validateTime(str);
+      // If valid == undefined it means that there is only 2 digits left
+      if (valid === undefined || valid !== validInput) {
+        setValidInput(true);
+      }
+      return true;
+    }
     if (regex.test(str)) {
       return false;
     }
-    return clockRegex.test(str) || str.length < 5;
+    const time = str.length > 5 ? str.slice(0, -1) : str;
+    const valid = validateTime(time);
+    if (valid !== undefined && valid !== validInput) {
+      setValidInput(valid);
+    }
+    return str.length <= 5;
   }
   const onInputChange = (newValue, { action }) => {
     if (action === 'menu-close') {
@@ -78,7 +147,6 @@ function DesktopDatetimepicker({
     } else if (showAllOptions) {
       setShowAllOptions(false);
     }
-
     if (disableTyping || (newValue && !isValidInput(newValue))) {
       return;
     }
@@ -161,8 +229,10 @@ function DesktopDatetimepicker({
                 }
                 setTyping(false);
               }
+              setValidInput(true);
               return;
             }
+            setValidInput(true);
             handleTimestamp(time.value);
           }}
           components={{
@@ -173,16 +243,38 @@ function DesktopDatetimepicker({
           onInputChange={onInputChange}
           inputValue={!disableTyping && displayValue}
           value={closestOption}
+          noOptionsMessage={() => {
+            return '';
+          }}
           filterOption={(option, input) => {
             const completeInput =
               input.length === 5 ||
               (input.length === 4 && input.split(':')[0].length === 1);
             const isMod15 = option.label.split(':')[1] % 15 === 0;
+            const minuteInput = input.split(':')[1]?.length === 1;
+
             if (datePicker) {
               return true;
             }
             if (showAllOptions && isMod15) {
               return true;
+            }
+            if (minuteInput) {
+              const inputH =
+                input.split(':')[0].length === 1
+                  ? '0'.concat(input.split(':')[0])
+                  : input.split(':')[0];
+              const inputM = input.split(':')[1];
+              const optH = option.label.split(':')[0];
+              const optM = option.label.split(':')[1];
+              if (inputH === optH) {
+                const t = Number(inputM) * 10;
+                const total = Number(optM) - t;
+                if (total >= 0 && total <= 9) {
+                  return true;
+                }
+                return false;
+              }
             }
             if (completeInput && !showAllOptions) {
               return input.length === 4
@@ -214,6 +306,9 @@ function DesktopDatetimepicker({
                 changeDisplayValue(getDisplay(value));
                 setTyping(false);
               }
+            }
+            if (isValidInput) {
+              setValidInput(true);
             }
           }}
           onKeyDown={e => {
