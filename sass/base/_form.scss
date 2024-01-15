@@ -28,7 +28,19 @@ span.prefix {
 
 .postfix.search {
   color: $form-input-postfix-search-color;
-  background: linear-gradient(to bottom, lighten($form-input-postfix-search-fill-color, 15%) 1px, lighten($form-input-postfix-search-fill-color, $form-input-postfix-search-fill-color-difference) 1px, darken($form-input-postfix-search-fill-color, $form-input-postfix-search-fill-color-difference));
+  background: linear-gradient(
+    to bottom,
+    lighten($form-input-postfix-search-fill-color, 15%) 1px,
+    lighten(
+        $form-input-postfix-search-fill-color,
+        $form-input-postfix-search-fill-color-difference
+      )
+      1px,
+    darken(
+      $form-input-postfix-search-fill-color,
+      $form-input-postfix-search-fill-color-difference
+    )
+  );
 }
 
 .prefix-and-postfix-radius input {
@@ -36,12 +48,13 @@ span.prefix {
 }
 
 // Hide X-button from time inputs
-input[type="date"]::-webkit-clear-button, input[type="time"]::-webkit-clear-button {
+input[type='date']::-webkit-clear-button,
+input[type='time']::-webkit-clear-button {
   display: none;
 }
 
 // Hide up and down buttons from time element
-input[type="time"]::-webkit-inner-spin-button {
+input[type='time']::-webkit-inner-spin-button {
   display: none;
 }
 

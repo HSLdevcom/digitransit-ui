@@ -1,11 +1,14 @@
-
 @function navbar-icon-color($color) {
-  @if $nav-content-color { // if defined in theme, return nav-content-color
-    @return $nav-content-color
+  @if $nav-content-color {
+    // if defined in theme, return nav-content-color
+    @return $nav-content-color;
   }
 
-  $background-color-brightness: (red($color)*299)+(green($color)*587)+(blue($color)*114)/1000;
-  $light-color-lightness: round((red(#fff)*299)+(green(#fff)*587)+(blue(#fff)*114)/1000);
+  $background-color-brightness: (red($color) * 299)+ (green($color) * 587)+
+    (blue($color) * 114)/1000;
+  $light-color-lightness: round(
+    (red(#fff) * 299)+ (green(#fff) * 587)+ (blue(#fff) * 114)/1000
+  );
 
   @if abs($background-color-brightness) < ($light-color-lightness / 3) {
     @return #ffffff;
@@ -235,13 +238,13 @@ $content-background-color: $background-color;
   position: absolute;
   min-width: 200px;
   background-color: $primary-color;
-  transition: opacity .1s linear;
+  transition: opacity 0.1s linear;
 
   &.open {
-    border-top: 1px solid rgba(0,0,0,0.2);
+    border-top: 1px solid rgba(0, 0, 0, 0.2);
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
-    box-shadow: none;//0 2px 0 0 rgba(0,0,0,.06);
+    box-shadow: none; //0 2px 0 0 rgba(0,0,0,.06);
     top: 50px;
     right: -25px;
     opacity: 1;
@@ -282,7 +285,7 @@ $content-background-color: $background-color;
   }
 
   .usermenu-list-item:not(:last-child) > a {
-    border-bottom: 1px solid rgba(0,0,0,0.2);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 
     @include min-width(tablet) {
       border-bottom: none;
@@ -446,7 +449,7 @@ $content-background-color: $background-color;
   }
 
   .menu-section {
-    border-bottom: 1px solid #DDD;
+    border-bottom: 1px solid #ddd;
     padding-bottom: 15px;
     padding-top: 15px;
 
@@ -499,7 +502,8 @@ $content-background-color: $background-color;
   left: 0;
   opacity: 0;
   z-index: 1200;
-  transition: left 0ms cubic-bezier(0.23, 1, 0.32, 1) 0ms,
+  transition:
+    left 0ms cubic-bezier(0.23, 1, 0.32, 1) 0ms,
     opacity 400ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
 }
 
@@ -518,7 +522,9 @@ $content-background-color: $background-color;
   right: 0;
   height: 100%;
   z-index: 1300;
-  box-shadow: rgba(0, 0, 0, 0.16) 0 3px 10px, rgba(0, 0, 0, 0.23) 0 3px 10px;
+  box-shadow:
+    rgba(0, 0, 0, 0.16) 0 3px 10px,
+    rgba(0, 0, 0, 0.23) 0 3px 10px;
   transition: transform 450ms cubic-bezier(0.23, 1, 0.32, 1);
   transform: translate(100%, 0);
 }
@@ -739,10 +745,10 @@ section.content {
 }
 
 .mobile-footer {
-  border-top: 1px solid #DDD;
+  border-top: 1px solid #ddd;
 }
 
- .mobile-footer div:nth-of-type(1){
+.mobile-footer div:nth-of-type(1) {
   position: relative;
   bottom: 0;
   display: flex;
@@ -753,21 +759,20 @@ section.content {
   //letter-spacing: -0.03em;
   align-items: center;
   text-align: right;
-
 }
 
- .mobile-footer-bar-container {
+.mobile-footer-bar-container {
   display: flex;
   justify-content: center;
- }
+}
 
- .mobile-footer-bar {
+.mobile-footer-bar {
   background-color: #020202;
   height: 5px;
   width: 139px;
   border-radius: 5px;
   margin-bottom: 5px;
- }
+}
 
 .message-bar {
   @media print {
@@ -775,8 +780,12 @@ section.content {
   }
 
   @keyframes fadein {
-    from { opacity: 0; }
-    to   { opacity: 1; }
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
   }
 
   animation: fadein 1s;
@@ -905,7 +914,8 @@ section.content {
       }
 
       .message-bar-container {
-        .react-swipe-container, .single-alert {
+        .react-swipe-container,
+        .single-alert {
           .message-content {
             white-space: pre-wrap;
 

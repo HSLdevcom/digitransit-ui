@@ -38,7 +38,9 @@
     cursor: pointer;
 
     &.save {
-      &:active, &:focus, &:hover {
+      &:active,
+      &:focus,
+      &:hover {
         border-color: var(--hover-color);
         background: var(--hover-color);
         color: #fff;

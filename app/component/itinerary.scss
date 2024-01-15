@@ -13,7 +13,8 @@ $itinerary-tab-switch-height: 48px;
 }
 
 @mixin setModeCircles($fill) {
-  &.bus, &.bus-local {
+  &.bus,
+  &.bus-local {
     @include getCircleSvg($bus-color, $fill);
   }
 
@@ -156,7 +157,8 @@ $itinerary-tab-switch-height: 48px;
     }
   }
 
-  div.itinerary-ticket-information, .itinerary-co2-information {
+  div.itinerary-ticket-information,
+  .itinerary-co2-information {
     flex-grow: 0;
     flex-shrink: 0;
   }
@@ -297,7 +299,7 @@ $itinerary-tab-switch-height: 48px;
 
     &.mobile {
       flex-direction: row;
-      margin: 11px 10px 10px 6px
+      margin: 11px 10px 10px 6px;
     }
 
     @include min-width(tablet) {
@@ -361,7 +363,7 @@ $itinerary-tab-switch-height: 48px;
         font-weight: $itinerary-co2-font-weight;
         font-size: 13px;
         line-height: 16px;
-        color: #3B7F00;
+        color: #3b7f00;
 
         /* identical to box height */
         display: flex;
@@ -408,7 +410,6 @@ $itinerary-tab-switch-height: 48px;
   margin-left: 60px;
   border-bottom: 1px solid #ddd;
   box-sizing: border-box;
-
 }
 
 .itinerary-summary-container {
@@ -491,7 +492,7 @@ $itinerary-tab-switch-height: 48px;
 .citybike-duration-infobox {
   display: flex;
   height: auto;
-  background: #E5F2FA;
+  background: #e5f2fa;
   border-radius: 5px;
   margin: 15px;
   padding: 15px;
@@ -644,7 +645,8 @@ $itinerary-tab-switch-height: 48px;
   }
 }
 
-.itinerary-ticket-information, .itinerary-co2-information {
+.itinerary-ticket-information,
+.itinerary-co2-information {
   display: flex;
   color: $gray;
   font-weight: $font-weight-book;
@@ -680,7 +682,8 @@ $itinerary-tab-switch-height: 48px;
     }
   }
 
-  .itinerary-ticket-type, .itinerary-co2-line {
+  .itinerary-ticket-type,
+  .itinerary-co2-line {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
@@ -793,7 +796,8 @@ $itinerary-tab-switch-height: 48px;
 }
 
 .desktop {
-  .itinerary-ticket-information, .itinerary-co2-information {
+  .itinerary-ticket-information,
+  .itinerary-co2-information {
     font-size: 0.9375rem;
     width: 400px;
     margin: 0 60px;
@@ -815,7 +819,8 @@ $itinerary-tab-switch-height: 48px;
   @include setModeCircles(#fff);
 
   &.circle-fill {
-    &.bus, &.bus-local {
+    &.bus,
+    &.bus-local {
       @include setModeCircles($bus-color);
     }
 
@@ -848,7 +853,7 @@ $itinerary-tab-switch-height: 48px;
     }
 
     &.airport-wait {
-      @include setModeCircles($wait-color)
+      @include setModeCircles($wait-color);
     }
 
     &.walk {
@@ -942,17 +947,17 @@ $itinerary-tab-switch-height: 48px;
       }
     }
 
-      .itinerary-route-number {
-        position: absolute;
+    .itinerary-route-number {
+      position: absolute;
 
-        &.first {
-          top: 42%;
-        }
-
-        &.second {
-          top: 76%;
-        }
+      &.first {
+        top: 42%;
       }
+
+      &.second {
+        top: 76%;
+      }
+    }
 
     &.bicycle,
     &.bicycle_walk {
@@ -1104,7 +1109,7 @@ $itinerary-tab-switch-height: 48px;
     left: 7px;
     border-left: 8px solid;
 
-    &.airport-wait{
+    &.airport-wait {
       border-radius: 4px;
       border-color: #888;
     }
@@ -1397,7 +1402,7 @@ $itinerary-tab-switch-height: 48px;
     min-height: 4.15em;
     padding-right: 0;
 
-    .divider{
+    .divider {
       border-top: 1px solid #ddd;
     }
 
@@ -1457,7 +1462,7 @@ $itinerary-tab-switch-height: 48px;
     }
 
     .alternative-legs-information {
-      color:$gray;
+      color: $gray;
 
       :first-child {
         flex-grow: 1;
@@ -1470,7 +1475,8 @@ $itinerary-tab-switch-height: 48px;
       }
     }
 
-    .intermediate-stop-info-container, .alternative-legs-info-container {
+    .intermediate-stop-info-container,
+    .alternative-legs-info-container {
       @media print {
         span > svg {
           display: none;
@@ -1641,7 +1647,7 @@ $itinerary-tab-switch-height: 48px;
         }
 
         .headsign {
-          font-weight:  $font-weight-medium;
+          font-weight: $font-weight-medium;
           display: block;
           font-size: 15px;
           padding: 2px 0 3px 6px;
@@ -1945,7 +1951,8 @@ $itinerary-tab-switch-height: 48px;
       min-height: 40px;
     }
 
-    .intermediate-stops-clickable, .alternative-legs-clickable {
+    .intermediate-stops-clickable,
+    .alternative-legs-clickable {
       height: 60px;
 
       > * {
@@ -1982,8 +1989,8 @@ $itinerary-tab-switch-height: 48px;
       display: flex;
       margin-bottom: 10px;
       padding: 10px;
-      background: #FFF;
-      border: 1px solid #DDD;
+      background: #fff;
+      border: 1px solid #ddd;
       box-sizing: border-box;
       border-radius: 5px;
       color: #333;
@@ -2319,7 +2326,7 @@ div.itinerary-container-content {
       }
 
       > .itinerary-summary-container {
-      width: 100vw;
+        width: 100vw;
       }
     }
   }
@@ -2640,7 +2647,8 @@ $font-print-decrease: 0.7;
         background: #fff;
       }
 
-      &.wait, .airport-wait {
+      &.wait,
+      .airport-wait {
         color: $wait-color;
       }
     }
@@ -2927,7 +2935,7 @@ $font-print-decrease: 0.7;
   width: 60%;
   border-radius: 50vh;
   padding: 5px;
-  color:  $primary-color;
+  color: $primary-color;
   border: 1px solid #888;
   text-align: center;
   text-decoration: none;

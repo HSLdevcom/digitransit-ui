@@ -36,7 +36,7 @@
 }
 
 .desktop .itinerary-summary-row::before {
-  content : "";
+  content: '';
   position: absolute;
   left: 0;
   top: 15px;
@@ -45,7 +45,7 @@
 }
 
 .desktop .itinerary-summary-row.passive::before {
-  content : "";
+  content: '';
   position: absolute;
   left: 0;
   top: 15px;
@@ -83,7 +83,8 @@
     }
   }
 
-  h3, h4 {
+  h3,
+  h4 {
     @include font-medium;
 
     flex-grow: 1;
@@ -159,7 +160,7 @@
         font-weight: $itinerary-co2-font-weight;
         font-size: 13px;
         line-height: 16px;
-        color: #3B7F00;
+        color: #3b7f00;
         display: flex;
         flex-direction: row;
         justify-content: center;
@@ -179,7 +180,7 @@
     align-items: flex-start;
     margin-top: 4px;
     padding: 6px 10px 2px 4px;
-    background: #E5F2FA;
+    background: #e5f2fa;
     border-radius: 5px;
     font-weight: normal;
     font-size: 13px;
@@ -215,7 +216,7 @@
       .start-time {
         font-weight: $font-weight-medium;
       }
-  }
+    }
 
     &.small {
       font-size: $font-size-small;
@@ -256,7 +257,8 @@
         }
       }
 
-      &.bike_park, &.car_park {
+      &.bike_park,
+      &.car_park {
         overflow: hidden;
         justify-content: center;
         min-width: 24px;
@@ -288,7 +290,8 @@
         background-color: #007ac9;
       }
 
-      &.walk, &.wait {
+      &.walk,
+      &.wait {
         min-width: 1px;
 
         &.render-icon {
@@ -363,7 +366,12 @@
             }
           }
 
-          &.walk, &.citybike, &.bicycle, &.wait, &.bicycle_walk, &.car {
+          &.walk,
+          &.citybike,
+          &.bicycle,
+          &.wait,
+          &.bicycle_walk,
+          &.car {
             display: block;
             overflow: hidden;
             min-width: unset;
@@ -371,7 +379,12 @@
             .icon {
               width: 16px;
 
-              &.walk, &.citybike, &.bicycle, &.wait, &.bicycle_walk, &.car {
+              &.walk,
+              &.citybike,
+              &.bicycle,
+              &.wait,
+              &.bicycle_walk,
+              &.car {
                 float: left;
                 display: flex;
                 justify-content: center;
@@ -412,7 +425,7 @@
             }
           }
 
-          &.bicycle  {
+          &.bicycle {
             .icon {
               width: 18px;
               margin-left: 1px;
@@ -449,49 +462,49 @@
           height: 1.5rem;
         }
 
-          .vehicle-number-container-v {
-            padding-right: 5px;
+        .vehicle-number-container-v {
+          padding-right: 5px;
 
-            .long {
-              left: 24px;
-              top: 4px;
-              text-align: left;
-            }
-
-            .vehicle-number {
-              @include font-narrow-medium;
-
-              color: $white;
-              font-size: 15px;
-              padding: 1px 0 0 0;
-            }
+          .long {
+            left: 24px;
+            top: 4px;
+            text-align: left;
           }
 
-          .leg-duration-container {
+          .vehicle-number {
+            @include font-narrow-medium;
+
+            color: $white;
+            font-size: 15px;
+            padding: 1px 0 0 0;
+          }
+        }
+
+        .leg-duration-container {
+          .leg-duration {
+            font-size: 13px;
+            color: $black;
+          }
+
+          &.citybike {
             .leg-duration {
-              font-size: 13px;
-              color: $black;
-            }
-
-            &.citybike {
-              .leg-duration{
-                padding-left: 1px;
-              }
-            }
-
-            &.bicycle {
-              .leg-duration{
-                padding-bottom: 2px;
-                padding-left: 5px;
-              }
-            }
-
-            &.car {
-              .leg-duration{
-                color: $white;
-              }
+              padding-left: 1px;
             }
           }
+
+          &.bicycle {
+            .leg-duration {
+              padding-bottom: 2px;
+              padding-left: 5px;
+            }
+          }
+
+          &.car {
+            .leg-duration {
+              color: $white;
+            }
+          }
+        }
       }
     }
 
@@ -509,7 +522,7 @@
     }
 
     div.bar-container {
-      width:100%;
+      width: 100%;
       top: 0;
       left: 0;
       right: 0;
@@ -532,7 +545,8 @@
         border: 1px solid $light-gray;
       }
 
-      &.walk, &.bicycle_walk {
+      &.walk,
+      &.bicycle_walk {
         background-color: $light-gray;
       }
 
@@ -550,7 +564,8 @@
       }
     }
 
-    .special-icon, .icon{
+    .special-icon,
+    .icon {
       &.car {
         .icon {
           height: 0.67em;
@@ -558,7 +573,8 @@
         }
       }
 
-      &.bicycle, &.bicycle_walk {
+      &.bicycle,
+      &.bicycle_walk {
         margin-bottom: 1px;
 
         .icon {
@@ -612,7 +628,8 @@
       max-width: calc(100% - 70px);
     }
 
-    h3, h4 {
+    h3,
+    h4 {
       margin-top: 10px;
     }
 

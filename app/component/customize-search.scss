@@ -22,7 +22,7 @@
 
     .mode-option-container {
       .mode-icon {
-        margin-left: 0
+        margin-left: 0;
       }
     }
 
@@ -46,7 +46,7 @@
       height: 3.5em;
     }
 
-    .settings-mode-option-label  {
+    .settings-mode-option-label {
       padding: 0;
     }
   }
@@ -111,7 +111,7 @@
       flex-grow: 1;
       flex-shrink: 0;
       background: #f4f4f5;
-      }
+    }
   }
 }
 
@@ -149,7 +149,7 @@
     position: absolute;
     width: 100%;
     top: 4rem;
-    z-index: index($zindex, autosuggest-suggestion-container)
+    z-index: index($zindex, autosuggest-suggestion-container);
   }
 
   .toggle-container {
@@ -191,7 +191,7 @@
 
 .settings-section {
   border-bottom: 10px solid #f4f4f5;
-  background:#fff;
+  background: #fff;
   padding-bottom: 0.5em;
 
   .settings-option-container:last-child {
@@ -298,7 +298,7 @@
       }
     }
 
-    label.mode-name  {
+    label.mode-name {
       display: flex;
       justify-content: space-between;
       font-weight: $font-weight-medium;
@@ -306,7 +306,7 @@
     }
 
     .mode-name {
-      width:100%;
+      width: 100%;
 
       > span {
         line-height: 1.1em;
@@ -381,7 +381,7 @@
   height: 3.5em;
 
   label.toggle-label {
-    display:flex;
+    display: flex;
     justify-content: space-between;
     line-height: 35px;
     color: #333;

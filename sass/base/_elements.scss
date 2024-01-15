@@ -189,7 +189,8 @@ $border-radius-rounded: 30px;
     top: -3em;
   }
 
-  &.routePage, &.itineraryPage {
+  &.routePage,
+  &.itineraryPage {
     bottom: 1.5em;
     top: auto;
   }
@@ -370,6 +371,6 @@ svg.realtime-icon {
 .swipeable-tab {
   &.inactive {
     // just an arbitrary small value
-      max-height: 1px;
+    max-height: 1px;
   }
 }

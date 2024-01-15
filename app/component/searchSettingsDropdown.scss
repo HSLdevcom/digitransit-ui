@@ -65,47 +65,47 @@
   }
 
   .settings-dropdown-label {
-      min-height: 48px;
-      cursor: pointer;
+    min-height: 48px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding: 0 0 0 16px;
+    margin: 0;
+    background: unset;
+    border: none;
+    width: 100%;
+    font-size: unset;
+    letter-spacing: inherit;
+    line-height: 16px;
+
+    .settings-dropdown-text-container {
       display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      padding: 0 0 0 16px;
-      margin: 0;
-      background: unset;
-      border: none;
+    }
+
+    .settings-dropdown-label-text {
+      font-size: $font-size-normal;
+      color: $gray;
+      float: left;
+      text-align: start;
+      margin: 16px 0;
+    }
+
+    .settings-dropdown-label-value {
+      font-size: $font-size-small;
+      float: right;
+      color: $primary-color;
       width: 100%;
-      font-size: unset;
-      letter-spacing: inherit;
-      line-height: 16px;
-
-      .settings-dropdown-text-container {
-        display: flex;
-      }
-
-      .settings-dropdown-label-text {
-        font-size: $font-size-normal;
-        color: $gray;
-        float: left;
-        text-align: start;
-        margin: 16px 0;
-      }
-
-      .settings-dropdown-label-value {
-        font-size: $font-size-small;
-        float: right;
-        color: $primary-color;
-        width: 100%;
-        padding-right: 14.72px;
-        margin: 14.72px 0;
-        font-weight: $font-weight-medium;
-        text-align: end;
-      }
+      padding-right: 14.72px;
+      margin: 14.72px 0;
+      font-weight: $font-weight-medium;
+      text-align: end;
+    }
   }
 
   .icon-container {
-      float: right;
-      margin: 0.9em 0 0 0;
-      color: $primary-color;
+    float: right;
+    margin: 0.9em 0 0 0;
+    color: $primary-color;
   }
 }

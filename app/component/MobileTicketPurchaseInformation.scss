@@ -37,33 +37,33 @@
 
   .itinerary-pinfo-ticket-type {
     .ticket-type-title {
-        color: #FFF
+      color: #fff;
     }
 
     .app-link {
-        .external-link-container {
-            border: 0;
-	    line-height: 25px;
+      .external-link-container {
+        border: 0;
+        line-height: 25px;
 
-            a.external-link {
-                font-size: 16px;
-                color: #0074BF
+        a.external-link {
+          font-size: 16px;
+          color: #0074bf;
         }
-    }
+      }
 
-        margin-right: 16px;
-        display: flex;
-        justify-content: space-evenly;
-        align-items: center;
-        padding: 3px 10px 5px 10px;
-        min-width: 10.9em;
-        height: 2.4em;
-        right: 15px;
-        top: 25px;
-        background: #FFF;
-        font-weight: $font-weight-medium;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-        border-radius: 20px;
+      margin-right: 16px;
+      display: flex;
+      justify-content: space-evenly;
+      align-items: center;
+      padding: 3px 10px 5px 10px;
+      min-width: 10.9em;
+      height: 2.4em;
+      right: 15px;
+      top: 25px;
+      background: #fff;
+      font-weight: $font-weight-medium;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+      border-radius: 20px;
     }
 
     border-radius: 10px;
@@ -111,7 +111,7 @@
 
       .ticket-description {
         display: flex;
-        color: #FFF;
+        color: #fff;
       }
 
       .ticket-identifier {
@@ -125,10 +125,10 @@
 }
 
 .zone-ticket {
-    &.purchase {
-        color: #FFFF;
-        letter-spacing: -0.03em;
-        line-height: 22px;
-        text-align: center;
-    }
+  &.purchase {
+    color: #ffff;
+    letter-spacing: -0.03em;
+    line-height: 22px;
+    text-align: center;
+  }
 }

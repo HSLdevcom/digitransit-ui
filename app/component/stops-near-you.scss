@@ -331,7 +331,8 @@
       text-decoration: none;
     }
 
-    tr, td {
+    tr,
+    td {
       margin: 0;
       padding: 0;
       border-spacing: 0;
@@ -375,14 +376,13 @@
         flex: 1;
         overflow: hidden;
         white-space: nowrap;
-        mask-image:
-          linear-gradient(
-            to left,
-            transparent,
-            rgba(0, 0, 0, 0.2) 5px,
-            rgba(0, 0, 0, 1) 25px,
-            rgba(0, 0, 0, 1)
-          );
+        mask-image: linear-gradient(
+          to left,
+          transparent,
+          rgba(0, 0, 0, 0.2) 5px,
+          rgba(0, 0, 0, 1) 25px,
+          rgba(0, 0, 0, 1)
+        );
       }
 
       .route-time {
@@ -402,7 +402,7 @@
     display: flex;
     flex-direction: column;
 
-    >div {
+    > div {
       flex: 1;
     }
   }

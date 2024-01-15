@@ -15,26 +15,26 @@
     position: relative;
     margin-right: 2em;
 
-   &.large {
-     margin-right: 1em;
-     margin-bottom: 1em;
-     margin-top: 1em;
+    &.large {
+      margin-right: 1em;
+      margin-bottom: 1em;
+      margin-top: 1em;
 
-     label {
-       height: 32px;
-       width: 32px;
-       position: relative;
+      label {
+        height: 32px;
+        width: 32px;
+        position: relative;
 
-       &.checked {
-         border: #007ac9 1px solid;
+        &.checked {
+          border: #007ac9 1px solid;
 
-         &.disabled {
-           color: $gray;
-           border: #78909c 1px solid;
-         }
-       }
-     }
-   }
+          &.disabled {
+            color: $gray;
+            border: #78909c 1px solid;
+          }
+        }
+      }
+    }
 
     label {
       height: 20px;
@@ -99,7 +99,7 @@
     user-select: none;
   }
 
-  .checkmark{
+  .checkmark {
     position: absolute;
     margin-left: 0.2em;
     margin-top: 0.15em;

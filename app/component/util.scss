@@ -27,7 +27,9 @@ input[type='range'].slider:focus {
 }
 
 /* Track is the line where the circle moves */
-$track-box-shadow: 0.9px 0.9px 1px #000000, 0px 0px 0.9px #0d0d0d;
+$track-box-shadow:
+  0.9px 0.9px 1px #000000,
+  0px 0px 0.9px #0d0d0d;
 $track-border: 2px solid $slider-gray;
 
 /* Mixins work, but straight nested definitions don't */
@@ -83,7 +85,9 @@ input[type='range'].slider {
 /* Thumb is the circle on the track */
 
 @mixin thumb {
-  box-shadow: 0px 1.3px 0.2px #000000, 0px 0px 1px #c1c1c1;
+  box-shadow:
+    0px 1.3px 0.2px #000000,
+    0px 0px 1px #c1c1c1;
   border: 3px solid #ffffff;
   height: 24px;
   width: 24px;
