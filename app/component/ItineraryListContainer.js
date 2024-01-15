@@ -57,7 +57,6 @@ class ItineraryListContainer extends React.Component {
     biking: PropTypes.bool,
     showAlternativePlan: PropTypes.bool,
     separatorPosition: PropTypes.number,
-    loading: PropTypes.bool.isRequired,
     onLater: PropTypes.func.isRequired,
     onEarlier: PropTypes.func.isRequired,
     onDetailsTabFocused: PropTypes.func.isRequired,
@@ -222,7 +221,6 @@ class ItineraryListContainer extends React.Component {
       biking,
       showAlternativePlan,
       separatorPosition,
-      loading,
       loadingMoreItineraries,
       driving,
       onlyHasWalkingItineraries,
@@ -273,7 +271,6 @@ class ItineraryListContainer extends React.Component {
           showAlternativePlan={showAlternativePlan}
           separatorPosition={separatorPosition}
           loadingMoreItineraries={loadingMoreItineraries}
-          loading={loading}
           driving={driving}
           onlyHasWalkingItineraries={onlyHasWalkingItineraries}
           routingFeedbackPosition={routingFeedbackPosition}

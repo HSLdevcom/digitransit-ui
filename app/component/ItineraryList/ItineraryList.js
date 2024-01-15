@@ -38,7 +38,6 @@ function ItineraryList(
     showAlternativePlan,
     separatorPosition,
     loadingMoreItineraries,
-    loading,
     driving,
     onlyHasWalkingItineraries,
     routingErrors,
@@ -142,10 +141,6 @@ function ItineraryList(
     }
     if (routingFeedbackPosition) {
       summaries.splice(routingFeedbackPosition, 0, <RoutingFeedbackPrompt />);
-    }
-
-    if (loading) {
-      return null;
     }
 
     const canceledItinerariesCount = itineraries.filter(
@@ -309,7 +304,6 @@ ItineraryList.propTypes = {
   showAlternativePlan: PropTypes.bool,
   separatorPosition: PropTypes.number,
   loadingMoreItineraries: PropTypes.string,
-  loading: PropTypes.bool.isRequired,
   onlyHasWalkingItineraries: PropTypes.bool,
   routingFeedbackPosition: PropTypes.number,
 };
