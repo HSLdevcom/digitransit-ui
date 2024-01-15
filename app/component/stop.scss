@@ -452,7 +452,7 @@
 #stop-page-action-bar {
   display: flex;
   justify-content: space-between;
-  z-index: 400; //get shadow over map
+  z-index: 400; // get shadow over map
   padding: 5px 10px;
   padding-bottom: 0.6em;
   text-align: right;
@@ -768,7 +768,6 @@ hr.action-bar {
   right: 0;
   background-color: none;
   z-index: 1000; // Needed to cover up the navbar
-  //transform: translate(-50%, -50%);
 }
 
 .mobile {
@@ -803,7 +802,6 @@ hr.action-bar {
     right: 0;
     background-color: none;
     z-index: 1000; // Needs to be higher than the navbar
-    //transform: translate(-50%, -50%);
   }
 
   .filter-stop-modal {
@@ -817,9 +815,6 @@ hr.action-bar {
     position: fixed;
     border-radius: 0;
     transform: translate(-50%, -50%);
-
-    //left: 0;
-    //top: 0;
   }
 
   .routes-container {

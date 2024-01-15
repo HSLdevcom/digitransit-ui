@@ -8,8 +8,6 @@ $itinerary-tab-switch-height: 48px;
     stroke: $stroke;
     fill: $fill;
   }
-
-  //content: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='28' height='28'><circle stroke-width='2' stroke='#{rgba($stroke, 0.9999999)}' fill='#{$fill}' cx='11' cy='10' r='4'/></svg>");
 }
 
 @mixin setModeCircles($fill) {
@@ -2391,8 +2389,6 @@ div.itinerary-container-content {
 
 .itinerary-call-agency-warning {
   width: calc(100% - 23px);
-
-  //background-color: rgba(254, 209, 0, 0.3);
   position: absolute;
   margin-top: 2em;
   margin-left: 10px;
@@ -2851,7 +2847,7 @@ $font-print-decrease: 0.7;
 
   .itinerary-summary {
     flex-grow: 0;
-    flex-shrink: 0; //for ie mobile
+    flex-shrink: 0; // for ie mobile
     color: #333;
     position: relative;
     justify-content: unset;

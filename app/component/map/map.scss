@@ -1209,8 +1209,6 @@ div.origin-popup {
     margin-left: -50%;
     margin-top: -9px;
     display: flex;
-
-    //flex-shrink: 0; /* work around iOS bug with flex sizes */
     white-space: nowrap;
 
     .map-route-number {
@@ -1225,8 +1223,6 @@ div.origin-popup {
 
 .map .leg-halo.call {
   stroke: gray;
-
-  //    stroke-opacity: 0.8;
 }
 
 .map .leg-halo {
@@ -1289,21 +1285,21 @@ div.map-click-prevent-overlay {
 }
 
 div.leaflet-control-scale.leaflet-control {
-  //front page
+  // front page
   margin-right: 30px;
   margin-bottom: 20px;
   cursor: grab;
 }
 
 .map.full .leaflet-control-scale.leaflet-control {
-  //stop & ininerary page mobile
+  // stop & ininerary page mobile
   margin-right: 60px;
   margin-bottom: 20px;
   cursor: grab;
 }
 
 .desktop .map.full .leaflet-control-scale.leaflet-control {
-  //stop & ininerary page mobile
+  // stop & ininerary page mobile
   margin-right: 20px;
   margin-bottom: 20px;
   cursor: grab;

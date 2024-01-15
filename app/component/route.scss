@@ -613,7 +613,6 @@ $margin-left-right: 21.3px;
 .route-header {
   display: flex;
 
-  //margin: 10px $margin-left-right;
   .route-number {
     min-width: 40px;
 
@@ -1082,7 +1081,7 @@ $margin-left-right: 21.3px;
     box-shadow: none;
   }
 
-  .trip-page-alert-container  {
+  .trip-page-alert-container {
     display: flex;
     height: 50px;
   }
@@ -1457,7 +1456,6 @@ nav.top-bar .title .route-number {
 
     span > span:nth-child(1) {
       span > svg.icon {
-        //margin-top: -4px;
         border: 1px solid rgba(255, 255, 255, 0.3);
         border-radius: $border-radius;
       }

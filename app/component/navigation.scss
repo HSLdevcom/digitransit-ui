@@ -4,10 +4,10 @@
     @return $nav-content-color;
   }
 
-  $background-color-brightness: (red($color) * 299)+ (green($color) * 587)+
-    (blue($color) * 114)/1000;
+  $background-color-brightness: (red($color) * 299) + (green($color) * 587) +
+    (blue($color) * 114) / 1000;
   $light-color-lightness: round(
-    (red(#fff) * 299)+ (green(#fff) * 587)+ (blue(#fff) * 114)/1000
+    (red(#fff) * 299) + (green(#fff) * 587) + (blue(#fff) * 114) / 1000
   );
 
   @if abs($background-color-brightness) < ($light-color-lightness / 3) {
@@ -26,8 +26,6 @@ $offcanvas-background-active: scale-color($gray, $lightness: -30%);
 /* top bar */
 $topbar-height: 40px;
 $top-navigation-icon-color: navbar-icon-color($top-bar-color) !default;
-
-//$top-navigation-icon-color: $top-menu-navigation-icon-color;
 $top-navigation-title-color: navbar-icon-color($top-bar-color);
 
 /* offcanvas */
@@ -159,7 +157,7 @@ $content-background-color: $background-color;
 }
 
 .navi-languages {
-  //desktop
+  // desktop
   #lang-select {
     border-bottom: 0;
 
@@ -244,7 +242,7 @@ $content-background-color: $background-color;
     border-top: 1px solid rgba(0, 0, 0, 0.2);
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
-    box-shadow: none; //0 2px 0 0 rgba(0,0,0,.06);
+    box-shadow: none;
     top: 50px;
     right: -25px;
     opacity: 1;
@@ -755,8 +753,6 @@ section.content {
   justify-content: space-between;
   color: #333;
   font-weight: 325;
-
-  //letter-spacing: -0.03em;
   align-items: center;
   text-align: right;
 }
