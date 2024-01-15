@@ -62,6 +62,7 @@ class TransitLeg extends React.Component {
     super(props);
     this.state = {
       showIntermediateStops: props.leg.intermediatePlaces.length < 2,
+      showAlternativeLegs: false,
     };
   }
 

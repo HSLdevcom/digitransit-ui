@@ -26,7 +26,6 @@ import { getWeatherData } from '../util/apiUtils';
 import Loading from './Loading';
 import { getSummaryPath } from '../util/path';
 import { boundWithMinimumArea } from '../util/geo-utils';
-import { validateServiceTimeRange } from '../util/timeUtils';
 import {
   planQuery,
   moreItinerariesQuery,
@@ -1559,20 +1558,6 @@ class ItineraryPage extends React.Component {
 
     let map = this.renderMap(from, to, viaPoints);
 
-    let earliestStartTime;
-    let latestArrivalTime;
-
-    if (this.selectedPlan?.itineraries) {
-      earliestStartTime = Math.min(
-        ...combinedItineraries.map(i => i.startTime),
-      );
-      latestArrivalTime = Math.max(...combinedItineraries.map(i => i.endTime));
-    }
-
-    const serviceTimeRange = validateServiceTimeRange(
-      config.itinerary.serviceTimeRange,
-      props.serviceTimeRange,
-    );
     const loadingPublicDone =
       state.loading === false && (error || props.loading === false);
     const waitForBikeAndWalk = () =>
@@ -1663,7 +1648,6 @@ class ItineraryPage extends React.Component {
           <ItineraryListContainer
             activeIndex={activeIndex}
             plan={this.selectedPlan}
-            serviceTimeRange={serviceTimeRange}
             routingErrors={this.selectedPlan.routingErrors}
             itineraries={selectedItineraries}
             params={params}
@@ -1672,6 +1656,7 @@ class ItineraryPage extends React.Component {
             bikeAndParkItinerariesToShow={this.bikeAndParkItinerariesToShow}
             walking={showWalkOptionButton}
             biking={showBikeOptionButton}
+            driving={showCarOptionButton || showParkRideOptionButton}
             showAlternativePlan={
               planHasNoItineraries &&
               hasAlternativeItineraries &&
@@ -1687,7 +1672,6 @@ class ItineraryPage extends React.Component {
             onDetailsTabFocused={this.onDetailsTabFocused}
             loadingMoreItineraries={state.loadingMoreItineraries}
             settingsNotification={showSettingsNotification}
-            driving={showCarOptionButton || showParkRideOptionButton}
             onlyHasWalkingItineraries={onlyHasWalkingItineraries}
             routingFeedbackPosition={state.routingFeedbackPosition}
           >
@@ -1750,9 +1734,6 @@ class ItineraryPage extends React.Component {
             <span aria-hidden={this.state.settingsOpen} ref={this.headerRef}>
               <ItineraryPageControls
                 params={params}
-                serviceTimeRange={serviceTimeRange}
-                startTime={earliestStartTime}
-                endTime={latestArrivalTime}
                 toggleSettings={this.toggleSearchSettings}
               />
               {error ||
@@ -1869,7 +1850,6 @@ class ItineraryPage extends React.Component {
               getActiveIndex(match.location, combinedItineraries)
             }
             plan={this.selectedPlan}
-            serviceTimeRange={serviceTimeRange}
             routingErrors={this.selectedPlan.routingErrors}
             itineraries={combinedItineraries}
             params={params}
@@ -1881,6 +1861,7 @@ class ItineraryPage extends React.Component {
             bikeAndParkItinerariesToShow={this.bikeAndParkItinerariesToShow}
             walking={showWalkOptionButton}
             biking={showBikeOptionButton}
+            driving={showCarOptionButton || showParkRideOptionButton}
             showAlternativePlan={
               planHasNoItineraries &&
               hasAlternativeItineraries &&
@@ -1896,7 +1877,6 @@ class ItineraryPage extends React.Component {
             onDetailsTabFocused={this.onDetailsTabFocused()}
             loadingMoreItineraries={state.loadingMoreItineraries}
             settingsNotification={showSettingsNotification}
-            driving={showCarOptionButton || showParkRideOptionButton}
             onlyHasWalkingItineraries={onlyHasWalkingItineraries}
             routingFeedbackPosition={state.routingFeedbackPosition}
           />
@@ -1911,9 +1891,6 @@ class ItineraryPage extends React.Component {
             <span aria-hidden={this.state.settingsOpen} ref={this.headerRef}>
               <ItineraryPageControls
                 params={params}
-                serviceTimeRange={serviceTimeRange}
-                startTime={earliestStartTime}
-                endTime={latestArrivalTime}
                 toggleSettings={this.toggleSearchSettings}
               />
               {error ||

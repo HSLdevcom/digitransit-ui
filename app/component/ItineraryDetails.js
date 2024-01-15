@@ -73,9 +73,6 @@ const ItineraryShape = PropTypes.shape({
 /* eslint-disable prettier/prettier */
 class ItineraryDetails extends React.Component {
   static propTypes = {
-    plan: PropTypes.shape({
-      date: PropTypes.number.isRequired,
-    }).isRequired,
     itinerary: ItineraryShape.isRequired,
     focusToPoint: PropTypes.func.isRequired,
     focusToLeg: PropTypes.func.isRequired,
