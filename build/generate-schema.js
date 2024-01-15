@@ -1,11 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies, no-console */
 const fs = require('fs');
-const fetch = require('node-fetch');
 const http = require('https');
-const { getIntrospectionQuery } = require('graphql');
 
-const introspectionQuery = getIntrospectionQuery();
-const outputJsonFilename = 'schema.json';
 const graphqlSchemaSource =
   process.env.SCHEMA_SRC ||
   'https://raw.githubusercontent.com/HSLdevcom/OpenTripPlanner/dev-2.x/src/main/resources/org/opentripplanner/apis/gtfs/schema.graphqls';
@@ -20,37 +16,6 @@ const copySchema = (src, dest) => {
     console.log(`${src} was copied to ${dest}`);
   });
 };
-
-fetch(
-  process.env.OTP_URL ||
-    'https://dev-api.digitransit.fi/routing/v2/routers/hsl/index/graphql',
-  {
-    method: 'post',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      query: introspectionQuery,
-    }),
-  },
-)
-  .then(response => {
-    console.log(response.headers);
-    return response.json();
-  })
-  .then(json => {
-    fs.writeFile(outputJsonFilename, JSON.stringify(json, null, 4), err => {
-      if (err) {
-        console.log(err);
-      } else {
-        console.log(`JSON saved to ${outputJsonFilename}`);
-      }
-    });
-  })
-  .catch(err => {
-    console.log(err);
-  });
 
 if (graphqlSchemaSource.includes('http')) {
   const file = fs.createWriteStream(outputGraphQLFilename);

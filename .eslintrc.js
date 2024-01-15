@@ -46,17 +46,6 @@ module.exports = {
     // compat
     'compat/compat': 'warn',
 
-    // graphql
-    'graphql/template-strings': [
-      'error',
-      {
-        env: 'relay',
-        // eslint-disable-next-line global-require
-        schemaJson: require('./build/schema.json').data,
-        tagName: 'graphql',
-      },
-    ],
-
     // prettier
     'prettier/prettier': [
       'error',
@@ -71,8 +60,51 @@ module.exports = {
   env: {
     browser: true,
   },
-  plugins: ['react', 'graphql', 'compat', 'prettier', 'jsx-a11y'],
+  plugins: ['react', 'compat', 'prettier', 'jsx-a11y'],
   settings: {
     polyfills: ['fetch', 'promises'],
   },
+  overrides: [
+    {
+      files: ['*.js'],
+      processor: '@graphql-eslint/graphql',
+    },
+    {
+      files: ['*.graphql'],
+      extends: [
+        'plugin:@graphql-eslint/operations-recommended',
+        'plugin:@graphql-eslint/relay',
+      ],
+      // Available rules can be found at https://the-guild.dev/graphql/eslint/rules/naming-convention
+      rules: {
+        '@graphql-eslint/no-deprecated': 'warn',
+        // Recommended naming conventions have some clashes with relay conventions
+        '@graphql-eslint/naming-convention': [
+          'error',
+          {
+            VariableDefinition: 'camelCase',
+          },
+        ],
+        // Relay directives caused errors and ignoring them didn't work for some reason
+        '@graphql-eslint/known-directives': 'off',
+
+        // These require parserOptions.operations to be defined
+        // but haven't been able to figure out if it is possible
+        // to define them with relay
+        '@graphql-eslint/known-fragment-names': 'off',
+        '@graphql-eslint/no-one-place-fragments': 'off',
+        '@graphql-eslint/no-undefined-variables': 'off',
+        '@graphql-eslint/no-unused-fragments': 'off',
+        '@graphql-eslint/no-unused-variables': 'off',
+        '@graphql-eslint/require-id-when-available': 'off',
+        '@graphql-eslint/require-import-fragment': 'off',
+        '@graphql-eslint/selection-set-depth': 'off',
+        '@graphql-eslint/unique-fragment-name': 'off',
+        '@graphql-eslint/unique-operation-name': 'off',
+      },
+      parserOptions: {
+        schema: './build/schema.graphql',
+      },
+    },
+  ],
 };
