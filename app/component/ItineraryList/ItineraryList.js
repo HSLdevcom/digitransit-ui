@@ -75,7 +75,7 @@ function ItineraryList(
         intermediatePlaces={intermediatePlaces}
         isCancelled={itineraryHasCancelation(itinerary)}
         showCancelled={showCancelled}
-        onlyHasWalkingItineraries={onlyHasWalkingItineraries}
+        hideBorder={onlyHasWalkingItineraries}
         zones={
           config.zones.stops && itinerary.legs ? getZones(itinerary.legs) : []
         }

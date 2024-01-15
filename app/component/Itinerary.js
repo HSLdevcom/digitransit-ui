@@ -243,7 +243,7 @@ const Itinerary = (
     breakpoint,
     intermediatePlaces,
     zones,
-    onlyHasWalkingItineraries,
+    hideBorder,
     lowestCo2value,
     ...props
   },
@@ -666,7 +666,7 @@ const Itinerary = (
       passive: props.passive,
       'bp-large': breakpoint === 'large',
       'cancelled-itinerary': props.isCancelled,
-      'no-border': onlyHasWalkingItineraries,
+      'no-border': hideBorder,
     },
   ]);
 
@@ -920,7 +920,7 @@ Itinerary.propTypes = {
   isCancelled: PropTypes.bool,
   showCancelled: PropTypes.bool,
   zones: PropTypes.arrayOf(PropTypes.string),
-  onlyHasWalkingItineraries: PropTypes.bool,
+  hideBorder: PropTypes.bool,
   lowestCo2value: PropTypes.number,
 };
 
@@ -930,7 +930,7 @@ Itinerary.defaultProps = {
   intermediatePlaces: [],
   isCancelled: false,
   showCancelled: false,
-  onlyHasWalkingItineraries: false,
+  hideBorder: false,
   lowestCo2value: 0,
 };
 
