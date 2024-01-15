@@ -39,7 +39,7 @@
     "test:update-all-snapshots": "yarn test:update-all-desktop-snapshots && yarn test:update-all-mobile-snapshots",
     "es-lint": "eslint .",
     "lint": "yarn run es-lint && yarn run stylelint",
-    "stylelint": "stylelint sass/**/*.scss app/**/*.scss --syntax scss",
+    "stylelint": "stylelint sass/**/*.scss app/**/*.scss",
     "build": "NODE_ENV=production && yarn prebuild && node --max_old_space_size=4096 node_modules/.bin/webpack --progress --color --display-error-details",
     "build-workspaces": "yarn build-components && yarn build-search-utils && yarn build-store",
     "win-build": "set NODE_ENV=production&& webpack --progress --color",
@@ -103,7 +103,7 @@
       "eslint"
     ],
     "*.scss": [
-      "stylelint --syntax scss"
+      "stylelint"
     ]
   },
   "git-precommit-checks": {
@@ -299,8 +299,8 @@
     "nyc": "15.1.0",
     "optimize-css-assets-webpack-plugin": "5.0.4",
     "playwright": "1.16.2",
-    "postcss": "8.2.1",
-    "postcss-flexbugs-fixes": "4.2.1",
+    "postcss": "8.4.33",
+    "postcss-flexbugs-fixes": "5.0.2",
     "postcss-loader": "^4",
     "prettier": "3.1.1",
     "relay-compiler": "14.1.0",
@@ -308,15 +308,15 @@
     "rollup-plugin-babel": "4.4.0",
     "rollup-plugin-commonjs": "10.1.0",
     "rollup-plugin-peer-deps-external": "2.2.4",
-    "rollup-plugin-postcss": "4.0.0",
+    "rollup-plugin-postcss": "4.0.2",
     "rollup-plugin-terser": "7.0.2",
     "sass-loader": "^10.4.1",
     "selenium-webdriver": "4.0.0-alpha.1",
     "sinon": "15.1.0",
     "stats-webpack-plugin": "0.7.0",
     "style-loader": "1.2.1",
-    "stylelint": "13.7.0",
-    "stylelint-scss": "3.18.0",
+    "stylelint": "15.11.0",
+    "stylelint-config-standard-scss": "11.1.0",
     "terser-webpack-plugin": "4.1.0",
     "url-loader": "3.0.0",
     "webpack": "^4.46.0",
