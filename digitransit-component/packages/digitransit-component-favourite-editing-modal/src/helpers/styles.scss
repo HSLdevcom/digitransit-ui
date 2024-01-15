@@ -6,6 +6,7 @@
   display: flex;
   position: relative;
   width: 100%;
+
   @include min-width(tablet) {
     min-height: 286px;
   }
@@ -17,9 +18,11 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+
     .favourite-edit-list-item:not(:first-child) {
       margin-top: 9px;
     }
+
     .favourite-edit-list-item {
       display: flex;
       flex-direction: row;
@@ -47,6 +50,7 @@
           padding: 0;
           border: 0;
         }
+
         .favourite-edit-list-arrow-hidden:focus {
           font-weight: bold;
           z-index: 10;
@@ -60,8 +64,10 @@
           min-width: 37px;
           height: 100%;
           cursor: move;
+
           .favourite-edit-list-item-ellipsis {
             height: 20px;
+
             svg {
               fill: #888;
               height: 20px;
@@ -69,12 +75,14 @@
             }
           }
         }
+
         .favourite-edit-list-item-icon {
           display: flex;
           justify-content: center;
           align-items: center;
           height: 100%;
           min-width: 24px;
+
           svg {
             position: relative;
             left: -3px;
@@ -83,6 +91,7 @@
             width: 22px;
             height: 22px;
           }
+
           &.place {
             svg {
               fill: var(--color);
@@ -90,6 +99,7 @@
               height: 24px;
             }
           }
+
           &.home,
           &.school,
           &.sport,
@@ -100,6 +110,7 @@
               height: 18px;
             }
           }
+
           &.work {
             svg {
               fill: var(--color);
@@ -109,14 +120,16 @@
           }
         }
       }
+
       .favourite-edit-list-item-content {
         display: flex;
         flex-direction: column;
         width: calc(100% - 69px - 86px);
+
         .favourite-edit-list-item-name {
           margin: 0;
           font-weight: var(--font-weight-medium);
-          color: #333333;
+          color: #333;
           font-size: 15px;
           line-height: 1;
           letter-spacing: -0.6px;
@@ -124,9 +137,10 @@
           overflow: hidden;
           text-overflow: ellipsis;
         }
+
         .favourite-edit-list-item-address {
           margin: 3px 0 0;
-          color: #666666;
+          color: #666;
           font-size: 12px;
           font-weight: 400;
           line-height: 1;
@@ -134,16 +148,19 @@
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
+
           &:empty {
             margin-top: 0;
           }
         }
       }
+
       .favourite-edit-list-item-right {
         display: flex;
         min-width: 86px;
         align-items: center;
         justify-content: space-evenly;
+
         .favourite-edit-list-item-edit {
           display: flex;
           justify-content: center;
@@ -151,12 +168,14 @@
           width: 22px;
           height: 48px;
           cursor: pointer;
+
           svg {
             fill: #888;
             width: 22px;
             height: 22px;
           }
         }
+
         .favourite-edit-list-item-remove {
           display: flex;
           justify-content: center;
@@ -164,6 +183,7 @@
           cursor: pointer;
           width: 18px;
           height: 48px;
+
           svg {
             fill: #888;
             width: 18px;
@@ -173,6 +193,7 @@
       }
     }
   }
+
   // Container spinner
   & > div {
     width: 100%;

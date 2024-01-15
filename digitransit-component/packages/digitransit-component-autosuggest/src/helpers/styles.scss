@@ -1,4 +1,3 @@
-/* stylelint-disable */
 @import '~@hsl-fi/sass/colors';
 @import '~@hsl-fi/sass/mixins/screen';
 @import '~@hsl-fi/sass/mixins/text';
@@ -14,7 +13,7 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle, map-buttons,
 
 @mixin default-focus-outline {
   /* First apply outline that is used in Edge and Firefox */
-  outline: 1px dotted #212121;
+
   /* Then override outline for webkit browsers like Chrome, this has no effect on other browsers */
   outline: 5px auto -webkit-focus-ring-color;
 }
@@ -26,38 +25,40 @@ input[type='text'] {
 .container {
   display: flex;
   width: 100%;
+
   .input {
     &.favourite {
       padding-left: 47px;
     }
+
     &.thin {
       height: 34px;
     }
+
     font-size: 16px;
-    font-family: 'Gotham Rounded A', 'Gotham Rounded B', 'Roboto', Arial,
-      Georgia, Serif;
+    font-family: 'Gotham Rounded A', 'Gotham Rounded B', Roboto, Arial, Georgia,
+      serif;
     display: flex;
     width: 100%;
     height: 44px;
     border-radius: 5px;
-    border: solid 1px #888888;
-    background-color: #ffffff;
+    border: solid 1px #888;
+    background-color: #fff;
     padding-left: 50px;
     padding-right: 44px;
     line-height: 1.2;
     letter-spacing: -0.5px;
     color: #333;
     box-sizing: border-box;
-    -webkit-appearance: none;
-    -moz-appearance: none;
     appearance: none;
+
     &:focus {
       background: #fff;
       outline: none;
       border: solid 1px var(--color);
-      box-shadow: none;
-      box-shadow: 0px 0px 2px 1px var(--hover-color);
+      box-shadow: 0 0 2px 1px var(--hover-color);
     }
+
     @include min-width(tablet) {
       font-size: 15px;
       height: 44px;
@@ -65,7 +66,7 @@ input[type='text'] {
     }
 
     &::placeholder {
-      color: #666666;
+      color: #666;
       opacity: 1;
       font-size: 15px;
     }
@@ -73,7 +74,7 @@ input[type='text'] {
 }
 
 .hasValue {
-  color: #333333;
+  color: #333;
 }
 
 .suggestionsContainerOpen {
@@ -99,6 +100,7 @@ input[type='text'] {
     padding: 0;
     box-sizing: border-box;
     background: white;
+
     li:hover {
       background: $search-result-text-highlight-background-color;
     }
@@ -124,6 +126,7 @@ input[type='text'] {
 .autosuggest-input-container {
   position: relative;
   width: 100%;
+
   &.origin {
     z-index: index($zindex, origin-input);
   }
@@ -150,6 +153,7 @@ input[type='text'] {
     width: 16px;
     height: 24px;
   }
+
   &.origin {
     svg {
       fill: $from-color;
@@ -157,6 +161,7 @@ input[type='text'] {
       height: 24px;
     }
   }
+
   &.destination {
     svg {
       fill: $to-color;
@@ -164,17 +169,19 @@ input[type='text'] {
       height: 24px;
     }
   }
+
   &.stop-route-station,
   &.favourite {
     svg {
-      fill: #888888;
+      fill: #888;
       width: 16px;
       height: 16px;
     }
   }
+
   &.origin-stop-near-you {
     svg {
-      fill: #888888;
+      fill: #888;
       width: 16px;
       height: 16px;
     }
@@ -185,18 +192,18 @@ button.clear-input {
   display: flex;
   position: absolute;
   padding: 14px 0;
-  right: 0px;
+  right: 0;
   width: 44px;
   height: 100%;
   color: var(--color);
   outline: none;
-  border: 0px;
-  margin: 0px;
+  border: 0;
+  margin: 0;
   justify-content: center;
   text-align: left;
   background: none;
   border-style: none;
-  border-width: 0px;
+  border-width: 0;
   cursor: pointer;
   font-family: inherit;
   background-color: transparent;
@@ -207,22 +214,26 @@ button.clear-input {
     width: 16px;
     height: 16px;
   }
+
   &:focus {
     background-color: transparent;
     color: inherit;
+
     @include default-focus-outline;
   }
+
   &:active {
     background-color: transparent;
     color: inherit;
   }
+
   &:hover {
     background-color: transparent;
     color: inherit;
   }
 }
 
-.sr-only:not(:focus):not(:active) {
+.sr-only:not(:focus, :active) {
   clip: rect(0 0 0 0);
   clip-path: inset(50%);
   height: 1px;
