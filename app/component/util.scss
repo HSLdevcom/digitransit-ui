@@ -43,6 +43,20 @@ $track-border: 2px solid $slider-gray;
   border: $track-border;
 }
 
+/* Thumb is the circle on the track */
+@mixin thumb {
+  box-shadow:
+    0 1.3px 0.2px #000,
+    0 0 1px #c1c1c1;
+  border: 3px solid #fff;
+  height: 24px;
+  width: 24px;
+  border-radius: 15px;
+  background: $slider-gray;
+  box-sizing: border-box; /* Default in webkit, not in Gecko */
+  cursor: ew-resize;
+}
+
 input[type='range'].slider {
   appearance: none; /* Hides the slider so that custom slider can be made */
   width: 100%; /* Specific width is required for Firefox. */
@@ -115,21 +129,6 @@ input[type='range'].slider {
 
     height: 24px;
   }
-}
-
-/* Thumb is the circle on the track */
-
-@mixin thumb {
-  box-shadow:
-    0 1.3px 0.2px #000,
-    0 0 1px #c1c1c1;
-  border: 3px solid #fff;
-  height: 24px;
-  width: 24px;
-  border-radius: 15px;
-  background: $slider-gray;
-  box-sizing: border-box; /* Default in webkit, not in Gecko */
-  cursor: ew-resize;
 }
 
 $thumb-color-pink: $favourite-color;
