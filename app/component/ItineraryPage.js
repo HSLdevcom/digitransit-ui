@@ -209,7 +209,7 @@ class ItineraryPage extends React.Component {
     this.setState({ itineraryTopics: undefined });
   }
 
-  toggleStreetMode = newStreetMode => {
+  selectStreetMode = newStreetMode => {
     const newState = {
       ...this.props.match.location,
       state: { summaryPageSelected: 0 },
@@ -218,11 +218,13 @@ class ItineraryPage extends React.Component {
       this.props.match.params.from,
       this.props.match.params.to,
     );
-    const indexPath = `${getSummaryPath(
+    let indexPath = getSummaryPath(
       this.props.match.params.from,
       this.props.match.params.to,
-    )}/${newStreetMode}`;
-
+    );
+    if (newStreetMode) {
+      indexPath = `${indexPath}/${newStreetMode}`;
+    }
     newState.pathname = basePath;
     this.context.router.replace(newState);
     newState.pathname = indexPath;
@@ -817,7 +819,7 @@ class ItineraryPage extends React.Component {
       !state.isFetchingWalkAndBike &&
       !Array.isArray(state.parkRidePlan?.itineraries)
     ) {
-      this.toggleStreetMode(''); // go back to showing normal itineraries
+      this.selectStreetMode(); // go back to showing normal itineraries
     }
     if (hash === 'bikeAndVehicle') {
       const bikeParkPlan = getBikeAndPublic(state.bikeParkPlan);
@@ -832,7 +834,7 @@ class ItineraryPage extends React.Component {
         !hasBikeAndPublicPlan &&
         !hasBikeParkPlan
       ) {
-        this.toggleStreetMode(''); // go back to showing normal itineraries
+        this.selectStreetMode(); // go back to showing normal itineraries
       }
     }
   }
@@ -1337,7 +1339,7 @@ class ItineraryPage extends React.Component {
     const { params } = match;
     const { hash, secondHash } = params;
     const streetModeSelectorCallbacks = {
-      toggleStreetMode: this.toggleStreetMode,
+      selectStreetMode: this.selectStreetMode,
       setStreetModeAndSelect: this.setStreetModeAndSelect,
     };
 

@@ -13,7 +13,7 @@ export const StreetModeSelector = (
     showBikeAndPublicOptionButton,
     showCarOptionButton,
     showParkRideOptionButton,
-    toggleStreetMode,
+    selectStreetMode,
     setStreetModeAndSelect,
     weatherData,
     walkPlan,
@@ -69,7 +69,7 @@ export const StreetModeSelector = (
               icon="icon-icon_cyclist"
               name="bikeAndVehicle"
               plan={bikeAndVehicle}
-              onClick={toggleStreetMode}
+              onClick={selectStreetMode}
             />
           )}
 
@@ -78,7 +78,7 @@ export const StreetModeSelector = (
               icon="icon-icon_car-withoutBox"
               name="parkAndRide"
               plan={parkRidePlan}
-              onClick={toggleStreetMode}
+              onClick={selectStreetMode}
             />
           )}
           {showCarOptionButton && (
@@ -110,7 +110,7 @@ StreetModeSelector.propTypes = {
   showBikeAndPublicOptionButton: PropTypes.bool,
   showCarOptionButton: PropTypes.bool,
   showParkRideOptionButton: PropTypes.bool,
-  toggleStreetMode: PropTypes.func.isRequired,
+  selectStreetMode: PropTypes.func.isRequired,
   setStreetModeAndSelect: PropTypes.func.isRequired,
   walkPlan: PropTypes.object,
   bikePlan: PropTypes.object,
