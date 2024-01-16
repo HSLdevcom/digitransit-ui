@@ -34,6 +34,7 @@ const translations = {
     'choose-time': 'Choose time',
     ready: 'Ready',
     cancel: 'Cancel',
+    'invalid-input': 'The time you entered is invalid',
   },
   fi: {
     today: 'Tänään',
@@ -53,6 +54,7 @@ const translations = {
     'choose-time': 'Valitse aika',
     ready: 'Valmis',
     cancel: 'Peruuta',
+    'invalid-input': 'Syöttämäsi aika on virheellinen',
   },
   sv: {
     today: 'I dag',
@@ -72,6 +74,7 @@ const translations = {
     'choose-time': 'Välj tid',
     ready: 'Färdig',
     cancel: 'Avbryt',
+    'invalid-input': 'Tiden du angav är felaktig',
   },
 };
 

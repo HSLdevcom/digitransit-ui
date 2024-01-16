@@ -449,7 +449,7 @@ $input-color: var(--input-color);
         background: none;
         width: 50px;
         margin-left: 10px;
-        color: #333333;
+        color: var(--input-color);
         height: 1.5265rem;
       }
       .mobile-input-display {
@@ -542,7 +542,6 @@ $input-color: var(--input-color);
           display: inline-block;
           font-family: inherit;
           line-height: 1.33;
-          color: #333333;
           padding-left: 46px;
           &:focus {
             outline: none;

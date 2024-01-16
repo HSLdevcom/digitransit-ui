@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
 import moment from 'moment-timezone';
 import Select from 'react-select';
+import i18next from 'i18next';
 import utils from './utils';
 import styles from './styles.scss';
 
@@ -19,6 +20,7 @@ import styles from './styles.scss';
  * @param {node} icon                   JSX for icon to show in input
  * @param {boolean} disableTyping       Set to true to disable typing in the input
  * @param {boolean} datePicker          Is the picker DatePicker or TimePicker
+ * @param {function} validateTime       Function to validate user input
  *
  * @example
  * <DesktopDatetimepicker
@@ -44,69 +46,20 @@ function DesktopDatetimepicker({
   disableTyping,
   timeZone,
   datePicker,
+  validateTime,
+  setinvalidInput,
+  translationSettings,
 }) {
   moment.tz.setDefault(timeZone);
   const [displayValue, changeDisplayValue] = useState(getDisplay(value));
   const [typing, setTyping] = useState(false);
   const [showAllOptions, setShowAllOptions] = useState(true);
-  const [validInput, setValidInput] = useState(true);
   useEffect(() => {
     changeDisplayValue(getDisplay(value));
-    setValidInput(true);
+    if (!datePicker) {
+      setinvalidInput(false);
+    }
   }, [value]);
-  useEffect(() => {
-    document.body.style.setProperty(
-      '--input-color',
-      validInput ? 'black' : 'red',
-    );
-  }, [validInput]);
-
-  const validateClock = (hours, minutes) => {
-    const hoursValid = !Number.isNaN(hours) && hours >= 0 && hours <= 23;
-    const minutesLen = minutes > 10 ? 2 : 1;
-    const minutesValid =
-      !Number.isNaN(minutes) && minutesLen === 2
-        ? minutes >= 0 && minutes <= 59
-        : minutes >= 0 && minutes <= 5;
-    return hoursValid && minutesValid;
-  };
-  const validateTime = inputValue => {
-    if (inputValue.length <= 2) {
-      // Too many options, don't  validate
-      return undefined;
-    }
-    if (inputValue.length === 3) {
-      let hours;
-      let minutes;
-      if (inputValue.includes(':')) {
-        [hours, minutes] = inputValue.split(':');
-      } else if (inputValue.startsWith('0')) {
-        hours = inputValue.substring(0, inputValue.length - 1);
-        minutes = inputValue.substring(inputValue.length - 1 || 0);
-        if (Number(minutes) > 5) {
-          return false;
-        }
-      } else {
-        hours = inputValue.substring(0, inputValue.length - 2);
-        minutes = inputValue.substring(inputValue.length - 2) || 0;
-      }
-      return validateClock(Number(hours), Number(minutes));
-    }
-    if (inputValue.length === 5 || inputValue.length === 4) {
-      const values = inputValue.split(':');
-      const hours = values[0];
-      const minutes = values[1];
-      if (
-        inputValue.startsWith('0') &&
-        minutes.length === 1 &&
-        Number(minutes) > 5
-      ) {
-        return false;
-      }
-      return validateClock(Number(hours), Number(minutes));
-    }
-    return undefined;
-  };
 
   // newValue is string
   const handleTimestamp = newValue => {
@@ -121,14 +74,12 @@ function DesktopDatetimepicker({
     }
     onChange(asNumber);
   };
-  function isValidInput(str) {
+  function isinvalidInput(str) {
     const regex = /[a-zA-Z§ÄäÖö.-\s]/g;
     if (str.length < displayValue?.length) {
       const valid = validateTime(str);
-      // If valid == undefined it means that there is only 2 digits left
-      if (valid === undefined || valid !== validInput) {
-        setValidInput(true);
-      }
+      setinvalidInput(valid);
+
       return true;
     }
     if (regex.test(str)) {
@@ -136,9 +87,7 @@ function DesktopDatetimepicker({
     }
     const time = str.length > 5 ? str.slice(0, -1) : str;
     const valid = validateTime(time);
-    if (valid !== undefined && valid !== validInput) {
-      setValidInput(valid);
-    }
+    setinvalidInput(valid);
     return str.length <= 5;
   }
   const onInputChange = (newValue, { action }) => {
@@ -147,7 +96,7 @@ function DesktopDatetimepicker({
     } else if (showAllOptions) {
       setShowAllOptions(false);
     }
-    if (disableTyping || (newValue && !isValidInput(newValue))) {
+    if (disableTyping || (newValue && !isinvalidInput(newValue))) {
       return;
     }
     if (action === 'input-change') {
@@ -181,6 +130,7 @@ function DesktopDatetimepicker({
       ? option.label.split(':')[0] === comp.split(':')[0]
       : true;
   };
+  const ariaError = i18next.t('invalid-input', translationSettings);
   return (
     <>
       <label className={styles['combobox-container']} htmlFor={inputId}>
@@ -191,7 +141,11 @@ function DesktopDatetimepicker({
         <Select
           aria-labelledby={labelId}
           ariaLiveMessages={{
-            guidance: () => {
+            guidance: context => {
+              // When user types invalid value, isDisabled becomes undefined instead of false
+              if (context.isDisabled === undefined) {
+                return ariaError;
+              }
               return '.'; // this can't be empty for some reason
             },
             onChange: () => {
@@ -229,10 +183,14 @@ function DesktopDatetimepicker({
                 }
                 setTyping(false);
               }
-              setValidInput(true);
+              if (!datePicker) {
+                setinvalidInput(false);
+              }
               return;
             }
-            setValidInput(true);
+            if (!datePicker) {
+              setinvalidInput(false);
+            }
             handleTimestamp(time.value);
           }}
           components={{
@@ -247,15 +205,15 @@ function DesktopDatetimepicker({
             return '';
           }}
           filterOption={(option, input) => {
+            if (datePicker) {
+              return true;
+            }
             const completeInput =
               input.length === 5 ||
               (input.length === 4 && input.split(':')[0].length === 1);
             const isMod15 = option.label.split(':')[1] % 15 === 0;
             const minuteInput = input.split(':')[1]?.length === 1;
 
-            if (datePicker) {
-              return true;
-            }
             if (showAllOptions && isMod15) {
               return true;
             }
@@ -307,8 +265,8 @@ function DesktopDatetimepicker({
                 setTyping(false);
               }
             }
-            if (isValidInput) {
-              setValidInput(true);
+            if (!datePicker) {
+              setinvalidInput(false);
             }
           }}
           onKeyDown={e => {
@@ -334,12 +292,18 @@ DesktopDatetimepicker.propTypes = {
   disableTyping: PropTypes.bool,
   timeZone: PropTypes.string,
   datePicker: PropTypes.bool,
+  validateTime: PropTypes.func,
+  setinvalidInput: PropTypes.func,
+  translationSettings: PropTypes.node,
 };
 
 DesktopDatetimepicker.defaultProps = {
   disableTyping: false,
   timeZone: 'Europe/Helsinki',
   datePicker: false,
+  validateTime: () => null,
+  setinvalidInput: () => null,
+  translationSettings: { lng: 'fi' },
 };
 
 export default DesktopDatetimepicker;

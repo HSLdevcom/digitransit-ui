@@ -16,13 +16,14 @@ function MobileTimepicker({
   icon,
   timeZone,
   validate,
+  validateInputTime,
+  setinvalidInput,
 }) {
   const [inputValue, changeInputValue] = useState(getDisplay(value));
   moment.tz.setDefault(timeZone);
   const inputId = `${id}-input`;
   const labelId = `${id}-label`;
   const timeInputRef = useRef(null);
-
   useLayoutEffect(() => {
     if (timeInputRef.current) {
       timeInputRef.current.focus();
@@ -47,6 +48,8 @@ function MobileTimepicker({
           }}
           onChange={event => {
             let newValue = event.target.value;
+            const valid = validateInputTime(newValue);
+            setinvalidInput(valid);
             if (
               // number typed as first char => clear rest of the input
               newValue.match(/[0-9]{3}:[0-9]{2}/) &&
@@ -79,6 +82,8 @@ MobileTimepicker.propTypes = {
   icon: PropTypes.node,
   timeZone: PropTypes.string,
   validate: PropTypes.func.isRequired,
+  validateInputTime: PropTypes.func.isRequired,
+  setinvalidInput: PropTypes.func.isRequired,
 };
 
 MobileTimepicker.defaultProps = {
