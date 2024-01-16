@@ -18,6 +18,7 @@ const getDefaultProps = () => ({
     end: 1538081999,
   },
   toggleSettings: () => {},
+  translationSettings: { lng: 'fi' },
 });
 
 describe('<SearchSettings />', () => {
