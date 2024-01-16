@@ -261,7 +261,7 @@ class ItineraryDetails extends React.Component {
 
     return (
       <div className="itinerary-tab">
-        <h2 className="sr-only" key="sr-label">
+        <h2 className="sr-only" key="srlabel">
           <FormattedMessage
             id="summary-page.row-label"
             values={{
@@ -346,7 +346,7 @@ class ItineraryDetails extends React.Component {
               >
                 {disclaimers}
                 <ItineraryLegs
-		  key="itin-legs"
+		  key="itinerarylegs"
                   fares={fares}
                   itinerary={itinerary}
                   focusToPoint={this.props.focusToPoint}
@@ -354,7 +354,7 @@ class ItineraryDetails extends React.Component {
                   changeHash={this.props.changeHash}
                   tabIndex={itineraryIndex - 1}
                 />
-                {config.showRouteInformation && <RouteInformation key="routeInfo"/>}
+                {config.showRouteInformation && <RouteInformation key="routeinfo"/>}
               </div>
               {config.showCO2InItinerarySummary && (
                 <Emissions
