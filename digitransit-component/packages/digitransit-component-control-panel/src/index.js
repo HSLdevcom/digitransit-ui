@@ -429,7 +429,7 @@ class CtrlPanel extends React.Component {
   static BubbleDialog = BubbleDialog;
 
   static propTypes = {
-    children: PropTypes.node,
+    children: PropTypes.arrayOf(PropTypes.node),
     language: PropTypes.string.isRequired,
     position: PropTypes.string.isRequired,
     fontWeights: PropTypes.shape({
