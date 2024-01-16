@@ -923,19 +923,24 @@ class ItineraryPage extends React.Component {
               this.pendingWeatherHash = undefined;
               let weatherData = {};
               if (Array.isArray(res) && res.length === 3) {
-                weatherData = {
-                  temperature: res[0].ParameterValue,
-                  windSpeed: res[1].ParameterValue,
-                  weatherHash,
-                  time,
-                  // Icon id's and descriptions: www.ilmatieteenlaitos.fi/latauspalvelun-pikaohje ->  Sääsymbolien selitykset ennusteissa
-                  iconId: checkDayNight(
-                    res[2].ParameterValue,
-                    timem,
-                    from.lat,
-                    from.lon,
-                  ),
-                };
+                const temperature = Number(res[0].ParameterValue);
+                const windSpeed = Number(res[1].ParameterValue);
+                const iconIndex = parseInt(res[2].ParameterValue, 10);
+
+                if (
+                  !Number.isNaN(temperature) &&
+                  !Number.isNaN(windSpeed) &&
+                  !Number.isNaN(iconIndex)
+                ) {
+                  weatherData = {
+                    weatherHash,
+                    time,
+                    temperature,
+                    windSpeed,
+                    // Icon spec: www.ilmatieteenlaitos.fi/latauspalvelun-pikaohje -> Sääsymbolien selitykset ennusteissa
+                    iconId: checkDayNight(iconIndex, timem, from.lat, from.lon),
+                  };
+                }
               }
               this.setState({ isFetchingWeather: false, weatherData });
             }

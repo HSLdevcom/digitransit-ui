@@ -34,20 +34,19 @@ export const StreetModeSelector = (
         ],
       }
     : {};
+  const showWeather =
+    !config.hideWeatherLabel &&
+    (showWalkOptionButton ||
+      showBikeOptionButton ||
+      showBikeAndPublicOptionButton);
+
   return (
     <div className="street-mode-selector-container">
       <StreetModeSelectorShimmer loading={loading} />
       {!loading && (
         <div className="street-mode-button-row">
-          {!config.hideWeatherLabel && (
-            <StreetModeSelectorWeatherLabel
-              active={
-                showWalkOptionButton ||
-                showBikeOptionButton ||
-                showBikeAndPublicOptionButton
-              }
-              weatherData={weatherData}
-            />
+          {showWeather && (
+            <StreetModeSelectorWeatherLabel weatherData={weatherData} />
           )}
           {showWalkOptionButton && (
             <StreetModeSelectorButton
