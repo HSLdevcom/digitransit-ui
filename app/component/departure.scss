@@ -31,8 +31,10 @@
 
   .departure-canceled {
     color: $cancelation-red;
+
     .icon-container {
       padding-right: $padding-xsmall;
+
       .icon {
         color: white;
         fill: $cancelation-red;
@@ -43,9 +45,12 @@
 
 .route-detail-text {
   color: $black;
+
   @include font-narrow-book;
+
   font-size: $font-size-normal;
   padding-right: 1em;
+
   .vehicle-number {
     mask-image: none;
   }
@@ -62,6 +67,7 @@
 
 .time {
   @include font-narrow-medium;
+
   width: 3.25em;
   padding-right: 0.25em;
   margin-right: 0.25em;
@@ -70,6 +76,7 @@
 
 .vehicle-number {
   @include font-narrow-medium;
+
   padding: 0 5px;
   vertical-align: top;
   overflow: hidden;
@@ -81,6 +88,7 @@
     black
   );
 }
+
 .departure > div,
 .departure > span {
   vertical-align: middle;
@@ -110,18 +118,23 @@
     &.bus {
       background: url(last_stop_svg($bus-color));
     }
+
     &.tram {
       background: url(last_stop_svg($tram-color));
     }
+
     &.rail {
       background: url(last_stop_svg($rail-color));
     }
+
     &.subway {
       background: url(last_stop_svg($metro-color));
     }
+
     &.ferry {
       background: url(last_stop_svg($ferry-color));
     }
+
     &.citybike {
       background: url(last_stop_svg($citybike-color));
     }
@@ -150,6 +163,7 @@
 
 .platform-short {
   @include font-narrow-book;
+
   width: 3em;
   color: $gray;
   font-size: $font-size-small;
@@ -158,6 +172,7 @@
 
 .platform-number {
   @include font-narrow-book;
+
   margin-left: 0.5em;
   color: $gray;
   font-size: $font-size-small;
@@ -166,7 +181,7 @@
 
 .platform-code {
   background: #f4f4f5;
-  color: #333333;
+  color: #333;
   width: 28px;
   height: 24px;
   border-radius: 4px;
@@ -174,6 +189,7 @@
   font-weight: $font-weight-medium;
   text-align: center;
   margin-left: 13px;
+
   &.empty {
     background: none;
   }
@@ -185,11 +201,14 @@
   position: relative;
   display: flex;
   min-width: 64px;
+
   &.vertical {
     max-width: 100%;
+
     .vehicle-number {
       max-width: 100%;
     }
+
     .empty {
       &.return-citybike {
         height: 13px;
@@ -218,10 +237,12 @@
     width: 50px;
   }
 }
+
 .desktop .stop-page .departure {
   .time {
     margin-right: 30px;
   }
+
   & .route-number {
     width: 100px;
   }
@@ -232,6 +253,7 @@
     display: flex;
     height: 20px;
     margin-top: 8px;
+
     h4 {
       text-transform: none;
       margin-top: 0;
@@ -240,17 +262,21 @@
       font-size: 15px;
     }
   }
+
   .capacity-info-explanation {
     margin: 0;
     margin-left: 36px;
     font-size: 13px;
   }
+
   .explanations-heading {
     font-size: 15px;
   }
+
   .capacity-heading {
     margin-bottom: 5px;
   }
+
   .capacity-text {
     margin-top: 0;
   }
@@ -262,12 +288,15 @@
 
 .departure-row {
   @include font-narrow-book;
+
   font-weight: normal;
   display: flex;
   align-items: center;
   border-bottom: 1px solid #ddd;
+
   td {
     position: relative;
+
     a {
       position: absolute;
       top: 0;
@@ -276,9 +305,11 @@
       left: 0;
       z-index: 1;
     }
+
     a:focus {
       outline: none;
     }
+
     .platform-code {
       display: flex;
       justify-content: center;
@@ -287,10 +318,12 @@
 
   .capacity-cell {
     width: 25px;
+
     .capacity-icon-container {
       padding-left: 7px;
       margin-top: 15px;
       cursor: pointer;
+
       svg {
         margin-top: 4px;
       }
@@ -300,27 +333,35 @@
   .headsign {
     color: #333;
   }
+
   .route-arrival {
     color: #333;
+
     @include font-medium;
+
     font-size: 0.75rem;
     padding-right: 8px;
     position: relative;
     top: -1px;
+
     &.realtime {
       color: $realtime-color;
     }
+
     &.canceled {
       color: $cancelation-red;
     }
   }
+
   .route-number-container {
-    background-color: currentColor;
+    background-color: currentcolor;
     position: relative;
     border-radius: 3px;
+
     a {
       justify-content: center;
     }
+
     .route-number {
       justify-content: center;
       align-items: center;
@@ -331,23 +372,28 @@
       min-width: unset;
       white-space: nowrap;
       overflow: hidden;
+
       .icon-container {
         position: unset;
       }
     }
+
     .icon-container {
       position: absolute;
       left: -3px;
       bottom: -5px;
+
       .icon-circle {
         stroke-width: 12;
         stroke: white;
       }
+
       .icon {
         width: 1em;
         height: 1em;
         display: block;
         overflow: visible;
+
         &.circle {
           width: 0.75em;
           height: 0.75em;

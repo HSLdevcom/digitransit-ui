@@ -14,6 +14,7 @@
 
   .itinerary-profile-item-title {
     @include font-book;
+
     color: $gray;
     display: inline-block;
   }
@@ -23,11 +24,14 @@
     display: inline-block;
     margin-left: 0.25rem;
   }
+
   @media print {
     margin-bottom: 16px;
   }
+
   button {
     display: none;
+
     @include min-width(tablet) {
       display: flex;
     }

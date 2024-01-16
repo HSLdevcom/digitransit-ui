@@ -1,11 +1,11 @@
 button {
-  border: 0px;
-  margin: 0px;
-  padding: 0px;
+  border: 0;
+  margin: 0;
+  padding: 0;
   font-size: 100%;
   background: none;
   border-style: none;
-  border-width: 0px;
+  border-width: 0;
   cursor: pointer;
   font-family: $button-font-family;
   position: relative;
@@ -14,18 +14,19 @@ button {
   display: inline-block;
   text-decoration: none;
   font-weight: inherit;
-  -webkit-appearance: none;
-  -moz-appearance: none;
+  appearance: none;
   color: inherit;
 
   &:focus {
     background-color: transparent;
     color: inherit;
   }
+
   &:active {
     background-color: transparent;
     color: inherit;
   }
+
   &:hover {
     background-color: transparent;
     color: inherit;

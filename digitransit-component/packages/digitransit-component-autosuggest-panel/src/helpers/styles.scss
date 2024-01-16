@@ -1,12 +1,12 @@
-/* stylelint-disable */
 @import '~@hsl-fi/sass/colors';
 @import '~@hsl-fi/sass/mixins/screen';
 @import '~@hsl-fi/sass/mixins/text';
 
-$zindex: base, map-container, map-gradient, map-fullscreen-toggle,
-  map-buttons, context-panel, search-panel, search-overlay, stop-route-station-input, destination-input,
-  viapoint-input-5, viapoint-input-4, viapoint-input-3, viapoint-input-2,
-  viapoint-input-1, origin-input, search-input-focus, search-input-icon, rectangle, autosuggest-suggestion-container, front;
+$zindex: base, map-container, map-gradient, map-fullscreen-toggle, map-buttons,
+  context-panel, search-panel, search-overlay, stop-route-station-input,
+  destination-input, viapoint-input-5, viapoint-input-4, viapoint-input-3,
+  viapoint-input-2, viapoint-input-1, origin-input, search-input-focus,
+  search-input-icon, rectangle, autosuggest-suggestion-container, front;
 
 .autosuggest-panel {
   width: 100%;
@@ -16,10 +16,11 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle,
   font-size: 24px;
   font-weight: var(--font-weight-medium);
   letter-spacing: -0.8px;
-  color: #333333;
+  color: #333;
   line-height: 1;
   margin-bottom: 17px;
   margin-top: unset;
+
   @include min-width(tablet) {
     letter-spacing: -0.8px;
     line-height: 27px;
@@ -31,6 +32,7 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle,
 .destination-input-container {
   display: flex;
   flex: 1 0 100%;
+
   input[type='text'] {
     margin: 0;
   }
@@ -48,17 +50,20 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle,
   .viapoint-container {
     display: flex;
     flex: 1 0 100%;
-
     min-height: 50px;
+
     &:first-child {
       margin-top: 6px;
     }
+
     &:not(:first-child) {
       margin-top: 3px;
     }
+
     &:last-child {
       margin-bottom: 6px;
     }
+
     .light-gray-background {
       display: flex;
       padding: 3px 0;
@@ -72,10 +77,10 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle,
         min-width: 27px;
         justify-content: center;
         align-items: center;
+
         svg {
           fill: #888;
           height: 20px;
-
         }
       }
 
@@ -83,9 +88,11 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle,
         display: flex;
         align-items: center;
         width: 100%;
+
         input[type='text'] {
           margin: 0;
         }
+
         &.viapoint-1 > div.viapoint {
           z-index: index($zindex, viapoint-input-1);
         }
@@ -114,7 +121,7 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle,
   font-size: 13px;
   font-weight: normal;
   letter-spacing: -0.36px;
-  color: #333333;
+  color: #333;
   padding-left: 27px;
   padding-top: 12px;
   padding-bottom: 10px;
@@ -135,6 +142,7 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle,
     order: 1;
     border-left: none;
   }
+
   & > div:nth-child(2) {
     order: 2;
     border-left: 1px solid rgba(151, 151, 151, 0.2);
@@ -153,9 +161,11 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle,
   text-align: center;
   max-height: 50px;
   min-width: var(--width);
+
   & + .itinerary-search-control {
     border-left: 1px solid rgba(151, 151, 151, 0.2);
   }
+
   .opposite {
     display: flex;
     justify-content: center;
@@ -163,11 +173,13 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle,
     height: 100%;
     min-width: 40px;
     cursor: pointer;
+
     svg {
       width: 19px;
       height: 17px;
     }
   }
+
   .add-via-point {
     display: flex;
     justify-content: center;
@@ -175,11 +187,13 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle,
     height: 100%;
     min-width: 40px;
     cursor: pointer;
+
     svg {
       width: 20px;
       height: 22px;
     }
   }
+
   .add-via-point-slack {
     display: flex;
     justify-content: center;
@@ -187,11 +201,13 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle,
     height: 100%;
     min-width: 47px;
     cursor: pointer;
+
     svg {
       width: 18px;
       height: 19px;
     }
   }
+
   .remove-via-point {
     display: flex;
     justify-content: center;
@@ -200,6 +216,7 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle,
     max-height: 44px;
     min-width: 40px;
     cursor: pointer;
+
     svg {
       width: 14px;
       height: 14px;
@@ -209,14 +226,15 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle,
 
 .combobox-icon {
   color: var(--color);
-  border-left: solid #888888 1px;
+  border-left: solid #888 1px;
   height: 35px;
 
   &.time-input-icon {
     padding: 9px 13px 0 13px;
-      svg {
-        width: 18px;
-        height: 19px;
+
+    svg {
+      width: 18px;
+      height: 19px;
     }
   }
 }
@@ -226,12 +244,13 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle,
   position: relative;
   height: 9px;
   z-index: index($zindex, 'rectangle');
+
   .rectangle {
     position: absolute;
     width: 4px;
     height: 21px;
     border-radius: 2px;
-    background-color: #dddddd;
+    background-color: #ddd;
     margin-left: 25px;
     margin-top: -5px;
   }
