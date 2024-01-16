@@ -86,7 +86,7 @@ function DatetimepickerContainer(
 
   const initialTime = match.location.query.time
     ? parseInt(match.location.query.time, 10)
-    : 0;
+    : undefined;
 
   return (
     <Datetimepicker
