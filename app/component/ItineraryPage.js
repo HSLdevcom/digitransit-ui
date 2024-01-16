@@ -911,11 +911,11 @@ class ItineraryPage extends React.Component {
         weatherHash !== this.pendingWeatherHash
       ) {
         this.pendingWeatherHash = weatherHash;
-        const timem = moment(time);
+        const momentTime = moment(time);
         this.setState({ isFetchingWeather: true });
         getWeatherData(
           this.context.config.URL.WEATHER_DATA,
-          timem,
+          momentTime,
           from.lat,
           from.lon,
         )
@@ -940,7 +940,12 @@ class ItineraryPage extends React.Component {
                     temperature,
                     windSpeed,
                     // Icon spec: www.ilmatieteenlaitos.fi/latauspalvelun-pikaohje -> Sääsymbolien selitykset ennusteissa
-                    iconId: checkDayNight(iconIndex, timem, from.lat, from.lon),
+                    iconId: checkDayNight(
+                      iconIndex,
+                      momentTime,
+                      from.lat,
+                      from.lon,
+                    ),
                   };
                 }
               }
