@@ -564,7 +564,6 @@ const withRelay = createFragmentContainer(
           rentedBike
           startTime
           endTime
-          mode
           interlineWithPreviousLeg
           distance
           duration

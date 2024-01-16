@@ -4,7 +4,11 @@
   flex-shrink: 0;
   background-color: $white;
 
-  button, button.disabled, button[disabled], .button.disabled, .button[disabled] {
+  button,
+  button.disabled,
+  button[disabled],
+  .button.disabled,
+  .button[disabled] {
     font-size: 0.9375em;
     width: 100%;
     min-height: 30px;
@@ -22,12 +26,14 @@
     &:last-child {
       margin-right: 0;
     }
+
     &:hover {
       border: 1px solid #333;
       color: #333;
       background-color: $white;
     }
   }
+
   &.bp-large {
     margin: 30px 4.0625em 30px 3.4375em;
 

@@ -2,6 +2,8 @@ node_modules
 _static
 static
 app/buildInfo.js
+build/schema.graphql
+digitransit-search-util/packages/digitransit-search-util-query-utils/schema/schema.graphql
 digitransit-component/packages/**/lib
 digitransit-store/packages/**/lib
 digitransit-search-util/packages/**/lib
