@@ -416,13 +416,13 @@ $itinerary-tab-switch-height: 48px;
 
 .itinerary-summary {
   position: relative;
+  width: 400px;
+  margin: 0 60px;
 
   .divider-top,
   .divider-bottom {
     position: relative;
-    width: 400px;
     height: 1px;
-    left: -5px;
     border-top: 1px solid #ddd;
     box-sizing: border-box;
 

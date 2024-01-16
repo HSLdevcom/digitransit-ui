@@ -38,7 +38,6 @@ function ItineraryList(
     showAlternativePlan,
     separatorPosition,
     loadingMoreItineraries,
-    loading,
     driving,
     onlyHasWalkingItineraries,
     routingErrors,
@@ -75,7 +74,7 @@ function ItineraryList(
         intermediatePlaces={intermediatePlaces}
         isCancelled={itineraryHasCancelation(itinerary)}
         showCancelled={showCancelled}
-        onlyHasWalkingItineraries={onlyHasWalkingItineraries}
+        hideBorder={onlyHasWalkingItineraries}
         zones={
           config.zones.stops && itinerary.legs ? getZones(itinerary.legs) : []
         }
@@ -142,10 +141,6 @@ function ItineraryList(
     }
     if (routingFeedbackPosition) {
       summaries.splice(routingFeedbackPosition, 0, <RoutingFeedbackPrompt />);
-    }
-
-    if (loading) {
-      return null;
     }
 
     const canceledItinerariesCount = itineraries.filter(
@@ -309,7 +304,6 @@ ItineraryList.propTypes = {
   showAlternativePlan: PropTypes.bool,
   separatorPosition: PropTypes.number,
   loadingMoreItineraries: PropTypes.string,
-  loading: PropTypes.bool.isRequired,
   onlyHasWalkingItineraries: PropTypes.bool,
   routingFeedbackPosition: PropTypes.number,
 };

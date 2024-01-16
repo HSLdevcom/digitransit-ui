@@ -55,20 +55,22 @@ const TripShape = PropTypes.shape({
   }),
 });
 
-const ItineraryShape = PropTypes.shape({
-  legs: PropTypes.arrayOf(
-    PropTypes.shape({
-      route: RouteShape,
-      trip: TripShape,
-      distance: PropTypes.number,
-      fares: PropTypes.arrayOf(FareShape),
+const ItineraryShape = PropTypes.oneOfType([
+  PropTypes.any,
+  PropTypes.shape({
+    legs: PropTypes.arrayOf(
+      PropTypes.shape({
+        route: RouteShape,
+        trip: TripShape,
+        distance: PropTypes.number,
+        fares: PropTypes.arrayOf(FareShape),
+      }),
+    ),
+    emissionsPerPerson: PropTypes.shape({
+      co2: PropTypes.number,
     }),
-  ),
-  fares: PropTypes.arrayOf(FareShape),
-  emissionsPerPerson: PropTypes.shape({
-    co2: PropTypes.number,
   }),
-});
+]);
 
 /* eslint-disable prettier/prettier */
 class ItineraryDetails extends React.Component {
@@ -90,6 +92,8 @@ class ItineraryDetails extends React.Component {
   static defaultProps = {
     hideTitle: false,
     currentLanguage: 'fi',
+    carItinerary: undefined,
+    changeHash: () => {},
   };
 
   static contextTypes = {
@@ -100,11 +104,7 @@ class ItineraryDetails extends React.Component {
     getStore: PropTypes.func.isRequired,
   };
 
-  handleFocus = (lat, lon) => {
-    this.props.focusToPoint(lat, lon);
-  };
-
-  shouldShowDisclaimer = config => {
+  shouldShowDisclaimer(config) {
     return (
       config.showDisclaimer &&
       this.context.match.params.hash !== 'walk' &&
@@ -112,7 +112,7 @@ class ItineraryDetails extends React.Component {
     );
   };
 
-  getFutureText = (startTime, currentTime) => {
+  getFutureText(startTime, currentTime) {
     const refTime = getCurrentMillis(currentTime);
     if (isToday(startTime, refTime)) {
       return '';
@@ -125,7 +125,7 @@ class ItineraryDetails extends React.Component {
     return getFormattedTimeDate(startTime, 'dd D.M.');
   };
 
-  setExtraProps = itinerary => {
+  getExtraProps(itinerary) {
     const compressedItinerary = {
       ...itinerary,
       legs: compressLegs(itinerary.legs),
@@ -163,16 +163,15 @@ class ItineraryDetails extends React.Component {
   };
 
   render() {
-    const { itinerary, currentLanguage } = this.props;
+    const { itinerary, currentLanguage, isMobile } = this.props;
     const { config } = this.context;
 
-    if (!itinerary || !itinerary.legs[0]) {
+    if (!itinerary?.legs[0]) {
       return null;
     }
 
     const fares = getFaresFromLegs(itinerary.legs, config);
-
-    const extraProps = this.setExtraProps(itinerary);
+    const extraProps = this.getExtraProps(itinerary);
     const legsWithRentalBike = compressLegs(itinerary.legs).filter(leg =>
       legContainsRentalBike(leg),
     );
@@ -197,9 +196,15 @@ class ItineraryDetails extends React.Component {
         }
       }
     }
-    const suggestionIndex = this.context.match.params.secondHash
-      ? Number(this.context.match.params.secondHash) + 1
-      : Number(this.context.match.params.hash) + 1;
+    let itineraryIndex = this.context.match.params.secondHash
+      ? Number(this.context.match.params.secondHash)
+      : Number(this.context.match.params.hash);
+
+    if (Number.isNaN(itineraryIndex)) {
+      itineraryIndex = 1;
+    } else {
+      itineraryIndex += 1;
+    }
 
     const disclaimers = [];
 
@@ -256,67 +261,51 @@ class ItineraryDetails extends React.Component {
 
     return (
       <div className="itinerary-tab">
-        <h2 className="sr-only">
+        <h2 className="sr-only" key="srlabel">
           <FormattedMessage
             id="summary-page.row-label"
             values={{
-              number: suggestionIndex,
+              number: itineraryIndex,
             }}
           />
-        </h2>
+	</h2>,
         <BreakpointConsumer>
           {breakpoint => [
-            breakpoint !== 'large' ? (
-              <ItinerarySummary
-                itinerary={itinerary}
-                key="summary"
-                walking={extraProps.walking}
-                biking={extraProps.biking}
-                driving={extraProps.driving}
-                futureText={extraProps.futureText}
-                isMultiRow={extraProps.isMultiRow}
-                isMobile={this.props.isMobile}
-                hideBottomDivider={shouldShowFarePurchaseInfo(
-                  config,
-                  breakpoint,
-                  fares,
-                )}
-              />
-            ) : (
-              <>
-                {!this.props.hideTitle && (
-                  <div className="desktop-title" key="header">
-                    <div className="title-container h2">
-                      <BackButton
-                        title={
-                          <FormattedMessage
-                            id="itinerary-page.title"
-                            defaultMessage="Itinerary suggestions"
-                          />
-                        }
-                        icon="icon-icon_arrow-collapse--left"
-                        iconClassName="arrow-icon"
-                        fallback="pop"
+	    breakpoint === 'large' && !this.props.hideTitle && (
+              <div className="desktop-title" key="header">
+                <div className="title-container h2">
+                  <BackButton
+                    title={
+                      <FormattedMessage
+                        id="itinerary-page.title"
+                        defaultMessage="Itinerary suggestions"
                       />
-                    </div>
-                  </div>
-                )}
-                <div className="itinerary-summary-container">
-                  <ItinerarySummary
-                    itinerary={itinerary}
-                    key="summary"
-                    walking={extraProps.walking}
-                    biking={extraProps.biking}
-                    driving={extraProps.driving}
-                    futureText={extraProps.futureText}
-                    isMultiRow={extraProps.isMultiRow}
-                    isMobile={this.props.isMobile}
+                    }
+                    icon="icon-icon_arrow-collapse--left"
+                    iconClassName="arrow-icon"
+                    fallback="pop"
                   />
                 </div>
-              </>
+              </div>
             ),
+	    <ItinerarySummary
+              itinerary={itinerary}
+              key="summary"
+              walking={extraProps.walking}
+              biking={extraProps.biking}
+              driving={extraProps.driving}
+              futureText={extraProps.futureText}
+              isMultiRow={extraProps.isMultiRow}
+              isMobile={isMobile}
+              hideBottomDivider={isMobile && shouldShowFarePurchaseInfo(
+                config,
+                breakpoint,
+                fares,
+              )}
+            />,
             showRentalBikeDurationWarning && (
               <VehicleRentalDurationInfo
+		key="rentaldurationinfo"
                 networks={Array.from(rentalBikeNetworks)}
                 config={config}
               />
@@ -324,11 +313,13 @@ class ItineraryDetails extends React.Component {
             shouldShowFareInfo(config) &&
               (shouldShowFarePurchaseInfo(config, breakpoint, fares) ? (
                 <MobileTicketPurchaseInformation
+		  key="mobileticketpurchaseinformation"
                   fares={fares}
                   zones={getZones(itinerary.legs)}
                 />
               ) : (
                 <TicketInformation
+		  key="ticketinformation"
                   fares={fares}
                   zones={getZones(itinerary.legs)}
                   legs={itinerary.legs}
@@ -336,8 +327,9 @@ class ItineraryDetails extends React.Component {
               )),
             config.showCO2InItinerarySummary && (
               <EmissionsInfo
+		key="emissionsummary"
                 itinerary={itinerary}
-                isMobile={this.props.isMobile}
+                isMobile={isMobile}
               />
             ),
             <div
@@ -350,20 +342,23 @@ class ItineraryDetails extends React.Component {
                 className={cx('itinerary-main', {
                   'bp-large': breakpoint === 'large',
                 })}
+		key="legwrapper"
               >
                 {disclaimers}
                 <ItineraryLegs
+		  key="itinerarylegs"
                   fares={fares}
                   itinerary={itinerary}
-                  focusToPoint={this.handleFocus}
+                  focusToPoint={this.props.focusToPoint}
                   focusToLeg={this.props.focusToLeg}
                   changeHash={this.props.changeHash}
-                  tabIndex={suggestionIndex - 1}
+                  tabIndex={itineraryIndex - 1}
                 />
-                {config.showRouteInformation && <RouteInformation />}
+                {config.showRouteInformation && <RouteInformation key="routeinfo"/>}
               </div>
               {config.showCO2InItinerarySummary && (
                 <Emissions
+		  key="emissionsinfo"
                   config={config}
                   itinerary={itinerary}
                   carItinerary={this.props.carItinerary}
@@ -373,14 +368,14 @@ class ItineraryDetails extends React.Component {
                 />
               )}
               {this.shouldShowDisclaimer(config) && (
-                <div className="itinerary-disclaimer">
+                <div className="itinerary-disclaimer" key="disclaimer">
                   <FormattedMessage
                     id="disclaimer"
                     defaultMessage="Results are based on estimated travel times"
                   />
                 </div>
               )}
-              <div className="itinerary-empty-space" />
+              <div className="itinerary-empty-space" key="emptyspace"/>
             </div>,
           ]}
         </BreakpointConsumer>

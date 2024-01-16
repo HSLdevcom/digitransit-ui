@@ -62,6 +62,7 @@ class TransitLeg extends React.Component {
     super(props);
     this.state = {
       showIntermediateStops: props.leg.intermediatePlaces.length < 2,
+      showAlternativeLegs: false,
     };
   }
 
@@ -333,7 +334,7 @@ class TransitLeg extends React.Component {
         const notification = config.routeNotifications[i];
         if (notification.showForRoute(leg.route)) {
           routeNotifications.push(
-            <div className="disruption">
+            <div className="disruption" key={`note-${i}`}>
               <a
                 href={`https://www.${notification.link[lang]}`}
                 className="disruption-link"

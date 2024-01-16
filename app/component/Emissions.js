@@ -79,7 +79,7 @@ const Emissions = ({ itinerary, carItinerary, emissionsInfolink }) => {
 
 Emissions.propTypes = {
   itinerary: ItineraryShape.isRequired,
-  carItinerary: ItineraryShape.isRequired,
+  carItinerary: ItineraryShape,
   emissionsInfolink: PropTypes.string.isRequired,
 };
 
