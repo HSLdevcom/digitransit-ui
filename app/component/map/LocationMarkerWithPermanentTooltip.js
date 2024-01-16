@@ -28,7 +28,7 @@ const LocationMarkerWithPermanentTooltip = props => {
       </Marker>
     );
   }
-  return <></>;
+  return null;
 };
 
 LocationMarkerWithPermanentTooltip.propTypes = {

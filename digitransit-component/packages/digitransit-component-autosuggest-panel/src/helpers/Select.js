@@ -44,56 +44,54 @@ const Select = ({
     }
   };
   return (
-    <>
-      <label className={styles['combobox-container']} htmlFor={inputId}>
-        <span className={styles['left-column']}>
-          <span className={styles['combobox-label']} id={labelId}>
-            {label}
-          </span>
-          <Autosuggest
-            id={id}
-            suggestions={options}
-            getSuggestionValue={s => s.value}
-            renderSuggestion={s => s.displayName}
-            onSuggestionsFetchRequested={() => null}
-            shouldRenderSuggestions={() => true}
-            focusInputOnSuggestionClick={false}
-            onSuggestionsClearRequested={() => null}
-            inputProps={{
-              value: displayValue,
-              onChange: onInputChange,
-              onFocus: () => {
-                changeOpen(true);
-              },
-              onBlur: () => {
-                changeOpen(false);
-              },
-              id: inputId,
-              'aria-labelledby': labelId,
-              'aria-autocomplete': 'none',
-              readOnly: true,
-            }}
-            renderSuggestionsContainer={({ containerProps, children }) => {
-              // set refs for autosuggest library and scrollbar positioning
-              const { ref, ...otherRefs } = containerProps;
-              const containerRef = elem => {
-                if (elem) {
-                  scrollRef.current = elem;
-                  ref(elem);
-                }
-              };
-              return (
-                <div tabIndex="-1" {...otherRefs} ref={containerRef}>
-                  {children}
-                </div>
-              );
-            }}
-            theme={styles}
-          />
+    <label className={styles['combobox-container']} htmlFor={inputId}>
+      <span className={styles['left-column']}>
+        <span className={styles['combobox-label']} id={labelId}>
+          {label}
         </span>
-        {icon}
-      </label>
-    </>
+        <Autosuggest
+          id={id}
+          suggestions={options}
+          getSuggestionValue={s => s.value}
+          renderSuggestion={s => s.displayName}
+          onSuggestionsFetchRequested={() => null}
+          shouldRenderSuggestions={() => true}
+          focusInputOnSuggestionClick={false}
+          onSuggestionsClearRequested={() => null}
+          inputProps={{
+            value: displayValue,
+            onChange: onInputChange,
+            onFocus: () => {
+              changeOpen(true);
+            },
+            onBlur: () => {
+              changeOpen(false);
+            },
+            id: inputId,
+            'aria-labelledby': labelId,
+            'aria-autocomplete': 'none',
+            readOnly: true,
+          }}
+          renderSuggestionsContainer={({ containerProps, children }) => {
+            // set refs for autosuggest library and scrollbar positioning
+            const { ref, ...otherRefs } = containerProps;
+            const containerRef = elem => {
+              if (elem) {
+                scrollRef.current = elem;
+                ref(elem);
+              }
+            };
+            return (
+              <div tabIndex="-1" {...otherRefs} ref={containerRef}>
+                {children}
+              </div>
+            );
+          }}
+          theme={styles}
+        />
+      </span>
+      {icon}
+    </label>
   );
 };
 

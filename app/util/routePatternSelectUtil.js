@@ -365,9 +365,9 @@ export const getOptionText = (formatMessage, pattern, isTogglable) => {
       pattern.rangeFollowingDays[0][1] === 0
         ? DATE_FORMAT2
         : (pattern.rangeFollowingDays[0][0] / 100) >> 0 ===
-          (pattern.rangeFollowingDays[0][1] / 100) >> 0
-        ? DATE_FORMAT3
-        : DATE_FORMAT2,
+            (pattern.rangeFollowingDays[0][1] / 100) >> 0
+          ? DATE_FORMAT3
+          : DATE_FORMAT2,
     );
 
     if (

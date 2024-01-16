@@ -220,7 +220,7 @@ class FavouriteModal extends React.Component {
     });
   }
 
-  static getDerivedStateFromProps = (nextProps, prevState) => {
+  static getDerivedStateFromProps(nextProps, prevState) {
     const prevFav = prevState.favourite;
     const nextFav = nextProps.favourite;
 
@@ -257,17 +257,17 @@ class FavouriteModal extends React.Component {
       };
     }
     return null;
-  };
+  }
 
-  componentDidUpdate = () => {
+  componentDidUpdate() {
     if (i18next.language !== this.props.lang) {
       i18next.changeLanguage(this.props.lang);
     }
-  };
+  }
 
-  componentWillUnmount = () => {
+  componentWillUnmount() {
     this.setState({ favourite: null });
-  };
+  }
 
   specifyName = event => {
     const name = event.target.value;
@@ -334,7 +334,7 @@ class FavouriteModal extends React.Component {
     }
   };
 
-  render = () => {
+  render() {
     const { favourite } = this.state;
     const { color, hoverColor, fontWeights } = this.props;
     const headerText = this.isEdit()
@@ -394,7 +394,7 @@ class FavouriteModal extends React.Component {
         {this.props.isMobile && <MobileModal {...modalProps} />}
       </Modal>
     );
-  };
+  }
 }
 
 export default FavouriteModal;

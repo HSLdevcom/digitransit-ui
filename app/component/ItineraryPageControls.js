@@ -5,33 +5,21 @@ import { matchShape, routerShape } from 'found';
 import { FormattedMessage } from 'react-intl';
 
 import OriginDestinationBar from './OriginDestinationBar';
-import QuickSettingsPanel from './QuickSettingsPanel';
+import SearchSettings from './SearchSettings';
 import { isBrowser } from '../util/browser';
 import { parseLocation, PREFIX_ITINERARY_SUMMARY } from '../util/path';
 import withBreakpoint from '../util/withBreakpoint';
 import BackButton from './BackButton';
 
-class SummaryNavigation extends React.Component {
+class ItineraryPageControls extends React.Component {
   static propTypes = {
     params: PropTypes.shape({
       from: PropTypes.string,
       to: PropTypes.string,
       hash: PropTypes.string,
     }).isRequired,
-    startTime: PropTypes.number,
-    endTime: PropTypes.number,
     breakpoint: PropTypes.string.isRequired,
-    serviceTimeRange: PropTypes.shape({
-      start: PropTypes.number.isRequired,
-      end: PropTypes.number.isRequired,
-    }).isRequired,
     toggleSettings: PropTypes.func.isRequired,
-    scrolled: PropTypes.bool.isRequired,
-  };
-
-  static defaultProps = {
-    startTime: null,
-    endTime: null,
   };
 
   static contextTypes = {
@@ -71,11 +59,7 @@ class SummaryNavigation extends React.Component {
   render() {
     const className = cx({ 'bp-large': this.props.breakpoint === 'large' });
     return (
-      <div
-        className={cx('summary-navigation-container', {
-          'summary-navigation-container-scrolled': this.props.scrolled,
-        })}
-      >
+      <div className="summary-navigation-container">
         {this.props.breakpoint !== 'large' && (
           <BackButton
             title={
@@ -108,18 +92,11 @@ class SummaryNavigation extends React.Component {
           modeSet={this.context.config.iconModeSet}
         />
         {isBrowser && (
-          <React.Fragment>
-            <QuickSettingsPanel
-              timeSelectorStartTime={this.props.startTime}
-              timeSelectorEndTime={this.props.endTime}
-              timeSelectorServiceTimeRange={this.props.serviceTimeRange}
-              toggleSettings={this.props.toggleSettings}
-            />
-          </React.Fragment>
+          <SearchSettings toggleSettings={this.props.toggleSettings} />
         )}
       </div>
     );
   }
 }
 
-export default withBreakpoint(SummaryNavigation);
+export default withBreakpoint(ItineraryPageControls);

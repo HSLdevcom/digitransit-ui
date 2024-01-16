@@ -22,14 +22,12 @@ const ItineraryCircleLineLong = props => {
   const getMarker = top => {
     if (isFirstChild() && top) {
       return (
-        <>
-          <div className="itinerary-icon-container start">
-            <Icon
-              img="icon-icon_mapMarker-from"
-              className="itinerary-icon from from-it"
-            />
-          </div>
-        </>
+        <div className="itinerary-icon-container start">
+          <Icon
+            img="icon-icon_mapMarker-from"
+            className="itinerary-icon from from-it"
+          />
+        </div>
       );
     }
     return null;
@@ -71,7 +69,7 @@ const ItineraryCircleLineLong = props => {
         style={legBeforeLineStyle}
         className={cx('leg-before-line bottom', props.modeClassNames[1])}
       />
-      {props.renderBottomMarker && <>{bottomMarker}</>}
+      {props.renderBottomMarker && bottomMarker}
     </div>
   );
 };

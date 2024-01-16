@@ -64,8 +64,9 @@ function StopsNearYouFavouritesContainer({
         return null;
     }
   });
-  return <>{stopElements}</>;
+  return stopElements;
 }
+
 StopsNearYouFavouritesContainer.propTypes = {
   stops: PropTypes.array,
   stations: PropTypes.array,

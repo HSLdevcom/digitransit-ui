@@ -13,12 +13,11 @@ import getContext from 'recompose/getContext';
 
 import { intlShape, FormattedMessage } from 'react-intl';
 import Icon from './Icon';
-import ItinerarySummaryListContainer from './ItinerarySummaryListContainer';
+import ItineraryList from './ItineraryList/ItineraryList';
 import TimeStore from '../store/TimeStore';
 import PositionStore from '../store/PositionStore';
 import { otpToLocation, getIntermediatePlaces } from '../util/otpStrings';
 import { getSummaryPath } from '../util/path';
-import { replaceQueryParams } from '../util/queryUtils';
 import withBreakpoint from '../util/withBreakpoint';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import { isIOS, isSafari } from '../util/browser';
@@ -29,7 +28,7 @@ import LocationStateShape from '../prop-types/LocationStateShape';
 import RoutingErrorShape from '../prop-types/RoutingErrorShape';
 import ChildrenShape from '../prop-types/ChildrenShape';
 
-class SummaryPlanContainer extends React.Component {
+class ItineraryListContainer extends React.Component {
   static propTypes = {
     activeIndex: PropTypes.number,
     children: ChildrenShape,
@@ -128,9 +127,8 @@ class SummaryPlanContainer extends React.Component {
   onSelectImmediately = index => {
     const subpath = this.getSubPath('/');
     // eslint-disable-next-line compat/compat
-    const momentumScroll = document.getElementsByClassName(
-      'momentum-scroll',
-    )[0];
+    const momentumScroll =
+      document.getElementsByClassName('momentum-scroll')[0];
     if (momentumScroll) {
       momentumScroll.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
     }
@@ -141,7 +139,7 @@ class SummaryPlanContainer extends React.Component {
       action: 'OpenItineraryDetails',
       name: index,
     });
-    const newState = {
+    const newLocation = {
       ...this.context.match.location,
       state: { summaryPageSelected: index },
     };
@@ -154,80 +152,62 @@ class SummaryPlanContainer extends React.Component {
       this.props.params.to,
     )}${subpath}${index}`;
 
-    newState.pathname = basePath;
-    this.context.router.replace(newState);
-    newState.pathname = indexPath;
-    this.context.router.push(newState);
+    newLocation.pathname = basePath;
+    this.context.router.replace(newLocation);
+    newLocation.pathname = indexPath;
+    this.context.router.push(newLocation);
     this.props.onDetailsTabFocused();
-  };
-
-  onNow = () => {
-    addAnalyticsEvent({
-      event: 'sendMatomoEvent',
-      category: 'Itinerary',
-      action: 'ResetJourneyStartTime',
-      name: null,
-    });
-
-    replaceQueryParams(this.context.router, this.context.match, {
-      time: moment().unix(),
-      arriveBy: false, // XXX
-    });
   };
 
   laterButton(reversed = false) {
     return (
-      <>
-        <button
-          type="button"
-          aria-label={this.context.intl.formatMessage({
-            id: 'set-time-later-button-label',
-            defaultMessage: 'Set travel time to later',
-          })}
-          className={`time-navigation-btn ${
-            reversed ? 'top-btn' : 'bottom-btn'
-          } ${!reversed && isIOS && isSafari ? 'extra-whitespace' : ''} `}
-          onClick={() => this.props.onLater(this.props.itineraries, reversed)}
-        >
-          <Icon
-            img="icon-icon_arrow-collapse"
-            className={`cursor-pointer back ${reversed ? 'arrow-up' : ''}`}
-          />
-          <FormattedMessage
-            id="later"
-            defaultMessage="Later"
-            className="time-navigation-text"
-          />
-        </button>
-      </>
+      <button
+        type="button"
+        aria-label={this.context.intl.formatMessage({
+          id: 'set-time-later-button-label',
+          defaultMessage: 'Set travel time to later',
+        })}
+        className={`time-navigation-btn ${
+          reversed ? 'top-btn' : 'bottom-btn'
+        } ${!reversed && isIOS && isSafari ? 'extra-whitespace' : ''} `}
+        onClick={() => this.props.onLater(this.props.itineraries, reversed)}
+      >
+        <Icon
+          img="icon-icon_arrow-collapse"
+          className={`cursor-pointer back ${reversed ? 'arrow-up' : ''}`}
+        />
+        <FormattedMessage
+          id="later"
+          defaultMessage="Later"
+          className="time-navigation-text"
+        />
+      </button>
     );
   }
 
   earlierButton(reversed = false) {
     return (
-      <>
-        <button
-          type="button"
-          aria-label={this.context.intl.formatMessage({
-            id: 'set-time-earlier-button-label',
-            defaultMessage: 'Set travel time to earlier',
-          })}
-          className={`time-navigation-btn ${
-            reversed ? 'bottom-btn' : 'top-btn'
-          } ${reversed && isIOS && isSafari ? 'extra-whitespace' : ''}`}
-          onClick={() => this.props.onEarlier(this.props.itineraries, reversed)}
-        >
-          <Icon
-            img="icon-icon_arrow-collapse"
-            className={`cursor-pointer ${reversed ? '' : 'arrow-up'}`}
-          />
-          <FormattedMessage
-            id="earlier"
-            defaultMessage="Earlier"
-            className="time-navigation-text"
-          />
-        </button>
-      </>
+      <button
+        type="button"
+        aria-label={this.context.intl.formatMessage({
+          id: 'set-time-earlier-button-label',
+          defaultMessage: 'Set travel time to earlier',
+        })}
+        className={`time-navigation-btn ${
+          reversed ? 'bottom-btn' : 'top-btn'
+        } ${reversed && isIOS && isSafari ? 'extra-whitespace' : ''}`}
+        onClick={() => this.props.onEarlier(this.props.itineraries, reversed)}
+      >
+        <Icon
+          img="icon-icon_arrow-collapse"
+          className={`cursor-pointer ${reversed ? '' : 'arrow-up'}`}
+        />
+        <FormattedMessage
+          id="earlier"
+          defaultMessage="Earlier"
+          className="time-navigation-text"
+        />
+      </button>
     );
   }
 
@@ -274,9 +254,9 @@ class SummaryPlanContainer extends React.Component {
         onlyHasWalkingItineraries
           ? null
           : arriveBy
-          ? this.laterButton(true)
-          : this.earlierButton()}
-        <ItinerarySummaryListContainer
+            ? this.laterButton(true)
+            : this.earlierButton()}
+        <ItineraryList
           activeIndex={activeIndex}
           currentTime={currentTime}
           locationState={locationState}
@@ -302,7 +282,7 @@ class SummaryPlanContainer extends React.Component {
           routingFeedbackPosition={routingFeedbackPosition}
         >
           {this.props.children}
-        </ItinerarySummaryListContainer>
+        </ItineraryList>
         {this.props.showSettingsChangedNotification(
           this.props.plan,
           this.props.alternativePlan,
@@ -313,8 +293,8 @@ class SummaryPlanContainer extends React.Component {
         onlyHasWalkingItineraries
           ? null
           : arriveBy
-          ? this.earlierButton(true)
-          : this.laterButton()}
+            ? this.earlierButton(true)
+            : this.laterButton()}
       </div>
     );
   }
@@ -326,7 +306,7 @@ const withConfig = getContext({
   withBreakpoint(props => (
     <ReactRelayContext.Consumer>
       {({ environment }) => (
-        <SummaryPlanContainer {...props} relayEnvironment={environment} />
+        <ItineraryListContainer {...props} relayEnvironment={environment} />
       )}
     </ReactRelayContext.Consumer>
   )),
@@ -339,7 +319,7 @@ const connectedContainer = createFragmentContainer(
   })),
   {
     plan: graphql`
-      fragment SummaryPlanContainer_plan on Plan {
+      fragment ItineraryListContainer_plan on Plan {
         date
         itineraries {
           startTime
@@ -399,9 +379,9 @@ const connectedContainer = createFragmentContainer(
       }
     `,
     itineraries: graphql`
-      fragment SummaryPlanContainer_itineraries on Itinerary
+      fragment ItineraryListContainer_itineraries on Itinerary
       @relay(plural: true) {
-        ...ItinerarySummaryListContainer_itineraries
+        ...ItineraryList_itineraries
         endTime
         startTime
         emissionsPerPerson {
@@ -439,4 +419,4 @@ const connectedContainer = createFragmentContainer(
   },
 );
 
-export { connectedContainer as default, SummaryPlanContainer as Component };
+export { connectedContainer as default, ItineraryListContainer as Component };

@@ -34,30 +34,37 @@ class Slider extends React.Component {
   };
 
   // eslint-disable-next-line camelcase
-  UNSAFE_componentWillMount = () =>
-    this.props.value === this.defaultValue
+  UNSAFE_componentWillMount() {
+    return this.props.value === this.defaultValue
       ? this.setState({ modified: false })
       : this.setState({ modified: true });
+  }
 
-  componentDidMount = () =>
-    this.slider &&
-    this.slider.addEventListener('touchmove', e => e.stopPropagation()) &&
-    (this.props.value === this.defaultValue
-      ? this.setState({ modified: false })
-      : this.setState({ modified: true }));
+  componentDidMount() {
+    return (
+      this.slider &&
+      this.slider.addEventListener('touchmove', e => e.stopPropagation()) &&
+      (this.props.value === this.defaultValue
+        ? this.setState({ modified: false })
+        : this.setState({ modified: true }))
+    );
+  }
 
   // eslint-disable-next-line camelcase
-  UNSAFE_componentWillReceiveProps = () => {
+  UNSAFE_componentWillReceiveProps() {
     if (parseInt(this.props.value, 10) !== this.defaultValue) {
       this.setState({ modified: true });
     } else {
       this.setState({ modified: false });
     }
-  };
+  }
 
-  componentWillUnmount = () =>
-    this.slider &&
-    this.slider.removeEventListener('touchmove', e => e.stopPropagation());
+  componentWillUnmount() {
+    return (
+      this.slider &&
+      this.slider.removeEventListener('touchmove', e => e.stopPropagation())
+    );
+  }
 
   render() {
     let showWrittenValue;

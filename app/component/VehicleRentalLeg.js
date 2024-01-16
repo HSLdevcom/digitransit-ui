@@ -39,8 +39,8 @@ function VehicleRentalLeg(
       ? 'return-scooter-to'
       : 'return-cycle-to'
     : isScooter
-    ? 'rent-scooter-at'
-    : 'rent-cycle-at';
+      ? 'rent-scooter-at'
+      : 'rent-cycle-at';
   const legDescription = (
     <span className="citybike-leg-header">
       <FormattedMessage id={id} defaultMessage="Fetch a bike" />

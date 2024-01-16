@@ -14,14 +14,17 @@ $margin-left-right: 21.3px;
 
 .route-warning-message {
   background-color: rgba(254, 209, 0, 0.3);
+
   .upper {
     @include font-medium;
+
     display: flex;
     flex-direction: row;
     align-items: center;
     font-size: $font-size-small;
     line-height: 1.1rem;
     padding-right: 1.5em;
+
     span:nth-child(1) {
       display: flex;
       flex-direction: row;
@@ -30,6 +33,7 @@ $margin-left-right: 21.3px;
       padding-right: $padding-small;
     }
   }
+
   .call-button {
     margin-bottom: 0;
   }
@@ -43,18 +47,22 @@ $margin-left-right: 21.3px;
 
 .mobile {
   background-color: $white;
+
   .route-page-container {
     padding-top: 0;
     background-color: transparent;
     position: relative;
+
     .route-page-control-panel-container {
       margin: 0 21.3px;
     }
   }
+
   .bottom-whitespace {
     min-height: 300px;
     display: block;
   }
+
   .location-details_container {
     .route-now-content {
       .large-vehicle-icon {
@@ -63,6 +71,7 @@ $margin-left-right: 21.3px;
     }
   }
 }
+
 .route-page-container {
   background-color: $white;
   padding-top: 48px;
@@ -70,55 +79,65 @@ $margin-left-right: 21.3px;
 
 .route-notification {
   display: flex;
-  background: #E5F2FA;
+  background: #e5f2fa;
   border-radius: 5px;
   margin: 10px 0 10px 0;
-  padding: 3px 10px 10px 0px;
+  padding: 3px 10px 10px 0;
 
   .left-block {
     padding-left: 10px;
     padding-right: 10px;
   }
+
   .right-block {
     flex: 1;
   }
+
   .button-block {
     display: flex;
     margin-left: 24px;
+
     label {
       color: $primary-color;
       font-weight: bold;
       margin-right: 10px;
     }
+
     .route-notification-collapse-button {
       max-height: 25px;
+
       .route-notification-collapse-icon {
         width: 10px;
         height: 10px;
       }
+
       .inverted {
         transform: rotate(180deg);
       }
     }
   }
+
   h3 {
     margin-top: 1px;
     font-size: $font-size-xsmall;
     font-weight: bold;
   }
+
   ul {
-    margin: 3px 0px 0px 20px;
+    margin: 3px 0 0 20px;
     font-size: $font-size-xsmall;
     font-weight: $font-weight-book;
-    padding-inline-start: 0px;
+    padding-inline-start: 0;
     line-height: 16px;
     letter-spacing: -0.03em;
   }
+
   .route-notification-link {
     font-size: $font-size-xsmall;
     text-decoration: none;
   }
 }
+
 .route-notification.minimized {
   min-height: 25px;
   padding-bottom: 0;
@@ -134,9 +153,10 @@ $margin-left-right: 21.3px;
   flex-direction: column;
   padding-bottom: 24px;
   flex: 1 0;
-  flex-basis: 0px;
+  flex-basis: 0;
   background: $white;
-  transition: flex-grow 500ms cubic-bezier(0.215, 0.61, 0.355, 1),
+  transition:
+    flex-grow 500ms cubic-bezier(0.215, 0.61, 0.355, 1),
     flex-basis 500ms cubic-bezier(0.215, 0.61, 0.355, 1);
 
   &.bp-large {
@@ -145,6 +165,7 @@ $margin-left-right: 21.3px;
     padding-left: 56px;
     padding-right: 56px;
   }
+
   &:empty {
     flex-basis: 0;
     flex-grow: 0;
@@ -159,12 +180,15 @@ $margin-left-right: 21.3px;
 // stop list
 .route-stop-list {
   @include font-narrow-medium;
+
   background-color: $white;
   margin: 0 0 0 2px;
   padding: 0;
+
   .route-stop:last-child .route-stop-row_content-container {
     border-bottom: none;
   }
+
   & > li {
     list-style: none;
   }
@@ -184,6 +208,7 @@ $margin-left-right: 21.3px;
     }
   }
 }
+
 .bp-small {
   &.location-details_container .route-now-content {
     & svg {
@@ -198,13 +223,16 @@ $margin-left-right: 21.3px;
     margin-left: 0.57em;
     transform: scale(3.5);
   }
+
   .icon.small-vehicle-icon {
     transform: scale(1);
   }
 }
+
 .route-stop-container {
   width: 100%;
 }
+
 .route-details-upper-row {
   display: flex;
   justify-content: space-between;
@@ -226,11 +254,13 @@ $margin-left-right: 21.3px;
   font-size: 0.8125em;
   font-family: $font-family;
   font-weight: $font-weight-book;
+
   span {
     vertical-align: middle;
     display: inline-block;
     padding-right: 12px;
   }
+
   .icon-container {
     padding: 4px 5px 0 9px;
   }
@@ -240,70 +270,86 @@ $margin-left-right: 21.3px;
   max-width: 100%;
   display: flex;
   flex: 1 0 3.5em;
+
   &.passed {
     div {
       color: #888;
+
       .zone-icon-container .circle {
         color: #fff;
       }
     }
+
     span {
       color: #888;
+
       svg {
         color: #888;
       }
     }
   }
+
   .route-stop-now {
     min-width: 13%;
     position: absolute;
     z-index: 4;
     left: 12px;
+
     @include min-width(tablet) {
       left: 45px;
     }
+
     &.arriving {
       > a > span {
         svg {
           top: -44px;
+
           @include min-width(tablet) {
             top: -49px;
           }
         }
       }
+
       div > a > span {
         svg {
           top: -44px;
+
           @include min-width(tablet) {
             top: -49px;
           }
         }
       }
     }
+
     &.arrived {
       > a > span {
         svg {
           top: -17px;
         }
       }
+
       div > a > span {
         svg {
           top: -17px;
         }
       }
     }
+
     &.departed {
       > a > span {
         svg {
           top: 16px;
+
           @include min-width(tablet) {
             top: 12px;
           }
         }
       }
+
       div > a > span {
         svg {
           top: 16px;
+
           @include min-width(tablet) {
             top: 12px;
           }
@@ -311,55 +357,66 @@ $margin-left-right: 21.3px;
       }
     }
   }
+
   .route-now-content {
     padding-top: 10px;
+
     & svg {
       position: absolute;
       font-size: 5em;
     }
+
     .large-vehicle-icon {
       font-size: 3.5em;
       bottom: 0;
       left: calc(-2rem + 22px);
     }
   }
+
   .route-stop-now_circleline {
     position: relative;
     min-width: 15px;
     top: 6px;
+
     .route-stop-now_line {
       width: 8px;
       height: 100%;
-      background-color: currentColor;
+      background-color: currentcolor;
       position: absolute;
       border-radius: 4px;
       top: 11px;
       left: 4px;
+
       @include min-width(tablet) {
         left: 4.25px;
       }
     }
+
     svg {
       position: absolute;
       top: 0.2em;
       z-index: 3;
     }
   }
+
   .route-stop-row_content-container {
     width: calc(100% - 30px);
     margin-left: 15px;
     display: flex;
     border-bottom: 1px solid #eef1f3;
+
     button {
       width: 100%;
       height: 100%;
       padding: 10px 0;
       text-decoration: none;
+
       .route-details_container {
         flex-grow: 1;
         display: flex;
         min-width: 0;
         font-size: 0.9375rem;
+
         .route-stop-name {
           font-size: 15px;
           min-width: 0;
@@ -368,18 +425,21 @@ $margin-left-right: 21.3px;
           text-overflow: ellipsis;
           letter-spacing: -0.03em;
         }
+
         span {
           text-decoration: none;
         }
+
         .platform-number-container {
           display: inherit;
           align-items: center;
+
           .platform-code {
             display: flex;
             align-items: center;
             justify-content: center;
             background: #f4f4f5;
-            color: #333333;
+            color: #333;
             width: 24px;
             height: 17px;
             border-radius: 4px;
@@ -389,6 +449,7 @@ $margin-left-right: 21.3px;
             margin-left: 7px;
             line-height: 1.6;
             white-space: nowrap;
+
             &.empty {
               width: 0;
               background: none;
@@ -396,15 +457,18 @@ $margin-left-right: 21.3px;
           }
         }
       }
+
       .route-details-bottom-row {
         display: flex;
         align-items: center;
         height: 1em;
         justify-content: space-between;
+
         .route-address-container {
           display: flex;
           align-items: center;
         }
+
         .itinerary-stop-code {
           display: flex;
           align-items: center;
@@ -412,6 +476,7 @@ $margin-left-right: 21.3px;
           height: 0.9375rem;
           margin-right: 5px;
         }
+
         .route-stop-address {
           font-size: $font-size-xsmall;
           font-family: $font-family;
@@ -424,20 +489,24 @@ $margin-left-right: 21.3px;
           height: 1.25rem;
           margin-right: 5px;
         }
+
         .itinerary-zone-icon {
           flex: 1;
           font-family: $font-family;
         }
       }
+
       .route-stop-time {
         display: flex;
         flex-direction: row;
         color: #666;
         flex: 0 1 auto;
         font-size: $font-size-small;
+
         span {
           margin: 0;
           font-family: $font-family;
+
           &.time {
             display: flex;
             flex: 1 1 auto;
@@ -451,6 +520,7 @@ $margin-left-right: 21.3px;
             margin: 0;
             line-height: 14px;
             min-width: 2.35rem;
+
             &.first {
               font-size: 15px;
               font-family: $font-family-narrow;
@@ -461,6 +531,7 @@ $margin-left-right: 21.3px;
               margin-left: 9px;
             }
           }
+
           &.next {
             font-weight: $font-weight-book;
             width: 100%;
@@ -476,6 +547,7 @@ $margin-left-right: 21.3px;
   display: flex;
   align-items: center;
   flex-wrap: wrap;
+
   .route-stop-address-row {
     font-size: $font-size-xsmall;
     font-family: $font-family;
@@ -488,17 +560,19 @@ $margin-left-right: 21.3px;
     min-height: 1.25rem;
     margin-right: 5px;
   }
+
   .itinerary-stop-code {
     padding: 0 2px;
   }
+
   .card-code {
     border: 1px solid #ddd;
     border-radius: 3px;
     font-size: 11px;
-    color: #666666;
+    color: #666;
     margin-right: 3px;
     margin-left: 4px;
-    padding: 0px 5px 0px 5px;
+    padding: 0 5px 0 5px;
     letter-spacing: -0.37px;
     height: 1.45em;
   }
@@ -511,6 +585,7 @@ $margin-left-right: 21.3px;
   > .route-stop-now_line {
   display: none;
 }
+
 .small
   .route-stop-row_content-container
   > a
@@ -523,30 +598,35 @@ $margin-left-right: 21.3px;
 
 .nearest-route-stop {
   @include font-narrow-book;
+
   color: $gray;
+
   .walk-distance {
     font-size: $font-size-small;
   }
 }
 
 .nearest-route-stop > span > svg.icon {
-  transform: translate(0px, 3px);
+  transform: translate(0, 3px);
 }
 
 .route-header {
   display: flex;
-  //margin: 10px $margin-left-right;
+
   .route-number {
     min-width: 40px;
+
     .icon {
       margin-top: 2px;
       height: 30px;
       width: 30px;
     }
   }
+
   .route-info {
     display: flex;
     min-width: 0;
+
     .route-short-name {
       margin: 0;
       font-family: $font-family-narrow;
@@ -557,28 +637,34 @@ $margin-left-right: 21.3px;
       line-height: normal;
       letter-spacing: normal;
     }
+
     .route-long-name {
       @include font-book;
+
       font-size: 13px;
       font-weight: normal;
       line-height: 1.38;
       letter-spacing: -0.43px;
-      color: #666666;
+      color: #666;
     }
   }
+
   .favourite-icon {
     margin-left: auto;
   }
+
   .trip-destination {
     display: flex;
     margin-left: 10px;
     margin-top: 14px;
+
     .icon-container {
       color: $primary-color;
       margin-right: 6px;
       margin-top: 2px;
       font-size: 11px;
     }
+
     .destination-headsign {
       font-weight: $font-weight-book;
       font-size: 15px;
@@ -597,6 +683,7 @@ $margin-left-right: 21.3px;
 
 .route-schedule-list-wrapper {
   margin-top: 14px;
+
   &.bp-large {
     flex: 1;
     display: flex;
@@ -610,6 +697,7 @@ $margin-left-right: 21.3px;
 
   .route-schedule-header {
     padding: 9.6px 0 2px 0;
+
     @media print {
       margin-left: 0;
       margin-right: auto;
@@ -631,8 +719,10 @@ $margin-left-right: 21.3px;
 
 .header-for-printing {
   display: none;
+
   @media print {
     display: block;
+
     h1 {
       font-size: 26px;
       font-weight: $font-weight-medium;
@@ -643,32 +733,39 @@ $margin-left-right: 21.3px;
 
 .printable-stop-header {
   display: none;
+
   @media print {
     margin-top: 1em;
     display: flex;
     font-size: 24px;
     font-weight: $font-weight-medium;
+
     .printable-stop-header_from {
       margin-right: 1em;
       width: 8.4em;
     }
+
     .printable-stop-header_icon-from {
       margin-right: 0.7em;
+
       svg {
         fill: $from-color;
         color: $from-color;
       }
     }
+
     .printable-stop-header_icon-to {
       margin-right: 0.7em;
+
       svg {
         fill: $to-color;
         color: $to-color;
       }
     }
+
     .printable-stop-header_line {
       background-size: 80% auto;
-      background-position-y: 0px;
+      background-position-y: 0;
       background-position-x: 7px;
       margin-right: 1em;
       margin-top: 0.6em;
@@ -678,7 +775,7 @@ $margin-left-right: 21.3px;
   }
 }
 
-/*.two_cols {
+/* .two_cols {
   position: relative;
   width: 50%;
   display: inline-grid;
@@ -701,12 +798,13 @@ $margin-left-right: 21.3px;
   .stop-select-label {
     left: 0px;
   }
-}*/
+} */
 
 .route-schedule-dropdowns {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+
   @media print {
     display: none;
   }
@@ -721,16 +819,19 @@ $margin-left-right: 21.3px;
   max-height: 100vh;
   padding-bottom: 1.5em;
   flex: 1 0;
-  flex-basis: 0px;
+  flex-basis: 0;
   padding-right: 56px;
   padding-left: 56px;
+
   .route-page-control-panel-container {
-    padding: 0px;
+    padding: 0;
   }
+
   &.mobile {
     padding: 0 20px;
-    margin-bottom: 0px;
+    margin-bottom: 0;
   }
+
   @media print {
     max-height: none;
   }
@@ -752,11 +853,12 @@ $margin-left-right: 21.3px;
     font-size: 18px;
     line-height: 22px;
     letter-spacing: -0.03em;
-    color: #333333;
+    color: #333;
   }
 
   .other-ranges-dropdown {
     flex: 1 0 6rem;
+
     @media print {
       display: none;
     }
@@ -781,10 +883,11 @@ $margin-left-right: 21.3px;
     text-overflow: ellipsis;
     text-align: right;
   }
+
   svg {
     position: absolute;
     top: 7px;
-    right: 0px;
+    right: 0;
     height: 10px;
     width: 10px;
     fill: $primary-color;
@@ -800,6 +903,7 @@ $margin-left-right: 21.3px;
   margin: 0;
   line-height: 30px;
   display: flex;
+
   @media print {
     margin-left: 28px;
     margin-right: auto;
@@ -809,11 +913,12 @@ $margin-left-right: 21.3px;
 
 .trip-separator {
   width: 100%;
-  border-top: 2px solid #888888;
+  border-top: 2px solid #888;
   height: 1px;
   margin-top: 14px;
   margin-left: 19px;
   margin-right: 19px;
+
   svg {
     position: relative;
     height: 10px;
@@ -822,6 +927,7 @@ $margin-left-right: 21.3px;
     top: -16px;
   }
 }
+
 /*
 .trip-separator:after {
   content: "";
@@ -839,6 +945,7 @@ $margin-left-right: 21.3px;
   font-size: $font-size-small;
   text-align: left;
   min-width: 3em;
+
   @media print {
     font-size: 21px;
     font-weight: $font-weight-book;
@@ -847,9 +954,11 @@ $margin-left-right: 21.3px;
 
 .after-scrollable-area {
   display: none;
+
   @include min-width(tablet) {
     display: block;
   }
+
   position: absolute;
   z-index: 22;
   height: 16px;
@@ -857,6 +966,7 @@ $margin-left-right: 21.3px;
   background-color: rgba(0, 0, 0, 0);
   bottom: 34px;
   box-shadow: 0 -8px 6px -6px rgba(0, 0, 0, 0.2);
+
   @media print {
     display: none;
   }
@@ -866,39 +976,46 @@ $margin-left-right: 21.3px;
   justify-content: flex-start;
   padding-left: 60px;
   display: flex;
-  background-color: #ffffff;
+  background-color: #fff;
 
   .printable-date-container {
     display: none;
+
     @media print {
       display: flex;
     }
 
     .printable-date-icon {
       margin-right: 0.8em;
+
       svg {
         width: 47.3px;
         height: 42px;
       }
     }
+
     .printable-date-header {
       font-size: 14px;
     }
+
     .printable-date-content {
       font-size: 20px;
       font-weight: $font-weight-medium;
     }
   }
+
   .print-button-container {
     @media print {
       display: none;
     }
   }
+
   .secondary-button.print {
     @media print {
       display: none;
     }
   }
+
   @media print {
     padding-left: 0;
     padding-top: 1em;
@@ -915,6 +1032,7 @@ $margin-left-right: 21.3px;
 
 .route-schedule-date {
   @include font-book;
+
   @media print {
     display: none;
   }
@@ -952,15 +1070,18 @@ $margin-left-right: 21.3px;
     }
   }
 }
+
 .route-container {
   background-color: white;
   margin: 5px 20px 0 20px;
   padding-bottom: 5px;
+
   &.bp-large {
     margin: 0 72px 0 $margin-left-right-large;
     box-shadow: none;
   }
-  .trip-page-alert-container {
+
+  .trip-page-alert-container {
     display: flex;
     height: 50px;
   }
@@ -968,6 +1089,7 @@ $margin-left-right: 21.3px;
 
 .route-page-control-panel-container {
   padding-bottom: 28px;
+
   &.hairiot {
     margin: 0 56px;
   }
@@ -982,6 +1104,7 @@ $margin-left-right: 21.3px;
 .navigation-tabs {
   width: 100%;
 }
+
 // Tabs
 .route-tabs {
   height: 2.5em;
@@ -1000,10 +1123,12 @@ $margin-left-right: 21.3px;
     border-radius: 6px;
     color: #333;
     font-weight: normal;
+
     &.is-active {
       font-weight: $font-weight-medium;
       background-color: $white;
     }
+
     &:disabled {
       color: #333;
       font-weight: $font-weight-medium;
@@ -1011,11 +1136,14 @@ $margin-left-right: 21.3px;
       cursor: default;
       opacity: 1;
       box-shadow: none;
-      &:focus, &:hover {
+
+      &:focus,
+      &:hover {
         color: inherit;
         background: $white;
       }
     }
+
     .no-alerts > span {
       color: #888;
     }
@@ -1025,20 +1153,24 @@ $margin-left-right: 21.3px;
     .icon-container {
       margin-right: 5px;
       vertical-align: middle;
+
       .disruption-icon {
         width: 0.85em;
         height: 0.95em;
       }
+
       .service-alert-icon {
         fill: rgba(136, 136, 136, 1);
       }
     }
   }
+
   .tab-panel {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
     background: white;
+
     > div {
       flex-grow: 1;
       display: flex;
@@ -1056,6 +1188,7 @@ $margin-left-right: 21.3px;
 .mode-nearby {
   &.btn {
     background-color: white;
+
     .icon {
       color: #79919d;
     }
@@ -1066,7 +1199,7 @@ $margin-left-right: 21.3px;
   margin: 1px 0 18px 0;
 
   .route-pattern-toggle {
-    border: 1px solid #888888;
+    border: 1px solid #888;
     width: 100%;
     min-height: 44px;
     background: $white;
@@ -1078,12 +1211,13 @@ $margin-left-right: 21.3px;
     padding: 13px 32px 13px 16px;
     text-align: left;
     color: #333;
+
     &:focus {
       outline: none;
       border-color: $primary-color;
       background: #fff;
       border: solid 1px $primary-color;
-      box-shadow: 0px 0px 2px 1px $secondary-color;
+      box-shadow: 0 0 2px 1px $secondary-color;
     }
 
     .toggle-icon {
@@ -1101,6 +1235,7 @@ $margin-left-right: 21.3px;
     top: 15px;
     width: 16px;
     pointer-events: none;
+
     @media print {
       display: none;
     }
@@ -1118,16 +1253,18 @@ $margin-left-right: 21.3px;
     width: 100%;
     min-height: 44px;
     background: white;
-    border: 1px solid #888888;
+    border: 1px solid #888;
     border-radius: 4px;
     position: relative;
+
     &:focus-within {
       outline: none;
       border-color: $primary-color;
       background: #fff;
       border: solid 1px $primary-color;
-      box-shadow: 0px 0px 2px 1px $secondary-color;
+      box-shadow: 0 0 2px 1px $secondary-color;
     }
+
     .input-display {
       position: relative;
       font-weight: $font-weight-book;
@@ -1136,11 +1273,13 @@ $margin-left-right: 21.3px;
       letter-spacing: -0.03em;
       padding: 13px 32px 13px 16px;
     }
+
     .react-autosuggest__input {
       height: 0;
       margin: 0;
       padding: 0;
       font-size: 16px;
+
       &:focus {
         outline: none;
         box-shadow: none;
@@ -1150,11 +1289,13 @@ $margin-left-right: 21.3px;
     &.react-autosuggest__container--open .dropdown-arrow {
       transform: rotate(180deg);
     }
+
     .react-autosuggest__suggestions-container--open {
-      border: 1px solid #dddddd;
+      border: 1px solid #ddd;
       border-bottom: none;
-      box-shadow: 0px 4px 13px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 4px 13px rgba(0, 0, 0, 0.15);
     }
+
     .react-autosuggest__suggestions-container {
       background: #f4f4f5;
       z-index: index($zindex, 'autosuggest-suggestion-container');
@@ -1163,37 +1304,45 @@ $margin-left-right: 21.3px;
       left: 0;
       right: 0;
       border-radius: 4px;
+
       .react-autosuggest__section-container {
         &:not(:first-child) {
           margin-top: 4px;
-          border-top: 1px solid #dddddd;
+          border-top: 1px solid #ddd;
         }
+
         &:first-child {
           border-radius: 4px 4px 0 0;
         }
+
         &:last-child {
           border-radius: 0 0 4px 4px;
         }
+
         background: white;
         font-weight: $font-weight-book;
         font-size: 15px;
         line-height: 18px;
         letter-spacing: -0.03em;
+
         .react-autosuggest__section-title {
           font-weight: var(--sectionTitleFontWeight);
-          border-bottom: 1px solid #dddddd;
+          border-bottom: 1px solid #ddd;
           min-height: 44px;
           padding: 13px 16px;
         }
+
         ul {
           padding: 0;
           margin: 0;
+
           .react-autosuggest__suggestion {
-            border-bottom: 1px solid #dddddd;
+            border-bottom: 1px solid #ddd;
             list-style: none;
             min-height: 44px;
             padding: 13px 10px 13px 16px;
             position: relative;
+
             .icon.check,
             .icon.dropdown-arrow {
               height: 20px;
@@ -1203,76 +1352,83 @@ $margin-left-right: 21.3px;
               right: 16px;
             }
           }
+
           .react-autosuggest__suggestion--highlighted {
             background: #dfe5e8;
           }
         }
 
-  a {
-    text-decoration: none;
-  }
+        a {
+          text-decoration: none;
+        }
 
-  .similar-route {
-    display: flex;
-    justify-content: space-between;
-    .icon-container {
-      position: relative;
-      width: auto;
-      height: auto;
-      right: auto;
-      top: auto;
-      margin-top: 3px;
-      margin-right: 10px;
-      flex-shrink: 0;
-      .icon {
-        position: relative;
-        width: 2em;
-        height: 2em;
-        right: auto;
-        top: auto;
-      }
-    }
+        .similar-route {
+          display: flex;
+          justify-content: space-between;
 
-    .similar-route-arrow-container {
-      margin-top: 5px;
-      .icon-container {
-        margin-right: 0px;
-        .similar-route-arrow {
-          width: 1.35em;
-          height:1.35em;
+          .icon-container {
+            position: relative;
+            width: auto;
+            height: auto;
+            right: auto;
+            top: auto;
+            margin-top: 3px;
+            margin-right: 10px;
+            flex-shrink: 0;
+
+            .icon {
+              position: relative;
+              width: 2em;
+              height: 2em;
+              right: auto;
+              top: auto;
+            }
+          }
+
+          .similar-route-arrow-container {
+            margin-top: 5px;
+
+            .icon-container {
+              margin-right: 0;
+
+              .similar-route-arrow {
+                width: 1.35em;
+                height: 1.35em;
+              }
+            }
+          }
+
+          .similar-route-text {
+            flex-grow: 1;
+            overflow: auto;
+            font-family: $font-family;
+            display: flex;
+            flex-direction: column;
+            white-space: nowrap;
+
+            .similar-route-name {
+              color: #333;
+              font-style: normal;
+              font-weight: $font-weight-medium;
+              font-size: 15px;
+              line-height: 20px;
+            }
+
+            .similar-route-longname {
+              color: #666;
+              font-size: 13px;
+              line-height: 20px;
+              text-decoration-color: white;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              letter-spacing: -0.48px;
+            }
+          }
         }
       }
     }
-
-    .similar-route-text {
-      flex-grow: 1;
-      overflow: auto;
-      font-family: $font-family;
-      display: flex;
-      flex-direction: column;
-      white-space: nowrap;
-
-      .similar-route-name {
-        color: #333333;
-        font-style: normal;
-        font-weight: $font-weight-medium;
-        font-size: 15px;
-        line-height: 20px;
-      }
-      .similar-route-longname {
-        color: #666666;
-        font-size: 13px;
-        line-height: 20px;
-        text-decoration-color: white;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        letter-spacing: -0.48px;
-      }
-    }
   }
-      }
-    }
-  }
+
   @media print {
     display: none;
   }
@@ -1289,15 +1445,17 @@ $margin-left-right: 21.3px;
 
 nav.top-bar .title .route-number {
   font-size: 24px;
+
   .vehicle-number {
     color: $title-color;
     vertical-align: middle;
   }
+
   .route-number-title {
     font-size: 25px;
+
     span > span:nth-child(1) {
       span > svg.icon {
-        //margin-top: -4px;
         border: 1px solid rgba(255, 255, 255, 0.3);
         border-radius: $border-radius;
       }
@@ -1310,28 +1468,36 @@ nav.top-bar .title .route-number {
     padding: 0 0 0 20px;
   }
 }
+
 .route-agency {
   @extend .itinerary-leg-agency;
+
   padding: 0 0 0 10px;
+
   .agency-link-container {
     max-width: calc(100% - 1em);
     white-space: nowrap;
-    padding-top: 0px;
+    padding-top: 0;
     padding-bottom: 7px;
+
     .agency-link {
       font-size: 10px;
       padding: 0;
+
       .external-link-container {
         max-width: calc(100% - 1em);
       }
+
       a {
         font-weight: $font-weight-medium;
         color: $link-color;
         max-width: 100%;
       }
+
       .icon.external-link-icon-outer {
         color: white;
       }
+
       .icon.external-link-icon {
         color: $link-color;
       }

@@ -1,10 +1,12 @@
 /* eslint-disable prefer-template */
-import { BIKEAVL_WITHMAX, BIKEAVL_BIKES } from '../util/vehicleRentalUtils';
 import HSLConfig from './config.hsl';
 import TurkuConfig from './config.turku';
 import LappeenrantaConfig from './config.lappeenranta';
 import TampereConfig from './config.tampere';
+import KotkaConfig from './config.kotka';
+import KouvolaConfig from './config.kouvola';
 import KuopioConfig from './config.kuopio';
+import LahtiConfig from './config.lahti';
 
 const CONFIG = 'matka';
 const APP_DESCRIPTION = 'Matka.fi–palvelu.';
@@ -20,8 +22,7 @@ export default {
   CONFIG,
   OTPTimeout: process.env.OTP_TIMEOUT || 30000,
   URL: {
-    FONT:
-      'https://digitransit-prod-cdn-origin.azureedge.net/matka-fonts/roboto/roboto+montserrat.css',
+    FONT: 'https://digitransit-prod-cdn-origin.azureedge.net/matka-fonts/roboto/roboto+montserrat.css',
   },
 
   mainMenu: {
@@ -137,8 +138,7 @@ export default {
     content: [
       {
         name: 'traficom',
-        href:
-          'https://www.traficom.fi/fi/liikenne/liikennejarjestelma/joukkoliikenteen-informaatiopalvelut',
+        href: 'https://www.traficom.fi/fi/liikenne/liikennejarjestelma/joukkoliikenteen-informaatiopalvelut',
       },
       {
         name: 'about-service-feedback',
@@ -171,161 +171,16 @@ export default {
 
   cityBike: {
     networks: {
-      smoove: {
-        enabled: HSLConfig.cityBike.networks.smoove.enabled,
-        season: HSLConfig.cityBike.networks.smoove.season,
-        capacity: BIKEAVL_WITHMAX,
-        icon: 'citybike',
-        name: {
-          fi: 'Helsinki ja Espoo',
-          sv: 'Helsingfors och Esbo',
-          en: 'Helsinki and Espoo',
-        },
-        type: 'citybike',
-        url: {
-          fi: 'https://www.hsl.fi/kaupunkipyorat/helsinki',
-          sv: 'https://www.hsl.fi/sv/stadscyklar/helsingfors',
-          en: 'https://www.hsl.fi/en/citybikes/helsinki',
-        },
-      },
-      vantaa: {
-        enabled: HSLConfig.cityBike.networks.vantaa.enabled,
-        season: HSLConfig.cityBike.networks.vantaa.season,
-        capacity: BIKEAVL_WITHMAX,
-        icon: 'citybike-secondary',
-        name: {
-          fi: 'Vantaa',
-          sv: 'Vanda',
-          en: 'Vantaa',
-        },
-        type: 'citybike',
-        url: {
-          fi: 'https://www.hsl.fi/kaupunkipyorat/vantaa',
-          sv: 'https://www.hsl.fi/sv/stadscyklar/vantaa',
-          en: 'https://www.hsl.fi/en/citybikes/vantaa',
-        },
-      },
-      seatcode_tampere: {
-        capacity: BIKEAVL_WITHMAX,
-        enabled: true,
-        season: TampereConfig.cityBike.networks.seatcode_tampere.season,
-        icon: 'citybike',
-        name: {
-          fi: 'Tampere',
-          sv: 'Tammerfors',
-          en: 'Tampere',
-        },
-        type: 'citybike',
-        url: {
-          fi: 'https://www.nysse.fi/kaupunkipyorat',
-          sv: 'https://www.nysse.fi/en/city-bikes.html',
-          en: 'https://www.nysse.fi/en/city-bikes.html',
-        },
-      },
-      turku: {
-        enabled: TurkuConfig.cityBike.networks.donkey_turku.enabled,
-        season: TurkuConfig.cityBike.networks.donkey_turku.season,
-        capacity: BIKEAVL_WITHMAX,
-        icon: 'citybike',
-        name: {
-          fi: 'Turku',
-          sv: 'Åbo',
-          en: 'Turku',
-        },
-        type: 'citybike',
-        url: {
-          fi: 'https://www.foli.fi/fi/aikataulut-ja-reitit/fölifillarit',
-          sv: 'https://www.foli.fi/sv/fölicyklar',
-          en: 'https://www.foli.fi/en/föli-bikes',
-        },
-      },
-      freebike_kuopio: {
-        enabled: KuopioConfig.cityBike.networks.freebike_kuopio.enabled,
-        season: KuopioConfig.cityBike.networks.freebike_kuopio.season,
-        capacity: BIKEAVL_BIKES,
-        icon: 'citybike',
-        name: {
-          fi: 'Vilkku',
-          sv: 'Vilkku',
-          en: 'Vilkku',
-        },
-        type: 'citybike',
-        url: {
-          fi: 'https://kaupunkipyorat.kuopio.fi/',
-          sv: 'https://kaupunkipyorat.kuopio.fi/?lang=2',
-          en: 'https://kaupunkipyorat.kuopio.fi/?lang=2',
-        },
-      },
-      donkey_lappeenranta: {
-        enabled:
-          LappeenrantaConfig.cityBike.networks.donkey_lappeenranta.enabled,
-        season: LappeenrantaConfig.cityBike.networks.donkey_lappeenranta.season,
-        capacity: BIKEAVL_WITHMAX,
-        icon: 'citybike',
-        name: {
-          fi: 'Lappeenranta',
-          sv: 'Vilmanstrand',
-          en: 'Lappeenranta',
-        },
-        type: 'citybike',
-        url: {
-          fi: 'https://kaakau.fi/lappeenranta/',
-          sv: 'https://kaakau.fi/lappeenranta/?lang=sv',
-          en: 'https://kaakau.fi/lappeenranta/?lang=en',
-        },
-      },
-      donkey_kotka: {
-        enabled: true,
-        season: {
-          // 14.4. - 31.10.
-          start: new Date(new Date().getFullYear(), 3, 14),
-          end: new Date(new Date().getFullYear(), 10, 1),
-        },
-        capacity: BIKEAVL_WITHMAX,
-        icon: 'citybike',
-        name: {
-          fi: 'Kotkan-Haminan seutu',
-          sv: 'Kotka-Fredrikshamnsregionen',
-          en: 'Kotka-Hamina region',
-        },
-        type: 'citybike',
-        url: {
-          fi: 'https://kaakau.fi/kotka/',
-          sv: 'https://kaakau.fi/kotka/?lang=sv',
-          en: 'https://kaakau.fi/kotka/?lang=en',
-        },
-        returnInstructions: {
-          fi: 'https://kaakau.fi/ohjeet/pyoran-palauttaminen/',
-          sv: 'https://kaakau.fi/ohjeet/pyoran-palauttaminen/',
-          en: 'https://kaakau.fi/ohjeet/pyoran-palauttaminen/',
-        },
-      },
-      donkey_kouvola: {
-        enabled: true,
-        season: {
-          // 20.4. - 31.10.
-          start: new Date(new Date().getFullYear(), 3, 20),
-          end: new Date(new Date().getFullYear(), 10, 1),
-        },
-        capacity: BIKEAVL_WITHMAX,
-        icon: 'citybike',
-        name: {
-          fi: 'Kouvola',
-          sv: 'Kouvola',
-          en: 'Kouvola',
-        },
-        type: 'citybike',
-        url: {
-          fi: 'https://kaakau.fi/kouvola/',
-          sv: 'https://kaakau.fi/kouvola/?lang=sv',
-          en: 'https://kaakau.fi/kouvola/?lang=en',
-        },
-        returnInstructions: {
-          fi: 'https://kaakau.fi/ohjeet/pyoran-palauttaminen/',
-          sv: 'https://kaakau.fi/ohjeet/pyoran-palauttaminen/',
-          en: 'https://kaakau.fi/ohjeet/pyoran-palauttaminen/',
-        },
-      },
+      smoove: HSLConfig.cityBike.networks.smoove,
+      vantaa: HSLConfig.cityBike.networks.vantaa,
+      seatcode_tampere: TampereConfig.cityBike.networks.seatcode_tampere,
+      turku: TurkuConfig.cityBike.networks.donkey_turku,
+      freebike_kuopio: KuopioConfig.cityBike.networks.freebike_kuopio,
+      freebike_lahti: LahtiConfig.cityBike.networks.freebike_lahti,
+      donkey_lappeenranta:
+        LappeenrantaConfig.cityBike.networks.donkey_lappeenranta,
+      donkey_kotka: KotkaConfig.cityBike.networks.donkey_kotka,
+      donkey_kouvola: KouvolaConfig.cityBike.networks.donkey_kouvola,
     },
   },
 
@@ -393,7 +248,7 @@ export default {
   useAlternativeNameForModes: ['rail'],
 
   showVehiclesOnStopPage: false,
-  showVehiclesOnSummaryPage: true,
+  showVehiclesOnItineraryPage: true,
 
   includeCarSuggestions: true,
   includeParkAndRideSuggestions: true,

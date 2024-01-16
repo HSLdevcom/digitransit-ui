@@ -13,6 +13,7 @@
     font-family: $heading-font-family;
     line-height: 88px;
   }
+
   .desktop-button {
     display: flex;
     justify-content: center;
@@ -37,7 +38,9 @@
     cursor: pointer;
 
     &.save {
-      &:active, &:focus, &:hover {
+      &:active,
+      &:focus,
+      &:hover {
         border-color: var(--hover-color);
         background: var(--hover-color);
         color: #fff;
@@ -52,6 +55,7 @@
       }
     }
   }
+
   .panel-close {
     align-self: start;
     background-color: transparent;
@@ -64,6 +68,7 @@
     right: 20px;
     top: 12px;
   }
+
   .checkbox-grouping + .checkbox-grouping {
     margin-top: 2.7em;
 

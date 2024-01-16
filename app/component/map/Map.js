@@ -53,6 +53,8 @@ const startClient = context => {
   }
 };
 
+const onPopupopen = () => events.emit('popupOpened');
+
 export default class Map extends React.Component {
   static propTypes = {
     animate: PropTypes.bool,
@@ -150,8 +152,6 @@ export default class Map extends React.Component {
       this.context.executeAction(stopRealTimeClient, client);
     }
   }
-
-  onPopupopen = () => events.emit('popupOpened');
 
   zoomEnd = () => {
     this.props.leafletEvents?.onZoomend?.(); // pass event to parent
@@ -299,7 +299,7 @@ export default class Map extends React.Component {
           animate={this.props.animate}
           boundsOptions={boundsOptions}
           {...leafletEvents}
-          onPopupopen={this.onPopupopen}
+          onPopupopen={onPopupopen}
           closePopupOnClick={false}
         >
           <TileLayer

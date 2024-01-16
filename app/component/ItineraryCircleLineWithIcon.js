@@ -77,7 +77,7 @@ class ItineraryCircleLineWithIcon extends React.Component {
       this.props.modeClassName === 'walk' ||
       this.props.modeClassName === 'bicycle'
     ) {
-      return <></>;
+      return null;
     }
     return (
       <div

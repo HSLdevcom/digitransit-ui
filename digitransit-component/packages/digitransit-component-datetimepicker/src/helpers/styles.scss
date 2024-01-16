@@ -5,18 +5,19 @@
 @mixin default-focus-outline {
   /* First apply outline that is used in Edge and Firefox */
   outline: 1px dotted #212121;
+
   /* Then override outline for webkit browsers like Chrome, this has no effect on other browsers */
   outline: 5px auto -webkit-focus-ring-color; /* stylelint-disable-line declaration-block-no-duplicate-properties */
 }
 
-$zindex: base, map-container, map-gradient, map-fullscreen-toggle,
-  map-buttons, context-panel, search-panel, search-overlay, stop-route-station-input, destination-input,
-  viapoint-input-5, viapoint-input-4, viapoint-input-3, viapoint-input-2,
-  viapoint-input-1, origin-input, search-input-focus, search-input-icon, autosuggest-suggestion-container, front;
-
+$zindex: base, map-container, map-gradient, map-fullscreen-toggle, map-buttons,
+  context-panel, search-panel, search-overlay, stop-route-station-input,
+  destination-input, viapoint-input-5, viapoint-input-4, viapoint-input-3,
+  viapoint-input-2, viapoint-input-1, origin-input, search-input-focus,
+  search-input-icon, autosuggest-suggestion-container, front;
 $input-color: var(--input-color);
 
-.sr-only:not(:focus):not(:active) {
+.sr-only:not(:focus, :active) {
   clip: rect(0 0 0 0);
   clip-path: inset(50%);
   height: 1px;
@@ -33,14 +34,16 @@ $input-color: var(--input-color);
   font-size: 15px;
   font-weight: var(--font-weight-medium);
 
-  button, label {
+  button,
+  label {
     font-size: 1em;
     font-weight: inherit;
   }
 
   label button {
     cursor: pointer;
-    font-family: 'Gotham Rounded A', 'Gotham Rounded B', 'Roboto', Arial, Georgia, Serif;
+    font-family: 'Gotham Rounded A', 'Gotham Rounded B', Roboto, Arial, Georgia,
+      serif;
   }
 
   .hidden {
@@ -56,6 +59,7 @@ $input-color: var(--input-color);
   .top-row-container {
     display: flex;
     flex-wrap: wrap;
+
     &.closed {
       margin: 11px 0 6px 18px;
     }
@@ -70,46 +74,56 @@ $input-color: var(--input-color);
         height: 19px;
       }
     }
+
     .dropdown-icon {
       margin-left: 9px;
       position: relative;
       top: 1px;
+
       svg {
         width: 14px;
         height: 10px;
       }
     }
+
     .close-icon {
       svg {
         width: 12px;
         height: 12px;
         border-radius: 1px;
+
         path {
           stroke-width: 30;
         }
       }
     }
+
     label {
       cursor: pointer;
+
       &.label-open {
         align-items: flex-start;
         display: flex;
       }
     }
-    button, label {
+
+    button,
+    label {
       font-size: 1em;
       letter-spacing: -0.5px;
       line-height: 1;
     }
   }
+
   .textbutton {
     margin-left: 9px;
     margin-top: 1px;
     background: none;
     border: none;
-    color: #666666;
+    color: #666;
     padding: 0;
-    @include min-width(tablet)  {
+
+    @include min-width(tablet) {
       margin-left: 14px;
     }
 
@@ -132,13 +146,14 @@ $input-color: var(--input-color);
 
   .departure-or-arrival-container {
     height: calc(1rem + 20px);
-    background-color: #dddddd;
+    background-color: #ddd;
     border-radius: 8px;
     display: flex;
     width: calc(5px + 13em);
   }
+
   .radio-textbutton-label {
-    color: #333333;
+    color: #333;
     margin: 2px;
     background: none;
     border-radius: 6px;
@@ -151,18 +166,20 @@ $input-color: var(--input-color);
     font-size: 15px;
     line-height: 18px;
     letter-spacing: -0.03em;
+
     &.active {
       font-weight: 500;
       background: white;
     }
+
     &:focus-within {
       @include default-focus-outline;
     }
+
     &.first-radio {
       margin: 0;
       display: flex;
       align-items: flex-start;
-
     }
   }
 
@@ -184,7 +201,7 @@ $input-color: var(--input-color);
     padding: 8px 0;
     width: 6.6875rem;
     background: white;
-    border: 1px solid #888888;
+    border: 1px solid #888;
     border-radius: 30px;
     margin-left: 11px;
   }
@@ -195,6 +212,7 @@ $input-color: var(--input-color);
     margin-top: -1px;
     padding: 2px 0 2px 0;
   }
+
   button.close-button {
     transition: transform 0.2s;
     position: relative;
@@ -206,6 +224,7 @@ $input-color: var(--input-color);
     color: var(--color);
     padding: 0;
     line-height: normal;
+
     &:hover {
       transform: scale(1.2);
     }
@@ -234,6 +253,7 @@ $input-color: var(--input-color);
       align-items: center;
       padding: 0;
       margin-left: 14px;
+
       svg {
         width: 20px;
         height: 18px;
@@ -245,6 +265,7 @@ $input-color: var(--input-color);
       align-items: center;
       padding: 0;
       margin-left: 8px;
+
       svg {
         margin-top: 1px;
         width: 22px;
@@ -252,25 +273,31 @@ $input-color: var(--input-color);
       }
     }
   }
+
   .datetimepicker-select-container {
     position: relative;
     height: 40px;
+
     // use global scope because react-select is not quite compatible with csss module local scoping
     :global .datetimepicker-select__control {
       cursor: inherit;
       height: 40px;
-      border: 1px solid #888888;
+      border: 1px solid #888;
     }
+
     :global .datetimepicker-select__value-container {
       padding: 0;
     }
+
     :global .datetimepicker-select__single-value {
       margin: 0 0 0 47px;
     }
+
     :global .datetimepicker-select__input {
       background: inherit;
       position: relative;
       margin-left: 40px;
+
       input {
         opacity: 1 !important; // TODO
         background: inherit;
@@ -283,6 +310,7 @@ $input-color: var(--input-color);
         font-family: inherit;
         font-size: 15px;
         font-weight: var(--font-weight-medium);
+
         &:focus {
           box-shadow: none;
           outline: none;
@@ -290,6 +318,7 @@ $input-color: var(--input-color);
         }
       }
     }
+
     :global .datetimepicker-select__menu {
       z-index: index($zindex, 'autosuggest-suggestion-container');
       padding: 0;
@@ -297,19 +326,23 @@ $input-color: var(--input-color);
       max-height: 250px;
       border-radius: 5px;
       box-shadow: 0 2px 0 0 rgba(0, 0, 0, 0.06);
-      border: 1px rgba(0,0,0,0.1) solid;
+      border: 1px rgba(0, 0, 0, 0.1) solid;
+
       :global .datetimepicker-select__menu-list {
         max-height: 250px;
         padding: 0;
+
         :global .datetimepicker-select__option {
           height: 50px;
-          border-top: 1px solid #dddddd;
+          border-top: 1px solid #ddd;
           padding: 13px 0 0 12px;
           letter-spacing: -0.6px;
-          color: #333333;
+          color: #333;
+
           &--is-selected {
             background: inherit;
           }
+
           &--is-focused {
             background: #dfe5e8;
           }
@@ -317,6 +350,7 @@ $input-color: var(--input-color);
       }
     }
   }
+
   .picker-container {
     margin: 14px 0 0 0;
     display: flex;
@@ -329,15 +363,17 @@ $input-color: var(--input-color);
 
 .mobile-modal-overlay {
   position: fixed;
-  top: 0px;
-  left: 0px;
-  right: 0px;
-  bottom: 0px;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   background-color: rgba(0, 0, 0, 0.6);
   z-index: 1000;
 }
+
 .mobile-modal-content {
-  font-family: 'Gotham Rounded A', 'Gotham Rounded B', 'Roboto', Arial, Georgia, Serif;
+  font-family: 'Gotham Rounded A', 'Gotham Rounded B', Roboto, Arial, Georgia,
+    serif;
   background: white;
   width: 89%;
   position: absolute;
@@ -345,23 +381,26 @@ $input-color: var(--input-color);
   padding: 31px 20px 33px 20px;
   top: 80px;
   border-radius: 5px;
+
   .top-row {
     display: flex;
     justify-content: space-between;
     margin-bottom: 21px;
+
     .modal-title {
       font-weight: var(--font-weight-medium);
       font-size: 20px;
       line-height: 18px;
       letter-spacing: -0.5px;
-      color: #333333;
+      color: #333;
       padding: 6px 0 0 8px;
     }
+
     .departure-now-button {
       background-color: white;
       font-family: inherit;
       padding: 5px 15px;
-      border: 1px solid #888888;
+      border: 1px solid #888;
       border-radius: 50px;
       font-weight: var(--font-weight-medium);
       font-size: 15px;
@@ -370,12 +409,14 @@ $input-color: var(--input-color);
       color: var(--color);
     }
   }
+
   .tab-row {
     display: flex;
-    border: 2px solid #dddddd;
+    border: 2px solid #ddd;
     border-radius: 5px;
     margin-bottom: 16px;
-    background-color: #dddddd;
+    background-color: #ddd;
+
     .radio-tab-label {
       padding: 9px 0;
       font-size: 15px;
@@ -385,12 +426,14 @@ $input-color: var(--input-color);
       font-weight: normal;
       width: 50%;
       text-align: center;
-      color: #333333;
+      color: #333;
+
       &.active {
         font-weight: var(--font-weight-medium);
-        background-color: #ffffff;
+        background-color: #fff;
       }
     }
+
     .radio-textbutton {
       clip: rect(0 0 0 0);
       clip-path: inset(50%);
@@ -401,6 +444,7 @@ $input-color: var(--input-color);
       width: 1px;
     }
   }
+
   .input-row {
     display: flex;
     margin-bottom: 25px;
@@ -409,11 +453,13 @@ $input-color: var(--input-color);
       flex-basis: 60%;
       margin-right: 10px;
     }
+
     label:nth-child(2) {
       flex-basis: 40%;
     }
+
     .input-container {
-      border: 1px solid #888888;
+      border: 1px solid #888;
       border-radius: 5px;
       display: flex;
       align-items: center;
@@ -433,10 +479,12 @@ $input-color: var(--input-color);
         border: none;
         position: relative;
         top: 3px;
-        &.time-input-icon>svg {
+
+        &.time-input-icon > svg {
           height: 20px;
         }
       }
+
       .time-input-mobile {
         font-family: inherit;
         box-shadow: none;
@@ -452,15 +500,18 @@ $input-color: var(--input-color);
         color: var(--input-color);
         height: 1.5265rem;
       }
+
       .mobile-input-display {
         position: relative;
         left: 10px;
         border: none;
+
         &:focus {
           outline: none;
           box-shadow: none;
           background: none;
         }
+
         background: inherit;
         box-shadow: none;
         font-family: inherit;
@@ -470,25 +521,27 @@ $input-color: var(--input-color);
         font-size: 16px;
         line-height: 1.33;
         letter-spacing: -0.5px;
-        color: #333333;
+        color: #333;
       }
+
       .mobile-input-hidden {
         font-size: 16px;
         margin-bottom: 12px;
-        height: 0px;
+        height: 0;
         width: 0;
         background: inherit;
         color: transparent;
         outline: none;
         box-shadow: none;
         border: none;
+
         &:focus {
           outline: none;
           box-shadow: none;
         }
       }
 
-      .container  {
+      .container {
         position: absolute;
         width: calc((100% - 50px) * 0.6);
         height: 25px;
@@ -503,10 +556,12 @@ $input-color: var(--input-color);
           height: 50px;
           margin: 0;
           padding: 0 0 0 16px;
+
           // letter-spacing: -0.6px;
-          color: rgba(0,0, 0, 0.87);
+          color: rgba(0, 0, 0, 0.87);
           background: white;
         }
+
         .suggestionHighlighted {
           background: #dfe5e8;
         }
@@ -519,18 +574,20 @@ $input-color: var(--input-color);
           overflow-y: scroll;
           border-radius: 5px;
           box-shadow: 0 2px 0 0 rgba(0, 0, 0, 0.06);
-          border: 1px rgba(0,0,0,0.1) solid;
+          border: 1px rgba(0, 0, 0, 0.1) solid;
           top: 42px;
           left: -2px;
           width: 100%;
           font-size: 16px;
           line-height: 1;
           color: rgba(0, 0, 0, 0.87);
+
           ul {
             padding: 0;
             margin: 0;
           }
         }
+
         // autosuggest
         .input {
           box-shadow: none;
@@ -543,6 +600,7 @@ $input-color: var(--input-color);
           font-family: inherit;
           line-height: 1.33;
           padding-left: 46px;
+
           &:focus {
             outline: none;
             border: none;
@@ -552,11 +610,13 @@ $input-color: var(--input-color);
       }
     }
   }
+
   .buttons-row {
-    display:flex;
+    display: flex;
     flex-direction: column;
     font-size: 16px;
     font-weight: var(--font-weight-medium);
+
     button {
       background-color: white;
       font-family: inherit;
@@ -567,7 +627,8 @@ $input-color: var(--input-color);
       border-radius: 50px;
       height: 40px;
       color: var(--color);
-      border: 1px solid #888888;
+      border: 1px solid #888;
+
       &.ready-button {
         color: white;
         background-color: var(--color);

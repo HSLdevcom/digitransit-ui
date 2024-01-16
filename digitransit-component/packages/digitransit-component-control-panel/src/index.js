@@ -461,15 +461,13 @@ class CtrlPanel extends React.Component {
       return null;
     });
     return (
-      <Fragment>
-        <div
-          key="main"
-          className={className}
-          style={{ '--font-weight-medium': this.props.fontWeights.medium }}
-        >
-          {children}
-        </div>
-      </Fragment>
+      <div
+        key="main"
+        className={className}
+        style={{ '--font-weight-medium': this.props.fontWeights.medium }}
+      >
+        {children}
+      </div>
     );
   }
 }

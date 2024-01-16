@@ -71,8 +71,7 @@ export default {
       fi: `${POI_MAP_PREFIX}/fi/vehicleParkingGroups/`,
     },
 
-    FONT:
-      'https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&family=Roboto:wght@400;700',
+    FONT: 'https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&family=Roboto:wght@400;700',
     PELIAS: `${process.env.GEOCODING_BASE_URL || GEOCODING_BASE_URL}/search${
       hasAPISubscriptionQueryParameter
         ? `?${API_SUBSCRIPTION_QUERY_PARAMETER_NAME}=${API_SUBSCRIPTION_TOKEN}`
@@ -166,7 +165,7 @@ export default {
     peliasMapping: {},
     peliasLayer: null,
     peliasLocalization: null,
-    minimalRegexp: new RegExp('.{2,}'),
+    minimalRegexp: /.{2,}/,
   },
 
   nearbyRoutes: {
@@ -808,7 +807,7 @@ export default {
   timetables: {},
 
   // DT-3611
-  showVehiclesOnSummaryPage: false,
+  showVehiclesOnItineraryPage: false,
 
   showWeatherInformation: true,
   showBikeAndPublicItineraries: false,
@@ -857,12 +856,9 @@ export default {
       sv: 'Ruttsökningselement',
     },
     infoText: {
-      fi:
-        'Luo reittihakuelementti ja lisää se omaan palveluusi. Hakukomponentin Hae reitti -painikkeesta siirrytään Reittioppaaseen.',
-      en:
-        'Create a route search element and add it to your own service. The Find route button in the search component will transfer you to the journey planner.',
-      sv:
-        'Skapa ett ruttsökningselement och lägg det till din egen tjänst. Sök rutt-knappen i sökkomponenten tar dig till reseplaneraren.',
+      fi: 'Luo reittihakuelementti ja lisää se omaan palveluusi. Hakukomponentin Hae reitti -painikkeesta siirrytään Reittioppaaseen.',
+      en: 'Create a route search element and add it to your own service. The Find route button in the search component will transfer you to the journey planner.',
+      sv: 'Skapa ett ruttsökningselement och lägg det till din egen tjänst. Sök rutt-knappen i sökkomponenten tar dig till reseplaneraren.',
     },
   },
 
@@ -870,4 +866,6 @@ export default {
 
   // Notice! Turning on this setting forces the search for car routes (for the CO2 comparison only).
   showCO2InItinerarySummary: false,
+
+  geoJsonSvgSize: 20,
 };

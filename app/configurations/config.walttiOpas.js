@@ -62,7 +62,7 @@ export default configMerger(walttiConfig, {
   logo: 'walttiOpas/waltti-logo.png',
   favicon: './app/configurations/images/walttiOpas/walttiOpas-favicon.png',
 
-  feedIds: ['Salo', 'Kajaani'],
+  feedIds: ['Salo', 'Kajaani', 'Raasepori', 'RaaseporiELY'],
 
   defaultEndpoint: {
     address: 'Helsinki-Vantaan Lentoasema',
@@ -119,7 +119,7 @@ export default configMerger(walttiConfig, {
 
   viaPointsEnabled: false,
   showVehiclesOnStopPage: true,
-  showVehiclesOnSummaryPage: true,
+  showVehiclesOnItineraryPage: true,
 
   sourceForAlertsAndDisruptions: {
     Kajaani: {
@@ -131,6 +131,11 @@ export default configMerger(walttiConfig, {
       fi: 'Salo',
       sv: 'Salo',
       en: 'Salo',
+    },
+    Raasepori: {
+      fi: 'Raasepori',
+      sv: 'Raasepori',
+      en: 'Raasepori',
     }
   },
 
@@ -146,9 +151,13 @@ export default configMerger(walttiConfig, {
     [29.2, 64.1],
     [28.7, 63.9],
     [28.1, 63.8],
-    // Salo:
+    // Salo + Raasepori:
     [23.1, 60.6],
-    [23.7, 60.2],
+    [23.898, 60.207],
+    [23.942, 60.129],
+    [23.836, 59.980],
+    [23.847, 59.892],
+    [23.581, 59.796],
     [22.8, 59.9],
     [22.7, 60.4],
     [23.1, 60.6],

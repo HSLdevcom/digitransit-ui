@@ -63,7 +63,7 @@ export default configMerger(walttiConfig, {
 
   vehicles: true,
   showVehiclesOnStopPage: true,
-  showVehiclesOnSummaryPage: true,
+  showVehiclesOnItineraryPage: true,
 
   mainMenu: {
     stopMonitor: {
@@ -78,12 +78,9 @@ export default configMerger(walttiConfig, {
       {
         name: 'menu-feedback',
         href: {
-          fi:
-            'https://s-asiointi.jkl.fi/eFeedback/fi/Feedback/38-Joukkoliikenne',
-          sv:
-            'https://s-asiointi.jkl.fi/eFeedback/fi/Feedback/38-Joukkoliikenne',
-          en:
-            'https://s-asiointi.jkl.fi/eFeedback/en/Feedback/38-Public%20transport',
+          fi: 'https://s-asiointi.jkl.fi/eFeedback/fi/Feedback/38-Joukkoliikenne',
+          sv: 'https://s-asiointi.jkl.fi/eFeedback/fi/Feedback/38-Joukkoliikenne',
+          en: 'https://s-asiointi.jkl.fi/eFeedback/en/Feedback/38-Public%20transport',
         },
       },
       {
@@ -150,11 +147,12 @@ export default configMerger(walttiConfig, {
           sv: 'Servicekontorer',
           en: 'Service points',
         },
-        url:
-          'https://jakoon.jkl.fi/reittiopas/Asiakaspalvelupisteet/myyntipisteet.geojson',
+        url: 'https://jakoon.jkl.fi/reittiopas/Asiakaspalvelupisteet/myyntipisteet.geojson',
       },
     ],
   },
+
+  geoJsonSvgSize: 30,
 
   zoneIdMapping: {
     1: 'A',

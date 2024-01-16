@@ -496,13 +496,9 @@ export function getSearchResults(
     if (sources.includes('Favourite')) {
       const favouriteRoutes = getFavouriteRoutes(context);
       searchComponents.push(
-        getFavouriteRoutesQuery(
-          favouriteRoutes,
-          input,
-          mode,
-          pathOpts,
-        ).then(result =>
-          filterResults ? filterResults(result, mode, 'Routes') : result,
+        getFavouriteRoutesQuery(favouriteRoutes, input, mode, pathOpts).then(
+          result =>
+            filterResults ? filterResults(result, mode, 'Routes') : result,
         ),
       );
     }
@@ -542,9 +538,8 @@ export function getSearchResults(
   }
   if (allTargets || targets.includes('VehicleRentalStations')) {
     if (sources.includes('Favourite')) {
-      const favouriteVehicleRentalStation = getFavouriteVehicleRentalStations(
-        context,
-      );
+      const favouriteVehicleRentalStation =
+        getFavouriteVehicleRentalStations(context);
       searchComponents.push(
         getFavouriteVehicleRentalStationsQuery(
           favouriteVehicleRentalStation,

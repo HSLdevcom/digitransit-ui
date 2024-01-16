@@ -24,7 +24,7 @@ const getRouteMode = props => {
 };
 
 function isFavourite(item) {
-  return item && item.type && item.type.includes('Favourite');
+  return item?.type?.includes('Favourite');
 }
 
 function getAriaDescription(ariaContentArray) {
@@ -37,10 +37,10 @@ function getAriaDescription(ariaContentArray) {
 function getIconProperties(
   item,
   color,
-  modes = undefined,
   modeSet,
   stopCode,
   getIcons,
+  modes = undefined,
 ) {
   let iconId;
   let iconColor = '#888888';
@@ -81,7 +81,7 @@ function getIconProperties(
     if (item.properties.layer === 'bikepark') {
       return [`bike-park`, 'mode-bikepark'];
     }
-    if (item.properties.label?.split(',').length === 1) {
+    if (item.properties.label?.split(',').length === 1 && !isFavourite(item)) {
       iconId = 'localadmin'; // plain city name
     } else {
       iconId = item.properties.selectedIconId || item.properties.layer;
@@ -276,21 +276,15 @@ const SuggestionItem = pure(
     getAutoSuggestIcons,
     modeSet = 'default',
   }) => {
-    const [
-      suggestionType,
-      name,
-      label,
-      stopCode,
-      modes,
-      platform,
-    ] = content || ['', item.name, item.address];
+    const [suggestionType, name, label, stopCode, modes, platform] =
+      content || ['', item.name, item.address];
     const [iconId, iconColor] = getIconProperties(
       item,
       color,
-      modes,
       modeSet,
       stopCode,
       getAutoSuggestIcons,
+      modes,
     );
     const modeIconColor = modeIconColors[iconColor] || modeIconColors[iconId];
     // Arrow clicked is for street. Instead of selecting item when a user clicks on arrow,

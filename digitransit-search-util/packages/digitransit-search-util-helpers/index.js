@@ -129,9 +129,6 @@ export const getLayerRank = (layer, source) => {
       }
       return 0.42;
     }
-    default:
-      // venue, address, street, route-xxx
-      return 0.41;
     case LayerType.CarPark:
       return 0.38;
     case LayerType.BikePark:
@@ -140,6 +137,9 @@ export const getLayerRank = (layer, source) => {
       return 0.38;
     case LayerType.Stop:
       return 0.36;
+    default:
+      // venue, address, street, route-xxx
+      return 0.41;
   }
 };
 

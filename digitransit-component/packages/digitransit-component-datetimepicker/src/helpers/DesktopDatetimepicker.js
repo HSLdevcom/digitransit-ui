@@ -132,152 +132,150 @@ function DesktopDatetimepicker({
   };
   const ariaError = i18next.t('invalid-input', translationSettings);
   return (
-    <>
-      <label className={styles['combobox-container']} htmlFor={inputId}>
-        <span className={styles['sr-only']} id={labelId}>
-          {label} {displayValue}
-        </span>
-        {icon}
-        <Select
-          aria-labelledby={labelId}
-          ariaLiveMessages={{
-            guidance: context => {
-              // When user types invalid value, isDisabled becomes undefined instead of false
-              if (context.isDisabled === undefined) {
-                return ariaError;
-              }
-              return '.'; // this can't be empty for some reason
-            },
-            onChange: () => {
-              return '';
-            },
-            onFilter: () => {
-              return '';
-            },
-            onFocus: ({ context, label: itemLabel }) => {
-              if (context === 'menu') {
-                return itemLabel;
-              }
-              return '';
-            },
-          }}
-          options={options}
-          inputId={inputId}
-          onChange={time => {
-            const currentTime = moment(value).format('HH:mm');
-            const validated = validate(displayValue, value);
-            if (typing) {
-              if (validated !== null) {
-                if (currentTime !== displayValue && time.value === value) {
-                  handleTimestamp(validated);
-                } else {
-                  handleTimestamp(time.value);
-                }
-                setTyping(false);
-              } else {
-                if (time.value !== value) {
-                  handleTimestamp(time.value);
-                } else {
-                  // reset value
-                  changeDisplayValue(getDisplay(value));
-                }
-                setTyping(false);
-              }
-              if (!datePicker) {
-                setinvalidInput(false);
-              }
-              return;
+    <label className={styles['combobox-container']} htmlFor={inputId}>
+      <span className={styles['sr-only']} id={labelId}>
+        {label} {displayValue}
+      </span>
+      {icon}
+      <Select
+        aria-labelledby={labelId}
+        ariaLiveMessages={{
+          guidance: context => {
+            // When user types invalid value, isDisabled becomes undefined instead of false
+            if (context.isDisabled === undefined) {
+              return ariaError;
             }
-            if (!datePicker) {
-              setinvalidInput(false);
-            }
-            handleTimestamp(time.value);
-          }}
-          components={{
-            IndicatorsContainer: () => null,
-          }}
-          className={styles['datetimepicker-select-container']}
-          classNamePrefix="datetimepicker-select"
-          onInputChange={onInputChange}
-          inputValue={!disableTyping && displayValue}
-          value={closestOption}
-          noOptionsMessage={() => {
+            return '.'; // this can't be empty for some reason
+          },
+          onChange: () => {
             return '';
-          }}
-          filterOption={(option, input) => {
-            if (datePicker) {
-              return true;
+          },
+          onFilter: () => {
+            return '';
+          },
+          onFocus: ({ context, label: itemLabel }) => {
+            if (context === 'menu') {
+              return itemLabel;
             }
-            const completeInput =
-              input.length === 5 ||
-              (input.length === 4 && input.split(':')[0].length === 1);
-            const isMod15 = option.label.split(':')[1] % 15 === 0;
-            const minuteInput = input.split(':')[1]?.length === 1;
-
-            if (showAllOptions && isMod15) {
-              return true;
-            }
-            if (minuteInput) {
-              const inputH =
-                input.split(':')[0].length === 1
-                  ? '0'.concat(input.split(':')[0])
-                  : input.split(':')[0];
-              const inputM = input.split(':')[1];
-              const optH = option.label.split(':')[0];
-              const optM = option.label.split(':')[1];
-              if (inputH === optH) {
-                const t = Number(inputM) * 10;
-                const total = Number(optM) - t;
-                if (total >= 0 && total <= 9) {
-                  return true;
-                }
-                return false;
-              }
-            }
-            if (completeInput && !showAllOptions) {
-              return input.length === 4
-                ? '0'.concat(input) === option.label
-                : input === option.label;
-            }
-            if (isMod15) {
-              return filterOptions(option, input);
-            }
-
-            return false;
-          }}
-          controlShouldRenderValue={disableTyping}
-          tabSelectsValue={false}
-          placeholder=""
-          onFocus={e => {
-            if (!disableTyping) {
-              e.target.select();
-            }
-          }}
-          onBlur={() => {
-            // removing focus also locks in value
-            if (typing) {
-              const validated = validate(displayValue, value);
-              if (validated !== null) {
+            return '';
+          },
+        }}
+        options={options}
+        inputId={inputId}
+        onChange={time => {
+          const currentTime = moment(value).format('HH:mm');
+          const validated = validate(displayValue, value);
+          if (typing) {
+            if (validated !== null) {
+              if (currentTime !== displayValue && time.value === value) {
                 handleTimestamp(validated);
-                setTyping(false);
               } else {
-                changeDisplayValue(getDisplay(value));
-                setTyping(false);
+                handleTimestamp(time.value);
               }
-            }
-            if (!datePicker) {
-              setinvalidInput(false);
-            }
-          }}
-          onKeyDown={e => {
-            if (['ArrowDown', 'ArrowUp'].includes(e.key)) {
+              setTyping(false);
+            } else {
+              if (time.value !== value) {
+                handleTimestamp(time.value);
+              } else {
+                // reset value
+                changeDisplayValue(getDisplay(value));
+              }
               setTyping(false);
             }
-          }}
-          isSearchable={!disableTyping}
-        />
-      </label>
-    </>
+            if (!datePicker) {
+              setinvalidInput(false);
+            }
+            return;
+          }
+          if (!datePicker) {
+            setinvalidInput(false);
+          }
+          handleTimestamp(time.value);
+        }}
+        components={{
+          IndicatorsContainer: () => null,
+        }}
+        className={styles['datetimepicker-select-container']}
+        classNamePrefix="datetimepicker-select"
+        onInputChange={onInputChange}
+        inputValue={!disableTyping && displayValue}
+        value={closestOption}
+        noOptionsMessage={() => {
+          return '';
+        }}
+        filterOption={(option, input) => {
+          if (datePicker) {
+            return true;
+          }
+          const completeInput =
+            input.length === 5 ||
+            (input.length === 4 && input.split(':')[0].length === 1);
+          const isMod15 = option.label.split(':')[1] % 15 === 0;
+          const minuteInput = input.split(':')[1]?.length === 1;
+
+          if (showAllOptions && isMod15) {
+            return true;
+          }
+          if (minuteInput) {
+            const inputH =
+              input.split(':')[0].length === 1
+                ? '0'.concat(input.split(':')[0])
+                : input.split(':')[0];
+            const inputM = input.split(':')[1];
+            const optH = option.label.split(':')[0];
+            const optM = option.label.split(':')[1];
+            if (inputH === optH) {
+              const t = Number(inputM) * 10;
+              const total = Number(optM) - t;
+              if (total >= 0 && total <= 9) {
+                return true;
+              }
+              return false;
+            }
+          }
+          if (completeInput && !showAllOptions) {
+            return input.length === 4
+              ? '0'.concat(input) === option.label
+              : input === option.label;
+          }
+          if (isMod15) {
+            return filterOptions(option, input);
+          }
+
+          return false;
+        }}
+        controlShouldRenderValue={disableTyping}
+        tabSelectsValue={false}
+        placeholder=""
+        onFocus={e => {
+          if (!disableTyping) {
+            e.target.select();
+          }
+        }}
+        onBlur={() => {
+          // removing focus also locks in value
+          if (typing) {
+            const validated = validate(displayValue, value);
+            if (validated !== null) {
+              handleTimestamp(validated);
+              setTyping(false);
+            } else {
+              changeDisplayValue(getDisplay(value));
+              setTyping(false);
+            }
+          }
+          if (!datePicker) {
+            setinvalidInput(false);
+          }
+        }}
+        onKeyDown={e => {
+          if (['ArrowDown', 'ArrowUp'].includes(e.key)) {
+            setTyping(false);
+          }
+        }}
+        isSearchable={!disableTyping}
+      />
+    </label>
   );
 }
 DesktopDatetimepicker.propTypes = {

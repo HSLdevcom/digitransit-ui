@@ -5,7 +5,7 @@ import React from 'react';
 import { mockChildContextTypes, mockContext } from '../helpers/mock-context';
 import { mountWithIntl } from '../helpers/mock-intl-enzyme';
 
-import QuickSettingsPanel from '../../../app/component/QuickSettingsPanel';
+import SearchSettings from '../../../app/component/SearchSettings';
 import DatetimepickerContainer from '../../../app/component/DatetimepickerContainer';
 import defaultConfig from '../../../app/configurations/config.default';
 import { mockMatch, mockRouter } from '../helpers/mock-router';
@@ -20,10 +20,10 @@ const getDefaultProps = () => ({
   toggleSettings: () => {},
 });
 
-describe('<QuickSettingsPanel />', () => {
+describe('<SearchSettings />', () => {
   it('should render time picker', () => {
     const props = getDefaultProps();
-    const wrapper = mountWithIntl(<QuickSettingsPanel {...props} />, {
+    const wrapper = mountWithIntl(<SearchSettings {...props} />, {
       context: {
         router: mockRouter,
         match: mockMatch,

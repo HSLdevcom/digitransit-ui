@@ -47,39 +47,37 @@ class PatternStopsContainer extends React.PureComponent {
     const { constantOperationRoutes } = this.context.config;
 
     return (
-      <>
-        <ScrollableWrapper
-          className={cx('route-page-content', {
-            'bp-large': this.props.breakpoint === 'large',
-          })}
-        >
-          {this.props.route && this.props.route.patterns && (
-            <RoutePageControlPanel
-              match={this.props.match}
-              route={this.props.route}
-              breakpoint={this.props.breakpoint}
-            />
-          )}
-          {routeId && constantOperationRoutes[routeId] && (
-            <div className="stop-constant-operation-container bottom-padding">
-              <div style={{ width: '95%' }}>
-                <span>{constantOperationRoutes[routeId][locale].text}</span>
-                <span style={{ display: 'inline-block' }}>
-                  <a href={constantOperationRoutes[routeId][locale].link}>
-                    {constantOperationRoutes[routeId][locale].link}
-                  </a>
-                </span>
-              </div>
-            </div>
-          )}
-          <RouteStopListContainer
-            key="list"
-            pattern={this.props.pattern}
-            patternId={this.props.pattern.code}
-            hideDepartures={!!constantOperationRoutes[routeId]}
+      <ScrollableWrapper
+        className={cx('route-page-content', {
+          'bp-large': this.props.breakpoint === 'large',
+        })}
+      >
+        {this.props.route && this.props.route.patterns && (
+          <RoutePageControlPanel
+            match={this.props.match}
+            route={this.props.route}
+            breakpoint={this.props.breakpoint}
           />
-        </ScrollableWrapper>
-      </>
+        )}
+        {routeId && constantOperationRoutes[routeId] && (
+          <div className="stop-constant-operation-container bottom-padding">
+            <div style={{ width: '95%' }}>
+              <span>{constantOperationRoutes[routeId][locale].text}</span>
+              <span style={{ display: 'inline-block' }}>
+                <a href={constantOperationRoutes[routeId][locale].link}>
+                  {constantOperationRoutes[routeId][locale].link}
+                </a>
+              </span>
+            </div>
+          </div>
+        )}
+        <RouteStopListContainer
+          key="list"
+          pattern={this.props.pattern}
+          patternId={this.props.pattern.code}
+          hideDepartures={!!constantOperationRoutes[routeId]}
+        />
+      </ScrollableWrapper>
     );
   }
 }
@@ -93,7 +91,7 @@ export default createFragmentContainer(withBreakpoint(PatternStopsContainer), {
     ) {
       code
       ...RouteStopListContainer_pattern
-      @arguments(currentTime: $currentTime, patternId: $patternId)
+        @arguments(currentTime: $currentTime, patternId: $patternId)
     }
   `,
   route: graphql`

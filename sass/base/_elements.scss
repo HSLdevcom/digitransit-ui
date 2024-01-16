@@ -9,6 +9,7 @@ $border-radius-rounded: 30px;
   line-height: $line-height-normal;
   overflow-x: hidden;
 }
+
 .card-header {
   background-color: $white;
   padding: 0.4em 0 0.5em;
@@ -40,8 +41,10 @@ $border-radius-rounded: 30px;
   .h3 {
     margin-top: -10px;
   }
+
   .card-sub-header {
     display: flex;
+
     p {
       display: inline;
       margin-right: 2px;
@@ -52,14 +55,15 @@ $border-radius-rounded: 30px;
       line-height: 1.38;
       letter-spacing: -0.43px;
     }
+
     .card-code {
       border: 1px solid $light-gray;
       border-radius: $border-radius;
       font-size: 11px;
-      color: #666666;
+      color: #666;
       margin-right: 3px;
       margin-left: 4px;
-      padding: 0px 5px 0px 5px;
+      padding: 0 5px 0 5px;
       letter-spacing: -0.37px;
       height: 16px;
     }
@@ -80,6 +84,7 @@ $border-radius-rounded: 30px;
   height: 40px;
   margin-top: 20px;
   padding: 0;
+
   &:hover,
   &:focus {
     background-color: $gray-blue-light;
@@ -116,7 +121,7 @@ $border-radius-rounded: 30px;
   display: inline-block;
   width: 1em;
   height: 1em;
-  fill: currentColor;
+  fill: currentcolor;
 
   &.caution {
     color: $white;
@@ -139,21 +144,26 @@ $border-radius-rounded: 30px;
   background: white;
   stroke: #ddd;
   fill: transparent;
+
   .icon.favourite {
     height: 30px;
     width: 30px;
     stroke: #ddd;
     fill: white;
+
     &.selected {
       stroke: transparent;
     }
+
     &:hover {
       stroke: #bbb;
     }
+
     &.selected:hover {
       stroke: transparent;
     }
   }
+
   &:hover {
     background: transparent;
   }
@@ -169,20 +179,26 @@ $border-radius-rounded: 30px;
   font-size: 17px;
   border-radius: $border-radius;
   z-index: index($zindex, map-fullscreen-toggle);
+
   .icon {
     margin: 0.5em 0.5em 0 0.5em;
     fill: rgb(255, 255, 255);
   }
+
   &.expanded {
     top: -3em;
   }
-  &.routePage, &.itineraryPage {
+
+  &.routePage,
+  &.itineraryPage {
     bottom: 1.5em;
     top: auto;
   }
+
   &.stopPage {
     bottom: 2em;
     top: auto;
+
     &.expanded {
       bottom: 2em;
       top: auto;
@@ -192,6 +208,7 @@ $border-radius-rounded: 30px;
 
 .smallscreen-toggle {
   @extend .fullscreen-toggle;
+
   bottom: -1px;
 }
 
@@ -206,13 +223,6 @@ $border-radius-rounded: 30px;
 .overflow-fade {
   overflow: hidden;
   mask-image: linear-gradient(
-    to left,
-    transparent,
-    rgba(0, 0, 0, 0.2) 5px,
-    rgba(0, 0, 0, 1) 25px,
-    rgba(0, 0, 0, 1)
-  );
-  -webkit-mask-image: linear-gradient(
     to left,
     transparent,
     rgba(0, 0, 0, 0.2) 5px,
@@ -248,15 +258,19 @@ $border-radius-rounded: 30px;
   0% {
     opacity: 1;
   }
+
   20% {
     opacity: 1;
   }
+
   40% {
     opacity: 0;
   }
+
   60% {
     opacity: 1;
   }
+
   100% {
     opacity: 1;
   }
@@ -266,18 +280,23 @@ $border-radius-rounded: 30px;
   0% {
     opacity: 1;
   }
+
   20% {
     opacity: 1;
   }
+
   40% {
     opacity: 0;
   }
+
   60% {
     opacity: 0;
   }
+
   80% {
     opacity: 1;
   }
+
   100% {
     opacity: 1;
   }
@@ -295,7 +314,7 @@ svg.realtime-icon {
   animation-duration: 2s;
   animation-iteration-count: infinite;
   animation-timing-function: step-start;
-  fill: currentColor;
+  fill: currentcolor;
 
   &.path1 {
     animation-name: realtimeInnerArch;
@@ -352,39 +371,6 @@ svg.realtime-icon {
 .swipeable-tab {
   &.inactive {
     // just an arbitrary small value
-      max-height: 1px;
+    max-height: 1px;
   }
 }
-
-// TODO: These are styles for the disabled position marker.
-
-// .paused {
-//   animation-play-state: paused;
-// }
-//
-// #icon-icon_mapMarker-location-animated circle {
-//   animation-duration: 2.4s;
-//   animation-iteration-count: infinite;
-//   animation-timing-function: linear;
-//   transform-origin: center;
-//
-//   &#circle_pink_first {
-//     animation-name: locationIcon;
-//     animation-delay: -1.8s;
-//   }
-//
-//   &#circle_pink_second {
-//     animation-name: locationIcon;
-//     animation-delay: -1.2s;
-//   }
-//
-//   &#circle_pink_third {
-//     animation-name: locationIcon;
-//     animation-delay: -0.6s;
-//   }
-//
-//   &#circle_pink_fourth {
-//     animation-name: locationIcon;
-//     animation-delay: 0s;
-//   }
-// }

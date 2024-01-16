@@ -118,23 +118,25 @@ function MainMenu(props, { config, intl }) {
               </div>
             </div>
           ))}
-        {config.appBarLink?.name && appBarLinkHref && !config.hideAppBarLink && (
-          <div className="offcanvas-section">
-            <a
-              id="appBarLink"
-              href={appBarLinkHref}
-              onClick={() => {
-                addAnalyticsEvent({
-                  category: 'Navigation',
-                  action: 'appBarLink',
-                  name: null,
-                });
-              }}
-            >
-              {config.appBarLink.name}
-            </a>
-          </div>
-        )}
+        {config.appBarLink?.name &&
+          appBarLinkHref &&
+          !config.hideAppBarLink && (
+            <div className="offcanvas-section">
+              <a
+                id="appBarLink"
+                href={appBarLinkHref}
+                onClick={() => {
+                  addAnalyticsEvent({
+                    category: 'Navigation',
+                    action: 'appBarLink',
+                    name: null,
+                  });
+                }}
+              >
+                {config.appBarLink.name}
+              </a>
+            </div>
+          )}
       </section>
       <section className="menu-section secondary-links">
         <MainMenuLinks

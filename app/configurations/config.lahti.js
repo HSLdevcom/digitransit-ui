@@ -68,12 +68,9 @@ export default configMerger(walttiConfig, {
       {
         name: 'menu-feedback',
         href: {
-          fi:
-            'https://e-asiointi.lahti.fi/eFeedback/fi/Feedback/29-Joukkoliikenne',
-          sv:
-            'https://e-asiointi.lahti.fi/eFeedback/sv/Feedback/29-Kollektivtrafik',
-          en:
-            'https://e-asiointi.lahti.fi/eFeedback/en/Feedback/29-Public%20transport',
+          fi: 'https://e-asiointi.lahti.fi/eFeedback/fi/Feedback/29-Joukkoliikenne',
+          sv: 'https://e-asiointi.lahti.fi/eFeedback/sv/Feedback/29-Kollektivtrafik',
+          en: 'https://e-asiointi.lahti.fi/eFeedback/en/Feedback/29-Public%20transport',
         },
       },
       {
@@ -144,7 +141,7 @@ export default configMerger(walttiConfig, {
 
   vehicles: true,
   showVehiclesOnStopPage: true,
-  showVehiclesOnSummaryPage: true,
+  showVehiclesOnItineraryPage: true,
 
   transportModes: {
     citybike: {

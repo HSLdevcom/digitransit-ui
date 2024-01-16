@@ -157,6 +157,17 @@ function translateFutureRouteSuggestionTime(item) {
   str = `${str} ${moment(time).format('HH:mm')}`;
   return str;
 }
+
+const getSuggestionValue = suggestion => {
+  if (
+    suggestion.type === 'SelectFromOwnLocations' ||
+    suggestion.type === 'back'
+  ) {
+    return '';
+  }
+  return getLabel(suggestion.properties);
+};
+
 /**
  * @example
  * const searchContext = {
@@ -354,21 +365,21 @@ class DTAutosuggest extends React.Component {
     return !isEqual(nextState, this.state) || !isEqual(nextProps, this.props);
   }
 
-  componentDidUpdate = () => {
+  componentDidUpdate() {
     if (i18next.language !== this.props.lang) {
       i18next.changeLanguage(this.props.lang);
     }
-  };
+  }
 
   // eslint-disable-next-line camelcase
-  UNSAFE_componentWillReceiveProps = nextProps => {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     // wait until address is set or geolocationing fails
     if (nextProps.value !== this.state.value && !this.state.editing) {
       this.setState({
         value: nextProps.value,
       });
     }
-  };
+  }
 
   onChange = (event, { newValue, method }) => {
     const newState = {
@@ -499,16 +510,6 @@ class DTAutosuggest extends React.Component {
       ownPlaces: false,
       editing: false,
     });
-  };
-
-  getSuggestionValue = suggestion => {
-    if (
-      suggestion.type === 'SelectFromOwnLocations' ||
-      suggestion.type === 'back'
-    ) {
-      return '';
-    }
-    return getLabel(suggestion.properties);
   };
 
   checkPendingSelection = () => {
@@ -863,11 +864,8 @@ class DTAutosuggest extends React.Component {
   };
 
   clearOldSearches = () => {
-    const {
-      context,
-      clearOldSearches,
-      clearFutureRoutes,
-    } = this.props.searchContext;
+    const { context, clearOldSearches, clearFutureRoutes } =
+      this.props.searchContext;
     if (context && clearOldSearches) {
       clearOldSearches(context);
       if (clearFutureRoutes) {
@@ -912,12 +910,8 @@ class DTAutosuggest extends React.Component {
     if (i18next.language !== this.props.lang) {
       i18next.changeLanguage(this.props.lang);
     }
-    const {
-      value,
-      suggestions,
-      renderMobileSearch,
-      cleanExecuted,
-    } = this.state;
+    const { value, suggestions, renderMobileSearch, cleanExecuted } =
+      this.state;
     const inputProps = {
       placeholder: this.props.translatedPlaceholder
         ? this.props.translatedPlaceholder
@@ -995,7 +989,7 @@ class DTAutosuggest extends React.Component {
             }}
             fetchFunction={this.fetchFunction}
             onSuggestionsClearRequested={this.onSuggestionsClearRequested}
-            getSuggestionValue={this.getSuggestionValue}
+            getSuggestionValue={getSuggestionValue}
             renderSuggestion={this.renderItem}
             closeHandle={this.closeMobileSearch}
             ariaLabel={ariaRequiredText
@@ -1055,7 +1049,7 @@ class DTAutosuggest extends React.Component {
               suggestions={suggestions}
               onSuggestionsFetchRequested={this.fetchFunction}
               onSuggestionsClearRequested={this.onSuggestionsClearRequested}
-              getSuggestionValue={this.getSuggestionValue}
+              getSuggestionValue={getSuggestionValue}
               renderSuggestion={this.renderItem}
               inputProps={{
                 ...inputProps,

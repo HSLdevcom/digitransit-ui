@@ -58,11 +58,11 @@ class TrafficNowLink extends React.Component {
     });
   }
 
-  componentDidUpdate = () => {
+  componentDidUpdate() {
     if (i18next.language !== this.props.lang) {
       i18next.changeLanguage(this.props.lang);
     }
-  };
+  }
 
   handleKeyDown = (e, lang) => {
     if (e.keyCode === 32 || e.keyCode === 13) {

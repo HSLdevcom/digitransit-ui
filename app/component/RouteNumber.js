@@ -15,9 +15,7 @@ function RouteNumber(props, context) {
   // Checks if route only has letters without identifying numbers and
   // length doesn't fit in the tab view
   const hasNoShortName =
-    props.text &&
-    new RegExp(/^([^0-9]*)$/).test(props.text) &&
-    props.text.length > 3;
+    props.text && /^([^0-9]*)$/.test(props.text) && props.text.length > 3;
   const getColor = () => color || (props.isTransitLeg ? 'currentColor' : null);
 
   const getIcon = (
@@ -166,21 +164,14 @@ function RouteNumber(props, context) {
     </span>
   );
 
-  return (
-    <>
-      {props.withBar ? (
-        <div className={cx('bar-container', { long: hasNoShortName })}>
-          <div
-            className={cx('bar', mode)}
-            style={{ backgroundColor: getColor() }}
-          >
-            {rNumber}
-          </div>
-        </div>
-      ) : (
-        rNumber
-      )}
-    </>
+  return props.withBar ? (
+    <div className={cx('bar-container', { long: hasNoShortName })}>
+      <div className={cx('bar', mode)} style={{ backgroundColor: getColor() }}>
+        {rNumber}
+      </div>
+    </div>
+  ) : (
+    rNumber
   );
 }
 

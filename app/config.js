@@ -80,8 +80,9 @@ export function getNamedConfiguration(configName) {
 
     if (configName !== 'default') {
       // eslint-disable-next-line global-require, import/no-dynamic-require
-      additionalConfig = require(`./configurations/config.${configName}`)
-        .default;
+      additionalConfig = require(
+        `./configurations/config.${configName}`,
+      ).default;
     }
 
     // use cached baseConfig that is potentially patched in server start up

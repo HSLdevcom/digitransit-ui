@@ -4,10 +4,10 @@ import React from 'react';
 import { shallowWithIntl } from './helpers/mock-intl-enzyme';
 import { mockContext } from './helpers/mock-context';
 
-import { Component as ItineraryTab } from '../../app/component/ItineraryTab';
+import { Component as ItineraryDetails } from '../../app/component/ItineraryDetails';
 import dt2831 from './test-data/dt2831';
 
-describe('<ItineraryTab />', () => {
+describe('<ItineraryDetails />', () => {
   it('should render the container div', () => {
     const props = {
       itinerary: dt2831,
@@ -21,7 +21,7 @@ describe('<ItineraryTab />', () => {
       currentTime: 0,
       lang: 'fi',
     };
-    const wrapper = shallowWithIntl(<ItineraryTab {...props} />, {
+    const wrapper = shallowWithIntl(<ItineraryDetails {...props} />, {
       context: { ...mockContext },
     });
     expect(wrapper.find('.itinerary-tab').length).to.equal(1);

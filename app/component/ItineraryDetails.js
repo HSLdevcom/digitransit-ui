@@ -31,7 +31,6 @@ import {
   shouldShowFareInfo,
   shouldShowFarePurchaseInfo,
 } from '../util/fareUtils';
-import { addAnalyticsEvent } from '../util/analyticsUtils';
 import {
   getCurrentMillis,
   getFormattedTimeDate,
@@ -72,7 +71,7 @@ const ItineraryShape = PropTypes.shape({
 });
 
 /* eslint-disable prettier/prettier */
-class ItineraryTab extends React.Component {
+class ItineraryDetails extends React.Component {
   static propTypes = {
     plan: PropTypes.shape({
       date: PropTypes.number.isRequired,
@@ -111,23 +110,6 @@ class ItineraryTab extends React.Component {
       this.context.match.params.hash !== 'walk' &&
       this.context.match.params.hash !== 'bike'
     );
-  };
-
-  printItinerary = e => {
-    e.stopPropagation();
-
-    addAnalyticsEvent({
-      event: 'sendMatomoEvent',
-      category: 'Itinerary',
-      action: 'Print',
-      name: null,
-    });
-
-    const printPath = `${this.context.match.location.pathname}/tulosta`;
-    this.context.router.push({
-      ...this.context.match.location,
-      pathname: printPath,
-    });
   };
 
   getFutureText = (startTime, currentTime) => {
@@ -369,7 +351,7 @@ class ItineraryTab extends React.Component {
                   'bp-large': breakpoint === 'large',
                 })}
               >
-                <>{disclaimers}</>
+                {disclaimers}
                 <ItineraryLegs
                   fares={fares}
                   itinerary={itinerary}
@@ -408,18 +390,18 @@ class ItineraryTab extends React.Component {
 }
 
 const withRelay = createFragmentContainer(
-  connectToStores(ItineraryTab, ['TimeStore'], context => ({
+  connectToStores(ItineraryDetails, ['TimeStore'], context => ({
     currentTime: context.getStore('TimeStore').getCurrentTime().unix(),
     currentLanguage: context.getStore('PreferencesStore').getLanguage(),
   })),
   {
     plan: graphql`
-      fragment ItineraryTab_plan on Plan {
+      fragment ItineraryDetails_plan on Plan {
         date
       }
     `,
     itinerary: graphql`
-      fragment ItineraryTab_itinerary on Itinerary {
+      fragment ItineraryDetails_itinerary on Itinerary {
         walkDistance
         duration
         startTime
@@ -587,7 +569,6 @@ const withRelay = createFragmentContainer(
           rentedBike
           startTime
           endTime
-          mode
           interlineWithPreviousLeg
           distance
           duration
@@ -643,4 +624,4 @@ const withRelay = createFragmentContainer(
   },
 );
 
-export { ItineraryTab as Component, withRelay as default };
+export { ItineraryDetails as Component, withRelay as default };
