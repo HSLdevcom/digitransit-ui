@@ -497,7 +497,6 @@ export default {
     },
   },
 
-  // DT-3611
   showVehiclesOnItineraryPage: true,
   showBikeAndPublicItineraries: true,
   showBikeAndParkItineraries: true,
