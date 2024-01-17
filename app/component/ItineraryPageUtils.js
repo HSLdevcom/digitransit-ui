@@ -80,6 +80,18 @@ export function getHashIndex(params) {
   return undefined;
 }
 
+/**
+ * Gets the minimum duration of any itinerary in a plan.
+ *
+ * @param {*} plan a plan containing itineraries
+ */
+export function getDuration(plan) {
+  if (!plan?.itineraries?.length) {
+    return 0;
+  }
+  return Math.min(...plan.itineraries.map(itin => itin.duration));
+}
+
 // this func is a bit fuzzy because it mopares strings and numbers
 export function showDetailView(hash, secondHash, itineraries) {
   if (hash === 'bikeAndVehicle' || hash === 'parkAndRide') {
@@ -377,4 +389,23 @@ export function checkDayNight(iconId, timem, lat, lon) {
     return iconId + 100;
   }
   return iconId;
+}
+
+/**
+ * Filters away itineraries that don't use transit
+ */
+export function transitItineraries(itineraries) {
+  if (!itineraries) {
+    return [];
+  }
+  return itineraries.filter(
+    itinerary =>
+      !itinerary.legs.every(
+        leg =>
+          leg.mode === 'WALK' ||
+          leg.mode === 'BICYCLE' ||
+          leg.mode === 'CAR' ||
+          leg.mode === 'SCOOTER',
+      ),
+  );
 }
