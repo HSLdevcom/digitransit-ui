@@ -63,18 +63,7 @@ export const StreetModeSelectorButton = (
   let secondaryIcon;
   let metroColor;
 
-  if (name === 'bikeAndVehicle') {
-    const publicModes = plan.itineraries[0].legs.filter(
-      obj => obj.mode !== 'WALK' && obj.mode !== 'BICYCLE',
-    );
-    if (publicModes.length > 0) {
-      const firstMode = getMode(publicModes[0], config);
-      secondaryIcon = `icon-icon_${firstMode}`;
-      if (firstMode === 'subway') {
-        metroColor = '#CA4000';
-      }
-    }
-  } else if (name === 'parkAndRide') {
+  if (name === 'parkAndRide' || name === 'bikeAndVehicle') {
     let mode = 'rail';
     for (let i = 0; i < plan.itineraries.length; i++) {
       const publicModes = plan.itineraries[i].legs.filter(
