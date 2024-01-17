@@ -292,7 +292,7 @@ DesktopDatetimepicker.propTypes = {
   datePicker: PropTypes.bool,
   validateTime: PropTypes.func,
   setinvalidInput: PropTypes.func,
-  translationSettings: PropTypes.object,
+  translationSettings: PropTypes.shape({ lng: PropTypes.string.isRequired }),
 };
 
 DesktopDatetimepicker.defaultProps = {
