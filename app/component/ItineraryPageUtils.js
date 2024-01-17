@@ -409,3 +409,15 @@ export function transitItineraries(itineraries) {
       ),
   );
 }
+
+/**
+ * Filters itineraries that don't use given mode
+ */
+export function filterItineraries(itineraries, modes) {
+  if (!itineraries) {
+    return [];
+  }
+  return itineraries.filter(itinerary =>
+    itinerary.legs.some(leg => modes.includes(leg.mode)),
+  );
+}
