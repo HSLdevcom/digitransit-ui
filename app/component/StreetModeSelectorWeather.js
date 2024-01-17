@@ -6,7 +6,7 @@ import { FormattedMessage } from 'react-intl';
 import Icon from './Icon';
 import WeatherDetailsPopup from './WeatherDetailsPopup';
 
-export const StreetModeSelectorWeatherLabel = ({ weatherData }) => {
+export const StreetModeSelectorWeather = ({ weatherData }) => {
   const [popupOpen, changeOpen] = useState(false);
   if (weatherData.temperature) {
     const { temperature, iconId } = weatherData;
@@ -45,7 +45,7 @@ export const StreetModeSelectorWeatherLabel = ({ weatherData }) => {
   return null;
 };
 
-StreetModeSelectorWeatherLabel.propTypes = {
+StreetModeSelectorWeather.propTypes = {
   weatherData: PropTypes.oneOfType([
     PropTypes.shape({}),
     PropTypes.shape({
@@ -56,8 +56,8 @@ StreetModeSelectorWeatherLabel.propTypes = {
   ]),
 };
 
-StreetModeSelectorWeatherLabel.defaultProps = {
+StreetModeSelectorWeather.defaultProps = {
   weatherData: {},
 };
 
-export default StreetModeSelectorWeatherLabel;
+export default StreetModeSelectorWeather;
