@@ -512,6 +512,7 @@ function Datetimepicker({
                 label={i18next.t('time', translationSettings)}
                 timeZone={timeZone}
                 validateTime={validateInputTime}
+                invalidInput={invalidInput}
                 setinvalidInput={setinvalidInput}
                 translationSettings={translationSettings}
               />

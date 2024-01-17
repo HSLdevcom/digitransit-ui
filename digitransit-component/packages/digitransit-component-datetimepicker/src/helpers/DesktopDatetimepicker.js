@@ -47,6 +47,7 @@ function DesktopDatetimepicker({
   timeZone,
   datePicker,
   validateTime,
+  invalidInput,
   setinvalidInput,
   translationSettings,
 }) {
@@ -142,7 +143,7 @@ function DesktopDatetimepicker({
         ariaLiveMessages={{
           guidance: context => {
             // When user types invalid value, isDisabled becomes undefined instead of false
-            if (context.isDisabled === undefined) {
+            if (context.isDisabled === undefined && invalidInput) {
               return ariaError;
             }
             return '.'; // this can't be empty for some reason
@@ -291,6 +292,7 @@ DesktopDatetimepicker.propTypes = {
   timeZone: PropTypes.string,
   datePicker: PropTypes.bool,
   validateTime: PropTypes.func,
+  invalidInput: PropTypes.bool,
   setinvalidInput: PropTypes.func,
   translationSettings: PropTypes.shape({ lng: PropTypes.string.isRequired }),
 };
@@ -300,6 +302,7 @@ DesktopDatetimepicker.defaultProps = {
   timeZone: 'Europe/Helsinki',
   datePicker: false,
   validateTime: () => null,
+  invalidInput: false,
   setinvalidInput: () => null,
   translationSettings: { lng: 'fi' },
 };
