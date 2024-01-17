@@ -4,7 +4,7 @@ import cx from 'classnames';
 import { FormattedMessage } from 'react-intl';
 import Icon from './Icon';
 import ItineraryShape from '../prop-types/ItineraryShape';
-import { getCo2Value } from '../util/itineraryUtils';
+import getCo2Value from '../util/emissions';
 
 const Emissions = ({ itinerary, carItinerary, emissionsInfolink }) => {
   const co2value = getCo2Value(itinerary);

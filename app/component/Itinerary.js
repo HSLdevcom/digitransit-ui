@@ -29,7 +29,7 @@ import {
 } from '../util/vehicleRentalUtils';
 import { getRouteMode } from '../util/modeUtils';
 import { getCapacityForLeg } from '../util/occupancyUtil';
-import { getCo2Value } from '../util/itineraryUtils';
+import getCo2Value from '../util/emissions';
 
 const Leg = ({
   mode,
