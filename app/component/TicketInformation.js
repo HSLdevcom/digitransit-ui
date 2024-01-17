@@ -34,26 +34,30 @@ export default function TicketInformation(
 
   // DT-3314 If Fare is unknown show Correct leg's route name instead of whole trip that fare.routeName() returns.
   const unknownFares = fares.filter(fare => fare.isUnknown);
-  const unknownFareLeg = legs
+  const unknownFareLegs = legs
     .filter(leg => leg.route)
-    .find(leg => {
+    .map(leg => {
       const foundRoute = getUnknownFareRoute(unknownFares, leg.route);
       if (foundRoute) {
         return leg;
       }
       return null;
     });
-  let unknownFareRouteName = unknownFareLeg
-    ? unknownFareLeg.from.name.concat(' - ').concat(unknownFareLeg.to.name)
-    : null;
-  // Different logic for ferries
-  if (unknownFareLeg && unknownFareLeg.mode === 'FERRY') {
-    unknownFareRouteName = unknownFares[0].routeName;
-  }
 
+  const getRouteName = fare => {
+    const fareLeg = unknownFareLegs.find(
+      leg => leg.route.gtfsId === fare.routeGtfsId,
+    );
+    if (!fare) {
+      return null;
+    }
+    if (fareLeg.mode === 'FERRY') {
+      return fare.routeName;
+    }
+    return fareLeg.from.name.concat(' - ').concat(fareLeg.to.name);
+  };
   const faresInfo = fares.map((fare, i) => {
     let header;
-
     if (i === 0) {
       header = `${intl.formatMessage({
         id: isMultiComponent
@@ -73,7 +77,7 @@ export default function TicketInformation(
         >
           {fare.isUnknown ? (
             <div className="unknown-fare-container">
-              <div className="ticket-identifier">{unknownFareRouteName}</div>
+              <div className="ticket-identifier">{getRouteName(fare)}</div>
               {fare.agency && !config.hideExternalOperator(fare.agency) && (
                 <div className="ticket-description">{fare.agency.name}</div>
               )}
