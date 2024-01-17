@@ -1,8 +1,10 @@
 .marker-select-popup {
   margin: 0;
+
   .card-row {
     max-height: 150px;
   }
+
   .select-scroll-container {
     min-width: max-content;
     overflow-y: auto;
@@ -19,12 +21,15 @@
 .select-row-icon {
   width: 40px;
   text-align: center;
+
   .icon {
     font-size: 24px;
   }
 }
+
 .select-row-text {
   flex: 1 0 0;
+
   .vehicle-number {
     padding: 0 2px;
   }
@@ -37,7 +42,7 @@
   font-style: normal;
   line-height: normal;
   letter-spacing: -0.35px;
-  color: #333333;
+  color: #333;
   padding: 12px 12px 0 12px;
   height: 40px;
 }
@@ -47,33 +52,41 @@
   align-items: center;
   min-height: 50px;
   padding: 4px 8px 0 8px;
-  border-bottom: 1px solid #dddddd;
+  border-bottom: 1px solid #ddd;
   text-decoration: none;
 
   .choose-row-left-column {
     margin: 0 16px 0 8px;
+
     .icon-container > svg {
       height: 24px;
       width: 24px;
     }
+
     .bus-stop {
       color: $bus-color;
     }
+
     .tram-stop {
       color: $tram-color;
     }
+
     .subway-stop {
       color: $metro-color;
     }
+
     .rail-stop {
       color: $rail-color;
     }
+
     .ferry-stop {
       color: $ferry-color;
     }
+
     .funicular-stop {
       color: $funicular-color;
     }
+
     .speedtram-stop {
       color: $speedtram-color;
     }
@@ -92,7 +105,7 @@
     font-style: normal;
     line-height: 1.54;
     letter-spacing: -0.52px;
-    color: #333333;
+    color: #333;
     margin: 0;
   }
 
@@ -102,21 +115,22 @@
     align-items: center;
   }
 
-  .choose-row-address, .choose-row-platform {
+  .choose-row-address,
+  .choose-row-platform {
     font-size: 11px;
     font-weight: normal;
     font-stretch: normal;
     font-style: normal;
     line-height: 1.82;
     letter-spacing: -0.44px;
-    color: #666666;
+    color: #666;
     flex-shrink: 0;
   }
 
   .choose-row-number {
     margin-left: 5px;
     border-radius: 3px;
-    border: solid 1px #dddddd;
+    border: solid 1px #ddd;
     font-size: 11px;
     font-weight: $font-weight-medium;
     font-stretch: normal;
@@ -124,12 +138,14 @@
     line-height: normal;
     letter-spacing: -0.37px;
     text-align: center;
-    color: #666666;
+    color: #666;
     padding: 0 2px;
   }
+
   .choose-row-right-column {
     color: $primary-color;
     margin: 0 4px 0 20px;
+
     .icon-container > svg {
       height: 20px;
       width: 16px;
@@ -141,17 +157,18 @@
   &.small-margin {
     margin-top: -3px;
   }
+
   &:last-child {
     margin-bottom: 3px;
   }
 }
 
 .platform-number-wrapper {
-  padding: 0px 7px 0px 7px;
+  padding: 0 7px 0 7px;
   border-radius: 3px;
-  margin: 0px 3px 0px 3px;
+  margin: 0 3px 0 3px;
   background-color: #f4f4f5;
   font-weight: $font-weight-medium;
-  color: #666666;
+  color: #666;
   font-size: 10px;
 }

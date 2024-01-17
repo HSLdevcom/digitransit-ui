@@ -1,7 +1,7 @@
 .street-mode-selector-container {
   background-color: #f4f4f4;
-  border-top: 1px solid #dddddd;
-  border-bottom: 1px solid #dddddd;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
   min-height: 76px;
   display: flex;
   flex-direction: column;
@@ -11,12 +11,12 @@
   position: relative;
 
   .street-mode-button-row {
-      display: flex;
-      flex-direction: row;
-      margin-top: auto;
-      margin-bottom: auto;
-      overflow-y: auto;
-      scrollbar-width: thin; // Firefox
+    display: flex;
+    flex-direction: row;
+    margin-top: auto;
+    margin-bottom: auto;
+    overflow-y: auto;
+    scrollbar-width: thin; // Firefox
   }
 
   // make the scrollbar thinner on Webkit/Blink based browsers

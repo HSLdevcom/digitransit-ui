@@ -10,12 +10,14 @@
 
   p {
     @include font-medium;
+
     font-size: $font-size-normal;
     text-align: center;
   }
 
   a {
     @include font-book;
+
     text-decoration: none;
     text-transform: uppercase;
   }

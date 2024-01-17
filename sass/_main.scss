@@ -10,7 +10,6 @@ $body-font-weight: $font-weight-medium;
 @import 'base/form';
 @import 'base/helper-classes';
 @import 'base/elements';
-
 @import '~zurb-foundation-5/scss/foundation/components/grid';
 @import 'base/helper-classes-after-foundations';
 
@@ -33,7 +32,7 @@ $body-font-weight: $font-weight-medium;
 @import '../app/component/no-route-popup';
 @import '../app/component/itinerary-summary';
 @import '../app/component/itinerarypage';
-@import '../app/component/stops-near-you.scss';
+@import '../app/component/stops-near-you';
 @import '../app/component/time-navigation-buttons';
 @import '../app/component/origin-destination-bar';
 @import '../app/component/disruption';
@@ -58,13 +57,12 @@ $body-font-weight: $font-weight-medium;
 @import '../app/component/zone-icon';
 @import '../app/component/dateselect';
 @import '../app/component/settings-panel';
-@import '../app/component/routeScheduleDropdown.scss';
-@import '../app/component/embeddedSearch.scss';
-@import '../app/component/embeddedSearchGenerator.scss';
-@import '../app/component/FromMapModal.scss';
-@import '../app/component/MobileTicketPurchaseInformation.scss';
-@import '../app/component/AppBarHsl.scss';
-
+@import '../app/component/routeScheduleDropdown';
+@import '../app/component/embeddedSearch';
+@import '../app/component/embeddedSearchGenerator';
+@import '../app/component/FromMapModal';
+@import '../app/component/MobileTicketPurchaseInformation';
+@import '../app/component/AppBarHsl';
 @import 'base/button';
 
 /* Modal */

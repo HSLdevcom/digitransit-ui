@@ -5,16 +5,19 @@
 .favourite-edit-modal-content-container {
   display: flex;
   flex-direction: column;
+
   .favourite-edit-modal-content-top {
     display: flex;
     flex-direction: row;
     width: 100%;
     border-bottom: 1px solid #ddd;
     margin-bottom: 31px;
+
     @include min-width(tablet) {
       border-bottom: none;
       margin-bottom: 0;
     }
+
     .favourite-edit-modal-content-header {
       display: flex;
       justify-content: center;
@@ -25,8 +28,9 @@
       font-weight: var(--font-weight-medium);
       line-height: normal;
       letter-spacing: -0.6px;
-      color: #333333;
+      color: #333;
       margin-bottom: 34px;
+
       @include min-width(tablet) {
         justify-content: start;
         align-items: center;

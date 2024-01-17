@@ -35,8 +35,7 @@ class ItineraryLine extends React.Component {
     showTransferLabels: PropTypes.bool,
     showIntermediateStops: PropTypes.bool,
     streetMode: PropTypes.string,
-    onlyHasWalkingItineraries: PropTypes.bool,
-    loading: PropTypes.bool,
+    showDurationBubble: PropTypes.bool,
   };
 
   checkStreetMode(leg) {
@@ -106,7 +105,7 @@ class ItineraryLine extends React.Component {
       );
 
       if (
-        (this.props.onlyHasWalkingItineraries && !this.props.loading) ||
+        this.props.showDurationBubble ||
         (this.checkStreetMode(leg) && leg.distance > 100)
       ) {
         const duration = durationToString(leg.endTime - leg.startTime);
@@ -223,7 +222,9 @@ class ItineraryLine extends React.Component {
 
     // Add dynamic transit leg and transfer stop markers
     if (!this.props.passive) {
-      objs.push(<TransitLegMarkers transitLegs={transitLegs} />);
+      objs.push(
+        <TransitLegMarkers key="transitlegmarkers" transitLegs={transitLegs} />,
+      );
     }
 
     return <div style={{ display: 'none' }}>{objs}</div>;

@@ -4,22 +4,25 @@ $citybike-not-available-color: $light-gray;
 .city-bike-medium-size {
   font-size: 42px;
 }
+
 .icon-badge {
   width: 18px;
   height: 18px;
   top: -15px;
   left: 19px;
+
   .badge-circle {
     stroke-width: 1px;
     border-radius: 50%;
   }
 }
-.availability-container {
 
+.availability-container {
   .availability-header {
     .available-bikes {
       font-weight: $font-weight-medium;
     }
+
     margin-top: 5px !important;
     margin-bottom: 6px !important;
   }
@@ -40,17 +43,21 @@ $citybike-not-available-color: $light-gray;
     .available-fewer {
       background: $slider-severe-color;
     }
+
     .available-few {
       background: $slider-warning-color;
     }
+
     .available-more {
       background: $slider-ok-color;
     }
+
     .availability-column:first-child {
       padding-left: 0;
       border-top-left-radius: $border-radius;
       border-bottom-left-radius: $border-radius;
     }
+
     .availability-column:last-child {
       padding-right: 0;
       border-top-right-radius: $border-radius;
@@ -70,13 +77,15 @@ $citybike-not-available-color: $light-gray;
     text-align: center;
     border-radius: 30px;
     background: $gray-blue;
-    color: #ffffff;
+    color: #fff;
+
     @include font-medium;
+
     font-size: $font-size-small;
     width: 80%;
     height: 30px;
     margin-top: 10px;
-    margin-bottom: 0px;
+    margin-bottom: 0;
     padding: 0;
   }
 }

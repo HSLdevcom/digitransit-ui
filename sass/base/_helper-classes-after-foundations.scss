@@ -26,22 +26,22 @@
 }
 
 @media screen and (max-width: 480px) {
-  @-ms-viewport {
+  @viewport {
     width: 330px;
   }
 }
 
 button.noborder {
-  border: 0px;
-  margin: 0px;
-  padding: 0px;
+  border: 0;
+  margin: 0;
+  padding: 0;
   font-size: 100%;
   display: flex;
   justify-content: center;
   text-align: left;
   background: none;
   border-style: none;
-  border-width: 0px;
+  border-width: 0;
   cursor: pointer;
   font-family: inherit;
   position: relative;
@@ -53,10 +53,12 @@ button.noborder {
     background-color: transparent;
     color: inherit;
   }
+
   &:active {
     background-color: transparent;
     color: inherit;
   }
+
   &:hover {
     background-color: transparent;
     color: inherit;
@@ -67,11 +69,14 @@ button.noborder {
   position: relative;
   z-index: index($zindex, 'before-scrollable-area');
   height: 16px;
+
   &.scrolled {
     box-shadow: 0 8px 6px -6px rgba(0, 0, 0, 0.2);
   }
-  background-color: rgba(0,0,0,0);
+
+  background-color: rgba(0, 0, 0, 0);
   margin-top: -16px;
+
   @media print {
     display: none;
   }
