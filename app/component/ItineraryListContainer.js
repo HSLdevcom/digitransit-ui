@@ -47,8 +47,7 @@ class ItineraryListContainer extends React.Component {
       itineraries: PropTypes.arrayOf(ItineraryShape),
     }).isRequired,
     routingErrors: PropTypes.arrayOf(RoutingErrorShape),
-    bikeAndPublicItinerariesToShow: PropTypes.number.isRequired,
-    bikeAndParkItinerariesToShow: PropTypes.number.isRequired,
+    bikeAndParkItineraryCount: PropTypes.number.isRequired,
     walking: PropTypes.bool,
     biking: PropTypes.bool,
     showAlternativePlan: PropTypes.bool,
@@ -211,8 +210,7 @@ class ItineraryListContainer extends React.Component {
       currentTime,
       locationState,
       itineraries,
-      bikeAndPublicItinerariesToShow,
-      bikeAndParkItinerariesToShow,
+      bikeAndParkItineraryCount,
       walking,
       biking,
       showAlternativePlan,
@@ -260,8 +258,7 @@ class ItineraryListContainer extends React.Component {
           onSelectImmediately={this.onSelectImmediately}
           searchTime={searchTime}
           to={otpToLocation(to)}
-          bikeAndPublicItinerariesToShow={bikeAndPublicItinerariesToShow}
-          bikeAndParkItinerariesToShow={bikeAndParkItinerariesToShow}
+          bikeAndParkItineraryCount={bikeAndParkItineraryCount}
           walking={walking}
           biking={biking}
           showAlternativePlan={showAlternativePlan}

@@ -24,21 +24,20 @@ function ItineraryList(
     currentTime,
     error,
     from,
+    to,
     locationState,
     intermediatePlaces,
     itineraries,
     onSelect,
     onSelectImmediately,
     searchTime,
-    to,
-    bikeAndPublicItinerariesToShow,
-    bikeAndParkItinerariesToShow,
+    bikeAndParkItineraryCount,
     walking,
     biking,
+    driving,
     showAlternativePlan,
     separatorPosition,
     loadingMoreItineraries,
-    driving,
     onlyHasWalkingItineraries,
     routingErrors,
     routingFeedbackPosition,
@@ -85,7 +84,8 @@ function ItineraryList(
       context.match.params.hash &&
       context.match.params.hash === 'bikeAndVehicle'
     ) {
-      if (bikeAndParkItinerariesToShow > 0) {
+      // bikeAndParkItineraryCount tells how many first itineraries use bike parking
+      if (bikeAndParkItineraryCount > 0) {
         summaries.splice(
           0,
           0,
@@ -96,28 +96,16 @@ function ItineraryList(
           />,
         );
       }
-      if (
-        itineraries.length > bikeAndParkItinerariesToShow &&
-        bikeAndPublicItinerariesToShow > 0
-      ) {
+      if (itineraries.length > bikeAndParkItineraryCount) {
+        // the rest use bike + public
         const bikeAndPublicItineraries = itineraries.slice(
-          bikeAndParkItinerariesToShow,
-        );
-        const filteredBikeAndPublicItineraries = bikeAndPublicItineraries.map(
-          i =>
-            i.legs.filter(obj => obj.mode !== 'WALK' && obj.mode !== 'BICYCLE'),
+          bikeAndParkItineraryCount,
         );
         const allModes = Array.from(
-          new Set(
-            filteredBikeAndPublicItineraries.length > 0
-              ? filteredBikeAndPublicItineraries.map(p =>
-                  p[0].mode.toLowerCase(),
-                )
-              : [],
-          ),
+          new Set(bikeAndPublicItineraries.map(p => p[0].mode.toLowerCase())),
         );
         summaries.splice(
-          bikeAndParkItinerariesToShow ? bikeAndParkItinerariesToShow + 1 : 0,
+          bikeAndParkItineraryCount ? bikeAndParkItineraryCount + 1 : 0,
           0,
           <ItineraryListHeader
             translationId={`itinerary-summary.bikeAndPublic-${allModes
@@ -296,8 +284,7 @@ ItineraryList.propTypes = {
   onSelectImmediately: PropTypes.func.isRequired,
   searchTime: PropTypes.number.isRequired,
   to: LocationShape.isRequired,
-  bikeAndPublicItinerariesToShow: PropTypes.number.isRequired,
-  bikeAndParkItinerariesToShow: PropTypes.number.isRequired,
+  bikeAndParkItineraryCount: PropTypes.number.isRequired,
   walking: PropTypes.bool,
   biking: PropTypes.bool,
   driving: PropTypes.bool,
