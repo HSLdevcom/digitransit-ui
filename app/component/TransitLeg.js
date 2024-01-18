@@ -597,7 +597,7 @@ class TransitLeg extends React.Component {
               </div>
             ))}
         </div>
-        <span className="sr-only">{alertSeverityDescription}</span>;
+        <span className="sr-only">{alertSeverityDescription}</span>
       </div>
     );
   };
