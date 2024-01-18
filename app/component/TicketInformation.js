@@ -46,7 +46,7 @@ export default function TicketInformation(
 
   const getRouteName = fare => {
     const fareLeg = unknownFareLegs.find(
-      leg => leg.route.gtfsId === fare.routeGtfsId,
+      leg => leg?.route.gtfsId === fare.routeGtfsId,
     );
     if (!fare) {
       return null;
