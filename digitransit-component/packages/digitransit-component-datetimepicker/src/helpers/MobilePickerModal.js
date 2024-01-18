@@ -32,9 +32,7 @@ function MobilePickerModal({
   getTimeDisplay,
   dateSelectItemCount,
   getDateDisplay,
-  validateTime,
   fontWeights,
-  validateInputTime,
   setinvalidInput,
 }) {
   moment.tz.setDefault(timeZone);
@@ -168,8 +166,6 @@ function MobilePickerModal({
               </span>
             }
             timeZone={timeZone}
-            validate={validateTime}
-            validateInputTime={validateInputTime}
             setinvalidInput={setinvalidInput}
           />
         </div>
@@ -208,18 +204,15 @@ MobilePickerModal.propTypes = {
   getTimeDisplay: PropTypes.func.isRequired,
   dateSelectItemCount: PropTypes.number.isRequired,
   getDateDisplay: PropTypes.func.isRequired,
-  validateTime: PropTypes.func.isRequired,
   fontWeights: PropTypes.shape({
     medium: PropTypes.number.isRequired,
   }).isRequired,
-  validateInputTime: PropTypes.func,
   setinvalidInput: PropTypes.func,
 };
 
 MobilePickerModal.defaultProps = {
   color: '#007ac9',
   timeZone: 'Europe/Helsinki',
-  validateInputTime: () => null,
   setinvalidInput: () => null,
 };
 

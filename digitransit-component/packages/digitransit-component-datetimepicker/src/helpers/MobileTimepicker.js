@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { useRef, useLayoutEffect, useState } from 'react';
 import moment from 'moment-timezone';
 import styles from './styles.scss';
-import utils from './utils';
+import { parseTypedTime, getTs, validateInput } from './utils';
 
 /**
  * Component to display a time input on mobile
@@ -15,8 +15,6 @@ function MobileTimepicker({
   label,
   icon,
   timeZone,
-  validate,
-  validateInputTime,
   setinvalidInput,
 }) {
   const [inputValue, changeInputValue] = useState(getDisplay(value));
@@ -47,7 +45,7 @@ function MobileTimepicker({
         }}
         onChange={event => {
           let newValue = event.target.value;
-          const valid = validateInputTime(newValue);
+          const valid = validateInput(newValue);
           setinvalidInput(valid);
           if (
             // number typed as first char => clear rest of the input
@@ -59,9 +57,9 @@ function MobileTimepicker({
           if (newValue.length > 5) {
             return;
           }
-          const actual = utils.parseTypedTime(newValue);
+          const actual = parseTypedTime(newValue);
           changeInputValue(actual);
-          const timestamp = validate(actual, value);
+          const timestamp = getTs(actual, value);
           if (timestamp) {
             onChange(timestamp);
           }
@@ -79,8 +77,6 @@ MobileTimepicker.propTypes = {
   label: PropTypes.string.isRequired,
   icon: PropTypes.node,
   timeZone: PropTypes.string,
-  validate: PropTypes.func.isRequired,
-  validateInputTime: PropTypes.func.isRequired,
   setinvalidInput: PropTypes.func.isRequired,
 };
 

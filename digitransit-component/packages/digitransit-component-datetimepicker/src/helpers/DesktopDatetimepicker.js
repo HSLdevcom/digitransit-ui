@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import moment from 'moment-timezone';
 import Select from 'react-select';
 import i18next from 'i18next';
-import utils from './utils';
+import { parseTypedTime, validateInput, getTs } from './utils';
 import styles from './styles.scss';
 
 /**
@@ -14,13 +14,11 @@ import styles from './styles.scss';
  * @param {function} props.onChange     This is called with new timestamp when input is changed
  * @param {function} props.getDisplay   Function to get a string representation from a timestamp
  * @param {array}    props.timeChoices  Array of timestamps to choose from
- * @param {function} validate           Function to validate input when user types something and hits enter. Parameter is input as stringstring, return number timestamp if input is valid or null if invalid.
  * @param {string} id                   Id prefix for labels and aria attributes. Should be unique in page
  * @param {string} label                Text to show as input label
  * @param {node} icon                   JSX for icon to show in input
  * @param {boolean} disableTyping       Set to true to disable typing in the input
  * @param {boolean} datePicker          Is the picker DatePicker or TimePicker
- * @param {function} validateTime       Function to validate user input
  *
  * @example
  * <DesktopDatetimepicker
@@ -28,7 +26,6 @@ import styles from './styles.scss';
  *   onChange={timestamp => update(timestamp)}
  *   getDisplay={timestamp => formatTime(timestamp)}
  *   timeChoices={[1590133823000]}
- *   validate=(input => validateTimeString(input))
  *   id="timeinput"
  *   icon="<Icon />"
  *   disableTyping={false} // can be omitted if not true
@@ -39,14 +36,12 @@ function DesktopDatetimepicker({
   onChange,
   getDisplay,
   timeChoices,
-  validate,
   id,
   label,
   icon,
   disableTyping,
   timeZone,
   datePicker,
-  validateTime,
   invalidInput,
   setinvalidInput,
   translationSettings,
@@ -78,7 +73,7 @@ function DesktopDatetimepicker({
   function isinvalidInput(str) {
     const regex = /[a-zA-Z§ÄäÖö.-\s]/g;
     if (str.length < displayValue?.length) {
-      const valid = validateTime(str);
+      const valid = validateInput(str);
       setinvalidInput(valid);
 
       return true;
@@ -87,7 +82,7 @@ function DesktopDatetimepicker({
       return false;
     }
     const time = str.length > 5 ? str.slice(0, -1) : str;
-    const valid = validateTime(time);
+    const valid = validateInput(time);
     setinvalidInput(valid);
     return str.length <= 5;
   }
@@ -101,7 +96,7 @@ function DesktopDatetimepicker({
       return;
     }
     if (action === 'input-change') {
-      const validated = utils.parseTypedTime(newValue);
+      const validated = parseTypedTime(newValue);
       changeDisplayValue(validated);
       setTyping(true);
     }
@@ -165,11 +160,11 @@ function DesktopDatetimepicker({
         inputId={inputId}
         onChange={time => {
           const currentTime = moment(value).format('HH:mm');
-          const validated = validate(displayValue, value);
+          const ts = getTs(displayValue, value);
           if (typing) {
-            if (validated !== null) {
+            if (ts !== null) {
               if (currentTime !== displayValue && time.value === value) {
-                handleTimestamp(validated);
+                handleTimestamp(ts);
               } else {
                 handleTimestamp(time.value);
               }
@@ -256,7 +251,7 @@ function DesktopDatetimepicker({
         onBlur={() => {
           // removing focus also locks in value
           if (typing) {
-            const validated = validate(displayValue, value);
+            const validated = getTs(displayValue, value);
             if (validated !== null) {
               handleTimestamp(validated);
               setTyping(false);
@@ -284,14 +279,12 @@ DesktopDatetimepicker.propTypes = {
   onChange: PropTypes.func.isRequired,
   getDisplay: PropTypes.func.isRequired,
   timeChoices: PropTypes.arrayOf(PropTypes.number).isRequired,
-  validate: PropTypes.func.isRequired,
   id: PropTypes.string.isRequired,
   label: PropTypes.node.isRequired,
   icon: PropTypes.node.isRequired,
   disableTyping: PropTypes.bool,
   timeZone: PropTypes.string,
   datePicker: PropTypes.bool,
-  validateTime: PropTypes.func,
   invalidInput: PropTypes.bool,
   setinvalidInput: PropTypes.func,
   translationSettings: PropTypes.shape({ lng: PropTypes.string.isRequired }),
@@ -301,7 +294,6 @@ DesktopDatetimepicker.defaultProps = {
   disableTyping: false,
   timeZone: 'Europe/Helsinki',
   datePicker: false,
-  validateTime: () => null,
   invalidInput: false,
   setinvalidInput: () => null,
   translationSettings: { lng: 'fi' },
