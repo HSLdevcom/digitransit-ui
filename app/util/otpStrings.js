@@ -22,21 +22,22 @@ export const parseLatLon = coords => {
 
 export const otpToLocation = otpString => {
   const [address, coords, slack] = otpString.split('::');
-  const location = {
-    address,
-  };
+  const location = { address };
+
   if (slack) {
     const parsedSlack = parseInt(slack, 10);
     if (!Number.isNaN(parsedSlack)) {
       location.locationSlack = parsedSlack;
     }
   }
+
   if (coords) {
     return {
       ...location,
       ...parseLatLon(coords),
     };
   }
+
   return location;
 };
 
@@ -47,6 +48,11 @@ export const addressToItinerarySearch = location => {
   ) {
     return 'POS';
   }
+
+  if (location.address && !location.lat) {
+    return `${encodeURIComponent(location.address)}`;
+  }
+
   if (!location.lat) {
     return '-';
   }

@@ -629,20 +629,51 @@ class ItineraryPage extends React.Component {
     const originArray = pathArray[1].split('::');
     const destinationArray = pathArray[2].split('::');
     // make sure endpoints are valid locations and time is defined
-    if (!query.time || originArray.length < 2 || destinationArray.length < 2) {
+    if (!query.time) {
       return;
     }
-    const itinerarySearch = {
-      origin: {
-        address: originArray[0],
-        ...parseLatLon(originArray[1]),
-      },
-      destination: {
-        address: destinationArray[0],
-        ...parseLatLon(destinationArray[1]),
-      },
-      query,
-    };
+    let itinerarySearch;
+
+    if (originArray.length === 1) {
+      itinerarySearch = {
+        origin: {
+          gtfsId: originArray[0],
+        },
+        destination: {
+          address: destinationArray[0],
+          ...parseLatLon(destinationArray[1]),
+        },
+        query,
+      };
+    }
+
+    if (destinationArray.length === 1) {
+      itinerarySearch = {
+        origin: {
+          address: originArray[0],
+          ...parseLatLon(originArray[1]),
+        },
+        destination: {
+          gtfsId: destinationArray[0],
+        },
+        query,
+      };
+    }
+
+    if (originArray.length >= 2 && destinationArray.length >= 2) {
+      itinerarySearch = {
+        origin: {
+          address: originArray[0],
+          ...parseLatLon(originArray[1]),
+        },
+        destination: {
+          address: destinationArray[0],
+          ...parseLatLon(destinationArray[1]),
+        },
+        query,
+      };
+    }
+
     this.context.executeAction(saveFutureRoute, itinerarySearch);
   }
 
