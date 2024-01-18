@@ -7,7 +7,7 @@ import { matchShape } from 'found';
 import Icon from '../Icon';
 import Itinerary from '../Itinerary';
 import { isBrowser } from '../../util/browser';
-import { getZones } from '../../util/legUtils';
+import { getExtendedMode, getZones } from '../../util/legUtils';
 import CanceledItineraryToggler from '../CanceledItineraryToggler';
 import { itineraryHasCancelation } from '../../util/alertUtils';
 import { ItineraryListHeader } from './ItineraryListHeader';
@@ -92,27 +92,24 @@ function ItineraryList(
           <ItineraryListHeader
             translationId="itinerary-summary.bikePark-title"
             defaultMessage="Biking \u0026 public transport \u0026 walking"
-            key="itinerary-summary.bikePark-title"
+            key="itinerary-summary.bikepark-title"
           />,
         );
       }
       if (itineraries.length > bikeAndParkItineraryCount) {
         // the rest use bike + public
-        const bikeAndPublicItineraries = itineraries.slice(
-          bikeAndParkItineraryCount,
-        );
-        const allModes = Array.from(
-          new Set(bikeAndPublicItineraries.map(p => p[0].mode.toLowerCase())),
-        );
+        const mode =
+          getExtendedMode(
+            itineraries[bikeAndParkItineraryCount].legs.find(l => l.transitLeg),
+            config,
+          ) || 'rail';
         summaries.splice(
           bikeAndParkItineraryCount ? bikeAndParkItineraryCount + 1 : 0,
           0,
           <ItineraryListHeader
-            translationId={`itinerary-summary.bikeAndPublic-${allModes
-              .sort()
-              .join('-')}-title`}
+            translationId={`itinerary-summary.bikeAndPublic-${mode}-title`}
             defaultMessage="Biking \u0026 public transport"
-            key="itinerary-summary.bikeAndPublic-title"
+            key="itinerary-summary.bikeandpublic-title"
           />,
         );
       }

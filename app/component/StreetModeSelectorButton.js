@@ -4,18 +4,12 @@ import { intlShape } from 'react-intl';
 import Icon from './Icon';
 import { displayDistance } from '../util/geo-utils';
 import { durationToString } from '../util/timeUtils';
-import { getRouteMode } from '../util/modeUtils';
 import {
   getTotalDistance,
   getTotalBikingDistance,
   compressLegs,
+  getExtendedMode,
 } from '../util/legUtils';
-
-const getMode = (leg, config) => {
-  return config.useExtendedRouteTypes
-    ? getRouteMode(leg.route) || leg.mode.toLowerCase()
-    : leg.mode.toLowerCase();
-};
 
 export const StreetModeSelectorButton = (
   { icon, name, plan, onClick },
@@ -61,24 +55,16 @@ export const StreetModeSelectorButton = (
   }
 
   let secondaryIcon;
-  let metroColor;
+  let secondaryColor;
 
   if (name === 'parkAndRide' || name === 'bikeAndVehicle') {
-    let mode = 'rail';
-    for (let i = 0; i < plan.itineraries.length; i++) {
-      const publicModes = plan.itineraries[i].legs.filter(
-        obj =>
-          obj.mode !== 'WALK' && obj.mode !== 'BICYCLE' && obj.mode !== 'CAR',
-      );
-      if (publicModes.length > 0) {
-        mode = getMode(publicModes[0], config);
-        break;
-      }
-    }
+    const mode =
+      getExtendedMode(
+        plan.itineraries[0].legs.find(l => l.transitLeg),
+        config,
+      ) || 'rail';
     secondaryIcon = `icon-icon_${mode}`;
-    if (mode === 'subway') {
-      metroColor = '#CA4000';
-    }
+    secondaryColor = mode === 'subway' ? '#CA4000' : '';
   }
   return (
     // eslint-disable-next-line jsx-a11y/click-events-have-key-events
@@ -114,7 +100,7 @@ export const StreetModeSelectorButton = (
               name === 'parkAndRide' ? 'car-park-secondary' : ''
             }`}
           >
-            <Icon img={secondaryIcon} color={metroColor || ''} />
+            <Icon img={secondaryIcon} color={secondaryColor} />
           </div>
         ) : (
           ''
