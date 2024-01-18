@@ -28,7 +28,7 @@ export const StreetModeSelector = (
           {weatherData && (
             <StreetModeSelectorWeather weatherData={weatherData} />
           )}
-          {walkPlan?.itineraries?.length && (
+          {walkPlan?.itineraries?.length > 0 && (
             <StreetModeSelectorButton
               icon="icon-icon_walk"
               name="walk"
@@ -36,7 +36,7 @@ export const StreetModeSelector = (
               onClick={setStreetModeAndSelect}
             />
           )}
-          {bikePlan?.itineraries?.length && (
+          {bikePlan?.itineraries?.length > 0 && (
             <StreetModeSelectorButton
               icon="icon-icon_cyclist"
               name="bike"
@@ -44,7 +44,7 @@ export const StreetModeSelector = (
               onClick={setStreetModeAndSelect}
             />
           )}
-          {bikeTransitPlan?.itineraries?.length && (
+          {bikeTransitPlan?.itineraries?.length > 0 && (
             <StreetModeSelectorButton
               icon="icon-icon_cyclist"
               name="bikeAndVehicle"
@@ -53,7 +53,7 @@ export const StreetModeSelector = (
             />
           )}
 
-          {parkRidePlan?.itineraries?.length && (
+          {parkRidePlan?.itineraries?.length > 0 && (
             <StreetModeSelectorButton
               icon="icon-icon_car-withoutBox"
               name="parkAndRide"
@@ -61,7 +61,7 @@ export const StreetModeSelector = (
               onClick={selectStreetMode}
             />
           )}
-          {carPlan?.itineraries?.length && (
+          {carPlan?.itineraries?.length > 0 && (
             <StreetModeSelectorButton
               icon="icon-icon_car-withoutBox"
               name="car"
