@@ -1381,11 +1381,12 @@ class ItineraryPage extends React.Component {
     }
 
     const showStreetModeSelector =
-      (walkPlan?.itineraries?.length ||
+      (state.isFetchingWalkAndBike ||
+        walkPlan?.itineraries?.length ||
         bikePlan?.itineraries?.length ||
         bikeTransitPlan?.itineraries?.length ||
-        carPlan?.itineraries?.length ||
-        parkRidePlan?.itineraries?.length) &&
+        parkRidePlan?.itineraries?.length ||
+        (config.includeCarSuggestions && carPlan?.itineraries?.length)) &&
       hash !== 'bikeAndVehicle' &&
       hash !== 'parkAndRide';
 
@@ -1560,10 +1561,11 @@ class ItineraryPage extends React.Component {
             itineraries={selectedItineraries}
             params={params}
             error={error || state.error}
-            walking={walkPlan?.itineraries?.length}
-            biking={bikePlan?.itineraries?.length}
+            walking={walkPlan?.itineraries?.length > 0}
+            biking={bikePlan?.itineraries?.length > 0}
             driving={
-              carPlan?.itineraries?.length || parkRidePlan?.itineraries?.length
+              carPlan?.itineraries?.length > 0 ||
+              parkRidePlan?.itineraries?.length > 0
             }
             bikeAndParkItineraryCount={this.bikeAndParkItineraryCount}
             showAlternativePlan={
@@ -1648,16 +1650,14 @@ class ItineraryPage extends React.Component {
                 params={params}
                 toggleSettings={this.toggleSearchSettings}
               />
-              {error ||
-              (!state.isFetchingWalkAndBike &&
-                !showStreetModeSelector) ? null : (
+              {error || !showStreetModeSelector ? null : (
                 <StreetModeSelector
                   {...streetModeSelectorCallbacks}
                   weatherData={state.weatherData}
                   walkPlan={walkPlan}
                   bikePlan={bikePlan}
                   bikeTransitPlan={bikeTransitPlan}
-                  carPlan={carPlan}
+                  carPlan={config.includeCarSuggestions && carPlan}
                   parkRidePlan={parkRidePlan}
                   loading={
                     props.loading ||
@@ -1764,10 +1764,11 @@ class ItineraryPage extends React.Component {
             intermediatePlaces={viaPoints}
             bikeAndPublicItinerariesToShow={this.bikeAndPublicItinerariesToShow}
             bikeAndParkItinerariesToShow={this.bikeAndParkItinerariesToShow}
-            walking={walkPlan?.itineraries?.length}
-            biking={bikePlan?.itineraries?.length}
+            walking={walkPlan?.itineraries?.length > 0}
+            biking={bikePlan?.itineraries?.length > 0}
             driving={
-              carPlan?.itineraries?.length || parkRidePlan?.itineraries?.length
+              carPlan?.itineraries?.length > 0 ||
+              parkRidePlan?.itineraries?.length > 0
             }
             showAlternativePlan={
               planHasNoItineraries &&
@@ -1800,16 +1801,14 @@ class ItineraryPage extends React.Component {
                 params={params}
                 toggleSettings={this.toggleSearchSettings}
               />
-              {error ||
-              (!state.isFetchingWalkAndBike &&
-                !showStreetModeSelector) ? null : (
+              {error || !showStreetModeSelector ? null : (
                 <StreetModeSelector
                   {...streetModeSelectorCallbacks}
                   weatherData={state.weatherData}
                   walkPlan={walkPlan}
                   bikePlan={bikePlan}
                   bikeTransitPlan={bikeTransitPlan}
-                  carPlan={carPlan}
+                  carPlan={config.includeCarSuggestions && carPlan}
                   parkRidePlan={parkRidePlan}
                   loading={
                     props.loading ||
