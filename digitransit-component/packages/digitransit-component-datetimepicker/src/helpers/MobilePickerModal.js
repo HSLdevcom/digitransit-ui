@@ -32,7 +32,6 @@ function MobilePickerModal({
   getTimeDisplay,
   dateSelectItemCount,
   getDateDisplay,
-  validateTime,
   fontWeights,
 }) {
   moment.tz.setDefault(timeZone);
@@ -166,7 +165,6 @@ function MobilePickerModal({
               </span>
             }
             timeZone={timeZone}
-            validate={validateTime}
           />
         </div>
         <div className={styles['buttons-row']}>
@@ -204,7 +202,6 @@ MobilePickerModal.propTypes = {
   getTimeDisplay: PropTypes.func.isRequired,
   dateSelectItemCount: PropTypes.number.isRequired,
   getDateDisplay: PropTypes.func.isRequired,
-  validateTime: PropTypes.func.isRequired,
   fontWeights: PropTypes.shape({
     medium: PropTypes.number.isRequired,
   }).isRequired,
