@@ -2,21 +2,12 @@ import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
-
 import { v4 as uuid } from 'uuid';
 import { renderZoneTicket } from './ZoneTicket';
 import Icon from './Icon';
 import { getAlternativeFares } from '../util/fareUtils';
 import { FareShape } from '../util/shapes';
 
-const getUnknownFareRoute = (fares, route) => {
-  for (let i = 0; i < fares.length; i++) {
-    if (fares[i].routeGtfsId === route.gtfsId) {
-      return true;
-    }
-  }
-  return false;
-};
 export default function TicketInformation(
   { fares, zones, legs },
   { config, intl },
@@ -25,53 +16,37 @@ export default function TicketInformation(
     return null;
   }
 
-  const isMultiComponent = fares.length > 1;
   const alternativeFares = getAlternativeFares(
     zones,
     fares.filter(fare => !fare.isUnknown),
     config.availableTickets,
   );
 
-  // DT-3314 If Fare is unknown show Correct leg's route name instead of whole trip that fare.routeName() returns.
-  const unknownFares = fares.filter(fare => fare.isUnknown);
-  const unknownFareLegs = legs
-    .filter(leg => leg.route)
-    .map(leg => {
-      const foundRoute = getUnknownFareRoute(unknownFares, leg.route);
-      if (foundRoute) {
-        return leg;
-      }
-      return null;
-    });
-
   const getRouteName = fare => {
-    const fareLeg = unknownFareLegs.find(
-      leg => leg?.route.gtfsId === fare.routeGtfsId,
-    );
-    if (!fare) {
-      return null;
-    }
+    const fareLeg = legs.find(leg => leg.route?.gtfsId === fare.routeGtfsId);
     if (fareLeg.mode === 'FERRY') {
       return fare.routeName;
     }
     return fareLeg.from.name.concat(' - ').concat(fareLeg.to.name);
   };
+
   const faresInfo = fares.map((fare, i) => {
-    let header;
-    if (i === 0) {
-      header = `${intl.formatMessage({
-        id: isMultiComponent
-          ? 'itinerary-tickets.title'
-          : 'itinerary-ticket.title',
-        defaultMessage: 'Required tickets',
-      })}:`;
-    }
     return (
       <div key={uuid()} className="ticket-container">
-        <div className="ticket-type-title">{header}</div>
+        {i === 0 && (
+          <div className="ticket-title">
+            {`${intl.formatMessage({
+              id:
+                fares.length > 1
+                  ? 'itinerary-tickets.title'
+                  : 'itinerary-ticket.title',
+              defaultMessage: 'Required tickets',
+            })}:`}
+          </div>
+        )}
         <div
           className={cx('ticket-type-zone', {
-            'multi-component': isMultiComponent,
+            'multi-component': fares.length > 1,
           })}
           key={i} // eslint-disable-line react/no-array-index-key
         >

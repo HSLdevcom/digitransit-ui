@@ -263,7 +263,7 @@ $itinerary-tab-switch-height: 48px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin: 11px 10px 10px 15px;
+    margin: 5px 10px 5px 15px;
     &.mobile {
       flex-direction: row;
       margin: 11px 10px 10px 6px
@@ -590,6 +590,10 @@ $itinerary-tab-switch-height: 48px;
   }
 }
 
+.ticket-title {
+    min-width: 200px;
+}
+
 .itinerary-ticket-information, .itinerary-co2-information {
   display: flex;
   color: $gray;
@@ -629,12 +633,13 @@ $itinerary-tab-switch-height: 48px;
     flex-shrink: 1;
     white-space: normal;
     line-height: 1.33;
+    margin: 4px 0;
 
     .ticket-container {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin: 11px 10px 10px 15px;
+      margin: 2px 10px 2px 15px;
       @include min-width(tablet) {
         margin-right: 15px;
       }
@@ -648,8 +653,9 @@ $itinerary-tab-switch-height: 48px;
       align-items: center;
       color: $gray;
       display: flex;
-      justify-content: space-between;
-
+      width: 100%;
+      justify-content: flex-end;
+      text-align: right;
       .unknown-fare-container {
         display: flex;
         font-size: $font-size-normal;
