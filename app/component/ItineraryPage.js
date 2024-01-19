@@ -1655,7 +1655,7 @@ class ItineraryPage extends React.Component {
                   walkPlan={walkPlan}
                   bikePlan={bikePlan}
                   bikeTransitPlan={bikeTransitPlan}
-                  carPlan={config.includeCarSuggestions && carPlan}
+                  carPlan={config.includeCarSuggestions ? carPlan : undefined}
                   parkRidePlan={parkRidePlan}
                   loading={
                     props.loading ||
@@ -1806,7 +1806,7 @@ class ItineraryPage extends React.Component {
                   walkPlan={walkPlan}
                   bikePlan={bikePlan}
                   bikeTransitPlan={bikeTransitPlan}
-                  carPlan={config.includeCarSuggestions && carPlan}
+                  carPlan={config.includeCarSuggestions ? carPlan : undefined}
                   parkRidePlan={parkRidePlan}
                   loading={
                     props.loading ||
