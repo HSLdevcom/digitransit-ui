@@ -560,6 +560,6 @@ export function getTotalDrivingDuration(itinerary) {
 
 export function getExtendedMode(leg, config) {
   return config.useExtendedRouteTypes
-    ? getRouteMode(leg.route) || leg.mode?.toLowerCase()
+    ? (leg.route && getRouteMode(leg.route)) || leg.mode?.toLowerCase()
     : leg.mode?.toLowerCase();
 }

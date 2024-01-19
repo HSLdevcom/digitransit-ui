@@ -58,9 +58,12 @@ export const StreetModeSelectorButton = (
   let secondaryColor;
 
   if (name === 'parkAndRide' || name === 'bikeAndVehicle') {
+    const transitItinerary = plan.itineraries.find(i =>
+      i.legs.find(l => l.transitLeg),
+    );
     const mode =
       getExtendedMode(
-        plan.itineraries[0].legs.find(l => l.transitLeg),
+        transitItinerary?.legs.find(l => l.transitLeg),
         config,
       ) || 'rail';
     secondaryIcon = `icon-icon_${mode}`;
