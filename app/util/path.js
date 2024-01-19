@@ -190,16 +190,13 @@ export const getPathWithEndpointObjects = (origin, destination, rootPath) => {
   if (origin.gtfsId !== undefined) {
     originGtfsId = origin.gtfsId;
   }
-  let destinationGtfsId;
-  if (destination.gtfsId !== undefined) {
-    destinationGtfsId = destination.gtfsId;
-  }
+
   const r =
     rootPath === PREFIX_ITINERARY_SUMMARY ||
     isItinerarySearchObjects(origin, destination)
       ? getSummaryPath(
           originGtfsId || addressToItinerarySearch(origin),
-          destinationGtfsId || addressToItinerarySearch(destination),
+          addressToItinerarySearch(destination),
         )
       : getIndexPath(
           locationToOTP(origin),
