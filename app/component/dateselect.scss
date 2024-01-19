@@ -2,8 +2,9 @@
   @media print {
     display: none;
   }
+
   background-color: #fff;
-  border: solid #888888 1px;
+  border: solid #888 1px;
   display: flex;
   align-items: center;
   border-radius: 5px;
@@ -38,6 +39,7 @@
       height: 24px;
     }
   }
+
   .left-column {
     width: calc(100% - 46px);
     padding-left: 6px;
@@ -55,8 +57,10 @@
       text-overflow: ellipsis;
       white-space: nowrap;
       background-color: none;
+
       & span {
         transition: all 0.2s ease-out;
+
         &:hover {
           color: $secondary-color;
         }
@@ -69,11 +73,13 @@
       transition: all 0.2s ease-out;
       height: 1.27em;
       line-height: 1.3em;
+
       &:hover {
         color: $secondary-color;
         border-bottom: 2px none !important;
       }
     }
+
     .showroutes-list {
       white-space: normal;
       overflow: hidden;
@@ -86,6 +92,7 @@
   @media print {
     display: none;
   }
+
   .icon-container {
     height: 100%;
     display: flex;
@@ -104,7 +111,7 @@
 
   margin-right: 1em;
   background-color: #fff;
-  border: solid #888888 1px;
+  border: solid #888 1px;
   display: flex;
   align-items: center;
   border-radius: 5px;
@@ -123,10 +130,11 @@
 
     .route-schedule__value-container {
       overflow: visible;
+
       .route-schedule__placeholder {
         width: 100%;
         display: flex;
-        margin: 0px;
+        margin: 0;
         padding: 0 3px 0 0;
 
         .left-column {
@@ -144,10 +152,11 @@
           display: flex;
           flex-direction: column;
           border-right: 1px solid $gray;
+
           .combobox-label {
             font-size: 0.87rem;
             white-space: nowrap;
-            color: #666666;
+            color: #666;
             letter-spacing: -0.48px;
             font-weight: $font-weight-book;
           }
@@ -163,11 +172,13 @@
             transition: all 0.2s ease-out;
             height: 1.27em;
             line-height: 1.3em;
+
             &:hover {
               color: $secondary-color;
               border-bottom: 2px none !important;
             }
           }
+
           .showroutes-list {
             white-space: normal;
             overflow: hidden;
@@ -177,10 +188,12 @@
       }
     }
   }
+
   .route-schedule__option {
     display: flex;
     justify-content: space-between;
     font-weight: $font-weight-book;
+
     svg {
       position: relative;
     }
@@ -189,30 +202,34 @@
   .route-schedule-select {
     .route-schedule__control {
       min-height: auto;
+
       .route-schedule__placeholder {
         color: $black;
         font-size: $font-size-small;
       }
     }
+
     .route-schedule__option {
       display: flex;
       justify-content: space-between;
+
       svg {
         position: relative;
       }
     }
   }
 }
+
 .combobox-label {
   font-size: $font-size-xsmall;
   white-space: nowrap;
-  color: #666666;
+  color: #666;
   letter-spacing: -0.48px;
 }
 
 .mobile {
   .combobox-container {
-  &.route-schedule-date {
+    &.route-schedule-date {
       margin-right: 0.75em;
     }
   }

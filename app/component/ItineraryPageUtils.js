@@ -1,14 +1,24 @@
 import isEqual from 'lodash/isEqual';
+import isEmpty from 'lodash/isEmpty';
 import pick from 'lodash/pick';
 import findIndex from 'lodash/findIndex';
 import get from 'lodash/get';
 import polyline from 'polyline-encoded';
 import moment from 'moment';
+import SunCalc from 'suncalc';
 import { boundWithMinimumArea } from '../util/geo-utils';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import { itineraryHasCancelation } from '../util/alertUtils';
 import { getStartTimeWithColon } from '../util/timeUtils';
 import { getCurrentSettings, getDefaultSettings } from '../util/planParamUtil';
+import {
+  startRealTimeClient,
+  stopRealTimeClient,
+  changeRealTimeClientTopics,
+} from '../action/realTimeClientAction';
+import { getMapLayerOptions } from '../util/mapLayerUtils';
+
+export const streetModeHash = ['walk', 'bike', 'car'];
 
 /**
 /**
@@ -58,8 +68,6 @@ export function getActiveIndex(
   }
   return itineraryIndex > 0 ? itineraryIndex : defaultValue;
 }
-
-const streetModeHash = ['walk', 'bike', 'car'];
 
 export function getHashIndex(params) {
   const hash = params.secondHash || params.hash;
@@ -215,8 +223,33 @@ export function compareItineraries(itineraries, defaultItineraries) {
   return false;
 }
 
+export function filterItinerariesByFeedId(plan, config) {
+  if (!plan?.itineraries) {
+    return plan;
+  }
+  const newItineraries = [];
+  plan.itineraries.forEach(itinerary => {
+    let skip = false;
+    for (let i = 0; i < itinerary.legs.length; i++) {
+      const feedId = itinerary.legs[i].route?.gtfsId?.split(':')[0];
+
+      if (
+        feedId && // if feedId is undefined, leg  is non transit -> don't drop
+        !config.feedIds.includes(feedId) // feedId is not allowed
+      ) {
+        skip = true;
+        break;
+      }
+    }
+    if (!skip) {
+      newItineraries.push(itinerary);
+    }
+  });
+  return { ...plan, itineraries: newItineraries };
+}
+
 const settingsToCompare = ['walkBoardCost', 'ticketTypes', 'walkReluctance'];
-export function relevantRoutingSettingsChanged(config) {
+export function settingsLimitRouting(config) {
   const defaultSettings = getDefaultSettings(config);
   const currentSettings = getCurrentSettings(config);
   const defaultSettingsToCompare = pick(defaultSettings, settingsToCompare);
@@ -239,4 +272,109 @@ export function setCurrentTimeToURL(config, match) {
     };
     match.router.replace(newLocation);
   }
+}
+
+function configClient(itineraryTopics, config) {
+  const { realTime } = config;
+  const feedIds = Array.from(
+    new Set(itineraryTopics.map(topic => topic.feedId)),
+  );
+  let feedId;
+  /* handle multiple feedid case */
+  feedIds.forEach(fId => {
+    if (!feedId && realTime[fId]) {
+      feedId = fId;
+    }
+  });
+  const source = feedId && realTime[feedId];
+  if (source && source.active) {
+    return {
+      ...source,
+      feedId,
+      options: itineraryTopics.length ? itineraryTopics : null,
+    };
+  }
+  return null;
+}
+
+export function stopClient(context) {
+  const { client } = context.getStore('RealTimeInformationStore');
+  if (client) {
+    context.executeAction(stopRealTimeClient, client);
+  }
+}
+
+export function startClient(itineraryTopics, context) {
+  if (!isEmpty(itineraryTopics)) {
+    const clientConfig = configClient(itineraryTopics, context.config);
+    context.executeAction(startRealTimeClient, clientConfig);
+  }
+}
+
+export function updateClient(itineraryTopics, context) {
+  const { client, topics } = context.getStore('RealTimeInformationStore');
+
+  if (isEmpty(itineraryTopics)) {
+    stopClient(context);
+    return;
+  }
+  if (client) {
+    const clientConfig = configClient(itineraryTopics, context.config);
+    if (clientConfig) {
+      context.executeAction(changeRealTimeClientTopics, {
+        ...clientConfig,
+        client,
+        oldTopics: topics,
+      });
+      return;
+    }
+    stopClient(context);
+  }
+  startClient(itineraryTopics, context);
+}
+
+export function addBikeStationMapForRentalVehicleItineraries() {
+  return getMapLayerOptions({
+    lockedMapLayers: ['vehicles', 'citybike', 'stop'],
+    selectedMapLayers: ['vehicles', 'citybike'],
+  });
+}
+
+/**
+ * Return an object containing key vehicleRentalStations that is a list of rental
+ * station ids to hide on map.
+ *
+ * @param {Boolean} hasVehicleRentalStation if there are rental stations.
+ * @param {*} activeItinerary itinerary which can contain rental stations.
+ */
+export function getRentalStationsToHideOnMap(
+  hasVehicleRentalStation,
+  activeItinerary,
+) {
+  const objectsToHide = { vehicleRentalStations: [] };
+  if (hasVehicleRentalStation) {
+    objectsToHide.vehicleRentalStations = activeItinerary?.legs
+      ?.filter(leg => leg.from?.vehicleRentalStation)
+      .map(station => station.from?.vehicleRentalStation.stationId);
+  }
+  return objectsToHide;
+}
+
+// These are icons that contains sun
+const dayNightIconIds = [1, 2, 21, 22, 23, 41, 42, 43, 61, 62, 71, 72, 73];
+
+export function checkDayNight(iconId, timem, lat, lon) {
+  const date = timem.toDate();
+  const dateMillis = date.getTime();
+  const sunCalcTimes = SunCalc.getTimes(date, lat, lon);
+  const sunrise = sunCalcTimes.sunrise.getTime();
+  const sunset = sunCalcTimes.sunset.getTime();
+  if (
+    (sunrise > dateMillis || sunset < dateMillis) &&
+    dayNightIconIds.includes(iconId)
+  ) {
+    // Night icon = iconId + 100
+    return iconId + 100;
+  }
+  return iconId;
 }

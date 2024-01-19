@@ -15,12 +15,15 @@
   justify-content: center;
   margin-top: 10%;
   padding: 1em;
+
   .external-no-route .external-link-container {
     margin-left: 0.5rem;
+
     a.external-link {
       color: $link-color;
     }
   }
+
   .no-route-icon {
     margin-right: 1em;
     margin-top: 0.5em;
@@ -28,9 +31,11 @@
     width: 2em;
     height: 2em;
   }
+
   .caution {
     fill: $disruption-color;
   }
+
   .info {
     fill: $gray-blue;
   }
@@ -38,6 +43,7 @@
 
 .time-selectors {
   @include font-book;
+
   font-size: $font-size-small;
   background-color: $background-color-lighter;
   display: flex;
@@ -64,18 +70,18 @@
     border: none;
     border-radius: $border-radius;
     appearance: none;
+
     @include font-book;
+
     font-weight: $font-weight-medium;
     height: 2.6em;
 
     &:hover {
       background-color: $white;
-      //outline: none;
     }
 
     &:focus {
       background-color: $white;
-      //outline: none;
     }
 
     &.text-time-selector,
@@ -85,6 +91,7 @@
       text-align: center;
     }
   }
+
   .select-wrapper {
     display: flex;
     flex: 0 1 14.5em;
@@ -93,13 +100,16 @@
       margin-left: -1rem;
       pointer-events: none;
     }
+
     select {
       border-radius: 5px;
       padding: 0 1.5rem 0 0.9em;
     }
   }
+
   .time-box-shadow input {
     box-shadow: inset 1px 1px 3px 0 rgba(0, 0, 0, 0.43);
+
     &:focus {
       box-shadow: inset 1px 1px 3px 0 rgba(0, 0, 0, 0.43);
     }
@@ -112,6 +122,7 @@
 
   .time-selector {
     @include font-book;
+
     text-align: left;
     font-family: $font-family !important;
     display: flex !important;
@@ -120,9 +131,11 @@
     &:hover {
       border: 1px solid #007ac9;
     }
+
     input {
       font-size: $font-size-xxsmall !important;
     }
+
     hr {
       display: none;
     }
@@ -156,6 +169,7 @@
 
 .mobile .time-selectors {
   flex: 0 1 85%;
+
   .select-wrapper > span {
     margin-left: -1.4rem;
   }
@@ -166,28 +180,33 @@
     display: inherit;
     margin-bottom: 0;
   }
+
   display: flex;
   background: $white;
   padding: 0 0.6em 0 0.2em;
   border-radius: 5px;
   margin-right: 0.6em;
   flex: 0 0 3em;
+
   .time-input-field {
     width: 1.5em;
     padding-right: 0 !important;
     padding-left: 0 !important;
     box-shadow: none;
     background-color: transparent !important;
+
     &:focus {
       box-shadow: none !important;
       border-color: none !important;
     }
+
     &#inputMinutes {
       text-align: left;
       padding-bottom: 0.2em;
       color: rgb(51, 51, 51);
       font-weight: $font-weight-medium;
     }
+
     &#inputHours {
       text-align: right;
       padding-bottom: 0.2em;
@@ -195,6 +214,7 @@
       font-weight: $font-weight-medium;
     }
   }
+
   #timeinput-digit-separator {
     margin: 0.25em 1px 0 1px;
     color: rgb(51, 51, 51);
@@ -215,6 +235,7 @@
   .button-container {
     position: relative;
     margin-top: -3px;
+
     .icon-holder {
       left: 1.4em;
       position: absolute;
@@ -229,24 +250,29 @@
     padding: 0.6em;
     padding-right: 0.8em;
     outline: none;
+
     span {
       font-weight: $font-weight-medium;
       font-size: $font-size-xxsmall;
     }
+
     &.settings .icon {
       font-size: 1.7em;
       margin-top: -0.15em;
     }
+
     &.close {
       .icon {
         font-size: $font-size-small;
       }
+
       :first-child {
         margin-left: 0.4em;
       }
     }
   }
 }
+
 .mobile button.secondary-button.close {
   padding-right: 0.5em;
 }
@@ -262,9 +288,11 @@
     margin-top: 30px;
     margin-bottom: 30px;
     padding: 18px 32px 18px 16px;
+
     .icon-container {
       padding-top: 5px;
       padding-right: 10px;
+
       .icon-icon_settings {
         width: 1.25em;
         height: 1.25em;
@@ -281,6 +309,7 @@
     from {
       transform: translateY(-100px);
     }
+
     to {
       transform: translateY(0);
     }
@@ -296,6 +325,7 @@
   z-index: 1;
   height: 100px;
   animation: fadeIn 0.4s;
+
   &.route-schedule {
     margin-top: 200px;
   }
@@ -309,6 +339,7 @@
   .summary {
     display: block;
     height: auto;
+
     .summary-list-container {
       display: block;
       height: auto;
@@ -318,6 +349,7 @@
 
 .summary-content {
   height: 100%;
+
   > section {
     height: 100%;
   }
@@ -330,23 +362,28 @@
 .mobile .street-mode-selector-panel-container {
   padding: 0 $padding-small;
 }
+
 .mobile {
   background-color: white;
+
   .summary-navigation-container {
     margin: 0 9px 0 1.25em;
 
     .back-button {
       position: static;
+
       .icon-holder {
         position: absolute;
         box-shadow: none;
         font-size: 16px;
         top: 1.5em;
         border: 1px solid #ddd;
+
         .icon-container {
           height: inherit;
         }
       }
+
       h1 {
         font-family: $heading-font-family;
         width: 100%;
@@ -378,6 +415,7 @@
     top: 2px;
     margin-right: 1em;
   }
+
   .arrow-up {
     transform: rotate(180deg);
   }
@@ -385,6 +423,7 @@
   &.top-btn {
     font-size: 13px;
   }
+
   &.bottom-btn {
     border-top: 1px solid #ddd;
     font-size: $font-size-normal;
@@ -394,6 +433,7 @@
 
 .mobile .time-navigation-btn {
   padding-left: 28px;
+
   &.extra-whitespace {
     height: 120px;
     padding-bottom: 60px;
@@ -402,7 +442,7 @@
 
 .settings-changed-notification {
   display: flex;
-  background: #F4F4F5;
+  background: #f4f4f5;
   border-radius: 5px;
   margin: 15px 60px 15px 60px;
   padding: 15px;
@@ -411,26 +451,32 @@
   font-weight: normal;
   line-height: 21px;
   letter-spacing: -0.03em;
-  color: #000000;
+  color: #000;
+
   .left-block {
     padding-left: 10px;
     padding-right: 10px;
   }
+
   button {
     font-size: $font-size-xsmall;
     color: $primary-color;
   }
+
   h3 {
     font-weight: bold;
     font-size: $font-size-xsmall;
   }
+
   p {
     margin-top: 3px;
-    margin-bottom: 0px;
+    margin-bottom: 0;
     font-size: $font-size-xsmall;
   }
+
   .change-settings {
     color: $primary-color;
+
     #change-settings-button {
       font-weight: bold;
     }
@@ -458,5 +504,5 @@
   font-size: $font-size-small;
   border-bottom: 1px solid #ddd;
   border-top: 1px solid #ddd;
-  color: #666666;
+  color: #666;
 }

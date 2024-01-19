@@ -13,7 +13,7 @@ export const StreetModeSelector = (
     showBikeAndPublicOptionButton,
     showCarOptionButton,
     showParkRideOptionButton,
-    toggleStreetMode,
+    selectStreetMode,
     setStreetModeAndSelect,
     weatherData,
     walkPlan,
@@ -34,20 +34,19 @@ export const StreetModeSelector = (
         ],
       }
     : {};
+  const showWeather =
+    !config.hideWeatherLabel &&
+    (showWalkOptionButton ||
+      showBikeOptionButton ||
+      showBikeAndPublicOptionButton);
+
   return (
     <div className="street-mode-selector-container">
       <StreetModeSelectorShimmer loading={loading} />
       {!loading && (
         <div className="street-mode-button-row">
-          {!config.hideWeatherLabel && (
-            <StreetModeSelectorWeatherLabel
-              active={
-                showWalkOptionButton ||
-                showBikeOptionButton ||
-                showBikeAndPublicOptionButton
-              }
-              weatherData={weatherData}
-            />
+          {showWeather && (
+            <StreetModeSelectorWeatherLabel weatherData={weatherData} />
           )}
           {showWalkOptionButton && (
             <StreetModeSelectorButton
@@ -70,7 +69,7 @@ export const StreetModeSelector = (
               icon="icon-icon_cyclist"
               name="bikeAndVehicle"
               plan={bikeAndVehicle}
-              onClick={toggleStreetMode}
+              onClick={selectStreetMode}
             />
           )}
 
@@ -79,7 +78,7 @@ export const StreetModeSelector = (
               icon="icon-icon_car-withoutBox"
               name="parkAndRide"
               plan={parkRidePlan}
-              onClick={toggleStreetMode}
+              onClick={selectStreetMode}
             />
           )}
           {showCarOptionButton && (
@@ -106,12 +105,12 @@ export const StreetModeSelector = (
 };
 
 StreetModeSelector.propTypes = {
-  showWalkOptionButton: PropTypes.bool.isRequired,
-  showBikeOptionButton: PropTypes.bool.isRequired,
-  showBikeAndPublicOptionButton: PropTypes.bool.isRequired,
-  showCarOptionButton: PropTypes.bool.isRequired,
-  showParkRideOptionButton: PropTypes.bool.isRequired,
-  toggleStreetMode: PropTypes.func.isRequired,
+  showWalkOptionButton: PropTypes.bool,
+  showBikeOptionButton: PropTypes.bool,
+  showBikeAndPublicOptionButton: PropTypes.bool,
+  showCarOptionButton: PropTypes.bool,
+  showParkRideOptionButton: PropTypes.bool,
+  selectStreetMode: PropTypes.func.isRequired,
   setStreetModeAndSelect: PropTypes.func.isRequired,
   walkPlan: PropTypes.object,
   bikePlan: PropTypes.object,

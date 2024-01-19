@@ -5,6 +5,7 @@ $slider-gray: #575757;
 
 .slider-container {
   padding: 10px 0 7px;
+
   h4 {
     margin: 0;
   }
@@ -27,7 +28,9 @@ input[type='range'].slider:focus {
 }
 
 /* Track is the line where the circle moves */
-$track-box-shadow: 0.9px 0.9px 1px #000000, 0px 0px 0.9px #0d0d0d;
+$track-box-shadow:
+  0.9px 0.9px 1px #000,
+  0 0 0.9px #0d0d0d;
 $track-border: 2px solid $slider-gray;
 
 /* Mixins work, but straight nested definitions don't */
@@ -35,56 +38,17 @@ $track-border: 2px solid $slider-gray;
   width: 100%;
   height: 7px;
   cursor: pointer;
-  background: #000000;
+  background: #000;
   border-radius: 3px;
   border: $track-border;
 }
 
-input[type='range'].slider {
-  -webkit-appearance: none; /* Hides the slider so that custom slider can be made */
-  width: 100%; /* Specific width is required for Firefox. */
-  margin: 3px 0 1em;
-
-  &::-webkit-slider-runnable-track {
-    @include track;
-  }
-  &:focus::-webkit-slider-runnable-track {
-    background: #0d0d0d;
-  }
-  &::-moz-range-track {
-    @include track;
-    height: 3px;
-  }
-  &::-ms-track {
-    @include track;
-    background: transparent; /* Hides the slider so custom styles can be added */
-    border-color: transparent;
-    color: transparent;
-    border-width: 10px;
-  }
-  &::-ms-fill-lower {
-    background: #000000;
-    border: $track-border;
-    border-radius: 6px;
-  }
-  &::-ms-fill-upper {
-    background: #000000;
-    border: $track-border;
-    border-radius: 6px;
-  }
-  &:focus::-ms-fill-lower {
-    background: #000000;
-  }
-  &:focus::-ms-fill-upper {
-    background: #0d0d0d;
-  }
-}
-
 /* Thumb is the circle on the track */
-
 @mixin thumb {
-  box-shadow: 0px 1.3px 0.2px #000000, 0px 0px 1px #c1c1c1;
-  border: 3px solid #ffffff;
+  box-shadow:
+    0 1.3px 0.2px #000,
+    0 0 1px #c1c1c1;
+  border: 3px solid #fff;
   height: 24px;
   width: 24px;
   border-radius: 15px;
@@ -93,24 +57,76 @@ input[type='range'].slider {
   cursor: ew-resize;
 }
 
-/* stylelint-disable-next-line */
 input[type='range'].slider {
+  appearance: none; /* Hides the slider so that custom slider can be made */
+  width: 100%; /* Specific width is required for Firefox. */
+  margin: 3px 0 1em;
+
+  &::-webkit-slider-runnable-track {
+    @include track;
+  }
+
+  &:focus::-webkit-slider-runnable-track {
+    background: #0d0d0d;
+  }
+
+  &::-moz-range-track {
+    @include track;
+
+    height: 3px;
+  }
+
+  &::-ms-track {
+    @include track;
+
+    background: transparent; /* Hides the slider so custom styles can be added */
+    border-color: transparent;
+    color: transparent;
+    border-width: 10px;
+  }
+
+  &::-ms-fill-lower {
+    background: #000;
+    border: $track-border;
+    border-radius: 6px;
+  }
+
+  &::-ms-fill-upper {
+    background: #000;
+    border: $track-border;
+    border-radius: 6px;
+  }
+
+  &:focus::-ms-fill-lower {
+    background: #000;
+  }
+
+  &:focus::-ms-fill-upper {
+    background: #0d0d0d;
+  }
+
   &::-webkit-slider-thumb {
     @include thumb;
-    -webkit-appearance: none;
+
+    appearance: none;
+
     /* You need to specify a margin in Chrome,
        but in Firefox and IE it is automatic */
     margin-top: -10.5px;
   }
+
   &::-moz-range-thumb {
     @include thumb;
   }
+
   /* Prevent Firefox from drawing an ugly dotted line over the thumb */
   &::-moz-focus-outer {
     border: 0;
   }
+
   &::-ms-thumb {
     @include thumb;
+
     height: 24px;
   }
 }
@@ -122,9 +138,11 @@ $thumb-color-pink: $favourite-color;
   input[type='range'].slider::-webkit-slider-thumb {
     background-color: $thumb-color-pink !important;
   }
+
   input[type='range'].slider::-moz-range-thumb {
     background-color: $thumb-color-pink !important;
   }
+
   input[type='range'].slider::-ms-thumb {
     background-color: $thumb-color-pink !important;
   }
@@ -134,7 +152,6 @@ $thumb-color-pink: $favourite-color;
   TOGGLE BUTTON
 */
 $btn-highlight-opacity: 0.9;
-
 $btn-inactive-background-color: $dark-gray;
 $btn-bus-active-background-color: $bus-color;
 $btn-tram-active-background-color: $tram-color;
@@ -144,11 +161,9 @@ $btn-ferry-active-background-color: $ferry-color;
 $btn-air-active-background-color: $airplane-color;
 $btn-citybike-active-background-color: $citybike-color;
 $btn-radio-checked-background-color: $white;
-
 $btn-icon-color-inactive: $medium-gray;
 $btn-icon-color-active: $white;
 $btn-icon-color-checked: $black;
-
 $btn-width: 17px;
 $btn-heigth: 17px;
 
@@ -161,77 +176,95 @@ $btn-heigth: 17px;
   &:hover {
     opacity: $btn-highlight-opacity;
   }
+
   &.bus {
     background-color: $btn-bus-active-background-color;
+
     &:hover,
     &:active,
     &:focus {
       background-color: $btn-bus-active-background-color;
     }
   }
+
   &.tram {
     background-color: $btn-tram-active-background-color;
+
     &:hover,
     &:active,
     &:focus {
       background-color: $btn-tram-active-background-color;
     }
   }
+
   &.rail {
     background-color: $btn-rail-active-background-color;
+
     &:hover,
     &:active,
     &:focus {
       background-color: $btn-rail-active-background-color;
     }
   }
+
   &.subway {
     background-color: $btn-subway-active-background-color;
+
     &:hover,
     &:active,
     &:focus {
       background-color: $btn-subway-active-background-color;
     }
   }
+
   &.ferry {
     background-color: $btn-ferry-active-background-color;
+
     &:hover,
     &:active,
     &:focus {
       background-color: $btn-ferry-active-background-color;
     }
   }
+
   &.airplane {
     background-color: $btn-air-active-background-color;
+
     &:hover,
     &:active,
     &:focus {
       background-color: $btn-air-active-background-color;
     }
   }
+
   &.citybike {
     background-color: $btn-citybike-active-background-color;
+
     &:hover,
     &:active,
     &:focus {
       background-color: $btn-citybike-active-background-color;
     }
   }
+
   &.walk,
   &.bicycle,
   &.car,
   &.car_park,
   &.public_transport {
     background-color: $btn-radio-checked-background-color;
+
     &:hover,
     &:active,
     &:focus {
       background-color: $btn-radio-checked-background-color;
     }
+
     .icon {
       color: $btn-icon-color-checked;
     }
   }
+
   &.bus,
   &.tram,
   &.rail,
@@ -248,27 +281,33 @@ $btn-heigth: 17px;
     padding-top: 9pt;
     padding-bottom: 5pt;
   }
+
   .icon {
     color: $btn-icon-color-inactive;
   }
 }
+
 .btn-bar {
   display: flex;
   flex-direction: row;
+
   .btn {
     flex: 1;
     border-radius: 0;
     border-right: 1px solid $offcanvas-background;
     padding: 0;
+
     &:first-child {
       border-top-left-radius: $border-radius;
       border-bottom-left-radius: $border-radius;
     }
+
     &:last-child {
       border-top-right-radius: $border-radius;
       border-bottom-right-radius: $border-radius;
     }
   }
+
   [class*='column'] + [class*='column']:last-child {
     border-right: none;
   }
@@ -278,11 +317,13 @@ $btn-heigth: 17px;
   background-color: $standalone-btn-color;
   padding: $padding-small $padding-medium;
   border-radius: 20px;
+
   .icon-holder {
     padding: 0;
     margin: 0;
     margin-bottom: -4px;
   }
+
   &:hover {
     background-color: $standalone-btn-hover-color;
   }
@@ -290,7 +331,7 @@ $btn-heigth: 17px;
 
 .secondary-button {
   border-radius: 4px;
-  background-color: #ffffff;
+  background-color: #fff;
   border: solid 1px #b7b7b7;
   font-family: $button-font-family;
   font-weight: $font-narrow-weight-medium;
@@ -306,9 +347,10 @@ $btn-heigth: 17px;
   &:focus,
   &:active {
     color: $link-color;
-    background-color: #ffffff;
+    background-color: #fff;
     border: solid 1px $link-color;
   }
+
   .icon {
     margin-right: 4px;
     width: 1.1em;
@@ -318,6 +360,7 @@ $btn-heigth: 17px;
     height: 28px;
     padding: 5px 15px;
   }
+
   @media print {
     display: none;
   }
@@ -338,6 +381,7 @@ $btn-heigth: 17px;
   border-top-left-radius: $border-radius;
   border-bottom-left-radius: $border-radius;
 }
+
 .last-btn {
   border-top-right-radius: $border-radius;
   border-bottom-right-radius: $border-radius;
@@ -370,6 +414,7 @@ $btn-heigth: 17px;
       padding: 0;
       margin: 0;
     }
+
     .icon.close {
       width: 1.4em;
       height: 1.4em;
@@ -412,7 +457,7 @@ $btn-heigth: 17px;
 .mode-filter {
   width: 100%;
   padding-top: 0;
-  padding-bottom: 0px;
+  padding-bottom: 0;
   height: 53px;
   text-align: center;
   align-items: flex-start;
@@ -423,12 +468,13 @@ $btn-heigth: 17px;
 }
 
 select {
-  -moz-appearance: none;
+  appearance: none;
 }
 
 .split-bars {
   display: flex;
   align-items: stretch;
+
   .split-bar {
     display: flex;
     align-items: center;

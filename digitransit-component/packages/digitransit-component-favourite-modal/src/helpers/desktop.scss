@@ -1,69 +1,78 @@
 .favourite-modal-desktop-container {
   display: flex;
   flex-direction: column;
+
   .favourite-modal-desktop-top {
     display: flex;
     flex-direction: row;
     width: 100%;
+
     .favourite-modal-desktop-header {
       width: 100%;
       font-size: 18px;
       font-weight: var(--font-weight-medium);
       line-height: 1.33;
       letter-spacing: -0.6px;
-      color: #333333;
+      color: #333;
       margin-bottom: 25px;
     }
   }
+
   .favourite-modal-desktop-main {
     text-align: left;
     margin-bottom: 27px;
+
     .favourite-modal-desktop-location-search {
       margin-bottom: 9px;
     }
+
     .favourite-modal-desktop-name {
       .favourite-modal-desktop-input {
         display: flex;
         position: relative;
         width: 100%;
         height: 44px;
-        font-family: 'Gotham Rounded A', 'Gotham Rounded B', 'Roboto', Arial, Georgia, Serif;
+        font-family: 'Gotham Rounded A', 'Gotham Rounded B', Roboto, Arial,
+          Georgia, serif;
         border-radius: 5px;
-        border: solid 1px #888888;
-        background-color: #ffffff;
+        border: solid 1px #888;
+        background-color: #fff;
         padding-left: 20px;
         font-size: 15px;
         line-height: 1.2;
         letter-spacing: -0.5px;
         color: #333;
         box-sizing: border-box;
-        -webkit-appearance: none;
-        -moz-appearance: none;
         appearance: none;
+
         &::placeholder {
           color: #666;
         }
+
         &:focus {
           background: #fff;
           outline: none;
           border: 1px solid var(--color);
-          box-shadow: 0px 0px 2px 1px var(--hover-color);
-          -webkit-appearance: none;
+          box-shadow: 0 0 2px 1px var(--hover-color);
+          appearance: none;
         }
       }
     }
   }
+
   .favourite-modal-desktop-text {
     font-size: 16px;
     font-weight: var(--font-weight-medium);
     letter-spacing: -0.53px;
-    color: #333333;
+    color: #333;
     margin: 0 0 11px 0;
     padding: 0;
   }
+
   .favourite-modal-desktop-icons {
     margin-bottom: 30px;
   }
+
   .icons-container {
     border: none;
     margin: 0;
@@ -73,6 +82,7 @@
   .favourite-modal-desktop-buttons {
     display: flex;
     flex-direction: column;
+
     .favourite-modal-desktop-button {
       display: flex;
       justify-content: center;
@@ -81,7 +91,8 @@
       width: 100%;
       height: 50px;
       font-size: 18px;
-      font-family: 'Gotham Rounded A', 'Gotham Rounded B', 'Roboto', Arial, Georgia, Serif;
+      font-family: 'Gotham Rounded A', 'Gotham Rounded B', Roboto, Arial,
+        Georgia, serif;
       font-weight: var(--font-weight-medium);
       letter-spacing: -0.5px;
       background: var(--color);
@@ -94,25 +105,33 @@
       transition: background-color 300ms ease-out;
       border-radius: 25px;
       cursor: pointer;
+
       &.save {
-        &:active, &:focus, &:hover {
+        &:active,
+        &:focus,
+        &:hover {
           border-color: var(--hover-color);
           background: var(--hover-color);
           color: #fff;
         }
+
         &.disabled {
           background: #bbb;
+
           &:active {
             background: #bbb;
           }
         }
       }
+
       &.edit {
         margin-top: 9px;
         background: #fff;
         border: solid 1px var(--color);
         color: var(--color);
-        &:active, &:hover {
+
+        &:active,
+        &:hover {
           border-color: var(--hover-color);
           background-color: #fff;
           color: var(--hover-color);
@@ -122,7 +141,7 @@
   }
 }
 
-.sr-only:not(:focus):not(:active) {
+.sr-only:not(:focus, :active) {
   clip: rect(0 0 0 0);
   clip-path: inset(50%);
   height: 1px;
