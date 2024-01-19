@@ -301,7 +301,7 @@ class ItineraryPage extends React.Component {
         const bikePlan = {
           ...result.bikePlan,
           itineraries: filterItineraries(result.bikePlan?.itineraries, [
-            'BIKE',
+            'BICYCLE',
           ]),
         };
 
