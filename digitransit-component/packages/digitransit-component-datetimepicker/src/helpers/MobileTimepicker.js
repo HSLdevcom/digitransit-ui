@@ -41,7 +41,7 @@ function MobileTimepicker({
         maxLength="6"
         className={cx(
           styles['time-input-mobile'],
-          invalidInput ? 'dtpicker-invalid-input' : '',
+          invalidInput ? 'mobile-datetimepicker-invalid-input' : '',
         )}
         value={inputValue}
         onFocus={e => {
