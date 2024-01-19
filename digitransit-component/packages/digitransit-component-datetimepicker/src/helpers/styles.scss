@@ -15,7 +15,6 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle, map-buttons,
   destination-input, viapoint-input-5, viapoint-input-4, viapoint-input-3,
   viapoint-input-2, viapoint-input-1, origin-input, search-input-focus,
   search-input-icon, autosuggest-suggestion-container, front;
-$input-color: var(--input-color);
 
 .sr-only:not(:focus, :active) {
   clip: rect(0 0 0 0);
@@ -274,6 +273,12 @@ $input-color: var(--input-color);
     }
   }
 
+  :global .datetimepicker-invalid-input {
+    input {
+      color: #f00 !important;
+    }
+  }
+
   .datetimepicker-select-container {
     position: relative;
     height: 40px;
@@ -306,7 +311,7 @@ $input-color: var(--input-color);
         font-style: normal;
         line-height: 1.33;
         letter-spacing: -0.5px;
-        color: $input-color !important;
+        color: #333;
         font-family: inherit;
         font-size: 15px;
         font-weight: var(--font-weight-medium);
@@ -485,6 +490,10 @@ $input-color: var(--input-color);
         }
       }
 
+      :global .dtpicker-invalid-input {
+        color: #f00 !important;
+      }
+
       .time-input-mobile {
         font-family: inherit;
         box-shadow: none;
@@ -497,7 +506,7 @@ $input-color: var(--input-color);
         background: none;
         width: 50px;
         margin-left: 10px;
-        color: var(--input-color);
+        color: #333;
         height: 1.5265rem;
       }
 

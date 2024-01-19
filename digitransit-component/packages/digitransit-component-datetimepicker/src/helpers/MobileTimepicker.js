@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { useRef, useLayoutEffect, useState } from 'react';
 import moment from 'moment-timezone';
+import cx from 'classnames';
 import styles from './styles.scss';
 import { parseTypedTime, getTs, validateInput } from './utils';
 
@@ -15,9 +16,9 @@ function MobileTimepicker({
   label,
   icon,
   timeZone,
-  setinvalidInput,
 }) {
   const [inputValue, changeInputValue] = useState(getDisplay(value));
+  const [invalidInput, setinvalidInput] = useState(false);
   moment.tz.setDefault(timeZone);
   const inputId = `${id}-input`;
   const labelId = `${id}-label`;
@@ -38,7 +39,10 @@ function MobileTimepicker({
         inputMode="numeric"
         type="text"
         maxLength="6"
-        className={styles['time-input-mobile']}
+        className={cx(
+          styles['time-input-mobile'],
+          invalidInput ? 'dtpicker-invalid-input' : '',
+        )}
         value={inputValue}
         onFocus={e => {
           e.target.setSelectionRange(0, 0); // set caret to start of input
@@ -77,7 +81,6 @@ MobileTimepicker.propTypes = {
   label: PropTypes.string.isRequired,
   icon: PropTypes.node,
   timeZone: PropTypes.string,
-  setinvalidInput: PropTypes.func.isRequired,
 };
 
 MobileTimepicker.defaultProps = {

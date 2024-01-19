@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import moment from 'moment-timezone';
 import Select from 'react-select';
 import i18next from 'i18next';
+import cx from 'classnames';
 import { parseTypedTime, validateInput, getTs } from './utils';
 import styles from './styles.scss';
 
@@ -42,14 +43,13 @@ function DesktopDatetimepicker({
   disableTyping,
   timeZone,
   datePicker,
-  invalidInput,
-  setinvalidInput,
   translationSettings,
 }) {
   moment.tz.setDefault(timeZone);
   const [displayValue, changeDisplayValue] = useState(getDisplay(value));
   const [typing, setTyping] = useState(false);
   const [showAllOptions, setShowAllOptions] = useState(true);
+  const [invalidInput, setinvalidInput] = useState(false);
   useEffect(() => {
     changeDisplayValue(getDisplay(value));
     if (!datePicker) {
@@ -191,7 +191,10 @@ function DesktopDatetimepicker({
         components={{
           IndicatorsContainer: () => null,
         }}
-        className={styles['datetimepicker-select-container']}
+        className={cx(
+          styles['datetimepicker-select-container'],
+          invalidInput ? 'datetimepicker-invalid-input' : '',
+        )}
         classNamePrefix="datetimepicker-select"
         onInputChange={onInputChange}
         inputValue={!disableTyping && displayValue}
@@ -285,8 +288,6 @@ DesktopDatetimepicker.propTypes = {
   disableTyping: PropTypes.bool,
   timeZone: PropTypes.string,
   datePicker: PropTypes.bool,
-  invalidInput: PropTypes.bool,
-  setinvalidInput: PropTypes.func,
   translationSettings: PropTypes.shape({ lng: PropTypes.string.isRequired }),
 };
 
@@ -294,8 +295,6 @@ DesktopDatetimepicker.defaultProps = {
   disableTyping: false,
   timeZone: 'Europe/Helsinki',
   datePicker: false,
-  invalidInput: false,
-  setinvalidInput: () => null,
   translationSettings: { lng: 'fi' },
 };
 

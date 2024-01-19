@@ -89,14 +89,7 @@ function Datetimepicker({
   const openPickerRef = useRef();
   const inputRef = useRef();
   const alertRef = useRef();
-  const [invalidInput, setinvalidInput] = useState(false);
 
-  useEffect(() => {
-    document.body.style.setProperty(
-      '--input-color',
-      invalidInput ? '#ff0000' : ' #000000',
-    );
-  }, [invalidInput]);
   const translationSettings = { lng: lang };
 
   useEffect(() => {
@@ -261,7 +254,6 @@ function Datetimepicker({
             dateSelectItemCount={serviceTimeRange}
             getDisplay={getTimeDisplay}
             fontWeights={fontWeights}
-            setinvalidInput={setinvalidInput}
           />
         )
       );
@@ -418,8 +410,6 @@ function Datetimepicker({
                 id={`${htmlId}-time`}
                 label={i18next.t('time', translationSettings)}
                 timeZone={timeZone}
-                invalidInput={invalidInput}
-                setinvalidInput={setinvalidInput}
                 translationSettings={translationSettings}
               />
             </span>

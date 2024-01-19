@@ -2068,6 +2068,7 @@ __metadata:
   resolution: "@digitransit-component/digitransit-component-datetimepicker@workspace:digitransit-component/packages/digitransit-component-datetimepicker"
   peerDependencies:
     "@digitransit-component/digitransit-component-icon": ^1.0.1
+    classnames: 2.2.6
     i18next: ^19.3.3
     lodash: 4.17.21
     lodash-es: 4.17.21

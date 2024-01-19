@@ -33,7 +33,6 @@ function MobilePickerModal({
   dateSelectItemCount,
   getDateDisplay,
   fontWeights,
-  setinvalidInput,
 }) {
   moment.tz.setDefault(timeZone);
   const translationSettings = { lng: lang };
@@ -166,7 +165,6 @@ function MobilePickerModal({
               </span>
             }
             timeZone={timeZone}
-            setinvalidInput={setinvalidInput}
           />
         </div>
         <div className={styles['buttons-row']}>
@@ -207,13 +205,11 @@ MobilePickerModal.propTypes = {
   fontWeights: PropTypes.shape({
     medium: PropTypes.number.isRequired,
   }).isRequired,
-  setinvalidInput: PropTypes.func,
 };
 
 MobilePickerModal.defaultProps = {
   color: '#007ac9',
   timeZone: 'Europe/Helsinki',
-  setinvalidInput: () => null,
 };
 
 export default MobilePickerModal;
