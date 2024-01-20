@@ -21,7 +21,7 @@ import { addressToItinerarySearch } from '../../util/otpStrings';
 import ItineraryLine from './ItineraryLine';
 import Loading from '../Loading';
 import { getMapLayerOptions } from '../../util/mapLayerUtils';
-import MapRoutingButton from '../mapRoutingButton';
+import MapRoutingButton from '../MapRoutingButton';
 import CookieSettingsButton from '../CookieSettingsButton';
 
 const getModeFromProps = props => {
