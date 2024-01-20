@@ -35,7 +35,7 @@ function ItineraryList(
     walking,
     biking,
     driving,
-    showAlternativePlan,
+    showRelaxedPlan,
     separatorPosition,
     loadingMoreItineraries,
     onlyHasWalkingItineraries,
@@ -134,7 +134,7 @@ function ItineraryList(
     return (
       <>
         <div className="summary-list-container" role="list">
-          {showAlternativePlan && (
+          {showRelaxedPlan && (
             <div
               className={cx(
                 'flex-horizontal',
@@ -179,7 +179,7 @@ function ItineraryList(
             />
           )}
         </div>
-        {onlyHasWalkingItineraries && !showAlternativePlan && (
+        {onlyHasWalkingItineraries && !showRelaxedPlan && (
           <div className="summary-no-route-found" style={{ marginTop: 0 }}>
             <div
               className={cx('flex-horizontal', 'summary-notification', 'info')}
@@ -285,7 +285,7 @@ ItineraryList.propTypes = {
   walking: PropTypes.bool,
   biking: PropTypes.bool,
   driving: PropTypes.bool,
-  showAlternativePlan: PropTypes.bool,
+  showRelaxedPlan: PropTypes.bool,
   separatorPosition: PropTypes.number,
   loadingMoreItineraries: PropTypes.string,
   onlyHasWalkingItineraries: PropTypes.bool,
@@ -299,7 +299,7 @@ ItineraryList.defaultProps = {
   walking: false,
   biking: false,
   driving: false,
-  showAlternativePlan: false,
+  showRelaxedPlan: false,
   separatorPosition: undefined,
   loadingMoreItineraries: undefined,
   routingErrors: [],

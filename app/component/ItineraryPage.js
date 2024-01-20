@@ -219,9 +219,7 @@ class ItineraryPage extends React.Component {
 
   hasNoTransitItineraries() {
     return (
-      this.props.viewer?.plan?.itineraries?.filter(
-        itinerary => !itinerary.legs.every(leg => leg.mode === 'WALK'),
-      ).length === 0
+      transitItineraries(this.props.viewer?.plan?.itineraries).length === 0
     );
   }
 
@@ -332,10 +330,14 @@ class ItineraryPage extends React.Component {
       force: true,
     })
       .toPromise()
-      .then(({ plan: results }) => {
+      .then(plan => {
+        const relaxedPlan = {
+          ...plan.results,
+          itineraries: transitItineraries(plan.results.itineraries),
+        };
         this.setState(
           {
-            relaxedPlan: results,
+            relaxedPlan,
             earlierItineraries: [],
             laterItineraries: [],
             separatorPosition: undefined,
@@ -515,7 +517,8 @@ class ItineraryPage extends React.Component {
     fetchQuery(this.props.relayEnvironment, moreItinerariesQuery, tunedParams)
       .toPromise()
       .then(({ plan: result }) => {
-        if (result.itineraries.length === 0) {
+        const newItineraries = transitItineraries(result.itineraries);
+        if (newItineraries.length === 0) {
           // Could not find routes arriving at original departure time
           // --> cannot calculate earlier start time
           this.setError('no-route-start-date-too-early');
@@ -526,36 +529,28 @@ class ItineraryPage extends React.Component {
             return {
               laterItineraries: [
                 ...prevState.laterItineraries,
-                ...result.itineraries,
+                ...newItineraries,
               ],
               loadingMoreItineraries: undefined,
             };
           });
         } else {
           // Reverse the results so that route suggestions are in ascending order
-          const reversedItineraries = result.itineraries
-            .slice() // Need to copy because result is readonly
-            .reverse()
-            .filter(
-              itinerary => !itinerary.legs.every(leg => leg.mode === 'WALK'),
-            );
-          // We need to filter only walk itineraries out to place the "separator" accurately between itineraries
           this.setState(prevState => {
             return {
               earlierItineraries: [
-                ...reversedItineraries,
+                ...newItineraries.reverse(),
                 ...prevState.earlierItineraries,
               ],
               loadingMoreItineraries: undefined,
               separatorPosition: prevState.separatorPosition
-                ? prevState.separatorPosition + reversedItineraries.length
-                : reversedItineraries.length,
+                ? prevState.separatorPosition + newItineraries.length
+                : newItineraries.length,
               routingFeedbackPosition: prevState.routingFeedbackPosition
                 ? prevState.routingFeedbackPosition
-                : reversedItineraries.length,
+                : newItineraries.length,
             };
           });
-
           this.resetItineraryPageSelection();
         }
       });
@@ -744,9 +739,8 @@ class ItineraryPage extends React.Component {
           relaxedPlan: undefined,
         },
         () => {
-          const hasNonWalkingItinerary = this.selectedPlan?.itineraries?.some(
-            itinerary => !itinerary.legs.every(leg => leg.mode === 'WALK'),
-          );
+          const hasNonWalkingItinerary =
+            transitItineraries(this.selectedPlan?.itineraries).length > 0;
           if (
             settingsLimitRouting(config) &&
             hasStartAndDestination(props.match.params) &&
@@ -786,9 +780,8 @@ class ItineraryPage extends React.Component {
         hash !== 'walk' &&
         hash !== 'bikeAndVehicle'
       ) {
-        combinedItineraries = combinedItineraries.filter(
-          itinerary => !itinerary.legs.every(leg => leg.mode === 'WALK'),
-        ); // exclude itineraries that have only walking legs from the summary
+        // exclude itineraries that have only street legs from the summary
+        combinedItineraries = transitItineraries(combinedItineraries);
       }
       const itineraryTopics = getTopicOptions(
         config,
@@ -1064,9 +1057,7 @@ class ItineraryPage extends React.Component {
       // no map on mobile summary view
       return null;
     }
-    let filteredItineraries = combinedItineraries.filter(
-      itinerary => !itinerary.legs.every(leg => leg.mode === 'WALK'),
-    );
+    let filteredItineraries = transitItineraries(combinedItineraries);
     if (!filteredItineraries.length) {
       filteredItineraries = combinedItineraries;
     }
@@ -1312,16 +1303,6 @@ class ItineraryPage extends React.Component {
     );
   }
 
-  isLoading(onlyWalkingItins, onlyWalkingAlternatives) {
-    if (this.state.loading) {
-      return true;
-    }
-    if (onlyWalkingItins && onlyWalkingAlternatives) {
-      return false;
-    }
-    return false;
-  }
-
   render() {
     const { props, context, state } = this;
     const { match, error } = props;
@@ -1345,8 +1326,6 @@ class ItineraryPage extends React.Component {
     }
 
     const hasNoTransitItineraries = this.hasNoTransitItineraries();
-    const hasAlternativeItineraries =
-      state.relaxedPlan?.itineraries?.length > 0;
 
     this.bikeAndPublicItinerariesToShow = 0;
     this.bikeAndParkItinerariesToShow = 0;
@@ -1375,7 +1354,10 @@ class ItineraryPage extends React.Component {
         return <Loading />;
       }
       this.selectedPlan = parkRidePlan;
-    } else if (hasNoTransitItineraries && hasAlternativeItineraries) {
+    } else if (
+      hasNoTransitItineraries &&
+      state.relaxedPlan?.itineraries?.length > 0
+    ) {
       this.selectedPlan = state.relaxedPlan;
     } else {
       this.selectedPlan = plan;
@@ -1399,29 +1381,14 @@ class ItineraryPage extends React.Component {
       this.hasNoTransitItineraries() &&
       (this.hasNoAlternativeItineraries() || this.isWalkingFastest());
 
-    let onlyWalkingAlternatives = false;
-    // Don't show only walking alternative itineraries
-    if (onlyHasWalkingItineraries && state.relaxedPlan) {
-      let onlyWalkingItineraries = true;
-      state.relaxedPlan.itineraries.forEach(itin => {
-        if (!itin.legs.every(leg => leg.mode === 'WALK')) {
-          onlyWalkingItineraries = false;
-        }
-      });
-      if (onlyWalkingItineraries) {
-        onlyWalkingAlternatives = true;
-      }
-    }
-
     if (
       combinedItineraries.length &&
       hash !== 'walk' &&
       hash !== 'bikeAndVehicle' &&
       !onlyHasWalkingItineraries
     ) {
-      combinedItineraries = combinedItineraries.filter(
-        itinerary => !itinerary.legs.every(leg => leg.mode === 'WALK'),
-      ); // exclude itineraries that have only walking legs from the summary if other itineraries are found
+      // exclude itineraries that have only walking legs from the summary if other itineraries are found
+      combinedItineraries = transitItineraries(combinedItineraries);
     }
 
     // Remove old itineraries if new query cannot find a route
@@ -1555,16 +1522,12 @@ class ItineraryPage extends React.Component {
               parkRidePlan?.itineraries?.length > 0
             }
             bikeAndParkItineraryCount={this.bikeAndParkItineraryCount}
-            showAlternativePlan={
+            showRelaxedPlan={
               hasNoTransitItineraries &&
-              hasAlternativeItineraries &&
-              !onlyWalkingAlternatives
+              state.relaxedPlan?.itineraries?.length > 0
             }
             separatorPosition={state.separatorPosition}
-            loading={this.isLoading(
-              onlyHasWalkingItineraries,
-              onlyWalkingAlternatives,
-            )}
+            loading={state.loading}
             onLater={this.onLater}
             onEarlier={this.onEarlier}
             onDetailsTabFocused={this.onDetailsTabFocused}
@@ -1757,16 +1720,12 @@ class ItineraryPage extends React.Component {
               carPlan?.itineraries?.length > 0 ||
               parkRidePlan?.itineraries?.length > 0
             }
-            showAlternativePlan={
+            showRelaxedPlan={
               hasNoTransitItineraries &&
-              hasAlternativeItineraries &&
-              !onlyWalkingAlternatives
+              state.relaxedPlan?.itineraries?.length > 0
             }
             separatorPosition={state.separatorPosition}
-            loading={this.isLoading(
-              onlyHasWalkingItineraries,
-              onlyWalkingAlternatives,
-            )}
+            loading={state.loading}
             onLater={this.onLater}
             onEarlier={this.onEarlier}
             onDetailsTabFocused={this.onDetailsTabFocused()}
