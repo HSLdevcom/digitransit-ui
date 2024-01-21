@@ -34,7 +34,7 @@ import {
 } from './ItineraryQueries';
 import {
   showDetailView,
-  getActiveIndex,
+  getSelectedItineraryIndex,
   getHashIndex,
   reportError,
   addFeedbackly,
@@ -168,7 +168,7 @@ class ItineraryPage extends React.Component {
   selectStreetMode = newStreetMode => {
     const newState = {
       ...this.props.match.location,
-      state: { summaryPageSelected: 0 },
+      state: { selectedItineraryIndex: 0 },
     };
     const basePath = getSummaryPath(
       this.props.match.params.from,
@@ -199,7 +199,7 @@ class ItineraryPage extends React.Component {
   selectFirstItinerary(newStreetMode) {
     const newState = {
       ...this.props.match.location,
-      state: { summaryPageSelected: 0 },
+      state: { selectedItineraryIndex: 0 },
     };
 
     const basePath = `${getSummaryPath(
@@ -249,7 +249,7 @@ class ItineraryPage extends React.Component {
       ...this.props.match.location,
       state: {
         ...this.props.match.location.state,
-        summaryPageSelected: undefined,
+        selectedItineraryIndex: undefined,
       },
     });
   };
@@ -1031,7 +1031,7 @@ class ItineraryPage extends React.Component {
 
     const newState = {
       ...this.props.match.location,
-      state: { summaryPageSelected: index },
+      state: { selectedItineraryIndex: index },
     };
     const indexPath = `${getSummaryPath(
       this.props.match.params.from,
@@ -1064,7 +1064,7 @@ class ItineraryPage extends React.Component {
 
     const activeIndex =
       getHashIndex(match.params) ||
-      getActiveIndex(match.location, filteredItineraries);
+      getSelectedItineraryIndex(match.location, filteredItineraries);
 
     const mwtProps = {};
     if (this.state.bounds) {
@@ -1445,9 +1445,10 @@ class ItineraryPage extends React.Component {
             (this.allModesQueryDone || !settingsLimitRouting(config))))
       ) {
         const activeIndex =
-          itineraryIndex || getActiveIndex(match.location, combinedItineraries);
+          itineraryIndex ||
+          getSelectedItineraryIndex(match.location, combinedItineraries);
         const selectedItineraries = combinedItineraries;
-        const selectedItinerary = selectedItineraries
+        const selectedItineraryIndex = selectedItineraries
           ? selectedItineraries[activeIndex]
           : undefined;
         if (
@@ -1538,7 +1539,8 @@ class ItineraryPage extends React.Component {
           >
             {props.content &&
               React.cloneElement(props.content, {
-                itinerary: selectedItineraries?.length && selectedItinerary,
+                itinerary:
+                  selectedItineraries?.length && selectedItineraryIndex,
                 focusToPoint: this.focusToPoint,
                 plan: this.selectedPlan,
               })}
@@ -1702,7 +1704,7 @@ class ItineraryPage extends React.Component {
           <ItineraryListContainer
             activeIndex={
               itineraryIndex ||
-              getActiveIndex(match.location, combinedItineraries)
+              getSelectedItineraryIndex(match.location, combinedItineraries)
             }
             plan={this.selectedPlan}
             routingErrors={this.selectedPlan.routingErrors}

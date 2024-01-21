@@ -21,8 +21,7 @@ import { getMapLayerOptions } from '../util/mapLayerUtils';
 export const streetModeHash = ['walk', 'bike', 'car'];
 
 /**
-/**
- * Returns the actively selected itinerary's index. Attempts to look for
+ * Returns the index of selected itinerary. Attempts to look for
  * the information in the location's state and pathname, respectively.
  * Otherwise, pre-selects the first non-cancelled itinerary or, failing that,
  * defaults to the index 0.
@@ -31,29 +30,29 @@ export const streetModeHash = ['walk', 'bike', 'car'];
  * @param {*} itineraries the itineraries retrieved from OTP.
  * @param {number} defaultValue the default value, defaults to 0.
  */
-export function getActiveIndex(
+export function getSelectedItineraryIndex(
   { pathname, state } = {},
   itineraries = [],
   defaultValue = 0,
 ) {
   if (state) {
-    if (state.summaryPageSelected >= itineraries.length) {
+    if (state.selectedItinerary >= itineraries.length) {
       return defaultValue;
     }
-    return state.summaryPageSelected || defaultValue;
+    return state.selectedItinerary || defaultValue;
   }
 
   /*
    * If state does not exist, for example when accessing the summary
    * page by an external link, we check if an itinerary selection is
-   * supplied in URL and make that the active selection.
+   * supplied in URL and make that the selection.
    */
-  const lastURLSegment = pathname?.split('/').pop();
-  if (!Number.isNaN(Number(lastURLSegment))) {
-    if (Number(lastURLSegment) >= itineraries.length) {
+  const lastURLSegment = Number(pathname?.split('/').pop());
+  if (!Number.isNaN(lastURLSegment)) {
+    if (lastURLSegment >= itineraries.length) {
       return defaultValue;
     }
-    return Number(lastURLSegment);
+    return lastURLSegment;
   }
 
   /**
@@ -63,10 +62,8 @@ export function getActiveIndex(
     itineraries,
     itinerary => !itineraryHasCancelation(itinerary),
   );
-  if (itineraryIndex >= itineraries.length) {
-    return defaultValue;
-  }
-  return itineraryIndex > 0 ? itineraryIndex : defaultValue;
+
+  return itineraryIndex !== -1 ? itineraryIndex : defaultValue;
 }
 
 export function getHashIndex(params) {
@@ -92,7 +89,7 @@ export function getDuration(plan) {
   return Math.min(...plan.itineraries.map(itin => itin.duration));
 }
 
-// this func is a bit fuzzy because it mopares strings and numbers
+// this func is a bit fuzzy because it compares strings and numbers
 export function showDetailView(hash, secondHash, itineraries) {
   if (hash === 'bikeAndVehicle' || hash === 'parkAndRide') {
     // note that '0' < 1 in javascript, because strings are converted to numbers
@@ -139,15 +136,14 @@ export function getTopicOptions(config, planitineraries, match) {
   )
     ? planitineraries
     : [];
-  const activeIndex =
-    getHashIndex(match.params) || getActiveIndex(match.location, itineraries);
+  const selected =
+    getHashIndex(match.params) ||
+    getSelectedItineraryIndex(match.location, itineraries);
   const itineraryTopics = [];
 
   if (itineraries.length) {
     const activeItinerary =
-      activeIndex < itineraries.length
-        ? itineraries[activeIndex]
-        : itineraries[0];
+      selected < itineraries.length ? itineraries[selected] : itineraries[0];
     activeItinerary.legs.forEach(leg => {
       if (leg.transitLeg && leg.trip) {
         const feedId = leg.trip.gtfsId.split(':')[0];
