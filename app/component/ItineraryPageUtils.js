@@ -35,11 +35,11 @@ export function getSelectedItineraryIndex(
   itineraries = [],
   defaultValue = 0,
 ) {
-  if (state) {
-    if (state.selectedItinerary >= itineraries.length) {
-      return defaultValue;
+  if (state?.selectedItineraryIndex !== undefined) {
+    if (state.selectedItineraryIndex < itineraries.length) {
+      return state.selectedItineraryIndex;
     }
-    return state.selectedItinerary || defaultValue;
+    return defaultValue;
   }
 
   /*
@@ -64,17 +64,6 @@ export function getSelectedItineraryIndex(
   );
 
   return itineraryIndex !== -1 ? itineraryIndex : defaultValue;
-}
-
-export function getHashIndex(params) {
-  const hash = params.secondHash || params.hash;
-  if (hash) {
-    if (streetModeHash.includes(hash)) {
-      return 0;
-    }
-    return Number(hash);
-  }
-  return undefined;
 }
 
 /**

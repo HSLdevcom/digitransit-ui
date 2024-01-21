@@ -35,7 +35,6 @@ import {
 import {
   showDetailView,
   getSelectedItineraryIndex,
-  getHashIndex,
   reportError,
   addFeedbackly,
   getTopics,
@@ -166,7 +165,7 @@ class ItineraryPage extends React.Component {
   }
 
   selectStreetMode = newStreetMode => {
-    const newState = {
+    const newLocationState = {
       ...this.props.match.location,
       state: { selectedItineraryIndex: 0 },
     };
@@ -174,17 +173,14 @@ class ItineraryPage extends React.Component {
       this.props.match.params.from,
       this.props.match.params.to,
     );
-    let indexPath = getSummaryPath(
-      this.props.match.params.from,
-      this.props.match.params.to,
-    );
+    let indexPath = basePath;
     if (newStreetMode) {
       indexPath = `${indexPath}/${newStreetMode}`;
     }
-    newState.pathname = basePath;
-    this.context.router.replace(newState);
-    newState.pathname = indexPath;
-    this.context.router.push(newState);
+    newLocationState.pathname = basePath;
+    this.context.router.replace(newLocationState);
+    newLocationState.pathname = indexPath;
+    this.context.router.push(newLocationState);
   };
 
   setStreetModeAndSelect = newStreetMode => {
@@ -193,29 +189,8 @@ class ItineraryPage extends React.Component {
       action: 'OpenItineraryDetailsWithMode',
       name: newStreetMode,
     });
-    this.selectFirstItinerary(newStreetMode);
+    this.selectStreetMode(newStreetMode);
   };
-
-  selectFirstItinerary(newStreetMode) {
-    const newState = {
-      ...this.props.match.location,
-      state: { selectedItineraryIndex: 0 },
-    };
-
-    const basePath = `${getSummaryPath(
-      this.props.match.params.from,
-      this.props.match.params.to,
-    )}`;
-    const indexPath = `${getSummaryPath(
-      this.props.match.params.from,
-      this.props.match.params.to,
-    )}/${newStreetMode}`;
-
-    newState.pathname = basePath;
-    this.context.router.replace(newState);
-    newState.pathname = indexPath;
-    this.context.router.push(newState);
-  }
 
   hasNoTransitItineraries() {
     return (
@@ -249,7 +224,7 @@ class ItineraryPage extends React.Component {
       ...this.props.match.location,
       state: {
         ...this.props.match.location.state,
-        selectedItineraryIndex: undefined,
+        selectedItineraryIndex: 0,
       },
     });
   };
@@ -1029,7 +1004,7 @@ class ItineraryPage extends React.Component {
       name: index,
     });
 
-    const newState = {
+    const newLocationState = {
       ...this.props.match.location,
       state: { selectedItineraryIndex: index },
     };
@@ -1040,8 +1015,8 @@ class ItineraryPage extends React.Component {
       isParkAndRide ? '/parkAndRide' : ''
     }/${index}`;
 
-    newState.pathname = indexPath;
-    this.context.router.replace(newState);
+    newLocationState.pathname = indexPath;
+    this.context.router.replace(newLocationState);
   };
 
   renderMap(from, to, viaPoints) {
@@ -1062,9 +1037,10 @@ class ItineraryPage extends React.Component {
       filteredItineraries = combinedItineraries;
     }
 
-    const activeIndex =
-      getHashIndex(match.params) ||
-      getSelectedItineraryIndex(match.location, filteredItineraries);
+    const activeIndex = getSelectedItineraryIndex(
+      match.location,
+      filteredItineraries,
+    );
 
     const mwtProps = {};
     if (this.state.bounds) {
@@ -1271,12 +1247,11 @@ class ItineraryPage extends React.Component {
   }
 
   getCombinedItineraries() {
-    const itineraries = [
+    return [
       ...(this.state.earlierItineraries || []),
       ...(this.selectedPlan?.itineraries || []),
       ...(this.state.laterItineraries || []),
     ];
-    return itineraries.filter(x => x !== undefined);
   }
 
   onDetailsTabFocused = () => {
@@ -1373,9 +1348,13 @@ class ItineraryPage extends React.Component {
       hash !== 'bikeAndVehicle' &&
       hash !== 'parkAndRide';
 
-    const hasItineraries = this.selectedPlan?.itineraries?.length;
-
-    let combinedItineraries = this.getCombinedItineraries();
+    let combinedItineraries;
+    // Remove old itineraries if new query cannot find a route
+    if (error) {
+      combinedItineraries = [];
+    } else {
+      combinedItineraries = this.getCombinedItineraries();
+    }
 
     const onlyHasWalkingItineraries =
       this.hasNoTransitItineraries() &&
@@ -1391,23 +1370,24 @@ class ItineraryPage extends React.Component {
       combinedItineraries = transitItineraries(combinedItineraries);
     }
 
-    // Remove old itineraries if new query cannot find a route
-    if (error && hasItineraries) {
-      combinedItineraries = [];
-    }
+    const hasItineraries = combinedItineraries.length > 0;
 
-    const itineraryIndex = getHashIndex(params);
-
+    const detailView = showDetailView(
+      match.params.hash,
+      match.params.secondHash,
+      combinedItineraries,
+    );
+    const selectedIndex = getSelectedItineraryIndex(
+      match.location,
+      combinedItineraries,
+    );
     const from = otpToLocation(params.from);
     const to = otpToLocation(params.to);
     const viaPoints = getIntermediatePlaces(match.location.query);
 
-    if (match.routes.some(route => route.printPage) && hasItineraries) {
+    if (hasItineraries && match.routes.some(route => route.printPage)) {
       return React.cloneElement(props.content, {
-        itinerary:
-          combinedItineraries[
-            itineraryIndex < combinedItineraries.length ? itineraryIndex : 0
-          ],
+        itinerary: combinedItineraries[selectedIndex],
         focusToPoint: this.focusToPoint,
         from,
         to,
@@ -1444,12 +1424,8 @@ class ItineraryPage extends React.Component {
           (onlyHasWalkingItineraries &&
             (this.allModesQueryDone || !settingsLimitRouting(config))))
       ) {
-        const activeIndex =
-          itineraryIndex ||
-          getSelectedItineraryIndex(match.location, combinedItineraries);
-        const selectedItineraries = combinedItineraries;
-        const selectedItineraryIndex = selectedItineraries
-          ? selectedItineraries[activeIndex]
+        const selectedItinerary = combinedItineraries.length
+          ? combinedItineraries[selectedIndex]
           : undefined;
         if (
           showDetailView(hash, secondHash, combinedItineraries) &&
@@ -1459,12 +1435,12 @@ class ItineraryPage extends React.Component {
             date: moment().valueOf(),
           };
 
-          const itineraryTabs = selectedItineraries.map((itinerary, i) => {
+          const itineraryTabs = combinedItineraries.map((itinerary, i) => {
             return (
               <div
-                className={`swipeable-tab ${activeIndex !== i && 'inactive'}`}
+                className={`swipeable-tab ${selectedIndex !== i && 'inactive'}`}
                 key={`itinerary-${i}`}
-                aria-hidden={activeIndex !== i}
+                aria-hidden={selectedIndex !== i}
               >
                 <ItineraryDetails
                   hideTitle
@@ -1483,7 +1459,7 @@ class ItineraryPage extends React.Component {
             <div className="swipe-scroll-wrapper">
               <SwipeableTabs
                 tabs={itineraryTabs}
-                tabIndex={activeIndex}
+                tabIndex={selectedIndex}
                 onSwipe={this.changeHash}
                 classname="swipe-desktop-view"
                 ariaFrom="swipe-summary-page"
@@ -1510,10 +1486,10 @@ class ItineraryPage extends React.Component {
         }
         content = (
           <ItineraryListContainer
-            activeIndex={activeIndex}
+            activeIndex={selectedIndex}
             plan={this.selectedPlan}
             routingErrors={this.selectedPlan.routingErrors}
-            itineraries={selectedItineraries}
+            itineraries={combinedItineraries}
             params={params}
             error={error || state.error}
             walking={walkPlan?.itineraries?.length > 0}
@@ -1539,8 +1515,7 @@ class ItineraryPage extends React.Component {
           >
             {props.content &&
               React.cloneElement(props.content, {
-                itinerary:
-                  selectedItineraries?.length && selectedItineraryIndex,
+                itinerary: selectedItinerary,
                 focusToPoint: this.focusToPoint,
                 plan: this.selectedPlan,
               })}
@@ -1552,7 +1527,7 @@ class ItineraryPage extends React.Component {
             <Loading />
           </div>
         );
-        return itineraryIndex !== undefined ? (
+        return detailView ? (
           <DesktopView
             title={
               <FormattedMessage
@@ -1660,14 +1635,11 @@ class ItineraryPage extends React.Component {
           <Loading />
         </div>
       );
-      if (itineraryIndex !== undefined) {
+      if (detailView !== undefined) {
         return content;
       }
     }
-    if (
-      showDetailView(hash, secondHash, combinedItineraries) &&
-      combinedItineraries.length
-    ) {
+    if (detailView) {
       content = (
         <MobileItineraryWrapper
           itineraries={combinedItineraries}
@@ -1702,10 +1674,7 @@ class ItineraryPage extends React.Component {
       } else {
         content = (
           <ItineraryListContainer
-            activeIndex={
-              itineraryIndex ||
-              getSelectedItineraryIndex(match.location, combinedItineraries)
-            }
+            activeIndex={selectedIndex}
             plan={this.selectedPlan}
             routingErrors={this.selectedPlan.routingErrors}
             itineraries={combinedItineraries}
