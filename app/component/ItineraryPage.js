@@ -38,7 +38,7 @@ import {
   getHashIndex,
   reportError,
   addFeedbackly,
-  getTopicOptions,
+  getTopics,
   getBounds,
   compareItineraries,
   settingsLimitRouting,
@@ -646,7 +646,7 @@ class ItineraryPage extends React.Component {
       // This will prevent situation where RoutePages vehicles would appear on ItineraryPage
       if (!client) {
         const combinedItineraries = this.getCombinedItineraries();
-        const itineraryTopics = getTopicOptions(
+        const itineraryTopics = getTopics(
           this.context.config,
           combinedItineraries,
           this.props.match,
@@ -783,7 +783,7 @@ class ItineraryPage extends React.Component {
         // exclude itineraries that have only street legs from the summary
         combinedItineraries = transitItineraries(combinedItineraries);
       }
-      const itineraryTopics = getTopicOptions(
+      const itineraryTopics = getTopics(
         config,
         combinedItineraries,
         props.match,

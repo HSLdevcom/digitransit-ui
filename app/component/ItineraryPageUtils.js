@@ -129,22 +129,15 @@ export function addFeedbackly(context) {
   }
 }
 
-export function getTopicOptions(config, planitineraries, match) {
-  const { realTime, feedIds } = config;
-  const itineraries = planitineraries?.every(
-    itinerary => itinerary !== undefined,
-  )
-    ? planitineraries
-    : [];
-  const selected =
-    getHashIndex(match.params) ||
-    getSelectedItineraryIndex(match.location, itineraries);
+export function getTopics(config, itineraries, match) {
   const itineraryTopics = [];
 
   if (itineraries.length) {
-    const activeItinerary =
-      selected < itineraries.length ? itineraries[selected] : itineraries[0];
-    activeItinerary.legs.forEach(leg => {
+    const { realTime, feedIds } = config;
+    const selected =
+      itineraries[getSelectedItineraryIndex(match.location, itineraries)];
+
+    selected.legs.forEach(leg => {
       if (leg.transitLeg && leg.trip) {
         const feedId = leg.trip.gtfsId.split(':')[0];
         let topic;
@@ -353,15 +346,15 @@ export function addBikeStationMapForRentalVehicleItineraries() {
  * station ids to hide on map.
  *
  * @param {Boolean} hasVehicleRentalStation if there are rental stations.
- * @param {*} activeItinerary itinerary which can contain rental stations.
+ * @param {*} selectedItinerary itinerary which can contain rental stations.
  */
 export function getRentalStationsToHideOnMap(
   hasVehicleRentalStation,
-  activeItinerary,
+  selectedItinerary,
 ) {
   const objectsToHide = { vehicleRentalStations: [] };
   if (hasVehicleRentalStation) {
-    objectsToHide.vehicleRentalStations = activeItinerary?.legs
+    objectsToHide.vehicleRentalStations = selectedItinerary?.legs
       ?.filter(leg => leg.from?.vehicleRentalStation)
       .map(station => station.from?.vehicleRentalStation.stationId);
   }
