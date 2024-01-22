@@ -173,13 +173,13 @@ class ItineraryPage extends React.Component {
       this.props.match.params.from,
       this.props.match.params.to,
     );
-    let indexPath = basePath;
+    let pagePath = basePath;
     if (newStreetMode) {
-      indexPath = `${indexPath}/${newStreetMode}`;
+      pagePath = `${pagePath}/${newStreetMode}`;
     }
     newLocationState.pathname = basePath;
     this.context.router.replace(newLocationState);
-    newLocationState.pathname = indexPath;
+    newLocationState.pathname = pagePath;
     this.context.router.push(newLocationState);
   };
 
@@ -671,11 +671,11 @@ class ItineraryPage extends React.Component {
         const newMatchLoc = {
           ...props.match.location,
         };
-        const indexPath = `${getSummaryPath(
+        const pagePath = `${getSummaryPath(
           props.match.params.from,
           props.match.params.to,
         )}`;
-        newMatchLoc.pathname = indexPath;
+        newMatchLoc.pathname = pagePath;
         this.context.router.push(newMatchLoc);
       }
     }
@@ -1006,14 +1006,14 @@ class ItineraryPage extends React.Component {
       ...this.props.match.location,
       state: { selectedItineraryIndex: index },
     };
-    const indexPath = `${getSummaryPath(
+    const pagePath = `${getSummaryPath(
       this.props.match.params.from,
       this.props.match.params.to,
     )}${isbikeAndVehicle ? '/bikeAndVehicle' : ''}${
       isParkAndRide ? '/parkAndRide' : ''
     }/${index}`;
 
-    newLocationState.pathname = indexPath;
+    newLocationState.pathname = pagePath;
     this.context.router.replace(newLocationState);
   };
 
