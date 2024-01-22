@@ -663,6 +663,7 @@ const Itinerary = (
     'itinerary-summary-row',
     'cursor-pointer',
     {
+      passive: props.passive,
       'bp-large': breakpoint === 'large',
       'cancelled-itinerary': props.isCancelled,
       'no-border': hideSelectionIndicator,
@@ -929,7 +930,7 @@ Itinerary.defaultProps = {
   intermediatePlaces: [],
   isCancelled: false,
   showCancelled: false,
-  hideSelectionIndicator: false,
+  hideSelectionIndicator: true,
   lowestCo2value: 0,
 };
 

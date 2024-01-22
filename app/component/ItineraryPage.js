@@ -84,6 +84,8 @@ import RoutingErrorShape from '../prop-types/RoutingErrorShape';
 
 const POINT_FOCUS_ZOOM = 16; // used when focusing to a point
 
+const streetHashes = ['walk', 'bike', 'bikeAndVehicle', 'car', 'parkAndRide'];
+
 class ItineraryPage extends React.Component {
   static contextTypes = {
     config: PropTypes.object,
@@ -663,9 +665,7 @@ class ItineraryPage extends React.Component {
     }
 
     const viaPoints = getIntermediatePlaces(props.match.location.query);
-    if (
-      ['walk', 'bike', 'bikeAndVehicle', 'car', 'parkAndRide'].includes(hash)
-    ) {
+    if (streetHashes.includes(hash)) {
       // Reset streetmode selection if intermediate places change
       if (
         !isEqual(
@@ -1316,29 +1316,24 @@ class ItineraryPage extends React.Component {
         bikeTransitPlan?.itineraries?.length ||
         parkRidePlan?.itineraries?.length ||
         (settings.includeCarSuggestions && carPlan?.itineraries?.length)) &&
-      hash !== 'bikeAndVehicle' &&
-      hash !== 'parkAndRide';
-
-    let combinedItineraries;
-    // Remove old itineraries if new query cannot find a route
-    if (error) {
-      combinedItineraries = [];
-    } else {
-      combinedItineraries = this.getCombinedItineraries();
-    }
+      !hash;
 
     const onlyHasWalkingItineraries =
       this.hasNoTransitItineraries() &&
       (this.hasNoAlternativeItineraries() || this.isWalkingFastest());
 
-    if (
-      combinedItineraries.length &&
-      hash !== 'walk' &&
-      hash !== 'bikeAndVehicle' &&
-      !onlyHasWalkingItineraries
-    ) {
-      // exclude itineraries that have only walking legs from the summary if other itineraries are found
-      combinedItineraries = transitItineraries(combinedItineraries);
+    let combinedItineraries;
+    // Remove old itineraries if new query cannot find a route
+    if (error) {
+      combinedItineraries = [];
+    } else if (streetHashes.includes(hash)) {
+      combinedItineraries = this.selectedPlan.itineraries || [];
+    } else {
+      combinedItineraries = this.getCombinedItineraries();
+      if (!onlyHasWalkingItineraries) {
+        // exclude itineraries that have only walking legs from the summary if other itineraries are found
+        combinedItineraries = transitItineraries(combinedItineraries);
+      }
     }
 
     const hasItineraries = combinedItineraries.length > 0;
@@ -1409,7 +1404,7 @@ class ItineraryPage extends React.Component {
         const selectedItinerary = combinedItineraries.length
           ? combinedItineraries[selectedIndex]
           : undefined;
-        if (showDetailView && combinedItineraries.length) {
+        if (detailView && combinedItineraries.length) {
           const currentTime = {
             date: moment().valueOf(),
           };

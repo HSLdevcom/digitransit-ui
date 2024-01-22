@@ -68,7 +68,7 @@ function ItineraryList(
         intermediatePlaces={intermediatePlaces}
         isCancelled={itineraryHasCancelation(itinerary)}
         showCancelled={showCancelled}
-        hideSelectionIndicator={itineraries.length === 1}
+        hideSelectionIndicator={i !== activeIndex || itineraries.length === 1}
         zones={
           config.zones.stops && itinerary.legs ? getZones(itinerary.legs) : []
         }
