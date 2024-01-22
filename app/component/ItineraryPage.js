@@ -158,10 +158,6 @@ class ItineraryPage extends React.Component {
       fetchingAlternatives: hasStartAndDestination(props.match.params),
       settingsChangedRecently: false,
     };
-    this.streetModeSelectorCallbacks = {
-      selectStreetMode: this.selectStreetMode,
-      setStreetModeAndSelect: this.setStreetModeAndSelect,
-    };
   }
 
   stopClientAndUpdateTopics() {
@@ -1387,6 +1383,47 @@ class ItineraryPage extends React.Component {
         state.relaxedPlan?.itineraries,
       );
 
+    const itineraryListProps = {
+      activeIndex: selectedIndex,
+      plan: this.selectedPlan,
+      routingErrors: this.selectedPlan.routingErrors,
+      itineraries: combinedItineraries,
+      params,
+      error: error || state.error,
+      walking: walkPlan?.itineraries?.length > 0,
+      biking: bikePlan?.itineraries?.length > 0,
+      driving:
+        carPlan?.itineraries?.length > 0 ||
+        parkRidePlan?.itineraries?.length > 0,
+      bikeAndParkItineraryCount: this.bikeAndParkItineraryCount,
+      showRelaxedPlanNotifier:
+        hasNoTransitItineraries &&
+        state.relaxedPlan?.itineraries?.length > 0 &&
+        !hash, // not showing root level itinerary list
+      separatorPosition: state.separatorPosition,
+      loading: state.loading,
+      onLater: this.onLater,
+      onEarlier: this.onEarlier,
+      onDetailsTabFocused: this.onDetailsTabFocused,
+      loadingMoreItineraries: state.loadingMoreItineraries,
+      settingsNotification: showSettingsNotification,
+      onlyHasWalkingItineraries,
+      routingFeedbackPosition: state.routingFeedbackPosition,
+    };
+
+    const streetModeSelectorProps = {
+      selectStreetMode: this.selectStreetMode,
+      setStreetModeAndSelect: this.setStreetModeAndSelect,
+      weatherData: state.weatherData,
+      walkPlan,
+      bikePlan,
+      bikeTransitPlan,
+      parkRidePlan,
+      carPlan: settings.includeCarSuggestions ? carPlan : undefined,
+      loading:
+        props.loading || state.fetchingAlternatives || state.isFetchingWeather,
+    };
+
     if (breakpoint === 'large') {
       let content;
       /* Should render content if
@@ -1459,35 +1496,7 @@ class ItineraryPage extends React.Component {
           );
         }
         content = (
-          <ItineraryListContainer
-            activeIndex={selectedIndex}
-            plan={this.selectedPlan}
-            routingErrors={this.selectedPlan.routingErrors}
-            itineraries={combinedItineraries}
-            params={params}
-            error={error || state.error}
-            walking={walkPlan?.itineraries?.length > 0}
-            biking={bikePlan?.itineraries?.length > 0}
-            driving={
-              carPlan?.itineraries?.length > 0 ||
-              parkRidePlan?.itineraries?.length > 0
-            }
-            bikeAndParkItineraryCount={this.bikeAndParkItineraryCount}
-            showRelaxedPlanNotifier={
-              hasNoTransitItineraries &&
-              state.relaxedPlan?.itineraries?.length > 0 &&
-              !hash // not showing root level itinerary list
-            }
-            separatorPosition={state.separatorPosition}
-            loading={state.loading}
-            onLater={this.onLater}
-            onEarlier={this.onEarlier}
-            onDetailsTabFocused={this.onDetailsTabFocused}
-            loadingMoreItineraries={state.loadingMoreItineraries}
-            settingsNotification={showSettingsNotification}
-            onlyHasWalkingItineraries={onlyHasWalkingItineraries}
-            routingFeedbackPosition={state.routingFeedbackPosition}
-          >
+          <ItineraryListContainer {...itineraryListProps}>
             {props.content &&
               React.cloneElement(props.content, {
                 itinerary: selectedItinerary,
@@ -1529,10 +1538,7 @@ class ItineraryPage extends React.Component {
                   params={params}
                   toggleSettings={this.toggleSearchSettings}
                 />
-                <StreetModeSelector
-                  loading
-                  {...this.streetModeSelectorCallbacks}
-                />
+                <StreetModeSelector {...streetModeSelectorProps} loading />
               </React.Fragment>
             }
             content={content}
@@ -1556,20 +1562,7 @@ class ItineraryPage extends React.Component {
                 toggleSettings={this.toggleSearchSettings}
               />
               {error || !showStreetModeSelector ? null : (
-                <StreetModeSelector
-                  {...this.streetModeSelectorCallbacks}
-                  weatherData={state.weatherData}
-                  walkPlan={walkPlan}
-                  bikePlan={bikePlan}
-                  bikeTransitPlan={bikeTransitPlan}
-                  carPlan={settings.includeCarSuggestions ? carPlan : undefined}
-                  parkRidePlan={parkRidePlan}
-                  loading={
-                    props.loading ||
-                    state.fetchingAlternatives ||
-                    state.isFetchingWeather
-                  }
-                />
+                <StreetModeSelector {...streetModeSelectorProps} />
               )}
               {hash === 'parkAndRide' && (
                 <div className="street-mode-info">
@@ -1648,39 +1641,7 @@ class ItineraryPage extends React.Component {
         </div>
       );
     } else {
-      content = (
-        <ItineraryListContainer
-          activeIndex={selectedIndex}
-          plan={this.selectedPlan}
-          routingErrors={this.selectedPlan.routingErrors}
-          itineraries={combinedItineraries}
-          params={params}
-          error={error || state.error}
-          from={params.from}
-          to={params.to}
-          intermediatePlaces={viaPoints}
-          bikeAndParkItineraryCount={this.bikeAndParkItineraryCount}
-          walking={walkPlan?.itineraries?.length > 0}
-          biking={bikePlan?.itineraries?.length > 0}
-          driving={
-            carPlan?.itineraries?.length > 0 ||
-            parkRidePlan?.itineraries?.length > 0
-          }
-          showRelaxedPlanNotifier={
-            hasNoTransitItineraries &&
-            state.relaxedPlan?.itineraries?.length > 0
-          }
-          separatorPosition={state.separatorPosition}
-          loading={state.loading}
-          onLater={this.onLater}
-          onEarlier={this.onEarlier}
-          onDetailsTabFocused={this.onDetailsTabFocused()}
-          loadingMoreItineraries={state.loadingMoreItineraries}
-          settingsNotification={showSettingsNotification}
-          onlyHasWalkingItineraries={onlyHasWalkingItineraries}
-          routingFeedbackPosition={state.routingFeedbackPosition}
-        />
-      );
+      content = <ItineraryListContainer {...itineraryListProps} />;
     }
 
     return (
@@ -1693,20 +1654,7 @@ class ItineraryPage extends React.Component {
                 toggleSettings={this.toggleSearchSettings}
               />
               {error || !showStreetModeSelector ? null : (
-                <StreetModeSelector
-                  {...this.streetModeSelectorCallbacks}
-                  weatherData={state.weatherData}
-                  walkPlan={walkPlan}
-                  bikePlan={bikePlan}
-                  bikeTransitPlan={bikeTransitPlan}
-                  carPlan={settings.includeCarSuggestions ? carPlan : undefined}
-                  parkRidePlan={parkRidePlan}
-                  loading={
-                    props.loading ||
-                    state.fetchingAlternatives ||
-                    state.isFetchingWeather
-                  }
-                />
+                <StreetModeSelector {...streetModeSelectorProps} />
               )}
               {hash === 'parkAndRide' && (
                 <div className="street-mode-info">
