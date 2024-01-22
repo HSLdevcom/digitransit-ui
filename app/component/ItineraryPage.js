@@ -51,7 +51,6 @@ import {
   filterItinerariesByFeedId,
   transitItineraries,
   filterItineraries,
-  getDuration,
 } from './ItineraryPageUtils';
 import withBreakpoint from '../util/withBreakpoint';
 import { isIOS } from '../util/browser';
@@ -1232,25 +1231,6 @@ class ItineraryPage extends React.Component {
     }, 500);
   };
 
-  isWalkingFastest() {
-    const walkDuration = getDuration(this.state.walkPlan);
-    const bikeDuration = getDuration(this.state.bikePlan);
-    const carDuration = getDuration(this.state.carPlan);
-    const parkAndRideDuration = getDuration(this.state.parkRidePlan);
-    const bikeTransitDuration = getDuration(this.state.bikeTransitPlan);
-
-    if (walkDuration === 0) {
-      // no walking at all
-      return false;
-    }
-    return (
-      (bikeDuration && bikeDuration < walkDuration) ||
-      (carDuration && carDuration < walkDuration) ||
-      (parkAndRideDuration && parkAndRideDuration < walkDuration) ||
-      (bikeTransitDuration && bikeTransitDuration < walkDuration)
-    );
-  }
-
   render() {
     const { props, context, state } = this;
     const { match, error, breakpoint } = props;
@@ -1315,8 +1295,7 @@ class ItineraryPage extends React.Component {
       !hash;
 
     const onlyHasWalkingItineraries =
-      this.hasNoTransitItineraries() &&
-      (this.hasNoAlternativeItineraries() || this.isWalkingFastest());
+      this.hasNoTransitItineraries() && this.hasNoAlternativeItineraries();
 
     let combinedItineraries;
     // Remove old itineraries if new query cannot find a route
@@ -1327,7 +1306,7 @@ class ItineraryPage extends React.Component {
     } else {
       combinedItineraries = this.getCombinedItineraries();
       if (!onlyHasWalkingItineraries) {
-        // exclude itineraries that have only walking legs from the summary if other itineraries are found
+        // don't show plain walking in transit itinerary list
         combinedItineraries = transitItineraries(combinedItineraries);
       }
     }
