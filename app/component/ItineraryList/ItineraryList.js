@@ -38,7 +38,6 @@ function ItineraryList(
     showRelaxedPlan,
     separatorPosition,
     loadingMoreItineraries,
-    onlyHasWalkingItineraries,
     routingErrors,
     routingFeedbackPosition,
   },
@@ -46,13 +45,9 @@ function ItineraryList(
 ) {
   const [showCancelled, setShowCancelled] = useState(false);
   const { config } = context;
+  const { hash } = context.match.params;
 
-  if (
-    !error &&
-    itineraries &&
-    itineraries.length > 0 &&
-    !itineraries.includes(undefined)
-  ) {
+  if (!error && itineraries.length > 0) {
     const lowestCo2value = Math.round(
       itineraries
         .filter(itinerary => itinerary.emissionsPerPerson?.co2 >= 0)
@@ -73,17 +68,15 @@ function ItineraryList(
         intermediatePlaces={intermediatePlaces}
         isCancelled={itineraryHasCancelation(itinerary)}
         showCancelled={showCancelled}
-        hideBorder={onlyHasWalkingItineraries}
+        hideSelectionIndicator={itineraries.length === 1}
         zones={
           config.zones.stops && itinerary.legs ? getZones(itinerary.legs) : []
         }
         lowestCo2value={lowestCo2value}
       />
     ));
-    if (
-      context.match.params.hash &&
-      context.match.params.hash === 'bikeAndVehicle'
-    ) {
+
+    if (hash === 'bikeAndVehicle') {
       // bikeAndParkItineraryCount tells how many first itineraries use bike parking
       if (bikeAndParkItineraryCount > 0) {
         summaries.splice(
@@ -132,82 +125,52 @@ function ItineraryList(
       itineraryHasCancelation,
     ).length;
     return (
-      <>
-        <div className="summary-list-container" role="list">
-          {showRelaxedPlan && (
-            <div
-              className={cx(
-                'flex-horizontal',
-                'summary-notification',
-                'show-alternatives',
-              )}
-            >
-              <Icon className="icon-icon_settings" img="icon-icon_settings" />
-              <div>
-                <FormattedMessage
-                  id="no-route-showing-alternative-options"
-                  defaultMessage="No routes with current settings found. Here are some alternative options:"
-                />
-              </div>
-            </div>
-          )}
-          {loadingMoreItineraries === 'top' && (
-            <div className="summary-list-spinner-container">
-              <Loading />
-            </div>
-          )}
-          {isBrowser && (
-            <div
-              className={cx('summary-list-items', {
-                'summary-list-items-loading-top':
-                  loadingMoreItineraries === 'top',
-              })}
-            >
-              {summaries}
-            </div>
-          )}
-          {loadingMoreItineraries === 'bottom' && (
-            <div className="summary-list-spinner-container">
-              <Loading />
-            </div>
-          )}
-          {isBrowser && canceledItinerariesCount > 0 && (
-            <CanceledItineraryToggler
-              showItineraries={showCancelled}
-              toggleShowCanceled={() => setShowCancelled(!showCancelled)}
-              canceledItinerariesAmount={canceledItinerariesCount}
-            />
-          )}
-        </div>
-        {onlyHasWalkingItineraries && !showRelaxedPlan && (
-          <div className="summary-no-route-found" style={{ marginTop: 0 }}>
-            <div
-              className={cx('flex-horizontal', 'summary-notification', 'info')}
-            >
-              <Icon
-                className={cx('no-route-icon', 'info')}
-                img="icon-icon_info"
-                color="#0074be"
+      <div className="summary-list-container" role="list">
+        {showRelaxedPlan && (
+          <div
+            className={cx(
+              'flex-horizontal',
+              'summary-notification',
+              'show-alternatives',
+            )}
+          >
+            <Icon className="icon-icon_settings" img="icon-icon_settings" />
+            <div>
+              <FormattedMessage
+                id="no-route-showing-alternative-options"
+                defaultMessage="No routes with current settings found. Here are some alternative options:"
               />
-              <div>
-                <div className="in-the-past">
-                  <FormattedMessage
-                    id="router-only-walk-title"
-                    defaultMessage=""
-                  />
-                </div>
-                <FormattedMessage
-                  id="router-only-walk"
-                  defaultMessage={
-                    'Unfortunately no routes were found for your journey. ' +
-                    'Please change your origin or destination address.'
-                  }
-                />
-              </div>
-            </div>{' '}
+            </div>
           </div>
         )}
-      </>
+        {loadingMoreItineraries === 'top' && (
+          <div className="summary-list-spinner-container">
+            <Loading />
+          </div>
+        )}
+        {isBrowser && (
+          <div
+            className={cx('summary-list-items', {
+              'summary-list-items-loading-top':
+                loadingMoreItineraries === 'top',
+            })}
+          >
+            {summaries}
+          </div>
+        )}
+        {loadingMoreItineraries === 'bottom' && (
+          <div className="summary-list-spinner-container">
+            <Loading />
+          </div>
+        )}
+        {isBrowser && canceledItinerariesCount > 0 && (
+          <CanceledItineraryToggler
+            showItineraries={showCancelled}
+            toggleShowCanceled={() => setShowCancelled(!showCancelled)}
+            canceledItinerariesAmount={canceledItinerariesCount}
+          />
+        )}
+      </div>
     );
   }
   if (!error) {
@@ -244,6 +207,36 @@ function ItineraryList(
               defaultMessage="Please select destination"
             />
           </div>
+        </div>
+      );
+    }
+    if (itineraries.length === 0) {
+      return (
+        <div className="summary-no-route-found" style={{ marginTop: 0 }}>
+          <div
+            className={cx('flex-horizontal', 'summary-notification', 'info')}
+          >
+            <Icon
+              className={cx('no-route-icon', 'info')}
+              img="icon-icon_info"
+              color="#0074be"
+            />
+            <div>
+              <div className="in-the-past">
+                <FormattedMessage
+                  id="router-only-walk-title"
+                  defaultMessage=""
+                />
+              </div>
+              <FormattedMessage
+                id="router-only-walk"
+                defaultMessage={
+                  'Unfortunately no routes were found for your journey. ' +
+                  'Please change your origin or destination address.'
+                }
+              />
+            </div>
+          </div>{' '}
         </div>
       );
     }
@@ -288,7 +281,6 @@ ItineraryList.propTypes = {
   showRelaxedPlan: PropTypes.bool,
   separatorPosition: PropTypes.number,
   loadingMoreItineraries: PropTypes.string,
-  onlyHasWalkingItineraries: PropTypes.bool,
   routingFeedbackPosition: PropTypes.number,
 };
 
@@ -304,7 +296,6 @@ ItineraryList.defaultProps = {
   loadingMoreItineraries: undefined,
   routingErrors: [],
   routingFeedbackPosition: undefined,
-  onlyHasWalkingItineraries: false,
 };
 
 ItineraryList.contextTypes = {

@@ -268,7 +268,7 @@ class ItineraryDetails extends React.Component {
               number: itineraryIndex,
             }}
           />
-	</h2>,
+	</h2>
         <BreakpointConsumer>
           {breakpoint => [
 	    breakpoint === 'large' && !this.props.hideTitle && (

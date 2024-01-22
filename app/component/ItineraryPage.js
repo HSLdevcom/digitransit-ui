@@ -144,7 +144,6 @@ class ItineraryPage extends React.Component {
     this.headerRef = React.createRef();
     this.contentRef = React.createRef();
 
-    // DT-4161: Threshold to determine should vehicles be shown if search is made in the future
     this.show_vehicles_threshold_minutes = 720;
 
     setCurrentTimeToURL(context.config, props.match);
@@ -156,6 +155,10 @@ class ItineraryPage extends React.Component {
       laterItineraries: [],
       fetchingAlternatives: hasStartAndDestination(props.match.params),
       settingsChangedRecently: false,
+    };
+    this.streetModeSelectorCallbacks = {
+      selectStreetMode: this.selectStreetMode,
+      setStreetModeAndSelect: this.setStreetModeAndSelect,
     };
   }
 
@@ -305,10 +308,10 @@ class ItineraryPage extends React.Component {
       force: true,
     })
       .toPromise()
-      .then(plan => {
+      .then(result => {
         const relaxedPlan = {
-          ...plan.results,
-          itineraries: transitItineraries(plan.results.itineraries),
+          ...result.plan,
+          itineraries: transitItineraries(result.plan.itineraries),
         };
         this.setState(
           {
@@ -1019,29 +1022,7 @@ class ItineraryPage extends React.Component {
     this.context.router.replace(newLocationState);
   };
 
-  renderMap(from, to, viaPoints) {
-    const { match, breakpoint } = this.props;
-    const combinedItineraries = this.getCombinedItineraries();
-    // summary or detail view ?
-    const detailView = showDetailView(
-      match.params.hash,
-      match.params.secondHash,
-      combinedItineraries,
-    );
-    if (!detailView && breakpoint !== 'large') {
-      // no map on mobile summary view
-      return null;
-    }
-    let filteredItineraries = transitItineraries(combinedItineraries);
-    if (!filteredItineraries.length) {
-      filteredItineraries = combinedItineraries;
-    }
-
-    const activeIndex = getSelectedItineraryIndex(
-      match.location,
-      filteredItineraries,
-    );
-
+  renderMap(from, to, viaPoints, itineraries, activeIndex, detailView) {
     const mwtProps = {};
     if (this.state.bounds) {
       mwtProps.bounds = this.state.bounds;
@@ -1049,25 +1030,20 @@ class ItineraryPage extends React.Component {
       mwtProps.lat = this.state.center.lat;
       mwtProps.lon = this.state.center.lon;
     } else {
-      mwtProps.bounds = getBounds(filteredItineraries, from, to, viaPoints);
+      mwtProps.bounds = getBounds(itineraries, from, to, viaPoints);
     }
 
-    const onlyHasWalkingItineraries =
-      this.hasNoTransitItineraries() &&
-      (this.hasNoAlternativeItineraries() || this.isWalkingFastest());
-
-    const itineraryContainsDepartureFromVehicleRentalStation =
-      filteredItineraries[activeIndex]?.legs.some(
-        leg => leg.from?.vehicleRentalStation,
-      );
+    const itineraryContainsDepartureFromVehicleRentalStation = itineraries[
+      activeIndex
+    ]?.legs.some(leg => leg.from?.vehicleRentalStation);
 
     const mapLayerOptions = itineraryContainsDepartureFromVehicleRentalStation
-      ? addBikeStationMapForRentalVehicleItineraries(filteredItineraries)
+      ? addBikeStationMapForRentalVehicleItineraries(itineraries)
       : this.props.mapLayerOptions;
 
     const objectsToHide = getRentalStationsToHideOnMap(
       itineraryContainsDepartureFromVehicleRentalStation,
-      filteredItineraries[activeIndex],
+      itineraries[activeIndex],
     );
     return (
       <ItineraryPageMap
@@ -1079,15 +1055,13 @@ class ItineraryPage extends React.Component {
         mapLayers={this.props.mapLayers}
         mapLayerOptions={mapLayerOptions}
         setMWTRef={this.setMWTRef}
-        breakpoint={breakpoint}
-        itineraries={filteredItineraries}
+        breakpoint={this.props.breakpoint}
+        itineraries={itineraries}
         topics={this.state.itineraryTopics}
         active={activeIndex}
         showActive={detailView}
         showVehicles={this.showVehicles()}
-        showDurationBubble={
-          onlyHasWalkingItineraries && !this.state.relaxedPlan
-        }
+        showDurationBubble={itineraries[0]?.legs?.length === 1}
         objectsToHide={objectsToHide}
       />
     );
@@ -1269,8 +1243,11 @@ class ItineraryPage extends React.Component {
     const parkAndRideDuration = getDuration(this.state.parkRidePlan);
     const bikeTransitDuration = getDuration(this.state.bikeTransitPlan);
 
+    if (walkDuration === 0) {
+      // no walking at all
+      return false;
+    }
     return (
-      !walkDuration ||
       (bikeDuration && bikeDuration < walkDuration) ||
       (carDuration && carDuration < walkDuration) ||
       (parkAndRideDuration && parkAndRideDuration < walkDuration) ||
@@ -1280,17 +1257,12 @@ class ItineraryPage extends React.Component {
 
   render() {
     const { props, context, state } = this;
-    const { match, error } = props;
+    const { match, error, breakpoint } = props;
     const { walkPlan, bikePlan, bikeTransitPlan, carPlan, parkRidePlan } =
       state;
     const { config } = context;
     const { params } = match;
     const { hash, secondHash } = params;
-
-    const streetModeSelectorCallbacks = {
-      selectStreetMode: this.selectStreetMode,
-      setStreetModeAndSelect: this.setStreetModeAndSelect,
-    };
 
     let plan;
     /* NOTE: as a temporary solution, do filtering by feedId in UI */
@@ -1303,8 +1275,6 @@ class ItineraryPage extends React.Component {
     const hasNoTransitItineraries = this.hasNoTransitItineraries();
     const settings = getCurrentSettings(config, '');
 
-    this.bikeAndPublicItinerariesToShow = 0;
-    this.bikeAndParkItinerariesToShow = 0;
     if (hash === 'walk') {
       if (state.fetchingAlternatives) {
         return <Loading />;
@@ -1395,7 +1365,18 @@ class ItineraryPage extends React.Component {
       });
     }
 
-    let map = this.renderMap(from, to, viaPoints);
+    // no map on mobile summary view
+    const map =
+      !detailView && breakpoint !== 'large'
+        ? null
+        : this.renderMap(
+            from,
+            to,
+            viaPoints,
+            combinedItineraries,
+            selectedIndex,
+            detailView,
+          );
 
     const loadingPublicDone =
       state.loading === false && (error || props.loading === false);
@@ -1411,7 +1392,7 @@ class ItineraryPage extends React.Component {
         state.relaxedPlan?.itineraries,
       );
 
-    if (props.breakpoint === 'large') {
+    if (breakpoint === 'large') {
       let content;
       /* Should render content if
       1. Fetching public itineraries is complete
@@ -1428,10 +1409,7 @@ class ItineraryPage extends React.Component {
         const selectedItinerary = combinedItineraries.length
           ? combinedItineraries[selectedIndex]
           : undefined;
-        if (
-          showDetailView(hash, secondHash, combinedItineraries) &&
-          combinedItineraries.length
-        ) {
+        if (showDetailView && combinedItineraries.length) {
           const currentTime = {
             date: moment().valueOf(),
           };
@@ -1555,7 +1533,10 @@ class ItineraryPage extends React.Component {
                   params={params}
                   toggleSettings={this.toggleSearchSettings}
                 />
-                <StreetModeSelector loading {...streetModeSelectorCallbacks} />
+                <StreetModeSelector
+                  loading
+                  {...this.streetModeSelectorCallbacks}
+                />
               </React.Fragment>
             }
             content={content}
@@ -1580,7 +1561,7 @@ class ItineraryPage extends React.Component {
               />
               {error || !showStreetModeSelector ? null : (
                 <StreetModeSelector
-                  {...streetModeSelectorCallbacks}
+                  {...this.streetModeSelectorCallbacks}
                   weatherData={state.weatherData}
                   walkPlan={walkPlan}
                   bikePlan={bikePlan}
@@ -1664,50 +1645,46 @@ class ItineraryPage extends React.Component {
             )}
         </MobileItineraryWrapper>
       );
+    } else if (isLoading) {
+      content = (
+        <div style={{ position: 'relative', height: 200 }}>
+          <Loading />
+        </div>
+      );
     } else {
-      map = undefined;
-      if (isLoading) {
-        content = (
-          <div style={{ position: 'relative', height: 200 }}>
-            <Loading />
-          </div>
-        );
-      } else {
-        content = (
-          <ItineraryListContainer
-            activeIndex={selectedIndex}
-            plan={this.selectedPlan}
-            routingErrors={this.selectedPlan.routingErrors}
-            itineraries={combinedItineraries}
-            params={params}
-            error={error || state.error}
-            from={params.from}
-            to={params.to}
-            intermediatePlaces={viaPoints}
-            bikeAndPublicItinerariesToShow={this.bikeAndPublicItinerariesToShow}
-            bikeAndParkItinerariesToShow={this.bikeAndParkItinerariesToShow}
-            walking={walkPlan?.itineraries?.length > 0}
-            biking={bikePlan?.itineraries?.length > 0}
-            driving={
-              carPlan?.itineraries?.length > 0 ||
-              parkRidePlan?.itineraries?.length > 0
-            }
-            showRelaxedPlan={
-              hasNoTransitItineraries &&
-              state.relaxedPlan?.itineraries?.length > 0
-            }
-            separatorPosition={state.separatorPosition}
-            loading={state.loading}
-            onLater={this.onLater}
-            onEarlier={this.onEarlier}
-            onDetailsTabFocused={this.onDetailsTabFocused()}
-            loadingMoreItineraries={state.loadingMoreItineraries}
-            settingsNotification={showSettingsNotification}
-            onlyHasWalkingItineraries={onlyHasWalkingItineraries}
-            routingFeedbackPosition={state.routingFeedbackPosition}
-          />
-        );
-      }
+      content = (
+        <ItineraryListContainer
+          activeIndex={selectedIndex}
+          plan={this.selectedPlan}
+          routingErrors={this.selectedPlan.routingErrors}
+          itineraries={combinedItineraries}
+          params={params}
+          error={error || state.error}
+          from={params.from}
+          to={params.to}
+          intermediatePlaces={viaPoints}
+          bikeAndParkItineraryCount={this.bikeAndParkItineraryCount}
+          walking={walkPlan?.itineraries?.length > 0}
+          biking={bikePlan?.itineraries?.length > 0}
+          driving={
+            carPlan?.itineraries?.length > 0 ||
+            parkRidePlan?.itineraries?.length > 0
+          }
+          showRelaxedPlan={
+            hasNoTransitItineraries &&
+            state.relaxedPlan?.itineraries?.length > 0
+          }
+          separatorPosition={state.separatorPosition}
+          loading={state.loading}
+          onLater={this.onLater}
+          onEarlier={this.onEarlier}
+          onDetailsTabFocused={this.onDetailsTabFocused()}
+          loadingMoreItineraries={state.loadingMoreItineraries}
+          settingsNotification={showSettingsNotification}
+          onlyHasWalkingItineraries={onlyHasWalkingItineraries}
+          routingFeedbackPosition={state.routingFeedbackPosition}
+        />
+      );
     }
 
     return (
@@ -1721,7 +1698,7 @@ class ItineraryPage extends React.Component {
               />
               {error || !showStreetModeSelector ? null : (
                 <StreetModeSelector
-                  {...streetModeSelectorCallbacks}
+                  {...this.streetModeSelectorCallbacks}
                   weatherData={state.weatherData}
                   walkPlan={walkPlan}
                   bikePlan={bikePlan}
