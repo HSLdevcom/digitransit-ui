@@ -50,7 +50,7 @@ class ItineraryListContainer extends React.Component {
     bikeAndParkItineraryCount: PropTypes.number,
     walking: PropTypes.bool,
     biking: PropTypes.bool,
-    showRelaxedPlan: PropTypes.bool,
+    showRelaxedPlanNotifier: PropTypes.bool,
     separatorPosition: PropTypes.number,
     onLater: PropTypes.func.isRequired,
     onEarlier: PropTypes.func.isRequired,
@@ -68,7 +68,7 @@ class ItineraryListContainer extends React.Component {
     walking: false,
     biking: false,
     bikeAndParkItineraryCount: 0,
-    showRelaxedPlan: false,
+    showRelaxedPlanNotifier: false,
     loadingMoreItineraries: undefined,
     driving: false,
     routingErrors: [],
@@ -218,7 +218,7 @@ class ItineraryListContainer extends React.Component {
       walking,
       biking,
       driving,
-      showRelaxedPlan,
+      showRelaxedPlanNotifier,
       separatorPosition,
       loadingMoreItineraries,
       routingFeedbackPosition,
@@ -260,7 +260,7 @@ class ItineraryListContainer extends React.Component {
           walking={walking}
           biking={biking}
           driving={driving}
-          showRelaxedPlan={showRelaxedPlan}
+          showRelaxedPlanNotifier={showRelaxedPlanNotifier}
           separatorPosition={separatorPosition}
           loadingMoreItineraries={loadingMoreItineraries}
           routingFeedbackPosition={routingFeedbackPosition}

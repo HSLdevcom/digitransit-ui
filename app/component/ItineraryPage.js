@@ -1473,9 +1473,10 @@ class ItineraryPage extends React.Component {
               parkRidePlan?.itineraries?.length > 0
             }
             bikeAndParkItineraryCount={this.bikeAndParkItineraryCount}
-            showRelaxedPlan={
+            showRelaxedPlanNotifier={
               hasNoTransitItineraries &&
-              state.relaxedPlan?.itineraries?.length > 0
+              state.relaxedPlan?.itineraries?.length > 0 &&
+              !hash // not showing root level itinerary list
             }
             separatorPosition={state.separatorPosition}
             loading={state.loading}
@@ -1665,7 +1666,7 @@ class ItineraryPage extends React.Component {
             carPlan?.itineraries?.length > 0 ||
             parkRidePlan?.itineraries?.length > 0
           }
-          showRelaxedPlan={
+          showRelaxedPlanNotifier={
             hasNoTransitItineraries &&
             state.relaxedPlan?.itineraries?.length > 0
           }
