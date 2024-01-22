@@ -1301,6 +1301,7 @@ class ItineraryPage extends React.Component {
     }
 
     const hasNoTransitItineraries = this.hasNoTransitItineraries();
+    const settings = getCurrentSettings(config, '');
 
     this.bikeAndPublicItinerariesToShow = 0;
     this.bikeAndParkItinerariesToShow = 0;
@@ -1344,7 +1345,7 @@ class ItineraryPage extends React.Component {
         bikePlan?.itineraries?.length ||
         bikeTransitPlan?.itineraries?.length ||
         parkRidePlan?.itineraries?.length ||
-        (config.includeCarSuggestions && carPlan?.itineraries?.length)) &&
+        (settings.includeCarSuggestions && carPlan?.itineraries?.length)) &&
       hash !== 'bikeAndVehicle' &&
       hash !== 'parkAndRide';
 
@@ -1584,7 +1585,7 @@ class ItineraryPage extends React.Component {
                   walkPlan={walkPlan}
                   bikePlan={bikePlan}
                   bikeTransitPlan={bikeTransitPlan}
-                  carPlan={config.includeCarSuggestions ? carPlan : undefined}
+                  carPlan={settings.includeCarSuggestions ? carPlan : undefined}
                   parkRidePlan={parkRidePlan}
                   loading={
                     props.loading ||
@@ -1725,7 +1726,7 @@ class ItineraryPage extends React.Component {
                   walkPlan={walkPlan}
                   bikePlan={bikePlan}
                   bikeTransitPlan={bikeTransitPlan}
-                  carPlan={config.includeCarSuggestions ? carPlan : undefined}
+                  carPlan={settings.includeCarSuggestions ? carPlan : undefined}
                   parkRidePlan={parkRidePlan}
                   loading={
                     props.loading ||
