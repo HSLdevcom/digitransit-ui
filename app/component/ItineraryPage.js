@@ -81,8 +81,6 @@ import ItineraryShape from '../prop-types/ItineraryShape';
 import ErrorShape from '../prop-types/ErrorShape';
 import RoutingErrorShape from '../prop-types/RoutingErrorShape';
 
-const POINT_FOCUS_ZOOM = 16; // used when focusing to a point
-
 const streetHashes = ['walk', 'bike', 'bikeAndVehicle', 'car', 'parkAndRide'];
 
 class ItineraryPage extends React.Component {
@@ -1046,7 +1044,6 @@ class ItineraryPage extends React.Component {
         from={from}
         to={to}
         viaPoints={viaPoints}
-        zoom={POINT_FOCUS_ZOOM}
         mapLayers={this.props.mapLayers}
         mapLayerOptions={mapLayerOptions}
         setMWTRef={this.setMWTRef}
