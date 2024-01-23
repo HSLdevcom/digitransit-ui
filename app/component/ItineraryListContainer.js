@@ -231,7 +231,7 @@ class ItineraryListContainer extends React.Component {
       currentTime;
     const showEarlierLaterButtons =
       transitItineraries(itineraries).length > 0 &&
-      this.context.match.params.hash !== 'bikeAndVehicle';
+      !this.context.match.params.hash;
     const arriveBy = this.context.match.location.query.arriveBy === 'true';
 
     return (

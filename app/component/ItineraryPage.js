@@ -368,8 +368,6 @@ class ItineraryPage extends React.Component {
       time: latestDepartureTime.format('HH:mm'),
     };
 
-    this.setModeToParkRideIfSelected(tunedParams);
-
     fetchQuery(this.props.relayEnvironment, moreItinerariesQuery, tunedParams)
       .toPromise()
       .then(({ plan: result }) => {
@@ -478,8 +476,6 @@ class ItineraryPage extends React.Component {
       date: earliestArrivalTime.format('YYYY-MM-DD'),
       time: earliestArrivalTime.format('HH:mm'),
     };
-
-    this.setModeToParkRideIfSelected(tunedParams);
 
     fetchQuery(this.props.relayEnvironment, moreItinerariesQuery, tunedParams)
       .toPromise()
@@ -592,16 +588,6 @@ class ItineraryPage extends React.Component {
       query,
     };
     this.context.executeAction(saveFutureRoute, itinerarySearch);
-  }
-
-  setModeToParkRideIfSelected(tunedParams) {
-    if (this.props.match.params.hash === 'parkAndRide') {
-      // eslint-disable-next-line no-param-reassign
-      tunedParams.modes = [
-        { mode: 'CAR', qualifier: 'PARK' },
-        { mode: 'TRANSIT' },
-      ];
-    }
   }
 
   componentDidMount() {
@@ -1260,6 +1246,7 @@ class ItineraryPage extends React.Component {
       this.selectedPlan = parkRidePlan;
     } else if (
       hasNoTransitItineraries &&
+      !state.settingsChangedRecently &&
       state.relaxedPlan?.itineraries?.length > 0
     ) {
       this.selectedPlan = state.relaxedPlan;
@@ -1337,11 +1324,11 @@ class ItineraryPage extends React.Component {
 
     const loading = state.loading || (!error && props.loading);
 
-    const showSettingsNotification =
+    const settingsNotification =
       settingsLimitRouting(this.context.config) &&
-      !state.settingsChangedRecently &&
-      !hasNoTransitItineraries &&
-      compareItineraries(plan?.itineraries, state.relaxedPlan?.itineraries);
+      compareItineraries(plan?.itineraries, state.relaxedPlan?.itineraries) &&
+      state.relaxedPlan?.itineraries?.length > 0 &&
+      !hash;
 
     const itineraryListProps = {
       activeIndex: selectedIndex,
@@ -1353,20 +1340,18 @@ class ItineraryPage extends React.Component {
       walking: walkPlan?.itineraries?.length > 0,
       biking: bikePlan?.itineraries?.length > 0,
       driving:
-        carPlan?.itineraries?.length > 0 ||
-        parkRidePlan?.itineraries?.length > 0,
+        settings.includeCarSuggestions &&
+        (carPlan?.itineraries?.length > 0 ||
+          parkRidePlan?.itineraries?.length > 0),
       bikeAndParkItineraryCount: this.bikeAndParkItineraryCount,
-      showRelaxedPlanNotifier:
-        hasNoTransitItineraries &&
-        state.relaxedPlan?.itineraries?.length > 0 &&
-        !hash, // not showing root level itinerary list
+      showRelaxedPlanNotifier: this.selectedPlan === state.relaxedPlan,
       separatorPosition: state.separatorPosition,
       loading,
       onLater: this.onLater,
       onEarlier: this.onEarlier,
       onDetailsTabFocused: this.onDetailsTabFocused,
       loadingMoreItineraries: state.loadingMoreItineraries,
-      settingsNotification: showSettingsNotification,
+      settingsNotification,
       routingFeedbackPosition: state.routingFeedbackPosition,
     };
 

@@ -245,6 +245,7 @@ function ItineraryList(
   return (
     <ItinerarySummaryMessage
       areaPolygon={config.areaPolygon}
+      walking={walking}
       biking={biking}
       driving={driving}
       error={error}
@@ -256,7 +257,6 @@ function ItineraryList(
       searchTime={searchTime}
       currentTime={currentTime}
       to={to}
-      walking={walking}
     />
   );
 }
