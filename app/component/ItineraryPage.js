@@ -42,7 +42,6 @@ import {
   compareItineraries,
   settingsLimitRouting,
   setCurrentTimeToURL,
-  startClient,
   updateClient,
   stopClient,
   getRentalStationsToHideOnMap,
@@ -131,7 +130,7 @@ class ItineraryPage extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.isFetching = false;
-    this.setParamsAndQuery();
+    this.storeParamsAndQueryQuery();
     this.originalPlan = props.viewer?.plan;
     this.expandMap = 0;
     this.relaxedQueryDone = false;
@@ -203,7 +202,7 @@ class ItineraryPage extends React.Component {
     );
   }
 
-  setParamsAndQuery() {
+  storeParamsAndQueryQuery() {
     this.params = this.props.match.params;
     this.query = this.props.match.location.query;
   }
@@ -308,11 +307,11 @@ class ItineraryPage extends React.Component {
             earlierItineraries: [],
             laterItineraries: [],
             separatorPosition: undefined,
+            loading: false,
           },
           () => {
-            this.setState({ loading: false });
             this.isFetching = false;
-            this.setParamsAndQuery();
+            this.storeParamsAndQueryQuery();
             this.relaxedQueryDone = true;
           },
         );
@@ -593,21 +592,6 @@ class ItineraryPage extends React.Component {
   componentDidMount() {
     this.updateLocalStorage(true);
     addFeedbackly(this.context);
-    if (this.showVehicles()) {
-      const { client } = this.context.getStore('RealTimeInformationStore');
-      // If user comes from eg. RoutePage, old client may not have been completely shut down yet.
-      // This will prevent situation where RoutePages vehicles would appear on ItineraryPage
-      if (!client) {
-        const combinedItineraries = this.getCombinedItineraries();
-        const itineraryTopics = getTopics(
-          this.context.config,
-          combinedItineraries,
-          this.props.match,
-        );
-        startClient(itineraryTopics, this.context);
-        this.setState({ itineraryTopics });
-      }
-    }
     if (settingsLimitRouting(this.context.config)) {
       this.makeRelaxedQuery();
     }
@@ -669,7 +653,7 @@ class ItineraryPage extends React.Component {
       this.secondQuerySent &&
       !state.fetchingAlternatives
     ) {
-      this.setParamsAndQuery();
+      this.storeParamsAndQueryQuery();
       this.secondQuerySent = false;
       // eslint-disable-next-line react/no-did-update-set-state
       this.setState(
@@ -735,7 +719,7 @@ class ItineraryPage extends React.Component {
       if (!isEqual(itineraryTopics, state.itineraryTopics) || !client) {
         updateClient(itineraryTopics, this.context);
       }
-      if (!isEqual(itineraryTopics, this.state.itineraryTopics)) {
+      if (!isEqual(itineraryTopics, state.itineraryTopics)) {
         // eslint-disable-next-line react/no-did-update-set-state
         this.setState({ itineraryTopics });
       }
