@@ -134,7 +134,7 @@ class ItineraryPage extends React.Component {
     this.setParamsAndQuery();
     this.originalPlan = props.viewer?.plan;
     this.expandMap = 0;
-    this.allModesQueryDone = false;
+    this.relaxedQueryDone = false;
 
     if (props.error) {
       reportError(props.error);
@@ -193,15 +193,6 @@ class ItineraryPage extends React.Component {
   hasNoTransitItineraries() {
     return (
       transitItineraries(this.props.viewer?.plan?.itineraries).length === 0
-    );
-  }
-
-  hasNoAlternativeItineraries() {
-    return (
-      !this.state.bikePlan?.itineraries?.length &&
-      !this.state.carPlan?.itineraries?.length &&
-      !this.state.parkRidePlan?.itineraries?.length &&
-      !this.state.bikeTransitPlan?.itineraries?.length
     );
   }
 
@@ -292,6 +283,9 @@ class ItineraryPage extends React.Component {
   }
 
   makeRelaxedQuery() {
+    if (!hasStartAndDestination(this.props.match.params)) {
+      return;
+    }
     this.setState({ loading: true });
     this.resetItineraryPageSelection();
 
@@ -319,7 +313,7 @@ class ItineraryPage extends React.Component {
             this.setState({ loading: false });
             this.isFetching = false;
             this.setParamsAndQuery();
-            this.allModesQueryDone = true;
+            this.relaxedQueryDone = true;
           },
         );
       });
@@ -628,10 +622,7 @@ class ItineraryPage extends React.Component {
         this.setState({ itineraryTopics });
       }
     }
-    if (
-      settingsLimitRouting(this.context.config) &&
-      hasStartAndDestination(this.props.match.params)
-    ) {
+    if (settingsLimitRouting(this.context.config)) {
       this.makeRelaxedQuery();
     }
   }
@@ -710,13 +701,7 @@ class ItineraryPage extends React.Component {
           relaxedPlan: undefined,
         },
         () => {
-          const hasNonWalkingItinerary =
-            transitItineraries(this.selectedPlan?.itineraries).length > 0;
-          if (
-            settingsLimitRouting(config) &&
-            hasStartAndDestination(props.match.params) &&
-            hasNonWalkingItinerary
-          ) {
+          if (settingsLimitRouting(config)) {
             this.makeRelaxedQuery();
           }
         },
@@ -1235,7 +1220,7 @@ class ItineraryPage extends React.Component {
       state;
     const { config } = context;
     const { params } = match;
-    const { hash, secondHash } = params;
+    const { hash } = params;
 
     let plan;
     /* NOTE: as a temporary solution, do filtering by feedId in UI */
@@ -1292,7 +1277,12 @@ class ItineraryPage extends React.Component {
       !hash;
 
     const onlyHasWalkingItineraries =
-      this.hasNoTransitItineraries() && this.hasNoAlternativeItineraries();
+      hasNoTransitItineraries &&
+      !this.state.bikePlan?.itineraries?.length &&
+      !this.state.parkRidePlan?.itineraries?.length &&
+      !this.state.bikeTransitPlan?.itineraries?.length &&
+      (!settings.includeCarSuggestions ||
+        !this.state.carPlan?.itineraries?.length);
 
     let combinedItineraries;
     // Remove old itineraries if new query cannot find a route
@@ -1302,7 +1292,7 @@ class ItineraryPage extends React.Component {
       combinedItineraries = this.selectedPlan.itineraries || [];
     } else {
       combinedItineraries = this.getCombinedItineraries();
-      if (!onlyHasWalkingItineraries) {
+      if (!hasNoTransitItineraries) {
         // don't show plain walking in transit itinerary list
         combinedItineraries = transitItineraries(combinedItineraries);
       }
@@ -1345,19 +1335,13 @@ class ItineraryPage extends React.Component {
             detailView,
           );
 
-    const loadingPublicDone =
-      state.loading === false && (error || props.loading === false);
-    const waitAlternatives =
-      hasNoTransitItineraries && state.fetchingAlternatives;
+    const loading = state.loading || (!error && props.loading);
 
     const showSettingsNotification =
       settingsLimitRouting(this.context.config) &&
       !state.settingsChangedRecently &&
       !hasNoTransitItineraries &&
-      compareItineraries(
-        this.selectedPlan?.itineraries,
-        state.relaxedPlan?.itineraries,
-      );
+      compareItineraries(plan?.itineraries, state.relaxedPlan?.itineraries);
 
     const itineraryListProps = {
       activeIndex: selectedIndex,
@@ -1377,13 +1361,12 @@ class ItineraryPage extends React.Component {
         state.relaxedPlan?.itineraries?.length > 0 &&
         !hash, // not showing root level itinerary list
       separatorPosition: state.separatorPosition,
-      loading: state.loading,
+      loading,
       onLater: this.onLater,
       onEarlier: this.onEarlier,
       onDetailsTabFocused: this.onDetailsTabFocused,
       loadingMoreItineraries: state.loadingMoreItineraries,
       settingsNotification: showSettingsNotification,
-      onlyHasWalkingItineraries,
       routingFeedbackPosition: state.routingFeedbackPosition,
     };
 
@@ -1396,8 +1379,7 @@ class ItineraryPage extends React.Component {
       bikeTransitPlan,
       parkRidePlan,
       carPlan: settings.includeCarSuggestions ? carPlan : undefined,
-      loading:
-        props.loading || state.fetchingAlternatives || state.isFetchingWeather,
+      loading: loading || state.fetchingAlternatives || state.isFetchingWeather,
     };
 
     if (breakpoint === 'large') {
@@ -1407,12 +1389,16 @@ class ItineraryPage extends React.Component {
       2. Don't have to wait for walk and bike query to complete
       3. Result has non-walking itineraries OR if not, query with all modes is completed or query is made with default settings
       If all conditions don't apply, render spinner */
+
+      const waitAlternatives = // must wait alternatives to render correct message
+        hasNoTransitItineraries && state.fetchingAlternatives;
+
       if (
-        loadingPublicDone &&
+        !loading &&
         !waitAlternatives &&
         (!onlyHasWalkingItineraries ||
           (onlyHasWalkingItineraries &&
-            (this.allModesQueryDone || !settingsLimitRouting(config))))
+            (this.relaxedQueryDone || !settingsLimitRouting(config))))
       ) {
         const selectedItinerary = combinedItineraries.length
           ? combinedItineraries[selectedIndex]
@@ -1514,7 +1500,7 @@ class ItineraryPage extends React.Component {
                   params={params}
                   toggleSettings={this.toggleSearchSettings}
                 />
-                <StreetModeSelector {...streetModeSelectorProps} loading />
+                <StreetModeSelector {...streetModeSelectorProps} />
               </React.Fragment>
             }
             content={content}
@@ -1570,23 +1556,15 @@ class ItineraryPage extends React.Component {
     }
 
     let content;
-    let isLoading = false;
 
-    if (
-      (!error && (!this.selectedPlan || props.loading === true)) ||
-      state.loading !== false
-    ) {
-      isLoading = true;
-      content = (
-        <div style={{ position: 'relative', height: 200 }}>
-          <Loading />
-        </div>
-      );
-      if (detailView !== undefined) {
-        return content;
-      }
-    }
     if (detailView) {
+      if (loading) {
+        return (
+          <div style={{ position: 'relative', height: 200 }}>
+            <Loading />
+          </div>
+        );
+      }
       content = (
         <MobileItineraryWrapper
           itineraries={combinedItineraries}
@@ -1610,7 +1588,7 @@ class ItineraryPage extends React.Component {
             )}
         </MobileItineraryWrapper>
       );
-    } else if (isLoading) {
+    } else if (loading) {
       content = (
         <div style={{ position: 'relative', height: 200 }}>
           <Loading />
@@ -1623,7 +1601,7 @@ class ItineraryPage extends React.Component {
     return (
       <MobileView
         header={
-          !showDetailView(hash, secondHash, combinedItineraries) ? (
+          !detailView ? (
             <span aria-hidden={this.state.settingsOpen} ref={this.headerRef}>
               <ItineraryPageControls
                 params={params}
