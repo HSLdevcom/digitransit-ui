@@ -706,10 +706,12 @@ class ItineraryPage extends React.Component {
     ) {
       this.selectStreetMode(); // go back to showing normal itineraries
     }
-    if (hash === 'bikeAndVehicle') {
-      if (!state.loadingAlt && !state.bikeTransitPlan?.itineraries?.length) {
-        this.selectStreetMode(); // go back to showing normal itineraries
-      }
+    if (
+      hash === 'bikeAndVehicle' &&
+      !state.loadingAlt &&
+      !state.bikeTransitPlan?.itineraries?.length
+    ) {
+      this.selectStreetMode(); // go back to showing normal itineraries
     }
     if (
       this.hasNoTransitItineraries() &&
@@ -852,16 +854,16 @@ class ItineraryPage extends React.Component {
   }
 
   showScreenreaderLoadedAlert() {
-    if (this.props.alertRef.current) {
-      if (this.props.alertRef.current.innerHTML) {
-        this.props.alertRef.current.innerHTML = null;
-      }
+    if (this.props.alertRef?.current?.innerHTML) {
+      this.props.alertRef.current.innerHTML = null;
       this.props.alertRef.current.innerHTML = this.context.intl.formatMessage({
         id: 'itinerary-page.itineraries-loaded',
         defaultMessage: 'More itineraries loaded',
       });
       setTimeout(() => {
-        this.props.alertRef.current.innerHTML = null;
+        if (this.props.alertRef?.current?.innerHTML) {
+          this.props.alertRef.current.innerHTML = null;
+        }
       }, 100);
     }
   }
@@ -1113,39 +1115,36 @@ class ItineraryPage extends React.Component {
     const hasNoTransitItineraries = this.hasNoTransitItineraries();
     const settings = getCurrentSettings(config, '');
 
-    if (hash === 'walk') {
-      if (state.loadingAlt) {
-        return <Loading />;
-      }
-      this.selectedPlan = walkPlan;
-    } else if (hash === 'bike') {
-      if (state.loadingAlt) {
-        return <Loading />;
-      }
-      this.selectedPlan = bikePlan;
-    } else if (hash === 'bikeAndVehicle') {
-      if (state.loadingAlt) {
-        return <Loading />;
-      }
-      this.selectedPlan = bikeTransitPlan;
-    } else if (hash === 'car') {
-      if (state.loadingAlt) {
-        return <Loading />;
-      }
-      this.selectedPlan = carPlan;
-    } else if (hash === 'parkAndRide') {
-      if (state.loadingAlt) {
-        return <Loading />;
-      }
-      this.selectedPlan = parkRidePlan;
-    } else if (
-      hasNoTransitItineraries &&
-      !state.settingsChangedRecently &&
-      state.relaxedPlan?.itineraries?.length > 0
-    ) {
-      this.selectedPlan = state.relaxedPlan;
-    } else {
-      this.selectedPlan = plan;
+    if (props.loading || (streetHashes.includes(hash) && state.loadingAlt)) {
+      return <Loading />;
+    }
+
+    switch (hash) {
+      case 'walk':
+        this.selectedPlan = walkPlan;
+        break;
+      case 'bike':
+        this.selectedPlan = bikePlan;
+        break;
+      case 'bikeAndVehicle':
+        this.selectedPlan = bikeTransitPlan;
+        break;
+      case 'car':
+        this.selectedPlan = carPlan;
+        break;
+      case 'parkAndRide':
+        this.selectedPlan = parkRidePlan;
+        break;
+      default:
+        if (
+          hasNoTransitItineraries &&
+          !state.settingsChangedRecently &&
+          state.relaxedPlan?.itineraries?.length > 0
+        ) {
+          this.selectedPlan = state.relaxedPlan;
+        } else {
+          this.selectedPlan = plan;
+        }
     }
 
     const showStreetModeSelector =
