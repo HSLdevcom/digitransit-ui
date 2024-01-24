@@ -80,8 +80,19 @@ import ErrorShape from '../prop-types/ErrorShape';
 import RoutingErrorShape from '../prop-types/RoutingErrorShape';
 
 const streetHashes = ['walk', 'bike', 'bikeAndVehicle', 'car', 'parkAndRide'];
-
 const showVehiclesThresholdMinutes = 720;
+const emptyPlans = {
+  walkPlan: undefined,
+  bikePlan: undefined,
+  bikeTransitPlan: undefined,
+  carPlan: undefined,
+  parkRidePlan: undefined,
+  earlierItineraries: [],
+  laterItineraries: [],
+  weatherData: undefined,
+  separatorPosition: undefined,
+  relaxedPlan: undefined,
+};
 
 class ItineraryPage extends React.Component {
   static contextTypes = {
@@ -140,10 +151,7 @@ class ItineraryPage extends React.Component {
 
     setCurrentTimeToURL(context.config, props.match);
 
-    this.state = {
-      earlierItineraries: [],
-      laterItineraries: [],
-    };
+    this.state = emptyPlans;
   }
 
   stopClientAndUpdateTopics() {
@@ -207,8 +215,17 @@ class ItineraryPage extends React.Component {
     });
   };
 
+  hasValidFromTo() {
+    const { params } = this.props.match;
+    return (
+      hasStartAndDestination(params) &&
+      (!isEqual(otpToLocation(params.from), otpToLocation(params.to)) ||
+        getIntermediatePlaces(this.props.match.location.query).length)
+    );
+  }
+
   makeAlternativeQuery() {
-    if (!hasStartAndDestination(this.props.match.params)) {
+    if (!this.hasValidFromTo()) {
       return;
     }
     this.setState({ loadingAlt: true });
@@ -277,7 +294,7 @@ class ItineraryPage extends React.Component {
   }
 
   makeRelaxedQuery() {
-    if (!hasStartAndDestination(this.props.match.params)) {
+    if (!this.hasValidFromTo()) {
       return;
     }
     this.setState({ loadingRelaxed: true });
@@ -584,7 +601,6 @@ class ItineraryPage extends React.Component {
       )
     ) {
       this.navigateMap();
-
       this.setState({
         center: undefined,
         bounds: undefined,
@@ -641,39 +657,17 @@ class ItineraryPage extends React.Component {
     ) {
       this.storeParamsAndQuery();
       // eslint-disable-next-line react/no-did-update-set-state
-      this.setState(
-        {
-          walkPlan: undefined,
-          bikePlan: undefined,
-          bikeTransitPlan: undefined,
-          carPlan: undefined,
-          parkRidePlan: undefined,
-          earlierItineraries: [],
-          laterItineraries: [],
-          weatherData: undefined,
-          separatorPosition: undefined,
-          relaxedPlan: undefined,
-        },
-        () => {
-          if (settingsLimitRouting(config)) {
-            this.makeRelaxedQuery();
-          }
-        },
-      );
+      this.setState(emptyPlans, () => {
+        if (settingsLimitRouting(config)) {
+          this.makeRelaxedQuery();
+        }
+      });
     }
 
     // Public transit routes fetched, now fetch walk and bike itineraries
     if (props.viewer?.plan?.itineraries) {
       this.originalPlan = props.viewer.plan;
-      if (
-        !isEqual(
-          otpToLocation(props.match.params.from),
-          otpToLocation(props.match.params.to),
-        ) ||
-        viaPoints.length
-      ) {
-        this.makeAlternativeQuery();
-      }
+      this.makeAlternativeQuery();
     }
 
     if (props.error) {
@@ -1011,8 +1005,12 @@ class ItineraryPage extends React.Component {
       action: 'ExtraSettingsPanelClick',
       name: isOpen ? 'ExtraSettingsPanelOpen' : 'ExtraSettingsPanelClose',
     });
+
     if (isOpen) {
-      this.setState({ settingsOpen: true });
+      this.setState({
+        settingsOpen: true,
+        settingsOnOpen: getCurrentSettings(this.context.config, ''),
+      });
       if (this.props.breakpoint !== 'large') {
         this.context.router.push({
           ...this.props.match.location,
@@ -1022,83 +1020,41 @@ class ItineraryPage extends React.Component {
           },
         });
       }
-      this.setState({
-        settingsOnOpen: getCurrentSettings(this.context.config, ''),
-      });
-    } else {
-      this.setState({ settingsOpen: false });
-      if (this.props.breakpoint !== 'large') {
-        if (
-          !isEqual(
-            this.state.settingsOnOpen,
-            getCurrentSettings(this.context.config, ''),
-          )
-        ) {
-          if (
-            !isEqual(
-              otpToLocation(this.props.match.params.from),
-              otpToLocation(this.props.match.params.to),
-            ) ||
-            getIntermediatePlaces(this.props.match.location.query).length
-          ) {
-            this.context.router.go(-1);
-            this.setState(
-              {
-                earlierItineraries: [],
-                laterItineraries: [],
-                separatorPosition: undefined,
-                relaxedPlan: undefined,
-                settingsChangedRecently: true,
-              },
-              () => this.showScreenreaderUpdatedAlert(),
-            );
-          }
-        }
-      } else if (
-        !isEqual(
-          this.state.settingsOnOpen,
-          getCurrentSettings(this.context.config, ''),
-        )
-      ) {
-        if (
-          !isEqual(
-            otpToLocation(this.props.match.params.from),
-            otpToLocation(this.props.match.params.to),
-          ) ||
-          getIntermediatePlaces(this.props.match.location.query).length
-        ) {
-          this.setState(
-            {
-              loadingAlt: true,
-              loadingRelaxed: true,
-            },
-            // eslint-disable-next-line func-names
-            function () {
-              const planParams = preparePlanParams(this.context.config, false)(
-                this.props.match.params,
-                this.props.match,
-              );
-              this.makeAlternativeQuery();
-              this.props.relay.refetch(planParams, null, () => {
-                this.setState(
-                  {
-                    earlierItineraries: [],
-                    laterItineraries: [],
-                    separatorPosition: undefined,
-                    relaxedPlan: undefined,
-                    settingsChangedRecently: true,
-                  },
-                  () => {
-                    this.showScreenreaderUpdatedAlert();
-                    this.resetItineraryPageSelection();
-                  },
-                );
-              });
-            },
-          );
-        }
-      }
+      return;
     }
+
+    this.setState({ settingsOpen: false });
+    if (this.props.breakpoint !== 'large') {
+      this.context.router.go(-1);
+    }
+    const settingsChanged = !isEqual(
+      this.state.settingsOnOpen,
+      getCurrentSettings(this.context.config, ''),
+    );
+    if (!settingsChanged || !this.hasValidFromTo()) {
+      return;
+    }
+
+    const planParams = preparePlanParams(this.context.config, false)(
+      this.props.match.params,
+      this.props.match,
+    );
+    this.setState(
+      {
+        earlierItineraries: [],
+        laterItineraries: [],
+        separatorPosition: undefined,
+        relaxedPlan: undefined,
+        settingsChangedRecently: true,
+      },
+      () => {
+        this.props.relay.refetch(planParams, null, () => {
+          this.makeAlternativeQuery();
+          this.showScreenreaderUpdatedAlert();
+          this.resetItineraryPageSelection();
+        });
+      },
+    );
   }
 
   showVehicles() {
