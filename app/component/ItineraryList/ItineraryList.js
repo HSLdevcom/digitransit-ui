@@ -118,7 +118,11 @@ function ItineraryList(
       );
     }
     if (routingFeedbackPosition) {
-      summaries.splice(routingFeedbackPosition, 0, <RoutingFeedbackPrompt />);
+      summaries.splice(
+        routingFeedbackPosition,
+        0,
+        <RoutingFeedbackPrompt key="feedback-prompt" />,
+      );
     }
 
     const canceledItinerariesCount = itineraries.filter(
