@@ -608,6 +608,21 @@ class ItineraryPage extends React.Component {
     const { state, props } = this;
     const { config } = this.context;
 
+    if (
+      !isEqual(this.props.match.params.hash, prevProps.match.params.hash) ||
+      !isEqual(
+        this.props.match.params.secondHash,
+        prevProps.match.params.secondHash,
+      )
+    ) {
+      this.navigateMap();
+
+      this.setState({
+        center: undefined,
+        bounds: undefined,
+      });
+    }
+
     setCurrentTimeToURL(config, props.match);
     // screen reader alert when new itineraries are fetched
     if (
@@ -881,24 +896,6 @@ class ItineraryPage extends React.Component {
             }, 100);
           }
         });
-    }
-  }
-
-  // eslint-disable-next-line camelcase
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    if (
-      !isEqual(this.props.match.params.hash, nextProps.match.params.hash) ||
-      !isEqual(
-        this.props.match.params.secondHash,
-        nextProps.match.params.secondHash,
-      )
-    ) {
-      this.navigateMap();
-
-      this.setState({
-        center: undefined,
-        bounds: undefined,
-      });
     }
   }
 
