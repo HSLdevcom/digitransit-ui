@@ -91,6 +91,7 @@ const emptyPlans = {
   laterItineraries: [],
   weatherData: undefined,
   separatorPosition: undefined,
+  routingFeedbackPosition: undefined,
   relaxedPlan: undefined,
 };
 
@@ -141,7 +142,6 @@ class ItineraryPage extends React.Component {
 
   constructor(props, context) {
     super(props, context);
-    this.storeParamsAndQuery();
     this.expandMap = 0;
 
     this.tabHeaderRef = React.createRef(null);
@@ -214,15 +214,15 @@ class ItineraryPage extends React.Component {
   mapHashToPlan(hash) {
     switch (hash) {
       case 'walk':
-        return this.walkPlan;
+        return this.state.walkPlan;
       case 'bike':
-        return this.bikePlan;
+        return this.state.bikePlan;
       case 'bikeAndVehicle':
-        return this.bikeTransitPlan;
+        return this.state.bikeTransitPlan;
       case 'car':
-        return this.carPlan;
+        return this.state.carPlan;
       case 'parkAndRide':
-        return this.parkRidePlan;
+        return this.state.parkRidePlan;
       default:
         if (
           this.hasNoTransitItineraries() &&
@@ -612,8 +612,6 @@ class ItineraryPage extends React.Component {
     }
 
     setCurrentTimeToURL(config, props.match);
-
-    this.storeParamsAndQuery();
 
     if (streetHashes.includes(hash)) {
       const viaPoints = getIntermediatePlaces(props.match.location.query);
@@ -1062,15 +1060,19 @@ class ItineraryPage extends React.Component {
     const hasNoTransitItineraries = this.hasNoTransitItineraries();
     const settings = getCurrentSettings(config, '');
 
-    if (props.loading || (streetHashes.includes(hash) && state.loadingAlt)) {
-      return <Loading />;
-    }
-
     this.selectedPlan = this.mapHashToPlan(hash);
 
     /* NOTE: as a temporary solution, do filtering by feedId in UI */
     if (config.feedIdFiltering && this.selectedPlan === props.viewer?.plan) {
       this.selectedPlan = filterItinerariesByFeedId(props.viewer?.plan, config);
+    }
+
+    if (
+      props.loading ||
+      (streetHashes.includes(hash) && state.loadingAlt) ||
+      !this.selectedPlan
+    ) {
+      return <Loading />;
     }
 
     const showStreetModeSelector =
@@ -1095,7 +1097,7 @@ class ItineraryPage extends React.Component {
     if (error) {
       combinedItineraries = [];
     } else if (streetHashes.includes(hash)) {
-      combinedItineraries = this.selectedPlan.itineraries || [];
+      combinedItineraries = this.selectedPlan?.itineraries || [];
     } else {
       combinedItineraries = this.getCombinedItineraries();
       if (!hasNoTransitItineraries) {
