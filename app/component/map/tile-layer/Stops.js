@@ -112,6 +112,10 @@ class Stops {
   }
 
   stopsToShowCheck(feature) {
+    const feedid = feature.properties.gtfsId.split(':')[0];
+    if (!this.config.feedIds.includes(feedid)) {
+      return false;
+    }
     if (this.tile.stopsToShow) {
       return this.tile.stopsToShow.includes(feature.properties.gtfsId);
     }
