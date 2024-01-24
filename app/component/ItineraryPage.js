@@ -133,7 +133,6 @@ class ItineraryPage extends React.Component {
     this.storeParamsAndQuery();
     this.originalPlan = props.viewer?.plan;
     this.expandMap = 0;
-    this.relaxedQueryDone = false;
 
     this.tabHeaderRef = React.createRef(null);
     this.headerRef = React.createRef();
@@ -281,8 +280,7 @@ class ItineraryPage extends React.Component {
     if (!hasStartAndDestination(this.props.match.params)) {
       return;
     }
-    this.setState({ loading: true });
-    this.resetItineraryPageSelection();
+    this.setState({ loadingRelaxed: true });
 
     const planParams = preparePlanParams(this.context.config, true)(
       this.props.match.params,
@@ -303,11 +301,10 @@ class ItineraryPage extends React.Component {
             earlierItineraries: [],
             laterItineraries: [],
             separatorPosition: undefined,
-            loading: false,
+            loadingRelaxed: false,
           },
           () => {
             this.storeParamsAndQuery();
-            this.relaxedQueryDone = true;
           },
         );
       });
@@ -320,9 +317,6 @@ class ItineraryPage extends React.Component {
       action: 'ShowLaterItineraries',
       name: null,
     });
-    this.setState({ loadingMoreItineraries: reversed ? 'top' : 'bottom' });
-    this.showScreenreaderLoadingAlert();
-
     const end = moment.unix(this.props.serviceTimeRange.end);
     const latestDepartureTime = itineraries.reduce((previous, current) => {
       const startTime = moment(current.startTime);
@@ -341,7 +335,6 @@ class ItineraryPage extends React.Component {
     if (latestDepartureTime >= end) {
       // Departure time is going beyond available time range
       this.setError('no-route-end-date-not-in-range');
-      this.setState({ loading: false });
       return;
     }
 
@@ -361,6 +354,9 @@ class ItineraryPage extends React.Component {
       date: latestDepartureTime.format('YYYY-MM-DD'),
       time: latestDepartureTime.format('HH:mm'),
     };
+
+    this.setState({ loadingMoreItineraries: reversed ? 'top' : 'bottom' });
+    this.showScreenreaderLoadingAlert();
 
     fetchQuery(this.props.relayEnvironment, moreItinerariesQuery, tunedParams)
       .toPromise()
@@ -386,7 +382,6 @@ class ItineraryPage extends React.Component {
                 : reversedItineraries.length,
             };
           });
-          this.resetItineraryPageSelection();
         } else {
           this.setState(prevState => {
             return {
@@ -401,28 +396,7 @@ class ItineraryPage extends React.Component {
             };
           });
         }
-        /*
-            const max = result.itineraries.reduce(
-              (previous, { endTime }) =>
-                endTime > previous ? endTime : previous,
-              Number.MIN_VALUE,
-            );
-
-            // OTP can't always find later routes. This leads to a situation where
-            // new search is done without increasing time, and nothing seems to happen
-            let newTime;
-            if (this.props.plan.date >= max) {
-              newTime = moment(this.props.plan.date).add(5, 'minutes');
-            } else {
-              newTime = moment(max).add(1, 'minutes');
-            }
-            */
-        // this.props.setLoading(false);
-        /* replaceQueryParams(this.context.router, this.props.match, {
-              time: newTime.unix(),
-            }); */
       });
-    // }
   };
 
   onEarlier = (itineraries, reversed) => {
@@ -432,8 +406,6 @@ class ItineraryPage extends React.Component {
       action: 'ShowEarlierItineraries',
       name: null,
     });
-    this.setState({ loadingMoreItineraries: reversed ? 'bottom' : 'top' });
-    this.showScreenreaderLoadingAlert();
 
     const start = moment.unix(this.props.serviceTimeRange.start);
     const earliestArrivalTime = itineraries.reduce((previous, current) => {
@@ -450,7 +422,6 @@ class ItineraryPage extends React.Component {
     earliestArrivalTime.subtract(1, 'minutes');
     if (earliestArrivalTime <= start) {
       this.setError('no-route-start-date-too-early');
-      this.setState({ loading: false });
       return;
     }
 
@@ -470,6 +441,8 @@ class ItineraryPage extends React.Component {
       date: earliestArrivalTime.format('YYYY-MM-DD'),
       time: earliestArrivalTime.format('HH:mm'),
     };
+    this.setState({ loadingMoreItineraries: reversed ? 'bottom' : 'top' });
+    this.showScreenreaderLoadingAlert();
 
     fetchQuery(this.props.relayEnvironment, moreItinerariesQuery, tunedParams)
       .toPromise()
@@ -1097,7 +1070,7 @@ class ItineraryPage extends React.Component {
           this.setState(
             {
               loadingAlt: true,
-              loading: true,
+              loadingRelaxed: true,
             },
             // eslint-disable-next-line func-names
             function () {
@@ -1109,7 +1082,6 @@ class ItineraryPage extends React.Component {
               this.props.relay.refetch(planParams, null, () => {
                 this.setState(
                   {
-                    loading: false,
                     earlierItineraries: [],
                     laterItineraries: [],
                     separatorPosition: undefined,
@@ -1290,7 +1262,7 @@ class ItineraryPage extends React.Component {
             detailView,
           );
 
-    const loading = state.loading || (!error && props.loading);
+    const loading = state.loadingRelaxed || (!error && props.loading);
 
     const showRelaxedPlanNotifier = this.selectedPlan === state.relaxedPlan;
     const settingsNotification =
@@ -1352,7 +1324,8 @@ class ItineraryPage extends React.Component {
         !waitAlternatives &&
         (!onlyHasWalkingItineraries ||
           (onlyHasWalkingItineraries &&
-            (this.relaxedQueryDone || !settingsLimitRouting(config))))
+            (state.relaxedPlan?.itineraries?.length > 0 ||
+              !settingsLimitRouting(config))))
       ) {
         const selectedItinerary = combinedItineraries.length
           ? combinedItineraries[selectedIndex]
