@@ -142,7 +142,6 @@ class ItineraryPage extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.storeParamsAndQuery();
-    this.originalPlan = props.viewer?.plan;
     this.expandMap = 0;
 
     this.tabHeaderRef = React.createRef(null);
@@ -193,18 +192,6 @@ class ItineraryPage extends React.Component {
     );
   }
 
-  paramsOrQueryHaveChanged() {
-    return (
-      !isEqual(this.params, this.props.match.params) ||
-      !isEqual(this.query, this.props.match.location.query)
-    );
-  }
-
-  storeParamsAndQuery() {
-    this.params = this.props.match.params;
-    this.query = this.props.match.location.query;
-  }
-
   resetItineraryPageSelection = () => {
     this.context.router.replace({
       ...this.props.match.location,
@@ -222,6 +209,30 @@ class ItineraryPage extends React.Component {
       (!isEqual(otpToLocation(params.from), otpToLocation(params.to)) ||
         getIntermediatePlaces(this.props.match.location.query).length)
     );
+  }
+
+  mapHashToPlan(hash) {
+    switch (hash) {
+      case 'walk':
+        return this.walkPlan;
+      case 'bike':
+        return this.bikePlan;
+      case 'bikeAndVehicle':
+        return this.bikeTransitPlan;
+      case 'car':
+        return this.carPlan;
+      case 'parkAndRide':
+        return this.parkRidePlan;
+      default:
+        if (
+          this.hasNoTransitItineraries() &&
+          !this.state.settingsChangedRecently &&
+          this.state.relaxedPlan?.itineraries?.length > 0
+        ) {
+          return this.state.relaxedPlan;
+        }
+        return this.props.viewer.plan;
+    }
   }
 
   makeAlternativeQuery() {
@@ -312,18 +323,13 @@ class ItineraryPage extends React.Component {
           ...result.plan,
           itineraries: transitItineraries(result.plan.itineraries),
         };
-        this.setState(
-          {
-            relaxedPlan,
-            earlierItineraries: [],
-            laterItineraries: [],
-            separatorPosition: undefined,
-            loadingRelaxed: false,
-          },
-          () => {
-            this.storeParamsAndQuery();
-          },
-        );
+        this.setState({
+          relaxedPlan,
+          earlierItineraries: [],
+          laterItineraries: [],
+          separatorPosition: undefined,
+          loadingRelaxed: false,
+        });
       });
   }
 
@@ -607,33 +613,20 @@ class ItineraryPage extends React.Component {
 
     setCurrentTimeToURL(config, props.match);
 
-    // screen reader alert when new itineraries are fetched
-    if (
-      hash === undefined &&
-      props.viewer?.plan?.itineraries &&
-      !this.state.loadingAlt
-    ) {
-      this.showScreenreaderLoadedAlert();
-    }
+    this.storeParamsAndQuery();
 
-    const viaPoints = getIntermediatePlaces(props.match.location.query);
     if (streetHashes.includes(hash)) {
-      // Reset streetmode selection if intermediate places change
+      const viaPoints = getIntermediatePlaces(props.match.location.query);
+      // Reset streetmode selection ...
       if (
         !isEqual(
+          // if intermediate places change
           getIntermediatePlaces(prevProps.match.location.query),
           viaPoints,
-        )
+        ) || // detail view has no itineraries to show
+        (!state.loadingAlt && !this.mapHashToPlan(hash)?.itineraries?.length)
       ) {
-        const newMatchLoc = {
-          ...props.match.location,
-        };
-        const pagePath = `${getItineraryPagePath(
-          props.match.params.from,
-          props.match.params.to,
-        )}`;
-        newMatchLoc.pathname = pagePath;
-        this.context.router.push(newMatchLoc);
+        this.selectStreetMode(); // back to root view
       }
     }
 
@@ -645,27 +638,17 @@ class ItineraryPage extends React.Component {
       this.updateLocalStorage(false);
     }
 
-    // Reset walk and bike suggestions when new search is made
-    if (
-      this.selectedPlan !== state.relaxedPlan &&
-      !isEqual(props.viewer?.plan, this.originalPlan) &&
-      this.paramsOrQueryHaveChanged() &&
-      // this.secondQuerySent &&
-      !state.loadingAlt
-    ) {
-      this.storeParamsAndQuery();
+    const itinerariesChanged = props.viewer.plan !== this.plan;
+    if (itinerariesChanged) {
+      this.plan = props.viewer.plan;
+      this.showScreenreaderLoadedAlert();
       // eslint-disable-next-line react/no-did-update-set-state
       this.setState(emptyPlans, () => {
         if (settingsLimitRouting(config)) {
           this.makeRelaxedQuery();
         }
+        this.makeAlternativeQuery();
       });
-    }
-
-    // Public transit routes fetched, now fetch walk and bike itineraries
-    if (props.viewer?.plan?.itineraries) {
-      this.originalPlan = props.viewer.plan;
-      this.makeAlternativeQuery();
     }
 
     if (props.error) {
@@ -673,15 +656,9 @@ class ItineraryPage extends React.Component {
     }
 
     if (this.showVehicles()) {
-      let combinedItineraries = this.getCombinedItineraries();
-      if (
-        combinedItineraries.length &&
-        hash !== 'walk' &&
-        hash !== 'bikeAndVehicle'
-      ) {
-        // exclude itineraries that have only street legs from the summary
-        combinedItineraries = transitItineraries(combinedItineraries);
-      }
+      const combinedItineraries = transitItineraries(
+        this.getCombinedItineraries(),
+      );
       const itineraryTopics = getTopics(
         config,
         combinedItineraries,
@@ -698,28 +675,6 @@ class ItineraryPage extends React.Component {
       }
     } else if (!isEmpty(state.itineraryTopics)) {
       this.stopClientAndUpdateTopics();
-    }
-    if (
-      hash === 'parkAndRide' &&
-      !state.loadingAlt &&
-      !state.parkRidePlan?.itineraries?.length
-    ) {
-      this.selectStreetMode(); // go back to showing normal itineraries
-    }
-    if (
-      hash === 'bikeAndVehicle' &&
-      !state.loadingAlt &&
-      !state.bikeTransitPlan?.itineraries?.length
-    ) {
-      this.selectStreetMode(); // go back to showing normal itineraries
-    }
-    if (
-      this.hasNoTransitItineraries() &&
-      (!state.relaxedPlan || !isEqual(props.viewer?.plan, this.originalPlan))
-    ) {
-      this.originalPlan = props.viewer.plan;
-      this.setState({ loadingAlt: true });
-      this.makeAlternativeQuery();
     }
   }
 
@@ -1104,14 +1059,6 @@ class ItineraryPage extends React.Component {
     const { params } = match;
     const { hash } = params;
 
-    let plan;
-    /* NOTE: as a temporary solution, do filtering by feedId in UI */
-    if (config.feedIdFiltering) {
-      plan = filterItinerariesByFeedId(props.viewer?.plan, this.context.config);
-    } else {
-      plan = props.viewer?.plan;
-    }
-
     const hasNoTransitItineraries = this.hasNoTransitItineraries();
     const settings = getCurrentSettings(config, '');
 
@@ -1119,32 +1066,11 @@ class ItineraryPage extends React.Component {
       return <Loading />;
     }
 
-    switch (hash) {
-      case 'walk':
-        this.selectedPlan = walkPlan;
-        break;
-      case 'bike':
-        this.selectedPlan = bikePlan;
-        break;
-      case 'bikeAndVehicle':
-        this.selectedPlan = bikeTransitPlan;
-        break;
-      case 'car':
-        this.selectedPlan = carPlan;
-        break;
-      case 'parkAndRide':
-        this.selectedPlan = parkRidePlan;
-        break;
-      default:
-        if (
-          hasNoTransitItineraries &&
-          !state.settingsChangedRecently &&
-          state.relaxedPlan?.itineraries?.length > 0
-        ) {
-          this.selectedPlan = state.relaxedPlan;
-        } else {
-          this.selectedPlan = plan;
-        }
+    this.selectedPlan = this.mapHashToPlan(hash);
+
+    /* NOTE: as a temporary solution, do filtering by feedId in UI */
+    if (config.feedIdFiltering && this.selectedPlan === props.viewer?.plan) {
+      this.selectedPlan = filterItinerariesByFeedId(props.viewer?.plan, config);
     }
 
     const showStreetModeSelector =
@@ -1221,7 +1147,10 @@ class ItineraryPage extends React.Component {
     const settingsNotification =
       !showRelaxedPlanNotifier && // show only on notifier about limitations
       settingsLimitRouting(this.context.config) &&
-      compareItineraries(plan?.itineraries, state.relaxedPlan?.itineraries) &&
+      compareItineraries(
+        props.viewer?.plan?.itineraries,
+        state.relaxedPlan?.itineraries,
+      ) &&
       state.relaxedPlan?.itineraries?.length > 0 &&
       !hash; // no notifier on p&r or bike&public lists
 
