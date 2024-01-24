@@ -37,7 +37,7 @@ function ItineraryList(
     driving,
     showRelaxedPlanNotifier,
     separatorPosition,
-    loadingMoreItineraries,
+    loadingMore,
     routingErrors,
     routingFeedbackPosition,
   },
@@ -143,7 +143,7 @@ function ItineraryList(
             </div>
           </div>
         )}
-        {loadingMoreItineraries === 'top' && (
+        {loadingMore === 'top' && (
           <div className="summary-list-spinner-container">
             <Loading />
           </div>
@@ -151,14 +151,13 @@ function ItineraryList(
         {isBrowser && (
           <div
             className={cx('summary-list-items', {
-              'summary-list-items-loading-top':
-                loadingMoreItineraries === 'top',
+              'summary-list-items-loading-top': loadingMore === 'top',
             })}
           >
             {summaries}
           </div>
         )}
-        {loadingMoreItineraries === 'bottom' && (
+        {loadingMore === 'bottom' && (
           <div className="summary-list-spinner-container">
             <Loading />
           </div>
@@ -280,7 +279,7 @@ ItineraryList.propTypes = {
   driving: PropTypes.bool,
   showRelaxedPlanNotifier: PropTypes.bool,
   separatorPosition: PropTypes.number,
-  loadingMoreItineraries: PropTypes.string,
+  loadingMore: PropTypes.string,
   routingFeedbackPosition: PropTypes.number,
 };
 
@@ -293,7 +292,7 @@ ItineraryList.defaultProps = {
   driving: false,
   showRelaxedPlanNotifier: false,
   separatorPosition: undefined,
-  loadingMoreItineraries: undefined,
+  loadingMore: undefined,
   routingErrors: [],
   routingFeedbackPosition: undefined,
 };

@@ -23,7 +23,7 @@ import ItineraryPageControls from './ItineraryPageControls';
 import MobileItineraryWrapper from './MobileItineraryWrapper';
 import { getWeatherData } from '../util/apiUtils';
 import Loading from './Loading';
-import { getSummaryPath } from '../util/path';
+import { getItineraryPagePath } from '../util/path';
 import { boundWithMinimumArea } from '../util/geo-utils';
 import {
   planQuery,
@@ -164,7 +164,7 @@ class ItineraryPage extends React.Component {
       ...this.props.match.location,
       state: { selectedItineraryIndex: 0 },
     };
-    const basePath = getSummaryPath(
+    const basePath = getItineraryPagePath(
       this.props.match.params.from,
       this.props.match.params.to,
     );
@@ -372,7 +372,7 @@ class ItineraryPage extends React.Component {
       time: latestDepartureTime.format('HH:mm'),
     };
 
-    this.setState({ loadingMoreItineraries: reversed ? 'top' : 'bottom' });
+    this.setState({ loadingMore: reversed ? 'top' : 'bottom' });
     this.showScreenreaderLoadingAlert();
 
     fetchQuery(this.props.relayEnvironment, moreItinerariesQuery, tunedParams)
@@ -393,7 +393,7 @@ class ItineraryPage extends React.Component {
                 ...reversedItineraries,
                 ...prevState.earlierItineraries,
               ],
-              loadingMoreItineraries: undefined,
+              loadingMore: undefined,
               separatorPosition: prevState.separatorPosition
                 ? prevState.separatorPosition + reversedItineraries.length
                 : reversedItineraries.length,
@@ -406,7 +406,7 @@ class ItineraryPage extends React.Component {
                 ...prevState.laterItineraries,
                 ...result.itineraries,
               ],
-              loadingMoreItineraries: undefined,
+              loadingMore: undefined,
               routingFeedbackPosition: prevState.routingFeedbackPosition
                 ? prevState.routingFeedbackPosition + result.itineraries.length
                 : result.itineraries.length,
@@ -458,7 +458,7 @@ class ItineraryPage extends React.Component {
       date: earliestArrivalTime.format('YYYY-MM-DD'),
       time: earliestArrivalTime.format('HH:mm'),
     };
-    this.setState({ loadingMoreItineraries: reversed ? 'bottom' : 'top' });
+    this.setState({ loadingMore: reversed ? 'bottom' : 'top' });
     this.showScreenreaderLoadingAlert();
 
     fetchQuery(this.props.relayEnvironment, moreItinerariesQuery, tunedParams)
@@ -478,7 +478,7 @@ class ItineraryPage extends React.Component {
                 ...prevState.laterItineraries,
                 ...newItineraries,
               ],
-              loadingMoreItineraries: undefined,
+              loadingMore: undefined,
             };
           });
         } else {
@@ -489,7 +489,7 @@ class ItineraryPage extends React.Component {
                 ...newItineraries.reverse(),
                 ...prevState.earlierItineraries,
               ],
-              loadingMoreItineraries: undefined,
+              loadingMore: undefined,
               separatorPosition: prevState.separatorPosition
                 ? prevState.separatorPosition + newItineraries.length
                 : newItineraries.length,
@@ -589,16 +589,14 @@ class ItineraryPage extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { hash } = this.props.match.params;
     const { state, props } = this;
+    const { params } = this.props.match;
+    const { hash } = params;
     const { config } = this.context;
 
     if (
-      !isEqual(this.props.match.params.hash, prevProps.match.params.hash) ||
-      !isEqual(
-        this.props.match.params.secondHash,
-        prevProps.match.params.secondHash,
-      )
+      !isEqual(hash, prevProps.match.params.hash) ||
+      !isEqual(params.secondHash, prevProps.match.params.secondHash)
     ) {
       this.navigateMap();
       this.setState({
@@ -630,7 +628,7 @@ class ItineraryPage extends React.Component {
         const newMatchLoc = {
           ...props.match.location,
         };
-        const pagePath = `${getSummaryPath(
+        const pagePath = `${getItineraryPagePath(
           props.match.params.from,
           props.match.params.to,
         )}`;
@@ -896,8 +894,10 @@ class ItineraryPage extends React.Component {
   }
 
   changeHash = index => {
-    const isbikeAndVehicle = this.props.match.params.hash === 'bikeAndVehicle';
-    const isParkAndRide = this.props.match.params.hash === 'parkAndRide';
+    const { hash } = this.props.match.params;
+    const subPath = ['bikeAndVehicle', 'parkAndRide'].includes(hash)
+      ? `/${hash}`
+      : '';
 
     addAnalyticsEvent({
       event: 'sendMatomoEvent',
@@ -910,12 +910,10 @@ class ItineraryPage extends React.Component {
       ...this.props.match.location,
       state: { selectedItineraryIndex: index },
     };
-    const pagePath = `${getSummaryPath(
+    const pagePath = `${getItineraryPagePath(
       this.props.match.params.from,
       this.props.match.params.to,
-    )}${isbikeAndVehicle ? '/bikeAndVehicle' : ''}${
-      isParkAndRide ? '/parkAndRide' : ''
-    }/${index}`;
+    )}${subPath}/${index}`;
 
     newLocationState.pathname = pagePath;
     this.context.router.replace(newLocationState);
@@ -1248,7 +1246,7 @@ class ItineraryPage extends React.Component {
       onLater: this.onLater,
       onEarlier: this.onEarlier,
       onDetailsTabFocused: this.onDetailsTabFocused,
-      loadingMoreItineraries: state.loadingMoreItineraries,
+      loadingMore: state.loadingMore,
       settingsNotification,
       routingFeedbackPosition: state.routingFeedbackPosition,
     };

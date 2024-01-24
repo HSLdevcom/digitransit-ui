@@ -16,7 +16,7 @@ import ItineraryList from './ItineraryList/ItineraryList';
 import TimeStore from '../store/TimeStore';
 import PositionStore from '../store/PositionStore';
 import { otpToLocation, getIntermediatePlaces } from '../util/otpStrings';
-import { getSummaryPath } from '../util/path';
+import { getItineraryPagePath } from '../util/path';
 import withBreakpoint from '../util/withBreakpoint';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import { isIOS, isSafari } from '../util/browser';
@@ -55,7 +55,7 @@ class ItineraryListContainer extends React.Component {
     onLater: PropTypes.func.isRequired,
     onEarlier: PropTypes.func.isRequired,
     onDetailsTabFocused: PropTypes.func.isRequired,
-    loadingMoreItineraries: PropTypes.string,
+    loadingMore: PropTypes.string,
     settingsNotification: PropTypes.bool,
     driving: PropTypes.bool,
     routingFeedbackPosition: PropTypes.number,
@@ -69,7 +69,7 @@ class ItineraryListContainer extends React.Component {
     biking: false,
     bikeAndParkItineraryCount: 0,
     showRelaxedPlanNotifier: false,
-    loadingMoreItineraries: undefined,
+    loadingMore: undefined,
     driving: false,
     routingErrors: [],
     separatorPosition: undefined,
@@ -92,7 +92,7 @@ class ItineraryListContainer extends React.Component {
       this.context.router.replace({
         ...this.context.match.location,
         state: { selectedItineraryIndex: index },
-        pathname: `${getSummaryPath(
+        pathname: `${getItineraryPagePath(
           this.props.params.from,
           this.props.params.to,
         )}${subpath}`,
@@ -134,7 +134,7 @@ class ItineraryListContainer extends React.Component {
       ...this.context.match.location,
       state: { selectedItineraryIndex: index },
     };
-    const basePath = `${getSummaryPath(
+    const basePath = `${getItineraryPagePath(
       this.props.params.from,
       this.props.params.to,
     )}${subpath}`;
@@ -220,7 +220,7 @@ class ItineraryListContainer extends React.Component {
       driving,
       showRelaxedPlanNotifier,
       separatorPosition,
-      loadingMoreItineraries,
+      loadingMore,
       routingFeedbackPosition,
     } = this.props;
     const searchTime =
@@ -262,7 +262,7 @@ class ItineraryListContainer extends React.Component {
           driving={driving}
           showRelaxedPlanNotifier={showRelaxedPlanNotifier}
           separatorPosition={separatorPosition}
-          loadingMoreItineraries={loadingMoreItineraries}
+          loadingMore={loadingMore}
           routingFeedbackPosition={routingFeedbackPosition}
         >
           {this.props.children}

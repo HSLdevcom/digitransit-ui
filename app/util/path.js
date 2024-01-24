@@ -87,15 +87,12 @@ export const getNearYouPath = (place, mode) =>
     encodeURIComponent(decodeURIComponent(place)),
   ].join('/');
 
-export const getSummaryPath = (origin, destination) =>
+export const getItineraryPagePath = (origin, destination) =>
   [
     `/${PREFIX_ITINERARY_SUMMARY}`,
     encodeURIComponent(decodeURIComponent(origin)),
     encodeURIComponent(decodeURIComponent(destination)),
   ].join('/');
-
-export const getItineraryPath = (from, to, idx) =>
-  [getSummaryPath(from, to), idx].join('/');
 
 export const isEmpty = s =>
   s === undefined || s === null || s.trim() === '' || s.trim() === '-';
@@ -189,7 +186,7 @@ export const getPathWithEndpointObjects = (origin, destination, rootPath) => {
   const r =
     rootPath === PREFIX_ITINERARY_SUMMARY ||
     isItinerarySearchObjects(origin, destination)
-      ? getSummaryPath(
+      ? getItineraryPagePath(
           addressToItinerarySearch(origin),
           addressToItinerarySearch(destination),
         )
