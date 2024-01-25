@@ -27,9 +27,8 @@ import { getItineraryPagePath } from '../util/path';
 import { boundWithMinimumArea } from '../util/geo-utils';
 import {
   planQuery,
-  moreItinerariesQuery,
+  moreQuery,
   walkAndBikeQuery,
-  allModesQuery,
   viewerQuery,
 } from './ItineraryQueries';
 import {
@@ -39,7 +38,7 @@ import {
   addFeedbackly,
   getTopics,
   getBounds,
-  compareItineraries,
+  isEqualItineraries,
   settingsLimitRouting,
   setCurrentTimeToURL,
   updateClient,
@@ -309,7 +308,7 @@ class ItineraryPage extends React.Component {
       this.props.match.params,
       this.props.match,
     );
-    fetchQuery(this.props.relayEnvironment, allModesQuery, planParams, {
+    fetchQuery(this.props.relayEnvironment, moreQuery, planParams, {
       force: true,
     })
       .toPromise()
@@ -377,7 +376,7 @@ class ItineraryPage extends React.Component {
     this.setState({ loadingMore: reversed ? 'top' : 'bottom' });
     this.showScreenreaderLoadingAlert();
 
-    fetchQuery(this.props.relayEnvironment, moreItinerariesQuery, tunedParams)
+    fetchQuery(this.props.relayEnvironment, moreQuery, tunedParams)
       .toPromise()
       .then(({ plan: result }) => {
         this.showScreenreaderLoadedAlert();
@@ -464,7 +463,7 @@ class ItineraryPage extends React.Component {
     this.setState({ loadingMore: reversed ? 'bottom' : 'top' });
     this.showScreenreaderLoadingAlert();
 
-    fetchQuery(this.props.relayEnvironment, moreItinerariesQuery, tunedParams)
+    fetchQuery(this.props.relayEnvironment, moreQuery, tunedParams)
       .toPromise()
       .then(({ plan: result }) => {
         const newItineraries = transitItineraries(result.itineraries);
@@ -1141,7 +1140,7 @@ class ItineraryPage extends React.Component {
     const settingsNotification =
       !showRelaxedPlanNotifier && // show only on notifier about limitations
       settingsLimitRouting(this.context.config) &&
-      compareItineraries(
+      !isEqualItineraries(
         props.viewer?.plan?.itineraries,
         state.relaxedPlan?.itineraries,
       ) &&
