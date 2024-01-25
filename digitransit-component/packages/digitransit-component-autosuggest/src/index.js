@@ -167,7 +167,6 @@ const getSuggestionValue = suggestion => {
   }
   return getLabel(suggestion.properties);
 };
-
 /**
  * @example
  * const searchContext = {
@@ -953,7 +952,8 @@ class DTAutosuggest extends React.Component {
     const ariaCurrentSuggestion = () => {
       if (this.suggestionAsAriaContent() || this.props.value) {
         return i18next.t('search-current-suggestion', {
-          selection: this.suggestionAsAriaContent() || this.props.value,
+          selection:
+            this.suggestionAsAriaContent().toLowerCase() || this.props.value,
         });
       }
       return '';
