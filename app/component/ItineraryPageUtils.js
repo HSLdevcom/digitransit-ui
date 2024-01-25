@@ -174,31 +174,45 @@ export function getBounds(itineraries, from, to, viaPoints) {
 }
 
 /**
- * Compares the current plans itineraries with the itineraries with default settings, if plan with default settings provides different
- * itineraries, return true
+ * Compare two itinerary lists. If identical, return true
  *
- * @param {*} itineraries
- * @param {*} defaultItineraries
- * @returns boolean indicating weather or not the default settings provide a better plan
+ * @param {*} itineraries1
+ * @param {*} itineraries2
  */
-const legValuesToCompare = ['to', 'from', 'route', 'mode'];
-export function compareItineraries(itineraries, defaultItineraries) {
-  if (!itineraries || !defaultItineraries) {
+const legProperties = [
+  'mode',
+  'from.lat',
+  'from.lon',
+  'to.lat',
+  'to.lon',
+  'from.stop.gtfsId',
+  'to.stop.gtfsId',
+  'trip.gtfsId',
+];
+
+export function isEqualItineraries(itins, itins2) {
+  if (!itins && !itins2) {
+    return true;
+  }
+  if (!itins || !itins2 || itins.length !== itins2.length) {
     return false;
   }
-  for (let i = 0; i < itineraries.length; i++) {
-    for (let j = 0; j < itineraries[i].legs.length; j++) {
+  for (let i = 0; i < itins.length; i++) {
+    if (itins[i].legs.length !== itins2[i].legs.length) {
+      return false;
+    }
+    for (let j = 0; j < itins[i].legs.length; j++) {
       if (
         !isEqual(
-          pick(itineraries?.[i]?.legs?.[j], legValuesToCompare),
-          pick(defaultItineraries?.[i]?.legs?.[j], legValuesToCompare),
+          pick(itins[i].legs[j], legProperties),
+          pick(itins2[i].legs[j], legProperties),
         )
       ) {
-        return true;
+        return false;
       }
     }
   }
-  return false;
+  return true;
 }
 
 export function filterItinerariesByFeedId(plan, config) {
@@ -357,6 +371,8 @@ export function checkDayNight(iconId, timem, lat, lon) {
   return iconId;
 }
 
+const streetLegModes = ['WALK', 'BICYCLE', 'CAR', 'SCOOTER'];
+
 /**
  * Filters away itineraries that don't use transit
  */
@@ -365,14 +381,7 @@ export function transitItineraries(itineraries) {
     return [];
   }
   return itineraries.filter(
-    itinerary =>
-      !itinerary.legs.every(
-        leg =>
-          leg.mode === 'WALK' ||
-          leg.mode === 'BICYCLE' ||
-          leg.mode === 'CAR' ||
-          leg.mode === 'SCOOTER',
-      ),
+    itin => !itin.legs.every(leg => streetLegModes.includes(leg.mode)),
   );
 }
 
