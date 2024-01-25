@@ -119,25 +119,26 @@ export function getTopics(config, itineraries, match) {
         const feedId = leg.trip.gtfsId.split(':')[0];
         let topic;
         if (realTime && feedIds.includes(feedId)) {
+          const routeProps = {
+            route: leg.route.gtfsId.split(':')[1],
+            shortName: leg.route.shortName,
+            type: leg.route.type,
+          };
           if (realTime[feedId]?.useFuzzyTripMatching) {
             topic = {
+              ...routeProps,
               feedId,
-              route: leg.route.gtfsId.split(':')[1],
               mode: leg.mode.toLowerCase(),
               direction: Number(leg.trip.directionId),
-              shortName: leg.route.shortName,
               tripStartTime: getStartTimeWithColon(
                 leg.trip.stoptimesForDate[0].scheduledDeparture,
               ),
-              type: leg.route.type,
             };
           } else if (realTime[feedId]) {
             topic = {
+              ...routeProps,
               feedId,
-              route: leg.route.gtfsId.split(':')[1],
               tripId: leg.trip.gtfsId.split(':')[1],
-              type: leg.route.type,
-              shortName: leg.route.shortName,
             };
           }
         }
