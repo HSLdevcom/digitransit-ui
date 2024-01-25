@@ -103,10 +103,6 @@ export default function withSearchContext(
       }
     }
 
-    storeReference = ref => {
-      this.setState(prevState => ({ refs: [...prevState.refs, ref] }));
-    };
-
     saveOldSearch = (item, type, id) => {
       if (
         item.type !== 'FutureRoute' &&

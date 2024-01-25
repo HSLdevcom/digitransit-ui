@@ -187,7 +187,7 @@ export default function routeRoutes(config) {
                   ) {
                     pattern(id: $patternId) {
                       ...PatternStopsContainer_pattern
-                      @arguments(patternId: $patternId)
+                        @arguments(patternId: $patternId)
                     }
                     route(id: $routeId) {
                       ...PatternStopsContainer_route @arguments(date: $date)
@@ -316,83 +316,83 @@ export default function routeRoutes(config) {
                   }
                   route(id: $routeId) {
                     ...RouteScheduleContainer_route
-                    @arguments(date: $date, serviceDate: $serviceDate)
+                      @arguments(date: $date, serviceDate: $serviceDate)
                   }
                   firstDepartures: pattern(id: $patternId) {
                     ...RouteScheduleContainer_firstDepartures
-                    @arguments(
-                      showTenWeeks: $showTenWeeks
-                      wk1day1: $wk1day1
-                      wk1day2: $wk1day2
-                      wk1day3: $wk1day3
-                      wk1day4: $wk1day4
-                      wk1day5: $wk1day5
-                      wk1day6: $wk1day6
-                      wk1day7: $wk1day7
-                      wk2day1: $wk2day1
-                      wk2day2: $wk2day2
-                      wk2day3: $wk2day3
-                      wk2day4: $wk2day4
-                      wk2day5: $wk2day5
-                      wk2day6: $wk2day6
-                      wk2day7: $wk2day7
-                      wk3day1: $wk3day1
-                      wk3day2: $wk3day2
-                      wk3day3: $wk3day3
-                      wk3day4: $wk3day4
-                      wk3day5: $wk3day5
-                      wk3day6: $wk3day6
-                      wk3day7: $wk3day7
-                      wk4day1: $wk4day1
-                      wk4day2: $wk4day2
-                      wk4day3: $wk4day3
-                      wk4day4: $wk4day4
-                      wk4day5: $wk4day5
-                      wk4day6: $wk4day6
-                      wk4day7: $wk4day7
-                      wk5day1: $wk5day1
-                      wk5day2: $wk5day2
-                      wk5day3: $wk5day3
-                      wk5day4: $wk5day4
-                      wk5day5: $wk5day5
-                      wk5day6: $wk5day6
-                      wk5day7: $wk5day7
-                      wk6day1: $wk6day1
-                      wk6day2: $wk6day2
-                      wk6day3: $wk6day3
-                      wk6day4: $wk6day4
-                      wk6day5: $wk6day5
-                      wk6day6: $wk6day6
-                      wk6day7: $wk6day7
-                      wk7day1: $wk7day1
-                      wk7day2: $wk7day2
-                      wk7day3: $wk7day3
-                      wk7day4: $wk7day4
-                      wk7day5: $wk7day5
-                      wk7day6: $wk7day6
-                      wk7day7: $wk7day7
-                      wk8day1: $wk8day1
-                      wk8day2: $wk8day2
-                      wk8day3: $wk8day3
-                      wk8day4: $wk8day4
-                      wk8day5: $wk8day5
-                      wk8day6: $wk8day6
-                      wk8day7: $wk8day7
-                      wk9day1: $wk9day1
-                      wk9day2: $wk9day2
-                      wk9day3: $wk9day3
-                      wk9day4: $wk9day4
-                      wk9day5: $wk9day5
-                      wk9day6: $wk9day6
-                      wk9day7: $wk9day7
-                      wk10day1: $wk10day1
-                      wk10day2: $wk10day2
-                      wk10day3: $wk10day3
-                      wk10day4: $wk10day4
-                      wk10day5: $wk10day5
-                      wk10day6: $wk10day6
-                      wk10day7: $wk10day7
-                    )
+                      @arguments(
+                        showTenWeeks: $showTenWeeks
+                        wk1day1: $wk1day1
+                        wk1day2: $wk1day2
+                        wk1day3: $wk1day3
+                        wk1day4: $wk1day4
+                        wk1day5: $wk1day5
+                        wk1day6: $wk1day6
+                        wk1day7: $wk1day7
+                        wk2day1: $wk2day1
+                        wk2day2: $wk2day2
+                        wk2day3: $wk2day3
+                        wk2day4: $wk2day4
+                        wk2day5: $wk2day5
+                        wk2day6: $wk2day6
+                        wk2day7: $wk2day7
+                        wk3day1: $wk3day1
+                        wk3day2: $wk3day2
+                        wk3day3: $wk3day3
+                        wk3day4: $wk3day4
+                        wk3day5: $wk3day5
+                        wk3day6: $wk3day6
+                        wk3day7: $wk3day7
+                        wk4day1: $wk4day1
+                        wk4day2: $wk4day2
+                        wk4day3: $wk4day3
+                        wk4day4: $wk4day4
+                        wk4day5: $wk4day5
+                        wk4day6: $wk4day6
+                        wk4day7: $wk4day7
+                        wk5day1: $wk5day1
+                        wk5day2: $wk5day2
+                        wk5day3: $wk5day3
+                        wk5day4: $wk5day4
+                        wk5day5: $wk5day5
+                        wk5day6: $wk5day6
+                        wk5day7: $wk5day7
+                        wk6day1: $wk6day1
+                        wk6day2: $wk6day2
+                        wk6day3: $wk6day3
+                        wk6day4: $wk6day4
+                        wk6day5: $wk6day5
+                        wk6day6: $wk6day6
+                        wk6day7: $wk6day7
+                        wk7day1: $wk7day1
+                        wk7day2: $wk7day2
+                        wk7day3: $wk7day3
+                        wk7day4: $wk7day4
+                        wk7day5: $wk7day5
+                        wk7day6: $wk7day6
+                        wk7day7: $wk7day7
+                        wk8day1: $wk8day1
+                        wk8day2: $wk8day2
+                        wk8day3: $wk8day3
+                        wk8day4: $wk8day4
+                        wk8day5: $wk8day5
+                        wk8day6: $wk8day6
+                        wk8day7: $wk8day7
+                        wk9day1: $wk9day1
+                        wk9day2: $wk9day2
+                        wk9day3: $wk9day3
+                        wk9day4: $wk9day4
+                        wk9day5: $wk9day5
+                        wk9day6: $wk9day6
+                        wk9day7: $wk9day7
+                        wk10day1: $wk10day1
+                        wk10day2: $wk10day2
+                        wk10day3: $wk10day3
+                        wk10day4: $wk10day4
+                        wk10day5: $wk10day5
+                        wk10day6: $wk10day6
+                        wk10day7: $wk10day7
+                      )
                   }
                 }
               `}

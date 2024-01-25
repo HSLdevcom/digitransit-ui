@@ -9,14 +9,14 @@ $gray-blue: #7f929c;
 /* Operator palette */
 $turku-light-yellow: #e8aa27;
 $turku-dark-yellow: #a07415;
-$turku-blue: #45CBCB;
-$turku-dark-blue: #6BA3AF;
-$turku-red: #EA4C58;
+$turku-blue: #45cbcb;
+$turku-dark-blue: #6ba3af;
+$turku-red: #ea4c58;
 $turku-light-gray: #c9ccce;
-$turku-dark: #555555;
+$turku-dark: #555;
 $turku-rail-color: #8c4799;
 $turku-ferry-color: #0064f0;
-$turku-funicular-color: #ff00ff;
+$turku-funicular-color: #f0f;
 
 /* Application palette */
 $primary-color: $turku-light-yellow;
@@ -43,6 +43,7 @@ $bus-color: $turku-light-yellow;
 $rail-color: $turku-rail-color;
 $ferry-color: $turku-ferry-color;
 $funicular-color: $turku-funicular-color;
+
 // $walk-color: $turku-dark-blue;
 
 /* Spinner */

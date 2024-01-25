@@ -63,10 +63,15 @@ Availability.displayName = 'Availability';
 Availability.propTypes = {
   available: PropTypes.number.isRequired,
   total: PropTypes.number.isRequired,
-  fewAvailableCount: PropTypes.number.isRequired,
-  fewerAvailableCount: PropTypes.number.isRequired,
+  fewAvailableCount: PropTypes.number,
+  fewerAvailableCount: PropTypes.number,
   text: PropTypes.node.isRequired,
   showStatusBar: PropTypes.bool.isRequired,
+};
+
+Availability.defaultProps = {
+  fewAvailableCount: undefined,
+  fewerAvailableCount: undefined,
 };
 
 export default Availability;

@@ -14,7 +14,7 @@ describe('retryFetch', () => {
   /* eslint-disable no-unused-vars */
   it('fetching something that does not exist with 5 retries should give Not Found error and 6 requests in total should be made ', done => {
     fetchMock.mock(testUrl, 404);
-    retryFetch(testUrl, {}, 5, 10)
+    retryFetch(testUrl, 5, 10)
       .then(res => res.json())
       .then(
         result => {
@@ -38,7 +38,7 @@ describe('retryFetch', () => {
     let firstDuration;
     const firstStart = performance.now();
     fetchMock.mock(testUrl, 404);
-    retryFetch(testUrl, {}, 2, 20)
+    retryFetch(testUrl, 2, 20)
       .then(res => res.json())
       .then(
         result => {
@@ -56,7 +56,7 @@ describe('retryFetch', () => {
       .then(() => {
         const secondStart = performance.now();
         fetchMock.mock(testUrl, 404);
-        retryFetch(testUrl, {}, 2, 100)
+        retryFetch(testUrl, 2, 100)
           .then(res => res.json())
           .then(
             result => {
@@ -80,7 +80,7 @@ describe('retryFetch', () => {
 
   it('fetch that gives 200 should not be retried', done => {
     fetchMock.get(testUrl, testJSONResponse);
-    retryFetch(testUrl, {}, 5, 10)
+    retryFetch(testUrl, 5, 10)
       .then(res => res.json())
       .then(
         result => {
@@ -100,7 +100,7 @@ describe('retryFetch', () => {
 
   it('fetch that gives 200 should have correct result data', done => {
     fetchMock.get(testUrl, testJSONResponse);
-    retryFetch(testUrl, {}, 5, 10)
+    retryFetch(testUrl, 5, 10)
       .then(res => res.json())
       .then(
         result => {

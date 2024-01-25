@@ -7,10 +7,10 @@ import { matchShape } from 'found';
 import StopNearYouContainer from './StopNearYouContainer';
 import withBreakpoint from '../util/withBreakpoint';
 import { sortNearbyRentalStations, sortNearbyStops } from '../util/sortUtils';
-import CityBikeStopNearYou from './CityBikeStopNearYou';
+import CityBikeStopNearYou from './VehicleRentalStationNearYou';
 import Loading from './Loading';
 import Icon from './Icon';
-import { getDefaultNetworks } from '../util/citybikes';
+import { getDefaultNetworks } from '../util/vehicleRentalUtils';
 
 class StopsNearYouContainer extends React.Component {
   static propTypes = {
@@ -56,9 +56,8 @@ class StopsNearYouContainer extends React.Component {
     };
   }
 
-  static getDerivedStateFromProps = (nextProps, prevState) => {
+  static getDerivedStateFromProps(nextProps, prevState) {
     let newState = null;
-    const terminals = [];
     if (
       !prevState.currentPosition ||
       (!prevState.currentPosition.address &&
@@ -70,36 +69,18 @@ class StopsNearYouContainer extends React.Component {
         currentPosition: nextProps.position,
       };
     }
-    const checkStops = (t, n) => {
-      return n.every(stop => {
-        return (
-          stop.node.place.parentStation &&
-          t.indexOf(stop.node.place.parentStation.name) !== -1
-        );
-      });
-    };
     if (nextProps.stopPatterns) {
       const stopsForFiltering = [...nextProps.stopPatterns.nearest.edges];
       const newestStops = stopsForFiltering.splice(
         stopsForFiltering.length - 5,
       );
-      stopsForFiltering.forEach(stop => {
-        const node = stop.node.place;
-        if (
-          node.parentStation &&
-          terminals.indexOf(node.parentStation.name) === -1
-        ) {
-          terminals.push(node.parentStation.name);
-        }
-      });
       if (
-        (newestStops.every(stop => {
+        newestStops.every(stop => {
           return (
             stop.node.place.stoptimesWithoutPatterns &&
             stop.node.place.stoptimesWithoutPatterns.length === 0
           );
-        }) ||
-          checkStops(terminals, newestStops)) &&
+        }) &&
         prevState.refetches < prevState.maxRefetches
       ) {
         newState = {
@@ -114,7 +95,7 @@ class StopsNearYouContainer extends React.Component {
       }
     }
     return newState;
-  };
+  }
 
   componentDidUpdate(prevProps, prevState) {
     const { position } = prevProps;
@@ -134,12 +115,11 @@ class StopsNearYouContainer extends React.Component {
       prevState.isLoadingmoreStops &&
       !this.state.isLoadingmoreStops
     ) {
-      this.resultsUpdatedAlertRef.current.innerHTML = this.context.intl.formatMessage(
-        {
+      this.resultsUpdatedAlertRef.current.innerHTML =
+        this.context.intl.formatMessage({
           id: 'stop-near-you-update-alert',
           defaultMessage: 'Search results updated',
-        },
-      );
+        });
       setTimeout(() => {
         this.resultsUpdatedAlertRef.current.innerHTML = null;
       }, 100);
@@ -199,16 +179,15 @@ class StopsNearYouContainer extends React.Component {
     const walkRoutingThreshold =
       mode === 'RAIL' || mode === 'SUBWAY' || mode === 'FERRY' ? 3000 : 1500;
     const stopPatterns = this.props.stopPatterns.nearest.edges;
-    const terminalNames = [];
     const isCityBikeView = this.props.match.params.mode === 'CITYBIKE';
     let sortedPatterns;
     if (isCityBikeView) {
       const withNetworks = stopPatterns.filter(pattern => {
-        return !!pattern.node.place?.networks;
+        return !!pattern.node.place?.network;
       });
       const filteredCityBikeStopPatterns = withNetworks.filter(pattern => {
-        return pattern.node.place?.networks.every(network =>
-          getDefaultNetworks(this.context.config).includes(network),
+        return getDefaultNetworks(this.context.config).includes(
+          pattern.node.place?.network,
         );
       });
       sortedPatterns = filteredCityBikeStopPatterns
@@ -232,31 +211,17 @@ class StopsNearYouContainer extends React.Component {
             stop.stoptimesWithoutPatterns.length > 0
           ) {
             if (!this.props.prioritizedStops?.includes(stop.gtfsId)) {
-              if (stop.parentStation) {
-                if (terminalNames.indexOf(stop.parentStation.name) === -1) {
-                  terminalNames.push(stop.parentStation.name);
-                  return (
-                    <StopNearYouContainer
-                      key={`${stop.gtfsId}`}
-                      stop={stop}
-                      currentMode={this.props.match.params.mode}
-                      stopIsStation
-                    />
-                  );
-                }
-              } else {
-                return (
-                  <StopNearYouContainer
-                    key={`${stop.gtfsId}`}
-                    stop={stop}
-                    currentMode={this.props.match.params.mode}
-                  />
-                );
-              }
+              return (
+                <StopNearYouContainer
+                  key={`${stop.gtfsId}`}
+                  stop={stop}
+                  currentMode={this.props.match.params.mode}
+                />
+              );
             }
           }
           break;
-        case 'BikeRentalStation':
+        case 'VehicleRentalStation':
           return (
             <CityBikeStopNearYou
               key={`${stop.stationId}`}
@@ -347,7 +312,7 @@ const connectedContainer = connectToStores(
       match.params.mode === 'CITYBIKE'
         ? new Set(
             getStore('FavouriteStore')
-              .getBikeRentalStations()
+              .getVehicleRentalStations()
               .map(station => station.stationId),
           )
         : new Set(
@@ -394,17 +359,17 @@ const refetchContainer = createPaginationContainer(
               distance
               place {
                 __typename
-                ... on BikeRentalStation {
-                  ...CityBikeStopNearYou_stop
+                ... on VehicleRentalStation {
+                  ...VehicleRentalStationNearYou_stop
                   stationId
-                  networks
+                  network
                 }
                 ... on Stop {
                   ...StopNearYouContainer_stop
-                  @arguments(
-                    startTime: $startTime
-                    omitNonPickups: $omitNonPickups
-                  )
+                    @arguments(
+                      startTime: $startTime
+                      omitNonPickups: $omitNonPickups
+                    )
                   id
                   name
                   gtfsId
@@ -413,9 +378,6 @@ const refetchContainer = createPaginationContainer(
                     omitNonPickups: $omitNonPickups
                   ) {
                     scheduledArrival
-                  }
-                  parentStation {
-                    name
                   }
                 }
               }
@@ -458,18 +420,18 @@ const refetchContainer = createPaginationContainer(
       ) {
         viewer {
           ...StopsNearYouContainer_stopPatterns
-          @arguments(
-            startTime: $startTime
-            omitNonPickups: $omitNonPickups
-            lat: $lat
-            lon: $lon
-            filterByPlaceTypes: $filterByPlaceTypes
-            filterByModes: $filterByModes
-            first: $first
-            after: $after
-            maxResults: $maxResults
-            maxDistance: $maxDistance
-          )
+            @arguments(
+              startTime: $startTime
+              omitNonPickups: $omitNonPickups
+              lat: $lat
+              lon: $lon
+              filterByPlaceTypes: $filterByPlaceTypes
+              filterByModes: $filterByModes
+              first: $first
+              after: $after
+              maxResults: $maxResults
+              maxDistance: $maxDistance
+            )
         }
       }
     `,

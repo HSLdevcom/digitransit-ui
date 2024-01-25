@@ -1,6 +1,6 @@
 /* eslint-disable prefer-template */
 import configMerger from '../util/configMerger';
-import { BIKEAVL_WITHMAX } from '../util/citybikes';
+import { BIKEAVL_WITHMAX } from '../util/vehicleRentalUtils';
 
 const CONFIG = 'kouvola';
 const APP_TITLE = 'Kouvolan reittiopas';
@@ -114,7 +114,7 @@ export default configMerger(walttiConfig, {
 
   vehicles: true,
   showVehiclesOnStopPage: true,
-  showVehiclesOnSummaryPage: true,
+  showVehiclesOnItineraryPage: true,
 
   menu: {
     copyright: { label: `© Kouvola ${walttiConfig.YEAR}` },
@@ -122,12 +122,9 @@ export default configMerger(walttiConfig, {
       {
         name: 'menu-feedback',
         href: {
-          fi:
-            'https://kartta.kouvola.fi/eFeedback/fi/Feedback/34-Joukkoliikenne',
-          sv:
-            'https://kartta.kouvola.fi/eFeedback/fi/Feedback/34-Joukkoliikenne',
-          en:
-            'https://kartta.kouvola.fi/eFeedback/en/Feedback/34-Joukkoliikenne',
+          fi: 'https://kartta.kouvola.fi/eFeedback/fi/Feedback/34-Joukkoliikenne',
+          sv: 'https://kartta.kouvola.fi/eFeedback/fi/Feedback/34-Joukkoliikenne',
+          en: 'https://kartta.kouvola.fi/eFeedback/en/Feedback/34-Joukkoliikenne',
         },
       },
       {

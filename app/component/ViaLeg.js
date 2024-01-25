@@ -56,7 +56,7 @@ function ViaLeg(props, { config, intl }) {
           defaultMessage="{arrivalTime} saavu välipisteeseen {viaPoint}. {leaveAction}"
           values={{
             arrivalTime: moment(props.arrivalTime).format('HH:mm'),
-            viaPoint: <>{props.leg.from.name}</>,
+            viaPoint: props.leg.from.name,
             leaveAction: (
               <FormattedMessage
                 id={

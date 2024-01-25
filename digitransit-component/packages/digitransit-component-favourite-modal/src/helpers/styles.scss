@@ -4,9 +4,7 @@
 
 $favourite-icon-column-border-color: #d9d9d9;
 $favourite-icon-border-radius: 5px;
-
 $selected-icon-font-color: #fff;
-
 $selected-icon-background-color: #333;
 $not-selected-icon-background-color: #fff;
 
@@ -14,7 +12,7 @@ $not-selected-icon-background-color: #fff;
   display: flex;
 }
 
-.generic-table__label-container{
+.generic-table__label-container {
   font-size: 0.8rem;
   margin-top: 3px;
   color: #666;
@@ -47,20 +45,28 @@ $not-selected-icon-background-color: #fff;
       height: 24px;
     }
   }
+
   &.work {
     svg {
       width: 20px;
       height: 20px;
     }
   }
-  &.home, &.school, &.sport, &.shopping {
+
+  &.home,
+  &.school,
+  &.sport,
+  &.shopping {
     svg {
       width: 18px;
       height: 18px;
     }
   }
 
-  &:active, &:hover, &:focus, .selected-icon {
+  &:active,
+  &:hover,
+  &:focus,
+  .selected-icon {
     background: $selected-icon-background-color;
     color: $selected-icon-font-color;
   }

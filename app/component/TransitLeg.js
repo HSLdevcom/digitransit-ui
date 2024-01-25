@@ -41,26 +41,30 @@ import AlternativeLegsInfo from './AlternativeLegsInfo';
 import LegInfo from './LegInfo';
 import ExternalLink from './ExternalLink';
 
+const stopCode = code => code && <StopCode code={code} />;
+
+/**
+ * Some next legs might be for example 24h in the future which seems confusing.
+ * Only show alternatives that are less than 12h in the future.
+ */
+const filterNextLegs = leg => {
+  if (!leg.nextLegs) {
+    return [];
+  }
+  return leg.nextLegs.filter(
+    nextLeg =>
+      moment(nextLeg.startTime).diff(moment(leg.startTime), 'hours') < 12,
+  );
+};
+
 class TransitLeg extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       showIntermediateStops: props.leg.intermediatePlaces.length < 2,
+      showAlternativeLegs: false,
     };
   }
-
-  // Some next legs might be for example 24h in the future which seems confusing. Only show alternatives that are less than 12h in the future.
-  filterNextLegs = leg => {
-    if (!leg.nextLegs) {
-      return [];
-    }
-    return leg.nextLegs.filter(
-      nextLeg =>
-        moment(nextLeg.startTime).diff(moment(leg.startTime), 'hours') < 12,
-    );
-  };
-
-  stopCode = stopCode => stopCode && <StopCode code={stopCode} />;
 
   isRouteConstantOperation = () =>
     this.context.config.constantOperationRoutes &&
@@ -68,7 +72,7 @@ class TransitLeg extends React.Component {
 
   displayAlternativeLegs = () =>
     !!this.context.config.showAlternativeLegs &&
-    this.filterNextLegs(this.props.leg).length > 0 &&
+    filterNextLegs(this.props.leg).length > 0 &&
     !this.isRouteConstantOperation();
 
   toggleShowIntermediateStops = () => {
@@ -248,7 +252,7 @@ class TransitLeg extends React.Component {
       <FormattedMessage
         id="itinerary-details.transit-leg-part-2"
         values={{
-          vehicle: <>{children}</>,
+          vehicle: children,
           startStop: leg.from.name,
           startZoneInfo: intl.formatMessage(
             { id: 'zone-info' },
@@ -304,7 +308,7 @@ class TransitLeg extends React.Component {
     // length doesn't fit in the tab view
     const hasNoShortName =
       leg.route.shortName &&
-      new RegExp(/^([^0-9]*)$/).test(leg.route.shortName) &&
+      /^([^0-9]*)$/.test(leg.route.shortName) &&
       leg.route.shortName.length > 3;
 
     const headsign =
@@ -330,7 +334,7 @@ class TransitLeg extends React.Component {
         const notification = config.routeNotifications[i];
         if (notification.showForRoute(leg.route)) {
           routeNotifications.push(
-            <div className="disruption">
+            <div className="disruption" key={`note-${i}`}>
               <a
                 href={`https://www.${notification.link[lang]}`}
                 className="disruption-link"
@@ -435,7 +439,7 @@ class TransitLeg extends React.Component {
                 )}
               />
               <div className="stop-code-container">
-                {this.stopCode(leg.from.stop && leg.from.stop.code)}
+                {stopCode(leg.from.stop && leg.from.stop.code)}
                 <PlatformNumber
                   number={leg.from.stop.platformCode}
                   short
@@ -480,7 +484,7 @@ class TransitLeg extends React.Component {
             ))}
           {this.displayAlternativeLegs() && (
             <AlternativeLegsInfo
-              legs={this.filterNextLegs(leg)}
+              legs={filterNextLegs(leg)}
               showAlternativeLegs={this.state.showAlternativeLegs}
               toggle={() =>
                 this.setState(prevState => ({
@@ -594,7 +598,7 @@ class TransitLeg extends React.Component {
               </div>
             ))}
         </div>
-        <span className="sr-only">{alertSeverityDescription}</span>;
+        <span className="sr-only">{alertSeverityDescription}</span>
       </div>
     );
   };

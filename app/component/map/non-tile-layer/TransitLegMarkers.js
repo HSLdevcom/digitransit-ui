@@ -14,6 +14,105 @@ const offsetArrow = { x: 55, y: 15 };
 const offsetSpeechBubble = { x: 15, y: 40 };
 const minDistanceToShow = 64;
 
+const doMarkersOverlap = (proposedPosition, existingPositions) => {
+  const l1 = proposedPosition.topLeft;
+  const r1 = proposedPosition.bottomRight;
+  for (let i = 0; i < existingPositions.length; i++) {
+    const markerPosition = existingPositions[i];
+    const l2 = markerPosition.topLeft;
+    const r2 = markerPosition.bottomRight;
+    // On the left
+    if (l1.x > r2.x || l2.x > r1.x) {
+      // eslint-disable-next-line no-continue
+      continue;
+    }
+    // Above
+    if (r1.y < l2.y || r2.y < l1.y) {
+      // eslint-disable-next-line no-continue
+      continue;
+    }
+    return true;
+  }
+  return false;
+};
+
+const getArrowMarkerStyle = (leg, pixelPositions) => {
+  // Initial style is bottomLeft, try that
+  const proposedPosition = {
+    topLeft: leg.topLeft,
+    bottomRight: leg.bottomRight,
+    width: leg.width,
+    height: leg.height,
+  };
+  // The area used to calculate overlaps excludes the arrow part for simplicity. This offset x and y are caused by the area that the arrow takes
+  const arrowOffset = { x: 10, y: 12 };
+  if (pixelPositions.length === 0) {
+    return { style: 'bottomLeft', pixelPosition: proposedPosition };
+  }
+  let overlap = doMarkersOverlap(proposedPosition, pixelPositions);
+  if (!overlap) {
+    return { style: 'bottomLeft', pixelPosition: proposedPosition };
+  }
+  proposedPosition.topLeft.x =
+    proposedPosition.topLeft.x + proposedPosition.width + 2 * arrowOffset.x;
+  proposedPosition.bottomRight.x =
+    proposedPosition.bottomRight.x + proposedPosition.width + 2 * arrowOffset.x;
+  overlap = doMarkersOverlap(proposedPosition, pixelPositions);
+  if (!overlap) {
+    return { style: 'bottomRight', pixelPosition: proposedPosition };
+  }
+  proposedPosition.topLeft.y =
+    proposedPosition.topLeft.y - proposedPosition.height - 2 * arrowOffset.y;
+  proposedPosition.bottomRight.y =
+    proposedPosition.bottomRight.y -
+    proposedPosition.height -
+    2 * arrowOffset.y;
+  overlap = doMarkersOverlap(proposedPosition, pixelPositions);
+  if (!overlap) {
+    return { style: 'topRight', pixelPosition: proposedPosition };
+  }
+  proposedPosition.topLeft.x =
+    proposedPosition.topLeft.x - proposedPosition.width - 2 * arrowOffset.x;
+  proposedPosition.bottomRight.x =
+    proposedPosition.bottomRight.x - proposedPosition.width - 2 * arrowOffset.x;
+  // If at this point an overlap happens, we just have to settle
+  return { style: 'topLeft', pixelPosition: proposedPosition };
+};
+
+const getSpeechBubbleStyle = (position, pixelPositions) => {
+  const proposedPosition = { ...position };
+  let overlap = doMarkersOverlap(proposedPosition, pixelPositions);
+  // The area used to calculate overlaps excludes the arrow part for simplicity. This offset x and y are caused by the area that the arrow takes
+  const arrowOffset = { x: 13, y: 10 };
+  if (!overlap) {
+    return { style: 'topRight', position: proposedPosition };
+  }
+  proposedPosition.topLeft.x =
+    proposedPosition.topLeft.x - proposedPosition.width - 2 * arrowOffset.x;
+  proposedPosition.bottomRight.x =
+    proposedPosition.bottomRight.x - proposedPosition.width - 2 * arrowOffset.x;
+  overlap = doMarkersOverlap(proposedPosition, pixelPositions);
+  if (!overlap) {
+    return { style: 'topLeft', position: proposedPosition };
+  }
+  proposedPosition.topLeft.y =
+    proposedPosition.topLeft.y + proposedPosition.height + 2 * arrowOffset.y;
+  proposedPosition.bottomRight.y =
+    proposedPosition.bottomRight.y +
+    proposedPosition.height +
+    2 * arrowOffset.y;
+  overlap = doMarkersOverlap(proposedPosition, pixelPositions);
+  if (!overlap) {
+    return { style: 'bottomLeft', position: proposedPosition };
+  }
+  proposedPosition.topLeft.x =
+    proposedPosition.topLeft.x + proposedPosition.width + 2 * arrowOffset.x;
+  proposedPosition.bottomRight.x =
+    proposedPosition.bottomRight.x + proposedPosition.width + 2 * arrowOffset.x;
+  // Settle for this even if overlap happens
+  return { style: 'bottomRight', position: proposedPosition };
+};
+
 class TransitLegMarkers extends React.Component {
   static propTypes = {
     transitLegs: PropTypes.array.isRequired,
@@ -67,53 +166,6 @@ class TransitLegMarkers extends React.Component {
     return truePixelPosition;
   }
 
-  getArrowMarkerStyle(leg, pixelPositions) {
-    // Initial style is bottomLeft, try that
-    const proposedPosition = {
-      topLeft: leg.topLeft,
-      bottomRight: leg.bottomRight,
-      width: leg.width,
-      height: leg.height,
-    };
-    // The area used to calculate overlaps excludes the arrow part for simplicity. This offset x and y are caused by the area that the arrow takes
-    const arrowOffset = { x: 10, y: 12 };
-    if (pixelPositions.length === 0) {
-      return { style: 'bottomLeft', pixelPosition: proposedPosition };
-    }
-    let overlap = this.doMarkersOverlap(proposedPosition, pixelPositions);
-    if (!overlap) {
-      return { style: 'bottomLeft', pixelPosition: proposedPosition };
-    }
-    proposedPosition.topLeft.x =
-      proposedPosition.topLeft.x + proposedPosition.width + 2 * arrowOffset.x;
-    proposedPosition.bottomRight.x =
-      proposedPosition.bottomRight.x +
-      proposedPosition.width +
-      2 * arrowOffset.x;
-    overlap = this.doMarkersOverlap(proposedPosition, pixelPositions);
-    if (!overlap) {
-      return { style: 'bottomRight', pixelPosition: proposedPosition };
-    }
-    proposedPosition.topLeft.y =
-      proposedPosition.topLeft.y - proposedPosition.height - 2 * arrowOffset.y;
-    proposedPosition.bottomRight.y =
-      proposedPosition.bottomRight.y -
-      proposedPosition.height -
-      2 * arrowOffset.y;
-    overlap = this.doMarkersOverlap(proposedPosition, pixelPositions);
-    if (!overlap) {
-      return { style: 'topRight', pixelPosition: proposedPosition };
-    }
-    proposedPosition.topLeft.x =
-      proposedPosition.topLeft.x - proposedPosition.width - 2 * arrowOffset.x;
-    proposedPosition.bottomRight.x =
-      proposedPosition.bottomRight.x -
-      proposedPosition.width -
-      2 * arrowOffset.x;
-    // If at this point an overlap happens, we just have to settle
-    return { style: 'topLeft', pixelPosition: proposedPosition };
-  }
-
   getSpeechbubblePixelPosition({ lat, lon }) {
     const { map } = this.props.leaflet;
     const leafletPixelPosition = {
@@ -142,66 +194,6 @@ class TransitLegMarkers extends React.Component {
     return truePixelPosition;
   }
 
-  getSpeechBubbleStyle(position, pixelPositions) {
-    const proposedPosition = { ...position };
-    let overlap = this.doMarkersOverlap(proposedPosition, pixelPositions);
-    // The area used to calculate overlaps excludes the arrow part for simplicity. This offset x and y are caused by the area that the arrow takes
-    const arrowOffset = { x: 13, y: 10 };
-    if (!overlap) {
-      return { style: 'topRight', position: proposedPosition };
-    }
-    proposedPosition.topLeft.x =
-      proposedPosition.topLeft.x - proposedPosition.width - 2 * arrowOffset.x;
-    proposedPosition.bottomRight.x =
-      proposedPosition.bottomRight.x -
-      proposedPosition.width -
-      2 * arrowOffset.x;
-    overlap = this.doMarkersOverlap(proposedPosition, pixelPositions);
-    if (!overlap) {
-      return { style: 'topLeft', position: proposedPosition };
-    }
-    proposedPosition.topLeft.y =
-      proposedPosition.topLeft.y + proposedPosition.height + 2 * arrowOffset.y;
-    proposedPosition.bottomRight.y =
-      proposedPosition.bottomRight.y +
-      proposedPosition.height +
-      2 * arrowOffset.y;
-    overlap = this.doMarkersOverlap(proposedPosition, pixelPositions);
-    if (!overlap) {
-      return { style: 'bottomLeft', position: proposedPosition };
-    }
-    proposedPosition.topLeft.x =
-      proposedPosition.topLeft.x + proposedPosition.width + 2 * arrowOffset.x;
-    proposedPosition.bottomRight.x =
-      proposedPosition.bottomRight.x +
-      proposedPosition.width +
-      2 * arrowOffset.x;
-    // Settle for this even if overlap happens
-    return { style: 'bottomRight', position: proposedPosition };
-  }
-
-  doMarkersOverlap = (proposedPosition, existingPositions) => {
-    const l1 = proposedPosition.topLeft;
-    const r1 = proposedPosition.bottomRight;
-    for (let i = 0; i < existingPositions.length; i++) {
-      const markerPosition = existingPositions[i];
-      const l2 = markerPosition.topLeft;
-      const r2 = markerPosition.bottomRight;
-      // On the left
-      if (l1.x > r2.x || l2.x > r1.x) {
-        // eslint-disable-next-line no-continue
-        continue;
-      }
-      // Above
-      if (r1.y < l2.y || r2.y < l1.y) {
-        // eslint-disable-next-line no-continue
-        continue;
-      }
-      return true;
-    }
-    return false;
-  };
-
   getSpeechBubbleText(leg, nextLeg) {
     let duration = '';
     const transferStart = leg.endTime;
@@ -219,9 +211,9 @@ class TransitLegMarkers extends React.Component {
     this.props.leaflet.map.on('zoomend', this.onMapZoom);
   }
 
-  componentWillUnmount = () => {
+  componentWillUnmount() {
     this.props.leaflet.map.off('zoomend', this.onMapZoom);
-  };
+  }
 
   onMapZoom = () => {
     this.forceUpdate();
@@ -275,7 +267,7 @@ class TransitLegMarkers extends React.Component {
     const arrowLegs = legsWithPositions.filter(leg => leg.type === 'arrow');
     arrowLegs.forEach(leg => {
       // Find style that doesn't cause the marker to overlap with anything
-      const styleAndPosition = this.getArrowMarkerStyle(leg, pixelPositions);
+      const styleAndPosition = getArrowMarkerStyle(leg, pixelPositions);
       objs.push(
         <LegMarker
           key={`${leg.index},${leg.mode}legmarker`}
@@ -310,7 +302,7 @@ class TransitLegMarkers extends React.Component {
       const speechBubblePixelPosition = this.getSpeechbubblePixelPosition(
         leg.to,
       );
-      const styleAndPosition = this.getSpeechBubbleStyle(
+      const styleAndPosition = getSpeechBubbleStyle(
         speechBubblePixelPosition,
         pixelPositions,
       );

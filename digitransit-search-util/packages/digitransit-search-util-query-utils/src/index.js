@@ -66,9 +66,9 @@ const alertsQuery = graphql`
   }
 `;
 
-const searchBikeRentalStationsQuery = graphql`
-  query srcSearchBikeRentalStationsQuery {
-    bikeRentalStations {
+const searchVehicleRentalStationsQuery = graphql`
+  query srcSearchVehicleRentalStationsQuery {
+    vehicleRentalStations {
       name
       stationId
       lon
@@ -141,9 +141,9 @@ const favouriteRoutesQuery = graphql`
   }
 `;
 
-const favouriteBikeRentalQuery = graphql`
-  query srcFavouriteBikeRentalStationsQuery($ids: [String!]!) {
-    bikeRentalStations(ids: $ids) {
+const favouriteVehicleRentalQuery = graphql`
+  query srcFavouriteVehicleRentalStationsQuery($ids: [String!]!) {
+    vehicleRentalStations(ids: $ids) {
       name
       stationId
       lat
@@ -260,8 +260,7 @@ export function getStopAndStationsQuery(favourites) {
         // eslint-disable-next-line no-param-reassign
         map[stopOrStation.gtfsId] = stopOrStation;
         return map;
-      },
-      {});
+      }, {});
       return verify(stopStationMap, favourites).map(stop => {
         const favourite = {
           type: 'FavouriteStop',
@@ -279,13 +278,13 @@ export function getStopAndStationsQuery(favourites) {
     });
 }
 
-export function getAllBikeRentalStations() {
+export function getAllVehicleRentalStations() {
   if (!relayEnvironment) {
     return Promise.resolve([]);
   }
   return fetchQuery(
     relayEnvironment,
-    searchBikeRentalStationsQuery,
+    searchVehicleRentalStationsQuery,
   ).toPromise();
 }
 
@@ -416,11 +415,11 @@ export function getFavouriteRoutesQuery(
     );
 }
 /**
- * Returns Favourite BikeRentalStation objects depending on input
+ * Returns Favourite VehicleRentalStation objects depending on input
  * @param {String} input Search text, if empty no objects are returned
  * @param {*} favourites
  */
-export function getFavouriteBikeRentalStationsQuery(favourites, input) {
+export function getFavouriteVehicleRentalStationsQuery(favourites, input) {
   if (
     !relayEnvironment ||
     !Array.isArray(favourites) ||
@@ -429,11 +428,11 @@ export function getFavouriteBikeRentalStationsQuery(favourites, input) {
     return Promise.resolve([]);
   }
   const favouriteIds = favourites.map(station => station.stationId);
-  return fetchQuery(relayEnvironment, favouriteBikeRentalQuery, {
+  return fetchQuery(relayEnvironment, favouriteVehicleRentalQuery, {
     ids: favouriteIds,
   })
     .toPromise()
-    .then(data => data.bikeRentalStations)
+    .then(data => data.vehicleRentalStations)
     .then(stations => stations.filter(station => !!station))
     .then(stations =>
       stations.map(favourite => ({
@@ -443,9 +442,9 @@ export function getFavouriteBikeRentalStationsQuery(favourites, input) {
         properties: {
           name: favourite.name,
           labelId: favourite.stationId,
-          layer: 'favouriteBikeRentalStation',
+          layer: 'favouriteVehicleRentalStation',
         },
-        type: 'FavouriteBikeRentalStation',
+        type: 'FavouriteVehicleRentalStation',
       })),
     )
     .then(stations =>

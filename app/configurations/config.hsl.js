@@ -1,5 +1,5 @@
 /* eslint-disable prefer-template */
-import { BIKEAVL_WITHMAX } from '../util/citybikes';
+import { BIKEAVL_WITHMAX } from '../util/vehicleRentalUtils';
 
 const CONFIG = 'hsl';
 const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
@@ -15,6 +15,9 @@ const HSLParkAndRideUtils = require('../util/ParkAndRideUtils').default.HSL;
 const rootLink = process.env.ROOTLINK || 'https://test.hslfi.hsldev.com';
 const BANNER_URL = 'https://content.hsl.fi/api/v1/banners?site=JourneyPlanner';
 // 'https://test-api.hslfi.hsldev.com/api/v1/banners?site=JourneyPlanner';
+
+const localStorageEmitter =
+  process.env.USE_EMITTER && rootLink + '/local-storage-emitter';
 
 export default {
   CONFIG,
@@ -198,10 +201,7 @@ export default {
 
   search: {
     /* identify searches for route numbers/labels: bus | train | metro */
-    lineRegexp: new RegExp(
-      '(^[0-9]+[a-z]?$|^[yuleapinkrtdz]$|(^m[12]?b?$))',
-      'i',
-    ),
+    lineRegexp: /(^[0-9]+[a-z]?$|^[yuleapinkrtdz]$|(^m[12]?b?$))/i,
   },
 
   // modes that should not coexist with BICYCLE mode
@@ -426,8 +426,7 @@ export default {
     sv: 'att-resa/Trafiken-just-nu',
   },
 
-  localStorageEmitter: rootLink + '/local-storage-emitter',
-  localStorageTarget: rootLink,
+  localStorageEmitter,
 
   cityBike: {
     minZoomStopsNearYou: 10,
@@ -452,8 +451,7 @@ export default {
         type: 'citybike',
         returnInstructions: {
           fi: 'https://www.hsl.fi/kaupunkipyorat/helsinki/kayttoohje#palauta',
-          sv:
-            'https://www.hsl.fi/sv/stadscyklar/helsingfors/anvisningar#aterlamna',
+          sv: 'https://www.hsl.fi/sv/stadscyklar/helsingfors/anvisningar#aterlamna',
           en: 'https://www.hsl.fi/en/citybikes/helsinki/instructions#return',
         },
         // Shown if citybike leg duration exceeds timeBeforeSurcharge
@@ -493,17 +491,14 @@ export default {
       },
     },
     buyUrl: {
-      fi:
-        'https://www.hsl.fi/kaupunkipyorat?utm_campaign=kaupunkipyorat-omat&utm_source=reittiopas&utm_medium=referral#block-28474',
-      sv:
-        'https://www.hsl.fi/sv/stadscyklar?utm_campaign=kaupunkipyorat-omat&utm_source=reittiopas&utm_medium=referral#block-28474',
-      en:
-        'https://www.hsl.fi/en/citybikes?utm_campaign=kaupunkipyorat-omat&utm_source=reittiopas&utm_medium=referral#block-28474',
+      fi: 'https://www.hsl.fi/kaupunkipyorat?utm_campaign=kaupunkipyorat-omat&utm_source=reittiopas&utm_medium=referral#block-28474',
+      sv: 'https://www.hsl.fi/sv/stadscyklar?utm_campaign=kaupunkipyorat-omat&utm_source=reittiopas&utm_medium=referral#block-28474',
+      en: 'https://www.hsl.fi/en/citybikes?utm_campaign=kaupunkipyorat-omat&utm_source=reittiopas&utm_medium=referral#block-28474',
     },
   },
 
   // DT-3611
-  showVehiclesOnSummaryPage: true,
+  showVehiclesOnItineraryPage: true,
   showBikeAndPublicItineraries: true,
   showBikeAndParkItineraries: true,
 
@@ -695,12 +690,9 @@ export default {
       sv: 'Reseplanerare-element',
     },
     infoText: {
-      fi:
-        'Luo Reittiopas-elementti ja lisää se omaan palveluusi. Hakukomponentin Hae reitti -painikkeesta siirrytään Reittioppaaseen.',
-      en:
-        'Create your own Journey Planner component and add it to your own service. The search button of the component will redirect to the Journey Planner',
-      sv:
-        'Skapa din egen Reseplanerare-element och lägg den till din webbtjänst. Sökknappen i element omdirigerar till Reseplaneraren.',
+      fi: 'Luo Reittiopas-elementti ja lisää se omaan palveluusi. Hakukomponentin Hae reitti -painikkeesta siirrytään Reittioppaaseen.',
+      en: 'Create your own Journey Planner component and add it to your own service. The search button of the component will redirect to the Journey Planner',
+      sv: 'Skapa din egen Reseplanerare-element och lägg den till din webbtjänst. Sökknappen i element omdirigerar till Reseplaneraren.',
     },
     cookieLink: {
       fi: {

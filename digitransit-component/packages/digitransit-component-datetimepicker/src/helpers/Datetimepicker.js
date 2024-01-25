@@ -162,35 +162,17 @@ function Datetimepicker({
     return moment(time).format('HH:mm');
   };
 
-  const validateTime = (inputValue, currentTimestamp) => {
-    const trimmed = inputValue.trim();
-    if (trimmed.match(/^[0-9]{1,2}(\.|:)[0-9]{2}$/) !== null) {
-      const splitter = trimmed.includes('.') ? '.' : ':';
-      const values = trimmed.split(splitter);
-      const hours = Number(values[0]);
-      const hoursValid = !Number.isNaN(hours) && hours >= 0 && hours <= 23;
-      const minutes = Number(values[1]);
-      const minutesValid =
-        !Number.isNaN(minutes) && minutes >= 0 && minutes <= 59;
-      if (!minutesValid || !hoursValid) {
-        return null;
-      }
-      const newStamp = moment(currentTimestamp)
-        .hours(hours)
-        .minutes(minutes)
-        .valueOf();
-      return newStamp;
-    }
-    return null;
-  };
-
   const selectedMoment = moment(displayTimestamp);
   const timeSelectStartTime = moment(displayTimestamp).startOf('day').valueOf();
   let timeChoices = [];
   const current = moment(timeSelectStartTime);
   while (current.isSame(timeSelectStartTime, 'day')) {
     timeChoices.push(current.valueOf());
-    current.add(15, 'minutes');
+    if (isMobile()) {
+      current.add(15, 'minutes');
+    } else {
+      current.add(1, 'minutes');
+    }
   }
   if (timestamp === null) {
     // if time is set to now
@@ -271,7 +253,6 @@ function Datetimepicker({
             getDateDisplay={getDateDisplay}
             dateSelectItemCount={serviceTimeRange}
             getDisplay={getTimeDisplay}
-            validateTime={validateTime}
             fontWeights={fontWeights}
           />
         )
@@ -388,51 +369,50 @@ function Datetimepicker({
                 : `${styles.hidden} datetimepicker-top-row`
             }
           >
-            <>
-              <span className={styles['combobox-left']}>
-                <DesktopDatetimepicker
-                  value={displayTimestamp}
-                  onChange={newValue => {
-                    onDateChange(newValue);
-                  }}
-                  getDisplay={getDateDisplay}
-                  timeChoices={dateChoices}
-                  validate={() => null}
-                  icon={
-                    <span
-                      className={`${styles['combobox-icon']} ${styles['date-input-icon']}`}
-                    >
-                      <Icon img="calendar" color={color} />
-                    </span>
-                  }
-                  id={`${htmlId}-date`}
-                  label={i18next.t('date', translationSettings)}
-                  disableTyping
-                  timeZone={timeZone}
-                />
-              </span>
-              <span className={styles['combobox-right']}>
-                <DesktopDatetimepicker
-                  value={displayTimestamp}
-                  onChange={newValue => {
-                    onTimeChange(newValue);
-                  }}
-                  getDisplay={getTimeDisplay}
-                  timeChoices={timeChoices}
-                  validate={validateTime}
-                  icon={
-                    <span
-                      className={`${styles['combobox-icon']} ${styles['time-input-icon']}`}
-                    >
-                      <Icon img="time" color={color} />
-                    </span>
-                  }
-                  id={`${htmlId}-time`}
-                  label={i18next.t('time', translationSettings)}
-                  timeZone={timeZone}
-                />
-              </span>
-            </>
+            <span className={styles['combobox-left']}>
+              <DesktopDatetimepicker
+                value={displayTimestamp}
+                onChange={newValue => {
+                  onDateChange(newValue);
+                }}
+                getDisplay={getDateDisplay}
+                timeChoices={dateChoices}
+                validate={() => null}
+                icon={
+                  <span
+                    className={`${styles['combobox-icon']} ${styles['date-input-icon']}`}
+                  >
+                    <Icon img="calendar" color={color} />
+                  </span>
+                }
+                id={`${htmlId}-date`}
+                label={i18next.t('date', translationSettings)}
+                disableTyping
+                timeZone={timeZone}
+                datePicker
+              />
+            </span>
+            <span className={styles['combobox-right']}>
+              <DesktopDatetimepicker
+                value={displayTimestamp}
+                onChange={newValue => {
+                  onTimeChange(newValue);
+                }}
+                getDisplay={getTimeDisplay}
+                timeChoices={timeChoices}
+                icon={
+                  <span
+                    className={`${styles['combobox-icon']} ${styles['time-input-icon']}`}
+                  >
+                    <Icon img="time" color={color} />
+                  </span>
+                }
+                id={`${htmlId}-time`}
+                label={i18next.t('time', translationSettings)}
+                timeZone={timeZone}
+                translationSettings={translationSettings}
+              />
+            </span>
           </div>
         </div>
         <span className={isOpen ? '' : styles.hidden}>{embedWhenOpen}</span>
@@ -456,65 +436,63 @@ function Datetimepicker({
       <span className={styles['sr-only']}>
         {i18next.t('accessible-update-instructions', translationSettings)}
       </span>
-      <>
-        <div
-          className={
-            !isOpen
-              ? `${styles['top-row-container']} ${styles.closed} datetimepicker-top-row`
-              : `${styles.hidden} datetimepicker-top-row`
-          }
-        >
-          <label className={styles['label-open']} htmlFor={`${htmlId}-open`}>
-            <span className={styles['time-icon']}>
-              <Icon img="time" color={color} />
+      <div
+        className={
+          !isOpen
+            ? `${styles['top-row-container']} ${styles.closed} datetimepicker-top-row`
+            : `${styles.hidden} datetimepicker-top-row`
+        }
+      >
+        <label className={styles['label-open']} htmlFor={`${htmlId}-open`}>
+          <span className={styles['time-icon']}>
+            <Icon img="time" color={color} />
+          </span>
+          <span className={styles['sr-only']}>
+            {i18next.t('accessible-open', translationSettings)}
+          </span>
+          <span role="alert" className={styles['sr-only']} ref={alertRef} />
+          <button
+            id={`${htmlId}-open`}
+            type="button"
+            className={`${styles.textbutton} ${styles.active} ${styles['open-button']}`}
+            aria-controls={`${htmlId}-root`}
+            aria-expanded="false"
+            onClick={() => {
+              changeOpen(true);
+              showScreenreaderOpenAlert();
+              if (onOpen) {
+                onOpen();
+              }
+            }}
+            ref={openPickerRef}
+          >
+            <span>
+              {nowSelected && departureOrArrival === 'departure' ? (
+                i18next.t('departure-now', translationSettings)
+              ) : (
+                <>
+                  {i18next.t(
+                    departureOrArrival === 'departure'
+                      ? 'departure'
+                      : 'arrival',
+                    translationSettings,
+                  )}
+                  {` ${
+                    moment().isSame(moment(displayTimestamp), 'day')
+                      ? ''
+                      : getDateDisplay(displayTimestamp).toLowerCase()
+                  } ${getTimeDisplay(displayTimestamp)}`}
+                </>
+              )}
             </span>
-            <span className={styles['sr-only']}>
-              {i18next.t('accessible-open', translationSettings)}
+            <span className={styles['dropdown-icon']}>
+              <Icon img="arrow-dropdown" color={color} />
             </span>
-            <span role="alert" className={styles['sr-only']} ref={alertRef} />
-            <button
-              id={`${htmlId}-open`}
-              type="button"
-              className={`${styles.textbutton} ${styles.active} ${styles['open-button']}`}
-              aria-controls={`${htmlId}-root`}
-              aria-expanded="false"
-              onClick={() => {
-                changeOpen(true);
-                showScreenreaderOpenAlert();
-                if (onOpen) {
-                  onOpen();
-                }
-              }}
-              ref={openPickerRef}
-            >
-              <span>
-                {nowSelected && departureOrArrival === 'departure' ? (
-                  i18next.t('departure-now', translationSettings)
-                ) : (
-                  <>
-                    {i18next.t(
-                      departureOrArrival === 'departure'
-                        ? 'departure'
-                        : 'arrival',
-                      translationSettings,
-                    )}
-                    {` ${
-                      moment().isSame(moment(displayTimestamp), 'day')
-                        ? ''
-                        : getDateDisplay(displayTimestamp).toLowerCase()
-                    } ${getTimeDisplay(displayTimestamp)}`}
-                  </>
-                )}
-              </span>
-              <span className={styles['dropdown-icon']}>
-                <Icon img="arrow-dropdown" color={color} />
-              </span>
-            </button>
-          </label>
-          <span className={styles['right-edge']}>{embedWhenClosed}</span>
-        </div>
-        <div />
-      </>
+          </button>
+        </label>
+        <span className={styles['right-edge']}>{embedWhenClosed}</span>
+      </div>
+      <div />
       {renderOpen()}
     </fieldset>
   );

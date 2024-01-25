@@ -2,6 +2,7 @@ import L from 'leaflet';
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import uniqBy from 'lodash/uniqBy';
 import PointFeatureMarker from './PointFeatureMarker';
 import { isBrowser } from '../../util/browser';
 import {
@@ -89,13 +90,21 @@ const getMarker = (feature, latlng, icons = {}) => {
   return marker;
 };
 
+const addPopup = (feature, layer) => {
+  if (feature.properties.popupContent) {
+    layer.bindPopup(feature.properties.popupContent, {
+      className: 'geoJsonPopup',
+    });
+  }
+};
+
 class GeoJSON extends React.Component {
   static propTypes = {
     bounds: PropTypes.object,
     data: PropTypes.shape({
       features: PropTypes.arrayOf(
         PropTypes.shape({
-          id: PropTypes.string,
+          id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
           geometry: PropTypes.shape({
             coordinates: PropTypes.array.isRequired,
             type: PropTypes.string.isRequired,
@@ -161,54 +170,12 @@ class GeoJSON extends React.Component {
       (geometry.type === 'MultiLineString' || geometry.type === 'LineString')
     ) {
       const lineArray = [
-        0.5,
-        0.5,
-        0.5,
-        0.5,
-        0.5,
-        0.5,
-        0.55,
-        0.61,
-        0.69,
-        0.78,
-        0.89,
-        1.02,
-        1.17,
-        1.36,
-        1.58,
-        1.85,
-        2.17,
-        2.56,
-        3.02,
-        3.57,
-        4.24,
-        5.04,
-        6,
+        0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.55, 0.61, 0.69, 0.78, 0.89, 1.02, 1.17,
+        1.36, 1.58, 1.85, 2.17, 2.56, 3.02, 3.57, 4.24, 5.04, 6,
       ];
       const haloArray = [
-        2,
-        2,
-        2,
-        2,
-        2,
-        2,
-        2.74,
-        3.62,
-        4.68,
-        5.95,
-        7.48,
-        9.31,
-        11.51,
-        14.05,
-        17.31,
-        21.11,
-        25.67,
-        31.14,
-        37.71,
-        45.59,
-        55.04,
-        66.39,
-        80,
+        2, 2, 2, 2, 2, 2, 2.74, 3.62, 4.68, 5.95, 7.48, 9.31, 11.51, 14.05,
+        17.31, 21.11, 25.67, 31.14, 37.71, 45.59, 55.04, 66.39, 80,
       ];
 
       const index =
@@ -235,14 +202,6 @@ class GeoJSON extends React.Component {
     this.icons = getIcons(features);
   }
 
-  addPopup = (feature, layer) => {
-    if (feature.properties.popupContent) {
-      layer.bindPopup(feature.properties.popupContent, {
-        className: 'geoJsonPopup',
-      });
-    }
-  };
-
   render() {
     const { bounds, data } = this.props;
     if (!data || !Array.isArray(data.features)) {
@@ -258,14 +217,14 @@ class GeoJSON extends React.Component {
           data={data}
           pointToLayer={this.pointToLayer}
           style={this.styler}
-          onEachFeature={this.addPopup}
+          onEachFeature={addPopup}
         />
       );
     }
 
     return (
       <React.Fragment>
-        {data.features
+        {uniqBy(data.features, 'id')
           .filter(feature => {
             const [lon, lat] = feature.geometry.coordinates;
             if (bounds) {
@@ -283,6 +242,7 @@ class GeoJSON extends React.Component {
               key={feature.id}
               locationPopup={this.props.locationPopup}
               onSelectLocation={this.props.onSelectLocation}
+              size={this.context.config.geoJsonSvgSize}
             />
           ))}
       </React.Fragment>

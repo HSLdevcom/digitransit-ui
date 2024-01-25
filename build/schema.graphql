@@ -493,8 +493,8 @@ type BikeRentalStation implements Node & PlaceInterface {
     state: String @deprecated(reason: "Use operative instead")
 
     """
-    If true, values of `bikesAvailable` and `spacesAvailable` are updated from a
-    real-time source. If false, values of `bikesAvailable` and `spacesAvailable`
+    If true, values of `vehiclesAvailable` and `spacesAvailable` are updated from a
+    real-time source. If false, values of `vehiclesAvailable` and `spacesAvailable`
     are always the total capacity divided by two.
     """
     realtime: Boolean

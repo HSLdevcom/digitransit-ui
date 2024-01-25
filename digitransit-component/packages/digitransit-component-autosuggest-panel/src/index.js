@@ -60,6 +60,57 @@ const ItinerarySearchControl = ({
   </div>
 );
 
+const getSlackDisplay = slackInSeconds => {
+  return `${slackInSeconds / 60} ${i18next.t('minute-short')}`;
+};
+
+const updateViaPointSlack = (
+  activeViaPointSlacks,
+  updatedViaPointIndex,
+  viaPointRemoved = false,
+) => {
+  const foundAtIndex = activeViaPointSlacks.indexOf(updatedViaPointIndex);
+  if (foundAtIndex > -1) {
+    activeViaPointSlacks.splice(foundAtIndex, 1);
+  }
+  return viaPointRemoved
+    ? activeViaPointSlacks.map(value =>
+        value > updatedViaPointIndex ? value - 1 : value,
+      )
+    : activeViaPointSlacks;
+};
+
+const isKeyboardSelectionEvent = event => {
+  const space = [13, ' ', 'Spacebar'];
+  const enter = [32, 'Enter'];
+  const key = (event && (event.key || event.which || event.keyCode)) || '';
+  if (!key || !space.concat(enter).includes(key)) {
+    return false;
+  }
+  event.preventDefault();
+  return true;
+};
+
+const value = location =>
+  (location && location.address) ||
+  (location && location.gps && location.ready && 'Nykyinen sijainti') ||
+  '';
+
+const getLocationType = location =>
+  location && location.gps === true ? 'position' : 'location';
+
+const getSlackTimeOptions = () => {
+  const timeOptions = [];
+  for (let i = 0; i <= 9; i++) {
+    const valueInMinutes = i * 10;
+    timeOptions.push({
+      displayName: `${valueInMinutes} ${i18next.t('minute-short')}`,
+      value: valueInMinutes * 60,
+    });
+  }
+  return timeOptions;
+};
+
 ItinerarySearchControl.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string.isRequired,
@@ -90,11 +141,10 @@ ItinerarySearchControl.propTypes = {
  *   getFavouriteRoutes: () => ({}),       // Function that returns array of favourite routes.
  *   getPositions: () => ({}),             // Function that returns user's geolocation.
  *   getRoutesQuery: () => ({}),           // Function that returns query for fetching routes.
- *   getAllBikeRentalStations: () => ({}), // Function that returns all bike rental stations from graphql API.
  *   getStopAndStationsQuery: () => ({}),  // Function that fetches favourite stops and stations from graphql API.
  *   getFavouriteRoutesQuery: () => ({}),  // Function that returns query for fetching favourite routes.
- *   getFavouriteBikeRentalStations: () => ({}),  // Function that returns favourite bike rental station.
- *   getFavouriteBikeRentalStationsQuery: () => ({}), // Function that returns query for fetching favourite bike rental stations.
+ *   getFavouriteVehicleRentalStations: () => ({}),  // Function that returns favourite bike rental station.
+ *   getFavouriteVehicleRentalStationsQuery: () => ({}), // Function that returns query for fetching favourite bike rental stations.
  *   startLocationWatch: () => ({}),       // Function that locates users geolocation.
  *   saveSearch: () => ({}),               // Function that saves search to old searches store.
  *   clearOldSearches: () => ({}),         // Function that clears old searches store.
@@ -131,7 +181,7 @@ ItinerarySearchControl.propTypes = {
  *      return ['citybike-stop-digitransit', '#f2b62d'];
  *   }
  * }
- * const targets = ['Locations', 'Stops', 'Routes']; // Defines what you are searching. all available options are Locations, Stops, Routes, BikeRentalStations, FutureRoutes, MapPosition and CurrentPosition. Leave empty to search all targets.
+ * const targets = ['Locations', 'Stops', 'Routes']; // Defines what you are searching. all available options are Locations, Stops, Routes, VehicleRentalStations, FutureRoutes, MapPosition and CurrentPosition. Leave empty to search all targets.
  * const sources = ['Favourite', 'History', 'Datasource'] // Defines where you are searching. all available are: Favourite, History (previously searched searches), and Datasource. Leave empty to use all sources.
  * <DTAutosuggestPanel
  *    appElement={appElement} // Required. Root element's id. Needed for react-modal component.
@@ -229,7 +279,6 @@ class DTAutosuggestPanel extends React.Component {
 
   constructor(props) {
     super(props);
-    this.draggableViaPoints = [];
     this.state = {
       activeSlackInputs: [],
       refs: [],
@@ -239,31 +288,15 @@ class DTAutosuggestPanel extends React.Component {
     });
   }
 
-  componentDidMount = () => {
+  componentDidMount() {
     i18next.changeLanguage(this.props.lang);
-  };
+  }
 
-  componentDidUpdate = () => {
+  componentDidUpdate() {
     if (i18next.language !== this.props.lang) {
       i18next.changeLanguage(this.props.lang);
     }
-  };
-
-  getSlackTimeOptions = () => {
-    const timeOptions = [];
-    for (let i = 0; i <= 9; i++) {
-      const valueInMinutes = i * 10;
-      timeOptions.push({
-        displayName: `${valueInMinutes} ${i18next.t('minute-short')}`,
-        value: valueInMinutes * 60,
-      });
-    }
-    return timeOptions;
-  };
-
-  setDraggableViaPointRef = (element, index) => {
-    this.draggableViaPoints[index] = element;
-  };
+  }
 
   storeReference = ref => {
     this.setState(prevState => ({ refs: [...prevState.refs, ref] }));
@@ -276,25 +309,6 @@ class DTAutosuggestPanel extends React.Component {
     }
   };
 
-  isKeyboardSelectionEvent = event => {
-    const space = [13, ' ', 'Spacebar'];
-    const enter = [32, 'Enter'];
-    const key = (event && (event.key || event.which || event.keyCode)) || '';
-    if (!key || !space.concat(enter).includes(key)) {
-      return false;
-    }
-    event.preventDefault();
-    return true;
-  };
-
-  value = location =>
-    (location && location.address) ||
-    (location && location.gps && location.ready && 'Nykyinen sijainti') ||
-    '';
-
-  class = location =>
-    location && location.gps === true ? 'position' : 'location';
-
   updateViaPoints = viaPoints => {
     if (viaPoints.length === 0) {
       this.props.updateViaPoints([]);
@@ -303,27 +317,11 @@ class DTAutosuggestPanel extends React.Component {
     this.props.updateViaPoints(viaPoints.filter(vp => !isViaPointEmpty(vp)));
   };
 
-  updateViaPointSlack = (
-    activeViaPointSlacks,
-    updatedViaPointIndex,
-    viaPointRemoved = false,
-  ) => {
-    const foundAtIndex = activeViaPointSlacks.indexOf(updatedViaPointIndex);
-    if (foundAtIndex > -1) {
-      activeViaPointSlacks.splice(foundAtIndex, 1);
-    }
-    return viaPointRemoved
-      ? activeViaPointSlacks.map(value =>
-          value > updatedViaPointIndex ? value - 1 : value,
-        )
-      : activeViaPointSlacks;
-  };
-
   handleToggleViaPointSlackClick = viaPointIndex => {
     const { activeSlackInputs } = this.state;
     this.setState({
       activeSlackInputs: activeSlackInputs.includes(viaPointIndex)
-        ? this.updateViaPointSlack(activeSlackInputs, viaPointIndex)
+        ? updateViaPointSlack(activeSlackInputs, viaPointIndex)
         : activeSlackInputs.concat([viaPointIndex]),
     });
   };
@@ -358,7 +356,7 @@ class DTAutosuggestPanel extends React.Component {
     viaPoints.splice(viaPointIndex, 1);
     this.setState(
       {
-        activeSlackInputs: this.updateViaPointSlack(
+        activeSlackInputs: updateViaPointSlack(
           activeSlackInputs,
           viaPointIndex,
           true,
@@ -396,11 +394,7 @@ class DTAutosuggestPanel extends React.Component {
     this.props.swapOrder();
   };
 
-  getSlackDisplay = slackInSeconds => {
-    return `${slackInSeconds / 60} ${i18next.t('minute-short')}`;
-  };
-
-  render = () => {
+  render() {
     const {
       origin,
       searchPanelText,
@@ -415,7 +409,7 @@ class DTAutosuggestPanel extends React.Component {
       showViapointControl,
     } = this.props;
     const { activeSlackInputs } = this.state;
-    const slackTime = this.getSlackTimeOptions();
+    const slackTime = getSlackTimeOptions();
     const defaultSlackTimeValue = 0;
     const getViaPointSlackTimeOrDefault = (
       viaPoint,
@@ -457,9 +451,9 @@ class DTAutosuggestPanel extends React.Component {
             }
             storeRef={this.storeReference}
             refPoint={this.props.refPoint}
-            className={this.class(origin)}
+            className={getLocationType(origin)}
             placeholder={this.props.originPlaceHolder}
-            value={this.value(origin)}
+            value={value(origin)}
             searchContext={searchContext}
             getAutoSuggestIcons={this.props.getAutoSuggestIcons}
             onSelect={this.props.onSelect}
@@ -485,7 +479,7 @@ class DTAutosuggestPanel extends React.Component {
               enabled={showSwapControl}
               onClick={() => this.handleSwapOrderClick()}
               onKeyPress={e =>
-                this.isKeyboardSelectionEvent(e) && this.handleSwapOrderClick()
+                isKeyboardSelectionEvent(e) && this.handleSwapOrderClick()
               }
               aria-label={i18next.t('swap-order-button-label')}
             >
@@ -567,7 +561,7 @@ class DTAutosuggestPanel extends React.Component {
                     enabled={this.props.showViapointControl}
                     onClick={() => this.handleToggleViaPointSlackClick(i)}
                     onKeyPress={e =>
-                      this.isKeyboardSelectionEvent(e) &&
+                      isKeyboardSelectionEvent(e) &&
                       this.handleToggleViaPointSlackClick(i)
                     }
                     aria-label={i18next.t(
@@ -586,9 +580,7 @@ class DTAutosuggestPanel extends React.Component {
                   viaPoints[i].locationSlack > 0 && (
                     <span
                       className={styles['viapoint-slack-time']}
-                    >{`${i18next.t(
-                      'viapoint-slack-amount',
-                    )}: ${this.getSlackDisplay(
+                    >{`${i18next.t('viapoint-slack-amount')}: ${getSlackDisplay(
                       viaPoints[i].locationSlack,
                     )}`}</span>
                   )}
@@ -603,7 +595,7 @@ class DTAutosuggestPanel extends React.Component {
                       label={i18next.t('viapoint-slack-amount')}
                       options={slackTime}
                       value={getViaPointSlackTimeOrDefault(viaPoints[i])}
-                      getDisplay={this.getSlackDisplay}
+                      getDisplay={getSlackDisplay}
                       viaPointIndex={i}
                       icon={
                         <span
@@ -622,7 +614,7 @@ class DTAutosuggestPanel extends React.Component {
                 enabled={this.props.showViapointControl}
                 onClick={() => this.handleRemoveViaPointClick(i)}
                 onKeyPress={e =>
-                  this.isKeyboardSelectionEvent(e) &&
+                  isKeyboardSelectionEvent(e) &&
                   this.handleRemoveViaPointClick(i)
                 }
                 aria-label={i18next.t('remove-via-button-label', {
@@ -646,13 +638,13 @@ class DTAutosuggestPanel extends React.Component {
             }
             storeRef={this.storeReference}
             placeholder={this.props.destinationPlaceHolder}
-            className={this.class(this.props.destination)}
+            className={getLocationType(this.props.destination)}
             getAutoSuggestIcons={this.props.getAutoSuggestIcons}
             searchContext={searchContext}
             onSelect={this.props.onSelect}
             onClear={this.props.onClear}
             refPoint={this.props.refPoint}
-            value={this.value(this.props.destination)}
+            value={value(this.props.destination)}
             lang={this.props.lang}
             sources={this.props.sources}
             targets={this.props.targets}
@@ -675,8 +667,7 @@ class DTAutosuggestPanel extends React.Component {
               enabled={showViapointControl}
               onClick={() => this.handleAddViaPointClick()}
               onKeyPress={e =>
-                this.isKeyboardSelectionEvent(e) &&
-                this.handleAddViaPointClick()
+                isKeyboardSelectionEvent(e) && this.handleAddViaPointClick()
               }
               aria-label={i18next.t('add-via-button-label')}
             >
@@ -691,7 +682,7 @@ class DTAutosuggestPanel extends React.Component {
         </div>
       </div>
     );
-  };
+  }
 }
 
 export default DTAutosuggestPanel;

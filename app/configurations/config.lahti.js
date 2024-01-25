@@ -1,5 +1,6 @@
 /* eslint-disable prefer-template */
 import configMerger from '../util/configMerger';
+import { BIKEAVL_BIKES } from '../util/vehicleRentalUtils';
 
 const CONFIG = 'lahti';
 const APP_TITLE = 'LSL reittiopas';
@@ -67,12 +68,9 @@ export default configMerger(walttiConfig, {
       {
         name: 'menu-feedback',
         href: {
-          fi:
-            'https://e-asiointi.lahti.fi/eFeedback/fi/Feedback/29-Joukkoliikenne',
-          sv:
-            'https://e-asiointi.lahti.fi/eFeedback/sv/Feedback/29-Kollektivtrafik',
-          en:
-            'https://e-asiointi.lahti.fi/eFeedback/en/Feedback/29-Public%20transport',
+          fi: 'https://e-asiointi.lahti.fi/eFeedback/fi/Feedback/29-Joukkoliikenne',
+          sv: 'https://e-asiointi.lahti.fi/eFeedback/sv/Feedback/29-Kollektivtrafik',
+          en: 'https://e-asiointi.lahti.fi/eFeedback/en/Feedback/29-Public%20transport',
         },
       },
       {
@@ -143,5 +141,37 @@ export default configMerger(walttiConfig, {
 
   vehicles: true,
   showVehiclesOnStopPage: true,
-  showVehiclesOnSummaryPage: true,
+  showVehiclesOnItineraryPage: true,
+
+  transportModes: {
+    citybike: {
+      availableForSelection: true,
+    },
+  },
+
+  cityBike: {
+    networks: {
+      freebike_lahti: {
+        enabled: true,
+        season: {
+          // 24.4. - 17.11.
+          start: new Date(new Date().getFullYear(), 3, 24),
+          end: new Date(new Date().getFullYear(), 10, 18),
+        },
+        capacity: BIKEAVL_BIKES,
+        icon: 'citybike',
+        name: {
+          fi: 'Mankeli',
+          sv: 'Mankeli',
+          en: 'Mankeli',
+        },
+        type: 'citybike',
+        url: {
+          fi: 'https://kaupunkipyorat.lahti.fi/',
+          sv: 'https://kaupunkipyorat.lahti.fi/?lang=19',
+          en: 'https://kaupunkipyorat.lahti.fi/?lang=2',
+        },
+      },
+    },
+  },
 });

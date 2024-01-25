@@ -42,13 +42,15 @@ const DisruptionBannerAlert = (
               <div className="disruption-source-label">
                 {mapAlertSource(config, language, alert.feed)}
               </div>
-              <TruncatedMessage
-                className="disruption-show-more"
-                lines={3}
-                message={message}
-                truncate={truncate}
-                onShowMore={openAllAlerts}
-              />
+              <div className="disruption-message-font-weight">
+                <TruncatedMessage
+                  className="disruption-show-more"
+                  lines={3}
+                  message={message}
+                  truncate={truncate}
+                  onShowMore={openAllAlerts}
+                />
+              </div>
             </>
           )}
           {config.URL.ROOTLINK &&
@@ -58,14 +60,16 @@ const DisruptionBannerAlert = (
                 <div className="disruption-source-label">
                   {mapAlertSource(config, language, alert.feed)}
                 </div>
-                <TruncatedMessage
-                  className="disruption-show-more"
-                  lines={3}
-                  message={message}
-                  truncate={truncate}
-                  onShowMore={openAllAlerts}
-                  onTruncate={i => setRenderLink(i)}
-                />
+                <div className="disruption-message-font-weight">
+                  <TruncatedMessage
+                    className="disruption-show-more"
+                    lines={3}
+                    message={message}
+                    truncate={truncate}
+                    onShowMore={openAllAlerts}
+                    onTruncate={i => setRenderLink(i)}
+                  />
+                </div>
               </>
             ) : (
               <a

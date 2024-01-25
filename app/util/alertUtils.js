@@ -125,12 +125,12 @@ export const isAlertValid = (
 /**
  * Checks if the given (canceled) stoptime has expired or not.
  *
- * @param {*} stoptime the stoptime to check.
  * @param {*} referenceUnixTime the reference unix time stamp (in seconds).
+ * @param {*} stoptime the stoptime to check.
  */
 export const cancelationHasExpired = (
-  { scheduledArrival, scheduledDeparture, serviceDay } = {},
   referenceUnixTime,
+  { scheduledArrival, scheduledDeparture, serviceDay } = {},
 ) =>
   !isAlertValid(
     {
@@ -273,18 +273,18 @@ export const getActiveAlertSeverityLevel = (alerts, referenceUnixTime) => {
 /**
  * Checks if any of the given cancelations or alerts are active at the given time.
  *
+ * @param {*} referenceUnixTime the reference unix time stamp (in seconds).
  * @param {*} cancelations the cancelations to check.
  * @param {*} alerts the alerts to check.
- * @param {*} referenceUnixTime the reference unix time stamp (in seconds).
  */
 export const isAlertActive = (
+  referenceUnixTime,
   cancelations = [],
   alerts = [],
-  referenceUnixTime,
 ) => {
   if (
     cancelations.some(
-      cancelation => !cancelationHasExpired(cancelation, referenceUnixTime),
+      cancelation => !cancelationHasExpired(referenceUnixTime, cancelation),
     )
   ) {
     return true;
@@ -533,7 +533,7 @@ export const getActiveLegAlerts = (leg, legStartTime) => {
         ),
       };
     }),
-  ].filter(alert => isAlertActive([{}], alert, legStartTime));
+  ].filter(alert => isAlertActive(legStartTime, [{}], alert));
 
   return serviceAlerts;
 };

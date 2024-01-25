@@ -123,7 +123,7 @@ export default configMerger(walttiConfig, {
 
   vehicles: true,
   showVehiclesOnStopPage: true,
-  showVehiclesOnSummaryPage: true,
+  showVehiclesOnItineraryPage: true,
 
   stopCard: {
     header: {
@@ -137,4 +137,26 @@ export default configMerger(walttiConfig, {
       url: 'https://pysakit-vaasa.digitransit.fi/createview',
     },
   },
+
+  geoJson: {
+    layers: [
+      {
+        name: {
+          fi: 'Vyöhykkeet',
+          sv: 'Zoner',
+          en: 'Zones',
+        },
+        url: '/assets/geojson/vaasa_zone_lines_20231220.geojson',
+      },
+    ],
+  },
+  zoneIdMapping: {
+    1: 'A',
+    2: 'B',
+    3: 'C'
+  },
+  zones: {
+    stops: true,
+    itinerary: true,
+  }
 });

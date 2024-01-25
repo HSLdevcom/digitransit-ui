@@ -19,9 +19,8 @@ import { LightenDarkenColor } from '../util/colorUtils';
 import { getRefPoint } from '../util/apiUtils';
 import { useCitybikes } from '../util/modeUtils';
 
-const DTAutosuggestPanelWithSearchContext = withSearchContext(
-  DTAutosuggestPanel,
-);
+const DTAutosuggestPanelWithSearchContext =
+  withSearchContext(DTAutosuggestPanel);
 
 class OriginDestinationBar extends React.Component {
   static propTypes = {
@@ -129,7 +128,7 @@ class OriginDestinationBar extends React.Component {
     if (
       useCitybikes(this.context.config.cityBike?.networks, this.context.config)
     ) {
-      desktopTargets.push('BikeRentalStations');
+      desktopTargets.push('VehicleRentalStations');
     }
     const mobileTargets = [...desktopTargets, 'MapPosition'];
     const filter = config.stopSearchFilter

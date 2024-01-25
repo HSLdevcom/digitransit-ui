@@ -33,25 +33,27 @@ const zoomInText = `<svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/x
 
 const startClient = context => {
   const { realTime } = context.config;
-  let agency;
+  let feedId;
   /* handle multiple feedid case */
-  context.config.feedIds.forEach(ag => {
-    if (!agency && realTime[ag]) {
-      agency = ag;
+  context.config.feedIds.forEach(f => {
+    if (!feedId && realTime[f]) {
+      feedId = f;
     }
   });
-  const source = agency && realTime[agency];
+  const source = feedId && realTime[feedId];
   if (source && source.active) {
     const config = {
       ...source,
-      agency,
+      feedId,
       options: context.config.feedIds
-        .filter(feedId => realTime[feedId]?.active)
-        .map(feedId => ({ feedId })),
+        .filter(f => realTime[f]?.active)
+        .map(f => ({ feedId: f })),
     };
     context.executeAction(startRealTimeClient, config);
   }
 };
+
+const onPopupopen = () => events.emit('popupOpened');
 
 export default class Map extends React.Component {
   static propTypes = {
@@ -150,8 +152,6 @@ export default class Map extends React.Component {
       this.context.executeAction(stopRealTimeClient, client);
     }
   }
-
-  onPopupopen = () => events.emit('popupOpened');
 
   zoomEnd = () => {
     this.props.leafletEvents?.onZoomend?.(); // pass event to parent
@@ -299,7 +299,7 @@ export default class Map extends React.Component {
           animate={this.props.animate}
           boundsOptions={boundsOptions}
           {...leafletEvents}
-          onPopupopen={this.onPopupopen}
+          onPopupopen={onPopupopen}
           closePopupOnClick={false}
         >
           <TileLayer

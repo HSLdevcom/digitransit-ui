@@ -10,7 +10,10 @@ import {
   isTransportModeAvailable,
 } from './modeUtils';
 import { otpToLocation, getIntermediatePlaces } from './otpStrings';
-import { getCitybikeNetworks, getDefaultNetworks } from './citybikes';
+import {
+  getVehicleRentalStationNetworks,
+  getDefaultNetworks,
+} from './vehicleRentalUtils';
 import { getCustomizedSettings } from '../store/localStorage';
 import { estimateItineraryDistance } from './geo-utils';
 
@@ -46,13 +49,13 @@ export const getCurrentSettings = config => {
     ...customizedSettings,
     modes: customizedSettings?.modes
       ? [
-          ...customizedSettings?.modes.filter(mode =>
+          ...customizedSettings.modes.filter(mode =>
             isTransportModeAvailable(config, mode),
           ),
           'WALK',
         ].sort()
       : defaultSettings.modes,
-    allowedBikeRentalNetworks: getCitybikeNetworks(),
+    allowedBikeRentalNetworks: getVehicleRentalStationNetworks(),
   };
 };
 
@@ -190,148 +193,150 @@ const getShouldMakeCarQuery = (
 export const hasStartAndDestination = ({ from, to }) =>
   from && to && from !== '-' && to !== '-';
 
-export const preparePlanParams = (config, useRelaxedRoutingPreferences) => (
-  { from, to },
-  {
-    location: {
-      query: { arriveBy, intermediatePlaces, time },
-    },
-  },
-) => {
-  const settings = getSettings(config);
-  const fromLocation = otpToLocation(from);
-  const toLocation = otpToLocation(to);
-  const intermediatePlaceLocations = getIntermediatePlaces({
-    intermediatePlaces,
-  });
-  let modesOrDefault = useRelaxedRoutingPreferences
-    ? getDefaultModes(config)
-    : filterModes(
-        config,
-        getModes(config),
-        fromLocation,
-        toLocation,
-        intermediatePlaceLocations,
-      );
-  const defaultSettings = { ...getDefaultSettings(config) };
-  const allowedCitybikeNetworks = getDefaultNetworks(config);
-  // legacy settings used to set network name in uppercase in localstorage
-  const allowedBikeRentalNetworksMapped =
-    Array.isArray(settings.allowedBikeRentalNetworks) &&
-    settings.allowedBikeRentalNetworks.length > 0
-      ? settings.allowedBikeRentalNetworks
-          .filter(
-            network =>
-              allowedCitybikeNetworks.includes(network) ||
-              allowedCitybikeNetworks.includes(network.toLowerCase()),
-          )
-          .map(network =>
-            allowedCitybikeNetworks.includes(network.toLowerCase())
-              ? network.toLowerCase()
-              : network,
-          )
-      : defaultSettings.allowedBikeRentalNetworks;
-  if (
-    !allowedBikeRentalNetworksMapped ||
-    !allowedBikeRentalNetworksMapped.length
-  ) {
-    // do not ask citybike routes if no networks are allowed
-    modesOrDefault = modesOrDefault.filter(mode => mode !== 'BICYCLE_RENT');
-  }
-  const formattedModes = modesAsOTPModes(modesOrDefault);
-  const wheelchair =
-    getNumberValueOrDefault(settings.accessibilityOption, defaultSettings) ===
-    1;
-  const includeBikeSuggestions =
-    settings.includeBikeSuggestions !== undefined
-      ? settings.includeBikeSuggestions
-      : defaultSettings.includeBikeSuggestions;
-  const linearDistance = estimateItineraryDistance(
-    fromLocation,
-    toLocation,
-    intermediatePlaceLocations,
-  );
-
-  // Use defaults or user given settings
-  const ticketTypes = useRelaxedRoutingPreferences
-    ? null
-    : getTicketTypes(settings.ticketTypes, defaultSettings.ticketTypes);
-  const walkReluctance = useRelaxedRoutingPreferences
-    ? defaultSettings.walkReluctance
-    : settings.walkReluctance;
-  const walkBoardCost = useRelaxedRoutingPreferences
-    ? defaultSettings.walkBoardCost
-    : settings.walkBoardCost;
-
-  return {
-    ...defaultSettings,
-    ...omitBy(
-      {
-        fromPlace: from,
-        toPlace: to,
-        from: fromLocation,
-        to: toLocation,
-        numItineraries: 5,
-        date: (time ? moment(time * 1000) : moment()).format('YYYY-MM-DD'),
-        time: (time ? moment(time * 1000) : moment()).format('HH:mm:ss'),
-        walkReluctance,
-        walkBoardCost,
-        minTransferTime: config.minTransferTime,
-        walkSpeed: settings.walkSpeed,
-        arriveBy: arriveBy === 'true',
-        wheelchair,
-        transferPenalty: config.transferPenalty,
-        bikeSpeed: settings.bikeSpeed,
-        optimize: config.optimize,
+export const preparePlanParams =
+  (config, useRelaxedRoutingPreferences) =>
+  (
+    { from, to },
+    {
+      location: {
+        query: { arriveBy, intermediatePlaces, time },
       },
-      nullOrUndefined,
-    ),
-    modes: formattedModes,
-    ticketTypes,
-    modeWeight: config.customWeights,
-    allowedBikeRentalNetworks: allowedBikeRentalNetworksMapped,
-    shouldMakeWalkQuery:
-      !wheelchair &&
-      linearDistance < config.suggestWalkMaxDistance &&
-      !config.onlyCarPlan,
-    shouldMakeBikeQuery:
-      !wheelchair &&
-      linearDistance < config.suggestBikeMaxDistance &&
-      includeBikeSuggestions &&
-      !config.onlyCarPlan,
-    shouldMakeCarQuery: getShouldMakeCarQuery(
-      linearDistance,
-      config,
-      settings,
-      defaultSettings,
-    ),
-    shouldMakeParkRideQuery:
-      getShouldMakeParkRideQuery(
+    },
+  ) => {
+    const settings = getSettings(config);
+    const fromLocation = otpToLocation(from);
+    const toLocation = otpToLocation(to);
+    const intermediatePlaceLocations = getIntermediatePlaces({
+      intermediatePlaces,
+    });
+    let modesOrDefault = useRelaxedRoutingPreferences
+      ? getDefaultModes(config)
+      : filterModes(
+          config,
+          getModes(config),
+          fromLocation,
+          toLocation,
+          intermediatePlaceLocations,
+        );
+    const defaultSettings = { ...getDefaultSettings(config) };
+    const allowedCitybikeNetworks = getDefaultNetworks(config);
+    // legacy settings used to set network name in uppercase in localstorage
+    const allowedBikeRentalNetworksMapped =
+      Array.isArray(settings.allowedBikeRentalNetworks) &&
+      settings.allowedBikeRentalNetworks.length > 0
+        ? settings.allowedBikeRentalNetworks
+            .filter(
+              network =>
+                allowedCitybikeNetworks.includes(network) ||
+                allowedCitybikeNetworks.includes(network.toLowerCase()),
+            )
+            .map(network =>
+              allowedCitybikeNetworks.includes(network.toLowerCase())
+                ? network.toLowerCase()
+                : network,
+            )
+        : defaultSettings.allowedBikeRentalNetworks;
+    if (
+      !allowedBikeRentalNetworksMapped ||
+      !allowedBikeRentalNetworksMapped.length
+    ) {
+      // do not ask citybike routes if no networks are allowed
+      modesOrDefault = modesOrDefault.filter(mode => mode !== 'BICYCLE_RENT');
+    }
+    const formattedModes = modesAsOTPModes(modesOrDefault);
+    const wheelchair =
+      getNumberValueOrDefault(settings.accessibilityOption, defaultSettings) ===
+      1;
+    const includeBikeSuggestions =
+      settings.includeBikeSuggestions !== undefined
+        ? settings.includeBikeSuggestions
+        : defaultSettings.includeBikeSuggestions;
+    const linearDistance = estimateItineraryDistance(
+      fromLocation,
+      toLocation,
+      intermediatePlaceLocations,
+    );
+
+    // Use defaults or user given settings
+    const ticketTypes = useRelaxedRoutingPreferences
+      ? null
+      : getTicketTypes(settings.ticketTypes, defaultSettings.ticketTypes);
+    const walkReluctance = useRelaxedRoutingPreferences
+      ? defaultSettings.walkReluctance
+      : settings.walkReluctance;
+    const walkBoardCost = useRelaxedRoutingPreferences
+      ? defaultSettings.walkBoardCost
+      : settings.walkBoardCost;
+
+    return {
+      ...defaultSettings,
+      ...omitBy(
+        {
+          fromPlace: from,
+          toPlace: to,
+          from: fromLocation,
+          to: toLocation,
+          numItineraries: 5,
+          date: (time ? moment(time * 1000) : moment()).format('YYYY-MM-DD'),
+          time: (time ? moment(time * 1000) : moment()).format('HH:mm:ss'),
+          walkReluctance,
+          walkBoardCost,
+          minTransferTime: config.minTransferTime,
+          walkSpeed: settings.walkSpeed,
+          arriveBy: arriveBy === 'true',
+          wheelchair,
+          transferPenalty: config.transferPenalty,
+          bikeSpeed: settings.bikeSpeed,
+          optimize: config.optimize,
+        },
+        nullOrUndefined,
+      ),
+      modes: formattedModes,
+      ticketTypes,
+      modeWeight: config.customWeights,
+      allowedBikeRentalNetworks: allowedBikeRentalNetworksMapped,
+      shouldMakeWalkQuery:
+        !wheelchair &&
+        linearDistance < config.suggestWalkMaxDistance &&
+        !config.onlyCarPlan,
+      shouldMakeBikeQuery:
+        !wheelchair &&
+        linearDistance < config.suggestBikeMaxDistance &&
+        includeBikeSuggestions &&
+        !config.onlyCarPlan,
+      shouldMakeCarQuery: getShouldMakeCarQuery(
         linearDistance,
         config,
         settings,
         defaultSettings,
-      ) && !config.onlyCarPlan,
-    showBikeAndPublicItineraries:
-      !wheelchair &&
-      config.showBikeAndPublicItineraries &&
-      modesOrDefault.length > 1 &&
-      includeBikeSuggestions,
-    showBikeAndParkItineraries:
-      !wheelchair &&
-      config.showBikeAndParkItineraries &&
-      modesOrDefault.length > 1 &&
-      !config.includePublicWithBikePlan
-        ? settings.showBikeAndParkItineraries ||
-          defaultSettings.showBikeAndParkItineraries
-        : includeBikeSuggestions,
-    bikeAndPublicModes: [
-      { mode: 'BICYCLE' },
-      ...modesAsOTPModes(getBicycleCompatibleModes(config, modesOrDefault)),
-    ],
-    bikeParkModes: [
-      { mode: 'BICYCLE', qualifier: 'PARK' },
-      ...formattedModes,
-    ].filter(mode => mode.qualifier !== 'RENT'), // BICYCLE_RENT can't be used together with BICYCLE_PARK
+      ),
+      shouldMakeParkRideQuery:
+        getShouldMakeParkRideQuery(
+          linearDistance,
+          config,
+          settings,
+          defaultSettings,
+        ) && !config.onlyCarPlan,
+      showBikeAndPublicItineraries:
+        !wheelchair &&
+        config.showBikeAndPublicItineraries &&
+        modesOrDefault.length > 1 &&
+        includeBikeSuggestions,
+      showBikeAndParkItineraries:
+        !wheelchair &&
+        config.showBikeAndParkItineraries &&
+        modesOrDefault.length > 1 &&
+        !config.includePublicWithBikePlan
+          ? settings.showBikeAndParkItineraries ||
+            defaultSettings.showBikeAndParkItineraries
+          : includeBikeSuggestions,
+      bikeAndPublicModes: [
+        { mode: 'BICYCLE' },
+        ...modesAsOTPModes(getBicycleCompatibleModes(config, modesOrDefault)),
+      ],
+      bikeParkModes: [
+        { mode: 'BICYCLE', qualifier: 'PARK' },
+        ...formattedModes,
+      ].filter(mode => mode.qualifier !== 'RENT'), // BICYCLE_RENT can't be used together with BICYCLE_PARK
+    };
   };
-};

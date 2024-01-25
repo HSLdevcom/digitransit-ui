@@ -1,6 +1,6 @@
 /* eslint-disable prefer-template */
 import configMerger from '../util/configMerger';
-import { BIKEAVL_WITHMAX } from '../util/citybikes';
+import { BIKEAVL_WITHMAX } from '../util/vehicleRentalUtils';
 
 const CONFIG = 'tampere';
 const APP_TITLE = 'Nyssen reittiopas';
@@ -8,11 +8,6 @@ const APP_DESCRIPTION = 'Nyssen reittiopas';
 
 const walttiConfig = require('./config.waltti').default;
 const tampereTimetables = require('./timetableConfigUtils').default.tampere;
-
-const minLat = 61.16;
-const maxLat = 62.31;
-const minLon = 22.68;
-const maxLon = 24.9;
 
 export default configMerger(walttiConfig, {
   CONFIG,
@@ -50,7 +45,7 @@ export default configMerger(walttiConfig, {
           sv: 'Zoner',
           en: 'Zones',
         },
-        url: '/assets/geojson/tre_zone_lines_20210622.geojson',
+        url: '/assets/geojson/tre_zone_lines_20240108.geojson',
         isOffByDefault: true,
       },
     ],
@@ -125,18 +120,53 @@ export default configMerger(walttiConfig, {
       : '';
   },
 
-  searchParams: {
-    'boundary.rect.min_lat': minLat,
-    'boundary.rect.max_lat': maxLat,
-    'boundary.rect.min_lon': minLon,
-    'boundary.rect.max_lon': maxLon,
-  },
+  useSearchPolygon: true,
 
   areaPolygon: [
-    [minLon, minLat],
-    [minLon, maxLat],
-    [maxLon, maxLat],
-    [maxLon, minLat],
+    [23.33685, 61.63721],
+    [23.4547, 61.66004],
+    [23.49304, 61.58569],
+    [23.38259, 61.51959],
+    [23.19278, 61.5372],
+    [23.20269, 61.47284],
+    [23.13709, 61.46593],
+    [23.20483, 61.45408],
+    [23.27882, 61.23892],
+    [23.5689, 61.20008],
+    [23.74499, 61.25923],
+    [23.95899, 61.18411],
+    [23.9587, 61.10186],
+    [24.29702, 61.19127],
+    [24.07982, 61.33006],
+    [24.30211, 61.39897],
+    [24.28287, 61.43758],
+    [24.6227, 61.42868],
+    [24.78261, 61.49082],
+    [24.97205, 61.45072],
+    [24.92861, 61.49204],
+    [25.1823, 61.51541],
+    [25.24034, 61.57576],
+    [24.83695, 61.55567],
+    [24.78389, 61.62198],
+    [24.85561, 61.6727],
+    [24.73655, 61.69435],
+    [24.7228, 61.76192],
+    [24.82336, 61.76892],
+    [24.66667, 61.86303],
+    [24.55725, 61.71581],
+    [24.2266, 61.82436],
+    [23.89718, 61.81708],
+    [23.83426, 61.84271],
+    [23.88669, 61.86715],
+    [23.84536, 61.94907],
+    [23.68161, 62.08377],
+    [23.37378, 62.16425],
+    [23.29287, 62.10854],
+    [23.36569, 62.0713],
+    [23.30253, 61.9601],
+    [23.59453, 61.81945],
+    [23.21133, 61.73389],
+    [23.21056, 61.65544],
   ],
 
   defaultEndpoint: {
@@ -212,7 +242,7 @@ export default configMerger(walttiConfig, {
   },
   vehicles: true,
   showVehiclesOnStopPage: true,
-  showVehiclesOnSummaryPage: true,
+  showVehiclesOnItineraryPage: true,
   timetables: {
     tampere: tampereTimetables,
   },

@@ -115,7 +115,7 @@ class MessageBar extends Component {
     this.setState({ allAlertsOpen: true });
   };
 
-  componentDidMount = async () => {
+  componentDidMount() {
     const { currentTime, getServiceAlertsAsync, relayEnvironment } = this.props;
     const { config } = this.context;
 
@@ -124,34 +124,33 @@ class MessageBar extends Component {
         ? config.feedIds
         : null;
     if (config.messageBarAlerts) {
-      this.setState({
-        ready: true,
-        serviceAlerts: uniqBy(
-          (await getServiceAlertsAsync(feedIds, relayEnvironment)).filter(
-            alert =>
-              alert.effectiveStartDate <= currentTime &&
-              alert.effectiveEndDate >= currentTime,
-          ),
-          alert => alert.alertHash,
-        ),
-      });
+      getServiceAlertsAsync(feedIds, relayEnvironment)
+        .then(alerts => {
+          this.setState({
+            ready: true,
+            serviceAlerts: uniqBy(
+              alerts.filter(
+                alert =>
+                  alert.effectiveStartDate <= currentTime &&
+                  alert.effectiveEndDate >= currentTime,
+              ),
+              alert => alert.alertHash,
+            ),
+          });
+        })
+        .catch(() => {
+          this.setState({
+            ready: true,
+            serviceAlerts: [],
+          });
+        });
     } else {
       this.setState({
         ready: true,
         serviceAlerts: [],
       });
     }
-  };
-
-  ariaContent = (content, id) => {
-    return (
-      <span key={`message-${id}`}>
-        {content.map(e => (
-          <span key={`message-content-${id}-${e.type}`}>{e.content}</span>
-        ))}
-      </span>
-    );
-  };
+  }
 
   getTabContent = (textColor, slideIndex) =>
     this.validMessages().map((el, index) => (
@@ -226,14 +225,20 @@ class MessageBar extends Component {
     const backgroundColor = msg.backgroundColor || '#fff';
     const textColor = isDisruption ? '#fff' : msg.textColor || '#000';
     const dataURI = msg.dataURI || null;
+    const ariaContent = (content, id) => {
+      return (
+        <span key={`message-${id}`}>
+          {content.map(e => (
+            <span key={`message-content-${id}-${e.type}`}>{e.content}</span>
+          ))}
+        </span>
+      );
+    };
     return (
       <>
         <span className="sr-only" role="alert">
           {messages.map(el =>
-            this.ariaContent(
-              el.content[this.props.lang] || el.content.fi,
-              el.id,
-            ),
+            ariaContent(el.content[this.props.lang] || el.content.fi, el.id),
           )}
         </span>
         <section

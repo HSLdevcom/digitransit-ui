@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { matchShape, routerShape } from 'found';
 import { FormattedMessage, intlShape } from 'react-intl';
-import ItineraryTab from './ItineraryTab';
+import ItineraryDetails from './ItineraryDetails';
 import SwipeableTabs from './SwipeableTabs';
 import ItineraryShape from '../prop-types/ItineraryShape';
 
@@ -31,11 +31,10 @@ const MobileItineraryWrapper = (props, context) => {
         className={`swipeable-tab ${index !== i && 'inactive'}`}
         key={child.key}
       >
-        <ItineraryTab
+        <ItineraryDetails
           key={child.key}
           activeIndex={index + i}
           plan={props.plan}
-          serviceTimeRange={props.serviceTimeRange}
           itinerary={child.props.itinerary}
           params={context.match.params}
           focusToPoint={props.focusToPoint}
@@ -48,7 +47,7 @@ const MobileItineraryWrapper = (props, context) => {
     );
   });
 
-  const itinerary = (
+  return (
     <SwipeableTabs
       tabs={itineraryTabs}
       tabIndex={index}
@@ -58,8 +57,6 @@ const MobileItineraryWrapper = (props, context) => {
       ariaFromHeader="swipe-summary-page-header"
     />
   );
-  /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
-  return <>{itinerary}</>;
 };
 
 MobileItineraryWrapper.propTypes = {
@@ -73,7 +70,6 @@ MobileItineraryWrapper.propTypes = {
     secondHash: PropTypes.string,
   }).isRequired,
   plan: PropTypes.object,
-  serviceTimeRange: PropTypes.object.isRequired,
   onSwipe: PropTypes.func,
   carItinerary: ItineraryShape,
   changeHash: PropTypes.func,

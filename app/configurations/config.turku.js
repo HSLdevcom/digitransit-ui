@@ -1,6 +1,6 @@
 /* eslint-disable prefer-template */
 import configMerger from '../util/configMerger';
-import { BIKEAVL_WITHMAX } from '../util/citybikes';
+import { BIKEAVL_WITHMAX } from '../util/vehicleRentalUtils';
 
 const CONFIG = 'turku';
 const APP_TITLE = 'Fölin reittiopas';
@@ -148,12 +148,9 @@ export default configMerger(walttiConfig, {
       {
         name: 'menu-feedback',
         href: {
-          fi:
-            'https://opaskartta.turku.fi/eFeedback/fi/Feedback/35-Joukkoliikenne%20F%C3%B6li',
-          sv:
-            'https://opaskartta.turku.fi/eFeedback/sv/Feedback/35-Kollektivtrafiken%20F%C3%B6li',
-          en:
-            'https://opaskartta.turku.fi/eFeedback/en/Feedback/35-F%C3%96LI%20public%20transport',
+          fi: 'https://opaskartta.turku.fi/eFeedback/fi/Feedback/35-Joukkoliikenne%20F%C3%B6li',
+          sv: 'https://opaskartta.turku.fi/eFeedback/sv/Feedback/35-Kollektivtrafiken%20F%C3%B6li',
+          en: 'https://opaskartta.turku.fi/eFeedback/en/Feedback/35-F%C3%96LI%20public%20transport',
         },
       },
       {
@@ -179,7 +176,7 @@ export default configMerger(walttiConfig, {
 
   vehicles: true,
   showVehiclesOnStopPage: true,
-  showVehiclesOnSummaryPage: true,
+  showVehiclesOnItineraryPage: true,
 
   aboutThisService: {
     fi: [

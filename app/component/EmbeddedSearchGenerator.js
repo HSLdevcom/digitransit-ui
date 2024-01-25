@@ -32,9 +32,8 @@ const EmbeddedSearchGenerator = (props, context) => {
   const [chooseFreely, setChooseFreely] = useState(true);
   const [searchOriginDefined, setSearchOriginDefined] = useState(false);
   const [searchOrigin, setSearchOrigin] = useState();
-  const [searchDestinationDefined, setSearchDestinationDefined] = useState(
-    false,
-  );
+  const [searchDestinationDefined, setSearchDestinationDefined] =
+    useState(false);
   const [searchDestination, setSearchDestination] = useState();
 
   const originIsCurrentLocation = () =>
@@ -276,7 +275,6 @@ const EmbeddedSearchGenerator = (props, context) => {
                 id="mode-all"
                 onChange={event => setSearchModeRestriction(event.target.value)}
                 checked={searchModeRestriction === ''}
-                invalid
               />
               <FormattedMessage id="all" defaultMessage="All" />
             </label>

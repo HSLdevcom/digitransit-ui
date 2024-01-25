@@ -163,8 +163,10 @@ const TEST_CASES = {
   '/linjat/HSL:3002P/pysakit/HSL:3002P:0:01': routePageTest,
   '/linjat/HSL:3002P/aikataulu/HSL:3002P:0:01': routePageTimetableTest,
   '/terminaalit/HSL%3A2000102/aikataulu': terminalPageTimetableTest,
-  '/lahellasi/BUS/Rautatientori%2C%20Helsinki::60.170384,24.939846': stopsNearYouTest,
-  '/reitti/Otakaari%2024%2C%20Espoo%3A%3A60.1850004462205%2C24.832384918447488/L%C3%B6nnrotinkatu%2029%2C%20Helsinki%3A%3A60.164182342362864%2C24.932237237563104': ItineraryTest,
+  '/lahellasi/BUS/Rautatientori%2C%20Helsinki::60.170384,24.939846':
+    stopsNearYouTest,
+  '/reitti/Otakaari%2024%2C%20Espoo%3A%3A60.1850004462205%2C24.832384918447488/L%C3%B6nnrotinkatu%2029%2C%20Helsinki%3A%3A60.164182342362864%2C24.932237237563104':
+    ItineraryTest,
 };
 
 async function runTestCases(

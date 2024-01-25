@@ -1,7 +1,7 @@
 /* Default theme */
 
 /* General palette */
-$white: #ffffff;
+$white: #fff;
 $light-gray: #ddd;
 $medium-gray: #ccc;
 $gray: #666;
@@ -11,15 +11,15 @@ $gray-blue: #78909c;
 $gray-blue-light: rgb(182, 193, 199);
 
 /* Operator palette */
-$livi-blue: #000F94;
+$livi-blue: #000f94;
 $livi-gold: rgb(233, 171, 0);
 $livi-bus-blue: rgb(0, 136, 206);
-$livi-airplane-blue: #1A4A8F;
-$livi-ferry-blue: #247C7B;
+$livi-airplane-blue: #1a4a8f;
+$livi-ferry-blue: #247c7b;
 $livi-rail-purple: rgb(175, 141, 188);
 $livi-subway-orange: rgb(237, 140, 0);
 $livi-tram-green: rgb(106, 137, 37);
-$livi-funicular-pink: #ff00ff;
+$livi-funicular-pink: #f0f;
 
 /* Application palette */
 $background-color: #fff;
@@ -36,7 +36,7 @@ $cancelation-red: #dc0451;
 $cancelation-black: #666;
 $cancelation-background: #fbe0ea;
 $disruption-color: $cancelation-red;
-$realtime-color: #46850E;
+$realtime-color: #46850e;
 $visited-link-color: #8c4799;
 $current-location-color: $primary-color;
 $desktop-title-color: $primary-color;
@@ -51,7 +51,7 @@ $viewpoint-marker-color: $livi-blue;
 $link-color: $primary-color;
 $from-color: #4ea700;
 $to-color: #ec5188;
-$slider-severe-color: #CA4000;
+$slider-severe-color: #ca4000;
 $slider-warning-color: #fbb800;
 $slider-ok-color: #4ea700;
 $selected-lang-background: rgba(0, 0, 0, 0.15);
@@ -78,7 +78,7 @@ $bicycle-color: #666;
 $car-color: #333;
 
 /* Fonts */
-$font-family: 'Roboto', Arial, Georgia, Serif;
+$font-family: 'Roboto', arial, georgia, serif;
 $heading-font-family: $font-family;
 $button-font-family: $font-family;
 $font-weight-book: 400;
@@ -86,14 +86,12 @@ $font-weight-medium: 700;
 $font-weight-map-container: $font-weight-book;
 $letter-spacing: 0;
 $letter-spacing-front-page: -0.67px;
-
-$font-family-narrow:  'Roboto Condensed', 'Arial Condensed', Arial, Georgia, Serif;
+$font-family-narrow: 'Roboto Condensed', 'Arial Condensed', arial, georgia,
+  serif;
 $font-narrow-weight-book: 400;
 $font-narrow-weight-medium: 700;
 $narrow-letter-spacing: 0;
-
 $line-height-normal: 1.2;
-
 $font-size-xxxxsmall: 0.62rem;
 $font-size-xxxsmall: 0.72rem;
 $font-size-xxsmall: 0.8rem;
@@ -103,6 +101,8 @@ $font-size-normal: 1rem;
 $font-size-medium-large: 1.15rem;
 $font-size-large: 1.25rem;
 $font-size-xlarge: 1.5rem;
+$disruption-message-font-weight: 200;
+$itinerary-co2-font-weight: 325;
 
 /* Paddings */
 $padding-xxsmall: 0.125em;
@@ -116,7 +116,6 @@ $padding-xlarge: 2em;
 $border-radius-small: 2px;
 $border-radius: 3px;
 $border-radius-bigger: 8px;
-
 $spinner-image: url('../default/default-spinner.png');
 
 /* Navbar dimensions */

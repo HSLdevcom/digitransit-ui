@@ -5,7 +5,12 @@ import { routerShape } from 'found';
 
 const mapToLink = (href, children, onClick, openInNewTab) => (
   <span className="cursor-pointer">
-    <a href={href} onClick={onClick} target={openInNewTab ? '_blank' : '_self'}>
+    <a
+      href={href}
+      onClick={onClick}
+      target={openInNewTab ? '_blank' : '_self'}
+      rel="noreferrer"
+    >
       {children}
     </a>
   </span>

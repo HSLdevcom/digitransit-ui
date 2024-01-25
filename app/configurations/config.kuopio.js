@@ -1,6 +1,6 @@
 /* eslint-disable prefer-template */
 import configMerger from '../util/configMerger';
-import { BIKEAVL_BIKES } from '../util/citybikes';
+import { BIKEAVL_BIKES } from '../util/vehicleRentalUtils';
 
 const CONFIG = 'kuopio';
 const APP_TITLE = 'Reittiopas Kuopio';
@@ -72,13 +72,9 @@ export default configMerger(walttiConfig, {
     lon: 27.678136,
   },
 
-  defaultSettings: {
-    showBikeAndParkItineraries: true,
-  },
-
   vehicles: true,
   showVehiclesOnStopPage: true,
-  showVehiclesOnSummaryPage: true,
+  showVehiclesOnItineraryPage: true,
 
   cityBike: {
     networks: {

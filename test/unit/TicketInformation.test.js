@@ -147,7 +147,7 @@ describe('<TicketInformation />', () => {
     const wrapper = mountWithIntl(<TicketInformation {...props} />, {
       context: { config: defaultConfig },
     });
-    expect(wrapper.find('.ticket-type-title').first().text()).to.equal(
+    expect(wrapper.find('.ticket-title').first().text()).to.equal(
       'Required tickets:',
     );
   });
@@ -186,7 +186,7 @@ describe('<TicketInformation />', () => {
       context: { config: defaultConfig },
     });
 
-    expect(wrapper.find('.ticket-type-title').first().text()).to.equal(
+    expect(wrapper.find('.ticket-title').first().text()).to.equal(
       'Required ticket:',
     );
   });
@@ -214,7 +214,7 @@ describe('<TicketInformation />', () => {
     });
 
     expect(wrapper.find('.ticket-type-zone')).to.have.lengthOf(0);
-    expect(wrapper.find('.ticket-type-title')).to.have.lengthOf(0);
+    expect(wrapper.find('.ticket-title')).to.have.lengthOf(0);
     expect(wrapper.find('.itinerary-ticket-type')).to.have.lengthOf(0);
   });
 

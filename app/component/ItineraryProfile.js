@@ -5,12 +5,21 @@ import { intlShape } from 'react-intl';
 
 import { displayDistance } from '../util/geo-utils';
 import { getTotalDistance } from '../util/legUtils';
+import { addAnalyticsEvent } from '../util/analyticsUtils';
 import SecondaryButton from './SecondaryButton';
 
-const ItineraryProfile = (
-  { itinerary, small, printItinerary },
-  { config, intl },
-) => {
+const printItinerary = e => {
+  e.stopPropagation();
+  addAnalyticsEvent({
+    event: 'sendMatomoEvent',
+    category: 'Itinerary',
+    action: 'Print',
+    name: null,
+  });
+  window.print();
+};
+
+const ItineraryProfile = ({ itinerary, small }, { config, intl }) => {
   return (
     <div className={cx('itinerary-profile-container', { small })}>
       <div className="itinerary-profile-item">
@@ -50,12 +59,10 @@ ItineraryProfile.propTypes = {
     ).isRequired,
   }).isRequired,
   small: PropTypes.bool,
-  printItinerary: PropTypes.func,
 };
 
 ItineraryProfile.defaultProps = {
   small: false,
-  printItinerary: undefined,
 };
 
 ItineraryProfile.contextTypes = {

@@ -87,19 +87,19 @@ export default config => {
             <Route
               getComponent={() =>
                 import(
-                  /* webpackChunkName: "itinerary" */ './component/BikeRentalStationContent'
+                  /* webpackChunkName: "itinerary" */ './component/VehicleRentalStationContent'
                 ).then(getDefault)
               }
               query={graphql`
-                query routes_BikeRentalStation_Query($id: String!) {
-                  bikeRentalStation(id: $id) {
-                    ...BikeRentalStationContent_bikeRentalStation
+                query routes_VehicleRentalStation_Query($id: String!) {
+                  vehicleRentalStation(id: $id) {
+                    ...VehicleRentalStationContent_vehicleRentalStation
                   }
                 }
               `}
-              render={({ Component, props, error, match, retry }) => {
+              render={({ Component, props, error, retry }) => {
                 if (Component && (props || error)) {
-                  return <Component {...props} match={match} error={error} />;
+                  return <Component {...props} error={error} />;
                 }
                 return getComponentOrLoadingRenderer({
                   Component,
@@ -115,13 +115,13 @@ export default config => {
               path="(.*)?"
               getComponent={() =>
                 import(
-                  /* webpackChunkName: "itinerary" */ './component/BikeRentalStationPageMapContainer'
+                  /* webpackChunkName: "itinerary" */ './component/VehicleRentalStationPageMapContainer'
                 ).then(getDefault)
               }
               query={graphql`
-                query routes_BikeRentalStationMap_Query($id: String!) {
-                  bikeRentalStation(id: $id) {
-                    ...BikeRentalStationPageMapContainer_bikeRentalStation
+                query routes_VehicleRentalStationMap_Query($id: String!) {
+                  vehicleRentalStation(id: $id) {
+                    ...VehicleRentalStationPageMapContainer_vehicleRentalStation
                   }
                 }
               `}
@@ -138,25 +138,25 @@ export default config => {
               <Route
                 getComponent={() =>
                   import(
-                    /* webpackChunkName: "bikepark" */ './component/BikeParkContent'
+                    /* webpackChunkName: "bikepark" */ './component/VehicleParkContent'
                   )
                     .then(getDefault)
                     .catch(errorLoading)
                 }
                 prepareVariables={prepareWeekDays}
                 query={graphql`
-                  query routes_BikePark_Query(
+                  query routes_VehiclePark_Query(
                     $id: String!
                     $dates: [String!]!
                   ) {
                     bikePark(id: $id) {
-                      ...BikeParkContent_bikePark @arguments(dates: $dates)
+                      ...VehicleParkContent_bikePark @arguments(dates: $dates)
                     }
                   }
                 `}
-                render={({ Component, props, error, match, retry }) => {
+                render={({ Component, props, error, retry }) => {
                   if (Component && (props || error)) {
-                    return <Component {...props} match={match} error={error} />;
+                    return <Component {...props} error={error} />;
                   }
                   return getComponentOrLoadingRenderer({
                     Component,
@@ -172,13 +172,13 @@ export default config => {
                 path="(.*)?"
                 getComponent={() =>
                   import(
-                    /* webpackChunkName: "bikepark" */ './component/BikeParkMapContainer'
+                    /* webpackChunkName: "bikepark" */ './component/VehicleParkMapContainer'
                   ).then(getDefault)
                 }
                 query={graphql`
-                  query routes_BikeParkMap_Query($id: String!) {
+                  query routes_VehicleParkMap_Query($id: String!) {
                     bikePark(id: $id) {
-                      ...BikeParkMapContainer_bikePark
+                      ...VehicleParkMapContainer_vehiclePark
                     }
                   }
                 `}
@@ -209,9 +209,9 @@ export default config => {
                   }
                 `}
                 prepareVariables={prepareWeekDays}
-                render={({ Component, props, error, match, retry }) => {
+                render={({ Component, props, error, retry }) => {
                   if (Component && (props || error)) {
-                    return <Component {...props} match={match} error={error} />;
+                    return <Component {...props} error={error} />;
                   }
                   return getComponentOrLoadingRenderer({
                     Component,
@@ -252,12 +252,12 @@ export default config => {
                   /* webpackChunkName: "nearyou" */ './component/StopsNearYouPage'
                 ).then(getDefault)
               }
-              render={({ Component, props, error, match }) => {
+              render={({ Component, props, error }) => {
                 if (Component) {
                   return props ? (
-                    <Component {...props} match={match} error={error} />
+                    <Component {...props} error={error} />
                   ) : (
-                    <Component match={match} error={error} />
+                    <Component error={error} />
                   );
                 }
                 return undefined;
@@ -368,7 +368,7 @@ export default config => {
               path="(.*)?"
               getComponent={() =>
                 import(
-                  /* webpackChunkName: "itinerary" */ './component/SummaryTitle'
+                  /* webpackChunkName: "itinerary" */ './component/ItineraryPageTitle'
                 ).then(getDefault)
               }
             />
@@ -377,12 +377,12 @@ export default config => {
             <Route
               getComponent={() =>
                 import(
-                  /* webpackChunkName: "itinerary" */ './component/SummaryPageContainer'
+                  /* webpackChunkName: "itinerary" */ './component/ItineraryPageContainer'
                 ).then(getDefault)
               }
-              render={({ Component, props, match }) => {
+              render={({ Component, props }) => {
                 if (Component) {
-                  return <Component {...props} match={match} />;
+                  return <Component {...props} />;
                 }
                 return undefined;
               }}
@@ -394,7 +394,7 @@ export default config => {
                     <Route
                       getComponent={() =>
                         import(
-                          /* webpackChunkName: "itinerary" */ './component/ItineraryTab'
+                          /* webpackChunkName: "itinerary" */ './component/ItineraryDetails'
                         ).then(getDefault)
                       }
                       render={getComponentOrLoadingRenderer}
@@ -409,7 +409,7 @@ export default config => {
               path="(.*)?"
               getComponent={() =>
                 import(
-                  /* webpackChunkName: "itinerary" */ './component/SummaryPageMeta'
+                  /* webpackChunkName: "itinerary" */ './component/ItineraryPageMeta'
                 ).then(getDefault)
               }
             />

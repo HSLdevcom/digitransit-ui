@@ -8,8 +8,11 @@ import LazilyLoad, { importLazy } from './LazilyLoad';
 import { clearOldSearches, clearFutureRoutes } from '../util/storeUtils';
 import { getJson } from '../util/xhrPromise';
 
-const modules = {
+const headerModules = {
   SiteHeader: () => importLazy(import('@hsl-fi/site-header')),
+};
+
+const emitterModules = {
   SharedLocalStorageObserver: () =>
     importLazy(import('@hsl-fi/shared-local-storage')),
 };
@@ -124,26 +127,30 @@ const AppBarHsl = ({ lang, user, favourites }, context) => {
         </Helmet>
       )}
 
-      <LazilyLoad modules={modules}>
-        {({ SiteHeader, SharedLocalStorageObserver }) => (
-          <>
+      <LazilyLoad modules={headerModules}>
+        {({ SiteHeader }) => (
+          <SiteHeader
+            ref={siteHeaderRef}
+            hslFiUrl={config.URL.ROOTLINK}
+            lang={lang}
+            {...userMenu}
+            languageMenu={languages}
+            banners={banners}
+            suggestionsApiUrl={config.URL.HSL_FI_SUGGESTIONS}
+            notificationApiUrls={notificationApiUrls}
+          />
+        )}
+      </LazilyLoad>
+      {config.localStorageEmitter && (
+        <LazilyLoad modules={emitterModules}>
+          {({ SharedLocalStorageObserver }) => (
             <SharedLocalStorageObserver
               keys={['saved-searches', 'favouriteStore']}
               url={config.localStorageEmitter}
             />
-            <SiteHeader
-              ref={siteHeaderRef}
-              hslFiUrl={config.URL.ROOTLINK}
-              lang={lang}
-              {...userMenu}
-              languageMenu={languages}
-              banners={banners}
-              suggestionsApiUrl={config.URL.HSL_FI_SUGGESTIONS}
-              notificationApiUrls={notificationApiUrls}
-            />
-          </>
-        )}
-      </LazilyLoad>
+          )}
+        </LazilyLoad>
+      )}
     </>
   );
 };

@@ -21,6 +21,7 @@ const LayerType = {
   FavouriteStation: 'favouriteStation',
   FavouritePlace: 'favouritePlace',
   FavouriteRoute: 'favouriteRoute',
+  FavouriteVehicleRentalStation: 'favouriteVehicleRentalStation',
   FutureRoute: 'futureRoute',
   Station: 'station',
   SelectFromMap: 'selectFromMap',
@@ -28,7 +29,7 @@ const LayerType = {
   Stop: 'stop',
   Street: 'street',
   Venue: 'venue',
-  BikeRentalStation: 'bikestation',
+  VehicleRentalStation: 'bikestation',
   CarPark: 'carpark',
   BikePark: 'bikepark',
 };
@@ -118,7 +119,7 @@ export const getLayerRank = (layer, source) => {
     case LayerType.FavouritePlace:
     case LayerType.FavouriteStop:
     case LayerType.FavouriteRoute:
-    case LayerType.FavouriteBikeRentalStation:
+    case LayerType.FavouriteVehicleRentalStation:
       return 0.45;
     case LayerType.FutureRoute:
       return 0.44;
@@ -128,17 +129,17 @@ export const getLayerRank = (layer, source) => {
       }
       return 0.42;
     }
-    default:
-      // venue, address, street, route-xxx
-      return 0.41;
     case LayerType.CarPark:
       return 0.38;
     case LayerType.BikePark:
       return 0.38;
-    case LayerType.BikeRentalStation:
+    case LayerType.VehicleRentalStation:
       return 0.38;
     case LayerType.Stop:
       return 0.36;
+    default:
+      // venue, address, street, route-xxx
+      return 0.41;
   }
 };
 
@@ -207,7 +208,7 @@ export const sortSearchResults = (lineRegexp, results, term = '') => {
             return confidence - 0.05;
           case LayerType.BikePark:
             return confidence - 0.05;
-          case LayerType.BikeRentalStation:
+          case LayerType.VehicleRentalStation:
             return confidence - 0.04;
           default:
             return confidence;

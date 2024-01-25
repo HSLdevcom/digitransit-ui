@@ -79,12 +79,9 @@ export default configMerger(walttiConfig, {
       {
         name: 'menu-feedback',
         href: {
-          fi:
-            'https://kartta.hameenlinna.fi/eFeedback/fi/Feedback/35-Joukkoliikenne',
-          sv:
-            'https://kartta.hameenlinna.fi/eFeedback/sv/Feedback/35-Joukkoliikenne',
-          en:
-            'https://kartta.hameenlinna.fi/eFeedback/en/Feedback/35-Public%20transportation',
+          fi: 'https://kartta.hameenlinna.fi/eFeedback/fi/Feedback/35-Joukkoliikenne',
+          sv: 'https://kartta.hameenlinna.fi/eFeedback/sv/Feedback/35-Joukkoliikenne',
+          en: 'https://kartta.hameenlinna.fi/eFeedback/en/Feedback/35-Public%20transportation',
         },
       },
       {
@@ -142,7 +139,7 @@ export default configMerger(walttiConfig, {
 
   vehicles: true,
   showVehiclesOnStopPage: true,
-  showVehiclesOnSummaryPage: true,
+  showVehiclesOnItineraryPage: true,
   zones: {
     stops: true,
     itinerary: true,

@@ -32,6 +32,27 @@ const confirmLocationFromMapButtonModules = {
     ),
 };
 
+const markLocation = (markerType, position) => {
+  let type;
+  if (markerType === 'origin') {
+    type = 'from';
+  } else if (markerType === 'destination') {
+    type = 'to';
+  } else {
+    type = markerType;
+  }
+  if (position) {
+    let newPosition;
+    if (decodeURIComponent(position).indexOf('::') !== -1) {
+      newPosition = otpToLocation(decodeURIComponent(position));
+    } else {
+      newPosition = position;
+    }
+    return <LocationMarker key="location" position={newPosition} type={type} />;
+  }
+  return null;
+};
+
 class SelectFromMapPageMap extends React.Component {
   static contextTypes = {
     match: matchShape,
@@ -70,9 +91,8 @@ class SelectFromMapPageMap extends React.Component {
       zones: 1,
     };
     if (this.context.config.searchParams['boundary.country']) {
-      searchParams['boundary.country'] = this.context.config.searchParams[
-        'boundary.country'
-      ];
+      searchParams['boundary.country'] =
+        this.context.config.searchParams['boundary.country'];
     }
 
     getJson(this.context.config.URL.PELIAS_REVERSE_GEOCODER, searchParams).then(
@@ -201,29 +221,6 @@ class SelectFromMapPageMap extends React.Component {
     );
   };
 
-  markLocation = (markerType, position) => {
-    let type;
-    if (markerType === 'origin') {
-      type = 'from';
-    } else if (markerType === 'destination') {
-      type = 'to';
-    } else {
-      type = markerType;
-    }
-    if (position) {
-      let newPosition;
-      if (decodeURIComponent(position).indexOf('::') !== -1) {
-        newPosition = otpToLocation(decodeURIComponent(position));
-      } else {
-        newPosition = position;
-      }
-      return (
-        <LocationMarker key="location" position={newPosition} type={type} />
-      );
-    }
-    return null;
-  };
-
   render() {
     const { config, match } = this.context;
     const { type } = this.props;
@@ -282,9 +279,7 @@ class SelectFromMapPageMap extends React.Component {
     if (!mapCenter) {
       leafletObjs.push(this.confirmButton(false));
     } else {
-      leafletObjs.push(
-        this.markLocation(this.props.type, positionSelectingFromMap),
-      );
+      leafletObjs.push(markLocation(this.props.type, positionSelectingFromMap));
       leafletObjs.push(
         <LazilyLoad
           modules={locationMarkerWithPermanentTooltipModules}

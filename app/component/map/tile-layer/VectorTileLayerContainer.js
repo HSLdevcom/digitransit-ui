@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import TileLayerContainer from './TileLayerContainer';
-import BikeRentalStations from './BikeRentalStations';
+import VehicleRentalStations from './VehicleRentalStations';
 import Stops from './Stops';
 import ParkAndRideForCars from './ParkAndRideForCars';
 import ParkAndRideForBikes from './ParkAndRideForBikes';
@@ -14,7 +14,7 @@ export default function VectorTileLayerContainer(props, { config }) {
   layers.push(Stops);
 
   if (props.mapLayers.citybike) {
-    layers.push(BikeRentalStations);
+    layers.push(VehicleRentalStations);
   }
   if (props.mapLayers.parkAndRide) {
     layers.push(ParkAndRideForCars);

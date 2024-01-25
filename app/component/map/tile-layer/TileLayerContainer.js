@@ -227,12 +227,13 @@ class TileLayerContainer extends GridLayer {
         let parkingId;
         // hubs have nested vehicleParking
         if (selectableTargets[0].feature.properties?.vehicleParking) {
-          const parksInHub = selectableTargets[0].feature.properties?.vehicleParking?.filter(
-            parking =>
-              layer === 'parkAndRide'
-                ? parking.carPlaces
-                : parking.bicyclePlaces,
-          );
+          const parksInHub =
+            selectableTargets[0].feature.properties?.vehicleParking?.filter(
+              parking =>
+                layer === 'parkAndRide'
+                  ? parking.carPlaces
+                  : parking.bicyclePlaces,
+            );
           if (parksInHub.length === 1) {
             parkingId = parksInHub[0].id;
           }

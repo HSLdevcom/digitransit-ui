@@ -9,7 +9,7 @@ import { getRouteMode } from '../../util/modeUtils';
 import StopMarker from './non-tile-layer/StopMarker';
 import Line from './Line';
 import Icon from '../Icon';
-import CityBikeMarker from './non-tile-layer/CityBikeMarker';
+import VehicleMarker from './non-tile-layer/VehicleMarker';
 import { getMiddleOf } from '../../util/geo-utils';
 import { isBrowser } from '../../util/browser';
 import {
@@ -35,8 +35,7 @@ class ItineraryLine extends React.Component {
     showTransferLabels: PropTypes.bool,
     showIntermediateStops: PropTypes.bool,
     streetMode: PropTypes.string,
-    onlyHasWalkingItineraries: PropTypes.bool,
-    loading: PropTypes.bool,
+    showDurationBubble: PropTypes.bool,
   };
 
   checkStreetMode(leg) {
@@ -106,7 +105,7 @@ class ItineraryLine extends React.Component {
       );
 
       if (
-        (this.props.onlyHasWalkingItineraries && !this.props.loading) ||
+        this.props.showDurationBubble ||
         (this.checkStreetMode(leg) && leg.distance > 100)
       ) {
         const duration = durationToString(leg.endTime - leg.startTime);
@@ -142,10 +141,10 @@ class ItineraryLine extends React.Component {
 
         if (leg.from.vertexType === 'BIKESHARE') {
           objs.push(
-            <CityBikeMarker
-              key={leg.from.bikeRentalStation.stationId}
+            <VehicleMarker
+              key={leg.from.vehicleRentalStation.stationId}
               showBikeAvailability={leg.mode === 'BICYCLE'}
-              station={leg.from.bikeRentalStation}
+              station={leg.from.vehicleRentalStation}
               transit
             />,
           );
@@ -223,7 +222,9 @@ class ItineraryLine extends React.Component {
 
     // Add dynamic transit leg and transfer stop markers
     if (!this.props.passive) {
-      objs.push(<TransitLegMarkers transitLegs={transitLegs} />);
+      objs.push(
+        <TransitLegMarkers key="transitlegmarkers" transitLegs={transitLegs} />,
+      );
     }
 
     return <div style={{ display: 'none' }}>{objs}</div>;
@@ -256,12 +257,12 @@ export default createFragmentContainer(ItineraryLine, {
         lon
         name
         vertexType
-        bikeRentalStation {
+        vehicleRentalStation {
           lat
           lon
           stationId
-          networks
-          bikesAvailable
+          network
+          vehiclesAvailable
         }
         stop {
           gtfsId
@@ -274,12 +275,12 @@ export default createFragmentContainer(ItineraryLine, {
         lon
         name
         vertexType
-        bikeRentalStation {
+        vehicleRentalStation {
           lat
           lon
           stationId
-          networks
-          bikesAvailable
+          network
+          vehiclesAvailable
         }
         stop {
           gtfsId

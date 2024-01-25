@@ -23,12 +23,18 @@ import CarParkLeg from './CarParkLeg';
 import ViaLeg from './ViaLeg';
 import CallAgencyLeg from './CallAgencyLeg';
 import { itineraryHasCancelation } from '../util/alertUtils';
-import { compressLegs, isCallAgencyPickupType } from '../util/legUtils';
+import {
+  compressLegs,
+  isCallAgencyPickupType,
+  isLegOnFoot,
+} from '../util/legUtils';
 import updateShowCanceledLegsBannerState from '../action/CanceledLegsBarActions';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import ItineraryProfile from './ItineraryProfile';
 import BikeParkLeg from './BikeParkLeg';
 import FunicularLeg from './FunicularLeg';
+
+const stopCode = stop => stop && stop.code && <StopCode code={stop.code} />;
 
 class ItineraryLegs extends React.Component {
   static childContextTypes = {
@@ -54,17 +60,17 @@ class ItineraryLegs extends React.Component {
     return { focusFunction: this.focus };
   }
 
-  componentDidMount = () => {
+  componentDidMount() {
     const { itinerary, toggleCanceledLegsBanner } = this.props;
     if (itineraryHasCancelation(itinerary)) {
       toggleCanceledLegsBanner(true);
     }
-  };
+  }
 
-  componentWillUnmount = () => {
+  componentWillUnmount() {
     const { toggleCanceledLegsBanner } = this.props;
     toggleCanceledLegsBanner(false);
-  };
+  }
 
   focus = position => e => {
     e.stopPropagation();
@@ -76,26 +82,9 @@ class ItineraryLegs extends React.Component {
     });
   };
 
-  isLegOnFoot = leg => {
-    return leg.mode === 'WALK';
-  };
-
   focusToLeg = leg => e => {
     e.stopPropagation();
     this.props.focusToLeg(leg);
-  };
-
-  stopCode = stop => stop && stop.code && <StopCode code={stop.code} />;
-
-  printItinerary = e => {
-    e.stopPropagation();
-    addAnalyticsEvent({
-      event: 'sendMatomoEvent',
-      category: 'Itinerary',
-      action: 'Print',
-      name: null,
-    });
-    window.print();
   };
 
   render() {
@@ -150,7 +139,7 @@ class ItineraryLegs extends React.Component {
           previousLeg?.mode === 'SUBWAY'
         );
       };
-      if (fromCarPark && !this.isLegOnFoot(leg)) {
+      if (fromCarPark && !isLegOnFoot(leg)) {
         legs.push(
           <CarParkLeg
             index={j}
@@ -191,7 +180,7 @@ class ItineraryLegs extends React.Component {
             focusToLeg={this.focusToLeg(leg)}
           />,
         );
-      } else if (carPark && this.isLegOnFoot(leg)) {
+      } else if (carPark && isLegOnFoot(leg)) {
         legs.push(
           <CarParkLeg
             index={j}
@@ -201,7 +190,7 @@ class ItineraryLegs extends React.Component {
             focusToLeg={this.focusToLeg(leg)}
           />,
         );
-      } else if (this.isLegOnFoot(leg)) {
+      } else if (isLegOnFoot(leg)) {
         if (fromBikePark) {
           legs.push(
             <BikeParkLeg
@@ -221,7 +210,7 @@ class ItineraryLegs extends React.Component {
               focusAction={this.focus(leg.from)}
               focusToLeg={this.focusToLeg(leg)}
             >
-              {this.stopCode(leg.from.stop)}
+              {stopCode(leg.from.stop)}
             </WalkLeg>,
           );
         }
@@ -359,7 +348,7 @@ class ItineraryLegs extends React.Component {
             focusAction={this.focus(leg.from)}
             focusToLeg={this.focusToLeg(leg)}
           >
-            {this.stopCode(leg.from.stop)}
+            {stopCode(leg.from.stop)}
           </CarLeg>,
         );
       }
@@ -385,7 +374,7 @@ class ItineraryLegs extends React.Component {
               waitTime={waitTime}
               focusAction={this.focus(leg.to)}
             >
-              {this.stopCode(leg.to.stop)}
+              {stopCode(leg.to.stop)}
             </WaitLeg>,
           );
         }
@@ -406,7 +395,7 @@ class ItineraryLegs extends React.Component {
           focusAction={this.focus(compressedLegs[numberOfLegs - 1].to)}
           focusToLeg={this.focusToLeg(compressedLegs[numberOfLegs - 1])}
         >
-          {this.stopCode(compressedLegs[numberOfLegs - 1].to.stop)}
+          {stopCode(compressedLegs[numberOfLegs - 1].to.stop)}
         </WalkLeg>,
       );
     }
@@ -420,12 +409,7 @@ class ItineraryLegs extends React.Component {
       />,
     );
 
-    legs.push(
-      <ItineraryProfile
-        itinerary={itinerary}
-        printItinerary={this.printItinerary}
-      />,
-    );
+    legs.push(<ItineraryProfile itinerary={itinerary} />);
 
     return (
       <span className="itinerary-list-container" role="list">

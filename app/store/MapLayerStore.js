@@ -4,7 +4,13 @@ import { setMapLayerSettings, getMapLayerSettings } from './localStorage';
 import { showCityBikes } from '../util/modeUtils';
 
 class MapLayerStore extends Store {
-  static defaultLayers = {
+  static handlers = {
+    UpdateMapLayers: 'updateMapLayers',
+  };
+
+  static storeName = 'MapLayerStore';
+
+  mapLayers = {
     parkAndRide: false,
     parkAndRideForBikes: false,
     stop: {
@@ -25,14 +31,6 @@ class MapLayerStore extends Store {
     vehicles: false,
     geoJson: {},
   };
-
-  static handlers = {
-    UpdateMapLayers: 'updateMapLayers',
-  };
-
-  static storeName = 'MapLayerStore';
-
-  mapLayers = { ...MapLayerStore.defaultLayers };
 
   constructor(dispatcher) {
     super(dispatcher);

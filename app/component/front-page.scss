@@ -14,15 +14,17 @@ $heading-color: #858585;
 }
 
 .front-page {
-  //small, mid
+  // small, mid
   display: flex;
   flex-direction: column;
   background-color: #fff;
   margin-top: 35px;
+
   .datetimepicker-container {
     margin: 9px 0 9px 0;
+
     .datetimepicker-bottom-row-open {
-      margin-bottom: 9px
+      margin-bottom: 9px;
     }
   }
 }
@@ -49,6 +51,7 @@ $heading-color: #858585;
 .near-you-buttons-container {
   margin-bottom: 31px;
 }
+
 .stop-route-search-container {
   margin-bottom: 5px;
 }
@@ -72,14 +75,19 @@ $heading-color: #858585;
 .menu-item {
   cursor: pointer;
   font-size: $font-size-small;
+
   button {
     display: inline-block;
+
     @include font-medium;
+
     font-size: $font-size-small;
   }
+
   color: $link-color;
   margin-left: 10px;
   margin-right: 10px;
+
   a {
     text-decoration: none;
     color: $link-color;
@@ -88,6 +96,7 @@ $heading-color: #858585;
 
 .menu-text {
   @include font-book;
+
   color: $gray;
 }
 
@@ -96,22 +105,26 @@ svg.icon.menu-icon {
   top: 2px;
   margin-right: 6px;
 }
+
 .front-page.bp-large {
   margin-top: 0;
   padding-top: 47px;
+
   .datetimepicker-container {
     margin-bottom: 11px;
   }
+
   .scrollable-content-wrapper {
     overflow-y: auto;
     overflow-x: hidden;
     display: flex;
-    flex-basis: 0px;
+    flex-basis: 0;
     flex-direction: column;
     flex-grow: 1;
     flex-shrink: 0;
   }
 }
+
 .front-page.bp-large .toggle-positioning-container {
   bottom: 40px;
 }
@@ -125,6 +138,7 @@ svg.icon.menu-icon {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+
   > div {
     max-width: 600px;
   }

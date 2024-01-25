@@ -1,6 +1,6 @@
 {
   "name": "@digitransit-component/digitransit-component-control-panel",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "description": "digitransit-component control-panel module",
   "main": "index.js",
   "files": [
@@ -29,7 +29,7 @@
   "author": "Digitransit Authors",
   "license": "(AGPL-3.0 OR EUPL-1.2)",
   "peerDependencies": {
-    "@digitransit-component/digitransit-component-icon": "^1.0.0",
+    "@digitransit-component/digitransit-component-icon": "^1.0.1",
     "@hsl-fi/sass": "~0.2.0",
     "classnames": "2.2.6",
     "i18next": "^19.3.3",

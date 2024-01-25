@@ -100,7 +100,11 @@ const DepartureRow = (
     return (
       <>
         <Link
-          to={`/${PREFIX_ROUTES}/${departure.trip.pattern.route.gtfsId}/${PREFIX_STOPS}/${departure.trip.pattern.code}/${departure.trip.gtfsId}`}
+          to={`/${PREFIX_ROUTES}/${encodeURIComponent(
+            departure.trip.pattern.route.gtfsId,
+          )}/${PREFIX_STOPS}/${encodeURIComponent(
+            departure.trip.pattern.code,
+          )}/${encodeURIComponent(departure.trip.gtfsId)}`}
           onClick={() => {
             addAnalyticsEvent({
               category: 'Stop',
@@ -219,17 +223,15 @@ const DepartureRow = (
       {showPlatformCode && (
         <td className="platform-cell">
           {renderWithLink(
-            <>
-              <div
-                className={
-                  !departure.stop?.platformCode
-                    ? 'platform-code empty'
-                    : 'platform-code'
-                }
-              >
-                {departure.stop?.platformCode}
-              </div>
-            </>,
+            <div
+              className={
+                !departure.stop?.platformCode
+                  ? 'platform-code empty'
+                  : 'platform-code'
+              }
+            >
+              {departure.stop?.platformCode}
+            </div>,
           )}
         </td>
       )}
@@ -262,7 +264,8 @@ DepartureRow.propTypes = {
   showPlatformCode: PropTypes.bool,
   canceled: PropTypes.bool,
   className: PropTypes.string,
-  onCapacityClick: PropTypes.func.isRequired,
+  // eslint-disable-next-line react/require-default-props
+  onCapacityClick: PropTypes.func,
 };
 
 DepartureRow.contextTypes = {

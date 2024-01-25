@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl';
 
 import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
 import BicycleLeg from '../../../app/component/BicycleLeg';
-import { CityBikeNetworkType } from '../../../app/util/citybikes';
+import { CityBikeNetworkType } from '../../../app/util/vehicleRentalUtils';
 
 describe('<BicycleLeg />', () => {
   it('should guide the user to rent a citybike', () => {
@@ -20,9 +20,9 @@ describe('<BicycleLeg />', () => {
         endTime: 0,
         from: {
           name: 'Hertanmäenkatu',
-          bikeRentalStation: {
-            bikesAvailable: 0,
-            networks: ['foobar'],
+          vehicleRentalStation: {
+            vehiclesAvailable: 0,
+            network: 'foobar',
           },
         },
         to: {
@@ -58,9 +58,9 @@ describe('<BicycleLeg />', () => {
         endTime: 0,
         from: {
           name: 'Hertanmäenkatu',
-          bikeRentalStation: {
-            bikesAvailable: 0,
-            networks: ['foobar'],
+          vehicleRentalStation: {
+            vehiclesAvailable: 0,
+            network: 'foobar',
           },
         },
         to: {
@@ -96,9 +96,9 @@ describe('<BicycleLeg />', () => {
         endTime: 0,
         from: {
           name: 'Hertanmäenkatu',
-          bikeRentalStation: {
-            bikesAvailable: 0,
-            networks: ['foobar'],
+          vehicleRentalStation: {
+            vehiclesAvailable: 0,
+            network: 'foobar',
           },
         },
         to: {
@@ -137,9 +137,9 @@ describe('<BicycleLeg />', () => {
         endTime: 0,
         from: {
           name: 'Hertanmäenkatu',
-          bikeRentalStation: {
-            bikesAvailable: 0,
-            networks: ['foobar'],
+          vehicleRentalStation: {
+            vehiclesAvailable: 0,
+            network: 'foobar',
           },
         },
         to: {
@@ -178,9 +178,9 @@ describe('<BicycleLeg />', () => {
         endTime: 0,
         from: {
           name: 'Hertanmäenkatu',
-          bikeRentalStation: {
-            bikesAvailable: 0,
-            networks: ['foobar'],
+          vehicleRentalStation: {
+            vehiclesAvailable: 0,
+            network: 'foobar',
           },
         },
         to: {
@@ -216,9 +216,9 @@ describe('<BicycleLeg />', () => {
         endTime: 0,
         from: {
           name: 'Hertanmäenkatu',
-          bikeRentalStation: {
-            bikesAvailable: 0,
-            networks: ['foobar'],
+          vehicleRentalStation: {
+            vehiclesAvailable: 0,
+            network: 'foobar',
           },
         },
         to: {

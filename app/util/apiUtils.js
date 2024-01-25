@@ -7,11 +7,11 @@ export function getUser() {
   const options = {
     credentials: 'include',
   };
-  return retryFetch('/api/user', options, 2, 200).then(res => res.json());
+  return retryFetch('/api/user', 2, 200, options).then(res => res.json());
 }
 
 export function getFavourites() {
-  return retryFetch('/api/user/favourites', {}, 2, 200).then(res => res.json());
+  return retryFetch('/api/user/favourites', 2, 200).then(res => res.json());
 }
 
 export function updateFavourites(data) {
@@ -22,7 +22,7 @@ export function updateFavourites(data) {
     },
     body: JSON.stringify(data),
   };
-  return retryFetch('/api/user/favourites', options, 0, 0).then(res =>
+  return retryFetch('/api/user/favourites', 0, 0, options).then(res =>
     res.json(),
   );
 }
@@ -35,7 +35,7 @@ export function deleteFavourites(data) {
     },
     body: JSON.stringify(data),
   };
-  return retryFetch('/api/user/favourites', options, 0, 0).then(res =>
+  return retryFetch('/api/user/favourites', 0, 0, options).then(res =>
     res.json(),
   );
 }
@@ -51,7 +51,6 @@ export function getWeatherData(baseURL, time, lat, lon) {
   const searchTime = moment.utc(endtime).format();
   return retryFetch(
     `${baseURL}&latlon=${lat},${lon}&starttime=${searchTime}&endtime=${searchTime}`,
-    {},
     2,
     200,
   )

@@ -24,7 +24,7 @@ const getRouteMode = props => {
 };
 
 function isFavourite(item) {
-  return item && item.type && item.type.includes('Favourite');
+  return item?.type?.includes('Favourite');
 }
 
 function getAriaDescription(ariaContentArray) {
@@ -37,10 +37,10 @@ function getAriaDescription(ariaContentArray) {
 function getIconProperties(
   item,
   color,
-  modes = undefined,
   modeSet,
   stopCode,
   getIcons,
+  modes = undefined,
 ) {
   let iconId;
   let iconColor = '#888888';
@@ -51,8 +51,8 @@ function getIconProperties(
   // but we do not want to show those icons
   if (item.type === 'FavouriteStop') {
     iconId = 'favouriteStop';
-  } else if (item.type === 'FavouriteStation') {
-    iconId = 'favouriteStation';
+  } else if (item.type === 'FavouriteVehicleRentalStation') {
+    iconId = 'favouriteVehicleRentalStation';
   } else if (item.type === 'Route') {
     const mode =
       modeSet === 'default'
@@ -81,7 +81,11 @@ function getIconProperties(
     if (item.properties.layer === 'bikepark') {
       return [`bike-park`, 'mode-bikepark'];
     }
-    iconId = item.properties.selectedIconId || item.properties.layer;
+    if (item.properties.label?.split(',').length === 1 && !isFavourite(item)) {
+      iconId = 'localadmin'; // plain city name
+    } else {
+      iconId = item.properties.selectedIconId || item.properties.layer;
+    }
   }
   if (item && item.iconColor) {
     // eslint-disable-next-line prefer-destructuring
@@ -90,14 +94,13 @@ function getIconProperties(
     iconColor = color;
   }
   const layerIcon = new Map([
-    ['bikeRentalStation', 'citybike'],
     ['bikestation', 'citybike'],
     ['currentPosition', 'locate'],
     ['favouritePlace', 'star'],
     ['favouriteRoute', 'star'],
     ['favouriteStop', 'star'],
     ['favouriteStation', 'star'],
-    ['favouriteBikeRentalStation', 'star'],
+    ['favouriteVehicleRentalStation', 'star'],
     ['favourite', 'star'],
     ['address', 'place'],
     ['stop', 'busstop'],
@@ -273,21 +276,15 @@ const SuggestionItem = pure(
     getAutoSuggestIcons,
     modeSet = 'default',
   }) => {
-    const [
-      suggestionType,
-      name,
-      label,
-      stopCode,
-      modes,
-      platform,
-    ] = content || ['', item.name, item.address];
+    const [suggestionType, name, label, stopCode, modes, platform] =
+      content || ['', item.name, item.address];
     const [iconId, iconColor] = getIconProperties(
       item,
       color,
-      modes,
       modeSet,
       stopCode,
       getAutoSuggestIcons,
+      modes,
     );
     const modeIconColor = modeIconColors[iconColor] || modeIconColors[iconId];
     // Arrow clicked is for street. Instead of selecting item when a user clicks on arrow,
@@ -317,16 +314,14 @@ const SuggestionItem = pure(
       </div>
     );
     const isFutureRoute = iconId === 'future-route';
-    const isBikeRentalStation =
-      item.properties &&
-      (item.properties.layer === 'bikeRentalStation' ||
-        item.properties.layer === 'favouriteBikeRentalStation' ||
-        item.properties.layer === 'bikestation');
+    const isVehicleRentalStation =
+      item.properties?.layer === 'favouriteVehicleRentalStation' ||
+      item.properties?.layer === 'bikestation';
     const isParkingArea =
       item.properties?.layer === 'carpark' ||
       item.properties?.layer === 'bikepark';
     const labelWithLocationType =
-      isBikeRentalStation || isParkingArea
+      isVehicleRentalStation || isParkingArea
         ? suggestionType.concat(
             item.properties.localadmin ? `, ${item.properties.localadmin}` : '',
           )
@@ -362,11 +357,13 @@ const SuggestionItem = pure(
                   {name}
                 </div>
                 <div className={styles['suggestion-label']}>
-                  {isBikeRentalStation || isParkingArea
+                  {isVehicleRentalStation || isParkingArea
                     ? labelWithLocationType
                     : label}{' '}
-                  {((!isBikeRentalStation && stopCode && stopCode !== name) ||
-                    (isBikeRentalStation &&
+                  {((!isVehicleRentalStation &&
+                    stopCode &&
+                    stopCode !== name) ||
+                    (isVehicleRentalStation &&
                       hasVehicleStationCode(
                         stopCode || item.properties.id,
                       ))) && (

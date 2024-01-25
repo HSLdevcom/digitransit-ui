@@ -116,12 +116,11 @@ class DepartureListContainer extends Component {
 
   componentDidMount() {
     if (this.pageLoadedAlertRef.current) {
-      this.pageLoadedAlertRef.current.innerHTML = this.context.intl.formatMessage(
-        {
+      this.pageLoadedAlertRef.current.innerHTML =
+        this.context.intl.formatMessage({
           id: 'stop-page.right-now.loaded',
           defaultMessage: 'Right now stop page loaded',
-        },
-      );
+        });
       setTimeout(() => {
         if (this.pageLoadedAlertRef?.current) {
           this.pageLoadedAlertRef.current.innerHTML = null;
@@ -171,19 +170,19 @@ class DepartureListContainer extends Component {
 
     const { config } = this.context;
     const { realTime } = config;
-    let agency;
+    let feedId;
 
     /* handle multiple feedid case */
-    config.feedIds.forEach(ag => {
-      if (!agency && realTime[ag]) {
-        agency = ag;
+    config.feedIds.forEach(f => {
+      if (!feedId && realTime[f]) {
+        feedId = f;
       }
     });
-    const source = agency && realTime[agency];
+    const source = feedId && realTime[feedId];
     if (source && source.active) {
       return {
         ...source,
-        agency,
+        feedId,
         options: trips,
       };
     }

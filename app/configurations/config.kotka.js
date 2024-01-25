@@ -1,6 +1,6 @@
 /* eslint-disable prefer-template */
 import configMerger from '../util/configMerger';
-import { BIKEAVL_WITHMAX } from '../util/citybikes';
+import { BIKEAVL_WITHMAX } from '../util/vehicleRentalUtils';
 
 const CONFIG = 'kotka';
 const APP_TITLE = 'Kotkan seudun reittiopas';
@@ -170,7 +170,7 @@ export default configMerger(walttiConfig, {
   },
   vehicles: true,
   showVehiclesOnStopPage: true,
-  showVehiclesOnSummaryPage: true,
+  showVehiclesOnItineraryPage: true,
   zones: {
     stops: true,
     itinerary: true,

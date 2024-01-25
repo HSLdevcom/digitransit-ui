@@ -34,7 +34,7 @@ const isRoundIconVisible = zoom => getCaseRadius(zoom) >= ROUND_ICON_MIN_RADIUS;
 export const CUSTOM_ICON_MIN_ZOOM = 15;
 
 /**
- * The custom icon's width and height (before scaling).
+ * The custom icon's default width and height (before scaling).
  */
 export const CUSTOM_ICON_SIZE = 20;
 
@@ -76,8 +76,8 @@ export const getRoundIcon = zoom => {
  * @param {number} zoom the current zoom level.
  * @param {string} iconUrl the url-encoded svg for the icon.
  */
-export const getCustomIcon = (zoom, iconUrl) => {
-  const iconSize = CUSTOM_ICON_SIZE * getMapIconScale(zoom);
+export const getCustomIcon = (zoom, iconUrl, size) => {
+  const iconSize = size * getMapIconScale(zoom);
   return L.icon({
     iconAnchor: [(1 / 2) * iconSize, (1 / 2) * iconSize],
     iconSize: [iconSize, iconSize],
@@ -113,6 +113,7 @@ const PointFeatureMarker = ({
   language,
   locationPopup,
   onSelectLocation,
+  size = CUSTOM_ICON_SIZE,
 }) => {
   const { geometry, properties } = feature;
   if (!isPointTypeGeometry(geometry)) {
@@ -133,7 +134,7 @@ const PointFeatureMarker = ({
     <GenericMarker
       getIcon={zoom =>
         hasCustomIcon && isCustomIconVisible(zoom)
-          ? getCustomIcon(zoom, icons[icon.id])
+          ? getCustomIcon(zoom, icons[icon.id], size)
           : getRoundIcon(zoom)
       }
       maxWidth={locationPopup === 'all' ? 320 : 250}
@@ -185,6 +186,7 @@ PointFeatureMarker.propTypes = {
   language: PropTypes.string.isRequired,
   locationPopup: PropTypes.string,
   onSelectLocation: PropTypes.func,
+  size: PropTypes.number,
 };
 
 PointFeatureMarker.defaultProps = {
