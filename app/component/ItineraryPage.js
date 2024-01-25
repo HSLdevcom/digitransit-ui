@@ -186,12 +186,6 @@ class ItineraryPage extends React.Component {
     this.selectStreetMode(newStreetMode);
   };
 
-  hasNoTransitItineraries() {
-    return (
-      transitItineraries(this.props.viewer?.plan?.itineraries).length === 0
-    );
-  }
-
   resetItineraryPageSelection = () => {
     this.context.router.replace({
       ...this.props.match.location,
@@ -225,7 +219,8 @@ class ItineraryPage extends React.Component {
         return this.state.parkRidePlan;
       default:
         if (
-          this.hasNoTransitItineraries() &&
+          transitItineraries(this.props.viewer?.plan?.itineraries).length ===
+            0 &&
           !this.state.settingsChangedRecently &&
           this.state.relaxedPlan?.itineraries?.length > 0
         ) {
@@ -362,7 +357,8 @@ class ItineraryPage extends React.Component {
     }
 
     const useRelaxedRoutingPreferences =
-      this.hasNoTransitItineraries() && this.state.relaxedPlan;
+      transitItineraries(this.props.viewer?.plan?.itineraries).length === 0 &&
+      this.state.relaxedPlan?.itineraries?.length > 0;
 
     const params = preparePlanParams(
       this.context.config,
@@ -449,7 +445,8 @@ class ItineraryPage extends React.Component {
     }
 
     const useRelaxedRoutingPreferences =
-      this.hasNoTransitItineraries() && this.state.relaxedPlan;
+      transitItineraries(this.props.viewer?.plan?.itineraries).length === 0 &&
+      this.state.relaxedPlan?.itineraries?.length > 0;
 
     const params = preparePlanParams(
       this.context.config,
@@ -1057,7 +1054,9 @@ class ItineraryPage extends React.Component {
     const { params } = match;
     const { hash } = params;
 
-    const hasNoTransitItineraries = this.hasNoTransitItineraries();
+    const hasNoTransitItineraries =
+      transitItineraries(props.viewer?.plan?.itineraries).length === 0;
+
     const settings = getCurrentSettings(config, '');
 
     this.selectedPlan = this.mapHashToPlan(hash);
@@ -1076,21 +1075,13 @@ class ItineraryPage extends React.Component {
     }
 
     const showStreetModeSelector =
-      (state.loadingAlt ||
+      (state.loadingAlt || // show shimmer
         walkPlan?.itineraries?.length ||
         bikePlan?.itineraries?.length ||
         bikeTransitPlan?.itineraries?.length ||
         parkRidePlan?.itineraries?.length ||
         (settings.includeCarSuggestions && carPlan?.itineraries?.length)) &&
-      !hash;
-
-    const onlyHasWalkingItineraries =
-      hasNoTransitItineraries &&
-      !this.state.bikePlan?.itineraries?.length &&
-      !this.state.parkRidePlan?.itineraries?.length &&
-      !this.state.bikeTransitPlan?.itineraries?.length &&
-      (!settings.includeCarSuggestions ||
-        !this.state.carPlan?.itineraries?.length);
+      !hash; // not on bike + public or p&r views
 
     let combinedItineraries;
     // Remove old itineraries if new query cannot find a route
@@ -1106,8 +1097,6 @@ class ItineraryPage extends React.Component {
       }
     }
 
-    const hasItineraries = combinedItineraries.length > 0;
-
     const detailView = showDetailView(
       match.params.hash,
       match.params.secondHash,
@@ -1121,6 +1110,7 @@ class ItineraryPage extends React.Component {
     const to = otpToLocation(params.to);
     const viaPoints = getIntermediatePlaces(match.location.query);
 
+    const hasItineraries = combinedItineraries.length > 0;
     if (hasItineraries && match.routes.some(route => route.printPage)) {
       return React.cloneElement(props.content, {
         itinerary: combinedItineraries[selectedIndex],
@@ -1143,7 +1133,9 @@ class ItineraryPage extends React.Component {
             detailView,
           );
 
-    const loading = state.loadingRelaxed || (!error && props.loading);
+    const loading =
+      (state.loadingRelaxed && hasNoTransitItineraries) ||
+      (!error && props.loading);
 
     const showRelaxedPlanNotifier = this.selectedPlan === state.relaxedPlan;
     const settingsNotification =
@@ -1172,11 +1164,11 @@ class ItineraryPage extends React.Component {
       bikeAndParkItineraryCount: this.bikeAndParkItineraryCount,
       showRelaxedPlanNotifier,
       separatorPosition: state.separatorPosition,
-      loading,
       onLater: this.onLater,
       onEarlier: this.onEarlier,
       onDetailsTabFocused: this.onDetailsTabFocused,
-      loadingMore: state.loadingMore,
+      loading,
+      loadingMore: state.loadingMore, // spinner pos while loading earlier/later
       settingsNotification,
       routingFeedbackPosition: state.routingFeedbackPosition,
     };
@@ -1193,24 +1185,17 @@ class ItineraryPage extends React.Component {
       loading: loading || state.loadingAlt || state.loadingWeather,
     };
 
+    let content;
     if (breakpoint === 'large') {
-      let content;
       /* Should render content if
       1. Fetching public itineraries is complete
-      2. Don't have to wait for walk and bike query to complete
-      3. Result has non-walking itineraries OR if not, query with all modes is completed or query is made with default settings
-      If all conditions don't apply, render spinner */
+      2. Don't have to wait for alternative query to complete
+      Otherwise render spinner */
 
-      const waitAlternatives = hasNoTransitItineraries && state.loadingAlt; // must wait alternatives to render correct message
+      // must wait alternatives to render correct notifier
+      const waitAlternatives = hasNoTransitItineraries && state.loadingAlt;
 
-      if (
-        !loading &&
-        !waitAlternatives &&
-        (!onlyHasWalkingItineraries ||
-          (onlyHasWalkingItineraries &&
-            (state.relaxedPlan?.itineraries?.length > 0 ||
-              !settingsLimitRouting(config))))
-      ) {
+      if (!loading && !waitAlternatives) {
         const selectedItinerary = combinedItineraries.length
           ? combinedItineraries[selectedIndex]
           : undefined;
@@ -1365,9 +1350,6 @@ class ItineraryPage extends React.Component {
         />
       );
     }
-
-    let content;
-
     if (detailView) {
       if (loading) {
         return (
