@@ -1184,6 +1184,9 @@ class ItineraryPage extends React.Component {
       loading: loading || state.loadingAlt || state.loadingWeather,
     };
 
+    // must wait alternatives to render correct notifier
+    const waitAlternatives = hasNoTransitItineraries && state.loadingAlt;
+
     let content;
     if (breakpoint === 'large') {
       /* Should render content if
@@ -1191,18 +1194,11 @@ class ItineraryPage extends React.Component {
       2. Don't have to wait for alternative query to complete
       Otherwise render spinner */
 
-      // must wait alternatives to render correct notifier
-      const waitAlternatives = hasNoTransitItineraries && state.loadingAlt;
-
       if (!loading && !waitAlternatives) {
         const selectedItinerary = combinedItineraries.length
           ? combinedItineraries[selectedIndex]
           : undefined;
         if (detailView && combinedItineraries.length) {
-          const currentTime = {
-            date: moment().valueOf(),
-          };
-
           const itineraryTabs = combinedItineraries.map((itinerary, i) => {
             return (
               <div
@@ -1212,7 +1208,7 @@ class ItineraryPage extends React.Component {
               >
                 <ItineraryDetails
                   hideTitle
-                  plan={currentTime}
+                  plan={this.selectedPlan}
                   itinerary={itinerary}
                   focusToPoint={this.focusToPoint}
                   focusToLeg={this.focusToLeg}
@@ -1224,16 +1220,14 @@ class ItineraryPage extends React.Component {
           });
 
           content = (
-            <div className="swipe-scroll-wrapper">
-              <SwipeableTabs
-                tabs={itineraryTabs}
-                tabIndex={selectedIndex}
-                onSwipe={this.changeHash}
-                classname="swipe-desktop-view"
-                ariaFrom="swipe-summary-page"
-                ariaFromHeader="swipe-summary-page-header"
-              />
-            </div>
+            <SwipeableTabs
+              tabs={itineraryTabs}
+              tabIndex={selectedIndex}
+              onSwipe={this.changeHash}
+              classname="swipe-desktop-view"
+              ariaFrom="swipe-summary-page"
+              ariaFromHeader="swipe-summary-page-header"
+            />
           );
           return (
             <DesktopView
