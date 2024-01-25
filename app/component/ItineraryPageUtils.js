@@ -68,6 +68,9 @@ export function getSelectedItineraryIndex(
 
 // this func is a bit fuzzy because it compares strings and numbers
 export function showDetailView(hash, secondHash, itineraries) {
+  if (!itineraries.length) {
+    return false;
+  }
   if (hash === 'bikeAndVehicle' || hash === 'parkAndRide') {
     // note that '0' < 1 in javascript, because strings are converted to numbers
     return secondHash < itineraries.length;

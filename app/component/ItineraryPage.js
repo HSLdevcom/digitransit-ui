@@ -20,7 +20,7 @@ import MobileView from './MobileView';
 import ItineraryPageMap from './map/ItineraryPageMap';
 import ItineraryListContainer from './ItineraryListContainer';
 import ItineraryPageControls from './ItineraryPageControls';
-import MobileItineraryWrapper from './MobileItineraryWrapper';
+import ItineraryTabs from './ItineraryTabs';
 import { getWeatherData } from '../util/apiUtils';
 import Loading from './Loading';
 import { getItineraryPagePath } from '../util/path';
@@ -59,10 +59,7 @@ import {
   getIntermediatePlaces,
 } from '../util/otpStrings';
 import { SettingsDrawer } from './SettingsDrawer';
-
-import ItineraryDetails from './ItineraryDetails';
 import { StreetModeSelector } from './StreetModeSelector';
-import SwipeableTabs from './SwipeableTabs';
 import {
   getCurrentSettings,
   preparePlanParams,
@@ -870,50 +867,6 @@ class ItineraryPage extends React.Component {
     this.context.router.replace(newLocationState);
   };
 
-  renderMap(from, to, viaPoints, itineraries, activeIndex, detailView) {
-    const mwtProps = {};
-    if (this.state.bounds) {
-      mwtProps.bounds = this.state.bounds;
-    } else if (this.state.center) {
-      mwtProps.lat = this.state.center.lat;
-      mwtProps.lon = this.state.center.lon;
-    } else {
-      mwtProps.bounds = getBounds(itineraries, from, to, viaPoints);
-    }
-
-    const itineraryContainsDepartureFromVehicleRentalStation = itineraries[
-      activeIndex
-    ]?.legs.some(leg => leg.from?.vehicleRentalStation);
-
-    const mapLayerOptions = itineraryContainsDepartureFromVehicleRentalStation
-      ? addBikeStationMapForRentalVehicleItineraries(itineraries)
-      : this.props.mapLayerOptions;
-
-    const objectsToHide = getRentalStationsToHideOnMap(
-      itineraryContainsDepartureFromVehicleRentalStation,
-      itineraries[activeIndex],
-    );
-    return (
-      <ItineraryPageMap
-        {...mwtProps}
-        from={from}
-        to={to}
-        viaPoints={viaPoints}
-        mapLayers={this.props.mapLayers}
-        mapLayerOptions={mapLayerOptions}
-        setMWTRef={this.setMWTRef}
-        breakpoint={this.props.breakpoint}
-        itineraries={itineraries}
-        topics={this.state.itineraryTopics}
-        active={activeIndex}
-        showActive={detailView}
-        showVehicles={this.showVehicles()}
-        showDurationBubble={itineraries[0]?.legs?.length === 1}
-        objectsToHide={objectsToHide}
-      />
-    );
-  }
-
   toggleSearchSettings = () => {
     this.showSettingsPanel(!this.state.settingsOpen);
   };
@@ -1043,6 +996,50 @@ class ItineraryPage extends React.Component {
       }
     }, 500);
   };
+
+  renderMap(from, to, viaPoints, itineraries, activeIndex, detailView) {
+    const mwtProps = {};
+    if (this.state.bounds) {
+      mwtProps.bounds = this.state.bounds;
+    } else if (this.state.center) {
+      mwtProps.lat = this.state.center.lat;
+      mwtProps.lon = this.state.center.lon;
+    } else {
+      mwtProps.bounds = getBounds(itineraries, from, to, viaPoints);
+    }
+
+    const itineraryContainsDepartureFromVehicleRentalStation = itineraries[
+      activeIndex
+    ]?.legs.some(leg => leg.from?.vehicleRentalStation);
+
+    const mapLayerOptions = itineraryContainsDepartureFromVehicleRentalStation
+      ? addBikeStationMapForRentalVehicleItineraries(itineraries)
+      : this.props.mapLayerOptions;
+
+    const objectsToHide = getRentalStationsToHideOnMap(
+      itineraryContainsDepartureFromVehicleRentalStation,
+      itineraries[activeIndex],
+    );
+    return (
+      <ItineraryPageMap
+        {...mwtProps}
+        from={from}
+        to={to}
+        viaPoints={viaPoints}
+        mapLayers={this.props.mapLayers}
+        mapLayerOptions={mapLayerOptions}
+        setMWTRef={this.setMWTRef}
+        breakpoint={this.props.breakpoint}
+        itineraries={itineraries}
+        topics={this.state.itineraryTopics}
+        active={activeIndex}
+        showActive={detailView}
+        showVehicles={this.showVehicles()}
+        showDurationBubble={itineraries[0]?.legs?.length === 1}
+        objectsToHide={objectsToHide}
+      />
+    );
+  }
 
   render() {
     const { props, context, state } = this;
@@ -1186,117 +1183,112 @@ class ItineraryPage extends React.Component {
 
     // must wait alternatives to render correct notifier
     const waitAlternatives = hasNoTransitItineraries && state.loadingAlt;
+    const selectedItinerary = combinedItineraries.length
+      ? combinedItineraries[selectedIndex]
+      : undefined;
 
-    let content;
-    if (breakpoint === 'large') {
-      /* Should render content if
-      1. Fetching public itineraries is complete
-      2. Don't have to wait for alternative query to complete
-      Otherwise render spinner */
+    const desktop = breakpoint === 'large';
+    const detailTabs = detailView ? (
+      <ItineraryTabs
+        isMobile={!desktop}
+        tabIndex={selectedIndex}
+        onSwipe={this.changeHash}
+        plan={this.selectedPlan}
+        itineraries={combinedItineraries}
+        focusToPoint={this.focusToPoint}
+        focusToLeg={this.focusToLeg}
+        carItinerary={carPlan?.itineraries[0]}
+      />
+    ) : null;
 
-      if (!loading && !waitAlternatives) {
-        const selectedItinerary = combinedItineraries.length
-          ? combinedItineraries[selectedIndex]
-          : undefined;
-        if (detailView && combinedItineraries.length) {
-          const itineraryTabs = combinedItineraries.map((itinerary, i) => {
-            return (
-              <div
-                className={`swipeable-tab ${selectedIndex !== i && 'inactive'}`}
-                key={`itinerary-${i}`}
-                aria-hidden={selectedIndex !== i}
-              >
-                <ItineraryDetails
-                  hideTitle
-                  plan={this.selectedPlan}
-                  itinerary={itinerary}
-                  focusToPoint={this.focusToPoint}
-                  focusToLeg={this.focusToLeg}
-                  isMobile={false}
-                  carItinerary={carPlan?.itineraries[0]}
-                />
-              </div>
-            );
-          });
+    const spinner =
+      loading || waitAlternatives ? (
+        <div style={{ position: 'relative', height: 200 }}>
+          <Loading />
+        </div>
+      ) : undefined;
 
-          content = (
-            <SwipeableTabs
-              tabs={itineraryTabs}
-              tabIndex={selectedIndex}
-              onSwipe={this.changeHash}
-              classname="swipe-desktop-view"
-              ariaFrom="swipe-summary-page"
-              ariaFromHeader="swipe-summary-page-header"
+    const settingsDrawer = (
+      <SettingsDrawer
+        open={this.state.settingsOpen}
+        className={desktop ? 'offcanvas' : 'offcanvas-mobile'}
+      >
+        <CustomizeSearch onToggleClick={this.toggleSearchSettings} mobile />
+      </SettingsDrawer>
+    );
+
+    const header = (
+      <span aria-hidden={this.state.settingsOpen} ref={this.headerRef}>
+        <ItineraryPageControls
+          params={params}
+          toggleSettings={this.toggleSearchSettings}
+        />
+        {error || !showStreetModeSelector ? null : (
+          <StreetModeSelector {...streetModeSelectorProps} />
+        )}
+        {hash === 'parkAndRide' && (
+          <div className="street-mode-info">
+            <FormattedMessage
+              id="leave-your-car-park-and-ride"
+              defaultMessage="Park your car at the Park & Ride site"
             />
-          );
-          return (
-            <DesktopView
-              title={
-                <span ref={this.tabHeaderRef} tabIndex={-1}>
-                  <FormattedMessage
-                    id="itinerary-page.title"
-                    defaultMessage="Itinerary suggestions"
-                  />
-                </span>
-              }
-              content={content}
-              map={map}
-              bckBtnVisible
-              bckBtnFallback="pop"
-            />
-          );
-        }
-        content = (
-          <ItineraryListContainer {...itineraryListProps}>
-            {props.content &&
-              React.cloneElement(props.content, {
-                itinerary: selectedItinerary,
-                focusToPoint: this.focusToPoint,
-                plan: this.selectedPlan,
-              })}
-          </ItineraryListContainer>
-        );
-      } else {
-        content = (
-          <div style={{ position: 'relative', height: 200 }}>
-            <Loading />
           </div>
-        );
-        return detailView ? (
+        )}
+      </span>
+    );
+
+    if (desktop) {
+      if (loading || waitAlternatives) {
+        // render spinner
+        const titleId = detailView
+          ? 'itinerary-page.title'
+          : 'summary-page.title';
+        return (
           <DesktopView
             title={
               <FormattedMessage
-                id="itinerary-page.title"
+                id={titleId}
                 defaultMessage="Itinerary suggestions"
               />
             }
-            content={content}
+            header={detailView ? undefined : header}
+            content={spinner}
             map={map}
             scrollable
             bckBtnVisible={false}
           />
-        ) : (
+        );
+      }
+
+      if (detailView) {
+        return (
           <DesktopView
             title={
-              <FormattedMessage
-                id="summary-page.title"
-                defaultMessage="Itinerary suggestions"
-              />
-            }
-            header={
-              <React.Fragment>
-                <ItineraryPageControls
-                  params={params}
-                  toggleSettings={this.toggleSearchSettings}
+              <span ref={this.tabHeaderRef} tabIndex={-1}>
+                <FormattedMessage
+                  id="itinerary-page.title"
+                  defaultMessage="Itinerary suggestions"
                 />
-                <StreetModeSelector {...streetModeSelectorProps} />
-              </React.Fragment>
+              </span>
             }
-            content={content}
+            content={detailTabs}
             map={map}
+            bckBtnVisible
+            bckBtnFallback="pop"
           />
         );
       }
+
+      const content = (
+        <ItineraryListContainer {...itineraryListProps}>
+          {props.content &&
+            React.cloneElement(props.content, {
+              itinerary: selectedItinerary,
+              focusToPoint: this.focusToPoint,
+              plan: this.selectedPlan,
+            })}
+        </ItineraryListContainer>
+      );
       return (
         <DesktopView
           title={
@@ -1305,124 +1297,46 @@ class ItineraryPage extends React.Component {
               defaultMessage="Itinerary suggestions"
             />
           }
-          bckBtnFallback={hash === 'bikeAndVehicle' ? 'pop' : undefined}
-          header={
-            <span aria-hidden={this.state.settingsOpen} ref={this.headerRef}>
-              <ItineraryPageControls
-                params={params}
-                toggleSettings={this.toggleSearchSettings}
-              />
-              {error || !showStreetModeSelector ? null : (
-                <StreetModeSelector {...streetModeSelectorProps} />
-              )}
-              {hash === 'parkAndRide' && (
-                <div className="street-mode-info">
-                  <FormattedMessage
-                    id="leave-your-car-park-and-ride"
-                    defaultMessage="Park your car at the Park & Ride site"
-                  />
-                </div>
-              )}
-            </span>
+          bckBtnFallback={
+            hash === 'bikeAndVehicle' || hash === 'parkAndRide'
+              ? 'pop'
+              : undefined
           }
+          header={detailView ? undefined : header}
           content={
             <span aria-hidden={this.state.settingsOpen} ref={this.contentRef}>
               {content}
             </span>
           }
-          settingsDrawer={
-            <SettingsDrawer
-              open={this.state.settingsOpen}
-              className="offcanvas"
-            >
-              <CustomizeSearch onToggleClick={this.toggleSearchSettings} />
-            </SettingsDrawer>
-          }
+          settingsDrawer={settingsDrawer}
           map={map}
           scrollable
         />
       );
     }
+
+    // mobile view
+    let content;
     if (detailView) {
       if (loading) {
-        return (
-          <div style={{ position: 'relative', height: 200 }}>
-            <Loading />
-          </div>
-        );
+        return spinner;
       }
-      content = (
-        <MobileItineraryWrapper
-          itineraries={combinedItineraries}
-          params={params}
-          focusToPoint={this.focusToPoint}
-          plan={this.selectedPlan}
-          serviceTimeRange={props.serviceTimeRange}
-          focusToLeg={this.focusToLeg}
-          onSwipe={this.changeHash}
-          carItinerary={carPlan?.itineraries[0]}
-          changeHash={this.changeHash}
-        >
-          {props.content &&
-            combinedItineraries.map((itinerary, i) =>
-              React.cloneElement(props.content, {
-                key: i,
-                itinerary,
-                plan: this.selectedPlan,
-                serviceTimeRange: props.serviceTimeRange,
-              }),
-            )}
-        </MobileItineraryWrapper>
-      );
+      content = detailTabs;
     } else if (loading) {
-      content = (
-        <div style={{ position: 'relative', height: 200 }}>
-          <Loading />
-        </div>
-      );
+      content = spinner;
     } else {
       content = <ItineraryListContainer {...itineraryListProps} />;
     }
 
     return (
       <MobileView
-        header={
-          !detailView ? (
-            <span aria-hidden={this.state.settingsOpen} ref={this.headerRef}>
-              <ItineraryPageControls
-                params={params}
-                toggleSettings={this.toggleSearchSettings}
-              />
-              {error || !showStreetModeSelector ? null : (
-                <StreetModeSelector {...streetModeSelectorProps} />
-              )}
-              {hash === 'parkAndRide' && (
-                <div className="street-mode-info">
-                  <FormattedMessage
-                    id="leave-your-car-park-and-ride"
-                    defaultMessage="Park your car at the Park & Ride site"
-                  />
-                </div>
-              )}
-            </span>
-          ) : (
-            false
-          )
-        }
+        header={detailView ? undefined : header}
         content={
           <span aria-hidden={this.state.settingsOpen} ref={this.contentRef}>
             {content}
           </span>
         }
         map={map}
-        settingsDrawer={
-          <SettingsDrawer
-            open={this.state.settingsOpen}
-            className="offcanvas-mobile"
-          >
-            <CustomizeSearch onToggleClick={this.toggleSearchSettings} mobile />
-          </SettingsDrawer>
-        }
         expandMap={this.expandMap}
       />
     );
