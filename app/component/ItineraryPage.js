@@ -24,7 +24,7 @@ import ItineraryPageControls from './ItineraryPageControls';
 import MobileItineraryWrapper from './MobileItineraryWrapper';
 import { getWeatherData } from '../util/apiUtils';
 import Loading from './Loading';
-import { getItineraryPagePath } from '../util/path';
+import { getItineraryPagePath, streetHash } from '../util/path';
 import { boundWithMinimumArea } from '../util/geo-utils';
 import {
   planQuery,
@@ -80,7 +80,13 @@ import ItineraryShape from '../prop-types/ItineraryShape';
 import ErrorShape from '../prop-types/ErrorShape';
 import RoutingErrorShape from '../prop-types/RoutingErrorShape';
 
-const streetHashes = ['walk', 'bike', 'bikeAndVehicle', 'car', 'parkAndRide'];
+const streetHashes = [
+  streetHash.walk,
+  streetHash.bike,
+  streetHash.bikeAndVehicle,
+  streetHash.car,
+  streetHash.parkAndRide,
+];
 const showVehiclesThresholdMinutes = 720;
 const emptyPlans = {
   walkPlan: undefined,
@@ -208,15 +214,15 @@ class ItineraryPage extends React.Component {
 
   mapHashToPlan(hash) {
     switch (hash) {
-      case 'walk':
+      case streetHash.walk:
         return this.state.walkPlan;
-      case 'bike':
+      case streetHash.bike:
         return this.state.bikePlan;
-      case 'bikeAndVehicle':
+      case streetHash.bikeAndVehicle:
         return this.state.bikeTransitPlan;
-      case 'car':
+      case streetHash.car:
         return this.state.carPlan;
-      case 'parkAndRide':
+      case streetHash.parkAndRide:
         return this.state.parkRidePlan;
       default:
         if (
@@ -854,7 +860,10 @@ class ItineraryPage extends React.Component {
 
   changeHash = index => {
     const { hash } = this.props.match.params;
-    const subPath = ['bikeAndVehicle', 'parkAndRide'].includes(hash)
+    const subPath = [
+      streetHash.bikeAndVehicle,
+      streetHash.parkAndRide,
+    ].includes(hash)
       ? `/${hash}`
       : '';
 
@@ -1029,9 +1038,9 @@ class ItineraryPage extends React.Component {
     return !!(
       this.inRange &&
       this.context.config.showVehiclesOnItineraryPage &&
-      hash !== 'walk' &&
-      hash !== 'bike' &&
-      hash !== 'car' &&
+      hash !== streetHash.walk &&
+      hash !== streetHash.bike &&
+      hash !== streetHash.car &&
       (this.props.breakpoint === 'large' || hash)
     );
   }
@@ -1319,7 +1328,9 @@ class ItineraryPage extends React.Component {
               defaultMessage="Itinerary suggestions"
             />
           }
-          bckBtnFallback={hash === 'bikeAndVehicle' ? 'pop' : undefined}
+          bckBtnFallback={
+            hash === streetHash.bikeAndVehicle ? 'pop' : undefined
+          }
           header={
             <span aria-hidden={this.state.settingsOpen} ref={this.headerRef}>
               <ItineraryPageControls
@@ -1329,7 +1340,7 @@ class ItineraryPage extends React.Component {
               {error || !showStreetModeSelector ? null : (
                 <StreetModeSelector {...streetModeSelectorProps} />
               )}
-              {hash === 'parkAndRide' && (
+              {hash === streetHash.parkAndRide && (
                 <div className="street-mode-info">
                   <FormattedMessage
                     id="leave-your-car-park-and-ride"
@@ -1410,7 +1421,7 @@ class ItineraryPage extends React.Component {
               {error || !showStreetModeSelector ? null : (
                 <StreetModeSelector {...streetModeSelectorProps} />
               )}
-              {hash === 'parkAndRide' && (
+              {hash === streetHash.parkAndRide && (
                 <div className="street-mode-info">
                   <FormattedMessage
                     id="leave-your-car-park-and-ride"

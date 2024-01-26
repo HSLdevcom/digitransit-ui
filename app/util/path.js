@@ -221,3 +221,11 @@ export const getHomeUrl = (origin, indexPath) => {
 
   return homeUrl;
 };
+
+export const streetHash = {
+  walk: 'walk',
+  bike: 'bike',
+  bikeAndVehicle: 'bikeAndVehicle',
+  car: 'car',
+  parkAndRide: 'parkAndRide',
+};

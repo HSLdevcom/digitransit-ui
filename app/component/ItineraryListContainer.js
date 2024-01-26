@@ -16,7 +16,7 @@ import ItineraryList from './ItineraryList/ItineraryList';
 import TimeStore from '../store/TimeStore';
 import PositionStore from '../store/PositionStore';
 import { otpToLocation, getIntermediatePlaces } from '../util/otpStrings';
-import { getItineraryPagePath } from '../util/path';
+import { getItineraryPagePath, streetHash } from '../util/path';
 import withBreakpoint from '../util/withBreakpoint';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import { isIOS, isSafari } from '../util/browser';
@@ -107,7 +107,10 @@ class ItineraryListContainer extends React.Component {
   };
 
   getSubPath(fallback) {
-    const modesWithSubpath = ['bikeAndVehicle', 'parkAndRide'];
+    const modesWithSubpath = [
+      streetHash.bikeAndVehicle,
+      streetHash.parkAndRide,
+    ];
     const { hash } = this.props.params;
     if (modesWithSubpath.includes(hash)) {
       return `/${hash}/`;

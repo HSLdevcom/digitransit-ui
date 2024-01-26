@@ -17,6 +17,7 @@ import LocationShape from '../../prop-types/LocationShape';
 import ErrorShape from '../../prop-types/ErrorShape';
 import RoutingErrorShape from '../../prop-types/RoutingErrorShape';
 import RoutingFeedbackPrompt from '../RoutingFeedbackPrompt';
+import { streetHash } from '../../util/path';
 
 const spinnerPosition = {
   top: 'top',
@@ -81,7 +82,7 @@ function ItineraryList(
       />
     ));
 
-    if (hash === 'bikeAndVehicle') {
+    if (hash === streetHash.bikeAndVehicle) {
       // bikeAndParkItineraryCount tells how many first itineraries use bike parking
       if (bikeAndParkItineraryCount > 0) {
         summaries.splice(
