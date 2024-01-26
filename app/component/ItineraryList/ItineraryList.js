@@ -18,6 +18,11 @@ import ErrorShape from '../../prop-types/ErrorShape';
 import RoutingErrorShape from '../../prop-types/RoutingErrorShape';
 import RoutingFeedbackPrompt from '../RoutingFeedbackPrompt';
 
+const spinnerPosition = {
+  top: 'top',
+  bottom: 'bottom',
+};
+
 function ItineraryList(
   {
     activeIndex,
@@ -147,7 +152,7 @@ function ItineraryList(
             </div>
           </div>
         )}
-        {loadingMore === 'top' && (
+        {loadingMore === spinnerPosition.top && (
           <div className="summary-list-spinner-container">
             <Loading />
           </div>
@@ -155,13 +160,14 @@ function ItineraryList(
         {isBrowser && (
           <div
             className={cx('summary-list-items', {
-              'summary-list-items-loading-top': loadingMore === 'top',
+              'summary-list-items-loading-top':
+                loadingMore === spinnerPosition.top,
             })}
           >
             {summaries}
           </div>
         )}
-        {loadingMore === 'bottom' && (
+        {loadingMore === spinnerPosition.bottom && (
           <div className="summary-list-spinner-container">
             <Loading />
           </div>
@@ -404,4 +410,8 @@ const containerComponent = createFragmentContainer(ItineraryList, {
   `,
 });
 
-export { containerComponent as default, ItineraryList as Component };
+export {
+  containerComponent as default,
+  ItineraryList as Component,
+  spinnerPosition,
+};

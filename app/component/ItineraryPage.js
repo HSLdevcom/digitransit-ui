@@ -19,6 +19,7 @@ import DesktopView from './DesktopView';
 import MobileView from './MobileView';
 import ItineraryPageMap from './map/ItineraryPageMap';
 import ItineraryListContainer from './ItineraryListContainer';
+import { spinnerPosition } from './ItineraryList/ItineraryList';
 import ItineraryPageControls from './ItineraryPageControls';
 import MobileItineraryWrapper from './MobileItineraryWrapper';
 import { getWeatherData } from '../util/apiUtils';
@@ -374,7 +375,9 @@ class ItineraryPage extends React.Component {
       time: latestDepartureTime.format('HH:mm'),
     };
 
-    this.setState({ loadingMore: reversed ? 'top' : 'bottom' });
+    this.setState({
+      loadingMore: reversed ? spinnerPosition.top : spinnerPosition.bottom,
+    });
     this.showScreenreaderLoadingAlert();
 
     fetchQuery(this.props.relayEnvironment, moreItinerariesQuery, tunedParams)
@@ -461,7 +464,9 @@ class ItineraryPage extends React.Component {
       date: earliestArrivalTime.format('YYYY-MM-DD'),
       time: earliestArrivalTime.format('HH:mm'),
     };
-    this.setState({ loadingMore: reversed ? 'bottom' : 'top' });
+    this.setState({
+      loadingMore: reversed ? spinnerPosition.bottom : spinnerPosition.top,
+    });
     this.showScreenreaderLoadingAlert();
 
     fetchQuery(this.props.relayEnvironment, moreItinerariesQuery, tunedParams)
