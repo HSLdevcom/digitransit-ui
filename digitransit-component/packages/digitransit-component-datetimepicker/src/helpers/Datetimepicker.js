@@ -162,35 +162,17 @@ function Datetimepicker({
     return moment(time).format('HH:mm');
   };
 
-  const validateTime = (inputValue, currentTimestamp) => {
-    const trimmed = inputValue.trim();
-    if (trimmed.match(/^[0-9]{1,2}(\.|:)[0-9]{2}$/) !== null) {
-      const splitter = trimmed.includes('.') ? '.' : ':';
-      const values = trimmed.split(splitter);
-      const hours = Number(values[0]);
-      const hoursValid = !Number.isNaN(hours) && hours >= 0 && hours <= 23;
-      const minutes = Number(values[1]);
-      const minutesValid =
-        !Number.isNaN(minutes) && minutes >= 0 && minutes <= 59;
-      if (!minutesValid || !hoursValid) {
-        return null;
-      }
-      const newStamp = moment(currentTimestamp)
-        .hours(hours)
-        .minutes(minutes)
-        .valueOf();
-      return newStamp;
-    }
-    return null;
-  };
-
   const selectedMoment = moment(displayTimestamp);
   const timeSelectStartTime = moment(displayTimestamp).startOf('day').valueOf();
   let timeChoices = [];
   const current = moment(timeSelectStartTime);
   while (current.isSame(timeSelectStartTime, 'day')) {
     timeChoices.push(current.valueOf());
-    current.add(15, 'minutes');
+    if (isMobile()) {
+      current.add(15, 'minutes');
+    } else {
+      current.add(1, 'minutes');
+    }
   }
   if (timestamp === null) {
     // if time is set to now
@@ -271,7 +253,6 @@ function Datetimepicker({
             getDateDisplay={getDateDisplay}
             dateSelectItemCount={serviceTimeRange}
             getDisplay={getTimeDisplay}
-            validateTime={validateTime}
             fontWeights={fontWeights}
           />
         )
@@ -419,7 +400,6 @@ function Datetimepicker({
                 }}
                 getDisplay={getTimeDisplay}
                 timeChoices={timeChoices}
-                validate={validateTime}
                 icon={
                   <span
                     className={`${styles['combobox-icon']} ${styles['time-input-icon']}`}
@@ -430,6 +410,7 @@ function Datetimepicker({
                 id={`${htmlId}-time`}
                 label={i18next.t('time', translationSettings)}
                 timeZone={timeZone}
+                translationSettings={translationSettings}
               />
             </span>
           </div>

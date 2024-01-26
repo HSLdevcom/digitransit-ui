@@ -273,6 +273,12 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle, map-buttons,
     }
   }
 
+  :global .datetimepicker-invalid-input {
+    input {
+      color: #f00 !important;
+    }
+  }
+
   .datetimepicker-select-container {
     position: relative;
     height: 40px;
@@ -484,6 +490,10 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle, map-buttons,
         }
       }
 
+      :global .mobile-datetimepicker-invalid-input {
+        color: #f00 !important;
+      }
+
       .time-input-mobile {
         font-family: inherit;
         box-shadow: none;
@@ -598,7 +608,6 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle, map-buttons,
           display: inline-block;
           font-family: inherit;
           line-height: 1.33;
-          color: #333;
           padding-left: 46px;
 
           &:focus {

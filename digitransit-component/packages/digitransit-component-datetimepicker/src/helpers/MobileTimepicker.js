@@ -1,8 +1,9 @@
 import PropTypes from 'prop-types';
 import React, { useRef, useLayoutEffect, useState } from 'react';
 import moment from 'moment-timezone';
+import cx from 'classnames';
 import styles from './styles.scss';
-import utils from './utils';
+import { parseTypedTime, getTs, validateInput } from './utils';
 
 /**
  * Component to display a time input on mobile
@@ -15,14 +16,13 @@ function MobileTimepicker({
   label,
   icon,
   timeZone,
-  validate,
 }) {
   const [inputValue, changeInputValue] = useState(getDisplay(value));
+  const [invalidInput, setinvalidInput] = useState(false);
   moment.tz.setDefault(timeZone);
   const inputId = `${id}-input`;
   const labelId = `${id}-label`;
   const timeInputRef = useRef(null);
-
   useLayoutEffect(() => {
     if (timeInputRef.current) {
       timeInputRef.current.focus();
@@ -39,13 +39,18 @@ function MobileTimepicker({
         inputMode="numeric"
         type="text"
         maxLength="6"
-        className={styles['time-input-mobile']}
+        className={cx(
+          styles['time-input-mobile'],
+          invalidInput ? 'mobile-datetimepicker-invalid-input' : '',
+        )}
         value={inputValue}
         onFocus={e => {
           e.target.setSelectionRange(0, 0); // set caret to start of input
         }}
         onChange={event => {
           let newValue = event.target.value;
+          const valid = validateInput(newValue);
+          setinvalidInput(valid);
           if (
             // number typed as first char => clear rest of the input
             newValue.match(/[0-9]{3}:[0-9]{2}/) &&
@@ -56,9 +61,9 @@ function MobileTimepicker({
           if (newValue.length > 5) {
             return;
           }
-          const actual = utils.parseTypedTime(newValue);
+          const actual = parseTypedTime(newValue);
           changeInputValue(actual);
-          const timestamp = validate(actual, value);
+          const timestamp = getTs(actual, value);
           if (timestamp) {
             onChange(timestamp);
           }
@@ -76,7 +81,6 @@ MobileTimepicker.propTypes = {
   label: PropTypes.string.isRequired,
   icon: PropTypes.node,
   timeZone: PropTypes.string,
-  validate: PropTypes.func.isRequired,
 };
 
 MobileTimepicker.defaultProps = {
