@@ -237,7 +237,6 @@ class IndexPage extends React.Component {
     ) : (
       <div className="stops-near-you-text">
         <h2>
-          {' '}
           {intl.formatMessage({
             id: 'stop-near-you-title',
             defaultMessage: 'Stops and lines near you',
@@ -396,7 +395,7 @@ class IndexPage extends React.Component {
                   {!config.hideStopRouteSearch && (
                     <>
                       <>{this.NearStops(CtrlPanel)}</>
-                      <StopRouteSearch {...stopRouteSearchProps} />{' '}
+                      <StopRouteSearch {...stopRouteSearchProps} />
                       <CtrlPanel.SeparatorLine />
                     </>
                   )}

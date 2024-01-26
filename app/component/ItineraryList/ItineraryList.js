@@ -239,13 +239,10 @@ function ItineraryList(
               </div>
               <FormattedMessage
                 id="router-only-walk"
-                defaultMessage={
-                  'Unfortunately no routes were found for your journey. ' +
-                  'Please change your origin or destination address.'
-                }
+                defaultMessage="No routes were found for your journey"
               />
             </div>
-          </div>{' '}
+          </div>
         </div>
       );
     }

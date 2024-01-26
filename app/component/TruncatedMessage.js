@@ -20,7 +20,7 @@ const TruncatedMessage = (
         onTruncate={didTruncate => onTruncate(!didTruncate)}
         ellipsis={
           <span>
-            ...{' '}
+            {'... '}
             <button
               className={className}
               type="button"

@@ -36,7 +36,7 @@ const AlertBanner = ({ alerts, linkAddress }, { config }) => {
           <Icon
             img="icon-icon_arrow-collapse--right"
             color={config.colors.primary}
-          />{' '}
+          />
         </div>
       </div>
     </Link>
