@@ -67,7 +67,8 @@ export const StreetModeSelectorButton = (
         config,
       ) || 'rail';
     secondaryIcon = `icon-icon_${mode}`;
-    secondaryColor = mode === 'subway' ? '#CA4000' : '';
+    secondaryColor =
+      mode === 'subway' ? config.colors?.iconColors?.['mode-metro'] : '';
   }
   return (
     // eslint-disable-next-line jsx-a11y/click-events-have-key-events
