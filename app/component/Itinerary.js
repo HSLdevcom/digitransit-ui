@@ -61,7 +61,7 @@ Leg.propTypes = {
   renderModeIcons: PropTypes.bool,
 };
 
-export const RouteLeg = (
+export function RouteLeg(
   {
     leg,
     large,
@@ -74,7 +74,7 @@ export const RouteLeg = (
     hasOneTransitLeg,
   },
   { config },
-) => {
+) {
   const isCallAgency = isCallAgencyPickupType(leg);
   let routeNumber;
   const mode = getRouteMode(leg.route);
@@ -127,7 +127,7 @@ export const RouteLeg = (
       fitRouteNumber={fitRouteNumber}
     />
   );
-};
+}
 
 RouteLeg.propTypes = {
   leg: PropTypes.object.isRequired,

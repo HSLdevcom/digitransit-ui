@@ -5,7 +5,7 @@ import SwipeableTabs from './SwipeableTabs';
 import ItineraryShape from '../prop-types/ItineraryShape';
 
 /* eslint-disable react/no-array-index-key */
-const ItineraryTabs = props => {
+function ItineraryTabs(props) {
   const { itineraries } = props;
 
   const itineraryTabs = itineraries.map((itinerary, i) => {
@@ -35,7 +35,7 @@ const ItineraryTabs = props => {
       ariaFromHeader="swipe-summary-page-header"
     />
   );
-};
+}
 
 ItineraryTabs.propTypes = {
   tabIndex: PropTypes.number.isRequired,
