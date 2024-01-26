@@ -199,8 +199,8 @@ class ItineraryListContainer extends React.Component {
     );
   }
 
-  renderMoreButton(arriveBy, position) {
-    if (position === 'top') {
+  renderMoreButton(arriveBy, onTop) {
+    if (onTop) {
       return arriveBy ? this.laterButton(true) : this.earlierButton();
     }
     return arriveBy ? this.earlierButton(true) : this.laterButton();
@@ -242,7 +242,7 @@ class ItineraryListContainer extends React.Component {
             defaultMessage="Route suggestions"
           />
         </h2>
-        {showEarlierLaterButtons && this.renderMoreButton(arriveBy, 'top')}
+        {showEarlierLaterButtons && this.renderMoreButton(arriveBy, true)}
         <ItineraryList
           activeIndex={activeIndex}
           currentTime={currentTime}
@@ -268,7 +268,7 @@ class ItineraryListContainer extends React.Component {
           {this.props.children}
         </ItineraryList>
         {this.props.settingsNotification && <SettingsNotification />}
-        {showEarlierLaterButtons && this.renderMoreButton(arriveBy, 'bottom')}
+        {showEarlierLaterButtons && this.renderMoreButton(arriveBy, false)}
       </div>
     );
   }
