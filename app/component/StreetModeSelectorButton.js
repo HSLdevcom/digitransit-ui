@@ -7,6 +7,7 @@ import { durationToString } from '../util/timeUtils';
 import {
   getTotalDistance,
   getTotalBikingDistance,
+  getTotalDrivingDistance,
   compressLegs,
   getExtendedMode,
 } from '../util/legUtils';
@@ -42,6 +43,13 @@ export const StreetModeSelectorButton = (
     case streetHash.bikeAndVehicle:
       distance = displayDistance(
         getTotalBikingDistance(itinerary),
+        config,
+        intl.formatNumber,
+      );
+      break;
+    case streetHash.parkAndRide:
+      distance = displayDistance(
+        getTotalDrivingDistance(itinerary),
         config,
         intl.formatNumber,
       );
