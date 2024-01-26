@@ -7,7 +7,11 @@ import { FormattedMessage } from 'react-intl';
 import OriginDestinationBar from './OriginDestinationBar';
 import SearchSettings from './SearchSettings';
 import { isBrowser } from '../util/browser';
-import { parseLocation, PREFIX_ITINERARY_SUMMARY } from '../util/path';
+import {
+  parseLocation,
+  PREFIX_ITINERARY_SUMMARY,
+  streetHash,
+} from '../util/path';
 import withBreakpoint from '../util/withBreakpoint';
 import BackButton from './BackButton';
 
@@ -58,6 +62,7 @@ class ItineraryPageControls extends React.Component {
 
   render() {
     const className = cx({ 'bp-large': this.props.breakpoint === 'large' });
+    const { params } = this.props;
     return (
       <div className="summary-navigation-container">
         {this.props.breakpoint !== 'large' && (
@@ -71,8 +76,8 @@ class ItineraryPageControls extends React.Component {
             icon="icon-icon_arrow-collapse--left"
             iconClassName="arrow-icon"
             fallback={
-              this.props.params.hash === 'bikeAndVehicle' ||
-              this.props.params.hash === 'parkAndRide'
+              params.hash === streetHash.bikeAndVehicle ||
+              params.hash === streetHash.parkAndRide
                 ? 'pop'
                 : undefined
             }
@@ -86,8 +91,8 @@ class ItineraryPageControls extends React.Component {
         </span>
         <OriginDestinationBar
           className={className}
-          origin={parseLocation(this.props.params.from)}
-          destination={parseLocation(this.props.params.to)}
+          origin={parseLocation(params.from)}
+          destination={parseLocation(params.to)}
           isMobile={this.props.breakpoint !== 'large'}
           modeSet={this.context.config.iconModeSet}
         />

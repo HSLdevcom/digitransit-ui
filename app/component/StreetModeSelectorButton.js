@@ -10,6 +10,7 @@ import {
   compressLegs,
   getExtendedMode,
 } from '../util/legUtils';
+import { streetHash } from '../util/path';
 
 export const StreetModeSelectorButton = (
   { icon, name, plan, onClick },
@@ -20,7 +21,7 @@ export const StreetModeSelectorButton = (
     return null;
   }
 
-  if (name === 'bikeAndVehicle' || name === 'parkAndRide') {
+  if (name === streetHash.bikeAndVehicle || name === streetHash.parkAndRide) {
     const compressedLegs = compressLegs(itinerary.legs);
     itinerary = {
       ...itinerary,
@@ -31,14 +32,14 @@ export const StreetModeSelectorButton = (
   const duration = durationToString(itinerary.duration * 1000);
   let distance = 0;
   switch (name) {
-    case 'WALK':
+    case streetHash.walk:
       distance = displayDistance(
         itinerary.walkDistance,
         config,
         intl.formatNumber,
       );
       break;
-    case 'bikeAndVehicle':
+    case streetHash.bikeAndVehicle:
       distance = displayDistance(
         getTotalBikingDistance(itinerary),
         config,
@@ -57,7 +58,7 @@ export const StreetModeSelectorButton = (
   let secondaryIcon;
   let secondaryColor;
 
-  if (name === 'parkAndRide' || name === 'bikeAndVehicle') {
+  if (name === streetHash.parkAndRide || name === streetHash.bikeAndVehicle) {
     const transitItinerary = plan.itineraries.find(i =>
       i.legs.find(l => l.transitLeg),
     );
@@ -67,7 +68,8 @@ export const StreetModeSelectorButton = (
         config,
       ) || 'rail';
     secondaryIcon = `icon-icon_${mode}`;
-    secondaryColor = mode === 'subway' ? '#CA4000' : '';
+    secondaryColor =
+      mode === 'subway' ? config.colors?.iconColors?.['mode-metro'] : '';
   }
   return (
     // eslint-disable-next-line jsx-a11y/click-events-have-key-events
@@ -91,16 +93,17 @@ export const StreetModeSelectorButton = (
         <div
           className={`street-mode-selector-button-icon ${
             secondaryIcon ? 'primary-icon' : ''
-          } ${name === 'parkAndRide' ? 'car-park-primary' : ''} ${
-            name === 'bikeAndVehicle' ? 'bike-and-vehicle-primary' : ''
+          } ${name === streetHash.parkAndRide ? 'car-park-primary' : ''} ${
+            name === streetHash.bikeAndVehicle ? 'bike-and-vehicle-primary' : ''
           }`}
         >
           <Icon img={icon} />
         </div>
-        {name === 'bikeAndVehicle' || name === 'parkAndRide' ? (
+        {name === streetHash.bikeAndVehicle ||
+        name === streetHash.parkAndRide ? (
           <div
             className={`street-mode-selector-button-icon secondary-icon ${
-              name === 'parkAndRide' ? 'car-park-secondary' : ''
+              name === streetHash.parkAndRide ? 'car-park-secondary' : ''
             }`}
           >
             <Icon img={secondaryIcon} color={secondaryColor} />

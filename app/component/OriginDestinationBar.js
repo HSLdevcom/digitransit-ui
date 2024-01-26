@@ -174,7 +174,7 @@ class OriginDestinationBar extends React.Component {
           showSwapControl
           showViapointControl={this.context.config.viaPointsEnabled}
           filterResults={filter}
-        />{' '}
+        />
       </div>
     );
   }

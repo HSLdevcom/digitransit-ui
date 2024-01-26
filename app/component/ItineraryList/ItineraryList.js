@@ -17,6 +17,12 @@ import LocationShape from '../../prop-types/LocationShape';
 import ErrorShape from '../../prop-types/ErrorShape';
 import RoutingErrorShape from '../../prop-types/RoutingErrorShape';
 import RoutingFeedbackPrompt from '../RoutingFeedbackPrompt';
+import { streetHash } from '../../util/path';
+
+const spinnerPosition = {
+  top: 'top',
+  bottom: 'bottom',
+};
 
 function ItineraryList(
   {
@@ -76,7 +82,7 @@ function ItineraryList(
       />
     ));
 
-    if (hash === 'bikeAndVehicle') {
+    if (hash === streetHash.bikeAndVehicle) {
       // bikeAndParkItineraryCount tells how many first itineraries use bike parking
       if (bikeAndParkItineraryCount > 0) {
         summaries.splice(
@@ -147,7 +153,7 @@ function ItineraryList(
             </div>
           </div>
         )}
-        {loadingMore === 'top' && (
+        {loadingMore === spinnerPosition.top && (
           <div className="summary-list-spinner-container">
             <Loading />
           </div>
@@ -155,13 +161,14 @@ function ItineraryList(
         {isBrowser && (
           <div
             className={cx('summary-list-items', {
-              'summary-list-items-loading-top': loadingMore === 'top',
+              'summary-list-items-loading-top':
+                loadingMore === spinnerPosition.top,
             })}
           >
             {summaries}
           </div>
         )}
-        {loadingMore === 'bottom' && (
+        {loadingMore === spinnerPosition.bottom && (
           <div className="summary-list-spinner-container">
             <Loading />
           </div>
@@ -233,13 +240,10 @@ function ItineraryList(
               </div>
               <FormattedMessage
                 id="router-only-walk"
-                defaultMessage={
-                  'Unfortunately no routes were found for your journey. ' +
-                  'Please change your origin or destination address.'
-                }
+                defaultMessage="No routes were found for your journey"
               />
             </div>
-          </div>{' '}
+          </div>
         </div>
       );
     }
@@ -404,4 +408,8 @@ const containerComponent = createFragmentContainer(ItineraryList, {
   `,
 });
 
-export { containerComponent as default, ItineraryList as Component };
+export {
+  containerComponent as default,
+  ItineraryList as Component,
+  spinnerPosition,
+};

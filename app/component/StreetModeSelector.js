@@ -5,6 +5,7 @@ import { FormattedMessage } from 'react-intl';
 import { StreetModeSelectorButton } from './StreetModeSelectorButton';
 import { StreetModeSelectorWeather } from './StreetModeSelectorWeather';
 import { StreetModeSelectorShimmer } from './StreetModeSelectorShimmer';
+import { streetHash } from '../util/path';
 
 export const StreetModeSelector = (
   {
@@ -31,7 +32,7 @@ export const StreetModeSelector = (
           {walkPlan?.itineraries?.length > 0 && (
             <StreetModeSelectorButton
               icon="icon-icon_walk"
-              name="walk"
+              name={streetHash.walk}
               plan={walkPlan}
               onClick={setStreetModeAndSelect}
             />
@@ -39,7 +40,7 @@ export const StreetModeSelector = (
           {bikePlan?.itineraries?.length > 0 && (
             <StreetModeSelectorButton
               icon="icon-icon_cyclist"
-              name="bike"
+              name={streetHash.bike}
               plan={bikePlan}
               onClick={setStreetModeAndSelect}
             />
@@ -47,7 +48,7 @@ export const StreetModeSelector = (
           {bikeTransitPlan?.itineraries?.length > 0 && (
             <StreetModeSelectorButton
               icon="icon-icon_cyclist"
-              name="bikeAndVehicle"
+              name={streetHash.bikeAndVehicle}
               plan={bikeTransitPlan}
               onClick={selectStreetMode}
             />
@@ -56,7 +57,7 @@ export const StreetModeSelector = (
           {parkRidePlan?.itineraries?.length > 0 && (
             <StreetModeSelectorButton
               icon="icon-icon_car-withoutBox"
-              name="parkAndRide"
+              name={streetHash.parkAndRide}
               plan={parkRidePlan}
               onClick={selectStreetMode}
             />
@@ -64,7 +65,7 @@ export const StreetModeSelector = (
           {carPlan?.itineraries?.length > 0 && (
             <StreetModeSelectorButton
               icon="icon-icon_car-withoutBox"
-              name="car"
+              name={streetHash.car}
               plan={carPlan}
               onClick={setStreetModeAndSelect}
             />
