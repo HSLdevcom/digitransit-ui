@@ -221,8 +221,7 @@ class ItineraryPage extends React.Component {
         return this.state.parkRidePlan;
       default:
         if (
-          transitItineraries(this.props.viewer?.plan?.itineraries).length ===
-            0 &&
+          !transitItineraries(this.props.viewer?.plan?.itineraries).length &&
           !this.state.settingsChangedRecently &&
           this.state.relaxedPlan?.itineraries?.length > 0
         ) {
@@ -722,10 +721,7 @@ class ItineraryPage extends React.Component {
         )
         .filter(a => a[0] && a[1]),
     );
-    this.setState({
-      bounds,
-      center: undefined,
-    });
+    this.setState({ bounds, center: undefined });
   };
 
   makeWeatherQuery() {
@@ -1243,19 +1239,17 @@ class ItineraryPage extends React.Component {
     );
 
     if (desktop) {
+      const titleContent = (
+        <FormattedMessage
+          id={detailView ? 'itinerary-page.title' : 'summary-page.title'}
+          defaultMessage="Itinerary suggestions"
+        />
+      );
       if (loading) {
         // render spinner
-        const titleId = detailView
-          ? 'itinerary-page.title'
-          : 'summary-page.title';
         return (
           <DesktopView
-            title={
-              <FormattedMessage
-                id={titleId}
-                defaultMessage="Itinerary suggestions"
-              />
-            }
+            title={titleContent}
             header={detailView ? undefined : header}
             content={spinner}
             map={map}
@@ -1268,14 +1262,7 @@ class ItineraryPage extends React.Component {
       if (detailView) {
         return (
           <DesktopView
-            title={
-              <span ref={this.tabHeaderRef} tabIndex={-1}>
-                <FormattedMessage
-                  id="itinerary-page.title"
-                  defaultMessage="Itinerary suggestions"
-                />
-              </span>
-            }
+            title={titleContent}
             content={detailTabs}
             map={map}
             bckBtnVisible
@@ -1286,15 +1273,9 @@ class ItineraryPage extends React.Component {
 
       return (
         <DesktopView
-          title={
-            <FormattedMessage
-              id="summary-page.title"
-              defaultMessage="Itinerary suggestions"
-            />
-          }
+          title={titleContent}
           bckBtnFallback={
-            hash === streetHash.bikeAndVehicle ||
-            hash === streetHash.parkAndRide
+            [streetHash.bikeAndVehicle, streetHash.parkAndRide].includes(hash)
               ? 'pop'
               : undefined
           }
