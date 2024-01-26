@@ -1138,9 +1138,12 @@ class ItineraryPage extends React.Component {
             detailView,
           );
 
+    // must wait alternatives to render correct notifier
+    const waitAlternatives = hasNoTransitItineraries && state.loadingAlt;
     const loading =
       (state.loadingRelaxed && hasNoTransitItineraries) ||
-      (!error && props.loading);
+      (!error && props.loading) ||
+      waitAlternatives;
 
     const showRelaxedPlanNotifier = this.selectedPlan === state.relaxedPlan;
     const settingsNotification =
@@ -1190,12 +1193,6 @@ class ItineraryPage extends React.Component {
       loading: loading || state.loadingAlt || state.loadingWeather,
     };
 
-    // must wait alternatives to render correct notifier
-    const waitAlternatives = hasNoTransitItineraries && state.loadingAlt;
-    const selectedItinerary = combinedItineraries.length
-      ? combinedItineraries[selectedIndex]
-      : undefined;
-
     const desktop = breakpoint === 'large';
     const detailTabs = detailView ? (
       <ItineraryTabs
@@ -1210,12 +1207,11 @@ class ItineraryPage extends React.Component {
       />
     ) : null;
 
-    const spinner =
-      loading || waitAlternatives ? (
-        <div style={{ position: 'relative', height: 200 }}>
-          <Loading />
-        </div>
-      ) : undefined;
+    const spinner = loading ? (
+      <div style={{ position: 'relative', height: 200 }}>
+        <Loading />
+      </div>
+    ) : undefined;
 
     const settingsDrawer = (
       <SettingsDrawer
@@ -1247,7 +1243,7 @@ class ItineraryPage extends React.Component {
     );
 
     if (desktop) {
-      if (loading || waitAlternatives) {
+      if (loading) {
         // render spinner
         const titleId = detailView
           ? 'itinerary-page.title'
@@ -1288,16 +1284,6 @@ class ItineraryPage extends React.Component {
         );
       }
 
-      const content = (
-        <ItineraryListContainer {...itineraryListProps}>
-          {props.content &&
-            React.cloneElement(props.content, {
-              itinerary: selectedItinerary,
-              focusToPoint: this.focusToPoint,
-              plan: this.selectedPlan,
-            })}
-        </ItineraryListContainer>
-      );
       return (
         <DesktopView
           title={
@@ -1315,7 +1301,7 @@ class ItineraryPage extends React.Component {
           header={detailView ? undefined : header}
           content={
             <span aria-hidden={this.state.settingsOpen} ref={this.contentRef}>
-              {content}
+              <ItineraryListContainer {...itineraryListProps} />
             </span>
           }
           settingsDrawer={settingsDrawer}
@@ -1346,6 +1332,7 @@ class ItineraryPage extends React.Component {
             {content}
           </span>
         }
+        settingsDrawer={settingsDrawer}
         map={map}
         expandMap={this.expandMap}
       />
