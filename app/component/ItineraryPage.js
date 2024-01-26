@@ -376,12 +376,12 @@ class ItineraryPage extends React.Component {
     };
 
     this.setState({ loadingMore: reversed ? 'top' : 'bottom' });
-    this.showScreenreaderLoadingAlert();
+    this.showScreenReaderAlert('itinerary-page.loading-itineraries', true);
 
     fetchQuery(this.props.relayEnvironment, moreQuery, tunedParams)
       .toPromise()
       .then(({ plan: result }) => {
-        this.showScreenreaderLoadedAlert();
+        this.showScreenReaderAlert('itinerary-page.itineraries-loaded');
         if (reversed) {
           const reversedItineraries = result.itineraries
             .slice() // Need to copy because result is readonly
@@ -463,7 +463,7 @@ class ItineraryPage extends React.Component {
       time: earliestArrivalTime.format('HH:mm'),
     };
     this.setState({ loadingMore: reversed ? 'bottom' : 'top' });
-    this.showScreenreaderLoadingAlert();
+    this.showScreenReaderAlert('itinerary-page.loading-itineraries', true);
 
     fetchQuery(this.props.relayEnvironment, moreQuery, tunedParams)
       .toPromise()
@@ -474,7 +474,7 @@ class ItineraryPage extends React.Component {
           // --> cannot calculate earlier start time
           this.setError('no-route-start-date-too-early');
         }
-        this.showScreenreaderLoadedAlert();
+        this.showScreenReaderAlert('itinerary-page.itineraries-loaded');
         if (reversed) {
           this.setState(prevState => {
             return {
@@ -637,7 +637,7 @@ class ItineraryPage extends React.Component {
     const itinerariesChanged = props.viewer.plan !== this.plan;
     if (itinerariesChanged) {
       this.plan = props.viewer.plan;
-      this.showScreenreaderLoadedAlert();
+      this.showScreenReaderAlert('itinerary-page.itineraries-loaded');
       // eslint-disable-next-line react/no-did-update-set-state
       this.setState(emptyPlans, () => {
         if (settingsLimitRouting(config)) {
@@ -801,44 +801,19 @@ class ItineraryPage extends React.Component {
     }
   }
 
-  showScreenreaderLoadedAlert() {
-    if (this.props.alertRef?.current?.innerHTML) {
-      this.props.alertRef.current.innerHTML = null;
+  showScreenReaderAlert(id, onlyNew) {
+    if (
+      this.props.alertRef?.current &&
+      (!onlyNew || !this.props.alertRef.current.innerHTML)
+    ) {
       this.props.alertRef.current.innerHTML = this.context.intl.formatMessage({
-        id: 'itinerary-page.itineraries-loaded',
-        defaultMessage: 'More itineraries loaded',
+        id,
+        defaultMessage: id,
       });
       setTimeout(() => {
         if (this.props.alertRef?.current?.innerHTML) {
           this.props.alertRef.current.innerHTML = null;
         }
-      }, 100);
-    }
-  }
-
-  showScreenreaderUpdatedAlert() {
-    if (this.props.alertRef.current) {
-      if (this.props.alertRef.current.innerHTML) {
-        this.props.alertRef.current.innerHTML = null;
-      }
-      this.props.alertRef.current.innerHTML = this.context.intl.formatMessage({
-        id: 'itinerary-page.itineraries-updated',
-        defaultMessage: 'search results updated',
-      });
-      setTimeout(() => {
-        this.props.alertRef.current.innerHTML = null;
-      }, 100);
-    }
-  }
-
-  showScreenreaderLoadingAlert() {
-    if (this.props.alertRef.current && !this.props.alertRef.current.innerHTML) {
-      this.props.alertRef.current.innerHTML = this.context.intl.formatMessage({
-        id: 'itinerary-page.loading-itineraries',
-        defaultMessage: 'Loading for more itineraries',
-      });
-      setTimeout(() => {
-        this.props.alertRef.current.innerHTML = null;
       }, 100);
     }
   }
@@ -957,7 +932,7 @@ class ItineraryPage extends React.Component {
       () => {
         this.props.relay.refetch(planParams, null, () => {
           this.makeAlternativeQuery();
-          this.showScreenreaderUpdatedAlert();
+          this.showScreenReaderAlert('itinerary-page.itineraries-updated');
           this.resetItineraryPageSelection();
         });
       },
