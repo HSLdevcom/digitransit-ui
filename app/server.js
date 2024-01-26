@@ -77,8 +77,7 @@ if (process.env.NODE_ENV !== 'development') {
 
 function getPolyfills(userAgent, config) {
   // Do not trust Samsung, LG
-  // see https://digitransit.atlassian.net/browse/DT-360
-  // https://digitransit.atlassian.net/browse/DT-445
+  // see https://digitransit.atlassian.net/browse/DT-360 and DT-445
   // Also https://github.com/Financial-Times/polyfill-service/issues/727
   if (
     !userAgent ||

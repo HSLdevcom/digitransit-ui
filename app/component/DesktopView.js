@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import ErrorBoundary from './ErrorBoundary';
-import BackButton from './BackButton'; // DT-3358
+import BackButton from './BackButton';
 import ScrollableWrapper from './ScrollableWrapper';
 
 export default function DesktopView({

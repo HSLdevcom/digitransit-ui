@@ -7,7 +7,7 @@ import { FormattedMessage, intlShape } from 'react-intl';
 import Icon from './Icon';
 
 function WeatherDetailsPopup({ weatherData, onClose }, { intl }) {
-  // DT-4274: Icons for night time is represented adding a 100 to an id. For example:
+  // Icons for night time is represented adding a 100 to an id. For example:
   // iconId 1 (clear sky) for a day is 101 for a night. Subtract this so we don't need duplicate translations.
   const weatherIdForDescription =
     weatherData.iconId > 100 ? weatherData.iconId - 100 : weatherData.iconId;

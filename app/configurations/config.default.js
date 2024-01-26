@@ -259,7 +259,7 @@ export default {
     timeNavigation: {
       enableButtonArrows: false,
     },
-    // Number of days to include to the service time range from the future (DT-3317)
+    // Number of days to include to the service time range from the future
     serviceTimeRange: 60,
   },
 
@@ -303,12 +303,12 @@ export default {
       passiveColor: '#758993',
     },
 
-    showZoomControl: true, // DT-3470
-    showLayerSelector: true, // DT-3470
-    showStopMarkerPopupOnMobile: true, // DT-3470
-    showScaleBar: true, // DT-3470
+    showZoomControl: true,
+    showLayerSelector: true,
+    showStopMarkerPopupOnMobile: true,
+    showScaleBar: true,
     attribution:
-      '<a tabIndex="-1" href="http://osm.org/copyright">© OpenStreetMap</a>', // DT-3470, DT-3397
+      '<a tabIndex="-1" href="http://osm.org/copyright">© OpenStreetMap</a>',
 
     useModeIconsInNonTileLayer: false,
     // areBounds is for keeping map and user inside given area
@@ -366,7 +366,7 @@ export default {
   },
 
   appBarLink: { name: 'Digitransit', href: 'https://www.digitransit.fi/' },
-  appBarStyle: 'default', // DT-3375
+  appBarStyle: 'default',
 
   colors: {
     primary: '#000F94',
@@ -801,12 +801,10 @@ export default {
 
   vehicles: false,
   showVehiclesOnStopPage: false,
-  // DT-3551: Link to traffic information page.
   trafficNowLink: '',
 
   timetables: {},
 
-  // DT-3611
   showVehiclesOnItineraryPage: false,
 
   showWeatherInformation: true,
@@ -838,7 +836,7 @@ export default {
 
   viaPointsEnabled: false,
 
-  // DT-4802 Toggling this off shows the alert bodytext instead of the header
+  // Toggling this off shows the alert bodytext instead of the header
   showAlertHeader: true,
 
   showSimilarRoutesOnRouteDropDown: false,

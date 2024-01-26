@@ -14,7 +14,6 @@ const modules = {
   MessageBar: () => importLazy(import('./MessageBar')),
 };
 
-// DT-3375: added style
 const AppBarContainer = ({
   router,
   match,

@@ -17,9 +17,9 @@ export default class BackButton extends React.Component {
     color: PropTypes.string,
     iconClassName: PropTypes.string,
     title: PropTypes.node,
-    titleClassName: PropTypes.string, // DT-3472
+    titleClassName: PropTypes.string,
     titleCustomStyle: PropTypes.object,
-    className: PropTypes.string, // DT-3614
+    className: PropTypes.string,
     onBackBtnClick: PropTypes.func,
     fallback: PropTypes.string,
   };
@@ -29,9 +29,9 @@ export default class BackButton extends React.Component {
     color: undefined,
     iconClassName: '',
     title: undefined,
-    titleClassName: undefined, // DT-3472
+    titleClassName: undefined,
     titleCustomStyle: undefined,
-    className: 'back-button', // DT-3614
+    className: 'back-button',
     fallback: undefined,
   };
 

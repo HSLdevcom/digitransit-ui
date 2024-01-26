@@ -169,7 +169,6 @@ export const enrichPatterns = (patterns, onlyInFuture, serviceTimeRange) => {
   let futureTrips = cloneDeep(patterns);
 
   if (onlyInFuture === true) {
-    // DT-3182
     const wantedTime = moment().unix();
     futureTrips.forEach(function (o) {
       if (o.tripsForDate !== undefined) {
@@ -315,7 +314,7 @@ export const enrichPatterns = (patterns, onlyInFuture, serviceTimeRange) => {
     f => f.tripsForDate.length > 0 || f.activeDates.length > 0,
   );
 
-  // DT-2531: shows main routes (both directions) if there is no futureTrips
+  // shows main routes (both directions) if there is no futureTrips
   if (futureTrips.length === 0 && patterns.length > 0) {
     futureTrips = patterns.filter(p => p.code.endsWith(':01'));
   }

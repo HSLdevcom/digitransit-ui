@@ -13,7 +13,7 @@ import RouteNumber from './RouteNumber';
 import RoutePageControlPanel from './RoutePageControlPanel';
 import { PREFIX_DISRUPTION, PREFIX_ROUTES } from '../util/path';
 import withBreakpoint from '../util/withBreakpoint';
-import BackButton from './BackButton'; // DT-3472
+import BackButton from './BackButton';
 import { isBrowser } from '../util/browser';
 import LazilyLoad, { importLazy } from './LazilyLoad';
 import { getRouteMode } from '../util/modeUtils';
@@ -170,7 +170,6 @@ class RoutePage extends React.Component {
   }
 }
 
-// DT-2531: added activeDates
 const containerComponent = createFragmentContainer(
   connectToStores(withBreakpoint(RoutePage), ['TimeStore'], context => ({
     currentTime: context.getStore('TimeStore').getCurrentTime().unix(),

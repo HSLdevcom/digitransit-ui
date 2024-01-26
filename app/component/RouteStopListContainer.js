@@ -60,7 +60,7 @@ class RouteStopListContainer extends React.PureComponent {
     const rowClassName = `bp-${this.props.breakpoint}`;
 
     return stops.map((stop, i) => {
-      const idx = i; // DT-3159: using in key of RouteStop component
+      const idx = i;
       const nextStop = stops[i + 1];
       const prevStop = stops[i - 1];
 

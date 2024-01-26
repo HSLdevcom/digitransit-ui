@@ -179,7 +179,6 @@ class IndexPage extends React.Component {
     this.context.executeAction(storeDestination, favourite);
   };
 
-  // DT-3551: handle logic for Traffic now link
   trafficNowHandler = (e, lang) => {
     window.location = `${this.context.config.URL.ROOTLINK}/${
       lang === 'fi' ? '' : `${lang}/`
