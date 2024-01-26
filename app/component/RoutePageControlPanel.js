@@ -10,7 +10,7 @@ import { enrichPatterns } from '@digitransit-util/digitransit-util';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import CallAgencyWarning from './CallAgencyWarning';
 import RoutePatternSelect from './RoutePatternSelect';
-import RouteNotification from './routeNotification';
+import RouteNotification from './RouteNotification';
 import { DATE_FORMAT } from '../constants';
 import {
   startRealTimeClient,

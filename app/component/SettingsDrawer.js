@@ -11,10 +11,12 @@ export const SettingsDrawer = ({ children, open, className }) => {
 };
 
 SettingsDrawer.propTypes = {
-  open: PropTypes.bool.isRequired,
+  open: PropTypes.bool,
   className: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
 };
+
+SettingsDrawer.defaultProps = { open: false };
 
 SettingsDrawer.contextTypes = {
   config: PropTypes.object.isRequired,

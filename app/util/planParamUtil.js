@@ -157,7 +157,7 @@ export const getSettings = config => {
   };
 };
 
-const getShouldMakeParkRideQuery = (
+const shouldMakeParkRideQuery = (
   linearDistance,
   config,
   settings,
@@ -171,21 +171,17 @@ const getShouldMakeParkRideQuery = (
   );
 };
 
-const getShouldMakeCarQuery = (
+const shouldMakeCarQuery = (
   linearDistance,
   config,
   settings,
   defaultSettings,
 ) => {
-  const forceCarRouting = config.showCO2InItinerarySummary
-    ? config.showCO2InItinerarySummary
-    : defaultSettings.showCO2InItinerarySummary;
-
   const includeCarSuggestions = settings.includeCarSuggestions
     ? settings.includeCarSuggestions
     : defaultSettings.includeCarSuggestions;
   return (
-    forceCarRouting ||
+    config.showCO2InItinerarySummary ||
     (linearDistance > config.suggestCarMinDistance && includeCarSuggestions)
   );
 };
@@ -304,14 +300,14 @@ export const preparePlanParams =
         linearDistance < config.suggestBikeMaxDistance &&
         includeBikeSuggestions &&
         !config.onlyCarPlan,
-      shouldMakeCarQuery: getShouldMakeCarQuery(
+      shouldMakeCarQuery: shouldMakeCarQuery(
         linearDistance,
         config,
         settings,
         defaultSettings,
       ),
       shouldMakeParkRideQuery:
-        getShouldMakeParkRideQuery(
+        shouldMakeParkRideQuery(
           linearDistance,
           config,
           settings,

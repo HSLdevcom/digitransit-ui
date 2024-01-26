@@ -1,7 +1,6 @@
 import isString from 'lodash/isString';
 import sortedUniq from 'lodash/sortedUniq';
 import xor from 'lodash/xor';
-import isEqual from 'lodash/isEqual';
 import inside from 'point-in-polygon';
 import { getCustomizedSettings } from '../store/localStorage';
 import { isInBoundingBox } from './geo-utils';
@@ -299,16 +298,6 @@ export const getModes = config => {
     return modesWithCitybike;
   }
   return getDefaultModes(config);
-};
-
-/**
- * Checks if user has changed the transport or street modes
- *
- * @param {*} config The configuration for the software installation
- * @returns {Boolean} True if current modes differ from the default ones
- */
-export const userHasChangedModes = config => {
-  return !isEqual(getDefaultModes(config).sort(), getModes(config).sort());
 };
 
 /**

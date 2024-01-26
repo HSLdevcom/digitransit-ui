@@ -17,7 +17,7 @@ import {
 import Icon from '../Icon';
 import Loading from '../Loading';
 import { addAnalyticsEvent } from '../../util/analyticsUtils';
-import useUTMCampaignParams from './hooks/useUTMCampaignParams';
+import UseUTMCampaignParams from './hooks/UseUTMCampaignParams';
 
 const LocationSearch = withSearchContext(DTAutosuggestPanel, true);
 
@@ -225,7 +225,7 @@ const EmbeddedSearch = (props, context) => {
 
   const mode = bikeOnly ? 'bike' : walkOnly ? 'walk' : 'all';
 
-  const utmCampaignParams = useUTMCampaignParams({
+  const utmCampaignParams = UseUTMCampaignParams({
     mode,
     hasOrigin: Boolean(defaultOriginExists),
     hasDest: Boolean(defaultDestinationExists),

@@ -2049,7 +2049,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digitransit-component/digitransit-component-control-panel@^1.1.5, @digitransit-component/digitransit-component-control-panel@workspace:digitransit-component/packages/digitransit-component-control-panel":
+"@digitransit-component/digitransit-component-control-panel@^1.1.6, @digitransit-component/digitransit-component-control-panel@workspace:digitransit-component/packages/digitransit-component-control-panel":
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-control-panel@workspace:digitransit-component/packages/digitransit-component-control-panel"
   peerDependencies:
@@ -2204,7 +2204,7 @@ __metadata:
   dependencies:
     "@digitransit-component/digitransit-component-autosuggest": ^2.0.3
     "@digitransit-component/digitransit-component-autosuggest-panel": ^3.0.3
-    "@digitransit-component/digitransit-component-control-panel": ^1.1.5
+    "@digitransit-component/digitransit-component-control-panel": ^1.1.6
     "@digitransit-component/digitransit-component-favourite-bar": 2.0.2
     "@digitransit-component/digitransit-component-favourite-editing-modal": ^2.0.0
     "@digitransit-component/digitransit-component-favourite-modal": ^1.0.4

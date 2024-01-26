@@ -170,7 +170,6 @@ export default {
 
   messageBarAlerts: true,
 
-  // DT-5494
   includeCarSuggestions: true,
   includeParkAndRideSuggestions: true,
   // Include both bike and park and bike and public

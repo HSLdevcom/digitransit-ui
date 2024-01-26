@@ -73,7 +73,7 @@ const VehicleRentalStationContent = (
             href={returnInstructionsUrl}
           >
             {' '}
-            <FormattedMessage id="citybike-return-full-link" />{' '}
+            <FormattedMessage id="citybike-return-full-link" />
           </a>
         </div>
       )}
@@ -85,7 +85,7 @@ const VehicleRentalStationContent = (
           <div className="disclaimer-content">
             {buyInstructions || (
               <a className="external-link-citybike" href={cityBikeNetworkUrl}>
-                <FormattedMessage id="citybike-start-using-info" />{' '}
+                <FormattedMessage id="citybike-start-using-info" />
               </a>
             )}
           </div>

@@ -54,7 +54,7 @@ const AppBarContainer = ({
               style={{ display: isClient ? 'block' : 'none' }}
             >
               <AppBarHsl user={user} lang={lang} favourites={favourites} />
-              <MessageBar breakpoint={breakpoint} />{' '}
+              <MessageBar breakpoint={breakpoint} />
             </div>
           ) : (
             <AppBar

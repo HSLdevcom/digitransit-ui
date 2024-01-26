@@ -543,7 +543,7 @@ class StopsNearYouPage extends React.Component {
                               className="external-link-citybike"
                               href={cityBikeNetworkUrl[this.props.lang]}
                             >
-                              <FormattedMessage id="citybike-start-using-info" />{' '}
+                              <FormattedMessage id="citybike-start-using-info" />
                             </a>
                           )}
                           {cityBikeBuyUrl && (

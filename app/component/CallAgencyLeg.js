@@ -83,8 +83,11 @@ const CallAgencyLeg = ({ leg, index, focusAction }, { config }) => {
             {leg.route.agency.phone ? (
               <div className="call-button">
                 <a href={`tel:${leg.route.agency.phone}`}>
-                  <FormattedMessage id="call" defaultMessage="Call" />{' '}
-                  {leg.route.agency.phone}
+                  <FormattedMessage
+                    id="call"
+                    defaultMessage="Call"
+                    values={{ number: leg.route.agency.phone }}
+                  />
                 </a>
               </div>
             ) : (
