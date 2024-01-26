@@ -253,6 +253,8 @@ class ItineraryPage extends React.Component {
           result.bikeAndPublicPlan?.itineraries,
         );
 
+        // show 6 bike + transit itineraries, preferably 3 of both kind.
+        // If there is not enough of a kind, take more from the other kind
         let n1 = bikeParkItineraries.length;
         let n2 = bikePublicItineraries.length;
         if (n1 < 3) {
