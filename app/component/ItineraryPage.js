@@ -68,7 +68,7 @@ import {
 import { refShape, mapLayerOptionsShape } from '../util/shapes';
 import { saveFutureRoute } from '../action/FutureRoutesActions';
 import { saveSearch } from '../action/SearchActions';
-import CustomizeSearch from './CustomizeSearchNew';
+import CustomizeSearch from './CustomizeSearch';
 import { mapLayerShape } from '../store/MapLayerStore';
 import { getMapLayerOptions } from '../util/mapLayerUtils';
 import ItineraryShape from '../prop-types/ItineraryShape';
@@ -847,7 +847,7 @@ class ItineraryPage extends React.Component {
     this.context.router.replace(newLocationState);
   };
 
-  toggleSearchSettings = () => {
+  toggleSettings = () => {
     this.showSettingsPanel(!this.state.settingsOpen);
   };
 
@@ -1184,20 +1184,23 @@ class ItineraryPage extends React.Component {
       </div>
     ) : undefined;
 
-    const settingsDrawer = (
+    const settingsDrawer = detailView ? undefined : (
       <SettingsDrawer
         open={this.state.settingsOpen}
         className={desktop ? 'offcanvas' : 'offcanvas-mobile'}
       >
-        <CustomizeSearch onToggleClick={this.toggleSearchSettings} mobile />
+        <CustomizeSearch
+          onToggleClick={this.toggleSettings}
+          mobile={!desktop}
+        />
       </SettingsDrawer>
     );
 
-    const header = (
+    const header = detailView ? undefined : (
       <span aria-hidden={this.state.settingsOpen} ref={this.headerRef}>
         <ItineraryPageControls
           params={params}
-          toggleSettings={this.toggleSearchSettings}
+          toggleSettings={this.toggleSettings}
         />
         {error || !showStreetModeSelector ? null : (
           <StreetModeSelector {...streetModeSelectorProps} />
@@ -1214,18 +1217,18 @@ class ItineraryPage extends React.Component {
     );
 
     if (desktop) {
-      const titleContent = (
+      const title = (
         <FormattedMessage
           id={detailView ? 'itinerary-page.title' : 'summary-page.title'}
           defaultMessage="Itinerary suggestions"
         />
       );
       if (loading) {
-        // render spinner
+        // render spinner content
         return (
           <DesktopView
-            title={titleContent}
-            header={detailView ? undefined : header}
+            title={title}
+            header={header}
             content={spinner}
             map={map}
             scrollable
@@ -1233,28 +1236,25 @@ class ItineraryPage extends React.Component {
           />
         );
       }
-
       if (detailView) {
         return (
           <DesktopView
-            title={titleContent}
+            title={title}
             content={detailTabs}
             map={map}
-            bckBtnVisible
             bckBtnFallback="pop"
           />
         );
       }
-
       return (
         <DesktopView
-          title={titleContent}
+          title={title}
           bckBtnFallback={
             [streetHash.bikeAndVehicle, streetHash.parkAndRide].includes(hash)
               ? 'pop'
               : undefined
           }
-          header={detailView ? undefined : header}
+          header={header}
           content={
             <span aria-hidden={this.state.settingsOpen} ref={this.contentRef}>
               <ItineraryListContainer {...itineraryListProps} />
@@ -1282,7 +1282,7 @@ class ItineraryPage extends React.Component {
 
     return (
       <MobileView
-        header={detailView ? undefined : header}
+        header={header}
         content={
           <span aria-hidden={this.state.settingsOpen} ref={this.contentRef}>
             {content}
