@@ -1194,14 +1194,6 @@ class ItineraryPage extends React.Component {
           toggleSettings={this.toggleSettings}
         />
         {alternativeItineraryBar}
-        {hash === streetHash.parkAndRide && (
-          <div className="street-mode-info">
-            <FormattedMessage
-              id="leave-your-car-park-and-ride"
-              defaultMessage="Park your car at the Park & Ride site"
-            />
-          </div>
-        )}
       </span>
     );
 

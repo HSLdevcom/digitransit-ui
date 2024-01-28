@@ -82,6 +82,17 @@ function ItineraryList(
       />
     ));
 
+    if (hash === streetHash.parkAndRide) {
+      summaries.splice(
+        0,
+        0,
+        <ItineraryListHeader
+          translationId="leave-your-car-park-and-ride"
+          defaultMessage="Park & Ride"
+          key="itinerary-summary.parkride-title"
+        />,
+      );
+    }
     if (hash === streetHash.bikeAndVehicle) {
       // bikeAndParkItineraryCount tells how many first itineraries use bike parking
       if (bikeAndParkItineraryCount > 0) {
