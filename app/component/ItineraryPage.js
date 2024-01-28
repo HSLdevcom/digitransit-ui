@@ -596,12 +596,12 @@ class ItineraryPage extends React.Component {
   componentDidUpdate(prevProps) {
     const { state, props } = this;
     const { params } = this.props.match;
-    const { hash } = params;
+    const { hash, secondHash } = params;
     const { config } = this.context;
 
     if (
       !isEqual(hash, prevProps.match.params.hash) ||
-      !isEqual(params.secondHash, prevProps.match.params.secondHash)
+      !isEqual(secondHash, prevProps.match.params.secondHash)
     ) {
       this.navigateMap();
       this.setState({
@@ -612,16 +612,13 @@ class ItineraryPage extends React.Component {
 
     setCurrentTimeToURL(config, props.match);
 
-    if (streetHashes.includes(hash)) {
-      const viaPoints = getIntermediatePlaces(props.match.location.query);
-      // Reset streetmode selection ...
+    if (altTransitHash.includes(hash) ? secondHash : hash) {
+      // in detail view
+      // If itinerary is not found in detail view, go back to summary view
       if (
-        !isEqual(
-          // if intermediate places change
-          getIntermediatePlaces(prevProps.match.location.query),
-          viaPoints,
-        ) || // detail view has no itineraries to show
-        (!state.loadingAlt && !this.mapHashToPlan(hash)?.itineraries?.length)
+        // loadingAlt is first undefined, then true and finally false
+        state.loadingAlt === false &&
+        !this.mapHashToPlan(hash)?.itineraries?.length
       ) {
         this.selectStreetMode(); // back to root view
       }
@@ -1088,7 +1085,8 @@ class ItineraryPage extends React.Component {
     const loading =
       (state.loadingRelaxed && hasNoTransitItineraries) ||
       (!error && props.loading) ||
-      waitAlternatives;
+      waitAlternatives ||
+      (streetHashes.includes(hash) && state.loadingAlt); // viewing unfinished alt plan
 
     const showRelaxedPlanNotifier = this.selectedPlan === state.relaxedPlan;
     const settingsNotification =
