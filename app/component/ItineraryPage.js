@@ -58,7 +58,7 @@ import {
   getIntermediatePlaces,
 } from '../util/otpStrings';
 import { SettingsDrawer } from './SettingsDrawer';
-import { StreetModeSelector } from './StreetModeSelector';
+import AlternativeItineraryBar from './AlternativeItineraryBar';
 import {
   getCurrentSettings,
   preparePlanParams,
@@ -81,6 +81,8 @@ const streetHashes = [
   streetHash.car,
   streetHash.parkAndRide,
 ];
+const altTransitHash = [streetHash.bikeAndVehicle, streetHash.parkAndRide];
+
 const showVehiclesThresholdMinutes = 720;
 const emptyPlans = {
   walkPlan: undefined,
@@ -819,12 +821,7 @@ class ItineraryPage extends React.Component {
 
   changeHash = index => {
     const { hash } = this.props.match.params;
-    const subPath = [
-      streetHash.bikeAndVehicle,
-      streetHash.parkAndRide,
-    ].includes(hash)
-      ? `/${hash}`
-      : '';
+    const subPath = altTransitHash.includes(hash) ? `/${hash}` : '';
 
     addAnalyticsEvent({
       event: 'sendMatomoEvent',
@@ -1027,7 +1024,7 @@ class ItineraryPage extends React.Component {
       state;
     const { config } = context;
     const { params } = match;
-    const { hash } = params;
+    const { hash, secondHash } = params;
 
     const hasNoTransitItineraries =
       transitItineraries(props.viewer?.plan?.itineraries).length === 0;
@@ -1040,16 +1037,6 @@ class ItineraryPage extends React.Component {
     if (config.feedIdFiltering && this.selectedPlan === props.viewer?.plan) {
       this.selectedPlan = filterItinerariesByFeedId(props.viewer?.plan, config);
     }
-
-    const showStreetModeSelector =
-      (state.loadingAlt || // show shimmer
-        walkPlan?.itineraries?.length ||
-        bikePlan?.itineraries?.length ||
-        bikeTransitPlan?.itineraries?.length ||
-        parkRidePlan?.itineraries?.length ||
-        (settings.includeCarSuggestions && carPlan?.itineraries?.length)) &&
-      !hash; // not on bike + public or p&r views
-
     let combinedItineraries;
     // Remove old itineraries if new query cannot find a route
     if (error) {
@@ -1064,7 +1051,6 @@ class ItineraryPage extends React.Component {
       }
     }
 
-    const detailView = match.params.hash !== undefined;
     const selectedIndex = getSelectedItineraryIndex(
       match.location,
       combinedItineraries,
@@ -1082,6 +1068,7 @@ class ItineraryPage extends React.Component {
         to,
       });
     }
+    const detailView = altTransitHash.includes(hash) ? secondHash : hash;
 
     // no map on mobile summary view
     const map =
@@ -1115,45 +1102,61 @@ class ItineraryPage extends React.Component {
       !this.state.settingsChangedRecently &&
       !hash; // no notifier on p&r or bike&public lists
 
-    const itineraryListProps = {
-      activeIndex: selectedIndex,
-      plan: this.selectedPlan,
-      routingErrors: this.selectedPlan?.routingErrors,
-      itineraries: combinedItineraries,
-      params,
-      error: error || state.error,
-      walking: walkPlan?.itineraries?.length > 0,
-      biking: bikePlan?.itineraries?.length > 0,
-      driving:
-        settings.includeCarSuggestions &&
-        (carPlan?.itineraries?.length > 0 ||
-          parkRidePlan?.itineraries?.length > 0),
-      bikeAndParkItineraryCount: this.bikeAndParkItineraryCount,
-      showRelaxedPlanNotifier,
-      separatorPosition: state.separatorPosition,
-      onLater: this.onLater,
-      onEarlier: this.onEarlier,
-      onDetailsTabFocused: this.onDetailsTabFocused,
-      loading,
-      loadingMore: state.loadingMore, // spinner pos while loading earlier/later
-      settingsNotification,
-      routingFeedbackPosition: state.routingFeedbackPosition,
-    };
+    const itineraryList = !detailView && (
+      <span aria-hidden={this.state.settingsOpen} ref={this.contentRef}>
+        <ItineraryListContainer
+          activeIndex={selectedIndex}
+          plan={this.selectedPlan}
+          routingErrors={this.selectedPlan?.routingErrors}
+          itineraries={combinedItineraries}
+          params={params}
+          error={error || state.error}
+          walking={walkPlan?.itineraries?.length > 0}
+          biking={bikePlan?.itineraries?.length > 0}
+          driving={
+            settings.includeCarSuggestions &&
+            (carPlan?.itineraries?.length > 0 ||
+              parkRidePlan?.itineraries?.length > 0)
+          }
+          bikeAndParkItineraryCount={this.bikeAndParkItineraryCount}
+          showRelaxedPlanNotifier={showRelaxedPlanNotifier}
+          separatorPosition={state.separatorPosition}
+          onLater={this.onLater}
+          onEarlier={this.onEarlier}
+          onDetailsTabFocused={this.onDetailsTabFocused}
+          loading={loading}
+          loadingMore={state.loadingMore}
+          settingsNotification={settingsNotification}
+          routingFeedbackPosition={state.routingFeedbackPosition}
+        />
+      </span>
+    );
 
-    const streetModeSelectorProps = {
-      selectStreetMode: this.selectStreetMode,
-      setStreetModeAndSelect: this.setStreetModeAndSelect,
-      weatherData: state.weatherData,
-      walkPlan,
-      bikePlan,
-      bikeTransitPlan,
-      parkRidePlan,
-      carPlan: settings.includeCarSuggestions ? carPlan : undefined,
-      loading: loading || state.loadingAlt || state.loadingWeather,
-    };
+    const showAltBar =
+      !detailView &&
+      (state.loadingAlt || // show shimmer
+        walkPlan?.itineraries?.length ||
+        bikePlan?.itineraries?.length ||
+        bikeTransitPlan?.itineraries?.length ||
+        parkRidePlan?.itineraries?.length ||
+        (settings.includeCarSuggestions && carPlan?.itineraries?.length));
+
+    const alternativeItineraryBar = showAltBar && (
+      <AlternativeItineraryBar
+        selectStreetMode={this.selectStreetMode}
+        setStreetModeAndSelect={this.setStreetModeAndSelect}
+        weatherData={state.weatherData}
+        walkPlan={walkPlan}
+        bikePlan={bikePlan}
+        bikeTransitPlan={bikeTransitPlan}
+        parkRidePlan={parkRidePlan}
+        carPlan={settings.includeCarSuggestions ? carPlan : undefined}
+        loading={loading || state.loadingAlt || state.loadingWeather}
+      />
+    );
 
     const desktop = breakpoint === 'large';
-    const detailTabs = detailView ? (
+    const detailTabs = detailView && (
       <ItineraryTabs
         isMobile={!desktop}
         tabIndex={selectedIndex}
@@ -1164,15 +1167,15 @@ class ItineraryPage extends React.Component {
         focusToLeg={this.focusToLeg}
         carItinerary={carPlan?.itineraries[0]}
       />
-    ) : null;
+    );
 
-    const spinner = loading ? (
+    const spinner = loading && (
       <div style={{ position: 'relative', height: 200 }}>
         <Loading />
       </div>
-    ) : undefined;
+    );
 
-    const settingsDrawer = detailView ? undefined : (
+    const settingsDrawer = !detailView && (
       <SettingsDrawer
         open={this.state.settingsOpen}
         className={desktop ? 'offcanvas' : 'offcanvas-mobile'}
@@ -1184,15 +1187,13 @@ class ItineraryPage extends React.Component {
       </SettingsDrawer>
     );
 
-    const header = detailView ? undefined : (
-      <span aria-hidden={this.state.settingsOpen} ref={this.headerRef}>
+    const header = !detailView && (
+      <span aria-hidden={this.state.settingsOpen}>
         <ItineraryPageControls
           params={params}
           toggleSettings={this.toggleSettings}
         />
-        {error || !showStreetModeSelector ? null : (
-          <StreetModeSelector {...streetModeSelectorProps} />
-        )}
+        {alternativeItineraryBar}
         {hash === streetHash.parkAndRide && (
           <div className="street-mode-info">
             <FormattedMessage
@@ -1204,6 +1205,8 @@ class ItineraryPage extends React.Component {
       </span>
     );
 
+    const content = detailView ? detailTabs : itineraryList;
+
     if (desktop) {
       const title = (
         <FormattedMessage
@@ -1211,35 +1214,15 @@ class ItineraryPage extends React.Component {
           defaultMessage="Itinerary suggestions"
         />
       );
-      if (detailView) {
-        return (
-          <DesktopView
-            title={title}
-            content={loading ? spinner : detailTabs}
-            map={map}
-            scrollable
-            bckBtnFallback="pop"
-          />
-        );
-      }
+      const bckBtnFallback =
+        detailView || altTransitHash.includes(hash) ? 'pop' : undefined;
+
       return (
         <DesktopView
           title={title}
           header={header}
-          bckBtnFallback={
-            [streetHash.bikeAndVehicle, streetHash.parkAndRide].includes(hash)
-              ? 'pop'
-              : undefined
-          }
-          content={
-            loading ? (
-              spinner
-            ) : (
-              <span aria-hidden={this.state.settingsOpen} ref={this.contentRef}>
-                <ItineraryListContainer {...itineraryListProps} />
-              </span>
-            )
-          }
+          bckBtnFallback={bckBtnFallback}
+          content={loading ? spinner : content}
           settingsDrawer={settingsDrawer}
           map={map}
           scrollable
@@ -1248,14 +1231,6 @@ class ItineraryPage extends React.Component {
     }
 
     // mobile view
-    const content = detailView ? (
-      detailTabs
-    ) : (
-      <span aria-hidden={this.state.settingsOpen} ref={this.contentRef}>
-        <ItineraryListContainer {...itineraryListProps} />
-      </span>
-    );
-
     return (
       <MobileView
         header={header}

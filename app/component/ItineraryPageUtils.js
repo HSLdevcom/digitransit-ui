@@ -17,9 +17,6 @@ import {
   changeRealTimeClientTopics,
 } from '../action/realTimeClientAction';
 import { getMapLayerOptions } from '../util/mapLayerUtils';
-import { streetHash } from '../util/path';
-
-export const noTransitHash = [streetHash.walk, streetHash.bike, streetHash.car];
 
 /**
  * Returns the index of selected itinerary. Attempts to look for

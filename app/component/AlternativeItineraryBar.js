@@ -7,7 +7,7 @@ import { StreetModeSelectorWeather } from './StreetModeSelectorWeather';
 import { StreetModeSelectorShimmer } from './StreetModeSelectorShimmer';
 import { streetHash } from '../util/path';
 
-export const StreetModeSelector = (
+export default function AlternativeItineraryBar(
   {
     selectStreetMode,
     setStreetModeAndSelect,
@@ -20,7 +20,7 @@ export const StreetModeSelector = (
     loading,
   },
   { config },
-) => {
+) {
   return (
     <div className="street-mode-selector-container">
       <StreetModeSelectorShimmer loading={loading} />
@@ -82,9 +82,9 @@ export const StreetModeSelector = (
       )}
     </div>
   );
-};
+}
 
-StreetModeSelector.propTypes = {
+AlternativeItineraryBar.propTypes = {
   selectStreetMode: PropTypes.func.isRequired,
   setStreetModeAndSelect: PropTypes.func.isRequired,
   walkPlan: PropTypes.object,
@@ -100,7 +100,7 @@ StreetModeSelector.propTypes = {
   loading: PropTypes.bool,
 };
 
-StreetModeSelector.defaultProps = {
+AlternativeItineraryBar.defaultProps = {
   weatherData: undefined,
   walkPlan: undefined,
   bikePlan: undefined,
@@ -110,8 +110,6 @@ StreetModeSelector.defaultProps = {
   loading: undefined,
 };
 
-StreetModeSelector.contextTypes = {
+AlternativeItineraryBar.contextTypes = {
   config: PropTypes.object,
 };
-
-export default StreetModeSelector;
