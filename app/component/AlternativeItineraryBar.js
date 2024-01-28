@@ -2,9 +2,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { StreetModeSelectorButton } from './StreetModeSelectorButton';
-import { StreetModeSelectorWeather } from './StreetModeSelectorWeather';
-import { StreetModeSelectorShimmer } from './StreetModeSelectorShimmer';
+import StreetModeSelectorButton from './StreetModeSelectorButton';
+import StreetModeSelectorWeather from './StreetModeSelectorWeather';
+import StreetModeSelectorShimmer from './StreetModeSelectorShimmer';
 import { streetHash } from '../util/path';
 
 export default function AlternativeItineraryBar(

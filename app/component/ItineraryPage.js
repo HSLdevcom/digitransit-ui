@@ -1009,7 +1009,7 @@ class ItineraryPage extends React.Component {
         itineraries={itineraries}
         topics={this.state.itineraryTopics}
         active={activeIndex}
-        showActive={detailView}
+        showActive={!!detailView}
         showVehicles={this.showVehicles()}
         showDurationBubble={itineraries[0]?.legs?.length === 1}
         objectsToHide={objectsToHide}

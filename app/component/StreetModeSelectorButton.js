@@ -13,10 +13,10 @@ import {
 } from '../util/legUtils';
 import { streetHash } from '../util/path';
 
-export const StreetModeSelectorButton = (
+export default function StreetModeSelectorButton(
   { icon, name, plan, onClick },
   { config, intl },
-) => {
+) {
   let itinerary = plan.itineraries[0];
   if (!itinerary) {
     return null;
@@ -137,7 +137,7 @@ export const StreetModeSelectorButton = (
       </div>
     </div>
   );
-};
+}
 
 StreetModeSelectorButton.propTypes = {
   icon: PropTypes.string.isRequired,
@@ -154,4 +154,3 @@ StreetModeSelectorButton.contextTypes = {
   intl: intlShape.isRequired,
   config: PropTypes.object.isRequired,
 };
-export default StreetModeSelectorButton;

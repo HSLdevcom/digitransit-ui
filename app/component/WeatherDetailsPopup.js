@@ -6,7 +6,10 @@ import { FormattedMessage, intlShape } from 'react-intl';
 
 import Icon from './Icon';
 
-function WeatherDetailsPopup({ weatherData, onClose }, { intl }) {
+export default function WeatherDetailsPopup(
+  { weatherData, onClose },
+  { intl },
+) {
   // Icons for night time is represented adding a 100 to an id. For example:
   // iconId 1 (clear sky) for a day is 101 for a night. Subtract this so we don't need duplicate translations.
   const weatherIdForDescription =
@@ -58,5 +61,3 @@ WeatherDetailsPopup.propTypes = {
 WeatherDetailsPopup.contextTypes = {
   intl: intlShape.isRequired,
 };
-
-export default WeatherDetailsPopup;
