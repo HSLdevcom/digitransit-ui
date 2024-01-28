@@ -32,7 +32,6 @@ import {
   viewerQuery,
 } from './ItineraryQueries';
 import {
-  showDetailView,
   getSelectedItineraryIndex,
   reportError,
   addFeedbackly,
@@ -1042,14 +1041,6 @@ class ItineraryPage extends React.Component {
       this.selectedPlan = filterItinerariesByFeedId(props.viewer?.plan, config);
     }
 
-    if (
-      props.loading ||
-      (streetHashes.includes(hash) && state.loadingAlt) ||
-      !this.selectedPlan
-    ) {
-      return <Loading />;
-    }
-
     const showStreetModeSelector =
       (state.loadingAlt || // show shimmer
         walkPlan?.itineraries?.length ||
@@ -1073,11 +1064,7 @@ class ItineraryPage extends React.Component {
       }
     }
 
-    const detailView = showDetailView(
-      match.params.hash,
-      match.params.secondHash,
-      combinedItineraries,
-    );
+    const detailView = match.params.hash !== undefined;
     const selectedIndex = getSelectedItineraryIndex(
       match.location,
       combinedItineraries,
@@ -1125,12 +1112,13 @@ class ItineraryPage extends React.Component {
         state.relaxedPlan?.itineraries,
       ) &&
       state.relaxedPlan?.itineraries?.length > 0 &&
+      !this.state.settingsChangedRecently &&
       !hash; // no notifier on p&r or bike&public lists
 
     const itineraryListProps = {
       activeIndex: selectedIndex,
       plan: this.selectedPlan,
-      routingErrors: this.selectedPlan.routingErrors,
+      routingErrors: this.selectedPlan?.routingErrors,
       itineraries: combinedItineraries,
       params,
       error: error || state.error,
@@ -1223,25 +1211,13 @@ class ItineraryPage extends React.Component {
           defaultMessage="Itinerary suggestions"
         />
       );
-      if (loading) {
-        // render spinner content
-        return (
-          <DesktopView
-            title={title}
-            header={header}
-            content={spinner}
-            map={map}
-            scrollable
-            bckBtnVisible={false}
-          />
-        );
-      }
       if (detailView) {
         return (
           <DesktopView
             title={title}
-            content={detailTabs}
+            content={loading ? spinner : detailTabs}
             map={map}
+            scrollable
             bckBtnFallback="pop"
           />
         );
@@ -1249,16 +1225,20 @@ class ItineraryPage extends React.Component {
       return (
         <DesktopView
           title={title}
+          header={header}
           bckBtnFallback={
             [streetHash.bikeAndVehicle, streetHash.parkAndRide].includes(hash)
               ? 'pop'
               : undefined
           }
-          header={header}
           content={
-            <span aria-hidden={this.state.settingsOpen} ref={this.contentRef}>
-              <ItineraryListContainer {...itineraryListProps} />
-            </span>
+            loading ? (
+              spinner
+            ) : (
+              <span aria-hidden={this.state.settingsOpen} ref={this.contentRef}>
+                <ItineraryListContainer {...itineraryListProps} />
+              </span>
+            )
           }
           settingsDrawer={settingsDrawer}
           map={map}
@@ -1268,26 +1248,18 @@ class ItineraryPage extends React.Component {
     }
 
     // mobile view
-    let content;
-    if (detailView) {
-      if (loading) {
-        return spinner;
-      }
-      content = detailTabs;
-    } else if (loading) {
-      content = spinner;
-    } else {
-      content = <ItineraryListContainer {...itineraryListProps} />;
-    }
+    const content = detailView ? (
+      detailTabs
+    ) : (
+      <span aria-hidden={this.state.settingsOpen} ref={this.contentRef}>
+        <ItineraryListContainer {...itineraryListProps} />
+      </span>
+    );
 
     return (
       <MobileView
         header={header}
-        content={
-          <span aria-hidden={this.state.settingsOpen} ref={this.contentRef}>
-            {content}
-          </span>
-        }
+        content={loading ? spinner : content}
         settingsDrawer={settingsDrawer}
         map={map}
         expandMap={this.expandMap}

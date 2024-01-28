@@ -67,19 +67,6 @@ export function getSelectedItineraryIndex(
   return itineraryIndex !== -1 ? itineraryIndex : defaultValue;
 }
 
-// this func is a bit fuzzy because it compares strings and numbers
-export function showDetailView(hash, secondHash, itineraries) {
-  if (!itineraries.length) {
-    return false;
-  }
-  if (hash === streetHash.bikeAndVehicle || hash === streetHash.parkAndRide) {
-    // note that '0' < 1 in javascript, because strings are converted to numbers
-    return secondHash < itineraries.length;
-  }
-  // note: (undefined < 1) === false
-  return noTransitHash.includes(hash) || hash < itineraries.length;
-}
-
 /**
  * Report any errors that happen when showing summary
  *
