@@ -56,8 +56,8 @@ export const planQuery = graphql`
   }
 `;
 
-export const walkAndBikeQuery = graphql`
-  query ItineraryQueries_WalkBike_Query(
+export const alternativeQuery = graphql`
+  query ItineraryQueries_Alternative_Query(
     $fromPlace: String!
     $toPlace: String!
     $date: String!
@@ -321,7 +321,7 @@ export const walkAndBikeQuery = graphql`
       fromPlace: $fromPlace
       toPlace: $toPlace
       numItineraries: 5
-      transportModes: [{ mode: CAR, qualifier: PARK }, { mode: TRANSIT }]
+      transportModes: $parkRideModes
       date: $date
       time: $time
       walkReluctance: $walkReluctance

@@ -334,5 +334,6 @@ export const preparePlanParams =
         { mode: 'BICYCLE', qualifier: 'PARK' },
         ...formattedModes,
       ].filter(mode => mode.qualifier !== 'RENT'), // BICYCLE_RENT can't be used together with BICYCLE_PARK
+      parkRideModes: [{ mode: 'CAR', qualifier: 'PARK' }, ...formattedModes],
     };
   };

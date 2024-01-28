@@ -28,7 +28,7 @@ import { boundWithMinimumArea } from '../util/geo-utils';
 import {
   planQuery,
   moreQuery,
-  walkAndBikeQuery,
+  alternativeQuery,
   viewerQuery,
 } from './ItineraryQueries';
 import {
@@ -243,7 +243,7 @@ class ItineraryPage extends React.Component {
       this.props.match,
     );
 
-    fetchQuery(this.props.relayEnvironment, walkAndBikeQuery, planParams)
+    fetchQuery(this.props.relayEnvironment, alternativeQuery, planParams)
       .toPromise()
       .then(result => {
         // filter plain walking / biking away
