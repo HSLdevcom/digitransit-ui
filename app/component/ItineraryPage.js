@@ -57,7 +57,7 @@ import {
   otpToLocation,
   getIntermediatePlaces,
 } from '../util/otpStrings';
-import { SettingsDrawer } from './SettingsDrawer';
+import SettingsDrawer from './SettingsDrawer';
 import AlternativeItineraryBar from './AlternativeItineraryBar';
 import {
   getCurrentSettings,

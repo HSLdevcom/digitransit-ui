@@ -17,7 +17,7 @@ const modules = {
   ItineraryPage: () => importLazy(import('./ItineraryPage')),
 };
 
-const ItineraryPageContainer = ({ content, match }, { config }) => {
+export default function ItineraryPageContainer({ content, match }, { config }) {
   const { environment } = useContext(ReactRelayContext);
   const [isClient, setClient] = useState(false);
   const alertRef = useRef();
@@ -91,7 +91,7 @@ const ItineraryPageContainer = ({ content, match }, { config }) => {
   ) : (
     <Loading />
   );
-};
+}
 
 ItineraryPageContainer.contextTypes = {
   config: PropTypes.object.isRequired,
@@ -101,5 +101,3 @@ ItineraryPageContainer.propTypes = {
   content: PropTypes.node,
   match: matchShape.isRequired,
 };
-
-export default ItineraryPageContainer;
