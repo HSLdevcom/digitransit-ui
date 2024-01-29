@@ -360,7 +360,7 @@ export function checkDayNight(iconId, timem, lat, lon) {
   return iconId;
 }
 
-const streetLegModes = ['WALK', 'BICYCLE', 'CAR', 'SCOOTER'];
+const STREET_LEG_MODES = ['WALK', 'BICYCLE', 'CAR', 'SCOOTER'];
 
 /**
  * Filters away itineraries that don't use transit
@@ -370,7 +370,7 @@ export function transitItineraries(itineraries) {
     return [];
   }
   return itineraries.filter(
-    itin => !itin.legs.every(leg => streetLegModes.includes(leg.mode)),
+    itin => !itin.legs.every(leg => STREET_LEG_MODES.includes(leg.mode)),
   );
 }
 

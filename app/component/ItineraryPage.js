@@ -19,6 +19,7 @@ import DesktopView from './DesktopView';
 import MobileView from './MobileView';
 import ItineraryPageMap from './map/ItineraryPageMap';
 import ItineraryListContainer from './ItineraryListContainer';
+import { spinnerPosition } from './ItineraryList/ItineraryList';
 import ItineraryPageControls from './ItineraryPageControls';
 import ItineraryTabs from './ItineraryTabs';
 import { getWeatherData } from '../util/apiUtils';
@@ -82,6 +83,12 @@ const streetHashes = [
   streetHash.parkAndRide,
 ];
 const altTransitHash = [streetHash.bikeAndVehicle, streetHash.parkAndRide];
+
+const ALT_LOADING_STATES = {
+  UNSET: 'unset',
+  LOADING: 'loading',
+  DONE: 'done',
+};
 
 const showVehiclesThresholdMinutes = 720;
 const emptyPlans = {
@@ -155,7 +162,10 @@ class ItineraryPage extends React.Component {
 
     setCurrentTimeToURL(context.config, props.match);
 
-    this.state = emptyPlans;
+    this.state = {
+      ...emptyPlans,
+      loadingAlt: ALT_LOADING_STATES.UNSET,
+    };
   }
 
   stopClientAndUpdateTopics() {
@@ -238,7 +248,7 @@ class ItineraryPage extends React.Component {
     if (!this.hasValidFromTo()) {
       return;
     }
-    this.setState({ loadingAlt: true });
+    this.setState({ loadingAlt: ALT_LOADING_STATES.LOADING });
 
     const planParams = preparePlanParams(this.context.config, false)(
       this.props.match.params,
@@ -256,6 +266,8 @@ class ItineraryPage extends React.Component {
           result.bikeAndPublicPlan?.itineraries,
         );
 
+        // show 6 bike + transit itineraries, preferably 3 of both kind.
+        // If there is not enough of a kind, take more from the other kind
         let n1 = bikeParkItineraries.length;
         let n2 = bikePublicItineraries.length;
         if (n1 < 3) {
@@ -284,7 +296,7 @@ class ItineraryPage extends React.Component {
 
         this.setState(
           {
-            loadingAlt: false,
+            loadingAlt: ALT_LOADING_STATES.DONE,
             walkPlan: result.walkPlan,
             bikePlan,
             bikeTransitPlan,
@@ -299,7 +311,7 @@ class ItineraryPage extends React.Component {
         );
       })
       .catch(() => {
-        this.setState({ loadingAlt: false });
+        this.setState({ loadingAlt: ALT_LOADING_STATES.DONE });
       });
   }
 
@@ -465,7 +477,9 @@ class ItineraryPage extends React.Component {
       date: earliestArrivalTime.format('YYYY-MM-DD'),
       time: earliestArrivalTime.format('HH:mm'),
     };
-    this.setState({ loadingMore: reversed ? 'bottom' : 'top' });
+    this.setState({
+      loadingMore: reversed ? spinnerPosition.bottom : spinnerPosition.top,
+    });
     this.showScreenReaderAlert('itinerary-page.loading-itineraries', true);
 
     fetchQuery(this.props.relayEnvironment, moreQuery, tunedParams)
@@ -619,7 +633,7 @@ class ItineraryPage extends React.Component {
       // If itinerary is not found in detail view, go back to summary view
       if (
         // loadingAlt is first undefined, then true and finally false
-        state.loadingAlt === false &&
+        state.loadingAlt === ALT_LOADING_STATES.DONE &&
         !this.mapHashToPlan(hash)?.itineraries?.length
       ) {
         this.selectStreetMode(); // back to root view
@@ -1083,13 +1097,16 @@ class ItineraryPage extends React.Component {
           );
 
     // must wait alternatives to render correct notifier
-    const waitAlternatives = hasNoTransitItineraries && state.loadingAlt;
+    const waitAlternatives =
+      hasNoTransitItineraries &&
+      state.loadingAlt === ALT_LOADING_STATES.LOADING;
     const loading =
       (props.loading ||
         state.loading ||
         (state.loadingRelaxed && hasNoTransitItineraries) ||
         waitAlternatives ||
-        (streetHashes.includes(hash) && state.loadingAlt)) && // viewing unfinished alt plan
+        (streetHashes.includes(hash) &&
+          state.loadingAlt === ALT_LOADING_STATES.LOADING)) && // viewing unfinished alt plan
       !error;
 
     const showRelaxedPlanNotifier = this.selectedPlan === state.relaxedPlan;
@@ -1139,7 +1156,7 @@ class ItineraryPage extends React.Component {
 
     const showAltBar =
       !streetHashes.includes(hash) &&
-      (state.loadingAlt || // show shimmer
+      (state.loadingAlt === ALT_LOADING_STATES.LOADING || // show shimmer
         walkPlan?.itineraries?.length ||
         bikePlan?.itineraries?.length ||
         bikeTransitPlan?.itineraries?.length ||
@@ -1156,7 +1173,11 @@ class ItineraryPage extends React.Component {
         bikeTransitPlan={bikeTransitPlan}
         parkRidePlan={parkRidePlan}
         carPlan={settings.includeCarSuggestions ? carPlan : undefined}
-        loading={loading || state.loadingAlt || state.loadingWeather}
+        loading={
+          loading ||
+          state.loadingAlt === ALT_LOADING_STATES.LOADING ||
+          state.loadingWeather
+        }
       />
     );
 
@@ -1211,6 +1232,7 @@ class ItineraryPage extends React.Component {
           defaultMessage="Itinerary suggestions"
         />
       );
+      // in detail view or parkride and bike+public, back button should pop out last path segment
       const bckBtnFallback =
         detailView || altTransitHash.includes(hash) ? 'pop' : undefined;
 
