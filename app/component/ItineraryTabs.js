@@ -29,7 +29,7 @@ function ItineraryTabs(props) {
     <SwipeableTabs
       tabs={itineraryTabs}
       tabIndex={props.tabIndex}
-      onSwipe={props.onSwipe}
+      onSwipe={props.changeHash}
       classname={props.isMobile ? 'swipe-mobile-divider' : 'swipe-desktop-view'}
       ariaFrom="swipe-summary-page"
       ariaFromHeader="swipe-summary-page-header"
@@ -45,7 +45,6 @@ ItineraryTabs.propTypes = {
   itineraries: PropTypes.arrayOf(ItineraryShape).isRequired,
   plan: PropTypes.object,
   carItinerary: ItineraryShape,
-  onSwipe: PropTypes.func,
   changeHash: PropTypes.func,
 };
 

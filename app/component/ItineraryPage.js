@@ -1186,7 +1186,7 @@ class ItineraryPage extends React.Component {
       <ItineraryTabs
         isMobile={!desktop}
         tabIndex={selectedIndex}
-        onSwipe={this.changeHash}
+        changeHash={this.changeHash}
         plan={this.selectedPlan}
         itineraries={combinedItineraries}
         focusToPoint={this.focusToPoint}
