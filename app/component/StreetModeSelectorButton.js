@@ -71,10 +71,12 @@ export default function StreetModeSelectorButton(
       i.legs.find(l => l.transitLeg),
     );
     const mode =
-      getExtendedMode(
-        transitItinerary?.legs.find(l => l.transitLeg),
-        config,
-      ) || 'rail';
+      (transitItinerary &&
+        getExtendedMode(
+          transitItinerary?.legs.find(l => l.transitLeg),
+          config,
+        )) ||
+      'rail';
     secondaryIcon = `icon-icon_${mode}`;
     secondaryColor =
       mode === 'subway' ? config.colors?.iconColors?.['mode-metro'] : '';

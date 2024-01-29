@@ -81,6 +81,7 @@ export const alternativeQuery = graphql`
     $showBikeAndParkItineraries: Boolean!
     $bikeAndPublicModes: [TransportMode!]
     $bikeParkModes: [TransportMode!]
+    $parkRideModes: [TransportMode!]
   ) {
     walkPlan: plan(
       fromPlace: $fromPlace
