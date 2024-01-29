@@ -1131,7 +1131,7 @@ class ItineraryPage extends React.Component {
     );
 
     const showAltBar =
-      !detailView &&
+      !streetHashes.includes(hash) &&
       (state.loadingAlt || // show shimmer
         walkPlan?.itineraries?.length ||
         bikePlan?.itineraries?.length ||
