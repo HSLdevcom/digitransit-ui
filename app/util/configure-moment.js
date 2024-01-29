@@ -5,9 +5,8 @@ import moment from 'moment-timezone/moment-timezone';
 export default function configureMoment(language, config) {
   moment.locale(language);
 
-  if (config.timezoneData) {
-    moment.tz.add(config.timezoneData);
-    moment.tz.setDefault(config.timezoneData.split('|')[0]);
+  if (config.timezone) {
+    moment.tz.setDefault(config.timezone);
   }
 
   if (language !== 'en') {
