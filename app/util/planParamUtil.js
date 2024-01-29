@@ -150,7 +150,8 @@ export const getSettings = config => {
           ),
       ),
     allowedBikeRentalNetworks: custSettings.allowedBikeRentalNetworks,
-    includeBikeSuggestions: custSettings.includeBikeSuggestions,
+    includeBikeSuggestions:
+      custSettings.includeBikeSuggestions && !custSettings.accessibilityOption,
     includeCarSuggestions: custSettings.includeCarSuggestions,
     includeParkAndRideSuggestions: custSettings.includeParkAndRideSuggestions,
     showBikeAndParkItineraries: custSettings.showBikeAndParkItineraries,
