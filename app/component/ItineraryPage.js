@@ -96,6 +96,8 @@ const emptyPlans = {
   separatorPosition: undefined,
   routingFeedbackPosition: undefined,
   relaxedPlan: undefined,
+  loading: false,
+  error: undefined,
 };
 
 class ItineraryPage extends React.Component {
@@ -921,10 +923,10 @@ class ItineraryPage extends React.Component {
         separatorPosition: undefined,
         relaxedPlan: undefined,
         settingsChangedRecently: true,
+        loading: true,
       },
       () => {
         this.props.relay.refetch(planParams, null, () => {
-          this.makeAlternativeQuery();
           this.showScreenReaderAlert('itinerary-page.itineraries-updated');
           this.resetItineraryPageSelection();
         });
@@ -1083,10 +1085,12 @@ class ItineraryPage extends React.Component {
     // must wait alternatives to render correct notifier
     const waitAlternatives = hasNoTransitItineraries && state.loadingAlt;
     const loading =
-      (state.loadingRelaxed && hasNoTransitItineraries) ||
-      (!error && props.loading) ||
-      waitAlternatives ||
-      (streetHashes.includes(hash) && state.loadingAlt); // viewing unfinished alt plan
+      (props.loading ||
+        state.loading ||
+        (state.loadingRelaxed && hasNoTransitItineraries) ||
+        waitAlternatives ||
+        (streetHashes.includes(hash) && state.loadingAlt)) && // viewing unfinished alt plan
+      !error;
 
     const showRelaxedPlanNotifier = this.selectedPlan === state.relaxedPlan;
     const settingsNotification =
@@ -1110,11 +1114,14 @@ class ItineraryPage extends React.Component {
           params={params}
           error={error || state.error}
           walking={walkPlan?.itineraries?.length > 0}
-          biking={bikePlan?.itineraries?.length > 0}
+          biking={
+            bikePlan?.itineraries?.length > 0 ||
+            bikeTransitPlan?.itineraries?.length
+          }
           driving={
-            settings.includeCarSuggestions &&
-            (carPlan?.itineraries?.length > 0 ||
-              parkRidePlan?.itineraries?.length > 0)
+            (settings.includeCarSuggestions &&
+              carPlan?.itineraries?.length > 0) ||
+            parkRidePlan?.itineraries?.length > 0
           }
           bikeAndParkItineraryCount={this.bikeAndParkItineraryCount}
           showRelaxedPlanNotifier={showRelaxedPlanNotifier}
