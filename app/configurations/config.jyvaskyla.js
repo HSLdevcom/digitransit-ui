@@ -161,6 +161,16 @@ export default configMerger(walttiConfig, {
     4: 'D',
   },
 
+  showTicketInformation: true,
+  useTicketIcons: true,
+
+  // mapping fareId from OTP fare identifiers to human readable form
+  fareMapping: function mapFareId(fareId) {
+    return fareId && fareId.substring
+      ? fareId.substring(fareId.indexOf(':') + 1)
+      : '';
+  },
+
   stopCard: {
     header: {
       virtualMonitorBaseUrl: 'https://pysakit.jyvaskyla.fi/',
