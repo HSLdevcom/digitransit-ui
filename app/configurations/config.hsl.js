@@ -417,7 +417,7 @@ export default {
 
   useTicketIcons: true,
   ticketPurchaseLink: function purchaseTicketLink(ticket) {
-    return `https://open.app.hsl.fi/zoneTicketWizard/TICKET_TYPE_SINGLE_TICKET/${ticket}/adult/?utm_campaign=reittiopas&utm_medium=reittiopasohjaus`;
+    return `https://open.app.hsl.fi/zoneTicketWizard/TICKET_TYPE_SINGLE_TICKET/${ticket}/adult/-/?utm_campaign=reittiopas&utm_medium=reittiopasohjaus`;
   },
 
   trafficNowLink: {
@@ -497,7 +497,6 @@ export default {
     },
   },
 
-  // DT-3611
   showVehiclesOnItineraryPage: true,
   showBikeAndPublicItineraries: true,
   showBikeAndParkItineraries: true,

@@ -27,9 +27,10 @@ const getErrorCardProps = summaryMessageIds => {
 const ItinerarySummaryMessage = (
   {
     areaPolygon,
+    walking,
     biking,
-    currentTime,
     driving,
+    currentTime,
     error,
     from,
     locationState,
@@ -37,7 +38,6 @@ const ItinerarySummaryMessage = (
     nationalServiceLink,
     searchTime,
     to,
-    walking,
     routingErrors,
   },
   context,

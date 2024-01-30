@@ -200,7 +200,7 @@ export default function AlertRow(
                   className={cx('route-alert-entityid', routeMode)}
                   style={{ color: routeColor }}
                 >
-                  {entityIdentifiers.join(', ')}{' '}
+                  {entityIdentifiers.join(', ')}
                 </div>
               )) ||
               (entityType === AlertEntityType.Stop &&

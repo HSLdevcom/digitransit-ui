@@ -161,6 +161,17 @@ export default configMerger(walttiConfig, {
     4: 'D',
   },
 
+  showTicketInformation: true,
+  useTicketIcons: true,
+  ticketLink: 'https://linkki.jyvaskyla.fi/liput-ja-hinnat',
+
+  // mapping fareId from OTP fare identifiers to human readable form
+  fareMapping: function mapFareId(fareId) {
+    return fareId && fareId.substring
+      ? fareId.substring(fareId.indexOf(':') + 1)
+      : '';
+  },
+
   stopCard: {
     header: {
       virtualMonitorBaseUrl: 'https://pysakit.jyvaskyla.fi/',
@@ -170,6 +181,6 @@ export default configMerger(walttiConfig, {
     stops: true,
     itinerary: true,
   },
-  // DT-5325 Notice! Turning on this setting forces the search for car routes (for the CO2 comparison only).
+  // Notice! Turning on this setting forces the search for car routes (for the CO2 comparison only).
   showCO2InItinerarySummary: true,
 });

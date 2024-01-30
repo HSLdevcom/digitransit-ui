@@ -29,7 +29,7 @@ import {
 } from '../util/vehicleRentalUtils';
 import { getRouteMode } from '../util/modeUtils';
 import { getCapacityForLeg } from '../util/occupancyUtil';
-import { getCo2Value } from '../util/itineraryUtils';
+import getCo2Value from '../util/emissions';
 
 const Leg = ({
   mode,
@@ -243,7 +243,7 @@ const Itinerary = (
     breakpoint,
     intermediatePlaces,
     zones,
-    hideBorder,
+    hideSelectionIndicator,
     lowestCo2value,
     ...props
   },
@@ -666,7 +666,7 @@ const Itinerary = (
       passive: props.passive,
       'bp-large': breakpoint === 'large',
       'cancelled-itinerary': props.isCancelled,
-      'no-border': hideBorder,
+      'no-border': hideSelectionIndicator,
     },
   ]);
 
@@ -920,7 +920,7 @@ Itinerary.propTypes = {
   isCancelled: PropTypes.bool,
   showCancelled: PropTypes.bool,
   zones: PropTypes.arrayOf(PropTypes.string),
-  hideBorder: PropTypes.bool,
+  hideSelectionIndicator: PropTypes.bool,
   lowestCo2value: PropTypes.number,
 };
 
@@ -930,7 +930,7 @@ Itinerary.defaultProps = {
   intermediatePlaces: [],
   isCancelled: false,
   showCancelled: false,
-  hideBorder: false,
+  hideSelectionIndicator: true,
   lowestCo2value: 0,
 };
 

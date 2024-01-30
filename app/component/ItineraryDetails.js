@@ -25,7 +25,7 @@ import {
   legContainsRentalBike,
 } from '../util/legUtils';
 import { BreakpointConsumer } from '../util/withBreakpoint';
-
+import { streetHash } from '../util/path';
 import {
   getFaresFromLegs,
   shouldShowFareInfo,
@@ -107,8 +107,8 @@ class ItineraryDetails extends React.Component {
   shouldShowDisclaimer(config) {
     return (
       config.showDisclaimer &&
-      this.context.match.params.hash !== 'walk' &&
-      this.context.match.params.hash !== 'bike'
+      this.context.match.params.hash !== streetHash.walk &&
+      this.context.match.params.hash !== streetHash.bike
     );
   };
 
@@ -268,7 +268,7 @@ class ItineraryDetails extends React.Component {
               number: itineraryIndex,
             }}
           />
-	</h2>,
+	</h2>
         <BreakpointConsumer>
           {breakpoint => [
 	    breakpoint === 'large' && !this.props.hideTitle && (

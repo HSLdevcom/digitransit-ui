@@ -10,6 +10,8 @@ import BackButton from '../BackButton';
 import VehicleMarkerContainer from './VehicleMarkerContainer'; // DT-3473
 import CookieSettingsButton from '../CookieSettingsButton';
 
+const POINT_FOCUS_ZOOM = 16; // default
+
 function ItineraryPageMap(
   {
     itineraries,
@@ -87,6 +89,7 @@ function ItineraryPageMap(
       leafletObjs={leafletObjs}
       locationPopup={locationPopup}
       onSelectLocation={onSelectLocation}
+      zoom={POINT_FOCUS_ZOOM}
       {...rest}
     >
       {breakpoint !== 'large' && (

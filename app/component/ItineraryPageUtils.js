@@ -17,12 +17,12 @@ import {
   changeRealTimeClientTopics,
 } from '../action/realTimeClientAction';
 import { getMapLayerOptions } from '../util/mapLayerUtils';
+import { streetHash } from '../util/path';
 
-export const streetModeHash = ['walk', 'bike', 'car'];
+export const noTransitHash = [streetHash.walk, streetHash.bike, streetHash.car];
 
 /**
-/**
- * Returns the actively selected itinerary's index. Attempts to look for
+ * Returns the index of selected itinerary. Attempts to look for
  * the information in the location's state and pathname, respectively.
  * Otherwise, pre-selects the first non-cancelled itinerary or, failing that,
  * defaults to the index 0.
@@ -31,29 +31,29 @@ export const streetModeHash = ['walk', 'bike', 'car'];
  * @param {*} itineraries the itineraries retrieved from OTP.
  * @param {number} defaultValue the default value, defaults to 0.
  */
-export function getActiveIndex(
+export function getSelectedItineraryIndex(
   { pathname, state } = {},
   itineraries = [],
   defaultValue = 0,
 ) {
-  if (state) {
-    if (state.summaryPageSelected >= itineraries.length) {
-      return defaultValue;
+  if (state?.selectedItineraryIndex !== undefined) {
+    if (state.selectedItineraryIndex < itineraries.length) {
+      return state.selectedItineraryIndex;
     }
-    return state.summaryPageSelected || defaultValue;
+    return defaultValue;
   }
 
   /*
    * If state does not exist, for example when accessing the summary
    * page by an external link, we check if an itinerary selection is
-   * supplied in URL and make that the active selection.
+   * supplied in URL and make that the selection.
    */
-  const lastURLSegment = pathname?.split('/').pop();
-  if (!Number.isNaN(Number(lastURLSegment))) {
-    if (Number(lastURLSegment) >= itineraries.length) {
+  const lastURLSegment = Number(pathname?.split('/').pop());
+  if (!Number.isNaN(lastURLSegment)) {
+    if (lastURLSegment >= itineraries.length) {
       return defaultValue;
     }
-    return Number(lastURLSegment);
+    return lastURLSegment;
   }
 
   /**
@@ -63,31 +63,18 @@ export function getActiveIndex(
     itineraries,
     itinerary => !itineraryHasCancelation(itinerary),
   );
-  if (itineraryIndex >= itineraries.length) {
-    return defaultValue;
-  }
-  return itineraryIndex > 0 ? itineraryIndex : defaultValue;
+
+  return itineraryIndex !== -1 ? itineraryIndex : defaultValue;
 }
 
-export function getHashIndex(params) {
-  const hash = params.secondHash || params.hash;
-  if (hash) {
-    if (streetModeHash.includes(hash)) {
-      return 0;
-    }
-    return Number(hash);
-  }
-  return undefined;
-}
-
-// this func is a bit fuzzy because it mopares strings and numbers
+// this func is a bit fuzzy because it compares strings and numbers
 export function showDetailView(hash, secondHash, itineraries) {
-  if (hash === 'bikeAndVehicle' || hash === 'parkAndRide') {
+  if (hash === streetHash.bikeAndVehicle || hash === streetHash.parkAndRide) {
     // note that '0' < 1 in javascript, because strings are converted to numbers
     return secondHash < itineraries.length;
   }
   // note: (undefined < 1) === false
-  return streetModeHash.includes(hash) || hash < itineraries.length;
+  return noTransitHash.includes(hash) || hash < itineraries.length;
 }
 
 /**
@@ -120,23 +107,15 @@ export function addFeedbackly(context) {
   }
 }
 
-export function getTopicOptions(config, planitineraries, match) {
-  const { realTime, feedIds } = config;
-  const itineraries = planitineraries?.every(
-    itinerary => itinerary !== undefined,
-  )
-    ? planitineraries
-    : [];
-  const activeIndex =
-    getHashIndex(match.params) || getActiveIndex(match.location, itineraries);
+export function getTopics(config, itineraries, match) {
   const itineraryTopics = [];
 
   if (itineraries.length) {
-    const activeItinerary =
-      activeIndex < itineraries.length
-        ? itineraries[activeIndex]
-        : itineraries[0];
-    activeItinerary.legs.forEach(leg => {
+    const { realTime, feedIds } = config;
+    const selected =
+      itineraries[getSelectedItineraryIndex(match.location, itineraries)];
+
+    selected.legs.forEach(leg => {
       if (leg.transitLeg && leg.trip) {
         const feedId = leg.trip.gtfsId.split(':')[0];
         let topic;
@@ -345,15 +324,15 @@ export function addBikeStationMapForRentalVehicleItineraries() {
  * station ids to hide on map.
  *
  * @param {Boolean} hasVehicleRentalStation if there are rental stations.
- * @param {*} activeItinerary itinerary which can contain rental stations.
+ * @param {*} selectedItinerary itinerary which can contain rental stations.
  */
 export function getRentalStationsToHideOnMap(
   hasVehicleRentalStation,
-  activeItinerary,
+  selectedItinerary,
 ) {
   const objectsToHide = { vehicleRentalStations: [] };
   if (hasVehicleRentalStation) {
-    objectsToHide.vehicleRentalStations = activeItinerary?.legs
+    objectsToHide.vehicleRentalStations = selectedItinerary?.legs
       ?.filter(leg => leg.from?.vehicleRentalStation)
       .map(station => station.from?.vehicleRentalStation.stationId);
   }
@@ -377,4 +356,35 @@ export function checkDayNight(iconId, timem, lat, lon) {
     return iconId + 100;
   }
   return iconId;
+}
+
+/**
+ * Filters away itineraries that don't use transit
+ */
+export function transitItineraries(itineraries) {
+  if (!itineraries) {
+    return [];
+  }
+  return itineraries.filter(
+    itinerary =>
+      !itinerary.legs.every(
+        leg =>
+          leg.mode === 'WALK' ||
+          leg.mode === 'BICYCLE' ||
+          leg.mode === 'CAR' ||
+          leg.mode === 'SCOOTER',
+      ),
+  );
+}
+
+/**
+ * Filters itineraries that don't use given mode
+ */
+export function filterItineraries(itineraries, modes) {
+  if (!itineraries) {
+    return [];
+  }
+  return itineraries.filter(itinerary =>
+    itinerary.legs.some(leg => modes.includes(leg.mode)),
+  );
 }

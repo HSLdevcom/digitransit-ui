@@ -138,7 +138,7 @@ class MapLayersDialogContent extends React.Component {
             defaultMessage: 'Bubble Dialog Header',
           })}
         </span>
-        <div className="checkbox-grouping" />{' '}
+        <div className="checkbox-grouping" />
         {this.context.config.vehicles && (
           <div className="checkbox-grouping">
             <Checkbox
