@@ -62,7 +62,7 @@ import SettingsDrawer from './SettingsDrawer';
 import AlternativeItineraryBar from './AlternativeItineraryBar';
 import {
   getCurrentSettings,
-  preparePlanParams,
+  getPlanParams,
   hasStartAndDestination,
 } from '../util/planParamUtil';
 import { refShape, mapLayerOptionsShape } from '../util/shapes';
@@ -250,12 +250,9 @@ class ItineraryPage extends React.Component {
     }
     this.setState({ loadingAlt: ALT_LOADING_STATES.LOADING });
 
-    const planParams = preparePlanParams(this.context.config, false)(
-      this.props.match.params,
-      this.props.match,
-    );
+    const getParams = getPlanParams(this.context.config, this.props.match);
 
-    fetchQuery(this.props.relayEnvironment, alternativeQuery, planParams)
+    fetchQuery(this.props.relayEnvironment, alternativeQuery, getParams)
       .toPromise()
       .then(result => {
         // filter plain walking / biking away
@@ -321,11 +318,12 @@ class ItineraryPage extends React.Component {
     }
     this.setState({ loadingRelaxed: true });
 
-    const planParams = preparePlanParams(this.context.config, true)(
-      this.props.match.params,
+    const getParams = getPlanParams(
+      this.context.config,
       this.props.match,
+      true,
     );
-    fetchQuery(this.props.relayEnvironment, moreQuery, planParams, {
+    fetchQuery(this.props.relayEnvironment, moreQuery, getParams, {
       force: true,
     })
       .toPromise()
@@ -376,10 +374,11 @@ class ItineraryPage extends React.Component {
       transitItineraries(this.props.viewer?.plan?.itineraries).length === 0 &&
       this.state.relaxedPlan?.itineraries?.length > 0;
 
-    const params = preparePlanParams(
+    const params = getPlanParams(
       this.context.config,
+      this.props.match,
       useRelaxedRoutingPreferences,
-    )(this.props.match.params, this.props.match);
+    );
 
     const tunedParams = {
       wheelchair: null,
@@ -464,10 +463,11 @@ class ItineraryPage extends React.Component {
       transitItineraries(this.props.viewer?.plan?.itineraries).length === 0 &&
       this.state.relaxedPlan?.itineraries?.length > 0;
 
-    const params = preparePlanParams(
+    const params = getPlanParams(
       this.context.config,
+      this.props.match,
       useRelaxedRoutingPreferences,
-    )(this.props.match.params, this.props.match);
+    );
 
     const tunedParams = {
       wheelchair: null,
@@ -926,10 +926,7 @@ class ItineraryPage extends React.Component {
       return;
     }
 
-    const planParams = preparePlanParams(this.context.config, false)(
-      this.props.match.params,
-      this.props.match,
-    );
+    const getParams = getPlanParams(this.context.config, this.props.match);
     this.setState(
       {
         earlierItineraries: [],
@@ -940,7 +937,7 @@ class ItineraryPage extends React.Component {
         loading: true,
       },
       () => {
-        this.props.relay.refetch(planParams, null, () => {
+        this.props.relay.refetch(getParams, null, () => {
           this.showScreenReaderAlert('itinerary-page.itineraries-updated');
           this.resetItineraryPageSelection();
         });

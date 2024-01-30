@@ -5,10 +5,7 @@ import { matchShape } from 'found';
 import Loading from './Loading';
 import { validateServiceTimeRange } from '../util/timeUtils';
 import { planQuery } from './ItineraryQueries';
-import {
-  hasStartAndDestination,
-  preparePlanParams,
-} from '../util/planParamUtil';
+import { hasStartAndDestination, getPlanParams } from '../util/planParamUtil';
 import LazilyLoad, { importLazy } from './LazilyLoad';
 
 const modules = {
@@ -54,7 +51,7 @@ export default function ItineraryPageContainer({ content, match }, { config }) {
         ) : (
           <QueryRenderer
             query={planQuery}
-            variables={preparePlanParams(config, false)(match.params, match)}
+            variables={getPlanParams(config, match)}
             environment={environment}
             render={({ props: innerProps, error }) => {
               return innerProps ? (
