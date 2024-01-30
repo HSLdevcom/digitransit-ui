@@ -194,6 +194,7 @@ export default {
     walkBoardCost: 120,
     walkReluctance: 1.8,
     walkSpeed: 1.2,
+    transferPenalty: 0,
     includeBikeSuggestions: true,
     includeParkAndRideSuggestions: false,
     includeCarSuggestions: false,
@@ -216,7 +217,7 @@ export default {
     bikeSpeed: [2.77, 4.15, 5.55, 6.94, 8.33],
   },
 
-  walkBoardCostHigh: 1600,
+  transferPenaltyHigh: 1600,
 
   suggestWalkMaxDistance: 10000,
   suggestBikeMaxDistance: 30000,

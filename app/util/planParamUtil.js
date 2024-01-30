@@ -126,8 +126,10 @@ export const getPlanParams = (
   const intermediateLocations = getIntermediatePlaces({
     intermediatePlaces,
   });
-
   let modesOrDefault = relaxSettings ? defaultSettings.modes : settings.modes;
+  modesOrDefault = modesOrDefault.map(mode =>
+    mode === 'CITYBIKE' ? 'BICYCLE_RENT' : mode,
+  );
   if (!settings.allowedBikeRentalNetworks?.length) {
     // do not ask citybike routes without networks
     modesOrDefault = modesOrDefault.filter(mode => mode !== 'BICYCLE_RENT');

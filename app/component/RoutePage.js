@@ -124,9 +124,10 @@ class RoutePage extends React.Component {
                 <span className="sr-only" style={{ whiteSpace: 'pre' }}>
                   {this.context.intl.formatMessage({
                     id: mode.toLowerCase(),
-                  })}
+                  })}{' '}
+                  {label?.toLowerCase()}
                 </span>
-                {label}
+                <span aria-hidden="true">{label}</span>
               </h1>
               {tripId && headsign && (
                 <div className="trip-destination">

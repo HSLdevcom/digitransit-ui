@@ -108,7 +108,7 @@ class CustomizeSearch extends React.Component {
               <TransferOptionsSection
                 defaultSettings={this.defaultSettings}
                 currentSettings={currentSettings}
-                walkBoardCostHigh={config.walkBoardCostHigh}
+                transferPenaltyHigh={config.transferPenaltyHigh}
               />
             </div>
           </div>

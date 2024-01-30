@@ -31,7 +31,7 @@ function getAriaDescription(ariaContentArray) {
   const description = ariaContentArray
     .filter(part => part !== undefined && part !== null && part !== '')
     .join(' ');
-  return description;
+  return description?.toLowerCase();
 }
 
 function getIconProperties(
@@ -352,6 +352,7 @@ const SuggestionItem = pure(
             iconId !== 'edit' && (
               <span>
                 <div
+                  aria-hidden="true"
                   className={cx(styles['suggestion-name'], styles[className])}
                 >
                   {name}
