@@ -62,6 +62,7 @@ export function getDefaultSettings(config) {
 export function getSettings(config) {
   const defaultSettings = getDefaultSettings(config);
   const userSettings = getCustomizedSettings();
+  const allNetworks = getDefaultNetworks(config);
   const settings = {
     ...defaultSettings,
     ...userSettings,
@@ -75,9 +76,9 @@ export function getSettings(config) {
       : defaultSettings.modes,
     // filter networks to configured allowed values
     allowedBikeRentalNetworks:
-      userSettings.allowedBikeRentalNetworks.length > 0
+      userSettings.allowedBikeRentalNetworks?.length > 0
         ? userSettings.allowedBikeRentalNetworks.filter(network =>
-            defaultSettings.allowedCitybikeNetworks.includes(network),
+            allNetworks.includes(network),
           )
         : defaultSettings.allowedBikeRentalNetworks,
   };
@@ -86,8 +87,6 @@ export function getSettings(config) {
     ...settings,
     walkSpeed: findNearestOption(settings.walkSpeed, defaultOptions.walkSpeed),
     bikeSpeed: findNearestOption(settings.bikeSpeed, defaultOptions.bikeSpeed),
-    walkReluctance: Number(settings.walkReluctance),
-    walkBoardCost: Number(settings.walkBoardCost),
   };
 }
 
@@ -162,7 +161,6 @@ export const getPlanParams = (
         to: toLocation,
         minTransferTime: config.minTransferTime,
         ticketTypes,
-        transferPenalty: config.transferPenalty,
         optimize: config.optimize,
       },
       nullOrUndefined,
@@ -197,9 +195,9 @@ export const getPlanParams = (
       modesOrDefault.length > 1 &&
       !wheelchair &&
       config.showBikeAndParkItineraries &&
-      !config.includePublicWithBikePlan
-        ? settings.showBikeAndParkItineraries
-        : settings.includeBikeSuggestions,
+      (config.includePublicWithBikePlan
+        ? settings.includeBikeSuggestions
+        : settings.showBikeAndParkItineraries),
     bikeAndPublicModes: [
       { mode: 'BICYCLE' },
       ...modesAsOTPModes(getBicycleCompatibleModes(config, modesOrDefault)),
