@@ -61,7 +61,7 @@ import {
 import SettingsDrawer from './SettingsDrawer';
 import AlternativeItineraryBar from './AlternativeItineraryBar';
 import {
-  getCurrentSettings,
+  getSettings,
   getPlanParams,
   hasStartAndDestination,
 } from '../util/planParamUtil';
@@ -900,7 +900,7 @@ class ItineraryPage extends React.Component {
     if (isOpen) {
       this.setState({
         settingsOpen: true,
-        settingsOnOpen: getCurrentSettings(this.context.config, ''),
+        settingsOnOpen: getSettings(this.context.config),
       });
       if (this.props.breakpoint !== 'large') {
         this.context.router.push({
@@ -920,7 +920,7 @@ class ItineraryPage extends React.Component {
     }
     const settingsChanged = !isEqual(
       this.state.settingsOnOpen,
-      getCurrentSettings(this.context.config, ''),
+      getSettings(this.context.config),
     );
     if (!settingsChanged || !this.hasValidFromTo()) {
       return;
@@ -1039,7 +1039,7 @@ class ItineraryPage extends React.Component {
     const hasNoTransitItineraries =
       transitItineraries(props.viewer?.plan?.itineraries).length === 0;
 
-    const settings = getCurrentSettings(config, '');
+    const settings = getSettings(config);
 
     this.selectedPlan = this.mapHashToPlan(hash);
 
@@ -1130,12 +1130,12 @@ class ItineraryPage extends React.Component {
           walking={walkPlan?.itineraries?.length > 0}
           biking={
             bikePlan?.itineraries?.length > 0 ||
-            bikeTransitPlan?.itineraries?.length
+            !!bikeTransitPlan?.itineraries?.length
           }
           driving={
             (settings.includeCarSuggestions &&
               carPlan?.itineraries?.length > 0) ||
-            parkRidePlan?.itineraries?.length > 0
+            !!parkRidePlan?.itineraries?.length
           }
           bikeAndParkItineraryCount={this.bikeAndParkItineraryCount}
           showRelaxedPlanNotifier={showRelaxedPlanNotifier}

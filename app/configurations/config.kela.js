@@ -90,6 +90,7 @@ export default configMerger(matkaConfig, {
     ...matkaConfig.defaultSettings,
     includeCarSuggestions: true,
     includeBikeSuggestions: false,
+    includeParkAndRideSuggestions: false,
   },
   mainMenu: {
     showDisruptions: false,
@@ -111,9 +112,6 @@ export default configMerger(matkaConfig, {
   emphasizeOneWayJourney: true,
 
   terminalStopsMinZoom: 14,
-
-  onlyCarPlan: true,
-
   useRealtimeTravellerCapacities: false,
 
   showVehiclesOnStopPage: false,

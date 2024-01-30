@@ -10,7 +10,7 @@ import { boundWithMinimumArea } from '../util/geo-utils';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import { itineraryHasCancelation } from '../util/alertUtils';
 import { getStartTimeWithColon } from '../util/timeUtils';
-import { getCurrentSettings, getDefaultSettings } from '../util/planParamUtil';
+import { getSettings, getDefaultSettings } from '../util/planParamUtil';
 import {
   startRealTimeClient,
   stopRealTimeClient,
@@ -232,7 +232,7 @@ export function filterItinerariesByFeedId(plan, config) {
 const settingsToCompare = ['walkBoardCost', 'ticketTypes', 'walkReluctance'];
 export function settingsLimitRouting(config) {
   const defaultSettings = getDefaultSettings(config);
-  const currentSettings = getCurrentSettings(config);
+  const currentSettings = getSettings(config);
   const defaultSettingsToCompare = pick(defaultSettings, settingsToCompare);
   const currentSettingsToCompare = pick(currentSettings, settingsToCompare);
 
