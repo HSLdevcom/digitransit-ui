@@ -107,6 +107,10 @@ export function setCustomizedSettings(data) {
       data.walkBoardCost,
       oldSettings.walkBoardCost,
     ),
+    transferPenalty: getNumberValueOrDefault(
+      data.transferPenalty,
+      oldSettings.transferPenalty,
+    ),
     walkReluctance: getNumberValueOrDefault(
       data.walkReluctance,
       oldSettings.walkReluctance,
