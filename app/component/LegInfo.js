@@ -57,7 +57,7 @@ const LegInfo = (
         aria-label={`${intl.formatMessage({
           id: mode.toLowerCase(),
           defaultMessage: 'Vehicle',
-        })} ${leg.route && leg.route.shortName}}`}
+        })} ${leg.route && leg.route.shortName?.toLowerCase()}`}
       >
         <span aria-hidden="true">
           <RouteNumber

@@ -46,7 +46,10 @@ class LegMarker extends React.Component {
               className: 'map-route-icon',
               color,
             })}
-              <span class="map-route-number">${this.props.leg.name}</span>
+              <span class="map-route-number" aria-hidden="true">${
+                this.props.leg.name
+              }</span>
+              <span class="sr-only">${this.props.leg.name.toLowerCase()}</span>
             </div>`,
           className: `${
             this.props.style ? `arrow-${this.props.style}` : 'legmarker'

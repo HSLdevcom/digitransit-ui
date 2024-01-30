@@ -413,6 +413,7 @@ class TransitLeg extends React.Component {
           >
             <div className="itinerary-leg-row">
               <Link
+                aria-label={leg.from.name?.toLowerCase()}
                 onClick={e => {
                   e.stopPropagation();
                   addAnalyticsEvent({

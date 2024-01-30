@@ -88,14 +88,23 @@ function FuzzyTripLink({ vehicle, stopName, nextStopName, ...rest }, context) {
                 defaultMessage:
                   '{mode} {shortName} is between {stopName} and {nextStopName}',
               },
-              { stopName, nextStopName, mode: localizedMode, shortName },
+              {
+                stopName,
+                nextStopName,
+                mode: localizedMode,
+                shortName: shortName?.toLowerCase(),
+              },
             )
           : context.intl.formatMessage(
               {
                 id: 'route-page-vehicle-position',
                 defaultMessage: '{mode} {shortName} is at {stopName}',
               },
-              { stopName, mode: localizedMode, shortName },
+              {
+                stopName,
+                mode: localizedMode,
+                shortName: shortName?.toLowerCase(),
+              },
             );
 
         return (

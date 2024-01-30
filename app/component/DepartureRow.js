@@ -119,7 +119,7 @@ const DepartureRow = (
               id: 'departure-page-sr',
             },
             {
-              shortName,
+              shortName: shortName?.toLowerCase(),
               destination: headsign,
               time: moment(departureTime * 1000).format('HH:mm'),
             },
@@ -154,7 +154,10 @@ const DepartureRow = (
       >
         {renderWithLink(
           <>
-            <div className="route-number">{shortName}</div>
+            <div aria-hidden="true" className="route-number">
+              {shortName}
+            </div>
+            <span className="sr-only">{shortName?.toLowerCase()}</span>
             {icon && (
               <>
                 <Icon
