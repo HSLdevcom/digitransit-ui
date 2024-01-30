@@ -13,7 +13,7 @@ import {
 } from '../util/alertUtils';
 import { AlertShape } from '../util/shapes';
 import withBreakpoint from '../util/withBreakpoint';
-import { AlertEntityType } from '../constants';
+import { AlertEntityType, AlertSeverityLevelType } from '../constants';
 
 const AlertList = ({
   cancelations,
@@ -41,9 +41,15 @@ const AlertList = ({
     );
   }
 
+  // Cancelations should be between non-info alerts and info alerts
   const alertsSorted = [
+    ...validAlerts
+      .filter(alert => alert.alertSeverityLevel !== AlertSeverityLevelType.Info)
+      .sort(alertCompare),
     ...validCancelations.sort(alertCompare),
-    ...validAlerts.sort(alertCompare),
+    ...validAlerts.filter(
+      alert => alert.alertSeverityLevel === AlertSeverityLevelType.Info,
+    ),
   ];
 
   return (

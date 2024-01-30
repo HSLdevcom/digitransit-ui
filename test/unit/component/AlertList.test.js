@@ -16,12 +16,12 @@ describe('<AlertList />', () => {
     expect(wrapper.find('.no-alerts-container')).to.have.lengthOf(1);
   });
 
-  it('should order the cancelations and service alerts by route shortName', () => {
+  it('should order the cancelations and service alerts by route shortName and put alerts first', () => {
     const props = {
       currentTime: 1547464414,
       cancelations: [
         {
-          alertHeaderText: 'first',
+          alertHeaderText: 'third',
           alertSeverityLevel: 'SEVERE',
           effectiveStartDate: 1547464413,
           entities: [
@@ -34,7 +34,7 @@ describe('<AlertList />', () => {
           ],
         },
         {
-          alertHeaderText: 'second',
+          alertHeaderText: 'fourth',
           alertSeverityLevel: 'SEVERE',
           effectiveStartDate: 1547464413,
           entities: [
@@ -49,7 +49,7 @@ describe('<AlertList />', () => {
       ],
       serviceAlerts: [
         {
-          alertHeaderText: 'fourth',
+          alertHeaderText: 'second',
           alertSeverityLevel: 'SEVERE',
           effectiveStartDate: 1547464413,
           entities: [
@@ -62,7 +62,7 @@ describe('<AlertList />', () => {
           ],
         },
         {
-          alertHeaderText: 'third',
+          alertHeaderText: 'first',
           alertSeverityLevel: 'SEVERE',
           effectiveStartDate: 1547464413,
           entities: [
