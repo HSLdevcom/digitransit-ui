@@ -47,9 +47,9 @@ const AlertList = ({
       .filter(alert => alert.alertSeverityLevel !== AlertSeverityLevelType.Info)
       .sort(alertCompare),
     ...validCancelations.sort(alertCompare),
-    ...validAlerts.filter(
-      alert => alert.alertSeverityLevel === AlertSeverityLevelType.Info,
-    ),
+    ...validAlerts
+      .filter(alert => alert.alertSeverityLevel === AlertSeverityLevelType.Info)
+      .sort(alertCompare),
   ];
 
   return (
