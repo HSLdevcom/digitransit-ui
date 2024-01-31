@@ -4,11 +4,9 @@ on:
   push:
     branches:
       - v3
-      - node-migration
   pull_request:
     branches:
       - v3
-      - node-migration
 
 env:
   # We tell Playwright not to download browser binaries because we use microsoft/playwright-github-action.
@@ -301,7 +299,6 @@ jobs:
 
       - name: compute Docker image tag
         id: docker-tags
-        # todo: update to v3 before merging!
         run: |
           echo "permanent-tag=${GITHUB_REF##*/}-$(date +"%Y-%m-%dT%H.%M.%S")-${GITHUB_SHA:0:7}" >>$GITHUB_OUTPUT
       - name: build and push Docker image
