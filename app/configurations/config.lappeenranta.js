@@ -30,7 +30,7 @@ export default configMerger(walttiConfig, {
   logo: 'lappeenranta/logo.png',
   secondaryLogo: 'lappeenranta/secondary-logo.png',
 
-  favicon: './app/configurations/images/lappeenranta/bussi_fin.jpeg',
+  favicon: './app/configurations/images/lappeenranta/lappeenranta-favicon.jpg',
 
   cityBike: {
     networks: {
