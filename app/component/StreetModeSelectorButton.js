@@ -83,11 +83,10 @@ export default function StreetModeSelectorButton(
   }
   return (
     // eslint-disable-next-line jsx-a11y/click-events-have-key-events
-    <div
+    <button
       className="street-mode-selector-button-container"
       onClick={() => onClick(name)}
-      role="button"
-      tabIndex={0}
+      type="button"
       aria-label={intl.formatMessage(
         {
           id: `street-mode-${name.toLowerCase()}-aria`,
@@ -137,7 +136,7 @@ export default function StreetModeSelectorButton(
           )}
         </div>
       </div>
-    </div>
+    </button>
   );
 }
 
