@@ -133,7 +133,8 @@ export const getPlanParams = (
     // do not ask citybike routes without networks
     modesOrDefault = modesOrDefault.filter(mode => mode !== 'BICYCLE_RENT');
   }
-  const formattedModes = modesAsOTPModes(modesOrDefault);
+  const otpModes = modesAsOTPModes(modesOrDefault);
+  const modesWithoutRent = otpModes.filter(mode => mode.qualifier !== 'RENT');
   const wheelchair = !!settings.accessibilityOption;
   const linearDistance = estimateItineraryDistance(
     fromLocation,
@@ -172,7 +173,7 @@ export const getPlanParams = (
     wheelchair,
     walkReluctance,
     walkBoardCost,
-    modes: formattedModes,
+    modes: otpModes,
     modeWeight: config.customWeights,
     shouldMakeWalkQuery:
       !wheelchair &&
@@ -204,8 +205,8 @@ export const getPlanParams = (
     ],
     bikeParkModes: [
       { mode: 'BICYCLE', qualifier: 'PARK' },
-      ...formattedModes,
-    ].filter(mode => mode.qualifier !== 'RENT'), // BICYCLE_RENT can't be used together with BICYCLE_PARK
-    parkRideModes: [{ mode: 'CAR', qualifier: 'PARK' }, ...formattedModes],
+      ...modesWithoutRent, // BICYCLE_RENT can't be used together with BICYCLE_PARK
+    ],
+    parkRideModes: [{ mode: 'CAR', qualifier: 'PARK' }, ...modesWithoutRent],
   };
 };
