@@ -185,7 +185,7 @@ export const planQuery = graphql`
     $modeWeight: InputModeWeight
   ) {
     viewer {
-      ...SummaryPage_viewer
+      ...SummaryPage_plan
       @arguments(
         fromPlace: $fromPlace
         toPlace: $toPlace

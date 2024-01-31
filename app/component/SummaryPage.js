@@ -4,7 +4,12 @@
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
-import { createRefetchContainer, fetchQuery, graphql } from 'react-relay';
+import {
+  fetchQuery,
+  graphql,
+  useRefetchableFragment,
+  useFragment,
+} from 'react-relay';
 import findIndex from 'lodash/findIndex';
 import pick from 'lodash/pick';
 import get from 'lodash/get';
@@ -29,7 +34,6 @@ import {
   getStartTimeWithColon,
 } from '../util/timeUtils';
 import {
-  planQuery,
   moreItinerariesQuery,
   allModesQuery,
   walkAndBikeQuery,
@@ -65,9 +69,7 @@ import { saveSearch } from '../action/SearchActions';
 import CustomizeSearch from './CustomizeSearchNew';
 import { mapLayerShape } from '../store/MapLayerStore';
 import { mapLayerOptionsShape } from '../util/shapes';
-import ItineraryShape from '../prop-types/ItineraryShape';
 import ErrorShape from '../prop-types/ErrorShape';
-import RoutingErrorShape from '../prop-types/RoutingErrorShape';
 
 const POINT_FOCUS_ZOOM = 16; // used when focusing to a point
 
@@ -302,6 +304,131 @@ const SummaryPage = (props, context) => {
   let query;
   const { match } = props;
 
+  const [planData, refetch] = !props.plan
+    ? [{ plan: {} }, () => {}]
+    : useRefetchableFragment(
+        graphql`
+          fragment SummaryPage_plan on QueryType
+          @refetchable(queryName: "SummaryPagePlanRefetchQuery")
+          @argumentDefinitions(
+            fromPlace: { type: "String!" }
+            toPlace: { type: "String!" }
+            numItineraries: { type: "Int!" }
+            modes: { type: "[TransportMode!]" }
+            date: { type: "String!" }
+            time: { type: "String!" }
+            walkReluctance: { type: "Float" }
+            walkBoardCost: { type: "Int" }
+            minTransferTime: { type: "Int" }
+            walkSpeed: { type: "Float" }
+            wheelchair: { type: "Boolean" }
+            ticketTypes: { type: "[String]" }
+            arriveBy: { type: "Boolean" }
+            transferPenalty: { type: "Int" }
+            bikeSpeed: { type: "Float" }
+            optimize: { type: "OptimizeType" }
+            unpreferred: { type: "InputUnpreferred" }
+            allowedBikeRentalNetworks: { type: "[String]" }
+            modeWeight: { type: "InputModeWeight" }
+          ) {
+            plan(
+              fromPlace: $fromPlace
+              toPlace: $toPlace
+              numItineraries: $numItineraries
+              transportModes: $modes
+              date: $date
+              time: $time
+              walkReluctance: $walkReluctance
+              walkBoardCost: $walkBoardCost
+              minTransferTime: $minTransferTime
+              walkSpeed: $walkSpeed
+              wheelchair: $wheelchair
+              allowedTicketTypes: $ticketTypes
+              arriveBy: $arriveBy
+              transferPenalty: $transferPenalty
+              bikeSpeed: $bikeSpeed
+              optimize: $optimize
+              unpreferred: $unpreferred
+              allowedVehicleRentalNetworks: $allowedBikeRentalNetworks
+              modeWeight: $modeWeight
+            ) {
+              ...SummaryPlanContainer_plan
+              ...ItineraryTab_plan
+              routingErrors {
+                code
+                inputField
+              }
+              itineraries {
+                startTime
+                endTime
+                ...ItineraryTab_itinerary
+                ...SummaryPlanContainer_itineraries
+                legs {
+                  mode
+                  ...ItineraryLine_legs
+                  transitLeg
+                  legGeometry {
+                    points
+                  }
+                  route {
+                    gtfsId
+                    type
+                    shortName
+                  }
+                  trip {
+                    gtfsId
+                    directionId
+                    stoptimesForDate {
+                      scheduledDeparture
+                      pickupType
+                    }
+                    pattern {
+                      ...RouteLine_pattern
+                    }
+                  }
+                  from {
+                    name
+                    lat
+                    lon
+                    stop {
+                      gtfsId
+                      zoneId
+                    }
+                    bikeRentalStation {
+                      bikesAvailable
+                      networks
+                    }
+                  }
+                  to {
+                    stop {
+                      gtfsId
+                      zoneId
+                    }
+                    bikePark {
+                      bikeParkId
+                      name
+                    }
+                  }
+                }
+              }
+            }
+          }
+        `,
+        props.plan,
+      );
+
+  const serviceTimeRangeData = !props.serviceTimeRange
+    ? validateServiceTimeRange()
+    : useFragment(
+        graphql`
+          fragment SummaryPage_serviceTimeRange on serviceTimeRange {
+            start
+            end
+          }
+        `,
+        props.serviceTimeRange,
+      );
+
   const setParamsAndQuery = () => {
     params = context.match.params;
     query = context.match.location.query;
@@ -331,7 +458,7 @@ const SummaryPage = (props, context) => {
   };
 
   setParamsAndQuery();
-  let originalPlan = props.viewer && props.viewer.plan;
+  let originalPlan = planData && planData.plan;
   let expandMap = 0;
 
   if (props.error) {
@@ -352,7 +479,7 @@ const SummaryPage = (props, context) => {
     alternativePlan: undefined,
     earlierItineraries: [],
     laterItineraries: [],
-    previouslySelectedPlan: props.viewer && props.viewer.plan,
+    previouslySelectedPlan: planData && planData.plan,
     separatorPosition: undefined,
     walkPlan: undefined,
     bikePlan: undefined,
@@ -396,7 +523,7 @@ const SummaryPage = (props, context) => {
   } else if (state.streetMode === 'parkAndRide') {
     selectedPlan = state.parkRidePlan;
   } else {
-    selectedPlan = props.viewer && props.viewer.plan;
+    selectedPlan = planData && planData.plan;
   }
 
   const makeQueryWithAllModes = () => {
@@ -502,9 +629,9 @@ const SummaryPage = (props, context) => {
     // screen reader alert when new itineraries are fetched
     if (
       props.match.params.hash === undefined &&
-      props.viewer &&
-      props.viewer.plan &&
-      props.viewer.plan.itineraries &&
+      planData &&
+      planData.plan &&
+      planData.plan.itineraries &&
       !secondQuerySent
     ) {
       showScreenreaderLoadedAlert();
@@ -515,7 +642,7 @@ const SummaryPage = (props, context) => {
     // Reset walk and bike suggestions when new search is made
     if (
       selectedPlan !== state.alternativePlan &&
-      !isEqual(props.viewer && props.viewer.plan, originalPlan) &&
+      !isEqual(planData && planData.plan, originalPlan) &&
       paramsOrQueryHaveChanged() &&
       secondQuerySent &&
       !state.isFetchingWalkAndBike
@@ -543,12 +670,12 @@ const SummaryPage = (props, context) => {
 
     // Public transit routes fetched, now fetch walk and bike itineraries
     if (
-      props.viewer &&
-      props.viewer.plan &&
-      props.viewer.plan.itineraries &&
+      planData &&
+      planData.plan &&
+      planData.plan.itineraries &&
       !secondQuerySent
     ) {
-      originalPlan = props.viewer.plan;
+      originalPlan = planData.plan;
       secondQuerySent = true;
       if (
         !isEqual(
@@ -627,17 +754,19 @@ const SummaryPage = (props, context) => {
       context.match,
     );
 
-    props.relay.refetch(planParams, null, () => {
-      setState({
-        ...state,
-        loading: false,
-        earlierItineraries: [],
-        laterItineraries: [],
-        separatorPosition: undefined,
-        alternativePlan: undefined,
-        settingsChangedRecently: true,
-      });
-      setResetSelectionCallback(true);
+    refetch(planParams, {
+      onComplete: () => {
+        setState({
+          ...state,
+          loading: false,
+          earlierItineraries: [],
+          laterItineraries: [],
+          separatorPosition: undefined,
+          alternativePlan: undefined,
+          settingsChangedRecently: true,
+        });
+        setResetSelectionCallback(true);
+      },
     });
     // Cleanup
     setRefetchCallback(undefined);
@@ -859,10 +988,10 @@ const SummaryPage = (props, context) => {
   };
 
   const planHasNoItineraries = () =>
-    props.viewer &&
-    props.viewer.plan &&
-    props.viewer.plan.itineraries &&
-    props.viewer.plan.itineraries.filter(
+    planData &&
+    planData.plan &&
+    planData.plan.itineraries &&
+    planData.plan.itineraries.filter(
       itinerary => !itinerary.legs.every(leg => leg.mode === 'WALK'),
     ).length === 0;
 
@@ -956,7 +1085,7 @@ const SummaryPage = (props, context) => {
     setState({ ...state, loadingMoreItineraries: reversed ? 'top' : 'bottom' });
     showScreenreaderLoadingAlert();
 
-    const end = moment.unix(props.serviceTimeRange.end);
+    const end = moment.unix(serviceTimeRangeData.end);
     const latestDepartureTime = itineraries.reduce((previous, current) => {
       const startTime = moment(current.startTime);
 
@@ -1068,7 +1197,7 @@ const SummaryPage = (props, context) => {
     setState({ ...state, loadingMoreItineraries: reversed ? 'bottom' : 'top' });
     showScreenreaderLoadingAlert();
 
-    const start = moment.unix(props.serviceTimeRange.start);
+    const start = moment.unix(serviceTimeRangeData.start);
     const earliestArrivalTime = itineraries.reduce((previous, current) => {
       const endTime = moment(current.endTime);
       if (previous == null) {
@@ -1677,7 +1806,7 @@ const SummaryPage = (props, context) => {
   const { error } = props;
   const { walkPlan, bikePlan, carPlan, parkRidePlan } = state;
 
-  const plan = props.viewer && props.viewer.plan;
+  const plan = planData && planData.plan;
 
   const bikeParkPlan = filteredbikeAndPublic(state.bikeParkPlan);
   const bikeAndPublicPlan = filteredbikeAndPublic(state.bikeAndPublicPlan);
@@ -1686,9 +1815,9 @@ const SummaryPage = (props, context) => {
     userHasChangedModes(context.config) &&
     !isFetching &&
     (!state.alternativePlan ||
-      !isEqual(props.viewer && props.viewer.plan, originalPlan))
+      !isEqual(planData && planData.plan, originalPlan))
   ) {
-    originalPlan = props.viewer.plan;
+    originalPlan = planData.plan;
     isFetching = true;
     setState({ ...state, isFetchingWalkAndBike: true });
     makeWalkAndBikeQueries();
@@ -1941,7 +2070,7 @@ const SummaryPage = (props, context) => {
 
   const serviceTimeRange = validateServiceTimeRange(
     context.config.itinerary.serviceTimeRange,
-    props.serviceTimeRange,
+    serviceTimeRangeData,
   );
   const loadingPublicDone =
     state.loading === false && (error || props.loading === false);
@@ -2213,7 +2342,7 @@ const SummaryPage = (props, context) => {
         params={match.params}
         focusToPoint={focusToPoint}
         plan={selectedPlan}
-        serviceTimeRange={props.serviceTimeRange}
+        serviceTimeRange={serviceTimeRangeData}
         focusToLeg={focusToLeg}
         onSwipe={changeHash}
       >
@@ -2223,7 +2352,7 @@ const SummaryPage = (props, context) => {
               key: i,
               itinerary,
               plan: selectedPlan,
-              serviceTimeRange: props.serviceTimeRange,
+              serviceTimeRange: serviceTimeRangeData,
             }),
           )}
       </MobileItineraryWrapper>
@@ -2368,16 +2497,8 @@ SummaryPage.contextTypes = {
 
 SummaryPage.propTypes = {
   match: matchShape.isRequired,
-  viewer: PropTypes.shape({
-    plan: PropTypes.shape({
-      routingErrors: PropTypes.arrayOf(RoutingErrorShape),
-      itineraries: PropTypes.arrayOf(ItineraryShape),
-    }),
-  }).isRequired,
-  serviceTimeRange: PropTypes.shape({
-    start: PropTypes.number.isRequired,
-    end: PropTypes.number.isRequired,
-  }).isRequired,
+  plan: PropTypes.object,
+  serviceTimeRange: PropTypes.object,
   content: PropTypes.node.isRequired,
   map: PropTypes.shape({
     type: PropTypes.func.isRequired,
@@ -2386,9 +2507,6 @@ SummaryPage.propTypes = {
   error: ErrorShape,
   loading: PropTypes.bool,
   relayEnvironment: PropTypes.object.isRequired,
-  relay: PropTypes.shape({
-    refetch: PropTypes.func.isRequired,
-  }).isRequired,
   mapLayers: mapLayerShape.isRequired,
   mapLayerOptions: mapLayerOptionsShape.isRequired,
   alertRef: PropTypes.string.isRequired,
@@ -2400,126 +2518,4 @@ SummaryPage.defaultProps = {
   loading: false,
 };
 
-const containerComponent = createRefetchContainer(
-  SummaryPage,
-  {
-    viewer: graphql`
-      fragment SummaryPage_viewer on QueryType
-      @argumentDefinitions(
-        fromPlace: { type: "String!" }
-        toPlace: { type: "String!" }
-        numItineraries: { type: "Int!" }
-        modes: { type: "[TransportMode!]" }
-        date: { type: "String!" }
-        time: { type: "String!" }
-        walkReluctance: { type: "Float" }
-        walkBoardCost: { type: "Int" }
-        minTransferTime: { type: "Int" }
-        walkSpeed: { type: "Float" }
-        wheelchair: { type: "Boolean" }
-        ticketTypes: { type: "[String]" }
-        arriveBy: { type: "Boolean" }
-        transferPenalty: { type: "Int" }
-        bikeSpeed: { type: "Float" }
-        optimize: { type: "OptimizeType" }
-        unpreferred: { type: "InputUnpreferred" }
-        allowedBikeRentalNetworks: { type: "[String]" }
-        modeWeight: { type: "InputModeWeight" }
-      ) {
-        plan(
-          fromPlace: $fromPlace
-          toPlace: $toPlace
-          numItineraries: $numItineraries
-          transportModes: $modes
-          date: $date
-          time: $time
-          walkReluctance: $walkReluctance
-          walkBoardCost: $walkBoardCost
-          minTransferTime: $minTransferTime
-          walkSpeed: $walkSpeed
-          wheelchair: $wheelchair
-          allowedTicketTypes: $ticketTypes
-          arriveBy: $arriveBy
-          transferPenalty: $transferPenalty
-          bikeSpeed: $bikeSpeed
-          optimize: $optimize
-          unpreferred: $unpreferred
-          allowedVehicleRentalNetworks: $allowedBikeRentalNetworks
-          modeWeight: $modeWeight
-        ) {
-          ...SummaryPlanContainer_plan
-          ...ItineraryTab_plan
-          routingErrors {
-            code
-            inputField
-          }
-          itineraries {
-            startTime
-            endTime
-            ...ItineraryTab_itinerary
-            ...SummaryPlanContainer_itineraries
-            legs {
-              mode
-              ...ItineraryLine_legs
-              transitLeg
-              legGeometry {
-                points
-              }
-              route {
-                gtfsId
-                type
-                shortName
-              }
-              trip {
-                gtfsId
-                directionId
-                stoptimesForDate {
-                  scheduledDeparture
-                  pickupType
-                }
-                pattern {
-                  ...RouteLine_pattern
-                }
-              }
-              from {
-                name
-                lat
-                lon
-                stop {
-                  gtfsId
-                  zoneId
-                }
-                bikeRentalStation {
-                  bikesAvailable
-                  networks
-                }
-              }
-              to {
-                stop {
-                  gtfsId
-                  zoneId
-                }
-                bikePark {
-                  bikeParkId
-                  name
-                }
-              }
-            }
-          }
-        }
-      }
-    `,
-    serviceTimeRange: graphql`
-      fragment SummaryPage_serviceTimeRange on serviceTimeRange {
-        start
-        end
-      }
-    `,
-  },
-  planQuery,
-);
-
-export {
-  containerComponent as default,
-  // SummaryPage as Component,
-};
+export default SummaryPage;

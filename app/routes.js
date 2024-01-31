@@ -8,7 +8,7 @@ import createRender from 'found/createRender';
 
 import Error404 from './component/404';
 import TopLevel from './component/TopLevel';
-
+import { isBrowser } from './util/browser';
 import { prepareWeekDays } from './util/dateParamUtils';
 
 import {
@@ -376,9 +376,13 @@ export default config => {
           content: (
             <Route
               getComponent={() =>
-                import(
-                  /* webpackChunkName: "itinerary" */ './component/SummaryPageContainer'
-                ).then(getDefault)
+                isBrowser
+                  ? import(
+                      /* webpackChunkName: "itinerary" */ './component/SummaryPageContainer'
+                    ).then(getDefault)
+                  : import(
+                      /* webpackChunkName: "loading" */ './component/Loading'
+                    ).then(getDefault)
               }
               render={({ Component, props, match }) => {
                 if (Component) {
