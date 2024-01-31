@@ -87,14 +87,8 @@ class StopCardHeader extends React.Component {
   }
 
   render() {
-    const {
-      className,
-      headingStyle,
-      icons,
-      stop,
-      breakpoint, // DT-3472
-      isTerminal,
-    } = this.props;
+    const { className, headingStyle, icons, stop, breakpoint, isTerminal } =
+      this.props;
     if (!stop) {
       return false;
     }
@@ -150,7 +144,7 @@ StopCardHeader.propTypes = {
   headingStyle: PropTypes.string,
   icons: PropTypes.arrayOf(PropTypes.node),
   isPopUp: PropTypes.bool,
-  breakpoint: PropTypes.string, // DT-3472
+  breakpoint: PropTypes.string,
   isTerminal: PropTypes.bool,
 };
 

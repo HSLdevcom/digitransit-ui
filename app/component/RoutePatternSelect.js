@@ -20,7 +20,6 @@ import Icon from './Icon';
 import { isBrowser } from '../util/browser';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
-// DT-3317
 
 const DATE_FORMAT = 'YYYYMMDD';
 
@@ -138,15 +137,15 @@ class RoutePatternSelect extends Component {
       refetch: PropTypes.func.isRequired,
     }).isRequired,
     gtfsId: PropTypes.string.isRequired,
-    useCurrentTime: PropTypes.bool, // DT-3182
-    lang: PropTypes.string.isRequired, // DT-3347
+    useCurrentTime: PropTypes.bool,
+    lang: PropTypes.string.isRequired,
     relayEnvironment: PropTypes.object,
   };
 
   static contextTypes = {
     router: routerShape.isRequired,
-    config: PropTypes.object, // DT-3317
-    getStore: PropTypes.func.isRequired, // DT-3347
+    config: PropTypes.object,
+    getStore: PropTypes.func.isRequired,
     intl: intlShape.isRequired,
   };
 
@@ -410,7 +409,6 @@ class RoutePatternSelect extends Component {
   }
 }
 
-// DT-2531: added activeDates
 const withStore = createRefetchContainer(
   connectToStores(
     props => (
@@ -426,7 +424,7 @@ const withStore = createRefetchContainer(
         .getStore('TimeStore')
         .getCurrentTime()
         .format(DATE_FORMAT),
-      lang: context.getStore('PreferencesStore').getLanguage(), // DT-3347
+      lang: context.getStore('PreferencesStore').getLanguage(),
     }),
   ),
   {

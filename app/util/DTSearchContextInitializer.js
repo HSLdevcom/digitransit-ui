@@ -25,7 +25,6 @@ import { useCitybikes } from './modeUtils';
 import { getDefaultNetworks } from './vehicleRentalUtils';
 
 export default function intializeSearchContext(context, searchContext) {
-  // DT-3424: Set SearchContext for Autosuggest and searchUtils.
   searchContext.context = context;
   const { config } = context;
   searchContext.isPeliasLocationAware = config.autoSuggest.locationAware;

@@ -13,10 +13,10 @@ import {
 } from '../util/legUtils';
 import { streetHash } from '../util/path';
 
-export const StreetModeSelectorButton = (
+export default function StreetModeSelectorButton(
   { icon, name, plan, onClick },
   { config, intl },
-) => {
+) {
   let itinerary = plan.itineraries[0];
   if (!itinerary) {
     return null;
@@ -71,10 +71,12 @@ export const StreetModeSelectorButton = (
       i.legs.find(l => l.transitLeg),
     );
     const mode =
-      getExtendedMode(
-        transitItinerary?.legs.find(l => l.transitLeg),
-        config,
-      ) || 'rail';
+      (transitItinerary &&
+        getExtendedMode(
+          transitItinerary?.legs.find(l => l.transitLeg),
+          config,
+        )) ||
+      'rail';
     secondaryIcon = `icon-icon_${mode}`;
     secondaryColor =
       mode === 'subway' ? config.colors?.iconColors?.['mode-metro'] : '';
@@ -137,7 +139,7 @@ export const StreetModeSelectorButton = (
       </div>
     </div>
   );
-};
+}
 
 StreetModeSelectorButton.propTypes = {
   icon: PropTypes.string.isRequired,
@@ -154,4 +156,3 @@ StreetModeSelectorButton.contextTypes = {
   intl: intlShape.isRequired,
   config: PropTypes.object.isRequired,
 };
-export default StreetModeSelectorButton;

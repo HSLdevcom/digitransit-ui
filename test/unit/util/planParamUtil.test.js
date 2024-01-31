@@ -7,13 +7,10 @@ import { setCustomizedSettings } from '../../../app/store/localStorage';
 
 const from = 'Kera, Espoo::60.217992,24.75494';
 const to = 'Leppävaara, Espoo::60.219235,24.81329';
-const defaultProps = [
-  {
-    from,
-    to,
-  },
-  { location: { query: {} } },
-];
+const defaultProps = {
+  params: { from, to },
+  location: { query: {} },
+};
 
 const config = {
   modeToOTP: {
@@ -57,160 +54,126 @@ const config = {
 };
 
 describe('planParamUtil', () => {
-  describe('preparePlanParams', () => {
+  describe('getPlanParams', () => {
     it('should return mode defaults from config if modes are missing from the localStorage', () => {
-      const params = utils.preparePlanParams(config, false)(...defaultProps);
+      const params = utils.getPlanParams(config, defaultProps);
       const { modes } = params;
       expect(modes).to.deep.equal([{ mode: 'BUS' }, { mode: 'WALK' }]);
     });
 
     it('should ignore localstorage modes if useDefaultModes is true', () => {
       setCustomizedSettings({ modes: ['BUS', 'SUBWAY'] });
-      const params = utils.preparePlanParams(config, true)(...defaultProps);
+      const params = utils.getPlanParams(config, defaultProps, true);
       const { modes } = params;
       expect(modes).to.deep.equal([{ mode: 'BUS' }, { mode: 'WALK' }]);
     });
 
     it('should use bikeSpeed from localStorage to find closest possible option in config', () => {
       setCustomizedSettings({ bikeSpeed: 20 });
-      const params = utils.preparePlanParams(
-        defaultConfig,
-        false,
-      )(...defaultProps);
+      const params = utils.getPlanParams(defaultConfig, defaultProps);
       const { bikeSpeed } = params;
       expect(bikeSpeed).to.equal(
         Math.max(...defaultConfig.defaultOptions.bikeSpeed),
       );
     });
 
-    it('should replace the old ticketTypes separator "_" with ":" in localStorage', () => {
-      setCustomizedSettings({ ticketTypes: 'HSL_esp' });
-      const params = utils.preparePlanParams(defaultConfig, false)(
-        {
-          from,
-          to,
-        },
-        {
-          location: { query: {} },
-        },
-      );
-      const { ticketTypes } = params;
-      expect(ticketTypes).to.deep.equal(['HSL:esp']);
-    });
-
     it('should return null if no ticketTypes are found from query or localStorage', () => {
-      const params = utils.preparePlanParams(defaultConfig, false)(
-        {
+      const params = utils.getPlanParams(defaultConfig, {
+        params: {
           from,
           to,
         },
-        {
-          location: { query: {} },
-        },
-      );
+        location: { query: {} },
+      });
       const { ticketTypes } = params;
       expect(ticketTypes).to.equal(null);
     });
 
     it('should use ticketTypes from localStorage if no ticketTypes are found from query', () => {
       setCustomizedSettings({ ticketTypes: 'HSL:esp' });
-      const params = utils.preparePlanParams(defaultConfig, false)(
-        {
+      const params = utils.getPlanParams(defaultConfig, {
+        params: {
           from,
           to,
         },
-        {
-          location: { query: {} },
-        },
-      );
+        location: { query: {} },
+      });
       const { ticketTypes } = params;
-      expect(ticketTypes).to.deep.equal(['HSL:esp']);
+      expect(ticketTypes).to.deep.equal('HSL:esp');
     });
 
     it('should return null if ticketTypes is "none" in query', () => {
-      const params = utils.preparePlanParams(defaultConfig, false)(
-        {
+      const params = utils.getPlanParams(defaultConfig, {
+        params: {
           from,
           to,
         },
-        {
-          location: { query: { ticketTypes: 'none' } },
-        },
-      );
+        location: { query: { ticketTypes: 'none' } },
+      });
       const { ticketTypes } = params;
       expect(ticketTypes).to.equal(null);
     });
 
     it('should return null if ticketTypes is missing from query and "none" in localStorage', () => {
       setCustomizedSettings({ ticketTypes: 'none' });
-      const params = utils.preparePlanParams(defaultConfig, false)(
-        {
+      const params = utils.getPlanParams(defaultConfig, {
+        params: {
           from,
           to,
         },
-        {
-          location: { query: {} },
-        },
-      );
+        location: { query: {} },
+      });
       const { ticketTypes } = params;
       expect(ticketTypes).to.equal(null);
     });
 
     it('should return null if ticketTypes is "none" in both query and localStorage', () => {
       setCustomizedSettings({ ticketTypes: 'none' });
-      const params = utils.preparePlanParams(defaultConfig, false)(
-        {
+      const params = utils.getPlanParams(defaultConfig, {
+        params: {
           from,
           to,
         },
-        {
-          location: { query: { ticketTypes: 'none' } },
-        },
-      );
+        location: { query: { ticketTypes: 'none' } },
+      });
       const { ticketTypes } = params;
       expect(ticketTypes).to.equal(null);
     });
 
     it('should return null if ticketTypes is undefined in query', () => {
-      const params = utils.preparePlanParams(defaultConfig, false)(
-        {
+      const params = utils.getPlanParams(defaultConfig, {
+        params: {
           from,
           to,
         },
-        {
-          location: { query: { ticketTypes: undefined } },
-        },
-      );
+        location: { query: { ticketTypes: undefined } },
+      });
       const { ticketTypes } = params;
       expect(ticketTypes).to.equal(null);
     });
 
     it('should return null if ticketTypes is missing from query and undefined in localStorage', () => {
       setCustomizedSettings({ ticketTypes: undefined });
-      const params = utils.preparePlanParams(defaultConfig, false)(
-        {
+      const params = utils.getPlanParams(defaultConfig, {
+        params: {
           from,
           to,
         },
-        {
-          location: { query: {} },
-        },
-      );
+        location: { query: {} },
+      });
       const { ticketTypes } = params;
       expect(ticketTypes).to.equal(null);
     });
 
     it('should return null if ticketTypes is undefined in both query and localStorage', () => {
       setCustomizedSettings({ ticketTypes: undefined });
-      const params = utils.preparePlanParams(defaultConfig, false)(
-        {
+      const params = utils.getPlanParams(defaultConfig, {
+        params: {
           from,
           to,
         },
-        {
-          location: { query: { ticketTypes: undefined } },
-        },
-      );
+        location: { query: { ticketTypes: undefined } },
+      });
       const { ticketTypes } = params;
       expect(ticketTypes).to.equal(null);
     });
@@ -219,15 +182,13 @@ describe('planParamUtil', () => {
       setCustomizedSettings({ ticketTypes: 'none' });
       const limitationSettings = { ...defaultConfig };
       limitationSettings.defaultSettings.ticketTypes = 'HSL:esp';
-      const params = utils.preparePlanParams(limitationSettings, false)(
-        {
+      const params = utils.getPlanParams(limitationSettings, {
+        params: {
           from,
           to,
         },
-        {
-          location: { query: {} },
-        },
-      );
+        location: { query: {} },
+      });
       const { ticketTypes } = params;
       expect(ticketTypes).to.equal(null);
     });
@@ -235,42 +196,24 @@ describe('planParamUtil', () => {
     it('should use the configured default restriction if the user has given no ticketTypes', () => {
       const limitationSettings = { ...defaultConfig };
       limitationSettings.defaultSettings.ticketTypes = 'HSL:esp';
-      const params = utils.preparePlanParams(limitationSettings, false)(
-        {
+      const params = utils.getPlanParams(limitationSettings, {
+        params: {
           from,
           to,
         },
-        {
-          location: { query: {} },
-        },
-      );
+        location: { query: {} },
+      });
       const { ticketTypes } = params;
-      expect(ticketTypes).to.deep.equal(['HSL:esp']);
-    });
-
-    it('should remap the configured default restriction if the user has given no ticketTypes', () => {
-      const limitationSettings = { ...defaultConfig };
-      limitationSettings.defaultSettings.ticketTypes = 'HSL_esp';
-      const params = utils.preparePlanParams(limitationSettings, false)(
-        {
-          from,
-          to,
-        },
-        {
-          location: { query: {} },
-        },
-      );
-      const { ticketTypes } = params;
-      expect(ticketTypes).to.deep.equal(['HSL:esp']);
+      expect(ticketTypes).to.deep.equal('HSL:esp');
     });
 
     it('should contain all the default settings', () => {
       const defaultKeys = Object.keys(utils.getDefaultSettings(defaultConfig));
       const paramsKeys = Object.keys(
-        utils.preparePlanParams(defaultConfig, false)(
-          { from, to },
-          { location: { query: {} } },
-        ),
+        utils.getPlanParams(defaultConfig, {
+          params: { from, to },
+          location: { query: {} },
+        }),
       );
       const missing = defaultKeys.filter(key => !paramsKeys.includes(key));
       expect(missing).to.deep.equal([]);
@@ -280,66 +223,21 @@ describe('planParamUtil', () => {
       setCustomizedSettings({
         modes: ['CITYBIKE', 'BUS'],
       });
-      const params = utils.preparePlanParams(defaultConfig, false)(
-        {
+      const params = utils.getPlanParams(defaultConfig, {
+        params: {
           from,
           to,
         },
-        {
-          location: {
-            query: {},
-          },
+        location: {
+          query: {},
         },
-      );
+      });
       const { bikeParkModes } = params;
       expect(bikeParkModes).to.deep.equal([
         { mode: 'BICYCLE', qualifier: 'PARK' },
         { mode: 'BUS' },
         { mode: 'WALK' },
       ]);
-    });
-
-    it('should use same letter case for citybike networks from custom settings as in default settings', () => {
-      setCustomizedSettings({
-        allowedBikeRentalNetworks: ['FOO'],
-      });
-      const configWithCitybikes = {
-        ...defaultConfig,
-        cityBike: {
-          capacity: 'Bikes on station',
-          networks: {
-            foo: {
-              enabled: true,
-              icon: 'citybike',
-              name: {
-                en: 'Foo bikes',
-              },
-              type: 'citybike',
-            },
-            bar: {
-              enabled: true,
-              icon: 'citybike',
-              name: {
-                en: 'Bar bikes',
-              },
-              type: 'citybike',
-            },
-          },
-        },
-      };
-      const params = utils.preparePlanParams(configWithCitybikes, false)(
-        {
-          from,
-          to,
-        },
-        {
-          location: {
-            query: {},
-          },
-        },
-      );
-      const { allowedBikeRentalNetworks } = params;
-      expect(allowedBikeRentalNetworks).to.deep.equal(['foo']);
     });
   });
 
@@ -350,10 +248,10 @@ describe('planParamUtil', () => {
     });
   });
 
-  describe('getCurrentSettings', () => {
+  describe('getSettings', () => {
     it('current settings should equal default settings if no user set settings', () => {
       const defaultSettings = utils.getDefaultSettings(defaultConfig);
-      const currentSettings = utils.getCurrentSettings(defaultConfig);
+      const currentSettings = utils.getSettings(defaultConfig);
       expect(defaultSettings).to.deep.equal(currentSettings);
     });
 
@@ -363,7 +261,7 @@ describe('planParamUtil', () => {
       });
 
       const defaultSettings = utils.getDefaultSettings(defaultConfig);
-      const currentSettings = utils.getCurrentSettings(defaultConfig);
+      const currentSettings = utils.getSettings(defaultConfig);
       expect(defaultSettings).to.not.deep.equal(currentSettings);
     });
 
@@ -372,7 +270,7 @@ describe('planParamUtil', () => {
       setCustomizedSettings({
         modes: defaultSettings.modes.slice().reverse(),
       });
-      const currentSettings = utils.getCurrentSettings(defaultConfig);
+      const currentSettings = utils.getSettings(defaultConfig);
       expect(defaultSettings).to.deep.equal(currentSettings);
     });
 
@@ -380,7 +278,7 @@ describe('planParamUtil', () => {
       setCustomizedSettings({
         modes: ['BUS', 'WALK', 'FOO'],
       });
-      const currentSettings = utils.getCurrentSettings(defaultConfig);
+      const currentSettings = utils.getSettings(defaultConfig);
       expect(currentSettings.modes.length).to.equal(2);
       expect(currentSettings.modes).to.not.contain('FOO');
     });

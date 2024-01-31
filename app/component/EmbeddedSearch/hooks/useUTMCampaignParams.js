@@ -3,7 +3,7 @@ import toPairs from 'lodash/toPairs';
 import { getClientBreakpoint } from '../../../util/withBreakpoint';
 import useWindowSize from '../../../hooks/useWindowSize';
 
-const UseUTMCampaignParams = (props = {}) => {
+const useUTMCampaignParams = (props = {}) => {
   const {
     mode = 'all',
     hasOrigin = false,
@@ -36,4 +36,4 @@ const UseUTMCampaignParams = (props = {}) => {
   }, [size, mode]);
 };
 
-export default UseUTMCampaignParams;
+export default useUTMCampaignParams;

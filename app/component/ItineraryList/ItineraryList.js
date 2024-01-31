@@ -10,7 +10,7 @@ import { isBrowser } from '../../util/browser';
 import { getExtendedMode, getZones } from '../../util/legUtils';
 import CanceledItineraryToggler from '../CanceledItineraryToggler';
 import { itineraryHasCancelation } from '../../util/alertUtils';
-import { ItineraryListHeader } from './ItineraryListHeader';
+import ItineraryListHeader from './ItineraryListHeader';
 import Loading from '../Loading';
 import ItinerarySummaryMessage from './ItinerarySummaryMessage';
 import LocationShape from '../../prop-types/LocationShape';
@@ -82,6 +82,17 @@ function ItineraryList(
       />
     ));
 
+    if (hash === streetHash.parkAndRide) {
+      summaries.splice(
+        0,
+        0,
+        <ItineraryListHeader
+          translationId="leave-your-car-park-and-ride"
+          defaultMessage="Park & Ride"
+          key="itinerary-summary.parkride-title"
+        />,
+      );
+    }
     if (hash === streetHash.bikeAndVehicle) {
       // bikeAndParkItineraryCount tells how many first itineraries use bike parking
       if (bikeAndParkItineraryCount > 0) {
@@ -220,38 +231,10 @@ function ItineraryList(
         </div>
       );
     }
-    if (itineraries.length === 0) {
-      return (
-        <div className="summary-no-route-found" style={{ marginTop: 0 }}>
-          <div
-            className={cx('flex-horizontal', 'summary-notification', 'info')}
-          >
-            <Icon
-              className={cx('no-route-icon', 'info')}
-              img="icon-icon_info"
-              color="#0074be"
-            />
-            <div>
-              <div className="in-the-past">
-                <FormattedMessage
-                  id="router-only-walk-title"
-                  defaultMessage=""
-                />
-              </div>
-              <FormattedMessage
-                id="router-only-walk"
-                defaultMessage="No routes were found for your journey"
-              />
-            </div>
-          </div>
-        </div>
-      );
-    }
   }
 
   return (
     <ItinerarySummaryMessage
-      areaPolygon={config.areaPolygon}
       walking={walking}
       biking={biking}
       driving={driving}
@@ -259,8 +242,6 @@ function ItineraryList(
       from={from}
       locationState={locationState}
       routingErrors={routingErrors}
-      minDistanceBetweenFromAndTo={config.minDistanceBetweenFromAndTo}
-      nationalServiceLink={config.nationalServiceLink}
       searchTime={searchTime}
       currentTime={currentTime}
       to={to}

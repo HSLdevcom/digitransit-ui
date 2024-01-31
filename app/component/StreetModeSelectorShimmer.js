@@ -2,7 +2,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-export const StreetModeSelectorShimmer = ({ loading }) => {
+export default function StreetModeSelectorShimmer({ loading }) {
   return (
     <div
       className={`street-mode-selector-shimmer ${
@@ -23,10 +23,8 @@ export const StreetModeSelectorShimmer = ({ loading }) => {
       </div>
     </div>
   );
-};
+}
 
 StreetModeSelectorShimmer.propTypes = {
   loading: PropTypes.bool,
 };
-
-export default StreetModeSelectorShimmer;

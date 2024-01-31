@@ -401,12 +401,12 @@ export default {
   showTicketPrice: false,
 
   map: {
-    showZoomControl: true, // DT-3470, DT-3397
-    showLayerSelector: false, // DT-3470
-    showStopMarkerPopupOnMobile: false, // DT-3470
-    showScaleBar: true, // DT-3470, DT-3397
+    showZoomControl: true,
+    showLayerSelector: false,
+    showStopMarkerPopupOnMobile: false,
+    showScaleBar: true,
     attribution:
-      '<a tabindex="-1" href="http://osm.org/copyright">© OpenStreetMap</a>', // DT-3470, DT-3397
+      '<a tabindex="-1" href="http://osm.org/copyright">© OpenStreetMap</a>',
     // areBounds is for keeping map and user inside given area
     // HSL region + Lahti
     areaBounds: {
@@ -501,7 +501,7 @@ export default {
   showBikeAndPublicItineraries: true,
   showBikeAndParkItineraries: true,
 
-  // DT-5325 Notice! Turning on this setting forces the search for car routes (for the CO2 comparison only).
+  // Notice! Turning on this setting forces the search for car routes (for the CO2 comparison only).
   showCO2InItinerarySummary: true,
 
   includeCarSuggestions: false,

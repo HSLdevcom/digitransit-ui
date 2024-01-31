@@ -3,12 +3,12 @@ import React from 'react';
 import { intlShape } from 'react-intl';
 import { matchShape, routerShape } from 'found';
 
-export const SettingsDrawer = ({ children, open, className }) => {
+export default function SettingsDrawer({ children, open, className }) {
   if (open) {
     return <div className={className}>{children}</div>;
   }
   return null;
-};
+}
 
 SettingsDrawer.propTypes = {
   open: PropTypes.bool,
@@ -24,5 +24,3 @@ SettingsDrawer.contextTypes = {
   router: routerShape.isRequired,
   match: matchShape.isRequired,
 };
-
-export default SettingsDrawer;

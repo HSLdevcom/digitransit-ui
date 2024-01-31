@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import cx from 'classnames'; // DT-3470
+import cx from 'classnames';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys';
 import getContext from 'recompose/getContext';
@@ -227,7 +227,7 @@ class MapWithTrackingStateHandler extends React.Component {
     } = this.props;
     const { config } = this.context;
 
-    let btnClassName = 'map-with-tracking-buttons'; // DT-3470
+    let btnClassName = 'map-with-tracking-buttons';
     if (config.map.showZoomControl) {
       btnClassName = cx(btnClassName, 'roomForZoomControl');
     }

@@ -6,56 +6,52 @@ import Icon from './Icon';
 import { durationToString } from '../util/timeUtils';
 import { displayDistance } from '../util/geo-utils';
 
-function WalkDistance(props, { config, intl }) {
-  const walkDistance = displayDistance(
-    props.walkDistance,
-    config,
-    intl.formatNumber,
-  );
+function Distance(props, { config, intl }) {
+  const distance = displayDistance(props.distance, config, intl.formatNumber);
 
   const icon = `icon-${props.icon || 'icon_walk'}`;
 
-  const walkDuration = durationToString(props.walkDuration * 1000);
+  const duration = durationToString(props.duration * 1000);
 
   return (
     <span className={cx(props.className)} style={{ whiteSpace: 'nowrap' }}>
       <span className="sr-only">
         <FormattedMessage
           id={`aria-itinerary-summary-${props.mode}-distance`}
-          values={{ distance: walkDistance, duration: walkDuration }}
+          values={{ distance, duration }}
         />
       </span>
       <Icon img={icon} className={cx(props.mode)} />
       {!(config.hideCarSuggestionDuration && props.mode === 'car') ? (
         <span aria-hidden className="walk-distance">
-          {walkDuration}
-          <span data-text={walkDistance} />
+          {duration}
+          <span data-text={distance} />
         </span>
       ) : (
         <span aria-hidden className={cx('walk-distance', 'no-duration')}>
-          {walkDistance}
+          {distance}
         </span>
       )}
     </span>
   );
 }
 
-WalkDistance.description =
-  'Displays the total walk distance of the itinerary in precision of 10 meters. ' +
-  'Requires walkDistance in meters as props. Displays distance in km if distance is 1000 or above';
+Distance.description =
+  'Displays the total distance of the itinerary in precision of 10 meters. ' +
+  'Requires distance in meters as props. Displays distance in km if distance is 1000 or above';
 
-WalkDistance.propTypes = {
-  walkDistance: PropTypes.number.isRequired,
+Distance.propTypes = {
+  distance: PropTypes.number.isRequired,
   icon: PropTypes.string,
   className: PropTypes.string,
-  walkDuration: PropTypes.number.isRequired,
+  duration: PropTypes.number.isRequired,
   mode: PropTypes.string.isRequired,
 };
 
-WalkDistance.contextTypes = {
+Distance.contextTypes = {
   config: PropTypes.object.isRequired,
   intl: intlShape.isRequired,
 };
 
-WalkDistance.displayName = 'WalkDistance';
-export default WalkDistance;
+Distance.displayName = 'Distance';
+export default Distance;

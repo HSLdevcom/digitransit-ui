@@ -9,17 +9,15 @@ const defaultMessage = (
   </span>
 );
 
-const Loading = props => {
+export default function Loading(props) {
   return (
     <ContainerSpinner visible>
-      {(props && props.children) || defaultMessage}
+      {props?.children || defaultMessage}
     </ContainerSpinner>
   );
-};
+}
 
 Loading.displayName = 'Loading';
 Loading.propTypes = {
   children: PropTypes.node,
 };
-
-export default Loading;
