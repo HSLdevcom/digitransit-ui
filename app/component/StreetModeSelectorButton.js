@@ -13,10 +13,10 @@ import {
 } from '../util/legUtils';
 import { streetHash } from '../util/path';
 
-export const StreetModeSelectorButton = (
+export default function StreetModeSelectorButton(
   { icon, name, plan, onClick },
   { config, intl },
-) => {
+) {
   let itinerary = plan.itineraries[0];
   if (!itinerary) {
     return null;
@@ -71,21 +71,22 @@ export const StreetModeSelectorButton = (
       i.legs.find(l => l.transitLeg),
     );
     const mode =
-      getExtendedMode(
-        transitItinerary?.legs.find(l => l.transitLeg),
-        config,
-      ) || 'rail';
+      (transitItinerary &&
+        getExtendedMode(
+          transitItinerary?.legs.find(l => l.transitLeg),
+          config,
+        )) ||
+      'rail';
     secondaryIcon = `icon-icon_${mode}`;
     secondaryColor =
       mode === 'subway' ? config.colors?.iconColors?.['mode-metro'] : '';
   }
   return (
     // eslint-disable-next-line jsx-a11y/click-events-have-key-events
-    <div
+    <button
       className="street-mode-selector-button-container"
       onClick={() => onClick(name)}
-      role="button"
-      tabIndex={0}
+      type="button"
       aria-label={intl.formatMessage(
         {
           id: `street-mode-${name.toLowerCase()}-aria`,
@@ -135,9 +136,9 @@ export const StreetModeSelectorButton = (
           )}
         </div>
       </div>
-    </div>
+    </button>
   );
-};
+}
 
 StreetModeSelectorButton.propTypes = {
   icon: PropTypes.string.isRequired,
@@ -154,4 +155,3 @@ StreetModeSelectorButton.contextTypes = {
   intl: intlShape.isRequired,
   config: PropTypes.object.isRequired,
 };
-export default StreetModeSelectorButton;

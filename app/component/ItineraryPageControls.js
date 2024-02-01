@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { matchShape, routerShape } from 'found';
 import { FormattedMessage } from 'react-intl';
-
 import OriginDestinationBar from './OriginDestinationBar';
 import SearchSettings from './SearchSettings';
 import { isBrowser } from '../util/browser';

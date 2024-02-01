@@ -320,8 +320,8 @@ class TileLayerContainer extends GridLayer {
     let popup = null;
     let latlng = this.state.coords;
     let contents;
-    const breakpoint = getClientBreakpoint(); // DT-3470
-    let showPopup = true; // DT-3470
+    const breakpoint = getClientBreakpoint();
+    let showPopup = true;
 
     if (typeof this.state.selectableTargets !== 'undefined') {
       if (this.state.selectableTargets.length === 1) {
@@ -378,7 +378,6 @@ class TileLayerContainer extends GridLayer {
           !this.context.config.map.showStopMarkerPopupOnMobile &&
           breakpoint === 'small'
         ) {
-          // DT-3470
           showPopup = false;
         }
         popup = (
@@ -401,7 +400,6 @@ class TileLayerContainer extends GridLayer {
           !this.context.config.map.showStopMarkerPopupOnMobile &&
           breakpoint === 'small'
         ) {
-          // DT-3470
           showPopup = false;
         }
         popup = this.props.locationPopup !== 'none' && (

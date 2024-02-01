@@ -52,7 +52,7 @@ export default configMerger(walttiConfig, {
   },
 
   itinerary: {
-    // Number of days to include to the service time range from the future (DT-3175)
+    // Number of days to include to the service time range from the future
     serviceTimeRange: 60,
   },
 

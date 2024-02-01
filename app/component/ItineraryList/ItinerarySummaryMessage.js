@@ -16,17 +16,16 @@ import errorCardProps from './errorCardProperties';
  * @param {Array.<String>} summaryMessageIds
  * @return {Object} { titleId, bodyId, linkComponent, iconType, iconImg, LinkComponent }
  */
-const getErrorCardProps = summaryMessageIds => {
+function getErrorCardProps(summaryMessageIds) {
   // match to priority-ordered props list
   return (
     errorCardProps.find(({ id }) => summaryMessageIds.indexOf(id) >= 0)
       ?.props || {}
   );
-};
+}
 
-const ItinerarySummaryMessage = (
+export default function ItinerarySummaryMessage(
   {
-    areaPolygon,
     walking,
     biking,
     driving,
@@ -34,15 +33,15 @@ const ItinerarySummaryMessage = (
     error,
     from,
     locationState,
-    minDistanceBetweenFromAndTo,
-    nationalServiceLink,
     searchTime,
     to,
     routingErrors,
   },
   context,
-) => {
-  const { match } = context;
+) {
+  const { match, config } = context;
+  const { areaPolygon, minDistanceBetweenFromAndTo, nationalServiceLink } =
+    config;
 
   const query = { from, to, searchTime, biking, driving, walking };
   const queryContext = {
@@ -76,39 +75,27 @@ const ItinerarySummaryMessage = (
       {LinkComponent && <LinkComponent {...linkCompProps} />}
     </ErrorCard>
   );
-};
-
-const PolygonPropType = PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number));
-const LinkShape = PropTypes.objectOf(
-  PropTypes.shape({
-    href: PropTypes.string,
-    name: PropTypes.string,
-  }),
-);
+}
 
 ItinerarySummaryMessage.propTypes = {
-  areaPolygon: PolygonPropType.isRequired,
-  biking: PropTypes.bool,
-  currentTime: PropTypes.number.isRequired,
-  driving: PropTypes.bool,
-  error: ErrorShape,
   from: LocationShape.isRequired,
-  locationState: LocationStateShape,
-  minDistanceBetweenFromAndTo: PropTypes.number,
-  nationalServiceLink: LinkShape.isRequired,
-  searchTime: PropTypes.number.isRequired,
   to: LocationShape.isRequired,
+  locationState: LocationStateShape,
+  searchTime: PropTypes.number.isRequired,
   walking: PropTypes.bool,
+  biking: PropTypes.bool,
+  driving: PropTypes.bool,
+  currentTime: PropTypes.number.isRequired,
+  error: ErrorShape,
   routingErrors: PropTypes.arrayOf(RoutingErrorShape),
 };
 
 ItinerarySummaryMessage.defaultProps = {
+  walking: false,
   biking: false,
   driving: false,
   error: '',
   locationState: undefined,
-  minDistanceBetweenFromAndTo: 0,
-  walking: false,
   routingErrors: [],
 };
 
@@ -116,5 +103,3 @@ ItinerarySummaryMessage.contextTypes = {
   config: PropTypes.object.isRequired,
   match: matchShape.isRequired,
 };
-
-export default ItinerarySummaryMessage;

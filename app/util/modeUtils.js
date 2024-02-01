@@ -8,7 +8,7 @@ import { addAnalyticsEvent } from './analyticsUtils';
 import { ExtendedRouteTypes, TransportMode } from '../constants';
 import { isDevelopmentEnvironment } from './envUtils';
 
-export const isCitybikeSeasonActive = season => {
+export function isCitybikeSeasonActive(season) {
   if (!season) {
     return true;
   }
@@ -21,9 +21,9 @@ export const isCitybikeSeasonActive = season => {
     return true;
   }
   return false;
-};
+}
 
-export const isCitybikePreSeasonActive = season => {
+export function isCitybikePreSeasonActive(season) {
   if (!season || !season.preSeasonStart) {
     return false;
   }
@@ -36,62 +36,61 @@ export const isCitybikePreSeasonActive = season => {
     return true;
   }
   return false;
-};
+}
 
-export const showCitybikeNetwork = (network, config) => {
+export function showCitybikeNetwork(network, config) {
   return (
     network?.enabled &&
     (isCitybikeSeasonActive(network?.season) ||
       isCitybikePreSeasonActive(network?.season) ||
       isDevelopmentEnvironment(config))
   );
-};
+}
 
-export const citybikeRoutingIsActive = (network, config) => {
+export function citybikeRoutingIsActive(network, config) {
   return (
     network?.enabled &&
     (isCitybikeSeasonActive(network?.season) ||
       isDevelopmentEnvironment(config))
   );
-};
+}
 
-export const networkIsActive = (config, networkName) => {
+export function networkIsActive(config, networkName) {
   const networks = config?.cityBike?.networks;
   return citybikeRoutingIsActive(networks[networkName], config);
-};
+}
 
-export const useCitybikes = (networks, config) => {
+export function useCitybikes(networks, config) {
   if (!networks) {
     return false;
   }
   return Object.values(networks).some(network =>
     citybikeRoutingIsActive(network, config),
   );
-};
+}
 
-export const showCityBikes = (networks, config) => {
+export function showCityBikes(networks, config) {
   if (!networks) {
     return false;
   }
   return Object.values(networks).some(network =>
     showCitybikeNetwork(network, config),
   );
-};
+}
 
-export const getNearYouModes = config => {
-  if (!config.cityBike || !config.cityBike.networks) {
+export function getNearYouModes(config) {
+  if (!config.cityBike?.networks) {
     return config.nearYouModes;
   }
   if (!useCitybikes(config.cityBike.networks, config)) {
     return config.nearYouModes.filter(mode => mode !== 'citybike');
   }
   return config.nearYouModes;
-};
+}
 
-export const getTransportModes = config => {
+export function getTransportModes(config) {
   if (
-    config.cityBike &&
-    config.cityBike.networks &&
+    config.cityBike?.networks &&
     !useCitybikes(config.cityBike.networks, config)
   ) {
     return {
@@ -100,9 +99,9 @@ export const getTransportModes = config => {
     };
   }
   return config.transportModes || {};
-};
+}
 
-export const getRouteMode = route => {
+export function getRouteMode(route) {
   switch (route.type) {
     case ExtendedRouteTypes.BusExpress:
       return 'bus-express';
@@ -113,7 +112,7 @@ export const getRouteMode = route => {
     default:
       return route.mode?.toLowerCase();
   }
-};
+}
 
 /**
  * Retrieves all transport modes that have specified "availableForSelection": true.
@@ -121,19 +120,20 @@ export const getRouteMode = route => {
  *
  * @param {*} config The configuration for the software installation
  */
-export const getAvailableTransportModeConfigs = config => {
+export function getAvailableTransportModeConfigs(config) {
   const transportModes = getTransportModes(config);
   return transportModes
     ? Object.keys(transportModes)
         .filter(tm => transportModes[tm].availableForSelection)
         .map(tm => ({ ...transportModes[tm], name: tm.toUpperCase() }))
     : [];
-};
+}
 
-export const getDefaultTransportModes = config =>
-  getAvailableTransportModeConfigs(config)
+export function getDefaultTransportModes(config) {
+  return getAvailableTransportModeConfigs(config)
     .filter(tm => tm.defaultValue)
     .map(tm => tm.name);
+}
 
 /**
  * Retrieves all transport modes that have specified "availableForSelection": true.
@@ -141,8 +141,9 @@ export const getDefaultTransportModes = config =>
  *
  * @param {*} config The configuration for the software installation
  */
-export const getAvailableTransportModes = config =>
-  getAvailableTransportModeConfigs(config).map(tm => tm.name);
+export function getAvailableTransportModes(config) {
+  return getAvailableTransportModeConfigs(config).map(tm => tm.name);
+}
 
 /**
  * Retrieves the related OTP mode from the given configuration, if available.
@@ -152,13 +153,13 @@ export const getAvailableTransportModes = config =>
  * @param {String} mode The mode to map
  * @returns The mapped mode, or undefined
  */
-export const getOTPMode = (config, mode) => {
+export function getOTPMode(config, mode) {
   if (!isString(mode)) {
     return undefined;
   }
   const otpMode = config.modeToOTP[mode.toLowerCase()];
   return otpMode ? otpMode.toUpperCase() : undefined;
-};
+}
 
 /**
  * Checks if the given mode has been configured as availableForSelection or is WALK.
@@ -166,8 +167,11 @@ export const getOTPMode = (config, mode) => {
  * @param {*} config The configuration for the software installation
  * @param {String} mode The mode to check
  */
-export const isModeAvailable = (config, mode) =>
-  ['WALK', ...getAvailableTransportModes(config)].includes(mode.toUpperCase());
+export function isModeAvailable(config, mode) {
+  return ['WALK', ...getAvailableTransportModes(config)].includes(
+    mode.toUpperCase(),
+  );
+}
 
 /**
  * Checks if the given transport mode has been configured as availableForSelection.
@@ -175,8 +179,9 @@ export const isModeAvailable = (config, mode) =>
  * @param {*} config The configuration for the software installation
  * @param {String} mode The mode to check
  */
-export const isTransportModeAvailable = (config, mode) =>
-  getAvailableTransportModes(config).includes(mode.toUpperCase());
+export function isTransportModeAvailable(config, mode) {
+  return getAvailableTransportModes(config).includes(mode.toUpperCase());
+}
 
 /**
  * Checks if mode does not exist in config's modePolygons or
@@ -186,7 +191,7 @@ export const isTransportModeAvailable = (config, mode) =>
  * @param {String} mode The mode to check
  * @param {*} places
  */
-export const isModeAvailableInsidePolygons = (config, mode, places) => {
+export function isModeAvailableInsidePolygons(config, mode, places) {
   if (mode in config.modePolygons && places.length > 0) {
     for (let i = 0; i < places.length; i++) {
       const { lat, lon } = places[i];
@@ -203,7 +208,7 @@ export const isModeAvailableInsidePolygons = (config, mode, places) => {
     return false;
   }
   return true;
-};
+}
 
 /**
  * Maps the given modes (either a string array or a comma-separated string of values)
@@ -214,7 +219,7 @@ export const isModeAvailableInsidePolygons = (config, mode, places) => {
  * @param {String[]|String} modes The modes to filter
  * @returns The filtered modes, or an empty string
  */
-export const filterModes = (config, modes, from, to, intermediatePlaces) => {
+export function filterModes(config, modes, from, to, intermediatePlaces) {
   if (!modes) {
     return [];
   }
@@ -237,7 +242,7 @@ export const filterModes = (config, modes, from, to, intermediatePlaces) => {
       .filter(mode => !!mode)
       .sort(),
   );
-};
+}
 
 /**
  * Retrieves all transport modes that are both available and marked as default,
@@ -246,10 +251,9 @@ export const filterModes = (config, modes, from, to, intermediatePlaces) => {
  * @param {*} config The configuration for the software installation
  * @returns {String[]} an array of modes
  */
-export const getDefaultModes = config => [
-  ...getDefaultTransportModes(config),
-  'WALK',
-];
+export function getDefaultModes(config) {
+  return [...getDefaultTransportModes(config), 'WALK'];
+}
 
 /**
  * Giving user an option to change mode settings when there are no
@@ -259,8 +263,9 @@ export const getDefaultModes = config => [
  * @param {*} config
  * @returns {Boolean} True if mode settings should be shown to users
  */
-export const showModeSettings = config =>
-  getAvailableTransportModes(config).length > 1;
+export function showModeSettings(config) {
+  return getAvailableTransportModes(config).length > 1;
+}
 
 /**
  * Retrieves all transport modes and returns the currently available
@@ -270,7 +275,7 @@ export const showModeSettings = config =>
  * @param {*} config The configuration for the software
  * @returns {String[]} returns user set modes or default modes
  */
-export const getModes = config => {
+export function getModes(config) {
   const { modes, allowedBikeRentalNetworks } = getCustomizedSettings();
   const activeAndAllowedBikeRentalNetworks = allowedBikeRentalNetworks
     ? allowedBikeRentalNetworks.filter(x => networkIsActive(config, x))
@@ -298,7 +303,7 @@ export const getModes = config => {
     return modesWithCitybike;
   }
   return getDefaultModes(config);
-};
+}
 
 /**
  * Updates the localStorage to reflect the selected transport mode.
@@ -330,8 +335,9 @@ export function toggleTransportMode(transportMode, config) {
  * @param {String[]} modes modes to filter from
  * @returns {String[]} result of filtering
  */
-export const getBicycleCompatibleModes = (config, modes) =>
-  modes.filter(mode => !config.modesWithNoBike.includes(mode));
+export function getBicycleCompatibleModes(config, modes) {
+  return modes.filter(mode => !config.modesWithNoBike.includes(mode));
+}
 
 /**
  * Transforms array of mode strings into modern format OTP mode objects
@@ -340,11 +346,12 @@ export const getBicycleCompatibleModes = (config, modes) =>
  * @returns {Object[]} array of objects of format
  * {mode: <uppercase mode name>}, qualifier: <optional qualifier>}
  */
-export const modesAsOTPModes = modes =>
-  modes
+export function modesAsOTPModes(modes) {
+  return modes
     .map(mode => mode.split('_'))
     .map(modeAndQualifier =>
       modeAndQualifier.length > 1
         ? { mode: modeAndQualifier[0], qualifier: modeAndQualifier[1] }
         : { mode: modeAndQualifier[0] },
     );
+}

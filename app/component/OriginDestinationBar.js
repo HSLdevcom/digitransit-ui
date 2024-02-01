@@ -118,16 +118,15 @@ class OriginDestinationBar extends React.Component {
   };
 
   render() {
-    const { config } = this.context;
+    const { props, context } = this;
+    const { config } = context;
     const refPoint = getRefPoint(
-      this.props.origin,
-      this.props.destination,
-      this.props.locationState,
+      props.origin,
+      props.destination,
+      props.locationState,
     );
     const desktopTargets = ['Locations', 'CurrentPosition', 'Stops'];
-    if (
-      useCitybikes(this.context.config.cityBike?.networks, this.context.config)
-    ) {
+    if (useCitybikes(config.cityBike?.networks, config)) {
       desktopTargets.push('VehicleRentalStations');
     }
     const mobileTargets = [...desktopTargets, 'MapPosition'];
@@ -138,18 +137,18 @@ class OriginDestinationBar extends React.Component {
       <div
         className={cx(
           'origin-destination-bar',
-          this.props.className,
+          props.className,
           'flex-horizontal',
         )}
       >
         <DTAutosuggestPanelWithSearchContext
           appElement="#app"
-          origin={this.props.origin}
-          destination={this.props.destination}
+          origin={props.origin}
+          destination={props.destination}
           refPoint={refPoint}
           originPlaceHolder="search-origin-index"
           destinationPlaceHolder="search-destination-index"
-          viaPoints={this.props.viaPoints}
+          viaPoints={props.viaPoints}
           updateViaPoints={this.updateViaPoints}
           addAnalyticsEvent={addAnalyticsEvent}
           swapOrder={this.swapEndpoints}
@@ -157,22 +156,22 @@ class OriginDestinationBar extends React.Component {
           sources={[
             'History',
             'Datasource',
-            this.props.showFavourites ? 'Favourite' : '',
+            props.showFavourites ? 'Favourite' : '',
           ]}
-          targets={this.props.isMobile ? mobileTargets : desktopTargets}
-          lang={this.props.language}
-          disableAutoFocus={this.props.isMobile}
-          isMobile={this.props.isMobile}
-          itineraryParams={this.context.match.location.query}
-          color={this.context.config.colors.primary}
+          targets={props.isMobile ? mobileTargets : desktopTargets}
+          lang={props.language}
+          disableAutoFocus={props.isMobile}
+          isMobile={props.isMobile}
+          itineraryParams={context.match.location.query}
+          color={config.colors.primary}
           hoverColor={
-            this.context.config.colors.hover ||
-            LightenDarkenColor(this.context.config.colors.primary, -20)
+            config.colors.hover ||
+            LightenDarkenColor(config.colors.primary, -20)
           }
-          modeSet={this.props.modeSet}
+          modeSet={props.modeSet}
           onFocusChange={() => {}}
           showSwapControl
-          showViapointControl={this.context.config.viaPointsEnabled}
+          showViapointControl={config.viaPointsEnabled}
           filterResults={filter}
         />
       </div>

@@ -6,7 +6,11 @@ import React from 'react';
 import Icon from './Icon';
 import { isKeyboardSelectionEvent } from '../util/browser';
 
-const AlternativeLegsInfo = ({ legs, showAlternativeLegs, toggle }) => {
+export default function AlternativeLegsInfo({
+  legs,
+  showAlternativeLegs,
+  toggle,
+}) {
   const message =
     (showAlternativeLegs && (
       <FormattedMessage
@@ -123,11 +127,10 @@ const AlternativeLegsInfo = ({ legs, showAlternativeLegs, toggle }) => {
       </div>
     </div>
   ) : null;
-};
+}
 
 AlternativeLegsInfo.propTypes = {
   legs: PropTypes.array.isRequired,
   showAlternativeLegs: PropTypes.bool.isRequired,
   toggle: PropTypes.func.isRequired,
 };
-export default AlternativeLegsInfo;

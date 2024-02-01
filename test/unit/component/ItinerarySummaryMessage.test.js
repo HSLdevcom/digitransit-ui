@@ -38,18 +38,8 @@ const HelsinkiRegionBounds = [
   [25.5345, 59.78402],
 ];
 
-const defaultProps = {
-  locationState: {
-    type: 'CurrentLocation',
-    lat: 0,
-    lon: 0,
-    status: 'no-location',
-    hasLocation: false,
-    isLocationingInProgress: false,
-    isReverseGeocodingInProgress: false,
-    locationingFailed: false,
-  },
-  error: undefined,
+mockContext.config = {
+  ...mockContext.config,
   areaPolygon: HelsinkiRegionBounds,
   minDistanceBetweenFromAndTo: 100.0,
   nationalServiceLink: {
@@ -66,7 +56,20 @@ const defaultProps = {
       href: 'https://opas.matka.fi/en/',
     },
   },
+};
 
+const defaultProps = {
+  locationState: {
+    type: 'CurrentLocation',
+    lat: 0,
+    lon: 0,
+    status: 'no-location',
+    hasLocation: false,
+    isLocationingInProgress: false,
+    isReverseGeocodingInProgress: false,
+    locationingFailed: false,
+  },
+  error: undefined,
   from: {},
   to: {},
   searchTime: 123456780,

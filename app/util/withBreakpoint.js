@@ -8,7 +8,6 @@ import hoistNonReactStatics from 'hoist-non-react-statics';
 const { Provider, Consumer } = createContext('large');
 
 export function getClientBreakpoint(width) {
-  // DT-3470: added export
   const matchWidth = width || window.innerWidth;
   if (matchWidth < 400) {
     return 'small';

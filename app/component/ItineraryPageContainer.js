@@ -5,10 +5,7 @@ import { matchShape } from 'found';
 import Loading from './Loading';
 import { validateServiceTimeRange } from '../util/timeUtils';
 import { planQuery } from './ItineraryQueries';
-import {
-  hasStartAndDestination,
-  preparePlanParams,
-} from '../util/planParamUtil';
+import { hasStartAndDestination, getPlanParams } from '../util/planParamUtil';
 import LazilyLoad, { importLazy } from './LazilyLoad';
 
 const modules = {
@@ -17,7 +14,7 @@ const modules = {
   ItineraryPage: () => importLazy(import('./ItineraryPage')),
 };
 
-const ItineraryPageContainer = ({ content, match }, { config }) => {
+export default function ItineraryPageContainer({ content, match }, { config }) {
   const { environment } = useContext(ReactRelayContext);
   const [isClient, setClient] = useState(false);
   const alertRef = useRef();
@@ -54,7 +51,7 @@ const ItineraryPageContainer = ({ content, match }, { config }) => {
         ) : (
           <QueryRenderer
             query={planQuery}
-            variables={preparePlanParams(config, false)(match.params, match)}
+            variables={getPlanParams(config, match)}
             environment={environment}
             render={({ props: innerProps, error }) => {
               return innerProps ? (
@@ -91,7 +88,7 @@ const ItineraryPageContainer = ({ content, match }, { config }) => {
   ) : (
     <Loading />
   );
-};
+}
 
 ItineraryPageContainer.contextTypes = {
   config: PropTypes.object.isRequired,
@@ -101,5 +98,3 @@ ItineraryPageContainer.propTypes = {
   content: PropTypes.node,
   match: matchShape.isRequired,
 };
-
-export default ItineraryPageContainer;

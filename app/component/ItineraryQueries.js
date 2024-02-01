@@ -56,117 +56,8 @@ export const planQuery = graphql`
   }
 `;
 
-export const moreItinerariesQuery = graphql`
-  query ItineraryQueries_More_Query(
-    $fromPlace: String!
-    $toPlace: String!
-    $numItineraries: Int!
-    $modes: [TransportMode!]
-    $date: String!
-    $time: String!
-    $walkReluctance: Float
-    $walkBoardCost: Int
-    $minTransferTime: Int
-    $walkSpeed: Float
-    $wheelchair: Boolean
-    $ticketTypes: [String]
-    $arriveBy: Boolean
-    $transferPenalty: Int
-    $bikeSpeed: Float
-    $optimize: OptimizeType
-    $unpreferred: InputUnpreferred
-    $allowedBikeRentalNetworks: [String]
-  ) {
-    plan(
-      fromPlace: $fromPlace
-      toPlace: $toPlace
-      numItineraries: $numItineraries
-      transportModes: $modes
-      date: $date
-      time: $time
-      walkReluctance: $walkReluctance
-      walkBoardCost: $walkBoardCost
-      minTransferTime: $minTransferTime
-      walkSpeed: $walkSpeed
-      wheelchair: $wheelchair
-      allowedTicketTypes: $ticketTypes
-      arriveBy: $arriveBy
-      transferPenalty: $transferPenalty
-      bikeSpeed: $bikeSpeed
-      optimize: $optimize
-      unpreferred: $unpreferred
-      allowedVehicleRentalNetworks: $allowedBikeRentalNetworks
-    ) {
-      ...ItineraryListContainer_plan
-      ...ItineraryDetails_plan
-      itineraries {
-        duration
-        startTime
-        endTime
-        ...ItineraryDetails_itinerary
-        ...ItineraryListContainer_itineraries
-        emissionsPerPerson {
-          co2
-        }
-        legs {
-          mode
-          ...ItineraryLine_legs
-          transitLeg
-          legGeometry {
-            points
-          }
-          route {
-            gtfsId
-            shortName
-            type
-          }
-          trip {
-            gtfsId
-            directionId
-            stoptimesForDate {
-              scheduledDeparture
-              pickupType
-            }
-            pattern {
-              ...RouteLine_pattern
-            }
-          }
-          from {
-            name
-            lat
-            lon
-            stop {
-              gtfsId
-              zoneId
-            }
-            vehicleRentalStation {
-              stationId
-              vehiclesAvailable
-              network
-            }
-          }
-          to {
-            stop {
-              gtfsId
-              zoneId
-            }
-            bikePark {
-              bikeParkId
-              name
-            }
-            carPark {
-              carParkId
-              name
-            }
-          }
-        }
-      }
-    }
-  }
-`;
-
-export const walkAndBikeQuery = graphql`
-  query ItineraryQueries_WalkBike_Query(
+export const alternativeQuery = graphql`
+  query ItineraryQueries_Alternative_Query(
     $fromPlace: String!
     $toPlace: String!
     $date: String!
@@ -190,6 +81,7 @@ export const walkAndBikeQuery = graphql`
     $showBikeAndParkItineraries: Boolean!
     $bikeAndPublicModes: [TransportMode!]
     $bikeParkModes: [TransportMode!]
+    $parkRideModes: [TransportMode!]
   ) {
     walkPlan: plan(
       fromPlace: $fromPlace
@@ -430,7 +322,7 @@ export const walkAndBikeQuery = graphql`
       fromPlace: $fromPlace
       toPlace: $toPlace
       numItineraries: 5
-      transportModes: [{ mode: CAR, qualifier: PARK }, { mode: TRANSIT }]
+      transportModes: $parkRideModes
       date: $date
       time: $time
       walkReluctance: $walkReluctance
@@ -488,8 +380,8 @@ export const walkAndBikeQuery = graphql`
   }
 `;
 
-export const allModesQuery = graphql`
-  query ItineraryQueries_AllModes_Query(
+export const moreQuery = graphql`
+  query ItineraryQueries_More_Query(
     $fromPlace: String!
     $toPlace: String!
     $numItineraries: Int!

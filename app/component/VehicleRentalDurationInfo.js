@@ -108,7 +108,7 @@ const connectedComponent = connectToStores(
   VehicleRentalDurationInfo,
   ['UserStore', 'PreferencesStore'],
   context => ({
-    lang: context.getStore('PreferencesStore').getLanguage(), // DT-3376
+    lang: context.getStore('PreferencesStore').getLanguage(),
   }),
 );
 

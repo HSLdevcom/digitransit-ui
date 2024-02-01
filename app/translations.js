@@ -1563,7 +1563,7 @@ const translations = {
       'Show driving route. Duration {duration}, distance {length}',
     'street-mode-car_park': 'Park & ride',
     'street-mode-parkandride-aria':
-      'Show park and ride route. Duration {duration}, distance {length}',
+      'Show park and ride route. Duration {duration}, driving distance {length}',
     'street-mode-public_transport': 'Public transport',
     'street-mode-walk': 'Walking',
     'street-mode-walk-aria':
@@ -2735,7 +2735,7 @@ const translations = {
       'Näytä ajoreitti. Kesto {duration}, pituus {length}',
     'street-mode-car_park': 'Liityntä\u00ADpysäköinti',
     'street-mode-parkandride-aria':
-      'Näytä liityntäpysäköintireitti. Kesto {duration}, pituus {length}',
+      'Näytä liityntäpysäköintireitti. Kesto {duration}, autoilun pituus {length}',
     'street-mode-public_transport': 'Julkinen liikenne',
     'street-mode-walk': 'Kävely',
     'street-mode-walk-aria':

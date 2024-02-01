@@ -10,16 +10,13 @@ import { boundWithMinimumArea } from '../util/geo-utils';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import { itineraryHasCancelation } from '../util/alertUtils';
 import { getStartTimeWithColon } from '../util/timeUtils';
-import { getCurrentSettings, getDefaultSettings } from '../util/planParamUtil';
+import { getSettings, getDefaultSettings } from '../util/planParamUtil';
 import {
   startRealTimeClient,
   stopRealTimeClient,
   changeRealTimeClientTopics,
 } from '../action/realTimeClientAction';
 import { getMapLayerOptions } from '../util/mapLayerUtils';
-import { streetHash } from '../util/path';
-
-export const noTransitHash = [streetHash.walk, streetHash.bike, streetHash.car];
 
 /**
  * Returns the index of selected itinerary. Attempts to look for
@@ -67,16 +64,6 @@ export function getSelectedItineraryIndex(
   return itineraryIndex !== -1 ? itineraryIndex : defaultValue;
 }
 
-// this func is a bit fuzzy because it compares strings and numbers
-export function showDetailView(hash, secondHash, itineraries) {
-  if (hash === streetHash.bikeAndVehicle || hash === streetHash.parkAndRide) {
-    // note that '0' < 1 in javascript, because strings are converted to numbers
-    return secondHash < itineraries.length;
-  }
-  // note: (undefined < 1) === false
-  return noTransitHash.includes(hash) || hash < itineraries.length;
-}
-
 /**
  * Report any errors that happen when showing summary
  *
@@ -120,25 +107,26 @@ export function getTopics(config, itineraries, match) {
         const feedId = leg.trip.gtfsId.split(':')[0];
         let topic;
         if (realTime && feedIds.includes(feedId)) {
+          const routeProps = {
+            route: leg.route.gtfsId.split(':')[1],
+            shortName: leg.route.shortName,
+            type: leg.route.type,
+          };
           if (realTime[feedId]?.useFuzzyTripMatching) {
             topic = {
+              ...routeProps,
               feedId,
-              route: leg.route.gtfsId.split(':')[1],
               mode: leg.mode.toLowerCase(),
               direction: Number(leg.trip.directionId),
-              shortName: leg.route.shortName,
               tripStartTime: getStartTimeWithColon(
                 leg.trip.stoptimesForDate[0].scheduledDeparture,
               ),
-              type: leg.route.type,
             };
           } else if (realTime[feedId]) {
             topic = {
+              ...routeProps,
               feedId,
-              route: leg.route.gtfsId.split(':')[1],
               tripId: leg.trip.gtfsId.split(':')[1],
-              type: leg.route.type,
-              shortName: leg.route.shortName,
             };
           }
         }
@@ -175,31 +163,45 @@ export function getBounds(itineraries, from, to, viaPoints) {
 }
 
 /**
- * Compares the current plans itineraries with the itineraries with default settings, if plan with default settings provides different
- * itineraries, return true
+ * Compare two itinerary lists. If identical, return true
  *
- * @param {*} itineraries
- * @param {*} defaultItineraries
- * @returns boolean indicating weather or not the default settings provide a better plan
+ * @param {*} itineraries1
+ * @param {*} itineraries2
  */
-const legValuesToCompare = ['to', 'from', 'route', 'mode'];
-export function compareItineraries(itineraries, defaultItineraries) {
-  if (!itineraries || !defaultItineraries) {
+const legProperties = [
+  'mode',
+  'from.lat',
+  'from.lon',
+  'to.lat',
+  'to.lon',
+  'from.stop.gtfsId',
+  'to.stop.gtfsId',
+  'trip.gtfsId',
+];
+
+export function isEqualItineraries(itins, itins2) {
+  if (!itins && !itins2) {
+    return true;
+  }
+  if (!itins || !itins2 || itins.length !== itins2.length) {
     return false;
   }
-  for (let i = 0; i < itineraries.length; i++) {
-    for (let j = 0; j < itineraries[i].legs.length; j++) {
+  for (let i = 0; i < itins.length; i++) {
+    if (itins[i].legs.length !== itins2[i].legs.length) {
+      return false;
+    }
+    for (let j = 0; j < itins[i].legs.length; j++) {
       if (
         !isEqual(
-          pick(itineraries?.[i]?.legs?.[j], legValuesToCompare),
-          pick(defaultItineraries?.[i]?.legs?.[j], legValuesToCompare),
+          pick(itins[i].legs[j], legProperties),
+          pick(itins2[i].legs[j], legProperties),
         )
       ) {
-        return true;
+        return false;
       }
     }
   }
-  return false;
+  return true;
 }
 
 export function filterItinerariesByFeedId(plan, config) {
@@ -230,7 +232,7 @@ export function filterItinerariesByFeedId(plan, config) {
 const settingsToCompare = ['walkBoardCost', 'ticketTypes', 'walkReluctance'];
 export function settingsLimitRouting(config) {
   const defaultSettings = getDefaultSettings(config);
-  const currentSettings = getCurrentSettings(config);
+  const currentSettings = getSettings(config);
   const defaultSettingsToCompare = pick(defaultSettings, settingsToCompare);
   const currentSettingsToCompare = pick(currentSettings, settingsToCompare);
 
@@ -358,6 +360,8 @@ export function checkDayNight(iconId, timem, lat, lon) {
   return iconId;
 }
 
+const STREET_LEG_MODES = ['WALK', 'BICYCLE', 'CAR', 'SCOOTER'];
+
 /**
  * Filters away itineraries that don't use transit
  */
@@ -366,14 +370,7 @@ export function transitItineraries(itineraries) {
     return [];
   }
   return itineraries.filter(
-    itinerary =>
-      !itinerary.legs.every(
-        leg =>
-          leg.mode === 'WALK' ||
-          leg.mode === 'BICYCLE' ||
-          leg.mode === 'CAR' ||
-          leg.mode === 'SCOOTER',
-      ),
+    itin => !itin.legs.every(leg => STREET_LEG_MODES.includes(leg.mode)),
   );
 }
 
