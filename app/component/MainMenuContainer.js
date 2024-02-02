@@ -1,44 +1,34 @@
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React, { Suspense, lazy } from 'react';
 
-import LazilyLoad, { importLazy } from './LazilyLoad';
+const MenuDrawer = lazy(() => import('./MenuDrawer'));
+const MainMenu = lazy(() => import('./MainMenu'));
 
-class MainMenuContainer extends Component {
-  static propTypes = {
-    homeUrl: PropTypes.string.isRequired,
-    breakpoint: PropTypes.string,
-    setDisruptionInfoOpen: PropTypes.func.isRequired,
-    closeMenu: PropTypes.func.isRequired,
-  };
-
-  static defaultProps = {
-    breakpoint: 'small',
-  };
-
-  mainMenuModules = {
-    MenuDrawer: () => importLazy(import('./MenuDrawer')),
-    MainMenu: () => importLazy(import('./MainMenu')),
-  };
-
-  render() {
-    return (
-      <LazilyLoad modules={this.mainMenuModules}>
-        {({ MenuDrawer, MainMenu }) => (
-          <MenuDrawer
-            open
-            onRequestChange={this.props.closeMenu}
-            breakpoint={this.props.breakpoint}
-          >
-            <MainMenu
-              closeMenu={this.props.closeMenu}
-              homeUrl={this.props.homeUrl}
-              setDisruptionInfoOpen={this.props.setDisruptionInfoOpen}
-            />
-          </MenuDrawer>
-        )}
-      </LazilyLoad>
-    );
-  }
+export default function MainMenuContainer(props) {
+  return (
+    <Suspense fallback="">
+      <MenuDrawer
+        open
+        onRequestChange={props.closeMenu}
+        breakpoint={props.breakpoint}
+      >
+        <MainMenu
+          closeMenu={props.closeMenu}
+          homeUrl={props.homeUrl}
+          setDisruptionInfoOpen={props.setDisruptionInfoOpen}
+        />
+      </MenuDrawer>
+    </Suspense>
+  );
 }
 
-export default MainMenuContainer;
+MainMenuContainer.propTypes = {
+  homeUrl: PropTypes.string.isRequired,
+  breakpoint: PropTypes.string,
+  setDisruptionInfoOpen: PropTypes.func.isRequired,
+  closeMenu: PropTypes.func.isRequired,
+};
+
+MainMenuContainer.defaultProps = {
+  breakpoint: 'small',
+};
