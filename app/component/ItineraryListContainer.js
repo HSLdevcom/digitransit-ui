@@ -20,7 +20,7 @@ import { getItineraryPagePath, streetHash } from '../util/path';
 import withBreakpoint from '../util/withBreakpoint';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import { isIOS, isSafari } from '../util/browser';
-import SettingsNotification from './SettingsNotification';
+import ItineraryNotification from './ItineraryNotification';
 import { transitItineraries } from './ItineraryPageUtils';
 import ItineraryShape from '../prop-types/ItineraryShape';
 import ErrorShape from '../prop-types/ErrorShape';
@@ -59,6 +59,8 @@ class ItineraryListContainer extends React.Component {
     settingsNotification: PropTypes.bool,
     driving: PropTypes.bool,
     routingFeedbackPosition: PropTypes.number,
+    topNote: PropTypes.string,
+    bottomNote: PropTypes.string,
   };
 
   static defaultProps = {
@@ -246,6 +248,9 @@ class ItineraryListContainer extends React.Component {
           />
         </h2>
         {showEarlierLaterButtons && this.renderMoreButton(arriveBy, true)}
+        {this.props.topNote && (
+          <ItineraryNotification bodyId={this.props.topNote} />
+        )}
         <ItineraryList
           activeIndex={activeIndex}
           currentTime={currentTime}
@@ -270,7 +275,16 @@ class ItineraryListContainer extends React.Component {
         >
           {this.props.children}
         </ItineraryList>
-        {this.props.settingsNotification && <SettingsNotification />}
+        {this.props.settingsNotification && (
+          <ItineraryNotification
+            headerId="settings-missing-itineraries-header"
+            bodyId="settings-missing-itineraries-body"
+            iconId="icon-icon_settings"
+          />
+        )}
+        {this.props.bottomNote && (
+          <ItineraryNotification bodyId={this.props.bottomNote} />
+        )}
         {showEarlierLaterButtons && this.renderMoreButton(arriveBy, false)}
       </div>
     );

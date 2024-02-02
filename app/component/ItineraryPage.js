@@ -105,6 +105,8 @@ const emptyPlans = {
   relaxedPlan: undefined,
   loading: false,
   error: undefined,
+  topNote: undefined,
+  bottomNote: undefined,
 };
 
 class ItineraryPage extends React.Component {
@@ -366,7 +368,11 @@ class ItineraryPage extends React.Component {
 
     if (latestDepartureTime >= end) {
       // Departure time is going beyond available time range
-      this.setError('no-route-end-date-not-in-range');
+      this.setState(
+        reversed
+          ? { topNote: 'no-route-end-date-not-in-range' }
+          : { bottomNote: 'no-route-end-date-not-in-range' },
+      );
       return;
     }
 
@@ -395,25 +401,27 @@ class ItineraryPage extends React.Component {
     fetchQuery(this.props.relayEnvironment, moreQuery, tunedParams)
       .toPromise()
       .then(({ plan: result }) => {
+        const newItineraries = transitItineraries(result.itineraries);
+        if (newItineraries.length === 0) {
+          this.setState(
+            reversed
+              ? { topNote: 'no-route-end-date-not-in-range' }
+              : { bottomNote: 'no-route-end-date-not-in-range' },
+          );
+        }
         this.showScreenReaderAlert('itinerary-page.itineraries-loaded');
         if (reversed) {
-          const reversedItineraries = result.itineraries
-            .slice() // Need to copy because result is readonly
-            .reverse()
-            .filter(
-              itinerary => !itinerary.legs.every(leg => leg.mode === 'WALK'),
-            );
           // We need to filter only walk itineraries out to place the "separator" accurately between itineraries
           this.setState(prevState => {
             return {
               earlierItineraries: [
-                ...reversedItineraries,
+                ...newItineraries.reverse(),
                 ...prevState.earlierItineraries,
               ],
               loadingMore: undefined,
               separatorPosition: prevState.separatorPosition
-                ? prevState.separatorPosition + reversedItineraries.length
-                : reversedItineraries.length,
+                ? prevState.separatorPosition + newItineraries.length
+                : newItineraries.length,
             };
           });
         } else {
@@ -421,12 +429,12 @@ class ItineraryPage extends React.Component {
             return {
               laterItineraries: [
                 ...prevState.laterItineraries,
-                ...result.itineraries,
+                ...newItineraries,
               ],
               loadingMore: undefined,
               routingFeedbackPosition: prevState.routingFeedbackPosition
-                ? prevState.routingFeedbackPosition + result.itineraries.length
-                : result.itineraries.length,
+                ? prevState.routingFeedbackPosition + newItineraries.length
+                : newItineraries.length,
             };
           });
         }
@@ -455,7 +463,11 @@ class ItineraryPage extends React.Component {
 
     earliestArrivalTime.subtract(1, 'minutes');
     if (earliestArrivalTime <= start) {
-      this.setError('no-route-start-date-too-early');
+      this.setState(
+        reversed
+          ? { bottomNote: 'no-route-start-date-too-early' }
+          : { topNote: 'no-route-start-date-too-early' },
+      );
       return;
     }
 
@@ -489,7 +501,11 @@ class ItineraryPage extends React.Component {
         if (newItineraries.length === 0) {
           // Could not find routes arriving at original departure time
           // --> cannot calculate earlier start time
-          this.setError('no-route-start-date-too-early');
+          this.setState(
+            reversed
+              ? { bottomNote: 'no-route-start-date-too-early' }
+              : { topNote: 'no-route-start-date-too-early' },
+          );
         }
         this.showScreenReaderAlert('itinerary-page.itineraries-loaded');
         if (reversed) {
@@ -687,11 +703,6 @@ class ItineraryPage extends React.Component {
     } else if (!isEmpty(state.itineraryTopics)) {
       this.stopClientAndUpdateTopics();
     }
-  }
-
-  setError(error) {
-    reportError(error);
-    this.setState({ error });
   }
 
   setMWTRef = ref => {
@@ -1148,6 +1159,8 @@ class ItineraryPage extends React.Component {
           loadingMore={state.loadingMore}
           settingsNotification={settingsNotification}
           routingFeedbackPosition={state.routingFeedbackPosition}
+          topNote={state.topNote}
+          bottomNote={state.bottomNote}
         />
       </span>
     );
