@@ -235,7 +235,7 @@ class ItineraryPage extends React.Component {
       default:
         if (
           !transitItineraries(this.props.viewer?.plan?.itineraries).length &&
-          !this.state.settingsChangedRecently &&
+          !this.state.settingsChanged &&
           this.state.relaxedPlan?.itineraries?.length > 0
         ) {
           return this.state.relaxedPlan;
@@ -598,9 +598,6 @@ class ItineraryPage extends React.Component {
   componentDidMount() {
     this.updateLocalStorage(true);
     addFeedbackly(this.context);
-    if (settingsLimitRouting(this.context.config)) {
-      this.makeRelaxedQuery();
-    }
   }
 
   componentWillUnmount() {
@@ -654,7 +651,11 @@ class ItineraryPage extends React.Component {
       this.showScreenReaderAlert('itinerary-page.itineraries-loaded');
       // eslint-disable-next-line react/no-did-update-set-state
       this.setState(emptyPlans, () => {
-        if (settingsLimitRouting(config)) {
+        if (
+          settingsLimitRouting(this.context.config) &&
+          !state.loadingRelaxed &&
+          !state.settingsChanged
+        ) {
           this.makeRelaxedQuery();
         }
         this.makeAlternativeQuery();
@@ -933,7 +934,7 @@ class ItineraryPage extends React.Component {
         laterItineraries: [],
         separatorPosition: undefined,
         relaxedPlan: undefined,
-        settingsChangedRecently: true,
+        settingsChanged: true,
         loading: true,
       },
       () => {
@@ -1115,7 +1116,7 @@ class ItineraryPage extends React.Component {
         state.relaxedPlan?.itineraries,
       ) &&
       state.relaxedPlan?.itineraries?.length > 0 &&
-      !this.state.settingsChangedRecently &&
+      !this.state.settingsChanged &&
       !hash; // no notifier on p&r or bike&public lists
 
     const itineraryList = !detailView && (
