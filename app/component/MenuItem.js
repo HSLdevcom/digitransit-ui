@@ -30,10 +30,10 @@ const mapToRoute = (router, route, children, onClick) => (
   </button>
 );
 
-const MenuItem = (
+export default function MenuItem(
   { name, href, label, route, onClick, openInNewTab },
   { router, intl },
-) => {
+) {
   const displayLabel = label || (
     <FormattedMessage id={name} defaultMessage={name} />
   );
@@ -50,11 +50,14 @@ const MenuItem = (
     item = <span className="menu-text">{item}</span>;
   }
   return <span className="menu-item">{item}</span>;
-};
+}
 
 MenuItem.propTypes = {
   name: PropTypes.string,
-  href: PropTypes.string,
+  href: PropTypes.oneOfType([
+    PropTypes.objectOf(PropTypes.string),
+    PropTypes.string,
+  ]),
   route: PropTypes.string,
   label: PropTypes.string,
   onClick: PropTypes.func,
@@ -67,5 +70,3 @@ MenuItem.contextTypes = {
 };
 
 MenuItem.displayName = 'MenuItem';
-
-export default MenuItem;
