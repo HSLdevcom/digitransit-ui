@@ -2469,7 +2469,7 @@ const translations = {
     'no-bike-allowed-popup-tram-bus':
       'Pyörää ei voi ottaa bussiin tai raitiovaunuun. Jos käytät reitilläsi näitä kulkuvälineitä, jätä pyörä pysäkille tai liityntäpysäköintiin.',
     'no-departures': 'Ei lähteviä vuoroja',
-    'no-more-route-msg': 'Lisää ehdotuksia ei löytynyt',
+    'no-more-route-msg': 'Lisäehdotuksia ei löytynyt',
     'no-position': 'Ei sijaintia',
     'no-position-no-stops':
       'Sijaintisi ei ole tiedossa, joten emme voi näyttää lähimpiä pysäkkejä.',
