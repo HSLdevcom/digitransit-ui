@@ -159,7 +159,7 @@
     "classnames": "2.2.6",
     "connect-redis": "5.0.0",
     "cookie-parser": "1.4.5",
-    "debug": "4.1.1",
+    "debug": "4.3.4",
     "esm": "3.2.25",
     "express": "4.17.1",
     "express-http-proxy": "1.6.2",

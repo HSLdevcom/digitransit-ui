@@ -11162,7 +11162,7 @@ __metadata:
     cookie-parser: 1.4.5
     copy-webpack-plugin: 6.1.0
     css-loader: ^5.2.7
-    debug: 4.1.1
+    debug: 4.3.4
     documentation: 13.2.5
     enzyme: 3.11.0
     enzyme-adapter-react-16: 1.15.7
