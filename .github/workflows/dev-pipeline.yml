@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - v3
-      - DT-6234
   pull_request:
     branches:
       - v3
