@@ -28,8 +28,8 @@ module.exports = function (api) {
   const plugins = [
     'relay',
     'babel-plugin-optimize-clsx',
-    ['@babel/plugin-proposal-class-properties', { loose: true }],
-    ['@babel/plugin-proposal-object-rest-spread', { loose: true }],
+    '@babel/plugin-transform-class-properties',
+    '@babel/plugin-transform-object-rest-spread',
     [
       '@babel/plugin-transform-runtime',
       {
