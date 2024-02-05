@@ -556,17 +556,12 @@ class TransitLeg extends React.Component {
           )}
           {leg.fare?.isUnknown &&
             shouldShowFareInfo(config) &&
-            (config.modeDisclaimers && config.modeDisclaimers[mode] ? (
+            (config.modeDisclaimers?.[mode]?.[lang] ? (
               <div className="disclaimer-container unknown-fare-disclaimer__leg">
                 <div className="description-container">
-                  <FormattedMessage
-                    id={config.modeDisclaimers[mode][lang].disclaimer}
-                  />
+                  {config.modeDisclaimers[mode][lang].disclaimer}
                   <a href={config.modeDisclaimers[mode][lang].link}>
-                    <FormattedMessage
-                      id={config.modeDisclaimers[mode][lang].text}
-                      defaultMessage={config.modeDisclaimers[mode][lang].text}
-                    />
+                    {config.modeDisclaimers[mode][lang].text}
                   </a>
                 </div>
               </div>
