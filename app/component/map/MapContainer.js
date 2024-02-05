@@ -1,25 +1,33 @@
 import PropTypes from 'prop-types';
-import React, { lazy, Suspense } from 'react';
+import React from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import MapBottomsheetContext from './MapBottomsheetContext';
 import withGeojsonObjects from './withGeojsonObjects';
 
-const Map = lazy(() => import(/* webpackChunkName: "map" */ './Map'));
+import LazilyLoad, { importLazy } from '../LazilyLoad';
+
+const mapModules = {
+  Map: () => importLazy(import(/* webpackChunkName: "map" */ './Map')),
+};
 
 function MapContainer({ className, children, ...props }) {
   return (
     <div className={`map ${className}`}>
-      <Suspense fallback="">
-        <MapBottomsheetContext.Consumer>
-          {context => (
-            <Map
-              {...props}
-              mapBottomPadding={context.mapBottomPadding || null}
-              buttonBottomPadding={context.buttonBottomPadding || null}
-            />
-          )}
-        </MapBottomsheetContext.Consumer>
-      </Suspense>
+      <LazilyLoad modules={mapModules}>
+        {({ Map }) => {
+          return (
+            <MapBottomsheetContext.Consumer>
+              {context => (
+                <Map
+                  {...props}
+                  mapBottomPadding={context.mapBottomPadding || null}
+                  buttonBottomPadding={context.buttonBottomPadding || null}
+                />
+              )}
+            </MapBottomsheetContext.Consumer>
+          );
+        }}
+      </LazilyLoad>
       {children}
     </div>
   );
