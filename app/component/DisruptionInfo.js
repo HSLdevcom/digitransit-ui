@@ -17,7 +17,7 @@ export default function DisruptionInfo(props, context) {
   }
 
   return (
-    <Suspense fallback="HELLO">
+    <Suspense fallback="">
       <Modal
         appElement="#app"
         closeButtonLabel={intl.formatMessage({ id: 'close' })}
