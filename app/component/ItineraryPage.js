@@ -405,8 +405,8 @@ class ItineraryPage extends React.Component {
         if (newItineraries.length === 0) {
           this.setState(
             reversed
-              ? { topNote: 'no-route-end-date-not-in-range' }
-              : { bottomNote: 'no-route-end-date-not-in-range' },
+              ? { topNote: 'no-more-route-msg' }
+              : { bottomNote: 'no-more-route-msg' },
           );
         }
         this.showScreenReaderAlert('itinerary-page.itineraries-loaded');
@@ -503,8 +503,8 @@ class ItineraryPage extends React.Component {
           // --> cannot calculate earlier start time
           this.setState(
             reversed
-              ? { bottomNote: 'no-route-start-date-too-early' }
-              : { topNote: 'no-route-start-date-too-early' },
+              ? { bottomNote: 'no-more-route-msg' }
+              : { topNote: 'no-more-route-msg' },
           );
         }
         this.showScreenReaderAlert('itinerary-page.itineraries-loaded');
