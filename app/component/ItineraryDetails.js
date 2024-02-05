@@ -217,8 +217,7 @@ class ItineraryDetails extends React.Component {
           disclaimers.push(
             <FareDisclaimer
               key={leg.mode}
-              values={{}}
-              textId={disclaimer.disclaimer}
+              text={disclaimer.disclaimer}
               href={disclaimer.link}
               linkText={disclaimer.text}
             />,
@@ -226,23 +225,17 @@ class ItineraryDetails extends React.Component {
         }
       });
 
+      const info = config.callAgencyInfo?.[currentLanguage];
       if (
-        config.callAgencyInfo &&
+        info &&
         itinerary.legs.some(leg => isCallAgencyPickupType(leg))
       ) {
         disclaimers.push(
           <FareDisclaimer
+	    key={disclaimers.length}
             textId="separate-ticket-required-for-call-agency-disclaimer"
-            values={{
-              agencyName: get(
-                config,
-                `callAgencyInfo.${currentLanguage}.callAgencyInfoLink`,
-              ),
-            }}
-            href={config.callAgencyInfo[currentLanguage].callAgencyInfoLink}
-            linkText={
-              config.callAgencyInfo[currentLanguage].callAgencyInfoLinkText
-            }
+            href={info.callAgencyInfoLink}
+            linkText={info.callAgencyInfoLinkText}
           />,
         );
       }
@@ -250,6 +243,7 @@ class ItineraryDetails extends React.Component {
       if (!disclaimers.length) {
         disclaimers.push(
           <FareDisclaimer
+	    key="faredisclaimer-separate-ticket-key"
             textId="separate-ticket-required-disclaimer"
             values={{
               agencyName: get(config, 'ticketInformation.primaryAgencyName'),
