@@ -324,8 +324,8 @@
     "webpack": "^4.46.0",
     "webpack-assets-manifest": "^4.0.0",
     "webpack-bundle-analyzer": "3.6.0",
-    "webpack-cli": "^3.3.12",
-    "webpack-dev-server": "^3.11.3"
+    "webpack-cli": "4.10.0",
+    "webpack-dev-server": "4.15.1"
   },
   "resolutions": {
     "html-webpack-plugin": "4.5.2",
