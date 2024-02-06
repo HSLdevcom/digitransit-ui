@@ -78,7 +78,11 @@ class IndexPage extends React.Component {
     locationState: dtLocationShape.isRequired,
   };
 
-  static defaultProps = { lang: 'fi' };
+  static defaultProps = {
+    lang: 'fi',
+    favouriteModalAction: '',
+    fromMap: undefined,
+  };
 
   constructor(props, context) {
     super(props, context);
@@ -398,13 +402,12 @@ class IndexPage extends React.Component {
                       <CtrlPanel.SeparatorLine />
                     </>
                   )}
-                  {!trafficNowLink ||
-                    (trafficNowLink[lang] !== '' && (
-                      <TrafficNowLink
-                        lang={lang}
-                        handleClick={this.trafficNowHandler}
-                      />
-                    ))}
+                  {trafficNowLink?.[lang] && (
+                    <TrafficNowLink
+                      lang={lang}
+                      handleClick={this.trafficNowHandler}
+                    />
+                  )}
                 </CtrlPanel>
               </div>
               {(showSpinner && <OverlayWithSpinner />) || null}
