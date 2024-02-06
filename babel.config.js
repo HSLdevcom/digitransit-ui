@@ -18,9 +18,4 @@ module.exports = {
     '@babel/plugin-transform-class-properties',
     '@babel/plugin-transform-json-strings',
   ],
-  env: {
-    test: {
-      plugins: ['istanbul'],
-    },
-  },
 };

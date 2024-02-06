@@ -7707,7 +7707,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"babel-plugin-istanbul@npm:6.1.1, babel-plugin-istanbul@npm:^6.1.1":
+"babel-plugin-istanbul@npm:^6.1.1":
   version: 6.1.1
   resolution: "babel-plugin-istanbul@npm:6.1.1"
   dependencies:
@@ -11296,7 +11296,6 @@ __metadata:
     babel-loader: 8.2.5
     babel-plugin-dynamic-import-node: 2.3.3
     babel-plugin-inline-react-svg: 2.0.2
-    babel-plugin-istanbul: 6.1.1
     babel-plugin-optimize-clsx: 2.6.2
     babel-plugin-relay: 16.2.0
     babel-plugin-transform-react-remove-prop-types: 0.4.24
@@ -11372,7 +11371,6 @@ __metadata:
     node-fetch: 2.6.0
     node-sass: ^6.0.1
     nodemon: 1.18.10
-    nyc: 15.1.0
     offline-plugin: 5.0.7
     openid-client: 5.6.4
     optimize-css-assets-webpack-plugin: 5.0.4
@@ -20723,7 +20721,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nyc@npm:15.1.0, nyc@npm:^15.1.0":
+"nyc@npm:^15.1.0":
   version: 15.1.0
   resolution: "nyc@npm:15.1.0"
   dependencies:
