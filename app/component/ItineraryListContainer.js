@@ -1,4 +1,3 @@
-/* eslint-disable no-nested-ternary */
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import moment from 'moment';
 import PropTypes from 'prop-types';
@@ -17,11 +16,12 @@ import ItineraryList from './ItineraryList/ItineraryList';
 import TimeStore from '../store/TimeStore';
 import PositionStore from '../store/PositionStore';
 import { otpToLocation, getIntermediatePlaces } from '../util/otpStrings';
-import { getSummaryPath } from '../util/path';
+import { getItineraryPagePath, streetHash } from '../util/path';
 import withBreakpoint from '../util/withBreakpoint';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import { isIOS, isSafari } from '../util/browser';
-import SettingsNotification from './SettingsNotification';
+import ItineraryNotification from './ItineraryNotification';
+import { transitItineraries } from './ItineraryPageUtils';
 import ItineraryShape from '../prop-types/ItineraryShape';
 import ErrorShape from '../prop-types/ErrorShape';
 import LocationStateShape from '../prop-types/LocationStateShape';
@@ -47,20 +47,20 @@ class ItineraryListContainer extends React.Component {
       itineraries: PropTypes.arrayOf(ItineraryShape),
     }).isRequired,
     routingErrors: PropTypes.arrayOf(RoutingErrorShape),
-    bikeAndPublicItinerariesToShow: PropTypes.number.isRequired,
-    bikeAndParkItinerariesToShow: PropTypes.number.isRequired,
+    bikeAndParkItineraryCount: PropTypes.number,
     walking: PropTypes.bool,
     biking: PropTypes.bool,
-    showAlternativePlan: PropTypes.bool,
+    showRelaxedPlanNotifier: PropTypes.bool,
     separatorPosition: PropTypes.number,
     onLater: PropTypes.func.isRequired,
     onEarlier: PropTypes.func.isRequired,
     onDetailsTabFocused: PropTypes.func.isRequired,
-    loadingMoreItineraries: PropTypes.string,
+    loadingMore: PropTypes.string,
     settingsNotification: PropTypes.bool,
     driving: PropTypes.bool,
-    onlyHasWalkingItineraries: PropTypes.bool,
     routingFeedbackPosition: PropTypes.number,
+    topNote: PropTypes.string,
+    bottomNote: PropTypes.string,
   };
 
   static defaultProps = {
@@ -69,8 +69,9 @@ class ItineraryListContainer extends React.Component {
     error: undefined,
     walking: false,
     biking: false,
-    showAlternativePlan: false,
-    loadingMoreItineraries: undefined,
+    bikeAndParkItineraryCount: 0,
+    showRelaxedPlanNotifier: false,
+    loadingMore: undefined,
     driving: false,
     routingErrors: [],
     separatorPosition: undefined,
@@ -92,8 +93,8 @@ class ItineraryListContainer extends React.Component {
     } else {
       this.context.router.replace({
         ...this.context.match.location,
-        state: { summaryPageSelected: index },
-        pathname: `${getSummaryPath(
+        state: { selectedItineraryIndex: index },
+        pathname: `${getItineraryPagePath(
           this.props.params.from,
           this.props.params.to,
         )}${subpath}`,
@@ -108,7 +109,10 @@ class ItineraryListContainer extends React.Component {
   };
 
   getSubPath(fallback) {
-    const modesWithSubpath = ['bikeAndVehicle', 'parkAndRide'];
+    const modesWithSubpath = [
+      streetHash.bikeAndVehicle,
+      streetHash.parkAndRide,
+    ];
     const { hash } = this.props.params;
     if (modesWithSubpath.includes(hash)) {
       return `/${hash}/`;
@@ -133,16 +137,13 @@ class ItineraryListContainer extends React.Component {
     });
     const newLocation = {
       ...this.context.match.location,
-      state: { summaryPageSelected: index },
+      state: { selectedItineraryIndex: index },
     };
-    const basePath = `${getSummaryPath(
+    const basePath = `${getItineraryPagePath(
       this.props.params.from,
       this.props.params.to,
     )}${subpath}`;
-    const indexPath = `${getSummaryPath(
-      this.props.params.from,
-      this.props.params.to,
-    )}${subpath}${index}`;
+    const indexPath = `${basePath}${index}`;
 
     newLocation.pathname = basePath;
     this.context.router.replace(newLocation);
@@ -203,6 +204,13 @@ class ItineraryListContainer extends React.Component {
     );
   }
 
+  renderMoreButton(arriveBy, onTop) {
+    if (onTop) {
+      return arriveBy ? this.laterButton(true) : this.earlierButton();
+    }
+    return arriveBy ? this.earlierButton(true) : this.laterButton();
+  }
+
   render() {
     const { location } = this.context.match;
     const { from, to } = this.props.params;
@@ -211,15 +219,13 @@ class ItineraryListContainer extends React.Component {
       currentTime,
       locationState,
       itineraries,
-      bikeAndPublicItinerariesToShow,
-      bikeAndParkItinerariesToShow,
+      bikeAndParkItineraryCount,
       walking,
       biking,
-      showAlternativePlan,
-      separatorPosition,
-      loadingMoreItineraries,
       driving,
-      onlyHasWalkingItineraries,
+      showRelaxedPlanNotifier,
+      separatorPosition,
+      loadingMore,
       routingFeedbackPosition,
     } = this.props;
     const searchTime =
@@ -228,7 +234,9 @@ class ItineraryListContainer extends React.Component {
         location.query.time &&
         moment.unix(location.query.time).valueOf()) ||
       currentTime;
-    const disableButtons = !itineraries || itineraries.length === 0;
+    const showEarlierLaterButtons =
+      transitItineraries(itineraries).length > 0 &&
+      !this.context.match.params.hash;
     const arriveBy = this.context.match.location.query.arriveBy === 'true';
 
     return (
@@ -239,14 +247,10 @@ class ItineraryListContainer extends React.Component {
             defaultMessage="Route suggestions"
           />
         </h2>
-        {(this.context.match.params.hash &&
-          this.context.match.params.hash === 'bikeAndVehicle') ||
-        disableButtons ||
-        onlyHasWalkingItineraries
-          ? null
-          : arriveBy
-            ? this.laterButton(true)
-            : this.earlierButton()}
+        {showEarlierLaterButtons && this.renderMoreButton(arriveBy, true)}
+        {this.props.topNote && (
+          <ItineraryNotification bodyId={this.props.topNote} />
+        )}
         <ItineraryList
           activeIndex={activeIndex}
           currentTime={currentTime}
@@ -260,28 +264,28 @@ class ItineraryListContainer extends React.Component {
           onSelectImmediately={this.onSelectImmediately}
           searchTime={searchTime}
           to={otpToLocation(to)}
-          bikeAndPublicItinerariesToShow={bikeAndPublicItinerariesToShow}
-          bikeAndParkItinerariesToShow={bikeAndParkItinerariesToShow}
+          bikeAndParkItineraryCount={bikeAndParkItineraryCount}
           walking={walking}
           biking={biking}
-          showAlternativePlan={showAlternativePlan}
-          separatorPosition={separatorPosition}
-          loadingMoreItineraries={loadingMoreItineraries}
           driving={driving}
-          onlyHasWalkingItineraries={onlyHasWalkingItineraries}
+          showRelaxedPlanNotifier={showRelaxedPlanNotifier}
+          separatorPosition={separatorPosition}
+          loadingMore={loadingMore}
           routingFeedbackPosition={routingFeedbackPosition}
         >
           {this.props.children}
         </ItineraryList>
-        {this.props.settingsNotification && <SettingsNotification />}
-        {(this.context.match.params.hash &&
-          this.context.match.params.hash === 'bikeAndVehicle') ||
-        disableButtons ||
-        onlyHasWalkingItineraries
-          ? null
-          : arriveBy
-            ? this.earlierButton(true)
-            : this.laterButton()}
+        {this.props.settingsNotification && (
+          <ItineraryNotification
+            headerId="settings-missing-itineraries-header"
+            bodyId="settings-missing-itineraries-body"
+            iconId="icon-icon_settings"
+          />
+        )}
+        {this.props.bottomNote && (
+          <ItineraryNotification bodyId={this.props.bottomNote} />
+        )}
+        {showEarlierLaterButtons && this.renderMoreButton(arriveBy, false)}
       </div>
     );
   }

@@ -2,13 +2,13 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
-export const ItineraryListHeader = ({ translationId, defaultMessage }) => {
+export default function ItineraryListHeader({ translationId, defaultMessage }) {
   return (
     <div className="itinerary-summary-subtitle-container">
       <FormattedMessage id={translationId} defaultMessage={defaultMessage} />
     </div>
   );
-};
+}
 
 ItineraryListHeader.propTypes = {
   translationId: PropTypes.string.isRequired,
@@ -18,5 +18,3 @@ ItineraryListHeader.propTypes = {
 ItineraryListHeader.defaultProps = {
   defaultMessage: '',
 };
-
-export default ItineraryListHeader;

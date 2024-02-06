@@ -7,7 +7,7 @@ import Icon from './Icon';
 const PrintLink = ({ className, href }) =>
   href && (
     <ExternalLink className={className} href={href}>
-      <Icon img="icon-icon_print" />{' '}
+      <Icon img="icon-icon_print" />
       <FormattedMessage id="print" defaultMessage="Print" />
     </ExternalLink>
   );

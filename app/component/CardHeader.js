@@ -5,7 +5,7 @@ import AddressRow from './AddressRow';
 import Icon from './Icon';
 import ZoneIcon from './ZoneIcon';
 import SplitBars from './SplitBars';
-import BackButton from './BackButton'; // DT-3472
+import BackButton from './BackButton';
 import { getZoneLabel } from '../util/legUtils';
 
 const CardHeader = (
@@ -22,7 +22,7 @@ const CardHeader = (
     icon,
     icons,
     unlinked,
-    showBackButton, // DT-3472
+    showBackButton,
     headerConfig,
     favouriteContainer,
     isTerminal,
@@ -98,7 +98,7 @@ CardHeader.propTypes = {
   icons: PropTypes.arrayOf(PropTypes.node),
   children: PropTypes.node,
   unlinked: PropTypes.bool,
-  showBackButton: PropTypes.bool, // DT-3472
+  showBackButton: PropTypes.bool,
   headerConfig: PropTypes.object,
   favouriteContainer: PropTypes.element,
   name: PropTypes.string,

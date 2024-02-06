@@ -86,12 +86,13 @@ export function getCustomizedSettings() {
   return getItemAsJson('customizedSettings', '{}');
 }
 
-export function setCustomizedSettings(data) {
-  const getNumberValueOrDefault = (value, defaultValue) =>
-    value !== undefined && value !== null ? Number(value) : defaultValue;
-  const getValueOrDefault = (value, defaultValue) =>
-    value !== undefined ? value : defaultValue;
+const getNumberValueOrDefault = (value, defaultValue) =>
+  value !== undefined && value !== null ? Number(value) : defaultValue;
 
+const getValueOrDefault = (value, defaultValue) =>
+  value !== undefined ? value : defaultValue;
+
+export function setCustomizedSettings(data) {
   // Get old settings and test if set values have changed
   const oldSettings = getCustomizedSettings();
 
@@ -106,6 +107,10 @@ export function setCustomizedSettings(data) {
     walkBoardCost: getNumberValueOrDefault(
       data.walkBoardCost,
       oldSettings.walkBoardCost,
+    ),
+    transferPenalty: getNumberValueOrDefault(
+      data.transferPenalty,
+      oldSettings.transferPenalty,
     ),
     walkReluctance: getNumberValueOrDefault(
       data.walkReluctance,

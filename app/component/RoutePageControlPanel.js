@@ -4,13 +4,13 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
 import cx from 'classnames';
-import sortBy from 'lodash/sortBy'; // DT-3182
+import sortBy from 'lodash/sortBy';
 import { matchShape, routerShape } from 'found';
 import { enrichPatterns } from '@digitransit-util/digitransit-util';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import CallAgencyWarning from './CallAgencyWarning';
 import RoutePatternSelect from './RoutePatternSelect';
-import RouteNotification from './routeNotification';
+import RouteNotification from './RouteNotification';
 import { DATE_FORMAT } from '../constants';
 import {
   startRealTimeClient,
@@ -198,7 +198,6 @@ class RoutePageControlPanel extends React.Component {
     if (!source || !source.active) {
       return;
     }
-    // DT-4161: Start real time client if current day is in active days
     if (isActiveDate(selectedPattern)) {
       this.startClient(selectedPattern);
     }
@@ -404,7 +403,7 @@ class RoutePageControlPanel extends React.Component {
       (hasActiveAlert && 'active-disruption-alert') ||
       (hasActiveServiceAlerts && 'active-service-alert');
 
-    const useCurrentTime = activeTab === Tab.Stops; // DT-3182
+    const useCurrentTime = activeTab === Tab.Stops;
 
     const countOfButtons = 3;
 

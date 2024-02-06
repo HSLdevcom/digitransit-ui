@@ -4,29 +4,25 @@ import { intlShape } from 'react-intl';
 import Icon from './Icon';
 import { displayDistance } from '../util/geo-utils';
 import { durationToString } from '../util/timeUtils';
-import { getRouteMode } from '../util/modeUtils';
 import {
   getTotalDistance,
   getTotalBikingDistance,
+  getTotalDrivingDistance,
   compressLegs,
+  getExtendedMode,
 } from '../util/legUtils';
+import { streetHash } from '../util/path';
 
-const getMode = (leg, config) => {
-  return config.useExtendedRouteTypes
-    ? getRouteMode(leg.route) || leg.mode.toLowerCase()
-    : leg.mode.toLowerCase();
-};
-
-export const StreetModeSelectorButton = (
+export default function StreetModeSelectorButton(
   { icon, name, plan, onClick },
   { config, intl },
-) => {
+) {
   let itinerary = plan.itineraries[0];
   if (!itinerary) {
     return null;
   }
 
-  if (name === 'bikeAndVehicle' || name === 'parkAndRide') {
+  if (name === streetHash.bikeAndVehicle || name === streetHash.parkAndRide) {
     const compressedLegs = compressLegs(itinerary.legs);
     itinerary = {
       ...itinerary,
@@ -37,16 +33,23 @@ export const StreetModeSelectorButton = (
   const duration = durationToString(itinerary.duration * 1000);
   let distance = 0;
   switch (name) {
-    case 'WALK':
+    case streetHash.walk:
       distance = displayDistance(
         itinerary.walkDistance,
         config,
         intl.formatNumber,
       );
       break;
-    case 'bikeAndVehicle':
+    case streetHash.bikeAndVehicle:
       distance = displayDistance(
         getTotalBikingDistance(itinerary),
+        config,
+        intl.formatNumber,
+      );
+      break;
+    case streetHash.parkAndRide:
+      distance = displayDistance(
+        getTotalDrivingDistance(itinerary),
         config,
         intl.formatNumber,
       );
@@ -61,43 +64,29 @@ export const StreetModeSelectorButton = (
   }
 
   let secondaryIcon;
-  let metroColor;
+  let secondaryColor;
 
-  if (name === 'bikeAndVehicle') {
-    const publicModes = plan.itineraries[0].legs.filter(
-      obj => obj.mode !== 'WALK' && obj.mode !== 'BICYCLE',
+  if (name === streetHash.parkAndRide || name === streetHash.bikeAndVehicle) {
+    const transitItinerary = plan.itineraries.find(i =>
+      i.legs.find(l => l.transitLeg),
     );
-    if (publicModes.length > 0) {
-      const firstMode = getMode(publicModes[0], config);
-      secondaryIcon = `icon-icon_${firstMode}`;
-      if (firstMode === 'subway') {
-        metroColor = '#CA4000';
-      }
-    }
-  } else if (name === 'parkAndRide') {
-    let mode = 'rail';
-    for (let i = 0; i < plan.itineraries.length; i++) {
-      const publicModes = plan.itineraries[i].legs.filter(
-        obj =>
-          obj.mode !== 'WALK' && obj.mode !== 'BICYCLE' && obj.mode !== 'CAR',
-      );
-      if (publicModes.length > 0) {
-        mode = getMode(publicModes[0], config);
-        break;
-      }
-    }
+    const mode =
+      (transitItinerary &&
+        getExtendedMode(
+          transitItinerary?.legs.find(l => l.transitLeg),
+          config,
+        )) ||
+      'rail';
     secondaryIcon = `icon-icon_${mode}`;
-    if (mode === 'subway') {
-      metroColor = '#CA4000';
-    }
+    secondaryColor =
+      mode === 'subway' ? config.colors?.iconColors?.['mode-metro'] : '';
   }
   return (
     // eslint-disable-next-line jsx-a11y/click-events-have-key-events
-    <div
+    <button
       className="street-mode-selector-button-container"
       onClick={() => onClick(name)}
-      role="button"
-      tabIndex={0}
+      type="button"
       aria-label={intl.formatMessage(
         {
           id: `street-mode-${name.toLowerCase()}-aria`,
@@ -113,19 +102,20 @@ export const StreetModeSelectorButton = (
         <div
           className={`street-mode-selector-button-icon ${
             secondaryIcon ? 'primary-icon' : ''
-          } ${name === 'parkAndRide' ? 'car-park-primary' : ''} ${
-            name === 'bikeAndVehicle' ? 'bike-and-vehicle-primary' : ''
+          } ${name === streetHash.parkAndRide ? 'car-park-primary' : ''} ${
+            name === streetHash.bikeAndVehicle ? 'bike-and-vehicle-primary' : ''
           }`}
         >
           <Icon img={icon} />
         </div>
-        {name === 'bikeAndVehicle' || name === 'parkAndRide' ? (
+        {name === streetHash.bikeAndVehicle ||
+        name === streetHash.parkAndRide ? (
           <div
             className={`street-mode-selector-button-icon secondary-icon ${
-              name === 'parkAndRide' ? 'car-park-secondary' : ''
+              name === streetHash.parkAndRide ? 'car-park-secondary' : ''
             }`}
           >
-            <Icon img={secondaryIcon} color={metroColor || ''} />
+            <Icon img={secondaryIcon} color={secondaryColor} />
           </div>
         ) : (
           ''
@@ -146,9 +136,9 @@ export const StreetModeSelectorButton = (
           )}
         </div>
       </div>
-    </div>
+    </button>
   );
-};
+}
 
 StreetModeSelectorButton.propTypes = {
   icon: PropTypes.string.isRequired,
@@ -165,4 +155,3 @@ StreetModeSelectorButton.contextTypes = {
   intl: intlShape.isRequired,
   config: PropTypes.object.isRequired,
 };
-export default StreetModeSelectorButton;

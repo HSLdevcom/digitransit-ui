@@ -7,8 +7,10 @@ import ItineraryLine from './ItineraryLine';
 import MapWithTracking from './MapWithTracking';
 import { onLocationPopup } from '../../util/queryUtils';
 import BackButton from '../BackButton';
-import VehicleMarkerContainer from './VehicleMarkerContainer'; // DT-3473
+import VehicleMarkerContainer from './VehicleMarkerContainer';
 import CookieSettingsButton from '../CookieSettingsButton';
+
+const POINT_FOCUS_ZOOM = 16; // default
 
 function ItineraryPageMap(
   {
@@ -87,6 +89,7 @@ function ItineraryPageMap(
       leafletObjs={leafletObjs}
       locationPopup={locationPopup}
       onSelectLocation={onSelectLocation}
+      zoom={POINT_FOCUS_ZOOM}
       {...rest}
     >
       {breakpoint !== 'large' && (

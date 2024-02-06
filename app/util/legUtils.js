@@ -1,6 +1,7 @@
 import cloneDeep from 'lodash/cloneDeep';
 import get from 'lodash/get';
 import { BIKEAVL_UNKNOWN } from './vehicleRentalUtils';
+import { getRouteMode } from './modeUtils';
 
 function filterLegStops(leg, filter) {
   if (leg.from.stop && leg.to.stop && leg.trip) {
@@ -21,7 +22,7 @@ export function isCallAgencyDeparture(departure) {
   return departure.pickupType === 'CALL_AGENCY';
 }
 
-const sameBicycleNetwork = (leg1, leg2) => {
+function sameBicycleNetwork(leg1, leg2) {
   if (leg1.from.vehicleRentalStation && leg2.from.vehicleRentalStation) {
     return (
       leg1.from.vehicleRentalStation.network ===
@@ -29,7 +30,7 @@ const sameBicycleNetwork = (leg1, leg2) => {
     );
   }
   return true;
-};
+}
 
 /**
  * Checks if both of the legs exist and are taken with a rented bicycle (rentedBike === true).
@@ -37,12 +38,15 @@ const sameBicycleNetwork = (leg1, leg2) => {
  * @param {*} leg1 the first leg
  * @param {*} leg2 the second leg
  */
-const continueWithRentedBicycle = (leg1, leg2) =>
-  leg1 != null &&
-  leg1.rentedBike === true &&
-  leg2 != null &&
-  leg2.rentedBike === true &&
-  sameBicycleNetwork(leg1, leg2);
+function continueWithRentedBicycle(leg1, leg2) {
+  return (
+    leg1 != null &&
+    leg1.rentedBike === true &&
+    leg2 != null &&
+    leg2.rentedBike === true &&
+    sameBicycleNetwork(leg1, leg2)
+  );
+}
 
 /**
  * The leg mode depicts different types of leg available.
@@ -62,7 +66,7 @@ export const LegMode = {
  * @param {*} legOrMode the leg or mode to extract the mode from
  * @returns LegMode, or undefined if the mode cannot be extracted
  */
-export const getLegMode = legOrMode => {
+export function getLegMode(legOrMode) {
   const mode =
     typeof legOrMode === 'string' || legOrMode instanceof String
       ? legOrMode
@@ -83,7 +87,7 @@ export const getLegMode = legOrMode => {
     default:
       return undefined;
   }
-};
+}
 
 /**
  * Check if legs start stop pickuptype or end stop pickupType is CALL_AGENCY
@@ -108,15 +112,15 @@ export function isCallAgencyPickupType(leg) {
  * @param {*} leg1 the first leg
  * @param {*} leg2 the second leg
  */
-const continueWithBicycle = (leg1, leg2) => {
+function continueWithBicycle(leg1, leg2) {
   const isBicycle1 =
     leg1.mode === LegMode.Bicycle || leg1.mode === LegMode.Walk;
   const isBicycle2 =
     leg2.mode === LegMode.Bicycle || leg2.mode === LegMode.Walk;
   return isBicycle1 && isBicycle2 && !leg1.to.bikePark;
-};
+}
 
-export const getLegText = (route, config, interliningWithRoute) => {
+export function getLegText(route, config, interliningWithRoute) {
   const showAgency = get(config, 'agency.show', false);
   if (interliningWithRoute && interliningWithRoute !== route.shortName) {
     return `${route.shortName} / ${interliningWithRoute}`;
@@ -128,7 +132,7 @@ export const getLegText = (route, config, interliningWithRoute) => {
     return route.agency.name;
   }
   return '';
-};
+}
 
 /**
  * Returns all legs after a given index in which the user can wait in the vehilce for the next transit leg
@@ -136,7 +140,7 @@ export const getLegText = (route, config, interliningWithRoute) => {
  * @param {*} legs An array of itinerary legs
  * @param {*} index Current index on the array
  */
-export const getInterliningLegs = (legs, index) => {
+export function getInterliningLegs(legs, index) {
   const interliningLegs = [];
   const interliningLines = [];
   let i = index;
@@ -148,11 +152,11 @@ export const getInterliningLegs = (legs, index) => {
   const uniqueLines = Array.from(new Set(interliningLines));
 
   return [uniqueLines, interliningLegs];
-};
+}
 
-const bikingEnded = leg1 => {
+function bikingEnded(leg1) {
   return leg1.from.vehicleRentalStation && leg1.mode === 'WALK';
-};
+}
 /**
  * Compresses the incoming legs (affects only legs with mode BICYCLE, WALK or CITYBIKE). These are combined
  * so that the person will be walking their bicycle and there won't be multiple similar legs
@@ -161,7 +165,7 @@ const bikingEnded = leg1 => {
  * @param {*} originalLegs an array of legs
  * @param {boolean} keepBicycleWalk whether to keep bicycle walk legs before and after a public transport leg
  */
-export const compressLegs = (originalLegs, keepBicycleWalk = false) => {
+export function compressLegs(originalLegs, keepBicycleWalk = false) {
   const usingOwnBicycle = originalLegs.some(
     leg => getLegMode(leg) === LegMode.Bicycle && leg.rentedBike === false,
   );
@@ -249,75 +253,94 @@ export const compressLegs = (originalLegs, keepBicycleWalk = false) => {
     compressedLegs.push(compressedLeg);
   }
   return compressedLegs;
-};
+}
 
-const sumDistances = legs =>
-  legs.map(l => l.distance).reduce((x, y) => (x || 0) + (y || 0), 0);
-const isWalkingLeg = leg =>
-  [LegMode.BicycleWalk, LegMode.Walk].includes(getLegMode(leg));
-const isBikingLeg = leg =>
-  [LegMode.Bicycle, LegMode.CityBike].includes(getLegMode(leg));
-const isDrivingLeg = leg => [LegMode.Car].includes(getLegMode(leg));
+function sumDistances(legs) {
+  return legs.map(l => l.distance).reduce((x, y) => (x || 0) + (y || 0), 0);
+}
+function isWalkingLeg(leg) {
+  return [LegMode.BicycleWalk, LegMode.Walk].includes(getLegMode(leg));
+}
+function isBikingLeg(leg) {
+  return [LegMode.Bicycle, LegMode.CityBike].includes(getLegMode(leg));
+}
+function isDrivingLeg(leg) {
+  return [LegMode.Car].includes(getLegMode(leg));
+}
+
 /**
  * Checks if the itinerary consists of a single biking leg.
  *
  * @param {*} itinerary the itinerary to check the legs for
  */
-export const onlyBiking = itinerary =>
-  itinerary.legs.length === 1 && isBikingLeg(itinerary.legs[0]);
+export function onlyBiking(itinerary) {
+  return itinerary.legs.length === 1 && isBikingLeg(itinerary.legs[0]);
+}
 
 /**
  * Checks if any of the legs in the given itinerary contains biking.
  *
  * @param {*} itinerary the itinerary to check the legs for
  */
-export const containsBiking = itinerary => itinerary.legs.some(isBikingLeg);
+export function containsBiking(itinerary) {
+  return itinerary.legs.some(isBikingLeg);
+}
 
 /**
  * Checks if leg is just walking.
  *
  * @param {*} leg a leg which has a mode
  */
-export const isLegOnFoot = leg => {
+export function isLegOnFoot(leg) {
   return leg.mode === 'WALK';
-};
+}
 
 /**
  * Checks if any of the legs in the given itinerary contains biking with rental bike.
  *
  * @param {*} leg
  */
-export const legContainsRentalBike = leg =>
-  (getLegMode(leg) === LegMode.CityBike ||
-    getLegMode(leg) === LegMode.Bicycle) &&
-  leg.rentedBike;
+export function legContainsRentalBike(leg) {
+  return (
+    (getLegMode(leg) === LegMode.CityBike ||
+      getLegMode(leg) === LegMode.Bicycle) &&
+    leg.rentedBike
+  );
+}
+
 /**
  * Calculates and returns the total walking distance undertaken in an itinerary.
  * This could be used as a fallback if the backend returns an invalid value.
  *
  * @param {*} itinerary the itinerary to extract the total walking distance from
  */
-export const getTotalWalkingDistance = itinerary =>
+export function getTotalWalkingDistance(itinerary) {
   // TODO: could be itinerary.walkDistance, but that is invalid for CITYBIKE legs
-  sumDistances(itinerary.legs.filter(isWalkingLeg));
+  return sumDistances(itinerary.legs.filter(isWalkingLeg));
+}
 
 /**
  * Calculates and returns the total biking distance undertaken in an itinerary.
  *
  * @param {*} itinerary the itinerary to extract the total biking distance from
  */
-export const getTotalBikingDistance = itinerary =>
-  sumDistances(itinerary.legs.filter(isBikingLeg));
 
-export const getTotalDrivingDistance = itinerary =>
-  sumDistances(itinerary.legs.filter(isDrivingLeg));
+export function getTotalBikingDistance(itinerary) {
+  return sumDistances(itinerary.legs.filter(isBikingLeg));
+}
+
+export function getTotalDrivingDistance(itinerary) {
+  return sumDistances(itinerary.legs.filter(isDrivingLeg));
+}
 
 /**
  * Calculates and returns the total distance undertaken in an itinerary.
  *
  * @param {*} itinerary the itinerary to extract the total distance from
  */
-export const getTotalDistance = itinerary => sumDistances(itinerary.legs);
+export function getTotalDistance(itinerary) {
+  return sumDistances(itinerary.legs);
+}
 
 /**
  * Gets the indicator color for the current amount of citybikes available.
@@ -325,27 +348,31 @@ export const getTotalDistance = itinerary => sumDistances(itinerary.legs);
  * @param {number} vehiclesAvailable the number of bikes currently available
  * @param {*} config the configuration for the software installation
  */
-export const getVehicleAvailabilityIndicatorColor = (
+export function getVehicleAvailabilityIndicatorColor(
   vehiclesAvailable,
   config,
-) =>
-  // eslint-disable-next-line no-nested-ternary
-  vehiclesAvailable === 0
-    ? '#DC0451'
-    : vehiclesAvailable > config.cityBike.fewAvailableCount
-      ? '#3B7F00'
-      : '#FCBC19';
+) {
+  return (
+    // eslint-disable-next-line no-nested-ternary
+    vehiclesAvailable === 0
+      ? '#DC0451'
+      : vehiclesAvailable > config.cityBike.fewAvailableCount
+        ? '#3B7F00'
+        : '#FCBC19'
+  );
+}
 
 /* Gets the indicator text color if  few bikes are available
  *
  * @param {number} vehiclesAvailable the number of bikes currently available
  * @param {*} config the configuration for the software installation/
  */
-export const getVehicleAvailabilityTextColor = (vehiclesAvailable, config) =>
-  vehiclesAvailable <= config.cityBike.fewAvailableCount &&
-  vehiclesAvailable > 0
+export function getVehicleAvailabilityTextColor(vehiclesAvailable, config) {
+  return vehiclesAvailable <= config.cityBike.fewAvailableCount &&
+    vehiclesAvailable > 0
     ? '#333'
     : '#fff';
+}
 
 /**
  * Attempts to retrieve any relevant information from the leg that could be shown
@@ -354,7 +381,7 @@ export const getVehicleAvailabilityTextColor = (vehiclesAvailable, config) =>
  * @param {*} leg the leg to extract the props from
  * @param {*} config the configuration for the software installation
  */
-export const getLegBadgeProps = (leg, config) => {
+export function getLegBadgeProps(leg, config) {
   if (
     !leg.rentedBike ||
     !leg.from ||
@@ -370,20 +397,16 @@ export const getLegBadgeProps = (leg, config) => {
     badgeText: `${vehiclesAvailable}`,
     badgeTextFill: getVehicleAvailabilityTextColor(vehiclesAvailable, config),
   };
-};
+}
 
-export const getZoneLabel = (zoneId, config) => {
+export function getZoneLabel(zoneId, config) {
   if (config.zoneIdMapping) {
     return config.zoneIdMapping[zoneId];
   }
   return zoneId;
-};
+}
 
-export const getNewMinMaxCharCodes = (
-  newCharCode,
-  minCharCode,
-  maxCharCode,
-) => {
+export function getNewMinMaxCharCodes(newCharCode, minCharCode, maxCharCode) {
   let newMin = minCharCode;
   let newMax = maxCharCode;
   if (newMin === undefined || newMin > newCharCode) {
@@ -393,7 +416,7 @@ export const getNewMinMaxCharCodes = (
     newMax = newCharCode;
   }
   return [newMin, newMax];
-};
+}
 
 /**
  * Retrieves all zones from the legs (from & to points) and the legs' stops.
@@ -402,7 +425,7 @@ export const getNewMinMaxCharCodes = (
  *
  * @param {*} legs The legs to retrieve the zones from.
  */
-export const getZones = legs => {
+export function getZones(legs) {
   if (!Array.isArray(legs)) {
     return [];
   }
@@ -449,9 +472,9 @@ export const getZones = legs => {
     }
   }
   return Object.keys(zones).sort();
-};
+}
 
-export const getRoutes = legs => {
+export function getRoutes(legs) {
   if (!Array.isArray(legs)) {
     return [];
   }
@@ -473,9 +496,9 @@ export const getRoutes = legs => {
     }
   });
   return Object.keys(routes).map(key => ({ ...routes[key] }));
-};
+}
 
-export const getHeadsignFromRouteLongName = route => {
+export function getHeadsignFromRouteLongName(route) {
   const { longName, shortName } = route;
   let headsign = longName;
   if (
@@ -487,9 +510,9 @@ export const getHeadsignFromRouteLongName = route => {
     headsign = longName.substring(shortName.length);
   }
   return headsign;
-};
+}
 
-export const getStopHeadsignFromStoptimes = (stop, stoptimes) => {
+export function getStopHeadsignFromStoptimes(stop, stoptimes) {
   const { gtfsId } = stop;
   let headsign;
   if (Array.isArray(stoptimes)) {
@@ -500,15 +523,16 @@ export const getStopHeadsignFromStoptimes = (stop, stoptimes) => {
     });
   }
   return headsign;
-};
+}
 
 /**
  * Calculates and returns the total duration undertaken in legs.
  *
  * @param {*} legs the legs to extract the total duration from
  */
-const sumDurations = legs =>
-  legs.map(l => l.duration).reduce((x, y) => (x || 0) + (y || 0), 0);
+function sumDurations(legs) {
+  return legs.map(l => l.duration).reduce((x, y) => (x || 0) + (y || 0), 0);
+}
 
 /**
  * Calculates and returns the total walking duration undertaken in an itinerary.
@@ -516,17 +540,26 @@ const sumDurations = legs =>
  *
  * @param {*} itinerary the itinerary to extract the total walking duration from
  */
-export const getTotalWalkingDuration = itinerary =>
+export function getTotalWalkingDuration(itinerary) {
   // TODO: could be itinerary.walkDuration, but that is invalid for CITYBIKE legs
-  sumDurations(itinerary.legs.filter(isWalkingLeg));
+  return sumDurations(itinerary.legs.filter(isWalkingLeg));
+}
 
 /**
  * Calculates and returns the total biking duration undertaken in an itinerary.
  *
  * @param {*} itinerary the itinerary to extract the total biking duration from
  */
-export const getTotalBikingDuration = itinerary =>
-  sumDurations(itinerary.legs.filter(isBikingLeg));
+export function getTotalBikingDuration(itinerary) {
+  return sumDurations(itinerary.legs.filter(isBikingLeg));
+}
 
-export const getTotalDrivingDuration = itinerary =>
-  sumDurations(itinerary.legs.filter(isDrivingLeg));
+export function getTotalDrivingDuration(itinerary) {
+  return sumDurations(itinerary.legs.filter(isDrivingLeg));
+}
+
+export function getExtendedMode(leg, config) {
+  return config.useExtendedRouteTypes
+    ? (leg.route && getRouteMode(leg.route)) || leg.mode?.toLowerCase()
+    : leg.mode?.toLowerCase();
+}

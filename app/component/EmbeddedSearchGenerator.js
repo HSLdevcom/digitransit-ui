@@ -233,7 +233,7 @@ const EmbeddedSearchGenerator = (props, context) => {
                 <FormattedMessage
                   id="embedded-search.choose-width-component"
                   defaultMessage="Width of the component"
-                />{' '}
+                />
                 ({MIN_WIDTH} - {MAX_WIDTH} px)
               </h3>
             </legend>

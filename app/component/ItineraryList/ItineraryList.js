@@ -7,16 +7,22 @@ import { matchShape } from 'found';
 import Icon from '../Icon';
 import Itinerary from '../Itinerary';
 import { isBrowser } from '../../util/browser';
-import { getZones } from '../../util/legUtils';
+import { getExtendedMode, getZones } from '../../util/legUtils';
 import CanceledItineraryToggler from '../CanceledItineraryToggler';
 import { itineraryHasCancelation } from '../../util/alertUtils';
-import { ItineraryListHeader } from './ItineraryListHeader';
+import ItineraryListHeader from './ItineraryListHeader';
 import Loading from '../Loading';
 import ItinerarySummaryMessage from './ItinerarySummaryMessage';
 import LocationShape from '../../prop-types/LocationShape';
 import ErrorShape from '../../prop-types/ErrorShape';
 import RoutingErrorShape from '../../prop-types/RoutingErrorShape';
 import RoutingFeedbackPrompt from '../RoutingFeedbackPrompt';
+import { streetHash } from '../../util/path';
+
+const spinnerPosition = {
+  top: 'top',
+  bottom: 'bottom',
+};
 
 function ItineraryList(
   {
@@ -24,22 +30,20 @@ function ItineraryList(
     currentTime,
     error,
     from,
+    to,
     locationState,
     intermediatePlaces,
     itineraries,
     onSelect,
     onSelectImmediately,
     searchTime,
-    to,
-    bikeAndPublicItinerariesToShow,
-    bikeAndParkItinerariesToShow,
+    bikeAndParkItineraryCount,
     walking,
     biking,
-    showAlternativePlan,
-    separatorPosition,
-    loadingMoreItineraries,
     driving,
-    onlyHasWalkingItineraries,
+    showRelaxedPlanNotifier,
+    separatorPosition,
+    loadingMore,
     routingErrors,
     routingFeedbackPosition,
   },
@@ -47,13 +51,9 @@ function ItineraryList(
 ) {
   const [showCancelled, setShowCancelled] = useState(false);
   const { config } = context;
+  const { hash } = context.match.params;
 
-  if (
-    !error &&
-    itineraries &&
-    itineraries.length > 0 &&
-    !itineraries.includes(undefined)
-  ) {
+  if (!error && itineraries.length > 0) {
     const lowestCo2value = Math.round(
       itineraries
         .filter(itinerary => itinerary.emissionsPerPerson?.co2 >= 0)
@@ -74,57 +74,52 @@ function ItineraryList(
         intermediatePlaces={intermediatePlaces}
         isCancelled={itineraryHasCancelation(itinerary)}
         showCancelled={showCancelled}
-        hideBorder={onlyHasWalkingItineraries}
+        hideSelectionIndicator={i !== activeIndex || itineraries.length === 1}
         zones={
           config.zones.stops && itinerary.legs ? getZones(itinerary.legs) : []
         }
         lowestCo2value={lowestCo2value}
       />
     ));
-    if (
-      context.match.params.hash &&
-      context.match.params.hash === 'bikeAndVehicle'
-    ) {
-      if (bikeAndParkItinerariesToShow > 0) {
+
+    if (hash === streetHash.parkAndRide) {
+      summaries.splice(
+        0,
+        0,
+        <ItineraryListHeader
+          translationId="leave-your-car-park-and-ride"
+          defaultMessage="Park & Ride"
+          key="itinerary-summary.parkride-title"
+        />,
+      );
+    }
+    if (hash === streetHash.bikeAndVehicle) {
+      // bikeAndParkItineraryCount tells how many first itineraries use bike parking
+      if (bikeAndParkItineraryCount > 0) {
         summaries.splice(
           0,
           0,
           <ItineraryListHeader
             translationId="itinerary-summary.bikePark-title"
             defaultMessage="Biking \u0026 public transport \u0026 walking"
-            key="itinerary-summary.bikePark-title"
+            key="itinerary-summary.bikepark-title"
           />,
         );
       }
-      if (
-        itineraries.length > bikeAndParkItinerariesToShow &&
-        bikeAndPublicItinerariesToShow > 0
-      ) {
-        const bikeAndPublicItineraries = itineraries.slice(
-          bikeAndParkItinerariesToShow,
-        );
-        const filteredBikeAndPublicItineraries = bikeAndPublicItineraries.map(
-          i =>
-            i.legs.filter(obj => obj.mode !== 'WALK' && obj.mode !== 'BICYCLE'),
-        );
-        const allModes = Array.from(
-          new Set(
-            filteredBikeAndPublicItineraries.length > 0
-              ? filteredBikeAndPublicItineraries.map(p =>
-                  p[0].mode.toLowerCase(),
-                )
-              : [],
-          ),
-        );
+      if (itineraries.length > bikeAndParkItineraryCount) {
+        // the rest use bike + public
+        const mode =
+          getExtendedMode(
+            itineraries[bikeAndParkItineraryCount].legs.find(l => l.transitLeg),
+            config,
+          ) || 'rail';
         summaries.splice(
-          bikeAndParkItinerariesToShow ? bikeAndParkItinerariesToShow + 1 : 0,
+          bikeAndParkItineraryCount ? bikeAndParkItineraryCount + 1 : 0,
           0,
           <ItineraryListHeader
-            translationId={`itinerary-summary.bikeAndPublic-${allModes
-              .sort()
-              .join('-')}-title`}
+            translationId={`itinerary-summary.bikeAndPublic-${mode}-title`}
             defaultMessage="Biking \u0026 public transport"
-            key="itinerary-summary.bikeAndPublic-title"
+            key="itinerary-summary.bikeandpublic-title"
           />,
         );
       }
@@ -140,89 +135,63 @@ function ItineraryList(
       );
     }
     if (routingFeedbackPosition) {
-      summaries.splice(routingFeedbackPosition, 0, <RoutingFeedbackPrompt />);
+      summaries.splice(
+        routingFeedbackPosition,
+        0,
+        <RoutingFeedbackPrompt key="feedback-prompt" />,
+      );
     }
 
     const canceledItinerariesCount = itineraries.filter(
       itineraryHasCancelation,
     ).length;
     return (
-      <>
-        <div className="summary-list-container" role="list">
-          {showAlternativePlan && (
-            <div
-              className={cx(
-                'flex-horizontal',
-                'summary-notification',
-                'show-alternatives',
-              )}
-            >
-              <Icon className="icon-icon_settings" img="icon-icon_settings" />
-              <div>
-                <FormattedMessage
-                  id="no-route-showing-alternative-options"
-                  defaultMessage="No routes with current settings found. Here are some alternative options:"
-                />
-              </div>
-            </div>
-          )}
-          {loadingMoreItineraries === 'top' && (
-            <div className="summary-list-spinner-container">
-              <Loading />
-            </div>
-          )}
-          {isBrowser && (
-            <div
-              className={cx('summary-list-items', {
-                'summary-list-items-loading-top':
-                  loadingMoreItineraries === 'top',
-              })}
-            >
-              {summaries}
-            </div>
-          )}
-          {loadingMoreItineraries === 'bottom' && (
-            <div className="summary-list-spinner-container">
-              <Loading />
-            </div>
-          )}
-          {isBrowser && canceledItinerariesCount > 0 && (
-            <CanceledItineraryToggler
-              showItineraries={showCancelled}
-              toggleShowCanceled={() => setShowCancelled(!showCancelled)}
-              canceledItinerariesAmount={canceledItinerariesCount}
-            />
-          )}
-        </div>
-        {onlyHasWalkingItineraries && !showAlternativePlan && (
-          <div className="summary-no-route-found" style={{ marginTop: 0 }}>
-            <div
-              className={cx('flex-horizontal', 'summary-notification', 'info')}
-            >
-              <Icon
-                className={cx('no-route-icon', 'info')}
-                img="icon-icon_info"
-                color="#0074be"
+      <div className="summary-list-container" role="list">
+        {showRelaxedPlanNotifier && (
+          <div
+            className={cx(
+              'flex-horizontal',
+              'summary-notification',
+              'show-alternatives',
+            )}
+          >
+            <Icon className="icon-icon_settings" img="icon-icon_settings" />
+            <div>
+              <FormattedMessage
+                id="no-route-showing-alternative-options"
+                defaultMessage="No routes with current settings found. Here are some alternative options:"
               />
-              <div>
-                <div className="in-the-past">
-                  <FormattedMessage
-                    id="router-only-walk-title"
-                    defaultMessage=""
-                  />
-                </div>
-                <FormattedMessage
-                  id="router-only-walk"
-                  defaultMessage={
-                    'Unfortunately no routes were found for your journey. ' +
-                    'Please change your origin or destination address.'
-                  }
-                />
-              </div>
-            </div>{' '}
+            </div>
           </div>
         )}
-      </>
+        {loadingMore === spinnerPosition.top && (
+          <div className="summary-list-spinner-container">
+            <Loading />
+          </div>
+        )}
+        {isBrowser && (
+          <div
+            className={cx('summary-list-items', {
+              'summary-list-items-loading-top':
+                loadingMore === spinnerPosition.top,
+            })}
+          >
+            {summaries}
+          </div>
+        )}
+        {loadingMore === spinnerPosition.bottom && (
+          <div className="summary-list-spinner-container">
+            <Loading />
+          </div>
+        )}
+        {isBrowser && canceledItinerariesCount > 0 && (
+          <CanceledItineraryToggler
+            showItineraries={showCancelled}
+            toggleShowCanceled={() => setShowCancelled(!showCancelled)}
+            canceledItinerariesAmount={canceledItinerariesCount}
+          />
+        )}
+      </div>
     );
   }
   if (!error) {
@@ -266,19 +235,16 @@ function ItineraryList(
 
   return (
     <ItinerarySummaryMessage
-      areaPolygon={config.areaPolygon}
+      walking={walking}
       biking={biking}
       driving={driving}
       error={error}
       from={from}
       locationState={locationState}
       routingErrors={routingErrors}
-      minDistanceBetweenFromAndTo={config.minDistanceBetweenFromAndTo}
-      nationalServiceLink={config.nationalServiceLink}
       searchTime={searchTime}
       currentTime={currentTime}
       to={to}
-      walking={walking}
     />
   );
 }
@@ -296,15 +262,13 @@ ItineraryList.propTypes = {
   onSelectImmediately: PropTypes.func.isRequired,
   searchTime: PropTypes.number.isRequired,
   to: LocationShape.isRequired,
-  bikeAndPublicItinerariesToShow: PropTypes.number.isRequired,
-  bikeAndParkItinerariesToShow: PropTypes.number.isRequired,
+  bikeAndParkItineraryCount: PropTypes.number.isRequired,
   walking: PropTypes.bool,
   biking: PropTypes.bool,
   driving: PropTypes.bool,
-  showAlternativePlan: PropTypes.bool,
+  showRelaxedPlanNotifier: PropTypes.bool,
   separatorPosition: PropTypes.number,
-  loadingMoreItineraries: PropTypes.string,
-  onlyHasWalkingItineraries: PropTypes.bool,
+  loadingMore: PropTypes.string,
   routingFeedbackPosition: PropTypes.number,
 };
 
@@ -315,12 +279,11 @@ ItineraryList.defaultProps = {
   walking: false,
   biking: false,
   driving: false,
-  showAlternativePlan: false,
+  showRelaxedPlanNotifier: false,
   separatorPosition: undefined,
-  loadingMoreItineraries: undefined,
+  loadingMore: undefined,
   routingErrors: [],
   routingFeedbackPosition: undefined,
-  onlyHasWalkingItineraries: false,
 };
 
 ItineraryList.contextTypes = {
@@ -426,4 +389,8 @@ const containerComponent = createFragmentContainer(ItineraryList, {
   `,
 });
 
-export { containerComponent as default, ItineraryList as Component };
+export {
+  containerComponent as default,
+  ItineraryList as Component,
+  spinnerPosition,
+};

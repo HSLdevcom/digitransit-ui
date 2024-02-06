@@ -56,7 +56,6 @@ export const sameDay = (x, y) => dateOrEmpty(x, y) === '';
  */
 export const RANGE_PAST = 7;
 
-// added itineraryFutureDays parameter (DT-3175)
 export const validateServiceTimeRange = (
   itineraryFutureDays,
   serviceTimeRange,
@@ -87,7 +86,6 @@ export const validateServiceTimeRange = (
   return { start, end };
 };
 
-// DT-3473
 // converts the given parameter into a string in format HH:mm
 // Input: time - seconds since midnight
 export function getStartTimeWithColon(time) {

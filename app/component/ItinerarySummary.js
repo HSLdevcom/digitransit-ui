@@ -2,9 +2,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 import Duration from './Duration';
-import WalkDistance from './WalkDistance';
+import Distance from './Distance';
 
-const ItinerarySummary = ({
+function ItinerarySummary({
   itinerary,
   walking,
   biking,
@@ -13,7 +13,7 @@ const ItinerarySummary = ({
   isMultiRow,
   isMobile,
   hideBottomDivider,
-}) => {
+}) {
   return (
     <div className="itinerary-summary">
       {!isMobile && <div className="divider-top" />}
@@ -25,39 +25,39 @@ const ItinerarySummary = ({
         futureText={futureText}
         multiRow={isMultiRow}
       />
-      {walking && walking.distance > 0 && (
-        <WalkDistance
+      {walking?.distance > 0 && (
+        <Distance
           className="distance--itinerary-summary"
-          walkDistance={walking.distance}
-          walkDuration={walking.duration}
+          distance={walking.distance}
+          duration={walking.duration}
           mode="walk"
         />
       )}
-      {biking && biking.distance > 0 && (
-        <WalkDistance
+      {biking?.distance > 0 && (
+        <Distance
           className="distance--itinerary-summary"
           icon="icon_cyclist"
-          walkDistance={biking.distance}
-          walkDuration={biking.duration}
+          distance={biking.distance}
+          duration={biking.duration}
           mode="bike"
         />
       )}
-      {driving && driving.distance > 0 && (
-        <WalkDistance
+      {driving?.distance > 0 && (
+        <Distance
           className="distance--itinerary-summary driving-summary"
           icon="icon_car-withoutBox"
-          walkDistance={driving.distance}
-          walkDuration={driving.duration}
+          distance={driving.distance}
+          duration={driving.duration}
           mode="car"
         />
       )}
       {!hideBottomDivider && <div className={cx('divider-bottom')} />}
     </div>
   );
-};
+}
 
 ItinerarySummary.description = () =>
-  "Displays itinerary summary row; itinerary's duration and walk distance";
+  "Displays itinerary summary; itinerary's duration and walk distance";
 
 ItinerarySummary.propTypes = {
   itinerary: PropTypes.object.isRequired,

@@ -28,7 +28,7 @@ const translations = {
     'bus-with-route-number': 'Bus {routeNumber} {headSign}',
     buy: 'Buy',
     'buy-ticket': 'Køb billet',
-    call: 'Ring',
+    call: 'Ring {number}',
     cancel: 'Fortryd',
     'car-distance-duration': 'Kør {duration} ({distance})',
     cause: 'Årsag',
@@ -316,7 +316,7 @@ const translations = {
     'bus-with-route-number': 'Bus {routeNumber} {headSign}',
     buy: 'Buy',
     'buy-ticket': 'Ticket kaufen',
-    call: 'Anrufen',
+    call: 'Anrufen {number}',
     cancel: 'Abbrechen',
     canceled: 'Ausgefallen',
     'canceled-itineraries-amount':
@@ -941,7 +941,7 @@ const translations = {
     'bus-with-route-number': 'Bus {routeNumber} {headSign}',
     buy: 'Buy',
     'buy-ticket': 'How to buy a ticket',
-    call: 'Call',
+    call: 'Call {number}',
     cancel: 'Cancel',
     canceled: 'Canceled',
     'canceled-itineraries-amount':
@@ -1061,7 +1061,7 @@ const translations = {
     'elevation-lost-total': 'Elevation lost',
     'embedded-search.choose-language': 'Language',
     'embedded-search.choose-mode': 'Means of transport',
-    'embedded-search.choose-width-component': 'Width of the embedding',
+    'embedded-search.choose-width-component': 'Width of the embedding ',
     'embedded-search.form-heading': 'Embedding tools',
     engine_ignition_aid: 'Engine starting aid',
     english: 'English',
@@ -1295,6 +1295,7 @@ const translations = {
     'no-bike-allowed-popup-tram-bus':
       'Bicycles are not allowed on buses or trams. If you are using these vehicles on your route, leave the bicycle at the stop or at a Park-and-Ride. ',
     'no-departures': 'No departures',
+    'no-more-route-msg': 'No additional itineraries were found',
     'no-position': 'No location',
     'no-position-no-stops':
       'Your location is not available. We are unable to show the closest stops.',
@@ -1563,7 +1564,7 @@ const translations = {
       'Show driving route. Duration {duration}, distance {length}',
     'street-mode-car_park': 'Park & ride',
     'street-mode-parkandride-aria':
-      'Show park and ride route. Duration {duration}, distance {length}',
+      'Show park and ride route. Duration {duration}, driving distance {length}',
     'street-mode-public_transport': 'Public transport',
     'street-mode-walk': 'Walking',
     'street-mode-walk-aria':
@@ -1734,7 +1735,7 @@ const translations = {
     'bus-with-route-number': 'Bus {routeNumber} {headSign}',
     buy: 'Buy',
     'buy-ticket': 'Cómo comprar un ticket',
-    call: 'Llamar',
+    call: 'Llamar {number}',
     cancel: 'Cancelar',
     car: 'Coche',
     'car-distance-duration': 'Conducir {duration} ({distance})',
@@ -2118,7 +2119,7 @@ const translations = {
     'bus-with-route-number': 'Bussi {routeNumber} {headSign}',
     buy: 'Osta',
     'buy-ticket': 'Näin ostat lipun',
-    call: 'Soita',
+    call: 'Soita {number}',
     cancel: 'Peruuta',
     canceled: 'Peruttu',
     'canceled-itineraries-amount':
@@ -2241,7 +2242,7 @@ const translations = {
     'elevation-lost-total': 'Laskua yhteensä',
     'embedded-search.choose-language': 'Näkymän kieli',
     'embedded-search.choose-mode': 'Liikkumistapa',
-    'embedded-search.choose-width-component': 'Upotuksen leveys',
+    'embedded-search.choose-width-component': 'Upotuksen leveys ',
     'embedded-search.form-heading': 'Upotusvalinnat',
     engine_ignition_aid: 'Käynnistysapu',
     english: 'Englanti',
@@ -2468,6 +2469,7 @@ const translations = {
     'no-bike-allowed-popup-tram-bus':
       'Pyörää ei voi ottaa bussiin tai raitiovaunuun. Jos käytät reitilläsi näitä kulkuvälineitä, jätä pyörä pysäkille tai liityntäpysäköintiin.',
     'no-departures': 'Ei lähteviä vuoroja',
+    'no-more-route-msg': 'Lisäehdotuksia ei löytynyt',
     'no-position': 'Ei sijaintia',
     'no-position-no-stops':
       'Sijaintisi ei ole tiedossa, joten emme voi näyttää lähimpiä pysäkkejä.',
@@ -2735,7 +2737,7 @@ const translations = {
       'Näytä ajoreitti. Kesto {duration}, pituus {length}',
     'street-mode-car_park': 'Liityntä\u00ADpysäköinti',
     'street-mode-parkandride-aria':
-      'Näytä liityntäpysäköintireitti. Kesto {duration}, pituus {length}',
+      'Näytä liityntäpysäköintireitti. Kesto {duration}, autoilun pituus {length}',
     'street-mode-public_transport': 'Julkinen liikenne',
     'street-mode-walk': 'Kävely',
     'street-mode-walk-aria':
@@ -2917,7 +2919,7 @@ const translations = {
     'bus-with-route-number': 'Bus {routeNumber} {headSign}',
     buy: 'Buy',
     'buy-ticket': 'Acheter un titre de transport',
-    call: 'Appeler',
+    call: 'Appeler {number}',
     cancel: 'Annuler',
     car: 'Voiture',
     'car-distance-duration': 'Conduire {duration} ({distance})',
@@ -3244,7 +3246,7 @@ const translations = {
     'bus-with-route-number': 'Buss {routeNumber} {headSign}',
     buy: 'Buy',
     'buy-ticket': 'Kjøp billett',
-    call: 'Ring',
+    call: 'Ring {number}',
     cancel: 'Avbryt',
     'car-distance-duration': 'Kjør {duration} ({distance})',
     cause: 'Årsak',
@@ -3536,7 +3538,7 @@ const translations = {
     'bus-with-route-number': 'Autobuzul {routeNumber} {headSign}',
     buy: 'Buy',
     'buy-ticket': 'Cum cumpăr bilet?',
-    call: 'Call',
+    call: 'Call {number}',
     cancel: 'Anulare',
     canceled: 'Anulat',
     'canceled-itineraries-amount':
@@ -4066,7 +4068,7 @@ const translations = {
     'bus-with-route-number': 'Buss {routeNumber} {headSign}',
     buy: 'Köp',
     'buy-ticket': 'Så här köper du biljetten',
-    call: 'Ring',
+    call: 'Ring {number}',
     cancel: 'Avbryt',
     canceled: 'Inställt',
     'canceled-itineraries-amount':
@@ -4187,7 +4189,7 @@ const translations = {
     'elevation-lost-total': 'Nedförsbacke totalt',
     'embedded-search.choose-language': 'Språk',
     'embedded-search.choose-mode': 'Färdsätt',
-    'embedded-search.choose-width-component': 'Inbäddningens bredd',
+    'embedded-search.choose-width-component': 'Inbäddningens bredd ',
     'embedded-search.form-heading': 'Inbäddningsverktyg',
     engine_ignition_aid: 'Starthjälp',
     english: 'Engelsk',
@@ -4419,6 +4421,7 @@ const translations = {
     'no-bike-allowed-popup-tram-bus':
       'Cyklar är inte tillåtna i bussar eller spårvagnar. Om du använder dessa fordon på din färd, lämna cykeln vid hållplatsen eller vid infartsparkeringen.',
     'no-departures': 'Inga avgående resor',
+    'no-more-route-msg': 'Kunde tyvärr inte hitta mer ruttalternativ',
     'no-position': 'Ingen position',
     'no-position-no-stops':
       'De närmaste hållplatserna kan inte visas, eftersom din position inte är känd.',

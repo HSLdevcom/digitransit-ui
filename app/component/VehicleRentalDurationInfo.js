@@ -85,10 +85,7 @@ function VehicleRentalDurationInfo(props) {
                 >
                   {config.cityBike.networks[value].name[lang]}
                   {' - '}
-                  <FormattedMessage
-                    id="read-more"
-                    defaultMessage="Read more"
-                  />{' '}
+                  <FormattedMessage id="read-more" defaultMessage="Read more" />
                   ›
                 </a>
                 <br />
@@ -111,7 +108,7 @@ const connectedComponent = connectToStores(
   VehicleRentalDurationInfo,
   ['UserStore', 'PreferencesStore'],
   context => ({
-    lang: context.getStore('PreferencesStore').getLanguage(), // DT-3376
+    lang: context.getStore('PreferencesStore').getLanguage(),
   }),
 );
 

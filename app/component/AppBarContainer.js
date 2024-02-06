@@ -1,20 +1,15 @@
 import PropTypes from 'prop-types';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { matchShape, routerShape } from 'found';
 import { FormattedMessage } from 'react-intl';
 import getContext from 'recompose/getContext';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import withBreakpoint from '../util/withBreakpoint';
 
-import LazilyLoad, { importLazy } from './LazilyLoad';
+const AppBar = lazy(() => import('./AppBar'));
+const AppBarHsl = lazy(() => import('./AppBarHsl'));
+const MessageBar = lazy(() => import('./MessageBar'));
 
-const modules = {
-  AppBar: () => importLazy(import('./AppBar')),
-  AppBarHsl: () => importLazy(import('./AppBarHsl')),
-  MessageBar: () => importLazy(import('./MessageBar')),
-};
-
-// DT-3375: added style
 const AppBarContainer = ({
   router,
   match,
@@ -34,54 +29,54 @@ const AppBarContainer = ({
     setClient(true);
   });
 
+  if (!isClient) {
+    return null;
+  }
   return (
     <>
       <a
         href="#mainContent"
         id="skip-to-content-link"
-        style={{ display: isClient ? 'block sr-only' : 'none' }}
+        style={{ display: 'block sr-only' }}
       >
         <FormattedMessage
           id="skip-to-content"
           defaultMessage="Skip to content"
         />
       </a>
-      <LazilyLoad modules={modules}>
-        {({ AppBar, AppBarHsl, MessageBar }) =>
-          style === 'hsl' ? (
-            <div
-              className="hsl-header-container"
-              style={{ display: isClient ? 'block' : 'none' }}
-            >
-              <AppBarHsl user={user} lang={lang} favourites={favourites} />
-              <MessageBar breakpoint={breakpoint} />{' '}
-            </div>
-          ) : (
-            <AppBar
-              {...args}
-              showLogo
-              logo={logo}
-              homeUrl={homeUrl}
-              user={user}
-              breakpoint={breakpoint}
-              titleClicked={() =>
-                router.push({
-                  ...match.location,
-                  pathname: homeUrl,
-                  state: {
-                    ...match.location.state,
-                    errorBoundaryKey:
-                      match.location.state &&
-                      match.location.state.errorBoundaryKey
-                        ? match.location.state.errorBoundaryKey + 1
-                        : 1,
-                  },
-                })
-              }
-            />
-          )
-        }
-      </LazilyLoad>
+      {style === 'hsl' ? (
+        <div className="hsl-header-container" style={{ display: 'block' }}>
+          <Suspense fallback="">
+            <AppBarHsl user={user} lang={lang} favourites={favourites} />
+            <MessageBar breakpoint={breakpoint} />
+          </Suspense>
+        </div>
+      ) : (
+        <Suspense fallback="">
+          <AppBar
+            {...args}
+            showLogo
+            logo={logo}
+            homeUrl={homeUrl}
+            user={user}
+            breakpoint={breakpoint}
+            titleClicked={() =>
+              router.push({
+                ...match.location,
+                pathname: homeUrl,
+                state: {
+                  ...match.location.state,
+                  errorBoundaryKey:
+                    match.location.state &&
+                    match.location.state.errorBoundaryKey
+                      ? match.location.state.errorBoundaryKey + 1
+                      : 1,
+                },
+              })
+            }
+          />
+        </Suspense>
+      )}
     </>
   );
 };

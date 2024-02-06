@@ -4,9 +4,9 @@ import cx from 'classnames';
 import { FormattedMessage } from 'react-intl';
 import Icon from './Icon';
 import ItineraryShape from '../prop-types/ItineraryShape';
-import { getCo2Value } from '../util/itineraryUtils';
+import getCo2Value from '../util/emissions';
 
-const EmissionsInfo = ({ itinerary, isMobile }) => {
+export default function EmissionsInfo({ itinerary, isMobile }) {
   const co2value = getCo2Value(itinerary);
   return (
     co2value !== null &&
@@ -41,11 +41,9 @@ const EmissionsInfo = ({ itinerary, isMobile }) => {
       </div>
     )
   );
-};
+}
 
 EmissionsInfo.propTypes = {
   itinerary: ItineraryShape.isRequired,
   isMobile: PropTypes.bool.isRequired,
 };
-
-export default EmissionsInfo;

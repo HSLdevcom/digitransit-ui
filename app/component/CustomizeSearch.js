@@ -108,7 +108,7 @@ class CustomizeSearch extends React.Component {
               <TransferOptionsSection
                 defaultSettings={this.defaultSettings}
                 currentSettings={currentSettings}
-                walkBoardCostHigh={config.walkBoardCostHigh}
+                transferPenaltyHigh={config.transferPenaltyHigh}
               />
             </div>
           </div>
@@ -118,7 +118,7 @@ class CustomizeSearch extends React.Component {
                 <fieldset>
                   <legend className="settings-header transport-mode-subheader">
                     <FormattedMessage
-                      id="citybike-network-header"
+                      id="citybike-network-headers"
                       defaultMessage={intl.formatMessage({
                         id: 'citybike-network-headers',
                         defaultMessage: 'Citybikes and scooters',

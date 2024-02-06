@@ -1,27 +1,36 @@
 import PropTypes from 'prop-types';
-import React, { useContext, useEffect, useState, useRef } from 'react';
+import React, {
+  useContext,
+  useEffect,
+  useState,
+  useRef,
+  lazy,
+  Suspense,
+} from 'react';
 import { ReactRelayContext } from 'react-relay';
 import { matchShape } from 'found';
 import Loading from './Loading';
 import { validateServiceTimeRange } from '../util/timeUtils';
 import { planQuery } from './ItineraryQueries';
-import {
-  hasStartAndDestination,
-  preparePlanParams,
-} from '../util/planParamUtil';
-import LazilyLoad, { importLazy } from './LazilyLoad';
+import { hasStartAndDestination, getPlanParams } from '../util/planParamUtil';
 
-const modules = {
-  QueryRenderer: () =>
-    importLazy(import('react-relay/lib/ReactRelayQueryRenderer')),
-  ItineraryPage: () => importLazy(import('./ItineraryPage')),
-};
+const QueryRenderer = lazy(
+  () => import('react-relay/lib/ReactRelayQueryRenderer'),
+);
+const ItineraryPage = lazy(() => import('./ItineraryPage'));
 
-const ItineraryPageContainer = ({ content, match }, { config }) => {
+export default function ItineraryPageContainer({ content, match }, { config }) {
   const { environment } = useContext(ReactRelayContext);
   const [isClient, setClient] = useState(false);
   const alertRef = useRef();
 
+  useEffect(() => {
+    // To prevent SSR from rendering something https://reactjs.org/docs/react-dom.html#hydrate
+    setClient(true);
+  });
+  if (!isClient) {
+    return <Loading />;
+  }
   const screenReaderAlert = (
     <div
       className="sr-only"
@@ -31,13 +40,10 @@ const ItineraryPageContainer = ({ content, match }, { config }) => {
     />
   );
 
-  useEffect(() => {
-    // To prevent SSR from rendering something https://reactjs.org/docs/react-dom.html#hydrate
-    setClient(true);
-  });
-  return isClient ? (
-    <LazilyLoad modules={modules}>
-      {({ QueryRenderer, ItineraryPage }) =>
+  return (
+    <Suspense fallback={<Loading />}>
+      {' '}
+      {
         /* Don't make a query if start or destination is invalid, only render */
         !hasStartAndDestination(match.params) ? (
           <>
@@ -54,7 +60,7 @@ const ItineraryPageContainer = ({ content, match }, { config }) => {
         ) : (
           <QueryRenderer
             query={planQuery}
-            variables={preparePlanParams(config, false)(match.params, match)}
+            variables={getPlanParams(config, match)}
             environment={environment}
             render={({ props: innerProps, error }) => {
               return innerProps ? (
@@ -87,11 +93,9 @@ const ItineraryPageContainer = ({ content, match }, { config }) => {
           />
         )
       }
-    </LazilyLoad>
-  ) : (
-    <Loading />
+    </Suspense>
   );
-};
+}
 
 ItineraryPageContainer.contextTypes = {
   config: PropTypes.object.isRequired,
@@ -101,5 +105,3 @@ ItineraryPageContainer.propTypes = {
   content: PropTypes.node,
   match: matchShape.isRequired,
 };
-
-export default ItineraryPageContainer;

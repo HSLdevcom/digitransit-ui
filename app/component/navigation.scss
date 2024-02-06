@@ -67,8 +67,6 @@ $content-background-color: $background-color;
     align-items: center;
     line-height: 1.8em;
 
-    // DT-3470 removed: box-shadow: 2px 0px 2px #575757;
-
     @media print {
       display: none;
     }
@@ -608,7 +606,8 @@ section.content {
     }
 
     .desktop-title {
-      background: #fff; // DT-3358: was $desktop-title-color
+      background: #fff;
+
       &-bordered {
         &::after {
           content: '';
@@ -623,13 +622,13 @@ section.content {
       }
 
       a {
-        color: $desktop-title-arrow-icon-color; // DT-3358: was $primary-font-color
+        color: $desktop-title-arrow-icon-color;
       }
 
       .title-container {
         @include font-medium;
 
-        color: #333; // DT-3358: was $primary-font-color
+        color: #333;
         margin: 50px 0 16px 0;
         line-height: 1;
 
@@ -647,8 +646,7 @@ section.content {
         @include font-medium;
 
         font-family: $heading-font-family;
-        color: #333; // DT-3358: was $primary-font-color
-        // line-height: 1;
+        color: #333;
         display: inline;
       }
 

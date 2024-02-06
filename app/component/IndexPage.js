@@ -78,7 +78,11 @@ class IndexPage extends React.Component {
     locationState: dtLocationShape.isRequired,
   };
 
-  static defaultProps = { lang: 'fi' };
+  static defaultProps = {
+    lang: 'fi',
+    favouriteModalAction: '',
+    fromMap: undefined,
+  };
 
   constructor(props, context) {
     super(props, context);
@@ -179,7 +183,6 @@ class IndexPage extends React.Component {
     this.context.executeAction(storeDestination, favourite);
   };
 
-  // DT-3551: handle logic for Traffic now link
   trafficNowHandler = (e, lang) => {
     window.location = `${this.context.config.URL.ROOTLINK}/${
       lang === 'fi' ? '' : `${lang}/`
@@ -237,7 +240,6 @@ class IndexPage extends React.Component {
     ) : (
       <div className="stops-near-you-text">
         <h2>
-          {' '}
           {intl.formatMessage({
             id: 'stop-near-you-title',
             defaultMessage: 'Stops and lines near you',
@@ -396,17 +398,16 @@ class IndexPage extends React.Component {
                   {!config.hideStopRouteSearch && (
                     <>
                       <>{this.NearStops(CtrlPanel)}</>
-                      <StopRouteSearch {...stopRouteSearchProps} />{' '}
+                      <StopRouteSearch {...stopRouteSearchProps} />
                       <CtrlPanel.SeparatorLine />
                     </>
                   )}
-                  {!trafficNowLink ||
-                    (trafficNowLink[lang] !== '' && (
-                      <TrafficNowLink
-                        lang={lang}
-                        handleClick={this.trafficNowHandler}
-                      />
-                    ))}
+                  {trafficNowLink?.[lang] && (
+                    <TrafficNowLink
+                      lang={lang}
+                      handleClick={this.trafficNowHandler}
+                    />
+                  )}
                 </CtrlPanel>
               </div>
               {(showSpinner && <OverlayWithSpinner />) || null}

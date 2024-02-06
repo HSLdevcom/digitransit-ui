@@ -6,7 +6,11 @@ import React from 'react';
 import Icon from './Icon';
 import { isKeyboardSelectionEvent } from '../util/browser';
 
-const AlternativeLegsInfo = ({ legs, showAlternativeLegs, toggle }) => {
+export default function AlternativeLegsInfo({
+  legs,
+  showAlternativeLegs,
+  toggle,
+}) {
   const message =
     (showAlternativeLegs && (
       <FormattedMessage
@@ -20,8 +24,22 @@ const AlternativeLegsInfo = ({ legs, showAlternativeLegs, toggle }) => {
         className="alternative-leg-info"
         id="alternative-legs"
         values={{
-          leg1: legs[0].route.shortName,
-          leg2: legs[1].route.shortName,
+          leg1: (
+            <>
+              <span aria-hidden="true">{legs[0].route.shortName}</span>
+              <span className="sr-only">
+                {legs[0].route.shortName?.toLowerCase()}
+              </span>
+            </>
+          ),
+          leg2: (
+            <>
+              <span aria-hidden="true">{legs[1].route.shortName}</span>
+              <span className="sr-only">
+                {legs[1].route.shortName?.toLowerCase()}
+              </span>
+            </>
+          ),
           startTime1: (
             <span
               className={cx({ realtime: legs[0].realTime })}
@@ -56,7 +74,14 @@ const AlternativeLegsInfo = ({ legs, showAlternativeLegs, toggle }) => {
         className="alternative-leg-info"
         id="alternative-legs-single"
         values={{
-          leg1: legs[0].route.shortName,
+          leg1: (
+            <>
+              <span aria-hidden="true">{legs[0].route.shortName}</span>
+              <span className="sr-only">
+                {legs[0].route.shortName?.toLowerCase()}
+              </span>
+            </>
+          ),
           startTime1: (
             <span
               className={cx({ realtime: legs[0].realTime })}
@@ -102,11 +127,10 @@ const AlternativeLegsInfo = ({ legs, showAlternativeLegs, toggle }) => {
       </div>
     </div>
   ) : null;
-};
+}
 
 AlternativeLegsInfo.propTypes = {
   legs: PropTypes.array.isRequired,
   showAlternativeLegs: PropTypes.bool.isRequired,
   toggle: PropTypes.func.isRequired,
 };
-export default AlternativeLegsInfo;

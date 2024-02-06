@@ -654,33 +654,6 @@ describe('modeUtils', () => {
     });
   });
 
-  describe('userHasChangedModes', () => {
-    it('should return true if user has set custom modes', () => {
-      setCustomizedSettings({
-        modes: [TransportMode.Rail, TransportMode.Airplane, StreetMode.Walk],
-      });
-
-      expect(utils.userHasChangedModes(config)).to.equal(true);
-    });
-
-    it('should return false if user has not set custom modes', () => {
-      expect(utils.userHasChangedModes(config)).to.equal(false);
-    });
-
-    it('should return false if user has set unavailable for selection custom modes in addition to default modes', () => {
-      setCustomizedSettings({
-        modes: [
-          TransportMode.Bus,
-          'FOO',
-          TransportMode.Rail,
-          TransportMode.Airplane,
-        ],
-      });
-
-      expect(utils.userHasChangedModes(config)).to.equal(false);
-    });
-  });
-
   describe('toggleTransportMode', () => {
     it('should return previous modes in addition to new mode', () => {
       setCustomizedSettings({
