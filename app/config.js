@@ -130,19 +130,20 @@ export function getNamedConfiguration(configName) {
         }
       }
     }
-
     configs[configName] = config;
   }
   // inject zone geoJson if necessary
   const conf = configs[configName];
   if (conf.zoneGeoJson) {
     if (conf.useAssembledGeoJsonZones) {
+      const zoneLayer = {
+        ...conf.zoneGeoJson.layers[0],
+        isOffByDefault: conf.useAssembledGeoJsonZones === 'isOffByDefault',
+      };
       if (!conf.geoJson) {
-        conf.geoJson = conf.zoneGeoJson;
+        conf.geoJson = { layers: [zoneLayer] };
       } else {
-        conf.geoJson.layers = conf.geoJson.layers.concat(
-          conf.zoneGeoJson.layers,
-        );
+        conf.geoJson.layers.push(zoneLayer);
       }
     }
     delete conf.zoneGeoJson; // not used directly so cleanup

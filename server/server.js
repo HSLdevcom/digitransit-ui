@@ -305,7 +305,6 @@ function getZoneUrl(json) {
     layer => layer.name.fi === 'Vyöhykkeet' || layer.name.en === 'Zones',
   );
   if (zoneLayer && !config.zoneGeoJson) {
-    zoneLayer.isOffByDefault = true;
     // use a geoJson source to initialize combined zone data
     config.zoneGeoJson = { layers: [zoneLayer] };
   }

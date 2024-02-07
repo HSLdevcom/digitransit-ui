@@ -60,7 +60,7 @@ export default configMerger(matkaConfig, {
     ],
   },
 
-  useAssembledGeoJsonZones: true,
+  useAssembledGeoJsonZones: 'isOnByDefault',
 
   transportModes: {
     citybike: {
