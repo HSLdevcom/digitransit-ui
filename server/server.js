@@ -40,11 +40,14 @@ const bodyParser = require('body-parser');
 const logger = require('morgan');
 const { getJson } = require('../app/util/xhrPromise');
 const { retryFetch } = require('../app/util/fetchUtils');
-const config = require('../app/config').getConfiguration();
+const configTools = require('../app/config');
+
+const config = configTools.getConfiguration();
 
 const appRoot = `${process.cwd()}/`;
 const configsDir = path.join(appRoot, 'app', 'configurations');
 const configFiles = fs.readdirSync(configsDir);
+let allZones;
 
 /* ********* Global ********* */
 const port = config.PORT || 8080;
@@ -304,9 +307,9 @@ function getZoneUrl(json) {
   const zoneLayer = json.layers.find(
     layer => layer.name.fi === 'Vyöhykkeet' || layer.name.en === 'Zones',
   );
-  if (zoneLayer && !config.zoneGeoJson) {
+  if (zoneLayer && !allZones) {
     // use a geoJson source to initialize combined zone data
-    config.zoneGeoJson = { layers: [zoneLayer] };
+    allZones = zoneLayer;
   }
   return zoneLayer?.url;
 }
@@ -348,12 +351,11 @@ function collectGeoJsonZones() {
     });
 
     Promise.all(promises).then(urls => {
-      if (config.zoneGeoJson) {
+      if (allZones) {
         // valid zone data was found
-        config.zoneGeoJson.layers[0].url = urls.filter(url => !!url); // drop invalid
-        console.log(
-          `Assembled ${config.zoneGeoJson.layers[0].url.length} geoJson zones`,
-        );
+        allZones.url = urls.filter(url => !!url); // drop invalid
+        console.log(`Assembled ${allZones.url.length} geoJson zones`);
+        configTools.setAssembledZones(allZones);
       }
       mainResolve();
     });

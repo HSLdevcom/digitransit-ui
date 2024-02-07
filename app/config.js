@@ -19,6 +19,11 @@ if (defaultConfig.themeMap) {
   });
 }
 
+let allZones;
+export function setAssembledZones(zoneLayer) {
+  allZones = zoneLayer;
+}
+
 function addMetaData(config) {
   const dirName = `icons-${config.CONFIG}-`;
   let manifestName = '';
@@ -134,20 +139,18 @@ export function getNamedConfiguration(configName) {
   }
   // inject zone geoJson if necessary
   const conf = configs[configName];
-  if (conf.zoneGeoJson) {
-    if (conf.useAssembledGeoJsonZones) {
-      const zoneLayer = {
-        ...conf.zoneGeoJson.layers[0],
-        isOffByDefault: conf.useAssembledGeoJsonZones === 'isOffByDefault',
-      };
-      if (!conf.geoJson) {
-        conf.geoJson = { layers: [zoneLayer] };
-      } else {
-        conf.geoJson.layers.push(zoneLayer);
-      }
+  if (conf.useAssembledGeoJsonZones && allZones) {
+    const zoneLayer = {
+      ...allZones,
+      isOffByDefault: conf.useAssembledGeoJsonZones === 'isOffByDefault',
+    };
+    if (!conf.geoJson) {
+      conf.geoJson = { layers: [zoneLayer] };
+    } else {
+      conf.geoJson.layers.push(zoneLayer);
     }
-    delete conf.zoneGeoJson; // not used directly so cleanup
   }
+
   if (!process.env.OIDC_CLIENT_ID && conf.allowLogin) {
     return {
       ...conf,
@@ -171,7 +174,7 @@ export function getConfiguration(req) {
 
   if (
     host &&
-    process.env.NODE_ENV !== 'development' &&
+    // process.env.NODE_ENV !== 'development' &&
     (process.env.CONFIG === '' || !process.env.CONFIG)
   ) {
     // no forced CONFIG, map dynamically
