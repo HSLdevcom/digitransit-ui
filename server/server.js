@@ -324,7 +324,7 @@ function collectGeoJsonZones() {
     const promises = [];
     configFiles.forEach(file => {
       if (file.startsWith('config')) {
-        // eslint-disable-next-line global-require,import/no-dynamic-require
+        // eslint-disable-next-line import/no-dynamic-require
         const conf = require(`${configsDir}/${file}`);
         const { geoJson } = conf.default;
         if (geoJson) {
@@ -351,6 +351,9 @@ function collectGeoJsonZones() {
       if (config.zoneGeoJson) {
         // valid zone data was found
         config.zoneGeoJson.layers[0].url = urls.filter(url => !!url); // drop invalid
+        console.log(
+          `Assembled ${config.zoneGeoJson.layers[0].url.length} geoJson zones`,
+        );
       }
       mainResolve();
     });
@@ -376,6 +379,6 @@ Promise.all([
   setUpAvailableRouteTimetables(),
   setUpAvailableTickets(),
   collectGeoJsonZones(),
-]).then(() => startServer());
+]).then(startServer);
 
 module.exports.app = app;
