@@ -67,8 +67,8 @@ const FavouriteIconTableButton = ({
 
 FavouriteIconTableButton.propTypes = {
   handleClick: PropTypes.func.isRequired,
-  value: PropTypes.string,
-  selectedIconId: PropTypes.string,
+  value: PropTypes.string.isRequired,
+  selectedIconId: PropTypes.string.isRequired,
   color: PropTypes.string.isRequired,
 };
 
@@ -97,9 +97,13 @@ const FavouriteIconTable = ({
 
 FavouriteIconTable.propTypes = {
   handleClick: PropTypes.func.isRequired,
-  favouriteIconIds: PropTypes.arrayOf(PropTypes.string),
+  favouriteIconIds: PropTypes.arrayOf(PropTypes.string).isRequired,
   selectedIconId: PropTypes.string,
   color: PropTypes.string.isRequired,
+};
+
+FavouriteIconTable.defaultProps = {
+  selectedIconId: undefined,
 };
 
 /**
@@ -193,6 +197,8 @@ class FavouriteModal extends React.Component {
     lang: 'fi',
     isMobile: false,
     favourite: null,
+    autosuggestComponent: undefined,
+    addAnalyticsEvent: undefined,
     color: '#007ac9',
     hoverColor: '#0062a1',
     fontWeights: {
