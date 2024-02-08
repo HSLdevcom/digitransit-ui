@@ -94,11 +94,6 @@
     "singleQuote": true,
     "trailingComma": "all"
   },
-  "commitlint": {
-    "extends": [
-      "@commitlint/config-conventional"
-    ]
-  },
   "lint-staged": {
     "*.{js,jsx}": [
       "eslint"
@@ -124,7 +119,6 @@
   },
   "husky": {
     "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
       "pre-commit": "lint-staged && git-precommit-checks",
       "pre-push": "yarn run test-unit"
     }
@@ -238,8 +232,6 @@
     "@babel/plugin-proposal-object-rest-spread": "7.20.2",
     "@babel/plugin-transform-runtime": "7.19.6",
     "@babel/runtime": "7.20.6",
-    "@commitlint/cli": "9.1.2",
-    "@commitlint/config-conventional": "9.1.2",
     "@graphql-eslint/eslint-plugin": "3.20.1",
     "@lerna/batch-packages": "3.16.0",
     "@lerna/filter-packages": "3.18.0",
