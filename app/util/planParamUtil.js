@@ -7,7 +7,11 @@ import {
   getBicycleCompatibleModes,
   isTransportModeAvailable,
 } from './modeUtils';
-import { otpToLocation, getIntermediatePlaces } from './otpStrings';
+import {
+  otpToLocation,
+  getIntermediatePlaces,
+  placeOrStop,
+} from './otpStrings';
 import { getDefaultNetworks } from './vehicleRentalUtils';
 import { getCustomizedSettings } from '../store/localStorage';
 import { estimateItineraryDistance } from './geo-utils';
@@ -152,14 +156,15 @@ export const getPlanParams = (
     ? defaultSettings.walkBoardCost
     : settings.walkBoardCost;
 
+  const fromPlace = placeOrStop(from);
+  const toPlace = placeOrStop(to);
+
   return {
     ...settings,
     ...omitBy(
       {
-        fromPlace: from,
-        toPlace: to,
-        from: fromLocation,
-        to: toLocation,
+        fromPlace,
+        toPlace,
         minTransferTime: config.minTransferTime,
         optimize: config.optimize,
       },
