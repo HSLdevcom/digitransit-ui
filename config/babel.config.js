@@ -7,7 +7,7 @@ const productionPlugins = [
   ],
 ];
 
-module.exports = function (api) {
+module.exports = function bbl(api) {
   api.cache(true);
   const presets = [
     [
