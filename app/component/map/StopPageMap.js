@@ -40,10 +40,10 @@ const getModeFromProps = props => {
   return 'stop';
 };
 
-const StopPageMap = (
+function StopPageMap(
   { stop, breakpoint, currentTime, locationState, mapLayers, mapLayerOptions },
   { config, match },
-) => {
+) {
   if (!stop) {
     return false;
   }
@@ -196,7 +196,7 @@ const StopPageMap = (
       {children}
     </MapWithTracking>
   );
-};
+}
 
 StopPageMap.contextTypes = {
   config: PropTypes.object.isRequired,
