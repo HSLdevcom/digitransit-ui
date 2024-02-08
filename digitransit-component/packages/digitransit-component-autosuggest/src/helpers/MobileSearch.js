@@ -252,4 +252,16 @@ MobileSearch.propTypes = {
   showScroll: PropTypes.bool,
 };
 
+MobileSearch.defaultProps = {
+  value: undefined,
+  ariaLabel: undefined,
+  dialogHeaderText: undefined,
+  dialogPrimaryButtonText: undefined,
+  dialogSecondaryButtonText: undefined,
+  focusInput: false,
+  color: undefined,
+  hoverColor: undefined,
+  showScroll: undefined,
+};
+
 export default MobileSearch;
