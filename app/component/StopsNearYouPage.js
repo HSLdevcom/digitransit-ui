@@ -14,7 +14,7 @@ import Icon from './Icon';
 import DesktopView from './DesktopView';
 import MobileView from './MobileView';
 import withBreakpoint, { DesktopOrMobile } from '../util/withBreakpoint';
-import { otpToLocation, addressToItinerarySearch } from '../util/otpStrings';
+import { otpToLocation, locationToUri } from '../util/otpStrings';
 import { isKeyboardSelectionEvent } from '../util/browser';
 import Loading from './Loading';
 import StopNearYouContainer from './StopNearYouContainer';
@@ -297,9 +297,7 @@ class StopsNearYouPage extends React.Component {
           pathname: path,
         });
       } else {
-        const path = `/${PREFIX_NEARYOU}/${mode}/${addressToItinerarySearch(
-          centerOfMap,
-        )}`;
+        const path = `/${PREFIX_NEARYOU}/${mode}/${locationToUri(centerOfMap)}`;
         this.context.router.replace({
           ...this.props.match.location,
           pathname: path,
@@ -798,7 +796,7 @@ class StopsNearYouPage extends React.Component {
 
   selectHandler = item => {
     const { mode } = this.props.match.params;
-    const path = `/${PREFIX_NEARYOU}/${mode}/${addressToItinerarySearch(item)}`;
+    const path = `/${PREFIX_NEARYOU}/${mode}/${locationToUri(item)}`;
     this.context.router.replace({
       ...this.props.match.location,
       pathname: path,

@@ -4,7 +4,7 @@ import { FormattedMessage, intlShape } from 'react-intl';
 import { matchShape, routerShape } from 'found';
 import Modal from '@hsl-fi/modal';
 import Icon from './Icon';
-import { addressToItinerarySearch, locationToOTP } from '../util/otpStrings';
+import { locationToUri, locationToOTP } from '../util/otpStrings';
 import {
   getPathWithEndpointObjects,
   getItineraryPagePath,
@@ -55,10 +55,7 @@ const MapRoutingButton = ({ stop }, { intl, router, match, config }) => {
     } else {
       const newLocation = {
         ...location,
-        pathname: getItineraryPagePath(
-          addressToItinerarySearch({}),
-          addressToItinerarySearch({}),
-        ),
+        pathname: getItineraryPagePath(locationToUri({}), locationToUri({})),
         query: {
           intermediatePlaces: locationToOTP(item),
         },
