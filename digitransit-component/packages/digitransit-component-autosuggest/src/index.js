@@ -46,6 +46,10 @@ Loading.propTypes = {
   children: PropTypes.node,
 };
 
+Loading.defaultProps = {
+  children: undefined,
+};
+
 const getPlatform = addendum => {
   if (!addendum || !addendum.GTFS.platform) {
     return undefined;
@@ -253,9 +257,9 @@ class DTAutosuggest extends React.Component {
     placeholder: PropTypes.string.isRequired,
     translatedPlaceholder: PropTypes.string,
     value: PropTypes.string,
-    searchContext: PropTypes.any.isRequired,
+    searchContext: PropTypes.object.isRequired,
     ariaLabel: PropTypes.string,
-    onSelect: PropTypes.func,
+    onSelect: PropTypes.func.isRequired,
     transportMode: PropTypes.string,
     filterResults: PropTypes.func,
     geocodingSize: PropTypes.number,
@@ -301,9 +305,17 @@ class DTAutosuggest extends React.Component {
     icon: undefined,
     value: '',
     transportMode: undefined,
-    lang: 'fi',
+    filterResults: undefined,
+    onClear: undefined,
+    storeRef: undefined,
+    handleViaPoints: undefined,
+    focusChange: undefined,
+    getAutoSuggestIcons: undefined,
     sources: [],
+    targets: undefined,
     isMobile: false,
+    isEmbedded: false,
+    geocodingSize: undefined,
     color: '#007ac9',
     hoverColor: '#0062a1',
     accessiblePrimaryColor: '#0074be',
@@ -312,6 +324,7 @@ class DTAutosuggest extends React.Component {
       routesPrefix: 'linjat',
       stopsPrefix: 'pysakit',
     },
+    ariaLabel: undefined,
     mobileLabel: undefined,
     inputClassName: '',
     translatedPlaceholder: undefined,
