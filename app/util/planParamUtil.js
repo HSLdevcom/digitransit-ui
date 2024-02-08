@@ -112,7 +112,7 @@ export function hasStartAndDestination({ from, to }) {
   return from && to && from !== '-' && to !== '-';
 }
 
-export const getPlanParams = (
+export function getPlanParams(
   config,
   {
     params: { from, to },
@@ -121,7 +121,7 @@ export const getPlanParams = (
     },
   },
   relaxSettings,
-) => {
+) {
   const defaultSettings = getDefaultSettings(config);
   const settings = getSettings(config);
   const fromLocation = otpToLocation(from);
@@ -214,4 +214,4 @@ export const getPlanParams = (
     ],
     parkRideModes: [{ mode: 'CAR', qualifier: 'PARK' }, ...modesWithoutRent],
   };
-};
+}
