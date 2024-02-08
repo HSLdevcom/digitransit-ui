@@ -67,7 +67,7 @@ export const valueShape = PropTypes.oneOfType([
 class SearchSettingsDropdown extends React.Component {
   static propTypes = {
     labelText: PropTypes.string.isRequired,
-    options: PropTypes.array.isRequired,
+    options: PropTypes.arrayOf(valueShape).isRequired,
     displayValueFormatter: PropTypes.func,
     currentSelection: PropTypes.object.isRequired,
     highlightDefaultValue: PropTypes.bool,

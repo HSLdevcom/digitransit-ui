@@ -44,7 +44,7 @@ const AlertBanner = ({ alerts, linkAddress }, { config }) => {
 };
 
 AlertBanner.propTypes = {
-  alerts: PropTypes.array.isRequired,
+  alerts: PropTypes.arrayOf(PropTypes.object).isRequired,
   linkAddress: PropTypes.string.isRequired,
 };
 AlertBanner.contextTypes = {

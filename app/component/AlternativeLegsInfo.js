@@ -130,7 +130,7 @@ export default function AlternativeLegsInfo({
 }
 
 AlternativeLegsInfo.propTypes = {
-  legs: PropTypes.array.isRequired,
+  legs: PropTypes.arrayOf(PropTypes.object).isRequired,
   showAlternativeLegs: PropTypes.bool.isRequired,
   toggle: PropTypes.func.isRequired,
 };

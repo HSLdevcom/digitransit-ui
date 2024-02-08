@@ -80,7 +80,7 @@ function RouteScheduleHeader({
   );
 }
 RouteScheduleHeader.propTypes = {
-  stops: PropTypes.array.isRequired,
+  stops: PropTypes.arrayOf(PropTypes.object).isRequired,
   from: PropTypes.number.isRequired,
   to: PropTypes.number.isRequired,
   onFromSelectChange: PropTypes.func.isRequired,

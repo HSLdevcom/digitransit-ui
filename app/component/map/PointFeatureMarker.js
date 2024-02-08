@@ -170,7 +170,7 @@ const PointFeatureMarker = ({
 PointFeatureMarker.propTypes = {
   feature: PropTypes.shape({
     geometry: PropTypes.shape({
-      coordinates: PropTypes.array.isRequired,
+      coordinates: PropTypes.arrayOf(PropTypes.object).isRequired,
       type: PropTypes.string.isRequired,
     }).isRequired,
     properties: PropTypes.shape({

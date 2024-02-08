@@ -108,7 +108,7 @@ function ItineraryPageMap(
 }
 
 ItineraryPageMap.propTypes = {
-  itineraries: PropTypes.array.isRequired,
+  itineraries: PropTypes.arrayOf(PropTypes.object).isRequired,
   topics: PropTypes.array,
   active: PropTypes.number.isRequired,
   showActive: PropTypes.bool,
@@ -116,7 +116,7 @@ ItineraryPageMap.propTypes = {
   showVehicles: PropTypes.bool,
   from: PropTypes.object.isRequired,
   to: PropTypes.object.isRequired,
-  viaPoints: PropTypes.array.isRequired,
+  viaPoints: PropTypes.arrayOf(PropTypes.object).isRequired,
   showDurationBubble: PropTypes.bool,
 };
 

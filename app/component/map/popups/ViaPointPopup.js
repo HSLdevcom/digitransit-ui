@@ -67,7 +67,7 @@ function ViaPointPopup(
 ViaPointPopup.propTypes = {
   lat: PropTypes.number.isRequired,
   lon: PropTypes.number.isRequired,
-  viaPoints: PropTypes.array.isRequired,
+  viaPoints: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 ViaPointPopup.contextTypes = {

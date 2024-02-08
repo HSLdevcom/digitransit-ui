@@ -82,7 +82,7 @@ WalkingOptionsSection.propTypes = {
     walkSpeed: PropTypes.number.isRequired,
     walkReluctance: PropTypes.number.isRequired,
   }).isRequired,
-  walkSpeedOptions: PropTypes.array.isRequired,
+  walkSpeedOptions: PropTypes.arrayOf(PropTypes.number).isRequired,
   currentSettings: PropTypes.object.isRequired,
   walkReluctanceOptions: PropTypes.shape({ least: PropTypes.number.isRequired })
     .isRequired,

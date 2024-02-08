@@ -24,7 +24,7 @@ class RouteStopListContainer extends React.PureComponent {
         shortName: PropTypes.string,
       }),
       directionId: PropTypes.number.isRequired,
-      stops: PropTypes.array.isRequired,
+      stops: PropTypes.arrayOf(PropTypes.object).isRequired,
     }).isRequired,
     className: PropTypes.string,
     vehicles: PropTypes.objectOf(VehicleShape),

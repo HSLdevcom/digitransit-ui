@@ -115,7 +115,7 @@ const getSpeechBubbleStyle = (position, pixelPositions) => {
 
 class TransitLegMarkers extends React.Component {
   static propTypes = {
-    transitLegs: PropTypes.array.isRequired,
+    transitLegs: PropTypes.arrayOf(PropTypes.object).isRequired,
     leaflet: PropTypes.shape({
       map: PropTypes.shape({
         latLngToLayerPoint: PropTypes.func.isRequired,

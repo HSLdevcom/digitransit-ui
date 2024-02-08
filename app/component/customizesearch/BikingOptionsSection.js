@@ -51,7 +51,7 @@ class BikingOptionsSection extends React.Component {
 
 BikingOptionsSection.propTypes = {
   bikeSpeed: valueShape.isRequired,
-  bikeSpeedOptions: PropTypes.array.isRequired,
+  bikeSpeedOptions: PropTypes.arrayOf(PropTypes.number).isRequired,
   overrideStyle: PropTypes.object,
   defaultSettings: PropTypes.shape({
     bikeSpeed: PropTypes.number.isRequired,
