@@ -227,6 +227,7 @@ DatetimepickerStateContainer.defaultProps = {
   onOpen: null,
   onClose: null,
   openPicker: undefined,
+  serviceTimeRange: 30,
 };
 
 export default DatetimepickerStateContainer;
