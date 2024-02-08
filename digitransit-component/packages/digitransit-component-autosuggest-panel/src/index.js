@@ -208,14 +208,22 @@ ItinerarySearchControl.propTypes = {
  *    showSwapControl={false} // Optional.
  *    showViapointControl={false} // Optional.
  */
+
+const locationShape = PropTypes.shape({
+  address: PropTypes.string,
+  lat: PropTypes.number,
+  lon: PropTypes.number,
+  locationSlack: PropTypes.number,
+});
+
 class DTAutosuggestPanel extends React.Component {
   static propTypes = {
     appElement: PropTypes.string.isRequired,
-    origin: PropTypes.object.isRequired,
-    destination: PropTypes.object.isRequired,
+    origin: locationShape,
+    destination: locationShape,
     originPlaceHolder: PropTypes.string,
     destinationPlaceHolder: PropTypes.string,
-    viaPoints: PropTypes.arrayOf(PropTypes.object),
+    viaPoints: PropTypes.arrayOf(locationShape),
     updateViaPoints: PropTypes.func,
     handleViaPointLocationSelected: PropTypes.func,
     swapOrder: PropTypes.func,
@@ -234,10 +242,10 @@ class DTAutosuggestPanel extends React.Component {
     hoverColor: PropTypes.string,
     originMobileLabel: PropTypes.string,
     destinationMobileLabel: PropTypes.string,
-    refPoint: PropTypes.object,
+    refPoint: locationShape,
     modeSet: PropTypes.string,
-    modeIconColors: PropTypes.object,
-    getAutoSuggestIcons: PropTypes.object,
+    modeIconColors: PropTypes.objectOf(PropTypes.string),
+    getAutoSuggestIcons: PropTypes.objectOf(PropTypes.func),
     fontWeights: PropTypes.shape({
       medium: PropTypes.number,
     }),
@@ -304,7 +312,7 @@ class DTAutosuggestPanel extends React.Component {
 
   handleFocusChange = () => {
     const { destination } = this.props;
-    if (!destination || !destination.set) {
+    if (!destination || !destination.lat) {
       this.state.refs[1].focus();
     }
   };

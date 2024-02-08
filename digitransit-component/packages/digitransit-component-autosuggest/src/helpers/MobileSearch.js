@@ -223,7 +223,7 @@ MobileSearch.propTypes = {
   clearInput: PropTypes.func.isRequired,
   value: PropTypes.string,
   clearInputButtonText: PropTypes.string.isRequired,
-  suggestions: PropTypes.array.isRequired,
+  suggestions: PropTypes.arrayOf(PropTypes.object).isRequired,
   inputProps: PropTypes.shape({
     onChange: PropTypes.func.isRequired,
     onBlur: PropTypes.func.isRequired,

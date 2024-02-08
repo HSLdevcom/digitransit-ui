@@ -97,7 +97,7 @@ const FavouriteIconTable = ({
 
 FavouriteIconTable.propTypes = {
   handleClick: PropTypes.func.isRequired,
-  favouriteIconIds: PropTypes.array,
+  favouriteIconIds: PropTypes.arrayOf(PropTypes.string),
   selectedIconId: PropTypes.string,
   color: PropTypes.string.isRequired,
 };

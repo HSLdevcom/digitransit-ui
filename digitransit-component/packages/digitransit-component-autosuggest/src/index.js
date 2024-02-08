@@ -287,8 +287,8 @@ class DTAutosuggest extends React.Component {
     fontWeights: PropTypes.shape({
       medium: PropTypes.number,
     }),
-    modeIconColors: PropTypes.object,
-    getAutoSuggestIcons: PropTypes.object,
+    modeIconColors: PropTypes.objectOf(PropTypes.string),
+    getAutoSuggestIcons: PropTypes.objectOf(PropTypes.func),
     required: PropTypes.bool,
     modeSet: PropTypes.string,
     showScroll: PropTypes.bool,
