@@ -120,6 +120,11 @@ ItinerarySearchControl.propTypes = {
   wide: PropTypes.bool,
 };
 
+ItinerarySearchControl.defaultProps = {
+  children: undefined,
+  wide: false,
+};
+
 /**
  * Panel that renders two DTAutosuggest search fields, including viapoint handling
  *
@@ -228,8 +233,8 @@ class DTAutosuggestPanel extends React.Component {
     handleViaPointLocationSelected: PropTypes.func,
     swapOrder: PropTypes.func,
     searchPanelText: PropTypes.string,
-    searchContext: PropTypes.any.isRequired,
-    onSelect: PropTypes.func,
+    searchContext: PropTypes.object.isRequired,
+    onSelect: PropTypes.func.isRequired,
     onClear: PropTypes.func,
     addAnalyticsEvent: PropTypes.func,
     lang: PropTypes.string,
@@ -257,15 +262,22 @@ class DTAutosuggestPanel extends React.Component {
   };
 
   static defaultProps = {
+    origin: undefined,
+    destination: undefined,
     viaPoints: [],
     originPlaceHolder: 'give-origin',
     destinationPlaceHolder: 'give-destination',
     swapOrder: undefined,
     updateViaPoints: () => {},
     lang: 'fi',
+    searchPanelText: undefined,
     sources: [],
     targets: [],
     filterResults: undefined,
+    onClear: undefined,
+    getAutoSuggestIcons: undefined,
+    refPoint: undefined,
+    addAnalyticsEvent: undefined,
     disableAutoFocus: false,
     isMobile: false,
     handleViaPointLocationSelected: undefined,

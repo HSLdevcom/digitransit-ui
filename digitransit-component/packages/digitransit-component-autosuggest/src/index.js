@@ -307,6 +307,7 @@ class DTAutosuggest extends React.Component {
     transportMode: undefined,
     filterResults: undefined,
     onClear: undefined,
+    lang: 'fi',
     storeRef: undefined,
     handleViaPoints: undefined,
     focusChange: undefined,
