@@ -25,7 +25,10 @@ function getStopsFromGeocoding(stops, URL_PELIAS_PLACE) {
     gids += `${gid},`;
     return { ...stop, gid };
   });
-  const stopStationMap = stopsWithGids.reduce(function (map, stopOrStation) {
+  const stopStationMap = stopsWithGids.reduce(function redu(
+    map,
+    stopOrStation,
+  ) {
     // eslint-disable-next-line no-param-reassign
     map[stopOrStation.gid] = stopOrStation;
     return map;
