@@ -288,12 +288,11 @@ class FavouriteBar extends React.Component {
   ) => {
     const id = `favourite-suggestion-list--item-${index}`;
     return (
-      <li>
+      <li key={`favourite-suggestion-item-${index}`}>
         <div
           role="button"
           type="button"
           tabIndex="0"
-          key={`favourite-suggestion-item-${index}`}
           id={id}
           className={cx(styles['favourite-suggestion-item'])}
           onClick={() => this.suggestionSelected(index)}
