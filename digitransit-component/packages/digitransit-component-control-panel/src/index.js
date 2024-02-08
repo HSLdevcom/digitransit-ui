@@ -391,6 +391,8 @@ NearStopsAndRoutes.defaultProps = {
   origin: undefined,
   omitLanguageUrl: undefined,
   buttonStyle: undefined,
+  alertsContext: undefined,
+  onClick: undefined,
   title: undefined,
   modes: undefined,
   modeIconColors: {
