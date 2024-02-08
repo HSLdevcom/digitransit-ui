@@ -46,6 +46,7 @@ class TrafficNowLink extends React.Component {
 
   static defaultProps = {
     lang: 'fi',
+    href: undefined,
     fontWeights: {
       medium: 500,
     },
