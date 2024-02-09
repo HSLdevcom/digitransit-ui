@@ -84,20 +84,33 @@ class GeoJsonStore extends Store {
     if (!url) {
       return undefined;
     }
-
-    if (!this.geoJsonData[url]) {
-      const response = await getJson(url);
-      if (metadata) {
-        MapJSON(response, metadata);
+    let id;
+    let urlArr;
+    if (Array.isArray(url)) {
+      [id] = url;
+      urlArr = url;
+    } else {
+      id = url;
+      urlArr = [url];
+    }
+    if (!this.geoJsonData[id]) {
+      const responses = await Promise.all(urlArr.map(u => getJson(u)));
+      const mapped = responses.map(r => {
+        if (metadata) {
+          MapJSON(r, metadata);
+        }
+        return styleFeatures(r);
+      });
+      for (let i = 1; i < mapped.length; i++) {
+        mapped[0].features = mapped[0].features.concat(mapped[i].features);
       }
       const data = {
-        name: name || url,
-        data: styleFeatures(response),
+        name: name || id,
+        data: mapped[0],
       };
-      this.geoJsonData[url] = data;
+      this.geoJsonData[id] = data;
     }
-
-    return { ...this.geoJsonData[url] };
+    return { ...this.geoJsonData[id] };
   };
 }
 

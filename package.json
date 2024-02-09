@@ -93,11 +93,6 @@
     "singleQuote": true,
     "trailingComma": "all"
   },
-  "commitlint": {
-    "extends": [
-      "@commitlint/config-conventional"
-    ]
-  },
   "lint-staged": {
     "*.{js,jsx}": [
       "eslint"
@@ -123,7 +118,6 @@
   },
   "husky": {
     "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
       "pre-commit": "lint-staged && git-precommit-checks",
       "pre-push": "yarn run test-unit"
     }

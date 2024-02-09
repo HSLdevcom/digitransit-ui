@@ -19,6 +19,7 @@ function withGeojsonObjects(Component) {
     ...props
   }) {
     const [geoJson, updateGeoJson] = useState(null);
+
     useEffect(() => {
       async function fetch() {
         if (!isBrowser) {
@@ -37,7 +38,7 @@ function withGeojsonObjects(Component) {
         if (Array.isArray(layers) && layers.length > 0) {
           const json = await Promise.all(
             layers.map(async ({ url, name, isOffByDefault, metadata }) => ({
-              url,
+              url: Array.isArray(url) ? url[0] : url,
               isOffByDefault,
               data: await getGeoJsonData(url, name, metadata),
             })),
@@ -54,9 +55,14 @@ function withGeojsonObjects(Component) {
     // adding geoJson to leafletObj moved to map
     return <Component leafletObjs={leafletObjs} {...props} geoJson={geoJson} />;
   }
+
   const configShape = PropTypes.shape({
     geoJson: PropTypes.shape({
-      layers: PropTypes.arrayOf(PropTypes.shape({ url: PropTypes.string })),
+      layers: PropTypes.arrayOf(
+        PropTypes.shape({
+          url: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
+        }),
+      ),
       layerConfigUrl: PropTypes.string,
     }),
   });
@@ -77,15 +83,10 @@ function withGeojsonObjects(Component) {
     config: configShape,
   })(GeojsonWrapper);
 
-  const WithStores = connectToStores(
-    WithContext,
-    [GeoJsonStore],
-    ({ getStore }) => {
-      const { getGeoJsonConfig, getGeoJsonData } = getStore(GeoJsonStore);
-      return { getGeoJsonConfig, getGeoJsonData };
-    },
-  );
-  return WithStores;
+  return connectToStores(WithContext, [GeoJsonStore], ({ getStore }) => {
+    const { getGeoJsonConfig, getGeoJsonData } = getStore(GeoJsonStore);
+    return { getGeoJsonConfig, getGeoJsonData };
+  });
 }
 
 export default withGeojsonObjects;
