@@ -18,7 +18,7 @@
     "@digitransit-component/digitransit-component-autosuggest-panel": "^3.0.6",
     "@digitransit-component/digitransit-component-control-panel": "^1.1.7",
     "@digitransit-component/digitransit-component-favourite-bar": "2.0.4",
-    "@digitransit-component/digitransit-component-favourite-editing-modal": "^2.0.0",
+    "@digitransit-component/digitransit-component-favourite-editing-modal": "^2.0.1",
     "@digitransit-component/digitransit-component-favourite-modal": "^1.0.5",
     "@digitransit-component/digitransit-component-icon": "^1.0.1",
     "@digitransit-component/digitransit-component-suggestion-item": "^2.0.4",
