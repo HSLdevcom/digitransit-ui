@@ -135,3 +135,9 @@ export function getCurrentMillis(currentTime = undefined) {
   }
   return moment(currentTime).valueOf();
 }
+
+export function getIsoString(time) {
+  const date = moment.unix(time);
+  const dateWithOffset = date.utcOffset(120); // 120 minutes = 2 hours
+  return dateWithOffset.format(); // Example output: "2024-02-06T14:03:02+02:00"
+}

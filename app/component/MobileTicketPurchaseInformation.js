@@ -1,16 +1,18 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape, FormattedMessage } from 'react-intl';
+import { matchShape } from 'found';
 
 import { renderZoneTicket } from './ZoneTicket';
 import { getAlternativeFares } from '../util/fareUtils';
 import { FareShape } from '../util/shapes';
 import ExternalLink from './ExternalLink';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
+import { getIsoString } from '../util/timeUtils';
 
 export default function MobileTicketPurchaseInformation(
   { fares, zones },
-  { config, intl },
+  { config, intl, match },
 ) {
   if (fares.length === 0) {
     return null;
@@ -22,6 +24,9 @@ export default function MobileTicketPurchaseInformation(
     config.availableTickets,
   );
   const price = `${fare.price.toFixed(2)} €`.replace('.', ',');
+  const userSetTime = !!match.location.query.timeChanged; // convert string to boolean
+  const time = userSetTime ? match.location.query.time.toString() : '-';
+  const isoStr = getIsoString(time);
 
   const faresInfo = () => {
     const header = `${intl.formatMessage({
@@ -62,7 +67,7 @@ export default function MobileTicketPurchaseInformation(
         {faresInfo()}
         <div className="app-link">
           <ExternalLink
-            href={config.ticketPurchaseLink(fare.ticketName)}
+            href={config.ticketPurchaseLink(fare.ticketName, isoStr)}
             onClick={() =>
               addAnalyticsEvent({ event: 'journey_planner_open_app' })
             }
@@ -87,6 +92,7 @@ MobileTicketPurchaseInformation.defaultProps = {
 MobileTicketPurchaseInformation.contextTypes = {
   config: PropTypes.object,
   intl: intlShape.isRequired,
+  match: matchShape.isRequired,
 };
 
 MobileTicketPurchaseInformation.displayName = 'TicketInformation';

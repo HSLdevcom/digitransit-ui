@@ -14,11 +14,12 @@ function DatetimepickerContainer(
   const { router, match, config } = context;
   const openPicker = !!match.location.query.setTime; // string to boolean
 
-  const setParams = debounce((time, arriveBy, setTime) => {
+  const setParams = debounce((time, arriveBy, setTime, timeChanged) => {
     replaceQueryParams(router, match, {
       time,
       arriveBy,
       setTime,
+      timeChanged,
     });
   }, 10);
 
@@ -38,7 +39,7 @@ function DatetimepickerContainer(
 
   const onTimeChange = (time, arriveBy, onSubmit = false) => {
     const keepPickerOpen = onSubmit === false ? 'true' : undefined;
-    setParams(time, arriveBy ? 'true' : undefined, keepPickerOpen);
+    setParams(time, arriveBy ? 'true' : undefined, keepPickerOpen, true);
     addAnalyticsEvent({
       action: 'EditJourneyTime',
       category: 'ItinerarySettings',
@@ -57,10 +58,10 @@ function DatetimepickerContainer(
 
   const onNowClick = time => {
     if (realtime) {
-      setParams(undefined, undefined, undefined);
+      setParams(undefined, undefined, undefined, undefined);
     } else {
       // Lock the current time in url when clicked on itinerary page
-      setParams(time, undefined, undefined);
+      setParams(time, undefined, undefined, undefined);
     }
   };
 
