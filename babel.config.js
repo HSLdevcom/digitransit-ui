@@ -15,12 +15,7 @@ module.exports = {
     'dynamic-import-node',
     'relay',
     '@babel/plugin-syntax-dynamic-import',
-    ['@babel/plugin-proposal-class-properties', { loose: true }],
-    '@babel/plugin-proposal-json-strings',
+    '@babel/plugin-transform-class-properties',
+    '@babel/plugin-transform-json-strings',
   ],
-  env: {
-    test: {
-      plugins: ['istanbul'],
-    },
-  },
 };

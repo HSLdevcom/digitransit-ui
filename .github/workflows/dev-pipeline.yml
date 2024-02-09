@@ -169,9 +169,7 @@ jobs:
           yarn run relay
 
       - name: Run unit tests
-        run: yarn run test-coverage
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v3
+        run: yarn run test-unit
 
   # This is only done when pushing to v3
   publish-npm:
