@@ -3006,7 +3006,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hsl-fi/button@npm:^1.2.3, @hsl-fi/button@npm:^1.2.4":
+"@hsl-fi/button@npm:^1.2.4":
   version: 1.2.4
   resolution: "@hsl-fi/button@npm:1.2.4"
   dependencies:
@@ -3029,7 +3029,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hsl-fi/container-spinner@npm:^0.3.1":
+"@hsl-fi/container-spinner@npm:^0.3.2":
   version: 0.3.2
   resolution: "@hsl-fi/container-spinner@npm:0.3.2"
   dependencies:
@@ -3040,7 +3040,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hsl-fi/content-delivery-api-types@npm:^0.1.4, @hsl-fi/content-delivery-api-types@npm:^0.1.5":
+"@hsl-fi/content-delivery-api-types@npm:^0.1.4":
   version: 0.1.5
   resolution: "@hsl-fi/content-delivery-api-types@npm:0.1.5"
   checksum: 0a0ebe24992fc46e71d282d2512129f394583d09de3beef8352e3532aa6df6a6208d43dfb5a3faa7cb9af6ff0e83566054599396b04f15d03e3b6b8ebabaecd1
@@ -3054,6 +3054,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@hsl-fi/error-view@npm:^0.1.3":
+  version: 0.1.3
+  resolution: "@hsl-fi/error-view@npm:0.1.3"
+  dependencies:
+    "@hsl-fi/button": ^1.2.4
+    "@hsl-fi/container-spinner": ^0.3.2
+    "@hsl-fi/content-delivery-api-types": ^1.0.1
+  checksum: b512a55dcb9c23b2b45cce1a4cd271847ee252886d494aca41d95f1b49ce2357b11bad8c79691ebe4b683b437efb9bbb1309bc1c15954db06c787936282bc456
+  languageName: node
+  linkType: hard
+
 "@hsl-fi/hooks@npm:1.2.3":
   version: 1.2.3
   resolution: "@hsl-fi/hooks@npm:1.2.3"
@@ -3061,22 +3072,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hsl-fi/hooks@npm:^1.2.0, @hsl-fi/hooks@npm:^1.2.3, @hsl-fi/hooks@npm:^1.2.4":
+"@hsl-fi/hooks@npm:^1.2.3, @hsl-fi/hooks@npm:^1.2.4":
   version: 1.2.4
   resolution: "@hsl-fi/hooks@npm:1.2.4"
   checksum: 7b92cb2705a0189d02cd79c5ebc35dee6a9713131bda461be8ba4e7621bdd2b68d2d06eef2b876a5ec7441f63dec294eff15c0f3b597a11f3115ea98b251db8b
-  languageName: node
-  linkType: hard
-
-"@hsl-fi/hsl-link@npm:1.0.0":
-  version: 1.0.0
-  resolution: "@hsl-fi/hsl-link@npm:1.0.0"
-  peerDependencies:
-    next: ^10.0.6
-  peerDependenciesMeta:
-    next:
-      optional: true
-  checksum: 782826da9f5baea581ee75874c32dbf3f18c830a1d17f3503f4e9d3128987c6fc3bc1f92ead79acb7723947d1b22c1b86a774ad61f712dbec76c076e3a1f9df3
   languageName: node
   linkType: hard
 
@@ -3099,7 +3098,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hsl-fi/icons@npm:^1.0.2, @hsl-fi/icons@npm:^1.0.3, @hsl-fi/icons@npm:^1.0.4, @hsl-fi/icons@npm:^1.0.6":
+"@hsl-fi/icons@npm:^1.0.2, @hsl-fi/icons@npm:^1.0.3, @hsl-fi/icons@npm:^1.0.6":
   version: 1.0.6
   resolution: "@hsl-fi/icons@npm:1.0.6"
   checksum: f011401af397404e550e31c2d855db4a41704d8232ae78af28ae74a944a00dedf86d57368305ea29e55edd5b2d8eb64e0a8a74aa73cd1fce01af28cf32888b46
@@ -3127,6 +3126,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@hsl-fi/sass@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "@hsl-fi/sass@npm:1.0.0"
+  peerDependencies:
+    sass: ^1.37.2
+  checksum: 406abefb5243d310abd3f3aeb33772c4e754a452def15849159ab755d5a2f9308d417047a6a94f2478c34bbd811f56117eb1a82746c3a2f31ab455e0d62f666a
+  languageName: node
+  linkType: hard
+
 "@hsl-fi/screen-reader-only@npm:^1.0.0":
   version: 1.0.0
   resolution: "@hsl-fi/screen-reader-only@npm:1.0.0"
@@ -3134,7 +3142,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hsl-fi/search-input@npm:^1.0.0":
+"@hsl-fi/search-input@npm:1.1.2":
   version: 1.1.2
   resolution: "@hsl-fi/search-input@npm:1.1.2"
   dependencies:
@@ -3161,26 +3169,28 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hsl-fi/site-header@npm:4.2.2":
-  version: 4.2.2
-  resolution: "@hsl-fi/site-header@npm:4.2.2"
+"@hsl-fi/site-header@npm:4.5.0":
+  version: 4.5.0
+  resolution: "@hsl-fi/site-header@npm:4.5.0"
   dependencies:
-    "@hsl-fi/animated-spinner": ^0.2.0
-    "@hsl-fi/button": ^1.2.3
-    "@hsl-fi/container-spinner": ^0.3.1
-    "@hsl-fi/content-delivery-api-types": ^0.1.5
-    "@hsl-fi/hooks": ^1.2.0
-    "@hsl-fi/hsl-link": 1.0.0
-    "@hsl-fi/icons": ^1.0.4
-    "@hsl-fi/sass": ^0.2.0
+    "@hsl-fi/animated-spinner": ^0.3.0
+    "@hsl-fi/button": ^1.2.4
+    "@hsl-fi/container-spinner": ^0.3.2
+    "@hsl-fi/content-delivery-api-types": ^1.0.1
+    "@hsl-fi/error-view": ^0.1.3
+    "@hsl-fi/hooks": ^1.2.4
+    "@hsl-fi/hsl-link": ^1.1.0
+    "@hsl-fi/icons": ^1.0.6
+    "@hsl-fi/sass": ^1.0.0
     "@hsl-fi/screen-reader-only": ^1.0.0
-    "@hsl-fi/search-input": ^1.0.0
+    "@hsl-fi/search-input": 1.1.2
     "@hsl-fi/shimmer": ^0.1.0
-    "@hsl-fi/traffic-announcements": ^1.1.1
-    "@hsl-fi/utilities": ^0.2.14
-    lodash: 4.17.21
+    "@hsl-fi/text-input-error": ^0.1.2
+    "@hsl-fi/traffic-announcements": ^1.1.2
+    "@hsl-fi/utilities": 0.3.2
+    lodash: ^4.17.21
     react-animate-height: ^2.0.21
-  checksum: bba797aefa0e72149e1dc44fef91dfd2dca7be4c65c61790497a39f16f44acec8153f1ae7d4eba7c15d26c4a919a65c32bb0faaefef2fb06dac9d2e69ab3108a
+  checksum: 810c8f89d5bee3414775d7ab19ce372fa4bbb85bb56638efcb2e5e30d4b8b37f5d5a35a089267eebebeb11eec9dd04145e96f92e3b7aa645c82ad923fb8323b0
   languageName: node
   linkType: hard
 
@@ -3228,7 +3238,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hsl-fi/traffic-announcements@npm:^1.1.1":
+"@hsl-fi/traffic-announcements@npm:^1.1.2":
   version: 1.1.2
   resolution: "@hsl-fi/traffic-announcements@npm:1.1.2"
   dependencies:
@@ -3241,7 +3251,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hsl-fi/utilities@npm:*, @hsl-fi/utilities@npm:^0.3.2":
+"@hsl-fi/utilities@npm:*, @hsl-fi/utilities@npm:0.3.2, @hsl-fi/utilities@npm:^0.3.2":
   version: 0.3.2
   resolution: "@hsl-fi/utilities@npm:0.3.2"
   dependencies:
@@ -3252,7 +3262,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hsl-fi/utilities@npm:^0.2.11, @hsl-fi/utilities@npm:^0.2.14":
+"@hsl-fi/utilities@npm:^0.2.11":
   version: 0.2.14
   resolution: "@hsl-fi/utilities@npm:0.2.14"
   dependencies:
@@ -10961,7 +10971,7 @@ __metadata:
     "@hsl-fi/sass": " ^0.2.0"
     "@hsl-fi/shared-local-storage": 0.4.0
     "@hsl-fi/shimmer": 0.1.2
-    "@hsl-fi/site-header": 4.2.2
+    "@hsl-fi/site-header": 4.5.0
     "@lerna/batch-packages": 3.16.0
     "@lerna/filter-packages": 3.18.0
     "@lerna/project": 3.21.0
