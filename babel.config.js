@@ -3,7 +3,6 @@ module.exports = {
     [
       '@babel/preset-env',
       {
-        debug: true,
         targets: {
           node: 'current',
           browsers: [],

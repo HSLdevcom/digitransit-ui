@@ -13,7 +13,6 @@ module.exports = function (api) {
     [
       '@babel/preset-env',
       {
-        debug: true,
         bugfixes: true,
         modules: 'auto',
       },

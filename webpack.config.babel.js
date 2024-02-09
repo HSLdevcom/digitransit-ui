@@ -184,7 +184,6 @@ module.exports = {
             [
               '@babel/preset-env',
               {
-                debug: true,
                 modules: false,
               },
             ],
