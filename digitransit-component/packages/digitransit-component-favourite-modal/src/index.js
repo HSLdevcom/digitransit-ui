@@ -103,7 +103,7 @@ FavouriteIconTable.propTypes = {
 };
 
 FavouriteIconTable.defaultProps = {
-  selectedIconId: undefined,
+  selectedIconId: '',
 };
 
 /**

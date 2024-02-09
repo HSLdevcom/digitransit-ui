@@ -133,7 +133,7 @@ const StopPageMap = (
       </SelectedStopPopup>,
     );
     if (config.useCookiesPrompt) {
-      children.push(<CookieSettingsButton />);
+      children.push(<CookieSettingsButton key="cookiesettings" />);
     }
   } else {
     children.push(

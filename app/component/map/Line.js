@@ -19,7 +19,12 @@ export default class Line extends React.Component {
     passive: PropTypes.bool,
     color: PropTypes.string,
     mode: PropTypes.string.isRequired,
-    geometry: PropTypes.arrayOf(PropTypes.object).isRequired,
+    geometry: PropTypes.arrayOf(
+      PropTypes.oneOfType([
+        PropTypes.object,
+        PropTypes.arrayOf(PropTypes.number),
+      ]),
+    ).isRequired,
   };
 
   static contextTypes = {
