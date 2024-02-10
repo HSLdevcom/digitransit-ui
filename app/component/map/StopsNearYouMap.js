@@ -495,7 +495,7 @@ StopsNearYouMap.propTypes = {
       edges: PropTypes.arrayOf(PropTypes.object).isRequired,
     }).isRequired,
   }),
-  prioritizedStopsNearYou: PropTypes.array,
+  prioritizedStopsNearYou: PropTypes.arrayOf(PropTypes.object),
   favouriteIds: PropTypes.object,
   mapLayers: PropTypes.object.isRequired,
   mapLayerOptions: mapLayerOptionsShape,

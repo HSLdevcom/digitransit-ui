@@ -109,7 +109,7 @@ function ItineraryPageMap(
 
 ItineraryPageMap.propTypes = {
   itineraries: PropTypes.arrayOf(PropTypes.object).isRequired,
-  topics: PropTypes.array,
+  topics: PropTypes.arrayOf(PropTypes.object),
   active: PropTypes.number.isRequired,
   showActive: PropTypes.bool,
   breakpoint: PropTypes.string.isRequired,
