@@ -145,9 +145,10 @@ OICStrategy.prototype.refresh = function (req) {
     })
     .catch(err => {
       console.error('Error refreshing tokens', err);
-      req.logout();
-      req.session.destroy();
-      this.fail(err);
+      req.logout({}, () => {
+        req.session.destroy();
+        this.fail(err);
+      });
     });
 };
 OICStrategy.prototype.createAuthUrl = function (redirectUri, lang, ssoToken) {
