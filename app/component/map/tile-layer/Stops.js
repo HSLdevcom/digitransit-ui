@@ -111,7 +111,11 @@ class Stops {
     }
   }
 
-  stopsToShowCheck(feature) {
+  stopsToShowCheck(feature, isStation) {
+    const feedid = feature.properties.gtfsId.split(':')[0];
+    if (!isStation && !this.config.feedIds.includes(feedid)) {
+      return false;
+    }
     if (this.tile.stopsToShow) {
       return this.tile.stopsToShow.includes(feature.properties.gtfsId);
     }
@@ -213,7 +217,7 @@ class Stops {
                     }
                   }
                 }
-                if (this.stopsToShowCheck(f)) {
+                if (this.stopsToShowCheck(f, false)) {
                   this.features.push(f);
                 }
               }
@@ -257,7 +261,7 @@ class Stops {
                   this.mapLayers,
                   isHybridStation,
                 ) &&
-                this.stopsToShowCheck(feature)
+                this.stopsToShowCheck(feature, true)
               ) {
                 [[feature.geom]] = feature.loadGeometry();
                 const isHilighted =

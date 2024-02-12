@@ -38,8 +38,16 @@ const expressStaticGzip = require('express-static-gzip');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const logger = require('morgan');
+const { getJson } = require('../app/util/xhrPromise');
 const { retryFetch } = require('../app/util/fetchUtils');
-const config = require('../app/config').getConfiguration();
+const configTools = require('../app/config');
+
+const config = configTools.getConfiguration();
+
+const appRoot = `${process.cwd()}/`;
+const configsDir = path.join(appRoot, 'app', 'configurations');
+const configFiles = fs.readdirSync(configsDir);
+let allZones;
 
 /* ********* Global ********* */
 const port = config.PORT || 8080;
@@ -295,6 +303,65 @@ function setUpAvailableTickets() {
   });
 }
 
+function getZoneUrl(json) {
+  const zoneLayer = json.layers.find(
+    layer => layer.name.fi === 'Vyöhykkeet' || layer.name.en === 'Zones',
+  );
+  if (zoneLayer && !allZones) {
+    // use a geoJson source to initialize combined zone data
+    allZones = zoneLayer;
+  }
+  return zoneLayer?.url;
+}
+
+async function fetchGeoJsonConfig(url) {
+  const response = await getJson(url);
+  return response.geoJson || response.geojson;
+}
+
+function collectGeoJsonZones() {
+  if (!process.env.ASSEMBLE_GEOJSON) {
+    return Promise.resolve();
+  }
+  return new Promise(mainResolve => {
+    const promises = [];
+    configFiles.forEach(file => {
+      if (file.startsWith('config')) {
+        // eslint-disable-next-line import/no-dynamic-require
+        const conf = require(`${configsDir}/${file}`);
+        const { geoJson } = conf.default;
+        if (geoJson) {
+          if (geoJson.layerConfigUrl) {
+            promises.push(
+              new Promise(resolve => {
+                fetchGeoJsonConfig(geoJson.layerConfigUrl).then(data => {
+                  resolve(getZoneUrl(data));
+                });
+              }),
+            );
+          } else {
+            promises.push(
+              new Promise(resolve => {
+                resolve(getZoneUrl(geoJson));
+              }),
+            );
+          }
+        }
+      }
+    });
+
+    Promise.all(promises).then(urls => {
+      if (allZones) {
+        // valid zone data was found
+        allZones.url = urls.filter(url => !!url); // drop invalid
+        console.log(`Assembled ${allZones.url.length} geoJson zones`);
+        configTools.setAssembledZones(allZones);
+      }
+      mainResolve();
+    });
+  });
+}
+
 function startServer() {
   const server = app.listen(port, () =>
     console.log('Digitransit-ui available on port %d', server.address().port),
@@ -310,8 +377,10 @@ setUpStaticFolders();
 setUpMiddleware();
 setUpRoutes();
 setUpErrorHandling();
-Promise.all([setUpAvailableRouteTimetables(), setUpAvailableTickets()]).then(
-  () => startServer(),
-);
+Promise.all([
+  setUpAvailableRouteTimetables(),
+  setUpAvailableTickets(),
+  collectGeoJsonZones(),
+]).then(startServer);
 
 module.exports.app = app;

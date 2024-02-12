@@ -184,8 +184,6 @@ module.exports = {
             [
               '@babel/preset-env',
               {
-                // loose is needed by older Androids < 4.3 and IE10
-                loose: true,
                 modules: false,
               },
             ],
@@ -205,8 +203,8 @@ module.exports = {
               },
             ],
             '@babel/plugin-syntax-dynamic-import',
-            ['@babel/plugin-proposal-class-properties', { loose: true }],
-            '@babel/plugin-proposal-json-strings',
+            '@babel/plugin-transform-class-properties',
+            '@babel/plugin-transform-json-strings',
           ],
         },
       },
@@ -332,14 +330,19 @@ module.exports = {
     'fbjs/lib/Map': 'var Map',
   },
   devServer: {
-    publicPath: '/',
-    noInfo: true,
     compress: true,
     host: '0.0.0.0',
+    hot: false,
     port: process.env.HOT_LOAD_PORT || 9000,
+    devMiddleware: {
+      publicPath: '/',
+    },
+    static: false,
     headers: {
       'Access-Control-Allow-Origin': '*',
     },
-    overlay: true,
+    client: {
+      overlay: true,
+    },
   },
 };

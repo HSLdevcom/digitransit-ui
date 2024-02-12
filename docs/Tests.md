@@ -40,12 +40,3 @@ Using the continuous watch mode
 
 ```sh
 yarn run test-unit -- --watch
-```
-
-Generate code coverage report
-
-```sh
-yarn run test-coverage
-```
-
-Report is generated using nyc/Istanbul (config file `.nycrc.json`). HTML report is generated into `coverage` directory.

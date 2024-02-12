@@ -1295,6 +1295,7 @@ const translations = {
     'no-bike-allowed-popup-tram-bus':
       'Bicycles are not allowed on buses or trams. If you are using these vehicles on your route, leave the bicycle at the stop or at a Park-and-Ride. ',
     'no-departures': 'No departures',
+    'no-more-route-msg': 'No additional itineraries were found',
     'no-position': 'No location',
     'no-position-no-stops':
       'Your location is not available. We are unable to show the closest stops.',
@@ -1563,7 +1564,7 @@ const translations = {
       'Show driving route. Duration {duration}, distance {length}',
     'street-mode-car_park': 'Park & ride',
     'street-mode-parkandride-aria':
-      'Show park and ride route. Duration {duration}, distance {length}',
+      'Show park and ride route. Duration {duration}, driving distance {length}',
     'street-mode-public_transport': 'Public transport',
     'street-mode-walk': 'Walking',
     'street-mode-walk-aria':
@@ -2468,6 +2469,7 @@ const translations = {
     'no-bike-allowed-popup-tram-bus':
       'Pyörää ei voi ottaa bussiin tai raitiovaunuun. Jos käytät reitilläsi näitä kulkuvälineitä, jätä pyörä pysäkille tai liityntäpysäköintiin.',
     'no-departures': 'Ei lähteviä vuoroja',
+    'no-more-route-msg': 'Lisäehdotuksia ei löytynyt',
     'no-position': 'Ei sijaintia',
     'no-position-no-stops':
       'Sijaintisi ei ole tiedossa, joten emme voi näyttää lähimpiä pysäkkejä.',
@@ -2735,7 +2737,7 @@ const translations = {
       'Näytä ajoreitti. Kesto {duration}, pituus {length}',
     'street-mode-car_park': 'Liityntä\u00ADpysäköinti',
     'street-mode-parkandride-aria':
-      'Näytä liityntäpysäköintireitti. Kesto {duration}, pituus {length}',
+      'Näytä liityntäpysäköintireitti. Kesto {duration}, autoilun pituus {length}',
     'street-mode-public_transport': 'Julkinen liikenne',
     'street-mode-walk': 'Kävely',
     'street-mode-walk-aria':
@@ -4419,6 +4421,7 @@ const translations = {
     'no-bike-allowed-popup-tram-bus':
       'Cyklar är inte tillåtna i bussar eller spårvagnar. Om du använder dessa fordon på din färd, lämna cykeln vid hållplatsen eller vid infartsparkeringen.',
     'no-departures': 'Inga avgående resor',
+    'no-more-route-msg': 'Kunde tyvärr inte hitta mer ruttalternativ',
     'no-position': 'Ingen position',
     'no-position-no-stops':
       'De närmaste hållplatserna kan inte visas, eftersom din position inte är känd.',

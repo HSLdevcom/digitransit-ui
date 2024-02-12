@@ -58,7 +58,7 @@ export function getWeatherData(baseURL, time, lat, lon) {
     .then(str => {
       const options = {
         ignoreAttributes: true,
-        ignoreNameSpace: true,
+        removeNSPrefix: true,
       };
       return xmlParser.parse(str, options);
     })

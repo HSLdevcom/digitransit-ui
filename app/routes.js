@@ -5,12 +5,10 @@ import Route from 'found/Route';
 import Redirect from 'found/Redirect';
 import queryMiddleware from 'farce/queryMiddleware';
 import createRender from 'found/createRender';
-
 import Error404 from './component/404';
 import TopLevel from './component/TopLevel';
-
 import { prepareWeekDays } from './util/dateParamUtils';
-
+import { isBrowser } from './util/browser';
 import {
   PREFIX_ITINERARY_SUMMARY,
   PREFIX_NEARYOU,
@@ -76,6 +74,26 @@ export default config => {
       />
     ),
   };
+
+  const itineraryPageGeolocatorProps = {
+    getComponent: () =>
+      import(/* webpackChunkName: "itinerary" */ './component/Geolocator').then(
+        getDefault,
+      ),
+    render: ({ Component, props }) => {
+      if (Component) {
+        return (
+          <Component
+            {...props}
+            createReturnPath={createReturnPath}
+            path={PREFIX_ITINERARY_SUMMARY}
+          />
+        );
+      }
+      return undefined;
+    },
+  };
+
   return (
     <Route Component={TopLevel}>
       {getStopRoutes()}
@@ -283,83 +301,19 @@ export default config => {
       />
       <Route
         path={`/${PREFIX_ITINERARY_SUMMARY}/POS/:to`}
-        getComponent={() =>
-          import(
-            /* webpackChunkName: "itinerary" */ './component/Geolocator'
-          ).then(getDefault)
-        }
-        render={({ Component, props }) => {
-          if (Component) {
-            return (
-              <Component
-                {...props}
-                createReturnPath={createReturnPath}
-                path={PREFIX_ITINERARY_SUMMARY}
-              />
-            );
-          }
-          return undefined;
-        }}
+        {...itineraryPageGeolocatorProps}
       />
       <Route
         path={`/${PREFIX_ITINERARY_SUMMARY}/POS/:to/:hash`}
-        getComponent={() =>
-          import(
-            /* webpackChunkName: "itinerary" */ './component/Geolocator'
-          ).then(getDefault)
-        }
-        render={({ Component, props }) => {
-          if (Component) {
-            return (
-              <Component
-                {...props}
-                createReturnPath={createReturnPath}
-                path={PREFIX_ITINERARY_SUMMARY}
-              />
-            );
-          }
-          return undefined;
-        }}
+        {...itineraryPageGeolocatorProps}
       />
       <Route
         path={`/${PREFIX_ITINERARY_SUMMARY}/:from/POS`}
-        getComponent={() =>
-          import(
-            /* webpackChunkName: "itinerary" */ './component/Geolocator'
-          ).then(getDefault)
-        }
-        render={({ Component, props }) => {
-          if (Component) {
-            return (
-              <Component
-                {...props}
-                createReturnPath={createReturnPath}
-                path={PREFIX_ITINERARY_SUMMARY}
-              />
-            );
-          }
-          return undefined;
-        }}
+        {...itineraryPageGeolocatorProps}
       />
       <Route
         path={`/${PREFIX_ITINERARY_SUMMARY}/:from/POS/:hash`}
-        getComponent={() =>
-          import(
-            /* webpackChunkName: "itinerary" */ './component/Geolocator'
-          ).then(getDefault)
-        }
-        render={({ Component, props }) => {
-          if (Component) {
-            return (
-              <Component
-                {...props}
-                createReturnPath={createReturnPath}
-                path={PREFIX_ITINERARY_SUMMARY}
-              />
-            );
-          }
-          return undefined;
-        }}
+        {...itineraryPageGeolocatorProps}
       />
       <Route path={`/${PREFIX_ITINERARY_SUMMARY}/:from/:to`}>
         {{
@@ -376,9 +330,13 @@ export default config => {
           content: (
             <Route
               getComponent={() =>
-                import(
-                  /* webpackChunkName: "itinerary" */ './component/ItineraryPageContainer'
-                ).then(getDefault)
+                isBrowser
+                  ? import(
+                      /* webpackChunkName: "itinerary" */ './component/ItineraryPageContainer'
+                    ).then(getDefault)
+                  : import(
+                      /* webpackChunkName: "loading" */ './component/Loading'
+                    ).then(getDefault)
               }
               render={({ Component, props }) => {
                 if (Component) {

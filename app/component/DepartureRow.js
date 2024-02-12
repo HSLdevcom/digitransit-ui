@@ -86,15 +86,16 @@ const DepartureRow = (
       { minutes: timeDiffInMinutes },
     );
   }
-  let { shortName } = departure.trip.route;
-  if (shortName?.length > 6 || !shortName?.length) {
-    shortName = (
+  const { shortName } = departure.trip.route;
+  const nameOrIcon =
+    shortName?.length > 6 || !shortName?.length ? (
       <Icon
         className={mode.toLowerCase()}
         img={`icon-icon_${mode.toLowerCase()}`}
       />
+    ) : (
+      shortName
     );
-  }
 
   const renderWithLink = (node, first) => {
     return (
@@ -155,7 +156,7 @@ const DepartureRow = (
         {renderWithLink(
           <>
             <div aria-hidden="true" className="route-number">
-              {shortName}
+              {nameOrIcon}
             </div>
             <span className="sr-only">{shortName?.toLowerCase()}</span>
             {icon && (

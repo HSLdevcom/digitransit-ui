@@ -1,21 +1,16 @@
 /* eslint-disable camelcase */
 import PropTypes from 'prop-types';
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, lazy, Suspense } from 'react';
 import { intlShape } from 'react-intl';
 import { matchShape } from 'found';
 import { Helmet } from 'react-helmet';
-import LazilyLoad, { importLazy } from './LazilyLoad';
 import { clearOldSearches, clearFutureRoutes } from '../util/storeUtils';
 import { getJson } from '../util/xhrPromise';
 
-const headerModules = {
-  SiteHeader: () => importLazy(import('@hsl-fi/site-header')),
-};
-
-const emitterModules = {
-  SharedLocalStorageObserver: () =>
-    importLazy(import('@hsl-fi/shared-local-storage')),
-};
+const SiteHeader = lazy(() => import('@hsl-fi/site-header'));
+const SharedLocalStorageObserver = lazy(
+  () => import('@hsl-fi/shared-local-storage'),
+);
 
 const clearStorages = context => {
   clearOldSearches(context);
@@ -127,30 +122,24 @@ const AppBarHsl = ({ lang, user, favourites }, context) => {
         </Helmet>
       )}
 
-      <LazilyLoad modules={headerModules}>
-        {({ SiteHeader }) => (
-          <SiteHeader
-            ref={siteHeaderRef}
-            hslFiUrl={config.URL.ROOTLINK}
-            lang={lang}
-            {...userMenu}
-            languageMenu={languages}
-            banners={banners}
-            suggestionsApiUrl={config.URL.HSL_FI_SUGGESTIONS}
-            notificationApiUrls={notificationApiUrls}
+      <Suspense fallback="">
+        <SiteHeader
+          ref={siteHeaderRef}
+          hslFiUrl={config.URL.ROOTLINK}
+          lang={lang}
+          {...userMenu}
+          languageMenu={languages}
+          banners={banners}
+          suggestionsApiUrl={config.URL.HSL_FI_SUGGESTIONS}
+          notificationApiUrls={notificationApiUrls}
+        />
+        {config.localStorageEmitter && (
+          <SharedLocalStorageObserver
+            keys={['saved-searches', 'favouriteStore']}
+            url={config.localStorageEmitter}
           />
         )}
-      </LazilyLoad>
-      {config.localStorageEmitter && (
-        <LazilyLoad modules={emitterModules}>
-          {({ SharedLocalStorageObserver }) => (
-            <SharedLocalStorageObserver
-              keys={['saved-searches', 'favouriteStore']}
-              url={config.localStorageEmitter}
-            />
-          )}
-        </LazilyLoad>
-      )}
+      </Suspense>
     </>
   );
 };

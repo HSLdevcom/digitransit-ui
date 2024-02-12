@@ -164,6 +164,11 @@ export default configMerger(walttiConfig, {
   showTicketInformation: true,
   useTicketIcons: true,
   ticketLink: 'https://linkki.jyvaskyla.fi/liput-ja-hinnat',
+  showTicketPrice: true,
+
+  ticketPurchaseLink: function purchaseTicketLink(ticket) {
+    return `https://linkki.jyvaskyla.fi/liput-ja-hinnat?ticket=${ticket}`;
+  },
 
   // mapping fareId from OTP fare identifiers to human readable form
   fareMapping: function mapFareId(fareId) {
