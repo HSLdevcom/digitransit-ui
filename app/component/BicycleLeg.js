@@ -108,7 +108,7 @@ function BicycleLeg(
       <ItineraryCircleLine index={index} modeClassName={modeClassName} />
     );
   }
-  const fromStop = () => leg?.from.stop || bicycleWalkLeg?.from.stop;
+  const fromStop = leg?.from.stop || bicycleWalkLeg?.from.stop;
   const getToMode = () => {
     if (leg.to.bikePark) {
       return 'bike-park';
@@ -163,14 +163,14 @@ function BicycleLeg(
           <div className={cx('itinerary-leg-first-row', 'bicycle', 'first')}>
             <div className="address-container">
               <div className="address">
-                {fromStop() ? (
+                {fromStop ? (
                   <Link
                     onClick={e => {
                       e.stopPropagation();
                     }}
-                    to={`/${PREFIX_STOPS}/${bicycleWalkLeg.from.stop.gtfsId}`}
+                    to={`/${PREFIX_STOPS}/${fromStop.gtfsId}`}
                   >
-                    {bicycleWalkLeg.from.name}
+                    {origin}
                     <Icon
                       img="icon-icon_arrow-collapse--right"
                       className="itinerary-arrow-icon"
