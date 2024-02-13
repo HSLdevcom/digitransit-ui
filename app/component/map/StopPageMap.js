@@ -17,7 +17,7 @@ import { dtLocationShape, mapLayerOptionsShape } from '../../util/shapes';
 import withBreakpoint from '../../util/withBreakpoint';
 import VehicleMarkerContainer from './VehicleMarkerContainer';
 import BackButton from '../BackButton';
-import { addressToItinerarySearch } from '../../util/otpStrings';
+import { locationToUri } from '../../util/otpStrings';
 import ItineraryLine from './ItineraryLine';
 import Loading from '../Loading';
 import { getMapLayerOptions } from '../../util/mapLayerUtils';
@@ -40,10 +40,10 @@ const getModeFromProps = props => {
   return 'stop';
 };
 
-const StopPageMap = (
+function StopPageMap(
   { stop, breakpoint, currentTime, locationState, mapLayers, mapLayerOptions },
   { config, match },
-) => {
+) {
   if (!stop) {
     return false;
   }
@@ -64,8 +64,8 @@ const StopPageMap = (
           };
           const settings = getSettings(config);
           const variables = {
-            fromPlace: addressToItinerarySearch(locationState),
-            toPlace: addressToItinerarySearch(toPlace),
+            fromPlace: locationToUri(locationState),
+            toPlace: locationToUri(toPlace),
             date: moment(currentTime * 1000).format('YYYY-MM-DD'),
             time: moment(currentTime * 1000).format('HH:mm:ss'),
             walkSpeed: settings.walkSpeed,
@@ -196,7 +196,7 @@ const StopPageMap = (
       {children}
     </MapWithTracking>
   );
-};
+}
 
 StopPageMap.contextTypes = {
   config: PropTypes.object.isRequired,

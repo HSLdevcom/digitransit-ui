@@ -252,9 +252,9 @@ class ItineraryPage extends React.Component {
     }
     this.setState({ loadingAlt: ALT_LOADING_STATES.LOADING });
 
-    const getParams = getPlanParams(this.context.config, this.props.match);
+    const planParams = getPlanParams(this.context.config, this.props.match);
 
-    fetchQuery(this.props.relayEnvironment, alternativeQuery, getParams)
+    fetchQuery(this.props.relayEnvironment, alternativeQuery, planParams)
       .toPromise()
       .then(result => {
         // filter plain walking / biking away
@@ -320,12 +320,12 @@ class ItineraryPage extends React.Component {
     }
     this.setState({ loadingRelaxed: true });
 
-    const getParams = getPlanParams(
+    const planParams = getPlanParams(
       this.context.config,
       this.props.match,
       true,
     );
-    fetchQuery(this.props.relayEnvironment, moreQuery, getParams, {
+    fetchQuery(this.props.relayEnvironment, moreQuery, planParams, {
       force: true,
     })
       .toPromise()
@@ -938,7 +938,7 @@ class ItineraryPage extends React.Component {
       return;
     }
 
-    const getParams = getPlanParams(this.context.config, this.props.match);
+    const planParams = getPlanParams(this.context.config, this.props.match);
     this.setState(
       {
         earlierItineraries: [],
@@ -949,7 +949,7 @@ class ItineraryPage extends React.Component {
         loading: true,
       },
       () => {
-        this.props.relay.refetch(getParams, null, () => {
+        this.props.relay.refetch(planParams, null, () => {
           this.showScreenReaderAlert('itinerary-page.itineraries-updated');
           this.resetItineraryPageSelection();
         });

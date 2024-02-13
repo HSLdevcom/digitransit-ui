@@ -18,7 +18,7 @@ import {
   getStopRoutePath,
   parseLocation,
   sameLocations,
-  isItinerarySearchObjects,
+  definesItinerarySearch,
   PREFIX_NEARYOU,
   PREFIX_ITINERARY_SUMMARY,
 } from '../util/path';
@@ -129,7 +129,7 @@ class IndexPage extends React.Component {
     const { router, match, config } = this.context;
     const { location } = match;
 
-    if (isItinerarySearchObjects(origin, destination)) {
+    if (definesItinerarySearch(origin, destination)) {
       const newLocation = {
         ...location,
         pathname: getPathWithEndpointObjects(

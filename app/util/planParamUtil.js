@@ -7,7 +7,11 @@ import {
   getBicycleCompatibleModes,
   isTransportModeAvailable,
 } from './modeUtils';
-import { otpToLocation, getIntermediatePlaces } from './otpStrings';
+import {
+  otpToLocation,
+  getIntermediatePlaces,
+  placeOrStop,
+} from './otpStrings';
 import { getDefaultNetworks } from './vehicleRentalUtils';
 import { getCustomizedSettings } from '../store/localStorage';
 import { estimateItineraryDistance } from './geo-utils';
@@ -108,7 +112,7 @@ export function hasStartAndDestination({ from, to }) {
   return from && to && from !== '-' && to !== '-';
 }
 
-export const getPlanParams = (
+export function getPlanParams(
   config,
   {
     params: { from, to },
@@ -117,7 +121,7 @@ export const getPlanParams = (
     },
   },
   relaxSettings,
-) => {
+) {
   const defaultSettings = getDefaultSettings(config);
   const settings = getSettings(config);
   const fromLocation = otpToLocation(from);
@@ -152,14 +156,15 @@ export const getPlanParams = (
     ? defaultSettings.walkBoardCost
     : settings.walkBoardCost;
 
+  const fromPlace = placeOrStop(from);
+  const toPlace = placeOrStop(to);
+
   return {
     ...settings,
     ...omitBy(
       {
-        fromPlace: from,
-        toPlace: to,
-        from: fromLocation,
-        to: toLocation,
+        fromPlace,
+        toPlace,
         minTransferTime: config.minTransferTime,
         optimize: config.optimize,
       },
@@ -209,4 +214,4 @@ export const getPlanParams = (
     ],
     parkRideModes: [{ mode: 'CAR', qualifier: 'PARK' }, ...modesWithoutRent],
   };
-};
+}
