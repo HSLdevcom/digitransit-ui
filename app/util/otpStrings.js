@@ -62,9 +62,7 @@ export function locationToUri(location) {
   if (location.gtfsId) {
     address = `${address}**${location.gtfsId}`;
   }
-  const locStr = `${address}::${location.lat},${location.lon}`;
-
-  return encodeURIComponent(locStr);
+  return `${encodeURIComponent(address)}::${location.lat},${location.lon}`;
 }
 
 export function locationToOTP(location) {
