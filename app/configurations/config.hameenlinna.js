@@ -41,6 +41,7 @@ export default configMerger(walttiConfig, {
   feedIds: ['Hameenlinna'],
 
   geoJson: {
+    noZoneSharing: true,
     layers: [
       {
         name: {

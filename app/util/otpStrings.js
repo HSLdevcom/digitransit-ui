@@ -5,7 +5,7 @@ import trim from 'lodash/trim';
 // Convert between location objects (address, lat, lon)
 // and string format OpenTripPlanner uses in many places
 
-export const parseLatLon = coords => {
+export function parseLatLon(coords) {
   const latlon = coords.split(',');
   if (latlon.length === 2) {
     const lat = parseFloat(latlon[0]);
@@ -18,29 +18,37 @@ export const parseLatLon = coords => {
     }
   }
   return undefined;
-};
+}
 
-export const otpToLocation = otpString => {
-  const [address, coords, slack] = otpString.split('::');
-  const location = {
-    address,
-  };
+export function otpToLocation(otpString) {
+  const [addressParts, coords, slack] = otpString.split('::');
+  const [address, gtfsId] = addressParts.split('**');
+  const location = { address, gtfsId };
+
   if (slack) {
     const parsedSlack = parseInt(slack, 10);
     if (!Number.isNaN(parsedSlack)) {
       location.locationSlack = parsedSlack;
     }
   }
+
   if (coords) {
     return {
       ...location,
       ...parseLatLon(coords),
     };
   }
-  return location;
-};
 
-export const addressToItinerarySearch = location => {
+  return location;
+}
+
+// return gtfsId if included in string description, otherwise original string
+export function placeOrStop(str) {
+  const loc = otpToLocation(str);
+  return loc.gtfsId || str;
+}
+
+export function locationToUri(location) {
   if (
     location.type === 'CurrentLocation' &&
     location.status === 'no-location'
@@ -50,12 +58,14 @@ export const addressToItinerarySearch = location => {
   if (!location.lat) {
     return '-';
   }
-  const address = location.address || '';
-
+  let address = location.address || '';
+  if (location.gtfsId) {
+    address = `${address}**${location.gtfsId}`;
+  }
   return `${encodeURIComponent(address)}::${location.lat},${location.lon}`;
-};
+}
 
-export const locationToOTP = location => {
+export function locationToOTP(location) {
   if (location.lat) {
     const address = location.address || '';
     const slack = location.locationSlack ? `::${location.locationSlack}` : '';
@@ -65,9 +75,7 @@ export const locationToOTP = location => {
     return location.type;
   }
   return '-';
-};
-
-export const locationToCoords = location => [location.lat, location.lon];
+}
 
 /**
  * Extracts the location information from the intermediatePlaces
@@ -80,7 +88,7 @@ export const locationToCoords = location => [location.lat, location.lon];
  * @param {Query} query The query to extract the information from.
  * @returns an array of locations if available, or an empty array otherwise
  */
-export const getIntermediatePlaces = query => {
+export function getIntermediatePlaces(query) {
   if (!query) {
     return [];
   }
@@ -98,7 +106,7 @@ export const getIntermediatePlaces = query => {
     return [otpToLocation(intermediatePlaces)];
   }
   return [];
-};
+}
 
 /**
  * Splits the name-string to two parts from the first occurance of ', '

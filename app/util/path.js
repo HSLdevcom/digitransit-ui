@@ -2,11 +2,7 @@ import get from 'lodash/get';
 import trimEnd from 'lodash/trimEnd';
 import trimStart from 'lodash/trimStart';
 import toPairs from 'lodash/toPairs';
-import {
-  otpToLocation,
-  locationToOTP,
-  addressToItinerarySearch,
-} from './otpStrings';
+import { otpToLocation, locationToOTP, locationToUri } from './otpStrings';
 
 export const TAB_NEARBY = 'lahellasi';
 export const TAB_FAVOURITES = 'suosikit';
@@ -175,29 +171,19 @@ export const getStopRoutePath = searchObj => {
   return path.concat(id);
 };
 
-export const isItinerarySearchObjects = (origin, destination) => {
+export function definesItinerarySearch(origin, destination) {
   return get(origin, 'address') && get(destination, 'address');
-};
+}
 
 /**
  * use objects instead of strings If both are set it's itinerary search...
  */
-export const getPathWithEndpointObjects = (origin, destination, rootPath) => {
-  const r =
-    rootPath === PREFIX_ITINERARY_SUMMARY ||
-    isItinerarySearchObjects(origin, destination)
-      ? getItineraryPagePath(
-          addressToItinerarySearch(origin),
-          addressToItinerarySearch(destination),
-        )
-      : getIndexPath(
-          locationToOTP(origin),
-          locationToOTP(destination),
-          rootPath,
-        );
-
-  return r;
-};
+export function getPathWithEndpointObjects(origin, destination, rootPath) {
+  return rootPath === PREFIX_ITINERARY_SUMMARY ||
+    definesItinerarySearch(origin, destination)
+    ? getItineraryPagePath(locationToUri(origin), locationToUri(destination))
+    : getIndexPath(locationToOTP(origin), locationToOTP(destination), rootPath);
+}
 
 /**
  * Parses current location from string to location object
@@ -210,16 +196,11 @@ export const parseLocation = location => {
   if (location === 'POS') {
     return { type: 'CurrentLocation' };
   }
-  const parsed = otpToLocation(decodeURIComponent(location));
-
-  return parsed;
+  return otpToLocation(decodeURIComponent(location));
 };
 
 export const getHomeUrl = (origin, indexPath) => {
-  // TODO consider looking at destination too
-  const homeUrl = getPathWithEndpointObjects(origin, {}, indexPath);
-
-  return homeUrl;
+  return getPathWithEndpointObjects(origin, {}, indexPath);
 };
 
 export const streetHash = {

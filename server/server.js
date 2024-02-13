@@ -304,9 +304,11 @@ function setUpAvailableTickets() {
 }
 
 function getZoneUrl(json) {
-  const zoneLayer = json.layers.find(
-    layer => layer.name.fi === 'Vyöhykkeet' || layer.name.en === 'Zones',
-  );
+  const zoneLayer =
+    !json.noZoneSharing &&
+    json.layers.find(
+      layer => layer.name.fi === 'Vyöhykkeet' || layer.name.en === 'Zones',
+    );
   if (zoneLayer && !allZones) {
     // use a geoJson source to initialize combined zone data
     allZones = zoneLayer;
