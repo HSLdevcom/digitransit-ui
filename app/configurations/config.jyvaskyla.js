@@ -167,7 +167,12 @@ export default configMerger(walttiConfig, {
   showTicketPrice: true,
 
   ticketPurchaseLink: function purchaseTicketLink(ticket) {
-    return `https://linkki.jyvaskyla.fi/liput-ja-hinnat?ticket=${ticket}`;
+    let zones = '';
+    // Waltti wants zone ids, so map A to 91, B to 02 etc
+    for (let i = 0; i < ticket.length; i++) {
+      zones += '0' + (ticket.charCodeAt(i) - 64);
+    }
+    return `https://waltti-deep-link.web.app/walttiappfeat/busTicket/?operator=50209&ticketType=single&customerGroup=adult&zones=${zones}`;
   },
 
   // mapping fareId from OTP fare identifiers to human readable form
