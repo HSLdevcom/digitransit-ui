@@ -161,7 +161,6 @@ export default configMerger(walttiConfig, {
     4: 'D',
   },
 
-  /*
   showTicketInformation: true,
   useTicketIcons: true,
   ticketLink: 'https://linkki.jyvaskyla.fi/liput-ja-hinnat',
@@ -171,12 +170,12 @@ export default configMerger(walttiConfig, {
     return `https://linkki.jyvaskyla.fi/liput-ja-hinnat?ticket=${ticket}`;
   },
 
+  // mapping fareId from OTP fare identifiers to human readable form
   fareMapping: function mapFareId(fareId) {
     return fareId && fareId.substring
       ? fareId.substring(fareId.indexOf(':') + 1)
       : '';
   },
-  */
 
   stopCard: {
     header: {
