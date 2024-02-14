@@ -15,7 +15,7 @@ import { PREFIX_STOPS } from '../util/path';
 class StopPageContent extends React.Component {
   static propTypes = {
     stop: PropTypes.shape({
-      stoptimes: PropTypes.array,
+      stoptimes: PropTypes.arrayOf(PropTypes.object),
     }).isRequired,
     relay: PropTypes.shape({
       refetch: PropTypes.func.isRequired,

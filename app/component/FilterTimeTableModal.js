@@ -15,7 +15,7 @@ class FilterTimeTableModal extends React.Component {
     stop: PropTypes.object,
     setRoutes: PropTypes.func,
     showFilterModal: PropTypes.func,
-    showRoutesList: PropTypes.array,
+    showRoutesList: PropTypes.arrayOf(PropTypes.string),
     breakpoint: PropTypes.string.isRequired,
   };
 

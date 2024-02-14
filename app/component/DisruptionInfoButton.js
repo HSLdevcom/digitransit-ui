@@ -16,14 +16,12 @@ function DisruptionInfoButton(props, { config }) {
           id="disruptions-and-diversions"
           defaultMessage="Disruptions and diversions"
         />
-        {props.viewer &&
-          props.viewer.alerts &&
-          props.viewer.alerts.length > 0 && (
-            <Icon
-              img="icon-icon_caution_white_exclamation"
-              className="disruption-info"
-            />
-          )}
+        {props.viewer?.alerts?.length > 0 && (
+          <Icon
+            img="icon-icon_caution_white_exclamation"
+            className="disruption-info"
+          />
+        )}
       </button>
     );
   }
@@ -33,7 +31,7 @@ function DisruptionInfoButton(props, { config }) {
 DisruptionInfoButton.propTypes = {
   openDisruptionInfo: PropTypes.func.isRequired,
   viewer: PropTypes.shape({
-    alerts: PropTypes.array,
+    alerts: PropTypes.arrayOf(PropTypes.shape({ id: PropTypes.string })),
   }),
 };
 

@@ -624,7 +624,7 @@ TransitLeg.propTypes = {
         code: PropTypes.string,
         platformCode: PropTypes.string,
         zoneId: PropTypes.string,
-        alerts: PropTypes.array,
+        alerts: PropTypes.arrayOf(PropTypes.object),
         gtfsId: PropTypes.string,
       }).isRequired,
       name: PropTypes.string.isRequired,
@@ -634,12 +634,12 @@ TransitLeg.propTypes = {
       gtfsId: PropTypes.string.isRequired,
       shortName: PropTypes.string,
       color: PropTypes.string,
-      alerts: PropTypes.array,
+      alerts: PropTypes.arrayOf(PropTypes.object),
     }).isRequired,
     to: PropTypes.shape({
       stop: PropTypes.shape({
         zoneId: PropTypes.string,
-        alerts: PropTypes.array,
+        alerts: PropTypes.arrayOf(PropTypes.object),
       }).isRequired,
       name: PropTypes.string.isRequired,
     }).isRequired,
@@ -673,7 +673,7 @@ TransitLeg.propTypes = {
       }),
     ).isRequired,
     interlineWithPreviousLeg: PropTypes.bool.isRequired,
-    nextLegs: PropTypes.array,
+    nextLegs: PropTypes.arrayOf(PropTypes.object),
   }).isRequired,
   interliningLegs: PropTypes.arrayOf(
     PropTypes.shape({

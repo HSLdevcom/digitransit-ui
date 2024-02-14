@@ -86,14 +86,14 @@ function StopsNearYouFavorites({
   );
 }
 StopsNearYouFavorites.propTypes = {
-  favoriteStops: PropTypes.array,
-  favoriteStations: PropTypes.array,
-  favoriteVehicleRentalStationIds: PropTypes.array,
+  favoriteStops: PropTypes.arrayOf(PropTypes.string),
+  favoriteStations: PropTypes.arrayOf(PropTypes.string),
+  favoriteVehicleRentalStationIds: PropTypes.arrayOf(PropTypes.string),
   relayEnvironment: PropTypes.object.isRequired,
   searchPosition: dtLocationShape.isRequired,
-  stops: PropTypes.array,
-  stations: PropTypes.array,
-  vehicleStations: PropTypes.array,
+  stops: PropTypes.arrayOf(PropTypes.object),
+  stations: PropTypes.arrayOf(PropTypes.object),
+  vehicleStations: PropTypes.arrayOf(PropTypes.object),
   breakpoint: PropTypes.string,
   noFavorites: PropTypes.bool,
   favouritesFetched: PropTypes.bool,
