@@ -11,6 +11,7 @@ import PlatformNumber from './PlatformNumber';
 import ServiceAlertIcon from './ServiceAlertIcon';
 import { getActiveAlertSeverityLevel } from '../util/alertUtils';
 import { PREFIX_STOPS } from '../util/path';
+import { AlertShape } from '../util/shapes';
 import {
   CityBikeNetworkType,
   getVehicleRentalStationNetworkConfig,
@@ -244,7 +245,7 @@ const walkLegShape = PropTypes.shape({
   from: PropTypes.shape({
     name: PropTypes.string.isRequired,
     stop: PropTypes.shape({
-      alerts: PropTypes.array,
+      alerts: PropTypes.arrayOf(AlertShape),
       code: PropTypes.string,
       gtfsId: PropTypes.string.isRequired,
       platformCode: PropTypes.string,
@@ -257,7 +258,7 @@ const walkLegShape = PropTypes.shape({
   to: PropTypes.shape({
     name: PropTypes.string.isRequired,
     stop: PropTypes.shape({
-      alerts: PropTypes.array,
+      alerts: PropTypes.arrayOf(AlertShape),
       code: PropTypes.string,
       gtfsId: PropTypes.string.isRequired,
       platformCode: PropTypes.string,
