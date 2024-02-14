@@ -122,8 +122,9 @@ class FilterTimeTableModal extends React.Component {
             <label
               htmlFor={`input-${o.code}`}
               className={
-                intersection(this.state.showRoutes, [o.code]).length > 0 &&
-                'checked'
+                intersection(this.state.showRoutes, [o.code]).length > 0
+                  ? 'checked'
+                  : ''
               }
             >
               {intersection(this.state.showRoutes, [o.code]).length > 0 && (
@@ -212,7 +213,7 @@ class FilterTimeTableModal extends React.Component {
             {/* eslint-disable jsx-a11y/label-has-associated-control */}
             <label
               htmlFor="input-all-routes"
-              className={this.state.allRoutes && 'checked'}
+              className={this.state.allRoutes ? 'checked' : ''}
             >
               {this.state.allRoutes ? (
                 <Icon

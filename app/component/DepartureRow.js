@@ -247,8 +247,8 @@ const DepartureRow = (
             onClick={() => onCapacityClick()}
           >
             <Icon
-              width="1.5"
-              height="1.5"
+              width={1.5}
+              height={1.5}
               img={`icon-icon_${capacity}`}
               color={config.colors.primary}
             />

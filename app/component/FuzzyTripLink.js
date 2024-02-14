@@ -137,7 +137,7 @@ FuzzyTripLink.propTypes = {
     pattern: PropTypes.shape({
       code: PropTypes.string,
     }),
-  }).isRequired,
+  }),
   vehicle: PropTypes.shape({
     mode: PropTypes.string.isRequired,
     route: PropTypes.string.isRequired,
@@ -149,6 +149,10 @@ FuzzyTripLink.propTypes = {
   }).isRequired,
   stopName: PropTypes.string.isRequired,
   nextStopName: PropTypes.string.isRequired,
+};
+
+FuzzyTripLink.defaultProps = {
+  trip: undefined,
 };
 
 FuzzyTripLink.contextTypes = {
