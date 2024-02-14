@@ -168,7 +168,7 @@ export default configMerger(walttiConfig, {
 
   ticketPurchaseLink: function purchaseTicketLink(ticket) {
     let zones = '';
-    // Waltti wants zone ids, so map A to 91, B to 02 etc
+    // Waltti wants zone ids, so map A to 01, B to 02 etc
     for (let i = 0; i < ticket.length; i++) {
       zones += '0' + (ticket.charCodeAt(i) - 64);
     }
