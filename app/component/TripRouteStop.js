@@ -78,7 +78,7 @@ const TripRouteStop = (props, { config }) => {
       vehicleState,
     };
     return (
-      <div className={cx('route-stop-now', vehicleState)}>
+      <div className={cx('route-stop-now', vehicleState)} key={vehicle.id}>
         {vehicle.tripId ? (
           <TripLink
             key={vehicle.id}
