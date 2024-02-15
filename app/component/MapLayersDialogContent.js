@@ -26,7 +26,10 @@ const mapLayersConfigShape = PropTypes.shape({
   geoJson: PropTypes.shape({
     layers: PropTypes.arrayOf(
       PropTypes.shape({
-        url: PropTypes.string.isRequired,
+        url: PropTypes.oneOfType([
+          PropTypes.string,
+          PropTypes.arrayOf(PropTypes.string),
+        ]).isRequired,
         name: PropTypes.shape({
           en: PropTypes.string,
           fi: PropTypes.string.isRequired,
