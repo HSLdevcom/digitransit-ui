@@ -4,14 +4,17 @@ import { FormattedMessage, intlShape } from 'react-intl';
 import { matchShape, routerShape } from 'found';
 import Modal from '@hsl-fi/modal';
 import Icon from './Icon';
-import { addressToItinerarySearch, locationToOTP } from '../util/otpStrings';
+import { locationToUri, locationToOTP } from '../util/otpStrings';
 import {
   getPathWithEndpointObjects,
   getItineraryPagePath,
   PREFIX_ITINERARY_SUMMARY,
 } from '../util/path';
 
-const MapRoutingButton = ({ stop }, { intl, router, match, config }) => {
+export default function MapRoutingButton(
+  { stop },
+  { intl, router, match, config },
+) {
   const [showModal, setShowModal] = useState(false);
   const [buttonText, setButtonText] = useState(null);
   useEffect(() => {
@@ -30,41 +33,40 @@ const MapRoutingButton = ({ stop }, { intl, router, match, config }) => {
   // Reset query parameters from timetablepage  that is not needed in summary page
   const locationWithoutQuery = { ...location, query: {}, search: '' };
   const onSelectLocation = (item, id) => {
-    // eslint-disable-next-line no-param-reassign
-    item = { ...item, address: item.name };
+    let newLocation;
+    const place = {
+      ...item,
+      address: item.name,
+      gtfsId: match.params.stopId || match.params.terminalId,
+    };
     if (id === 'origin') {
-      const newLocation = {
+      newLocation = {
         ...locationWithoutQuery,
         pathname: getPathWithEndpointObjects(
-          item,
+          place,
           {},
           PREFIX_ITINERARY_SUMMARY,
         ),
       };
-      router.push(newLocation);
     } else if (id === 'destination') {
-      const newLocation = {
+      newLocation = {
         ...locationWithoutQuery,
         pathname: getPathWithEndpointObjects(
           {},
-          item,
+          place,
           PREFIX_ITINERARY_SUMMARY,
         ),
       };
-      router.push(newLocation);
     } else {
-      const newLocation = {
+      newLocation = {
         ...location,
-        pathname: getItineraryPagePath(
-          addressToItinerarySearch({}),
-          addressToItinerarySearch({}),
-        ),
+        pathname: getItineraryPagePath(locationToUri({}), locationToUri({})),
         query: {
           intermediatePlaces: locationToOTP(item),
         },
       };
-      router.push(newLocation);
     }
+    router.push(newLocation);
   };
 
   return (
@@ -138,7 +140,7 @@ const MapRoutingButton = ({ stop }, { intl, router, match, config }) => {
       )}
     </>
   );
-};
+}
 
 MapRoutingButton.propTypes = {
   stop: PropTypes.object.isRequired,
@@ -153,5 +155,3 @@ MapRoutingButton.contextTypes = {
   router: routerShape.isRequired,
   match: matchShape.isRequired,
 };
-
-export default MapRoutingButton;

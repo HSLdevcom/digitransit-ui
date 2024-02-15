@@ -149,7 +149,7 @@ const DepartureRow = (
     >
       <td
         className={cx('route-number-container', {
-          long: shortName.length <= 6 && shortName.length >= 5,
+          long: shortName && shortName.length <= 6 && shortName.length >= 5,
         })}
         style={{ backgroundColor: `#${departure.trip.route.color}` }}
       >

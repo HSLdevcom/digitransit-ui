@@ -18,7 +18,7 @@ import {
   stopRealTimeClient,
   changeRealTimeClientTopics,
 } from '../../action/realTimeClientAction';
-import { addressToItinerarySearch } from '../../util/otpStrings';
+import { locationToUri } from '../../util/otpStrings';
 import {
   sortNearbyRentalStations,
   sortNearbyStops,
@@ -182,8 +182,8 @@ function StopsNearYouMap(
     };
     const settings = getSettings(context.config);
     const variables = {
-      fromPlace: addressToItinerarySearch(position),
-      toPlace: addressToItinerarySearch(toPlace),
+      fromPlace: locationToUri(position),
+      toPlace: locationToUri(toPlace),
       date: moment(currentTime * 1000).format('YYYY-MM-DD'),
       time: moment(currentTime * 1000).format('HH:mm:ss'),
       walkSpeed: settings.walkSpeed,

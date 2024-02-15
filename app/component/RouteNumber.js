@@ -10,12 +10,14 @@ const LONG_ROUTE_NUMBER_LENGTH = 6;
 
 function RouteNumber(props, context) {
   const mode = props.mode.toLowerCase();
-  const { alertSeverityLevel, color, withBicycle } = props;
-  const longText = props.text && props.text.length >= LONG_ROUTE_NUMBER_LENGTH;
+  const { alertSeverityLevel, color, withBicycle, text } = props;
+  const textIsText = typeof text === 'string'; // can be also react node
+  const longText =
+    text && textIsText && text.length >= LONG_ROUTE_NUMBER_LENGTH;
   // Checks if route only has letters without identifying numbers and
   // length doesn't fit in the tab view
   const hasNoShortName =
-    props.text && /^([^0-9]*)$/.test(props.text) && props.text.length > 3;
+    text && textIsText && /^([^0-9]*)$/.test(text) && text.length > 3;
   const getColor = () => color || (props.isTransitLeg ? 'currentColor' : null);
 
   const getIcon = (
@@ -122,7 +124,7 @@ function RouteNumber(props, context) {
             )}
           </div>
         )}
-        {props.text && (
+        {text && (
           <div
             className={cx(
               'vehicle-number-container-v'.concat(props.card ? '-map' : ''),
@@ -142,7 +144,9 @@ function RouteNumber(props, context) {
             >
               {props.text}
             </span>
-            <span className="sr-only">{props.text?.toLowerCase()}</span>
+            {textIsText && (
+              <span className="sr-only">{text?.toLowerCase()}</span>
+            )}
           </div>
         )}
         {!context.config?.hideWalkLegDurationSummary &&

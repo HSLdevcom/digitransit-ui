@@ -3,13 +3,13 @@ import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import StopPageMap from './map/StopPageMap';
 
-const StopPageMapContainer = ({ stop }) => {
+function StopPageMapContainer({ stop }) {
   if (!stop) {
     return false;
   }
 
   return <StopPageMap stop={stop} />;
-};
+}
 
 StopPageMapContainer.contextTypes = {
   config: PropTypes.object.isRequired,

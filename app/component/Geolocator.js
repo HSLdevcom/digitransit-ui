@@ -4,7 +4,7 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 import { startLocationWatch } from '../action/PositionActions';
 import Loading from './Loading';
 import { isBrowser } from '../util/browser';
-import { addressToItinerarySearch } from '../util/otpStrings';
+import { locationToUri } from '../util/otpStrings';
 
 const Geolocator = () => <Loading />;
 
@@ -17,7 +17,7 @@ const GeolocatorWithPosition = connectToStores(
     const { from, to, hash } = props.match.params;
 
     const redirect = () => {
-      const locationForUrl = addressToItinerarySearch(locationState);
+      const locationForUrl = locationToUri(locationState);
       const newFrom = from === undefined ? locationForUrl : from;
       let { save } = props.match.location.query;
       let newTo;

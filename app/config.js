@@ -21,7 +21,7 @@ if (defaultConfig.themeMap) {
 
 let allZones;
 export function setAssembledZones(zoneLayer) {
-  allZones = zoneLayer;
+  allZones = { ...zoneLayer };
 }
 
 function addMetaData(config) {
@@ -81,6 +81,13 @@ function addMetaData(config) {
   }
 }
 
+function mapGeoJsonPaths(url, config) {
+  const appPathPrefix = config.URL.ASSET_URL || '';
+  const mapUrl = u =>
+    u.startsWith('http') || u.startsWith('//') ? u : appPathPrefix + u;
+  return typeof url === 'string' ? mapUrl(url) : url.map(u => mapUrl(u));
+}
+
 export function getNamedConfiguration(configName) {
   if (!configs[configName]) {
     let additionalConfig;
@@ -126,13 +133,10 @@ export function getNamedConfiguration(configName) {
 
     addMetaData(config); // add dynamic metadata content
 
-    const appPathPrefix = config.URL.ASSET_URL || '';
-    if (config.geoJson && Array.isArray(config.geoJson.layers)) {
+    if (config.geoJson?.layers) {
       for (let i = 0; i < config.geoJson.layers.length; i++) {
         const layer = config.geoJson.layers[i];
-        if (layer.url.indexOf('http') !== 0) {
-          layer.url = appPathPrefix + layer.url;
-        }
+        layer.url = mapGeoJsonPaths(layer.url, config);
       }
     }
     configs[configName] = config;
@@ -140,14 +144,17 @@ export function getNamedConfiguration(configName) {
   // inject zone geoJson if necessary
   const conf = configs[configName];
   if (conf.useAssembledGeoJsonZones && allZones) {
-    const zoneLayer = {
-      ...allZones,
-      isOffByDefault: conf.useAssembledGeoJsonZones === 'isOffByDefault',
-    };
-    if (!conf.geoJson) {
-      conf.geoJson = { layers: [zoneLayer] };
-    } else {
-      conf.geoJson.layers.push(zoneLayer);
+    if (!conf.geoJson?.layers?.find(l => l.name === allZones.name)) {
+      const zoneLayer = {
+        ...allZones,
+        url: mapGeoJsonPaths(allZones.url, conf),
+        isOffByDefault: conf.useAssembledGeoJsonZones === 'isOffByDefault',
+      };
+      if (!conf.geoJson) {
+        conf.geoJson = { layers: [zoneLayer] };
+      } else {
+        conf.geoJson.layers.push(zoneLayer);
+      }
     }
   }
 
