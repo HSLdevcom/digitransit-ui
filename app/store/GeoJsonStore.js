@@ -87,7 +87,7 @@ class GeoJsonStore extends Store {
     let id;
     let urlArr;
     if (Array.isArray(url)) {
-      [id] = url;
+      id = `${url[0]}-array`;
       urlArr = url;
     } else {
       id = url;
