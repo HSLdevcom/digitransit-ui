@@ -83,7 +83,8 @@ function addMetaData(config) {
 
 function mapGeoJsonPaths(url, config) {
   const appPathPrefix = config.URL.ASSET_URL || '';
-  const mapUrl = u => (u.startsWith('http') ? u : appPathPrefix + u);
+  const mapUrl = u =>
+    u.startsWith('http') || u.startsWith('//') ? u : appPathPrefix + u;
   return typeof url === 'string' ? mapUrl(url) : url.map(u => mapUrl(u));
 }
 
