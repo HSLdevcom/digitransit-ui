@@ -34,6 +34,7 @@ import {
 } from '../util/legUtils';
 import { shouldShowFareInfo } from '../util/fareUtils';
 import { AlertEntityType, AlertSeverityLevelType } from '../constants';
+import { AlertShape } from '../util/shapes';
 import ZoneIcon from './ZoneIcon';
 import StopInfo from './StopInfo';
 import InterlineInfo from './InterlineInfo';
@@ -624,7 +625,7 @@ TransitLeg.propTypes = {
         code: PropTypes.string,
         platformCode: PropTypes.string,
         zoneId: PropTypes.string,
-        alerts: PropTypes.arrayOf(PropTypes.object),
+        alerts: PropTypes.arrayOf(AlertShape),
         gtfsId: PropTypes.string,
       }).isRequired,
       name: PropTypes.string.isRequired,
@@ -634,12 +635,12 @@ TransitLeg.propTypes = {
       gtfsId: PropTypes.string.isRequired,
       shortName: PropTypes.string,
       color: PropTypes.string,
-      alerts: PropTypes.arrayOf(PropTypes.object),
+      alerts: PropTypes.arrayOf(AlertShape),
     }).isRequired,
     to: PropTypes.shape({
       stop: PropTypes.shape({
         zoneId: PropTypes.string,
-        alerts: PropTypes.arrayOf(PropTypes.object),
+        alerts: PropTypes.arrayOf(AlertShape),
       }).isRequired,
       name: PropTypes.string.isRequired,
     }).isRequired,
