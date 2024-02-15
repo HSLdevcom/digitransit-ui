@@ -140,14 +140,16 @@ export function getNamedConfiguration(configName) {
   // inject zone geoJson if necessary
   const conf = configs[configName];
   if (conf.useAssembledGeoJsonZones && allZones) {
-    const zoneLayer = {
-      ...allZones,
-      isOffByDefault: conf.useAssembledGeoJsonZones === 'isOffByDefault',
-    };
-    if (!conf.geoJson) {
-      conf.geoJson = { layers: [zoneLayer] };
-    } else {
-      conf.geoJson.layers.push(zoneLayer);
+    if (!conf.geoJson?.layers?.find(l => l.name === allZones.name)) {
+      const zoneLayer = {
+        ...allZones,
+        isOffByDefault: conf.useAssembledGeoJsonZones === 'isOffByDefault',
+      };
+      if (!conf.geoJson) {
+        conf.geoJson = { layers: [zoneLayer] };
+      } else {
+        conf.geoJson.layers.push(zoneLayer);
+      }
     }
   }
 
