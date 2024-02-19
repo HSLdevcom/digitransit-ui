@@ -36,7 +36,7 @@ export default function DesktopView({
       </div>
       <div className="map-content">
         {settingsDrawer}
-        <ErrorBoundary>{map}</ErrorBoundary>
+        {map && <ErrorBoundary>{map}</ErrorBoundary>}
       </div>
     </div>
   );

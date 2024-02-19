@@ -167,8 +167,7 @@ RouteScheduleDropdown.propTypes = {
   alignRight: PropTypes.bool,
   id: PropTypes.string.isRequired,
   labelId: PropTypes.string,
-  // eslint-disable-next-line react/forbid-prop-types
-  list: PropTypes.array.isRequired,
+  list: PropTypes.arrayOf(PropTypes.object).isRequired,
   onSelectChange: PropTypes.func,
   title: PropTypes.string,
 };

@@ -79,8 +79,8 @@ const TripShape = PropTypes.shape({
 });
 
 const StopTimeShape = PropTypes.shape({
-  dropoffType: PropTypes.string.isRequired,
-  pickupType: PropTypes.string.isRequired,
+  dropoffType: PropTypes.string,
+  pickupType: PropTypes.string,
   trip: TripShape,
 });
 

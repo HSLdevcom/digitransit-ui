@@ -515,7 +515,7 @@ Datetimepicker.propTypes = {
   fontWeights: PropTypes.shape({
     medium: PropTypes.number.isRequired,
   }).isRequired,
-  serviceTimeRange: PropTypes.number,
+  serviceTimeRange: PropTypes.number.isRequired,
   onOpen: PropTypes.func,
   onClose: PropTypes.func,
   openPicker: PropTypes.bool,
@@ -527,7 +527,6 @@ Datetimepicker.defaultProps = {
   embedWhenOpen: null,
   color: '#007ac9',
   timeZone: 'Europe/Helsinki',
-  serviceTimeRange: 30,
   onOpen: null,
   onClose: null,
   openPicker: undefined,

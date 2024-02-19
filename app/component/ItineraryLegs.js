@@ -44,7 +44,7 @@ class ItineraryLegs extends React.Component {
   static propTypes = {
     focusToPoint: PropTypes.func,
     itinerary: PropTypes.object,
-    fares: PropTypes.array,
+    fares: PropTypes.arrayOf(PropTypes.object),
     toggleCanceledLegsBanner: PropTypes.func.isRequired,
     waitThreshold: PropTypes.number.isRequired,
     focusToLeg: PropTypes.func,

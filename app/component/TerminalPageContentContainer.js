@@ -15,8 +15,8 @@ import { PREFIX_TERMINALS } from '../util/path';
 class TerminalPageContent extends React.Component {
   static propTypes = {
     station: PropTypes.shape({
-      stoptimes: PropTypes.array,
-      stops: PropTypes.array,
+      stoptimes: PropTypes.arrayOf(PropTypes.string),
+      stops: PropTypes.arrayOf(PropTypes.string),
       gtfsId: PropTypes.string,
     }).isRequired,
     relay: PropTypes.shape({

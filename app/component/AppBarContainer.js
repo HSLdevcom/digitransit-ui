@@ -87,7 +87,7 @@ AppBarContainer.propTypes = {
   homeUrl: PropTypes.string.isRequired,
   logo: PropTypes.string,
   user: PropTypes.object,
-  favourites: PropTypes.array,
+  favourites: PropTypes.arrayOf(PropTypes.object),
   style: PropTypes.string.isRequired,
   lang: PropTypes.string,
   breakpoint: PropTypes.string.isRequired,

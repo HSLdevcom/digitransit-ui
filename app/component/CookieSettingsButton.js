@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
-const CookieSettingsButton = () => {
+export default function CookieSettingsButton() {
   return (
     <button
       type="button"
@@ -11,6 +11,4 @@ const CookieSettingsButton = () => {
       <FormattedMessage id="cookie-settings" defaultMessage="Cookie settings" />
     </button>
   );
-};
-
-export default CookieSettingsButton;
+}

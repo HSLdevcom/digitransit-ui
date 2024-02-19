@@ -146,9 +146,11 @@ DialogModal.propTypes = {
 DialogModal.defaultProps = {
   lang: 'fi',
   dialogContent: undefined,
+  handleClose: () => {},
   secondaryButtonText: undefined,
   secondaryButtonOnClick: undefined,
   href: undefined,
+  modalAriaLabel: '',
   color: '#007ac9',
   hoverColor: '#0062a1',
   fontWeights: {

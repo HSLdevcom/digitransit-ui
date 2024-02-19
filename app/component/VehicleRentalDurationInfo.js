@@ -99,7 +99,9 @@ function VehicleRentalDurationInfo(props) {
 }
 
 VehicleRentalDurationInfo.propTypes = {
-  networks: PropTypes.array.isRequired,
+  networks: PropTypes.arrayOf(
+    PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
+  ).isRequired,
   lang: PropTypes.string.isRequired,
   config: PropTypes.object.isRequired,
 };

@@ -916,7 +916,7 @@ Itinerary.propTypes = {
   hash: PropTypes.number.isRequired,
   children: PropTypes.node,
   breakpoint: PropTypes.string.isRequired,
-  intermediatePlaces: PropTypes.array,
+  intermediatePlaces: PropTypes.arrayOf(PropTypes.object),
   isCancelled: PropTypes.bool,
   showCancelled: PropTypes.bool,
   zones: PropTypes.arrayOf(PropTypes.string),

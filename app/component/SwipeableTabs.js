@@ -72,7 +72,7 @@ export default class SwipeableTabs extends React.Component {
 
   static propTypes = {
     tabIndex: PropTypes.number,
-    tabs: PropTypes.array.isRequired,
+    tabs: PropTypes.arrayOf(PropTypes.node).isRequired,
     onSwipe: PropTypes.func,
     hideArrows: PropTypes.bool,
     navigationOnBottom: PropTypes.bool,

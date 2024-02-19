@@ -159,7 +159,7 @@ AppBarHsl.propTypes = {
     sub: PropTypes.string,
     notLogged: PropTypes.bool,
   }),
-  favourites: PropTypes.array,
+  favourites: PropTypes.arrayOf(PropTypes.object),
 };
 
 AppBarHsl.defaultProps = {

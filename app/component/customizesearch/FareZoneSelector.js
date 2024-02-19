@@ -8,7 +8,7 @@ import { saveRoutingSettings } from '../../action/SearchSettingsActions';
 
 class FareZoneSelector extends React.Component {
   static propTypes = {
-    options: PropTypes.array.isRequired,
+    options: PropTypes.arrayOf(PropTypes.string).isRequired,
     currentOption: PropTypes.string.isRequired,
   };
 

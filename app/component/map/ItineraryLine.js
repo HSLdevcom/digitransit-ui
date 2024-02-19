@@ -29,7 +29,7 @@ class ItineraryLine extends React.Component {
   };
 
   static propTypes = {
-    legs: PropTypes.array,
+    legs: PropTypes.arrayOf(PropTypes.object),
     passive: PropTypes.bool,
     hash: PropTypes.number,
     showTransferLabels: PropTypes.bool,

@@ -76,7 +76,7 @@ const VehicleRentalStationNetworkSelector = (
 );
 
 VehicleRentalStationNetworkSelector.propTypes = {
-  currentOptions: PropTypes.array.isRequired,
+  currentOptions: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 VehicleRentalStationNetworkSelector.contextTypes = {
