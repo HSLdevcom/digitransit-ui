@@ -877,7 +877,7 @@ function ItineraryPage(props, context) {
           ...props.match.location,
           state: {
             ...props.match.location.state,
-            customizeSearchOffcanvas: true,
+            itinerarySettingsOpen: true,
           },
         });
       }
