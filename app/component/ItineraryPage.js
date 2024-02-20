@@ -104,12 +104,13 @@ const emptyPlans = {
   bikeTransitPlan: undefined,
   carPlan: undefined,
   parkRidePlan: undefined,
+};
+
+const emptyState = {
   earlierItineraries: [],
   laterItineraries: [],
-  weatherData: undefined,
   separatorPosition: undefined,
   routingFeedbackPosition: undefined,
-  relaxedPlan: undefined,
   loading: false,
   error: undefined,
   topNote: undefined,
@@ -126,9 +127,15 @@ function ItineraryPage(props, context) {
   const pendingWeatherHash = useRef();
 
   const [state, setState] = useState({
-    ...emptyPlans,
-    loadingAlt: ALT_LOADING_STATES.UNSET,
+    ...emptyState,
   });
+  const [altState, setAltState] = useState({
+    ...emptyPlans,
+    loading: ALT_LOADING_STATES.UNSET,
+  });
+  const [relaxState, setRelaxState] = useState({ loading: false });
+  const [settingsState, setSettingsState] = useState({ settingsOpen: false });
+  const [weatherState, setWeatherState] = useState({ loading: false });
 
   function stopClientAndUpdateTopics() {
     stopClient(context);
@@ -185,22 +192,22 @@ function ItineraryPage(props, context) {
   function mapHashToPlan(hash) {
     switch (hash) {
       case streetHash.walk:
-        return state.walkPlan;
+        return altState.walkPlan;
       case streetHash.bike:
-        return state.bikePlan;
+        return altState.bikePlan;
       case streetHash.bikeAndVehicle:
-        return state.bikeTransitPlan;
+        return altState.bikeTransitPlan;
       case streetHash.car:
-        return state.carPlan;
+        return altState.carPlan;
       case streetHash.parkAndRide:
-        return state.parkRidePlan;
+        return altState.parkRidePlan;
       default:
         if (
           !transitItineraries(props.viewer?.plan?.itineraries).length &&
           !state.settingsChanged &&
-          state.relaxedPlan?.itineraries?.length > 0
+          relaxState.relaxedPlan?.itineraries?.length > 0
         ) {
-          return state.relaxedPlan;
+          return relaxState.relaxedPlan;
         }
         return props.viewer.plan;
     }
@@ -208,7 +215,7 @@ function ItineraryPage(props, context) {
 
   function makeWeatherQuery() {
     const from = otpToLocation(props.match.params.from);
-    const { walkPlan, bikePlan, bikeTransitPlan } = state;
+    const { walkPlan, bikePlan, bikeTransitPlan } = altState;
     const itinerary =
       walkPlan?.itineraries?.[0] ||
       bikePlan?.itineraries?.[0] ||
@@ -219,12 +226,12 @@ function ItineraryPage(props, context) {
     const time = itinerary.startTime;
     const weatherHash = `${time}_${from.lat}_${from.lon}`;
     if (
-      weatherHash !== state.weatherData?.weatherHash &&
+      weatherHash !== weatherState.weatherData?.weatherHash &&
       weatherHash !== pendingWeatherHash.current
     ) {
       pendingWeatherHash.current = weatherHash;
       const momentTime = moment(time);
-      setState({ ...state, loadingWeather: true });
+      setWeatherState({ ...weatherState, loading: true });
       getWeatherData(
         context.config.URL.WEATHER_DATA,
         momentTime,
@@ -261,12 +268,12 @@ function ItineraryPage(props, context) {
                 };
               }
             }
-            setState({ ...state, loadingWeather: false, weatherData });
+            setWeatherState({ loading: false, weatherData });
           }
         })
         .catch(() => {
           pendingWeatherHash.current = undefined;
-          setState({ ...state, loadingWeather: false, weatherData: undefined });
+          setWeatherState({ loading: false, weatherData: undefined });
         })
         .finally(() => {
           if (props.alertRef.current) {
@@ -284,11 +291,14 @@ function ItineraryPage(props, context) {
   }
 
   function makeAlternativeQuery() {
-    if (!hasValidFromTo()) {
+    if (!hasValidFromTo() || altState.loading === ALT_LOADING_STATES.LOADING) {
       return;
     }
-    setState({ ...state, loadingAlt: ALT_LOADING_STATES.LOADING });
-
+    setAltState({
+      ...altState,
+      ...emptyPlans,
+      loading: ALT_LOADING_STATES.LOADING,
+    });
     const planParams = getPlanParams(context.config, props.match);
 
     fetchQuery(props.relayEnvironment, alternativeQuery, planParams)
@@ -329,10 +339,10 @@ function ItineraryPage(props, context) {
           ]),
         };
 
-        setState({
-          ...state,
+        setAltState({
+          ...altState,
           bikeAndParkItineraryCount: n1,
-          loadingAlt: ALT_LOADING_STATES.DONE,
+          loading: ALT_LOADING_STATES.DONE,
           walkPlan: result.walkPlan,
           bikePlan,
           bikeTransitPlan,
@@ -344,16 +354,15 @@ function ItineraryPage(props, context) {
         }
       })
       .catch(() => {
-        setState({ ...state, loadingAlt: ALT_LOADING_STATES.DONE });
+        setAltState({ ...altState, loading: ALT_LOADING_STATES.DONE });
       });
   }
 
   function makeRelaxedQuery() {
-    if (!hasValidFromTo()) {
+    if (!hasValidFromTo() || relaxState.loading) {
       return;
     }
-    setState({ ...state, loadingRelaxed: true });
-
+    setRelaxState({ relaxedPlan: {}, loading: true });
     const planParams = getPlanParams(context.config, props.match, true);
     fetchQuery(props.relayEnvironment, moreQuery, planParams, {
       force: true,
@@ -364,13 +373,9 @@ function ItineraryPage(props, context) {
           ...result.plan,
           itineraries: transitItineraries(result.plan.itineraries),
         };
-        setState({
-          ...state,
+        setRelaxState({
           relaxedPlan,
-          earlierItineraries: [],
-          laterItineraries: [],
-          separatorPosition: undefined,
-          loadingRelaxed: false,
+          loading: false,
         });
       });
   }
@@ -425,7 +430,7 @@ function ItineraryPage(props, context) {
 
     const useRelaxedRoutingPreferences =
       transitItineraries(props.viewer?.plan?.itineraries).length === 0 &&
-      state.relaxedPlan?.itineraries?.length > 0;
+      relaxState.relaxedPlan?.itineraries?.length > 0;
 
     const params = getPlanParams(
       context.config,
@@ -513,7 +518,7 @@ function ItineraryPage(props, context) {
 
     const useRelaxedRoutingPreferences =
       transitItineraries(props.viewer?.plan?.itineraries).length === 0 &&
-      state.relaxedPlan?.itineraries?.length > 0;
+      relaxState.relaxedPlan?.itineraries?.length > 0;
 
     const params = getPlanParams(
       context.config,
@@ -701,15 +706,13 @@ function ItineraryPage(props, context) {
   useEffect(() => {
     showScreenReaderAlert('itinerary-page.itineraries-loaded');
     // eslint-disable-next-line react/no-did-update-set-state
-    setState({ ...state, emptyPlans });
-    if (
-      settingsLimitRouting(context.config) &&
-      !state.loadingRelaxed &&
-      !state.settingsChanged
-    ) {
-      makeRelaxedQuery();
+    setState({ ...state, ...emptyState });
+    if (!props.loading) {
+      if (settingsLimitRouting(context.config) && !state.settingsChanged) {
+        makeRelaxedQuery();
+      }
+      makeAlternativeQuery();
     }
-    makeAlternativeQuery();
     if (props.error) {
       reportError(props.error);
     }
@@ -726,8 +729,8 @@ function ItineraryPage(props, context) {
       // in detail view
       // If itinerary is not found in detail view, go back to summary view
       if (
-        // loadingAlt is first undefined, then true and finally false
-        state.loadingAlt === ALT_LOADING_STATES.DONE &&
+        // loading is first undefined, then true and finally false
+        altState.loading === ALT_LOADING_STATES.DONE &&
         !mapHashToPlan(hash)?.itineraries?.length
       ) {
         selectStreetMode(); // back to root view
@@ -765,9 +768,9 @@ function ItineraryPage(props, context) {
   }, [
     props.match.params.hash,
     props.viewer?.plan,
-    state.bikeTransitPlan,
-    state.parkRidePlan,
-    state.relaxedPlan,
+    altState.bikeTransitPlan,
+    altState.parkRidePlan,
+    relaxState.relaxedPlan,
   ]);
 
   const setMWTRef = ref => {
@@ -827,7 +830,7 @@ function ItineraryPage(props, context) {
     context.router.replace(newLocationState);
   };
 
-  function showSettingsPanel(isOpen) {
+  function showSettingsPanel(open) {
     if (headerRef.current && contentRef.current) {
       setTimeout(() => {
         let inputs = Array.from(
@@ -843,7 +846,7 @@ function ItineraryPage(props, context) {
           ),
         );
         /* eslint-disable no-param-reassign */
-        if (isOpen) {
+        if (open) {
           // hide inputs from screen reader
           inputs.forEach(elem => {
             elem.tabIndex = '-1';
@@ -861,12 +864,11 @@ function ItineraryPage(props, context) {
       event: 'sendMatomoEvent',
       category: 'ItinerarySettings',
       action: 'ExtraSettingsPanelClick',
-      name: isOpen ? 'ExtraSettingsPanelOpen' : 'ExtraSettingsPanelClose',
+      name: open ? 'ExtraSettingsPanelOpen' : 'ExtraSettingsPanelClose',
     });
 
-    if (isOpen) {
-      setState({
-        ...state,
+    if (open) {
+      setSettingsState({
         settingsOpen: true,
         settingsOnOpen: getSettings(context.config),
       });
@@ -875,19 +877,19 @@ function ItineraryPage(props, context) {
           ...props.match.location,
           state: {
             ...props.match.location.state,
-            customizeSearchOffcanvas: isOpen,
+            customizeSearchOffcanvas: true,
           },
         });
       }
       return;
     }
 
-    setState({ ...state, settingsOpen: false });
+    setSettingsState({ ...settingsState, settingsOpen: false });
     if (props.breakpoint !== 'large') {
       context.router.go(-1);
     }
     const settingsChanged = !isEqual(
-      state.settingsOnOpen,
+      settingsState.settingsOnOpen,
       getSettings(context.config),
     );
     if (!settingsChanged || !hasValidFromTo()) {
@@ -900,7 +902,6 @@ function ItineraryPage(props, context) {
       earlierItineraries: [],
       laterItineraries: [],
       separatorPosition: undefined,
-      relaxedPlan: undefined,
       settingsChanged: true,
       loading: true,
     });
@@ -911,7 +912,7 @@ function ItineraryPage(props, context) {
   }
 
   const toggleSettings = () => {
-    showSettingsPanel(!state.settingsOpen);
+    showSettingsPanel(!settingsState.settingsOpen);
   };
 
   const onDetailsTabFocused = () => {
@@ -974,7 +975,8 @@ function ItineraryPage(props, context) {
   }
 
   const { match, error, breakpoint } = props;
-  const { walkPlan, bikePlan, bikeTransitPlan, carPlan, parkRidePlan } = state;
+  const { walkPlan, bikePlan, bikeTransitPlan, carPlan, parkRidePlan } =
+    altState;
   const { config } = context;
   const { params } = match;
   const { hash, secondHash } = params;
@@ -1038,30 +1040,30 @@ function ItineraryPage(props, context) {
 
   // must wait alternatives to render correct notifier
   const waitAlternatives =
-    hasNoTransitItineraries && state.loadingAlt === ALT_LOADING_STATES.LOADING;
+    hasNoTransitItineraries && altState.loading === ALT_LOADING_STATES.LOADING;
   const loading =
     (props.loading ||
       state.loading ||
-      (state.loadingRelaxed && hasNoTransitItineraries) ||
+      (relaxState.loading && hasNoTransitItineraries) ||
       waitAlternatives ||
       (streetHashes.includes(hash) &&
-        state.loadingAlt === ALT_LOADING_STATES.LOADING)) && // viewing unfinished alt plan
+        altState.loading === ALT_LOADING_STATES.LOADING)) && // viewing unfinished alt plan
     !error;
 
-  const showRelaxedPlanNotifier = selectedPlan === state.relaxedPlan;
+  const showRelaxedPlanNotifier = selectedPlan === relaxState.relaxedPlan;
   const settingsNotification =
     !showRelaxedPlanNotifier && // show only on notifier about limitations
     settingsLimitRouting(context.config) &&
     !isEqualItineraries(
       props.viewer?.plan?.itineraries,
-      state.relaxedPlan?.itineraries,
+      relaxState.relaxedPlan?.itineraries,
     ) &&
-    state.relaxedPlan?.itineraries?.length > 0 &&
+    relaxState.relaxedPlan?.itineraries?.length > 0 &&
     !state.settingsChanged &&
     !hash; // no notifier on p&r or bike&public lists
 
   const itineraryList = !detailView && (
-    <span aria-hidden={state.settingsOpen} ref={contentRef}>
+    <span aria-hidden={settingsState.settingsOpen} ref={contentRef}>
       <ItineraryListContainer
         activeIndex={selectedIndex}
         plan={selectedPlan}
@@ -1079,7 +1081,7 @@ function ItineraryPage(props, context) {
             carPlan?.itineraries?.length > 0) ||
           !!parkRidePlan?.itineraries?.length
         }
-        bikeAndParkItineraryCount={state.bikeAndParkItineraryCount}
+        bikeAndParkItineraryCount={altState.bikeAndParkItineraryCount}
         showRelaxedPlanNotifier={showRelaxedPlanNotifier}
         separatorPosition={state.separatorPosition}
         onLater={onLater}
@@ -1097,7 +1099,7 @@ function ItineraryPage(props, context) {
 
   const showAltBar =
     !streetHashes.includes(hash) &&
-    (state.loadingAlt === ALT_LOADING_STATES.LOADING || // show shimmer
+    (altState.loading === ALT_LOADING_STATES.LOADING || // show shimmer
       walkPlan?.itineraries?.length ||
       bikePlan?.itineraries?.length ||
       bikeTransitPlan?.itineraries?.length ||
@@ -1108,7 +1110,7 @@ function ItineraryPage(props, context) {
     <AlternativeItineraryBar
       selectStreetMode={selectStreetMode}
       setStreetModeAndSelect={setStreetModeAndSelect}
-      weatherData={state.weatherData}
+      weatherData={weatherState.weatherData}
       walkPlan={walkPlan}
       bikePlan={bikePlan}
       bikeTransitPlan={bikeTransitPlan}
@@ -1116,8 +1118,8 @@ function ItineraryPage(props, context) {
       carPlan={settings.includeCarSuggestions ? carPlan : undefined}
       loading={
         loading ||
-        state.loadingAlt === ALT_LOADING_STATES.LOADING ||
-        state.loadingWeather
+        altState.loading === ALT_LOADING_STATES.LOADING ||
+        weatherState.loading
       }
     />
   );
@@ -1144,7 +1146,7 @@ function ItineraryPage(props, context) {
 
   const settingsDrawer = !detailView && (
     <SettingsDrawer
-      open={state.settingsOpen}
+      open={settingsState.settingsOpen}
       className={desktop ? 'offcanvas' : 'offcanvas-mobile'}
     >
       <CustomizeSearch onToggleClick={toggleSettings} mobile={!desktop} />
@@ -1152,7 +1154,7 @@ function ItineraryPage(props, context) {
   );
 
   const header = !detailView && (
-    <span aria-hidden={state.settingsOpen}>
+    <span aria-hidden={settingsState.settingsOpen}>
       <ItineraryPageControls params={params} toggleSettings={toggleSettings} />
       {alternativeItineraryBar}
     </span>
