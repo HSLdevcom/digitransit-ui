@@ -95,6 +95,7 @@ export default configMerger(walttiConfig, {
   logo: 'kotka/kotka.png',
 
   feedIds: ['Kotka'],
+  feedIdFiltering: true,
 
   searchParams: {
     'boundary.rect.min_lat': minLat,
