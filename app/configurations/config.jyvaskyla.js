@@ -172,7 +172,7 @@ export default configMerger(walttiConfig, {
     for (let i = 0; i < ticket.length; i++) {
       zones += '0' + (ticket.charCodeAt(i) - 64);
     }
-    return `https://waltti-deep-link.web.app/walttiappfeat/busTicket/?operator=50209&ticketType=single&customerGroup=adult&zones=${zones}`;
+    return `https://kauppa.waltti.fi/walttiappfeat/busTicket/?operator=50209%5C%5C&ticketType=single%5C%5C&customerGroup=adult%5C%5C&zones=${zones}`;
   },
 
   // mapping fareId from OTP fare identifiers to human readable form
