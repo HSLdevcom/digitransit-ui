@@ -989,8 +989,8 @@ function ItineraryPage(props, context) {
   let selectedPlan = mapHashToPlan(hash);
 
   /* NOTE: as a temporary solution, do filtering by feedId in UI */
-  if (config.feedIdFiltering && selectedPlan === props.viewer?.plan) {
-    selectedPlan = filterItinerariesByFeedId(props.viewer?.plan, config);
+  if (config.feedIdFiltering) {
+    selectedPlan = filterItinerariesByFeedId(selectedPlan, config);
   }
   let combinedItineraries;
   // Remove old itineraries if new query cannot find a route
