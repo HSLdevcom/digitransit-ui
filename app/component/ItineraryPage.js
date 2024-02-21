@@ -136,10 +136,12 @@ function ItineraryPage(props, context) {
   const [relaxState, setRelaxState] = useState({ loading: false });
   const [settingsState, setSettingsState] = useState({ settingsOpen: false });
   const [weatherState, setWeatherState] = useState({ loading: false });
+  const [topicsState, setTopicsState] = useState(null);
+  const [mapState, setMapState] = useState({});
 
   function stopClientAndUpdateTopics() {
     stopClient(context);
-    setState({ ...state, itineraryTopics: undefined });
+    setTopicsState(null);
   }
 
   const selectStreetMode = newStreetMode => {
@@ -459,6 +461,7 @@ function ItineraryPage(props, context) {
             ? { topNote: 'no-more-route-msg' }
             : { bottomNote: 'no-more-route-msg' };
           setState({ ...state, ...newState });
+          return;
         }
         showScreenReaderAlert('itinerary-page.itineraries-loaded');
         if (reversed) {
@@ -551,6 +554,7 @@ function ItineraryPage(props, context) {
             ? { bottomNote: 'no-more-route-msg' }
             : { topNote: 'no-more-route-msg' };
           setState({ ...state, ...newState });
+          return;
         }
         showScreenReaderAlert('itinerary-page.itineraries-loaded');
         if (reversed) {
@@ -723,7 +727,7 @@ function ItineraryPage(props, context) {
     const { hash, secondHash } = params;
 
     navigateMap();
-    setState({ ...state, center: undefined, bounds: undefined });
+    setMapState({ center: undefined, bounds: undefined });
 
     if (altTransitHash.includes(hash) ? secondHash : hash) {
       // in detail view
@@ -755,14 +759,14 @@ function ItineraryPage(props, context) {
       );
       const { client } = context.getStore('RealTimeInformationStore');
       // Client may not be initialized yet if there was an client before ComponentDidMount
-      if (!isEqual(itineraryTopics, state.itineraryTopics) || !client) {
+      if (!isEqual(itineraryTopics, topicsState) || !client) {
         updateClient(itineraryTopics, context);
       }
-      if (!isEqual(itineraryTopics, state.itineraryTopics)) {
+      if (!isEqual(itineraryTopics, topicsState)) {
         // eslint-disable-next-line react/no-did-update-set-state
-        setState({ ...state, itineraryTopics });
+        setTopicsState(itineraryTopics);
       }
-    } else if (!isEmpty(state.itineraryTopics)) {
+    } else if (!isEmpty(topicsState)) {
       stopClientAndUpdateTopics();
     }
   }, [
@@ -783,7 +787,7 @@ function ItineraryPage(props, context) {
       expandMapRef.current += 1;
     }
     navigateMap();
-    setState({ ...state, center: { lat, lon }, bounds: null });
+    setMapState({ center: { lat, lon }, bounds: null });
   };
 
   const focusToLeg = leg => {
@@ -803,7 +807,7 @@ function ItineraryPage(props, context) {
         )
         .filter(a => a[0] && a[1]),
     );
-    setState({ ...state, bounds, center: undefined });
+    setMapState({ bounds, center: undefined });
   };
 
   const changeHash = index => {
@@ -932,11 +936,11 @@ function ItineraryPage(props, context) {
     detailView,
   ) {
     const mwtProps = {};
-    if (state.bounds) {
-      mwtProps.bounds = state.bounds;
-    } else if (state.center) {
-      mwtProps.lat = state.center.lat;
-      mwtProps.lon = state.center.lon;
+    if (mapState.bounds) {
+      mwtProps.bounds = mapState.bounds;
+    } else if (mapState.center) {
+      mwtProps.lat = mapState.center.lat;
+      mwtProps.lon = mapState.center.lon;
     } else {
       mwtProps.bounds = getBounds(itineraries, from, to, viaPoints);
     }
@@ -964,7 +968,7 @@ function ItineraryPage(props, context) {
         setMWTRef={setMWTRef}
         breakpoint={props.breakpoint}
         itineraries={itineraries}
-        topics={state.itineraryTopics}
+        topics={topicsState}
         active={activeIndex}
         showActive={!!detailView}
         showVehicles={showVehicles()}
