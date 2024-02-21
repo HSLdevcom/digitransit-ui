@@ -2,13 +2,7 @@
 /* eslint-disable no-nested-ternary */
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import React, {
-  useEffect,
-  useState,
-  useRef,
-  createRef,
-  cloneElement,
-} from 'react';
+import React, { useEffect, useState, useRef, cloneElement } from 'react';
 import {
   createRefetchContainer,
   fetchQuery,
@@ -118,10 +112,9 @@ const emptyState = {
 };
 
 function ItineraryPage(props, context) {
-  const tabHeaderRef = createRef(null);
-  const headerRef = createRef();
-  const contentRef = createRef();
-
+  const tabHeaderRef = useRef(null);
+  const headerRef = useRef(null);
+  const contentRef = useRef(null);
   const mwtRef = useRef();
   const expandMapRef = useRef(0);
   const pendingWeatherHash = useRef();
@@ -1168,10 +1161,12 @@ function ItineraryPage(props, context) {
 
   if (desktop) {
     const title = (
-      <FormattedMessage
-        id={detailView ? 'itinerary-page.title' : 'summary-page.title'}
-        defaultMessage="Itinerary suggestions"
-      />
+      <span ref={tabHeaderRef} tabIndex={-1}>
+        <FormattedMessage
+          id={detailView ? 'itinerary-page.title' : 'summary-page.title'}
+          defaultMessage="Itinerary suggestions"
+        />
+      </span>
     );
     // in detail view or parkride and bike+public, back button should pop out last path segment
     const bckBtnFallback =
