@@ -64,7 +64,7 @@ import {
   getPlanParams,
   hasStartAndDestination,
 } from '../util/planParamUtil';
-import { refShape, mapLayerOptionsShape } from '../util/shapes';
+import { mapLayerOptionsShape } from '../util/shapes';
 import { saveFutureRoute } from '../action/FutureRoutesActions';
 import { saveSearch } from '../action/SearchActions';
 import CustomizeSearch from './CustomizeSearch';
@@ -1092,7 +1092,7 @@ function ItineraryPage(props, context) {
 
   const header = !detailView && (
     <span aria-hidden={settingsState.settingsOpen}>
-      <div className="sr-only" id="aria-page-info" aria-live="assertive">
+      <div role="status" className="sr-only" id="status" aria-live="polite">
         <FormattedMessage id={ariaRef.current} />
       </div>
       <ItineraryPageControls params={params} toggleSettings={toggleSettings} />
@@ -1175,7 +1175,6 @@ ItineraryPage.propTypes = {
   }).isRequired,
   mapLayers: mapLayerShape.isRequired,
   mapLayerOptions: mapLayerOptionsShape.isRequired,
-  alertRef: refShape,
 };
 
 ItineraryPage.defaultProps = {
