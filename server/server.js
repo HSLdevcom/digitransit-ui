@@ -38,6 +38,7 @@ const expressStaticGzip = require('express-static-gzip');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const logger = require('morgan');
+const { CosmosClient } = require('@azure/cosmos');
 const { getJson } = require('../app/util/xhrPromise');
 const { retryFetch } = require('../app/util/fetchUtils');
 const configTools = require('../app/config');
@@ -370,7 +371,72 @@ function startServer() {
   );
 }
 
+async function fetchCitybikeSeasons() {
+  const region = process.env.CONFIG;
+  const id = region === 'hsl' ? 'HSL' : 'Waltti';
+  const client = new CosmosClient(process.env.CITYBIKE_DB_CONN_STRING);
+  const database = client.database(process.env.CITYBIKE_DATABASE);
+  const container = database.container('schedules');
+  const query = {
+    query: 'SELECT * FROM c WHERE (c.id = @id)',
+    parameters: [{ name: '@id', value: id }],
+  };
+
+  const { resources } = await container.items.query(query).fetchAll();
+  return resources[0]?.schedules;
+}
+
 /* ********* Init ********* */
+if (process.env.CITYBIKE_DB_CONN_STRING && process.env.CITYBIKE_DATABASE) {
+  fetchCitybikeSeasons().then(schedules => {
+    const parseDate = (year, month, day) =>
+      // eslint-disable-next-line radix
+      new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
+    const selectNetworkName = sc => {
+      if (sc.region === 'Helsinki_Espoo') {
+        return sc.operator.toLowerCase();
+      }
+      if (sc.region === 'Vantaa') {
+        return sc.region.toLowerCase();
+      }
+      return sc.operator
+        .toLowerCase()
+        .concat('_')
+        .concat(sc.region.toLowerCase());
+    };
+    if (schedules?.length) {
+      schedules.forEach(sc => {
+        const networkName = selectNetworkName(sc);
+        const network = config.cityBike.networks[networkName];
+        if (network) {
+          const { enabled, preSeason } = sc;
+          const inSeason = sc.inSeason.split('-');
+          const [preStartDay, preStartMonth, preStartYear] =
+            preSeason.split('.');
+          const [startDay, startMonth, startYear] = inSeason[0].split('.');
+          const [endDay, endMonth, endYear] = inSeason[1].split('.');
+
+          const preStartDate = parseDate(
+            preStartYear,
+            preStartMonth,
+            preStartDay,
+          );
+          const inStartDate = parseDate(startYear, startMonth, startDay);
+          const inEndDate = parseDate(endYear, endMonth, endDay);
+
+          const season = {
+            preSeasonStart: preStartDate,
+            start: inStartDate,
+            end: inEndDate,
+          };
+          network.season = season;
+          network.enabled = enabled;
+        }
+      });
+    }
+  });
+}
+
 if (process.env.OIDC_CLIENT_ID) {
   setUpOpenId();
 }

@@ -10,7 +10,7 @@ import { isDevelopmentEnvironment } from './envUtils';
 
 export function isCitybikeSeasonActive(season) {
   if (!season) {
-    return true;
+    return false;
   }
   const currentDate = new Date();
 
