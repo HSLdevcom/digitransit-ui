@@ -1178,6 +1178,7 @@ ItineraryPage.propTypes = {
 };
 
 ItineraryPage.defaultProps = {
+  content: undefined,
   map: undefined,
   error: undefined,
   loading: false,

@@ -76,3 +76,7 @@ ItineraryPageContainer.propTypes = {
   content: PropTypes.node,
   match: matchShape.isRequired,
 };
+
+ItineraryPageContainer.defaultProps = {
+  content: undefined,
+};

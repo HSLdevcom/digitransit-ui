@@ -9,6 +9,7 @@ class ItineraryCircleLine extends React.Component {
     isVia: false,
     color: null,
     renderBottomMarker: true,
+    carPark: false,
   };
 
   static propTypes = {
