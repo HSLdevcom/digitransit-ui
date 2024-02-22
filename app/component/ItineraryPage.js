@@ -112,8 +112,6 @@ const emptyState = {
 
 function ItineraryPage(props, context) {
   const tabHeaderRef = useRef(null);
-  const headerRef = useRef(null);
-  const contentRef = useRef(null);
   const mwtRef = useRef();
   const expandMapRef = useRef(0);
   const pendingWeatherHash = useRef();
@@ -827,35 +825,6 @@ function ItineraryPage(props, context) {
   };
 
   function showSettingsPanel(open) {
-    if (headerRef.current && contentRef.current) {
-      setTimeout(() => {
-        let inputs = Array.from(
-          headerRef?.current?.querySelectorAll(
-            'input, button, *[role="button"]',
-          ) || [],
-        );
-        inputs = inputs.concat(
-          Array.from(
-            contentRef?.current?.querySelectorAll(
-              'input, button, *[role="button"]',
-            ) || [],
-          ),
-        );
-        /* eslint-disable no-param-reassign */
-        if (open) {
-          // hide inputs from screen reader
-          inputs.forEach(elem => {
-            elem.tabIndex = '-1';
-          });
-        } else {
-          // show inputs
-          inputs.forEach(elem => {
-            elem.tabIndex = '0';
-          });
-        }
-        /* eslint-enable no-param-reassign */
-      }, 100);
-    }
     addAnalyticsEvent({
       event: 'sendMatomoEvent',
       category: 'ItinerarySettings',
@@ -1059,7 +1028,7 @@ function ItineraryPage(props, context) {
     !hash; // no notifier on p&r or bike&public lists
 
   const itineraryList = !detailView && (
-    <span aria-hidden={settingsState.settingsOpen} ref={contentRef}>
+    <span aria-hidden={settingsState.settingsOpen}>
       <ItineraryListContainer
         activeIndex={selectedIndex}
         plan={selectedPlan}
