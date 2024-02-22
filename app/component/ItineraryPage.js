@@ -58,7 +58,6 @@ import {
   otpToLocation,
   getIntermediatePlaces,
 } from '../util/otpStrings';
-import SettingsDrawer from './SettingsDrawer';
 import AlternativeItineraryBar from './AlternativeItineraryBar';
 import {
   getSettings,
@@ -1141,14 +1140,12 @@ function ItineraryPage(props, context) {
     </div>
   );
 
-  const settingsDrawer = !detailView && (
-    <SettingsDrawer
-      open={settingsState.settingsOpen}
-      className={desktop ? 'offcanvas' : 'offcanvas-mobile'}
-    >
-      <CustomizeSearch onToggleClick={toggleSettings} mobile={!desktop} />
-    </SettingsDrawer>
-  );
+  const settingsDrawer =
+    !detailView && settingsState.settingsOpen ? (
+      <div className={desktop ? 'offcanvas' : 'offcanvas-mobile'}>
+        <CustomizeSearch onToggleClick={toggleSettings} mobile={!desktop} />
+      </div>
+    ) : null;
 
   const header = !detailView && (
     <span aria-hidden={settingsState.settingsOpen}>
