@@ -11,7 +11,7 @@ const MAX_ROUTEFILTER_LEN = 13;
 class TimeTableOptionsPanel extends React.Component {
   static propTypes = {
     stop: PropTypes.object.isRequired,
-    showRoutes: PropTypes.array,
+    showRoutes: PropTypes.arrayOf(PropTypes.string),
     showFilterModal: PropTypes.func,
   };
 

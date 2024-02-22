@@ -62,12 +62,13 @@ export const getFiveStepOptionsNumerical = options => {
 export const valueShape = PropTypes.oneOfType([
   PropTypes.string,
   PropTypes.number,
+  PropTypes.object,
 ]);
 
 class SearchSettingsDropdown extends React.Component {
   static propTypes = {
     labelText: PropTypes.string.isRequired,
-    options: PropTypes.array.isRequired,
+    options: PropTypes.arrayOf(valueShape).isRequired,
     displayValueFormatter: PropTypes.func,
     currentSelection: PropTypes.object.isRequired,
     highlightDefaultValue: PropTypes.bool,

@@ -42,7 +42,6 @@ const formatFavourite = favourite =>
     : [];
 
 const FavouriteLocation = ({
-  className,
   clickItem,
   iconId,
   text,
@@ -56,7 +55,7 @@ const FavouriteLocation = ({
     <button
       type="button"
       tabIndex="0"
-      className={cx(styles['favourite-content'], styles[className])}
+      className={cx(styles['favourite-content'])}
       onClick={clickItem}
       onKeyDown={e => isKeyboardSelectionEvent(e) && clickItem()}
       aria-label={ariaLabel}
@@ -76,12 +75,15 @@ const FavouriteLocation = ({
 
 FavouriteLocation.propTypes = {
   clickItem: PropTypes.func.isRequired,
-  className: PropTypes.string,
-  iconId: PropTypes.string,
-  text: PropTypes.string,
-  label: PropTypes.string,
+  iconId: PropTypes.string.isRequired,
+  text: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
   isLoading: PropTypes.bool,
   color: PropTypes.string.isRequired,
+};
+
+FavouriteLocation.defaultProps = {
+  isLoading: false,
 };
 
 /**
@@ -288,12 +290,11 @@ class FavouriteBar extends React.Component {
   ) => {
     const id = `favourite-suggestion-list--item-${index}`;
     return (
-      <li>
+      <li key={`favourite-suggestion-item-${index}`}>
         <div
           role="button"
           type="button"
           tabIndex="0"
-          key={`favourite-suggestion-item-${index}`}
           id={id}
           className={cx(styles['favourite-suggestion-item'])}
           onClick={() => this.suggestionSelected(index)}

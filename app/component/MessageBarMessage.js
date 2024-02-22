@@ -67,7 +67,7 @@ const MessageBarMessage = ({
 };
 
 MessageBarMessage.propTypes = {
-  content: PropTypes.array,
+  content: PropTypes.arrayOf(PropTypes.object),
   textColor: PropTypes.string,
   truncate: PropTypes.bool,
   onShowMore: PropTypes.func,

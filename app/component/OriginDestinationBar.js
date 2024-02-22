@@ -30,7 +30,7 @@ class OriginDestinationBar extends React.Component {
     language: PropTypes.string,
     isMobile: PropTypes.bool,
     showFavourites: PropTypes.bool.isRequired,
-    viaPoints: PropTypes.array,
+    viaPoints: PropTypes.arrayOf(PropTypes.object),
     locationState: dtLocationShape.isRequired,
     modeSet: PropTypes.string,
   };

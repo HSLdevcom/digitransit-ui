@@ -92,7 +92,7 @@ class MessageBar extends Component {
     currentTime: PropTypes.number.isRequired,
     getServiceAlertsAsync: PropTypes.func,
     lang: PropTypes.string.isRequired,
-    messages: PropTypes.array.isRequired,
+    messages: PropTypes.arrayOf(PropTypes.object).isRequired,
     relayEnvironment: PropTypes.object,
     duplicateMessageCounter: PropTypes.number.isRequired,
     breakpoint: PropTypes.string,

@@ -5,6 +5,7 @@ import React from 'react';
 import uniqBy from 'lodash/uniqBy';
 import PointFeatureMarker from './PointFeatureMarker';
 import { isBrowser } from '../../util/browser';
+import { geoJsonFeatureShape } from '../../util/shapes';
 import {
   isMultiPointTypeGeometry,
   isPointTypeGeometry,
@@ -30,11 +31,7 @@ const getIcons = features => {
 
   return features
     .filter(
-      feature =>
-        feature.properties &&
-        feature.properties.icon &&
-        feature.properties.icon.id &&
-        feature.properties.icon.svg,
+      feature => feature.properties?.icon?.id && feature.properties?.icon?.svg,
     )
     .map(feature => feature.properties.icon)
     .reduce((icons, icon) => {
@@ -102,16 +99,7 @@ class GeoJSON extends React.Component {
   static propTypes = {
     bounds: PropTypes.object,
     data: PropTypes.shape({
-      features: PropTypes.arrayOf(
-        PropTypes.shape({
-          id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-          geometry: PropTypes.shape({
-            coordinates: PropTypes.array.isRequired,
-            type: PropTypes.string.isRequired,
-          }).isRequired,
-          properties: PropTypes.object,
-        }),
-      ),
+      features: PropTypes.arrayOf(geoJsonFeatureShape),
     }).isRequired,
     geoJsonZoomLevel: PropTypes.number,
     locationPopup: PropTypes.string,

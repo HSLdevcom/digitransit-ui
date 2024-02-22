@@ -1,5 +1,5 @@
 import moment from 'moment';
-import xmlParser from 'fast-xml-parser';
+import { XMLParser } from 'fast-xml-parser';
 import isEmpty from 'lodash/isEmpty';
 import { retryFetch } from './fetchUtils';
 
@@ -56,13 +56,11 @@ export function getWeatherData(baseURL, time, lat, lon) {
   )
     .then(res => res.text())
     .then(str => {
-      const options = {
+      const parser = new XMLParser({
         ignoreAttributes: true,
         removeNSPrefix: true,
-      };
-      return xmlParser.parse(str, options);
-    })
-    .then(json => {
+      });
+      const json = parser.parse(str);
       const data = json.FeatureCollection.member.map(elem => elem.BsWfsElement);
       return data;
     })

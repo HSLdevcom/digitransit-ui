@@ -87,13 +87,23 @@ class GeoJsonStore extends Store {
     let id;
     let urlArr;
     if (Array.isArray(url)) {
-      [id] = url;
+      id = `${url[0]}-array`;
       urlArr = url;
     } else {
       id = url;
       urlArr = [url];
     }
+    if (this.geoJsonData[id] === 'pending') {
+      for (let i = 0; i < 30; i++) {
+        /* eslint-disable no-await-in-loop, no-promise-executor-return */
+        await new Promise(resolve => setTimeout(resolve, 100));
+        if (this.geoJsonData[id] !== 'pending') {
+          break;
+        }
+      }
+    }
     if (!this.geoJsonData[id]) {
+      this.geoJsonData[id] = 'pending';
       const responses = await Promise.all(urlArr.map(u => getJson(u)));
       const mapped = responses.map(r => {
         if (metadata) {

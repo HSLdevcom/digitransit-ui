@@ -1922,11 +1922,11 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digitransit-component/digitransit-component-autosuggest-panel@^3.0.5, @digitransit-component/digitransit-component-autosuggest-panel@workspace:digitransit-component/packages/digitransit-component-autosuggest-panel":
+"@digitransit-component/digitransit-component-autosuggest-panel@^3.0.6, @digitransit-component/digitransit-component-autosuggest-panel@workspace:digitransit-component/packages/digitransit-component-autosuggest-panel":
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-autosuggest-panel@workspace:digitransit-component/packages/digitransit-component-autosuggest-panel"
   peerDependencies:
-    "@digitransit-component/digitransit-component-autosuggest": ^2.0.5
+    "@digitransit-component/digitransit-component-autosuggest": ^2.0.6
     "@digitransit-component/digitransit-component-icon": ^1.0.1
     "@hsl-fi/sass": ^0.2.0
     classnames: 2.2.6
@@ -1942,18 +1942,18 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digitransit-component/digitransit-component-autosuggest@^2.0.5, @digitransit-component/digitransit-component-autosuggest@workspace:digitransit-component/packages/digitransit-component-autosuggest":
+"@digitransit-component/digitransit-component-autosuggest@^2.0.6, @digitransit-component/digitransit-component-autosuggest@workspace:digitransit-component/packages/digitransit-component-autosuggest":
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-autosuggest@workspace:digitransit-component/packages/digitransit-component-autosuggest"
   dependencies:
-    "@digitransit-search-util/digitransit-search-util-execute-search-immidiate": ^2.0.2
+    "@digitransit-search-util/digitransit-search-util-execute-search-immidiate": ^2.0.3
     "@digitransit-search-util/digitransit-search-util-get-label": ^1.0.0
     "@digitransit-search-util/digitransit-search-util-uniq-by-label": ^2.0.0
-    "@hsl-fi/hooks": ^1.2.3
+    "@hsl-fi/hooks": ^1.2.4
   peerDependencies:
-    "@digitransit-component/digitransit-component-dialog-modal": ^0.3.4
+    "@digitransit-component/digitransit-component-dialog-modal": ^0.3.5
     "@digitransit-component/digitransit-component-icon": ^1.0.1
-    "@digitransit-component/digitransit-component-suggestion-item": ^2.0.3
+    "@digitransit-component/digitransit-component-suggestion-item": ^2.0.4
     "@hsl-fi/sass": ^0.2.0
     classnames: 2.2.6
     i18next: ^19.3.3
@@ -1967,12 +1967,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digitransit-component/digitransit-component-control-panel@^1.1.6, @digitransit-component/digitransit-component-control-panel@workspace:digitransit-component/packages/digitransit-component-control-panel":
+"@digitransit-component/digitransit-component-control-panel@^1.1.7, @digitransit-component/digitransit-component-control-panel@workspace:digitransit-component/packages/digitransit-component-control-panel":
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-control-panel@workspace:digitransit-component/packages/digitransit-component-control-panel"
   peerDependencies:
     "@digitransit-component/digitransit-component-icon": ^1.0.1
-    "@hsl-fi/sass": ~0.2.0
+    "@hsl-fi/sass": ^0.2.0
     classnames: 2.2.6
     i18next: ^19.3.3
     prop-types: ^15.7.2
@@ -2004,7 +2004,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-dialog-modal@workspace:digitransit-component/packages/digitransit-component-dialog-modal"
   dependencies:
-    "@hsl-fi/modal": ^0.3.1
+    "@hsl-fi/modal": ^0.3.2
   peerDependencies:
     "@hsl-fi/sass": ^0.2.0
     classnames: 2.2.6
@@ -2014,14 +2014,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digitransit-component/digitransit-component-favourite-bar@2.0.3, @digitransit-component/digitransit-component-favourite-bar@workspace:digitransit-component/packages/digitransit-component-favourite-bar":
+"@digitransit-component/digitransit-component-favourite-bar@2.0.4, @digitransit-component/digitransit-component-favourite-bar@workspace:digitransit-component/packages/digitransit-component-favourite-bar":
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-favourite-bar@workspace:digitransit-component/packages/digitransit-component-favourite-bar"
   dependencies:
     "@digitransit-search-util/digitransit-search-util-uniq-by-label": ^2.0.0
   peerDependencies:
     "@digitransit-component/digitransit-component-icon": ^1.0.1
-    "@digitransit-component/digitransit-component-suggestion-item": ^2.0.3
+    "@digitransit-component/digitransit-component-suggestion-item": ^2.0.4
     "@hsl-fi/sass": ^0.2.0
     "@hsl-fi/shimmer": 0.1.2
     classnames: 2.2.6
@@ -2033,16 +2033,16 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digitransit-component/digitransit-component-favourite-editing-modal@^2.0.0, @digitransit-component/digitransit-component-favourite-editing-modal@workspace:digitransit-component/packages/digitransit-component-favourite-editing-modal":
+"@digitransit-component/digitransit-component-favourite-editing-modal@^2.0.1, @digitransit-component/digitransit-component-favourite-editing-modal@workspace:digitransit-component/packages/digitransit-component-favourite-editing-modal":
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-favourite-editing-modal@workspace:digitransit-component/packages/digitransit-component-favourite-editing-modal"
   dependencies:
     "@digitransit-search-util/digitransit-search-util-uniq-by-label": ^2.0.0
   peerDependencies:
-    "@digitransit-component/digitransit-component-dialog-modal": ^0.3.4
+    "@digitransit-component/digitransit-component-dialog-modal": ^0.3.5
     "@digitransit-component/digitransit-component-icon": ^1.0.1
-    "@hsl-fi/container-spinner": 0.3.1
-    "@hsl-fi/modal": ^0.3.1
+    "@hsl-fi/container-spinner": 0.3.2
+    "@hsl-fi/modal": ^0.3.2
     "@hsl-fi/sass": ^0.2.0
     i18next: ^19.3.3
     prop-types: ^15.7.2
@@ -2051,12 +2051,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digitransit-component/digitransit-component-favourite-modal@^1.0.4, @digitransit-component/digitransit-component-favourite-modal@workspace:digitransit-component/packages/digitransit-component-favourite-modal":
+"@digitransit-component/digitransit-component-favourite-modal@^1.0.5, @digitransit-component/digitransit-component-favourite-modal@workspace:digitransit-component/packages/digitransit-component-favourite-modal":
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-favourite-modal@workspace:digitransit-component/packages/digitransit-component-favourite-modal"
   peerDependencies:
     "@digitransit-component/digitransit-component-icon": ^1.0.1
-    "@hsl-fi/modal": ^0.3.1
+    "@hsl-fi/modal": ^0.3.2
     "@hsl-fi/sass": ^0.2.0
     classnames: 2.2.6
     i18next: ^19.3.3
@@ -2077,7 +2077,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digitransit-component/digitransit-component-suggestion-item@^2.0.3, @digitransit-component/digitransit-component-suggestion-item@workspace:digitransit-component/packages/digitransit-component-suggestion-item":
+"@digitransit-component/digitransit-component-suggestion-item@^2.0.4, @digitransit-component/digitransit-component-suggestion-item@workspace:digitransit-component/packages/digitransit-component-suggestion-item":
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-suggestion-item@workspace:digitransit-component/packages/digitransit-component-suggestion-item"
   dependencies:
@@ -2120,19 +2120,19 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component@workspace:digitransit-component/packages/digitransit-component"
   dependencies:
-    "@digitransit-component/digitransit-component-autosuggest": ^2.0.5
-    "@digitransit-component/digitransit-component-autosuggest-panel": ^3.0.5
-    "@digitransit-component/digitransit-component-control-panel": ^1.1.6
-    "@digitransit-component/digitransit-component-favourite-bar": 2.0.3
-    "@digitransit-component/digitransit-component-favourite-editing-modal": ^2.0.0
-    "@digitransit-component/digitransit-component-favourite-modal": ^1.0.4
+    "@digitransit-component/digitransit-component-autosuggest": ^2.0.6
+    "@digitransit-component/digitransit-component-autosuggest-panel": ^3.0.6
+    "@digitransit-component/digitransit-component-control-panel": ^1.1.7
+    "@digitransit-component/digitransit-component-favourite-bar": 2.0.4
+    "@digitransit-component/digitransit-component-favourite-editing-modal": ^2.0.1
+    "@digitransit-component/digitransit-component-favourite-modal": ^1.0.5
     "@digitransit-component/digitransit-component-icon": ^1.0.1
-    "@digitransit-component/digitransit-component-suggestion-item": ^2.0.3
+    "@digitransit-component/digitransit-component-suggestion-item": ^2.0.4
     "@digitransit-component/digitransit-component-with-breakpoint": ^0.0.5
   peerDependencies:
-    "@digitransit-component/digitransit-component-dialog-modal": ^0.3.4
-    "@hsl-fi/container-spinner": 0.3.1
-    "@hsl-fi/modal": ^0.3.1
+    "@digitransit-component/digitransit-component-dialog-modal": ^0.3.5
+    "@hsl-fi/container-spinner": 0.3.2
+    "@hsl-fi/modal": ^0.3.2
     "@hsl-fi/sass": ^0.2.0
     "@hsl-fi/shimmer": 0.1.2
     classnames: 2.2.6
@@ -2157,7 +2157,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digitransit-search-util/digitransit-search-util-execute-search-immidiate@^2.0.2, @digitransit-search-util/digitransit-search-util-execute-search-immidiate@workspace:digitransit-search-util/packages/digitransit-search-util-execute-search-immidiate":
+"@digitransit-search-util/digitransit-search-util-execute-search-immidiate@^2.0.3, @digitransit-search-util/digitransit-search-util-execute-search-immidiate@workspace:digitransit-search-util/packages/digitransit-search-util-execute-search-immidiate":
   version: 0.0.0-use.local
   resolution: "@digitransit-search-util/digitransit-search-util-execute-search-immidiate@workspace:digitransit-search-util/packages/digitransit-search-util-execute-search-immidiate"
   dependencies:
@@ -2986,16 +2986,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hsl-fi/animated-spinner@npm:^0.2.0":
-  version: 0.2.1
-  resolution: "@hsl-fi/animated-spinner@npm:0.2.1"
-  dependencies:
-    "@hsl-fi/icons": ^1.0.3
-    "@hsl-fi/sass": ^0.2.0
-  checksum: e53d5c72d388cd6a778302b8d0338865a8605f0b8df9c53fbd0d6858d781544a6eb9fbf576d235e23ce56c7aecc70788492650e64722814e0d3656d7f16eca41
-  languageName: node
-  linkType: hard
-
 "@hsl-fi/animated-spinner@npm:^0.3.0":
   version: 0.3.0
   resolution: "@hsl-fi/animated-spinner@npm:0.3.0"
@@ -3018,18 +3008,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hsl-fi/container-spinner@npm:0.3.1":
-  version: 0.3.1
-  resolution: "@hsl-fi/container-spinner@npm:0.3.1"
-  dependencies:
-    "@hsl-fi/animated-spinner": ^0.2.0
-    "@hsl-fi/sass": ^0.2.0
-    "@hsl-fi/utilities": ^0.2.11
-  checksum: 7da5734f1a07261daf4eb3150eaf0351323bd3851f074c4134504dfb0a62c16f6e75297e2cc1ec72c335eebe1763995323299e72c5b338666c1c1c84adf64587
-  languageName: node
-  linkType: hard
-
-"@hsl-fi/container-spinner@npm:^0.3.2":
+"@hsl-fi/container-spinner@npm:0.3.2, @hsl-fi/container-spinner@npm:^0.3.2":
   version: 0.3.2
   resolution: "@hsl-fi/container-spinner@npm:0.3.2"
   dependencies:
@@ -3037,13 +3016,6 @@ __metadata:
     "@hsl-fi/sass": ^0.2.0
     "@hsl-fi/utilities": ^0.3.2
   checksum: f09cb0da1219b671e805270ac86cd2eac69d3ee73887846eeb7fe7cb68f01c85cea88ac3ffb086b0659fd5bb1578adfa94d24f1b562272d4c10d1ff7883f8603
-  languageName: node
-  linkType: hard
-
-"@hsl-fi/content-delivery-api-types@npm:^0.1.4":
-  version: 0.1.5
-  resolution: "@hsl-fi/content-delivery-api-types@npm:0.1.5"
-  checksum: 0a0ebe24992fc46e71d282d2512129f394583d09de3beef8352e3532aa6df6a6208d43dfb5a3faa7cb9af6ff0e83566054599396b04f15d03e3b6b8ebabaecd1
   languageName: node
   linkType: hard
 
@@ -3065,14 +3037,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hsl-fi/hooks@npm:1.2.3":
-  version: 1.2.3
-  resolution: "@hsl-fi/hooks@npm:1.2.3"
-  checksum: 65641cea7d2411a8c4e1d96769753e6d8ebfeeefb8b0c8bfc6794b8adf4a8e64b22c290e7805135321a020ba6f51092480e3bff9ddd1f0101ea1c5b7983d337a
-  languageName: node
-  linkType: hard
-
-"@hsl-fi/hooks@npm:^1.2.3, @hsl-fi/hooks@npm:^1.2.4":
+"@hsl-fi/hooks@npm:1.2.4, @hsl-fi/hooks@npm:^1.2.4":
   version: 1.2.4
   resolution: "@hsl-fi/hooks@npm:1.2.4"
   checksum: 7b92cb2705a0189d02cd79c5ebc35dee6a9713131bda461be8ba4e7621bdd2b68d2d06eef2b876a5ec7441f63dec294eff15c0f3b597a11f3115ea98b251db8b
@@ -3098,14 +3063,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hsl-fi/icons@npm:^1.0.2, @hsl-fi/icons@npm:^1.0.3, @hsl-fi/icons@npm:^1.0.6":
+"@hsl-fi/icons@npm:^1.0.6":
   version: 1.0.6
   resolution: "@hsl-fi/icons@npm:1.0.6"
   checksum: f011401af397404e550e31c2d855db4a41704d8232ae78af28ae74a944a00dedf86d57368305ea29e55edd5b2d8eb64e0a8a74aa73cd1fce01af28cf32888b46
   languageName: node
   linkType: hard
 
-"@hsl-fi/modal@npm: ^0.3.1, @hsl-fi/modal@npm:^0.3.1":
+"@hsl-fi/modal@npm: ^0.3.2, @hsl-fi/modal@npm:^0.3.2":
   version: 0.3.2
   resolution: "@hsl-fi/modal@npm:0.3.2"
   dependencies:
@@ -3259,17 +3224,6 @@ __metadata:
     "@hsl-fi/icon-config": ^0.1.4
     "@hsl-fi/icons": ^1.0.6
   checksum: 55eb2b3eba9c40ef0bf22624c3345ef6210a2a0bec51cf3c2e3c96ddbdedb633adaad08e5807e5314ea26108c5d6c4ebdb80b2eab009de953d6452838186bc67
-  languageName: node
-  linkType: hard
-
-"@hsl-fi/utilities@npm:^0.2.11":
-  version: 0.2.14
-  resolution: "@hsl-fi/utilities@npm:0.2.14"
-  dependencies:
-    "@hsl-fi/content-delivery-api-types": ^0.1.4
-    "@hsl-fi/icon-config": ^0.1.4
-    "@hsl-fi/icons": ^1.0.2
-  checksum: 8ab522e032e6ad3bd12614257face95890a682fbf4c13d1ef7e5cbdd612afa271265fd66e2ce02662c480769f065efb8abf99a23a957085ddc1208f70e165d8f
   languageName: node
   linkType: hard
 
@@ -10965,9 +10919,9 @@ __metadata:
     "@commitlint/cli": 9.1.2
     "@commitlint/config-conventional": 9.1.2
     "@graphql-eslint/eslint-plugin": 3.20.1
-    "@hsl-fi/container-spinner": 0.3.1
-    "@hsl-fi/hooks": 1.2.3
-    "@hsl-fi/modal": " ^0.3.1"
+    "@hsl-fi/container-spinner": 0.3.2
+    "@hsl-fi/hooks": 1.2.4
+    "@hsl-fi/modal": " ^0.3.2"
     "@hsl-fi/sass": " ^0.2.0"
     "@hsl-fi/shared-local-storage": 0.4.0
     "@hsl-fi/shimmer": 0.1.2

@@ -515,8 +515,8 @@ SuggestionItem.propTypes = {
   fontWeights: PropTypes.shape({
     medium: PropTypes.number,
   }),
-  getAutoSuggestIcons: PropTypes.object,
-  modeIconColors: PropTypes.object,
+  getAutoSuggestIcons: PropTypes.objectOf(PropTypes.func),
+  modeIconColors: PropTypes.objectOf(PropTypes.string),
   modeSet: PropTypes.string,
 };
 

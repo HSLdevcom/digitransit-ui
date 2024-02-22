@@ -104,3 +104,22 @@ export const VehicleShape = PropTypes.shape({
   heading: PropTypes.number,
   headsign: PropTypes.string,
 });
+
+export const geoJsonFeatureShape = PropTypes.shape({
+  id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  geometry: PropTypes.shape({
+    coordinates: PropTypes.arrayOf(
+      PropTypes.oneOfType([
+        PropTypes.number,
+        PropTypes.arrayOf(
+          PropTypes.oneOfType([
+            PropTypes.arrayOf(PropTypes.number),
+            PropTypes.number,
+          ]),
+        ),
+      ]),
+    ).isRequired,
+    type: PropTypes.string.isRequired,
+  }).isRequired,
+  properties: PropTypes.object,
+});

@@ -100,7 +100,7 @@ export default function TicketInformation(
 }
 
 TicketInformation.propTypes = {
-  legs: PropTypes.array,
+  legs: PropTypes.arrayOf(PropTypes.object),
   fares: PropTypes.arrayOf(FareShape),
   zones: PropTypes.arrayOf(PropTypes.string),
 };

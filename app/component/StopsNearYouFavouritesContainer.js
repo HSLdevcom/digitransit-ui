@@ -68,9 +68,9 @@ function StopsNearYouFavouritesContainer({
 }
 
 StopsNearYouFavouritesContainer.propTypes = {
-  stops: PropTypes.array,
-  stations: PropTypes.array,
-  vehicleStations: PropTypes.array,
+  stops: PropTypes.arrayOf(PropTypes.object),
+  stations: PropTypes.arrayOf(PropTypes.object),
+  vehicleStations: PropTypes.arrayOf(PropTypes.object),
   searchPosition: dtLocationShape,
 };
 
