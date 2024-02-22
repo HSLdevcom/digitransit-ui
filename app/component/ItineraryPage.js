@@ -114,6 +114,7 @@ function ItineraryPage(props, context) {
   const headerRef = useRef(null);
   const mwtRef = useRef();
   const expandMapRef = useRef(0);
+  const ariaRef = useRef('summary-page.title');
   const pendingWeatherHash = useRef();
 
   const [state, setState] = useState({
@@ -266,18 +267,6 @@ function ItineraryPage(props, context) {
         .catch(() => {
           pendingWeatherHash.current = undefined;
           setWeatherState({ loading: false, weatherData: undefined });
-        })
-        .finally(() => {
-          if (props.alertRef.current) {
-            /* eslint-disable no-param-reassign */
-            props.alertRef.current.innerHTML = context.intl.formatMessage({
-              id: 'itinerary-summary-page-street-mode.update-alert',
-              defaultMessage: 'Walking and biking results updated',
-            });
-            setTimeout(() => {
-              props.alertRef.current.innerHTML = null;
-            }, 100);
-          }
         });
     }
   }
@@ -372,23 +361,6 @@ function ItineraryPage(props, context) {
       });
   }
 
-  function showScreenReaderAlert(id, onlyNew) {
-    if (
-      props.alertRef?.current &&
-      (!onlyNew || !props.alertRef.current.innerHTML)
-    ) {
-      props.alertRef.current.innerHTML = context.intl.formatMessage({
-        id,
-        defaultMessage: id,
-      });
-      setTimeout(() => {
-        if (props.alertRef?.current?.innerHTML) {
-          props.alertRef.current.innerHTML = null;
-        }
-      }, 100);
-    }
-  }
-
   const onLater = (itineraries, reversed) => {
     addAnalyticsEvent({
       event: 'sendMatomoEvent',
@@ -440,7 +412,7 @@ function ItineraryPage(props, context) {
     };
 
     setState({ ...state, loadingMore: reversed ? 'top' : 'bottom' });
-    showScreenReaderAlert('itinerary-page.loading-itineraries', true);
+    ariaRef.current = 'itinerary-page.loading-itineraries';
 
     fetchQuery(props.relayEnvironment, moreQuery, tunedParams)
       .toPromise()
@@ -453,7 +425,7 @@ function ItineraryPage(props, context) {
           setState({ ...state, ...newState });
           return;
         }
-        showScreenReaderAlert('itinerary-page.itineraries-loaded');
+        ariaRef.current = 'itinerary-page.itineraries-loaded';
         if (reversed) {
           // We need to filter only walk itineraries out to place the "separator" accurately between itineraries
           setState({
@@ -531,7 +503,7 @@ function ItineraryPage(props, context) {
       ...state,
       loadingMore: reversed ? spinnerPosition.bottom : spinnerPosition.top,
     });
-    showScreenReaderAlert('itinerary-page.loading-itineraries', true);
+    ariaRef.current = 'itinerary-page.loading-itineraries';
 
     fetchQuery(props.relayEnvironment, moreQuery, tunedParams)
       .toPromise()
@@ -546,7 +518,7 @@ function ItineraryPage(props, context) {
           setState({ ...state, ...newState });
           return;
         }
-        showScreenReaderAlert('itinerary-page.itineraries-loaded');
+        ariaRef.current = 'itinerary-page.itineraries-loaded';
         if (reversed) {
           setState({
             ...state,
@@ -698,14 +670,16 @@ function ItineraryPage(props, context) {
   }, []);
 
   useEffect(() => {
-    showScreenReaderAlert('itinerary-page.itineraries-loaded');
     // eslint-disable-next-line react/no-did-update-set-state
     setState({ ...state, ...emptyState });
     if (!props.loading) {
+      ariaRef.current = 'itinerary-page.itineraries-loaded';
       if (settingsLimitRouting(context.config) && !state.settingsChanged) {
         makeRelaxedQuery();
       }
       makeAlternativeQuery();
+    } else {
+      ariaRef.current = 'itinerary-page.loading-itineraries';
     }
     if (props.error) {
       reportError(props.error);
@@ -860,7 +834,7 @@ function ItineraryPage(props, context) {
     if (!settingsChanged || !hasValidFromTo()) {
       return;
     }
-
+    ariaRef.current = 'itinerary-page.loading-itineraries';
     const planParams = getPlanParams(context.config, props.match);
     setState({
       ...state,
@@ -871,7 +845,6 @@ function ItineraryPage(props, context) {
       loading: true,
     });
     props.relay.refetch(planParams, null, () => {
-      showScreenReaderAlert('itinerary-page.itineraries-updated');
       resetItineraryPageSelection();
     });
   }
@@ -1118,6 +1091,9 @@ function ItineraryPage(props, context) {
 
   const header = !detailView && (
     <span aria-hidden={settingsState.settingsOpen}>
+      <div className="sr-only" id="aria-page-info" aria-live="assertive">
+        <FormattedMessage id={ariaRef.current} />
+      </div>
       <ItineraryPageControls params={params} toggleSettings={toggleSettings} />
       {alternativeItineraryBar}
     </span>
