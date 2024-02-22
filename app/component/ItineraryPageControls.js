@@ -34,9 +34,8 @@ class ItineraryPageControls extends React.Component {
   componentDidMount() {
     this.unlisten = this.context.router.addNavigationListener(location => {
       if (
-        this.context.match.location.state &&
-        this.context.match.location.state.customizeSearchOffcanvas &&
-        (!location.state || !location.state.customizeSearchOffcanvas) &&
+        this.context.match.location.state?.itinerarySettingsOpen &&
+        !location.state?.itinerarySettingsOpen &&
         !this.transitionDone &&
         location.pathname.startsWith(`/${PREFIX_ITINERARY_SUMMARY}/`)
       ) {
@@ -45,7 +44,7 @@ class ItineraryPageControls extends React.Component {
           ...this.context.match.location,
           state: {
             ...this.context.match.location.state,
-            customizeSearchOffcanvas: false,
+            itinerarySettingsOpen: false,
           },
         };
         setTimeout(() => this.context.router.replace(newLocation), 0);

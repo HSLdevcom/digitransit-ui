@@ -33,7 +33,7 @@ const RouteNumberContainer = (
 RouteNumberContainer.propTypes = {
   alertSeverityLevel: PropTypes.string,
   route: PropTypes.object.isRequired,
-  interliningWithRoute: PropTypes.number,
+  interliningWithRoute: PropTypes.string,
   isCallAgency: PropTypes.bool,
   vertical: PropTypes.bool,
   className: PropTypes.string,
@@ -43,6 +43,7 @@ RouteNumberContainer.propTypes = {
 };
 
 RouteNumberContainer.defaultProps = {
+  interliningWithRoute: undefined,
   alertSeverityLevel: undefined,
   className: '',
   withBicycle: false,

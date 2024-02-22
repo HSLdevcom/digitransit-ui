@@ -54,7 +54,7 @@ class ItineraryListContainer extends React.Component {
     separatorPosition: PropTypes.number,
     onLater: PropTypes.func.isRequired,
     onEarlier: PropTypes.func.isRequired,
-    onDetailsTabFocused: PropTypes.func.isRequired,
+    focusToHeader: PropTypes.func.isRequired,
     loadingMore: PropTypes.string,
     settingsNotification: PropTypes.bool,
     driving: PropTypes.bool,
@@ -149,7 +149,7 @@ class ItineraryListContainer extends React.Component {
     this.context.router.replace(newLocation);
     newLocation.pathname = indexPath;
     this.context.router.push(newLocation);
-    this.props.onDetailsTabFocused();
+    this.props.focusToHeader();
   };
 
   laterButton(reversed = false) {

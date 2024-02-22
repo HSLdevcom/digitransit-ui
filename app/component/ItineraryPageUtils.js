@@ -70,9 +70,6 @@ export function getSelectedItineraryIndex(
  * @param {Error|string|any} error
  */
 export function reportError(error) {
-  if (!error) {
-    return;
-  }
   addAnalyticsEvent({
     category: 'Itinerary',
     action: 'ErrorLoading',
