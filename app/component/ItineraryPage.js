@@ -739,6 +739,7 @@ function ItineraryPage(props, context) {
     altState.bikeTransitPlan,
     altState.parkRidePlan,
     relaxState.relaxedPlan,
+    props.match.location.state?.selectedItineraryIndex,
   ]);
 
   const setMWTRef = ref => {
