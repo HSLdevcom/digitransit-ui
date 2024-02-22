@@ -111,7 +111,7 @@ const emptyState = {
 };
 
 function ItineraryPage(props, context) {
-  const tabHeaderRef = useRef(null);
+  const headerRef = useRef(null);
   const mwtRef = useRef();
   const expandMapRef = useRef(0);
   const pendingWeatherHash = useRef();
@@ -880,10 +880,10 @@ function ItineraryPage(props, context) {
     showSettingsPanel(!settingsState.settingsOpen);
   };
 
-  const onDetailsTabFocused = () => {
+  const focusToHeader = () => {
     setTimeout(() => {
-      if (tabHeaderRef.current) {
-        tabHeaderRef.current.focus();
+      if (headerRef.current) {
+        headerRef.current.focus();
       }
     }, 500);
   };
@@ -1051,7 +1051,7 @@ function ItineraryPage(props, context) {
         separatorPosition={state.separatorPosition}
         onLater={onLater}
         onEarlier={onEarlier}
-        onDetailsTabFocused={onDetailsTabFocused}
+        focusToHeader={focusToHeader}
         loading={loading}
         loadingMore={state.loadingMore}
         settingsNotification={settingsNotification}
@@ -1127,7 +1127,7 @@ function ItineraryPage(props, context) {
 
   if (desktop) {
     const title = (
-      <span ref={tabHeaderRef} tabIndex={-1}>
+      <span ref={headerRef} tabIndex={-1}>
         <FormattedMessage
           id={detailView ? 'itinerary-page.title' : 'summary-page.title'}
           defaultMessage="Itinerary suggestions"
