@@ -11,7 +11,7 @@ const User = require('./User').User;
 const debugLogging = process.env.DEBUGLOGGING;
 const callbackPath = '/oid_callback';
 
-const OICStrategy = function (config) {
+const OICStrategy = function strategy(config) {
   this.name = 'passport-openid-connect';
   this.config = config || {};
   this.client = null;
@@ -29,7 +29,7 @@ custom.setHttpOptionsDefaults({
   timeout: 10000,
 });
 
-OICStrategy.prototype.init = function () {
+OICStrategy.prototype.init = function init() {
   if (!this.config.issuerHost) {
     throw new Error(
       'Could not find requried config options issuerHost in openid-passport strategy initalization',
@@ -48,7 +48,7 @@ OICStrategy.prototype.init = function () {
     });
 };
 
-OICStrategy.prototype.authenticate = function (req, opts) {
+OICStrategy.prototype.authenticate = function auth(req, opts) {
   const redirectUri = this.createRedirectUrl(req);
   if (opts.callback) {
     if (debugLogging) {
@@ -71,7 +71,7 @@ OICStrategy.prototype.authenticate = function (req, opts) {
   this.redirect(authurl);
 };
 
-OICStrategy.prototype.getUserInfo = function () {
+OICStrategy.prototype.getUserInfo = function getuinfo() {
   if (debugLogging) {
     console.log('passport getUserInfo');
   }
@@ -83,7 +83,7 @@ OICStrategy.prototype.getUserInfo = function () {
   });
 };
 
-OICStrategy.prototype.callback = function (req, opts) {
+OICStrategy.prototype.callback = function cb(req, opts) {
   if (debugLogging) {
     console.log(`path=${req.path} query=${req.query}`);
   }
@@ -121,7 +121,7 @@ OICStrategy.prototype.callback = function (req, opts) {
     });
 };
 
-OICStrategy.prototype.refresh = function (req) {
+OICStrategy.prototype.refresh = function refresh(req) {
   if (debugLogging) {
     console.log('Refreshing tokens');
   }
@@ -151,7 +151,11 @@ OICStrategy.prototype.refresh = function (req) {
       });
     });
 };
-OICStrategy.prototype.createAuthUrl = function (redirectUri, lang, ssoToken) {
+OICStrategy.prototype.createAuthUrl = function createAuthUrl(
+  redirectUri,
+  lang,
+  ssoToken,
+) {
   if (debugLogging) {
     console.log(`createAuthUrl, ssotoken=${JSON.stringify(ssoToken)}`);
   }
@@ -173,7 +177,7 @@ OICStrategy.prototype.createAuthUrl = function (redirectUri, lang, ssoToken) {
   return this.client.authorizationUrl(params);
 };
 
-OICStrategy.prototype.createRedirectUrl = function (req) {
+OICStrategy.prototype.createRedirectUrl = function createRedirectUrl(req) {
   const host = req.headers['x-forwarded-host'] || req.headers.host;
   if (req.secure) {
     return `https://${host}${callbackPath}`;
@@ -181,11 +185,11 @@ OICStrategy.prototype.createRedirectUrl = function (req) {
   return `http://${host}${callbackPath}`;
 };
 
-OICStrategy.serializeUser = function (user, cb) {
+OICStrategy.serializeUser = function serializeUser(user, cb) {
   cb(null, user.serialize());
 };
 
-OICStrategy.deserializeUser = function (packed, cb) {
+OICStrategy.deserializeUser = function deserializeUser(packed, cb) {
   cb(null, User.unserialize(packed));
 };
 

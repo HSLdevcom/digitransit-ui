@@ -135,7 +135,7 @@ RouteLeg.propTypes = {
   large: PropTypes.bool.isRequired,
   legLength: PropTypes.number.isRequired,
   fitRouteNumber: PropTypes.bool.isRequired,
-  interliningWithRoute: PropTypes.number,
+  interliningWithRoute: PropTypes.string,
   isTransitLeg: PropTypes.bool,
   withBicycle: PropTypes.bool.isRequired,
   hasOneTransitLeg: PropTypes.bool,

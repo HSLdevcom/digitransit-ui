@@ -44,7 +44,7 @@ export default function MobileView({
   expandMap,
   searchBox,
 }) {
-  if (settingsDrawer && settingsDrawer.props.open) {
+  if (settingsDrawer) {
     return <div className="mobile">{settingsDrawer}</div>;
   }
   const scrollRef = useRef(null);
