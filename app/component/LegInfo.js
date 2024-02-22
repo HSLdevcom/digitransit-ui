@@ -142,6 +142,11 @@ LegInfo.propTypes = {
   tabIndex: PropTypes.number,
 };
 
+LegInfo.propTypes = {
+  changeHash: undefined,
+  tabIndex: undefined,
+};
+
 LegInfo.contextTypes = {
   intl: intlShape.isRequired,
   config: PropTypes.object.isRequired,

@@ -42,7 +42,7 @@ class ItineraryLegs extends React.Component {
   };
 
   static propTypes = {
-    itinerary: PropTypes.object,
+    itinerary: PropTypes.object.isRequired,
     fares: PropTypes.arrayOf(PropTypes.object),
     toggleCanceledLegsBanner: PropTypes.func.isRequired,
     waitThreshold: PropTypes.number.isRequired,
@@ -54,6 +54,7 @@ class ItineraryLegs extends React.Component {
 
   static defaultProps = {
     fares: [],
+    changeHash: undefined,
   };
 
   getChildContext() {

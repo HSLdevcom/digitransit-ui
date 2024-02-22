@@ -724,6 +724,8 @@ TransitLeg.propTypes = {
 TransitLeg.defaultProps = {
   omitDivider: false,
   interliningLegs: [],
+  changeHash: undefined,
+  tabIndex: undefined,
 };
 
 TransitLeg.contextTypes = {
