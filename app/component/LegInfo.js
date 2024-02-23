@@ -142,7 +142,7 @@ LegInfo.propTypes = {
   tabIndex: PropTypes.number,
 };
 
-LegInfo.propTypes = {
+LegInfo.defaultProps = {
   changeHash: undefined,
   tabIndex: undefined,
 };

@@ -35,4 +35,10 @@ SelectParkAndRideRow.propTypes = {
   name: PropTypes.string,
 };
 
+SelectParkAndRideRow.defaultProps = {
+  bikeParkId: undefined,
+  carParkId: undefined,
+  name: '',
+};
+
 export default SelectParkAndRideRow;

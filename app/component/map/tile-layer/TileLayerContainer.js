@@ -62,11 +62,17 @@ class TileLayerContainer extends GridLayer {
     stopsToShow: PropTypes.arrayOf(PropTypes.string),
     objectsToHide: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)),
     vehicles: PropTypes.object,
-    lang: PropTypes.string,
+    lang: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
+    onSelectLocation: undefined,
+    locationPopup: undefined,
     objectsToHide: { vehicleRentalStations: [] },
+    hilightedStops: [],
+    stopsToShow: [],
+    vehicles: undefined,
+    mergeStops: false,
   };
 
   static contextTypes = {

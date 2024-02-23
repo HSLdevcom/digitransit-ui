@@ -29,6 +29,11 @@ class LocationPopup extends React.Component {
     onSelectLocation: PropTypes.func,
   };
 
+  static defaultProps = {
+    locationPopup: undefined,
+    onSelectLocation: () => {},
+  };
+
   constructor(props) {
     super(props);
     this.state = {
