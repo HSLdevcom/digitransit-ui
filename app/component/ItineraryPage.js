@@ -25,6 +25,7 @@ import { getWeatherData } from '../util/apiUtils';
 import Loading from './Loading';
 import { getItineraryPagePath, streetHash } from '../util/path';
 import { boundWithMinimumArea } from '../util/geo-utils';
+import { getTotalBikingDistance } from '../util/legUtils';
 import {
   planQuery,
   moreQuery,
@@ -284,13 +285,13 @@ function ItineraryPage(props, context) {
     fetchQuery(props.relayEnvironment, alternativeQuery, planParams)
       .toPromise()
       .then(result => {
-        // filter plain walking / biking away
+        // filter plain walking / biking away, and also no biking
         const bikeParkItineraries = transitItineraries(
           result.bikeParkPlan?.itineraries,
-        );
+        ).filter(i => getTotalBikingDistance(i) > 0);
         const bikePublicItineraries = transitItineraries(
           result.bikeAndPublicPlan?.itineraries,
-        );
+        ).filter(i => getTotalBikingDistance(i) > 0);
 
         // show 6 bike + transit itineraries, preferably 3 of both kind.
         // If there is not enough of a kind, take more from the other kind
