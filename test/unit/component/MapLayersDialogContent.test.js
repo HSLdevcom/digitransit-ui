@@ -192,6 +192,11 @@ describe('<MapLayersDialogContent />', () => {
   });
 
   it('should update the citybike layer', () => {
+    const today = new Date();
+    const yesterday = new Date(today);
+    const tomorrow = new Date(today);
+    yesterday.setDate(yesterday.getDate() - 1);
+    tomorrow.setDate(tomorrow.getDate() + 1);
     let mapLayers = {
       citybike: false,
       stop: {},
@@ -213,9 +218,9 @@ describe('<MapLayersDialogContent />', () => {
             foo: {
               enabled: true,
               season: {
-                start: new Date(),
-                end: new Date(),
-                preSeasonStart: new Date(),
+                start: today,
+                end: tomorrow,
+                preSeasonStart: yesterday,
               },
             },
           },
