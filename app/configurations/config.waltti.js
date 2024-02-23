@@ -33,12 +33,6 @@ export default {
     },
   },
 
-  contactName: {
-    sv: '',
-    fi: '',
-    default: '',
-  },
-
   stopsMinZoom: 14,
 
   cityBike: {},

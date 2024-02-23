@@ -33,12 +33,6 @@ export default {
     countrySelection: ['estonia'],
   },
 
-  contactName: {
-    sv: 'Livin',
-    fi: 'Livin',
-    default: "FTA's",
-  },
-
   availableLanguages: ['fi', 'sv', 'en'],
   defaultLanguage: 'fi',
   hideAppBarLink: true,
