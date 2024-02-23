@@ -120,6 +120,13 @@ ItineraryPageMap.propTypes = {
   showDurationBubble: PropTypes.bool,
 };
 
+ItineraryPageMap.defaultProps = {
+  topics: undefined,
+  showActive: false,
+  showVehicles: false,
+  showDurationBubble: false,
+};
+
 ItineraryPageMap.contextTypes = {
   match: matchShape.isRequired,
   router: routerShape.isRequired,

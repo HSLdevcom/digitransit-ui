@@ -34,15 +34,19 @@ export default function SpeechBubble({
     />
   );
 }
+
 SpeechBubble.propTypes = {
   position: PropTypes.shape({
     lat: PropTypes.number,
     lon: PropTypes.number,
-  }),
+  }).isRequired,
   text: PropTypes.string,
   speechBubbleStyle: PropTypes.string,
   zIndexOffset: PropTypes.number,
 };
+
 SpeechBubble.defaultProps = {
   speechBubbleStyle: 'topRight',
+  text: '',
+  zIndexOffset: undefined,
 };

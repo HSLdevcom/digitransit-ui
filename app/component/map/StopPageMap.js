@@ -212,7 +212,7 @@ StopPageMap.propTypes = {
     platformCode: PropTypes.string,
   }),
   breakpoint: PropTypes.string.isRequired,
-  locationState: dtLocationShape,
+  locationState: dtLocationShape.isRequired,
   currentTime: PropTypes.number.isRequired,
   mapLayers: mapLayerShape.isRequired,
   mapLayerOptions: mapLayerOptionsShape.isRequired,

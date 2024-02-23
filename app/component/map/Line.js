@@ -27,6 +27,13 @@ export default class Line extends React.Component {
     ).isRequired,
   };
 
+  static defaultProps = {
+    thin: false,
+    opaque: false,
+    passive: false,
+    color: undefined,
+  };
+
   static contextTypes = {
     config: PropTypes.object.isRequired,
   };

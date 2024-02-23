@@ -69,6 +69,11 @@ class SelectFromMapPageMap extends React.Component {
     mapLayers: mapLayerShape.isRequired,
   };
 
+  static defaultProps = {
+    breakpoint: undefined,
+    language: PropTypes.string,
+  };
+
   constructor(props) {
     super(props);
     this.state = {};
@@ -209,7 +214,7 @@ class SelectFromMapPageMap extends React.Component {
               defaultMessage: 'Confirm selection',
             })}
             type={this.props.type}
-            onConfirm={isEnabled ? this.props.onConfirm : undefined}
+            onConfirm={this.props.onConfirm}
             color={this.context.config.colors.primary}
             hoverColor={
               this.context.config.colors.hover ||
