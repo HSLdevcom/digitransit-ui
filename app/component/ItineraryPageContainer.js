@@ -3,7 +3,6 @@ import React, { useContext, useEffect, useState, lazy, Suspense } from 'react';
 import { ReactRelayContext } from 'react-relay';
 import { matchShape } from 'found';
 import Loading from './Loading';
-import { validateServiceTimeRange } from '../util/timeUtils';
 import { planQuery } from './ItineraryQueries';
 import { hasStartAndDestination, getPlanParams } from '../util/planParamUtil';
 
@@ -33,7 +32,6 @@ export default function ItineraryPageContainer({ content, match }, { config }) {
             content={content}
             match={match}
             viewer={{ plan: {} }}
-            serviceTimeRange={validateServiceTimeRange()}
             loading={false}
           />
         ) : (
@@ -55,7 +53,6 @@ export default function ItineraryPageContainer({ content, match }, { config }) {
                   content={content}
                   match={match}
                   viewer={{ plan: {} }}
-                  serviceTimeRange={validateServiceTimeRange()}
                   loading
                   error={error}
                 />

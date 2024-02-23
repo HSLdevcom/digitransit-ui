@@ -6,7 +6,6 @@ import React, { useEffect, useState, useRef, cloneElement } from 'react';
 import {
   createRefetchContainer,
   fetchQuery,
-  graphql,
   ReactRelayContext,
 } from 'react-relay';
 import { connectToStores } from 'fluxible-addons-react';
@@ -368,7 +367,7 @@ function ItineraryPage(props, context) {
       action: 'ShowLaterItineraries',
       name: null,
     });
-    const end = moment.unix(props.serviceTimeRange.end);
+
     const latestDepartureTime = itineraries.reduce((previous, current) => {
       const startTime = moment(current.startTime);
 
@@ -382,15 +381,6 @@ function ItineraryPage(props, context) {
     }, null);
 
     latestDepartureTime.add(1, 'minutes');
-
-    if (latestDepartureTime >= end) {
-      const newState = reversed
-        ? { topNote: 'no-route-end-date-not-in-range' }
-        : { bottomNote: 'no-route-end-date-not-in-range' };
-      // Departure time is going beyond available time range
-      setState({ ...state, ...newState });
-      return;
-    }
 
     const useRelaxedRoutingPreferences =
       transitItineraries(props.viewer?.plan?.itineraries).length === 0 &&
@@ -460,7 +450,6 @@ function ItineraryPage(props, context) {
       name: null,
     });
 
-    const start = moment.unix(props.serviceTimeRange.start);
     const earliestArrivalTime = itineraries.reduce((previous, current) => {
       const endTime = moment(current.endTime);
       if (previous == null) {
@@ -473,13 +462,6 @@ function ItineraryPage(props, context) {
     }, null);
 
     earliestArrivalTime.subtract(1, 'minutes');
-    if (earliestArrivalTime <= start) {
-      const newState = reversed
-        ? { bottomNote: 'no-route-start-date-too-early' }
-        : { topNote: 'no-route-start-date-too-early' };
-      setState({ ...state, ...newState });
-      return;
-    }
 
     const useRelaxedRoutingPreferences =
       transitItineraries(props.viewer?.plan?.itineraries).length === 0 &&
@@ -1158,10 +1140,6 @@ ItineraryPage.propTypes = {
       itineraries: PropTypes.arrayOf(ItineraryShape),
     }),
   }).isRequired,
-  serviceTimeRange: PropTypes.shape({
-    start: PropTypes.number.isRequired,
-    end: PropTypes.number.isRequired,
-  }).isRequired,
   content: PropTypes.node,
   map: PropTypes.shape({
     type: PropTypes.func.isRequired,
@@ -1210,12 +1188,6 @@ const containerComponent = createRefetchContainer(
   ItineraryPageWithStores,
   {
     viewer: viewerQuery,
-    serviceTimeRange: graphql`
-      fragment ItineraryPage_serviceTimeRange on serviceTimeRange {
-        start
-        end
-      }
-    `,
   },
   planQuery,
 );

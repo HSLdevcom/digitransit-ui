@@ -49,10 +49,6 @@ export const planQuery = graphql`
           modeWeight: $modeWeight
         )
     }
-
-    serviceTimeRange {
-      ...ItineraryPage_serviceTimeRange
-    }
   }
 `;
 
