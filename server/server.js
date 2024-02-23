@@ -387,12 +387,13 @@ const parseDate = (year, month, day) =>
   // eslint-disable-next-line radix
   new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
 
-function buildCitybikeConfig(cb, networkName) {
+function buildCitybikeConfig(cb, networkName, configName) {
   const inSeason = cb.inSeason.split('-');
   const [startDay, startMonth, startYear] = inSeason[0].split('.');
   const [endDay, endMonth, endYear] = inSeason[1].split('.');
   const [preDay, preMonth, preYear] = cb.preSeason.split('.');
   return {
+    config: configName,
     networkName,
     region: cb.region,
     enabled: cb.enabled,
@@ -403,24 +404,30 @@ function buildCitybikeConfig(cb, networkName) {
     },
   };
 }
-function handleHSLCitybikes(schedules) {
-  const cb1 = schedules.find(sc => sc.region === 'Helsinki_Espoo');
-  const smoove = buildCitybikeConfig(cb1, 'smoove');
 
-  const cb2 = schedules.find(sc => sc.region === 'Vantaa');
-  const vantaa = buildCitybikeConfig(cb2, 'vantaa');
-  return { smoove, vantaa };
-}
-function handleWalttiCitybikes(schedules, region) {
-  const cb = schedules.find(sc => sc.region.toLowerCase() === region);
-  if (cb) {
-    const networkName = cb.operator
-      .toLowerCase()
-      .concat('_')
-      .concat(cb.region.toLowerCase());
-    return buildCitybikeConfig(cb, networkName);
-  }
-  return {};
+function handleCityBikes(schedules, configName) {
+  const bikes = schedules.filter(
+    cb => cb.region.toLowerCase() === configName || cb.config === configName,
+  );
+  const cbConfigurations = [];
+  bikes.forEach(bike => {
+    // This check is due to naming scheme in HSL citybike networks (Smoove and Vantaa)
+    if (bike.config && bike.config === 'hsl') {
+      if (bike.region === 'Vantaa') {
+        cbConfigurations.push(
+          buildCitybikeConfig(bike, bike.region.toLowerCase(), configName),
+        );
+      } else {
+        cbConfigurations.push(
+          buildCitybikeConfig(bike, bike.operator, configName),
+        );
+      }
+    } else {
+      const networkName = bike.operator.concat('_', bike.region.toLowerCase());
+      cbConfigurations.push(buildCitybikeConfig(bike, networkName, configName));
+    }
+  });
+  return cbConfigurations;
 }
 function fetchCityBikeConfigurations() {
   if (!process.env.CITYBIKE_DB_CONN_STRING || !process.env.CITYBIKE_DATABASE) {
@@ -442,18 +449,18 @@ function fetchCityBikeConfigurations() {
           if (cityBike && Object.keys(cityBike).length > 0) {
             promises.push(
               new Promise(resolve => {
-                if (configName === 'hsl') {
-                  resolve(handleHSLCitybikes(schedules));
-                } else {
-                  resolve(handleWalttiCitybikes(schedules, configName));
-                }
+                resolve(handleCityBikes(schedules, configName));
               }),
             );
           }
         }
       });
       Promise.all(promises).then(rf => {
-        const networks = rf.filter(cb => Object.keys(cb).length > 0);
+        // filter empty objects and duplicates
+        const networks = rf
+          .filter(cb => Object.keys(cb).length > 0)
+          .flat()
+          .filter((v, i, a) => a.findIndex(v2 => v2.region === v.region) === i);
         console.log(
           `fetched: ${networks.length} citybike season configuration`,
         );

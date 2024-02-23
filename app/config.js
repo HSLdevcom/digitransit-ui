@@ -163,40 +163,21 @@ export function getNamedConfiguration(configName) {
     }
   }
   if (conf.cityBike && allCitybikes?.length) {
-    const network = allCitybikes.find(
-      cb => conf.cityBike[cb.networkName] !== null,
-    );
-    let confCitybike;
     if (configName === 'matka') {
       allCitybikes.forEach(cb => {
-        let obj;
-        if (cb.smoove) {
-          obj = cb.smoove;
-        } else if (cb.vantaa) {
-          obj = cb.vantaa;
-        } else {
-          obj = cb;
-        }
-        const net = conf.cityBike.networks[obj.networkName];
-        if (net) {
-          net.enabled = obj.enabled;
-          net.season = obj.season;
+        const confCityBike = conf.cityBike.networks[cb.networkName];
+        if (confCityBike) {
+          confCityBike.enabled = cb.enabled;
+          confCityBike.season = cb.season;
         }
       });
-    } else if (configName === 'hsl') {
-      // eslint-disable-next-line no-restricted-syntax
-      for (const [key, value] of Object.entries(network)) {
-        confCitybike = conf.cityBike.networks[key];
-        confCitybike.enabled = value.enabled;
-        confCitybike.season = value.season;
-      }
     } else {
-      confCitybike = conf.cityBike.networks[network.networkName];
-
-      if (confCitybike) {
-        confCitybike.enabled = network.enabled;
-        confCitybike.season = network.season;
-      }
+      const networks = allCitybikes.filter(cb => configName === cb.config);
+      networks.forEach(network => {
+        const confCityBike = conf.cityBike.networks[network.networkName];
+        confCityBike.enabled = network.enabled;
+        confCityBike.season = network.season;
+      });
     }
   }
   if (!process.env.OIDC_CLIENT_ID && conf.allowLogin) {
