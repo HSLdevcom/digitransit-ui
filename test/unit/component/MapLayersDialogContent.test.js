@@ -212,6 +212,11 @@ describe('<MapLayersDialogContent />', () => {
           networks: {
             foo: {
               enabled: true,
+              season: {
+                start: new Date(),
+                end: new Date(),
+                preSeasonStart: new Date(),
+              },
             },
           },
         },
@@ -234,7 +239,6 @@ describe('<MapLayersDialogContent />', () => {
       .find('.option-checkbox.large input')
       .at(0)
       .simulate('change', { target: { checked: true } });
-
     expect(mapLayers.citybike).to.equal(true);
   });
 
