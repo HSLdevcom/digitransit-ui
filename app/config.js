@@ -19,6 +19,11 @@ if (defaultConfig.themeMap) {
   });
 }
 
+let allCitybikes;
+export function setAvailableCitybikes(citybikes) {
+  allCitybikes = [...citybikes];
+}
+
 let allZones;
 export function setAssembledZones(zoneLayer) {
   allZones = { ...zoneLayer };
@@ -157,7 +162,43 @@ export function getNamedConfiguration(configName) {
       }
     }
   }
+  if (conf.cityBike && allCitybikes?.length) {
+    const network = allCitybikes.find(
+      cb => conf.cityBike[cb.networkName] !== null,
+    );
+    let confCitybike;
+    if (configName === 'matka') {
+      allCitybikes.forEach(cb => {
+        let obj;
+        if (cb.smoove) {
+          obj = cb.smoove;
+        } else if (cb.vantaa) {
+          obj = cb.vantaa;
+        } else {
+          obj = cb;
+        }
+        const net = conf.cityBike.networks[obj.networkName];
+        if (net) {
+          net.enabled = obj.enabled;
+          net.season = obj.season;
+        }
+      });
+    } else if (configName === 'hsl') {
+      // eslint-disable-next-line no-restricted-syntax
+      for (const [key, value] of Object.entries(network)) {
+        confCitybike = conf.cityBike.networks[key];
+        confCitybike.enabled = value.enabled;
+        confCitybike.season = value.season;
+      }
+    } else {
+      confCitybike = conf.cityBike.networks[network.networkName];
 
+      if (confCitybike) {
+        confCitybike.enabled = network.enabled;
+        confCitybike.season = network.season;
+      }
+    }
+  }
   if (!process.env.OIDC_CLIENT_ID && conf.allowLogin) {
     return {
       ...conf,
