@@ -165,18 +165,18 @@ export function getNamedConfiguration(configName) {
   if (conf.cityBike && allCitybikes?.length) {
     if (configName === 'matka') {
       allCitybikes.forEach(cb => {
-        const confCityBike = conf.cityBike.networks[cb.networkName];
-        if (confCityBike) {
-          confCityBike.enabled = cb.enabled;
-          confCityBike.season = cb.season;
+        const confCitybike = conf.cityBike.networks[cb.networkName];
+        if (confCitybike) {
+          confCitybike.enabled = cb.enabled;
+          confCitybike.season = cb.season;
         }
       });
     } else {
       const networks = allCitybikes.filter(cb => configName === cb.config);
       networks.forEach(network => {
-        const confCityBike = conf.cityBike.networks[network.networkName];
-        confCityBike.enabled = network.enabled;
-        confCityBike.season = network.season;
+        const confCitybike = conf.cityBike.networks[network.networkName];
+        confCitybike.enabled = network.enabled;
+        confCitybike.season = network.season;
       });
     }
   }

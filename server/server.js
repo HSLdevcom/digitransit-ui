@@ -405,7 +405,7 @@ function buildCitybikeConfig(cb, networkName, configName) {
   };
 }
 
-function handleCityBikes(schedules, configName) {
+function handleCitybikes(schedules, configName) {
   const bikes = schedules.filter(
     cb => cb.region.toLowerCase() === configName || cb.config === configName,
   );
@@ -429,7 +429,7 @@ function handleCityBikes(schedules, configName) {
   });
   return cbConfigurations;
 }
-function fetchCityBikeConfigurations() {
+function fetchCitybikeConfigurations() {
   if (!process.env.CITYBIKE_DB_CONN_STRING || !process.env.CITYBIKE_DATABASE) {
     return Promise.resolve();
   }
@@ -449,7 +449,7 @@ function fetchCityBikeConfigurations() {
           if (cityBike && Object.keys(cityBike).length > 0) {
             promises.push(
               new Promise(resolve => {
-                resolve(handleCityBikes(schedules, configName));
+                resolve(handleCitybikes(schedules, configName));
               }),
             );
           }
@@ -484,7 +484,7 @@ Promise.all([
   setUpAvailableRouteTimetables(),
   setUpAvailableTickets(),
   collectGeoJsonZones(),
-  fetchCityBikeConfigurations(),
+  fetchCitybikeConfigurations(),
 ]).then(startServer);
 
 module.exports.app = app;
