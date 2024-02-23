@@ -13,9 +13,10 @@ const HSLTimetables = require('./timetableConfigUtils').default.HSL;
 const HSLParkAndRideUtils = require('../util/ParkAndRideUtils').default.HSL;
 
 const rootLink = process.env.ROOTLINK || 'https://test.hslfi.hsldev.com';
-const BANNER_URL = 'https://content.hsl.fi/api/v1/banners?site=JourneyPlanner';
-// 'https://test-api.hslfi.hsldev.com/api/v1/banners?site=JourneyPlanner';
-
+const BANNER_URL =
+  process.env.BANNER_URL ||
+  'https://test-api.hslfi.hsldev.com/api/v1/banners?site=JourneyPlanner';
+// 'https://content.hsl.fi/api/v1/banners?site=JourneyPlanner';
 const localStorageEmitter =
   process.env.USE_EMITTER && rootLink + '/local-storage-emitter';
 
