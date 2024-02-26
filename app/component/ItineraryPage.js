@@ -95,6 +95,7 @@ const emptyState = {
   error: undefined,
   topNote: undefined,
   bottomNote: undefined,
+  loading: false,
 };
 
 function ItineraryPage(props, context) {
@@ -353,20 +354,20 @@ function ItineraryPage(props, context) {
 
   function makeMainQuery() {
     if (!hasValidFromTo()) {
-      return Promise.resolve();
+      return;
     }
     ariaRef.current = 'itinerary-page.loading-itineraries';
-    setState({ ...state, ...emptyState, loading: true });
+    setState({ ...state, loading: true });
     const planParams = getPlanParams(context.config, props.match);
-    return fetchQuery(props.relayEnvironment, moreQuery, planParams)
+    fetchQuery(props.relayEnvironment, moreQuery, planParams)
       .toPromise()
       .then(result => {
-        setState({ ...state, plan: result.plan, loading: false });
+        setState({ ...emptyState, plan: result.plan });
         resetItineraryPageSelection();
         ariaRef.current = 'itinerary-page.itineraries-loaded';
       })
       .catch(err => {
-        setState({ ...state, plan: {}, loading: false });
+        setState({ ...emptyState, plan: {} });
         reportError(err);
       });
   }
@@ -670,7 +671,13 @@ function ItineraryPage(props, context) {
     ) {
       makeRelaxedQuery();
     }
-  }, [settingsState.settingsChanged, props.match.location.query.time]);
+  }, [
+    settingsState.settingsChanged,
+    props.match.params.from,
+    props.match.params.to,
+    props.match.location.query.time,
+    props.match.location.query.arriveBy,
+  ]);
 
   useEffect(() => {
     const { params } = props.match;
@@ -974,7 +981,7 @@ function ItineraryPage(props, context) {
       relaxState.relaxedPlan?.itineraries,
     ) &&
     relaxState.relaxedPlan?.itineraries?.length > 0 &&
-    !state.settingsChanged &&
+    !settingsState.settingsChanged &&
     !hash; // no notifier on p&r or bike&public lists
 
   const itineraryList = !detailView && selectedPlan && (
