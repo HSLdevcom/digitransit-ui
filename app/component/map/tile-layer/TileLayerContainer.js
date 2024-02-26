@@ -69,8 +69,8 @@ class TileLayerContainer extends GridLayer {
     onSelectLocation: undefined,
     locationPopup: undefined,
     objectsToHide: { vehicleRentalStations: [] },
-    hilightedStops: [],
-    stopsToShow: [],
+    hilightedStops: undefined,
+    stopsToShow: undefined,
     vehicles: undefined,
     mergeStops: false,
   };
