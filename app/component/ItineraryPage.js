@@ -21,7 +21,7 @@ import Loading from './Loading';
 import { getItineraryPagePath, streetHash } from '../util/path';
 import { boundWithMinimumArea } from '../util/geo-utils';
 import { getTotalBikingDistance } from '../util/legUtils';
-import { moreQuery, alternativeQuery } from './ItineraryQueries';
+import { planQuery, alternativeQuery } from './ItineraryQueries';
 import {
   getSelectedItineraryIndex,
   reportError,
@@ -333,7 +333,7 @@ export default function ItineraryPage(props, context) {
     }
     setRelaxState({ relaxedPlan: {}, loading: true });
     const planParams = getPlanParams(context.config, props.match, true);
-    fetchQuery(props.relayEnvironment, moreQuery, planParams, {
+    fetchQuery(props.relayEnvironment, planQuery, planParams, {
       force: true,
     })
       .toPromise()
@@ -356,7 +356,7 @@ export default function ItineraryPage(props, context) {
     ariaRef.current = 'itinerary-page.loading-itineraries';
     setState({ ...state, loading: true });
     const planParams = getPlanParams(context.config, props.match);
-    fetchQuery(props.relayEnvironment, moreQuery, planParams)
+    fetchQuery(props.relayEnvironment, planQuery, planParams)
       .toPromise()
       .then(result => {
         setState({ ...emptyState, plan: result.plan });
@@ -413,7 +413,7 @@ export default function ItineraryPage(props, context) {
     setState({ ...state, loadingMore: reversed ? 'top' : 'bottom' });
     ariaRef.current = 'itinerary-page.loading-itineraries';
 
-    fetchQuery(props.relayEnvironment, moreQuery, tunedParams)
+    fetchQuery(props.relayEnvironment, planQuery, tunedParams)
       .toPromise()
       .then(({ plan: result }) => {
         const newItineraries = transitItineraries(result.itineraries);
@@ -496,7 +496,7 @@ export default function ItineraryPage(props, context) {
     });
     ariaRef.current = 'itinerary-page.loading-itineraries';
 
-    fetchQuery(props.relayEnvironment, moreQuery, tunedParams)
+    fetchQuery(props.relayEnvironment, planQuery, tunedParams)
       .toPromise()
       .then(({ plan: result }) => {
         const newItineraries = transitItineraries(result.itineraries);

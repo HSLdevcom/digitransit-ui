@@ -1,10 +1,7 @@
 import { graphql } from 'react-relay';
 
-/**
- * Generic plan query.
- */
 export const planQuery = graphql`
-  query ItineraryQueries_Plan_Query(
+  query ItineraryQueries_More_Query(
     $fromPlace: String!
     $toPlace: String!
     $numItineraries: Int!
@@ -23,31 +20,91 @@ export const planQuery = graphql`
     $optimize: OptimizeType
     $unpreferred: InputUnpreferred
     $allowedBikeRentalNetworks: [String]
-    $modeWeight: InputModeWeight
   ) {
-    viewer {
-      ...ItineraryQueries_Plan_Viewer
-        @arguments(
-          fromPlace: $fromPlace
-          toPlace: $toPlace
-          numItineraries: $numItineraries
-          modes: $modes
-          date: $date
-          time: $time
-          walkReluctance: $walkReluctance
-          walkBoardCost: $walkBoardCost
-          minTransferTime: $minTransferTime
-          walkSpeed: $walkSpeed
-          wheelchair: $wheelchair
-          ticketTypes: $ticketTypes
-          arriveBy: $arriveBy
-          transferPenalty: $transferPenalty
-          bikeSpeed: $bikeSpeed
-          optimize: $optimize
-          unpreferred: $unpreferred
-          allowedBikeRentalNetworks: $allowedBikeRentalNetworks
-          modeWeight: $modeWeight
-        )
+    plan: plan(
+      fromPlace: $fromPlace
+      toPlace: $toPlace
+      numItineraries: $numItineraries
+      transportModes: $modes
+      date: $date
+      time: $time
+      walkReluctance: $walkReluctance
+      walkBoardCost: $walkBoardCost
+      minTransferTime: $minTransferTime
+      walkSpeed: $walkSpeed
+      wheelchair: $wheelchair
+      allowedTicketTypes: $ticketTypes
+      arriveBy: $arriveBy
+      transferPenalty: $transferPenalty
+      bikeSpeed: $bikeSpeed
+      optimize: $optimize
+      unpreferred: $unpreferred
+      allowedVehicleRentalNetworks: $allowedBikeRentalNetworks
+    ) {
+      routingErrors {
+        code
+        inputField
+      }
+      ...ItineraryListContainer_plan
+      ...ItineraryDetails_plan
+      itineraries {
+        startTime
+        endTime
+        ...ItineraryDetails_itinerary
+        ...ItineraryListContainer_itineraries
+        emissionsPerPerson {
+          co2
+        }
+        legs {
+          mode
+          ...ItineraryLine_legs
+          transitLeg
+          legGeometry {
+            points
+          }
+          route {
+            gtfsId
+          }
+          trip {
+            gtfsId
+            directionId
+            occupancy {
+              occupancyStatus
+            }
+            stoptimesForDate {
+              scheduledDeparture
+              pickupType
+            }
+            pattern {
+              ...RouteLine_pattern
+            }
+          }
+          from {
+            name
+            lat
+            lon
+            stop {
+              gtfsId
+              zoneId
+            }
+            vehicleRentalStation {
+              stationId
+              vehiclesAvailable
+              network
+            }
+          }
+          to {
+            stop {
+              gtfsId
+              zoneId
+            }
+            bikePark {
+              bikeParkId
+              name
+            }
+          }
+        }
+      }
     }
   }
 `;
@@ -370,229 +427,6 @@ export const alternativeQuery = graphql`
             name
           }
           distance
-        }
-      }
-    }
-  }
-`;
-
-export const moreQuery = graphql`
-  query ItineraryQueries_More_Query(
-    $fromPlace: String!
-    $toPlace: String!
-    $numItineraries: Int!
-    $modes: [TransportMode!]
-    $date: String!
-    $time: String!
-    $walkReluctance: Float
-    $walkBoardCost: Int
-    $minTransferTime: Int
-    $walkSpeed: Float
-    $wheelchair: Boolean
-    $ticketTypes: [String]
-    $arriveBy: Boolean
-    $transferPenalty: Int
-    $bikeSpeed: Float
-    $optimize: OptimizeType
-    $unpreferred: InputUnpreferred
-    $allowedBikeRentalNetworks: [String]
-  ) {
-    plan: plan(
-      fromPlace: $fromPlace
-      toPlace: $toPlace
-      numItineraries: $numItineraries
-      transportModes: $modes
-      date: $date
-      time: $time
-      walkReluctance: $walkReluctance
-      walkBoardCost: $walkBoardCost
-      minTransferTime: $minTransferTime
-      walkSpeed: $walkSpeed
-      wheelchair: $wheelchair
-      allowedTicketTypes: $ticketTypes
-      arriveBy: $arriveBy
-      transferPenalty: $transferPenalty
-      bikeSpeed: $bikeSpeed
-      optimize: $optimize
-      unpreferred: $unpreferred
-      allowedVehicleRentalNetworks: $allowedBikeRentalNetworks
-    ) {
-      routingErrors {
-        code
-        inputField
-      }
-      ...ItineraryListContainer_plan
-      ...ItineraryDetails_plan
-      itineraries {
-        startTime
-        endTime
-        ...ItineraryDetails_itinerary
-        ...ItineraryListContainer_itineraries
-        emissionsPerPerson {
-          co2
-        }
-        legs {
-          mode
-          ...ItineraryLine_legs
-          transitLeg
-          legGeometry {
-            points
-          }
-          route {
-            gtfsId
-          }
-          trip {
-            gtfsId
-            directionId
-            occupancy {
-              occupancyStatus
-            }
-            stoptimesForDate {
-              scheduledDeparture
-              pickupType
-            }
-            pattern {
-              ...RouteLine_pattern
-            }
-          }
-          from {
-            name
-            lat
-            lon
-            stop {
-              gtfsId
-              zoneId
-            }
-            vehicleRentalStation {
-              stationId
-              vehiclesAvailable
-              network
-            }
-          }
-          to {
-            stop {
-              gtfsId
-              zoneId
-            }
-            bikePark {
-              bikeParkId
-              name
-            }
-          }
-        }
-      }
-    }
-  }
-`;
-
-export const viewerQuery = graphql`
-  fragment ItineraryQueries_Plan_Viewer on QueryType
-  @argumentDefinitions(
-    fromPlace: { type: "String!" }
-    toPlace: { type: "String!" }
-    numItineraries: { type: "Int!" }
-    modes: { type: "[TransportMode!]" }
-    date: { type: "String!" }
-    time: { type: "String!" }
-    walkReluctance: { type: "Float" }
-    walkBoardCost: { type: "Int" }
-    minTransferTime: { type: "Int" }
-    walkSpeed: { type: "Float" }
-    wheelchair: { type: "Boolean" }
-    ticketTypes: { type: "[String]" }
-    arriveBy: { type: "Boolean" }
-    transferPenalty: { type: "Int" }
-    bikeSpeed: { type: "Float" }
-    optimize: { type: "OptimizeType" }
-    unpreferred: { type: "InputUnpreferred" }
-    allowedBikeRentalNetworks: { type: "[String]" }
-    modeWeight: { type: "InputModeWeight" }
-  ) {
-    plan(
-      fromPlace: $fromPlace
-      toPlace: $toPlace
-      numItineraries: $numItineraries
-      transportModes: $modes
-      date: $date
-      time: $time
-      walkReluctance: $walkReluctance
-      walkBoardCost: $walkBoardCost
-      minTransferTime: $minTransferTime
-      walkSpeed: $walkSpeed
-      wheelchair: $wheelchair
-      allowedTicketTypes: $ticketTypes
-      arriveBy: $arriveBy
-      transferPenalty: $transferPenalty
-      bikeSpeed: $bikeSpeed
-      optimize: $optimize
-      unpreferred: $unpreferred
-      allowedVehicleRentalNetworks: $allowedBikeRentalNetworks
-      modeWeight: $modeWeight
-    ) {
-      ...ItineraryListContainer_plan
-      ...ItineraryDetails_plan
-      routingErrors {
-        code
-        inputField
-      }
-      itineraries {
-        startTime
-        endTime
-        ...ItineraryDetails_itinerary
-        ...ItineraryListContainer_itineraries
-        emissionsPerPerson {
-          co2
-        }
-        legs {
-          mode
-          ...ItineraryLine_legs
-          transitLeg
-          legGeometry {
-            points
-          }
-          route {
-            gtfsId
-            type
-            shortName
-          }
-          trip {
-            gtfsId
-            directionId
-            occupancy {
-              occupancyStatus
-            }
-            stoptimesForDate {
-              scheduledDeparture
-              pickupType
-            }
-            pattern {
-              ...RouteLine_pattern
-            }
-          }
-          from {
-            name
-            lat
-            lon
-            stop {
-              gtfsId
-              zoneId
-            }
-            vehicleRentalStation {
-              stationId
-              vehiclesAvailable
-              network
-            }
-          }
-          to {
-            stop {
-              gtfsId
-              zoneId
-            }
-            bikePark {
-              bikeParkId
-              name
-            }
-          }
         }
       }
     }
