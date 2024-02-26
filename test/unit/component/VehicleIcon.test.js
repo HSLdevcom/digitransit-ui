@@ -8,6 +8,7 @@ describe('<VehicleIcon />', () => {
     const props = {
       rotate: 180,
       useLargeIcon: true,
+      vehicleNumber: 'P',
     };
     const wrapper = shallowWithIntl(<VehicleIcon {...props} />);
 
@@ -35,6 +36,7 @@ describe('<VehicleIcon />', () => {
     it('should use right image when useLargeIcon is false', () => {
       const props = {
         rotate: 180,
+        vehicleNumber: 'K',
       };
       const wrapper = shallowWithIntl(<VehicleIcon {...props} />);
 
