@@ -53,8 +53,8 @@ VectorTileLayerContainer.propTypes = {
 
 VectorTileLayerContainer.defaultProps = {
   objectsToHide: { vehicleRentalStations: [] },
-  hilightedStops: [],
-  stopsToShow: [],
+  hilightedStops: undefined,
+  stopsToShow: undefined,
   mergeStops: false,
   onSelectLocation: undefined,
   locationPopup: undefined,

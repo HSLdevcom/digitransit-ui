@@ -32,18 +32,18 @@ class ItineraryLine extends React.Component {
     legs: PropTypes.arrayOf(PropTypes.object).isRequired,
     passive: PropTypes.bool,
     hash: PropTypes.number.isRequired,
-    showTransferLabels: false,
-    showIntermediateStops: false,
+    showTransferLabels: PropTypes.bool,
+    showIntermediateStops: PropTypes.bool,
+    showDurationBubble: PropTypes.bool,
     streetMode: PropTypes.string,
-    showDurationBubble: false,
   };
 
   static defaultProps = {
     passive: false,
     streetMode: undefined,
-    showTransferLabels: PropTypes.bool,
-    showIntermediateStops: PropTypes.bool,
-    showDurationBubble: PropTypes.bool,
+    showTransferLabels: false,
+    showIntermediateStops: false,
+    showDurationBubble: false,
   };
 
   checkStreetMode(leg) {

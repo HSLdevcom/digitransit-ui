@@ -55,7 +55,7 @@ export default function LocationMarker({
 }
 
 LocationMarker.propTypes = {
-  position: IconMarker.propTypes.position.isRequired,
+  position: IconMarker.propTypes.position,
   className: PropTypes.string,
   isLarge: PropTypes.bool,
   type: PropTypes.oneOf(['from', 'via', 'to', 'favourite']),
@@ -63,6 +63,7 @@ LocationMarker.propTypes = {
 };
 
 LocationMarker.defaultProps = {
+  position: undefined,
   className: undefined,
   isLarge: false,
   type: 'via',
