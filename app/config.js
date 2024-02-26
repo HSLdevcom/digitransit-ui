@@ -162,8 +162,10 @@ export function getNamedConfiguration(configName) {
       }
     }
   }
-  if (conf.cityBike && allCitybikes?.length) {
-    if (configName === 'matka') {
+  if (conf.cityBike && allCitybikes?.length && !conf.cityBike.seasonSet) {
+    conf.cityBike.seasonSet = true;
+
+    if (conf.cityBike.useAllSeasons) {
       allCitybikes.forEach(cb => {
         const confCitybike = conf.cityBike.networks[cb.networkName];
         if (confCitybike) {
