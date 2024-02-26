@@ -1,7 +1,7 @@
 import { graphql } from 'react-relay';
 
 export const planQuery = graphql`
-  query ItineraryQueries_More_Query(
+  query ItineraryQueries_Plan_Query(
     $fromPlace: String!
     $toPlace: String!
     $numItineraries: Int!
