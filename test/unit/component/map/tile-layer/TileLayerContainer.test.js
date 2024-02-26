@@ -23,6 +23,7 @@ describe('<TileLayerContainer />', () => {
       tileSize: 512,
       zoomOffset: -1,
       mapLayers: { stop: {}, terminal: {} },
+      lang: 'fi',
     };
     const wrapper = mountWithIntl(
       <LeafletProvider
@@ -109,6 +110,7 @@ describe('<TileLayerContainer />', () => {
           options: { maxZoom: null, minZoom: null },
         },
       },
+      lang: 'fi',
     };
     const spy = sinon.spy(analytics, 'addAnalyticsEvent');
     const wrapper = shallowWithIntl(
