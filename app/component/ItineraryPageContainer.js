@@ -1,11 +1,35 @@
-import PropTypes from 'prop-types';
 import React, { useEffect, useState, lazy, Suspense } from 'react';
-import { matchShape } from 'found';
+import { ReactRelayContext } from 'react-relay';
+import { connectToStores } from 'fluxible-addons-react';
 import Loading from './Loading';
+import withBreakpoint from '../util/withBreakpoint';
+import { getMapLayerOptions } from '../util/mapLayerUtils';
 
 const ItineraryPage = lazy(() => import('./ItineraryPage'));
 
-export default function ItineraryPageContainer({ content, match }) {
+const ItineraryPageWithBreakpoint = withBreakpoint(props => (
+  <ReactRelayContext.Consumer>
+    {({ environment }) => (
+      <ItineraryPage {...props} relayEnvironment={environment} />
+    )}
+  </ReactRelayContext.Consumer>
+));
+
+const ItineraryPageWithStores = connectToStores(
+  ItineraryPageWithBreakpoint,
+  ['MapLayerStore'],
+  ({ getStore }) => ({
+    mapLayers: getStore('MapLayerStore').getMapLayers({
+      notThese: ['stop', 'citybike', 'vehicles'],
+    }),
+    mapLayerOptions: getMapLayerOptions({
+      lockedMapLayers: ['vehicles', 'citybike', 'stop'],
+      selectedMapLayers: ['vehicles'],
+    }),
+  }),
+);
+
+export default function ItineraryPageContainer(props) {
   const [isClient, setClient] = useState(false);
 
   useEffect(() => {
@@ -17,16 +41,7 @@ export default function ItineraryPageContainer({ content, match }) {
   }
   return (
     <Suspense fallback={<Loading />}>
-      <ItineraryPage content={content} match={match} />
+      <ItineraryPageWithStores {...props} />
     </Suspense>
   );
 }
-
-ItineraryPageContainer.propTypes = {
-  content: PropTypes.node,
-  match: matchShape.isRequired,
-};
-
-ItineraryPageContainer.defaultProps = {
-  content: undefined,
-};

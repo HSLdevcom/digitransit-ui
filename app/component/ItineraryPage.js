@@ -3,8 +3,7 @@
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import React, { useEffect, useState, useRef, cloneElement } from 'react';
-import { fetchQuery, ReactRelayContext } from 'react-relay';
-import { connectToStores } from 'fluxible-addons-react';
+import { fetchQuery } from 'react-relay';
 import { FormattedMessage, intlShape } from 'react-intl';
 import { matchShape, routerShape } from 'found';
 import isEqual from 'lodash/isEqual';
@@ -41,7 +40,6 @@ import {
   transitItineraries,
   filterItineraries,
 } from './ItineraryPageUtils';
-import withBreakpoint from '../util/withBreakpoint';
 import { isIOS } from '../util/browser';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import {
@@ -60,7 +58,6 @@ import { saveFutureRoute } from '../action/FutureRoutesActions';
 import { saveSearch } from '../action/SearchActions';
 import CustomizeSearch from './CustomizeSearch';
 import { mapLayerShape } from '../store/MapLayerStore';
-import { getMapLayerOptions } from '../util/mapLayerUtils';
 
 const streetHashes = [
   streetHash.walk,
@@ -98,7 +95,7 @@ const emptyState = {
   loading: false,
 };
 
-function ItineraryPage(props, context) {
+export default function ItineraryPage(props, context) {
   const headerRef = useRef(null);
   const mwtRef = useRef();
   const expandMapRef = useRef(0);
@@ -1103,7 +1100,7 @@ function ItineraryPage(props, context) {
         title={title}
         header={header}
         bckBtnFallback={bckBtnFallback}
-        content={loading ? spinner : content}
+        content={loading ? spinner : content || ''}
         settingsDrawer={settingsDrawer}
         map={map}
         scrollable
@@ -1148,31 +1145,4 @@ ItineraryPage.propTypes = {
 ItineraryPage.defaultProps = {
   content: undefined,
   map: undefined,
-};
-
-const ItineraryPageWithBreakpoint = withBreakpoint(props => (
-  <ReactRelayContext.Consumer>
-    {({ environment }) => (
-      <ItineraryPage {...props} relayEnvironment={environment} />
-    )}
-  </ReactRelayContext.Consumer>
-));
-
-const ItineraryPageWithStores = connectToStores(
-  ItineraryPageWithBreakpoint,
-  ['MapLayerStore'],
-  ({ getStore }) => ({
-    mapLayers: getStore('MapLayerStore').getMapLayers({
-      notThese: ['stop', 'citybike', 'vehicles'],
-    }),
-    mapLayerOptions: getMapLayerOptions({
-      lockedMapLayers: ['vehicles', 'citybike', 'stop'],
-      selectedMapLayers: ['vehicles'],
-    }),
-  }),
-);
-
-export {
-  ItineraryPageWithStores as default,
-  ItineraryPageWithBreakpoint as Component,
 };
