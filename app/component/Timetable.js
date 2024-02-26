@@ -90,6 +90,10 @@ class Timetable extends React.Component {
     language: PropTypes.string.isRequired,
   };
 
+  static defaultProps = {
+    date: undefined,
+  };
+
   static contextTypes = {
     router: routerShape.isRequired,
     match: matchShape.isRequired,

@@ -66,10 +66,10 @@ const VehicleIcon = ({
   className,
   id,
   rotate,
-  mode = 'bus',
-  scrollIntoView = false,
-  vehicleNumber = '',
-  useLargeIcon = false,
+  mode,
+  scrollIntoView,
+  vehicleNumber,
+  useLargeIcon,
   color,
 }) => (
   <span>
@@ -113,9 +113,19 @@ VehicleIcon.propTypes = {
   rotate: PropTypes.number,
   mode: PropTypes.string,
   scrollIntoView: PropTypes.bool,
-  vehicleNumber: PropTypes.string,
+  vehicleNumber: PropTypes.string.isRequired,
   useLargeIcon: PropTypes.bool,
   color: PropTypes.string,
+};
+
+VehicleIcon.defaultProps = {
+  id: undefined,
+  className: undefined,
+  rotate: undefined,
+  mode: 'bus',
+  scrollIntoView: false,
+  useLargeIcon: false,
+  color: undefined,
 };
 
 export default VehicleIcon;

@@ -100,6 +100,10 @@ WaitLeg.propTypes = {
   }).isRequired,
 };
 
+WaitLeg.defaultProps = {
+  children: undefined,
+};
+
 WaitLeg.contextTypes = {
   config: PropTypes.object.isRequired,
 };

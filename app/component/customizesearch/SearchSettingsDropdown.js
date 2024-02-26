@@ -88,6 +88,7 @@ class SearchSettingsDropdown extends React.Component {
     defaultValue: undefined,
     formatOptions: false,
     translateLabels: true,
+    overrideStyle: {},
   };
 
   static contextTypes = {
