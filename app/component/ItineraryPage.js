@@ -364,7 +364,7 @@ export default function ItineraryPage(props, context) {
         ariaRef.current = 'itinerary-page.itineraries-loaded';
       })
       .catch(err => {
-        setState({ ...emptyState, plan: {} });
+        setState({ ...emptyState, plan: {}, error: err });
         reportError(err);
       });
   }
