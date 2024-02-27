@@ -19,9 +19,9 @@ if (defaultConfig.themeMap) {
   });
 }
 
-let allCitybikes;
-export function setAvailableCitybikes(citybikes) {
-  allCitybikes = [...citybikes];
+let citybikeSeasonDefinitions;
+export function setAvailableCitybikeConfigurations(seasonDefs) {
+  citybikeSeasonDefinitions = [...seasonDefs];
 }
 
 let allZones;
@@ -162,23 +162,29 @@ export function getNamedConfiguration(configName) {
       }
     }
   }
-  if (conf.cityBike && allCitybikes?.length && !conf.cityBike.seasonSet) {
+  if (
+    conf.cityBike &&
+    citybikeSeasonDefinitions?.length &&
+    !conf.cityBike.seasonSet
+  ) {
     conf.cityBike.seasonSet = true;
 
     if (conf.cityBike.useAllSeasons) {
-      allCitybikes.forEach(cb => {
-        const confCitybike = conf.cityBike.networks[cb.networkName];
+      citybikeSeasonDefinitions.forEach(seasonDef => {
+        const confCitybike = conf.cityBike.networks[seasonDef.networkName];
         if (confCitybike) {
-          confCitybike.enabled = cb.enabled;
-          confCitybike.season = cb.season;
+          confCitybike.enabled = seasonDef.enabled;
+          confCitybike.season = seasonDef.season;
         }
       });
     } else {
-      const networks = allCitybikes.filter(cb => configName === cb.config);
-      networks.forEach(network => {
-        const confCitybike = conf.cityBike.networks[network.networkName];
-        confCitybike.enabled = network.enabled;
-        confCitybike.season = network.season;
+      const seasonDefinitions = citybikeSeasonDefinitions.filter(
+        seasonDef => configName === seasonDef.config,
+      );
+      seasonDefinitions.forEach(seasonDef => {
+        const confCitybike = conf.cityBike.networks[seasonDef.networkName];
+        confCitybike.enabled = seasonDef.enabled;
+        confCitybike.season = seasonDef.season;
       });
     }
   }

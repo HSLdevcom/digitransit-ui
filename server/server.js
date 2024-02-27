@@ -47,7 +47,9 @@ const config = configTools.getConfiguration();
 
 const appRoot = `${process.cwd()}/`;
 const configsDir = path.join(appRoot, 'app', 'configurations');
-const configFiles = fs.readdirSync(configsDir);
+const configFiles = fs
+  .readdirSync(configsDir)
+  .filter(file => file.startsWith('config'));
 let allZones;
 
 /* ********* Global ********* */
@@ -329,26 +331,24 @@ function collectGeoJsonZones() {
   return new Promise(mainResolve => {
     const promises = [];
     configFiles.forEach(file => {
-      if (file.startsWith('config')) {
-        // eslint-disable-next-line import/no-dynamic-require
-        const conf = require(`${configsDir}/${file}`);
-        const { geoJson } = conf.default;
-        if (geoJson) {
-          if (geoJson.layerConfigUrl) {
-            promises.push(
-              new Promise(resolve => {
-                fetchGeoJsonConfig(geoJson.layerConfigUrl).then(data => {
-                  resolve(getZoneUrl(data));
-                });
-              }),
-            );
-          } else {
-            promises.push(
-              new Promise(resolve => {
-                resolve(getZoneUrl(geoJson));
-              }),
-            );
-          }
+      // eslint-disable-next-line import/no-dynamic-require
+      const conf = require(`${configsDir}/${file}`);
+      const { geoJson } = conf.default;
+      if (geoJson) {
+        if (geoJson.layerConfigUrl) {
+          promises.push(
+            new Promise(resolve => {
+              fetchGeoJsonConfig(geoJson.layerConfigUrl).then(data => {
+                resolve(getZoneUrl(data));
+              });
+            }),
+          );
+        } else {
+          promises.push(
+            new Promise(resolve => {
+              resolve(getZoneUrl(geoJson));
+            }),
+          );
         }
       }
     });
@@ -387,16 +387,16 @@ const parseDate = (year, month, day) =>
   // eslint-disable-next-line radix
   new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
 
-function buildCitybikeConfig(cb, networkName, configName) {
-  const inSeason = cb.inSeason.split('-');
+function buildCitybikeConfig(seasonDef, configName) {
+  const inSeason = seasonDef.inSeason.split('-');
   const [startDay, startMonth, startYear] = inSeason[0].split('.');
   const [endDay, endMonth, endYear] = inSeason[1].split('.');
-  const [preDay, preMonth, preYear] = cb.preSeason.split('.');
+  const [preDay, preMonth, preYear] = seasonDef.preSeason.split('.');
   return {
     config: configName,
-    networkName,
-    region: cb.region,
-    enabled: cb.enabled,
+    networkName: seasonDef.networkName,
+    region: seasonDef.region,
+    enabled: seasonDef.enabled,
     season: {
       preSeasonStart: parseDate(preYear, preMonth, preDay),
       start: parseDate(startYear, startMonth, startDay),
@@ -405,29 +405,16 @@ function buildCitybikeConfig(cb, networkName, configName) {
   };
 }
 
-function handleCitybikes(schedules, configName) {
-  const bikes = schedules.filter(
-    cb => cb.region.toLowerCase() === configName || cb.config === configName,
+function handleCitybikeSeasonConfigurations(schedules, configName) {
+  const seasonDefinitions = schedules.filter(
+    seasonDef =>
+      seasonDef.region.toLowerCase() === configName ||
+      seasonDef.config === configName,
   );
-  const cbConfigurations = [];
-  bikes.forEach(bike => {
-    // This check is due to naming scheme in HSL citybike networks (Smoove and Vantaa)
-    if (bike.config && bike.config === 'hsl') {
-      if (bike.region === 'Vantaa') {
-        cbConfigurations.push(
-          buildCitybikeConfig(bike, bike.region.toLowerCase(), configName),
-        );
-      } else {
-        cbConfigurations.push(
-          buildCitybikeConfig(bike, bike.operator, configName),
-        );
-      }
-    } else {
-      const networkName = bike.operator.concat('_', bike.region.toLowerCase());
-      cbConfigurations.push(buildCitybikeConfig(bike, networkName, configName));
-    }
-  });
-  return cbConfigurations;
+  const configurations = [];
+  seasonDefinitions.forEach(def => buildCitybikeConfig(def, configName));
+
+  return configurations;
 }
 function fetchCitybikeConfigurations() {
   if (!process.env.CITYBIKE_DB_CONN_STRING || !process.env.CITYBIKE_DATABASE) {
@@ -439,32 +426,32 @@ function fetchCitybikeConfigurations() {
 
     fetchCitybikeSeasons().then(r => {
       const schedules = [];
-      r.forEach(cb => schedules.push(...cb.schedules));
+      r.forEach(seasonDef => schedules.push(...seasonDef.schedules));
       configFiles.forEach(file => {
-        if (file.startsWith('config')) {
-          // eslint-disable-next-line import/no-dynamic-require
-          const conf = require(`${configsDir}/${file}`);
-          const configName = conf.default.CONFIG;
-          const { cityBike } = conf.default;
-          if (cityBike && Object.keys(cityBike).length > 0) {
-            promises.push(
-              new Promise(resolve => {
-                resolve(handleCitybikes(schedules, configName));
-              }),
-            );
-          }
+        // eslint-disable-next-line import/no-dynamic-require
+        const conf = require(`${configsDir}/${file}`);
+        const configName = conf.default.CONFIG;
+        const { cityBike } = conf.default;
+        if (cityBike && Object.keys(cityBike).length > 0) {
+          promises.push(
+            new Promise(resolve => {
+              resolve(
+                handleCitybikeSeasonConfigurations(schedules, configName),
+              );
+            }),
+          );
         }
       });
-      Promise.all(promises).then(rf => {
+      Promise.all(promises).then(definitions => {
         // filter empty objects and duplicates
-        const networks = rf
-          .filter(cb => Object.keys(cb).length > 0)
+        const seasonDefinitions = definitions
+          .filter(seasonDef => Object.keys(seasonDef).length > 0)
           .flat()
           .filter((v, i, a) => a.findIndex(v2 => v2.region === v.region) === i);
         console.log(
-          `fetched: ${networks.length} citybike season configuration`,
+          `fetched: ${seasonDefinitions.length} citybike season configuration`,
         );
-        configTools.setAvailableCitybikes(networks);
+        configTools.setAvailableCitybikeConfigurations(seasonDefinitions);
         mainResolve();
       });
     });
