@@ -179,7 +179,7 @@ export function getNamedConfiguration(configName) {
       });
     } else {
       const seasonDefinitions = citybikeSeasonDefinitions.filter(
-        seasonDef => configName === seasonDef.config,
+        seasonDef => configName === seasonDef.configName,
       );
       seasonDefinitions.forEach(seasonDef => {
         const confCitybike = conf.cityBike.networks[seasonDef.networkName];

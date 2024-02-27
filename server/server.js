@@ -393,9 +393,8 @@ function buildCitybikeConfig(seasonDef, configName) {
   const [endDay, endMonth, endYear] = inSeason[1].split('.');
   const [preDay, preMonth, preYear] = seasonDef.preSeason.split('.');
   return {
-    config: configName,
+    configName: seasonDef.configName,
     networkName: seasonDef.networkName,
-    region: seasonDef.region,
     enabled: seasonDef.enabled,
     season: {
       preSeasonStart: parseDate(preYear, preMonth, preDay),
@@ -407,9 +406,7 @@ function buildCitybikeConfig(seasonDef, configName) {
 
 function handleCitybikeSeasonConfigurations(schedules, configName) {
   const seasonDefinitions = schedules.filter(
-    seasonDef =>
-      seasonDef.region.toLowerCase() === configName ||
-      seasonDef.config === configName,
+    seasonDef => seasonDef.configName === configName,
   );
   const configurations = [];
   seasonDefinitions.forEach(def =>
@@ -448,7 +445,10 @@ function fetchCitybikeConfigurations() {
         const seasonDefinitions = definitions
           .filter(seasonDef => Object.keys(seasonDef).length > 0)
           .flat()
-          .filter((v, i, a) => a.findIndex(v2 => v2.region === v.region) === i);
+          .filter(
+            (v, i, a) =>
+              a.findIndex(v2 => v2.networkName === v.networkName) === i,
+          );
         console.log(
           `fetched: ${seasonDefinitions.length} citybike season configuration`,
         );
