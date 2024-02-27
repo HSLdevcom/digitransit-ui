@@ -412,8 +412,9 @@ function handleCitybikeSeasonConfigurations(schedules, configName) {
       seasonDef.config === configName,
   );
   const configurations = [];
-  seasonDefinitions.forEach(def => buildCitybikeConfig(def, configName));
-
+  seasonDefinitions.forEach(def =>
+    configurations.push(buildCitybikeConfig(def, configName)),
+  );
   return configurations;
 }
 function fetchCitybikeConfigurations() {
