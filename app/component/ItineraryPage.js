@@ -87,6 +87,7 @@ const emptyPlans = {
 const emptyState = {
   earlierItineraries: [],
   laterItineraries: [],
+  plan: {},
   separatorPosition: undefined,
   routingFeedbackPosition: undefined,
   error: undefined,
@@ -348,12 +349,12 @@ export default function ItineraryPage(props, context) {
 
   function makeMainQuery() {
     if (!hasValidFromTo()) {
-      setState({ ...emptyState, plan: {} });
+      setState({ ...emptyState });
       resetItineraryPageSelection();
       return;
     }
     ariaRef.current = 'itinerary-page.loading-itineraries';
-    setState({ ...state, loading: true });
+    setState({ ...emptyState, loading: true });
     const planParams = getPlanParams(context.config, props.match);
     fetchQuery(props.relayEnvironment, planQuery, planParams)
       .toPromise()
@@ -363,7 +364,7 @@ export default function ItineraryPage(props, context) {
         ariaRef.current = 'itinerary-page.itineraries-loaded';
       })
       .catch(err => {
-        setState({ ...emptyState, plan: {}, error: err });
+        setState({ ...emptyState, error: err });
         reportError(err);
       });
   }
