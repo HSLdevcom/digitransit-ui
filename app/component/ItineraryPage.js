@@ -260,14 +260,11 @@ export default function ItineraryPage(props, context) {
   }
 
   function makeAlternativeQuery() {
-    if (!hasValidFromTo() || altState.loading === ALT_LOADING_STATES.LOADING) {
+    if (!hasValidFromTo()) {
+      setAltState({ ...emptyPlans });
       return;
     }
-    setAltState({
-      ...altState,
-      ...emptyPlans,
-      loading: ALT_LOADING_STATES.LOADING,
-    });
+    setAltState({ loading: ALT_LOADING_STATES.LOADING });
     const planParams = getPlanParams(context.config, props.match);
 
     fetchQuery(props.relayEnvironment, alternativeQuery, planParams)
@@ -309,7 +306,6 @@ export default function ItineraryPage(props, context) {
         };
 
         setAltState({
-          ...altState,
           bikeAndParkItineraryCount: n1,
           loading: ALT_LOADING_STATES.DONE,
           walkPlan: result.walkPlan,
@@ -323,15 +319,16 @@ export default function ItineraryPage(props, context) {
         }
       })
       .catch(() => {
-        setAltState({ ...altState, loading: ALT_LOADING_STATES.DONE });
+        setAltState({ ...emptyPlans, loading: ALT_LOADING_STATES.DONE });
       });
   }
 
   function makeRelaxedQuery() {
-    if (!hasValidFromTo() || relaxState.loading) {
+    if (!hasValidFromTo()) {
+      setRelaxState({ relaxedPlan: {} });
       return;
     }
-    setRelaxState({ relaxedPlan: {}, loading: true });
+    setRelaxState({ loading: true });
     const planParams = getPlanParams(context.config, props.match, true);
     fetchQuery(props.relayEnvironment, planQuery, planParams, {
       force: true,
@@ -351,6 +348,8 @@ export default function ItineraryPage(props, context) {
 
   function makeMainQuery() {
     if (!hasValidFromTo()) {
+      setState({ ...emptyState, plan: {} });
+      resetItineraryPageSelection();
       return;
     }
     ariaRef.current = 'itinerary-page.loading-itineraries';
