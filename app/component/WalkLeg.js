@@ -40,12 +40,12 @@ function WalkLeg(
   const fromMode = (leg[toOrFrom].stop && leg[toOrFrom].stop.vehicleMode) || '';
   const isFirstLeg = i => i === 0;
   const [address, place] = splitStringToAddressAndPlace(leg[toOrFrom].name);
+  const network =
+    previousLeg?.[toOrFrom]?.vehicleRentalStation?.network ||
+    previousLeg?.[toOrFrom]?.rentalVehicle?.network;
 
   const networkType = getVehicleRentalStationNetworkConfig(
-    previousLeg &&
-      previousLeg.rentedBike &&
-      previousLeg[toOrFrom].vehicleRentalStation &&
-      previousLeg[toOrFrom].vehicleRentalStation.network,
+    previousLeg?.rentedBike && network,
     config,
   ).type;
 
@@ -171,6 +171,7 @@ function WalkLeg(
                       stationName={leg[toOrFrom].name}
                       vehicleRentalStation={leg[toOrFrom].vehicleRentalStation}
                       returnBike
+                      rentalVehicle={leg.from.rentalVehicle}
                     />
                   ) : (
                     leg[toOrFrom].name
@@ -254,6 +255,9 @@ const walkLegShape = PropTypes.shape({
     vehicleRentalStation: PropTypes.shape({
       network: PropTypes.string,
     }),
+    rentalVehicle: PropTypes.shape({
+      network: PropTypes.string.isRequired,
+    }),
   }).isRequired,
   to: PropTypes.shape({
     name: PropTypes.string.isRequired,
@@ -266,6 +270,9 @@ const walkLegShape = PropTypes.shape({
     }),
     vehicleRentalStation: PropTypes.shape({
       network: PropTypes.string,
+    }),
+    rentalVehicle: PropTypes.shape({
+      network: PropTypes.string.isRequired,
     }),
   }).isRequired,
   mode: PropTypes.string.isRequired,

@@ -42,6 +42,7 @@ function ItineraryList(
     biking,
     driving,
     showRelaxedPlanNotifier,
+    showRentalVehicleNotifier,
     separatorPosition,
     loadingMore,
     routingErrors,
@@ -164,6 +165,32 @@ function ItineraryList(
             </div>
           </div>
         )}
+        {showRentalVehicleNotifier && (
+          <div
+            className={cx(
+              'flex-horizontal',
+              'e-scooter-or-taxi-info',
+              'summary-notification',
+            )}
+          >
+            <Icon className="info-icon" img="icon-icon_info" />
+            <div>
+              <div className="e-scooter-or-taxi-info-header">
+                <FormattedMessage id="no-route-msg" />
+              </div>
+              <div className="e-scooter-or-taxi-info-content">
+                <FormattedMessage
+                  id="e-scooter-or-taxi-alternative"
+                  values={{
+                    paymentInfo: (
+                      <FormattedMessage id="payment-info-e-scooter-taxi" />
+                    ),
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+        )}
         {loadingMore === spinnerPosition.top && (
           <div className="summary-list-spinner-container">
             <Loading />
@@ -267,6 +294,7 @@ ItineraryList.propTypes = {
   biking: PropTypes.bool,
   driving: PropTypes.bool,
   showRelaxedPlanNotifier: PropTypes.bool,
+  showRentalVehicleNotifier: PropTypes.bool,
   separatorPosition: PropTypes.number,
   loadingMore: PropTypes.string,
   routingFeedbackPosition: PropTypes.number,
@@ -280,6 +308,7 @@ ItineraryList.defaultProps = {
   biking: false,
   driving: false,
   showRelaxedPlanNotifier: false,
+  showRentalVehicleNotifier: false,
   separatorPosition: undefined,
   loadingMore: undefined,
   routingErrors: [],
@@ -362,6 +391,13 @@ const containerComponent = createFragmentContainer(ItineraryList, {
           }
           vehicleRentalStation {
             vehiclesAvailable
+            network
+          }
+          rentalVehicle {
+            vehicleId
+            name
+            lat
+            lon
             network
           }
         }

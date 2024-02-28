@@ -71,7 +71,7 @@ class ItineraryLine extends React.Component {
 
       const interliningWithRoute = interliningLines.join(' / ');
 
-      if (leg.rentedBike && leg.mode !== 'WALK') {
+      if (leg.rentedBike && leg.mode !== 'WALK' && leg.mode !== 'SCOOTER') {
         mode = 'CITYBIKE';
       }
 
@@ -81,6 +81,13 @@ class ItineraryLine extends React.Component {
       const geometry = polyUtil.decode(leg.legGeometry.points);
       let middle = getMiddleOf(geometry);
       let { to, endTime } = leg;
+
+      const rentalId =
+        leg.from.vehicleRentalStation?.stationId ||
+        leg.from.rentalVehicle?.vehicleId;
+      const rentalNetwork =
+        leg.from.vehicleRentalStation?.network ||
+        leg.from.rentalVehicle?.network;
 
       if (interliningLegs.length > 0) {
         // merge the geometries of legs where user can wait in the vehicle and find the middle point
@@ -142,9 +149,17 @@ class ItineraryLine extends React.Component {
         if (leg.from.vertexType === 'BIKESHARE') {
           objs.push(
             <VehicleMarker
-              key={leg.from.vehicleRentalStation.stationId}
+              key={`${leg.from.lat}:${leg.from.lon}`}
               showBikeAvailability={leg.mode === 'BICYCLE'}
-              station={leg.from.vehicleRentalStation}
+              rental={{
+                id: rentalId,
+                lat: leg.from.lat,
+                lon: leg.from.lon,
+                network: rentalNetwork,
+                vehiclesAvailable:
+                  leg.from.vehicleRentalStation?.vehiclesAvailable,
+              }}
+              mode={leg.mode}
               transit
             />,
           );
@@ -263,6 +278,13 @@ export default createFragmentContainer(ItineraryLine, {
           stationId
           network
           vehiclesAvailable
+        }
+        rentalVehicle {
+          vehicleId
+          name
+          lat
+          lon
+          network
         }
         stop {
           gtfsId

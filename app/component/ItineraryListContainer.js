@@ -51,6 +51,7 @@ class ItineraryListContainer extends React.Component {
     walking: PropTypes.bool,
     biking: PropTypes.bool,
     showRelaxedPlanNotifier: PropTypes.bool,
+    showRentalVehicleNotifier: PropTypes.bool,
     separatorPosition: PropTypes.number,
     onLater: PropTypes.func.isRequired,
     onEarlier: PropTypes.func.isRequired,
@@ -71,6 +72,7 @@ class ItineraryListContainer extends React.Component {
     biking: false,
     bikeAndParkItineraryCount: 0,
     showRelaxedPlanNotifier: false,
+    showRentalVehicleNotifier: false,
     loadingMore: undefined,
     driving: false,
     routingErrors: [],
@@ -224,6 +226,7 @@ class ItineraryListContainer extends React.Component {
       biking,
       driving,
       showRelaxedPlanNotifier,
+      showRentalVehicleNotifier,
       separatorPosition,
       loadingMore,
       routingFeedbackPosition,
@@ -269,6 +272,7 @@ class ItineraryListContainer extends React.Component {
           biking={biking}
           driving={driving}
           showRelaxedPlanNotifier={showRelaxedPlanNotifier}
+          showRentalVehicleNotifier={showRentalVehicleNotifier}
           separatorPosition={separatorPosition}
           loadingMore={loadingMore}
           routingFeedbackPosition={routingFeedbackPosition}
@@ -352,6 +356,13 @@ const connectedContainer = createFragmentContainer(
               }
               vehicleRentalStation {
                 vehiclesAvailable
+                network
+              }
+              rentalVehicle {
+                vehicleId
+                name
+                lat
+                lon
                 network
               }
             }

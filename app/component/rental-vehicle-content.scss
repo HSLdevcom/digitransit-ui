@@ -1,0 +1,226 @@
+.mobile {
+  .scooter-page-container {
+    height: calc(100% - 20rem);
+    padding: 18px 1.563em 2em;
+    background-color: white;
+    border-radius: 15px 15px 0 0;
+    box-shadow: 0 -5px 5px 0 rgba(0, 0, 0, 0.2);
+    position: relative;
+    top: -15px;
+    margin: 0;
+
+    .scooter-box {
+      margin-top: 19px;
+    }
+
+    .scooter-header {
+      padding-left: 15px;
+      border: none;
+      padding-top: 0;
+
+      .header {
+        h1 {
+          font-size: 1.25rem;
+          line-height: 1.2;
+          margin: 0;
+        }
+
+        .scooter-sub-header {
+          font-size: 0.88rem;
+          padding: 0;
+        }
+      }
+    }
+
+    .scooter-content-container {
+      padding: 0 0 0 0;
+      margin-bottom: 13px;
+
+      .icon-container {
+        .icon {
+          width: 40px;
+          height: 40px;
+        }
+      }
+    }
+  }
+}
+
+.scooter-page-container {
+  margin: 0 3.75em;
+
+  .scooter-box {
+    min-height: 120px;
+    border-radius: 10px;
+    border: solid 1px #ddd;
+    padding: 16px 21px 16px 18px;
+    width: 100%;
+    margin-top: 24px;
+    font-family: $font-family;
+    font-size: $font-size-normal;
+    font-weight: normal;
+    line-height: 18px;
+    letter-spacing: -0.03em;
+
+    .disclaimer-header {
+      display: flex;
+      font-size: $font-size-large;
+      font-weight: $font-weight-medium;
+      line-height: 22px;
+      margin: 0 0 4px;
+      color: #333;
+    }
+
+    .disclaimer-content {
+      display: block;
+      font-size: $font-size-normal;
+      margin-bottom: 8px;
+      color: #666;
+      line-height: 18px;
+      letter-spacing: -0.03em;
+
+      .itinerary-transit-leg-route-bike {
+        display: flex;
+        background-color: #f4f4f5;
+        border-radius: 5px;
+        border: 1px solid #ddd;
+        margin-top: 16px;
+        color: $black;
+
+        .link-to-stop {
+          right: 10px;
+          position: absolute;
+          top: 34%;
+        }
+
+        .link-to-e-scooter-operator {
+          margin: auto 10px auto auto;
+        }
+
+        .citybike-itinerary {
+          padding: 7px;
+
+          .citybike-itinerary-text-container {
+            display: flow-root;
+          }
+
+          .headsign {
+            font-weight: $font-weight-medium;
+            display: block;
+            font-size: 15px;
+            padding: 2px 0 3px 6px;
+          }
+
+          .scooter-headsign {
+            padding: 6px 0 3px 6px;
+          }
+
+          span.itinerary-stop-code {
+            margin-left: 5px;
+            padding: 0 6px;
+            border-radius: 10%;
+          }
+
+          .citybike-station-text {
+            padding-left: 6px;
+            font-size: 13px;
+            font-weight: $font-weight-book;
+            color: #666;
+          }
+
+          .citybike-icon {
+            float: left;
+
+            &.small {
+              .icon-badge {
+                top: 2.33em;
+                left: 1.66em;
+              }
+            }
+
+            padding-right: 2px;
+
+            .icon-badge {
+              height: 1.34em;
+              width: 1.34em;
+              top: 2.33em;
+              left: 1.66em;
+              border-radius: 50%;
+
+              .badge-text {
+                font-family: $font-family-narrow;
+                font-size: 22px;
+              }
+
+              .badge-circle {
+                stroke-width: 6%;
+              }
+
+              @media print {
+                left: 155px;
+              }
+            }
+          }
+
+          .citybike-info {
+            position: absolute;
+            bottom: 74px;
+          }
+        } // test end here....
+      }
+    }
+
+    .external-link {
+      color: #007ac9;
+      text-decoration: none;
+      font-weight: $font-weight-medium;
+
+      .icon-container {
+        padding-left: 7px;
+        vertical-align: text-top;
+      }
+    }
+  }
+
+  .scooter-header {
+    border-bottom: none;
+    padding-bottom: 15px;
+    display: flex;
+    margin-left: 12px;
+
+    .header {
+      flex: 1;
+
+      h1 {
+        color: #333;
+        font-size: 1.5rem;
+        line-height: 1.2;
+        margin: 0;
+      }
+    }
+  }
+
+  .scooter-sub-header {
+    font-size: 0.813rem;
+    color: #666;
+    font-weight: normal;
+    padding-top: 2px;
+  }
+
+  .scooter-content-container {
+    padding: 15px 14px 22px;
+    display: flex;
+    height: 55px;
+    box-sizing: content-box;
+
+    .icon-container {
+      display: flex;
+      align-self: center;
+
+      .icon {
+        width: 40px;
+        height: 40px;
+      }
+    }
+  }
+}

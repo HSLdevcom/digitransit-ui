@@ -194,6 +194,13 @@ const errorCardProps = [
     },
   },
   {
+    id: 'no-route-alternative-suggestion',
+    props: {
+      bodyId: 'e-scooter-or-taxi-alternative',
+      ...info,
+    },
+  },
+  {
     id: 'no-route-msg',
     props: {
       bodyId: 'no-route-msg',

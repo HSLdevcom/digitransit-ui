@@ -9,18 +9,18 @@ import {
   getVehicleRentalStationNetworkName,
   getVehicleRentalStationNetworkConfig,
   updateVehicleNetworks,
-  getCitybikeRentalStationNetworks,
+  getScooterRentalNetworks,
 } from '../../util/vehicleRentalUtils';
 import { getModes } from '../../util/modeUtils';
 import { TransportMode } from '../../constants';
 
-const VehicleRentalStationNetworkSelector = (
+const ScooterRentalNetworkSelector = (
   { currentOptions },
   { config, getStore, executeAction },
 ) => (
   <React.Fragment>
     {mapDefaultNetworkProperties(config)
-      .filter(network => network.type === TransportMode.Citybike.toLowerCase())
+      .filter(network => network.type === TransportMode.Scooter.toLowerCase())
       .map(network => (
         <div
           className="mode-option-container"
@@ -28,7 +28,7 @@ const VehicleRentalStationNetworkSelector = (
           style={{ height: '3.5em' }}
         >
           <label
-            htmlFor={`settings-toggle-bike-${network.networkName}`}
+            htmlFor={`settings-toggle-scooter-${network.networkName}`}
             className="mode-option-block toggle-label"
           >
             <div className="mode-icon">
@@ -49,7 +49,7 @@ const VehicleRentalStationNetworkSelector = (
               )}
             </span>
             <Toggle
-              id={`settings-toggle-bike-${network.networkName}`}
+              id={`settings-toggle-scooter-${network.networkName}`}
               toggled={
                 !!currentOptions &&
                 currentOptions.filter(
@@ -59,17 +59,19 @@ const VehicleRentalStationNetworkSelector = (
               }
               onToggle={() => {
                 const newNetworks = updateVehicleNetworks(
-                  getCitybikeRentalStationNetworks(config),
+                  getScooterRentalNetworks(config),
                   network.networkName,
                 );
                 const modes = getModes(config);
-                const newSettings = { allowedBikeRentalNetworks: newNetworks };
+                const newSettings = {
+                  allowedScooterRentalNetworks: newNetworks,
+                };
                 if (newNetworks.length > 0) {
-                  if (modes.indexOf(TransportMode.Citybike) === -1) {
-                    newSettings.modes = xor(modes, [TransportMode.Citybike]);
+                  if (modes.indexOf(TransportMode.Scooter) === -1) {
+                    newSettings.modes = xor(modes, [TransportMode.Scooter]);
                   }
-                } else if (modes.indexOf(TransportMode.Citybike) !== -1) {
-                  newSettings.modes = xor(modes, [TransportMode.Citybike]);
+                } else if (modes.indexOf(TransportMode.Scooter) !== -1) {
+                  newSettings.modes = xor(modes, [TransportMode.Scooter]);
                 }
                 executeAction(saveRoutingSettings, newSettings);
               }}
@@ -80,14 +82,14 @@ const VehicleRentalStationNetworkSelector = (
   </React.Fragment>
 );
 
-VehicleRentalStationNetworkSelector.propTypes = {
-  currentOptions: PropTypes.arrayOf(PropTypes.string).isRequired,
+ScooterRentalNetworkSelector.propTypes = {
+  currentOptions: PropTypes.array.isRequired,
 };
 
-VehicleRentalStationNetworkSelector.contextTypes = {
+ScooterRentalNetworkSelector.contextTypes = {
   config: PropTypes.object.isRequired,
   getStore: PropTypes.func.isRequired,
   executeAction: PropTypes.func.isRequired,
 };
 
-export default VehicleRentalStationNetworkSelector;
+export default ScooterRentalNetworkSelector;

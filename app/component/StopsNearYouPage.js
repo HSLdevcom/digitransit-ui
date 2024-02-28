@@ -217,8 +217,12 @@ class StopsNearYouPage extends React.Component {
     let placeTypes = ['STOP', 'STATION'];
     let modes = [mode];
     if (mode === 'CITYBIKE') {
-      placeTypes = 'BICYCLE_RENT';
+      placeTypes = 'VEHICLE_RENT';
       modes = ['BICYCLE'];
+    }
+    if (mode === 'SCOOTER') {
+      placeTypes = 'VEHICLE_RENT';
+      modes = ['SCOOTER'];
     }
     const prioritizedStops =
       this.context.config.prioritizedStopsNearYou[mode.toLowerCase()] || [];

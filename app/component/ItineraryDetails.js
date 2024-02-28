@@ -87,7 +87,7 @@ class ItineraryDetails extends React.Component {
     carItinerary: ItineraryShape,
     currentLanguage: PropTypes.string,
     changeHash: PropTypes.func,
-  };
+      };
 
   static defaultProps = {
     hideTitle: false,
@@ -340,14 +340,14 @@ class ItineraryDetails extends React.Component {
               >
                 {disclaimers}
                 <ItineraryLegs
-		  key="itinerarylegs"
+		              key="itinerarylegs"
                   fares={fares}
                   itinerary={itinerary}
                   focusToPoint={this.props.focusToPoint}
                   focusToLeg={this.props.focusToLeg}
                   changeHash={this.props.changeHash}
                   tabIndex={itineraryIndex - 1}
-                />
+                                  />
                 {config.showRouteInformation && <RouteInformation key="routeinfo"/>}
               </div>
               {config.showCO2InItinerarySummary && (
@@ -473,6 +473,13 @@ const withRelay = createFragmentContainer(
               lon
               stationId
             }
+            rentalVehicle {
+              vehicleId
+              name
+              lat
+              lon
+              network
+            }
             stop {
               gtfsId
               code
@@ -505,6 +512,13 @@ const withRelay = createFragmentContainer(
               stationId
               network
               vehiclesAvailable
+            }
+            rentalVehicle {
+              vehicleId
+              name
+              lat
+              lon
+              network
             }
             stop {
               gtfsId

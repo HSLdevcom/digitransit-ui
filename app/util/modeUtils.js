@@ -60,6 +60,16 @@ export function networkIsActive(config, networkName) {
   return citybikeRoutingIsActive(networks[networkName], config);
 }
 
+export const useRentalVehiclesOfType = (networks, config, type) => {
+  if (!networks) {
+    return false;
+  }
+  return Object.values(networks).some(
+    network =>
+      network.type === type && citybikeRoutingIsActive(network, config),
+  );
+};
+
 export function useCitybikes(networks, config) {
   if (!networks) {
     return false;
@@ -73,8 +83,9 @@ export function showCityBikes(networks, config) {
   if (!networks) {
     return false;
   }
-  return Object.values(networks).some(network =>
-    showCitybikeNetwork(network, config),
+  return Object.values(networks).some(
+    network =>
+      network.type === 'citybike' && showCitybikeNetwork(network, config),
   );
 }
 
@@ -288,8 +299,10 @@ export function getModes(config) {
     if (
       activeAndAllowedBikeRentalNetworks &&
       activeAndAllowedBikeRentalNetworks.length > 0 &&
-      modesWithWalk.indexOf(TransportMode.Citybike) === -1
+      modesWithWalk.indexOf(TransportMode.Citybike) === -1 &&
+      modesWithWalk.indexOf(TransportMode.Scooter) === -1
     ) {
+      // Assume citybike if no rental network mode found
       modesWithWalk.push(TransportMode.Citybike);
     }
     return modesWithWalk;

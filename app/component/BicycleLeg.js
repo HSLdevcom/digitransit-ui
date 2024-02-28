@@ -20,6 +20,8 @@ import { splitStringToAddressAndPlace } from '../util/otpStrings';
 import VehicleRentalLeg from './VehicleRentalLeg';
 import StopCode from './StopCode';
 import PlatformNumber from './PlatformNumber';
+import { getSettings } from '../util/planParamUtil';
+import { TransportMode } from '../constants';
 
 function BicycleLeg(
   { focusAction, index, leg, focusToLeg, bicycleWalkLeg },
@@ -38,16 +40,18 @@ function BicycleLeg(
   const firstLegClassName = index === 0 ? 'start' : '';
   let modeClassName = 'bicycle';
   const [address, place] = splitStringToAddressAndPlace(leg.from.name);
+  const rentalVehicleNetwork =
+    leg.from.vehicleRentalStation?.network || leg.from.rentalVehicle?.network;
   const networkConfig =
     leg.rentedBike &&
-    leg.from.vehicleRentalStation &&
-    getVehicleRentalStationNetworkConfig(
-      leg.from.vehicleRentalStation.network,
-      config,
-    );
+    rentalVehicleNetwork &&
+    getVehicleRentalStationNetworkConfig(rentalVehicleNetwork, config);
   const isFirstLeg = i => i === 0;
   const isScooter =
     networkConfig && networkConfig.type === CityBikeNetworkType.Scooter;
+  const settings = getSettings(config);
+  const scooterSettingsOn =
+    settings.modes.indexOf(TransportMode.Scooter) !== -1;
 
   if (leg.mode === 'WALK' || leg.mode === 'BICYCLE_WALK') {
     modeClassName = leg.mode.toLowerCase();
@@ -77,6 +81,9 @@ function BicycleLeg(
     legDescription = (
       <FormattedMessage
         id={isScooter ? 'rent-scooter-at' : 'rent-cycle-at'}
+        values={{
+          station: leg.from.name,
+        }}
         defaultMessage="Fetch a bike"
       />
     );
@@ -88,8 +95,21 @@ function BicycleLeg(
     if (leg.mode === 'WALK') {
       mode = 'CITYBIKE_WALK';
     }
+
+    if (leg.mode === 'SCOOTER') {
+      mode = 'SCOOTER';
+    }
   }
-  if (bicycleWalkLeg) {
+
+  if (isScooter) {
+    circleLine = (
+      <ItineraryCircleLineWithIcon
+        index={index}
+        modeClassName="scooter"
+        icon="icon-icon_scooter_rider"
+      />
+    );
+  } else if (bicycleWalkLeg) {
     const modeClassNames = bicycleWalkLeg.to?.stop
       ? [modeClassName, bicycleWalkLeg.mode.toLowerCase()]
       : [bicycleWalkLeg.mode.toLowerCase(), modeClassName];
@@ -203,6 +223,7 @@ function BicycleLeg(
             stationName={leg.from.name}
             isScooter={isScooter}
             vehicleRentalStation={leg.from.vehicleRentalStation}
+            rentalVehicle={leg.from.rentalVehicle}
           />
         )}
         {bicycleWalkLeg?.from.stop && (
@@ -243,6 +264,48 @@ function BicycleLeg(
                 target={leg.from.name || ''}
                 focusAction={focusAction}
               />
+            </div>
+          </div>
+        )}
+        {isScooter && !scooterSettingsOn && (
+          <div>
+            <div className={cx('itinerary-leg-action', 'scooter')}>
+              <div className="itinerary-leg-action-content">
+                <FormattedMessage
+                  id="settings-e-scooter-on"
+                  defaultMessage="Turn scooter settings on permanently"
+                />
+                <ItineraryMapAction
+                  target=""
+                  ariaLabelId="itinerary-summary-row.clickable-area-description"
+                  focusAction={focusToLeg}
+                />
+              </div>
+            </div>
+
+            <div className="itinerary-transit-leg-route-bike">
+              <div className="citybike-itinerary">
+                <div className="citybike-itinerary-text-container">
+                  <span
+                    className={cx('headsign', isScooter && 'scooter-headsign')}
+                  >
+                    <FormattedMessage
+                      id="open-settings"
+                      defaultMessage="Go to settings"
+                    />
+                  </span>
+                </div>
+              </div>
+              <div className="link-to-e-scooter-operator">
+                <Link to="/asetukset">
+                  <Icon
+                    img="icon-icon_arrow-collapse--right"
+                    color="#007ac9"
+                    height={1}
+                    width={1}
+                  />
+                </Link>
+              </div>
             </div>
           </div>
         )}
@@ -297,6 +360,15 @@ function BicycleLeg(
             </div>
           </div>
         )}
+        {isScooter && (
+          <VehicleRentalLeg
+            stationName={leg.from.name}
+            isScooter={isScooter}
+            vehicleRentalStation={leg.from.vehicleRentalStation}
+            returnBike
+            rentalVehicle={leg.from.rentalVehicle}
+          />
+        )}
       </div>
     </div>
   );
@@ -312,6 +384,9 @@ BicycleLeg.propTypes = {
       name: PropTypes.string.isRequired,
       vehicleRentalStation: PropTypes.shape({
         vehiclesAvailable: PropTypes.number.isRequired,
+        network: PropTypes.string.isRequired,
+      }),
+      rentalVehicle: PropTypes.shape({
         network: PropTypes.string.isRequired,
       }),
       stop: PropTypes.object,

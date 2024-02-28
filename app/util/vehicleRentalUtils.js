@@ -4,6 +4,7 @@ import { getCustomizedSettings } from '../store/localStorage';
 import { addAnalyticsEvent } from './analyticsUtils';
 import { citybikeRoutingIsActive } from './modeUtils';
 import { getIdWithoutFeed } from './feedScopedIdUtils';
+import { TransportMode } from '../constants';
 
 export const BIKEAVL_UNKNOWN = 'No availability';
 export const BIKEAVL_BIKES = 'Bikes on station';
@@ -51,10 +52,7 @@ export const getVehicleRentalStationNetworkConfig = (networkId, config) => {
   }
   const id = networkId.toLowerCase();
   if (
-    config &&
-    config.cityBike &&
-    config.cityBike.networks &&
-    config.cityBike.networks[id] &&
+    config?.cityBike?.networks?.[id] &&
     Object.keys(config.cityBike.networks[id]).length > 0
   ) {
     return config.cityBike.networks[id];
@@ -66,6 +64,16 @@ export const getDefaultNetworks = config => {
   const mappedNetworks = [];
   Object.entries(config.cityBike.networks).forEach(n => {
     if (citybikeRoutingIsActive(n[1], config)) {
+      mappedNetworks.push(n[0]);
+    }
+  });
+  return mappedNetworks;
+};
+
+export const getAllScooterNetworks = config => {
+  const mappedNetworks = [];
+  Object.entries(config.cityBike.networks).forEach(n => {
+    if (n[1].type === TransportMode.Scooter.toLowerCase()) {
       mappedNetworks.push(n[0]);
     }
   });
@@ -97,9 +105,14 @@ export const getVehicleCapacity = (config, network = undefined) => {
  * @param {*} config The configuration for the software installation
  */
 
-export const getVehicleRentalStationNetworks = () => {
+export const getCitybikeRentalStationNetworks = () => {
   const { allowedBikeRentalNetworks } = getCustomizedSettings();
   return allowedBikeRentalNetworks || [];
+};
+
+export const getScooterRentalNetworks = () => {
+  const { allowedScooterRentalNetworks } = getCustomizedSettings();
+  return allowedScooterRentalNetworks || [];
 };
 
 const addAnalytics = (action, name) => {

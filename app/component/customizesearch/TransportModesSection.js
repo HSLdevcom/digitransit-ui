@@ -32,7 +32,7 @@ const TransportModesSection = (
       </legend>
       <div className="transport-modes-container">
         {transportModes
-          .filter(mode => mode !== 'CITYBIKE')
+          .filter(mode => mode !== 'CITYBIKE' && mode !== 'SCOOTER')
           .map(mode => (
             <div
               className="mode-option-container"

@@ -121,6 +121,10 @@ export function setCustomizedSettings(data) {
       data.allowedBikeRentalNetworks,
       oldSettings.allowedBikeRentalNetworks,
     ),
+    allowedScooterRentalNetworks: getValueOrDefault(
+      data.allowedScooterRentalNetworks,
+      oldSettings.allowedScooterRentalNetworks,
+    ),
     includeBikeSuggestions: getValueOrDefault(
       data.includeBikeSuggestions,
       oldSettings.includeBikeSuggestions,

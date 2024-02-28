@@ -24,6 +24,9 @@ export const planQuery = graphql`
     $unpreferred: InputUnpreferred
     $allowedBikeRentalNetworks: [String]
     $modeWeight: InputModeWeight
+    $scooterRentModes: [TransportMode!]
+    $allowedScooterRentalNetworks: [String]
+    $shouldMakeScooterRentQuery: Boolean!
   ) {
     viewer {
       ...ItineraryQueries_Plan_Viewer
@@ -52,6 +55,100 @@ export const planQuery = graphql`
 
     serviceTimeRange {
       ...ItineraryPage_serviceTimeRange
+    }
+    scooterRentPlan: plan(
+      fromPlace: $fromPlace
+      toPlace: $toPlace
+      numItineraries: $numItineraries
+      transportModes: $scooterRentModes
+      date: $date
+      time: $time
+      walkReluctance: $walkReluctance
+      walkBoardCost: $walkBoardCost
+      minTransferTime: $minTransferTime
+      walkSpeed: $walkSpeed
+      wheelchair: $wheelchair
+      arriveBy: $arriveBy
+      transferPenalty: $transferPenalty
+      bikeSpeed: $bikeSpeed
+      optimize: $optimize
+      unpreferred: $unpreferred
+      allowedBikeRentalNetworks: $allowedScooterRentalNetworks
+      modeWeight: $modeWeight
+    ) @include(if: $shouldMakeScooterRentQuery) {
+      ...ItineraryListContainer_plan
+      ...ItineraryDetails_plan
+      routingErrors {
+        code
+        inputField
+      }
+      itineraries {
+        startTime
+        endTime
+        ...ItineraryDetails_itinerary
+        ...ItineraryListContainer_itineraries
+        emissionsPerPerson {
+          co2
+        }
+        legs {
+          mode
+          ...ItineraryLine_legs
+          transitLeg
+          legGeometry {
+            points
+          }
+          route {
+            gtfsId
+            type
+            shortName
+          }
+          trip {
+            gtfsId
+            directionId
+            occupancy {
+              occupancyStatus
+            }
+            stoptimesForDate {
+              scheduledDeparture
+              pickupType
+            }
+            pattern {
+              ...RouteLine_pattern
+            }
+          }
+          from {
+            name
+            lat
+            lon
+            stop {
+              gtfsId
+              zoneId
+            }
+            vehicleRentalStation {
+              stationId
+              vehiclesAvailable
+              network
+            }
+            rentalVehicle {
+              vehicleId
+              name
+              lat
+              lon
+              network
+            }
+          }
+          to {
+            stop {
+              gtfsId
+              zoneId
+            }
+            bikePark {
+              bikeParkId
+              name
+            }
+          }
+        }
+      }
     }
   }
 `;
@@ -472,6 +569,13 @@ export const moreQuery = graphql`
               vehiclesAvailable
               network
             }
+            rentalVehicle {
+              vehicleId
+              name
+              lat
+              lon
+              network
+            }
           }
           to {
             stop {
@@ -586,6 +690,13 @@ export const viewerQuery = graphql`
               vehiclesAvailable
               network
             }
+            rentalVehicle {
+              vehicleId
+              name
+              lat
+              lon
+              network
+            }
           }
           to {
             stop {
@@ -599,6 +710,60 @@ export const viewerQuery = graphql`
           }
         }
       }
+    }
+  }
+`;
+
+export const scooterViewerQuery = graphql`
+  fragment ItineraryQueries_Scooter_Query on QueryType
+  @argumentDefinitions(
+    fromPlace: { type: "String!" }
+    toPlace: { type: "String!" }
+    numItineraries: { type: "Int!" }
+    modes: { type: "[TransportMode!]" }
+    date: { type: "String!" }
+    time: { type: "String!" }
+    walkReluctance: { type: "Float" }
+    walkBoardCost: { type: "Int" }
+    minTransferTime: { type: "Int" }
+    walkSpeed: { type: "Float" }
+    wheelchair: { type: "Boolean" }
+    ticketTypes: { type: "[String]" }
+    arriveBy: { type: "Boolean" }
+    transferPenalty: { type: "Int" }
+    bikeSpeed: { type: "Float" }
+    optimize: { type: "OptimizeType" }
+    unpreferred: { type: "InputUnpreferred" }
+    modeWeight: { type: "InputModeWeight" }
+    allowedScooterRentalNetworks: { type: "[String]" }
+  ) {
+    viewer {
+      ...ItineraryQueries_Plan_Viewer
+        @arguments(
+          fromPlace: $fromPlace
+          toPlace: $toPlace
+          numItineraries: $numItineraries
+          modes: $modes
+          date: $date
+          time: $time
+          walkReluctance: $walkReluctance
+          walkBoardCost: $walkBoardCost
+          minTransferTime: $minTransferTime
+          walkSpeed: $walkSpeed
+          wheelchair: $wheelchair
+          ticketTypes: $ticketTypes
+          arriveBy: $arriveBy
+          transferPenalty: $transferPenalty
+          bikeSpeed: $bikeSpeed
+          optimize: $optimize
+          unpreferred: $unpreferred
+          allowedBikeRentalNetworks: $allowedScooterRentalNetworks
+          modeWeight: $modeWeight
+        )
+    }
+
+    serviceTimeRange {
+      ...ItineraryPage_serviceTimeRange
     }
   }
 `;

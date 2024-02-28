@@ -170,7 +170,7 @@ function StopsNearYouMap(
   const prevPlace = useRef();
   const prevMode = useRef();
   const { mode } = match.params;
-  const isTransitMode = mode !== 'CITYBIKE';
+  const isTransitMode = mode !== 'CITYBIKE' && mode !== 'SCOOTER';
   const walkRoutingThreshold =
     mode === 'RAIL' || mode === 'SUBWAY' || mode === 'FERRY' ? 3000 : 1500;
   const { environment } = relay;

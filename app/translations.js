@@ -934,6 +934,7 @@ const translations = {
     'biketransport-only-bike': "I'm travelling only by bike",
     'biking-amount': 'Amount of biking',
     'biking-speed': 'Biking speed',
+    'book-a-lift': 'TO DO',
     bus: 'Bus',
     'bus-express': 'Trunk bus',
     'bus-local': 'Neighbourhood bus',
@@ -1054,6 +1055,10 @@ const translations = {
     'distance-between': 'Distance {distance1} m — {distance2} m',
     'distance-total': 'Total distance',
     'distance-under': 'Distance less than {distance} m',
+    'e-scooter': 'Sähköpotkulauta',
+    'e-scooter-or-taxi-alternative':
+      'Entä jos kulkisit osan matkasta taksilla tai sähköpotkulaudalla? {paymentInfo}',
+    'e-scooters': 'Sähköpotkulaudat',
     earlier: 'Earlier departures',
     'edit-favourites': 'Edit the location in the Favorites',
     'elevation-gained-total': 'Elevation gained',
@@ -1064,6 +1069,7 @@ const translations = {
     'embedded-search.form-heading': 'Embedding tools',
     engine_ignition_aid: 'Engine starting aid',
     english: 'English',
+    'exit-vehicle': 'Nouse pois kyydistä ja kävele laiturille',
     explanations: 'Explanations',
     'extra-info': 'More info',
     'favourite-failed-text': 'Please try again in a while.',
@@ -1333,6 +1339,8 @@ const translations = {
       'Log in to the service to save your favorites and utilize them on other devices',
     'one-way-journey': 'The length of a one-way journey',
     'open-app': 'Open the app',
+    'open-operator-app': 'Avaa {operator}-sovellus',
+    'open-settings': 'Avaa asetukset',
     'option-default': 'Average',
     'option-least': 'Slow',
     'option-less': 'Calm',
@@ -1352,6 +1360,12 @@ const translations = {
     'park-and-ride': 'Park and Ride',
     'park-and-ride-availability': 'Spaces available:',
     'pay-attention': 'N.B.',
+    'payment-info-e-scooter':
+      'Huomaathan, että potkulautojen käyttö ja maksaminen tapahtuu toimijoiden omilla sovelluksilla.',
+    'payment-info-e-scooter-taxi':
+      'Huomaathan, että potkulautojen ja taksin käyttö ja maksaminen tapahtuu toimijoiden omilla sovelluksilla.',
+    'payment-info-taxi-lifts':
+      'Huomaathan, että taksien ja kyytipalveluiden käyttö ja maksaminen tapahtuu toimijoiden omilla sovelluksilla.',
     payment_at_gate: 'Payment at the gate ',
     'pick-icon': 'Select icon',
     'pick-mode': 'Transport modes',
@@ -1393,9 +1407,11 @@ const translations = {
     'remove-favourite': 'Remove from favorites',
     'remove-via-button-label': 'Remove via point {index}',
     'rent-cycle-at': 'Fetch a city bike:',
+    'rent-e-scooter-at': 'Ota sähköpotkulauta käyttöön sovelluksella',
     'rent-scooter-at': 'Rent a kick scooter at {station} station',
     'required-ticket': 'Ticket required for the journey',
     'return-cycle-to': 'Return the bike:',
+    'return-e-scooter-to': 'Jätä potkulauta turvalliseen paikkaan',
     'return-scooter-to': 'Return the kick scooter to {station} station',
     'right-now': 'Right now',
     route: 'Route',
@@ -1467,6 +1483,7 @@ const translations = {
     'routing-feedback-link': 'Give feedback',
     run: 'Run',
     save: 'Save',
+    scooter: 'Scooter',
     'scooter-availability': 'Kick scooters available at the station right now',
     'scooter-distance-duration':
       'Ride your kick scooter {duration} ({distance})',
@@ -1507,11 +1524,18 @@ const translations = {
     'settings-change-itinerary-settings': 'Change settings',
     'settings-dropdown-close-label': 'Close options',
     'settings-dropdown-open-label': 'Open options',
+    'settings-e-scooter':
+      'Voit valita haluamasi sähköpotkulaudat, jolloin ne huomioidaan osana reititystä. {paymentInfo}',
+    'settings-e-scooter-on':
+      'Laita sähköpotkulauta päälle asetuksista pysyvästi',
+    'settings-e-scooter-routes': 'Sähköpotkulaudat osaksi reittejäsi!',
     'settings-label-change': 'Change settings',
     'settings-missing-itineraries-body':
       'Some selections in the settings exclude certain route alternatives.',
     'settings-missing-itineraries-header':
       'Are some route alternatives missing?',
+    'settings-taxi-lift':
+      'Voit valita haluamasi taksi ja kyytipalvelut, jolloin ne huomioidaan osana reititystä.',
     share: 'Share itinerary',
     show: 'Show',
     'show-departures': 'Show departures',
@@ -2112,6 +2136,8 @@ const translations = {
     'biketransport-only-bike': 'Liikun vain pyörällä',
     'biking-amount': 'Pyöräilyn määrä',
     'biking-speed': 'Pyöräilynopeus',
+    'book-a-lift':
+      'Tilaa kyyti sovelluksella ja jää odottamaan sen saapumista:',
     bus: 'Bussi',
     'bus-express': 'Runkolinjabussi',
     'bus-local': 'Lähibussi',
@@ -2235,6 +2261,10 @@ const translations = {
     'distance-between': 'Etäisyys {distance1} m — {distance2} m',
     'distance-total': 'Matkan pituus',
     'distance-under': 'Etäisyys alle {distance} m',
+    'e-scooter': 'Sähköpotkulauta',
+    'e-scooter-or-taxi-alternative':
+      'Entä jos kulkisit osan matkasta taksilla tai sähköpotkulaudalla? {paymentInfo}',
+    'e-scooters': 'Sähköpotkulaudat',
     earlier: 'Aiempia lähtöjä',
     'edit-favourites': 'Muokkaa paikkaa Suosikkisi-välilehdellä',
     'elevation-gained-total': 'Nousua yhteensä',
@@ -2245,6 +2275,7 @@ const translations = {
     'embedded-search.form-heading': 'Upotusvalinnat',
     engine_ignition_aid: 'Käynnistysapu',
     english: 'Englanti',
+    'exit-vehicle': 'Nouse pois kyydistä ja kävele laiturille',
     explanations: 'Selitykset',
     'extra-info': 'Lisätiedot',
     'favourite-failed-text': 'Yritä hetken päästä uudelleen.',
@@ -2506,6 +2537,8 @@ const translations = {
       'Kirjautumalla palveluun saat suosikit talteen ja voit hyödyntää niitä muillakin laitteillasi',
     'one-way-journey': 'Yhdensuuntaisen matkan pituus',
     'open-app': 'Avaa sovellus',
+    'open-operator-app': 'Avaa {operator}-sovellus',
+    'open-settings': 'Avaa asetukset',
     'option-default': 'Keskimääräinen',
     'option-least': 'Hidas',
     'option-less': 'Rauhallinen',
@@ -2526,6 +2559,12 @@ const translations = {
     'park-and-ride': 'Liityntäpysäköinti',
     'park-and-ride-availability': 'Paikkoja vapaana:',
     'pay-attention': 'Huom!',
+    'payment-info-e-scooter':
+      'Huomaathan, että potkulautojen käyttö ja maksaminen tapahtuu toimijoiden omilla sovelluksilla.',
+    'payment-info-e-scooter-taxi':
+      'Huomaathan, että potkulautojen ja taksin käyttö ja maksaminen tapahtuu toimijoiden omilla sovelluksilla.',
+    'payment-info-taxi-lifts':
+      'Huomaathan, että taksien ja kyytipalveluiden käyttö ja maksaminen tapahtuu toimijoiden omilla sovelluksilla.',
     payment_at_gate: 'Maksu portilla',
     'pick-icon': 'Valitse kuvake',
     'pick-mode': 'Liikennevälineet',
@@ -2567,9 +2606,11 @@ const translations = {
     'remove-favourite': 'Poista suosikkivalinta',
     'remove-via-button-label': 'Poista välipiste {index}',
     'rent-cycle-at': 'Nouda Kaupunkipyörä: ',
+    'rent-e-scooter-at': 'Ota sähköpotkulauta käyttöön sovelluksella',
     'rent-scooter-at': 'Vuokraa potkulauta asemalta {station}',
     'required-ticket': 'Reitillä tarvittava lippu',
     'return-cycle-to': 'Palauta kaupunkipyörä:',
+    'return-e-scooter-to': 'Jätä potkulauta turvalliseen paikkaan',
     'return-scooter-to': 'Palauta potkulauta asemalle {station}',
     'right-now': 'Juuri nyt',
     route: 'Linja',
@@ -2640,6 +2681,7 @@ const translations = {
     'routing-feedback-link': 'Anna palautetta',
     run: 'Juoksu',
     save: 'Tallenna',
+    scooter: 'Potkulauta',
     'scooter-availability': 'Potkulautoja asemalla juuri nyt',
     'scooter-distance-duration': 'Potkulautaile {duration} ({distance})',
     'scooter-register-required':
@@ -2680,10 +2722,17 @@ const translations = {
     'settings-change-itinerary-settings': 'Muuta asetuksia',
     'settings-dropdown-close-label': 'Sulje vaihtoehdot',
     'settings-dropdown-open-label': 'Avaa vaihtoehdot',
+    'settings-e-scooter':
+      'Voit valita haluamasi sähköpotkulaudat, jolloin ne huomioidaan osana reititystä. {paymentInfo}',
+    'settings-e-scooter-on':
+      'Laita sähköpotkulauta päälle asetuksista pysyvästi',
+    'settings-e-scooter-routes': 'Sähköpotkulaudat osaksi reittejäsi!',
     'settings-label-change': 'Muuta reittihaun asetuksia',
     'settings-missing-itineraries-body':
       'Asetuksissa on päällä valintoja, jotka rajaavat pois joitain reittivaihtoehtoja.',
     'settings-missing-itineraries-header': 'Puuttuuko reittivaihtoehtoja?',
+    'settings-taxi-lift':
+      'Voit valita haluamasi taksi ja kyytipalvelut, jolloin ne huomioidaan osana reititystä.',
     share: 'Jaa ohje',
     show: 'Näytä',
     'show-departures': 'Näytä lähdöt',
@@ -4002,6 +4051,8 @@ const translations = {
     'as-destination': 'Destination',
     'as-origin': 'Avfärdsplats',
     'as-viapoint': 'Via punkt',
+    'book-a-lift':
+      'Tilaa kyyti sovelluksella ja jää odottamaan sen saapumista:',
     'search-autosuggest-label': 'Plats, linje och hållplatssökning.',
     'search-autosuggest-label-instructions':
       'Navigera listan med piltangenterna och välj med Enter-tangeten.',
@@ -4182,6 +4233,10 @@ const translations = {
     'distance-between': 'Avstånd {distance1} m — {distance2} m',
     'distance-total': 'Resans längd',
     'distance-under': 'Avstånd mindre än {distance} m',
+    'e-scooter': 'Sähköpotkulauta',
+    'e-scooter-or-taxi-alternative':
+      'Entä jos kulkisit osan matkasta taksilla tai sähköpotkulaudalla? {paymentInfo}',
+    'e-scooters': 'Sähköpotkulaudat',
     earlier: 'Tidigare avgångar',
     'edit-favourites': 'Redigera favoritdestination',
     'elevation-gained-total': 'Uppförsbacke totalt',
@@ -4192,6 +4247,7 @@ const translations = {
     'embedded-search.form-heading': 'Inbäddningsverktyg',
     engine_ignition_aid: 'Starthjälp',
     english: 'Engelsk',
+    'exit-vehicle': 'Nouse pois kyydistä ja kävele laiturille',
     explanations: 'Förklaringar',
     'extra-info': 'Mer info',
     'favourite-failed-text': 'Försök på nytt senare.',
@@ -4458,6 +4514,8 @@ const translations = {
       'Genom att logga in kan du spara dina favoriter och använda dem med dina andra enheter.',
     'one-way-journey': ' Längden på en enkel resa',
     'open-app': ' Öppna appen',
+    'open-operator-app': 'Avaa {operator}-sovellus',
+    'open-settings': 'Avaa asetukset',
     'option-default': 'Standard',
     'option-least': 'Minst',
     'option-less': 'Mindre',
@@ -4478,6 +4536,12 @@ const translations = {
     'park-and-ride': 'Infartsparkering',
     'park-and-ride-availability': 'Lediga platser:',
     'pay-attention': 'Obs!',
+    'payment-info-e-scooter':
+      'Huomaathan, että potkulautojen käyttö ja maksaminen tapahtuu toimijoiden omilla sovelluksilla.',
+    'payment-info-e-scooter-taxi':
+      'Huomaathan, että potkulautojen ja taksin käyttö ja maksaminen tapahtuu toimijoiden omilla sovelluksilla.',
+    'payment-info-taxi-lifts':
+      'Huomaathan, että taksien ja kyytipalveluiden käyttö ja maksaminen tapahtuu toimijoiden omilla sovelluksilla.',
     payment_at_gate: 'Betalning vid porten',
     'pick-icon': 'Välj en ikon',
     'pick-mode': 'Trafikslag',
@@ -4519,9 +4583,11 @@ const translations = {
     'remove-favourite': 'Ta bort favoritmarkeringen',
     'remove-via-button-label': 'Ta bort viapunkt {index}',
     'rent-cycle-at': 'Sök en stadscykel:',
+    'rent-e-scooter-at': 'Ota sähköpotkulauta käyttöön sovelluksella',
     'rent-scooter-at': 'Hyr en sparkcykel från stationen {station}',
     'required-ticket': 'Biljett som behövs under resan',
     'return-cycle-to': 'Returnera stadscykeln: ',
+    'return-e-scooter-to': 'Jätä potkulauta turvalliseen paikkaan',
     'return-scooter-to': 'Returnera sparkcykeln till stationen {station}',
     'right-now': 'Just nu',
     route: 'Linje',
@@ -4592,6 +4658,7 @@ const translations = {
     'routing-feedback-link': 'Ge respons',
     run: 'Springande',
     save: 'Spara',
+    scooter: 'Scooter',
     'scooter-availability': 'Antal sparkcyklar just nu',
     'scooter-distance-duration': 'Sparkcykla {duration} ({distance})',
     'scooter-register-required':
@@ -4636,10 +4703,17 @@ const translations = {
     'settings-change-itinerary-settings': 'Anpassa sökning',
     'settings-dropdown-close-label': 'Stäng alternativen',
     'settings-dropdown-open-label': 'Öppna alternativen',
+    'settings-e-scooter':
+      'Voit valita haluamasi sähköpotkulaudat, jolloin ne huomioidaan osana reititystä. {paymentInfo}',
+    'settings-e-scooter-on':
+      'Laita sähköpotkulauta päälle asetuksista pysyvästi',
+    'settings-e-scooter-routes': 'Sähköpotkulaudat osaksi reittejäsi!',
     'settings-label-change': 'Anpassa sökning',
     'settings-missing-itineraries-body':
       'Dina val i inställningar utesluter vissa ruttalternativ.',
     'settings-missing-itineraries-header': 'Saknas det några ruttförslag?',
+    'settings-taxi-lift':
+      'Voit valita haluamasi taksi ja kyytipalvelut, jolloin ne huomioidaan osana reititystä.',
     share: 'Dela resan',
     show: 'Visa',
     'show-departures': 'Visa avgångarna',

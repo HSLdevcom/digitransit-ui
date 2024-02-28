@@ -49,12 +49,14 @@ export function getDefaultSettings(config) {
   if (!config) {
     return {};
   }
+
   return {
     ...config.defaultSettings,
     modes: getDefaultModes(config).sort(),
-    allowedBikeRentalNetworks: config.transportModes.citybike.defaultValue
+    allowedBikeRentalNetworks: config.transportModes?.citybike?.defaultValue
       ? getDefaultNetworks(config)
       : [],
+    allowedScooterRentalNetworks: [],
   };
 }
 
@@ -67,6 +69,8 @@ export function getSettings(config) {
   const defaultSettings = getDefaultSettings(config);
   const userSettings = getCustomizedSettings();
   const allNetworks = getDefaultNetworks(config);
+
+  // const allScooterNetworks = getAllScooterNetworks(config);
   const settings = {
     ...defaultSettings,
     ...userSettings,
@@ -85,6 +89,12 @@ export function getSettings(config) {
             allNetworks.includes(network),
           )
         : defaultSettings.allowedBikeRentalNetworks,
+    allowedScooterRentalNetworks:
+      userSettings.allowedScooterRentalNetworks?.length > 0
+        ? userSettings.allowedScooterRentalNetworks.filter(network =>
+            allNetworks.includes(network),
+          )
+        : defaultSettings.allowedScooterRentalNetworks,
   };
   const { defaultOptions } = config;
   return {
@@ -121,6 +131,7 @@ export function getPlanParams(
     },
   },
   relaxSettings,
+  forceScooters = false,
 ) {
   const defaultSettings = getDefaultSettings(config);
   const settings = getSettings(config);
@@ -129,10 +140,23 @@ export function getPlanParams(
   const intermediateLocations = getIntermediatePlaces({
     intermediatePlaces,
   });
+  const shouldMakeScooterRentQuery =
+    settings.allowedScooterRentalNetworks?.length > 0;
   let modesOrDefault = relaxSettings ? defaultSettings.modes : settings.modes;
-  modesOrDefault = modesOrDefault.map(mode =>
-    mode === 'CITYBIKE' ? 'BICYCLE_RENT' : mode,
-  );
+  modesOrDefault = modesOrDefault.map(mode => {
+    if (mode === 'CITYBIKE') {
+      return 'BICYCLE_RENT';
+    }
+    return mode;
+  });
+
+  if (forceScooters) {
+    modesOrDefault.push('SCOOTER_RENT');
+    modesOrDefault = modesOrDefault.filter(mode => mode !== 'BICYCLE'); // cannot search citybikes with scooters, causes an error: "Multiple non-walk modes provided"
+  } else {
+    modesOrDefault = modesOrDefault.filter(mode => mode !== 'SCOOTER');
+  }
+
   if (!settings.allowedBikeRentalNetworks?.length) {
     // do not ask citybike routes without networks
     modesOrDefault = modesOrDefault.filter(mode => mode !== 'BICYCLE_RENT');
@@ -192,6 +216,7 @@ export function getPlanParams(
     shouldMakeParkRideQuery:
       modesOrDefault.length > 1 &&
       shouldMakeParkRideQuery(linearDistance, config, settings),
+    shouldMakeScooterRentQuery,
     showBikeAndPublicItineraries:
       modesOrDefault.length > 1 &&
       !wheelchair &&
@@ -213,5 +238,9 @@ export function getPlanParams(
       ...modesWithoutRent, // BICYCLE_RENT can't be used together with BICYCLE_PARK
     ],
     parkRideModes: [{ mode: 'CAR', qualifier: 'PARK' }, ...modesWithoutRent],
+    scooterRentModes: [
+      { mode: 'SCOOTER', qualifier: 'RENT' },
+      ...modesWithoutRent, // Cannot use multiple rental modes
+    ],
   };
 }

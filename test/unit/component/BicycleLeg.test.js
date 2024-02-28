@@ -36,6 +36,8 @@ describe('<BicycleLeg />', () => {
           cityBike: {
             networks: { foobar: { type: CityBikeNetworkType.CityBike } },
           },
+          defaultSettings: { walkSpeed: 1, bikeSpeed: 1 },
+          defaultOptions: { walkSpeed: 1, bikeSpeed: 1 },
         },
       },
     });
@@ -74,6 +76,8 @@ describe('<BicycleLeg />', () => {
           cityBike: {
             networks: { foobar: { type: CityBikeNetworkType.Scooter } },
           },
+          defaultSettings: { walkSpeed: 1, bikeSpeed: 1 },
+          defaultOptions: { walkSpeed: 1, bikeSpeed: 1 },
         },
       },
     });
@@ -112,6 +116,8 @@ describe('<BicycleLeg />', () => {
           cityBike: {
             networks: { foobar: { type: CityBikeNetworkType.CityBike } },
           },
+          defaultSettings: { walkSpeed: 1, bikeSpeed: 1 },
+          defaultOptions: { walkSpeed: 1, bikeSpeed: 1 },
         },
       },
     });
@@ -153,6 +159,8 @@ describe('<BicycleLeg />', () => {
           cityBike: {
             networks: { foobar: { type: CityBikeNetworkType.Scooter } },
           },
+          defaultSettings: { walkSpeed: 1, bikeSpeed: 1 },
+          defaultOptions: { walkSpeed: 1, bikeSpeed: 1 },
         },
       },
     });
@@ -194,6 +202,8 @@ describe('<BicycleLeg />', () => {
           cityBike: {
             networks: { foobar: { type: CityBikeNetworkType.CityBike } },
           },
+          defaultSettings: { walkSpeed: 1, bikeSpeed: 1 },
+          defaultOptions: { walkSpeed: 1, bikeSpeed: 1 },
         },
       },
     });
@@ -232,6 +242,8 @@ describe('<BicycleLeg />', () => {
           cityBike: {
             networks: { foobar: { type: CityBikeNetworkType.Scooter } },
           },
+          defaultSettings: { walkSpeed: 1, bikeSpeed: 1 },
+          defaultOptions: { walkSpeed: 1, bikeSpeed: 1 },
         },
       },
     });

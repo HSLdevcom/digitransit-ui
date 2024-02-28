@@ -35,6 +35,7 @@ export default function ItineraryPageContainer({ content, match }, { config }) {
             viewer={{ plan: {} }}
             serviceTimeRange={validateServiceTimeRange()}
             loading={false}
+            scooterRentPlan={{ plan: {} }}
           />
         ) : (
           <QueryRenderer
@@ -58,6 +59,7 @@ export default function ItineraryPageContainer({ content, match }, { config }) {
                   serviceTimeRange={validateServiceTimeRange()}
                   loading
                   error={error}
+                  scooterRentPlan={{ plan: {} }}
                 />
               );
             }}

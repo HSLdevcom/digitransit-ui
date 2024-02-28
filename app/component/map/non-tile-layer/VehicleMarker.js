@@ -15,7 +15,7 @@ import {
   getVehicleAvailabilityTextColor,
 } from '../../../util/legUtils';
 
-import { PREFIX_BIKESTATIONS } from '../../../util/path';
+import { PREFIX_BIKESTATIONS, PREFIX_RENTALVEHICLES } from '../../../util/path';
 
 let L;
 
@@ -40,8 +40,17 @@ export default class VehicleMarker extends React.Component {
 
   static propTypes = {
     showBikeAvailability: PropTypes.bool,
-    station: PropTypes.object.isRequired,
+    rental: PropTypes.objectOf(
+      PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        lat: PropTypes.string.isRequired,
+        lon: PropTypes.string.isRequired,
+        network: PropTypes.string.isRequired,
+        vehiclesAvailable: PropTypes.string,
+      }),
+    ).isRequired,
     transit: PropTypes.bool,
+    mode: PropTypes.string,
   };
 
   static contextTypes = {
@@ -51,21 +60,20 @@ export default class VehicleMarker extends React.Component {
 
   static defaultProps = {
     showBikeAvailability: false,
+    transit: false,
+    mode: 'BICYCLE',
   };
 
-  handleClick() {
-    const { stationId } = this.props.station;
-    this.context.router.push(
-      `/${PREFIX_BIKESTATIONS}/${encodeURIComponent(stationId)}`,
-    );
-  }
+  handleClick = (id, prefix) => {
+    this.context.router.push(`/${prefix}/${encodeURIComponent(id)}`);
+  };
 
   getIcon = zoom => {
-    const { showBikeAvailability, station, transit } = this.props;
+    const { showBikeAvailability, rental, transit } = this.props;
     const { config } = this.context;
-    const vehicleCapacity = getVehicleCapacity(config, station.network);
+    const vehicleCapacity = getVehicleCapacity(config, rental?.network);
     const iconName = `${getVehicleRentalStationNetworkIcon(
-      getVehicleRentalStationNetworkConfig(station.network, config),
+      getVehicleRentalStationNetworkConfig(rental.network, config),
     )}-lollipop`;
 
     return !transit && zoom <= config.stopsSmallMaxZoom
@@ -81,16 +89,16 @@ export default class VehicleMarker extends React.Component {
                 img: iconName,
                 className: 'city-bike-medium-size',
                 badgeFill: getVehicleAvailabilityIndicatorColor(
-                  station.vehiclesAvailable,
+                  rental?.vehiclesAvailable,
                   config,
                 ),
                 badgeTextFill: getVehicleAvailabilityTextColor(
-                  station.vehiclesAvailable,
+                  rental?.vehiclesAvailable,
                   config,
                 ),
                 badgeText:
                   vehicleCapacity !== BIKEAVL_UNKNOWN
-                    ? station.vehiclesAvailable
+                    ? rental?.vehiclesAvailable
                     : null,
               })
             : Icon.asString({
@@ -109,12 +117,19 @@ export default class VehicleMarker extends React.Component {
     return (
       <GenericMarker
         position={{
-          lat: this.props.station.lat,
-          lon: this.props.station.lon,
+          lat: this.props.rental?.lat,
+          lon: this.props.rental?.lon,
         }}
-        onClick={this.handleClick}
+        onClick={() =>
+          this.handleClick(
+            this.props.rental.id,
+            this.props.mode === 'SCOOTER'
+              ? PREFIX_RENTALVEHICLES
+              : PREFIX_BIKESTATIONS,
+          )
+        }
         getIcon={this.getIcon}
-        id={this.props.station.stationId}
+        id={this.props.rental?.id}
       />
     );
   }

@@ -216,6 +216,7 @@ describe('<MapLayersDialogContent />', () => {
         cityBike: {
           networks: {
             foo: {
+              type: 'citybike',
               enabled: true,
               season: {
                 start: today,

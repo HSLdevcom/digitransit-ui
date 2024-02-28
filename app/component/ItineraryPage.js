@@ -31,6 +31,7 @@ import {
   moreQuery,
   alternativeQuery,
   viewerQuery,
+  scooterViewerQuery,
 } from './ItineraryQueries';
 import {
   getSelectedItineraryIndex,
@@ -73,6 +74,8 @@ import { getMapLayerOptions } from '../util/mapLayerUtils';
 import ItineraryShape from '../prop-types/ItineraryShape';
 import ErrorShape from '../prop-types/ErrorShape';
 import RoutingErrorShape from '../prop-types/RoutingErrorShape';
+import { getAllScooterNetworks } from '../util/vehicleRentalUtils';
+import { TransportMode } from '../constants';
 
 const streetHashes = [
   streetHash.walk,
@@ -125,6 +128,7 @@ function ItineraryPage(props, context) {
     loading: ALT_LOADING_STATES.UNSET,
   });
   const [relaxState, setRelaxState] = useState({ loading: false });
+  const [relaxRentalState, setRelaxRentalState] = useState({ loading: false });
   const [settingsState, setSettingsState] = useState({ settingsOpen: false });
   const [weatherState, setWeatherState] = useState({ loading: false });
   const [topicsState, setTopicsState] = useState(null);
@@ -182,6 +186,34 @@ function ItineraryPage(props, context) {
     );
   }
 
+  function mergedPlans() {
+    const scooterItinerary = transitItineraries(
+      filterItineraries(
+        props.scooterRentPlan?.itineraries,
+        TransportMode.Scooter,
+      ),
+    )?.[0];
+    if (scooterItinerary) {
+      const mergedRoutingErrors = [];
+      mergedRoutingErrors.concat(
+        props.scooterRentPlan?.routingErrors,
+        props.viewer.plan.routingErrors,
+      );
+      const mergedItineraries = [
+        scooterItinerary,
+        ...props.viewer.plan.itineraries.slice(0, -1),
+      ].sort((a, b) => {
+        return a.endTime > b.endTime;
+      });
+      return {
+        itineraries: mergedItineraries,
+        routingErrors: mergedRoutingErrors,
+      };
+    }
+
+    return props.viewer.plan;
+  }
+
   function mapHashToPlan(hash) {
     switch (hash) {
       case streetHash.walk:
@@ -197,12 +229,16 @@ function ItineraryPage(props, context) {
       default:
         if (
           !transitItineraries(props.viewer?.plan?.itineraries).length &&
-          !state.settingsChanged &&
-          relaxState.relaxedPlan?.itineraries?.length > 0
+          !state.settingsChanged
         ) {
-          return relaxState.relaxedPlan;
+          if (relaxState.relaxedPlan?.itineraries?.length > 0) {
+            return relaxState.relaxedPlan;
+          }
+          if (relaxRentalState.relaxedScooterPlan?.itineraries?.length > 0) {
+            return relaxRentalState.relaxedScooterPlan;
+          }
         }
-        return props.viewer.plan;
+        return mergedPlans();
     }
   }
 
@@ -357,6 +393,42 @@ function ItineraryPage(props, context) {
         setRelaxState({
           relaxedPlan,
           loading: false,
+        });
+      });
+  }
+
+  function makeRelaxedScooterQuery() {
+    if (!hasValidFromTo()) {
+      return;
+    }
+    setRelaxRentalState({ loading: true });
+    const allScooterNetworks = getAllScooterNetworks(context.config);
+    const planParams = getPlanParams(
+      context.config,
+      props.match,
+      true, // relax settings
+      true, // force scooter query
+    );
+
+    const tunedParams = {
+      ...planParams,
+      allowedBikeRentalNetworks: allScooterNetworks,
+    };
+    fetchQuery(props.relayEnvironment, moreQuery, tunedParams, {
+      force: true,
+    })
+      .toPromise()
+      .then(result => {
+        const relaxedScooterPlan = {
+          ...result.plan,
+          itineraries: transitItineraries(result.plan.itineraries),
+        };
+        setRelaxRentalState({
+          relaxedScooterPlan,
+          earlierItineraries: [],
+          laterItineraries: [],
+          separatorPosition: undefined,
+          loadingRelaxedScooter: false,
         });
       });
   }
@@ -672,10 +744,17 @@ function ItineraryPage(props, context) {
   useEffect(() => {
     // eslint-disable-next-line react/no-did-update-set-state
     setState({ ...state, ...emptyState });
+    const settings = getSettings(context.config);
     if (!props.loading) {
       ariaRef.current = 'itinerary-page.itineraries-loaded';
       if (settingsLimitRouting(context.config) && !state.settingsChanged) {
         makeRelaxedQuery();
+      }
+      if (
+        !settings.allowedScooterRentalNetworks.length &&
+        !relaxState.relaxedPlan?.itineraries?.length
+      ) {
+        makeRelaxedScooterQuery();
       }
       makeAlternativeQuery();
     } else {
@@ -739,6 +818,7 @@ function ItineraryPage(props, context) {
     altState.bikeTransitPlan,
     altState.parkRidePlan,
     relaxState.relaxedPlan,
+    relaxRentalState.scooterRentPlan,
     props.match.location.state?.selectedItineraryIndex,
   ]);
 
@@ -984,12 +1064,15 @@ function ItineraryPage(props, context) {
     (props.loading ||
       state.loading ||
       (relaxState.loading && hasNoTransitItineraries) ||
+      (relaxRentalState.loadingRelaxedScooter && hasNoTransitItineraries) ||
       waitAlternatives ||
       (streetHashes.includes(hash) &&
         altState.loading === ALT_LOADING_STATES.LOADING)) && // viewing unfinished alt plan
     !error;
 
   const showRelaxedPlanNotifier = selectedPlan === relaxState.relaxedPlan;
+  const showRentalVehicleNotifier =
+    selectedPlan === relaxRentalState.relaxedScooterPlan;
   const settingsNotification =
     !showRelaxedPlanNotifier && // show only on notifier about limitations
     settingsLimitRouting(context.config) &&
@@ -1032,6 +1115,7 @@ function ItineraryPage(props, context) {
         routingFeedbackPosition={state.routingFeedbackPosition}
         topNote={state.topNote}
         bottomNote={state.bottomNote}
+        showRentalVehicleNotifier={showRentalVehicleNotifier}
       />
     </span>
   );
@@ -1162,6 +1246,10 @@ ItineraryPage.propTypes = {
     start: PropTypes.number.isRequired,
     end: PropTypes.number.isRequired,
   }).isRequired,
+  scooterRentPlan: PropTypes.shape({
+    routingErrors: PropTypes.arrayOf(RoutingErrorShape),
+    itineraries: PropTypes.arrayOf(ItineraryShape),
+  }).isRequired, // not really
   content: PropTypes.node,
   map: PropTypes.shape({
     type: PropTypes.func.isRequired,
@@ -1215,6 +1303,7 @@ const containerComponent = createRefetchContainer(
         end
       }
     `,
+    scooterRentPlan: scooterViewerQuery,
   },
   planQuery,
 );
