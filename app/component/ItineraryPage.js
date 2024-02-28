@@ -154,13 +154,15 @@ export default function ItineraryPage(props, context) {
   };
 
   const resetItineraryPageSelection = () => {
-    context.router.replace({
-      ...props.match.location,
-      state: {
-        ...props.match.location.state,
-        selectedItineraryIndex: 0,
-      },
-    });
+    if (props.match.location.state?.selectedItineraryIndex) {
+      context.router.replace({
+        ...props.match.location,
+        state: {
+          ...props.match.location.state,
+          selectedItineraryIndex: 0,
+        },
+      });
+    }
   };
 
   function hasValidFromTo() {
