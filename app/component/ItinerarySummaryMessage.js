@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { matchShape } from 'found';
-
+import connectToStores from 'fluxible-addons-react/connectToStores';
 import LocationStateShape from '../prop-types/LocationStateShape';
 import LocationShape from '../prop-types/LocationShape';
 import ErrorShape from '../prop-types/ErrorShape';
@@ -24,18 +24,18 @@ function getErrorCardProps(summaryMessageIds) {
   );
 }
 
-export default function ItinerarySummaryMessage(
+function ItinerarySummaryMessage(
   {
+    from,
+    to,
     walking,
     biking,
     driving,
-    currentTime,
     error,
-    from,
-    locationState,
-    searchTime,
-    to,
     routingErrors,
+    locationState,
+    currentTime,
+    searchTime,
   },
   context,
 ) {
@@ -44,6 +44,9 @@ export default function ItinerarySummaryMessage(
     config;
 
   const query = { from, to, searchTime, biking, driving, walking };
+  if (!searchTime) {
+    query.searchTime = currentTime;
+  }
   const queryContext = {
     locationState,
     areaPolygon,
@@ -103,3 +106,14 @@ ItinerarySummaryMessage.contextTypes = {
   config: PropTypes.object.isRequired,
   match: matchShape.isRequired,
 };
+
+const connectedComponent = connectToStores(
+  ItinerarySummaryMessage,
+  ['TimeStore', 'PositionStore'],
+  context => ({
+    currentTime: context.getStore('TimeStore').getCurrentTime().valueOf(),
+    locationState: context.getStore('PositionStore').getLocationState(),
+  }),
+);
+
+export { connectedComponent as default, ItinerarySummaryMessage as Component };
