@@ -13,7 +13,7 @@ import DesktopView from './DesktopView';
 import MobileView from './MobileView';
 import ItineraryPageMap from './map/ItineraryPageMap';
 import ItineraryListContainer from './ItineraryListContainer';
-import { spinnerPosition } from './ItineraryList/ItineraryList';
+import { spinnerPosition } from './ItineraryList';
 import ItineraryPageControls from './ItineraryPageControls';
 import ItineraryTabs from './ItineraryTabs';
 import { getWeatherData } from '../util/apiUtils';

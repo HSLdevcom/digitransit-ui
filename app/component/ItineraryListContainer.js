@@ -12,7 +12,7 @@ import getContext from 'recompose/getContext';
 
 import { intlShape, FormattedMessage } from 'react-intl';
 import Icon from './Icon';
-import ItineraryList from './ItineraryList/ItineraryList';
+import ItineraryList from './ItineraryList';
 import TimeStore from '../store/TimeStore';
 import PositionStore from '../store/PositionStore';
 import { otpToLocation, getIntermediatePlaces } from '../util/otpStrings';

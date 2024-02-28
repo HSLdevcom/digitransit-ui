@@ -4,20 +4,20 @@ import { createFragmentContainer, graphql } from 'react-relay';
 import { FormattedMessage } from 'react-intl';
 import cx from 'classnames';
 import { matchShape } from 'found';
-import Icon from '../Icon';
-import Itinerary from '../Itinerary';
-import { isBrowser } from '../../util/browser';
-import { getExtendedMode, getZones } from '../../util/legUtils';
-import CanceledItineraryToggler from '../CanceledItineraryToggler';
-import { itineraryHasCancelation } from '../../util/alertUtils';
+import Icon from './Icon';
+import Itinerary from './Itinerary';
+import { isBrowser } from '../util/browser';
+import { getExtendedMode, getZones } from '../util/legUtils';
+import CanceledItineraryToggler from './CanceledItineraryToggler';
+import { itineraryHasCancelation } from '../util/alertUtils';
 import ItineraryListHeader from './ItineraryListHeader';
-import Loading from '../Loading';
+import Loading from './Loading';
 import ItinerarySummaryMessage from './ItinerarySummaryMessage';
-import LocationShape from '../../prop-types/LocationShape';
-import ErrorShape from '../../prop-types/ErrorShape';
-import RoutingErrorShape from '../../prop-types/RoutingErrorShape';
-import RoutingFeedbackPrompt from '../RoutingFeedbackPrompt';
-import { streetHash } from '../../util/path';
+import LocationShape from '../prop-types/LocationShape';
+import ErrorShape from '../prop-types/ErrorShape';
+import RoutingErrorShape from '../prop-types/RoutingErrorShape';
+import RoutingFeedbackPrompt from './RoutingFeedbackPrompt';
+import { streetHash } from '../util/path';
 
 const spinnerPosition = {
   top: 'top',
