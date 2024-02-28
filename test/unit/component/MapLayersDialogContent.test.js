@@ -192,6 +192,11 @@ describe('<MapLayersDialogContent />', () => {
   });
 
   it('should update the citybike layer', () => {
+    const today = new Date();
+    const yesterday = new Date(today);
+    const tomorrow = new Date(today);
+    yesterday.setDate(yesterday.getDate() - 1);
+    tomorrow.setDate(tomorrow.getDate() + 1);
     let mapLayers = {
       citybike: false,
       stop: {},
@@ -212,6 +217,11 @@ describe('<MapLayersDialogContent />', () => {
           networks: {
             foo: {
               enabled: true,
+              season: {
+                start: today,
+                end: tomorrow,
+                preSeasonStart: yesterday,
+              },
             },
           },
         },
@@ -234,7 +244,6 @@ describe('<MapLayersDialogContent />', () => {
       .find('.option-checkbox.large input')
       .at(0)
       .simulate('change', { target: { checked: true } });
-
     expect(mapLayers.citybike).to.equal(true);
   });
 

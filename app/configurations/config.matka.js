@@ -170,6 +170,7 @@ export default {
   suggestBikeMaxDistance: 2000000,
 
   cityBike: {
+    useAllSeasons: true,
     networks: {
       smoove: HSLConfig.cityBike.networks.smoove,
       vantaa: HSLConfig.cityBike.networks.vantaa,
