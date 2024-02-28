@@ -24,7 +24,7 @@ function getErrorCardProps(summaryMessageIds) {
   );
 }
 
-function ItinerarySummaryMessage(
+function NoItinerariesNote(
   {
     from,
     to,
@@ -80,7 +80,7 @@ function ItinerarySummaryMessage(
   );
 }
 
-ItinerarySummaryMessage.propTypes = {
+NoItinerariesNote.propTypes = {
   from: LocationShape.isRequired,
   to: LocationShape.isRequired,
   locationState: LocationStateShape,
@@ -93,7 +93,7 @@ ItinerarySummaryMessage.propTypes = {
   routingErrors: PropTypes.arrayOf(RoutingErrorShape),
 };
 
-ItinerarySummaryMessage.defaultProps = {
+NoItinerariesNote.defaultProps = {
   walking: false,
   biking: false,
   driving: false,
@@ -102,13 +102,13 @@ ItinerarySummaryMessage.defaultProps = {
   routingErrors: [],
 };
 
-ItinerarySummaryMessage.contextTypes = {
+NoItinerariesNote.contextTypes = {
   config: PropTypes.object.isRequired,
   match: matchShape.isRequired,
 };
 
 const connectedComponent = connectToStores(
-  ItinerarySummaryMessage,
+  NoItinerariesNote,
   ['TimeStore', 'PositionStore'],
   context => ({
     currentTime: context.getStore('TimeStore').getCurrentTime().valueOf(),
@@ -116,4 +116,4 @@ const connectedComponent = connectToStores(
   }),
 );
 
-export { connectedComponent as default, ItinerarySummaryMessage as Component };
+export { connectedComponent as default, NoItinerariesNote as Component };

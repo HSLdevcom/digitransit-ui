@@ -1,6 +1,6 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import ItinerarySummaryMessage from './ItinerarySummaryMessage';
+import NoItinerariesNote from './NoItinerariesNote';
 import LocationShape from '../prop-types/LocationShape';
 
 export default function ItinerariesNotFound(props) {
@@ -36,7 +36,7 @@ export default function ItinerariesNotFound(props) {
       </div>
     );
   }
-  return <ItinerarySummaryMessage {...props} />;
+  return <NoItinerariesNote {...props} />;
 }
 
 ItinerariesNotFound.propTypes = {
