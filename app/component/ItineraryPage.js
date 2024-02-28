@@ -103,6 +103,7 @@ export default function ItineraryPage(props, context) {
   const expandMapRef = useRef(0);
   const ariaRef = useRef('summary-page.title');
   const pendingWeatherHash = useRef();
+  const searchRef = useRef({}); // identifies latest finished search
 
   const [state, setState] = useState({
     ...emptyState,
@@ -119,6 +120,16 @@ export default function ItineraryPage(props, context) {
   const [weatherState, setWeatherState] = useState({ loading: false });
   const [topicsState, setTopicsState] = useState(null);
   const [mapState, setMapState] = useState({});
+
+  function buildSearchRef() {
+    return {
+      settingsChanged: settingsState.settingsChanged,
+      from: props.match.params.from,
+      to: props.match.params.to,
+      time: props.match.location.query.time,
+      arriveBy: props.match.location.query.arriveBy,
+    };
+  }
 
   function stopClientAndUpdateTopics() {
     stopClient(context);
@@ -354,6 +365,7 @@ export default function ItineraryPage(props, context) {
     if (!hasValidFromTo()) {
       setState({ ...emptyState });
       resetItineraryPageSelection();
+      searchRef.current = buildSearchRef();
       return;
     }
     ariaRef.current = 'itinerary-page.loading-itineraries';
@@ -369,6 +381,9 @@ export default function ItineraryPage(props, context) {
       .catch(err => {
         setState({ ...emptyState, error: err });
         reportError(err);
+      })
+      .finally(() => {
+        searchRef.current = buildSearchRef();
       });
   }
 
@@ -1038,7 +1053,8 @@ export default function ItineraryPage(props, context) {
         bottomNote={state.bottomNote}
       />
     );
-  } else {
+  } else if (isEqual(searchRef.current, buildSearchRef())) {
+    // search is up to date, but no itineraries found
     content = (
       <ItinerariesNotFound
         routingErrors={selectedPlan?.routingErrors}
@@ -1062,6 +1078,8 @@ export default function ItineraryPage(props, context) {
         }
       />
     );
+  } else {
+    content = '';
   }
 
   const showAltBar =
