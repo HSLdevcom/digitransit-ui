@@ -48,7 +48,7 @@ export default function MapRoutingButton(
           {},
           PREFIX_ITINERARY_SUMMARY,
         ),
-        query: { time: moment().unix() },
+        query: { time: moment().unix().toString() },
       };
     } else if (id === 'destination') {
       newLocation = {
@@ -58,7 +58,7 @@ export default function MapRoutingButton(
           place,
           PREFIX_ITINERARY_SUMMARY,
         ),
-        query: { time: moment().unix() },
+        query: { time: moment().unix().toString() },
       };
     } else {
       newLocation = {
@@ -66,7 +66,7 @@ export default function MapRoutingButton(
         pathname: getItineraryPagePath(locationToUri({}), locationToUri({})),
         query: {
           intermediatePlaces: locationToOTP(item),
-          query: { time: moment().unix() },
+          query: { time: moment().unix().toString() },
         },
       };
     }
