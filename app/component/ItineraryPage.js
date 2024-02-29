@@ -925,10 +925,12 @@ export default function ItineraryPage(props, context) {
 
   const settings = getSettings(config);
 
-  const plan = mapHashToPlan(hash);
+  let plan = mapHashToPlan(hash);
+  const showRelaxedPlanNotifier = plan === relaxState.relaxedPlan;
+
   /* NOTE: as a temporary solution, do filtering by feedId in UI */
   if (config.feedIdFiltering && plan) {
-    plan.itineraries = filterItinerariesByFeedId(plan.itineraries, config);
+    plan = filterItinerariesByFeedId(plan, config);
   }
   let combinedItineraries;
   // Remove old itineraries if new query cannot find a route
@@ -1020,7 +1022,6 @@ export default function ItineraryPage(props, context) {
       />
     );
   } else if (plan?.itineraries?.length) {
-    const showRelaxedPlanNotifier = plan === relaxState.relaxedPlan;
     const settingsNotification =
       !showRelaxedPlanNotifier && // show only on notifier about limitations
       settingsLimitRouting(context.config) &&
