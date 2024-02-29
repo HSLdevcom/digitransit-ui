@@ -201,12 +201,12 @@ export function isEqualItineraries(itins, itins2) {
   return true;
 }
 
-export function filterItinerariesByFeedId(plan, config) {
-  if (!plan?.itineraries) {
-    return plan;
+export function filterItinerariesByFeedId(itineraries, config) {
+  if (!itineraries) {
+    return [];
   }
   const newItineraries = [];
-  plan.itineraries.forEach(itinerary => {
+  itineraries.forEach(itinerary => {
     let skip = false;
     for (let i = 0; i < itinerary.legs.length; i++) {
       const feedId = itinerary.legs[i].route?.gtfsId?.split(':')[0];
@@ -223,7 +223,7 @@ export function filterItinerariesByFeedId(plan, config) {
       newItineraries.push(itinerary);
     }
   });
-  return { ...plan, itineraries: newItineraries };
+  return newItineraries;
 }
 
 const settingsToCompare = ['walkBoardCost', 'ticketTypes', 'walkReluctance'];

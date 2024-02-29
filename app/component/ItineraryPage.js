@@ -925,18 +925,17 @@ export default function ItineraryPage(props, context) {
 
   const settings = getSettings(config);
 
-  let selectedPlan = mapHashToPlan(hash);
-
+  const plan = mapHashToPlan(hash);
   /* NOTE: as a temporary solution, do filtering by feedId in UI */
-  if (config.feedIdFiltering) {
-    selectedPlan = filterItinerariesByFeedId(selectedPlan, config);
+  if (config.feedIdFiltering && plan) {
+    plan.itineraries = filterItinerariesByFeedId(plan.itineraries, config);
   }
   let combinedItineraries;
   // Remove old itineraries if new query cannot find a route
   if (state.error) {
     combinedItineraries = [];
   } else if (streetHashes.includes(hash)) {
-    combinedItineraries = selectedPlan?.itineraries || [];
+    combinedItineraries = plan?.itineraries || [];
   } else {
     combinedItineraries = getCombinedItineraries();
     if (!hasNoTransitItineraries) {
@@ -1013,15 +1012,15 @@ export default function ItineraryPage(props, context) {
         isMobile={!desktop}
         tabIndex={selectedIndex}
         changeHash={changeHash}
-        plan={selectedPlan}
+        plan={plan}
         itineraries={combinedItineraries}
         focusToPoint={focusToPoint}
         focusToLeg={focusToLeg}
         carItinerary={carPlan?.itineraries[0]}
       />
     );
-  } else if (selectedPlan?.itineraries?.length) {
-    const showRelaxedPlanNotifier = selectedPlan === relaxState.relaxedPlan;
+  } else if (plan?.itineraries?.length) {
+    const showRelaxedPlanNotifier = plan === relaxState.relaxedPlan;
     const settingsNotification =
       !showRelaxedPlanNotifier && // show only on notifier about limitations
       settingsLimitRouting(context.config) &&
@@ -1036,7 +1035,7 @@ export default function ItineraryPage(props, context) {
     content = (
       <ItineraryListContainer
         activeIndex={selectedIndex}
-        plan={selectedPlan}
+        plan={plan}
         itineraries={combinedItineraries}
         params={params}
         bikeAndParkItineraryCount={altState.bikeAndParkItineraryCount}
@@ -1057,7 +1056,7 @@ export default function ItineraryPage(props, context) {
     // search is up to date, but no itineraries found
     content = (
       <ItinerariesNotFound
-        routingErrors={selectedPlan?.routingErrors}
+        routingErrors={plan?.routingErrors}
         from={from}
         to={to}
         searchTime={
