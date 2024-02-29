@@ -21,7 +21,6 @@ import VehicleRentalLeg from './VehicleRentalLeg';
 import StopCode from './StopCode';
 import PlatformNumber from './PlatformNumber';
 import { getSettings } from '../util/planParamUtil';
-import { TransportMode } from '../constants';
 
 function BicycleLeg(
   { focusAction, index, leg, focusToLeg, bicycleWalkLeg },
@@ -50,9 +49,7 @@ function BicycleLeg(
   const isScooter =
     networkConfig && networkConfig.type === CityBikeNetworkType.Scooter;
   const settings = getSettings(config);
-  const scooterSettingsOn =
-    settings.modes.indexOf(TransportMode.Scooter) !== -1;
-
+  const scooterSettingsOn = settings.allowedScooterRentalNetworks?.length > 0;
   if (leg.mode === 'WALK' || leg.mode === 'BICYCLE_WALK') {
     modeClassName = leg.mode.toLowerCase();
     stopsDescription = (

@@ -165,6 +165,10 @@ ViaLeg.propTypes = {
   children: PropTypes.node,
 };
 
+ViaLeg.defaultProps = {
+  children: undefined,
+};
+
 ViaLeg.contextTypes = {
   config: PropTypes.object.isRequired,
   intl: intlShape.isRequired,

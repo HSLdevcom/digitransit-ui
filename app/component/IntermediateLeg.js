@@ -188,6 +188,10 @@ IntermediateLeg.defaultProps = {
   currentZoneId: undefined,
   nextZoneId: undefined,
   isCanceled: false,
+  realTime: false,
+  isLastPlace: false,
+  gtfsId: undefined,
+  color: undefined,
 };
 
 IntermediateLeg.contextTypes = {

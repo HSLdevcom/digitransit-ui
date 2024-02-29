@@ -215,6 +215,7 @@ RouteNumber.defaultProps = {
   badgeFill: undefined,
   badgeText: undefined,
   badgeTextFill: undefined,
+  appendClass: undefined,
   className: '',
   vertical: false,
   card: false,
@@ -227,7 +228,6 @@ RouteNumber.defaultProps = {
   renderModeIcons: false,
   withBicycle: false,
   duration: undefined,
-  appendClass: undefined,
   occupancyStatus: undefined,
   color: undefined,
 };

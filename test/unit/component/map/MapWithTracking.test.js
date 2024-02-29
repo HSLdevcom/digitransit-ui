@@ -18,6 +18,8 @@ const defaultProps = {
   lon: 25,
   zoom: 12,
   mapLayers: { stop: {}, terminal: {} },
+  breakpoint: 'large',
+  lang: 'fi',
 };
 
 const defaultContext = {

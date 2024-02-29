@@ -79,14 +79,10 @@ describe('queryUtils', () => {
   });
 
   describe('resetSelectedItineraryIndex', () => {
-    it('should reset state.summaryPageSelected to 0', () => {
-      let location = {
-        state: {
-          summaryPageSelected: 3,
-        },
-      };
+    it('should reset state.selectedItineraryIndex to 0', () => {
+      let location = { state: { selectedItineraryIndex: 3 } };
       location = utils.resetSelectedItineraryIndex(location);
-      expect(location.state.summaryPageSelected).to.equal(0);
+      expect(location.state.selectedItineraryIndex).to.equal(0);
     });
 
     it('should not modify other state properties', () => {

@@ -51,6 +51,7 @@ export default function withSearchContext(
       fromMap: undefined,
       isMobile: false,
       showViapointControl: false,
+      favouriteContext: false,
     };
 
     constructor(props) {

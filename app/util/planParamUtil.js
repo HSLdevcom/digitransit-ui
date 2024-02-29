@@ -140,8 +140,6 @@ export function getPlanParams(
   const intermediateLocations = getIntermediatePlaces({
     intermediatePlaces,
   });
-  const shouldMakeScooterRentQuery =
-    settings.allowedScooterRentalNetworks?.length > 0;
   let modesOrDefault = relaxSettings ? defaultSettings.modes : settings.modes;
   modesOrDefault = modesOrDefault.map(mode => {
     if (mode === 'CITYBIKE') {
@@ -216,7 +214,6 @@ export function getPlanParams(
     shouldMakeParkRideQuery:
       modesOrDefault.length > 1 &&
       shouldMakeParkRideQuery(linearDistance, config, settings),
-    shouldMakeScooterRentQuery,
     showBikeAndPublicItineraries:
       modesOrDefault.length > 1 &&
       !wheelchair &&

@@ -63,6 +63,7 @@ LocationMarker.propTypes = {
 };
 
 LocationMarker.defaultProps = {
+  position: undefined,
   className: undefined,
   isLarge: false,
   type: 'via',

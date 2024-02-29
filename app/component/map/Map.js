@@ -84,6 +84,10 @@ export default class Map extends React.Component {
   static defaultProps = {
     animate: true,
     mapRef: null,
+    lat: undefined,
+    lon: undefined,
+    zoom: undefined,
+    bounds: undefined,
     locationPopup: 'reversegeocoding',
     boundsOptions: {},
     mapBottomPadding: 0,
@@ -92,6 +96,12 @@ export default class Map extends React.Component {
     topButtons: null,
     mergeStops: true,
     mapLayers: { geoJson: {} },
+    hilightedStops: undefined,
+    stopsToShow: undefined,
+    onSelectLocation: undefined,
+    geoJson: undefined,
+    leafletEvents: undefined,
+    leafletObjs: undefined,
     objectsToHide: { vehicleRentalStations: [] },
   };
 

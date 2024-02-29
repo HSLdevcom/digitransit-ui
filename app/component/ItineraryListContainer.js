@@ -79,6 +79,8 @@ class ItineraryListContainer extends React.Component {
     separatorPosition: undefined,
     routingFeedbackPosition: undefined,
     settingsNotification: false,
+    topNote: undefined,
+    bottomNote: undefined,
   };
 
   static contextTypes = {

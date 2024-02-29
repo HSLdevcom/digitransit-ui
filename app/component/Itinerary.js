@@ -56,9 +56,14 @@ const Leg = ({
 Leg.propTypes = {
   routeNumber: PropTypes.node.isRequired,
   legLength: PropTypes.number.isRequired,
-  mode: PropTypes.string,
+  mode: PropTypes.string.isRequired,
   fitRouteNumber: PropTypes.bool,
   renderModeIcons: PropTypes.bool,
+};
+
+Leg.defaultProps = {
+  fitRouteNumber: false,
+  renderModeIcons: false,
 };
 
 export function RouteLeg(
@@ -147,6 +152,8 @@ RouteLeg.contextTypes = {
 
 RouteLeg.defaultProps = {
   isTransitLeg: true,
+  interliningWithRoute: undefined,
+  hasOneTransitLeg: false,
 };
 
 export const ModeLeg = (
@@ -201,6 +208,12 @@ ModeLeg.propTypes = {
   renderModeIcons: PropTypes.bool,
   duration: PropTypes.number,
   icon: PropTypes.string,
+};
+
+ModeLeg.defaultProps = {
+  renderModeIcons: false,
+  duration: undefined,
+  icon: undefined,
 };
 
 ModeLeg.contextTypes = {
@@ -932,7 +945,6 @@ Itinerary.propTypes = {
   onSelect: PropTypes.func.isRequired,
   onSelectImmediately: PropTypes.func.isRequired,
   hash: PropTypes.number.isRequired,
-  children: PropTypes.node,
   breakpoint: PropTypes.string.isRequired,
   intermediatePlaces: PropTypes.arrayOf(PropTypes.object),
   isCancelled: PropTypes.bool,

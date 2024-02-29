@@ -39,8 +39,6 @@ const translations = {
     citybike: 'Bycykel',
     'citybike-register-required': 'Bycykelregistrering påkræves',
     close: 'Lukket',
-    'contact-information': '{contactName} kontaktinformation',
-    'create-account': 'Gem {contactName}-konto',
     'cycle-distance-duration': 'Cykle {duration} ({distance})',
     'cyclewalk-distance-duration': 'Tril cyklen {duration} ({distance})',
     datasources: 'Datakilder',
@@ -123,16 +121,12 @@ const translations = {
     'no-position-no-stops':
       'Kan ikke vise stoppesteder i nærheden da din position er ukendt.',
     'no-route-already-at-destination': 'You are already at your destination.',
-    'no-route-end-date-not-in-range':
-      'Current timetable does not include routes departing later.',
     'no-route-msg':
       'Vi finder desværre ingen rejseforslag til rejsesøget. Forsøg at ændre adressen',
     'no-route-msg-with-changes':
       'Unfortunately no routes were found for your journey. Try changing your settings, origin or destination.',
     'no-route-origin-near-destination':
       'No route suggestions were found because the origin and destination are very close to each other.',
-    'no-route-start-date-too-early':
-      'Current timetable does not include routes departing earlier.',
     'no-route-start-end': 'Venligst vælg udgangspunkt og destination.',
     'no-transfers-margin': 'Ingen',
     'no-trips-found': 'Ingen rejser tilgænglig for denne dag ({selectedDate}).',
@@ -345,9 +339,7 @@ const translations = {
     close: 'Schließen',
     'close-favourite-module': 'Favoriten-Modul schließen',
     'close-settings': 'Fenster schließen und Einstellungen speichern',
-    'contact-information': '{contactName} Kontaktinformationen',
     continue: 'Fortsetzen',
-    'create-account': '{contactName}-Konto anlegen',
     currentposition: 'Aktuelle Position',
     'cycle-distance-duration': 'Radfahren: {duration} ({distance})',
     'cyclewalk-distance-duration': 'Fahrrad schieben: {duration} ({distance})',
@@ -549,21 +541,16 @@ const translations = {
     'no-position-no-stops':
       'Die nächsten Haltestellen können nicht gezeigt werden, da Ihr Standort unbekannt ist.',
     'no-route-already-at-destination': 'Sie sind schon an Ihrem Ziel.',
-    'no-route-end-date-not-in-range':
-      'Der aktuelle Fahrplan enthält keine späteren Abfahrten.',
     'no-route-msg':
       'Wir konnten leider keine Reisevorschläge für diese Strecke finden. Bitte versuchen Sie den Abfahrts- oder Zielort zu ändern.',
     'no-route-msg-with-changes':
       'Leider wurden keine Reiseoptionen zu Ihrer Anfrage gefunden. Passen Sie Ihre Einstellungen, Abfahrt- oder Zielort an.',
-
     'no-route-origin-near-destination':
       'Die Entfernung zwischen Start und Ziel ist sehr gering. Bitte ändern Sie einen dieser Orte.',
     'no-route-origin-same-as-destination':
       'Keine Reisevorschläge gefunden, da Abfahrts- und Zielort übereinstimmen.',
     'no-route-showing-alternative-options':
       'Keine Routenvorschläge mit Ihren Einstelllungen gefunden. Stattdessen haben wird die folgenden Reiseoptionen gefunden:',
-    'no-route-start-date-too-early':
-      'Der aktuelle Fahrplan enthält keine früheren Abfahrten.',
     'no-route-start-end': 'Bitte Start und Ziel auswählen.',
     'no-transfers-margin': 'Keine',
     'no-trips-found': 'Keine Reisen für diesen Tag gefunden ({selectedDate}).',
@@ -1003,12 +990,10 @@ const translations = {
     close: 'Close',
     'close-favourite-module': 'Close the Favorites module',
     'close-settings': 'Close window and save settings',
-    'contact-information': '{contactName} contact details',
     continue: 'Continue',
     'cookie-settings': 'Cookie settings',
     'copy-code': 'Copy the code',
     covered: 'Sheltered',
-    'create-account': 'Create {contactName} account',
     'create-embedded-search': 'Create a route search element',
     'create-stop-monitor': 'Create a stop display',
     'crushed-standing-room-only': 'Crushed standing room only',
@@ -1306,8 +1291,6 @@ const translations = {
       'Your location is not available. We are unable to show the closest stops.',
     'no-route-already-at-destination': 'You are already at your destination.',
     'no-route-end': 'Please select destination',
-    'no-route-end-date-not-in-range':
-      'The timetable does not include later departures.',
     'no-route-found':
       'Unfortunately, route {shortName} ({longName}) could not be found.',
     'no-route-msg': 'Unfortunately, no route suggestions were found',
@@ -1322,7 +1305,6 @@ const translations = {
     'no-route-showing-alternative-options':
       'No route suggestions were found with the your settings. However, we found the following route options:',
     'no-route-start': 'Please select origin',
-    'no-route-start-date-too-early': 'There are no earlier departures.',
     'no-route-start-end': 'Please select origin and destination',
     'no-transfers-margin': '1 min',
     'no-trips-found':
@@ -1773,8 +1755,6 @@ const translations = {
     'citybike-register-required':
       'Para usar la red de bicicleta pública, necesita registrarse.',
     close: 'Cerrar',
-    'contact-information': '{contactName} detalles de contacto',
-    'create-account': 'Crear cuenta {contactName}',
     'cycle-distance-duration': 'Ir en bici {duration} ({distance})',
     'cyclewalk-distance-duration':
       'Anda junto a tu bici {duration} ({distance})',
@@ -1876,16 +1856,12 @@ const translations = {
     'no-position-no-stops':
       'Su localización no está disponible. No podemos enseñarle las paradas cercanas.',
     'no-route-already-at-destination': 'You are already at your destination.',
-    'no-route-end-date-not-in-range':
-      'Los horarios actuales no incluyen rutas saliendo más tarde.',
     'no-route-msg':
       'Desafortunadamente no se encontraron rutas para su viaje. Por favor cambie el origen o el destino',
     'no-route-msg-with-changes':
       'Unfortunately no routes were found for your journey. Try changing your settings, origin or destination.',
     'no-route-origin-near-destination':
       'The origin and the destination are close to each other. Please change either location.',
-    'no-route-start-date-too-early':
-      'Los horarios actuales no incluyen rutas saliendo antes.',
     'no-route-start-end': 'Por favor seleccione origen y destino.',
     'no-transfers-margin': '1 min',
     'no-trips-found':
@@ -2207,12 +2183,10 @@ const translations = {
     close: 'Sulje',
     'close-favourite-module': 'Sulje suosikkimoduuli',
     'close-settings': 'Sulje ikkuna ja tallenna asetukset',
-    'contact-information': '{contactName}:n yhteystiedot',
     continue: 'Jatka',
     'cookie-settings': 'Evästeasetukset',
     'copy-code': 'Kopioi koodi',
     covered: 'Katettu',
-    'create-account': 'Luo {contactName} tunnus',
     'create-embedded-search': 'Luo reittihakuelementti',
     'create-stop-monitor': 'Luo pysäkkinäyttö',
     'crushed-standing-room-only': 'Kova tungos',
@@ -2505,8 +2479,6 @@ const translations = {
       'Sijaintisi ei ole tiedossa, joten emme voi näyttää lähimpiä pysäkkejä.',
     'no-route-already-at-destination': 'Olet jo perillä.',
     'no-route-end': 'Syötä vielä määränpää',
-    'no-route-end-date-not-in-range':
-      'Aikataulu ei sisällä myöhäisempiä reittejä.',
     'no-route-found':
       'Linjaa {shortName} ({longName}) ei valitettavasti löytynyt.',
     'no-route-msg': 'Reittiehdotuksia ei valitettavasti löytynyt',
@@ -2521,7 +2493,6 @@ const translations = {
     'no-route-showing-alternative-options':
       'Asettamillasi asetuksilla ei löytynyt yhtään reittiehdotusta. Löysimme kuitenkin seuraavia reittivaihtoehtoja:',
     'no-route-start': 'Syötä vielä lähtöpaikka',
-    'no-route-start-date-too-early': 'Aikataulu ei sisällä aiempia reittejä.',
     'no-route-start-end': 'Syötä lähtöpaikka ja määränpää',
     'no-transfers-margin': '1 min',
     'no-trips-found': 'Valitulle päivälle ({selectedDate}) ei löydy matkoja.',
@@ -2982,8 +2953,6 @@ const translations = {
     'citybike-register-required':
       "L'utilisation du Vélo en libre service nécessite une inscription",
     close: 'Fermer',
-    'contact-information': 'Contacter {contactName}',
-    'create-account': 'Créer un identifiant {contactName}',
     'cycle-distance-duration': 'Pédaler {duration} ({distance})',
     'cyclewalk-distance-duration':
       'Avancer pied à terre sur {duration} ({distance})',
@@ -3092,16 +3061,12 @@ const translations = {
     'no-position-no-stops':
       'Localisation inconnue, impossible de proposer les arrêts à proximité.',
     'no-route-already-at-destination': 'You are already at your destination.',
-    'no-route-end-date-not-in-range':
-      'Current timetable does not include routes departing later.',
     'no-route-msg':
       "Impossible de trouver un itinéraire dans cette zone. Changer le point de départ ou d'arrivée",
     'no-route-msg-with-changes':
       'Unfortunately no routes were found for your journey. Try changing your settings, origin or destination.',
     'no-route-origin-near-destination':
       'The origin and the destination are close to each other. Please change either location.',
-    'no-route-start-date-too-early':
-      'Current timetable does not include routes departing earlier.',
     'no-route-start-end': 'Choisir un point de départ et une destination',
     'no-transfers-margin': 'Aucune',
     'no-trips-found':
@@ -3305,8 +3270,6 @@ const translations = {
     citybike: 'Bysykkel',
     'citybike-register-required': 'Bysykkelregistrering påkreves',
     close: 'Steng',
-    'contact-information': '{contactName} kontaktinformasjon',
-    'create-account': 'Lag {contactName}-konto',
     'cycle-distance-duration': 'Sykle {duration} ({distance})',
     'cyclewalk-distance-duration': 'Trill sykkelen {duration} ({distance})',
     datasources: 'Datakilder',
@@ -3388,16 +3351,12 @@ const translations = {
     'no-position-no-stops':
       'Kan ikke vise holdeplasser i nærheten da vi ikke vet din posisjon.',
     'no-route-already-at-destination': 'You are already at your destination.',
-    'no-route-end-date-not-in-range':
-      'Current timetable does not include routes departing later.',
     'no-route-msg':
       'Vi finner dessverre ingen reiseforslag til angitt rute. Forsøk å endre adresse',
     'no-route-msg-with-changes':
       'Unfortunately no routes were found for your journey. Try changing your settings, origin or destination.',
     'no-route-origin-near-destination':
       'The origin and the destination are close to each other. Please change either location.',
-    'no-route-start-date-too-early':
-      'Current timetable does not include routes departing earlier.',
     'no-route-start-end': 'Vennligst velg avgangssted og destinasjon.',
     'no-transfers-margin': 'Ingen',
     'no-trips-found':
@@ -3609,9 +3568,7 @@ const translations = {
       'Pentru a folosi biciclete de închiriat vă trebuie un cont',
     'clear-button-label': 'Șterge',
     close: 'Închide',
-    'contact-information': '{contactName} detalii de contact',
     continue: 'Continuă',
-    'create-account': 'Creare cont {contactName}',
     'cycle-distance-duration': 'Pedalați {duration} ({distance})',
     'cyclewalk-distance-duration':
       'Împingeți bicicleta {duration} ({distance})',
@@ -3780,14 +3737,12 @@ const translations = {
     'no-position-no-stops':
       'Nu v-am găsit locația. Nu putem afișa stații în zonă.',
     'no-route-already-at-destination': 'Sunteți deja la destinație.',
-    'no-route-end-date-not-in-range': 'Nu am găsit rute mai târziu în orar.',
     'no-route-msg':
       'Nu s-a găsit nicio rută conform selecției. Schimbați punctul de plecare sau destinație',
     'no-route-msg-with-changes':
       'Nu s-a găsit nicio rută conform selecției. Schimbați plecarea, destinația sau parametrii introduși ca preferințe.',
     'no-route-origin-near-destination':
       'Plecarea și destinația sunt în puncte prea apropiate. Vă rugăm să mutați una din ele.',
-    'no-route-start-date-too-early': 'Nu am găsit curse mai devreme în orar.',
     'no-route-start-end': 'Selectați punctele de plecare și destinație.',
     'no-transfers-margin': '1 min',
     'no-trips-found':
@@ -4180,12 +4135,10 @@ const translations = {
     close: 'Stäng',
     'close-favourite-module': 'Stäng favoritmodulen',
     'close-settings': 'Stäng fönstret och spara inställningar',
-    'contact-information': '{contactName} Kontaktuppgifter',
     continue: 'Fortsätt',
     'cookie-settings': 'Cookie inställningar',
     'copy-code': 'Kopiera koden',
     covered: 'Tak',
-    'create-account': 'Skapa {contactName} konto',
     'create-embedded-search': 'Skapa ett ruttsökningselement',
     'create-stop-monitor': 'Skapa hållplatsskärm',
     'crushed-standing-room-only': 'Nästan fullt',
@@ -4482,8 +4435,6 @@ const translations = {
       'De närmaste hållplatserna kan inte visas, eftersom din position inte är känd.',
     'no-route-already-at-destination': 'Du är redan vid din destination.',
     'no-route-end': 'Välj destination',
-    'no-route-end-date-not-in-range':
-      'Tidtabellen har inga resor som avgår senare.',
     'no-route-found': 'Kunde tyvärr inte hitta linje {shortName} ({longName})',
     'no-route-msg': 'Kunde tyvärr inte hitta ruttalternativ',
     'no-route-msg-time-threshold':
@@ -4497,8 +4448,6 @@ const translations = {
     'no-route-showing-alternative-options':
       'Kunde inte hitta några ruttförslag med dina val. Vi hittade dock följande ruttalternativ:',
     'no-route-start': 'Välj avfärdsplats',
-    'no-route-start-date-too-early':
-      'I tidtabellen ingår inte tidigare rutter.',
     'no-route-start-end': 'Välj avfärdsplats och destination',
     'no-transfers-margin': '1 min',
     'no-trips-found': 'Inga resor på den valda dagen ({selectedDate}).',

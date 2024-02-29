@@ -73,7 +73,7 @@ function SelectStopRow(
         ? 'icon-icon_ferry'
         : 'icon-icon_stop_ferry';
       iconOptions.className = 'ferry-stop';
-      if (iconOptions.iconId === 'icon-icon_stop_ferry') {
+      if (iconOptions.iconId === 'icon-icon_stop_ferry' && colors) {
         iconOptions.color = colors.iconColors['mode-ferry-pier'];
       }
       break;
@@ -146,7 +146,12 @@ SelectStopRow.propTypes = {
 };
 
 SelectStopRow.defaultProps = {
-  terminal: false,
+  routes: undefined,
+  code: undefined,
+  desc: undefined,
+  terminal: undefined,
+  colors: undefined,
+  platform: undefined,
 };
 
 SelectStopRow.contextTypes = {

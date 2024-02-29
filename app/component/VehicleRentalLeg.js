@@ -153,12 +153,20 @@ function VehicleRentalLeg(
 
 VehicleRentalLeg.propTypes = {
   vehicleRentalStation: PropTypes.object,
-  stationName: PropTypes.string,
+  stationName: PropTypes.string.isRequired,
   isScooter: PropTypes.bool,
   returnBike: PropTypes.bool,
   breakpoint: PropTypes.string,
   rentalVehicle: PropTypes.object,
 };
+
+VehicleRentalLeg.defaultProps = {
+  vehicleRentalStation: undefined,
+  isScooter: false,
+  returnBike: false,
+  breakpoint: undefined,
+};
+
 VehicleRentalLeg.contextTypes = {
   config: PropTypes.object.isRequired,
   intl: intlShape.isRequired,

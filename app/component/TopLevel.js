@@ -36,7 +36,7 @@ class TopLevel extends React.Component {
     match: matchShape.isRequired,
     origin: dtLocationShape,
     user: PropTypes.object,
-    router: routerShape,
+    router: routerShape.isRequired,
     selectFromMapHeader: PropTypes.node,
   };
 
@@ -48,6 +48,14 @@ class TopLevel extends React.Component {
 
   static defaultProps = {
     origin: {},
+    children: undefined,
+    header: undefined,
+    map: undefined,
+    content: undefined,
+    title: undefined,
+    meta: undefined,
+    user: undefined,
+    selectFromMapHeader: undefined,
   };
 
   static childContextTypes = {

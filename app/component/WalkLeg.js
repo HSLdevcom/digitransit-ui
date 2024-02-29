@@ -293,6 +293,7 @@ WalkLeg.propTypes = {
 
 WalkLeg.defaultProps = {
   previousLeg: undefined,
+  children: undefined,
 };
 
 WalkLeg.contextTypes = {

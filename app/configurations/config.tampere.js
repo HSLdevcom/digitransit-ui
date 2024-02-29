@@ -51,11 +51,6 @@ export default configMerger(walttiConfig, {
     ],
   },
 
-  itinerary: {
-    // Number of days to include to the service time range from the future
-    serviceTimeRange: 60,
-  },
-
   stopCard: {
     header: {
       virtualMonitorBaseUrl: 'https://tremonitori.digitransit.fi/',

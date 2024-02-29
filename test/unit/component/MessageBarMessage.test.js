@@ -10,6 +10,7 @@ describe('<MessageBarMessage />', () => {
       content: [{ type: 'a', content: 'This is a link', href: undefined }],
       breakpoint: 'small',
       config: { showAlertHeader: true },
+      onShowMore: () => {},
     };
     const wrapper = shallowWithIntl(<MessageBarMessage {...props} />);
     expect(wrapper.find('a')).to.have.lengthOf(0);
@@ -21,6 +22,7 @@ describe('<MessageBarMessage />', () => {
       breakpoint: 'small',
       onMaximize: () => {},
       config: { showAlertHeader: true },
+      onShowMore: () => {},
     };
     const wrapper = shallowWithIntl(<MessageBarMessage {...props} />);
     expect(wrapper.find('h2').text()).to.equal('This is a header');
@@ -31,6 +33,7 @@ describe('<MessageBarMessage />', () => {
       content: [{ type: 'text', content: 'This is text' }],
       breakpoint: 'small',
       config: { showAlertHeader: true },
+      onShowMore: () => {},
     };
     const wrapper = shallowWithIntl(<MessageBarMessage {...props} />);
     expect(wrapper.find(TruncatedMessage)).to.have.lengthOf(1);

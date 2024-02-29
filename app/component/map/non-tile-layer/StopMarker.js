@@ -36,6 +36,14 @@ class StopMarker extends React.Component {
     colorOverride: PropTypes.string,
   };
 
+  static defaultProps = {
+    renderName: false,
+    disableModeIcons: false,
+    limitZoom: undefined,
+    selected: false,
+    colorOverride: undefined,
+  };
+
   static contextTypes = {
     getStore: PropTypes.func.isRequired,
     config: PropTypes.object.isRequired,

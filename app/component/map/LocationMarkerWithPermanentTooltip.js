@@ -32,8 +32,8 @@ const LocationMarkerWithPermanentTooltip = props => {
 };
 
 LocationMarkerWithPermanentTooltip.propTypes = {
-  position: dtLocationShape,
-  text: PropTypes.string,
+  position: dtLocationShape.isRequired,
+  text: PropTypes.string.isRequired,
 };
 
 export default LocationMarkerWithPermanentTooltip;

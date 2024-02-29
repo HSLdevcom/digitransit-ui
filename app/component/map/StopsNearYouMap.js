@@ -520,6 +520,10 @@ StopsNearYouMap.defaultProps = {
   showWalkRoute: false,
   loading: false,
   favouriteIds: undefined,
+  prioritizedStopsNearYou: [],
+  mapLayerOptions: undefined,
+  onEndNavigation: undefined,
+  onMapTracking: undefined,
 };
 
 StopsNearYouMap.contextTypes = {

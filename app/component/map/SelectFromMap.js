@@ -53,7 +53,7 @@ const markLocation = (markerType, position) => {
   return null;
 };
 
-class SelectFromMapPageMap extends React.Component {
+class SelectFromMap extends React.Component {
   static contextTypes = {
     match: matchShape,
     config: PropTypes.object,
@@ -61,12 +61,16 @@ class SelectFromMapPageMap extends React.Component {
   };
 
   static propTypes = {
-    // eslint-disable-next-line no-dupe-keys
     breakpoint: PropTypes.string,
     language: PropTypes.string,
     type: PropTypes.string.isRequired,
     onConfirm: PropTypes.func.isRequired,
     mapLayers: mapLayerShape.isRequired,
+  };
+
+  static defaultProps = {
+    breakpoint: undefined,
+    language: undefined,
   };
 
   constructor(props) {
@@ -209,7 +213,7 @@ class SelectFromMapPageMap extends React.Component {
               defaultMessage: 'Confirm selection',
             })}
             type={this.props.type}
-            onConfirm={isEnabled ? this.props.onConfirm : undefined}
+            onConfirm={this.props.onConfirm}
             color={this.context.config.colors.primary}
             hoverColor={
               this.context.config.colors.hover ||
@@ -323,7 +327,7 @@ class SelectFromMapPageMap extends React.Component {
 }
 
 export default connectToStores(
-  withBreakpoint(SelectFromMapPageMap),
+  withBreakpoint(SelectFromMap),
   ['MapLayerStore'],
   ({ getStore }) => {
     const mapLayers = getStore('MapLayerStore').getMapLayers({

@@ -34,11 +34,16 @@ const ConfirmLocationFromMapButton = props => {
 ConfirmLocationFromMapButton.propTypes = {
   address: PropTypes.string,
   isEnabled: PropTypes.bool,
-  title: PropTypes.string,
-  type: PropTypes.string,
-  onConfirm: PropTypes.func,
+  title: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
+  onConfirm: PropTypes.func.isRequired,
   color: PropTypes.string.isRequired,
   hoverColor: PropTypes.string.isRequired,
+};
+
+ConfirmLocationFromMapButton.defaultProps = {
+  address: undefined,
+  isEnabled: false,
 };
 
 export default ConfirmLocationFromMapButton;

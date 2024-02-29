@@ -193,6 +193,9 @@ PointFeatureMarker.propTypes = {
 
 PointFeatureMarker.defaultProps = {
   icons: {},
+  locationPopup: undefined,
+  onSelectLocation: undefined,
+  size: undefined,
 };
 
 const connectedComponent = connectToStores(
