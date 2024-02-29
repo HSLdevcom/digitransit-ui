@@ -12,10 +12,10 @@ import getContext from 'recompose/getContext';
 
 import { intlShape, FormattedMessage } from 'react-intl';
 import Icon from './Icon';
-import ItineraryList from './ItineraryList/ItineraryList';
+import ItineraryList from './ItineraryList';
 import TimeStore from '../store/TimeStore';
 import PositionStore from '../store/PositionStore';
-import { otpToLocation, getIntermediatePlaces } from '../util/otpStrings';
+import { getIntermediatePlaces } from '../util/otpStrings';
 import { getItineraryPagePath, streetHash } from '../util/path';
 import withBreakpoint from '../util/withBreakpoint';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
@@ -23,9 +23,6 @@ import { isIOS, isSafari } from '../util/browser';
 import ItineraryNotification from './ItineraryNotification';
 import { transitItineraries } from './ItineraryPageUtils';
 import ItineraryShape from '../prop-types/ItineraryShape';
-import ErrorShape from '../prop-types/ErrorShape';
-import LocationStateShape from '../prop-types/LocationStateShape';
-import RoutingErrorShape from '../prop-types/RoutingErrorShape';
 import ChildrenShape from '../prop-types/ChildrenShape';
 
 class ItineraryListContainer extends React.Component {
@@ -33,9 +30,7 @@ class ItineraryListContainer extends React.Component {
     activeIndex: PropTypes.number,
     children: ChildrenShape,
     currentTime: PropTypes.number.isRequired,
-    error: ErrorShape,
     itineraries: PropTypes.arrayOf(ItineraryShape).isRequired,
-    locationState: LocationStateShape.isRequired,
     params: PropTypes.shape({
       from: PropTypes.string.isRequired,
       to: PropTypes.string.isRequired,
@@ -46,10 +41,7 @@ class ItineraryListContainer extends React.Component {
       date: PropTypes.number,
       itineraries: PropTypes.arrayOf(ItineraryShape),
     }).isRequired,
-    routingErrors: PropTypes.arrayOf(RoutingErrorShape),
     bikeAndParkItineraryCount: PropTypes.number,
-    walking: PropTypes.bool,
-    biking: PropTypes.bool,
     showRelaxedPlanNotifier: PropTypes.bool,
     showRentalVehicleNotifier: PropTypes.bool,
     separatorPosition: PropTypes.number,
@@ -58,7 +50,6 @@ class ItineraryListContainer extends React.Component {
     focusToHeader: PropTypes.func.isRequired,
     loadingMore: PropTypes.string,
     settingsNotification: PropTypes.bool,
-    driving: PropTypes.bool,
     routingFeedbackPosition: PropTypes.number,
     topNote: PropTypes.string,
     bottomNote: PropTypes.string,
@@ -67,15 +58,10 @@ class ItineraryListContainer extends React.Component {
   static defaultProps = {
     activeIndex: 0,
     children: null,
-    error: undefined,
-    walking: false,
-    biking: false,
     bikeAndParkItineraryCount: 0,
     showRelaxedPlanNotifier: false,
     showRentalVehicleNotifier: false,
     loadingMore: undefined,
-    driving: false,
-    routingErrors: [],
     separatorPosition: undefined,
     routingFeedbackPosition: undefined,
     settingsNotification: false,
@@ -217,16 +203,11 @@ class ItineraryListContainer extends React.Component {
 
   render() {
     const { location } = this.context.match;
-    const { from, to } = this.props.params;
     const {
       activeIndex,
       currentTime,
-      locationState,
       itineraries,
       bikeAndParkItineraryCount,
-      walking,
-      biking,
-      driving,
       showRelaxedPlanNotifier,
       showRentalVehicleNotifier,
       separatorPosition,
@@ -259,20 +240,12 @@ class ItineraryListContainer extends React.Component {
         <ItineraryList
           activeIndex={activeIndex}
           currentTime={currentTime}
-          locationState={locationState}
-          error={this.props.error}
-          routingErrors={this.props.routingErrors}
-          from={otpToLocation(from)}
           intermediatePlaces={getIntermediatePlaces(location.query)}
           itineraries={itineraries}
           onSelect={this.onSelectActive}
           onSelectImmediately={this.onSelectImmediately}
           searchTime={searchTime}
-          to={otpToLocation(to)}
           bikeAndParkItineraryCount={bikeAndParkItineraryCount}
-          walking={walking}
-          biking={biking}
-          driving={driving}
           showRelaxedPlanNotifier={showRelaxedPlanNotifier}
           showRentalVehicleNotifier={showRentalVehicleNotifier}
           separatorPosition={separatorPosition}

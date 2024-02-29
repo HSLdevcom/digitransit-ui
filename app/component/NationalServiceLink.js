@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { connectToStores } from 'fluxible-addons-react';
 
-const NationalServiceLink = ({ currentLanguage, nationalServiceLink }) => {
+function NationalServiceLink({ currentLanguage, nationalServiceLink }) {
   if (!nationalServiceLink) {
     return null;
   }
@@ -22,7 +22,8 @@ const NationalServiceLink = ({ currentLanguage, nationalServiceLink }) => {
       <FormattedMessage id="use-national-service-postfix" defaultMessage="" />
     </div>
   );
-};
+}
+
 NationalServiceLink.propTypes = {
   currentLanguage: PropTypes.string.isRequired,
   nationalServiceLink: PropTypes.objectOf(

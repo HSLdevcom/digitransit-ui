@@ -245,7 +245,7 @@ export function setCurrentTimeToURL(config, match) {
       ...match.location,
       query: {
         ...match.location.query,
-        time: moment().unix(),
+        time: moment().unix().toString(),
       },
     };
     match.router.replace(newLocation);

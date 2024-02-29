@@ -2,7 +2,7 @@ import React from 'react';
 
 import { mockContext, mockChildContextTypes } from '../helpers/mock-context';
 import { mountWithIntl, shallowWithIntl } from '../helpers/mock-intl-enzyme';
-import ItinerarySummaryMessage from '../../../app/component/ItineraryList/ItinerarySummaryMessage';
+import { Component as NoItinerariesNote } from '../../../app/component/NoItinerariesNote';
 import { PlannerMessageType } from '../../../app/constants';
 
 const TestLocation = {
@@ -83,7 +83,7 @@ const matchElement = (componentName, propName, propValue) => enzymeWrapper =>
 /**
  * Test case creation helper.
  *
- * @param {Object.<String, any>} props `props` for `ItinerarySummaryMessage` component.
+ * @param {Object.<String, any>} props `props` for `NoItinerariesNote` component.
  * @param {String} expectPropValue, expectPropName
  */
 const expectElementWithId = (
@@ -92,7 +92,7 @@ const expectElementWithId = (
   expectPropName,
   expectPropValue,
 ) => {
-  const wrapper = shallowWithIntl(<ItinerarySummaryMessage {...props} />, {
+  const wrapper = shallowWithIntl(<NoItinerariesNote {...props} />, {
     context: mockContext,
     childContextTypes: mockChildContextTypes,
   });
@@ -106,9 +106,9 @@ const expectElementWithId = (
 };
 
 /**
- * Expect rendered *<ItinerarySummaryMessage {...props}/>* component to
+ * Expect rendered *<NoItinerariesNote {...props}/>* component to
  * contain a child component *componentName*.
- * @param {Object.<String, *>} props Properties for ItinerarySummaryMessage.
+ * @param {Object.<String, *>} props Properties for NoItinerariesNote.
  * @param {String} componentName Component name to expect.
  * @param {String} [mountMethod] Should Enzyme render component by 'shallow'
  *                               (default) or 'mount'.
@@ -121,8 +121,8 @@ const expectElement = (props, componentName, mountMethod = 'shallow') => {
 
   const wrapper =
     mountMethod === 'shallow'
-      ? shallowWithIntl(<ItinerarySummaryMessage {...props} />, opts)
-      : mountWithIntl(<ItinerarySummaryMessage {...props} />, opts);
+      ? shallowWithIntl(<NoItinerariesNote {...props} />, opts)
+      : mountWithIntl(<NoItinerariesNote {...props} />, opts);
 
   const assertErrorMessage = `<${componentName} .../> not found.`;
   expect(
@@ -130,11 +130,11 @@ const expectElement = (props, componentName, mountMethod = 'shallow') => {
   ).to.have.length(1, assertErrorMessage);
 };
 
-describe('<ItinerarySummaryMessage />', () => {
+describe('<NoItinerariesNote />', () => {
   it('should render without crashing', () => {
     const wrapper = mountWithIntl(
       <div>
-        <ItinerarySummaryMessage {...defaultProps} />
+        <NoItinerariesNote {...defaultProps} />
       </div>,
       { context: mockContext, childContextTypes: mockChildContextTypes },
     );
