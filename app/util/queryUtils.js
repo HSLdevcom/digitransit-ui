@@ -18,8 +18,8 @@ import { addViaPoint } from '../action/ViaPointActions';
  */
 export const resetSelectedItineraryIndex = loc => {
   const location = cloneDeep(loc);
-  if (location.state && location.state.summaryPageSelected) {
-    location.state.summaryPageSelected = 0;
+  if (location.state?.selectedItineraryIndex) {
+    location.state.selectedItineraryIndex = 0;
   }
 
   if (location.pathname) {

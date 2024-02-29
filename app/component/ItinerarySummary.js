@@ -70,7 +70,7 @@ ItinerarySummary.propTypes = {
   hideBottomDivider: PropTypes.bool,
 };
 
-ItinerarySummary.defaultTypes = {
+ItinerarySummary.defaultProps = {
   walking: {},
   biking: {},
   driving: {},

@@ -6,11 +6,6 @@ import RouteNumber from './RouteNumber';
 import { isBrowser } from '../util/browser';
 
 class ItineraryCircleLineWithIcon extends React.Component {
-  static defaultProps = {
-    isVia: false,
-    color: null,
-  };
-
   static propTypes = {
     index: PropTypes.number.isRequired,
     modeClassName: PropTypes.string.isRequired,
@@ -20,6 +15,15 @@ class ItineraryCircleLineWithIcon extends React.Component {
     color: PropTypes.string,
     appendClass: PropTypes.string,
     icon: PropTypes.string,
+  };
+
+  static defaultProps = {
+    isVia: false,
+    color: null,
+    bikePark: false,
+    carPark: false,
+    appendClass: undefined,
+    icon: undefined,
   };
 
   state = {

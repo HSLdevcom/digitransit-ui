@@ -60,12 +60,6 @@ export default {
 
   indexPath: 'etusivu',
 
-  contactName: {
-    sv: 'HSR',
-    fi: 'HSL',
-    default: 'HSL',
-  },
-
   title: 'Reittiopas',
 
   availableLanguages: ['fi', 'sv', 'en'],

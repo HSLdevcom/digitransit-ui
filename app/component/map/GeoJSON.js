@@ -109,6 +109,8 @@ class GeoJSON extends React.Component {
   static defaultProps = {
     bounds: undefined,
     geoJsonZoomLevel: undefined,
+    locationPopup: undefined,
+    onSelectLocation: undefined,
   };
 
   static contextTypes = { config: PropTypes.object.isRequired };

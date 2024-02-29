@@ -51,6 +51,7 @@ export default class VehicleMarker extends React.Component {
 
   static defaultProps = {
     showBikeAvailability: false,
+    transit: false,
   };
 
   handleClick() {

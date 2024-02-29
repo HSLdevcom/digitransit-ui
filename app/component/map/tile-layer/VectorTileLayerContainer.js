@@ -35,7 +35,6 @@ export default function VectorTileLayerContainer(props, { config }) {
       objectsToHide={props.objectsToHide}
       tileSize={config.map.tileSize || 256}
       zoomOffset={config.map.zoomOffset || 0}
-      disableMapTracking={props.disableMapTracking}
       locationPopup={props.locationPopup}
       onSelectLocation={props.onSelectLocation}
     />
@@ -47,7 +46,6 @@ VectorTileLayerContainer.propTypes = {
   hilightedStops: PropTypes.arrayOf(PropTypes.string),
   stopsToShow: PropTypes.arrayOf(PropTypes.string),
   objectsToHide: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)),
-  disableMapTracking: PropTypes.func,
   mergeStops: PropTypes.bool,
   locationPopup: PropTypes.string,
   onSelectLocation: PropTypes.func,
@@ -55,6 +53,11 @@ VectorTileLayerContainer.propTypes = {
 
 VectorTileLayerContainer.defaultProps = {
   objectsToHide: { vehicleRentalStations: [] },
+  hilightedStops: undefined,
+  stopsToShow: undefined,
+  mergeStops: false,
+  onSelectLocation: undefined,
+  locationPopup: undefined,
 };
 
 VectorTileLayerContainer.contextTypes = {

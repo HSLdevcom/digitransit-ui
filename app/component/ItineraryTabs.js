@@ -41,11 +41,15 @@ ItineraryTabs.propTypes = {
   tabIndex: PropTypes.number.isRequired,
   isMobile: PropTypes.bool.isRequired,
   focusToPoint: PropTypes.func.isRequired,
-  focusToLeg: PropTypes.func,
+  focusToLeg: PropTypes.func.isRequired,
   itineraries: PropTypes.arrayOf(ItineraryShape).isRequired,
-  plan: PropTypes.object,
   carItinerary: ItineraryShape,
   changeHash: PropTypes.func,
+};
+
+ItineraryTabs.defaultProps = {
+  changeHash: undefined,
+  carItinerary: undefined,
 };
 
 export default ItineraryTabs;

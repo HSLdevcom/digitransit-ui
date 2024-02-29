@@ -92,4 +92,5 @@ IconMarker.propTypes = {
 
 IconMarker.defaultProps = {
   zIndexOffset: undefined,
+  children: undefined,
 };

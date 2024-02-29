@@ -39,6 +39,9 @@ class RoutePageMap extends React.Component {
 
   static defaultProps = {
     trip: null,
+    lat: undefined,
+    lon: undefined,
+    error: undefined,
   };
 
   static contextTypes = {

@@ -77,8 +77,13 @@ const ItineraryCircleLineLong = props => {
 ItineraryCircleLineLong.propTypes = {
   index: PropTypes.number.isRequired,
   color: PropTypes.string,
-  modeClassNames: PropTypes.arrayOf(PropTypes.string),
+  modeClassNames: PropTypes.arrayOf(PropTypes.string).isRequired,
   renderBottomMarker: PropTypes.bool,
+};
+
+ItineraryCircleLineLong.defaultProps = {
+  color: undefined,
+  renderBottomMarker: false,
 };
 
 export default ItineraryCircleLineLong;

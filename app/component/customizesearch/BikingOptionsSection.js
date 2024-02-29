@@ -58,6 +58,10 @@ BikingOptionsSection.propTypes = {
   }).isRequired,
 };
 
+BikingOptionsSection.defaultProps = {
+  overrideStyle: undefined,
+};
+
 BikingOptionsSection.contextTypes = {
   match: matchShape.isRequired,
   intl: intlShape.isRequired,

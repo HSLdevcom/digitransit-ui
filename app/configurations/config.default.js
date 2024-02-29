@@ -121,16 +121,6 @@ export default {
   // Navbar logo
   logo: 'default/digitransit-logo.png',
 
-  contactName: {
-    sv: 'Digitransit',
-    fi: 'Digitransit',
-    default: "Digitransit's",
-  },
-
-  // Default labels for manifest creation
-  name: 'Digitransit beta',
-  shortName: 'Digitransit',
-
   searchParams: {},
   feedIds: [],
 
@@ -255,11 +245,6 @@ export default {
     // Wait time to show "wait leg"? e.g. 180 means over 3 minutes are shown as wait time.
     // Measured in seconds.
     waitThreshold: 180,
-    enableFeedback: false,
-
-    timeNavigation: {
-      enableButtonArrows: false,
-    },
     // Number of days to include to the service time range from the future
     serviceTimeRange: 60,
   },
@@ -499,35 +484,6 @@ export default {
       hours: 23,
       days: 26,
       months: 11,
-    },
-  },
-
-  customizeSearch: {
-    walkReluctance: {
-      available: true,
-    },
-
-    walkBoardCost: {
-      available: true,
-    },
-
-    transferMargin: {
-      available: true,
-    },
-
-    walkingSpeed: {
-      available: true,
-    },
-
-    ticketOptions: {
-      available: true,
-    },
-
-    accessibility: {
-      available: true,
-    },
-    transferpenalty: {
-      available: true,
     },
   },
 

@@ -24,6 +24,12 @@ PopupHeader.propTypes = {
   children: PropTypes.node,
 };
 
+PopupHeader.defaultProps = {
+  header: undefined,
+  subHeader: undefined,
+  children: undefined,
+};
+
 PopupHeader.contextTypes = {
   intl: intlShape.isRequired,
 };

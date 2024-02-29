@@ -20,6 +20,8 @@ describe('<ItineraryLegs />', () => {
         legs: data.firstLegIsAnIntermediatePlace,
       },
       toggleCanceledLegsBanner: () => {},
+      focusToPoint: () => {},
+      focusToLeg: () => {},
       waitThreshold: 180,
     };
     const wrapper = mountWithIntl(<ItineraryLegs {...props} />, {
@@ -47,6 +49,8 @@ describe('<ItineraryLegs />', () => {
       },
       toggleCanceledLegsBanner: () => {},
       waitThreshold: 180,
+      focusToPoint: () => {},
+      focusToLeg: () => {},
     };
     const wrapper = shallowWithIntl(<ItineraryLegs {...props} />, {
       context: mockContext,
@@ -60,6 +64,8 @@ describe('<ItineraryLegs />', () => {
       itinerary: dt2831b,
       toggleCanceledLegsBanner: sinon.stub(),
       waitThreshold: 180,
+      focusToPoint: () => {},
+      focusToLeg: () => {},
     };
 
     shallowWithIntl(<ItineraryLegs {...props} />, {
@@ -75,6 +81,8 @@ describe('<ItineraryLegs />', () => {
         endTime: 1542814001000,
         legs: [],
       },
+      focusToPoint: () => {},
+      focusToLeg: () => {},
     };
     const config = {
       itinerary: {

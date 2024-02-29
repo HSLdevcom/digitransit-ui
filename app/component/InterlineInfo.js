@@ -69,7 +69,7 @@ const InterlineInfo = ({ legs, leg }) => {
 };
 
 InterlineInfo.propTypes = {
-  leg: PropTypes.object,
+  leg: PropTypes.object.isRequired,
   legs: PropTypes.arrayOf(
     PropTypes.shape({
       startTime: PropTypes.number,

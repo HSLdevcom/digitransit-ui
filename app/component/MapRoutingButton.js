@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
+import moment from 'moment';
 import { FormattedMessage, intlShape } from 'react-intl';
 import { matchShape, routerShape } from 'found';
 import Modal from '@hsl-fi/modal';
@@ -47,6 +48,7 @@ export default function MapRoutingButton(
           {},
           PREFIX_ITINERARY_SUMMARY,
         ),
+        query: { time: moment().unix().toString() },
       };
     } else if (id === 'destination') {
       newLocation = {
@@ -56,6 +58,7 @@ export default function MapRoutingButton(
           place,
           PREFIX_ITINERARY_SUMMARY,
         ),
+        query: { time: moment().unix().toString() },
       };
     } else {
       newLocation = {
@@ -63,6 +66,7 @@ export default function MapRoutingButton(
         pathname: getItineraryPagePath(locationToUri({}), locationToUri({})),
         query: {
           intermediatePlaces: locationToOTP(item),
+          query: { time: moment().unix().toString() },
         },
       };
     }

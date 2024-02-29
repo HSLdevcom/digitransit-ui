@@ -209,6 +209,7 @@ RouteNumber.defaultProps = {
   badgeFill: undefined,
   badgeText: undefined,
   badgeTextFill: undefined,
+  appendClass: undefined,
   className: '',
   vertical: false,
   card: false,

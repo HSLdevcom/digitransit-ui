@@ -16,7 +16,7 @@ function DatetimepickerContainer(
 
   const setParams = debounce((time, arriveBy, setTime) => {
     replaceQueryParams(router, match, {
-      time,
+      time: time.toString(),
       arriveBy,
       setTime,
     });

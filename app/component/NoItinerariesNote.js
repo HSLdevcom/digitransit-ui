@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { matchShape } from 'found';
-
-import LocationStateShape from '../../prop-types/LocationStateShape';
-import LocationShape from '../../prop-types/LocationShape';
-import ErrorShape from '../../prop-types/ErrorShape';
-import RoutingErrorShape from '../../prop-types/RoutingErrorShape';
+import connectToStores from 'fluxible-addons-react/connectToStores';
+import LocationStateShape from '../prop-types/LocationStateShape';
+import LocationShape from '../prop-types/LocationShape';
+import ErrorShape from '../prop-types/ErrorShape';
+import RoutingErrorShape from '../prop-types/RoutingErrorShape';
 import ErrorCard from './ErrorCard';
 import findErrorMessageIds from './findErrorMessageIds';
 import errorCardProps from './errorCardProperties';
@@ -24,18 +24,18 @@ function getErrorCardProps(summaryMessageIds) {
   );
 }
 
-export default function ItinerarySummaryMessage(
+function NoItinerariesNote(
   {
+    from,
+    to,
     walking,
     biking,
     driving,
-    currentTime,
     error,
-    from,
-    locationState,
-    searchTime,
-    to,
     routingErrors,
+    locationState,
+    currentTime,
+    searchTime,
   },
   context,
 ) {
@@ -44,6 +44,9 @@ export default function ItinerarySummaryMessage(
     config;
 
   const query = { from, to, searchTime, biking, driving, walking };
+  if (!searchTime) {
+    query.searchTime = currentTime;
+  }
   const queryContext = {
     locationState,
     areaPolygon,
@@ -77,7 +80,7 @@ export default function ItinerarySummaryMessage(
   );
 }
 
-ItinerarySummaryMessage.propTypes = {
+NoItinerariesNote.propTypes = {
   from: LocationShape.isRequired,
   to: LocationShape.isRequired,
   locationState: LocationStateShape,
@@ -90,7 +93,7 @@ ItinerarySummaryMessage.propTypes = {
   routingErrors: PropTypes.arrayOf(RoutingErrorShape),
 };
 
-ItinerarySummaryMessage.defaultProps = {
+NoItinerariesNote.defaultProps = {
   walking: false,
   biking: false,
   driving: false,
@@ -99,7 +102,18 @@ ItinerarySummaryMessage.defaultProps = {
   routingErrors: [],
 };
 
-ItinerarySummaryMessage.contextTypes = {
+NoItinerariesNote.contextTypes = {
   config: PropTypes.object.isRequired,
   match: matchShape.isRequired,
 };
+
+const connectedComponent = connectToStores(
+  NoItinerariesNote,
+  ['TimeStore', 'PositionStore'],
+  context => ({
+    currentTime: context.getStore('TimeStore').getCurrentTime().valueOf(),
+    locationState: context.getStore('PositionStore').getLocationState(),
+  }),
+);
+
+export { connectedComponent as default, NoItinerariesNote as Component };

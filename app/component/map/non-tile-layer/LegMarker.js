@@ -24,6 +24,8 @@ class LegMarker extends React.Component {
   static defaultProps = {
     color: 'currentColor',
     zIndexOffset: undefined,
+    wide: false,
+    style: undefined,
   };
 
   // An arrow marker will be displayed if the normal marker can't fit

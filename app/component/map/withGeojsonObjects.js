@@ -75,8 +75,11 @@ function withGeojsonObjects(Component) {
     locationPopup: PropTypes.string,
     onSelectLocation: PropTypes.func,
   };
+
   GeojsonWrapper.defaultProps = {
     leafletObjs: [],
+    locationPopup: undefined,
+    onSelectLocation: undefined,
   };
 
   const WithContext = getContext({

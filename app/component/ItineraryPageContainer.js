@@ -1,19 +1,35 @@
-import PropTypes from 'prop-types';
-import React, { useContext, useEffect, useState, lazy, Suspense } from 'react';
+import React, { useEffect, useState, lazy, Suspense } from 'react';
 import { ReactRelayContext } from 'react-relay';
-import { matchShape } from 'found';
+import { connectToStores } from 'fluxible-addons-react';
 import Loading from './Loading';
-import { validateServiceTimeRange } from '../util/timeUtils';
-import { planQuery } from './ItineraryQueries';
-import { hasStartAndDestination, getPlanParams } from '../util/planParamUtil';
+import withBreakpoint from '../util/withBreakpoint';
+import { getMapLayerOptions } from '../util/mapLayerUtils';
 
-const QueryRenderer = lazy(
-  () => import('react-relay/lib/ReactRelayQueryRenderer'),
-);
 const ItineraryPage = lazy(() => import('./ItineraryPage'));
 
-export default function ItineraryPageContainer({ content, match }, { config }) {
-  const { environment } = useContext(ReactRelayContext);
+const ItineraryPageWithBreakpoint = withBreakpoint(props => (
+  <ReactRelayContext.Consumer>
+    {({ environment }) => (
+      <ItineraryPage {...props} relayEnvironment={environment} />
+    )}
+  </ReactRelayContext.Consumer>
+));
+
+const ItineraryPageWithStores = connectToStores(
+  ItineraryPageWithBreakpoint,
+  ['MapLayerStore'],
+  ({ getStore }) => ({
+    mapLayers: getStore('MapLayerStore').getMapLayers({
+      notThese: ['stop', 'citybike', 'vehicles'],
+    }),
+    mapLayerOptions: getMapLayerOptions({
+      lockedMapLayers: ['vehicles', 'citybike', 'stop'],
+      selectedMapLayers: ['vehicles'],
+    }),
+  }),
+);
+
+export default function ItineraryPageContainer(props) {
   const [isClient, setClient] = useState(false);
 
   useEffect(() => {
@@ -25,54 +41,7 @@ export default function ItineraryPageContainer({ content, match }, { config }) {
   }
   return (
     <Suspense fallback={<Loading />}>
-      {' '}
-      {
-        /* Don't make a query if start or destination is invalid, only render */
-        !hasStartAndDestination(match.params) ? (
-          <ItineraryPage
-            content={content}
-            match={match}
-            viewer={{ plan: {} }}
-            serviceTimeRange={validateServiceTimeRange()}
-            loading={false}
-          />
-        ) : (
-          <QueryRenderer
-            query={planQuery}
-            variables={getPlanParams(config, match)}
-            environment={environment}
-            render={({ props: innerProps, error }) => {
-              return innerProps ? (
-                <ItineraryPage
-                  {...innerProps}
-                  content={content}
-                  match={match}
-                  error={error}
-                  loading={false}
-                />
-              ) : (
-                <ItineraryPage
-                  content={content}
-                  match={match}
-                  viewer={{ plan: {} }}
-                  serviceTimeRange={validateServiceTimeRange()}
-                  loading
-                  error={error}
-                />
-              );
-            }}
-          />
-        )
-      }
+      <ItineraryPageWithStores {...props} />
     </Suspense>
   );
 }
-
-ItineraryPageContainer.contextTypes = {
-  config: PropTypes.object.isRequired,
-};
-
-ItineraryPageContainer.propTypes = {
-  content: PropTypes.node,
-  match: matchShape.isRequired,
-};

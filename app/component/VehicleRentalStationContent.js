@@ -115,6 +115,10 @@ VehicleRentalStationContent.propTypes = {
   error: PropTypes.object,
 };
 
+VehicleRentalStationContent.defaultProps = {
+  error: undefined,
+};
+
 VehicleRentalStationContent.contextTypes = {
   config: PropTypes.object.isRequired,
 };

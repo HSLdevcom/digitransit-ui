@@ -3,7 +3,7 @@ import {
   ICON_INFO,
   ICON_TYPE_INFO,
   ICON_TYPE_CAUTION,
-} from './constants';
+} from './ErrorCard';
 import NationalServiceLink from './NationalServiceLink';
 import PastLink from './PastLink';
 import ChangeDepartureTimeLink from './ChangeDepartureTimeLink';

@@ -3,13 +3,7 @@
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import React, { useEffect, useState, useRef, cloneElement } from 'react';
-import {
-  createRefetchContainer,
-  fetchQuery,
-  graphql,
-  ReactRelayContext,
-} from 'react-relay';
-import { connectToStores } from 'fluxible-addons-react';
+import { fetchQuery } from 'react-relay';
 import { FormattedMessage, intlShape } from 'react-intl';
 import { matchShape, routerShape } from 'found';
 import isEqual from 'lodash/isEqual';
@@ -19,19 +13,16 @@ import DesktopView from './DesktopView';
 import MobileView from './MobileView';
 import ItineraryPageMap from './map/ItineraryPageMap';
 import ItineraryListContainer from './ItineraryListContainer';
-import { spinnerPosition } from './ItineraryList/ItineraryList';
+import ItinerariesNotFound from './ItinerariesNotFound';
+import { spinnerPosition } from './ItineraryList';
 import ItineraryPageControls from './ItineraryPageControls';
 import ItineraryTabs from './ItineraryTabs';
 import { getWeatherData } from '../util/apiUtils';
 import Loading from './Loading';
 import { getItineraryPagePath, streetHash } from '../util/path';
 import { boundWithMinimumArea } from '../util/geo-utils';
-import {
-  planQuery,
-  moreQuery,
-  alternativeQuery,
-  viewerQuery,
-} from './ItineraryQueries';
+import { getTotalBikingDistance } from '../util/legUtils';
+import { planQuery, alternativeQuery } from './ItineraryQueries';
 import {
   getSelectedItineraryIndex,
   reportError,
@@ -50,7 +41,6 @@ import {
   transitItineraries,
   filterItineraries,
 } from './ItineraryPageUtils';
-import withBreakpoint from '../util/withBreakpoint';
 import { isIOS } from '../util/browser';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import {
@@ -69,10 +59,6 @@ import { saveFutureRoute } from '../action/FutureRoutesActions';
 import { saveSearch } from '../action/SearchActions';
 import CustomizeSearch from './CustomizeSearch';
 import { mapLayerShape } from '../store/MapLayerStore';
-import { getMapLayerOptions } from '../util/mapLayerUtils';
-import ItineraryShape from '../prop-types/ItineraryShape';
-import ErrorShape from '../prop-types/ErrorShape';
-import RoutingErrorShape from '../prop-types/RoutingErrorShape';
 
 const streetHashes = [
   streetHash.walk,
@@ -102,20 +88,22 @@ const emptyPlans = {
 const emptyState = {
   earlierItineraries: [],
   laterItineraries: [],
+  plan: {},
   separatorPosition: undefined,
   routingFeedbackPosition: undefined,
-  loading: false,
   error: undefined,
   topNote: undefined,
   bottomNote: undefined,
+  loading: false,
 };
 
-function ItineraryPage(props, context) {
+export default function ItineraryPage(props, context) {
   const headerRef = useRef(null);
   const mwtRef = useRef();
   const expandMapRef = useRef(0);
   const ariaRef = useRef('summary-page.title');
   const pendingWeatherHash = useRef();
+  const searchRef = useRef({}); // identifies latest finished search
 
   const [state, setState] = useState({
     ...emptyState,
@@ -125,10 +113,23 @@ function ItineraryPage(props, context) {
     loading: ALT_LOADING_STATES.UNSET,
   });
   const [relaxState, setRelaxState] = useState({ loading: false });
-  const [settingsState, setSettingsState] = useState({ settingsOpen: false });
+  const [settingsState, setSettingsState] = useState({
+    settingsOpen: false,
+    settingsChanged: 0,
+  });
   const [weatherState, setWeatherState] = useState({ loading: false });
   const [topicsState, setTopicsState] = useState(null);
   const [mapState, setMapState] = useState({});
+
+  function buildSearchRef() {
+    return {
+      settingsChanged: settingsState.settingsChanged,
+      from: props.match.params.from,
+      to: props.match.params.to,
+      time: props.match.location.query.time,
+      arriveBy: props.match.location.query.arriveBy,
+    };
+  }
 
   function stopClientAndUpdateTopics() {
     stopClient(context);
@@ -164,13 +165,15 @@ function ItineraryPage(props, context) {
   };
 
   const resetItineraryPageSelection = () => {
-    context.router.replace({
-      ...props.match.location,
-      state: {
-        ...props.match.location.state,
-        selectedItineraryIndex: 0,
-      },
-    });
+    if (props.match.location.state?.selectedItineraryIndex) {
+      context.router.replace({
+        ...props.match.location,
+        state: {
+          ...props.match.location.state,
+          selectedItineraryIndex: 0,
+        },
+      });
+    }
   };
 
   function hasValidFromTo() {
@@ -196,13 +199,13 @@ function ItineraryPage(props, context) {
         return altState.parkRidePlan;
       default:
         if (
-          !transitItineraries(props.viewer?.plan?.itineraries).length &&
-          !state.settingsChanged &&
+          !transitItineraries(state.plan?.itineraries).length &&
+          !settingsState.settingsChanged &&
           relaxState.relaxedPlan?.itineraries?.length > 0
         ) {
           return relaxState.relaxedPlan;
         }
-        return props.viewer.plan;
+        return state.plan;
     }
   }
 
@@ -272,26 +275,23 @@ function ItineraryPage(props, context) {
   }
 
   function makeAlternativeQuery() {
-    if (!hasValidFromTo() || altState.loading === ALT_LOADING_STATES.LOADING) {
+    if (!hasValidFromTo()) {
+      setAltState({ ...emptyPlans });
       return;
     }
-    setAltState({
-      ...altState,
-      ...emptyPlans,
-      loading: ALT_LOADING_STATES.LOADING,
-    });
+    setAltState({ loading: ALT_LOADING_STATES.LOADING });
     const planParams = getPlanParams(context.config, props.match);
 
     fetchQuery(props.relayEnvironment, alternativeQuery, planParams)
       .toPromise()
       .then(result => {
-        // filter plain walking / biking away
+        // filter plain walking / biking away, and also no biking
         const bikeParkItineraries = transitItineraries(
           result.bikeParkPlan?.itineraries,
-        );
+        ).filter(i => getTotalBikingDistance(i) > 0);
         const bikePublicItineraries = transitItineraries(
           result.bikeAndPublicPlan?.itineraries,
-        );
+        ).filter(i => getTotalBikingDistance(i) > 0);
 
         // show 6 bike + transit itineraries, preferably 3 of both kind.
         // If there is not enough of a kind, take more from the other kind
@@ -321,7 +321,6 @@ function ItineraryPage(props, context) {
         };
 
         setAltState({
-          ...altState,
           bikeAndParkItineraryCount: n1,
           loading: ALT_LOADING_STATES.DONE,
           walkPlan: result.walkPlan,
@@ -335,17 +334,18 @@ function ItineraryPage(props, context) {
         }
       })
       .catch(() => {
-        setAltState({ ...altState, loading: ALT_LOADING_STATES.DONE });
+        setAltState({ ...emptyPlans, loading: ALT_LOADING_STATES.DONE });
       });
   }
 
   function makeRelaxedQuery() {
-    if (!hasValidFromTo() || relaxState.loading) {
+    if (!hasValidFromTo()) {
+      setRelaxState({ relaxedPlan: {} });
       return;
     }
-    setRelaxState({ relaxedPlan: {}, loading: true });
+    setRelaxState({ loading: true });
     const planParams = getPlanParams(context.config, props.match, true);
-    fetchQuery(props.relayEnvironment, moreQuery, planParams, {
+    fetchQuery(props.relayEnvironment, planQuery, planParams, {
       force: true,
     })
       .toPromise()
@@ -354,10 +354,36 @@ function ItineraryPage(props, context) {
           ...result.plan,
           itineraries: transitItineraries(result.plan.itineraries),
         };
-        setRelaxState({
-          relaxedPlan,
-          loading: false,
-        });
+        setRelaxState({ relaxedPlan, loading: false });
+      })
+      .catch(() => {
+        setRelaxState({ relaxedPlan: {}, loading: false });
+      });
+  }
+
+  function makeMainQuery() {
+    if (!hasValidFromTo()) {
+      setState({ ...emptyState });
+      resetItineraryPageSelection();
+      searchRef.current = buildSearchRef();
+      return;
+    }
+    ariaRef.current = 'itinerary-page.loading-itineraries';
+    setState({ ...emptyState, loading: true });
+    const planParams = getPlanParams(context.config, props.match);
+    fetchQuery(props.relayEnvironment, planQuery, planParams)
+      .toPromise()
+      .then(result => {
+        setState({ ...emptyState, plan: result.plan });
+        resetItineraryPageSelection();
+        ariaRef.current = 'itinerary-page.itineraries-loaded';
+      })
+      .catch(err => {
+        setState({ ...emptyState, error: err });
+        reportError(err);
+      })
+      .finally(() => {
+        searchRef.current = buildSearchRef();
       });
   }
 
@@ -368,7 +394,7 @@ function ItineraryPage(props, context) {
       action: 'ShowLaterItineraries',
       name: null,
     });
-    const end = moment.unix(props.serviceTimeRange.end);
+
     const latestDepartureTime = itineraries.reduce((previous, current) => {
       const startTime = moment(current.startTime);
 
@@ -383,17 +409,8 @@ function ItineraryPage(props, context) {
 
     latestDepartureTime.add(1, 'minutes');
 
-    if (latestDepartureTime >= end) {
-      const newState = reversed
-        ? { topNote: 'no-route-end-date-not-in-range' }
-        : { bottomNote: 'no-route-end-date-not-in-range' };
-      // Departure time is going beyond available time range
-      setState({ ...state, ...newState });
-      return;
-    }
-
     const useRelaxedRoutingPreferences =
-      transitItineraries(props.viewer?.plan?.itineraries).length === 0 &&
+      transitItineraries(state.plan?.itineraries).length === 0 &&
       relaxState.relaxedPlan?.itineraries?.length > 0;
 
     const params = getPlanParams(
@@ -414,7 +431,7 @@ function ItineraryPage(props, context) {
     setState({ ...state, loadingMore: reversed ? 'top' : 'bottom' });
     ariaRef.current = 'itinerary-page.loading-itineraries';
 
-    fetchQuery(props.relayEnvironment, moreQuery, tunedParams)
+    fetchQuery(props.relayEnvironment, planQuery, tunedParams)
       .toPromise()
       .then(({ plan: result }) => {
         const newItineraries = transitItineraries(result.itineraries);
@@ -460,7 +477,6 @@ function ItineraryPage(props, context) {
       name: null,
     });
 
-    const start = moment.unix(props.serviceTimeRange.start);
     const earliestArrivalTime = itineraries.reduce((previous, current) => {
       const endTime = moment(current.endTime);
       if (previous == null) {
@@ -473,16 +489,9 @@ function ItineraryPage(props, context) {
     }, null);
 
     earliestArrivalTime.subtract(1, 'minutes');
-    if (earliestArrivalTime <= start) {
-      const newState = reversed
-        ? { bottomNote: 'no-route-start-date-too-early' }
-        : { topNote: 'no-route-start-date-too-early' };
-      setState({ ...state, ...newState });
-      return;
-    }
 
     const useRelaxedRoutingPreferences =
-      transitItineraries(props.viewer?.plan?.itineraries).length === 0 &&
+      transitItineraries(state.plan?.itineraries).length === 0 &&
       relaxState.relaxedPlan?.itineraries?.length > 0;
 
     const params = getPlanParams(
@@ -505,7 +514,7 @@ function ItineraryPage(props, context) {
     });
     ariaRef.current = 'itinerary-page.loading-itineraries';
 
-    fetchQuery(props.relayEnvironment, moreQuery, tunedParams)
+    fetchQuery(props.relayEnvironment, planQuery, tunedParams)
       .toPromise()
       .then(({ plan: result }) => {
         const newItineraries = transitItineraries(result.itineraries);
@@ -661,7 +670,6 @@ function ItineraryPage(props, context) {
     setCurrentTimeToURL(context.config, props.match);
     updateLocalStorage(true);
     addFeedbackly(context);
-
     return () => {
       if (showVehicles()) {
         stopClient(context);
@@ -670,21 +678,21 @@ function ItineraryPage(props, context) {
   }, []);
 
   useEffect(() => {
-    // eslint-disable-next-line react/no-did-update-set-state
-    setState({ ...state, ...emptyState });
-    if (!props.loading) {
-      ariaRef.current = 'itinerary-page.itineraries-loaded';
-      if (settingsLimitRouting(context.config) && !state.settingsChanged) {
-        makeRelaxedQuery();
-      }
-      makeAlternativeQuery();
-    } else {
-      ariaRef.current = 'itinerary-page.loading-itineraries';
+    makeMainQuery();
+    makeAlternativeQuery();
+    if (
+      settingsLimitRouting(context.config) &&
+      !settingsState.settingsChanged
+    ) {
+      makeRelaxedQuery();
     }
-    if (props.error) {
-      reportError(props.error);
-    }
-  }, [props.viewer?.plan]);
+  }, [
+    settingsState.settingsChanged,
+    props.match.params.from,
+    props.match.params.to,
+    props.match.location.query.time,
+    props.match.location.query.arriveBy,
+  ]);
 
   useEffect(() => {
     const { params } = props.match;
@@ -735,7 +743,7 @@ function ItineraryPage(props, context) {
     }
   }, [
     props.match.params.hash,
-    props.viewer?.plan,
+    state.plan,
     altState.bikeTransitPlan,
     altState.parkRidePlan,
     relaxState.relaxedPlan,
@@ -809,6 +817,7 @@ function ItineraryPage(props, context) {
 
     if (open) {
       setSettingsState({
+        ...settingsState,
         settingsOpen: true,
         settingsOnOpen: getSettings(context.config),
       });
@@ -824,30 +833,21 @@ function ItineraryPage(props, context) {
       return;
     }
 
-    setSettingsState({ ...settingsState, settingsOpen: false });
-    if (props.breakpoint !== 'large') {
-      context.router.go(-1);
-    }
     const settingsChanged = !isEqual(
       settingsState.settingsOnOpen,
       getSettings(context.config),
-    );
-    if (!settingsChanged || !hasValidFromTo()) {
-      return;
+    )
+      ? settingsState.settingsChanged + 1
+      : settingsState.settingsChanged;
+    setSettingsState({
+      ...settingsState,
+      settingsOpen: false,
+      settingsChanged,
+    });
+
+    if (props.breakpoint !== 'large') {
+      context.router.go(-1);
     }
-    ariaRef.current = 'itinerary-page.loading-itineraries';
-    const planParams = getPlanParams(context.config, props.match);
-    setState({
-      ...state,
-      earlierItineraries: [],
-      laterItineraries: [],
-      separatorPosition: undefined,
-      settingsChanged: true,
-      loading: true,
-    });
-    props.relay.refetch(planParams, null, () => {
-      resetItineraryPageSelection();
-    });
   }
 
   const toggleSettings = () => {
@@ -913,30 +913,31 @@ function ItineraryPage(props, context) {
     );
   }
 
-  const { match, error, breakpoint } = props;
+  const { match, breakpoint } = props;
   const { walkPlan, bikePlan, bikeTransitPlan, carPlan, parkRidePlan } =
     altState;
   const { config } = context;
-  const { params } = match;
+  const { params, location } = match;
   const { hash, secondHash } = params;
 
   const hasNoTransitItineraries =
-    transitItineraries(props.viewer?.plan?.itineraries).length === 0;
+    transitItineraries(state.plan?.itineraries).length === 0;
 
   const settings = getSettings(config);
 
-  let selectedPlan = mapHashToPlan(hash);
+  let plan = mapHashToPlan(hash);
+  const showRelaxedPlanNotifier = plan === relaxState.relaxedPlan;
 
   /* NOTE: as a temporary solution, do filtering by feedId in UI */
-  if (config.feedIdFiltering) {
-    selectedPlan = filterItinerariesByFeedId(selectedPlan, config);
+  if (config.feedIdFiltering && plan) {
+    plan = filterItinerariesByFeedId(plan, config);
   }
   let combinedItineraries;
   // Remove old itineraries if new query cannot find a route
-  if (error) {
+  if (state.error) {
     combinedItineraries = [];
   } else if (streetHashes.includes(hash)) {
-    combinedItineraries = selectedPlan?.itineraries || [];
+    combinedItineraries = plan?.itineraries || [];
   } else {
     combinedItineraries = getCombinedItineraries();
     if (!hasNoTransitItineraries) {
@@ -946,12 +947,12 @@ function ItineraryPage(props, context) {
   }
 
   const selectedIndex = getSelectedItineraryIndex(
-    match.location,
+    location,
     combinedItineraries,
   );
   const from = otpToLocation(params.from);
   const to = otpToLocation(params.to);
-  const viaPoints = getIntermediatePlaces(match.location.query);
+  const viaPoints = getIntermediatePlaces(location.query);
 
   const hasItineraries = combinedItineraries.length > 0;
   if (hasItineraries && match.routes.some(route => route.printPage)) {
@@ -977,49 +978,67 @@ function ItineraryPage(props, context) {
           detailView,
         );
 
+  const desktop = breakpoint === 'large';
   // must wait alternatives to render correct notifier
   const waitAlternatives =
     hasNoTransitItineraries && altState.loading === ALT_LOADING_STATES.LOADING;
   const loading =
-    (props.loading ||
-      state.loading ||
-      (relaxState.loading && hasNoTransitItineraries) ||
-      waitAlternatives ||
-      (streetHashes.includes(hash) &&
-        altState.loading === ALT_LOADING_STATES.LOADING)) && // viewing unfinished alt plan
-    !error;
+    state.loading ||
+    (relaxState.loading && hasNoTransitItineraries) ||
+    waitAlternatives ||
+    (streetHashes.includes(hash) &&
+      altState.loading === ALT_LOADING_STATES.LOADING); // viewing unfinished alt plan
 
-  const showRelaxedPlanNotifier = selectedPlan === relaxState.relaxedPlan;
-  const settingsNotification =
-    !showRelaxedPlanNotifier && // show only on notifier about limitations
-    settingsLimitRouting(context.config) &&
-    !isEqualItineraries(
-      props.viewer?.plan?.itineraries,
-      relaxState.relaxedPlan?.itineraries,
-    ) &&
-    relaxState.relaxedPlan?.itineraries?.length > 0 &&
-    !state.settingsChanged &&
-    !hash; // no notifier on p&r or bike&public lists
+  const settingsDrawer =
+    !detailView && settingsState.settingsOpen ? (
+      <div className={desktop ? 'offcanvas' : 'offcanvas-mobile'}>
+        <CustomizeSearch onToggleClick={toggleSettings} mobile={!desktop} />
+      </div>
+    ) : null;
 
-  const itineraryList = !detailView && (
-    <span aria-hidden={settingsState.settingsOpen}>
+  // in mobile, settings drawer hides other content
+  const panelHidden = !desktop && settingsDrawer !== null;
+
+  let content; // bottom content of itinerary panel
+  if (panelHidden) {
+    content = null;
+  } else if (loading) {
+    content = (
+      <div style={{ position: 'relative', height: 200 }}>
+        <Loading />
+      </div>
+    );
+  } else if (detailView) {
+    content = (
+      <ItineraryTabs
+        isMobile={!desktop}
+        tabIndex={selectedIndex}
+        changeHash={changeHash}
+        plan={plan}
+        itineraries={combinedItineraries}
+        focusToPoint={focusToPoint}
+        focusToLeg={focusToLeg}
+        carItinerary={carPlan?.itineraries[0]}
+      />
+    );
+  } else if (plan?.itineraries?.length) {
+    const settingsNotification =
+      !showRelaxedPlanNotifier && // show only on notifier about limitations
+      settingsLimitRouting(context.config) &&
+      !isEqualItineraries(
+        state.plan?.itineraries,
+        relaxState.relaxedPlan?.itineraries,
+      ) &&
+      relaxState.relaxedPlan?.itineraries?.length > 0 &&
+      !settingsState.settingsChanged &&
+      !hash; // no notifier on p&r or bike&public lists
+
+    content = (
       <ItineraryListContainer
         activeIndex={selectedIndex}
-        plan={selectedPlan}
-        routingErrors={selectedPlan?.routingErrors}
+        plan={plan}
         itineraries={combinedItineraries}
         params={params}
-        error={error || state.error}
-        walking={walkPlan?.itineraries?.length > 0}
-        biking={
-          bikePlan?.itineraries?.length > 0 ||
-          !!bikeTransitPlan?.itineraries?.length
-        }
-        driving={
-          (settings.includeCarSuggestions &&
-            carPlan?.itineraries?.length > 0) ||
-          !!parkRidePlan?.itineraries?.length
-        }
         bikeAndParkItineraryCount={altState.bikeAndParkItineraryCount}
         showRelaxedPlanNotifier={showRelaxedPlanNotifier}
         separatorPosition={state.separatorPosition}
@@ -1033,10 +1052,39 @@ function ItineraryPage(props, context) {
         topNote={state.topNote}
         bottomNote={state.bottomNote}
       />
-    </span>
-  );
+    );
+  } else if (isEqual(searchRef.current, buildSearchRef())) {
+    // search is up to date, but no itineraries found
+    content = (
+      <ItinerariesNotFound
+        routingErrors={plan?.routingErrors}
+        from={from}
+        to={to}
+        searchTime={
+          location.query?.time
+            ? moment.unix(location.query.time).valueOf()
+            : undefined
+        }
+        error={state.error}
+        walking={walkPlan?.itineraries?.length > 0}
+        biking={
+          bikePlan?.itineraries?.length > 0 ||
+          !!bikeTransitPlan?.itineraries?.length
+        }
+        driving={
+          (settings.includeCarSuggestions &&
+            carPlan?.itineraries?.length > 0) ||
+          !!parkRidePlan?.itineraries?.length
+        }
+      />
+    );
+  } else {
+    content = '';
+  }
 
   const showAltBar =
+    !detailView &&
+    !panelHidden &&
     !streetHashes.includes(hash) &&
     (altState.loading === ALT_LOADING_STATES.LOADING || // show shimmer
       walkPlan?.itineraries?.length ||
@@ -1045,7 +1093,7 @@ function ItineraryPage(props, context) {
       parkRidePlan?.itineraries?.length ||
       (settings.includeCarSuggestions && carPlan?.itineraries?.length));
 
-  const alternativeItineraryBar = showAltBar && (
+  const alternativeItineraryBar = showAltBar ? (
     <AlternativeItineraryBar
       selectStreetMode={selectStreetMode}
       setStreetModeAndSelect={setStreetModeAndSelect}
@@ -1061,46 +1109,17 @@ function ItineraryPage(props, context) {
         weatherState.loading
       }
     />
-  );
+  ) : null;
 
-  const desktop = breakpoint === 'large';
-  const detailTabs = detailView && (
-    <ItineraryTabs
-      isMobile={!desktop}
-      tabIndex={selectedIndex}
-      changeHash={changeHash}
-      plan={selectedPlan}
-      itineraries={combinedItineraries}
-      focusToPoint={focusToPoint}
-      focusToLeg={focusToLeg}
-      carItinerary={carPlan?.itineraries[0]}
-    />
-  );
-
-  const spinner = loading && (
-    <div style={{ position: 'relative', height: 200 }}>
-      <Loading />
-    </div>
-  );
-
-  const settingsDrawer =
-    !detailView && settingsState.settingsOpen ? (
-      <div className={desktop ? 'offcanvas' : 'offcanvas-mobile'}>
-        <CustomizeSearch onToggleClick={toggleSettings} mobile={!desktop} />
-      </div>
-    ) : null;
-
-  const header = !detailView && (
-    <span aria-hidden={settingsState.settingsOpen}>
+  const header = !detailView && !panelHidden && (
+    <>
       <div role="status" className="sr-only" id="status" aria-live="polite">
         <FormattedMessage id={ariaRef.current} />
       </div>
       <ItineraryPageControls params={params} toggleSettings={toggleSettings} />
       {alternativeItineraryBar}
-    </span>
+    </>
   );
-
-  const content = detailView ? detailTabs : itineraryList;
 
   if (desktop) {
     const title = (
@@ -1120,7 +1139,7 @@ function ItineraryPage(props, context) {
         title={title}
         header={header}
         bckBtnFallback={bckBtnFallback}
-        content={loading ? spinner : content}
+        content={content}
         settingsDrawer={settingsDrawer}
         map={map}
         scrollable
@@ -1128,11 +1147,10 @@ function ItineraryPage(props, context) {
     );
   }
 
-  // mobile view
   return (
     <MobileView
       header={header}
-      content={loading ? spinner : content}
+      content={content}
       settingsDrawer={settingsDrawer}
       map={map}
       expandMap={expandMapRef.current}
@@ -1152,74 +1170,17 @@ ItineraryPage.contextTypes = {
 
 ItineraryPage.propTypes = {
   match: matchShape.isRequired,
-  viewer: PropTypes.shape({
-    plan: PropTypes.shape({
-      routingErrors: PropTypes.arrayOf(RoutingErrorShape),
-      itineraries: PropTypes.arrayOf(ItineraryShape),
-    }),
-  }).isRequired,
-  serviceTimeRange: PropTypes.shape({
-    start: PropTypes.number.isRequired,
-    end: PropTypes.number.isRequired,
-  }).isRequired,
   content: PropTypes.node,
   map: PropTypes.shape({
     type: PropTypes.func.isRequired,
   }),
   breakpoint: PropTypes.string.isRequired,
-  error: ErrorShape,
-  loading: PropTypes.bool,
   relayEnvironment: PropTypes.object.isRequired,
-  relay: PropTypes.shape({
-    refetch: PropTypes.func.isRequired,
-  }).isRequired,
   mapLayers: mapLayerShape.isRequired,
   mapLayerOptions: mapLayerOptionsShape.isRequired,
 };
 
 ItineraryPage.defaultProps = {
+  content: undefined,
   map: undefined,
-  error: undefined,
-  loading: false,
-};
-
-const ItineraryPageWithBreakpoint = withBreakpoint(props => (
-  <ReactRelayContext.Consumer>
-    {({ environment }) => (
-      <ItineraryPage {...props} relayEnvironment={environment} />
-    )}
-  </ReactRelayContext.Consumer>
-));
-
-const ItineraryPageWithStores = connectToStores(
-  ItineraryPageWithBreakpoint,
-  ['MapLayerStore'],
-  ({ getStore }) => ({
-    mapLayers: getStore('MapLayerStore').getMapLayers({
-      notThese: ['stop', 'citybike', 'vehicles'],
-    }),
-    mapLayerOptions: getMapLayerOptions({
-      lockedMapLayers: ['vehicles', 'citybike', 'stop'],
-      selectedMapLayers: ['vehicles'],
-    }),
-  }),
-);
-
-const containerComponent = createRefetchContainer(
-  ItineraryPageWithStores,
-  {
-    viewer: viewerQuery,
-    serviceTimeRange: graphql`
-      fragment ItineraryPage_serviceTimeRange on serviceTimeRange {
-        start
-        end
-      }
-    `,
-  },
-  planQuery,
-);
-
-export {
-  containerComponent as default,
-  ItineraryPageWithBreakpoint as Component,
 };
