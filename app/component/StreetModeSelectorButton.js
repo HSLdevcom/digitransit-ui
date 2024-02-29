@@ -12,6 +12,7 @@ import {
   getExtendedMode,
 } from '../util/legUtils';
 import { streetHash } from '../util/path';
+import PlanShape from '../prop-types/PlanShape';
 
 export default function StreetModeSelectorButton(
   { icon, name, plan, onClick },
@@ -143,12 +144,8 @@ export default function StreetModeSelectorButton(
 StreetModeSelectorButton.propTypes = {
   icon: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  plan: PropTypes.object,
+  plan: PlanShape.isRequired,
   onClick: PropTypes.func.isRequired,
-};
-
-StreetModeSelectorButton.defaulProps = {
-  plan: undefined,
 };
 
 StreetModeSelectorButton.contextTypes = {

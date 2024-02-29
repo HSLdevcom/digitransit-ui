@@ -3,7 +3,7 @@ import React from 'react';
 import { intlShape } from 'react-intl';
 import Icon from './Icon';
 
-const SelectFromMapHeaderComponent = (props, { config, intl }) => {
+export default function SelectFromMapHeaderComponent(props, { config, intl }) {
   const title =
     props.titleId !== undefined
       ? intl.formatMessage({
@@ -64,7 +64,7 @@ const SelectFromMapHeaderComponent = (props, { config, intl }) => {
       </button>
     </div>
   );
-};
+}
 
 SelectFromMapHeaderComponent.propTypes = {
   titleId: PropTypes.string,
@@ -83,11 +83,16 @@ SelectFromMapHeaderComponent.defaultProps = {
   titleId: undefined,
   backBtnIcon: 'icon-icon_arrow-left',
   closeBtnIcon: 'icon-icon_close',
+  onBackBtnClick: PropTypes.func,
+  onCloseBtnClick: PropTypes.func,
+  hideBackBtn: false,
+  hideCloseBtn: false,
+  titleClassName: undefined,
+  titleCustomStyle: undefined,
+  iconClassName: undefined,
 };
 
 SelectFromMapHeaderComponent.contextTypes = {
   config: PropTypes.object.isRequired,
   intl: intlShape.isRequired,
 };
-
-export default SelectFromMapHeaderComponent;

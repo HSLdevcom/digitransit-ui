@@ -11,6 +11,7 @@ import Icon from './Icon';
 import ScrollableWrapper from './ScrollableWrapper';
 import { isBrowser } from '../util/browser';
 import { PREFIX_STOPS } from '../util/path';
+import ErrorShape from '../prop-types/ErrorShape';
 
 class StopPageContent extends React.Component {
   static propTypes = {
@@ -21,9 +22,13 @@ class StopPageContent extends React.Component {
       refetch: PropTypes.func.isRequired,
     }).isRequired,
     currentTime: PropTypes.number.isRequired,
-    error: PropTypes.object,
+    error: ErrorShape,
     router: routerShape.isRequired,
-    match: matchShape,
+    match: matchShape.isRequired,
+  };
+
+  static defaultProps = {
+    error: undefined,
   };
 
   static contextTypes = {

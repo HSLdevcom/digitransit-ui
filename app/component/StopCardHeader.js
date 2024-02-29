@@ -151,6 +151,12 @@ StopCardHeader.propTypes = {
 StopCardHeader.defaultProps = {
   stop: undefined,
   isTerminal: false,
+  distance: undefined,
+  className: undefined,
+  headingStyle: undefined,
+  icons: undefined,
+  isPopUp: false,
+  breakpoint: undefined,
 };
 
 StopCardHeader.contextTypes = {

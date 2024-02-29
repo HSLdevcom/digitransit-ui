@@ -56,6 +56,7 @@ StopNearYouHeader.propTypes = {
 };
 StopNearYouHeader.defaultProps = {
   isStation: false,
+  desc: undefined,
 };
 StopNearYouHeader.contextTypes = {
   config: PropTypes.object.isRequired,

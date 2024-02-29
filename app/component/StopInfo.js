@@ -6,10 +6,10 @@ import { durationToString } from '../util/timeUtils';
 import { isKeyboardSelectionEvent } from '../util/browser';
 import Icon from './Icon';
 
-const StopInfo = (
+export default function StopInfo(
   { intermediateStopCount, toggleFunction, duration, showIntermediateStops },
   { config },
-) => {
+) {
   const message = (showIntermediateStops && (
     <FormattedMessage id="itinerary-hide-stops" defaultMessage="Hide stops" />
   )) || (
@@ -64,17 +64,15 @@ const StopInfo = (
       </div>
     </div>
   );
-};
+}
 
 StopInfo.contextTypes = {
-  config: PropTypes.any,
+  config: PropTypes.object.isRequired,
 };
 
 StopInfo.propTypes = {
   intermediateStopCount: PropTypes.number.isRequired,
-  toggleFunction: PropTypes.func,
-  duration: PropTypes.number,
+  toggleFunction: PropTypes.func.isRequired,
+  duration: PropTypes.number.isRequired,
   showIntermediateStops: PropTypes.bool,
 };
-
-export default StopInfo;

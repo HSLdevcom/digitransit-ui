@@ -137,6 +137,12 @@ StopNearYou.propTypes = {
   relay: PropTypes.any,
 };
 
+StopNearYou.defaultProps = {
+  stopId: undefined,
+  desc: undefined,
+  relay: undefined,
+};
+
 StopNearYou.contextTypes = {
   config: PropTypes.object.isRequired,
   intl: intlShape.isRequired,

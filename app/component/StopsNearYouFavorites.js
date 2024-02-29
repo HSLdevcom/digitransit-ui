@@ -99,6 +99,18 @@ StopsNearYouFavorites.propTypes = {
   favouritesFetched: PropTypes.bool,
 };
 
+StopsNearYouFavorites.defaultProps = {
+  favoriteStops: undefined,
+  favoriteStations: undefined,
+  favoriteVehicleRentalStationIds: undefined,
+  stops: undefined,
+  stations: undefined,
+  vehicleStations: undefined,
+  breakpoint: undefined,
+  noFavorites: false,
+  favouritesFetched: false,
+};
+
 const StopsNearYouFavoritesWithBreakpoint = withBreakpoint(props => (
   <ReactRelayContext.Consumer>
     {({ environment }) => (

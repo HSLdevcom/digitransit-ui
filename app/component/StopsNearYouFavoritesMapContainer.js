@@ -42,7 +42,7 @@ function StopsNearYouFavoritesMapContainer(props) {
         };
       }),
   );
-  if (vehicleStations !== null) {
+  if (vehicleStations) {
     stopList.push(
       ...vehicleStations
         .filter(s => s)
@@ -69,6 +69,12 @@ StopsNearYouFavoritesMapContainer.propTypes = {
   stations: PropTypes.arrayOf(PropTypes.object),
   vehicleStations: PropTypes.arrayOf(PropTypes.object),
   position: dtLocationShape.isRequired,
+};
+
+StopsNearYouFavoritesMapContainer.defaultProps = {
+  stops: undefined,
+  stations: undefined,
+  vehicleStations: undefined,
 };
 
 const StopsNearYouMapWithStores = connectToStores(

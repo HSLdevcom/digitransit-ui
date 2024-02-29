@@ -15,7 +15,7 @@ import { getDefaultNetworks } from '../util/vehicleRentalUtils';
 class StopsNearYouContainer extends React.Component {
   static propTypes = {
     stopPatterns: PropTypes.any,
-    setLoadState: PropTypes.func,
+    setLoadState: PropTypes.func.isRequired,
     currentTime: PropTypes.number.isRequired,
     relay: PropTypes.shape({
       refetchConnection: PropTypes.func.isRequired,
@@ -32,6 +32,12 @@ class StopsNearYouContainer extends React.Component {
     }).isRequired,
     withSeparator: PropTypes.bool,
     prioritizedStops: PropTypes.arrayOf(PropTypes.string),
+  };
+
+  static defaultProps = {
+    stopPatterns: undefined,
+    withSeparator: false,
+    prioritizedStops: undefined,
   };
 
   static contextTypes = {
