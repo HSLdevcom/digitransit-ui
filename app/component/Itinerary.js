@@ -678,7 +678,6 @@ const Itinerary = (
     {
       passive: props.passive,
       'bp-large': breakpoint === 'large',
-      'cancelled-itinerary': props.isCancelled,
       'no-border': hideSelectionIndicator,
     },
   ]);
@@ -783,12 +782,7 @@ const Itinerary = (
         co2value !== null &&
         co2value >= 0 &&
         co2summary}
-      <div
-        className="itinerary-summary-visible"
-        style={{
-          display: props.isCancelled && !props.showCancelled ? 'none' : 'flex',
-        }}
-      >
+      <div className="itinerary-summary-visible" style={{ display: 'flex' }}>
         {/* This next clickable region does not have proper accessible role, tabindex and keyboard handler
             because screen reader works weirdly with nested buttons. Same functonality works from the inner button */
         /* eslint-disable jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */}
@@ -929,8 +923,6 @@ Itinerary.propTypes = {
   hash: PropTypes.number.isRequired,
   breakpoint: PropTypes.string.isRequired,
   intermediatePlaces: PropTypes.arrayOf(PropTypes.object),
-  isCancelled: PropTypes.bool,
-  showCancelled: PropTypes.bool,
   zones: PropTypes.arrayOf(PropTypes.string),
   hideSelectionIndicator: PropTypes.bool,
   lowestCo2value: PropTypes.number,
@@ -940,8 +932,6 @@ Itinerary.defaultProps = {
   zones: [],
   passive: false,
   intermediatePlaces: [],
-  isCancelled: false,
-  showCancelled: false,
   hideSelectionIndicator: true,
   lowestCo2value: 0,
 };

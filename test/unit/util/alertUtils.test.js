@@ -140,42 +140,6 @@ describe('alertUtils', () => {
     });
   });
 
-  describe('itineraryHasCancelation', () => {
-    it('should return false if itinerary is falsy', () => {
-      expect(utils.itineraryHasCancelation(undefined)).to.equal(false);
-    });
-
-    it('should return false if itinerary has no array "legs"', () => {
-      expect(utils.itineraryHasCancelation({ legs: undefined })).to.equal(
-        false,
-      );
-    });
-
-    it('should return false if none of the legs has a cancelation', () => {
-      expect(
-        utils.itineraryHasCancelation({
-          legs: [
-            { realtimeState: RealtimeStateType.Added },
-            { realtimeState: RealtimeStateType.Modified },
-            { realtimeState: RealtimeStateType.Scheduled },
-            { realtimeState: RealtimeStateType.Updated },
-          ],
-        }),
-      ).to.equal(false);
-    });
-
-    it('should return true if at least one of the legs has been canceled', () => {
-      expect(
-        utils.itineraryHasCancelation({
-          legs: [
-            { realtimeState: RealtimeStateType.Scheduled },
-            { realtimeState: RealtimeStateType.Canceled },
-          ],
-        }),
-      ).to.equal(true);
-    });
-  });
-
   describe('getMaximumAlertSeverityLevel', () => {
     it('should return undefined if the alerts array is not an array', () => {
       expect(utils.getMaximumAlertSeverityLevel(undefined)).to.equal(undefined);

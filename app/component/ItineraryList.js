@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import { FormattedMessage } from 'react-intl';
 import cx from 'classnames';
@@ -8,8 +8,6 @@ import Icon from './Icon';
 import Itinerary from './Itinerary';
 import { isBrowser } from '../util/browser';
 import { getExtendedMode, getZones } from '../util/legUtils';
-import CanceledItineraryToggler from './CanceledItineraryToggler';
-import { itineraryHasCancelation } from '../util/alertUtils';
 import ItineraryListHeader from './ItineraryListHeader';
 import LocationShape from '../prop-types/LocationShape';
 import Loading from './Loading';
@@ -38,7 +36,6 @@ function ItineraryList(
   },
   context,
 ) {
-  const [showCancelled, setShowCancelled] = useState(false);
   const { config } = context;
   const { hash } = context.match.params;
 
@@ -60,8 +57,6 @@ function ItineraryList(
       onSelect={onSelect}
       onSelectImmediately={onSelectImmediately}
       intermediatePlaces={intermediatePlaces}
-      isCancelled={itineraryHasCancelation(itinerary)}
-      showCancelled={showCancelled}
       hideSelectionIndicator={i !== activeIndex || itineraries.length === 1}
       zones={
         config.zones.stops && itinerary.legs ? getZones(itinerary.legs) : []
@@ -129,10 +124,6 @@ function ItineraryList(
       <RoutingFeedbackPrompt key="feedback-prompt" />,
     );
   }
-
-  const canceledItinerariesCount = itineraries.filter(
-    itineraryHasCancelation,
-  ).length;
   return (
     <div className="summary-list-container" role="list">
       {showRelaxedPlanNotifier && (
@@ -171,13 +162,6 @@ function ItineraryList(
         <div className="summary-list-spinner-container">
           <Loading />
         </div>
-      )}
-      {isBrowser && canceledItinerariesCount > 0 && (
-        <CanceledItineraryToggler
-          showItineraries={showCancelled}
-          toggleShowCanceled={() => setShowCancelled(!showCancelled)}
-          canceledItinerariesAmount={canceledItinerariesCount}
-        />
       )}
     </div>
   );

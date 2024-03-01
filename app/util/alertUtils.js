@@ -142,18 +142,6 @@ export const cancelationHasExpired = (
   );
 
 /**
- * Checks if the itinerary has a cancelation.
- *
- * @param {*} itinerary the itinerary object to check.
- */
-export const itineraryHasCancelation = itinerary => {
-  if (!itinerary || !Array.isArray(itinerary.legs)) {
-    return false;
-  }
-  return itinerary.legs.some(legHasCancelation);
-};
-
-/**
  * Retrieves canceled stoptimes for the given route.
  *
  * @param {*} route the route to get cancelations for.
@@ -426,11 +414,7 @@ export const hasMeaningfulData = alerts => {
 };
 
 export const mapAlertSource = (config, lang, feedName) => {
-  if (
-    config &&
-    config.sourceForAlertsAndDisruptions &&
-    config.sourceForAlertsAndDisruptions[feedName]
-  ) {
+  if (config.sourceForAlertsAndDisruptions?.[feedName]) {
     return config.sourceForAlertsAndDisruptions[feedName][lang].concat(': ');
   }
   return '';
