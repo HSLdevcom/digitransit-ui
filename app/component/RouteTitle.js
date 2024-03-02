@@ -4,6 +4,7 @@ import { createFragmentContainer, graphql } from 'react-relay';
 import Link from 'found/Link';
 import { FormattedMessage } from 'react-intl';
 import { PREFIX_ROUTES } from '../util/path';
+import { RouteShape } from '../util/shapes';
 import withBreakpoint from '../util/withBreakpoint';
 
 import RouteNumberContainer from './RouteNumberContainer';
@@ -24,13 +25,12 @@ const RouteTitle = ({ route, breakpoint }) =>
   );
 
 RouteTitle.propTypes = {
-  route: PropTypes.shape({
-    gtfsId: PropTypes.string.isRequired,
-    mode: PropTypes.string.isRequired,
-    shortName: PropTypes.string,
-    color: PropTypes.string,
-  }),
+  route: RouteShape.isRequired,
   breakpoint: PropTypes.string,
+};
+
+RouteTitle.defaultProps = {
+  breakpoint: undefined,
 };
 
 export default createFragmentContainer(withBreakpoint(RouteTitle), {

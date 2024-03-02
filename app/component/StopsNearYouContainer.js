@@ -14,7 +14,7 @@ import { getDefaultNetworks } from '../util/vehicleRentalUtils';
 
 class StopsNearYouContainer extends React.Component {
   static propTypes = {
-    stopPatterns: PropTypes.any,
+    stopPatterns: PropTypes.object,
     setLoadState: PropTypes.func.isRequired,
     currentTime: PropTypes.number.isRequired,
     relay: PropTypes.shape({

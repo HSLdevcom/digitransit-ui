@@ -250,7 +250,7 @@ AlertRow.propTypes = {
   url: PropTypes.string,
   showLinks: PropTypes.bool,
   header: PropTypes.string,
-  feed: PropTypes.string,
+  feed: PropTypes.string.isRequired,
   index: PropTypes.number.isRequired,
 };
 
@@ -260,9 +260,13 @@ AlertRow.contextTypes = {
 };
 
 AlertRow.defaultProps = {
+  description: undefined,
   currentTime: moment().unix(),
   endTime: undefined,
   severityLevel: undefined,
   startTime: undefined,
   header: undefined,
+  entities: undefined,
+  url: undefined,
+  showLinks: false,
 };

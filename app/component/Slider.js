@@ -19,6 +19,7 @@ class Slider extends React.Component {
 
   static defaultProps = {
     id: undefined,
+    className: undefined,
     min: 0,
     max: 100,
     step: 1,

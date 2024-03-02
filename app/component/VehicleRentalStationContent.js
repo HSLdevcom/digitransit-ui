@@ -108,7 +108,7 @@ const VehicleRentalStationContent = (
 };
 
 VehicleRentalStationContent.propTypes = {
-  vehicleRentalStation: PropTypes.any.isRequired,
+  vehicleRentalStation: PropTypes.object.isRequired,
   breakpoint: PropTypes.string.isRequired,
   language: PropTypes.string.isRequired,
   router: routerShape.isRequired,

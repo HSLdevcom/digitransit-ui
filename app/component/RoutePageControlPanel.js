@@ -82,7 +82,11 @@ class RoutePageControlPanel extends React.Component {
     tripStartTime: PropTypes.string,
   };
 
-  static defaultProps = { language: 'fi', noInitialServiceDay: false };
+  static defaultProps = {
+    language: 'fi',
+    noInitialServiceDay: false,
+    tripStartTime: undefined,
+  };
 
   constructor(props) {
     super(props);

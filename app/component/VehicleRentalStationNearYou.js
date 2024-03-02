@@ -84,7 +84,7 @@ VehicleRentalStationNearYou.propTypes = {
   }).isRequired,
   currentTime: PropTypes.number,
   currentMode: PropTypes.string,
-  relay: PropTypes.any.isRequired,
+  relay: PropTypes.object.isRequired,
 };
 
 VehicleRentalStationNearYou.defaultProps = {

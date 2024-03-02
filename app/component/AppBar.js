@@ -13,10 +13,10 @@ import CanceledLegsBar from './CanceledLegsBar';
 import LoginButton from './LoginButton';
 import UserMenu from './UserMenu';
 
-const AppBar = (
+export default function AppBar(
   { showLogo, title, homeUrl, logo, user, breakpoint, titleClicked },
   { config, intl, match, getStore },
-) => {
+) {
   const { location } = match;
   const [disruptionInfoOpen, setDisruptionInfoOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(
@@ -111,7 +111,7 @@ const AppBar = (
       </nav>
     </>
   );
-};
+}
 
 AppBar.displayName = 'AppBar';
 
@@ -122,7 +122,16 @@ AppBar.propTypes = {
   logo: PropTypes.string,
   user: PropTypes.object,
   breakpoint: PropTypes.string,
-  titleClicked: PropTypes.func,
+  titleClicked: PropTypes.func.isRequired,
+};
+
+AppBar.defaultProps = {
+  showLogo: false,
+  title: undefined,
+  homeUrl: undefined,
+  logo: undefined,
+  user: undefined,
+  breakpoint: undefined,
 };
 
 AppBar.contextTypes = {
@@ -131,5 +140,3 @@ AppBar.contextTypes = {
   intl: intlShape.isRequired,
   match: matchShape.isRequired,
 };
-
-export default AppBar;

@@ -21,7 +21,7 @@ import VehicleRentalLeg from './VehicleRentalLeg';
 import StopCode from './StopCode';
 import PlatformNumber from './PlatformNumber';
 
-function BicycleLeg(
+export default function BicycleLeg(
   { focusAction, index, leg, focusToLeg, bicycleWalkLeg },
   { config, intl },
 ) {
@@ -349,9 +349,11 @@ BicycleLeg.propTypes = {
   focusToLeg: PropTypes.func.isRequired,
 };
 
+BicycleLeg.defaultProps = {
+  bicycleWalkLeg: undefined,
+};
+
 BicycleLeg.contextTypes = {
   config: PropTypes.object.isRequired,
   intl: intlShape.isRequired,
 };
-
-export default BicycleLeg;

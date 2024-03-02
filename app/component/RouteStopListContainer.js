@@ -13,6 +13,7 @@ import RouteStop from './RouteStop';
 import withBreakpoint from '../util/withBreakpoint';
 import { getRouteMode } from '../util/modeUtils';
 import { VehicleShape } from '../util/shapes';
+import RelayShape from '../prop-types/RelayShape';
 
 class RouteStopListContainer extends React.PureComponent {
   static propTypes = {
@@ -29,9 +30,7 @@ class RouteStopListContainer extends React.PureComponent {
     className: PropTypes.string,
     vehicles: PropTypes.objectOf(VehicleShape),
     currentTime: PropTypes.instanceOf(moment).isRequired,
-    relay: PropTypes.shape({
-      refetch: PropTypes.func.isRequired,
-    }).isRequired,
+    relay: RelayShape.isRequired,
     breakpoint: PropTypes.string.isRequired,
     hideDepartures: PropTypes.bool,
   };
@@ -39,6 +38,7 @@ class RouteStopListContainer extends React.PureComponent {
   static defaultProps = {
     className: undefined,
     vehicles: [],
+    hideDepartures: false,
   };
 
   static contextTypes = {

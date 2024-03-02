@@ -33,6 +33,7 @@ export default class BackButton extends React.Component {
     titleCustomStyle: undefined,
     className: 'back-button',
     fallback: undefined,
+    onBackBtnClick: undefined,
   };
 
   goBack = url => {

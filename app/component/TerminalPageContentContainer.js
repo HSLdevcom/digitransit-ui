@@ -11,6 +11,8 @@ import Icon from './Icon';
 import ScrollableWrapper from './ScrollableWrapper';
 import { isBrowser } from '../util/browser';
 import { PREFIX_TERMINALS } from '../util/path';
+import ErrorShape from '../prop-types/ErrorShape';
+import RelayShape from '../prop-types/RelayShape';
 
 class TerminalPageContent extends React.Component {
   static propTypes = {
@@ -19,12 +21,14 @@ class TerminalPageContent extends React.Component {
       stops: PropTypes.arrayOf(PropTypes.object),
       gtfsId: PropTypes.string,
     }).isRequired,
-    relay: PropTypes.shape({
-      refetch: PropTypes.func.isRequired,
-    }).isRequired,
+    relay: RelayShape.isRequired,
     currentTime: PropTypes.number.isRequired,
-    error: PropTypes.object,
+    error: ErrorShape,
     router: routerShape.isRequired,
+  };
+
+  static defaultProps = {
+    error: undefined,
   };
 
   // eslint-disable-next-line camelcase

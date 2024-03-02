@@ -133,13 +133,14 @@ class RoutePatternSelect extends Component {
     route: PropTypes.object.isRequired,
     onSelectChange: PropTypes.func.isRequired,
     serviceDay: PropTypes.string.isRequired,
-    relay: PropTypes.shape({
-      refetch: PropTypes.func.isRequired,
-    }).isRequired,
     gtfsId: PropTypes.string.isRequired,
     useCurrentTime: PropTypes.bool,
     lang: PropTypes.string.isRequired,
-    relayEnvironment: PropTypes.object,
+    relayEnvironment: PropTypes.object.isRequired,
+  };
+
+  static defaultProps = {
+    useCurrentTime: false,
   };
 
   static contextTypes = {

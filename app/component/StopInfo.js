@@ -76,3 +76,7 @@ StopInfo.propTypes = {
   duration: PropTypes.number.isRequired,
   showIntermediateStops: PropTypes.bool,
 };
+
+StopInfo.defaultProps = {
+  showIntermediateStops: false,
+};

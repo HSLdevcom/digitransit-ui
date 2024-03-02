@@ -72,6 +72,10 @@ AirportCollectLuggageLeg.propTypes = {
   children: PropTypes.node,
 };
 
+AirportCollectLuggageLeg.defaultProps = {
+  children: undefined,
+};
+
 AirportCollectLuggageLeg.contextTypes = {
   config: PropTypes.object.isRequired,
 };

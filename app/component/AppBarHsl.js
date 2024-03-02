@@ -165,6 +165,7 @@ AppBarHsl.propTypes = {
 AppBarHsl.defaultProps = {
   lang: 'fi',
   user: {},
+  favourites: [],
 };
 
 export { AppBarHsl as default, AppBarHsl as Component };

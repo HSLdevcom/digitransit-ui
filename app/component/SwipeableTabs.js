@@ -83,6 +83,7 @@ export default class SwipeableTabs extends React.Component {
     hideArrows: false,
     navigationOnBottom: false,
     tabIndex: 0,
+    classname: undefined,
   };
 
   static contextTypes = {

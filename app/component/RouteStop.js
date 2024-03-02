@@ -341,6 +341,7 @@ RouteStop.defaultProps = {
   prevStop: null,
   shortName: undefined,
   vehicle: undefined,
+  hideDepartures: false,
 };
 
 RouteStop.contextTypes = {

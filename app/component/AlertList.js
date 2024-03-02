@@ -121,6 +121,8 @@ AlertList.defaultProps = {
   cancelations: [],
   disableScrolling: false,
   serviceAlerts: [],
+  showLinks: false,
+  breakpoint: undefined,
 };
 
 const connectedComponent = connectToStores(

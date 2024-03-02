@@ -414,7 +414,7 @@ export const hasMeaningfulData = alerts => {
 };
 
 export const mapAlertSource = (config, lang, feedName) => {
-  if (config.sourceForAlertsAndDisruptions?.[feedName]) {
+  if (config?.sourceForAlertsAndDisruptions?.[feedName]) {
     return config.sourceForAlertsAndDisruptions[feedName][lang].concat(': ');
   }
   return '';

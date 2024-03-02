@@ -9,7 +9,7 @@ import ItineraryMapAction from './ItineraryMapAction';
 import { PREFIX_STOPS } from '../util/path';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
-function AirportCheckInLeg(props, { config }) {
+export default function AirportCheckInLeg(props, { config }) {
   const modeClassName = 'airport-wait';
   const { name } = props.leg.from;
   const { focusAction } = props;
@@ -83,8 +83,10 @@ AirportCheckInLeg.propTypes = {
   children: PropTypes.node,
 };
 
+AirportCheckInLeg.defaultProps = {
+  children: undefined,
+};
+
 AirportCheckInLeg.contextTypes = {
   config: PropTypes.object.isRequired,
 };
-
-export default AirportCheckInLeg;
