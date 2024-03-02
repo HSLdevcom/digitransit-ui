@@ -8,8 +8,8 @@ const SubwayLeg = ({ leg, ...props }) => (
     <FormattedMessage
       id="subway-with-route-number"
       values={{
-        routeNumber: leg.route && leg.route.shortName,
-        headSign: leg.trip && leg.trip.tripHeadsign,
+        routeNumber: leg.route?.shortName,
+        headSign: leg.trip?.tripHeadsign,
       }}
       defaultMessage="Metro {routeNumber} {headSign}"
     />
@@ -20,8 +20,6 @@ SubwayLeg.propTypes = {
   leg: PropTypes.object.isRequired,
   index: PropTypes.number.isRequired,
   focusAction: PropTypes.func.isRequired,
-  interliningWait: PropTypes.number,
-  isNextLegInterlining: PropTypes.bool,
 };
 
 export default SubwayLeg;

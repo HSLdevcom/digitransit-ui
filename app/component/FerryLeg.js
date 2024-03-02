@@ -9,8 +9,8 @@ const FerryLeg = ({ leg, ...props }) => (
     <FormattedMessage
       id="ferry-with-route-number"
       values={{
-        routeNumber: leg.route && leg.route.shortName,
-        headSign: leg.trip && leg.trip.tripHeadsign,
+        routeNumber: leg.route?.shortName,
+        headSign: leg.trip?.tripHeadsign,
       }}
       defaultMessage="Ferry {routeNumber} {headSign}"
     />
@@ -21,7 +21,5 @@ FerryLeg.propTypes = {
   leg: PropTypes.object.isRequired,
   index: PropTypes.number.isRequired,
   focusAction: PropTypes.func.isRequired,
-  interliningWait: PropTypes.number,
-  isNextLegInterlining: PropTypes.bool,
 };
 export default FerryLeg;
