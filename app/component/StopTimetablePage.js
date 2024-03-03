@@ -5,6 +5,7 @@ import moment from 'moment';
 
 import { matchShape, routerShape } from 'found';
 import { prepareServiceDay } from '../util/dateParamUtils';
+import RelayShape from '../prop-types/RelayShape';
 import TimetableContainer from './TimetableContainer';
 
 const initialDate = moment().format('YYYYMMDD');
@@ -14,9 +15,7 @@ class StopTimetablePage extends React.Component {
     stop: PropTypes.shape({
       url: PropTypes.string,
     }).isRequired,
-    relay: PropTypes.shape({
-      refetch: PropTypes.func.isRequired,
-    }).isRequired,
+    relay: RelayShape.isRequired,
   };
 
   state = prepareServiceDay({});

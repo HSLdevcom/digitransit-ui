@@ -30,6 +30,7 @@ import LazilyLoad, { importLazy } from '../LazilyLoad';
 import { getDefaultNetworks } from '../../util/vehicleRentalUtils';
 import { getRouteMode } from '../../util/modeUtils';
 import CookieSettingsButton from '../CookieSettingsButton';
+import RelayShape from '../../prop-types/RelayShape';
 
 const locationMarkerModules = {
   LocationMarker: () =>
@@ -329,7 +330,7 @@ function StopsNearYouMap(
   }, [uniqueRealtimeTopics]);
 
   useEffect(() => {
-    if (stopsNearYou && stopsNearYou.nearest && stopsNearYou.nearest.edges) {
+    if (stopsNearYou?.nearest?.edges) {
       const active = stopsNearYou.nearest.edges
         .slice()
         .filter(
@@ -503,12 +504,7 @@ StopsNearYouMap.propTypes = {
   match: matchShape.isRequired,
   breakpoint: PropTypes.string.isRequired,
   language: PropTypes.string.isRequired,
-  relay: PropTypes.shape({
-    refetchConnection: PropTypes.func,
-    hasMore: PropTypes.func,
-    loadMore: PropTypes.func,
-    environment: PropTypes.object,
-  }).isRequired,
+  relay: RelayShape.isRequired,
   onEndNavigation: PropTypes.func,
   onMapTracking: PropTypes.func,
   loading: PropTypes.bool,

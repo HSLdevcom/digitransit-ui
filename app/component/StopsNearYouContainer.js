@@ -4,6 +4,7 @@ import { createPaginationContainer, graphql } from 'react-relay';
 import { intlShape, FormattedMessage } from 'react-intl';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { matchShape } from 'found';
+import RelayShape from '../prop-types/RelayShape';
 import StopNearYouContainer from './StopNearYouContainer';
 import withBreakpoint from '../util/withBreakpoint';
 import { sortNearbyRentalStations, sortNearbyStops } from '../util/sortUtils';
@@ -17,12 +18,7 @@ class StopsNearYouContainer extends React.Component {
     stopPatterns: PropTypes.object,
     setLoadState: PropTypes.func.isRequired,
     currentTime: PropTypes.number.isRequired,
-    relay: PropTypes.shape({
-      refetchConnection: PropTypes.func.isRequired,
-      hasMore: PropTypes.func.isRequired,
-      isLoading: PropTypes.func.isRequired,
-      loadMore: PropTypes.func.isRequired,
-    }).isRequired,
+    relay: RelayShape.isRequired,
     favouriteIds: PropTypes.object.isRequired,
     match: matchShape.isRequired,
     position: PropTypes.shape({
