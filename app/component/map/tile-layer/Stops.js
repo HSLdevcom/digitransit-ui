@@ -52,11 +52,11 @@ class Stops {
       this.tile.hilightedStops.includes(feature.properties.gtfsId);
     let hasTrunkRoute = false;
     let hasLocalTramRoute = false;
+    const routes = JSON.parse(feature.properties.routes);
     if (
       feature.properties.type === 'BUS' &&
       this.config.useExtendedRouteTypes
     ) {
-      const routes = JSON.parse(feature.properties.routes);
       if (routes.some(p => p.gtfsType === ExtendedRouteTypes.BusExpress)) {
         hasTrunkRoute = true;
       }
@@ -65,7 +65,6 @@ class Stops {
       feature.properties.type === 'TRAM' &&
       this.config.useExtendedRouteTypes
     ) {
-      const routes = JSON.parse(feature.properties.routes);
       if (routes.some(p => p.gtfsType === ExtendedRouteTypes.SpeedTram)) {
         hasLocalTramRoute = true;
       }
@@ -93,6 +92,9 @@ class Stops {
       if (hasLocalTramRoute) {
         mode = 'speedtram';
       }
+      const stopTemporarilyClosed =
+        feature.properties.alerts?.indexOf('NO_SERVICE') > -1;
+      const stopClosed = !routes.length;
 
       drawStopIcon(
         this.tile,
@@ -107,6 +109,8 @@ class Stops {
           !isNull(feature.properties.code)
         ),
         this.config.colors.iconColors,
+        stopTemporarilyClosed,
+        stopClosed,
       );
     }
   }
@@ -123,8 +127,13 @@ class Stops {
   }
 
   getPromise(lang) {
+    const zoom = this.tile.coords.z + (this.tile.props.zoomOffset || 0);
+    const stopsUrl =
+      zoom < this.config.stopsMinZoom
+        ? this.config.URL.STOP_MAP
+        : this.config.URL.REALTIME_STOP_MAP;
     return fetchWithLanguageAndSubscription(
-      `${getLayerBaseUrl(this.config.URL.STOP_MAP, lang)}${
+      `${getLayerBaseUrl(stopsUrl, lang)}${
         this.tile.coords.z + (this.tile.props.zoomOffset || 0)
       }/${this.tile.coords.x}/${this.tile.coords.y}.pbf`,
       this.config,
@@ -145,19 +154,19 @@ class Stops {
             this.tile.hilightedStops.length &&
             this.tile.hilightedStops[0]
           );
+          const stopLayer = vt.layers.stops || vt.layers.realtimeStops;
 
           if (
-            vt.layers.stops != null &&
+            stopLayer != null &&
             (this.tile.coords.z >= this.config.stopsMinZoom ||
               hasHilightedStops)
           ) {
             const featureByCode = {};
             const hybridGtfsIdByCode = {};
-            const zoom = this.tile.coords.z + (this.tile.props.zoomOffset || 0);
             const drawPlatforms = this.config.terminalStopsMaxZoom - 1 <= zoom;
             const drawRailPlatforms = this.config.railPlatformsMinZoom <= zoom;
-            for (let i = 0, ref = vt.layers.stops.length - 1; i <= ref; i++) {
-              const feature = vt.layers.stops.feature(i);
+            for (let i = 0, ref = stopLayer.length - 1; i <= ref; i++) {
+              const feature = stopLayer.feature(i);
               if (
                 isFeatureLayerEnabled(feature, 'stop', this.mapLayers) &&
                 feature.properties.type &&
