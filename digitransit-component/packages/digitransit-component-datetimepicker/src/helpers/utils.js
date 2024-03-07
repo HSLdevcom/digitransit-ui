@@ -34,6 +34,10 @@ const validateClock = (hours, minutes) => {
 };
 
 export function validateInput(inputValue) {
+  // We don't accept seconds in the input
+  if (inputValue.split(':').length > 2) {
+    return true;
+  }
   if (inputValue.length <= 2) {
     // Too many options, don't  validate
     return false;
