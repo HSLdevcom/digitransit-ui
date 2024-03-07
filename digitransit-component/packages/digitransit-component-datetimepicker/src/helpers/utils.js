@@ -36,11 +36,11 @@ const validateClock = (hours, minutes) => {
 export function validateInput(inputValue) {
   // We don't accept seconds in the input
   if (inputValue.split(':').length > 2) {
-    return true;
+    return false;
   }
   if (inputValue.length <= 2) {
     // Too many options, don't  validate
-    return false;
+    return true;
   }
   if (inputValue.length === 3) {
     let hours;
@@ -51,7 +51,7 @@ export function validateInput(inputValue) {
       hours = inputValue.substring(0, inputValue.length - 1);
       minutes = inputValue.substring(inputValue.length - 1 || 0);
       if (Number(minutes) > 5) {
-        return true;
+        return false;
       }
     } else {
       // This is how basically moment handles string formatting.
@@ -70,9 +70,9 @@ export function validateInput(inputValue) {
       } else {
         [hours, minutes] = [values[0], values[1].concat(values[2])];
       }
-      return !validateClock(hours, minutes);
+      return validateClock(hours, minutes);
     }
-    return !validateClock(hours, minutes);
+    return validateClock(hours, minutes);
   }
   if (inputValue.length === 5 || inputValue.length === 4) {
     const values = inputValue.split(':');
@@ -83,12 +83,12 @@ export function validateInput(inputValue) {
       minutes.length === 1 &&
       Number(minutes) > 5
     ) {
-      return true;
+      return false;
     }
 
-    return !validateClock(hours, minutes);
+    return validateClock(hours, minutes);
   }
-  return false;
+  return true;
 }
 
 export const getTs = (inputValue, currentTimestamp) => {
