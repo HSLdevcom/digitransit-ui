@@ -49,9 +49,7 @@ function MobileTimepicker({
           e.target.setSelectionRange(0, 0); // set caret to start of input
         }}
         onChange={event => {
-          let newValue = event.target.value.includes('.')
-            ? event.target.value.replace('.', ':')
-            : event.target.value;
+          let newValue = event.target.value.replace('.', ':');
 
           const valid = validateInput(newValue);
           setValidInput(valid);
