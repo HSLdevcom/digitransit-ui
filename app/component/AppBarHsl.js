@@ -37,7 +37,7 @@ const AppBarHsl = ({ lang, user, favourites }, context) => {
         setBanners(data),
       );
     }
-  }, [lang]);
+  }, []);
 
   useEffect(() => {
     if (config.URL.FONTCOUNTER && config.NODE_ENV === 'production') {
