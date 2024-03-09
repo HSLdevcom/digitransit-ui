@@ -37,7 +37,7 @@ const AppBarHsl = ({ lang, user, favourites }, context) => {
         setBanners(data),
       );
     }
-  }, []);
+  }, [lang]);
 
   useEffect(() => {
     if (config.URL.FONTCOUNTER && config.NODE_ENV === 'production') {
@@ -103,10 +103,16 @@ const AppBarHsl = ({ lang, user, favourites }, context) => {
       : {};
 
   const siteHeaderRef = useRef(null);
+  const notificationTime = useRef(0);
 
   useEffect(() => {
-    // Refetch notifications
-    siteHeaderRef.current?.fetchNotifications();
+    const now = Date.now();
+    // refresh only once per 5 seconds
+    if (now - notificationTime.current > 5000) {
+      // Refetch notifications
+      siteHeaderRef.current?.fetchNotifications();
+      notificationTime.current = now;
+    }
   }, [favourites]);
 
   return (
