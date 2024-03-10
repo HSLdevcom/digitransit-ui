@@ -1,5 +1,4 @@
 import Store from 'fluxible/addons/BaseStore';
-import includes from 'lodash/includes';
 import find from 'lodash/find';
 import findIndex from 'lodash/findIndex';
 import isEmpty from 'lodash/isEmpty';
@@ -48,6 +47,7 @@ export default class FavouriteStore extends Store {
   static FETCH_FAILED = 'fetch-failed';
 
   favourites = [];
+  mappedFavourites = [];
 
   config = {};
 
@@ -109,24 +109,14 @@ export default class FavouriteStore extends Store {
   }
 
   isFavourite(id, type) {
-    for (let i = 0; i < this.favourites.length; i++) {
-      const favourite = this.favourites[i];
-      const fid = favourite.gtfsId || favourite.gid;
+    for (let i = 0; i < this.mappedFavourites.length; i++) {
+      const favourite = this.mappedFavourites[i];
+      const fid = favourite.gtfsId || favourite.gid || favourite.stationId;
       if (favourite.type === type && fid === id) {
         return true;
       }
     }
     return false;
-  }
-
-  isFavouriteVehicleRentalStation(id, network) {
-    const ids = this.favourites
-      .filter(
-        favourite =>
-          favourite.type === 'bikeStation' && favourite.networks[0] === network,
-      )
-      .map(favourite => `${favourite.networks[0]}:${favourite.stationId}`);
-    return includes(ids, id);
   }
 
   clearFavourites() {
