@@ -109,10 +109,14 @@ export default class FavouriteStore extends Store {
   }
 
   isFavourite(id, type) {
-    const ids = this.favourites
-      .filter(favourite => favourite.type === type)
-      .map(favourite => favourite.gtfsId || favourite.gid);
-    return includes(ids, id);
+    for (let i = 0; i < this.favourites.length; i++) {
+      const favourite = this.favourites[i];
+      const fid = favourite.gtfsId || favourite.gid;
+      if (favourite.type === type && fid === id) {
+        return true;
+      }
+    }
+    return false;
   }
 
   isFavouriteVehicleRentalStation(id, network) {
