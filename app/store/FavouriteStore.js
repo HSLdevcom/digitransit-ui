@@ -133,10 +133,6 @@ export default class FavouriteStore extends Store {
     this.emitChange();
   }
 
-  storeFavourites() {
-    setFavouriteStorage(this.favourites);
-  }
-
   getFavourites() {
     return this.mappedFavourites;
   }
@@ -253,13 +249,13 @@ export default class FavouriteStore extends Store {
           onFail();
           if (this.config.allowFavouritesFromLocalstorage) {
             this.set(newFavourites);
-            this.storeFavourites();
+            setFavouriteStorage(this.favourites);
           }
           this.fetchComplete();
         });
     } else {
       this.set(newFavourites);
-      this.storeFavourites();
+      setFavouriteStorage(this.favourites);
     }
   }
 
@@ -289,13 +285,13 @@ export default class FavouriteStore extends Store {
           onFail();
           if (this.config.allowFavouritesFromLocalstorage) {
             this.set(mapped);
-            this.storeFavourites();
+            setFavouriteStorage(this.favourites);
           }
           this.fetchComplete();
         });
     } else {
       this.set(mapped);
-      this.storeFavourites();
+      setFavouriteStorage(this.favourites);
     }
   }
 
@@ -325,13 +321,13 @@ export default class FavouriteStore extends Store {
           onFail();
           if (this.config.allowFavouritesFromLocalstorage) {
             this.set(newFavourites);
-            this.storeFavourites();
+            setFavouriteStorage(this.favourites);
           }
           this.fetchComplete();
         });
     } else {
       this.set(newFavourites);
-      this.storeFavourites();
+      setFavouriteStorage(this.favourites);
     }
   }
 
