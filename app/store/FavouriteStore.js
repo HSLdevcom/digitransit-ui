@@ -47,7 +47,6 @@ export default class FavouriteStore extends Store {
   static FETCH_FAILED = 'fetch-failed';
 
   favourites = [];
-  mappedFavourites = [];
 
   config = {};
 
@@ -57,8 +56,7 @@ export default class FavouriteStore extends Store {
     super(dispatcher);
     this.config = dispatcher.getContext().config;
     if (!this.config.allowLogin) {
-      this.favourites = getFavouriteStorage();
-      this.mappedFavourites = mapFromStore(this.favourites);
+      this.favourites = mapFromStore(getFavouriteStorage());
     } else {
       this.status = FavouriteStore.STATUS_FETCHING_OR_UPDATING;
     }
@@ -80,8 +78,7 @@ export default class FavouriteStore extends Store {
   }
 
   set(favs) {
-    this.favourites = favs;
-    this.mappedFavourites = mapFromStore(this.favourites);
+    this.favourites = mapFromStore(favs);
     this.fetchComplete();
   }
 
@@ -109,8 +106,8 @@ export default class FavouriteStore extends Store {
   }
 
   isFavourite(id, type) {
-    for (let i = 0; i < this.mappedFavourites.length; i++) {
-      const favourite = this.mappedFavourites[i];
+    for (let i = 0; i < this.favourites.length; i++) {
+      const favourite = this.favourites[i];
       const fid = favourite.gtfsId || favourite.gid || favourite.stationId;
       if (favourite.type === type && fid === id) {
         return true;
@@ -122,54 +119,51 @@ export default class FavouriteStore extends Store {
   clearFavourites() {
     clearFavouriteStorage();
     this.favourites = [];
-    this.mappedFavourites = [];
     this.storeFavourites();
     this.emitChange();
   }
 
   getFavourites() {
-    return this.mappedFavourites;
+    return this.favourites;
   }
 
   getByGtfsId(gtfsId, type) {
     return find(
-      this.mappedFavourites,
+      this.favourites,
       favourite => gtfsId === favourite.gtfsId && type === favourite.type,
     );
   }
 
   getByStationIdAndNetworks(stationId, network) {
     return find(
-      this.mappedFavourites,
+      this.favourites,
       favourite =>
         stationId === favourite.stationId && network === favourite.network,
     );
   }
 
   getRouteGtfsIds() {
-    return this.mappedFavourites
+    return this.favourites
       .filter(favourite => favourite.type === 'route')
       .map(favourite => favourite.gtfsId);
   }
 
   getStopsAndStations() {
-    return this.mappedFavourites.filter(
+    return this.favourites.filter(
       favourite => favourite.type === 'stop' || favourite.type === 'station',
     );
   }
 
   getStops() {
-    return this.mappedFavourites.filter(favourite => favourite.type === 'stop');
+    return this.favourites.filter(favourite => favourite.type === 'stop');
   }
 
   getLocations() {
-    return this.mappedFavourites.filter(
-      favourite => favourite.type === 'place',
-    );
+    return this.favourites.filter(favourite => favourite.type === 'place');
   }
 
   getVehicleRentalStations() {
-    return this.mappedFavourites.filter(
+    return this.favourites.filter(
       favourite => favourite.type === 'bikeStation',
     );
   }
@@ -216,9 +210,9 @@ export default class FavouriteStore extends Store {
     if (data.type === 'bikeStation') {
       data = mapVehicleRentalToStore(data);
     }
-    const newFavourites = this.favourites.slice();
+    const newFavourites = mapToStore(this.favourites);
     const editIndex = findIndex(
-      this.favourites,
+      newFavourites,
       item => data.favouriteId === item.favouriteId,
     );
     if (editIndex >= 0) {
@@ -243,13 +237,13 @@ export default class FavouriteStore extends Store {
           onFail();
           if (this.config.allowFavouritesFromLocalstorage) {
             this.set(newFavourites);
-            setFavouriteStorage(this.favourites);
+            setFavouriteStorage(newFavourites);
           }
           this.fetchComplete();
         });
     } else {
       this.set(newFavourites);
-      setFavouriteStorage(this.favourites);
+      setFavouriteStorage(newFavourites);
     }
   }
 
@@ -279,13 +273,13 @@ export default class FavouriteStore extends Store {
           onFail();
           if (this.config.allowFavouritesFromLocalstorage) {
             this.set(mapped);
-            setFavouriteStorage(this.favourites);
+            setFavouriteStorage(mapped);
           }
           this.fetchComplete();
         });
     } else {
       this.set(mapped);
-      setFavouriteStorage(this.favourites);
+      setFavouriteStorage(mapped);
     }
   }
 
@@ -302,7 +296,7 @@ export default class FavouriteStore extends Store {
       throw new Error(`Favourite is not an object:${JSON.stringify(data)}`);
     }
     this.fetchingOrUpdating();
-    const newFavourites = this.favourites.filter(
+    const newFavourites = mapToStore(this.favourites).filter(
       favourite => favourite.favouriteId !== data.favouriteId,
     );
     if (this.config.allowLogin) {
@@ -315,13 +309,13 @@ export default class FavouriteStore extends Store {
           onFail();
           if (this.config.allowFavouritesFromLocalstorage) {
             this.set(newFavourites);
-            setFavouriteStorage(this.favourites);
+            setFavouriteStorage(newFavourites);
           }
           this.fetchComplete();
         });
     } else {
       this.set(newFavourites);
-      setFavouriteStorage(this.favourites);
+      setFavouriteStorage(newFavourites);
     }
   }
 
