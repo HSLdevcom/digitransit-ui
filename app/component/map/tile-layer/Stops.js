@@ -93,7 +93,7 @@ class Stops {
         mode = 'speedtram';
       }
 
-      const stopOutOfService = !!feature.properties.noServiceAlert;
+      const stopOutOfService = !!feature.properties.closedByServiceAlert;
       const noRoutesForStop = !routes.length;
 
       drawStopIcon(
