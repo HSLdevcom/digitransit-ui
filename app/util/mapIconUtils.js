@@ -371,15 +371,15 @@ function drawStopStatusBadge(
   x,
   y,
   iconWidth,
-  stopTemporarilyClosed,
-  stopClosed,
+  stopOutOfService,
+  noRoutesForStop,
 ) {
   const badgeSize = iconWidth * 0.75; // badge size is 75% of the icon size
-  const badgeImageId = stopTemporarilyClosed
+  const badgeImageId = stopOutOfService
     ? `icon-icon_stop-temporarily-closed-badge`
     : `icon-icon_stop-closed-badge`;
 
-  if (stopClosed || stopTemporarilyClosed) {
+  if (noRoutesForStop || stopOutOfService) {
     getImageFromSpriteCache(badgeImageId, badgeSize, badgeSize).then(
       badgeImage => {
         drawTopRightCornerIconBadge(
@@ -414,8 +414,8 @@ export function drawStopIcon(
   isHilighted,
   isFerryTerminal,
   modeIconColors,
-  stopTemporarilyClosed,
-  stopClosed,
+  stopOutOfService,
+  noRoutesForStop,
 ) {
   if (type === 'SUBWAY') {
     return;
@@ -464,7 +464,7 @@ export function drawStopIcon(
       color,
     ).then(image => {
       tile.ctx.drawImage(image, x, y);
-      drawStopStatusBadge(tile, x, y, width, stopTemporarilyClosed, stopClosed);
+      drawStopStatusBadge(tile, x, y, width, stopOutOfService, noRoutesForStop);
       if (drawNumber && platformNumber) {
         x += radius;
         y += radius;

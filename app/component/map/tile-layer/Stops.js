@@ -92,9 +92,9 @@ class Stops {
       if (hasLocalTramRoute) {
         mode = 'speedtram';
       }
-      const stopTemporarilyClosed =
-        feature.properties.alerts?.indexOf('NO_SERVICE') > -1;
-      const stopClosed = !routes.length;
+
+      const stopOutOfService = !!feature.properties.noServiceAlert;
+      const noRoutesForStop = !routes.length;
 
       drawStopIcon(
         this.tile,
@@ -109,8 +109,8 @@ class Stops {
           !isNull(feature.properties.code)
         ),
         this.config.colors.iconColors,
-        stopTemporarilyClosed,
-        stopClosed,
+        stopOutOfService,
+        noRoutesForStop,
       );
     }
   }
