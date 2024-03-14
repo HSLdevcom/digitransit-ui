@@ -221,6 +221,9 @@ RouteNumber.defaultProps = {
   isTransitLeg: false,
   renderModeIcons: false,
   withBicycle: false,
+  color: undefined,
+  duration: undefined,
+  occupancyStatus: undefined,
 };
 
 RouteNumber.contextTypes = {

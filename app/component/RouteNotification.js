@@ -91,6 +91,7 @@ RouteNotification.propTypes = {
 
 RouteNotification.defaultProps = {
   link: '',
+  closeButtonLabel: undefined,
 };
 
 RouteNotification.contextTypes = {

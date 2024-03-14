@@ -45,8 +45,12 @@ RouteNumberContainer.propTypes = {
 RouteNumberContainer.defaultProps = {
   interliningWithRoute: undefined,
   alertSeverityLevel: undefined,
+  isCallAgency: false,
+  vertical: false,
+  fadeLong: false,
   className: '',
   withBicycle: false,
+  occupancyStatus: undefined,
 };
 
 RouteNumberContainer.contextTypes = {

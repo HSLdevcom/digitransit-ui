@@ -40,7 +40,7 @@ export default function RightOffcanvasToggle(
 }
 
 RightOffcanvasToggle.propTypes = {
-  onToggleClick: PropTypes.func,
+  onToggleClick: PropTypes.func.isRequired,
   defaultMessage: PropTypes.string,
   translationId: PropTypes.string,
 };
