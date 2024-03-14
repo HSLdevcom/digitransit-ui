@@ -257,6 +257,7 @@ ParkAndRideContent.propTypes = {
 ParkAndRideContent.defaultProps = {
   bikePark: null,
   carPark: null,
+  error: undefined,
 };
 
 ParkAndRideContent.contextTypes = {

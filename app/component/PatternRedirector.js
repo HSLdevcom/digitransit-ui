@@ -76,6 +76,8 @@ PatternRedirector.propTypes = {
   route: PropTypes.object,
 };
 
+PatternRedirector.defaultProps = { route: undefined };
+
 const containerComponent = createFragmentContainer(PatternRedirector, {
   route: graphql`
     fragment PatternRedirector_route on Route

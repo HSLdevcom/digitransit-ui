@@ -90,7 +90,7 @@ ParkOrBikeStationHeader.propTypes = {
     stationId: PropTypes.string,
     lat: PropTypes.number.isRequired,
     lon: PropTypes.number.isRequired,
-  }),
+  }).isRequired,
 };
 
 ParkOrBikeStationHeader.contextTypes = {
