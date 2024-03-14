@@ -102,6 +102,7 @@ describe('<RouteStopListContainer />', () => {
       breakpoint: 'large',
       relay: {
         refetch: () => {},
+        environment: {},
       },
     };
     const wrapper = shallowWithIntl(<RouteStopListContainer {...props} />, {

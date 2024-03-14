@@ -15,6 +15,7 @@ describe('<StopPageContentContainer />', () => {
       },
       relay: {
         refetch: () => {},
+        environment: {},
       },
       stop: {},
       router: mockRouter,
