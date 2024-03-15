@@ -21,6 +21,7 @@ const AboutPage = ({ currentLanguage }, { config }) => {
                 section.paragraphs.map((p, j) => (
                   <p
                     key={`about-section-${i}-p-${j}`}
+                    // eslint-disable-next-line
                     dangerouslySetInnerHTML={{ __html: p }}
                   />
                 ))}

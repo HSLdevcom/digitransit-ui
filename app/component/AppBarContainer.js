@@ -93,6 +93,13 @@ AppBarContainer.propTypes = {
   breakpoint: PropTypes.string.isRequired,
 };
 
+AppBarContainer.defaultProps = {
+  logo: undefined,
+  user: undefined,
+  favourites: [],
+  lang: undefined,
+};
+
 const AppBarContainerWithBreakpoint = withBreakpoint(AppBarContainer);
 
 const WithContext = connectToStores(
