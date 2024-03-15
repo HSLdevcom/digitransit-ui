@@ -17,6 +17,7 @@ const defaultProps = {
   currentTime: 1558610379,
   duplicateMessageCounter: 0,
   breakpoint: 'large',
+  relayEnvironment: { environment: {} },
 };
 
 const context = {
