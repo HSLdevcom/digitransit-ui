@@ -14,7 +14,7 @@ import Toggle from './customizesearch/Toggle';
 import searchContext from '../util/searchContext';
 import intializeSearchContext from '../util/DTSearchContextInitializer';
 
-function MainMenu(props, { config, intl }) {
+function MainMenu(props, { config, intl, executeAction }) {
   const [countries, setCountries] = useState(props.countries);
   const appBarLinkHref =
     config.appBarLink.alternativeHref?.[props.currentLanguage] ||
@@ -85,39 +85,38 @@ function MainMenu(props, { config, intl }) {
             </Link>
           </div>
         )}
-        {config.mainMenu.countrySelection &&
-          config.mainMenu.countrySelection.map(country => (
-            <div key={country} className="offcanvas-section">
-              <FormattedMessage
-                id={`include-${country}`}
-                defaultMessage={`include-${country}`}
-              />
-              <div style={{ float: 'right', display: 'inline-block' }}>
-                {/* eslint-disable jsx-a11y/label-has-associated-control */}
-                <label key={country} htmlFor={`toggle-${country}`}>
-                  <Toggle
-                    id={`toggle-${country}`}
-                    toggled={!!countries[country]}
-                    onToggle={() => {
-                      setCountries({
-                        ...countries,
-                        [country]: !countries[country],
-                      });
-                      props.updateCountries({
-                        ...countries,
-                        [country]: !countries[country],
-                      });
-                      // Update searchContext to reflect changes in config
-                      intializeSearchContext({ config }, searchContext);
-                      // On changing country filters, set sessionStorage menuOpen to true. This item is used in AppBar.js to initially open the menu after refresh for visual confirmation.
-                      window.sessionStorage.setItem('menuOpen', true);
-                      window.location.reload();
-                    }}
-                  />
-                </label>
-              </div>
+        {config.mainMenu.countrySelection?.map(country => (
+          <div key={country} className="offcanvas-section">
+            <FormattedMessage
+              id={`include-${country}`}
+              defaultMessage={`include-${country}`}
+            />
+            <div style={{ float: 'right', display: 'inline-block' }}>
+              {/* eslint-disable jsx-a11y/label-has-associated-control */}
+              <label key={country} htmlFor={`toggle-${country}`}>
+                <Toggle
+                  id={`toggle-${country}`}
+                  toggled={!!countries[country]}
+                  onToggle={() => {
+                    setCountries({
+                      ...countries,
+                      [country]: !countries[country],
+                    });
+                    executeAction(updateCountries, {
+                      ...countries,
+                      [country]: !countries[country],
+                    });
+                    // Update searchContext to reflect changes in config
+                    intializeSearchContext({ config }, searchContext);
+                    // On changing country filters, set sessionStorage menuOpen to true. This item is used in AppBar.js to initially open the menu after refresh for visual confirmation.
+                    window.sessionStorage.setItem('menuOpen', true);
+                    window.location.reload();
+                  }}
+                />
+              </label>
             </div>
-          ))}
+          </div>
+        ))}
         {config.appBarLink?.name &&
           appBarLinkHref &&
           !config.hideAppBarLink && (
@@ -157,31 +156,28 @@ MainMenu.propTypes = {
   closeMenu: PropTypes.func.isRequired,
   homeUrl: PropTypes.string.isRequired,
   countries: PropTypes.object,
-  updateCountries: PropTypes.func,
   currentLanguage: PropTypes.string,
 };
 
 MainMenu.defaultProps = {
   currentLanguage: 'fi',
+  countries: undefined,
 };
 
 MainMenu.contextTypes = {
   getStore: PropTypes.func.isRequired,
   config: PropTypes.object.isRequired,
   intl: intlShape.isRequired,
+  executeAction: PropTypes.func.isRequired,
 };
 
 const connectedComponent = connectToStores(
   MainMenu,
   ['CountryStore', 'PreferencesStore'],
-  ({ getStore, executeAction }) => ({
+  ({ getStore }) => ({
     countries: getStore('CountryStore').getCountries(),
-    updateCountries: countries => executeAction(updateCountries, countries),
     currentLanguage: getStore('PreferencesStore').getLanguage(),
   }),
-  {
-    executeAction: PropTypes.func,
-  },
 );
 
 export { connectedComponent as default, MainMenu as Component };
