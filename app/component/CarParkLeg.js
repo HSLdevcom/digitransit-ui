@@ -134,8 +134,13 @@ CarParkLeg.propTypes = {
   index: PropTypes.number.isRequired,
   focusAction: PropTypes.func.isRequired,
   children: PropTypes.node,
-  carPark: PropTypes.object,
+  carPark: PropTypes.object.isRequired,
   noWalk: PropTypes.bool,
+};
+
+CarParkLeg.defaultProps = {
+  children: undefined,
+  noWalk: false,
 };
 
 CarParkLeg.contextTypes = {

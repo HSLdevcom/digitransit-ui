@@ -134,6 +134,7 @@ Icon.defaultProps = {
   viewBox: '0 0 40 40',
   width: undefined,
   ariaLabel: '',
+  dataURI: undefined,
 };
 
 Icon.asString = ({

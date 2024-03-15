@@ -73,7 +73,7 @@ class MapLayersDialogContent extends React.Component {
     mapLayers: mapLayerShape.isRequired,
     mapLayerOptions: mapLayerOptionsShape,
     setOpen: PropTypes.func.isRequired,
-    updateMapLayers: PropTypes.func,
+    updateMapLayers: PropTypes.func.isRequired,
     lang: PropTypes.string.isRequired,
     open: PropTypes.bool.isRequired,
     geoJson: PropTypes.object,
@@ -81,6 +81,7 @@ class MapLayersDialogContent extends React.Component {
 
   static defaultProps = {
     mapLayerOptions: null,
+    geoJson: undefined,
   };
 
   handlePanelState(open) {

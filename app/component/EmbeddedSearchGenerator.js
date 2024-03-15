@@ -480,6 +480,8 @@ EmbeddedSearchGenerator.propTypes = {
   lang: PropTypes.string.isRequired,
 };
 
+EmbeddedSearchGenerator.defaultProps = { breakpoint: undefined };
+
 EmbeddedSearchGenerator.contextTypes = {
   config: PropTypes.object.isRequired,
   intl: intlShape.isRequired,
