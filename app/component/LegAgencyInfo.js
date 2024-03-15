@@ -24,9 +24,7 @@ LegAgencyInfo.contextTypes = {
   config: PropTypes.object.isRequired,
 };
 
-LegAgencyInfo.propTypes = {
-  leg: PropTypes.object,
-};
+LegAgencyInfo.propTypes = { leg: PropTypes.object.isRequired };
 
 export default createFragmentContainer(LegAgencyInfo, {
   leg: graphql`

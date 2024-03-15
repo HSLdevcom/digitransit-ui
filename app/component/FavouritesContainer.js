@@ -62,6 +62,10 @@ class FavouritesContainer extends React.Component {
     favouriteStatus: FavouriteStore.STATUS_FETCHING,
     requireLoggedIn: false,
     isLoggedIn: false,
+    favouriteModalAction: undefined,
+    color: undefined,
+    hoverColor: undefined,
+    lang: undefined,
   };
 
   constructor(props) {

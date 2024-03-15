@@ -6,7 +6,7 @@ import { intlShape } from 'react-intl';
 import Icon from './Icon';
 import LocalTime from './LocalTime';
 
-function DepartureTime(props, context) {
+export default function DepartureTime(props, context) {
   let shownTime;
   const timeDiffInMinutes = Math.floor(
     (props.departureTime - props.currentTime) / 60,
@@ -109,6 +109,11 @@ DepartureTime.propTypes = {
 };
 
 DepartureTime.defaultProps = {
+  className: '',
+  canceled: false,
+  realtime: false,
+  style: undefined,
+  useUTC: false,
   showCancelationIcon: false,
   isNextDeparture: false,
 };
@@ -117,8 +122,6 @@ DepartureTime.contextTypes = {
   config: PropTypes.object.isRequired,
   intl: intlShape.isRequired, // eslint-disable-line react/no-typos
 };
-
-export default DepartureTime;
 
 /**
  * maps stoptime to data structure required by DepartureTime. This is copied

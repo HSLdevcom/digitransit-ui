@@ -8,7 +8,7 @@ import SplitBars from './SplitBars';
 import BackButton from './BackButton';
 import { getZoneLabel } from '../util/legUtils';
 
-const CardHeader = (
+export default function CardHeader(
   {
     className,
     children,
@@ -28,7 +28,7 @@ const CardHeader = (
     isTerminal,
   },
   { config },
-) => {
+) {
   const headerTitle = stop.name ? stop.name : name;
   return (
     <Fragment>
@@ -82,7 +82,7 @@ const CardHeader = (
       {children}
     </Fragment>
   );
-};
+}
 
 CardHeader.displayName = 'CardHeader';
 
@@ -90,7 +90,7 @@ CardHeader.propTypes = {
   className: PropTypes.string,
   headerIcon: PropTypes.node,
   headingStyle: PropTypes.string,
-  stop: PropTypes.object,
+  stop: PropTypes.object.isRequired,
   description: PropTypes.string.isRequired,
   code: PropTypes.string,
   externalLink: PropTypes.node,
@@ -107,12 +107,21 @@ CardHeader.propTypes = {
 
 CardHeader.defaultProps = {
   headerIcon: undefined,
-  stop: {},
   favouriteContainer: undefined,
+  className: '',
+  headingStyle: undefined,
+  code: undefined,
+  externalLink: undefined,
+  icon: undefined,
+  icons: undefined,
+  children: undefined,
+  unlinked: false,
+  showBackButton: false,
+  headerConfig: undefined,
+  name: undefined,
+  isTerminal: false,
 };
 
 CardHeader.contextTypes = {
   config: PropTypes.object.isRequired,
 };
-
-export default CardHeader;

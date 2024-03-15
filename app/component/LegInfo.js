@@ -13,7 +13,7 @@ import Icon from './Icon';
 import CapacityModal from './CapacityModal';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
-const LegInfo = (
+export default function LegInfo(
   {
     leg,
     hasNoShortName,
@@ -25,7 +25,7 @@ const LegInfo = (
     tabIndex,
   },
   { config, intl },
-) => {
+) {
   const [capacityModalOpen, setCapacityModalOpen] = useState(false);
   const { constantOperationRoutes } = config;
   const shouldLinkToTrip =
@@ -79,6 +79,7 @@ const LegInfo = (
       )}
       {capacity && (
         <button
+          type="button"
           className="capacity-icon-container"
           onClick={() => setCapacityModalOpen(true)}
           aria-label={intl.formatMessage({
@@ -128,7 +129,7 @@ const LegInfo = (
       </Modal>
     </div>
   );
-};
+}
 
 LegInfo.propTypes = {
   leg: PropTypes.object.isRequired,
@@ -145,11 +146,11 @@ LegInfo.propTypes = {
 LegInfo.defaultProps = {
   changeHash: undefined,
   tabIndex: undefined,
+  alertSeverityLevel: undefined,
+  hasNoShortName: undefined,
 };
 
 LegInfo.contextTypes = {
   intl: intlShape.isRequired,
   config: PropTypes.object.isRequired,
 };
-
-export default LegInfo;

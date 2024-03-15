@@ -8,7 +8,7 @@ import { displayDistance } from '../util/geo-utils';
 import { durationToString } from '../util/timeUtils';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
 
-function CarLeg(props, { config, intl }) {
+export default function CarLeg(props, { config, intl }) {
   const distance = displayDistance(
     parseInt(props.leg.distance, 10),
     config,
@@ -116,10 +116,9 @@ CarLeg.propTypes = {
   children: PropTypes.node,
 };
 
+CarLeg.defaultProps = { children: undefined };
+
 CarLeg.contextTypes = {
   config: PropTypes.object.isRequired,
   intl: intlShape.isRequired,
-  children: undefined,
 };
-
-export default CarLeg;

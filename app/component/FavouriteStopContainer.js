@@ -71,9 +71,14 @@ function FavouriteStopContainerComponent(props, context) {
 }
 
 FavouriteStopContainerComponent.propTypes = {
-  stop: PropTypes.object,
+  stop: PropTypes.object.isRequired,
   isTerminal: PropTypes.bool,
   isFetching: PropTypes.bool,
+};
+
+FavouriteStopContainerComponent.defaultProps = {
+  isTerminal: false,
+  isFetching: false,
 };
 
 const FavouriteStopContainer = connectToStores(
@@ -111,9 +116,4 @@ FavouriteStopContainer.contextTypes = {
   config: PropTypes.object.isRequired,
 };
 
-FavouriteStopContainerComponent.contextTypes = {
-  getStore: PropTypes.func.isRequired,
-  executeAction: PropTypes.func.isRequired,
-  config: PropTypes.object.isRequired,
-};
 export default FavouriteStopContainer;

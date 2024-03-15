@@ -6,7 +6,7 @@ import Icon from './Icon';
 import { durationToString } from '../util/timeUtils';
 import { displayDistance } from '../util/geo-utils';
 
-function Distance(props, { config, intl }) {
+export default function Distance(props, { config, intl }) {
   const distance = displayDistance(props.distance, config, intl.formatNumber);
 
   const icon = `icon-${props.icon || 'icon_walk'}`;
@@ -42,11 +42,13 @@ Distance.description =
 
 Distance.propTypes = {
   distance: PropTypes.number.isRequired,
-  icon: PropTypes.string,
+  icon: PropTypes.string.isRequired,
   className: PropTypes.string,
   duration: PropTypes.number.isRequired,
   mode: PropTypes.string.isRequired,
 };
+
+Distance.defaultProps = { className: '' };
 
 Distance.contextTypes = {
   config: PropTypes.object.isRequired,
@@ -54,4 +56,3 @@ Distance.contextTypes = {
 };
 
 Distance.displayName = 'Distance';
-export default Distance;

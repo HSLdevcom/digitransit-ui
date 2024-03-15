@@ -24,7 +24,7 @@ const getMostSevereAlert = route => {
   return alerts.sort(alertSeverityCompare)[0];
 };
 
-const DepartureRow = (
+export default function DepartureRow(
   {
     departure,
     departureTime,
@@ -34,7 +34,7 @@ const DepartureRow = (
     ...props
   },
   { config, intl },
-) => {
+) {
   const { trip, trip: { route } = {} } = departure;
   const mode = getRouteMode(route);
 
@@ -257,7 +257,8 @@ const DepartureRow = (
       )}
     </tr>
   );
-};
+}
+
 DepartureRow.propTypes = {
   departure: PropTypes.object.isRequired,
   departureTime: PropTypes.number.isRequired,
@@ -265,12 +266,17 @@ DepartureRow.propTypes = {
   showPlatformCode: PropTypes.bool,
   canceled: PropTypes.bool,
   className: PropTypes.string,
-  // eslint-disable-next-line react/require-default-props
   onCapacityClick: PropTypes.func,
+};
+
+DepartureRow.defaultProps = {
+  showPlatformCode: false,
+  canceled: false,
+  className: '',
+  onCapacityClick: undefined,
 };
 
 DepartureRow.contextTypes = {
   config: PropTypes.object.isRequired,
   intl: intlShape.isRequired,
 };
-export default DepartureRow;
