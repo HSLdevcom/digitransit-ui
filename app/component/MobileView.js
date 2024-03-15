@@ -25,7 +25,7 @@ function slowlyScrollTo(el, to = 0, duration = 1000) {
   animateScroll();
 }
 
-Math.easeInOutQuad = function (a, b, c, d) {
+Math.easeInOutQuad = function easeInOutQuad(a, b, c, d) {
   let t = a;
   t /= d / 2;
   if (t < 1) {
@@ -139,6 +139,16 @@ MobileView.propTypes = {
   selectFromMapHeader: PropTypes.node,
   searchBox: PropTypes.node,
   expandMap: PropTypes.number,
+};
+
+MobileView.defaultProps = {
+  header: undefined,
+  map: undefined,
+  content: undefined,
+  settingsDrawer: undefined,
+  selectFromMapHeader: undefined,
+  searchBox: undefined,
+  expandMap: undefined,
 };
 
 MobileView.contextTypes = {

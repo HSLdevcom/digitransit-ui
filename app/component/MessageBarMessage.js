@@ -1,15 +1,14 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-
 import TruncatedMessage from './TruncatedMessage';
 
-const MessageBarMessage = ({
+export default function MessageBarMessage({
   content,
   textColor,
   truncate,
   onShowMore,
   config,
-}) => {
+}) {
   const heading = (e, color) => {
     if (config.showAlertHeader && e?.type === 'heading') {
       return <h2 style={{ color }}>{e.content}</h2>;
@@ -64,14 +63,21 @@ const MessageBarMessage = ({
       )}
     </div>
   );
-};
+}
 
 MessageBarMessage.propTypes = {
-  content: PropTypes.arrayOf(PropTypes.object),
+  content: PropTypes.arrayOf(PropTypes.object).isRequired,
   textColor: PropTypes.string,
   truncate: PropTypes.bool,
-  onShowMore: PropTypes.func,
+  onShowMore: PropTypes.func.isRequired,
   config: PropTypes.object,
 };
 
-export default MessageBarMessage;
+MessageBarMessage.defaultProps = {
+  textColor: undefined,
+  truncate: false,
+};
+
+MessageBarMessage.contextTypes = {
+  config: PropTypes.object.isRequired,
+};
