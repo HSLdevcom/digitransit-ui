@@ -64,6 +64,15 @@ MenuItem.propTypes = {
   openInNewTab: PropTypes.bool,
 };
 
+MenuItem.defaultProps = {
+  name: undefined,
+  href: undefined,
+  route: undefined,
+  label: undefined,
+  onClick: undefined,
+  openInNewTab: false,
+};
+
 MenuItem.contextTypes = {
   router: routerShape.isRequired,
   intl: intlShape.isRequired,

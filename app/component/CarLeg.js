@@ -119,6 +119,7 @@ CarLeg.propTypes = {
 CarLeg.contextTypes = {
   config: PropTypes.object.isRequired,
   intl: intlShape.isRequired,
+  children: undefined,
 };
 
 export default CarLeg;
