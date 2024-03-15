@@ -11,6 +11,7 @@ describe('<CardHeader />', () => {
       description: 'Ratapihantie',
       headerIcon: <div className="header-icon" />,
       name: 'Pasilan asema',
+      stop: {},
     };
     const wrapper = shallowWithIntl(<CardHeader {...props} />);
     expect(wrapper.find('.header-icon')).to.have.lengthOf(1);
@@ -22,6 +23,7 @@ describe('<CardHeader />', () => {
       name: 'Pasilan asema',
       code: '7528',
       network: 'citybike',
+      stop: {},
     };
     const wrapper = shallowWithIntl(<CardHeader {...props} />);
     const addressRow = wrapper.find(AddressRow);
@@ -37,6 +39,7 @@ describe('<CardHeader />', () => {
       externalLink: (
         <ExternalLink href="http://foo.com/virtualmonitor/HSL:1130181" />
       ),
+      stop: {},
     };
     const wrapper = shallowWithIntl(<CardHeader {...props} />);
     expect(wrapper.find(ExternalLink)).to.have.lengthOf(1);
@@ -50,6 +53,7 @@ describe('<CardHeader />', () => {
       code: '7528',
       network: 'citybike',
       externalLink: null,
+      stop: {},
     };
     const wrapper = shallowWithIntl(<CardHeader {...props} />);
     expect(wrapper.find(ExternalLink)).to.have.lengthOf(0);
