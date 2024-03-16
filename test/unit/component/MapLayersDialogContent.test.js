@@ -50,6 +50,7 @@ describe('<MapLayersDialogContent />', () => {
     };
     const context = {
       config: {
+        CONFIG: 'default',
         vehicles: true,
       },
     };
@@ -86,6 +87,7 @@ describe('<MapLayersDialogContent />', () => {
     };
     const context = {
       config: {
+        CONFIG: 'default',
         transportModes: {
           bus: {
             availableForSelection: true,
@@ -127,6 +129,7 @@ describe('<MapLayersDialogContent />', () => {
     };
     const context = {
       config: {
+        CONFIG: 'default',
         transportModes: {
           tram: {
             availableForSelection: true,
@@ -168,6 +171,7 @@ describe('<MapLayersDialogContent />', () => {
     };
     const context = {
       config: {
+        CONFIG: 'default',
         transportModes: {
           ferry: {
             availableForSelection: true,
@@ -208,6 +212,7 @@ describe('<MapLayersDialogContent />', () => {
     };
     const context = {
       config: {
+        CONFIG: 'default',
         cityBike: {
           networks: {
             foo: {
@@ -255,6 +260,7 @@ describe('<MapLayersDialogContent />', () => {
     };
     const context = {
       config: {
+        CONFIG: 'default',
         parkAndRide: {
           showParkAndRide: true,
         },
@@ -313,6 +319,7 @@ describe('<MapLayersDialogContent />', () => {
     };
     const context = {
       config: {
+        CONFIG: 'default',
         geoJson: {
           layers: [
             {
@@ -353,6 +360,7 @@ describe('<MapLayersDialogContent />', () => {
   describe('getGeoJsonLayersOrDefault', () => {
     it('should return the layers from the configuration', () => {
       const config = {
+        CONFIG: 'default',
         geoJson: {
           layers: [
             {
@@ -369,6 +377,7 @@ describe('<MapLayersDialogContent />', () => {
 
     it('should return the layers from the store', () => {
       const config = {
+        CONFIG: 'default',
         geoJson: {
           layerConfigUrl: 'foobar',
         },
@@ -384,7 +393,7 @@ describe('<MapLayersDialogContent />', () => {
     });
 
     it('should return the defaultValue', () => {
-      const config = {};
+      const config = { CONFIG: 'default' };
       const store = {};
       const defaultValue = [];
       expect(getGeoJsonLayersOrDefault(config, store, defaultValue)).to.equal(

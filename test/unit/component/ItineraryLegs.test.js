@@ -17,7 +17,7 @@ const context = {
       state: {},
     },
   },
-  config: { itinerary: { waitThreshold: 5 } },
+  config: { itinerary: { waitThreshold: 5 }, CONFIG: 'default' },
 };
 
 describe('<ItineraryLegs />', () => {

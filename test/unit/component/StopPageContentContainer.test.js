@@ -22,7 +22,7 @@ describe('<StopPageContentContainer />', () => {
       match: mockMatch,
     };
     const wrapper = shallowWithIntl(<StopPageContentContainer {...props} />, {
-      context: { config: {} },
+      context: { config: { CONFIG: 'default' } },
     });
 
     expect(wrapper.find('.stop-no-departures-container')).to.have.lengthOf(1);

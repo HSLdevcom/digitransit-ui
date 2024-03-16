@@ -16,6 +16,7 @@ describe('<RouteStop />', () => {
     };
     const context = {
       config: {
+        CONFIG: 'default',
         minutesToDepartureLimit: 0,
         zones: { stops: true },
       },
@@ -38,6 +39,7 @@ describe('<RouteStop />', () => {
     };
     const context = {
       config: {
+        CONFIG: 'default',
         minutesToDepartureLimit: 0,
         zones: { stops: true },
       },
@@ -63,6 +65,7 @@ describe('<RouteStop />', () => {
     };
     const context = {
       config: {
+        CONFIG: 'default',
         minutesToDepartureLimit: 0,
         zones: { stops: true },
       },

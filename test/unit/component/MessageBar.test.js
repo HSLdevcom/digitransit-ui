@@ -23,6 +23,7 @@ const defaultProps = {
 const context = {
   ...mockContext,
   config: {
+    CONFIG: 'default',
     messageBarAlerts: true,
   },
 };
@@ -136,6 +137,7 @@ describe('<MessageBar />', () => {
       context: {
         ...context,
         config: {
+          CONFIG: 'default',
           messageBarAlerts: false,
         },
       },

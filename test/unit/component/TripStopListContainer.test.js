@@ -49,7 +49,7 @@ describe('<TripStopListContainer />', () => {
     };
     const wrapper = shallowWithIntl(<TripStopListContainer {...props} />, {
       context: {
-        config: {},
+        config: { CONFIG: 'default' },
       },
     });
     expect(wrapper.find(TripRouteStop)).to.have.lengthOf(2);
@@ -130,7 +130,7 @@ describe('<TripStopListContainer />', () => {
     };
     const wrapper = shallowWithIntl(<TripStopListContainer {...props} />, {
       context: {
-        config: {},
+        config: { CONFIG: 'default' },
       },
     });
     expect(wrapper.find(TripRouteStop).prop('selectedVehicle').id).to.equal(

@@ -6,6 +6,7 @@ import ZoneTicket from '../../app/component/ZoneTicket';
 import { getFaresFromLegs } from '../../app/util/fareUtils';
 
 const defaultConfig = {
+  CONFIG: 'default',
   showTicketInformation: true,
   showTicketPrice: true,
   fareMapping: fareId => fareId.replace('HSL:', ''),

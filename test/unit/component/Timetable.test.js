@@ -57,6 +57,7 @@ describe('<Timetable />', () => {
       context: {
         ...mockContext,
         config: {
+          CONFIG: 'default',
           URL: {},
         },
       },
@@ -73,6 +74,7 @@ describe('<Timetable />', () => {
       context: {
         ...mockContext,
         config: {
+          CONFIG: 'default',
           URL: { STOP_TIMETABLES: { HSL: baseTimetableURL } },
           timetables: { HSL: timetables.default.HSL },
         },
