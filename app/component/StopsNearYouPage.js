@@ -9,7 +9,7 @@ import Modal from '@hsl-fi/modal';
 import DTAutoSuggest from '@digitransit-component/digitransit-component-autosuggest';
 import DTIcon from '@digitransit-component/digitransit-component-icon';
 import distance from '@digitransit-search-util/digitransit-search-util-distance';
-import { dtLocationShape } from '../util/shapes';
+import { DtLocationShape } from '../util/shapes';
 import Icon from './Icon';
 import DesktopView from './DesktopView';
 import MobileView from './MobileView';
@@ -77,7 +77,7 @@ class StopsNearYouPage extends React.Component {
   static propTypes = {
     breakpoint: PropTypes.string.isRequired,
     relayEnvironment: PropTypes.shape({}).isRequired,
-    position: dtLocationShape.isRequired,
+    position: DtLocationShape.isRequired,
     lang: PropTypes.string.isRequired,
     match: matchShape.isRequired,
     favouriteStopIds: PropTypes.arrayOf(PropTypes.string),

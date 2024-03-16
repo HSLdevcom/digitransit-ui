@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import L from 'leaflet';
 import { Marker, Tooltip } from 'react-leaflet';
-import { dtLocationShape } from '../../util/shapes';
+import { DtLocationShape } from '../../util/shapes';
 
 const LocationMarkerWithPermanentTooltip = props => {
   if (props.position && props.text) {
@@ -32,7 +32,7 @@ const LocationMarkerWithPermanentTooltip = props => {
 };
 
 LocationMarkerWithPermanentTooltip.propTypes = {
-  position: dtLocationShape.isRequired,
+  position: DtLocationShape.isRequired,
   text: PropTypes.string.isRequired,
 };
 

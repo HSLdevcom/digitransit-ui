@@ -54,7 +54,7 @@ import {
   getPlanParams,
   hasStartAndDestination,
 } from '../util/planParamUtil';
-import { mapLayerOptionsShape } from '../util/shapes';
+import { MapLayerOptionsShape } from '../util/shapes';
 import { saveFutureRoute } from '../action/FutureRoutesActions';
 import { saveSearch } from '../action/SearchActions';
 import CustomizeSearch from './CustomizeSearch';
@@ -1177,7 +1177,7 @@ ItineraryPage.propTypes = {
   breakpoint: PropTypes.string.isRequired,
   relayEnvironment: PropTypes.object.isRequired,
   mapLayers: mapLayerShape.isRequired,
-  mapLayerOptions: mapLayerOptionsShape.isRequired,
+  mapLayerOptions: MapLayerOptionsShape.isRequired,
 };
 
 ItineraryPage.defaultProps = {

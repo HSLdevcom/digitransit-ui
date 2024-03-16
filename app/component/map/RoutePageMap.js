@@ -14,7 +14,7 @@ import { isActiveDate } from '../../util/patternUtils';
 import { mapLayerShape } from '../../store/MapLayerStore';
 import { boundWithMinimumArea } from '../../util/geo-utils';
 import { getMapLayerOptions } from '../../util/mapLayerUtils';
-import { mapLayerOptionsShape } from '../../util/shapes';
+import { MapLayerOptionsShape } from '../../util/shapes';
 import CookieSettingsButton from '../CookieSettingsButton';
 
 class RoutePageMap extends React.Component {
@@ -32,7 +32,7 @@ class RoutePageMap extends React.Component {
     lon: PropTypes.number,
     breakpoint: PropTypes.string.isRequired,
     mapLayers: mapLayerShape.isRequired,
-    mapLayerOptions: mapLayerOptionsShape.isRequired,
+    mapLayerOptions: MapLayerOptionsShape.isRequired,
     trip: PropTypes.shape({ gtfsId: PropTypes.string }),
     error: PropTypes.object,
   };

@@ -25,8 +25,8 @@ import {
 } from '../../util/sortUtils';
 import ItineraryLine from './ItineraryLine';
 import {
-  dtLocationShape,
-  mapLayerOptionsShape,
+  DtLocationShape,
+  MapLayerOptionsShape,
   RelayShape,
 } from '../../util/shapes';
 import Loading from '../Loading';
@@ -502,8 +502,8 @@ StopsNearYouMap.propTypes = {
   prioritizedStopsNearYou: PropTypes.arrayOf(PropTypes.object),
   favouriteIds: PropTypes.object,
   mapLayers: PropTypes.object.isRequired,
-  mapLayerOptions: mapLayerOptionsShape,
-  position: dtLocationShape.isRequired,
+  mapLayerOptions: MapLayerOptionsShape,
+  position: DtLocationShape.isRequired,
   match: matchShape.isRequired,
   breakpoint: PropTypes.string.isRequired,
   language: PropTypes.string.isRequired,

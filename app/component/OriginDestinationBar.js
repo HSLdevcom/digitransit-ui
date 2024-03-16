@@ -13,7 +13,7 @@ import {
   onLocationPopup,
 } from '../util/queryUtils';
 import { getIntermediatePlaces, locationToOTP } from '../util/otpStrings';
-import { dtLocationShape } from '../util/shapes';
+import { DtLocationShape } from '../util/shapes';
 import { setViaPoints } from '../action/ViaPointActions';
 import { LightenDarkenColor } from '../util/colorUtils';
 import { getRefPoint } from '../util/apiUtils';
@@ -25,13 +25,13 @@ const DTAutosuggestPanelWithSearchContext =
 class OriginDestinationBar extends React.Component {
   static propTypes = {
     className: PropTypes.string,
-    origin: dtLocationShape.isRequired,
-    destination: dtLocationShape.isRequired,
+    origin: DtLocationShape.isRequired,
+    destination: DtLocationShape.isRequired,
     language: PropTypes.string,
     isMobile: PropTypes.bool,
     showFavourites: PropTypes.bool.isRequired,
     viaPoints: PropTypes.arrayOf(PropTypes.object),
-    locationState: dtLocationShape.isRequired,
+    locationState: DtLocationShape.isRequired,
     modeSet: PropTypes.string,
   };
 

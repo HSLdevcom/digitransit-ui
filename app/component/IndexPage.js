@@ -23,7 +23,7 @@ import {
   PREFIX_ITINERARY_SUMMARY,
 } from '../util/path';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
-import { dtLocationShape } from '../util/shapes';
+import { DtLocationShape } from '../util/shapes';
 import withBreakpoint from '../util/withBreakpoint';
 import Geomover from './Geomover';
 import scrollTop from '../util/scroll';
@@ -67,15 +67,15 @@ class IndexPage extends React.Component {
 
   static propTypes = {
     breakpoint: PropTypes.string.isRequired,
-    origin: dtLocationShape.isRequired,
-    destination: dtLocationShape.isRequired,
+    origin: DtLocationShape.isRequired,
+    destination: DtLocationShape.isRequired,
     lang: PropTypes.string,
     currentTime: PropTypes.number.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     query: PropTypes.object.isRequired,
     favouriteModalAction: PropTypes.string,
     fromMap: PropTypes.string,
-    locationState: dtLocationShape.isRequired,
+    locationState: DtLocationShape.isRequired,
   };
 
   static defaultProps = {

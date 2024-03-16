@@ -2,14 +2,14 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { withLeaflet } from 'react-leaflet/es/context';
-import { dtLocationShape } from '../../util/shapes';
+import { DtLocationShape } from '../../util/shapes';
 import { addAnalyticsEvent } from '../../util/analyticsUtils';
 
 class MarkerPopupBottom extends React.Component {
   static displayName = 'MarkerPopupBottom';
 
   static propTypes = {
-    location: dtLocationShape.isRequired,
+    location: DtLocationShape.isRequired,
     leaflet: PropTypes.shape({
       map: PropTypes.shape({
         closePopup: PropTypes.func.isRequired,

@@ -12,7 +12,7 @@ import MapLayerStore, { mapLayerShape } from '../store/MapLayerStore';
 import { updateMapLayers } from '../action/MapLayerActions';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import withGeojsonObjects from './map/withGeojsonObjects';
-import { mapLayerOptionsShape } from '../util/shapes';
+import { MapLayerOptionsShape } from '../util/shapes';
 import { getTransportModes, showCityBikes } from '../util/modeUtils';
 
 const transportModeConfigShape = PropTypes.shape({
@@ -71,7 +71,7 @@ const sendLayerChangeAnalytic = (name, enable) => {
 class MapLayersDialogContent extends React.Component {
   static propTypes = {
     mapLayers: mapLayerShape.isRequired,
-    mapLayerOptions: mapLayerOptionsShape,
+    mapLayerOptions: MapLayerOptionsShape,
     setOpen: PropTypes.func.isRequired,
     updateMapLayers: PropTypes.func.isRequired,
     lang: PropTypes.string.isRequired,

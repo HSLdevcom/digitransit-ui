@@ -5,7 +5,7 @@ import React from 'react';
 import uniqBy from 'lodash/uniqBy';
 import PointFeatureMarker from './PointFeatureMarker';
 import { isBrowser } from '../../util/browser';
-import { geoJsonFeatureShape } from '../../util/shapes';
+import { GeoJsonFeatureShape } from '../../util/shapes';
 import {
   isMultiPointTypeGeometry,
   isPointTypeGeometry,
@@ -99,7 +99,7 @@ class GeoJSON extends React.Component {
   static propTypes = {
     bounds: PropTypes.object,
     data: PropTypes.shape({
-      features: PropTypes.arrayOf(geoJsonFeatureShape),
+      features: PropTypes.arrayOf(GeoJsonFeatureShape),
     }).isRequired,
     geoJsonZoomLevel: PropTypes.number,
     locationPopup: PropTypes.string,

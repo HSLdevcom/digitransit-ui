@@ -13,7 +13,7 @@ import MapLayerStore, { mapLayerShape } from '../../store/MapLayerStore';
 import MapWithTracking from './MapWithTracking';
 import SelectedStopPopup from './popups/SelectedStopPopup';
 import SelectedStopPopupContent from '../SelectedStopPopupContent';
-import { dtLocationShape, mapLayerOptionsShape } from '../../util/shapes';
+import { DtLocationShape, MapLayerOptionsShape } from '../../util/shapes';
 import withBreakpoint from '../../util/withBreakpoint';
 import VehicleMarkerContainer from './VehicleMarkerContainer';
 import BackButton from '../BackButton';
@@ -212,10 +212,10 @@ StopPageMap.propTypes = {
     platformCode: PropTypes.string,
   }),
   breakpoint: PropTypes.string.isRequired,
-  locationState: dtLocationShape.isRequired,
+  locationState: DtLocationShape.isRequired,
   currentTime: PropTypes.number.isRequired,
   mapLayers: mapLayerShape.isRequired,
-  mapLayerOptions: mapLayerOptionsShape.isRequired,
+  mapLayerOptions: MapLayerOptionsShape.isRequired,
 };
 
 StopPageMap.defaultProps = {

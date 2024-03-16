@@ -11,7 +11,7 @@ import {
   PREFIX_TERMINALS,
   LOCAL_STORAGE_EMITTER_PATH,
 } from '../util/path';
-import { dtLocationShape } from '../util/shapes';
+import { DtLocationShape } from '../util/shapes';
 import AppBarContainer from './AppBarContainer';
 import MobileView from './MobileView';
 import DesktopView from './DesktopView';
@@ -34,7 +34,7 @@ class TopLevel extends React.Component {
     title: PropTypes.node,
     meta: PropTypes.node,
     match: matchShape.isRequired,
-    origin: dtLocationShape,
+    origin: DtLocationShape,
     user: PropTypes.object,
     router: routerShape.isRequired,
     selectFromMapHeader: PropTypes.node,

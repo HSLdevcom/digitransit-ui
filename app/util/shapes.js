@@ -22,7 +22,7 @@ export const ChildrenShape = PropTypes.oneOfType([
   PropTypes.node,
 ]);
 
-export const dtLocationShape = PropTypes.shape({
+export const DtLocationShape = PropTypes.shape({
   lat: PropTypes.number,
   lon: PropTypes.number,
   address: PropTypes.string,
@@ -47,7 +47,7 @@ export const FareShape = PropTypes.shape({
   ticketName: PropTypes.string,
 });
 
-export const geoJsonFeatureShape = PropTypes.shape({
+export const GeoJsonFeatureShape = PropTypes.shape({
   id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   geometry: PropTypes.shape({
     coordinates: PropTypes.arrayOf(
@@ -112,39 +112,39 @@ export const LocationStateShape = PropTypes.shape({
   locationingFailed: PropTypes.bool,
 });
 
-const mapLayerOptionShape = PropTypes.shape({
+const MapLayerOptionShape = PropTypes.shape({
   isLocked: PropTypes.bool,
   isSelected: PropTypes.bool,
 });
 
-const mapLayerOptionStopOrTerminalShape = PropTypes.shape({
-  bus: PropTypes.shape(mapLayerOptionShape),
-  rail: PropTypes.shape(mapLayerOptionShape),
-  tram: PropTypes.shape(mapLayerOptionShape),
-  subway: PropTypes.shape(mapLayerOptionShape),
-  ferry: PropTypes.shape(mapLayerOptionShape),
-  funicular: PropTypes.shape(mapLayerOptionShape),
+const MapLayerOptionStopOrTerminalShape = PropTypes.shape({
+  bus: PropTypes.shape(MapLayerOptionShape),
+  rail: PropTypes.shape(MapLayerOptionShape),
+  tram: PropTypes.shape(MapLayerOptionShape),
+  subway: PropTypes.shape(MapLayerOptionShape),
+  ferry: PropTypes.shape(MapLayerOptionShape),
+  funicular: PropTypes.shape(MapLayerOptionShape),
 });
 
-export const mapLayerOptionsShape = PropTypes.shape({
+export const MapLayerOptionsShape = PropTypes.shape({
   parkAndRide: PropTypes.oneOfType([
-    PropTypes.shape(mapLayerOptionShape),
+    PropTypes.shape(MapLayerOptionShape),
     PropTypes.any,
   ]),
   stop: PropTypes.oneOfType([
-    PropTypes.shape(mapLayerOptionStopOrTerminalShape),
+    PropTypes.shape(MapLayerOptionStopOrTerminalShape),
     PropTypes.any,
   ]),
   terminal: PropTypes.oneOfType([
-    PropTypes.shape(mapLayerOptionStopOrTerminalShape),
+    PropTypes.shape(MapLayerOptionStopOrTerminalShape),
     PropTypes.any,
   ]),
   vehicles: PropTypes.oneOfType([
-    PropTypes.shape(mapLayerOptionShape),
+    PropTypes.shape(MapLayerOptionShape),
     PropTypes.any,
   ]),
   citybike: PropTypes.oneOfType([
-    PropTypes.shape(mapLayerOptionShape),
+    PropTypes.shape(MapLayerOptionShape),
     PropTypes.any,
   ]),
 });
@@ -157,7 +157,7 @@ export const PlannerMessageShape = PropTypes.oneOf(
   Object.values(PlannerMessageType),
 );
 
-export const refShape = PropTypes.oneOfType([
+export const RefShape = PropTypes.oneOfType([
   PropTypes.func,
   PropTypes.shape({ current: PropTypes.any }),
 ]);
