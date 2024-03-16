@@ -1,15 +1,15 @@
-import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
 import { intlShape } from 'react-intl';
 import { createFragmentContainer, graphql } from 'react-relay';
 import compose from 'recompose/compose';
 import getContext from 'recompose/getContext';
 import mapProps from 'recompose/mapProps';
+import { ConfigShape } from '../util/shapes';
 
 import { generateMetaData } from '../util/metaUtils';
 
 const RoutePageMeta = compose(
-  getContext({ config: PropTypes.object, intl: intlShape }),
+  getContext({ config: ConfigShape, intl: intlShape }),
   mapProps(({ config, intl, route }) => {
     if (!route) {
       return false;

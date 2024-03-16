@@ -4,6 +4,7 @@ import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import { matchShape } from 'found';
 import connectToStores from 'fluxible-addons-react/connectToStores';
+import { ConfigShape, MapLayerOptionsShape } from '../../util/shapes';
 import MapWithTracking from './MapWithTracking';
 import RouteLine from './route/RouteLine';
 import VehicleMarkerContainer from './VehicleMarkerContainer';
@@ -14,7 +15,6 @@ import { isActiveDate } from '../../util/patternUtils';
 import { mapLayerShape } from '../../store/MapLayerStore';
 import { boundWithMinimumArea } from '../../util/geo-utils';
 import { getMapLayerOptions } from '../../util/mapLayerUtils';
-import { MapLayerOptionsShape } from '../../util/shapes';
 import CookieSettingsButton from '../CookieSettingsButton';
 
 class RoutePageMap extends React.Component {
@@ -45,7 +45,7 @@ class RoutePageMap extends React.Component {
   };
 
   static contextTypes = {
-    config: PropTypes.object.isRequired,
+    config: ConfigShape.isRequired,
   };
 
   // eslint-disable-next-line camelcase

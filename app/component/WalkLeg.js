@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
 import Link from 'found/Link';
+import { ConfigShape, AlertShape } from '../util/shapes';
 import Icon from './Icon';
 import ItineraryMapAction from './ItineraryMapAction';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
@@ -11,7 +12,6 @@ import PlatformNumber from './PlatformNumber';
 import ServiceAlertIcon from './ServiceAlertIcon';
 import { getActiveAlertSeverityLevel } from '../util/alertUtils';
 import { PREFIX_STOPS } from '../util/path';
-import { AlertShape } from '../util/shapes';
 import {
   CityBikeNetworkType,
   getVehicleRentalStationNetworkConfig,
@@ -290,7 +290,7 @@ WalkLeg.defaultProps = {
 };
 
 WalkLeg.contextTypes = {
-  config: PropTypes.object.isRequired,
+  config: ConfigShape.isRequired,
   intl: intlShape.isRequired,
 };
 

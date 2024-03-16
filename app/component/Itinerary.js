@@ -3,6 +3,7 @@ import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
+import { ConfigShape } from '../util/shapes';
 
 import Icon from './Icon';
 import LocalTime from './LocalTime';
@@ -147,7 +148,7 @@ RouteLeg.propTypes = {
 };
 
 RouteLeg.contextTypes = {
-  config: PropTypes.object.isRequired,
+  config: ConfigShape.isRequired,
 };
 
 RouteLeg.defaultProps = {
@@ -215,7 +216,7 @@ ModeLeg.defaultProps = {
 };
 
 ModeLeg.contextTypes = {
-  config: PropTypes.object.isRequired,
+  config: ConfigShape.isRequired,
 };
 
 export const ViaLeg = () => (
@@ -938,7 +939,7 @@ Itinerary.defaultProps = {
 
 Itinerary.contextTypes = {
   intl: intlShape.isRequired,
-  config: PropTypes.object.isRequired,
+  config: ConfigShape.isRequired,
 };
 
 Itinerary.displayName = 'Itinerary';

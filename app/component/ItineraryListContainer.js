@@ -10,6 +10,7 @@ import {
 import { matchShape, routerShape } from 'found';
 import getContext from 'recompose/getContext';
 import { intlShape, FormattedMessage } from 'react-intl';
+import { ConfigShape, ItineraryShape, ChildrenShape } from '../util/shapes';
 import Icon from './Icon';
 import ItineraryList from './ItineraryList';
 import TimeStore from '../store/TimeStore';
@@ -21,7 +22,6 @@ import { addAnalyticsEvent } from '../util/analyticsUtils';
 import { isIOS, isSafari } from '../util/browser';
 import ItineraryNotification from './ItineraryNotification';
 import { transitItineraries } from './ItineraryPageUtils';
-import { ItineraryShape, ChildrenShape } from '../util/shapes';
 
 class ItineraryListContainer extends React.Component {
   static propTypes = {
@@ -265,7 +265,7 @@ class ItineraryListContainer extends React.Component {
 }
 
 const withConfig = getContext({
-  config: PropTypes.object.isRequired,
+  config: ConfigShape.isRequired,
 })(
   withBreakpoint(props => (
     <ReactRelayContext.Consumer>

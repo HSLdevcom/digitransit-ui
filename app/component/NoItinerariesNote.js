@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { matchShape } from 'found';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import {
+  ConfigShape,
   ErrorShape,
   RoutingErrorShape,
   LocationStateShape,
@@ -105,7 +106,7 @@ NoItinerariesNote.defaultProps = {
 };
 
 NoItinerariesNote.contextTypes = {
-  config: PropTypes.object.isRequired,
+  config: ConfigShape.isRequired,
   match: matchShape.isRequired,
 };
 

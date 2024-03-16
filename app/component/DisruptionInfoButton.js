@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import { FormattedMessage } from 'react-intl';
+import { ConfigShape } from '../util/shapes';
 import Icon from './Icon';
 
 function DisruptionInfoButton(props, { config }) {
@@ -42,7 +43,7 @@ DisruptionInfoButton.defaultProps = {
 };
 
 DisruptionInfoButton.contextTypes = {
-  config: PropTypes.object.isRequired,
+  config: ConfigShape.isRequired,
 };
 
 export default createFragmentContainer(DisruptionInfoButton, {

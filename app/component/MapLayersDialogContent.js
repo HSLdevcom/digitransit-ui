@@ -4,6 +4,7 @@ import React, { Fragment } from 'react';
 import { intlShape } from 'react-intl';
 import { matchShape, routerShape } from 'found';
 import connectToStores from 'fluxible-addons-react/connectToStores';
+import { ConfigShape, MapLayerOptionsShape } from '../util/shapes';
 import { isKeyboardSelectionEvent } from '../util/browser';
 import Icon from './Icon';
 import Checkbox from './Checkbox';
@@ -12,7 +13,6 @@ import MapLayerStore, { mapLayerShape } from '../store/MapLayerStore';
 import { updateMapLayers } from '../action/MapLayerActions';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import withGeojsonObjects from './map/withGeojsonObjects';
-import { MapLayerOptionsShape } from '../util/shapes';
 import { getTransportModes, showCityBikes } from '../util/modeUtils';
 
 const transportModeConfigShape = PropTypes.shape({
@@ -273,7 +273,7 @@ class MapLayersDialogContent extends React.Component {
   }
 }
 MapLayersDialogContent.contextTypes = {
-  config: PropTypes.object.isRequired,
+  config: ConfigShape.isRequired,
   intl: intlShape.isRequired,
   router: routerShape.isRequired,
   match: matchShape.isRequired,

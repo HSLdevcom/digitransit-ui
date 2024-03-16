@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import { FormattedMessage } from 'react-intl';
 import Link from 'found/Link';
+import { ConfigShape } from '../util/shapes';
 import Icon from './Icon';
 
 const Error404 = (props, { config }) => {
@@ -50,7 +51,7 @@ const Error404 = (props, { config }) => {
 };
 
 Error404.contextTypes = {
-  config: PropTypes.object.isRequired,
+  config: ConfigShape.isRequired,
 };
 
 Error404.propTypes = {

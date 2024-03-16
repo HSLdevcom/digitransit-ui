@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import { intlShape, FormattedMessage } from 'react-intl';
+import { ConfigShape } from '../util/shapes';
 import Icon from './Icon';
 import DepartureRow from './DepartureRow';
 import { isBrowser } from '../util/browser';
@@ -421,7 +422,7 @@ class DepartureListContainer extends Component {
 DepartureListContainer.contextTypes = {
   executeAction: PropTypes.func.isRequired,
   getStore: PropTypes.func.isRequired,
-  config: PropTypes.object.isRequired,
+  config: ConfigShape.isRequired,
   intl: intlShape.isRequired,
 };
 

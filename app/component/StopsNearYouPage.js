@@ -9,7 +9,7 @@ import Modal from '@hsl-fi/modal';
 import DTAutoSuggest from '@digitransit-component/digitransit-component-autosuggest';
 import DTIcon from '@digitransit-component/digitransit-component-icon';
 import distance from '@digitransit-search-util/digitransit-search-util-distance';
-import { DtLocationShape } from '../util/shapes';
+import { ConfigShape, DtLocationShape } from '../util/shapes';
 import Icon from './Icon';
 import DesktopView from './DesktopView';
 import MobileView from './MobileView';
@@ -66,7 +66,7 @@ const DTAutoSuggestWithSearchContext = withSearchContext(DTAutoSuggest);
 class StopsNearYouPage extends React.Component {
   // eslint-disable-line
   static contextTypes = {
-    config: PropTypes.object.isRequired,
+    config: ConfigShape.isRequired,
     executeAction: PropTypes.func.isRequired,
     headers: PropTypes.object.isRequired,
     getStore: PropTypes.func,
@@ -1014,7 +1014,7 @@ const PositioningWrapper = connectToStores(
 
 PositioningWrapper.contextTypes = {
   getStore: PropTypes.func.isRequired,
-  config: PropTypes.object.isRequired,
+  config: ConfigShape.isRequired,
 };
 
 export {

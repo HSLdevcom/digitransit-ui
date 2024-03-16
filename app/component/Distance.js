@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 import { FormattedMessage, intlShape } from 'react-intl';
+import { ConfigShape } from '../util/shapes';
 import Icon from './Icon';
 import { durationToString } from '../util/timeUtils';
 import { displayDistance } from '../util/geo-utils';
@@ -51,7 +52,7 @@ Distance.propTypes = {
 Distance.defaultProps = { className: '', icon: undefined };
 
 Distance.contextTypes = {
-  config: PropTypes.object.isRequired,
+  config: ConfigShape.isRequired,
   intl: intlShape.isRequired,
 };
 

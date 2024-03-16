@@ -4,6 +4,7 @@ import { routerShape } from 'found';
 import { pure } from 'recompose';
 import DTAutoSuggest from '@digitransit-component/digitransit-component-autosuggest';
 import { filterSearchResultsByMode } from '@digitransit-search-util/digitransit-search-util-query-utils';
+import { ConfigShape } from '../util/shapes';
 import withSearchContext from './WithSearchContext';
 import { getStopRoutePath } from '../util/path';
 
@@ -74,7 +75,7 @@ StopsNearYouSearch.defaultProps = {
 
 StopsNearYouSearch.contextTypes = {
   router: routerShape.isRequired,
-  config: PropTypes.object.isRequired,
+  config: ConfigShape.isRequired,
 };
 
 export default pure(StopsNearYouSearch);

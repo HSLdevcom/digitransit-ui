@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { ConfigShape } from '../util/shapes';
 import TruncatedMessage from './TruncatedMessage';
 
 export default function MessageBarMessage(
@@ -75,5 +76,5 @@ MessageBarMessage.defaultProps = {
 };
 
 MessageBarMessage.contextTypes = {
-  config: PropTypes.object.isRequired,
+  config: ConfigShape.isRequired,
 };

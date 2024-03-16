@@ -3,6 +3,7 @@ import React from 'react';
 import moment from 'moment';
 import Link from 'found/Link';
 import { FormattedMessage } from 'react-intl';
+import { ConfigShape } from '../util/shapes';
 import Icon from './Icon';
 import { durationToString } from '../util/timeUtils';
 import ItineraryMapAction from './ItineraryMapAction';
@@ -105,7 +106,7 @@ WaitLeg.defaultProps = {
 };
 
 WaitLeg.contextTypes = {
-  config: PropTypes.object.isRequired,
+  config: ConfigShape.isRequired,
 };
 
 export default WaitLeg;

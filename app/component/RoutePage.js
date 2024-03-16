@@ -5,6 +5,7 @@ import { createFragmentContainer, graphql } from 'react-relay';
 import { FormattedMessage, intlShape } from 'react-intl';
 import cx from 'classnames';
 import { matchShape, routerShape, RedirectException } from 'found';
+import { ConfigShape, ErrorShape } from '../util/shapes';
 import Icon from './Icon';
 
 import Loading from './Loading';
@@ -17,7 +18,6 @@ import BackButton from './BackButton';
 import { isBrowser } from '../util/browser';
 import LazilyLoad, { importLazy } from './LazilyLoad';
 import { getRouteMode } from '../util/modeUtils';
-import { ErrorShape } from '../util/shapes';
 import AlertBanner from './AlertBanner';
 import {
   hasEntitiesOfType,
@@ -37,7 +37,7 @@ class RoutePage extends React.Component {
     getStore: PropTypes.func.isRequired,
     executeAction: PropTypes.func.isRequired,
     intl: intlShape.isRequired,
-    config: PropTypes.object.isRequired,
+    config: ConfigShape.isRequired,
   };
 
   static propTypes = {

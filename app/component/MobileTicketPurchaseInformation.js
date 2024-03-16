@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape, FormattedMessage } from 'react-intl';
+import { ConfigShape, FareShape } from '../util/shapes';
 
 import { renderZoneTicket } from './ZoneTicket';
 import { getAlternativeFares } from '../util/fareUtils';
-import { FareShape } from '../util/shapes';
 import ExternalLink from './ExternalLink';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 
@@ -85,7 +85,7 @@ MobileTicketPurchaseInformation.defaultProps = {
 };
 
 MobileTicketPurchaseInformation.contextTypes = {
-  config: PropTypes.object,
+  config: ConfigShape,
   intl: intlShape.isRequired,
 };
 

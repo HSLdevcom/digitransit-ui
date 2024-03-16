@@ -4,6 +4,7 @@ import { matchShape, routerShape, RedirectException } from 'found';
 import { intlShape } from 'react-intl';
 import moment from 'moment-timezone';
 import connectToStores from 'fluxible-addons-react/connectToStores';
+import { ConfigShape } from '../util/shapes';
 import ParkOrStationHeader from './ParkOrStationHeader';
 import Icon from './Icon';
 import { PREFIX_BIKEPARK, PREFIX_CARPARK } from '../util/path';
@@ -261,7 +262,7 @@ ParkAndRideContent.defaultProps = {
 };
 
 ParkAndRideContent.contextTypes = {
-  config: PropTypes.object.isRequired,
+  config: ConfigShape.isRequired,
   intl: intlShape.isRequired,
 };
 

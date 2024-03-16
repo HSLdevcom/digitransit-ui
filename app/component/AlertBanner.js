@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'found';
 import TruncateMarkup from 'react-truncate-markup';
+import { ConfigShape } from '../util/shapes';
 import Icon from './Icon';
 import { alertSeverityCompare } from '../util/alertUtils';
 
@@ -48,6 +49,6 @@ AlertBanner.propTypes = {
   linkAddress: PropTypes.string.isRequired,
 };
 AlertBanner.contextTypes = {
-  config: PropTypes.object.isRequired,
+  config: ConfigShape.isRequired,
 };
 export default AlertBanner;

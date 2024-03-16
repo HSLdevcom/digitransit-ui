@@ -2,11 +2,11 @@ import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import cx from 'classnames';
 import { intlShape } from 'react-intl';
+import { ConfigShape, AlertShape } from '../util/shapes';
 
 import Icon from './Icon';
 import TruncatedMessage from './TruncatedMessage';
 import { mapAlertSource } from '../util/alertUtils';
-import { AlertShape } from '../util/shapes';
 
 const DisruptionBannerAlert = (
   { language, alert, openAllAlerts, truncate, onClose },
@@ -118,7 +118,7 @@ DisruptionBannerAlert.defaultProps = {
 
 DisruptionBannerAlert.contextTypes = {
   intl: intlShape.isRequired,
-  config: PropTypes.object.isRequired,
+  config: ConfigShape.isRequired,
 };
 
 export default DisruptionBannerAlert;

@@ -10,6 +10,7 @@ import DTAutosuggestPanel from '@digitransit-component/digitransit-component-aut
 import { getModesWithAlerts } from '@digitransit-search-util/digitransit-search-util-query-utils';
 import { createUrl } from '@digitransit-store/digitransit-store-future-route';
 import moment from 'moment';
+import { ConfigShape, DtLocationShape } from '../util/shapes';
 import storeOrigin from '../action/originActions';
 import storeDestination from '../action/destinationActions';
 import withSearchContext from './WithSearchContext';
@@ -23,7 +24,6 @@ import {
   PREFIX_ITINERARY_SUMMARY,
 } from '../util/path';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
-import { DtLocationShape } from '../util/shapes';
 import withBreakpoint from '../util/withBreakpoint';
 import Geomover from './Geomover';
 import scrollTop from '../util/scroll';
@@ -62,7 +62,7 @@ class IndexPage extends React.Component {
     getStore: PropTypes.func.isRequired,
     router: routerShape.isRequired,
     match: matchShape.isRequired,
-    config: PropTypes.object.isRequired,
+    config: ConfigShape.isRequired,
   };
 
   static propTypes = {
@@ -526,7 +526,7 @@ const IndexPageWithStores = connectToStores(
 IndexPageWithStores.contextTypes = {
   ...IndexPageWithStores.contextTypes,
   executeAction: PropTypes.func.isRequired,
-  config: PropTypes.object.isRequired,
+  config: ConfigShape.isRequired,
 };
 
 const GeoIndexPage = Geomover(IndexPageWithStores);

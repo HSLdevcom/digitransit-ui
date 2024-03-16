@@ -4,7 +4,7 @@ import { createPaginationContainer, graphql } from 'react-relay';
 import { intlShape, FormattedMessage } from 'react-intl';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { matchShape } from 'found';
-import { RelayShape } from '../util/shapes';
+import { ConfigShape, RelayShape } from '../util/shapes';
 import StopNearYouContainer from './StopNearYouContainer';
 import withBreakpoint from '../util/withBreakpoint';
 import { sortNearbyRentalStations, sortNearbyStops } from '../util/sortUtils';
@@ -37,7 +37,7 @@ class StopsNearYouContainer extends React.Component {
   };
 
   static contextTypes = {
-    config: PropTypes.object,
+    config: ConfigShape,
     intl: intlShape.isRequired,
     executeAction: PropTypes.func.isRequired,
     headers: PropTypes.object.isRequired,

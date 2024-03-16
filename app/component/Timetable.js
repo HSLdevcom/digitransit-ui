@@ -8,6 +8,7 @@ import padStart from 'lodash/padStart';
 import { FormattedMessage, intlShape } from 'react-intl';
 import { matchShape, routerShape, RedirectException } from 'found';
 import cx from 'classnames';
+import { ConfigShape } from '../util/shapes';
 import Icon from './Icon';
 import FilterTimeTableModal from './FilterTimeTableModal';
 import TimeTableOptionsPanel from './TimeTableOptionsPanel';
@@ -97,7 +98,7 @@ class Timetable extends React.Component {
   static contextTypes = {
     router: routerShape.isRequired,
     match: matchShape.isRequired,
-    config: PropTypes.object.isRequired,
+    config: ConfigShape.isRequired,
     intl: intlShape.isRequired,
   };
 

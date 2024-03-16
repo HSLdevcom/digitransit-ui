@@ -3,6 +3,7 @@ import cx from 'classnames';
 import React from 'react';
 import moment from 'moment';
 import { FormattedMessage, intlShape } from 'react-intl';
+import { ConfigShape } from '../util/shapes';
 import { displayDistance } from '../util/geo-utils';
 import { durationToString } from '../util/timeUtils';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
@@ -95,7 +96,7 @@ const BikeParkLeg = (
   );
 };
 BikeParkLeg.contextTypes = {
-  config: PropTypes.object.isRequired,
+  config: ConfigShape.isRequired,
   intl: intlShape.isRequired,
 };
 

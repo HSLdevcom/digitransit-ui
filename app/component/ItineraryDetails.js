@@ -6,6 +6,7 @@ import { matchShape, routerShape } from 'found';
 import { FormattedMessage, intlShape } from 'react-intl';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import get from 'lodash/get';
+import { ConfigShape, FareShape } from '../util/shapes';
 import TicketInformation from './TicketInformation';
 import RouteInformation from './RouteInformation';
 import ItinerarySummary from './ItinerarySummary';
@@ -38,7 +39,6 @@ import {
   isTomorrow,
 } from '../util/timeUtils';
 import VehicleRentalDurationInfo from './VehicleRentalDurationInfo';
-import { FareShape } from '../util/shapes';
 import Emissions from './Emissions';
 import EmissionsInfo from './EmissionsInfo';
 import FareDisclaimer from './FareDisclaimer';
@@ -97,7 +97,7 @@ class ItineraryDetails extends React.Component {
   };
 
   static contextTypes = {
-    config: PropTypes.object.isRequired,
+    config: ConfigShape.isRequired,
     router: routerShape.isRequired,
     match: matchShape.isRequired,
     intl: intlShape.isRequired,

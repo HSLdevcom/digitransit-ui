@@ -2,6 +2,7 @@ import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
+import { ConfigShape } from '../util/shapes';
 
 const ZoneIcon = ({ className, zoneId, showUnknown }, { config, intl }) => {
   if (!zoneId) {
@@ -73,7 +74,7 @@ ZoneIcon.defaultProps = {
 
 ZoneIcon.contextTypes = {
   intl: intlShape.isRequired,
-  config: PropTypes.object.isRequired,
+  config: ConfigShape.isRequired,
 };
 
 export default ZoneIcon;

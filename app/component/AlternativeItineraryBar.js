@@ -2,6 +2,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
+import { ConfigShape } from '../util/shapes';
 import StreetModeSelectorButton from './StreetModeSelectorButton';
 import StreetModeSelectorWeather from './StreetModeSelectorWeather';
 import StreetModeSelectorShimmer from './StreetModeSelectorShimmer';
@@ -111,5 +112,5 @@ AlternativeItineraryBar.defaultProps = {
 };
 
 AlternativeItineraryBar.contextTypes = {
-  config: PropTypes.object,
+  config: ConfigShape,
 };

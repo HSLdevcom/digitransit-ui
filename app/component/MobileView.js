@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { useRef, useLayoutEffect, useState } from 'react';
+import { ConfigShape } from '../util/shapes';
 import MapBottomsheetContext from './map/MapBottomsheetContext';
 import MobileFooter from './MobileFooter';
 
@@ -152,5 +153,5 @@ MobileView.defaultProps = {
 };
 
 MobileView.contextTypes = {
-  config: PropTypes.object.isRequired,
+  config: ConfigShape.isRequired,
 };

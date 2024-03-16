@@ -9,6 +9,7 @@ import { matchShape, routerShape } from 'found';
 import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
 import polyline from 'polyline-encoded';
+import { ConfigShape, MapLayerOptionsShape } from '../util/shapes';
 import DesktopView from './DesktopView';
 import MobileView from './MobileView';
 import ItineraryPageMap from './map/ItineraryPageMap';
@@ -54,7 +55,6 @@ import {
   getPlanParams,
   hasStartAndDestination,
 } from '../util/planParamUtil';
-import { MapLayerOptionsShape } from '../util/shapes';
 import { saveFutureRoute } from '../action/FutureRoutesActions';
 import { saveSearch } from '../action/SearchActions';
 import CustomizeSearch from './CustomizeSearch';
@@ -1159,7 +1159,7 @@ export default function ItineraryPage(props, context) {
 }
 
 ItineraryPage.contextTypes = {
-  config: PropTypes.object,
+  config: ConfigShape,
   executeAction: PropTypes.func.isRequired,
   headers: PropTypes.object.isRequired,
   getStore: PropTypes.func,

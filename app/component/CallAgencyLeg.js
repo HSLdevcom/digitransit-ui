@@ -3,6 +3,7 @@ import React from 'react';
 import Link from 'found/Link';
 import moment from 'moment';
 import { FormattedMessage } from 'react-intl';
+import { ConfigShape } from '../util/shapes';
 
 import Icon from './Icon';
 import StopCode from './StopCode';
@@ -107,7 +108,7 @@ CallAgencyLeg.propTypes = {
 };
 
 CallAgencyLeg.contextTypes = {
-  config: PropTypes.object.isRequired,
+  config: ConfigShape.isRequired,
 };
 
 export default CallAgencyLeg;

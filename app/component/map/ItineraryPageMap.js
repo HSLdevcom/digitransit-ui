@@ -2,6 +2,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { matchShape, routerShape } from 'found';
+import { ConfigShape } from '../../util/shapes';
 import LocationMarker from './LocationMarker';
 import ItineraryLine from './ItineraryLine';
 import MapWithTracking from './MapWithTracking';
@@ -130,7 +131,7 @@ ItineraryPageMap.defaultProps = {
 ItineraryPageMap.contextTypes = {
   match: matchShape.isRequired,
   router: routerShape.isRequired,
-  config: PropTypes.object,
+  config: ConfigShape,
   executeAction: PropTypes.func.isRequired,
 };
 

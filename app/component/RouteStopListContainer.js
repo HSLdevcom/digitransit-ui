@@ -8,10 +8,10 @@ import values from 'lodash/values';
 import cx from 'classnames';
 import { FormattedMessage } from 'react-intl';
 import moment from 'moment';
+import { ConfigShape, RelayShape, VehicleShape } from '../util/shapes';
 import RouteStop from './RouteStop';
 import withBreakpoint from '../util/withBreakpoint';
 import { getRouteMode } from '../util/modeUtils';
-import { RelayShape, VehicleShape } from '../util/shapes';
 
 class RouteStopListContainer extends React.PureComponent {
   static propTypes = {
@@ -40,7 +40,7 @@ class RouteStopListContainer extends React.PureComponent {
   };
 
   static contextTypes = {
-    config: PropTypes.object.isRequired,
+    config: ConfigShape.isRequired,
     match: matchShape.isRequired,
   };
 

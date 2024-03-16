@@ -4,6 +4,7 @@ import React from 'react';
 import { intlShape, FormattedMessage } from 'react-intl';
 
 import cx from 'classnames';
+import { ConfigShape } from '../../util/shapes';
 import { saveRoutingSettings } from '../../action/SearchSettingsActions';
 import Toggle from './Toggle';
 import Icon from '../Icon';
@@ -89,7 +90,7 @@ const TransportModesSection = (
 };
 
 TransportModesSection.propTypes = {
-  config: PropTypes.object.isRequired,
+  config: ConfigShape.isRequired,
 };
 
 TransportModesSection.contextTypes = {

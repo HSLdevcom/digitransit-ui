@@ -4,12 +4,12 @@ import { createFragmentContainer, graphql } from 'react-relay';
 import { FormattedMessage } from 'react-intl';
 import cx from 'classnames';
 import { matchShape } from 'found';
+import { ConfigShape, LocationShape } from '../util/shapes';
 import Icon from './Icon';
 import Itinerary from './Itinerary';
 import { isBrowser } from '../util/browser';
 import { getExtendedMode, getZones } from '../util/legUtils';
 import ItineraryListHeader from './ItineraryListHeader';
-import { LocationShape } from '../util/shapes';
 import Loading from './Loading';
 import RoutingFeedbackPrompt from './RoutingFeedbackPrompt';
 import { streetHash } from '../util/path';
@@ -192,7 +192,7 @@ ItineraryList.defaultProps = {
 };
 
 ItineraryList.contextTypes = {
-  config: PropTypes.object.isRequired,
+  config: ConfigShape.isRequired,
   match: matchShape.isRequired,
 };
 

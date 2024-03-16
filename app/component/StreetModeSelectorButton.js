@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
+import { ConfigShape, PlanShape } from '../util/shapes';
 import Icon from './Icon';
 import { displayDistance } from '../util/geo-utils';
 import { durationToString } from '../util/timeUtils';
@@ -12,7 +13,6 @@ import {
   getExtendedMode,
 } from '../util/legUtils';
 import { streetHash } from '../util/path';
-import { PlanShape } from '../util/shapes';
 
 export default function StreetModeSelectorButton(
   { icon, name, plan, onClick },
@@ -150,5 +150,5 @@ StreetModeSelectorButton.propTypes = {
 
 StreetModeSelectorButton.contextTypes = {
   intl: intlShape.isRequired,
-  config: PropTypes.object.isRequired,
+  config: ConfigShape.isRequired,
 };

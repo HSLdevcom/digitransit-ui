@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { intlShape } from 'react-intl';
 import { graphql, fetchQuery, ReactRelayContext } from 'react-relay';
-import { RelayShape } from '../util/shapes';
+import { ConfigShape, RelayShape } from '../util/shapes';
 import SwipeableTabs from './SwipeableTabs';
 import Icon from './Icon';
 import MessageBarMessage from './MessageBarMessage';
@@ -85,7 +85,7 @@ class MessageBar extends Component {
     getStore: PropTypes.func.isRequired,
     intl: intlShape.isRequired,
     executeAction: PropTypes.func.isRequired,
-    config: PropTypes.object.isRequired,
+    config: ConfigShape.isRequired,
   };
 
   static propTypes = {

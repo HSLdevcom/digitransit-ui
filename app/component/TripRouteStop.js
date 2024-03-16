@@ -3,6 +3,7 @@ import React from 'react';
 import Link from 'found/Link';
 import cx from 'classnames';
 import isEmpty from 'lodash/isEmpty';
+import { ConfigShape, VehicleShape } from '../util/shapes';
 import TripLink from './TripLink';
 import FuzzyTripLink from './FuzzyTripLink';
 import AddressRow from './AddressRow';
@@ -14,7 +15,6 @@ import { estimateItineraryDistance } from '../util/geo-utils';
 import ZoneIcon from './ZoneIcon';
 import { getZoneLabel } from '../util/legUtils';
 import getVehicleState from '../util/vehicleStateUtils';
-import { VehicleShape } from '../util/shapes';
 
 const TripRouteStop = (props, { config }) => {
   const {
@@ -237,7 +237,7 @@ TripRouteStop.defaultProps = {
 };
 
 TripRouteStop.contextTypes = {
-  config: PropTypes.object.isRequired,
+  config: ConfigShape.isRequired,
 };
 
 TripRouteStop.displayName = 'TripRouteStop';

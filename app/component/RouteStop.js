@@ -3,6 +3,7 @@ import React from 'react';
 import Link from 'found/Link';
 import { FormattedMessage, intlShape } from 'react-intl';
 import cx from 'classnames';
+import { ConfigShape, VehicleShape } from '../util/shapes';
 import AddressRow from './AddressRow';
 import TripLink from './TripLink';
 import FuzzyTripLink from './FuzzyTripLink';
@@ -16,7 +17,6 @@ import { getZoneLabel } from '../util/legUtils';
 import { estimateItineraryDistance } from '../util/geo-utils';
 import getVehicleState from '../util/vehicleStateUtils';
 import Icon from './Icon';
-import { VehicleShape } from '../util/shapes';
 
 const RouteStop = (
   {
@@ -346,7 +346,7 @@ RouteStop.defaultProps = {
 
 RouteStop.contextTypes = {
   intl: intlShape.isRequired,
-  config: PropTypes.object.isRequired,
+  config: ConfigShape.isRequired,
 };
 
 export default RouteStop;

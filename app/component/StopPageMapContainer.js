@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
+import { ConfigShape } from '../util/shapes';
 import StopPageMap from './map/StopPageMap';
 
 function StopPageMapContainer({ stop }) {
@@ -12,7 +13,7 @@ function StopPageMapContainer({ stop }) {
 }
 
 StopPageMapContainer.contextTypes = {
-  config: PropTypes.object.isRequired,
+  config: ConfigShape.isRequired,
 };
 
 StopPageMapContainer.propTypes = {

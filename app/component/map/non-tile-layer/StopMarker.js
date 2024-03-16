@@ -3,6 +3,7 @@ import React from 'react';
 import cx from 'classnames';
 
 import { routerShape } from 'found';
+import { ConfigShape } from '../../../util/shapes';
 import GenericMarker from '../GenericMarker';
 import Icon from '../../Icon';
 import {
@@ -46,7 +47,7 @@ class StopMarker extends React.Component {
 
   static contextTypes = {
     getStore: PropTypes.func.isRequired,
-    config: PropTypes.object.isRequired,
+    config: ConfigShape.isRequired,
     router: routerShape.isRequired,
   };
 

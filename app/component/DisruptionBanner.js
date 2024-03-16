@@ -3,11 +3,11 @@ import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import isEmpty from 'lodash/isEmpty';
+import { ConfigShape, AlertShape } from '../util/shapes';
 import { isAlertValid } from '../util/alertUtils';
 import DisruptionBannerAlert from './DisruptionBannerAlert';
 import SwipeableTabs from './SwipeableTabs';
 import withBreakpoint from '../util/withBreakpoint';
-import { AlertShape } from '../util/shapes';
 import { AlertEntityType } from '../constants';
 
 class DisruptionBanner extends React.Component {
@@ -29,7 +29,7 @@ class DisruptionBanner extends React.Component {
   };
 
   static contextTypes = {
-    config: PropTypes.object.isRequired,
+    config: ConfigShape.isRequired,
   };
 
   openAllAlerts = () => {

@@ -6,6 +6,11 @@ import { connectToStores } from 'fluxible-addons-react';
 import distance from '@digitransit-search-util/digitransit-search-util-distance';
 import { graphql, fetchQuery } from 'react-relay';
 import ReactRelayContext from 'react-relay/lib/ReactRelayContext';
+import {
+  ConfigShape,
+  DtLocationShape,
+  MapLayerOptionsShape,
+} from '../../util/shapes';
 import { getSettings } from '../../util/planParamUtil';
 import TimeStore from '../../store/TimeStore';
 import PositionStore from '../../store/PositionStore';
@@ -13,7 +18,6 @@ import MapLayerStore, { mapLayerShape } from '../../store/MapLayerStore';
 import MapWithTracking from './MapWithTracking';
 import SelectedStopPopup from './popups/SelectedStopPopup';
 import SelectedStopPopupContent from '../SelectedStopPopupContent';
-import { DtLocationShape, MapLayerOptionsShape } from '../../util/shapes';
 import withBreakpoint from '../../util/withBreakpoint';
 import VehicleMarkerContainer from './VehicleMarkerContainer';
 import BackButton from '../BackButton';
@@ -199,7 +203,7 @@ function StopPageMap(
 }
 
 StopPageMap.contextTypes = {
-  config: PropTypes.object.isRequired,
+  config: ConfigShape.isRequired,
   match: matchShape.isRequired,
   router: routerShape.isRequired,
   getStore: PropTypes.func.isRequired,
@@ -250,7 +254,7 @@ const StopPageMapWithStores = connectToStores(
     };
   },
   {
-    config: PropTypes.object,
+    config: ConfigShape,
   },
 );
 

@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { ConfigShape } from '../util/shapes';
 import VehicleRentalAvailability from './VehicleRentalAvailability';
 import Icon from './Icon';
 import {
@@ -52,7 +53,7 @@ const VehicleRentalStation = ({ vehicleRentalStation }, { config }) => {
 };
 
 VehicleRentalStation.contextTypes = {
-  config: PropTypes.object.isRequired,
+  config: ConfigShape.isRequired,
 };
 VehicleRentalStation.propTypes = {
   vehicleRentalStation: PropTypes.shape({

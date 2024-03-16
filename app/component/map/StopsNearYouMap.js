@@ -28,6 +28,7 @@ import {
   DtLocationShape,
   MapLayerOptionsShape,
   RelayShape,
+  ConfigShape,
 } from '../../util/shapes';
 import Loading from '../Loading';
 import LazilyLoad, { importLazy } from '../LazilyLoad';
@@ -526,7 +527,7 @@ StopsNearYouMap.defaultProps = {
 };
 
 StopsNearYouMap.contextTypes = {
-  config: PropTypes.object,
+  config: ConfigShape,
   executeAction: PropTypes.func,
   getStore: PropTypes.func,
 };

@@ -8,6 +8,7 @@ import isEqual from 'lodash/isEqual';
 import cloneDeep from 'lodash/cloneDeep';
 import isEmpty from 'lodash/isEmpty';
 import { intlShape } from 'react-intl';
+import { MapLayerOptionsShape, ConfigShape } from '../../util/shapes';
 import { startLocationWatch } from '../../action/PositionActions';
 import MapContainer from './MapContainer';
 import ToggleMapTracking from '../ToggleMapTracking';
@@ -20,7 +21,6 @@ import PreferencesStore from '../../store/PreferencesStore';
 import MapLayersDialogContent from '../MapLayersDialogContent';
 import MenuDrawer from '../MenuDrawer';
 import withBreakpoint from '../../util/withBreakpoint';
-import { MapLayerOptionsShape } from '../../util/shapes';
 
 const onlyUpdateCoordChanges = onlyUpdateForKeys([
   'lat',
@@ -394,7 +394,7 @@ MapWithTrackingStateHandler.contextTypes = {
   executeAction: PropTypes.func,
   getStore: PropTypes.func,
   intl: intlShape.isRequired,
-  config: PropTypes.object.isRequired,
+  config: ConfigShape.isRequired,
 };
 
 const MapWithTrackingStateHandlerapWithBreakpoint = withBreakpoint(
@@ -402,7 +402,7 @@ const MapWithTrackingStateHandlerapWithBreakpoint = withBreakpoint(
 );
 
 const MapWithTracking = connectToStores(
-  getContext({ config: PropTypes.object })(
+  getContext({ config: ConfigShape })(
     MapWithTrackingStateHandlerapWithBreakpoint,
   ),
   [PositionStore, PreferencesStore],

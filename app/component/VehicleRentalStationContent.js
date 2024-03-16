@@ -4,6 +4,7 @@ import { createFragmentContainer, graphql } from 'react-relay';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { FormattedMessage } from 'react-intl';
 import { routerShape, RedirectException } from 'found';
+import { ConfigShape } from '../util/shapes';
 
 import VehicleRentalStation from './VehicleRentalStation';
 import ParkOrStationHeader from './ParkOrStationHeader';
@@ -120,7 +121,7 @@ VehicleRentalStationContent.defaultProps = {
 };
 
 VehicleRentalStationContent.contextTypes = {
-  config: PropTypes.object.isRequired,
+  config: ConfigShape.isRequired,
 };
 
 const VehicleRentalStationContentWithBreakpoint = withBreakpoint(

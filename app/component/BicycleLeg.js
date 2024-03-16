@@ -4,6 +4,7 @@ import moment from 'moment';
 import { FormattedMessage, intlShape } from 'react-intl';
 import cx from 'classnames';
 import Link from 'found/Link';
+import { ConfigShape } from '../util/shapes';
 import Icon from './Icon';
 import ItineraryMapAction from './ItineraryMapAction';
 import { displayDistance } from '../util/geo-utils';
@@ -354,6 +355,6 @@ BicycleLeg.defaultProps = {
 };
 
 BicycleLeg.contextTypes = {
-  config: PropTypes.object.isRequired,
+  config: ConfigShape.isRequired,
   intl: intlShape.isRequired,
 };
