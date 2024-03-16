@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { intlShape } from 'react-intl';
 import { graphql, fetchQuery, ReactRelayContext } from 'react-relay';
-import RelayShape from '../prop-types/RelayShape';
+import { RelayShape } from '../util/shapes';
 import SwipeableTabs from './SwipeableTabs';
 import Icon from './Icon';
 import MessageBarMessage from './MessageBarMessage';

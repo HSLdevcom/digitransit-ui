@@ -5,7 +5,7 @@ import moment from 'moment';
 import { matchShape, routerShape } from 'found';
 import { prepareServiceDay } from '../util/dateParamUtils';
 import TimetableContainer from './TimetableContainer';
-import RelayShape from '../prop-types/RelayShape';
+import { RelayShape } from '../util/shapes';
 
 const initialDate = moment().format('YYYYMMDD');
 

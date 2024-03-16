@@ -17,7 +17,7 @@ import BackButton from './BackButton';
 import { isBrowser } from '../util/browser';
 import LazilyLoad, { importLazy } from './LazilyLoad';
 import { getRouteMode } from '../util/modeUtils';
-import ErrorShape from '../prop-types/ErrorShape';
+import { ErrorShape } from '../util/shapes';
 import AlertBanner from './AlertBanner';
 import {
   hasEntitiesOfType,

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import cx from 'classnames';
-import ChildrenShape from '../prop-types/ChildrenShape';
+import { ChildrenShape } from '../util/shapes';
 import Icon from './Icon';
 
 export const ICON_CAUTION = 'icon-icon_caution';

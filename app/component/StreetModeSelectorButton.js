@@ -12,7 +12,7 @@ import {
   getExtendedMode,
 } from '../util/legUtils';
 import { streetHash } from '../util/path';
-import PlanShape from '../prop-types/PlanShape';
+import { PlanShape } from '../util/shapes';
 
 export default function StreetModeSelectorButton(
   { icon, name, plan, onClick },

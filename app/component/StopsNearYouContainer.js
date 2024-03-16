@@ -4,7 +4,7 @@ import { createPaginationContainer, graphql } from 'react-relay';
 import { intlShape, FormattedMessage } from 'react-intl';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { matchShape } from 'found';
-import RelayShape from '../prop-types/RelayShape';
+import { RelayShape } from '../util/shapes';
 import StopNearYouContainer from './StopNearYouContainer';
 import withBreakpoint from '../util/withBreakpoint';
 import { sortNearbyRentalStations, sortNearbyStops } from '../util/sortUtils';

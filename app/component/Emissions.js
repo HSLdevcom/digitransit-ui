@@ -3,7 +3,7 @@ import React from 'react';
 import cx from 'classnames';
 import { FormattedMessage } from 'react-intl';
 import Icon from './Icon';
-import ItineraryShape from '../prop-types/ItineraryShape';
+import { ItineraryShape } from '../util/shapes';
 import getCo2Value from '../util/emissions';
 
 export default function Emissions({

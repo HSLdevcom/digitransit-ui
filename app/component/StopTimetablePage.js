@@ -2,10 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { createRefetchContainer, graphql } from 'react-relay';
 import moment from 'moment';
-
 import { matchShape, routerShape } from 'found';
 import { prepareServiceDay } from '../util/dateParamUtils';
-import RelayShape from '../prop-types/RelayShape';
+import { RelayShape } from '../util/shapes';
 import TimetableContainer from './TimetableContainer';
 
 const initialDate = moment().format('YYYYMMDD');

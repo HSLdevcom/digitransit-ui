@@ -9,7 +9,7 @@ import { PREFIX_BIKESTATIONS } from '../util/path';
 import { isKeyboardSelectionEvent } from '../util/browser';
 import { hasStationCode } from '../util/vehicleRentalUtils';
 import { getIdWithoutFeed } from '../util/feedScopedIdUtils';
-import RelayShape from '../prop-types/RelayShape';
+import { RelayShape } from '../util/shapes';
 
 const VehicleRentalStationNearYou = ({
   stop,

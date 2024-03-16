@@ -9,7 +9,6 @@ import {
 } from 'react-relay';
 import { matchShape, routerShape } from 'found';
 import getContext from 'recompose/getContext';
-
 import { intlShape, FormattedMessage } from 'react-intl';
 import Icon from './Icon';
 import ItineraryList from './ItineraryList';
@@ -22,8 +21,7 @@ import { addAnalyticsEvent } from '../util/analyticsUtils';
 import { isIOS, isSafari } from '../util/browser';
 import ItineraryNotification from './ItineraryNotification';
 import { transitItineraries } from './ItineraryPageUtils';
-import ItineraryShape from '../prop-types/ItineraryShape';
-import ChildrenShape from '../prop-types/ChildrenShape';
+import { ItineraryShape, ChildrenShape } from '../util/shapes';
 
 class ItineraryListContainer extends React.Component {
   static propTypes = {

@@ -10,8 +10,7 @@ import Icon from './Icon';
 import ScrollableWrapper from './ScrollableWrapper';
 import { isBrowser } from '../util/browser';
 import { PREFIX_STOPS } from '../util/path';
-import ErrorShape from '../prop-types/ErrorShape';
-import RelayShape from '../prop-types/RelayShape';
+import { ErrorShape, RelayShape } from '../util/shapes';
 
 class StopPageContent extends React.Component {
   static propTypes = {

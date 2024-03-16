@@ -24,13 +24,16 @@ import {
   sortNearbyStops,
 } from '../../util/sortUtils';
 import ItineraryLine from './ItineraryLine';
-import { dtLocationShape, mapLayerOptionsShape } from '../../util/shapes';
+import {
+  dtLocationShape,
+  mapLayerOptionsShape,
+  RelayShape,
+} from '../../util/shapes';
 import Loading from '../Loading';
 import LazilyLoad, { importLazy } from '../LazilyLoad';
 import { getDefaultNetworks } from '../../util/vehicleRentalUtils';
 import { getRouteMode } from '../../util/modeUtils';
 import CookieSettingsButton from '../CookieSettingsButton';
-import RelayShape from '../../prop-types/RelayShape';
 
 const locationMarkerModules = {
   LocationMarker: () =>

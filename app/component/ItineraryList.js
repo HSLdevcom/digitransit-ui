@@ -9,7 +9,7 @@ import Itinerary from './Itinerary';
 import { isBrowser } from '../util/browser';
 import { getExtendedMode, getZones } from '../util/legUtils';
 import ItineraryListHeader from './ItineraryListHeader';
-import LocationShape from '../prop-types/LocationShape';
+import { LocationShape } from '../util/shapes';
 import Loading from './Loading';
 import RoutingFeedbackPrompt from './RoutingFeedbackPrompt';
 import { streetHash } from '../util/path';

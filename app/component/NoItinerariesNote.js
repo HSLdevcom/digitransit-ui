@@ -2,10 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { matchShape } from 'found';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-import LocationStateShape from '../prop-types/LocationStateShape';
-import LocationShape from '../prop-types/LocationShape';
-import ErrorShape from '../prop-types/ErrorShape';
-import RoutingErrorShape from '../prop-types/RoutingErrorShape';
+import {
+  ErrorShape,
+  RoutingErrorShape,
+  LocationStateShape,
+  LocationShape,
+} from '../util/shapes';
 import ErrorCard from './ErrorCard';
 import findErrorMessageIds from './findErrorMessageIds';
 import errorCardProps from './errorCardProperties';

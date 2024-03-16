@@ -1,9 +1,25 @@
 /* eslint-disable import/prefer-default-export */
 import PropTypes from 'prop-types';
+import { PlannerMessageType } from '../constants';
 
-export const refShape = PropTypes.oneOfType([
-  PropTypes.func,
-  PropTypes.shape({ current: PropTypes.any }),
+export const AlertShape = PropTypes.shape({
+  alertDescriptionText: PropTypes.string,
+  effectiveEndDate: PropTypes.number,
+  effectiveStartDate: PropTypes.number,
+  alertHash: PropTypes.number,
+  alertHeaderText: PropTypes.string,
+  alertSeverityLevel: PropTypes.string,
+  alertUrl: PropTypes.string,
+  entities: PropTypes.arrayOf(
+    PropTypes.shape({
+      __typename: PropTypes.string.isRequired,
+    }),
+  ),
+});
+
+export const ChildrenShape = PropTypes.oneOfType([
+  PropTypes.arrayOf(PropTypes.node),
+  PropTypes.node,
 ]);
 
 export const dtLocationShape = PropTypes.shape({
@@ -12,6 +28,88 @@ export const dtLocationShape = PropTypes.shape({
   address: PropTypes.string,
   type: PropTypes.string,
   name: PropTypes.string,
+});
+
+export const ErrorShape = PropTypes.oneOfType([
+  PropTypes.string,
+  PropTypes.shape({ message: PropTypes.string }),
+]);
+
+export const FareShape = PropTypes.shape({
+  agency: PropTypes.shape({
+    fareUrl: PropTypes.string,
+    name: PropTypes.string,
+  }),
+  fareId: PropTypes.string,
+  cents: PropTypes.number,
+  isUnknown: PropTypes.bool,
+  routeName: PropTypes.string,
+  ticketName: PropTypes.string,
+});
+
+export const geoJsonFeatureShape = PropTypes.shape({
+  id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  geometry: PropTypes.shape({
+    coordinates: PropTypes.arrayOf(
+      PropTypes.oneOfType([
+        PropTypes.number,
+        PropTypes.arrayOf(
+          PropTypes.oneOfType([
+            PropTypes.arrayOf(PropTypes.number),
+            PropTypes.number,
+          ]),
+        ),
+      ]),
+    ).isRequired,
+    type: PropTypes.string.isRequired,
+  }).isRequired,
+  properties: PropTypes.object,
+});
+
+export const ItineraryShape = PropTypes.shape({
+  startTime: PropTypes.number,
+  endTime: PropTypes.number,
+  duration: PropTypes.number,
+  walkDistance: PropTypes.number,
+  legs: PropTypes.arrayOf(PropTypes.object),
+  emissionsPerPerson: PropTypes.shape({
+    co2: PropTypes.number,
+  }),
+});
+
+export const LocationShape = PropTypes.shape({
+  lat: PropTypes.number,
+  lon: PropTypes.number,
+  address: PropTypes.string,
+});
+
+const StatusPropType = PropTypes.oneOf([
+  'no-location',
+  'searching-location',
+  'prompt',
+  'found-location',
+  'found-address',
+  'geolocation-denied',
+  'geolocation-timeout',
+  'geolocation-watch-timeout',
+  'geolocation-not-supported',
+  'reverse-geocoding-ready',
+  'reverse-geocoding-in-progress',
+]);
+
+export const LocationStateShape = PropTypes.shape({
+  type: PropTypes.string.isRequired,
+  lat: PropTypes.number,
+  lon: PropTypes.number,
+  address: PropTypes.string,
+  gid: PropTypes.string,
+  name: PropTypes.string,
+  layer: PropTypes.string,
+  status: StatusPropType,
+  hasLocation: PropTypes.bool,
+  isLocationingInProgress: PropTypes.bool,
+  isReverseGeocodingInProgress: PropTypes.bool,
+  locationingFailed: PropTypes.bool,
 });
 
 const mapLayerOptionShape = PropTypes.shape({
@@ -51,31 +149,25 @@ export const mapLayerOptionsShape = PropTypes.shape({
   ]),
 });
 
-export const FareShape = PropTypes.shape({
-  agency: PropTypes.shape({
-    fareUrl: PropTypes.string,
-    name: PropTypes.string,
-  }),
-  fareId: PropTypes.string,
-  cents: PropTypes.number,
-  isUnknown: PropTypes.bool,
-  routeName: PropTypes.string,
-  ticketName: PropTypes.string,
+export const PlanShape = PropTypes.shape({
+  itineraries: PropTypes.arrayOf(ItineraryShape).isRequired,
 });
 
-export const AlertShape = PropTypes.shape({
-  alertDescriptionText: PropTypes.string,
-  effectiveEndDate: PropTypes.number,
-  effectiveStartDate: PropTypes.number,
-  alertHash: PropTypes.number,
-  alertHeaderText: PropTypes.string,
-  alertSeverityLevel: PropTypes.string,
-  alertUrl: PropTypes.string,
-  entities: PropTypes.arrayOf(
-    PropTypes.shape({
-      __typename: PropTypes.string.isRequired,
-    }),
-  ),
+export const PlannerMessageShape = PropTypes.oneOf(
+  Object.values(PlannerMessageType),
+);
+
+export const refShape = PropTypes.oneOfType([
+  PropTypes.func,
+  PropTypes.shape({ current: PropTypes.any }),
+]);
+
+export const RelayShape = PropTypes.shape({
+  refetchConnection: PropTypes.func,
+  refetch: PropTypes.func,
+  hasMore: PropTypes.func,
+  loadMore: PropTypes.func,
+  environment: PropTypes.object.isRequired,
 });
 
 export const RouteShape = PropTypes.shape({
@@ -86,6 +178,21 @@ export const RouteShape = PropTypes.shape({
   color: PropTypes.string,
   type: PropTypes.number,
   alerts: PropTypes.arrayOf(AlertShape),
+});
+
+const ROUTER_ERROR_CODES = Object.values(PlannerMessageType);
+
+export const RoutingErrorShape = PropTypes.shape({
+  code: PropTypes.oneOf(ROUTER_ERROR_CODES),
+  inputField: PropTypes.oneOf(['DATE_TIME', 'TO', 'FROM']),
+});
+
+export const StopShape = PropTypes.shape({
+  gtfsId: PropTypes.string.isRequired,
+  name: PropTypes.string,
+  code: PropTypes.string,
+  lat: PropTypes.number,
+  lon: PropTypes.number,
 });
 
 export const VehicleShape = PropTypes.shape({
@@ -103,23 +210,4 @@ export const VehicleShape = PropTypes.shape({
   color: PropTypes.string,
   heading: PropTypes.number,
   headsign: PropTypes.string,
-});
-
-export const geoJsonFeatureShape = PropTypes.shape({
-  id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  geometry: PropTypes.shape({
-    coordinates: PropTypes.arrayOf(
-      PropTypes.oneOfType([
-        PropTypes.number,
-        PropTypes.arrayOf(
-          PropTypes.oneOfType([
-            PropTypes.arrayOf(PropTypes.number),
-            PropTypes.number,
-          ]),
-        ),
-      ]),
-    ).isRequired,
-    type: PropTypes.string.isRequired,
-  }).isRequired,
-  properties: PropTypes.object,
 });
