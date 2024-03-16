@@ -134,7 +134,7 @@ function getPolyfills(userAgent, config) {
 const ContextProvider = provideContext(IntlProvider, {
   config: ConfigShape,
   url: PropTypes.string,
-  headers: PropTypes.object,
+  headers: PropTypes.objectOf(PropTypes.string),
 });
 
 const isRobotRequest = agent =>

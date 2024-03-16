@@ -21,11 +21,9 @@ import OfflinePlugin from 'offline-plugin/runtime';
 import { Helmet } from 'react-helmet';
 import { Environment, RecordSource, Store } from 'relay-runtime';
 import { ReactRelayContext } from 'react-relay';
-
 import { setRelayEnvironment } from '@digitransit-search-util/digitransit-search-util-query-utils';
-
+import { ConfigShape } from './util/shapes';
 import { historyMiddlewares, render } from './routes';
-
 import Raven from './util/Raven';
 import configureMoment from './util/configure-moment';
 import StoreListeningIntlProvider from './util/StoreListeningIntlProvider';
@@ -231,9 +229,10 @@ async function init() {
   });
 
   const ContextProvider = provideContext(StoreListeningIntlProvider, {
+    /* eslint-disable-next-line */
     raven: PropTypes.object,
-    config: PropTypes.object,
-    headers: PropTypes.object,
+    config: ConfigShape,
+    headers: PropTypes.objectOf(PropTypes.string),
   });
 
   const root = document.getElementById('app');
