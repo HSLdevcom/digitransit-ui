@@ -22,6 +22,10 @@ export const ChildrenShape = PropTypes.oneOfType([
   PropTypes.node,
 ]);
 
+export const ConfigShape = PropTypes.shape({
+  CONFIG: PropTypes.string.isRequired,
+});
+
 export const DtLocationShape = PropTypes.shape({
   lat: PropTypes.number,
   lon: PropTypes.number,
