@@ -2,7 +2,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { ConfigShape, PlanShape } from '../util/shapes';
+import { configShape, planShape } from '../util/shapes';
 import StreetModeSelectorButton from './StreetModeSelectorButton';
 import StreetModeSelectorWeather from './StreetModeSelectorWeather';
 import StreetModeSelectorShimmer from './StreetModeSelectorShimmer';
@@ -88,11 +88,11 @@ export default function AlternativeItineraryBar(
 AlternativeItineraryBar.propTypes = {
   selectStreetMode: PropTypes.func.isRequired,
   setStreetModeAndSelect: PropTypes.func.isRequired,
-  walkPlan: PlanShape,
-  bikePlan: PlanShape,
-  bikeTransitPlan: PlanShape,
-  parkRidePlan: PlanShape,
-  carPlan: PlanShape,
+  walkPlan: planShape,
+  bikePlan: planShape,
+  bikeTransitPlan: planShape,
+  parkRidePlan: planShape,
+  carPlan: planShape,
   weatherData: PropTypes.shape({
     temperature: PropTypes.number,
     windSpeed: PropTypes.number,
@@ -112,5 +112,5 @@ AlternativeItineraryBar.defaultProps = {
 };
 
 AlternativeItineraryBar.contextTypes = {
-  config: ConfigShape,
+  config: configShape,
 };

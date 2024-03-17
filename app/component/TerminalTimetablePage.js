@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { createRefetchContainer, graphql } from 'react-relay';
 import moment from 'moment';
 import { matchShape, routerShape } from 'found';
-import { ConfigShape, RelayShape } from '../util/shapes';
+import { configShape, relayShape } from '../util/shapes';
 import { prepareServiceDay } from '../util/dateParamUtils';
 import TimetableContainer from './TimetableContainer';
 
@@ -14,13 +14,13 @@ class TerminalTimetablePage extends React.Component {
     station: PropTypes.shape({
       url: PropTypes.string,
     }).isRequired,
-    relay: RelayShape.isRequired,
+    relay: relayShape.isRequired,
   };
 
   static contextTypes = {
     router: routerShape.isRequired,
     match: matchShape.isRequired,
-    config: ConfigShape.isRequired,
+    config: configShape.isRequired,
   };
 
   state = prepareServiceDay({});

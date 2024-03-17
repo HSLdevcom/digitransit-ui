@@ -4,7 +4,7 @@ import { intlShape } from 'react-intl';
 import getJson from '@digitransit-search-util/digitransit-search-util-get-json';
 import suggestionToLocation from '@digitransit-search-util/digitransit-search-util-suggestion-to-location';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-import { ConfigShape } from '../util/shapes';
+import { configShape } from '../util/shapes';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import {
   PREFIX_ITINERARY_SUMMARY,
@@ -31,7 +31,7 @@ export default function withSearchContext(
 ) {
   class ComponentWithSearchContext extends React.Component {
     static contextTypes = {
-      config: ConfigShape.isRequired,
+      config: configShape.isRequired,
       intl: intlShape.isRequired,
       executeAction: PropTypes.func.isRequired,
       getStore: PropTypes.func.isRequired,

@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import { matchShape } from 'found';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import {
-  ConfigShape,
-  ErrorShape,
-  RoutingErrorShape,
-  LocationStateShape,
-  LocationShape,
+  configShape,
+  errorShape,
+  RoutingerrorShape,
+  locationStateShape,
+  locationShape,
 } from '../util/shapes';
 import ErrorCard from './ErrorCard';
 import findErrorMessageIds from './findErrorMessageIds';
@@ -84,16 +84,16 @@ function NoItinerariesNote(
 }
 
 NoItinerariesNote.propTypes = {
-  from: LocationShape.isRequired,
-  to: LocationShape.isRequired,
-  locationState: LocationStateShape,
+  from: locationShape.isRequired,
+  to: locationShape.isRequired,
+  locationState: locationStateShape,
   searchTime: PropTypes.number.isRequired,
   walking: PropTypes.bool,
   biking: PropTypes.bool,
   driving: PropTypes.bool,
   currentTime: PropTypes.number.isRequired,
-  error: ErrorShape,
-  routingErrors: PropTypes.arrayOf(RoutingErrorShape),
+  error: errorShape,
+  routingErrors: PropTypes.arrayOf(RoutingerrorShape),
 };
 
 NoItinerariesNote.defaultProps = {
@@ -106,7 +106,7 @@ NoItinerariesNote.defaultProps = {
 };
 
 NoItinerariesNote.contextTypes = {
-  config: ConfigShape.isRequired,
+  config: configShape.isRequired,
   match: matchShape.isRequired,
 };
 

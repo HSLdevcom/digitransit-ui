@@ -5,7 +5,7 @@ import { matchShape } from 'found';
 import { intlShape } from 'react-intl';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import getLabel from '@digitransit-search-util/digitransit-search-util-get-label';
-import { ConfigShape } from '../../util/shapes';
+import { configShape } from '../../util/shapes';
 import LocationMarker from './LocationMarker';
 import MapWithTracking from './MapWithTracking';
 import { otpToLocation } from '../../util/otpStrings';
@@ -57,7 +57,7 @@ const markLocation = (markerType, position) => {
 class SelectFromMap extends React.Component {
   static contextTypes = {
     match: matchShape,
-    config: ConfigShape,
+    config: configShape,
     intl: intlShape,
   };
 

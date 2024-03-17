@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { routerShape, matchShape } from 'found';
 import { intlShape } from 'react-intl';
-import { ConfigShape } from '../util/shapes';
+import { configShape } from '../util/shapes';
 import Icon from './Icon';
 
 export default class BackButton extends React.Component {
@@ -10,7 +10,7 @@ export default class BackButton extends React.Component {
     intl: intlShape.isRequired,
     router: routerShape,
     match: matchShape,
-    config: ConfigShape,
+    config: configShape,
   };
 
   static propTypes = {

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { matchShape, routerShape } from 'found';
 import { FormattedMessage } from 'react-intl';
-import { ConfigShape } from '../util/shapes';
+import { configShape } from '../util/shapes';
 import OriginDestinationBar from './OriginDestinationBar';
 import SearchSettings from './SearchSettings';
 import { isBrowser } from '../util/browser';
@@ -27,7 +27,7 @@ class ItineraryPageControls extends React.Component {
   };
 
   static contextTypes = {
-    config: ConfigShape.isRequired,
+    config: configShape.isRequired,
     router: routerShape,
     match: matchShape.isRequired,
   };

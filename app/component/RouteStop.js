@@ -3,7 +3,7 @@ import React from 'react';
 import Link from 'found/Link';
 import { FormattedMessage, intlShape } from 'react-intl';
 import cx from 'classnames';
-import { AlertShape, ConfigShape, VehicleShape } from '../util/shapes';
+import { alertShape, configShape, vehicleShape } from '../util/shapes';
 import AddressRow from './AddressRow';
 import TripLink from './TripLink';
 import FuzzyTripLink from './FuzzyTripLink';
@@ -286,7 +286,7 @@ const RouteStop = (
 
 RouteStop.propTypes = {
   color: PropTypes.string,
-  vehicle: VehicleShape,
+  vehicle: vehicleShape,
   stop: PropTypes.shape({
     code: PropTypes.string,
     name: PropTypes.string,
@@ -295,7 +295,7 @@ RouteStop.propTypes = {
     zoneId: PropTypes.string,
     scheduledDeparture: PropTypes.number,
     platformCode: PropTypes.string,
-    alerts: PropTypes.arrayOf(AlertShape),
+    alerts: PropTypes.arrayOf(alertShape),
     stopTimesForPattern: PropTypes.arrayOf(
       PropTypes.shape({
         realtimeDeparture: PropTypes.number,
@@ -340,7 +340,7 @@ RouteStop.defaultProps = {
 
 RouteStop.contextTypes = {
   intl: intlShape.isRequired,
-  config: ConfigShape.isRequired,
+  config: configShape.isRequired,
 };
 
 export default RouteStop;

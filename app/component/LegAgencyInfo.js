@@ -3,7 +3,7 @@ import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import get from 'lodash/get';
 import { intlShape } from 'react-intl';
-import { ConfigShape } from '../util/shapes';
+import { configShape } from '../util/shapes';
 import AgencyInfo from './AgencyInfo';
 
 function LegAgencyInfo({ leg }, { config }) {
@@ -22,7 +22,7 @@ function LegAgencyInfo({ leg }, { config }) {
 
 LegAgencyInfo.contextTypes = {
   intl: intlShape.isRequired,
-  config: ConfigShape.isRequired,
+  config: configShape.isRequired,
 };
 
 LegAgencyInfo.propTypes = { leg: PropTypes.object.isRequired };

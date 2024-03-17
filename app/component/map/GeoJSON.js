@@ -4,7 +4,7 @@ import React from 'react';
 import uniqBy from 'lodash/uniqBy';
 import PointFeatureMarker from './PointFeatureMarker';
 import { isBrowser } from '../../util/browser';
-import { ConfigShape, GeoJsonFeatureShape } from '../../util/shapes';
+import { configShape, geoJsonFeatureShape } from '../../util/shapes';
 import {
   isMultiPointTypeGeometry,
   isPointTypeGeometry,
@@ -98,7 +98,7 @@ class GeoJSON extends React.Component {
   static propTypes = {
     bounds: PropTypes.object,
     data: PropTypes.shape({
-      features: PropTypes.arrayOf(GeoJsonFeatureShape),
+      features: PropTypes.arrayOf(geoJsonFeatureShape),
     }).isRequired,
     geoJsonZoomLevel: PropTypes.number,
     locationPopup: PropTypes.string,
@@ -112,7 +112,7 @@ class GeoJSON extends React.Component {
     onSelectLocation: undefined,
   };
 
-  static contextTypes = { config: ConfigShape.isRequired };
+  static contextTypes = { config: configShape.isRequired };
 
   // add some custom rendering control by feature props
   pointToLayer = (feature, latlng) => getMarker(feature, latlng, this.icons);

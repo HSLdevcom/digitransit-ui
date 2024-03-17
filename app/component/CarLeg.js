@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
 import { FormattedMessage, intlShape } from 'react-intl';
-import { ConfigShape } from '../util/shapes';
+import { configShape } from '../util/shapes';
 import Icon from './Icon';
 import ItineraryMapAction from './ItineraryMapAction';
 import { displayDistance } from '../util/geo-utils';
@@ -120,6 +120,6 @@ CarLeg.propTypes = {
 CarLeg.defaultProps = { children: undefined };
 
 CarLeg.contextTypes = {
-  config: ConfigShape.isRequired,
+  config: configShape.isRequired,
   intl: intlShape.isRequired,
 };

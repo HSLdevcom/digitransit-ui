@@ -8,7 +8,7 @@ import sortBy from 'lodash/sortBy';
 import { matchShape, routerShape } from 'found';
 import { enrichPatterns } from '@digitransit-util/digitransit-util';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-import { ConfigShape } from '../util/shapes';
+import { configShape } from '../util/shapes';
 import CallAgencyWarning from './CallAgencyWarning';
 import RoutePatternSelect from './RoutePatternSelect';
 import RouteNotification from './RouteNotification';
@@ -61,7 +61,7 @@ class RoutePageControlPanel extends React.Component {
     executeAction: PropTypes.func.isRequired,
     intl: intlShape.isRequired,
     router: routerShape.isRequired,
-    config: ConfigShape.isRequired,
+    config: configShape.isRequired,
   };
 
   static propTypes = {

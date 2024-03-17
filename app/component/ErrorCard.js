@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import cx from 'classnames';
-import { ChildrenShape } from '../util/shapes';
+import { childrenShape } from '../util/shapes';
 import Icon from './Icon';
 
 export const ICON_CAUTION = 'icon-icon_caution';
@@ -60,7 +60,7 @@ ErrorCard.propTypes = {
   titleId: PropTypes.string,
   iconImg: PropTypes.string,
   iconType: PropTypes.string,
-  children: ChildrenShape,
+  children: childrenShape,
 };
 
 ErrorCard.defaultProps = {

@@ -7,9 +7,9 @@ import distance from '@digitransit-search-util/digitransit-search-util-distance'
 import { graphql, fetchQuery } from 'react-relay';
 import ReactRelayContext from 'react-relay/lib/ReactRelayContext';
 import {
-  ConfigShape,
-  DtLocationShape,
-  MapLayerOptionsShape,
+  configShape,
+  dtlocationShape,
+  mapLayerOptionsShape,
 } from '../../util/shapes';
 import { getSettings } from '../../util/planParamUtil';
 import TimeStore from '../../store/TimeStore';
@@ -203,7 +203,7 @@ function StopPageMap(
 }
 
 StopPageMap.contextTypes = {
-  config: ConfigShape.isRequired,
+  config: configShape.isRequired,
   match: matchShape.isRequired,
   router: routerShape.isRequired,
   getStore: PropTypes.func.isRequired,
@@ -216,10 +216,10 @@ StopPageMap.propTypes = {
     platformCode: PropTypes.string,
   }),
   breakpoint: PropTypes.string.isRequired,
-  locationState: DtLocationShape.isRequired,
+  locationState: dtlocationShape.isRequired,
   currentTime: PropTypes.number.isRequired,
   mapLayers: mapLayerShape.isRequired,
-  mapLayerOptions: MapLayerOptionsShape.isRequired,
+  mapLayerOptions: mapLayerOptionsShape.isRequired,
 };
 
 StopPageMap.defaultProps = {
@@ -254,7 +254,7 @@ const StopPageMapWithStores = connectToStores(
     };
   },
   {
-    config: ConfigShape,
+    config: configShape,
   },
 );
 

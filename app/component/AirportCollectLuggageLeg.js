@@ -3,7 +3,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import moment from 'moment';
 import { Link } from 'found';
-import { ConfigShape } from '../util/shapes';
+import { configShape } from '../util/shapes';
 import Icon from './Icon';
 import ItineraryCircleLine from './ItineraryCircleLine';
 import ItineraryMapAction from './ItineraryMapAction';
@@ -78,7 +78,7 @@ AirportCollectLuggageLeg.defaultProps = {
 };
 
 AirportCollectLuggageLeg.contextTypes = {
-  config: ConfigShape.isRequired,
+  config: configShape.isRequired,
 };
 
 export default AirportCollectLuggageLeg;

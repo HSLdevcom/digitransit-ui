@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
 import { FormattedMessage, intlShape } from 'react-intl';
-import { ConfigShape } from '../util/shapes';
+import { configShape } from '../util/shapes';
 import { displayDistance } from '../util/geo-utils';
 import { durationToString } from '../util/timeUtils';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
@@ -171,7 +171,7 @@ ViaLeg.defaultProps = {
 };
 
 ViaLeg.contextTypes = {
-  config: ConfigShape.isRequired,
+  config: configShape.isRequired,
   intl: intlShape.isRequired,
 };
 

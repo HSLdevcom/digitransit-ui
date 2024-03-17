@@ -6,7 +6,7 @@ import moment from 'moment';
 import { intlShape } from 'react-intl';
 import { v4 as uuid } from 'uuid';
 import { Link } from 'found';
-import { ConfigShape } from '../util/shapes';
+import { configShape } from '../util/shapes';
 import LocalTime from './LocalTime';
 import { getHeadsignFromRouteLongName } from '../util/legUtils';
 import {
@@ -278,6 +278,6 @@ DepartureRow.defaultProps = {
 };
 
 DepartureRow.contextTypes = {
-  config: ConfigShape.isRequired,
+  config: configShape.isRequired,
   intl: intlShape.isRequired,
 };

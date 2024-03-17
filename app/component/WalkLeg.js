@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
 import Link from 'found/Link';
-import { ConfigShape, AlertShape } from '../util/shapes';
+import { configShape, alertShape } from '../util/shapes';
 import Icon from './Icon';
 import ItineraryMapAction from './ItineraryMapAction';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
@@ -245,7 +245,7 @@ const walkLegShape = PropTypes.shape({
   from: PropTypes.shape({
     name: PropTypes.string.isRequired,
     stop: PropTypes.shape({
-      alerts: PropTypes.arrayOf(AlertShape),
+      alerts: PropTypes.arrayOf(alertShape),
       code: PropTypes.string,
       gtfsId: PropTypes.string.isRequired,
       platformCode: PropTypes.string,
@@ -258,7 +258,7 @@ const walkLegShape = PropTypes.shape({
   to: PropTypes.shape({
     name: PropTypes.string.isRequired,
     stop: PropTypes.shape({
-      alerts: PropTypes.arrayOf(AlertShape),
+      alerts: PropTypes.arrayOf(alertShape),
       code: PropTypes.string,
       gtfsId: PropTypes.string.isRequired,
       platformCode: PropTypes.string,
@@ -290,7 +290,7 @@ WalkLeg.defaultProps = {
 };
 
 WalkLeg.contextTypes = {
-  config: ConfigShape.isRequired,
+  config: configShape.isRequired,
   intl: intlShape.isRequired,
 };
 

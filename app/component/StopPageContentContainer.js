@@ -4,7 +4,7 @@ import { createRefetchContainer, graphql } from 'react-relay';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { FormattedMessage, intlShape } from 'react-intl';
 import { matchShape, routerShape, RedirectException } from 'found';
-import { ConfigShape, ErrorShape, RelayShape } from '../util/shapes';
+import { configShape, errorShape, relayShape } from '../util/shapes';
 import DepartureListContainer from './DepartureListContainer';
 import Loading from './Loading';
 import Icon from './Icon';
@@ -17,9 +17,9 @@ class StopPageContent extends React.Component {
     stop: PropTypes.shape({
       stoptimes: PropTypes.arrayOf(PropTypes.object),
     }).isRequired,
-    relay: RelayShape.isRequired,
+    relay: relayShape.isRequired,
     currentTime: PropTypes.number.isRequired,
-    error: ErrorShape,
+    error: errorShape,
     router: routerShape.isRequired,
     match: matchShape.isRequired,
   };
@@ -30,7 +30,7 @@ class StopPageContent extends React.Component {
 
   static contextTypes = {
     intl: intlShape.isRequired,
-    config: ConfigShape.isRequired,
+    config: configShape.isRequired,
   };
 
   // eslint-disable-next-line camelcase

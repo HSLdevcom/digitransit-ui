@@ -4,12 +4,12 @@ import { createFragmentContainer, graphql } from 'react-relay';
 import compose from 'recompose/compose';
 import getContext from 'recompose/getContext';
 import mapProps from 'recompose/mapProps';
-import { ConfigShape } from '../util/shapes';
+import { configShape } from '../util/shapes';
 
 import { generateMetaData } from '../util/metaUtils';
 
 const TerminalPageMeta = compose(
-  getContext({ config: ConfigShape, intl: intlShape }),
+  getContext({ config: configShape, intl: intlShape }),
   mapProps(({ config, intl, station }) => {
     if (!station) {
       return false;

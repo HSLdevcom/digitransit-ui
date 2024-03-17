@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import getJson from '@digitransit-search-util/digitransit-search-util-get-json';
-import { ConfigShape } from '../util/shapes';
+import { configShape } from '../util/shapes';
 import Favourite from './Favourite';
 import { saveFavourite, deleteFavourite } from '../action/FavouriteActions';
 import { addMessage } from '../action/MessageActions';
@@ -114,7 +114,7 @@ const FavouriteStopContainer = connectToStores(
 FavouriteStopContainer.contextTypes = {
   getStore: PropTypes.func.isRequired,
   executeAction: PropTypes.func.isRequired,
-  config: ConfigShape.isRequired,
+  config: configShape.isRequired,
 };
 
 export default FavouriteStopContainer;

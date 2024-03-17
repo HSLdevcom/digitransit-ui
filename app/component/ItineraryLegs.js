@@ -1,7 +1,7 @@
 /* eslint-disable react/no-array-index-key */
 import PropTypes from 'prop-types';
 import React from 'react';
-import { ConfigShape } from '../util/shapes';
+import { configShape } from '../util/shapes';
 import WalkLeg from './WalkLeg';
 import WaitLeg from './WaitLeg';
 import BicycleLeg from './BicycleLeg';
@@ -45,7 +45,7 @@ export default class ItineraryLegs extends React.Component {
     tabIndex: PropTypes.number,
   };
 
-  static contextTypes = { config: ConfigShape };
+  static contextTypes = { config: configShape };
 
   static defaultProps = {
     fares: [],

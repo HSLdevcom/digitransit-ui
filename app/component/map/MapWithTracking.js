@@ -8,7 +8,7 @@ import isEqual from 'lodash/isEqual';
 import cloneDeep from 'lodash/cloneDeep';
 import isEmpty from 'lodash/isEmpty';
 import { intlShape } from 'react-intl';
-import { MapLayerOptionsShape, ConfigShape } from '../../util/shapes';
+import { mapLayerOptionsShape, configShape } from '../../util/shapes';
 import { startLocationWatch } from '../../action/PositionActions';
 import MapContainer from './MapContainer';
 import ToggleMapTracking from '../ToggleMapTracking';
@@ -73,7 +73,7 @@ class MapWithTrackingStateHandler extends React.Component {
     leafletObjs: PropTypes.arrayOf(PropTypes.node),
     renderCustomButtons: PropTypes.func,
     mapLayers: mapLayerShape.isRequired,
-    mapLayerOptions: MapLayerOptionsShape,
+    mapLayerOptions: mapLayerOptionsShape,
     mapTracking: PropTypes.bool,
     locationPopup: PropTypes.string,
     onSelectLocation: PropTypes.func,
@@ -394,7 +394,7 @@ MapWithTrackingStateHandler.contextTypes = {
   executeAction: PropTypes.func,
   getStore: PropTypes.func,
   intl: intlShape.isRequired,
-  config: ConfigShape.isRequired,
+  config: configShape.isRequired,
 };
 
 const MapWithTrackingStateHandlerapWithBreakpoint = withBreakpoint(
@@ -402,7 +402,7 @@ const MapWithTrackingStateHandlerapWithBreakpoint = withBreakpoint(
 );
 
 const MapWithTracking = connectToStores(
-  getContext({ config: ConfigShape })(
+  getContext({ config: configShape })(
     MapWithTrackingStateHandlerapWithBreakpoint,
   ),
   [PositionStore, PreferencesStore],

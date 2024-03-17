@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape, FormattedMessage } from 'react-intl';
-import { ConfigShape, FareShape } from '../util/shapes';
+import { configShape, fareShape } from '../util/shapes';
 
 import { renderZoneTicket } from './ZoneTicket';
 import { getAlternativeFares } from '../util/fareUtils';
@@ -75,7 +75,7 @@ export default function MobileTicketPurchaseInformation(
   );
 }
 MobileTicketPurchaseInformation.propTypes = {
-  fares: PropTypes.arrayOf(FareShape),
+  fares: PropTypes.arrayOf(fareShape),
   zones: PropTypes.arrayOf(PropTypes.string),
 };
 
@@ -85,7 +85,7 @@ MobileTicketPurchaseInformation.defaultProps = {
 };
 
 MobileTicketPurchaseInformation.contextTypes = {
-  config: ConfigShape,
+  config: configShape,
   intl: intlShape.isRequired,
 };
 

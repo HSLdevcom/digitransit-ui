@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
 import getLabel from '@digitransit-search-util/digitransit-search-util-get-label';
-import { ConfigShape } from '../../../util/shapes';
+import { configShape } from '../../../util/shapes';
 import MarkerPopupBottom from '../MarkerPopupBottom';
 import Card from '../../Card';
 import Loading from '../../Loading';
@@ -17,7 +17,7 @@ import PopupHeader from '../PopupHeader';
 
 class LocationPopup extends React.Component {
   static contextTypes = {
-    config: ConfigShape.isRequired,
+    config: configShape.isRequired,
     intl: intlShape.isRequired,
   };
 

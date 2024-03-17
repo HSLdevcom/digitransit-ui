@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
 import { matchShape, routerShape } from 'found';
-import { ConfigShape } from '../../util/shapes';
+import { configShape } from '../../util/shapes';
 
 const Toggle = ({ toggled, title, onToggle, id }) => {
   const useId = id || uniqueId('input-');
@@ -42,7 +42,7 @@ Toggle.defaultProps = {
 };
 
 Toggle.contextTypes = {
-  config: ConfigShape.isRequired,
+  config: configShape.isRequired,
   intl: intlShape.isRequired,
   router: routerShape.isRequired,
   match: matchShape.isRequired,

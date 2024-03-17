@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape, FormattedMessage } from 'react-intl';
-import { ConfigShape } from '../util/shapes';
+import { configShape } from '../util/shapes';
 import Icon from './Icon';
 import { isKeyboardSelectionEvent } from '../util/browser';
 
@@ -53,7 +53,7 @@ RightOffcanvasToggle.defaultProps = {
 
 RightOffcanvasToggle.contextTypes = {
   intl: intlShape.isRequired,
-  config: ConfigShape,
+  config: configShape,
 };
 
 RightOffcanvasToggle.displayName = 'RightOffcanvasToggle';

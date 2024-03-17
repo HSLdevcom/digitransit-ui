@@ -4,7 +4,7 @@ import { createFragmentContainer, graphql } from 'react-relay';
 import { matchShape, routerShape } from 'found';
 import cx from 'classnames';
 import { intlShape } from 'react-intl';
-import { ConfigShape } from '../util/shapes';
+import { configShape } from '../util/shapes';
 import RouteStopListContainer from './RouteStopListContainer';
 import withBreakpoint from '../util/withBreakpoint';
 import RoutePageControlPanel from './RoutePageControlPanel';
@@ -25,7 +25,7 @@ class PatternStopsContainer extends React.PureComponent {
   };
 
   static contextTypes = {
-    config: ConfigShape.isRequired,
+    config: configShape.isRequired,
     intl: intlShape.isRequired,
   };
 

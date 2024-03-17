@@ -3,12 +3,12 @@ import { intlShape } from 'react-intl';
 import compose from 'recompose/compose';
 import getContext from 'recompose/getContext';
 import mapProps from 'recompose/mapProps';
-import { ConfigShape } from '../util/shapes';
+import { configShape } from '../util/shapes';
 
 import { generateMetaData } from '../util/metaUtils';
 
 export default compose(
-  getContext({ config: ConfigShape, intl: intlShape }),
+  getContext({ config: configShape, intl: intlShape }),
   mapProps(({ config, intl, match }) => {
     const { mode, place, origin } = match.params;
     const title = intl.formatMessage({

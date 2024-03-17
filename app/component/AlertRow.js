@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
 import Link from 'found/Link';
-import { ConfigShape } from '../util/shapes';
+import { configShape } from '../util/shapes';
 
 import ExternalLink from './ExternalLink';
 import Icon from './Icon';
@@ -256,7 +256,7 @@ AlertRow.propTypes = {
 };
 
 AlertRow.contextTypes = {
-  config: ConfigShape.isRequired,
+  config: configShape.isRequired,
   intl: intlShape.isRequired,
 };
 

@@ -9,7 +9,7 @@ import { matchShape, routerShape } from 'found';
 import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
 import polyline from 'polyline-encoded';
-import { ConfigShape, MapLayerOptionsShape } from '../util/shapes';
+import { configShape, mapLayerOptionsShape } from '../util/shapes';
 import DesktopView from './DesktopView';
 import MobileView from './MobileView';
 import ItineraryPageMap from './map/ItineraryPageMap';
@@ -1159,7 +1159,7 @@ export default function ItineraryPage(props, context) {
 }
 
 ItineraryPage.contextTypes = {
-  config: ConfigShape,
+  config: configShape,
   executeAction: PropTypes.func.isRequired,
   headers: PropTypes.object.isRequired,
   getStore: PropTypes.func,
@@ -1177,7 +1177,7 @@ ItineraryPage.propTypes = {
   breakpoint: PropTypes.string.isRequired,
   relayEnvironment: PropTypes.object.isRequired,
   mapLayers: mapLayerShape.isRequired,
-  mapLayerOptions: MapLayerOptionsShape.isRequired,
+  mapLayerOptions: mapLayerOptionsShape.isRequired,
 };
 
 ItineraryPage.defaultProps = {

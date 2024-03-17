@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 import cx from 'classnames';
-import { ConfigShape } from '../util/shapes';
+import { configShape } from '../util/shapes';
 import AddressRow from './AddressRow';
 import Icon from './Icon';
 import ZoneIcon from './ZoneIcon';
@@ -124,5 +124,5 @@ CardHeader.defaultProps = {
 };
 
 CardHeader.contextTypes = {
-  config: ConfigShape.isRequired,
+  config: configShape.isRequired,
 };

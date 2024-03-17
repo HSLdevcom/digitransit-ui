@@ -4,7 +4,7 @@ import { FormattedMessage, intlShape } from 'react-intl';
 import Link from 'found/Link';
 
 import { connectToStores } from 'fluxible-addons-react';
-import { ConfigShape } from '../util/shapes';
+import { configShape } from '../util/shapes';
 import DisruptionInfoButtonContainer from './DisruptionInfoButtonContainer';
 import Icon from './Icon';
 import LangSelect from './LangSelect';
@@ -167,7 +167,7 @@ MainMenu.defaultProps = {
 
 MainMenu.contextTypes = {
   getStore: PropTypes.func.isRequired,
-  config: ConfigShape.isRequired,
+  config: configShape.isRequired,
   intl: intlShape.isRequired,
   executeAction: PropTypes.func.isRequired,
 };

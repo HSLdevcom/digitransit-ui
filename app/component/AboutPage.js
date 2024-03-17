@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import Link from 'found/Link';
 import { FormattedMessage } from 'react-intl';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-import { ConfigShape } from '../util/shapes';
+import { configShape } from '../util/shapes';
 
 const AboutPage = ({ currentLanguage }, { config }) => {
   const [about, setAbout] = useState([]);
@@ -57,7 +57,7 @@ AboutPage.propTypes = {
 };
 
 AboutPage.contextTypes = {
-  config: ConfigShape.isRequired,
+  config: configShape.isRequired,
 };
 
 const connectedComponent = connectToStores(

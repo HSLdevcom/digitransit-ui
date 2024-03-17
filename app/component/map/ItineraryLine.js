@@ -5,7 +5,7 @@ import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import polyUtil from 'polyline-encoded';
 import { intlShape } from 'react-intl';
-import { ConfigShape } from '../../util/shapes';
+import { configShape } from '../../util/shapes';
 import { getRouteMode } from '../../util/modeUtils';
 import StopMarker from './non-tile-layer/StopMarker';
 import Line from './Line';
@@ -25,7 +25,7 @@ import TransitLegMarkers from './non-tile-layer/TransitLegMarkers';
 
 class ItineraryLine extends React.Component {
   static contextTypes = {
-    config: ConfigShape.isRequired,
+    config: configShape.isRequired,
     intl: intlShape.isRequired,
   };
 

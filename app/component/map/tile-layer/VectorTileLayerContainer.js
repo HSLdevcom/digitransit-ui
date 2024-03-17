@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { ConfigShape } from '../../../util/shapes';
+import { configShape } from '../../../util/shapes';
 import TileLayerContainer from './TileLayerContainer';
 import VehicleRentalStations from './VehicleRentalStations';
 import Stops from './Stops';
@@ -61,5 +61,5 @@ VectorTileLayerContainer.defaultProps = {
 };
 
 VectorTileLayerContainer.contextTypes = {
-  config: ConfigShape.isRequired,
+  config: configShape.isRequired,
 };

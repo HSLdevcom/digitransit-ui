@@ -3,7 +3,7 @@ import React from 'react';
 import { withLeaflet } from 'react-leaflet/es/context';
 import polyUtil from 'polyline-encoded';
 import { intlShape } from 'react-intl';
-import { ConfigShape } from '../../../util/shapes';
+import { configShape } from '../../../util/shapes';
 import { isBrowser } from '../../../util/browser';
 import { getMiddleOf } from '../../../util/geo-utils';
 import LegMarker from './LegMarker';
@@ -126,7 +126,7 @@ class TransitLegMarkers extends React.Component {
   };
 
   static contextTypes = {
-    config: ConfigShape.isRequired,
+    config: configShape.isRequired,
     intl: intlShape.isRequired,
   };
 

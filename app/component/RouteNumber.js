@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 import { intlShape } from 'react-intl';
-import { ConfigShape } from '../util/shapes';
+import { configShape } from '../util/shapes';
 import IconWithBigCaution from './IconWithBigCaution';
 import IconWithIcon from './IconWithIcon';
 import Icon from './Icon';
@@ -229,7 +229,7 @@ RouteNumber.defaultProps = {
 
 RouteNumber.contextTypes = {
   intl: intlShape.isRequired,
-  config: ConfigShape,
+  config: configShape,
 };
 
 RouteNumber.displayName = 'RouteNumber';

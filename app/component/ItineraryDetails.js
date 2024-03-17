@@ -6,7 +6,7 @@ import { matchShape, routerShape } from 'found';
 import { FormattedMessage, intlShape } from 'react-intl';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import get from 'lodash/get';
-import { AlertShape, ConfigShape, FareShape } from '../util/shapes';
+import { alertShape, configShape, fareShape } from '../util/shapes';
 import TicketInformation from './TicketInformation';
 import RouteInformation from './RouteInformation';
 import ItinerarySummary from './ItinerarySummary';
@@ -43,8 +43,8 @@ import Emissions from './Emissions';
 import EmissionsInfo from './EmissionsInfo';
 import FareDisclaimer from './FareDisclaimer';
 
-const RouteShape = PropTypes.shape({
-  alerts: PropTypes.arrayOf(AlertShape),
+const routeShape = PropTypes.shape({
+  alerts: PropTypes.arrayOf(alertShape),
 });
 
 const TripShape = PropTypes.shape({
@@ -53,15 +53,15 @@ const TripShape = PropTypes.shape({
   }),
 });
 
-const ItineraryShape = PropTypes.oneOfType([
+const itineraryShape = PropTypes.oneOfType([
   PropTypes.any,
   PropTypes.shape({
     legs: PropTypes.arrayOf(
       PropTypes.shape({
-        route: RouteShape,
+        route: routeShape,
         trip: TripShape,
         distance: PropTypes.number,
-        fares: PropTypes.arrayOf(FareShape),
+        fares: PropTypes.arrayOf(fareShape),
       }),
     ),
     emissionsPerPerson: PropTypes.shape({
@@ -73,13 +73,13 @@ const ItineraryShape = PropTypes.oneOfType([
 /* eslint-disable prettier/prettier */
 class ItineraryDetails extends React.Component {
   static propTypes = {
-    itinerary: ItineraryShape.isRequired,
+    itinerary: itineraryShape.isRequired,
     focusToPoint: PropTypes.func.isRequired,
     focusToLeg: PropTypes.func.isRequired,
     isMobile: PropTypes.bool.isRequired,
     currentTime: PropTypes.number.isRequired,
     hideTitle: PropTypes.bool,
-    carItinerary: ItineraryShape,
+    carItinerary: itineraryShape,
     currentLanguage: PropTypes.string,
     changeHash: PropTypes.func,
   };
@@ -92,7 +92,7 @@ class ItineraryDetails extends React.Component {
   };
 
   static contextTypes = {
-    config: ConfigShape.isRequired,
+    config: configShape.isRequired,
     router: routerShape.isRequired,
     match: matchShape.isRequired,
     intl: intlShape.isRequired,

@@ -11,10 +11,10 @@ import { matchShape, routerShape } from 'found';
 import getContext from 'recompose/getContext';
 import { intlShape, FormattedMessage } from 'react-intl';
 import {
-  ConfigShape,
-  ItineraryShape,
-  ChildrenShape,
-  PlanShape,
+  configShape,
+  itineraryShape,
+  childrenShape,
+  planShape,
 } from '../util/shapes';
 import Icon from './Icon';
 import ItineraryList from './ItineraryList';
@@ -31,16 +31,16 @@ import { transitItineraries } from './ItineraryPageUtils';
 class ItineraryListContainer extends React.Component {
   static propTypes = {
     activeIndex: PropTypes.number,
-    children: ChildrenShape,
+    children: childrenShape,
     currentTime: PropTypes.number.isRequired,
-    itineraries: PropTypes.arrayOf(ItineraryShape).isRequired,
+    itineraries: PropTypes.arrayOf(itineraryShape).isRequired,
     params: PropTypes.shape({
       from: PropTypes.string.isRequired,
       to: PropTypes.string.isRequired,
       hash: PropTypes.string,
       secondHash: PropTypes.string,
     }).isRequired,
-    plan: PlanShape.isRequired,
+    plan: planShape.isRequired,
     bikeAndParkItineraryCount: PropTypes.number,
     showRelaxedPlanNotifier: PropTypes.bool,
     separatorPosition: PropTypes.number,
@@ -267,7 +267,7 @@ class ItineraryListContainer extends React.Component {
 }
 
 const withConfig = getContext({
-  config: ConfigShape.isRequired,
+  config: configShape.isRequired,
 })(
   withBreakpoint(props => (
     <ReactRelayContext.Consumer>

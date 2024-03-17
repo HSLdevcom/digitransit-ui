@@ -4,7 +4,7 @@ import moment from 'moment';
 import { FormattedMessage, intlShape } from 'react-intl';
 import { matchShape, routerShape } from 'found';
 import Modal from '@hsl-fi/modal';
-import { ConfigShape } from '../util/shapes';
+import { configShape } from '../util/shapes';
 import Icon from './Icon';
 import { locationToUri, locationToOTP } from '../util/otpStrings';
 import {
@@ -155,7 +155,7 @@ MapRoutingButton.defaultProps = {};
 
 MapRoutingButton.contextTypes = {
   intl: intlShape.isRequired, // eslint-disable-line react/no-typos
-  config: ConfigShape.isRequired,
+  config: configShape.isRequired,
   executeAction: PropTypes.func.isRequired,
   router: routerShape.isRequired,
   match: matchShape.isRequired,

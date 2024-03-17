@@ -10,7 +10,7 @@ import DTAutosuggestPanel from '@digitransit-component/digitransit-component-aut
 import { getModesWithAlerts } from '@digitransit-search-util/digitransit-search-util-query-utils';
 import { createUrl } from '@digitransit-store/digitransit-store-future-route';
 import moment from 'moment';
-import { ConfigShape, DtLocationShape } from '../util/shapes';
+import { configShape, dtlocationShape } from '../util/shapes';
 import storeOrigin from '../action/originActions';
 import storeDestination from '../action/destinationActions';
 import withSearchContext from './WithSearchContext';
@@ -62,20 +62,20 @@ class IndexPage extends React.Component {
     getStore: PropTypes.func.isRequired,
     router: routerShape.isRequired,
     match: matchShape.isRequired,
-    config: ConfigShape.isRequired,
+    config: configShape.isRequired,
   };
 
   static propTypes = {
     breakpoint: PropTypes.string.isRequired,
-    origin: DtLocationShape.isRequired,
-    destination: DtLocationShape.isRequired,
+    origin: dtlocationShape.isRequired,
+    destination: dtlocationShape.isRequired,
     lang: PropTypes.string,
     currentTime: PropTypes.number.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     query: PropTypes.object.isRequired,
     favouriteModalAction: PropTypes.string,
     fromMap: PropTypes.string,
-    locationState: DtLocationShape.isRequired,
+    locationState: dtlocationShape.isRequired,
   };
 
   static defaultProps = {
@@ -526,7 +526,7 @@ const IndexPageWithStores = connectToStores(
 IndexPageWithStores.contextTypes = {
   ...IndexPageWithStores.contextTypes,
   executeAction: PropTypes.func.isRequired,
-  config: ConfigShape.isRequired,
+  config: configShape.isRequired,
 };
 
 const GeoIndexPage = Geomover(IndexPageWithStores);

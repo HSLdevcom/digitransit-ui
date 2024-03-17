@@ -10,7 +10,7 @@ import isEqual from 'lodash/isEqual';
 import Popup from 'react-leaflet/es/Popup';
 import { withLeaflet } from 'react-leaflet/es/context';
 import { matchShape, routerShape } from 'found';
-import { ConfigShape } from '../../../util/shapes';
+import { configShape } from '../../../util/shapes';
 import { mapLayerShape } from '../../../store/MapLayerStore';
 import MarkerSelectPopup from './MarkerSelectPopup';
 import LocationPopup from '../popups/LocationPopup';
@@ -79,7 +79,7 @@ class TileLayerContainer extends GridLayer {
   static contextTypes = {
     getStore: PropTypes.func.isRequired,
     intl: intlShape.isRequired,
-    config: ConfigShape.isRequired,
+    config: configShape.isRequired,
     match: matchShape.isRequired,
     router: routerShape.isRequired,
   };

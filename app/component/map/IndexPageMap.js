@@ -8,7 +8,7 @@ import { sameLocations } from '../../util/path';
 import OriginStore from '../../store/OriginStore';
 import DestinationStore from '../../store/DestinationStore';
 import LazilyLoad, { importLazy } from '../LazilyLoad';
-import { ConfigShape, DtLocationShape } from '../../util/shapes';
+import { configShape, dtlocationShape } from '../../util/shapes';
 import storeOrigin from '../../action/originActions';
 import storeDestination from '../../action/destinationActions';
 // eslint-disable-next-line import/no-named-as-default
@@ -103,8 +103,8 @@ function IndexPageMap(
 IndexPageMap.propTypes = {
   match: matchShape.isRequired,
   lang: PropTypes.string.isRequired,
-  origin: DtLocationShape,
-  destination: DtLocationShape,
+  origin: dtlocationShape,
+  destination: dtlocationShape,
   mapLayers: mapLayerShape.isRequired,
 };
 
@@ -114,7 +114,7 @@ IndexPageMap.defaultProps = {
 };
 
 IndexPageMap.contextTypes = {
-  config: ConfigShape.isRequired,
+  config: configShape.isRequired,
   executeAction: PropTypes.func.isRequired,
   intl: intlShape.isRequired,
 };

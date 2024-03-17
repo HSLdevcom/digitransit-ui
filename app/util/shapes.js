@@ -2,7 +2,7 @@
 import PropTypes from 'prop-types';
 import { PlannerMessageType } from '../constants';
 
-export const AlertShape = PropTypes.shape({
+export const alertShape = PropTypes.shape({
   alertDescriptionText: PropTypes.string,
   effectiveEndDate: PropTypes.number,
   effectiveStartDate: PropTypes.number,
@@ -18,16 +18,16 @@ export const AlertShape = PropTypes.shape({
   ),
 });
 
-export const ChildrenShape = PropTypes.oneOfType([
+export const childrenShape = PropTypes.oneOfType([
   PropTypes.arrayOf(PropTypes.node),
   PropTypes.node,
 ]);
 
-export const ConfigShape = PropTypes.shape({
+export const configShape = PropTypes.shape({
   CONFIG: PropTypes.string.isRequired,
 });
 
-export const DtLocationShape = PropTypes.shape({
+export const dtlocationShape = PropTypes.shape({
   lat: PropTypes.number,
   lon: PropTypes.number,
   address: PropTypes.string,
@@ -35,12 +35,12 @@ export const DtLocationShape = PropTypes.shape({
   name: PropTypes.string,
 });
 
-export const ErrorShape = PropTypes.oneOfType([
+export const errorShape = PropTypes.oneOfType([
   PropTypes.string,
   PropTypes.shape({ message: PropTypes.string }),
 ]);
 
-export const FareShape = PropTypes.shape({
+export const fareShape = PropTypes.shape({
   agency: PropTypes.shape({
     fareUrl: PropTypes.string,
     name: PropTypes.string,
@@ -52,7 +52,7 @@ export const FareShape = PropTypes.shape({
   ticketName: PropTypes.string,
 });
 
-export const GeoJsonFeatureShape = PropTypes.shape({
+export const geoJsonFeatureShape = PropTypes.shape({
   id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   geometry: PropTypes.shape({
     coordinates: PropTypes.arrayOf(
@@ -71,7 +71,7 @@ export const GeoJsonFeatureShape = PropTypes.shape({
   properties: PropTypes.object,
 });
 
-export const ItineraryShape = PropTypes.shape({
+export const itineraryShape = PropTypes.shape({
   startTime: PropTypes.number,
   endTime: PropTypes.number,
   duration: PropTypes.number,
@@ -82,7 +82,7 @@ export const ItineraryShape = PropTypes.shape({
   }),
 });
 
-export const LocationShape = PropTypes.shape({
+export const locationShape = PropTypes.shape({
   lat: PropTypes.number,
   lon: PropTypes.number,
   address: PropTypes.string,
@@ -102,7 +102,7 @@ const StatusPropType = PropTypes.oneOf([
   'reverse-geocoding-in-progress',
 ]);
 
-export const LocationStateShape = PropTypes.shape({
+export const locationStateShape = PropTypes.shape({
   type: PropTypes.string.isRequired,
   lat: PropTypes.number,
   lon: PropTypes.number,
@@ -131,7 +131,7 @@ const MapLayerOptionStopOrTerminalShape = PropTypes.shape({
   funicular: PropTypes.shape(MapLayerOptionShape),
 });
 
-export const MapLayerOptionsShape = PropTypes.shape({
+export const mapLayerOptionsShape = PropTypes.shape({
   parkAndRide: PropTypes.oneOfType([
     PropTypes.shape(MapLayerOptionShape),
     PropTypes.any,
@@ -154,21 +154,21 @@ export const MapLayerOptionsShape = PropTypes.shape({
   ]),
 });
 
-export const PlanShape = PropTypes.shape({
-  itineraries: PropTypes.arrayOf(ItineraryShape).isRequired,
+export const planShape = PropTypes.shape({
+  itineraries: PropTypes.arrayOf(itineraryShape).isRequired,
   date: PropTypes.number,
 });
 
-export const PlannerMessageShape = PropTypes.oneOf(
+export const plannerMessageShape = PropTypes.oneOf(
   Object.values(PlannerMessageType),
 );
 
-export const RefShape = PropTypes.oneOfType([
+export const refShape = PropTypes.oneOfType([
   PropTypes.func,
   PropTypes.shape({ current: PropTypes.any }),
 ]);
 
-export const RelayShape = PropTypes.shape({
+export const relayShape = PropTypes.shape({
   refetchConnection: PropTypes.func,
   refetch: PropTypes.func,
   hasMore: PropTypes.func,
@@ -176,24 +176,24 @@ export const RelayShape = PropTypes.shape({
   environment: PropTypes.object.isRequired,
 });
 
-export const RouteShape = PropTypes.shape({
+export const routeShape = PropTypes.shape({
   gtfsId: PropTypes.string,
   mode: PropTypes.string,
   shortName: PropTypes.string,
   longName: PropTypes.string,
   color: PropTypes.string,
   type: PropTypes.number,
-  alerts: PropTypes.arrayOf(AlertShape),
+  alerts: PropTypes.arrayOf(alertShape),
 });
 
 const ROUTER_ERROR_CODES = Object.values(PlannerMessageType);
 
-export const RoutingErrorShape = PropTypes.shape({
+export const RoutingerrorShape = PropTypes.shape({
   code: PropTypes.oneOf(ROUTER_ERROR_CODES),
   inputField: PropTypes.oneOf(['DATE_TIME', 'TO', 'FROM']),
 });
 
-export const StopShape = PropTypes.shape({
+export const stopShape = PropTypes.shape({
   gtfsId: PropTypes.string.isRequired,
   name: PropTypes.string,
   code: PropTypes.string,
@@ -201,7 +201,7 @@ export const StopShape = PropTypes.shape({
   lon: PropTypes.number,
 });
 
-export const VehicleShape = PropTypes.shape({
+export const vehicleShape = PropTypes.shape({
   id: PropTypes.string.isRequired,
   route: PropTypes.string.isRequired,
   direction: PropTypes.number.isRequired,

@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
-import { ConfigShape } from '../../util/shapes';
+import { configShape } from '../../util/shapes';
 
 import { isBrowser } from '../../util/browser';
 
@@ -36,7 +36,7 @@ export default class Line extends React.Component {
   };
 
   static contextTypes = {
-    config: ConfigShape.isRequired,
+    config: configShape.isRequired,
   };
 
   componentDidMount() {

@@ -3,7 +3,7 @@ import Link from 'found/Link';
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import { ConfigShape } from '../util/shapes';
+import { configShape } from '../util/shapes';
 import {
   BIKEAVL_UNKNOWN,
   getVehicleCapacity,
@@ -130,7 +130,7 @@ VehicleRentalLeg.defaultProps = {
 };
 
 VehicleRentalLeg.contextTypes = {
-  config: ConfigShape.isRequired,
+  config: configShape.isRequired,
   intl: intlShape.isRequired,
 };
 const connectedComponent = withBreakpoint(VehicleRentalLeg);

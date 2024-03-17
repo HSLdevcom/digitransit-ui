@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
 import { matchShape } from 'found';
-import { AlertShape } from '../util/shapes';
+import { alertShape } from '../util/shapes';
 import CardHeader from './CardHeader';
 import { getJson } from '../util/xhrPromise';
 import { saveSearch } from '../action/SearchActions';
@@ -130,7 +130,7 @@ StopCardHeader.propTypes = {
         desc: PropTypes.string,
       }),
     ),
-    alerts: PropTypes.arrayOf(AlertShape),
+    alerts: PropTypes.arrayOf(alertShape),
     lat: PropTypes.number,
     lon: PropTypes.number,
   }),

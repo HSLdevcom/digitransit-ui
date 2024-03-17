@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
-import { AlertShape } from '../util/shapes';
+import { alertShape } from '../util/shapes';
 import StopPageTabs from './StopPageTabs';
 
 function TerminalPageTabContainer({ children, station }) {
@@ -16,7 +16,7 @@ function TerminalPageTabContainer({ children, station }) {
 TerminalPageTabContainer.propTypes = {
   children: PropTypes.node.isRequired,
   station: PropTypes.shape({
-    alerts: PropTypes.arrayOf(AlertShape),
+    alerts: PropTypes.arrayOf(alertShape),
     vehicleMode: PropTypes.string,
     stoptimes: PropTypes.arrayOf(
       PropTypes.shape({
@@ -26,7 +26,7 @@ TerminalPageTabContainer.propTypes = {
             code: PropTypes.string,
           }),
           route: PropTypes.shape({
-            alerts: PropTypes.arrayOf(AlertShape),
+            alerts: PropTypes.arrayOf(alertShape),
           }),
         }),
       }),

@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import xor from 'lodash/xor';
-import { ConfigShape } from '../../util/shapes';
+import { configShape } from '../../util/shapes';
 import Toggle from './Toggle';
 import { saveRoutingSettings } from '../../action/SearchSettingsActions';
 import Icon from '../Icon';
@@ -81,7 +81,7 @@ VehicleRentalStationNetworkSelector.propTypes = {
 };
 
 VehicleRentalStationNetworkSelector.contextTypes = {
-  config: ConfigShape.isRequired,
+  config: configShape.isRequired,
   getStore: PropTypes.func.isRequired,
   executeAction: PropTypes.func.isRequired,
 };

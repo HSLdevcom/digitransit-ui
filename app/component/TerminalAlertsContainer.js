@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
-import { AlertShape } from '../util/shapes';
+import { alertShape } from '../util/shapes';
 
 import StopAlerts from './StopAlerts';
 
@@ -13,7 +13,7 @@ TerminalAlertsContainer.propTypes = {
   station: PropTypes.shape({
     gtfsId: PropTypes.string.isRequired,
     locationType: PropTypes.string.isRequired,
-    alerts: PropTypes.arrayOf(AlertShape).isRequired,
+    alerts: PropTypes.arrayOf(alertShape).isRequired,
     stops: PropTypes.arrayOf(
       PropTypes.shape({
         gtfsId: PropTypes.string.isRequired,
@@ -22,7 +22,7 @@ TerminalAlertsContainer.propTypes = {
             gtfsId: PropTypes.string.isRequired,
           }),
         ).isRequired,
-        alerts: PropTypes.arrayOf(AlertShape).isRequired,
+        alerts: PropTypes.arrayOf(alertShape).isRequired,
       }),
     ),
     stoptimes: PropTypes.arrayOf(

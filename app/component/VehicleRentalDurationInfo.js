@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import React from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-import { ConfigShape } from '../util/shapes';
+import { configShape } from '../util/shapes';
 import Icon from './Icon';
 import {
   getVehicleRentalStationNetworkConfig,
@@ -104,7 +104,7 @@ VehicleRentalDurationInfo.propTypes = {
     PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   ).isRequired,
   lang: PropTypes.string.isRequired,
-  config: ConfigShape.isRequired,
+  config: configShape.isRequired,
 };
 
 const connectedComponent = connectToStores(

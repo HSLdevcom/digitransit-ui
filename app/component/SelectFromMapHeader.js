@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
-import { ConfigShape } from '../util/shapes';
+import { configShape } from '../util/shapes';
 import Icon from './Icon';
 
 export default function SelectFromMapHeaderComponent(props, { config, intl }) {
@@ -96,6 +96,6 @@ SelectFromMapHeaderComponent.defaultProps = {
 };
 
 SelectFromMapHeaderComponent.contextTypes = {
-  config: ConfigShape.isRequired,
+  config: configShape.isRequired,
   intl: intlShape.isRequired,
 };

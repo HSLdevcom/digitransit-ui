@@ -4,7 +4,7 @@ import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import { matchShape } from 'found';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-import { ConfigShape, MapLayerOptionsShape } from '../../util/shapes';
+import { configShape, mapLayerOptionsShape } from '../../util/shapes';
 import MapWithTracking from './MapWithTracking';
 import RouteLine from './route/RouteLine';
 import VehicleMarkerContainer from './VehicleMarkerContainer';
@@ -32,7 +32,7 @@ class RoutePageMap extends React.Component {
     lon: PropTypes.number,
     breakpoint: PropTypes.string.isRequired,
     mapLayers: mapLayerShape.isRequired,
-    mapLayerOptions: MapLayerOptionsShape.isRequired,
+    mapLayerOptions: mapLayerOptionsShape.isRequired,
     trip: PropTypes.shape({ gtfsId: PropTypes.string }),
     error: PropTypes.object,
   };
@@ -45,7 +45,7 @@ class RoutePageMap extends React.Component {
   };
 
   static contextTypes = {
-    config: ConfigShape.isRequired,
+    config: configShape.isRequired,
   };
 
   // eslint-disable-next-line camelcase

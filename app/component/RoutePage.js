@@ -5,7 +5,7 @@ import { createFragmentContainer, graphql } from 'react-relay';
 import { FormattedMessage, intlShape } from 'react-intl';
 import cx from 'classnames';
 import { matchShape, routerShape, RedirectException } from 'found';
-import { ConfigShape, ErrorShape } from '../util/shapes';
+import { configShape, errorShape } from '../util/shapes';
 import Icon from './Icon';
 
 import Loading from './Loading';
@@ -37,7 +37,7 @@ class RoutePage extends React.Component {
     getStore: PropTypes.func.isRequired,
     executeAction: PropTypes.func.isRequired,
     intl: intlShape.isRequired,
-    config: ConfigShape.isRequired,
+    config: configShape.isRequired,
   };
 
   static propTypes = {
@@ -45,7 +45,7 @@ class RoutePage extends React.Component {
     match: matchShape.isRequired,
     router: routerShape.isRequired,
     breakpoint: PropTypes.string.isRequired,
-    error: ErrorShape,
+    error: errorShape,
     currentTime: PropTypes.number.isRequired,
   };
 

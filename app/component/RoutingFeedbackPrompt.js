@@ -1,6 +1,6 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { ConfigShape } from '../util/shapes';
+import { configShape } from '../util/shapes';
 
 const RoutingFeedbackPrompt = (props, { config }) => {
   return config.useRoutingFeedbackPrompt ? (
@@ -21,7 +21,7 @@ const RoutingFeedbackPrompt = (props, { config }) => {
 };
 
 RoutingFeedbackPrompt.contextTypes = {
-  config: ConfigShape,
+  config: configShape,
 };
 
 export default RoutingFeedbackPrompt;

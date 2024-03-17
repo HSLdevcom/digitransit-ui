@@ -25,10 +25,10 @@ import {
 } from '../../util/sortUtils';
 import ItineraryLine from './ItineraryLine';
 import {
-  DtLocationShape,
-  MapLayerOptionsShape,
-  RelayShape,
-  ConfigShape,
+  dtlocationShape,
+  mapLayerOptionsShape,
+  relayShape,
+  configShape,
 } from '../../util/shapes';
 import Loading from '../Loading';
 import LazilyLoad, { importLazy } from '../LazilyLoad';
@@ -503,12 +503,12 @@ StopsNearYouMap.propTypes = {
   prioritizedStopsNearYou: PropTypes.arrayOf(PropTypes.object),
   favouriteIds: PropTypes.object,
   mapLayers: PropTypes.object.isRequired,
-  mapLayerOptions: MapLayerOptionsShape,
-  position: DtLocationShape.isRequired,
+  mapLayerOptions: mapLayerOptionsShape,
+  position: dtlocationShape.isRequired,
   match: matchShape.isRequired,
   breakpoint: PropTypes.string.isRequired,
   language: PropTypes.string.isRequired,
-  relay: RelayShape.isRequired,
+  relay: relayShape.isRequired,
   onEndNavigation: PropTypes.func,
   onMapTracking: PropTypes.func,
   loading: PropTypes.bool,
@@ -527,7 +527,7 @@ StopsNearYouMap.defaultProps = {
 };
 
 StopsNearYouMap.contextTypes = {
-  config: ConfigShape,
+  config: configShape,
   executeAction: PropTypes.func,
   getStore: PropTypes.func,
 };

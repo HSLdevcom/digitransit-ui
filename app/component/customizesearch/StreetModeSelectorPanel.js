@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { ConfigShape } from '../../util/shapes';
+import { configShape } from '../../util/shapes';
 import Toggle from './Toggle';
 import Icon from '../Icon';
 import { saveRoutingSettings } from '../../action/SearchSettingsActions';
@@ -197,7 +197,7 @@ StreetModeSelectorPanel.propTypes = {
 };
 
 StreetModeSelectorPanel.contextTypes = {
-  config: ConfigShape.isRequired,
+  config: configShape.isRequired,
   executeAction: PropTypes.func.isRequired,
 };
 

@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 import { intlShape } from 'react-intl';
-import { ConfigShape } from '../util/shapes';
+import { configShape } from '../util/shapes';
 
 import Icon from './Icon';
 import LocalTime from './LocalTime';
@@ -92,7 +92,7 @@ export default function DepartureTime(props, context) {
 
 DepartureTime.contextTypes = {
   intl: intlShape.isRequired, // eslint-disable-line react/no-typos
-  config: ConfigShape.isRequired,
+  config: configShape.isRequired,
 };
 
 DepartureTime.displayName = 'DepartureTime';
@@ -120,7 +120,7 @@ DepartureTime.defaultProps = {
 };
 
 DepartureTime.contextTypes = {
-  config: ConfigShape.isRequired,
+  config: configShape.isRequired,
   intl: intlShape.isRequired, // eslint-disable-line react/no-typos
 };
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import NoItinerariesNote from './NoItinerariesNote';
-import { LocationShape } from '../util/shapes';
+import { locationShape } from '../util/shapes';
 
 export default function ItinerariesNotFound(props) {
   const { from, to } = props;
@@ -40,6 +40,6 @@ export default function ItinerariesNotFound(props) {
 }
 
 ItinerariesNotFound.propTypes = {
-  from: LocationShape.isRequired,
-  to: LocationShape.isRequired,
+  from: locationShape.isRequired,
+  to: locationShape.isRequired,
 };

@@ -3,13 +3,13 @@ import React from 'react';
 import { graphql, QueryRenderer } from 'react-relay';
 import ReactRelayContext from 'react-relay/lib/ReactRelayContext';
 import { withLeaflet } from 'react-leaflet/es/context';
-import { ConfigShape } from '../../../util/shapes';
+import { configShape } from '../../../util/shapes';
 
 import VehicleMarker from './VehicleMarker';
 
 class VehicleMarkerContainer extends React.Component {
   static contextTypes = {
-    config: ConfigShape.isRequired,
+    config: configShape.isRequired,
   };
 
   static propTypes = {

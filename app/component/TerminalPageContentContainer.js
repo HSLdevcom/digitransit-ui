@@ -10,7 +10,7 @@ import Icon from './Icon';
 import ScrollableWrapper from './ScrollableWrapper';
 import { isBrowser } from '../util/browser';
 import { PREFIX_TERMINALS } from '../util/path';
-import { ErrorShape, RelayShape } from '../util/shapes';
+import { errorShape, relayShape } from '../util/shapes';
 
 class TerminalPageContent extends React.Component {
   static propTypes = {
@@ -19,9 +19,9 @@ class TerminalPageContent extends React.Component {
       stops: PropTypes.arrayOf(PropTypes.object),
       gtfsId: PropTypes.string,
     }).isRequired,
-    relay: RelayShape.isRequired,
+    relay: relayShape.isRequired,
     currentTime: PropTypes.number.isRequired,
-    error: ErrorShape,
+    error: errorShape,
     router: routerShape.isRequired,
   };
 

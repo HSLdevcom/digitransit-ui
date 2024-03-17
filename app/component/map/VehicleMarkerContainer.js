@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import moment from 'moment';
-import { ConfigShape } from '../../util/shapes';
+import { configShape } from '../../util/shapes';
 import { ExtendedRouteTypes } from '../../constants';
 import VehicleIcon from '../VehicleIcon';
 import IconMarker from './IconMarker';
@@ -140,7 +140,7 @@ VehicleMarkerContainer.defaultProps = {
 };
 
 VehicleMarkerContainer.contextTypes = {
-  config: ConfigShape,
+  config: configShape,
 };
 
 const connectedComponent = connectToStores(

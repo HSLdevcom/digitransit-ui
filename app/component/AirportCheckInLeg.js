@@ -3,7 +3,7 @@ import React from 'react';
 import moment from 'moment';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'found';
-import { ConfigShape } from '../util/shapes';
+import { configShape } from '../util/shapes';
 import ItineraryCircleLine from './ItineraryCircleLine';
 import Icon from './Icon';
 import ItineraryMapAction from './ItineraryMapAction';
@@ -89,5 +89,5 @@ AirportCheckInLeg.defaultProps = {
 };
 
 AirportCheckInLeg.contextTypes = {
-  config: ConfigShape.isRequired,
+  config: configShape.isRequired,
 };

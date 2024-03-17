@@ -11,7 +11,7 @@ import {
   getServiceAlertsForStation,
 } from '../util/alertUtils';
 import { getRouteMode } from '../util/modeUtils';
-import { AlertShape } from '../util/shapes';
+import { alertShape } from '../util/shapes';
 import { AlertSeverityLevelType, AlertEntityType } from '../constants';
 
 export const isRelevantEntity = (entity, stopIds, routeIds) =>
@@ -123,7 +123,7 @@ StopAlerts.propTypes = {
         gtfsId: PropTypes.string.isRequired,
       }),
     ),
-    alerts: PropTypes.arrayOf(AlertShape).isRequired,
+    alerts: PropTypes.arrayOf(alertShape).isRequired,
     stops: PropTypes.arrayOf(
       PropTypes.shape({
         gtfsId: PropTypes.string.isRequired,
@@ -132,7 +132,7 @@ StopAlerts.propTypes = {
             gtfsId: PropTypes.string.isRequired,
           }),
         ).isRequired,
-        alerts: PropTypes.arrayOf(AlertShape).isRequired,
+        alerts: PropTypes.arrayOf(alertShape).isRequired,
       }),
     ),
     stoptimes: PropTypes.arrayOf(

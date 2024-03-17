@@ -5,7 +5,7 @@ import moment from 'moment';
 import PropTypes from 'prop-types';
 import { intlShape } from 'react-intl';
 import Modal from '@hsl-fi/modal';
-import { ConfigShape } from '../util/shapes';
+import { configShape } from '../util/shapes';
 import { getRouteMode } from '../util/modeUtils';
 import RouteNumber from './RouteNumber';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
@@ -153,5 +153,5 @@ LegInfo.defaultProps = {
 
 LegInfo.contextTypes = {
   intl: intlShape.isRequired,
-  config: ConfigShape.isRequired,
+  config: configShape.isRequired,
 };

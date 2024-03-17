@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'found';
 import TruncateMarkup from 'react-truncate-markup';
-import { AlertShape, ConfigShape } from '../util/shapes';
+import { alertShape, configShape } from '../util/shapes';
 import Icon from './Icon';
 import { alertSeverityCompare } from '../util/alertUtils';
 
@@ -45,11 +45,11 @@ const AlertBanner = ({ alerts, linkAddress }, { config }) => {
 };
 
 AlertBanner.propTypes = {
-  alerts: PropTypes.arrayOf(AlertShape).isRequired,
+  alerts: PropTypes.arrayOf(alertShape).isRequired,
   linkAddress: PropTypes.string.isRequired,
 };
 
 AlertBanner.contextTypes = {
-  config: ConfigShape.isRequired,
+  config: configShape.isRequired,
 };
 export default AlertBanner;

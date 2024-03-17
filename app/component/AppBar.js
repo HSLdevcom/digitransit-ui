@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { intlShape } from 'react-intl';
 import { matchShape } from 'found';
-import { ConfigShape } from '../util/shapes';
+import { configShape } from '../util/shapes';
 
 import Icon from './Icon';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
@@ -137,7 +137,7 @@ AppBar.defaultProps = {
 
 AppBar.contextTypes = {
   getStore: PropTypes.func.isRequired,
-  config: ConfigShape.isRequired,
+  config: configShape.isRequired,
   intl: intlShape.isRequired,
   match: matchShape.isRequired,
 };

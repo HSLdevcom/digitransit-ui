@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { createRefetchContainer, graphql } from 'react-relay';
 import moment from 'moment';
 import { matchShape, routerShape } from 'found';
-import { ConfigShape, RelayShape } from '../util/shapes';
+import { configShape, relayShape } from '../util/shapes';
 import { prepareServiceDay } from '../util/dateParamUtils';
 import TimetableContainer from './TimetableContainer';
 
@@ -14,7 +14,7 @@ class StopTimetablePage extends React.Component {
     stop: PropTypes.shape({
       url: PropTypes.string,
     }).isRequired,
-    relay: RelayShape.isRequired,
+    relay: relayShape.isRequired,
   };
 
   state = prepareServiceDay({});
@@ -42,7 +42,7 @@ class StopTimetablePage extends React.Component {
   static contextTypes = {
     router: routerShape.isRequired,
     match: matchShape.isRequired,
-    config: ConfigShape.isRequired,
+    config: configShape.isRequired,
   };
 
   render() {

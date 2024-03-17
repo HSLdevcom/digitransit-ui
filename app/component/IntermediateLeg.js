@@ -3,7 +3,7 @@ import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
 import Link from 'found/Link';
-import { ConfigShape } from '../util/shapes';
+import { configShape } from '../util/shapes';
 import ZoneIcon from './ZoneIcon';
 import { PREFIX_STOPS } from '../util/path';
 import Icon from './Icon';
@@ -196,7 +196,7 @@ IntermediateLeg.defaultProps = {
 };
 
 IntermediateLeg.contextTypes = {
-  config: ConfigShape.isRequired,
+  config: configShape.isRequired,
 };
 
 export default IntermediateLeg;

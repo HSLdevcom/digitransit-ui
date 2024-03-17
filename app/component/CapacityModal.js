@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { ConfigShape } from '../util/shapes';
+import { configShape } from '../util/shapes';
 import Icon from './Icon';
 
 const CapacityModal = ({ config }) => {
@@ -153,7 +153,7 @@ const CapacityModal = ({ config }) => {
 };
 
 CapacityModal.propTypes = {
-  config: ConfigShape.isRequired,
+  config: configShape.isRequired,
 };
 
 CapacityModal.defaultProps = {};
