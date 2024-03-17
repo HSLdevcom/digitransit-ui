@@ -68,7 +68,15 @@ export const geoJsonFeatureShape = PropTypes.shape({
     ).isRequired,
     type: PropTypes.string.isRequired,
   }).isRequired,
+  // eslint-disable-next-line
   properties: PropTypes.object,
+});
+
+export const legShape = PropTypes.shape({
+  startTime: PropTypes.number.isRequired,
+  endTime: PropTypes.number.isRequired,
+  duration: PropTypes.number.isRequired,
+  distance: PropTypes.number,
 });
 
 export const itineraryShape = PropTypes.shape({
@@ -76,7 +84,7 @@ export const itineraryShape = PropTypes.shape({
   endTime: PropTypes.number,
   duration: PropTypes.number,
   walkDistance: PropTypes.number,
-  legs: PropTypes.arrayOf(PropTypes.object),
+  legs: PropTypes.arrayOf(legShape),
   emissionsPerPerson: PropTypes.shape({
     co2: PropTypes.number,
   }),
@@ -173,7 +181,8 @@ export const relayShape = PropTypes.shape({
   refetch: PropTypes.func,
   hasMore: PropTypes.func,
   loadMore: PropTypes.func,
-  environment: PropTypes.object.isRequired,
+  // eslint-disable-next-line
+  environment: PropTypes.object,
 });
 
 export const routeShape = PropTypes.shape({
