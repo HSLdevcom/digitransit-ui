@@ -10,6 +10,7 @@ export const AlertShape = PropTypes.shape({
   alertHeaderText: PropTypes.string,
   alertSeverityLevel: PropTypes.string,
   alertUrl: PropTypes.string,
+  id: PropTypes.string,
   entities: PropTypes.arrayOf(
     PropTypes.shape({
       __typename: PropTypes.string.isRequired,

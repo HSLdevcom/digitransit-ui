@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import React, { useState, useRef } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { matchShape } from 'found';
+import { AlertShape } from '../util/shapes';
 import { AlertSeverityLevelType } from '../constants';
 import {
   getCancelationsForStop,
@@ -212,10 +213,6 @@ function StopPageTabs({ stop }, { match }) {
   );
 }
 
-const alertArrayShape = PropTypes.arrayOf(
-  PropTypes.shape({ alertSeverityLevel: PropTypes.string }),
-);
-
 StopPageTabs.propTypes = {
   stop: PropTypes.shape({
     routes: PropTypes.arrayOf(
@@ -227,7 +224,7 @@ StopPageTabs.propTypes = {
         }).isRequired,
       }),
     ),
-    alerts: alertArrayShape,
+    alerts: PropTypes.arrayOf(AlertShape),
     vehicleMode: PropTypes.string,
     stoptimes: PropTypes.arrayOf(
       PropTypes.shape({
@@ -237,7 +234,7 @@ StopPageTabs.propTypes = {
             code: PropTypes.string,
           }),
           route: PropTypes.shape({
-            alerts: alertArrayShape,
+            alerts: PropTypes.arrayOf(AlertShape),
             trip: PropTypes.shape({
               pattern: PropTypes.shape({
                 code: PropTypes.string,

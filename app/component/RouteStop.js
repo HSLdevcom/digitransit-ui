@@ -3,7 +3,7 @@ import React from 'react';
 import Link from 'found/Link';
 import { FormattedMessage, intlShape } from 'react-intl';
 import cx from 'classnames';
-import { ConfigShape, VehicleShape } from '../util/shapes';
+import { AlertShape, ConfigShape, VehicleShape } from '../util/shapes';
 import AddressRow from './AddressRow';
 import TripLink from './TripLink';
 import FuzzyTripLink from './FuzzyTripLink';
@@ -295,13 +295,7 @@ RouteStop.propTypes = {
     zoneId: PropTypes.string,
     scheduledDeparture: PropTypes.number,
     platformCode: PropTypes.string,
-    alerts: PropTypes.arrayOf(
-      PropTypes.shape({
-        effectiveStartDate: PropTypes.number,
-        effectiveEndDate: PropTypes.number,
-        alertSeverityLevel: PropTypes.string,
-      }),
-    ),
+    alerts: PropTypes.arrayOf(AlertShape),
     stopTimesForPattern: PropTypes.arrayOf(
       PropTypes.shape({
         realtimeDeparture: PropTypes.number,

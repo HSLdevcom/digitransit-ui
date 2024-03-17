@@ -6,7 +6,7 @@ import { matchShape, routerShape } from 'found';
 import { FormattedMessage, intlShape } from 'react-intl';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import get from 'lodash/get';
-import { ConfigShape, FareShape } from '../util/shapes';
+import { AlertShape, ConfigShape, FareShape } from '../util/shapes';
 import TicketInformation from './TicketInformation';
 import RouteInformation from './RouteInformation';
 import ItinerarySummary from './ItinerarySummary';
@@ -42,8 +42,6 @@ import VehicleRentalDurationInfo from './VehicleRentalDurationInfo';
 import Emissions from './Emissions';
 import EmissionsInfo from './EmissionsInfo';
 import FareDisclaimer from './FareDisclaimer';
-
-const AlertShape = PropTypes.shape({ alertSeverityLevel: PropTypes.string });
 
 const RouteShape = PropTypes.shape({
   alerts: PropTypes.arrayOf(AlertShape),

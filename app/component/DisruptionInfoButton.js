@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import { FormattedMessage } from 'react-intl';
-import { ConfigShape } from '../util/shapes';
+import { AlertShape, ConfigShape } from '../util/shapes';
 import Icon from './Icon';
 
 function DisruptionInfoButton(props, { config }) {
@@ -31,9 +31,7 @@ function DisruptionInfoButton(props, { config }) {
 
 DisruptionInfoButton.propTypes = {
   openDisruptionInfo: PropTypes.func.isRequired,
-  viewer: PropTypes.shape({
-    alerts: PropTypes.arrayOf(PropTypes.shape({ id: PropTypes.string })),
-  }),
+  viewer: PropTypes.shape({ alerts: PropTypes.arrayOf(AlertShape) }),
 };
 
 DisruptionInfoButton.defaultProps = {

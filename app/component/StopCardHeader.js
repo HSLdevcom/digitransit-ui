@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
 import { matchShape } from 'found';
+import { AlertShape } from '../util/shapes';
 import CardHeader from './CardHeader';
 import { getJson } from '../util/xhrPromise';
 import { saveSearch } from '../action/SearchActions';
@@ -129,13 +130,7 @@ StopCardHeader.propTypes = {
         desc: PropTypes.string,
       }),
     ),
-    alerts: PropTypes.arrayOf(
-      PropTypes.shape({
-        alertSeverityLevel: PropTypes.string,
-        effectiveEndDate: PropTypes.number,
-        effectiveStartDate: PropTypes.number,
-      }),
-    ),
+    alerts: PropTypes.arrayOf(AlertShape),
     lat: PropTypes.number,
     lon: PropTypes.number,
   }),

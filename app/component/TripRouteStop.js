@@ -3,7 +3,7 @@ import React from 'react';
 import Link from 'found/Link';
 import cx from 'classnames';
 import isEmpty from 'lodash/isEmpty';
-import { ConfigShape, VehicleShape } from '../util/shapes';
+import { AlertShape, ConfigShape, VehicleShape } from '../util/shapes';
 import TripLink from './TripLink';
 import FuzzyTripLink from './FuzzyTripLink';
 import AddressRow from './AddressRow';
@@ -189,13 +189,7 @@ TripRouteStop.propTypes = {
     name: PropTypes.string,
     desc: PropTypes.string,
     gtfsId: PropTypes.string,
-    alerts: PropTypes.arrayOf(
-      PropTypes.shape({
-        effectiveStartDate: PropTypes.number,
-        effectiveEndDate: PropTypes.number,
-        alertSeverityLevel: PropTypes.string,
-      }),
-    ),
+    alerts: PropTypes.arrayOf(AlertShape),
     zoneId: PropTypes.string,
   }).isRequired,
   nextStop: PropTypes.shape({
