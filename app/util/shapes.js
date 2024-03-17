@@ -156,6 +156,7 @@ export const MapLayerOptionsShape = PropTypes.shape({
 
 export const PlanShape = PropTypes.shape({
   itineraries: PropTypes.arrayOf(ItineraryShape).isRequired,
+  date: PropTypes.number,
 });
 
 export const PlannerMessageShape = PropTypes.oneOf(

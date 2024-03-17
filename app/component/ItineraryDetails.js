@@ -73,9 +73,6 @@ const ItineraryShape = PropTypes.oneOfType([
 /* eslint-disable prettier/prettier */
 class ItineraryDetails extends React.Component {
   static propTypes = {
-    plan: PropTypes.shape({
-      date: PropTypes.number.isRequired,
-    }).isRequired,
     itinerary: ItineraryShape.isRequired,
     focusToPoint: PropTypes.func.isRequired,
     focusToLeg: PropTypes.func.isRequired,
@@ -382,11 +379,6 @@ const withRelay = createFragmentContainer(
     currentLanguage: context.getStore('PreferencesStore').getLanguage(),
   })),
   {
-    plan: graphql`
-      fragment ItineraryDetails_plan on Plan {
-        date
-      }
-    `,
     itinerary: graphql`
       fragment ItineraryDetails_itinerary on Itinerary {
         walkDistance
