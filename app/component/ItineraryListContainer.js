@@ -10,7 +10,12 @@ import {
 import { matchShape, routerShape } from 'found';
 import getContext from 'recompose/getContext';
 import { intlShape, FormattedMessage } from 'react-intl';
-import { ConfigShape, ItineraryShape, ChildrenShape } from '../util/shapes';
+import {
+  ConfigShape,
+  ItineraryShape,
+  ChildrenShape,
+  PlanShape,
+} from '../util/shapes';
 import Icon from './Icon';
 import ItineraryList from './ItineraryList';
 import TimeStore from '../store/TimeStore';
@@ -35,10 +40,7 @@ class ItineraryListContainer extends React.Component {
       hash: PropTypes.string,
       secondHash: PropTypes.string,
     }).isRequired,
-    plan: PropTypes.shape({
-      date: PropTypes.number,
-      itineraries: PropTypes.arrayOf(ItineraryShape),
-    }).isRequired,
+    plan: PlanShape.isRequired,
     bikeAndParkItineraryCount: PropTypes.number,
     showRelaxedPlanNotifier: PropTypes.bool,
     separatorPosition: PropTypes.number,
