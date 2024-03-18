@@ -4,6 +4,7 @@ import { FormattedMessage } from 'react-intl';
 import { durationToString } from '../util/timeUtils';
 import { getHeadsignFromRouteLongName } from '../util/legUtils';
 import Icon from './Icon';
+import { legShape } from '../util/shapes';
 
 const InterlineInfo = ({ legs, leg }) => {
   let totalWait = 0;
@@ -69,17 +70,7 @@ const InterlineInfo = ({ legs, leg }) => {
 };
 
 InterlineInfo.propTypes = {
-  leg: PropTypes.object.isRequired,
-  legs: PropTypes.arrayOf(
-    PropTypes.shape({
-      startTime: PropTypes.number,
-      route: PropTypes.shape({
-        shortName: PropTypes.string,
-      }).isRequired,
-      trip: PropTypes.shape({
-        tripHeadsign: PropTypes.string.isRequired,
-      }).isRequired,
-    }),
-  ).isRequired,
+  leg: legShape.isRequired,
+  legs: PropTypes.arrayOf(legShape).isRequired,
 };
 export default InterlineInfo;

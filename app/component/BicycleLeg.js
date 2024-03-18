@@ -4,7 +4,7 @@ import moment from 'moment';
 import { FormattedMessage, intlShape } from 'react-intl';
 import cx from 'classnames';
 import Link from 'found/Link';
-import { configShape } from '../util/shapes';
+import { legShape, configShape } from '../util/shapes';
 import Icon from './Icon';
 import ItineraryMapAction from './ItineraryMapAction';
 import { displayDistance } from '../util/geo-utils';
@@ -304,47 +304,8 @@ export default function BicycleLeg(
 }
 
 BicycleLeg.propTypes = {
-  leg: PropTypes.shape({
-    endTime: PropTypes.number.isRequired,
-    duration: PropTypes.number.isRequired,
-    startTime: PropTypes.number.isRequired,
-    distance: PropTypes.number.isRequired,
-    from: PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      vehicleRentalStation: PropTypes.shape({
-        vehiclesAvailable: PropTypes.number.isRequired,
-        network: PropTypes.string.isRequired,
-      }),
-      stop: PropTypes.object,
-    }).isRequired,
-    to: PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      stop: PropTypes.object,
-      bikePark: PropTypes.object,
-    }).isRequired,
-    mode: PropTypes.string.isRequired,
-    rentedBike: PropTypes.bool.isRequired,
-  }).isRequired,
-  bicycleWalkLeg: PropTypes.shape({
-    endTime: PropTypes.number.isRequired,
-    duration: PropTypes.number.isRequired,
-    distance: PropTypes.number.isRequired,
-    startTime: PropTypes.number.isRequired,
-    from: PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      vehicleRentalStation: PropTypes.shape({
-        vehiclesAvailable: PropTypes.number.isRequired,
-        network: PropTypes.string.isRequired,
-      }),
-      stop: PropTypes.object,
-    }),
-    to: PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      stop: PropTypes.object,
-    }).isRequired,
-    mode: PropTypes.string.isRequired,
-    rentedBike: PropTypes.bool.isRequired,
-  }),
+  leg: legShape.isRequired,
+  bicycleWalkLeg: legShape,
   index: PropTypes.number.isRequired,
   focusAction: PropTypes.func.isRequired,
   focusToLeg: PropTypes.func.isRequired,

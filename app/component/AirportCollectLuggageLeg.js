@@ -3,7 +3,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import moment from 'moment';
 import { Link } from 'found';
-import { configShape } from '../util/shapes';
+import { legShape, configShape } from '../util/shapes';
 import Icon from './Icon';
 import ItineraryCircleLine from './ItineraryCircleLine';
 import ItineraryMapAction from './ItineraryMapAction';
@@ -60,15 +60,7 @@ function AirportCollectLuggageLeg(props, { config }) {
 
 AirportCollectLuggageLeg.propTypes = {
   index: PropTypes.number.isRequired,
-  leg: PropTypes.shape({
-    endTime: PropTypes.number.isRequired,
-    to: PropTypes.shape({
-      name: PropTypes.string,
-      stop: PropTypes.shape({
-        gtfsId: PropTypes.string,
-      }),
-    }),
-  }).isRequired,
+  leg: legShape.isRequired,
   focusAction: PropTypes.func.isRequired,
   children: PropTypes.node,
 };

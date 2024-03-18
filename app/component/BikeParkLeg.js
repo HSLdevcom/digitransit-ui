@@ -3,7 +3,7 @@ import cx from 'classnames';
 import React from 'react';
 import moment from 'moment';
 import { FormattedMessage, intlShape } from 'react-intl';
-import { configShape } from '../util/shapes';
+import { legShape, parkShape, configShape } from '../util/shapes';
 import { displayDistance } from '../util/geo-utils';
 import { durationToString } from '../util/timeUtils';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
@@ -103,27 +103,8 @@ BikeParkLeg.contextTypes = {
 BikeParkLeg.propTypes = {
   index: PropTypes.number.isRequired,
   focusAction: PropTypes.func.isRequired,
-  bikePark: PropTypes.object.isRequired,
-  leg: PropTypes.shape({
-    endTime: PropTypes.number.isRequired,
-    duration: PropTypes.number.isRequired,
-    startTime: PropTypes.number.isRequired,
-    distance: PropTypes.number.isRequired,
-    from: PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      vehicleRentalStation: PropTypes.shape({
-        vehiclesAvailable: PropTypes.number.isRequired,
-        network: PropTypes.string.isRequired,
-      }),
-      stop: PropTypes.object,
-    }).isRequired,
-    to: PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      stop: PropTypes.object,
-    }).isRequired,
-    mode: PropTypes.string.isRequired,
-    rentedBike: PropTypes.bool.isRequired,
-  }).isRequired,
+  bikePark: parkShape.isRequired,
+  leg: legShape.isRequired,
 };
 
 export default BikeParkLeg;

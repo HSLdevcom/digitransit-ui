@@ -5,7 +5,7 @@ import { matchShape } from 'found';
 import DTAutosuggestPanel from '@digitransit-component/digitransit-component-autosuggest-panel';
 import CtrlPanel from '@digitransit-component/digitransit-component-control-panel';
 import i18next from 'i18next';
-import { ConfigShape } from '../../util/shapes';
+import { configShape } from '../../util/shapes';
 import { getRefPoint } from '../../util/apiUtils';
 import withSearchContext from '../WithSearchContext';
 import {
@@ -347,7 +347,7 @@ const EmbeddedSearch = (props, context) => {
 };
 
 EmbeddedSearch.contextTypes = {
-  config: ConfigShape.isRequired,
+  config: configShape.isRequired,
 };
 
 EmbeddedSearch.propTypes = {

@@ -1,9 +1,8 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import get from 'lodash/get';
 import { intlShape } from 'react-intl';
-import { configShape } from '../util/shapes';
+import { legShape, configShape } from '../util/shapes';
 import AgencyInfo from './AgencyInfo';
 
 function LegAgencyInfo({ leg }, { config }) {
@@ -25,7 +24,7 @@ LegAgencyInfo.contextTypes = {
   config: configShape.isRequired,
 };
 
-LegAgencyInfo.propTypes = { leg: PropTypes.object.isRequired };
+LegAgencyInfo.propTypes = { leg: legShape.isRequired };
 
 export default createFragmentContainer(LegAgencyInfo, {
   leg: graphql`

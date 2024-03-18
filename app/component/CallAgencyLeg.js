@@ -3,8 +3,7 @@ import React from 'react';
 import Link from 'found/Link';
 import moment from 'moment';
 import { FormattedMessage } from 'react-intl';
-import { configShape } from '../util/shapes';
-
+import { legShape, configShape } from '../util/shapes';
 import Icon from './Icon';
 import StopCode from './StopCode';
 import LegAgencyInfo from './LegAgencyInfo';
@@ -102,7 +101,7 @@ const CallAgencyLeg = ({ leg, index, focusAction }, { config }) => {
 };
 
 CallAgencyLeg.propTypes = {
-  leg: PropTypes.object.isRequired,
+  leg: legShape.isRequired,
   index: PropTypes.number.isRequired,
   focusAction: PropTypes.func.isRequired,
 };

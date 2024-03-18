@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
 import { FormattedMessage, intlShape } from 'react-intl';
-import { configShape } from '../util/shapes';
+import { legShape, configShape } from '../util/shapes';
 import Icon from './Icon';
 import ItineraryMapAction from './ItineraryMapAction';
 import { displayDistance } from '../util/geo-utils';
@@ -95,22 +95,7 @@ export default function CarLeg(props, { config, intl }) {
 }
 
 CarLeg.propTypes = {
-  leg: PropTypes.shape({
-    duration: PropTypes.number.isRequired,
-    startTime: PropTypes.number.isRequired,
-    distance: PropTypes.number.isRequired,
-    from: PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      stop: PropTypes.shape({
-        code: PropTypes.string,
-      }),
-    }).isRequired,
-    to: PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      carPark: PropTypes.object,
-    }),
-    mode: PropTypes.string.isRequired,
-  }).isRequired,
+  leg: legShape.isRequired,
   index: PropTypes.number.isRequired,
   focusAction: PropTypes.func.isRequired,
   focusToLeg: PropTypes.func.isRequired,

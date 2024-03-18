@@ -3,7 +3,7 @@ import React from 'react';
 import moment from 'moment';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'found';
-import { configShape } from '../util/shapes';
+import { legShape, configShape } from '../util/shapes';
 import ItineraryCircleLine from './ItineraryCircleLine';
 import Icon from './Icon';
 import ItineraryMapAction from './ItineraryMapAction';
@@ -67,17 +67,7 @@ export default function AirportCheckInLeg(props, { config }) {
 }
 
 AirportCheckInLeg.propTypes = {
-  leg: PropTypes.shape({
-    agency: PropTypes.shape({
-      name: PropTypes.string,
-    }),
-    from: PropTypes.shape({
-      name: PropTypes.string,
-      stop: PropTypes.shape({
-        gtfsId: PropTypes.string,
-      }),
-    }),
-  }).isRequired,
+  leg: legShape.isRequired,
   startTime: PropTypes.number.isRequired,
   focusAction: PropTypes.func.isRequired,
   index: PropTypes.number.isRequired,

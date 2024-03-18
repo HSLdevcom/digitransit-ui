@@ -5,7 +5,6 @@ import React from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
 import Link from 'found/Link';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-
 import LegAgencyInfo from './LegAgencyInfo';
 import Icon from './Icon';
 import IntermediateLeg from './IntermediateLeg';
@@ -34,7 +33,7 @@ import {
 } from '../util/legUtils';
 import { shouldShowFareInfo } from '../util/fareUtils';
 import { AlertEntityType, AlertSeverityLevelType } from '../constants';
-import { alertShape } from '../util/shapes';
+import { legShape, configShape } from '../util/shapes';
 import ZoneIcon from './ZoneIcon';
 import StopInfo from './StopInfo';
 import InterlineInfo from './InterlineInfo';
@@ -610,107 +609,8 @@ class TransitLeg extends React.Component {
 }
 
 TransitLeg.propTypes = {
-  leg: PropTypes.shape({
-    realtimeState: PropTypes.string,
-    realTime: PropTypes.bool,
-    fare: PropTypes.shape({
-      isUnknown: PropTypes.bool,
-      agency: PropTypes.shape({
-        name: PropTypes.string,
-        fareUrl: PropTypes.string,
-      }),
-    }),
-    from: PropTypes.shape({
-      stop: PropTypes.shape({
-        code: PropTypes.string,
-        platformCode: PropTypes.string,
-        zoneId: PropTypes.string,
-        alerts: PropTypes.arrayOf(alertShape),
-        gtfsId: PropTypes.string,
-      }).isRequired,
-      name: PropTypes.string.isRequired,
-    }).isRequired,
-    duration: PropTypes.number.isRequired,
-    route: PropTypes.shape({
-      gtfsId: PropTypes.string.isRequired,
-      shortName: PropTypes.string,
-      color: PropTypes.string,
-      alerts: PropTypes.arrayOf(alertShape),
-    }).isRequired,
-    to: PropTypes.shape({
-      stop: PropTypes.shape({
-        zoneId: PropTypes.string,
-        alerts: PropTypes.arrayOf(alertShape),
-      }).isRequired,
-      name: PropTypes.string.isRequired,
-    }).isRequired,
-    trip: PropTypes.shape({
-      gtfsId: PropTypes.string.isRequired,
-      pattern: PropTypes.shape({
-        code: PropTypes.string.isRequired,
-      }).isRequired,
-      tripHeadsign: PropTypes.string.isRequired,
-      stoptimesForDate: PropTypes.arrayOf(
-        PropTypes.shape({
-          headsign: PropTypes.string,
-          stop: PropTypes.shape({
-            gtfsId: PropTypes.string.isRequired,
-          }),
-        }),
-      ),
-    }).isRequired,
-    startTime: PropTypes.number.isRequired,
-    endTime: PropTypes.number,
-    departureDelay: PropTypes.number,
-    intermediatePlaces: PropTypes.arrayOf(
-      PropTypes.shape({
-        arrivalTime: PropTypes.number.isRequired,
-        stop: PropTypes.shape({
-          gtfsId: PropTypes.string.isRequired,
-          code: PropTypes.string,
-          platformCode: PropTypes.string,
-          zoneId: PropTypes.string,
-        }).isRequired,
-      }),
-    ).isRequired,
-    interlineWithPreviousLeg: PropTypes.bool.isRequired,
-    nextLegs: PropTypes.arrayOf(PropTypes.object),
-  }).isRequired,
-  interliningLegs: PropTypes.arrayOf(
-    PropTypes.shape({
-      intermediatePlaces: PropTypes.arrayOf(
-        PropTypes.shape({
-          arrivalTime: PropTypes.number.isRequired,
-          stop: PropTypes.shape({
-            gtfsId: PropTypes.string.isRequired,
-            code: PropTypes.string,
-            platformCode: PropTypes.string,
-            zoneId: PropTypes.string,
-          }).isRequired,
-        }),
-      ).isRequired,
-      route: PropTypes.shape({
-        shortName: PropTypes.string,
-      }).isRequired,
-      trip: PropTypes.shape({
-        tripHeadsign: PropTypes.string.isRequired,
-        stoptimesForDate: PropTypes.arrayOf(
-          PropTypes.shape({
-            headsign: PropTypes.string,
-            stop: PropTypes.shape({
-              gtfsId: PropTypes.string.isRequired,
-            }),
-          }),
-        ),
-      }).isRequired,
-      endTime: PropTypes.number.isRequired,
-      to: PropTypes.shape({
-        stop: PropTypes.shape({
-          zoneId: PropTypes.string,
-        }).isRequired,
-      }).isRequired,
-    }),
-  ),
+  leg: legShape.isRequired,
+  interliningLegs: PropTypes.arrayOf(legShape),
   index: PropTypes.number.isRequired,
   mode: PropTypes.string.isRequired,
   focusAction: PropTypes.func.isRequired,
@@ -730,12 +630,7 @@ TransitLeg.defaultProps = {
 
 TransitLeg.contextTypes = {
   focusFunction: PropTypes.func.isRequired,
-  config: PropTypes.shape({
-    itinerary: PropTypes.shape({
-      delayThreshold: PropTypes.number,
-    }).isRequired,
-    showTicketInformation: PropTypes.bool,
-  }).isRequired,
+  config: configShape.isRequired,
   intl: intlShape.isRequired,
 };
 

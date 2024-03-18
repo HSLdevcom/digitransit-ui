@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
+import { legShape } from '../util/shapes';
 
 import TransitLeg from './TransitLeg';
 
@@ -18,7 +19,7 @@ const FunicularLeg = ({ leg, ...props }) => (
 );
 
 FunicularLeg.propTypes = {
-  leg: PropTypes.object.isRequired,
+  leg: legShape.isRequired,
   index: PropTypes.number.isRequired,
   focusAction: PropTypes.func.isRequired,
 };

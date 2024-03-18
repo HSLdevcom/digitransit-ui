@@ -5,7 +5,7 @@ import moment from 'moment';
 import PropTypes from 'prop-types';
 import { intlShape } from 'react-intl';
 import Modal from '@hsl-fi/modal';
-import { configShape } from '../util/shapes';
+import { legShape, configShape } from '../util/shapes';
 import { getRouteMode } from '../util/modeUtils';
 import RouteNumber from './RouteNumber';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
@@ -133,9 +133,9 @@ export default function LegInfo(
 }
 
 LegInfo.propTypes = {
-  leg: PropTypes.object.isRequired,
+  leg: legShape.isRequired,
   hasNoShortName: PropTypes.bool,
-  mode: PropTypes.string.isRequired,
+  mode: PropTypes.string,
   headsign: PropTypes.string.isRequired,
   alertSeverityLevel: PropTypes.string,
   isAlternativeLeg: PropTypes.bool.isRequired,

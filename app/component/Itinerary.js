@@ -3,8 +3,7 @@ import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
-import { configShape } from '../util/shapes';
-
+import { legShape, configShape } from '../util/shapes';
 import Icon from './Icon';
 import LocalTime from './LocalTime';
 import RelativeDuration from './RelativeDuration';
@@ -136,7 +135,7 @@ export function RouteLeg(
 }
 
 RouteLeg.propTypes = {
-  leg: PropTypes.object.isRequired,
+  leg: legShape.isRequired,
   intl: intlShape.isRequired,
   large: PropTypes.bool.isRequired,
   legLength: PropTypes.number.isRequired,

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
 import Link from 'found/Link';
-import { configShape, alertShape } from '../util/shapes';
+import { legShape, configShape } from '../util/shapes';
 import Icon from './Icon';
 import ItineraryMapAction from './ItineraryMapAction';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
@@ -239,48 +239,12 @@ function WalkLeg(
   );
 }
 
-const walkLegShape = PropTypes.shape({
-  distance: PropTypes.number.isRequired,
-  duration: PropTypes.number.isRequired,
-  from: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    stop: PropTypes.shape({
-      alerts: PropTypes.arrayOf(alertShape),
-      code: PropTypes.string,
-      gtfsId: PropTypes.string.isRequired,
-      platformCode: PropTypes.string,
-      vehicleMode: PropTypes.string,
-    }),
-    vehicleRentalStation: PropTypes.shape({
-      network: PropTypes.string,
-    }),
-  }).isRequired,
-  to: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    stop: PropTypes.shape({
-      alerts: PropTypes.arrayOf(alertShape),
-      code: PropTypes.string,
-      gtfsId: PropTypes.string.isRequired,
-      platformCode: PropTypes.string,
-      vehicleMode: PropTypes.string,
-    }),
-    vehicleRentalStation: PropTypes.shape({
-      network: PropTypes.string,
-    }),
-  }).isRequired,
-  mode: PropTypes.string.isRequired,
-  rentedBike: PropTypes.bool,
-  realTime: PropTypes.bool,
-  startTime: PropTypes.number.isRequired,
-  endTime: PropTypes.number.isRequired,
-});
-
 WalkLeg.propTypes = {
   children: PropTypes.node,
   focusAction: PropTypes.func.isRequired,
   index: PropTypes.number.isRequired,
-  leg: walkLegShape.isRequired,
-  previousLeg: walkLegShape,
+  leg: legShape.isRequired,
+  previousLeg: legShape,
   focusToLeg: PropTypes.func.isRequired,
 };
 
