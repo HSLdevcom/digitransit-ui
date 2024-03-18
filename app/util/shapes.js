@@ -79,7 +79,7 @@ export const parkShape = PropTypes.shape({
 });
 
 export const vehicleRentalStationShape = PropTypes.shape({
-  vehiclesAvailable: PropTypes.number.isRequired,
+  vehiclesAvailable: PropTypes.number,
   network: PropTypes.string.isRequired,
 });
 
@@ -99,7 +99,7 @@ export const patternShape = PropTypes.shape({
 
 export const tripShape = PropTypes.shape({
   gtfsId: PropTypes.string,
-  pattern: patternShape.isRequired,
+  pattern: patternShape,
   tripHeadsign: PropTypes.string,
   stoptimesForDate: PropTypes.arrayOf(
     PropTypes.shape({
