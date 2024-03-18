@@ -221,7 +221,7 @@ const ParkAndRideContent = (
             target="_blank"
             rel="noreferrer"
           >
-            {intl.formatMessage({ id: `${prePostFix}-disclaimer-link ` })}
+            {intl.formatMessage({ id: `${prePostFix}-disclaimer-link` })}{' '}
             &rsaquo;
           </a>
         )}
