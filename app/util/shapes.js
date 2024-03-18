@@ -2,6 +2,11 @@
 import PropTypes from 'prop-types';
 import { PlannerMessageType } from '../constants';
 
+export const agencyShape = PropTypes.shape({
+  name: PropTypes.string,
+  fareUrl: PropTypes.string,
+});
+
 export const alertShape = PropTypes.shape({
   alertDescriptionText: PropTypes.string,
   effectiveEndDate: PropTypes.number,
@@ -41,10 +46,7 @@ export const errorShape = PropTypes.oneOfType([
 ]);
 
 export const fareShape = PropTypes.shape({
-  agency: PropTypes.shape({
-    fareUrl: PropTypes.string,
-    name: PropTypes.string,
-  }),
+  agency: agencyShape,
   fareId: PropTypes.string,
   cents: PropTypes.number,
   isUnknown: PropTypes.bool,
@@ -72,11 +74,89 @@ export const geoJsonFeatureShape = PropTypes.shape({
   properties: PropTypes.object,
 });
 
+export const parkShape = PropTypes.shape({
+  name: PropTypes.string.isRequired,
+});
+
+export const vehicleRentalStationShape = PropTypes.shape({
+  vehiclesAvailable: PropTypes.number.isRequired,
+  network: PropTypes.string.isRequired,
+});
+
+export const routeShape = PropTypes.shape({
+  gtfsId: PropTypes.string,
+  mode: PropTypes.string,
+  shortName: PropTypes.string,
+  longName: PropTypes.string,
+  color: PropTypes.string,
+  type: PropTypes.number,
+  alerts: PropTypes.arrayOf(alertShape),
+});
+
+export const patternShape = PropTypes.shape({
+  code: PropTypes.string,
+});
+
+export const tripShape = PropTypes.shape({
+  gtfsId: PropTypes.string,
+  pattern: patternShape.isRequired,
+  tripHeadsign: PropTypes.string,
+  stoptimesForDate: PropTypes.arrayOf(
+    PropTypes.shape({
+      headsign: PropTypes.string,
+      stop: PropTypes.shape({
+        gtfsId: PropTypes.string.isRequired,
+      }),
+    }),
+  ),
+});
+
+export const stopShape = PropTypes.shape({
+  gtfsId: PropTypes.string,
+  name: PropTypes.string,
+  code: PropTypes.string,
+  platformCode: PropTypes.string,
+  lat: PropTypes.number,
+  lon: PropTypes.number,
+  zoneId: PropTypes.string,
+  alerts: PropTypes.arrayOf(alertShape),
+});
+
 export const legShape = PropTypes.shape({
-  startTime: PropTypes.number.isRequired,
-  endTime: PropTypes.number.isRequired,
-  duration: PropTypes.number.isRequired,
+  startTime: PropTypes.number,
+  endTime: PropTypes.number,
+  duration: PropTypes.number,
   distance: PropTypes.number,
+  mode: PropTypes.string,
+  realtimeState: PropTypes.string,
+  realTime: PropTypes.bool,
+  route: routeShape,
+  trip: tripShape,
+  agency: agencyShape,
+  fare: fareShape,
+  from: PropTypes.shape({
+    name: PropTypes.string,
+    stop: stopShape,
+    vehicleRentalStation: vehicleRentalStationShape,
+  }),
+  to: PropTypes.shape({
+    name: PropTypes.string,
+    stop: stopShape,
+    vehicleRentalStation: vehicleRentalStationShape,
+    bikePark: parkShape,
+    carPark: parkShape,
+  }),
+  rentedBike: PropTypes.bool,
+  departureDelay: PropTypes.number,
+  intermediatePlaces: PropTypes.arrayOf(
+    PropTypes.shape({
+      arrivalTime: PropTypes.number,
+      stop: stopShape.isRequired,
+    }),
+  ),
+  interlineWithPreviousLeg: PropTypes.bool,
+  // eslint-disable-next-line
+  nextLegs: PropTypes.arrayOf(PropTypes.object),
 });
 
 export const itineraryShape = PropTypes.shape({
@@ -185,29 +265,11 @@ export const relayShape = PropTypes.shape({
   environment: PropTypes.object,
 });
 
-export const routeShape = PropTypes.shape({
-  gtfsId: PropTypes.string,
-  mode: PropTypes.string,
-  shortName: PropTypes.string,
-  longName: PropTypes.string,
-  color: PropTypes.string,
-  type: PropTypes.number,
-  alerts: PropTypes.arrayOf(alertShape),
-});
-
 const ROUTER_ERROR_CODES = Object.values(PlannerMessageType);
 
 export const RoutingerrorShape = PropTypes.shape({
   code: PropTypes.oneOf(ROUTER_ERROR_CODES),
   inputField: PropTypes.oneOf(['DATE_TIME', 'TO', 'FROM']),
-});
-
-export const stopShape = PropTypes.shape({
-  gtfsId: PropTypes.string.isRequired,
-  name: PropTypes.string,
-  code: PropTypes.string,
-  lat: PropTypes.number,
-  lon: PropTypes.number,
 });
 
 export const vehicleShape = PropTypes.shape({
