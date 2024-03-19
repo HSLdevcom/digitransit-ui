@@ -1,5 +1,132 @@
 import { graphql } from 'react-relay';
 
+export const planConnection = graphql`
+  query ItineraryQueries_Plan_Connection(
+    $fromPlace: PlanLabeledLocationInput!
+    $toPlace: PlanLabeledLocationInput!
+    $numItineraries: Int
+    $modes: [PlanTransitModePreferenceInput!]
+    $datetime: PlanDateTimeInput!
+    $searchWindow: Duration
+    $walkReluctance: Reluctance
+    $walkBoardCost: Cost
+    $minTransferTime: Int
+    $walkSpeed: Speed
+    $wheelchair: Boolean
+    $transferPenalty: Cost
+    $bikeSpeed: Speed
+    $allowedBikeRentalNetworks: [String!]
+  ) {
+    plan: planConnection(
+      dateTime: $datetime
+      searchWindow: "PT20M"
+      numberOfItineraries: $numItineraries
+      origin: $fromPlace
+      destination: $toPlace
+      modes: {
+        directOnly: false
+        transitOnly: false
+        direct: [WALK]
+        transit: {
+          access: [WALK]
+          transfer: [WALK]
+          egress: [WALK]
+          transit: $modes
+        }
+      }
+      preferences: {
+        accessibility: { wheelchair: { enabled: $wheelchair } }
+        street: {
+          bicycle: {
+            speed: $bikeSpeed
+            rental: { allowedNetworks: $allowedBikeRentalNetworks }
+          }
+          walk: {
+            speed: $walkSpeed
+            reluctance: $walkReluctance
+            boardCost: $walkBoardCost
+          }
+        }
+        transit: { transfer: { cost: $transferPenalty } }
+      }
+      locale: $locale
+    ) {
+      searchDateTime
+      routingErrors {
+        code
+        inputField
+      }
+      pageInfo {
+        hasNextPage
+        hasPreviousPage
+        startCursor
+        endCursor
+      }
+      edges {
+        cursor
+        node {
+          startTime
+          endTime
+          ...ItineraryDetails_itinerary
+          ...ItineraryListContainer_itineraries
+          emissionsPerPerson {
+            co2
+          }
+          legs {
+            mode
+            ...ItineraryLine_legs
+            transitLeg
+            legGeometry {
+              points
+            }
+            route {
+              gtfsId
+            }
+            trip {
+              gtfsId
+              directionId
+              occupancy {
+                occupancyStatus
+              }
+              stoptimesForDate {
+                scheduledDeparture
+                pickupType
+              }
+              pattern {
+                ...RouteLine_pattern
+              }
+            }
+            from {
+              name
+              lat
+              lon
+              stop {
+                gtfsId
+                zoneId
+              }
+              vehicleRentalStation {
+                stationId
+                vehiclesAvailable
+                network
+              }
+            }
+            to {
+              stop {
+                gtfsId
+                zoneId
+              }
+              bikePark {
+                bikeParkId
+                name
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
 export const planQuery = graphql`
   query ItineraryQueries_Plan_Query(
     $fromPlace: String!
