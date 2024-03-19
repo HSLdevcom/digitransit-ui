@@ -40,7 +40,6 @@ class StopsNearYouContainer extends React.Component {
     config: configShape,
     intl: intlShape.isRequired,
     executeAction: PropTypes.func.isRequired,
-    headers: PropTypes.object.isRequired,
     getStore: PropTypes.func,
   };
 
