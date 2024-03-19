@@ -41,7 +41,6 @@ class TopLevel extends React.Component {
   };
 
   static contextTypes = {
-    headers: PropTypes.object.isRequired,
     config: configShape.isRequired,
     executeAction: PropTypes.func.isRequired,
   };
