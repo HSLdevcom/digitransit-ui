@@ -10,15 +10,11 @@ import Icon from './Icon';
 import ScrollableWrapper from './ScrollableWrapper';
 import { isBrowser } from '../util/browser';
 import { PREFIX_TERMINALS } from '../util/path';
-import { errorShape, relayShape } from '../util/shapes';
+import { stationShape, errorShape, relayShape } from '../util/shapes';
 
 class TerminalPageContent extends React.Component {
   static propTypes = {
-    station: PropTypes.shape({
-      stoptimes: PropTypes.arrayOf(PropTypes.object),
-      stops: PropTypes.arrayOf(PropTypes.object),
-      gtfsId: PropTypes.string,
-    }).isRequired,
+    station: stationShape.isRequired,
     relay: relayShape.isRequired,
     currentTime: PropTypes.number.isRequired,
     error: errorShape,

@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import getJson from '@digitransit-search-util/digitransit-search-util-get-json';
-import { configShape } from '../util/shapes';
+import { stopShape, configShape } from '../util/shapes';
 import Favourite from './Favourite';
 import { saveFavourite, deleteFavourite } from '../action/FavouriteActions';
 import { addMessage } from '../action/MessageActions';
@@ -72,7 +72,7 @@ function FavouriteStopContainerComponent(props, context) {
 }
 
 FavouriteStopContainerComponent.propTypes = {
-  stop: PropTypes.object.isRequired,
+  stop: stopShape.isRequired,
   isTerminal: PropTypes.bool,
   isFetching: PropTypes.bool,
 };

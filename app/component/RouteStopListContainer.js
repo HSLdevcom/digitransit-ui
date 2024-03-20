@@ -8,7 +8,12 @@ import values from 'lodash/values';
 import cx from 'classnames';
 import { FormattedMessage } from 'react-intl';
 import moment from 'moment';
-import { configShape, relayShape, vehicleShape } from '../util/shapes';
+import {
+  stopShape,
+  configShape,
+  relayShape,
+  vehicleShape,
+} from '../util/shapes';
 import RouteStop from './RouteStop';
 import withBreakpoint from '../util/withBreakpoint';
 import { getRouteMode } from '../util/modeUtils';
@@ -23,7 +28,7 @@ class RouteStopListContainer extends React.PureComponent {
         shortName: PropTypes.string,
       }),
       directionId: PropTypes.number.isRequired,
-      stops: PropTypes.arrayOf(PropTypes.object).isRequired,
+      stops: PropTypes.arrayOf(stopShape).isRequired,
     }).isRequired,
     className: PropTypes.string,
     vehicles: PropTypes.objectOf(vehicleShape),

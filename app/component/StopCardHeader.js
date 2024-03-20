@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
 import { matchShape } from 'found';
-import { alertShape } from '../util/shapes';
+import { stopShape, stationShape } from '../util/shapes';
 import CardHeader from './CardHeader';
 import { getJson } from '../util/xhrPromise';
 import { saveSearch } from '../action/SearchActions';
@@ -118,22 +118,7 @@ class StopCardHeader extends React.Component {
 }
 
 StopCardHeader.propTypes = {
-  stop: PropTypes.shape({
-    gtfsId: PropTypes.string,
-    name: PropTypes.string,
-    code: PropTypes.string,
-    desc: PropTypes.string,
-    isPopUp: PropTypes.bool,
-    zoneId: PropTypes.string,
-    stops: PropTypes.arrayOf(
-      PropTypes.shape({
-        desc: PropTypes.string,
-      }),
-    ),
-    alerts: PropTypes.arrayOf(alertShape),
-    lat: PropTypes.number,
-    lon: PropTypes.number,
-  }),
+  stop: PropTypes.oneOfType([stopShape, stationShape]),
   distance: PropTypes.number,
   className: PropTypes.string,
   headingStyle: PropTypes.string,

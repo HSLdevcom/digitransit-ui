@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
-
 import distance from '@digitransit-search-util/digitransit-search-util-distance';
 import StopMarker from '../non-tile-layer/StopMarker';
 import LocationMarker from '../LocationMarker';
@@ -9,6 +8,7 @@ import Line from '../Line';
 import { getClosestPoint } from '../../../util/geo-utils';
 import { getRouteMode } from '../../../util/modeUtils';
 import { isBrowser } from '../../../util/browser';
+import { patternShape } from '../../../util/shapes';
 
 /**
  * Split the array points in two at the given position. Return index to split at
@@ -173,26 +173,7 @@ function RouteLine(props) {
 }
 
 RouteLine.propTypes = {
-  pattern: PropTypes.shape({
-    code: PropTypes.string,
-    route: PropTypes.shape({
-      mode: PropTypes.string.isRequired,
-      color: PropTypes.string,
-    }).isRequired,
-    stops: PropTypes.arrayOf(
-      PropTypes.shape({
-        lat: PropTypes.number.isRequired,
-        lon: PropTypes.number.isRequired,
-        code: PropTypes.string,
-      }).isRequired,
-    ).isRequired,
-    geometry: PropTypes.arrayOf(
-      PropTypes.shape({
-        lat: PropTypes.number.isRequired,
-        lon: PropTypes.number.isRequired,
-      }).isRequired,
-    ),
-  }).isRequired,
+  pattern: patternShape.isRequired,
   thin: PropTypes.bool,
   filteredStops: PropTypes.arrayOf(PropTypes.string.isRequired),
   vehiclePosition: PropTypes.shape({

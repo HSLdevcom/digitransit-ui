@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 import cx from 'classnames';
-import { configShape } from '../util/shapes';
+import { stopShape, configShape } from '../util/shapes';
 import AddressRow from './AddressRow';
 import Icon from './Icon';
 import ZoneIcon from './ZoneIcon';
@@ -91,7 +91,7 @@ CardHeader.propTypes = {
   className: PropTypes.string,
   headerIcon: PropTypes.node,
   headingStyle: PropTypes.string,
-  stop: PropTypes.object.isRequired,
+  stop: stopShape.isRequired,
   description: PropTypes.string.isRequired,
   code: PropTypes.string,
   externalLink: PropTypes.node,

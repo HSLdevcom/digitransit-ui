@@ -7,7 +7,12 @@ import StopsNearYouMap from './map/StopsNearYouMap';
 import TimeStore from '../store/TimeStore';
 import PreferencesStore from '../store/PreferencesStore';
 import FavouriteStore from '../store/FavouriteStore';
-import { dtlocationShape } from '../util/shapes';
+import {
+  vehicleRentalStationShape,
+  stopShape,
+  stationShape,
+  dtlocationShape,
+} from '../util/shapes';
 
 function StopsNearYouFavoritesMapContainer(props) {
   const { stops, stations, vehicleStations, position } = props;
@@ -65,9 +70,9 @@ function StopsNearYouFavoritesMapContainer(props) {
 }
 
 StopsNearYouFavoritesMapContainer.propTypes = {
-  stops: PropTypes.arrayOf(PropTypes.object),
-  stations: PropTypes.arrayOf(PropTypes.object),
-  vehicleStations: PropTypes.arrayOf(PropTypes.object),
+  stops: PropTypes.arrayOf(stopShape),
+  stations: PropTypes.arrayOf(stationShape),
+  vehicleStations: PropTypes.arrayOf(vehicleRentalStationShape),
   position: dtlocationShape.isRequired,
 };
 
