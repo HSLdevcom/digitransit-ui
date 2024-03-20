@@ -278,6 +278,13 @@ export const RoutingerrorShape = PropTypes.shape({
   inputField: PropTypes.oneOf(['DATE_TIME', 'TO', 'FROM']),
 });
 
+export const userShape = PropTypes.shape({
+  given_name: PropTypes.string,
+  family_name: PropTypes.string,
+  sub: PropTypes.string,
+  notLogged: PropTypes.bool,
+});
+
 export const vehicleShape = PropTypes.shape({
   id: PropTypes.string.isRequired,
   route: PropTypes.string.isRequired,
