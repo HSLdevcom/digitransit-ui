@@ -22,6 +22,14 @@ const defaultProps = {
   lang: 'fi',
 };
 
+const config = {
+  CONFIG: 'hsl',
+  itinerary: {},
+  zones: { itinerary: true },
+  feedIds: ['HSL'],
+  colors: { primary: 'ffffff' },
+};
+
 describe('<TransitLeg />', () => {
   it('should show a zone change between from and the first intermediate place', () => {
     const props = {
@@ -68,12 +76,7 @@ describe('<TransitLeg />', () => {
     const wrapper = shallowWithIntl(<TransitLeg {...props} />, {
       context: {
         ...mockContext,
-        config: {
-          itinerary: {},
-          zones: { itinerary: true },
-          colors: { primary: 'ffffff' },
-          feedIds: ['HSL'],
-        },
+        config,
         focusFunction: () => () => {},
       },
     });
@@ -138,12 +141,7 @@ describe('<TransitLeg />', () => {
     const wrapper = shallowWithIntl(<TransitLeg {...props} />, {
       context: {
         ...mockContext,
-        config: {
-          itinerary: {},
-          zones: { itinerary: true },
-          colors: { primary: 'ffffff' },
-          feedIds: ['HSL'],
-        },
+        config,
         focusFunction: () => () => {},
       },
     });
@@ -207,12 +205,7 @@ describe('<TransitLeg />', () => {
     const wrapper = shallowWithIntl(<TransitLeg {...props} />, {
       context: {
         ...mockContext,
-        config: {
-          itinerary: {},
-          zones: { itinerary: true },
-          colors: { primary: 'ffffff' },
-          feedIds: ['HSL'],
-        },
+        config,
         focusFunction: () => () => {},
       },
     });
@@ -272,10 +265,8 @@ describe('<TransitLeg />', () => {
       context: {
         ...mockContext,
         config: {
-          itinerary: {},
+          ...config,
           zones: { itinerary: false },
-          colors: { primary: 'ffffff' },
-          feedIds: ['HSL'],
         },
         focusFunction: () => () => {},
       },
@@ -338,11 +329,7 @@ describe('<TransitLeg />', () => {
     const wrapper = shallowWithIntl(<TransitLeg {...props} />, {
       context: {
         ...mockContext,
-        config: {
-          itinerary: {},
-          zones: { itinerary: true },
-          colors: { primary: 'ffffff' },
-        },
+        config,
         focusFunction: () => () => {},
       },
     });
@@ -401,11 +388,7 @@ describe('<TransitLeg />', () => {
     const wrapper = shallowWithIntl(<TransitLeg {...props} />, {
       context: {
         ...mockContext,
-        config: {
-          itinerary: {},
-          zones: { itinerary: true },
-          colors: { primary: 'ffffff' },
-        },
+        config,
         focusFunction: () => () => {},
       },
     });
@@ -458,9 +441,7 @@ describe('<TransitLeg />', () => {
       context: {
         ...mockContext,
         config: {
-          itinerary: {},
-          zones: { itinerary: true },
-          colors: { primary: 'ffffff' },
+          ...config,
           showAlternativeLegs: true,
         },
         focusFunction: () => () => {},
@@ -518,11 +499,8 @@ describe('<TransitLeg />', () => {
       context: {
         ...mockContext,
         config: {
-          itinerary: {},
-          zones: { itinerary: true },
-          colors: { primary: 'ffffff' },
+          ...config,
           showAlternativeLegs: true,
-          feedIds: [],
         },
         focusFunction: () => () => {},
       },
@@ -579,9 +557,7 @@ describe('<TransitLeg />', () => {
       context: {
         ...mockContext,
         config: {
-          itinerary: {},
-          zones: { itinerary: true },
-          colors: { primary: 'ffffff' },
+          ...config,
           showAlternativeLegs: true,
         },
         focusFunction: () => () => {},
@@ -645,9 +621,7 @@ describe('<TransitLeg />', () => {
       context: {
         ...mockContext,
         config: {
-          itinerary: {},
-          zones: { itinerary: true },
-          colors: { primary: 'ffffff' },
+          ...config,
           showAlternativeLegs: true,
         },
         focusFunction: () => () => {},
@@ -699,12 +673,9 @@ describe('<TransitLeg />', () => {
       context: {
         ...mockContext,
         config: {
-          itinerary: {},
-          zones: { itinerary: true },
+          ...config,
           showTicketInformation: true,
           availableTickets: { HSL: { 'HSL:A': { price: 5.5, zones: ['A'] } } },
-          feedIds: ['HSL'],
-          colors: { primary: '#007ac9' },
           hideExternalOperator: () => false,
         },
         focusFunction: () => () => {},
@@ -755,12 +726,9 @@ describe('<TransitLeg />', () => {
       context: {
         ...mockContext,
         config: {
-          itinerary: {},
-          zones: { itinerary: true },
+          ...config,
           showTicketInformation: true,
           availableTickets: { HSL: { 'foo:A': { price: 5.5, zones: ['A'] } } },
-          feedIds: ['HSL'],
-          colors: { primary: '#007ac9' },
           hideExternalOperator: () => false,
         },
         focusFunction: () => () => {},
@@ -819,12 +787,7 @@ describe('<TransitLeg />', () => {
     const wrapper = shallowWithIntl(<TransitLeg {...props} />, {
       context: {
         ...mockContext,
-        config: {
-          itinerary: {},
-          zones: { itinerary: true },
-          colors: { primary: '#007ac9' },
-          feedIds: [],
-        },
+        config,
         focusFunction: () => () => {},
       },
     });
@@ -906,9 +869,7 @@ describe('<TransitLeg />', () => {
       context: {
         ...mockContext,
         config: {
-          itinerary: {},
-          zones: { itinerary: true },
-          colors: { primary: '#007ac9' },
+          ...config,
           showAlertHeader: true,
         },
         focusFunction: () => () => {},
@@ -966,9 +927,7 @@ describe('<TransitLeg />', () => {
       context: {
         ...mockContext,
         config: {
-          itinerary: {},
-          zones: { itinerary: true },
-          colors: { primary: '#007ac9' },
+          ...config,
           showAlertHeader: true,
         },
         focusFunction: () => () => {},

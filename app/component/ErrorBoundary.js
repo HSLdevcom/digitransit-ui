@@ -46,7 +46,7 @@ export default class ErrorBoundary extends React.Component {
             />
           </p>
           <p>
-            <button onClick={this.resetState}>
+            <button type="button" onClick={this.resetState}>
               <FormattedMessage id="try-again" defaultMessage="Try again ›" />
             </button>
             {/*

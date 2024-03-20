@@ -3,8 +3,8 @@ import React from 'react';
 import moment from 'moment';
 import { FormattedMessage, intlShape } from 'react-intl';
 import cx from 'classnames';
-
 import { Link } from 'found';
+import { legShape, parkShape, configShape } from '../util/shapes';
 import Icon from './Icon';
 import ItineraryMapAction from './ItineraryMapAction';
 import { displayDistance } from '../util/geo-utils';
@@ -115,31 +115,21 @@ function CarParkLeg(props, { config, intl }) {
 }
 
 CarParkLeg.propTypes = {
-  leg: PropTypes.shape({
-    duration: PropTypes.number.isRequired,
-    startTime: PropTypes.number.isRequired,
-    distance: PropTypes.number.isRequired,
-    from: PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      stop: PropTypes.shape({
-        code: PropTypes.string,
-      }),
-    }).isRequired,
-    to: PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      stop: PropTypes.object,
-    }),
-    mode: PropTypes.string.isRequired,
-  }).isRequired,
+  leg: legShape.isRequired,
   index: PropTypes.number.isRequired,
   focusAction: PropTypes.func.isRequired,
   children: PropTypes.node,
-  carPark: PropTypes.object,
+  carPark: parkShape.isRequired,
   noWalk: PropTypes.bool,
 };
 
+CarParkLeg.defaultProps = {
+  children: undefined,
+  noWalk: false,
+};
+
 CarParkLeg.contextTypes = {
-  config: PropTypes.object.isRequired,
+  config: configShape.isRequired,
   intl: intlShape.isRequired,
 };
 

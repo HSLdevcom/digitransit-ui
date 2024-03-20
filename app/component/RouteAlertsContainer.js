@@ -12,7 +12,7 @@ import {
   setEntityForAlert,
 } from '../util/alertUtils';
 import { getRouteMode } from '../util/modeUtils';
-import { AlertShape } from '../util/shapes';
+import { alertShape } from '../util/shapes';
 import { AlertSeverityLevelType, AlertEntityType } from '../constants';
 
 /**
@@ -101,7 +101,7 @@ RouteAlertsContainer.propTypes = {
     gtfsId: PropTypes.string.isRequired,
   }).isRequired,
   pattern: PropTypes.shape({
-    alerts: PropTypes.arrayOf(AlertShape).isRequired,
+    alerts: PropTypes.arrayOf(alertShape).isRequired,
     trips: PropTypes.arrayOf(
       PropTypes.shape({
         tripHeadsign: PropTypes.string,

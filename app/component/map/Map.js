@@ -9,6 +9,7 @@ import L from 'leaflet';
 import get from 'lodash/get';
 import isString from 'lodash/isString';
 import isEmpty from 'lodash/isEmpty';
+import { configShape } from '../../util/shapes';
 // Webpack handles this by bundling it with the other css files
 import 'leaflet/dist/leaflet.css';
 import VehicleMarkerContainer from './VehicleMarkerContainer';
@@ -108,7 +109,7 @@ export default class Map extends React.Component {
   static contextTypes = {
     executeAction: PropTypes.func.isRequired,
     getStore: PropTypes.func,
-    config: PropTypes.object.isRequired,
+    config: configShape.isRequired,
   };
 
   constructor(props) {

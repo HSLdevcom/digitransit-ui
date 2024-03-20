@@ -5,7 +5,7 @@ import SelectFromMapHeader from './SelectFromMapHeader';
 export default class FromMapModal extends React.Component {
   static propTypes = {
     children: PropTypes.node,
-    onClose: PropTypes.func,
+    onClose: PropTypes.func.isRequired,
     titleId: PropTypes.string,
     favouriteContext: PropTypes.bool,
   };
@@ -13,6 +13,7 @@ export default class FromMapModal extends React.Component {
   static defaultProps = {
     children: [],
     titleId: undefined,
+    favouriteContext: false,
   };
 
   constructor(props) {

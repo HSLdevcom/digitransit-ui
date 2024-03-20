@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import { withLeaflet } from 'react-leaflet/es/context';
+import { configShape } from '../../util/shapes';
 
 import { isBrowser } from '../../util/browser';
 
@@ -25,7 +26,7 @@ class GenericMarker extends React.Component {
   static displayName = 'GenericMarker';
 
   static contextTypes = {
-    config: PropTypes.object.isRequired,
+    config: configShape.isRequired,
   };
 
   static propTypes = {

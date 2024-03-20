@@ -65,15 +65,13 @@ const handleKeyPress = (e, reactSwipeEl) => {
 export default class SwipeableTabs extends React.Component {
   constructor(props) {
     super();
-    this.state = {
-      tabIndex: props.tabIndex || 0,
-    };
+    this.state = { tabIndex: props.tabIndex };
   }
 
   static propTypes = {
     tabIndex: PropTypes.number,
     tabs: PropTypes.arrayOf(PropTypes.node).isRequired,
-    onSwipe: PropTypes.func,
+    onSwipe: PropTypes.func.isRequired,
     hideArrows: PropTypes.bool,
     navigationOnBottom: PropTypes.bool,
     classname: PropTypes.string,
@@ -84,6 +82,8 @@ export default class SwipeableTabs extends React.Component {
   static defaultProps = {
     hideArrows: false,
     navigationOnBottom: false,
+    tabIndex: 0,
+    classname: undefined,
   };
 
   static contextTypes = {

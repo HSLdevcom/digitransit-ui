@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
+import { legShape } from '../util/shapes';
 
 import TransitLeg from './TransitLeg';
 
@@ -9,8 +10,8 @@ const FunicularLeg = ({ leg, ...props }) => (
     <FormattedMessage
       id="funicular-with-route-number"
       values={{
-        routeNumber: leg.route && leg.route.shortName,
-        headSign: leg.trip && leg.trip.tripHeadsign,
+        routeNumber: leg.route?.shortName,
+        headSign: leg.trip?.tripHeadsign,
       }}
       defaultMessage="Funicular {routeNumber} {headSign}"
     />
@@ -18,10 +19,8 @@ const FunicularLeg = ({ leg, ...props }) => (
 );
 
 FunicularLeg.propTypes = {
-  leg: PropTypes.object.isRequired,
+  leg: legShape.isRequired,
   index: PropTypes.number.isRequired,
   focusAction: PropTypes.func.isRequired,
-  interliningWait: PropTypes.number,
-  isNextLegInterlining: PropTypes.bool,
 };
 export default FunicularLeg;

@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { configShape } from '../util/shapes';
 import { getLegText } from '../util/legUtils';
 import RouteNumber from './RouteNumber';
 
@@ -45,12 +46,16 @@ RouteNumberContainer.propTypes = {
 RouteNumberContainer.defaultProps = {
   interliningWithRoute: undefined,
   alertSeverityLevel: undefined,
+  isCallAgency: false,
+  vertical: false,
+  fadeLong: false,
   className: '',
   withBicycle: false,
+  occupancyStatus: undefined,
 };
 
 RouteNumberContainer.contextTypes = {
-  config: PropTypes.object.isRequired,
+  config: configShape.isRequired,
 };
 
 RouteNumberContainer.displayName = 'RouteNumberContainer';

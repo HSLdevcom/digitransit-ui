@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
 import connectToStores from 'fluxible-addons-react/connectToStores';
+import { configShape } from '../util/shapes';
 
 import Icon from './Icon';
 import FareZoneSelector from './customizesearch/FareZoneSelector';
@@ -19,7 +20,7 @@ import { getVehicleRentalStationNetworks } from '../util/vehicleRentalUtils';
 class CustomizeSearch extends React.Component {
   static contextTypes = {
     intl: intlShape.isRequired,
-    config: PropTypes.object.isRequired,
+    config: configShape.isRequired,
   };
 
   static propTypes = {

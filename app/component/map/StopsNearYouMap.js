@@ -24,7 +24,12 @@ import {
   sortNearbyStops,
 } from '../../util/sortUtils';
 import ItineraryLine from './ItineraryLine';
-import { dtLocationShape, mapLayerOptionsShape } from '../../util/shapes';
+import {
+  dtlocationShape,
+  mapLayerOptionsShape,
+  relayShape,
+  configShape,
+} from '../../util/shapes';
 import Loading from '../Loading';
 import LazilyLoad, { importLazy } from '../LazilyLoad';
 import { getDefaultNetworks } from '../../util/vehicleRentalUtils';
@@ -329,7 +334,7 @@ function StopsNearYouMap(
   }, [uniqueRealtimeTopics]);
 
   useEffect(() => {
-    if (stopsNearYou && stopsNearYou.nearest && stopsNearYou.nearest.edges) {
+    if (stopsNearYou?.nearest?.edges) {
       const active = stopsNearYou.nearest.edges
         .slice()
         .filter(
@@ -499,16 +504,11 @@ StopsNearYouMap.propTypes = {
   favouriteIds: PropTypes.object,
   mapLayers: PropTypes.object.isRequired,
   mapLayerOptions: mapLayerOptionsShape,
-  position: dtLocationShape.isRequired,
+  position: dtlocationShape.isRequired,
   match: matchShape.isRequired,
   breakpoint: PropTypes.string.isRequired,
   language: PropTypes.string.isRequired,
-  relay: PropTypes.shape({
-    refetchConnection: PropTypes.func,
-    hasMore: PropTypes.func,
-    loadMore: PropTypes.func,
-    environment: PropTypes.object,
-  }).isRequired,
+  relay: relayShape.isRequired,
   onEndNavigation: PropTypes.func,
   onMapTracking: PropTypes.func,
   loading: PropTypes.bool,
@@ -527,7 +527,7 @@ StopsNearYouMap.defaultProps = {
 };
 
 StopsNearYouMap.contextTypes = {
-  config: PropTypes.object,
+  config: configShape,
   executeAction: PropTypes.func,
   getStore: PropTypes.func,
 };

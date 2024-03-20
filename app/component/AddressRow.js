@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import StopCode from './StopCode';
 
-const RouteInformation = props => (
+const AddressRow = props => (
   <div
     className="route-address-row-container"
     ref={el => {
@@ -25,10 +25,16 @@ const RouteInformation = props => (
   </div>
 );
 
-RouteInformation.propTypes = {
+AddressRow.propTypes = {
   desc: PropTypes.string,
   code: PropTypes.string,
   isTerminal: PropTypes.bool,
 };
 
-export default RouteInformation;
+AddressRow.defaultProps = {
+  desc: undefined,
+  code: undefined,
+  isTerminal: false,
+};
+
+export default AddressRow;

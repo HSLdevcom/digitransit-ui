@@ -2,11 +2,12 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 import { FormattedMessage, intlShape } from 'react-intl';
+import { configShape } from '../util/shapes';
 import Icon from './Icon';
 import { durationToString } from '../util/timeUtils';
 import { displayDistance } from '../util/geo-utils';
 
-function Distance(props, { config, intl }) {
+export default function Distance(props, { config, intl }) {
   const distance = displayDistance(props.distance, config, intl.formatNumber);
 
   const icon = `icon-${props.icon || 'icon_walk'}`;
@@ -48,10 +49,11 @@ Distance.propTypes = {
   mode: PropTypes.string.isRequired,
 };
 
+Distance.defaultProps = { className: '', icon: undefined };
+
 Distance.contextTypes = {
-  config: PropTypes.object.isRequired,
+  config: configShape.isRequired,
   intl: intlShape.isRequired,
 };
 
 Distance.displayName = 'Distance';
-export default Distance;

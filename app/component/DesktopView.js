@@ -54,6 +54,11 @@ DesktopView.propTypes = {
 };
 
 DesktopView.defaultProps = {
+  title: undefined,
+  header: undefined,
+  map: undefined,
+  content: undefined,
+  settingsDrawer: undefined,
   scrollable: false,
   bckBtnVisible: true,
   bckBtnFallback: undefined,

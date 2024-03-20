@@ -4,6 +4,7 @@ import React, { Fragment } from 'react';
 import { intlShape } from 'react-intl';
 import { matchShape, routerShape } from 'found';
 import connectToStores from 'fluxible-addons-react/connectToStores';
+import { configShape, mapLayerOptionsShape } from '../util/shapes';
 import { isKeyboardSelectionEvent } from '../util/browser';
 import Icon from './Icon';
 import Checkbox from './Checkbox';
@@ -12,14 +13,13 @@ import MapLayerStore, { mapLayerShape } from '../store/MapLayerStore';
 import { updateMapLayers } from '../action/MapLayerActions';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import withGeojsonObjects from './map/withGeojsonObjects';
-import { mapLayerOptionsShape } from '../util/shapes';
 import { getTransportModes, showCityBikes } from '../util/modeUtils';
 
-const transportModeConfigShape = PropTypes.shape({
+const transportModeconfigShape = PropTypes.shape({
   availableForSelection: PropTypes.bool,
 });
 
-const mapLayersConfigShape = PropTypes.shape({
+const mapLayersconfigShape = PropTypes.shape({
   cityBike: PropTypes.shape({
     networks: PropTypes.object,
   }),
@@ -42,12 +42,12 @@ const mapLayersConfigShape = PropTypes.shape({
     showParkAndRide: PropTypes.bool,
   }),
   transportModes: PropTypes.shape({
-    bus: transportModeConfigShape,
-    citybike: transportModeConfigShape,
-    ferry: transportModeConfigShape,
-    rail: transportModeConfigShape,
-    subway: transportModeConfigShape,
-    tram: transportModeConfigShape,
+    bus: transportModeconfigShape,
+    citybike: transportModeconfigShape,
+    ferry: transportModeconfigShape,
+    rail: transportModeconfigShape,
+    subway: transportModeconfigShape,
+    tram: transportModeconfigShape,
   }),
   mapLayers: PropTypes.shape({
     tooltip: PropTypes.shape({
@@ -73,7 +73,7 @@ class MapLayersDialogContent extends React.Component {
     mapLayers: mapLayerShape.isRequired,
     mapLayerOptions: mapLayerOptionsShape,
     setOpen: PropTypes.func.isRequired,
-    updateMapLayers: PropTypes.func,
+    updateMapLayers: PropTypes.func.isRequired,
     lang: PropTypes.string.isRequired,
     open: PropTypes.bool.isRequired,
     geoJson: PropTypes.object,
@@ -81,6 +81,7 @@ class MapLayersDialogContent extends React.Component {
 
   static defaultProps = {
     mapLayerOptions: null,
+    geoJson: undefined,
   };
 
   handlePanelState(open) {
@@ -272,7 +273,7 @@ class MapLayersDialogContent extends React.Component {
   }
 }
 MapLayersDialogContent.contextTypes = {
-  config: PropTypes.object.isRequired,
+  config: configShape.isRequired,
   intl: intlShape.isRequired,
   router: routerShape.isRequired,
   match: matchShape.isRequired,
@@ -316,7 +317,7 @@ const connectedComponent = connectToStores(
     lang: getStore('PreferencesStore').getLanguage(),
   }),
   {
-    config: mapLayersConfigShape,
+    config: mapLayersconfigShape,
     executeAction: PropTypes.func,
   },
 );

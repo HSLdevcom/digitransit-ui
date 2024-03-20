@@ -14,7 +14,6 @@ import { AlertSeverityLevelType } from '../../../app/constants';
 import RouteNumberContainer from '../../../app/component/RouteNumberContainer';
 
 import dcw12 from '../test-data/dcw12';
-import dt2830 from '../test-data/dt2830';
 
 const defaultProps = {
   breakpoint: 'large',
@@ -35,7 +34,7 @@ describe('<Itinerary />', () => {
       refTime: dcw12.walkingRouteWithIntermediatePlace.refTime,
     };
     const wrapper = shallowWithIntl(<Itinerary {...props} />, {
-      context: { config: {} },
+      context: { config: { CONFIG: 'default' } },
     });
 
     expect(wrapper.find('.itinerary-legs').children()).to.have.lengthOf(3);
@@ -55,7 +54,7 @@ describe('<Itinerary />', () => {
     const wrapper = mountWithIntl(<Itinerary {...props} />, {
       context: {
         ...mockContext,
-        config: { cityBike: { fewAvailableCount: 3 } },
+        config: { CONFIG: 'default', cityBike: { fewAvailableCount: 3 } },
       },
       childContextTypes: { ...mockChildContextTypes },
     });
@@ -185,25 +184,6 @@ describe('<Itinerary />', () => {
     expect(wrapper.find(ViaLeg)).to.have.lengthOf(3);
     expect(wrapper.find(RouteLeg)).to.have.lengthOf(2);
     expect(wrapper.find(ModeLeg)).to.have.lengthOf.above(2);
-  });
-
-  it('should indicate which itineraries are canceled', () => {
-    const props = {
-      ...defaultProps,
-      data: dt2830,
-      passive: false,
-      refTime: 1551272073000,
-      zones: [],
-      isCancelled: true,
-      showCancelled: true,
-    };
-
-    const wrapper = mountWithIntl(<Itinerary {...props} />, {
-      context: { ...mockContext },
-      childContextTypes: { ...mockChildContextTypes },
-    });
-
-    expect(wrapper.find('.cancelled-itinerary')).to.have.lengthOf(1);
   });
 
   it('should not indicate that there is a disruption if the alert is not in effect', () => {

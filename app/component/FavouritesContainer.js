@@ -8,6 +8,7 @@ import FavouriteBar from '@digitransit-component/digitransit-component-favourite
 import FavouriteModal from '@digitransit-component/digitransit-component-favourite-modal';
 import FavouriteEditModal from '@digitransit-component/digitransit-component-favourite-editing-modal';
 import DialogModal from '@digitransit-component/digitransit-component-dialog-modal';
+import { configShape } from '../util/shapes';
 import withSearchContext from './WithSearchContext';
 
 import {
@@ -40,7 +41,7 @@ class FavouritesContainer extends React.Component {
     intl: intlShape.isRequired,
     executeAction: PropTypes.func.isRequired,
     router: routerShape.isRequired,
-    config: PropTypes.object.isRequired,
+    config: configShape.isRequired,
   };
 
   static propTypes = {
@@ -62,6 +63,10 @@ class FavouritesContainer extends React.Component {
     favouriteStatus: FavouriteStore.STATUS_FETCHING,
     requireLoggedIn: false,
     isLoggedIn: false,
+    favouriteModalAction: undefined,
+    color: undefined,
+    hoverColor: undefined,
+    lang: undefined,
   };
 
   constructor(props) {
@@ -448,7 +453,7 @@ const connectedComponent = connectToStores(
 
 connectedComponent.contextTypes = {
   getStore: PropTypes.func.isRequired,
-  config: PropTypes.object.isRequired,
+  config: configShape.isRequired,
 };
 
 export { connectedComponent as default, FavouritesContainer as Component };

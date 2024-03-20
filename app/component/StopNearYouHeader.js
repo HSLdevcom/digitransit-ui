@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'found';
+import { configShape } from '../util/shapes';
 import AddressRow from './AddressRow';
 import ZoneIcon from './ZoneIcon';
 import PlatformNumber from './PlatformNumber';
@@ -56,9 +57,10 @@ StopNearYouHeader.propTypes = {
 };
 StopNearYouHeader.defaultProps = {
   isStation: false,
+  desc: undefined,
 };
 StopNearYouHeader.contextTypes = {
-  config: PropTypes.object.isRequired,
+  config: configShape.isRequired,
 };
 
 export default StopNearYouHeader;

@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
 import { matchShape } from 'found';
+import { alertShape } from '../util/shapes';
 import CardHeader from './CardHeader';
 import { getJson } from '../util/xhrPromise';
 import { saveSearch } from '../action/SearchActions';
@@ -129,13 +130,7 @@ StopCardHeader.propTypes = {
         desc: PropTypes.string,
       }),
     ),
-    alerts: PropTypes.arrayOf(
-      PropTypes.shape({
-        alertSeverityLevel: PropTypes.string,
-        effectiveEndDate: PropTypes.number,
-        effectiveStartDate: PropTypes.number,
-      }),
-    ),
+    alerts: PropTypes.arrayOf(alertShape),
     lat: PropTypes.number,
     lon: PropTypes.number,
   }),
@@ -151,6 +146,12 @@ StopCardHeader.propTypes = {
 StopCardHeader.defaultProps = {
   stop: undefined,
   isTerminal: false,
+  distance: undefined,
+  className: undefined,
+  headingStyle: undefined,
+  icons: undefined,
+  isPopUp: false,
+  breakpoint: undefined,
 };
 
 StopCardHeader.contextTypes = {

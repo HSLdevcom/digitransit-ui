@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Link from 'found/Link';
 import { FormattedMessage } from 'react-intl';
+import { configShape } from '../../../util/shapes';
 import Icon from '../../Icon';
 import {
   getVehicleRentalStationNetworkConfig,
@@ -58,7 +59,7 @@ SelectVehicleRentalStationRow.defaultProps = {
 };
 
 SelectVehicleRentalStationRow.contextTypes = {
-  config: PropTypes.object.isRequired,
+  config: configShape.isRequired,
 };
 
 export default SelectVehicleRentalStationRow;

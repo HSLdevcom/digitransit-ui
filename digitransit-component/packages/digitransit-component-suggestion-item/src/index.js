@@ -507,6 +507,7 @@ const SuggestionItem = pure(
 
 SuggestionItem.propTypes = {
   item: PropTypes.object,
+  // eslint-disable-next-line
   content: PropTypes.array,
   className: PropTypes.string,
   isMobile: PropTypes.bool,

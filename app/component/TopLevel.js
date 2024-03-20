@@ -4,6 +4,7 @@ import React, { Fragment } from 'react';
 import some from 'lodash/some';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { matchShape, routerShape } from 'found';
+import { configShape, dtlocationShape } from '../util/shapes';
 import {
   getHomeUrl,
   PREFIX_STOPS,
@@ -11,7 +12,6 @@ import {
   PREFIX_TERMINALS,
   LOCAL_STORAGE_EMITTER_PATH,
 } from '../util/path';
-import { dtLocationShape } from '../util/shapes';
 import AppBarContainer from './AppBarContainer';
 import MobileView from './MobileView';
 import DesktopView from './DesktopView';
@@ -29,12 +29,12 @@ class TopLevel extends React.Component {
   static propTypes = {
     children: PropTypes.node,
     header: PropTypes.node,
-    map: PropTypes.any,
+    map: PropTypes.node,
     content: PropTypes.node,
     title: PropTypes.node,
     meta: PropTypes.node,
     match: matchShape.isRequired,
-    origin: dtLocationShape,
+    origin: dtlocationShape,
     user: PropTypes.object,
     router: routerShape.isRequired,
     selectFromMapHeader: PropTypes.node,
@@ -42,7 +42,7 @@ class TopLevel extends React.Component {
 
   static contextTypes = {
     headers: PropTypes.object.isRequired,
-    config: PropTypes.object.isRequired,
+    config: configShape.isRequired,
     executeAction: PropTypes.func.isRequired,
   };
 

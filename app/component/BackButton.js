@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { routerShape, matchShape } from 'found';
 import { intlShape } from 'react-intl';
+import { configShape } from '../util/shapes';
 import Icon from './Icon';
 
 export default class BackButton extends React.Component {
@@ -9,7 +10,7 @@ export default class BackButton extends React.Component {
     intl: intlShape.isRequired,
     router: routerShape,
     match: matchShape,
-    config: PropTypes.object,
+    config: configShape,
   };
 
   static propTypes = {
@@ -33,6 +34,7 @@ export default class BackButton extends React.Component {
     titleCustomStyle: undefined,
     className: 'back-button',
     fallback: undefined,
+    onBackBtnClick: undefined,
   };
 
   goBack = url => {

@@ -3,17 +3,21 @@ import React from 'react';
 import cx from 'classnames';
 import { FormattedMessage } from 'react-intl';
 import Icon from './Icon';
-import ItineraryShape from '../prop-types/ItineraryShape';
+import { itineraryShape } from '../util/shapes';
 import getCo2Value from '../util/emissions';
 
-const Emissions = ({ itinerary, carItinerary, emissionsInfolink }) => {
+export default function Emissions({
+  itinerary,
+  carItinerary,
+  emissionsInfolink,
+}) {
   const co2value = getCo2Value(itinerary);
   const itineraryIsCar = itinerary.legs.every(
     leg => leg.mode === 'CAR' || leg.mode === 'WALK',
   );
   const carCo2Value =
     !itineraryIsCar && carItinerary
-      ? Math.round(carItinerary?.emissionsPerPerson?.co2)
+      ? Math.round(carItinerary.emissionsPerPerson?.co2)
       : null;
   const useCo2SimpleDesc = !carCo2Value || itineraryIsCar;
   const co2DescriptionId = useCo2SimpleDesc
@@ -75,12 +79,12 @@ const Emissions = ({ itinerary, carItinerary, emissionsInfolink }) => {
       </div>
     )
   );
-};
+}
 
 Emissions.propTypes = {
-  itinerary: ItineraryShape.isRequired,
-  carItinerary: ItineraryShape,
+  itinerary: itineraryShape.isRequired,
+  carItinerary: itineraryShape,
   emissionsInfolink: PropTypes.string.isRequired,
 };
 
-export default Emissions;
+Emissions.defaultProps = { carItinerary: undefined };

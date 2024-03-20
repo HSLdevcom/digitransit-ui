@@ -7,7 +7,7 @@ import StopsNearYouMap from './map/StopsNearYouMap';
 import TimeStore from '../store/TimeStore';
 import PreferencesStore from '../store/PreferencesStore';
 import FavouriteStore from '../store/FavouriteStore';
-import { dtLocationShape } from '../util/shapes';
+import { dtlocationShape } from '../util/shapes';
 
 function StopsNearYouFavoritesMapContainer(props) {
   const { stops, stations, vehicleStations, position } = props;
@@ -42,7 +42,7 @@ function StopsNearYouFavoritesMapContainer(props) {
         };
       }),
   );
-  if (vehicleStations !== null) {
+  if (vehicleStations) {
     stopList.push(
       ...vehicleStations
         .filter(s => s)
@@ -68,7 +68,13 @@ StopsNearYouFavoritesMapContainer.propTypes = {
   stops: PropTypes.arrayOf(PropTypes.object),
   stations: PropTypes.arrayOf(PropTypes.object),
   vehicleStations: PropTypes.arrayOf(PropTypes.object),
-  position: dtLocationShape.isRequired,
+  position: dtlocationShape.isRequired,
+};
+
+StopsNearYouFavoritesMapContainer.defaultProps = {
+  stops: undefined,
+  stations: undefined,
+  vehicleStations: undefined,
 };
 
 const StopsNearYouMapWithStores = connectToStores(

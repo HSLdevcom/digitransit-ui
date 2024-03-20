@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import ItineraryDetails from './ItineraryDetails';
 import SwipeableTabs from './SwipeableTabs';
-import ItineraryShape from '../prop-types/ItineraryShape';
+import { itineraryShape } from '../util/shapes';
 
 /* eslint-disable react/no-array-index-key */
 function ItineraryTabs(props) {
@@ -42,8 +42,8 @@ ItineraryTabs.propTypes = {
   isMobile: PropTypes.bool.isRequired,
   focusToPoint: PropTypes.func.isRequired,
   focusToLeg: PropTypes.func.isRequired,
-  itineraries: PropTypes.arrayOf(ItineraryShape).isRequired,
-  carItinerary: ItineraryShape,
+  itineraries: PropTypes.arrayOf(itineraryShape).isRequired,
+  carItinerary: itineraryShape,
   changeHash: PropTypes.func,
 };
 

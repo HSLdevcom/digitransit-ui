@@ -3,7 +3,7 @@ import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
-
+import { legShape, configShape } from '../util/shapes';
 import Icon from './Icon';
 import LocalTime from './LocalTime';
 import RelativeDuration from './RelativeDuration';
@@ -135,7 +135,7 @@ export function RouteLeg(
 }
 
 RouteLeg.propTypes = {
-  leg: PropTypes.object.isRequired,
+  leg: legShape.isRequired,
   intl: intlShape.isRequired,
   large: PropTypes.bool.isRequired,
   legLength: PropTypes.number.isRequired,
@@ -147,7 +147,7 @@ RouteLeg.propTypes = {
 };
 
 RouteLeg.contextTypes = {
-  config: PropTypes.object.isRequired,
+  config: configShape.isRequired,
 };
 
 RouteLeg.defaultProps = {
@@ -215,7 +215,7 @@ ModeLeg.defaultProps = {
 };
 
 ModeLeg.contextTypes = {
-  config: PropTypes.object.isRequired,
+  config: configShape.isRequired,
 };
 
 export const ViaLeg = () => (
@@ -678,7 +678,6 @@ const Itinerary = (
     {
       passive: props.passive,
       'bp-large': breakpoint === 'large',
-      'cancelled-itinerary': props.isCancelled,
       'no-border': hideSelectionIndicator,
     },
   ]);
@@ -783,12 +782,7 @@ const Itinerary = (
         co2value !== null &&
         co2value >= 0 &&
         co2summary}
-      <div
-        className="itinerary-summary-visible"
-        style={{
-          display: props.isCancelled && !props.showCancelled ? 'none' : 'flex',
-        }}
-      >
+      <div className="itinerary-summary-visible" style={{ display: 'flex' }}>
         {/* This next clickable region does not have proper accessible role, tabindex and keyboard handler
             because screen reader works weirdly with nested buttons. Same functonality works from the inner button */
         /* eslint-disable jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */}
@@ -929,8 +923,6 @@ Itinerary.propTypes = {
   hash: PropTypes.number.isRequired,
   breakpoint: PropTypes.string.isRequired,
   intermediatePlaces: PropTypes.arrayOf(PropTypes.object),
-  isCancelled: PropTypes.bool,
-  showCancelled: PropTypes.bool,
   zones: PropTypes.arrayOf(PropTypes.string),
   hideSelectionIndicator: PropTypes.bool,
   lowestCo2value: PropTypes.number,
@@ -940,15 +932,13 @@ Itinerary.defaultProps = {
   zones: [],
   passive: false,
   intermediatePlaces: [],
-  isCancelled: false,
-  showCancelled: false,
   hideSelectionIndicator: true,
   lowestCo2value: 0,
 };
 
 Itinerary.contextTypes = {
   intl: intlShape.isRequired,
-  config: PropTypes.object.isRequired,
+  config: configShape.isRequired,
 };
 
 Itinerary.displayName = 'Itinerary';

@@ -127,7 +127,7 @@ describe('<TileLayerContainer />', () => {
             }),
             on: () => {},
           }),
-          config: { cityBike: {} },
+          config: { CONFIG: 'default', cityBike: {} },
         },
       },
     );

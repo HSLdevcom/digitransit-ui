@@ -4,6 +4,7 @@ import { matchShape, routerShape, RedirectException } from 'found';
 import { intlShape } from 'react-intl';
 import moment from 'moment-timezone';
 import connectToStores from 'fluxible-addons-react/connectToStores';
+import { configShape } from '../util/shapes';
 import ParkOrStationHeader from './ParkOrStationHeader';
 import Icon from './Icon';
 import { PREFIX_BIKEPARK, PREFIX_CARPARK } from '../util/path';
@@ -220,7 +221,7 @@ const ParkAndRideContent = (
             target="_blank"
             rel="noreferrer"
           >
-            {intl.formatMessage({ id: `${prePostFix}-disclaimer-link ` })}
+            {intl.formatMessage({ id: `${prePostFix}-disclaimer-link` })}{' '}
             &rsaquo;
           </a>
         )}
@@ -257,10 +258,11 @@ ParkAndRideContent.propTypes = {
 ParkAndRideContent.defaultProps = {
   bikePark: null,
   carPark: null,
+  error: undefined,
 };
 
 ParkAndRideContent.contextTypes = {
-  config: PropTypes.object.isRequired,
+  config: configShape.isRequired,
   intl: intlShape.isRequired,
 };
 

@@ -11,6 +11,7 @@ import cx from 'classnames';
 import { dayRangePattern } from '@digitransit-util/digitransit-util';
 import { getTranslatedDayString } from '@digitransit-util/digitransit-util-route-pattern-option-text';
 import isEqual from 'lodash/isEqual';
+import { configShape } from '../util/shapes';
 import RouteScheduleHeader from './RouteScheduleHeader';
 import RouteScheduleTripRow from './RouteScheduleTripRow';
 import SecondaryButton from './SecondaryButton';
@@ -362,7 +363,7 @@ class RouteScheduleContainer extends PureComponent {
 
   static contextTypes = {
     intl: intlShape.isRequired,
-    config: PropTypes.object.isRequired,
+    config: configShape.isRequired,
     match: matchShape.isRequired,
     router: routerShape.isRequired,
   };

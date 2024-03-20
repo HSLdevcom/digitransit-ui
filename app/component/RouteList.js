@@ -8,7 +8,7 @@ import cx from 'classnames';
 import routeCompare from '../util/route-compare';
 import RouteNumber from './RouteNumber';
 
-function RouteList(props) {
+export default function RouteList(props) {
   const routeObjs = toPairs(
     groupBy(props.routes, route => route.mode.toLowerCase()),
   ).map(([mode, routes]) => (
@@ -36,4 +36,6 @@ RouteList.propTypes = {
   }).isRequired,
 };
 
-export default RouteList;
+RouteList.defaultProps = {
+  className: undefined,
+};

@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-
+import { configShape } from '../../../util/shapes';
 import { isBrowser } from '../../../util/browser';
 
 const Popup = isBrowser ? require('react-leaflet/es/Popup').default : null; // eslint-disable-line global-require
@@ -26,7 +26,7 @@ SelectedStopPopup.propTypes = {
 };
 
 SelectedStopPopup.contextTypes = {
-  config: PropTypes.object.isRequired,
+  config: configShape.isRequired,
 };
 
 SelectedStopPopup.displayName = 'SelectedStopLabel';

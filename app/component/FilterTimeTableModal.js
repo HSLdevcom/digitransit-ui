@@ -12,10 +12,10 @@ import { getRouteMode } from '../util/modeUtils';
 
 class FilterTimeTableModal extends React.Component {
   static propTypes = {
-    stop: PropTypes.object,
-    setRoutes: PropTypes.func,
-    showFilterModal: PropTypes.func,
-    showRoutesList: PropTypes.arrayOf(PropTypes.string),
+    stop: PropTypes.object.isRequired,
+    setRoutes: PropTypes.func.isRequired,
+    showFilterModal: PropTypes.func.isRequired,
+    showRoutesList: PropTypes.arrayOf(PropTypes.string).isRequired,
     breakpoint: PropTypes.string.isRequired,
   };
 

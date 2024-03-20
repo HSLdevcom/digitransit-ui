@@ -3,13 +3,14 @@ import React from 'react';
 import moment from 'moment';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'found';
+import { legShape, configShape } from '../util/shapes';
 import ItineraryCircleLine from './ItineraryCircleLine';
 import Icon from './Icon';
 import ItineraryMapAction from './ItineraryMapAction';
 import { PREFIX_STOPS } from '../util/path';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
-function AirportCheckInLeg(props, { config }) {
+export default function AirportCheckInLeg(props, { config }) {
   const modeClassName = 'airport-wait';
   const { name } = props.leg.from;
   const { focusAction } = props;
@@ -66,25 +67,17 @@ function AirportCheckInLeg(props, { config }) {
 }
 
 AirportCheckInLeg.propTypes = {
-  leg: PropTypes.shape({
-    agency: PropTypes.shape({
-      name: PropTypes.string,
-    }),
-    from: PropTypes.shape({
-      name: PropTypes.string,
-      stop: PropTypes.shape({
-        gtfsId: PropTypes.string,
-      }),
-    }),
-  }).isRequired,
+  leg: legShape.isRequired,
   startTime: PropTypes.number.isRequired,
   focusAction: PropTypes.func.isRequired,
   index: PropTypes.number.isRequired,
   children: PropTypes.node,
 };
 
-AirportCheckInLeg.contextTypes = {
-  config: PropTypes.object.isRequired,
+AirportCheckInLeg.defaultProps = {
+  children: undefined,
 };
 
-export default AirportCheckInLeg;
+AirportCheckInLeg.contextTypes = {
+  config: configShape.isRequired,
+};

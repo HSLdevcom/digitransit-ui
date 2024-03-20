@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
+import { configShape } from '../util/shapes';
 import StopPageMap from './map/StopPageMap';
 
 const VehicleRentalStationPageMapContainer = ({ vehicleRentalStation }) => {
@@ -11,7 +12,7 @@ const VehicleRentalStationPageMapContainer = ({ vehicleRentalStation }) => {
 };
 
 VehicleRentalStationPageMapContainer.contextTypes = {
-  config: PropTypes.object.isRequired,
+  config: configShape.isRequired,
 };
 
 VehicleRentalStationPageMapContainer.propTypes = {

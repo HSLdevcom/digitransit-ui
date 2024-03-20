@@ -3,6 +3,7 @@ import React from 'react';
 import Link from 'found/Link';
 import cx from 'classnames';
 import isEmpty from 'lodash/isEmpty';
+import { alertShape, configShape, vehicleShape } from '../util/shapes';
 import TripLink from './TripLink';
 import FuzzyTripLink from './FuzzyTripLink';
 import AddressRow from './AddressRow';
@@ -14,7 +15,6 @@ import { estimateItineraryDistance } from '../util/geo-utils';
 import ZoneIcon from './ZoneIcon';
 import { getZoneLabel } from '../util/legUtils';
 import getVehicleState from '../util/vehicleStateUtils';
-import { VehicleShape } from '../util/shapes';
 
 const TripRouteStop = (props, { config }) => {
   const {
@@ -180,7 +180,7 @@ const TripRouteStop = (props, { config }) => {
 };
 
 TripRouteStop.propTypes = {
-  vehicles: PropTypes.arrayOf(VehicleShape),
+  vehicles: PropTypes.arrayOf(vehicleShape),
   mode: PropTypes.string.isRequired,
   color: PropTypes.string,
   stopPassed: PropTypes.bool.isRequired,
@@ -189,13 +189,7 @@ TripRouteStop.propTypes = {
     name: PropTypes.string,
     desc: PropTypes.string,
     gtfsId: PropTypes.string,
-    alerts: PropTypes.arrayOf(
-      PropTypes.shape({
-        effectiveStartDate: PropTypes.number,
-        effectiveEndDate: PropTypes.number,
-        alertSeverityLevel: PropTypes.string,
-      }),
-    ),
+    alerts: PropTypes.arrayOf(alertShape),
     zoneId: PropTypes.string,
   }).isRequired,
   nextStop: PropTypes.shape({
@@ -237,7 +231,7 @@ TripRouteStop.defaultProps = {
 };
 
 TripRouteStop.contextTypes = {
-  config: PropTypes.object.isRequired,
+  config: configShape.isRequired,
 };
 
 TripRouteStop.displayName = 'TripRouteStop';

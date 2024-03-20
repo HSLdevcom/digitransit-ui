@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef, lazy, Suspense } from 'react';
 import { intlShape } from 'react-intl';
 import { matchShape } from 'found';
 import { Helmet } from 'react-helmet';
+import { configShape } from '../util/shapes';
 import { clearOldSearches, clearFutureRoutes } from '../util/storeUtils';
 import { getJson } from '../util/xhrPromise';
 
@@ -153,7 +154,7 @@ const AppBarHsl = ({ lang, user, favourites }, context) => {
 
 AppBarHsl.contextTypes = {
   match: matchShape.isRequired,
-  config: PropTypes.object.isRequired,
+  config: configShape.isRequired,
   getStore: PropTypes.func.isRequired,
   intl: intlShape.isRequired,
 };
@@ -172,6 +173,7 @@ AppBarHsl.propTypes = {
 AppBarHsl.defaultProps = {
   lang: 'fi',
   user: {},
+  favourites: [],
 };
 
 export { AppBarHsl as default, AppBarHsl as Component };

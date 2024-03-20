@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
-import { AlertShape } from '../util/shapes';
+import { alertShape } from '../util/shapes';
 
 import StopAlerts from './StopAlerts';
 
@@ -18,7 +18,7 @@ StopAlertsContainer.propTypes = {
         gtfsId: PropTypes.string.isRequired,
       }),
     ).isRequired,
-    alerts: PropTypes.arrayOf(AlertShape).isRequired,
+    alerts: PropTypes.arrayOf(alertShape).isRequired,
     stoptimes: PropTypes.arrayOf(
       PropTypes.shape({
         headsign: PropTypes.string,

@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { routerShape } from 'found';
+import { configShape } from '../../../util/shapes';
 import Icon from '../../Icon';
 import GenericMarker from '../GenericMarker';
 import {
@@ -45,7 +46,7 @@ export default class VehicleMarker extends React.Component {
   };
 
   static contextTypes = {
-    config: PropTypes.object.isRequired,
+    config: configShape.isRequired,
     router: routerShape.isRequired,
   };
 

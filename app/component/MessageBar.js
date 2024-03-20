@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { intlShape } from 'react-intl';
 import { graphql, fetchQuery, ReactRelayContext } from 'react-relay';
-
+import { configShape, relayShape } from '../util/shapes';
 import SwipeableTabs from './SwipeableTabs';
 import Icon from './Icon';
 import MessageBarMessage from './MessageBarMessage';
@@ -85,7 +85,7 @@ class MessageBar extends Component {
     getStore: PropTypes.func.isRequired,
     intl: intlShape.isRequired,
     executeAction: PropTypes.func.isRequired,
-    config: PropTypes.object.isRequired,
+    config: configShape.isRequired,
   };
 
   static propTypes = {
@@ -93,13 +93,14 @@ class MessageBar extends Component {
     getServiceAlertsAsync: PropTypes.func,
     lang: PropTypes.string.isRequired,
     messages: PropTypes.arrayOf(PropTypes.object).isRequired,
-    relayEnvironment: PropTypes.object,
+    relayEnvironment: relayShape.isRequired,
     duplicateMessageCounter: PropTypes.number.isRequired,
     breakpoint: PropTypes.string,
   };
 
   static defaultProps = {
     getServiceAlertsAsync: fetchServiceAlerts,
+    breakpoint: undefined,
   };
 
   state = {
@@ -164,7 +165,6 @@ class MessageBar extends Component {
           textColor={textColor}
           truncate={!this.state.allAlertsOpen}
           onShowMore={this.openAllAlerts}
-          config={this.context.config}
         />
       </div>
     ));

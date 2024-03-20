@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
+import { configShape } from '../util/shapes';
 import StopCode from './StopCode';
 import BackButton from './BackButton';
 import LazilyLoad, { importLazy } from './LazilyLoad';
@@ -90,11 +91,11 @@ ParkOrBikeStationHeader.propTypes = {
     stationId: PropTypes.string,
     lat: PropTypes.number.isRequired,
     lon: PropTypes.number.isRequired,
-  }),
+  }).isRequired,
 };
 
 ParkOrBikeStationHeader.contextTypes = {
-  config: PropTypes.object.isRequired,
+  config: configShape.isRequired,
 };
 
 const ParkOrBikeStationHeaderWithBreakpoint = withBreakpoint(

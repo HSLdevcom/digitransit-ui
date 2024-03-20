@@ -8,6 +8,7 @@ import sortBy from 'lodash/sortBy';
 import { matchShape, routerShape } from 'found';
 import { enrichPatterns } from '@digitransit-util/digitransit-util';
 import connectToStores from 'fluxible-addons-react/connectToStores';
+import { configShape } from '../util/shapes';
 import CallAgencyWarning from './CallAgencyWarning';
 import RoutePatternSelect from './RoutePatternSelect';
 import RouteNotification from './RouteNotification';
@@ -60,7 +61,7 @@ class RoutePageControlPanel extends React.Component {
     executeAction: PropTypes.func.isRequired,
     intl: intlShape.isRequired,
     router: routerShape.isRequired,
-    config: PropTypes.object.isRequired,
+    config: configShape.isRequired,
   };
 
   static propTypes = {
@@ -82,7 +83,11 @@ class RoutePageControlPanel extends React.Component {
     tripStartTime: PropTypes.string,
   };
 
-  static defaultProps = { language: 'fi', noInitialServiceDay: false };
+  static defaultProps = {
+    language: 'fi',
+    noInitialServiceDay: false,
+    tripStartTime: undefined,
+  };
 
   constructor(props) {
     super(props);

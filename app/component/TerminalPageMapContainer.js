@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
+import { configShape } from '../util/shapes';
 import StopPageMap from './map/StopPageMap';
 
 const TerminalPageMapContainer = ({ station }) => {
@@ -12,7 +13,7 @@ const TerminalPageMapContainer = ({ station }) => {
 };
 
 TerminalPageMapContainer.contextTypes = {
-  config: PropTypes.object.isRequired,
+  config: configShape.isRequired,
 };
 
 TerminalPageMapContainer.propTypes = {

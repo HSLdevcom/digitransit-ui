@@ -13,6 +13,7 @@ const secondaryButton = (props, context) => {
   ]);
   return (
     <button
+      type="button"
       className={className}
       aria-label={context.intl.formatMessage({
         id: props.ariaLabel,

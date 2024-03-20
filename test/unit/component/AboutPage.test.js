@@ -6,6 +6,7 @@ import { mockChildContextTypes } from '../helpers/mock-context';
 describe('<AboutPage />', () => {
   const context = {
     config: {
+      CONFIG: 'default',
       aboutThisService: {
         fi: [
           {

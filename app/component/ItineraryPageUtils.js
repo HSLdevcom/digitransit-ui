@@ -1,14 +1,12 @@
 import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
 import pick from 'lodash/pick';
-import findIndex from 'lodash/findIndex';
 import get from 'lodash/get';
 import polyline from 'polyline-encoded';
 import moment from 'moment';
 import SunCalc from 'suncalc';
 import { boundWithMinimumArea } from '../util/geo-utils';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
-import { itineraryHasCancelation } from '../util/alertUtils';
 import { getStartTimeWithColon } from '../util/timeUtils';
 import { getSettings, getDefaultSettings } from '../util/planParamUtil';
 import {
@@ -53,15 +51,7 @@ export function getSelectedItineraryIndex(
     return lastURLSegment;
   }
 
-  /**
-   * Pre-select the first not-cancelled itinerary, if available.
-   */
-  const itineraryIndex = findIndex(
-    itineraries,
-    itinerary => !itineraryHasCancelation(itinerary),
-  );
-
-  return itineraryIndex !== -1 ? itineraryIndex : defaultValue;
+  return 0;
 }
 
 /**

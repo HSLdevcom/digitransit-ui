@@ -18,6 +18,6 @@ export default function Loading(props) {
 }
 
 Loading.displayName = 'Loading';
-Loading.propTypes = {
-  children: PropTypes.node,
-};
+
+Loading.propTypes = { children: PropTypes.node };
+Loading.defaultProps = { children: undefined };

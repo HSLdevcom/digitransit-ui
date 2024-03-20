@@ -4,6 +4,7 @@ import { createPaginationContainer, graphql } from 'react-relay';
 import { intlShape, FormattedMessage } from 'react-intl';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { matchShape } from 'found';
+import { configShape, relayShape } from '../util/shapes';
 import StopNearYouContainer from './StopNearYouContainer';
 import withBreakpoint from '../util/withBreakpoint';
 import { sortNearbyRentalStations, sortNearbyStops } from '../util/sortUtils';
@@ -14,15 +15,10 @@ import { getDefaultNetworks } from '../util/vehicleRentalUtils';
 
 class StopsNearYouContainer extends React.Component {
   static propTypes = {
-    stopPatterns: PropTypes.any,
-    setLoadState: PropTypes.func,
+    stopPatterns: PropTypes.object,
+    setLoadState: PropTypes.func.isRequired,
     currentTime: PropTypes.number.isRequired,
-    relay: PropTypes.shape({
-      refetchConnection: PropTypes.func.isRequired,
-      hasMore: PropTypes.func.isRequired,
-      isLoading: PropTypes.func.isRequired,
-      loadMore: PropTypes.func.isRequired,
-    }).isRequired,
+    relay: relayShape.isRequired,
     favouriteIds: PropTypes.object.isRequired,
     match: matchShape.isRequired,
     position: PropTypes.shape({
@@ -34,8 +30,14 @@ class StopsNearYouContainer extends React.Component {
     prioritizedStops: PropTypes.arrayOf(PropTypes.string),
   };
 
+  static defaultProps = {
+    stopPatterns: undefined,
+    withSeparator: false,
+    prioritizedStops: undefined,
+  };
+
   static contextTypes = {
-    config: PropTypes.object,
+    config: configShape,
     intl: intlShape.isRequired,
     executeAction: PropTypes.func.isRequired,
     headers: PropTypes.object.isRequired,

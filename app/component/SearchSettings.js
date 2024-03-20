@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
+import { configShape } from '../util/shapes';
 
 import RightOffcanvasToggle from './RightOffcanvasToggle';
 import DatetimepickerContainer from './DatetimepickerContainer';
@@ -12,7 +13,7 @@ class SearchSettings extends React.Component {
   /* eslint-enable react/no-unused-prop-types */
 
   static contextTypes = {
-    config: PropTypes.object.isRequired,
+    config: configShape.isRequired,
   };
 
   state = {};

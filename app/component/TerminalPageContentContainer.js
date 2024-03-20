@@ -4,27 +4,29 @@ import { createRefetchContainer, graphql } from 'react-relay';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { FormattedMessage } from 'react-intl';
 import { routerShape, RedirectException } from 'found';
-
 import DepartureListContainer from './DepartureListContainer';
 import Loading from './Loading';
 import Icon from './Icon';
 import ScrollableWrapper from './ScrollableWrapper';
 import { isBrowser } from '../util/browser';
 import { PREFIX_TERMINALS } from '../util/path';
+import { errorShape, relayShape } from '../util/shapes';
 
 class TerminalPageContent extends React.Component {
   static propTypes = {
     station: PropTypes.shape({
-      stoptimes: PropTypes.arrayOf(PropTypes.string),
-      stops: PropTypes.arrayOf(PropTypes.string),
+      stoptimes: PropTypes.arrayOf(PropTypes.object),
+      stops: PropTypes.arrayOf(PropTypes.object),
       gtfsId: PropTypes.string,
     }).isRequired,
-    relay: PropTypes.shape({
-      refetch: PropTypes.func.isRequired,
-    }).isRequired,
+    relay: relayShape.isRequired,
     currentTime: PropTypes.number.isRequired,
-    error: PropTypes.object,
+    error: errorShape,
     router: routerShape.isRequired,
+  };
+
+  static defaultProps = {
+    error: undefined,
   };
 
   // eslint-disable-next-line camelcase

@@ -61,7 +61,7 @@ describe('<RoutePageControlPanel />', () => {
     const wrapper = shallowWithIntl(<RoutePageControlPanel {...props} />, {
       context: {
         ...mockContext,
-        config: { colors: { primary: '#00AFFF' }, URL: {} },
+        config: { CONFIG: 'default', colors: { primary: '#00AFFF' }, URL: {} },
       },
     });
     expect(wrapper.find('.activeAlert')).to.have.lengthOf(1);
@@ -109,6 +109,7 @@ describe('<RoutePageControlPanel />', () => {
     const context = {
       ...mockContext,
       config: {
+        CONFIG: 'default',
         realTime: {
           tampere: {
             gtfsRt: 'foobar',
@@ -154,6 +155,7 @@ describe('<RoutePageControlPanel />', () => {
     const context = {
       ...mockContext,
       config: {
+        CONFIG: 'default',
         realTime: {
           tampere: {
             gtfsRt: 'foobar',
@@ -214,7 +216,7 @@ describe('<RoutePageControlPanel />', () => {
     const wrapper = shallowWithIntl(<RoutePageControlPanel {...props} />, {
       context: {
         ...mockContext,
-        config: { colors: { primary: '#00AFFF' }, URL: {} },
+        config: { CONFIG: 'default', colors: { primary: '#00AFFF' }, URL: {} },
       },
     });
     expect(wrapper.find('.activeAlert')).to.have.lengthOf(1);
@@ -252,6 +254,7 @@ describe('<RoutePageControlPanel />', () => {
         context: {
           ...mockContext,
           config: {
+            CONFIG: 'default',
             realTime: { HSL: { active: true } },
             colors: { primary: '#00AFFF' },
             URL: {},
@@ -294,6 +297,7 @@ describe('<RoutePageControlPanel />', () => {
         context: {
           ...mockContext,
           config: {
+            CONFIG: 'default',
             realTime: { HSL: { active: true, routeSelector: () => '63' } },
             colors: { primary: '#00AFFF' },
             URL: {},
@@ -338,7 +342,7 @@ describe('<RoutePageControlPanel />', () => {
     const wrapper = shallowWithIntl(<RoutePageControlPanel {...props} />, {
       context: {
         ...mockContext,
-        config: { colors: { primary: '#00AFFF' }, URL: {} },
+        config: { CONFIG: 'default', colors: { primary: '#00AFFF' }, URL: {} },
       },
     });
     expect(wrapper.find('.active-service-alert')).to.have.lengthOf(1);
@@ -387,7 +391,7 @@ describe('<RoutePageControlPanel />', () => {
     const wrapper = shallowWithIntl(<RoutePageControlPanel {...props} />, {
       context: {
         ...mockContext,
-        config: { colors: { primary: '#00AFFF' }, URL: {} },
+        config: { CONFIG: 'default', colors: { primary: '#00AFFF' }, URL: {} },
       },
     });
     expect(wrapper.find('.active-disruption-alert')).to.have.lengthOf(1);
@@ -436,7 +440,7 @@ describe('<RoutePageControlPanel />', () => {
     const wrapper = shallowWithIntl(<RoutePageControlPanel {...props} />, {
       context: {
         ...mockContext,
-        config: { colors: { primary: '#00AFFF' }, URL: {} },
+        config: { CONFIG: 'default', colors: { primary: '#00AFFF' }, URL: {} },
       },
     });
     expect(wrapper.find('.active-disruption-alert')).to.have.lengthOf(1);
