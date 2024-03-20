@@ -57,7 +57,7 @@ Error404.contextTypes = {
 Error404.propTypes = {
   error: PropTypes.shape({
     id: PropTypes.string,
-    values: PropTypes.object,
+    values: PropTypes.object, // eslint-disable
   }),
 };
 
