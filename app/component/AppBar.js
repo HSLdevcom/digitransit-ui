@@ -2,8 +2,7 @@ import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { intlShape } from 'react-intl';
 import { matchShape } from 'found';
-import { configShape } from '../util/shapes';
-
+import { userShape, configShape } from '../util/shapes';
 import Icon from './Icon';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import DisruptionInfo from './DisruptionInfo';
@@ -121,7 +120,7 @@ AppBar.propTypes = {
   title: PropTypes.node,
   homeUrl: PropTypes.string,
   logo: PropTypes.string,
-  user: PropTypes.object,
+  user: userShape,
   breakpoint: PropTypes.string,
   titleClicked: PropTypes.func.isRequired,
 };

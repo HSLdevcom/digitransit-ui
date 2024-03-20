@@ -100,7 +100,7 @@ CardHeader.propTypes = {
   children: PropTypes.node,
   unlinked: PropTypes.bool,
   showBackButton: PropTypes.bool,
-  headerConfig: PropTypes.object,
+  headerConfig: PropTypes.bool,
   favouriteContainer: PropTypes.element,
   name: PropTypes.string,
   isTerminal: PropTypes.bool,
@@ -118,7 +118,7 @@ CardHeader.defaultProps = {
   children: undefined,
   unlinked: false,
   showBackButton: false,
-  headerConfig: undefined,
+  headerConfig: false,
   name: undefined,
   isTerminal: false,
 };

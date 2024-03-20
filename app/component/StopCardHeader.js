@@ -103,7 +103,7 @@ class StopCardHeader extends React.Component {
         icons={icons}
         showBackButton={breakpoint === 'large'}
         stop={stop}
-        headerConfig={this.headerConfig}
+        headerConfig={!!this.headerConfig}
         isTerminal={isTerminal}
         favouriteContainer={
           <LazilyLoad modules={modules}>

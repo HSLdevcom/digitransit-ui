@@ -39,14 +39,11 @@ export default function SelectFromMapHeaderComponent(props, { config, intl }) {
           />
         )}
       </button>
-      {title && !props.titleClassName && !props.titleCustomStyle && (
+      {title && !props.titleClassName && (
         <div className="select-from-map-nav-title">{title}</div>
       )}
-      {title && props.titleClassName && !props.titleCustomStyle && (
+      {title && props.titleClassName && (
         <span className={props.titleClassName}>{title}</span>
-      )}
-      {title && props.titleCustomStyle && (
-        <span style={props.titleCustomStyle}>{title}</span>
       )}
       <button
         type="button"
@@ -78,7 +75,6 @@ SelectFromMapHeaderComponent.propTypes = {
   hideBackBtn: PropTypes.bool,
   hideCloseBtn: PropTypes.bool,
   titleClassName: PropTypes.string,
-  titleCustomStyle: PropTypes.string,
   iconClassName: PropTypes.string,
 };
 
@@ -91,7 +87,6 @@ SelectFromMapHeaderComponent.defaultProps = {
   hideBackBtn: false,
   hideCloseBtn: false,
   titleClassName: undefined,
-  titleCustomStyle: undefined,
   iconClassName: undefined,
 };
 

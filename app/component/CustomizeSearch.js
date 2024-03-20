@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-import { configShape } from '../util/shapes';
+import { settingsShape, configShape } from '../util/shapes';
 
 import Icon from './Icon';
 import FareZoneSelector from './customizesearch/FareZoneSelector';
@@ -25,7 +25,7 @@ class CustomizeSearch extends React.Component {
 
   static propTypes = {
     onToggleClick: PropTypes.func.isRequired,
-    customizedSettings: PropTypes.object.isRequired,
+    customizedSettings: settingsShape.isRequired,
     mobile: PropTypes.bool,
   };
 
