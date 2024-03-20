@@ -127,6 +127,13 @@ export const stopShape = PropTypes.shape({
   alerts: PropTypes.arrayOf(alertShape),
 });
 
+export const departureShape = PropTypes.shape({
+  trip: tripShape,
+  headsign: PropTypes.string,
+  realtime: PropTypes.bool,
+  stop: stopShape,
+});
+
 export const legShape = PropTypes.shape({
   startTime: PropTypes.number,
   endTime: PropTypes.number,
