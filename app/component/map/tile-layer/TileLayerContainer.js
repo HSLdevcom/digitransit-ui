@@ -62,7 +62,7 @@ class TileLayerContainer extends GridLayer {
     hilightedStops: PropTypes.arrayOf(PropTypes.string),
     stopsToShow: PropTypes.arrayOf(PropTypes.string),
     objectsToHide: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)),
-    vehicles: PropTypes.arrayOf(vehicleShape),
+    vehicles: PropTypes.objectOf(vehicleShape),
     lang: PropTypes.string.isRequired,
   };
 
