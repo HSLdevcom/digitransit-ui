@@ -40,7 +40,6 @@ export default function DepartureTime(props, context) {
                 })}
           </span>
           <span
-            style={props.style}
             className={cx(
               'time',
               {
@@ -64,7 +63,6 @@ export default function DepartureTime(props, context) {
         </>
       )}
       <span
-        style={props.style}
         className={cx(
           'time',
           {
@@ -103,7 +101,6 @@ DepartureTime.propTypes = {
   currentTime: PropTypes.number.isRequired,
   departureTime: PropTypes.number.isRequired,
   realtime: PropTypes.bool,
-  style: PropTypes.object,
   useUTC: PropTypes.bool,
   showCancelationIcon: PropTypes.bool,
   isNextDeparture: PropTypes.bool,
@@ -113,7 +110,6 @@ DepartureTime.defaultProps = {
   className: '',
   canceled: false,
   realtime: false,
-  style: undefined,
   useUTC: false,
   showCancelationIcon: false,
   isNextDeparture: false,
