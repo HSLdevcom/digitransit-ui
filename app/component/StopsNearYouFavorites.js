@@ -2,7 +2,13 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { graphql, QueryRenderer, ReactRelayContext } from 'react-relay';
 import { FormattedMessage } from 'react-intl';
-import { dtlocationShape, relayShape } from '../util/shapes';
+import {
+  dtlocationShape,
+  relayShape,
+  stopShape,
+  stationShape,
+  vehicleRentalStationShape,
+} from '../util/shapes';
 import StopsNearYouFavouritesContainer from './StopsNearYouFavouritesContainer';
 import withBreakpoint from '../util/withBreakpoint';
 import Loading from './Loading';
@@ -91,9 +97,9 @@ StopsNearYouFavorites.propTypes = {
   favoriteVehicleRentalStationIds: PropTypes.arrayOf(PropTypes.string),
   relayEnvironment: relayShape.isRequired,
   searchPosition: dtlocationShape.isRequired,
-  stops: PropTypes.arrayOf(PropTypes.object),
-  stations: PropTypes.arrayOf(PropTypes.object),
-  vehicleStations: PropTypes.arrayOf(PropTypes.object),
+  stops: PropTypes.arrayOf(stopShape),
+  stations: PropTypes.arrayOf(stationShape),
+  vehicleStations: PropTypes.arrayOf(vehicleRentalStationShape),
   breakpoint: PropTypes.string,
   noFavorites: PropTypes.bool,
   favouritesFetched: PropTypes.bool,

@@ -3,7 +3,7 @@ import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
-import { legShape, configShape } from '../util/shapes';
+import { legShape, itineraryShape, configShape } from '../util/shapes';
 import Icon from './Icon';
 import LocalTime from './LocalTime';
 import RelativeDuration from './RelativeDuration';
@@ -246,13 +246,13 @@ const bikeWasParked = legs => {
   return legs.length;
 };
 
-const hasOneTransitLeg = data => {
-  return data.legs.filter(leg => leg.transitLeg).length === 1;
+const hasOneTransitLeg = itinerary => {
+  return itinerary.legs.filter(leg => leg.transitLeg).length === 1;
 };
 
 const Itinerary = (
   {
-    data,
+    itinerary,
     breakpoint,
     intermediatePlaces,
     zones,
@@ -264,20 +264,20 @@ const Itinerary = (
 ) => {
   const isTransitLeg = leg => leg.transitLeg;
   const isLegOnFoot = leg => leg.mode === 'WALK' || leg.mode === 'BICYCLE_WALK';
-  const usingOwnBicycle = data.legs.some(
+  const usingOwnBicycle = itinerary.legs.some(
     leg => getLegMode(leg) === 'BICYCLE' && leg.rentedBike === false,
   );
   const usingOwnBicycleWholeTrip =
-    usingOwnBicycle && data.legs.every(leg => !leg.to || !leg.to.bikePark);
+    usingOwnBicycle && itinerary.legs.every(leg => !leg.to || !leg.to.bikePark);
   const refTime = moment(props.refTime);
-  const startTime = moment(data.startTime);
-  const endTime = moment(data.endTime);
+  const startTime = moment(itinerary.startTime);
+  const endTime = moment(itinerary.endTime);
   const duration = endTime.diff(startTime);
-  const co2value = getCo2Value(data);
+  const co2value = getCo2Value(itinerary);
   const mobile = bp => !(bp === 'large');
   const legs = [];
   let noTransitLegs = true;
-  const compressedLegs = compressLegs(data.legs).map(leg => ({
+  const compressedLegs = compressLegs(itinerary.legs).map(leg => ({
     ...leg,
   }));
   let intermediateSlack = 0;
@@ -536,7 +536,7 @@ const Itinerary = (
             legLength={legLength}
             large={breakpoint === 'large'}
             withBicycle={withBicycle}
-            hasOneTransitLeg={hasOneTransitLeg(data)}
+            hasOneTransitLeg={hasOneTransitLeg(itinerary)}
           />,
         );
       }
@@ -822,7 +822,7 @@ const Itinerary = (
               <div style={{ flexGrow: 1 }} />
               {config.showDistanceInItinerarySummary && (
                 <div className="itinerary-total-distance">
-                  {(getTotalDistance(data) / 1000).toFixed(1)} km
+                  {(getTotalDistance(itinerary) / 1000).toFixed(1)} km
                 </div>
               )}
               {config.showCO2InItinerarySummary &&
@@ -915,8 +915,8 @@ const Itinerary = (
 };
 
 Itinerary.propTypes = {
+  itinerary: itineraryShape.isRequired,
   refTime: PropTypes.number.isRequired,
-  data: PropTypes.object.isRequired,
   passive: PropTypes.bool,
   onSelect: PropTypes.func.isRequired,
   onSelectImmediately: PropTypes.func.isRequired,

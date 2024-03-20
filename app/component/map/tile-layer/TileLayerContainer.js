@@ -10,7 +10,7 @@ import isEqual from 'lodash/isEqual';
 import Popup from 'react-leaflet/es/Popup';
 import { withLeaflet } from 'react-leaflet/es/context';
 import { matchShape, routerShape } from 'found';
-import { configShape } from '../../../util/shapes';
+import { relayShape, configShape } from '../../../util/shapes';
 import { mapLayerShape } from '../../../store/MapLayerStore';
 import MarkerSelectPopup from './MarkerSelectPopup';
 import LocationPopup from '../popups/LocationPopup';
@@ -58,7 +58,7 @@ class TileLayerContainer extends GridLayer {
         }),
       }).isRequired,
     }).isRequired,
-    relayEnvironment: PropTypes.object.isRequired,
+    relayEnvironment: relayShape.isRequired,
     hilightedStops: PropTypes.arrayOf(PropTypes.string),
     stopsToShow: PropTypes.arrayOf(PropTypes.string),
     objectsToHide: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)),
