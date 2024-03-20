@@ -283,6 +283,14 @@ export const RoutingerrorShape = PropTypes.shape({
   inputField: PropTypes.oneOf(['DATE_TIME', 'TO', 'FROM']),
 });
 
+export const settingsShape = PropTypes.shape({
+  walkSpeed: PropTypes.number,
+  walkReluctance: PropTypes.number,
+  modes: PropTypes.arrayOf(PropTypes.string),
+  bikeSpeed: PropTypes.number,
+  transferPenalty: PropTypes.number,
+});
+
 export const userShape = PropTypes.shape({
   given_name: PropTypes.string,
   family_name: PropTypes.string,
