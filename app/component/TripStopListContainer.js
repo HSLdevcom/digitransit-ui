@@ -73,7 +73,8 @@ class TripStopListContainer extends React.PureComponent {
       );
 
     // selected vehicle
-    const vehicle = matchingVehicles.length > 0 && matchingVehicles[0];
+    const vehicle =
+      matchingVehicles.length > 0 ? matchingVehicles[0] : undefined;
     const nextStop = vehicle && vehicle.next_stop;
     let stopPassed = true;
 
