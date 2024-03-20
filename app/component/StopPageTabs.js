@@ -1,10 +1,9 @@
 import cx from 'classnames';
 import moment from 'moment';
-import PropTypes from 'prop-types';
 import React, { useState, useRef } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { matchShape } from 'found';
-import { alertShape } from '../util/shapes';
+import { stopShape } from '../util/shapes';
 import { AlertSeverityLevelType } from '../constants';
 import {
   getCancelationsForStop,
@@ -213,47 +212,9 @@ function StopPageTabs({ stop }, { match }) {
   );
 }
 
-StopPageTabs.propTypes = {
-  stop: PropTypes.shape({
-    routes: PropTypes.arrayOf(
-      PropTypes.shape({
-        code: PropTypes.string.isRequired,
-        mode: PropTypes.string.isRequired,
-        patterns: PropTypes.arrayOf({
-          code: PropTypes.string.isRequired,
-        }).isRequired,
-      }),
-    ),
-    alerts: PropTypes.arrayOf(alertShape),
-    vehicleMode: PropTypes.string,
-    stoptimes: PropTypes.arrayOf(
-      PropTypes.shape({
-        realtimeState: PropTypes.string,
-        trip: PropTypes.shape({
-          pattern: PropTypes.shape({
-            code: PropTypes.string,
-          }),
-          route: PropTypes.shape({
-            alerts: PropTypes.arrayOf(alertShape),
-            trip: PropTypes.shape({
-              pattern: PropTypes.shape({
-                code: PropTypes.string,
-              }),
-            }),
-          }),
-        }),
-      }),
-    ),
-  }),
-};
-
-StopPageTabs.defaultProps = {
-  stop: undefined,
-};
-
-StopPageTabs.contextTypes = {
-  match: matchShape.isRequired,
-};
+StopPageTabs.propTypes = { stop: stopShape };
+StopPageTabs.defaultProps = { stop: undefined };
+StopPageTabs.contextTypes = { match: matchShape.isRequired };
 
 const componentWithBreakpoint = withBreakpoint(StopPageTabs);
 
