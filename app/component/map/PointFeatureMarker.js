@@ -2,7 +2,6 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 import L from 'leaflet';
 import PropTypes from 'prop-types';
 import React from 'react';
-
 import Card from '../Card';
 import GenericMarker from './GenericMarker';
 import MarkerPopupBottom from './MarkerPopupBottom';
@@ -126,7 +125,6 @@ const PointFeatureMarker = ({
   const city = getPropertyValueOrDefault(properties, 'city', language);
   const description = city ? `${address}, ${city}` : address;
   const useDescriptionAsHeader = !header;
-
   const hasCustomIcon = icon && icon.id && icons[icon.id];
   const [lon, lat] = geometry.coordinates;
 
@@ -184,6 +182,7 @@ PointFeatureMarker.propTypes = {
       name: PropTypes.string,
     }).isRequired,
   }).isRequired,
+  // eslint-disable-next-line
   icons: PropTypes.object,
   language: PropTypes.string.isRequired,
   locationPopup: PropTypes.string,

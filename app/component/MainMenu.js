@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
 import Link from 'found/Link';
-
 import { connectToStores } from 'fluxible-addons-react';
 import { configShape } from '../util/shapes';
 import DisruptionInfoButtonContainer from './DisruptionInfoButtonContainer';
@@ -156,7 +155,7 @@ MainMenu.propTypes = {
   setDisruptionInfoOpen: PropTypes.func.isRequired,
   closeMenu: PropTypes.func.isRequired,
   homeUrl: PropTypes.string.isRequired,
-  countries: PropTypes.object,
+  countries: PropTypes.arrayOf(PropTypes.string),
   currentLanguage: PropTypes.string,
 };
 

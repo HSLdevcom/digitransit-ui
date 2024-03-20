@@ -32,14 +32,6 @@ export const configShape = PropTypes.shape({
   CONFIG: PropTypes.string.isRequired,
 });
 
-export const dtlocationShape = PropTypes.shape({
-  lat: PropTypes.number,
-  lon: PropTypes.number,
-  address: PropTypes.string,
-  type: PropTypes.string,
-  name: PropTypes.string,
-});
-
 export const errorShape = PropTypes.oneOfType([
   PropTypes.string,
   PropTypes.shape({ message: PropTypes.string }),
@@ -224,6 +216,8 @@ export const locationShape = PropTypes.shape({
   lat: PropTypes.number,
   lon: PropTypes.number,
   address: PropTypes.string,
+  type: PropTypes.string,
+  name: PropTypes.string,
 });
 
 const StatusPropType = PropTypes.oneOf([

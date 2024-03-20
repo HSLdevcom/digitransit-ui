@@ -4,8 +4,11 @@ import { createFragmentContainer, graphql } from 'react-relay';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { FormattedMessage } from 'react-intl';
 import { routerShape, RedirectException } from 'found';
-import { configShape } from '../util/shapes';
-
+import {
+  configShape,
+  vehicleRentalStationShape,
+  errorShape,
+} from '../util/shapes';
 import VehicleRentalStation from './VehicleRentalStation';
 import ParkOrStationHeader from './ParkOrStationHeader';
 import Icon from './Icon';
@@ -109,11 +112,11 @@ const VehicleRentalStationContent = (
 };
 
 VehicleRentalStationContent.propTypes = {
-  vehicleRentalStation: PropTypes.object.isRequired,
+  vehicleRentalStation: vehicleRentalStationShape.isRequired,
   breakpoint: PropTypes.string.isRequired,
   language: PropTypes.string.isRequired,
   router: routerShape.isRequired,
-  error: PropTypes.object,
+  error: errorShape,
 };
 
 VehicleRentalStationContent.defaultProps = {

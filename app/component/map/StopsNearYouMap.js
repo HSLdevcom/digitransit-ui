@@ -25,7 +25,7 @@ import {
 } from '../../util/sortUtils';
 import ItineraryLine from './ItineraryLine';
 import {
-  dtlocationShape,
+  locationShape,
   mapLayerOptionsShape,
   relayShape,
   configShape,
@@ -508,7 +508,7 @@ StopsNearYouMap.propTypes = {
   favouriteIds: PropTypes.object,
   mapLayers: mapLayerShape.isRequired,
   mapLayerOptions: mapLayerOptionsShape,
-  position: dtlocationShape.isRequired,
+  position: locationShape.isRequired,
   match: matchShape.isRequired,
   breakpoint: PropTypes.string.isRequired,
   language: PropTypes.string.isRequired,

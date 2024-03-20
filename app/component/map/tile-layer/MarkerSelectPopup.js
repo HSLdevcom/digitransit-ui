@@ -111,9 +111,13 @@ function MarkerSelectPopup(props) {
 MarkerSelectPopup.displayName = 'MarkerSelectPopup';
 
 MarkerSelectPopup.propTypes = {
-  options: PropTypes.arrayOf(PropTypes.object).isRequired,
-  selectRow: PropTypes.func.isRequired, // eslint-disable-line react/no-unused-prop-types
-  colors: PropTypes.object.isRequired,
+  options: PropTypes.arrayOf(
+    PropTypes.shape({
+      layer: PropTypes.string,
+    }),
+  ).isRequired,
+  selectRow: PropTypes.func.isRequired,
+  colors: PropTypes.objectOf(PropTypes.string).isRequired,
 };
 
 export default MarkerSelectPopup;

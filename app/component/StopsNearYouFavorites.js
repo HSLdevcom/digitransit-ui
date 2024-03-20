@@ -3,7 +3,7 @@ import React from 'react';
 import { graphql, QueryRenderer, ReactRelayContext } from 'react-relay';
 import { FormattedMessage } from 'react-intl';
 import {
-  dtlocationShape,
+  locationShape,
   relayShape,
   stopShape,
   stationShape,
@@ -96,7 +96,7 @@ StopsNearYouFavorites.propTypes = {
   favoriteStations: PropTypes.arrayOf(PropTypes.string),
   favoriteVehicleRentalStationIds: PropTypes.arrayOf(PropTypes.string),
   relayEnvironment: relayShape.isRequired,
-  searchPosition: dtlocationShape.isRequired,
+  searchPosition: locationShape.isRequired,
   stops: PropTypes.arrayOf(stopShape),
   stations: PropTypes.arrayOf(stationShape),
   vehicleStations: PropTypes.arrayOf(vehicleRentalStationShape),

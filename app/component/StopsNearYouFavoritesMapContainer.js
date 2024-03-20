@@ -11,7 +11,7 @@ import {
   vehicleRentalStationShape,
   stopShape,
   stationShape,
-  dtlocationShape,
+  locationShape,
 } from '../util/shapes';
 
 function StopsNearYouFavoritesMapContainer(props) {
@@ -73,7 +73,7 @@ StopsNearYouFavoritesMapContainer.propTypes = {
   stops: PropTypes.arrayOf(stopShape),
   stations: PropTypes.arrayOf(stationShape),
   vehicleStations: PropTypes.arrayOf(vehicleRentalStationShape),
-  position: dtlocationShape.isRequired,
+  position: locationShape.isRequired,
 };
 
 StopsNearYouFavoritesMapContainer.defaultProps = {

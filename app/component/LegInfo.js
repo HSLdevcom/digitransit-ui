@@ -135,7 +135,6 @@ export default function LegInfo(
 LegInfo.propTypes = {
   leg: legShape.isRequired,
   hasNoShortName: PropTypes.bool,
-  mode: PropTypes.string,
   headsign: PropTypes.string.isRequired,
   alertSeverityLevel: PropTypes.string,
   isAlternativeLeg: PropTypes.bool.isRequired,

@@ -8,7 +8,7 @@ import { graphql, fetchQuery } from 'react-relay';
 import ReactRelayContext from 'react-relay/lib/ReactRelayContext';
 import {
   configShape,
-  dtlocationShape,
+  locationShape,
   mapLayerOptionsShape,
 } from '../../util/shapes';
 import { getSettings } from '../../util/planParamUtil';
@@ -216,7 +216,7 @@ StopPageMap.propTypes = {
     platformCode: PropTypes.string,
   }),
   breakpoint: PropTypes.string.isRequired,
-  locationState: dtlocationShape.isRequired,
+  locationState: locationShape.isRequired,
   currentTime: PropTypes.number.isRequired,
   mapLayers: mapLayerShape.isRequired,
   mapLayerOptions: mapLayerOptionsShape.isRequired,

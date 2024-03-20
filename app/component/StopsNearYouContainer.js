@@ -15,6 +15,7 @@ import { getDefaultNetworks } from '../util/vehicleRentalUtils';
 
 class StopsNearYouContainer extends React.Component {
   static propTypes = {
+    // eslint-disable-next-line
     stopPatterns: PropTypes.object,
     setLoadState: PropTypes.func.isRequired,
     currentTime: PropTypes.number.isRequired,
