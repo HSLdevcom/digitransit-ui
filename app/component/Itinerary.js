@@ -199,7 +199,7 @@ export const ModeLeg = (
 };
 
 ModeLeg.propTypes = {
-  leg: PropTypes.object.isRequired,
+  leg: legShape.isRequired,
   mode: PropTypes.string.isRequired,
   large: PropTypes.bool.isRequired,
   legLength: PropTypes.number.isRequired,

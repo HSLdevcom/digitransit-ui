@@ -2,13 +2,13 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
 import { saveRoutingSettings } from '../../action/SearchSettingsActions';
-
 import { addAnalyticsEvent } from '../../util/analyticsUtils';
 import SearchSettingsDropdown, {
   getFiveStepOptions,
 } from './SearchSettingsDropdown';
 import Toggle from './Toggle';
 import { findNearestOption } from '../../util/planParamUtil';
+import { settingsShape } from '../../util/shapes';
 
 const WalkingOptionsSection = (
   { currentSettings, defaultSettings, walkSpeedOptions, walkReluctanceOptions },
@@ -78,12 +78,9 @@ const WalkingOptionsSection = (
 );
 
 WalkingOptionsSection.propTypes = {
-  defaultSettings: PropTypes.shape({
-    walkSpeed: PropTypes.number.isRequired,
-    walkReluctance: PropTypes.number.isRequired,
-  }).isRequired,
+  defaultSettings: settingsShape.isRequired,
   walkSpeedOptions: PropTypes.arrayOf(PropTypes.number).isRequired,
-  currentSettings: PropTypes.object.isRequired,
+  currentSettings: settingsShape.isRequired,
   walkReluctanceOptions: PropTypes.shape({ least: PropTypes.number.isRequired })
     .isRequired,
 };

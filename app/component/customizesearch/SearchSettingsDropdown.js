@@ -70,7 +70,10 @@ class SearchSettingsDropdown extends React.Component {
     labelText: PropTypes.string.isRequired,
     options: PropTypes.arrayOf(valueShape).isRequired,
     displayValueFormatter: PropTypes.func,
-    currentSelection: PropTypes.object.isRequired,
+    currentSelection: PropTypes.shape({
+      title: PropTypes.string,
+      value: valueShape,
+    }).isRequired,
     highlightDefaultValue: PropTypes.bool,
     defaultValue: valueShape,
     displayPattern: PropTypes.string,

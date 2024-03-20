@@ -4,6 +4,7 @@ import { FormattedMessage } from 'react-intl';
 import Toggle from './Toggle';
 import { saveRoutingSettings } from '../../action/SearchSettingsActions';
 import { addAnalyticsEvent } from '../../util/analyticsUtils';
+import { settingsShape } from '../../util/shapes';
 
 const TransferOptionsSection = (
   { defaultSettings, transferPenaltyHigh, currentSettings },
@@ -41,11 +42,8 @@ const TransferOptionsSection = (
 };
 
 TransferOptionsSection.propTypes = {
-  defaultSettings: PropTypes.shape({
-    walkBoardCost: PropTypes.number.isRequired,
-    transferPenalty: PropTypes.number.isRequired,
-  }).isRequired,
-  currentSettings: PropTypes.object.isRequired,
+  defaultSettings: settingsShape.isRequired,
+  currentSettings: settingsShape.isRequired,
   transferPenaltyHigh: PropTypes.number.isRequired,
 };
 

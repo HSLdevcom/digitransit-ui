@@ -29,7 +29,9 @@ import {
   mapLayerOptionsShape,
   relayShape,
   configShape,
+  stopShape,
 } from '../../util/shapes';
+import { mapLayerShape } from '../../store/MapLayerStore';
 import Loading from '../Loading';
 import LazilyLoad, { importLazy } from '../LazilyLoad';
 import { getDefaultNetworks } from '../../util/vehicleRentalUtils';
@@ -497,12 +499,14 @@ StopsNearYouMap.propTypes = {
   currentTime: PropTypes.number.isRequired,
   stopsNearYou: PropTypes.shape({
     nearest: PropTypes.shape({
+      // eslint-disable-next-line
       edges: PropTypes.arrayOf(PropTypes.object).isRequired,
     }).isRequired,
   }),
-  prioritizedStopsNearYou: PropTypes.arrayOf(PropTypes.object),
+  prioritizedStopsNearYou: PropTypes.arrayOf(stopShape),
+  // eslint-disable-next-line
   favouriteIds: PropTypes.object,
-  mapLayers: PropTypes.object.isRequired,
+  mapLayers: mapLayerShape.isRequired,
   mapLayerOptions: mapLayerOptionsShape,
   position: dtlocationShape.isRequired,
   match: matchShape.isRequired,

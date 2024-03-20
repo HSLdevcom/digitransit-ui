@@ -5,7 +5,7 @@ import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import polyUtil from 'polyline-encoded';
 import { intlShape } from 'react-intl';
-import { configShape } from '../../util/shapes';
+import { configShape, legShape } from '../../util/shapes';
 import { getRouteMode } from '../../util/modeUtils';
 import StopMarker from './non-tile-layer/StopMarker';
 import Line from './Line';
@@ -30,7 +30,7 @@ class ItineraryLine extends React.Component {
   };
 
   static propTypes = {
-    legs: PropTypes.arrayOf(PropTypes.object).isRequired,
+    legs: PropTypes.arrayOf(legShape).isRequired,
     passive: PropTypes.bool,
     hash: PropTypes.number.isRequired,
     showTransferLabels: PropTypes.bool,

@@ -3,13 +3,13 @@ import React from 'react';
 import { matchShape } from 'found';
 import { intlShape } from 'react-intl';
 import { saveRoutingSettings } from '../../action/SearchSettingsActions';
-
 import SearchSettingsDropdown, {
   getFiveStepOptionsNumerical,
   valueShape,
 } from './SearchSettingsDropdown';
 import { addAnalyticsEvent } from '../../util/analyticsUtils';
 import { findNearestOption } from '../../util/planParamUtil';
+import { settingsShape } from '../../util/shapes';
 
 // eslint-disable-next-line react/prefer-stateless-function
 class BikingOptionsSection extends React.Component {
@@ -53,9 +53,7 @@ BikingOptionsSection.propTypes = {
   bikeSpeed: valueShape.isRequired,
   bikeSpeedOptions: PropTypes.arrayOf(PropTypes.number).isRequired,
   overrideStyle: PropTypes.object,
-  defaultSettings: PropTypes.shape({
-    bikeSpeed: PropTypes.number.isRequired,
-  }).isRequired,
+  defaultSettings: settingsShape.isRequired,
 };
 
 BikingOptionsSection.defaultProps = {

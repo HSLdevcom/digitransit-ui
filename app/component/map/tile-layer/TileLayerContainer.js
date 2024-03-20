@@ -92,7 +92,7 @@ class TileLayerContainer extends GridLayer {
     onClose: () => this.setState({ ...initialState }),
     autoPan: false,
     onOpen: () => this.sendAnalytics(),
-    relayEnvironment: PropTypes.object.isRequired,
+    relayEnvironment: relayShape.isRequired,
   };
 
   merc = new SphericalMercator({

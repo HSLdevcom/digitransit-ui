@@ -4,7 +4,12 @@ import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import { matchShape } from 'found';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-import { configShape, mapLayerOptionsShape } from '../../util/shapes';
+import {
+  configShape,
+  mapLayerOptionsShape,
+  patternShape,
+  errorShape,
+} from '../../util/shapes';
 import MapWithTracking from './MapWithTracking';
 import RouteLine from './route/RouteLine';
 import VehicleMarkerContainer from './VehicleMarkerContainer';
@@ -27,14 +32,14 @@ class RoutePageMap extends React.Component {
 
   static propTypes = {
     match: matchShape.isRequired,
-    pattern: PropTypes.object.isRequired,
+    pattern: patternShape.isRequired,
     lat: PropTypes.number,
     lon: PropTypes.number,
     breakpoint: PropTypes.string.isRequired,
     mapLayers: mapLayerShape.isRequired,
     mapLayerOptions: mapLayerOptionsShape.isRequired,
     trip: PropTypes.shape({ gtfsId: PropTypes.string }),
-    error: PropTypes.object,
+    error: errorShape,
   };
 
   static defaultProps = {
