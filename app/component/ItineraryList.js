@@ -51,7 +51,7 @@ function ItineraryList(
       refTime={searchTime}
       key={i} // eslint-disable-line react/no-array-index-key
       hash={i}
-      data={itinerary}
+      itinerary={itinerary}
       passive={i !== activeIndex}
       currentTime={currentTime}
       onSelect={onSelect}

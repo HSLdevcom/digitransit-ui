@@ -82,7 +82,7 @@ export default class Map extends React.Component {
     bottomButtons: PropTypes.node,
     topButtons: PropTypes.node,
     // eslint-disable-next-line
-    geoJson: PropTypes.arrayOf(propTypes.object),
+    geoJson: PropTypes.arrayOf(PropTypes.object),
     mapLayers: mapLayerShape,
   };
 

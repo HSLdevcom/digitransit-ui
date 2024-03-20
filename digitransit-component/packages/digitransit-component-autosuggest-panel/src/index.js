@@ -233,7 +233,9 @@ class DTAutosuggestPanel extends React.Component {
     handleViaPointLocationSelected: PropTypes.func,
     swapOrder: PropTypes.func,
     searchPanelText: PropTypes.string,
-    searchContext: PropTypes.object.isRequired,
+    searchContext: PropTypes.shape({
+      URL_PELIAS: PropTypes.string,
+    }).isRequired,
     onSelect: PropTypes.func.isRequired,
     onClear: PropTypes.func,
     addAnalyticsEvent: PropTypes.func,
