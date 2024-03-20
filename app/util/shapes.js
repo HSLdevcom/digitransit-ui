@@ -116,6 +116,14 @@ export const tripShape = PropTypes.shape({
   ),
 });
 
+export const stopTimeShape = PropTypes.shape({
+  headsign: PropTypes.string,
+  realtimeState: PropTypes.string,
+  scheduledDeparture: PropTypes.number,
+  serviceDay: PropTypes.number,
+  trip: tripShape,
+});
+
 export const stopShape = PropTypes.shape({
   gtfsId: PropTypes.string,
   name: PropTypes.string,
@@ -125,6 +133,16 @@ export const stopShape = PropTypes.shape({
   lon: PropTypes.number,
   zoneId: PropTypes.string,
   alerts: PropTypes.arrayOf(alertShape),
+  routes: PropTypes.arrayOf(routeShape),
+  stoptimes: PropTypes.arrayOf(stopTimeShape),
+});
+
+export const stationShape = PropTypes.shape({
+  tfsId: PropTypes.string.isRequired,
+  locationType: PropTypes.string.isRequired,
+  alerts: PropTypes.arrayOf(alertShape),
+  stops: PropTypes.arrayOf(stopShape),
+  stoptimes: PropTypes.arrayOf(stopTimeShape),
 });
 
 export const departureShape = PropTypes.shape({
