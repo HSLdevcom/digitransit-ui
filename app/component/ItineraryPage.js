@@ -23,7 +23,11 @@ import Loading from './Loading';
 import { getItineraryPagePath, streetHash } from '../util/path';
 import { boundWithMinimumArea } from '../util/geo-utils';
 import { getTotalBikingDistance } from '../util/legUtils';
-import { planQuery, alternativeQuery } from './ItineraryQueries';
+import {
+  planQuery,
+  alternativeQuery,
+  planConnection,
+} from './ItineraryQueries';
 import {
   getSelectedItineraryIndex,
   reportError,
@@ -52,6 +56,7 @@ import {
 import AlternativeItineraryBar from './AlternativeItineraryBar';
 import {
   getSettings,
+  getPlanConnectionParams,
   getPlanParams,
   hasStartAndDestination,
 } from '../util/planParamUtil';
@@ -113,6 +118,7 @@ export default function ItineraryPage(props, context) {
     loading: ALT_LOADING_STATES.UNSET,
   });
   const [relaxState, setRelaxState] = useState({ loading: false });
+  const [connectionState, setConnectionState] = useState({ loading: false });
   const [settingsState, setSettingsState] = useState({
     settingsOpen: false,
     settingsChanged: 0,
@@ -384,6 +390,25 @@ export default function ItineraryPage(props, context) {
       })
       .finally(() => {
         searchRef.current = buildSearchRef();
+      });
+  }
+
+  function makeConnectionQuery() {
+    if (!hasValidFromTo()) {
+      setConnectionState({ plan: {} });
+      return;
+    }
+    setConnectionState({ loading: true });
+    const planParams = getPlanConnectionParams(context.config, props.match);
+    fetchQuery(props.relayEnvironment, planConnection, planParams, {
+      force: true,
+    })
+      .toPromise()
+      .then(result => {
+        setConnectionState({ plan: result.plan, loading: false });
+      })
+      .catch(() => {
+        setConnectionState({ plan: {}, loading: false });
       });
   }
 
@@ -680,6 +705,7 @@ export default function ItineraryPage(props, context) {
   useEffect(() => {
     makeMainQuery();
     makeAlternativeQuery();
+    makeConnectionQuery();
     if (
       settingsLimitRouting(context.config) &&
       !settingsState.settingsChanged
@@ -983,6 +1009,7 @@ export default function ItineraryPage(props, context) {
     hasNoTransitItineraries && altState.loading === ALT_LOADING_STATES.LOADING;
   const loading =
     state.loading ||
+    connectionState.loading ||
     (relaxState.loading && hasNoTransitItineraries) ||
     waitAlternatives ||
     (streetHashes.includes(hash) &&

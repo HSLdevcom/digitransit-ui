@@ -215,3 +215,77 @@ export function getPlanParams(
     parkRideModes: [{ mode: 'CAR', qualifier: 'PARK' }, ...modesWithoutRent],
   };
 }
+
+function getLocation(str) {
+  const loc = otpToLocation(str);
+  if (loc.gtfsId) {
+    return {
+      location: {
+        stopLocation: { stopLocationId: loc.gtfsId },
+      },
+    };
+  }
+  return {
+    location: {
+      coordinate: {
+        latitude: loc.lat,
+        longitude: loc.lon,
+      },
+    },
+    label: loc.address,
+  };
+}
+
+export function getPlanConnectionParams(
+  config,
+  {
+    params: { from, to },
+    location: {
+      query: { arriveBy, time },
+    },
+  },
+  relaxSettings,
+) {
+  const defaultSettings = getDefaultSettings(config);
+  const settings = getSettings(config);
+  const fromPlace = getLocation(from);
+  const toPlace = getLocation(to);
+  const modesOrDefault = relaxSettings ? defaultSettings.modes : settings.modes;
+  const transitModes = modesOrDefault.filter(
+    mode => mode !== 'CITYBIKE' && mode !== 'WALK',
+  );
+  const otpModes = modesAsOTPModes(transitModes);
+  if (config.customWeights) {
+    otpModes.forEach(m => {
+      if (config.customWeights[m.mode]) {
+        // eslint-disable-next-line
+        m.cost = { reluctance: config.customWeights[m.mode] };
+      }
+    });
+  }
+  const wheelchair = !!settings.accessibilityOption;
+  const walkReluctance = relaxSettings
+    ? defaultSettings.walkReluctance
+    : settings.walkReluctance;
+  const walkBoardCost = relaxSettings
+    ? defaultSettings.walkBoardCost
+    : settings.walkBoardCost;
+
+  const timeStr = (time ? moment(time * 1000) : moment()).format();
+  const datetime = arriveBy
+    ? { latestArrival: timeStr }
+    : { earliestDeparture: timeStr };
+
+  return {
+    ...settings,
+    fromPlace,
+    toPlace,
+    datetime,
+    minTransferTime: `PT${config.minTransferTime}S`,
+    numItineraries: 5,
+    wheelchair,
+    walkReluctance,
+    walkBoardCost,
+    modes: otpModes,
+  };
+}

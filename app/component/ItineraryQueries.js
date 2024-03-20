@@ -1,16 +1,15 @@
 import { graphql } from 'react-relay';
 
 export const planConnection = graphql`
-  query ItineraryQueries_Plan_Connection(
+  query ItineraryQueries_PlanConnection_Query(
     $fromPlace: PlanLabeledLocationInput!
     $toPlace: PlanLabeledLocationInput!
     $numItineraries: Int
     $modes: [PlanTransitModePreferenceInput!]
     $datetime: PlanDateTimeInput!
-    $searchWindow: Duration
     $walkReluctance: Reluctance
     $walkBoardCost: Cost
-    $minTransferTime: Int
+    $minTransferTime: Duration
     $walkSpeed: Speed
     $wheelchair: Boolean
     $transferPenalty: Cost
@@ -47,9 +46,10 @@ export const planConnection = graphql`
             boardCost: $walkBoardCost
           }
         }
-        transit: { transfer: { cost: $transferPenalty } }
+        transit: {
+          transfer: { cost: $transferPenalty, slack: $minTransferTime }
+        }
       }
-      locale: $locale
     ) {
       searchDateTime
       routingErrors {
