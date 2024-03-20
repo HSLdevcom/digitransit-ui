@@ -54,6 +54,11 @@ export const fareShape = PropTypes.shape({
   ticketName: PropTypes.string,
 });
 
+export const favouriteShape = PropTypes.shape({
+  type: PropTypes.string,
+  favouriteId: PropTypes.string,
+});
+
 export const geoJsonFeatureShape = PropTypes.shape({
   id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   geometry: PropTypes.shape({
