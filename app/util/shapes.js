@@ -100,6 +100,23 @@ export const routeShape = PropTypes.shape({
 
 export const patternShape = PropTypes.shape({
   code: PropTypes.string,
+  route: PropTypes.shape({
+    mode: PropTypes.string.isRequired,
+    color: PropTypes.string,
+  }),
+  stops: PropTypes.arrayOf(
+    PropTypes.shape({
+      lat: PropTypes.number.isRequired,
+      lon: PropTypes.number.isRequired,
+      code: PropTypes.string,
+    }).isRequired,
+  ),
+  geometry: PropTypes.arrayOf(
+    PropTypes.shape({
+      lat: PropTypes.number.isRequired,
+      lon: PropTypes.number.isRequired,
+    }).isRequired,
+  ),
 });
 
 export const tripShape = PropTypes.shape({
@@ -122,12 +139,15 @@ export const stopTimeShape = PropTypes.shape({
   scheduledDeparture: PropTypes.number,
   serviceDay: PropTypes.number,
   trip: tripShape,
+  dropoffType: PropTypes.string,
+  pickupType: PropTypes.string,
 });
 
 export const stopShape = PropTypes.shape({
   gtfsId: PropTypes.string,
   name: PropTypes.string,
   code: PropTypes.string,
+  desc: PropTypes.string,
   platformCode: PropTypes.string,
   lat: PropTypes.number,
   lon: PropTypes.number,
