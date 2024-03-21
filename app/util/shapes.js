@@ -71,6 +71,13 @@ export const geoJsonFeatureShape = PropTypes.shape({
   properties: PropTypes.object,
 });
 
+export const popupColorShape = PropTypes.shape({
+  accessiblePrimary: PropTypes.string,
+  hover: PropTypes.string,
+  primary: PropTypes.string,
+  iconColors: PropTypes.objectOf(PropTypes.string),
+});
+
 export const parkShape = PropTypes.shape({
   name: PropTypes.string.isRequired,
 });

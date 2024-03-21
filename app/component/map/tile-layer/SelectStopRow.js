@@ -5,6 +5,7 @@ import { FormattedMessage } from 'react-intl';
 import Icon from '../../Icon';
 import { PREFIX_TERMINALS, PREFIX_STOPS } from '../../../util/path';
 import { ExtendedRouteTypes } from '../../../constants';
+import { popupColorShape } from '../../../util/shapes';
 
 function isNull(val) {
   return val === 'null' || val === undefined || val === null;
@@ -141,7 +142,7 @@ SelectStopRow.propTypes = {
   code: PropTypes.string,
   desc: PropTypes.string,
   terminal: PropTypes.bool,
-  colors: PropTypes.objectOf(PropTypes.string),
+  colors: popupColorShape,
   platform: PropTypes.string,
 };
 
