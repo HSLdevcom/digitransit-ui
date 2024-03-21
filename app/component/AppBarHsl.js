@@ -7,6 +7,7 @@ import { Helmet } from 'react-helmet';
 import { configShape } from '../util/shapes';
 import { clearOldSearches, clearFutureRoutes } from '../util/storeUtils';
 import { getJson } from '../util/xhrPromise';
+import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 const SiteHeader = lazy(() => import('@hsl-fi/site-header'));
 const SharedLocalStorageObserver = lazy(
@@ -105,7 +106,12 @@ const AppBarHsl = ({ lang, user, favourites }, context) => {
 
   const siteHeaderRef = useRef(null);
   const notificationTime = useRef(0);
-
+  if (user?.sub) {
+    addAnalyticsEvent({
+      event: 'user-hsl-id',
+      hslId: user.sub,
+    });
+  }
   useEffect(() => {
     const now = Date.now();
     // refresh only once per 5 seconds
