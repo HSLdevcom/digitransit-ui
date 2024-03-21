@@ -206,6 +206,7 @@ const containerComponent = createFragmentContainer(ItineraryList, {
         co2
       }
       legs {
+        ...ItineraryLine_legs
         realTime
         realtimeState
         transitLeg
@@ -222,7 +223,11 @@ const containerComponent = createFragmentContainer(ItineraryList, {
             zoneId
           }
         }
+        legGeometry {
+          points
+        }
         route {
+          gtfsId
           mode
           shortName
           type
@@ -237,8 +242,15 @@ const containerComponent = createFragmentContainer(ItineraryList, {
           }
         }
         trip {
+          gtfsId
+          directionId
           pattern {
+            ...RouteLine_pattern
             code
+          }
+          stoptimesForDate {
+            scheduledDeparture
+            pickupType
           }
           stoptimes {
             realtimeState
