@@ -19,7 +19,6 @@ import {
 import Icon from './Icon';
 import ItineraryList from './ItineraryList';
 import TimeStore from '../store/TimeStore';
-import PositionStore from '../store/PositionStore';
 import { getIntermediatePlaces } from '../util/otpStrings';
 import { getItineraryPagePath, streetHash } from '../util/path';
 import withBreakpoint from '../util/withBreakpoint';
@@ -279,9 +278,8 @@ const withConfig = getContext({
 );
 
 const connectedContainer = createFragmentContainer(
-  connectToStores(withConfig, [TimeStore, PositionStore], context => ({
+  connectToStores(withConfig, [TimeStore], context => ({
     currentTime: context.getStore(TimeStore).getCurrentTime().valueOf(),
-    locationState: context.getStore(PositionStore).getLocationState(),
   })),
   {
     plan: graphql`
