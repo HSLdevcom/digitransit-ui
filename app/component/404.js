@@ -57,6 +57,7 @@ Error404.contextTypes = {
 Error404.propTypes = {
   error: PropTypes.shape({
     id: PropTypes.string,
+    // eslint-disable-next-line
     values: PropTypes.object,
   }),
 };

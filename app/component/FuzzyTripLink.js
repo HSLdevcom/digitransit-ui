@@ -9,6 +9,7 @@ import VehicleIcon from './VehicleIcon';
 import TripLinkWithScroll from './TripLinkWithScroll';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
+import { vehicleShape, tripShape } from '../util/shapes';
 
 function FuzzyTripLink({ vehicle, stopName, nextStopName, ...rest }, context) {
   const { environment } = useContext(ReactRelayContext);
@@ -129,24 +130,8 @@ function FuzzyTripLink({ vehicle, stopName, nextStopName, ...rest }, context) {
 }
 
 FuzzyTripLink.propTypes = {
-  trip: PropTypes.shape({
-    gtfsId: PropTypes.string,
-    route: PropTypes.shape({
-      gtfsId: PropTypes.string,
-    }),
-    pattern: PropTypes.shape({
-      code: PropTypes.string,
-    }),
-  }),
-  vehicle: PropTypes.shape({
-    mode: PropTypes.string.isRequired,
-    route: PropTypes.string.isRequired,
-    direction: PropTypes.number.isRequired,
-    tripStartTime: PropTypes.string.isRequired,
-    operatingDay: PropTypes.string.isRequired,
-    shortName: PropTypes.string.isRequired,
-    color: PropTypes.string,
-  }).isRequired,
+  trip: tripShape,
+  vehicle: vehicleShape.isRequired,
   stopName: PropTypes.string.isRequired,
   nextStopName: PropTypes.string.isRequired,
 };

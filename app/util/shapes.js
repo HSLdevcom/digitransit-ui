@@ -32,14 +32,6 @@ export const configShape = PropTypes.shape({
   CONFIG: PropTypes.string.isRequired,
 });
 
-export const dtlocationShape = PropTypes.shape({
-  lat: PropTypes.number,
-  lon: PropTypes.number,
-  address: PropTypes.string,
-  type: PropTypes.string,
-  name: PropTypes.string,
-});
-
 export const errorShape = PropTypes.oneOfType([
   PropTypes.string,
   PropTypes.shape({ message: PropTypes.string }),
@@ -52,6 +44,11 @@ export const fareShape = PropTypes.shape({
   isUnknown: PropTypes.bool,
   routeName: PropTypes.string,
   ticketName: PropTypes.string,
+});
+
+export const favouriteShape = PropTypes.shape({
+  type: PropTypes.string,
+  favouriteId: PropTypes.string,
 });
 
 export const geoJsonFeatureShape = PropTypes.shape({
@@ -74,13 +71,20 @@ export const geoJsonFeatureShape = PropTypes.shape({
   properties: PropTypes.object,
 });
 
+export const popupColorShape = PropTypes.shape({
+  accessiblePrimary: PropTypes.string,
+  hover: PropTypes.string,
+  primary: PropTypes.string,
+  iconColors: PropTypes.objectOf(PropTypes.string),
+});
+
 export const parkShape = PropTypes.shape({
   name: PropTypes.string.isRequired,
 });
 
 export const vehicleRentalStationShape = PropTypes.shape({
   vehiclesAvailable: PropTypes.number,
-  network: PropTypes.string.isRequired,
+  network: PropTypes.string,
 });
 
 export const routeShape = PropTypes.shape({
@@ -95,6 +99,23 @@ export const routeShape = PropTypes.shape({
 
 export const patternShape = PropTypes.shape({
   code: PropTypes.string,
+  route: PropTypes.shape({
+    mode: PropTypes.string,
+    color: PropTypes.string,
+  }),
+  stops: PropTypes.arrayOf(
+    PropTypes.shape({
+      lat: PropTypes.number,
+      lon: PropTypes.number,
+      code: PropTypes.string,
+    }),
+  ),
+  geometry: PropTypes.arrayOf(
+    PropTypes.shape({
+      lat: PropTypes.number.isRequired,
+      lon: PropTypes.number.isRequired,
+    }).isRequired,
+  ),
 });
 
 export const tripShape = PropTypes.shape({
@@ -111,15 +132,43 @@ export const tripShape = PropTypes.shape({
   ),
 });
 
+export const stopTimeShape = PropTypes.shape({
+  headsign: PropTypes.string,
+  realtimeState: PropTypes.string,
+  scheduledDeparture: PropTypes.number,
+  serviceDay: PropTypes.number,
+  trip: tripShape,
+  dropoffType: PropTypes.string,
+  pickupType: PropTypes.string,
+});
+
 export const stopShape = PropTypes.shape({
   gtfsId: PropTypes.string,
   name: PropTypes.string,
   code: PropTypes.string,
+  desc: PropTypes.string,
   platformCode: PropTypes.string,
   lat: PropTypes.number,
   lon: PropTypes.number,
   zoneId: PropTypes.string,
   alerts: PropTypes.arrayOf(alertShape),
+  routes: PropTypes.arrayOf(routeShape),
+  stoptimes: PropTypes.arrayOf(stopTimeShape),
+});
+
+export const stationShape = PropTypes.shape({
+  gtfsId: PropTypes.string,
+  locationType: PropTypes.string,
+  alerts: PropTypes.arrayOf(alertShape),
+  stops: PropTypes.arrayOf(stopShape),
+  stoptimes: PropTypes.arrayOf(stopTimeShape),
+});
+
+export const departureShape = PropTypes.shape({
+  trip: tripShape,
+  headsign: PropTypes.string,
+  realtime: PropTypes.bool,
+  stop: stopShape,
 });
 
 export const legShape = PropTypes.shape({
@@ -174,6 +223,8 @@ export const locationShape = PropTypes.shape({
   lat: PropTypes.number,
   lon: PropTypes.number,
   address: PropTypes.string,
+  type: PropTypes.string,
+  name: PropTypes.string,
 });
 
 const StatusPropType = PropTypes.oneOf([
@@ -278,18 +329,33 @@ export const RoutingerrorShape = PropTypes.shape({
   inputField: PropTypes.oneOf(['DATE_TIME', 'TO', 'FROM']),
 });
 
+export const settingsShape = PropTypes.shape({
+  walkSpeed: PropTypes.number,
+  walkReluctance: PropTypes.number,
+  modes: PropTypes.arrayOf(PropTypes.string),
+  bikeSpeed: PropTypes.number,
+  transferPenalty: PropTypes.number,
+});
+
+export const userShape = PropTypes.shape({
+  given_name: PropTypes.string,
+  family_name: PropTypes.string,
+  sub: PropTypes.string,
+  notLogged: PropTypes.bool,
+});
+
 export const vehicleShape = PropTypes.shape({
-  id: PropTypes.string.isRequired,
-  route: PropTypes.string.isRequired,
-  direction: PropTypes.number.isRequired,
-  tripStartTime: PropTypes.string.isRequired,
-  operatingDay: PropTypes.string.isRequired,
-  mode: PropTypes.string.isRequired,
-  next_stop: PropTypes.string.isRequired,
-  timestamp: PropTypes.number.isRequired,
+  id: PropTypes.string,
+  route: PropTypes.string,
+  direction: PropTypes.number,
+  tripStartTime: PropTypes.string,
+  operatingDay: PropTypes.string,
+  mode: PropTypes.string,
+  next_stop: PropTypes.string,
+  timestamp: PropTypes.number,
   lat: PropTypes.number,
   lon: PropTypes.number,
-  shortName: PropTypes.string.isRequired,
+  shortName: PropTypes.string,
   color: PropTypes.string,
   heading: PropTypes.number,
   headsign: PropTypes.string,

@@ -1,50 +1,13 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
-import { alertShape } from '../util/shapes';
-
+import { stationShape } from '../util/shapes';
 import StopAlerts from './StopAlerts';
 
 const TerminalAlertsContainer = ({ station }) => {
   return <StopAlerts stop={station} />;
 };
 
-TerminalAlertsContainer.propTypes = {
-  station: PropTypes.shape({
-    gtfsId: PropTypes.string.isRequired,
-    locationType: PropTypes.string.isRequired,
-    alerts: PropTypes.arrayOf(alertShape).isRequired,
-    stops: PropTypes.arrayOf(
-      PropTypes.shape({
-        gtfsId: PropTypes.string.isRequired,
-        routes: PropTypes.arrayOf(
-          PropTypes.shape({
-            gtfsId: PropTypes.string.isRequired,
-          }),
-        ).isRequired,
-        alerts: PropTypes.arrayOf(alertShape).isRequired,
-      }),
-    ),
-    stoptimes: PropTypes.arrayOf(
-      PropTypes.shape({
-        headsign: PropTypes.string,
-        realtimeState: PropTypes.string,
-        scheduledDeparture: PropTypes.number,
-        serviceDay: PropTypes.number,
-        trip: PropTypes.shape({
-          tripHeadsign: PropTypes.string.isRequired,
-          route: PropTypes.shape({
-            gtfsId: PropTypes.string.isRequired,
-            color: PropTypes.string,
-            mode: PropTypes.string.isRequired,
-            shortName: PropTypes.string.isRequired,
-            type: PropTypes.number,
-          }).isRequired,
-        }).isRequired,
-      }),
-    ).isRequired,
-  }).isRequired,
-};
+TerminalAlertsContainer.propTypes = { station: stationShape.isRequired };
 
 const containerComponent = createFragmentContainer(TerminalAlertsContainer, {
   station: graphql`

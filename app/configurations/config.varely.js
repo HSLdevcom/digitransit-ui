@@ -158,7 +158,7 @@ export default configMerger(walttiConfig, {
   },
 
   staticMessages: [],
-
+  showCO2InItinerarySummary: true,
   showNearYouButtons: true,
   allowLogin: false,
 });

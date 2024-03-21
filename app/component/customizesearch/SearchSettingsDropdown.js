@@ -62,6 +62,7 @@ export const getFiveStepOptionsNumerical = options => {
 export const valueShape = PropTypes.oneOfType([
   PropTypes.string,
   PropTypes.number,
+  // eslint-disable-next-line
   PropTypes.object,
 ]);
 
@@ -70,7 +71,10 @@ class SearchSettingsDropdown extends React.Component {
     labelText: PropTypes.string.isRequired,
     options: PropTypes.arrayOf(valueShape).isRequired,
     displayValueFormatter: PropTypes.func,
-    currentSelection: PropTypes.object.isRequired,
+    currentSelection: PropTypes.shape({
+      title: PropTypes.string,
+      value: valueShape,
+    }).isRequired,
     highlightDefaultValue: PropTypes.bool,
     defaultValue: valueShape,
     displayPattern: PropTypes.string,
@@ -78,6 +82,7 @@ class SearchSettingsDropdown extends React.Component {
     formatOptions: PropTypes.bool,
     name: PropTypes.string.isRequired,
     translateLabels: PropTypes.bool,
+    // eslint-disable-next-line
     overrideStyle: PropTypes.object,
   };
 

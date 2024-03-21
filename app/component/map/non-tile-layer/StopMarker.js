@@ -1,9 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
-
 import { routerShape } from 'found';
-import { configShape } from '../../../util/shapes';
+import { stopShape, configShape } from '../../../util/shapes';
 import GenericMarker from '../GenericMarker';
 import Icon from '../../Icon';
 import {
@@ -28,7 +27,7 @@ if (isBrowser) {
 
 class StopMarker extends React.Component {
   static propTypes = {
-    stop: PropTypes.object.isRequired,
+    stop: stopShape.isRequired,
     mode: PropTypes.string.isRequired,
     renderName: PropTypes.bool,
     disableModeIcons: PropTypes.bool,

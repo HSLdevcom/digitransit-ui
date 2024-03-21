@@ -38,6 +38,7 @@ const expressStaticGzip = require('express-static-gzip');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const logger = require('morgan');
+const { CosmosClient } = require('@azure/cosmos');
 const { getJson } = require('../app/util/xhrPromise');
 const { retryFetch } = require('../app/util/fetchUtils');
 const configTools = require('../app/config');
@@ -46,7 +47,9 @@ const config = configTools.getConfiguration();
 
 const appRoot = `${process.cwd()}/`;
 const configsDir = path.join(appRoot, 'app', 'configurations');
-const configFiles = fs.readdirSync(configsDir);
+const configFiles = fs
+  .readdirSync(configsDir)
+  .filter(file => file.startsWith('config'));
 let allZones;
 
 /* ********* Global ********* */
@@ -328,26 +331,24 @@ function collectGeoJsonZones() {
   return new Promise(mainResolve => {
     const promises = [];
     configFiles.forEach(file => {
-      if (file.startsWith('config')) {
-        // eslint-disable-next-line import/no-dynamic-require
-        const conf = require(`${configsDir}/${file}`);
-        const { geoJson } = conf.default;
-        if (geoJson) {
-          if (geoJson.layerConfigUrl) {
-            promises.push(
-              new Promise(resolve => {
-                fetchGeoJsonConfig(geoJson.layerConfigUrl).then(data => {
-                  resolve(getZoneUrl(data));
-                });
-              }),
-            );
-          } else {
-            promises.push(
-              new Promise(resolve => {
-                resolve(getZoneUrl(geoJson));
-              }),
-            );
-          }
+      // eslint-disable-next-line import/no-dynamic-require
+      const conf = require(`${configsDir}/${file}`);
+      const { geoJson } = conf.default;
+      if (geoJson) {
+        if (geoJson.layerConfigUrl) {
+          promises.push(
+            new Promise(resolve => {
+              fetchGeoJsonConfig(geoJson.layerConfigUrl).then(data => {
+                resolve(getZoneUrl(data));
+              });
+            }),
+          );
+        } else {
+          promises.push(
+            new Promise(resolve => {
+              resolve(getZoneUrl(geoJson));
+            }),
+          );
         }
       }
     });
@@ -370,7 +371,95 @@ function startServer() {
   );
 }
 
+async function fetchCitybikeSeasons() {
+  const client = new CosmosClient(process.env.CITYBIKE_DB_CONN_STRING);
+  const database = client.database(process.env.CITYBIKE_DATABASE);
+  const container = database.container('schedules');
+  const query = {
+    query: 'SELECT * FROM c',
+  };
+
+  const { resources } = await container.items.query(query).fetchAll();
+  return resources;
+}
+
+const parseDate = (year, month, day) =>
+  // eslint-disable-next-line radix
+  new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
+
+function buildCitybikeConfig(seasonDef, configName) {
+  const inSeason = seasonDef.inSeason.split('-');
+  const [startDay, startMonth, startYear] = inSeason[0].split('.');
+  const [endDay, endMonth, endYear] = inSeason[1].split('.');
+  const [preDay, preMonth, preYear] = seasonDef.preSeason.split('.');
+  return {
+    configName: seasonDef.configName,
+    networkName: seasonDef.networkName,
+    enabled: seasonDef.enabled,
+    season: {
+      preSeasonStart: parseDate(preYear, preMonth, preDay),
+      start: parseDate(startYear, startMonth, startDay),
+      end: parseDate(endYear, endMonth, endDay),
+    },
+  };
+}
+
+function handleCitybikeSeasonConfigurations(schedules, configName) {
+  const seasonDefinitions = schedules.filter(
+    seasonDef => seasonDef.configName === configName,
+  );
+  const configurations = [];
+  seasonDefinitions.forEach(def =>
+    configurations.push(buildCitybikeConfig(def, configName)),
+  );
+  return configurations;
+}
+function fetchCitybikeConfigurations() {
+  if (!process.env.CITYBIKE_DB_CONN_STRING || !process.env.CITYBIKE_DATABASE) {
+    return Promise.resolve();
+  }
+
+  return new Promise(mainResolve => {
+    const promises = [];
+
+    fetchCitybikeSeasons().then(r => {
+      const schedules = [];
+      r.forEach(seasonDef => schedules.push(...seasonDef.schedules));
+      configFiles.forEach(file => {
+        // eslint-disable-next-line import/no-dynamic-require
+        const conf = require(`${configsDir}/${file}`);
+        const configName = conf.default.CONFIG;
+        const { cityBike } = conf.default;
+        if (cityBike && Object.keys(cityBike).length > 0) {
+          promises.push(
+            new Promise(resolve => {
+              resolve(
+                handleCitybikeSeasonConfigurations(schedules, configName),
+              );
+            }),
+          );
+        }
+      });
+      Promise.all(promises).then(definitions => {
+        // filter empty objects and duplicates
+        const seasonDefinitions = definitions
+          .filter(seasonDef => Object.keys(seasonDef).length > 0)
+          .flat()
+          .filter(
+            (v, i, a) =>
+              a.findIndex(v2 => v2.networkName === v.networkName) === i,
+          );
+        console.log(
+          `fetched: ${seasonDefinitions.length} citybike season configuration`,
+        );
+        configTools.setAvailableCitybikeConfigurations(seasonDefinitions);
+        mainResolve();
+      });
+    });
+  });
+}
 /* ********* Init ********* */
+
 if (process.env.OIDC_CLIENT_ID) {
   setUpOpenId();
 }
@@ -383,6 +472,7 @@ Promise.all([
   setUpAvailableRouteTimetables(),
   setUpAvailableTickets(),
   collectGeoJsonZones(),
+  fetchCitybikeConfigurations(),
 ]).then(startServer);
 
 module.exports.app = app;

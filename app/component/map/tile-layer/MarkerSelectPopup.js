@@ -1,12 +1,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-
 import SelectStopRow from './SelectStopRow';
 import SelectVehicleRentalStationRow from './SelectVehicleRentalStationRow';
 import SelectParkAndRideRow from './SelectParkAndRideRow';
 import SelectVehicleContainer from './SelectVehicleContainer';
 import { getIdWithoutFeed } from '../../../util/feedScopedIdUtils';
+import { popupColorShape } from '../../../util/shapes';
 
 function MarkerSelectPopup(props) {
   const hasStop = () =>
@@ -111,9 +111,13 @@ function MarkerSelectPopup(props) {
 MarkerSelectPopup.displayName = 'MarkerSelectPopup';
 
 MarkerSelectPopup.propTypes = {
-  options: PropTypes.arrayOf(PropTypes.object).isRequired,
-  selectRow: PropTypes.func.isRequired, // eslint-disable-line react/no-unused-prop-types
-  colors: PropTypes.object.isRequired,
+  options: PropTypes.arrayOf(
+    PropTypes.shape({
+      layer: PropTypes.string,
+    }),
+  ).isRequired,
+  selectRow: PropTypes.func.isRequired,
+  colors: popupColorShape.isRequired,
 };
 
 export default MarkerSelectPopup;

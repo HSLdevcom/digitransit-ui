@@ -70,8 +70,7 @@ const TripRouteStop = (props, { config }) => {
       pattern: props.pattern,
       route: props.route,
       vehicleNumber: vehicleWithParsedShortname.shortName || shortName,
-      selected:
-        props.selectedVehicle && props.selectedVehicle.id === vehicle.id,
+      selected: props.selectedVehicle?.id === vehicle.id,
       color: !stopPassed ? vehicle.color : '',
       setHumanScrolling,
       keepTracking,
@@ -207,10 +206,7 @@ TripRouteStop.propTypes = {
   pattern: PropTypes.string.isRequired,
   route: PropTypes.string.isRequired,
   className: PropTypes.string,
-  selectedVehicle: PropTypes.oneOfType([
-    PropTypes.object,
-    PropTypes.oneOf([false]),
-  ]).isRequired,
+  selectedVehicle: vehicleShape,
   shortName: PropTypes.string,
   setHumanScrolling: PropTypes.func.isRequired,
   keepTracking: PropTypes.bool,
@@ -228,6 +224,7 @@ TripRouteStop.defaultProps = {
   nextStop: null,
   prevStop: null,
   shortName: undefined,
+  selectedVehicle: undefined,
 };
 
 TripRouteStop.contextTypes = {

@@ -168,7 +168,11 @@ RouteScheduleDropdown.propTypes = {
   alignRight: PropTypes.bool,
   id: PropTypes.string.isRequired,
   labelId: PropTypes.string,
-  list: PropTypes.arrayOf(PropTypes.object).isRequired,
+  list: PropTypes.arrayOf(
+    PropTypes.shape({
+      label: PropTypes.string,
+    }),
+  ).isRequired,
   onSelectChange: PropTypes.func,
   title: PropTypes.string,
 };

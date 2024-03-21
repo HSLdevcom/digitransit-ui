@@ -1,7 +1,7 @@
 /* eslint-disable react/no-array-index-key */
 import PropTypes from 'prop-types';
 import React from 'react';
-import { configShape } from '../util/shapes';
+import { configShape, fareShape, itineraryShape } from '../util/shapes';
 import WalkLeg from './WalkLeg';
 import WaitLeg from './WaitLeg';
 import BicycleLeg from './BicycleLeg';
@@ -37,8 +37,8 @@ export default class ItineraryLegs extends React.Component {
   };
 
   static propTypes = {
-    itinerary: PropTypes.object.isRequired,
-    fares: PropTypes.arrayOf(PropTypes.object),
+    itinerary: itineraryShape.isRequired,
+    fares: PropTypes.arrayOf(fareShape),
     focusToPoint: PropTypes.func.isRequired,
     focusToLeg: PropTypes.func.isRequired,
     changeHash: PropTypes.func,

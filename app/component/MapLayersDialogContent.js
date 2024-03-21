@@ -19,25 +19,27 @@ const transportModeconfigShape = PropTypes.shape({
   availableForSelection: PropTypes.bool,
 });
 
+const geoJsonConfigShape = PropTypes.shape({
+  layers: PropTypes.arrayOf(
+    PropTypes.shape({
+      url: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.arrayOf(PropTypes.string),
+      ]).isRequired,
+      name: PropTypes.shape({
+        en: PropTypes.string,
+        fi: PropTypes.string.isRequired,
+        sv: PropTypes.string,
+      }),
+    }),
+  ),
+});
+
 const mapLayersconfigShape = PropTypes.shape({
   cityBike: PropTypes.shape({
     networks: PropTypes.object,
   }),
-  geoJson: PropTypes.shape({
-    layers: PropTypes.arrayOf(
-      PropTypes.shape({
-        url: PropTypes.oneOfType([
-          PropTypes.string,
-          PropTypes.arrayOf(PropTypes.string),
-        ]).isRequired,
-        name: PropTypes.shape({
-          en: PropTypes.string,
-          fi: PropTypes.string.isRequired,
-          sv: PropTypes.string,
-        }),
-      }),
-    ),
-  }),
+  geoJson: geoJsonConfigShape,
   parkAndRide: PropTypes.shape({
     showParkAndRide: PropTypes.bool,
   }),
@@ -76,7 +78,7 @@ class MapLayersDialogContent extends React.Component {
     updateMapLayers: PropTypes.func.isRequired,
     lang: PropTypes.string.isRequired,
     open: PropTypes.bool.isRequired,
-    geoJson: PropTypes.object,
+    geoJson: geoJsonConfigShape,
   };
 
   static defaultProps = {
@@ -293,10 +295,7 @@ export const getGeoJsonLayersOrDefault = (
   defaultValue = undefined,
 ) => {
   return (
-    (config &&
-      config.geoJson &&
-      Array.isArray(config.geoJson.layers) &&
-      config.geoJson.layers) ||
+    (Array.isArray(config.geoJson?.layers) && config.geoJson.layers) ||
     (store && Array.isArray(store.layers) && store.layers) ||
     defaultValue
   );

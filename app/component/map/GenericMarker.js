@@ -1,10 +1,8 @@
 import isFunction from 'lodash/isFunction';
 import PropTypes from 'prop-types';
 import React from 'react';
-
 import { withLeaflet } from 'react-leaflet/es/context';
-import { configShape } from '../../util/shapes';
-
+import { configShape, locationShape } from '../../util/shapes';
 import { isBrowser } from '../../util/browser';
 
 let Marker;
@@ -31,7 +29,7 @@ class GenericMarker extends React.Component {
 
   static propTypes = {
     shouldRender: PropTypes.func,
-    position: PropTypes.object.isRequired,
+    position: locationShape.isRequired,
     getIcon: PropTypes.func.isRequired,
     renderName: PropTypes.bool,
     name: PropTypes.string,

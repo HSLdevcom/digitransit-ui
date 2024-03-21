@@ -19,6 +19,11 @@ if (defaultConfig.themeMap) {
   });
 }
 
+let citybikeSeasonDefinitions;
+export function setAvailableCitybikeConfigurations(seasonDefs) {
+  citybikeSeasonDefinitions = [...seasonDefs];
+}
+
 let allZones;
 export function setAssembledZones(zoneLayer) {
   allZones = { ...zoneLayer };
@@ -157,7 +162,32 @@ export function getNamedConfiguration(configName) {
       }
     }
   }
+  if (
+    conf.cityBike &&
+    citybikeSeasonDefinitions?.length &&
+    !conf.cityBike.seasonSet
+  ) {
+    conf.cityBike.seasonSet = true;
 
+    if (conf.cityBike.useAllSeasons) {
+      citybikeSeasonDefinitions.forEach(seasonDef => {
+        const confCitybike = conf.cityBike.networks[seasonDef.networkName];
+        if (confCitybike) {
+          confCitybike.enabled = seasonDef.enabled;
+          confCitybike.season = seasonDef.season;
+        }
+      });
+    } else {
+      const seasonDefinitions = citybikeSeasonDefinitions.filter(
+        seasonDef => configName === seasonDef.configName,
+      );
+      seasonDefinitions.forEach(seasonDef => {
+        const confCitybike = conf.cityBike.networks[seasonDef.networkName];
+        confCitybike.enabled = seasonDef.enabled;
+        confCitybike.season = seasonDef.season;
+      });
+    }
+  }
   if (!process.env.OIDC_CLIENT_ID && conf.allowLogin) {
     return {
       ...conf,

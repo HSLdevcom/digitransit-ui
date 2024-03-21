@@ -5,6 +5,7 @@ import Toggle from './Toggle';
 import { saveRoutingSettings } from '../../action/SearchSettingsActions';
 import Icon from '../Icon';
 import { addAnalyticsEvent } from '../../util/analyticsUtils';
+import { settingsShape } from '../../util/shapes';
 
 const AccessibilityOptionSection = ({ currentSettings }, { executeAction }) => {
   const onToggle = () => {
@@ -52,7 +53,7 @@ const AccessibilityOptionSection = ({ currentSettings }, { executeAction }) => {
 };
 
 AccessibilityOptionSection.propTypes = {
-  currentSettings: PropTypes.object.isRequired,
+  currentSettings: settingsShape.isRequired,
 };
 
 AccessibilityOptionSection.contextTypes = {

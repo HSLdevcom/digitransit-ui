@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types';
 import React from 'react';
+import { stopShape } from '../util/shapes';
 
 const SelectedStopPopupContent = ({ stop }) => (
   <div className="origin-popup">
@@ -20,10 +20,7 @@ const SelectedStopPopupContent = ({ stop }) => (
   </div>
 );
 
-SelectedStopPopupContent.propTypes = {
-  stop: PropTypes.object.isRequired,
-};
-
+SelectedStopPopupContent.propTypes = { stop: stopShape.isRequired };
 SelectedStopPopupContent.displayName = 'SelectedStopPopupContent';
 
 export default SelectedStopPopupContent;

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'found';
-import { configShape } from '../util/shapes';
+import { stopShape, configShape } from '../util/shapes';
 import AddressRow from './AddressRow';
 import ZoneIcon from './ZoneIcon';
 import PlatformNumber from './PlatformNumber';
@@ -50,15 +50,17 @@ const StopNearYouHeader = (
 };
 
 StopNearYouHeader.propTypes = {
-  stop: PropTypes.object.isRequired,
+  stop: stopShape.isRequired,
   linkAddress: PropTypes.string.isRequired,
   desc: PropTypes.string,
   isStation: PropTypes.bool,
 };
+
 StopNearYouHeader.defaultProps = {
   isStation: false,
   desc: undefined,
 };
+
 StopNearYouHeader.contextTypes = {
   config: configShape.isRequired,
 };

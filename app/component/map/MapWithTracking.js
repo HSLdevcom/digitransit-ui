@@ -82,6 +82,7 @@ class MapWithTrackingStateHandler extends React.Component {
     onMapTracking: PropTypes.func,
     setMWTRef: PropTypes.func,
     mapRef: PropTypes.func,
+    // eslint-disable-next-line
     leafletEvents: PropTypes.object,
     breakpoint: PropTypes.string.isRequired,
     lang: PropTypes.string.isRequired,

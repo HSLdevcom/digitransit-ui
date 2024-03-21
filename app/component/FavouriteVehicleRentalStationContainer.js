@@ -11,10 +11,7 @@ const FavouriteVehicleRentalStationContainer = connectToStores(
   (context, { vehicleRentalStation }) => ({
     favourite: context
       .getStore('FavouriteStore')
-      .isFavouriteVehicleRentalStation(
-        vehicleRentalStation.stationId,
-        vehicleRentalStation.network,
-      ),
+      .isFavourite(vehicleRentalStation.stationId, 'bikeStation'),
     isFetching: context.getStore('FavouriteStore').getStatus() === 'fetching',
     addFavourite: () => {
       context.executeAction(saveFavourite, {
@@ -30,10 +27,7 @@ const FavouriteVehicleRentalStationContainer = connectToStores(
         action: 'MarkBikeRentalStationAsFavourite',
         name: !context
           .getStore('FavouriteStore')
-          .isFavouriteVehicleRentalStation(
-            vehicleRentalStation.stationId,
-            vehicleRentalStation.network,
-          ),
+          .isFavourite(vehicleRentalStation.stationId, 'bikeStation'),
       });
     },
     deleteFavourite: () => {
@@ -49,10 +43,7 @@ const FavouriteVehicleRentalStationContainer = connectToStores(
         action: 'MarkBikeRentalStationAsFavourite',
         name: !context
           .getStore('FavouriteStore')
-          .isFavouriteVehicleRentalStation(
-            vehicleRentalStation.stationId,
-            vehicleRentalStation.network,
-          ),
+          .isFavourite(vehicleRentalStation.stationId, 'bikeStation'),
       });
     },
     requireLoggedIn: !context.config.allowFavouritesFromLocalstorage,

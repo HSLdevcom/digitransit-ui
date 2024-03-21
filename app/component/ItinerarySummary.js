@@ -3,6 +3,7 @@ import React from 'react';
 import cx from 'classnames';
 import Duration from './Duration';
 import Distance from './Distance';
+import { itineraryShape } from '../util/shapes';
 
 function ItinerarySummary({
   itinerary,
@@ -59,11 +60,16 @@ function ItinerarySummary({
 ItinerarySummary.description = () =>
   "Displays itinerary summary; itinerary's duration and walk distance";
 
+const summaryShape = PropTypes.shape({
+  duration: PropTypes.number,
+  distance: PropTypes.number,
+});
+
 ItinerarySummary.propTypes = {
-  itinerary: PropTypes.object.isRequired,
-  walking: PropTypes.object,
-  biking: PropTypes.object,
-  driving: PropTypes.object,
+  itinerary: itineraryShape.isRequired,
+  walking: summaryShape,
+  biking: summaryShape,
+  driving: summaryShape,
   futureText: PropTypes.string,
   isMultiRow: PropTypes.bool,
   isMobile: PropTypes.bool,

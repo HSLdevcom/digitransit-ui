@@ -17,6 +17,7 @@ export default configMerger(walttiConfig, {
     primary: '#0ab1c8',
     iconColors: {
       'mode-bus': '#724f9f',
+      'mode-rail': '#0E7F3C',
     },
   },
 
@@ -33,7 +34,7 @@ export default configMerger(walttiConfig, {
   logo: 'kuopio/logo.png',
   secondaryLogo: 'kuopio/secondary-logo.png',
 
-  feedIds: ['Kuopio'],
+  feedIds: ['Kuopio', 'digitraffic'],
 
   showTicketInformation: true,
 
@@ -104,6 +105,10 @@ export default configMerger(walttiConfig, {
   transportModes: {
     citybike: {
       availableForSelection: true,
+    },
+    rail: {
+      availableForSelection: true,
+      defaultValue: true,
     },
   },
 
@@ -184,5 +189,25 @@ export default configMerger(walttiConfig, {
   zones: {
     stops: true,
     itinerary: true,
+  },
+
+  modeDisclaimers: {
+    RAIL: {
+      fi: {
+        disclaimer: 'Vilkun liput eivät käy junaliikenteessä. Junaliput: ',
+        link: 'http://vr.fi',
+        text: 'http://vr.fi',
+      },
+      sv: {
+        disclaimer: 'Vilkku biljetter är inte giltiga på tåg. Tågbiljetter: ',
+        link: 'http://vr.fi/sv',
+        text: 'http://vr.fi/sv',
+      },
+      en: {
+        disclaimer: 'Vilkku tickets are not valid on trains. Train tickets: ',
+        link: 'http://vr.fi/en',
+        text: 'http://vr.fi/en',
+      },
+    },
   },
 });

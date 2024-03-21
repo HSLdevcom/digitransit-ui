@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef, lazy, Suspense } from 'react';
 import { intlShape } from 'react-intl';
 import { matchShape } from 'found';
 import { Helmet } from 'react-helmet';
-import { configShape } from '../util/shapes';
+import { favouriteShape, configShape } from '../util/shapes';
 import { clearOldSearches, clearFutureRoutes } from '../util/storeUtils';
 import { getJson } from '../util/xhrPromise';
 
@@ -104,10 +104,16 @@ const AppBarHsl = ({ lang, user, favourites }, context) => {
       : {};
 
   const siteHeaderRef = useRef(null);
+  const notificationTime = useRef(0);
 
   useEffect(() => {
-    // Refetch notifications
-    siteHeaderRef.current?.fetchNotifications();
+    const now = Date.now();
+    // refresh only once per 5 seconds
+    if (now - notificationTime.current > 5000) {
+      // Refetch notifications
+      siteHeaderRef.current?.fetchNotifications();
+      notificationTime.current = now;
+    }
   }, [favourites]);
 
   return (
@@ -117,6 +123,7 @@ const AppBarHsl = ({ lang, user, favourites }, context) => {
           <script
             id="CookieConsent"
             src="https://policy.app.cookieinformation.com/uc.js"
+            data-gcm-version="2.0"
             data-culture="FI"
             type="text/javascript"
           />
@@ -160,7 +167,7 @@ AppBarHsl.propTypes = {
     sub: PropTypes.string,
     notLogged: PropTypes.bool,
   }),
-  favourites: PropTypes.arrayOf(PropTypes.object),
+  favourites: PropTypes.arrayOf(favouriteShape),
 };
 
 AppBarHsl.defaultProps = {

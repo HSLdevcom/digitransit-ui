@@ -5,6 +5,7 @@ import { intlShape } from 'react-intl';
 import cx from 'classnames';
 import Icon from './Icon';
 import { isKeyboardSelectionEvent } from '../util/browser';
+import { userShape } from '../util/shapes';
 
 const UserMenu = ({ menuItems, user }, { intl }) => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -90,12 +91,7 @@ UserMenu.propTypes = {
       onClick: PropTypes.func,
     }),
   ).isRequired,
-  user: PropTypes.shape({
-    given_name: PropTypes.string,
-    family_name: PropTypes.string,
-    sub: PropTypes.string,
-    notLogged: PropTypes.bool,
-  }),
+  user: userShape,
 };
 
 UserMenu.defaultProps = {

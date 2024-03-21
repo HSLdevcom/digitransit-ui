@@ -16,7 +16,7 @@ import Autosuggest from 'react-autosuggest';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { enrichPatterns } from '@digitransit-util/digitransit-util';
 import { FormattedMessage, intlShape } from 'react-intl';
-import { relayShape, configShape } from '../util/shapes';
+import { routeShape, relayShape, configShape } from '../util/shapes';
 import Icon from './Icon';
 import { isBrowser } from '../util/browser';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
@@ -129,9 +129,11 @@ class RoutePatternSelect extends Component {
   }
 
   static propTypes = {
-    params: PropTypes.object.isRequired,
+    params: PropTypes.shape({
+      patternId: PropTypes.string.isRequired,
+    }).isRequired,
     className: PropTypes.string.isRequired,
-    route: PropTypes.object.isRequired,
+    route: routeShape.isRequired,
     onSelectChange: PropTypes.func.isRequired,
     serviceDay: PropTypes.string.isRequired,
     gtfsId: PropTypes.string.isRequired,

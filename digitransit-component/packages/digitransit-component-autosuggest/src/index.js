@@ -257,7 +257,13 @@ class DTAutosuggest extends React.Component {
     placeholder: PropTypes.string.isRequired,
     translatedPlaceholder: PropTypes.string,
     value: PropTypes.string,
-    searchContext: PropTypes.object.isRequired,
+    searchContext: PropTypes.shape({
+      URL_PELIAS: PropTypes.string,
+      // eslint-disable-next-line
+      context: PropTypes.object,
+      clearOldSearches: PropTypes.func,
+      clearFutureRoutes: PropTypes.func,
+    }).isRequired,
     ariaLabel: PropTypes.string,
     onSelect: PropTypes.func.isRequired,
     transportMode: PropTypes.string,
