@@ -106,12 +106,16 @@ const AppBarHsl = ({ lang, user, favourites }, context) => {
 
   const siteHeaderRef = useRef(null);
   const notificationTime = useRef(0);
-  if (user?.sub) {
-    addAnalyticsEvent({
-      event: 'user-hsl-id',
-      hslId: user.sub,
-    });
-  }
+
+  useEffect(() => {
+    if (user) {
+      addAnalyticsEvent({
+        event: 'user-hsl-id',
+        hslId: user.sub,
+      });
+    }
+  }, [user]);
+
   useEffect(() => {
     const now = Date.now();
     // refresh only once per 5 seconds
