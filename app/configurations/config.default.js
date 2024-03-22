@@ -765,8 +765,10 @@ export default {
   showVehiclesOnItineraryPage: false,
 
   showWeatherInformation: true,
-  showBikeAndPublicItineraries: true, // TODO TÄMÄ FALSEKSI KELA YEL
+  showBikeAndPublicItineraries: true,
   showBikeAndParkItineraries: false,
+  // Modes that shows extra cost information in itinerary summary and itinerary details pages
+  bikeWithExtraCostModes: ['RAIL', 'FERRY'],
 
   includeBikeSuggestions: true,
   includeCarSuggestions: false,

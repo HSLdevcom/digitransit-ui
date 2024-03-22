@@ -200,7 +200,7 @@ export default {
   },
 
   // modes that should not coexist with BICYCLE mode
-  modesWithNoBike: ['BICYCLE_RENT', 'WALK', 'BUS', 'TRAM', 'FERRY'],
+  modesWithNoBike: ['BICYCLE_RENT', 'WALK', 'BUS', 'TRAM'],
 
   useSearchPolygon: true,
 
@@ -508,6 +508,8 @@ export default {
   // Park and ride and car suggestions separated into two switches
   separatedParkAndRideSwitch: false,
 
+  // Modes that shows extra cost information in itinerary summary and itinerary details pages
+  extraCostModes: ['RAIL', 'FERRY'],
   parkingAreaSources: ['liipi'],
 
   showNearYouButtons: true,

@@ -96,7 +96,9 @@ function ItineraryList(
           itineraries[bikeAndParkItineraryCount].legs.find(l => l.transitLeg),
           config,
         ) || 'rail';
-      const showExternalCostInfo = mode === 'rail' || mode === 'ferry';
+      const showExternalCostInfo = config.bikeWithExtraCostModes.includes(
+        mode.toUpperCase(),
+      );
       summaries.splice(
         bikeAndParkItineraryCount ? bikeAndParkItineraryCount + 1 : 0,
         0,
