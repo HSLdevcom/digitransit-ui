@@ -82,6 +82,12 @@ FavouriteStopContainerComponent.defaultProps = {
   isFetching: false,
 };
 
+FavouriteStopContainerComponent.contextTypes = {
+  getStore: PropTypes.func.isRequired,
+  executeAction: PropTypes.func.isRequired,
+  config: configShape.isRequired,
+};
+
 const FavouriteStopContainer = connectToStores(
   FavouriteStopContainerComponent,
   ['FavouriteStore', 'UserStore', 'PreferencesStore'],
