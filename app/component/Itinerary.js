@@ -2,6 +2,7 @@ import cx from 'classnames';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { graphql, createFragmentContainer } from 'react-relay';
 import { FormattedMessage, intlShape } from 'react-intl';
 import {
   legShape,
@@ -950,4 +951,115 @@ Itinerary.displayName = 'Itinerary';
 
 const ItineraryWithBreakpoint = withBreakpoint(Itinerary);
 
-export { Itinerary as component, ItineraryWithBreakpoint as default };
+const containerComponent = createFragmentContainer(ItineraryWithBreakpoint, {
+  itinerary: graphql`
+    fragment Itinerary_itinerary on Itinerary {
+      walkDistance
+      startTime
+      endTime
+      emissionsPerPerson {
+        co2
+      }
+      legs {
+        realTime
+        realtimeState
+        transitLeg
+        startTime
+        endTime
+        mode
+        distance
+        duration
+        rentedBike
+        interlineWithPreviousLeg
+        intermediatePlace
+        intermediatePlaces {
+          stop {
+            zoneId
+          }
+        }
+        legGeometry {
+          points
+        }
+        route {
+          gtfsId
+          mode
+          shortName
+          type
+          color
+          agency {
+            name
+          }
+          alerts {
+            alertSeverityLevel
+            effectiveEndDate
+            effectiveStartDate
+          }
+        }
+        trip {
+          stoptimesForDate {
+            stop {
+              gtfsId
+            }
+            pickupType
+          }
+          gtfsId
+          directionId
+          pattern {
+            ...RouteLine_pattern
+            code
+          }
+          stoptimes {
+            realtimeState
+            stop {
+              gtfsId
+            }
+            pickupType
+          }
+          occupancy {
+            occupancyStatus
+          }
+        }
+        from {
+          name
+          lat
+          lon
+          stop {
+            gtfsId
+            zoneId
+            platformCode
+            alerts {
+              alertSeverityLevel
+              effectiveEndDate
+              effectiveStartDate
+            }
+          }
+          vehicleRentalStation {
+            vehiclesAvailable
+            network
+          }
+        }
+        to {
+          stop {
+            gtfsId
+            zoneId
+            alerts {
+              alertSeverityLevel
+              effectiveEndDate
+              effectiveStartDate
+            }
+          }
+          bikePark {
+            bikeParkId
+            name
+          }
+          carPark {
+            carParkId
+            name
+          }
+        }
+      }
+    }
+  `,
+});
+
+export { containerComponent as default, Itinerary as component };

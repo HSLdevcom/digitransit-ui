@@ -242,12 +242,7 @@ const connectedContainer = createFragmentContainer(
       @relay(plural: true) {
         ...ItineraryList_itineraries
         legs {
-          trip {
-            stoptimesForDate {
-              scheduledDeparture
-              pickupType
-            }
-          }
+          ...ItineraryLine_legs
         }
       }
     `,

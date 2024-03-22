@@ -199,9 +199,7 @@ ItineraryList.contextTypes = {
 const containerComponent = createFragmentContainer(ItineraryList, {
   itineraries: graphql`
     fragment ItineraryList_itineraries on Itinerary @relay(plural: true) {
-      walkDistance
-      startTime
-      endTime
+      ...Itinerary_itinerary
       emissionsPerPerson {
         co2
       }
