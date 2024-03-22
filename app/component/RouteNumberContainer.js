@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { configShape } from '../util/shapes';
+import { routeShape, configShape } from '../util/shapes';
 import { getLegText } from '../util/legUtils';
 import RouteNumber from './RouteNumber';
 
@@ -33,7 +33,7 @@ const RouteNumberContainer = (
 
 RouteNumberContainer.propTypes = {
   alertSeverityLevel: PropTypes.string,
-  route: PropTypes.object.isRequired,
+  route: routeShape.isRequired,
   interliningWithRoute: PropTypes.string,
   isCallAgency: PropTypes.bool,
   vertical: PropTypes.bool,

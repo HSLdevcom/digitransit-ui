@@ -4,7 +4,7 @@ import { createRefetchContainer, graphql } from 'react-relay';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { FormattedMessage, intlShape } from 'react-intl';
 import { matchShape, routerShape, RedirectException } from 'found';
-import { configShape, errorShape, relayShape } from '../util/shapes';
+import { configShape, errorShape, relayShape, stopShape } from '../util/shapes';
 import DepartureListContainer from './DepartureListContainer';
 import Loading from './Loading';
 import Icon from './Icon';
@@ -14,9 +14,7 @@ import { PREFIX_STOPS } from '../util/path';
 
 class StopPageContent extends React.Component {
   static propTypes = {
-    stop: PropTypes.shape({
-      stoptimes: PropTypes.arrayOf(PropTypes.object),
-    }).isRequired,
+    stop: stopShape.isRequired,
     relay: relayShape.isRequired,
     currentTime: PropTypes.number.isRequired,
     error: errorShape,

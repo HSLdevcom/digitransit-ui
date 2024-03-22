@@ -2,7 +2,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { matchShape, routerShape } from 'found';
-import { configShape } from '../../util/shapes';
+import { configShape, itineraryShape, locationShape } from '../../util/shapes';
 import LocationMarker from './LocationMarker';
 import ItineraryLine from './ItineraryLine';
 import MapWithTracking from './MapWithTracking';
@@ -109,15 +109,21 @@ function ItineraryPageMap(
 }
 
 ItineraryPageMap.propTypes = {
-  itineraries: PropTypes.arrayOf(PropTypes.object).isRequired,
-  topics: PropTypes.arrayOf(PropTypes.object),
+  itineraries: PropTypes.arrayOf(itineraryShape).isRequired,
+  topics: PropTypes.arrayOf(
+    PropTypes.shape({
+      feedId: PropTypes.string.isRequired,
+      mode: PropTypes.string,
+      direction: PropTypes.number,
+    }),
+  ),
   active: PropTypes.number.isRequired,
   showActive: PropTypes.bool,
   breakpoint: PropTypes.string.isRequired,
   showVehicles: PropTypes.bool,
-  from: PropTypes.object.isRequired,
-  to: PropTypes.object.isRequired,
-  viaPoints: PropTypes.arrayOf(PropTypes.object).isRequired,
+  from: locationShape.isRequired,
+  to: locationShape.isRequired,
+  viaPoints: PropTypes.arrayOf(locationShape).isRequired,
   showDurationBubble: PropTypes.bool,
 };
 

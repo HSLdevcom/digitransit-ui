@@ -117,6 +117,7 @@ export const mapLayerShape = PropTypes.shape({
     subway: PropTypes.bool,
   }).isRequired,
   vehicles: PropTypes.bool,
+  // eslint-disable-next-line
   geoJson: PropTypes.object,
 });
 

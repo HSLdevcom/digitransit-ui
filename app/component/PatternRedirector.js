@@ -8,6 +8,7 @@ import { isBrowser } from '../util/browser';
 import Error404 from './404';
 import { saveSearchItems } from '../action/SearchActions';
 import { getOldSearchItems } from '../util/storeUtils';
+import { routeShape } from '../util/shapes';
 
 const PatternRedirector = ({ router, match, route }, context) => {
   if (!route) {
@@ -73,7 +74,7 @@ PatternRedirector.contextTypes = {
 PatternRedirector.propTypes = {
   router: routerShape.isRequired,
   match: matchShape.isRequired,
-  route: PropTypes.object,
+  route: routeShape,
 };
 
 PatternRedirector.defaultProps = { route: undefined };

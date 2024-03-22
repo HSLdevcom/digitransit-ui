@@ -4,7 +4,7 @@ import pure from 'recompose/pure';
 
 import Icon from '../Icon';
 import { isBrowser } from '../../util/browser';
-import { dtlocationShape } from '../../util/shapes';
+import { locationShape } from '../../util/shapes';
 
 let Marker;
 let L;
@@ -40,7 +40,7 @@ function PositionMarker({ coordinates }) {
 }
 
 PositionMarker.propTypes = {
-  coordinates: dtlocationShape,
+  coordinates: locationShape,
 };
 
 PositionMarker.defaultProps = {

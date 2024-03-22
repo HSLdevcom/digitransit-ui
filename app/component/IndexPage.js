@@ -10,7 +10,7 @@ import DTAutosuggestPanel from '@digitransit-component/digitransit-component-aut
 import { getModesWithAlerts } from '@digitransit-search-util/digitransit-search-util-query-utils';
 import { createUrl } from '@digitransit-store/digitransit-store-future-route';
 import moment from 'moment';
-import { configShape, dtlocationShape } from '../util/shapes';
+import { configShape, locationShape } from '../util/shapes';
 import storeOrigin from '../action/originActions';
 import storeDestination from '../action/destinationActions';
 import withSearchContext from './WithSearchContext';
@@ -67,15 +67,15 @@ class IndexPage extends React.Component {
 
   static propTypes = {
     breakpoint: PropTypes.string.isRequired,
-    origin: dtlocationShape.isRequired,
-    destination: dtlocationShape.isRequired,
+    origin: locationShape.isRequired,
+    destination: locationShape.isRequired,
     lang: PropTypes.string,
     currentTime: PropTypes.number.isRequired,
-    // eslint-disable-next-line react/no-unused-prop-types
+    // eslint-disable-next-line
     query: PropTypes.object.isRequired,
     favouriteModalAction: PropTypes.string,
     fromMap: PropTypes.string,
-    locationState: dtlocationShape.isRequired,
+    locationState: locationShape.isRequired,
   };
 
   static defaultProps = {

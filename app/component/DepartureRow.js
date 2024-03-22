@@ -6,7 +6,7 @@ import moment from 'moment';
 import { intlShape } from 'react-intl';
 import { v4 as uuid } from 'uuid';
 import { Link } from 'found';
-import { configShape } from '../util/shapes';
+import { configShape, departureShape } from '../util/shapes';
 import LocalTime from './LocalTime';
 import { getHeadsignFromRouteLongName } from '../util/legUtils';
 import {
@@ -261,7 +261,7 @@ export default function DepartureRow(
 }
 
 DepartureRow.propTypes = {
-  departure: PropTypes.object.isRequired,
+  departure: departureShape.isRequired,
   departureTime: PropTypes.number.isRequired,
   currentTime: PropTypes.number.isRequired,
   showPlatformCode: PropTypes.bool,

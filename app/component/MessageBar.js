@@ -92,6 +92,7 @@ class MessageBar extends Component {
     currentTime: PropTypes.number.isRequired,
     getServiceAlertsAsync: PropTypes.func,
     lang: PropTypes.string.isRequired,
+    // eslint-disable-next-line
     messages: PropTypes.arrayOf(PropTypes.object).isRequired,
     relayEnvironment: relayShape.isRequired,
     duplicateMessageCounter: PropTypes.number.isRequired,

@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef, lazy, Suspense } from 'react';
 import { intlShape } from 'react-intl';
 import { matchShape } from 'found';
 import { Helmet } from 'react-helmet';
-import { configShape } from '../util/shapes';
+import { favouriteShape, configShape } from '../util/shapes';
 import { clearOldSearches, clearFutureRoutes } from '../util/storeUtils';
 import { getJson } from '../util/xhrPromise';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
@@ -177,7 +177,7 @@ AppBarHsl.propTypes = {
     sub: PropTypes.string,
     notLogged: PropTypes.bool,
   }),
-  favourites: PropTypes.arrayOf(PropTypes.object),
+  favourites: PropTypes.arrayOf(favouriteShape),
 };
 
 AppBarHsl.defaultProps = {

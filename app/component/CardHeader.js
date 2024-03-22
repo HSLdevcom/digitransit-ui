@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 import cx from 'classnames';
-import { configShape } from '../util/shapes';
+import { stopShape, configShape } from '../util/shapes';
 import AddressRow from './AddressRow';
 import Icon from './Icon';
 import ZoneIcon from './ZoneIcon';
@@ -91,7 +91,7 @@ CardHeader.propTypes = {
   className: PropTypes.string,
   headerIcon: PropTypes.node,
   headingStyle: PropTypes.string,
-  stop: PropTypes.object.isRequired,
+  stop: stopShape.isRequired,
   description: PropTypes.string.isRequired,
   code: PropTypes.string,
   externalLink: PropTypes.node,
@@ -100,7 +100,7 @@ CardHeader.propTypes = {
   children: PropTypes.node,
   unlinked: PropTypes.bool,
   showBackButton: PropTypes.bool,
-  headerConfig: PropTypes.object,
+  headerConfig: PropTypes.bool,
   favouriteContainer: PropTypes.element,
   name: PropTypes.string,
   isTerminal: PropTypes.bool,
@@ -118,7 +118,7 @@ CardHeader.defaultProps = {
   children: undefined,
   unlinked: false,
   showBackButton: false,
-  headerConfig: undefined,
+  headerConfig: false,
   name: undefined,
   isTerminal: false,
 };

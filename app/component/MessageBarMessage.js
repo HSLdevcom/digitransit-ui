@@ -64,6 +64,7 @@ export default function MessageBarMessage(
 }
 
 MessageBarMessage.propTypes = {
+  // eslint-disable-next-line
   content: PropTypes.arrayOf(PropTypes.object).isRequired,
   textColor: PropTypes.string,
   truncate: PropTypes.bool,

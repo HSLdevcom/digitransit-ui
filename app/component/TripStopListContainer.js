@@ -7,44 +7,16 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 import groupBy from 'lodash/groupBy';
 import values from 'lodash/values';
 import moment from 'moment';
-import { configShape } from '../util/shapes';
+import { configShape, tripShape, vehicleShape } from '../util/shapes';
 import { getRouteMode } from '../util/modeUtils';
 import TripRouteStop from './TripRouteStop';
 import withBreakpoint from '../util/withBreakpoint';
 
 class TripStopListContainer extends React.PureComponent {
   static propTypes = {
-    trip: PropTypes.shape({
-      gtfsId: PropTypes.string.isRequired,
-      route: PropTypes.shape({
-        gtfsId: PropTypes.string,
-        shortName: PropTypes.string,
-        type: PropTypes.number,
-        mode: PropTypes.string,
-        color: PropTypes.string,
-      }),
-      stoptimesForDate: PropTypes.arrayOf(
-        PropTypes.shape({
-          stop: PropTypes.shape({
-            gtfsId: PropTypes.string,
-          }),
-          realtimeDeparture: PropTypes.number,
-          serviceDay: PropTypes.number,
-        }),
-      ).isRequired,
-      pattern: PropTypes.shape({
-        code: PropTypes.string.isRequired,
-        directionId: PropTypes.number.isRequired,
-      }).isRequired,
-    }).isRequired,
+    trip: tripShape.isRequired,
     className: PropTypes.string,
-    vehicles: PropTypes.objectOf(
-      PropTypes.shape({
-        id: PropTypes.string,
-        next_stop: PropTypes.string,
-        timestamp: PropTypes.number,
-      }),
-    ),
+    vehicles: PropTypes.objectOf(vehicleShape),
     currentTime: PropTypes.instanceOf(moment).isRequired,
     tripStart: PropTypes.string.isRequired,
     breakpoint: PropTypes.string.isRequired,
@@ -101,7 +73,8 @@ class TripStopListContainer extends React.PureComponent {
       );
 
     // selected vehicle
-    const vehicle = matchingVehicles.length > 0 && matchingVehicles[0];
+    const vehicle =
+      matchingVehicles.length > 0 ? matchingVehicles[0] : undefined;
     const nextStop = vehicle && vehicle.next_stop;
     let stopPassed = true;
 

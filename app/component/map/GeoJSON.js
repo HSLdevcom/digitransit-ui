@@ -96,6 +96,7 @@ const addPopup = (feature, layer) => {
 
 class GeoJSON extends React.Component {
   static propTypes = {
+    // eslint-disable-next-line
     bounds: PropTypes.object,
     data: PropTypes.shape({
       features: PropTypes.arrayOf(geoJsonFeatureShape),

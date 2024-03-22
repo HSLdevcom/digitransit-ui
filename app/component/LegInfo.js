@@ -89,8 +89,8 @@ export default function LegInfo(
           })}
         >
           <Icon
-            width="1.75"
-            height="1.75"
+            width={1.75}
+            height={1.75}
             img={`icon-icon_${capacity}`}
             color={config.colors.primary}
           />
@@ -135,7 +135,6 @@ export default function LegInfo(
 LegInfo.propTypes = {
   leg: legShape.isRequired,
   hasNoShortName: PropTypes.bool,
-  mode: PropTypes.string,
   headsign: PropTypes.string.isRequired,
   alertSeverityLevel: PropTypes.string,
   isAlternativeLeg: PropTypes.bool.isRequired,

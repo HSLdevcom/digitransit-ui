@@ -4,7 +4,7 @@ import { createFragmentContainer, graphql } from 'react-relay';
 import { FormattedMessage } from 'react-intl';
 import cx from 'classnames';
 import { matchShape } from 'found';
-import { configShape, locationShape } from '../util/shapes';
+import { configShape, locationShape, itineraryShape } from '../util/shapes';
 import Icon from './Icon';
 import Itinerary from './Itinerary';
 import { isBrowser } from '../util/browser';
@@ -51,7 +51,7 @@ function ItineraryList(
       refTime={searchTime}
       key={i} // eslint-disable-line react/no-array-index-key
       hash={i}
-      data={itinerary}
+      itinerary={itinerary}
       passive={i !== activeIndex}
       currentTime={currentTime}
       onSelect={onSelect}
@@ -171,7 +171,7 @@ ItineraryList.propTypes = {
   activeIndex: PropTypes.number.isRequired,
   currentTime: PropTypes.number.isRequired,
   intermediatePlaces: PropTypes.arrayOf(locationShape),
-  itineraries: PropTypes.arrayOf(PropTypes.object),
+  itineraries: PropTypes.arrayOf(itineraryShape),
   onSelect: PropTypes.func.isRequired,
   onSelectImmediately: PropTypes.func.isRequired,
   searchTime: PropTypes.number.isRequired,

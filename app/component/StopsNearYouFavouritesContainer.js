@@ -2,7 +2,12 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { graphql, createFragmentContainer } from 'react-relay';
 import distance from '@digitransit-search-util/digitransit-search-util-distance';
-import { dtlocationShape } from '../util/shapes';
+import {
+  stopShape,
+  stationShape,
+  vehicleRentalStationShape,
+  locationShape,
+} from '../util/shapes';
 import StopNearYouContainer from './StopNearYouContainer';
 import CityBikeStopNearYou from './VehicleRentalStationNearYou';
 
@@ -68,10 +73,10 @@ function StopsNearYouFavouritesContainer({
 }
 
 StopsNearYouFavouritesContainer.propTypes = {
-  stops: PropTypes.arrayOf(PropTypes.object),
-  stations: PropTypes.arrayOf(PropTypes.object),
-  vehicleStations: PropTypes.arrayOf(PropTypes.object),
-  searchPosition: dtlocationShape,
+  stops: PropTypes.arrayOf(stopShape),
+  stations: PropTypes.arrayOf(stationShape),
+  vehicleStations: PropTypes.arrayOf(vehicleRentalStationShape),
+  searchPosition: locationShape,
 };
 
 const refetchContainer = createFragmentContainer(

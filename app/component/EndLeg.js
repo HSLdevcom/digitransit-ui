@@ -7,6 +7,7 @@ import { FormattedMessage, intlShape } from 'react-intl';
 import Icon from './Icon';
 import ItineraryMapAction from './ItineraryMapAction';
 import { parseLocation } from '../util/path';
+import { stopShape } from '../util/shapes';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 function EndLeg(props, context) {
@@ -67,7 +68,7 @@ function EndLeg(props, context) {
 
 EndLeg.propTypes = {
   endTime: PropTypes.number.isRequired,
-  to: PropTypes.object.isRequired,
+  to: stopShape.isRequired,
   index: PropTypes.number.isRequired,
   focusAction: PropTypes.func.isRequired,
 };
