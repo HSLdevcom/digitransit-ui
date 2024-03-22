@@ -8,7 +8,7 @@ import { configShape, itineraryShape } from '../util/shapes';
 import Icon from './Icon';
 import Itinerary from './Itinerary';
 import { isBrowser } from '../util/browser';
-import { getExtendedMode, getZones } from '../util/legUtils';
+import { getExtendedMode } from '../util/legUtils';
 import ItineraryListHeader from './ItineraryListHeader';
 import Loading from './Loading';
 import RoutingFeedbackPrompt from './RoutingFeedbackPrompt';
@@ -59,9 +59,6 @@ function ItineraryList(
       onSelectImmediately={onSelectImmediately}
       intermediatePlaces={getIntermediatePlaces(location.query)}
       hideSelectionIndicator={i !== activeIndex || itineraries.length === 1}
-      zones={
-        config.zones.stops && itinerary.legs ? getZones(itinerary.legs) : []
-      }
       lowestCo2value={lowestCo2value}
     />
   ));

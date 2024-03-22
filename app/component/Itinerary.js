@@ -261,7 +261,6 @@ const Itinerary = (
     itinerary,
     breakpoint,
     intermediatePlaces,
-    zones,
     hideSelectionIndicator,
     lowestCo2value,
     ...props
@@ -929,13 +928,11 @@ Itinerary.propTypes = {
   hash: PropTypes.number.isRequired,
   breakpoint: PropTypes.string.isRequired,
   intermediatePlaces: PropTypes.arrayOf(locationShape),
-  zones: PropTypes.arrayOf(PropTypes.string),
   hideSelectionIndicator: PropTypes.bool,
   lowestCo2value: PropTypes.number,
 };
 
 Itinerary.defaultProps = {
-  zones: [],
   passive: false,
   intermediatePlaces: [],
   hideSelectionIndicator: true,
