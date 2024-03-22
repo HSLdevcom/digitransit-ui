@@ -161,4 +161,6 @@ export default configMerger(walttiConfig, {
   showCO2InItinerarySummary: true,
   showNearYouButtons: true,
   allowLogin: false,
+  showBikeAndPublicItineraries: false,
+  includePublicWithBikePlan: false,
 });

@@ -93,6 +93,8 @@ export default configMerger(matkaConfig, {
     includeCarSuggestions: true,
     includeBikeSuggestions: false,
     includeParkAndRideSuggestions: false,
+    includePublicWithBikePlan: false,
+    showBikeAndPublicItineraries: false,
   },
   mainMenu: {
     showDisruptions: false,

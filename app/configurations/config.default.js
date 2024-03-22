@@ -765,14 +765,14 @@ export default {
   showVehiclesOnItineraryPage: false,
 
   showWeatherInformation: true,
-  showBikeAndPublicItineraries: false,
+  showBikeAndPublicItineraries: true, // TODO TÄMÄ FALSEKSI KELA YEL
   showBikeAndParkItineraries: false,
 
   includeBikeSuggestions: true,
   includeCarSuggestions: false,
   includeParkAndRideSuggestions: false,
   // Include both bike and park and bike and public
-  includePublicWithBikePlan: false,
+  includePublicWithBikePlan: true,
   // Park and ride and car suggestions separated
   separatedParkAndRideSwitch: false,
 

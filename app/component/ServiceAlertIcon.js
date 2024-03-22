@@ -5,13 +5,17 @@ import React from 'react';
 import Icon from './Icon';
 import { AlertSeverityLevelType } from '../constants';
 
-const ServiceAlertIcon = ({ className, severityLevel }) => {
+const ServiceAlertIcon = ({ className, severityLevel, color }) => {
   if (!severityLevel) {
     return null;
   }
 
   return severityLevel === AlertSeverityLevelType.Info ? (
-    <Icon className={cx('info', className)} img="icon-icon_info" />
+    <Icon
+      className={cx('info', className)}
+      img="icon-icon_info"
+      color={color}
+    />
   ) : (
     <Icon className={cx('caution', className)} img="icon-icon_caution" />
   );
@@ -27,11 +31,13 @@ ServiceAlertIcon.propTypes = {
     AlertSeverityLevelType.Unknown,
     AlertSeverityLevelType.Warning,
   ]),
+  color: PropTypes.string,
 };
 
 ServiceAlertIcon.defaultProps = {
   className: undefined,
   severityLevel: undefined,
+  color: undefined,
 };
 
 export default ServiceAlertIcon;

@@ -96,6 +96,7 @@ function ItineraryList(
           itineraries[bikeAndParkItineraryCount].legs.find(l => l.transitLeg),
           config,
         ) || 'rail';
+      const showExternalCostInfo = mode === 'rail' || mode === 'ferry';
       summaries.splice(
         bikeAndParkItineraryCount ? bikeAndParkItineraryCount + 1 : 0,
         0,
@@ -103,6 +104,7 @@ function ItineraryList(
           translationId={`itinerary-summary.bikeAndPublic-${mode}-title`}
           defaultMessage="Biking \u0026 public transport"
           key="itinerary-summary.bikeandpublic-title"
+          showCostInfo={showExternalCostInfo}
         />,
       );
     }
