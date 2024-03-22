@@ -1,24 +1,37 @@
+import connectToStores from 'fluxible-addons-react/connectToStores';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { ReactRelayContext } from 'react-relay';
+import {
+  graphql,
+  createFragmentContainer,
+  ReactRelayContext,
+} from 'react-relay';
 import { matchShape, routerShape } from 'found';
 import getContext from 'recompose/getContext';
 import { intlShape, FormattedMessage } from 'react-intl';
-import { configShape, itineraryShape, childrenShape } from '../util/shapes';
+import {
+  configShape,
+  itineraryShape,
+  childrenShape,
+  planShape,
+} from '../util/shapes';
 import Icon from './Icon';
 import ItineraryList from './ItineraryList';
+import TimeStore from '../store/TimeStore';
 import { getIntermediatePlaces } from '../util/otpStrings';
 import { getItineraryPagePath, streetHash } from '../util/path';
 import withBreakpoint from '../util/withBreakpoint';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import { isIOS, isSafari } from '../util/browser';
 import ItineraryNotification from './ItineraryNotification';
+import { transitItineraries } from './ItineraryPageUtils';
 
 class ItineraryListContainer extends React.Component {
   static propTypes = {
     activeIndex: PropTypes.number,
     children: childrenShape,
+    currentTime: PropTypes.number.isRequired,
     itineraries: PropTypes.arrayOf(itineraryShape).isRequired,
     params: PropTypes.shape({
       from: PropTypes.string.isRequired,
@@ -26,6 +39,7 @@ class ItineraryListContainer extends React.Component {
       hash: PropTypes.string,
       secondHash: PropTypes.string,
     }).isRequired,
+    plan: planShape.isRequired,
     bikeAndParkItineraryCount: PropTypes.number,
     showRelaxedPlanNotifier: PropTypes.bool,
     separatorPosition: PropTypes.number,
@@ -188,6 +202,7 @@ class ItineraryListContainer extends React.Component {
     const { location } = this.context.match;
     const {
       activeIndex,
+      currentTime,
       itineraries,
       bikeAndParkItineraryCount,
       showRelaxedPlanNotifier,
@@ -195,15 +210,14 @@ class ItineraryListContainer extends React.Component {
       loadingMore,
       routingFeedbackPosition,
     } = this.props;
-    const currentTime = moment();
     const searchTime =
-      // this.props.plan?.date ||
+      this.props.plan?.date ||
       (location.query &&
         location.query.time &&
         moment.unix(location.query.time).valueOf()) ||
       currentTime;
     const showEarlierLaterButtons =
-      /* transitItineraries(itineraries).length > 0 && */
+      transitItineraries(itineraries).length > 0 &&
       !this.context.match.params.hash;
     const arriveBy = this.context.match.location.query.arriveBy === 'true';
 
@@ -263,4 +277,34 @@ const withConfig = getContext({
   )),
 );
 
-export { withConfig as default, ItineraryListContainer as Component };
+const connectedContainer = createFragmentContainer(
+  connectToStores(withConfig, [TimeStore], context => ({
+    currentTime: context.getStore(TimeStore).getCurrentTime().valueOf(),
+  })),
+  {
+    plan: graphql`
+      fragment ItineraryListContainer_plan on Plan {
+        date
+        itineraries {
+          ...ItineraryList_itineraries
+        }
+      }
+    `,
+    itineraries: graphql`
+      fragment ItineraryListContainer_itineraries on Itinerary
+      @relay(plural: true) {
+        ...ItineraryList_itineraries
+        legs {
+          trip {
+            stoptimesForDate {
+              scheduledDeparture
+              pickupType
+            }
+          }
+        }
+      }
+    `,
+  },
+);
+
+export { connectedContainer as default, ItineraryListContainer as Component };

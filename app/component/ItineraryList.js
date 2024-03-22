@@ -248,10 +248,6 @@ const containerComponent = createFragmentContainer(ItineraryList, {
             ...RouteLine_pattern
             code
           }
-          stoptimesForDate {
-            scheduledDeparture
-            pickupType
-          }
           stoptimes {
             realtimeState
             stop {
