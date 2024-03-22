@@ -202,95 +202,10 @@ const containerComponent = createFragmentContainer(ItineraryList, {
       }
       legs {
         ...ItineraryLine_legs
-        realTime
-        realtimeState
-        transitLeg
-        startTime
-        endTime
         mode
-        distance
-        duration
-        rentedBike
-        interlineWithPreviousLeg
-        intermediatePlace
-        intermediatePlaces {
-          stop {
-            zoneId
-          }
-        }
-        legGeometry {
-          points
-        }
         route {
-          gtfsId
           mode
-          shortName
           type
-          color
-          agency {
-            name
-          }
-          alerts {
-            alertSeverityLevel
-            effectiveEndDate
-            effectiveStartDate
-          }
-        }
-        trip {
-          gtfsId
-          directionId
-          pattern {
-            ...RouteLine_pattern
-            code
-          }
-          stoptimes {
-            realtimeState
-            stop {
-              gtfsId
-            }
-            pickupType
-          }
-          occupancy {
-            occupancyStatus
-          }
-        }
-        from {
-          name
-          lat
-          lon
-          stop {
-            gtfsId
-            zoneId
-            platformCode
-            alerts {
-              alertSeverityLevel
-              effectiveEndDate
-              effectiveStartDate
-            }
-          }
-          vehicleRentalStation {
-            vehiclesAvailable
-            network
-          }
-        }
-        to {
-          stop {
-            gtfsId
-            zoneId
-            alerts {
-              alertSeverityLevel
-              effectiveEndDate
-              effectiveStartDate
-            }
-          }
-          bikePark {
-            bikeParkId
-            name
-          }
-          carPark {
-            carParkId
-            name
-          }
         }
       }
     }
