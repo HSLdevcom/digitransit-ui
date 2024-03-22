@@ -959,7 +959,6 @@ const containerComponent = createFragmentContainer(ItineraryWithBreakpoint, {
       }
       legs {
         realTime
-        realtimeState
         transitLeg
         startTime
         endTime
@@ -973,9 +972,6 @@ const containerComponent = createFragmentContainer(ItineraryWithBreakpoint, {
           stop {
             zoneId
           }
-        }
-        legGeometry {
-          points
         }
         route {
           gtfsId
@@ -993,20 +989,8 @@ const containerComponent = createFragmentContainer(ItineraryWithBreakpoint, {
           }
         }
         trip {
-          stoptimesForDate {
-            stop {
-              gtfsId
-            }
-            pickupType
-          }
           gtfsId
-          directionId
-          pattern {
-            ...RouteLine_pattern
-            code
-          }
           stoptimes {
-            realtimeState
             stop {
               gtfsId
             }
@@ -1017,13 +1001,12 @@ const containerComponent = createFragmentContainer(ItineraryWithBreakpoint, {
           }
         }
         from {
-          name
           lat
           lon
+          name
           stop {
             gtfsId
             zoneId
-            platformCode
             alerts {
               alertSeverityLevel
               effectiveEndDate
