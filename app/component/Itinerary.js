@@ -951,7 +951,6 @@ const ItineraryWithBreakpoint = withBreakpoint(Itinerary);
 const containerComponent = createFragmentContainer(ItineraryWithBreakpoint, {
   itinerary: graphql`
     fragment Itinerary_itinerary on Itinerary {
-      walkDistance
       startTime
       endTime
       emissionsPerPerson {
@@ -959,6 +958,7 @@ const containerComponent = createFragmentContainer(ItineraryWithBreakpoint, {
       }
       legs {
         realTime
+        realtimeState
         transitLeg
         startTime
         endTime
