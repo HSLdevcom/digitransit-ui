@@ -66,7 +66,6 @@ export const planConnection = graphql`
         cursor
         node {
           startTime
-          endTime
           ...ItineraryDetails_itinerary
           ...ItineraryListContainer_itineraries
           legs {
@@ -82,39 +81,28 @@ export const planConnection = graphql`
             trip {
               gtfsId
               directionId
-              occupancy {
-                occupancyStatus
-              }
               stoptimesForDate {
                 scheduledDeparture
-                pickupType
               }
               pattern {
                 ...RouteLine_pattern
               }
             }
             from {
-              name
               lat
               lon
               stop {
                 gtfsId
-                zoneId
               }
               vehicleRentalStation {
                 stationId
-                vehiclesAvailable
-                network
               }
             }
             to {
+              lat
+              lon
               stop {
                 gtfsId
-                zoneId
-              }
-              bikePark {
-                bikeParkId
-                name
               }
             }
           }
@@ -172,7 +160,6 @@ export const planQuery = graphql`
       ...ItineraryListContainer_plan
       itineraries {
         startTime
-        endTime
         ...ItineraryDetails_itinerary
         ...ItineraryListContainer_itineraries
         legs {
@@ -188,39 +175,25 @@ export const planQuery = graphql`
           trip {
             gtfsId
             directionId
-            occupancy {
-              occupancyStatus
-            }
             stoptimesForDate {
               scheduledDeparture
-              pickupType
-            }
-            pattern {
-              ...RouteLine_pattern
             }
           }
           from {
-            name
             lat
             lon
             stop {
               gtfsId
-              zoneId
             }
             vehicleRentalStation {
               stationId
-              vehiclesAvailable
-              network
             }
           }
           to {
+            lat
+            lon
             stop {
               gtfsId
-              zoneId
-            }
-            bikePark {
-              bikeParkId
-              name
             }
           }
         }
@@ -271,7 +244,6 @@ export const alternativeQuery = graphql`
         walkDistance
         duration
         startTime
-        endTime
         ...ItineraryDetails_itinerary
         ...ItineraryListContainer_itineraries
         legs {
@@ -299,7 +271,6 @@ export const alternativeQuery = graphql`
       itineraries {
         duration
         startTime
-        endTime
         ...ItineraryDetails_itinerary
         ...ItineraryListContainer_itineraries
         legs {
@@ -334,7 +305,6 @@ export const alternativeQuery = graphql`
       itineraries {
         duration
         startTime
-        endTime
         ...ItineraryDetails_itinerary
         ...ItineraryListContainer_itineraries
         legs {
@@ -354,9 +324,6 @@ export const alternativeQuery = graphql`
             directionId
             stoptimesForDate {
               scheduledDeparture
-            }
-            pattern {
-              ...RouteLine_pattern
             }
           }
           distance
@@ -385,7 +352,6 @@ export const alternativeQuery = graphql`
       itineraries {
         duration
         startTime
-        endTime
         ...ItineraryDetails_itinerary
         ...ItineraryListContainer_itineraries
         legs {
@@ -405,15 +371,6 @@ export const alternativeQuery = graphql`
             directionId
             stoptimesForDate {
               scheduledDeparture
-            }
-            pattern {
-              ...RouteLine_pattern
-            }
-          }
-          to {
-            bikePark {
-              bikeParkId
-              name
             }
           }
           distance
@@ -442,7 +399,6 @@ export const alternativeQuery = graphql`
       itineraries {
         duration
         startTime
-        endTime
         ...ItineraryDetails_itinerary
         ...ItineraryListContainer_itineraries
         legs {
@@ -462,15 +418,6 @@ export const alternativeQuery = graphql`
             directionId
             stoptimesForDate {
               scheduledDeparture
-            }
-            pattern {
-              ...RouteLine_pattern
-            }
-          }
-          to {
-            bikePark {
-              bikeParkId
-              name
             }
           }
           distance
@@ -499,7 +446,6 @@ export const alternativeQuery = graphql`
       itineraries {
         duration
         startTime
-        endTime
         ...ItineraryDetails_itinerary
         ...ItineraryListContainer_itineraries
         legs {
@@ -520,16 +466,6 @@ export const alternativeQuery = graphql`
             stoptimesForDate {
               scheduledDeparture
             }
-            pattern {
-              ...RouteLine_pattern
-            }
-          }
-          to {
-            carPark {
-              carParkId
-              name
-            }
-            name
           }
           distance
         }
