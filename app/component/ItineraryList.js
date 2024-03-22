@@ -4,7 +4,7 @@ import { createFragmentContainer, graphql } from 'react-relay';
 import { FormattedMessage } from 'react-intl';
 import cx from 'classnames';
 import { matchShape } from 'found';
-import { configShape, locationShape, itineraryShape } from '../util/shapes';
+import { configShape, itineraryShape } from '../util/shapes';
 import Icon from './Icon';
 import Itinerary from './Itinerary';
 import { isBrowser } from '../util/browser';
@@ -13,6 +13,7 @@ import ItineraryListHeader from './ItineraryListHeader';
 import Loading from './Loading';
 import RoutingFeedbackPrompt from './RoutingFeedbackPrompt';
 import { streetHash } from '../util/path';
+import { getIntermediatePlaces } from '../util/otpStrings';
 
 const spinnerPosition = {
   top: 'top',
@@ -23,7 +24,6 @@ function ItineraryList(
   {
     activeIndex,
     currentTime,
-    intermediatePlaces,
     itineraries,
     onSelect,
     onSelectImmediately,
@@ -37,6 +37,7 @@ function ItineraryList(
   context,
 ) {
   const { config } = context;
+  const { location } = context.match;
   const { hash } = context.match.params;
 
   const lowestCo2value = Math.round(
@@ -56,7 +57,7 @@ function ItineraryList(
       currentTime={currentTime}
       onSelect={onSelect}
       onSelectImmediately={onSelectImmediately}
-      intermediatePlaces={intermediatePlaces}
+      intermediatePlaces={getIntermediatePlaces(location.query)}
       hideSelectionIndicator={i !== activeIndex || itineraries.length === 1}
       zones={
         config.zones.stops && itinerary.legs ? getZones(itinerary.legs) : []
@@ -169,13 +170,12 @@ function ItineraryList(
 
 ItineraryList.propTypes = {
   activeIndex: PropTypes.number.isRequired,
+  searchTime: PropTypes.number.isRequired,
   currentTime: PropTypes.number.isRequired,
-  intermediatePlaces: PropTypes.arrayOf(locationShape),
   itineraries: PropTypes.arrayOf(itineraryShape),
   onSelect: PropTypes.func.isRequired,
   onSelectImmediately: PropTypes.func.isRequired,
-  searchTime: PropTypes.number.isRequired,
-  bikeAndParkItineraryCount: PropTypes.number.isRequired,
+  bikeAndParkItineraryCount: PropTypes.number,
   showRelaxedPlanNotifier: PropTypes.bool,
   separatorPosition: PropTypes.number,
   loadingMore: PropTypes.string,
@@ -183,7 +183,7 @@ ItineraryList.propTypes = {
 };
 
 ItineraryList.defaultProps = {
-  intermediatePlaces: [],
+  bikeAndParkItineraryCount: 0,
   itineraries: [],
   showRelaxedPlanNotifier: false,
   separatorPosition: undefined,

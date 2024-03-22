@@ -1,5 +1,4 @@
 import connectToStores from 'fluxible-addons-react/connectToStores';
-import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
 import {
@@ -10,16 +9,10 @@ import {
 import { matchShape, routerShape } from 'found';
 import getContext from 'recompose/getContext';
 import { intlShape, FormattedMessage } from 'react-intl';
-import {
-  configShape,
-  itineraryShape,
-  childrenShape,
-  planShape,
-} from '../util/shapes';
+import { configShape, itineraryShape } from '../util/shapes';
 import Icon from './Icon';
 import ItineraryList from './ItineraryList';
 import TimeStore from '../store/TimeStore';
-import { getIntermediatePlaces } from '../util/otpStrings';
 import { getItineraryPagePath, streetHash } from '../util/path';
 import withBreakpoint from '../util/withBreakpoint';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
@@ -29,38 +22,23 @@ import { transitItineraries } from './ItineraryPageUtils';
 
 class ItineraryListContainer extends React.Component {
   static propTypes = {
-    activeIndex: PropTypes.number,
-    children: childrenShape,
-    currentTime: PropTypes.number.isRequired,
     itineraries: PropTypes.arrayOf(itineraryShape).isRequired,
+    activeIndex: PropTypes.number.isRequired,
     params: PropTypes.shape({
       from: PropTypes.string.isRequired,
       to: PropTypes.string.isRequired,
       hash: PropTypes.string,
       secondHash: PropTypes.string,
     }).isRequired,
-    plan: planShape.isRequired,
-    bikeAndParkItineraryCount: PropTypes.number,
-    showRelaxedPlanNotifier: PropTypes.bool,
-    separatorPosition: PropTypes.number,
+    focusToHeader: PropTypes.func.isRequired,
     onLater: PropTypes.func.isRequired,
     onEarlier: PropTypes.func.isRequired,
-    focusToHeader: PropTypes.func.isRequired,
-    loadingMore: PropTypes.string,
     settingsNotification: PropTypes.bool,
-    routingFeedbackPosition: PropTypes.number,
     topNote: PropTypes.string,
     bottomNote: PropTypes.string,
   };
 
   static defaultProps = {
-    activeIndex: 0,
-    children: null,
-    bikeAndParkItineraryCount: 0,
-    showRelaxedPlanNotifier: false,
-    loadingMore: undefined,
-    separatorPosition: undefined,
-    routingFeedbackPosition: undefined,
     settingsNotification: false,
     topNote: undefined,
     bottomNote: undefined,
@@ -200,27 +178,10 @@ class ItineraryListContainer extends React.Component {
 
   render() {
     const { location } = this.context.match;
-    const {
-      activeIndex,
-      currentTime,
-      itineraries,
-      bikeAndParkItineraryCount,
-      showRelaxedPlanNotifier,
-      separatorPosition,
-      loadingMore,
-      routingFeedbackPosition,
-    } = this.props;
-    const searchTime =
-      this.props.plan?.date ||
-      (location.query &&
-        location.query.time &&
-        moment.unix(location.query.time).valueOf()) ||
-      currentTime;
+    const arriveBy = location.query.arriveBy === 'true';
     const showEarlierLaterButtons =
-      transitItineraries(itineraries).length > 0 &&
+      transitItineraries(this.props.itineraries).length > 0 &&
       !this.context.match.params.hash;
-    const arriveBy = this.context.match.location.query.arriveBy === 'true';
-
     return (
       <div className="summary">
         <h2 className="sr-only">
@@ -234,21 +195,10 @@ class ItineraryListContainer extends React.Component {
           <ItineraryNotification bodyId={this.props.topNote} />
         )}
         <ItineraryList
-          activeIndex={activeIndex}
-          currentTime={currentTime}
-          intermediatePlaces={getIntermediatePlaces(location.query)}
-          itineraries={itineraries}
           onSelect={this.onSelectActive}
           onSelectImmediately={this.onSelectImmediately}
-          searchTime={searchTime}
-          bikeAndParkItineraryCount={bikeAndParkItineraryCount}
-          showRelaxedPlanNotifier={showRelaxedPlanNotifier}
-          separatorPosition={separatorPosition}
-          loadingMore={loadingMore}
-          routingFeedbackPosition={routingFeedbackPosition}
-        >
-          {this.props.children}
-        </ItineraryList>
+          {...this.props}
+        />
         {this.props.settingsNotification && (
           <ItineraryNotification
             headerId="settings-missing-itineraries-header"
@@ -285,9 +235,6 @@ const connectedContainer = createFragmentContainer(
     plan: graphql`
       fragment ItineraryListContainer_plan on Plan {
         date
-        itineraries {
-          ...ItineraryList_itineraries
-        }
       }
     `,
     itineraries: graphql`

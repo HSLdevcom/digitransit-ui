@@ -989,6 +989,12 @@ export default function ItineraryPage(props, context) {
       to,
     });
   }
+
+  const searchTime =
+    plan?.date ||
+    (location.query?.time && moment.unix(location.query.time).valueOf()) ||
+    moment();
+
   const detailView = altTransitHash.includes(hash) ? secondHash : hash;
 
   // no map on mobile summary view
@@ -1078,6 +1084,7 @@ export default function ItineraryPage(props, context) {
         routingFeedbackPosition={state.routingFeedbackPosition}
         topNote={state.topNote}
         bottomNote={state.bottomNote}
+        searchTime={searchTime}
       />
     );
   } else if (isEqual(searchRef.current, buildSearchRef())) {

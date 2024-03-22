@@ -69,9 +69,6 @@ export const planConnection = graphql`
           endTime
           ...ItineraryDetails_itinerary
           ...ItineraryListContainer_itineraries
-          emissionsPerPerson {
-            co2
-          }
           legs {
             mode
             ...ItineraryLine_legs
@@ -178,9 +175,6 @@ export const planQuery = graphql`
         endTime
         ...ItineraryDetails_itinerary
         ...ItineraryListContainer_itineraries
-        emissionsPerPerson {
-          co2
-        }
         legs {
           mode
           ...ItineraryLine_legs
@@ -343,9 +337,6 @@ export const alternativeQuery = graphql`
         endTime
         ...ItineraryDetails_itinerary
         ...ItineraryListContainer_itineraries
-        emissionsPerPerson {
-          co2
-        }
         legs {
           mode
           ...ItineraryLine_legs
@@ -397,9 +388,6 @@ export const alternativeQuery = graphql`
         endTime
         ...ItineraryDetails_itinerary
         ...ItineraryListContainer_itineraries
-        emissionsPerPerson {
-          co2
-        }
         legs {
           mode
           ...ItineraryLine_legs
@@ -457,9 +445,6 @@ export const alternativeQuery = graphql`
         endTime
         ...ItineraryDetails_itinerary
         ...ItineraryListContainer_itineraries
-        emissionsPerPerson {
-          co2
-        }
         legs {
           mode
           ...ItineraryLine_legs
