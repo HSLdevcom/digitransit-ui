@@ -165,8 +165,6 @@ export function getPlanParams(
       {
         fromPlace,
         toPlace,
-        minTransferTime: config.minTransferTime,
-        optimize: config.optimize,
       },
       nullOrUndefined,
     ),
@@ -281,7 +279,7 @@ export function getPlanConnectionParams(
     fromPlace,
     toPlace,
     datetime,
-    minTransferTime: `PT${config.minTransferTime}S`,
+    minTransferTime: `PT${settings.minTransferTime}S`,
     numItineraries: 5,
     wheelchair,
     walkReluctance,
