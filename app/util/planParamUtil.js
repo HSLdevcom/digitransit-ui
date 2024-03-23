@@ -16,6 +16,16 @@ import { getDefaultNetworks } from './vehicleRentalUtils';
 import { getCustomizedSettings } from '../store/localStorage';
 import { estimateItineraryDistance } from './geo-utils';
 
+export const PLANTYPE = {
+  WALK: 'WALK',
+  BIKE: 'BIKE',
+  CAR: 'CAR',
+  TRANSIT: 'TRANSIT',
+  BIKEPARK: 'BIKEPARK',
+  BIKEANDTRANSIT: 'BIKEANDTRANSIT',
+  PARKANDRIDE: 'PARKANDRIDE',
+};
+
 /**
  * Find an option nearest to the value
  *
@@ -242,6 +252,7 @@ export function getPlanConnectionParams(
       query: { arriveBy, time },
     },
   },
+  planType,
   relaxSettings,
 ) {
   const defaultSettings = getDefaultSettings(config);
@@ -261,15 +272,49 @@ export function getPlanConnectionParams(
       }
     });
   }
+  const directOnly = [PLANTYPE.WALK, PLANTYPE.BIKE, PLANTYPE.CAR].includes(
+    planType,
+  );
+  const postTransit =
+    settings.allowedBikeRentalNetworks?.length > 0
+      ? ['WALK', 'BICYCLE_RENTAL']
+      : ['WALK'];
+  let access;
+  let egress;
+  let transfer;
+
+  switch (planType) {
+    case PLANTYPE.BIKEPARK:
+      access = ['BIKE'];
+      egress = postTransit;
+      transfer = postTransit;
+      break;
+    case PLANTYPE.BIKEANDTRANSIT:
+      access = ['BIKE'];
+      egress = ['BIKE'];
+      transfer = ['BIKE'];
+      break;
+    case PLANTYPE.PARKANDRIDE:
+      access = ['CAR'];
+      egress = postTransit;
+      transfer = postTransit;
+      break;
+    case PLANTYPE.TRANSIT:
+    default:
+      access = postTransit;
+      egress = postTransit;
+      transfer = postTransit;
+      break;
+  }
 
   const modes = {
-    directOnly: false,
+    directOnly,
     transitOnly: false,
-    direct: ['WALK'],
+    direct: directOnly ? [planType] : ['WALK'],
     transit: {
-      access: ['WALK'],
-      transfer: ['WALK'],
-      egress: ['WALK'],
+      access,
+      transfer,
+      egress,
       transit: otpModes,
     },
   };

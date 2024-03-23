@@ -55,6 +55,7 @@ import {
 } from '../util/otpStrings';
 import AlternativeItineraryBar from './AlternativeItineraryBar';
 import {
+  PLANTYPE,
   getSettings,
   getPlanConnectionParams,
   getPlanParams,
@@ -399,7 +400,11 @@ export default function ItineraryPage(props, context) {
       return;
     }
     setConnectionState({ loading: true });
-    const planParams = getPlanConnectionParams(context.config, props.match);
+    const planParams = getPlanConnectionParams(
+      context.config,
+      props.match,
+      PLANTYPE.TRANSIT,
+    );
     fetchQuery(props.relayEnvironment, planConnection, planParams, {
       force: true,
     })
