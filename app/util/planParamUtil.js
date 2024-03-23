@@ -261,6 +261,19 @@ export function getPlanConnectionParams(
       }
     });
   }
+
+  const modes = {
+    directOnly: false,
+    transitOnly: false,
+    direct: ['WALK'],
+    transit: {
+      access: ['WALK'],
+      transfer: ['WALK'],
+      egress: ['WALK'],
+      transit: otpModes,
+    },
+  };
+
   const wheelchair = !!settings.accessibilityOption;
   const walkReluctance = relaxSettings
     ? defaultSettings.walkReluctance
@@ -284,6 +297,6 @@ export function getPlanConnectionParams(
     wheelchair,
     walkReluctance,
     walkBoardCost,
-    modes: otpModes,
+    modes,
   };
 }

@@ -5,7 +5,7 @@ export const planConnection = graphql`
     $fromPlace: PlanLabeledLocationInput!
     $toPlace: PlanLabeledLocationInput!
     $numItineraries: Int
-    $modes: [PlanTransitModePreferenceInput!]
+    $modes: PlanModesInput!
     $datetime: PlanDateTimeInput!
     $walkReluctance: Reluctance
     $walkBoardCost: Cost
@@ -22,17 +22,7 @@ export const planConnection = graphql`
       numberOfItineraries: $numItineraries
       origin: $fromPlace
       destination: $toPlace
-      modes: {
-        directOnly: false
-        transitOnly: false
-        direct: [WALK]
-        transit: {
-          access: [WALK]
-          transfer: [WALK]
-          egress: [WALK]
-          transit: $modes
-        }
-      }
+      modes: $modes
       preferences: {
         accessibility: { wheelchair: { enabled: $wheelchair } }
         street: {
