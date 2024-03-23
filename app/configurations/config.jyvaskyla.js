@@ -191,6 +191,5 @@ export default configMerger(walttiConfig, {
     stops: true,
     itinerary: true,
   },
-  // Notice! Turning on this setting forces the search for car routes (for the CO2 comparison only).
-  showCO2InItinerarySummary: true,
+  showCO2InItinerarySummary: false,
 });
