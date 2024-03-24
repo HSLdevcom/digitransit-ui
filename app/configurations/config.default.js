@@ -473,8 +473,8 @@ export default {
     },
   },
 
-  // modes that should not coexist with BICYCLE mode
-  modesWithNoBike: ['BICYCLE_RENT', 'WALK'],
+  // transit modes that should not coexist with BICYCLE mode
+  modesWithNoBike: [],
 
   moment: {
     relativeTimeThreshold: {

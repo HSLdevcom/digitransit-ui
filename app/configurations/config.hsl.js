@@ -199,8 +199,7 @@ export default {
     lineRegexp: /(^[0-9]+[a-z]?$|^[yuleapinkrtdz]$|(^m[12]?b?$))/i,
   },
 
-  // modes that should not coexist with BICYCLE mode
-  modesWithNoBike: ['BICYCLE_RENT', 'WALK', 'BUS', 'TRAM', 'FERRY'],
+  modesWithNoBike: ['BUS', 'TRAM', 'FERRY'],
 
   useSearchPolygon: true,
 
