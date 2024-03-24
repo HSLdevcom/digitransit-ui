@@ -29,7 +29,7 @@ export default function AlternativeItineraryBar(
           {weatherData && (
             <StreetModeSelectorWeather weatherData={weatherData} />
           )}
-          {walkPlan?.itineraries?.length > 0 && (
+          {walkPlan?.edges?.length > 0 && (
             <StreetModeSelectorButton
               icon="icon-icon_walk"
               name={streetHash.walk}
@@ -37,7 +37,7 @@ export default function AlternativeItineraryBar(
               onClick={setStreetModeAndSelect}
             />
           )}
-          {bikePlan?.itineraries?.length > 0 && (
+          {bikePlan?.edges?.length > 0 && (
             <StreetModeSelectorButton
               icon="icon-icon_cyclist"
               name={streetHash.bike}
@@ -45,7 +45,7 @@ export default function AlternativeItineraryBar(
               onClick={setStreetModeAndSelect}
             />
           )}
-          {bikeTransitPlan?.itineraries?.length > 0 && (
+          {bikeTransitPlan?.edges?.length > 0 && (
             <StreetModeSelectorButton
               icon="icon-icon_cyclist"
               name={streetHash.bikeAndVehicle}
@@ -54,7 +54,7 @@ export default function AlternativeItineraryBar(
             />
           )}
 
-          {parkRidePlan?.itineraries?.length > 0 && (
+          {parkRidePlan?.edges?.length > 0 && (
             <StreetModeSelectorButton
               icon="icon-icon_car-withoutBox"
               name={streetHash.parkAndRide}
@@ -62,7 +62,7 @@ export default function AlternativeItineraryBar(
               onClick={selectStreetMode}
             />
           )}
-          {carPlan?.itineraries?.length > 0 && (
+          {carPlan?.edges?.length > 0 && (
             <StreetModeSelectorButton
               icon="icon-icon_car-withoutBox"
               name={streetHash.car}

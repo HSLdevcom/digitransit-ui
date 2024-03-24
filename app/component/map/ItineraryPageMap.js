@@ -44,7 +44,7 @@ function ItineraryPageMap(
           <ItineraryLine
             key={`line_${i}`}
             hash={i}
-            legs={itinerary.legs}
+            legs={itinerary.node.legs}
             passive
           />,
         );
@@ -57,7 +57,7 @@ function ItineraryPageMap(
         key={`line_${active}`}
         hash={active}
         streetMode={hash}
-        legs={itineraries[active].legs}
+        legs={itineraries[active].node.legs}
         showTransferLabels={showActive}
         showIntermediateStops
         showDurationBubble={showDurationBubble}

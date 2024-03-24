@@ -96,7 +96,7 @@ class ItineraryDetails extends React.Component {
   getExtraProps(itinerary) {
     const compressedItinerary = {
       ...itinerary,
-      legs: compressLegs(itinerary.legs),
+      legs: compressLegs(itinerary.node.legs),
     };
     const walkingDistance = getTotalWalkingDistance(compressedItinerary);
     const walkingDuration = getTotalWalkingDuration(compressedItinerary);
@@ -105,7 +105,7 @@ class ItineraryDetails extends React.Component {
     const drivingDuration = getTotalDrivingDuration(compressedItinerary);
     const drivingDistance = getTotalDrivingDistance(compressedItinerary);
     const futureText = this.getFutureText(
-      itinerary.startTime,
+      itinerary.node.startTime,
       this.props.currentTime,
     );
     const isMultiRow =
@@ -132,15 +132,16 @@ class ItineraryDetails extends React.Component {
 
   render() {
     const { itinerary, currentLanguage, isMobile } = this.props;
+    const { node } = itinerary;
     const { config } = this.context;
 
     if (!itinerary?.legs[0]) {
       return null;
     }
 
-    const fares = getFaresFromLegs(itinerary.legs, config);
+    const fares = getFaresFromLegs(node.legs, config);
     const extraProps = this.getExtraProps(itinerary);
-    const legsWithRentalBike = compressLegs(itinerary.legs).filter(leg =>
+    const legsWithRentalBike = compressLegs(node.legs).filter(leg =>
       legContainsRentalBike(leg),
     );
     const rentalBikeNetworks = new Set();
@@ -178,7 +179,7 @@ class ItineraryDetails extends React.Component {
 
     if (shouldShowFareInfo(config) && fares.some(fare => fare.isUnknown)) {
       const found = {};
-      itinerary.legs.forEach(leg => {
+      node.legs.forEach(leg => {
         if (config.modeDisclaimers?.[leg.mode] && !found[leg.mode]) {
           found[leg.mode] = true;
           const disclaimer = config.modeDisclaimers[leg.mode][currentLanguage];
@@ -196,7 +197,7 @@ class ItineraryDetails extends React.Component {
       const info = config.callAgencyInfo?.[currentLanguage];
       if (
         info &&
-        itinerary.legs.some(leg => isCallAgencyPickupType(leg))
+        node.legs.some(leg => isCallAgencyPickupType(leg))
       ) {
         disclaimers.push(
           <FareDisclaimer
@@ -277,14 +278,14 @@ class ItineraryDetails extends React.Component {
                 <MobileTicketPurchaseInformation
 		  key="mobileticketpurchaseinformation"
                   fares={fares}
-                  zones={getZones(itinerary.legs)}
+                  zones={getZones(node.legs)}
                 />
               ) : (
                 <TicketInformation
 		  key="ticketinformation"
                   fares={fares}
-                  zones={getZones(itinerary.legs)}
-                  legs={itinerary.legs}
+                  zones={getZones(node.legs)}
+                  legs={node.legs}
                 />
               )),
             config.showCO2InItinerarySummary && (

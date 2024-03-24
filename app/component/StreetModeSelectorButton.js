@@ -24,19 +24,19 @@ export default function StreetModeSelectorButton(
   }
 
   if (name === streetHash.bikeAndVehicle || name === streetHash.parkAndRide) {
-    const compressedLegs = compressLegs(itinerary.legs);
+    const compressedLegs = compressLegs(itinerary.node.legs);
     itinerary = {
       ...itinerary,
       legs: compressedLegs,
     };
   }
 
-  const duration = durationToString(itinerary.duration * 1000);
+  const duration = durationToString(itinerary.node.duration * 1000);
   let distance = 0;
   switch (name) {
     case streetHash.walk:
       distance = displayDistance(
-        itinerary.walkDistance,
+        itinerary.node.walkDistance,
         config,
         intl.formatNumber,
       );
@@ -68,8 +68,8 @@ export default function StreetModeSelectorButton(
   let secondaryColor;
 
   if (name === streetHash.parkAndRide || name === streetHash.bikeAndVehicle) {
-    const transitItinerary = plan.itineraries.find(i =>
-      i.legs.find(l => l.transitLeg),
+    const transitItinerary = plan.edges.find(i =>
+      i.node.legs.find(l => l.transitLeg),
     );
     const mode =
       (transitItinerary &&

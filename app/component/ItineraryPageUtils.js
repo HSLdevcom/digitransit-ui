@@ -23,16 +23,16 @@ import { getMapLayerOptions } from '../util/mapLayerUtils';
  * defaults to the index 0.
  *
  * @param {{ pathname: string, state: * }} location the current location object.
- * @param {*} itineraries the itineraries retrieved from OTP.
+ * @param {*} edges the itineraries retrieved from OTP.
  * @param {number} defaultValue the default value, defaults to 0.
  */
 export function getSelectedItineraryIndex(
   { pathname, state } = {},
-  itineraries = [],
+  edges = [],
   defaultValue = 0,
 ) {
   if (state?.selectedItineraryIndex !== undefined) {
-    if (state.selectedItineraryIndex < itineraries.length) {
+    if (state.selectedItineraryIndex < edges.length) {
       return state.selectedItineraryIndex;
     }
     return defaultValue;
@@ -45,7 +45,7 @@ export function getSelectedItineraryIndex(
    */
   const lastURLSegment = Number(pathname?.split('/').pop());
   if (!Number.isNaN(lastURLSegment)) {
-    if (lastURLSegment >= itineraries.length) {
+    if (lastURLSegment >= edges.length) {
       return defaultValue;
     }
     return lastURLSegment;
@@ -81,15 +81,14 @@ export function addFeedbackly(context) {
   }
 }
 
-export function getTopics(config, itineraries, match) {
+export function getTopics(config, edges, match) {
   const itineraryTopics = [];
 
-  if (itineraries.length) {
+  if (edges.length) {
     const { realTime, feedIds } = config;
-    const selected =
-      itineraries[getSelectedItineraryIndex(match.location, itineraries)];
+    const selected = edges[getSelectedItineraryIndex(match.location, edges)];
 
-    selected.legs.forEach(leg => {
+    selected.node.legs.forEach(leg => {
       if (leg.transitLeg && leg.trip) {
         const feedId = leg.trip.gtfsId.split(':')[0];
         let topic;
@@ -126,7 +125,7 @@ export function getTopics(config, itineraries, match) {
   return itineraryTopics;
 }
 
-export function getBounds(itineraries, from, to, viaPoints) {
+export function getBounds(edges, from, to, viaPoints) {
   // Decode all legs of all itineraries into latlong arrays,
   // and concatenate into one big latlong array
   const bounds = [
@@ -137,9 +136,9 @@ export function getBounds(itineraries, from, to, viaPoints) {
   return boundWithMinimumArea(
     bounds
       .concat(
-        ...itineraries.map(itinerary =>
+        ...edges.map(itinerary =>
           [].concat(
-            ...itinerary.legs.map(leg =>
+            ...itinerary.node.legs.map(leg =>
               polyline.decode(leg.legGeometry.points),
             ),
           ),
@@ -152,8 +151,8 @@ export function getBounds(itineraries, from, to, viaPoints) {
 /**
  * Compare two itinerary lists. If identical, return true
  *
- * @param {*} itineraries1
- * @param {*} itineraries2
+ * @param {*} edges1
+ * @param {*} edges2
  */
 const legProperties = [
   'mode',
@@ -174,14 +173,14 @@ export function isEqualItineraries(itins, itins2) {
     return false;
   }
   for (let i = 0; i < itins.length; i++) {
-    if (itins[i].legs.length !== itins2[i].legs.length) {
+    if (itins[i].node.legs.length !== itins2[i].node.legs.length) {
       return false;
     }
-    for (let j = 0; j < itins[i].legs.length; j++) {
+    for (let j = 0; j < itins[i].node.legs.length; j++) {
       if (
         !isEqual(
-          pick(itins[i].legs[j], legProperties),
-          pick(itins2[i].legs[j], legProperties),
+          pick(itins[i].node.legs[j], legProperties),
+          pick(itins2[i].node.legs[j], legProperties),
         )
       ) {
         return false;
@@ -192,14 +191,14 @@ export function isEqualItineraries(itins, itins2) {
 }
 
 export function filterItinerariesByFeedId(plan, config) {
-  if (!plan?.itineraries) {
+  if (!plan?.edges) {
     return plan;
   }
-  const newItineraries = [];
-  plan.itineraries.forEach(itinerary => {
+  const newEdges = [];
+  plan.edges.forEach(itinerary => {
     let skip = false;
-    for (let i = 0; i < itinerary.legs.length; i++) {
-      const feedId = itinerary.legs[i].route?.gtfsId?.split(':')[0];
+    for (let i = 0; i < itinerary.node.legs.length; i++) {
+      const feedId = itinerary.node.legs[i].route?.gtfsId?.split(':')[0];
 
       if (
         feedId && // if feedId is undefined, leg  is non transit -> don't drop
@@ -210,10 +209,10 @@ export function filterItinerariesByFeedId(plan, config) {
       }
     }
     if (!skip) {
-      newItineraries.push(itinerary);
+      newEdges.push(itinerary);
     }
   });
-  return { ...plan, itineraries: newItineraries };
+  return { ...plan, edges: newEdges };
 }
 
 const settingsToCompare = ['walkBoardCost', 'ticketTypes', 'walkReluctance'];
@@ -321,7 +320,7 @@ export function getRentalStationsToHideOnMap(
 ) {
   const objectsToHide = { vehicleRentalStations: [] };
   if (hasVehicleRentalStation) {
-    objectsToHide.vehicleRentalStations = selectedItinerary?.legs
+    objectsToHide.vehicleRentalStations = selectedItinerary?.node.legs
       ?.filter(leg => leg.from?.vehicleRentalStation)
       .map(station => station.from?.vehicleRentalStation.stationId);
   }
@@ -352,23 +351,23 @@ const STREET_LEG_MODES = ['WALK', 'BICYCLE', 'CAR', 'SCOOTER'];
 /**
  * Filters away itineraries that don't use transit
  */
-export function transitItineraries(itineraries) {
-  if (!itineraries) {
+export function transitItineraries(edges) {
+  if (!edges) {
     return [];
   }
-  return itineraries.filter(
-    itin => !itin.legs.every(leg => STREET_LEG_MODES.includes(leg.mode)),
+  return edges.filter(
+    itin => !itin.node.legs.every(leg => STREET_LEG_MODES.includes(leg.mode)),
   );
 }
 
 /**
  * Filters itineraries that don't use given mode
  */
-export function filterItineraries(itineraries, modes) {
-  if (!itineraries) {
+export function filterItineraries(edges, modes) {
+  if (!edges) {
     return [];
   }
-  return itineraries.filter(itinerary =>
-    itinerary.legs.some(leg => modes.includes(leg.mode)),
+  return edges.filter(itinerary =>
+    itinerary.node.legs.some(leg => modes.includes(leg.mode)),
   );
 }

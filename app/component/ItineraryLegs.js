@@ -75,7 +75,7 @@ export default class ItineraryLegs extends React.Component {
   render() {
     const { itinerary, fares } = this.props;
     const { waitThreshold } = this.context.config.itinerary;
-    const compressedLegs = compressLegs(itinerary.legs, true).map(leg => ({
+    const compressedLegs = compressLegs(itinerary.node.legs, true).map(leg => ({
       ...leg,
       fare:
         (leg.route &&
@@ -389,7 +389,7 @@ export default class ItineraryLegs extends React.Component {
     legs.push(
       <EndLeg
         index={numberOfLegs}
-        endTime={itinerary.endTime}
+        endTime={itinerary.node.endTime}
         focusAction={this.focus(compressedLegs[numberOfLegs - 1].to)}
         to={compressedLegs[numberOfLegs - 1].to}
       />,
