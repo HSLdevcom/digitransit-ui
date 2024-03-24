@@ -209,14 +209,16 @@ export const legShape = PropTypes.shape({
 });
 
 export const itineraryShape = PropTypes.shape({
-  startTime: PropTypes.number,
-  endTime: PropTypes.number,
-  duration: PropTypes.number,
-  walkDistance: PropTypes.number,
-  legs: PropTypes.arrayOf(legShape),
-  emissionsPerPerson: PropTypes.shape({
-    co2: PropTypes.number,
-  }),
+  node: PropTypes.shape({
+    startTime: PropTypes.number,
+    endTime: PropTypes.number,
+    duration: PropTypes.number,
+    walkDistance: PropTypes.number,
+    legs: PropTypes.arrayOf(legShape),
+    emissionsPerPerson: PropTypes.shape({
+      co2: PropTypes.number,
+    }),
+  }).isRequired,
 });
 
 export const locationShape = PropTypes.shape({
@@ -299,7 +301,7 @@ export const mapLayerOptionsShape = PropTypes.shape({
 });
 
 export const planShape = PropTypes.shape({
-  itineraries: PropTypes.arrayOf(itineraryShape).isRequired,
+  edges: PropTypes.arrayOf(itineraryShape).isRequired,
   date: PropTypes.number,
 });
 
