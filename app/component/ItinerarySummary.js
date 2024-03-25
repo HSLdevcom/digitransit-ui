@@ -15,15 +15,14 @@ function ItinerarySummary({
   isMobile,
   hideBottomDivider,
 }) {
-  const { node } = itinerary;
   return (
     <div className="itinerary-summary">
       {!isMobile && <div className="divider-top" />}
       <Duration
-        duration={node.duration}
+        duration={itinerary.duration}
         className="duration--itinerary-summary"
-        startTime={node.startTime}
-        endTime={node.endTime}
+        startTime={itinerary.startTime}
+        endTime={itinerary.endTime}
         futureText={futureText}
         multiRow={isMultiRow}
       />

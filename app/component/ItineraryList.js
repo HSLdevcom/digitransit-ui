@@ -4,7 +4,7 @@ import { createFragmentContainer, graphql } from 'react-relay';
 import { FormattedMessage } from 'react-intl';
 import cx from 'classnames';
 import { matchShape } from 'found';
-import { configShape, itineraryShape } from '../util/shapes';
+import { configShape, planEdgeShape } from '../util/shapes';
 import Icon from './Icon';
 import Itinerary from './Itinerary';
 import { isBrowser } from '../util/browser';
@@ -24,7 +24,7 @@ function ItineraryList(
   {
     activeIndex,
     currentTime,
-    itineraries,
+    planEdges,
     onSelect,
     onSelectImmediately,
     searchTime,
@@ -41,24 +41,24 @@ function ItineraryList(
   const { hash } = context.match.params;
 
   const lowestCo2value = Math.round(
-    itineraries
-      .filter(itinerary => itinerary.emissionsPerPerson?.co2 >= 0)
+    planEdges
+      .filter(edge => edge.node.emissionsPerPerson?.co2 >= 0)
       .reduce((a, b) => {
         return a.emissionsPerPerson?.co2 < b.emissionsPerPerson?.co2 ? a : b;
       }, 0).emissionsPerPerson?.co2,
   );
-  const summaries = itineraries.map((itinerary, i) => (
+  const summaries = planEdges.map((edge, i) => (
     <Itinerary
       refTime={searchTime}
       key={i} // eslint-disable-line react/no-array-index-key
       hash={i}
-      itinerary={itinerary}
+      itinerary={edge.node}
       passive={i !== activeIndex}
       currentTime={currentTime}
       onSelect={onSelect}
       onSelectImmediately={onSelectImmediately}
       intermediatePlaces={getIntermediatePlaces(location.query)}
-      hideSelectionIndicator={i !== activeIndex || itineraries.length === 1}
+      hideSelectionIndicator={i !== activeIndex || planEdges.length === 1}
       lowestCo2value={lowestCo2value}
     />
   ));
@@ -87,11 +87,13 @@ function ItineraryList(
         />,
       );
     }
-    if (itineraries.length > bikeAndParkItineraryCount) {
+    if (planEdges.length > bikeAndParkItineraryCount) {
       // the rest use bike + public
       const mode =
         getExtendedMode(
-          itineraries[bikeAndParkItineraryCount].legs.find(l => l.transitLeg),
+          planEdges[bikeAndParkItineraryCount].node.legs.find(
+            l => l.transitLeg,
+          ),
           config,
         ) || 'rail';
       summaries.splice(
@@ -169,7 +171,7 @@ ItineraryList.propTypes = {
   activeIndex: PropTypes.number.isRequired,
   searchTime: PropTypes.number.isRequired,
   currentTime: PropTypes.number.isRequired,
-  itineraries: PropTypes.arrayOf(itineraryShape),
+  planEdges: PropTypes.arrayOf(planEdgeShape),
   onSelect: PropTypes.func.isRequired,
   onSelectImmediately: PropTypes.func.isRequired,
   bikeAndParkItineraryCount: PropTypes.number,
@@ -181,7 +183,7 @@ ItineraryList.propTypes = {
 
 ItineraryList.defaultProps = {
   bikeAndParkItineraryCount: 0,
-  itineraries: [],
+  planEdges: [],
   showRelaxedPlanNotifier: false,
   separatorPosition: undefined,
   loadingMore: undefined,
@@ -194,19 +196,21 @@ ItineraryList.contextTypes = {
 };
 
 const containerComponent = createFragmentContainer(ItineraryList, {
-  itineraries: graphql`
-    fragment ItineraryList_itineraries on Itinerary @relay(plural: true) {
-      ...Itinerary_itinerary
-      emissionsPerPerson {
-        co2
-      }
-      legs {
-        ...ItineraryLine_legs
-        transitLeg
-        mode
-        route {
+  planEdges: graphql`
+    fragment ItineraryList_planEdges on PlanEdge @relay(plural: true) {
+      node {
+        ...Itinerary_itinerary
+        emissionsPerPerson {
+          co2
+        }
+        legs {
+          ...ItineraryLine_legs
+          transitLeg
           mode
-          type
+          route {
+            mode
+            type
+          }
         }
       }
     }

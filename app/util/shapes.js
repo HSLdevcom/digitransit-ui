@@ -209,16 +209,14 @@ export const legShape = PropTypes.shape({
 });
 
 export const itineraryShape = PropTypes.shape({
-  node: PropTypes.shape({
-    startTime: PropTypes.number,
-    endTime: PropTypes.number,
-    duration: PropTypes.number,
-    walkDistance: PropTypes.number,
-    legs: PropTypes.arrayOf(legShape),
-    emissionsPerPerson: PropTypes.shape({
-      co2: PropTypes.number,
-    }),
-  }).isRequired,
+  startTime: PropTypes.number,
+  endTime: PropTypes.number,
+  duration: PropTypes.number,
+  walkDistance: PropTypes.number,
+  legs: PropTypes.arrayOf(legShape),
+  emissionsPerPerson: PropTypes.shape({
+    co2: PropTypes.number,
+  }),
 });
 
 export const planEdgeShape = PropTypes.shape({

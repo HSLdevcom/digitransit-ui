@@ -136,11 +136,9 @@ export function getBounds(edges, from, to, viaPoints) {
   return boundWithMinimumArea(
     bounds
       .concat(
-        ...edges.map(itinerary =>
+        ...edges.map(e =>
           [].concat(
-            ...itinerary.node.legs.map(leg =>
-              polyline.decode(leg.legGeometry.points),
-            ),
+            ...e.node.legs.map(leg => polyline.decode(leg.legGeometry.points)),
           ),
         ),
       )
@@ -195,10 +193,10 @@ export function filterItinerariesByFeedId(plan, config) {
     return plan;
   }
   const newEdges = [];
-  plan.edges.forEach(itinerary => {
+  plan.edges.forEach(edge => {
     let skip = false;
-    for (let i = 0; i < itinerary.node.legs.length; i++) {
-      const feedId = itinerary.node.legs[i].route?.gtfsId?.split(':')[0];
+    for (let i = 0; i < edge.node.legs.length; i++) {
+      const feedId = edge.node.legs[i].route?.gtfsId?.split(':')[0];
 
       if (
         feedId && // if feedId is undefined, leg  is non transit -> don't drop
@@ -209,7 +207,7 @@ export function filterItinerariesByFeedId(plan, config) {
       }
     }
     if (!skip) {
-      newEdges.push(itinerary);
+      newEdges.push(edge);
     }
   });
   return { ...plan, edges: newEdges };
@@ -320,7 +318,7 @@ export function getRentalStationsToHideOnMap(
 ) {
   const objectsToHide = { vehicleRentalStations: [] };
   if (hasVehicleRentalStation) {
-    objectsToHide.vehicleRentalStations = selectedItinerary?.node.legs
+    objectsToHide.vehicleRentalStations = selectedItinerary?.legs
       ?.filter(leg => leg.from?.vehicleRentalStation)
       .map(station => station.from?.vehicleRentalStation.stationId);
   }
@@ -367,7 +365,7 @@ export function filterItineraries(edges, modes) {
   if (!edges) {
     return [];
   }
-  return edges.filter(itinerary =>
-    itinerary.node.legs.some(leg => modes.includes(leg.mode)),
+  return edges.filter(edge =>
+    edge.node.legs.some(leg => modes.includes(leg.mode)),
   );
 }

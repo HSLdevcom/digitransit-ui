@@ -11,13 +11,13 @@ export default function Emissions({
   carItinerary,
   emissionsInfolink,
 }) {
-  const co2value = getCo2Value(itinerary.node);
-  const itineraryIsCar = itinerary.node.legs.every(
+  const co2value = getCo2Value(itinerary);
+  const itineraryIsCar = itinerary.legs.every(
     leg => leg.mode === 'CAR' || leg.mode === 'WALK',
   );
   const carCo2Value =
     !itineraryIsCar && carItinerary
-      ? Math.round(carItinerary.node.emissionsPerPerson?.co2)
+      ? Math.round(carItinerary.emissionsPerPerson?.co2)
       : null;
   const useCo2SimpleDesc = !carCo2Value || itineraryIsCar;
   const co2DescriptionId = useCo2SimpleDesc

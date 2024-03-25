@@ -2,13 +2,13 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import ItineraryDetails from './ItineraryDetails';
 import SwipeableTabs from './SwipeableTabs';
-import { itineraryShape } from '../util/shapes';
+import { itineraryShape, planEdgeShape } from '../util/shapes';
 
 /* eslint-disable react/no-array-index-key */
 function ItineraryTabs(props) {
-  const { itineraries } = props;
+  const { planEdges } = props;
 
-  const itineraryTabs = itineraries.map((itinerary, i) => {
+  const itineraryTabs = planEdges.map((edge, i) => {
     return (
       <div
         className={`swipeable-tab ${props.tabIndex !== i && 'inactive'}`}
@@ -17,7 +17,7 @@ function ItineraryTabs(props) {
       >
         <ItineraryDetails
           {...props}
-          itinerary={itinerary}
+          itinerary={edge.node}
           hideTitle={!props.isMobile}
           changeHash={props.isMobile ? props.changeHash : undefined}
         />
@@ -42,7 +42,7 @@ ItineraryTabs.propTypes = {
   isMobile: PropTypes.bool.isRequired,
   focusToPoint: PropTypes.func.isRequired,
   focusToLeg: PropTypes.func.isRequired,
-  itineraries: PropTypes.arrayOf(itineraryShape).isRequired,
+  planEdges: PropTypes.arrayOf(planEdgeShape).isRequired,
   carItinerary: itineraryShape,
   changeHash: PropTypes.func,
 };

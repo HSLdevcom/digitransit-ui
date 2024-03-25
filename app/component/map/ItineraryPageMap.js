@@ -2,7 +2,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { matchShape, routerShape } from 'found';
-import { configShape, itineraryShape, locationShape } from '../../util/shapes';
+import { configShape, planEdgeShape, locationShape } from '../../util/shapes';
 import LocationMarker from './LocationMarker';
 import ItineraryLine from './ItineraryLine';
 import MapWithTracking from './MapWithTracking';
@@ -15,7 +15,7 @@ const POINT_FOCUS_ZOOM = 16; // default
 
 function ItineraryPageMap(
   {
-    itineraries,
+    planEdges,
     active,
     showActive,
     from,
@@ -38,26 +38,26 @@ function ItineraryPageMap(
     );
   }
   if (!showActive) {
-    itineraries.forEach((itinerary, i) => {
+    planEdges.forEach((edge, i) => {
       if (i !== active) {
         leafletObjs.push(
           <ItineraryLine
             key={`line_${i}`}
             hash={i}
-            legs={itinerary.node.legs}
+            legs={edge.node.legs}
             passive
           />,
         );
       }
     });
   }
-  if (active < itineraries.length) {
+  if (active < planEdges.length) {
     leafletObjs.push(
       <ItineraryLine
         key={`line_${active}`}
         hash={active}
         streetMode={hash}
-        legs={itineraries[active].node.legs}
+        legs={planEdges[active].node.legs}
         showTransferLabels={showActive}
         showIntermediateStops
         showDurationBubble={showDurationBubble}
@@ -109,7 +109,7 @@ function ItineraryPageMap(
 }
 
 ItineraryPageMap.propTypes = {
-  itineraries: PropTypes.arrayOf(itineraryShape).isRequired,
+  planEdges: PropTypes.arrayOf(planEdgeShape).isRequired,
   topics: PropTypes.arrayOf(
     PropTypes.shape({
       feedId: PropTypes.string.isRequired,

@@ -22,7 +22,7 @@ import { transitItineraries } from './ItineraryPageUtils';
 
 class ItineraryListContainer extends React.Component {
   static propTypes = {
-    itineraries: PropTypes.arrayOf(itineraryShape).isRequired,
+    planEdges: PropTypes.arrayOf(itineraryShape).isRequired,
     activeIndex: PropTypes.number.isRequired,
     params: PropTypes.shape({
       from: PropTypes.string.isRequired,
@@ -128,7 +128,7 @@ class ItineraryListContainer extends React.Component {
         className={`time-navigation-btn ${
           reversed ? 'top-btn' : 'bottom-btn'
         } ${!reversed && isIOS && isSafari ? 'extra-whitespace' : ''} `}
-        onClick={() => this.props.onLater(this.props.itineraries, reversed)}
+        onClick={() => this.props.onLater(this.props.planEdges, reversed)}
       >
         <Icon
           img="icon-icon_arrow-collapse"
@@ -154,7 +154,7 @@ class ItineraryListContainer extends React.Component {
         className={`time-navigation-btn ${
           reversed ? 'bottom-btn' : 'top-btn'
         } ${reversed && isIOS && isSafari ? 'extra-whitespace' : ''}`}
-        onClick={() => this.props.onEarlier(this.props.itineraries, reversed)}
+        onClick={() => this.props.onEarlier(this.props.planEdges, reversed)}
       >
         <Icon
           img="icon-icon_arrow-collapse"
@@ -180,7 +180,7 @@ class ItineraryListContainer extends React.Component {
     const { location } = this.context.match;
     const arriveBy = location.query.arriveBy === 'true';
     const showEarlierLaterButtons =
-      transitItineraries(this.props.itineraries).length > 0 &&
+      transitItineraries(this.props.planEdges).length > 0 &&
       !this.context.match.params.hash;
     return (
       <div className="summary">
@@ -233,16 +233,17 @@ const connectedContainer = createFragmentContainer(
   })),
   {
     plan: graphql`
-      fragment ItineraryListContainer_plan on Plan {
-        date
+      fragment ItineraryListContainer_plan on PlanConnection {
+        searchDateTime
       }
     `,
-    itineraries: graphql`
-      fragment ItineraryListContainer_itineraries on Itinerary
+    planEdges: graphql`
+      fragment ItineraryListContainer_planEdges on PlanEdge
       @relay(plural: true) {
-        ...ItineraryList_itineraries
-        legs {
-          ...ItineraryLine_legs
+        node {
+          legs {
+            ...ItineraryLine_legs
+          }
         }
       }
     `,

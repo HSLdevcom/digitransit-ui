@@ -274,9 +274,7 @@ function isDrivingLeg(leg) {
  * @param {*} itinerary the itinerary to check the legs for
  */
 export function onlyBiking(itinerary) {
-  return (
-    itinerary.node.legs.length === 1 && isBikingLeg(itinerary.node.legs[0])
-  );
+  return itinerary.legs.length === 1 && isBikingLeg(itinerary.legs[0]);
 }
 
 /**
@@ -285,7 +283,7 @@ export function onlyBiking(itinerary) {
  * @param {*} itinerary the itinerary to check the legs for
  */
 export function containsBiking(itinerary) {
-  return itinerary.node.legs.some(isBikingLeg);
+  return itinerary.legs.some(isBikingLeg);
 }
 
 /**
@@ -318,7 +316,7 @@ export function legContainsRentalBike(leg) {
  */
 export function getTotalWalkingDistance(itinerary) {
   // TODO: could be itinerary.walkDistance, but that is invalid for CITYBIKE legs
-  return sumDistances(itinerary.node.legs.filter(isWalkingLeg));
+  return sumDistances(itinerary.legs.filter(isWalkingLeg));
 }
 
 /**
@@ -328,11 +326,11 @@ export function getTotalWalkingDistance(itinerary) {
  */
 
 export function getTotalBikingDistance(itinerary) {
-  return sumDistances(itinerary.node.legs.filter(isBikingLeg));
+  return sumDistances(itinerary.legs.filter(isBikingLeg));
 }
 
 export function getTotalDrivingDistance(itinerary) {
-  return sumDistances(itinerary.node.legs.filter(isDrivingLeg));
+  return sumDistances(itinerary.legs.filter(isDrivingLeg));
 }
 
 /**
@@ -341,7 +339,7 @@ export function getTotalDrivingDistance(itinerary) {
  * @param {*} itinerary the itinerary to extract the total distance from
  */
 export function getTotalDistance(itinerary) {
-  return sumDistances(itinerary.node.legs);
+  return sumDistances(itinerary.legs);
 }
 
 /**
@@ -544,7 +542,7 @@ function sumDurations(legs) {
  */
 export function getTotalWalkingDuration(itinerary) {
   // TODO: could be itinerary.walkDuration, but that is invalid for CITYBIKE legs
-  return sumDurations(itinerary.node.legs.filter(isWalkingLeg));
+  return sumDurations(itinerary.legs.filter(isWalkingLeg));
 }
 
 /**
@@ -553,11 +551,11 @@ export function getTotalWalkingDuration(itinerary) {
  * @param {*} itinerary the itinerary to extract the total biking duration from
  */
 export function getTotalBikingDuration(itinerary) {
-  return sumDurations(itinerary.node.legs.filter(isBikingLeg));
+  return sumDurations(itinerary.legs.filter(isBikingLeg));
 }
 
 export function getTotalDrivingDuration(itinerary) {
-  return sumDurations(itinerary.node.legs.filter(isDrivingLeg));
+  return sumDurations(itinerary.legs.filter(isDrivingLeg));
 }
 
 export function getExtendedMode(leg, config) {

@@ -7,7 +7,7 @@ import { itineraryShape } from '../util/shapes';
 import getCo2Value from '../util/emissions';
 
 export default function EmissionsInfo({ itinerary, isMobile }) {
-  const co2value = getCo2Value(itinerary.node);
+  const co2value = getCo2Value(itinerary);
   return (
     co2value !== null &&
     co2value >= 0 && (
