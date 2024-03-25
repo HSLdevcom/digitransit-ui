@@ -14,7 +14,7 @@ export default function AlternativeItineraryBar(
     weatherData,
     walkPlan,
     bikePlan,
-    bikeTransitPlan,
+    bikePublicPlan,
     carPlan,
     parkRidePlan,
     loading,
@@ -45,11 +45,11 @@ export default function AlternativeItineraryBar(
               onClick={setStreetModeAndSelect}
             />
           )}
-          {bikeTransitPlan?.edges?.length > 0 && (
+          {bikePublicPlan?.edges?.length > 0 && (
             <StreetModeSelectorButton
               icon="icon-icon_cyclist"
               name={streetHash.bikeAndVehicle}
-              plan={bikeTransitPlan}
+              plan={bikePublicPlan}
               onClick={selectStreetMode}
             />
           )}
@@ -89,7 +89,7 @@ AlternativeItineraryBar.propTypes = {
   setStreetModeAndSelect: PropTypes.func.isRequired,
   walkPlan: planShape,
   bikePlan: planShape,
-  bikeTransitPlan: planShape,
+  bikePublicPlan: planShape,
   parkRidePlan: planShape,
   carPlan: planShape,
   weatherData: PropTypes.shape({
@@ -104,7 +104,7 @@ AlternativeItineraryBar.defaultProps = {
   weatherData: undefined,
   walkPlan: undefined,
   bikePlan: undefined,
-  bikeTransitPlan: undefined,
+  bikePublicPlan: undefined,
   parkRidePlan: undefined,
   carPlan: undefined,
   loading: undefined,

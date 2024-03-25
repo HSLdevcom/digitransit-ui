@@ -16,7 +16,7 @@ export const PLANTYPE = {
   CAR: 'CAR',
   TRANSIT: 'TRANSIT',
   BIKEPARK: 'BIKEPARK',
-  BIKEANDTRANSIT: 'BIKEANDTRANSIT',
+  BIKETRANSIT: 'BIKETRANSIT',
   PARKANDRIDE: 'PARKANDRIDE',
 };
 
@@ -123,7 +123,7 @@ export function planQueryNeeded(
   const settings = getSettings(config);
   const modesOrDefault = relaxSettings ? defaultSettings.modes : settings.modes;
   const transitFilter =
-    planType === PLANTYPE.BIKEANDTRANSIT
+    planType === PLANTYPE.BIKETRANSIT
       ? ['CITYBIKE', 'WALK'].concat(config.modesWithNoBike)
       : ['CITYBIKE', 'WALK'];
   const transitModes = modesOrDefault.filter(m => transitFilter.includes(m));
@@ -166,7 +166,7 @@ export function planQueryNeeded(
           : settings.showBikeAndParkItineraries)
       );
 
-    case PLANTYPE.BIKEANDTRANSIT:
+    case PLANTYPE.BIKETRANSIT:
       return (
         transitModes.length > 0 &&
         !wheelchair &&
@@ -225,7 +225,7 @@ export function getPlanParams(
   const settings = getSettings(config);
   const modesOrDefault = relaxSettings ? defaultSettings.modes : settings.modes;
   const transitFilter =
-    planType === PLANTYPE.BIKEANDTRANSIT
+    planType === PLANTYPE.BIKETRANSIT
       ? ['CITYBIKE', 'WALK'].concat(config.modesWithNoBike)
       : ['CITYBIKE', 'WALK'];
   const transitModes = modesOrDefault.filter(m => transitFilter.includes(m));
@@ -255,7 +255,7 @@ export function getPlanParams(
       egress = postTransit;
       transfer = postTransit;
       break;
-    case PLANTYPE.BIKEANDTRANSIT:
+    case PLANTYPE.BIKETRANSIT:
       access = ['BIKE'];
       egress = ['BIKE'];
       transfer = ['BIKE'];

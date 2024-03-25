@@ -53,10 +53,10 @@ const planConnection = graphql`
         endCursor
       }
       edges {
+        ...ItineraryListContainer_planEdges
         node {
           startTime
           ...ItineraryDetails_itinerary
-          ...ItineraryListContainer_itineraries
           legs {
             mode
             ...ItineraryLine_legs

@@ -28,7 +28,7 @@ function ItineraryList(
     onSelect,
     onSelectImmediately,
     searchTime,
-    bikeAndParkItineraryCount,
+    bikeParkItineraryCount,
     showRelaxedPlanNotifier,
     separatorPosition,
     loadingMore,
@@ -75,8 +75,8 @@ function ItineraryList(
     );
   }
   if (hash === streetHash.bikeAndVehicle) {
-    // bikeAndParkItineraryCount tells how many first itineraries use bike parking
-    if (bikeAndParkItineraryCount > 0) {
+    // bikeParkItineraryCount tells how many first itineraries use bike parking
+    if (bikeParkItineraryCount > 0) {
       summaries.splice(
         0,
         0,
@@ -87,17 +87,15 @@ function ItineraryList(
         />,
       );
     }
-    if (planEdges.length > bikeAndParkItineraryCount) {
+    if (planEdges.length > bikeParkItineraryCount) {
       // the rest use bike + public
       const mode =
         getExtendedMode(
-          planEdges[bikeAndParkItineraryCount].node.legs.find(
-            l => l.transitLeg,
-          ),
+          planEdges[bikeParkItineraryCount].node.legs.find(l => l.transitLeg),
           config,
         ) || 'rail';
       summaries.splice(
-        bikeAndParkItineraryCount ? bikeAndParkItineraryCount + 1 : 0,
+        bikeParkItineraryCount ? bikeParkItineraryCount + 1 : 0,
         0,
         <ItineraryListHeader
           translationId={`itinerary-summary.bikeAndPublic-${mode}-title`}
@@ -174,7 +172,7 @@ ItineraryList.propTypes = {
   planEdges: PropTypes.arrayOf(planEdgeShape),
   onSelect: PropTypes.func.isRequired,
   onSelectImmediately: PropTypes.func.isRequired,
-  bikeAndParkItineraryCount: PropTypes.number,
+  bikeParkItineraryCount: PropTypes.number,
   showRelaxedPlanNotifier: PropTypes.bool,
   separatorPosition: PropTypes.number,
   loadingMore: PropTypes.string,
@@ -182,7 +180,7 @@ ItineraryList.propTypes = {
 };
 
 ItineraryList.defaultProps = {
-  bikeAndParkItineraryCount: 0,
+  bikeParkItineraryCount: 0,
   planEdges: [],
   showRelaxedPlanNotifier: false,
   separatorPosition: undefined,

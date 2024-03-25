@@ -15,6 +15,7 @@ import {
   changeRealTimeClientTopics,
 } from '../action/realTimeClientAction';
 import { getMapLayerOptions } from '../util/mapLayerUtils';
+import { getTotalBikingDistance } from '../util/legUtils';
 
 /**
  * Returns the index of selected itinerary. Attempts to look for
@@ -354,7 +355,7 @@ export function transitItineraries(edges) {
     return [];
   }
   return edges.filter(
-    itin => !itin.node.legs.every(leg => STREET_LEG_MODES.includes(leg.mode)),
+    edge => !edge.node.legs.every(leg => STREET_LEG_MODES.includes(leg.mode)),
   );
 }
 
@@ -368,4 +369,35 @@ export function filterItineraries(edges, modes) {
   return edges.filter(edge =>
     edge.node.legs.some(leg => modes.includes(leg.mode)),
   );
+}
+
+/**
+ * Pick combination of  itineraries for bike and transit
+ */
+export function mergeBikeTransitPlans(bikeParkPlan, bikeTransitPlan) {
+  // filter plain walking / biking away, and also no biking
+  const bikeParkEdges = transitItineraries(bikeParkPlan?.edges).filter(
+    i => getTotalBikingDistance(i.node) > 0,
+  );
+  const bikePublicEdges = transitItineraries(bikeTransitPlan?.edges).filter(
+    i => getTotalBikingDistance(i.node) > 0,
+  );
+
+  // show 6 bike + transit itineraries, preferably 3 of both kind.
+  // If there is not enough of a kind, take more from the other kind
+  let n1 = bikeParkEdges.length;
+  let n2 = bikePublicEdges.length;
+  if (n1 < 3) {
+    n2 = Math.min(6 - n1, n2);
+  } else if (n2 < 3) {
+    n1 = Math.min(6 - n2, n1);
+  } else {
+    n1 = 3;
+    n2 = 3;
+  }
+  return {
+    searchDateTime: bikeParkPlan.searchDateTime,
+    edges: [...bikeParkEdges.slice(0, n1), ...bikePublicEdges.slice(0, 3)],
+    bikeParkItineraryCount: n1,
+  };
 }
