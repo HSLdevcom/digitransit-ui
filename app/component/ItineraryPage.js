@@ -281,7 +281,7 @@ export default function ItineraryPage(props, context) {
       altState[1]({ loading: ALT_STATE.DONE, plan: {} });
       return;
     }
-    altState.setState({ loading: ALT_STATE.LOADING });
+    altState[1]({ loading: ALT_STATE.LOADING });
     const planParams = getPlanParams(context.config, props.match, planType);
     fetchQuery(props.relayEnvironment, planConnection, planParams)
       .toPromise()
