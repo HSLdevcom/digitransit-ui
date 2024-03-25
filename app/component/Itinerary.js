@@ -514,13 +514,9 @@ const Itinerary = (
     }
 
     if (leg.route) {
-      // todo: config this.
       const withBicycle =
         usingOwnBicycleWholeTrip &&
-        (leg.route.mode === 'RAIL' ||
-          leg.route.mode === 'SUBWAY' ||
-          leg.route.mode === 'FERRY' ||
-          leg.route.mode === 'TRAM');
+        !config.modesWithNoBike.includes(leg.route.mode);
       if (
         previousLeg &&
         !previousLeg.intermediatePlace &&
