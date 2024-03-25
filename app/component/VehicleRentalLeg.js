@@ -3,6 +3,7 @@ import Link from 'found/Link';
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
+import { configShape, vehicleRentalStationShape } from '../util/shapes';
 import {
   BIKEAVL_UNKNOWN,
   getVehicleCapacity,
@@ -152,7 +153,7 @@ function VehicleRentalLeg(
 }
 
 VehicleRentalLeg.propTypes = {
-  vehicleRentalStation: PropTypes.object,
+  vehicleRentalStation: vehicleRentalStationShape,
   stationName: PropTypes.string.isRequired,
   isScooter: PropTypes.bool,
   returnBike: PropTypes.bool,
@@ -168,7 +169,7 @@ VehicleRentalLeg.defaultProps = {
 };
 
 VehicleRentalLeg.contextTypes = {
-  config: PropTypes.object.isRequired,
+  config: configShape.isRequired,
   intl: intlShape.isRequired,
 };
 const connectedComponent = withBreakpoint(VehicleRentalLeg);

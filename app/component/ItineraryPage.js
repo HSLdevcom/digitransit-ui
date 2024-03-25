@@ -9,6 +9,7 @@ import { matchShape, routerShape } from 'found';
 import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
 import polyline from 'polyline-encoded';
+import { relayShape, configShape, mapLayerOptionsShape } from '../util/shapes';
 import DesktopView from './DesktopView';
 import MobileView from './MobileView';
 import ItineraryPageMap from './map/ItineraryPageMap';
@@ -54,7 +55,6 @@ import {
   getPlanParams,
   hasStartAndDestination,
 } from '../util/planParamUtil';
-import { mapLayerOptionsShape } from '../util/shapes';
 import { saveFutureRoute } from '../action/FutureRoutesActions';
 import { saveSearch } from '../action/SearchActions';
 import CustomizeSearch from './CustomizeSearch';
@@ -1044,18 +1044,20 @@ export default function ItineraryPage(props, context) {
 
   const settings = getSettings(config);
 
-  let selectedPlan = mapHashToPlan(hash);
-
+  let plan = mapHashToPlan(hash);
+  const showRelaxedPlanNotifier = plan === relaxState.relaxedPlan;
+  const showRentalVehicleNotifier =
+    plan === relaxRentalState.relaxedScooterPlan;
   /* NOTE: as a temporary solution, do filtering by feedId in UI */
-  if (config.feedIdFiltering) {
-    selectedPlan = filterItinerariesByFeedId(selectedPlan, config);
+  if (config.feedIdFiltering && plan) {
+    plan = filterItinerariesByFeedId(plan, config);
   }
   let combinedItineraries;
   // Remove old itineraries if new query cannot find a route
   if (state.error) {
     combinedItineraries = [];
   } else if (streetHashes.includes(hash)) {
-    combinedItineraries = selectedPlan?.itineraries || [];
+    combinedItineraries = plan?.itineraries || [];
   } else {
     combinedItineraries = getCombinedItineraries();
     if (!hasNoTransitItineraries) {
@@ -1133,17 +1135,14 @@ export default function ItineraryPage(props, context) {
         isMobile={!desktop}
         tabIndex={selectedIndex}
         changeHash={changeHash}
-        plan={selectedPlan}
+        plan={plan}
         itineraries={combinedItineraries}
         focusToPoint={focusToPoint}
         focusToLeg={focusToLeg}
         carItinerary={carPlan?.itineraries[0]}
       />
     );
-  } else if (selectedPlan?.itineraries?.length) {
-    const showRelaxedPlanNotifier = selectedPlan === relaxState.relaxedPlan;
-    const showRentalVehicleNotifier =
-      selectedPlan === relaxRentalState.relaxedScooterPlan;
+  } else if (plan?.itineraries?.length) {
     const settingsNotification =
       !showRelaxedPlanNotifier && // show only on notifier about limitations
       settingsLimitRouting(context.config) &&
@@ -1158,7 +1157,7 @@ export default function ItineraryPage(props, context) {
     content = (
       <ItineraryListContainer
         activeIndex={selectedIndex}
-        plan={selectedPlan}
+        plan={plan}
         itineraries={combinedItineraries}
         params={params}
         bikeAndParkItineraryCount={altState.bikeAndParkItineraryCount}
@@ -1180,7 +1179,7 @@ export default function ItineraryPage(props, context) {
     // search is up to date, but no itineraries found
     content = (
       <ItinerariesNotFound
-        routingErrors={selectedPlan?.routingErrors}
+        routingErrors={plan?.routingErrors}
         from={from}
         to={to}
         searchTime={
@@ -1282,9 +1281,9 @@ export default function ItineraryPage(props, context) {
 }
 
 ItineraryPage.contextTypes = {
-  config: PropTypes.object,
+  config: configShape,
   executeAction: PropTypes.func.isRequired,
-  headers: PropTypes.object.isRequired,
+  headers: PropTypes.objectOf(PropTypes.string),
   getStore: PropTypes.func,
   router: routerShape.isRequired,
   match: matchShape.isRequired,
@@ -1298,7 +1297,7 @@ ItineraryPage.propTypes = {
     type: PropTypes.func.isRequired,
   }),
   breakpoint: PropTypes.string.isRequired,
-  relayEnvironment: PropTypes.object.isRequired,
+  relayEnvironment: relayShape.isRequired,
   mapLayers: mapLayerShape.isRequired,
   mapLayerOptions: mapLayerOptionsShape.isRequired,
 };

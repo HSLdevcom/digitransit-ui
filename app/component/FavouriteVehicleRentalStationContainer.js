@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import connectToStores from 'fluxible-addons-react/connectToStores';
+import { configShape } from '../util/shapes';
 import Favourite from './Favourite';
 import { saveFavourite, deleteFavourite } from '../action/FavouriteActions';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
@@ -10,10 +11,7 @@ const FavouriteVehicleRentalStationContainer = connectToStores(
   (context, { vehicleRentalStation }) => ({
     favourite: context
       .getStore('FavouriteStore')
-      .isFavouriteVehicleRentalStation(
-        vehicleRentalStation.stationId,
-        vehicleRentalStation.network,
-      ),
+      .isFavourite(vehicleRentalStation.stationId, 'bikeStation'),
     isFetching: context.getStore('FavouriteStore').getStatus() === 'fetching',
     addFavourite: () => {
       context.executeAction(saveFavourite, {
@@ -29,10 +27,7 @@ const FavouriteVehicleRentalStationContainer = connectToStores(
         action: 'MarkBikeRentalStationAsFavourite',
         name: !context
           .getStore('FavouriteStore')
-          .isFavouriteVehicleRentalStation(
-            vehicleRentalStation.stationId,
-            vehicleRentalStation.network,
-          ),
+          .isFavourite(vehicleRentalStation.stationId, 'bikeStation'),
       });
     },
     deleteFavourite: () => {
@@ -48,10 +43,7 @@ const FavouriteVehicleRentalStationContainer = connectToStores(
         action: 'MarkBikeRentalStationAsFavourite',
         name: !context
           .getStore('FavouriteStore')
-          .isFavouriteVehicleRentalStation(
-            vehicleRentalStation.stationId,
-            vehicleRentalStation.network,
-          ),
+          .isFavourite(vehicleRentalStation.stationId, 'bikeStation'),
       });
     },
     requireLoggedIn: !context.config.allowFavouritesFromLocalstorage,
@@ -65,7 +57,7 @@ const FavouriteVehicleRentalStationContainer = connectToStores(
 FavouriteVehicleRentalStationContainer.contextTypes = {
   getStore: PropTypes.func.isRequired,
   executeAction: PropTypes.func.isRequired,
-  config: PropTypes.object.isRequired,
+  config: configShape.isRequired,
 };
 
 export default FavouriteVehicleRentalStationContainer;

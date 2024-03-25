@@ -28,3 +28,7 @@ export default function StreetModeSelectorShimmer({ loading }) {
 StreetModeSelectorShimmer.propTypes = {
   loading: PropTypes.bool,
 };
+
+StreetModeSelectorShimmer.defaultProps = {
+  loading: false,
+};

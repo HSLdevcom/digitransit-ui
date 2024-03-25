@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Icon from '../../Icon';
-
 import { isBrowser } from '../../../util/browser';
+import { legShape } from '../../../util/shapes';
 
 /* eslint-disable global-require */
 
@@ -13,7 +13,7 @@ const L = isBrowser && require('leaflet');
 
 class LegMarker extends React.Component {
   static propTypes = {
-    leg: PropTypes.object.isRequired,
+    leg: legShape.isRequired,
     mode: PropTypes.string.isRequired,
     color: PropTypes.string,
     zIndexOffset: PropTypes.number,

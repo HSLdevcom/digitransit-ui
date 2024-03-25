@@ -5,6 +5,7 @@ import { FormattedMessage } from 'react-intl';
 import getContext from 'recompose/getContext';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import withBreakpoint from '../util/withBreakpoint';
+import { favouriteShape, userShape } from '../util/shapes';
 
 const AppBar = lazy(() => import('./AppBar'));
 const AppBarHsl = lazy(() => import('./AppBarHsl'));
@@ -86,11 +87,18 @@ AppBarContainer.propTypes = {
   router: routerShape.isRequired,
   homeUrl: PropTypes.string.isRequired,
   logo: PropTypes.string,
-  user: PropTypes.object,
-  favourites: PropTypes.arrayOf(PropTypes.object),
+  user: userShape,
+  favourites: PropTypes.arrayOf(favouriteShape),
   style: PropTypes.string.isRequired,
   lang: PropTypes.string,
   breakpoint: PropTypes.string.isRequired,
+};
+
+AppBarContainer.defaultProps = {
+  logo: undefined,
+  user: undefined,
+  favourites: [],
+  lang: undefined,
 };
 
 const AppBarContainerWithBreakpoint = withBreakpoint(AppBarContainer);

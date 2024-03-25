@@ -9,8 +9,13 @@ import {
 } from 'react-relay';
 import { matchShape, routerShape } from 'found';
 import getContext from 'recompose/getContext';
-
 import { intlShape, FormattedMessage } from 'react-intl';
+import {
+  configShape,
+  itineraryShape,
+  childrenShape,
+  planShape,
+} from '../util/shapes';
 import Icon from './Icon';
 import ItineraryList from './ItineraryList';
 import TimeStore from '../store/TimeStore';
@@ -22,25 +27,20 @@ import { addAnalyticsEvent } from '../util/analyticsUtils';
 import { isIOS, isSafari } from '../util/browser';
 import ItineraryNotification from './ItineraryNotification';
 import { transitItineraries } from './ItineraryPageUtils';
-import ItineraryShape from '../prop-types/ItineraryShape';
-import ChildrenShape from '../prop-types/ChildrenShape';
 
 class ItineraryListContainer extends React.Component {
   static propTypes = {
     activeIndex: PropTypes.number,
-    children: ChildrenShape,
+    children: childrenShape,
     currentTime: PropTypes.number.isRequired,
-    itineraries: PropTypes.arrayOf(ItineraryShape).isRequired,
+    itineraries: PropTypes.arrayOf(itineraryShape).isRequired,
     params: PropTypes.shape({
       from: PropTypes.string.isRequired,
       to: PropTypes.string.isRequired,
       hash: PropTypes.string,
       secondHash: PropTypes.string,
     }).isRequired,
-    plan: PropTypes.shape({
-      date: PropTypes.number,
-      itineraries: PropTypes.arrayOf(ItineraryShape),
-    }).isRequired,
+    plan: planShape.isRequired,
     bikeAndParkItineraryCount: PropTypes.number,
     showRelaxedPlanNotifier: PropTypes.bool,
     showRentalVehicleNotifier: PropTypes.bool,
@@ -271,7 +271,7 @@ class ItineraryListContainer extends React.Component {
 }
 
 const withConfig = getContext({
-  config: PropTypes.object.isRequired,
+  config: configShape.isRequired,
 })(
   withBreakpoint(props => (
     <ReactRelayContext.Consumer>

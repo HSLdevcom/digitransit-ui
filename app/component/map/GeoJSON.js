@@ -1,11 +1,10 @@
 import L from 'leaflet';
 import PropTypes from 'prop-types';
 import React from 'react';
-
 import uniqBy from 'lodash/uniqBy';
 import PointFeatureMarker from './PointFeatureMarker';
 import { isBrowser } from '../../util/browser';
-import { geoJsonFeatureShape } from '../../util/shapes';
+import { configShape, geoJsonFeatureShape } from '../../util/shapes';
 import {
   isMultiPointTypeGeometry,
   isPointTypeGeometry,
@@ -97,6 +96,7 @@ const addPopup = (feature, layer) => {
 
 class GeoJSON extends React.Component {
   static propTypes = {
+    // eslint-disable-next-line
     bounds: PropTypes.object,
     data: PropTypes.shape({
       features: PropTypes.arrayOf(geoJsonFeatureShape),
@@ -113,7 +113,7 @@ class GeoJSON extends React.Component {
     onSelectLocation: undefined,
   };
 
-  static contextTypes = { config: PropTypes.object.isRequired };
+  static contextTypes = { config: configShape.isRequired };
 
   // add some custom rendering control by feature props
   pointToLayer = (feature, latlng) => getMarker(feature, latlng, this.icons);

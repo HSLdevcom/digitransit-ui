@@ -24,6 +24,7 @@ describe('<AlertList />', () => {
           alertHeaderText: 'third',
           alertSeverityLevel: 'SEVERE',
           effectiveStartDate: 1547464413,
+          feed: 'foo',
           entities: [
             {
               __typename: AlertEntityType.Route,
@@ -37,6 +38,7 @@ describe('<AlertList />', () => {
           alertHeaderText: 'fourth',
           alertSeverityLevel: 'SEVERE',
           effectiveStartDate: 1547464413,
+          feed: 'foo',
           entities: [
             {
               __typename: AlertEntityType.Route,
@@ -52,6 +54,7 @@ describe('<AlertList />', () => {
           alertHeaderText: 'second',
           alertSeverityLevel: 'SEVERE',
           effectiveStartDate: 1547464413,
+          feed: 'foo',
           entities: [
             {
               __typename: AlertEntityType.Route,
@@ -65,6 +68,7 @@ describe('<AlertList />', () => {
           alertHeaderText: 'first',
           alertSeverityLevel: 'SEVERE',
           effectiveStartDate: 1547464413,
+          feed: 'foo',
           entities: [
             {
               __typename: AlertEntityType.Route,
@@ -93,6 +97,7 @@ describe('<AlertList />', () => {
           alertSeverityLevel: 'SEVERE',
           effectiveStartDate: 1,
           effectiveEndDate: 99,
+          feed: 'foo',
           entities: [
             {
               __typename: AlertEntityType.Route,
@@ -115,6 +120,7 @@ describe('<AlertList />', () => {
         {
           alertHeaderText: 'cancelation',
           alertSeverityLevel: 'SEVERE',
+          feed: 'foo',
           entities: [
             {
               __typename: AlertEntityType.Route,
@@ -131,6 +137,7 @@ describe('<AlertList />', () => {
           alertSeverityLevel: 'SEVERE',
           effectiveStartDate: 100,
           effectiveEndDate: 100,
+          feed: 'foo',
           entities: [
             {
               __typename: AlertEntityType.Route,
@@ -155,6 +162,7 @@ describe('<AlertList />', () => {
           alertSeverityLevel: 'SEVERE',
           effectiveStartDate: 101,
           effectiveEndDate: 200,
+          feed: 'foo',
           entities: [
             {
               __typename: AlertEntityType.Route,

@@ -1,17 +1,15 @@
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import { FormattedMessage } from 'react-intl';
 import cx from 'classnames';
 import { matchShape } from 'found';
+import { configShape, locationShape, itineraryShape } from '../util/shapes';
 import Icon from './Icon';
 import Itinerary from './Itinerary';
 import { isBrowser } from '../util/browser';
 import { getExtendedMode, getZones } from '../util/legUtils';
-import CanceledItineraryToggler from './CanceledItineraryToggler';
-import { itineraryHasCancelation } from '../util/alertUtils';
 import ItineraryListHeader from './ItineraryListHeader';
-import LocationShape from '../prop-types/LocationShape';
 import Loading from './Loading';
 import RoutingFeedbackPrompt from './RoutingFeedbackPrompt';
 import { streetHash } from '../util/path';
@@ -39,7 +37,6 @@ function ItineraryList(
   },
   context,
 ) {
-  const [showCancelled, setShowCancelled] = useState(false);
   const { config } = context;
   const { hash } = context.match.params;
 
@@ -55,14 +52,12 @@ function ItineraryList(
       refTime={searchTime}
       key={i} // eslint-disable-line react/no-array-index-key
       hash={i}
-      data={itinerary}
+      itinerary={itinerary}
       passive={i !== activeIndex}
       currentTime={currentTime}
       onSelect={onSelect}
       onSelectImmediately={onSelectImmediately}
       intermediatePlaces={intermediatePlaces}
-      isCancelled={itineraryHasCancelation(itinerary)}
-      showCancelled={showCancelled}
       hideSelectionIndicator={i !== activeIndex || itineraries.length === 1}
       zones={
         config.zones.stops && itinerary.legs ? getZones(itinerary.legs) : []
@@ -130,10 +125,6 @@ function ItineraryList(
       <RoutingFeedbackPrompt key="feedback-prompt" />,
     );
   }
-
-  const canceledItinerariesCount = itineraries.filter(
-    itineraryHasCancelation,
-  ).length;
   return (
     <div className="summary-list-container" role="list">
       {showRelaxedPlanNotifier && (
@@ -199,13 +190,6 @@ function ItineraryList(
           <Loading />
         </div>
       )}
-      {isBrowser && canceledItinerariesCount > 0 && (
-        <CanceledItineraryToggler
-          showItineraries={showCancelled}
-          toggleShowCanceled={() => setShowCancelled(!showCancelled)}
-          canceledItinerariesAmount={canceledItinerariesCount}
-        />
-      )}
     </div>
   );
 }
@@ -213,8 +197,8 @@ function ItineraryList(
 ItineraryList.propTypes = {
   activeIndex: PropTypes.number.isRequired,
   currentTime: PropTypes.number.isRequired,
-  intermediatePlaces: PropTypes.arrayOf(LocationShape),
-  itineraries: PropTypes.arrayOf(PropTypes.object),
+  intermediatePlaces: PropTypes.arrayOf(locationShape),
+  itineraries: PropTypes.arrayOf(itineraryShape),
   onSelect: PropTypes.func.isRequired,
   onSelectImmediately: PropTypes.func.isRequired,
   searchTime: PropTypes.number.isRequired,
@@ -237,7 +221,7 @@ ItineraryList.defaultProps = {
 };
 
 ItineraryList.contextTypes = {
-  config: PropTypes.object.isRequired,
+  config: configShape.isRequired,
   match: matchShape.isRequired,
 };
 

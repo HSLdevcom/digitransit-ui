@@ -52,6 +52,8 @@ export default {
   availableLanguages: ['fi', 'sv', 'en'],
   defaultLanguage: 'fi',
 
+  showCO2InItinerarySummary: true,
+
   transportModes: {
     bus: {
       availableForSelection: true,

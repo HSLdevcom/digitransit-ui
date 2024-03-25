@@ -18,7 +18,7 @@ function MobileTimepicker({
   timeZone,
 }) {
   const [inputValue, changeInputValue] = useState(getDisplay(value));
-  const [invalidInput, setinvalidInput] = useState(false);
+  const [isValidInput, setValidInput] = useState(true);
   moment.tz.setDefault(timeZone);
   const inputId = `${id}-input`;
   const labelId = `${id}-label`;
@@ -28,6 +28,7 @@ function MobileTimepicker({
       timeInputRef.current.focus();
     }
   }, []);
+  const showError = !isValidInput;
   return (
     <label className={styles['input-container']} htmlFor={inputId}>
       <span>{icon}</span>
@@ -41,16 +42,17 @@ function MobileTimepicker({
         maxLength="6"
         className={cx(
           styles['time-input-mobile'],
-          invalidInput ? 'mobile-datetimepicker-invalid-input' : '',
+          showError ? 'mobile-datetimepicker-invalid-input' : '',
         )}
         value={inputValue}
         onFocus={e => {
           e.target.setSelectionRange(0, 0); // set caret to start of input
         }}
         onChange={event => {
-          let newValue = event.target.value;
+          let newValue = event.target.value.replace('.', ':');
+
           const valid = validateInput(newValue);
-          setinvalidInput(valid);
+          setValidInput(valid);
           if (
             // number typed as first char => clear rest of the input
             newValue.match(/[0-9]{3}:[0-9]{2}/) &&

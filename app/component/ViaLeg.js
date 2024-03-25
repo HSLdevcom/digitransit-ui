@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
 import { FormattedMessage, intlShape } from 'react-intl';
+import { legShape, configShape } from '../util/shapes';
 import { displayDistance } from '../util/geo-utils';
 import { durationToString } from '../util/timeUtils';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
@@ -143,22 +144,7 @@ function ViaLeg(props, { config, intl }) {
 
 ViaLeg.propTypes = {
   arrivalTime: PropTypes.number.isRequired,
-  leg: PropTypes.shape({
-    duration: PropTypes.number.isRequired,
-    startTime: PropTypes.number.isRequired,
-    distance: PropTypes.number.isRequired,
-    mode: PropTypes.string.isRequired,
-    from: PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      stop: PropTypes.shape({
-        code: PropTypes.string,
-      }),
-    }).isRequired,
-    to: PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      stop: PropTypes.object,
-    }),
-  }).isRequired,
+  leg: legShape.isRequired,
   index: PropTypes.number.isRequired,
   focusAction: PropTypes.func.isRequired,
   focusToLeg: PropTypes.func.isRequired,
@@ -170,7 +156,7 @@ ViaLeg.defaultProps = {
 };
 
 ViaLeg.contextTypes = {
-  config: PropTypes.object.isRequired,
+  config: configShape.isRequired,
   intl: intlShape.isRequired,
 };
 

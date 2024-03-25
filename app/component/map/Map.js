@@ -9,6 +9,7 @@ import L from 'leaflet';
 import get from 'lodash/get';
 import isString from 'lodash/isString';
 import isEmpty from 'lodash/isEmpty';
+import { configShape } from '../../util/shapes';
 // Webpack handles this by bundling it with the other css files
 import 'leaflet/dist/leaflet.css';
 import VehicleMarkerContainer from './VehicleMarkerContainer';
@@ -23,8 +24,8 @@ import { isDebugTiles } from '../../util/browser';
 import { BreakpointConsumer } from '../../util/withBreakpoint';
 import events from '../../util/events';
 import { getLayerBaseUrl } from '../../util/mapLayerUtils';
-
 import GeoJSON from './GeoJSON';
+import { mapLayerShape } from '../../store/MapLayerStore';
 
 const zoomOutText = `<svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-icon_minus"/></svg>`;
 const zoomInText = `<svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-icon_plus"/></svg>`;
@@ -62,11 +63,14 @@ export default class Map extends React.Component {
     lon: PropTypes.number,
     zoom: PropTypes.number,
     bounds: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)),
-    boundsOptions: PropTypes.object,
+    boundsOptions: PropTypes.shape({
+      paddingBottomRight: PropTypes.arrayOf(PropTypes.number),
+    }),
     hilightedStops: PropTypes.arrayOf(PropTypes.string),
     stopsToShow: PropTypes.arrayOf(PropTypes.string),
     objectsToHide: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)),
     lang: PropTypes.string.isRequired,
+    // eslint-disable-next-line
     leafletEvents: PropTypes.object,
     leafletObjs: PropTypes.arrayOf(PropTypes.node),
     mergeStops: PropTypes.bool,
@@ -77,8 +81,9 @@ export default class Map extends React.Component {
     buttonBottomPadding: PropTypes.number,
     bottomButtons: PropTypes.node,
     topButtons: PropTypes.node,
+    // eslint-disable-next-line
     geoJson: PropTypes.object,
-    mapLayers: PropTypes.object,
+    mapLayers: mapLayerShape,
   };
 
   static defaultProps = {
@@ -108,7 +113,7 @@ export default class Map extends React.Component {
   static contextTypes = {
     executeAction: PropTypes.func.isRequired,
     getStore: PropTypes.func,
-    config: PropTypes.object.isRequired,
+    config: configShape.isRequired,
   };
 
   constructor(props) {

@@ -9,7 +9,7 @@ import Modal from '@hsl-fi/modal';
 import DTAutoSuggest from '@digitransit-component/digitransit-component-autosuggest';
 import DTIcon from '@digitransit-component/digitransit-component-icon';
 import distance from '@digitransit-search-util/digitransit-search-util-distance';
-import { dtLocationShape } from '../util/shapes';
+import { relayShape, configShape, locationShape } from '../util/shapes';
 import Icon from './Icon';
 import DesktopView from './DesktopView';
 import MobileView from './MobileView';
@@ -64,11 +64,9 @@ const PH_READY = [PH_USEDEFAULTPOS, PH_USEGEOLOCATION, PH_USEMAPCENTER]; // rend
 const DTAutoSuggestWithSearchContext = withSearchContext(DTAutoSuggest);
 
 class StopsNearYouPage extends React.Component {
-  // eslint-disable-line
   static contextTypes = {
-    config: PropTypes.object.isRequired,
+    config: configShape.isRequired,
     executeAction: PropTypes.func.isRequired,
-    headers: PropTypes.object.isRequired,
     getStore: PropTypes.func,
     intl: intlShape.isRequired,
     router: routerShape.isRequired,
@@ -76,8 +74,8 @@ class StopsNearYouPage extends React.Component {
 
   static propTypes = {
     breakpoint: PropTypes.string.isRequired,
-    relayEnvironment: PropTypes.shape({}).isRequired,
-    position: dtLocationShape.isRequired,
+    relayEnvironment: relayShape.isRequired,
+    position: locationShape.isRequired,
     lang: PropTypes.string.isRequired,
     match: matchShape.isRequired,
     favouriteStopIds: PropTypes.arrayOf(PropTypes.string),
@@ -1018,7 +1016,7 @@ const PositioningWrapper = connectToStores(
 
 PositioningWrapper.contextTypes = {
   getStore: PropTypes.func.isRequired,
-  config: PropTypes.object.isRequired,
+  config: configShape.isRequired,
 };
 
 export {

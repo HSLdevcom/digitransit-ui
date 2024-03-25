@@ -1,6 +1,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { routerShape } from 'found';
+import {
+  vehicleRentalStationShape,
+  rentalVehicleShape,
+  configShape,
+} from '../../../util/shapes';
 import Icon from '../../Icon';
 import GenericMarker from '../GenericMarker';
 import {
@@ -40,21 +45,14 @@ export default class VehicleMarker extends React.Component {
 
   static propTypes = {
     showBikeAvailability: PropTypes.bool,
-    rental: PropTypes.objectOf(
-      PropTypes.shape({
-        id: PropTypes.string.isRequired,
-        lat: PropTypes.string.isRequired,
-        lon: PropTypes.string.isRequired,
-        network: PropTypes.string.isRequired,
-        vehiclesAvailable: PropTypes.string,
-      }),
-    ).isRequired,
+    rental: PropTypes.oneOfType([vehicleRentalStationShape, rentalVehicleShape])
+      .isRequired,
     transit: PropTypes.bool,
     mode: PropTypes.string,
   };
 
   static contextTypes = {
-    config: PropTypes.object.isRequired,
+    config: configShape.isRequired,
     router: routerShape.isRequired,
   };
 

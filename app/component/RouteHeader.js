@@ -59,3 +59,10 @@ RouteHeader.propTypes = {
   className: PropTypes.string,
   card: PropTypes.bool,
 };
+
+RouteHeader.defaultProps = {
+  trip: undefined,
+  pattern: undefined,
+  className: undefined,
+  card: false,
+};

@@ -4,6 +4,7 @@ import moment from 'moment';
 import { FormattedMessage, intlShape } from 'react-intl';
 import cx from 'classnames';
 import Link from 'found/Link';
+import { legShape, configShape } from '../util/shapes';
 import Icon from './Icon';
 import ItineraryMapAction from './ItineraryMapAction';
 import { displayDistance } from '../util/geo-utils';
@@ -22,7 +23,7 @@ import StopCode from './StopCode';
 import PlatformNumber from './PlatformNumber';
 import { getSettings } from '../util/planParamUtil';
 
-function BicycleLeg(
+export default function BicycleLeg(
   { focusAction, index, leg, focusToLeg, bicycleWalkLeg },
   { config, intl },
 ) {
@@ -372,58 +373,18 @@ function BicycleLeg(
 }
 
 BicycleLeg.propTypes = {
-  leg: PropTypes.shape({
-    endTime: PropTypes.number.isRequired,
-    duration: PropTypes.number.isRequired,
-    startTime: PropTypes.number.isRequired,
-    distance: PropTypes.number.isRequired,
-    from: PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      vehicleRentalStation: PropTypes.shape({
-        vehiclesAvailable: PropTypes.number.isRequired,
-        network: PropTypes.string.isRequired,
-      }),
-      rentalVehicle: PropTypes.shape({
-        network: PropTypes.string.isRequired,
-      }),
-      stop: PropTypes.object,
-    }).isRequired,
-    to: PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      stop: PropTypes.object,
-      bikePark: PropTypes.object,
-    }).isRequired,
-    mode: PropTypes.string.isRequired,
-    rentedBike: PropTypes.bool.isRequired,
-  }).isRequired,
-  bicycleWalkLeg: PropTypes.shape({
-    endTime: PropTypes.number.isRequired,
-    duration: PropTypes.number.isRequired,
-    distance: PropTypes.number.isRequired,
-    startTime: PropTypes.number.isRequired,
-    from: PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      vehicleRentalStation: PropTypes.shape({
-        vehiclesAvailable: PropTypes.number.isRequired,
-        network: PropTypes.string.isRequired,
-      }),
-      stop: PropTypes.object,
-    }),
-    to: PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      stop: PropTypes.object,
-    }).isRequired,
-    mode: PropTypes.string.isRequired,
-    rentedBike: PropTypes.bool.isRequired,
-  }),
+  leg: legShape.isRequired,
+  bicycleWalkLeg: legShape,
   index: PropTypes.number.isRequired,
   focusAction: PropTypes.func.isRequired,
   focusToLeg: PropTypes.func.isRequired,
 };
 
-BicycleLeg.contextTypes = {
-  config: PropTypes.object.isRequired,
-  intl: intlShape.isRequired,
+BicycleLeg.defaultProps = {
+  bicycleWalkLeg: undefined,
 };
 
-export default BicycleLeg;
+BicycleLeg.contextTypes = {
+  config: configShape.isRequired,
+  intl: intlShape.isRequired,
+};

@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
 import { intlShape } from 'react-intl';
+import { configShape } from '../util/shapes';
 import { getDialogState, setDialogState } from '../store/localStorage';
 
 import Icon from './Icon';
@@ -91,10 +92,11 @@ RouteNotification.propTypes = {
 
 RouteNotification.defaultProps = {
   link: '',
+  closeButtonLabel: undefined,
 };
 
 RouteNotification.contextTypes = {
-  config: PropTypes.object.isRequired,
+  config: configShape.isRequired,
   intl: intlShape.isRequired,
 };
 

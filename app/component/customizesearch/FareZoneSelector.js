@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import uniqBy from 'lodash/uniqBy';
 import { intlShape } from 'react-intl';
+import { configShape } from '../../util/shapes';
 import SearchSettingsDropdown from './SearchSettingsDropdown';
 import { addAnalyticsEvent } from '../../util/analyticsUtils';
 import { saveRoutingSettings } from '../../action/SearchSettingsActions';
@@ -13,7 +14,7 @@ class FareZoneSelector extends React.Component {
   };
 
   static contextTypes = {
-    config: PropTypes.object.isRequired,
+    config: configShape.isRequired,
     intl: intlShape.isRequired,
     executeAction: PropTypes.func.isRequired,
   };

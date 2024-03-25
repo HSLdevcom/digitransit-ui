@@ -4,6 +4,7 @@ import { matchShape, routerShape } from 'found';
 import debounce from 'lodash/debounce';
 import { connectToStores } from 'fluxible-addons-react';
 import Datetimepicker from '@digitransit-component/digitransit-component-datetimepicker';
+import { configShape } from '../util/shapes';
 import { replaceQueryParams } from '../util/queryUtils';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 
@@ -16,7 +17,7 @@ function DatetimepickerContainer(
 
   const setParams = debounce((time, arriveBy, setTime) => {
     replaceQueryParams(router, match, {
-      time: time.toString(),
+      time: time?.toString(),
       arriveBy,
       setTime,
     });
@@ -130,7 +131,7 @@ DatetimepickerContainer.defaultProps = {
 DatetimepickerContainer.contextTypes = {
   router: routerShape.isRequired,
   match: matchShape.isRequired,
-  config: PropTypes.object.isRequired,
+  config: configShape.isRequired,
 };
 
 const withLang = connectToStores(

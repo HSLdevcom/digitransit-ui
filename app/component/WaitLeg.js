@@ -3,6 +3,7 @@ import React from 'react';
 import moment from 'moment';
 import Link from 'found/Link';
 import { FormattedMessage } from 'react-intl';
+import { legShape, configShape } from '../util/shapes';
 import Icon from './Icon';
 import { durationToString } from '../util/timeUtils';
 import ItineraryMapAction from './ItineraryMapAction';
@@ -84,20 +85,7 @@ WaitLeg.propTypes = {
   index: PropTypes.number.isRequired,
   children: PropTypes.node,
   waitTime: PropTypes.number.isRequired,
-  leg: PropTypes.shape({
-    from: PropTypes.shape({
-      stop: PropTypes.shape({
-        gtfsId: PropTypes.string.isRequired,
-        platformCode: PropTypes.string,
-      }),
-    }),
-    to: PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      stop: PropTypes.shape({
-        gtfsId: PropTypes.string.isRequired,
-      }),
-    }).isRequired,
-  }).isRequired,
+  leg: legShape.isRequired,
 };
 
 WaitLeg.defaultProps = {
@@ -105,7 +93,7 @@ WaitLeg.defaultProps = {
 };
 
 WaitLeg.contextTypes = {
-  config: PropTypes.object.isRequired,
+  config: configShape.isRequired,
 };
 
 export default WaitLeg;

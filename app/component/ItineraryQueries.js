@@ -46,7 +46,6 @@ export const planQuery = graphql`
         inputField
       }
       ...ItineraryListContainer_plan
-      ...ItineraryDetails_plan
       itineraries {
         startTime
         endTime
@@ -152,7 +151,6 @@ export const alternativeQuery = graphql`
       arriveBy: $arriveBy
     ) @include(if: $shouldMakeWalkQuery) {
       ...ItineraryListContainer_plan
-      ...ItineraryDetails_plan
       itineraries {
         walkDistance
         duration
@@ -182,7 +180,6 @@ export const alternativeQuery = graphql`
       optimize: $optimize
     ) @include(if: $shouldMakeBikeQuery) {
       ...ItineraryListContainer_plan
-      ...ItineraryDetails_plan
       itineraries {
         duration
         startTime
@@ -218,7 +215,6 @@ export const alternativeQuery = graphql`
       unpreferred: $unpreferred
     ) @include(if: $showBikeAndPublicItineraries) {
       ...ItineraryListContainer_plan
-      ...ItineraryDetails_plan
       itineraries {
         duration
         startTime
@@ -273,7 +269,6 @@ export const alternativeQuery = graphql`
       unpreferred: $unpreferred
     ) @include(if: $showBikeAndParkItineraries) {
       ...ItineraryListContainer_plan
-      ...ItineraryDetails_plan
       itineraries {
         duration
         startTime
@@ -334,7 +329,6 @@ export const alternativeQuery = graphql`
       unpreferred: $unpreferred
     ) @include(if: $shouldMakeCarQuery) {
       ...ItineraryListContainer_plan
-      ...ItineraryDetails_plan
       itineraries {
         duration
         startTime
@@ -395,7 +389,6 @@ export const alternativeQuery = graphql`
       unpreferred: $unpreferred
     ) @include(if: $shouldMakeParkRideQuery) {
       ...ItineraryListContainer_plan
-      ...ItineraryDetails_plan
       itineraries {
         duration
         startTime

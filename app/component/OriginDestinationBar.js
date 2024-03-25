@@ -5,6 +5,7 @@ import { intlShape } from 'react-intl';
 import { matchShape, routerShape } from 'found';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import DTAutosuggestPanel from '@digitransit-component/digitransit-component-autosuggest-panel';
+import { configShape, locationStateShape, locationShape } from '../util/shapes';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import withSearchContext from './WithSearchContext';
 import {
@@ -13,7 +14,6 @@ import {
   onLocationPopup,
 } from '../util/queryUtils';
 import { getIntermediatePlaces, locationToOTP } from '../util/otpStrings';
-import { dtLocationShape } from '../util/shapes';
 import { setViaPoints } from '../action/ViaPointActions';
 import { LightenDarkenColor } from '../util/colorUtils';
 import { getRefPoint } from '../util/apiUtils';
@@ -25,13 +25,13 @@ const DTAutosuggestPanelWithSearchContext =
 class OriginDestinationBar extends React.Component {
   static propTypes = {
     className: PropTypes.string,
-    origin: dtLocationShape.isRequired,
-    destination: dtLocationShape.isRequired,
+    origin: locationShape.isRequired,
+    destination: locationShape.isRequired,
     language: PropTypes.string,
     isMobile: PropTypes.bool,
     showFavourites: PropTypes.bool.isRequired,
-    viaPoints: PropTypes.arrayOf(PropTypes.object),
-    locationState: dtLocationShape.isRequired,
+    viaPoints: PropTypes.arrayOf(locationShape),
+    locationState: locationStateShape.isRequired,
     modeSet: PropTypes.string,
   };
 
@@ -41,7 +41,7 @@ class OriginDestinationBar extends React.Component {
     getStore: PropTypes.func.isRequired,
     executeAction: PropTypes.func.isRequired,
     match: matchShape.isRequired,
-    config: PropTypes.object.isRequired,
+    config: configShape.isRequired,
   };
 
   static defaultProps = {

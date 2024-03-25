@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { routerShape, matchShape } from 'found';
 import { intlShape } from 'react-intl';
+import { configShape } from '../util/shapes';
 import Icon from './Icon';
 
 export default class BackButton extends React.Component {
@@ -9,7 +10,7 @@ export default class BackButton extends React.Component {
     intl: intlShape.isRequired,
     router: routerShape,
     match: matchShape,
-    config: PropTypes.object,
+    config: configShape,
   };
 
   static propTypes = {
@@ -18,7 +19,6 @@ export default class BackButton extends React.Component {
     iconClassName: PropTypes.string,
     title: PropTypes.node,
     titleClassName: PropTypes.string,
-    titleCustomStyle: PropTypes.object,
     className: PropTypes.string,
     onBackBtnClick: PropTypes.func,
     fallback: PropTypes.string,
@@ -30,9 +30,9 @@ export default class BackButton extends React.Component {
     iconClassName: '',
     title: undefined,
     titleClassName: undefined,
-    titleCustomStyle: undefined,
     className: 'back-button',
     fallback: undefined,
+    onBackBtnClick: undefined,
   };
 
   goBack = url => {
@@ -75,20 +75,11 @@ export default class BackButton extends React.Component {
     }
     return (
       <div className={this.props.className} style={{ display: 'flex' }}>
-        {this.props.title &&
-          !this.props.titleClassName &&
-          !this.props.titleCustomStyle && (
-            <h1 className="h1">{this.props.title}</h1>
-          )}
-        {this.props.title &&
-          this.props.titleClassName &&
-          !this.props.titleCustomStyle && (
-            <span className={this.props.titleClassName}>
-              {this.props.title}
-            </span>
-          )}
-        {this.props.title && this.props.titleCustomStyle && (
-          <span style={this.props.titleCustomStyle}>{this.props.title}</span>
+        {this.props.title && !this.props.titleClassName && (
+          <h1 className="h1">{this.props.title}</h1>
+        )}
+        {this.props.title && this.props.titleClassName && (
+          <span className={this.props.titleClassName}>{this.props.title}</span>
         )}
         <button
           type="button"

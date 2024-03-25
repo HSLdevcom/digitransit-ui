@@ -15,6 +15,7 @@ LocalTime.displayName = 'LocalTime';
 
 LocalTime.propTypes = {
   forceUtc: PropTypes.bool,
+  // eslint-disable-next-line
   time: PropTypes.oneOfType([PropTypes.object, PropTypes.number]).isRequired,
 };
 

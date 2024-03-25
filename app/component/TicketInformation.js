@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
 import { v4 as uuid } from 'uuid';
+import { configShape, fareShape, legShape } from '../util/shapes';
 import { renderZoneTicket } from './ZoneTicket';
 import Icon from './Icon';
 import { getAlternativeFares } from '../util/fareUtils';
-import { FareShape } from '../util/shapes';
 
 export default function TicketInformation(
   { fares, zones, legs },
@@ -100,8 +100,8 @@ export default function TicketInformation(
 }
 
 TicketInformation.propTypes = {
-  legs: PropTypes.arrayOf(PropTypes.object),
-  fares: PropTypes.arrayOf(FareShape),
+  legs: PropTypes.arrayOf(legShape),
+  fares: PropTypes.arrayOf(fareShape),
   zones: PropTypes.arrayOf(PropTypes.string),
 };
 
@@ -112,7 +112,7 @@ TicketInformation.defaultProps = {
 };
 
 TicketInformation.contextTypes = {
-  config: PropTypes.object,
+  config: configShape,
   intl: intlShape.isRequired,
 };
 

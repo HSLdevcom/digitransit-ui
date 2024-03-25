@@ -6,7 +6,7 @@ import { FormattedMessage } from 'react-intl';
 import Icon from './Icon';
 import { durationToString } from '../util/timeUtils';
 
-function Duration(props) {
+export default function Duration(props) {
   const timeOptions = {
     hour: 'numeric',
     minute: 'numeric',
@@ -69,9 +69,8 @@ Duration.propTypes = {
   multiRow: PropTypes.bool,
 };
 
-Duration.defaultTypes = {
+Duration.defaultProps = {
+  className: '',
   futureText: '',
   multiRow: false,
 };
-
-export default Duration;

@@ -1968,11 +1968,11 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digitransit-component/digitransit-component-autosuggest-panel@^3.0.6, @digitransit-component/digitransit-component-autosuggest-panel@workspace:digitransit-component/packages/digitransit-component-autosuggest-panel":
+"@digitransit-component/digitransit-component-autosuggest-panel@^3.0.7, @digitransit-component/digitransit-component-autosuggest-panel@workspace:digitransit-component/packages/digitransit-component-autosuggest-panel":
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-autosuggest-panel@workspace:digitransit-component/packages/digitransit-component-autosuggest-panel"
   peerDependencies:
-    "@digitransit-component/digitransit-component-autosuggest": ^2.0.6
+    "@digitransit-component/digitransit-component-autosuggest": ^2.0.7
     "@digitransit-component/digitransit-component-icon": ^1.0.1
     "@hsl-fi/sass": ^0.2.0
     classnames: 2.2.6
@@ -1988,7 +1988,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digitransit-component/digitransit-component-autosuggest@^2.0.6, @digitransit-component/digitransit-component-autosuggest@workspace:digitransit-component/packages/digitransit-component-autosuggest":
+"@digitransit-component/digitransit-component-autosuggest@^2.0.7, @digitransit-component/digitransit-component-autosuggest@workspace:digitransit-component/packages/digitransit-component-autosuggest":
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-autosuggest@workspace:digitransit-component/packages/digitransit-component-autosuggest"
   dependencies:
@@ -1999,7 +1999,7 @@ __metadata:
   peerDependencies:
     "@digitransit-component/digitransit-component-dialog-modal": ^0.3.5
     "@digitransit-component/digitransit-component-icon": ^1.0.1
-    "@digitransit-component/digitransit-component-suggestion-item": ^2.0.4
+    "@digitransit-component/digitransit-component-suggestion-item": ^2.0.5
     "@hsl-fi/sass": ^0.2.0
     classnames: 2.2.6
     i18next: ^19.3.3
@@ -2123,7 +2123,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digitransit-component/digitransit-component-suggestion-item@^2.0.4, @digitransit-component/digitransit-component-suggestion-item@workspace:digitransit-component/packages/digitransit-component-suggestion-item":
+"@digitransit-component/digitransit-component-suggestion-item@^2.0.5, @digitransit-component/digitransit-component-suggestion-item@workspace:digitransit-component/packages/digitransit-component-suggestion-item":
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-suggestion-item@workspace:digitransit-component/packages/digitransit-component-suggestion-item"
   dependencies:
@@ -2166,14 +2166,14 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component@workspace:digitransit-component/packages/digitransit-component"
   dependencies:
-    "@digitransit-component/digitransit-component-autosuggest": ^2.0.6
-    "@digitransit-component/digitransit-component-autosuggest-panel": ^3.0.6
+    "@digitransit-component/digitransit-component-autosuggest": ^2.0.7
+    "@digitransit-component/digitransit-component-autosuggest-panel": ^3.0.7
     "@digitransit-component/digitransit-component-control-panel": ^1.1.7
     "@digitransit-component/digitransit-component-favourite-bar": 2.0.4
     "@digitransit-component/digitransit-component-favourite-editing-modal": ^2.0.1
     "@digitransit-component/digitransit-component-favourite-modal": ^1.0.5
     "@digitransit-component/digitransit-component-icon": ^1.0.1
-    "@digitransit-component/digitransit-component-suggestion-item": ^2.0.4
+    "@digitransit-component/digitransit-component-suggestion-item": ^2.0.5
     "@digitransit-component/digitransit-component-with-breakpoint": ^0.0.5
   peerDependencies:
     "@digitransit-component/digitransit-component-dialog-modal": ^0.3.5
@@ -5246,6 +5246,62 @@ __metadata:
   version: 0.1.1
   resolution: "@pkgr/core@npm:0.1.1"
   checksum: 6f25fd2e3008f259c77207ac9915b02f1628420403b2630c92a07ff963129238c9262afc9e84344c7a23b5cc1f3965e2cd17e3798219f5fd78a63d144d3cceba
+  languageName: node
+  linkType: hard
+
+"@redis/bloom@npm:1.2.0":
+  version: 1.2.0
+  resolution: "@redis/bloom@npm:1.2.0"
+  peerDependencies:
+    "@redis/client": ^1.0.0
+  checksum: 8c214227287d6b278109098bca00afc601cf84f7da9c6c24f4fa7d3854b946170e5893aa86ed607ba017a4198231d570541c79931b98b6d50b262971022d1d6c
+  languageName: node
+  linkType: hard
+
+"@redis/client@npm:1.5.14":
+  version: 1.5.14
+  resolution: "@redis/client@npm:1.5.14"
+  dependencies:
+    cluster-key-slot: 1.1.2
+    generic-pool: 3.9.0
+    yallist: 4.0.0
+  checksum: f401997c6df92055c1a59385ed2fed7ee9295860f39935821107ea2570f76168dd1b25b71a3b37b9bbfaba26a9d18080d6bcd101a4bfc3852f72cc20576c6e7d
+  languageName: node
+  linkType: hard
+
+"@redis/graph@npm:1.1.1":
+  version: 1.1.1
+  resolution: "@redis/graph@npm:1.1.1"
+  peerDependencies:
+    "@redis/client": ^1.0.0
+  checksum: caf9b9a3ff82a08ae543c356a3fed548399ae79aba5ed08ce6cf1b522b955eb5cee4406b0ed0c6899345f8fbc06dfd6cd51304ae8422c3ebbc468f53294dc509
+  languageName: node
+  linkType: hard
+
+"@redis/json@npm:1.0.6":
+  version: 1.0.6
+  resolution: "@redis/json@npm:1.0.6"
+  peerDependencies:
+    "@redis/client": ^1.0.0
+  checksum: 9fda29abc339c72593f34a23f8023b715c1f8f3d73f7c59889af02f25589bac2ad57073ad08d0b8da42cd8c258665a7b38d39e761e92945cc27aca651c8a93a5
+  languageName: node
+  linkType: hard
+
+"@redis/search@npm:1.1.6":
+  version: 1.1.6
+  resolution: "@redis/search@npm:1.1.6"
+  peerDependencies:
+    "@redis/client": ^1.0.0
+  checksum: 0d87e6a9e40e62e46064ccfccca9a5ba7ce608890740415008acb1e83a02690edf37ac1ee878bcc0702d30a2eeba7776e7b467b71f87d8e7b278f38637161e16
+  languageName: node
+  linkType: hard
+
+"@redis/time-series@npm:1.0.5":
+  version: 1.0.5
+  resolution: "@redis/time-series@npm:1.0.5"
+  peerDependencies:
+    "@redis/client": ^1.0.0
+  checksum: 6bbdb0b793dcbd13518aa60a09a980f953554e4c745bfacc1611baa8098f360e0378e8ee6b7faf600a67f1de83f4b68bbec6f95a0740faee6164c14be3a30752
   languageName: node
   linkType: hard
 
@@ -9013,6 +9069,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"cluster-key-slot@npm:1.1.2":
+  version: 1.1.2
+  resolution: "cluster-key-slot@npm:1.1.2"
+  checksum: be0ad2d262502adc998597e83f9ded1b80f827f0452127c5a37b22dfca36bab8edf393f7b25bb626006fb9fb2436106939ede6d2d6ecf4229b96a47f27edd681
+  languageName: node
+  linkType: hard
+
 "co@npm:^4.6.0":
   version: 4.6.0
   resolution: "co@npm:4.6.0"
@@ -9422,10 +9485,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"connect-redis@npm:5.0.0":
-  version: 5.0.0
-  resolution: "connect-redis@npm:5.0.0"
-  checksum: 0eca205a42b68842c6b461d3cb51bde2cbc99984a0af51e99701f07a55209f3f60e1e34dd6d6cc81aa4fd462cd2d9881bf9b2f44ca3bbcd4b496514822a5e585
+"connect-redis@npm:7.1.1":
+  version: 7.1.1
+  resolution: "connect-redis@npm:7.1.1"
+  peerDependencies:
+    express-session: ">=1"
+  checksum: ac91ee818d0f467866b6982f66b3423fee58de9da3562618f6d1df2ddeea426354c1efe70b3f799be1b52e3cc67f2043b9ae203678fd3ff9db5dff44b078f0ca
   languageName: node
   linkType: hard
 
@@ -11004,7 +11069,7 @@ __metadata:
     chai: 4.3.7
     classnames: 2.2.6
     compression-webpack-plugin: 5.0.2
-    connect-redis: 5.0.0
+    connect-redis: 7.1.1
     cookie-parser: 1.4.5
     copy-webpack-plugin: 6.1.0
     css-loader: ^5.2.7
@@ -11105,7 +11170,7 @@ __metadata:
     react-swipe: 6.0.4
     react-truncate-markup: 5.1.0
     recompose: 0.30.0
-    redis: 2.8.0
+    redis: 4.6.13
     relay-compiler: 16.2.0
     relay-runtime: 16.2.0
     rollup: 2.35.1
@@ -11449,13 +11514,6 @@ __metadata:
     find-up: ^3.0.0
     minimatch: ^3.0.4
   checksum: 67589446765ddc25539f414b7649442a649f047343030342f309ba69172beb916b9e54feb7d552db422111265f9e93344f31b5697e8e6c81ffc13d33c0d910a0
-  languageName: node
-  linkType: hard
-
-"double-ended-queue@npm:^2.1.0-0":
-  version: 2.1.0-0
-  resolution: "double-ended-queue@npm:2.1.0-0"
-  checksum: 3030cf9dcf6f8e7d8cb6ae5b7304890445d7c32233a614e400ba7b378086ad76f5822d0e501afd5ffe0af1de4bcb842fa23d4c79174d54f6566399435fafc271
   languageName: node
   linkType: hard
 
@@ -13828,6 +13886,13 @@ __metadata:
   dependencies:
     loader-utils: ^3.2.0
   checksum: 8dabd2505164191501b75f2861b5e1194458a344ae2a7c9776bdd72d1f50b248dff737bcdf118fff677275edb3632f2d10662e6ac122dd7b245c5baa8d303270
+  languageName: node
+  linkType: hard
+
+"generic-pool@npm:3.9.0":
+  version: 3.9.0
+  resolution: "generic-pool@npm:3.9.0"
+  checksum: 3d89e9b2018d2e3bbf44fec78c76b2b7d56d6a484237aa9daf6ff6eedb14b0899dadd703b5d810219baab2eb28e5128fb18b29e91e602deb2eccac14492d8ca8
   languageName: node
   linkType: hard
 
@@ -23899,28 +23964,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"redis-commands@npm:^1.2.0":
-  version: 1.7.0
-  resolution: "redis-commands@npm:1.7.0"
-  checksum: d1ff7fbcb5e54768c77f731f1d49679d2a62c3899522c28addb4e2e5813aea8bcac3f22519d71d330224c3f2937f935dfc3d8dc65e90db0f5fe22dc2c1515aa7
-  languageName: node
-  linkType: hard
-
-"redis-parser@npm:^2.6.0":
-  version: 2.6.0
-  resolution: "redis-parser@npm:2.6.0"
-  checksum: 8d4936875e39d56a951e0bbb6653b4da1f7fdd727552c89561c3c78e7ffeb9c3e8820a78454e939b74d1ba20996d62ac179b4fc39d07340d10f8d52740399422
-  languageName: node
-  linkType: hard
-
-"redis@npm:2.8.0":
-  version: 2.8.0
-  resolution: "redis@npm:2.8.0"
+"redis@npm:4.6.13":
+  version: 4.6.13
+  resolution: "redis@npm:4.6.13"
   dependencies:
-    double-ended-queue: ^2.1.0-0
-    redis-commands: ^1.2.0
-    redis-parser: ^2.6.0
-  checksum: e44dc50a9a92ede2c95b3166482a4b04373853fdbb72ab138e834b868a3cd446798742fc0f85de2d5e442f9c86f58e1250637ea71af3ad5527478d05ef430079
+    "@redis/bloom": 1.2.0
+    "@redis/client": 1.5.14
+    "@redis/graph": 1.1.1
+    "@redis/json": 1.0.6
+    "@redis/search": 1.1.6
+    "@redis/time-series": 1.0.5
+  checksum: 10150ec30f1f89e47cec41c27dc77a99c78a0b078735de4fc9b79c2a779787d52274c64c52004af161b95b9729067671a4cfca95257719968accb30057856a09
   languageName: node
   linkType: hard
 
@@ -29273,6 +29327,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"yallist@npm:4.0.0, yallist@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "yallist@npm:4.0.0"
+  checksum: 343617202af32df2a15a3be36a5a8c0c8545208f3d3dfbc6bb7c3e3b7e8c6f8e7485432e4f3b88da3031a6e20afa7c711eded32ddfb122896ac5d914e75848d5
+  languageName: node
+  linkType: hard
+
 "yallist@npm:^2.1.2":
   version: 2.1.2
   resolution: "yallist@npm:2.1.2"
@@ -29284,13 +29345,6 @@ __metadata:
   version: 3.1.1
   resolution: "yallist@npm:3.1.1"
   checksum: 48f7bb00dc19fc635a13a39fe547f527b10c9290e7b3e836b9a8f1ca04d4d342e85714416b3c2ab74949c9c66f9cebb0473e6bc353b79035356103b47641285d
-  languageName: node
-  linkType: hard
-
-"yallist@npm:^4.0.0":
-  version: 4.0.0
-  resolution: "yallist@npm:4.0.0"
-  checksum: 343617202af32df2a15a3be36a5a8c0c8545208f3d3dfbc6bb7c3e3b7e8c6f8e7485432e4f3b88da3031a6e20afa7c711eded32ddfb122896ac5d914e75848d5
   languageName: node
   linkType: hard
 

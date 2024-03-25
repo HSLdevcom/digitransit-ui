@@ -9,6 +9,7 @@ import { PREFIX_BIKESTATIONS } from '../util/path';
 import { isKeyboardSelectionEvent } from '../util/browser';
 import { hasStationCode } from '../util/vehicleRentalUtils';
 import { getIdWithoutFeed } from '../util/feedScopedIdUtils';
+import { relayShape } from '../util/shapes';
 
 const VehicleRentalStationNearYou = ({
   stop,
@@ -84,7 +85,7 @@ VehicleRentalStationNearYou.propTypes = {
   }).isRequired,
   currentTime: PropTypes.number,
   currentMode: PropTypes.string,
-  relay: PropTypes.any.isRequired,
+  relay: relayShape.isRequired,
 };
 
 VehicleRentalStationNearYou.defaultProps = {

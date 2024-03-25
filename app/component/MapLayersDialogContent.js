@@ -4,6 +4,7 @@ import React, { Fragment } from 'react';
 import { intlShape } from 'react-intl';
 import { matchShape, routerShape } from 'found';
 import connectToStores from 'fluxible-addons-react/connectToStores';
+import { configShape, mapLayerOptionsShape } from '../util/shapes';
 import { isKeyboardSelectionEvent } from '../util/browser';
 import Icon from './Icon';
 import Checkbox from './Checkbox';
@@ -12,42 +13,43 @@ import MapLayerStore, { mapLayerShape } from '../store/MapLayerStore';
 import { updateMapLayers } from '../action/MapLayerActions';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import withGeojsonObjects from './map/withGeojsonObjects';
-import { mapLayerOptionsShape } from '../util/shapes';
 import { getTransportModes, showCityBikes } from '../util/modeUtils';
 
-const transportModeConfigShape = PropTypes.shape({
+const transportModeconfigShape = PropTypes.shape({
   availableForSelection: PropTypes.bool,
 });
 
-const mapLayersConfigShape = PropTypes.shape({
+const geoJsonConfigShape = PropTypes.shape({
+  layers: PropTypes.arrayOf(
+    PropTypes.shape({
+      url: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.arrayOf(PropTypes.string),
+      ]).isRequired,
+      name: PropTypes.shape({
+        en: PropTypes.string,
+        fi: PropTypes.string.isRequired,
+        sv: PropTypes.string,
+      }),
+    }),
+  ),
+});
+
+const mapLayersconfigShape = PropTypes.shape({
   cityBike: PropTypes.shape({
     networks: PropTypes.object,
   }),
-  geoJson: PropTypes.shape({
-    layers: PropTypes.arrayOf(
-      PropTypes.shape({
-        url: PropTypes.oneOfType([
-          PropTypes.string,
-          PropTypes.arrayOf(PropTypes.string),
-        ]).isRequired,
-        name: PropTypes.shape({
-          en: PropTypes.string,
-          fi: PropTypes.string.isRequired,
-          sv: PropTypes.string,
-        }),
-      }),
-    ),
-  }),
+  geoJson: geoJsonConfigShape,
   parkAndRide: PropTypes.shape({
     showParkAndRide: PropTypes.bool,
   }),
   transportModes: PropTypes.shape({
-    bus: transportModeConfigShape,
-    citybike: transportModeConfigShape,
-    ferry: transportModeConfigShape,
-    rail: transportModeConfigShape,
-    subway: transportModeConfigShape,
-    tram: transportModeConfigShape,
+    bus: transportModeconfigShape,
+    citybike: transportModeconfigShape,
+    ferry: transportModeconfigShape,
+    rail: transportModeconfigShape,
+    subway: transportModeconfigShape,
+    tram: transportModeconfigShape,
   }),
   mapLayers: PropTypes.shape({
     tooltip: PropTypes.shape({
@@ -73,14 +75,15 @@ class MapLayersDialogContent extends React.Component {
     mapLayers: mapLayerShape.isRequired,
     mapLayerOptions: mapLayerOptionsShape,
     setOpen: PropTypes.func.isRequired,
-    updateMapLayers: PropTypes.func,
+    updateMapLayers: PropTypes.func.isRequired,
     lang: PropTypes.string.isRequired,
     open: PropTypes.bool.isRequired,
-    geoJson: PropTypes.object,
+    geoJson: geoJsonConfigShape,
   };
 
   static defaultProps = {
     mapLayerOptions: null,
+    geoJson: undefined,
   };
 
   handlePanelState(open) {
@@ -272,7 +275,7 @@ class MapLayersDialogContent extends React.Component {
   }
 }
 MapLayersDialogContent.contextTypes = {
-  config: PropTypes.object.isRequired,
+  config: configShape.isRequired,
   intl: intlShape.isRequired,
   router: routerShape.isRequired,
   match: matchShape.isRequired,
@@ -292,10 +295,7 @@ export const getGeoJsonLayersOrDefault = (
   defaultValue = undefined,
 ) => {
   return (
-    (config &&
-      config.geoJson &&
-      Array.isArray(config.geoJson.layers) &&
-      config.geoJson.layers) ||
+    (Array.isArray(config.geoJson?.layers) && config.geoJson.layers) ||
     (store && Array.isArray(store.layers) && store.layers) ||
     defaultValue
   );
@@ -316,7 +316,7 @@ const connectedComponent = connectToStores(
     lang: getStore('PreferencesStore').getLanguage(),
   }),
   {
-    config: mapLayersConfigShape,
+    config: mapLayersconfigShape,
     executeAction: PropTypes.func,
   },
 );

@@ -1,9 +1,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
+import { configShape } from '../util/shapes';
 import Icon from './Icon';
 
-const SelectFromMapHeaderComponent = (props, { config, intl }) => {
+export default function SelectFromMapHeaderComponent(props, { config, intl }) {
   const title =
     props.titleId !== undefined
       ? intl.formatMessage({
@@ -22,6 +23,7 @@ const SelectFromMapHeaderComponent = (props, { config, intl }) => {
   return (
     <div className="select-from-map-nav-container">
       <button
+        type="button"
         className={`from-map-modal-nav-button ${backBtnCursorPointerClassName}`}
         onClick={props.hideBackBtn ? undefined : props.onBackBtnClick}
         aria-label={intl.formatMessage({
@@ -37,16 +39,14 @@ const SelectFromMapHeaderComponent = (props, { config, intl }) => {
           />
         )}
       </button>
-      {title && !props.titleClassName && !props.titleCustomStyle && (
+      {title && !props.titleClassName && (
         <div className="select-from-map-nav-title">{title}</div>
       )}
-      {title && props.titleClassName && !props.titleCustomStyle && (
+      {title && props.titleClassName && (
         <span className={props.titleClassName}>{title}</span>
       )}
-      {title && props.titleCustomStyle && (
-        <span style={props.titleCustomStyle}>{title}</span>
-      )}
       <button
+        type="button"
         className={`from-map-modal-nav-button ${closeBtnCursorPointerClassName}`}
         onClick={props.hideCloseBtn ? undefined : props.onCloseBtnClick}
         aria-label={intl.formatMessage({
@@ -64,7 +64,7 @@ const SelectFromMapHeaderComponent = (props, { config, intl }) => {
       </button>
     </div>
   );
-};
+}
 
 SelectFromMapHeaderComponent.propTypes = {
   titleId: PropTypes.string,
@@ -75,7 +75,6 @@ SelectFromMapHeaderComponent.propTypes = {
   hideBackBtn: PropTypes.bool,
   hideCloseBtn: PropTypes.bool,
   titleClassName: PropTypes.string,
-  titleCustomStyle: PropTypes.string,
   iconClassName: PropTypes.string,
 };
 
@@ -83,11 +82,15 @@ SelectFromMapHeaderComponent.defaultProps = {
   titleId: undefined,
   backBtnIcon: 'icon-icon_arrow-left',
   closeBtnIcon: 'icon-icon_close',
+  onBackBtnClick: PropTypes.func,
+  onCloseBtnClick: PropTypes.func,
+  hideBackBtn: false,
+  hideCloseBtn: false,
+  titleClassName: undefined,
+  iconClassName: undefined,
 };
 
 SelectFromMapHeaderComponent.contextTypes = {
-  config: PropTypes.object.isRequired,
+  config: configShape.isRequired,
   intl: intlShape.isRequired,
 };
-
-export default SelectFromMapHeaderComponent;

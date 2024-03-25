@@ -2,8 +2,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { withLeaflet } from 'react-leaflet/es/context';
 import polyUtil from 'polyline-encoded';
-
 import { intlShape } from 'react-intl';
+import { configShape, legShape } from '../../../util/shapes';
 import { isBrowser } from '../../../util/browser';
 import { getMiddleOf } from '../../../util/geo-utils';
 import LegMarker from './LegMarker';
@@ -115,7 +115,7 @@ const getSpeechBubbleStyle = (position, pixelPositions) => {
 
 class TransitLegMarkers extends React.Component {
   static propTypes = {
-    transitLegs: PropTypes.arrayOf(PropTypes.object).isRequired,
+    transitLegs: PropTypes.arrayOf(legShape).isRequired,
     leaflet: PropTypes.shape({
       map: PropTypes.shape({
         latLngToLayerPoint: PropTypes.func.isRequired,
@@ -126,7 +126,7 @@ class TransitLegMarkers extends React.Component {
   };
 
   static contextTypes = {
-    config: PropTypes.object.isRequired,
+    config: configShape.isRequired,
     intl: intlShape.isRequired,
   };
 

@@ -5,6 +5,7 @@ import moment from 'moment';
 import React from 'react';
 import Icon from './Icon';
 import { isKeyboardSelectionEvent } from '../util/browser';
+import { legShape } from '../util/shapes';
 
 export default function AlternativeLegsInfo({
   legs,
@@ -130,7 +131,7 @@ export default function AlternativeLegsInfo({
 }
 
 AlternativeLegsInfo.propTypes = {
-  legs: PropTypes.arrayOf(PropTypes.object).isRequired,
+  legs: PropTypes.arrayOf(legShape).isRequired,
   showAlternativeLegs: PropTypes.bool.isRequired,
   toggle: PropTypes.func.isRequired,
 };

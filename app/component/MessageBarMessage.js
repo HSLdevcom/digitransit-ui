@@ -1,15 +1,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-
+import { configShape } from '../util/shapes';
 import TruncatedMessage from './TruncatedMessage';
 
-const MessageBarMessage = ({
-  content,
-  textColor,
-  truncate,
-  onShowMore,
-  config,
-}) => {
+export default function MessageBarMessage(
+  { content, textColor, truncate, onShowMore },
+  { config },
+) {
   const heading = (e, color) => {
     if (config.showAlertHeader && e?.type === 'heading') {
       return <h2 style={{ color }}>{e.content}</h2>;
@@ -64,14 +61,21 @@ const MessageBarMessage = ({
       )}
     </div>
   );
-};
+}
 
 MessageBarMessage.propTypes = {
-  content: PropTypes.arrayOf(PropTypes.object),
+  // eslint-disable-next-line
+  content: PropTypes.arrayOf(PropTypes.object).isRequired,
   textColor: PropTypes.string,
   truncate: PropTypes.bool,
-  onShowMore: PropTypes.func,
-  config: PropTypes.object,
+  onShowMore: PropTypes.func.isRequired,
 };
 
-export default MessageBarMessage;
+MessageBarMessage.defaultProps = {
+  textColor: undefined,
+  truncate: false,
+};
+
+MessageBarMessage.contextTypes = {
+  config: configShape.isRequired,
+};

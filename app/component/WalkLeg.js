@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
 import Link from 'found/Link';
+import { legShape, configShape } from '../util/shapes';
 import Icon from './Icon';
 import ItineraryMapAction from './ItineraryMapAction';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
@@ -11,7 +12,6 @@ import PlatformNumber from './PlatformNumber';
 import ServiceAlertIcon from './ServiceAlertIcon';
 import { getActiveAlertSeverityLevel } from '../util/alertUtils';
 import { PREFIX_STOPS } from '../util/path';
-import { AlertShape } from '../util/shapes';
 import {
   CityBikeNetworkType,
   getVehicleRentalStationNetworkConfig,
@@ -240,54 +240,12 @@ function WalkLeg(
   );
 }
 
-const walkLegShape = PropTypes.shape({
-  distance: PropTypes.number.isRequired,
-  duration: PropTypes.number.isRequired,
-  from: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    stop: PropTypes.shape({
-      alerts: PropTypes.arrayOf(AlertShape),
-      code: PropTypes.string,
-      gtfsId: PropTypes.string.isRequired,
-      platformCode: PropTypes.string,
-      vehicleMode: PropTypes.string,
-    }),
-    vehicleRentalStation: PropTypes.shape({
-      network: PropTypes.string,
-    }),
-    rentalVehicle: PropTypes.shape({
-      network: PropTypes.string.isRequired,
-    }),
-  }).isRequired,
-  to: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    stop: PropTypes.shape({
-      alerts: PropTypes.arrayOf(AlertShape),
-      code: PropTypes.string,
-      gtfsId: PropTypes.string.isRequired,
-      platformCode: PropTypes.string,
-      vehicleMode: PropTypes.string,
-    }),
-    vehicleRentalStation: PropTypes.shape({
-      network: PropTypes.string,
-    }),
-    rentalVehicle: PropTypes.shape({
-      network: PropTypes.string.isRequired,
-    }),
-  }).isRequired,
-  mode: PropTypes.string.isRequired,
-  rentedBike: PropTypes.bool,
-  realTime: PropTypes.bool,
-  startTime: PropTypes.number.isRequired,
-  endTime: PropTypes.number.isRequired,
-});
-
 WalkLeg.propTypes = {
   children: PropTypes.node,
   focusAction: PropTypes.func.isRequired,
   index: PropTypes.number.isRequired,
-  leg: walkLegShape.isRequired,
-  previousLeg: walkLegShape,
+  leg: legShape.isRequired,
+  previousLeg: legShape,
   focusToLeg: PropTypes.func.isRequired,
 };
 
@@ -297,7 +255,7 @@ WalkLeg.defaultProps = {
 };
 
 WalkLeg.contextTypes = {
-  config: PropTypes.object.isRequired,
+  config: configShape.isRequired,
   intl: intlShape.isRequired,
 };
 

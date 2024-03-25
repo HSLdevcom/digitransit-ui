@@ -18,12 +18,16 @@ class Slider extends React.Component {
   };
 
   static defaultProps = {
+    id: undefined,
+    className: undefined,
     min: 0,
     max: 100,
     step: 1,
     headerText: '',
     minText: '',
     maxText: '',
+    writtenValue: undefined,
+    value: undefined,
   };
 
   // eslint-disable-next-line

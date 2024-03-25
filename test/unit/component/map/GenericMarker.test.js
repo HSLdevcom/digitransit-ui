@@ -22,6 +22,7 @@ describe('<GenericMarker />', () => {
     const wrapper = shallowWithIntl(<GenericMarker {...props} />, {
       context: {
         config: {
+          CONFIG: 'default',
           map: {
             genericMarker: {
               popup: {},
@@ -52,6 +53,7 @@ describe('<GenericMarker />', () => {
     const wrapper = shallowWithIntl(<GenericMarker {...props} />, {
       context: {
         config: {
+          CONFIG: 'default',
           map: {
             genericMarker: {
               popup: {},

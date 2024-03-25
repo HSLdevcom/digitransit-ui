@@ -8,7 +8,7 @@ import VehicleIcon from './VehicleIcon';
 import TripLinkWithScroll from './TripLinkWithScroll';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
-import { VehicleShape } from '../util/shapes';
+import { vehicleShape } from '../util/shapes';
 
 function TripLink({ vehicleState, vehicle, shortName, ...rest }) {
   const { environment } = useContext(ReactRelayContext);
@@ -88,7 +88,7 @@ TripLink.propTypes = {
       code: PropTypes.string,
     }),
   }).isRequired,
-  vehicle: VehicleShape.isRequired,
+  vehicle: vehicleShape.isRequired,
   shortName: PropTypes.string,
   vehicleState: PropTypes.string,
 };

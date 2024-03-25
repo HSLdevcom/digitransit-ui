@@ -5,6 +5,7 @@ import moment from 'moment';
 import PropTypes from 'prop-types';
 import { intlShape } from 'react-intl';
 import Modal from '@hsl-fi/modal';
+import { legShape, configShape } from '../util/shapes';
 import { getRouteMode } from '../util/modeUtils';
 import RouteNumber from './RouteNumber';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
@@ -13,7 +14,7 @@ import Icon from './Icon';
 import CapacityModal from './CapacityModal';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
-const LegInfo = (
+export default function LegInfo(
   {
     leg,
     hasNoShortName,
@@ -25,7 +26,7 @@ const LegInfo = (
     tabIndex,
   },
   { config, intl },
-) => {
+) {
   const [capacityModalOpen, setCapacityModalOpen] = useState(false);
   const { constantOperationRoutes } = config;
   const shouldLinkToTrip =
@@ -79,6 +80,7 @@ const LegInfo = (
       )}
       {capacity && (
         <button
+          type="button"
           className="capacity-icon-container"
           onClick={() => setCapacityModalOpen(true)}
           aria-label={intl.formatMessage({
@@ -87,8 +89,8 @@ const LegInfo = (
           })}
         >
           <Icon
-            width="1.75"
-            height="1.75"
+            width={1.75}
+            height={1.75}
             img={`icon-icon_${capacity}`}
             color={config.colors.primary}
           />
@@ -128,12 +130,11 @@ const LegInfo = (
       </Modal>
     </div>
   );
-};
+}
 
 LegInfo.propTypes = {
-  leg: PropTypes.object.isRequired,
+  leg: legShape.isRequired,
   hasNoShortName: PropTypes.bool,
-  mode: PropTypes.string.isRequired,
   headsign: PropTypes.string.isRequired,
   alertSeverityLevel: PropTypes.string,
   isAlternativeLeg: PropTypes.bool.isRequired,
@@ -145,11 +146,11 @@ LegInfo.propTypes = {
 LegInfo.defaultProps = {
   changeHash: undefined,
   tabIndex: undefined,
+  alertSeverityLevel: undefined,
+  hasNoShortName: undefined,
 };
 
 LegInfo.contextTypes = {
   intl: intlShape.isRequired,
-  config: PropTypes.object.isRequired,
+  config: configShape.isRequired,
 };
-
-export default LegInfo;

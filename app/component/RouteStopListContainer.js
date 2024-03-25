@@ -8,30 +8,23 @@ import values from 'lodash/values';
 import cx from 'classnames';
 import { FormattedMessage } from 'react-intl';
 import moment from 'moment';
-
+import {
+  configShape,
+  relayShape,
+  vehicleShape,
+  patternShape,
+} from '../util/shapes';
 import RouteStop from './RouteStop';
 import withBreakpoint from '../util/withBreakpoint';
 import { getRouteMode } from '../util/modeUtils';
-import { VehicleShape } from '../util/shapes';
 
 class RouteStopListContainer extends React.PureComponent {
   static propTypes = {
-    pattern: PropTypes.shape({
-      route: PropTypes.shape({
-        mode: PropTypes.string,
-        type: PropTypes.number,
-        color: PropTypes.string,
-        shortName: PropTypes.string,
-      }),
-      directionId: PropTypes.number.isRequired,
-      stops: PropTypes.arrayOf(PropTypes.object).isRequired,
-    }).isRequired,
+    pattern: patternShape.isRequired,
     className: PropTypes.string,
-    vehicles: PropTypes.objectOf(VehicleShape),
+    vehicles: PropTypes.objectOf(vehicleShape),
     currentTime: PropTypes.instanceOf(moment).isRequired,
-    relay: PropTypes.shape({
-      refetch: PropTypes.func.isRequired,
-    }).isRequired,
+    relay: relayShape.isRequired,
     breakpoint: PropTypes.string.isRequired,
     hideDepartures: PropTypes.bool,
   };
@@ -39,10 +32,11 @@ class RouteStopListContainer extends React.PureComponent {
   static defaultProps = {
     className: undefined,
     vehicles: [],
+    hideDepartures: false,
   };
 
   static contextTypes = {
-    config: PropTypes.object.isRequired,
+    config: configShape.isRequired,
     match: matchShape.isRequired,
   };
 

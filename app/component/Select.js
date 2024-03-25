@@ -23,6 +23,7 @@ class Select extends React.Component {
   static defaultProps = {
     headerText: undefined,
     selected: undefined,
+    ariaLabel: undefined,
   };
 
   static getOptionTags(options) {

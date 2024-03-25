@@ -15,6 +15,7 @@ describe('<AlertRow />', () => {
     const props = {
       expired: false,
       index: 0,
+      feed: 'foo',
       entities: [
         {
           __typename: AlertEntityType.Route,
@@ -33,6 +34,7 @@ describe('<AlertRow />', () => {
       expired: false,
       description: 'Lorem ipsum',
       index: 0,
+      feed: 'foo',
       entities: [
         {
           __typename: AlertEntityType.Route,
@@ -50,6 +52,7 @@ describe('<AlertRow />', () => {
     const props = {
       expired: false,
       index: 0,
+      feed: 'foo',
       entities: [
         {
           __typename: AlertEntityType.Route,
@@ -68,6 +71,7 @@ describe('<AlertRow />', () => {
       expired: false,
       description: 'Lorem ipsum',
       index: 0,
+      feed: 'foo',
       entities: [
         {
           __typename: AlertEntityType.Route,
@@ -83,6 +87,7 @@ describe('<AlertRow />', () => {
 
   it('should render an Icon if a mode is provided, has description and the type is stop', () => {
     const props = {
+      feed: 'foo',
       entities: [
         {
           __typename: AlertEntityType.Stop,
@@ -104,6 +109,7 @@ describe('<AlertRow />', () => {
       endTime: 30,
       description: 'Lorem ipsum',
       index: 0,
+      feed: 'foo',
       entities: [
         {
           __typename: AlertEntityType.Stop,
@@ -120,6 +126,7 @@ describe('<AlertRow />', () => {
       gtfsIds: 'HSL:2097N',
       description: 'Lorem ipsum',
       index: 0,
+      feed: 'foo',
       entities: [
         {
           __typename: AlertEntityType.Route,
@@ -138,6 +145,7 @@ describe('<AlertRow />', () => {
       showLinks: true,
       description: 'Lorem ipsum',
       index: 0,
+      feed: 'foo',
       entities: [
         {
           __typename: AlertEntityType.Route,
@@ -158,6 +166,7 @@ describe('<AlertRow />', () => {
       url: 'https://www.hsl.fi',
       description: 'Liirum laarum',
       index: 0,
+      feed: 'foo',
       entities: [
         {
           __typename: AlertEntityType.Route,
@@ -176,6 +185,7 @@ describe('<AlertRow />', () => {
       severityLevel: AlertSeverityLevelType.Warning,
       description: 'Lorem ipsum',
       index: 0,
+      feed: 'foo',
       entities: [
         {
           __typename: AlertEntityType.Route,
@@ -195,6 +205,7 @@ describe('<AlertRow />', () => {
       url: 'www.hsl.fi',
       description: 'Liirum laarum',
       index: 0,
+      feed: 'foo',
       entities: [
         {
           __typename: AlertEntityType.Route,

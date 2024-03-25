@@ -3,6 +3,7 @@ import React from 'react';
 import Icon from './Icon';
 import { isBrowser } from '../util/browser';
 import RouteScheduleDropdown from './RouteScheduleDropdown';
+import { stopShape } from '../util/shapes';
 
 function RouteScheduleHeader({
   stops,
@@ -20,11 +21,8 @@ function RouteScheduleHeader({
   });
 
   const maxOptions = Object.keys(options).length;
-
   const fromOptions = options.slice(0, to > maxOptions ? maxOptions : to);
-
   const toOptions = options.slice(from + 1);
-
   const fromDisplayName = fromOptions.filter(o => o.value === from)[0].label;
   const toDisplayName = toOptions.filter(
     o => o.value === (to > maxOptions ? maxOptions : to),
@@ -80,7 +78,7 @@ function RouteScheduleHeader({
   );
 }
 RouteScheduleHeader.propTypes = {
-  stops: PropTypes.arrayOf(PropTypes.object).isRequired,
+  stops: PropTypes.arrayOf(stopShape).isRequired,
   from: PropTypes.number.isRequired,
   to: PropTypes.number.isRequired,
   onFromSelectChange: PropTypes.func.isRequired,

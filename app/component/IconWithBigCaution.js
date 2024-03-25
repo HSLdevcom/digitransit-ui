@@ -3,7 +3,12 @@ import React from 'react';
 import IconWithIcon from './IconWithIcon';
 import { AlertSeverityLevelType } from '../constants';
 
-const IconWithBigCaution = ({ alertSeverityLevel, className, color, img }) => {
+export default function IconWithBigCaution({
+  alertSeverityLevel,
+  className,
+  color,
+  img,
+}) {
   const iconType =
     alertSeverityLevel === AlertSeverityLevelType.Info
       ? 'info'
@@ -20,7 +25,7 @@ const IconWithBigCaution = ({ alertSeverityLevel, className, color, img }) => {
       subIconShape={(iconType === 'info' && 'circle') || undefined}
     />
   );
-};
+}
 
 IconWithBigCaution.displayName = 'IconWithBigCaution';
 
@@ -34,6 +39,5 @@ IconWithBigCaution.propTypes = {
 IconWithBigCaution.defaultProps = {
   alertSeverityLevel: undefined,
   className: '',
+  color: undefined,
 };
-
-export default IconWithBigCaution;
