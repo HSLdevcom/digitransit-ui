@@ -11,7 +11,7 @@ const defaultProps = {
   params: { from, to },
   location: { query: {} },
 };
-/*
+
 const config = {
   modeToOTP: {
     bus: 'BUS',
@@ -52,26 +52,38 @@ const config = {
   },
   modesWithNoBike: [],
 };
-*/
 
 describe('planParamUtil', () => {
   describe('getPlanParams', () => {
-    /*    it('should return mode defaults from config if modes are missing from the localStorage', () => {
-      const params = utils.getPlanParams(config, defaultProps);
+    it('should return mode defaults from config if modes are missing from the localStorage', () => {
+      const params = utils.getPlanParams(
+        config,
+        defaultProps,
+        utils.PLANTYPE.TRANSIT,
+      );
       const modes = params.modes.transit.transit;
       expect(modes).to.deep.equal([{ mode: 'BUS' }]);
     });
 
     it('should ignore localstorage modes if useDefaultModes is true', () => {
       setCustomizedSettings({ modes: ['BUS', 'SUBWAY'] });
-      const params = utils.getPlanParams(config, defaultProps, true);
+      const params = utils.getPlanParams(
+        config,
+        defaultProps,
+        utils.PLANTYPE.TRANSIT,
+        true,
+      );
       const modes = params.modes.transit.transit;
       expect(modes).to.deep.equal([{ mode: 'BUS' }]);
     });
-*/
+
     it('should use bikeSpeed from localStorage to find closest possible option in config', () => {
       setCustomizedSettings({ bikeSpeed: 20 });
-      const params = utils.getPlanParams(defaultConfig, defaultProps);
+      const params = utils.getPlanParams(
+        defaultConfig,
+        defaultProps,
+        utils.PLANTYPE.TRANSIT,
+      );
       const { bikeSpeed } = params;
       expect(bikeSpeed).to.equal(
         Math.max(...defaultConfig.defaultOptions.bikeSpeed),
@@ -81,31 +93,39 @@ describe('planParamUtil', () => {
     it('should contain all the default settings', () => {
       const defaultKeys = Object.keys(utils.getDefaultSettings(defaultConfig));
       const paramsKeys = Object.keys(
-        utils.getPlanParams(defaultConfig, {
-          params: { from, to },
-          location: { query: {} },
-        }),
+        utils.getPlanParams(
+          defaultConfig,
+          {
+            params: { from, to },
+            location: { query: {} },
+          },
+          utils.PLANTYPE.TRANSIT,
+        ),
       );
       const missing = defaultKeys.filter(key => !paramsKeys.includes(key));
       expect(missing).to.deep.equal([]);
     });
-    /*
+
     it('should not include CITYBIKE in bikepark modes', () => {
       setCustomizedSettings({
         modes: ['CITYBIKE', 'BUS'],
       });
-      const params = utils.getPlanParams(defaultConfig, {
-        params: {
-          from,
-          to,
+      const params = utils.getPlanParams(
+        defaultConfig,
+        {
+          params: {
+            from,
+            to,
+          },
+          location: {
+            query: {},
+          },
         },
-        location: {
-          query: {},
-        },
-      });
-      const { bikeParkModes } = params;
-      expect(bikeParkModes).to.deep.equal([{ mode: 'BUS' }]);
-    }); */
+        utils.PLANTYPE.TRANSIT,
+      );
+      const modes = params.modes.transit.transit;
+      expect(modes).to.deep.equal([{ mode: 'BUS' }]);
+    });
   });
 
   describe('getDefaultSettings', () => {
