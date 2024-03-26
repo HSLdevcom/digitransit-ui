@@ -20,6 +20,8 @@ export const PLANTYPE = {
   PARKANDRIDE: 'PARKANDRIDE',
 };
 
+const directModes = [PLANTYPE.WALK, PLANTYPE.BIKE, PLANTYPE.CAR];
+
 /**
  * Find an option nearest to the value
  *
@@ -238,9 +240,7 @@ export function getPlanParams(
       }
     });
   }
-  const directOnly = [PLANTYPE.WALK, PLANTYPE.BIKE, PLANTYPE.CAR].includes(
-    planType,
-  );
+  const directOnly = directModes.includes(planType) || otpModes.length === 0;
   const cityBike = settings.allowedBikeRentalNetworks?.length > 0;
   // set defaults
   let access = cityBike ? ['WALK', 'BICYCLE_RENTAL'] : ['WALK'];
