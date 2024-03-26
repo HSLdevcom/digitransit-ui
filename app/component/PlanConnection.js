@@ -56,14 +56,15 @@ const planConnection = graphql`
       edges {
         ...ItineraryListContainer_planEdges
         node {
+          ...ItineraryDetails_itinerary
           startTime
+          endTime
           duration
           walkDistance
-          ...ItineraryDetails_itinerary
           legs {
+            ...ItineraryLine_legs
             mode
             distance
-            ...ItineraryLine_legs
             transitLeg
             legGeometry {
               points

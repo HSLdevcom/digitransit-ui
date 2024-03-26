@@ -366,7 +366,7 @@ export default function ItineraryPage(props, context) {
     });
 
     const latestDepartureTime = edges.reduce((previous, current) => {
-      const startTime = moment(current.startTime);
+      const startTime = moment(current.node.startTime);
 
       if (previous == null) {
         return startTime;
@@ -445,7 +445,7 @@ export default function ItineraryPage(props, context) {
     });
 
     const earliestArrivalTime = edges.reduce((previous, current) => {
-      const endTime = moment(current.endTime);
+      const endTime = moment(current.node.endTime);
       if (previous == null) {
         return endTime;
       }
