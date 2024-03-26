@@ -15,7 +15,7 @@ import {
   changeRealTimeClientTopics,
 } from '../action/realTimeClientAction';
 import { getMapLayerOptions } from '../util/mapLayerUtils';
-import { getTotalBikingDistance } from '../util/legUtils';
+import { getTotalBikingDistance, compressLegs } from '../util/legUtils';
 
 /**
  * Returns the index of selected itinerary. Attempts to look for
@@ -350,7 +350,7 @@ const STREET_LEG_MODES = ['WALK', 'BICYCLE', 'CAR', 'SCOOTER'];
 /**
  * Filters away itineraries that don't use transit
  */
-export function transitItineraries(edges) {
+export function transitEdges(edges) {
   if (!edges) {
     return [];
   }
@@ -376,10 +376,10 @@ export function filterItineraries(edges, modes) {
  */
 export function mergeBikeTransitPlans(bikeParkPlan, bikeTransitPlan) {
   // filter plain walking / biking away, and also no biking
-  const bikeParkEdges = transitItineraries(bikeParkPlan?.edges).filter(
+  const bikeParkEdges = transitEdges(bikeParkPlan?.edges).filter(
     i => getTotalBikingDistance(i.node) > 0,
   );
-  const bikePublicEdges = transitItineraries(bikeTransitPlan?.edges).filter(
+  const bikePublicEdges = transitEdges(bikeTransitPlan?.edges).filter(
     i => getTotalBikingDistance(i.node) > 0,
   );
 
@@ -397,7 +397,17 @@ export function mergeBikeTransitPlans(bikeParkPlan, bikeTransitPlan) {
   }
   return {
     searchDateTime: bikeParkPlan.searchDateTime,
-    edges: [...bikeParkEdges.slice(0, n1), ...bikePublicEdges.slice(0, 3)],
+    edges: [...bikeParkEdges.slice(0, n1), ...bikePublicEdges.slice(0, 3)].map(
+      edge => {
+        return {
+          ...edge,
+          node: {
+            ...edge.node,
+            legs: compressLegs(edge.node.legs),
+          },
+        };
+      },
+    ),
     bikeParkItineraryCount: n1,
   };
 }

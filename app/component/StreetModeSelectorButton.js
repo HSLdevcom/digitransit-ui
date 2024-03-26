@@ -9,7 +9,6 @@ import {
   getTotalDistance,
   getTotalBikingDistance,
   getTotalDrivingDistance,
-  compressLegs,
   getExtendedMode,
 } from '../util/legUtils';
 import { streetHash } from '../util/path';
@@ -18,15 +17,10 @@ export default function StreetModeSelectorButton(
   { icon, name, plan, onClick },
   { config, intl },
 ) {
-  const itinerary = plan.edges[0]?.node;
+  const itinerary = plan?.edges?.[0]?.node;
   if (!itinerary) {
     return null;
   }
-
-  if (name === streetHash.bikeAndVehicle || name === streetHash.parkAndRide) {
-    itinerary.legs = compressLegs(itinerary.legs);
-  }
-
   const duration = durationToString(itinerary.duration * 1000);
   let distance = 0;
   switch (name) {
