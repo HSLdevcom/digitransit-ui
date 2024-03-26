@@ -41,6 +41,7 @@ const planConnection = graphql`
         }
       }
     ) {
+      ...ItineraryListContainer_plan
       searchDateTime
       routingErrors {
         code
@@ -56,9 +57,12 @@ const planConnection = graphql`
         ...ItineraryListContainer_planEdges
         node {
           startTime
+          duration
+          walkDistance
           ...ItineraryDetails_itinerary
           legs {
             mode
+            distance
             ...ItineraryLine_legs
             transitLeg
             legGeometry {

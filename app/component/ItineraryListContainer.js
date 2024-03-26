@@ -9,7 +9,7 @@ import {
 import { matchShape, routerShape } from 'found';
 import getContext from 'recompose/getContext';
 import { intlShape, FormattedMessage } from 'react-intl';
-import { configShape, itineraryShape } from '../util/shapes';
+import { configShape, planEdgeShape } from '../util/shapes';
 import Icon from './Icon';
 import ItineraryList from './ItineraryList';
 import TimeStore from '../store/TimeStore';
@@ -18,11 +18,11 @@ import withBreakpoint from '../util/withBreakpoint';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import { isIOS, isSafari } from '../util/browser';
 import ItineraryNotification from './ItineraryNotification';
-import { transitItineraries } from './ItineraryPageUtils';
+import { transitEdges } from './ItineraryPageUtils';
 
 class ItineraryListContainer extends React.Component {
   static propTypes = {
-    planEdges: PropTypes.arrayOf(itineraryShape).isRequired,
+    planEdges: PropTypes.arrayOf(planEdgeShape).isRequired,
     activeIndex: PropTypes.number.isRequired,
     params: PropTypes.shape({
       from: PropTypes.string.isRequired,
@@ -180,7 +180,7 @@ class ItineraryListContainer extends React.Component {
     const { location } = this.context.match;
     const arriveBy = location.query.arriveBy === 'true';
     const showEarlierLaterButtons =
-      transitItineraries(this.props.planEdges).length > 0 &&
+      transitEdges(this.props.planEdges).length > 0 &&
       !this.context.match.params.hash;
     return (
       <div className="summary">
@@ -240,6 +240,7 @@ const connectedContainer = createFragmentContainer(
     planEdges: graphql`
       fragment ItineraryListContainer_planEdges on PlanEdge
       @relay(plural: true) {
+        ...ItineraryList_planEdges
         node {
           legs {
             ...ItineraryLine_legs

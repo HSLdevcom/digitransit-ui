@@ -12,7 +12,7 @@ import { estimateItineraryDistance } from './geo-utils';
 
 export const PLANTYPE = {
   WALK: 'WALK',
-  BIKE: 'BIKE',
+  BIKE: 'BICYCLE',
   CAR: 'CAR',
   TRANSIT: 'TRANSIT',
   BIKEPARK: 'BIKEPARK',
@@ -126,7 +126,7 @@ export function planQueryNeeded(
     planType === PLANTYPE.BIKETRANSIT
       ? ['CITYBIKE', 'WALK'].concat(config.modesWithNoBike)
       : ['CITYBIKE', 'WALK'];
-  const transitModes = modesOrDefault.filter(m => transitFilter.includes(m));
+  const transitModes = modesOrDefault.filter(m => !transitFilter.includes(m));
   const wheelchair = !!settings.accessibilityOption;
   const distance = estimateItineraryDistance(
     fromLocation,
@@ -228,7 +228,7 @@ export function getPlanParams(
     planType === PLANTYPE.BIKETRANSIT
       ? ['CITYBIKE', 'WALK'].concat(config.modesWithNoBike)
       : ['CITYBIKE', 'WALK'];
-  const transitModes = modesOrDefault.filter(m => transitFilter.includes(m));
+  const transitModes = modesOrDefault.filter(m => !transitFilter.includes(m));
   const otpModes = modesAsOTPModes(transitModes);
   if (config.customWeights) {
     otpModes.forEach(m => {
@@ -241,42 +241,37 @@ export function getPlanParams(
   const directOnly = [PLANTYPE.WALK, PLANTYPE.BIKE, PLANTYPE.CAR].includes(
     planType,
   );
-  const postTransit =
-    settings.allowedBikeRentalNetworks?.length > 0
-      ? ['WALK', 'BICYCLE_RENTAL']
-      : ['WALK'];
-  let access;
-  let egress;
-  let transfer;
+  const cityBike = settings.allowedBikeRentalNetworks?.length > 0;
+  // set defaults
+  let access = cityBike ? ['WALK', 'BICYCLE_RENTAL'] : ['WALK'];
+  let egress = access;
+  let transfer = ['WALK'];
+  let direct = [];
 
   switch (planType) {
     case PLANTYPE.BIKEPARK:
-      access = ['BIKE'];
-      egress = postTransit;
-      transfer = postTransit;
+      access = ['BICYCLE_PARKING'];
       break;
     case PLANTYPE.BIKETRANSIT:
-      access = ['BIKE'];
-      egress = ['BIKE'];
-      transfer = ['BIKE'];
+      access = ['BICYCLE'];
+      egress = ['BICYCLE'];
+      transfer = ['BICYCLE'];
       break;
     case PLANTYPE.PARKANDRIDE:
-      access = ['CAR'];
-      egress = postTransit;
-      transfer = postTransit;
+      access = ['CAR_PARKING'];
       break;
     case PLANTYPE.TRANSIT:
-    default:
-      access = postTransit;
-      egress = postTransit;
-      transfer = postTransit;
+      direct = access;
+      break;
+    default: // direct modes
+      direct = [planType];
       break;
   }
 
   const modes = {
     directOnly,
     transitOnly: false,
-    direct: directOnly ? [planType] : ['WALK'],
+    direct: directOnly ? [planType] : direct,
     transit: {
       access,
       transfer,

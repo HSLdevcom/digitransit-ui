@@ -303,7 +303,7 @@ export const mapLayerOptionsShape = PropTypes.shape({
 });
 
 export const planShape = PropTypes.shape({
-  edges: PropTypes.arrayOf(planEdgeShape).isRequired,
+  edges: PropTypes.arrayOf(planEdgeShape),
   searchDateTime: PropTypes.string,
 });
 
