@@ -90,6 +90,8 @@ const emptyState = {
   topNote: undefined,
   bottomNote: undefined,
   loading: false,
+  startCursor: undefined,
+  endCursor: undefined,
 };
 
 export default function ItineraryPage(props, context) {
@@ -395,7 +397,7 @@ export default function ItineraryPage(props, context) {
     searchRef.current = buildSearchRef();
   }
 
-  const onLater = (edges, reversed) => {
+  const onLater = async () => {
     addAnalyticsEvent({
       event: 'sendMatomoEvent',
       category: 'Itinerary',
@@ -403,159 +405,146 @@ export default function ItineraryPage(props, context) {
       name: null,
     });
 
-    const latestDepartureTime = edges.reduce((previous, current) => {
-      const startTime = moment(current.node.startTime);
-
-      if (previous == null) {
-        return startTime;
-      }
-      if (startTime.isAfter(previous)) {
-        return startTime;
-      }
-      return previous;
-    }, null);
-
-    latestDepartureTime.add(1, 'minutes');
-
-    const useRelaxedRoutingPreferences =
+    const relaxed =
       transitEdges(state.plan?.edges).length === 0 &&
       relaxState.plan?.edges?.length > 0;
+    const origPlan = relaxed ? state.plan : relaxState.plan;
 
     const params = getPlanParams(
       context.config,
       props.match,
       PLANTYPE.TRANSIT,
-      useRelaxedRoutingPreferences,
+      relaxed,
     );
+    const arriveBy = !!params.datetime.latestArrival;
+    if (arriveBy) {
+      params.before = state.startCursor || origPlan.pageInfo.startCursor;
+      params.last = params.numItineraries;
+    } else {
+      params.after = state.endCursor || origPlan.pageInfo.endCursor;
+      params.first = params.numItineraries;
+    }
+    params.transitOnly = true;
 
-    const tunedParams = {
-      wheelchair: null,
-      ...params,
-      arriveBy: false,
-      date: latestDepartureTime.format('YYYY-MM-DD'),
-      time: latestDepartureTime.format('HH:mm'),
-    };
-
-    setState({ ...state, loadingMore: reversed ? 'top' : 'bottom' });
+    setState({
+      ...state,
+      loadingMore: arriveBy ? spinnerPosition.top : spinnerPosition.bottom,
+    });
     ariaRef.current = 'itinerary-page.loading-itineraries';
 
-    fetchQuery(props.relayEnvironment, planConnection, tunedParams)
-      .toPromise()
-      .then(({ plan: result }) => {
-        const newEdges = transitEdges(result.edges);
-        if (newEdges.length === 0) {
-          const newState = reversed
-            ? { topNote: 'no-more-route-msg' }
-            : { bottomNote: 'no-more-route-msg' };
-          setState({ ...state, ...newState });
-          return;
-        }
-        ariaRef.current = 'itinerary-page.itineraries-loaded';
-        if (reversed) {
-          // We need to filter only walk itineraries out to place the "separator" accurately between itineraries
-          setState({
-            ...state,
-            earlierEdges: [...newEdges.reverse(), ...state.earlierEdges],
-            loadingMore: undefined,
-            separatorPosition: state.separatorPosition
-              ? state.separatorPosition + newEdges.length
-              : newEdges.length,
-          });
-        } else {
-          setState({
-            ...state,
-            laterEdges: [...state.laterEdges, ...newEdges],
-            loadingMore: undefined,
-            routingFeedbackPosition: state.routingFeedbackPosition
-              ? state.routingFeedbackPosition + newEdges.length
-              : newEdges.length,
-          });
-        }
+    let plan;
+    try {
+      plan = await iterateQuery(params);
+    } catch (error) {
+      setState({ ...state, loadingMore: undefined });
+      return;
+    }
+    const { edges } = plan;
+    if (edges.length === 0) {
+      const newState = arriveBy
+        ? { topNote: 'no-more-route-msg' }
+        : { bottomNote: 'no-more-route-msg' };
+      setState({ ...state, ...newState, loadingMore: undefined });
+      return;
+    }
+    ariaRef.current = 'itinerary-page.itineraries-loaded';
+    if (arriveBy) {
+      setState({
+        ...state,
+        earlierEdges: [...edges, ...state.earlierEdges],
+        loadingMore: undefined,
+        separatorPosition: state.separatorPosition
+          ? state.separatorPosition + edges.length
+          : edges.length,
+        startCursor: plan.pageInfo.startCursor,
       });
+    } else {
+      setState({
+        ...state,
+        laterEdges: [...state.laterEdges, ...edges],
+        loadingMore: undefined,
+        routingFeedbackPosition: state.routingFeedbackPosition
+          ? state.routingFeedbackPosition + edges.length
+          : edges.length,
+        endCursor: plan.pageInfo.endCursor,
+      });
+    }
   };
 
-  const onEarlier = (edges, reversed) => {
+  const onEarlier = async () => {
     addAnalyticsEvent({
       event: 'sendMatomoEvent',
       category: 'Itinerary',
-      action: 'ShowEarlierItineraries',
+      action: 'ShowLaterItineraries',
       name: null,
     });
 
-    const earliestArrivalTime = edges.reduce((previous, current) => {
-      const endTime = moment(current.node.endTime);
-      if (previous == null) {
-        return endTime;
-      }
-      if (endTime.isBefore(previous)) {
-        return endTime;
-      }
-      return previous;
-    }, null);
-
-    earliestArrivalTime.subtract(1, 'minutes');
-
-    const useRelaxedRoutingPreferences =
+    const relaxed =
       transitEdges(state.plan?.edges).length === 0 &&
       relaxState.plan?.edges?.length > 0;
+    const origPlan = relaxed ? state.plan : relaxState.plan;
 
     const params = getPlanParams(
       context.config,
       props.match,
       PLANTYPE.TRANSIT,
-      useRelaxedRoutingPreferences,
+      relaxed,
     );
+    const arriveBy = !!params.datetime.latestArrival;
 
-    const tunedParams = {
-      wheelchair: null,
-      ...params,
-      numItineraries: 5,
-      arriveBy: true,
-      date: earliestArrivalTime.format('YYYY-MM-DD'),
-      time: earliestArrivalTime.format('HH:mm'),
-    };
+    if (arriveBy) {
+      params.after = state.endCursor || origPlan.pageInfo.endCursor;
+      params.first = params.numItineraries;
+    } else {
+      params.before = state.startCursor || origPlan.pageInfo.startCursor;
+      params.last = params.numItineraries;
+    }
+    params.transitOnly = true;
+
     setState({
       ...state,
-      loadingMore: reversed ? spinnerPosition.bottom : spinnerPosition.top,
+      loadingMore: arriveBy ? spinnerPosition.bottom : spinnerPosition.top,
     });
     ariaRef.current = 'itinerary-page.loading-itineraries';
 
-    fetchQuery(props.relayEnvironment, planConnection, tunedParams)
-      .toPromise()
-      .then(({ plan: result }) => {
-        const newEdges = transitEdges(result.edges);
-        if (newEdges.length === 0) {
-          // Could not find routes arriving at original departure time
-          // --> cannot calculate earlier start time
-          const newState = reversed
-            ? { bottomNote: 'no-more-route-msg' }
-            : { topNote: 'no-more-route-msg' };
-          setState({ ...state, ...newState });
-          return;
-        }
-        ariaRef.current = 'itinerary-page.itineraries-loaded';
-        if (reversed) {
-          setState({
-            ...state,
-            laterEdges: [...state.laterEdges, ...newEdges],
-            loadingMore: undefined,
-          });
-        } else {
-          // Reverse the results so that route suggestions are in ascending order
-          setState({
-            ...state,
-            earlierEdges: [...newEdges.reverse(), ...state.earlierEdges],
-            loadingMore: undefined,
-            separatorPosition: state.separatorPosition
-              ? state.separatorPosition + newEdges.length
-              : newEdges.length,
-            routingFeedbackPosition: state.routingFeedbackPosition
-              ? state.routingFeedbackPosition
-              : newEdges.length,
-          });
-          resetItineraryPageSelection();
-        }
+    let plan;
+    try {
+      plan = await iterateQuery(params);
+    } catch (error) {
+      setState({ ...state, loadingMore: undefined });
+      return;
+    }
+    const { edges } = plan;
+    if (edges.length === 0) {
+      const newState = arriveBy
+        ? { bottomNote: 'no-more-route-msg' }
+        : { topNote: 'no-more-route-msg' };
+      setState({ ...state, ...newState, loadingMore: undefined });
+      return;
+    }
+    ariaRef.current = 'itinerary-page.itineraries-loaded';
+
+    if (arriveBy) {
+      setState({
+        ...state,
+        laterEdges: [...state.laterEdges, edges],
+        loadingMore: undefined,
+        endCursor: plan.pageInfo.endCursor,
       });
+    } else {
+      setState({
+        ...state,
+        earlierEdges: [...edges, ...state.earlierEdges],
+        loadingMore: undefined,
+        separatorPosition: state.separatorPosition
+          ? state.separatorPosition + edges.length
+          : edges.length,
+        routingFeedbackPosition: state.routingFeedbackPosition
+          ? state.routingFeedbackPosition
+          : edges.length,
+        startCursor: plan.pageInfo.startCursor,
+      });
+    }
   };
 
   // save url-defined location to old searches

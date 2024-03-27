@@ -117,7 +117,7 @@ class ItineraryListContainer extends React.Component {
     this.props.focusToHeader();
   };
 
-  laterButton(reversed = false) {
+  laterButton(reversed) {
     return (
       <button
         type="button"
@@ -128,7 +128,7 @@ class ItineraryListContainer extends React.Component {
         className={`time-navigation-btn ${
           reversed ? 'top-btn' : 'bottom-btn'
         } ${!reversed && isIOS && isSafari ? 'extra-whitespace' : ''} `}
-        onClick={() => this.props.onLater(this.props.planEdges, reversed)}
+        onClick={() => this.props.onLater()}
       >
         <Icon
           img="icon-icon_arrow-collapse"
@@ -154,7 +154,7 @@ class ItineraryListContainer extends React.Component {
         className={`time-navigation-btn ${
           reversed ? 'bottom-btn' : 'top-btn'
         } ${reversed && isIOS && isSafari ? 'extra-whitespace' : ''}`}
-        onClick={() => this.props.onEarlier(this.props.planEdges, reversed)}
+        onClick={() => this.props.onEarlier()}
       >
         <Icon
           img="icon-icon_arrow-collapse"
