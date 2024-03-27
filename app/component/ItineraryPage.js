@@ -60,6 +60,8 @@ import { saveSearch } from '../action/SearchActions';
 import CustomizeSearch from './CustomizeSearch';
 import { mapLayerShape } from '../store/MapLayerStore';
 
+const MAX_QUERY_COUNT = 5; // number of attempts to collect enough itineraries
+
 const streetHashes = [
   streetHash.walk,
   streetHash.bike,
@@ -279,7 +281,56 @@ export default function ItineraryPage(props, context) {
     }
   }
 
-  function makeAltQuery(planType) {
+  async function iterateQuery(planParams) {
+    let plan;
+    const trials = planParams.modes.directOnly ? 1 : MAX_QUERY_COUNT;
+    const arriveBy = !!planParams.datetime.latestArrival;
+    for (let i = 0; i < trials; i++) {
+      // eslint-disable-next-line no-await-in-loop
+      const result = await fetchQuery(
+        props.relayEnvironment,
+        planConnection,
+        planParams,
+        {
+          force: true,
+        },
+      ).toPromise();
+      if (!plan) {
+        plan = result.plan;
+      } else if (arriveBy) {
+        plan = {
+          ...plan,
+          pageInfo: {
+            ...plan.pageInfo,
+            startCursor: result.plan.pageInfo.startCursor,
+          },
+          edges: plan.edges.concat(result.plan.edges),
+        };
+      } else {
+        plan = {
+          ...plan,
+          pageInfo: {
+            ...plan.pageInfo,
+            endCursor: result.plan.pageInfo.endCursor,
+          },
+          edges: plan.edges.concat(result.plan.edges),
+        };
+      }
+      if (plan.edges.length >= planParams.numItineraries) {
+        return plan;
+      }
+      if (arriveBy) {
+        planParams.before = plan.pageInfo.startCursor; // eslint-disable-line no-param-reassign
+        planParams.last = planParams.numItineraries - plan.edges.length; // eslint-disable-line no-param-reassign
+      } else {
+        planParams.after = plan.pageInfo.endCursor; // eslint-disable-line no-param-reassign
+        planParams.first = planParams.numItineraries - plan.edges.length; // eslint-disable-line no-param-reassign
+      }
+    }
+    return plan;
+  }
+
+  async function makeAltQuery(planType) {
     const altState = altStates[planType];
     if (!planQueryNeeded(context.config, props.match, planType)) {
       altState[1]({ loading: ALT_STATE.DONE, plan: {} });
@@ -287,17 +338,15 @@ export default function ItineraryPage(props, context) {
     }
     altState[1]({ loading: ALT_STATE.LOADING });
     const planParams = getPlanParams(context.config, props.match, planType);
-    fetchQuery(props.relayEnvironment, planConnection, planParams)
-      .toPromise()
-      .then(result => {
-        altState[1]({ loading: ALT_STATE.DONE, plan: result.plan });
-      })
-      .catch(() => {
-        altState[1]({ loading: ALT_STATE.DONE, plan: {} });
-      });
+    try {
+      const plan = await iterateQuery(planParams);
+      altState[1]({ loading: ALT_STATE.DONE, plan });
+    } catch (error) {
+      altState[1]({ loading: ALT_STATE.DONE, plan: {} });
+    }
   }
 
-  function makeRelaxedQuery() {
+  async function makeRelaxedQuery() {
     if (!planQueryNeeded(context.config, props.match, PLANTYPE.TRANSIT, true)) {
       setRelaxState({ plan: {} });
       return;
@@ -309,23 +358,18 @@ export default function ItineraryPage(props, context) {
       PLANTYPE.TRANSIT,
       true,
     );
-    fetchQuery(props.relayEnvironment, planConnection, planParams, {
-      force: true,
-    })
-      .toPromise()
-      .then(result => {
-        const plan = {
-          ...result.plan,
-          edges: transitEdges(result.plan.edges),
-        };
-        setRelaxState({ plan, loading: false });
-      })
-      .catch(() => {
-        setRelaxState({ plan: {}, loading: false });
+    try {
+      const plan = await iterateQuery(planParams);
+      setRelaxState({
+        plan: { ...plan, edges: transitEdges(plan.edges) },
+        loading: false,
       });
+    } catch (error) {
+      setRelaxState({ plan: {}, loading: false });
+    }
   }
 
-  function makeMainQuery() {
+  async function makeMainQuery() {
     if (!planQueryNeeded(context.config, props.match, PLANTYPE.TRANSIT)) {
       setState({ ...emptyState });
       resetItineraryPageSelection();
@@ -339,22 +383,16 @@ export default function ItineraryPage(props, context) {
       props.match,
       PLANTYPE.TRANSIT,
     );
-    fetchQuery(props.relayEnvironment, planConnection, planParams, {
-      force: true,
-    })
-      .toPromise()
-      .then(result => {
-        setState({ plan: result.plan, loading: false });
-        resetItineraryPageSelection();
-        ariaRef.current = 'itinerary-page.itineraries-loaded';
-      })
-      .catch(err => {
-        reportError(err);
-        setState({ plan: {}, loading: false });
-      })
-      .finally(() => {
-        searchRef.current = buildSearchRef();
-      });
+    try {
+      const plan = await iterateQuery(planParams);
+      setState({ plan, loading: false });
+      resetItineraryPageSelection();
+      ariaRef.current = 'itinerary-page.itineraries-loaded';
+    } catch (error) {
+      reportError(error);
+      setState({ plan: {}, loading: false });
+    }
+    searchRef.current = buildSearchRef();
   }
 
   const onLater = (edges, reversed) => {
