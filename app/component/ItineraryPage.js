@@ -387,7 +387,7 @@ export default function ItineraryPage(props, context) {
     );
     try {
       const plan = await iterateQuery(planParams);
-      setState({ plan, loading: false });
+      setState({ ...emptyState, plan, loading: false });
       resetItineraryPageSelection();
       ariaRef.current = 'itinerary-page.itineraries-loaded';
     } catch (error) {
@@ -417,13 +417,9 @@ export default function ItineraryPage(props, context) {
       relaxed,
     );
     const arriveBy = !!params.datetime.latestArrival;
-    if (arriveBy) {
-      params.before = state.startCursor || origPlan.pageInfo.startCursor;
-      params.last = params.numItineraries;
-    } else {
-      params.after = state.endCursor || origPlan.pageInfo.endCursor;
-      params.first = params.numItineraries;
-    }
+
+    params.after = state.endCursor || origPlan.pageInfo.endCursor;
+    params.first = params.numItineraries;
     params.transitOnly = true;
 
     setState({
@@ -492,13 +488,8 @@ export default function ItineraryPage(props, context) {
     );
     const arriveBy = !!params.datetime.latestArrival;
 
-    if (arriveBy) {
-      params.after = state.endCursor || origPlan.pageInfo.endCursor;
-      params.first = params.numItineraries;
-    } else {
-      params.before = state.startCursor || origPlan.pageInfo.startCursor;
-      params.last = params.numItineraries;
-    }
+    params.before = state.startCursor || origPlan.pageInfo.startCursor;
+    params.last = params.numItineraries;
     params.transitOnly = true;
 
     setState({
@@ -527,7 +518,7 @@ export default function ItineraryPage(props, context) {
     if (arriveBy) {
       setState({
         ...state,
-        laterEdges: [...state.laterEdges, edges],
+        laterEdges: [...state.laterEdges, ...edges],
         loadingMore: undefined,
         endCursor: plan.pageInfo.endCursor,
       });
