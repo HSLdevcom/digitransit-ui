@@ -15,11 +15,19 @@ const planConnection = graphql`
     $transferPenalty: Cost
     $bikeSpeed: Speed
     $allowedBikeRentalNetworks: [String!]
+    $after: String
+    $first: Int
+    $before: String
+    $last: Int
   ) {
     plan: planConnection(
       dateTime: $datetime
-      searchWindow: "PT20M"
+      searchWindow: "PT5M"
       numberOfItineraries: $numItineraries
+      after: $after
+      first: $first
+      before: $before
+      last: $last
       origin: $fromPlace
       destination: $toPlace
       modes: $modes
@@ -48,8 +56,6 @@ const planConnection = graphql`
         inputField
       }
       pageInfo {
-        hasNextPage
-        hasPreviousPage
         startCursor
         endCursor
       }
