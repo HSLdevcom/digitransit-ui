@@ -30,6 +30,10 @@ export default configMerger(walttiConfig, {
       default: `${POI_MAP_PREFIX}/fi/stops,stations/`,
       sv: `${POI_MAP_PREFIX}/sv/stops,stations/`,
     },
+    REALTIME_STOP_MAP: {
+      default: `${POI_MAP_PREFIX}/fi/realtimeStops,stations/`,
+      sv: `${POI_MAP_PREFIX}/sv/realtimeStops,stations/`,
+    },
   },
 
   feedIds: ['VARELY', 'FOLI', 'Rauma'],

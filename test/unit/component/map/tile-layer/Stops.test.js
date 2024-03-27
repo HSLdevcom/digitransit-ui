@@ -5,7 +5,9 @@ describe('Stops', () => {
   const config = {
     URL: {
       STOP_MAP: { default: 'https://localhost/stopmap/' },
+      REALTIME_STOP_MAP: { default: 'https://localhost/realtimestopmap/' },
     },
+    stopsMinZoom: 13,
   };
 
   const tile = {
@@ -35,6 +37,21 @@ describe('Stops', () => {
         status: 404,
       });
       new Stops({ ...tile, props: { zoomOffset: 1 } }, config, []).getPromise(); // eslint-disable-line no-new
+      expect(mock.called()).to.equal(true);
+    });
+
+    it('should make a get to realtime stops uri when zoomed in', () => {
+      const mock = fetchMock.get(
+        `${config.URL.REALTIME_STOP_MAP.default}13/1/2.pbf`,
+        {
+          status: 404,
+        },
+      );
+      new Stops(
+        { ...tile, props: { zoomOffset: 10 } },
+        config,
+        [],
+      ).getPromise();
       expect(mock.called()).to.equal(true);
     });
   });
