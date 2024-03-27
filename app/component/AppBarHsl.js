@@ -141,16 +141,18 @@ const AppBarHsl = ({ lang, user, favourites }, context) => {
       )}
 
       <Suspense fallback="">
-        <SiteHeader
-          ref={siteHeaderRef}
-          hslFiUrl={config.URL.ROOTLINK}
-          lang={lang}
-          {...userMenu}
-          languageMenu={languages}
-          banners={banners}
-          suggestionsApiUrl={config.URL.HSL_FI_SUGGESTIONS}
-          notificationApiUrls={notificationApiUrls}
-        />
+        {!config.hideHeader && (
+          <SiteHeader
+            ref={siteHeaderRef}
+            hslFiUrl={config.URL.ROOTLINK}
+            lang={lang}
+            {...userMenu}
+            languageMenu={languages}
+            banners={banners}
+            suggestionsApiUrl={config.URL.HSL_FI_SUGGESTIONS}
+            notificationApiUrls={notificationApiUrls}
+          />
+        )}
         {config.localStorageEmitter && (
           <SharedLocalStorageObserver
             keys={['saved-searches', 'favouriteStore']}
