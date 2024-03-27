@@ -271,7 +271,7 @@ export function getPlanParams(
   const modes = {
     directOnly,
     transitOnly: false,
-    direct: directOnly ? [planType] : direct,
+    direct,
     transit: {
       access,
       transfer,
