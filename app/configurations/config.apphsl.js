@@ -58,8 +58,6 @@ export default {
     },
   },
 
-  indexPath: 'etusivu',
-
   title: 'Reittiopas',
   hideHeader: true,
 
