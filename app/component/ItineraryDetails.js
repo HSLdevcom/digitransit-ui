@@ -354,7 +354,6 @@ const withRelay = createFragmentContainer(
   {
     itinerary: graphql`
       fragment ItineraryDetails_itinerary on Itinerary {
-        walkDistance
         duration
         startTime
         endTime
@@ -374,6 +373,9 @@ const withRelay = createFragmentContainer(
             }
           }
           mode
+          legGeometry {
+            points
+          }
           nextLegs(
             numberOfLegs: 2
             originModesWithParentStation: [RAIL]
@@ -424,7 +426,6 @@ const withRelay = createFragmentContainer(
             lat
             lon
             name
-            vertexType
             bikePark {
               bikeParkId
               name
@@ -461,7 +462,6 @@ const withRelay = createFragmentContainer(
             lat
             lon
             name
-            vertexType
             vehicleRentalStation {
               lat
               lon
@@ -498,10 +498,6 @@ const withRelay = createFragmentContainer(
               carParkId
               name
             }
-          }
-          legGeometry {
-            length
-            points
           }
           intermediatePlaces {
             arrivalTime

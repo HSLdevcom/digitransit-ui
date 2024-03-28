@@ -4,15 +4,16 @@ import { createFragmentContainer, graphql } from 'react-relay';
 import { FormattedMessage } from 'react-intl';
 import cx from 'classnames';
 import { matchShape } from 'found';
-import { configShape, locationShape, itineraryShape } from '../util/shapes';
+import { configShape, planEdgeShape } from '../util/shapes';
 import Icon from './Icon';
 import Itinerary from './Itinerary';
 import { isBrowser } from '../util/browser';
-import { getExtendedMode, getZones } from '../util/legUtils';
+import { getExtendedMode } from '../util/legUtils';
 import ItineraryListHeader from './ItineraryListHeader';
 import Loading from './Loading';
 import RoutingFeedbackPrompt from './RoutingFeedbackPrompt';
 import { streetHash } from '../util/path';
+import { getIntermediatePlaces } from '../util/otpStrings';
 
 const spinnerPosition = {
   top: 'top',
@@ -23,12 +24,11 @@ function ItineraryList(
   {
     activeIndex,
     currentTime,
-    intermediatePlaces,
-    itineraries,
+    planEdges,
     onSelect,
     onSelectImmediately,
     searchTime,
-    bikeAndParkItineraryCount,
+    bikeParkItineraryCount,
     showRelaxedPlanNotifier,
     separatorPosition,
     loadingMore,
@@ -37,30 +37,28 @@ function ItineraryList(
   context,
 ) {
   const { config } = context;
+  const { location } = context.match;
   const { hash } = context.match.params;
 
   const lowestCo2value = Math.round(
-    itineraries
-      .filter(itinerary => itinerary.emissionsPerPerson?.co2 >= 0)
+    planEdges
+      .filter(edge => edge.node.emissionsPerPerson?.co2 >= 0)
       .reduce((a, b) => {
         return a.emissionsPerPerson?.co2 < b.emissionsPerPerson?.co2 ? a : b;
       }, 0).emissionsPerPerson?.co2,
   );
-  const summaries = itineraries.map((itinerary, i) => (
+  const summaries = planEdges.map((edge, i) => (
     <Itinerary
       refTime={searchTime}
       key={i} // eslint-disable-line react/no-array-index-key
       hash={i}
-      itinerary={itinerary}
+      itinerary={edge.node}
       passive={i !== activeIndex}
       currentTime={currentTime}
       onSelect={onSelect}
       onSelectImmediately={onSelectImmediately}
-      intermediatePlaces={intermediatePlaces}
-      hideSelectionIndicator={i !== activeIndex || itineraries.length === 1}
-      zones={
-        config.zones.stops && itinerary.legs ? getZones(itinerary.legs) : []
-      }
+      intermediatePlaces={getIntermediatePlaces(location.query)}
+      hideSelectionIndicator={i !== activeIndex || planEdges.length === 1}
       lowestCo2value={lowestCo2value}
     />
   ));
@@ -77,8 +75,8 @@ function ItineraryList(
     );
   }
   if (hash === streetHash.bikeAndVehicle) {
-    // bikeAndParkItineraryCount tells how many first itineraries use bike parking
-    if (bikeAndParkItineraryCount > 0) {
+    // bikeParkItineraryCount tells how many first itineraries use bike parking
+    if (bikeParkItineraryCount > 0) {
       summaries.splice(
         0,
         0,
@@ -89,15 +87,15 @@ function ItineraryList(
         />,
       );
     }
-    if (itineraries.length > bikeAndParkItineraryCount) {
+    if (planEdges.length > bikeParkItineraryCount) {
       // the rest use bike + public
       const mode =
         getExtendedMode(
-          itineraries[bikeAndParkItineraryCount].legs.find(l => l.transitLeg),
+          planEdges[bikeParkItineraryCount].node.legs.find(l => l.transitLeg),
           config,
         ) || 'rail';
       summaries.splice(
-        bikeAndParkItineraryCount ? bikeAndParkItineraryCount + 1 : 0,
+        bikeParkItineraryCount ? bikeParkItineraryCount + 1 : 0,
         0,
         <ItineraryListHeader
           translationId={`itinerary-summary.bikeAndPublic-${mode}-title`}
@@ -169,13 +167,12 @@ function ItineraryList(
 
 ItineraryList.propTypes = {
   activeIndex: PropTypes.number.isRequired,
+  searchTime: PropTypes.number.isRequired,
   currentTime: PropTypes.number.isRequired,
-  intermediatePlaces: PropTypes.arrayOf(locationShape),
-  itineraries: PropTypes.arrayOf(itineraryShape),
+  planEdges: PropTypes.arrayOf(planEdgeShape),
   onSelect: PropTypes.func.isRequired,
   onSelectImmediately: PropTypes.func.isRequired,
-  searchTime: PropTypes.number.isRequired,
-  bikeAndParkItineraryCount: PropTypes.number.isRequired,
+  bikeParkItineraryCount: PropTypes.number,
   showRelaxedPlanNotifier: PropTypes.bool,
   separatorPosition: PropTypes.number,
   loadingMore: PropTypes.string,
@@ -183,8 +180,8 @@ ItineraryList.propTypes = {
 };
 
 ItineraryList.defaultProps = {
-  intermediatePlaces: [],
-  itineraries: [],
+  bikeParkItineraryCount: 0,
+  planEdges: [],
   showRelaxedPlanNotifier: false,
   separatorPosition: undefined,
   loadingMore: undefined,
@@ -197,96 +194,20 @@ ItineraryList.contextTypes = {
 };
 
 const containerComponent = createFragmentContainer(ItineraryList, {
-  itineraries: graphql`
-    fragment ItineraryList_itineraries on Itinerary @relay(plural: true) {
-      walkDistance
-      startTime
-      endTime
-      emissionsPerPerson {
-        co2
-      }
-      legs {
-        realTime
-        realtimeState
-        transitLeg
-        startTime
-        endTime
-        mode
-        distance
-        duration
-        rentedBike
-        interlineWithPreviousLeg
-        intermediatePlace
-        intermediatePlaces {
-          stop {
-            zoneId
-          }
+  planEdges: graphql`
+    fragment ItineraryList_planEdges on PlanEdge @relay(plural: true) {
+      node {
+        ...Itinerary_itinerary
+        emissionsPerPerson {
+          co2
         }
-        route {
+        legs {
+          ...ItineraryLine_legs
+          transitLeg
           mode
-          shortName
-          type
-          color
-          agency {
-            name
-          }
-          alerts {
-            alertSeverityLevel
-            effectiveEndDate
-            effectiveStartDate
-          }
-        }
-        trip {
-          pattern {
-            code
-          }
-          stoptimes {
-            realtimeState
-            stop {
-              gtfsId
-            }
-            pickupType
-          }
-          occupancy {
-            occupancyStatus
-          }
-        }
-        from {
-          name
-          lat
-          lon
-          stop {
-            gtfsId
-            zoneId
-            platformCode
-            alerts {
-              alertSeverityLevel
-              effectiveEndDate
-              effectiveStartDate
-            }
-          }
-          vehicleRentalStation {
-            vehiclesAvailable
-            network
-          }
-        }
-        to {
-          stop {
-            gtfsId
-            zoneId
-            alerts {
-              alertSeverityLevel
-              effectiveEndDate
-              effectiveStartDate
-            }
-          }
-          bikePark {
-            bikeParkId
-            name
-          }
-          carPark {
-            carParkId
-            name
+          route {
+            mode
+            type
           }
         }
       }

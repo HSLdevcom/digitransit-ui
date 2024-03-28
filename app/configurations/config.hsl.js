@@ -199,8 +199,7 @@ export default {
     lineRegexp: /(^[0-9]+[a-z]?$|^[yuleapinkrtdz]$|(^m[12]?b?$))/i,
   },
 
-  // modes that should not coexist with BICYCLE mode
-  modesWithNoBike: ['BICYCLE_RENT', 'WALK', 'BUS', 'TRAM', 'FERRY'],
+  modesWithNoBike: ['BUS', 'TRAM', 'FERRY'],
 
   useSearchPolygon: true,
 
@@ -499,7 +498,7 @@ export default {
   showBikeAndParkItineraries: true,
 
   // Notice! Turning on this setting forces the search for car routes (for the CO2 comparison only).
-  showCO2InItinerarySummary: true,
+  showCO2InItinerarySummary: false,
 
   includeCarSuggestions: false,
   includeParkAndRideSuggestions: true,

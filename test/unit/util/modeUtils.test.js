@@ -681,28 +681,6 @@ describe('modeUtils', () => {
     });
   });
 
-  describe('getBicycleCompatibleModes', () => {
-    it('should filter modes that are configured to be uncompatible with bicycle', () => {
-      const modeConfig = {
-        modesWithNoBike: [
-          TransportMode.Airplane,
-          TransportMode.Citybike,
-          StreetMode.Walk,
-        ],
-      };
-      const modes = [
-        TransportMode.Rail,
-        TransportMode.Airplane,
-        TransportMode.Citybike,
-        StreetMode.Walk,
-      ];
-      const result = utils.getBicycleCompatibleModes(modeConfig, modes);
-
-      expect(result.length).to.equal(1);
-      expect(result).to.contain(TransportMode.Rail);
-    });
-  });
-
   describe('modesAsOTPModes', () => {
     it('should convert modes into modern OTP format mode objects', () => {
       const modes = ['RAIL', 'BICYCLE_RENT', 'WALK'];

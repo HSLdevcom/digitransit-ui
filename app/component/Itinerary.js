@@ -2,6 +2,7 @@ import cx from 'classnames';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { graphql, createFragmentContainer } from 'react-relay';
 import { FormattedMessage, intlShape } from 'react-intl';
 import {
   legShape,
@@ -260,7 +261,6 @@ const Itinerary = (
     itinerary,
     breakpoint,
     intermediatePlaces,
-    zones,
     hideSelectionIndicator,
     lowestCo2value,
     ...props
@@ -928,13 +928,11 @@ Itinerary.propTypes = {
   hash: PropTypes.number.isRequired,
   breakpoint: PropTypes.string.isRequired,
   intermediatePlaces: PropTypes.arrayOf(locationShape),
-  zones: PropTypes.arrayOf(PropTypes.string),
   hideSelectionIndicator: PropTypes.bool,
   lowestCo2value: PropTypes.number,
 };
 
 Itinerary.defaultProps = {
-  zones: [],
   passive: false,
   intermediatePlaces: [],
   hideSelectionIndicator: true,
@@ -950,4 +948,98 @@ Itinerary.displayName = 'Itinerary';
 
 const ItineraryWithBreakpoint = withBreakpoint(Itinerary);
 
-export { Itinerary as component, ItineraryWithBreakpoint as default };
+const containerComponent = createFragmentContainer(ItineraryWithBreakpoint, {
+  itinerary: graphql`
+    fragment Itinerary_itinerary on Itinerary {
+      startTime
+      endTime
+      emissionsPerPerson {
+        co2
+      }
+      legs {
+        realTime
+        realtimeState
+        transitLeg
+        startTime
+        endTime
+        mode
+        distance
+        duration
+        rentedBike
+        interlineWithPreviousLeg
+        intermediatePlace
+        intermediatePlaces {
+          stop {
+            zoneId
+          }
+        }
+        route {
+          gtfsId
+          mode
+          shortName
+          type
+          color
+          agency {
+            name
+          }
+          alerts {
+            alertSeverityLevel
+            effectiveEndDate
+            effectiveStartDate
+          }
+        }
+        trip {
+          gtfsId
+          stoptimes {
+            stop {
+              gtfsId
+            }
+            pickupType
+          }
+          occupancy {
+            occupancyStatus
+          }
+        }
+        from {
+          lat
+          lon
+          name
+          stop {
+            gtfsId
+            zoneId
+            alerts {
+              alertSeverityLevel
+              effectiveEndDate
+              effectiveStartDate
+            }
+          }
+          vehicleRentalStation {
+            vehiclesAvailable
+            network
+          }
+        }
+        to {
+          stop {
+            gtfsId
+            zoneId
+            alerts {
+              alertSeverityLevel
+              effectiveEndDate
+              effectiveStartDate
+            }
+          }
+          bikePark {
+            bikeParkId
+            name
+          }
+          carPark {
+            carParkId
+            name
+          }
+        }
+      }
+    }
+  `,
+});
+
+export { containerComponent as default, Itinerary as component };
