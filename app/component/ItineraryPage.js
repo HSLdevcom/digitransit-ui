@@ -60,7 +60,7 @@ import { saveSearch } from '../action/SearchActions';
 import CustomizeSearch from './CustomizeSearch';
 import { mapLayerShape } from '../store/MapLayerStore';
 
-const MAX_QUERY_COUNT = 5; // number of attempts to collect enough itineraries
+const MAX_QUERY_COUNT = 3; // number of attempts to collect enough itineraries
 
 const streetHashes = [
   streetHash.walk,
@@ -100,7 +100,6 @@ export default function ItineraryPage(props, context) {
   const expandMapRef = useRef(0);
   const ariaRef = useRef('summary-page.title');
   const pendingWeatherHash = useRef();
-  const searchRef = useRef({}); // identifies latest finished search
 
   const [state, setState] = useState({ ...emptyState });
   const [relaxState, setRelaxState] = useState({ loading: false, plan: {} });
@@ -139,16 +138,6 @@ export default function ItineraryPage(props, context) {
         key => altStates[key][0].loading !== ALT_STATE.DONE,
       ) !== undefined
     );
-  }
-
-  function buildSearchRef() {
-    return {
-      settingsChanged: settingsState.settingsChanged,
-      from: props.match.params.from,
-      to: props.match.params.to,
-      time: props.match.location.query.time,
-      arriveBy: props.match.location.query.arriveBy,
-    };
   }
 
   function stopClientAndUpdateTopics() {
@@ -375,7 +364,6 @@ export default function ItineraryPage(props, context) {
     if (!planQueryNeeded(context.config, props.match, PLANTYPE.TRANSIT)) {
       setState({ ...emptyState });
       resetItineraryPageSelection();
-      searchRef.current = buildSearchRef();
       return;
     }
     ariaRef.current = 'itinerary-page.loading-itineraries';
@@ -394,7 +382,6 @@ export default function ItineraryPage(props, context) {
       reportError(error);
       setState({ plan: {}, loading: false });
     }
-    searchRef.current = buildSearchRef();
   }
 
   const onLater = async () => {
@@ -1004,7 +991,6 @@ export default function ItineraryPage(props, context) {
 
   // in mobile, settings drawer hides other content
   const panelHidden = !desktop && settingsDrawer !== null;
-
   let content; // bottom content of itinerary panel
   if (panelHidden) {
     content = null;
@@ -1057,8 +1043,7 @@ export default function ItineraryPage(props, context) {
         searchTime={searchTime}
       />
     );
-  } else if (isEqual(searchRef.current, buildSearchRef())) {
-    // search is up to date, but no itineraries found
+  } else {
     content = (
       <ItinerariesNotFound
         routingErrors={plan?.routingErrors}
@@ -1074,8 +1059,6 @@ export default function ItineraryPage(props, context) {
         }
       />
     );
-  } else {
-    content = '';
   }
 
   const showAltBar =
