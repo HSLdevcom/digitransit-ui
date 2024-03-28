@@ -21,6 +21,9 @@ describe('localStorage', () => {
   describe('setCustomizedSettings', () => {
     it('should save all default settings', () => {
       const defaultSettings = { ...defaultConfig.defaultSettings };
+      // remove values which are not stored because they do not change
+      delete defaultSettings.minTransferTime;
+      delete defaultSettings.optimize;
       setCustomizedSettings(defaultSettings);
       expect(getCustomizedSettings()).to.deep.equal(defaultSettings);
     });
