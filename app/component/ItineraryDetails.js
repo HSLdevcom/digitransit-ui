@@ -23,6 +23,7 @@ import {
   getTotalWalkingDuration,
   getZones,
   isCallAgencyPickupType,
+  legContainsBikePark,
   legContainsRentalBike,
 } from '../util/legUtils';
 import { BreakpointConsumer } from '../util/withBreakpoint';
@@ -55,6 +56,7 @@ class ItineraryDetails extends React.Component {
     carItinerary: itineraryShape,
     currentLanguage: PropTypes.string,
     changeHash: PropTypes.func,
+    bikeAndPublicItineraryCount: PropTypes.number,
   };
 
   static defaultProps = {
@@ -62,6 +64,7 @@ class ItineraryDetails extends React.Component {
     currentLanguage: 'fi',
     carItinerary: undefined,
     changeHash: () => {},
+    bikeAndPublicItineraryCount: 0,
   };
 
   static contextTypes = {
@@ -131,18 +134,18 @@ class ItineraryDetails extends React.Component {
   };
 
   render() {
-    const { itinerary, currentLanguage, isMobile } = this.props;
+    const { itinerary, currentLanguage, isMobile, bikeAndPublicItineraryCount } = this.props;
     const { config } = this.context;
-
     if (!itinerary?.legs[0]) {
       return null;
     }
-
     const fares = getFaresFromLegs(itinerary.legs, config);
     const extraProps = this.getExtraProps(itinerary);
     const legsWithRentalBike = compressLegs(itinerary.legs).filter(leg =>
       legContainsRentalBike(leg),
     );
+    const legswithBikePark = compressLegs(itinerary.legs).filter(leg => legContainsBikePark(leg));
+    const showBikeBoardingInformation = bikeAndPublicItineraryCount > 0 && legswithBikePark.length === 0;
     const rentalBikeNetworks = new Set();
     let showRentalBikeDurationWarning = false;
     if (legsWithRentalBike.length > 0) {
@@ -315,6 +318,7 @@ class ItineraryDetails extends React.Component {
                   focusToLeg={this.props.focusToLeg}
                   changeHash={this.props.changeHash}
                   tabIndex={itineraryIndex - 1}
+                  showBikeBoardingInformation={showBikeBoardingInformation}
                 />
                 {config.showRouteInformation && <RouteInformation key="routeinfo"/>}
               </div>

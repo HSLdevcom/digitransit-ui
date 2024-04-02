@@ -252,6 +252,8 @@ export default {
   showBikeAndParkItineraries: true,
 
   parkingAreaSources: ['liipi'],
+  bikeBoardingInfoModes: ['RAIL', 'FERRY'],
+
   parkAndRide: {
     showParkAndRide: false,
     parkAndRideMinZoom: 13,
@@ -375,4 +377,28 @@ export default {
   // Notice! Turning on this setting forces the search for car routes (for the CO2 comparison only).
   showCO2InItinerarySummary: true,
   useAssembledGeoJsonZones: 'isOffByDefault',
+  routeNotifications: [
+    {
+      showForBikeWithPublicRoute: (mode, bikeBoardingInfoModes) => {
+        return bikeBoardingInfoModes?.includes(mode.toUpperCase());
+      },
+
+      id: 'externalCostWithBike',
+
+      content: {
+        fi: [
+          'Kulkuneuvossa mahdollisuus kuljettaa pyörää. ',
+          'Tarkasta pyörän kuljettamisen mahdollinen maksullisuus operaattorilta.',
+        ],
+        en: [
+          'There is a possibility to transport a bicycle in the vehicle. ',
+          'Check the possible cost of transporting a bicycle from the operator.',
+        ],
+        sv: [
+          'Möjlighet att transportera cykel i fordonet. ',
+          'Kontrollera eventuell avgift för att transportera cykel från operatören.',
+        ],
+      },
+    },
+  ],
 };

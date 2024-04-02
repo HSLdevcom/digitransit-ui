@@ -43,6 +43,7 @@ export default class ItineraryLegs extends React.Component {
     focusToLeg: PropTypes.func.isRequired,
     changeHash: PropTypes.func,
     tabIndex: PropTypes.number,
+    showBikeBoardingInformation: PropTypes.bool,
   };
 
   static contextTypes = { config: configShape };
@@ -51,6 +52,7 @@ export default class ItineraryLegs extends React.Component {
     fares: [],
     changeHash: undefined,
     tabIndex: undefined,
+    showBikeBoardingInformation: false,
   };
 
   getChildContext() {
@@ -73,9 +75,11 @@ export default class ItineraryLegs extends React.Component {
   };
 
   render() {
-    const { itinerary, fares } = this.props;
+    const { itinerary, fares, showBikeBoardingInformation } = this.props;
     const { waitThreshold } = this.context.config.itinerary;
+
     const compressedLegs = compressLegs(itinerary.legs, true).map(leg => ({
+      showBikeBoardingInformation,
       ...leg,
       fare:
         (leg.route &&

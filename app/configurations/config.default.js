@@ -767,8 +767,6 @@ export default {
   showWeatherInformation: true,
   showBikeAndPublicItineraries: true,
   showBikeAndParkItineraries: false,
-  // Modes that shows extra cost information in itinerary summary and itinerary details pages
-  bikeWithExtraCostModes: ['RAIL', 'FERRY'],
 
   includeBikeSuggestions: true,
   includeCarSuggestions: false,

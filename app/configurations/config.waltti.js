@@ -182,6 +182,32 @@ export default {
       default: HSLParkAndRideUtils,
     },
   },
+  bikeBoardingInfoModes: ['RAIL', 'FERRY'],
+  routeNotifications: [
+    {
+      showForBikeWithPublicRoute: (mode, bikeBoardingInfoModes) => {
+        return bikeBoardingInfoModes?.includes(mode.toUpperCase());
+      },
+
+      id: 'externalCostWithBike',
+
+      content: {
+        fi: [
+          'Kulkuneuvossa mahdollisuus kuljettaa pyörää. ',
+          'Tarkasta pyörän kuljettamisen mahdollinen maksullisuus operaattorilta.',
+        ],
+        en: [
+          'There is a possibility to transport a bicycle in the vehicle. ',
+          'Check the possible cost of transporting a bicycle from the operator.',
+        ],
+        sv: [
+          'Möjlighet att transportera cykel i fordonet. ',
+          'Kontrollera eventuell avgift för att transportera cykel från operatören.',
+        ],
+      },
+    },
+  ],
+  showBikeAndPublicItineraries: true,
 
   hostnames: [
     // DEV hostnames

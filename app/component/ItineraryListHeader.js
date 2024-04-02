@@ -13,16 +13,16 @@ export default function ItineraryListHeader({
     <div className="itinerary-summary-subtitle-container">
       <FormattedMessage id={translationId} defaultMessage={defaultMessage} />
       {showCostInfo && (
-        <div className="disruption">
-          <div className="disruption-icon notification-icon">
+        <div className="with-bike-info">
+          <div className="with-bike-icon notification-icon">
             <ServiceAlertIcon
               className="inline-icon"
               color="#007AC9"
               severityLevel={AlertSeverityLevelType.Info}
             />
           </div>
-          <div className="info-notification">
-            <div className="info-content">
+          <div className="with-bike-info-notification">
+            <div className="with-bike-info-content">
               <FormattedMessage
                 id="itinerary-summary.costinformation"
                 defaultMessage="Invalid cost information: translation not found"

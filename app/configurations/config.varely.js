@@ -163,4 +163,5 @@ export default configMerger(walttiConfig, {
   allowLogin: false,
   showBikeAndPublicItineraries: false,
   includePublicWithBikePlan: false,
+  routeNotifications: [],
 });

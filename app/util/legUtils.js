@@ -309,6 +309,16 @@ export function legContainsRentalBike(leg) {
 }
 
 /**
+ * Checks if a leg contains a bike park.
+ *
+ * @param {*} leg - The leg object to check.
+ * @returns {boolean} - True if the leg contains a bike park, false otherwise.
+ */
+export function legContainsBikePark(leg) {
+  return leg.from.bikePark || leg.to.bikePark;
+}
+
+/**
  * Calculates and returns the total walking distance undertaken in an itinerary.
  * This could be used as a fallback if the backend returns an invalid value.
  *
