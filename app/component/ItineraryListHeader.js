@@ -24,8 +24,8 @@ export default function ItineraryListHeader({
           <div className="with-bike-info-notification">
             <div className="with-bike-info-content">
               <FormattedMessage
-                id="itinerary-summary.costinformation"
-                defaultMessage="Invalid cost information: translation not found"
+                id="itinerary-summary.bike-boarding-information"
+                defaultMessage="Invalid boarding information: translation not found"
               />
             </div>
           </div>

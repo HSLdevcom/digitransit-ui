@@ -226,6 +226,7 @@ export default {
       },
     },
   ],
+  showBicycleWalkLegModes: ['RAIL', 'SUBWAY', 'TRAM', 'FERRY'],
   showBikeAndPublicItineraries: true,
 
   hostnames: [

@@ -823,4 +823,5 @@ export default {
   showCO2InItinerarySummary: false,
 
   geoJsonSvgSize: 20,
+  showBicycleWalkLegModes: ['RAIL', 'SUBWAY'],
 };

@@ -123,10 +123,10 @@ export default class ItineraryLegs extends React.Component {
       const fromCarPark = leg?.from.carPark || previousLeg?.to.carPark;
       const showBicycleWalkLeg = () => {
         return (
-          nextLeg?.mode === 'RAIL' ||
-          nextLeg?.mode === 'SUBWAY' ||
-          previousLeg?.mode === 'RAIL' ||
-          previousLeg?.mode === 'SUBWAY'
+          this.context.config.showBicycleWalkLegModes.includes(nextLeg?.mode) ||
+          this.context.config.showBicycleWalkLegModes.includes(
+            previousLeg?.mode,
+          )
         );
       };
       if (fromCarPark && !isLegOnFoot(leg)) {

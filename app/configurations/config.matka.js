@@ -436,4 +436,5 @@ export default {
       },
     },
   ],
+  showBicycleWalkLegModes: ['RAIL', 'SUBWAY', 'TRAM', 'FERRY'],
 };
