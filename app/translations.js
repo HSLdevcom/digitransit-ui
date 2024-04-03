@@ -1168,7 +1168,8 @@ const translations = {
       'Transfer to {vehicle} on stop {stopName}',
     'itinerary-summary-row.walking-distance':
       'Total walking distance {totalDistance}.',
-    'itinerary-summary.bike-boarding-information': 'todo cost information',
+    'itinerary-summary.bike-boarding-information':
+      'You are allowed to bring your bicycle on board the vehicle. Check with the transport operator if the transportation of bicycles is subject to a fee',
     'itinerary-summary.bikeAndPublic-fallback-title':
       'Take your bike with you onboard',
     'itinerary-summary.bikeAndPublic-rail-subway-title':
@@ -4272,7 +4273,8 @@ const translations = {
       'Byte {vehicle} vid hållplats {stopName}',
     'itinerary-summary-row.walking-distance':
       'Promenad sammanlagt {totalDistance}.',
-    'itinerary-summary.bike-boarding-information': 'todo Kostnader',
+    'itinerary-summary.bike-boarding-information':
+      'Du får ta med cykeln ombord på fordonet. Kontrollera med trafikoperatören om det är avgiftsbelagt att transportera cyklar',
     'itinerary-summary.bikeAndPublic-fallback-title':
       'Ta cykeln med dig i fordonet',
     'itinerary-summary.bikeAndPublic-rail-subway-title':
