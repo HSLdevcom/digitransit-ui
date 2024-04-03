@@ -183,10 +183,29 @@ export default {
     },
   },
   bikeBoardingInfoModes: ['RAIL', 'FERRY'],
+
+  showBikeBoardingInfoHeader: (
+    bikeBoardingInfoModes,
+    extraModes,
+    mode,
+    legs,
+  ) => {
+    if (bikeBoardingInfoModes?.includes(mode.toUpperCase())) {
+      return true;
+    }
+    return legs?.some(leg =>
+      extraModes?.some(
+        extraMode =>
+          extraMode.agency === leg.route?.agency.name &&
+          extraMode.mode === leg.route?.mode,
+      ),
+    );
+  },
+
   routeNotifications: [
     {
-      showForBikeWithPublicRoute: (mode, bikeBoardingInfoModes) => {
-        return bikeBoardingInfoModes?.includes(mode.toUpperCase());
+      showForBikeWithPublicRoute: (leg, bikeBoardingInfoModes) => {
+        return bikeBoardingInfoModes?.includes(leg.mode.toUpperCase());
       },
 
       id: 'externalCostWithBike',

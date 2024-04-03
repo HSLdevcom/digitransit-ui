@@ -377,10 +377,45 @@ export default {
   // Notice! Turning on this setting forces the search for car routes (for the CO2 comparison only).
   showCO2InItinerarySummary: true,
   useAssembledGeoJsonZones: 'isOffByDefault',
+
+  // Extra modes for bike boarding info, like Tram for Tampere
+  bikeBoardingExtraModes: [{ agency: 'Nysse', mode: 'TRAM' }],
+
+  showBikeBoardingInfoHeader: (
+    bikeBoardingInfoModes,
+    extraModes,
+    mode,
+    legs,
+  ) => {
+    if (bikeBoardingInfoModes?.includes(mode.toUpperCase())) {
+      return true;
+    }
+    return legs?.some(leg =>
+      extraModes?.some(
+        extraMode =>
+          extraMode.agency === leg.route?.agency.name &&
+          extraMode.mode === leg.route?.mode,
+      ),
+    );
+  },
+
   routeNotifications: [
     {
-      showForBikeWithPublicRoute: (mode, bikeBoardingInfoModes) => {
-        return bikeBoardingInfoModes?.includes(mode.toUpperCase());
+      showForBikeWithPublicRoute: (
+        leg,
+        bikeBoardingInfoModes,
+        bikeBoardingExtraModes,
+      ) => {
+        const foundExtraMode = bikeBoardingExtraModes?.find(
+          extraMode =>
+            extraMode.agency === leg.route?.agency.name &&
+            extraMode.mode === leg.mode.toUpperCase(),
+        );
+
+        return (
+          foundExtraMode ||
+          bikeBoardingInfoModes?.includes(leg.mode.toUpperCase())
+        );
       },
 
       id: 'externalCostWithBike',

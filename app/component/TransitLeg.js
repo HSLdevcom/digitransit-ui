@@ -381,8 +381,9 @@ class TransitLeg extends React.Component {
           (showBikeBoardingInformation &&
             notification.showForBikeWithPublicRoute &&
             notification.showForBikeWithPublicRoute(
-              mode,
+              leg,
               config.bikeBoardingInfoModes,
+              config.bikeBoardingExtraModes,
             )) ||
           (notification.showForRoute && notification.showForRoute(leg.route))
         ) {
