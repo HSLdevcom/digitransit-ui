@@ -270,7 +270,7 @@ export function getPlanParams(
 
   const modes = {
     directOnly,
-    transitOnly: false,
+    transitOnly: !!relaxSettings,
     direct,
     transit: {
       access,

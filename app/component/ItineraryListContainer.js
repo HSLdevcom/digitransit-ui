@@ -244,6 +244,7 @@ const connectedContainer = createFragmentContainer(
         node {
           legs {
             ...ItineraryLine_legs
+            mode
           }
         }
       }

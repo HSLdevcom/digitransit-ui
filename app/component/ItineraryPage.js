@@ -351,10 +351,7 @@ export default function ItineraryPage(props, context) {
     );
     try {
       const plan = await iterateQuery(planParams);
-      setRelaxState({
-        plan: { ...plan, edges: transitEdges(plan.edges) },
-        loading: false,
-      });
+      setRelaxState({ plan, loading: false });
     } catch (error) {
       setRelaxState({ plan: {}, loading: false });
     }
@@ -395,7 +392,7 @@ export default function ItineraryPage(props, context) {
     const relaxed =
       transitEdges(state.plan?.edges).length === 0 &&
       relaxState.plan?.edges?.length > 0;
-    const origPlan = relaxed ? state.plan : relaxState.plan;
+    const origPlan = relaxed ? relaxState.plan : state.plan;
 
     const params = getPlanParams(
       context.config,
@@ -465,7 +462,7 @@ export default function ItineraryPage(props, context) {
     const relaxed =
       transitEdges(state.plan?.edges).length === 0 &&
       relaxState.plan?.edges?.length > 0;
-    const origPlan = relaxed ? state.plan : relaxState.plan;
+    const origPlan = relaxed ? relaxState.plan : state.plan;
 
     const params = getPlanParams(
       context.config,
