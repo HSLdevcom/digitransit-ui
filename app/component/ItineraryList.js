@@ -97,7 +97,7 @@ function ItineraryList(
           config,
         ) || 'rail';
       const legs = itineraries.flatMap(itinerary => itinerary.legs);
-      const showBikeBoardingInfo = config.showBikeBoardingInfoHeader(
+      const showBikeBoardingInfo = config.showBikeBoardingInfoHeader?.(
         config.bikeBoardingInfoModes,
         config.bikeBoardingExtraModes,
         mode,
