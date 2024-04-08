@@ -84,7 +84,10 @@ export default function Emissions({
 Emissions.propTypes = {
   itinerary: itineraryShape.isRequired,
   carItinerary: itineraryShape,
-  emissionsInfolink: PropTypes.string.isRequired,
+  emissionsInfolink: PropTypes.string,
 };
 
-Emissions.defaultProps = { carItinerary: undefined };
+Emissions.defaultProps = {
+  carItinerary: undefined,
+  emissionsInfolink: undefined,
+};
