@@ -141,11 +141,13 @@ class ItineraryDetails extends React.Component {
     }
     const fares = getFaresFromLegs(itinerary.legs, config);
     const extraProps = this.getExtraProps(itinerary);
+    const {biking, walking, driving, futureText, isMultiRow} = extraProps;
     const legsWithRentalBike = compressLegs(itinerary.legs).filter(leg =>
       legContainsRentalBike(leg),
     );
     const legswithBikePark = compressLegs(itinerary.legs).filter(leg => legContainsBikePark(leg));
-    const showBikeBoardingInformation = bikeAndPublicItineraryCount > 0 && legswithBikePark.length === 0;
+    const  containsBiking = biking.duration > 0 && biking.distance > 0;
+    const showBikeBoardingInformation = containsBiking && bikeAndPublicItineraryCount > 0 && legswithBikePark.length === 0;
     const rentalBikeNetworks = new Set();
     let showRentalBikeDurationWarning = false;
     if (legsWithRentalBike.length > 0) {
@@ -256,11 +258,11 @@ class ItineraryDetails extends React.Component {
 	    <ItinerarySummary
               itinerary={itinerary}
               key="summary"
-              walking={extraProps.walking}
-              biking={extraProps.biking}
-              driving={extraProps.driving}
-              futureText={extraProps.futureText}
-              isMultiRow={extraProps.isMultiRow}
+              walking={walking}
+              biking={biking}
+              driving={driving}
+              futureText={futureText}
+              isMultiRow={isMultiRow}
               isMobile={isMobile}
               hideBottomDivider={isMobile && shouldShowFarePurchaseInfo(
                 config,
@@ -299,7 +301,7 @@ class ItineraryDetails extends React.Component {
             ),
             <div
               className={cx('momentum-scroll itinerary-tabs__scroll', {
-                multirow: extraProps.isMultiRow,
+                multirow: isMultiRow,
               })}
               key="legs"
             >
