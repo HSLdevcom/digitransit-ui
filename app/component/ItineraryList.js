@@ -22,9 +22,9 @@ const spinnerPosition = {
 
 function ItineraryList(
   {
+    planEdges,
     activeIndex,
     currentTime,
-    planEdges,
     onSelect,
     onSelectImmediately,
     searchTime,
@@ -75,7 +75,7 @@ function ItineraryList(
     );
   }
   if (hash === streetHash.bikeAndVehicle) {
-    // bikeParkItineraryCount tells how many first itineraries use bike parking
+    // bikeParkItineraryCount tells how many itineraries in array start use bike parking
     if (bikeParkItineraryCount > 0) {
       summaries.splice(
         0,
