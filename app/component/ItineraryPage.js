@@ -125,18 +125,14 @@ export default function ItineraryPage(props, context) {
   const [mapState, setMapState] = useState({});
 
   function altLoading() {
-    return (
-      Object.keys(altStates).find(
-        key => altStates[key][0].loading === ALT_STATE.LOADING,
-      ) !== undefined
+    return Object.values(altStates).some(
+      st => st[0].loading === ALT_STATE.LOADING,
     );
   }
 
   function altLoadingDone() {
-    return (
-      !Object.keys(altStates).find(
-        key => altStates[key][0].loading !== ALT_STATE.DONE,
-      ) !== undefined
+    return Object.values(altStates).every(
+      st => st[0].loading === ALT_STATE.DONE,
     );
   }
 
