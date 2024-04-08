@@ -88,6 +88,18 @@
                 "zone": "A",
                 "Name": "A"
             },
+            "styles": [
+                {
+                  "color": "#666",
+                  "weight": 2,
+                  "opacity": 1
+                },
+                {
+                  "color": "#333",
+                  "weight": 12,
+                  "opacity": 0.2
+                }
+            ],
             "geometry": {
                 "type": "MultiLineString",
                 "coordinates": [
@@ -307,6 +319,18 @@
                 "zone": "B",
                 "Name": "B"
             },
+            "styles": [
+                {
+                  "color": "#666",
+                  "weight": 2,
+                  "opacity": 1
+                },
+                {
+                  "color": "#333",
+                  "weight": 12,
+                  "opacity": 0.2
+                }
+            ],
             "geometry": {
                 "type": "MultiLineString",
                 "coordinates": [
@@ -1892,6 +1916,18 @@
                 "zone": "C",
                 "Name": "C"
             },
+            "styles": [
+                {
+                  "color": "#666",
+                  "weight": 2,
+                  "opacity": 1
+                },
+                {
+                  "color": "#333",
+                  "weight": 12,
+                  "opacity": 0.2
+                }
+            ],
             "geometry": {
                 "type": "MultiLineString",
                 "coordinates": [
