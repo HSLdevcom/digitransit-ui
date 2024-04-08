@@ -379,8 +379,7 @@ class TransitLeg extends React.Component {
         const notification = config.routeNotifications[i];
         if (
           (showBikeBoardingInformation &&
-            notification.showForBikeWithPublicRoute &&
-            notification.showForBikeWithPublicRoute(
+            notification.showForBikeWithPublicRoute?.(
               leg,
               config.bikeBoardingInfoModes,
               config.bikeBoardingExtraModes,

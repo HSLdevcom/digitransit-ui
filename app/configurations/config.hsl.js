@@ -508,8 +508,6 @@ export default {
   // Park and ride and car suggestions separated into two switches
   separatedParkAndRideSwitch: false,
 
-  // Modes that shows extra cost information in itinerary summary and itinerary details pages
-  extraCostModes: ['RAIL', 'FERRY'],
   parkingAreaSources: ['liipi'],
 
   showNearYouButtons: true,
