@@ -246,7 +246,7 @@ export function getPlanParams(
   let access = cityBike ? ['WALK', 'BICYCLE_RENTAL'] : ['WALK'];
   let egress = access;
   let transfer = ['WALK'];
-  let direct = [];
+  let direct = null;
 
   switch (planType) {
     case PLANTYPE.BIKEPARK:
@@ -276,7 +276,7 @@ export function getPlanParams(
       access,
       transfer,
       egress,
-      transit: otpModes,
+      transit: otpModes.length === 0 ? null : otpModes,
     },
   };
 
