@@ -204,8 +204,21 @@ export default {
 
   routeNotifications: [
     {
-      showForBikeWithPublicRoute: (leg, bikeBoardingInfoModes) => {
-        return bikeBoardingInfoModes?.includes(leg.mode.toUpperCase());
+      showForBikeWithPublicRoute: (
+        leg,
+        bikeBoardingInfoModes,
+        bikeBoardingExtraModes,
+      ) => {
+        const foundExtraMode = bikeBoardingExtraModes?.find(
+          extraMode =>
+            extraMode.agency === leg.route?.agency.name &&
+            extraMode.mode === leg.mode.toUpperCase(),
+        );
+
+        return (
+          foundExtraMode ||
+          bikeBoardingInfoModes?.includes(leg.mode.toUpperCase())
+        );
       },
 
       id: 'externalCostWithBike',
