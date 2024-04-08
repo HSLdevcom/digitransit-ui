@@ -83,9 +83,6 @@ const planConnection = graphql`
               stoptimesForDate {
                 scheduledDeparture
               }
-              pattern {
-                ...RouteLine_pattern
-              }
             }
             from {
               lat
