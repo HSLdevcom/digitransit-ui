@@ -268,9 +268,9 @@ export default function ItineraryPage(props, context) {
     }
   }
 
-  async function iterateQuery(planParams) {
+  async function iterateQuery(planParams, reps) {
     let plan;
-    const trials = planParams.modes.directOnly ? 1 : MAX_QUERY_COUNT;
+    const trials = reps || (planParams.modes.directOnly ? 1 : MAX_QUERY_COUNT);
     const arriveBy = !!planParams.datetime.latestArrival;
     for (let i = 0; i < trials; i++) {
       // eslint-disable-next-line no-await-in-loop
@@ -410,7 +410,7 @@ export default function ItineraryPage(props, context) {
 
     let plan;
     try {
-      plan = await iterateQuery(params);
+      plan = await iterateQuery(params, 1);
     } catch (error) {
       setState({ ...state, loadingMore: undefined });
       return;
@@ -480,7 +480,7 @@ export default function ItineraryPage(props, context) {
 
     let plan;
     try {
-      plan = await iterateQuery(params);
+      plan = await iterateQuery(params, 1);
     } catch (error) {
       setState({ ...state, loadingMore: undefined });
       return;
