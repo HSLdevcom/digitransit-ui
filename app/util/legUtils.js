@@ -578,7 +578,7 @@ export function getExtendedMode(leg, config) {
  * Determines whether to show a notifikation for a bike with a public route.
  *
  * @param {object} leg - The leg object.
- * @param {object[]} config - Config data.
+ * @param {object} config - Config data.
  * @returns {boolean} - Returns true if the leg should be shown for a bike with a public route, otherwise false.
  */
 export const showForBikeWithPublicRoute = (leg, config) => {
