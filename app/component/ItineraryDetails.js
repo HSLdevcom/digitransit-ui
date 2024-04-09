@@ -146,7 +146,7 @@ class ItineraryDetails extends React.Component {
       legContainsRentalBike(leg),
     );
     const legswithBikePark = compressLegs(itinerary.legs).filter(leg => legContainsBikePark(leg));
-    const  containsBiking = biking.duration > 0 && biking.distance > 0;
+    const containsBiking = biking.duration > 0 && biking.distance > 0;
     const showBikeBoardingInformation = containsBiking && bikeAndPublicItineraryCount > 0 && legswithBikePark.length === 0;
     const rentalBikeNetworks = new Set();
     let showRentalBikeDurationWarning = false;
