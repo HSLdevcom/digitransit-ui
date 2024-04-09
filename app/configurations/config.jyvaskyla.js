@@ -161,10 +161,10 @@ export default configMerger(walttiConfig, {
     4: 'D',
   },
 
-  showTicketInformation: true,
+  showTicketInformation: false,
   useTicketIcons: true,
   ticketLink: 'https://linkki.jyvaskyla.fi/liput-ja-hinnat',
-  showTicketPrice: true,
+  showTicketPrice: false,
 
   ticketPurchaseLink: function purchaseTicketLink(ticket) {
     let zones = '';
@@ -192,5 +192,5 @@ export default configMerger(walttiConfig, {
     itinerary: true,
   },
   // Notice! Turning on this setting forces the search for car routes (for the CO2 comparison only).
-  showCO2InItinerarySummary: true,
+  showCO2InItinerarySummary: false,
 });
