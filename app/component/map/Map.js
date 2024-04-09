@@ -283,7 +283,7 @@ export default class Map extends React.Component {
     };
 
     return (
-      <div aria-hidden="true">
+      <div>
         <span>{this.props.topButtons}</span>
         <span
           className="overlay-mover"
