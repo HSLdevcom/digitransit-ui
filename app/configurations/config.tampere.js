@@ -60,14 +60,12 @@ export default configMerger(walttiConfig, {
     stops: true,
     itinerary: true,
   },
-  showTicketInformation: true,
 
   useTicketIcons: true,
-
+  showTicketInformation: true,
   ticketInformation: {
     primaryAgencyName: 'Tampereen seudun joukkoliikenne',
   },
-
   ticketLink: 'https://www.nysse.fi/liput-ja-hinnat.html',
 
   callAgencyInfo: {
@@ -106,13 +104,6 @@ export default configMerger(walttiConfig, {
         text: 'Trains in the Nysse area - Nysse, Tampere regional transport',
       },
     },
-  },
-
-  // mapping fareId from OTP fare identifiers to human readable form
-  fareMapping: function mapFareId(fareId) {
-    return fareId && fareId.substring
-      ? fareId.substring(fareId.indexOf(':') + 1)
-      : '';
   },
 
   useSearchPolygon: true,

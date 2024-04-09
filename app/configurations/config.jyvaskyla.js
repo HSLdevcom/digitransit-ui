@@ -161,8 +161,8 @@ export default configMerger(walttiConfig, {
     4: 'D',
   },
 
-  showTicketInformation: false,
   useTicketIcons: true,
+  showTicketInformation: false,
   ticketLink: 'https://linkki.jyvaskyla.fi/liput-ja-hinnat',
   showTicketPrice: false,
 
@@ -173,13 +173,6 @@ export default configMerger(walttiConfig, {
       zones += '0' + (ticket.charCodeAt(i) - 64);
     }
     return `https://kauppa.waltti.fi/walttiappfeat/busTicket/?operator=50209&ticketType=single&customerGroup=adult&zones=${zones}`;
-  },
-
-  // mapping fareId from OTP fare identifiers to human readable form
-  fareMapping: function mapFareId(fareId) {
-    return fareId && fareId.substring
-      ? fareId.substring(fareId.indexOf(':') + 1)
-      : '';
   },
 
   stopCard: {
