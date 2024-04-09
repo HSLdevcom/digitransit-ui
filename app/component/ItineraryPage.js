@@ -434,7 +434,7 @@ export default function ItineraryPage(props, context) {
         separatorPosition: state.separatorPosition
           ? state.separatorPosition + edges.length
           : edges.length,
-        startCursor: plan.pageInfo.startCursor,
+        endCursor: plan.pageInfo.endCursor,
       });
     } else {
       setState({
@@ -502,7 +502,7 @@ export default function ItineraryPage(props, context) {
         ...state,
         laterEdges: [...state.laterEdges, ...edges],
         loadingMore: undefined,
-        endCursor: plan.pageInfo.endCursor,
+        startCursor: plan.pageInfo.startCursor,
       });
     } else {
       setState({
