@@ -94,6 +94,8 @@ const emptyState = {
   endCursor: undefined,
 };
 
+const emptyPlan = { plan: {}, loading: false };
+
 export default function ItineraryPage(props, context) {
   const headerRef = useRef(null);
   const mwtRef = useRef();
@@ -101,10 +103,10 @@ export default function ItineraryPage(props, context) {
   const ariaRef = useRef('summary-page.title');
   const pendingWeatherHash = useRef();
 
-  const [state, setState] = useState({ ...emptyState });
-  const [relaxState, setRelaxState] = useState({ loading: false, plan: {} });
+  const [state, setState] = useState(emptyState);
+  const [relaxState, setRelaxState] = useState(emptyPlan);
 
-  const unset = { loading: ALT_STATE.UNSET, plan: {} };
+  const unset = { plan: {}, loading: ALT_STATE.UNSET };
   const altStates = {
     [PLANTYPE.WALK]: useState(unset),
     [PLANTYPE.BIKE]: useState(unset),
@@ -320,22 +322,22 @@ export default function ItineraryPage(props, context) {
   async function makeAltQuery(planType) {
     const altState = altStates[planType];
     if (!planQueryNeeded(context.config, props.match, planType)) {
-      altState[1]({ loading: ALT_STATE.DONE, plan: {} });
+      altState[1]({ plan: {}, loading: ALT_STATE.DONE });
       return;
     }
     altState[1]({ loading: ALT_STATE.LOADING });
     const planParams = getPlanParams(context.config, props.match, planType);
     try {
       const plan = await iterateQuery(planParams);
-      altState[1]({ loading: ALT_STATE.DONE, plan });
+      altState[1]({ plan, loading: ALT_STATE.DONE });
     } catch (error) {
-      altState[1]({ loading: ALT_STATE.DONE, plan: {} });
+      altState[1]({ plan: {}, loading: ALT_STATE.DONE });
     }
   }
 
   async function makeRelaxedQuery() {
     if (!planQueryNeeded(context.config, props.match, PLANTYPE.TRANSIT, true)) {
-      setRelaxState({ plan: {} });
+      setRelaxState(emptyPlan);
       return;
     }
     setRelaxState({ loading: true });
@@ -349,13 +351,13 @@ export default function ItineraryPage(props, context) {
       const plan = await iterateQuery(planParams);
       setRelaxState({ plan, loading: false });
     } catch (error) {
-      setRelaxState({ plan: {}, loading: false });
+      setRelaxState(emptyPlan);
     }
   }
 
   async function makeMainQuery() {
     if (!planQueryNeeded(context.config, props.match, PLANTYPE.TRANSIT)) {
-      setState({ ...emptyState });
+      setState(emptyState);
       resetItineraryPageSelection();
       return;
     }
@@ -373,7 +375,7 @@ export default function ItineraryPage(props, context) {
       ariaRef.current = 'itinerary-page.itineraries-loaded';
     } catch (error) {
       reportError(error);
-      setState({ plan: {}, loading: false });
+      setState(emptyPlan);
     }
   }
 
@@ -723,7 +725,7 @@ export default function ItineraryPage(props, context) {
     altStates[PLANTYPE.BIKETRANSIT][0].loading,
   ]);
 
-  // merge two separate plans into one
+  // merge two separate bike + transit plans into one
   useEffect(() => {
     if (
       altStates[PLANTYPE.BIKEPARK][0].loading === ALT_STATE.DONE &&
@@ -1030,7 +1032,9 @@ export default function ItineraryPage(props, context) {
         loading={loading}
         loadingMore={state.loadingMore}
         settingsNotification={settingsNotification}
-        routingFeedbackPosition={state.routingFeedbackPosition}
+        routingFeedbackPosition={
+          hash ? undefined : state.routingFeedbackPosition
+        }
         topNote={state.topNote}
         bottomNote={state.bottomNote}
         searchTime={searchTime}

@@ -372,7 +372,7 @@ export function filterItineraries(edges, modes) {
 }
 
 /**
- * Pick combination of  itineraries for bike and transit
+ * Pick combination of itineraries for bike and transit
  */
 export function mergeBikeTransitPlans(bikeParkPlan, bikeTransitPlan) {
   // filter plain walking / biking away, and also no biking
