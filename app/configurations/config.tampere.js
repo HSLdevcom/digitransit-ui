@@ -244,7 +244,7 @@ export default configMerger(walttiConfig, {
 
   cityBike: {
     networks: {
-      seatcode_tampere: {
+      inurba_tampere: {
         capacity: BIKEAVL_WITHMAX,
         enabled: true,
         season: {

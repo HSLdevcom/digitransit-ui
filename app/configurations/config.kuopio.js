@@ -82,7 +82,7 @@ export default configMerger(walttiConfig, {
       freebike_kuopio: {
         enabled: true,
         season: {
-          start: new Date(new Date().getFullYear(), 3, 24),
+          start: new Date(new Date().getFullYear(), 3, 29),
           end: new Date(new Date().getFullYear(), 10, 1),
         },
         capacity: BIKEAVL_BIKES,
