@@ -62,7 +62,7 @@ export default configMerger(walttiConfig, {
   logo: 'walttiOpas/waltti-logo.png',
   favicon: './app/configurations/images/walttiOpas/walttiOpas-favicon.png',
 
-  feedIds: ['Salo', 'Kajaani', 'Raasepori', 'RaaseporiELY'],
+  feedIds: ['Salo', 'Kajaani', 'Raasepori'],
 
   defaultEndpoint: {
     address: 'Helsinki-Vantaan Lentoasema',

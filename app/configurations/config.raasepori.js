@@ -11,7 +11,7 @@ const walttiConfig = require('./config.waltti').default;
 export default configMerger(walttiConfig, {
   CONFIG,
 
-  feedIds: ['Raasepori', 'RaaseporiELY'],
+  feedIds: ['Raasepori'],
 
   appBarLink: {
     name: 'Bosse',
