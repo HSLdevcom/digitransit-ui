@@ -426,25 +426,38 @@ export default function ItineraryPage(props, context) {
       return;
     }
     ariaRef.current = 'itinerary-page.itineraries-loaded';
+
+    const newState = {
+      ...state,
+      loadingMore: undefined,
+      endCursor: plan.pageInfo.endCursor,
+    };
+    // place separators. First click sets feedback button to place
+    // where user clicked before/after button. Further clicks above the itinerary list
+    // set a separator line there and clicks below the list move feedback button down
     if (arriveBy) {
+      // user clicked button above itinerary list
+      const separators = state.routingFeedbackPosition
+        ? {
+            separatorPosition: edges.length,
+            routingFeedbackPosition:
+              state.routingFeedbackPosition + edges.length,
+          }
+        : { routingFeedbackPosition: edges.length };
       setState({
-        ...state,
+        ...newState,
+        ...separators,
         earlierEdges: [...edges, ...state.earlierEdges],
-        loadingMore: undefined,
-        separatorPosition: state.separatorPosition
-          ? state.separatorPosition + edges.length
-          : edges.length,
-        endCursor: plan.pageInfo.endCursor,
       });
     } else {
+      // user clicked button below itinerary list
       setState({
-        ...state,
+        ...newState,
+        routingFeedbackPosition:
+          origPlan.edges.length +
+          state.earlierEdges.length +
+          state.laterEdges.length,
         laterEdges: [...state.laterEdges, ...edges],
-        loadingMore: undefined,
-        routingFeedbackPosition: state.routingFeedbackPosition
-          ? state.routingFeedbackPosition + edges.length
-          : edges.length,
-        endCursor: plan.pageInfo.endCursor,
       });
     }
   };
@@ -497,25 +510,34 @@ export default function ItineraryPage(props, context) {
     }
     ariaRef.current = 'itinerary-page.itineraries-loaded';
 
+    const newState = {
+      ...state,
+      loadingMore: undefined,
+      startCursor: plan.pageInfo.startCursor,
+    };
     if (arriveBy) {
+      // user clicked button below itinerary list
       setState({
-        ...state,
+        ...newState,
+        routingFeedbackPosition:
+          origPlan.edges.length +
+          state.earlierEdges.length +
+          state.laterEdges.length,
         laterEdges: [...state.laterEdges, ...edges],
-        loadingMore: undefined,
-        startCursor: plan.pageInfo.startCursor,
       });
     } else {
+      // user clicked button above itinerary list
+      const separators = state.routingFeedbackPosition
+        ? {
+            separatorPosition: edges.length,
+            routingFeedbackPosition:
+              state.routingFeedbackPosition + edges.length,
+          }
+        : { routingFeedbackPosition: edges.length };
       setState({
-        ...state,
+        ...newState,
+        ...separators,
         earlierEdges: [...edges, ...state.earlierEdges],
-        loadingMore: undefined,
-        separatorPosition: state.separatorPosition
-          ? state.separatorPosition + edges.length
-          : edges.length,
-        routingFeedbackPosition: state.routingFeedbackPosition
-          ? state.routingFeedbackPosition
-          : edges.length,
-        startCursor: plan.pageInfo.startCursor,
       });
     }
   };

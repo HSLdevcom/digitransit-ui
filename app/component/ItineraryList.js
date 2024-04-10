@@ -116,11 +116,10 @@ function ItineraryList(
     );
   }
   if (routingFeedbackPosition) {
-    summaries.splice(
-      routingFeedbackPosition,
-      0,
-      <RoutingFeedbackPrompt key="feedback-prompt" />,
-    );
+    const pos = separatorPosition
+      ? routingFeedbackPosition + 1
+      : routingFeedbackPosition;
+    summaries.splice(pos, 0, <RoutingFeedbackPrompt key="feedback-prompt" />);
   }
   return (
     <div className="summary-list-container" role="list">
