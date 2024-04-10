@@ -322,6 +322,7 @@ export default function ItineraryPage(props, context) {
 
         setAltState({
           bikeAndParkItineraryCount: n1,
+          bikeAndPublicItineraryCount: n2,
           loading: ALT_LOADING_STATES.DONE,
           walkPlan: result.walkPlan,
           bikePlan,
@@ -1019,6 +1020,7 @@ export default function ItineraryPage(props, context) {
         focusToPoint={focusToPoint}
         focusToLeg={focusToLeg}
         carItinerary={carPlan?.itineraries[0]}
+        bikeAndPublicItineraryCount={altState.bikeAndPublicItineraryCount}
       />
     );
   } else if (plan?.itineraries?.length) {

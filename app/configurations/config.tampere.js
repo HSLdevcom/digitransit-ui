@@ -287,8 +287,10 @@ export default configMerger(walttiConfig, {
   },
 
   // modes that should not coexist with BICYCLE mode
-  // boarding a long distance train with bicycle costs extra
-  modesWithNoBike: ['BICYCLE_RENT', 'WALK', 'RAIL'],
-
+  modesWithNoBike: ['BICYCLE_RENT', 'WALK', 'BUS'],
+  // Modes that shows extra cost information in itinerary summary and itinerary details pages
+  bikeBoardingInfoModes: ['RAIL', 'TRAM'],
   showTenWeeksOnRouteSchedule: true,
+  showBikeAndPublicItineraries: true,
+  includeBikeSuggestions: true,
 });

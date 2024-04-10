@@ -766,14 +766,14 @@ export default {
   showVehiclesOnItineraryPage: false,
 
   showWeatherInformation: true,
-  showBikeAndPublicItineraries: false,
+  showBikeAndPublicItineraries: true,
   showBikeAndParkItineraries: false,
 
   includeBikeSuggestions: true,
   includeCarSuggestions: false,
   includeParkAndRideSuggestions: false,
   // Include both bike and park and bike and public
-  includePublicWithBikePlan: false,
+  includePublicWithBikePlan: true,
   // Park and ride and car suggestions separated
   separatedParkAndRideSwitch: false,
 
@@ -824,4 +824,5 @@ export default {
   showCO2InItinerarySummary: false,
 
   geoJsonSvgSize: 20,
+  showBicycleWalkLegModes: ['RAIL', 'SUBWAY'],
 };
