@@ -30,6 +30,7 @@ import {
   getHeadsignFromRouteLongName,
   getStopHeadsignFromStoptimes,
   getZoneLabel,
+  showForBikeWithPublicRoute,
 } from '../util/legUtils';
 import { shouldShowFareInfo } from '../util/fareUtils';
 import { AlertEntityType, AlertSeverityLevelType } from '../constants';
@@ -323,7 +324,52 @@ class TransitLeg extends React.Component {
         leg.intermediatePlaces.length,
       );
     }
+    const { showBikeBoardingInformation } = leg;
 
+    const createNotification = notification => {
+      return (
+        <>
+          <div className="disruption-icon notification-icon">
+            <ServiceAlertIcon
+              className="inline-icon"
+              severityLevel={AlertSeverityLevelType.Info}
+            />
+          </div>
+          <div
+            className={cx('info-notification', {
+              'no-header': !notification.header,
+            })}
+          >
+            {notification.header && (
+              <h3 className="info-header">{notification.header[lang]}</h3>
+            )}
+            <div
+              className={cx('info-content', {
+                'no-header': !notification.header,
+              })}
+            >
+              {notification.content[lang].join(' ')}
+            </div>
+          </div>
+        </>
+      );
+    };
+
+    const createNotificationWithLink = notification => {
+      return (
+        <a
+          href={`https://www.${notification.link[lang]}`}
+          className="disruption-link"
+        >
+          {createNotification(notification)}
+          <Icon
+            img="icon-icon_arrow-collapse--right"
+            className="disruption-link-arrow"
+            color={config.colors.primary}
+          />
+        </a>
+      );
+    };
     const routeNotifications = [];
     if (
       config.NODE_ENV !== 'test' &&
@@ -332,31 +378,22 @@ class TransitLeg extends React.Component {
     ) {
       for (let i = 0; i < config.routeNotifications.length; i++) {
         const notification = config.routeNotifications[i];
-        if (notification.showForRoute(leg.route)) {
+        if (
+          (showBikeBoardingInformation &&
+            notification.showForBikeWithPublicRoute &&
+            showForBikeWithPublicRoute(leg, config)) ||
+          notification.showForRoute?.(leg.route)
+        ) {
           routeNotifications.push(
-            <div className="disruption" key={`note-${i}`}>
-              <a
-                href={`https://www.${notification.link[lang]}`}
-                className="disruption-link"
-              >
-                <div className="disruption-icon notification-icon">
-                  <ServiceAlertIcon
-                    className="inline-icon"
-                    severityLevel={AlertSeverityLevelType.Info}
-                  />
-                </div>
-                <div className="info-notification">
-                  <h3 className="info-header">{notification.header[lang]}</h3>
-                  <div className="info-content">
-                    {notification.content[lang].join(' ')}
-                  </div>
-                </div>
-                <Icon
-                  img="icon-icon_arrow-collapse--right"
-                  className="disruption-link-arrow"
-                  color={config.colors.primary}
-                />
-              </a>
+            <div
+              className={cx('disruption', {
+                'no-header': !notification.header,
+              })}
+              key={`note-${index}`}
+            >
+              {notification.link
+                ? createNotificationWithLink(notification)
+                : createNotification(notification)}
             </div>,
           );
         }

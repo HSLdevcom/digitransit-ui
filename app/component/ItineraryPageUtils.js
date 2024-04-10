@@ -409,5 +409,6 @@ export function mergeBikeTransitPlans(bikeParkPlan, bikeTransitPlan) {
       },
     ),
     bikeParkItineraryCount: n1,
+    bikePublicItineraryCount: n2,
   };
 }

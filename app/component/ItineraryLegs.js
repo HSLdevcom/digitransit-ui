@@ -43,6 +43,7 @@ export default class ItineraryLegs extends React.Component {
     focusToLeg: PropTypes.func.isRequired,
     changeHash: PropTypes.func,
     tabIndex: PropTypes.number,
+    showBikeBoardingInformation: PropTypes.bool,
   };
 
   static contextTypes = { config: configShape };
@@ -51,6 +52,7 @@ export default class ItineraryLegs extends React.Component {
     fares: [],
     changeHash: undefined,
     tabIndex: undefined,
+    showBikeBoardingInformation: false,
   };
 
   getChildContext() {
@@ -73,9 +75,11 @@ export default class ItineraryLegs extends React.Component {
   };
 
   render() {
-    const { itinerary, fares } = this.props;
+    const { itinerary, fares, showBikeBoardingInformation } = this.props;
     const { waitThreshold } = this.context.config.itinerary;
+
     const compressedLegs = compressLegs(itinerary.legs, true).map(leg => ({
+      showBikeBoardingInformation,
       ...leg,
       fare:
         (leg.route &&
@@ -119,10 +123,10 @@ export default class ItineraryLegs extends React.Component {
       const fromCarPark = leg?.from.carPark || previousLeg?.to.carPark;
       const showBicycleWalkLeg = () => {
         return (
-          nextLeg?.mode === 'RAIL' ||
-          nextLeg?.mode === 'SUBWAY' ||
-          previousLeg?.mode === 'RAIL' ||
-          previousLeg?.mode === 'SUBWAY'
+          this.context.config.showBicycleWalkLegModes.includes(nextLeg?.mode) ||
+          this.context.config.showBicycleWalkLegModes.includes(
+            previousLeg?.mode,
+          )
         );
       };
       if (fromCarPark && !isLegOnFoot(leg)) {

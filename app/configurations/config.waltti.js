@@ -182,6 +182,50 @@ export default {
       default: HSLParkAndRideUtils,
     },
   },
+  bikeBoardingInfoModes: ['RAIL', 'FERRY'],
+
+  showBikeBoardingInfoHeader: (
+    bikeBoardingInfoModes,
+    extraModes,
+    mode,
+    legs,
+  ) => {
+    if (bikeBoardingInfoModes?.includes(mode.toUpperCase())) {
+      return true;
+    }
+    return legs?.some(leg =>
+      extraModes?.some(
+        extraMode =>
+          extraMode.agency === leg.route?.agency.name &&
+          extraMode.mode === leg.route?.mode,
+      ),
+    );
+  },
+
+  routeNotifications: [
+    {
+      showForBikeWithPublicRoute: true,
+
+      id: 'externalCostWithBike',
+
+      content: {
+        fi: [
+          'Kulkuneuvossa mahdollisuus kuljettaa pyörää. ',
+          'Tarkasta pyörän kuljettamisen mahdollinen maksullisuus operaattorilta.',
+        ],
+        en: [
+          'There is a possibility to transport a bicycle in the vehicle. ',
+          'Check the possible cost of transporting a bicycle from the operator.',
+        ],
+        sv: [
+          'Möjlighet att transportera cykel i fordonet. ',
+          'Kontrollera eventuell avgift för att transportera cykel från operatören.',
+        ],
+      },
+    },
+  ],
+  showBicycleWalkLegModes: ['RAIL', 'SUBWAY', 'TRAM', 'FERRY'],
+  showBikeAndPublicItineraries: true,
 
   hostnames: [
     // DEV hostnames
@@ -217,4 +261,11 @@ export default {
   ],
 
   showDisclaimer: true,
+
+  // mapping fareId from OTP fare identifiers to human readable form
+  fareMapping: function mapFareId(fareId) {
+    return fareId && fareId.substring
+      ? fareId.substring(fareId.indexOf(':') + 1)
+      : '';
+  },
 };

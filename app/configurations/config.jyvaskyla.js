@@ -139,7 +139,7 @@ export default configMerger(walttiConfig, {
           sv: 'Zoner',
           en: 'Zones',
         },
-        url: '/assets/geojson/jkl_zone_lines_20210222.geojson',
+        url: '/assets/geojson/jkl_zone_lines_20240403.geojson',
       },
       {
         name: {
@@ -158,7 +158,6 @@ export default configMerger(walttiConfig, {
     1: 'A',
     2: 'B',
     3: 'C',
-    4: 'D',
   },
 
   showTicketInformation: true,
@@ -173,13 +172,6 @@ export default configMerger(walttiConfig, {
       zones += '0' + (ticket.charCodeAt(i) - 64);
     }
     return `https://kauppa.waltti.fi/walttiappfeat/busTicket/?operator=50209&ticketType=single&customerGroup=adult&zones=${zones}`;
-  },
-
-  // mapping fareId from OTP fare identifiers to human readable form
-  fareMapping: function mapFareId(fareId) {
-    return fareId && fareId.substring
-      ? fareId.substring(fareId.indexOf(':') + 1)
-      : '';
   },
 
   stopCard: {

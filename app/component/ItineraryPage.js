@@ -952,6 +952,7 @@ export default function ItineraryPage(props, context) {
         focusToPoint={focusToPoint}
         focusToLeg={focusToLeg}
         carItinerary={carPlan?.edges?.[0]}
+        bikeAndPublicItineraryCount={bikePublicPlan.bikePublicItineraryCount}
       />
     );
   } else if (plan?.edges?.length) {

@@ -60,14 +60,12 @@ export default configMerger(walttiConfig, {
     stops: true,
     itinerary: true,
   },
-  showTicketInformation: true,
 
   useTicketIcons: true,
-
+  showTicketInformation: true,
   ticketInformation: {
     primaryAgencyName: 'Tampereen seudun joukkoliikenne',
   },
-
   ticketLink: 'https://www.nysse.fi/liput-ja-hinnat.html',
 
   callAgencyInfo: {
@@ -106,13 +104,6 @@ export default configMerger(walttiConfig, {
         text: 'Trains in the Nysse area - Nysse, Tampere regional transport',
       },
     },
-  },
-
-  // mapping fareId from OTP fare identifiers to human readable form
-  fareMapping: function mapFareId(fareId) {
-    return fareId && fareId.substring
-      ? fareId.substring(fareId.indexOf(':') + 1)
-      : '';
   },
 
   useSearchPolygon: true,
@@ -244,7 +235,7 @@ export default configMerger(walttiConfig, {
 
   cityBike: {
     networks: {
-      seatcode_tampere: {
+      inurba_tampere: {
         capacity: BIKEAVL_WITHMAX,
         enabled: true,
         season: {
@@ -295,9 +286,11 @@ export default configMerger(walttiConfig, {
     },
   },
 
-  // transit modes that should not coexist with BICYCLE mode
-  // boarding a long distance train with bicycle costs extra
-  modesWithNoBike: ['RAIL'],
-
+  // modes that should not coexist with BICYCLE mode
+  modesWithNoBike: ['BUS'],
+  // Modes that shows extra cost information in itinerary summary and itinerary details pages
+  bikeBoardingInfoModes: ['RAIL', 'TRAM'],
   showTenWeeksOnRouteSchedule: true,
+  showBikeAndPublicItineraries: true,
+  includeBikeSuggestions: true,
 });
