@@ -225,6 +225,9 @@ export function getPlanParams(
 
   const defaultSettings = getDefaultSettings(config);
   const settings = getSettings(config);
+  if (settings.allowedBikeRentalNetworks.length === 0) {
+    settings.allowedBikeRentalNetworks = null;
+  }
   const modesOrDefault = relaxSettings ? defaultSettings.modes : settings.modes;
   const transitFilter =
     planType === PLANTYPE.BIKETRANSIT
