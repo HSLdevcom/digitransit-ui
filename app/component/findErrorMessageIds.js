@@ -221,7 +221,10 @@ const findQueryError = (query, queryContext) => {
     return 'itinerary-in-the-past';
   }
 
-  if (query.walking || query.biking || query.driving) {
+  // show message thah only alt mode itineraries exist
+  // except when user is in bike+transit or park&ride itinerary list
+  // where alt mode buttons are not visible
+  if ((query.walking || query.biking || query.driving) && !query.hash) {
     return limitedTravelModesAvailableMessage(query);
   }
 
