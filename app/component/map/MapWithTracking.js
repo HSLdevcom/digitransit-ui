@@ -297,10 +297,10 @@ class MapWithTrackingStateHandler extends React.Component {
         : 'icon-tracking-offline-v2';
     // eslint-disable-next-line no-nested-ternary
     const ariaLabel = position.locationingFailed
-      ? 'tracking failed'
+      ? this.context.intl.formatMessage({ id: 'tracking-button-offline' })
       : this.state.mapTracking
-        ? 'tracking on'
-        : 'tracking off';
+        ? this.context.intl.formatMessage({ id: 'tracking-button-on' })
+        : this.context.intl.formatMessage({ id: 'tracking-button-off' });
 
     const iconColor = this.state.mapTracking ? '#ff0000' : '#78909c';
 
