@@ -41,6 +41,7 @@ import {
   filterItinerariesByFeedId,
   transitItineraries,
   filterItineraries,
+  filterWalk,
 } from './ItineraryPageUtils';
 import { isIOS } from '../util/browser';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
@@ -199,7 +200,7 @@ export default function ItineraryPage(props, context) {
         return altState.parkRidePlan;
       default:
         if (
-          !transitItineraries(state.plan?.itineraries).length &&
+          !filterWalk(state.plan?.itineraries).length &&
           !settingsState.settingsChanged &&
           relaxState.relaxedPlan?.itineraries?.length > 0
         ) {
@@ -353,7 +354,7 @@ export default function ItineraryPage(props, context) {
       .then(result => {
         const relaxedPlan = {
           ...result.plan,
-          itineraries: transitItineraries(result.plan.itineraries),
+          itineraries: filterWalk(result.plan.itineraries),
         };
         setRelaxState({ relaxedPlan, loading: false });
       })
@@ -411,7 +412,7 @@ export default function ItineraryPage(props, context) {
     latestDepartureTime.add(1, 'minutes');
 
     const useRelaxedRoutingPreferences =
-      transitItineraries(state.plan?.itineraries).length === 0 &&
+      filterWalk(state.plan?.itineraries).length === 0 &&
       relaxState.relaxedPlan?.itineraries?.length > 0;
 
     const params = getPlanParams(
@@ -492,7 +493,7 @@ export default function ItineraryPage(props, context) {
     earliestArrivalTime.subtract(1, 'minutes');
 
     const useRelaxedRoutingPreferences =
-      transitItineraries(state.plan?.itineraries).length === 0 &&
+      filterWalk(state.plan?.itineraries).length === 0 &&
       relaxState.relaxedPlan?.itineraries?.length > 0;
 
     const params = getPlanParams(
@@ -922,7 +923,7 @@ export default function ItineraryPage(props, context) {
   const { hash, secondHash } = params;
 
   const hasNoTransitItineraries =
-    transitItineraries(state.plan?.itineraries).length === 0;
+    filterWalk(state.plan?.itineraries).length === 0;
 
   const settings = getSettings(config);
 
@@ -943,7 +944,7 @@ export default function ItineraryPage(props, context) {
     combinedItineraries = getCombinedItineraries();
     if (!hasNoTransitItineraries) {
       // don't show plain walking in transit itinerary list
-      combinedItineraries = transitItineraries(combinedItineraries);
+      combinedItineraries = filterWalk(combinedItineraries);
     }
   }
 
