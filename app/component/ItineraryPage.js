@@ -280,9 +280,15 @@ export default function ItineraryPage(props, context) {
         return plan;
       }
       if (arriveBy) {
+        if (!plan.pageInfo.startCursor) {
+          break;
+        }
         planParams.before = plan.pageInfo.startCursor; // eslint-disable-line no-param-reassign
         planParams.last = planParams.numItineraries - plan.edges.length; // eslint-disable-line no-param-reassign
       } else {
+        if (!plan.pageInfo.endCursor) {
+          break;
+        }
         planParams.after = plan.pageInfo.endCursor; // eslint-disable-line no-param-reassign
         planParams.first = planParams.numItineraries - plan.edges.length; // eslint-disable-line no-param-reassign
       }
@@ -358,6 +364,13 @@ export default function ItineraryPage(props, context) {
     const arriveBy = !!planParams.datetime.latestArrival;
 
     planParams.after = state.endCursor || origPlan.pageInfo.endCursor;
+    if (!planParams.after) {
+      const newState = arriveBy
+        ? { topNote: 'no-more-route-msg' }
+        : { bottomNote: 'no-more-route-msg' };
+      setState({ ...state, ...newState, loadingMore: undefined });
+      return;
+    }
     planParams.first = planParams.numItineraries;
     planParams.transitOnly = true;
 
@@ -436,6 +449,13 @@ export default function ItineraryPage(props, context) {
     const arriveBy = !!planParams.datetime.latestArrival;
 
     planParams.before = state.startCursor || origPlan.pageInfo.startCursor;
+    if (!planParams.before) {
+      const newState = arriveBy
+        ? { bottomNote: 'no-more-route-msg' }
+        : { topNote: 'no-more-route-msg' };
+      setState({ ...state, ...newState, loadingMore: undefined });
+      return;
+    }
     planParams.last = planParams.numItineraries;
     planParams.transitOnly = true;
 
