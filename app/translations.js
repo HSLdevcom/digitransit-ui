@@ -1170,6 +1170,8 @@ const translations = {
       'Total walking distance {totalDistance}.',
     'itinerary-summary.bike-boarding-information':
       'You are allowed to bring your bicycle on board the vehicle. Check with the transport operator if the transportation of bicycles is subject to a fee',
+    'itinerary-summary.bikeAndPublic-bus-title':
+      'Take your bike with you on the bus',
     'itinerary-summary.bikeAndPublic-fallback-title':
       'Take your bike with you onboard',
     'itinerary-summary.bikeAndPublic-rail-subway-title':
@@ -2338,6 +2340,7 @@ const translations = {
       'Kävelyä yhteensä {totalDistance}.',
     'itinerary-summary.bike-boarding-information':
       'Kulkuneuvossa mahdollisuus kuljettaa pyörää. Tarkasta pyörän kuljettamisen mahdollinen maksullisuus operaattorilta.',
+    'itinerary-summary.bikeAndPublic-bus-title': 'Ota pyöräsi mukaan bussiin',
     'itinerary-summary.bikeAndPublic-fallback-title':
       'Ota pyöräsi mukaan kulkuneuvoon',
     'itinerary-summary.bikeAndPublic-rail-subway-title':
@@ -4275,6 +4278,7 @@ const translations = {
       'Promenad sammanlagt {totalDistance}.',
     'itinerary-summary.bike-boarding-information':
       'Du får ta med cykeln ombord på fordonet. Kontrollera med trafikoperatören om det är avgiftsbelagt att transportera cyklar',
+    'itinerary-summary.bikeAndPublic-bus-title': 'Ta cykeln med på bussen',
     'itinerary-summary.bikeAndPublic-fallback-title':
       'Ta cykeln med dig i fordonet',
     'itinerary-summary.bikeAndPublic-rail-subway-title':
