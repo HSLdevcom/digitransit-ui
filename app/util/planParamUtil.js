@@ -158,7 +158,7 @@ export function getPlanParams(
 
   const fromPlace = placeOrStop(from);
   const toPlace = placeOrStop(to);
-  const bikeAndPublicModes = config.bikeBoardingInfoModes || [];
+  const bikeAndPublicModes = config.bikeBoardingModes || [];
   return {
     ...settings,
     ...omitBy(

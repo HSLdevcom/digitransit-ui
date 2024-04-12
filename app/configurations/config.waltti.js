@@ -182,15 +182,10 @@ export default {
       default: HSLParkAndRideUtils,
     },
   },
-  bikeBoardingInfoModes: ['RAIL', 'FERRY'],
+  bikeBoardingModes: ['RAIL', 'FERRY'],
 
-  showBikeBoardingInfoHeader: (
-    bikeBoardingInfoModes,
-    extraModes,
-    mode,
-    legs,
-  ) => {
-    if (bikeBoardingInfoModes?.includes(mode.toUpperCase())) {
+  showBikeBoardingInfoHeader: (bikeBoardingModes, extraModes, mode, legs) => {
+    if (bikeBoardingModes?.includes(mode.toUpperCase())) {
       return true;
     }
     return legs?.some(leg =>
