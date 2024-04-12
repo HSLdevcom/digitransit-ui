@@ -234,7 +234,7 @@ export function getPlanParams(
       ? ['CITYBIKE', 'WALK'].concat(config.modesWithNoBike)
       : ['CITYBIKE', 'WALK'];
   const transitModes = modesOrDefault.filter(m => !transitFilter.includes(m));
-  const otpModes = modesAsOTPModes(transitModes);
+  let otpModes = modesAsOTPModes(transitModes);
   if (config.customWeights) {
     otpModes.forEach(m => {
       if (config.customWeights[m.mode]) {
@@ -244,6 +244,7 @@ export function getPlanParams(
     });
   }
   const directOnly = directModes.includes(planType) || otpModes.length === 0;
+  let transitOnly = !!relaxSettings;
   const cityBike = settings.allowedBikeRentalNetworks?.length > 0;
   // set defaults
   let access = cityBike ? ['WALK', 'BICYCLE_RENTAL'] : ['WALK'];
@@ -254,11 +255,13 @@ export function getPlanParams(
   switch (planType) {
     case PLANTYPE.BIKEPARK:
       access = ['BICYCLE_PARKING'];
+      transitOnly = true;
       break;
     case PLANTYPE.BIKETRANSIT:
       access = ['BICYCLE'];
       egress = ['BICYCLE'];
       transfer = ['BICYCLE'];
+      transitOnly = true;
       break;
     case PLANTYPE.PARKANDRIDE:
       access = ['CAR_PARKING'];
@@ -270,10 +273,17 @@ export function getPlanParams(
       direct = [planType];
       break;
   }
-
+  if (directOnly) {
+    // reset unused arrays
+    access = null;
+    egress = null;
+    transfer = null;
+    otpModes = [];
+    settings.allowedBikeRentalNetworks = null;
+  }
   const modes = {
     directOnly,
-    transitOnly: !!relaxSettings,
+    transitOnly,
     direct,
     transit: {
       access,
