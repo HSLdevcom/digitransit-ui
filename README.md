@@ -1,5 +1,6 @@
 [![Build](https://github.com/hsldevcom/digitransit-ui/workflows/Process%20v2%20push%20or%20pr/badge.svg?branch=v2)](https://github.com/HSLdevcom/digitransit-ui/actions)
 
+
 Digitransit-ui is a mobile friendly User interface built to work with Digitransit platform
 
 ## Licensing
