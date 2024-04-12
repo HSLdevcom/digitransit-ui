@@ -23,7 +23,7 @@ import {
   fetchFavourites,
   fetchFavouritesComplete,
 } from '../action/FavouriteActions';
-import { addAnalyticsEvent } from '../util/analyticsUtils';
+import { addAnalyticsEvent, handleUserAnalytics } from '../util/analyticsUtils';
 
 class TopLevel extends React.Component {
   static propTypes = {
@@ -69,22 +69,6 @@ class TopLevel extends React.Component {
     };
   }
 
-  /**
-   * Handles user analytics.
-   *
-   * @param {Object} [initialUser] - The user object when the page is first loaded.
-   */
-  handleUserAnalytics(initialUser = undefined) {
-    const { config } = this.context;
-    const user = initialUser || this.props.user;
-    if (config.loginAnalyticsEventName && user && user.sub) {
-      addAnalyticsEvent({
-        event: config.loginAnalyticsEventName,
-        [config.loginAnalyticsKey]: user.sub,
-      });
-    }
-  }
-
   constructor(props, context) {
     super(props, context);
     if (
@@ -97,7 +81,6 @@ class TopLevel extends React.Component {
           this.context.executeAction(setUser, {
             ...user,
           });
-          this.handleUserAnalytics(user);
           this.context.executeAction(fetchFavourites);
         })
         .catch(() => {
@@ -124,7 +107,7 @@ class TopLevel extends React.Component {
     const oldLocation = prevProps.match.location.pathname;
     const newLocation = this.props.match.location.pathname;
     if (oldLocation && newLocation && oldLocation !== newLocation) {
-      this.handleUserAnalytics();
+      handleUserAnalytics(this.context.config);
       addAnalyticsEvent({
         event: 'Pageview',
         url: newLocation,

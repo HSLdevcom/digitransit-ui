@@ -3,6 +3,8 @@
  * Contains code used in both client and server
  */
 
+import { getUser } from './apiUtils';
+
 /**
  * Add an analytics event to be sent to analytics server
  * Currently events have fields { event, category, action, name }
@@ -66,4 +68,19 @@ export function initAnalyticsClientSide(config) {
       false,
     );
   }
+}
+
+/**
+ * Handle user analytics
+ * @param {object} config - configuration object
+ */
+export function handleUserAnalytics(config) {
+  getUser().then(user => {
+    if (config.loginAnalyticsEventName && user?.sub) {
+      addAnalyticsEvent({
+        event: config.loginAnalyticsEventName,
+        [config.loginAnalyticsKey]: user.sub,
+      });
+    }
+  });
 }

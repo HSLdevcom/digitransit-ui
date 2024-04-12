@@ -38,6 +38,7 @@ import { isIOSApp } from './util/browser';
 import {
   initAnalyticsClientSide,
   addAnalyticsEvent,
+  handleUserAnalytics,
 } from './util/analyticsUtils';
 import { configureCountry } from './util/configureCountry';
 
@@ -223,6 +224,7 @@ async function init() {
   }
   // send tracking call for initial page load.
   // tracking page changes is done in TopLevel component
+  handleUserAnalytics(config);
   addAnalyticsEvent({
     event: 'Pageview',
     url: path,
