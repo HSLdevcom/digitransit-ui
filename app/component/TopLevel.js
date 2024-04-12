@@ -10,20 +10,13 @@ import {
   PREFIX_STOPS,
   PREFIX_ROUTES,
   PREFIX_TERMINALS,
-  LOCAL_STORAGE_EMITTER_PATH,
 } from '../util/path';
 import AppBarContainer from './AppBarContainer';
 import MobileView from './MobileView';
 import DesktopView from './DesktopView';
 import ErrorBoundary from './ErrorBoundary';
 import { DesktopOrMobile } from '../util/withBreakpoint';
-import { getUser } from '../util/apiUtils';
-import setUser from '../action/userActions';
-import {
-  fetchFavourites,
-  fetchFavouritesComplete,
-} from '../action/FavouriteActions';
-import { addAnalyticsEvent } from '../util/analyticsUtils';
+import { addAnalyticsEvent, handleUserAnalytics } from '../util/analyticsUtils';
 
 class TopLevel extends React.Component {
   static propTypes = {
@@ -69,44 +62,6 @@ class TopLevel extends React.Component {
     };
   }
 
-  /**
-   * Handles user analytics.
-   *
-   * @param {Object} [initialUser] - The user object when the page is first loaded.
-   */
-  handleUserAnalytics(initialUser = undefined) {
-    const { config } = this.context;
-    const user = initialUser || this.props.user;
-    if (config.loginAnalyticsEventName && user && user.sub) {
-      addAnalyticsEvent({
-        event: config.loginAnalyticsEventName,
-        [config.loginAnalyticsKey]: user.sub,
-      });
-    }
-  }
-
-  constructor(props, context) {
-    super(props, context);
-    if (
-      this.context.config.allowLogin &&
-      !this.props.user.name &&
-      this.props.match.location.pathname !== LOCAL_STORAGE_EMITTER_PATH
-    ) {
-      getUser()
-        .then(user => {
-          this.context.executeAction(setUser, {
-            ...user,
-          });
-          this.handleUserAnalytics(user);
-          this.context.executeAction(fetchFavourites);
-        })
-        .catch(() => {
-          this.context.executeAction(setUser, { notLogged: true });
-          this.context.executeAction(fetchFavouritesComplete);
-        });
-    }
-  }
-
   componentDidMount() {
     if (this.context.config.logo) {
       // Logo is not mandatory
@@ -124,7 +79,7 @@ class TopLevel extends React.Component {
     const oldLocation = prevProps.match.location.pathname;
     const newLocation = this.props.match.location.pathname;
     if (oldLocation && newLocation && oldLocation !== newLocation) {
-      this.handleUserAnalytics();
+      handleUserAnalytics(this.props.user, this.context.config);
       addAnalyticsEvent({
         event: 'Pageview',
         url: newLocation,
