@@ -39,6 +39,7 @@ import {
   checkDayNight,
   filterItinerariesByFeedId,
   transitEdges,
+  filterWalk,
   mergeBikeTransitPlans,
 } from './ItineraryPageUtils';
 import { isIOS } from '../util/browser';
@@ -199,7 +200,7 @@ export default function ItineraryPage(props, context) {
         return altStates[PLANTYPE.PARKANDRIDE][0].plan;
       default:
         if (
-          !transitEdges(state.plan?.edges).length &&
+          !filterWalk(state.plan?.edges).length &&
           !settingsState.settingsChanged &&
           relaxState.plan?.edges?.length > 0
         ) {
@@ -349,7 +350,7 @@ export default function ItineraryPage(props, context) {
     });
 
     const relaxed =
-      transitEdges(state.plan?.edges).length === 0 &&
+      filterWalk(state.plan?.edges).length === 0 &&
       relaxState.plan?.edges?.length > 0;
     const origPlan = relaxed ? relaxState.plan : state.plan;
 
@@ -427,7 +428,7 @@ export default function ItineraryPage(props, context) {
     });
 
     const relaxed =
-      transitEdges(state.plan?.edges).length === 0 &&
+      filterWalk(state.plan?.edges).length === 0 &&
       relaxState.plan?.edges?.length > 0;
     const origPlan = relaxed ? relaxState.plan : state.plan;
 
@@ -855,7 +856,7 @@ export default function ItineraryPage(props, context) {
   const parkRidePlan = altStates[PLANTYPE.PARKANDRIDE][0].plan;
   const bikePublicPlan = bikePublicState.plan;
 
-  const hasNoTransitItineraries = transitEdges(state.plan?.edges).length === 0;
+  const hasNoTransitItineraries = filterWalk(state.plan?.edges).length === 0;
   const settings = getSettings(config);
 
   let plan = mapHashToPlan();
@@ -875,7 +876,7 @@ export default function ItineraryPage(props, context) {
     combinedEdges = getCombinedPlanEdges();
     if (!hasNoTransitItineraries) {
       // don't show plain walking in transit itinerary list
-      combinedEdges = transitEdges(combinedEdges);
+      combinedEdges = filterWalk(combinedEdges);
     }
   }
   const selectedIndex = getSelectedItineraryIndex(location, combinedEdges);

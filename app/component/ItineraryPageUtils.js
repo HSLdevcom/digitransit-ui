@@ -360,6 +360,18 @@ export function transitEdges(edges) {
 }
 
 /**
+ * Filters away plain walk
+ */
+export function filterWalk(edges) {
+  if (!edges) {
+    return [];
+  }
+  return edges.filter(
+    edge => !edge.node.legs.every(leg => leg.mode === 'WALK'),
+  );
+}
+
+/**
  * Filters itineraries that don't use given mode
  */
 export function filterItineraries(edges, modes) {
