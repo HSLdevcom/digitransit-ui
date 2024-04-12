@@ -41,6 +41,12 @@ import {
   handleUserAnalytics,
 } from './util/analyticsUtils';
 import { configureCountry } from './util/configureCountry';
+import { getUser } from './util/apiUtils';
+import setUser from './action/userActions';
+import {
+  fetchFavourites,
+  fetchFavouritesComplete,
+} from './action/FavouriteActions';
 
 const plugContext = f => () => ({
   plugComponentContext: f,
@@ -224,11 +230,26 @@ async function init() {
   }
   // send tracking call for initial page load.
   // tracking page changes is done in TopLevel component
-  handleUserAnalytics(config);
   addAnalyticsEvent({
     event: 'Pageview',
     url: path,
   });
+
+  // fetch Userdata and favourites
+  if (config.allowLogin) {
+    getUser()
+      .then(user => {
+        context.executeAction(setUser, {
+          ...user,
+        });
+        handleUserAnalytics(user, config);
+        context.executeAction(fetchFavourites);
+      })
+      .catch(() => {
+        context.executeAction(setUser, { notLogged: true });
+        context.executeAction(fetchFavouritesComplete);
+      });
+  }
 
   const ContextProvider = provideContext(StoreListeningIntlProvider, {
     /* eslint-disable-next-line */
