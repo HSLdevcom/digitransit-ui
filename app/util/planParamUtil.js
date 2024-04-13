@@ -265,6 +265,7 @@ export function getPlanParams(
       break;
     case PLANTYPE.PARKANDRIDE:
       access = ['CAR_PARKING'];
+      transitOnly = true;
       break;
     case PLANTYPE.TRANSIT:
       direct = access;
