@@ -67,3 +67,17 @@ export function initAnalyticsClientSide(config) {
     );
   }
 }
+
+/**
+ * Handle user analytics
+ * @param {object} user - user object
+ * @param {object} config - configuration object
+ */
+export function handleUserAnalytics(user, config) {
+  if (config.loginAnalyticsEventName && user?.sub) {
+    addAnalyticsEvent({
+      event: config.loginAnalyticsEventName,
+      [config.loginAnalyticsKey]: user.sub,
+    });
+  }
+}

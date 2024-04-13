@@ -750,6 +750,7 @@ $itinerary-tab-switch-height: 48px;
       .ticket-description {
         display: flex;
         color: #666;
+        white-space: nowrap;
       }
 
       .ticket-identifier {
