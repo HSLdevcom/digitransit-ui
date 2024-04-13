@@ -10,6 +10,7 @@ import Itinerary from './Itinerary';
 import { isBrowser } from '../util/browser';
 import { getExtendedMode } from '../util/legUtils';
 import ItineraryListHeader from './ItineraryListHeader';
+import ItinerariesNotFound from './ItinerariesNotFound';
 import Loading from './Loading';
 import RoutingFeedbackPrompt from './RoutingFeedbackPrompt';
 import { streetHash } from '../util/path';
@@ -33,6 +34,7 @@ function ItineraryList(
     separatorPosition,
     loadingMore,
     routingFeedbackPosition,
+    ...rest
   },
   context,
 ) {
@@ -76,7 +78,7 @@ function ItineraryList(
   }
   if (hash === streetHash.bikeAndVehicle) {
     // bikeParkItineraryCount tells how many itineraries in array start use bike parking
-    if (bikeParkItineraryCount > 0) {
+    if (bikeParkItineraryCount > 0 || !planEdges.length) {
       summaries.splice(
         0,
         0,
@@ -170,6 +172,7 @@ function ItineraryList(
           <Loading />
         </div>
       )}
+      {!planEdges.length && <ItinerariesNotFound {...rest} />};
     </div>
   );
 }

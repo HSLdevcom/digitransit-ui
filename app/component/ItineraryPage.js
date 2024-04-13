@@ -14,7 +14,6 @@ import DesktopView from './DesktopView';
 import MobileView from './MobileView';
 import ItineraryPageMap from './map/ItineraryPageMap';
 import ItineraryListContainer from './ItineraryListContainer';
-import ItinerariesNotFound from './ItinerariesNotFound';
 import { spinnerPosition } from './ItineraryList';
 import ItineraryPageControls from './ItineraryPageControls';
 import ItineraryTabs from './ItineraryTabs';
@@ -976,7 +975,7 @@ export default function ItineraryPage(props, context) {
         bikeAndPublicItineraryCount={bikePublicPlan.bikePublicItineraryCount}
       />
     );
-  } else if (plan?.edges?.length) {
+  } else {
     const settingsNotification =
       !showRelaxedPlanNotifier && // show only on notifier about limitations
       settingsLimitRouting(config) &&
@@ -1006,15 +1005,9 @@ export default function ItineraryPage(props, context) {
         topNote={state.topNote}
         bottomNote={state.bottomNote}
         searchTime={searchTime}
-      />
-    );
-  } else {
-    content = (
-      <ItinerariesNotFound
         routingErrors={plan?.routingErrors}
         from={from}
         to={to}
-        searchTime={searchTime}
         error={state.error}
         walking={walkPlan?.edges?.length > 0}
         biking={bikePlan?.edges?.length > 0 || !!bikePublicPlan?.edges?.length}
