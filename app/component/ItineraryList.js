@@ -172,7 +172,10 @@ function ItineraryList(
           <Loading />
         </div>
       )}
-      {!planEdges.length && <ItinerariesNotFound {...rest} />};
+      {!planEdges.length && (
+        <ItinerariesNotFound searchTime={searchTime} {...rest} />
+      )}
+      ;
     </div>
   );
 }
