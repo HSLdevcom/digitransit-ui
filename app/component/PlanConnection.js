@@ -48,7 +48,6 @@ const planConnection = graphql`
         }
       }
     ) {
-      ...ItineraryListContainer_plan
       searchDateTime
       routingErrors {
         code

@@ -987,7 +987,6 @@ export default function ItineraryPage(props, context) {
     content = (
       <ItineraryListContainer
         activeIndex={selectedIndex}
-        plan={plan}
         planEdges={combinedEdges}
         params={params}
         bikeParkItineraryCount={bikePublicPlan.bikeParkItineraryCount}

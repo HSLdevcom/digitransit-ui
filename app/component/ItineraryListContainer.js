@@ -237,18 +237,12 @@ const connectedContainer = createFragmentContainer(
     currentTime: context.getStore(TimeStore).getCurrentTime().valueOf(),
   })),
   {
-    plan: graphql`
-      fragment ItineraryListContainer_plan on PlanConnection {
-        searchDateTime
-      }
-    `,
     planEdges: graphql`
       fragment ItineraryListContainer_planEdges on PlanEdge
       @relay(plural: true) {
         ...ItineraryList_planEdges
         node {
           legs {
-            ...ItineraryLine_legs
             mode
           }
         }
