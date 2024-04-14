@@ -217,7 +217,6 @@ const containerComponent = createFragmentContainer(ItineraryList, {
           co2
         }
         legs {
-          ...ItineraryLine_legs
           transitLeg
           mode
           route {
