@@ -432,9 +432,9 @@ const withRelay = createFragmentContainer(
             lat
             lon
             name
-            bikePark {
-              bikeParkId
+            vehicleParking  {
               name
+              vehicleParkingId
             }
             vehicleRentalStation {
               network
@@ -500,13 +500,9 @@ const withRelay = createFragmentContainer(
                 }
               }
             }
-            bikePark {
-              bikeParkId
-              name
-            }
-            carPark {
-              carParkId
-              name
+            vehicleParking  {
+               name
+               vehicleParkingId
             }
           }
           intermediatePlaces {

@@ -245,7 +245,7 @@ const connectsFromViaPoint = (currLeg, intermediatePlaces) =>
 const bikeWasParked = legs => {
   const legsLength = legs.length;
   for (let i = 0; i < legsLength; i++) {
-    if (legs[i].to && legs[i].to.bikePark) {
+    if (legs[i].to && legs[i].to.vehicleParking) {
       return i;
     }
   }
@@ -273,7 +273,7 @@ const Itinerary = (
     leg => getLegMode(leg) === 'BICYCLE' && leg.rentedBike === false,
   );
   const usingOwnBicycleWholeTrip =
-    usingOwnBicycle && itinerary.legs.every(leg => !leg.to || !leg.to.bikePark);
+    usingOwnBicycle && itinerary.legs.every(leg => !leg.to?.vehicleParking);
   const refTime = moment(props.refTime);
   const startTime = moment(itinerary.startTime);
   const endTime = moment(itinerary.endTime);
@@ -404,7 +404,7 @@ const Itinerary = (
           large={breakpoint === 'large'}
         />,
       );
-      if (leg.to.bikePark) {
+      if (usingOwnBicycle && leg.to.vehicleParking) {
         onlyIconLegs += 1;
         legs.push(
           <div
@@ -469,7 +469,7 @@ const Itinerary = (
           icon="icon-icon_car-withoutBox"
         />,
       );
-      if (leg.to.carPark) {
+      if (leg.to.vehicleParking) {
         onlyIconLegs += 1;
         legs.push(
           <div
@@ -497,7 +497,7 @@ const Itinerary = (
           large={breakpoint === 'large'}
         />,
       );
-      if (leg.to.bikePark) {
+      if (leg.to.vehicleParking) {
         onlyIconLegs += 1;
         legs.push(
           <div
@@ -1031,13 +1031,9 @@ const containerComponent = createFragmentContainer(ItineraryWithBreakpoint, {
               effectiveStartDate
             }
           }
-          bikePark {
-            bikeParkId
+          vehicleParking {
             name
-          }
-          carPark {
-            carParkId
-            name
+            vehicleParkingId
           }
         }
       }
