@@ -62,7 +62,7 @@ export default function MobileTicketPurchaseInformation(
         {faresInfo()}
         <div className="app-link">
           <ExternalLink
-            href={config.ticketPurchaseLink(fare.ticketName)}
+            href={config.ticketPurchaseLink(fare)}
             onClick={() =>
               addAnalyticsEvent({ event: 'journey_planner_open_app' })
             }
