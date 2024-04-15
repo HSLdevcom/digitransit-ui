@@ -252,7 +252,7 @@ export default {
   showBikeAndParkItineraries: true,
 
   parkingAreaSources: ['liipi'],
-  bikeBoardingInfoModes: ['RAIL', 'FERRY'],
+  bikeBoardingModes: ['RAIL', 'FERRY'],
 
   parkAndRide: {
     showParkAndRide: false,
@@ -381,13 +381,8 @@ export default {
   // Extra modes for bike boarding info, like Tram for Tampere
   bikeBoardingExtraModes: [{ agency: 'Nysse', mode: 'TRAM' }],
 
-  showBikeBoardingInfoHeader: (
-    bikeBoardingInfoModes,
-    extraModes,
-    mode,
-    legs,
-  ) => {
-    if (bikeBoardingInfoModes?.includes(mode.toUpperCase())) {
+  showBikeBoardingInfoHeader: (bikeBoardingModes, extraModes, mode, legs) => {
+    if (bikeBoardingModes?.includes(mode.toUpperCase())) {
       return true;
     }
     return legs?.some(leg =>
