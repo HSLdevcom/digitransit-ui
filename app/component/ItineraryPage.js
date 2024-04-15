@@ -962,6 +962,8 @@ export default function ItineraryPage(props, context) {
       </div>
     );
   } else if (detailView) {
+    let carEmissions = carPlan?.edges?.[0]?.node.emissionsPerPerson?.co2;
+    carEmissions = carEmissions ? Math.round(carEmissions) : undefined;
     content = (
       <ItineraryTabs
         isMobile={!desktop}
@@ -971,7 +973,7 @@ export default function ItineraryPage(props, context) {
         planEdges={combinedEdges}
         focusToPoint={focusToPoint}
         focusToLeg={focusToLeg}
-        carItinerary={carPlan?.edges?.[0]}
+        carEmissions={carEmissions}
         bikeAndPublicItineraryCount={bikePublicPlan.bikePublicItineraryCount}
       />
     );

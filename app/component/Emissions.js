@@ -8,17 +8,14 @@ import getCo2Value from '../util/emissions';
 
 export default function Emissions({
   itinerary,
-  carItinerary,
+  carEmissions,
   emissionsInfolink,
 }) {
   const co2value = getCo2Value(itinerary);
   const itineraryIsCar = itinerary.legs.every(
     leg => leg.mode === 'CAR' || leg.mode === 'WALK',
   );
-  const carCo2Value =
-    !itineraryIsCar && carItinerary
-      ? Math.round(carItinerary.emissionsPerPerson?.co2)
-      : null;
+  const carCo2Value = itineraryIsCar ? null : carEmissions;
   const useCo2SimpleDesc = !carCo2Value || itineraryIsCar;
   const co2DescriptionId = useCo2SimpleDesc
     ? 'itinerary-co2.description-simple'
@@ -83,11 +80,11 @@ export default function Emissions({
 
 Emissions.propTypes = {
   itinerary: itineraryShape.isRequired,
-  carItinerary: itineraryShape,
+  carEmissions: PropTypes.number,
   emissionsInfolink: PropTypes.string,
 };
 
 Emissions.defaultProps = {
-  carItinerary: undefined,
+  carEmissions: undefined,
   emissionsInfolink: undefined,
 };
