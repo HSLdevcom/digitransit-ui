@@ -545,6 +545,7 @@ export default {
       virtualMonitorBaseUrl: 'https://omatnaytot.hsl.fi/',
     },
   },
+  bikeBoardingModes: ['RAIL', 'FERRY'],
 
   routeNotifications: [
     {

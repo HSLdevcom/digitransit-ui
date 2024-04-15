@@ -100,7 +100,7 @@ function ItineraryList(
         .slice(bikeParkItineraryCount)
         .flatMap(edge => edge.node.legs);
       const showBikeBoardingInfo = config.showBikeBoardingInfoHeader?.(
-        config.bikeBoardingInfoModes,
+        config.bikeBoardingModes,
         config.bikeBoardingExtraModes,
         mode,
         legs,
