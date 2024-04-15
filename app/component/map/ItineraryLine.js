@@ -271,7 +271,9 @@ export default createFragmentContainer(ItineraryLine, {
           lon
           stationId
           network
-          vehiclesAvailable
+          availableVehicles {
+            total
+          }
         }
         stop {
           gtfsId
@@ -289,7 +291,9 @@ export default createFragmentContainer(ItineraryLine, {
           lon
           stationId
           network
-          vehiclesAvailable
+          availableVehicles {
+            total
+          }
         }
         stop {
           gtfsId

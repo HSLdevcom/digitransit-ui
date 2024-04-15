@@ -83,8 +83,11 @@ export const parkShape = PropTypes.shape({
 });
 
 export const vehicleRentalStationShape = PropTypes.shape({
-  vehiclesAvailable: PropTypes.number,
+  availableVehicles: PropTypes.shape({ total: PropTypes.number }),
+  availableSpaces: PropTypes.shape({ total: PropTypes.number }),
   network: PropTypes.string,
+  capacity: PropTypes.number,
+  operative: PropTypes.bool,
 });
 
 export const routeShape = PropTypes.shape({

@@ -629,7 +629,7 @@ export function drawCitybikeIcon(
   tile,
   geom,
   operative,
-  vehiclesAvailable,
+  available,
   iconName,
   showAvailability,
   isHilighted,
@@ -648,9 +648,9 @@ export function drawCitybikeIcon(
   let y;
   let color = 'green';
   if (showAvailability) {
-    if (!vehiclesAvailable) {
+    if (!available) {
       color = 'red';
-    } else if (vehiclesAvailable <= 3) {
+    } else if (available <= 3) {
       color = 'yellow';
     }
   }
@@ -675,9 +675,7 @@ export function drawCitybikeIcon(
     const iconX = x;
     const iconY = y;
     const showAvailabilityBadge =
-      showAvailability &&
-      (vehiclesAvailable || vehiclesAvailable === 0) &&
-      operative;
+      showAvailability && (available || available === 0) && operative;
     let icon = `${iconName}_station_${color}_large`;
     if (!operative) {
       icon = 'icon-icon_citybike_station_closed_large';
@@ -694,7 +692,7 @@ export function drawCitybikeIcon(
         tile.ctx.fillStyle = color === 'yellow' ? '#000' : '#fff';
         tile.ctx.textAlign = 'center';
         tile.ctx.textBaseline = 'middle';
-        tile.ctx.fillText(vehiclesAvailable, x, y);
+        tile.ctx.fillText(available, x, y);
         /* eslint-enable no-param-reassign */
       }
       if (isHilighted) {

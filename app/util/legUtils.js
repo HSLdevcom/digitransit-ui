@@ -355,18 +355,15 @@ export function getTotalDistance(itinerary) {
 /**
  * Gets the indicator color for the current amount of citybikes available.
  *
- * @param {number} vehiclesAvailable the number of bikes currently available
+ * @param {number} available the number of bikes currently available
  * @param {*} config the configuration for the software installation
  */
-export function getVehicleAvailabilityIndicatorColor(
-  vehiclesAvailable,
-  config,
-) {
+export function getVehicleAvailabilityIndicatorColor(available, config) {
   return (
     // eslint-disable-next-line no-nested-ternary
-    vehiclesAvailable === 0
+    available === 0
       ? '#DC0451'
-      : vehiclesAvailable > config.cityBike.fewAvailableCount
+      : available > config.cityBike.fewAvailableCount
         ? '#3B7F00'
         : '#FCBC19'
   );
@@ -374,12 +371,11 @@ export function getVehicleAvailabilityIndicatorColor(
 
 /* Gets the indicator text color if  few bikes are available
  *
- * @param {number} vehiclesAvailable the number of bikes currently available
+ * @param {number} available the number of bikes currently available
  * @param {*} config the configuration for the software installation/
  */
-export function getVehicleAvailabilityTextColor(vehiclesAvailable, config) {
-  return vehiclesAvailable <= config.cityBike.fewAvailableCount &&
-    vehiclesAvailable > 0
+export function getVehicleAvailabilityTextColor(available, config) {
+  return available <= config.cityBike.fewAvailableCount && available > 0
     ? '#333'
     : '#fff';
 }
@@ -401,11 +397,11 @@ export function getLegBadgeProps(leg, config) {
   ) {
     return undefined;
   }
-  const { vehiclesAvailable } = leg.from.vehicleRentalStation || 0;
+  const { total } = leg.from.vehicleRentalStation?.availableVehicles || 0;
   return {
-    badgeFill: getVehicleAvailabilityIndicatorColor(vehiclesAvailable, config),
-    badgeText: `${vehiclesAvailable}`,
-    badgeTextFill: getVehicleAvailabilityTextColor(vehiclesAvailable, config),
+    badgeFill: getVehicleAvailabilityIndicatorColor(total, config),
+    badgeText: `${total}`,
+    badgeTextFill: getVehicleAvailabilityTextColor(total, config),
   };
 }
 

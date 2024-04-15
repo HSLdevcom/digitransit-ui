@@ -23,7 +23,9 @@ import { getLayerBaseUrl } from '../../../util/mapLayerUtils';
 const query = graphql`
   query VehicleRentalStationsQuery($id: String!) {
     station: vehicleRentalStation(id: $id) {
-      vehiclesAvailable
+      availableVehicles {
+        total
+      }
       operative
     }
   }
@@ -128,7 +130,7 @@ class VehicleRentalStations {
   };
 
   drawLargeIcon = (
-    { geom, properties: { network, operative, vehiclesAvailable } },
+    { geom, properties: { network, operative, available } },
     iconName,
     isHilighted,
   ) => {
@@ -138,7 +140,7 @@ class VehicleRentalStations {
       this.tile,
       geom,
       operative,
-      vehiclesAvailable,
+      available,
       iconName,
       citybikeCapacity !== BIKEAVL_UNKNOWN,
       isHilighted,
@@ -153,7 +155,7 @@ class VehicleRentalStations {
           this.tile,
           geom,
           result.operative,
-          result.vehiclesAvailable,
+          result.availableVehicles.total,
           iconName,
           citybikeCapacity !== BIKEAVL_UNKNOWN,
           true,

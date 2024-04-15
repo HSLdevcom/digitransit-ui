@@ -631,7 +631,8 @@ const Itinerary = (
                 id="bikes-available"
                 values={{
                   amount:
-                    firstDeparture.from.vehicleRentalStation.vehiclesAvailable,
+                    firstDeparture.from.vehicleRentalStation.availableVehicles
+                      .total,
                 }}
               />
             )}
@@ -1014,7 +1015,9 @@ const containerComponent = createFragmentContainer(ItineraryWithBreakpoint, {
             }
           }
           vehicleRentalStation {
-            vehiclesAvailable
+            availableVehicles {
+              total
+            }
             network
           }
         }

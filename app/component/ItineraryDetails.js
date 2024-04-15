@@ -438,7 +438,9 @@ const withRelay = createFragmentContainer(
             }
             vehicleRentalStation {
               network
-              vehiclesAvailable
+              availableVehicles {
+                total
+              }
               lat
               lon
               stationId
@@ -473,7 +475,9 @@ const withRelay = createFragmentContainer(
               lon
               stationId
               network
-              vehiclesAvailable
+              availableVehicles {
+                total
+              }
             }
             stop {
               gtfsId

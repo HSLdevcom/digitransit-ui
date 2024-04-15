@@ -51,11 +51,11 @@ function VehicleRentalLeg(
     getVehicleRentalStationNetworkConfig(vehicleRentalStation.network, config),
   );
   const availabilityIndicatorColor = getVehicleAvailabilityIndicatorColor(
-    vehicleRentalStation.vehiclesAvailable,
+    vehicleRentalStation.availableVehicles.total,
     config,
   );
   const availabilityTextColor = getVehicleAvailabilityTextColor(
-    vehicleRentalStation.vehiclesAvailable,
+    vehicleRentalStation.availableVehicles.total,
     config,
   );
   const mobileReturn = breakpoint === 'small' && returnBike;
@@ -75,7 +75,7 @@ function VehicleRentalLeg(
               height={1.655}
               badgeText={
                 vehicleCapacity !== BIKEAVL_UNKNOWN && !returnBike
-                  ? vehicleRentalStation.vehiclesAvailable
+                  ? vehicleRentalStation.availableVehicles.total
                   : null
               }
               badgeFill={returnBike ? null : availabilityIndicatorColor}

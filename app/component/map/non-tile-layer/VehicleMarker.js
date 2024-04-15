@@ -83,16 +83,16 @@ export default class VehicleMarker extends React.Component {
                 img: iconName,
                 className: 'city-bike-medium-size',
                 badgeFill: getVehicleAvailabilityIndicatorColor(
-                  station.vehiclesAvailable,
+                  station.availableVehicles.total,
                   config,
                 ),
                 badgeTextFill: getVehicleAvailabilityTextColor(
-                  station.vehiclesAvailable,
+                  station.availableVehicles.total,
                   config,
                 ),
                 badgeText:
                   vehicleCapacity !== BIKEAVL_UNKNOWN
-                    ? station.vehiclesAvailable
+                    ? station.availableVehicles.total
                     : null,
               })
             : Icon.asString({
