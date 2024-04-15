@@ -175,7 +175,6 @@ function ItineraryList(
       {!planEdges.length && (
         <ItinerariesNotFound searchTime={searchTime} {...rest} />
       )}
-      ;
     </div>
   );
 }
