@@ -84,7 +84,7 @@ export default {
   showHSLTracking: false,
   allowLogin: true,
   allowFavouritesFromLocalstorage: !process.env.OIDC_CLIENT_ID,
-  loginAnalyticsEventName: 'user-hsl-id',
+  loginAnalyticsEventName: undefined, // 'user-hsl-id',
   loginAnalyticsKey: 'hsl-id',
 
   nearbyRoutes: {
