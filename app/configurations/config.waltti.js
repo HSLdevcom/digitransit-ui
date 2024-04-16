@@ -186,7 +186,7 @@ export default {
 
   routeNotifications: [],
   showBicycleWalkLegModes: ['RAIL', 'SUBWAY', 'TRAM', 'FERRY'],
-  showBikeAndPublicItineraries: true,
+  showBikeAndPublicItineraries: false,
 
   hostnames: [
     // DEV hostnames
