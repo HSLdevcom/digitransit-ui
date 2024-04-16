@@ -291,6 +291,6 @@ export default configMerger(walttiConfig, {
   // Modes that shows extra cost information in itinerary summary and itinerary details pages
   bikeBoardingModes: ['RAIL', 'TRAM'],
   showTenWeeksOnRouteSchedule: true,
-  showBikeAndPublicItineraries: false,
+  showBikeAndPublicItineraries: true,
   includeBikeSuggestions: true,
 });

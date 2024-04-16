@@ -184,9 +184,43 @@ export default {
   },
   bikeBoardingModes: ['RAIL', 'FERRY'],
 
-  routeNotifications: [],
+  showBikeBoardingInfoHeader: (bikeBoardingModes, extraModes, mode, legs) => {
+    if (bikeBoardingModes?.includes(mode.toUpperCase())) {
+      return true;
+    }
+    return legs?.some(leg =>
+      extraModes?.some(
+        extraMode =>
+          extraMode.agency === leg.route?.agency.name &&
+          extraMode.mode === leg.route?.mode,
+      ),
+    );
+  },
+
+  routeNotifications: [
+    {
+      showForBikeWithPublicRoute: true,
+
+      id: 'externalCostWithBike',
+
+      content: {
+        fi: [
+          'Kulkuneuvossa mahdollisuus kuljettaa pyörää. ',
+          'Tarkasta pyörän kuljettamisen mahdollinen maksullisuus operaattorilta.',
+        ],
+        en: [
+          'There is a possibility to transport a bicycle in the vehicle. ',
+          'Check the possible cost of transporting a bicycle from the operator.',
+        ],
+        sv: [
+          'Möjlighet att transportera cykel i fordonet. ',
+          'Kontrollera eventuell avgift för att transportera cykel från operatören.',
+        ],
+      },
+    },
+  ],
   showBicycleWalkLegModes: ['RAIL', 'SUBWAY', 'TRAM', 'FERRY'],
-  showBikeAndPublicItineraries: false,
+  showBikeAndPublicItineraries: true,
 
   hostnames: [
     // DEV hostnames
