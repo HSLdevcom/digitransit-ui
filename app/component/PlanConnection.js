@@ -23,7 +23,6 @@ const planConnection = graphql`
     plan: planConnection(
       dateTime: $datetime
       numberOfItineraries: $numItineraries
-      searchWindow: "PT30M"
       after: $after
       first: $first
       before: $before
