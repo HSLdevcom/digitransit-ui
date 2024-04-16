@@ -60,7 +60,7 @@ import { saveSearch } from '../action/SearchActions';
 import CustomizeSearch from './CustomizeSearch';
 import { mapLayerShape } from '../store/MapLayerStore';
 
-const MAX_QUERY_COUNT = 3; // number of attempts to collect enough itineraries
+const MAX_QUERY_COUNT = 4; // number of attempts to collect enough itineraries
 
 const streetHashes = [
   streetHash.walk,
@@ -244,6 +244,7 @@ export default function ItineraryPage(props, context) {
     let plan;
     const trials = reps || (planParams.modes.directOnly ? 1 : MAX_QUERY_COUNT);
     const arriveBy = !!planParams.datetime.latestArrival;
+    // console.time(planParams.planType);
     for (let i = 0; i < trials; i++) {
       // eslint-disable-next-line no-await-in-loop
       const result = await fetchQuery(
@@ -276,7 +277,7 @@ export default function ItineraryPage(props, context) {
         };
       }
       if (plan.edges.length >= planParams.numItineraries) {
-        return plan;
+        break;
       }
       if (arriveBy) {
         if (!plan.pageInfo.startCursor) {
@@ -292,6 +293,7 @@ export default function ItineraryPage(props, context) {
         planParams.first = planParams.numItineraries - plan.edges.length; // eslint-disable-line no-param-reassign
       }
     }
+    // console.timeEnd(planParams.planType);
     return plan;
   }
 
