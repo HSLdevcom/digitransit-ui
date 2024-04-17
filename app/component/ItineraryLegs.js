@@ -87,12 +87,12 @@ export default class ItineraryLegs extends React.Component {
         undefined,
     }));
     const numberOfLegs = compressedLegs.length;
-    const bikeParked = compressedLegs.some(
-      leg => leg.to.bikePark || leg.from.bikePark,
-    );
     if (numberOfLegs === 0) {
       return null;
     }
+    const bikeParked = compressedLegs.some(
+      leg => leg.to.vehicleParking && leg.mode === 'BICYCLE',
+    );
     let previousLeg;
     let nextLeg;
     const legs = [];
@@ -114,13 +114,11 @@ export default class ItineraryLegs extends React.Component {
         interliningLegs.push(compressedLegs[index + 1]);
         index += 1;
       }
-      const isNextLegInterlining = nextLeg
-        ? nextLeg.interlineWithPreviousLeg
-        : false;
-      const bikePark = previousLeg?.to.bikePark;
-      const carPark = previousLeg?.to.carPark;
-      const fromBikePark = leg?.from.bikePark;
-      const fromCarPark = leg?.from.carPark || previousLeg?.to.carPark;
+      const isNextLegInterlining = nextLeg?.interlineWithPreviousLeg;
+      const bikePark =
+        previousLeg?.mode === 'BICYCLE' && previousLeg.to.vehicleParking;
+      const carPark =
+        previousLeg?.mode === 'CAR' && previousLeg.to.vehicleParking;
       const showBicycleWalkLeg = () => {
         return (
           this.context.config.showBicycleWalkLegModes.includes(nextLeg?.mode) ||
@@ -129,18 +127,6 @@ export default class ItineraryLegs extends React.Component {
           )
         );
       };
-      if (fromCarPark && !isLegOnFoot(leg)) {
-        legs.push(
-          <CarParkLeg
-            index={j}
-            leg={previousLeg}
-            carPark={fromCarPark}
-            focusAction={this.focus(leg.from)}
-            focusToLeg={this.focusToLeg(leg)}
-            noWalk
-          />,
-        );
-      }
 
       if (leg.mode !== 'WALK' && isCallAgencyPickupType(leg)) {
         legs.push(
@@ -170,7 +156,7 @@ export default class ItineraryLegs extends React.Component {
             focusToLeg={this.focusToLeg(leg)}
           />,
         );
-      } else if (carPark && isLegOnFoot(leg)) {
+      } else if (carPark) {
         legs.push(
           <CarParkLeg
             index={j}
@@ -181,29 +167,17 @@ export default class ItineraryLegs extends React.Component {
           />,
         );
       } else if (isLegOnFoot(leg)) {
-        if (fromBikePark) {
-          legs.push(
-            <BikeParkLeg
-              index={j}
-              leg={leg}
-              bikePark={fromBikePark}
-              focusAction={this.focus(leg.from)}
-              focusToLeg={this.focusToLeg(leg)}
-            />,
-          );
-        } else {
-          legs.push(
-            <WalkLeg
-              index={j}
-              leg={leg}
-              previousLeg={previousLeg}
-              focusAction={this.focus(leg.from)}
-              focusToLeg={this.focusToLeg(leg)}
-            >
-              {stopCode(leg.from.stop)}
-            </WalkLeg>,
-          );
-        }
+        legs.push(
+          <WalkLeg
+            index={j}
+            leg={leg}
+            previousLeg={previousLeg}
+            focusAction={this.focus(leg.from)}
+            focusToLeg={this.focusToLeg(leg)}
+          >
+            {stopCode(leg.from.stop)}
+          </WalkLeg>,
+        );
       } else if (leg.mode === 'BUS' && !leg.interlineWithPreviousLeg) {
         legs.push(
           <BusLeg
