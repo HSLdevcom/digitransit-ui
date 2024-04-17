@@ -117,7 +117,7 @@ function continueWithBicycle(leg1, leg2) {
     leg1.mode === LegMode.Bicycle || leg1.mode === LegMode.Walk;
   const isBicycle2 =
     leg2.mode === LegMode.Bicycle || leg2.mode === LegMode.Walk;
-  return isBicycle1 && isBicycle2 && !leg1.to.bikePark;
+  return isBicycle1 && isBicycle2 && !leg1.to.vehicleParking;
 }
 
 export function getLegText(route, config, interliningWithRoute) {
@@ -173,7 +173,7 @@ export function compressLegs(originalLegs, keepBicycleWalk = false) {
   let compressedLeg;
   let bikeParked = false;
   originalLegs.forEach((currentLeg, i) => {
-    if (currentLeg.to?.bikePark || currentLeg.from?.bikePark) {
+    if (currentLeg.to?.vehicleParking && currentLeg.mode === LegMode.Bicycle) {
       bikeParked = true;
     }
     if (!compressedLeg) {
@@ -203,14 +203,17 @@ export function compressLegs(originalLegs, keepBicycleWalk = false) {
     }
     if (usingOwnBicycle && continueWithBicycle(compressedLeg, currentLeg)) {
       // eslint-disable-next-line no-nested-ternary
-      const newBikePark = compressedLeg.to.bikePark
-        ? compressedLeg.to.bikePark
-        : currentLeg.to.bikePark
-          ? currentLeg.to.bikePark
+      const newBikePark = compressedLeg.to.vehicleParking
+        ? compressedLeg.to.vehicleParking
+        : currentLeg.to.vehicleParking
+          ? currentLeg.to.vehicleParking
           : null;
       compressedLeg.duration += currentLeg.duration;
       compressedLeg.distance += currentLeg.distance;
-      compressedLeg.to = { ...currentLeg.to, ...{ bikePark: newBikePark } };
+      compressedLeg.to = {
+        ...currentLeg.to,
+        ...{ vehicleParking: newBikePark },
+      };
       compressedLeg.endTime = currentLeg.endTime;
       compressedLeg.mode = LegMode.Bicycle;
       return;
@@ -315,7 +318,7 @@ export function legContainsRentalBike(leg) {
  * @returns {boolean} - True if the leg contains a bike park, false otherwise.
  */
 export function legContainsBikePark(leg) {
-  return leg.from.bikePark || leg.to.bikePark;
+  return leg.mode === LegMode.Bicycle && leg.to.vehicleParking;
 }
 
 /**

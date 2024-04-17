@@ -11,8 +11,8 @@ import { PREFIX_BIKEPARK, PREFIX_CARPARK } from '../util/path';
 import { isBrowser } from '../util/browser';
 
 function ParkAndRideContent(
-  { park, router, match, error, currentLanguage },
-  { config, intl },
+  { park, error, currentLanguage },
+  { config, intl, router, match },
 ) {
   const [isClient, setClient] = useState(false);
   useEffect(() => {
@@ -25,7 +25,7 @@ function ParkAndRideContent(
     throw error.message;
   }
   const bikePark = match.location.pathname.includes(PREFIX_BIKEPARK);
-  if (!park && !error) {
+  if (!park) {
     const path = bikePark ? PREFIX_BIKEPARK : PREFIX_CARPARK;
     if (isBrowser) {
       router.replace(`/${path}`);
@@ -34,7 +34,6 @@ function ParkAndRideContent(
     }
     return null;
   }
-
   const prePostFix = bikePark ? 'bike-park' : 'car-park';
   const [authenticationMethods, setAuthenticationMethods] = useState([]);
   const [pricingMethods, setPricingMethods] = useState([]);
@@ -148,7 +147,10 @@ function ParkAndRideContent(
 
   return (
     <div className="bike-station-page-container">
-      <ParkOrStationHeader parkOrStation={park} />
+      <ParkOrStationHeader
+        parkOrStation={park}
+        parkType={bikePark ? 'bike' : 'car'}
+      />
       <div className="park-content-container">
         <Icon img={`icon-icon_${prePostFix}`} height={2.4} width={2.4} />
         <div className="park-details">
@@ -236,8 +238,6 @@ function ParkAndRideContent(
 
 ParkAndRideContent.propTypes = {
   park: parkShape,
-  router: routerShape.isRequired,
-  match: matchShape.isRequired,
   error: errorShape,
   currentLanguage: PropTypes.string.isRequired,
 };
@@ -250,6 +250,8 @@ ParkAndRideContent.defaultProps = {
 ParkAndRideContent.contextTypes = {
   config: configShape.isRequired,
   intl: intlShape.isRequired,
+  router: routerShape.isRequired,
+  match: matchShape.isRequired,
 };
 
 const connectedComponent = connectToStores(

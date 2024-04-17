@@ -20,7 +20,7 @@ export default function MapRoutingButton(
   const [showModal, setShowModal] = useState(false);
   const [buttonText, setButtonText] = useState(null);
   useEffect(() => {
-    if (!!stop?.carParkId || !!stop?.bikeParkId) {
+    if (stop?.vehicleParkingId) {
       setButtonText('route-to-park');
     } else if (stop?.vehicleMode === 'FERRY') {
       setButtonText('route-to-ferry');

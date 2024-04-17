@@ -5,11 +5,11 @@ import { parkShape } from '../util/shapes';
 import StopPageMap from './map/StopPageMap';
 import { PREFIX_CARPARK, PREFIX_BIKEPARK } from '../util/path';
 
-function VehicleParkMapContainer({ vehiclePark }, { match }) {
+function VehicleParkMapContainer({ vehiclePark }, context) {
   if (!vehiclePark) {
     return false;
   }
-  const type = match.location.pathname.includes(PREFIX_BIKEPARK)
+  const type = context?.match.location.pathname.includes(PREFIX_BIKEPARK)
     ? PREFIX_BIKEPARK
     : PREFIX_CARPARK;
 
@@ -29,6 +29,7 @@ VehicleParkMapContainer.defaultProps = {
 const containerComponent = createFragmentContainer(VehicleParkMapContainer, {
   vehiclePark: graphql`
     fragment VehicleParkMapContainer_vehiclePark on VehicleParking {
+      vehicleParkingId
       lat
       lon
       name
