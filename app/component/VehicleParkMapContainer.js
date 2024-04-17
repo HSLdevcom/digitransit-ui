@@ -1,41 +1,39 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
-import { configShape } from '../util/shapes';
+import { matchShape } from 'found';
+import { parkShape } from '../util/shapes';
 import StopPageMap from './map/StopPageMap';
+import { PREFIX_CARPARK, PREFIX_BIKEPARK } from '../util/path';
 
-const BikeParkPageMapContainer = ({ bikePark }) => {
-  if (!bikePark) {
+function VehicleParkMapContainer({ vehiclePark }, { match }) {
+  if (!vehiclePark) {
     return false;
   }
-  return <StopPageMap stop={bikePark} />;
+  const type = match.location.pathname.includes(PREFIX_BIKEPARK)
+    ? PREFIX_BIKEPARK
+    : PREFIX_CARPARK;
+
+  return <StopPageMap stop={vehiclePark} parkType={type} />;
+}
+
+VehicleParkMapContainer.contextTypes = {
+  match: matchShape.isRequired,
 };
 
-BikeParkPageMapContainer.contextTypes = {
-  config: configShape.isRequired,
+VehicleParkMapContainer.propTypes = { vehiclePark: parkShape };
+
+VehicleParkMapContainer.defaultProps = {
+  vehiclePark: undefined,
 };
 
-BikeParkPageMapContainer.propTypes = {
-  bikePark: PropTypes.shape({
-    lat: PropTypes.number.isRequired,
-    lon: PropTypes.number.isRequired,
-    name: PropTypes.string,
-  }),
-};
-
-BikeParkPageMapContainer.defaultProps = {
-  bikePark: undefined,
-};
-
-const containerComponent = createFragmentContainer(BikeParkPageMapContainer, {
-  bikePark: graphql`
-    fragment VehicleParkMapContainer_vehiclePark on BikePark {
+const containerComponent = createFragmentContainer(VehicleParkMapContainer, {
+  vehiclePark: graphql`
+    fragment VehicleParkMapContainer_vehiclePark on VehicleParking {
       lat
       lon
       name
-      bikeParkId
     }
   `,
 });
 
-export { containerComponent as default, BikeParkPageMapContainer as Component };
+export { containerComponent as default, VehicleParkMapContainer as Component };
