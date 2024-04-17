@@ -80,6 +80,15 @@ export const popupColorShape = PropTypes.shape({
 
 export const parkShape = PropTypes.shape({
   name: PropTypes.string.isRequired,
+  lat: PropTypes.number,
+  lon: PropTypes.number,
+  availability: PropTypes.shape({
+    bicycleSpaces: PropTypes.number,
+    carSpaces: PropTypes.number,
+  }),
+  capacity: PropTypes.shape({ carSpaces: PropTypes.number }),
+  tags: PropTypes.arrayOf(PropTypes.string),
+  realtime: PropTypes.bool,
 });
 
 export const vehicleRentalStationShape = PropTypes.shape({
