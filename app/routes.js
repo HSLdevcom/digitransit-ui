@@ -94,6 +94,62 @@ export default config => {
     },
   };
 
+  const vehicleParkingProps = {
+    content: (
+      <Route
+        getComponent={() =>
+          import(
+            /* webpackChunkName: "vehiclepark" */ './component/ParkContainer'
+          )
+            .then(getDefault)
+            .catch(errorLoading)
+        }
+        prepareVariables={prepareWeekDays}
+        query={graphql`
+          query routes_VehiclePark_Query($id: String!, $dates: [String!]!) {
+            vehicleParking(id: $id) {
+              ...ParkContainer_vehicleParking @arguments(dates: $dates)
+            }
+          }
+        `}
+        render={({ Component, props, error, retry }) => {
+          if (Component && (props || error)) {
+            return <Component {...props} error={error} />;
+          }
+          return getComponentOrLoadingRenderer({
+            Component,
+            props,
+            error,
+            retry,
+          });
+        }}
+      />
+    ),
+    map: (
+      <Route
+        path="(.*)?"
+        getComponent={() =>
+          import(
+            /* webpackChunkName: "vehiclepark" */ './component/VehicleParkMapContainer'
+          ).then(getDefault)
+        }
+        query={graphql`
+          query routes_VehicleParkMap_Query($id: String!) {
+            vehicleParking(id: $id) {
+              ...VehicleParkMapContainer_vehiclePark
+            }
+          }
+        `}
+        render={({ Component, props }) => {
+          if (Component) {
+            return <Component {...props} />;
+          }
+          return undefined;
+        }}
+      />
+    ),
+  };
+
   return (
     <Route Component={TopLevel}>
       {getStopRoutes()}
@@ -152,57 +208,7 @@ export default config => {
         <Route Component={Error404} />
         <Route path=":id">
           {{
-            content: (
-              <Route
-                getComponent={() =>
-                  import(
-                    /* webpackChunkName: "bikepark" */ './component/VehicleParkContent'
-                  )
-                    .then(getDefault)
-                    .catch(errorLoading)
-                }
-                prepareVariables={prepareWeekDays}
-                query={graphql`
-                  query routes_VehiclePark_Query(
-                    $id: String!
-                    $dates: [String!]!
-                  ) {
-                    bikePark(id: $id) {
-                      ...VehicleParkContent_bikePark @arguments(dates: $dates)
-                    }
-                  }
-                `}
-                render={({ Component, props, error, retry }) => {
-                  if (Component && (props || error)) {
-                    return <Component {...props} error={error} />;
-                  }
-                  return getComponentOrLoadingRenderer({
-                    Component,
-                    props,
-                    error,
-                    retry,
-                  });
-                }}
-              />
-            ),
-            map: (
-              <Route
-                path="(.*)?"
-                getComponent={() =>
-                  import(
-                    /* webpackChunkName: "bikepark" */ './component/VehicleParkMapContainer'
-                  ).then(getDefault)
-                }
-                query={graphql`
-                  query routes_VehicleParkMap_Query($id: String!) {
-                    bikePark(id: $id) {
-                      ...VehicleParkMapContainer_vehiclePark
-                    }
-                  }
-                `}
-                render={getComponentOrNullRenderer}
-              />
-            ),
+            ...vehicleParkingProps,
           }}
         </Route>
       </Route>
@@ -210,54 +216,7 @@ export default config => {
         <Route Component={Error404} />
         <Route path=":id">
           {{
-            content: (
-              <Route
-                getComponent={() =>
-                  import(
-                    /* webpackChunkName: "carpark" */ './component/CarParkContent'
-                  )
-                    .then(getDefault)
-                    .catch(errorLoading)
-                }
-                query={graphql`
-                  query routes_CarPark_Query($id: String!, $dates: [String!]!) {
-                    carPark(id: $id) {
-                      ...CarParkContent_carPark @arguments(dates: $dates)
-                    }
-                  }
-                `}
-                prepareVariables={prepareWeekDays}
-                render={({ Component, props, error, retry }) => {
-                  if (Component && (props || error)) {
-                    return <Component {...props} error={error} />;
-                  }
-                  return getComponentOrLoadingRenderer({
-                    Component,
-                    props,
-                    error,
-                    retry,
-                  });
-                }}
-              />
-            ),
-            map: (
-              <Route
-                path="(.*)?"
-                getComponent={() =>
-                  import(
-                    /* webpackChunkName: "carpark" */ './component/CarParkMapContainer'
-                  ).then(getDefault)
-                }
-                query={graphql`
-                  query routes_CarParkMap_Query($id: String!) {
-                    carPark(id: $id) {
-                      ...CarParkMapContainer_carPark
-                    }
-                  }
-                `}
-                render={getComponentOrNullRenderer}
-              />
-            ),
+            ...vehicleParkingProps,
           }}
         </Route>
       </Route>
