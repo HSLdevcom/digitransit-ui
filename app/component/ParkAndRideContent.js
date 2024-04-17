@@ -4,18 +4,16 @@ import { matchShape, routerShape, RedirectException } from 'found';
 import { intlShape } from 'react-intl';
 import moment from 'moment-timezone';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-import { configShape, errorShape } from '../util/shapes';
+import { parkShape, configShape, errorShape } from '../util/shapes';
 import ParkOrStationHeader from './ParkOrStationHeader';
 import Icon from './Icon';
 import { PREFIX_BIKEPARK, PREFIX_CARPARK } from '../util/path';
 import { isBrowser } from '../util/browser';
 
-const ParkAndRideContent = (
-  { bikePark, carPark, router, match, error, currentLanguage },
+function ParkAndRideContent(
+  { park, router, match, error, currentLanguage },
   { config, intl },
-) => {
-  const park = bikePark || carPark;
-
+) {
   const [isClient, setClient] = useState(false);
   useEffect(() => {
     // To prevent SSR from rendering something https://reactjs.org/docs/react-dom.html#hydrate
@@ -26,11 +24,9 @@ const ParkAndRideContent = (
   if (isClient && error) {
     throw error.message;
   }
-
+  const bikePark = match.location.pathname.includes(PREFIX_BIKEPARK);
   if (!park && !error) {
-    const path = match.location.pathname.includes(PREFIX_BIKEPARK)
-      ? PREFIX_BIKEPARK
-      : PREFIX_CARPARK;
+    const path = bikePark ? PREFIX_BIKEPARK : PREFIX_CARPARK;
     if (isBrowser) {
       router.replace(`/${path}`);
     } else {
@@ -46,7 +42,15 @@ const ParkAndRideContent = (
   const [openingHours, setOpeningHours] = useState(null);
   const [lang, setLang] = useState('fi');
 
-  const { spacesAvailable, maxCapacity } = park;
+  let spacesAvailable;
+  let maxCapacity;
+  if (bikePark) {
+    spacesAvailable = park.availability.bicycleSpaces;
+  } else {
+    spacesAvailable = park.availability.carSpaces;
+    maxCapacity = park.capacity.carSpaces;
+  }
+
   const {
     getAuthenticationMethods,
     getPricingMethods,
@@ -137,7 +141,7 @@ const ParkAndRideContent = (
   };
   const parkIsPaid = isPaid(pricingMethods);
   const parkIsFree = isFree(pricingMethods);
-  const realtime = park?.realtime;
+  const { realtime } = park;
   const showOpeningHours =
     Array.isArray(openingHours?.dates) && openingHours.dates.length > 0;
   const showSpacesAvailable = !realtime && spacesAvailable;
@@ -228,27 +232,10 @@ const ParkAndRideContent = (
       </div>
     </div>
   );
-};
+}
 
 ParkAndRideContent.propTypes = {
-  bikePark: PropTypes.shape({
-    bikeParkId: PropTypes.string,
-    spacesAvailable: PropTypes.number,
-    name: PropTypes.string,
-    lat: PropTypes.number,
-    lon: PropTypes.number,
-    tags: PropTypes.arrayOf(PropTypes.string),
-  }),
-  carPark: PropTypes.shape({
-    carParkId: PropTypes.string,
-    spacesAvailable: PropTypes.number,
-    maxCapacity: PropTypes.number,
-    name: PropTypes.string,
-    lat: PropTypes.number,
-    lon: PropTypes.number,
-    tags: PropTypes.arrayOf(PropTypes.string),
-    realtime: PropTypes.bool,
-  }),
+  park: parkShape,
   router: routerShape.isRequired,
   match: matchShape.isRequired,
   error: errorShape,
@@ -256,8 +243,7 @@ ParkAndRideContent.propTypes = {
 };
 
 ParkAndRideContent.defaultProps = {
-  bikePark: null,
-  carPark: null,
+  park: undefined,
   error: undefined,
 };
 
