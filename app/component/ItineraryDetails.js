@@ -434,7 +434,6 @@ const withRelay = createFragmentContainer(
             name
             vehicleParking  {
               name
-              vehicleParkingId
             }
             vehicleRentalStation {
               network
@@ -502,7 +501,6 @@ const withRelay = createFragmentContainer(
             }
             vehicleParking  {
                name
-               vehicleParkingId
             }
           }
           intermediatePlaces {

@@ -1033,7 +1033,6 @@ const containerComponent = createFragmentContainer(ItineraryWithBreakpoint, {
           }
           vehicleParking {
             name
-            vehicleParkingId
           }
         }
       }

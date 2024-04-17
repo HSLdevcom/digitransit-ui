@@ -5,7 +5,6 @@ const containerComponent = createFragmentContainer(ParkAndRideContent, {
   park: graphql`
     fragment ParkContainer_vehicleParking on VehicleParking
     @argumentDefinitions(dates: { type: "[String!]!" }) {
-      vehicleParkingId
       availability {
         bicycleSpaces
         carSpaces
