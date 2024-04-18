@@ -60,6 +60,7 @@ export default configMerger(walttiConfig, {
 
   // Navbar logo
   logo: 'walttiOpas/waltti-logo.png',
+  secondaryLogo: 'walttiOpas/waltti-logo-secondary.png',
   favicon: './app/configurations/images/walttiOpas/walttiOpas-favicon.png',
 
   feedIds: ['Salo', 'Kajaani'],
