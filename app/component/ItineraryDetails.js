@@ -506,7 +506,6 @@ const withRelay = createFragmentContainer(
             }
           }
           intermediatePlaces {
-            arrivalTime
             stop {
               gtfsId
               lat

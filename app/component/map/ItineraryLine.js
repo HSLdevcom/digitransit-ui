@@ -310,7 +310,6 @@ export default createFragmentContainer(ItineraryLine, {
         }
       }
       intermediatePlaces {
-        arrivalTime
         stop {
           gtfsId
           lat

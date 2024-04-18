@@ -24,7 +24,6 @@ export default function Duration(props) {
     : '';
 
   const departureTime = futureText ? `${futureText}, ${startTime}` : startTime;
-  const arrivalTime = endTime;
   return (
     <span className={cx(props.className)}>
       <span className="sr-only">
@@ -34,7 +33,7 @@ export default function Duration(props) {
             duration,
             inFuture: futureText,
             departureTime,
-            arrivalTime,
+            arrivalTime: endTime,
           }}
         />{' '}
       </span>
@@ -63,8 +62,8 @@ Duration.description = () =>
 Duration.propTypes = {
   duration: PropTypes.number.isRequired,
   className: PropTypes.string,
-  startTime: PropTypes.number.isRequired,
-  endTime: PropTypes.number.isRequired,
+  startTime: PropTypes.string.isRequired,
+  endTime: PropTypes.string.isRequired,
   futureText: PropTypes.string,
   multiRow: PropTypes.bool,
 };

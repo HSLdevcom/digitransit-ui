@@ -27,8 +27,8 @@ export default {
       realTime: false,
       transitLeg: false,
       rentedBike: false,
-      startTime: 1534232708000,
-      endTime: 1534234930000,
+      start: new Date(1534232708000).toISOString(),
+      end: new Date(1534234930000).toISOString(),
       distance: 5651.585000000007,
       duration: 2222,
       intermediatePlace: true,
@@ -144,8 +144,8 @@ export default {
     hash: 0,
     data: {
       walkDistance: 7114.072666572624,
-      startTime: 1534236646000,
-      endTime: 1534243651000,
+      start: new Date(1534236646000).toISOString(),
+      end: new Date(1534243651000).toISOString(),
       legs: [
         {
           realTime: false,
@@ -210,8 +210,8 @@ export default {
     hash: 0,
     data: {
       walkDistance: 9041.268379123134,
-      startTime: 1534248516000,
-      endTime: 1534252308000,
+      start: new Date(1534248516000).toISOString(),
+      end: new Date(1534252308000).toISOString(),
       legs: [
         {
           realTime: false,
@@ -506,8 +506,8 @@ export default {
     hash: 0,
     data: {
       walkDistance: 8072.749670836849,
-      startTime: 1534249073000,
-      endTime: 1534251366000,
+      start: new Date(1534249073000).toISOString(),
+      end: new Date(1534251366000).toISOString(),
       legs: [
         {
           realTime: false,
@@ -695,8 +695,8 @@ export default {
     hash: 0,
     data: {
       walkDistance: 1142.60041664559,
-      startTime: 1534331943000,
-      endTime: 1534338844000,
+      start: new Date(1534331943000).toISOString(),
+      end: new Date(1534338844000).toISOString(),
       legs: [
         {
           realTime: false,
@@ -969,8 +969,8 @@ export default {
     hash: 0,
     data: {
       walkDistance: 266.06699998986716,
-      startTime: 1534337446000,
-      endTime: 1534338284000,
+      start: new Date(1534337446000).toISOString(),
+      end: new Date(1534338284000).toISOString(),
       legs: [
         {
           realTime: false,
@@ -1152,8 +1152,8 @@ export default {
     hash: 0,
     data: {
       walkDistance: 632.8012499858438,
-      startTime: 1534331801000,
-      endTime: 1534332522000,
+      start: new Date(1534331801000).toISOString(),
+      end: new Date(1534332522000).toISOString(),
       legs: [
         {
           realTime: false,
@@ -1321,8 +1321,8 @@ export default {
     hash: 0,
     data: {
       walkDistance: 629.7502499830623,
-      startTime: 1534331894000,
-      endTime: 1534332619000,
+      start: new Date(1534331894000).toISOString(),
+      end: new Date(1534332619000).toISOString(),
       legs: [
         {
           realTime: false,
@@ -1439,8 +1439,8 @@ export default {
     hash: 0,
     data: {
       walkDistance: 116.66474999607604,
-      startTime: 1534337446000,
-      endTime: 1534339835000,
+      start: new Date(1534337446000).toISOString(),
+      end: new Date(1534339835000).toISOString(),
       legs: [
         {
           realTime: false,
@@ -1576,8 +1576,8 @@ export default {
     hash: 0,
     data: {
       walkDistance: 1166.5336666326266,
-      startTime: 1534501732000,
-      endTime: 1534503881000,
+      start: new Date(1534501732000).toISOString(),
+      end: new Date(1534503881000).toISOString(),
       legs: [
         {
           realTime: false,
