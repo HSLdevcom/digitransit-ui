@@ -96,6 +96,8 @@ ParkOrBikeStationHeader.propTypes = {
   parkType: PropTypes.string,
 };
 
+ParkOrBikeStationHeader.defaultProps = { parkType: undefined };
+
 ParkOrBikeStationHeader.contextTypes = {
   config: configShape.isRequired,
 };
