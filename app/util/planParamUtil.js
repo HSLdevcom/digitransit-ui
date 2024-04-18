@@ -145,18 +145,19 @@ export function getPlanParams(
     if (mode === 'CITYBIKE') {
       return 'BICYCLE_RENT';
     }
+    if (mode === 'SCOOTER' && forceScooters) {
+      return 'SCOOTER_RENT';
+    }
     return mode;
   });
 
-  if (forceScooters) {
-    modesOrDefault.push('SCOOTER_RENT');
-    modesOrDefault = modesOrDefault.filter(mode => mode !== 'BICYCLE'); // cannot search citybikes with scooters, causes an error: "Multiple non-walk modes provided"
-  } else {
+  if (!forceScooters) {
     modesOrDefault = modesOrDefault.filter(mode => mode !== 'SCOOTER');
   }
 
-  if (!settings.allowedBikeRentalNetworks?.length) {
+  if (!settings.allowedBikeRentalNetworks?.length || forceScooters) {
     // do not ask citybike routes without networks
+    // cannot search citybikes with scooters, causes an error: "Multiple non-walk modes provided"
     modesOrDefault = modesOrDefault.filter(mode => mode !== 'BICYCLE_RENT');
   }
   const otpModes = modesAsOTPModes(modesOrDefault);

@@ -1,14 +1,15 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, intlShape } from 'react-intl';
 import SelectStopRow from './SelectStopRow';
 import SelectVehicleRentalStationRow from './SelectVehicleRentalStationRow';
 import SelectParkAndRideRow from './SelectParkAndRideRow';
 import SelectVehicleContainer from './SelectVehicleContainer';
 import { getIdWithoutFeed } from '../../../util/feedScopedIdUtils';
 import { popupColorShape } from '../../../util/shapes';
+import { PREFIX_BIKESTATIONS, PREFIX_RENTALVEHICLES } from '../../../util/path';
 
-function MarkerSelectPopup(props) {
+function MarkerSelectPopup(props, { intl }) {
   const hasStop = () =>
     props.options.find(option => option.layer !== 'realTimeVehicle');
 
@@ -51,6 +52,20 @@ function MarkerSelectPopup(props) {
         <SelectVehicleRentalStationRow
           {...option.feature.properties}
           key={`citybike:${option.feature.properties.id}`}
+          prefix={PREFIX_BIKESTATIONS}
+        />
+      );
+    }
+    if (option.layer === 'scooter') {
+      return (
+        <SelectVehicleRentalStationRow
+          {...option.feature.properties}
+          key={`scooter:${option.feature.properties.id}`}
+          prefix={PREFIX_RENTALVEHICLES}
+          desc={intl.formatMessage({
+            id: 'scooter',
+            defaultMessage: 'scooter',
+          })}
         />
       );
     }
@@ -118,6 +133,10 @@ MarkerSelectPopup.propTypes = {
   ).isRequired,
   selectRow: PropTypes.func.isRequired,
   colors: popupColorShape.isRequired,
+};
+
+MarkerSelectPopup.contextTypes = {
+  intl: intlShape.isRequired,
 };
 
 export default MarkerSelectPopup;

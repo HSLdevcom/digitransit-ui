@@ -13,7 +13,8 @@ import MapLayerStore, { mapLayerShape } from '../store/MapLayerStore';
 import { updateMapLayers } from '../action/MapLayerActions';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import withGeojsonObjects from './map/withGeojsonObjects';
-import { getTransportModes, showCityBikes } from '../util/modeUtils';
+import { getTransportModes, showRentalVehiclesOfType } from '../util/modeUtils';
+import { TransportMode } from '../constants';
 
 const transportModeconfigShape = PropTypes.shape({
   availableForSelection: PropTypes.bool,
@@ -50,6 +51,7 @@ const mapLayersconfigShape = PropTypes.shape({
     rail: transportModeconfigShape,
     subway: transportModeconfigShape,
     tram: transportModeconfigShape,
+    scooter: transportModeconfigShape,
   }),
   mapLayers: PropTypes.shape({
     tooltip: PropTypes.shape({
@@ -115,7 +117,7 @@ class MapLayersDialogContent extends React.Component {
   };
 
   render() {
-    const { citybike, parkAndRide, stop, geoJson, vehicles } =
+    const { citybike, parkAndRide, stop, geoJson, vehicles, scooter } =
       this.props.mapLayers;
     let arr;
     if (this.props.geoJson) {
@@ -205,9 +207,10 @@ class MapLayersDialogContent extends React.Component {
               }}
             />
           )}
-          {showCityBikes(
+          {showRentalVehiclesOfType(
             this.context.config?.cityBike?.networks,
             this.context.config,
+            TransportMode.Citybike,
           ) && (
             <Checkbox
               large
@@ -218,6 +221,23 @@ class MapLayersDialogContent extends React.Component {
               onChange={e => {
                 this.updateSetting({ citybike: e.target.checked });
                 sendLayerChangeAnalytic('Citybike', e.target.checked);
+              }}
+            />
+          )}
+          {showRentalVehiclesOfType(
+            this.context.config?.cityBike?.networks,
+            this.context.config,
+            TransportMode.Scooter,
+          ) && (
+            <Checkbox
+              large
+              checked={scooter}
+              disabled={!!this.props.mapLayerOptions?.scooter?.isLocked}
+              defaultMessage="Scooters"
+              labelId="map-layer-scooter"
+              onChange={e => {
+                this.updateSetting({ scooter: e.target.checked });
+                sendLayerChangeAnalytic('Scooter', e.target.checked);
               }}
             />
           )}

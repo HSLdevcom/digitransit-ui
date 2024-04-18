@@ -26,6 +26,7 @@ import {
   PREFIX_TERMINALS,
   PREFIX_CARPARK,
   PREFIX_BIKEPARK,
+  PREFIX_RENTALVEHICLES,
 } from '../../../util/path';
 import { getIdWithoutFeed } from '../../../util/feedScopedIdUtils';
 import SelectVehicleContainer from './SelectVehicleContainer';
@@ -204,6 +205,17 @@ class TileLayerContainer extends GridLayer {
       ) {
         this.context.router.push(
           `/${PREFIX_BIKESTATIONS}/${encodeURIComponent(
+            selectableTargets[0].feature.properties.id,
+          )}`,
+        );
+        return;
+      }
+      if (
+        selectableTargets.length === 1 &&
+        selectableTargets[0].layer === 'scooter'
+      ) {
+        this.context.router.push(
+          `/${PREFIX_RENTALVEHICLES}/${encodeURIComponent(
             selectableTargets[0].feature.properties.id,
           )}`,
         );

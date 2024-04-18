@@ -13,7 +13,7 @@ import AccessibilityOptionSection from './customizesearch/AccessibilityOptionSec
 import TransferOptionsSection from './customizesearch/TransferOptionsSection';
 import VehicleRentalStationNetworkSelector from './customizesearch/VehicleRentalStationNetworkSelector';
 import ScooterRentalNetworkSelector from './customizesearch/ScooterRentalNetworkSelector';
-import { showModeSettings, useRentalVehiclesOfType } from '../util/modeUtils';
+import { showModeSettings, useCitybikes, useScooters } from '../util/modeUtils';
 import ScrollableWrapper from './ScrollableWrapper';
 import { getDefaultSettings } from '../util/planParamUtil';
 import {
@@ -133,11 +133,7 @@ class CustomizeSearch extends React.Component {
               />
             </div>
           </div>
-          {useRentalVehiclesOfType(
-            config?.cityBike?.networks,
-            config,
-            CityBikeNetworkType.CityBike,
-          ) && (
+          {useCitybikes(config?.cityBike?.networks, config) && (
             <div className="settings-section">
               <div className="settings-option-container">
                 <fieldset>
@@ -162,11 +158,7 @@ class CustomizeSearch extends React.Component {
               </div>
             </div>
           )}
-          {useRentalVehiclesOfType(
-            config?.cityBike?.networks,
-            config,
-            CityBikeNetworkType.Scooter,
-          ) && (
+          {useScooters(config?.cityBike?.networks) && (
             <div className="settings-section">
               <div className="settings-option-container">
                 <fieldset>

@@ -41,6 +41,9 @@ const getModeFromProps = props => {
   if (props.stop.vehicleMode) {
     return props.stop.vehicleMode.toLowerCase();
   }
+  if (props.scooter) {
+    return 'scooter';
+  }
   return 'stop';
 };
 
@@ -237,6 +240,8 @@ const StopPageMapWithStores = connectToStores(
     const ml = config.showVehiclesOnStopPage ? { notThese: ['vehicles'] } : {};
     if (props.citybike) {
       ml.force = ['citybike']; // show always
+    } else if (props.scooter) {
+      ml.force = ['scooter']; // show always
     } else {
       ml.force = ['terminal'];
     }

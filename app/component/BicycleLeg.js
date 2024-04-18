@@ -22,9 +22,10 @@ import VehicleRentalLeg from './VehicleRentalLeg';
 import StopCode from './StopCode';
 import PlatformNumber from './PlatformNumber';
 import { getSettings } from '../util/planParamUtil';
+import { isKeyboardSelectionEvent } from '../util/browser';
 
 export default function BicycleLeg(
-  { focusAction, index, leg, focusToLeg, bicycleWalkLeg },
+  { focusAction, index, leg, focusToLeg, bicycleWalkLeg, toggleSettings },
   { config, intl },
 ) {
   let stopsDescription;
@@ -280,13 +281,18 @@ export default function BicycleLeg(
                 />
               </div>
             </div>
-
-            <div className="itinerary-transit-leg-route-bike">
+            <div
+              role="button"
+              tabIndex="0"
+              onClick={toggleSettings}
+              onKeyPress={e =>
+                isKeyboardSelectionEvent(e) && toggleSettings(true)
+              }
+              className="itinerary-transit-leg-route-bike"
+            >
               <div className="citybike-itinerary">
                 <div className="citybike-itinerary-text-container">
-                  <span
-                    className={cx('headsign', isScooter && 'scooter-headsign')}
-                  >
+                  <span className={cx('settings')}>
                     <FormattedMessage
                       id="open-settings"
                       defaultMessage="Go to settings"
@@ -295,14 +301,12 @@ export default function BicycleLeg(
                 </div>
               </div>
               <div className="link-to-e-scooter-operator">
-                <Link to="/asetukset">
-                  <Icon
-                    img="icon-icon_arrow-collapse--right"
-                    color="#007ac9"
-                    height={1}
-                    width={1}
-                  />
-                </Link>
+                <Icon
+                  img="icon-icon_arrow-collapse--right"
+                  color="#007ac9"
+                  height={1}
+                  width={1}
+                />
               </div>
             </div>
           </div>
@@ -378,6 +382,7 @@ BicycleLeg.propTypes = {
   index: PropTypes.number.isRequired,
   focusAction: PropTypes.func.isRequired,
   focusToLeg: PropTypes.func.isRequired,
+  toggleSettings: PropTypes.func.isRequired,
 };
 
 BicycleLeg.defaultProps = {

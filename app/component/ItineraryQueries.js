@@ -95,6 +95,9 @@ export const planQuery = graphql`
               vehicleId
               name
               network
+              vehicleType {
+                formFactor
+              }
             }
           }
           to {

@@ -60,32 +60,35 @@ export function networkIsActive(config, networkName) {
   return citybikeRoutingIsActive(networks[networkName], config);
 }
 
-export const useRentalVehiclesOfType = (networks, config, type) => {
-  if (!networks) {
-    return false;
-  }
-  return Object.values(networks).some(
-    network =>
-      network.type === type && citybikeRoutingIsActive(network, config),
-  );
-};
-
 export function useCitybikes(networks, config) {
   if (!networks) {
     return false;
   }
-  return Object.values(networks).some(network =>
-    citybikeRoutingIsActive(network, config),
+  return Object.values(networks).some(
+    network =>
+      network.type === TransportMode.Citybike.toLowerCase() &&
+      citybikeRoutingIsActive(network, config),
   );
 }
 
-export function showCityBikes(networks, config) {
+export function useScooters(networks) {
   if (!networks) {
     return false;
   }
   return Object.values(networks).some(
     network =>
-      network.type === 'citybike' && showCitybikeNetwork(network, config),
+      network.type === TransportMode.Scooter.toLowerCase() && network.enabled,
+  );
+}
+
+export function showRentalVehiclesOfType(networks, config, type) {
+  if (!networks) {
+    return false;
+  }
+  return Object.values(networks).some(
+    network =>
+      network.type === type.toLowerCase() &&
+      (network.type !== 'citybike' || showCitybikeNetwork(network, config)),
   );
 }
 
@@ -100,16 +103,21 @@ export function getNearYouModes(config) {
 }
 
 export function getTransportModes(config) {
-  if (
-    config.cityBike?.networks &&
-    !useCitybikes(config.cityBike.networks, config)
-  ) {
-    return {
-      ...config.transportModes,
-      ...{ citybike: { availableForSelection: false } },
-    };
+  let citybikeConfig = {};
+  let scooterConfig = {};
+  if (config.cityBike?.networks) {
+    if (!useCitybikes(config.cityBike.networks, config)) {
+      citybikeConfig = { citybike: { availableForSelection: false } };
+    }
+    if (!useScooters(config.cityBike.networks)) {
+      scooterConfig = { scooter: { availableForSelection: false } };
+    }
   }
-  return config.transportModes || {};
+  return {
+    ...config.transportModes,
+    ...citybikeConfig,
+    ...scooterConfig,
+  };
 }
 
 export function getRouteMode(route) {

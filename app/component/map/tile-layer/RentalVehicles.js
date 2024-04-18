@@ -6,32 +6,30 @@ import pick from 'lodash/pick';
 import { isBrowser } from '../../../util/browser';
 import {
   getMapIconScale,
-  drawCitybikeIcon,
+  drawScooterIcon,
   drawSmallVehicleRentalMarker,
 } from '../../../util/mapIconUtils';
-import { showCitybikeNetwork } from '../../../util/modeUtils';
 
 import {
   getVehicleRentalStationNetworkConfig,
   getVehicleRentalStationNetworkIcon,
-  getVehicleCapacity,
-  BIKEAVL_UNKNOWN,
 } from '../../../util/vehicleRentalUtils';
 import { fetchWithLanguageAndSubscription } from '../../../util/fetchUtils';
 import { getLayerBaseUrl } from '../../../util/mapLayerUtils';
+import { TransportMode } from '../../../constants';
 
 const query = graphql`
-  query VehicleRentalStationsQuery($id: String!) {
-    station: vehicleRentalStation(id: $id) {
-      vehiclesAvailable
-      operative
+  query RentalVehiclesQuery($id: String!) {
+    station: rentalVehicle(id: $id) {
+      vehicleId
+      name
     }
   }
 `;
 
 const REALTIME_REFETCH_FREQUENCY = 60000; // 60 seconds
 
-class VehicleRentalStations {
+class RentalVehicles {
   constructor(tile, config, mapLayers, relayEnvironment) {
     this.tile = tile;
     this.config = config;
@@ -50,9 +48,29 @@ class VehicleRentalStations {
   fetchAndDraw = lang => {
     const zoomedIn =
       this.tile.coords.z > this.config.cityBike.cityBikeSmallIconZoom;
-    const baseUrl = zoomedIn
-      ? getLayerBaseUrl(this.config.URL.REALTIME_RENTAL_STATION_MAP, lang)
-      : getLayerBaseUrl(this.config.URL.RENTAL_STATION_MAP, lang);
+    let baseUrl = zoomedIn
+      ? getLayerBaseUrl(this.config.URL.REALTIME_RENTAL_VEHICLE_MAP, lang)
+      : getLayerBaseUrl(this.config.URL.RENTAL_VEHICLE_MAP, lang);
+
+    if (this.tile.coords.z >= 14) {
+      baseUrl = getLayerBaseUrl(
+        this.config.URL.RENTAL_VEHICLE_CLUSTER_MEDIUM_MAP, // 100m
+        lang,
+      );
+    }
+    if (this.tile.coords.z >= 16) {
+      baseUrl = getLayerBaseUrl(
+        this.config.URL.RENTAL_VEHICLE_CLUSTER_CLOSE_MAP, // 50m
+        lang,
+      );
+    }
+    if (this.tile.coords.z >= 18) {
+      baseUrl = getLayerBaseUrl(
+        this.config.URL.RENTAL_VEHICLE_MAP, // No clustering
+        lang,
+      );
+    }
+
     const tileUrl = `${baseUrl}${
       this.tile.coords.z + (this.tile.props.zoomOffset || 0)
     }/${this.tile.coords.x}/${this.tile.coords.y}.pbf`;
@@ -68,9 +86,12 @@ class VehicleRentalStations {
             const vt = new VectorTile(new Protobuf(buf));
 
             this.features = [];
-
             const layer =
-              vt.layers.rentalStations || vt.layers.realtimeRentalStations;
+              vt.layers.rentalVehicles ||
+              vt.layers.realtimeRentalVehicles ||
+              vt.layers.rentalVehicleClusterClose ||
+              vt.layers.rentalVehicleClusterMedium ||
+              vt.layers.rentalVehicleClusterFar;
 
             if (layer) {
               for (let i = 0, ref = layer.length - 1; i <= ref; i++) {
@@ -79,14 +100,13 @@ class VehicleRentalStations {
                 this.features.push(pick(feature, ['geom', 'properties']));
               }
             }
-
             if (
               this.features.length === 0 ||
               !this.features.some(feature =>
-                this.shouldShowStation(
+                this.shouldShowRentalVehicle(
                   feature.properties.id,
                   feature.properties.network,
-                  feature.properties.formFactors,
+                  feature.properties.isDisabled,
                 ),
               )
             ) {
@@ -108,14 +128,14 @@ class VehicleRentalStations {
   };
 
   draw = (feature, zoomedIn) => {
-    const { id, network, formFactors } = feature.properties;
-    if (!this.shouldShowStation(id, network, formFactors)) {
+    const { id, network } = feature.properties;
+    if (!this.shouldShowRentalVehicle(id, network)) {
       return;
     }
-
     const iconName = getVehicleRentalStationNetworkIcon(
       getVehicleRentalStationNetworkConfig(network, this.config),
     );
+
     const isHilighted = this.tile.hilightedStops?.includes(id);
 
     if (zoomedIn) {
@@ -124,39 +144,34 @@ class VehicleRentalStations {
       this.canHaveStationUpdates = true;
       this.drawHighlighted(feature, iconName);
     } else {
-      this.drawSmallMarker(feature.geom, iconName, formFactors);
+      this.drawSmallScooterMarker(feature.geom, iconName);
     }
   };
 
   drawLargeIcon = (
-    { geom, properties: { network, operative, vehiclesAvailable } },
+    { geom, properties: { operative, vehiclesAvailable } },
     iconName,
     isHilighted,
   ) => {
-    const citybikeCapacity = getVehicleCapacity(this.config, network);
-
-    drawCitybikeIcon(
+    drawScooterIcon(
       this.tile,
       geom,
       operative,
       vehiclesAvailable,
       iconName,
-      citybikeCapacity !== BIKEAVL_UNKNOWN,
       isHilighted,
     );
   };
 
-  drawHighlighted = ({ geom, properties: { id, network } }, iconName) => {
-    const citybikeCapacity = getVehicleCapacity(this.config, network);
+  drawHighlighted = ({ geom, properties: { id } }, iconName) => {
     const callback = ({ station: result }) => {
       if (result) {
-        drawCitybikeIcon(
+        drawScooterIcon(
           this.tile,
           geom,
           result.operative,
           result.vehiclesAvailable,
           iconName,
-          citybikeCapacity !== BIKEAVL_UNKNOWN,
           true,
         );
       }
@@ -168,17 +183,18 @@ class VehicleRentalStations {
       .then(callback);
   };
 
-  drawSmallMarker = (geom, iconName, formFactor) => {
-    const citybikeIconColor =
-      iconName.includes('secondary') &&
-      this.config.colors.iconColors['mode-citybike-secondary']
-        ? this.config.colors.iconColors['mode-citybike-secondary']
-        : this.config.colors.iconColors['mode-citybike'];
+  drawSmallScooterMarker = (geom, iconName) => {
     const iconColor =
-      formFactor === 'SCOOTER'
-        ? this.config.colors.iconColors['mode-scooter']
-        : citybikeIconColor;
-    drawSmallVehicleRentalMarker(this.tile, geom, iconColor, formFactor);
+      iconName.includes('secondary') &&
+      this.config.colors.iconColors['mode-scooter-secondary']
+        ? this.config.colors.iconColors['mode-scooter-secondary']
+        : this.config.colors.iconColors['mode-scooter'];
+    drawSmallVehicleRentalMarker(
+      this.tile,
+      geom,
+      iconColor,
+      TransportMode.Scooter,
+    );
   };
 
   onTimeChange = lang => {
@@ -192,12 +208,12 @@ class VehicleRentalStations {
     }
   };
 
-  shouldShowStation = (id, network) =>
+  shouldShowRentalVehicle = (id, network, isDisabled) =>
     (!this.tile.stopsToShow || this.tile.stopsToShow.includes(id)) &&
-    !this.tile.objectsToHide.vehicleRentalStations.includes(id) &&
-    showCitybikeNetwork(this.config.cityBike.networks[network], this.config);
+    this.config.cityBike.networks[network].enabled &&
+    !isDisabled;
 
-  static getName = () => 'citybike';
+  static getName = () => 'scooter';
 }
 
-export default VehicleRentalStations;
+export default RentalVehicles;

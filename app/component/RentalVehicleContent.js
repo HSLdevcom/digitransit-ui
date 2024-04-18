@@ -16,7 +16,7 @@ import VehicleRentalLeg from './VehicleRentalLeg';
 import BackButton from './BackButton';
 
 const RentalVehicleContent = (
-  { rentalVehicle, breakpoint, router, error },
+  { rentalVehicle, breakpoint, router, error, language },
   { config },
 ) => {
   const [isClient, setClient] = useState(false);
@@ -38,9 +38,12 @@ const RentalVehicleContent = (
     }
     return null;
   }
-
+  const networkConfig = getVehicleRentalStationNetworkConfig(
+    rentalVehicle.network,
+    config,
+  );
   const vehicleIcon = getVehicleRentalStationNetworkIcon(
-    getVehicleRentalStationNetworkConfig(rentalVehicle.network, config),
+    networkConfig,
     !rentalVehicle.operative,
   );
 
@@ -57,7 +60,7 @@ const RentalVehicleContent = (
               />
             )}
             <div className="header">
-              <h1>{rentalVehicle.network}</h1>
+              <h1>{networkConfig.name[language] || rentalVehicle.network}</h1>
               <div className="scooter-sub-header">
                 <FormattedMessage id="e-scooter" />
               </div>
@@ -78,6 +81,7 @@ RentalVehicleContent.propTypes = {
   breakpoint: PropTypes.string.isRequired,
   router: routerShape.isRequired,
   error: PropTypes.object,
+  language: PropTypes.string.isRequired,
 };
 
 RentalVehicleContent.contextTypes = {
@@ -89,9 +93,10 @@ const RentalVehicleContentWithBreakpoint = withBreakpoint(RentalVehicleContent);
 const connectedComponent = connectToStores(
   RentalVehicleContentWithBreakpoint,
   ['PreferencesStore'],
-  context => ({
-    language: context.getStore('PreferencesStore').getLanguage(),
-  }),
+  ({ getStore }) => {
+    const language = getStore('PreferencesStore').getLanguage();
+    return { language };
+  },
 );
 
 const containerComponent = createFragmentContainer(connectedComponent, {
@@ -103,6 +108,12 @@ const containerComponent = createFragmentContainer(connectedComponent, {
       name
       network
       vehicleId
+      rentalUris {
+        android
+        ios
+        web
+      }
+      systemUrl
     }
   `,
 });

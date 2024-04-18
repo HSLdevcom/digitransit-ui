@@ -218,10 +218,6 @@ class StopsNearYouPage extends React.Component {
       placeTypes = 'VEHICLE_RENT';
       modes = ['BICYCLE'];
     }
-    if (mode === 'SCOOTER') {
-      placeTypes = 'VEHICLE_RENT';
-      modes = ['SCOOTER'];
-    }
     const prioritizedStops =
       this.context.config.prioritizedStopsNearYou[mode.toLowerCase()] || [];
     return {
@@ -1005,7 +1001,7 @@ const PositioningWrapper = connectToStores(
       lang: context.getStore('PreferencesStore').getLanguage(),
       mapLayers: context
         .getStore('MapLayerStore')
-        .getMapLayers({ notThese: ['vehicles'] }),
+        .getMapLayers({ notThese: ['vehicles', 'scooter'] }),
       favouriteStopIds,
       favouriteVehicleStationIds,
       favouriteStationIds,

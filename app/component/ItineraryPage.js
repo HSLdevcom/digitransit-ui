@@ -59,7 +59,7 @@ import { saveFutureRoute } from '../action/FutureRoutesActions';
 import { saveSearch } from '../action/SearchActions';
 import CustomizeSearch from './CustomizeSearch';
 import { mapLayerShape } from '../store/MapLayerStore';
-import { getAllScooterNetworks } from '../util/vehicleRentalUtils';
+import { getAllNetworksOfType } from '../util/vehicleRentalUtils';
 import { TransportMode } from '../constants';
 
 const streetHashes = [
@@ -114,9 +114,15 @@ export default function ItineraryPage(props, context) {
     ...emptyPlans,
     loading: ALT_LOADING_STATES.UNSET,
   });
-  const [scooterState, setScooterState] = useState({ loading: false });
+  const [scooterState, setScooterState] = useState({
+    plan: {},
+    loading: false,
+  });
   const [relaxState, setRelaxState] = useState({ loading: false });
-  const [relaxRentalState, setRelaxRentalState] = useState({ loading: false });
+  const [relaxRentalState, setRelaxRentalState] = useState({
+    plan: {},
+    loading: false,
+  });
   const [settingsState, setSettingsState] = useState({
     settingsOpen: false,
     settingsChanged: 0,
@@ -190,10 +196,15 @@ export default function ItineraryPage(props, context) {
   }
 
   function mergedPlans() {
-    const scooterItinerary = transitItineraries(
+    const scooterItineraries = transitItineraries(
       filterItineraries(scooterState.plan?.itineraries, TransportMode.Scooter),
-    )?.[0];
+    );
+    const scooterItinerary = scooterItineraries[0];
     if (scooterItinerary) {
+      if (state.plan?.itineraries?.length <= 0) {
+        // when the only option is a scooter itinerary
+        return scooterItinerary;
+      }
       const mergedRoutingErrors = [];
       mergedRoutingErrors.concat(
         scooterState.plan?.routingErrors,
@@ -238,7 +249,8 @@ export default function ItineraryPage(props, context) {
           }
         }
         if (
-          state.plan?.itineraries?.length > 0 &&
+          state.loading === false &&
+          scooterState.loading === false &&
           scooterState.plan?.itineraries?.length > 0
         ) {
           return mergedPlans();
@@ -447,12 +459,17 @@ export default function ItineraryPage(props, context) {
     fetchQuery(props.relayEnvironment, planQuery, tunedParams)
       .toPromise()
       .then(result => {
-        setScooterState({ ...scooterState, plan: result.plan });
+        setScooterState({ ...scooterState, plan: result.plan, loading: false });
         resetItineraryPageSelection();
         ariaRef.current = 'itinerary-page.itineraries-loaded';
       })
       .catch(err => {
-        setScooterState({ ...scooterState, plan: {}, error: err });
+        setScooterState({
+          ...scooterState,
+          plan: {},
+          loading: false,
+          error: err,
+        });
         reportError(err);
       });
   }
@@ -463,7 +480,10 @@ export default function ItineraryPage(props, context) {
       return;
     }
     setRelaxRentalState({ loading: true });
-    const allScooterNetworks = getAllScooterNetworks(context.config);
+    const allScooterNetworks = getAllNetworksOfType(
+      context.config,
+      TransportMode.Scooter,
+    );
     const planParams = getPlanParams(
       context.config,
       props.match,
@@ -486,7 +506,7 @@ export default function ItineraryPage(props, context) {
         };
         setRelaxRentalState({
           relaxedScooterPlan,
-          loadingRelaxedScooter: false,
+          loading: false,
         });
       })
       .catch(() => {
@@ -788,6 +808,8 @@ export default function ItineraryPage(props, context) {
     const settings = getSettings(context.config);
     if (settings.allowedScooterRentalNetworks?.length > 0) {
       makeForcedScooterQuery(settings);
+    } else {
+      setScooterState({ plan: {} });
     }
     makeMainQuery();
     makeAlternativeQuery();
@@ -796,12 +818,9 @@ export default function ItineraryPage(props, context) {
       !settingsState.settingsChanged
     ) {
       makeRelaxedQuery();
-    }
-    if (
-      !settings.allowedScooterRentalNetworks.length &&
-      !relaxState.relaxedPlan?.itineraries?.length
-    ) {
-      makeRelaxedScooterQuery();
+      if (!settings.allowedScooterRentalNetworks.length) {
+        makeRelaxedScooterQuery();
+      }
     }
   }, [
     settingsState.settingsChanged,
@@ -926,7 +945,7 @@ export default function ItineraryPage(props, context) {
     context.router.replace(newLocationState);
   };
 
-  function showSettingsPanel(open) {
+  function showSettingsPanel(open, detailView) {
     addAnalyticsEvent({
       event: 'sendMatomoEvent',
       category: 'ItinerarySettings',
@@ -964,13 +983,18 @@ export default function ItineraryPage(props, context) {
       settingsChanged,
     });
 
+    if (settingsChanged && detailView) {
+      // Ensures returning to the list view after changing the settings in detail view.
+      selectStreetMode();
+    }
+
     if (props.breakpoint !== 'large') {
       context.router.go(-1);
     }
   }
 
-  const toggleSettings = () => {
-    showSettingsPanel(!settingsState.settingsOpen);
+  const toggleSettings = detailView => {
+    showSettingsPanel(!settingsState.settingsOpen, detailView);
   };
 
   const focusToHeader = () => {
@@ -1104,18 +1128,21 @@ export default function ItineraryPage(props, context) {
     hasNoTransitItineraries && altState.loading === ALT_LOADING_STATES.LOADING;
   const loading =
     state.loading ||
+    scooterState.loading ||
     (relaxState.loading && hasNoTransitItineraries) ||
-    (relaxRentalState.loadingRelaxedScooter && hasNoTransitItineraries) ||
+    (relaxRentalState.loading && hasNoTransitItineraries) ||
     waitAlternatives ||
     (streetHashes.includes(hash) &&
       altState.loading === ALT_LOADING_STATES.LOADING); // viewing unfinished alt plan
 
-  const settingsDrawer =
-    !detailView && settingsState.settingsOpen ? (
-      <div className={desktop ? 'offcanvas' : 'offcanvas-mobile'}>
-        <CustomizeSearch onToggleClick={toggleSettings} mobile={!desktop} />
-      </div>
-    ) : null;
+  const settingsDrawer = settingsState.settingsOpen ? (
+    <div className={desktop ? 'offcanvas' : 'offcanvas-mobile'}>
+      <CustomizeSearch
+        onToggleClick={() => toggleSettings(detailView)}
+        mobile={!desktop}
+      />
+    </div>
+  ) : null;
 
   // in mobile, settings drawer hides other content
   const panelHidden = !desktop && settingsDrawer !== null;
@@ -1140,6 +1167,7 @@ export default function ItineraryPage(props, context) {
         focusToPoint={focusToPoint}
         focusToLeg={focusToLeg}
         carItinerary={carPlan?.itineraries[0]}
+        toggleSettings={toggleSettings}
       />
     );
   } else if (plan?.itineraries?.length) {

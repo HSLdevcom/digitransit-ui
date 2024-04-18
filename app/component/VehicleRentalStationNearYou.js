@@ -52,7 +52,7 @@ const VehicleRentalStationNearYou = ({
               <FormattedMessage
                 id="citybike-station"
                 values={{
-                  stationId: hasStationCode(stop)
+                  stationId: hasStationCode(stop.stationId)
                     ? getIdWithoutFeed(stop.stationId)
                     : '',
                 }}

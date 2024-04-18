@@ -55,6 +55,7 @@ class ItineraryDetails extends React.Component {
     carItinerary: itineraryShape,
     currentLanguage: PropTypes.string,
     changeHash: PropTypes.func,
+    toggleSettings: PropTypes.func.isRequired,
       };
 
   static defaultProps = {
@@ -315,6 +316,7 @@ class ItineraryDetails extends React.Component {
                   focusToLeg={this.props.focusToLeg}
                   changeHash={this.props.changeHash}
                   tabIndex={itineraryIndex - 1}
+                  toggleSettings={this.props.toggleSettings}
                                   />
                 {config.showRouteInformation && <RouteInformation key="routeinfo"/>}
               </div>
@@ -442,6 +444,12 @@ const withRelay = createFragmentContainer(
               lat
               lon
               network
+              rentalUris {
+                android
+                ios 
+                web
+              }
+              systemUrl
             }
             stop {
               gtfsId
@@ -475,13 +483,6 @@ const withRelay = createFragmentContainer(
               stationId
               network
               vehiclesAvailable
-            }
-            rentalVehicle {
-              vehicleId
-              name
-              lat
-              lon
-              network
             }
             stop {
               gtfsId

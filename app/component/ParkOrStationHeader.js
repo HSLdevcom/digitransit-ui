@@ -9,8 +9,12 @@ import { getJson } from '../util/xhrPromise';
 import getZoneId from '../util/zoneIconUtils';
 import ZoneIcon from './ZoneIcon';
 import withBreakpoint from '../util/withBreakpoint';
-import { hasStationCode } from '../util/vehicleRentalUtils';
+import {
+  hasStationCode,
+  getVehicleRentalStationNetworkConfig,
+} from '../util/vehicleRentalUtils';
 import { getIdWithoutFeed } from '../util/feedScopedIdUtils';
+import { TransportMode } from '../constants';
 
 const modules = {
   FavouriteVehicleRentalStationContainer: () =>
@@ -43,8 +47,13 @@ const ParkOrBikeStationHeader = ({ parkOrStation, breakpoint }, { config }) => {
     });
   }, []);
 
-  const { name, bikeParkId, stationId } = parkOrStation;
+  const { name, bikeParkId, stationId, network } = parkOrStation;
+  const networkConfig = getVehicleRentalStationNetworkConfig(network, config);
   const parkHeaderId = bikeParkId ? 'bike-park' : 'car_park';
+  const noIdHeaderName =
+    networkConfig.type === TransportMode.Citybike.toLowerCase()
+      ? 'citybike-station-no-id'
+      : 'e-scooter-station';
   return (
     <div className="bike-station-header">
       {breakpoint === 'large' && (
@@ -56,10 +65,8 @@ const ParkOrBikeStationHeader = ({ parkOrStation, breakpoint }, { config }) => {
       <div className="header">
         <h1>{name}</h1>
         <div className="bike-station-sub-header">
-          <FormattedMessage
-            id={stationId ? 'citybike-station-no-id' : parkHeaderId}
-          />
-          {stationId && hasStationCode(parkOrStation) && (
+          <FormattedMessage id={stationId ? noIdHeaderName : parkHeaderId} />
+          {stationId && hasStationCode(parkOrStation.stationId) && (
             <StopCode code={getIdWithoutFeed(stationId)} />
           )}
           {zoneId && (
@@ -91,6 +98,7 @@ ParkOrBikeStationHeader.propTypes = {
     stationId: PropTypes.string,
     lat: PropTypes.number.isRequired,
     lon: PropTypes.number.isRequired,
+    network: PropTypes.string.isRequired,
   }).isRequired,
 };
 

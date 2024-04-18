@@ -43,6 +43,7 @@ export default class ItineraryLegs extends React.Component {
     focusToLeg: PropTypes.func.isRequired,
     changeHash: PropTypes.func,
     tabIndex: PropTypes.number,
+    toggleSettings: PropTypes.func.isRequired,
   };
 
   static contextTypes = { config: configShape };
@@ -324,6 +325,7 @@ export default class ItineraryLegs extends React.Component {
             focusAction={this.focus(leg.from)}
             focusToLeg={this.focusToLeg(leg)}
             bicycleWalkLeg={bicycleWalkLeg}
+            toggleSettings={this.props.toggleSettings}
           />,
         );
       } else if (leg.mode === 'CAR') {

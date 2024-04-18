@@ -3,7 +3,12 @@ import Link from 'found/Link';
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import { configShape, vehicleRentalStationShape } from '../util/shapes';
+import connectToStores from 'fluxible-addons-react/connectToStores';
+import {
+  configShape,
+  vehicleRentalStationShape,
+  rentalVehicleShape,
+} from '../util/shapes';
 import {
   BIKEAVL_UNKNOWN,
   getVehicleCapacity,
@@ -14,12 +19,14 @@ import {
 
 import withBreakpoint from '../util/withBreakpoint';
 import Icon from './Icon';
-import { PREFIX_BIKESTATIONS, PREFIX_RENTALVEHICLES } from '../util/path';
+import { PREFIX_BIKESTATIONS } from '../util/path';
 import {
   getVehicleAvailabilityTextColor,
   getVehicleAvailabilityIndicatorColor,
 } from '../util/legUtils';
 import { getIdWithoutFeed } from '../util/feedScopedIdUtils';
+import ExternalLink from './ExternalLink';
+import { isAndroid, isIOS } from '../util/browser';
 
 function VehicleRentalLeg(
   {
@@ -29,6 +36,7 @@ function VehicleRentalLeg(
     returnBike = false,
     breakpoint,
     rentalVehicle,
+    language,
   },
   { config, intl },
 ) {
@@ -45,9 +53,8 @@ function VehicleRentalLeg(
       <FormattedMessage id={id} defaultMessage="Fetch a bike" />
     </span>
   );
-  const vehicleIcon = getVehicleRentalStationNetworkIcon(
-    getVehicleRentalStationNetworkConfig(network, config),
-  );
+  const networkConfig = getVehicleRentalStationNetworkConfig(network, config);
+  const vehicleIcon = getVehicleRentalStationNetworkIcon(networkConfig);
   const availabilityIndicatorColor = vehicleRentalStation
     ? getVehicleAvailabilityIndicatorColor(
         vehicleRentalStation.vehiclesAvailable,
@@ -67,13 +74,21 @@ function VehicleRentalLeg(
   const scooterHeadsign = (
     <FormattedMessage
       id="open-operator-app"
-      values={{ operator: network }}
+      values={{
+        operator: networkConfig.name[language] || network,
+      }}
       defaultMessage="Open the app to use a scooter"
     />
   );
-  const link = isScooter
-    ? `/${PREFIX_RENTALVEHICLES}/${rentalVehicle?.vehicleId}` // TO DO: link from data
-    : `/${PREFIX_BIKESTATIONS}/${vehicleRentalStation?.stationId}`;
+  const rentalStationLink = `/${PREFIX_BIKESTATIONS}/${vehicleRentalStation?.stationId}`;
+  let rentalVehicleLink =
+    rentalVehicle?.rentalUris.web || rentalVehicle?.systemUrl;
+
+  if (isIOS && rentalVehicle?.rentalUris.ios) {
+    rentalVehicleLink = rentalVehicle?.rentalUris.ios;
+  } else if (isAndroid && rentalVehicle?.rentalUris.android) {
+    rentalVehicleLink = rentalVehicle?.rentalUris.android;
+  }
   return (
     <>
       <div className="itinerary-leg-row-bike">{legDescription}</div>
@@ -102,9 +117,22 @@ function VehicleRentalLeg(
             </div>
             <div className="citybike-itinerary-text-container">
               <span className={cx('headsign', isScooter && 'scooter-headsign')}>
-                <Link style={{ textDecoration: 'none' }} to={link}>
-                  {isScooter ? scooterHeadsign : stationName}
-                </Link>
+                {!isScooter && (
+                  <Link
+                    style={{ textDecoration: 'none' }}
+                    to={rentalStationLink}
+                  >
+                    {isScooter ? scooterHeadsign : stationName}
+                  </Link>
+                )}
+                {isScooter && (
+                  <ExternalLink
+                    className="rental-vehicle-link"
+                    href={rentalVehicleLink}
+                  >
+                    {scooterHeadsign}
+                  </ExternalLink>
+                )}
               </span>
 
               {!isScooter && (
@@ -114,7 +142,7 @@ function VehicleRentalLeg(
                     defaultMessage: 'Bike station',
                   })}
                   {vehicleRentalStation &&
-                    hasStationCode(vehicleRentalStation) && (
+                    hasStationCode(vehicleRentalStation.stationId) && (
                       <span className="itinerary-stop-code">
                         {getIdWithoutFeed(vehicleRentalStation?.stationId)}
                       </span>
@@ -125,18 +153,21 @@ function VehicleRentalLeg(
           </div>
           {isScooter ? (
             <div className="link-to-e-scooter-operator">
-              <Link to={link}>
+              <ExternalLink
+                className="rental-vehicle-link"
+                href={rentalVehicleLink}
+              >
                 <Icon
                   img="icon-icon_square_right_corner_arrow"
                   color="#007ac9"
                   height={1}
                   width={1}
                 />
-              </Link>
+              </ExternalLink>
             </div>
           ) : (
             <div className="link-to-stop">
-              <Link to={link}>
+              <Link to={rentalStationLink}>
                 <Icon
                   img="icon-icon_arrow-collapse--right"
                   color="#007ac9"
@@ -154,11 +185,12 @@ function VehicleRentalLeg(
 
 VehicleRentalLeg.propTypes = {
   vehicleRentalStation: vehicleRentalStationShape,
-  stationName: PropTypes.string.isRequired,
+  stationName: PropTypes.string,
   isScooter: PropTypes.bool,
   returnBike: PropTypes.bool,
   breakpoint: PropTypes.string,
-  rentalVehicle: PropTypes.object,
+  rentalVehicle: rentalVehicleShape,
+  language: PropTypes.string.isRequired,
 };
 
 VehicleRentalLeg.defaultProps = {
@@ -166,11 +198,23 @@ VehicleRentalLeg.defaultProps = {
   isScooter: false,
   returnBike: false,
   breakpoint: undefined,
+  rentalVehicle: undefined,
+  stationName: undefined,
 };
 
 VehicleRentalLeg.contextTypes = {
   config: configShape.isRequired,
   intl: intlShape.isRequired,
 };
-const connectedComponent = withBreakpoint(VehicleRentalLeg);
+const VehicleRentalLegWithBreakpoint = withBreakpoint(VehicleRentalLeg);
+
+const connectedComponent = connectToStores(
+  VehicleRentalLegWithBreakpoint,
+  ['PreferencesStore'],
+  ({ getStore }) => {
+    const language = getStore('PreferencesStore').getLanguage();
+    return { language };
+  },
+);
+
 export { connectedComponent as default, VehicleRentalLeg as Component };

@@ -6,7 +6,7 @@ import { itineraryShape } from '../util/shapes';
 
 /* eslint-disable react/no-array-index-key */
 function ItineraryTabs(props) {
-  const { itineraries } = props;
+  const { itineraries, toggleSettings } = props;
 
   const itineraryTabs = itineraries.map((itinerary, i) => {
     return (
@@ -20,6 +20,7 @@ function ItineraryTabs(props) {
           itinerary={itinerary}
           hideTitle={!props.isMobile}
           changeHash={props.isMobile ? props.changeHash : undefined}
+          toggleSettings={toggleSettings}
         />
       </div>
     );
@@ -45,6 +46,7 @@ ItineraryTabs.propTypes = {
   itineraries: PropTypes.arrayOf(itineraryShape).isRequired,
   carItinerary: itineraryShape,
   changeHash: PropTypes.func,
+  toggleSettings: PropTypes.func.isRequired,
 };
 
 ItineraryTabs.defaultProps = {

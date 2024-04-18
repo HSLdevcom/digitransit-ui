@@ -4,7 +4,6 @@ import { getCustomizedSettings } from '../store/localStorage';
 import { addAnalyticsEvent } from './analyticsUtils';
 import { citybikeRoutingIsActive } from './modeUtils';
 import { getIdWithoutFeed } from './feedScopedIdUtils';
-import { TransportMode } from '../constants';
 
 export const BIKEAVL_UNKNOWN = 'No availability';
 export const BIKEAVL_BIKES = 'Bikes on station';
@@ -70,10 +69,10 @@ export const getDefaultNetworks = config => {
   return mappedNetworks;
 };
 
-export const getAllScooterNetworks = config => {
+export const getAllNetworksOfType = (config, type) => {
   const mappedNetworks = [];
   Object.entries(config.cityBike.networks).forEach(n => {
-    if (n[1].type === TransportMode.Scooter.toLowerCase()) {
+    if (n[1].type.toLowerCase() === type.toLowerCase()) {
       mappedNetworks.push(n[0]);
     }
   });
@@ -166,10 +165,10 @@ export const getVehicleMinZoomOnStopsNearYou = (config, override) => {
 /** *
  * Checks if stationId is a number. We don't want to display random hashes or names.
  *
- * @param vehicleRentalStation bike rental station from OTP
+ * @param rentalId bike rental station from OTP
  */
-export const hasStationCode = vehicleRentalStation => {
-  const id = vehicleRentalStation.stationId.split(':')[1];
+export const hasStationCode = rentalId => {
+  const id = rentalId?.split(':')[1];
   return (
     id &&
     // eslint-disable-next-line no-restricted-globals

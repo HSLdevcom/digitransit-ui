@@ -428,6 +428,7 @@ export default {
     ferry: 'FERRY',
     funicular: 'FUNICULAR',
     walk: 'WALK',
+    scooter: 'SCOOTER_RENT',
   },
 
   // Control what transport modes that should be possible to select in the UI
@@ -472,10 +473,15 @@ export default {
       availableForSelection: false,
       defaultValue: false, // always false
     },
+
+    scooter: {
+      availableForSelection: false,
+      defaultValue: false, // always false
+    },
   },
 
   // modes that should not coexist with BICYCLE mode
-  modesWithNoBike: ['BICYCLE_RENT', 'WALK'],
+  modesWithNoBike: ['BICYCLE_RENT', 'SCOOTER_RENT', 'WALK'],
 
   moment: {
     relativeTimeThreshold: {

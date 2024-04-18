@@ -9,12 +9,11 @@ import {
   getVehicleRentalStationNetworkIcon,
   hasStationCode,
 } from '../../../util/vehicleRentalUtils';
-import { PREFIX_BIKESTATIONS } from '../../../util/path';
 import { getIdWithoutFeed } from '../../../util/feedScopedIdUtils';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 function SelectVehicleRentalStationRow(
-  { name, network, id, desc },
+  { name, network, id, desc, prefix },
   { config },
 ) {
   const img = `${getVehicleRentalStationNetworkIcon(
@@ -24,7 +23,7 @@ function SelectVehicleRentalStationRow(
   return (
     <Link
       className="stop-popup-choose-row"
-      to={`/${PREFIX_BIKESTATIONS}/${encodeURIComponent(id)}`}
+      to={`/${prefix}/${encodeURIComponent(id)}`}
     >
       <span className="choose-row-left-column" aria-hidden="true">
         <Icon img={img} />
@@ -33,7 +32,7 @@ function SelectVehicleRentalStationRow(
         <h5 className="choose-row-header">{name}</h5>
         <span className="choose-row-text">
           <span className="choose-row-address">{address}</span>
-          {hasStationCode({ stationId: id }) && (
+          {hasStationCode(id) && (
             <span className="choose-row-number">{getIdWithoutFeed(id)}</span>
           )}
         </span>
@@ -48,14 +47,16 @@ function SelectVehicleRentalStationRow(
 SelectVehicleRentalStationRow.displayName = 'SelectVehicleRentalStationRow';
 
 SelectVehicleRentalStationRow.propTypes = {
-  name: PropTypes.string.isRequired,
+  name: PropTypes.string,
   network: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
   desc: PropTypes.string,
+  prefix: PropTypes.string.isRequired,
 };
 
 SelectVehicleRentalStationRow.defaultProps = {
   desc: undefined,
+  name: undefined,
 };
 
 SelectVehicleRentalStationRow.contextTypes = {

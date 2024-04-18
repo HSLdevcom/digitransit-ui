@@ -98,10 +98,11 @@
         }
 
         .citybike-itinerary {
+          display: flex;
           padding: 7px;
 
           .citybike-itinerary-text-container {
-            display: flow-root;
+            display: flex;
           }
 
           .headsign {
@@ -112,7 +113,18 @@
           }
 
           .scooter-headsign {
-            padding: 6px 0 3px 6px;
+           padding: 6px 0 3px 6px;
+            .rental-vehicle-link {
+              .external-link-container {
+                border: none !important;
+                .external-link {
+                  font-weight: $font-weight-medium;
+                  font-size: 15px;
+                  color: $link-color;
+                  text-decoration: none 
+                }
+              } 
+            }
           }
 
           span.itinerary-stop-code {
@@ -130,15 +142,15 @@
 
           .citybike-icon {
             float: left;
-
+            padding-right: 2px;
+            margin: auto;
+            
             &.small {
               .icon-badge {
                 top: 2.33em;
                 left: 1.66em;
               }
             }
-
-            padding-right: 2px;
 
             .icon-badge {
               height: 1.34em;
@@ -209,17 +221,15 @@
 
   .scooter-content-container {
     padding: 15px 14px 22px;
-    display: flex;
-    height: 55px;
+   display: flex;
+    height: 48px;
     box-sizing: content-box;
 
     .icon-container {
-      display: flex;
-      align-self: center;
 
       .icon {
-        width: 40px;
-        height: 40px;
+        width: 48px;
+        height: 48px;
       }
     }
   }

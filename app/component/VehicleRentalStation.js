@@ -32,9 +32,12 @@ const VehicleRentalStation = ({ vehicleRentalStation }, { config }) => {
     fewerAvailableCount = Math.floor(totalSpaces / 6);
   }
   const disabled = !vehicleRentalStation.operative;
-
+  const networkConfig = getVehicleRentalStationNetworkConfig(
+    vehicleRentalStation.network,
+    config,
+  );
   const vehicleIcon = getVehicleRentalStationNetworkIcon(
-    getVehicleRentalStationNetworkConfig(vehicleRentalStation.network, config),
+    networkConfig,
     disabled,
   );
   return (
@@ -47,6 +50,7 @@ const VehicleRentalStation = ({ vehicleRentalStation }, { config }) => {
         fewAvailableCount={fewAvailableCount}
         fewerAvailableCount={fewerAvailableCount}
         useSpacesAvailable={vehicleCapacity === BIKEAVL_WITHMAX}
+        type={networkConfig.type}
       />
     </div>
   );

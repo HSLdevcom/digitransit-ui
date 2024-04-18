@@ -339,6 +339,12 @@ const connectedContainer = createFragmentContainer(
                 lat
                 lon
                 network
+                rentalUris {
+                  android
+                  ios
+                  web
+                }
+                systemUrl
               }
             }
             to {
