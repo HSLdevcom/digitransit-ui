@@ -275,8 +275,8 @@ const Itinerary = (
   const usingOwnBicycleWholeTrip =
     usingOwnBicycle && itinerary.legs.every(leg => !leg.to?.vehicleParking);
   const refTime = moment(props.refTime);
-  const startTime = moment(itinerary.startTime);
-  const endTime = moment(itinerary.endTime);
+  const startTime = moment(itinerary.start);
+  const endTime = moment(itinerary.end);
   const duration = endTime.diff(startTime);
   const co2value = getCo2Value(itinerary);
   const mobile = bp => !(bp === 'large');
@@ -952,8 +952,8 @@ const ItineraryWithBreakpoint = withBreakpoint(Itinerary);
 const containerComponent = createFragmentContainer(ItineraryWithBreakpoint, {
   itinerary: graphql`
     fragment Itinerary_itinerary on Itinerary {
-      startTime
-      endTime
+      start
+      end
       emissionsPerPerson {
         co2
       }

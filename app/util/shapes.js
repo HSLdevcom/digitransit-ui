@@ -221,8 +221,8 @@ export const legShape = PropTypes.shape({
 });
 
 export const itineraryShape = PropTypes.shape({
-  startTime: PropTypes.number,
-  endTime: PropTypes.number,
+  start: PropTypes.string,
+  end: PropTypes.string,
   duration: PropTypes.number,
   walkDistance: PropTypes.number,
   legs: PropTypes.arrayOf(legShape),

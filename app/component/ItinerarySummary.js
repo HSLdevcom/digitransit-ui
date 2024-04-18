@@ -21,8 +21,8 @@ function ItinerarySummary({
       <Duration
         duration={itinerary.duration}
         className="duration--itinerary-summary"
-        startTime={itinerary.startTime}
-        endTime={itinerary.endTime}
+        startTime={itinerary.start}
+        endTime={itinerary.end}
         futureText={futureText}
         multiRow={isMultiRow}
       />

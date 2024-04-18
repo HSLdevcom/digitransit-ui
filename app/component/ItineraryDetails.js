@@ -108,7 +108,7 @@ class ItineraryDetails extends React.Component {
     const drivingDuration = getTotalDrivingDuration(compressedItinerary);
     const drivingDistance = getTotalDrivingDistance(compressedItinerary);
     const futureText = this.getFutureText(
-      itinerary.startTime,
+      itinerary.start,
       this.props.currentTime,
     );
     const isMultiRow =
@@ -361,8 +361,8 @@ const withRelay = createFragmentContainer(
     itinerary: graphql`
       fragment ItineraryDetails_itinerary on Itinerary {
         duration
-        startTime
-        endTime
+        start
+        end
         emissionsPerPerson {
           co2
         }
