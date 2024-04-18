@@ -286,7 +286,7 @@ export default class Map extends React.Component {
 
     return (
       <div>
-        <span>{this.props.topButtons}</span>
+        <span aria-hidden="true">{this.props.topButtons}</span>
         <span
           className="overlay-mover"
           style={{
@@ -315,56 +315,60 @@ export default class Map extends React.Component {
           onPopupopen={onPopupopen}
           closePopupOnClick={false}
         >
-          <TileLayer
-            url={mapUrl}
-            tileSize={config.map.tileSize || 256}
-            zoomOffset={config.map.zoomOffset || 0}
-            updateWhenIdle={false}
-            size={
-              config.map.useRetinaTiles && L.Browser.retina && !isDebugTiles
-                ? '@2x'
-                : ''
-            }
-            minZoom={config.map.minZoom}
-            maxZoom={config.map.maxZoom}
-            attribution={attribution}
-          />
-          <BreakpointConsumer>
-            {breakpoint =>
-              attribution && (
-                <AttributionControl
-                  position={
-                    breakpoint === 'large' ? 'bottomright' : 'bottomleft'
-                  }
-                  prefix=""
-                />
-              )
-            }
-          </BreakpointConsumer>
-          {config.map.showScaleBar && (
-            <ScaleControl
-              imperial={false}
-              position={config.map.controls.scale.position}
+          <div aria-hidden="true">
+            <TileLayer
+              url={mapUrl}
+              tileSize={config.map.tileSize || 256}
+              zoomOffset={config.map.zoomOffset || 0}
+              updateWhenIdle={false}
+              size={
+                config.map.useRetinaTiles && L.Browser.retina && !isDebugTiles
+                  ? '@2x'
+                  : ''
+              }
+              minZoom={config.map.minZoom}
+              maxZoom={config.map.maxZoom}
+              attribution={attribution}
             />
-          )}
-          <BreakpointConsumer>
-            {breakpoint =>
-              breakpoint === 'large' &&
-              config.map.showZoomControl && (
-                <ZoomControl
-                  position={config.map.controls.zoom.position}
-                  zoomInText={zoomInText}
-                  zoomOutText={zoomOutText}
-                  zoomInTitle={this.context.intl.formatMessage({
-                    id: 'map-zoom-in-button',
-                  })}
-                  zoomOutTitle={this.context.intl.formatMessage({
-                    id: 'map-zoom-out-button',
-                  })}
-                />
-              )
-            }
-          </BreakpointConsumer>
+            <BreakpointConsumer>
+              {breakpoint =>
+                attribution && (
+                  <AttributionControl
+                    position={
+                      breakpoint === 'large' ? 'bottomright' : 'bottomleft'
+                    }
+                    prefix=""
+                  />
+                )
+              }
+            </BreakpointConsumer>
+            {config.map.showScaleBar && (
+              <ScaleControl
+                imperial={false}
+                position={config.map.controls.scale.position}
+              />
+            )}
+          </div>
+          <div>
+            <BreakpointConsumer>
+              {breakpoint =>
+                breakpoint === 'large' &&
+                config.map.showZoomControl && (
+                  <ZoomControl
+                    position={config.map.controls.zoom.position}
+                    zoomInText={zoomInText}
+                    zoomOutText={zoomOutText}
+                    zoomInTitle={this.context.intl.formatMessage({
+                      id: 'map-zoom-in-button',
+                    })}
+                    zoomOutTitle={this.context.intl.formatMessage({
+                      id: 'map-zoom-out-button',
+                    })}
+                  />
+                )
+              }
+            </BreakpointConsumer>
+          </div>
           {leafletObjNew}
           <PositionMarker key="position" />
         </LeafletMap>
