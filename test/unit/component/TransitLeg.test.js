@@ -45,7 +45,7 @@ describe('<TransitLeg />', () => {
         duration: 10000,
         intermediatePlaces: [
           {
-            arrivalTime: 1540990260000,
+            arrival: new Date(1540990260000).toISOString(),
             stop: {
               code: 'E2502',
               gtfsId: 'HSL:2252202',
@@ -100,7 +100,7 @@ describe('<TransitLeg />', () => {
         duration: 10000,
         intermediatePlaces: [
           {
-            arrivalTime: 1540990260000,
+            arrival: new Date(1540990260000).toISOString(),
             stop: {
               code: 'E2502',
               gtfsId: 'HSL:2252202',
@@ -109,7 +109,7 @@ describe('<TransitLeg />', () => {
             },
           },
           {
-            arrivalTime: 1540990440000,
+            arrival: new Date(1540990440000).toISOString(),
             stop: {
               gtfsId: 'HSL:2131251',
               name: 'Nihtisilta',
@@ -172,7 +172,7 @@ describe('<TransitLeg />', () => {
         duration: 10000,
         intermediatePlaces: [
           {
-            arrivalTime: 1540990260000,
+            arrival: new Date(1540990260000).toISOString(),
             stop: {
               code: 'E2502',
               gtfsId: 'HSL:2252202',
@@ -231,7 +231,7 @@ describe('<TransitLeg />', () => {
         duration: 10000,
         intermediatePlaces: [
           {
-            arrivalTime: 1540990260000,
+            arrival: new Date(1540990260000).toISOString(),
             stop: {
               code: 'E2502',
               gtfsId: 'HSL:2252202',
@@ -287,7 +287,7 @@ describe('<TransitLeg />', () => {
         duration: 10000,
         intermediatePlaces: [
           {
-            arrivalTime: 1540990260000,
+            arrival: new Date(1540990260000).toISOString(),
             stop: {
               code: 'E2502',
               gtfsId: 'HSL:2252202',
@@ -296,7 +296,7 @@ describe('<TransitLeg />', () => {
             },
           },
           {
-            arrivalTime: 1540990270000,
+            arrival: new Date(1540990270000).toISOString(),
             stop: {
               code: 'E2506',
               gtfsId: 'HSL:123456',
@@ -352,7 +352,7 @@ describe('<TransitLeg />', () => {
         duration: 10000,
         intermediatePlaces: [
           {
-            arrivalTime: 1540989970000,
+            arrival: new Date(1540989970000).toISOString(),
             stop: {
               code: '007',
               gtfsId: 'stop1',
@@ -580,7 +580,7 @@ describe('<TransitLeg />', () => {
         duration: 10000,
         intermediatePlaces: [
           {
-            arrivalTime: 1553856410,
+            arrival: new Date(1553856410).toISOString(),
             stop: {
               gtfsId: 'foobar',
               name: 'Foo',

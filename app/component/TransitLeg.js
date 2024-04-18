@@ -179,7 +179,7 @@ class TransitLeg extends React.Component {
             gtfsId={place.stop.gtfsId}
             mode={mode}
             name={place.stop.name}
-            arrivalTime={place.arrivalTime}
+            arrival={place.arrival}
             realTime={leg.realTime}
             stopCode={place.stop.code}
             focusFunction={this.context.focusFunction({

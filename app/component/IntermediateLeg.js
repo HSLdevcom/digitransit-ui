@@ -14,7 +14,7 @@ function IntermediateLeg(
     color,
     mode,
     name,
-    arrivalTime,
+    arrival,
     realTime,
     focusFunction,
     gtfsId,
@@ -146,7 +146,7 @@ function IntermediateLeg(
             <div className="itinerary-intermediate-stop-name">
               <span className={cx({ realtime: realTime })}>
                 <span className={cx({ canceled: isCanceled })}>
-                  {moment(arrivalTime).format('HH:mm')}
+                  {moment(arrival).format('HH:mm')}
                 </span>
               </span>
               {` ${name}`}
@@ -167,7 +167,7 @@ IntermediateLeg.propTypes = {
   placesCount: PropTypes.number,
   focusFunction: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
-  arrivalTime: PropTypes.number.isRequired,
+  arrival: PropTypes.string.isRequired,
   realTime: PropTypes.bool,
   mode: PropTypes.string.isRequired,
   color: PropTypes.string,
