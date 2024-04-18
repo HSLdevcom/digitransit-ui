@@ -10,6 +10,7 @@ describe('<BicycleLeg />', () => {
     const props = {
       focusAction: () => {},
       focusToLeg: () => {},
+      toggleSettings: () => {},
       index: 1,
       leg: {
         distance: 0,
@@ -50,6 +51,7 @@ describe('<BicycleLeg />', () => {
     const props = {
       focusAction: () => {},
       focusToLeg: () => {},
+      toggleSettings: () => {},
       index: 1,
       leg: {
         distance: 0,
@@ -90,6 +92,7 @@ describe('<BicycleLeg />', () => {
     const props = {
       focusAction: () => {},
       focusToLeg: () => {},
+      toggleSettings: () => {},
       index: 1,
       leg: {
         distance: 0,
@@ -133,6 +136,7 @@ describe('<BicycleLeg />', () => {
     const props = {
       focusAction: () => {},
       focusToLeg: () => {},
+      toggleSettings: () => {},
       index: 1,
       leg: {
         distance: 0,
@@ -176,6 +180,7 @@ describe('<BicycleLeg />', () => {
     const props = {
       focusAction: () => {},
       focusToLeg: () => {},
+      toggleSettings: () => {},
       index: 1,
       leg: {
         distance: 0,
@@ -216,6 +221,7 @@ describe('<BicycleLeg />', () => {
     const props = {
       focusAction: () => {},
       focusToLeg: () => {},
+      toggleSettings: () => {},
       index: 1,
       leg: {
         distance: 0,

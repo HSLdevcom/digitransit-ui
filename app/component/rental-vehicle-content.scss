@@ -114,16 +114,17 @@
 
           .scooter-headsign {
            padding: 6px 0 3px 6px;
-            .rental-vehicle-link {
-              .external-link-container {
+
+            .rental-vehicle-link
+            .external-link-container {
                 border: none !important;
+
                 .external-link {
                   font-weight: $font-weight-medium;
                   font-size: 15px;
                   color: $link-color;
                   text-decoration: none 
                 }
-              } 
             }
           }
 
@@ -225,12 +226,10 @@
     height: 48px;
     box-sizing: content-box;
 
-    .icon-container {
-
-      .icon {
+    .icon-container 
+    .icon {
         width: 48px;
         height: 48px;
-      }
     }
   }
 }

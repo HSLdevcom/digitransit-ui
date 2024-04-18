@@ -10,6 +10,7 @@ describe('<SelectVehicleRentalStationRow />', () => {
       name: 'foobar',
       network: 'some_network',
       id: '001',
+      prefix: 'citybike',
     };
     const wrapper = shallowWithIntl(
       <SelectVehicleRentalStationRow {...props} />,
@@ -22,6 +23,7 @@ describe('<SelectVehicleRentalStationRow />', () => {
       name: 'foobar',
       network: 'scooter_network',
       id: '001',
+      prefix: 'citybike',
     };
     const wrapper = shallowWithIntl(
       <SelectVehicleRentalStationRow {...props} />,

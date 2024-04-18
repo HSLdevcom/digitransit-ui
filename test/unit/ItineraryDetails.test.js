@@ -13,6 +13,7 @@ describe('<ItineraryDetails />', () => {
       itinerary: dt2831,
       focusToPoint: () => {},
       focusToLeg: () => {},
+      toggleSettings: () => {},
       showCanceledLegsBanner: false,
       plan: {
         date: 19700101,

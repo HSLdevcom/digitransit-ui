@@ -30,6 +30,7 @@ describe('<ItineraryLegs />', () => {
       toggleCanceledLegsBanner: () => {},
       focusToPoint: () => {},
       focusToLeg: () => {},
+      toggleSettings: () => {},
     };
     const wrapper = mountWithIntl(<ItineraryLegs {...props} />, {
       context,
@@ -49,6 +50,7 @@ describe('<ItineraryLegs />', () => {
       waitThreshold: 180,
       focusToPoint: () => {},
       focusToLeg: () => {},
+      toggleSettings: () => {},
     };
     const wrapper = shallowWithIntl(<ItineraryLegs {...props} />, {
       context,

@@ -4196,6 +4196,7 @@ const translations = {
     'e-scooter-or-taxi-alternative':
       'Entä jos kulkisit osan matkasta taksilla tai sähköpotkulaudalla? {paymentInfo}',
     'e-scooter-quantity': 'Sähköpotkulautoja vapaana juuri nyt: ',
+    'e-scooter-station': 'Sähköpotkulauta-asema',
     'e-scooters': 'Sähköpotkulaudat',
     earlier: 'Tidigare avgångar',
     'edit-favourites': 'Redigera favoritdestination',
