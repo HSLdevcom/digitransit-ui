@@ -207,7 +207,16 @@ describe('<Itinerary />', () => {
               ],
               mode: 'RAIL',
             },
-            startTime: (alertEffectiveEndDate + 1) * 1000, // * 1000 due to ms format
+            start: {
+              scheduledTime: new Date(
+                (alertEffectiveEndDate + 1) * 1000,
+              ).toISOString(),
+            },
+            end: {
+              scheduledTime: new Date(
+                (alertEffectiveEndDate + 100) * 1000,
+              ).toISOString(),
+            },
           },
         ],
       },
@@ -244,7 +253,8 @@ describe('<Itinerary />', () => {
               ],
               mode: 'RAIL',
             },
-            startTime: 1553769600000,
+            start: { scheduledTime: new Date(1553769600000).toISOString() },
+            end: { scheduledTime: new Date(1553769601000).toISOString() },
             trip: {
               pattern: {
                 code: 'HSL:3001I:0:01',
@@ -282,7 +292,8 @@ describe('<Itinerary />', () => {
               ],
               mode: 'RAIL',
             },
-            startTime: 1553769600000,
+            start: { scheduledTime: new Date(1553769600000).toISOString() },
+            end: { scheduledTime: new Date(1553769601000).toISOString() },
           },
         ],
       },
@@ -318,7 +329,8 @@ describe('<Itinerary />', () => {
               alerts: [],
               mode: 'RAIL',
             },
-            startTime: 1553769600000,
+            start: { scheduledTime: new Date(1553769600000).toISOString() },
+            end: { scheduledTime: new Date(1553769601000).toISOString() },
             to: {},
           },
         ],
@@ -345,7 +357,8 @@ describe('<Itinerary />', () => {
               alerts: [],
               mode: 'RAIL',
             },
-            startTime: 1553769600000,
+            start: { scheduledTime: new Date(1553769600000).toISOString() },
+            end: { scheduledTime: new Date(1553769601000).toISOString() },
             to: {
               stop: {
                 alerts: [
@@ -403,7 +416,8 @@ describe('<Itinerary />', () => {
               alerts: [],
               mode: 'RAIL',
             },
-            startTime: 1553769600000,
+            start: { scheduledTime: new Date(1553769600000).toISOString() },
+            end: { scheduledTime: new Date(1553769601000).toISOString() },
           },
         ],
       },

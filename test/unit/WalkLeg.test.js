@@ -26,8 +26,8 @@ describe('<WalkLeg />', () => {
         },
         mode: 'WALK',
         rentedBike: false,
-        startTime: 1529589709000,
-        endTime: 1529589701000,
+        start: { scheduledTime: new Date(1529589709000).toISOString() },
+        end: { scheduledTime: new Date(1529589701000).toISOString() },
       },
     };
 
@@ -58,8 +58,8 @@ describe('<WalkLeg />', () => {
         },
         mode: 'WALK',
         rentedBike: false,
-        startTime: 1529589709000,
-        endTime: 1529589701000,
+        start: { scheduledTime: new Date(1529589709000).toISOString() },
+        end: { scheduledTime: new Date(1529589701000).toISOString() },
       },
       previousLeg: {
         distance: 3297.017000000001,
@@ -70,8 +70,8 @@ describe('<WalkLeg />', () => {
         },
         mode: 'BICYCLE',
         rentedBike: true,
-        startTime: 1529588805000,
-        endTime: 1529589701000,
+        start: { scheduledTime: new Date(1529588805000).toISOString() },
+        end: { scheduledTime: new Date(1529589701000).toISOString() },
         to: {
           name: 'Mannerheimin tie 1',
           stop: null,
@@ -108,8 +108,8 @@ describe('<WalkLeg />', () => {
         },
         mode: 'WALK',
         rentedBike: false,
-        startTime: 1529589709000,
-        endTime: 1529589701000,
+        start: { scheduledTime: new Date(1529589709000).toISOString() },
+        end: { scheduledTime: new Date(1529589701000).toISOString() },
       },
       previousLeg: {
         distance: 3297.017000000001,
@@ -127,8 +127,8 @@ describe('<WalkLeg />', () => {
         },
         mode: 'BICYCLE',
         rentedBike: true,
-        startTime: 1529588805000,
-        endTime: 1529589701000,
+        start: { scheduledTime: new Date(1529588805000).toISOString() },
+        end: { scheduledTime: new Date(1529589701000).toISOString() },
       },
     };
 
@@ -175,8 +175,8 @@ describe('<WalkLeg />', () => {
         },
         mode: 'WALK',
         rentedBike: false,
-        startTime,
-        endTime: 1529589701000,
+        start: { scheduledTime: new Date(startTime).toISOString() },
+        end: { scheduledTime: new Date(1529589701000).toISOString() },
       },
     };
 
@@ -213,8 +213,8 @@ describe('<WalkLeg />', () => {
         },
         mode: 'WALK',
         rentedBike: false,
-        startTime: 1668600030868,
-        endTime: 1668600108525,
+        start: { scheduledTime: new Date(1668600030868).toISOString() },
+        end: { scheduledTime: new Date(1668600108525).toISOString() },
       },
     };
 

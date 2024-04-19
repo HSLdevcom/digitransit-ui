@@ -57,7 +57,7 @@ describe('<TransitLeg />', () => {
         route: {
           gtfsId: 'HSL:7280',
         },
-        startTime: 1540989960000,
+        start: { scheduledTime: new Date(1540989960000).toISOString() },
         to: {
           name: 'Testitie',
           stop: {},
@@ -121,7 +121,7 @@ describe('<TransitLeg />', () => {
         route: {
           gtfsId: 'HSL:7280',
         },
-        startTime: 1540989960000,
+        start: { scheduledTime: new Date(1540989960000).toISOString() },
         to: {
           name: 'Testitie',
           stop: {},
@@ -184,7 +184,7 @@ describe('<TransitLeg />', () => {
         route: {
           gtfsId: 'HSL:7280',
         },
-        startTime: 1540989960000,
+        start: { scheduledTime: new Date(1540989960000).toISOString() },
         to: {
           name: 'Testitie',
           stop: {
@@ -243,7 +243,7 @@ describe('<TransitLeg />', () => {
         route: {
           gtfsId: 'HSL:7280',
         },
-        startTime: 1540989960000,
+        start: { scheduledTime: new Date(1540989960000).toISOString() },
         to: {
           name: 'Testitie',
           stop: {
@@ -308,7 +308,7 @@ describe('<TransitLeg />', () => {
         route: {
           gtfsId: 'HSL:7280',
         },
-        startTime: 1540989960000,
+        start: { scheduledTime: new Date(1540989960000).toISOString() },
         to: {
           name: 'Testitie',
           stop: {
@@ -363,7 +363,7 @@ describe('<TransitLeg />', () => {
         route: {
           gtfsId: 'A',
         },
-        startTime: 1540989960000,
+        start: { scheduledTime: new Date(1540989960000).toISOString() },
         to: {
           name: 'Testitie',
           stop: {},
@@ -400,7 +400,7 @@ describe('<TransitLeg />', () => {
     const props = {
       ...defaultProps,
       leg: {
-        endTime: 1553856420000,
+        end: { scheduledtime: new Date(1553856420000).toISOString() },
         from: {
           name: 'Testilahti',
           stop: {},
@@ -421,7 +421,7 @@ describe('<TransitLeg />', () => {
           ],
           gtfsId: 'A',
         },
-        startTime: 1553856180000,
+        start: { scheduledTime: new Date(1553856180000).toISOString() },
         to: {
           name: 'Testitie',
           stop: {},
@@ -456,7 +456,7 @@ describe('<TransitLeg />', () => {
     const props = {
       ...defaultProps,
       leg: {
-        endTime: 1553856420000,
+        end: { scheduledtime: new Date(1553856420000).toISOString() },
         from: {
           name: 'Testilahti',
           stop: {
@@ -479,7 +479,7 @@ describe('<TransitLeg />', () => {
         route: {
           gtfsId: 'A',
         },
-        startTime: 1553856180000,
+        start: { scheduledTime: new Date(1553856180000).toISOString() },
         to: {
           name: 'Testitie',
           stop: {},
@@ -514,7 +514,7 @@ describe('<TransitLeg />', () => {
     const props = {
       ...defaultProps,
       leg: {
-        endTime: 1553856420000,
+        end: { scheduledtime: new Date(1553856420000).toISOString() },
         from: {
           name: 'Testilahti',
           stop: {},
@@ -524,7 +524,7 @@ describe('<TransitLeg />', () => {
         route: {
           gtfsId: 'A',
         },
-        startTime: 1553856180000,
+        start: { scheduledTime: new Date(1553856180000).toISOString() },
         to: {
           name: 'Testitie',
           stop: {
@@ -572,7 +572,7 @@ describe('<TransitLeg />', () => {
     const props = {
       ...defaultProps,
       leg: {
-        endTime: 1553856420000,
+        end: { scheduledtime: new Date(1553856420000).toISOString() },
         from: {
           name: 'Testilahti',
           stop: {},
@@ -601,7 +601,7 @@ describe('<TransitLeg />', () => {
         route: {
           gtfsId: 'A',
         },
-        startTime: 1553856180000,
+        start: { scheduledTime: new Date(1553856180000).toISOString() },
         to: {
           name: 'Testitie',
           stop: {},
@@ -652,7 +652,7 @@ describe('<TransitLeg />', () => {
         route: {
           gtfsId: '1234',
         },
-        startTime: 1553856180000,
+        start: { scheduledTime: new Date(1553856180000).toISOString() },
         to: {
           name: 'Testitie',
           stop: {},
@@ -705,7 +705,7 @@ describe('<TransitLeg />', () => {
         route: {
           gtfsId: '1234',
         },
-        startTime: 1553856180000,
+        start: { scheduledTime: new Date(1553856180000).toISOString() },
         to: {
           name: 'Testitie',
           stop: {},
@@ -739,7 +739,7 @@ describe('<TransitLeg />', () => {
   });
 
   it('should show a service alert icon if there is one at the "from" stop', () => {
-    const startTime = 123456789;
+    const startTime = 1553754595;
     const props = {
       ...defaultProps,
       leg: {
@@ -750,8 +750,8 @@ describe('<TransitLeg />', () => {
             alerts: [
               {
                 alertSeverityLevel: AlertSeverityLevelType.Info,
-                effectiveEndDate: startTime + 1,
-                effectiveStartDate: startTime - 1,
+                effectiveEndDate: startTime + 10000,
+                effectiveStartDate: startTime - 10000,
                 entities: [
                   {
                     __typename: AlertEntityType.Stop,
@@ -762,12 +762,12 @@ describe('<TransitLeg />', () => {
             ],
           },
         },
-        duration: 10000,
+        duration: 1000,
         intermediatePlaces: [],
         route: {
           gtfsId: 'A1234',
         },
-        startTime: startTime * 1000,
+        start: { scheduledTime: new Date(startTime * 1000).toISOString() },
         to: {
           name: 'Testitie',
           stop: {},
@@ -848,7 +848,7 @@ describe('<TransitLeg />', () => {
             },
           ],
         },
-        startTime: startTime * 1000,
+        start: { scheduledTime: new Date(startTime * 1000).toISOString() },
         to: {
           name: 'Testitie',
           stop: {},
@@ -906,7 +906,7 @@ describe('<TransitLeg />', () => {
             },
           ],
         },
-        startTime: startTime * 1000,
+        start: { scheduledTime: new Date(startTime * 1000).toISOString() },
         to: {
           name: 'Testitie',
           stop: {},
