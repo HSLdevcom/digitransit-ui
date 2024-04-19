@@ -3,16 +3,17 @@ import React from 'react';
 import moment from 'moment';
 import Link from 'found/Link';
 import { FormattedMessage } from 'react-intl';
-import { legShape, configShape } from '../util/shapes';
+import { legShape, legTimeShape, configShape } from '../util/shapes';
 import Icon from './Icon';
 import { durationToString } from '../util/timeUtils';
 import ItineraryMapAction from './ItineraryMapAction';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
 import { PREFIX_STOPS } from '../util/path';
+import { legTime } from '../util/legUtils';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 function WaitLeg(
-  { children, leg, startTime, waitTime, focusAction, index },
+  { children, leg, start, waitTime, focusAction, index },
   { config },
 ) {
   const modeClassName = 'wait';
@@ -28,7 +29,7 @@ function WaitLeg(
       </span>
       <div className="small-2 columns itinerary-time-column" aria-hidden="true">
         <div className="itinerary-time-column-time">
-          {moment(startTime).format('HH:mm')}
+          {moment(legTime(start)).format('HH:mm')}
         </div>
       </div>
       <ItineraryCircleLineWithIcon
@@ -80,7 +81,7 @@ function WaitLeg(
 }
 
 WaitLeg.propTypes = {
-  startTime: PropTypes.string.isRequired,
+  start: legTimeShape.isRequired,
   focusAction: PropTypes.func.isRequired,
   index: PropTypes.number.isRequired,
   children: PropTypes.node,
