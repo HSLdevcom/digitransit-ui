@@ -216,7 +216,7 @@ export const legShape = PropTypes.shape({
   departureDelay: PropTypes.number,
   intermediatePlaces: PropTypes.arrayOf(
     PropTypes.shape({
-      arrival: PropTypes.string,
+      arrival: legTimeShape,
       stop: stopShape.isRequired,
     }),
   ),

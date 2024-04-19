@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
 import { FormattedMessage, intlShape } from 'react-intl';
-import { legShape, configShape } from '../util/shapes';
+import { legShape, legTimeShape, configShape } from '../util/shapes';
 import { displayDistance } from '../util/geo-utils';
 import { durationToString } from '../util/timeUtils';
 import { legTime } from '../util/legUtils';
@@ -47,8 +47,9 @@ function ViaLeg(props, { config, intl }) {
     intl.formatNumber,
   );
   const [address, place] = splitStringToAddressAndPlace(props.leg.from.name);
+  const arrivalMs = legTime(props.arrival);
   const duration = durationToString(props.leg.duration * 1000);
-  const stayDuration = legTime(props.leg.start) - legTime(props.arrival);
+  const stayDuration = legTime(props.leg.start) - arrivalMs;
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   return (
     <div key={props.index} className="row itinerary-row">
@@ -57,7 +58,7 @@ function ViaLeg(props, { config, intl }) {
           id="itinerary-details.via-leg"
           defaultMessage="{arrivalTime} saavu välipisteeseen {viaPoint}. {leaveAction}"
           values={{
-            arrivalTime: moment(props.arrival).format('HH:mm'),
+            arrivalTime: moment(arrivalMs).format('HH:mm'),
             viaPoint: props.leg.from.name,
             leaveAction: (
               <FormattedMessage
@@ -89,7 +90,7 @@ function ViaLeg(props, { config, intl }) {
         aria-hidden="true"
       >
         <div className="itinerary-time-column-time via-arrival-time">
-          {moment(props.arrival).format('HH:mm')}
+          {moment(arrivalMs).format('HH:mm')}
         </div>
         <div className="itinerary-time-column-time via-divider">
           <div className="via-divider-line" />
@@ -144,7 +145,7 @@ function ViaLeg(props, { config, intl }) {
 }
 
 ViaLeg.propTypes = {
-  arrival: PropTypes.string.isRequired,
+  arrival: legTimeShape.isRequired,
   leg: legShape.isRequired,
   index: PropTypes.number.isRequired,
   focusAction: PropTypes.func.isRequired,

@@ -54,7 +54,9 @@ const filterNextLegs = leg => {
     return [];
   }
   return leg.nextLegs.filter(
-    nextLeg => moment(nextLeg.start).diff(moment(leg.start), 'hours') < 12,
+    nextLeg =>
+      moment(legTime(nextLeg.start)).diff(moment(legTime(leg.start)), 'hours') <
+      12,
   );
 };
 
@@ -147,7 +149,7 @@ class TransitLeg extends React.Component {
         let previousLeg = leg;
         interliningLegs.forEach(iLeg => {
           places.push(
-            { ...previousLeg.to, arrivalTime: previousLeg.end },
+            { ...previousLeg.to, arrival: previousLeg.end },
             ...iLeg.intermediatePlaces,
           );
           previousLeg = iLeg;
@@ -227,12 +229,13 @@ class TransitLeg extends React.Component {
       interliningLegs,
     } = this.props;
     const { config, intl } = this.context;
+    const startMs = legTime(leg.start);
     const originalTime = leg.realTime &&
       leg.departureDelay &&
       leg.departureDelay >= config.itinerary.delayThreshold && [
         <br key="br" />,
         <span key="time" className="original-time">
-          {moment(leg.start).subtract(leg.departureDelay, 's').format('HH:mm')}
+          {moment(startMs).subtract(leg.departureDelay, 's').format('HH:mm')}
         </span>,
       ];
     const modeClassName = mode.toLowerCase();
@@ -242,7 +245,7 @@ class TransitLeg extends React.Component {
       <FormattedMessage
         id="itinerary-details.transit-leg-part-1"
         values={{
-          time: moment(leg.start).format('HH:mm'),
+          time: moment(startMs).format('HH:mm'),
           realtime: leg.realTime ? intl.formatMessage({ id: 'realtime' }) : '',
         }}
       />
@@ -276,7 +279,7 @@ class TransitLeg extends React.Component {
       />
     );
 
-    const alerts = getActiveLegAlerts(leg, legTime(leg.start) / 1000);
+    const alerts = getActiveLegAlerts(leg, startMs / 1000);
     const alert =
       alerts && alerts.length > 0
         ? alerts.sort(alertSeverityCompare)[0]
@@ -407,7 +410,7 @@ class TransitLeg extends React.Component {
             <div className="itinerary-time-column-time">
               <span className={cx({ realtime: leg.realTime })}>
                 <span className={cx({ canceled: legHasCancelation(leg) })}>
-                  {moment(leg.start).format('HH:mm')}
+                  {moment(startMs).format('HH:mm')}
                 </span>
               </span>
               {originalTime}
@@ -470,7 +473,7 @@ class TransitLeg extends React.Component {
                 className="inline-icon"
                 severityLevel={getActiveAlertSeverityLevel(
                   leg.from.stop && leg.from.stop.alerts,
-                  legTime(leg.start) / 1000,
+                  startMs / 1000,
                 )}
               />
               <div className="stop-code-container">
@@ -505,7 +508,7 @@ class TransitLeg extends React.Component {
             !this.isRouteConstantOperation() &&
             leg.nextLegs.map(l => (
               <LegInfo
-                key={l.route.shortName + l.start}
+                key={l.route.shortName + legTime(l.start)}
                 leg={l}
                 hasNoShortName={hasNoShortName}
                 headsign={l.trip.tripHeadsign}
@@ -580,8 +583,9 @@ class TransitLeg extends React.Component {
                   intermediateStopCount={intermediateStopCount}
                   duration={
                     interliningLegs.length > 0
-                      ? interliningLegs[interliningLegs.length - 1].end -
-                        leg.start
+                      ? legTime(
+                          interliningLegs[interliningLegs.length - 1].end,
+                        ) - leg.start
                       : leg.duration * 1000
                   }
                   showIntermediateStops={this.state.showIntermediateStops}

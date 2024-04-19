@@ -249,7 +249,7 @@ export default class ItineraryLegs extends React.Component {
         legs.push(
           <AirportCheckInLeg
             leg={leg}
-            startTime={startTime}
+            start={startTime}
             focusAction={this.focus(leg.from)}
           />,
         );
@@ -287,8 +287,8 @@ export default class ItineraryLegs extends React.Component {
           }
           bicycleWalkLeg = {
             duration: 0,
-            start: '',
-            end: '',
+            start: leg.start,
+            end: leg.start,
             distance: -1,
             rentedBike: leg.rentedBike,
             to: leg.to,
@@ -335,7 +335,7 @@ export default class ItineraryLegs extends React.Component {
             <WaitLeg
               index={j}
               leg={leg}
-              startTime={leg.end}
+              start={leg.end}
               waitTime={waitTime}
               focusAction={this.focus(leg.to)}
             >

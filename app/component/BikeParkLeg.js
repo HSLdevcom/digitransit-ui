@@ -4,6 +4,7 @@ import React from 'react';
 import moment from 'moment';
 import { FormattedMessage, intlShape } from 'react-intl';
 import { legShape, parkShape, configShape } from '../util/shapes';
+import { legTime } from '../util/legUtils';
 import { displayDistance } from '../util/geo-utils';
 import { durationToString } from '../util/timeUtils';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
@@ -19,13 +20,14 @@ const BikeParkLeg = (
     intl.formatNumber,
   );
   const duration = durationToString(leg.duration * 1000);
+  const timeStr = moment(legTime(leg.start)).format('HH:mm');
   return (
     <div key={index} className="row itinerary-row">
       <span className="sr-only">
         <FormattedMessage
           id="itinerary-details.walk-leg"
           values={{
-            time: moment(leg.start).format('HH:mm'),
+            time: timeStr,
             distance,
             to: intl.formatMessage({
               id: `modes.to-${
@@ -40,9 +42,7 @@ const BikeParkLeg = (
         />
       </span>
       <div className="small-2 columns itinerary-time-column" aria-hidden="true">
-        <div className="itinerary-time-column-time">
-          {moment(leg.start).format('HH:mm')}
-        </div>
+        <div className="itinerary-time-column-time">{timeStr}</div>
       </div>
       <ItineraryCircleLineWithIcon
         bikePark

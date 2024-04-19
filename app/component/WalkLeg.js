@@ -35,6 +35,7 @@ function WalkLeg(
   const duration = durationToString(
     leg.mode !== 'WALK' ? 0 : leg.duration * 1000,
   );
+  const startMs = legTime(leg.start);
   // If mode is not WALK, WalkLeg should get information from "to".
   const toOrFrom = leg.mode !== 'WALK' ? 'to' : 'from';
   const modeClassName = 'walk';
@@ -75,7 +76,7 @@ function WalkLeg(
         <FormattedMessage
           id="itinerary-details.walk-leg"
           values={{
-            time: moment(leg.start).format('HH:mm'),
+            time: moment(startMs).format('HH:mm'),
             to: intl.formatMessage({
               id: `modes.to-${
                 leg.to.stop?.vehicleMode?.toLowerCase() || 'place'
@@ -92,7 +93,9 @@ function WalkLeg(
       <div className="small-2 columns itinerary-time-column" aria-hidden="true">
         <div className="itinerary-time-column-time">
           <span className={cx({ realtime: previousLeg?.realTime })}>
-            {moment(leg.mode === 'WALK' ? leg.start : leg.end).format('HH:mm')}
+            {moment(leg.mode === 'WALK' ? startMs : legTime(leg.end)).format(
+              'HH:mm',
+            )}
           </span>
         </div>
       </div>
@@ -158,7 +161,7 @@ function WalkLeg(
                     className="inline-icon"
                     severityLevel={getActiveAlertSeverityLevel(
                       leg[toOrFrom].stop && leg[toOrFrom].stop.alerts,
-                      legTime(leg.start) / 1000,
+                      startMs / 1000,
                     )}
                   />
                 </Link>
@@ -185,7 +188,7 @@ function WalkLeg(
                     className="inline-icon"
                     severityLevel={getActiveAlertSeverityLevel(
                       leg[toOrFrom].stop && leg[toOrFrom].stop.alerts,
-                      legTime(leg.start) / 1000,
+                      startMs / 1000,
                     )}
                   />
                 </div>

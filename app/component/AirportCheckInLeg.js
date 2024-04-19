@@ -3,7 +3,8 @@ import React from 'react';
 import moment from 'moment';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'found';
-import { legShape, configShape } from '../util/shapes';
+import { legShape, legTimeShape, configShape } from '../util/shapes';
+import { legTime } from '../util/legUtils';
 import ItineraryCircleLine from './ItineraryCircleLine';
 import Icon from './Icon';
 import ItineraryMapAction from './ItineraryMapAction';
@@ -18,7 +19,7 @@ export default function AirportCheckInLeg(props, { config }) {
     <div className="row itinerary-row">
       <div className="small-2 columns itinerary-time-column">
         <div className="itinerary-time-column-time">
-          {moment(props.start).format('HH:mm')}
+          {moment(legTime(props.start)).format('HH:mm')}
         </div>
       </div>
       <ItineraryCircleLine index={props.index} modeClassName={modeClassName} />
@@ -68,7 +69,7 @@ export default function AirportCheckInLeg(props, { config }) {
 
 AirportCheckInLeg.propTypes = {
   leg: legShape.isRequired,
-  start: PropTypes.string.isRequired,
+  start: legTimeShape.isRequired,
   focusAction: PropTypes.func.isRequired,
   index: PropTypes.number.isRequired,
   children: PropTypes.node,

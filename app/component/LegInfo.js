@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import { intlShape } from 'react-intl';
 import Modal from '@hsl-fi/modal';
 import { legShape, configShape } from '../util/shapes';
+import { legTime } from '../util/legUtils';
 import { getRouteMode } from '../util/modeUtils';
 import RouteNumber from './RouteNumber';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
@@ -37,6 +38,7 @@ export default function LegInfo(
   if (capacity) {
     capacityTranslation = capacity.toLowerCase().replaceAll('_', '-');
   }
+  const startMs = legTime(leg.start);
 
   return (
     <div
@@ -99,7 +101,7 @@ export default function LegInfo(
       {displayTime && (
         <>
           <span className="sr-only">
-            {`${moment(leg.start).format('HH:mm')} ${
+            {`${moment(startMs).format('HH:mm')} ${
               leg.realTime ? intl.formatMessage({ id: 'realtime' }) : ''
             }`}
           </span>
@@ -107,7 +109,7 @@ export default function LegInfo(
             className={cx('leg-departure-time', { realtime: leg.realTime })}
             aria-hidden="true"
           >
-            {moment(leg.start).format('HH:mm')}
+            {moment(startMs).format('HH:mm')}
           </span>
         </>
       )}

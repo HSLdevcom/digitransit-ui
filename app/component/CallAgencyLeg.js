@@ -4,6 +4,7 @@ import Link from 'found/Link';
 import moment from 'moment';
 import { FormattedMessage } from 'react-intl';
 import { legShape, configShape } from '../util/shapes';
+import { legTime } from '../util/legUtils';
 import Icon from './Icon';
 import StopCode from './StopCode';
 import LegAgencyInfo from './LegAgencyInfo';
@@ -14,12 +15,13 @@ import CallAgencyIcon from './CallAgencyIcon';
 const stopCode = code => code && <StopCode code={code} />;
 
 const CallAgencyLeg = ({ leg, index, focusAction }, { config }) => {
+  const startMs = legTime(leg.start);
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   const originalTime = leg.realTime &&
     leg.departureDelay >= config.itinerary.delayThreshold && [
       <br key="br" />,
       <span key="time" className="original-time">
-        {moment(leg.start).subtract(leg.departureDelay, 's').format('HH:mm')}
+        {moment(startMs).subtract(leg.departureDelay, 's').format('HH:mm')}
       </span>,
     ];
 
@@ -39,7 +41,7 @@ const CallAgencyLeg = ({ leg, index, focusAction }, { config }) => {
           }
         >
           <div className="itinerary-time-column-time">
-            <span>{moment(leg.start).format('HH:mm')}</span>
+            <span>{moment(startMs).format('HH:mm')}</span>
             {originalTime}
           </div>
         </Link>
