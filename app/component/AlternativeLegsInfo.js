@@ -6,12 +6,63 @@ import React from 'react';
 import Icon from './Icon';
 import { isKeyboardSelectionEvent } from '../util/browser';
 import { legShape } from '../util/shapes';
+import { legTime } from '../util/legUtils';
 
 export default function AlternativeLegsInfo({
   legs,
   showAlternativeLegs,
   toggle,
 }) {
+  let values = {
+    leg1: (
+      <>
+        <span aria-hidden="true">{legs[0].route.shortName}</span>
+        <span className="sr-only">
+          {legs[0].route.shortName?.toLowerCase()}
+        </span>
+      </>
+    ),
+    startTime1: (
+      <span
+        className={cx({ realtime: legs[0].realTime })}
+        style={{ fontWeight: 500 }}
+      >
+        {moment(legTime(legs[0].start)).format('HH:mm')}
+        {legs[0].realTime && (
+          <span className="sr-only">
+            <FormattedMessage id="realtime" />
+          </span>
+        )}
+      </span>
+    ),
+  };
+  if (legs.length > 1) {
+    values = {
+      ...values,
+      leg2: (
+        <>
+          <span aria-hidden="true">{legs[1].route.shortName}</span>
+          <span className="sr-only">
+            {legs[1].route.shortName?.toLowerCase()}
+          </span>
+        </>
+      ),
+      startTime2: (
+        <span
+          className={cx({ realtime: legs[1].realTime })}
+          style={{ fontWeight: 500 }}
+        >
+          {moment(legTime(legs[1].start)).format('HH:mm')}
+          {legs[1].realTime && (
+            <span className="sr-only">
+              <FormattedMessage id="realtime" />
+            </span>
+          )}
+        </span>
+      ),
+    };
+  }
+
   const message =
     (showAlternativeLegs && (
       <FormattedMessage
@@ -24,84 +75,19 @@ export default function AlternativeLegsInfo({
       <FormattedMessage
         className="alternative-leg-info"
         id="alternative-legs"
-        values={{
-          leg1: (
-            <>
-              <span aria-hidden="true">{legs[0].route.shortName}</span>
-              <span className="sr-only">
-                {legs[0].route.shortName?.toLowerCase()}
-              </span>
-            </>
-          ),
-          leg2: (
-            <>
-              <span aria-hidden="true">{legs[1].route.shortName}</span>
-              <span className="sr-only">
-                {legs[1].route.shortName?.toLowerCase()}
-              </span>
-            </>
-          ),
-          startTime1: (
-            <span
-              className={cx({ realtime: legs[0].realTime })}
-              style={{ fontWeight: 500 }}
-            >
-              {moment(legs[0].start).format('HH:mm')}
-              {legs[0].realTime && (
-                <span className="sr-only">
-                  <FormattedMessage id="realtime" />
-                </span>
-              )}
-            </span>
-          ),
-          startTime2: (
-            <span
-              className={cx({ realtime: legs[1].realTime })}
-              style={{ fontWeight: 500 }}
-            >
-              {moment(legs[1].start).format('HH:mm')}
-              {legs[1].realTime && (
-                <span className="sr-only">
-                  <FormattedMessage id="realtime" />
-                </span>
-              )}
-            </span>
-          ),
-        }}
+        values={values}
         defaultMessage="Also {leg1} at {startTime1} and {leg2} at {startTime2}"
       />
     ) : (
       <FormattedMessage
         className="alternative-leg-info"
         id="alternative-legs-single"
-        values={{
-          leg1: (
-            <>
-              <span aria-hidden="true">{legs[0].route.shortName}</span>
-              <span className="sr-only">
-                {legs[0].route.shortName?.toLowerCase()}
-              </span>
-            </>
-          ),
-          startTime1: (
-            <span
-              className={cx({ realtime: legs[0].realTime })}
-              style={{ fontWeight: 500 }}
-            >
-              {moment(legs[0].start).format('HH:mm')}
-              {legs[0].realTime && (
-                <span className="sr-only">
-                  <FormattedMessage id="realtime" />
-                </span>
-              )}
-            </span>
-          ),
-        }}
+        values={values}
         defaultMessage="Also {leg1} at {startTime1}"
       />
     ));
 
-  return legs ? (
+  return (
     <div
       role="button"
       tabIndex="0"
@@ -127,7 +113,7 @@ export default function AlternativeLegsInfo({
         />
       </div>
     </div>
-  ) : null;
+  );
 }
 
 AlternativeLegsInfo.propTypes = {
