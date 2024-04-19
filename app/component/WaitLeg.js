@@ -80,7 +80,7 @@ function WaitLeg(
 }
 
 WaitLeg.propTypes = {
-  startTime: PropTypes.number.isRequired,
+  startTime: PropTypes.string.isRequired,
   focusAction: PropTypes.func.isRequired,
   index: PropTypes.number.isRequired,
   children: PropTypes.node,

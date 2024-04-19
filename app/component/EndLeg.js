@@ -67,7 +67,7 @@ function EndLeg(props, context) {
 }
 
 EndLeg.propTypes = {
-  endTime: PropTypes.number.isRequired,
+  endTime: PropTypes.string.isRequired,
   to: stopShape.isRequired,
   index: PropTypes.number.isRequired,
   focusAction: PropTypes.func.isRequired,

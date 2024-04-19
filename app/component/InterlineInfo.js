@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { durationToString } from '../util/timeUtils';
-import { getHeadsignFromRouteLongName } from '../util/legUtils';
+import { getHeadsignFromRouteLongName, legTime } from '../util/legUtils';
 import Icon from './Icon';
 import { legShape } from '../util/shapes';
 
@@ -14,7 +14,7 @@ const InterlineInfo = ({ legs, leg }) => {
     allLegs.forEach((iLeg, i) => {
       routes.push(iLeg.route.shortName);
       if (allLegs[i + 1]) {
-        totalWait += allLegs[i + 1].startTime - iLeg.endTime;
+        totalWait += legTime(allLegs[i + 1].start) - legTime(iLeg.end);
       }
     });
   }

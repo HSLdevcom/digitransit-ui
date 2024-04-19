@@ -23,6 +23,7 @@ import {
   compressLegs,
   isCallAgencyPickupType,
   isLegOnFoot,
+  legTime,
 } from '../util/legUtils';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import ItineraryProfile from './ItineraryProfile';
@@ -103,7 +104,7 @@ export default class ItineraryLegs extends React.Component {
       if (j > 0) {
         previousLeg = compressedLegs[j - 1];
       }
-      const startTime = (previousLeg && previousLeg.endTime) || leg.startTime;
+      const startTime = previousLeg?.end || leg.start;
       let index = j;
       const interliningLegs = [];
       // there can be an arbitrary amount of interlining legs, search for the last one
@@ -141,7 +142,7 @@ export default class ItineraryLegs extends React.Component {
           <ViaLeg
             index={j}
             leg={leg}
-            arrivalTime={startTime}
+            arrival={startTime}
             focusAction={this.focus(leg.from)}
             focusToLeg={this.focusToLeg(leg)}
           />,
@@ -286,8 +287,8 @@ export default class ItineraryLegs extends React.Component {
           }
           bicycleWalkLeg = {
             duration: 0,
-            startTime: 0,
-            endTime: 0,
+            start: '',
+            end: '',
             distance: -1,
             rentedBike: leg.rentedBike,
             to: leg.to,
@@ -319,7 +320,7 @@ export default class ItineraryLegs extends React.Component {
 
       if (nextLeg) {
         const waitThresholdInMs = waitThreshold * 1000;
-        const waitTime = nextLeg.startTime - leg.endTime;
+        const waitTime = legTime(nextLeg.start) - legTime(leg.end);
 
         if (
           waitTime > waitThresholdInMs &&
@@ -334,7 +335,7 @@ export default class ItineraryLegs extends React.Component {
             <WaitLeg
               index={j}
               leg={leg}
-              startTime={leg.endTime}
+              startTime={leg.end}
               waitTime={waitTime}
               focusAction={this.focus(leg.to)}
             >
@@ -367,7 +368,7 @@ export default class ItineraryLegs extends React.Component {
     legs.push(
       <EndLeg
         index={numberOfLegs}
-        endTime={itinerary.endTime}
+        endTime={itinerary.end}
         focusAction={this.focus(compressedLegs[numberOfLegs - 1].to)}
         to={compressedLegs[numberOfLegs - 1].to}
       />,

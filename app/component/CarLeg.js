@@ -28,7 +28,7 @@ export default function CarLeg(props, { config, intl }) {
         <FormattedMessage
           id="itinerary-details.car-leg"
           values={{
-            time: moment(props.leg.startTime).format('HH:mm'),
+            time: moment(props.leg.start).format('HH:mm'),
             distance,
             to: intl.formatMessage({
               id: `modes.to-${props.leg.to.carPark ? 'car-park' : 'place'}`,
@@ -41,7 +41,7 @@ export default function CarLeg(props, { config, intl }) {
       </span>
       <div className="small-2 columns itinerary-time-column" aria-hidden="true">
         <div className="itinerary-time-column-time">
-          {moment(props.leg.startTime).format('HH:mm')}
+          {moment(props.leg.start).format('HH:mm')}
         </div>
       </div>
       <ItineraryCircleLineWithIcon

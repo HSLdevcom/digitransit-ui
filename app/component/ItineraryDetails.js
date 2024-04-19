@@ -414,7 +414,12 @@ const withRelay = createFragmentContainer(
                 }
               }
             }
-            startTime
+            start {
+              scheduledTime
+              estimated {
+                time
+              }
+            }
             trip {
               tripHeadsign
               pattern {
@@ -520,8 +525,18 @@ const withRelay = createFragmentContainer(
           realtimeState
           transitLeg
           rentedBike
-          startTime
-          endTime
+          start {
+            scheduledTime
+            estimated {
+              time
+            }
+          }
+          end {
+            scheduledTime
+            estimated {
+              time
+            }
+          }
           interlineWithPreviousLeg
           distance
           duration

@@ -18,7 +18,7 @@ export default function AirportCheckInLeg(props, { config }) {
     <div className="row itinerary-row">
       <div className="small-2 columns itinerary-time-column">
         <div className="itinerary-time-column-time">
-          {moment(props.startTime).format('HH:mm')}
+          {moment(props.start).format('HH:mm')}
         </div>
       </div>
       <ItineraryCircleLine index={props.index} modeClassName={modeClassName} />
@@ -68,7 +68,7 @@ export default function AirportCheckInLeg(props, { config }) {
 
 AirportCheckInLeg.propTypes = {
   leg: legShape.isRequired,
-  startTime: PropTypes.number.isRequired,
+  start: PropTypes.string.isRequired,
   focusAction: PropTypes.func.isRequired,
   index: PropTypes.number.isRequired,
   children: PropTypes.node,

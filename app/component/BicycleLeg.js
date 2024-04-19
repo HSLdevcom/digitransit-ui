@@ -33,7 +33,7 @@ export default function BicycleLeg(
     config,
     intl.formatNumber,
   );
-  const duration = durationToString(leg.endTime - leg.startTime);
+  const duration = durationToString(leg.duration * 1000);
   let { mode } = leg;
   let legDescription = <span>{leg.from ? leg.from.name : ''}</span>;
   const firstLegClassName = index === 0 ? 'start' : '';
@@ -135,7 +135,7 @@ export default function BicycleLeg(
         <FormattedMessage
           id="itinerary-details.biking-leg"
           values={{
-            time: moment(leg.startTime).format('HH:mm'),
+            time: moment(leg.start).format('HH:mm'),
             to: intl.formatMessage({ id: `modes.to-${getToMode()}` }),
             distance,
             origin,
@@ -146,7 +146,7 @@ export default function BicycleLeg(
       </span>
       <div className="small-2 columns itinerary-time-column" aria-hidden="true">
         <div className="itinerary-time-column-time">
-          {moment(leg.startTime).format('HH:mm')}
+          {moment(leg.start).format('HH:mm')}
         </div>
       </div>
       {circleLine}
@@ -229,9 +229,7 @@ export default function BicycleLeg(
                         id={`from-${bicycleWalkLeg.from.stop.vehicleMode.toLowerCase()}`}
                       />
                     ),
-                    duration: durationToString(
-                      bicycleWalkLeg.endTime - bicycleWalkLeg.startTime,
-                    ),
+                    duration: durationToString(bicycleWalkLeg.duration * 1000),
                     distance: displayDistance(
                       parseInt(bicycleWalkLeg.distance, 10),
                       config,
@@ -280,9 +278,7 @@ export default function BicycleLeg(
                         id={`to-${bicycleWalkLeg.to.stop.vehicleMode.toLowerCase()}`}
                       />
                     ),
-                    duration: durationToString(
-                      bicycleWalkLeg.endTime - bicycleWalkLeg.startTime,
-                    ),
+                    duration: durationToString(bicycleWalkLeg.duration * 1000),
                     distance: displayDistance(
                       parseInt(bicycleWalkLeg.distance, 10),
                       config,

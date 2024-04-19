@@ -3,6 +3,14 @@ import get from 'lodash/get';
 import { BIKEAVL_UNKNOWN } from './vehicleRentalUtils';
 import { getRouteMode } from './modeUtils';
 
+/**
+ * Get time as  milliseconds since the Unix Epoch
+ */
+export function legTime(lt) {
+  const t = lt.estimated?.time || lt.scheduledTime;
+  return Date.parse(t);
+}
+
 function filterLegStops(leg, filter) {
   if (leg.from.stop && leg.to.stop && leg.trip) {
     const stops = [leg.from.stop.gtfsId, leg.to.stop.gtfsId];
@@ -214,7 +222,7 @@ export function compressLegs(originalLegs, keepBicycleWalk = false) {
         ...currentLeg.to,
         ...{ vehicleParking: newBikePark },
       };
-      compressedLeg.endTime = currentLeg.endTime;
+      compressedLeg.end = currentLeg.end;
       compressedLeg.mode = LegMode.Bicycle;
       return;
     }
@@ -227,7 +235,7 @@ export function compressLegs(originalLegs, keepBicycleWalk = false) {
       compressedLeg.duration += currentLeg.duration;
       compressedLeg.distance += currentLeg.distance;
       compressedLeg.to = currentLeg.to;
-      compressedLeg.endTime = currentLeg.endTime;
+      compressedLeg.end = currentLeg.end;
       compressedLeg.mode = LegMode.CityBike;
       return;
     }

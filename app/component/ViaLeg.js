@@ -5,6 +5,7 @@ import { FormattedMessage, intlShape } from 'react-intl';
 import { legShape, configShape } from '../util/shapes';
 import { displayDistance } from '../util/geo-utils';
 import { durationToString } from '../util/timeUtils';
+import { legTime } from '../util/legUtils';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
 import ItineraryMapAction from './ItineraryMapAction';
 import { splitStringToAddressAndPlace } from '../util/otpStrings';
@@ -47,7 +48,7 @@ function ViaLeg(props, { config, intl }) {
   );
   const [address, place] = splitStringToAddressAndPlace(props.leg.from.name);
   const duration = durationToString(props.leg.duration * 1000);
-  const stayDuration = props.leg.startTime - props.arrivalTime;
+  const stayDuration = legTime(props.leg.start) - legTime(props.arrival);
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   return (
     <div key={props.index} className="row itinerary-row">
@@ -56,7 +57,7 @@ function ViaLeg(props, { config, intl }) {
           id="itinerary-details.via-leg"
           defaultMessage="{arrivalTime} saavu välipisteeseen {viaPoint}. {leaveAction}"
           values={{
-            arrivalTime: moment(props.arrivalTime).format('HH:mm'),
+            arrivalTime: moment(props.arrival).format('HH:mm'),
             viaPoint: props.leg.from.name,
             leaveAction: (
               <FormattedMessage
@@ -66,7 +67,7 @@ function ViaLeg(props, { config, intl }) {
                     : 'itinerary-details.walk-leg'
                 }
                 values={{
-                  time: moment(props.leg.startTime).format('HH:mm'),
+                  time: moment(props.leg.start).format('HH:mm'),
                   to: intl.formatMessage({
                     id: `modes.to-${
                       props.leg.to.stop?.vehicleMode.toLowerCase() || 'place'
@@ -88,13 +89,13 @@ function ViaLeg(props, { config, intl }) {
         aria-hidden="true"
       >
         <div className="itinerary-time-column-time via-arrival-time">
-          {moment(props.arrivalTime).format('HH:mm')}
+          {moment(props.arrival).format('HH:mm')}
         </div>
         <div className="itinerary-time-column-time via-divider">
           <div className="via-divider-line" />
         </div>
         <div className="itinerary-time-column-time via-departure-time">
-          {moment(props.leg.startTime).format('HH:mm')}
+          {moment(props.leg.start).format('HH:mm')}
         </div>
       </div>
       <ItineraryCircleLineWithIcon
@@ -143,7 +144,7 @@ function ViaLeg(props, { config, intl }) {
 }
 
 ViaLeg.propTypes = {
-  arrivalTime: PropTypes.number.isRequired,
+  arrival: PropTypes.string.isRequired,
   leg: legShape.isRequired,
   index: PropTypes.number.isRequired,
   focusAction: PropTypes.func.isRequired,

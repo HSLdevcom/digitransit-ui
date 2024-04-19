@@ -46,7 +46,7 @@ export default function AlternativeLegsInfo({
               className={cx({ realtime: legs[0].realTime })}
               style={{ fontWeight: 500 }}
             >
-              {moment(legs[0].startTime).format('HH:mm')}
+              {moment(legs[0].start).format('HH:mm')}
               {legs[0].realTime && (
                 <span className="sr-only">
                   <FormattedMessage id="realtime" />
@@ -59,7 +59,7 @@ export default function AlternativeLegsInfo({
               className={cx({ realtime: legs[1].realTime })}
               style={{ fontWeight: 500 }}
             >
-              {moment(legs[1].startTime).format('HH:mm')}
+              {moment(legs[1].start).format('HH:mm')}
               {legs[1].realTime && (
                 <span className="sr-only">
                   <FormattedMessage id="realtime" />
@@ -88,7 +88,7 @@ export default function AlternativeLegsInfo({
               className={cx({ realtime: legs[0].realTime })}
               style={{ fontWeight: 500 }}
             >
-              {moment(legs[0].startTime).format('HH:mm')}
+              {moment(legs[0].start).format('HH:mm')}
               {legs[0].realTime && (
                 <span className="sr-only">
                   <FormattedMessage id="realtime" />

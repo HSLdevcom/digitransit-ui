@@ -99,7 +99,7 @@ export default function LegInfo(
       {displayTime && (
         <>
           <span className="sr-only">
-            {`${moment(leg.startTime).format('HH:mm')} ${
+            {`${moment(leg.start).format('HH:mm')} ${
               leg.realTime ? intl.formatMessage({ id: 'realtime' }) : ''
             }`}
           </span>
@@ -107,7 +107,7 @@ export default function LegInfo(
             className={cx('leg-departure-time', { realtime: leg.realTime })}
             aria-hidden="true"
           >
-            {moment(leg.startTime).format('HH:mm')}
+            {moment(leg.start).format('HH:mm')}
           </span>
         </>
       )}

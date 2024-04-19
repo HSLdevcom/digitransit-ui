@@ -19,9 +19,7 @@ const CallAgencyLeg = ({ leg, index, focusAction }, { config }) => {
     leg.departureDelay >= config.itinerary.delayThreshold && [
       <br key="br" />,
       <span key="time" className="original-time">
-        {moment(leg.startTime)
-          .subtract(leg.departureDelay, 's')
-          .format('HH:mm')}
+        {moment(leg.start).subtract(leg.departureDelay, 's').format('HH:mm')}
       </span>,
     ];
 
@@ -41,7 +39,7 @@ const CallAgencyLeg = ({ leg, index, focusAction }, { config }) => {
           }
         >
           <div className="itinerary-time-column-time">
-            <span>{moment(leg.startTime).format('HH:mm')}</span>
+            <span>{moment(leg.start).format('HH:mm')}</span>
             {originalTime}
           </div>
         </Link>

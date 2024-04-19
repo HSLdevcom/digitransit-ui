@@ -25,7 +25,7 @@ const BikeParkLeg = (
         <FormattedMessage
           id="itinerary-details.walk-leg"
           values={{
-            time: moment(leg.startTime).format('HH:mm'),
+            time: moment(leg.start).format('HH:mm'),
             distance,
             to: intl.formatMessage({
               id: `modes.to-${
@@ -41,7 +41,7 @@ const BikeParkLeg = (
       </span>
       <div className="small-2 columns itinerary-time-column" aria-hidden="true">
         <div className="itinerary-time-column-time">
-          {moment(leg.startTime).format('HH:mm')}
+          {moment(leg.start).format('HH:mm')}
         </div>
       </div>
       <ItineraryCircleLineWithIcon

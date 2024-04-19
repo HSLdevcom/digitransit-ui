@@ -5,6 +5,7 @@ import React from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
 import Link from 'found/Link';
 import { legShape, configShape } from '../util/shapes';
+import { legTime } from '../util/legUtils';
 import Icon from './Icon';
 import ItineraryMapAction from './ItineraryMapAction';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
@@ -74,7 +75,7 @@ function WalkLeg(
         <FormattedMessage
           id="itinerary-details.walk-leg"
           values={{
-            time: moment(leg.startTime).format('HH:mm'),
+            time: moment(leg.start).format('HH:mm'),
             to: intl.formatMessage({
               id: `modes.to-${
                 leg.to.stop?.vehicleMode?.toLowerCase() || 'place'
@@ -91,9 +92,7 @@ function WalkLeg(
       <div className="small-2 columns itinerary-time-column" aria-hidden="true">
         <div className="itinerary-time-column-time">
           <span className={cx({ realtime: previousLeg?.realTime })}>
-            {moment(leg.mode === 'WALK' ? leg.startTime : leg.endTime).format(
-              'HH:mm',
-            )}
+            {moment(leg.mode === 'WALK' ? leg.start : leg.end).format('HH:mm')}
           </span>
         </div>
       </div>
@@ -159,7 +158,7 @@ function WalkLeg(
                     className="inline-icon"
                     severityLevel={getActiveAlertSeverityLevel(
                       leg[toOrFrom].stop && leg[toOrFrom].stop.alerts,
-                      leg.startTime / 1000,
+                      legTime(leg.start) / 1000,
                     )}
                   />
                 </Link>
@@ -186,7 +185,7 @@ function WalkLeg(
                     className="inline-icon"
                     severityLevel={getActiveAlertSeverityLevel(
                       leg[toOrFrom].stop && leg[toOrFrom].stop.alerts,
-                      leg.startTime / 1000,
+                      legTime(leg.start) / 1000,
                     )}
                   />
                 </div>

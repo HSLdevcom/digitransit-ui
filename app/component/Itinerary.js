@@ -23,6 +23,7 @@ import {
   isCallAgencyPickupType,
   getInterliningLegs,
   getTotalDistance,
+  legTime,
 } from '../util/legUtils';
 import { dateOrEmpty, isTomorrow } from '../util/timeUtils';
 import withBreakpoint from '../util/withBreakpoint';
@@ -296,7 +297,8 @@ const Itinerary = (
       leg.intermediatePlace ||
       connectsFromViaPoint(leg, intermediatePlaces)
     ) {
-      intermediateSlack += leg.startTime - compressedLegs[i - 1].endTime; // calculate time spent at each intermediate place
+      intermediateSlack +=
+        legTime(leg.start) - legTime(compressedLegs[i - 1].end); // calculate time spent at each intermediate place
     }
   });
   const durationWithoutSlack = duration - intermediateSlack; // don't include time spent at intermediate places in calculations for bar lengths
@@ -336,8 +338,7 @@ const Itinerary = (
     const previousLeg = compressedLegs[i - 1];
     const nextLeg = compressedLegs[i + 1];
     let legLength =
-      ((leg.endTime - leg.startTime) / durationWithoutSlack) * 100; // length of the current leg in %
-
+      ((legTime(leg.end) - legTime(leg.start)) / durationWithoutSlack) * 100; // length of the current leg in %
     const longName = !leg?.route?.shortName || leg?.route?.shortName.length > 5;
 
     if (
@@ -346,14 +347,15 @@ const Itinerary = (
       !connectsFromViaPoint(nextLeg, intermediatePlaces)
     ) {
       // don't show waiting in intermediate places
-      waitTime = nextLeg.startTime - leg.endTime;
+      waitTime = legTime(nextLeg.start) - legTime(leg.end);
       waitLength = (waitTime / durationWithoutSlack) * 100;
       if (waitTime > waitThreshold && waitLength > renderBarThreshold) {
         // if waittime is long enough, render a waiting bar
         waiting = true;
       } else {
         legLength =
-          ((leg.endTime - leg.startTime + waitTime) / durationWithoutSlack) *
+          ((legTime(leg.end) - legTime(leg.start) + waitTime) /
+            durationWithoutSlack) *
           100; // otherwise add the waiting to the current legs length
       }
     }
@@ -367,7 +369,7 @@ const Itinerary = (
     if (lastLegWithInterline) {
       interliningWithRoute = interliningLines.join(' / ');
       legLength =
-        ((lastLegWithInterline.endTime - leg.startTime) /
+        ((legTime(lastLegWithInterline.end) - legTime(leg.start)) /
           durationWithoutSlack) *
         100;
     }
@@ -384,7 +386,7 @@ const Itinerary = (
     }
     if (leg.intermediatePlace) {
       onlyIconLegs += 1;
-      legs.push(<ViaLeg key={`via_${leg.mode}_${leg.startTime}`} />);
+      legs.push(<ViaLeg key={`via_${leg.mode}_${legTime(leg.start)}`} />);
     }
     if (isLegOnFoot(leg) && renderBar) {
       const walkingTime = Math.floor(leg.duration / 60);
@@ -394,7 +396,7 @@ const Itinerary = (
       }
       legs.push(
         <ModeLeg
-          key={`${leg.mode}_${leg.startTime}`}
+          key={`${leg.mode}_${legTime(leg.start)}`}
           renderModeIcons={renderModeIcons}
           isTransitLeg={false}
           leg={leg}
@@ -409,7 +411,7 @@ const Itinerary = (
         legs.push(
           <div
             className="leg bike_park"
-            key={`${leg.mode}_${leg.startTime}_bike_park_indicator`}
+            key={`${leg.mode}_${legTime(leg.start)}_bike_park_indicator`}
           >
             <Icon
               img="icon-bike_parking"
@@ -422,7 +424,9 @@ const Itinerary = (
       (leg.mode === 'CITYBIKE' || leg.mode === 'BICYCLE') &&
       leg.rentedBike
     ) {
-      const bikingTime = Math.floor((leg.endTime - leg.startTime) / 1000 / 60);
+      const bikingTime = Math.floor(
+        (legTime(leg.end) - legTime(leg.start)) / 1000 / 60,
+      );
       // eslint-disable-next-line prefer-destructuring
       bikeNetwork = leg.from.vehicleRentalStation.network;
       if (
@@ -446,7 +450,7 @@ const Itinerary = (
       }
       legs.push(
         <ModeLeg
-          key={`${leg.mode}_${leg.startTime}`}
+          key={`${leg.mode}_${legTime(leg.start)}`}
           isTransitLeg={false}
           renderModeIcons={renderModeIcons}
           leg={leg}
@@ -457,10 +461,10 @@ const Itinerary = (
         />,
       );
     } else if (leg.mode === 'CAR') {
-      const drivingTime = Math.floor((leg.endTime - leg.startTime) / 1000 / 60);
+      const drivingTime = Math.floor(leg.duration / 60);
       legs.push(
         <ModeLeg
-          key={`${leg.mode}_${leg.startTime}`}
+          key={`${leg.mode}_${legTime(leg.start)}`}
           leg={leg}
           duration={drivingTime}
           mode="CAR"
@@ -474,7 +478,7 @@ const Itinerary = (
         legs.push(
           <div
             className="leg car_park"
-            key={`${leg.mode}_${leg.startTime}_car_park_indicator`}
+            key={`${leg.mode}_${legTime(leg.start)}_car_park_indicator`}
           >
             <Icon
               img="icon-icon_car-park"
@@ -484,10 +488,10 @@ const Itinerary = (
         );
       }
     } else if (leg.mode === 'BICYCLE' && renderBar) {
-      const bikingTime = Math.floor((leg.endTime - leg.startTime) / 1000 / 60);
+      const bikingTime = Math.floor(leg.duration / 60);
       legs.push(
         <ModeLeg
-          key={`${leg.mode}_${leg.startTime}`}
+          key={`${leg.mode}_${legTime(leg.start)}`}
           isTransitLeg={false}
           duration={bikingTime}
           renderModeIcons={renderModeIcons}
@@ -502,7 +506,7 @@ const Itinerary = (
         legs.push(
           <div
             className="leg bike_park"
-            key={`${leg.mode}_${leg.startTime}_bike_park_indicator`}
+            key={`${leg.mode}_${legTime(leg.start)}_bike_park_indicator`}
           >
             <Icon
               img="icon-bike_parking"
@@ -522,7 +526,7 @@ const Itinerary = (
         !previousLeg.intermediatePlace &&
         connectsFromViaPoint(leg, intermediatePlaces)
       ) {
-        legs.push(<ViaLeg key={`via_${leg.mode}_${leg.startTime}`} />);
+        legs.push(<ViaLeg key={`via_${leg.mode}_${legTime(leg.start)}`} />);
       }
       const renderRouteNumberForALongLeg =
         legLength > renderRouteNumberThreshold &&
@@ -531,7 +535,7 @@ const Itinerary = (
       if (!leg.interlineWithPreviousLeg) {
         legs.push(
           <RouteLeg
-            key={`${leg.mode}_${leg.startTime}`}
+            key={`${leg.mode}_${legTime(leg.start)}`}
             leg={leg}
             fitRouteNumber={
               (fitAllRouteNumbers && !longName) || renderRouteNumberForALongLeg
@@ -563,7 +567,7 @@ const Itinerary = (
       const waitingTimeinMin = Math.floor(waitTime / 1000 / 60);
       legs.push(
         <ModeLeg
-          key={`${leg.mode}_${leg.startTime}_wait`}
+          key={`${leg.mode}_${legTime(leg.start)}_wait`}
           leg={leg}
           legLength={waitLength}
           renderModeIcons={renderModeIcons}
@@ -616,7 +620,7 @@ const Itinerary = (
                 <span
                   className={cx('time', { realtime: firstDeparture.realTime })}
                 >
-                  <LocalTime time={firstDeparture.startTime} />
+                  <LocalTime time={legTime(firstDeparture.start)} />
                 </span>
               ),
               firstDepartureStop: firstDeparture.from.name,
@@ -653,7 +657,7 @@ const Itinerary = (
                     realtime: firstDeparture.realTime,
                   })}
                 >
-                  <LocalTime time={firstDeparture.startTime} />
+                  <LocalTime time={legTime(firstDeparture.start)} />
                 </span>
               ),
               firstDepartureStopType: (
@@ -713,7 +717,7 @@ const Itinerary = (
                 values={{
                   vehicle: vehicleNames[0],
                   departureTime: firstDeparture ? (
-                    <LocalTime time={firstDeparture.startTime} />
+                    <LocalTime time={legTime(firstDeparture.start)} />
                   ) : (
                     'ggh'
                   ),
@@ -961,8 +965,18 @@ const containerComponent = createFragmentContainer(ItineraryWithBreakpoint, {
         realTime
         realtimeState
         transitLeg
-        startTime
-        endTime
+        start {
+          scheduledTime
+          estimated {
+            time
+          }
+        }
+        end {
+          scheduledTime
+          estimated {
+            time
+          }
+        }
         mode
         distance
         duration

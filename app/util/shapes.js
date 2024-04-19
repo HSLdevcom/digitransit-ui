@@ -183,9 +183,14 @@ export const departureShape = PropTypes.shape({
   stop: stopShape,
 });
 
+export const legTimeShape = PropTypes.shape({
+  scheduledTime: PropTypes.string,
+  estimated: PropTypes.shape({ time: PropTypes.string }),
+});
+
 export const legShape = PropTypes.shape({
-  startTime: PropTypes.number,
-  endTime: PropTypes.number,
+  start: legTimeShape,
+  end: legTimeShape,
   duration: PropTypes.number,
   distance: PropTypes.number,
   mode: PropTypes.string,

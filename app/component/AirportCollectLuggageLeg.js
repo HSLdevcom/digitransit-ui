@@ -18,7 +18,7 @@ function AirportCollectLuggageLeg(props, { config }) {
     <div className="row itinerary-row">
       <div className="small-2 columns itinerary-time-column">
         <div className="itinerary-time-column-time">
-          {moment(props.leg.endTime).format('HH:mm')}
+          {moment(props.leg.end).format('HH:mm')}
         </div>
       </div>
       <ItineraryCircleLine index={props.index} modeClassName={modeClassName} />

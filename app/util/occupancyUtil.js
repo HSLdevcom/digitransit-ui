@@ -63,9 +63,5 @@ export function getCapacity(config, occupancyStatus, departureTime) {
  * @param {*} leg leg object.
  */
 export function getCapacityForLeg(config, leg) {
-  return getCapacity(
-    config,
-    leg.trip?.occupancy?.occupancyStatus,
-    leg.startTime,
-  );
+  return getCapacity(config, leg.trip?.occupancy?.occupancyStatus, leg.start);
 }
