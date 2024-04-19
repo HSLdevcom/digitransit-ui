@@ -302,6 +302,8 @@ const Itinerary = (
     }
   });
   const durationWithoutSlack = duration - intermediateSlack; // don't include time spent at intermediate places in calculations for bar lengths
+  const relativeLength = durationMs =>
+    (100 * durationMs) / durationWithoutSlack; // as %
   let renderBarThreshold = 6;
   const renderRouteNumberThreshold = 12; // route numbers will be rendered on legs that are longer than this
   if (breakpoint === 'small') {
@@ -315,8 +317,7 @@ const Itinerary = (
   const onlyIconLegsLength = 0;
   const waitThreshold = 180000;
   const lastLeg = compressedLegs[compressedLegs.length - 1];
-  const lastLegLength =
-    ((lastLeg.duration * 1000) / durationWithoutSlack) * 100;
+  const lastLegLength = relativeLength(lastLeg.duration * 1000);
   const fitAllRouteNumbers = transitLegCount < 4; // if there are three or fewer transit legs, we will show all the route numbers.
   const bikeParkedIndex = usingOwnBicycle
     ? bikeWasParked(compressedLegs)
@@ -332,13 +333,14 @@ const Itinerary = (
     let waiting = false;
     let waitTime;
     let waitLength;
+    const startMs = legTime(leg.start);
+    const endMs = legTime(leg.end);
     const isNextLegLast = i + 1 === compressedLegs.length - 1;
     const shouldRenderLastLeg =
       isNextLegLast && lastLegLength < renderBarThreshold;
     const previousLeg = compressedLegs[i - 1];
     const nextLeg = compressedLegs[i + 1];
-    let legLength =
-      ((legTime(leg.end) - legTime(leg.start)) / durationWithoutSlack) * 100; // length of the current leg in %
+    let legLength = relativeLength(endMs - startMs);
     const longName = !leg?.route?.shortName || leg?.route?.shortName.length > 5;
 
     if (
@@ -347,16 +349,14 @@ const Itinerary = (
       !connectsFromViaPoint(nextLeg, intermediatePlaces)
     ) {
       // don't show waiting in intermediate places
-      waitTime = legTime(nextLeg.start) - legTime(leg.end);
-      waitLength = (waitTime / durationWithoutSlack) * 100;
+      waitTime = legTime(nextLeg.start) - endMs;
+      waitLength = relativeLength(waitTime);
       if (waitTime > waitThreshold && waitLength > renderBarThreshold) {
         // if waittime is long enough, render a waiting bar
         waiting = true;
       } else {
-        legLength =
-          ((legTime(leg.end) - legTime(leg.start) + waitTime) /
-            durationWithoutSlack) *
-          100; // otherwise add the waiting to the current legs length
+        // otherwise add the waiting to the current leg's length
+        legLength = relativeLength(endMs - startMs + waitTime);
       }
     }
 
@@ -369,8 +369,7 @@ const Itinerary = (
     if (lastLegWithInterline) {
       interliningWithRoute = interliningLines.join(' / ');
       legLength =
-        ((legTime(lastLegWithInterline.end) - legTime(leg.start)) /
-          durationWithoutSlack) *
+        ((legTime(lastLegWithInterline.end) - startMs) / durationWithoutSlack) *
         100;
     }
     legLength += addition;
@@ -386,7 +385,7 @@ const Itinerary = (
     }
     if (leg.intermediatePlace) {
       onlyIconLegs += 1;
-      legs.push(<ViaLeg key={`via_${leg.mode}_${legTime(leg.start)}`} />);
+      legs.push(<ViaLeg key={`via_${leg.mode}_${startMs}`} />);
     }
     if (isLegOnFoot(leg) && renderBar) {
       const walkingTime = Math.floor(leg.duration / 60);
@@ -396,7 +395,7 @@ const Itinerary = (
       }
       legs.push(
         <ModeLeg
-          key={`${leg.mode}_${legTime(leg.start)}`}
+          key={`${leg.mode}_${startMs}`}
           renderModeIcons={renderModeIcons}
           isTransitLeg={false}
           leg={leg}
@@ -411,7 +410,7 @@ const Itinerary = (
         legs.push(
           <div
             className="leg bike_park"
-            key={`${leg.mode}_${legTime(leg.start)}_bike_park_indicator`}
+            key={`${leg.mode}_${startMs}_bike_park_indicator`}
           >
             <Icon
               img="icon-bike_parking"
@@ -424,9 +423,7 @@ const Itinerary = (
       (leg.mode === 'CITYBIKE' || leg.mode === 'BICYCLE') &&
       leg.rentedBike
     ) {
-      const bikingTime = Math.floor(
-        (legTime(leg.end) - legTime(leg.start)) / 1000 / 60,
-      );
+      const bikingTime = Math.floor(leg.duration / 60);
       // eslint-disable-next-line prefer-destructuring
       bikeNetwork = leg.from.vehicleRentalStation.network;
       if (
@@ -450,7 +447,7 @@ const Itinerary = (
       }
       legs.push(
         <ModeLeg
-          key={`${leg.mode}_${legTime(leg.start)}`}
+          key={`${leg.mode}_${startMs}`}
           isTransitLeg={false}
           renderModeIcons={renderModeIcons}
           leg={leg}
@@ -464,7 +461,7 @@ const Itinerary = (
       const drivingTime = Math.floor(leg.duration / 60);
       legs.push(
         <ModeLeg
-          key={`${leg.mode}_${legTime(leg.start)}`}
+          key={`${leg.mode}_${startMs}`}
           leg={leg}
           duration={drivingTime}
           mode="CAR"
@@ -478,7 +475,7 @@ const Itinerary = (
         legs.push(
           <div
             className="leg car_park"
-            key={`${leg.mode}_${legTime(leg.start)}_car_park_indicator`}
+            key={`${leg.mode}_${startMs}_car_park_indicator`}
           >
             <Icon
               img="icon-icon_car-park"
@@ -491,7 +488,7 @@ const Itinerary = (
       const bikingTime = Math.floor(leg.duration / 60);
       legs.push(
         <ModeLeg
-          key={`${leg.mode}_${legTime(leg.start)}`}
+          key={`${leg.mode}_${startMs}`}
           isTransitLeg={false}
           duration={bikingTime}
           renderModeIcons={renderModeIcons}
@@ -506,7 +503,7 @@ const Itinerary = (
         legs.push(
           <div
             className="leg bike_park"
-            key={`${leg.mode}_${legTime(leg.start)}_bike_park_indicator`}
+            key={`${leg.mode}_${startMs}_bike_park_indicator`}
           >
             <Icon
               img="icon-bike_parking"
@@ -526,7 +523,7 @@ const Itinerary = (
         !previousLeg.intermediatePlace &&
         connectsFromViaPoint(leg, intermediatePlaces)
       ) {
-        legs.push(<ViaLeg key={`via_${leg.mode}_${legTime(leg.start)}`} />);
+        legs.push(<ViaLeg key={`via_${leg.mode}_${startMs}`} />);
       }
       const renderRouteNumberForALongLeg =
         legLength > renderRouteNumberThreshold &&
@@ -535,7 +532,7 @@ const Itinerary = (
       if (!leg.interlineWithPreviousLeg) {
         legs.push(
           <RouteLeg
-            key={`${leg.mode}_${legTime(leg.start)}`}
+            key={`${leg.mode}_${startMs}`}
             leg={leg}
             fitRouteNumber={
               (fitAllRouteNumbers && !longName) || renderRouteNumberForALongLeg
@@ -567,7 +564,7 @@ const Itinerary = (
       const waitingTimeinMin = Math.floor(waitTime / 1000 / 60);
       legs.push(
         <ModeLeg
-          key={`${leg.mode}_${legTime(leg.start)}_wait`}
+          key={`${leg.mode}_${startMs}_wait`}
           leg={leg}
           legLength={waitLength}
           renderModeIcons={renderModeIcons}
