@@ -189,13 +189,13 @@ export default config => {
               path="(.*)?"
               getComponent={() =>
                 import(
-                  /* webpackChunkName: "itinerary" */ './component/VehicleRentalStationPageMapContainer'
+                  /* webpackChunkName: "itinerary" */ './component/VehicleRentalStationMapContainer'
                 ).then(getDefault)
               }
               query={graphql`
                 query routes_VehicleRentalStationMap_Query($id: String!) {
                   vehicleRentalStation(id: $id) {
-                    ...VehicleRentalStationPageMapContainer_vehicleRentalStation
+                    ...VehicleRentalStationMapContainer_vehicleRentalStation
                   }
                 }
               `}

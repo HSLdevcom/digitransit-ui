@@ -4,18 +4,18 @@ import { createFragmentContainer, graphql } from 'react-relay';
 import { configShape } from '../util/shapes';
 import StopPageMap from './map/StopPageMap';
 
-const VehicleRentalStationPageMapContainer = ({ vehicleRentalStation }) => {
+const VehicleRentalStationMapContainer = ({ vehicleRentalStation }) => {
   if (!vehicleRentalStation) {
     return false;
   }
   return <StopPageMap stop={vehicleRentalStation} citybike />;
 };
 
-VehicleRentalStationPageMapContainer.contextTypes = {
+VehicleRentalStationMapContainer.contextTypes = {
   config: configShape.isRequired,
 };
 
-VehicleRentalStationPageMapContainer.propTypes = {
+VehicleRentalStationMapContainer.propTypes = {
   vehicleRentalStation: PropTypes.shape({
     lat: PropTypes.number.isRequired,
     lon: PropTypes.number.isRequired,
@@ -23,15 +23,15 @@ VehicleRentalStationPageMapContainer.propTypes = {
   }),
 };
 
-VehicleRentalStationPageMapContainer.defaultProps = {
+VehicleRentalStationMapContainer.defaultProps = {
   vehicleRentalStation: undefined,
 };
 
 const containerComponent = createFragmentContainer(
-  VehicleRentalStationPageMapContainer,
+  VehicleRentalStationMapContainer,
   {
     vehicleRentalStation: graphql`
-      fragment VehicleRentalStationPageMapContainer_vehicleRentalStation on VehicleRentalStation {
+      fragment VehicleRentalStationMapContainer_vehicleRentalStation on VehicleRentalStation {
         lat
         lon
         name
@@ -42,5 +42,5 @@ const containerComponent = createFragmentContainer(
 
 export {
   containerComponent as default,
-  VehicleRentalStationPageMapContainer as Component,
+  VehicleRentalStationMapContainer as Component,
 };
