@@ -128,6 +128,20 @@ export default class ItineraryLegs extends React.Component {
           )
         );
       };
+      const legProps = {
+        leg,
+        index: j,
+        focusAction: this.focus(leg.from),
+        focusToLeg: this.focusToLeg(leg),
+      };
+      const transitLegProps = {
+        leg,
+        index: j,
+        interliningLegs,
+        focusAction: this.focus(leg.from),
+        changeHash: this.props.changeHash,
+        tabIndex: this.props.tabIndex,
+      };
 
       if (leg.mode !== 'WALK' && isCallAgencyPickupType(leg)) {
         legs.push(
@@ -138,113 +152,29 @@ export default class ItineraryLegs extends React.Component {
           />,
         );
       } else if (leg.intermediatePlace) {
-        legs.push(
-          <ViaLeg
-            index={j}
-            leg={leg}
-            arrival={startTime}
-            focusAction={this.focus(leg.from)}
-            focusToLeg={this.focusToLeg(leg)}
-          />,
-        );
+        legs.push(<ViaLeg {...legProps} arrival={startTime} />);
       } else if (bikePark) {
-        legs.push(
-          <BikeParkLeg
-            index={j}
-            leg={leg}
-            bikePark={bikePark}
-            focusAction={this.focus(leg.from)}
-            focusToLeg={this.focusToLeg(leg)}
-          />,
-        );
+        legs.push(<BikeParkLeg {...legProps} bikePark={bikePark} />);
       } else if (carPark) {
-        legs.push(
-          <CarParkLeg
-            index={j}
-            leg={leg}
-            carPark={carPark}
-            focusAction={this.focus(leg.from)}
-            focusToLeg={this.focusToLeg(leg)}
-          />,
-        );
+        legs.push(<CarParkLeg {...legProps} carPark={carPark} />);
       } else if (isLegOnFoot(leg)) {
         legs.push(
-          <WalkLeg
-            index={j}
-            leg={leg}
-            previousLeg={previousLeg}
-            focusAction={this.focus(leg.from)}
-            focusToLeg={this.focusToLeg(leg)}
-          >
+          <WalkLeg {...legProps} previousLeg={previousLeg}>
             {stopCode(leg.from.stop)}
           </WalkLeg>,
         );
       } else if (leg.mode === 'BUS' && !leg.interlineWithPreviousLeg) {
-        legs.push(
-          <BusLeg
-            index={j}
-            leg={leg}
-            interliningLegs={interliningLegs}
-            focusAction={this.focus(leg.from)}
-            changeHash={this.props.changeHash}
-            tabIndex={this.props.tabIndex}
-          />,
-        );
+        legs.push(<BusLeg {...transitLegProps} />);
       } else if (leg.mode === 'TRAM' && !leg.interlineWithPreviousLeg) {
-        legs.push(
-          <TramLeg
-            index={j}
-            leg={leg}
-            interliningLegs={interliningLegs}
-            focusAction={this.focus(leg.from)}
-            changeHash={this.props.changeHash}
-            tabIndex={this.props.tabIndex}
-          />,
-        );
+        legs.push(<TramLeg {...transitLegProps} />);
       } else if (leg.mode === 'FERRY' && !leg.interlineWithPreviousLeg) {
-        legs.push(
-          <FerryLeg
-            index={j}
-            leg={leg}
-            interliningLegs={interliningLegs}
-            focusAction={this.focus(leg.from)}
-            changeHash={this.props.changeHash}
-            tabIndex={this.props.tabIndex}
-          />,
-        );
+        legs.push(<FerryLeg {...transitLegProps} />);
       } else if (leg.mode === 'FUNICULAR' && !leg.interlineWithPreviousLeg) {
-        legs.push(
-          <FunicularLeg
-            index={j}
-            leg={leg}
-            interliningLegs={interliningLegs}
-            focusAction={this.focus(leg.from)}
-            changeHash={this.props.changeHash}
-            tabIndex={this.props.tabIndex}
-          />,
-        );
+        legs.push(<FunicularLeg {...transitLegProps} />);
       } else if (leg.mode === 'RAIL' && !leg.interlineWithPreviousLeg) {
-        legs.push(
-          <RailLeg
-            index={j}
-            leg={leg}
-            interliningLegs={interliningLegs}
-            focusAction={this.focus(leg.from)}
-            changeHash={this.props.changeHash}
-            tabIndex={this.props.tabIndex}
-          />,
-        );
+        legs.push(<RailLeg {...transitLegProps} />);
       } else if (leg.mode === 'SUBWAY' && !leg.interlineWithPreviousLeg) {
-        legs.push(
-          <SubwayLeg
-            index={j}
-            leg={leg}
-            interliningLegs={interliningLegs}
-            focusAction={this.focus(leg.from)}
-            changeHash={this.props.changeHash}
-            tabIndex={this.props.tabIndex}
-          />,
-        );
+        legs.push(<SubwayLeg {...transitLegProps} />);
       } else if (leg.mode === 'AIRPLANE') {
         legs.push(
           <AirportCheckInLeg
@@ -254,15 +184,7 @@ export default class ItineraryLegs extends React.Component {
             focusAction={this.focus(leg.from)}
           />,
         );
-
-        legs.push(
-          <AirplaneLeg
-            index={j}
-            leg={leg}
-            focusAction={this.focus(leg.from)}
-          />,
-        );
-
+        legs.push(<AirplaneLeg {...transitLegProps} />);
         legs.push(
           <AirportCollectLuggageLeg
             index={j + 0.5}
@@ -298,26 +220,9 @@ export default class ItineraryLegs extends React.Component {
             mode: 'BICYCLE_WALK',
           };
         }
-        legs.push(
-          <BicycleLeg
-            index={j}
-            leg={leg}
-            focusAction={this.focus(leg.from)}
-            focusToLeg={this.focusToLeg(leg)}
-            bicycleWalkLeg={bicycleWalkLeg}
-          />,
-        );
+        legs.push(<BicycleLeg {...legProps} bicycleWalkLeg={bicycleWalkLeg} />);
       } else if (leg.mode === 'CAR') {
-        legs.push(
-          <CarLeg
-            index={j}
-            leg={leg}
-            focusAction={this.focus(leg.from)}
-            focusToLeg={this.focusToLeg(leg)}
-          >
-            {stopCode(leg.from.stop)}
-          </CarLeg>,
-        );
+        legs.push(<CarLeg {...legProps}>{stopCode(leg.from.stop)}</CarLeg>);
       }
 
       if (nextLeg) {
