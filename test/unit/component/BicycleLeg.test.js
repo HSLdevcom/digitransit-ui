@@ -16,8 +16,8 @@ describe('<BicycleLeg />', () => {
         duration: 0,
         mode: 'BICYCLE',
         rentedBike: true,
-        startTime: 0,
-        endTime: 0,
+        start: { scheduledTime: new Date().toISOString() },
+        end: { scheduledTime: new Date().toISOString() },
         from: {
           name: 'Hertanmäenkatu',
           vehicleRentalStation: {
@@ -54,8 +54,8 @@ describe('<BicycleLeg />', () => {
         duration: 0,
         mode: 'BICYCLE',
         rentedBike: true,
-        startTime: 0,
-        endTime: 0,
+        start: { scheduledTime: new Date().toISOString() },
+        end: { scheduledTime: new Date().toISOString() },
         from: {
           name: 'Hertanmäenkatu',
           vehicleRentalStation: {
@@ -92,8 +92,8 @@ describe('<BicycleLeg />', () => {
         duration: 0,
         mode: 'BICYCLE',
         rentedBike: true,
-        startTime: 0,
-        endTime: 0,
+        start: { scheduledTime: new Date().toISOString() },
+        end: { scheduledTime: new Date().toISOString() },
         from: {
           name: 'Hertanmäenkatu',
           vehicleRentalStation: {
@@ -133,8 +133,8 @@ describe('<BicycleLeg />', () => {
         duration: 0,
         mode: 'BICYCLE',
         rentedBike: true,
-        startTime: 0,
-        endTime: 0,
+        start: { scheduledTime: new Date().toISOString() },
+        end: { scheduledTime: new Date().toISOString() },
         from: {
           name: 'Hertanmäenkatu',
           vehicleRentalStation: {
@@ -174,8 +174,8 @@ describe('<BicycleLeg />', () => {
         duration: 0,
         mode: 'WALK',
         rentedBike: true,
-        startTime: 0,
-        endTime: 0,
+        start: { scheduledTime: new Date().toISOString() },
+        end: { scheduledTime: new Date().toISOString() },
         from: {
           name: 'Hertanmäenkatu',
           vehicleRentalStation: {
@@ -212,8 +212,8 @@ describe('<BicycleLeg />', () => {
         duration: 0,
         mode: 'WALK',
         rentedBike: true,
-        startTime: 0,
-        endTime: 0,
+        start: { scheduledTime: new Date().toISOString() },
+        end: { scheduledTime: new Date().toISOString() },
         from: {
           name: 'Hertanmäenkatu',
           vehicleRentalStation: {

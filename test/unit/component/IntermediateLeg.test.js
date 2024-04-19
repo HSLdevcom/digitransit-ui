@@ -7,7 +7,7 @@ import IntermediateLeg from '../../../app/component/IntermediateLeg';
 import ZoneIcon from '../../../app/component/ZoneIcon';
 
 const emptyProps = {
-  arrival: '2024-04-05T14:48:00.000Z',
+  arrival: { scheduledTime: '2024-04-05T14:48:00.000Z' },
   name: '',
   mode: '',
   stopCode: '',
