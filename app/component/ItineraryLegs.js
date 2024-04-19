@@ -248,6 +248,7 @@ export default class ItineraryLegs extends React.Component {
       } else if (leg.mode === 'AIRPLANE') {
         legs.push(
           <AirportCheckInLeg
+            index={j - 0.5}
             leg={leg}
             start={startTime}
             focusAction={this.focus(leg.from)}
@@ -264,6 +265,7 @@ export default class ItineraryLegs extends React.Component {
 
         legs.push(
           <AirportCollectLuggageLeg
+            index={j + 0.5}
             leg={leg}
             focusAction={this.focus(leg.to)}
           />,
