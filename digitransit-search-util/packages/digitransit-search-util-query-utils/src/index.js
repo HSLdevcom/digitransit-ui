@@ -57,11 +57,13 @@ const stationsQuery = graphql`
 const alertsQuery = graphql`
   query srcAlertsQuery($feedIds: [String!]) {
     alerts(severityLevel: [SEVERE], feeds: $feedIds) {
-      route {
-        mode
-      }
-      effectiveStartDate
+      alertDescriptionText
+      alertHash
+      alertHeaderText
+      alertSeverityLevel
+      alertUrl
       effectiveEndDate
+      effectiveStartDate
     }
   }
 `;
