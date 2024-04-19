@@ -11,7 +11,7 @@ import { PREFIX_BIKEPARK, PREFIX_CARPARK } from '../util/path';
 import { isBrowser } from '../util/browser';
 
 function ParkAndRideContent(
-  { park, error, currentLanguage },
+  { vehicleParking, error, currentLanguage },
   { config, intl, router, match },
 ) {
   const [isClient, setClient] = useState(false);
@@ -25,7 +25,7 @@ function ParkAndRideContent(
     throw error.message;
   }
   const bikePark = match.location.pathname.includes(PREFIX_BIKEPARK);
-  if (!park) {
+  if (!vehicleParking) {
     const path = bikePark ? PREFIX_BIKEPARK : PREFIX_CARPARK;
     if (isBrowser) {
       router.replace(`/${path}`);
@@ -44,10 +44,10 @@ function ParkAndRideContent(
   let spacesAvailable;
   let maxCapacity;
   if (bikePark) {
-    spacesAvailable = park.availability.bicycleSpaces;
+    spacesAvailable = vehicleParking.availability?.bicycleSpaces || 0;
   } else {
-    spacesAvailable = park.availability.carSpaces;
-    maxCapacity = park.capacity.carSpaces;
+    spacesAvailable = vehicleParking.availability?.carSpaces;
+    maxCapacity = vehicleParking.capacity?.carSpaces || 1;
   }
 
   const {
@@ -60,10 +60,10 @@ function ParkAndRideContent(
   } = config.parkAndRide.pageContent.default;
 
   useEffect(() => {
-    setAuthenticationMethods(getAuthenticationMethods(park));
-    setPricingMethods(getPricingMethods(park));
-    setServices(getServices(park));
-    setOpeningHours(getOpeningHours(park));
+    setAuthenticationMethods(getAuthenticationMethods(vehicleParking));
+    setPricingMethods(getPricingMethods(vehicleParking));
+    setServices(getServices(vehicleParking));
+    setOpeningHours(getOpeningHours(vehicleParking));
   }, []);
 
   useEffect(() => {
@@ -140,7 +140,7 @@ function ParkAndRideContent(
   };
   const parkIsPaid = isPaid(pricingMethods);
   const parkIsFree = isFree(pricingMethods);
-  const { realtime } = park;
+  const { realtime } = vehicleParking;
   const showOpeningHours =
     Array.isArray(openingHours?.dates) && openingHours.dates.length > 0;
   const showSpacesAvailable = !realtime && spacesAvailable;
@@ -148,7 +148,7 @@ function ParkAndRideContent(
   return (
     <div className="bike-station-page-container">
       <ParkOrStationHeader
-        parkOrStation={park}
+        parkOrStation={vehicleParking}
         parkType={bikePark ? 'bike' : 'car'}
       />
       <div className="park-content-container">
@@ -237,13 +237,13 @@ function ParkAndRideContent(
 }
 
 ParkAndRideContent.propTypes = {
-  park: parkShape,
+  vehicleParking: parkShape,
   error: errorShape,
   currentLanguage: PropTypes.string.isRequired,
 };
 
 ParkAndRideContent.defaultProps = {
-  park: undefined,
+  vehicleParking: undefined,
   error: undefined,
 };
 

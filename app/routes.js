@@ -106,9 +106,9 @@ export default config => {
         }
         prepareVariables={prepareWeekDays}
         query={graphql`
-          query routes_VehiclePark_Query($id: String!, $dates: [String!]!) {
+          query routes_VehiclePark_Query($id: String!) {
             vehicleParking(id: $id) {
-              ...ParkContainer_vehicleParking @arguments(dates: $dates)
+              ...ParkContainer_vehicleParking
             }
           }
         `}

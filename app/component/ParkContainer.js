@@ -2,9 +2,8 @@ import { createFragmentContainer, graphql } from 'react-relay';
 import ParkAndRideContent from './ParkAndRideContent';
 
 const containerComponent = createFragmentContainer(ParkAndRideContent, {
-  park: graphql`
-    fragment ParkContainer_vehicleParking on VehicleParking
-    @argumentDefinitions(dates: { type: "[String!]!" }) {
+  vehicleParking: graphql`
+    fragment ParkContainer_vehicleParking on VehicleParking {
       availability {
         bicycleSpaces
         carSpaces
@@ -17,15 +16,6 @@ const containerComponent = createFragmentContainer(ParkAndRideContent, {
       lon
       tags
       realtime
-      openingHours {
-        dates(dates: $dates) {
-          date
-          timeSpans {
-            from
-            to
-          }
-        }
-      }
     }
   `,
 });
