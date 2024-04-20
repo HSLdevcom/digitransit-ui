@@ -1,4 +1,3 @@
-import moment from 'moment';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -18,7 +17,7 @@ import {
   getVehicleRentalStationNetworkConfig,
 } from '../util/vehicleRentalUtils';
 import { displayDistance } from '../util/geo-utils';
-import { durationToString } from '../util/timeUtils';
+import { durationToString, timeStr } from '../util/timeUtils';
 import { splitStringToAddressAndPlace } from '../util/otpStrings';
 import VehicleRentalLeg from './VehicleRentalLeg';
 
@@ -76,7 +75,7 @@ function WalkLeg(
         <FormattedMessage
           id="itinerary-details.walk-leg"
           values={{
-            time: moment(startMs).format('HH:mm'),
+            time: timeStr(startMs),
             to: intl.formatMessage({
               id: `modes.to-${
                 leg.to.stop?.vehicleMode?.toLowerCase() || 'place'
@@ -93,9 +92,7 @@ function WalkLeg(
       <div className="small-2 columns itinerary-time-column" aria-hidden="true">
         <div className="itinerary-time-column-time">
           <span className={cx({ realtime: previousLeg?.realTime })}>
-            {moment(leg.mode === 'WALK' ? startMs : legTime(leg.end)).format(
-              'HH:mm',
-            )}
+            {timeStr(leg.mode === 'WALK' ? startMs : legTime(leg.end))}
           </span>
         </div>
       </div>

@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Link from 'found/Link';
-import moment from 'moment';
 import { FormattedMessage } from 'react-intl';
 import { legShape, configShape } from '../util/shapes';
 import { legTime } from '../util/legUtils';
+import { timeStr } from '../util/timeUtils';
 import Icon from './Icon';
 import StopCode from './StopCode';
 import LegAgencyInfo from './LegAgencyInfo';
@@ -21,7 +21,7 @@ const CallAgencyLeg = ({ leg, index, focusAction }, { config }) => {
     leg.departureDelay >= config.itinerary.delayThreshold && [
       <br key="br" />,
       <span key="time" className="original-time">
-        {moment(startMs).subtract(leg.departureDelay, 's').format('HH:mm')}
+        {timeStr(startMs - leg.departureDelay * 1000)}
       </span>,
     ];
 
@@ -41,7 +41,7 @@ const CallAgencyLeg = ({ leg, index, focusAction }, { config }) => {
           }
         >
           <div className="itinerary-time-column-time">
-            <span>{moment(startMs).format('HH:mm')}</span>
+            <span>{timeStr(startMs)}</span>
             {originalTime}
           </div>
         </Link>

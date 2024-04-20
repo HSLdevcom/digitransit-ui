@@ -1,5 +1,4 @@
 import cx from 'classnames';
-import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
@@ -24,7 +23,7 @@ import {
   tripHasCancelationForStop,
 } from '../util/alertUtils';
 import { PREFIX_DISRUPTION, PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
-import { durationToString } from '../util/timeUtils';
+import { durationToString, timeStr } from '../util/timeUtils';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import {
   getHeadsignFromRouteLongName,
@@ -54,9 +53,7 @@ const filterNextLegs = leg => {
     return [];
   }
   return leg.nextLegs.filter(
-    nextLeg =>
-      moment(legTime(nextLeg.start)).diff(moment(legTime(leg.start)), 'hours') <
-      12,
+    nextLeg => legTime(nextLeg.start) - legTime(leg.start) < 12 * 3600 * 1000, // 12 hours
   );
 };
 
@@ -235,7 +232,7 @@ class TransitLeg extends React.Component {
       leg.departureDelay >= config.itinerary.delayThreshold && [
         <br key="br" />,
         <span key="time" className="original-time">
-          {moment(startMs).subtract(leg.departureDelay, 's').format('HH:mm')}
+          {timeStr(startMs - leg.departureDelay * 1000)}
         </span>,
       ];
     const modeClassName = mode.toLowerCase();
@@ -245,7 +242,7 @@ class TransitLeg extends React.Component {
       <FormattedMessage
         id="itinerary-details.transit-leg-part-1"
         values={{
-          time: moment(startMs).format('HH:mm'),
+          time: timeStr(startMs),
           realtime: leg.realTime ? intl.formatMessage({ id: 'realtime' }) : '',
         }}
       />
@@ -410,7 +407,7 @@ class TransitLeg extends React.Component {
             <div className="itinerary-time-column-time">
               <span className={cx({ realtime: leg.realTime })}>
                 <span className={cx({ canceled: legHasCancelation(leg) })}>
-                  {moment(startMs).format('HH:mm')}
+                  {timeStr(startMs)}
                 </span>
               </span>
               {originalTime}

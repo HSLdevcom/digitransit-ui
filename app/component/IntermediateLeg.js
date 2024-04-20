@@ -1,10 +1,9 @@
 import cx from 'classnames';
-import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
 import Link from 'found/Link';
 import { configShape, legTimeShape } from '../util/shapes';
-import { legTime } from '../util/legUtils';
+import { legTimeStr } from '../util/legUtils';
 import ZoneIcon from './ZoneIcon';
 import { PREFIX_STOPS } from '../util/path';
 import Icon from './Icon';
@@ -147,9 +146,7 @@ function IntermediateLeg(
             <div className="itinerary-intermediate-stop-name">
               <span className={cx({ realtime: realTime })}>
                 <span className={cx({ canceled: isCanceled })}>
-                  {moment(arrival ? legTime(arrival) : undefined).format(
-                    'HH:mm',
-                  )}
+                  {legTimeStr(arrival)}
                 </span>
               </span>
               {` ${name}`}
