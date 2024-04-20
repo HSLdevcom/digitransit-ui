@@ -133,3 +133,11 @@ export function getCurrentMillis(currentTime = undefined) {
   }
   return moment(currentTime).valueOf();
 }
+
+/**
+ * Epoch ms to 'hh:mm'
+ */
+export function timeStr(ms) {
+  const parts = new Date(ms).toTimeString().split(':');
+  return `${parts[0]}:${parts[1]}`;
+}
