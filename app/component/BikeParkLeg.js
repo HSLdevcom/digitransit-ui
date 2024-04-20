@@ -1,10 +1,9 @@
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import React from 'react';
-import moment from 'moment';
 import { FormattedMessage, intlShape } from 'react-intl';
 import { legShape, parkShape, configShape } from '../util/shapes';
-import { legTime } from '../util/legUtils';
+import { legTimeStr } from '../util/legUtils';
 import { displayDistance } from '../util/geo-utils';
 import { durationToString } from '../util/timeUtils';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
@@ -20,7 +19,7 @@ const BikeParkLeg = (
     intl.formatNumber,
   );
   const duration = durationToString(leg.duration * 1000);
-  const timeStr = moment(legTime(leg.start)).format('HH:mm');
+  const timeStr = legTimeStr(leg.start);
   return (
     <div key={index} className="row itinerary-row">
       <span className="sr-only">

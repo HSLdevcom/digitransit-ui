@@ -1,12 +1,11 @@
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { FormattedMessage } from 'react-intl';
-import moment from 'moment';
 import React from 'react';
 import Icon from './Icon';
 import { isKeyboardSelectionEvent } from '../util/browser';
 import { legShape } from '../util/shapes';
-import { legTime } from '../util/legUtils';
+import { legTimeStr } from '../util/legUtils';
 
 export default function AlternativeLegsInfo({
   legs,
@@ -27,7 +26,7 @@ export default function AlternativeLegsInfo({
         className={cx({ realtime: legs[0].realTime })}
         style={{ fontWeight: 500 }}
       >
-        {moment(legTime(legs[0].start)).format('HH:mm')}
+        {legTimeStr(legs[0].start)}
         {legs[0].realTime && (
           <span className="sr-only">
             <FormattedMessage id="realtime" />
@@ -52,7 +51,7 @@ export default function AlternativeLegsInfo({
           className={cx({ realtime: legs[1].realTime })}
           style={{ fontWeight: 500 }}
         >
-          {moment(legTime(legs[1].start)).format('HH:mm')}
+          {legTimeStr(legs[1].start)}
           {legs[1].realTime && (
             <span className="sr-only">
               <FormattedMessage id="realtime" />

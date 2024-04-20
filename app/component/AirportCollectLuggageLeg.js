@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import moment from 'moment';
 import { Link } from 'found';
 import { legShape, configShape } from '../util/shapes';
+import { legTimeStr } from '../util/legUtils';
 import Icon from './Icon';
 import ItineraryCircleLine from './ItineraryCircleLine';
 import ItineraryMapAction from './ItineraryMapAction';
@@ -18,7 +18,7 @@ function AirportCollectLuggageLeg(props, { config }) {
     <div className="row itinerary-row">
       <div className="small-2 columns itinerary-time-column">
         <div className="itinerary-time-column-time">
-          {moment(props.leg.end).format('HH:mm')}
+          {legTimeStr(props.leg.end)}
         </div>
       </div>
       <ItineraryCircleLine index={props.index} modeClassName={modeClassName} />

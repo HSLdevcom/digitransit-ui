@@ -1,10 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import moment from 'moment';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'found';
 import { legShape, legTimeShape, configShape } from '../util/shapes';
-import { legTime } from '../util/legUtils';
+import { legTimeStr } from '../util/legUtils';
 import ItineraryCircleLine from './ItineraryCircleLine';
 import Icon from './Icon';
 import ItineraryMapAction from './ItineraryMapAction';
@@ -19,7 +18,7 @@ export default function AirportCheckInLeg(props, { config }) {
     <div className="row itinerary-row">
       <div className="small-2 columns itinerary-time-column">
         <div className="itinerary-time-column-time">
-          {moment(legTime(props.start)).format('HH:mm')}
+          {legTimeStr(props.start)}
         </div>
       </div>
       <ItineraryCircleLine index={props.index} modeClassName={modeClassName} />

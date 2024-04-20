@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import moment from 'moment';
 import Link from 'found/Link';
 import { FormattedMessage } from 'react-intl';
 import { legShape, legTimeShape, configShape } from '../util/shapes';
@@ -9,7 +8,7 @@ import { durationToString } from '../util/timeUtils';
 import ItineraryMapAction from './ItineraryMapAction';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
 import { PREFIX_STOPS } from '../util/path';
-import { legTime } from '../util/legUtils';
+import { legTimeStr } from '../util/legUtils';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 function WaitLeg(
@@ -28,9 +27,7 @@ function WaitLeg(
         />
       </span>
       <div className="small-2 columns itinerary-time-column" aria-hidden="true">
-        <div className="itinerary-time-column-time">
-          {moment(legTime(start)).format('HH:mm')}
-        </div>
+        <div className="itinerary-time-column-time">{legTimeStr(start)}</div>
       </div>
       <ItineraryCircleLineWithIcon
         modeClassName={modeClassName}

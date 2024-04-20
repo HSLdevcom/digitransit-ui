@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import moment from 'moment';
 import { FormattedMessage, intlShape } from 'react-intl';
 import cx from 'classnames';
 import { Link } from 'found';
@@ -12,6 +11,7 @@ import { durationToString } from '../util/timeUtils';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
 import { PREFIX_CARPARK } from '../util/path';
 import ItineraryCircleLine from './ItineraryCircleLine';
+import { legTimeStr } from '../util/legUtils';
 
 function CarParkLeg(props, { config, intl }) {
   const distance = displayDistance(
@@ -30,7 +30,7 @@ function CarParkLeg(props, { config, intl }) {
           <FormattedMessage
             id="itinerary-details.walk-leg"
             values={{
-              time: moment(props.leg.start).format('HH:mm'),
+              time: legTimeStr(props.leg.start),
               distance,
               to: intl.formatMessage({
                 id: `modes.to-${
@@ -47,7 +47,7 @@ function CarParkLeg(props, { config, intl }) {
       </span>
       <div className="small-2 columns itinerary-time-column" aria-hidden="true">
         <div className="itinerary-time-column-time">
-          {moment(props.leg.start).format('HH:mm')}
+          {legTimeStr(props.leg.start)}
         </div>
       </div>
       {props.noWalk ? (
