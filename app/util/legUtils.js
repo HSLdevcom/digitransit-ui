@@ -11,6 +11,15 @@ export function legTime(lt) {
   return Date.parse(t);
 }
 
+/**
+ * Get time as 'hh:mm'
+ */
+export function legTimeStr(lt) {
+  const t = lt.estimated?.time || lt.scheduledTime;
+  const parts = new Date(t).toTimeString().split(':');
+  return `${parts[0]}:${parts[1]}`;
+}
+
 function filterLegStops(leg, filter) {
   if (leg.from.stop && leg.to.stop && leg.trip) {
     const stops = [leg.from.stop.gtfsId, leg.to.stop.gtfsId];
