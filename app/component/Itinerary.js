@@ -1,5 +1,4 @@
 import cx from 'classnames';
-import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { graphql, createFragmentContainer } from 'react-relay';
@@ -11,7 +10,6 @@ import {
   configShape,
 } from '../util/shapes';
 import Icon from './Icon';
-import LocalTime from './LocalTime';
 import RelativeDuration from './RelativeDuration';
 import RouteNumber from './RouteNumber';
 import RouteNumberContainer from './RouteNumberContainer';
@@ -24,8 +22,9 @@ import {
   getInterliningLegs,
   getTotalDistance,
   legTime,
+  legTimeStr,
 } from '../util/legUtils';
-import { dateOrEmpty, isTomorrow } from '../util/timeUtils';
+import { dateOrEmpty, isTomorrow, timeStr } from '../util/timeUtils';
 import withBreakpoint from '../util/withBreakpoint';
 import { isKeyboardSelectionEvent } from '../util/browser';
 import {
@@ -275,10 +274,12 @@ const Itinerary = (
   );
   const usingOwnBicycleWholeTrip =
     usingOwnBicycle && itinerary.legs.every(leg => !leg.to?.vehicleParking);
-  const refTime = moment(props.refTime);
-  const startTime = moment(itinerary.start);
-  const endTime = moment(itinerary.end);
-  const duration = endTime.diff(startTime);
+  const { refTime } = props;
+  const startTime = Date.parse(itinerary.start);
+  const endTime = Date.parse(itinerary.end);
+  const departureTime = timeStr(startTime);
+  const arrivalTime = timeStr(endTime);
+  const duration = endTime - startTime;
   const co2value = getCo2Value(itinerary);
   const mobile = bp => !(bp === 'large');
   const legs = [];
@@ -617,7 +618,7 @@ const Itinerary = (
                 <span
                   className={cx('time', { realtime: firstDeparture.realTime })}
                 >
-                  <LocalTime time={legTime(firstDeparture.start)} />
+                  {legTimeStr(firstDeparture.start)}
                 </span>
               ),
               firstDepartureStop: firstDeparture.from.name,
@@ -654,7 +655,7 @@ const Itinerary = (
                     realtime: firstDeparture.realTime,
                   })}
                 >
-                  <LocalTime time={legTime(firstDeparture.start)} />
+                  {legTimeStr(firstDeparture.start)}
                 </span>
               ),
               firstDepartureStopType: (
@@ -689,14 +690,6 @@ const Itinerary = (
     },
   ]);
 
-  const itineraryStartAndEndTime = (
-    <div>
-      <LocalTime time={startTime} />
-      <span> - </span>
-      <LocalTime time={endTime} />
-    </div>
-  );
-
   //  accessible representation for summary
   const textSummary = (
     <div className="sr-only" key="screenReader">
@@ -704,20 +697,18 @@ const Itinerary = (
         id="itinerary-summary-row.description"
         values={{
           departureDate: dateOrEmpty(startTime, refTime),
-          departureTime: <LocalTime time={startTime} />,
+          departureTime,
           arrivalDate: dateOrEmpty(endTime, refTime),
-          arrivalTime: <LocalTime time={endTime} />,
+          arrivalTime,
           firstDeparture:
             vehicleNames.length === 0 ? null : (
               <FormattedMessage
                 id="itinerary-summary-row.first-departure"
                 values={{
                   vehicle: vehicleNames[0],
-                  departureTime: firstDeparture ? (
-                    <LocalTime time={legTime(firstDeparture.start)} />
-                  ) : (
-                    'ggh'
-                  ),
+                  departureTime: firstDeparture
+                    ? legTimeStr(firstDeparture.start)
+                    : 'ggh',
                   stopName: stopNames[0],
                 }}
               />
@@ -823,7 +814,7 @@ const Itinerary = (
                 <div className="itinerary-start-date">{startDate}</div>
               )}
               <div className="itinerary-start-time-and-end-time">
-                {itineraryStartAndEndTime}
+                {`${departureTime} - ${arrivalTime}`}
               </div>
 
               <div style={{ flexGrow: 1 }} />
