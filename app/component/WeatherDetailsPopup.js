@@ -1,9 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import moment from 'moment';
 import Modal from '@hsl-fi/modal';
 import { FormattedMessage, intlShape } from 'react-intl';
-
 import Icon from './Icon';
 
 export default function WeatherDetailsPopup(
@@ -28,7 +26,7 @@ export default function WeatherDetailsPopup(
       <div className="weather-details-content">
         <h3 className="weather-title">
           <FormattedMessage id="weather-detail-title" />
-          {` ${moment(weatherData.time).format('HH:mm')}`}
+          {weatherData.time}
         </h3>
         <div className="weather-icon-row">
           <Icon img={`icon-icon_weather_${weatherData.iconId}`} />

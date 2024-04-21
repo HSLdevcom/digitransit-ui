@@ -330,14 +330,10 @@ const dayNightIconIds = [1, 2, 21, 22, 23, 41, 42, 43, 61, 62, 71, 72, 73];
 
 export function checkDayNight(iconId, time, lat, lon) {
   const date = new Date(time);
-  const dateMillis = date.getTime();
   const sunCalcTimes = SunCalc.getTimes(date, lat, lon);
   const sunrise = sunCalcTimes.sunrise.getTime();
   const sunset = sunCalcTimes.sunset.getTime();
-  if (
-    (sunrise > dateMillis || sunset < dateMillis) &&
-    dayNightIconIds.includes(iconId)
-  ) {
+  if ((sunrise > time || sunset < time) && dayNightIconIds.includes(iconId)) {
     // Night icon = iconId + 100
     return iconId + 100;
   }
