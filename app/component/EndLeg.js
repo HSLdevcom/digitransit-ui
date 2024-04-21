@@ -1,12 +1,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import moment from 'moment';
 import cx from 'classnames';
 import { matchShape } from 'found';
 import { FormattedMessage, intlShape } from 'react-intl';
 import Icon from './Icon';
 import ItineraryMapAction from './ItineraryMapAction';
 import { parseLocation } from '../util/path';
+import { timeStr } from '../util/timeUtils';
 import { stopShape } from '../util/shapes';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
@@ -19,21 +19,21 @@ function EndLeg(props, context) {
     : parsedAddress.split(/, (.+)/);
   const { stop } = props.to;
   const modeClassName = 'end';
+  const time = timeStr(Date.parse(props.endTime));
+
   return (
     <div key={props.index} className={cx('row', 'itinerary-row')}>
       <span className="sr-only">
         <FormattedMessage
           id="itinerary-details.end-leg"
           values={{
-            time: moment(props.endTime).format('HH:mm'),
+            time,
             destination: props.to.name,
           }}
         />
       </span>
       <div className="small-2 columns itinerary-time-column" aria-hidden="true">
-        <div className="itinerary-time-column-time">
-          {moment(props.endTime).format('HH:mm')}
-        </div>
+        <div className="itinerary-time-column-time">{time}</div>
       </div>
       <div className={`leg-before ${modeClassName}`} aria-hidden="true">
         <div className={`leg-before-circle circle ${modeClassName}`} />
