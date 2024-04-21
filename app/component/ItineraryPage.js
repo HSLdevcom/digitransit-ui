@@ -1,7 +1,6 @@
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable no-nested-ternary */
 import PropTypes from 'prop-types';
-import moment from 'moment';
 import React, { useEffect, useState, useRef, cloneElement } from 'react';
 import { fetchQuery } from 'react-relay';
 import { FormattedMessage, intlShape } from 'react-intl';
@@ -211,7 +210,7 @@ export default function ItineraryPage(props, context) {
 
   function makeWeatherQuery() {
     const from = otpToLocation(params.from);
-    const time = moment(query.time * 1000);
+    const time = query.time * 1000;
     setWeatherState({ ...weatherState, loading: true });
     const newState = { loading: false, weatherData: undefined };
     getWeatherData(config.URL.WEATHER_DATA, time, from.lat, from.lon)
@@ -583,15 +582,13 @@ export default function ItineraryPage(props, context) {
   }
 
   function showVehicles() {
-    const now = moment();
-    const startTime = moment.unix(query.time);
-    const diff = now.diff(startTime, 'minutes');
+    const now = new Date().getTime() / 1000;
+    const startTime = query.time;
+    const diff = Math.abs(now - startTime / 60);
 
     // Vehicles are typically not shown if they are not in transit. But for some quirk in mqtt, if you
     // search for a route for example tomorrow, real time vehicle would be shown.
-    const inRange =
-      (diff <= showVehiclesThresholdMinutes && diff >= 0) ||
-      (diff >= -1 * showVehiclesThresholdMinutes && diff <= 0);
+    const inRange = diff <= showVehiclesThresholdMinutes;
 
     return !!(
       inRange &&
@@ -913,10 +910,11 @@ export default function ItineraryPage(props, context) {
     });
   }
 
-  const searchTime =
-    (plan?.searchDateTime && moment(plan.searchDateTime).valueOf()) ||
-    moment.unix(query.time).valueOf() ||
-    moment().valueOf();
+  const searchTime = plan?.searchDateTime
+    ? Date.parse(plan.searchDateTime)
+    : query.time
+      ? query.time * 1000
+      : new Date().getTime();
 
   const detailView = altTransitHash.includes(hash) ? secondHash : hash;
 

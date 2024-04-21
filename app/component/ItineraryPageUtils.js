@@ -3,7 +3,6 @@ import isEmpty from 'lodash/isEmpty';
 import pick from 'lodash/pick';
 import get from 'lodash/get';
 import polyline from 'polyline-encoded';
-import moment from 'moment';
 import SunCalc from 'suncalc';
 import { boundWithMinimumArea } from '../util/geo-utils';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
@@ -233,7 +232,7 @@ export function setCurrentTimeToURL(config, match) {
       ...match.location,
       query: {
         ...match.location.query,
-        time: moment().unix().toString(),
+        time: Math.floor(new Date().getTime() / 1000),
       },
     };
     match.router.replace(newLocation);
@@ -329,8 +328,8 @@ export function getRentalStationsToHideOnMap(
 // These are icons that contains sun
 const dayNightIconIds = [1, 2, 21, 22, 23, 41, 42, 43, 61, 62, 71, 72, 73];
 
-export function checkDayNight(iconId, timem, lat, lon) {
-  const date = timem.toDate();
+export function checkDayNight(iconId, time, lat, lon) {
+  const date = new Date(time);
   const dateMillis = date.getTime();
   const sunCalcTimes = SunCalc.getTimes(date, lat, lon);
   const sunrise = sunCalcTimes.sunrise.getTime();
