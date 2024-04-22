@@ -9,7 +9,7 @@ const ItineraryCircleLineLong = props => {
 
   useEffect(() => {
     import(
-      /* webpackChunkName: "dotted-line" */ `../configurations/images/default/dotted-line.svg`
+      /* webpackChunkName: "dotted-line" */ `../../configurations/images/default/dotted-line.svg`
     ).then(imageUrl => {
       setImgUrl(`url(${imageUrl.default})`);
     });
