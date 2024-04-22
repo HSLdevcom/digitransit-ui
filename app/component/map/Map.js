@@ -5,6 +5,7 @@ import TileLayer from 'react-leaflet/es/TileLayer';
 import AttributionControl from 'react-leaflet/es/AttributionControl';
 import ScaleControl from 'react-leaflet/es/ScaleControl';
 import ZoomControl from 'react-leaflet/es/ZoomControl';
+import { intlShape } from 'react-intl';
 import L from 'leaflet';
 import get from 'lodash/get';
 import isString from 'lodash/isString';
@@ -114,6 +115,7 @@ export default class Map extends React.Component {
     executeAction: PropTypes.func.isRequired,
     getStore: PropTypes.func,
     config: configShape.isRequired,
+    intl: intlShape.isRequired,
   };
 
   constructor(props) {
@@ -287,7 +289,7 @@ export default class Map extends React.Component {
     };
 
     return (
-      <div aria-hidden="true">
+      <div>
         <span>{this.props.topButtons}</span>
         <span
           className="overlay-mover"
@@ -297,73 +299,81 @@ export default class Map extends React.Component {
         >
           {this.props.bottomButtons}
         </span>
-        <LeafletMap
-          {...naviProps}
-          className={`z${this.state.zoom}`}
-          keyboard={false}
-          ref={el => {
-            this.map = el;
-            if (this.props.mapRef) {
-              this.props.mapRef(el);
-            }
-          }}
-          minZoom={config.map.minZoom}
-          maxZoom={config.map.maxZoom}
-          zoomControl={false}
-          attributionControl={false}
-          animate={this.props.animate}
-          boundsOptions={boundsOptions}
-          {...leafletEvents}
-          onPopupopen={onPopupopen}
-          closePopupOnClick={false}
-        >
-          <TileLayer
-            url={mapUrl}
-            tileSize={config.map.tileSize || 256}
-            zoomOffset={config.map.zoomOffset || 0}
-            updateWhenIdle={false}
-            size={
-              config.map.useRetinaTiles && L.Browser.retina && !isDebugTiles
-                ? '@2x'
-                : ''
-            }
+        <div aria-hidden="true">
+          <LeafletMap
+            {...naviProps}
+            className={`z${this.state.zoom}`}
+            keyboard={false}
+            ref={el => {
+              this.map = el;
+              if (this.props.mapRef) {
+                this.props.mapRef(el);
+              }
+            }}
             minZoom={config.map.minZoom}
             maxZoom={config.map.maxZoom}
-            attribution={attribution}
-          />
-          <BreakpointConsumer>
-            {breakpoint =>
-              attribution && (
-                <AttributionControl
-                  position={
-                    breakpoint === 'large' ? 'bottomright' : 'bottomleft'
-                  }
-                  prefix=""
-                />
-              )
-            }
-          </BreakpointConsumer>
-          {config.map.showScaleBar && (
-            <ScaleControl
-              imperial={false}
-              position={config.map.controls.scale.position}
+            zoomControl={false}
+            attributionControl={false}
+            animate={this.props.animate}
+            boundsOptions={boundsOptions}
+            {...leafletEvents}
+            onPopupopen={onPopupopen}
+            closePopupOnClick={false}
+          >
+            <TileLayer
+              url={mapUrl}
+              tileSize={config.map.tileSize || 256}
+              zoomOffset={config.map.zoomOffset || 0}
+              updateWhenIdle={false}
+              size={
+                config.map.useRetinaTiles && L.Browser.retina && !isDebugTiles
+                  ? '@2x'
+                  : ''
+              }
+              minZoom={config.map.minZoom}
+              maxZoom={config.map.maxZoom}
+              attribution={attribution}
             />
-          )}
-          <BreakpointConsumer>
-            {breakpoint =>
-              breakpoint === 'large' &&
-              config.map.showZoomControl && (
-                <ZoomControl
-                  position={config.map.controls.zoom.position}
-                  zoomInText={zoomInText}
-                  zoomOutText={zoomOutText}
-                />
-              )
-            }
-          </BreakpointConsumer>
-          {leafletObjNew}
-          <PositionMarker key="position" />
-        </LeafletMap>
+            <BreakpointConsumer>
+              {breakpoint =>
+                attribution && (
+                  <AttributionControl
+                    position={
+                      breakpoint === 'large' ? 'bottomright' : 'bottomleft'
+                    }
+                    prefix=""
+                  />
+                )
+              }
+            </BreakpointConsumer>
+            {config.map.showScaleBar && (
+              <ScaleControl
+                imperial={false}
+                position={config.map.controls.scale.position}
+              />
+            )}
+            <BreakpointConsumer>
+              {breakpoint =>
+                breakpoint === 'large' &&
+                config.map.showZoomControl && (
+                  <ZoomControl
+                    position={config.map.controls.zoom.position}
+                    zoomInText={zoomInText}
+                    zoomOutText={zoomOutText}
+                    zoomInTitle={this.context.intl.formatMessage({
+                      id: 'map-zoom-in-button',
+                    })}
+                    zoomOutTitle={this.context.intl.formatMessage({
+                      id: 'map-zoom-out-button',
+                    })}
+                  />
+                )
+              }
+            </BreakpointConsumer>
+            {leafletObjNew}
+            <PositionMarker key="position" />
+          </LeafletMap>
+        </div>
       </div>
     );
   }
