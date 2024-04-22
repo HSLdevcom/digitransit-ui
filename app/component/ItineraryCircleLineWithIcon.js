@@ -103,6 +103,7 @@ class ItineraryCircleLineWithIcon extends React.Component {
 
   render() {
     const topMarker = this.getMarker(true);
+    const bottomMarker = this.getMarker(false);
     const legBeforeLineStyle = { color: this.props.color };
     if (
       isBrowser &&
@@ -145,6 +146,7 @@ class ItineraryCircleLineWithIcon extends React.Component {
             this.props.appendClass,
           )}
         />
+        {this.props.modeClassName === 'scooter' && bottomMarker}
       </div>
     );
   }

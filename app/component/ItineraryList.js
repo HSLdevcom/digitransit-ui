@@ -97,6 +97,13 @@ function ItineraryList(
           itineraries[bikeAndParkItineraryCount].legs.find(l => l.transitLeg),
           config,
         ) || 'rail';
+      const legs = itineraries.flatMap(itinerary => itinerary.legs);
+      const showBikeBoardingInfo = config.showBikeBoardingInfoHeader?.(
+        config.bikeBoardingModes,
+        config.bikeBoardingExtraModes,
+        mode,
+        legs,
+      );
       summaries.splice(
         bikeAndParkItineraryCount ? bikeAndParkItineraryCount + 1 : 0,
         0,
@@ -104,6 +111,7 @@ function ItineraryList(
           translationId={`itinerary-summary.bikeAndPublic-${mode}-title`}
           defaultMessage="Biking \u0026 public transport"
           key="itinerary-summary.bikeandpublic-title"
+          showBikeBoardingInfo={showBikeBoardingInfo}
         />,
       );
     }

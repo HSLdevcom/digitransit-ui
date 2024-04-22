@@ -25,7 +25,15 @@ import { getSettings } from '../util/planParamUtil';
 import { isKeyboardSelectionEvent } from '../util/browser';
 
 export default function BicycleLeg(
-  { focusAction, index, leg, focusToLeg, bicycleWalkLeg, toggleSettings },
+  {
+    focusAction,
+    index,
+    leg,
+    focusToLeg,
+    bicycleWalkLeg,
+    toggleSettings,
+    nextLegMode,
+  },
   { config, intl },
 ) {
   let stopsDescription;
@@ -104,7 +112,7 @@ export default function BicycleLeg(
     circleLine = (
       <ItineraryCircleLineWithIcon
         index={index}
-        modeClassName="scooter"
+        modeClassName={mode.toLowerCase()}
         icon="icon-icon_scooter_rider"
       />
     );
@@ -369,6 +377,7 @@ export default function BicycleLeg(
             vehicleRentalStation={leg.from.vehicleRentalStation}
             returnBike
             rentalVehicle={leg.from.rentalVehicle}
+            nextLegMode={nextLegMode}
           />
         )}
       </div>
@@ -383,10 +392,12 @@ BicycleLeg.propTypes = {
   focusAction: PropTypes.func.isRequired,
   focusToLeg: PropTypes.func.isRequired,
   toggleSettings: PropTypes.func.isRequired,
+  nextLegMode: PropTypes.string,
 };
 
 BicycleLeg.defaultProps = {
   bicycleWalkLeg: undefined,
+  nextLegMode: undefined,
 };
 
 BicycleLeg.contextTypes = {

@@ -60,14 +60,12 @@ export default configMerger(walttiConfig, {
     stops: true,
     itinerary: true,
   },
-  showTicketInformation: true,
 
   useTicketIcons: true,
-
+  showTicketInformation: true,
   ticketInformation: {
     primaryAgencyName: 'Tampereen seudun joukkoliikenne',
   },
-
   ticketLink: 'https://www.nysse.fi/liput-ja-hinnat.html',
 
   callAgencyInfo: {
@@ -106,13 +104,6 @@ export default configMerger(walttiConfig, {
         text: 'Trains in the Nysse area - Nysse, Tampere regional transport',
       },
     },
-  },
-
-  // mapping fareId from OTP fare identifiers to human readable form
-  fareMapping: function mapFareId(fareId) {
-    return fareId && fareId.substring
-      ? fareId.substring(fareId.indexOf(':') + 1)
-      : '';
   },
 
   useSearchPolygon: true,
@@ -244,7 +235,7 @@ export default configMerger(walttiConfig, {
 
   cityBike: {
     networks: {
-      seatcode_tampere: {
+      inurba_tampere: {
         capacity: BIKEAVL_WITHMAX,
         enabled: true,
         season: {
@@ -259,6 +250,29 @@ export default configMerger(walttiConfig, {
           en: 'Tampere',
         },
         type: 'citybike',
+        // Shown if citybike leg duration exceeds timeBeforeSurcharge
+        durationInstructions: {
+          fi: 'https://www.nysse.fi/kaupunkipyorat',
+          sv: 'https://www.nysse.fi/en/city-bikes.html',
+          en: 'https://www.nysse.fi/en/city-bikes.html',
+        },
+        timeBeforeSurcharge: 60 * 60,
+      },
+      scooter_tampere: {
+        capacity: BIKEAVL_WITHMAX,
+        enabled: true,
+        season: {
+          // 15.4. - 31.10.
+          start: new Date(new Date().getFullYear(), 3, 15),
+          end: new Date(new Date().getFullYear(), 10, 1),
+        },
+        icon: 'scooter',
+        name: {
+          fi: 'Tampere',
+          sv: 'Tammerfors',
+          en: 'Tampere',
+        },
+        type: 'scooter',
         // Shown if citybike leg duration exceeds timeBeforeSurcharge
         durationInstructions: {
           fi: 'https://www.nysse.fi/kaupunkipyorat',
@@ -296,8 +310,10 @@ export default configMerger(walttiConfig, {
   },
 
   // modes that should not coexist with BICYCLE mode
-  // boarding a long distance train with bicycle costs extra
-  modesWithNoBike: ['BICYCLE_RENT', 'WALK', 'RAIL'],
-
+  modesWithNoBike: ['BICYCLE_RENT', 'SCOOTER_RENT', 'WALK', 'BUS'],
+  // Modes that shows extra cost information in itinerary summary and itinerary details pages
+  bikeBoardingModes: ['RAIL', 'TRAM'],
   showTenWeeksOnRouteSchedule: true,
+  showBikeAndPublicItineraries: true,
+  includeBikeSuggestions: true,
 });

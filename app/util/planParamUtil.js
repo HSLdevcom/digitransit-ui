@@ -181,7 +181,7 @@ export function getPlanParams(
 
   const fromPlace = placeOrStop(from);
   const toPlace = placeOrStop(to);
-
+  const bikeAndPublicModes = config.bikeBoardingModes || [];
   return {
     ...settings,
     ...omitBy(
@@ -229,7 +229,7 @@ export function getPlanParams(
         : settings.showBikeAndParkItineraries),
     bikeAndPublicModes: [
       { mode: 'BICYCLE' },
-      ...modesAsOTPModes(getBicycleCompatibleModes(config, modesOrDefault)),
+      ...modesAsOTPModes(getBicycleCompatibleModes(config, bikeAndPublicModes)),
     ],
     bikeParkModes: [
       { mode: 'BICYCLE', qualifier: 'PARK' },

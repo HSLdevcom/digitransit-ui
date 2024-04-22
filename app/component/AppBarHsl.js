@@ -7,7 +7,6 @@ import { Helmet } from 'react-helmet';
 import { favouriteShape, configShape } from '../util/shapes';
 import { clearOldSearches, clearFutureRoutes } from '../util/storeUtils';
 import { getJson } from '../util/xhrPromise';
-import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 const SiteHeader = lazy(() => import('@hsl-fi/site-header'));
 const SharedLocalStorageObserver = lazy(
@@ -108,15 +107,6 @@ const AppBarHsl = ({ lang, user, favourites }, context) => {
   const notificationTime = useRef(0);
 
   useEffect(() => {
-    if (user) {
-      addAnalyticsEvent({
-        event: 'user-hsl-id',
-        hslId: user.sub,
-      });
-    }
-  }, [user]);
-
-  useEffect(() => {
     const now = Date.now();
     // refresh only once per 5 seconds
     if (now - notificationTime.current > 5000) {
@@ -141,16 +131,18 @@ const AppBarHsl = ({ lang, user, favourites }, context) => {
       )}
 
       <Suspense fallback="">
-        <SiteHeader
-          ref={siteHeaderRef}
-          hslFiUrl={config.URL.ROOTLINK}
-          lang={lang}
-          {...userMenu}
-          languageMenu={languages}
-          banners={banners}
-          suggestionsApiUrl={config.URL.HSL_FI_SUGGESTIONS}
-          notificationApiUrls={notificationApiUrls}
-        />
+        {!config.hideHeader && (
+          <SiteHeader
+            ref={siteHeaderRef}
+            hslFiUrl={config.URL.ROOTLINK}
+            lang={lang}
+            {...userMenu}
+            languageMenu={languages}
+            banners={banners}
+            suggestionsApiUrl={config.URL.HSL_FI_SUGGESTIONS}
+            notificationApiUrls={notificationApiUrls}
+          />
+        )}
         {config.localStorageEmitter && (
           <SharedLocalStorageObserver
             keys={['saved-searches', 'favouriteStore']}

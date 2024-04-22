@@ -48,8 +48,8 @@ export default configMerger(walttiConfig, {
       donkey_kouvola: {
         enabled: true,
         season: {
-          // 28.4. - 21.11.
-          start: new Date(new Date().getFullYear(), 3, 28),
+          // 10.4. - 21.11.
+          start: new Date(new Date().getFullYear(), 3, 10),
           end: new Date(new Date().getFullYear(), 10, 21),
         },
         capacity: BIKEAVL_WITHMAX,

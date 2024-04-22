@@ -327,6 +327,9 @@ export default async function serve(req, res, next) {
     res.write('<!doctype html>\n');
     res.write(`<html lang="${locale}">\n`);
     res.write('<head>\n');
+    /*    res.write(
+      '<script src="https://cdn.jsdelivr.net/gh/c-kick/mobileConsole/hnl.mobileconsole.min.js"></script>\n',
+    ); */
 
     // local storage emitter is used from a hidden iframe and these are not necessary for it
     if (req.url !== LOCAL_STORAGE_EMITTER_PATH) {

@@ -1072,6 +1072,7 @@ const translations = {
     'from-station': 'from station',
     'from-stop': 'from stop',
     'from-subway': 'subway',
+    'from-tram': 'tram',
     frontpage: 'Frontpage',
     full: 'Full capacity',
     funicular: 'Funicular',
@@ -1175,6 +1176,10 @@ const translations = {
       'Transfer to {vehicle} on stop {stopName}',
     'itinerary-summary-row.walking-distance':
       'Total walking distance {totalDistance}.',
+    'itinerary-summary.bike-boarding-information':
+      'You are allowed to bring your bicycle on board the vehicle. Check with the transport operator if the transportation of bicycles is subject to a fee',
+    'itinerary-summary.bikeAndPublic-bus-title':
+      'Take your bike with you on the bus',
     'itinerary-summary.bikeAndPublic-fallback-title':
       'Take your bike with you onboard',
     'itinerary-summary.bikeAndPublic-rail-subway-title':
@@ -1182,6 +1187,7 @@ const translations = {
     'itinerary-summary.bikeAndPublic-rail-title':
       'Take your bike with you on the train',
     'itinerary-summary.bikeAndPublic-subway-title': 'Take your bike to metro',
+    'itinerary-summary.bikeAndPublic-tram-title': 'Take your bike to tram',
     'itinerary-summary.bikePark-title': 'Leave your bike at a Park & Ride',
     'itinerary-summary.interline-wait':
       'The route number ({shortName}) and destination ({destination}) will change at the {stop} stop. Waiting time at the stop is {time}. Please wait onboard.',
@@ -1611,9 +1617,12 @@ const translations = {
     'time-selector-hours-label': 'Hour',
     'time-selector-minutes-label': 'Minute',
     timetable: 'Timetable',
+    'to-bus': 'bus',
+    'to-ferry': 'ferry',
     'to-frontpage': 'To the front page',
     'to-rail': 'train',
     'to-subway': 'subway',
+    'to-tram': 'tram',
     today: 'Today',
     tomorrow: 'Tomorrow',
     track: 'Track',
@@ -2270,6 +2279,7 @@ const translations = {
     'from-station': 'asemalta',
     'from-stop': 'pysäkiltä',
     'from-subway': 'metrosta',
+    'from-tram': 'raitiovaunusta',
     frontpage: 'Etusivu',
     full: 'Täynnä',
     funicular: 'Funikulaari',
@@ -2366,6 +2376,9 @@ const translations = {
     'itinerary-summary-row.transfers': 'Vaihto {vehicle} pysäkillä {stopName}',
     'itinerary-summary-row.walking-distance':
       'Kävelyä yhteensä {totalDistance}.',
+    'itinerary-summary.bike-boarding-information':
+      'Kulkuneuvossa mahdollisuus kuljettaa pyörää. Tarkasta pyörän kuljettamisen mahdollinen maksullisuus operaattorilta.',
+    'itinerary-summary.bikeAndPublic-bus-title': 'Ota pyöräsi mukaan bussiin',
     'itinerary-summary.bikeAndPublic-fallback-title':
       'Ota pyöräsi mukaan kulkuneuvoon',
     'itinerary-summary.bikeAndPublic-rail-subway-title':
@@ -2373,6 +2386,8 @@ const translations = {
     'itinerary-summary.bikeAndPublic-rail-title': 'Ota pyöräsi mukaan junaan',
     'itinerary-summary.bikeAndPublic-subway-title':
       'Ota pyöräsi mukaan metroon',
+    'itinerary-summary.bikeAndPublic-tram-title':
+      'Ota pyöräsi mukaan raitiovaunuun',
     'itinerary-summary.bikePark-title': 'Jätä pyöräsi liityntäpysäköintiin',
     'itinerary-summary.interline-wait':
       'Linjatunnus ({shortName}) ja määränpää ({destination}) vaihtuvat pysäkillä {stop}. Matka jatkuu {time} odotuksen jälkeen. Odota kulkuneuvossa.',
@@ -2803,9 +2818,12 @@ const translations = {
     'time-selector-hours-label': 'Tunti',
     'time-selector-minutes-label': 'Minuutti',
     timetable: 'Aikataulu',
+    'to-bus': 'bussiin',
+    'to-ferry': 'lauttaan',
     'to-frontpage': 'Etusivulle',
     'to-rail': 'junaan',
     'to-subway': 'metroon',
+    'to-tram': 'raitiovaunuun',
     today: 'Tänään',
     tomorrow: 'Huomenna',
     track: 'Raide',
@@ -4224,6 +4242,7 @@ const translations = {
     'from-station': 'från stationen',
     'from-stop': 'från hållplats',
     'from-subway': 'metron',
+    'from-tram': 'spårvagnen',
     frontpage: 'Framsidan',
     full: 'Fullt',
     funicular: 'Bergbanan',
@@ -4266,7 +4285,7 @@ const translations = {
     'itinerary-co2.description-sr':
       'Koldioxidutsläppen för denna resa är {co2value} g. En bil skulle generera {carCo2Value} g koldioxid på samma resa.',
     'itinerary-co2.link': 'Så minskar vi utsläppen ›',
-    'itinerary-co2.title': 'Rejsens CO₂-udslip',
+    'itinerary-co2.title': 'Resans CO₂-utsläpp',
     'itinerary-co2.title-sr': 'Rejsens koldioxidutsläpp',
     'itinerary-details.biking-leg':
       '{time} cykla {distance} från {origin} till {to} {destination}. Restid {duration}',
@@ -4325,12 +4344,16 @@ const translations = {
       'Byte {vehicle} vid hållplats {stopName}',
     'itinerary-summary-row.walking-distance':
       'Promenad sammanlagt {totalDistance}.',
+    'itinerary-summary.bike-boarding-information':
+      'Du får ta med cykeln ombord på fordonet. Kontrollera med trafikoperatören om det är avgiftsbelagt att transportera cyklar',
+    'itinerary-summary.bikeAndPublic-bus-title': 'Ta cykeln med på bussen',
     'itinerary-summary.bikeAndPublic-fallback-title':
       'Ta cykeln med dig i fordonet',
     'itinerary-summary.bikeAndPublic-rail-subway-title':
       'Ta cykeln med på tåget eller metron',
     'itinerary-summary.bikeAndPublic-rail-title': 'Ta cykeln med på tåget',
     'itinerary-summary.bikeAndPublic-subway-title': 'Ta cykeln med på metron',
+    'itinerary-summary.bikeAndPublic-tram-title': 'Ta cykeln med på spårvagnen',
     'itinerary-summary.bikePark-title':
       'Lämna din cykel till anslutningsparkeringen',
     'itinerary-summary.interline-wait':
@@ -4764,10 +4787,12 @@ const translations = {
     'time-selector-hours-label': 'Timme',
     'time-selector-minutes-label': 'Minut',
     timetable: 'Tidtabell',
+    'to-bus': 'bussen',
     'to-ferry': 'färjan',
     'to-frontpage': 'Till startsidan',
     'to-rail': 'tåget',
     'to-subway': 'metron',
+    'to-tram': 'spårvagnen',
     today: 'I dag',
     tomorrow: 'I morgon',
     track: 'Spår',

@@ -493,8 +493,8 @@ type BikeRentalStation implements Node & PlaceInterface {
     state: String @deprecated(reason: "Use operative instead")
 
     """
-    If true, values of `vehiclesAvailable` and `spacesAvailable` are updated from a
-    real-time source. If false, values of `vehiclesAvailable` and `spacesAvailable`
+    If true, values of `bikesAvailable` and `spacesAvailable` are updated from a
+    real-time source. If false, values of `bikesAvailable` and `spacesAvailable`
     are always the total capacity divided by two.
     """
     realtime: Boolean
@@ -558,7 +558,7 @@ type VehicleRentalStation implements Node & PlaceInterface {
     Number of vehicles currently available on the rental station.
     See field `allowPickupNow` to know if is currently possible to pick up a vehicle.
     """
-    vehiclesAvailable: Int
+    vehiclesAvailable: Int @deprecated(reason: "Use `availableVehicles` instead, which also contains vehicle types")
 
     """
     Number of free spaces currently available on the rental station.
@@ -567,7 +567,17 @@ type VehicleRentalStation implements Node & PlaceInterface {
     the rental station, even if the vehicle racks don't have any spaces available.
     See field `allowDropoffNow` to know if is currently possible to return a vehicle.
     """
-    spacesAvailable: Int
+    spacesAvailable: Int @deprecated(reason: "Use `availableSpaces` instead, which also contains the space vehicle types")
+
+    """
+    Number of vehicles currently available on the rental station, grouped by vehicle type.
+    """
+    availableVehicles: RentalVehicleEntityCounts
+
+    """
+    Number of free spaces currently available on the rental station, grouped by vehicle type.
+    """
+    availableSpaces: RentalVehicleEntityCounts
 
     """
     If true, values of `vehiclesAvailable` and `spacesAvailable` are updated from a
@@ -617,6 +627,22 @@ type VehicleRentalStation implements Node & PlaceInterface {
     operative: Boolean
 }
 
+type RentalVehicleEntityCounts {
+    """The total number of entities (e.g. vehicles, spaces)."""
+    total: Int!
+
+    """The number of entities by type"""
+    byType: [RentalVehicleTypeCount!]!
+}
+
+type RentalVehicleTypeCount {
+    """The type of the rental vehicle (scooter, bicycle, car...)"""
+    vehicleType: RentalVehicleType!
+
+    """The number of vehicles of this type"""
+    count: Int!
+}
+
 """
 Rental vehicle represents a vehicle that belongs to a rental network.
 """
@@ -654,6 +680,9 @@ type RentalVehicle implements Node & PlaceInterface {
 
     """The type of the rental vehicle (scooter, bicycle, car...)"""
     vehicleType: RentalVehicleType
+
+    """System URL"""
+    systemUrl: String
 }
 
 type BikeRentalStationUris {
@@ -907,6 +936,10 @@ type Emissions {
     co2: Grams
 }
 
+"""
+This type is only here for backwards-compatibility and this API will never return it anymore.
+Please use the leg's `fareProducts` instead.
+"""
 type fare {
     type: String @deprecated
 
@@ -923,7 +956,10 @@ type fare {
     components: [fareComponent] @deprecated
 }
 
-"""Component of the fare (i.e. ticket) for a part of the itinerary"""
+"""
+This type is only here for backwards-compatibility and this API will never return it anymore.
+Please use the leg's `fareProducts` instead.
+"""
 type fareComponent {
     """ID of the ticket type. Corresponds to `fareId` in **TicketType**."""
     fareId: String @deprecated
@@ -976,7 +1012,10 @@ enum FeedAlertType {
 }
 
 enum FilterPlaceType {
-    """Stops"""
+    """
+    Stops.
+    NOTE: if this is selected at the same time as `STATION`, stops that have a parent station will not be returned but their parent stations will be returned instead.
+    """
     STOP
 
     """Departure rows"""
@@ -993,6 +1032,13 @@ enum FilterPlaceType {
 
     """Parking lots that contain spaces for cars"""
     CAR_PARK
+
+
+    """
+    Stations.
+    NOTE: if this is selected at the same time as `STOP`, stops that have a parent station will not be returned but their parent stations will be returned instead.
+    """
+    STATION
 }
 
 type Geometry {
@@ -1071,6 +1117,9 @@ input InputCoordinates {
 input InputFilters {
     """Stops to include by GTFS id."""
     stops: [String]
+
+    """Stations to include by GTFS id."""
+    stations: [String]
 
     """Routes to include by GTFS id."""
     routes: [String]
@@ -1520,13 +1569,22 @@ type Itinerary {
     """
     accessibilityScore: Float
 
+    """
+    How many transfers are part of this itinerary.
+
+    Notes:
+     - Interlined/stay-seated transfers do not increase this count.
+     - Transferring from a flex to a fixed schedule trip and vice versa increases this count.
+    """
+    numberOfTransfers: Int!
+
     #
     # deprecated fields
     #
 
     """
     Information about the fares for this itinerary. This is primarily a GTFS Fares V1 interface
-    will be removed in the future.
+    and always returns an empty list. Use the leg's `fareProducts` instead.
     """
     fares: [fare] @deprecated(reason: "Use the leg's `fareProducts`.")
 }
@@ -2525,7 +2583,7 @@ type QueryType {
         filterByModes: [Mode]
 
         """Only include places that match one of the given GTFS ids."""
-        filterByIds: InputFilters
+        filterByIds: InputFilters @deprecated(reason: "Not actively maintained")
         before: String
         after: String
         first: Int
@@ -3063,7 +3121,7 @@ type QueryType {
         omitCanceled: Boolean = true
 
         """
-        When true, realtime updates are ignored during this search. Default value: false
+        When true, real-time updates are ignored during this search. Default value: false
         """
         ignoreRealtimeUpdates: Boolean
 
@@ -3416,6 +3474,7 @@ enum OccupancyStatus {
   still accepting passengers. There isn't a big difference between this and MANY_SEATS_AVAILABLE
   so it's possible to handle them as the same value, if one wants to limit the number of different
   values.
+  SIRI nordic profile: merge these into `MANY_SEATS_AVAILABLE`.
   """
   EMPTY
 
@@ -3425,6 +3484,7 @@ enum OccupancyStatus {
   determined at the discretion of the producer. There isn't a big difference between this and
   EMPTY so it's possible to handle them as the same value, if one wants to limit the number of
   different values.
+  SIRI nordic profile: more than ~50% of seats available.
   """
   MANY_SEATS_AVAILABLE
 
@@ -3432,16 +3492,21 @@ enum OccupancyStatus {
   The vehicle or carriage has a small number of seats available. The amount of free seats out of
   the total seats available to be considered small enough to fall into this category is
   determined at the discretion of the producer.
+  SIRI nordic profile: less than ~50% of seats available.
   """
   FEW_SEATS_AVAILABLE
 
-  """The vehicle or carriage can currently accommodate only standing passengers."""
+  """
+  The vehicle or carriage can currently accommodate only standing passengers.
+  SIRI nordic profile: less than ~10% of seats available.
+  """
   STANDING_ROOM_ONLY
 
   """
   The vehicle or carriage can currently accommodate only standing passengers and has limited
   space for them. There isn't a big difference between this and FULL so it's possible to handle
   them as the same value, if one wants to limit the number of different values.
+  SIRI nordic profile: merge into `STANDING_ROOM_ONLY`.
   """
   CRUSHED_STANDING_ROOM_ONLY
 
@@ -3452,17 +3517,11 @@ enum OccupancyStatus {
   FULL
 
   """
-  The vehicle or carriage is not accepting passengers. The vehicle or carriage usually accepts
-  passengers for boarding.
+  The vehicle or carriage is not accepting passengers.
+  SIRI nordic profile: if vehicle/carriage is not in use / unavailable, or passengers are only allowed
+  to alight due to e.g. crowding.
   """
   NOT_ACCEPTING_PASSENGERS
-
-  """
-  The vehicle or carriage is not boardable and never accepts passengers. Useful for special
-  vehicles or carriages (engine, maintenance carriage, etc…). It might not make sense to show
-  these types of trips to passengers at all.
-  """
-  NOT_BOARDABLE
 }
 
 type step {

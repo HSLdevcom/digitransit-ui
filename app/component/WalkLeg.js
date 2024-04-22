@@ -192,18 +192,20 @@ function WalkLeg(
                   />
                 </div>
               )}
-              <div className="stop-code-container">
-                {children}
-                {leg[toOrFrom].stop && (
-                  <PlatformNumber
-                    number={leg[toOrFrom].stop.platformCode}
-                    short
-                    isRailOrSubway={
-                      fromMode === 'RAIL' || fromMode === 'SUBWAY'
-                    }
-                  />
-                )}
-              </div>
+              {networkType !== CityBikeNetworkType.Scooter && (
+                <div className="stop-code-container">
+                  {children}
+                  {leg[toOrFrom].stop && (
+                    <PlatformNumber
+                      number={leg[toOrFrom].stop.platformCode}
+                      short
+                      isRailOrSubway={
+                        fromMode === 'RAIL' || fromMode === 'SUBWAY'
+                      }
+                    />
+                  )}
+                </div>
+              )}
             </div>
             {!returnNotice && (
               <ItineraryMapAction

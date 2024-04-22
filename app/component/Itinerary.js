@@ -534,7 +534,7 @@ const Itinerary = (
     if (leg.route) {
       const withBicycle =
         usingOwnBicycleWholeTrip &&
-        (leg.route.mode === 'RAIL' || leg.route.mode === 'SUBWAY');
+        !config.modesWithNoBike.includes(leg.route.mode);
       if (
         previousLeg &&
         !previousLeg.intermediatePlace &&

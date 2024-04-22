@@ -649,7 +649,7 @@ $itinerary-tab-switch-height: 48px;
 }
 
 .ticket-title {
-  min-width: 200px;
+  min-width: 140px;
 }
 
 .itinerary-ticket-information,
@@ -754,6 +754,7 @@ $itinerary-tab-switch-height: 48px;
       .ticket-description {
         display: flex;
         color: #666;
+        white-space: nowrap;
       }
 
       .ticket-identifier {
@@ -983,7 +984,17 @@ $itinerary-tab-switch-height: 48px;
       }
     }
 
-    &.scooter,
+    &.scooter {
+      .route-number {
+        top: 64%;
+        right: 1px;
+
+        .icon-container .icon {
+          font-size: 24px;
+        }
+      }
+    }
+
     &.walk,
     &.bicycle {
       :last-child {
@@ -1165,7 +1176,7 @@ $itinerary-tab-switch-height: 48px;
 
       &.bottom {
         height: 25%;
-        top: 78%;
+        top: 82%;
         overflow: hidden;
       }
     }
@@ -1536,12 +1547,15 @@ $itinerary-tab-switch-height: 48px;
     }
 
     .itinerary-leg-row-bike {
+      &.rent {
+        border-top: 1px solid #ddd;
+      }
+
       display: flex;
       flex-direction: column;
       min-height: 34px;
       color: #333;
       padding: 0.625em 0;
-      border-top: 1px solid #ddd;
 
       .citybike-leg-header {
         font-size: 15px;
@@ -1560,6 +1574,8 @@ $itinerary-tab-switch-height: 48px;
       flex-direction: row;
       color: #333;
       font-size: 0.9375rem;
+      align-items: center;
+      border-top: 1px solid #ddd;
     }
 
     .itinerary-leg-first-row {
@@ -1678,6 +1694,7 @@ $itinerary-tab-switch-height: 48px;
 
         .citybike-itinerary-text-container {
           display: flex;
+          flex-direction: column;
         }
 
         .headsign {
@@ -1876,6 +1893,11 @@ $itinerary-tab-switch-height: 48px;
     }
 
     .disruption {
+      &.no-header {
+        display: flex;
+        margin-top: 10px;
+      }
+
       border-radius: 5px;
       border: solid 1px #ddd;
       margin-bottom: 10px;
@@ -1884,7 +1906,11 @@ $itinerary-tab-switch-height: 48px;
         width: 18px;
         height: 18px;
         font-size: 18px;
-        margin: 3px 0 8px 0;
+        margin: 3px 0 8px 9px;
+
+        &.no-header {
+          margin: 0;
+        }
 
         .inline-icon {
           margin-left: 0;
@@ -1897,10 +1923,14 @@ $itinerary-tab-switch-height: 48px;
 
       .info-notification {
         .info-content {
+          &.no-header {
+            margin-top: 6px;
+          }
+
           flex: 1;
           font-size: $font-size-xsmall;
           color: #333;
-          margin: 0 4px 0 8px;
+          margin: 0 25px 8px 8px;
           line-height: 1.23;
           letter-spacing: -0.43px;
         }

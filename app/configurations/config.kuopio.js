@@ -36,23 +36,14 @@ export default configMerger(walttiConfig, {
 
   feedIds: ['Kuopio', 'digitraffic'],
 
-  showTicketInformation: true,
-
   useTicketIcons: true,
-
+  showTicketInformation: true,
+  showTicketPrice: true,
   ticketInformation: {
     primaryAgencyName: 'Kuopion seudun joukkoliikenne',
   },
-
   ticketLink: 'https://vilkku.kuopio.fi/lipputyypit-hinnat/lippujen-hinnat',
 
-  // mapping fareId from OTP fare identifiers to human readable form
-  fareMapping: function mapFareId(fareId) {
-    return fareId && fareId.substring
-      ? fareId.substring(fareId.indexOf(':') + 1)
-      : '';
-  },
-  showTicketPrice: true,
   searchParams: {
     'boundary.rect.min_lat': 62.454915,
     'boundary.rect.max_lat': 63.469325,
@@ -82,7 +73,7 @@ export default configMerger(walttiConfig, {
       freebike_kuopio: {
         enabled: true,
         season: {
-          start: new Date(new Date().getFullYear(), 3, 24),
+          start: new Date(new Date().getFullYear(), 3, 29),
           end: new Date(new Date().getFullYear(), 10, 1),
         },
         capacity: BIKEAVL_BIKES,

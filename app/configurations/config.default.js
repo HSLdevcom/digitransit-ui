@@ -730,6 +730,7 @@ export default {
   /* key: name of theme, value: regex matching part of host name */
   themeMap: {
     hsl: '(reittiopas|next-dev.digitransit)',
+    apphsl: '(test.digitransit)',
     turku: '(turku|foli)',
     lappeenranta: 'lappeenranta',
     joensuu: 'joensuu',
@@ -771,14 +772,14 @@ export default {
   showVehiclesOnItineraryPage: false,
 
   showWeatherInformation: true,
-  showBikeAndPublicItineraries: false,
+  showBikeAndPublicItineraries: true,
   showBikeAndParkItineraries: false,
 
   includeBikeSuggestions: true,
   includeCarSuggestions: false,
   includeParkAndRideSuggestions: false,
   // Include both bike and park and bike and public
-  includePublicWithBikePlan: false,
+  includePublicWithBikePlan: true,
   // Park and ride and car suggestions separated
   separatedParkAndRideSwitch: false,
 
@@ -829,4 +830,5 @@ export default {
   showCO2InItinerarySummary: false,
 
   geoJsonSvgSize: 20,
+  showBicycleWalkLegModes: ['RAIL', 'SUBWAY'],
 };

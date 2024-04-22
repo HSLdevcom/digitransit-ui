@@ -247,13 +247,12 @@ export default {
 
   includeCarSuggestions: true,
   includeParkAndRideSuggestions: true,
-  // Include both bike and park and bike and public
-  includePublicWithBikePlan: false,
   // Park and ride and car suggestions separated into two switches
   separatedParkAndRideSwitch: true,
   showBikeAndParkItineraries: true,
 
   parkingAreaSources: ['liipi'],
+  bikeBoardingModes: ['RAIL', 'TRAM', 'FERRY', 'BUS'],
 
   parkAndRide: {
     showParkAndRide: false,
@@ -378,4 +377,44 @@ export default {
   // Notice! Turning on this setting forces the search for car routes (for the CO2 comparison only).
   showCO2InItinerarySummary: true,
   useAssembledGeoJsonZones: 'isOffByDefault',
+
+  // Extra modes for bike boarding info, like Tram for Tampere
+  bikeBoardingExtraModes: [{ agency: 'Nysse', mode: 'TRAM' }],
+
+  showBikeBoardingInfoHeader: (bikeBoardingModes, extraModes, mode, legs) => {
+    if (bikeBoardingModes?.includes(mode.toUpperCase())) {
+      return true;
+    }
+    return legs?.some(leg =>
+      extraModes?.some(
+        extraMode =>
+          extraMode.agency === leg.route?.agency.name &&
+          extraMode.mode === leg.route?.mode,
+      ),
+    );
+  },
+
+  routeNotifications: [
+    {
+      showForBikeWithPublicRoute: true,
+
+      id: 'externalCostWithBike',
+
+      content: {
+        fi: [
+          'Kulkuneuvossa mahdollisuus kuljettaa pyörää. ',
+          'Tarkasta pyörän kuljettamisen mahdollinen maksullisuus operaattorilta.',
+        ],
+        en: [
+          'There is a possibility to transport a bicycle in the vehicle. ',
+          'Check the possible cost of transporting a bicycle from the operator.',
+        ],
+        sv: [
+          'Möjlighet att transportera cykel i fordonet. ',
+          'Kontrollera eventuell avgift för att transportera cykel från operatören.',
+        ],
+      },
+    },
+  ],
+  showBicycleWalkLegModes: ['RAIL', 'SUBWAY', 'TRAM', 'FERRY'],
 };

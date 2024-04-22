@@ -23,6 +23,7 @@ import {
   getTotalWalkingDuration,
   getZones,
   isCallAgencyPickupType,
+  legContainsBikePark,
   legContainsRentalBike,
 } from '../util/legUtils';
 import { BreakpointConsumer } from '../util/withBreakpoint';
@@ -56,13 +57,15 @@ class ItineraryDetails extends React.Component {
     currentLanguage: PropTypes.string,
     changeHash: PropTypes.func,
     toggleSettings: PropTypes.func.isRequired,
-      };
+    bikeAndPublicItineraryCount: PropTypes.number,
+  };
 
   static defaultProps = {
     hideTitle: false,
     currentLanguage: 'fi',
     carItinerary: undefined,
     changeHash: () => {},
+    bikeAndPublicItineraryCount: 0,
   };
 
   static contextTypes = {
@@ -132,18 +135,20 @@ class ItineraryDetails extends React.Component {
   };
 
   render() {
-    const { itinerary, currentLanguage, isMobile } = this.props;
+    const { itinerary, currentLanguage, isMobile, bikeAndPublicItineraryCount } = this.props;
     const { config } = this.context;
-
     if (!itinerary?.legs[0]) {
       return null;
     }
-
     const fares = getFaresFromLegs(itinerary.legs, config);
     const extraProps = this.getExtraProps(itinerary);
+    const {biking, walking, driving, futureText, isMultiRow} = extraProps;
     const legsWithRentalBike = compressLegs(itinerary.legs).filter(leg =>
       legContainsRentalBike(leg),
     );
+    const legswithBikePark = compressLegs(itinerary.legs).filter(leg => legContainsBikePark(leg));
+    const containsBiking = biking.duration > 0 && biking.distance > 0;
+    const showBikeBoardingInformation = containsBiking && bikeAndPublicItineraryCount > 0 && legswithBikePark.length === 0;
     const rentalBikeNetworks = new Set();
     let showRentalBikeDurationWarning = false;
     if (legsWithRentalBike.length > 0) {
@@ -254,11 +259,11 @@ class ItineraryDetails extends React.Component {
 	    <ItinerarySummary
               itinerary={itinerary}
               key="summary"
-              walking={extraProps.walking}
-              biking={extraProps.biking}
-              driving={extraProps.driving}
-              futureText={extraProps.futureText}
-              isMultiRow={extraProps.isMultiRow}
+              walking={walking}
+              biking={biking}
+              driving={driving}
+              futureText={futureText}
+              isMultiRow={isMultiRow}
               isMobile={isMobile}
               hideBottomDivider={isMobile && shouldShowFarePurchaseInfo(
                 config,
@@ -297,7 +302,7 @@ class ItineraryDetails extends React.Component {
             ),
             <div
               className={cx('momentum-scroll itinerary-tabs__scroll', {
-                multirow: extraProps.isMultiRow,
+                multirow: isMultiRow,
               })}
               key="legs"
             >
@@ -317,7 +322,8 @@ class ItineraryDetails extends React.Component {
                   changeHash={this.props.changeHash}
                   tabIndex={itineraryIndex - 1}
                   toggleSettings={this.props.toggleSettings}
-                                  />
+                  showBikeBoardingInformation={showBikeBoardingInformation}
+                />
                 {config.showRouteInformation && <RouteInformation key="routeinfo"/>}
               </div>
               {config.showCO2InItinerarySummary && (

@@ -362,6 +362,18 @@ export function transitItineraries(itineraries) {
 }
 
 /**
+ * Filters away itineraries that don't use transit
+ */
+export function filterWalk(itineraries) {
+  if (!itineraries) {
+    return [];
+  }
+  return itineraries.filter(
+    itin => !itin.legs.every(leg => leg.mode === 'WALK'),
+  );
+}
+
+/**
  * Filters itineraries that don't use given mode
  */
 export function filterItineraries(itineraries, modes) {

@@ -100,17 +100,17 @@
         .citybike-itinerary {
           display: flex;
           padding: 7px;
-
+          
           .citybike-itinerary-text-container {
             display: flex;
-          }
+                      }
 
           .headsign {
             font-weight: $font-weight-medium;
             display: block;
             font-size: 15px;
             padding: 2px 0 3px 6px;
-          }
+                      }
 
           .scooter-headsign {
            padding: 6px 0 3px 6px;

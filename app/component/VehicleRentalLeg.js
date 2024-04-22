@@ -37,6 +37,7 @@ function VehicleRentalLeg(
     breakpoint,
     rentalVehicle,
     language,
+    nextLegMode,
   },
   { config, intl },
 ) {
@@ -91,7 +92,16 @@ function VehicleRentalLeg(
   }
   return (
     <>
-      <div className="itinerary-leg-row-bike">{legDescription}</div>
+      {(!isScooter || (nextLegMode !== 'WALK' && isScooter)) && (
+        <div
+          className={cx(
+            'itinerary-leg-row-bike',
+            returnBike ? 'return' : 'rent',
+          )}
+        >
+          {legDescription}
+        </div>
+      )}
       {(!isScooter || (isScooter && !returnBike)) && (
         <div className="itinerary-transit-leg-route-bike">
           <div className="citybike-itinerary">
@@ -119,10 +129,10 @@ function VehicleRentalLeg(
               <span className={cx('headsign', isScooter && 'scooter-headsign')}>
                 {!isScooter && (
                   <Link
-                    style={{ textDecoration: 'none' }}
+                    style={{ textDecoration: 'none', color: 'black' }}
                     to={rentalStationLink}
                   >
-                    {isScooter ? scooterHeadsign : stationName}
+                    {stationName}
                   </Link>
                 )}
                 {isScooter && (
@@ -191,6 +201,7 @@ VehicleRentalLeg.propTypes = {
   breakpoint: PropTypes.string,
   rentalVehicle: rentalVehicleShape,
   language: PropTypes.string.isRequired,
+  nextLegMode: PropTypes.string,
 };
 
 VehicleRentalLeg.defaultProps = {
@@ -200,6 +211,7 @@ VehicleRentalLeg.defaultProps = {
   breakpoint: undefined,
   rentalVehicle: undefined,
   stationName: undefined,
+  nextLegMode: undefined,
 };
 
 VehicleRentalLeg.contextTypes = {

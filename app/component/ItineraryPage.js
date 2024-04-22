@@ -41,6 +41,7 @@ import {
   filterItinerariesByFeedId,
   transitItineraries,
   filterItineraries,
+  filterWalk,
 } from './ItineraryPageUtils';
 import { isIOS } from '../util/browser';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
@@ -210,12 +211,16 @@ export default function ItineraryPage(props, context) {
         scooterState.plan?.routingErrors,
         state.plan?.routingErrors,
       );
-      const mergedItineraries = [
-        scooterItinerary,
-        ...state.plan.itineraries.slice(0, -1),
-      ].sort((a, b) => {
-        return a.endTime > b.endTime;
-      });
+      const mainItineraries =
+        state.plan?.itineraries?.length >= 5
+          ? state.plan.itineraries.slice(0, -1)
+          : state.plan.itineraries;
+
+      const mergedItineraries = [scooterItinerary, ...mainItineraries].sort(
+        (a, b) => {
+          return a.endTime > b.endTime;
+        },
+      );
       return {
         itineraries: mergedItineraries,
         routingErrors: mergedRoutingErrors,
@@ -238,8 +243,9 @@ export default function ItineraryPage(props, context) {
         return altState.parkRidePlan;
       default:
         if (
-          !transitItineraries(state.plan?.itineraries).length &&
-          !settingsState.settingsChanged
+          !filterWalk(state.plan?.itineraries).length &&
+          !settingsState.settingsChanged &&
+          relaxState.relaxedPlan?.itineraries?.length > 0
         ) {
           if (relaxState.relaxedPlan?.itineraries?.length > 0) {
             return relaxState.relaxedPlan;
@@ -372,6 +378,7 @@ export default function ItineraryPage(props, context) {
 
         setAltState({
           bikeAndParkItineraryCount: n1,
+          bikeAndPublicItineraryCount: n2,
           loading: ALT_LOADING_STATES.DONE,
           walkPlan: result.walkPlan,
           bikePlan,
@@ -402,7 +409,7 @@ export default function ItineraryPage(props, context) {
       .then(result => {
         const relaxedPlan = {
           ...result.plan,
-          itineraries: transitItineraries(result.plan.itineraries),
+          itineraries: filterWalk(result.plan.itineraries),
         };
         setRelaxState({ relaxedPlan, loading: false });
       })
@@ -537,7 +544,7 @@ export default function ItineraryPage(props, context) {
     latestDepartureTime.add(1, 'minutes');
 
     const useRelaxedRoutingPreferences =
-      transitItineraries(state.plan?.itineraries).length === 0 &&
+      filterWalk(state.plan?.itineraries).length === 0 &&
       relaxState.relaxedPlan?.itineraries?.length > 0;
 
     const params = getPlanParams(
@@ -618,7 +625,7 @@ export default function ItineraryPage(props, context) {
     earliestArrivalTime.subtract(1, 'minutes');
 
     const useRelaxedRoutingPreferences =
-      transitItineraries(state.plan?.itineraries).length === 0 &&
+      filterWalk(state.plan?.itineraries).length === 0 &&
       relaxState.relaxedPlan?.itineraries?.length > 0;
 
     const params = getPlanParams(
@@ -1064,7 +1071,7 @@ export default function ItineraryPage(props, context) {
   const { hash, secondHash } = params;
 
   const hasNoTransitItineraries =
-    transitItineraries(state.plan?.itineraries).length === 0;
+    filterWalk(state.plan?.itineraries).length === 0;
 
   const settings = getSettings(config);
 
@@ -1086,7 +1093,7 @@ export default function ItineraryPage(props, context) {
     combinedItineraries = getCombinedItineraries();
     if (!hasNoTransitItineraries) {
       // don't show plain walking in transit itinerary list
-      combinedItineraries = transitItineraries(combinedItineraries);
+      combinedItineraries = filterWalk(combinedItineraries);
     }
   }
 
@@ -1168,6 +1175,7 @@ export default function ItineraryPage(props, context) {
         focusToLeg={focusToLeg}
         carItinerary={carPlan?.itineraries[0]}
         toggleSettings={toggleSettings}
+        bikeAndPublicItineraryCount={altState.bikeAndPublicItineraryCount}
       />
     );
   } else if (plan?.itineraries?.length) {

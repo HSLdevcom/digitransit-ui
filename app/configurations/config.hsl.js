@@ -32,8 +32,23 @@ export default {
     RENTAL_STATION_MAP: {
       default: `${POI_MAP_PREFIX}/fi/rentalStations/`,
     },
+    RENTAL_VEHICLE_MAP: {
+      default: `${OTP_URL}vectorTiles/rentalVehicles/`,
+    },
+    REALTIME_RENTAL_VEHICLE_MAP: {
+      default: `${OTP_URL}vectorTiles/realtimeRentalVehicles/`,
+    },
     REALTIME_RENTAL_STATION_MAP: {
-      default: `${POI_MAP_PREFIX}/fi/realtimeRentalStations/`,
+      default: `${OTP_URL}vectorTiles/realtimeRentalStations/`,
+    },
+    RENTAL_VEHICLE_CLUSTER_MEDIUM_MAP: {
+      default: `${OTP_URL}vectorTiles/rentalVehicleClusterClose/`,
+    },
+    RENTAL_VEHICLE_CLUSTER_CLOSE_MAP: {
+      default: `${OTP_URL}vectorTiles/rentalVehicleClusterMedium/`,
+    },
+    RENTAL_VEHICLE_CLUSTER_FAR_MAP: {
+      default: `${OTP_URL}vectorTiles/rentalVehicleClusterFar/`,
     },
     PARK_AND_RIDE_MAP: {
       default: `${POI_MAP_PREFIX}/en/vehicleParking/`,
@@ -84,6 +99,8 @@ export default {
   showHSLTracking: false,
   allowLogin: true,
   allowFavouritesFromLocalstorage: !process.env.OIDC_CLIENT_ID,
+  loginAnalyticsEventName: 'user-hsl-id',
+  loginAnalyticsKey: 'hsl-id',
 
   nearbyRoutes: {
     radius: 500,
@@ -126,6 +143,8 @@ export default {
       'mode-citybike': '#f2b62d',
       'mode-citybike-secondary': '#333333',
       'mode-speedtram': '#007E79',
+      'mode-scooter': '#666666',
+      'mode-scooter-secondary': '#333333',
     },
   },
   getAutoSuggestIcons: {
@@ -188,6 +207,10 @@ export default {
     citybike: {
       availableForSelection: true,
     },
+    scooter: {
+      availableForSelection: true,
+      selectedByDefault: true,
+    },
     airplane: {
       availableForSelection: false,
       defaultValue: false,
@@ -200,7 +223,7 @@ export default {
   },
 
   // modes that should not coexist with BICYCLE mode
-  modesWithNoBike: ['BICYCLE_RENT', 'WALK', 'BUS', 'TRAM', 'FERRY'],
+  modesWithNoBike: ['BICYCLE_RENT', 'WALK', 'BUS', 'TRAM'],
 
   useSearchPolygon: true,
 
@@ -383,17 +406,7 @@ export default {
     ],
   },
 
-  // mapping fareId from OTP fare identifiers to human readable form
-  // in the new HSL zone model, just strip off the prefix 'HSL:'
-  fareMapping: function mapHslFareId(fareId) {
-    return fareId && fareId.substring
-      ? fareId.substring(fareId.indexOf(':') + 1)
-      : '';
-  },
-
   unknownZones: ['Ei HSL'],
-
-  showTicketPrice: false,
 
   map: {
     showZoomControl: true,
@@ -410,9 +423,17 @@ export default {
     },
   },
 
+  showTicketPrice: false,
   useTicketIcons: true,
-  ticketPurchaseLink: function purchaseTicketLink(ticket) {
-    return `https://open.app.hsl.fi/zoneTicketWizard/TICKET_TYPE_SINGLE_TICKET/${ticket}/adult/-`;
+  ticketPurchaseLink: function purchaseTicketLink(fare) {
+    return `https://open.app.hsl.fi/zoneTicketWizard/TICKET_TYPE_SINGLE_TICKET/${fare.ticketName}/adult/-`;
+  },
+  // mapping fareId from OTP fare identifiers to human readable form
+  // in the new HSL zone model, just strip off the prefix 'HSL:'
+  fareMapping: function mapHslFareId(fareId) {
+    return fareId && fareId.substring
+      ? fareId.substring(fareId.indexOf(':') + 1)
+      : '';
   },
 
   trafficNowLink: {
@@ -455,7 +476,7 @@ export default {
           sv: 'https://www.hsl.fi/sv/stadscyklar/helsingfors/anvisningar#cykla',
           en: 'https://www.hsl.fi/en/citybikes/helsinki/instructions#ride',
         },
-        timeBeforeSurcharge: 30 * 60,
+        timeBeforeSurcharge: 60 * 60,
       },
       vantaa: {
         enabled: true,
@@ -484,7 +505,17 @@ export default {
           sv: 'https://www.hsl.fi/sv/stadscyklar/vanda/anvisningar#cykla',
           en: 'https://www.hsl.fi/en/citybikes/vantaa/instructions#ride',
         },
-        timeBeforeSurcharge: 60 * 60,
+        timeBeforeSurcharge: 120 * 60,
+      },
+      bolt: {
+        enabled: true,
+        icon: 'scooter',
+        name: {
+          fi: 'Bolt',
+          sv: 'Bolt',
+          en: 'Bolt',
+        },
+        type: 'scooter',
       },
     },
     buyUrl: {
@@ -543,6 +574,7 @@ export default {
       virtualMonitorBaseUrl: 'https://omatnaytot.hsl.fi/',
     },
   },
+  bikeBoardingModes: ['RAIL', 'FERRY'],
 
   routeNotifications: [
     {

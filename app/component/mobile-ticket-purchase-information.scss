@@ -47,7 +47,7 @@
 
         a.external-link {
           font-size: 16px;
-          color: #0074bf;
+          color: $primary-color;
         }
       }
 
@@ -112,6 +112,7 @@
       .ticket-description {
         display: flex;
         color: #fff;
+        white-space: nowrap;
       }
 
       .ticket-identifier {
