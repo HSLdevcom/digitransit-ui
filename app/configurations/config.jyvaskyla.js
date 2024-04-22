@@ -161,10 +161,10 @@ export default configMerger(walttiConfig, {
     4: 'D',
   },
 
-  showTicketInformation: false,
+  showTicketInformation: true,
   useTicketIcons: true,
   ticketLink: 'https://linkki.jyvaskyla.fi/liput-ja-hinnat',
-  showTicketPrice: false,
+  showTicketPrice: true,
 
   ticketPurchaseLink: function purchaseTicketLink(fare) {
     const fareId = fare.fareProducts[0].product.id;
