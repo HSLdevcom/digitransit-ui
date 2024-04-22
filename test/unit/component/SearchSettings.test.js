@@ -5,7 +5,7 @@ import React from 'react';
 import { mockChildContextTypes, mockContext } from '../helpers/mock-context';
 import { mountWithIntl } from '../helpers/mock-intl-enzyme';
 
-import SearchSettings from '../../../app/component/SearchSettings';
+import SearchSettings from '../../../app/component/itinerary/SearchSettings';
 import DatetimepickerContainer from '../../../app/component/DatetimepickerContainer';
 import defaultConfig from '../../../app/configurations/config.default';
 import { mockMatch, mockRouter } from '../helpers/mock-router';

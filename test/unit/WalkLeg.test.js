@@ -2,7 +2,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import { shallowWithIntl } from './helpers/mock-intl-enzyme';
-import WalkLeg from '../../app/component/WalkLeg';
+import WalkLeg from '../../app/component/itinerary/WalkLeg';
 import { CityBikeNetworkType } from '../../app/util/vehicleRentalUtils';
 import ServiceAlertIcon from '../../app/component/ServiceAlertIcon';
 import { AlertSeverityLevelType } from '../../app/constants';

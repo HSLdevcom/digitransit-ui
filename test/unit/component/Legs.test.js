@@ -4,7 +4,7 @@ import React from 'react';
 
 import { mockContext } from '../helpers/mock-context';
 import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
-import ItineraryLegs from '../../../app/component/ItineraryLegs';
+import Legs from '../../../app/component/itinerary/Legs';
 
 const context = {
   ...mockContext,
@@ -18,7 +18,7 @@ const context = {
   config: { itinerary: { waitThreshold: 5 }, CONFIG: 'default' },
 };
 
-describe('<ItineraryLegs />', () => {
+describe('<Legs />', () => {
   it("should not fail to render even if the itinerary's legs array is empty", () => {
     const props = {
       itinerary: {
@@ -30,7 +30,7 @@ describe('<ItineraryLegs />', () => {
       focusToPoint: () => {},
       focusToLeg: () => {},
     };
-    const wrapper = shallowWithIntl(<ItineraryLegs {...props} />, {
+    const wrapper = shallowWithIntl(<Legs {...props} />, {
       context,
     });
 

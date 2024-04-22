@@ -4,9 +4,9 @@ import React from 'react';
 
 import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
 
-import ItineraryProfile from '../../../app/component/ItineraryProfile';
+import Profile from '../../../app/component/itinerary/Profile';
 
-describe('<ItineraryProfile />', () => {
+describe('<Profile />', () => {
   it('should only render total distance information for non-biking itineraries', () => {
     const props = {
       itinerary: {
@@ -18,7 +18,7 @@ describe('<ItineraryProfile />', () => {
         ],
       },
     };
-    const wrapper = shallowWithIntl(<ItineraryProfile {...props} />, {
+    const wrapper = shallowWithIntl(<Profile {...props} />, {
       context: { config: { imperialEnabled: false } },
     });
 

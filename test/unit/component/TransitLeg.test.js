@@ -3,8 +3,8 @@ import { describe, it } from 'mocha';
 import React from 'react';
 
 import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
-import { Component as TransitLeg } from '../../../app/component/TransitLeg';
-import IntermediateLeg from '../../../app/component/IntermediateLeg';
+import { Component as TransitLeg } from '../../../app/component/itinerary/TransitLeg';
+import IntermediateLeg from '../../../app/component/itinerary/IntermediateLeg';
 import {
   RealtimeStateType,
   AlertSeverityLevelType,
@@ -12,7 +12,7 @@ import {
 } from '../../../app/constants';
 import ServiceAlertIcon from '../../../app/component/ServiceAlertIcon';
 import { mockContext } from '../helpers/mock-context';
-import LegInfo from '../../../app/component/LegInfo';
+import LegInfo from '../../../app/component/itinerary/LegInfo';
 
 const defaultProps = {
   children: <div />,

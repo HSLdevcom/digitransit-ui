@@ -3,7 +3,7 @@ import { describe, it } from 'mocha';
 import React from 'react';
 
 import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
-import IntermediateLeg from '../../../app/component/IntermediateLeg';
+import IntermediateLeg from '../../../app/component/itinerary/IntermediateLeg';
 import ZoneIcon from '../../../app/component/ZoneIcon';
 
 const emptyProps = {

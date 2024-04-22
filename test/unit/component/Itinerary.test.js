@@ -9,10 +9,9 @@ import {
   ModeLeg,
   ViaLeg,
   RouteLeg,
-} from '../../../app/component/Itinerary';
+} from '../../../app/component/itinerary/Itinerary';
 import { AlertSeverityLevelType } from '../../../app/constants';
 import RouteNumberContainer from '../../../app/component/RouteNumberContainer';
-
 import dcw12 from '../test-data/dcw12';
 
 const defaultProps = {
