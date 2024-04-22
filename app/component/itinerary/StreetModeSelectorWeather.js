@@ -8,7 +8,7 @@ import WeatherDetailsPopup from './WeatherDetailsPopup';
 
 export default function StreetModeSelectorWeather({ weatherData }) {
   const [popupOpen, changeOpen] = useState(false);
-  if (weatherData.temperature) {
+  if (typeof weatherData.temperature === 'number') {
     const { temperature, iconId } = weatherData;
     const tempLabel = `${Math.round(temperature)}\u00B0C`; // Temperature with Celsius
     return (
