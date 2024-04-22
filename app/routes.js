@@ -281,7 +281,7 @@ export default config => {
               path="(.*)?"
               getComponent={() =>
                 import(
-                  /* webpackChunkName: "itinerary" */ './component/ItineraryPageTitle'
+                  /* webpackChunkName: "itinerary" */ './component/itinerary/ItineraryPageTitle'
                 ).then(getDefault)
               }
             />
@@ -291,7 +291,7 @@ export default config => {
               getComponent={() =>
                 isBrowser
                   ? import(
-                      /* webpackChunkName: "itinerary" */ './component/ItineraryPageContainer'
+                      /* webpackChunkName: "itinerary" */ './component/itinerary/ItineraryPageContainer'
                     ).then(getDefault)
                   : import(
                       /* webpackChunkName: "loading" */ './component/Loading'
@@ -311,7 +311,7 @@ export default config => {
                     <Route
                       getComponent={() =>
                         import(
-                          /* webpackChunkName: "itinerary" */ './component/ItineraryDetails'
+                          /* webpackChunkName: "itinerary" */ './component/itinerary/ItineraryDetails'
                         ).then(getDefault)
                       }
                       render={getComponentOrLoadingRenderer}
@@ -326,7 +326,7 @@ export default config => {
               path="(.*)?"
               getComponent={() =>
                 import(
-                  /* webpackChunkName: "itinerary" */ './component/ItineraryPageMeta'
+                  /* webpackChunkName: "itinerary" */ './component/itinerary/ItineraryPageMeta'
                 ).then(getDefault)
               }
             />

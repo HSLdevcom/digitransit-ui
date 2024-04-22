@@ -10,7 +10,7 @@ import LangSelect from './LangSelect';
 import MainMenuLinks from './MainMenuLinks';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import { updateCountries } from '../action/CountryActions';
-import Toggle from './customizesearch/Toggle';
+import Toggle from './Toggle';
 import searchContext from '../util/searchContext';
 import intializeSearchContext from '../util/DTSearchContextInitializer';
 
