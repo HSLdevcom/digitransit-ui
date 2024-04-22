@@ -322,5 +322,6 @@ export function getPlanParams(
     walkBoardCost,
     transferPenalty,
     modes,
+    planType,
   };
 }

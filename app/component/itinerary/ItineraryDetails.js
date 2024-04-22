@@ -53,7 +53,7 @@ class ItineraryDetails extends React.Component {
     isMobile: PropTypes.bool.isRequired,
     currentTime: PropTypes.number.isRequired,
     hideTitle: PropTypes.bool,
-    carItinerary: itineraryShape,
+    carEmissions: PropTypes.number,
     currentLanguage: PropTypes.string,
     changeHash: PropTypes.func,
     bikeAndPublicItineraryCount: PropTypes.number,
@@ -62,9 +62,9 @@ class ItineraryDetails extends React.Component {
   static defaultProps = {
     hideTitle: false,
     currentLanguage: 'fi',
-    carItinerary: undefined,
     changeHash: () => {},
     bikeAndPublicItineraryCount: 0,
+    carEmissions: undefined,
   };
 
   static contextTypes = {
@@ -329,7 +329,7 @@ class ItineraryDetails extends React.Component {
 		  key="emissionsinfo"
                   config={config}
                   itinerary={itinerary}
-                  carItinerary={this.props.carItinerary}
+                  carEmissions={this.props.carEmissions}
                   emissionsInfolink={
                     config.URL.EMISSIONS_INFO?.[currentLanguage]
                   }

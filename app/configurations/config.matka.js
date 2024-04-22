@@ -252,7 +252,7 @@ export default {
   showBikeAndParkItineraries: true,
 
   parkingAreaSources: ['liipi'],
-  bikeBoardingModes: ['RAIL', 'FERRY'],
+  bikeBoardingModes: ['RAIL', 'TRAM', 'FERRY', 'BUS'],
 
   parkAndRide: {
     showParkAndRide: false,

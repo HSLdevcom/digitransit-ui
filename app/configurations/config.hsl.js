@@ -385,17 +385,7 @@ export default {
     ],
   },
 
-  // mapping fareId from OTP fare identifiers to human readable form
-  // in the new HSL zone model, just strip off the prefix 'HSL:'
-  fareMapping: function mapHslFareId(fareId) {
-    return fareId && fareId.substring
-      ? fareId.substring(fareId.indexOf(':') + 1)
-      : '';
-  },
-
   unknownZones: ['Ei HSL'],
-
-  showTicketPrice: false,
 
   map: {
     showZoomControl: true,
@@ -412,9 +402,17 @@ export default {
     },
   },
 
+  showTicketPrice: false,
   useTicketIcons: true,
-  ticketPurchaseLink: function purchaseTicketLink(ticket) {
-    return `https://open.app.hsl.fi/zoneTicketWizard/TICKET_TYPE_SINGLE_TICKET/${ticket}/adult/-`;
+  ticketPurchaseLink: function purchaseTicketLink(fare) {
+    return `https://open.app.hsl.fi/zoneTicketWizard/TICKET_TYPE_SINGLE_TICKET/${fare.ticketName}/adult/-`;
+  },
+  // mapping fareId from OTP fare identifiers to human readable form
+  // in the new HSL zone model, just strip off the prefix 'HSL:'
+  fareMapping: function mapHslFareId(fareId) {
+    return fareId && fareId.substring
+      ? fareId.substring(fareId.indexOf(':') + 1)
+      : '';
   },
 
   trafficNowLink: {

@@ -63,6 +63,9 @@ const planConnection = graphql`
           ...ItineraryDetails_itinerary
           duration
           walkDistance
+          emissionsPerPerson {
+            co2
+          }
           legs {
             ...ItineraryLine_legs
             mode
