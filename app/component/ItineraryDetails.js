@@ -53,7 +53,7 @@ class ItineraryDetails extends React.Component {
     isMobile: PropTypes.bool.isRequired,
     currentTime: PropTypes.number.isRequired,
     hideTitle: PropTypes.bool,
-    carItinerary: itineraryShape,
+    carEmissions: PropTypes.number,
     currentLanguage: PropTypes.string,
     changeHash: PropTypes.func,
     bikeAndPublicItineraryCount: PropTypes.number,
@@ -62,9 +62,9 @@ class ItineraryDetails extends React.Component {
   static defaultProps = {
     hideTitle: false,
     currentLanguage: 'fi',
-    carItinerary: undefined,
     changeHash: () => {},
     bikeAndPublicItineraryCount: 0,
+    carEmissions: undefined,
   };
 
   static contextTypes = {
@@ -329,7 +329,7 @@ class ItineraryDetails extends React.Component {
 		  key="emissionsinfo"
                   config={config}
                   itinerary={itinerary}
-                  carItinerary={this.props.carItinerary}
+                  carEmissions={this.props.carEmissions}
                   emissionsInfolink={
                     config.URL.EMISSIONS_INFO?.[currentLanguage]
                   }
@@ -360,7 +360,6 @@ const withRelay = createFragmentContainer(
   {
     itinerary: graphql`
       fragment ItineraryDetails_itinerary on Itinerary {
-        walkDistance
         duration
         startTime
         endTime
@@ -380,6 +379,9 @@ const withRelay = createFragmentContainer(
             }
           }
           mode
+          legGeometry {
+            points
+          }
           nextLegs(
             numberOfLegs: 2
             originModesWithParentStation: [RAIL]
@@ -430,7 +432,6 @@ const withRelay = createFragmentContainer(
             lat
             lon
             name
-            vertexType
             bikePark {
               bikeParkId
               name
@@ -467,7 +468,6 @@ const withRelay = createFragmentContainer(
             lat
             lon
             name
-            vertexType
             vehicleRentalStation {
               lat
               lon
@@ -504,10 +504,6 @@ const withRelay = createFragmentContainer(
               carParkId
               name
             }
-          }
-          legGeometry {
-            length
-            points
           }
           intermediatePlaces {
             arrivalTime

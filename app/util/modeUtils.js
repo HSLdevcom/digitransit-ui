@@ -329,17 +329,6 @@ export function toggleTransportMode(transportMode, config) {
 }
 
 /**
- * Filters away modes that do not allow bicycle boarding.
- *
- * @param {*} config The configuration for the software installation
- * @param {String[]} modes modes to filter from
- * @returns {String[]} result of filtering
- */
-export function getBicycleCompatibleModes(config, modes) {
-  return modes.filter(mode => !config.modesWithNoBike.includes(mode));
-}
-
-/**
  * Transforms array of mode strings into modern format OTP mode objects
  *
  * @param {String[]} modes modes to filter from

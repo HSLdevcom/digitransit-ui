@@ -1,20 +1,26 @@
-import omitBy from 'lodash/omitBy';
 import moment from 'moment';
-
+import isEqual from 'lodash/isEqual';
 import {
   getDefaultModes,
   modesAsOTPModes,
-  getBicycleCompatibleModes,
   isTransportModeAvailable,
 } from './modeUtils';
-import {
-  otpToLocation,
-  getIntermediatePlaces,
-  placeOrStop,
-} from './otpStrings';
+import { otpToLocation, getIntermediatePlaces } from './otpStrings';
 import { getDefaultNetworks } from './vehicleRentalUtils';
 import { getCustomizedSettings } from '../store/localStorage';
 import { estimateItineraryDistance } from './geo-utils';
+
+export const PLANTYPE = {
+  WALK: 'WALK',
+  BIKE: 'BICYCLE',
+  CAR: 'CAR',
+  TRANSIT: 'TRANSIT',
+  BIKEPARK: 'BIKEPARK',
+  BIKETRANSIT: 'BIKETRANSIT',
+  PARKANDRIDE: 'PARKANDRIDE',
+};
+
+const directModes = [PLANTYPE.WALK, PLANTYPE.BIKE, PLANTYPE.CAR];
 
 /**
  * Find an option nearest to the value
@@ -34,10 +40,6 @@ export function findNearestOption(value, options) {
     }
   }
   return currNearest;
-}
-
-function nullOrUndefined(val) {
-  return val === null || val === undefined;
 }
 
 /**
@@ -94,22 +96,117 @@ export function getSettings(config) {
   };
 }
 
-function shouldMakeParkRideQuery(distance, config, settings) {
-  return (
-    distance > config.suggestCarMinDistance &&
-    settings.includeParkAndRideSuggestions
+export function planQueryNeeded(
+  config,
+  {
+    params: { from, to },
+    location: {
+      query: { intermediatePlaces },
+    },
+  },
+  planType,
+  relaxSettings,
+) {
+  if (!from || !to || from === '-' || to === '-') {
+    return false;
+  }
+  const fromLocation = otpToLocation(from);
+  const toLocation = otpToLocation(to);
+  const intermediateLocations = getIntermediatePlaces({
+    intermediatePlaces,
+  });
+
+  // not needed if origin is destination an no via points
+  if (isEqual(fromLocation, toLocation) && !intermediateLocations.length) {
+    return false;
+  }
+
+  const defaultSettings = getDefaultSettings(config);
+  const settings = getSettings(config);
+  const modesOrDefault = relaxSettings ? defaultSettings.modes : settings.modes;
+  const transitFilter =
+    planType === PLANTYPE.BIKETRANSIT
+      ? ['CITYBIKE', 'WALK'].concat(config.modesWithNoBike)
+      : ['CITYBIKE', 'WALK'];
+  const transitModes = modesOrDefault.filter(m => !transitFilter.includes(m));
+  const wheelchair = !!settings.accessibilityOption;
+  const distance = estimateItineraryDistance(
+    fromLocation,
+    toLocation,
+    intermediateLocations,
   );
+
+  switch (planType) {
+    case PLANTYPE.WALK:
+      return (
+        !wheelchair &&
+        distance < config.suggestWalkMaxDistance &&
+        !config.hideWalkOption
+      );
+
+    case PLANTYPE.BIKE:
+      return (
+        !wheelchair &&
+        distance < config.suggestBikeMaxDistance &&
+        settings.includeBikeSuggestions
+      );
+
+    case PLANTYPE.CAR:
+      return (
+        config.showCO2InItinerarySummary ||
+        (distance > config.suggestCarMinDistance &&
+          settings.includeCarSuggestions)
+      );
+
+    case PLANTYPE.BIKEPARK:
+      return (
+        transitModes.length > 0 &&
+        !wheelchair &&
+        config.showBikeAndParkItineraries &&
+        (config.includePublicWithBikePlan
+          ? settings.includeBikeSuggestions
+          : settings.showBikeAndParkItineraries)
+      );
+
+    case PLANTYPE.BIKETRANSIT:
+      return (
+        transitModes.length > 0 &&
+        !wheelchair &&
+        config.showBikeAndPublicItineraries &&
+        settings.includeBikeSuggestions
+      );
+
+    case PLANTYPE.PARKANDRIDE:
+      return (
+        transitModes.length > 0 &&
+        distance > config.suggestCarMinDistance &&
+        settings.includeParkAndRideSuggestions
+      );
+
+    case PLANTYPE.TRANSIT:
+    default:
+      return true;
+  }
 }
 
-function shouldMakeCarQuery(distance, config, settings) {
-  return (
-    config.showCO2InItinerarySummary ||
-    (distance > config.suggestCarMinDistance && settings.includeCarSuggestions)
-  );
-}
-
-export function hasStartAndDestination({ from, to }) {
-  return from && to && from !== '-' && to !== '-';
+function getLocation(str) {
+  const loc = otpToLocation(str);
+  if (loc.gtfsId) {
+    return {
+      location: {
+        stopLocation: { stopLocationId: loc.gtfsId },
+      },
+    };
+  }
+  return {
+    location: {
+      coordinate: {
+        latitude: loc.lat,
+        longitude: loc.lon,
+      },
+    },
+    label: loc.address,
+  };
 }
 
 export function getPlanParams(
@@ -117,101 +214,114 @@ export function getPlanParams(
   {
     params: { from, to },
     location: {
-      query: { arriveBy, intermediatePlaces, time },
+      query: { arriveBy, time },
     },
   },
+  planType,
   relaxSettings,
 ) {
+  const fromPlace = getLocation(from);
+  const toPlace = getLocation(to);
+
   const defaultSettings = getDefaultSettings(config);
   const settings = getSettings(config);
-  const fromLocation = otpToLocation(from);
-  const toLocation = otpToLocation(to);
-  const intermediateLocations = getIntermediatePlaces({
-    intermediatePlaces,
-  });
-  let modesOrDefault = relaxSettings ? defaultSettings.modes : settings.modes;
-  modesOrDefault = modesOrDefault.map(mode =>
-    mode === 'CITYBIKE' ? 'BICYCLE_RENT' : mode,
-  );
-  if (!settings.allowedBikeRentalNetworks?.length) {
-    // do not ask citybike routes without networks
-    modesOrDefault = modesOrDefault.filter(mode => mode !== 'BICYCLE_RENT');
+  if (settings.allowedBikeRentalNetworks.length === 0) {
+    settings.allowedBikeRentalNetworks = null;
   }
-  const otpModes = modesAsOTPModes(modesOrDefault);
-  const modesWithoutRent = otpModes.filter(mode => mode.qualifier !== 'RENT');
+  const modesOrDefault = relaxSettings ? defaultSettings.modes : settings.modes;
+  const transitFilter =
+    planType === PLANTYPE.BIKETRANSIT
+      ? ['CITYBIKE', 'WALK'].concat(config.modesWithNoBike)
+      : ['CITYBIKE', 'WALK'];
+  const transitModes = modesOrDefault.filter(m => !transitFilter.includes(m));
+  let otpModes = modesAsOTPModes(transitModes);
+  if (config.customWeights) {
+    otpModes.forEach(m => {
+      if (config.customWeights[m.mode]) {
+        // eslint-disable-next-line
+        m.cost = { reluctance: config.customWeights[m.mode] };
+      }
+    });
+  }
+  const directOnly = directModes.includes(planType) || otpModes.length === 0;
+  let transitOnly = !!relaxSettings;
+  const cityBike = settings.allowedBikeRentalNetworks?.length > 0;
+  // set defaults
+  let access = cityBike ? ['WALK', 'BICYCLE_RENTAL'] : ['WALK'];
+  let egress = access;
+  let transfer = ['WALK'];
+  let direct = null;
+
+  switch (planType) {
+    case PLANTYPE.BIKEPARK:
+      access = ['BICYCLE_PARKING'];
+      transitOnly = true;
+      break;
+    case PLANTYPE.BIKETRANSIT:
+      access = ['BICYCLE'];
+      egress = ['BICYCLE'];
+      transfer = ['BICYCLE'];
+      transitOnly = true;
+      break;
+    case PLANTYPE.PARKANDRIDE:
+      access = ['CAR_PARKING'];
+      transitOnly = true;
+      break;
+    case PLANTYPE.TRANSIT:
+      direct = access;
+      break;
+    default: // direct modes
+      direct = [planType];
+      break;
+  }
+  if (directOnly) {
+    // reset unused arrays
+    access = null;
+    egress = null;
+    transfer = null;
+    otpModes = [];
+    settings.allowedBikeRentalNetworks = null;
+  }
+  const modes = {
+    directOnly,
+    transitOnly,
+    direct,
+    transit: {
+      access,
+      transfer,
+      egress,
+      transit: otpModes.length === 0 ? null : otpModes,
+    },
+  };
+
   const wheelchair = !!settings.accessibilityOption;
-  const linearDistance = estimateItineraryDistance(
-    fromLocation,
-    toLocation,
-    intermediateLocations,
-  );
-  const ticketTypes =
-    relaxSettings || settings.ticketTypes === 'none'
-      ? null
-      : settings.ticketTypes;
   const walkReluctance = relaxSettings
     ? defaultSettings.walkReluctance
     : settings.walkReluctance;
   const walkBoardCost = relaxSettings
     ? defaultSettings.walkBoardCost
     : settings.walkBoardCost;
+  const transferPenalty = relaxSettings
+    ? defaultSettings.transferPenalty
+    : settings.transferPenalty;
 
-  const fromPlace = placeOrStop(from);
-  const toPlace = placeOrStop(to);
-  const bikeAndPublicModes = config.bikeBoardingModes || [];
+  const timeStr = (time ? moment(time * 1000) : moment()).format();
+  const datetime = arriveBy
+    ? { latestArrival: timeStr }
+    : { earliestDeparture: timeStr };
+
   return {
     ...settings,
-    ...omitBy(
-      {
-        fromPlace,
-        toPlace,
-        minTransferTime: config.minTransferTime,
-        optimize: config.optimize,
-      },
-      nullOrUndefined,
-    ),
-    ticketTypes,
-    date: (time ? moment(time * 1000) : moment()).format('YYYY-MM-DD'),
-    time: (time ? moment(time * 1000) : moment()).format('HH:mm:ss'),
-    numItineraries: 5,
-    arriveBy: arriveBy === 'true',
+    fromPlace,
+    toPlace,
+    datetime,
+    minTransferTime: `PT${settings.minTransferTime}S`,
+    numItineraries: directOnly ? 1 : 5,
     wheelchair,
     walkReluctance,
     walkBoardCost,
-    modes: otpModes,
-    modeWeight: config.customWeights,
-    shouldMakeWalkQuery:
-      !wheelchair &&
-      linearDistance < config.suggestWalkMaxDistance &&
-      !config.hideWalkOption,
-    shouldMakeBikeQuery:
-      !wheelchair &&
-      linearDistance < config.suggestBikeMaxDistance &&
-      settings.includeBikeSuggestions,
-    shouldMakeCarQuery: shouldMakeCarQuery(linearDistance, config, settings),
-    shouldMakeParkRideQuery:
-      modesOrDefault.length > 1 &&
-      shouldMakeParkRideQuery(linearDistance, config, settings),
-    showBikeAndPublicItineraries:
-      modesOrDefault.length > 1 &&
-      !wheelchair &&
-      config.showBikeAndPublicItineraries &&
-      settings.includeBikeSuggestions,
-    showBikeAndParkItineraries:
-      modesOrDefault.length > 1 &&
-      !wheelchair &&
-      config.showBikeAndParkItineraries &&
-      (config.includePublicWithBikePlan
-        ? settings.includeBikeSuggestions
-        : settings.showBikeAndParkItineraries),
-    bikeAndPublicModes: [
-      { mode: 'BICYCLE' },
-      ...modesAsOTPModes(getBicycleCompatibleModes(config, bikeAndPublicModes)),
-    ],
-    bikeParkModes: [
-      { mode: 'BICYCLE', qualifier: 'PARK' },
-      ...modesWithoutRent, // BICYCLE_RENT can't be used together with BICYCLE_PARK
-    ],
-    parkRideModes: [{ mode: 'CAR', qualifier: 'PARK' }, ...modesWithoutRent],
+    transferPenalty,
+    modes,
+    planType,
   };
 }

@@ -1,5 +1,4 @@
 import connectToStores from 'fluxible-addons-react/connectToStores';
-import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
 import {
@@ -10,106 +9,46 @@ import {
 import { matchShape, routerShape } from 'found';
 import getContext from 'recompose/getContext';
 import { intlShape, FormattedMessage } from 'react-intl';
-import {
-  configShape,
-  itineraryShape,
-  childrenShape,
-  planShape,
-} from '../util/shapes';
+import { configShape, planEdgeShape } from '../util/shapes';
 import Icon from './Icon';
 import ItineraryList from './ItineraryList';
 import TimeStore from '../store/TimeStore';
-import PositionStore from '../store/PositionStore';
-import { getIntermediatePlaces } from '../util/otpStrings';
 import { getItineraryPagePath, streetHash } from '../util/path';
 import withBreakpoint from '../util/withBreakpoint';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import { isIOS, isSafari } from '../util/browser';
 import ItineraryNotification from './ItineraryNotification';
-import { transitItineraries } from './ItineraryPageUtils';
+import { transitEdges } from './ItineraryPageUtils';
 
-class ItineraryListContainer extends React.Component {
-  static propTypes = {
-    activeIndex: PropTypes.number,
-    children: childrenShape,
-    currentTime: PropTypes.number.isRequired,
-    itineraries: PropTypes.arrayOf(itineraryShape).isRequired,
-    params: PropTypes.shape({
-      from: PropTypes.string.isRequired,
-      to: PropTypes.string.isRequired,
-      hash: PropTypes.string,
-      secondHash: PropTypes.string,
-    }).isRequired,
-    plan: planShape.isRequired,
-    bikeAndParkItineraryCount: PropTypes.number,
-    showRelaxedPlanNotifier: PropTypes.bool,
-    separatorPosition: PropTypes.number,
-    onLater: PropTypes.func.isRequired,
-    onEarlier: PropTypes.func.isRequired,
-    focusToHeader: PropTypes.func.isRequired,
-    loadingMore: PropTypes.string,
-    settingsNotification: PropTypes.bool,
-    routingFeedbackPosition: PropTypes.number,
-    topNote: PropTypes.string,
-    bottomNote: PropTypes.string,
-  };
-
-  static defaultProps = {
-    activeIndex: 0,
-    children: null,
-    bikeAndParkItineraryCount: 0,
-    showRelaxedPlanNotifier: false,
-    loadingMore: undefined,
-    separatorPosition: undefined,
-    routingFeedbackPosition: undefined,
-    settingsNotification: false,
-    topNote: undefined,
-    bottomNote: undefined,
-  };
-
-  static contextTypes = {
-    router: routerShape.isRequired,
-    match: matchShape.isRequired,
-    intl: intlShape.isRequired,
-    executeAction: PropTypes.func.isRequired,
-  };
-
-  onSelectActive = index => {
-    const subpath = this.getSubPath('');
-    if (this.props.activeIndex === index) {
-      this.onSelectImmediately(index);
-    } else {
-      this.context.router.replace({
-        ...this.context.match.location,
-        state: { selectedItineraryIndex: index },
-        pathname: `${getItineraryPagePath(
-          this.props.params.from,
-          this.props.params.to,
-        )}${subpath}`,
-      });
-
-      addAnalyticsEvent({
-        category: 'Itinerary',
-        action: 'HighlightItinerary',
-        name: index,
-      });
-    }
-  };
-
-  getSubPath(fallback) {
+function ItineraryListContainer(
+  {
+    planEdges,
+    activeIndex,
+    params,
+    focusToHeader,
+    onLater,
+    onEarlier,
+    settingsNotification,
+    topNote,
+    bottomNote,
+    ...rest
+  },
+  { router, match, intl },
+) {
+  function getSubPath(fallback) {
     const modesWithSubpath = [
       streetHash.bikeAndVehicle,
       streetHash.parkAndRide,
     ];
-    const { hash } = this.props.params;
+    const { hash } = params;
     if (modesWithSubpath.includes(hash)) {
       return `/${hash}/`;
     }
     return fallback;
   }
 
-  onSelectImmediately = index => {
-    const subpath = this.getSubPath('/');
+  const onSelectImmediately = index => {
+    const subpath = getSubPath('/');
     // eslint-disable-next-line compat/compat
     const momentumScroll =
       document.getElementsByClassName('momentum-scroll')[0];
@@ -124,34 +63,53 @@ class ItineraryListContainer extends React.Component {
       name: index,
     });
     const newLocation = {
-      ...this.context.match.location,
+      ...match.location,
       state: { selectedItineraryIndex: index },
     };
     const basePath = `${getItineraryPagePath(
-      this.props.params.from,
-      this.props.params.to,
+      params.from,
+      params.to,
     )}${subpath}`;
     const indexPath = `${basePath}${index}`;
 
     newLocation.pathname = basePath;
-    this.context.router.replace(newLocation);
+    router.replace(newLocation);
     newLocation.pathname = indexPath;
-    this.context.router.push(newLocation);
-    this.props.focusToHeader();
+    router.push(newLocation);
+    focusToHeader();
   };
 
-  laterButton(reversed = false) {
+  const onSelectActive = index => {
+    const subpath = getSubPath('');
+    if (activeIndex === index) {
+      onSelectImmediately(index);
+    } else {
+      router.replace({
+        ...match.location,
+        state: { selectedItineraryIndex: index },
+        pathname: `${getItineraryPagePath(params.from, params.to)}${subpath}`,
+      });
+
+      addAnalyticsEvent({
+        category: 'Itinerary',
+        action: 'HighlightItinerary',
+        name: index,
+      });
+    }
+  };
+
+  function laterButton(reversed) {
     return (
       <button
         type="button"
-        aria-label={this.context.intl.formatMessage({
+        aria-label={intl.formatMessage({
           id: 'set-time-later-button-label',
           defaultMessage: 'Set travel time to later',
         })}
         className={`time-navigation-btn ${
           reversed ? 'top-btn' : 'bottom-btn'
         } ${!reversed && isIOS && isSafari ? 'extra-whitespace' : ''} `}
-        onClick={() => this.props.onLater(this.props.itineraries, reversed)}
+        onClick={() => onLater()}
       >
         <Icon
           img="icon-icon_arrow-collapse"
@@ -166,18 +124,18 @@ class ItineraryListContainer extends React.Component {
     );
   }
 
-  earlierButton(reversed = false) {
+  function earlierButton(reversed = false) {
     return (
       <button
         type="button"
-        aria-label={this.context.intl.formatMessage({
+        aria-label={intl.formatMessage({
           id: 'set-time-earlier-button-label',
           defaultMessage: 'Set travel time to earlier',
         })}
         className={`time-navigation-btn ${
           reversed ? 'bottom-btn' : 'top-btn'
         } ${reversed && isIOS && isSafari ? 'extra-whitespace' : ''}`}
-        onClick={() => this.props.onEarlier(this.props.itineraries, reversed)}
+        onClick={() => onEarlier()}
       >
         <Icon
           img="icon-icon_arrow-collapse"
@@ -192,79 +150,75 @@ class ItineraryListContainer extends React.Component {
     );
   }
 
-  renderMoreButton(arriveBy, onTop) {
+  function renderMoreButton(arriveBy, onTop) {
     if (onTop) {
-      return arriveBy ? this.laterButton(true) : this.earlierButton();
+      return arriveBy ? laterButton(true) : earlierButton();
     }
-    return arriveBy ? this.earlierButton(true) : this.laterButton();
+    return arriveBy ? earlierButton(true) : laterButton();
   }
 
-  render() {
-    const { location } = this.context.match;
-    const {
-      activeIndex,
-      currentTime,
-      itineraries,
-      bikeAndParkItineraryCount,
-      showRelaxedPlanNotifier,
-      separatorPosition,
-      loadingMore,
-      routingFeedbackPosition,
-    } = this.props;
-    const searchTime =
-      this.props.plan?.date ||
-      (location.query &&
-        location.query.time &&
-        moment.unix(location.query.time).valueOf()) ||
-      currentTime;
-    const showEarlierLaterButtons =
-      transitItineraries(itineraries).length > 0 &&
-      !this.context.match.params.hash;
-    const arriveBy = this.context.match.location.query.arriveBy === 'true';
-
-    return (
-      <div className="summary">
-        <h2 className="sr-only">
-          <FormattedMessage
-            id="itinerary-summary-page.description"
-            defaultMessage="Route suggestions"
-          />
-        </h2>
-        {showEarlierLaterButtons && this.renderMoreButton(arriveBy, true)}
-        {this.props.topNote && (
-          <ItineraryNotification bodyId={this.props.topNote} />
-        )}
-        <ItineraryList
-          activeIndex={activeIndex}
-          currentTime={currentTime}
-          intermediatePlaces={getIntermediatePlaces(location.query)}
-          itineraries={itineraries}
-          onSelect={this.onSelectActive}
-          onSelectImmediately={this.onSelectImmediately}
-          searchTime={searchTime}
-          bikeAndParkItineraryCount={bikeAndParkItineraryCount}
-          showRelaxedPlanNotifier={showRelaxedPlanNotifier}
-          separatorPosition={separatorPosition}
-          loadingMore={loadingMore}
-          routingFeedbackPosition={routingFeedbackPosition}
-        >
-          {this.props.children}
-        </ItineraryList>
-        {this.props.settingsNotification && (
-          <ItineraryNotification
-            headerId="settings-missing-itineraries-header"
-            bodyId="settings-missing-itineraries-body"
-            iconId="icon-icon_settings"
-          />
-        )}
-        {this.props.bottomNote && (
-          <ItineraryNotification bodyId={this.props.bottomNote} />
-        )}
-        {showEarlierLaterButtons && this.renderMoreButton(arriveBy, false)}
-      </div>
-    );
-  }
+  const { location } = match;
+  const arriveBy = location.query.arriveBy === 'true';
+  const showEarlierLaterButtons =
+    transitEdges(planEdges).length > 0 && !match.params.hash;
+  return (
+    <div className="summary">
+      <h2 className="sr-only">
+        <FormattedMessage
+          id="itinerary-summary-page.description"
+          defaultMessage="Route suggestions"
+        />
+      </h2>
+      {showEarlierLaterButtons && renderMoreButton(arriveBy, true)}
+      {topNote && <ItineraryNotification bodyId={topNote} />}
+      <ItineraryList
+        planEdges={planEdges}
+        activeIndex={activeIndex}
+        onSelect={onSelectActive}
+        onSelectImmediately={onSelectImmediately}
+        {...rest}
+      />
+      {settingsNotification && (
+        <ItineraryNotification
+          headerId="settings-missing-itineraries-header"
+          bodyId="settings-missing-itineraries-body"
+          iconId="icon-icon_settings"
+        />
+      )}
+      {bottomNote && <ItineraryNotification bodyId={bottomNote} />}
+      {showEarlierLaterButtons && renderMoreButton(arriveBy, false)}
+    </div>
+  );
 }
+
+ItineraryListContainer.propTypes = {
+  planEdges: PropTypes.arrayOf(planEdgeShape).isRequired,
+  activeIndex: PropTypes.number.isRequired,
+  params: PropTypes.shape({
+    from: PropTypes.string.isRequired,
+    to: PropTypes.string.isRequired,
+    hash: PropTypes.string,
+    secondHash: PropTypes.string,
+  }).isRequired,
+  focusToHeader: PropTypes.func.isRequired,
+  onLater: PropTypes.func.isRequired,
+  onEarlier: PropTypes.func.isRequired,
+  settingsNotification: PropTypes.bool,
+  topNote: PropTypes.string,
+  bottomNote: PropTypes.string,
+};
+
+ItineraryListContainer.defaultProps = {
+  settingsNotification: false,
+  topNote: undefined,
+  bottomNote: undefined,
+};
+
+ItineraryListContainer.contextTypes = {
+  router: routerShape.isRequired,
+  match: matchShape.isRequired,
+  intl: intlShape.isRequired,
+};
 
 const withConfig = getContext({
   config: configShape.isRequired,
@@ -279,105 +233,17 @@ const withConfig = getContext({
 );
 
 const connectedContainer = createFragmentContainer(
-  connectToStores(withConfig, [TimeStore, PositionStore], context => ({
+  connectToStores(withConfig, [TimeStore], context => ({
     currentTime: context.getStore(TimeStore).getCurrentTime().valueOf(),
-    locationState: context.getStore(PositionStore).getLocationState(),
   })),
   {
-    plan: graphql`
-      fragment ItineraryListContainer_plan on Plan {
-        date
-        itineraries {
-          startTime
-          endTime
-          emissionsPerPerson {
-            co2
-          }
+    planEdges: graphql`
+      fragment ItineraryListContainer_planEdges on PlanEdge
+      @relay(plural: true) {
+        ...ItineraryList_planEdges
+        node {
           legs {
             mode
-            ...ItineraryLine_legs
-            transitLeg
-            legGeometry {
-              points
-            }
-            route {
-              gtfsId
-            }
-            trip {
-              gtfsId
-              directionId
-              occupancy {
-                occupancyStatus
-              }
-              stoptimesForDate {
-                scheduledDeparture
-                pickupType
-              }
-              pattern {
-                ...RouteLine_pattern
-              }
-            }
-            from {
-              name
-              lat
-              lon
-              stop {
-                gtfsId
-                zoneId
-              }
-              vehicleRentalStation {
-                vehiclesAvailable
-                network
-              }
-            }
-            to {
-              stop {
-                gtfsId
-                zoneId
-              }
-              bikePark {
-                bikeParkId
-                name
-              }
-            }
-          }
-        }
-      }
-    `,
-    itineraries: graphql`
-      fragment ItineraryListContainer_itineraries on Itinerary
-      @relay(plural: true) {
-        ...ItineraryList_itineraries
-        endTime
-        startTime
-        emissionsPerPerson {
-          co2
-        }
-        legs {
-          mode
-          to {
-            bikePark {
-              bikeParkId
-              name
-            }
-          }
-          ...ItineraryLine_legs
-          transitLeg
-          legGeometry {
-            points
-          }
-          route {
-            gtfsId
-          }
-          trip {
-            gtfsId
-            directionId
-            stoptimesForDate {
-              scheduledDeparture
-            }
-            pattern {
-              ...RouteLine_pattern
-            }
           }
         }
       }
