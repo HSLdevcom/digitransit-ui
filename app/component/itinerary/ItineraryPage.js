@@ -999,7 +999,7 @@ export default function ItineraryPage(props, context) {
         params={params}
         bikeParkItineraryCount={bikePublicPlan.bikeParkItineraryCount}
         showRelaxedPlanNotifier={showRelaxedPlanNotifier}
-        separatorPosition={state.separatorPosition}
+        separatorPosition={hash ? undefined : state.separatorPosition}
         onLater={onLater}
         onEarlier={onEarlier}
         focusToHeader={focusToHeader}
