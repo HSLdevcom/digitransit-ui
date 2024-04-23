@@ -380,6 +380,7 @@ async function fetchCitybikeSeasons() {
   };
 
   const { resources } = await container.items.query(query).fetchAll();
+  console.log('citybike season configurations fetched from the database');
   return resources;
 }
 
@@ -422,40 +423,45 @@ function fetchCitybikeConfigurations() {
   return new Promise(mainResolve => {
     const promises = [];
 
-    fetchCitybikeSeasons().then(r => {
-      const schedules = [];
-      r.forEach(seasonDef => schedules.push(...seasonDef.schedules));
-      configFiles.forEach(file => {
-        // eslint-disable-next-line import/no-dynamic-require
-        const conf = require(`${configsDir}/${file}`);
-        const configName = conf.default.CONFIG;
-        const { cityBike } = conf.default;
-        if (cityBike && Object.keys(cityBike).length > 0) {
-          promises.push(
-            new Promise(resolve => {
-              resolve(
-                handleCitybikeSeasonConfigurations(schedules, configName),
-              );
-            }),
+    fetchCitybikeSeasons()
+      .then(r => {
+        const schedules = [];
+        r.forEach(seasonDef => schedules.push(...seasonDef.schedules));
+        configFiles.forEach(file => {
+          // eslint-disable-next-line import/no-dynamic-require
+          const conf = require(`${configsDir}/${file}`);
+          const configName = conf.default.CONFIG;
+          const { cityBike } = conf.default;
+          if (cityBike && Object.keys(cityBike).length > 0) {
+            promises.push(
+              new Promise(resolve => {
+                resolve(
+                  handleCitybikeSeasonConfigurations(schedules, configName),
+                );
+              }),
+            );
+          }
+        });
+        Promise.all(promises).then(definitions => {
+          // filter empty objects and duplicates
+          const seasonDefinitions = definitions
+            .filter(seasonDef => Object.keys(seasonDef).length > 0)
+            .flat()
+            .filter(
+              (v, i, a) =>
+                a.findIndex(v2 => v2.networkName === v.networkName) === i,
+            );
+          console.log(
+            `fetched: ${seasonDefinitions.length} citybike season configuration`,
           );
-        }
-      });
-      Promise.all(promises).then(definitions => {
-        // filter empty objects and duplicates
-        const seasonDefinitions = definitions
-          .filter(seasonDef => Object.keys(seasonDef).length > 0)
-          .flat()
-          .filter(
-            (v, i, a) =>
-              a.findIndex(v2 => v2.networkName === v.networkName) === i,
-          );
-        console.log(
-          `fetched: ${seasonDefinitions.length} citybike season configuration`,
-        );
-        configTools.setAvailableCitybikeConfigurations(seasonDefinitions);
+          configTools.setAvailableCitybikeConfigurations(seasonDefinitions);
+          mainResolve();
+        });
+      })
+      .catch(err => {
+        console.log('error fetching citybike season configurations', err);
         mainResolve();
       });
-    });
   });
 }
 /* ********* Init ********* */
