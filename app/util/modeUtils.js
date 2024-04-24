@@ -12,12 +12,9 @@ export function isCitybikeSeasonActive(season) {
   if (!season) {
     return false;
   }
-  const currentDate = new Date();
+  const now = Date.now();
 
-  if (
-    currentDate.getTime() <= season.end.getTime() &&
-    currentDate.getTime() >= season.start.getTime()
-  ) {
+  if (now <= season.end.getTime() && now >= season.start.getTime()) {
     return true;
   }
   return false;
@@ -27,12 +24,9 @@ export function isCitybikePreSeasonActive(season) {
   if (!season || !season.preSeasonStart) {
     return false;
   }
-  const currentDate = new Date();
+  const now = Date.now();
 
-  if (
-    currentDate.getTime() <= season.start.getTime() &&
-    currentDate.getTime() >= season.preSeasonStart.getTime()
-  ) {
+  if (now <= season.start.getTime() && now >= season.preSeasonStart.getTime()) {
     return true;
   }
   return false;

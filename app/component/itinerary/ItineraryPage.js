@@ -590,7 +590,7 @@ export default function ItineraryPage(props, context) {
   }
 
   function showVehicles() {
-    const now = new Date().getTime() / 1000;
+    const now = Date.now() / 1000;
     const startTime = query.time;
     const diff = Math.abs((now - startTime) / 60);
 
@@ -922,7 +922,7 @@ export default function ItineraryPage(props, context) {
     ? Date.parse(plan.searchDateTime)
     : query.time
       ? query.time * 1000
-      : new Date().getTime();
+      : Date.now();
 
   const detailView = altTransitHash.includes(hash) ? secondHash : hash;
 

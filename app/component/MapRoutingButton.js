@@ -33,7 +33,7 @@ export default function MapRoutingButton(
   const closeModal = () => setShowModal(false);
   // Reset query parameters from timetablepage  that is not needed in summary page
   const locationWithoutQuery = { ...location, query: {}, search: '' };
-  const time = Math.floor(new Date().getTime() / 1000);
+  const time = Math.floor(Date.now() / 1000);
   const onSelectLocation = (item, id) => {
     let newLocation;
     const place = {
