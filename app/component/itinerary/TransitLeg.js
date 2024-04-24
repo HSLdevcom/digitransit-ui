@@ -586,7 +586,7 @@ class TransitLeg extends React.Component {
                     interliningLegs.length > 0
                       ? legTime(
                           interliningLegs[interliningLegs.length - 1].end,
-                        ) - leg.start
+                        ) - legTime(leg.start)
                       : leg.duration * 1000
                   }
                   showIntermediateStops={this.state.showIntermediateStops}
