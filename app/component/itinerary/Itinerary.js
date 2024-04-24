@@ -700,17 +700,16 @@ const Itinerary = (
           departureTime,
           arrivalDate: dateOrEmpty(endTime, refTime),
           arrivalTime,
-          firstDeparture:
-            vehicleNames.length === 0 ? null : (
-              <FormattedMessage
-                id="itinerary-summary-row.first-departure"
-                values={{
-                  vehicle: vehicleNames[0],
-                  departureTime: legTimeStr(firstDeparture.start),
-                  stopName: stopNames[0],
-                }}
-              />
-            ),
+          firstDeparture: vehicleNames.length && firstDeparture && (
+            <FormattedMessage
+              id="itinerary-summary-row.first-departure"
+              values={{
+                vehicle: vehicleNames[0],
+                departureTime: legTimeStr(firstDeparture.start),
+                stopName: stopNames[0],
+              }}
+            />
+          ),
           transfers: vehicleNames.map((name, index) => {
             if (index === 0) {
               return null;
