@@ -119,10 +119,10 @@ export default configMerger(parentConfig, {
     searchSources: ['oa', 'osm'],
 
     searchParams: {
-        'boundary.rect.min_lat': 47.2,
-        'boundary.rect.max_lat': 50.3,
-        'boundary.rect.min_lon': 7.0,
-        'boundary.rect.max_lon': 11.2,
+        'boundary.rect.min_lat': 46.8,
+        'boundary.rect.max_lat': 50.5,
+        'boundary.rect.min_lon': 6.9,
+        'boundary.rect.max_lon': 11.7,
         'focus.point.lat': 48.7710755,
         'focus.point.lon': 9.177739
     },
