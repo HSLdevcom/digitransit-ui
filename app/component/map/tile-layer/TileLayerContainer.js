@@ -27,7 +27,6 @@ import {
   PREFIX_CARPARK,
   PREFIX_BIKEPARK,
 } from '../../../util/path';
-import { getIdWithoutFeed } from '../../../util/feedScopedIdUtils';
 import SelectVehicleContainer from './SelectVehicleContainer';
 
 const initialState = {
@@ -248,11 +247,10 @@ class TileLayerContainer extends GridLayer {
           parkingId = selectableTargets[0].feature.properties?.id;
         }
         if (parkingId) {
-          // TODO use feedScopedId here
           this.context.router.push(
             `/${
               layer === 'parkAndRide' ? PREFIX_CARPARK : PREFIX_BIKEPARK
-            }/${encodeURIComponent(getIdWithoutFeed(parkingId))}`,
+            }/${encodeURIComponent(parkingId)}`,
           );
           return;
         }
