@@ -1,4 +1,4 @@
-import moment from 'moment';
+import { legTime } from './legUtils';
 
 /**
  * Maps status to corresponding string.
@@ -32,10 +32,10 @@ export function mapStatus(status) {
  * @param {*} departureTime departure time in Unix.
  */
 export function isDepartureWithinTenMinutes(departureTime) {
-  return (
-    moment(departureTime).diff(moment(), 'minutes') <= 10 &&
-    moment(departureTime).diff(moment(), 'minutes') > -1
-  );
+  const now = Date.now();
+  const diff = (departureTime - now) / (60 * 1000); // to minutes
+
+  return diff > 0 && diff < 10;
 }
 
 /**
@@ -63,5 +63,9 @@ export function getCapacity(config, occupancyStatus, departureTime) {
  * @param {*} leg leg object.
  */
 export function getCapacityForLeg(config, leg) {
-  return getCapacity(config, leg.trip?.occupancy?.occupancyStatus, leg.start);
+  return getCapacity(
+    config,
+    leg.trip?.occupancy?.occupancyStatus,
+    legTime(leg.start),
+  );
 }
