@@ -592,7 +592,7 @@ export default function ItineraryPage(props, context) {
   function showVehicles() {
     const now = new Date().getTime() / 1000;
     const startTime = query.time;
-    const diff = Math.abs(now - startTime / 60);
+    const diff = Math.abs((now - startTime) / 60);
 
     // Vehicles are typically not shown if they are not in transit. But for some quirk in mqtt, if you
     // search for a route for example tomorrow, real time vehicle would be shown.
