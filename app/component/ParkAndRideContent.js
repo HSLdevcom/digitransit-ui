@@ -44,7 +44,7 @@ function ParkAndRideContent(
   let spacesAvailable;
   let maxCapacity;
   if (bikePark) {
-    spacesAvailable = vehicleParking.availability?.bicycleSpaces || 0;
+    spacesAvailable = vehicleParking.availability?.bicycleSpaces;
   } else {
     spacesAvailable = vehicleParking.availability?.carSpaces;
     maxCapacity = vehicleParking.capacity?.carSpaces || 1;
