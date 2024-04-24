@@ -81,7 +81,7 @@ export default function StreetModeSelectorButton(
       aria-label={intl.formatMessage(
         {
           id: `street-mode-${name.toLowerCase()}-aria`,
-          defaultMessage: 'Walk plan',
+          defaultMessage: `${name} itinerary`,
         },
         {
           length: distance,

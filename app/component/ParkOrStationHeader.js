@@ -47,7 +47,7 @@ const ParkOrBikeStationHeader = (
   }, []);
 
   const { name, stationId } = parkOrStation;
-  const parkHeaderId = parkType === 'bike' ? 'bike-park' : 'car_park';
+  const parkHeaderId = parkType === 'bike' ? 'bike-park' : 'car-park';
   return (
     <div className="bike-station-header">
       {breakpoint === 'large' && (

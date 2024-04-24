@@ -320,7 +320,7 @@ const translations = {
     'canceled-legs': 'Ausgefallene Abfahrten auf der Route',
     car: 'Auto',
     'car-distance-duration': 'Auto {duration} ({distance})',
-    car_park: 'Park & Ride',
+    'car-park': 'Park & Ride',
     cause: 'Grund',
     'char-left': 'Zeichen',
     'choose-stop': 'Haltestelle auswählen',
@@ -722,15 +722,10 @@ const translations = {
     'stops-near-you.description': 'Stop timetables and vehicles near your',
     'stops-near-you.title': 'Near by stops timetables',
     street: 'Straße',
-    'street-mode-bicycle': 'Fahrrad',
     'street-mode-bike-aria':
       'Zeige Fahrradroute. Dauer {duration}, Strecke {length}',
     'street-mode-bikeandvehicle-aria':
       'Zeige Kombination von Fahrrad und ÖPNV. Dauer {duration}, davon {length} per Rad',
-    'street-mode-car': 'Auto',
-    'street-mode-car_park': 'Park & Ride',
-    'street-mode-public_transport': 'ÖPNV',
-    'street-mode-walk': 'Zu Fuß',
     'street-mode-walk-aria': 'Zeige Fußweg. Dauer {duration}, Strecke {length}',
     subway: 'U-Bahn',
     'subway-with-route-number': 'U-Bahn {routeNumber} {headSign}',
@@ -954,11 +949,11 @@ const translations = {
     car: 'Car',
     'car-distance-duration': 'Drive {duration} ({distance})',
     'car-distance-no-duration': 'Drive {distance}',
+    'car-park': 'Park & ride',
     'car-park-disclaimer':
       'You can conveniently combine car and public transport: leave your car at a Park & Ride and continue by train, bus, metro or tram. Car parking is free of charge and there are no time limits.',
     'car-park-disclaimer-header': 'Park your car',
     'car-park-disclaimer-link': 'Read more about Park & Ride',
-    car_park: 'Park & ride',
     cause: 'cause',
     'char-left': 'characters',
     'choose-freely': 'Optional',
@@ -1542,19 +1537,14 @@ const translations = {
     stops: 'Stops',
     'stops-near-you.description': 'Stop timetables and vehicles near your',
     'stops-near-you.title': 'Near by stops timetables',
-    'street-mode-bicycle': 'Bicycle',
     'street-mode-bike-aria':
       'Show cycle route. Duration {duration}, distance {length}',
     'street-mode-bikeandvehicle-aria':
       'Show a combination of cycling and public transport. Duration {duration}, distance {length}',
-    'street-mode-car': 'Car',
     'street-mode-car-aria':
       'Show driving route. Duration {duration}, distance {length}',
-    'street-mode-car_park': 'Park & ride',
     'street-mode-parkandride-aria':
       'Show park and ride route. Duration {duration}, driving distance {length}',
-    'street-mode-public_transport': 'Public transport',
-    'street-mode-walk': 'Walking',
     'street-mode-walk-aria':
       'Show walking route. Duration {duration}, distance {length}',
     // eslint-disable-next-line sort-keys
@@ -1730,7 +1720,7 @@ const translations = {
     cancel: 'Cancelar',
     car: 'Coche',
     'car-distance-duration': 'Conducir {duration} ({distance})',
-    car_park: 'park & ride',
+    'car-park': 'park & ride',
     cause: 'causa',
     'char-left': 'carácteres',
     'choose-stop': 'Seleccione parada',
@@ -2131,11 +2121,11 @@ const translations = {
     car: 'Auto',
     'car-distance-duration': 'Autoile {duration} ({distance})',
     'car-distance-no-duration': 'Autoile {distance}',
+    'car-park': 'Liityntäpysäköinti',
     'car-park-disclaimer':
       'Voit yhdistää kätevästi joukkoliikenteen ja autoilun, kun jätät autosi liityntäpysäköintiin ja jatkat matkaasi junalla, bussilla, metrolla tai ratikalla. Auton pysäköinti on useissa paikoissa maksutonta eikä siinä ole aikarajaa.',
     'car-park-disclaimer-header': 'Jätä auto parkkiin',
     'car-park-disclaimer-link': 'Lue lisää liityntäpysäköinnistä',
-    car_park: 'Liityntäpysäköinti',
     cause: 'syy',
     'char-left': 'merkkiä',
     'choose-freely': 'Vapaasti valittavat',
@@ -2714,19 +2704,14 @@ const translations = {
     'stops-near-you.description':
       'Lähialueesi pysäkkiaikataulut ja ajoneuvot kartalla.',
     'stops-near-you.title': 'Lähipysäkkien aikataulut',
-    'street-mode-bicycle': 'Pyöräily',
     'street-mode-bike-aria':
       'Näytä pyöräilyreitti. Kesto {duration}, pituus {length}',
     'street-mode-bikeandvehicle-aria':
       'Näytä pyöräilyn ja julkisen liikenteen yhdistelmä. Kesto {duration}, pyöräilyn pituus {length}',
-    'street-mode-car': 'Auto',
     'street-mode-car-aria':
       'Näytä ajoreitti. Kesto {duration}, pituus {length}',
-    'street-mode-car_park': 'Liityntä\u00ADpysäköinti',
     'street-mode-parkandride-aria':
       'Näytä liityntäpysäköintireitti. Kesto {duration}, autoilun pituus {length}',
-    'street-mode-public_transport': 'Julkinen liikenne',
-    'street-mode-walk': 'Kävely',
     'street-mode-walk-aria':
       'Näytä kävelyreitti. Kesto {duration}, pituus {length}',
     // eslint-disable-next-line sort-keys
@@ -2913,7 +2898,7 @@ const translations = {
     cancel: 'Annuler',
     car: 'Voiture',
     'car-distance-duration': 'Conduire {duration} ({distance})',
-    car_park: 'parc relais',
+    'car-park': 'parc relais',
     cause: 'Cause',
     'char-left': 'marquer',
     'choose-stop': 'Merci de choisir la ligne',
@@ -3144,11 +3129,9 @@ const translations = {
     stops: 'Arrêts',
     'stops-near-you.description': 'Stop timetables and vehicles near your',
     'stops-near-you.title': 'Near by stops timetables',
-    'street-mode-bicycle': 'Vélo',
-    'street-mode-car': 'Voiture',
-    'street-mode-car_park': 'Parc relais',
-    'street-mode-public_transport': 'Transport public',
-    'street-mode-walk': 'Marche',
+    'street-mode-bicycle-aria': 'Vélo',
+    'street-mode-car-aria': 'Voiture',
+    'street-mode-walk-aria': 'Marche',
     subway: 'Métro',
     'subway-with-route-number': 'Métro {routeNumber} {headSign}',
     'summary-page.description': '{from} - {to}',
@@ -3526,7 +3509,7 @@ const translations = {
     'canceled-legs': 'Plecări anulate',
     car: 'Mașină',
     'car-distance-duration': 'Condu {duration} ({distance})',
-    car_park: 'park & ride',
+    'car-park': 'park & ride',
     cause: 'cauză',
     'char-left': 'caractere',
     'choose-stop': 'Selectare stație',
@@ -3856,11 +3839,9 @@ const translations = {
     stops: 'Stații',
     'stops-near-you.description': 'Stop timetables and vehicles near your',
     'stops-near-you.title': 'Near by stops timetables',
-    'street-mode-bicycle': 'Bicicletă',
-    'street-mode-car': 'Mașină',
-    'street-mode-car_park': 'Parcare Park & ride',
-    'street-mode-public_transport': 'Transport public',
-    'street-mode-walk': 'Mers pe jos',
+    'street-mode-bicycle-aria': 'Bicicletă',
+    'street-mode-car-aria': 'Mașină',
+    'street-mode-walk-aria': 'Mers pe jos',
     // eslint-disable-next-line sort-keys
     street: 'Stradă',
     subway: 'Metrou',
@@ -4068,11 +4049,11 @@ const translations = {
     car: 'Bil',
     'car-distance-duration': 'Kör {duration} ({distance})',
     'car-distance-no-duration': 'Kör {distance}',
+    'car-park': 'Infartsparkering',
     'car-park-disclaimer':
       'Du kan enkelt kombinera kollektivtrafiken med bilkörning, när du lämnar din bil i anslutningsparkering och fortsätter din resa med tåg, buss, metro eller spårvagn. Parkeringen är gratis och den har inte en begränsad parkeringstid.',
     'car-park-disclaimer-header': 'Lämna din bil i parkeringen',
     'car-park-disclaimer-link': 'Läs mer om anslutningsparkeringen',
-    car_park: 'Infartsparkering',
     cause: 'Orsak',
     'char-left': 'tecken',
     'choose-freely': 'Valfria',
@@ -4657,17 +4638,12 @@ const translations = {
     stops: 'Hållplatser',
     'stops-near-you.description': 'Stop timetables and vehicles near your',
     'stops-near-you.title': 'Near by stops timetables',
-    'street-mode-bicycle': 'Cykel',
     'street-mode-bike-aria': 'Visa cykelrutten. Tid {duration}, längd {length}',
     'street-mode-bikeandvehicle-aria':
       'Visa kombinationen av cykling och kollektivtrafik. Tid {duration}, längd {length}',
-    'street-mode-car': 'Bil',
     'street-mode-car-aria': 'Visa bilrutt. Tid {duration}, längd {length}',
-    'street-mode-car_park': 'Infarts\u00ADparkering',
     'street-mode-parkandride-aria':
       'Visa anslutningsparkeringrutt. Tid {duration}, längd {length}',
-    'street-mode-public_transport': 'Kollektiv\u00ADtrafik',
-    'street-mode-walk': 'Gång',
     'street-mode-walk-aria':
       'Visa promenadrutt. Tid {duration}, längd {length}',
     // eslint-disable-next-line sort-keys
