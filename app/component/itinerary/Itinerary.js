@@ -706,9 +706,7 @@ const Itinerary = (
                 id="itinerary-summary-row.first-departure"
                 values={{
                   vehicle: vehicleNames[0],
-                  departureTime: firstDeparture
-                    ? legTimeStr(firstDeparture.start)
-                    : 'ggh',
+                  departureTime: legTimeStr(firstDeparture.start),
                   stopName: stopNames[0],
                 }}
               />
