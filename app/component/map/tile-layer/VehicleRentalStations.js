@@ -130,7 +130,7 @@ class VehicleRentalStations {
   };
 
   drawLargeIcon = (
-    { geom, properties: { network, operative, available } },
+    { geom, properties: { network, operative, vehiclesAvailable } },
     iconName,
     isHilighted,
   ) => {
@@ -140,7 +140,7 @@ class VehicleRentalStations {
       this.tile,
       geom,
       operative,
-      available,
+      vehiclesAvailable,
       iconName,
       citybikeCapacity !== BIKEAVL_UNKNOWN,
       isHilighted,
