@@ -432,7 +432,6 @@ export function quitIteration(plan, newPlan, planParams, startTime) {
     return true;
   }
   if (
-    plan.edges.length === 1 &&
     plan.routingErrors?.some(
       err => err.code === PlannerMessageType.WalkingBetterThanTransit,
     )
