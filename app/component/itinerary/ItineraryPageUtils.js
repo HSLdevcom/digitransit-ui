@@ -8,6 +8,7 @@ import { boundWithMinimumArea } from '../../util/geo-utils';
 import { addAnalyticsEvent } from '../../util/analyticsUtils';
 import { getStartTimeWithColon } from '../../util/timeUtils';
 import { getSettings, getDefaultSettings } from '../../util/planParamUtil';
+import { PlannerMessageType } from '../../constants';
 import {
   startRealTimeClient,
   stopRealTimeClient,
@@ -418,4 +419,23 @@ export function mergeBikeTransitPlans(bikeParkPlan, bikeTransitPlan) {
     bikeParkItineraryCount: n1,
     bikePublicItineraryCount: n2,
   };
+}
+
+const ITERATION_CANCEL_TIME = 20000; // ms, stop looking for more if something was found
+
+export function quitIteration(plan, newPlan, planParams, startTime) {
+  if (
+    plan.edges.length >= planParams.numItineraries ||
+    (plan.edges.length &&
+      plan.edges.length * (Date.now() - startTime) > ITERATION_CANCEL_TIME)
+  ) {
+    return true;
+  }
+  if (
+    plan.edges.length === 1 &&
+    plan.error.code === PlannerMessageType.WalkingBetterThanTransit
+  ) {
+    return true;
+  }
+  return false;
 }

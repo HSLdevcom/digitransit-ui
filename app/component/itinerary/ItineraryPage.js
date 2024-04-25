@@ -43,6 +43,7 @@ import {
   transitEdges,
   filterWalk,
   mergeBikeTransitPlans,
+  quitIteration,
 } from './ItineraryPageUtils';
 import { isIOS } from '../../util/browser';
 import { addAnalyticsEvent } from '../../util/analyticsUtils';
@@ -65,7 +66,6 @@ import CustomizeSearch from './CustomizeSearch';
 import { mapLayerShape } from '../../store/MapLayerStore';
 
 const MAX_QUERY_COUNT = 4; // number of attempts to collect enough itineraries
-const ITERATION_CANCEL_TIME = 20000; // ms, stop looking for more if something was found
 
 const streetHashes = [
   streetHash.walk,
@@ -250,7 +250,7 @@ export default function ItineraryPage(props, context) {
     let plan;
     const trials = reps || (planParams.modes.directOnly ? 1 : MAX_QUERY_COUNT);
     const arriveBy = !!planParams.datetime.latestArrival;
-    const now = Date.now();
+    const startTime = Date.now();
     for (let i = 0; i < trials; i++) {
       // eslint-disable-next-line no-await-in-loop
       const result = await fetchQuery(
@@ -282,11 +282,7 @@ export default function ItineraryPage(props, context) {
           edges: plan.edges.concat(result.plan.edges),
         };
       }
-      if (
-        plan.edges.length >= planParams.numItineraries ||
-        (plan.edges.length &&
-          plan.edges.length * (Date.now() - now) > ITERATION_CANCEL_TIME)
-      ) {
+      if (quitIteration(plan, result.plan, planParams, startTime)) {
         break;
       }
       if (arriveBy) {
