@@ -42,13 +42,11 @@ function ItineraryList(
   const { location } = context.match;
   const { hash } = context.match.params;
 
-  const lowestCo2value = Math.round(
-    planEdges
-      .filter(edge => edge.node.emissionsPerPerson?.co2 >= 0)
-      .reduce((a, b) => {
-        return a.emissionsPerPerson?.co2 < b.emissionsPerPerson?.co2 ? a : b;
-      }, 0).emissionsPerPerson?.co2,
-  );
+  const co2s = planEdges
+    .filter(e => e.node.emissionsPerPerson?.co2 >= 0)
+    .map(e => e.node.emissionsPerPerson.co2);
+  const lowestCo2value = Math.round(Math.min(...co2s));
+
   const summaries = planEdges.map((edge, i) => (
     <Itinerary
       refTime={searchTime}
