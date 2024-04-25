@@ -3,9 +3,8 @@ import React from 'react';
 import cx from 'classnames';
 import { intlShape } from 'react-intl';
 import { configShape } from '../util/shapes';
-
+import { timeStr } from '../util/timeUtils';
 import Icon from './Icon';
-import LocalTime from './LocalTime';
 
 export default function DepartureTime(props, context) {
   let shownTime;
@@ -79,7 +78,7 @@ export default function DepartureTime(props, context) {
             id: 'next',
             defaultMessage: 'Next',
           })} `}
-        <LocalTime forceUtc={props.useUTC} time={props.departureTime} />
+        {timeStr(props.departureTime * 1000)}
       </span>
       {props.canceled && props.showCancelationIcon && (
         <Icon className="caution" img="icon-icon_caution" />
@@ -101,7 +100,6 @@ DepartureTime.propTypes = {
   currentTime: PropTypes.number.isRequired,
   departureTime: PropTypes.number.isRequired,
   realtime: PropTypes.bool,
-  useUTC: PropTypes.bool,
   showCancelationIcon: PropTypes.bool,
   isNextDeparture: PropTypes.bool,
 };
@@ -110,7 +108,6 @@ DepartureTime.defaultProps = {
   className: '',
   canceled: false,
   realtime: false,
-  useUTC: false,
   showCancelationIcon: false,
   isNextDeparture: false,
 };

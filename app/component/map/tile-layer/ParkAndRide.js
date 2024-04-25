@@ -5,7 +5,6 @@ import Protobuf from 'pbf';
 import { drawParkAndRideIcon } from '../../../util/mapIconUtils';
 import { isBrowser } from '../../../util/browser';
 import { fetchWithLanguageAndSubscription } from '../../../util/fetchUtils';
-import { getIdWithoutFeed } from '../../../util/feedScopedIdUtils';
 import { ParkTypes } from '../../../constants';
 import { getLayerBaseUrl } from '../../../util/mapLayerUtils';
 
@@ -106,12 +105,9 @@ export default class ParkAndRide {
               if (hasSpaces(parkType, feature)) {
                 [[feature.geom]] = feature.loadGeometry();
                 this.features.push(feature);
-                // TODO use feedScopedId here
                 const isHilighted =
                   this.tile.hilightedStops &&
-                  this.tile.hilightedStops.includes(
-                    getIdWithoutFeed(feature.properties.id),
-                  );
+                  this.tile.hilightedStops.includes(feature.properties.id);
                 drawParkAndRideIcon(
                   parkType,
                   this.tile,

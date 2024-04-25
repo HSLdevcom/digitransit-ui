@@ -7,7 +7,7 @@ function Fbly(udid) {
   this.queue = [];
   this.udid = udid;
   const objUid =
-    udid + (new Date().getTime() + Math.floor(1e3 * Math.random()));
+    udid + (Date.now() + Math.floor(1e3 * Math.random()));
   _FblyInst[objUid] = this;
 }
 
@@ -34,6 +34,6 @@ if (!loaded && _FblyInst) {
       '592c0ccb45d721000e77f7bc',
     );
   };
-  el.src = `${'https://survey.feedbackly.com/dist/plugin-v2.min.js?id='}${new Date().getTime()}`;
+  el.src = `${'https://survey.feedbackly.com/dist/plugin-v2.min.js?id='}${Date.now()}`;
   document.getElementsByTagName('body')[0].appendChild(el);
 }

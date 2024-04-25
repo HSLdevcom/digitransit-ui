@@ -1,4 +1,3 @@
-import moment from 'moment';
 import { XMLParser } from 'fast-xml-parser';
 import isEmpty from 'lodash/isEmpty';
 import { retryFetch } from './fetchUtils';
@@ -40,15 +39,12 @@ export function deleteFavourites(data) {
   );
 }
 
+const fiveMinMs = 1000 * 5 * 60;
+
 export function getWeatherData(baseURL, time, lat, lon) {
-  // Round time to next 5 minutes
-  const remainder = 5 - (time.minute() % 5);
-  const endtime = time
-    .add(remainder, 'minutes')
-    .seconds(0)
-    .milliseconds(0)
-    .toISOString();
-  const searchTime = moment.utc(endtime).format();
+  // Round time up to next 5 minutes
+  const t = fiveMinMs * Math.ceil(time / fiveMinMs);
+  const searchTime = new Date(t).toISOString();
   return retryFetch(
     `${baseURL}&latlon=${lat},${lon}&starttime=${searchTime}&endtime=${searchTime}`,
     2,

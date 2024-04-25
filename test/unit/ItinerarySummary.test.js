@@ -4,8 +4,8 @@ import React from 'react';
 
 import data from './test-data/dcw31';
 import { mountWithIntl } from './helpers/mock-intl-enzyme';
-import ItinerarySummary from '../../app/component/ItinerarySummary';
-import Distance from '../../app/component/Distance';
+import ItinerarySummary from '../../app/component/itinerary/ItinerarySummary';
+import Distance from '../../app/component/itinerary/Distance';
 import { mockContext, mockChildContextTypes } from './helpers/mock-context';
 
 describe('<ItinerarySummary />', () => {

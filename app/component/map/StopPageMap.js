@@ -27,15 +27,16 @@ import Loading from '../Loading';
 import { getMapLayerOptions } from '../../util/mapLayerUtils';
 import MapRoutingButton from '../MapRoutingButton';
 import CookieSettingsButton from '../CookieSettingsButton';
+import { PREFIX_CARPARK, PREFIX_BIKEPARK } from '../../util/path';
 
 const getModeFromProps = props => {
   if (props.citybike) {
     return 'citybike';
   }
-  if (props.stop.bikeParkId) {
+  if (props.parkType === PREFIX_BIKEPARK) {
     return 'parkAndRideForBikes';
   }
-  if (props.stop.carParkId) {
+  if (props.parkType === PREFIX_CARPARK) {
     return 'parkAndRide';
   }
   if (props.stop.vehicleMode) {
@@ -220,10 +221,12 @@ StopPageMap.propTypes = {
   currentTime: PropTypes.number.isRequired,
   mapLayers: mapLayerShape.isRequired,
   mapLayerOptions: mapLayerOptionsShape.isRequired,
+  parkType: PropTypes.string,
 };
 
 StopPageMap.defaultProps = {
   stop: undefined,
+  parkType: undefined,
 };
 
 const componentWithBreakpoint = withBreakpoint(StopPageMap);

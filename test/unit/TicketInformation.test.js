@@ -1,8 +1,8 @@
 import React from 'react';
 import { mountWithIntl, shallowWithIntl } from './helpers/mock-intl-enzyme';
 
-import TicketInformation from '../../app/component/TicketInformation';
-import ZoneTicket from '../../app/component/ZoneTicket';
+import TicketInformation from '../../app/component/itinerary/TicketInformation';
+import ZoneTicket from '../../app/component/itinerary/ZoneTicket';
 import { getFaresFromLegs } from '../../app/util/fareUtils';
 
 const defaultConfig = {

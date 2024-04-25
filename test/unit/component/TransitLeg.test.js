@@ -3,8 +3,8 @@ import { describe, it } from 'mocha';
 import React from 'react';
 
 import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
-import { Component as TransitLeg } from '../../../app/component/TransitLeg';
-import IntermediateLeg from '../../../app/component/IntermediateLeg';
+import { Component as TransitLeg } from '../../../app/component/itinerary/TransitLeg';
+import IntermediateLeg from '../../../app/component/itinerary/IntermediateLeg';
 import {
   RealtimeStateType,
   AlertSeverityLevelType,
@@ -12,7 +12,7 @@ import {
 } from '../../../app/constants';
 import ServiceAlertIcon from '../../../app/component/ServiceAlertIcon';
 import { mockContext } from '../helpers/mock-context';
-import LegInfo from '../../../app/component/LegInfo';
+import LegInfo from '../../../app/component/itinerary/LegInfo';
 
 const defaultProps = {
   children: <div />,
@@ -45,7 +45,7 @@ describe('<TransitLeg />', () => {
         duration: 10000,
         intermediatePlaces: [
           {
-            arrivalTime: 1540990260000,
+            arrival: { scheduledtime: new Date(1540990260000).toISOString() },
             stop: {
               code: 'E2502',
               gtfsId: 'HSL:2252202',
@@ -57,7 +57,7 @@ describe('<TransitLeg />', () => {
         route: {
           gtfsId: 'HSL:7280',
         },
-        startTime: 1540989960000,
+        start: { scheduledTime: new Date(1540989960000).toISOString() },
         to: {
           name: 'Testitie',
           stop: {},
@@ -100,7 +100,7 @@ describe('<TransitLeg />', () => {
         duration: 10000,
         intermediatePlaces: [
           {
-            arrivalTime: 1540990260000,
+            arrival: { scheduledtime: new Date(1540990260000).toISOString() },
             stop: {
               code: 'E2502',
               gtfsId: 'HSL:2252202',
@@ -109,7 +109,7 @@ describe('<TransitLeg />', () => {
             },
           },
           {
-            arrivalTime: 1540990440000,
+            arrival: { scheduledtime: new Date(1540990440000).toISOString() },
             stop: {
               gtfsId: 'HSL:2131251',
               name: 'Nihtisilta',
@@ -121,7 +121,7 @@ describe('<TransitLeg />', () => {
         route: {
           gtfsId: 'HSL:7280',
         },
-        startTime: 1540989960000,
+        start: { scheduledTime: new Date(1540989960000).toISOString() },
         to: {
           name: 'Testitie',
           stop: {},
@@ -172,7 +172,7 @@ describe('<TransitLeg />', () => {
         duration: 10000,
         intermediatePlaces: [
           {
-            arrivalTime: 1540990260000,
+            arrival: { scheduledtime: new Date(1540990260000).toISOString() },
             stop: {
               code: 'E2502',
               gtfsId: 'HSL:2252202',
@@ -184,7 +184,7 @@ describe('<TransitLeg />', () => {
         route: {
           gtfsId: 'HSL:7280',
         },
-        startTime: 1540989960000,
+        start: { scheduledTime: new Date(1540989960000).toISOString() },
         to: {
           name: 'Testitie',
           stop: {
@@ -231,7 +231,7 @@ describe('<TransitLeg />', () => {
         duration: 10000,
         intermediatePlaces: [
           {
-            arrivalTime: 1540990260000,
+            arrival: { scheduledtime: new Date(1540990260000).toISOString() },
             stop: {
               code: 'E2502',
               gtfsId: 'HSL:2252202',
@@ -243,7 +243,7 @@ describe('<TransitLeg />', () => {
         route: {
           gtfsId: 'HSL:7280',
         },
-        startTime: 1540989960000,
+        start: { scheduledTime: new Date(1540989960000).toISOString() },
         to: {
           name: 'Testitie',
           stop: {
@@ -287,7 +287,7 @@ describe('<TransitLeg />', () => {
         duration: 10000,
         intermediatePlaces: [
           {
-            arrivalTime: 1540990260000,
+            arrival: { scheduledtime: new Date(1540990260000).toISOString() },
             stop: {
               code: 'E2502',
               gtfsId: 'HSL:2252202',
@@ -296,7 +296,7 @@ describe('<TransitLeg />', () => {
             },
           },
           {
-            arrivalTime: 1540990270000,
+            arrival: { scheduledtime: new Date(1540990270000).toISOString() },
             stop: {
               code: 'E2506',
               gtfsId: 'HSL:123456',
@@ -308,7 +308,7 @@ describe('<TransitLeg />', () => {
         route: {
           gtfsId: 'HSL:7280',
         },
-        startTime: 1540989960000,
+        start: { scheduledTime: new Date(1540989960000).toISOString() },
         to: {
           name: 'Testitie',
           stop: {
@@ -352,7 +352,7 @@ describe('<TransitLeg />', () => {
         duration: 10000,
         intermediatePlaces: [
           {
-            arrivalTime: 1540989970000,
+            arrival: { scheduledtime: new Date(1540989970000).toISOString() },
             stop: {
               code: '007',
               gtfsId: 'stop1',
@@ -363,7 +363,7 @@ describe('<TransitLeg />', () => {
         route: {
           gtfsId: 'A',
         },
-        startTime: 1540989960000,
+        start: { scheduledTime: new Date(1540989960000).toISOString() },
         to: {
           name: 'Testitie',
           stop: {},
@@ -400,7 +400,7 @@ describe('<TransitLeg />', () => {
     const props = {
       ...defaultProps,
       leg: {
-        endTime: 1553856420000,
+        end: { scheduledtime: new Date(1553856420000).toISOString() },
         from: {
           name: 'Testilahti',
           stop: {},
@@ -421,7 +421,7 @@ describe('<TransitLeg />', () => {
           ],
           gtfsId: 'A',
         },
-        startTime: 1553856180000,
+        start: { scheduledTime: new Date(1553856180000).toISOString() },
         to: {
           name: 'Testitie',
           stop: {},
@@ -456,7 +456,7 @@ describe('<TransitLeg />', () => {
     const props = {
       ...defaultProps,
       leg: {
-        endTime: 1553856420000,
+        end: { scheduledtime: new Date(1553856420000).toISOString() },
         from: {
           name: 'Testilahti',
           stop: {
@@ -479,7 +479,7 @@ describe('<TransitLeg />', () => {
         route: {
           gtfsId: 'A',
         },
-        startTime: 1553856180000,
+        start: { scheduledTime: new Date(1553856180000).toISOString() },
         to: {
           name: 'Testitie',
           stop: {},
@@ -514,7 +514,7 @@ describe('<TransitLeg />', () => {
     const props = {
       ...defaultProps,
       leg: {
-        endTime: 1553856420000,
+        end: { scheduledtime: new Date(1553856420000).toISOString() },
         from: {
           name: 'Testilahti',
           stop: {},
@@ -524,7 +524,7 @@ describe('<TransitLeg />', () => {
         route: {
           gtfsId: 'A',
         },
-        startTime: 1553856180000,
+        start: { scheduledTime: new Date(1553856180000).toISOString() },
         to: {
           name: 'Testitie',
           stop: {
@@ -572,7 +572,7 @@ describe('<TransitLeg />', () => {
     const props = {
       ...defaultProps,
       leg: {
-        endTime: 1553856420000,
+        end: { scheduledtime: new Date(1553856420000).toISOString() },
         from: {
           name: 'Testilahti',
           stop: {},
@@ -580,7 +580,7 @@ describe('<TransitLeg />', () => {
         duration: 10000,
         intermediatePlaces: [
           {
-            arrivalTime: 1553856410,
+            arrival: { scheduledtime: new Date(1553856410).toISOString() },
             stop: {
               gtfsId: 'foobar',
               name: 'Foo',
@@ -601,7 +601,7 @@ describe('<TransitLeg />', () => {
         route: {
           gtfsId: 'A',
         },
-        startTime: 1553856180000,
+        start: { scheduledTime: new Date(1553856180000).toISOString() },
         to: {
           name: 'Testitie',
           stop: {},
@@ -652,7 +652,7 @@ describe('<TransitLeg />', () => {
         route: {
           gtfsId: '1234',
         },
-        startTime: 1553856180000,
+        start: { scheduledTime: new Date(1553856180000).toISOString() },
         to: {
           name: 'Testitie',
           stop: {},
@@ -705,7 +705,7 @@ describe('<TransitLeg />', () => {
         route: {
           gtfsId: '1234',
         },
-        startTime: 1553856180000,
+        start: { scheduledTime: new Date(1553856180000).toISOString() },
         to: {
           name: 'Testitie',
           stop: {},
@@ -739,7 +739,7 @@ describe('<TransitLeg />', () => {
   });
 
   it('should show a service alert icon if there is one at the "from" stop', () => {
-    const startTime = 123456789;
+    const startTime = 1553754595;
     const props = {
       ...defaultProps,
       leg: {
@@ -750,8 +750,8 @@ describe('<TransitLeg />', () => {
             alerts: [
               {
                 alertSeverityLevel: AlertSeverityLevelType.Info,
-                effectiveEndDate: startTime + 1,
-                effectiveStartDate: startTime - 1,
+                effectiveEndDate: startTime + 10000,
+                effectiveStartDate: startTime - 10000,
                 entities: [
                   {
                     __typename: AlertEntityType.Stop,
@@ -762,12 +762,12 @@ describe('<TransitLeg />', () => {
             ],
           },
         },
-        duration: 10000,
+        duration: 1000,
         intermediatePlaces: [],
         route: {
           gtfsId: 'A1234',
         },
-        startTime: startTime * 1000,
+        start: { scheduledTime: new Date(startTime * 1000).toISOString() },
         to: {
           name: 'Testitie',
           stop: {},
@@ -848,7 +848,7 @@ describe('<TransitLeg />', () => {
             },
           ],
         },
-        startTime: startTime * 1000,
+        start: { scheduledTime: new Date(startTime * 1000).toISOString() },
         to: {
           name: 'Testitie',
           stop: {},
@@ -906,7 +906,7 @@ describe('<TransitLeg />', () => {
             },
           ],
         },
-        startTime: startTime * 1000,
+        start: { scheduledTime: new Date(startTime * 1000).toISOString() },
         to: {
           name: 'Testitie',
           stop: {},

@@ -7,6 +7,8 @@ import {
   AlertEntityType,
 } from '../constants';
 
+import { legTime } from './legUtils';
+
 /**
  * Checks if the stoptime has a cancelation.
  *
@@ -316,7 +318,7 @@ export const getActiveLegAlertSeverityLevel = leg => {
 
   return getActiveAlertSeverityLevel(
     serviceAlerts,
-    leg.startTime / 1000, // this field is in ms format
+    legTime(leg.start) / 1000, // this field is in ms format
   );
 };
 
