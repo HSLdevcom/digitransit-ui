@@ -438,5 +438,9 @@ export function quitIteration(plan, newPlan, planParams, startTime) {
   ) {
     return true;
   }
+  if (!plan.edges.length && planParams.noIterationsForShortTrips) {
+    // searching short distance, and bike is available
+    return true;
+  }
   return false;
 }

@@ -21,6 +21,7 @@ export const PLANTYPE = {
 };
 
 const directModes = [PLANTYPE.WALK, PLANTYPE.BIKE, PLANTYPE.CAR];
+const SHORT_TRIP_METERS = 2000;
 
 /**
  * Find an option nearest to the value
@@ -214,7 +215,7 @@ export function getPlanParams(
   {
     params: { from, to },
     location: {
-      query: { arriveBy, time },
+      query: { arriveBy, time, intermediatePlaces },
     },
   },
   planType,
@@ -222,6 +223,19 @@ export function getPlanParams(
 ) {
   const fromPlace = getLocation(from);
   const toPlace = getLocation(to);
+
+  // estimate distance for search iteration heuristics
+  const fromLocation = otpToLocation(from);
+  const toLocation = otpToLocation(to);
+  const intermediateLocations = getIntermediatePlaces({
+    intermediatePlaces,
+  });
+  const distance = estimateItineraryDistance(
+    fromLocation,
+    toLocation,
+    intermediateLocations,
+  );
+  const shortTrip = distance < SHORT_TRIP_METERS;
 
   const defaultSettings = getDefaultSettings(config);
   const settings = getSettings(config);
@@ -252,16 +266,20 @@ export function getPlanParams(
   let transfer = ['WALK'];
   let direct = null;
 
+  let noIterationsForShortTrips = false;
+
   switch (planType) {
     case PLANTYPE.BIKEPARK:
       access = ['BICYCLE_PARKING'];
       transitOnly = true;
+      noIterationsForShortTrips = shortTrip;
       break;
     case PLANTYPE.BIKETRANSIT:
       access = ['BICYCLE'];
       egress = ['BICYCLE'];
       transfer = ['BICYCLE'];
       transitOnly = true;
+      noIterationsForShortTrips = shortTrip;
       break;
     case PLANTYPE.PARKANDRIDE:
       access = ['CAR_PARKING'];
@@ -323,5 +341,6 @@ export function getPlanParams(
     transferPenalty,
     modes,
     planType,
+    noIterationsForShortTrips,
   };
 }
