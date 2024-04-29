@@ -226,12 +226,15 @@ export default function BicycleLeg(
             />
           </div>
         ) : (
-          <VehicleRentalLeg
-            stationName={leg.from.name}
-            isScooter={isScooter}
-            vehicleRentalStation={leg.from.vehicleRentalStation}
-            rentalVehicle={leg.from.rentalVehicle}
-          />
+          <div>
+            <div className="divider" />
+            <VehicleRentalLeg
+              stationName={leg.from.name}
+              isScooter={isScooter}
+              vehicleRentalStation={leg.from.vehicleRentalStation}
+              rentalVehicle={leg.from.rentalVehicle}
+            />
+          </div>
         )}
         {bicycleWalkLeg?.from.stop && (
           <div className={cx('itinerary-leg-action', 'bicycle')}>
@@ -371,14 +374,17 @@ export default function BicycleLeg(
           </div>
         )}
         {isScooter && (
-          <VehicleRentalLeg
-            stationName={leg.from.name}
-            isScooter={isScooter}
-            vehicleRentalStation={leg.from.vehicleRentalStation}
-            returnBike
-            rentalVehicle={leg.from.rentalVehicle}
-            nextLegMode={nextLegMode}
-          />
+          <div>
+            <div className="divider" />
+            <VehicleRentalLeg
+              stationName={leg.from.name}
+              isScooter={isScooter}
+              vehicleRentalStation={leg.from.vehicleRentalStation}
+              returnBike
+              rentalVehicle={leg.from.rentalVehicle}
+              nextLegMode={nextLegMode}
+            />
+          </div>
         )}
       </div>
     </div>

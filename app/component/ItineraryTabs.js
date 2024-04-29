@@ -2,25 +2,32 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import ItineraryDetails from './ItineraryDetails';
 import SwipeableTabs from './SwipeableTabs';
-import { itineraryShape } from '../util/shapes';
+import { planEdgeShape } from '../util/shapes';
 
 /* eslint-disable react/no-array-index-key */
-function ItineraryTabs(props) {
-  const { itineraries, toggleSettings } = props;
 
-  const itineraryTabs = itineraries.map((itinerary, i) => {
+function ItineraryTabs({
+  planEdges,
+  tabIndex,
+  isMobile,
+  changeHash,
+  toggleSettings,
+  ...rest
+}) {
+  const itineraryTabs = planEdges.map((edge, i) => {
     return (
       <div
-        className={`swipeable-tab ${props.tabIndex !== i && 'inactive'}`}
+        className={`swipeable-tab ${tabIndex !== i && 'inactive'}`}
         key={`itinerary-${i}`}
-        aria-hidden={props.tabIndex !== i}
+        aria-hidden={tabIndex !== i}
       >
         <ItineraryDetails
-          {...props}
-          itinerary={itinerary}
-          hideTitle={!props.isMobile}
-          changeHash={props.isMobile ? props.changeHash : undefined}
+          itinerary={edge.node}
+          hideTitle={!isMobile}
+          changeHash={isMobile ? changeHash : undefined}
+          isMobile={isMobile}
           toggleSettings={toggleSettings}
+          {...rest}
         />
       </div>
     );
@@ -29,9 +36,9 @@ function ItineraryTabs(props) {
   return (
     <SwipeableTabs
       tabs={itineraryTabs}
-      tabIndex={props.tabIndex}
-      onSwipe={props.changeHash}
-      classname={props.isMobile ? 'swipe-mobile-divider' : 'swipe-desktop-view'}
+      tabIndex={tabIndex}
+      onSwipe={changeHash}
+      classname={isMobile ? 'swipe-mobile-divider' : 'swipe-desktop-view'}
       ariaFrom="swipe-summary-page"
       ariaFromHeader="swipe-summary-page-header"
     />
@@ -41,17 +48,13 @@ function ItineraryTabs(props) {
 ItineraryTabs.propTypes = {
   tabIndex: PropTypes.number.isRequired,
   isMobile: PropTypes.bool.isRequired,
-  focusToPoint: PropTypes.func.isRequired,
-  focusToLeg: PropTypes.func.isRequired,
-  itineraries: PropTypes.arrayOf(itineraryShape).isRequired,
-  carItinerary: itineraryShape,
+  planEdges: PropTypes.arrayOf(planEdgeShape).isRequired,
   changeHash: PropTypes.func,
   toggleSettings: PropTypes.func.isRequired,
 };
 
 ItineraryTabs.defaultProps = {
   changeHash: undefined,
-  carItinerary: undefined,
 };
 
 export default ItineraryTabs;

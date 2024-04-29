@@ -223,7 +223,7 @@ export default {
   },
 
   // modes that should not coexist with BICYCLE mode
-  modesWithNoBike: ['BICYCLE_RENT', 'WALK', 'BUS', 'TRAM'],
+  modesWithNoBike: ['BUS', 'TRAM'],
 
   useSearchPolygon: true,
 

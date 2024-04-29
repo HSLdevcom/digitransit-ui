@@ -4,7 +4,6 @@ import { describe, it } from 'mocha';
 import { mockMatch } from '../helpers/mock-router';
 
 import * as utils from '../../../app/util/queryUtils';
-import { PREFIX_ITINERARY_SUMMARY } from '../../../app/util/path';
 
 describe('queryUtils', () => {
   describe('setIntermediatePlaces', () => {
@@ -74,44 +73,6 @@ describe('queryUtils', () => {
 
       expect(callParams.query.intermediatePlaces).to.deep.equal(
         intermediatePlaces,
-      );
-    });
-  });
-
-  describe('resetSelectedItineraryIndex', () => {
-    it('should reset state.selectedItineraryIndex to 0', () => {
-      let location = { state: { selectedItineraryIndex: 3 } };
-      location = utils.resetSelectedItineraryIndex(location);
-      expect(location.state.selectedItineraryIndex).to.equal(0);
-    });
-
-    it('should not modify other state properties', () => {
-      const location1 = {
-        state: {
-          foo: 'bar',
-        },
-      };
-      const location2 = utils.resetSelectedItineraryIndex(location1);
-      expect(location1).to.deep.equal(location2);
-    });
-
-    it('should remove selected itinerary index from url', () => {
-      let location = {
-        pathname: `/${PREFIX_ITINERARY_SUMMARY}/Helsinki%2C Helsinki%3A%3A60.166641%2C24.943537/Espoo%2C Espoo%3A%3A60.206376%2C24.656729/1`,
-      };
-      location = utils.resetSelectedItineraryIndex(location);
-      expect(location.pathname).to.equal(
-        `/${PREFIX_ITINERARY_SUMMARY}/Helsinki%2C Helsinki%3A%3A60.166641%2C24.943537/Espoo%2C Espoo%3A%3A60.206376%2C24.656729`,
-      );
-    });
-
-    it('should not modify url without itinerary index', () => {
-      let location = {
-        pathname: `/${PREFIX_ITINERARY_SUMMARY}/Helsinki%2C Helsinki%3A%3A60.166641%2C24.943537/Espoo%2C Espoo%3A%3A60.206376%2C24.656729`,
-      };
-      location = utils.resetSelectedItineraryIndex(location);
-      expect(location.pathname).to.equal(
-        `/${PREFIX_ITINERARY_SUMMARY}/Helsinki%2C Helsinki%3A%3A60.166641%2C24.943537/Espoo%2C Espoo%3A%3A60.206376%2C24.656729`,
       );
     });
   });

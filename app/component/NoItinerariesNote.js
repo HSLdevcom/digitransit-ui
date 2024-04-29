@@ -45,8 +45,8 @@ function NoItinerariesNote(
   const { match, config } = context;
   const { areaPolygon, minDistanceBetweenFromAndTo, nationalServiceLink } =
     config;
-
-  const query = { from, to, searchTime, biking, driving, walking };
+  const { hash } = match.params;
+  const query = { from, to, searchTime, biking, driving, walking, hash };
   if (!searchTime) {
     query.searchTime = currentTime;
   }

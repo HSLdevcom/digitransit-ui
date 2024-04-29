@@ -42,12 +42,6 @@ export function otpToLocation(otpString) {
   return location;
 }
 
-// return gtfsId if included in string description, otherwise original string
-export function placeOrStop(str) {
-  const loc = otpToLocation(str);
-  return loc.gtfsId || str;
-}
-
 export function locationToUri(location) {
   if (
     location.type === 'CurrentLocation' &&

@@ -225,6 +225,10 @@ export const itineraryShape = PropTypes.shape({
   }),
 });
 
+export const planEdgeShape = PropTypes.shape({
+  node: itineraryShape.isRequired,
+});
+
 export const locationShape = PropTypes.shape({
   lat: PropTypes.number,
   lon: PropTypes.number,
@@ -305,8 +309,8 @@ export const mapLayerOptionsShape = PropTypes.shape({
 });
 
 export const planShape = PropTypes.shape({
-  itineraries: PropTypes.arrayOf(itineraryShape).isRequired,
-  date: PropTypes.number,
+  edges: PropTypes.arrayOf(planEdgeShape),
+  searchDateTime: PropTypes.string,
 });
 
 export const plannerMessageShape = PropTypes.oneOf(

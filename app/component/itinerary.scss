@@ -1547,10 +1547,6 @@ $itinerary-tab-switch-height: 48px;
     }
 
     .itinerary-leg-row-bike {
-      &.rent {
-        border-top: 1px solid #ddd;
-      }
-
       display: flex;
       flex-direction: column;
       min-height: 34px;
@@ -1575,7 +1571,6 @@ $itinerary-tab-switch-height: 48px;
       color: #333;
       font-size: 0.9375rem;
       align-items: center;
-      border-top: 1px solid #ddd;
     }
 
     .itinerary-leg-first-row {

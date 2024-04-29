@@ -296,6 +296,12 @@ class MapWithTrackingStateHandler extends React.Component {
       : this.state.mapTracking
         ? 'icon-tracking-on-v2'
         : 'icon-tracking-offline-v2';
+    // eslint-disable-next-line no-nested-ternary
+    const ariaLabel = position.locationingFailed
+      ? this.context.intl.formatMessage({ id: 'tracking-button-offline' })
+      : this.state.mapTracking
+        ? this.context.intl.formatMessage({ id: 'tracking-button-on' })
+        : this.context.intl.formatMessage({ id: 'tracking-button-off' });
 
     const iconColor = this.state.mapTracking ? '#ff0000' : '#78909c';
 
@@ -339,6 +345,7 @@ class MapWithTrackingStateHandler extends React.Component {
                 key="toggleMapTracking"
                 img={img}
                 iconColor={iconColor}
+                ariaLabel={ariaLabel}
                 handleClick={() => {
                   if (this.state.mapTracking) {
                     this.disableMapTracking();
