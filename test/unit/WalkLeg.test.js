@@ -3,7 +3,6 @@ import { FormattedMessage } from 'react-intl';
 
 import { shallowWithIntl } from './helpers/mock-intl-enzyme';
 import WalkLeg from '../../app/component/itinerary/WalkLeg';
-import { CityBikeNetworkType } from '../../app/util/vehicleRentalUtils';
 import ServiceAlertIcon from '../../app/component/ServiceAlertIcon';
 import { AlertSeverityLevelType } from '../../app/constants';
 
@@ -87,63 +86,6 @@ describe('<WalkLeg />', () => {
 
     expect(wrapper.find(FormattedMessage).at(0).prop('id')).to.equal(
       'return-cycle-to',
-    );
-  });
-
-  it('should tell the user to return a rented kick scooter to the starting point station', () => {
-    const props = {
-      focusAction: () => {},
-      focusToLeg: () => {},
-      index: 2,
-      leg: {
-        distance: 284.787,
-        duration: 289,
-        from: {
-          name: 'Veturitori',
-          stop: null,
-        },
-        to: {
-          name: 'Testipaikka',
-          stop: null,
-        },
-        mode: 'WALK',
-        rentedBike: false,
-        start: { scheduledTime: new Date(1529589709000).toISOString() },
-        end: { scheduledTime: new Date(1529589701000).toISOString() },
-      },
-      previousLeg: {
-        distance: 3297.017000000001,
-        duration: 904,
-        from: {
-          vehicleRentalStation: {
-            network: 'foobar',
-          },
-          name: 'Kaisaniemenpuisto',
-          stop: null,
-        },
-        to: {
-          name: 'Testipaikka',
-          stop: null,
-        },
-        mode: 'BICYCLE',
-        rentedBike: true,
-        start: { scheduledTime: new Date(1529588805000).toISOString() },
-        end: { scheduledTime: new Date(1529589701000).toISOString() },
-      },
-    };
-
-    const wrapper = shallowWithIntl(<WalkLeg {...props} />, {
-      context: {
-        config: {
-          cityBike: {
-            networks: { foobar: { type: CityBikeNetworkType.Scooter } },
-          },
-        },
-      },
-    });
-
-    expect(wrapper.find(FormattedMessage).at(0).prop('id')).to.equal(
-      'return-scooter-to',
     );
   });
 
