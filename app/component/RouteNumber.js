@@ -152,14 +152,13 @@ function RouteNumber(props, context) {
             )}
           </div>
         )}
-        {((!context.config?.hideWalkLegDurationSummary &&
+        {!context.config?.hideWalkLegDurationSummary &&
           props.isTransitLeg === false &&
-          props.duration > 0) ||
-          isScooter) && (
-          <div className={`leg-duration-container ${mode} `}>
-            <span className="leg-duration">{props.duration}</span>
-          </div>
-        )}
+          props.duration > 0 && (
+            <div className={`leg-duration-container ${mode} `}>
+              <span className="leg-duration">{props.duration}</span>
+            </div>
+          )}
         {isScooter && (
           <Icon img="icon-icon_smartphone" className="phone-icon" />
         )}

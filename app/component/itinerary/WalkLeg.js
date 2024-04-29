@@ -49,9 +49,9 @@ function WalkLeg(
     previousLeg?.rentedBike && network,
     config,
   ).type;
-
+  const isScooter = networkType === CityBikeNetworkType.Scooter;
   const returnNotice =
-    previousLeg && previousLeg.rentedBike ? (
+    previousLeg && previousLeg.rentedBike && !isScooter ? (
       <FormattedMessage
         id={
           networkType === CityBikeNetworkType.Scooter
@@ -63,7 +63,7 @@ function WalkLeg(
       />
     ) : null;
   let appendClass;
-  const isScooter = networkType === CityBikeNetworkType.Scooter;
+
   if (returnNotice) {
     appendClass = 'return-citybike';
   }

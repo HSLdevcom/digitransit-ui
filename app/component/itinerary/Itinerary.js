@@ -461,9 +461,7 @@ const Itinerary = (
         />,
       );
     } else if (leg.mode === 'SCOOTER' && leg.rentedBike) {
-      const scooterDuration = Math.floor(
-        (leg.endTime - leg.startTime) / 1000 / 60,
-      );
+      const scooterDuration = Math.floor(leg.duration / 60);
       legs.push(
         <ModeLeg
           key={`${leg.mode}_${leg.startTime}`}
