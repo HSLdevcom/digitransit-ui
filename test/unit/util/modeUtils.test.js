@@ -690,7 +690,7 @@ describe('modeUtils', () => {
       expect(result[0]).to.deep.equal({ mode: 'RAIL' });
       expect(result[1]).to.deep.equal({ mode: 'BICYCLE', qualifier: 'RENT' });
       expect(result[2]).to.deep.equal({ mode: 'WALK' });
-      expect(result[1]).to.deep.equal({ mode: 'SCOOTER', qualifier: 'RENT' });
+      expect(result[3]).to.deep.equal({ mode: 'SCOOTER', qualifier: 'RENT' });
     });
   });
 });
