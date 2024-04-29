@@ -686,7 +686,7 @@ describe('modeUtils', () => {
       const modes = ['RAIL', 'BICYCLE_RENT', 'WALK', 'SCOOTER_RENT'];
       const result = utils.modesAsOTPModes(modes);
 
-      expect(result.length).to.equal(3);
+      expect(result.length).to.equal(4);
       expect(result[0]).to.deep.equal({ mode: 'RAIL' });
       expect(result[1]).to.deep.equal({ mode: 'BICYCLE', qualifier: 'RENT' });
       expect(result[2]).to.deep.equal({ mode: 'WALK' });
