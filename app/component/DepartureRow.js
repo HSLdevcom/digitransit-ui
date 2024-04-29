@@ -2,13 +2,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import moment from 'moment';
 import { intlShape } from 'react-intl';
 import { v4 as uuid } from 'uuid';
 import { Link } from 'found';
 import { configShape, departureShape } from '../util/shapes';
-import LocalTime from './LocalTime';
 import { getHeadsignFromRouteLongName } from '../util/legUtils';
+import { timeStr } from '../util/timeUtils';
 import {
   alertSeverityCompare,
   getAlertsForObject,
@@ -38,7 +37,8 @@ export default function DepartureRow(
 ) {
   const { trip, trip: { route } = {} } = departure;
   const mode = getRouteMode(route);
-
+  const departureTimeMs = departureTime * 1000;
+  const time = timeStr(departureTimeMs);
   const timeDiffInMinutes = Math.floor(
     (departureTime - props.currentTime) / 60,
   );
@@ -123,7 +123,7 @@ export default function DepartureRow(
             {
               shortName: shortName?.toLowerCase(),
               destination: headsign,
-              time: moment(departureTime * 1000).format('HH:mm'),
+              time,
             },
           )}
         />
@@ -135,7 +135,7 @@ export default function DepartureRow(
   const capacity = getCapacity(
     config,
     trip?.occupancy?.occupancyStatus,
-    departureTime * 1000,
+    departureTimeMs,
   );
 
   return (
@@ -203,7 +203,7 @@ export default function DepartureRow(
               })}
               aria-hidden="true"
             >
-              <LocalTime time={departureTime} />
+              {time}
             </span>
             <span className="sr-only">
               {intl.formatMessage(
@@ -212,7 +212,7 @@ export default function DepartureRow(
                 },
                 {
                   when: shownTime,
-                  time: moment(departureTime * 1000).format('HH:mm'),
+                  time,
                   realTime: departure.realtime
                     ? intl.formatMessage({ id: 'realtime' })
                     : '',

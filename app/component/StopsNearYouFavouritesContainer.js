@@ -109,8 +109,12 @@ const refetchContainer = createFragmentContainer(
       @relay(plural: true) {
         stationId
         name
-        vehiclesAvailable
-        spacesAvailable
+        availableVehicles {
+          total
+        }
+        availableSpaces {
+          total
+        }
         capacity
         network
         lat

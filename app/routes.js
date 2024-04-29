@@ -95,6 +95,62 @@ export default config => {
     },
   };
 
+  const vehicleParkingProps = {
+    content: (
+      <Route
+        getComponent={() =>
+          import(
+            /* webpackChunkName: "vehiclepark" */ './component/ParkContainer'
+          )
+            .then(getDefault)
+            .catch(errorLoading)
+        }
+        prepareVariables={prepareWeekDays}
+        query={graphql`
+          query routes_VehiclePark_Query($id: String!) {
+            vehicleParking(id: $id) {
+              ...ParkContainer_vehicleParking
+            }
+          }
+        `}
+        render={({ Component, props, error, retry }) => {
+          if (Component && (props || error)) {
+            return <Component {...props} error={error} />;
+          }
+          return getComponentOrLoadingRenderer({
+            Component,
+            props,
+            error,
+            retry,
+          });
+        }}
+      />
+    ),
+    map: (
+      <Route
+        path="(.*)?"
+        getComponent={() =>
+          import(
+            /* webpackChunkName: "vehiclepark" */ './component/VehicleParkMapContainer'
+          ).then(getDefault)
+        }
+        query={graphql`
+          query routes_VehicleParkMap_Query($id: String!) {
+            vehicleParking(id: $id) {
+              ...VehicleParkMapContainer_vehiclePark
+            }
+          }
+        `}
+        render={({ Component, props }) => {
+          if (Component) {
+            return <Component {...props} />;
+          }
+          return undefined;
+        }}
+      />
+    ),
+  };
+
   return (
     <Route Component={TopLevel}>
       {getStopRoutes()}
@@ -134,13 +190,13 @@ export default config => {
               path="(.*)?"
               getComponent={() =>
                 import(
-                  /* webpackChunkName: "itinerary" */ './component/VehicleRentalStationPageMapContainer'
+                  /* webpackChunkName: "itinerary" */ './component/VehicleRentalStationMapContainer'
                 ).then(getDefault)
               }
               query={graphql`
                 query routes_VehicleRentalStationMap_Query($id: String!) {
                   vehicleRentalStation(id: $id) {
-                    ...VehicleRentalStationPageMapContainer_vehicleRentalStation
+                    ...VehicleRentalStationMapContainer_vehicleRentalStation
                   }
                 }
               `}
@@ -153,57 +209,7 @@ export default config => {
         <Route Component={Error404} />
         <Route path=":id">
           {{
-            content: (
-              <Route
-                getComponent={() =>
-                  import(
-                    /* webpackChunkName: "bikepark" */ './component/VehicleParkContent'
-                  )
-                    .then(getDefault)
-                    .catch(errorLoading)
-                }
-                prepareVariables={prepareWeekDays}
-                query={graphql`
-                  query routes_VehiclePark_Query(
-                    $id: String!
-                    $dates: [String!]!
-                  ) {
-                    bikePark(id: $id) {
-                      ...VehicleParkContent_bikePark @arguments(dates: $dates)
-                    }
-                  }
-                `}
-                render={({ Component, props, error, retry }) => {
-                  if (Component && (props || error)) {
-                    return <Component {...props} error={error} />;
-                  }
-                  return getComponentOrLoadingRenderer({
-                    Component,
-                    props,
-                    error,
-                    retry,
-                  });
-                }}
-              />
-            ),
-            map: (
-              <Route
-                path="(.*)?"
-                getComponent={() =>
-                  import(
-                    /* webpackChunkName: "bikepark" */ './component/VehicleParkMapContainer'
-                  ).then(getDefault)
-                }
-                query={graphql`
-                  query routes_VehicleParkMap_Query($id: String!) {
-                    bikePark(id: $id) {
-                      ...VehicleParkMapContainer_vehiclePark
-                    }
-                  }
-                `}
-                render={getComponentOrNullRenderer}
-              />
-            ),
+            ...vehicleParkingProps,
           }}
         </Route>
       </Route>
@@ -211,54 +217,7 @@ export default config => {
         <Route Component={Error404} />
         <Route path=":id">
           {{
-            content: (
-              <Route
-                getComponent={() =>
-                  import(
-                    /* webpackChunkName: "carpark" */ './component/CarParkContent'
-                  )
-                    .then(getDefault)
-                    .catch(errorLoading)
-                }
-                query={graphql`
-                  query routes_CarPark_Query($id: String!, $dates: [String!]!) {
-                    carPark(id: $id) {
-                      ...CarParkContent_carPark @arguments(dates: $dates)
-                    }
-                  }
-                `}
-                prepareVariables={prepareWeekDays}
-                render={({ Component, props, error, retry }) => {
-                  if (Component && (props || error)) {
-                    return <Component {...props} error={error} />;
-                  }
-                  return getComponentOrLoadingRenderer({
-                    Component,
-                    props,
-                    error,
-                    retry,
-                  });
-                }}
-              />
-            ),
-            map: (
-              <Route
-                path="(.*)?"
-                getComponent={() =>
-                  import(
-                    /* webpackChunkName: "carpark" */ './component/CarParkMapContainer'
-                  ).then(getDefault)
-                }
-                query={graphql`
-                  query routes_CarParkMap_Query($id: String!) {
-                    carPark(id: $id) {
-                      ...CarParkMapContainer_carPark
-                    }
-                  }
-                `}
-                render={getComponentOrNullRenderer}
-              />
-            ),
+            ...vehicleParkingProps,
           }}
         </Route>
       </Route>
@@ -370,7 +329,7 @@ export default config => {
               path="(.*)?"
               getComponent={() =>
                 import(
-                  /* webpackChunkName: "itinerary" */ './component/ItineraryPageTitle'
+                  /* webpackChunkName: "itinerary" */ './component/itinerary/ItineraryPageTitle'
                 ).then(getDefault)
               }
             />
@@ -380,7 +339,7 @@ export default config => {
               getComponent={() =>
                 isBrowser
                   ? import(
-                      /* webpackChunkName: "itinerary" */ './component/ItineraryPageContainer'
+                      /* webpackChunkName: "itinerary" */ './component/itinerary/ItineraryPageContainer'
                     ).then(getDefault)
                   : import(
                       /* webpackChunkName: "loading" */ './component/Loading'
@@ -400,7 +359,7 @@ export default config => {
                     <Route
                       getComponent={() =>
                         import(
-                          /* webpackChunkName: "itinerary" */ './component/ItineraryDetails'
+                          /* webpackChunkName: "itinerary" */ './component/itinerary/ItineraryDetails'
                         ).then(getDefault)
                       }
                       render={getComponentOrLoadingRenderer}
@@ -415,7 +374,7 @@ export default config => {
               path="(.*)?"
               getComponent={() =>
                 import(
-                  /* webpackChunkName: "itinerary" */ './component/ItineraryPageMeta'
+                  /* webpackChunkName: "itinerary" */ './component/itinerary/ItineraryPageMeta'
                 ).then(getDefault)
               }
             />

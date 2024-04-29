@@ -2,7 +2,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
-import BicycleLeg from '../../../app/component/BicycleLeg';
+import BicycleLeg from '../../../app/component/itinerary/BicycleLeg';
 import { CityBikeNetworkType } from '../../../app/util/vehicleRentalUtils';
 
 describe('<BicycleLeg />', () => {
@@ -17,8 +17,8 @@ describe('<BicycleLeg />', () => {
         duration: 0,
         mode: 'BICYCLE',
         rentedBike: true,
-        startTime: 0,
-        endTime: 0,
+        start: { scheduledTime: new Date().toISOString() },
+        end: { scheduledTime: new Date().toISOString() },
         from: {
           name: 'Hertanmäenkatu',
           vehicleRentalStation: {
@@ -58,8 +58,8 @@ describe('<BicycleLeg />', () => {
         duration: 0,
         mode: 'BICYCLE',
         rentedBike: true,
-        startTime: 0,
-        endTime: 0,
+        start: { scheduledTime: new Date().toISOString() },
+        end: { scheduledTime: new Date().toISOString() },
         from: {
           name: 'Hertanmäenkatu',
           vehicleRentalStation: {
@@ -99,8 +99,8 @@ describe('<BicycleLeg />', () => {
         duration: 0,
         mode: 'BICYCLE',
         rentedBike: true,
-        startTime: 0,
-        endTime: 0,
+        start: { scheduledTime: new Date().toISOString() },
+        end: { scheduledTime: new Date().toISOString() },
         from: {
           name: 'Hertanmäenkatu',
           vehicleRentalStation: {
@@ -143,8 +143,8 @@ describe('<BicycleLeg />', () => {
         duration: 0,
         mode: 'BICYCLE',
         rentedBike: true,
-        startTime: 0,
-        endTime: 0,
+        start: { scheduledTime: new Date().toISOString() },
+        end: { scheduledTime: new Date().toISOString() },
         from: {
           name: 'Hertanmäenkatu',
           vehicleRentalStation: {
@@ -187,8 +187,8 @@ describe('<BicycleLeg />', () => {
         duration: 0,
         mode: 'WALK',
         rentedBike: true,
-        startTime: 0,
-        endTime: 0,
+        start: { scheduledTime: new Date().toISOString() },
+        end: { scheduledTime: new Date().toISOString() },
         from: {
           name: 'Hertanmäenkatu',
           vehicleRentalStation: {
@@ -228,8 +228,8 @@ describe('<BicycleLeg />', () => {
         duration: 0,
         mode: 'WALK',
         rentedBike: true,
-        startTime: 0,
-        endTime: 0,
+        start: { scheduledTime: new Date().toISOString() },
+        end: { scheduledTime: new Date().toISOString() },
         from: {
           name: 'Hertanmäenkatu',
           vehicleRentalStation: {

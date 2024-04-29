@@ -20,7 +20,10 @@ const modules = {
   FavouriteVehicleRentalStationContainer: () =>
     importLazy(import('./FavouriteVehicleRentalStationContainer')),
 };
-const ParkOrBikeStationHeader = ({ parkOrStation, breakpoint }, { config }) => {
+const ParkOrBikeStationHeader = (
+  { parkOrStation, breakpoint, parkType },
+  { config },
+) => {
   const [zoneId, setZoneId] = useState(undefined);
   useEffect(() => {
     const searchParams = {
@@ -47,9 +50,9 @@ const ParkOrBikeStationHeader = ({ parkOrStation, breakpoint }, { config }) => {
     });
   }, []);
 
-  const { name, bikeParkId, stationId, network } = parkOrStation;
+  const { name, stationId, network } = parkOrStation;
   const networkConfig = getVehicleRentalStationNetworkConfig(network, config);
-  const parkHeaderId = bikeParkId ? 'bike-park' : 'car_park';
+  const parkHeaderId = parkType === 'bike' ? 'bike-park' : 'car-park';
   const noIdHeaderName =
     networkConfig.type === TransportMode.Citybike.toLowerCase()
       ? 'citybike-station-no-id'
@@ -93,14 +96,15 @@ ParkOrBikeStationHeader.propTypes = {
   breakpoint: PropTypes.string.isRequired,
   parkOrStation: PropTypes.shape({
     name: PropTypes.string.isRequired,
-    bikeParkId: PropTypes.string,
-    carParkId: PropTypes.string,
     stationId: PropTypes.string,
     lat: PropTypes.number.isRequired,
     lon: PropTypes.number.isRequired,
     network: PropTypes.string.isRequired,
   }).isRequired,
+  parkType: PropTypes.string,
 };
+
+ParkOrBikeStationHeader.defaultProps = { parkType: undefined };
 
 ParkOrBikeStationHeader.contextTypes = {
   config: configShape.isRequired,

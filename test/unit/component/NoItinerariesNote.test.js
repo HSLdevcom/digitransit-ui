@@ -2,7 +2,7 @@ import React from 'react';
 
 import { mockContext, mockChildContextTypes } from '../helpers/mock-context';
 import { mountWithIntl, shallowWithIntl } from '../helpers/mock-intl-enzyme';
-import { Component as NoItinerariesNote } from '../../../app/component/NoItinerariesNote';
+import { Component as NoItinerariesNote } from '../../../app/component/itinerary/NoItinerariesNote';
 import { PlannerMessageType } from '../../../app/constants';
 
 const TestLocation = {

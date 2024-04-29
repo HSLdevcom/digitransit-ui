@@ -42,14 +42,12 @@ export function durationToString(inDuration) {
 /**
  * Returns date or '' if same day as reference
  */
-export const dateOrEmpty = (momentTime, momentRefTime) => {
-  if (momentTime.isSame(momentRefTime, 'day')) {
+export const dateOrEmpty = (time, refTime) => {
+  if (new Date(time).getDay() === new Date(refTime).getDay()) {
     return '';
   }
-  return momentTime.format(DATE_PATTERN);
+  return moment(time).format(DATE_PATTERN);
 };
-
-export const sameDay = (x, y) => dateOrEmpty(x, y) === '';
 
 /**
  * The default number of days to include to the service time range from the past.
@@ -132,4 +130,12 @@ export function getCurrentMillis(currentTime = undefined) {
     return moment().valueOf();
   }
   return moment(currentTime).valueOf();
+}
+
+/**
+ * Epoch ms to 'hh:mm'
+ */
+export function timeStr(ms) {
+  const parts = new Date(ms).toTimeString().split(':');
+  return `${parts[0]}:${parts[1]}`;
 }

@@ -1,7 +1,7 @@
 export default {
   onlyBiking: {
-    startTime: 1533203711000,
-    endTime: 1533204637000,
+    start: new Date(1533203711000).toISOString(),
+    end: new Date(1533204637000).toISOString(),
     legs: [
       {
         transitLeg: false,
@@ -44,8 +44,8 @@ export default {
     fares: null,
   },
   bikingAndWalking: {
-    startTime: 1533206085000,
-    endTime: 1533206899000,
+    start: new Date(1533206085000).toISOString(),
+    end: new Date(1533206899000).toISOString(),
     legs: [
       {
         transitLeg: false,

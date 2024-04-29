@@ -154,17 +154,11 @@ export const getStopRoutePath = searchObj => {
       break;
     case 'carpark':
       path = `/${PREFIX_CARPARK}/`;
-      id =
-        searchObj.properties.id.indexOf(':') === -1
-          ? searchObj.properties.id
-          : searchObj.properties.id.split(':')[1];
+      id = searchObj.properties.id;
       break;
     case 'bikepark':
       path = `/${PREFIX_BIKEPARK}/`;
-      id =
-        searchObj.properties.id.indexOf(':') === -1
-          ? searchObj.properties.id
-          : searchObj.properties.id.split(':')[1];
+      id = searchObj.properties.id;
       break;
     default:
       path = `/${PREFIX_STOPS}/`;

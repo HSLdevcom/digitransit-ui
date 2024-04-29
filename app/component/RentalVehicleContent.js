@@ -12,7 +12,7 @@ import {
 } from '../util/vehicleRentalUtils';
 import { isBrowser } from '../util/browser';
 import { PREFIX_RENTALVEHICLES } from '../util/path';
-import VehicleRentalLeg from './VehicleRentalLeg';
+import VehicleRentalLeg from './itinerary/VehicleRentalLeg';
 import BackButton from './BackButton';
 
 const RentalVehicleContent = (

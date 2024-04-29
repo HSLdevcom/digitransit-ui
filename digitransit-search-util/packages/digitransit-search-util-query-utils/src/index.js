@@ -57,11 +57,14 @@ const stationsQuery = graphql`
 const alertsQuery = graphql`
   query srcAlertsQuery($feedIds: [String!]) {
     alerts(severityLevel: [SEVERE], feeds: $feedIds) {
-      route {
-        mode
-      }
       effectiveStartDate
       effectiveEndDate
+      entities {
+        __typename
+        ... on Route {
+          mode
+        }
+      }
     }
   }
 `;
@@ -192,18 +195,21 @@ export function getModesWithAlerts(currentTime, feedIds = null) {
   return fetchQuery(relayEnvironment, alertsQuery, { feedIds })
     .toPromise()
     .then(res => {
-      const modes = res.alerts.map(i => {
+      const modes = [];
+      res.alerts.forEach(alert => {
         if (
-          i.route &&
-          i.route.mode &&
-          i.effectiveStartDate <= currentTime &&
-          i.effectiveEndDate >= currentTime
+          alert.effectiveStartDate <= currentTime &&
+          alert.effectiveEndDate >= currentTime
         ) {
-          return i.route.mode;
+          alert.entities.forEach(e => {
+            // eslint-disable-next-line no-underscore-dangle
+            if (e.__typename === 'Route') {
+              modes.push(e.mode);
+            }
+          });
         }
-        return undefined;
+        return modes;
       });
-      return modes;
     })
     .then(compact)
     .then(uniq);
@@ -212,6 +218,7 @@ export function getModesWithAlerts(currentTime, feedIds = null) {
  * Returns Stop and station objects .
  * @param {*} favourites
  */
+
 export function getStopAndStationsQuery(favourites) {
   // TODO perhaps validate stops/stations through geocoding api instead of routing?
   if (!relayEnvironment || !Array.isArray(favourites)) {

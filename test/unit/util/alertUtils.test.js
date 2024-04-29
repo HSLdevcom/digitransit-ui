@@ -531,7 +531,11 @@ describe('alertUtils', () => {
             },
           ],
         },
-        startTime: (alertEffectiveStartDate + 1) * 1000, // * 1000 due to ms format
+        start: {
+          scheduledTime: new Date(
+            alertEffectiveStartDate * 1000 + 1000,
+          ).toISOString(),
+        },
       };
       expect(utils.getActiveLegAlertSeverityLevel(leg)).to.equal(
         AlertSeverityLevelType.Warning,
@@ -550,7 +554,11 @@ describe('alertUtils', () => {
             },
           ],
         },
-        startTime: (alertEffectiveEndDate + 1) * 1000, // * 1000 due to ms format
+        start: {
+          scheduledTime: new Date(
+            alertEffectiveEndDate * 1000 + 1,
+          ).toISOString(),
+        },
       };
       expect(utils.getActiveLegAlertSeverityLevel(leg)).to.equal(undefined);
     });
@@ -571,7 +579,7 @@ describe('alertUtils', () => {
             },
           ],
         },
-        startTime: 1553769600000,
+        start: { scheduledTime: new Date(1553769600000).toISOString() },
         trip: {
           pattern: {
             code: 'HSL:3001I:0:01',
@@ -596,7 +604,7 @@ describe('alertUtils', () => {
             ],
           },
         },
-        startTime: 1553769600000,
+        start: { scheduledTime: new Date(1553769600000).toISOString() },
       };
       expect(utils.getActiveLegAlertSeverityLevel(leg)).to.equal(
         AlertSeverityLevelType.Warning,
@@ -616,7 +624,7 @@ describe('alertUtils', () => {
             ],
           },
         },
-        startTime: 1553769600000,
+        start: { scheduledTime: new Date(1553769600000).toISOString() },
       };
       expect(utils.getActiveLegAlertSeverityLevel(leg)).to.equal(
         AlertSeverityLevelType.Warning,
@@ -638,7 +646,7 @@ describe('alertUtils', () => {
             },
           },
         ],
-        startTime: 1553769600000,
+        start: { scheduledTime: new Date(1553769600000).toISOString() },
       };
       expect(utils.getActiveLegAlertSeverityLevel(leg)).to.equal(undefined);
     });
@@ -654,7 +662,7 @@ describe('alertUtils', () => {
             },
           ],
         },
-        startTime: 1553769600000,
+        start: { scheduledTime: new Date(1553769600000).toISOString() },
       };
       expect(utils.getActiveLegAlertSeverityLevel(leg)).to.equal(
         AlertSeverityLevelType.Info,

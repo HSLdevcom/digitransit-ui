@@ -4,7 +4,7 @@ import React from 'react';
 import { shallowWithIntl } from './helpers/mock-intl-enzyme';
 import { mockContext } from './helpers/mock-context';
 
-import { Component as ItineraryDetails } from '../../app/component/ItineraryDetails';
+import { Component as ItineraryDetails } from '../../app/component/itinerary/ItineraryDetails';
 import dt2831 from './test-data/dt2831';
 
 describe('<ItineraryDetails />', () => {

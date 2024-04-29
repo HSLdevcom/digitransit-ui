@@ -25,7 +25,7 @@ RentalVehicle.contextTypes = {
 };
 RentalVehicle.propTypes = {
   rentalVehicle: PropTypes.shape({
-    vehiclesAvailable: PropTypes.number.isRequired,
+    availableVehicles: PropTypes.number.isRequired,
     spacesAvailable: PropTypes.number.isRequired,
     capacity: PropTypes.number.isRequired,
     network: PropTypes.string,

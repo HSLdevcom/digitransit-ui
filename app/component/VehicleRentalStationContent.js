@@ -42,7 +42,8 @@ const VehicleRentalStationContent = (
     }
     return null;
   }
-  const { vehiclesAvailable, capacity } = vehicleRentalStation;
+  const { availableVehicles, capacity } = vehicleRentalStation;
+  const vehiclesAvailable = availableVehicles.total;
   const isFull = vehiclesAvailable >= capacity;
 
   const networkConfig = getVehicleRentalStationNetworkConfig(
@@ -147,8 +148,12 @@ const containerComponent = createFragmentContainer(connectedComponent, {
       lat
       lon
       name
-      spacesAvailable
-      vehiclesAvailable
+      availableVehicles {
+        total
+      }
+      availableSpaces {
+        total
+      }
       capacity
       network
       stationId
