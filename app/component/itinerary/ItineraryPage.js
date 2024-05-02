@@ -216,7 +216,7 @@ export default function ItineraryPage(props, context) {
 
   function makeWeatherQuery() {
     const from = otpToLocation(params.from);
-    const time = query.time * 1000;
+    const time = query.time ? query.time * 1000 : Date.now();
     setWeatherState({ ...weatherState, loading: true });
     const newState = { loading: false, weatherData: undefined };
     getWeatherData(config.URL.WEATHER_DATA, time, from.lat, from.lon)
