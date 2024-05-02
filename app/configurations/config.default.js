@@ -473,9 +473,6 @@ export default {
     },
   },
 
-  // transit modes that should not coexist with BICYCLE mode
-  modesWithNoBike: [],
-
   moment: {
     relativeTimeThreshold: {
       seconds: 55,
