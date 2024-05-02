@@ -213,10 +213,18 @@ class TileLayerContainer extends GridLayer {
         selectableTargets.length === 1 &&
         selectableTargets[0].layer === 'scooter'
       ) {
+        const networks = new Set();
+        if (selectableTargets[0].feature.properties.vehicles) {
+          JSON.parse(selectableTargets[0].feature.properties.vehicles).forEach(
+            vehicle => {
+              networks.add(vehicle.properties.network);
+            },
+          );
+        }
         this.context.router.push(
           `/${PREFIX_RENTALVEHICLES}/${encodeURIComponent(
             selectableTargets[0].feature.properties.id,
-          )}`,
+          )}/${[...networks]}`,
         );
         return;
       }

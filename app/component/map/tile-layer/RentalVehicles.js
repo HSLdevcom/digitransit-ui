@@ -54,6 +54,13 @@ class RentalVehicles {
 
     if (this.tile.coords.z >= 14) {
       baseUrl = getLayerBaseUrl(
+        this.config.URL.RENTAL_VEHICLE_CLUSTER_FAR_MAP, // 120m
+        lang,
+      );
+    }
+
+    if (this.tile.coords.z >= 15) {
+      baseUrl = getLayerBaseUrl(
         this.config.URL.RENTAL_VEHICLE_CLUSTER_MEDIUM_MAP, // 100m
         lang,
       );

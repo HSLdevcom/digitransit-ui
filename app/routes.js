@@ -254,7 +254,7 @@ export default config => {
           ),
         }}
       </Route>
-      <Route path={`/${PREFIX_RENTALVEHICLES}/:id`}>
+      <Route path={`/${PREFIX_RENTALVEHICLES}/:id/:networks?`}>
         {{
           content: (
             <Route

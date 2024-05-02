@@ -1041,6 +1041,8 @@ const translations = {
     'e-scooter-quantity': 'Sähköpotkulautoja vapaana juuri nyt: ',
     'e-scooter-station': 'Sähköpotkulauta-asema',
     'e-scooters': 'Sähköpotkulaudat',
+    'e-scooters-available':
+      'Alueella sähköpotkulautoja vapaana. Ota sähköpotkulauta käyttöön sovelluksella.',
     earlier: 'Earlier departures',
     'edit-favourites': 'Edit the location in the Favorites',
     'elevation-gained-total': 'Elevation gained',
@@ -2249,6 +2251,8 @@ const translations = {
     'e-scooter-quantity': 'Sähköpotkulautoja vapaana juuri nyt: ',
     'e-scooter-station': 'Sähköpotkulauta-asema',
     'e-scooters': 'Sähköpotkulaudat',
+    'e-scooters-available':
+      'Alueella sähköpotkulautoja vapaana. Ota sähköpotkulauta käyttöön sovelluksella.',
     earlier: 'Aiempia lähtöjä',
     'edit-favourites': 'Muokkaa paikkaa Suosikkisi-välilehdellä',
     'elevation-gained-total': 'Nousua yhteensä',
@@ -4209,6 +4213,8 @@ const translations = {
     'e-scooter-quantity': 'Sähköpotkulautoja vapaana juuri nyt: ',
     'e-scooter-station': 'Sähköpotkulauta-asema',
     'e-scooters': 'Sähköpotkulaudat',
+    'e-scooters-available':
+      'Alueella sähköpotkulautoja vapaana. Ota sähköpotkulauta käyttöön sovelluksella.',
     earlier: 'Tidigare avgångar',
     'edit-favourites': 'Redigera favoritdestination',
     'elevation-gained-total': 'Uppförsbacke totalt',

@@ -16,7 +16,7 @@ import VehicleRentalLeg from './itinerary/VehicleRentalLeg';
 import BackButton from './BackButton';
 
 const RentalVehicleContent = (
-  { rentalVehicle, breakpoint, router, error, language },
+  { rentalVehicle, breakpoint, router, error, language, match },
   { config },
 ) => {
   const [isClient, setClient] = useState(false);
@@ -24,6 +24,8 @@ const RentalVehicleContent = (
   useEffect(() => {
     setClient(true);
   });
+
+  const networks = match.params.networks?.split(',');
 
   // throw error in client side relay query fails
   if (isClient && error && !rentalVehicle) {
@@ -46,6 +48,41 @@ const RentalVehicleContent = (
     networkConfig,
     !rentalVehicle.operative,
   );
+
+  if (networks) {
+    return (
+      <div className="scooter-page-container">
+        <div className="scooter-cluster-back-button-container">
+          {breakpoint === 'large' && (
+            <BackButton
+              icon="icon-icon_arrow-collapse--left"
+              iconClassName="arrow-icon"
+            />
+          )}
+        </div>
+        <div className="scooter-sub-header scooters-available">
+          <FormattedMessage id="e-scooters-available" />
+        </div>
+        {networks.map(network => (
+          <div key={network} className="scooter-box cluster">
+            <div className="scooter-content-container cluster">
+              <Icon img={vehicleIcon} />
+              <div className="scooter-header">
+                <div className="header">
+                  <h1>
+                    {networkConfig.name[language] || rentalVehicle.network}
+                  </h1>
+                  <div className="scooter-sub-header">
+                    <FormattedMessage id="e-scooter" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    );
+  }
 
   return (
     <div className="scooter-page-container">
@@ -82,6 +119,7 @@ RentalVehicleContent.propTypes = {
   router: routerShape.isRequired,
   error: PropTypes.object,
   language: PropTypes.string.isRequired,
+  match: PropTypes.object.isRequired,
 };
 
 RentalVehicleContent.contextTypes = {

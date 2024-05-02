@@ -49,6 +49,12 @@
 .scooter-page-container {
   margin: 0 3.75em;
 
+  .scooter-cluster-back-button-container .icon-container .icon {
+    width: 48px;
+    height: 48px;
+    margin-top: 90px;
+  }
+
   .scooter-box {
     min-height: 120px;
     border-radius: 10px;
@@ -61,6 +67,12 @@
     font-weight: normal;
     line-height: 18px;
     letter-spacing: -0.03em;
+
+    &.cluster {
+      margin-top: 10px;
+      min-height: 75px;
+      padding: 0;
+    }
 
     .disclaimer-header {
       display: flex;
@@ -100,31 +112,30 @@
         .citybike-itinerary {
           display: flex;
           padding: 7px;
-          
+
           .citybike-itinerary-text-container {
             display: flex;
-                      }
+          }
 
           .headsign {
             font-weight: $font-weight-medium;
             display: block;
             font-size: 15px;
             padding: 2px 0 3px 6px;
-                      }
+          }
 
           .scooter-headsign {
-           padding: 6px 0 3px 6px;
+            padding: 6px 0 3px 6px;
 
-            .rental-vehicle-link
-            .external-link-container {
-                border: none !important;
+            .rental-vehicle-link .external-link-container {
+              border: none !important;
 
-                .external-link {
-                  font-weight: $font-weight-medium;
-                  font-size: 15px;
-                  color: $link-color;
-                  text-decoration: none 
-                }
+              .external-link {
+                font-weight: $font-weight-medium;
+                font-size: 15px;
+                color: $link-color;
+                text-decoration: none;
+              }
             }
           }
 
@@ -145,7 +156,7 @@
             float: left;
             padding-right: 2px;
             margin: auto;
-            
+
             &.small {
               .icon-badge {
                 top: 2.33em;
@@ -218,18 +229,26 @@
     color: #666;
     font-weight: normal;
     padding-top: 2px;
+
+    &.scooters-available {
+      margin-top: 22px;
+      padding-left: 5px;
+    }
   }
 
   .scooter-content-container {
     padding: 15px 14px 22px;
-   display: flex;
+    display: flex;
     height: 48px;
     box-sizing: content-box;
 
-    .icon-container 
-    .icon {
-        width: 48px;
-        height: 48px;
+    &.cluster {
+      padding: 20px 20px;
+    }
+
+    .icon-container .icon {
+      width: 48px;
+      height: 48px;
     }
   }
 }
