@@ -97,7 +97,7 @@ export function getSettings(config) {
 }
 
 function getTransitModes(modes, planType, config) {
-  let transitModes = modes.filter(m => m !== 'BICYCLE');
+  let transitModes = modes.filter(m => m !== 'CITYBIKE');
   if (planType === PLANTYPE.BIKETRANSIT) {
     if (config.bikeBoardingModes) {
       transitModes = transitModes.filter(m =>
