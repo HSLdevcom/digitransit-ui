@@ -8,7 +8,6 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 import get from 'lodash/get';
 import { configShape, itineraryShape } from '../../util/shapes';
 import TicketInformation from './TicketInformation';
-import RouteInformation from '../RouteInformation';
 import ItinerarySummary from './ItinerarySummary';
 import Legs from './Legs';
 import BackButton from '../BackButton';
@@ -322,7 +321,6 @@ class ItineraryDetails extends React.Component {
                   tabIndex={itineraryIndex - 1}
                   showBikeBoardingInformation={showBikeBoardingInformation}
                 />
-                {config.showRouteInformation && <RouteInformation key="routeinfo"/>}
               </div>
               {config.showCO2InItinerarySummary && (
                 <Emissions

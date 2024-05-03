@@ -415,7 +415,6 @@ export default {
   },
 
   useTicketIcons: false,
-  showRouteInformation: false,
 
   modeToOTP: {
     bus: 'BUS',
