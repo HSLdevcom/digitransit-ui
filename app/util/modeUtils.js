@@ -123,7 +123,7 @@ export function getAvailableTransportModeConfigs(config) {
     : [];
 }
 
-export function getDefaultTransportModes(config) {
+export function getDefaultModes(config) {
   return getAvailableTransportModeConfigs(config)
     .filter(tm => tm.defaultValue)
     .map(tm => tm.name);
@@ -153,18 +153,6 @@ export function getOTPMode(config, mode) {
   }
   const otpMode = config.modeToOTP[mode.toLowerCase()];
   return otpMode ? otpMode.toUpperCase() : undefined;
-}
-
-/**
- * Checks if the given mode has been configured as availableForSelection or is WALK.
- *
- * @param {*} config The configuration for the software installation
- * @param {String} mode The mode to check
- */
-export function isModeAvailable(config, mode) {
-  return ['WALK', ...getAvailableTransportModes(config)].includes(
-    mode.toUpperCase(),
-  );
 }
 
 /**
@@ -224,7 +212,7 @@ export function filterModes(config, modes, from, to, intermediatePlaces) {
   return sortedUniq(
     modesStr
       .split(',')
-      .filter(mode => isModeAvailable(config, mode))
+      .filter(mode => isTransportModeAvailable(config, mode))
       .filter(mode =>
         isModeAvailableInsidePolygons(config, mode, [
           from,
@@ -236,17 +224,6 @@ export function filterModes(config, modes, from, to, intermediatePlaces) {
       .filter(mode => !!mode)
       .sort(),
   );
-}
-
-/**
- * Retrieves all transport modes that are both available and marked as default,
- * and additionally WALK mode.
- *
- * @param {*} config The configuration for the software installation
- * @returns {String[]} an array of modes
- */
-export function getDefaultModes(config) {
-  return [...getDefaultTransportModes(config), 'WALK'];
 }
 
 /**
@@ -263,8 +240,7 @@ export function showModeSettings(config) {
 
 /**
  * Retrieves all transport modes and returns the currently available
- * modes together with WALK mode. If user has no ability to change
- * mode settings, always use default modes.
+ * If user has no ability to change mode settings, always use default modes.
  *
  * @param {*} config The configuration for the software
  * @returns {String[]} returns user set modes or default modes
@@ -278,25 +254,23 @@ export function getModes(config) {
     const transportModes = modes.filter(mode =>
       isTransportModeAvailable(config, mode),
     );
-    const modesWithWalk = [...transportModes, 'WALK'];
     if (
       activeAndAllowedBikeRentalNetworks &&
       activeAndAllowedBikeRentalNetworks.length > 0 &&
-      modesWithWalk.indexOf(TransportMode.Citybike) === -1
+      transportModes.indexOf(TransportMode.Citybike) === -1
     ) {
-      modesWithWalk.push(TransportMode.Citybike);
+      transportModes.push(TransportMode.Citybike);
     }
-    return modesWithWalk;
+    return transportModes;
   }
+  const defaultModes = getDefaultModes(config);
   if (
     Array.isArray(activeAndAllowedBikeRentalNetworks) &&
     activeAndAllowedBikeRentalNetworks.length > 0
   ) {
-    const modesWithCitybike = getDefaultModes(config);
-    modesWithCitybike.push(TransportMode.Citybike);
-    return modesWithCitybike;
+    defaultModes.push(TransportMode.Citybike);
   }
-  return getDefaultModes(config);
+  return defaultModes;
 }
 
 /**
