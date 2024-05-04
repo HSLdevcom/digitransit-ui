@@ -8,7 +8,7 @@ import { configShape, planEdgeShape } from '../../util/shapes';
 import Icon from '../Icon';
 import Itinerary from './Itinerary';
 import { isBrowser } from '../../util/browser';
-import { getExtendedMode } from '../../util/legUtils';
+import { getExtendedMode, showBikeBoardingNote } from '../../util/legUtils';
 import ItineraryListHeader from './ItineraryListHeader';
 import ItinerariesNotFound from './ItinerariesNotFound';
 import Loading from '../Loading';
@@ -97,12 +97,10 @@ function ItineraryList(
       const legs = planEdges
         .slice(bikeParkItineraryCount)
         .flatMap(edge => edge.node.legs);
-      const showBikeBoardingInfo = config.showBikeBoardingInfoHeader?.(
-        config.bikeBoardingModes,
-        config.bikeBoardingExtraModes,
-        mode,
-        legs,
+      const showBikeBoardingInfo = legs.some(leg =>
+        showBikeBoardingNote(leg, config),
       );
+
       summaries.splice(
         bikeParkItineraryCount ? bikeParkItineraryCount + 1 : 0,
         0,
