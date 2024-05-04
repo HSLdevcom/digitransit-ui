@@ -591,18 +591,13 @@ export function getExtendedMode(leg, config) {
 }
 
 /**
- * Determines whether to show a notifikation for a bike with a public route.
+ * Determines whether to show a notification for a bike with a public transit
  *
  * @param {object} leg - The leg object.
  * @param {object} config - Config data.
- * @returns {boolean} - Returns true if the leg should be shown for a bike with a public route, otherwise false.
+ * @returns {boolean} - Returns true if a notifier should be shown
  */
-export const showForBikeWithPublicRoute = (leg, config) => {
-  const { bikeBoardingModes, bikeBoardingExtraModes } = config;
-  const foundExtraMode = bikeBoardingExtraModes?.find(
-    extraMode =>
-      extraMode.agency === leg.route?.agency.name &&
-      extraMode.mode === leg.mode.toUpperCase(),
-  );
-  return foundExtraMode || bikeBoardingModes?.includes(leg.mode.toUpperCase());
+export const showBikeBoardingNote = (leg, config) => {
+  const { bikeBoardingModes } = config;
+  return bikeBoardingModes && Object.keys(bikeBoardingModes).includes(leg.mode);
 };

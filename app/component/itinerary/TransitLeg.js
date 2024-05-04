@@ -33,7 +33,7 @@ import {
   getHeadsignFromRouteLongName,
   getStopHeadsignFromStoptimes,
   getZoneLabel,
-  showForBikeWithPublicRoute,
+  showBikeBoardingNote,
   legTime,
 } from '../../util/legUtils';
 import { shouldShowFareInfo } from '../../util/fareUtils';
@@ -382,8 +382,8 @@ class TransitLeg extends React.Component {
         const notification = config.routeNotifications[i];
         if (
           (showBikeBoardingInformation &&
-            notification.showForBikeWithPublicRoute &&
-            showForBikeWithPublicRoute(leg, config)) ||
+            notification.showForBikeWithPublic &&
+            showBikeBoardingNote(leg, config)) ||
           notification.showForRoute?.(leg.route)
         ) {
           routeNotifications.push(
