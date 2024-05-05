@@ -385,4 +385,7 @@ export default {
   },
 
   showBicycleWalkLegModes: ['RAIL', 'SUBWAY', 'TRAM', 'FERRY'],
+
+  // Include both bike and park and bike and public, if bike is enabled
+  includePublicWithBikePlan: true,
 };
