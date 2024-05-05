@@ -599,5 +599,7 @@ export function getExtendedMode(leg, config) {
  */
 export const showBikeBoardingNote = (leg, config) => {
   const { bikeBoardingModes } = config;
-  return bikeBoardingModes && Object.keys(bikeBoardingModes).includes(leg.mode);
+  return (
+    bikeBoardingModes && bikeBoardingModes[leg.mode]?.showNotification === true
+  );
 };

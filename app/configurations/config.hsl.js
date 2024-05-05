@@ -201,9 +201,6 @@ export default {
     lineRegexp: /(^[0-9]+[a-z]?$|^[yuleapinkrtdz]$|(^m[12]?b?$))/i,
   },
 
-  // modes that should not coexist with BICYCLE mode
-  modesWithNoBike: ['BUS', 'TRAM'],
-
   useSearchPolygon: true,
 
   areaPolygon: [
@@ -495,8 +492,11 @@ export default {
   },
 
   showVehiclesOnItineraryPage: true,
-  showBikeAndPublicItineraries: true,
   showBikeAndParkItineraries: true,
+  bikeBoardingModes: {
+    RAIL: { showNotification: false },
+    FERRY: { showNotification: false },
+  },
 
   // Notice! Turning on this setting forces the search for car routes (for the CO2 comparison only).
   showCO2InItinerarySummary: true,
@@ -543,7 +543,6 @@ export default {
       virtualMonitorBaseUrl: 'https://omatnaytot.hsl.fi/',
     },
   },
-  bikeBoardingModes: ['RAIL', 'FERRY'],
 
   routeNotifications: [
     {

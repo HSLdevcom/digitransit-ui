@@ -100,9 +100,7 @@ function getTransitModes(modes, planType, config) {
   let transitModes = modes.filter(m => m !== 'CITYBIKE');
   if (planType === PLANTYPE.BIKETRANSIT) {
     if (config.bikeBoardingModes) {
-      transitModes = transitModes.filter(m =>
-        config.bikeBoardingModes.includes(m),
-      );
+      transitModes = transitModes.filter(m => config.bikeBoardingModes[m]);
     } else {
       return [];
     }

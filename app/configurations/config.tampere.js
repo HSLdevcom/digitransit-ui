@@ -286,11 +286,10 @@ export default configMerger(walttiConfig, {
     },
   },
 
-  // modes that should not coexist with BICYCLE mode
-  modesWithNoBike: ['BUS'],
-  // Modes that shows extra cost information in itinerary summary and itinerary details pages
-  bikeBoardingModes: ['RAIL', 'TRAM'],
+  bikeBoardingModes: {
+    RAIL: { showNotification: true },
+    TRAM: { showNotification: true },
+  },
+
   showTenWeeksOnRouteSchedule: true,
-  showBikeAndPublicItineraries: true,
-  includeBikeSuggestions: true,
 });
