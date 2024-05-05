@@ -123,16 +123,6 @@ export function getFormattedTimeDate(startTime, pattern) {
 }
 
 /**
- * Returns number of milliseconds since the Unix Epoch
- */
-export function getCurrentMillis(currentTime = undefined) {
-  if (!currentTime) {
-    return moment().valueOf();
-  }
-  return moment(currentTime).valueOf();
-}
-
-/**
  * Epoch ms to 'hh:mm'
  */
 export function timeStr(ms) {
