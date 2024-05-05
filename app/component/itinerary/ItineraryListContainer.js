@@ -12,7 +12,6 @@ import { configShape, planEdgeShape } from '../../util/shapes';
 import Icon from '../Icon';
 import ItineraryList from './ItineraryList';
 import { getItineraryPagePath, streetHash } from '../../util/path';
-import withBreakpoint from '../../util/withBreakpoint';
 import { addAnalyticsEvent } from '../../util/analyticsUtils';
 import { isIOS, isSafari } from '../../util/browser';
 import ItineraryNotification from './ItineraryNotification';
@@ -220,15 +219,13 @@ ItineraryListContainer.contextTypes = {
 
 const withConfig = getContext({
   config: configShape.isRequired,
-})(
-  withBreakpoint(props => (
-    <ReactRelayContext.Consumer>
-      {({ environment }) => (
-        <ItineraryListContainer {...props} relayEnvironment={environment} />
-      )}
-    </ReactRelayContext.Consumer>
-  )),
-);
+})(props => (
+  <ReactRelayContext.Consumer>
+    {({ environment }) => (
+      <ItineraryListContainer {...props} relayEnvironment={environment} />
+    )}
+  </ReactRelayContext.Consumer>
+));
 
 const connectedContainer = createFragmentContainer(withConfig, {
   planEdges: graphql`
