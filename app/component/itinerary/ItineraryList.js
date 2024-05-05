@@ -25,7 +25,6 @@ function ItineraryList(
   {
     planEdges,
     activeIndex,
-    currentTime,
     onSelect,
     onSelectImmediately,
     searchTime,
@@ -54,7 +53,6 @@ function ItineraryList(
       hash={i}
       itinerary={edge.node}
       passive={i !== activeIndex}
-      currentTime={currentTime}
       onSelect={onSelect}
       onSelectImmediately={onSelectImmediately}
       intermediatePlaces={getIntermediatePlaces(location.query)}
@@ -177,7 +175,6 @@ function ItineraryList(
 ItineraryList.propTypes = {
   activeIndex: PropTypes.number.isRequired,
   searchTime: PropTypes.number.isRequired,
-  currentTime: PropTypes.number.isRequired,
   planEdges: PropTypes.arrayOf(planEdgeShape),
   onSelect: PropTypes.func.isRequired,
   onSelectImmediately: PropTypes.func.isRequired,
