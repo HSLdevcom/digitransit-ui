@@ -181,8 +181,6 @@ export default {
     },
   },
 
-  showBicycleWalkLegModes: ['RAIL', 'SUBWAY', 'TRAM', 'FERRY'],
-
   hostnames: [
     // DEV hostnames
     'https://next-dev-hameenlinna.digitransit.fi',

@@ -120,14 +120,6 @@ export default class Legs extends React.Component {
         previousLeg?.mode === 'BICYCLE' && previousLeg.to.vehicleParking;
       const carPark =
         previousLeg?.mode === 'CAR' && previousLeg.to.vehicleParking;
-      const showBicycleWalkLeg = () => {
-        return (
-          this.context.config.showBicycleWalkLegModes.includes(nextLeg?.mode) ||
-          this.context.config.showBicycleWalkLegModes.includes(
-            previousLeg?.mode,
-          )
-        );
-      };
       const legProps = {
         leg,
         index: j,
@@ -201,12 +193,9 @@ export default class Legs extends React.Component {
           bicycleWalkLeg = previousLeg;
         }
         // if there is a transit leg after or before a bicycle leg, render a bicycle_walk leg without distance information
-        if (showBicycleWalkLeg() && !bikeParked) {
+        if (!bikeParked && (nextLeg?.transitLeg || previousLeg?.transitLeg)) {
           let { from } = leg;
-          if (
-            (previousLeg?.mode === 'RAIL' || previousLeg?.mode === 'SUBWAY') &&
-            !leg.from.stop
-          ) {
+          if (previousLeg?.transitLeg && !leg.from.stop) {
             from = previousLeg.to;
           }
           bicycleWalkLeg = {
