@@ -82,7 +82,6 @@ function ItineraryList(
         0,
         <ItineraryListHeader
           translationId="itinerary-summary.bikePark-title"
-          defaultMessage="Biking \u0026 public transport \u0026 walking"
           key="itinerary-summary.bikepark-title"
         />,
       );
@@ -106,7 +105,7 @@ function ItineraryList(
         0,
         <ItineraryListHeader
           translationId={`itinerary-summary.bikeAndPublic-${mode}-title`}
-          defaultMessage="Biking \u0026 public transport"
+          defaultMessage="Take your bike with you onboard"
           key="itinerary-summary.bikeandpublic-title"
           showBikeBoardingInfo={showBikeBoardingInfo}
         />,

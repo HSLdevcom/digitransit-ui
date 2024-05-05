@@ -454,8 +454,6 @@ const translations = {
       'Umstieg auf {vehicle} an Halt {stopName}',
     'itinerary-summary-row.walking-distance':
       'Gesamte Laufstrecke: {totalDistance}.',
-    'itinerary-summary.bikeAndPublic-fallback-title':
-      'Nehmen Sie Ihr Rad mit ins Fahrzeug',
     'itinerary-summary.bikeAndPublic-rail-subway-title':
       'Nehmen Sie Ihr Rad mit in den Zug oder die Bahn',
     'itinerary-summary.bikeAndPublic-rail-title':
@@ -1167,10 +1165,8 @@ const translations = {
       'You are allowed to bring your bicycle on board the vehicle. Check with the transport operator if the transportation of bicycles is subject to a fee',
     'itinerary-summary.bikeAndPublic-bus-title':
       'Take your bike with you on the bus',
-    'itinerary-summary.bikeAndPublic-fallback-title':
-      'Take your bike with you onboard',
-    'itinerary-summary.bikeAndPublic-rail-subway-title':
-      'Take your bike with you on the train or to metro',
+    'itinerary-summary.bikeAndPublic-ferry-title':
+      'Take your bike with you on the ferry',
     'itinerary-summary.bikeAndPublic-rail-title':
       'Take your bike with you on the train',
     'itinerary-summary.bikeAndPublic-subway-title': 'Take your bike to metro',
@@ -2339,10 +2335,8 @@ const translations = {
     'itinerary-summary.bike-boarding-information':
       'Kulkuneuvossa mahdollisuus kuljettaa pyörää. Tarkasta pyörän kuljettamisen mahdollinen maksullisuus operaattorilta.',
     'itinerary-summary.bikeAndPublic-bus-title': 'Ota pyöräsi mukaan bussiin',
-    'itinerary-summary.bikeAndPublic-fallback-title':
-      'Ota pyöräsi mukaan kulkuneuvoon',
-    'itinerary-summary.bikeAndPublic-rail-subway-title':
-      'Ota pyöräsi mukaan junaan tai metroon',
+    'itinerary-summary.bikeAndPublic-ferry-title':
+      'Ota pyöräsi mukaan lautalle',
     'itinerary-summary.bikeAndPublic-rail-title': 'Ota pyöräsi mukaan junaan',
     'itinerary-summary.bikeAndPublic-subway-title':
       'Ota pyöräsi mukaan metroon',
@@ -4276,10 +4270,7 @@ const translations = {
     'itinerary-summary.bike-boarding-information':
       'Du får ta med cykeln ombord på fordonet. Kontrollera med trafikoperatören om det är avgiftsbelagt att transportera cyklar',
     'itinerary-summary.bikeAndPublic-bus-title': 'Ta cykeln med på bussen',
-    'itinerary-summary.bikeAndPublic-fallback-title':
-      'Ta cykeln med dig i fordonet',
-    'itinerary-summary.bikeAndPublic-rail-subway-title':
-      'Ta cykeln med på tåget eller metron',
+    'itinerary-summary.bikeAndPublic-ferry-title': 'Ta cykeln med på färjan',
     'itinerary-summary.bikeAndPublic-rail-title': 'Ta cykeln med på tåget',
     'itinerary-summary.bikeAndPublic-subway-title': 'Ta cykeln med på metron',
     'itinerary-summary.bikeAndPublic-tram-title': 'Ta cykeln med på spårvagnen',
