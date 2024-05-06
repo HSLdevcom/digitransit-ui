@@ -98,9 +98,7 @@ export default class Legs extends React.Component {
     let nextLeg;
     const legs = [];
     compressedLegs.forEach((leg, j) => {
-      if (j + 1 < compressedLegs.length) {
-        nextLeg = compressedLegs[j + 1];
-      }
+      nextLeg = j + 1 < numberOfLegs ? compressedLegs[j + 1] : undefined;
       if (j > 0) {
         previousLeg = compressedLegs[j - 1];
       }
@@ -120,14 +118,6 @@ export default class Legs extends React.Component {
         previousLeg?.mode === 'BICYCLE' && previousLeg.to.vehicleParking;
       const carPark =
         previousLeg?.mode === 'CAR' && previousLeg.to.vehicleParking;
-      const showBicycleWalkLeg = () => {
-        return (
-          this.context.config.showBicycleWalkLegModes.includes(nextLeg?.mode) ||
-          this.context.config.showBicycleWalkLegModes.includes(
-            previousLeg?.mode,
-          )
-        );
-      };
       const legProps = {
         leg,
         index: j,
@@ -143,6 +133,32 @@ export default class Legs extends React.Component {
         tabIndex: this.props.tabIndex,
       };
 
+      let waitLeg;
+      if (nextLeg) {
+        const waitThresholdInMs = waitThreshold * 1000;
+        const waitTime = legTime(nextLeg.start) - legTime(leg.end);
+        if (
+          waitTime > waitThresholdInMs &&
+          (nextLeg != null ? nextLeg.mode : null) !== 'AIRPLANE' &&
+          leg.mode !== 'AIRPLANE' &&
+          leg.mode !== 'CAR' &&
+          !nextLeg.intermediatePlace &&
+          !isNextLegInterlining &&
+          leg.to.stop
+        ) {
+          waitLeg = (
+            <WaitLeg
+              index={j}
+              leg={leg}
+              start={leg.end}
+              waitTime={waitTime}
+              focusAction={this.focus(leg.to)}
+            >
+              {stopCode(leg.to.stop)}
+            </WaitLeg>
+          );
+        }
+      }
       if (leg.mode !== 'WALK' && isCallAgencyPickupType(leg)) {
         legs.push(
           <CallAgencyLeg
@@ -201,13 +217,27 @@ export default class Legs extends React.Component {
           bicycleWalkLeg = previousLeg;
         }
         // if there is a transit leg after or before a bicycle leg, render a bicycle_walk leg without distance information
-        if (showBicycleWalkLeg() && !bikeParked) {
-          let { from } = leg;
-          if (
-            (previousLeg?.mode === 'RAIL' || previousLeg?.mode === 'SUBWAY') &&
-            !leg.from.stop
-          ) {
-            from = previousLeg.to;
+        // currently bike walk leg is not rendered if there is waiting at stop, because
+        // 'walk bike to train and wait x minutes' is too confusing instruction
+        // This cannot be fixed as long as bicycle leg renders also bike walking
+        if (
+          !bikeParked &&
+          ((nextLeg?.transitLeg && !waitLeg) || previousLeg?.transitLeg)
+        ) {
+          let { from, to } = leg;
+          // don't render instructions to walk bike out from vehicle
+          // if biking starts from stop (no transit first)
+          if (!previousLeg?.transitLeg && leg.from.stop) {
+            from = {
+              ...from,
+              stop: undefined,
+            };
+          }
+          if ((!nextLeg?.transitLeg && leg.to.stop) || waitLeg) {
+            to = {
+              ...to,
+              stop: undefined,
+            };
           }
           bicycleWalkLeg = {
             duration: 0,
@@ -215,7 +245,7 @@ export default class Legs extends React.Component {
             end: leg.start,
             distance: -1,
             rentedBike: leg.rentedBike,
-            to: leg.to,
+            to,
             from,
             mode: 'BICYCLE_WALK',
           };
@@ -225,38 +255,15 @@ export default class Legs extends React.Component {
         legs.push(<CarLeg {...legProps}>{stopCode(leg.from.stop)}</CarLeg>);
       }
 
-      if (nextLeg) {
-        const waitThresholdInMs = waitThreshold * 1000;
-        const waitTime = legTime(nextLeg.start) - legTime(leg.end);
-
-        if (
-          waitTime > waitThresholdInMs &&
-          (nextLeg != null ? nextLeg.mode : null) !== 'AIRPLANE' &&
-          leg.mode !== 'AIRPLANE' &&
-          leg.mode !== 'CAR' &&
-          !nextLeg.intermediatePlace &&
-          !isNextLegInterlining &&
-          leg.to.stop
-        ) {
-          legs.push(
-            <WaitLeg
-              index={j}
-              leg={leg}
-              start={leg.end}
-              waitTime={waitTime}
-              focusAction={this.focus(leg.to)}
-            >
-              {stopCode(leg.to.stop)}
-            </WaitLeg>,
-          );
-        }
+      if (waitLeg) {
+        legs.push(waitLeg);
       }
     });
 
     // This solves edge case when itinerary ends at the stop without walking.
     // There should be WalkLeg rendered before EndLeg.
     if (
-      compressedLegs[numberOfLegs - 1].mode !== 'WALK' &&
+      compressedLegs[numberOfLegs - 1].transitLeg &&
       compressedLegs[numberOfLegs - 1].to.stop
     ) {
       legs.push(

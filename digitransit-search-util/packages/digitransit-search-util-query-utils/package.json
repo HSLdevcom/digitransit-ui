@@ -1,6 +1,6 @@
 {
   "name": "@digitransit-search-util/digitransit-search-util-query-utils",
-  "version": "4.0.1",
+  "version": "4.0.2",
   "description": "digitransit-search-util query-utils module",
   "main": "lib/index.js",
   "publishConfig": {
@@ -30,7 +30,7 @@
   "peerDependencies": {
     "graphql": "16.8.1",
     "lodash": "4.17.21",
-    "moment": "2.29.4",
+    "moment": "2.30.1",
     "react-relay": "16.2.0"
   },
   "devDependencies": {

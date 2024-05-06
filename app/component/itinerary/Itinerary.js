@@ -518,7 +518,7 @@ const Itinerary = (
     if (leg.route) {
       const withBicycle =
         usingOwnBicycleWholeTrip &&
-        !config.modesWithNoBike.includes(leg.route.mode);
+        config.bikeBoardingModes[leg.route.mode] !== undefined;
       if (
         previousLeg &&
         !previousLeg.intermediatePlace &&

@@ -78,7 +78,6 @@ export function getSettings(config) {
           ...userSettings.modes.filter(mode =>
             isTransportModeAvailable(config, mode),
           ),
-          'WALK',
         ].sort()
       : defaultSettings.modes,
     // filter networks to configured allowed values
@@ -95,6 +94,18 @@ export function getSettings(config) {
     walkSpeed: findNearestOption(settings.walkSpeed, defaultOptions.walkSpeed),
     bikeSpeed: findNearestOption(settings.bikeSpeed, defaultOptions.bikeSpeed),
   };
+}
+
+function getTransitModes(modes, planType, config) {
+  let transitModes = modes.filter(m => m !== 'CITYBIKE');
+  if (planType === PLANTYPE.BIKETRANSIT) {
+    if (config.bikeBoardingModes) {
+      transitModes = transitModes.filter(m => config.bikeBoardingModes[m]);
+    } else {
+      return [];
+    }
+  }
+  return transitModes;
 }
 
 export function planQueryNeeded(
@@ -124,12 +135,11 @@ export function planQueryNeeded(
 
   const defaultSettings = getDefaultSettings(config);
   const settings = getSettings(config);
-  const modesOrDefault = relaxSettings ? defaultSettings.modes : settings.modes;
-  const transitFilter =
-    planType === PLANTYPE.BIKETRANSIT
-      ? ['CITYBIKE', 'WALK'].concat(config.modesWithNoBike)
-      : ['CITYBIKE', 'WALK'];
-  const transitModes = modesOrDefault.filter(m => !transitFilter.includes(m));
+  const transitModes = getTransitModes(
+    relaxSettings ? defaultSettings.modes : settings.modes,
+    planType,
+    config,
+  );
   const wheelchair = !!settings.accessibilityOption;
   const distance = estimateItineraryDistance(
     fromLocation,
@@ -173,7 +183,6 @@ export function planQueryNeeded(
       return (
         transitModes.length > 0 &&
         !wheelchair &&
-        config.showBikeAndPublicItineraries &&
         settings.includeBikeSuggestions
       );
 
@@ -242,12 +251,11 @@ export function getPlanParams(
   if (settings.allowedBikeRentalNetworks.length === 0) {
     settings.allowedBikeRentalNetworks = null;
   }
-  const modesOrDefault = relaxSettings ? defaultSettings.modes : settings.modes;
-  const transitFilter =
-    planType === PLANTYPE.BIKETRANSIT
-      ? ['CITYBIKE', 'WALK'].concat(config.modesWithNoBike)
-      : ['CITYBIKE', 'WALK'];
-  const transitModes = modesOrDefault.filter(m => !transitFilter.includes(m));
+  const transitModes = getTransitModes(
+    relaxSettings ? defaultSettings.modes : settings.modes,
+    planType,
+    config,
+  );
   let otpModes = modesAsOTPModes(transitModes);
   if (config.customWeights) {
     otpModes.forEach(m => {

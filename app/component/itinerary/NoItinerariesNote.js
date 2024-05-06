@@ -37,7 +37,6 @@ function NoItinerariesNote(
     error,
     routingErrors,
     locationState,
-    currentTime,
     searchTime,
   },
   context,
@@ -47,6 +46,7 @@ function NoItinerariesNote(
     config;
   const { hash } = match.params;
   const query = { from, to, searchTime, biking, driving, walking, hash };
+  const currentTime = Date.now();
   if (!searchTime) {
     query.searchTime = currentTime;
   }
@@ -91,7 +91,6 @@ NoItinerariesNote.propTypes = {
   walking: PropTypes.bool,
   biking: PropTypes.bool,
   driving: PropTypes.bool,
-  currentTime: PropTypes.number.isRequired,
   error: errorShape,
   routingErrors: PropTypes.arrayOf(RoutingerrorShape),
 };
@@ -112,9 +111,8 @@ NoItinerariesNote.contextTypes = {
 
 const connectedComponent = connectToStores(
   NoItinerariesNote,
-  ['TimeStore', 'PositionStore'],
+  ['PositionStore'],
   context => ({
-    currentTime: context.getStore('TimeStore').getCurrentTime().valueOf(),
     locationState: context.getStore('PositionStore').getLocationState(),
   }),
 );
