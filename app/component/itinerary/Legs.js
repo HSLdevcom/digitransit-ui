@@ -98,9 +98,7 @@ export default class Legs extends React.Component {
     let nextLeg;
     const legs = [];
     compressedLegs.forEach((leg, j) => {
-      if (j + 1 < compressedLegs.length) {
-        nextLeg = compressedLegs[j + 1];
-      }
+      nextLeg = j + 1 < numberOfLegs ? compressedLegs[j + 1] : undefined;
       if (j > 0) {
         previousLeg = compressedLegs[j - 1];
       }
