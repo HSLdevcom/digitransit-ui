@@ -441,7 +441,7 @@
 
           .phone-icon {
             .icon {
-              color: white;
+              color: black;
               height: 16px;
             }
           }
@@ -513,8 +513,7 @@
             }
           }
 
-          &.car,
-          &.scooter {
+          &.car {
             .leg-duration {
               color: $white;
             }

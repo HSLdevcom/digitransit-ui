@@ -363,6 +363,7 @@ export default {
       'mode-rail': '#af8dbc',
       'mode-ferry': '#247C7B',
       'mode-citybike': '#f2b62d',
+      'mode-scooter': '#BABABA',
     },
   },
   iconModeSet: 'digitransit',

@@ -180,7 +180,7 @@ export const ModeLeg = (
         ),
       );
   } else if (mode === 'SCOOTER') {
-    networkIcon = 'icon-icon_scooter_rider_white';
+    networkIcon = 'icon-icon_scooter_rider';
   }
   const routeNumber = (
     <RouteNumber
