@@ -133,6 +133,32 @@ export default class Legs extends React.Component {
         tabIndex: this.props.tabIndex,
       };
 
+      let waitLeg;
+      if (nextLeg) {
+        const waitThresholdInMs = waitThreshold * 1000;
+        const waitTime = legTime(nextLeg.start) - legTime(leg.end);
+        if (
+          waitTime > waitThresholdInMs &&
+          (nextLeg != null ? nextLeg.mode : null) !== 'AIRPLANE' &&
+          leg.mode !== 'AIRPLANE' &&
+          leg.mode !== 'CAR' &&
+          !nextLeg.intermediatePlace &&
+          !isNextLegInterlining &&
+          leg.to.stop
+        ) {
+          waitLeg = (
+            <WaitLeg
+              index={j}
+              leg={leg}
+              start={leg.end}
+              waitTime={waitTime}
+              focusAction={this.focus(leg.to)}
+            >
+              {stopCode(leg.to.stop)}
+            </WaitLeg>
+          );
+        }
+      }
       if (leg.mode !== 'WALK' && isCallAgencyPickupType(leg)) {
         legs.push(
           <CallAgencyLeg
@@ -191,7 +217,13 @@ export default class Legs extends React.Component {
           bicycleWalkLeg = previousLeg;
         }
         // if there is a transit leg after or before a bicycle leg, render a bicycle_walk leg without distance information
-        if (!bikeParked && (nextLeg?.transitLeg || previousLeg?.transitLeg)) {
+        // currently bike walk leg is not rendered if there is waiting at stop, because
+        // 'walk bike to train and wait x minutes' is too confusing instruction
+        // This cannot be fixed as long as bicycle leg renders also bike walking
+        if (
+          !bikeParked &&
+          ((nextLeg?.transitLeg && !waitLeg) || previousLeg?.transitLeg)
+        ) {
           let { from, to } = leg;
           // don't render instructions to walk bike out from vehicle
           // if biking starts from stop (no transit first)
@@ -201,13 +233,12 @@ export default class Legs extends React.Component {
               stop: undefined,
             };
           }
-          if (!nextLeg?.transitLeg && leg.to.stop) {
+          if ((!nextLeg?.transitLeg && leg.to.stop) || waitLeg) {
             to = {
               ...to,
               stop: undefined,
             };
           }
-
           bicycleWalkLeg = {
             duration: 0,
             start: leg.start,
@@ -224,31 +255,8 @@ export default class Legs extends React.Component {
         legs.push(<CarLeg {...legProps}>{stopCode(leg.from.stop)}</CarLeg>);
       }
 
-      if (nextLeg) {
-        const waitThresholdInMs = waitThreshold * 1000;
-        const waitTime = legTime(nextLeg.start) - legTime(leg.end);
-
-        if (
-          waitTime > waitThresholdInMs &&
-          (nextLeg != null ? nextLeg.mode : null) !== 'AIRPLANE' &&
-          leg.mode !== 'AIRPLANE' &&
-          leg.mode !== 'CAR' &&
-          !nextLeg.intermediatePlace &&
-          !isNextLegInterlining &&
-          leg.to.stop
-        ) {
-          legs.push(
-            <WaitLeg
-              index={j}
-              leg={leg}
-              start={leg.end}
-              waitTime={waitTime}
-              focusAction={this.focus(leg.to)}
-            >
-              {stopCode(leg.to.stop)}
-            </WaitLeg>,
-          );
-        }
+      if (waitLeg) {
+        legs.push(waitLeg);
       }
     });
 
