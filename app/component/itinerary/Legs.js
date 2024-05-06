@@ -263,7 +263,7 @@ export default class Legs extends React.Component {
     // This solves edge case when itinerary ends at the stop without walking.
     // There should be WalkLeg rendered before EndLeg.
     if (
-      compressedLegs[numberOfLegs - 1].mode !== 'WALK' &&
+      compressedLegs[numberOfLegs - 1].transitLeg &&
       compressedLegs[numberOfLegs - 1].to.stop
     ) {
       legs.push(
