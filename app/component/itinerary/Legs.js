@@ -192,17 +192,29 @@ export default class Legs extends React.Component {
         }
         // if there is a transit leg after or before a bicycle leg, render a bicycle_walk leg without distance information
         if (!bikeParked && (nextLeg?.transitLeg || previousLeg?.transitLeg)) {
-          let { from } = leg;
-          if (previousLeg?.transitLeg && !leg.from.stop) {
-            from = previousLeg.to;
+          let { from, to } = leg;
+          // don't render instructions to walk bike out from vehicle
+          // if biking starts from stop (no transit first)
+          if (!previousLeg?.transitLeg && leg.from.stop) {
+            from = {
+              ...from,
+              stop: undefined,
+            };
           }
+          if (!nextLeg?.transitLeg && leg.to.stop) {
+            to = {
+              ...to,
+              stop: undefined,
+            };
+          }
+
           bicycleWalkLeg = {
             duration: 0,
             start: leg.start,
             end: leg.start,
             distance: -1,
             rentedBike: leg.rentedBike,
-            to: leg.to,
+            to,
             from,
             mode: 'BICYCLE_WALK',
           };
