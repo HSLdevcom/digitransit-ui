@@ -464,7 +464,7 @@ const Itinerary = (
       const scooterDuration = Math.floor(leg.duration / 60);
       legs.push(
         <ModeLeg
-          key={`${leg.mode}_${leg.startTime}`}
+          key={`${leg.mode}_${leg.start.scheduledTime}`}
           isTransitLeg={false}
           renderModeIcons={renderModeIcons}
           leg={leg}

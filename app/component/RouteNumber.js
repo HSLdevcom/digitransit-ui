@@ -159,7 +159,7 @@ function RouteNumber(props, context) {
               <span className="leg-duration">{props.duration}</span>
             </div>
           )}
-        {isScooter && (
+        {isScooter && !props.vertical && (
           <Icon img="icon-icon_smartphone" className="phone-icon" />
         )}
       </span>

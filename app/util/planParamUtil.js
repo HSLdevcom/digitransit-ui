@@ -6,9 +6,10 @@ import {
   isTransportModeAvailable,
 } from './modeUtils';
 import { otpToLocation, getIntermediatePlaces } from './otpStrings';
-import { getDefaultNetworks } from './vehicleRentalUtils';
+import { getAllNetworksOfType, getDefaultNetworks } from './vehicleRentalUtils';
 import { getCustomizedSettings } from '../store/localStorage';
 import { estimateItineraryDistance } from './geo-utils';
+import { TransportMode } from '../constants';
 
 export const PLANTYPE = {
   WALK: 'WALK',
@@ -73,6 +74,10 @@ export function getSettings(config) {
   const defaultSettings = getDefaultSettings(config);
   const userSettings = getCustomizedSettings();
   const allNetworks = getDefaultNetworks(config);
+  const allScooterNetworks = getAllNetworksOfType(
+    config,
+    TransportMode.Scooter,
+  );
 
   // const allScooterNetworks = getAllScooterNetworks(config);
   const settings = {
@@ -96,7 +101,7 @@ export function getSettings(config) {
     allowedScooterRentalNetworks:
       userSettings.allowedScooterRentalNetworks?.length > 0
         ? userSettings.allowedScooterRentalNetworks.filter(network =>
-            allNetworks.includes(network),
+            allScooterNetworks.includes(network),
           )
         : defaultSettings.allowedScooterRentalNetworks,
   };

@@ -32,11 +32,12 @@ export function isCitybikePreSeasonActive(season) {
   return false;
 }
 
-export function showCitybikeNetwork(network, config) {
+export function showCitybikeNetwork(networkConfig, config) {
   return (
-    network?.enabled &&
-    (isCitybikeSeasonActive(network?.season) ||
-      isCitybikePreSeasonActive(network?.season) ||
+    networkConfig?.enabled &&
+    networkConfig.type === 'citybike' &&
+    (isCitybikeSeasonActive(networkConfig?.season) ||
+      isCitybikePreSeasonActive(networkConfig?.season) ||
       isDevelopmentEnvironment(config))
   );
 }

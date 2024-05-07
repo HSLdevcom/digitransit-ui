@@ -62,7 +62,10 @@ export const getVehicleRentalStationNetworkConfig = (networkId, config) => {
 export const getDefaultNetworks = config => {
   const mappedNetworks = [];
   Object.entries(config.cityBike.networks).forEach(n => {
-    if (citybikeRoutingIsActive(n[1], config)) {
+    if (
+      citybikeRoutingIsActive(n[1], config) &&
+      n[1]?.type !== CityBikeNetworkType.Scooter // scooter networks are never on by default
+    ) {
       mappedNetworks.push(n[0]);
     }
   });

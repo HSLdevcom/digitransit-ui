@@ -40,6 +40,7 @@ import { mapLayerShape } from '../store/MapLayerStore';
 import {
   getVehicleRentalStationNetworkConfig,
   getVehicleRentalStationNetworkId,
+  getDefaultNetworks,
 } from '../util/vehicleRentalUtils';
 import { getMapLayerOptions } from '../util/mapLayerUtils';
 import {
@@ -214,9 +215,11 @@ class StopsNearYouPage extends React.Component {
     const { searchPosition } = this.state;
     let placeTypes = ['STOP', 'STATION'];
     let modes = [mode];
+    let allowedNetworks = [];
     if (mode === 'CITYBIKE') {
       placeTypes = 'VEHICLE_RENT';
       modes = ['BICYCLE'];
+      allowedNetworks = getDefaultNetworks(this.context.config);
     }
     const prioritizedStops =
       this.context.config.prioritizedStopsNearYou[mode.toLowerCase()] || [];
@@ -232,6 +235,7 @@ class StopsNearYouPage extends React.Component {
       omitNonPickups: this.context.config.omitNonPickups,
       feedIds: this.context.config.feedIds,
       prioritizedStopIds: prioritizedStops,
+      filterByNetworkNames: allowedNetworks,
     };
   };
 
@@ -446,6 +450,7 @@ class StopsNearYouPage extends React.Component {
                 $maxDistance: Int!
                 $omitNonPickups: Boolean!
                 $feedIds: [String!]
+                $filterByNetworkNames: [String!]
               ) {
                 stopPatterns: viewer {
                   ...StopsNearYouContainer_stopPatterns
@@ -458,6 +463,7 @@ class StopsNearYouPage extends React.Component {
                       maxResults: $maxResults
                       maxDistance: $maxDistance
                       omitNonPickups: $omitNonPickups
+                      filterByNetworkNames: $filterByNetworkNames
                     )
                 }
                 alerts: alerts(feeds: $feedIds, severityLevel: [SEVERE]) {
@@ -739,6 +745,7 @@ class StopsNearYouPage extends React.Component {
             $maxDistance: Int!
             $omitNonPickups: Boolean!
             $prioritizedStopIds: [String!]!
+            $filterByNetworkNames: [String!]
           ) {
             stops: viewer {
               ...StopsNearYouMapContainer_stopsNearYou
@@ -751,6 +758,7 @@ class StopsNearYouPage extends React.Component {
                   maxResults: $maxResults
                   maxDistance: $maxDistance
                   omitNonPickups: $omitNonPickups
+                  filterByNetworkNames: $filterByNetworkNames
                 )
             }
             prioritizedStops: stops(ids: $prioritizedStopIds) {
