@@ -377,7 +377,6 @@ export default function ItineraryPage(props, context) {
       setState({ ...state, ...newState, loadingMore: undefined });
       return;
     }
-    planParams.first = planParams.numItineraries;
     planParams.transitOnly = true;
 
     setState({

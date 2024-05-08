@@ -4,7 +4,6 @@ const planConnection = graphql`
   query PlanConnectionQuery(
     $fromPlace: PlanLabeledLocationInput!
     $toPlace: PlanLabeledLocationInput!
-    $numItineraries: Int
     $modes: PlanModesInput!
     $datetime: PlanDateTimeInput!
     $walkReluctance: Reluctance
@@ -22,7 +21,6 @@ const planConnection = graphql`
   ) {
     plan: planConnection(
       dateTime: $datetime
-      numberOfItineraries: $numItineraries
       after: $after
       first: $first
       before: $before

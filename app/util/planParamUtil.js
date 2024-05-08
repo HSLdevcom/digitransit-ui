@@ -335,6 +335,7 @@ export function getPlanParams(
   const datetime = arriveBy
     ? { latestArrival: timeStr }
     : { earliestDeparture: timeStr };
+  const numItineraries = directOnly ? 1 : 5;
 
   return {
     ...settings,
@@ -342,7 +343,8 @@ export function getPlanParams(
     toPlace,
     datetime,
     minTransferTime: `PT${settings.minTransferTime}S`,
-    numItineraries: directOnly ? 1 : 5,
+    first: numItineraries, // used in actual query
+    numItineraries, // backup original value for convenient paging
     wheelchair,
     walkReluctance,
     walkBoardCost,
