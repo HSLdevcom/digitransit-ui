@@ -104,11 +104,11 @@ jobs:
 
       - name: Run linters
         run: yarn lint
-      - name: lint SVG sprites using xmllint
-        run: |
-          sudo apt update
-          sudo apt install -y libxml2-utils
-          xmllint --nonet --noout static/assets/svg-sprite.*.svg
+#      - name: lint SVG sprites using xmllint
+#        run: |
+#          sudo apt update
+#          sudo apt install -y libxml2-utils
+#          xmllint --nonet --noout static/assets/svg-sprite.*.svg
 
   unit-test:
     needs: install

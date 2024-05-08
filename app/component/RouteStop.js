@@ -3,6 +3,7 @@ import React from 'react';
 import Link from 'found/Link';
 import { FormattedMessage, intlShape } from 'react-intl';
 import cx from 'classnames';
+import { alertShape, configShape, vehicleShape } from '../util/shapes';
 import AddressRow from './AddressRow';
 import TripLink from './TripLink';
 import FuzzyTripLink from './FuzzyTripLink';
@@ -16,7 +17,6 @@ import { getZoneLabel } from '../util/legUtils';
 import { estimateItineraryDistance } from '../util/geo-utils';
 import getVehicleState from '../util/vehicleStateUtils';
 import Icon from './Icon';
-import { VehicleShape } from '../util/shapes';
 
 const RouteStop = (
   {
@@ -286,7 +286,7 @@ const RouteStop = (
 
 RouteStop.propTypes = {
   color: PropTypes.string,
-  vehicle: VehicleShape,
+  vehicle: vehicleShape,
   stop: PropTypes.shape({
     code: PropTypes.string,
     name: PropTypes.string,
@@ -295,13 +295,7 @@ RouteStop.propTypes = {
     zoneId: PropTypes.string,
     scheduledDeparture: PropTypes.number,
     platformCode: PropTypes.string,
-    alerts: PropTypes.arrayOf(
-      PropTypes.shape({
-        effectiveStartDate: PropTypes.number,
-        effectiveEndDate: PropTypes.number,
-        alertSeverityLevel: PropTypes.string,
-      }),
-    ),
+    alerts: PropTypes.arrayOf(alertShape),
     stopTimesForPattern: PropTypes.arrayOf(
       PropTypes.shape({
         realtimeDeparture: PropTypes.number,
@@ -341,11 +335,12 @@ RouteStop.defaultProps = {
   prevStop: null,
   shortName: undefined,
   vehicle: undefined,
+  hideDepartures: false,
 };
 
 RouteStop.contextTypes = {
   intl: intlShape.isRequired,
-  config: PropTypes.object.isRequired,
+  config: configShape.isRequired,
 };
 
 export default RouteStop;

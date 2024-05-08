@@ -3,6 +3,23 @@ import get from 'lodash/get';
 import { BIKEAVL_UNKNOWN } from './vehicleRentalUtils';
 import { getRouteMode } from './modeUtils';
 
+/**
+ * Get time as  milliseconds since the Unix Epoch
+ */
+export function legTime(lt) {
+  const t = lt.estimated?.time || lt.scheduledTime;
+  return Date.parse(t);
+}
+
+/**
+ * Get time as 'hh:mm'
+ */
+export function legTimeStr(lt) {
+  const t = lt.estimated?.time || lt.scheduledTime;
+  const parts = new Date(t).toTimeString().split(':');
+  return `${parts[0]}:${parts[1]}`;
+}
+
 function filterLegStops(leg, filter) {
   if (leg.from.stop && leg.to.stop && leg.trip) {
     const stops = [leg.from.stop.gtfsId, leg.to.stop.gtfsId];
@@ -117,7 +134,7 @@ function continueWithBicycle(leg1, leg2) {
     leg1.mode === LegMode.Bicycle || leg1.mode === LegMode.Walk;
   const isBicycle2 =
     leg2.mode === LegMode.Bicycle || leg2.mode === LegMode.Walk;
-  return isBicycle1 && isBicycle2 && !leg1.to.bikePark;
+  return isBicycle1 && isBicycle2 && !leg1.to.vehicleParking;
 }
 
 export function getLegText(route, config, interliningWithRoute) {
@@ -173,7 +190,7 @@ export function compressLegs(originalLegs, keepBicycleWalk = false) {
   let compressedLeg;
   let bikeParked = false;
   originalLegs.forEach((currentLeg, i) => {
-    if (currentLeg.to?.bikePark || currentLeg.from?.bikePark) {
+    if (currentLeg.to?.vehicleParking && currentLeg.mode === LegMode.Bicycle) {
       bikeParked = true;
     }
     if (!compressedLeg) {
@@ -203,15 +220,18 @@ export function compressLegs(originalLegs, keepBicycleWalk = false) {
     }
     if (usingOwnBicycle && continueWithBicycle(compressedLeg, currentLeg)) {
       // eslint-disable-next-line no-nested-ternary
-      const newBikePark = compressedLeg.to.bikePark
-        ? compressedLeg.to.bikePark
-        : currentLeg.to.bikePark
-          ? currentLeg.to.bikePark
+      const newBikePark = compressedLeg.to.vehicleParking
+        ? compressedLeg.to.vehicleParking
+        : currentLeg.to.vehicleParking
+          ? currentLeg.to.vehicleParking
           : null;
       compressedLeg.duration += currentLeg.duration;
       compressedLeg.distance += currentLeg.distance;
-      compressedLeg.to = { ...currentLeg.to, ...{ bikePark: newBikePark } };
-      compressedLeg.endTime = currentLeg.endTime;
+      compressedLeg.to = {
+        ...currentLeg.to,
+        ...{ vehicleParking: newBikePark },
+      };
+      compressedLeg.end = currentLeg.end;
       compressedLeg.mode = LegMode.Bicycle;
       return;
     }
@@ -224,7 +244,7 @@ export function compressLegs(originalLegs, keepBicycleWalk = false) {
       compressedLeg.duration += currentLeg.duration;
       compressedLeg.distance += currentLeg.distance;
       compressedLeg.to = currentLeg.to;
-      compressedLeg.endTime = currentLeg.endTime;
+      compressedLeg.end = currentLeg.end;
       compressedLeg.mode = LegMode.CityBike;
       return;
     }
@@ -309,6 +329,16 @@ export function legContainsRentalBike(leg) {
 }
 
 /**
+ * Checks if a leg contains a bike park.
+ *
+ * @param {*} leg - The leg object to check.
+ * @returns {boolean} - True if the leg contains a bike park, false otherwise.
+ */
+export function legContainsBikePark(leg) {
+  return leg.mode === LegMode.Bicycle && leg.to.vehicleParking;
+}
+
+/**
  * Calculates and returns the total walking distance undertaken in an itinerary.
  * This could be used as a fallback if the backend returns an invalid value.
  *
@@ -345,18 +375,15 @@ export function getTotalDistance(itinerary) {
 /**
  * Gets the indicator color for the current amount of citybikes available.
  *
- * @param {number} vehiclesAvailable the number of bikes currently available
+ * @param {number} available the number of bikes currently available
  * @param {*} config the configuration for the software installation
  */
-export function getVehicleAvailabilityIndicatorColor(
-  vehiclesAvailable,
-  config,
-) {
+export function getVehicleAvailabilityIndicatorColor(available, config) {
   return (
     // eslint-disable-next-line no-nested-ternary
-    vehiclesAvailable === 0
+    available === 0
       ? '#DC0451'
-      : vehiclesAvailable > config.cityBike.fewAvailableCount
+      : available > config.cityBike.fewAvailableCount
         ? '#3B7F00'
         : '#FCBC19'
   );
@@ -364,12 +391,11 @@ export function getVehicleAvailabilityIndicatorColor(
 
 /* Gets the indicator text color if  few bikes are available
  *
- * @param {number} vehiclesAvailable the number of bikes currently available
+ * @param {number} available the number of bikes currently available
  * @param {*} config the configuration for the software installation/
  */
-export function getVehicleAvailabilityTextColor(vehiclesAvailable, config) {
-  return vehiclesAvailable <= config.cityBike.fewAvailableCount &&
-    vehiclesAvailable > 0
+export function getVehicleAvailabilityTextColor(available, config) {
+  return available <= config.cityBike.fewAvailableCount && available > 0
     ? '#333'
     : '#fff';
 }
@@ -391,11 +417,11 @@ export function getLegBadgeProps(leg, config) {
   ) {
     return undefined;
   }
-  const { vehiclesAvailable } = leg.from.vehicleRentalStation || 0;
+  const { total } = leg.from.vehicleRentalStation?.availableVehicles || 0;
   return {
-    badgeFill: getVehicleAvailabilityIndicatorColor(vehiclesAvailable, config),
-    badgeText: `${vehiclesAvailable}`,
-    badgeTextFill: getVehicleAvailabilityTextColor(vehiclesAvailable, config),
+    badgeFill: getVehicleAvailabilityIndicatorColor(total, config),
+    badgeText: `${total}`,
+    badgeTextFill: getVehicleAvailabilityTextColor(total, config),
   };
 }
 
@@ -563,3 +589,17 @@ export function getExtendedMode(leg, config) {
     ? (leg.route && getRouteMode(leg.route)) || leg.mode?.toLowerCase()
     : leg.mode?.toLowerCase();
 }
+
+/**
+ * Determines whether to show a notification for a bike with a public transit
+ *
+ * @param {object} leg - The leg object.
+ * @param {object} config - Config data.
+ * @returns {boolean} - Returns true if a notifier should be shown
+ */
+export const showBikeBoardingNote = (leg, config) => {
+  const { bikeBoardingModes } = config;
+  return (
+    bikeBoardingModes && bikeBoardingModes[leg.mode]?.showNotification === true
+  );
+};

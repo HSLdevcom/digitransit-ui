@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { useRef, useLayoutEffect, useState } from 'react';
+import { configShape } from '../util/shapes';
 import MapBottomsheetContext from './map/MapBottomsheetContext';
 import MobileFooter from './MobileFooter';
 
@@ -25,7 +26,7 @@ function slowlyScrollTo(el, to = 0, duration = 1000) {
   animateScroll();
 }
 
-Math.easeInOutQuad = function (a, b, c, d) {
+Math.easeInOutQuad = function easeInOutQuad(a, b, c, d) {
   let t = a;
   t /= d / 2;
   if (t < 1) {
@@ -133,7 +134,7 @@ export default function MobileView({
 
 MobileView.propTypes = {
   header: PropTypes.node,
-  map: PropTypes.any,
+  map: PropTypes.node,
   content: PropTypes.node,
   settingsDrawer: PropTypes.node,
   selectFromMapHeader: PropTypes.node,
@@ -141,6 +142,16 @@ MobileView.propTypes = {
   expandMap: PropTypes.number,
 };
 
+MobileView.defaultProps = {
+  header: undefined,
+  map: undefined,
+  content: undefined,
+  settingsDrawer: undefined,
+  selectFromMapHeader: undefined,
+  searchBox: undefined,
+  expandMap: undefined,
+};
+
 MobileView.contextTypes = {
-  config: PropTypes.object.isRequired,
+  config: configShape.isRequired,
 };

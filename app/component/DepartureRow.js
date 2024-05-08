@@ -2,12 +2,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import moment from 'moment';
 import { intlShape } from 'react-intl';
 import { v4 as uuid } from 'uuid';
 import { Link } from 'found';
-import LocalTime from './LocalTime';
+import { configShape, departureShape } from '../util/shapes';
 import { getHeadsignFromRouteLongName } from '../util/legUtils';
+import { timeStr } from '../util/timeUtils';
 import {
   alertSeverityCompare,
   getAlertsForObject,
@@ -24,7 +24,7 @@ const getMostSevereAlert = route => {
   return alerts.sort(alertSeverityCompare)[0];
 };
 
-const DepartureRow = (
+export default function DepartureRow(
   {
     departure,
     departureTime,
@@ -34,10 +34,11 @@ const DepartureRow = (
     ...props
   },
   { config, intl },
-) => {
+) {
   const { trip, trip: { route } = {} } = departure;
   const mode = getRouteMode(route);
-
+  const departureTimeMs = departureTime * 1000;
+  const time = timeStr(departureTimeMs);
   const timeDiffInMinutes = Math.floor(
     (departureTime - props.currentTime) / 60,
   );
@@ -122,7 +123,7 @@ const DepartureRow = (
             {
               shortName: shortName?.toLowerCase(),
               destination: headsign,
-              time: moment(departureTime * 1000).format('HH:mm'),
+              time,
             },
           )}
         />
@@ -134,7 +135,7 @@ const DepartureRow = (
   const capacity = getCapacity(
     config,
     trip?.occupancy?.occupancyStatus,
-    departureTime * 1000,
+    departureTimeMs,
   );
 
   return (
@@ -202,7 +203,7 @@ const DepartureRow = (
               })}
               aria-hidden="true"
             >
-              <LocalTime time={departureTime} />
+              {time}
             </span>
             <span className="sr-only">
               {intl.formatMessage(
@@ -211,7 +212,7 @@ const DepartureRow = (
                 },
                 {
                   when: shownTime,
-                  time: moment(departureTime * 1000).format('HH:mm'),
+                  time,
                   realTime: departure.realtime
                     ? intl.formatMessage({ id: 'realtime' })
                     : '',
@@ -257,20 +258,26 @@ const DepartureRow = (
       )}
     </tr>
   );
-};
+}
+
 DepartureRow.propTypes = {
-  departure: PropTypes.object.isRequired,
+  departure: departureShape.isRequired,
   departureTime: PropTypes.number.isRequired,
   currentTime: PropTypes.number.isRequired,
   showPlatformCode: PropTypes.bool,
   canceled: PropTypes.bool,
   className: PropTypes.string,
-  // eslint-disable-next-line react/require-default-props
   onCapacityClick: PropTypes.func,
 };
 
+DepartureRow.defaultProps = {
+  showPlatformCode: false,
+  canceled: false,
+  className: '',
+  onCapacityClick: undefined,
+};
+
 DepartureRow.contextTypes = {
-  config: PropTypes.object.isRequired,
+  config: configShape.isRequired,
   intl: intlShape.isRequired,
 };
-export default DepartureRow;

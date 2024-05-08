@@ -1,5 +1,4 @@
 import Store from 'fluxible/addons/BaseStore';
-import includes from 'lodash/includes';
 import find from 'lodash/find';
 import findIndex from 'lodash/findIndex';
 import isEmpty from 'lodash/isEmpty';
@@ -15,11 +14,28 @@ import {
   getFavourites,
   updateFavourites,
 } from '../util/apiUtils';
-import { getIdWithoutFeed } from '../util/feedScopedIdUtils';
 import {
   mapVehicleRentalFromStore,
   mapVehicleRentalToStore,
 } from '../util/vehicleRentalUtils';
+
+// internal data model for vehicle rental stations has changed
+// however, data is stored in old form for compatibility
+function mapFromStore(favourites) {
+  return favourites.map(favourite =>
+    favourite.type === 'bikeStation'
+      ? mapVehicleRentalFromStore(favourite)
+      : favourite,
+  );
+}
+
+function mapToStore(favourites) {
+  return favourites.map(favourite =>
+    favourite.type === 'bikeStation'
+      ? mapVehicleRentalToStore(favourite)
+      : favourite,
+  );
+}
 
 export default class FavouriteStore extends Store {
   static storeName = 'FavouriteStore';
@@ -40,13 +56,10 @@ export default class FavouriteStore extends Store {
     super(dispatcher);
     this.config = dispatcher.getContext().config;
     if (!this.config.allowLogin) {
-      this.favourites = getFavouriteStorage();
+      this.favourites = mapFromStore(getFavouriteStorage());
     } else {
       this.status = FavouriteStore.STATUS_FETCHING_OR_UPDATING;
     }
-    // this.migrateRoutes();
-    // this.migrateStops();
-    // this.migrateLocations();
   }
 
   fetchComplete() {
@@ -64,6 +77,11 @@ export default class FavouriteStore extends Store {
     this.emitChange();
   }
 
+  set(favs) {
+    this.favourites = mapFromStore(favs);
+    this.fetchComplete();
+  }
+
   fetchFavourites() {
     this.fetchingOrUpdating();
     getFavourites()
@@ -71,14 +89,12 @@ export default class FavouriteStore extends Store {
         if (this.config.allowFavouritesFromLocalstorage) {
           this.mergeWithLocalstorage(res);
         } else {
-          this.favourites = res;
-          this.fetchComplete();
+          this.set(res);
         }
       })
       .catch(() => {
         if (this.config.allowFavouritesFromLocalstorage) {
-          this.favourites = getFavouriteStorage();
-          this.fetchComplete();
+          this.set(getFavouriteStorage());
         } else {
           this.fetchFailed();
         }
@@ -90,20 +106,14 @@ export default class FavouriteStore extends Store {
   }
 
   isFavourite(id, type) {
-    const ids = this.favourites
-      .filter(favourite => favourite.type === type)
-      .map(favourite => favourite.gtfsId || favourite.gid);
-    return includes(ids, id);
-  }
-
-  isFavouriteVehicleRentalStation(id, network) {
-    const ids = this.favourites
-      .filter(
-        favourite =>
-          favourite.type === 'bikeStation' && favourite.networks[0] === network,
-      )
-      .map(favourite => `${favourite.networks[0]}:${favourite.stationId}`);
-    return includes(ids, id);
+    for (let i = 0; i < this.favourites.length; i++) {
+      const favourite = this.favourites[i];
+      const fid = favourite.gtfsId || favourite.gid || favourite.stationId;
+      if (favourite.type === type && fid === id) {
+        return true;
+      }
+    }
+    return false;
   }
 
   clearFavourites() {
@@ -113,16 +123,8 @@ export default class FavouriteStore extends Store {
     this.emitChange();
   }
 
-  storeFavourites() {
-    setFavouriteStorage(this.favourites);
-  }
-
   getFavourites() {
-    return this.favourites.map(favourite =>
-      favourite.type === 'bikeStation'
-        ? mapVehicleRentalFromStore(favourite)
-        : favourite,
-    );
+    return this.favourites;
   }
 
   getByGtfsId(gtfsId, type) {
@@ -136,8 +138,7 @@ export default class FavouriteStore extends Store {
     return find(
       this.favourites,
       favourite =>
-        getIdWithoutFeed(stationId) === favourite.stationId &&
-        favourite.networks[0] === network,
+        stationId === favourite.stationId && network === favourite.network,
     );
   }
 
@@ -162,9 +163,9 @@ export default class FavouriteStore extends Store {
   }
 
   getVehicleRentalStations() {
-    return this.favourites
-      .filter(favourite => favourite.type === 'bikeStation')
-      .map(favourite => mapVehicleRentalFromStore(favourite));
+    return this.favourites.filter(
+      favourite => favourite.type === 'bikeStation',
+    );
   }
 
   /**
@@ -175,20 +176,17 @@ export default class FavouriteStore extends Store {
   mergeWithLocalstorage(arrayOfFavourites) {
     const storage = getFavouriteStorage();
     if (isEmpty(storage)) {
-      this.favourites = arrayOfFavourites;
-      this.fetchComplete();
+      this.set(arrayOfFavourites);
       return;
     }
 
     updateFavourites(storage)
       .then(res => {
-        this.favourites = res;
+        this.set(res);
         clearFavouriteStorage();
-        this.fetchComplete();
       })
       .catch(() => {
-        this.favourites = arrayOfFavourites;
-        this.fetchComplete();
+        this.set(arrayOfFavourites);
       });
   }
 
@@ -212,9 +210,9 @@ export default class FavouriteStore extends Store {
     if (data.type === 'bikeStation') {
       data = mapVehicleRentalToStore(data);
     }
-    const newFavourites = this.favourites.slice();
+    const newFavourites = mapToStore(this.favourites);
     const editIndex = findIndex(
-      this.favourites,
+      newFavourites,
       item => data.favouriteId === item.favouriteId,
     );
     if (editIndex >= 0) {
@@ -233,21 +231,19 @@ export default class FavouriteStore extends Store {
       // Update favourites to backend service
       updateFavourites(newFavourites)
         .then(res => {
-          this.favourites = res;
-          this.fetchComplete();
+          this.set(res);
         })
         .catch(() => {
           onFail();
           if (this.config.allowFavouritesFromLocalstorage) {
-            this.favourites = newFavourites;
-            this.storeFavourites();
+            this.set(newFavourites);
+            setFavouriteStorage(newFavourites);
           }
           this.fetchComplete();
         });
     } else {
-      this.favourites = newFavourites;
-      this.storeFavourites();
-      this.fetchComplete();
+      this.set(newFavourites);
+      setFavouriteStorage(newFavourites);
     }
   }
 
@@ -265,31 +261,25 @@ export default class FavouriteStore extends Store {
         `New favourites is not an array:${JSON.stringify(newFavourites)}`,
       );
     }
-    const newFavouriteMapped = newFavourites.map(favourite =>
-      favourite.type === 'bikeStation'
-        ? mapVehicleRentalToStore(favourite)
-        : favourite,
-    );
+    const mapped = mapToStore(newFavourites);
     this.fetchingOrUpdating();
     if (this.config.allowLogin) {
       // Update favourites to backend service
-      updateFavourites(newFavouriteMapped)
+      updateFavourites(mapped)
         .then(res => {
-          this.favourites = res;
-          this.fetchComplete();
+          this.set(res);
         })
         .catch(() => {
           onFail();
           if (this.config.allowFavouritesFromLocalstorage) {
-            this.favourites = newFavouriteMapped;
-            this.storeFavourites();
+            this.set(mapped);
+            setFavouriteStorage(mapped);
           }
           this.fetchComplete();
         });
     } else {
-      this.favourites = newFavouriteMapped;
-      this.storeFavourites();
-      this.fetchComplete();
+      this.set(mapped);
+      setFavouriteStorage(mapped);
     }
   }
 
@@ -306,28 +296,26 @@ export default class FavouriteStore extends Store {
       throw new Error(`Favourite is not an object:${JSON.stringify(data)}`);
     }
     this.fetchingOrUpdating();
-    const newFavourites = this.favourites.filter(
+    const newFavourites = mapToStore(this.favourites).filter(
       favourite => favourite.favouriteId !== data.favouriteId,
     );
     if (this.config.allowLogin) {
       // Delete favourite from backend service
       deleteFavourites([data.favouriteId])
         .then(res => {
-          this.favourites = res;
-          this.fetchComplete();
+          this.set(res);
         })
         .catch(() => {
           onFail();
           if (this.config.allowFavouritesFromLocalstorage) {
-            this.favourites = newFavourites;
-            this.storeFavourites();
+            this.set(newFavourites);
+            setFavouriteStorage(newFavourites);
           }
           this.fetchComplete();
         });
     } else {
-      this.favourites = newFavourites;
-      this.storeFavourites();
-      this.fetchComplete();
+      this.set(newFavourites);
+      setFavouriteStorage(newFavourites);
     }
   }
 

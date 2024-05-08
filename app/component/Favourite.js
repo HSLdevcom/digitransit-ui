@@ -8,7 +8,7 @@ import Icon from './Icon';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
-const Favourite = (
+export default function Favourite(
   {
     addFavourite,
     deleteFavourite,
@@ -20,7 +20,7 @@ const Favourite = (
     language,
   },
   context,
-) => {
+) {
   const [disable, handleDisable] = useState(false);
   const [showLoginModal, setLoginModalVisibility] = useState(false);
 
@@ -132,7 +132,7 @@ const Favourite = (
       {renderLoginModal()}
     </button>
   );
-};
+}
 
 Favourite.contextTypes = {
   match: matchShape.isRequired,
@@ -150,6 +150,12 @@ Favourite.propTypes = {
   language: PropTypes.string,
 };
 
-Favourite.displayName = 'Favourite';
+Favourite.defaultProps = {
+  favourite: false,
+  isFetching: false,
+  className: undefined,
+  isLoggedIn: false,
+  language: undefined,
+};
 
-export default Favourite;
+Favourite.displayName = 'Favourite';

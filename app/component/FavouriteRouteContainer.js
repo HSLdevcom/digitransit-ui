@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import connectToStores from 'fluxible-addons-react/connectToStores';
+import { configShape } from '../util/shapes';
 import Favourite from './Favourite';
 import { saveFavourite, deleteFavourite } from '../action/FavouriteActions';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
@@ -40,7 +41,7 @@ const FavouriteRouteContainer = connectToStores(
 FavouriteRouteContainer.contextTypes = {
   getStore: PropTypes.func.isRequired,
   executeAction: PropTypes.func.isRequired,
-  config: PropTypes.object.isRequired,
+  config: configShape.isRequired,
 };
 
 export default FavouriteRouteContainer;

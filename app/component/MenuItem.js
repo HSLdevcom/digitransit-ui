@@ -18,6 +18,7 @@ const mapToLink = (href, children, onClick, openInNewTab) => (
 
 const mapToRoute = (router, route, children, onClick) => (
   <button
+    type="button"
     className="noborder button cursor-pointer"
     onClick={e => {
       router.push(route);
@@ -62,6 +63,15 @@ MenuItem.propTypes = {
   label: PropTypes.string,
   onClick: PropTypes.func,
   openInNewTab: PropTypes.bool,
+};
+
+MenuItem.defaultProps = {
+  name: undefined,
+  href: undefined,
+  route: undefined,
+  label: undefined,
+  onClick: undefined,
+  openInNewTab: false,
 };
 
 MenuItem.contextTypes = {

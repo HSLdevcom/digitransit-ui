@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef, lazy, Suspense } from 'react';
 import { intlShape } from 'react-intl';
 import { matchShape } from 'found';
 import { Helmet } from 'react-helmet';
+import { favouriteShape, configShape } from '../util/shapes';
 import { clearOldSearches, clearFutureRoutes } from '../util/storeUtils';
 import { getJson } from '../util/xhrPromise';
 
@@ -103,10 +104,16 @@ const AppBarHsl = ({ lang, user, favourites }, context) => {
       : {};
 
   const siteHeaderRef = useRef(null);
+  const notificationTime = useRef(0);
 
   useEffect(() => {
-    // Refetch notifications
-    siteHeaderRef.current?.fetchNotifications();
+    const now = Date.now();
+    // refresh only once per 5 seconds
+    if (now - notificationTime.current > 5000) {
+      // Refetch notifications
+      siteHeaderRef.current?.fetchNotifications();
+      notificationTime.current = now;
+    }
   }, [favourites]);
 
   return (
@@ -124,16 +131,18 @@ const AppBarHsl = ({ lang, user, favourites }, context) => {
       )}
 
       <Suspense fallback="">
-        <SiteHeader
-          ref={siteHeaderRef}
-          hslFiUrl={config.URL.ROOTLINK}
-          lang={lang}
-          {...userMenu}
-          languageMenu={languages}
-          banners={banners}
-          suggestionsApiUrl={config.URL.HSL_FI_SUGGESTIONS}
-          notificationApiUrls={notificationApiUrls}
-        />
+        {!config.hideHeader && (
+          <SiteHeader
+            ref={siteHeaderRef}
+            hslFiUrl={config.URL.ROOTLINK}
+            lang={lang}
+            {...userMenu}
+            languageMenu={languages}
+            banners={banners}
+            suggestionsApiUrl={config.URL.HSL_FI_SUGGESTIONS}
+            notificationApiUrls={notificationApiUrls}
+          />
+        )}
         {config.localStorageEmitter && (
           <SharedLocalStorageObserver
             keys={['saved-searches', 'favouriteStore']}
@@ -147,7 +156,7 @@ const AppBarHsl = ({ lang, user, favourites }, context) => {
 
 AppBarHsl.contextTypes = {
   match: matchShape.isRequired,
-  config: PropTypes.object.isRequired,
+  config: configShape.isRequired,
   getStore: PropTypes.func.isRequired,
   intl: intlShape.isRequired,
 };
@@ -160,12 +169,13 @@ AppBarHsl.propTypes = {
     sub: PropTypes.string,
     notLogged: PropTypes.bool,
   }),
-  favourites: PropTypes.arrayOf(PropTypes.object),
+  favourites: PropTypes.arrayOf(favouriteShape),
 };
 
 AppBarHsl.defaultProps = {
   lang: 'fi',
   user: {},
+  favourites: [],
 };
 
 export { AppBarHsl as default, AppBarHsl as Component };

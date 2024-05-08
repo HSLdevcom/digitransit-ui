@@ -10,13 +10,15 @@ import GeoJSON, {
 import { shallowWithIntl } from '../../helpers/mock-intl-enzyme';
 import PointFeatureMarker from '../../../../app/component/map/PointFeatureMarker';
 
+const context = { config: { CONFIG: 'default' } };
+
 describe('<GeoJSON />', () => {
   it('should render empty if there are no features', () => {
     const props = {
       data: {},
     };
     const wrapper = shallowWithIntl(<GeoJSON {...props} />, {
-      context: { config: {} },
+      context,
     });
     expect(wrapper.isEmptyRender()).to.equal(true);
   });
@@ -35,7 +37,7 @@ describe('<GeoJSON />', () => {
       },
     };
     const wrapper = shallowWithIntl(<GeoJSON {...props} />, {
-      context: { config: {} },
+      context,
     });
     expect(wrapper.find(LeafletGeoJson)).to.have.lengthOf(1);
   });
@@ -55,7 +57,7 @@ describe('<GeoJSON />', () => {
       },
     };
     const wrapper = shallowWithIntl(<GeoJSON {...props} />, {
-      context: { config: {} },
+      context,
     });
     expect(wrapper.find(PointFeatureMarker)).to.have.lengthOf(1);
   });

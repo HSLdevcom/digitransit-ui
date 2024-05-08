@@ -1,7 +1,7 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import get from 'lodash/get';
+import { routeShape, configShape } from '../util/shapes';
 import AgencyInfo from './AgencyInfo';
 
 function RouteAgencyInfo({ route }, { config }) {
@@ -20,11 +20,11 @@ function RouteAgencyInfo({ route }, { config }) {
 }
 
 RouteAgencyInfo.contextTypes = {
-  config: PropTypes.object.isRequired,
+  config: configShape.isRequired,
 };
 
 RouteAgencyInfo.propTypes = {
-  route: PropTypes.object,
+  route: routeShape.isRequired,
 };
 
 export default createFragmentContainer(RouteAgencyInfo, {

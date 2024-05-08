@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import Link from 'found/Link';
 import { FormattedMessage } from 'react-intl';
 import connectToStores from 'fluxible-addons-react/connectToStores';
+import { configShape } from '../util/shapes';
 
 const AboutPage = ({ currentLanguage }, { config }) => {
   const [about, setAbout] = useState([]);
@@ -21,6 +22,7 @@ const AboutPage = ({ currentLanguage }, { config }) => {
                 section.paragraphs.map((p, j) => (
                   <p
                     key={`about-section-${i}-p-${j}`}
+                    // eslint-disable-next-line
                     dangerouslySetInnerHTML={{ __html: p }}
                   />
                 ))}
@@ -55,7 +57,7 @@ AboutPage.propTypes = {
 };
 
 AboutPage.contextTypes = {
-  config: PropTypes.object.isRequired,
+  config: configShape.isRequired,
 };
 
 const connectedComponent = connectToStores(

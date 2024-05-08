@@ -10,6 +10,7 @@ function ToggleMapTracking(props) {
       onClick={props.handleClick}
       role="button"
       tabIndex={0}
+      aria-label={props.ariaLabel}
     >
       <Icon img={props.img} className={props.className} color="#ff0000" />
     </div>
@@ -20,6 +21,7 @@ ToggleMapTracking.propTypes = {
   handleClick: PropTypes.func.isRequired,
   className: PropTypes.string.isRequired,
   img: PropTypes.string.isRequired,
+  ariaLabel: PropTypes.string.isRequired,
 };
 
 export default ToggleMapTracking;

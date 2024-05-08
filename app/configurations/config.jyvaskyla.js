@@ -1,4 +1,4 @@
-/* eslint-disable prefer-template */
+/* 'eslint-disable prefer-template */
 import configMerger from '../util/configMerger';
 
 const CONFIG = 'jyvaskyla';
@@ -139,7 +139,7 @@ export default configMerger(walttiConfig, {
           sv: 'Zoner',
           en: 'Zones',
         },
-        url: '/assets/geojson/jkl_zone_lines_20210222.geojson',
+        url: '/assets/geojson/jkl_zone_lines_20240403.geojson',
       },
       {
         name: {
@@ -158,7 +158,6 @@ export default configMerger(walttiConfig, {
     1: 'A',
     2: 'B',
     3: 'C',
-    4: 'D',
   },
 
   showTicketInformation: true,
@@ -166,20 +165,45 @@ export default configMerger(walttiConfig, {
   ticketLink: 'https://linkki.jyvaskyla.fi/liput-ja-hinnat',
   showTicketPrice: true,
 
-  ticketPurchaseLink: function purchaseTicketLink(ticket) {
+  ticketPurchaseLink: function purchaseTicketLink(fare) {
+    const fareId = fare.fareProducts[0].product.id;
+    const ticket = fareId?.substring
+      ? fareId.substring(fareId.indexOf(':') + 1)
+      : '';
     let zones = '';
     // Waltti wants zone ids, so map A to 01, B to 02 etc
     for (let i = 0; i < ticket.length; i++) {
-      zones += '0' + (ticket.charCodeAt(i) - 64);
+      zones += `0${ticket.charCodeAt(i) - 64}`; // eslint-disable
     }
     return `https://kauppa.waltti.fi/walttiappfeat/busTicket/?operator=50209&ticketType=single&customerGroup=adult&zones=${zones}`;
   },
 
-  // mapping fareId from OTP fare identifiers to human readable form
   fareMapping: function mapFareId(fareId) {
-    return fareId && fareId.substring
-      ? fareId.substring(fareId.indexOf(':') + 1)
-      : '';
+    const id = fareId?.substring?.(fareId.indexOf(':') + 1);
+    switch (id) {
+      case 'A':
+        return 'Käteismaksu autossa, Vyöhyke A';
+      case 'AB':
+        return 'Käteismaksu autossa, Vyöhykkeet AB';
+      case 'ABC':
+        return 'Käteismaksu autossa, Vyöhykkeet ABC';
+      case 'ABCD':
+        return 'Käteismaksu autossa, Vyöhykkeet ABCD';
+      case 'B':
+        return 'Käteismaksu autossa, Vyöhyke B';
+      case 'BC':
+        return 'Käteismaksu autossa, Vyöhykkeet BC';
+      case 'BCD':
+        return 'Käteismaksu autossa, Vyöhykkeet BCD';
+      case 'C':
+        return 'Käteismaksu autossa, Vyöhyke C';
+      case 'CD':
+        return 'Käteismaksu autossa, Vyöhykkeet CD';
+      case 'D':
+        return 'Käteismaksu autossa, Vyöhyke D';
+      default:
+        return '';
+    }
   },
 
   stopCard: {

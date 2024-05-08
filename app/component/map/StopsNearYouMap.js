@@ -24,7 +24,14 @@ import {
   sortNearbyStops,
 } from '../../util/sortUtils';
 import ItineraryLine from './ItineraryLine';
-import { dtLocationShape, mapLayerOptionsShape } from '../../util/shapes';
+import {
+  locationShape,
+  mapLayerOptionsShape,
+  relayShape,
+  configShape,
+  stopShape,
+} from '../../util/shapes';
+import { mapLayerShape } from '../../store/MapLayerStore';
 import Loading from '../Loading';
 import LazilyLoad, { importLazy } from '../LazilyLoad';
 import { getDefaultNetworks } from '../../util/vehicleRentalUtils';
@@ -329,7 +336,7 @@ function StopsNearYouMap(
   }, [uniqueRealtimeTopics]);
 
   useEffect(() => {
-    if (stopsNearYou && stopsNearYou.nearest && stopsNearYou.nearest.edges) {
+    if (stopsNearYou?.nearest?.edges) {
       const active = stopsNearYou.nearest.edges
         .slice()
         .filter(
@@ -492,23 +499,20 @@ StopsNearYouMap.propTypes = {
   currentTime: PropTypes.number.isRequired,
   stopsNearYou: PropTypes.shape({
     nearest: PropTypes.shape({
+      // eslint-disable-next-line
       edges: PropTypes.arrayOf(PropTypes.object).isRequired,
     }).isRequired,
   }),
-  prioritizedStopsNearYou: PropTypes.arrayOf(PropTypes.object),
+  prioritizedStopsNearYou: PropTypes.arrayOf(stopShape),
+  // eslint-disable-next-line
   favouriteIds: PropTypes.object,
-  mapLayers: PropTypes.object.isRequired,
+  mapLayers: mapLayerShape.isRequired,
   mapLayerOptions: mapLayerOptionsShape,
-  position: dtLocationShape.isRequired,
+  position: locationShape.isRequired,
   match: matchShape.isRequired,
   breakpoint: PropTypes.string.isRequired,
   language: PropTypes.string.isRequired,
-  relay: PropTypes.shape({
-    refetchConnection: PropTypes.func,
-    hasMore: PropTypes.func,
-    loadMore: PropTypes.func,
-    environment: PropTypes.object,
-  }).isRequired,
+  relay: relayShape.isRequired,
   onEndNavigation: PropTypes.func,
   onMapTracking: PropTypes.func,
   loading: PropTypes.bool,
@@ -527,7 +531,7 @@ StopsNearYouMap.defaultProps = {
 };
 
 StopsNearYouMap.contextTypes = {
-  config: PropTypes.object,
+  config: configShape,
   executeAction: PropTypes.func,
   getStore: PropTypes.func,
 };

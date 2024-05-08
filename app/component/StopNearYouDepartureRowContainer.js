@@ -4,12 +4,12 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import DepartureRow from './DepartureRow';
 
-const StopNearYouDepartureRowContainer = ({
+export default function StopNearYouDepartureRowContainer({
   stopTimes,
   mode,
   setCapacityModalOpen,
   ...props
-}) => {
+}) {
   const sortedStopTimes = stopTimes
     .slice()
     .sort(
@@ -56,17 +56,16 @@ const StopNearYouDepartureRowContainer = ({
       <tbody>{departures}</tbody>
     </table>
   );
-};
+}
 
 StopNearYouDepartureRowContainer.propTypes = {
   stopTimes: PropTypes.arrayOf(
     PropTypes.shape({
       distance: PropTypes.number,
     }),
-  ),
+  ).isRequired,
   mode: PropTypes.string.isRequired,
   isStation: PropTypes.bool.isRequired,
   currentTime: PropTypes.number.isRequired,
   setCapacityModalOpen: PropTypes.func.isRequired,
 };
-export default StopNearYouDepartureRowContainer;

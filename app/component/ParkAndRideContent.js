@@ -4,17 +4,16 @@ import { matchShape, routerShape, RedirectException } from 'found';
 import { intlShape } from 'react-intl';
 import moment from 'moment-timezone';
 import connectToStores from 'fluxible-addons-react/connectToStores';
+import { parkShape, configShape, errorShape } from '../util/shapes';
 import ParkOrStationHeader from './ParkOrStationHeader';
 import Icon from './Icon';
 import { PREFIX_BIKEPARK, PREFIX_CARPARK } from '../util/path';
 import { isBrowser } from '../util/browser';
 
-const ParkAndRideContent = (
-  { bikePark, carPark, router, match, error, currentLanguage },
-  { config, intl },
-) => {
-  const park = bikePark || carPark;
-
+function ParkAndRideContent(
+  { vehicleParking, error, currentLanguage },
+  { config, intl, router, match },
+) {
   const [isClient, setClient] = useState(false);
   useEffect(() => {
     // To prevent SSR from rendering something https://reactjs.org/docs/react-dom.html#hydrate
@@ -25,11 +24,9 @@ const ParkAndRideContent = (
   if (isClient && error) {
     throw error.message;
   }
-
-  if (!park && !error) {
-    const path = match.location.pathname.includes(PREFIX_BIKEPARK)
-      ? PREFIX_BIKEPARK
-      : PREFIX_CARPARK;
+  const bikePark = match.location.pathname.includes(PREFIX_BIKEPARK);
+  if (!vehicleParking) {
+    const path = bikePark ? PREFIX_BIKEPARK : PREFIX_CARPARK;
     if (isBrowser) {
       router.replace(`/${path}`);
     } else {
@@ -37,7 +34,6 @@ const ParkAndRideContent = (
     }
     return null;
   }
-
   const prePostFix = bikePark ? 'bike-park' : 'car-park';
   const [authenticationMethods, setAuthenticationMethods] = useState([]);
   const [pricingMethods, setPricingMethods] = useState([]);
@@ -45,7 +41,15 @@ const ParkAndRideContent = (
   const [openingHours, setOpeningHours] = useState(null);
   const [lang, setLang] = useState('fi');
 
-  const { spacesAvailable, maxCapacity } = park;
+  let spacesAvailable;
+  let maxCapacity;
+  if (bikePark) {
+    spacesAvailable = vehicleParking.availability?.bicycleSpaces;
+  } else {
+    spacesAvailable = vehicleParking.availability?.carSpaces;
+    maxCapacity = vehicleParking.capacity?.carSpaces || 1;
+  }
+
   const {
     getAuthenticationMethods,
     getPricingMethods,
@@ -56,10 +60,10 @@ const ParkAndRideContent = (
   } = config.parkAndRide.pageContent.default;
 
   useEffect(() => {
-    setAuthenticationMethods(getAuthenticationMethods(park));
-    setPricingMethods(getPricingMethods(park));
-    setServices(getServices(park));
-    setOpeningHours(getOpeningHours(park));
+    setAuthenticationMethods(getAuthenticationMethods(vehicleParking));
+    setPricingMethods(getPricingMethods(vehicleParking));
+    setServices(getServices(vehicleParking));
+    setOpeningHours(getOpeningHours(vehicleParking));
   }, []);
 
   useEffect(() => {
@@ -136,14 +140,17 @@ const ParkAndRideContent = (
   };
   const parkIsPaid = isPaid(pricingMethods);
   const parkIsFree = isFree(pricingMethods);
-  const realtime = park?.realtime;
+  const { realtime } = vehicleParking;
   const showOpeningHours =
     Array.isArray(openingHours?.dates) && openingHours.dates.length > 0;
   const showSpacesAvailable = !realtime && spacesAvailable;
 
   return (
     <div className="bike-station-page-container">
-      <ParkOrStationHeader parkOrStation={park} />
+      <ParkOrStationHeader
+        parkOrStation={vehicleParking}
+        parkType={bikePark ? 'bike' : 'car'}
+      />
       <div className="park-content-container">
         <Icon img={`icon-icon_${prePostFix}`} height={2.4} width={2.4} />
         <div className="park-details">
@@ -220,48 +227,31 @@ const ParkAndRideContent = (
             target="_blank"
             rel="noreferrer"
           >
-            {intl.formatMessage({ id: `${prePostFix}-disclaimer-link ` })}
+            {intl.formatMessage({ id: `${prePostFix}-disclaimer-link` })}{' '}
             &rsaquo;
           </a>
         )}
       </div>
     </div>
   );
-};
+}
 
 ParkAndRideContent.propTypes = {
-  bikePark: PropTypes.shape({
-    bikeParkId: PropTypes.string,
-    spacesAvailable: PropTypes.number,
-    name: PropTypes.string,
-    lat: PropTypes.number,
-    lon: PropTypes.number,
-    tags: PropTypes.arrayOf(PropTypes.string),
-  }),
-  carPark: PropTypes.shape({
-    carParkId: PropTypes.string,
-    spacesAvailable: PropTypes.number,
-    maxCapacity: PropTypes.number,
-    name: PropTypes.string,
-    lat: PropTypes.number,
-    lon: PropTypes.number,
-    tags: PropTypes.arrayOf(PropTypes.string),
-    realtime: PropTypes.bool,
-  }),
-  router: routerShape.isRequired,
-  match: matchShape.isRequired,
-  error: PropTypes.object,
+  vehicleParking: parkShape,
+  error: errorShape,
   currentLanguage: PropTypes.string.isRequired,
 };
 
 ParkAndRideContent.defaultProps = {
-  bikePark: null,
-  carPark: null,
+  vehicleParking: undefined,
+  error: undefined,
 };
 
 ParkAndRideContent.contextTypes = {
-  config: PropTypes.object.isRequired,
+  config: configShape.isRequired,
   intl: intlShape.isRequired,
+  router: routerShape.isRequired,
+  match: matchShape.isRequired,
 };
 
 const connectedComponent = connectToStores(

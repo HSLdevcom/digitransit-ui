@@ -4,7 +4,11 @@ import { createFragmentContainer, graphql } from 'react-relay';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { FormattedMessage } from 'react-intl';
 import { routerShape, RedirectException } from 'found';
-
+import {
+  configShape,
+  vehicleRentalStationShape,
+  errorShape,
+} from '../util/shapes';
 import VehicleRentalStation from './VehicleRentalStation';
 import ParkOrStationHeader from './ParkOrStationHeader';
 import Icon from './Icon';
@@ -37,7 +41,8 @@ const VehicleRentalStationContent = (
     }
     return null;
   }
-  const { vehiclesAvailable, capacity } = vehicleRentalStation;
+  const { availableVehicles, capacity } = vehicleRentalStation;
+  const vehiclesAvailable = availableVehicles.total;
   const isFull = vehiclesAvailable >= capacity;
 
   const networkConfig = getVehicleRentalStationNetworkConfig(
@@ -108,11 +113,11 @@ const VehicleRentalStationContent = (
 };
 
 VehicleRentalStationContent.propTypes = {
-  vehicleRentalStation: PropTypes.any.isRequired,
+  vehicleRentalStation: vehicleRentalStationShape.isRequired,
   breakpoint: PropTypes.string.isRequired,
   language: PropTypes.string.isRequired,
   router: routerShape.isRequired,
-  error: PropTypes.object,
+  error: errorShape,
 };
 
 VehicleRentalStationContent.defaultProps = {
@@ -120,7 +125,7 @@ VehicleRentalStationContent.defaultProps = {
 };
 
 VehicleRentalStationContent.contextTypes = {
-  config: PropTypes.object.isRequired,
+  config: configShape.isRequired,
 };
 
 const VehicleRentalStationContentWithBreakpoint = withBreakpoint(
@@ -141,8 +146,12 @@ const containerComponent = createFragmentContainer(connectedComponent, {
       lat
       lon
       name
-      spacesAvailable
-      vehiclesAvailable
+      availableVehicles {
+        total
+      }
+      availableSpaces {
+        total
+      }
       capacity
       network
       stationId

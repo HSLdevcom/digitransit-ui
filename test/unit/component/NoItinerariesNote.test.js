@@ -2,7 +2,7 @@ import React from 'react';
 
 import { mockContext, mockChildContextTypes } from '../helpers/mock-context';
 import { mountWithIntl, shallowWithIntl } from '../helpers/mock-intl-enzyme';
-import { Component as NoItinerariesNote } from '../../../app/component/NoItinerariesNote';
+import { Component as NoItinerariesNote } from '../../../app/component/itinerary/NoItinerariesNote';
 import { PlannerMessageType } from '../../../app/constants';
 
 const TestLocation = {
@@ -144,7 +144,6 @@ describe('<NoItinerariesNote />', () => {
 
   describe('error messages', () => {
     const DAY = 24 * 3600 * 1000;
-    const DATE_2022_01_01 = 1640995200000;
 
     it('renders "see national service" link when outside area', () => {
       const props = {
@@ -214,8 +213,7 @@ describe('<NoItinerariesNote />', () => {
       expectElementWithId(
         {
           ...defaultProps,
-          currentTime: DATE_2022_01_01,
-          searchTime: DATE_2022_01_01 + 180 * DAY,
+          searchTime: Date.now() + 180 * DAY,
           from: TestLocation.Rautatientori,
           to: TestLocation.Mannerheimintie_89,
           routingErrors: [
@@ -235,8 +233,7 @@ describe('<NoItinerariesNote />', () => {
       expectElement(
         {
           ...defaultProps,
-          currentTime: DATE_2022_01_01,
-          searchTime: DATE_2022_01_01 + 180 * DAY,
+          searchTime: Date.now() + 180 * DAY,
           from: TestLocation.Rautatientori,
           to: TestLocation.Mannerheimintie_89,
           routingErrors: [
@@ -254,8 +251,7 @@ describe('<NoItinerariesNote />', () => {
       expectElementWithId(
         {
           ...defaultProps,
-          currentTime: DATE_2022_01_01,
-          searchTime: DATE_2022_01_01 - 2 * DAY,
+          searchTime: Date.now() - 2 * DAY,
           from: TestLocation.Rautatientori,
           to: TestLocation.Mannerheimintie_89,
           walking: true,

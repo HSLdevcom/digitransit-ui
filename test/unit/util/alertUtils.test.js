@@ -140,42 +140,6 @@ describe('alertUtils', () => {
     });
   });
 
-  describe('itineraryHasCancelation', () => {
-    it('should return false if itinerary is falsy', () => {
-      expect(utils.itineraryHasCancelation(undefined)).to.equal(false);
-    });
-
-    it('should return false if itinerary has no array "legs"', () => {
-      expect(utils.itineraryHasCancelation({ legs: undefined })).to.equal(
-        false,
-      );
-    });
-
-    it('should return false if none of the legs has a cancelation', () => {
-      expect(
-        utils.itineraryHasCancelation({
-          legs: [
-            { realtimeState: RealtimeStateType.Added },
-            { realtimeState: RealtimeStateType.Modified },
-            { realtimeState: RealtimeStateType.Scheduled },
-            { realtimeState: RealtimeStateType.Updated },
-          ],
-        }),
-      ).to.equal(false);
-    });
-
-    it('should return true if at least one of the legs has been canceled', () => {
-      expect(
-        utils.itineraryHasCancelation({
-          legs: [
-            { realtimeState: RealtimeStateType.Scheduled },
-            { realtimeState: RealtimeStateType.Canceled },
-          ],
-        }),
-      ).to.equal(true);
-    });
-  });
-
   describe('getMaximumAlertSeverityLevel', () => {
     it('should return undefined if the alerts array is not an array', () => {
       expect(utils.getMaximumAlertSeverityLevel(undefined)).to.equal(undefined);
@@ -567,7 +531,11 @@ describe('alertUtils', () => {
             },
           ],
         },
-        startTime: (alertEffectiveStartDate + 1) * 1000, // * 1000 due to ms format
+        start: {
+          scheduledTime: new Date(
+            alertEffectiveStartDate * 1000 + 1000,
+          ).toISOString(),
+        },
       };
       expect(utils.getActiveLegAlertSeverityLevel(leg)).to.equal(
         AlertSeverityLevelType.Warning,
@@ -586,7 +554,11 @@ describe('alertUtils', () => {
             },
           ],
         },
-        startTime: (alertEffectiveEndDate + 1) * 1000, // * 1000 due to ms format
+        start: {
+          scheduledTime: new Date(
+            alertEffectiveEndDate * 1000 + 1,
+          ).toISOString(),
+        },
       };
       expect(utils.getActiveLegAlertSeverityLevel(leg)).to.equal(undefined);
     });
@@ -607,7 +579,7 @@ describe('alertUtils', () => {
             },
           ],
         },
-        startTime: 1553769600000,
+        start: { scheduledTime: new Date(1553769600000).toISOString() },
         trip: {
           pattern: {
             code: 'HSL:3001I:0:01',
@@ -632,7 +604,7 @@ describe('alertUtils', () => {
             ],
           },
         },
-        startTime: 1553769600000,
+        start: { scheduledTime: new Date(1553769600000).toISOString() },
       };
       expect(utils.getActiveLegAlertSeverityLevel(leg)).to.equal(
         AlertSeverityLevelType.Warning,
@@ -652,7 +624,7 @@ describe('alertUtils', () => {
             ],
           },
         },
-        startTime: 1553769600000,
+        start: { scheduledTime: new Date(1553769600000).toISOString() },
       };
       expect(utils.getActiveLegAlertSeverityLevel(leg)).to.equal(
         AlertSeverityLevelType.Warning,
@@ -674,7 +646,7 @@ describe('alertUtils', () => {
             },
           },
         ],
-        startTime: 1553769600000,
+        start: { scheduledTime: new Date(1553769600000).toISOString() },
       };
       expect(utils.getActiveLegAlertSeverityLevel(leg)).to.equal(undefined);
     });
@@ -690,7 +662,7 @@ describe('alertUtils', () => {
             },
           ],
         },
-        startTime: 1553769600000,
+        start: { scheduledTime: new Date(1553769600000).toISOString() },
       };
       expect(utils.getActiveLegAlertSeverityLevel(leg)).to.equal(
         AlertSeverityLevelType.Info,

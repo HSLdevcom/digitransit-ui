@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React from 'react';
-import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
+import { configShape } from '../util/shapes';
 import Icon from './Icon';
 
 const CapacityModal = ({ config }) => {
@@ -34,8 +34,8 @@ const CapacityModal = ({ config }) => {
           <div className="icon" style={{ color: config.colors.primary }}>
             <Icon
               img="icon-icon_MANY_SEATS_AVAILABLE"
-              width="1.5"
-              height="1.5"
+              width={1.5}
+              height={1.5}
             />
           </div>
           <h4 className="info-heading">
@@ -57,8 +57,8 @@ const CapacityModal = ({ config }) => {
           <div className="icon">
             <Icon
               img="icon-icon_FEW_SEATS_AVAILABLE"
-              width="1.5"
-              height="1.5"
+              width={1.5}
+              height={1.5}
               color={config.colors.primary}
             />
           </div>
@@ -81,8 +81,8 @@ const CapacityModal = ({ config }) => {
           <div className="icon">
             <Icon
               img="icon-icon_STANDING_ROOM_ONLY"
-              width="1.5"
-              height="1.5"
+              width={1.5}
+              height={1.5}
               color={config.colors.primary}
             />
           </div>
@@ -105,8 +105,8 @@ const CapacityModal = ({ config }) => {
           <div className="icon">
             <Icon
               img="icon-icon_CRUSHED_STANDING_ROOM_ONLY"
-              width="1.5"
-              height="1.5"
+              width={1.5}
+              height={1.5}
               color={config.colors.primary}
             />
           </div>
@@ -129,8 +129,8 @@ const CapacityModal = ({ config }) => {
           <div className="icon">
             <Icon
               img="icon-icon_FULL"
-              width="1.5"
-              height="1.5"
+              width={1.5}
+              height={1.5}
               color={config.colors.primary}
             />
           </div>
@@ -153,7 +153,7 @@ const CapacityModal = ({ config }) => {
 };
 
 CapacityModal.propTypes = {
-  config: PropTypes.object.isRequired,
+  config: configShape.isRequired,
 };
 
 CapacityModal.defaultProps = {};

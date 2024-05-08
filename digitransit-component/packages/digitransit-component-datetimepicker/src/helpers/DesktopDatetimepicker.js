@@ -74,7 +74,7 @@ function DesktopDatetimepicker({
     const regex = /[a-zA-Z§ÄäÖö.-\s]/g;
     if (str.length < displayValue?.length) {
       const valid = validateInput(str);
-      setinvalidInput(valid);
+      setinvalidInput(!valid);
 
       return true;
     }
@@ -83,7 +83,7 @@ function DesktopDatetimepicker({
     }
     const time = str.length > 5 ? str.slice(0, -1) : str;
     const valid = validateInput(time);
-    setinvalidInput(valid);
+    setinvalidInput(!valid);
     return str.length <= 5;
   }
   const onInputChange = (newValue, { action }) => {

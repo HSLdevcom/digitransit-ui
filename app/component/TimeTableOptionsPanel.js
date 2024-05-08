@@ -5,12 +5,13 @@ import uniqBy from 'lodash/uniqBy';
 import Icon from './Icon';
 import { ExtendedRouteTypes } from '../constants';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
+import { stopShape } from '../util/shapes';
 
 const MAX_ROUTEFILTER_LEN = 13;
 
 class TimeTableOptionsPanel extends React.Component {
   static propTypes = {
-    stop: PropTypes.object.isRequired,
+    stop: stopShape.isRequired,
     showRoutes: PropTypes.arrayOf(PropTypes.string).isRequired,
     showFilterModal: PropTypes.func.isRequired,
   };

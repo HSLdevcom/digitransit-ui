@@ -30,6 +30,7 @@ import LRU from 'lru-cache';
 
 // Application
 import { setRelayEnvironment } from '@digitransit-search-util/digitransit-search-util-query-utils';
+import { configShape } from './util/shapes';
 import appCreator from './app';
 import translations from './translations';
 import configureMoment from './util/configure-moment';
@@ -131,9 +132,9 @@ function getPolyfills(userAgent, config) {
 }
 
 const ContextProvider = provideContext(IntlProvider, {
-  config: PropTypes.object,
+  config: configShape,
   url: PropTypes.string,
-  headers: PropTypes.object,
+  headers: PropTypes.objectOf(PropTypes.string),
 });
 
 const isRobotRequest = agent =>

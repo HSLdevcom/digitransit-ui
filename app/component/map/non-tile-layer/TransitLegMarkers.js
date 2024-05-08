@@ -2,9 +2,10 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { withLeaflet } from 'react-leaflet/es/context';
 import polyUtil from 'polyline-encoded';
-
 import { intlShape } from 'react-intl';
+import { configShape, legShape } from '../../../util/shapes';
 import { isBrowser } from '../../../util/browser';
+import { legTime } from '../../../util/legUtils';
 import { getMiddleOf } from '../../../util/geo-utils';
 import LegMarker from './LegMarker';
 import SpeechBubble from '../SpeechBubble';
@@ -115,7 +116,7 @@ const getSpeechBubbleStyle = (position, pixelPositions) => {
 
 class TransitLegMarkers extends React.Component {
   static propTypes = {
-    transitLegs: PropTypes.arrayOf(PropTypes.object).isRequired,
+    transitLegs: PropTypes.arrayOf(legShape).isRequired,
     leaflet: PropTypes.shape({
       map: PropTypes.shape({
         latLngToLayerPoint: PropTypes.func.isRequired,
@@ -126,7 +127,7 @@ class TransitLegMarkers extends React.Component {
   };
 
   static contextTypes = {
-    config: PropTypes.object.isRequired,
+    config: configShape.isRequired,
     intl: intlShape.isRequired,
   };
 
@@ -196,8 +197,8 @@ class TransitLegMarkers extends React.Component {
 
   getSpeechBubbleText(leg, nextLeg) {
     let duration = '';
-    const transferStart = leg.endTime;
-    const transferEnd = nextLeg.startTime;
+    const transferStart = legTime(leg.end);
+    const transferEnd = legTime(nextLeg.start);
     if (transferStart && transferEnd) {
       duration = Math.floor((transferEnd - transferStart) / 1000 / 60);
     }

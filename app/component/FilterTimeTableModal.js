@@ -9,13 +9,14 @@ import routeCompare from '../util/route-compare';
 import withBreakpoint from '../util/withBreakpoint';
 import { isKeyboardSelectionEvent } from '../util/browser';
 import { getRouteMode } from '../util/modeUtils';
+import { stopShape } from '../util/shapes';
 
 class FilterTimeTableModal extends React.Component {
   static propTypes = {
-    stop: PropTypes.object,
-    setRoutes: PropTypes.func,
-    showFilterModal: PropTypes.func,
-    showRoutesList: PropTypes.arrayOf(PropTypes.string),
+    stop: stopShape.isRequired,
+    setRoutes: PropTypes.func.isRequired,
+    showFilterModal: PropTypes.func.isRequired,
+    showRoutesList: PropTypes.arrayOf(PropTypes.string).isRequired,
     breakpoint: PropTypes.string.isRequired,
   };
 

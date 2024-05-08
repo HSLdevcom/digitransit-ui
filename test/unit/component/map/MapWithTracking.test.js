@@ -25,6 +25,7 @@ const defaultProps = {
 const defaultContext = {
   ...mockContext,
   config: {
+    CONFIG: 'default',
     realTime: {
       tampere: {
         gtfsRt: 'foobar',

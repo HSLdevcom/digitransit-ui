@@ -1,4 +1,4 @@
-/* eslint-disable no-underscore-dangle */
+/* eslint-disable */
 
 let loaded = false;
 
@@ -7,7 +7,7 @@ function Fbly(udid) {
   this.queue = [];
   this.udid = udid;
   const objUid =
-    udid + (new Date().getTime() + Math.floor(1e3 * Math.random()));
+    udid + (Date.now() + Math.floor(1e3 * Math.random()));
   _FblyInst[objUid] = this;
 }
 
@@ -16,7 +16,7 @@ const events = ['open', 'close', 'addMeta', 'removeMeta'];
 for (let i = 0; i < events.length; i++) {
   const j = events[i];
   Fbly.prototype[j] = function () {
-    this.queue.push([j, arguments]); // eslint-disable-line prefer-rest-params
+    this.queue.push([j, arguments]);
   };
 }
 
@@ -34,6 +34,6 @@ if (!loaded && _FblyInst) {
       '592c0ccb45d721000e77f7bc',
     );
   };
-  el.src = `${'https://survey.feedbackly.com/dist/plugin-v2.min.js?id='}${new Date().getTime()}`;
+  el.src = `${'https://survey.feedbackly.com/dist/plugin-v2.min.js?id='}${Date.now()}`;
   document.getElementsByTagName('body')[0].appendChild(el);
 }

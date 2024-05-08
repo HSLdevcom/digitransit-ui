@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
-import moment from 'moment';
 import { FormattedMessage, intlShape } from 'react-intl';
 import { matchShape, routerShape } from 'found';
 import Modal from '@hsl-fi/modal';
+import { stopShape, configShape } from '../util/shapes';
 import Icon from './Icon';
 import { locationToUri, locationToOTP } from '../util/otpStrings';
 import {
@@ -19,7 +19,7 @@ export default function MapRoutingButton(
   const [showModal, setShowModal] = useState(false);
   const [buttonText, setButtonText] = useState(null);
   useEffect(() => {
-    if (!!stop?.carParkId || !!stop?.bikeParkId) {
+    if (stop?.vehicleParkingId) {
       setButtonText('route-to-park');
     } else if (stop?.vehicleMode === 'FERRY') {
       setButtonText('route-to-ferry');
@@ -33,6 +33,7 @@ export default function MapRoutingButton(
   const closeModal = () => setShowModal(false);
   // Reset query parameters from timetablepage  that is not needed in summary page
   const locationWithoutQuery = { ...location, query: {}, search: '' };
+  const time = Math.floor(Date.now() / 1000);
   const onSelectLocation = (item, id) => {
     let newLocation;
     const place = {
@@ -48,7 +49,7 @@ export default function MapRoutingButton(
           {},
           PREFIX_ITINERARY_SUMMARY,
         ),
-        query: { time: moment().unix().toString() },
+        query: { time },
       };
     } else if (id === 'destination') {
       newLocation = {
@@ -58,7 +59,7 @@ export default function MapRoutingButton(
           place,
           PREFIX_ITINERARY_SUMMARY,
         ),
-        query: { time: moment().unix().toString() },
+        query: { time },
       };
     } else {
       newLocation = {
@@ -66,7 +67,7 @@ export default function MapRoutingButton(
         pathname: getItineraryPagePath(locationToUri({}), locationToUri({})),
         query: {
           intermediatePlaces: locationToOTP(item),
-          query: { time: moment().unix().toString() },
+          query: { time },
         },
       };
     }
@@ -146,15 +147,11 @@ export default function MapRoutingButton(
   );
 }
 
-MapRoutingButton.propTypes = {
-  stop: PropTypes.object.isRequired,
-};
-
-MapRoutingButton.defaultProps = {};
+MapRoutingButton.propTypes = { stop: stopShape.isRequired };
 
 MapRoutingButton.contextTypes = {
   intl: intlShape.isRequired, // eslint-disable-line react/no-typos
-  config: PropTypes.object.isRequired,
+  config: configShape.isRequired,
   executeAction: PropTypes.func.isRequired,
   router: routerShape.isRequired,
   match: matchShape.isRequired,

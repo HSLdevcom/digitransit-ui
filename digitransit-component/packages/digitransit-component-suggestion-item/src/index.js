@@ -506,7 +506,14 @@ const SuggestionItem = pure(
 );
 
 SuggestionItem.propTypes = {
-  item: PropTypes.object,
+  item: PropTypes.shape({
+    name: PropTypes.string,
+    type: PropTypes.string,
+    address: PropTypes.string,
+    selectedIconId: PropTypes.string,
+    iconColor: PropTypes.string,
+  }),
+  // eslint-disable-next-line
   content: PropTypes.array,
   className: PropTypes.string,
   isMobile: PropTypes.bool,

@@ -88,6 +88,8 @@ export default {
   showHSLTracking: false,
   allowLogin: true,
   allowFavouritesFromLocalstorage: !process.env.OIDC_CLIENT_ID,
+  loginAnalyticsEventName: 'user-hsl-id',
+  loginAnalyticsKey: 'hsl-id',
 
   nearbyRoutes: {
     radius: 500,
@@ -202,9 +204,6 @@ export default {
     /* identify searches for route numbers/labels: bus | train | metro */
     lineRegexp: /(^[0-9]+[a-z]?$|^[yuleapinkrtdz]$|(^m[12]?b?$))/i,
   },
-
-  // modes that should not coexist with BICYCLE mode
-  modesWithNoBike: ['BICYCLE_RENT', 'WALK', 'BUS', 'TRAM', 'FERRY'],
 
   useSearchPolygon: true,
 
@@ -387,17 +386,7 @@ export default {
     ],
   },
 
-  // mapping fareId from OTP fare identifiers to human readable form
-  // in the new HSL zone model, just strip off the prefix 'HSL:'
-  fareMapping: function mapHslFareId(fareId) {
-    return fareId && fareId.substring
-      ? fareId.substring(fareId.indexOf(':') + 1)
-      : '';
-  },
-
   unknownZones: ['Ei HSL'],
-
-  showTicketPrice: false,
 
   map: {
     showZoomControl: true,
@@ -414,9 +403,17 @@ export default {
     },
   },
 
+  showTicketPrice: false,
   useTicketIcons: true,
-  ticketPurchaseLink: function purchaseTicketLink(ticket) {
-    return `https://open.app.hsl.fi/zoneTicketWizard/TICKET_TYPE_SINGLE_TICKET/${ticket}/adult/-`;
+  ticketPurchaseLink: function purchaseTicketLink(fare) {
+    return `https://open.app.hsl.fi/zoneTicketWizard/TICKET_TYPE_SINGLE_TICKET/${fare.ticketName}/adult/-`;
+  },
+  // mapping fareId from OTP fare identifiers to human readable form
+  // in the new HSL zone model, just strip off the prefix 'HSL:'
+  fareMapping: function mapHslFareId(fareId) {
+    return fareId && fareId.substring
+      ? fareId.substring(fareId.indexOf(':') + 1)
+      : '';
   },
 
   trafficNowLink: {
@@ -459,11 +456,13 @@ export default {
           sv: 'https://www.hsl.fi/sv/stadscyklar/helsingfors/anvisningar#cykla',
           en: 'https://www.hsl.fi/en/citybikes/helsinki/instructions#ride',
         },
-        timeBeforeSurcharge: 30 * 60,
+        timeBeforeSurcharge: 60 * 60,
       },
       vantaa: {
         enabled: true,
         season: {
+          // 18.3.
+          preSeasonStart: new Date(new Date().getFullYear(), 2, 18),
           // 1.4. - 31.10.
           start: new Date(new Date().getFullYear(), 3, 1),
           end: new Date(new Date().getFullYear(), 10, 1),
@@ -486,7 +485,7 @@ export default {
           sv: 'https://www.hsl.fi/sv/stadscyklar/vanda/anvisningar#cykla',
           en: 'https://www.hsl.fi/en/citybikes/vantaa/instructions#ride',
         },
-        timeBeforeSurcharge: 60 * 60,
+        timeBeforeSurcharge: 120 * 60,
       },
     },
     buyUrl: {
@@ -497,15 +496,18 @@ export default {
   },
 
   showVehiclesOnItineraryPage: true,
-  showBikeAndPublicItineraries: true,
   showBikeAndParkItineraries: true,
+  bikeBoardingModes: {
+    RAIL: { showNotification: false },
+    FERRY: { showNotification: false },
+  },
 
   // Notice! Turning on this setting forces the search for car routes (for the CO2 comparison only).
   showCO2InItinerarySummary: true,
 
   includeCarSuggestions: false,
   includeParkAndRideSuggestions: true,
-  // Include both bike and park and bike and public
+  // Include both bike and park and bike and public, if bike is enabled
   includePublicWithBikePlan: true,
   // Park and ride and car suggestions separated into two switches
   separatedParkAndRideSwitch: false,

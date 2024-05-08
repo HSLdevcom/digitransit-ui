@@ -98,6 +98,7 @@ Checkbox.defaultProps = {
   labelId: undefined,
   showLabel: true,
   title: undefined,
+  name: undefined,
   large: false,
 };
 

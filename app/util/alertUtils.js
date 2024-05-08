@@ -7,6 +7,8 @@ import {
   AlertEntityType,
 } from '../constants';
 
+import { legTime } from './legUtils';
+
 /**
  * Checks if the stoptime has a cancelation.
  *
@@ -140,18 +142,6 @@ export const cancelationHasExpired = (
     referenceUnixTime,
     { isFutureValid: true },
   );
-
-/**
- * Checks if the itinerary has a cancelation.
- *
- * @param {*} itinerary the itinerary object to check.
- */
-export const itineraryHasCancelation = itinerary => {
-  if (!itinerary || !Array.isArray(itinerary.legs)) {
-    return false;
-  }
-  return itinerary.legs.some(legHasCancelation);
-};
 
 /**
  * Retrieves canceled stoptimes for the given route.
@@ -328,7 +318,7 @@ export const getActiveLegAlertSeverityLevel = leg => {
 
   return getActiveAlertSeverityLevel(
     serviceAlerts,
-    leg.startTime / 1000, // this field is in ms format
+    legTime(leg.start) / 1000, // this field is in ms format
   );
 };
 
@@ -426,11 +416,7 @@ export const hasMeaningfulData = alerts => {
 };
 
 export const mapAlertSource = (config, lang, feedName) => {
-  if (
-    config &&
-    config.sourceForAlertsAndDisruptions &&
-    config.sourceForAlertsAndDisruptions[feedName]
-  ) {
+  if (config?.sourceForAlertsAndDisruptions?.[feedName]) {
     return config.sourceForAlertsAndDisruptions[feedName][lang].concat(': ');
   }
   return '';

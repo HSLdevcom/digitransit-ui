@@ -247,8 +247,6 @@ export default {
 
   includeCarSuggestions: true,
   includeParkAndRideSuggestions: true,
-  // Include both bike and park and bike and public
-  includePublicWithBikePlan: false,
   // Park and ride and car suggestions separated into two switches
   separatedParkAndRideSwitch: true,
   showBikeAndParkItineraries: true,
@@ -378,4 +376,13 @@ export default {
   // Notice! Turning on this setting forces the search for car routes (for the CO2 comparison only).
   showCO2InItinerarySummary: true,
   useAssembledGeoJsonZones: 'isOffByDefault',
+
+  bikeBoardingModes: {
+    RAIL: { showNotification: true },
+    TRAM: { showNotification: true },
+    FERRY: { showNotification: true },
+    BUS: { showNotification: true },
+  },
+  // Include both bike and park and bike and public, if bike is enabled
+  includePublicWithBikePlan: true,
 };

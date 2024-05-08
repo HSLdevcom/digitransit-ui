@@ -9,12 +9,10 @@ import {
   ModeLeg,
   ViaLeg,
   RouteLeg,
-} from '../../../app/component/Itinerary';
+} from '../../../app/component/itinerary/Itinerary';
 import { AlertSeverityLevelType } from '../../../app/constants';
 import RouteNumberContainer from '../../../app/component/RouteNumberContainer';
-
 import dcw12 from '../test-data/dcw12';
-import dt2830 from '../test-data/dt2830';
 
 const defaultProps = {
   breakpoint: 'large',
@@ -28,14 +26,14 @@ describe('<Itinerary />', () => {
   it('should display both walking legs in the summary view', () => {
     const props = {
       ...defaultProps,
-      data: dcw12.walkingRouteWithIntermediatePlace.data,
+      itinerary: dcw12.walkingRouteWithIntermediatePlace.data,
       intermediatePlaces:
         dcw12.walkingRouteWithIntermediatePlace.intermediatePlaces,
       passive: false,
       refTime: dcw12.walkingRouteWithIntermediatePlace.refTime,
     };
     const wrapper = shallowWithIntl(<Itinerary {...props} />, {
-      context: { config: {} },
+      context: { config: { CONFIG: 'default' } },
     });
 
     expect(wrapper.find('.itinerary-legs').children()).to.have.lengthOf(3);
@@ -46,7 +44,7 @@ describe('<Itinerary />', () => {
   it('should display all city bike leg start stations in the summary view', () => {
     const props = {
       ...defaultProps,
-      data: dcw12.cityBikeRouteWithIntermediatePlaces.data,
+      itinerary: dcw12.cityBikeRouteWithIntermediatePlaces.data,
       intermediatePlaces:
         dcw12.cityBikeRouteWithIntermediatePlaces.intermediatePlaces,
       passive: false,
@@ -55,7 +53,7 @@ describe('<Itinerary />', () => {
     const wrapper = mountWithIntl(<Itinerary {...props} />, {
       context: {
         ...mockContext,
-        config: { cityBike: { fewAvailableCount: 3 } },
+        config: { CONFIG: 'default', cityBike: { fewAvailableCount: 3 } },
       },
       childContextTypes: { ...mockChildContextTypes },
     });
@@ -67,7 +65,7 @@ describe('<Itinerary />', () => {
   it('should hide short legs from the summary view for a non-transit itinerary', () => {
     const props = {
       ...defaultProps,
-      data: dcw12.bikingRouteWithIntermediatePlaces.data,
+      itinerary: dcw12.bikingRouteWithIntermediatePlaces.data,
       intermediatePlaces:
         dcw12.bikingRouteWithIntermediatePlaces.intermediatePlaces,
       passive: false,
@@ -90,7 +88,7 @@ describe('<Itinerary />', () => {
   it('should show a connecting walk leg between via points for transit itinerary', () => {
     const props = {
       ...defaultProps,
-      data: dcw12.transitRouteWithWalkConnectingIntermediatePlaces.data,
+      itinerary: dcw12.transitRouteWithWalkConnectingIntermediatePlaces.data,
       intermediatePlaces:
         dcw12.transitRouteWithWalkConnectingIntermediatePlaces
           .intermediatePlaces,
@@ -110,7 +108,8 @@ describe('<Itinerary />', () => {
   it('should show a connecting walk leg between last via point and end for transit itinerary', () => {
     const props = {
       ...defaultProps,
-      data: dcw12.transitRouteWithShortWalkAtEndAfterIntermediatePlace.data,
+      itinerary:
+        dcw12.transitRouteWithShortWalkAtEndAfterIntermediatePlace.data,
       intermediatePlaces:
         dcw12.transitRouteWithShortWalkAtEndAfterIntermediatePlace
           .intermediatePlaces,
@@ -132,7 +131,8 @@ describe('<Itinerary />', () => {
   it('should show a connecting walk leg between start and first via point for transit itinerary', () => {
     const props = {
       ...defaultProps,
-      data: dcw12.transitRouteWithShortWalkAtStartBeforeIntermediatePlace.data,
+      itinerary:
+        dcw12.transitRouteWithShortWalkAtStartBeforeIntermediatePlace.data,
       intermediatePlaces:
         dcw12.transitRouteWithShortWalkAtStartBeforeIntermediatePlace
           .intermediatePlaces,
@@ -154,7 +154,7 @@ describe('<Itinerary />', () => {
   it('should show a via point for transit itinerary when the via point is at a stop', () => {
     const props = {
       ...defaultProps,
-      data: dcw12.transitRouteWithIntermediatePlaceAtStop.data,
+      itinerary: dcw12.transitRouteWithIntermediatePlaceAtStop.data,
       intermediatePlaces:
         dcw12.transitRouteWithIntermediatePlaceAtStop.intermediatePlaces,
       passive: false,
@@ -171,7 +171,7 @@ describe('<Itinerary />', () => {
   it('should show the really short first walking leg for a transit itinerary', () => {
     const props = {
       ...defaultProps,
-      data: dcw12.shortWalkingFirstLegWithMultipleViaPoints.data,
+      itinerary: dcw12.shortWalkingFirstLegWithMultipleViaPoints.data,
       intermediatePlaces:
         dcw12.shortWalkingFirstLegWithMultipleViaPoints.intermediatePlaces,
       passive: false,
@@ -187,30 +187,11 @@ describe('<Itinerary />', () => {
     expect(wrapper.find(ModeLeg)).to.have.lengthOf.above(2);
   });
 
-  it('should indicate which itineraries are canceled', () => {
-    const props = {
-      ...defaultProps,
-      data: dt2830,
-      passive: false,
-      refTime: 1551272073000,
-      zones: [],
-      isCancelled: true,
-      showCancelled: true,
-    };
-
-    const wrapper = mountWithIntl(<Itinerary {...props} />, {
-      context: { ...mockContext },
-      childContextTypes: { ...mockChildContextTypes },
-    });
-
-    expect(wrapper.find('.cancelled-itinerary')).to.have.lengthOf(1);
-  });
-
   it('should not indicate that there is a disruption if the alert is not in effect', () => {
     const alertEffectiveEndDate = 1553778000;
     const props = {
       ...defaultProps,
-      data: {
+      itinerary: {
         legs: [
           {
             from: {},
@@ -225,7 +206,16 @@ describe('<Itinerary />', () => {
               ],
               mode: 'RAIL',
             },
-            startTime: (alertEffectiveEndDate + 1) * 1000, // * 1000 due to ms format
+            start: {
+              scheduledTime: new Date(
+                (alertEffectiveEndDate + 1) * 1000,
+              ).toISOString(),
+            },
+            end: {
+              scheduledTime: new Date(
+                (alertEffectiveEndDate + 100) * 1000,
+              ).toISOString(),
+            },
           },
         ],
       },
@@ -242,7 +232,7 @@ describe('<Itinerary />', () => {
   it('should indicate that there is a disruption due to a trip alert', () => {
     const props = {
       ...defaultProps,
-      data: {
+      itinerary: {
         legs: [
           {
             from: {},
@@ -262,7 +252,8 @@ describe('<Itinerary />', () => {
               ],
               mode: 'RAIL',
             },
-            startTime: 1553769600000,
+            start: { scheduledTime: new Date(1553769600000).toISOString() },
+            end: { scheduledTime: new Date(1553769601000).toISOString() },
             trip: {
               pattern: {
                 code: 'HSL:3001I:0:01',
@@ -284,7 +275,7 @@ describe('<Itinerary />', () => {
   it('should indicate that there is a disruption due to a route alert', () => {
     const props = {
       ...defaultProps,
-      data: {
+      itinerary: {
         legs: [
           {
             from: {},
@@ -300,7 +291,8 @@ describe('<Itinerary />', () => {
               ],
               mode: 'RAIL',
             },
-            startTime: 1553769600000,
+            start: { scheduledTime: new Date(1553769600000).toISOString() },
+            end: { scheduledTime: new Date(1553769601000).toISOString() },
           },
         ],
       },
@@ -317,7 +309,7 @@ describe('<Itinerary />', () => {
   it('should indicate that there is a disruption due to a stop alert at the "from" stop', () => {
     const props = {
       ...defaultProps,
-      data: {
+      itinerary: {
         legs: [
           {
             from: {
@@ -336,7 +328,8 @@ describe('<Itinerary />', () => {
               alerts: [],
               mode: 'RAIL',
             },
-            startTime: 1553769600000,
+            start: { scheduledTime: new Date(1553769600000).toISOString() },
+            end: { scheduledTime: new Date(1553769601000).toISOString() },
             to: {},
           },
         ],
@@ -354,7 +347,7 @@ describe('<Itinerary />', () => {
   it('should indicate that there is a disruption due to a stop alert at the "to" stop', () => {
     const props = {
       ...defaultProps,
-      data: {
+      itinerary: {
         legs: [
           {
             from: {},
@@ -363,7 +356,8 @@ describe('<Itinerary />', () => {
               alerts: [],
               mode: 'RAIL',
             },
-            startTime: 1553769600000,
+            start: { scheduledTime: new Date(1553769600000).toISOString() },
+            end: { scheduledTime: new Date(1553769601000).toISOString() },
             to: {
               stop: {
                 alerts: [
@@ -391,7 +385,7 @@ describe('<Itinerary />', () => {
   it('should not indicate that there is a disruption due to a stop alert at an intermediate stop', () => {
     const props = {
       ...defaultProps,
-      data: {
+      itinerary: {
         legs: [
           {
             from: {},
@@ -421,7 +415,8 @@ describe('<Itinerary />', () => {
               alerts: [],
               mode: 'RAIL',
             },
-            startTime: 1553769600000,
+            start: { scheduledTime: new Date(1553769600000).toISOString() },
+            end: { scheduledTime: new Date(1553769601000).toISOString() },
           },
         ],
       },

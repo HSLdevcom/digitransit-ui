@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
 import Link from 'found/Link';
+import { configShape } from '../util/shapes';
 
 import ExternalLink from './ExternalLink';
 import Icon from './Icon';
@@ -250,19 +251,23 @@ AlertRow.propTypes = {
   url: PropTypes.string,
   showLinks: PropTypes.bool,
   header: PropTypes.string,
-  feed: PropTypes.string,
+  feed: PropTypes.string.isRequired,
   index: PropTypes.number.isRequired,
 };
 
 AlertRow.contextTypes = {
-  config: PropTypes.object.isRequired,
+  config: configShape.isRequired,
   intl: intlShape.isRequired,
 };
 
 AlertRow.defaultProps = {
+  description: undefined,
   currentTime: moment().unix(),
   endTime: undefined,
   severityLevel: undefined,
   startTime: undefined,
   header: undefined,
+  entities: undefined,
+  url: undefined,
+  showLinks: false,
 };

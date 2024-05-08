@@ -10,6 +10,7 @@ import isEqual from 'lodash/isEqual';
 import Popup from 'react-leaflet/es/Popup';
 import { withLeaflet } from 'react-leaflet/es/context';
 import { matchShape, routerShape } from 'found';
+import { relayShape, configShape, vehicleShape } from '../../../util/shapes';
 import { mapLayerShape } from '../../../store/MapLayerStore';
 import MarkerSelectPopup from './MarkerSelectPopup';
 import LocationPopup from '../popups/LocationPopup';
@@ -26,7 +27,6 @@ import {
   PREFIX_CARPARK,
   PREFIX_BIKEPARK,
 } from '../../../util/path';
-import { getIdWithoutFeed } from '../../../util/feedScopedIdUtils';
 import SelectVehicleContainer from './SelectVehicleContainer';
 
 const initialState = {
@@ -57,11 +57,11 @@ class TileLayerContainer extends GridLayer {
         }),
       }).isRequired,
     }).isRequired,
-    relayEnvironment: PropTypes.object.isRequired,
+    relayEnvironment: relayShape.isRequired,
     hilightedStops: PropTypes.arrayOf(PropTypes.string),
     stopsToShow: PropTypes.arrayOf(PropTypes.string),
     objectsToHide: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)),
-    vehicles: PropTypes.object,
+    vehicles: PropTypes.objectOf(vehicleShape),
     lang: PropTypes.string.isRequired,
   };
 
@@ -78,7 +78,7 @@ class TileLayerContainer extends GridLayer {
   static contextTypes = {
     getStore: PropTypes.func.isRequired,
     intl: intlShape.isRequired,
-    config: PropTypes.object.isRequired,
+    config: configShape.isRequired,
     match: matchShape.isRequired,
     router: routerShape.isRequired,
   };
@@ -91,7 +91,7 @@ class TileLayerContainer extends GridLayer {
     onClose: () => this.setState({ ...initialState }),
     autoPan: false,
     onOpen: () => this.sendAnalytics(),
-    relayEnvironment: PropTypes.object.isRequired,
+    relayEnvironment: relayShape.isRequired,
   };
 
   merc = new SphericalMercator({
@@ -247,11 +247,10 @@ class TileLayerContainer extends GridLayer {
           parkingId = selectableTargets[0].feature.properties?.id;
         }
         if (parkingId) {
-          // TODO use feedScopedId here
           this.context.router.push(
             `/${
               layer === 'parkAndRide' ? PREFIX_CARPARK : PREFIX_BIKEPARK
-            }/${encodeURIComponent(getIdWithoutFeed(parkingId))}`,
+            }/${encodeURIComponent(parkingId)}`,
           );
           return;
         }

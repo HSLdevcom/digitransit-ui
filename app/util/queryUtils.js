@@ -1,5 +1,4 @@
 import isString from 'lodash/isString';
-import cloneDeep from 'lodash/cloneDeep';
 import {
   locationToOTP,
   otpToLocation,
@@ -8,30 +7,6 @@ import {
 import { getPathWithEndpointObjects, PREFIX_ITINERARY_SUMMARY } from './path';
 import { saveFutureRoute } from '../action/FutureRoutesActions';
 import { addViaPoint } from '../action/ViaPointActions';
-
-/**
- * Removes selected itinerary index from url (pathname) and
- * state and then returns a cleaned object.
- *
- * @param {*} location from the router
- * @returns cleaned location object
- */
-export const resetSelectedItineraryIndex = loc => {
-  const location = cloneDeep(loc);
-  if (location.state?.selectedItineraryIndex) {
-    location.state.selectedItineraryIndex = 0;
-  }
-
-  if (location.pathname) {
-    const pathArray = location.pathname.split('/');
-    if (pathArray.length === 5) {
-      pathArray.pop();
-      location.pathname = pathArray.join('/');
-    }
-  }
-
-  return location;
-};
 
 /**
  * Processes query so that empty arrays will be preserved in URL
@@ -58,8 +33,7 @@ export const fixArrayParams = query => {
  * @param {*} newParams The location query params to apply
  */
 export const replaceQueryParams = (router, match, newParams) => {
-  let { location } = match;
-  location = resetSelectedItineraryIndex(location);
+  const { location } = match;
 
   const query = fixArrayParams({
     ...location.query,

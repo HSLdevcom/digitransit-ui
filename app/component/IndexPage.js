@@ -9,7 +9,7 @@ import DTAutoSuggest from '@digitransit-component/digitransit-component-autosugg
 import DTAutosuggestPanel from '@digitransit-component/digitransit-component-autosuggest-panel';
 import { getModesWithAlerts } from '@digitransit-search-util/digitransit-search-util-query-utils';
 import { createUrl } from '@digitransit-store/digitransit-store-future-route';
-import moment from 'moment';
+import { configShape, locationShape } from '../util/shapes';
 import storeOrigin from '../action/originActions';
 import storeDestination from '../action/destinationActions';
 import withSearchContext from './WithSearchContext';
@@ -23,7 +23,6 @@ import {
   PREFIX_ITINERARY_SUMMARY,
 } from '../util/path';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
-import { dtLocationShape } from '../util/shapes';
 import withBreakpoint from '../util/withBreakpoint';
 import Geomover from './Geomover';
 import scrollTop from '../util/scroll';
@@ -62,20 +61,20 @@ class IndexPage extends React.Component {
     getStore: PropTypes.func.isRequired,
     router: routerShape.isRequired,
     match: matchShape.isRequired,
-    config: PropTypes.object.isRequired,
+    config: configShape.isRequired,
   };
 
   static propTypes = {
     breakpoint: PropTypes.string.isRequired,
-    origin: dtLocationShape.isRequired,
-    destination: dtLocationShape.isRequired,
+    origin: locationShape.isRequired,
+    destination: locationShape.isRequired,
     lang: PropTypes.string,
     currentTime: PropTypes.number.isRequired,
-    // eslint-disable-next-line react/no-unused-prop-types
+    // eslint-disable-next-line
     query: PropTypes.object.isRequired,
     favouriteModalAction: PropTypes.string,
     fromMap: PropTypes.string,
-    locationState: dtLocationShape.isRequired,
+    locationState: locationShape.isRequired,
   };
 
   static defaultProps = {
@@ -139,7 +138,7 @@ class IndexPage extends React.Component {
         ),
       };
       if (newLocation.query.time === undefined) {
-        newLocation.query.time = moment().unix().toString();
+        newLocation.query.time = Math.floor(Date.now() / 1000);
       }
       delete newLocation.query.setTime;
       router.push(newLocation);
@@ -526,7 +525,7 @@ const IndexPageWithStores = connectToStores(
 IndexPageWithStores.contextTypes = {
   ...IndexPageWithStores.contextTypes,
   executeAction: PropTypes.func.isRequired,
-  config: PropTypes.object.isRequired,
+  config: configShape.isRequired,
 };
 
 const GeoIndexPage = Geomover(IndexPageWithStores);

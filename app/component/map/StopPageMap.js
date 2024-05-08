@@ -6,6 +6,11 @@ import { connectToStores } from 'fluxible-addons-react';
 import distance from '@digitransit-search-util/digitransit-search-util-distance';
 import { graphql, fetchQuery } from 'react-relay';
 import ReactRelayContext from 'react-relay/lib/ReactRelayContext';
+import {
+  configShape,
+  locationShape,
+  mapLayerOptionsShape,
+} from '../../util/shapes';
 import { getSettings } from '../../util/planParamUtil';
 import TimeStore from '../../store/TimeStore';
 import PositionStore from '../../store/PositionStore';
@@ -13,7 +18,6 @@ import MapLayerStore, { mapLayerShape } from '../../store/MapLayerStore';
 import MapWithTracking from './MapWithTracking';
 import SelectedStopPopup from './popups/SelectedStopPopup';
 import SelectedStopPopupContent from '../SelectedStopPopupContent';
-import { dtLocationShape, mapLayerOptionsShape } from '../../util/shapes';
 import withBreakpoint from '../../util/withBreakpoint';
 import VehicleMarkerContainer from './VehicleMarkerContainer';
 import BackButton from '../BackButton';
@@ -23,15 +27,16 @@ import Loading from '../Loading';
 import { getMapLayerOptions } from '../../util/mapLayerUtils';
 import MapRoutingButton from '../MapRoutingButton';
 import CookieSettingsButton from '../CookieSettingsButton';
+import { PREFIX_CARPARK, PREFIX_BIKEPARK } from '../../util/path';
 
 const getModeFromProps = props => {
   if (props.citybike) {
     return 'citybike';
   }
-  if (props.stop.bikeParkId) {
+  if (props.parkType === PREFIX_BIKEPARK) {
     return 'parkAndRideForBikes';
   }
-  if (props.stop.carParkId) {
+  if (props.parkType === PREFIX_CARPARK) {
     return 'parkAndRide';
   }
   if (props.stop.vehicleMode) {
@@ -199,7 +204,7 @@ function StopPageMap(
 }
 
 StopPageMap.contextTypes = {
-  config: PropTypes.object.isRequired,
+  config: configShape.isRequired,
   match: matchShape.isRequired,
   router: routerShape.isRequired,
   getStore: PropTypes.func.isRequired,
@@ -212,14 +217,16 @@ StopPageMap.propTypes = {
     platformCode: PropTypes.string,
   }),
   breakpoint: PropTypes.string.isRequired,
-  locationState: dtLocationShape.isRequired,
+  locationState: locationShape.isRequired,
   currentTime: PropTypes.number.isRequired,
   mapLayers: mapLayerShape.isRequired,
   mapLayerOptions: mapLayerOptionsShape.isRequired,
+  parkType: PropTypes.string,
 };
 
 StopPageMap.defaultProps = {
   stop: undefined,
+  parkType: undefined,
 };
 
 const componentWithBreakpoint = withBreakpoint(StopPageMap);
@@ -250,7 +257,7 @@ const StopPageMapWithStores = connectToStores(
     };
   },
   {
-    config: PropTypes.object,
+    config: configShape,
   },
 );
 

@@ -1,9 +1,7 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
 import { intlShape } from 'react-intl';
 import { uniq } from 'lodash';
-
 import AlertList from './AlertList';
 import {
   getCancelationsForStop,
@@ -11,7 +9,7 @@ import {
   getServiceAlertsForStation,
 } from '../util/alertUtils';
 import { getRouteMode } from '../util/modeUtils';
-import { AlertShape } from '../util/shapes';
+import { stopShape } from '../util/shapes';
 import { AlertSeverityLevelType, AlertEntityType } from '../constants';
 
 export const isRelevantEntity = (entity, stopIds, routeIds) =>
@@ -114,50 +112,7 @@ const StopAlerts = ({ stop }, { intl }) => {
   );
 };
 
-StopAlerts.propTypes = {
-  stop: PropTypes.shape({
-    gtfsId: PropTypes.string.isRequired,
-    locationType: PropTypes.string.isRequired,
-    routes: PropTypes.arrayOf(
-      PropTypes.shape({
-        gtfsId: PropTypes.string.isRequired,
-      }),
-    ),
-    alerts: PropTypes.arrayOf(AlertShape).isRequired,
-    stops: PropTypes.arrayOf(
-      PropTypes.shape({
-        gtfsId: PropTypes.string.isRequired,
-        routes: PropTypes.arrayOf(
-          PropTypes.shape({
-            gtfsId: PropTypes.string.isRequired,
-          }),
-        ).isRequired,
-        alerts: PropTypes.arrayOf(AlertShape).isRequired,
-      }),
-    ),
-    stoptimes: PropTypes.arrayOf(
-      PropTypes.shape({
-        headsign: PropTypes.string,
-        realtimeState: PropTypes.string,
-        scheduledDeparture: PropTypes.number,
-        serviceDay: PropTypes.number,
-        trip: PropTypes.shape({
-          tripHeadsign: PropTypes.string.isRequired,
-          route: PropTypes.shape({
-            gtfsId: PropTypes.string.isRequired,
-            color: PropTypes.string,
-            mode: PropTypes.string.isRequired,
-            shortName: PropTypes.string.isRequired,
-            type: PropTypes.number,
-          }).isRequired,
-        }).isRequired,
-      }),
-    ).isRequired,
-  }).isRequired,
-};
-
-StopAlerts.contextTypes = {
-  intl: intlShape,
-};
+StopAlerts.propTypes = { stop: stopShape.isRequired };
+StopAlerts.contextTypes = { intl: intlShape };
 
 export default StopAlerts;

@@ -1,6 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
+import { configShape } from '../util/shapes';
 
 const MobileFooter = (props, { config }) => {
   return config.useCookiesPrompt ? (
@@ -26,7 +26,7 @@ const MobileFooter = (props, { config }) => {
 };
 
 MobileFooter.contextTypes = {
-  config: PropTypes.object.isRequired,
+  config: configShape.isRequired,
 };
 
 export default MobileFooter;

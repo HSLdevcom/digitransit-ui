@@ -35,7 +35,7 @@ describe('<DisruptionBanner />', () => {
 
     const wrapper = shallowWithIntl(<DisruptionBanner {...props} />, {
       context: {
-        config: {},
+        config: { CONFIG: 'default' },
       },
     });
     expect(wrapper.find(DisruptionBannerAlert)).to.lengthOf(1);

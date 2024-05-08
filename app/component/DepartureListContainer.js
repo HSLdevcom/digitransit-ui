@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import { intlShape, FormattedMessage } from 'react-intl';
+import { stopTimeShape, configShape } from '../util/shapes';
 import Icon from './Icon';
 import DepartureRow from './DepartureRow';
 import { isBrowser } from '../util/browser';
@@ -70,23 +71,9 @@ const asDepartures = stoptimes =>
         };
       });
 
-const StopShape = PropTypes.shape({
-  id: PropTypes.string.isRequired,
-});
-
-const TripShape = PropTypes.shape({
-  stops: PropTypes.arrayOf(StopShape),
-});
-
-const StopTimeShape = PropTypes.shape({
-  dropoffType: PropTypes.string,
-  pickupType: PropTypes.string,
-  trip: TripShape,
-});
-
 class DepartureListContainer extends Component {
   static propTypes = {
-    stoptimes: PropTypes.arrayOf(StopTimeShape).isRequired,
+    stoptimes: PropTypes.arrayOf(stopTimeShape).isRequired,
     mode: PropTypes.string,
     currentTime: PropTypes.number.isRequired,
     limit: PropTypes.number,
@@ -421,7 +408,7 @@ class DepartureListContainer extends Component {
 DepartureListContainer.contextTypes = {
   executeAction: PropTypes.func.isRequired,
   getStore: PropTypes.func.isRequired,
-  config: PropTypes.object.isRequired,
+  config: configShape.isRequired,
   intl: intlShape.isRequired,
 };
 

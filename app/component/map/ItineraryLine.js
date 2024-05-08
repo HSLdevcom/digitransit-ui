@@ -5,6 +5,7 @@ import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import polyUtil from 'polyline-encoded';
 import { intlShape } from 'react-intl';
+import { configShape, legShape } from '../../util/shapes';
 import { getRouteMode } from '../../util/modeUtils';
 import StopMarker from './non-tile-layer/StopMarker';
 import Line from './Line';
@@ -24,12 +25,12 @@ import TransitLegMarkers from './non-tile-layer/TransitLegMarkers';
 
 class ItineraryLine extends React.Component {
   static contextTypes = {
-    config: PropTypes.object.isRequired,
+    config: configShape.isRequired,
     intl: intlShape.isRequired,
   };
 
   static propTypes = {
-    legs: PropTypes.arrayOf(PropTypes.object).isRequired,
+    legs: PropTypes.arrayOf(legShape).isRequired,
     passive: PropTypes.bool,
     hash: PropTypes.number.isRequired,
     showTransferLabels: PropTypes.bool,
@@ -88,7 +89,7 @@ class ItineraryLine extends React.Component {
 
       const geometry = polyUtil.decode(leg.legGeometry.points);
       let middle = getMiddleOf(geometry);
-      let { to, endTime } = leg;
+      let { to, end } = leg;
 
       if (interliningLegs.length > 0) {
         // merge the geometries of legs where user can wait in the vehicle and find the middle point
@@ -99,7 +100,7 @@ class ItineraryLine extends React.Component {
         const interlinedGeometry = [...geometry, ...points];
         middle = getMiddleOf(interlinedGeometry);
         to = interliningLegs[interliningLegs.length - 1].to;
-        endTime = interliningLegs[interliningLegs.length - 1].endTime;
+        end = interliningLegs[interliningLegs.length - 1].end;
       }
 
       objs.push(
@@ -116,7 +117,7 @@ class ItineraryLine extends React.Component {
         this.props.showDurationBubble ||
         (this.checkStreetMode(leg) && leg.distance > 100)
       ) {
-        const duration = durationToString(leg.endTime - leg.startTime);
+        const duration = durationToString(leg.duration * 1000);
         objs.push(
           <SpeechBubble
             key={`speech_${this.props.hash}_${i}_${mode}`}
@@ -184,7 +185,7 @@ class ItineraryLine extends React.Component {
               transitLegs.push({
                 ...leg,
                 to,
-                endTime,
+                end,
                 nextLeg,
                 index: i,
                 mode: mode.toLowerCase(),
@@ -244,8 +245,19 @@ export default createFragmentContainer(ItineraryLine, {
     fragment ItineraryLine_legs on Leg @relay(plural: true) {
       mode
       rentedBike
-      startTime
-      endTime
+      start {
+        scheduledTime
+        estimated {
+          time
+        }
+      }
+      end {
+        scheduledTime
+        estimated {
+          time
+        }
+      }
+      duration
       distance
       legGeometry {
         points
@@ -270,7 +282,9 @@ export default createFragmentContainer(ItineraryLine, {
           lon
           stationId
           network
-          vehiclesAvailable
+          availableVehicles {
+            total
+          }
         }
         stop {
           gtfsId
@@ -288,7 +302,9 @@ export default createFragmentContainer(ItineraryLine, {
           lon
           stationId
           network
-          vehiclesAvailable
+          availableVehicles {
+            total
+          }
         }
         stop {
           gtfsId
@@ -305,7 +321,6 @@ export default createFragmentContainer(ItineraryLine, {
         }
       }
       intermediatePlaces {
-        arrivalTime
         stop {
           gtfsId
           lat

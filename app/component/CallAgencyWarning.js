@@ -1,8 +1,7 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import get from 'lodash/get';
-
 import { FormattedMessage } from 'react-intl';
+import { configShape, routeShape } from '../util/shapes';
 import Icon from './Icon';
 
 const CallAgencyWarning = ({ route }) => (
@@ -31,10 +30,11 @@ const CallAgencyWarning = ({ route }) => (
 );
 
 CallAgencyWarning.propTypes = {
-  route: PropTypes.object.isRequired,
+  route: routeShape.isRequired,
 };
+
 CallAgencyWarning.contextTypes = {
-  config: PropTypes.object.isRequired,
+  config: configShape.isRequired,
 };
 
 export default CallAgencyWarning;

@@ -8,6 +8,7 @@ import isEqual from 'lodash/isEqual';
 import cloneDeep from 'lodash/cloneDeep';
 import isEmpty from 'lodash/isEmpty';
 import { intlShape } from 'react-intl';
+import { mapLayerOptionsShape, configShape } from '../../util/shapes';
 import { startLocationWatch } from '../../action/PositionActions';
 import MapContainer from './MapContainer';
 import ToggleMapTracking from '../ToggleMapTracking';
@@ -20,7 +21,6 @@ import PreferencesStore from '../../store/PreferencesStore';
 import MapLayersDialogContent from '../MapLayersDialogContent';
 import MenuDrawer from '../MenuDrawer';
 import withBreakpoint from '../../util/withBreakpoint';
-import { mapLayerOptionsShape } from '../../util/shapes';
 
 const onlyUpdateCoordChanges = onlyUpdateForKeys([
   'lat',
@@ -82,6 +82,7 @@ class MapWithTrackingStateHandler extends React.Component {
     onMapTracking: PropTypes.func,
     setMWTRef: PropTypes.func,
     mapRef: PropTypes.func,
+    // eslint-disable-next-line
     leafletEvents: PropTypes.object,
     breakpoint: PropTypes.string.isRequired,
     lang: PropTypes.string.isRequired,
@@ -295,6 +296,12 @@ class MapWithTrackingStateHandler extends React.Component {
       : this.state.mapTracking
         ? 'icon-tracking-on-v2'
         : 'icon-tracking-offline-v2';
+    // eslint-disable-next-line no-nested-ternary
+    const ariaLabel = position.locationingFailed
+      ? this.context.intl.formatMessage({ id: 'tracking-button-offline' })
+      : this.state.mapTracking
+        ? this.context.intl.formatMessage({ id: 'tracking-button-on' })
+        : this.context.intl.formatMessage({ id: 'tracking-button-off' });
 
     const iconColor = this.state.mapTracking ? '#ff0000' : '#78909c';
 
@@ -338,6 +345,7 @@ class MapWithTrackingStateHandler extends React.Component {
                 key="toggleMapTracking"
                 img={img}
                 iconColor={iconColor}
+                ariaLabel={ariaLabel}
                 handleClick={() => {
                   if (this.state.mapTracking) {
                     this.disableMapTracking();
@@ -394,7 +402,7 @@ MapWithTrackingStateHandler.contextTypes = {
   executeAction: PropTypes.func,
   getStore: PropTypes.func,
   intl: intlShape.isRequired,
-  config: PropTypes.object.isRequired,
+  config: configShape.isRequired,
 };
 
 const MapWithTrackingStateHandlerapWithBreakpoint = withBreakpoint(
@@ -402,7 +410,7 @@ const MapWithTrackingStateHandlerapWithBreakpoint = withBreakpoint(
 );
 
 const MapWithTracking = connectToStores(
-  getContext({ config: PropTypes.object })(
+  getContext({ config: configShape })(
     MapWithTrackingStateHandlerapWithBreakpoint,
   ),
   [PositionStore, PreferencesStore],

@@ -21,11 +21,9 @@ import OfflinePlugin from 'offline-plugin/runtime';
 import { Helmet } from 'react-helmet';
 import { Environment, RecordSource, Store } from 'relay-runtime';
 import { ReactRelayContext } from 'react-relay';
-
 import { setRelayEnvironment } from '@digitransit-search-util/digitransit-search-util-query-utils';
-
+import { configShape } from './util/shapes';
 import { historyMiddlewares, render } from './routes';
-
 import Raven from './util/Raven';
 import configureMoment from './util/configure-moment';
 import StoreListeningIntlProvider from './util/StoreListeningIntlProvider';
@@ -40,8 +38,15 @@ import { isIOSApp } from './util/browser';
 import {
   initAnalyticsClientSide,
   addAnalyticsEvent,
+  handleUserAnalytics,
 } from './util/analyticsUtils';
 import { configureCountry } from './util/configureCountry';
+import { getUser } from './util/apiUtils';
+import setUser from './action/userActions';
+import {
+  fetchFavourites,
+  fetchFavouritesComplete,
+} from './action/FavouriteActions';
 
 const plugContext = f => () => ({
   plugComponentContext: f,
@@ -230,10 +235,27 @@ async function init() {
     url: path,
   });
 
+  // fetch Userdata and favourites
+  if (config.allowLogin) {
+    getUser()
+      .then(user => {
+        context.executeAction(setUser, {
+          ...user,
+        });
+        handleUserAnalytics(user, config);
+        context.executeAction(fetchFavourites);
+      })
+      .catch(() => {
+        context.executeAction(setUser, { notLogged: true });
+        context.executeAction(fetchFavouritesComplete);
+      });
+  }
+
   const ContextProvider = provideContext(StoreListeningIntlProvider, {
+    /* eslint-disable-next-line */
     raven: PropTypes.object,
-    config: PropTypes.object,
-    headers: PropTypes.object,
+    config: configShape,
+    headers: PropTypes.objectOf(PropTypes.string),
   });
 
   const root = document.getElementById('app');

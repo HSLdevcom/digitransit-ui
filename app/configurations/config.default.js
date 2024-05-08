@@ -183,12 +183,14 @@ export default {
 
   defaultSettings: {
     accessibilityOption: 0,
+    optimize: 'GREENWAYS',
     bikeSpeed: 5.55,
     ticketTypes: 'none',
     walkBoardCost: 120,
     walkReluctance: 1.8,
     walkSpeed: 1.2,
     transferPenalty: 0,
+    minTransferTime: 90,
     includeBikeSuggestions: true,
     includeParkAndRideSuggestions: false,
     includeCarSuggestions: false,
@@ -218,9 +220,6 @@ export default {
   // if you enable car suggestions but the linear distance between all points is less than this, then a car route will
   // not be computed
   suggestCarMinDistance: 2000,
-  minTransferTime: 90,
-  optimize: 'GREENWAYS',
-  transferPenalty: 0,
   availableLanguages: ['fi', 'sv', 'en', 'fr', 'nb', 'de', 'da', 'es', 'ro'],
   defaultLanguage: 'en',
   // This timezone data will expire in 2037
@@ -420,7 +419,6 @@ export default {
   },
 
   useTicketIcons: false,
-  showRouteInformation: false,
 
   modeToOTP: {
     bus: 'BUS',
@@ -477,9 +475,6 @@ export default {
       defaultValue: false, // always false
     },
   },
-
-  // modes that should not coexist with BICYCLE mode
-  modesWithNoBike: ['BICYCLE_RENT', 'WALK'],
 
   moment: {
     relativeTimeThreshold: {
@@ -728,6 +723,7 @@ export default {
   /* key: name of theme, value: regex matching part of host name */
   themeMap: {
     hsl: '(reittiopas|next-dev.digitransit)',
+    apphsl: '(test.digitransit)',
     turku: '(turku|foli)',
     lappeenranta: 'lappeenranta',
     joensuu: 'joensuu',
@@ -769,14 +765,11 @@ export default {
   showVehiclesOnItineraryPage: false,
 
   showWeatherInformation: true,
-  showBikeAndPublicItineraries: false,
   showBikeAndParkItineraries: false,
 
   includeBikeSuggestions: true,
   includeCarSuggestions: false,
   includeParkAndRideSuggestions: false,
-  // Include both bike and park and bike and public
-  includePublicWithBikePlan: false,
   // Park and ride and car suggestions separated
   separatedParkAndRideSwitch: false,
 
@@ -803,7 +796,6 @@ export default {
   showSimilarRoutesOnRouteDropDown: false,
 
   prioritizedStopsNearYou: {},
-  routeNotifications: [],
 
   constantOperationStops: {},
   constantOperationRoutes: {},
@@ -822,9 +814,29 @@ export default {
   },
 
   showAlternativeLegs: true,
-
   // Notice! Turning on this setting forces the search for car routes (for the CO2 comparison only).
   showCO2InItinerarySummary: false,
-
   geoJsonSvgSize: 20,
+  routeNotifications: [
+    {
+      showForBikeWithPublic: true,
+
+      id: 'externalCostWithBike',
+
+      content: {
+        fi: [
+          'Kulkuneuvossa mahdollisuus kuljettaa pyörää. ',
+          'Tarkasta pyörän kuljettamisen mahdollinen maksullisuus operaattorilta.',
+        ],
+        en: [
+          'There is a possibility to transport a bicycle in the vehicle. ',
+          'Check the possible cost of transporting a bicycle from the operator.',
+        ],
+        sv: [
+          'Möjlighet att transportera cykel i fordonet. ',
+          'Kontrollera eventuell avgift för att transportera cykel från operatören.',
+        ],
+      },
+    },
+  ],
 };

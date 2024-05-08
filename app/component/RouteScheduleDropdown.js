@@ -5,6 +5,7 @@ import Select from 'react-select';
 import Icon from '@digitransit-component/digitransit-component-icon';
 import { intlShape } from 'react-intl';
 import isEmpty from 'lodash/isEmpty';
+import { configShape } from '../util/shapes';
 
 export default function RouteScheduleDropdown(props, context) {
   const { alignRight, id, labelId, list, onSelectChange, title } = props;
@@ -160,14 +161,18 @@ export default function RouteScheduleDropdown(props, context) {
 
 RouteScheduleDropdown.contextTypes = {
   intl: intlShape.isRequired,
-  config: PropTypes.object.isRequired,
+  config: configShape.isRequired,
 };
 
 RouteScheduleDropdown.propTypes = {
   alignRight: PropTypes.bool,
   id: PropTypes.string.isRequired,
   labelId: PropTypes.string,
-  list: PropTypes.arrayOf(PropTypes.object).isRequired,
+  list: PropTypes.arrayOf(
+    PropTypes.shape({
+      label: PropTypes.string,
+    }),
+  ).isRequired,
   onSelectChange: PropTypes.func,
   title: PropTypes.string,
 };

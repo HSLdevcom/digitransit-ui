@@ -3,6 +3,7 @@ import React from 'react';
 import { intlShape } from 'react-intl';
 import { matchShape, routerShape } from 'found';
 import connectToStores from 'fluxible-addons-react/connectToStores';
+import { configShape } from '../util/shapes';
 import { isBrowser } from '../util/browser';
 
 const language = (lang, highlight, match, intl) => {
@@ -46,7 +47,7 @@ LangSelect.propTypes = {
 
 LangSelect.contextTypes = {
   executeAction: PropTypes.func.isRequired,
-  config: PropTypes.object.isRequired,
+  config: configShape.isRequired,
   router: routerShape.isRequired,
   match: matchShape.isRequired,
   intl: intlShape.isRequired,

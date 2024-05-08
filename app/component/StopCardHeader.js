@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
 import { matchShape } from 'found';
+import { stopShape, stationShape } from '../util/shapes';
 import CardHeader from './CardHeader';
 import { getJson } from '../util/xhrPromise';
 import { saveSearch } from '../action/SearchActions';
@@ -102,7 +103,7 @@ class StopCardHeader extends React.Component {
         icons={icons}
         showBackButton={breakpoint === 'large'}
         stop={stop}
-        headerConfig={this.headerConfig}
+        headerConfig={!!this.headerConfig}
         isTerminal={isTerminal}
         favouriteContainer={
           <LazilyLoad modules={modules}>
@@ -117,28 +118,7 @@ class StopCardHeader extends React.Component {
 }
 
 StopCardHeader.propTypes = {
-  stop: PropTypes.shape({
-    gtfsId: PropTypes.string,
-    name: PropTypes.string,
-    code: PropTypes.string,
-    desc: PropTypes.string,
-    isPopUp: PropTypes.bool,
-    zoneId: PropTypes.string,
-    stops: PropTypes.arrayOf(
-      PropTypes.shape({
-        desc: PropTypes.string,
-      }),
-    ),
-    alerts: PropTypes.arrayOf(
-      PropTypes.shape({
-        alertSeverityLevel: PropTypes.string,
-        effectiveEndDate: PropTypes.number,
-        effectiveStartDate: PropTypes.number,
-      }),
-    ),
-    lat: PropTypes.number,
-    lon: PropTypes.number,
-  }),
+  stop: PropTypes.oneOfType([stopShape, stationShape]),
   distance: PropTypes.number,
   className: PropTypes.string,
   headingStyle: PropTypes.string,
@@ -151,6 +131,12 @@ StopCardHeader.propTypes = {
 StopCardHeader.defaultProps = {
   stop: undefined,
   isTerminal: false,
+  distance: undefined,
+  className: undefined,
+  headingStyle: undefined,
+  icons: undefined,
+  isPopUp: false,
+  breakpoint: undefined,
 };
 
 StopCardHeader.contextTypes = {

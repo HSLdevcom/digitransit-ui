@@ -56,6 +56,8 @@ export default {
   availableLanguages: ['fi', 'sv', 'en'],
   defaultLanguage: 'fi',
 
+  showCO2InItinerarySummary: true,
+
   transportModes: {
     bus: {
       availableForSelection: true,
@@ -170,8 +172,6 @@ export default {
 
   includeCarSuggestions: true,
   includeParkAndRideSuggestions: true,
-  // Include both bike and park and bike and public
-  includePublicWithBikePlan: false,
   // Park and ride and car suggestions separated into two switches
   separatedParkAndRideSwitch: true,
   showBikeAndParkItineraries: true,
@@ -219,4 +219,11 @@ export default {
   ],
 
   showDisclaimer: true,
+
+  // mapping fareId from OTP fare identifiers to human readable form
+  fareMapping: function mapFareId(fareId) {
+    return fareId && fareId.substring
+      ? fareId.substring(fareId.indexOf(':') + 1)
+      : '';
+  },
 };

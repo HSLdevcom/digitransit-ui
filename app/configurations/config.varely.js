@@ -17,7 +17,7 @@ const colorPrimary = '#008161';
 const minLat = 60;
 const maxLat = 61.8;
 const minLon = 21;
-const maxLon = 23.4;
+const maxLon = 23.6;
 
 export default configMerger(walttiConfig, {
   CONFIG,
@@ -162,7 +162,8 @@ export default configMerger(walttiConfig, {
   },
 
   staticMessages: [],
-
+  showCO2InItinerarySummary: true,
   showNearYouButtons: true,
   allowLogin: false,
+  routeNotifications: [],
 });

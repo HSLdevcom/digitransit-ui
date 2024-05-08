@@ -2,6 +2,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { matchShape, routerShape } from 'found';
+import { configShape, planEdgeShape, locationShape } from '../../util/shapes';
 import LocationMarker from './LocationMarker';
 import ItineraryLine from './ItineraryLine';
 import MapWithTracking from './MapWithTracking';
@@ -14,7 +15,7 @@ const POINT_FOCUS_ZOOM = 16; // default
 
 function ItineraryPageMap(
   {
-    itineraries,
+    planEdges,
     active,
     showActive,
     from,
@@ -37,26 +38,26 @@ function ItineraryPageMap(
     );
   }
   if (!showActive) {
-    itineraries.forEach((itinerary, i) => {
+    planEdges.forEach((edge, i) => {
       if (i !== active) {
         leafletObjs.push(
           <ItineraryLine
             key={`line_${i}`}
             hash={i}
-            legs={itinerary.legs}
+            legs={edge.node.legs}
             passive
           />,
         );
       }
     });
   }
-  if (active < itineraries.length) {
+  if (active < planEdges.length) {
     leafletObjs.push(
       <ItineraryLine
         key={`line_${active}`}
         hash={active}
         streetMode={hash}
-        legs={itineraries[active].legs}
+        legs={planEdges[active].node.legs}
         showTransferLabels={showActive}
         showIntermediateStops
         showDurationBubble={showDurationBubble}
@@ -108,15 +109,21 @@ function ItineraryPageMap(
 }
 
 ItineraryPageMap.propTypes = {
-  itineraries: PropTypes.arrayOf(PropTypes.object).isRequired,
-  topics: PropTypes.arrayOf(PropTypes.object),
+  planEdges: PropTypes.arrayOf(planEdgeShape).isRequired,
+  topics: PropTypes.arrayOf(
+    PropTypes.shape({
+      feedId: PropTypes.string.isRequired,
+      mode: PropTypes.string,
+      direction: PropTypes.number,
+    }),
+  ),
   active: PropTypes.number.isRequired,
   showActive: PropTypes.bool,
   breakpoint: PropTypes.string.isRequired,
   showVehicles: PropTypes.bool,
-  from: PropTypes.object.isRequired,
-  to: PropTypes.object.isRequired,
-  viaPoints: PropTypes.arrayOf(PropTypes.object).isRequired,
+  from: locationShape.isRequired,
+  to: locationShape.isRequired,
+  viaPoints: PropTypes.arrayOf(locationShape).isRequired,
   showDurationBubble: PropTypes.bool,
 };
 
@@ -130,7 +137,7 @@ ItineraryPageMap.defaultProps = {
 ItineraryPageMap.contextTypes = {
   match: matchShape.isRequired,
   router: routerShape.isRequired,
-  config: PropTypes.object,
+  config: configShape,
   executeAction: PropTypes.func.isRequired,
 };
 

@@ -23,7 +23,9 @@ import { getLayerBaseUrl } from '../../../util/mapLayerUtils';
 const query = graphql`
   query VehicleRentalStationsQuery($id: String!) {
     station: vehicleRentalStation(id: $id) {
-      vehiclesAvailable
+      availableVehicles {
+        total
+      }
       operative
     }
   }
@@ -58,7 +60,7 @@ class VehicleRentalStations {
     }/${this.tile.coords.x}/${this.tile.coords.y}.pbf`;
     return fetchWithLanguageAndSubscription(tileUrl, this.config, lang)
       .then(res => {
-        this.timeOfLastFetch = new Date().getTime();
+        this.timeOfLastFetch = Date.now();
         if (res.status !== 200) {
           return undefined;
         }
@@ -101,7 +103,7 @@ class VehicleRentalStations {
         );
       })
       .catch(err => {
-        this.timeOfLastFetch = new Date().getTime();
+        this.timeOfLastFetch = Date.now();
         console.log(err); // eslint-disable-line no-console
       });
   };
@@ -153,7 +155,7 @@ class VehicleRentalStations {
           this.tile,
           geom,
           result.operative,
-          result.vehiclesAvailable,
+          result.availableVehicles.total,
           iconName,
           citybikeCapacity !== BIKEAVL_UNKNOWN,
           true,
@@ -177,7 +179,7 @@ class VehicleRentalStations {
   };
 
   onTimeChange = lang => {
-    const currentTime = new Date().getTime();
+    const currentTime = Date.now();
     if (
       this.canHaveStationUpdates &&
       (!this.timeOfLastFetch ||
