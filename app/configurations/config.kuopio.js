@@ -165,7 +165,7 @@ export default configMerger(walttiConfig, {
           sv: 'Zoner',
           en: 'Zones',
         },
-        url: '/assets/geojson/kuopio_zone_lines_20210222.geojson',
+        url: '/assets/geojson/kuopio_zone_lines_20240508.geojson',
       },
     ],
   },
