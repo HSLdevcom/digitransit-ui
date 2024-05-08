@@ -10,6 +10,7 @@ export default function StreetModeSelectorWeather({ weatherData }) {
   const [popupOpen, changeOpen] = useState(false);
   if (typeof weatherData.temperature === 'number') {
     const { temperature, iconId } = weatherData;
+    const iconMsgId = iconId % 100;
     const tempLabel = `${Math.round(temperature)}\u00B0C`; // Temperature with Celsius
     return (
       <>
@@ -21,7 +22,7 @@ export default function StreetModeSelectorWeather({ weatherData }) {
           <div className="hover-frame">
             <span className="sr-only">
               <FormattedMessage id="weather" />
-              <FormattedMessage id={`weather-icon-${weatherData.iconId}`} />
+              <FormattedMessage id={`weather-icon-${iconMsgId}`} />
               {tempLabel}
             </span>
             <Icon img={`icon-icon_weather_${iconId}`} />
