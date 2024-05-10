@@ -77,7 +77,7 @@ const streetHashes = [
 const altTransitHash = [streetHash.bikeAndVehicle, streetHash.parkAndRide];
 const noTransitHash = [streetHash.walk, streetHash.bike, streetHash.car];
 
-const ALT_STATE = {
+const LOADSTATE = {
   UNSET: 'unset',
   LOADING: 'loading',
   DONE: 'done',
@@ -94,12 +94,12 @@ const emptyState = {
   error: undefined,
   topNote: undefined,
   bottomNote: undefined,
-  loading: false,
+  loading: LOADSTATE.DONE,
   startCursor: undefined,
   endCursor: undefined,
 };
 
-const emptyPlan = { plan: {}, loading: false };
+const emptyPlan = { plan: {}, loading: LOADSTATE.DONE };
 
 export default function ItineraryPage(props, context) {
   const headerRef = useRef(null);
@@ -107,10 +107,13 @@ export default function ItineraryPage(props, context) {
   const expandMapRef = useRef(0);
   const ariaRef = useRef('summary-page.title');
 
-  const [state, setState] = useState(emptyState);
+  const [state, setState] = useState({
+    ...emptyState,
+    loading: LOADSTATE.UNSET,
+  });
   const [relaxState, setRelaxState] = useState(emptyPlan);
 
-  const unset = { plan: {}, loading: ALT_STATE.UNSET };
+  const unset = { plan: {}, loading: LOADSTATE.UNSET };
   const altStates = {
     [PLANTYPE.WALK]: useState(unset),
     [PLANTYPE.BIKE]: useState(unset),
@@ -138,13 +141,13 @@ export default function ItineraryPage(props, context) {
 
   function altLoading() {
     return Object.values(altStates).some(
-      st => st[0].loading === ALT_STATE.LOADING,
+      st => st[0].loading === LOADSTATE.LOADING,
     );
   }
 
   function altLoadingDone() {
     return Object.values(altStates).every(
-      st => st[0].loading === ALT_STATE.DONE,
+      st => st[0].loading === LOADSTATE.DONE,
     );
   }
 
@@ -305,16 +308,16 @@ export default function ItineraryPage(props, context) {
   async function makeAltQuery(planType) {
     const altState = altStates[planType];
     if (!planQueryNeeded(config, match, planType)) {
-      altState[1]({ plan: {}, loading: ALT_STATE.DONE });
+      altState[1]({ plan: {}, loading: LOADSTATE.DONE });
       return;
     }
-    altState[1]({ loading: ALT_STATE.LOADING });
+    altState[1]({ loading: LOADSTATE.LOADING });
     const planParams = getPlanParams(config, match, planType);
     try {
       const plan = await iterateQuery(planParams);
-      altState[1]({ plan, loading: ALT_STATE.DONE });
+      altState[1]({ plan, loading: LOADSTATE.DONE });
     } catch (error) {
-      altState[1]({ plan: {}, loading: ALT_STATE.DONE });
+      altState[1]({ plan: {}, loading: LOADSTATE.DONE });
     }
   }
 
@@ -323,7 +326,7 @@ export default function ItineraryPage(props, context) {
       setRelaxState(emptyPlan);
       return;
     }
-    setRelaxState({ loading: true });
+    setRelaxState({ loading: LOADSTATE.LOADING });
     const planParams = getPlanParams(config, match, PLANTYPE.TRANSIT, true);
     try {
       const plan = await iterateQuery(planParams);
@@ -340,7 +343,7 @@ export default function ItineraryPage(props, context) {
       return;
     }
     ariaRef.current = 'itinerary-page.loading-itineraries';
-    setState({ ...emptyState, loading: true });
+    setState({ ...emptyState, loading: LOADSTATE.LOADING });
     const planParams = getPlanParams(config, match, PLANTYPE.TRANSIT);
     try {
       const plan = await iterateQuery(planParams);
@@ -704,8 +707,8 @@ export default function ItineraryPage(props, context) {
   // merge two separate bike + transit plans into one
   useEffect(() => {
     if (
-      altStates[PLANTYPE.BIKEPARK][0].loading === ALT_STATE.DONE &&
-      altStates[PLANTYPE.BIKETRANSIT][0].loading === ALT_STATE.DONE
+      altStates[PLANTYPE.BIKEPARK][0].loading === LOADSTATE.DONE &&
+      altStates[PLANTYPE.BIKETRANSIT][0].loading === LOADSTATE.DONE
     ) {
       const plan = mergeBikeTransitPlans(
         altStates[PLANTYPE.BIKEPARK][0].plan,
@@ -943,8 +946,8 @@ export default function ItineraryPage(props, context) {
   const loadingAlt = altLoading();
   const waitAlternatives = hasNoTransitItineraries && loadingAlt;
   const loading =
-    state.loading ||
-    (relaxState.loading && hasNoTransitItineraries) ||
+    state.loading === LOADSTATE.LOADING ||
+    (relaxState.loading === LOADSTATE.LOADING && hasNoTransitItineraries) ||
     waitAlternatives ||
     (streetHashes.includes(hash) && loadingAlt); // viewing unfinished alt plan
 
@@ -983,6 +986,9 @@ export default function ItineraryPage(props, context) {
       />
     );
   } else {
+    if (state.loading === LOADSTATE.UNSET) {
+      return null; // do not render 'no itineraries' before searches
+    }
     const settingsNotification =
       !showRelaxedPlanNotifier && // show only on notifier about limitations
       settingsLimitRouting(config) &&
