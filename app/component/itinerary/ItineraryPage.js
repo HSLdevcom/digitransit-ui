@@ -330,7 +330,7 @@ export default function ItineraryPage(props, context) {
     const planParams = getPlanParams(config, match, PLANTYPE.TRANSIT, true);
     try {
       const plan = await iterateQuery(planParams);
-      setRelaxState({ plan, loading: false });
+      setRelaxState({ plan, loading: LOADSTATE.DONE });
     } catch (error) {
       setRelaxState(emptyPlan);
     }
@@ -347,7 +347,7 @@ export default function ItineraryPage(props, context) {
     const planParams = getPlanParams(config, match, PLANTYPE.TRANSIT);
     try {
       const plan = await iterateQuery(planParams);
-      setState({ ...emptyState, plan, loading: false });
+      setState({ ...emptyState, plan, loading: LOADSTATE.DONE });
       resetItineraryPageSelection();
       ariaRef.current = 'itinerary-page.itineraries-loaded';
     } catch (error) {
