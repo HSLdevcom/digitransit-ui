@@ -163,7 +163,7 @@ export function getNamedConfiguration(configName) {
     }
   }
   if (
-    conf.cityBike &&
+    conf.cityBike?.networks &&
     citybikeSeasonDefinitions?.length &&
     !conf.cityBike.seasonSet
   ) {
