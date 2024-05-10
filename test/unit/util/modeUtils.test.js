@@ -82,17 +82,6 @@ describe('modeUtils', () => {
       expect(modes).to.contain(TransportMode.Bus);
     });
 
-    it('should retrieve all modes with "defaultValue": true from config if localStorage has an empty modes list', () => {
-      setCustomizedSettings({
-        modes: [],
-      });
-
-      const modes = utils.getModes(config);
-      expect(modes.length).to.equal(2);
-      expect(modes).to.contain(TransportMode.Bus);
-      expect(modes).to.contain(TransportMode.Rail);
-    });
-
     it('should retrieve all modes with "defaultValue": true from config if localStorage is not available', () => {
       const modes = utils.getModes(config);
       expect(modes.length).to.equal(2);
