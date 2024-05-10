@@ -133,6 +133,8 @@ export default config => {
             /* webpackChunkName: "vehiclepark" */ './component/VehicleParkMapContainer'
           ).then(getDefault)
         }
+        // TODO remove prepareVariables after hsl.fi has updated its vehicle parking addresses
+        prepareVariables={prepareWeekDays}
         query={graphql`
           query routes_VehicleParkMap_Query($id: String!) {
             vehicleParking(id: $id) {
