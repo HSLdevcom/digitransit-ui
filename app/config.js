@@ -110,6 +110,7 @@ export function getNamedConfiguration(configName) {
     const config = baseConfig
       ? configMerger(baseConfig, additionalConfig)
       : configMerger(defaultConfig, additionalConfig);
+    config.cityBike.seasonSet = false; // this is unique per config and should not be inherited
 
     if (config.useSearchPolygon && config.areaPolygon) {
       // pass poly as 'lon lat, lon lat, lon lat ...' sequence
@@ -163,7 +164,7 @@ export function getNamedConfiguration(configName) {
     }
   }
   if (
-    conf.cityBike?.networks &&
+    Object.keys(conf.cityBike?.networks || {}).length &&
     citybikeSeasonDefinitions?.length &&
     !conf.cityBike.seasonSet
   ) {
