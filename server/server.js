@@ -454,6 +454,7 @@ function fetchCitybikeConfigurations() {
           console.log(
             `fetched: ${seasonDefinitions.length} citybike season configuration`,
           );
+          console.log(seasonDefinitions);
           configTools.setAvailableCitybikeConfigurations(seasonDefinitions);
           mainResolve();
         });
