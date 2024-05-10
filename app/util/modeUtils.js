@@ -250,7 +250,7 @@ export function getModes(config) {
   const activeAndAllowedBikeRentalNetworks = allowedBikeRentalNetworks
     ? allowedBikeRentalNetworks.filter(x => networkIsActive(config, x))
     : [];
-  if (showModeSettings(config) && Array.isArray(modes) && modes.length > 0) {
+  if (showModeSettings(config) && Array.isArray(modes)) {
     const transportModes = modes.filter(mode =>
       isTransportModeAvailable(config, mode),
     );
