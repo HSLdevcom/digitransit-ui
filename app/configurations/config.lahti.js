@@ -154,9 +154,8 @@ export default configMerger(walttiConfig, {
       freebike_lahti: {
         enabled: true,
         season: {
-          // 24.4. - 17.11.
-          start: new Date(new Date().getFullYear(), 3, 24),
-          end: new Date(new Date().getFullYear(), 10, 18),
+          start: '24.4',
+          end: '18.11',
         },
         capacity: BIKEAVL_BIKES,
         icon: 'citybike',

@@ -7,28 +7,27 @@ import { isInBoundingBox } from './geo-utils';
 import { addAnalyticsEvent } from './analyticsUtils';
 import { ExtendedRouteTypes, TransportMode } from '../constants';
 
+function seasonMs(ddmm) {
+  const parts = ddmm.split('.');
+  return new Date(new Date().getFullYear(), parts[1] - 1, parts[0]).valueOf();
+}
+
 export function isCitybikeSeasonActive(season) {
   if (!season) {
     return false;
   }
   const now = Date.now();
-
-  if (now <= season.end.getTime() && now >= season.start.getTime()) {
-    return true;
-  }
-  return false;
+  return now <= seasonMs(season.end) && now >= seasonMs(season.start);
 }
 
 export function isCitybikePreSeasonActive(season) {
-  if (!season || !season.preSeasonStart) {
+  if (!season.start || !season.preSeasonStart) {
     return false;
   }
   const now = Date.now();
-
-  if (now <= season.start.getTime() && now >= season.preSeasonStart.getTime()) {
-    return true;
-  }
-  return false;
+  return (
+    now <= seasonMs(season.start) && now >= seasonMs(season.preSeasonStart)
+  );
 }
 
 export function showCitybikeNetwork(network) {

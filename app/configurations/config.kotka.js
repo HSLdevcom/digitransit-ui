@@ -49,9 +49,8 @@ export default configMerger(walttiConfig, {
       donkey_kotka: {
         enabled: true,
         season: {
-          // 28.4. - 31.10.
-          start: new Date(new Date().getFullYear(), 3, 28),
-          end: new Date(new Date().getFullYear(), 10, 1),
+          start: '28.4',
+          end: '1.11',
         },
         capacity: BIKEAVL_WITHMAX,
         icon: 'citybike',

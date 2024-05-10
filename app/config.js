@@ -188,8 +188,6 @@ export function getNamedConfiguration(configName) {
         confCitybike.season = seasonDef.season;
       });
     }
-    // eslint-disable-next-line
-    console.log('SET SEASONS:', configName, conf.cityBike);
   }
   if (!process.env.OIDC_CLIENT_ID && conf.allowLogin) {
     return {

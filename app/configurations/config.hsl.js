@@ -427,11 +427,9 @@ export default {
       smoove: {
         enabled: true,
         season: {
-          // 18.3.
-          preSeasonStart: new Date(new Date().getFullYear(), 2, 18),
-          // 1.4. - 31.10.
-          start: new Date(new Date().getFullYear(), 3, 1),
-          end: new Date(new Date().getFullYear(), 10, 1),
+          preSeasonStart: '18.3',
+          start: '1.4',
+          end: '1.11',
         },
         capacity: BIKEAVL_WITHMAX,
         icon: 'citybike',
@@ -457,11 +455,9 @@ export default {
       vantaa: {
         enabled: true,
         season: {
-          // 18.3.
-          preSeasonStart: new Date(new Date().getFullYear(), 2, 18),
-          // 1.4. - 31.10.
-          start: new Date(new Date().getFullYear(), 3, 1),
-          end: new Date(new Date().getFullYear(), 10, 1),
+          preSeasonStart: '18.3',
+          start: '1.4',
+          end: '1.11',
         },
         capacity: BIKEAVL_WITHMAX,
         icon: 'citybike-secondary',
