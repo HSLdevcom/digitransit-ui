@@ -91,7 +91,7 @@ export default configMerger(walttiConfig, {
         enabled: true,
         season: {
           start: '1.4',
-          end: '24.12',
+          end: '23.12',
         },
         icon: 'citybike',
         name: {

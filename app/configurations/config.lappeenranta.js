@@ -37,9 +37,8 @@ export default configMerger(walttiConfig, {
       donkey_lappeenranta: {
         enabled: true,
         season: {
-          // 1.4. - 30.11. TODO uncertain end date depends on weather
           start: '1.4',
-          end: '1.12',
+          end: '30.11',
         },
         capacity: BIKEAVL_WITHMAX,
         icon: 'citybike',

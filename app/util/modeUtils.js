@@ -12,12 +12,14 @@ function seasonMs(ddmm) {
   return new Date(new Date().getFullYear(), parts[1] - 1, parts[0]).valueOf();
 }
 
+const dayMs = 24 * 60 * 60 * 1000;
+
 export function isCitybikeSeasonActive(season) {
   if (!season) {
     return false;
   }
   const now = Date.now();
-  return now <= seasonMs(season.end) && now >= seasonMs(season.start);
+  return now <= seasonMs(season.end) + dayMs && now >= seasonMs(season.start);
 }
 
 export function isCitybikePreSeasonActive(season) {
@@ -26,7 +28,8 @@ export function isCitybikePreSeasonActive(season) {
   }
   const now = Date.now();
   return (
-    now <= seasonMs(season.start) && now >= seasonMs(season.preSeasonStart)
+    now <= seasonMs(season.start) + dayMs &&
+    now >= seasonMs(season.preSeasonStart)
   );
 }
 

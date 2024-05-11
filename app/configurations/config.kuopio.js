@@ -74,7 +74,7 @@ export default configMerger(walttiConfig, {
         enabled: true,
         season: {
           start: '29.4',
-          end: '1.11',
+          end: '31.10',
         },
         capacity: BIKEAVL_BIKES,
         icon: 'citybike',
