@@ -6,7 +6,6 @@ import React from 'react';
 import { intlShape } from 'react-intl';
 import Link from 'found/Link';
 import { configShape } from '../util/shapes';
-
 import ExternalLink from './ExternalLink';
 import Icon from './Icon';
 import RouteNumber from './RouteNumber';
@@ -251,7 +250,7 @@ AlertRow.propTypes = {
   url: PropTypes.string,
   showLinks: PropTypes.bool,
   header: PropTypes.string,
-  feed: PropTypes.string.isRequired,
+  feed: PropTypes.string,
   index: PropTypes.number.isRequired,
 };
 
@@ -266,6 +265,7 @@ AlertRow.defaultProps = {
   endTime: undefined,
   severityLevel: undefined,
   startTime: undefined,
+  feed: undefined,
   header: undefined,
   entities: undefined,
   url: undefined,
