@@ -2,7 +2,7 @@ import React from 'react';
 import moment from 'moment';
 
 import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
-import { Component as RouteStopListContainer } from '../../../app/component/RouteStopListContainer';
+import { Component as RouteStopListContainer } from '../../../app/component/routepage/RouteStopListContainer';
 import { mockMatch } from '../helpers/mock-router';
 
 describe('<RouteStopListContainer />', () => {

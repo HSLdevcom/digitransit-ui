@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { mountWithIntl } from '../helpers/mock-intl-enzyme';
-import RouteStop from '../../../app/component/RouteStop';
+import RouteStop from '../../../app/component/routepage/RouteStop';
 import ServiceAlertIcon from '../../../app/component/ServiceAlertIcon';
 import { AlertSeverityLevelType } from '../../../app/constants';
 

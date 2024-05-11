@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Icon from '@digitransit-component/digitransit-component-icon';
 
-function RouteScheduleTripRow(props) {
+function ScheduleTripRow(props) {
   return (
     <div className="row" role="listitem" tabIndex={0}>
       <div className="trip-column">
@@ -29,16 +29,16 @@ function RouteScheduleTripRow(props) {
     </div>
   );
 }
-RouteScheduleTripRow.propTypes = {
+ScheduleTripRow.propTypes = {
   departureTime: PropTypes.string.isRequired,
   arrivalTime: PropTypes.string.isRequired,
   isCanceled: PropTypes.bool,
 };
 
-RouteScheduleTripRow.defaultProps = {
+ScheduleTripRow.defaultProps = {
   isCanceled: false,
 };
 
-RouteScheduleTripRow.displayName = 'RouteScheduleTripRow';
+ScheduleTripRow.displayName = 'ScheduleTripRow';
 
-export default RouteScheduleTripRow;
+export default ScheduleTripRow;

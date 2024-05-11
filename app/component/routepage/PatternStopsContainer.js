@@ -7,7 +7,7 @@ import { intlShape } from 'react-intl';
 import { routeShape, configShape } from '../../util/shapes';
 import RouteStopListContainer from './RouteStopListContainer';
 import withBreakpoint from '../../util/withBreakpoint';
-import RoutePageControlPanel from './RoutePageControlPanel';
+import RouteControlPanel from './RouteControlPanel';
 import { isBrowser } from '../../util/browser';
 import { PREFIX_ROUTES } from '../../util/path';
 import Error404 from '../404';
@@ -54,7 +54,7 @@ class PatternStopsContainer extends React.PureComponent {
         })}
       >
         {this.props.route && this.props.route.patterns && (
-          <RoutePageControlPanel
+          <RouteControlPanel
             match={this.props.match}
             route={this.props.route}
             breakpoint={this.props.breakpoint}

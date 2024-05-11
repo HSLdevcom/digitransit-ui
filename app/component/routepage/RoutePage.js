@@ -10,7 +10,7 @@ import Icon from '../Icon';
 import Loading from '../Loading';
 import RouteAgencyInfo from './RouteAgencyInfo';
 import RouteNumber from '../RouteNumber';
-import RoutePageControlPanel from './RoutePageControlPanel';
+import RouteControlPanel from './RouteControlPanel';
 import { PREFIX_DISRUPTION, PREFIX_ROUTES } from '../../util/path';
 import withBreakpoint from '../../util/withBreakpoint';
 import BackButton from '../BackButton';
@@ -164,7 +164,7 @@ class RoutePage extends React.Component {
         {route &&
           route.patterns &&
           this.props.match.params.type === PREFIX_DISRUPTION && (
-            <RoutePageControlPanel
+            <RouteControlPanel
               match={this.props.match}
               route={route}
               breakpoint={breakpoint}

@@ -1,8 +1,8 @@
 import moment from 'moment';
 import React from 'react';
 
-import TripRouteStop from '../../../app/component/TripRouteStop';
-import { Component as TripStopListContainer } from '../../../app/component/TripStopListContainer';
+import TripRouteStop from '../../../app/component/routepage/TripRouteStop';
+import { Component as TripStopListContainer } from '../../../app/component/routepage/TripStopListContainer';
 import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
 
 describe('<TripStopListContainer />', () => {

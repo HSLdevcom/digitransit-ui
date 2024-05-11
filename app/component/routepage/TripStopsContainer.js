@@ -5,7 +5,7 @@ import cx from 'classnames';
 import pure from 'recompose/pure';
 import { matchShape } from 'found';
 import debounce from 'lodash/debounce';
-import RoutePageControlPanel from './RoutePageControlPanel';
+import RouteControlPanel from './RouteControlPanel';
 import { getStartTime } from '../../util/timeUtils';
 import TripStopListContainer from './TripStopListContainer';
 import withBreakpoint from '../../util/withBreakpoint';
@@ -43,7 +43,7 @@ function TripStopsContainer({ breakpoint, match, trip, route }) {
       onScroll={debounce(handleScroll, 100, { leading: true })}
     >
       {route && route.patterns && (
-        <RoutePageControlPanel
+        <RouteControlPanel
           match={match}
           route={route}
           breakpoint={breakpoint}

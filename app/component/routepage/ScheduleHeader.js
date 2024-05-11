@@ -2,10 +2,10 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Icon from '../Icon';
 import { isBrowser } from '../../util/browser';
-import RouteScheduleDropdown from './RouteScheduleDropdown';
+import ScheduleDropdown from './ScheduleDropdown';
 import { stopShape } from '../../util/shapes';
 
-function RouteScheduleHeader({
+function ScheduleHeader({
   stops,
   from,
   to,
@@ -58,14 +58,14 @@ function RouteScheduleHeader({
     <div className="route-schedule-header row">
       {stopHeadersForPrinting}
       <div className="route-schedule-dropdowns">
-        <RouteScheduleDropdown
+        <ScheduleDropdown
           id="origin"
           labelId="origin"
           title={fromDisplayName}
           list={fromOptions}
           onSelectChange={onFromSelectChange}
         />
-        <RouteScheduleDropdown
+        <ScheduleDropdown
           id="destination"
           labelId="destination"
           title={toDisplayName}
@@ -77,7 +77,7 @@ function RouteScheduleHeader({
     </div>
   );
 }
-RouteScheduleHeader.propTypes = {
+ScheduleHeader.propTypes = {
   stops: PropTypes.arrayOf(stopShape).isRequired,
   from: PropTypes.number.isRequired,
   to: PropTypes.number.isRequired,
@@ -85,6 +85,6 @@ RouteScheduleHeader.propTypes = {
   onToSelectChange: PropTypes.func.isRequired,
 };
 
-RouteScheduleHeader.displayName = 'RouteScheduleHeader';
+ScheduleHeader.displayName = 'ScheduleHeader';
 
-export default RouteScheduleHeader;
+export default ScheduleHeader;

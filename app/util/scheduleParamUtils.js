@@ -35,10 +35,10 @@ const populateData = (params, match, noOfWeeks) => {
   };
 };
 
-export const prepareRouteScheduleParamsWithFiveWeeks = (params, match) => {
+export function prepareScheduleParamsWithFiveWeeks(params, match) {
   return populateData(params, match, 5);
-};
+}
 
-export const prepareRouteScheduleParamsWithTenWeeks = (params, match) => {
+export function prepareScheduleParamsWithTenWeeks(params, match) {
   return populateData(params, match, 10);
-};
+}

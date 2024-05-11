@@ -5,7 +5,7 @@ import React from 'react';
 import { mockContext } from '../helpers/mock-context';
 import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
 import AlertList from '../../../app/component/AlertList';
-import { Component as RouteAlertsContainer } from '../../../app/component/RouteAlertsContainer';
+import { Component as RouteAlertsContainer } from '../../../app/component/routepage/RouteAlertsContainer';
 
 describe('<RouteAlertsContainer />', () => {
   it('should indicate that there are no alerts if the route has no alerts nor canceled stoptimes', () => {

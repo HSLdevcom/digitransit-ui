@@ -2,7 +2,7 @@ import React from 'react';
 
 import { ReactRelayContext } from 'react-relay';
 
-import FuzzyTripLink from '../../../app/component/FuzzyTripLink';
+import FuzzyTripLink from '../../../app/component/routepage/FuzzyTripLink';
 import VehicleIcon from '../../../app/component/VehicleIcon';
 import { mountWithIntl } from '../helpers/mock-intl-enzyme';
 

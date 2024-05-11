@@ -3,12 +3,12 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 
 import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
-import { Component as RouteScheduleContainer } from '../../../app/component/RouteScheduleContainer';
-import RouteScheduleTripRow from '../../../app/component/RouteScheduleTripRow';
+import { Component as ScheduleContainer } from '../../../app/component/routepage/ScheduleContainer';
+import ScheduleTripRow from '../../../app/component/routepage/ScheduleTripRow';
 import { mockContext } from '../helpers/mock-context';
 import { mockMatch } from '../helpers/mock-router';
 
-describe('<RouteScheduleContainer />', () => {
+describe('<ScheduleContainer />', () => {
   it.skip('should identify canceled departures from incoming data', () => {
     const props = {
       pattern: {
@@ -46,14 +46,14 @@ describe('<RouteScheduleContainer />', () => {
       breakpoint: 'large',
     };
     const wrapper = shallowWithIntl(
-      <RouteScheduleContainer {...props} match={mockMatch} />,
+      <ScheduleContainer {...props} match={mockMatch} />,
       {
         context: mockContext,
       },
     );
-    expect(wrapper.find(RouteScheduleTripRow)).to.have.lengthOf(1);
-    expect(
-      wrapper.find(RouteScheduleTripRow).at(0).props().isCanceled,
-    ).to.equal(true);
+    expect(wrapper.find(ScheduleTripRow)).to.have.lengthOf(1);
+    expect(wrapper.find(ScheduleTripRow).at(0).props().isCanceled).to.equal(
+      true,
+    );
   });
 });

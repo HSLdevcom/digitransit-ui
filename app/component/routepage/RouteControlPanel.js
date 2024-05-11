@@ -55,7 +55,7 @@ const getActiveTab = pathname => {
   return undefined;
 };
 
-class RoutePageControlPanel extends React.Component {
+class RouteControlPanel extends React.Component {
   static contextTypes = {
     getStore: PropTypes.func.isRequired,
     executeAction: PropTypes.func.isRequired,
@@ -564,11 +564,11 @@ class RoutePageControlPanel extends React.Component {
 }
 
 const connectedComponent = connectToStores(
-  RoutePageControlPanel,
+  RouteControlPanel,
   ['PreferencesStore'],
   context => ({
     language: context.getStore('PreferencesStore').getLanguage(),
   }),
 );
 
-export { connectedComponent as default, RoutePageControlPanel as Component };
+export { connectedComponent as default, RouteControlPanel as Component };

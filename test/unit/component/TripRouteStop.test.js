@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { mountWithIntl } from '../helpers/mock-intl-enzyme';
-import TripRouteStop from '../../../app/component/TripRouteStop';
+import TripRouteStop from '../../../app/component/routepage/TripRouteStop';
 import ServiceAlertIcon from '../../../app/component/ServiceAlertIcon';
 import { AlertSeverityLevelType } from '../../../app/constants';
 

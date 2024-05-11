@@ -7,7 +7,7 @@ import { intlShape } from 'react-intl';
 import isEmpty from 'lodash/isEmpty';
 import { configShape } from '../../util/shapes';
 
-export default function RouteScheduleDropdown(props, context) {
+export default function ScheduleDropdown(props, context) {
   const { alignRight, id, labelId, list, onSelectChange, title } = props;
   const { intl } = context;
 
@@ -159,12 +159,12 @@ export default function RouteScheduleDropdown(props, context) {
   );
 }
 
-RouteScheduleDropdown.contextTypes = {
+ScheduleDropdown.contextTypes = {
   intl: intlShape.isRequired,
   config: configShape.isRequired,
 };
 
-RouteScheduleDropdown.propTypes = {
+ScheduleDropdown.propTypes = {
   alignRight: PropTypes.bool,
   id: PropTypes.string.isRequired,
   labelId: PropTypes.string,
@@ -177,7 +177,7 @@ RouteScheduleDropdown.propTypes = {
   title: PropTypes.string,
 };
 
-RouteScheduleDropdown.defaultProps = {
+ScheduleDropdown.defaultProps = {
   alignRight: false,
   labelId: undefined,
   onSelectChange: undefined,

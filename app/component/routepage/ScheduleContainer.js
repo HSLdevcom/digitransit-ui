@@ -12,8 +12,8 @@ import { dayRangePattern } from '@digitransit-util/digitransit-util';
 import { getTranslatedDayString } from '@digitransit-util/digitransit-util-route-pattern-option-text';
 import isEqual from 'lodash/isEqual';
 import { routeShape, patternShape, configShape } from '../../util/shapes';
-import RouteScheduleHeader from './RouteScheduleHeader';
-import RouteScheduleTripRow from './RouteScheduleTripRow';
+import ScheduleHeader from './ScheduleHeader';
+import ScheduleTripRow from './ScheduleTripRow';
 import SecondaryButton from '../SecondaryButton';
 import Loading from '../Loading';
 import { DATE_FORMAT, RealtimeStateType } from '../../constants';
@@ -21,12 +21,12 @@ import { addAnalyticsEvent } from '../../util/analyticsUtils';
 import withBreakpoint from '../../util/withBreakpoint';
 import hashCode from '../../util/hashUtil';
 import { getFormattedTimeDate } from '../../util/timeUtils';
-import RouteScheduleDropdown from './RouteScheduleDropdown';
-import RoutePageControlPanel from './RoutePageControlPanel';
+import ScheduleDropdown from './ScheduleDropdown';
+import RouteControlPanel from './RouteControlPanel';
 import { PREFIX_ROUTES, PREFIX_TIMETABLE } from '../../util/path';
 import { isBrowser } from '../../util/browser';
 import ScrollableWrapper from '../ScrollableWrapper';
-import getTestData from './RouteScheduleDebugData';
+import getTestData from './ScheduleDebugData';
 
 const DATE_FORMAT2 = 'D.M.YYYY';
 
@@ -329,7 +329,7 @@ const populateData = (wantedDayIn, departures, isMerged, dataExistsDay) => {
   ];
 };
 
-class RouteScheduleContainer extends PureComponent {
+class ScheduleContainer extends PureComponent {
   static sortTrips(trips) {
     if (trips == null) {
       return null;
@@ -440,7 +440,7 @@ class RouteScheduleContainer extends PureComponent {
       queryParams = queryParams.concat(`&test=${this.testNum}`);
     }
 
-    const trips = RouteScheduleContainer.sortTrips(currentPattern.trips);
+    const trips = ScheduleContainer.sortTrips(currentPattern.trips);
 
     if (trips.length === 0 && newServiceDay) {
       return `/${PREFIX_ROUTES}/${this.props.match.params.routeId}/${PREFIX_TIMETABLE}/${currentPattern.code}${queryParams}`;
@@ -490,7 +490,7 @@ class RouteScheduleContainer extends PureComponent {
       );
 
       return (
-        <RouteScheduleTripRow
+        <ScheduleTripRow
           key={`${trip.id}-${departureTime}`}
           departureTime={departureTime}
           arrivalTime={arrivalTime}
@@ -706,7 +706,7 @@ class RouteScheduleContainer extends PureComponent {
           }`}
         >
           <div style={{ paddingBottom: '28px' }}>
-            <RoutePageControlPanel
+            <RouteControlPanel
               match={this.props.match}
               route={this.props.route}
               breakpoint={this.props.breakpoint}
@@ -937,7 +937,7 @@ class RouteScheduleContainer extends PureComponent {
           }`}
         >
           {this.props.route && this.props.route.patterns && (
-            <RoutePageControlPanel
+            <RouteControlPanel
               match={this.props.match}
               route={this.props.route}
               breakpoint={this.props.breakpoint}
@@ -948,7 +948,7 @@ class RouteScheduleContainer extends PureComponent {
             <span className="current-range">{data[2][0]}</span>
             <div className="other-ranges-dropdown">
               {data[3].length > 0 && (
-                <RouteScheduleDropdown
+                <ScheduleDropdown
                   id="other-dates"
                   title={intl.formatMessage({
                     id: 'other-dates',
@@ -969,7 +969,7 @@ class RouteScheduleContainer extends PureComponent {
               })}
               aria-live="polite"
             >
-              <RouteScheduleHeader
+              <ScheduleHeader
                 stops={this.props.pattern.stops}
                 from={newFromTo[0]}
                 to={newFromTo[1]}
@@ -1029,10 +1029,10 @@ class RouteScheduleContainer extends PureComponent {
 }
 
 const containerComponent = createFragmentContainer(
-  withBreakpoint(RouteScheduleContainer),
+  withBreakpoint(ScheduleContainer),
   {
     pattern: graphql`
-      fragment RouteScheduleContainer_pattern on Pattern {
+      fragment ScheduleContainer_pattern on Pattern {
         id
         code
         stops {
@@ -1042,7 +1042,7 @@ const containerComponent = createFragmentContainer(
       }
     `,
     route: graphql`
-      fragment RouteScheduleContainer_route on Route
+      fragment ScheduleContainer_route on Route
       @argumentDefinitions(
         date: { type: "String" }
         serviceDate: { type: "String" }
@@ -1090,7 +1090,7 @@ const containerComponent = createFragmentContainer(
       }
     `,
     firstDepartures: graphql`
-      fragment RouteScheduleContainer_firstDepartures on Pattern
+      fragment ScheduleContainer_firstDepartures on Pattern
       @argumentDefinitions(
         showTenWeeks: { type: "Boolean!", defaultValue: false }
         wk1day1: { type: "String!", defaultValue: "19700101" }
@@ -1554,4 +1554,4 @@ const containerComponent = createFragmentContainer(
   },
 );
 
-export { containerComponent as default, RouteScheduleContainer as Component };
+export { containerComponent as default, ScheduleContainer as Component };

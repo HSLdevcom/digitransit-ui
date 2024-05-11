@@ -3,7 +3,7 @@ import { describe, it } from 'mocha';
 import React from 'react';
 
 import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
-import { Component as TripStopsContainer } from '../../../app/component/TripStopsContainer';
+import { Component as TripStopsContainer } from '../../../app/component/routepage/TripStopsContainer';
 import { mockMatch } from '../helpers/mock-router';
 
 describe('<TripStopsContainer />', () => {
