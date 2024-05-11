@@ -13,10 +13,10 @@ import {
   relayShape,
   vehicleShape,
   patternShape,
-} from '../util/shapes';
+} from '../../util/shapes';
 import RouteStop from './RouteStop';
-import withBreakpoint from '../util/withBreakpoint';
-import { getRouteMode } from '../util/modeUtils';
+import withBreakpoint from '../../util/withBreakpoint';
+import { getRouteMode } from '../../util/modeUtils';
 
 class RouteStopListContainer extends React.PureComponent {
   static propTypes = {

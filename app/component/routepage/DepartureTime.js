@@ -2,9 +2,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 import { intlShape } from 'react-intl';
-import { configShape } from '../util/shapes';
-import { timeStr } from '../util/timeUtils';
-import Icon from './Icon';
+import { configShape } from '../../util/shapes';
+import { timeStr } from '../../util/timeUtils';
+import Icon from '../Icon';
 
 export default function DepartureTime(props, context) {
   let shownTime;

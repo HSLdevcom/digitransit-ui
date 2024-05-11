@@ -8,33 +8,33 @@ import sortBy from 'lodash/sortBy';
 import { matchShape, routerShape } from 'found';
 import { enrichPatterns } from '@digitransit-util/digitransit-util';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-import { configShape } from '../util/shapes';
+import { configShape } from '../../util/shapes';
 import CallAgencyWarning from './CallAgencyWarning';
 import RoutePatternSelect from './RoutePatternSelect';
 import RouteNotification from './RouteNotification';
-import { DATE_FORMAT } from '../constants';
+import { DATE_FORMAT } from '../../constants';
 import {
   startRealTimeClient,
   stopRealTimeClient,
   changeRealTimeClientTopics,
-} from '../action/realTimeClientAction';
+} from '../../action/realTimeClientAction';
 import {
   getCancelationsForRoute,
   getAlertsForObject,
   isAlertActive,
   getActiveAlertSeverityLevel,
-} from '../util/alertUtils';
-import { isActiveDate } from '../util/patternUtils';
+} from '../../util/alertUtils';
+import { isActiveDate } from '../../util/patternUtils';
 import {
   PREFIX_DISRUPTION,
   PREFIX_ROUTES,
   PREFIX_STOPS,
   PREFIX_TIMETABLE,
-} from '../util/path';
-import { addAnalyticsEvent } from '../util/analyticsUtils';
-import { isIOS } from '../util/browser';
-import { saveSearch } from '../action/SearchActions';
-import Icon from './Icon';
+} from '../../util/path';
+import { addAnalyticsEvent } from '../../util/analyticsUtils';
+import { isIOS } from '../../util/browser';
+import { saveSearch } from '../../action/SearchActions';
+import Icon from '../Icon';
 
 const Tab = {
   Disruptions: PREFIX_DISRUPTION,

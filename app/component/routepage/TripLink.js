@@ -4,11 +4,11 @@ import { QueryRenderer, graphql } from 'react-relay';
 import Link from 'found/Link';
 import cx from 'classnames';
 import ReactRelayContext from 'react-relay/lib/ReactRelayContext';
-import VehicleIcon from './VehicleIcon';
+import VehicleIcon from '../VehicleIcon';
 import TripLinkWithScroll from './TripLinkWithScroll';
-import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
-import { addAnalyticsEvent } from '../util/analyticsUtils';
-import { vehicleShape } from '../util/shapes';
+import { PREFIX_ROUTES, PREFIX_STOPS } from '../../util/path';
+import { addAnalyticsEvent } from '../../util/analyticsUtils';
+import { vehicleShape } from '../../util/shapes';
 
 function TripLink({ vehicleState, vehicle, shortName, ...rest }) {
   const { environment } = useContext(ReactRelayContext);

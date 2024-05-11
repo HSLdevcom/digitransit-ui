@@ -6,7 +6,7 @@ import Link from 'found/Link';
 import { FormattedMessage } from 'react-intl';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../../../util/path';
 
-import RouteHeader from '../../RouteHeader';
+import RouteHeader from './RouteHeader';
 
 import { addAnalyticsEvent } from '../../../util/analyticsUtils';
 

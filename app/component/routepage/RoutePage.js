@@ -5,26 +5,25 @@ import { createFragmentContainer, graphql } from 'react-relay';
 import { FormattedMessage, intlShape } from 'react-intl';
 import cx from 'classnames';
 import { matchShape, routerShape, RedirectException } from 'found';
-import { routeShape, configShape, errorShape } from '../util/shapes';
-import Icon from './Icon';
-
-import Loading from './Loading';
+import { routeShape, configShape, errorShape } from '../../util/shapes';
+import Icon from '../Icon';
+import Loading from '../Loading';
 import RouteAgencyInfo from './RouteAgencyInfo';
-import RouteNumber from './RouteNumber';
+import RouteNumber from '../RouteNumber';
 import RoutePageControlPanel from './RoutePageControlPanel';
-import { PREFIX_DISRUPTION, PREFIX_ROUTES } from '../util/path';
-import withBreakpoint from '../util/withBreakpoint';
-import BackButton from './BackButton';
-import { isBrowser } from '../util/browser';
-import LazilyLoad, { importLazy } from './LazilyLoad';
-import { getRouteMode } from '../util/modeUtils';
-import AlertBanner from './AlertBanner';
+import { PREFIX_DISRUPTION, PREFIX_ROUTES } from '../../util/path';
+import withBreakpoint from '../../util/withBreakpoint';
+import BackButton from '../BackButton';
+import { isBrowser } from '../../util/browser';
+import LazilyLoad, { importLazy } from '../LazilyLoad';
+import { getRouteMode } from '../../util/modeUtils';
+import AlertBanner from '../AlertBanner';
 import {
   hasEntitiesOfType,
   hasMeaningfulData,
   isAlertValid,
-} from '../util/alertUtils';
-import { AlertEntityType } from '../constants';
+} from '../../util/alertUtils';
+import { AlertEntityType } from '../../constants';
 
 const modules = {
   FavouriteRouteContainer: () =>

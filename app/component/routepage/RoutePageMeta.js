@@ -4,9 +4,8 @@ import { createFragmentContainer, graphql } from 'react-relay';
 import compose from 'recompose/compose';
 import getContext from 'recompose/getContext';
 import mapProps from 'recompose/mapProps';
-import { configShape } from '../util/shapes';
-
-import { generateMetaData } from '../util/metaUtils';
+import { configShape } from '../../util/shapes';
+import { generateMetaData } from '../../util/metaUtils';
 
 const RoutePageMeta = compose(
   getContext({ config: configShape, intl: intlShape }),

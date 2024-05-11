@@ -5,15 +5,15 @@ import moment from 'moment';
 import { createFragmentContainer, graphql } from 'react-relay';
 import { intlShape } from 'react-intl';
 
-import AlertList from './AlertList';
+import AlertList from '../AlertList';
 import {
   getAlertsForObject,
   tripHasCancelation,
   setEntityForAlert,
-} from '../util/alertUtils';
-import { getRouteMode } from '../util/modeUtils';
-import { alertShape } from '../util/shapes';
-import { AlertSeverityLevelType, AlertEntityType } from '../constants';
+} from '../../util/alertUtils';
+import { getRouteMode } from '../../util/modeUtils';
+import { alertShape } from '../../util/shapes';
+import { AlertSeverityLevelType, AlertEntityType } from '../../constants';
 
 /**
  * This returns the trips mapped as alerts for the route.

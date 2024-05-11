@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Icon from './Icon';
-import { isBrowser } from '../util/browser';
+import Icon from '../Icon';
+import { isBrowser } from '../../util/browser';
 import RouteScheduleDropdown from './RouteScheduleDropdown';
-import { stopShape } from '../util/shapes';
+import { stopShape } from '../../util/shapes';
 
 function RouteScheduleHeader({
   stops,
@@ -32,7 +32,7 @@ function RouteScheduleHeader({
   if (isBrowser) {
     // eslint-disable-next-line global-require
     headerLineStyle.backgroundImage = `url(${require(
-      `../configurations/images/default/dotted-line-bg2.png`,
+      `../../configurations/images/default/dotted-line-bg2.png`,
     )})`;
   }
 

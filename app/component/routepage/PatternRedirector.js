@@ -3,12 +3,12 @@ import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import sortBy from 'lodash/sortBy';
 import { matchShape, routerShape, RedirectException } from 'found';
-import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
-import { isBrowser } from '../util/browser';
-import Error404 from './404';
-import { saveSearchItems } from '../action/SearchActions';
-import { getOldSearchItems } from '../util/storeUtils';
-import { routeShape } from '../util/shapes';
+import { PREFIX_ROUTES, PREFIX_STOPS } from '../../util/path';
+import { isBrowser } from '../../util/browser';
+import Error404 from '../404';
+import { saveSearchItems } from '../../action/SearchActions';
+import { getOldSearchItems } from '../../util/storeUtils';
+import { routeShape } from '../../util/shapes';
 
 const PatternRedirector = ({ router, match, route }, context) => {
   if (!route) {

@@ -5,13 +5,12 @@ import cx from 'classnames';
 import pure from 'recompose/pure';
 import { matchShape } from 'found';
 import debounce from 'lodash/debounce';
-
 import RoutePageControlPanel from './RoutePageControlPanel';
-import { getStartTime } from '../util/timeUtils';
+import { getStartTime } from '../../util/timeUtils';
 import TripStopListContainer from './TripStopListContainer';
-import withBreakpoint from '../util/withBreakpoint';
-import ScrollableWrapper from './ScrollableWrapper';
-import { routeShape } from '../util/shapes';
+import withBreakpoint from '../../util/withBreakpoint';
+import ScrollableWrapper from '../ScrollableWrapper';
+import { routeShape } from '../../util/shapes';
 
 function TripStopsContainer({ breakpoint, match, trip, route }) {
   const [keepTracking, setTracking] = useState(true);

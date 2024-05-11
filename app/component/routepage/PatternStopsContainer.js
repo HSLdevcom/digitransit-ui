@@ -4,14 +4,14 @@ import { createFragmentContainer, graphql } from 'react-relay';
 import { matchShape, routerShape } from 'found';
 import cx from 'classnames';
 import { intlShape } from 'react-intl';
-import { routeShape, configShape } from '../util/shapes';
+import { routeShape, configShape } from '../../util/shapes';
 import RouteStopListContainer from './RouteStopListContainer';
-import withBreakpoint from '../util/withBreakpoint';
+import withBreakpoint from '../../util/withBreakpoint';
 import RoutePageControlPanel from './RoutePageControlPanel';
-import { isBrowser } from '../util/browser';
-import { PREFIX_ROUTES } from '../util/path';
-import Error404 from './404';
-import ScrollableWrapper from './ScrollableWrapper';
+import { isBrowser } from '../../util/browser';
+import { PREFIX_ROUTES } from '../../util/path';
+import Error404 from '../404';
+import ScrollableWrapper from '../ScrollableWrapper';
 
 class PatternStopsContainer extends React.PureComponent {
   static propTypes = {

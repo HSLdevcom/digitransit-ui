@@ -2,10 +2,10 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Link from 'found/Link';
 import cx from 'classnames';
-import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
-import { convertTo24HourFormat } from '../util/timeUtils';
-import RouteNumber from './RouteNumber';
-import { getRouteMode } from '../util/modeUtils';
+import { PREFIX_ROUTES, PREFIX_STOPS } from '../../../util/path';
+import { convertTo24HourFormat } from '../../../util/timeUtils';
+import RouteNumber from '../../RouteNumber';
+import { getRouteMode } from '../../../util/modeUtils';
 
 export default function RouteHeader({ route, pattern, card, trip, className }) {
   const mode = getRouteMode(route);

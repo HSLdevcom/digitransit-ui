@@ -3,20 +3,20 @@ import React from 'react';
 import Link from 'found/Link';
 import { FormattedMessage, intlShape } from 'react-intl';
 import cx from 'classnames';
-import { alertShape, configShape, vehicleShape } from '../util/shapes';
-import AddressRow from './AddressRow';
+import { alertShape, configShape, vehicleShape } from '../../util/shapes';
+import AddressRow from '../AddressRow';
 import TripLink from './TripLink';
 import FuzzyTripLink from './FuzzyTripLink';
-import ServiceAlertIcon from './ServiceAlertIcon';
+import ServiceAlertIcon from '../ServiceAlertIcon';
 import { fromStopTime } from './DepartureTime';
-import ZoneIcon from './ZoneIcon';
-import { getActiveAlertSeverityLevel } from '../util/alertUtils';
-import { PREFIX_STOPS } from '../util/path';
-import { addAnalyticsEvent } from '../util/analyticsUtils';
-import { getZoneLabel } from '../util/legUtils';
-import { estimateItineraryDistance } from '../util/geo-utils';
-import getVehicleState from '../util/vehicleStateUtils';
-import Icon from './Icon';
+import ZoneIcon from '../ZoneIcon';
+import { getActiveAlertSeverityLevel } from '../../util/alertUtils';
+import { PREFIX_STOPS } from '../../util/path';
+import { addAnalyticsEvent } from '../../util/analyticsUtils';
+import { getZoneLabel } from '../../util/legUtils';
+import { estimateItineraryDistance } from '../../util/geo-utils';
+import getVehicleState from '../../util/vehicleStateUtils';
+import Icon from '../Icon';
 
 const RouteStop = (
   {

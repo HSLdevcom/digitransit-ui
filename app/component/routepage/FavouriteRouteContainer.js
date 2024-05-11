@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-import { configShape } from '../util/shapes';
-import Favourite from './Favourite';
-import { saveFavourite, deleteFavourite } from '../action/FavouriteActions';
-import { addAnalyticsEvent } from '../util/analyticsUtils';
+import { configShape } from '../../util/shapes';
+import Favourite from '../Favourite';
+import { saveFavourite, deleteFavourite } from '../../action/FavouriteActions';
+import { addAnalyticsEvent } from '../../util/analyticsUtils';
 
 const FavouriteRouteContainer = connectToStores(
   Favourite,

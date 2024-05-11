@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
 import { intlShape } from 'react-intl';
-import { configShape } from '../util/shapes';
-import { getDialogState, setDialogState } from '../store/localStorage';
+import { configShape } from '../../util/shapes';
+import { getDialogState, setDialogState } from '../../store/localStorage';
 
-import Icon from './Icon';
+import Icon from '../Icon';
 
 const RouteNotification = (props, context) => {
   const [hideNote, setHideNote] = useState(true);

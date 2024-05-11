@@ -16,11 +16,11 @@ import Autosuggest from 'react-autosuggest';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { enrichPatterns } from '@digitransit-util/digitransit-util';
 import { FormattedMessage, intlShape } from 'react-intl';
-import { routeShape, relayShape, configShape } from '../util/shapes';
-import Icon from './Icon';
-import { isBrowser } from '../util/browser';
-import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
-import { addAnalyticsEvent } from '../util/analyticsUtils';
+import { routeShape, relayShape, configShape } from '../../util/shapes';
+import Icon from '../Icon';
+import { isBrowser } from '../../util/browser';
+import { PREFIX_ROUTES, PREFIX_STOPS } from '../../util/path';
+import { addAnalyticsEvent } from '../../util/analyticsUtils';
 
 const DATE_FORMAT = 'YYYYMMDD';
 

@@ -1,8 +1,8 @@
 import React from 'react';
 import get from 'lodash/get';
 import { FormattedMessage } from 'react-intl';
-import { configShape, routeShape } from '../util/shapes';
-import Icon from './Icon';
+import { configShape, routeShape } from '../../util/shapes';
+import Icon from '../Icon';
 
 const CallAgencyWarning = ({ route }) => (
   <div className="route-warning-message padding-normal">

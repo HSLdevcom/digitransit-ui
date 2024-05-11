@@ -31,7 +31,7 @@ export default function routeRoutes(config) {
         path=":routeId/:type?"
         getComponent={() =>
           import(
-            /* webpackChunkName: "route" */ './component/PatternRedirector'
+            /* webpackChunkName: "route" */ './component/routepage/PatternRedirector'
           ).then(getDefault)
         }
         query={graphql`
@@ -72,7 +72,7 @@ export default function routeRoutes(config) {
               path="(.*)?"
               getComponent={() =>
                 import(
-                  /* webpackChunkName: "route" */ './component/RoutePageMeta'
+                  /* webpackChunkName: "route" */ './component/routepage/RoutePageMeta'
                 ).then(getDefault)
               }
               query={graphql`
@@ -90,7 +90,7 @@ export default function routeRoutes(config) {
               path="(.*)?"
               getComponent={() =>
                 import(
-                  /* webpackChunkName: "route" */ './component/RoutePage'
+                  /* webpackChunkName: "route" */ './component/routepage/RoutePage'
                 ).then(getDefault)
               }
               query={graphql`
@@ -176,7 +176,7 @@ export default function routeRoutes(config) {
                 path=":patternId"
                 getComponent={() =>
                   import(
-                    /* webpackChunkName: "route" */ './component/PatternStopsContainer'
+                    /* webpackChunkName: "route" */ './component/routepage/PatternStopsContainer'
                   ).then(getDefault)
                 }
                 query={graphql`
@@ -201,7 +201,7 @@ export default function routeRoutes(config) {
                 path=":patternId/:tripId"
                 getComponent={() =>
                   import(
-                    /* webpackChunkName: "route" */ './component/TripStopsContainer'
+                    /* webpackChunkName: "route" */ './component/routepage/TripStopsContainer'
                   ).then(getDefault)
                 }
                 query={graphql`
@@ -230,7 +230,7 @@ export default function routeRoutes(config) {
               path={`${PREFIX_TIMETABLE}/:patternId`}
               getComponent={() =>
                 import(
-                  /* webpackChunkName: "route" */ './component/RouteScheduleContainer'
+                  /* webpackChunkName: "route" */ './component/routepage/RouteScheduleContainer'
                 ).then(getDefault)
               }
               query={graphql`
@@ -407,7 +407,7 @@ export default function routeRoutes(config) {
               path={`${PREFIX_DISRUPTION}/:patternId`}
               getComponent={() =>
                 import(
-                  /* webpackChunkName: "route" */ './component/RouteAlertsContainer'
+                  /* webpackChunkName: "route" */ './component/routepage/RouteAlertsContainer'
                 ).then(getDefault)
               }
               query={graphql`

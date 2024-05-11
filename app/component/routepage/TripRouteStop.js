@@ -3,18 +3,18 @@ import React from 'react';
 import Link from 'found/Link';
 import cx from 'classnames';
 import isEmpty from 'lodash/isEmpty';
-import { alertShape, configShape, vehicleShape } from '../util/shapes';
+import { alertShape, configShape, vehicleShape } from '../../util/shapes';
 import TripLink from './TripLink';
 import FuzzyTripLink from './FuzzyTripLink';
-import AddressRow from './AddressRow';
-import ServiceAlertIcon from './ServiceAlertIcon';
+import AddressRow from '../AddressRow';
+import ServiceAlertIcon from '../ServiceAlertIcon';
 import { fromStopTime } from './DepartureTime';
-import { PREFIX_STOPS } from '../util/path';
-import { getActiveAlertSeverityLevel } from '../util/alertUtils';
-import { estimateItineraryDistance } from '../util/geo-utils';
-import ZoneIcon from './ZoneIcon';
-import { getZoneLabel } from '../util/legUtils';
-import getVehicleState from '../util/vehicleStateUtils';
+import { PREFIX_STOPS } from '../../util/path';
+import { getActiveAlertSeverityLevel } from '../../util/alertUtils';
+import { estimateItineraryDistance } from '../../util/geo-utils';
+import ZoneIcon from '../ZoneIcon';
+import { getZoneLabel } from '../../util/legUtils';
+import getVehicleState from '../../util/vehicleStateUtils';
 
 const TripRouteStop = (props, { config }) => {
   const {
