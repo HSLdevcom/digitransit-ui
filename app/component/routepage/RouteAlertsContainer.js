@@ -1,10 +1,8 @@
 import PropTypes from 'prop-types';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import React from 'react';
-import moment from 'moment';
 import { createFragmentContainer, graphql } from 'react-relay';
 import { intlShape } from 'react-intl';
-
 import AlertList from '../AlertList';
 import {
   getAlertsForObject,
@@ -13,6 +11,7 @@ import {
 } from '../../util/alertUtils';
 import { getRouteMode } from '../../util/modeUtils';
 import { alertShape } from '../../util/shapes';
+import { timeStr } from '../../util/timeUtils';
 import { AlertSeverityLevelType, AlertEntityType } from '../../constants';
 
 /**
@@ -48,7 +47,7 @@ const getCancelations = (
             mode,
             route: route.shortName,
             headsign: first.headsign || trip.tripHeadsign,
-            time: moment.unix(departureTime).format('HH:mm'),
+            time: timeStr(departureTime * 1000),
           },
         ),
         entities: [entity],
