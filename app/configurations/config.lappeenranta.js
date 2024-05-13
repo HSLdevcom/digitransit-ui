@@ -5,8 +5,9 @@ import { BIKEAVL_WITHMAX } from '../util/vehicleRentalUtils';
 const CONFIG = 'lappeenranta';
 const APP_TITLE = 'reittiopas.lappeenranta.fi';
 const APP_DESCRIPTION = '';
-
 const walttiConfig = require('./config.waltti').default;
+
+const thisYear = new Date().getFullYear();
 
 export default configMerger(walttiConfig, {
   CONFIG,
@@ -37,8 +38,8 @@ export default configMerger(walttiConfig, {
       donkey_lappeenranta: {
         enabled: true,
         season: {
-          start: '1.4',
-          end: '30.11',
+          start: `1.4.${thisYear}`,
+          end: `30.11.${thisYear}`,
         },
         capacity: BIKEAVL_WITHMAX,
         icon: 'citybike',

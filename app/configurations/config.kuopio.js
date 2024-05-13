@@ -5,8 +5,9 @@ import { BIKEAVL_BIKES } from '../util/vehicleRentalUtils';
 const CONFIG = 'kuopio';
 const APP_TITLE = 'Reittiopas Kuopio';
 const APP_DESCRIPTION = 'Reittiopas Kuopio';
-
 const walttiConfig = require('./config.waltti').default;
+
+const thisYear = new Date().getFullYear();
 
 export default configMerger(walttiConfig, {
   CONFIG,
@@ -73,8 +74,8 @@ export default configMerger(walttiConfig, {
       freebike_kuopio: {
         enabled: true,
         season: {
-          start: '29.4',
-          end: '31.10',
+          start: `29.4.${thisYear}`,
+          end: `31.10.${thisYear}`,
         },
         capacity: BIKEAVL_BIKES,
         icon: 'citybike',

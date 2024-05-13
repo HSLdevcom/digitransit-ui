@@ -8,7 +8,6 @@ const MAP_URL =
   process.env.MAP_URL || 'https://digitransit-dev-cdn-origin.azureedge.net';
 const POI_MAP_PREFIX = `${MAP_URL}/map/v3/hsl`;
 const APP_DESCRIPTION = 'Helsingin seudun liikenteen Reittiopas.';
-
 const HSLTimetables = require('./timetableConfigUtils').default.HSL;
 const HSLParkAndRideUtils = require('../util/ParkAndRideUtils').default.HSL;
 
@@ -19,6 +18,7 @@ const BANNER_URL =
 // 'https://content.hsl.fi/api/v1/banners?site=JourneyPlanner';
 const localStorageEmitter =
   process.env.USE_EMITTER && rootLink + '/local-storage-emitter';
+const thisYear = new Date().getFullYear();
 
 export default {
   CONFIG,
@@ -427,9 +427,9 @@ export default {
       smoove: {
         enabled: true,
         season: {
-          preSeasonStart: '18.3',
-          start: '1.4',
-          end: '31.10',
+          preSeasonStart: `18.3.${thisYear}`,
+          start: `1.4.${thisYear}`,
+          end: `31.10.${thisYear}`,
         },
         capacity: BIKEAVL_WITHMAX,
         icon: 'citybike',
@@ -455,9 +455,9 @@ export default {
       vantaa: {
         enabled: true,
         season: {
-          preSeasonStart: '18.3',
-          start: '1.4',
-          end: '1.11',
+          preSeasonStart: `18.3.${thisYear}`,
+          start: `1.4.${thisYear}`,
+          end: `31.10.${thisYear}`,
         },
         capacity: BIKEAVL_WITHMAX,
         icon: 'citybike-secondary',

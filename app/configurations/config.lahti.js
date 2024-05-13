@@ -5,13 +5,13 @@ import { BIKEAVL_BIKES } from '../util/vehicleRentalUtils';
 const CONFIG = 'lahti';
 const APP_TITLE = 'LSL reittiopas';
 const APP_DESCRIPTION = 'Lahden seudun liikenteen reittiopas';
-
 const walttiConfig = require('./config.waltti').default;
 
 const minLat = 60.692506;
 const maxLat = 61.790694;
 const minLon = 24.873833;
 const maxLon = 26.544819;
+const thisYear = new Date().getFullYear();
 
 export default configMerger(walttiConfig, {
   CONFIG,
@@ -154,8 +154,8 @@ export default configMerger(walttiConfig, {
       freebike_lahti: {
         enabled: true,
         season: {
-          start: '24.4',
-          end: '17.11',
+          start: `24.4.${thisYear}`,
+          end: `17.11.${thisYear}`,
         },
         capacity: BIKEAVL_BIKES,
         icon: 'citybike',

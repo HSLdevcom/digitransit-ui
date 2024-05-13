@@ -5,13 +5,13 @@ import { BIKEAVL_WITHMAX } from '../util/vehicleRentalUtils';
 const CONFIG = 'kouvola';
 const APP_TITLE = 'Kouvolan reittiopas';
 const APP_DESCRIPTION = 'Kouvolan reittiopas';
-
 const walttiConfig = require('./config.waltti').default;
 
 const minLat = 60.574886232976134;
 const maxLat = 61.2909051236272;
 const minLon = 26.230533247455586;
 const maxLon = 27.424811201273982;
+const thisYear = new Date().getFullYear();
 
 export default configMerger(walttiConfig, {
   CONFIG,
@@ -48,8 +48,8 @@ export default configMerger(walttiConfig, {
       donkey_kouvola: {
         enabled: true,
         season: {
-          start: '10.4',
-          end: '21.11',
+          start: `10.4.${thisYear}`,
+          end: `21.11.${thisYear}`,
         },
         capacity: BIKEAVL_WITHMAX,
         icon: 'citybike',

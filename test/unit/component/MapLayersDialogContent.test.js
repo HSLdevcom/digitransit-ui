@@ -223,11 +223,15 @@ describe('<MapLayersDialogContent />', () => {
             foo: {
               enabled: true,
               season: {
-                start: `${today.getDate()}.${today.getMonth() + 1}`,
-                end: `${tomorrow.getDate()}.${tomorrow.getMonth() + 1}`,
+                start: `${today.getDate()}.${
+                  today.getMonth() + 1
+                }.${today.getFullYear()}`,
+                end: `${tomorrow.getDate()}.${
+                  tomorrow.getMonth() + 1
+                }.${tomorrow.getFullYear()}`,
                 preSeasonStart: `${yesterday.getDate()}.${
                   yesterday.getMonth() + 1
-                }`,
+                }.${yesterday.getFullYear()}`,
               },
             },
           },
