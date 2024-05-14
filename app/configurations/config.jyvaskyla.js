@@ -139,7 +139,7 @@ export default configMerger(walttiConfig, {
           sv: 'Zoner',
           en: 'Zones',
         },
-        url: '/assets/geojson/jkl_zone_lines_20240403.geojson',
+        url: '/assets/geojson/jkl_zone_lines_20210222.geojson',
       },
       {
         name: {
@@ -158,12 +158,13 @@ export default configMerger(walttiConfig, {
     1: 'A',
     2: 'B',
     3: 'C',
+    4: 'D',
   },
 
-  showTicketInformation: true,
+  showTicketInformation: false,
   useTicketIcons: true,
   ticketLink: 'https://linkki.jyvaskyla.fi/liput-ja-hinnat',
-  showTicketPrice: true,
+  showTicketPrice: false,
 
   ticketPurchaseLink: function purchaseTicketLink(fare) {
     const fareId = fare.fareProducts[0].product.id;
@@ -216,5 +217,5 @@ export default configMerger(walttiConfig, {
     itinerary: true,
   },
   // Notice! Turning on this setting forces the search for car routes (for the CO2 comparison only).
-  showCO2InItinerarySummary: true,
+  showCO2InItinerarySummary: false,
 });
