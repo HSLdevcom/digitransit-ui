@@ -7,8 +7,6 @@ const APP_TITLE = 'reittiopas.lappeenranta.fi';
 const APP_DESCRIPTION = '';
 const walttiConfig = require('./config.waltti').default;
 
-const thisYear = new Date().getFullYear();
-
 export default configMerger(walttiConfig, {
   CONFIG,
 
@@ -38,8 +36,8 @@ export default configMerger(walttiConfig, {
       donkey_lappeenranta: {
         enabled: true,
         season: {
-          start: `1.4.${thisYear}`,
-          end: `30.11.${thisYear}`,
+          start: '1.4',
+          end: '30.11',
         },
         capacity: BIKEAVL_WITHMAX,
         icon: 'citybike',

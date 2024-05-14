@@ -11,7 +11,6 @@ const minLat = 60.423693;
 const maxLat = 60.688566;
 const minLon = 26.422982;
 const maxLon = 27.739367;
-const thisYear = new Date().getFullYear();
 
 export default configMerger(walttiConfig, {
   CONFIG,
@@ -49,8 +48,8 @@ export default configMerger(walttiConfig, {
       donkey_kotka: {
         enabled: true,
         season: {
-          start: `28.4.${thisYear}`,
-          end: `31.10.${thisYear}`,
+          start: '28.4',
+          end: '31.10',
         },
         capacity: BIKEAVL_WITHMAX,
         icon: 'citybike',

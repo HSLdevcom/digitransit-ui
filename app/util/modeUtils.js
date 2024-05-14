@@ -9,7 +9,8 @@ import { ExtendedRouteTypes, TransportMode } from '../constants';
 
 function seasonMs(ddmmyyyy) {
   const parts = ddmmyyyy.split('.');
-  return new Date(parts[2], parts[1] - 1, parts[0]).valueOf();
+  const year = parts.length > 2 ? parts[2] : new Date().getFullYear();
+  return new Date(year, parts[1] - 1, parts[0]).valueOf();
 }
 
 const dayMs = 24 * 60 * 60 * 1000;

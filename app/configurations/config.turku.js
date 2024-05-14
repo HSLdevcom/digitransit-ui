@@ -37,8 +37,6 @@ const CONSTANT_OPERATION_PARAGRAPHS = {
 };
 const walttiConfig = require('./config.waltti').default;
 
-const thisYear = new Date().getFullYear();
-
 export default configMerger(walttiConfig, {
   CONFIG,
 
@@ -91,8 +89,8 @@ export default configMerger(walttiConfig, {
         capacity: BIKEAVL_WITHMAX,
         enabled: true,
         season: {
-          start: `1.4.${thisYear}`,
-          end: `23.12.${thisYear}`,
+          start: '1.4',
+          end: '23.12',
         },
         icon: 'citybike',
         name: {

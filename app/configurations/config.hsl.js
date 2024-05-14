@@ -18,7 +18,6 @@ const BANNER_URL =
 // 'https://content.hsl.fi/api/v1/banners?site=JourneyPlanner';
 const localStorageEmitter =
   process.env.USE_EMITTER && rootLink + '/local-storage-emitter';
-const thisYear = new Date().getFullYear();
 
 export default {
   CONFIG,
@@ -427,9 +426,9 @@ export default {
       smoove: {
         enabled: true,
         season: {
-          preSeasonStart: `18.3.${thisYear}`,
-          start: `1.4.${thisYear}`,
-          end: `31.10.${thisYear}`,
+          preSeasonStart: '18.3',
+          start: '1.4',
+          end: '31.10',
         },
         capacity: BIKEAVL_WITHMAX,
         icon: 'citybike',
@@ -455,9 +454,9 @@ export default {
       vantaa: {
         enabled: true,
         season: {
-          preSeasonStart: `18.3.${thisYear}`,
-          start: `1.4.${thisYear}`,
-          end: `31.10.${thisYear}`,
+          preSeasonStart: '18.3',
+          start: '1.4',
+          end: '31.10',
         },
         capacity: BIKEAVL_WITHMAX,
         icon: 'citybike-secondary',
