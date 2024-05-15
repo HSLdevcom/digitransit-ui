@@ -269,6 +269,7 @@ export default configMerger(walttiConfig, {
     },
   },
 
+  // enable train routing for Tampere
   transportModes: {
     rail: {
       availableForSelection: true,
@@ -282,11 +283,11 @@ export default configMerger(walttiConfig, {
       availableForSelection: true,
     },
   },
-  /*
+
   bikeBoardingModes: {
     RAIL: { showNotification: true },
     TRAM: { showNotification: true },
   },
-  */
+
   showTenWeeksOnRouteSchedule: true,
 });
