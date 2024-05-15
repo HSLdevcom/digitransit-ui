@@ -41,9 +41,9 @@ function walttiTopicResolver(
 }
 
 const mqttAddress =
-  process.env.NODE_ENV === 'production'
-    ? 'wss://mqtt.digitransit.fi'
-    : 'wss://dev-mqtt.digitransit.fi';
+  process.env.RUN_ENV === 'development' || process.env.NODE_ENV !== 'production'
+    ? 'wss://dev-mqtt.digitransit.fi'
+    : 'wss://mqtt.digitransit.fi';
 
 const walttiMqtt = {
   mqttTopicResolver: walttiTopicResolver,
