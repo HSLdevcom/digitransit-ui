@@ -40,9 +40,14 @@ function walttiTopicResolver(
   );
 }
 
+const mqttAddress =
+  process.env.RUN_ENV === 'development' || process.env.NODE_ENV !== 'production'
+    ? 'wss://dev-mqtt.digitransit.fi'
+    : 'wss://mqtt.digitransit.fi';
+
 const walttiMqtt = {
   mqttTopicResolver: walttiTopicResolver,
-  mqtt: 'wss://mqtt.digitransit.fi',
+  mqtt: mqttAddress,
   gtfsrt: true,
   routeSelector: defaultRouteSelector,
   active: true,
@@ -129,7 +134,7 @@ export default {
         '/#'
       );
     },
-    mqtt: 'wss://mqtt.digitransit.fi',
+    mqtt: mqttAddress,
     gtfsrt: true,
     routeSelector: defaultRouteSelector,
     active: true,
@@ -167,7 +172,7 @@ export default {
         '/#'
       );
     },
-    mqtt: 'wss://mqtt.digitransit.fi',
+    mqtt: mqttAddress,
     gtfsrt: true,
     routeSelector: defaultRouteSelector,
     active: true,
@@ -201,7 +206,7 @@ export default {
         '/#'
       );
     },
-    mqtt: 'wss://mqtt.digitransit.fi',
+    mqtt: mqttAddress,
     gtfsrt: true,
     routeSelector: defaultRouteSelector,
     active: true,
