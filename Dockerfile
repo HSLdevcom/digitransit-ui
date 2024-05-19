@@ -1,5 +1,5 @@
 # syntax = docker/dockerfile:1.4
-FROM node:16-alpine as builder
+FROM node:18-alpine3.18 as builder
 
 WORKDIR /opt/digitransit-ui
 
@@ -55,7 +55,7 @@ RUN \
 RUN \
   rm -rf static docs .cache
 
-FROM node:16-alpine
+FROM node:18-alpine3.18
 LABEL org.opencontainers.image.title="digitransit-ui"
 LABEL org.opencontainers.image.description="open nationwide journey planning platform"
 LABEL org.opencontainers.image.authors="digitransit@hsl.fi"
