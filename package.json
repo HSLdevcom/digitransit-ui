@@ -283,7 +283,7 @@
     "mocha": "10.2.0",
     "mock-local-storage": "1.1.24",
     "mockdate": "3.0.2",
-    "node-sass": "^6.0.1",
+    "node-sass": "^9.0.0",
     "nodemon": "1.18.10",
     "optimize-css-assets-webpack-plugin": "5.0.4",
     "playwright": "1.16.2",
