@@ -2,6 +2,8 @@ import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import moment from 'moment-timezone';
 import 'moment/locale/fi';
+import 'moment/locale/sv';
+import 'moment/locale/de';
 import uniqueId from 'lodash/uniqueId';
 import i18next from 'i18next';
 import Modal from 'react-modal';
