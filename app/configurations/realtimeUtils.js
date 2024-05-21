@@ -104,12 +104,48 @@ export default {
   Rauma: walttiMqtt,
   Pori: walttiMqtt,
   VARELY: walttiMqtt,
+  PohjolanMatka: {
+    mqttTopicResolver: function mqttTopicResolver(
+      route,
+      direction, // eslint-disable-line no-unused-vars
+      tripStartTime,
+      headsign, // eslint-disable-line no-unused-vars
+      feedId,
+      tripId,
+      geoHash,
+    ) {
+      return (
+        '/gtfsrt/vp/' +
+        feedId +
+        '/+/+/+/' +
+        route +
+        '/+/+/' +
+        tripId +
+        '/+/' +
+        tripStartTime +
+        '/+/' +
+        geoHash[0] +
+        '/' +
+        geoHash[1] +
+        '/' +
+        geoHash[2] +
+        '/' +
+        geoHash[3] +
+        '/#'
+      );
+    },
+    mqtt: mqttAddress,
+    gtfsrt: true,
+    routeSelector: defaultRouteSelector,
+    active: true,
+    vehicleNumberParser: defaulVehicleNumberParser,
+  },
   Harma: {
     mqttTopicResolver: function mqttTopicResolver(
       route,
-      direction,
+      direction, // eslint-disable-line no-unused-vars
       tripStartTime,
-      headsign,
+      headsign, // eslint-disable-line no-unused-vars
       feedId,
       tripId,
       geoHash,
