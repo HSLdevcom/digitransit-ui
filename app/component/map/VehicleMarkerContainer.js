@@ -49,17 +49,23 @@ function getVehicleIcon(
 // if tripStartTime has been specified,
 // use only the updates for vehicles with matching startTime
 
-function shouldShowVehicle(message, direction, tripStart, pattern, headsign) {
+function shouldShowVehicle(
+  message,
+  direction,
+  tripStart,
+  pattern,
+  headsign,
+  ignoreHeadsign,
+) {
   return (
     !Number.isNaN(parseFloat(message.lat)) &&
     !Number.isNaN(parseFloat(message.long)) &&
     (pattern === undefined ||
       pattern.substr(0, message.route.length) === message.route) &&
-    (headsign === undefined ||
+    (ignoreHeadsign ||
+      headsign === undefined ||
       message.headsign === undefined ||
-      headsign === message.headsign ||
-      message.tripId.split(':')[1] === message.headsign ||
-      message.route.split(':')[1] === message.headsign) && // GTFS-RT vehicle.label is interpreted as the "headsign" but can be the tripId or routeId in some data
+      headsign === message.headsign) &&
     (direction === undefined ||
       direction === -1 ||
       message.direction === undefined ||
@@ -71,14 +77,19 @@ function shouldShowVehicle(message, direction, tripStart, pattern, headsign) {
 }
 
 function VehicleMarkerContainer(props, { config }) {
-  const visibleVehicles = Object.entries(props.vehicles).filter(([, message]) =>
-    shouldShowVehicle(
-      message,
-      props.direction,
-      props.tripStart,
-      props.pattern,
-      props.headsign,
-    ),
+  const visibleVehicles = Object.entries(props.vehicles).filter(
+    ([, message]) => {
+      const feed = message.route?.split(':')[0];
+      const ignoreHeadsign = config?.realTime?.[feed].ignoreHeadsign;
+      return shouldShowVehicle(
+        message,
+        props.direction,
+        props.tripStart,
+        props.pattern,
+        props.headsign,
+        ignoreHeadsign,
+      );
+    },
   );
   const visibleVehicleIds = visibleVehicles.map(([id]) => id);
   props.setVisibleVehicles(visibleVehicleIds);

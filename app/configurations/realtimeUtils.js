@@ -139,6 +139,7 @@ export default {
     routeSelector: defaultRouteSelector,
     active: true,
     vehicleNumberParser: defaulVehicleNumberParser,
+    ignoreHeadsign: true,
   },
   Harma: {
     mqttTopicResolver: function mqttTopicResolver(
