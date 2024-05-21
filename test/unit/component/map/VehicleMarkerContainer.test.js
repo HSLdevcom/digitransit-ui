@@ -119,7 +119,7 @@ describe('<VehicleMarkerContainer />', () => {
       expect(shouldShow).to.equal(true);
     });
 
-    it('should return false when headsign does not match', () => {
+    it('should return false when headsign does not match and headsign is not feedId or routeId', () => {
       const message = {
         lat: 61.50639,
         long: 23.77416,
@@ -127,6 +127,7 @@ describe('<VehicleMarkerContainer />', () => {
         direction: 0,
         tripStartTime: '1514',
         headsign: 'Tampere',
+        tripId: 'tampere:2',
       };
 
       const shouldShow = shouldShowVehicle(

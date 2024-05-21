@@ -58,7 +58,8 @@ function shouldShowVehicle(message, direction, tripStart, pattern, headsign) {
     (headsign === undefined ||
       message.headsign === undefined ||
       headsign === message.headsign ||
-      message.tripId.includes(message.headsign)) && // GTFS-RT vehicle.label is interpreted as the "headsign" but can be the tripId in some data
+      message.tripId.split(':')[1] === message.headsign ||
+      message.route.split(':')[1] === message.headsign) && // GTFS-RT vehicle.label is interpreted as the "headsign" but can be the tripId or routeId in some data
     (direction === undefined ||
       direction === -1 ||
       message.direction === undefined ||
