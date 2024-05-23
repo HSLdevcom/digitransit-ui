@@ -93,7 +93,8 @@ class Stops {
         mode = 'speedtram';
       }
       const stopOutOfService = !!feature.properties.closedByServiceAlert;
-      const noServiceOnServiceDay = !!feature.properties.noServiceOnServiceDay;
+      const noServiceOnServiceDay =
+        !feature.properties.servicesRunningOnServiceDay;
 
       drawStopIcon(
         this.tile,
