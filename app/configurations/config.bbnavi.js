@@ -432,7 +432,7 @@ export default configMerger(walttiConfig, {
 
     menu: {
         copyright: {
-            label: `© DigitalAgentur Brandenburg GmbH ${YEAR}`
+            label: `© VBB GmbH ${YEAR}`
         },
         content: [
             {
