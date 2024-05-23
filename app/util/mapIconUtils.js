@@ -372,14 +372,14 @@ function drawStopStatusBadge(
   y,
   iconWidth,
   stopOutOfService,
-  noRoutesForStop,
+  noServiceOnServiceDay,
 ) {
   const badgeSize = iconWidth * 0.75; // badge size is 75% of the icon size
   const badgeImageId = stopOutOfService
-    ? `icon-icon_stop-temporarily-closed-badge`
-    : `icon-icon_stop-closed-badge`;
+    ? `icon-icon_stop-closed-badge`
+    : `icon-icon_stop-temporarily-closed-badge`;
 
-  if (noRoutesForStop || stopOutOfService) {
+  if (noServiceOnServiceDay || stopOutOfService) {
     getImageFromSpriteCache(badgeImageId, badgeSize, badgeSize).then(
       badgeImage => {
         drawTopRightCornerIconBadge(
@@ -415,7 +415,7 @@ export function drawStopIcon(
   isFerryTerminal,
   modeIconColors,
   stopOutOfService,
-  noRoutesForStop,
+  noServiceOnServiceDay,
 ) {
   if (type === 'SUBWAY') {
     return;
@@ -464,7 +464,14 @@ export function drawStopIcon(
       color,
     ).then(image => {
       tile.ctx.drawImage(image, x, y);
-      drawStopStatusBadge(tile, x, y, width, stopOutOfService, noRoutesForStop);
+      drawStopStatusBadge(
+        tile,
+        x,
+        y,
+        width,
+        stopOutOfService,
+        noServiceOnServiceDay,
+      );
       if (drawNumber && platformNumber) {
         x += radius;
         y += radius;

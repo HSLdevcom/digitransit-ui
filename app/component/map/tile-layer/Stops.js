@@ -92,9 +92,8 @@ class Stops {
       if (hasLocalTramRoute) {
         mode = 'speedtram';
       }
-
       const stopOutOfService = !!feature.properties.closedByServiceAlert;
-      const noRoutesForStop = !routes.length;
+      const noServiceOnServiceDay = !!feature.properties.noServiceOnServiceDay;
 
       drawStopIcon(
         this.tile,
@@ -110,7 +109,7 @@ class Stops {
         ),
         this.config.colors.iconColors,
         stopOutOfService,
-        noRoutesForStop,
+        noServiceOnServiceDay,
       );
     }
   }
