@@ -384,23 +384,16 @@ async function fetchCitybikeSeasons() {
   return resources;
 }
 
-const parseDate = (year, month, day) =>
-  // eslint-disable-next-line radix
-  new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
-
 function buildCitybikeConfig(seasonDef, configName) {
   const inSeason = seasonDef.inSeason.split('-');
-  const [startDay, startMonth, startYear] = inSeason[0].split('.');
-  const [endDay, endMonth, endYear] = inSeason[1].split('.');
-  const [preDay, preMonth, preYear] = seasonDef.preSeason.split('.');
   return {
     configName: seasonDef.configName,
     networkName: seasonDef.networkName,
     enabled: seasonDef.enabled,
     season: {
-      preSeasonStart: parseDate(preYear, preMonth, preDay),
-      start: parseDate(startYear, startMonth, startDay),
-      end: parseDate(endYear, endMonth, endDay),
+      preSeasonStart: seasonDef.preSeason,
+      start: inSeason[0],
+      end: inSeason[1],
     },
   };
 }
@@ -454,6 +447,7 @@ function fetchCitybikeConfigurations() {
           console.log(
             `fetched: ${seasonDefinitions.length} citybike season configuration`,
           );
+          console.log(seasonDefinitions);
           configTools.setAvailableCitybikeConfigurations(seasonDefinitions);
           mainResolve();
         });

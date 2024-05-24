@@ -8,7 +8,7 @@ import { configShape, planEdgeShape } from '../../util/shapes';
 import Icon from '../Icon';
 import Itinerary from './Itinerary';
 import { isBrowser } from '../../util/browser';
-import { getExtendedMode } from '../../util/legUtils';
+import { getExtendedMode, showBikeBoardingNote } from '../../util/legUtils';
 import ItineraryListHeader from './ItineraryListHeader';
 import ItinerariesNotFound from './ItinerariesNotFound';
 import Loading from '../Loading';
@@ -25,7 +25,6 @@ function ItineraryList(
   {
     planEdges,
     activeIndex,
-    currentTime,
     onSelect,
     onSelectImmediately,
     searchTime,
@@ -55,7 +54,6 @@ function ItineraryList(
       hash={i}
       itinerary={edge.node}
       passive={i !== activeIndex}
-      currentTime={currentTime}
       onSelect={onSelect}
       onSelectImmediately={onSelectImmediately}
       intermediatePlaces={getIntermediatePlaces(location.query)}
@@ -83,7 +81,6 @@ function ItineraryList(
         0,
         <ItineraryListHeader
           translationId="itinerary-summary.bikePark-title"
-          defaultMessage="Biking \u0026 public transport \u0026 walking"
           key="itinerary-summary.bikepark-title"
         />,
       );
@@ -98,18 +95,16 @@ function ItineraryList(
       const legs = planEdges
         .slice(bikeParkItineraryCount)
         .flatMap(edge => edge.node.legs);
-      const showBikeBoardingInfo = config.showBikeBoardingInfoHeader?.(
-        config.bikeBoardingModes,
-        config.bikeBoardingExtraModes,
-        mode,
-        legs,
+      const showBikeBoardingInfo = legs.some(leg =>
+        showBikeBoardingNote(leg, config),
       );
+
       summaries.splice(
         bikeParkItineraryCount ? bikeParkItineraryCount + 1 : 0,
         0,
         <ItineraryListHeader
           translationId={`itinerary-summary.bikeAndPublic-${mode}-title`}
-          defaultMessage="Biking \u0026 public transport"
+          defaultMessage="Take your bike with you onboard"
           key="itinerary-summary.bikeandpublic-title"
           showBikeBoardingInfo={showBikeBoardingInfo}
         />,
@@ -207,7 +202,6 @@ function ItineraryList(
 ItineraryList.propTypes = {
   activeIndex: PropTypes.number.isRequired,
   searchTime: PropTypes.number.isRequired,
-  currentTime: PropTypes.number.isRequired,
   planEdges: PropTypes.arrayOf(planEdgeShape),
   onSelect: PropTypes.func.isRequired,
   onSelectImmediately: PropTypes.func.isRequired,

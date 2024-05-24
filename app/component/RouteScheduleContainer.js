@@ -882,6 +882,9 @@ class RouteScheduleContainer extends PureComponent {
       ) {
         newServiceDay = data[3][0].value;
       }
+      if (moment(newServiceDay).isAfter(moment(firstDataDate))) {
+        newServiceDay = firstDataDate;
+      }
     }
 
     const routeIdSplitted = this.props.match.params.routeId.split(':');

@@ -8,7 +8,6 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 import get from 'lodash/get';
 import { configShape, itineraryShape } from '../../util/shapes';
 import TicketInformation from './TicketInformation';
-import RouteInformation from '../RouteInformation';
 import ItinerarySummary from './ItinerarySummary';
 import Legs from './Legs';
 import BackButton from '../BackButton';
@@ -34,7 +33,6 @@ import {
   shouldShowFarePurchaseInfo,
 } from '../../util/fareUtils';
 import {
-  getCurrentMillis,
   getFormattedTimeDate,
   isToday,
   isTomorrow,
@@ -51,7 +49,6 @@ class ItineraryDetails extends React.Component {
     focusToPoint: PropTypes.func.isRequired,
     focusToLeg: PropTypes.func.isRequired,
     isMobile: PropTypes.bool.isRequired,
-    currentTime: PropTypes.number.isRequired,
     hideTitle: PropTypes.bool,
     carEmissions: PropTypes.number,
     currentLanguage: PropTypes.string,
@@ -84,8 +81,8 @@ class ItineraryDetails extends React.Component {
     );
   };
 
-  getFutureText(startTime, currentTime) {
-    const refTime = getCurrentMillis(currentTime);
+  getFutureText(startTime) {
+    const refTime = Date.now();
     if (isToday(startTime, refTime)) {
       return '';
     }
@@ -108,10 +105,7 @@ class ItineraryDetails extends React.Component {
     const bikingDuration = getTotalBikingDuration(compressedItinerary);
     const drivingDuration = getTotalDrivingDuration(compressedItinerary);
     const drivingDistance = getTotalDrivingDistance(compressedItinerary);
-    const futureText = this.getFutureText(
-      itinerary.start,
-      this.props.currentTime,
-    );
+    const futureText = this.getFutureText(itinerary.start);
     const isMultiRow =
       walkingDistance > 0 &&
       (bikingDistance > 0 || drivingDistance > 0) &&
@@ -324,7 +318,6 @@ class ItineraryDetails extends React.Component {
                   toggleSettings={this.props.toggleSettings}
                   showBikeBoardingInformation={showBikeBoardingInformation}
                 />
-                {config.showRouteInformation && <RouteInformation key="routeinfo"/>}
               </div>
               {config.showCO2InItinerarySummary && (
                 <Emissions
@@ -355,8 +348,7 @@ class ItineraryDetails extends React.Component {
 }
 
 const withRelay = createFragmentContainer(
-  connectToStores(ItineraryDetails, ['TimeStore'], context => ({
-    currentTime: context.getStore('TimeStore').getCurrentTime().unix(),
+  connectToStores(ItineraryDetails, ['PreferencesStore'], context => ({
     currentLanguage: context.getStore('PreferencesStore').getLanguage(),
   })),
   {

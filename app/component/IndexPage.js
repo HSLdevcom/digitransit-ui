@@ -138,7 +138,7 @@ class IndexPage extends React.Component {
         ),
       };
       if (newLocation.query.time === undefined) {
-        newLocation.query.time = Math.floor(Date.now() / 1000);
+        newLocation.query.time = Math.floor(Date.now() / 1000).toString();
       }
       delete newLocation.query.setTime;
       router.push(newLocation);

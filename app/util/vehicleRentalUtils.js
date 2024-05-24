@@ -63,7 +63,7 @@ export const getDefaultNetworks = config => {
   const mappedNetworks = [];
   Object.entries(config.cityBike.networks).forEach(n => {
     if (
-      citybikeRoutingIsActive(n[1], config) &&
+      citybikeRoutingIsActive(n[1]) &&
       n[1]?.type !== CityBikeNetworkType.Scooter // scooter networks are never on by default
     ) {
       mappedNetworks.push(n[0]);
@@ -85,7 +85,7 @@ export const getAllNetworksOfType = (config, type) => {
 export const mapDefaultNetworkProperties = config => {
   const mappedNetworks = [];
   Object.keys(config.cityBike.networks).forEach(key => {
-    if (citybikeRoutingIsActive(config.cityBike.networks[key], config)) {
+    if (citybikeRoutingIsActive(config.cityBike.networks[key])) {
       mappedNetworks.push({
         networkName: key,
         ...config.cityBike.networks[key],

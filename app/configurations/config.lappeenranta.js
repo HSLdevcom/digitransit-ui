@@ -5,7 +5,6 @@ import { BIKEAVL_WITHMAX } from '../util/vehicleRentalUtils';
 const CONFIG = 'lappeenranta';
 const APP_TITLE = 'reittiopas.lappeenranta.fi';
 const APP_DESCRIPTION = '';
-
 const walttiConfig = require('./config.waltti').default;
 
 export default configMerger(walttiConfig, {
@@ -37,9 +36,8 @@ export default configMerger(walttiConfig, {
       donkey_lappeenranta: {
         enabled: true,
         season: {
-          // 1.4. - 30.11. TODO uncertain end date depends on weather
-          start: new Date(new Date().getFullYear(), 3, 1),
-          end: new Date(new Date().getFullYear(), 11, 1),
+          start: '1.4',
+          end: '30.11',
         },
         capacity: BIKEAVL_WITHMAX,
         icon: 'citybike',

@@ -233,7 +233,7 @@ export function setCurrentTimeToURL(config, match) {
       ...match.location,
       query: {
         ...match.location.query,
-        time: Math.floor(Date.now() / 1000),
+        time: Math.floor(Date.now() / 1000).toString(),
       },
     };
     match.router.replace(newLocation);

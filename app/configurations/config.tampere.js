@@ -5,7 +5,6 @@ import { BIKEAVL_WITHMAX } from '../util/vehicleRentalUtils';
 const CONFIG = 'tampere';
 const APP_TITLE = 'Nyssen reittiopas';
 const APP_DESCRIPTION = 'Nyssen reittiopas';
-
 const walttiConfig = require('./config.waltti').default;
 const tampereTimetables = require('./timetableConfigUtils').default.tampere;
 
@@ -239,9 +238,8 @@ export default configMerger(walttiConfig, {
         capacity: BIKEAVL_WITHMAX,
         enabled: true,
         season: {
-          // 15.4. - 31.10.
-          start: new Date(new Date().getFullYear(), 3, 15),
-          end: new Date(new Date().getFullYear(), 10, 1),
+          start: '15.4',
+          end: '31.10',
         },
         icon: 'citybike',
         name: {
@@ -309,12 +307,10 @@ export default configMerger(walttiConfig, {
     },
   },
 
-  // modes that should not coexist with BICYCLE mode
-  modesWithNoBike: ['BUS'],
+  bikeBoardingModes: {
+    RAIL: { showNotification: true },
+    TRAM: { showNotification: true },
+  },
 
-  // Modes that shows extra cost information in itinerary summary and itinerary details pages
-  bikeBoardingModes: ['RAIL', 'TRAM'],
   showTenWeeksOnRouteSchedule: true,
-  showBikeAndPublicItineraries: true,
-  includeBikeSuggestions: true,
 });

@@ -208,8 +208,8 @@ export function getModesWithAlerts(currentTime, feedIds = null) {
             }
           });
         }
-        return modes;
       });
+      return modes;
     })
     .then(compact)
     .then(uniq);

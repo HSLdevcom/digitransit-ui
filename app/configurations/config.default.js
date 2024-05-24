@@ -416,7 +416,6 @@ export default {
   },
 
   useTicketIcons: false,
-  showRouteInformation: false,
 
   modeToOTP: {
     bus: 'BUS',
@@ -479,9 +478,6 @@ export default {
       defaultValue: false, // always false
     },
   },
-
-  // transit modes that should not coexist with BICYCLE mode
-  modesWithNoBike: [],
 
   moment: {
     relativeTimeThreshold: {
@@ -772,14 +768,11 @@ export default {
   showVehiclesOnItineraryPage: false,
 
   showWeatherInformation: true,
-  showBikeAndPublicItineraries: true,
   showBikeAndParkItineraries: false,
 
   includeBikeSuggestions: true,
   includeCarSuggestions: false,
   includeParkAndRideSuggestions: false,
-  // Include both bike and park and bike and public
-  includePublicWithBikePlan: true,
   // Park and ride and car suggestions separated
   separatedParkAndRideSwitch: false,
 
@@ -806,7 +799,6 @@ export default {
   showSimilarRoutesOnRouteDropDown: false,
 
   prioritizedStopsNearYou: {},
-  routeNotifications: [],
 
   constantOperationStops: {},
   constantOperationRoutes: {},
@@ -825,10 +817,29 @@ export default {
   },
 
   showAlternativeLegs: true,
-
   // Notice! Turning on this setting forces the search for car routes (for the CO2 comparison only).
   showCO2InItinerarySummary: false,
-
   geoJsonSvgSize: 20,
-  showBicycleWalkLegModes: ['RAIL', 'SUBWAY'],
+  routeNotifications: [
+    {
+      showForBikeWithPublic: true,
+
+      id: 'externalCostWithBike',
+
+      content: {
+        fi: [
+          'Kulkuneuvossa mahdollisuus kuljettaa pyörää. ',
+          'Tarkasta pyörän kuljettamisen mahdollinen maksullisuus operaattorilta.',
+        ],
+        en: [
+          'There is a possibility to transport a bicycle in the vehicle. ',
+          'Check the possible cost of transporting a bicycle from the operator.',
+        ],
+        sv: [
+          'Möjlighet att transportera cykel i fordonet. ',
+          'Kontrollera eventuell avgift för att transportera cykel från operatören.',
+        ],
+      },
+    },
+  ],
 };

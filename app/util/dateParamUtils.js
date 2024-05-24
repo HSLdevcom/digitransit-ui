@@ -25,8 +25,11 @@ export const prepareWeekDays = params => {
   const friday = moment().isoWeekday(5).format(DATE_FORMAT);
   const saturday = moment().isoWeekday(6).format(DATE_FORMAT);
   const sunday = moment().isoWeekday(7).format(DATE_FORMAT);
+  // TODO remove this hack after hsl.fi has updated its vehicle park page addresses
+  const id = params.id?.includes(':') ? params.id : `liipi:${params.id}`;
   return {
     ...params,
+    id,
     dates: [monday, tuesday, wednesday, thursday, friday, saturday, sunday],
   };
 };

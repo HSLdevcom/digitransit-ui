@@ -1,4 +1,3 @@
-import connectToStores from 'fluxible-addons-react/connectToStores';
 import PropTypes from 'prop-types';
 import React from 'react';
 import {
@@ -12,9 +11,7 @@ import { intlShape, FormattedMessage } from 'react-intl';
 import { configShape, planEdgeShape } from '../../util/shapes';
 import Icon from '../Icon';
 import ItineraryList from './ItineraryList';
-import TimeStore from '../../store/TimeStore';
 import { getItineraryPagePath, streetHash } from '../../util/path';
-import withBreakpoint from '../../util/withBreakpoint';
 import { addAnalyticsEvent } from '../../util/analyticsUtils';
 import { isIOS, isSafari } from '../../util/browser';
 import ItineraryNotification from './ItineraryNotification';
@@ -222,33 +219,25 @@ ItineraryListContainer.contextTypes = {
 
 const withConfig = getContext({
   config: configShape.isRequired,
-})(
-  withBreakpoint(props => (
-    <ReactRelayContext.Consumer>
-      {({ environment }) => (
-        <ItineraryListContainer {...props} relayEnvironment={environment} />
-      )}
-    </ReactRelayContext.Consumer>
-  )),
-);
+})(props => (
+  <ReactRelayContext.Consumer>
+    {({ environment }) => (
+      <ItineraryListContainer {...props} relayEnvironment={environment} />
+    )}
+  </ReactRelayContext.Consumer>
+));
 
-const connectedContainer = createFragmentContainer(
-  connectToStores(withConfig, [TimeStore], context => ({
-    currentTime: context.getStore(TimeStore).getCurrentTime().valueOf(),
-  })),
-  {
-    planEdges: graphql`
-      fragment ItineraryListContainer_planEdges on PlanEdge
-      @relay(plural: true) {
-        ...ItineraryList_planEdges
-        node {
-          legs {
-            mode
-          }
+const connectedContainer = createFragmentContainer(withConfig, {
+  planEdges: graphql`
+    fragment ItineraryListContainer_planEdges on PlanEdge @relay(plural: true) {
+      ...ItineraryList_planEdges
+      node {
+        legs {
+          mode
         }
       }
-    `,
-  },
-);
+    }
+  `,
+});
 
 export { connectedContainer as default, ItineraryListContainer as Component };

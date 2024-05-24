@@ -5,7 +5,6 @@ import { BIKEAVL_WITHMAX } from '../util/vehicleRentalUtils';
 const CONFIG = 'kotka';
 const APP_TITLE = 'Kotkan seudun reittiopas';
 const APP_DESCRIPTION = 'Kotkan seudun reittiopas';
-
 const walttiConfig = require('./config.waltti').default;
 
 const minLat = 60.423693;
@@ -49,9 +48,8 @@ export default configMerger(walttiConfig, {
       donkey_kotka: {
         enabled: true,
         season: {
-          // 28.4. - 31.10.
-          start: new Date(new Date().getFullYear(), 3, 28),
-          end: new Date(new Date().getFullYear(), 10, 1),
+          start: '28.4',
+          end: '31.10',
         },
         capacity: BIKEAVL_WITHMAX,
         icon: 'citybike',

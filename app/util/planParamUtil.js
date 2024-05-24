@@ -88,7 +88,6 @@ export function getSettings(config) {
           ...userSettings.modes.filter(mode =>
             isTransportModeAvailable(config, mode),
           ),
-          'WALK',
         ].sort()
       : defaultSettings.modes,
     // filter networks to configured allowed values
@@ -111,6 +110,18 @@ export function getSettings(config) {
     walkSpeed: findNearestOption(settings.walkSpeed, defaultOptions.walkSpeed),
     bikeSpeed: findNearestOption(settings.bikeSpeed, defaultOptions.bikeSpeed),
   };
+}
+
+function getTransitModes(modes, planType, config) {
+  let transitModes = modes.filter(m => m !== 'CITYBIKE' && m !== 'SCOOTER');
+  if (planType === PLANTYPE.BIKETRANSIT) {
+    if (config.bikeBoardingModes) {
+      transitModes = transitModes.filter(m => config.bikeBoardingModes[m]);
+    } else {
+      return [];
+    }
+  }
+  return transitModes;
 }
 
 export function planQueryNeeded(
@@ -140,15 +151,11 @@ export function planQueryNeeded(
 
   const defaultSettings = getDefaultSettings(config);
   const settings = getSettings(config);
-  const modesOrDefault = relaxSettings ? defaultSettings.modes : settings.modes;
-
-  const transitFilter =
-    planType === PLANTYPE.BIKETRANSIT || planType === PLANTYPE.SCOOTERTRANSIT
-      ? ['CITYBIKE', 'SCOOTER', 'WALK'].concat(config.modesWithNoBike)
-      : ['CITYBIKE', 'SCOOTER', 'WALK'];
-
-  const transitModes = modesOrDefault.filter(m => !transitFilter.includes(m));
-
+  const transitModes = getTransitModes(
+    relaxSettings ? defaultSettings.modes : settings.modes,
+    planType,
+    config,
+  );
   const wheelchair = !!settings.accessibilityOption;
   const distance = estimateItineraryDistance(
     fromLocation,
@@ -249,7 +256,7 @@ export function getPlanParams(
 ) {
   const fromPlace = getLocation(from);
   const toPlace = getLocation(to);
-
+  const useLatestArrival = arriveBy === 'true';
   // estimate distance for search iteration heuristics
   const fromLocation = otpToLocation(from);
   const toLocation = otpToLocation(to);
@@ -270,18 +277,11 @@ export function getPlanParams(
     settings.allowedBikeRentalNetworks = null;
   }
 
-  const modesOrDefault = relaxSettings ? defaultSettings.modes : settings.modes;
-  let transitFilter =
-    planType === PLANTYPE.BIKETRANSIT
-      ? ['CITYBIKE', 'SCOOTER', 'WALK'].concat(config.modesWithNoBike)
-      : ['CITYBIKE', 'SCOOTER', 'WALK'];
-
-  transitFilter =
-    planType !== PLANTYPE.SCOOTERTRANSIT
-      ? ['CITYBIKE', 'SCOOTER', 'WALK']
-      : ['CITYBIKE', 'SCOOTER', 'WALK'];
-
-  const transitModes = modesOrDefault.filter(m => !transitFilter.includes(m));
+  const transitModes = getTransitModes(
+    relaxSettings ? defaultSettings.modes : settings.modes,
+    planType,
+    config,
+  );
 
   let otpModes = modesAsOTPModes(transitModes);
   if (config.customWeights) {
@@ -363,9 +363,10 @@ export function getPlanParams(
     : settings.transferPenalty;
 
   const timeStr = (time ? moment(time * 1000) : moment()).format();
-  const datetime = arriveBy
+  const datetime = useLatestArrival
     ? { latestArrival: timeStr }
     : { earliestDeparture: timeStr };
+  const numItineraries = directOnly ? 1 : 5;
 
   return {
     ...settings,
@@ -373,7 +374,8 @@ export function getPlanParams(
     toPlace,
     datetime,
     minTransferTime: `PT${settings.minTransferTime}S`,
-    numItineraries: directOnly ? 1 : 5,
+    first: numItineraries, // used in actual query
+    numItineraries, // backup original value for convenient paging
     wheelchair,
     walkReluctance,
     walkBoardCost,

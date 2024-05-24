@@ -8,7 +8,6 @@ const MAP_URL =
   process.env.MAP_URL || 'https://digitransit-dev-cdn-origin.azureedge.net';
 const POI_MAP_PREFIX = `${MAP_URL}/map/v3/hsl`;
 const APP_DESCRIPTION = 'Helsingin seudun liikenteen Reittiopas.';
-
 const HSLTimetables = require('./timetableConfigUtils').default.HSL;
 const HSLParkAndRideUtils = require('../util/ParkAndRideUtils').default.HSL;
 
@@ -221,9 +220,6 @@ export default {
     /* identify searches for route numbers/labels: bus | train | metro */
     lineRegexp: /(^[0-9]+[a-z]?$|^[yuleapinkrtdz]$|(^m[12]?b?$))/i,
   },
-
-  // modes that should not coexist with BICYCLE mode
-  modesWithNoBike: ['BUS', 'TRAM'],
 
   useSearchPolygon: true,
 
@@ -451,11 +447,9 @@ export default {
       smoove: {
         enabled: true,
         season: {
-          // 18.3.
-          preSeasonStart: new Date(new Date().getFullYear(), 2, 18),
-          // 1.4. - 31.10.
-          start: new Date(new Date().getFullYear(), 3, 1),
-          end: new Date(new Date().getFullYear(), 10, 1),
+          preSeasonStart: '18.3',
+          start: '1.4',
+          end: '31.10',
         },
         capacity: BIKEAVL_WITHMAX,
         icon: 'citybike',
@@ -481,11 +475,9 @@ export default {
       vantaa: {
         enabled: true,
         season: {
-          // 18.3.
-          preSeasonStart: new Date(new Date().getFullYear(), 2, 18),
-          // 1.4. - 31.10.
-          start: new Date(new Date().getFullYear(), 3, 1),
-          end: new Date(new Date().getFullYear(), 10, 1),
+          preSeasonStart: '18.3',
+          start: '1.4',
+          end: '31.10',
         },
         capacity: BIKEAVL_WITHMAX,
         icon: 'citybike-secondary',
@@ -526,15 +518,18 @@ export default {
   },
 
   showVehiclesOnItineraryPage: true,
-  showBikeAndPublicItineraries: true,
   showBikeAndParkItineraries: true,
+  bikeBoardingModes: {
+    RAIL: { showNotification: false },
+    FERRY: { showNotification: false },
+  },
 
   // Notice! Turning on this setting forces the search for car routes (for the CO2 comparison only).
   showCO2InItinerarySummary: true,
 
   includeCarSuggestions: false,
   includeParkAndRideSuggestions: true,
-  // Include both bike and park and bike and public
+  // Include both bike and park and bike and public, if bike is enabled
   includePublicWithBikePlan: true,
   // Park and ride and car suggestions separated into two switches
   separatedParkAndRideSwitch: false,
@@ -574,7 +569,6 @@ export default {
       virtualMonitorBaseUrl: 'https://omatnaytot.hsl.fi/',
     },
   },
-  bikeBoardingModes: ['RAIL', 'FERRY'],
 
   routeNotifications: [
     {

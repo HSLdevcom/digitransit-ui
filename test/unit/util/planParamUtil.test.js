@@ -166,7 +166,7 @@ describe('planParamUtil', () => {
         modes: ['BUS', 'WALK', 'FOO'],
       });
       const currentSettings = utils.getSettings(defaultConfig);
-      expect(currentSettings.modes.length).to.equal(2);
+      expect(currentSettings.modes.length).to.equal(1);
       expect(currentSettings.modes).to.not.contain('FOO');
     });
   });
