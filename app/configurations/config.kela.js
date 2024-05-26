@@ -81,7 +81,7 @@ export default configMerger(matkaConfig, {
     },
   },
   suggestCarMinDistance: 0,
-  hideWeatherLabel: true,
+  showWeatherInformation: false,
   showDistanceBeforeDuration: true,
   hideItinerarySettings: true,
   showTransitLegDistance: true,
