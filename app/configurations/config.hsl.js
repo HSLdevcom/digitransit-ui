@@ -471,6 +471,7 @@ export default {
           en: 'https://www.hsl.fi/en/citybikes/helsinki/instructions#ride',
         },
         timeBeforeSurcharge: 60 * 60,
+        showRentalStations: true,
       },
       vantaa: {
         enabled: true,
@@ -498,9 +499,13 @@ export default {
           en: 'https://www.hsl.fi/en/citybikes/vantaa/instructions#ride',
         },
         timeBeforeSurcharge: 120 * 60,
+        showRentalStations: true,
       },
       bolt: {
         enabled: true,
+        season: {
+          alwaysOn: true,
+        },
         icon: 'scooter',
         name: {
           fi: 'Bolt',
@@ -508,6 +513,7 @@ export default {
           en: 'Bolt',
         },
         type: 'scooter',
+        showRentalVehicles: true,
       },
     },
     buyUrl: {

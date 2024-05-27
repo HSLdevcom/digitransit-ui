@@ -20,6 +20,9 @@ export function isCitybikeSeasonActive(season) {
   if (!season) {
     return false;
   }
+  if (season.alwaysOn) {
+    return true;
+  }
   const now = Date.now();
   return now <= seasonMs(season.end) + dayMs && now >= seasonMs(season.start);
 }
@@ -82,7 +85,7 @@ export function showRentalVehiclesOfType(networks, config, type) {
   return Object.values(networks).some(
     network =>
       network.type === type.toLowerCase() &&
-      (network.type !== 'citybike' || showCitybikeNetwork(network, config)),
+      (network.showRentalVehicles || showCitybikeNetwork(network, config)),
   );
 }
 

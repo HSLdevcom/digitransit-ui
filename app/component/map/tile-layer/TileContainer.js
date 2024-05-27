@@ -238,14 +238,14 @@ class TileContainer {
             // features array is sorted by y coord so combo stops should be next to each other
             if (
               index > 0 &&
-              features[index - 1].feature.properties.code ===
+              features[index - 1]?.feature.properties.code ===
                 feature.feature.properties.code
             ) {
               isCombo = true;
             }
             if (
               index < features.length - 1 &&
-              features[index + 1].feature.properties.code ===
+              features[index + 1]?.feature.properties.code ===
                 feature.feature.properties.code
             ) {
               isCombo = true;
