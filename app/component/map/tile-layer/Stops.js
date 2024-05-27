@@ -94,7 +94,7 @@ class Stops {
       }
       const stopOutOfService = !!feature.properties.closedByServiceAlert;
       const noServiceOnServiceDay =
-        !feature.properties.servicesRunningOnServiceDay;
+        !feature.properties.servicesRunningOnServiceDate;
 
       drawStopIcon(
         this.tile,
