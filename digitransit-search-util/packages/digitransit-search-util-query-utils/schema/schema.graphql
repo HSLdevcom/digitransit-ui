@@ -743,8 +743,8 @@ type RentalVehicle implements Node & PlaceInterface {
     """The type of the rental vehicle (scooter, bicycle, car...)"""
     vehicleType: RentalVehicleType
 
-    """System URL"""
-    systemUrl: String
+    """The rental vehicle operator's system URL."""
+    systemUrl: String!
 }
 
 type BikeRentalStationUris {
