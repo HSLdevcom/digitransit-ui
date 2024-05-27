@@ -10,6 +10,7 @@ import {
   PREFIX_STOPS,
   PREFIX_ROUTES,
   PREFIX_TERMINALS,
+  PREFIX_BIKESTATIONS,
 } from '../util/path';
 import AppBarContainer from './AppBarContainer';
 import MobileView from './MobileView';
@@ -103,8 +104,10 @@ class TopLevel extends React.Component {
           });
         }
         break;
+
       case PREFIX_STOPS:
       case PREFIX_TERMINALS:
+      case PREFIX_BIKESTATIONS:
         if (
           oldLocation.indexOf(newContext) !== 1 ||
           (prevProps.match.params.stopId &&
@@ -113,14 +116,18 @@ class TopLevel extends React.Component {
           (prevProps.match.params.terminalId &&
             this.props.match.params.terminalId &&
             prevProps.match.params.terminalId !==
-              this.props.match.params.terminalId)
+              this.props.match.params.terminalId) ||
+          (prevProps.match.params.id &&
+            this.props.match.params.id &&
+            prevProps.match.params.id !== this.props.match.params.id)
         ) {
           addAnalyticsEvent({
             category: 'Stop',
             action: 'OpenStop',
             name:
               this.props.match.params.stopId ||
-              this.props.match.params.terminalId,
+              this.props.match.params.terminalId ||
+              this.props.match.params.id,
           });
         }
         break;

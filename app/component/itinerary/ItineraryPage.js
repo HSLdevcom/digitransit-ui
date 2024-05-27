@@ -157,6 +157,11 @@ export default function ItineraryPage(props, context) {
   }
 
   const selectStreetMode = newStreetMode => {
+    addAnalyticsEvent({
+      category: 'Itinerary',
+      action: 'OpenItineraryDetailsWithMode',
+      name: newStreetMode,
+    });
     const newLocationState = {
       ...location,
       state: { selectedItineraryIndex: 0 },
@@ -170,15 +175,6 @@ export default function ItineraryPage(props, context) {
     router.replace(newLocationState);
     newLocationState.pathname = pagePath;
     router.push(newLocationState);
-  };
-
-  const setStreetModeAndSelect = newStreetMode => {
-    addAnalyticsEvent({
-      category: 'Itinerary',
-      action: 'OpenItineraryDetailsWithMode',
-      name: newStreetMode,
-    });
-    selectStreetMode(newStreetMode);
   };
 
   const resetItineraryPageSelection = () => {
@@ -1045,7 +1041,6 @@ export default function ItineraryPage(props, context) {
   const alternativeItineraryBar = showAltBar ? (
     <AlternativeItineraryBar
       selectStreetMode={selectStreetMode}
-      setStreetModeAndSelect={setStreetModeAndSelect}
       weatherData={weatherState.weatherData}
       walkPlan={walkPlan}
       bikePlan={bikePlan}

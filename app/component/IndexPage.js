@@ -192,6 +192,11 @@ class IndexPage extends React.Component {
     if (kbdEvent && !isKeyboardSelectionEvent(kbdEvent)) {
       return;
     }
+    addAnalyticsEvent({
+      event: 'sendMatomoEvent',
+      category: 'nearbyStops',
+      stop_type: url.split('/')[2].toLowerCase(),
+    });
     this.context.router.push(url);
   };
 
