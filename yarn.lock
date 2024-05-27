@@ -1981,7 +1981,7 @@ __metadata:
     lodash-es: 4.17.21
     prop-types: ^15.7.2
     react: ^16.13.0
-    react-autosuggest: 10.0.0
+    react-autosuggest: ^10.0.0
     react-autowhatever: 10.2.1
     react-sortablejs: 2.0.11
     recompose: 0.30.0
@@ -2188,7 +2188,7 @@ __metadata:
     lodash-es: 4.17.21
     prop-types: ^15.7.2
     react: ^16.13.0
-    react-autosuggest: 10.0.0
+    react-autosuggest: ^10.0.0
     react-autowhatever: 10.2.1
     react-cookie: ^4.0.3
     react-modal: ~3.11.2
@@ -11153,7 +11153,7 @@ __metadata:
     raven: 2.6.4
     raven-js: 3.27.0
     react: ^16.13.0
-    react-autosuggest: 10.0.3
+    react-autosuggest: ^10.0.0
     react-autowhatever: 10.2.1
     react-click-outside: 3.0.1
     react-cookie: 4.0.3
@@ -23260,9 +23260,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-autosuggest@npm:10.0.3":
-  version: 10.0.3
-  resolution: "react-autosuggest@npm:10.0.3"
+"react-autosuggest@npm:^10.0.0":
+  version: 10.1.0
+  resolution: "react-autosuggest@npm:10.1.0"
   dependencies:
     es6-promise: ^4.2.8
     prop-types: ^15.7.2
@@ -23271,7 +23271,7 @@ __metadata:
     shallow-equal: ^1.2.1
   peerDependencies:
     react: ">=16.3.0"
-  checksum: 3fc00e2924da74c61f9d719e861827fd67b003150c118ffc562345ea4f71e3c8e6977bd4dbc4ad921a83faf639b98ed7be4c1f8dee19adde0da03b10d9ccae64
+  checksum: 3526b02bb1938374c2a0d108a03666eae24cddd8bef7686e7f6271bb4c25ad34f8b09e84d1cc2e9206aff577a742c1f8481964e75442a9e080326676ad71f8ae
   languageName: node
   linkType: hard
 
