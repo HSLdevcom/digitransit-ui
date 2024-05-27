@@ -232,7 +232,7 @@ export function getPlanParams(
 ) {
   const fromPlace = getLocation(from);
   const toPlace = getLocation(to);
-
+  const useLatestArrival = arriveBy === 'true';
   // estimate distance for search iteration heuristics
   const fromLocation = otpToLocation(from);
   const toLocation = otpToLocation(to);
@@ -332,7 +332,7 @@ export function getPlanParams(
     : settings.transferPenalty;
 
   const timeStr = (time ? moment(time * 1000) : moment()).format();
-  const datetime = arriveBy
+  const datetime = useLatestArrival
     ? { latestArrival: timeStr }
     : { earliestDeparture: timeStr };
   const numItineraries = directOnly ? 1 : 5;

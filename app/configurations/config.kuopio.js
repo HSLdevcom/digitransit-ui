@@ -5,7 +5,6 @@ import { BIKEAVL_BIKES } from '../util/vehicleRentalUtils';
 const CONFIG = 'kuopio';
 const APP_TITLE = 'Reittiopas Kuopio';
 const APP_DESCRIPTION = 'Reittiopas Kuopio';
-
 const walttiConfig = require('./config.waltti').default;
 
 export default configMerger(walttiConfig, {
@@ -165,7 +164,7 @@ export default configMerger(walttiConfig, {
           sv: 'Zoner',
           en: 'Zones',
         },
-        url: '/assets/geojson/kuopio_zone_lines_20210222.geojson',
+        url: '/assets/geojson/kuopio_zone_lines_20240508.geojson',
       },
     ],
   },

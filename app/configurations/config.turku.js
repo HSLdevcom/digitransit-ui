@@ -35,7 +35,6 @@ const CONSTANT_OPERATION_PARAGRAPHS = {
     },
   },
 };
-
 const walttiConfig = require('./config.waltti').default;
 
 export default configMerger(walttiConfig, {

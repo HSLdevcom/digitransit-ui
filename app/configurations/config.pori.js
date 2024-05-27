@@ -37,7 +37,7 @@ export default configMerger(walttiConfig, {
   logo: 'pori/pori_logo.svg',
 
   searchParams: {
-    'boundary.rect.min_lat': 61.42,
+    'boundary.rect.min_lat': 61.38,
     'boundary.rect.max_lat': 61.68,
     'boundary.rect.min_lon': 21.37,
     'boundary.rect.max_lon': 21.93,
@@ -51,8 +51,8 @@ export default configMerger(walttiConfig, {
 
   areaPolygon: [
     [21.37, 61.68],
-    [21.37, 61.42],
-    [21.93, 61.42],
+    [21.37, 61.38],
+    [21.93, 61.38],
     [21.93, 61.68],
   ],
 

@@ -7,9 +7,10 @@ import { isInBoundingBox } from './geo-utils';
 import { addAnalyticsEvent } from './analyticsUtils';
 import { ExtendedRouteTypes, TransportMode } from '../constants';
 
-function seasonMs(ddmm) {
-  const parts = ddmm.split('.');
-  return new Date(new Date().getFullYear(), parts[1] - 1, parts[0]).valueOf();
+function seasonMs(ddmmyyyy) {
+  const parts = ddmmyyyy.split('.');
+  const year = parts.length > 2 ? parts[2] : new Date().getFullYear();
+  return new Date(year, parts[1] - 1, parts[0]).valueOf();
 }
 
 const dayMs = 24 * 60 * 60 * 1000;

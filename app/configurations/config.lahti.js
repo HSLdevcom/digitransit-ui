@@ -5,7 +5,6 @@ import { BIKEAVL_BIKES } from '../util/vehicleRentalUtils';
 const CONFIG = 'lahti';
 const APP_TITLE = 'LSL reittiopas';
 const APP_DESCRIPTION = 'Lahden seudun liikenteen reittiopas';
-
 const walttiConfig = require('./config.waltti').default;
 
 const minLat = 60.692506;
