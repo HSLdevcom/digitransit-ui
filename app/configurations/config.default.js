@@ -221,7 +221,7 @@ export default {
   // This timezone data will expire in 2037
   timezoneData:
     'Europe/Helsinki|EET EEST|-20 -30|0101010101010101010101010101010101010|22k10 1o00 11A0 1qM0 WM0 1qM0 WM0 1qM0 11A0 1o00 11A0 1o00 11A0 1o00 11A0 1qM0 WM0 1qM0 WM0 1qM0 11A0 1o00 11A0 1o00 11A0 1qM0 WM0 1qM0 WM0 1qM0 WM0 1qM0 11A0 1o00 11A0 1o00|12e5',
-
+  timeZone: 'Europe/Helsinki',
   allowLogin: false,
   allowFavouritesFromLocalstorage: true,
   useExtendedRouteTypes: false,

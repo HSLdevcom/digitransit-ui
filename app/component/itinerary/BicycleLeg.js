@@ -4,11 +4,11 @@ import { FormattedMessage, intlShape } from 'react-intl';
 import cx from 'classnames';
 import Link from 'found/Link';
 import { legShape, configShape } from '../../util/shapes';
-import { legTime } from '../../util/legUtils';
+import { legTimeStr } from '../../util/legUtils';
 import Icon from '../Icon';
 import ItineraryMapAction from './ItineraryMapAction';
 import { displayDistance } from '../../util/geo-utils';
-import { durationToString, timeStr } from '../../util/timeUtils';
+import { durationToString } from '../../util/timeUtils';
 import ItineraryCircleLine from './ItineraryCircleLine';
 import ItineraryCircleLineLong from './ItineraryCircleLineLong';
 import { PREFIX_STOPS } from '../../util/path';
@@ -34,7 +34,7 @@ export default function BicycleLeg(
     intl.formatNumber,
   );
   const duration = durationToString(leg.duration * 1000);
-  const startMs = legTime(leg.start);
+  const time = legTimeStr(leg.start); // hh:mm
   let { mode } = leg;
   let legDescription = <span>{leg.from ? leg.from.name : ''}</span>;
   const firstLegClassName = index === 0 ? 'start' : '';
@@ -136,7 +136,7 @@ export default function BicycleLeg(
         <FormattedMessage
           id="itinerary-details.biking-leg"
           values={{
-            time: timeStr(startMs),
+            time,
             to: intl.formatMessage({ id: `modes.to-${getToMode()}` }),
             distance,
             origin,
@@ -146,7 +146,7 @@ export default function BicycleLeg(
         />
       </span>
       <div className="small-2 columns itinerary-time-column" aria-hidden="true">
-        <div className="itinerary-time-column-time">{timeStr(startMs)}</div>
+        <div className="itinerary-time-column-time">{time}</div>
       </div>
       {circleLine}
 

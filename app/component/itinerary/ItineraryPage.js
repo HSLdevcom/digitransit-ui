@@ -59,7 +59,7 @@ import {
   getPlanParams,
   planQueryNeeded,
 } from '../../util/planParamUtil';
-import { timeStr } from '../../util/timeUtils';
+import { epochToTime } from '../../util/timeUtils';
 import { saveFutureRoute } from '../../action/FutureRoutesActions';
 import { saveSearch } from '../../action/SearchActions';
 import CustomizeSearch from './CustomizeSearch';
@@ -234,7 +234,7 @@ export default function ItineraryPage(props, context) {
               windSpeed,
               // Icon spec: www.ilmatieteenlaitos.fi/latauspalvelun-pikaohje -> Sääsymbolien selitykset ennusteissa
               iconId: checkDayNight(iconIndex, time, from.lat, from.lon),
-              time: timeStr(time),
+              time: epochToTime(time, config),
             };
           }
         }
