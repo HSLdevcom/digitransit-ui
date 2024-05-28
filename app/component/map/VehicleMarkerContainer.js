@@ -107,9 +107,11 @@ function VehicleMarkerContainer(props, { config }) {
       mode = message.mode;
     }
     const feed = message.route?.split(':')[0];
-    const vehicleNumber = message.shortName
+    let vehicleNumber = message.shortName
       ? config.realTime[feed].vehicleNumberParser(message.shortName)
       : message.route.split(':')[1];
+    // Fallback to a question mark if the vehicle number is too long to fit in the icon
+    vehicleNumber = vehicleNumber.length > 5 ? '?' : vehicleNumber;
     return (
       <IconMarker
         key={id}
