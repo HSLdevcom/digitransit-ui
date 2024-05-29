@@ -27,7 +27,7 @@ import {
   PREFIX_ROUTES,
   PREFIX_STOPS,
 } from '../../util/path';
-import { durationToString, epochToTime } from '../../util/timeUtils';
+import { durationToString } from '../../util/timeUtils';
 import { addAnalyticsEvent } from '../../util/analyticsUtils';
 import {
   getHeadsignFromRouteLongName,
@@ -233,14 +233,6 @@ class TransitLeg extends React.Component {
     const { config, intl } = this.context;
     const startMs = legTime(leg.start);
     const time = legTimeStr(leg.start);
-    const originalTime = leg.realTime &&
-      leg.departureDelay &&
-      leg.departureDelay >= config.itinerary.delayThreshold && [
-        <br key="br" />,
-        <span key="time" className="original-time">
-          {epochToTime(startMs - leg.departureDelay * 1000, config)}
-        </span>,
-      ];
     const modeClassName = mode.toLowerCase();
     const LegRouteName = leg.from.name.concat(' - ').concat(leg.to.name);
 
@@ -416,7 +408,6 @@ class TransitLeg extends React.Component {
                   {time}
                 </span>
               </span>
-              {originalTime}
             </div>
             {zoneIcons}
           </span>

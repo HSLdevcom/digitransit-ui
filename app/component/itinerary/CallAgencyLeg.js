@@ -2,9 +2,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Link from 'found/Link';
 import { FormattedMessage } from 'react-intl';
-import { legShape, configShape } from '../../util/shapes';
-import { legTime, legTimeStr } from '../../util/legUtils';
-import { epochToTime } from '../../util/timeUtils';
+import { legShape } from '../../util/shapes';
+import { legTimeStr } from '../../util/legUtils';
 import Icon from '../Icon';
 import StopCode from '../StopCode';
 import LegAgencyInfo from './LegAgencyInfo';
@@ -14,17 +13,7 @@ import CallAgencyIcon from './CallAgencyIcon';
 
 const stopCode = code => code && <StopCode code={code} />;
 
-const CallAgencyLeg = ({ leg, index, focusAction }, { config }) => {
-  const startMs = legTime(leg.start);
-  /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
-  const originalTime = leg.realTime &&
-    leg.departureDelay >= config.itinerary.delayThreshold && [
-      <br key="br" />,
-      <span key="time" className="original-time">
-        {epochToTime(startMs - leg.departureDelay * 1000, config)}
-      </span>,
-    ];
-
+const CallAgencyLeg = ({ leg, index }) => {
   const firstLegClassName = index === 0 ? ' start' : '';
   const modeClassName = 'call';
 
@@ -42,13 +31,11 @@ const CallAgencyLeg = ({ leg, index, focusAction }, { config }) => {
         >
           <div className="itinerary-time-column-time">
             <span>{legTimeStr(leg.start)}</span>
-            {originalTime}
           </div>
         </Link>
       </div>
       <ItineraryCircleLine index={index} modeClassName={modeClassName} />
       <div
-        onClick={focusAction}
         className={`small-9 columns itinerary-instruction-column ${firstLegClassName} ${modeClassName}`}
       >
         <div className="itinerary-leg-first-row">
@@ -103,11 +90,6 @@ const CallAgencyLeg = ({ leg, index, focusAction }, { config }) => {
 CallAgencyLeg.propTypes = {
   leg: legShape.isRequired,
   index: PropTypes.number.isRequired,
-  focusAction: PropTypes.func.isRequired,
-};
-
-CallAgencyLeg.contextTypes = {
-  config: configShape.isRequired,
 };
 
 export default CallAgencyLeg;
