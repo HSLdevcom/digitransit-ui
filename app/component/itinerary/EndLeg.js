@@ -19,7 +19,7 @@ function EndLeg(props, context) {
     : parsedAddress.split(/, (.+)/);
   const { stop } = props.to;
   const modeClassName = 'end';
-  const time = timeStr(Date.parse(props.endTime));
+  const time = timeStr(props.endTime);
 
   return (
     <div key={props.index} className={cx('row', 'itinerary-row')}>

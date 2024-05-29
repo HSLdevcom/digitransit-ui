@@ -4,7 +4,7 @@ import React from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
 import Link from 'found/Link';
 import { legShape, configShape } from '../../util/shapes';
-import { legTime } from '../../util/legUtils';
+import { legTime, legTimeStr } from '../../util/legUtils';
 import Icon from '../Icon';
 import ItineraryMapAction from './ItineraryMapAction';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
@@ -17,7 +17,7 @@ import {
   getVehicleRentalStationNetworkConfig,
 } from '../../util/vehicleRentalUtils';
 import { displayDistance } from '../../util/geo-utils';
-import { durationToString, timeStr } from '../../util/timeUtils';
+import { durationToString } from '../../util/timeUtils';
 import { splitStringToAddressAndPlace } from '../../util/otpStrings';
 import VehicleRentalLeg from './VehicleRentalLeg';
 
@@ -75,7 +75,7 @@ function WalkLeg(
         <FormattedMessage
           id="itinerary-details.walk-leg"
           values={{
-            time: timeStr(startMs),
+            time: legTimeStr(leg.start),
             to: intl.formatMessage({
               id: `modes.to-${
                 leg.to.stop?.vehicleMode?.toLowerCase() || 'place'
@@ -92,7 +92,7 @@ function WalkLeg(
       <div className="small-2 columns itinerary-time-column" aria-hidden="true">
         <div className="itinerary-time-column-time">
           <span className={cx({ realtime: previousLeg?.realTime })}>
-            {timeStr(leg.mode === 'WALK' ? startMs : legTime(leg.end))}
+            {leg.mode === 'WALK' ? legTimeStr(leg.start) : legTimeStr(leg.end)}
           </span>
         </div>
       </div>
