@@ -10,6 +10,7 @@ import {
   shouldShowVehicle,
   getVehicleIcon,
 } from '../../../../app/component/map/VehicleMarkerContainer';
+import { mockChildContextTypes } from '../../helpers/mock-context';
 
 const defaultProps = {
   direction: 0,
@@ -46,6 +47,19 @@ describe('<VehicleMarkerContainer />', () => {
             <VehicleMarkerContainer {...defaultProps} />
           </ReactRelayContext.Provider>
         </LeafletProvider>,
+        {
+          context: {
+            config: {
+              CONFIG: 'default',
+              realTime: {
+                tampere: {},
+              },
+            },
+          },
+          childContextTypes: {
+            ...mockChildContextTypes,
+          },
+        },
       );
       expect(wrapper.children.length).to.equal(1);
       expect(addLayer.callCount).to.equal(1);
