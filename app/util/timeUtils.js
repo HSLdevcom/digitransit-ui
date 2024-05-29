@@ -126,7 +126,7 @@ export function getFormattedTimeDate(startTime, pattern) {
  * Epoch ms to 'hh:mm'
  */
 export function epochToTime(ms, config) {
-  const date = new Date(ms).toLocaleString('en-US', {
+  const date = new Date(ms).toLocaleString('en-GB', {
     timeZone: config.timeZone,
   });
   const time = date.split(',')[1];
