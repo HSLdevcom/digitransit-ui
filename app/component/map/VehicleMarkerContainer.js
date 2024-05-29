@@ -49,21 +49,13 @@ function getVehicleIcon(
 // if tripStartTime has been specified,
 // use only the updates for vehicles with matching startTime
 
-function shouldShowVehicle(
-  message,
-  direction,
-  tripStart,
-  pattern,
-  headsign,
-  ignoreHeadsign,
-) {
+function shouldShowVehicle(message, direction, tripStart, pattern, headsign) {
   return (
     !Number.isNaN(parseFloat(message.lat)) &&
     !Number.isNaN(parseFloat(message.long)) &&
     (pattern === undefined ||
       pattern.substr(0, message.route.length) === message.route) &&
-    (ignoreHeadsign ||
-      headsign === undefined ||
+    (headsign === undefined ||
       message.headsign === undefined ||
       headsign === message.headsign) &&
     (direction === undefined ||
@@ -80,14 +72,13 @@ function VehicleMarkerContainer(props, { config }) {
   const visibleVehicles = Object.entries(props.vehicles).filter(
     ([, message]) => {
       const feed = message.route?.split(':')[0];
-      const ignoreHeadsign = config?.realTime?.[feed].ignoreHeadsign;
+      const { ignoreHeadsign } = config.realTime[feed];
       return shouldShowVehicle(
         message,
         props.direction,
         props.tripStart,
         props.pattern,
-        props.headsign,
-        ignoreHeadsign,
+        ignoreHeadsign ? undefined : props.headsign,
       );
     },
   );
