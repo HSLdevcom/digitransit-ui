@@ -412,23 +412,31 @@ class RoutePatternSelect extends Component {
   }
 }
 
-const withStore = createRefetchContainer(
-  connectToStores(
-    props => (
-      <ReactRelayContext.Consumer>
-        {({ environment }) => (
-          <RoutePatternSelect {...props} relayEnvironment={environment} />
-        )}
-      </ReactRelayContext.Consumer>
-    ),
-    ['PreferencesStore'],
-    context => ({
-      serviceDay: unixToYYYYMMDD(
-        context.getStore('TimeStore').getCurrentTime(),
-      ),
-      lang: context.getStore('PreferencesStore').getLanguage(),
-    }),
+const storeComponent = connectToStores(
+  props => (
+    <ReactRelayContext.Consumer>
+      {({ environment }) => (
+        <RoutePatternSelect {...props} relayEnvironment={environment} />
+      )}
+    </ReactRelayContext.Consumer>
   ),
+  ['PreferencesStore'],
+  context => ({
+    serviceDay: unixToYYYYMMDD(
+      context.getStore('TimeStore').getCurrentTime(),
+      context.config,
+    ),
+    lang: context.getStore('PreferencesStore').getLanguage(),
+  }),
+);
+
+storeComponent.contextTypes = {
+  getStore: PropTypes.func.isRequired,
+  config: configShape.isRequired,
+};
+
+const withStore = createRefetchContainer(
+  storeComponent,
   {
     route: graphql`
       fragment RoutePatternSelect_route on Route
