@@ -23,6 +23,8 @@ describe('<RouteAlertsContainer />', () => {
           {
             stoptimes: [
               {
+                serviceDay: 1533675600,
+                scheduledDeparture: 600,
                 headsign: 'Kamppi',
                 realtimeState: 'SCHEDULED',
                 stop: {
@@ -63,6 +65,8 @@ describe('<RouteAlertsContainer />', () => {
             stoptimes: [
               {
                 headsign: 'Kamppi',
+                serviceDay: 1533675600,
+                scheduledDeparture: 600,
                 realtimeState: 'CANCELED',
                 stop: {
                   name: 'Saramäentie',
@@ -73,6 +77,8 @@ describe('<RouteAlertsContainer />', () => {
           {
             stoptimes: [
               {
+                serviceDay: 1533675600,
+                scheduledDeparture: 600,
                 headsign: 'Kamppi',
                 realtimeState: 'SCHEDULED',
                 stop: {

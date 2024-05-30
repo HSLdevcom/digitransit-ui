@@ -110,8 +110,8 @@ RouteAlertsContainer.propTypes = {
           PropTypes.shape({
             headsign: PropTypes.string,
             realtimeState: PropTypes.string,
-            scheduledDeparture: PropTypes.number,
-            serviceDay: PropTypes.number,
+            scheduledDeparture: PropTypes.number.isRequired,
+            serviceDay: PropTypes.number.isRequired,
             stop: PropTypes.shape({
               name: PropTypes.string,
             }).isRequired,
