@@ -1,6 +1,4 @@
-import moment from 'moment';
 import React from 'react';
-
 import TripRouteStop from '../../../app/component/routepage/TripRouteStop';
 import { Component as TripStopListContainer } from '../../../app/component/routepage/TripStopListContainer';
 import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
@@ -9,7 +7,7 @@ describe('<TripStopListContainer />', () => {
   it('should properly mark passed stops when vehicle information is missing', () => {
     const serviceDay = 1551650400;
     const props = {
-      currentTime: moment.unix(serviceDay + 2000),
+      currentTime: serviceDay + 2000,
       locationState: {},
       relay: {
         forceFetch: () => {},
@@ -61,7 +59,7 @@ describe('<TripStopListContainer />', () => {
 
   it('should find the selected vehicle', () => {
     const props = {
-      currentTime: moment.unix(1554882006),
+      currentTime: 1554882006,
       locationState: {},
       relay: {
         forceFetch: () => {},
