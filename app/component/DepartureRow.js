@@ -7,7 +7,7 @@ import { v4 as uuid } from 'uuid';
 import { Link } from 'found';
 import { configShape, departureShape } from '../util/shapes';
 import { getHeadsignFromRouteLongName } from '../util/legUtils';
-import { timeStr } from '../util/timeUtils';
+import { epochToTime } from '../util/timeUtils';
 import {
   alertSeverityCompare,
   getAlertsForObject,
@@ -38,7 +38,7 @@ export default function DepartureRow(
   const { trip, trip: { route } = {} } = departure;
   const mode = getRouteMode(route);
   const departureTimeMs = departureTime * 1000;
-  const time = timeStr(departureTimeMs);
+  const time = epochToTime(departureTimeMs, config);
   const timeDiffInMinutes = Math.floor(
     (departureTime - props.currentTime) / 60,
   );

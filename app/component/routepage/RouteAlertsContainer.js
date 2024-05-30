@@ -11,7 +11,7 @@ import {
 } from '../../util/alertUtils';
 import { getRouteMode } from '../../util/modeUtils';
 import { alertShape } from '../../util/shapes';
-import { timeStr } from '../../util/timeUtils';
+import { epochToTime } from '../../util/timeUtils';
 import { AlertSeverityLevelType, AlertEntityType } from '../../constants';
 
 /**
@@ -24,6 +24,7 @@ const getCancelations = (
   intl,
   currentTime,
   validityPeriod,
+  config,
 ) =>
   pattern.trips
     .filter(trip => tripHasCancelation(trip, currentTime, validityPeriod))
@@ -47,7 +48,7 @@ const getCancelations = (
             mode,
             route: route.shortName,
             headsign: first.headsign || trip.tripHeadsign,
-            time: timeStr(departureTime * 1000),
+            time: epochToTime(departureTime * 1000, config),
           },
         ),
         entities: [entity],
@@ -74,6 +75,7 @@ function RouteAlertsContainer(
     intl,
     currentTime,
     config.routeCancelationAlertValidity,
+    config,
   );
 
   const serviceAlerts = getAlertsForObject(pattern).map(alert =>

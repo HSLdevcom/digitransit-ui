@@ -3,7 +3,7 @@ import React from 'react';
 import cx from 'classnames';
 import { intlShape } from 'react-intl';
 import { configShape } from '../../util/shapes';
-import { timeStr } from '../../util/timeUtils';
+import { epochToTime } from '../../util/timeUtils';
 import Icon from '../Icon';
 
 export default function DepartureTime(props, context) {
@@ -78,7 +78,7 @@ export default function DepartureTime(props, context) {
             id: 'next',
             defaultMessage: 'Next',
           })} `}
-        {timeStr(props.departureTime * 1000)}
+        {epochToTime(props.departureTime * 1000, context.config)}
       </span>
       {props.canceled && props.showCancelationIcon && (
         <Icon className="caution" img="icon-icon_caution" />
