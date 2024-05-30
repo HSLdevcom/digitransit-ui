@@ -6,7 +6,6 @@ import isEmpty from 'lodash/isEmpty';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import groupBy from 'lodash/groupBy';
 import values from 'lodash/values';
-import moment from 'moment';
 import { configShape, tripShape, vehicleShape } from '../../util/shapes';
 import { getRouteMode } from '../../util/modeUtils';
 import TripRouteStop from './TripRouteStop';
@@ -17,7 +16,7 @@ class TripStopListContainer extends React.PureComponent {
     trip: tripShape.isRequired,
     className: PropTypes.string,
     vehicles: PropTypes.objectOf(vehicleShape),
-    currentTime: PropTypes.instanceOf(moment).isRequired,
+    currentTime: PropTypes.number.isRequired,
     tripStart: PropTypes.string.isRequired,
     breakpoint: PropTypes.string.isRequired,
     keepTracking: PropTypes.bool,
@@ -48,7 +47,7 @@ class TripStopListContainer extends React.PureComponent {
 
     const vehicles = groupBy(
       values(propVehicles).filter(
-        vehicle => currentTime - vehicle.timestamp * 1000 < 5 * 60 * 1000,
+        vehicle => currentTime - vehicle.timestamp < 5 * 60,
       ),
       vehicle => vehicle.next_stop,
     );
@@ -82,7 +81,7 @@ class TripStopListContainer extends React.PureComponent {
       if (nextStop === stoptime.stop.gtfsId) {
         stopPassed = false;
       } else if (
-        stoptime.realtimeDeparture + stoptime.serviceDay > currentTime.unix() &&
+        stoptime.realtimeDeparture + stoptime.serviceDay > currentTime &&
         (isEmpty(vehicle) || (vehicle && vehicle.next_stop === undefined))
       ) {
         stopPassed = false;
@@ -103,7 +102,7 @@ class TripStopListContainer extends React.PureComponent {
           selectedVehicle={vehicle}
           stopPassed={stopPassed}
           realtime={stoptime.realtime}
-          currentTime={currentTime.unix()}
+          currentTime={currentTime}
           realtimeDeparture={stoptime.realtimeDeparture}
           pattern={trip.pattern.code}
           route={trip.route.gtfsId}
