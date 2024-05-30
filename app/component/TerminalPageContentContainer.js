@@ -129,7 +129,7 @@ class TerminalPageContent extends React.Component {
 
 const connectedComponent = createRefetchContainer(
   connectToStores(TerminalPageContent, ['TimeStore'], ({ getStore }) => ({
-    currentTime: getStore('TimeStore').getCurrentTime().unix(),
+    currentTime: getStore('TimeStore').getCurrentTime(),
   })),
   {
     station: graphql`

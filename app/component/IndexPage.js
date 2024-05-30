@@ -517,10 +517,7 @@ const IndexPageWithStores = connectToStores(
     newProps.origin = origin;
     newProps.destination = destination;
     newProps.lang = context.getStore('PreferencesStore').getLanguage();
-    newProps.currentTime = context
-      .getStore('TimeStore')
-      .getCurrentTime()
-      .unix();
+    newProps.currentTime = context.getStore('TimeStore').getCurrentTime();
     newProps.query = query; // defines itinerary search time & arriveBy
 
     return newProps;
