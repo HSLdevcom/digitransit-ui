@@ -21,8 +21,7 @@ import Icon from '../Icon';
 import { isBrowser } from '../../util/browser';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../../util/path';
 import { addAnalyticsEvent } from '../../util/analyticsUtils';
-
-const DATE_FORMAT = 'YYYYMMDD';
+import { unixToYYYYMMDD } from '../../util/timeUtils';
 
 function patternOptionText(pattern) {
   if (pattern) {
@@ -424,10 +423,9 @@ const withStore = createRefetchContainer(
     ),
     ['PreferencesStore'],
     context => ({
-      serviceDay: context
-        .getStore('TimeStore')
-        .getCurrentTime()
-        .format(DATE_FORMAT),
+      serviceDay: unixToYYYYMMDD(
+        context.getStore('TimeStore').getCurrentTime(),
+      ),
       lang: context.getStore('PreferencesStore').getLanguage(),
     }),
   ),

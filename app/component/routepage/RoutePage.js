@@ -177,7 +177,7 @@ class RoutePage extends React.Component {
 
 const containerComponent = createFragmentContainer(
   connectToStores(withBreakpoint(RoutePage), ['TimeStore'], context => ({
-    currentTime: context.getStore('TimeStore').getCurrentTime().unix(),
+    currentTime: context.getStore('TimeStore').getCurrentTime(),
   })),
   {
     route: graphql`
