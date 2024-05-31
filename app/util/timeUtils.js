@@ -134,6 +134,14 @@ export function epochToTime(ms, config) {
 }
 
 /**
+ * Unix time (from epoch milliseconds if given)
+ */
+export function unixTime(ms) {
+  const t = ms || Date.now();
+  return Math.floor(t / 1000);
+}
+
+/**
  * Unix to 'YYYYMMDD'
  */
 export function unixToYYYYMMDD(s, config) {
