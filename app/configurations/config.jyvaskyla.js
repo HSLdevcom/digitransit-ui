@@ -139,7 +139,7 @@ export default configMerger(walttiConfig, {
           sv: 'Zoner',
           en: 'Zones',
         },
-        url: '/assets/geojson/jkl_zone_lines_20240528.geojson',
+        url: '/assets/geojson/jkl_zone_lines_20240531.geojson',
       },
       {
         name: {
