@@ -33,6 +33,7 @@ import {
 } from '../../util/path';
 import { addAnalyticsEvent } from '../../util/analyticsUtils';
 import { isIOS } from '../../util/browser';
+import { unixTime, unixToYYYYMMDD } from '../../util/timeUtils';
 import { saveSearch } from '../../action/SearchActions';
 import Icon from '../Icon';
 
@@ -273,10 +274,8 @@ class RouteControlPanel extends React.Component {
       newPattern,
     );
     if (type === PREFIX_TIMETABLE) {
-      if (
-        pattern[0].minAndMaxDate &&
-        moment().isBefore(pattern[0].minAndMaxDate[0])
-      ) {
+      const today = unixToYYYYMMDD(unixTime(), config);
+      if (pattern[0].minAndMaxDate && today < pattern[0].minAndMaxDate[0]) {
         newPathname += `?serviceDay=${pattern[0].minAndMaxDate[0]}`;
       }
       if (match.query && match.query.serviceDay) {
@@ -384,7 +383,7 @@ class RouteControlPanel extends React.Component {
     }
 
     const activeTab = getActiveTab(match.location.pathname);
-    const currentTime = moment().unix();
+    const currentTime = unixTime();
     const selectedPattern = route?.patterns?.find(
       pattern => pattern.code === patternId,
     );
