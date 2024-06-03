@@ -68,14 +68,18 @@ function shouldShowVehicle(message, direction, tripStart, pattern, headsign) {
 }
 
 function VehicleMarkerContainer(props, { config }) {
-  const visibleVehicles = Object.entries(props.vehicles).filter(([, message]) =>
-    shouldShowVehicle(
-      message,
-      props.direction,
-      props.tripStart,
-      props.pattern,
-      props.headsign,
-    ),
+  const visibleVehicles = Object.entries(props.vehicles).filter(
+    ([, message]) => {
+      const feed = message.route?.split(':')[0];
+      const { ignoreHeadsign } = config.realTime[feed];
+      return shouldShowVehicle(
+        message,
+        props.direction,
+        props.tripStart,
+        props.pattern,
+        ignoreHeadsign ? undefined : props.headsign,
+      );
+    },
   );
   const visibleVehicleIds = visibleVehicles.map(([id]) => id);
   props.setVisibleVehicles(visibleVehicleIds);
@@ -93,9 +97,11 @@ function VehicleMarkerContainer(props, { config }) {
       mode = message.mode;
     }
     const feed = message.route?.split(':')[0];
-    const vehicleNumber = message.shortName
+    let vehicleNumber = message.shortName
       ? config.realTime[feed].vehicleNumberParser(message.shortName)
       : message.route.split(':')[1];
+    // Fallback to a question mark if the vehicle number is too long to fit in the icon
+    vehicleNumber = vehicleNumber.length > 5 ? '?' : vehicleNumber;
     return (
       <IconMarker
         key={id}
