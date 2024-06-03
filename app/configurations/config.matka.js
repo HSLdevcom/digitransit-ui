@@ -89,6 +89,7 @@ export default {
     'Raasepori',
     'VARELY',
     'Harma',
+    'PohjolanMatka',
   ],
 
   additionalFeedIds: {
