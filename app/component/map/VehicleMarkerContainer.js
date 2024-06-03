@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-import moment from 'moment';
 import { configShape } from '../../util/shapes';
 import { ExtendedRouteTypes } from '../../constants';
 import VehicleIcon from '../VehicleIcon';
@@ -162,8 +161,7 @@ const connectedComponent = connectToStores(
     // this removes anything that hasn't had an update in 3 minutes
     const vehiclesWithRecentUpdates = Object.entries(vehiclesFiltered).filter(
       ([, message]) => {
-        const threeMinutesAgo = moment().subtract(180, 'seconds');
-        return moment.unix(message.receivedAt).isAfter(threeMinutesAgo);
+        return message.receivedAt > Date.now() / 1000 - 180;
       },
     );
     return {
