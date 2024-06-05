@@ -4,21 +4,12 @@ import cx from 'classnames';
 
 import { FormattedMessage } from 'react-intl';
 import Icon from '../Icon';
-import { durationToString } from '../../util/timeUtils';
+import { durationToString, timeStr } from '../../util/timeUtils';
 
 export default function Duration(props) {
-  const timeOptions = {
-    hour: 'numeric',
-    minute: 'numeric',
-    hour12: false,
-  };
   const duration = durationToString(props.duration * 1000);
-  const startTime = new Intl.DateTimeFormat('en-US', timeOptions).format(
-    new Date(props.startTime),
-  );
-  const endTime = new Intl.DateTimeFormat('en-US', timeOptions).format(
-    new Date(props.endTime),
-  );
+  const startTime = timeStr(props.startTime);
+  const endTime = timeStr(props.endTime);
   const futureText = props.futureText
     ? props.futureText.charAt(0).toUpperCase() + props.futureText.slice(1)
     : '';

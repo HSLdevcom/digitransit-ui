@@ -19,14 +19,14 @@ const BikeParkLeg = (
     intl.formatNumber,
   );
   const duration = durationToString(leg.duration * 1000);
-  const timeStr = legTimeStr(leg.start);
+  const time = legTimeStr(leg.start);
   return (
     <div key={index} className="row itinerary-row">
       <span className="sr-only">
         <FormattedMessage
           id="itinerary-details.walk-leg"
           values={{
-            time: timeStr,
+            time,
             distance,
             to: intl.formatMessage({
               id: `modes.to-${
@@ -41,7 +41,7 @@ const BikeParkLeg = (
         />
       </span>
       <div className="small-2 columns itinerary-time-column" aria-hidden="true">
-        <div className="itinerary-time-column-time">{timeStr}</div>
+        <div className="itinerary-time-column-time">{time}</div>
       </div>
       <ItineraryCircleLineWithIcon
         bikePark

@@ -16,8 +16,9 @@ export function legTime(lt) {
  */
 export function legTimeStr(lt) {
   const t = lt.estimated?.time || lt.scheduledTime;
-  const parts = new Date(t).toTimeString().split(':');
-  return `${parts[0]}:${parts[1]}`;
+  const parts = t.split('T');
+  const time = parts[1].split(':');
+  return `${time[0]}:${time[1]}`;
 }
 
 function filterLegStops(leg, filter) {

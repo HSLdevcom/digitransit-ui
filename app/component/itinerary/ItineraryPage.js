@@ -60,7 +60,7 @@ import {
   getPlanParams,
   planQueryNeeded,
 } from '../../util/planParamUtil';
-import { timeStr } from '../../util/timeUtils';
+import { epochToTime } from '../../util/timeUtils';
 import { saveFutureRoute } from '../../action/FutureRoutesActions';
 import { saveSearch } from '../../action/SearchActions';
 import CustomizeSearch from './CustomizeSearch';
@@ -163,6 +163,11 @@ export default function ItineraryPage(props, context) {
   }
 
   const selectStreetMode = newStreetMode => {
+    addAnalyticsEvent({
+      category: 'Itinerary',
+      action: 'OpenItineraryDetailsWithMode',
+      name: newStreetMode,
+    });
     const newLocationState = {
       ...location,
       state: { selectedItineraryIndex: 0 },
@@ -176,15 +181,6 @@ export default function ItineraryPage(props, context) {
     router.replace(newLocationState);
     newLocationState.pathname = pagePath;
     router.push(newLocationState);
-  };
-
-  const setStreetModeAndSelect = newStreetMode => {
-    addAnalyticsEvent({
-      category: 'Itinerary',
-      action: 'OpenItineraryDetailsWithMode',
-      name: newStreetMode,
-    });
-    selectStreetMode(newStreetMode);
   };
 
   const resetItineraryPageSelection = () => {
@@ -254,7 +250,7 @@ export default function ItineraryPage(props, context) {
               windSpeed,
               // Icon spec: www.ilmatieteenlaitos.fi/latauspalvelun-pikaohje -> Sääsymbolien selitykset ennusteissa
               iconId: checkDayNight(iconIndex, time, from.lat, from.lon),
-              time: timeStr(time),
+              time: epochToTime(time, config),
             };
           }
         }
@@ -1172,7 +1168,6 @@ export default function ItineraryPage(props, context) {
   const alternativeItineraryBar = showAltBar ? (
     <AlternativeItineraryBar
       selectStreetMode={selectStreetMode}
-      setStreetModeAndSelect={setStreetModeAndSelect}
       weatherData={weatherState.weatherData}
       walkPlan={walkPlan}
       bikePlan={bikePlan}

@@ -279,8 +279,8 @@ const Itinerary = (
   const { refTime } = props;
   const startTime = Date.parse(itinerary.start);
   const endTime = Date.parse(itinerary.end);
-  const departureTime = timeStr(startTime);
-  const arrivalTime = timeStr(endTime);
+  const departureTime = timeStr(itinerary.start);
+  const arrivalTime = timeStr(itinerary.end);
   const duration = endTime - startTime;
   const co2value = getCo2Value(itinerary);
   const mobile = bp => !(bp === 'large');

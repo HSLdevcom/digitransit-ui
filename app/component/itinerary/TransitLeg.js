@@ -27,13 +27,14 @@ import {
   PREFIX_ROUTES,
   PREFIX_STOPS,
 } from '../../util/path';
-import { durationToString, timeStr } from '../../util/timeUtils';
+import { durationToString } from '../../util/timeUtils';
 import { addAnalyticsEvent } from '../../util/analyticsUtils';
 import {
   getHeadsignFromRouteLongName,
   getStopHeadsignFromStoptimes,
   getZoneLabel,
   showBikeBoardingNote,
+  legTimeStr,
   legTime,
 } from '../../util/legUtils';
 import { shouldShowFareInfo } from '../../util/fareUtils';
@@ -231,14 +232,7 @@ class TransitLeg extends React.Component {
     } = this.props;
     const { config, intl } = this.context;
     const startMs = legTime(leg.start);
-    const originalTime = leg.realTime &&
-      leg.departureDelay &&
-      leg.departureDelay >= config.itinerary.delayThreshold && [
-        <br key="br" />,
-        <span key="time" className="original-time">
-          {timeStr(startMs - leg.departureDelay * 1000)}
-        </span>,
-      ];
+    const time = legTimeStr(leg.start);
     const modeClassName = mode.toLowerCase();
     const LegRouteName = leg.from.name.concat(' - ').concat(leg.to.name);
 
@@ -246,7 +240,7 @@ class TransitLeg extends React.Component {
       <FormattedMessage
         id="itinerary-details.transit-leg-part-1"
         values={{
-          time: timeStr(startMs),
+          time,
           realtime: leg.realTime ? intl.formatMessage({ id: 'realtime' }) : '',
         }}
       />
@@ -411,10 +405,9 @@ class TransitLeg extends React.Component {
             <div className="itinerary-time-column-time">
               <span className={cx({ realtime: leg.realTime })}>
                 <span className={cx({ canceled: legHasCancelation(leg) })}>
-                  {timeStr(startMs)}
+                  {time}
                 </span>
               </span>
-              {originalTime}
             </div>
             {zoneIcons}
           </span>
