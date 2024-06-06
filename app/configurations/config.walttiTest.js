@@ -10,7 +10,7 @@ const walttiConfig = require('./config.waltti').default;
 export default configMerger(walttiConfig, {
   CONFIG,
 
-  feedIds: ['OULU'],
+  feedIds: ['WalttiTest'],
 
   appBarLink: {
     name: 'Oulun seudun liikenne',
