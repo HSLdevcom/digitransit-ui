@@ -425,7 +425,7 @@ class TransitLeg extends React.Component {
           color={leg.route ? `#${leg.route.color}` : 'currentColor'}
           renderBottomMarker={
             !this.state.showIntermediateStops ||
-            leg.intermediatePlaces.length === 0
+            (leg.intermediatePlaces.length === 0 && interliningLegs.length < 1)
           }
         />
         <div
