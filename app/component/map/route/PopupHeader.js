@@ -7,7 +7,7 @@ import { convertTo24HourFormat } from '../../../util/timeUtils';
 import RouteNumber from '../../RouteNumber';
 import { getRouteMode } from '../../../util/modeUtils';
 
-export default function RouteHeader({ route, pattern, card, trip, className }) {
+export default function PopupHeader({ route, pattern, card, trip, className }) {
   const mode = getRouteMode(route);
 
   let tripEl;
@@ -47,7 +47,7 @@ export default function RouteHeader({ route, pattern, card, trip, className }) {
   );
 }
 
-RouteHeader.propTypes = {
+PopupHeader.propTypes = {
   route: PropTypes.shape({
     gtfsId: PropTypes.string.isRequired,
     mode: PropTypes.string.isRequired,
@@ -60,7 +60,7 @@ RouteHeader.propTypes = {
   card: PropTypes.bool,
 };
 
-RouteHeader.defaultProps = {
+PopupHeader.defaultProps = {
   trip: undefined,
   pattern: undefined,
   className: undefined,

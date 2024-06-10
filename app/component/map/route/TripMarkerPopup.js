@@ -6,7 +6,7 @@ import Link from 'found/Link';
 import { FormattedMessage } from 'react-intl';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../../../util/path';
 
-import RouteHeader from './RouteHeader';
+import PopupHeader from './PopupHeader';
 
 import { addAnalyticsEvent } from '../../../util/analyticsUtils';
 
@@ -24,7 +24,7 @@ function TripMarkerPopup(props) {
 
   return (
     <div className="card">
-      <RouteHeader
+      <PopupHeader
         card
         route={props.trip.route}
         pattern={props.trip && props.trip.pattern}
