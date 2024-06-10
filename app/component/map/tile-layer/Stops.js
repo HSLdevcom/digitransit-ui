@@ -1,19 +1,37 @@
 import { VectorTile } from '@mapbox/vector-tile';
 import Protobuf from 'pbf';
 import pick from 'lodash/pick';
+import { graphql, fetchQuery } from 'react-relay';
+import moment from 'moment';
 import {
   drawTerminalIcon,
   drawStopIcon,
   drawHybridStopIcon,
   drawHybridStationIcon,
 } from '../../../util/mapIconUtils';
-import { ExtendedRouteTypes } from '../../../constants';
+import { ExtendedRouteTypes, DATE_FORMAT } from '../../../constants';
 import {
   isFeatureLayerEnabled,
   getLayerBaseUrl,
 } from '../../../util/mapLayerUtils';
 import { PREFIX_ITINERARY_SUMMARY, PREFIX_ROUTES } from '../../../util/path';
 import { fetchWithLanguageAndSubscription } from '../../../util/fetchUtils';
+
+const stopAlertsQuery = graphql`
+  query StopsQuery($stopId: String!, $date: String!) {
+    stop: stop(id: $stopId) {
+      gtfsId
+      alerts: alerts(types: [STOP]) {
+        alertEffect
+      }
+      stoptimes: stoptimesForServiceDate(date: $date, omitCanceled: false) {
+        stoptimes {
+          serviceDay
+        }
+      }
+    }
+  }
+`;
 
 function isNull(val) {
   return val === 'null' || val === undefined || val === null;
@@ -98,22 +116,27 @@ class Stops {
           ? false
           : !feature.properties.servicesRunningOnServiceDate;
 
-      drawStopIcon(
-        this.tile,
-        feature.geom,
-        mode,
-        !isNull(feature.properties.platform)
-          ? feature.properties.platform
-          : false,
-        isHilighted,
-        !!(
-          feature.properties.type === 'FERRY' &&
-          !isNull(feature.properties.code)
-        ),
-        this.config.colors.iconColors,
-        stopOutOfService,
-        noServiceOnServiceDay,
-      );
+      if (isHilighted && zoom <= minZoom) {
+        // Fetch stop details only when stop is highlighted and realtime layer is not used (zoom level)
+        this.drawHighlighted(feature, mode, isHilighted);
+      } else {
+        drawStopIcon(
+          this.tile,
+          feature.geom,
+          mode,
+          !isNull(feature.properties.platform)
+            ? feature.properties.platform
+            : false,
+          isHilighted,
+          !!(
+            feature.properties.type === 'FERRY' &&
+            !isNull(feature.properties.code)
+          ),
+          this.config.colors.iconColors,
+          stopOutOfService,
+          noServiceOnServiceDay,
+        );
+      }
     }
   }
 
@@ -316,6 +339,49 @@ class Stops {
       );
     });
   }
+
+  drawHighlighted = (feature, mode, isHilighted) => {
+    const date = moment().format(DATE_FORMAT);
+    const callback = ({ stop: result }) => {
+      if (result) {
+        const noServiceAlert = result.alerts.find(
+          alert => alert.alertEffect === 'NO_SERVICE',
+        );
+        const serviceOnServiceDay = result.stoptimes.find(
+          stoptimes => stoptimes.stoptimes.length > 0,
+        );
+        const stopOutOfService = noServiceAlert !== undefined;
+        const noServiceOnServiceDay = serviceOnServiceDay === undefined;
+
+        drawStopIcon(
+          this.tile,
+          feature.geom,
+          mode,
+          !isNull(feature.properties.platform)
+            ? feature.properties.platform
+            : false,
+          isHilighted,
+          !!(
+            feature.properties.type === 'FERRY' &&
+            !isNull(feature.properties.code)
+          ),
+          this.config.colors.iconColors,
+          stopOutOfService,
+          noServiceOnServiceDay,
+        );
+      }
+      return this;
+    };
+
+    fetchQuery(
+      this.relayEnvironment,
+      stopAlertsQuery,
+      { stopId: feature.properties.gtfsId, date },
+      { force: true },
+    )
+      .toPromise()
+      .then(callback);
+  };
 }
 
 export default Stops;
