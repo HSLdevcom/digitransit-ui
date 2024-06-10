@@ -344,14 +344,12 @@ class Stops {
     const date = moment().format(DATE_FORMAT);
     const callback = ({ stop: result }) => {
       if (result) {
-        const noServiceAlert = result.alerts.find(
+        const stopOutOfService = result.alerts.some(
           alert => alert.alertEffect === 'NO_SERVICE',
         );
-        const serviceOnServiceDay = result.stoptimes.find(
+        const noServiceOnServiceDay = !result.stoptimes.some(
           stoptimes => stoptimes.stoptimes.length > 0,
         );
-        const stopOutOfService = noServiceAlert !== undefined;
-        const noServiceOnServiceDay = serviceOnServiceDay === undefined;
 
         drawStopIcon(
           this.tile,
