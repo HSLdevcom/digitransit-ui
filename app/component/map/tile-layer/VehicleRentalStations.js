@@ -82,16 +82,16 @@ class VehicleRentalStations {
               }
             }
 
-            if (
-              this.features.length === 0 ||
-              !this.features.some(feature =>
-                this.shouldShowStation(
-                  feature.properties.id,
-                  feature.properties.network,
-                  feature.properties.formFactors,
-                ),
-              )
-            ) {
+            // Must filter out stations that are not shown as there can be a large amount of invisible rental stations,
+            // which are often accidentally clicked
+            this.features = this.features.filter(feature =>
+              this.shouldShowStation(
+                feature.properties.id,
+                feature.properties.network,
+                feature.properties.formFactors,
+              ),
+            );
+            if (this.features.length === 0) {
               this.canHaveStationUpdates = false;
             } else {
               // if zoomed out and there is a highlighted station,
@@ -195,10 +195,10 @@ class VehicleRentalStations {
   };
 
   shouldShowStation = (id, network) =>
+    this.config.cityBike.networks[network].showRentalStations &&
     (!this.tile.stopsToShow || this.tile.stopsToShow.includes(id)) &&
     !this.tile.objectsToHide.vehicleRentalStations.includes(id) &&
-    showCitybikeNetwork(this.config.cityBike.networks[network]) &&
-    this.config.cityBike.networks[network].showRentalStations;
+    showCitybikeNetwork(this.config.cityBike.networks[network]);
 
   static getName = () => 'citybike';
 }
