@@ -11,23 +11,18 @@ import PopupHeader from './PopupHeader';
 import { addAnalyticsEvent } from '../../../util/analyticsUtils';
 
 function TripMarkerPopup(props) {
-  if (!props.trip) {
-    return null;
-  }
   let patternPath = `/${PREFIX_ROUTES}/${props.trip.route.gtfsId}/${PREFIX_STOPS}`;
   let tripPath = patternPath;
 
-  if (props.trip) {
-    patternPath += `/${props.trip.pattern.code}`;
-    tripPath = `${patternPath}/${props.trip.gtfsId}`;
-  }
+  patternPath += `/${props.trip.pattern.code}`;
+  tripPath = `${patternPath}/${props.trip.gtfsId}`;
 
   return (
     <div className="card">
       <PopupHeader
         card
         route={props.trip.route}
-        pattern={props.trip && props.trip.pattern}
+        pattern={props.trip.pattern}
         startTime={props.message.tripStartTime}
       />
       <div className="bottom location">
