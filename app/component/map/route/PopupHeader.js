@@ -7,22 +7,28 @@ import { convertTo24HourFormat } from '../../../util/timeUtils';
 import RouteNumber from '../../RouteNumber';
 import { getRouteMode } from '../../../util/modeUtils';
 
-export default function PopupHeader({ route, pattern, card, trip, className }) {
+export default function PopupHeader({
+  route,
+  pattern,
+  card,
+  startTime,
+  className,
+}) {
   const mode = getRouteMode(route);
 
-  let tripEl;
-  if (trip && trip.length > 3) {
+  let startTimeEl;
+  if (startTime?.length > 3) {
     // change to 24h format
-    const startTime = convertTo24HourFormat(trip);
-    tripEl = <span className="route-header-trip">{startTime} →</span>;
+    const time = convertTo24HourFormat(startTime);
+    startTimeEl = <span className="route-header-trip">{time} →</span>;
   } else {
-    tripEl = '';
+    startTimeEl = '';
   }
 
   const routeLineText = ` ${route.shortName || ''}`;
 
   const routeLine =
-    trip && pattern ? (
+    startTime && pattern ? (
       <Link
         to={`/${PREFIX_ROUTES}/${route.gtfsId}/${PREFIX_STOPS}/${pattern.code}`}
       >
@@ -41,7 +47,7 @@ export default function PopupHeader({ route, pattern, card, trip, className }) {
           text={routeLine}
           color={route.color ? `#${route.color}` : 'currentColor'}
         />
-        {tripEl}
+        {startTimeEl}
       </h1>
     </div>
   );
@@ -54,14 +60,14 @@ PopupHeader.propTypes = {
     shortName: PropTypes.string,
     color: PropTypes.string,
   }).isRequired,
-  trip: PropTypes.string,
+  startTime: PropTypes.string,
   pattern: PropTypes.shape({ code: PropTypes.string.isRequired }),
   className: PropTypes.string,
   card: PropTypes.bool,
 };
 
 PopupHeader.defaultProps = {
-  trip: undefined,
+  startTime: undefined,
   pattern: undefined,
   className: undefined,
   card: false,

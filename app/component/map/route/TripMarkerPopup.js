@@ -28,7 +28,7 @@ function TripMarkerPopup(props) {
         card
         route={props.trip.route}
         pattern={props.trip && props.trip.pattern}
-        trip={props.message.tripStartTime}
+        startTime={props.message.tripStartTime}
       />
       <div className="bottom location">
         <Link
