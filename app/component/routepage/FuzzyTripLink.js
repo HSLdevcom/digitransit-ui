@@ -59,7 +59,7 @@ function FuzzyTripLink({ vehicle, stopName, nextStopName, ...rest }, context) {
       }}
       environment={environment}
       render={({ props }) => {
-        if (!props || props.trip === null) {
+        if (!props?.trip) {
           return <span className="route-now-content">{icon}</span>;
         }
         if (rest.setHumanScrolling) {

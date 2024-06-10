@@ -42,7 +42,7 @@ function TripLink({ vehicleState, vehicle, shortName, ...rest }) {
       }}
       environment={environment}
       render={({ props }) => {
-        if (!props || props.trip === null) {
+        if (!props?.trip) {
           return <span className="route-now-content">{icon}</span>;
         }
         if (rest.setHumanScrolling) {
@@ -87,7 +87,7 @@ TripLink.propTypes = {
     pattern: PropTypes.shape({
       code: PropTypes.string,
     }),
-  }).isRequired,
+  }),
   vehicle: vehicleShape.isRequired,
   shortName: PropTypes.string,
   vehicleState: PropTypes.string,
