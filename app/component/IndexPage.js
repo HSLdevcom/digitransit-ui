@@ -159,16 +159,33 @@ class IndexPage extends React.Component {
   }
 
   onSelectStopRoute = item => {
+    addAnalyticsEvent({
+      action: 'SelectRouteOrStop',
+      category: 'IndexPage',
+      name: item.type,
+    });
     this.context.router.push(getStopRoutePath(item));
   };
 
   onSelectLocation = (item, id) => {
     const { router, executeAction } = this.context;
     if (item.type === 'FutureRoute') {
+      addAnalyticsEvent({
+        action: 'SelectFutureRoute',
+        category: 'IndexPage',
+      });
       router.push(createUrl(item));
     } else if (id === 'origin') {
+      addAnalyticsEvent({
+        action: 'SelectOrigin',
+        category: 'IndexPage',
+      });
       executeAction(storeOrigin, item);
     } else {
+      addAnalyticsEvent({
+        action: 'SelectDestination',
+        category: 'IndexPage',
+      });
       executeAction(storeDestination, item);
     }
   };
@@ -517,10 +534,7 @@ const IndexPageWithStores = connectToStores(
     newProps.origin = origin;
     newProps.destination = destination;
     newProps.lang = context.getStore('PreferencesStore').getLanguage();
-    newProps.currentTime = context
-      .getStore('TimeStore')
-      .getCurrentTime()
-      .unix();
+    newProps.currentTime = context.getStore('TimeStore').getCurrentTime();
     newProps.query = query; // defines itinerary search time & arriveBy
 
     return newProps;
