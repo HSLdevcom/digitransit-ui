@@ -78,19 +78,20 @@ class VehicleRentalStations {
               for (let i = 0, ref = layer.length - 1; i <= ref; i++) {
                 const feature = layer.feature(i);
                 [[feature.geom]] = feature.loadGeometry();
-                this.features.push(pick(feature, ['geom', 'properties']));
+                // Must filter out stations that are not shown as there can be a large amount
+                // of invisible rental stations, which are often accidentally clicked
+                if (
+                  this.shouldShowStation(
+                    feature.properties.id,
+                    feature.properties.network,
+                    feature.properties.formFactors,
+                  )
+                ) {
+                  this.features.push(pick(feature, ['geom', 'properties']));
+                }
               }
             }
 
-            // Must filter out stations that are not shown as there can be a large amount of invisible rental stations,
-            // which are often accidentally clicked
-            this.features = this.features.filter(feature =>
-              this.shouldShowStation(
-                feature.properties.id,
-                feature.properties.network,
-                feature.properties.formFactors,
-              ),
-            );
             if (this.features.length === 0) {
               this.canHaveStationUpdates = false;
             } else {
@@ -111,9 +112,6 @@ class VehicleRentalStations {
 
   draw = (feature, zoomedIn) => {
     const { id, network, formFactors } = feature.properties;
-    if (!this.shouldShowStation(id, network, formFactors)) {
-      return;
-    }
 
     const iconName = getVehicleRentalStationNetworkIcon(
       getVehicleRentalStationNetworkConfig(network, this.config),
