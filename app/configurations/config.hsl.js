@@ -514,6 +514,7 @@ export default {
         },
         type: 'scooter',
         showRentalVehicles: true,
+        showRentalStations: false,
       },
     },
     buyUrl: {

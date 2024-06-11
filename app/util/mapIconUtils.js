@@ -101,8 +101,8 @@ export function getStopIconStyles(type, zoom, isHilighted) {
       },
       16: {
         style: 'large',
-        width: 24,
-        height: 33,
+        width: 35,
+        height: 43,
       },
     },
   };
@@ -734,7 +734,7 @@ export function drawCitybikeIcon(
  * Draw an icon for rental vehicles.
  * Determine icon size based on zoom level.
  */
-export function drawScooterIcon(tile, geom, isHilighted) {
+export function drawScooterIcon(tile, geom, iconName, isHilighted) {
   const zoom = tile.coords.z - 1;
   const styles = getStopIconStyles('scooter', zoom, isHilighted);
   const { style } = styles;
@@ -747,12 +747,10 @@ export function drawScooterIcon(tile, geom, isHilighted) {
   const radius = width / 2;
   let x;
   let y;
-
   if (style === 'medium') {
     x = geom.x / tile.ratio - width / 2;
     y = geom.y / tile.ratio - height;
-    const icon = 'icon-icon_scooter-lollipop';
-
+    const icon = `${iconName}-lollipop`;
     getImageFromSpriteCache(icon, width, height).then(image => {
       tile.ctx.drawImage(image, x, y);
       if (isHilighted) {
@@ -761,20 +759,17 @@ export function drawScooterIcon(tile, geom, isHilighted) {
     });
   }
   if (style === 'large') {
+    const icon = `${iconName}-lollipop-large`;
     const smallCircleRadius = 11 * tile.scaleratio;
     x = geom.x / tile.ratio - width + smallCircleRadius * 2;
     y = geom.y / tile.ratio - height;
     const iconX = x;
     const iconY = y;
-    const icon = 'icon-icon_scooter-lollipop';
 
     getImageFromSpriteCache(icon, width, height).then(image => {
       tile.ctx.drawImage(image, x, y);
-      x = x + width - smallCircleRadius;
-      y += smallCircleRadius;
-
       if (isHilighted) {
-        drawSelectionCircle(tile, iconX, iconY, radius, true, true);
+        drawSelectionCircle(tile, iconX, iconY, radius, true, false);
       }
     });
   }

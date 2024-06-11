@@ -1,8 +1,8 @@
 import { VectorTile } from '@mapbox/vector-tile';
 import Protobuf from 'pbf';
-import { graphql, fetchQuery } from 'react-relay';
 import pick from 'lodash/pick';
 
+import Supercluster from 'supercluster';
 import { isBrowser } from '../../../util/browser';
 import {
   getMapIconScale,
@@ -17,17 +17,7 @@ import {
 import { fetchWithLanguageAndSubscription } from '../../../util/fetchUtils';
 import { getLayerBaseUrl } from '../../../util/mapLayerUtils';
 import { TransportMode } from '../../../constants';
-
-const query = graphql`
-  query RentalVehiclesQuery($id: String!) {
-    station: rentalVehicle(id: $id) {
-      vehicleId
-      name
-    }
-  }
-`;
-
-const REALTIME_REFETCH_FREQUENCY = 60000; // 60 seconds
+import { getSettings } from '../../../util/planParamUtil';
 
 class RentalVehicles {
   constructor(tile, config, mapLayers, relayEnvironment) {
@@ -48,36 +38,7 @@ class RentalVehicles {
   fetchAndDraw = lang => {
     const zoomedIn =
       this.tile.coords.z > this.config.cityBike.cityBikeSmallIconZoom;
-    let baseUrl = zoomedIn
-      ? getLayerBaseUrl(this.config.URL.REALTIME_RENTAL_VEHICLE_MAP, lang)
-      : getLayerBaseUrl(this.config.URL.RENTAL_VEHICLE_MAP, lang);
-
-    if (this.tile.coords.z >= 14) {
-      baseUrl = getLayerBaseUrl(
-        this.config.URL.RENTAL_VEHICLE_CLUSTER_FAR_MAP, // 120m
-        lang,
-      );
-    }
-
-    if (this.tile.coords.z >= 15) {
-      baseUrl = getLayerBaseUrl(
-        this.config.URL.RENTAL_VEHICLE_CLUSTER_MEDIUM_MAP, // 100m
-        lang,
-      );
-    }
-    if (this.tile.coords.z >= 16) {
-      baseUrl = getLayerBaseUrl(
-        this.config.URL.RENTAL_VEHICLE_CLUSTER_CLOSE_MAP, // 50m
-        lang,
-      );
-    }
-    if (this.tile.coords.z >= 18) {
-      baseUrl = getLayerBaseUrl(
-        this.config.URL.RENTAL_VEHICLE_MAP, // No clustering
-        lang,
-      );
-    }
-
+    const baseUrl = getLayerBaseUrl(this.config.URL.RENTAL_VEHICLE_MAP, lang);
     const tileUrl = `${baseUrl}${
       this.tile.coords.z + (this.tile.props.zoomOffset || 0)
     }/${this.tile.coords.x}/${this.tile.coords.y}.pbf`;
@@ -93,36 +54,44 @@ class RentalVehicles {
             const vt = new VectorTile(new Protobuf(buf));
 
             this.features = [];
-            const layer =
-              vt.layers.rentalVehicles ||
-              vt.layers.realtimeRentalVehicles ||
-              vt.layers.rentalVehicleClusterClose ||
-              vt.layers.rentalVehicleClusterMedium ||
-              vt.layers.rentalVehicleClusterFar;
+            const layer = vt.layers.rentalVehicles;
+            const settings = getSettings(this.config);
+            const allowedScooterNetworks =
+              settings.allowedScooterRentalNetworks;
+            const scooterIconPrefix = `icon-icon_scooter`;
 
             if (layer) {
               for (let i = 0, ref = layer.length - 1; i <= ref; i++) {
                 const feature = layer.feature(i);
                 [[feature.geom]] = feature.loadGeometry();
-                this.features.push(pick(feature, ['geom', 'properties']));
+                // Filter out vehicles that are not in the allowedScooterNetworks (selected by a user) to avoid including unwanted vehicles in clusters
+                // Also Filter out vehicles that should not be shown to avoid user accidentally clicking on invisible objects on the map
+                if (
+                  allowedScooterNetworks.includes(feature.properties.network) &&
+                  this.shouldShowRentalVehicle(
+                    feature.properties.id,
+                    feature.properties.network,
+                    feature.properties.isDisabled,
+                    feature.properties.formFactor,
+                  )
+                ) {
+                  this.features.push(pick(feature, ['geom', 'properties']));
+                }
               }
             }
-            if (
-              this.features.length === 0 ||
-              !this.features.some(feature =>
-                this.shouldShowRentalVehicle(
-                  feature.properties.id,
-                  feature.properties.network,
-                  feature.properties.isDisabled,
-                ),
-              )
-            ) {
+
+            if (this.features.length === 0) {
               this.canHaveStationUpdates = false;
             } else {
               // if zoomed out and there is a highlighted station,
               // this value will be later reset to true
               this.canHaveStationUpdates = zoomedIn;
-              this.features.forEach(feature => this.draw(feature, zoomedIn));
+
+              if (this.tile.coords.z >= 13 && this.tile.coords.z < 18) {
+                this.clusterAndDraw(zoomedIn, scooterIconPrefix);
+              } else {
+                this.features.forEach(feature => this.draw(feature, zoomedIn));
+              }
             }
           },
           err => console.log(err), // eslint-disable-line no-console
@@ -134,60 +103,55 @@ class RentalVehicles {
       });
   };
 
-  draw = (feature, zoomedIn) => {
+  clusterAndDraw = (zoomedIn, iconPrefix) => {
+    const index = new Supercluster({
+      radius: 40, // in pixels
+      maxZoom: 17,
+      minPoints: 2,
+      extent: 512, // tile size (512)
+      minZoom: 13,
+      map: featureProps => ({
+        networks: [featureProps.network],
+        scooterId: featureProps.id, // an id of a vehicle to zoom into when a cluster is clicked
+      }),
+      reduce: (accumulated, featureProps) => {
+        if (
+          featureProps.network &&
+          !accumulated.networks.includes(featureProps.network)
+        ) {
+          accumulated.networks.push(featureProps.network);
+        }
+        return accumulated;
+      },
+    });
+
+    index.load(this.pointsInSuperclusterFormat());
+    const bbox = [-180, -85, 180, 85]; // Bounding box covers the entire world
+    const clusters = index.getClusters(bbox, this.tile.coords.z);
+    const clusteredFeatures = [];
+
+    clusters.forEach(clusterFeature => {
+      const newFeature = this.featureWithGeom(clusterFeature);
+      clusteredFeatures.push(newFeature);
+      this.draw(newFeature, zoomedIn, iconPrefix);
+    });
+    this.features = clusteredFeatures;
+  };
+
+  draw = (feature, zoomedIn, iconPrefix) => {
     const { id, network } = feature.properties;
-    if (!this.shouldShowRentalVehicle(id, network)) {
-      return;
-    }
-    const iconName = getVehicleRentalStationNetworkIcon(
-      getVehicleRentalStationNetworkConfig(network, this.config),
-    );
-
+    const { geom } = feature;
+    const iconName =
+      iconPrefix ||
+      getVehicleRentalStationNetworkIcon(
+        getVehicleRentalStationNetworkConfig(network, this.config),
+      );
     const isHilighted = this.tile.hilightedStops?.includes(id);
-
-    if (zoomedIn) {
-      this.drawLargeIcon(feature, iconName, isHilighted);
-    } else if (isHilighted) {
-      this.canHaveStationUpdates = true;
-      this.drawHighlighted(feature, iconName);
+    if (zoomedIn || isHilighted) {
+      drawScooterIcon(this.tile, geom, iconName, isHilighted);
     } else {
-      this.drawSmallScooterMarker(feature.geom, iconName);
+      this.drawSmallScooterMarker(geom, iconName);
     }
-  };
-
-  drawLargeIcon = (
-    { geom, properties: { operative, vehiclesAvailable } },
-    iconName,
-    isHilighted,
-  ) => {
-    drawScooterIcon(
-      this.tile,
-      geom,
-      operative,
-      vehiclesAvailable,
-      iconName,
-      isHilighted,
-    );
-  };
-
-  drawHighlighted = ({ geom, properties: { id } }, iconName) => {
-    const callback = ({ station: result }) => {
-      if (result) {
-        drawScooterIcon(
-          this.tile,
-          geom,
-          result.operative,
-          result.vehiclesAvailable,
-          iconName,
-          true,
-        );
-      }
-      return this;
-    };
-
-    fetchQuery(this.relayEnvironment, query, { id }, { force: true })
-      .toPromise()
-      .then(callback);
   };
 
   drawSmallScooterMarker = (geom, iconName) => {
@@ -204,23 +168,50 @@ class RentalVehicles {
     );
   };
 
-  onTimeChange = lang => {
-    const currentTime = new Date().getTime();
-    if (
-      this.canHaveStationUpdates &&
-      (!this.timeOfLastFetch ||
-        currentTime - this.timeOfLastFetch > REALTIME_REFETCH_FREQUENCY)
-    ) {
-      this.fetchAndDraw(lang);
-    }
-  };
-
-  shouldShowRentalVehicle = (id, network, isDisabled) =>
+  shouldShowRentalVehicle = (id, network, isDisabled, formFactor) =>
     (!this.tile.stopsToShow || this.tile.stopsToShow.includes(id)) &&
-    this.config.cityBike.networks[network].enabled &&
+    (!network ||
+      (this.config.cityBike.networks[network].enabled &&
+        this.config.cityBike.networks[network].showRentalVehicles &&
+        this.config.cityBike.networks[network].type ===
+          formFactor.toLowerCase())) &&
     !isDisabled;
 
   static getName = () => 'scooter';
+
+  pointsInSuperclusterFormat = () => {
+    return this.features.map(feature => {
+      // Convert the feature's x/y to lat/lon for clustering
+      const latLon = this.tile.project({
+        x: feature.geom.x,
+        y: feature.geom.y,
+      });
+      return {
+        type: 'Feature',
+        properties: { ...feature.properties },
+        geom: { ...feature.geom },
+        geometry: {
+          type: 'Point',
+          coordinates: [latLon.lat, latLon.lon],
+        },
+      };
+    });
+  };
+
+  featureWithGeom = clusterFeature => {
+    // Convert the cluster's lat/lon to x/y
+    const point = this.tile.latLngToPoint(
+      clusterFeature.geometry.coordinates[0],
+      clusterFeature.geometry.coordinates[1],
+    );
+    return {
+      ...clusterFeature,
+      geom: {
+        x: point.x,
+        y: point.y,
+      },
+    };
+  };
 }
 
 export default RentalVehicles;

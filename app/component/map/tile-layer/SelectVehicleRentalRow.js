@@ -12,19 +12,23 @@ import {
 import { getIdWithoutFeed } from '../../../util/feedScopedIdUtils';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
-function SelectVehicleRentalStationRow(
-  { name, network, id, desc, prefix },
+function SelectVehicleRentalRow(
+  { name, network, id, desc, prefix, cluster, networks: networksInCluster },
   { config },
 ) {
-  const img = `${getVehicleRentalStationNetworkIcon(
-    getVehicleRentalStationNetworkConfig(network, config),
-  )}-stop-lollipop`;
+  const img = cluster
+    ? 'icon-icon_scooter-lollipop'
+    : `${getVehicleRentalStationNetworkIcon(
+        getVehicleRentalStationNetworkConfig(network, config),
+      )}-stop-lollipop`;
+
+  const linkAddress = cluster
+    ? `/${prefix}/${encodeURIComponent(id)}/${[...networksInCluster]}`
+    : `/${prefix}/${encodeURIComponent(id)}`;
+
   const address = desc || <FormattedMessage id="citybike-station-no-id" />;
   return (
-    <Link
-      className="stop-popup-choose-row"
-      to={`/${prefix}/${encodeURIComponent(id)}`}
-    >
+    <Link className="stop-popup-choose-row" to={linkAddress}>
       <span className="choose-row-left-column" aria-hidden="true">
         <Icon img={img} />
       </span>
@@ -44,23 +48,27 @@ function SelectVehicleRentalStationRow(
   );
 }
 
-SelectVehicleRentalStationRow.displayName = 'SelectVehicleRentalStationRow';
+SelectVehicleRentalRow.displayName = 'SelectVehicleRentalRow';
 
-SelectVehicleRentalStationRow.propTypes = {
+SelectVehicleRentalRow.propTypes = {
   name: PropTypes.string,
   network: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
   desc: PropTypes.string,
   prefix: PropTypes.string.isRequired,
+  cluster: PropTypes.bool,
+  networks: PropTypes.arrayOf(PropTypes.string),
 };
 
-SelectVehicleRentalStationRow.defaultProps = {
+SelectVehicleRentalRow.defaultProps = {
   desc: undefined,
   name: undefined,
+  cluster: false,
+  networks: [],
 };
 
-SelectVehicleRentalStationRow.contextTypes = {
+SelectVehicleRentalRow.contextTypes = {
   config: configShape.isRequired,
 };
 
-export default SelectVehicleRentalStationRow;
+export default SelectVehicleRentalRow;

@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
 import SelectStopRow from './SelectStopRow';
-import SelectVehicleRentalStationRow from './SelectVehicleRentalStationRow';
+import SelectVehicleRentalRow from './SelectVehicleRentalRow';
 import SelectParkAndRideRow from './SelectParkAndRideRow';
 import SelectVehicleContainer from './SelectVehicleContainer';
 import { popupColorShape } from '../../../util/shapes';
@@ -41,19 +41,22 @@ function MarkerSelectPopup(props, { intl }) {
     }
     if (option.layer === 'citybike') {
       return (
-        <SelectVehicleRentalStationRow
+        <SelectVehicleRentalRow
           {...option.feature.properties}
           key={`citybike:${option.feature.properties.id}`}
           prefix={PREFIX_BIKESTATIONS}
         />
       );
     }
-    if (option.layer === 'scooter') {
+    // show only scooters that are clusters (avoids massive lists)
+    if (option.layer === 'scooter' && option.feature.properties.cluster) {
       return (
-        <SelectVehicleRentalStationRow
+        <SelectVehicleRentalRow
           {...option.feature.properties}
           key={`scooter:${option.feature.properties.id}`}
           prefix={PREFIX_RENTALVEHICLES}
+          id={option.feature.properties.scooterId}
+          network=""
           desc={intl.formatMessage({
             id: 'scooter',
             defaultMessage: 'scooter',

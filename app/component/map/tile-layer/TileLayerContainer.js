@@ -210,21 +210,23 @@ class TileLayerContainer extends GridLayer {
         return;
       }
       if (
-        selectableTargets.length === 1 &&
-        selectableTargets[0].layer === 'scooter'
+        (selectableTargets.length === 1 &&
+          selectableTargets[0].layer === 'scooter') ||
+        (selectableTargets.length > 1 &&
+          selectableTargets.every(target => target.layer === 'scooter'))
       ) {
-        const networks = new Set();
-        if (selectableTargets[0].feature.properties.vehicles) {
-          JSON.parse(selectableTargets[0].feature.properties.vehicles).forEach(
-            vehicle => {
-              networks.add(vehicle.properties.network);
-            },
-          );
-        }
+        const cluster = selectableTargets.find(
+          target => target.feature.properties.cluster,
+        );
+        const networks = cluster ? cluster.feature.properties.networks : '';
+        const id = cluster
+          ? cluster.feature.properties.scooterId
+          : selectableTargets[0].feature.properties.id;
+        // adding networks directs to scooter cluster view
         this.context.router.push(
-          `/${PREFIX_RENTALVEHICLES}/${encodeURIComponent(
-            selectableTargets[0].feature.properties.id,
-          )}/${[...networks]}`,
+          `/${PREFIX_RENTALVEHICLES}/${encodeURIComponent(id)}/${[
+            ...networks,
+          ]}`,
         );
         return;
       }
