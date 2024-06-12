@@ -1171,13 +1171,22 @@ $itinerary-tab-switch-height: 48px;
     &.scooter {
       border-left: 6px solid;
       border-radius: 3px;
-      height: 56%;
+      height: 54%;
       left: 8px;
+
+      &.settings {
+        height: 58%;
+      }
 
       &.bottom {
         height: 25%;
         top: 82%;
         overflow: hidden;
+
+        &.settings {
+          height: 30%;
+          top: 75%;
+        }
       }
     }
 
