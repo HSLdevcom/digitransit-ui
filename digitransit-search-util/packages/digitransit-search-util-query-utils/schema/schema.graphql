@@ -980,23 +980,23 @@ type Cluster implements Node {
     """
     id: ID!
 
-    """ID of the vehicleRentalPlaceCluster"""
+    """ID of the cluster"""
     gtfsId: String!
 
-    """Name of the vehicleRentalPlaceCluster"""
+    """Name of the cluster"""
     name: String!
 
     """
-    Latitude of the center of this vehicleRentalPlaceCluster (i.e. average latitude of stops in this vehicleRentalPlaceCluster)
+    Latitude of the center of this cluster (i.e. average latitude of stops in this cluster)
     """
     lat: Float!
 
     """
-    Longitude of the center of this vehicleRentalPlaceCluster (i.e. average longitude of stops in this vehicleRentalPlaceCluster)
+    Longitude of the center of this cluster (i.e. average longitude of stops in this cluster)
     """
     lon: Float!
 
-    """List of stops in the vehicleRentalPlaceCluster"""
+    """List of stops in the cluster"""
     stops: [Stop!]
 }
 
@@ -3686,11 +3686,11 @@ type QueryType {
     """
     pattern(id: String!): Pattern
 
-    """Get all vehicleRentalPlaceClusters"""
-    vehicleRentalPlaceClusters: [Cluster]
+    """Get all clusters"""
+    clusters: [Cluster]
 
-    """Get a single vehicleRentalPlaceCluster based on its ID, i.e. value of field `gtfsId`"""
-    vehicleRentalPlaceCluster(id: String!): Cluster
+    """Get a single cluster based on its ID, i.e. value of field `gtfsId`"""
+    cluster(id: String!): Cluster
 
     """Get all active alerts"""
     alerts(
@@ -4859,8 +4859,8 @@ type Stop implements Node & PlaceInterface {
     """
     platformCode: String
 
-    """The vehicleRentalPlaceCluster which this stop is part of"""
-    vehicleRentalPlaceCluster: Cluster
+    """The cluster which this stop is part of"""
+    cluster: Cluster
 
     """
     Returns all stops that are children of this station (Only applicable for stations)
