@@ -40,15 +40,6 @@ export default {
     REALTIME_RENTAL_STATION_MAP: {
       default: `${OTP_URL}vectorTiles/realtimeRentalStations/`,
     },
-    RENTAL_VEHICLE_CLUSTER_MEDIUM_MAP: {
-      default: `${OTP_URL}vectorTiles/rentalVehicleClusterClose/`,
-    },
-    RENTAL_VEHICLE_CLUSTER_CLOSE_MAP: {
-      default: `${OTP_URL}vectorTiles/rentalVehicleClusterMedium/`,
-    },
-    RENTAL_VEHICLE_CLUSTER_FAR_MAP: {
-      default: `${OTP_URL}vectorTiles/rentalVehicleClusterFar/`,
-    },
     PARK_AND_RIDE_MAP: {
       default: `${POI_MAP_PREFIX}/en/vehicleParking/`,
       sv: `${POI_MAP_PREFIX}/sv/vehicleParking/`,
