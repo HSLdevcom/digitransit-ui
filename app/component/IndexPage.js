@@ -160,41 +160,32 @@ class IndexPage extends React.Component {
 
   onSelectStopRoute = item => {
     addAnalyticsEvent({
-      action: 'SelectRouteOrStop',
-      category: 'IndexPage',
-      name: item.type,
+      event: 'route_search',
+      search_action: 'route_or_stop',
     });
     this.context.router.push(getStopRoutePath(item));
   };
 
   onSelectLocation = (item, id) => {
     const { router, executeAction } = this.context;
+    addAnalyticsEvent({
+      event: 'itinerary_search',
+      search_action: item.type,
+    });
+
     if (item.type === 'FutureRoute') {
-      addAnalyticsEvent({
-        action: 'SelectFutureRoute',
-        category: 'IndexPage',
-      });
       router.push(createUrl(item));
     } else if (id === 'origin') {
-      addAnalyticsEvent({
-        action: 'SelectOrigin',
-        category: 'IndexPage',
-      });
       executeAction(storeOrigin, item);
     } else {
-      addAnalyticsEvent({
-        action: 'SelectDestination',
-        category: 'IndexPage',
-      });
       executeAction(storeDestination, item);
     }
   };
 
   clickFavourite = favourite => {
     addAnalyticsEvent({
-      category: 'Favourite',
-      action: 'ClickFavourite',
-      name: null,
+      event: 'favorite_press',
+      favorite_type: 'place',
     });
     this.context.executeAction(storeDestination, favourite);
   };
