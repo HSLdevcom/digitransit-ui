@@ -166,11 +166,11 @@ export const getVehicleMinZoomOnStopsNearYou = (config, override) => {
 };
 
 /** *
- * Checks if stationId is a number. We don't want to display random hashes or names.
+ * Checks if rentalId (station or vehicle) is a number. We don't want to display random hashes or names.
  *
- * @param rentalId bike rental station from OTP
+ * @param rentalId id of a rental station or rental vehicle from OTP
  */
-export const hasStationCode = rentalId => {
+export const hasVehicleRentalCode = rentalId => {
   const id = rentalId?.split(':')[1];
   return (
     id &&

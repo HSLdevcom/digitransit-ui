@@ -7,7 +7,7 @@ import VehicleRentalStation from './VehicleRentalStation';
 import FavouriteVehicleRentalStationContainer from './FavouriteVehicleRentalStationContainer';
 import { PREFIX_BIKESTATIONS } from '../util/path';
 import { isKeyboardSelectionEvent } from '../util/browser';
-import { hasStationCode } from '../util/vehicleRentalUtils';
+import { hasVehicleRentalCode } from '../util/vehicleRentalUtils';
 import { getIdWithoutFeed } from '../util/feedScopedIdUtils';
 import { relayShape } from '../util/shapes';
 
@@ -52,7 +52,7 @@ const VehicleRentalStationNearYou = ({
               <FormattedMessage
                 id="citybike-station"
                 values={{
-                  stationId: hasStationCode(stop.stationId)
+                  stationId: hasVehicleRentalCode(stop.stationId)
                     ? getIdWithoutFeed(stop.stationId)
                     : '',
                 }}

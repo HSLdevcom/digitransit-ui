@@ -4,23 +4,25 @@ import Link from 'found/Link';
 import { FormattedMessage } from 'react-intl';
 import { configShape } from '../../../util/shapes';
 import Icon from '../../Icon';
-import {
-  getVehicleRentalStationNetworkConfig,
-  getVehicleRentalStationNetworkIcon,
-  hasVehicleRentalCode,
-} from '../../../util/vehicleRentalUtils';
+import { hasVehicleRentalCode } from '../../../util/vehicleRentalUtils';
 import { getIdWithoutFeed } from '../../../util/feedScopedIdUtils';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
-function SelectVehicleRentalRow(
-  { name, network, id, desc, prefix },
-  { config },
-) {
-  const img = `${getVehicleRentalStationNetworkIcon(
-    getVehicleRentalStationNetworkConfig(network, config),
-  )}-stop-lollipop`;
+function SelectVehicleRentalClusterRow({
+  name,
+  id,
+  desc,
+  prefix,
+  networks: networksInCluster,
+  isScooter,
+}) {
+  const img = isScooter
+    ? 'icon-icon_scooter-lollipop'
+    : 'icon-icon_citybike-stop-lollipop';
 
-  const linkAddress = `/${prefix}/${encodeURIComponent(id)}`;
+  const linkAddress = `/${prefix}/${encodeURIComponent(id)}/${[
+    ...networksInCluster,
+  ]}`;
 
   const address = desc || <FormattedMessage id="citybike-station-no-id" />;
   return (
@@ -44,23 +46,25 @@ function SelectVehicleRentalRow(
   );
 }
 
-SelectVehicleRentalRow.displayName = 'SelectVehicleRentalRow';
+SelectVehicleRentalClusterRow.displayName = 'SelectVehicleRentalRow';
 
-SelectVehicleRentalRow.propTypes = {
+SelectVehicleRentalClusterRow.propTypes = {
   name: PropTypes.string,
-  network: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
   desc: PropTypes.string,
   prefix: PropTypes.string.isRequired,
+  networks: PropTypes.arrayOf(PropTypes.string).isRequired,
+  isScooter: PropTypes.bool,
 };
 
-SelectVehicleRentalRow.defaultProps = {
+SelectVehicleRentalClusterRow.defaultProps = {
   desc: undefined,
   name: undefined,
+  isScooter: false,
 };
 
-SelectVehicleRentalRow.contextTypes = {
+SelectVehicleRentalClusterRow.contextTypes = {
   config: configShape.isRequired,
 };
 
-export default SelectVehicleRentalRow;
+export default SelectVehicleRentalClusterRow;

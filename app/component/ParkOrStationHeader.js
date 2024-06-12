@@ -10,7 +10,7 @@ import getZoneId from '../util/zoneIconUtils';
 import ZoneIcon from './ZoneIcon';
 import withBreakpoint from '../util/withBreakpoint';
 import {
-  hasStationCode,
+  hasVehicleRentalCode,
   getVehicleRentalStationNetworkConfig,
 } from '../util/vehicleRentalUtils';
 import { getIdWithoutFeed } from '../util/feedScopedIdUtils';
@@ -69,7 +69,7 @@ const ParkOrBikeStationHeader = (
         <h1>{name}</h1>
         <div className="bike-station-sub-header">
           <FormattedMessage id={stationId ? noIdHeaderName : parkHeaderId} />
-          {stationId && hasStationCode(parkOrStation.stationId) && (
+          {stationId && hasVehicleRentalCode(parkOrStation.stationId) && (
             <StopCode code={getIdWithoutFeed(stationId)} />
           )}
           {zoneId && (
