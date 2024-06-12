@@ -159,11 +159,20 @@ class IndexPage extends React.Component {
   }
 
   onSelectStopRoute = item => {
+    addAnalyticsEvent({
+      event: 'route_search',
+      search_action: 'route_or_stop',
+    });
     this.context.router.push(getStopRoutePath(item));
   };
 
   onSelectLocation = (item, id) => {
     const { router, executeAction } = this.context;
+    addAnalyticsEvent({
+      event: 'itinerary_search',
+      search_action: item.type,
+    });
+
     if (item.type === 'FutureRoute') {
       router.push(createUrl(item));
     } else if (id === 'origin') {
@@ -175,9 +184,8 @@ class IndexPage extends React.Component {
 
   clickFavourite = favourite => {
     addAnalyticsEvent({
-      category: 'Favourite',
-      action: 'ClickFavourite',
-      name: null,
+      event: 'favorite_press',
+      favorite_type: 'place',
     });
     this.context.executeAction(storeDestination, favourite);
   };
@@ -517,10 +525,7 @@ const IndexPageWithStores = connectToStores(
     newProps.origin = origin;
     newProps.destination = destination;
     newProps.lang = context.getStore('PreferencesStore').getLanguage();
-    newProps.currentTime = context
-      .getStore('TimeStore')
-      .getCurrentTime()
-      .unix();
+    newProps.currentTime = context.getStore('TimeStore').getCurrentTime();
     newProps.query = query; // defines itinerary search time & arriveBy
 
     return newProps;

@@ -119,9 +119,8 @@ class FavouritesContainer extends React.Component {
 
   addHome = () => {
     addAnalyticsEvent({
-      category: 'Favourite',
-      action: 'AddHome',
-      name: null,
+      event: 'add_favorite_press',
+      favorite_type: 'place',
     });
     this.setState({
       addModalOpen: true,
@@ -137,9 +136,8 @@ class FavouritesContainer extends React.Component {
 
   addWork = () => {
     addAnalyticsEvent({
-      category: 'Favourite',
-      action: 'AddWork',
-      name: null,
+      event: 'add_favorite_press',
+      favorite_type: 'place',
     });
     this.setState({
       addModalOpen: true,
@@ -259,9 +257,8 @@ class FavouritesContainer extends React.Component {
 
   addPlace = () => {
     addAnalyticsEvent({
-      category: 'Favourite',
-      action: 'AddPlace',
-      name: null,
+      event: 'add_favorite_press',
+      favorite_type: 'place',
     });
 
     this.setState({

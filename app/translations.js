@@ -1461,8 +1461,6 @@ const translations = {
       'There are no public transport stops close enough to the selected origin and destination.',
     'router-system-error':
       'An error occurred in the system. Please try again later.',
-    'router-transit-connection':
-      'Please try changing the origin or destination.',
     'router-transit-connection-in-search-window':
       'There are no services available at the selected time.',
     'router-unable': 'Unable to show route options',
@@ -2509,7 +2507,7 @@ const translations = {
     'no-route-msg-time-threshold':
       'Reittiehdotuksia ei valitettavasti löytynyt. On mahdollista, ettei aikatauluja löydy vielä valitsemallesi päivälle. Ole hyvä ja yritä uudelleen lähempänä matkasi ajankohtaa',
     'no-route-msg-with-changes':
-      'Reittiehdotuksia ei valitettavasti löytynyt. Ole hyvä ja tarkasta asettamasi hakuasetukset tai yritä muuttaa lähtöpaikkaa tai määränpäätä.',
+      'Ole hyvä ja tarkasta asettamasi hakuasetukset tai yritä muuttaa lähtöpaikkaa tai määränpäätä.',
     'no-route-origin-near-destination':
       'Reittiehdotuksia ei löytynyt, koska lähtöpaikka ja määränpää ovat niin lähellä toisiaan.',
     'no-route-origin-same-as-destination':
@@ -2664,8 +2662,6 @@ const translations = {
       'Joukkoliikennepysäkkejä ei ole riittävän lähellä valittua lähtöpaikkaa eikä määränpäätä.',
     'router-system-error':
       'Järjestelmässä tapahtui virhe. Yritä myöhemmin uudelleen.',
-    'router-transit-connection':
-      'Ole hyvä ja yritä muuttaa lähtöpaikkaa tai määränpäätä.',
     'router-transit-connection-in-search-window':
       'Valittuna ajankohtana ei ole liikennöintiä.',
     'router-unable': 'Reittivaihtoehtoja ei voida näyttää',
@@ -4629,8 +4625,6 @@ const translations = {
       'Det finns inte kollektivtrafikhållplatser tillräckligt nära till den valda avgångsplatsen eller destinationen.',
     'router-system-error':
       'Det skedde ett fel i systemet. Försök på nytt senare.',
-    'router-transit-connection':
-      'Var god och försök ändra avgångsplats eller destination.',
     'router-transit-connection-in-search-window':
       'Ingen trafik under det valda datumet.',
     'router-unable': 'Kan inte visa ruttalternativ',
