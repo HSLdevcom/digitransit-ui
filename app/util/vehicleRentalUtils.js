@@ -4,6 +4,7 @@ import { getCustomizedSettings } from '../store/localStorage';
 import { addAnalyticsEvent } from './analyticsUtils';
 import { citybikeRoutingIsActive } from './modeUtils';
 import { getIdWithoutFeed } from './feedScopedIdUtils';
+import { isAndroid, isIOS } from './browser';
 
 export const BIKEAVL_UNKNOWN = 'No availability';
 export const BIKEAVL_BIKES = 'Bikes on station';
@@ -201,4 +202,30 @@ export const mapVehicleRentalToStore = vehicleRentalStation => {
   };
   delete newStation.network;
   return newStation;
+};
+
+export const getRentalVehicleLink = (rentalVehicle, network, networkConfig) => {
+  if (!networkConfig || !rentalVehicle) {
+    return null;
+  }
+
+  const { ios, android, web } = rentalVehicle?.rentalUris || {};
+
+  if (isIOS && ios?.startsWith(`${network}://`)) {
+    return ios;
+  }
+
+  if (isAndroid && android?.startsWith(`${network}://`)) {
+    return android;
+  }
+
+  if (web?.includes(network)) {
+    return web;
+  }
+
+  if (rentalVehicle?.systemUrl?.includes(network)) {
+    return rentalVehicle.systemUrl;
+  }
+
+  return null;
 };

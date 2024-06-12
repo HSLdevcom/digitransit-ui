@@ -15,6 +15,7 @@ import {
   getVehicleRentalStationNetworkConfig,
   getVehicleRentalStationNetworkIcon,
   hasVehicleRentalCode,
+  getRentalVehicleLink,
 } from '../../util/vehicleRentalUtils';
 
 import withBreakpoint from '../../util/withBreakpoint';
@@ -25,7 +26,6 @@ import {
   getVehicleAvailabilityIndicatorColor,
 } from '../../util/legUtils';
 import ExternalLink from '../ExternalLink';
-import { isAndroid, isIOS } from '../../util/browser';
 import { getIdWithoutFeed } from '../../util/feedScopedIdUtils';
 
 function VehicleRentalLeg(
@@ -82,14 +82,11 @@ function VehicleRentalLeg(
     />
   );
   const rentalStationLink = `/${PREFIX_BIKESTATIONS}/${vehicleRentalStation?.stationId}`;
-  let rentalVehicleLink =
-    rentalVehicle?.rentalUris.web || rentalVehicle?.systemUrl;
-
-  if (isIOS && rentalVehicle?.rentalUris.ios) {
-    rentalVehicleLink = rentalVehicle?.rentalUris.ios;
-  } else if (isAndroid && rentalVehicle?.rentalUris.android) {
-    rentalVehicleLink = rentalVehicle?.rentalUris.android;
-  }
+  const rentalVehicleLink = getRentalVehicleLink(
+    rentalVehicle,
+    network,
+    networkConfig,
+  );
   return (
     <>
       {(!isScooter || (nextLegMode !== 'WALK' && isScooter)) && (
