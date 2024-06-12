@@ -209,7 +209,11 @@ export default class Legs extends React.Component {
             focusAction={this.focus(leg.to)}
           />,
         );
-      } else if (leg.rentedBike || leg.mode === 'BICYCLE') {
+      } else if (
+        leg.rentedBike ||
+        leg.mode === 'BICYCLE' ||
+        leg.mode === 'SCOOTER'
+      ) {
         let bicycleWalkLeg;
         if (nextLeg?.mode === 'BICYCLE_WALK' && !bikeParked) {
           bicycleWalkLeg = nextLeg;

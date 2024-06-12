@@ -214,6 +214,8 @@ class TileLayerContainer extends GridLayer {
           selectableTargets[0].layer === 'scooter') ||
         (selectableTargets.length > 1 &&
           selectableTargets.every(target => target.layer === 'scooter'))
+        // scooters are not shown in the selection popup as there can be too many.
+        // Instead, the user is directed to the scooter cluster view or the first one in a group of singles.
       ) {
         const cluster = selectableTargets.find(
           target => target.feature.properties.cluster,
