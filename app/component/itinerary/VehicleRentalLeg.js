@@ -14,7 +14,7 @@ import {
   getVehicleCapacity,
   getVehicleRentalStationNetworkConfig,
   getVehicleRentalStationNetworkIcon,
-  hasStationCode,
+  hasVehicleRentalCode,
 } from '../../util/vehicleRentalUtils';
 
 import withBreakpoint from '../../util/withBreakpoint';
@@ -152,7 +152,7 @@ function VehicleRentalLeg(
                     defaultMessage: 'Bike station',
                   })}
                   {vehicleRentalStation &&
-                    hasStationCode(vehicleRentalStation.stationId) && (
+                    hasVehicleRentalCode(vehicleRentalStation.stationId) && (
                       <span className="itinerary-stop-code">
                         {getIdWithoutFeed(vehicleRentalStation?.stationId)}
                       </span>
