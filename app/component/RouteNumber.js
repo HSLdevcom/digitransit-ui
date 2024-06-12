@@ -13,7 +13,7 @@ const LONG_ROUTE_NUMBER_LENGTH = 6;
 function RouteNumber(props, context) {
   const mode = props.mode.toLowerCase();
   const { alertSeverityLevel, color, withBicycle, text } = props;
-  const isScooter = mode === TransportMode.Scooter.toLowerCase(); // 'scooter';
+  const isScooter = mode === TransportMode.Scooter.toLowerCase();
   const textIsText = typeof text === 'string'; // can be also react node
   const longText =
     text && textIsText && text.length >= LONG_ROUTE_NUMBER_LENGTH;

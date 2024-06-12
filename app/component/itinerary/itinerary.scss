@@ -3010,7 +3010,7 @@ $font-print-decrease: 0.7;
   margin-bottom: 30px;
 }
 
-.e-scooter-or-taxi-info {
+.alternative-vehicle-info {
   background-color: $infobox-color-generic-blue;
   margin-top: 30px;
 
@@ -3022,7 +3022,7 @@ $font-print-decrease: 0.7;
     height: 2em;
   }
 
-  .e-scooter-or-taxi-info-header {
+  .alternative-vehicle-info-header {
     display: flex;
     font-size: $font-size-normal;
     font-weight: $font-weight-medium;
@@ -3031,7 +3031,7 @@ $font-print-decrease: 0.7;
     color: #333;
   }
 
-  .e-scooter-or-taxi-info-content {
+  .alternative-vehicle-info-content {
     display: flex;
     font-size: $font-size-normal;
     margin-bottom: 8px;

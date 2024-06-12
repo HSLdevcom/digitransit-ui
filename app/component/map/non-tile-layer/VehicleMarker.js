@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { routerShape } from 'found';
+import { TransportMode } from '../../../constants';
 import {
   vehicleRentalStationShape,
   rentalVehicleShape,
@@ -120,7 +121,7 @@ export default class VehicleMarker extends React.Component {
         onClick={() =>
           this.handleClick(
             this.props.rental.id,
-            this.props.mode === 'SCOOTER'
+            this.props.mode === TransportMode.Scooter
               ? PREFIX_RENTALVEHICLES
               : PREFIX_BIKESTATIONS,
           )

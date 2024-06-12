@@ -1034,6 +1034,8 @@ const translations = {
     'distance-total': 'Total distance',
     'distance-under': 'Distance less than {distance} m',
     'e-scooter': 'Sähköpotkulauta',
+    'e-scooter-alternative':
+      'Entä jos kulkisit osan matkasta sähköpotkulaudalla? {paymentInfo}',
     'e-scooter-or-taxi-alternative':
       'Entä jos kulkisit osan matkasta taksilla tai sähköpotkulaudalla? {paymentInfo}',
     'e-scooter-quantity': 'Sähköpotkulautoja vapaana juuri nyt: ',
@@ -1327,7 +1329,7 @@ const translations = {
       'Log in to the service to save your favorites and utilize them on other devices',
     'one-way-journey': 'The length of a one-way journey',
     'open-app': 'Open the app',
-    'open-operator-app': 'Avaa {operator}-sovellus',
+    'open-operator-app': 'Open {operator} app',
     'open-settings': 'Avaa asetukset',
     'option-default': 'Average',
     'option-least': 'Slow',
@@ -2243,6 +2245,8 @@ const translations = {
     'distance-total': 'Matkan pituus',
     'distance-under': 'Etäisyys alle {distance} m',
     'e-scooter': 'Sähköpotkulauta',
+    'e-scooter-alternative':
+      'Entä jos kulkisit osan matkasta sähköpotkulaudalla? {paymentInfo}',
     'e-scooter-or-taxi-alternative':
       'Entä jos kulkisit osan matkasta taksilla tai sähköpotkulaudalla? {paymentInfo}',
     'e-scooter-quantity': 'Sähköpotkulautoja vapaana juuri nyt: ',
@@ -4204,6 +4208,8 @@ const translations = {
     'distance-total': 'Resans längd',
     'distance-under': 'Avstånd mindre än {distance} m',
     'e-scooter': 'Sähköpotkulauta',
+    'e-scooter-alternative':
+      'Entä jos kulkisit osan matkasta sähköpotkulaudalla? {paymentInfo}',
     'e-scooter-or-taxi-alternative':
       'Entä jos kulkisit osan matkasta taksilla tai sähköpotkulaudalla? {paymentInfo}',
     'e-scooter-quantity': 'Sähköpotkulautoja vapaana juuri nyt: ',
@@ -4491,8 +4497,8 @@ const translations = {
       'Genom att logga in kan du spara dina favoriter och använda dem med dina andra enheter.',
     'one-way-journey': ' Längden på en enkel resa',
     'open-app': ' Öppna appen',
-    'open-operator-app': 'Avaa {operator}-sovellus',
-    'open-settings': 'Avaa asetukset',
+    'open-operator-app': 'Öppna {operator} appen',
+    'open-settings': 'Öppna inställningar',
     'option-default': 'Standard',
     'option-least': 'Minst',
     'option-less': 'Mindre',

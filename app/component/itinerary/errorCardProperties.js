@@ -196,7 +196,7 @@ const errorCardProps = [
   {
     id: 'no-route-alternative-suggestion',
     props: {
-      bodyId: 'e-scooter-or-taxi-alternative',
+      bodyId: 'e-scooter-alternative',
       ...info,
     },
   },

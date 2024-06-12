@@ -150,18 +150,18 @@ function ItineraryList(
         <div
           className={cx(
             'flex-horizontal',
-            'e-scooter-or-taxi-info',
+            'alternative-vehicle-info',
             'summary-notification',
           )}
         >
           <Icon className="info-icon" img="icon-icon_info" />
           <div>
-            <div className="e-scooter-or-taxi-info-header">
+            <div className="alternative-vehicle-info-header">
               <FormattedMessage id="no-route-msg" />
             </div>
-            <div className="e-scooter-or-taxi-info-content">
+            <div className="alternative-vehicle-info-content">
               <FormattedMessage
-                id="e-scooter-or-taxi-alternative"
+                id="e-scooter-alternative"
                 values={{
                   paymentInfo: (
                     <FormattedMessage id="payment-info-e-scooter-taxi" />
