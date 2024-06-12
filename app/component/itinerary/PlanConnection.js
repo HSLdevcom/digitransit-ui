@@ -104,6 +104,7 @@ const planConnection = graphql`
               }
             }
           }
+          end
         }
       }
     }

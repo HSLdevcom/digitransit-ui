@@ -448,7 +448,7 @@ export function mergeScooterTransitPlan(scooterPlan, transitPlan) {
       ...publicTransitEdges.slice(0, maxTransitEdges),
     ]
       .sort((a, b) => {
-        return a.endTime > b.endTime;
+        return a.node.end > b.node.end;
       })
       .map(edge => {
         return {

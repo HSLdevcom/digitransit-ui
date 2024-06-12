@@ -208,7 +208,7 @@ export default {
     },
     scooter: {
       availableForSelection: true,
-      selectedByDefault: true,
+      defaultValue: false,
     },
     airplane: {
       availableForSelection: false,
