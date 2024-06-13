@@ -324,7 +324,7 @@ const connectedContainer = connectToStores(
               .map(stop => stop.gtfsId),
           );
     return {
-      currentTime: getStore('TimeStore').getCurrentTime().unix(),
+      currentTime: getStore('TimeStore').getCurrentTime(),
       favouriteIds,
     };
   },

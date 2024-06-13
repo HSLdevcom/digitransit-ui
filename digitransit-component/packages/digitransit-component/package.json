@@ -1,6 +1,6 @@
 {
   "name": "@digitransit-component/digitransit-component",
-  "version": "1.2.13",
+  "version": "1.2.14",
   "description": "a JavaScript library for Digitransit",
   "main": "digitransit-component",
   "module": "digitransit-component.mjs",
@@ -37,7 +37,7 @@
     "lodash-es": "4.17.21",
     "prop-types": "^15.7.2",
     "react": "^16.13.0",
-    "react-autosuggest": "10.0.0",
+    "react-autosuggest": "^10.0.0",
     "react-autowhatever": "10.2.1",
     "react-cookie": "^4.0.3",
     "react-modal": "~3.11.2",

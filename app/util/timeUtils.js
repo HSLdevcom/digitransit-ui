@@ -126,12 +126,30 @@ export function getFormattedTimeDate(startTime, pattern) {
  * Epoch ms to 'hh:mm'
  */
 export function epochToTime(ms, config) {
-  const date = new Date(ms).toLocaleString('en-GB', {
+  const time = new Date(ms).toLocaleTimeString('en-GB', {
     timeZone: config.timeZone,
   });
-  const time = date.split(',')[1];
   const parts = time.split(':');
   return `${parts[0]}:${parts[1]}`;
+}
+
+/**
+ * Unix time (from epoch milliseconds if given)
+ */
+export function unixTime(ms) {
+  const t = ms || Date.now();
+  return Math.floor(t / 1000);
+}
+
+/**
+ * Unix to 'YYYYMMDD'
+ */
+export function unixToYYYYMMDD(s, config) {
+  const date = new Date(s * 1000).toLocaleDateString('en-GB', {
+    timeZone: config.timeZone,
+  });
+  const parts = date.split('/');
+  return `${parts[2]}${parts[1]}${parts[0]}`;
 }
 
 /**

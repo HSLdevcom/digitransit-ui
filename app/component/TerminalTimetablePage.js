@@ -1,13 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { createRefetchContainer, graphql } from 'react-relay';
-import moment from 'moment';
 import { matchShape, routerShape } from 'found';
 import { configShape, relayShape } from '../util/shapes';
+import { unixTime, unixToYYYYMMDD } from '../util/timeUtils';
 import { prepareServiceDay } from '../util/dateParamUtils';
 import TimetableContainer from './TimetableContainer';
-
-const initialDate = moment().format('YYYYMMDD');
 
 class TerminalTimetablePage extends React.Component {
   static propTypes = {
@@ -51,7 +49,7 @@ class TerminalTimetablePage extends React.Component {
         stop={this.props.station}
         date={this.state.date}
         propsForDateSelect={{
-          startDate: initialDate,
+          startDate: unixToYYYYMMDD(unixTime(), this.context.config),
           selectedDate: this.state.date,
           onDateChange: this.onDateChange,
         }}

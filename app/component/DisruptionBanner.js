@@ -116,7 +116,7 @@ const containerComponent = createFragmentContainer(
     DisruptionBannerWithBreakpoint,
     ['TimeStore', 'PreferencesStore'],
     ({ getStore }) => ({
-      currentTime: getStore('TimeStore').getCurrentTime().unix(),
+      currentTime: getStore('TimeStore').getCurrentTime(),
       language: getStore('PreferencesStore').getLanguage(),
     }),
   ),

@@ -18,9 +18,9 @@ import {
 } from './util/routerUtils';
 import { prepareServiceDay } from './util/dateParamUtils';
 import {
-  prepareRouteScheduleParamsWithFiveWeeks,
-  prepareRouteScheduleParamsWithTenWeeks,
-} from './util/routeScheduleParamUtils';
+  prepareScheduleParamsWithFiveWeeks,
+  prepareScheduleParamsWithTenWeeks,
+} from './util/scheduleParamUtils';
 
 export default function routeRoutes(config) {
   const showTenWeeks = config.showTenWeeksOnRouteSchedule || false;
@@ -31,7 +31,7 @@ export default function routeRoutes(config) {
         path=":routeId/:type?"
         getComponent={() =>
           import(
-            /* webpackChunkName: "route" */ './component/PatternRedirector'
+            /* webpackChunkName: "route" */ './component/routepage/PatternRedirector'
           ).then(getDefault)
         }
         query={graphql`
@@ -72,7 +72,7 @@ export default function routeRoutes(config) {
               path="(.*)?"
               getComponent={() =>
                 import(
-                  /* webpackChunkName: "route" */ './component/RoutePageMeta'
+                  /* webpackChunkName: "route" */ './component/routepage/RoutePageMeta'
                 ).then(getDefault)
               }
               query={graphql`
@@ -90,7 +90,7 @@ export default function routeRoutes(config) {
               path="(.*)?"
               getComponent={() =>
                 import(
-                  /* webpackChunkName: "route" */ './component/RoutePage'
+                  /* webpackChunkName: "route" */ './component/routepage/RoutePage'
                 ).then(getDefault)
               }
               query={graphql`
@@ -176,7 +176,7 @@ export default function routeRoutes(config) {
                 path=":patternId"
                 getComponent={() =>
                   import(
-                    /* webpackChunkName: "route" */ './component/PatternStopsContainer'
+                    /* webpackChunkName: "route" */ './component/routepage/PatternStopsContainer'
                   ).then(getDefault)
                 }
                 query={graphql`
@@ -201,7 +201,7 @@ export default function routeRoutes(config) {
                 path=":patternId/:tripId"
                 getComponent={() =>
                   import(
-                    /* webpackChunkName: "route" */ './component/TripStopsContainer'
+                    /* webpackChunkName: "route" */ './component/routepage/TripStopsContainer'
                   ).then(getDefault)
                 }
                 query={graphql`
@@ -230,11 +230,11 @@ export default function routeRoutes(config) {
               path={`${PREFIX_TIMETABLE}/:patternId`}
               getComponent={() =>
                 import(
-                  /* webpackChunkName: "route" */ './component/RouteScheduleContainer'
+                  /* webpackChunkName: "route" */ './component/routepage/ScheduleContainer'
                 ).then(getDefault)
               }
               query={graphql`
-                query routeRoutes_RouteScheduleContainer_Query(
+                query routeRoutes_ScheduleContainer_Query(
                   $showTenWeeks: Boolean!
                   $routeId: String!
                   $patternId: String!
@@ -312,14 +312,14 @@ export default function routeRoutes(config) {
                   $wk10day7: String
                 ) {
                   pattern(id: $patternId) {
-                    ...RouteScheduleContainer_pattern
+                    ...ScheduleContainer_pattern
                   }
                   route(id: $routeId) {
-                    ...RouteScheduleContainer_route
+                    ...ScheduleContainer_route
                       @arguments(date: $date, serviceDate: $serviceDate)
                   }
                   firstDepartures: pattern(id: $patternId) {
-                    ...RouteScheduleContainer_firstDepartures
+                    ...ScheduleContainer_firstDepartures
                       @arguments(
                         showTenWeeks: $showTenWeeks
                         wk1day1: $wk1day1
@@ -398,8 +398,8 @@ export default function routeRoutes(config) {
               `}
               prepareVariables={
                 showTenWeeks
-                  ? prepareRouteScheduleParamsWithTenWeeks
-                  : prepareRouteScheduleParamsWithFiveWeeks
+                  ? prepareScheduleParamsWithTenWeeks
+                  : prepareScheduleParamsWithFiveWeeks
               }
               render={getComponentOrLoadingRenderer}
             />,
@@ -407,7 +407,7 @@ export default function routeRoutes(config) {
               path={`${PREFIX_DISRUPTION}/:patternId`}
               getComponent={() =>
                 import(
-                  /* webpackChunkName: "route" */ './component/RouteAlertsContainer'
+                  /* webpackChunkName: "route" */ './component/routepage/RouteAlertsContainer'
                 ).then(getDefault)
               }
               query={graphql`

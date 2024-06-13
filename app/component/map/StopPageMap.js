@@ -235,7 +235,7 @@ const StopPageMapWithStores = connectToStores(
   componentWithBreakpoint,
   [TimeStore, PositionStore, MapLayerStore],
   ({ config, getStore }, props) => {
-    const currentTime = getStore(TimeStore).getCurrentTime().unix();
+    const currentTime = getStore(TimeStore).getCurrentTime();
     const locationState = getStore(PositionStore).getLocationState();
     const ml = config.showVehiclesOnStopPage ? { notThese: ['vehicles'] } : {};
     if (props.citybike) {

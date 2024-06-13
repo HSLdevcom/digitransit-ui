@@ -1,5 +1,4 @@
 import Store from 'fluxible/addons/BaseStore';
-import moment from 'moment';
 
 class TimeStore extends Store {
   static storeName = 'TimeStore';
@@ -18,17 +17,17 @@ class TimeStore extends Store {
   updateCurrentTime = () => {
     if (this.config.NODE_ENV === 'test') {
       // Set current time to Tue Dec 28 2021 for E2E-tests
-      this.currentTime = moment('2021-12-28T12:57:00+00:00');
+      this.currentTime = Math.floor(
+        Date.parse('2021-12-28T12:57:00+00:00') / 1000,
+      );
     } else {
-      this.currentTime = moment();
+      this.currentTime = Math.floor(Date.now() / 1000);
     }
-    this.emitChange({
-      currentTime: this.currentTime,
-    });
+    this.emitChange();
   };
 
   getCurrentTime() {
-    return this.currentTime.clone();
+    return this.currentTime;
   }
 
   static handlers = {};

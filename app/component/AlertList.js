@@ -129,7 +129,7 @@ const connectedComponent = connectToStores(
   withBreakpoint(AlertList),
   ['TimeStore', 'PreferencesStore'],
   context => ({
-    currentTime: context.getStore('TimeStore').getCurrentTime().unix(),
+    currentTime: context.getStore('TimeStore').getCurrentTime(),
   }),
 );
 
