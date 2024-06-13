@@ -11382,6 +11382,7 @@ __metadata:
     stylelint: 15.11.0
     stylelint-config-standard-scss: 11.1.0
     suncalc: 1.8.0
+    supercluster: ^8.0.1
     swipe-js-iso: 2.1.5
     terser-webpack-plugin: 4.1.0
     universal-cookie: 4.0.4
@@ -17830,6 +17831,13 @@ __metadata:
   version: 6.2.0
   resolution: "just-extend@npm:6.2.0"
   checksum: 022024d6f687c807963b97a24728a378799f7e4af7357d1c1f90dedb402943d5c12be99a5136654bed8362c37a358b1793feaad3366896f239a44e17c5032d86
+  languageName: node
+  linkType: hard
+
+"kdbush@npm:^4.0.2":
+  version: 4.0.2
+  resolution: "kdbush@npm:4.0.2"
+  checksum: 6782ef2cdaec9322376b9955a16b0163beda0cefa2f87da76e8970ade2572d8b63bec915347aaeac609484b0c6e84d7b591f229ef353b68b460238095bacde2d
   languageName: node
   linkType: hard
 
@@ -26922,6 +26930,15 @@ __metadata:
   version: 1.8.0
   resolution: "suncalc@npm:1.8.0"
   checksum: 4c8eb97f1d211c4c666853dde10037cc09a889a0711828435e6258523a078be9fa503a4be280e950991ef38ff09134a3d0316014ca6ecb7d810bdc1e577bd654
+  languageName: node
+  linkType: hard
+
+"supercluster@npm:^8.0.1":
+  version: 8.0.1
+  resolution: "supercluster@npm:8.0.1"
+  dependencies:
+    kdbush: ^4.0.2
+  checksum: 39d141f768a511efa53260252f9dab9a2ce0228b334e55482c8d3019e151932f05e1a9a0252d681737651b13c741c665542a6ddb40ec27de96159ea7ad41f7f4
   languageName: node
   linkType: hard
 
