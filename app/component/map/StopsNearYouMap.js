@@ -166,7 +166,7 @@ function StopsNearYouMap(
 ) {
   const [sortedStopEdges, setSortedStopEdges] = useState([]);
   const [uniqueRealtimeTopics, setUniqueRealtimeTopics] = useState([]);
-  const [routes, setRouteLines] = useState([]);
+  const [routeLines, setRouteLines] = useState([]);
   const [bounds, setBounds] = useState([]);
   const [clientOn, setClientOn] = useState(false);
   const [firstPlan, setFirstPlan] = useState({
@@ -282,8 +282,8 @@ function StopsNearYouMap(
     }
   }, [position, sortedStopEdges]);
 
-  const setRoutes = sortedRoutes => {
-    const routeLines = [];
+  const updateRoutes = sortedRoutes => {
+    let patterns = [];
     const realtimeTopics = [];
     sortedRoutes.forEach(item => {
       const { place } = item.node;
@@ -297,7 +297,7 @@ function StopsNearYouMap(
             shortName: pattern.route.shortName,
             type: pattern.route.type,
           });
-          routeLines.push(pattern);
+          patterns.push(pattern);
         });
       // eslint-disable-next-line no-unused-expressions
       place.stops &&
@@ -310,12 +310,23 @@ function StopsNearYouMap(
               shortName: pattern.route.shortName,
               type: pattern.route.type,
             });
-            routeLines.push(pattern);
+            patterns.push(pattern);
           });
         });
     });
-
-    setRouteLines(routeLines);
+    patterns = uniqBy(patterns, p => p.id);
+    patterns = uniqBy(patterns, p => p.patternGeometry?.points || '');
+    const lines = patterns
+      .filter(p => p.patternGeometry)
+      .map(p => (
+        <Line
+          key={`${p.code}`}
+          opaque
+          geometry={polyline.decode(p.patternGeometry.points)}
+          mode={getRouteMode(p.route)}
+        />
+      ));
+    setRouteLines(lines);
     setUniqueRealtimeTopics(uniqBy(realtimeTopics, route => route.route));
   };
 
@@ -382,12 +393,12 @@ function StopsNearYouMap(
       const stopsAndStations = handleStopsAndStations(sortedEdges);
       handleWalkRoutes(stopsAndStations);
       setSortedStopEdges(sortedEdges);
-      setRoutes(sortedEdges);
+      updateRoutes(sortedEdges);
     }
     if (mode === 'FAVORITE') {
       handleWalkRoutes(handleStopsAndStations(stopsNearYou));
       setSortedStopEdges(stopsNearYou);
-      setRoutes(stopsNearYou);
+      updateRoutes(stopsNearYou);
     }
   }, [stopsNearYou, favouriteIds]);
 
@@ -395,25 +406,8 @@ function StopsNearYouMap(
     return <Loading />;
   }
 
-  let leafletObjs = [];
-  // create route lines
-  if (isTransitMode && Array.isArray(routes)) {
-    const getPattern = pattern =>
-      pattern.patternGeometry ? pattern.patternGeometry.points : '';
-    leafletObjs = uniqBy(routes, getPattern).map(pattern => {
-      if (pattern.patternGeometry) {
-        return (
-          <Line
-            key={`${pattern.code}`}
-            opaque
-            geometry={polyline.decode(pattern.patternGeometry.points)}
-            mode={getRouteMode(pattern.route)}
-          />
-        );
-      }
-      return null;
-    });
-  }
+  const leafletObjs =
+    isTransitMode && Array.isArray(routeLines) ? [...routeLines] : [];
   if (uniqueRealtimeTopics.length > 0) {
     leafletObjs.push(
       <VehicleMarkerContainer
