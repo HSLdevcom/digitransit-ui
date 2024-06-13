@@ -169,17 +169,14 @@ export default {
   cityBike: {
     useAllSeasons: true,
     networks: {
-      smoove: HSLConfig.cityBike.networks.smoove,
-      vantaa: HSLConfig.cityBike.networks.vantaa,
-      seatcode_tampere: TampereConfig.cityBike.networks.seatcode_tampere,
-      turku: TurkuConfig.cityBike.networks.donkey_turku,
-      freebike_kuopio: KuopioConfig.cityBike.networks.freebike_kuopio,
-      freebike_lahti: LahtiConfig.cityBike.networks.freebike_lahti,
-      donkey_lappeenranta:
-        LappeenrantaConfig.cityBike.networks.donkey_lappeenranta,
-      donkey_kotka: KotkaConfig.cityBike.networks.donkey_kotka,
-      donkey_kouvola: KouvolaConfig.cityBike.networks.donkey_kouvola,
-      bolt: HSLConfig.cityBike.networks.bolt,
+      ...HSLConfig.cityBike.networks,
+      ...TampereConfig.cityBike.networks,
+      ...TurkuConfig.cityBike.networks,
+      ...KuopioConfig.cityBike.networks,
+      ...LahtiConfig.cityBike.networks,
+      ...LappeenrantaConfig.cityBike.networks,
+      ...KotkaConfig.cityBike.networks,
+      ...KouvolaConfig.cityBike.networks,
     },
   },
 
