@@ -31,6 +31,12 @@ export default {
       sv: `${POI_MAP_PREFIX}/sv/vehicleParkingGroups/`,
       fi: `${POI_MAP_PREFIX}/fi/vehicleParkingGroups/`,
     },
+    RENTAL_VEHICLE_MAP: {
+      default: `${POI_MAP_PREFIX}/fi/rentalVehicles/`,
+    },
+    REALTIME_RENTAL_VEHICLE_MAP: {
+      default: `${POI_MAP_PREFIX}/fi/realtimeRentalVehicles/`,
+    },
   },
 
   stopsMinZoom: 14,

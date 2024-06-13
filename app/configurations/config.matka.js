@@ -62,6 +62,8 @@ export default {
       'mode-ferry-pier': '#666666',
       'mode-citybike': '#FCBC19',
       'mode-citybike-secondary': '#333333',
+      'mode-scooter': '#BABABA',
+      'mode-scooter-secondary': '#333333',
     },
   },
   feedIds: [
@@ -177,6 +179,7 @@ export default {
         LappeenrantaConfig.cityBike.networks.donkey_lappeenranta,
       donkey_kotka: KotkaConfig.cityBike.networks.donkey_kotka,
       donkey_kouvola: KouvolaConfig.cityBike.networks.donkey_kouvola,
+      bolt: HSLConfig.cityBike.networks.bolt,
     },
   },
 
@@ -195,6 +198,10 @@ export default {
   transportModes: {
     citybike: {
       availableForSelection: true,
+    },
+    scooter: {
+      availableForSelection: true,
+      defaultValue: false,
     },
   },
 
