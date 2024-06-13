@@ -96,7 +96,6 @@ class StopsNearYouPage extends React.Component {
     super(props);
     this.state = {
       phase: PH_START,
-      centerOfMap: null,
       centerOfMapChanged: false,
       showCityBikeTeaser: true,
       searchPosition: {},
@@ -235,22 +234,11 @@ class StopsNearYouPage extends React.Component {
     };
   };
 
-  setCenterOfMap = (mapElement, e) => {
+  setCenterOfMap = mapElement => {
     let location;
     if (!mapElement) {
-      if (distance(this.state.searchPosition, this.props.position) > 100) {
-        // user has pressed locate me after moving on the map via the search box
-        return this.setState({
-          centerOfMap: this.props.position,
-          centerOfMapChanged: true,
-        });
-      }
-      return this.setState({
-        centerOfMap: this.props.position,
-        centerOfMapChanged: false,
-      });
-    }
-    if (this.props.breakpoint === 'large') {
+      location = this.props.position;
+    } else if (this.props.breakpoint === 'large') {
       const centerOfMap = mapElement.leafletElement.getCenter();
       location = { lat: centerOfMap.lat, lon: centerOfMap.lng };
     } else {
@@ -265,25 +253,17 @@ class StopsNearYouPage extends React.Component {
       ]);
       location = { lat: point.lat, lon: point.lng };
     }
-    if (distance(location, this.state.searchPosition) > 100) {
-      // user has scrolled over 100 meters on the map
-      if (e || this.state.centerOfMapChanged) {
-        return this.setState({
-          centerOfMap: location,
-          centerOfMapChanged: true,
-        });
-      }
+    this.centerOfMap = location;
+    const changed = distance(location, this.state.searchPosition) > 100;
+    if (changed !== this.state.centerOfMapChanged) {
+      this.setState({ centerOfMapChanged: changed });
     }
-    return this.setState({
-      centerOfMap: location,
-      centerOfMapChanged: false,
-    });
   };
 
   updateLocation = () => {
-    const { centerOfMap } = this.state;
+    const { centerOfMap } = this;
     const { mode } = this.props.match.params;
-    if (centerOfMap && centerOfMap.lat && centerOfMap.lon) {
+    if (centerOfMap?.lat && centerOfMap?.lon) {
       let phase = PH_USEMAPCENTER;
       let type = 'CenterOfMap';
       if (centerOfMap.type === 'CurrentLocation') {
@@ -799,10 +779,10 @@ class StopsNearYouPage extends React.Component {
       ...this.props.match.location,
       pathname: path,
     });
+    this.centerOfMap = null;
     this.setState({
       phase: PH_USEDEFAULTPOS,
       searchPosition: item,
-      centerOfMap: null,
       centerOfMapChanged: false,
     });
   };
