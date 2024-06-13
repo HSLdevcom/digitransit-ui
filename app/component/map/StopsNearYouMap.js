@@ -314,7 +314,6 @@ function StopsNearYouMap(
           });
         });
     });
-    patterns = uniqBy(patterns, p => p.id);
     patterns = uniqBy(patterns, p => p.patternGeometry?.points || '');
     const lines = patterns
       .filter(p => p.patternGeometry)

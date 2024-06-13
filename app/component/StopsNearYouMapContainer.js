@@ -77,7 +77,6 @@ const containerComponent = createPaginationContainer(
                   lon
                   name
                   patterns {
-                    id
                     route {
                       gtfsId
                       shortName
@@ -92,7 +91,6 @@ const containerComponent = createPaginationContainer(
                   }
                   stops {
                     patterns {
-                      id
                       route {
                         gtfsId
                         shortName
