@@ -66,7 +66,13 @@ class TransitLeg extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      showIntermediateStops: props.leg.intermediatePlaces.length < 2,
+      showIntermediateStops:
+        props.interliningLegs.length >= 1
+          ? props.interliningLegs.reduce(
+              (sum, leg) => sum + leg.intermediatePlaces.length,
+              0,
+            ) < 2
+          : props.leg.intermediatePlaces.length < 2,
       showAlternativeLegs: false,
     };
   }
@@ -143,7 +149,7 @@ class TransitLeg extends React.Component {
   renderIntermediate() {
     const { leg, mode, interliningLegs } = this.props;
     if (
-      leg.intermediatePlaces.length > 0 &&
+      (leg.intermediatePlaces.length > 0 || interliningLegs.length > 0) &&
       this.state.showIntermediateStops === true
     ) {
       const places = leg.intermediatePlaces.slice();
@@ -419,7 +425,7 @@ class TransitLeg extends React.Component {
           color={leg.route ? `#${leg.route.color}` : 'currentColor'}
           renderBottomMarker={
             !this.state.showIntermediateStops ||
-            leg.intermediatePlaces.length === 0
+            (leg.intermediatePlaces.length === 0 && interliningLegs.length < 1)
           }
         />
         <div
@@ -570,7 +576,8 @@ class TransitLeg extends React.Component {
           <LegAgencyInfo leg={leg} />
           {intermediateStopCount !== 0 && (
             <div className="intermediate-stops-button-container">
-              {leg.intermediatePlaces.length > 1 && (
+              {(leg.intermediatePlaces.length > 1 ||
+                interliningLegs.length >= 1) && (
                 <StopInfo
                   toggleFunction={this.toggleShowIntermediateStops}
                   leg={leg}

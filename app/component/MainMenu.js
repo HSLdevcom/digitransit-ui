@@ -155,7 +155,7 @@ MainMenu.propTypes = {
   setDisruptionInfoOpen: PropTypes.func.isRequired,
   closeMenu: PropTypes.func.isRequired,
   homeUrl: PropTypes.string.isRequired,
-  countries: PropTypes.arrayOf(PropTypes.string),
+  countries: PropTypes.objectOf(PropTypes.bool),
   currentLanguage: PropTypes.string,
 };
 

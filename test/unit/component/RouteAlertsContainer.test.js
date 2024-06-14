@@ -5,7 +5,7 @@ import React from 'react';
 import { mockContext } from '../helpers/mock-context';
 import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
 import AlertList from '../../../app/component/AlertList';
-import { Component as RouteAlertsContainer } from '../../../app/component/RouteAlertsContainer';
+import { Component as RouteAlertsContainer } from '../../../app/component/routepage/RouteAlertsContainer';
 
 describe('<RouteAlertsContainer />', () => {
   it('should indicate that there are no alerts if the route has no alerts nor canceled stoptimes', () => {
@@ -23,6 +23,8 @@ describe('<RouteAlertsContainer />', () => {
           {
             stoptimes: [
               {
+                serviceDay: 1533675600,
+                scheduledDeparture: 600,
                 headsign: 'Kamppi',
                 realtimeState: 'SCHEDULED',
                 stop: {
@@ -63,6 +65,8 @@ describe('<RouteAlertsContainer />', () => {
             stoptimes: [
               {
                 headsign: 'Kamppi',
+                serviceDay: 1533675600,
+                scheduledDeparture: 600,
                 realtimeState: 'CANCELED',
                 stop: {
                   name: 'Saramäentie',
@@ -73,6 +77,8 @@ describe('<RouteAlertsContainer />', () => {
           {
             stoptimes: [
               {
+                serviceDay: 1533675600,
+                scheduledDeparture: 600,
                 headsign: 'Kamppi',
                 realtimeState: 'SCHEDULED',
                 stop: {

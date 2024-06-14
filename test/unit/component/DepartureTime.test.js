@@ -2,7 +2,7 @@ import React from 'react';
 
 import DepartureTime, {
   fromStopTime,
-} from '../../../app/component/DepartureTime';
+} from '../../../app/component/routepage/DepartureTime';
 import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
 import { RealtimeStateType } from '../../../app/constants';
 

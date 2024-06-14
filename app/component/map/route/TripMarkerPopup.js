@@ -6,29 +6,24 @@ import Link from 'found/Link';
 import { FormattedMessage } from 'react-intl';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../../../util/path';
 
-import RouteHeader from '../../RouteHeader';
+import PopupHeader from './PopupHeader';
 
 import { addAnalyticsEvent } from '../../../util/analyticsUtils';
 
 function TripMarkerPopup(props) {
-  if (!props.trip) {
-    return null;
-  }
   let patternPath = `/${PREFIX_ROUTES}/${props.trip.route.gtfsId}/${PREFIX_STOPS}`;
   let tripPath = patternPath;
 
-  if (props.trip) {
-    patternPath += `/${props.trip.pattern.code}`;
-    tripPath = `${patternPath}/${props.trip.gtfsId}`;
-  }
+  patternPath += `/${props.trip.pattern.code}`;
+  tripPath = `${patternPath}/${props.trip.gtfsId}`;
 
   return (
     <div className="card">
-      <RouteHeader
+      <PopupHeader
         card
         route={props.trip.route}
-        pattern={props.trip && props.trip.pattern}
-        trip={props.message.tripStartTime}
+        pattern={props.trip.pattern}
+        startTime={props.message.tripStartTime}
       />
       <div className="bottom location">
         <Link

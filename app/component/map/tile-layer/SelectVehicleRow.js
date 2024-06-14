@@ -8,20 +8,14 @@ import { getRouteMode } from '../../../util/modeUtils';
 import Icon from '../../Icon';
 
 function SelectVehicleRow(props) {
-  if (!props.trip) {
-    return null;
-  }
   const mode = getRouteMode(props.trip.route);
   const iconId = `icon-icon_${mode || 'bus'}`;
 
   let patternPath = `/${PREFIX_ROUTES}/${props.trip.route.gtfsId}/${PREFIX_STOPS}`;
 
-  if (props.trip) {
-    patternPath += `/${props.trip.pattern.code}/${props.trip.gtfsId}`;
-  }
-  const name = props.trip
-    ? props.trip.pattern.headsign
-    : props.trip.route.longName;
+  patternPath += `/${props.trip.pattern.code}/${props.trip.gtfsId}`;
+
+  const name = props.trip.pattern.headsign || props.trip.route.longName;
   return (
     <Link className="stop-popup-choose-row" to={patternPath}>
       <span className="choose-row-left-column" aria-hidden="true">

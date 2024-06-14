@@ -76,7 +76,9 @@ export default class Line extends React.Component {
     let filteredPoints;
     if (this.props.geometry) {
       filteredPoints = this.props.geometry.filter(
-        point => point.lat !== null && point.lon !== null,
+        point =>
+          (typeof point.lat === 'number' && typeof point.lon === 'number') ||
+          (typeof point[0] === 'number' && typeof point[1] === 'number'),
       );
     }
 

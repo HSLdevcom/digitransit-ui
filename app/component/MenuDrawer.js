@@ -38,10 +38,11 @@ MenuDrawer.propTypes = {
   children: PropTypes.node,
   onRequestChange: PropTypes.func,
   breakpoint: PropTypes.string.isRequired,
-  className: PropTypes.string.isRequired,
+  className: PropTypes.string,
 };
 
 MenuDrawer.defaultProps = {
   children: undefined,
   onRequestChange: undefined,
+  className: '',
 };

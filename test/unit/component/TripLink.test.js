@@ -2,7 +2,7 @@ import React from 'react';
 
 import { ReactRelayContext } from 'react-relay';
 
-import TripLink from '../../../app/component/TripLink';
+import TripLink from '../../../app/component/routepage/TripLink';
 import VehicleIcon from '../../../app/component/VehicleIcon';
 import { mountWithIntl } from '../helpers/mock-intl-enzyme';
 

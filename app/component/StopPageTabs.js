@@ -1,5 +1,4 @@
 import cx from 'classnames';
-import moment from 'moment';
 import React, { useState, useRef } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { matchShape } from 'found';
@@ -13,6 +12,7 @@ import {
 } from '../util/alertUtils';
 import withBreakpoint from '../util/withBreakpoint';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
+import { unixTime } from '../util/timeUtils';
 import {
   PREFIX_DISRUPTION,
   PREFIX_ROUTES,
@@ -63,7 +63,7 @@ function StopPageTabs({ stop }, { match }) {
     match.params.terminalId ? match.params.terminalId : match.params.stopId,
   )}`;
 
-  const currentTime = moment().unix();
+  const currentTime = unixTime();
 
   const cancelations = getCancelationsForStop(stop);
 

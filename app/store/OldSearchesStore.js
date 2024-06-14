@@ -4,9 +4,8 @@ import find from 'lodash/find';
 import get from 'lodash/get';
 import isEqual from 'lodash/isEqual';
 import orderBy from 'lodash/orderBy';
-import moment from 'moment';
-
 import { getNameLabel } from '@digitransit-search-util/digitransit-search-util-uniq-by-label';
+import { unixTime } from '../util/timeUtils';
 import { getOldSearchesStorage, setOldSearchesStorage } from './localStorage';
 
 /**
@@ -53,7 +52,7 @@ class OldSearchesStore extends Store {
       isEqual(key, getNameLabel(oldItem.item.properties, true)),
     );
 
-    const timestamp = moment().unix();
+    const timestamp = unixTime();
     if (found != null) {
       found.count += 1;
       found.lastUpdated = timestamp;
@@ -97,7 +96,7 @@ class OldSearchesStore extends Store {
 
   getOldSearches(type) {
     const { items } = this.getStorageObject();
-    const timestamp = moment().unix();
+    const timestamp = unixTime();
     return items
       .filter(
         item =>
@@ -121,7 +120,7 @@ class OldSearchesStore extends Store {
 
   getOldSearchItems() {
     const { items } = this.getStorageObject();
-    const timestamp = moment().unix();
+    const timestamp = unixTime();
     return items.filter(
       item =>
         (item.lastUpdated

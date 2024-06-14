@@ -2,8 +2,8 @@ import Store from 'fluxible/addons/BaseStore';
 import find from 'lodash/find';
 import findIndex from 'lodash/findIndex';
 import isEmpty from 'lodash/isEmpty';
-import moment from 'moment';
 import { v4 as uuid } from 'uuid';
+import { unixTime } from '../util/timeUtils';
 import {
   clearFavouriteStorage,
   getFavouriteStorage,
@@ -218,12 +218,12 @@ export default class FavouriteStore extends Store {
     if (editIndex >= 0) {
       newFavourites[editIndex] = {
         ...data,
-        lastUpdated: moment().unix(),
+        lastUpdated: unixTime(),
       };
     } else {
       newFavourites.push({
         ...data,
-        lastUpdated: moment().unix(),
+        lastUpdated: unixTime(),
         favouriteId: uuid(),
       });
     }
