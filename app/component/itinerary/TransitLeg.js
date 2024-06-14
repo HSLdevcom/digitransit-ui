@@ -227,7 +227,6 @@ class TransitLeg extends React.Component {
 
   renderMain = () => {
     const {
-      children,
       focusAction,
       index,
       leg,
@@ -255,7 +254,6 @@ class TransitLeg extends React.Component {
       <FormattedMessage
         id="itinerary-details.transit-leg-part-2"
         values={{
-          vehicle: children,
           startStop: leg.from.name,
           startZoneInfo: intl.formatMessage(
             { id: 'zone-info' },
@@ -406,7 +404,16 @@ class TransitLeg extends React.Component {
       <div key={index} className="row itinerary-row">
         <span className="sr-only">{textVersionBeforeLink}</span>
         <div className="small-2 columns itinerary-time-column">
-          <span className="sr-only">{children}</span>
+          <span className="sr-only">
+            <FormattedMessage
+              id={`${this.props.mode}-with-route-number`}
+              values={{
+                routeNumber: leg.route?.shortName,
+                headSign: leg.trip?.tripHeadsign,
+              }}
+              defaultMessage={`${this.props.mode} {routeNumber} {headSign}`}
+            />
+          </span>
           <span aria-hidden="true">
             <div className="itinerary-time-column-time">
               <span className={cx({ realtime: leg.realTime })}>
@@ -654,7 +661,6 @@ TransitLeg.propTypes = {
   index: PropTypes.number.isRequired,
   mode: PropTypes.string.isRequired,
   focusAction: PropTypes.func.isRequired,
-  children: PropTypes.node.isRequired,
   lang: PropTypes.string.isRequired,
   omitDivider: PropTypes.bool,
   changeHash: PropTypes.func,
