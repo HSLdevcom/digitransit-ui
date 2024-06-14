@@ -200,6 +200,7 @@ export default {
     scooter: {
       availableForSelection: true,
       defaultValue: false,
+      hideUnlessSelectedForRouting: true,
     },
     airplane: {
       availableForSelection: false,

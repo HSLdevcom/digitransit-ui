@@ -163,9 +163,7 @@ function ItineraryList(
               <FormattedMessage
                 id="e-scooter-alternative"
                 values={{
-                  paymentInfo: (
-                    <FormattedMessage id="payment-info-e-scooter-taxi" />
-                  ),
+                  paymentInfo: <FormattedMessage id="payment-info-e-scooter" />,
                 }}
               />
             </div>

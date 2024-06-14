@@ -59,7 +59,8 @@ class RentalVehicles {
             const allowedScooterNetworks =
               settings.allowedScooterRentalNetworks;
             const scooterIconPrefix = `icon-icon_scooter`;
-
+            const showAllNetworks =
+              !this.config.transportModes.scooter.hideUnlessSelectedForRouting;
             if (layer) {
               for (let i = 0, ref = layer.length - 1; i <= ref; i++) {
                 const feature = layer.feature(i);
@@ -67,7 +68,10 @@ class RentalVehicles {
                 // Filter out vehicles that are not in the allowedScooterNetworks (selected by a user) to avoid including unwanted vehicles in clusters
                 // Also Filter out vehicles that should not be shown to avoid user accidentally clicking on invisible objects on the map
                 if (
-                  allowedScooterNetworks.includes(feature.properties.network) &&
+                  (showAllNetworks ||
+                    allowedScooterNetworks.includes(
+                      feature.properties.network,
+                    )) &&
                   this.shouldShowRentalVehicle(
                     feature.properties.id,
                     feature.properties.network,
