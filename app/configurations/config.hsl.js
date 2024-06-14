@@ -32,13 +32,13 @@ export default {
       default: `${POI_MAP_PREFIX}/fi/rentalStations/`,
     },
     RENTAL_VEHICLE_MAP: {
-      default: `${OTP_URL}vectorTiles/rentalVehicles/`,
+      default: `${POI_MAP_PREFIX}/fi/rentalVehicles/`,
     },
     REALTIME_RENTAL_VEHICLE_MAP: {
-      default: `${OTP_URL}vectorTiles/realtimeRentalVehicles/`,
+      default: `${POI_MAP_PREFIX}/fi/realtimeRentalVehicles/`,
     },
     REALTIME_RENTAL_STATION_MAP: {
-      default: `${OTP_URL}vectorTiles/realtimeRentalStations/`,
+      default: `${POI_MAP_PREFIX}/fi/realtimeRentalStations/`,
     },
     PARK_AND_RIDE_MAP: {
       default: `${POI_MAP_PREFIX}/en/vehicleParking/`,
