@@ -256,29 +256,6 @@ export default configMerger(walttiConfig, {
         },
         timeBeforeSurcharge: 60 * 60,
       },
-      scooter_tampere: {
-        capacity: BIKEAVL_WITHMAX,
-        enabled: true,
-        season: {
-          // 15.4. - 31.10.
-          start: new Date(new Date().getFullYear(), 3, 15),
-          end: new Date(new Date().getFullYear(), 10, 1),
-        },
-        icon: 'scooter',
-        name: {
-          fi: 'Tampere',
-          sv: 'Tammerfors',
-          en: 'Tampere',
-        },
-        type: 'scooter',
-        // Shown if citybike leg duration exceeds timeBeforeSurcharge
-        durationInstructions: {
-          fi: 'https://www.nysse.fi/kaupunkipyorat',
-          sv: 'https://www.nysse.fi/en/city-bikes.html',
-          en: 'https://www.nysse.fi/en/city-bikes.html',
-        },
-        timeBeforeSurcharge: 60 * 60,
-      },
     },
     buyUrl: {
       fi: 'https://www.nysse.fi/kaupunkipyorat',
