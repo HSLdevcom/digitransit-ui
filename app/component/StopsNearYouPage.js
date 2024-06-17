@@ -234,7 +234,7 @@ class StopsNearYouPage extends React.Component {
       omitNonPickups: this.context.config.omitNonPickups,
       feedIds: this.context.config.feedIds,
       prioritizedStopIds: prioritizedStops,
-      filterByNetworkNames: allowedNetworks,
+      filterByNetwork: allowedNetworks,
     };
   };
 
@@ -430,7 +430,7 @@ class StopsNearYouPage extends React.Component {
                 $maxDistance: Int!
                 $omitNonPickups: Boolean!
                 $feedIds: [String!]
-                $filterByNetworkNames: [String!]
+                $filterByNetwork: [String!]
               ) {
                 stopPatterns: viewer {
                   ...StopsNearYouContainer_stopPatterns
@@ -443,7 +443,7 @@ class StopsNearYouPage extends React.Component {
                       maxResults: $maxResults
                       maxDistance: $maxDistance
                       omitNonPickups: $omitNonPickups
-                      filterByNetworkNames: $filterByNetworkNames
+                      filterByNetwork: $filterByNetwork
                     )
                 }
                 alerts: alerts(feeds: $feedIds, severityLevel: [SEVERE]) {
@@ -725,7 +725,7 @@ class StopsNearYouPage extends React.Component {
             $maxDistance: Int!
             $omitNonPickups: Boolean!
             $prioritizedStopIds: [String!]!
-            $filterByNetworkNames: [String!]
+            $filterByNetwork: [String!]
           ) {
             stops: viewer {
               ...StopsNearYouMapContainer_stopsNearYou
@@ -738,7 +738,7 @@ class StopsNearYouPage extends React.Component {
                   maxResults: $maxResults
                   maxDistance: $maxDistance
                   omitNonPickups: $omitNonPickups
-                  filterByNetworkNames: $filterByNetworkNames
+                  filterByNetwork: $filterByNetwork
                 )
             }
             prioritizedStops: stops(ids: $prioritizedStopIds) {

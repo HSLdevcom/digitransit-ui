@@ -48,7 +48,7 @@ const containerComponent = createPaginationContainer(
         after: { type: "String" }
         maxResults: { type: "Int" }
         maxDistance: { type: "Int" }
-        filterByNetworkNames: { type: "[String]", defaultValue: null }
+        filterByNetwork: { type: "[String]", defaultValue: null }
       ) {
         nearest(
           lat: $lat
@@ -59,7 +59,7 @@ const containerComponent = createPaginationContainer(
           after: $after
           maxResults: $maxResults
           maxDistance: $maxDistance
-          filterByNetworkNames: $filterByNetworkNames
+          filterByNetwork: $filterByNetwork
         ) @connection(key: "StopsNearYouMapContainer_nearest") {
           edges {
             node {
@@ -189,7 +189,7 @@ const containerComponent = createPaginationContainer(
         $maxDistance: Int!
         $startTime: Long!
         $omitNonPickups: Boolean!
-        $filterByNetworkNames: [String]
+        $filterByNetwork: [String]
       ) {
         viewer {
           ...StopsNearYouMapContainer_stopsNearYou
@@ -204,7 +204,7 @@ const containerComponent = createPaginationContainer(
               after: $after
               maxResults: $maxResults
               maxDistance: $maxDistance
-              filterByNetworkNames: $filterByNetworkNames
+              filterByNetwork: $filterByNetwork
             )
         }
       }
