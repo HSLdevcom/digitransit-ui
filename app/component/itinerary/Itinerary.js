@@ -1046,7 +1046,9 @@ const containerComponent = createFragmentContainer(ItineraryWithBreakpoint, {
               ios
               web
             }
-            systemUrl
+            vehicleRentalSystem {
+              url
+            }
           }
         }
         to {

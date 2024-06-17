@@ -455,7 +455,9 @@ const withRelay = createFragmentContainer(
                 ios 
                 web
               }
-              systemUrl
+              vehicleRentalSystem {
+                url
+              }
             }
             stop {
               gtfsId
@@ -502,7 +504,9 @@ const withRelay = createFragmentContainer(
                   ios
                   web
                 }
-                systemUrl
+                vehicleRentalSystem {
+                  url
+                }
             }
             stop {
               gtfsId
