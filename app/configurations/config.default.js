@@ -725,6 +725,7 @@ export default {
     hameenlinna: 'hameenlinna',
     matka: '(matka|^dev.digitransit)',
     vaasa: 'vaasa',
+    walttiTest: '(walttiTest|waltti-test)',
     walttiOpas: 'waltti',
     rovaniemi: 'rovaniemi',
     kouvola: 'kouvola',
