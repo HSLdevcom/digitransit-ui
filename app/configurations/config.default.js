@@ -739,6 +739,7 @@ export default {
     kela: 'kelareitit',
     pori: 'pori',
     raasepori: '(raasepori|bosse)',
+    walttiTest: 'walttiTest',
   },
 
   minutesToDepartureLimit: 9,
