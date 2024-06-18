@@ -227,6 +227,7 @@ class TransitLeg extends React.Component {
 
   renderMain = () => {
     const {
+      children,
       focusAction,
       index,
       leg,
@@ -581,6 +582,7 @@ class TransitLeg extends React.Component {
           )}
           {routeNotifications}
           <LegAgencyInfo leg={leg} />
+          {children}
           {intermediateStopCount !== 0 && (
             <div className="intermediate-stops-button-container">
               {(leg.intermediatePlaces.length > 1 ||
@@ -661,6 +663,7 @@ TransitLeg.propTypes = {
   index: PropTypes.number.isRequired,
   mode: PropTypes.string.isRequired,
   focusAction: PropTypes.func.isRequired,
+  children: PropTypes.node.isRequired,
   lang: PropTypes.string.isRequired,
   omitDivider: PropTypes.bool,
   changeHash: PropTypes.func,

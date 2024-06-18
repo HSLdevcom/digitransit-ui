@@ -157,13 +157,7 @@ export default class Legs extends React.Component {
         }
       }
       if (leg.mode !== 'WALK' && isCallAgencyPickupType(leg)) {
-        legs.push(
-          <CallAgencyLeg
-            index={j}
-            leg={leg}
-            focusAction={this.focus(leg.from)}
-          />,
-        );
+        legs.push(<CallAgencyLeg {...transitLegProps} />);
       } else if (leg.intermediatePlace) {
         legs.push(<ViaLeg {...legProps} arrival={startTime} />);
       } else if (bikePark) {
