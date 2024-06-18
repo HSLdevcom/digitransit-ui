@@ -49,20 +49,37 @@ function MarkerSelectPopup(props, { intl }) {
         />
       );
     }
-    if (option.layer === 'scooter' && option.feature.properties.cluster) {
-      return (
-        <SelectVehicleRentalClusterRow
-          {...option.feature.properties}
-          key={`scooter:${option.feature.properties.id}`}
-          prefix={PREFIX_RENTALVEHICLES}
-          id={option.feature.properties.scooterId}
-          desc={intl.formatMessage({
-            id: 'scooter',
-            defaultMessage: 'scooter',
-          })}
-          isScooter
-        />
-      );
+    if (option.layer === 'scooter') {
+      if (option.feature.properties.cluster) {
+        return (
+          <SelectVehicleRentalClusterRow
+            {...option.feature.properties}
+            key={`scooter:${option.feature.properties.cluster_id}`}
+            prefix={PREFIX_RENTALVEHICLES}
+            id={option.feature.properties.scooterId}
+            desc={intl.formatMessage({
+              id: 'scooter',
+              defaultMessage: 'scooter',
+            })}
+            isScooter
+          />
+        );
+      }
+      // Too many scooter markers when zoomed in
+      if (props.zoom < 18) {
+        return (
+          <SelectVehicleRentalRow
+            {...option.feature.properties}
+            key={`scooter:${option.feature.properties.id}`}
+            prefix={PREFIX_RENTALVEHICLES}
+            desc={intl.formatMessage({
+              id: 'scooter',
+              defaultMessage: 'scooter',
+            })}
+            icon="icon-icon_scooter-lollipop"
+          />
+        );
+      }
     }
 
     if (
@@ -128,6 +145,11 @@ MarkerSelectPopup.propTypes = {
   ).isRequired,
   selectRow: PropTypes.func.isRequired,
   colors: popupColorShape.isRequired,
+  zoom: PropTypes.number,
+};
+
+MarkerSelectPopup.defaultProps = {
+  zoom: undefined,
 };
 
 MarkerSelectPopup.contextTypes = {

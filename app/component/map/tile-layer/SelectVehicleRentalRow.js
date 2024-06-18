@@ -13,12 +13,14 @@ import { getIdWithoutFeed } from '../../../util/feedScopedIdUtils';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 function SelectVehicleRentalRow(
-  { name, network, id, desc, prefix },
+  { name, network, id, desc, prefix, icon },
   { config },
 ) {
-  const img = `${getVehicleRentalStationNetworkIcon(
-    getVehicleRentalStationNetworkConfig(network, config),
-  )}-stop-lollipop`;
+  const img =
+    icon ||
+    `${getVehicleRentalStationNetworkIcon(
+      getVehicleRentalStationNetworkConfig(network, config),
+    )}-stop-lollipop`;
 
   const linkAddress = `/${prefix}/${encodeURIComponent(id)}`;
 
@@ -52,11 +54,13 @@ SelectVehicleRentalRow.propTypes = {
   id: PropTypes.string.isRequired,
   desc: PropTypes.string,
   prefix: PropTypes.string.isRequired,
+  icon: PropTypes.string,
 };
 
 SelectVehicleRentalRow.defaultProps = {
   desc: undefined,
   name: undefined,
+  icon: undefined,
 };
 
 SelectVehicleRentalRow.contextTypes = {

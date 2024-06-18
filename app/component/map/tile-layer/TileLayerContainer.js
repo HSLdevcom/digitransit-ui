@@ -34,6 +34,7 @@ const initialState = {
   selectableTargets: undefined,
   coords: undefined,
   showSpinner: true,
+  zoom: undefined,
 };
 
 // TODO eslint doesn't know that TileLayerContainer is a react component,
@@ -296,6 +297,7 @@ class TileLayerContainer extends GridLayer {
             isFeatureLayerEnabled(target.feature, target.layer, mapLayers),
         ),
         coords,
+        zoom: tile.coords.z,
       });
     };
 
@@ -421,6 +423,7 @@ class TileLayerContainer extends GridLayer {
               selectRow={this.selectRow}
               options={this.state.selectableTargets}
               colors={this.context.config.colors}
+              zoom={this.state.zoom}
             />
           </Popup>
         );
