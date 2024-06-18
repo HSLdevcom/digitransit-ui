@@ -418,14 +418,12 @@ export default function ItineraryPage(props, context) {
       context.config,
       TransportMode.Scooter,
     );
-    getPlanParams(config, match, PLANTYPE.TRANSIT, true);
 
     const planParams = getPlanParams(
       config,
       match,
       PLANTYPE.SCOOTERTRANSIT,
       true, // force relaxed settings
-      //   true, // force scooter query
     );
 
     const tunedParams = {
