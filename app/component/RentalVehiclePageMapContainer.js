@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import StopPageMap from './map/StopPageMap';
+import { rentalVehicleShape } from '../util/shapes';
 
 const RentalVehiclePageMapContainer = ({ rentalVehicle }) => {
   if (!rentalVehicle) {
@@ -11,15 +12,16 @@ const RentalVehiclePageMapContainer = ({ rentalVehicle }) => {
 };
 
 RentalVehiclePageMapContainer.contextTypes = {
-  config: PropTypes.object.isRequired,
+  config: PropTypes.shape({
+    map: PropTypes.shape({
+      tileSize: PropTypes.number,
+      zoom: PropTypes.number,
+    }),
+  }),
 };
 
 RentalVehiclePageMapContainer.propTypes = {
-  rentalVehicle: PropTypes.shape({
-    lat: PropTypes.number.isRequired,
-    lon: PropTypes.number.isRequired,
-    name: PropTypes.string,
-  }),
+  rentalVehicle: rentalVehicleShape,
 };
 
 RentalVehiclePageMapContainer.defaultProps = {

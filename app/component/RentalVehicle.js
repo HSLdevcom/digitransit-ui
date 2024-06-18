@@ -5,6 +5,7 @@ import {
   getVehicleRentalStationNetworkIcon,
   getVehicleRentalStationNetworkConfig,
 } from '../util/vehicleRentalUtils';
+import { rentalVehicleShape } from '../util/shapes';
 
 const RentalVehicle = ({ rentalVehicle }, { config }) => {
   const disabled = !rentalVehicle.operative;
@@ -21,15 +22,11 @@ const RentalVehicle = ({ rentalVehicle }, { config }) => {
 };
 
 RentalVehicle.contextTypes = {
-  config: PropTypes.object.isRequired,
+  config: PropTypes.shape({
+    cityBike: { networks: PropTypes.arrayOf(PropTypes.string.isRequired) },
+  }).isRequired,
 };
 RentalVehicle.propTypes = {
-  rentalVehicle: PropTypes.shape({
-    availableVehicles: PropTypes.number.isRequired,
-    spacesAvailable: PropTypes.number.isRequired,
-    capacity: PropTypes.number.isRequired,
-    network: PropTypes.string,
-    operative: PropTypes.bool.isRequired,
-  }).isRequired,
+  rentalVehicle: rentalVehicleShape.isRequired,
 };
 export default RentalVehicle;

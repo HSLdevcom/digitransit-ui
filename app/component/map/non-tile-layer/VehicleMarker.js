@@ -49,7 +49,7 @@ export default class VehicleMarker extends React.Component {
     rental: PropTypes.oneOfType([vehicleRentalStationShape, rentalVehicleShape])
       .isRequired,
     transit: PropTypes.bool,
-    mode: PropTypes.string,
+    mode: PropTypes.string.isRequired,
   };
 
   static contextTypes = {

@@ -100,7 +100,20 @@ export const vehicleRentalStationShape = PropTypes.shape({
 });
 
 export const rentalVehicleShape = PropTypes.shape({
-  network: PropTypes.string.isRequired,
+  id: PropTypes.string,
+  vehicleId: PropTypes.string,
+  name: PropTypes.string,
+  network: PropTypes.string,
+  lat: PropTypes.number,
+  lon: PropTypes.number,
+  rentalUris: PropTypes.shape({
+    android: PropTypes.string,
+    ios: PropTypes.string,
+    web: PropTypes.string,
+  }),
+  vehicleRentalSystem: PropTypes.shape({
+    url: PropTypes.string,
+  }),
 });
 
 export const routeShape = PropTypes.shape({

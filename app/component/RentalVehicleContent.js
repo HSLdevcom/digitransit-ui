@@ -14,6 +14,7 @@ import { isBrowser } from '../util/browser';
 import { PREFIX_RENTALVEHICLES } from '../util/path';
 import VehicleRentalLeg from './itinerary/VehicleRentalLeg';
 import BackButton from './BackButton';
+import { rentalVehicleShape } from '../util/shapes';
 
 const RentalVehicleContent = (
   { rentalVehicle, breakpoint, router, error, language, match },
@@ -114,16 +115,29 @@ const RentalVehicleContent = (
 };
 
 RentalVehicleContent.propTypes = {
-  rentalVehicle: PropTypes.any.isRequired,
+  rentalVehicle: rentalVehicleShape.isRequired,
   breakpoint: PropTypes.string.isRequired,
   router: routerShape.isRequired,
-  error: PropTypes.object,
+  error: PropTypes.shape({
+    message: PropTypes.string,
+  }),
   language: PropTypes.string.isRequired,
-  match: PropTypes.object.isRequired,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      networks: PropTypes.string,
+    }),
+  }),
+};
+
+RentalVehicleContent.defaultProps = {
+  error: undefined,
+  match: undefined,
 };
 
 RentalVehicleContent.contextTypes = {
-  config: PropTypes.object.isRequired,
+  config: PropTypes.shape({
+    text: PropTypes.string,
+  }).isRequired,
 };
 
 const RentalVehicleContentWithBreakpoint = withBreakpoint(RentalVehicleContent);

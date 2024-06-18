@@ -83,11 +83,13 @@ const ScooterRentalNetworkSelector = (
 );
 
 ScooterRentalNetworkSelector.propTypes = {
-  currentOptions: PropTypes.array.isRequired,
+  currentOptions: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 ScooterRentalNetworkSelector.contextTypes = {
-  config: PropTypes.object.isRequired,
+  config: PropTypes.shape({
+    transportModes: PropTypes.arrayOf(PropTypes.string),
+  }).isRequired,
   getStore: PropTypes.func.isRequired,
   executeAction: PropTypes.func.isRequired,
 };
