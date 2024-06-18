@@ -63,7 +63,6 @@ export default {
       'mode-citybike': '#FCBC19',
       'mode-citybike-secondary': '#333333',
       'mode-scooter': '#BABABA',
-      'mode-scooter-secondary': '#333333',
     },
   },
   feedIds: [
