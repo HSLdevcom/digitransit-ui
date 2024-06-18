@@ -154,16 +154,12 @@ class RentalVehicles {
     if (zoomedIn || isHilighted) {
       drawScooterIcon(this.tile, geom, iconName, isHilighted);
     } else {
-      this.drawSmallScooterMarker(geom, iconName);
+      this.drawSmallScooterMarker(geom);
     }
   };
 
-  drawSmallScooterMarker = (geom, iconName) => {
-    const iconColor =
-      iconName.includes('secondary') &&
-      this.config.colors.iconColors['mode-scooter-secondary']
-        ? this.config.colors.iconColors['mode-scooter-secondary']
-        : this.config.colors.iconColors['mode-scooter'];
+  drawSmallScooterMarker = geom => {
+    const iconColor = this.config.colors.iconColors['mode-scooter'];
     drawSmallVehicleRentalMarker(
       this.tile,
       geom,
