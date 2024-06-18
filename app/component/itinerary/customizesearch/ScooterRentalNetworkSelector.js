@@ -88,7 +88,11 @@ ScooterRentalNetworkSelector.propTypes = {
 
 ScooterRentalNetworkSelector.contextTypes = {
   config: PropTypes.shape({
-    transportModes: PropTypes.arrayOf(PropTypes.string),
+    transportModes: PropTypes.shape({
+      scooter: PropTypes.shape({
+        networks: PropTypes.arrayOf(PropTypes.string),
+      }),
+    }),
   }).isRequired,
   getStore: PropTypes.func.isRequired,
   executeAction: PropTypes.func.isRequired,
