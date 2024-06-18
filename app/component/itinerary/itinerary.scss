@@ -2483,16 +2483,21 @@ div.itinerary-container-content {
 
     &.call,
     &.disruption {
-      padding-top: 2em;
+      margin-top: $padding-large;
+      padding-top: 1em;
       padding-right: 1em;
-      width: 90%;
-      background-color: rgba(254, 209, 0, 0.3);
+      padding-left: 1em;
+      width: 100%;
+      background-color: rgba(254, 209, 0, 0.1);
+      border: 1px solid #fed100;
+      border-radius: 3px;
     }
   }
 
   .warning-message {
     white-space: normal;
     color: $black;
+    font-size: $font-size-xsmall;
 
     .route-name {
       @include font-medium;
@@ -2511,8 +2516,8 @@ div.itinerary-container-content {
   border-radius: 1.5em;
   padding: 0.6em 1.5em;
   text-align: center;
-  margin-top: 10px;
-  margin-bottom: 1.5em;
+  margin-top: 1em;
+  margin-bottom: 1em;
   margin-right: auto;
   cursor: pointer;
 
