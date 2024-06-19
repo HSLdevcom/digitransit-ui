@@ -48,11 +48,12 @@
 
 .scooter-page-container {
   margin: 0 3.75em;
+  padding-top: 3em;
 
   .scooter-cluster-back-button-container .icon-container .icon {
-    width: 48px;
-    height: 48px;
-    margin-top: 90px;
+    width: 1.3em;
+    height: 1.3em;
+    margin-top: 0.4em;
   }
 
   .scooter-box {
@@ -61,7 +62,6 @@
     border: solid 1px #ddd;
     padding: 16px 21px 16px 18px;
     width: 100%;
-    margin-top: 24px;
     font-family: $font-family;
     font-size: $font-size-normal;
     font-weight: normal;
@@ -231,7 +231,6 @@
     padding-top: 2px;
 
     &.scooters-available {
-      margin-top: 22px;
       padding-left: 5px;
     }
   }
@@ -249,6 +248,11 @@
     .icon-container .icon {
       width: 48px;
       height: 48px;
+    }
+
+    .back-button .icon-container .icon {
+      width: 1.3em;
+      height: 1.3em;
     }
   }
 }
