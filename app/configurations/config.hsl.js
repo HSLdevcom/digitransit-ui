@@ -34,6 +34,12 @@ export default {
     REALTIME_RENTAL_STATION_MAP: {
       default: `${POI_MAP_PREFIX}/fi/realtimeRentalStations/`,
     },
+    RENTAL_VEHICLE_MAP: {
+      default: `${POI_MAP_PREFIX}/fi/rentalVehicles/`,
+    },
+    REALTIME_RENTAL_VEHICLE_MAP: {
+      default: `${POI_MAP_PREFIX}/fi/realtimeRentalVehicles/`,
+    },
     PARK_AND_RIDE_MAP: {
       default: `${POI_MAP_PREFIX}/en/vehicleParking/`,
       sv: `${POI_MAP_PREFIX}/sv/vehicleParking/`,
