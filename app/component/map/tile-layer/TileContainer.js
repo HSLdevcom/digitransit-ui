@@ -244,7 +244,7 @@ class TileContainer {
             }
             if (
               index < features.length - 1 &&
-              features[index + 1].feature.properties.code ===
+              features[index + 1]?.feature.properties.code ===
                 feature.feature.properties.code
             ) {
               isCombo = true;
