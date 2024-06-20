@@ -176,39 +176,37 @@ class CustomizeSearch extends React.Component {
                   </legend>
                   <div className="transport-modes-container">
                     {this.state.showEScooterDisclaimer && (
-                      <div className="e-scooter-disclaimer-container">
-                        <div className="e-scooter-disclaimer">
-                          <div className="disclaimer-header">
-                            <FormattedMessage id="settings-e-scooter-routes" />
-                            <div
-                              className="disclaimer-close"
-                              aria-label="Sulje sähköpotkulautojen asetusohje."
-                              tabIndex="0"
-                              onKeyDown={e => {
-                                if (
-                                  isKeyboardSelectionEvent(e) &&
-                                  (e.keyCode === 13 || e.keyCode === 32)
-                                ) {
-                                  this.handleEScooterDisclaimerClose();
-                                }
-                              }}
-                              onClick={this.handleEScooterDisclaimerClose}
-                              role="button"
-                            >
-                              <Icon color="#333" img="icon-icon_close" />
-                            </div>
+                      <div className="e-scooter-disclaimer">
+                        <div className="disclaimer-header">
+                          <FormattedMessage id="settings-e-scooter-routes" />
+                          <div
+                            className="disclaimer-close"
+                            aria-label="Sulje sähköpotkulautojen asetusohje."
+                            tabIndex="0"
+                            onKeyDown={e => {
+                              if (
+                                isKeyboardSelectionEvent(e) &&
+                                (e.keyCode === 13 || e.keyCode === 32)
+                              ) {
+                                this.handleEScooterDisclaimerClose();
+                              }
+                            }}
+                            onClick={this.handleEScooterDisclaimerClose}
+                            role="button"
+                          >
+                            <Icon color="#333" img="icon-icon_close" />
                           </div>
-                          <div className="disclaimer-content">
-                            <FormattedMessage
-                              id="settings-e-scooter"
-                              values={{
-                                paymentInfo: (
-                                  <FormattedMessage id="payment-info-e-scooter" />
-                                ),
-                              }}
-                            />
-                          </div>
-                        </div>{' '}
+                        </div>
+                        <div className="disclaimer-content">
+                          <FormattedMessage
+                            id="settings-e-scooter"
+                            values={{
+                              paymentInfo: (
+                                <FormattedMessage id="payment-info-e-scooter" />
+                              ),
+                            }}
+                          />
+                        </div>
                       </div>
                     )}
                     <ScooterRentalNetworkSelector

@@ -1981,6 +1981,16 @@ $itinerary-tab-switch-height: 48px;
       }
     }
 
+    .itinerary-leg-action-content {
+      height: 100%;
+      display: flex;
+      align-items: center;
+
+      :first-child {
+        flex-grow: 1;
+      }
+    }
+
     .itinerary-leg-action {
       border-top: 1px solid #ddd;
       padding: 1.2em 0;
@@ -1989,16 +1999,6 @@ $itinerary-tab-switch-height: 48px;
       font-size: 0.9375rem;
 
       @extend .itinerary-leg-text-gray;
-
-      .itinerary-leg-action-content {
-        height: 100%;
-        display: flex;
-        align-items: center;
-
-        :first-child {
-          flex-grow: 1;
-        }
-      }
 
       .route-number {
         position: absolute;

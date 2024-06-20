@@ -277,18 +277,22 @@ export default function BicycleLeg(
         )}
         {isScooter && !scooterSettingsOn && (
           <div>
-            <div className={cx('itinerary-leg-action', 'scooter')}>
-              <div className="itinerary-leg-action-content">
-                <FormattedMessage
-                  id="settings-e-scooter-on"
-                  defaultMessage="Turn scooter settings on permanently"
-                />
-                <ItineraryMapAction
-                  target=""
-                  ariaLabelId="itinerary-summary-row.clickable-area-description"
-                  focusAction={focusToLeg}
-                />
-              </div>
+            <div
+              className={cx(
+                'itinerary-leg-action',
+                'scooter',
+                'itinerary-leg-action-content',
+              )}
+            >
+              <FormattedMessage
+                id="settings-e-scooter-on"
+                defaultMessage="Turn scooter settings on permanently"
+              />
+              <ItineraryMapAction
+                target=""
+                ariaLabelId="itinerary-summary-row.clickable-area-description"
+                focusAction={focusToLeg}
+              />
             </div>
             <div
               role="button"
