@@ -142,6 +142,7 @@ function MainMenu(props, { config, intl, executeAction }) {
           content={((config.menu && config.menu.content) || []).filter(
             item => item.href || item.route,
           )}
+          closeMenu={props.closeMenu}
         />
       </section>
       {config.menu?.copyright && (
