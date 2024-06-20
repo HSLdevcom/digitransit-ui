@@ -60,7 +60,7 @@ class RentalVehicles {
               settings.allowedScooterRentalNetworks;
             const scooterIconPrefix = `icon-icon_scooter`;
             const showAllNetworks =
-              !this.config.transportModes.scooter.hideUnlessSelectedForRouting;
+              !this.config.transportModes.scooter.showIfSelectedForRouting;
             if (layer) {
               for (let i = 0, ref = layer.length - 1; i <= ref; i++) {
                 const feature = layer.feature(i);
