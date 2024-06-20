@@ -495,18 +495,9 @@ const withRelay = createFragmentContainer(
             }
             rentalVehicle {
                 vehicleId
-                name
                 lat
                 lon
                 network
-                rentalUris {
-                  android
-                  ios
-                  web
-                }
-                vehicleRentalSystem {
-                  url
-                }
             }
             stop {
               gtfsId

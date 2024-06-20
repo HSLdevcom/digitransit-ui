@@ -1036,19 +1036,7 @@ const containerComponent = createFragmentContainer(ItineraryWithBreakpoint, {
             network
           }
           rentalVehicle {
-            vehicleId
-            name
-            lat
-            lon
             network
-            rentalUris {
-              android
-              ios
-              web
-            }
-            vehicleRentalSystem {
-              url
-            }
           }
         }
         to {
