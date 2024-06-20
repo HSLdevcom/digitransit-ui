@@ -8,6 +8,9 @@ const translations = {
   fi: {
     'close-modal': 'Sulje modaali',
   },
+  pl: {
+    'close-modal': 'Zamknij modal',
+  },
   sv: {
     'close-modal': 'Stäng modalen',
   },
