@@ -33,13 +33,13 @@
     }
 
     .scooter-content-container {
-      padding: 0 0 0 0;
+      padding: 0 0 13px 0;
       margin-bottom: 13px;
+      border-bottom: 1px solid #ddd;
 
       .icon-container {
         .icon {
-          width: 40px;
-          height: 40px;
+          width: 2.25rem;
         }
       }
     }
@@ -236,13 +236,17 @@
   }
 
   .scooter-content-container {
-    padding: 15px 14px 22px;
     display: flex;
     height: 48px;
     box-sizing: content-box;
+    padding: 0 0 13px 0;
+    margin-bottom: 13px;
+    border-bottom: 1px solid #ddd;
 
     &.cluster {
       padding: 20px 20px;
+      border-bottom: none;
+      margin-bottom: 0;
     }
 
     .icon-container .icon {
