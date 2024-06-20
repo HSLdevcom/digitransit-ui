@@ -376,8 +376,8 @@ export default function ItineraryPage(props, context) {
       return;
     }
 
-    ariaRef.current = 'itinerary-page.loading-itineraries'; // might need to be changed
-    setScooterState({ ...scooterState, loading: LOADSTATE.LOADING }); // check somewhere
+    ariaRef.current = 'itinerary-page.loading-itineraries';
+    setScooterState({ ...scooterState, loading: LOADSTATE.LOADING });
 
     const planParams = getPlanParams(
       config,
@@ -394,7 +394,7 @@ export default function ItineraryPage(props, context) {
       const plan = await iterateQuery(tunedParams);
       setScooterState({ ...scooterState, plan, loading: LOADSTATE.DONE });
       resetItineraryPageSelection();
-      ariaRef.current = 'itinerary-page.itineraries-loaded'; // fix?
+      ariaRef.current = 'itinerary-page.itineraries-loaded';
     } catch (error) {
       reportError(error);
       setScooterState({

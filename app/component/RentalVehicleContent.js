@@ -152,7 +152,6 @@ const connectedComponent = connectToStores(
 );
 
 const containerComponent = createFragmentContainer(connectedComponent, {
-  /* mitä muita tietoja rentalvehicleltä */
   rentalVehicle: graphql`
     fragment RentalVehicleContent_rentalVehicle on RentalVehicle {
       lat
