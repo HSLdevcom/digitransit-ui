@@ -38,7 +38,7 @@ const splitAlertByRouteModeAndColor = alert => {
 };
 
 function DisruptionListContainer(
-  { breakpoint, currentTime, viewer },
+  { breakpoint, currentTime, viewer, onClickLink },
   { intl },
 ) {
   const validAlerts = viewer?.alerts
@@ -152,6 +152,7 @@ function DisruptionListContainer(
               disableScrolling
               showLinks
               serviceAlerts={routeAlertsToShow}
+              onClickLink={onClickLink}
             />
           </React.Fragment>
         )}
@@ -164,6 +165,7 @@ function DisruptionListContainer(
               disableScrolling
               showLinks
               serviceAlerts={stopAlertsToShow}
+              onClickLink={onClickLink}
             />
           </React.Fragment>
         )}
@@ -182,10 +184,12 @@ DisruptionListContainer.propTypes = {
   viewer: PropTypes.shape({
     alerts: PropTypes.arrayOf(alertShape),
   }).isRequired,
+  onClickLink: PropTypes.func,
 };
 
 DisruptionListContainer.defaultProps = {
   breakpoint: 'small',
+  onClickLink: undefined,
 };
 
 const containerComponent = createFragmentContainer(
