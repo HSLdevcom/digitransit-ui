@@ -53,7 +53,10 @@ export default function DisruptionInfo(props, context) {
                       defaultMessage: 'Disruption info',
                     })}
                   </h2>
-                  <DisruptionListContainer {...innerProps} />
+                  <DisruptionListContainer
+                    onClickLink={() => setOpen(false)}
+                    {...innerProps}
+                  />
                 </>
               ) : (
                 <Loading />
