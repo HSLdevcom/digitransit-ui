@@ -91,10 +91,6 @@ const planConnection = graphql`
               vehicleRentalStation {
                 stationId
               }
-              rentalVehicle {
-                vehicleId
-                network
-              }
             }
             to {
               lat
