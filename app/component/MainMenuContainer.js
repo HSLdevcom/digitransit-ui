@@ -4,28 +4,18 @@ import React, { Suspense, lazy } from 'react';
 const MenuDrawer = lazy(() => import('./MenuDrawer'));
 const MainMenu = lazy(() => import('./MainMenu'));
 
-export default function MainMenuContainer(props) {
+export default function MainMenuContainer({ breakpoint, closeMenu, ...rest }) {
   return (
     <Suspense fallback="">
-      <MenuDrawer
-        open
-        onRequestChange={props.closeMenu}
-        breakpoint={props.breakpoint}
-      >
-        <MainMenu
-          closeMenu={props.closeMenu}
-          homeUrl={props.homeUrl}
-          setDisruptionInfoOpen={props.setDisruptionInfoOpen}
-        />
+      <MenuDrawer open onRequestChange={closeMenu} breakpoint={breakpoint}>
+        <MainMenu {...rest} />
       </MenuDrawer>
     </Suspense>
   );
 }
 
 MainMenuContainer.propTypes = {
-  homeUrl: PropTypes.string.isRequired,
   breakpoint: PropTypes.string,
-  setDisruptionInfoOpen: PropTypes.func.isRequired,
   closeMenu: PropTypes.func.isRequired,
 };
 
