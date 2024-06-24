@@ -370,6 +370,10 @@ export function getPlanParams(
 
   return {
     ...settings,
+    allowedRentalNetworks:
+      planType === PLANTYPE.SCOOTERTRANSIT
+        ? settings.allowedScooterRentalNetworks
+        : settings.allowedBikeRentalNetworks,
     fromPlace,
     toPlace,
     datetime,

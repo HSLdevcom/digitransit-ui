@@ -368,7 +368,7 @@ export default function ItineraryPage(props, context) {
     }
   }
 
-  async function makeScooterQuery(settings) {
+  async function makeScooterQuery() {
     if (!planQueryNeeded(config, match, PLANTYPE.TRANSIT)) {
       setScooterState(emptyPlan);
       setCombinedRentalState(emptyPlan);
@@ -386,12 +386,8 @@ export default function ItineraryPage(props, context) {
       false, // no relaxed settings
     );
 
-    const tunedParams = {
-      ...planParams,
-      allowedBikeRentalNetworks: settings.allowedScooterRentalNetworks,
-    };
     try {
-      const plan = await iterateQuery(tunedParams);
+      const plan = await iterateQuery(planParams);
       setScooterState({ ...scooterState, plan, loading: LOADSTATE.DONE });
       resetItineraryPageSelection();
       ariaRef.current = 'itinerary-page.itineraries-loaded';
@@ -428,7 +424,7 @@ export default function ItineraryPage(props, context) {
 
     const tunedParams = {
       ...planParams,
-      allowedBikeRentalNetworks: allScooterNetworks,
+      allowedRentalNetworks: allScooterNetworks,
     };
     try {
       const plan = await iterateQuery(tunedParams);
@@ -727,7 +723,7 @@ export default function ItineraryPage(props, context) {
   useEffect(() => {
     const settings = getSettings(context.config);
     if (settings.allowedScooterRentalNetworks?.length > 0) {
-      makeScooterQuery(settings);
+      makeScooterQuery();
     } else {
       setScooterState(emptyPlan);
       setCombinedRentalState(emptyPlan);
