@@ -8,7 +8,7 @@ export default function MainMenuContainer({ breakpoint, closeMenu, ...rest }) {
   return (
     <Suspense fallback="">
       <MenuDrawer open onRequestChange={closeMenu} breakpoint={breakpoint}>
-        <MainMenu {...rest} />
+        <MainMenu closeMenu={closeMenu} {...rest} />
       </MenuDrawer>
     </Suspense>
   );
