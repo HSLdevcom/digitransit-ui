@@ -19,8 +19,9 @@ const MainMenuLinks = ({ closeMenu, content }) => (
                   name: link.label || link.name,
                 });
               }
-
-              if (link.route) closeMenu();
+              if (link.route) {
+                closeMenu();
+              }
             }}
             {...link}
           />
@@ -32,6 +33,7 @@ const MainMenuLinks = ({ closeMenu, content }) => (
 
 MainMenuLinks.propTypes = {
   content: PropTypes.arrayOf(PropTypes.shape(MenuItem.propTypes)),
+  closeMenu: PropTypes.func.isRequired,
 };
 
 MainMenuLinks.defaultProps = {
