@@ -43,6 +43,21 @@ const translations = {
     'via-point-index': 'Välipiste {{index}}',
     'viapoint-slack-amount': 'Pysähdyksen kesto',
   },
+  pl: {
+    'add-via-button-label': 'Dodaj punkt pośredni',
+    'add-via-duration-button-label':
+      'Wybierz czas postoju dla punktu {{index}}',
+    'add-via-duration-button-label-close':
+      'Zamknij wybornik czasu postoju w punkcie {{index}}',
+    'add-via-duration-button-label-open':
+      'Otwórz wybornik czasu postoju w punkcie {{index}}',
+    'minute-short': 'min.',
+    'remove-via-button-label': 'Usuń punkt pośredni {{index}}',
+    'swap-order-button-label': 'Odwróć początek i cel',
+    'via-point': 'Punkt pośredni',
+    'via-point-index': 'Punkt pośredni {{index}}',
+    'viapoint-slack-amount': 'Czas postoju',
+  },
   sv: {
     'add-via-button-label': 'Lägg till viapunkt',
     'add-via-duration-button-label':
