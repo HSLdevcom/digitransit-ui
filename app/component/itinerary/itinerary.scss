@@ -73,7 +73,7 @@ $itinerary-tab-switch-height: 48px;
   }
 
   &.call {
-    @include getCircleSvg($bus-color, $fill);
+    @include getCircleSvg($call-agency-color, $fill);
   }
 
   &.scooter {
@@ -892,7 +892,7 @@ $itinerary-tab-switch-height: 48px;
     }
 
     &.call {
-      @include setModeCircles($bus-color);
+      @include setModeCircles($call-agency-color);
     }
 
     &.scooter {
@@ -1219,15 +1219,6 @@ $itinerary-tab-switch-height: 48px;
       border: none;
       width: 6px;
       left: 8px;
-    }
-
-    &.call {
-      border-left: dashed 1px;
-      border-right: dashed 1px;
-      border-color: #aaa;
-      width: 6px;
-      height: 100%;
-      background: $white;
     }
 
     &.car {
