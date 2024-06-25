@@ -5,6 +5,9 @@ const translations = {
   en: {
     traffic: 'Changes and disruptions',
   },
+  pl: {
+    traffic: 'Zmiany i zakłócenia',
+  },
   sv: {
     traffic: 'Störningar och ändringar',
   },

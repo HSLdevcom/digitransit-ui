@@ -3,7 +3,7 @@ import React from 'react';
 import MenuItem from './MenuItem';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 
-const MainMenuLinks = ({ content }) => (
+const MainMenuLinks = ({ closeMenu, content }) => (
   <div>
     {content.map(link =>
       Object.keys(link).length === 0 ? (
@@ -19,6 +19,9 @@ const MainMenuLinks = ({ content }) => (
                   name: link.label || link.name,
                 });
               }
+              if (link.route) {
+                closeMenu();
+              }
             }}
             {...link}
           />
@@ -30,6 +33,7 @@ const MainMenuLinks = ({ content }) => (
 
 MainMenuLinks.propTypes = {
   content: PropTypes.arrayOf(PropTypes.shape(MenuItem.propTypes)),
+  closeMenu: PropTypes.func.isRequired,
 };
 
 MainMenuLinks.defaultProps = {

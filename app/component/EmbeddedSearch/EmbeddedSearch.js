@@ -46,6 +46,14 @@ const translations = {
     'search-fields-sr-instructions': '',
     'search-route': 'Söka rutter',
   },
+  pl: {
+    'own-position': 'Twoja obecna lokalizacja',
+    'find-bike-route': 'Znajdź trasę rowerową',
+    'find-walk-route': 'Znajdź trasę pieszo',
+    'find-route': 'Znajdź trasę',
+    'search-fields-sr-instructions': '',
+    'search-route': 'Znajdź trasę',
+  },
 };
 
 i18next.init({

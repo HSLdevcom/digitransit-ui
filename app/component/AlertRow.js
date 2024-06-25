@@ -97,6 +97,7 @@ export default function AlertRow(
     startTime,
     url,
     index,
+    onClickLink,
   },
   { intl, config },
 ) {
@@ -126,6 +127,7 @@ export default function AlertRow(
           <Link
             onClick={e => {
               e.stopPropagation();
+              onClickLink?.();
             }}
             key={`${gtfsIdList[i]}-${index}`}
             to={`/${PREFIX_ROUTES}/${gtfsIdList[i]}/${PREFIX_STOPS}`}
@@ -146,6 +148,7 @@ export default function AlertRow(
           <Link
             onClick={e => {
               e.stopPropagation();
+              onClickLink?.();
             }}
             key={`${gtfsIdList[i]}-${index}`}
             to={`/${PREFIX_STOPS}/${gtfsIdList[i]}`}
@@ -252,6 +255,7 @@ AlertRow.propTypes = {
   header: PropTypes.string,
   feed: PropTypes.string,
   index: PropTypes.number.isRequired,
+  onClickLink: PropTypes.func,
 };
 
 AlertRow.contextTypes = {
@@ -270,4 +274,5 @@ AlertRow.defaultProps = {
   entities: undefined,
   url: undefined,
   showLinks: false,
+  onClickLink: undefined,
 };

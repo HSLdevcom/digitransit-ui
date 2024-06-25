@@ -56,6 +56,27 @@ const translations = {
     'nearby-stops-teaser-content':
       'Reaaliaikaiset lähipysäkkiesi aikataulut ja ajoneuvot kartalla.',
   },
+  pl: {
+    'close-teaser-modal': 'Zamknij',
+    'pick-mode': 'Wybierz typ transportu',
+    'pick-mode-airplane': 'Lot',
+    'pick-mode-bus': 'Autobus',
+    'pick-mode-citybike': 'Rower miejski',
+    'pick-mode-ferry': 'Prom',
+    'pick-mode-rail': 'Kolej',
+    'pick-mode-subway': 'Metro',
+    'pick-mode-tram': 'Tramwaj',
+    'placeholder-destination': 'Wprowadź cel',
+    'placeholder-origin': 'Wprowadź początek',
+    'placeholder-route-stop-station': 'Wprowadź trasę, przystanek lub stację',
+    'title-route-stop-station': 'Przystanki i trasy w pobliżu',
+    'title-origin-to-destination': 'Dokąd?',
+    'use-own-position': 'Użyj obecnej lokalizacji',
+    'nearby-stops-teaser-header':
+      'Wypróbuj nowy widok mapy pokazujący przystanki w pobliżu',
+    'nearby-stops-teaser-content':
+      'Rozkłady jazdy w czasie rzeczywistym dla pobliskich przystanków i pojazdów na mapie.',
+  },
   sv: {
     'close-teaser-modal': 'Stäng',
     'pick-mode': 'Välj ett transportläge',

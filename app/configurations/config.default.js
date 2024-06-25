@@ -216,7 +216,18 @@ export default {
   // if you enable car suggestions but the linear distance between all points is less than this, then a car route will
   // not be computed
   suggestCarMinDistance: 2000,
-  availableLanguages: ['fi', 'sv', 'en', 'fr', 'nb', 'de', 'da', 'es', 'ro'],
+  availableLanguages: [
+    'fi',
+    'sv',
+    'en',
+    'fr',
+    'nb',
+    'de',
+    'da',
+    'es',
+    'ro',
+    'pl',
+  ],
   defaultLanguage: 'en',
   // This timezone data will expire in 2037
   timezoneData:
