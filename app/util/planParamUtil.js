@@ -203,14 +203,14 @@ export function planQueryNeeded(
       );
 
     case PLANTYPE.SCOOTERTRANSIT:
+      /* special logic: relaxed scooter query is made only if no networks allowed */
       return (
         transitModes.length > 0 &&
         !wheelchair &&
-        ((!relaxSettings && settings.allowedScooterRentalNetworks > 0) ||
-          /* special logic: relaxed scooter query is made only if no networks allowed */
-          (relaxSettings && !settings.allowedScooterRentalNetworks.length))
+        (relaxSettings
+          ? settings.allowedScooterRentalNetworks.length === 0
+          : settings.allowedScooterRentalNetworks.length > 0)
       );
-
     case PLANTYPE.PARKANDRIDE:
       return (
         transitModes.length > 0 &&

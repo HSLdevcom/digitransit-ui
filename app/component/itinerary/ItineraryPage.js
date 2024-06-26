@@ -118,7 +118,7 @@ export default function ItineraryPage(props, context) {
   const [relaxState, setRelaxState] = useState(emptyPlan);
   const [relaxScooterState, setRelaxScooterState] = useState(emptyPlan);
   const [scooterState, setScooterState] = useState(unset);
-  const [combinedScooterState, setCombinedScooterState] = useState(emptyPlan);
+  const [combinedState, setCombinedState] = useState(emptyPlan);
 
   const altStates = {
     [PLANTYPE.WALK]: useState(unset),
@@ -221,13 +221,7 @@ export default function ItineraryPage(props, context) {
             return relaxScooterState.plan;
           }
         }
-        if (
-          scooterState.loading === LOADSTATE.DONE &&
-          combinedScooterState.plan?.edges?.length > 0
-        ) {
-          return combinedScooterState.plan;
-        }
-        return state.plan;
+        return combinedState.plan;
     }
   }
 
@@ -713,6 +707,8 @@ export default function ItineraryPage(props, context) {
     makeMainQuery();
     Object.keys(altStates).forEach(key => makeAltQuery(key));
 
+    // note: relaxed scooter query is not made unless some modes are disabled
+    // so, if no itineraries are found with standard settings, scooter is not suggested
     if (settingsLimitRouting(config) && !settingsState.settingsChanged) {
       makeRelaxedQuery();
       makeRelaxedScooterQuery();
@@ -762,13 +758,12 @@ export default function ItineraryPage(props, context) {
     }
   }, [
     hash,
-    state.plan,
+    combinedState.plan,
     relaxState.plan,
     bikePublicState.plan,
     altStates[PLANTYPE.PARKANDRIDE][0].plan,
     location.state?.selectedItineraryIndex,
     relaxScooterState.plan,
-    scooterState.plan,
   ]);
 
   useEffect(() => {
@@ -798,11 +793,10 @@ export default function ItineraryPage(props, context) {
   useEffect(() => {
     if (
       state.loading === LOADSTATE.DONE &&
-      scooterState.loading === LOADSTATE.DONE &&
-      scooterState?.plan?.edges?.length > 0
+      scooterState.loading === LOADSTATE.DONE
     ) {
       const plan = mergeScooterTransitPlan(scooterState.plan, state.plan);
-      setCombinedScooterState({ plan });
+      setCombinedState({ plan });
     }
   }, [scooterState.plan, state.plan]);
 
