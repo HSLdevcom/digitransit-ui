@@ -206,7 +206,9 @@ export function planQueryNeeded(
       return (
         transitModes.length > 0 &&
         !wheelchair &&
-        settings.allowedScooterRentalNetworks > 0
+        ((!relaxSettings && settings.allowedScooterRentalNetworks > 0) ||
+          /* special logic: relaxed scooter query is made only if no networks allowed */
+          (relaxSettings && !settings.allowedScooterRentalNetworks.length))
       );
 
     case PLANTYPE.PARKANDRIDE:

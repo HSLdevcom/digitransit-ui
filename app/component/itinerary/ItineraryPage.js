@@ -212,6 +212,8 @@ export default function ItineraryPage(props, context) {
           !filterWalk(state.plan?.edges).length &&
           !settingsState.settingsChanged
         ) {
+          // Note: plan and scooter plan are merged, but relaxed ones are not
+          // Is this intended behavior ?
           if (relaxState.plan?.edges?.length > 0) {
             return relaxState.plan;
           }
@@ -369,7 +371,7 @@ export default function ItineraryPage(props, context) {
   }
 
   async function makeScooterQuery() {
-    if (!planQueryNeeded(config, match, PLANTYPE.TRANSIT)) {
+    if (!planQueryNeeded(config, match, PLANTYPE.SCOOTERTRANSIT)) {
       setScooterState(emptyPlan);
       return;
     }
@@ -393,7 +395,7 @@ export default function ItineraryPage(props, context) {
   }
 
   async function makeRelaxedScooterQuery() {
-    if (!planQueryNeeded(config, match, PLANTYPE.TRANSIT)) {
+    if (!planQueryNeeded(config, match, PLANTYPE.SCOOTERTRANSIT, true)) {
       setRelaxScooterState(emptyPlan);
       return;
     }
@@ -707,21 +709,13 @@ export default function ItineraryPage(props, context) {
   }, []);
 
   useEffect(() => {
-    const settings = getSettings(context.config);
-    if (settings.allowedScooterRentalNetworks?.length > 0) {
-      makeScooterQuery();
-    } else {
-      setScooterState(emptyPlan);
-      setCombinedScooterState(emptyPlan);
-    }
+    makeScooterQuery();
     makeMainQuery();
     Object.keys(altStates).forEach(key => makeAltQuery(key));
 
     if (settingsLimitRouting(config) && !settingsState.settingsChanged) {
       makeRelaxedQuery();
-      if (!settings.allowedScooterRentalNetworks.length) {
-        makeRelaxedScooterQuery();
-      }
+      makeRelaxedScooterQuery();
     }
   }, [
     settingsState.settingsChanged,
