@@ -1035,9 +1035,6 @@ const containerComponent = createFragmentContainer(ItineraryWithBreakpoint, {
             }
             network
           }
-          rentalVehicle {
-            network
-          }
         }
         to {
           stop {
