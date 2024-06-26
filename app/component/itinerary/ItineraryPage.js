@@ -103,6 +103,7 @@ const emptyState = {
 };
 
 const emptyPlan = { plan: {}, loading: LOADSTATE.DONE };
+const unset = { plan: {}, loading: LOADSTATE.UNSET };
 
 export default function ItineraryPage(props, context) {
   const headerRef = useRef(null);
@@ -115,11 +116,10 @@ export default function ItineraryPage(props, context) {
     loading: LOADSTATE.UNSET,
   });
   const [relaxState, setRelaxState] = useState(emptyPlan);
-  const [relaxRentalState, setRelaxRentalState] = useState(emptyPlan);
-  const [scooterState, setScooterState] = useState(emptyPlan);
-  const [combinedRentalState, setCombinedRentalState] = useState(emptyPlan);
+  const [relaxScooterState, setRelaxScooterState] = useState(emptyPlan);
+  const [scooterState, setScooterState] = useState(unset);
+  const [combinedScooterState, setCombinedScooterState] = useState(emptyPlan);
 
-  const unset = { plan: {}, loading: LOADSTATE.UNSET };
   const altStates = {
     [PLANTYPE.WALK]: useState(unset),
     [PLANTYPE.BIKE]: useState(unset),
@@ -215,15 +215,15 @@ export default function ItineraryPage(props, context) {
           if (relaxState.plan?.edges?.length > 0) {
             return relaxState.plan;
           }
-          if (relaxRentalState.plan?.edges?.length > 0) {
-            return relaxRentalState.plan;
+          if (relaxScooterState.plan?.edges?.length > 0) {
+            return relaxScooterState.plan;
           }
         }
         if (
           scooterState.loading === LOADSTATE.DONE &&
-          combinedRentalState.plan?.edges?.length > 0
+          combinedScooterState.plan?.edges?.length > 0
         ) {
-          return combinedRentalState.plan;
+          return combinedScooterState.plan;
         }
         return state.plan;
     }
@@ -371,13 +371,9 @@ export default function ItineraryPage(props, context) {
   async function makeScooterQuery() {
     if (!planQueryNeeded(config, match, PLANTYPE.TRANSIT)) {
       setScooterState(emptyPlan);
-      setCombinedRentalState(emptyPlan);
-      resetItineraryPageSelection();
       return;
     }
-
-    ariaRef.current = 'itinerary-page.loading-itineraries';
-    setScooterState({ ...scooterState, loading: LOADSTATE.LOADING });
+    setScooterState({ loading: LOADSTATE.LOADING });
 
     const planParams = getPlanParams(
       config,
@@ -388,28 +384,21 @@ export default function ItineraryPage(props, context) {
 
     try {
       const plan = await iterateQuery(planParams);
-      setScooterState({ ...scooterState, plan, loading: LOADSTATE.DONE });
+      setScooterState({ plan, loading: LOADSTATE.DONE });
       resetItineraryPageSelection();
-      ariaRef.current = 'itinerary-page.itineraries-loaded';
     } catch (error) {
       reportError(error);
-      setScooterState({
-        ...scooterState,
-        plan: {},
-        loading: LOADSTATE.UNSET,
-        error,
-      });
+      setScooterState(emptyPlan);
     }
   }
 
   async function makeRelaxedScooterQuery() {
     if (!planQueryNeeded(config, match, PLANTYPE.TRANSIT)) {
-      setRelaxRentalState(emptyState);
-      resetItineraryPageSelection();
+      setRelaxScooterState(emptyPlan);
       return;
     }
 
-    setRelaxRentalState({ loading: LOADSTATE.LOADING });
+    setRelaxScooterState({ loading: LOADSTATE.LOADING });
     const allScooterNetworks = getAllNetworksOfType(
       context.config,
       TransportMode.Scooter,
@@ -428,12 +417,9 @@ export default function ItineraryPage(props, context) {
     };
     try {
       const plan = await iterateQuery(tunedParams);
-      setRelaxRentalState({
-        plan,
-        loading: LOADSTATE.DONE,
-      });
+      setRelaxScooterState({ plan, loading: LOADSTATE.DONE });
     } catch (error) {
-      setRelaxRentalState(emptyPlan);
+      setRelaxScooterState(emptyPlan);
     }
   }
 
@@ -726,7 +712,7 @@ export default function ItineraryPage(props, context) {
       makeScooterQuery();
     } else {
       setScooterState(emptyPlan);
-      setCombinedRentalState(emptyPlan);
+      setCombinedScooterState(emptyPlan);
     }
     makeMainQuery();
     Object.keys(altStates).forEach(key => makeAltQuery(key));
@@ -787,7 +773,7 @@ export default function ItineraryPage(props, context) {
     bikePublicState.plan,
     altStates[PLANTYPE.PARKANDRIDE][0].plan,
     location.state?.selectedItineraryIndex,
-    relaxRentalState.plan,
+    relaxScooterState.plan,
     scooterState.plan,
   ]);
 
@@ -822,7 +808,7 @@ export default function ItineraryPage(props, context) {
       scooterState?.plan?.edges?.length > 0
     ) {
       const plan = mergeScooterTransitPlan(scooterState.plan, state.plan);
-      setCombinedRentalState({ plan });
+      setCombinedScooterState({ plan });
     }
   }, [scooterState.plan, state.plan]);
 
@@ -997,7 +983,7 @@ export default function ItineraryPage(props, context) {
 
   let plan = mapHashToPlan();
   const showRelaxedPlanNotifier = plan === relaxState.plan;
-  const showRentalVehicleNotifier = plan === relaxRentalState.plan;
+  const showRentalVehicleNotifier = plan === relaxScooterState.plan;
   /* NOTE: as a temporary solution, do filtering by feedId in UI */
   if (config.feedIdFiltering && plan) {
     plan = filterItinerariesByFeedId(plan, config);
@@ -1059,7 +1045,7 @@ export default function ItineraryPage(props, context) {
     state.loading === LOADSTATE.LOADING ||
     scooterState.loading === LOADSTATE.LOADING ||
     (relaxState.loading === LOADSTATE.LOADING && hasNoTransitItineraries) ||
-    (relaxRentalState.loading === LOADSTATE.LOADING &&
+    (relaxScooterState.loading === LOADSTATE.LOADING &&
       hasNoTransitItineraries) ||
     waitAlternatives ||
     (streetHashes.includes(hash) && loadingAlt); // viewing unfinished alt plan
