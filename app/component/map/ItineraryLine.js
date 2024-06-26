@@ -84,9 +84,9 @@ class ItineraryLine extends React.Component {
         mode = 'CITYBIKE';
       }
 
-      const modePlusClass =
-        mode.toLowerCase() + (this.props.passive ? ' passive' : '');
-
+      const modePlusClass = isCallAgencyPickupType(leg)
+        ? 'call'
+        : mode.toLowerCase() + (this.props.passive ? ' passive' : '');
       const geometry = polyUtil.decode(leg.legGeometry.points);
       let middle = getMiddleOf(geometry);
       let { to, end } = leg;
@@ -195,51 +195,50 @@ class ItineraryLine extends React.Component {
                 }}
               />,
             );
-          } else {
-            if (!leg?.interlineWithPreviousLeg) {
-              transitLegs.push({
-                ...leg,
-                to,
-                end,
-                nextLeg,
-                index: i,
-                mode: mode.toLowerCase(),
-                legName: name,
-                zIndexOffset: 300,
-                interliningWithRoute,
-              });
-            }
-            objs.push(
-              <StopMarker
-                key={`${i},${leg.mode}marker,from`}
-                disableModeIcons
-                stop={{
-                  ...leg.from,
-                  gtfsId: leg.from.stop.gtfsId,
-                  code: leg.from.stop.code,
-                  platformCode: leg.from.stop.platformCode,
-                  transfer: true,
-                }}
-                mode={mode.toLowerCase()}
-                renderText={leg.transitLeg && this.props.showTransferLabels}
-              />,
-            );
-            objs.push(
-              <StopMarker
-                key={`${i},${leg.mode}marker,to`}
-                disableModeIcons
-                stop={{
-                  ...leg.to,
-                  gtfsId: leg.to.stop.gtfsId,
-                  code: leg.to.stop.code,
-                  platformCode: leg.to.stop.platformCode,
-                  transfer: true,
-                }}
-                mode={mode.toLowerCase()}
-                renderText={leg.transitLeg && this.props.showTransferLabels}
-              />,
-            );
           }
+          if (!leg?.interlineWithPreviousLeg) {
+            transitLegs.push({
+              ...leg,
+              to,
+              end,
+              nextLeg,
+              index: i,
+              mode: isCallAgencyPickupType(leg) ? 'call' : mode.toLowerCase(),
+              legName: name,
+              zIndexOffset: 300,
+              interliningWithRoute,
+            });
+          }
+          objs.push(
+            <StopMarker
+              key={`${i},${leg.mode}marker,from`}
+              disableModeIcons
+              stop={{
+                ...leg.from,
+                gtfsId: leg.from.stop.gtfsId,
+                code: leg.from.stop.code,
+                platformCode: leg.from.stop.platformCode,
+                transfer: true,
+              }}
+              mode={isCallAgencyPickupType(leg) ? 'call' : mode.toLowerCase()}
+              renderText={leg.transitLeg && this.props.showTransferLabels}
+            />,
+          );
+          objs.push(
+            <StopMarker
+              key={`${i},${leg.mode}marker,to`}
+              disableModeIcons
+              stop={{
+                ...leg.to,
+                gtfsId: leg.to.stop.gtfsId,
+                code: leg.to.stop.code,
+                platformCode: leg.to.stop.platformCode,
+                transfer: true,
+              }}
+              mode={isCallAgencyPickupType(leg) ? 'call' : mode.toLowerCase()}
+              renderText={leg.transitLeg && this.props.showTransferLabels}
+            />,
+          );
         }
       }
     });
