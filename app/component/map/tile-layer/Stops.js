@@ -252,7 +252,7 @@ class Stops {
             ) {
               const feature = vt.layers.stations.feature(i);
               const featureTypes = feature.properties.type.split(',');
-              const isHybridStation = featureTypes.length > 1;
+              const isHybridStation = featureTypes.length > 1 && false; // disable until we get proper icon
               if (
                 feature.properties.type &&
                 isFeatureLayerEnabled(
