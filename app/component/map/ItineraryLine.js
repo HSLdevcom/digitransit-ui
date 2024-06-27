@@ -9,7 +9,6 @@ import { configShape, legShape } from '../../util/shapes';
 import { getRouteMode } from '../../util/modeUtils';
 import StopMarker from './non-tile-layer/StopMarker';
 import Line from './Line';
-import Icon from '../Icon';
 import VehicleMarker from './non-tile-layer/VehicleMarker';
 import { getMiddleOf } from '../../util/geo-utils';
 import { isBrowser } from '../../util/browser';
@@ -18,7 +17,6 @@ import {
   getLegText,
   getInterliningLegs,
 } from '../../util/legUtils';
-import IconMarker from './IconMarker';
 import SpeechBubble from './SpeechBubble';
 import { durationToString } from '../../util/timeUtils';
 import TransitLegMarkers from './non-tile-layer/TransitLegMarkers';
@@ -178,24 +176,7 @@ class ItineraryLine extends React.Component {
             this.context.config,
             interliningWithRoute,
           );
-          if (isCallAgencyPickupType(leg)) {
-            objs.push(
-              <IconMarker
-                key="call"
-                position={{
-                  lat: middle.lat,
-                  lon: middle.lon,
-                }}
-                className="call"
-                icon={{
-                  element: <Icon img="icon-icon_call" viewBox="0 0 51 51" />,
-                  iconAnchor: [9, 9],
-                  iconSize: [18, 18],
-                  className: 'call',
-                }}
-              />,
-            );
-          }
+
           if (!leg?.interlineWithPreviousLeg) {
             transitLegs.push({
               ...leg,
