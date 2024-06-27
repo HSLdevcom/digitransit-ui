@@ -152,7 +152,7 @@ function RouteNumber(props, context) {
             )}
           </div>
         )}
-        {!context.config?.hideWalkLegDurationSummary &&
+        {!context.config.hideWalkLegDurationSummary &&
           props.isTransitLeg === false &&
           props.duration > 0 && (
             <div className={`leg-duration-container ${mode} `}>
@@ -234,7 +234,7 @@ RouteNumber.defaultProps = {
 
 RouteNumber.contextTypes = {
   intl: intlShape.isRequired,
-  config: configShape,
+  config: configShape.isRequired,
 };
 
 RouteNumber.displayName = 'RouteNumber';

@@ -52,11 +52,6 @@ export function citybikeRoutingIsActive(network) {
   return network?.enabled && isCitybikeSeasonActive(network?.season);
 }
 
-export function networkIsActive(config, networkName) {
-  const networks = config?.cityBike?.networks;
-  return citybikeRoutingIsActive(networks[networkName], config);
-}
-
 export function useCitybikes(networks, config) {
   if (!networks) {
     return false;

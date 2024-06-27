@@ -52,7 +52,7 @@ export const getVehicleRentalStationNetworkConfig = (networkId, config) => {
   }
   const id = networkId.toLowerCase();
   if (
-    config?.cityBike?.networks?.[id] &&
+    config.cityBike?.networks?.[id] &&
     Object.keys(config.cityBike.networks[id]).length > 0
   ) {
     return config.cityBike.networks[id];
