@@ -513,14 +513,14 @@ describe('modeUtils', () => {
           },
         },
       };
-      const result = utils.getDefaultModes(modeConfig);
+      const result = utils.getTransitModes(modeConfig);
 
       expect(result.length).to.equal(1);
       expect(result).to.contain('D');
     });
   });
 
-  describe('getDefaultModes', () => {
+  describe('getTransitModes', () => {
     it('should include only modes that are both available and default', () => {
       const modeConfig = {
         transportModes: {
@@ -538,7 +538,7 @@ describe('modeUtils', () => {
           },
         },
       };
-      const result = utils.getDefaultModes(modeConfig);
+      const result = utils.getTransitModes(modeConfig);
 
       expect(result.length).to.equal(1);
       expect(result).to.contain('D');
@@ -631,19 +631,6 @@ describe('modeUtils', () => {
 
       expect(result.length).to.equal(1);
       expect(result).to.contain(TransportMode.Bus);
-    });
-  });
-
-  describe('modesAsOTPModes', () => {
-    it('should convert modes into modern OTP format mode objects', () => {
-      const modes = ['RAIL', 'BICYCLE_RENT', 'WALK', 'SCOOTER_RENT'];
-      const result = utils.modesAsOTPModes(modes);
-
-      expect(result.length).to.equal(4);
-      expect(result[0]).to.deep.equal({ mode: 'RAIL' });
-      expect(result[1]).to.deep.equal({ mode: 'BICYCLE', qualifier: 'RENT' });
-      expect(result[2]).to.deep.equal({ mode: 'WALK' });
-      expect(result[3]).to.deep.equal({ mode: 'SCOOTER', qualifier: 'RENT' });
     });
   });
 });
