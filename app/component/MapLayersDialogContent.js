@@ -127,7 +127,8 @@ class MapLayersDialogContent extends React.Component {
     }
     const isTransportModeEnabled = transportMode =>
       transportMode && transportMode.availableForSelection;
-    const transportModes = getTransportModes(this.context.config);
+    const { config } = this.context;
+    const transportModes = getTransportModes(config);
     return (
       <Fragment>
         <button
@@ -147,7 +148,7 @@ class MapLayersDialogContent extends React.Component {
           })}
         </span>
         <div className="checkbox-grouping" />
-        {this.context.config.vehicles && (
+        {config.vehicles && (
           <div className="checkbox-grouping">
             <Checkbox
               large
@@ -208,8 +209,8 @@ class MapLayersDialogContent extends React.Component {
             />
           )}
           {showRentalVehiclesOfType(
-            this.context.config?.cityBike?.networks,
-            this.context.config,
+            config.cityBike?.networks,
+            config,
             TransportMode.Citybike,
           ) && (
             <Checkbox
@@ -225,8 +226,8 @@ class MapLayersDialogContent extends React.Component {
             />
           )}
           {showRentalVehiclesOfType(
-            this.context.config?.cityBike?.networks,
-            this.context.config,
+            config.cityBike?.networks,
+            config,
             TransportMode.Scooter,
           ) && (
             <Checkbox
@@ -254,20 +255,19 @@ class MapLayersDialogContent extends React.Component {
               }}
             />
           )}
-          {this.context.config.parkAndRide &&
-            this.context.config.parkAndRide.showParkAndRide && (
-              <Checkbox
-                large
-                checked={parkAndRide}
-                disabled={!!this.props.mapLayerOptions?.parkAndRide?.isLocked}
-                defaultMessage="Park &amp; ride"
-                labelId="map-layer-park-and-ride"
-                onChange={e => {
-                  this.updateSetting({ parkAndRide: e.target.checked });
-                  sendLayerChangeAnalytic('ParkAndRide', e.target.checked);
-                }}
-              />
-            )}
+          {config.parkAndRide?.showParkAndRide && (
+            <Checkbox
+              large
+              checked={parkAndRide}
+              disabled={!!this.props.mapLayerOptions?.parkAndRide?.isLocked}
+              defaultMessage="Park &amp; ride"
+              labelId="map-layer-park-and-ride"
+              onChange={e => {
+                this.updateSetting({ parkAndRide: e.target.checked });
+                sendLayerChangeAnalytic('ParkAndRide', e.target.checked);
+              }}
+            />
+          )}
         </div>
         {arr && Array.isArray(arr) && (
           <div className="checkbox-grouping">
