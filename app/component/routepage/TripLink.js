@@ -87,7 +87,7 @@ TripLink.propTypes = {
     pattern: PropTypes.shape({
       code: PropTypes.string,
     }),
-  }).isRequired,
+  }),
   vehicle: vehicleShape.isRequired,
   shortName: PropTypes.string,
   vehicleState: PropTypes.string,
