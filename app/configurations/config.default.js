@@ -432,17 +432,6 @@ export default {
 
   useTicketIcons: false,
 
-  modeToOTP: {
-    bus: 'BUS',
-    tram: 'TRAM',
-    rail: 'RAIL',
-    subway: 'SUBWAY',
-    airplane: 'AIRPLANE',
-    ferry: 'FERRY',
-    funicular: 'FUNICULAR',
-    walk: 'WALK',
-  },
-
   // Control what transport modes that should be possible to select in the UI
   // and whether the transport mode is used in trip planning by default.
   transportModes: {

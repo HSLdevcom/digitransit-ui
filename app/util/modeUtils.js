@@ -165,22 +165,6 @@ export function getAvailableTransportModes(config) {
 }
 
 /**
- * Retrieves the related OTP mode from the given configuration, if available.
- * This will return undefined if the given mode cannot be mapped.
- *
- * @param {*} config The configuration for the software installation
- * @param {String} mode The mode to map
- * @returns The mapped mode, or undefined
- */
-export function getOTPMode(config, mode) {
-  if (!isString(mode)) {
-    return undefined;
-  }
-  const otpMode = config.modeToOTP[mode.toLowerCase()];
-  return otpMode ? otpMode.toUpperCase() : undefined;
-}
-
-/**
  * Checks if the given transport mode has been configured as availableForSelection.
  *
  * @param {*} config The configuration for the software installation
@@ -245,7 +229,6 @@ export function filterModes(config, modes, from, to, intermediatePlaces) {
           ...intermediatePlaces,
         ]),
       )
-      .map(mode => getOTPMode(config, mode))
       .filter(mode => !!mode)
       .sort(),
   );
