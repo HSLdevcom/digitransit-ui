@@ -9,6 +9,7 @@ import {
   AlertEntityType,
 } from '../../../app/constants';
 import { PREFIX_STOPS, PREFIX_ROUTES } from '../../../app/util/path';
+import { mockContext } from '../helpers/mock-context';
 
 describe('<AlertRow />', () => {
   it('should not render a div for the alert if description is missing', () => {
@@ -25,7 +26,9 @@ describe('<AlertRow />', () => {
         },
       ],
     };
-    const wrapper = shallowWithIntl(<AlertRow {...props} />);
+    const wrapper = shallowWithIntl(<AlertRow {...props} />, {
+      context: mockContext,
+    });
     expect(wrapper.find('.alert-row')).to.have.lengthOf(0);
   });
 
@@ -44,7 +47,9 @@ describe('<AlertRow />', () => {
         },
       ],
     };
-    const wrapper = shallowWithIntl(<AlertRow {...props} />);
+    const wrapper = shallowWithIntl(<AlertRow {...props} />, {
+      context: mockContext,
+    });
     expect(wrapper.find('.alert-header')).to.have.lengthOf(0);
   });
 
@@ -62,7 +67,9 @@ describe('<AlertRow />', () => {
         },
       ],
     };
-    const wrapper = shallowWithIntl(<AlertRow {...props} />);
+    const wrapper = shallowWithIntl(<AlertRow {...props} />, {
+      context: mockContext,
+    });
     expect(wrapper.find('.alert-body')).to.have.lengthOf(0);
   });
 
@@ -81,7 +88,9 @@ describe('<AlertRow />', () => {
         },
       ],
     };
-    const wrapper = shallowWithIntl(<AlertRow {...props} />);
+    const wrapper = shallowWithIntl(<AlertRow {...props} />, {
+      context: mockContext,
+    });
     expect(wrapper.find(RouteNumber)).to.have.lengthOf(1);
   });
 
@@ -97,7 +106,9 @@ describe('<AlertRow />', () => {
       description: 'Lorem ipsum',
       index: 0,
     };
-    const wrapper = shallowWithIntl(<AlertRow {...props} />);
+    const wrapper = shallowWithIntl(<AlertRow {...props} />, {
+      context: mockContext,
+    });
     expect(wrapper.find(Icon)).to.have.lengthOf(1);
   });
 
@@ -117,7 +128,9 @@ describe('<AlertRow />', () => {
         },
       ],
     };
-    const wrapper = shallowWithIntl(<AlertRow {...props} />);
+    const wrapper = shallowWithIntl(<AlertRow {...props} />, {
+      context: mockContext,
+    });
     expect(wrapper.find('.alert-top-row').text()).to.contain('at');
   });
 
@@ -136,7 +149,9 @@ describe('<AlertRow />', () => {
         },
       ],
     };
-    const wrapper = shallowWithIntl(<AlertRow {...props} />);
+    const wrapper = shallowWithIntl(<AlertRow {...props} />, {
+      context: mockContext,
+    });
     expect(wrapper.find('.bus')).to.have.lengthOf(1);
   });
 
@@ -155,7 +170,9 @@ describe('<AlertRow />', () => {
         },
       ],
     };
-    const wrapper = shallowWithIntl(<AlertRow {...props} />);
+    const wrapper = shallowWithIntl(<AlertRow {...props} />, {
+      context: mockContext,
+    });
     expect(wrapper.find('.alert-row-link').get(0).props.to).to.equal(
       `/${PREFIX_ROUTES}/HSL:2097N/${PREFIX_STOPS}`,
     );
@@ -176,7 +193,9 @@ describe('<AlertRow />', () => {
         },
       ],
     };
-    const wrapper = shallowWithIntl(<AlertRow {...props} />);
+    const wrapper = shallowWithIntl(<AlertRow {...props} />, {
+      context: mockContext,
+    });
     expect(wrapper.find('.alert-url')).to.have.lengthOf(1);
   });
 
@@ -195,7 +214,9 @@ describe('<AlertRow />', () => {
         },
       ],
     };
-    const wrapper = shallowWithIntl(<AlertRow {...props} />);
+    const wrapper = shallowWithIntl(<AlertRow {...props} />, {
+      context: mockContext,
+    });
     expect(wrapper.find(RouteNumber).prop('alertSeverityLevel')).to.equal(
       AlertSeverityLevelType.Warning,
     );
@@ -215,7 +236,9 @@ describe('<AlertRow />', () => {
         },
       ],
     };
-    const wrapper = shallowWithIntl(<AlertRow {...props} />);
+    const wrapper = shallowWithIntl(<AlertRow {...props} />, {
+      context: mockContext,
+    });
     expect(wrapper.find('.alert-url').prop('href')).to.equal(
       'http://www.hsl.fi',
     );
