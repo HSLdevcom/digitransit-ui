@@ -437,12 +437,10 @@ export default {
     tram: 'TRAM',
     rail: 'RAIL',
     subway: 'SUBWAY',
-    citybike: 'BICYCLE_RENT',
     airplane: 'AIRPLANE',
     ferry: 'FERRY',
     funicular: 'FUNICULAR',
     walk: 'WALK',
-    scooter: 'SCOOTER_RENT',
   },
 
   // Control what transport modes that should be possible to select in the UI
