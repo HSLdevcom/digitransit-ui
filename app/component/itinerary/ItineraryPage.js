@@ -703,12 +703,14 @@ export default function ItineraryPage(props, context) {
   }, []);
 
   useEffect(() => {
+    setCombinedState({ ...emptyState, loading: LOADSTATE.LOADING });
     makeScooterQuery();
     makeMainQuery();
     Object.keys(altStates).forEach(key => makeAltQuery(key));
 
     // note: relaxed scooter query is not made unless some modes are disabled
     // so, if no itineraries are found with standard settings, scooter is not suggested
+    // maybe it should be?
     if (settingsLimitRouting(config) && !settingsState.settingsChanged) {
       makeRelaxedQuery();
       makeRelaxedScooterQuery();
@@ -796,7 +798,7 @@ export default function ItineraryPage(props, context) {
       scooterState.loading === LOADSTATE.DONE
     ) {
       const plan = mergeScooterTransitPlan(scooterState.plan, state.plan);
-      setCombinedState({ plan });
+      setCombinedState({ plan, loading: LOADSTATE.DONE });
     }
   }, [scooterState.plan, state.plan]);
 
@@ -1030,8 +1032,7 @@ export default function ItineraryPage(props, context) {
   const loadingAlt = altLoading();
   const waitAlternatives = hasNoTransitItineraries && loadingAlt;
   const loading =
-    state.loading === LOADSTATE.LOADING ||
-    scooterState.loading === LOADSTATE.LOADING ||
+    combinedState.loading === LOADSTATE.LOADING ||
     (relaxState.loading === LOADSTATE.LOADING && hasNoTransitItineraries) ||
     (relaxScooterState.loading === LOADSTATE.LOADING &&
       hasNoTransitItineraries) ||
