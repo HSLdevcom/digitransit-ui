@@ -36,9 +36,14 @@ export default function AppBar(
     setMenuOpen(newState);
   };
 
+  const toggleDisruptionInfo = newState => {
+    setDisruptionInfoOpen(newState);
+    setMenuOpen(false);
+  };
+
   return (
     <>
-      {disruptionInfoOpen && <DisruptionInfo setOpen={setDisruptionInfoOpen} />}
+      {disruptionInfoOpen && <DisruptionInfo setOpen={toggleDisruptionInfo} />}
       {config.NODE_ENV !== 'test' && <MessageBar breakpoint={breakpoint} />}
       <CanceledLegsBar />
       <nav className={`top-bar ${breakpoint !== 'large' ? 'mobile' : ''}`}>

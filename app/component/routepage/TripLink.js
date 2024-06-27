@@ -94,6 +94,7 @@ TripLink.propTypes = {
 };
 
 TripLink.defaultProps = {
+  trip: undefined,
   shortName: undefined,
   vehicleState: undefined,
 };

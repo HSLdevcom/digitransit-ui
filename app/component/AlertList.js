@@ -22,6 +22,7 @@ const AlertList = ({
   serviceAlerts,
   showLinks,
   breakpoint,
+  onClickLink,
 }) => {
   const validAlerts = serviceAlerts.filter(alert =>
     isAlertValid(alert, currentTime),
@@ -98,6 +99,7 @@ const AlertList = ({
                   startTime={effectiveStartDate}
                   url={alertUrl}
                   index={i}
+                  onClickLink={onClickLink}
                 />
               );
             },
@@ -115,6 +117,7 @@ AlertList.propTypes = {
   serviceAlerts: PropTypes.arrayOf(alertShape),
   showLinks: PropTypes.bool,
   breakpoint: PropTypes.string,
+  onClickLink: PropTypes.func,
 };
 
 AlertList.defaultProps = {
@@ -123,6 +126,7 @@ AlertList.defaultProps = {
   serviceAlerts: [],
   showLinks: false,
   breakpoint: undefined,
+  onClickLink: undefined,
 };
 
 const connectedComponent = connectToStores(

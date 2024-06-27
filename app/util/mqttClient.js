@@ -35,7 +35,7 @@ function getTopic(options, settings) {
   const tripStartTime = options.tripStartTime
     ? convertTo24HourFormat(options.tripStartTime)
     : '+';
-  const feedId = options.feedId ? options.feedId : '+';
+  const feedId = options.feedId || settings.feedId || '+';
   const topic = settings.mqttTopicResolver(
     route,
     direction,
