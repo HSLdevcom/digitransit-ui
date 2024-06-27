@@ -303,9 +303,6 @@ export default createFragmentContainer(ItineraryLine, {
         }
         rentalVehicle {
           vehicleId
-          name
-          lat
-          lon
           network
         }
         stop {
