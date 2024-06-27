@@ -1,10 +1,6 @@
 import moment from 'moment';
 import isEqual from 'lodash/isEqual';
-import {
-  getDefaultModes,
-  modesAsOTPModes,
-  isTransportModeAvailable,
-} from './modeUtils';
+import { getTransitModes, isTransportModeAvailable } from './modeUtils';
 import { otpToLocation, getIntermediatePlaces } from './otpStrings';
 import { getAllNetworksOfType, getDefaultNetworks } from './vehicleRentalUtils';
 import { getCustomizedSettings } from '../store/localStorage';
@@ -57,7 +53,7 @@ export function getDefaultSettings(config) {
 
   return {
     ...config.defaultSettings,
-    modes: getDefaultModes(config).sort(),
+    modes: getTransitModes(config),
     allowedBikeRentalNetworks: config.transportModes?.citybike?.defaultValue
       ? getDefaultNetworks(config)
       : [],
@@ -112,16 +108,14 @@ export function getSettings(config) {
   };
 }
 
-function getTransitModes(modes, planType, config) {
-  let transitModes = modes.filter(m => m !== 'CITYBIKE' && m !== 'SCOOTER');
+function filterTransitModes(modes, planType, config) {
   if (planType === PLANTYPE.BIKETRANSIT) {
     if (config.bikeBoardingModes) {
-      transitModes = transitModes.filter(m => config.bikeBoardingModes[m]);
-    } else {
-      return [];
+      return modes.filter(m => config.bikeBoardingModes[m]);
     }
+    return [];
   }
-  return transitModes;
+  return modes;
 }
 
 export function planQueryNeeded(
@@ -151,7 +145,7 @@ export function planQueryNeeded(
 
   const defaultSettings = getDefaultSettings(config);
   const settings = getSettings(config);
-  const transitModes = getTransitModes(
+  const transitModes = filterTransitModes(
     relaxSettings ? defaultSettings.modes : settings.modes,
     planType,
     config,
@@ -279,13 +273,15 @@ export function getPlanParams(
     settings.allowedBikeRentalNetworks = null;
   }
 
-  const transitModes = getTransitModes(
+  const transitModes = filterTransitModes(
     relaxSettings ? defaultSettings.modes : settings.modes,
     planType,
     config,
   );
 
-  let otpModes = modesAsOTPModes(transitModes);
+  let otpModes = transitModes.map(mode => {
+    return { mode };
+  });
   if (config.customWeights) {
     otpModes.forEach(m => {
       if (config.customWeights[m.mode]) {

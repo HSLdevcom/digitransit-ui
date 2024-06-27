@@ -145,10 +145,13 @@ export function getAvailableTransportModeConfigs(config) {
     : [];
 }
 
-export function getDefaultModes(config) {
+export function getTransitModes(config) {
   return getAvailableTransportModeConfigs(config)
-    .filter(tm => tm.defaultValue)
-    .map(tm => tm.name);
+    .filter(
+      tm => tm.defaultValue && tm.name !== 'scooter' && tm.name !== 'citybike',
+    )
+    .map(tm => tm.name)
+    .sort();
 }
 
 /**
@@ -250,7 +253,7 @@ export function filterModes(config, modes, from, to, intermediatePlaces) {
 
 /**
  * Giving user an option to change mode settings when there are no
- * alternative options does not makse sense. This function checks
+ * alternative options does not make sense. This function checks
  * if there are at least two available transport modes
  *
  * @param {*} config
@@ -261,40 +264,21 @@ export function showModeSettings(config) {
 }
 
 /**
- * Retrieves all transport modes and returns the currently available
+ * Retrieves all transit modes and returns the currently available
  * If user has no ability to change mode settings, always use default modes.
  *
  * @param {*} config The configuration for the software
  * @returns {String[]} returns user set modes or default modes
  */
 export function getModes(config) {
-  const { modes, allowedBikeRentalNetworks } = getCustomizedSettings();
-  const activeAndAllowedBikeRentalNetworks = allowedBikeRentalNetworks
-    ? allowedBikeRentalNetworks.filter(x => networkIsActive(config, x))
-    : [];
+  const { modes } = getCustomizedSettings();
   if (showModeSettings(config) && Array.isArray(modes)) {
     const transportModes = modes.filter(mode =>
       isTransportModeAvailable(config, mode),
     );
-    if (
-      activeAndAllowedBikeRentalNetworks &&
-      activeAndAllowedBikeRentalNetworks.length > 0 &&
-      transportModes.indexOf(TransportMode.Citybike) === -1 &&
-      transportModes.indexOf(TransportMode.Scooter) === -1
-    ) {
-      // Assume citybike if no rental network mode found
-      transportModes.push(TransportMode.Citybike);
-    }
     return transportModes;
   }
-  const defaultModes = getDefaultModes(config);
-  if (
-    Array.isArray(activeAndAllowedBikeRentalNetworks) &&
-    activeAndAllowedBikeRentalNetworks.length > 0
-  ) {
-    defaultModes.push(TransportMode.Citybike);
-  }
-  return defaultModes;
+  return getTransitModes(config);
 }
 
 /**
@@ -318,21 +302,4 @@ export function toggleTransportMode(transportMode, config) {
   });
   const modes = xor(getModes(config), [transportMode.toUpperCase()]);
   return modes;
-}
-
-/**
- * Transforms array of mode strings into modern format OTP mode objects
- *
- * @param {String[]} modes modes to filter from
- * @returns {Object[]} array of objects of format
- * {mode: <uppercase mode name>}, qualifier: <optional qualifier>}
- */
-export function modesAsOTPModes(modes) {
-  return modes
-    .map(mode => mode.split('_'))
-    .map(modeAndQualifier =>
-      modeAndQualifier.length > 1
-        ? { mode: modeAndQualifier[0], qualifier: modeAndQualifier[1] }
-        : { mode: modeAndQualifier[0] },
-    );
 }

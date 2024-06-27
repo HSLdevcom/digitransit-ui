@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import xor from 'lodash/xor';
 import Toggle from '../../Toggle';
 import { saveRoutingSettings } from '../../../action/SearchSettingsActions';
 import Icon from '../../Icon';
@@ -11,7 +10,6 @@ import {
   updateVehicleNetworks,
   getScooterRentalNetworks,
 } from '../../../util/vehicleRentalUtils';
-import { getModes } from '../../../util/modeUtils';
 import { TransportMode } from '../../../constants';
 
 const ScooterRentalNetworkSelector = (
@@ -62,17 +60,9 @@ const ScooterRentalNetworkSelector = (
                   getScooterRentalNetworks(config),
                   network.networkName,
                 );
-                const modes = getModes(config);
                 const newSettings = {
                   allowedScooterRentalNetworks: newNetworks,
                 };
-                if (newNetworks.length > 0) {
-                  if (modes.indexOf(TransportMode.Scooter) === -1) {
-                    newSettings.modes = xor(modes, [TransportMode.Scooter]);
-                  }
-                } else if (modes.indexOf(TransportMode.Scooter) !== -1) {
-                  newSettings.modes = xor(modes, [TransportMode.Scooter]);
-                }
                 executeAction(saveRoutingSettings, newSettings);
               }}
             />
