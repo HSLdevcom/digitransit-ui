@@ -5,8 +5,8 @@ import { FormattedMessage } from 'react-intl';
 import { configShape } from '../../../util/shapes';
 import Icon from '../../Icon';
 import {
-  getVehicleRentalStationNetworkConfig,
-  getVehicleRentalStationNetworkIcon,
+  getRentalNetworkConfig,
+  getRentalNetworkIcon,
   hasVehicleRentalCode,
 } from '../../../util/vehicleRentalUtils';
 import { getIdWithoutFeed } from '../../../util/feedScopedIdUtils';
@@ -18,8 +18,8 @@ function SelectVehicleRentalRow(
 ) {
   const img =
     icon ||
-    `${getVehicleRentalStationNetworkIcon(
-      getVehicleRentalStationNetworkConfig(network, config),
+    `${getRentalNetworkIcon(
+      getRentalNetworkConfig(network, config),
     )}-stop-lollipop`;
 
   const linkAddress = `/${prefix}/${encodeURIComponent(id)}`;

@@ -12,8 +12,8 @@ import {
 import {
   BIKEAVL_UNKNOWN,
   getVehicleCapacity,
-  getVehicleRentalStationNetworkConfig,
-  getVehicleRentalStationNetworkIcon,
+  getRentalNetworkConfig,
+  getRentalNetworkIcon,
   hasVehicleRentalCode,
   getRentalVehicleLink,
 } from '../../util/vehicleRentalUtils';
@@ -54,8 +54,8 @@ function VehicleRentalLeg(
       <FormattedMessage id={id} defaultMessage="Fetch a bike" />
     </span>
   );
-  const networkConfig = getVehicleRentalStationNetworkConfig(network, config);
-  const vehicleIcon = getVehicleRentalStationNetworkIcon(networkConfig);
+  const networkConfig = getRentalNetworkConfig(network, config);
+  const vehicleIcon = getRentalNetworkIcon(networkConfig);
   const availabilityIndicatorColor = vehicleRentalStation
     ? getVehicleAvailabilityIndicatorColor(
         vehicleRentalStation.availableVehicles.total,

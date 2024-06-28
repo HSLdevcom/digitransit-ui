@@ -11,8 +11,8 @@ import {
 } from '../../../util/mapIconUtils';
 
 import {
-  getVehicleRentalStationNetworkConfig,
-  getVehicleRentalStationNetworkIcon,
+  getRentalNetworkConfig,
+  getRentalNetworkIcon,
 } from '../../../util/vehicleRentalUtils';
 import { fetchWithLanguageAndSubscription } from '../../../util/fetchUtils';
 import { getLayerBaseUrl } from '../../../util/mapLayerUtils';
@@ -147,9 +147,7 @@ class RentalVehicles {
     const { geom } = feature;
     const iconName =
       iconPrefix ||
-      getVehicleRentalStationNetworkIcon(
-        getVehicleRentalStationNetworkConfig(network, this.config),
-      );
+      getRentalNetworkIcon(getRentalNetworkConfig(network, this.config));
     const isHilighted = this.tile.hilightedStops?.includes(id);
     if (zoomedIn || isHilighted) {
       drawScooterIcon(this.tile, geom, iconName, isHilighted);

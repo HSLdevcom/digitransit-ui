@@ -11,8 +11,8 @@ import Icon from '../../Icon';
 import GenericMarker from '../GenericMarker';
 import {
   BIKEAVL_UNKNOWN,
-  getVehicleRentalStationNetworkConfig,
-  getVehicleRentalStationNetworkIcon,
+  getRentalNetworkConfig,
+  getRentalNetworkIcon,
   getVehicleCapacity,
 } from '../../../util/vehicleRentalUtils';
 import { isBrowser } from '../../../util/browser';
@@ -70,8 +70,8 @@ export default class VehicleMarker extends React.Component {
     const { showBikeAvailability, rental, transit } = this.props;
     const { config } = this.context;
     const vehicleCapacity = getVehicleCapacity(config, rental?.network);
-    const iconName = `${getVehicleRentalStationNetworkIcon(
-      getVehicleRentalStationNetworkConfig(rental.network, config),
+    const iconName = `${getRentalNetworkIcon(
+      getRentalNetworkConfig(rental.network, config),
     )}-lollipop`;
 
     return !transit && zoom <= config.stopsSmallMaxZoom

@@ -2,16 +2,16 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Icon from './Icon';
 import {
-  getVehicleRentalStationNetworkIcon,
-  getVehicleRentalStationNetworkConfig,
+  getRentalNetworkIcon,
+  getRentalNetworkConfig,
 } from '../util/vehicleRentalUtils';
 import { rentalVehicleShape } from '../util/shapes';
 
 const RentalVehicle = ({ rentalVehicle }, { config }) => {
   const disabled = !rentalVehicle.operative;
 
-  const vehicleIcon = getVehicleRentalStationNetworkIcon(
-    getVehicleRentalStationNetworkConfig(rentalVehicle.network, config),
+  const vehicleIcon = getRentalNetworkIcon(
+    getRentalNetworkConfig(rentalVehicle.network, config),
     disabled,
   );
   return (

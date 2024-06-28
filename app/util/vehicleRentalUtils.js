@@ -26,17 +26,17 @@ export const defaultNetworkConfig = {
   type: RentalNetworkType.CityBike,
 };
 
-export const getVehicleRentalStationNetworkName = (
+export const getRentalNetworkName = (
   networkConfig = defaultNetworkConfig,
   language = 'en',
 ) => (networkConfig.name && networkConfig.name[language]) || undefined;
 
-export const getVehicleRentalStationNetworkIcon = (
+export const getRentalNetworkIcon = (
   networkConfig = defaultNetworkConfig,
   disabled = false,
 ) => `icon-icon_${networkConfig.icon || 'citybike'}${disabled ? '_off' : ''}`;
 
-export const getVehicleRentalStationNetworkId = networks => {
+export const getRentalNetworkId = networks => {
   if (isString(networks) && networks.length > 0) {
     return networks;
   }
@@ -46,7 +46,7 @@ export const getVehicleRentalStationNetworkId = networks => {
   return networks[0];
 };
 
-export const getVehicleRentalStationNetworkConfig = (networkId, config) => {
+export const getRentalNetworkConfig = (networkId, config) => {
   if (!networkId || !networkId.toLowerCase) {
     return defaultNetworkConfig;
   }

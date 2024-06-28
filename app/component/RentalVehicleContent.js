@@ -7,8 +7,8 @@ import { routerShape, RedirectException } from 'found';
 import Icon from './Icon';
 import withBreakpoint from '../util/withBreakpoint';
 import {
-  getVehicleRentalStationNetworkIcon,
-  getVehicleRentalStationNetworkConfig,
+  getRentalNetworkIcon,
+  getRentalNetworkConfig,
 } from '../util/vehicleRentalUtils';
 import { isBrowser } from '../util/browser';
 import { PREFIX_RENTALVEHICLES } from '../util/path';
@@ -41,11 +41,8 @@ const RentalVehicleContent = (
     }
     return null;
   }
-  const networkConfig = getVehicleRentalStationNetworkConfig(
-    rentalVehicle.network,
-    config,
-  );
-  const vehicleIcon = getVehicleRentalStationNetworkIcon(
+  const networkConfig = getRentalNetworkConfig(rentalVehicle.network, config);
+  const vehicleIcon = getRentalNetworkIcon(
     networkConfig,
     !rentalVehicle.operative,
   );

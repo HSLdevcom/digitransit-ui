@@ -11,7 +11,7 @@ import ZoneIcon from './ZoneIcon';
 import withBreakpoint from '../util/withBreakpoint';
 import {
   hasVehicleRentalCode,
-  getVehicleRentalStationNetworkConfig,
+  getRentalNetworkConfig,
 } from '../util/vehicleRentalUtils';
 import { getIdWithoutFeed } from '../util/feedScopedIdUtils';
 import { TransportMode } from '../constants';
@@ -51,7 +51,7 @@ const ParkOrBikeStationHeader = (
   }, []);
 
   const { name, stationId, network } = parkOrStation;
-  const networkConfig = getVehicleRentalStationNetworkConfig(network, config);
+  const networkConfig = getRentalNetworkConfig(network, config);
   const parkHeaderId = parkType === 'bike' ? 'bike-park' : 'car-park';
   const noIdHeaderName =
     networkConfig.type === TransportMode.Citybike.toLowerCase()

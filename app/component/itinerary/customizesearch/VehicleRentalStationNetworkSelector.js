@@ -6,8 +6,8 @@ import { saveRoutingSettings } from '../../../action/SearchSettingsActions';
 import Icon from '../../Icon';
 import {
   mapDefaultNetworkProperties,
-  getVehicleRentalStationNetworkName,
-  getVehicleRentalStationNetworkConfig,
+  getRentalNetworkName,
+  getRentalNetworkConfig,
   updateVehicleNetworks,
   getCitybikeNetworks,
 } from '../../../util/vehicleRentalUtils';
@@ -39,11 +39,8 @@ const VehicleRentalStationNetworkSelector = (
               />
             </div>
             <span className="mode-name">
-              {getVehicleRentalStationNetworkName(
-                getVehicleRentalStationNetworkConfig(
-                  network.networkName,
-                  config,
-                ),
+              {getRentalNetworkName(
+                getRentalNetworkConfig(network.networkName, config),
                 getStore('PreferencesStore').getLanguage(),
               )}
             </span>

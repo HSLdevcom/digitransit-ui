@@ -29,8 +29,8 @@ import withBreakpoint from '../../util/withBreakpoint';
 import { isKeyboardSelectionEvent } from '../../util/browser';
 import {
   BIKEAVL_UNKNOWN,
-  getVehicleRentalStationNetworkIcon,
-  getVehicleRentalStationNetworkConfig,
+  getRentalNetworkIcon,
+  getRentalNetworkConfig,
   getVehicleCapacity,
 } from '../../util/vehicleRentalUtils';
 import { getRouteMode } from '../../util/modeUtils';
@@ -173,11 +173,8 @@ export const ModeLeg = (
   ) {
     networkIcon =
       leg.from.vehicleRentalStation &&
-      getVehicleRentalStationNetworkIcon(
-        getVehicleRentalStationNetworkConfig(
-          leg.from.vehicleRentalStation.network,
-          config,
-        ),
+      getRentalNetworkIcon(
+        getRentalNetworkConfig(leg.from.vehicleRentalStation.network, config),
       );
   } else if (mode === 'SCOOTER') {
     networkIcon = 'icon-icon_scooter_rider';
@@ -443,8 +440,8 @@ const Itinerary = (
         showRentalBikeDurationWarning =
           showRentalBikeDurationWarning || rentDurationOverSurchargeLimit;
         if (!citybikeicon) {
-          citybikeicon = getVehicleRentalStationNetworkIcon(
-            getVehicleRentalStationNetworkConfig(bikeNetwork, config),
+          citybikeicon = getRentalNetworkIcon(
+            getRentalNetworkConfig(bikeNetwork, config),
           );
         }
       }
