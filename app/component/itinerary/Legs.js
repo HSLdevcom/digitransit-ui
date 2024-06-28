@@ -44,7 +44,7 @@ export default class Legs extends React.Component {
     focusToLeg: PropTypes.func.isRequired,
     changeHash: PropTypes.func,
     tabIndex: PropTypes.number,
-    toggleSettings: PropTypes.func.isRequired,
+    openSettings: PropTypes.func.isRequired,
     showBikeBoardingInformation: PropTypes.bool,
   };
 
@@ -259,7 +259,7 @@ export default class Legs extends React.Component {
           <BicycleLeg
             {...legProps}
             bicycleWalkLeg={bicycleWalkLeg}
-            toggleSettings={this.props.toggleSettings}
+            openSettings={this.props.openSettings}
           />,
         );
       } else if (leg.mode === 'CAR') {

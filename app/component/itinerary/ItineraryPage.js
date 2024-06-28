@@ -856,7 +856,7 @@ export default function ItineraryPage(props, context) {
     router.replace(newLocationState);
   };
 
-  function showSettingsPanel(open) {
+  const showSettingsPanel = open => {
     addAnalyticsEvent({
       event: 'sendMatomoEvent',
       category: 'ItinerarySettings',
@@ -902,7 +902,7 @@ export default function ItineraryPage(props, context) {
     if (breakpoint !== 'large') {
       router.go(-1);
     }
-  }
+  };
 
   const toggleSettings = () => {
     showSettingsPanel(!settingsState.settingsOpen);
@@ -1066,7 +1066,7 @@ export default function ItineraryPage(props, context) {
         focusToLeg={focusToLeg}
         carEmissions={carEmissions}
         bikeAndPublicItineraryCount={bikePublicPlan.bikePublicItineraryCount}
-        toggleSettings={toggleSettings}
+        openSettings={showSettingsPanel}
       />
     );
   } else {

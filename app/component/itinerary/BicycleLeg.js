@@ -31,7 +31,7 @@ export default function BicycleLeg(
     leg,
     focusToLeg,
     bicycleWalkLeg,
-    toggleSettings,
+    openSettings,
     nextLegMode,
   },
   { config, intl },
@@ -297,8 +297,10 @@ export default function BicycleLeg(
             <div
               role="button"
               tabIndex="0"
-              onClick={toggleSettings}
-              onKeyPress={e => isKeyboardSelectionEvent(e) && toggleSettings()}
+              onClick={() => openSettings(true)}
+              onKeyPress={e =>
+                isKeyboardSelectionEvent(e) && openSettings(true)
+              }
               className="itinerary-transit-leg-route-bike"
             >
               <div className="citybike-itinerary">
@@ -395,7 +397,7 @@ BicycleLeg.propTypes = {
   index: PropTypes.number.isRequired,
   focusAction: PropTypes.func.isRequired,
   focusToLeg: PropTypes.func.isRequired,
-  toggleSettings: PropTypes.func.isRequired,
+  openSettings: PropTypes.func.isRequired,
   nextLegMode: PropTypes.string,
 };
 

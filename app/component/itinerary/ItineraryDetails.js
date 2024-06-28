@@ -53,7 +53,7 @@ class ItineraryDetails extends React.Component {
     carEmissions: PropTypes.number,
     currentLanguage: PropTypes.string,
     changeHash: PropTypes.func,
-    toggleSettings: PropTypes.func.isRequired,
+    openSettings: PropTypes.func.isRequired,
     bikeAndPublicItineraryCount: PropTypes.number,
   };
 
@@ -315,7 +315,7 @@ class ItineraryDetails extends React.Component {
                   focusToLeg={this.props.focusToLeg}
                   changeHash={this.props.changeHash}
                   tabIndex={itineraryIndex - 1}
-                  toggleSettings={this.props.toggleSettings}
+                  openSettings={this.props.openSettings}
                   showBikeBoardingInformation={showBikeBoardingInformation}
                 />
               </div>
