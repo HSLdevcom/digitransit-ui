@@ -29,7 +29,7 @@ describe('<Legs />', () => {
       waitThreshold: 180,
       focusToPoint: () => {},
       focusToLeg: () => {},
-      toggleSettings: () => {},
+      openSettings: () => {},
     };
     const wrapper = shallowWithIntl(<Legs {...props} />, {
       context,
