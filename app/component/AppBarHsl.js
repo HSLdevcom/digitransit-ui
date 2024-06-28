@@ -34,9 +34,9 @@ const AppBarHsl = ({ lang, user, favourites }, context) => {
 
   useEffect(() => {
     if (config.URL.BANNERS && config.NODE_ENV !== 'test') {
-      getJson(`${config.URL.BANNERS}&language=${lang}`).then(data =>
-        setBanners(data),
-      );
+      getJson(`${config.URL.BANNERS}&language=${lang}`)
+        .then(data => setBanners(data))
+        .catch(() => setBanners([]));
     }
   }, [lang]);
 
