@@ -144,6 +144,7 @@ export default function ItineraryPage(props, context) {
   const { params, location } = match;
   const { hash, secondHash } = params;
   const { query } = location;
+  const detailView = altTransitHash.includes(hash) ? secondHash : hash;
 
   function altLoading() {
     return Object.values(altStates).some(
@@ -347,7 +348,6 @@ export default function ItineraryPage(props, context) {
   async function makeMainQuery() {
     if (!planQueryNeeded(config, match, PLANTYPE.TRANSIT)) {
       setState(emptyState);
-      resetItineraryPageSelection();
       return;
     }
     ariaRef.current = 'itinerary-page.loading-itineraries';
@@ -356,7 +356,6 @@ export default function ItineraryPage(props, context) {
     try {
       const plan = await iterateQuery(planParams);
       setState({ ...emptyState, plan, loading: LOADSTATE.DONE });
-      resetItineraryPageSelection();
       ariaRef.current = 'itinerary-page.itineraries-loaded';
     } catch (error) {
       reportError(error);
@@ -381,7 +380,6 @@ export default function ItineraryPage(props, context) {
     try {
       const plan = await iterateQuery(planParams);
       setScooterState({ plan, loading: LOADSTATE.DONE });
-      resetItineraryPageSelection();
     } catch (error) {
       reportError(error);
       setScooterState(emptyPlan);
@@ -727,8 +725,7 @@ export default function ItineraryPage(props, context) {
     navigateMap();
     setMapState({ center: undefined, bounds: undefined });
 
-    if (altTransitHash.includes(hash) ? secondHash : hash) {
-      // in detail view
+    if (detailView) {
       // If itinerary is not found in detail view, go back to summary view
       if (altLoadingDone() && !mapHashToPlan()?.edges?.length) {
         selectStreetMode(); // back to root view
@@ -799,6 +796,7 @@ export default function ItineraryPage(props, context) {
     ) {
       const plan = mergeScooterTransitPlan(scooterState.plan, state.plan);
       setCombinedState({ plan, loading: LOADSTATE.DONE });
+      resetItineraryPageSelection();
     }
   }, [scooterState.plan, state.plan]);
 
@@ -858,7 +856,7 @@ export default function ItineraryPage(props, context) {
     router.replace(newLocationState);
   };
 
-  function showSettingsPanel(open, detailView) {
+  function showSettingsPanel(open) {
     addAnalyticsEvent({
       event: 'sendMatomoEvent',
       category: 'ItinerarySettings',
@@ -906,8 +904,8 @@ export default function ItineraryPage(props, context) {
     }
   }
 
-  const toggleSettings = detailView => {
-    showSettingsPanel(!settingsState.settingsOpen, detailView);
+  const toggleSettings = () => {
+    showSettingsPanel(!settingsState.settingsOpen);
   };
 
   const focusToHeader = () => {
@@ -918,7 +916,7 @@ export default function ItineraryPage(props, context) {
     }, 500);
   };
 
-  function renderMap(from, to, viaPoints, planEdges, activeIndex, detailView) {
+  function renderMap(from, to, viaPoints, planEdges, activeIndex) {
     const mwtProps = {};
     if (mapState.bounds) {
       mwtProps.bounds = mapState.bounds;
@@ -1012,8 +1010,6 @@ export default function ItineraryPage(props, context) {
       ? query.time * 1000
       : Date.now();
 
-  const detailView = altTransitHash.includes(hash) ? secondHash : hash;
-
   // no map on mobile summary view
   const map =
     !detailView && breakpoint !== 'large'
@@ -1041,10 +1037,7 @@ export default function ItineraryPage(props, context) {
 
   const settingsDrawer = settingsState.settingsOpen ? (
     <div className={desktop ? 'offcanvas' : 'offcanvas-mobile'}>
-      <CustomizeSearch
-        onToggleClick={() => toggleSettings(detailView)}
-        mobile={!desktop}
-      />
+      <CustomizeSearch onToggleClick={toggleSettings} mobile={!desktop} />
     </div>
   ) : null;
 

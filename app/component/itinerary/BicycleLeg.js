@@ -298,9 +298,7 @@ export default function BicycleLeg(
               role="button"
               tabIndex="0"
               onClick={toggleSettings}
-              onKeyPress={e =>
-                isKeyboardSelectionEvent(e) && toggleSettings(true)
-              }
+              onKeyPress={e => isKeyboardSelectionEvent(e) && toggleSettings()}
               className="itinerary-transit-leg-route-bike"
             >
               <div className="citybike-itinerary">
