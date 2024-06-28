@@ -15,6 +15,7 @@ import {
   PREFIX_BIKESTATIONS,
   PREFIX_BIKEPARK,
   PREFIX_CARPARK,
+  PREFIX_RENTALVEHICLES,
   createReturnPath,
   TAB_NEARBY,
   TAB_FAVOURITES,
@@ -251,6 +252,53 @@ export default config => {
                   /* webpackChunkName: "itinerary" */ './component/StopsNearYouPageMeta'
                 ).then(getDefault)
               }
+            />
+          ),
+        }}
+      </Route>
+      <Route path={`/${PREFIX_RENTALVEHICLES}/:id/:networks?`}>
+        {{
+          content: (
+            <Route
+              getComponent={() =>
+                import('./component/RentalVehicleContent').then(getDefault)
+              }
+              query={graphql`
+                query routes_RentalVehicle_Query($id: String!) {
+                  rentalVehicle(id: $id) {
+                    ...RentalVehicleContent_rentalVehicle
+                  }
+                }
+              `}
+              render={({ Component, props, error, retry }) => {
+                if (Component && (props || error)) {
+                  return <Component {...props} error={error} />;
+                }
+                return getComponentOrLoadingRenderer({
+                  Component,
+                  props,
+                  error,
+                  retry,
+                });
+              }}
+            />
+          ),
+          map: (
+            <Route
+              path="(.*)?"
+              getComponent={() =>
+                import('./component/RentalVehiclePageMapContainer').then(
+                  getDefault,
+                )
+              }
+              query={graphql`
+                query routes_RentalVehicleMap_Query($id: String!) {
+                  rentalVehicle(id: $id) {
+                    ...RentalVehiclePageMapContainer_rentalVehicle
+                  }
+                }
+              `}
+              render={getComponentOrNullRenderer}
             />
           ),
         }}

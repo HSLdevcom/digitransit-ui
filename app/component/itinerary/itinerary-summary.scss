@@ -236,7 +236,7 @@
     }
 
     .leg {
-      min-width: 24px;
+      min-width: max-content; // forces the leg block to fit all the icons
       width: calc(var(--width) - (var(--minus)) - 2px + var(--plus));
       margin: 0 2px 0 0;
       justify-content: center;
@@ -369,7 +369,8 @@
           &.bicycle,
           &.wait,
           &.bicycle_walk,
-          &.car {
+          &.car,
+          &.scooter {
             display: block;
             overflow: hidden;
             min-width: unset;
@@ -382,7 +383,8 @@
               &.bicycle,
               &.wait,
               &.bicycle_walk,
-              &.car {
+              &.car,
+              &.scooter {
                 float: left;
                 display: flex;
                 justify-content: center;
@@ -427,6 +429,20 @@
             .icon {
               width: 18px;
               margin-left: 1px;
+            }
+          }
+
+          &.scooter {
+            .icon {
+              width: 20px;
+              margin-left: 1px;
+            }
+          }
+
+          .phone-icon {
+            .icon {
+              color: black;
+              height: 16px;
             }
           }
 

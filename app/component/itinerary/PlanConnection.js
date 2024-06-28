@@ -13,7 +13,7 @@ const planConnection = graphql`
     $wheelchair: Boolean
     $transferPenalty: Cost
     $bikeSpeed: Speed
-    $allowedBikeRentalNetworks: [String!]
+    $allowedRentalNetworks: [String!]
     $after: String
     $first: Int
     $before: String
@@ -33,7 +33,7 @@ const planConnection = graphql`
         street: {
           bicycle: {
             speed: $bikeSpeed
-            rental: { allowedNetworks: $allowedBikeRentalNetworks }
+            rental: { allowedNetworks: $allowedRentalNetworks }
           }
           walk: {
             speed: $walkSpeed
@@ -100,6 +100,7 @@ const planConnection = graphql`
               }
             }
           }
+          end
         }
       }
     }

@@ -53,6 +53,7 @@ class ItineraryDetails extends React.Component {
     carEmissions: PropTypes.number,
     currentLanguage: PropTypes.string,
     changeHash: PropTypes.func,
+    openSettings: PropTypes.func.isRequired,
     bikeAndPublicItineraryCount: PropTypes.number,
   };
 
@@ -314,6 +315,7 @@ class ItineraryDetails extends React.Component {
                   focusToLeg={this.props.focusToLeg}
                   changeHash={this.props.changeHash}
                   tabIndex={itineraryIndex - 1}
+                  openSettings={this.props.openSettings}
                   showBikeBoardingInformation={showBikeBoardingInformation}
                 />
               </div>
@@ -442,6 +444,21 @@ const withRelay = createFragmentContainer(
               lon
               stationId
             }
+            rentalVehicle {
+              vehicleId
+              name
+              lat
+              lon
+              network
+              rentalUris {
+                android
+                ios 
+                web
+              }
+              vehicleRentalSystem {
+                url
+              }
+            }
             stop {
               gtfsId
               code
@@ -475,6 +492,12 @@ const withRelay = createFragmentContainer(
               availableVehicles {
                 total
               }
+            }
+            rentalVehicle {
+                vehicleId
+                lat
+                lon
+                network
             }
             stop {
               gtfsId

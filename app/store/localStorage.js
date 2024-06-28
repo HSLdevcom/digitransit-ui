@@ -83,7 +83,14 @@ export function removeItem(k) {
 }
 
 export function getCustomizedSettings() {
-  return getItemAsJson('customizedSettings', '{}');
+  const settings = getItemAsJson('customizedSettings', '{}');
+  // remove outdated settings
+  if (settings.modes) {
+    settings.modes = settings.modes.filter(
+      mode => mode !== 'CITYBIKE' && mode !== 'SCOOTER',
+    );
+  }
+  return settings;
 }
 
 const getNumberValueOrDefault = (value, defaultValue) =>
@@ -121,6 +128,10 @@ export function setCustomizedSettings(data) {
       data.allowedBikeRentalNetworks,
       oldSettings.allowedBikeRentalNetworks,
     ),
+    allowedScooterRentalNetworks: getValueOrDefault(
+      data.allowedScooterRentalNetworks,
+      oldSettings.allowedScooterRentalNetworks,
+    ),
     includeBikeSuggestions: getValueOrDefault(
       data.includeBikeSuggestions,
       oldSettings.includeBikeSuggestions,
@@ -138,7 +149,12 @@ export function setCustomizedSettings(data) {
       oldSettings.showBikeAndParkItineraries,
     ),
   };
-
+  if (newSettings.modes) {
+    // cleanup
+    newSettings.modes = newSettings.modes.filter(
+      mode => mode !== 'CITYBIKE' && mode !== 'SCOOTER',
+    );
+  }
   setItem('customizedSettings', newSettings);
 }
 

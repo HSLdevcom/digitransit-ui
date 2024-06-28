@@ -26,6 +26,7 @@ import {
   PREFIX_TERMINALS,
   PREFIX_CARPARK,
   PREFIX_BIKEPARK,
+  PREFIX_RENTALVEHICLES,
 } from '../../../util/path';
 import SelectVehicleContainer from './SelectVehicleContainer';
 
@@ -33,6 +34,7 @@ const initialState = {
   selectableTargets: undefined,
   coords: undefined,
   showSpinner: true,
+  zoom: undefined,
 };
 
 // TODO eslint doesn't know that TileLayerContainer is a react component,
@@ -208,6 +210,29 @@ class TileLayerContainer extends GridLayer {
         );
         return;
       }
+      if (
+        (selectableTargets.length === 1 &&
+          selectableTargets[0].layer === 'scooter') ||
+        (selectableTargets.length > 1 &&
+          selectableTargets.every(target => target.layer === 'scooter'))
+        // scooters are not shown in the selection popup as there can be too many.
+        // Instead, the user is directed to the scooter cluster view or the first one in a group of singles.
+      ) {
+        const cluster = selectableTargets.find(
+          target => target.feature.properties.cluster,
+        );
+        const networks = cluster ? cluster.feature.properties.networks : '';
+        const id = cluster
+          ? cluster.feature.properties.scooterId
+          : selectableTargets[0].feature.properties.id;
+        // adding networks directs to scooter cluster view
+        this.context.router.push(
+          `/${PREFIX_RENTALVEHICLES}/${encodeURIComponent(id)}/${[
+            ...networks,
+          ]}`,
+        );
+        return;
+      }
       // ... Or to stop page
       if (
         selectableTargets.length === 1 &&
@@ -272,6 +297,7 @@ class TileLayerContainer extends GridLayer {
             isFeatureLayerEnabled(target.feature, target.layer, mapLayers),
         ),
         coords,
+        zoom: tile.coords.z,
       });
     };
 
@@ -397,6 +423,7 @@ class TileLayerContainer extends GridLayer {
               selectRow={this.selectRow}
               options={this.state.selectableTargets}
               colors={this.context.config.colors}
+              zoom={this.state.zoom}
             />
           </Popup>
         );

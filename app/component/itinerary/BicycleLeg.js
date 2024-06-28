@@ -14,16 +14,26 @@ import ItineraryCircleLineLong from './ItineraryCircleLineLong';
 import { PREFIX_STOPS } from '../../util/path';
 import {
   getVehicleRentalStationNetworkConfig,
-  CityBikeNetworkType,
+  RentalNetworkType,
 } from '../../util/vehicleRentalUtils';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
 import { splitStringToAddressAndPlace } from '../../util/otpStrings';
 import VehicleRentalLeg from './VehicleRentalLeg';
+import { getSettings } from '../../util/planParamUtil';
+import { isKeyboardSelectionEvent } from '../../util/browser';
 import StopCode from '../StopCode';
 import PlatformNumber from '../PlatformNumber';
 
 export default function BicycleLeg(
-  { focusAction, index, leg, focusToLeg, bicycleWalkLeg },
+  {
+    focusAction,
+    index,
+    leg,
+    focusToLeg,
+    bicycleWalkLeg,
+    openSettings,
+    nextLegMode,
+  },
   { config, intl },
 ) {
   let stopsDescription;
@@ -40,17 +50,17 @@ export default function BicycleLeg(
   const firstLegClassName = index === 0 ? 'start' : '';
   let modeClassName = 'bicycle';
   const [address, place] = splitStringToAddressAndPlace(leg.from.name);
+  const rentalVehicleNetwork =
+    leg.from.vehicleRentalStation?.network || leg.from.rentalVehicle?.network;
   const networkConfig =
     leg.rentedBike &&
-    leg.from.vehicleRentalStation &&
-    getVehicleRentalStationNetworkConfig(
-      leg.from.vehicleRentalStation.network,
-      config,
-    );
+    rentalVehicleNetwork &&
+    getVehicleRentalStationNetworkConfig(rentalVehicleNetwork, config);
   const isFirstLeg = i => i === 0;
   const isScooter =
-    networkConfig && networkConfig.type === CityBikeNetworkType.Scooter;
-
+    networkConfig && networkConfig.type === RentalNetworkType.Scooter;
+  const settings = getSettings(config);
+  const scooterSettingsOn = settings.allowedScooterRentalNetworks?.length > 0;
   if (leg.mode === 'WALK' || leg.mode === 'BICYCLE_WALK') {
     modeClassName = leg.mode.toLowerCase();
     stopsDescription = (
@@ -79,6 +89,9 @@ export default function BicycleLeg(
     legDescription = (
       <FormattedMessage
         id={isScooter ? 'rent-scooter-at' : 'rent-cycle-at'}
+        values={{
+          station: leg.from.name,
+        }}
         defaultMessage="Fetch a bike"
       />
     );
@@ -90,8 +103,22 @@ export default function BicycleLeg(
     if (leg.mode === 'WALK') {
       mode = 'CITYBIKE_WALK';
     }
+
+    if (leg.mode === 'SCOOTER') {
+      mode = 'SCOOTER';
+    }
   }
-  if (bicycleWalkLeg) {
+
+  if (isScooter) {
+    circleLine = (
+      <ItineraryCircleLineWithIcon
+        index={index}
+        modeClassName={mode.toLowerCase()}
+        icon="icon-icon_scooter_rider"
+        appendClass={!scooterSettingsOn ? 'settings' : ''}
+      />
+    );
+  } else if (bicycleWalkLeg) {
     const modeClassNames = bicycleWalkLeg.to?.stop
       ? [modeClassName, bicycleWalkLeg.mode.toLowerCase()]
       : [bicycleWalkLeg.mode.toLowerCase(), modeClassName];
@@ -199,11 +226,15 @@ export default function BicycleLeg(
             />
           </div>
         ) : (
-          <VehicleRentalLeg
-            stationName={leg.from.name}
-            isScooter={isScooter}
-            vehicleRentalStation={leg.from.vehicleRentalStation}
-          />
+          <div>
+            <div className="divider" />
+            <VehicleRentalLeg
+              stationName={leg.from.name}
+              isScooter={isScooter}
+              vehicleRentalStation={leg.from.vehicleRentalStation}
+              rentalVehicle={leg.from.rentalVehicle}
+            />
+          </div>
         )}
         {bicycleWalkLeg?.from.stop && (
           <div className={cx('itinerary-leg-action', 'bicycle')}>
@@ -241,6 +272,55 @@ export default function BicycleLeg(
                 target={leg.from.name || ''}
                 focusAction={focusAction}
               />
+            </div>
+          </div>
+        )}
+        {isScooter && !scooterSettingsOn && (
+          <div>
+            <div
+              className={cx(
+                'itinerary-leg-action',
+                'scooter',
+                'itinerary-leg-action-content',
+              )}
+            >
+              <FormattedMessage
+                id="settings-e-scooter-on"
+                defaultMessage="Turn scooter settings on permanently"
+              />
+              <ItineraryMapAction
+                target=""
+                ariaLabelId="itinerary-summary-row.clickable-area-description"
+                focusAction={focusToLeg}
+              />
+            </div>
+            <div
+              role="button"
+              tabIndex="0"
+              onClick={() => openSettings(true)}
+              onKeyPress={e =>
+                isKeyboardSelectionEvent(e) && openSettings(true)
+              }
+              className="itinerary-transit-leg-route-bike"
+            >
+              <div className="citybike-itinerary">
+                <div className="citybike-itinerary-text-container">
+                  <span className={cx('settings')}>
+                    <FormattedMessage
+                      id="open-settings"
+                      defaultMessage="Go to settings"
+                    />
+                  </span>
+                </div>
+              </div>
+              <div className="link-to-e-scooter-operator">
+                <Icon
+                  img="icon-icon_arrow-collapse--right"
+                  color="#007ac9"
+                  height={1}
+                  width={1}
+                />
+              </div>
             </div>
           </div>
         )}
@@ -293,6 +373,19 @@ export default function BicycleLeg(
             </div>
           </div>
         )}
+        {isScooter && (
+          <div>
+            <div className="divider" />
+            <VehicleRentalLeg
+              stationName={leg.from.name}
+              isScooter={isScooter}
+              vehicleRentalStation={leg.from.vehicleRentalStation}
+              returnBike
+              rentalVehicle={leg.from.rentalVehicle}
+              nextLegMode={nextLegMode}
+            />
+          </div>
+        )}
       </div>
     </div>
   );
@@ -304,10 +397,13 @@ BicycleLeg.propTypes = {
   index: PropTypes.number.isRequired,
   focusAction: PropTypes.func.isRequired,
   focusToLeg: PropTypes.func.isRequired,
+  openSettings: PropTypes.func.isRequired,
+  nextLegMode: PropTypes.string,
 };
 
 BicycleLeg.defaultProps = {
   bicycleWalkLeg: undefined,
+  nextLegMode: undefined,
 };
 
 BicycleLeg.contextTypes = {

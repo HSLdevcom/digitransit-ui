@@ -687,6 +687,9 @@ type VehicleRentalStation implements Node & PlaceInterface {
     If true, station is on and in service.
     """
     operative: Boolean
+
+    """The vehicle rental system information."""
+    vehicleRentalSystem: VehicleRentalSystem
 }
 
 type RentalVehicleEntityCounts {
@@ -742,6 +745,9 @@ type RentalVehicle implements Node & PlaceInterface {
 
     """The type of the rental vehicle (scooter, bicycle, car...)"""
     vehicleType: RentalVehicleType
+
+    """The vehicle rental system information."""
+    vehicleRentalSystem: VehicleRentalSystem
 }
 
 type BikeRentalStationUris {
@@ -793,6 +799,11 @@ type RentalVehicleType {
 
     """The primary propulsion type of the vehicle"""
     propulsionType: PropulsionType
+}
+
+type VehicleRentalSystem {
+    """The rental vehicle operator's system URL."""
+    url: String
 }
 
 enum FormFactor {
@@ -3533,6 +3544,11 @@ type QueryType {
         nearest places related to bicycling.
         """
         filterByModes: [Mode]
+
+        """
+        Only include vehicle rental networks that match one of the given network names.
+        """
+        filterByNetwork: [String]
 
         """Only include places that match one of the given GTFS ids."""
         filterByIds: InputFilters @deprecated(reason: "Not actively maintained")

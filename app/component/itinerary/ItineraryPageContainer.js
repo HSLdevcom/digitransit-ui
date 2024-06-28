@@ -20,7 +20,7 @@ const ItineraryPageWithStores = connectToStores(
   ['MapLayerStore'],
   ({ getStore }) => ({
     mapLayers: getStore('MapLayerStore').getMapLayers({
-      notThese: ['stop', 'citybike', 'vehicles'],
+      notThese: ['stop', 'citybike', 'vehicles', 'scooter'],
     }),
     mapLayerOptions: getMapLayerOptions({
       lockedMapLayers: ['vehicles', 'citybike', 'stop'],

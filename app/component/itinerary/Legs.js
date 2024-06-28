@@ -44,6 +44,7 @@ export default class Legs extends React.Component {
     focusToLeg: PropTypes.func.isRequired,
     changeHash: PropTypes.func,
     tabIndex: PropTypes.number,
+    openSettings: PropTypes.func.isRequired,
     showBikeBoardingInformation: PropTypes.bool,
   };
 
@@ -208,7 +209,11 @@ export default class Legs extends React.Component {
             focusAction={this.focus(leg.to)}
           />,
         );
-      } else if (leg.rentedBike || leg.mode === 'BICYCLE') {
+      } else if (
+        leg.rentedBike ||
+        leg.mode === 'BICYCLE' ||
+        leg.mode === 'SCOOTER'
+      ) {
         let bicycleWalkLeg;
         if (nextLeg?.mode === 'BICYCLE_WALK' && !bikeParked) {
           bicycleWalkLeg = nextLeg;
@@ -250,7 +255,13 @@ export default class Legs extends React.Component {
             mode: 'BICYCLE_WALK',
           };
         }
-        legs.push(<BicycleLeg {...legProps} bicycleWalkLeg={bicycleWalkLeg} />);
+        legs.push(
+          <BicycleLeg
+            {...legProps}
+            bicycleWalkLeg={bicycleWalkLeg}
+            openSettings={this.props.openSettings}
+          />,
+        );
       } else if (leg.mode === 'CAR') {
         legs.push(<CarLeg {...legProps}>{stopCode(leg.from.stop)}</CarLeg>);
       }

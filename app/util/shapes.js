@@ -99,6 +99,23 @@ export const vehicleRentalStationShape = PropTypes.shape({
   operative: PropTypes.bool,
 });
 
+export const rentalVehicleShape = PropTypes.shape({
+  id: PropTypes.string,
+  vehicleId: PropTypes.string,
+  name: PropTypes.string,
+  network: PropTypes.string,
+  lat: PropTypes.number,
+  lon: PropTypes.number,
+  rentalUris: PropTypes.shape({
+    android: PropTypes.string,
+    ios: PropTypes.string,
+    web: PropTypes.string,
+  }),
+  vehicleRentalSystem: PropTypes.shape({
+    url: PropTypes.string,
+  }),
+});
+
 export const routeShape = PropTypes.shape({
   gtfsId: PropTypes.string,
   mode: PropTypes.string,
@@ -204,11 +221,13 @@ export const legShape = PropTypes.shape({
     name: PropTypes.string,
     stop: stopShape,
     vehicleRentalStation: vehicleRentalStationShape,
+    rentalVehicle: rentalVehicleShape,
   }),
   to: PropTypes.shape({
     name: PropTypes.string,
     stop: stopShape,
     vehicleRentalStation: vehicleRentalStationShape,
+
     bikePark: parkShape,
     carPark: parkShape,
   }),

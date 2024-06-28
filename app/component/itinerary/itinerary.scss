@@ -75,6 +75,10 @@ $itinerary-tab-switch-height: 48px;
   &.call {
     @include getCircleSvg($bus-color, $fill);
   }
+
+  &.scooter {
+    @include getCircleSvg($scooter-color, $fill);
+  }
 }
 
 .itinerary-list-container {
@@ -890,6 +894,10 @@ $itinerary-tab-switch-height: 48px;
     &.call {
       @include setModeCircles($bus-color);
     }
+
+    &.scooter {
+      @include setModeCircles($scooter-color);
+    }
   }
 }
 
@@ -966,11 +974,23 @@ $itinerary-tab-switch-height: 48px;
       }
     }
 
+    &.scooter,
     &.bicycle,
     &.bicycle_walk {
       .route-number {
         .icon {
           color: #333;
+        }
+      }
+    }
+
+    &.scooter {
+      .route-number {
+        top: 64%;
+        right: 1px;
+
+        .icon-container .icon {
+          font-size: 24px;
         }
       }
     }
@@ -1145,6 +1165,28 @@ $itinerary-tab-switch-height: 48px;
       &.bottom {
         height: 15%;
         top: 88%;
+      }
+    }
+
+    &.scooter {
+      border-left: 6px solid;
+      border-radius: 3px;
+      height: 54%;
+      left: 8px;
+
+      &.settings {
+        height: 58%;
+      }
+
+      &.bottom {
+        height: 25%;
+        top: 82%;
+        overflow: hidden;
+
+        &.settings {
+          height: 30%;
+          top: 75%;
+        }
       }
     }
 
@@ -1519,7 +1561,6 @@ $itinerary-tab-switch-height: 48px;
       min-height: 34px;
       color: #333;
       padding: 0.625em 0;
-      border-top: 1px solid #ddd;
 
       .citybike-leg-header {
         font-size: 15px;
@@ -1538,6 +1579,7 @@ $itinerary-tab-switch-height: 48px;
       flex-direction: row;
       color: #333;
       font-size: 0.9375rem;
+      align-items: center;
     }
 
     .itinerary-leg-first-row {
@@ -1646,11 +1688,17 @@ $itinerary-tab-switch-height: 48px;
         top: 34%;
       }
 
+      .link-to-e-scooter-operator {
+        margin: auto 10px auto auto;
+      }
+
       .citybike-itinerary {
+        display: flex;
         padding: 7px;
 
         .citybike-itinerary-text-container {
-          display: flow-root;
+          display: flex;
+          flex-direction: column;
         }
 
         .headsign {
@@ -1658,6 +1706,14 @@ $itinerary-tab-switch-height: 48px;
           display: block;
           font-size: 15px;
           padding: 2px 0 3px 6px;
+        }
+
+        .settings {
+          font-weight: $font-weight-medium;
+          display: block;
+          font-size: 15px;
+          padding: 2px 0 3px 6px;
+          color: $link-color;
         }
 
         span.itinerary-stop-code {
@@ -1674,6 +1730,7 @@ $itinerary-tab-switch-height: 48px;
         }
 
         .citybike-icon {
+          margin: auto;
           float: left;
 
           &.small {
@@ -1924,6 +1981,16 @@ $itinerary-tab-switch-height: 48px;
       }
     }
 
+    .itinerary-leg-action-content {
+      height: 100%;
+      display: flex;
+      align-items: center;
+
+      :first-child {
+        flex-grow: 1;
+      }
+    }
+
     .itinerary-leg-action {
       border-top: 1px solid #ddd;
       padding: 1.2em 0;
@@ -1932,16 +1999,6 @@ $itinerary-tab-switch-height: 48px;
       font-size: 0.9375rem;
 
       @extend .itinerary-leg-text-gray;
-
-      .itinerary-leg-action-content {
-        height: 100%;
-        display: flex;
-        align-items: center;
-
-        :first-child {
-          flex-grow: 1;
-        }
-      }
 
       .route-number {
         position: absolute;
@@ -2785,6 +2842,7 @@ $font-print-decrease: 0.7;
   .itinerary-center-right {
     display: none;
 
+    &.scooter,
     &.walk,
     &.bicycle_walk,
     &.bicycle {
@@ -2959,4 +3017,48 @@ $font-print-decrease: 0.7;
   text-align: center;
   text-decoration: none;
   margin-bottom: 30px;
+}
+
+.alternative-vehicle-info {
+  background-color: $infobox-color-generic-blue;
+  margin-top: 30px;
+
+  .info-icon {
+    margin-right: 1em;
+    margin-top: 0.5em;
+    color: $info-icon-blue;
+    width: 2em;
+    height: 2em;
+  }
+
+  .alternative-vehicle-info-header {
+    display: flex;
+    font-size: $font-size-normal;
+    font-weight: $font-weight-medium;
+    line-height: 22px;
+    margin: 0 0 4px;
+    color: #333;
+  }
+
+  .alternative-vehicle-info-content {
+    display: flex;
+    font-size: $font-size-normal;
+    margin-bottom: 8px;
+    color: #666;
+    line-height: 18px;
+    letter-spacing: -0.03em;
+  }
+}
+
+.rental-vehicle-link {
+  .external-link-container {
+    border: none !important;
+
+    .external-link {
+      font-weight: $font-weight-medium;
+      font-size: 15px;
+      color: $link-color;
+      text-decoration: none;
+    }
+  }
 }

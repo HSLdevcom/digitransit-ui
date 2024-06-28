@@ -179,6 +179,8 @@ export const ModeLeg = (
           config,
         ),
       );
+  } else if (mode === 'SCOOTER') {
+    networkIcon = 'icon-icon_scooter_rider';
   }
   const routeNumber = (
     <RouteNumber
@@ -454,6 +456,20 @@ const Itinerary = (
           leg={leg}
           duration={bikingTime}
           mode="CITYBIKE"
+          legLength={legLength}
+          large={breakpoint === 'large'}
+        />,
+      );
+    } else if (leg.mode === 'SCOOTER' && leg.rentedBike) {
+      const scooterDuration = Math.floor(leg.duration / 60);
+      legs.push(
+        <ModeLeg
+          key={`${leg.mode}_${leg.start.scheduledTime}`}
+          isTransitLeg={false}
+          renderModeIcons={renderModeIcons}
+          leg={leg}
+          duration={scooterDuration}
+          mode="SCOOTER"
           legLength={legLength}
           large={breakpoint === 'large'}
         />,
