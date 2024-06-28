@@ -14,7 +14,7 @@ import ItineraryCircleLineLong from './ItineraryCircleLineLong';
 import { PREFIX_STOPS } from '../../util/path';
 import {
   getVehicleRentalStationNetworkConfig,
-  CityBikeNetworkType,
+  RentalNetworkType,
 } from '../../util/vehicleRentalUtils';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
 import { splitStringToAddressAndPlace } from '../../util/otpStrings';
@@ -58,7 +58,7 @@ export default function BicycleLeg(
     getVehicleRentalStationNetworkConfig(rentalVehicleNetwork, config);
   const isFirstLeg = i => i === 0;
   const isScooter =
-    networkConfig && networkConfig.type === CityBikeNetworkType.Scooter;
+    networkConfig && networkConfig.type === RentalNetworkType.Scooter;
   const settings = getSettings(config);
   const scooterSettingsOn = settings.allowedScooterRentalNetworks?.length > 0;
   if (leg.mode === 'WALK' || leg.mode === 'BICYCLE_WALK') {

@@ -24,7 +24,7 @@ import { getDefaultSettings } from '../../util/planParamUtil';
 import {
   getCitybikeNetworks,
   getScooterNetworks,
-  CityBikeNetworkType,
+  RentalNetworkType,
 } from '../../util/vehicleRentalUtils';
 
 class CustomizeSearch extends React.Component {
@@ -152,7 +152,7 @@ class CustomizeSearch extends React.Component {
                   <div className="transport-modes-container">
                     <VehicleRentalStationNetworkSelector
                       currentOptions={getCitybikeNetworks(config) || []}
-                      type={CityBikeNetworkType.CityBike}
+                      type={RentalNetworkType.CityBike}
                     />
                   </div>
                 </fieldset>
@@ -209,7 +209,7 @@ class CustomizeSearch extends React.Component {
                     )}
                     <ScooterRentalNetworkSelector
                       currentOptions={getScooterNetworks(config) || []}
-                      type={CityBikeNetworkType.Scooter}
+                      type={RentalNetworkType.Scooter}
                     />
                   </div>
                 </fieldset>

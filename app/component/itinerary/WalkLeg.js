@@ -13,7 +13,7 @@ import ServiceAlertIcon from '../ServiceAlertIcon';
 import { getActiveAlertSeverityLevel } from '../../util/alertUtils';
 import { PREFIX_STOPS } from '../../util/path';
 import {
-  CityBikeNetworkType,
+  RentalNetworkType,
   getVehicleRentalStationNetworkConfig,
 } from '../../util/vehicleRentalUtils';
 import { displayDistance } from '../../util/geo-utils';
@@ -49,12 +49,12 @@ function WalkLeg(
     previousLeg?.rentedBike && network,
     config,
   ).type;
-  const isScooter = networkType === CityBikeNetworkType.Scooter;
+  const isScooter = networkType === RentalNetworkType.Scooter;
   const returnNotice =
     previousLeg && previousLeg.rentedBike && !isScooter ? (
       <FormattedMessage
         id={
-          networkType === CityBikeNetworkType.Scooter
+          networkType === RentalNetworkType.Scooter
             ? 'return-scooter-to'
             : 'return-cycle-to'
         }
@@ -191,7 +191,7 @@ function WalkLeg(
                   />
                 </div>
               )}
-              {networkType !== CityBikeNetworkType.Scooter && (
+              {networkType !== RentalNetworkType.Scooter && (
                 <div className="stop-code-container">
                   {children}
                   {leg[toOrFrom].stop && (

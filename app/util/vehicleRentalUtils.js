@@ -11,9 +11,9 @@ export const BIKEAVL_BIKES = 'Bikes on station';
 export const BIKEAVL_WITHMAX = 'Bikes and capacity';
 
 /**
- * CityBikeNetworkType depicts different types of citybike networks.
+ * RentalNetworkType depicts different types of citybike networks.
  */
-export const CityBikeNetworkType = {
+export const RentalNetworkType = {
   /** The network uses bikes. */
   CityBike: 'citybike',
   /** The network uses scooters. */
@@ -23,7 +23,7 @@ export const CityBikeNetworkType = {
 export const defaultNetworkConfig = {
   icon: 'citybike',
   name: {},
-  type: CityBikeNetworkType.CityBike,
+  type: RentalNetworkType.CityBike,
 };
 
 export const getVehicleRentalStationNetworkName = (
@@ -65,7 +65,7 @@ export const getDefaultNetworks = config => {
   Object.entries(config.cityBike.networks).forEach(n => {
     if (
       networkIsActive(n[1]) &&
-      n[1]?.type !== CityBikeNetworkType.Scooter // scooter networks are never on by default
+      n[1]?.type !== RentalNetworkType.Scooter // scooter networks are never on by default
     ) {
       mappedNetworks.push(n[0]);
     }
