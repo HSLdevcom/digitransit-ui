@@ -10,8 +10,8 @@ import TransportModesSection from './customizesearch/TransportModesSection';
 import WalkingOptionsSection from './customizesearch/WalkingOptionsSection';
 import AccessibilityOptionSection from './customizesearch/AccessibilityOptionSection';
 import TransferOptionsSection from './customizesearch/TransferOptionsSection';
-import VehicleRentalStationNetworkSelector from './customizesearch/VehicleRentalStationNetworkSelector';
-import ScooterRentalNetworkSelector from './customizesearch/ScooterRentalNetworkSelector';
+import RentalNetworkSelector from './customizesearch/RentalNetworkSelector';
+import ScooterNetworkSelector from './customizesearch/ScooterNetworkSelector';
 import { getReadMessageIds, setReadMessageIds } from '../../store/localStorage';
 import { isKeyboardSelectionEvent } from '../../util/browser';
 import {
@@ -150,7 +150,7 @@ class CustomizeSearch extends React.Component {
                     />
                   </legend>
                   <div className="transport-modes-container">
-                    <VehicleRentalStationNetworkSelector
+                    <RentalNetworkSelector
                       currentOptions={getCitybikeNetworks(config) || []}
                       type={RentalNetworkType.CityBike}
                     />
@@ -207,7 +207,7 @@ class CustomizeSearch extends React.Component {
                         </div>
                       </div>
                     )}
-                    <ScooterRentalNetworkSelector
+                    <ScooterNetworkSelector
                       currentOptions={getScooterNetworks(config) || []}
                       type={RentalNetworkType.Scooter}
                     />

@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { configShape } from '../../../util/shapes';
 import Toggle from '../../Toggle';
 import { saveRoutingSettings } from '../../../action/SearchSettingsActions';
 import Icon from '../../Icon';
@@ -9,17 +8,17 @@ import {
   getRentalNetworkName,
   getRentalNetworkConfig,
   updateVehicleNetworks,
-  getCitybikeNetworks,
+  getScooterNetworks,
 } from '../../../util/vehicleRentalUtils';
 import { TransportMode } from '../../../constants';
 
-const VehicleRentalStationNetworkSelector = (
+const ScooterNetworkSelector = (
   { currentOptions },
   { config, getStore, executeAction },
 ) => (
   <React.Fragment>
     {mapDefaultNetworkProperties(config)
-      .filter(network => network.type === TransportMode.Citybike.toLowerCase())
+      .filter(network => network.type === TransportMode.Scooter.toLowerCase())
       .map(network => (
         <div
           className="mode-option-container"
@@ -27,7 +26,7 @@ const VehicleRentalStationNetworkSelector = (
           style={{ height: '3.5em' }}
         >
           <label
-            htmlFor={`settings-toggle-bike-${network.networkName}`}
+            htmlFor={`settings-toggle-scooter-${network.networkName}`}
             className="mode-option-block toggle-label"
           >
             <div className="mode-icon">
@@ -45,7 +44,7 @@ const VehicleRentalStationNetworkSelector = (
               )}
             </span>
             <Toggle
-              id={`settings-toggle-bike-${network.networkName}`}
+              id={`settings-toggle-scooter-${network.networkName}`}
               toggled={
                 !!currentOptions &&
                 currentOptions.filter(
@@ -55,10 +54,12 @@ const VehicleRentalStationNetworkSelector = (
               }
               onToggle={() => {
                 const newNetworks = updateVehicleNetworks(
-                  getCitybikeNetworks(config),
+                  getScooterNetworks(config),
                   network.networkName,
                 );
-                const newSettings = { allowedBikeRentalNetworks: newNetworks };
+                const newSettings = {
+                  allowedScooterNetworks: newNetworks,
+                };
                 executeAction(saveRoutingSettings, newSettings);
               }}
             />
@@ -68,14 +69,20 @@ const VehicleRentalStationNetworkSelector = (
   </React.Fragment>
 );
 
-VehicleRentalStationNetworkSelector.propTypes = {
+ScooterNetworkSelector.propTypes = {
   currentOptions: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
-VehicleRentalStationNetworkSelector.contextTypes = {
-  config: configShape.isRequired,
+ScooterNetworkSelector.contextTypes = {
+  config: PropTypes.shape({
+    transportModes: PropTypes.shape({
+      scooter: PropTypes.shape({
+        networks: PropTypes.arrayOf(PropTypes.string),
+      }),
+    }),
+  }).isRequired,
   getStore: PropTypes.func.isRequired,
   executeAction: PropTypes.func.isRequired,
 };
 
-export default VehicleRentalStationNetworkSelector;
+export default ScooterNetworkSelector;
