@@ -2469,7 +2469,7 @@ div.itinerary-container-content {
 }
 
 .itinerary-instruction-column.call {
-  .itinerary-transit-leg-route {
+  .itinerary-transit-leg-route.call {
     padding-top: $padding-medium;
 
     &.call,
@@ -2477,11 +2477,17 @@ div.itinerary-container-content {
       margin-top: $padding-large;
       padding-top: 1em;
       padding-right: 1em;
-      padding-left: 1em;
+      padding-left: 0.5em;
       width: 100%;
       background-color: rgba(254, 209, 0, 0.1);
       border: 1px solid #fed100;
       border-radius: 3px;
+    }
+
+    .call-icon {
+      padding-right: 0.5em;
+      height: 5em;
+      width: 5em;
     }
   }
 

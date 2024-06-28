@@ -3,14 +3,14 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { legShape } from '../../util/shapes';
 import TransitLeg from './TransitLeg';
-import CallAgencyIcon from './CallAgencyIcon';
+import Icon from '../Icon';
 
 const CallAgencyLeg = ({ leg, ...props }) => {
   const modeClassName = 'call';
   return (
     <TransitLeg mode={modeClassName} leg={leg} {...props}>
       <div className="itinerary-transit-leg-route call">
-        <CallAgencyIcon />
+        <Icon img="icon-icon_call" className="call-icon" />
         <span className="warning-message">
           <FormattedMessage
             id="warning-call-agency"
