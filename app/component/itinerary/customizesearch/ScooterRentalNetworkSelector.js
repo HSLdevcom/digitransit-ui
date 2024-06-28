@@ -8,7 +8,7 @@ import {
   getVehicleRentalStationNetworkName,
   getVehicleRentalStationNetworkConfig,
   updateVehicleNetworks,
-  getScooterRentalNetworks,
+  getScooterNetworks,
 } from '../../../util/vehicleRentalUtils';
 import { TransportMode } from '../../../constants';
 
@@ -57,7 +57,7 @@ const ScooterRentalNetworkSelector = (
               }
               onToggle={() => {
                 const newNetworks = updateVehicleNetworks(
-                  getScooterRentalNetworks(config),
+                  getScooterNetworks(config),
                   network.networkName,
                 );
                 const newSettings = {

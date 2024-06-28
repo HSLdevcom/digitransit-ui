@@ -48,7 +48,7 @@ export function showCitybikeNetwork(networkConfig, config) {
   );
 }
 
-export function citybikeRoutingIsActive(network) {
+export function networkIsActive(network) {
   return network?.enabled && isCitybikeSeasonActive(network?.season);
 }
 
@@ -59,7 +59,7 @@ export function useCitybikes(networks, config) {
   return Object.values(networks).some(
     network =>
       network.type === TransportMode.Citybike.toLowerCase() &&
-      citybikeRoutingIsActive(network, config),
+      networkIsActive(network, config),
   );
 }
 

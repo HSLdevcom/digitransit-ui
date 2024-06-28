@@ -22,8 +22,8 @@ import {
 import ScrollableWrapper from '../ScrollableWrapper';
 import { getDefaultSettings } from '../../util/planParamUtil';
 import {
-  getCitybikeRentalStationNetworks,
-  getScooterRentalNetworks,
+  getCitybikeNetworks,
+  getScooterNetworks,
   CityBikeNetworkType,
 } from '../../util/vehicleRentalUtils';
 
@@ -151,9 +151,7 @@ class CustomizeSearch extends React.Component {
                   </legend>
                   <div className="transport-modes-container">
                     <VehicleRentalStationNetworkSelector
-                      currentOptions={
-                        getCitybikeRentalStationNetworks(config) || []
-                      }
+                      currentOptions={getCitybikeNetworks(config) || []}
                       type={CityBikeNetworkType.CityBike}
                     />
                   </div>
@@ -210,7 +208,7 @@ class CustomizeSearch extends React.Component {
                       </div>
                     )}
                     <ScooterRentalNetworkSelector
-                      currentOptions={getScooterRentalNetworks(config) || []}
+                      currentOptions={getScooterNetworks(config) || []}
                       type={CityBikeNetworkType.Scooter}
                     />
                   </div>

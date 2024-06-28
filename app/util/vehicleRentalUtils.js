@@ -2,7 +2,7 @@ import isString from 'lodash/isString';
 import without from 'lodash/without';
 import { getCustomizedSettings } from '../store/localStorage';
 import { addAnalyticsEvent } from './analyticsUtils';
-import { citybikeRoutingIsActive } from './modeUtils';
+import { networkIsActive } from './modeUtils';
 import { getIdWithoutFeed } from './feedScopedIdUtils';
 import { isAndroid, isIOS } from './browser';
 
@@ -64,7 +64,7 @@ export const getDefaultNetworks = config => {
   const mappedNetworks = [];
   Object.entries(config.cityBike.networks).forEach(n => {
     if (
-      citybikeRoutingIsActive(n[1]) &&
+      networkIsActive(n[1]) &&
       n[1]?.type !== CityBikeNetworkType.Scooter // scooter networks are never on by default
     ) {
       mappedNetworks.push(n[0]);
@@ -86,7 +86,7 @@ export const getAllNetworksOfType = (config, type) => {
 export const mapDefaultNetworkProperties = config => {
   const mappedNetworks = [];
   Object.keys(config.cityBike.networks).forEach(key => {
-    if (citybikeRoutingIsActive(config.cityBike.networks[key])) {
+    if (networkIsActive(config.cityBike.networks[key])) {
       mappedNetworks.push({
         networkName: key,
         ...config.cityBike.networks[key],
@@ -108,12 +108,12 @@ export const getVehicleCapacity = (config, network = undefined) => {
  * @param {*} config The configuration for the software installation
  */
 
-export const getCitybikeRentalStationNetworks = () => {
+export const getCitybikeNetworks = () => {
   const { allowedBikeRentalNetworks } = getCustomizedSettings();
   return allowedBikeRentalNetworks || [];
 };
 
-export const getScooterRentalNetworks = () => {
+export const getScooterNetworks = () => {
   const { allowedScooterRentalNetworks } = getCustomizedSettings();
   return allowedScooterRentalNetworks || [];
 };
@@ -127,7 +127,7 @@ const addAnalytics = (action, name) => {
 };
 
 /** *
- * Updates the list of allowed citybike networks either by removing or adding.
+ * Updates the list of allowed networks either by removing or adding.
  * Note: legacy settings had network names always in uppercase letters.
  *
  * @param currentSettings the current settings
