@@ -7,14 +7,7 @@ import { planEdgeShape } from '../../util/shapes';
 
 /* eslint-disable react/no-array-index-key */
 
-function ItineraryTabs({
-  planEdges,
-  tabIndex,
-  isMobile,
-  changeHash,
-  toggleSettings,
-  ...rest
-}) {
+function ItineraryTabs({ planEdges, tabIndex, isMobile, changeHash, ...rest }) {
   const itineraryTabs = planEdges.map((edge, i) => {
     return (
       <div
@@ -27,7 +20,6 @@ function ItineraryTabs({
           hideTitle={!isMobile}
           changeHash={isMobile ? changeHash : undefined}
           isMobile={isMobile}
-          toggleSettings={toggleSettings}
           {...rest}
         />
       </div>
@@ -51,7 +43,6 @@ ItineraryTabs.propTypes = {
   isMobile: PropTypes.bool.isRequired,
   planEdges: PropTypes.arrayOf(planEdgeShape).isRequired,
   changeHash: PropTypes.func,
-  toggleSettings: PropTypes.func.isRequired,
 };
 
 ItineraryTabs.defaultProps = {
