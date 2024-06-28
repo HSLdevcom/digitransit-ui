@@ -60,7 +60,7 @@ export default function BicycleLeg(
   const isScooter =
     networkConfig && networkConfig.type === RentalNetworkType.Scooter;
   const settings = getSettings(config);
-  const scooterSettingsOn = settings.allowedScooterRentalNetworks?.length > 0;
+  const scooterSettingsOn = settings.scooterNetworks?.length > 0;
   if (leg.mode === 'WALK' || leg.mode === 'BICYCLE_WALK') {
     modeClassName = leg.mode.toLowerCase();
     stopsDescription = (

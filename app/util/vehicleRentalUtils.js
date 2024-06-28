@@ -114,8 +114,8 @@ export const getCitybikeNetworks = () => {
 };
 
 export const getScooterNetworks = () => {
-  const { allowedScooterRentalNetworks } = getCustomizedSettings();
-  return allowedScooterRentalNetworks || [];
+  const { scooterNetworks } = getCustomizedSettings();
+  return scooterNetworks || [];
 };
 
 const addAnalytics = (action, name) => {

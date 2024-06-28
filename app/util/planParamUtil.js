@@ -57,7 +57,7 @@ export function getDefaultSettings(config) {
     allowedBikeRentalNetworks: config.transportModes?.citybike?.defaultValue
       ? getDefaultNetworks(config)
       : [],
-    allowedScooterRentalNetworks: [],
+    scooterNetworks: [],
   };
 }
 
@@ -93,12 +93,12 @@ export function getSettings(config) {
             allNetworks.includes(network),
           )
         : defaultSettings.allowedBikeRentalNetworks,
-    allowedScooterRentalNetworks:
-      userSettings.allowedScooterRentalNetworks?.length > 0
-        ? userSettings.allowedScooterRentalNetworks.filter(network =>
+    scooterNetworks:
+      userSettings.scooterNetworks?.length > 0
+        ? userSettings.scooterNetworks.filter(network =>
             allScooterNetworks.includes(network),
           )
-        : defaultSettings.allowedScooterRentalNetworks,
+        : defaultSettings.scooterNetworks,
   };
   const { defaultOptions } = config;
   return {
@@ -202,8 +202,8 @@ export function planQueryNeeded(
         transitModes.length > 0 &&
         !wheelchair &&
         (relaxSettings
-          ? settings.allowedScooterRentalNetworks.length === 0
-          : settings.allowedScooterRentalNetworks.length > 0)
+          ? settings.scooterNetworks.length === 0
+          : settings.scooterNetworks.length > 0)
       );
     case PLANTYPE.PARKANDRIDE:
       return (
@@ -342,7 +342,7 @@ export function getPlanParams(
     settings.allowedBikeRentalNetworks = null;
   }
   if (!access?.includes('SCOOTER_RENTAL')) {
-    settings.allowedScooterRentalNetworks = null;
+    settings.scooterNetworks = null;
   }
 
   const modes = {
@@ -377,7 +377,7 @@ export function getPlanParams(
     ...settings,
     allowedRentalNetworks:
       planType === PLANTYPE.SCOOTERTRANSIT
-        ? settings.allowedScooterRentalNetworks
+        ? settings.scooterNetworks
         : settings.allowedBikeRentalNetworks,
     fromPlace,
     toPlace,
