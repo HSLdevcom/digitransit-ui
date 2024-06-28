@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl';
 
 import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
 import BicycleLeg from '../../../app/component/itinerary/BicycleLeg';
-import { CityBikeNetworkType } from '../../../app/util/vehicleRentalUtils';
+import { RentalNetworkType } from '../../../app/util/vehicleRentalUtils';
 
 describe('<BicycleLeg />', () => {
   it('should guide the user to rent a citybike', () => {
@@ -35,7 +35,7 @@ describe('<BicycleLeg />', () => {
       context: {
         config: {
           cityBike: {
-            networks: { foobar: { type: CityBikeNetworkType.CityBike } },
+            networks: { foobar: { type: RentalNetworkType.CityBike } },
           },
           defaultSettings: { walkSpeed: 1, bikeSpeed: 1 },
           defaultOptions: { walkSpeed: 1, bikeSpeed: 1 },
@@ -76,7 +76,7 @@ describe('<BicycleLeg />', () => {
       context: {
         config: {
           cityBike: {
-            networks: { foobar: { type: CityBikeNetworkType.Scooter } },
+            networks: { foobar: { type: RentalNetworkType.Scooter } },
           },
           defaultSettings: { walkSpeed: 1, bikeSpeed: 1 },
           defaultOptions: { walkSpeed: 1, bikeSpeed: 1 },
@@ -117,7 +117,7 @@ describe('<BicycleLeg />', () => {
       context: {
         config: {
           cityBike: {
-            networks: { foobar: { type: CityBikeNetworkType.CityBike } },
+            networks: { foobar: { type: RentalNetworkType.CityBike } },
           },
           defaultSettings: { walkSpeed: 1, bikeSpeed: 1 },
           defaultOptions: { walkSpeed: 1, bikeSpeed: 1 },
@@ -161,7 +161,7 @@ describe('<BicycleLeg />', () => {
       context: {
         config: {
           cityBike: {
-            networks: { foobar: { type: CityBikeNetworkType.Scooter } },
+            networks: { foobar: { type: RentalNetworkType.Scooter } },
           },
           defaultSettings: { walkSpeed: 1, bikeSpeed: 1 },
           defaultOptions: { walkSpeed: 1, bikeSpeed: 1 },
@@ -205,7 +205,7 @@ describe('<BicycleLeg />', () => {
       context: {
         config: {
           cityBike: {
-            networks: { foobar: { type: CityBikeNetworkType.CityBike } },
+            networks: { foobar: { type: RentalNetworkType.CityBike } },
           },
           defaultSettings: { walkSpeed: 1, bikeSpeed: 1 },
           defaultOptions: { walkSpeed: 1, bikeSpeed: 1 },
@@ -246,7 +246,7 @@ describe('<BicycleLeg />', () => {
       context: {
         config: {
           cityBike: {
-            networks: { foobar: { type: CityBikeNetworkType.Scooter } },
+            networks: { foobar: { type: RentalNetworkType.Scooter } },
           },
           defaultSettings: { walkSpeed: 1, bikeSpeed: 1 },
           defaultOptions: { walkSpeed: 1, bikeSpeed: 1 },
