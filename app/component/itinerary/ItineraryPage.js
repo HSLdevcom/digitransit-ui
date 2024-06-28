@@ -209,7 +209,7 @@ export default function ItineraryPage(props, context) {
         return altStates[PLANTYPE.PARKANDRIDE][0].plan;
       default:
         if (
-          !filterWalk(state.plan?.edges).length &&
+          !filterWalk(combinedState.plan?.edges).length &&
           !settingsState.settingsChanged
         ) {
           // Note: plan and scooter plan are merged, but relaxed ones are not
