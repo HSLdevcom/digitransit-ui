@@ -331,14 +331,20 @@ export function getPlanParams(
       direct = [planType];
       break;
   }
+  // reset unused arrays
   if (directOnly) {
-    // reset unused arrays
     access = null;
     egress = null;
     transfer = null;
     otpModes = [];
+  }
+  if (!access?.includes('BICYCLE_RENTAL')) {
     settings.allowedBikeRentalNetworks = null;
   }
+  if (!access?.includes('SCOOTER_RENTAL')) {
+    settings.allowedScooterRentalNetworks = null;
+  }
+
   const modes = {
     directOnly,
     transitOnly,
