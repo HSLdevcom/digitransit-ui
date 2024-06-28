@@ -292,7 +292,9 @@ export function getPlanParams(
   }
   const directOnly = directModes.includes(planType) || otpModes.length === 0;
   let transitOnly = !!relaxSettings;
-  const cityBike = settings.allowedBikeRentalNetworks?.length > 0;
+  const wheelchair = !!settings.accessibilityOption;
+  const cityBike =
+    !wheelchair && settings.allowedBikeRentalNetworks?.length > 0;
   // set defaults
   let access = cityBike ? ['WALK', 'BICYCLE_RENTAL'] : ['WALK'];
   let egress = access;
@@ -349,7 +351,6 @@ export function getPlanParams(
     },
   };
 
-  const wheelchair = !!settings.accessibilityOption;
   const walkReluctance = relaxSettings
     ? defaultSettings.walkReluctance
     : settings.walkReluctance;
