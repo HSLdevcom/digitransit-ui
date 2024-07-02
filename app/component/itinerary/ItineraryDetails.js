@@ -26,7 +26,8 @@ import {
   legContainsRentalBike,
 } from '../../util/legUtils';
 import { BreakpointConsumer } from '../../util/withBreakpoint';
-import { streetHash } from '../../util/path';
+import { streetHash, PREFIX_FOLLOW_ITINERARY } from '../../util/path';
+
 import {
   getFaresFromLegs,
   shouldShowFareInfo,
@@ -44,7 +45,11 @@ import FareDisclaimer from './FareDisclaimer';
 
 import SecondaryButton from '../SecondaryButton';
 
-const followItineraryRoute = '../../../FollowTheItinerary';
+const followItinerary = e => {
+  e.stopPropagation();
+  window.open(PREFIX_FOLLOW_ITINERARY, '_blank');
+  /** Create user icon and set it to map. */
+};
 
 const followItinerary = e => {
   e.stopPropagation();

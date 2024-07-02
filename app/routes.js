@@ -20,6 +20,7 @@ import {
   TAB_NEARBY,
   TAB_FAVOURITES,
   EMBEDDED_SEARCH_PATH,
+  PREFIX_FOLLOW_ITINERARY,
 } from './util/path';
 import {
   getDefault,
@@ -305,7 +306,7 @@ export default config => {
       </Route>
 
       <Route
-        path="/FollowTheItinerary"
+        path={PREFIX_FOLLOW_ITINERARY}
         getComponent={() =>
           import('./component/itinerary/FollowTheItinerary').then(getDefault)
         }
