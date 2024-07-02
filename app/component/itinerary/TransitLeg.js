@@ -510,6 +510,7 @@ class TransitLeg extends React.Component {
             displayTime={this.displayAlternativeLegs()}
             changeHash={this.props.changeHash}
             tabIndex={this.props.tabIndex}
+            isCallAgency={mode === 'call'}
           />
 
           {this.state.showAlternativeLegs &&
@@ -526,6 +527,7 @@ class TransitLeg extends React.Component {
                   l.start / 1000,
                 )}
                 displayTime
+                isCallAgency={mode === 'call'}
               />
             ))}
           {this.displayAlternativeLegs() && (

@@ -24,6 +24,7 @@ export default function LegInfo(
     displayTime,
     changeHash,
     tabIndex,
+    isCallAgency,
   },
   { config, intl },
 ) {
@@ -31,7 +32,9 @@ export default function LegInfo(
   const { constantOperationRoutes } = config;
   const shouldLinkToTrip =
     !constantOperationRoutes || !constantOperationRoutes[leg.route.gtfsId];
-  const mode = getRouteMode({ mode: leg.mode, type: leg.route.type });
+  const mode = isCallAgency
+    ? 'call'
+    : getRouteMode({ mode: leg.mode, type: leg.route.type });
   const capacity = getCapacityForLeg(config, leg);
   let capacityTranslation;
   if (capacity) {
@@ -142,6 +145,7 @@ LegInfo.propTypes = {
   displayTime: PropTypes.bool.isRequired,
   changeHash: PropTypes.func,
   tabIndex: PropTypes.number,
+  isCallAgency: PropTypes.bool,
 };
 
 LegInfo.defaultProps = {
@@ -149,6 +153,7 @@ LegInfo.defaultProps = {
   tabIndex: undefined,
   alertSeverityLevel: undefined,
   hasNoShortName: undefined,
+  isCallAgency: false,
 };
 
 LegInfo.contextTypes = {
