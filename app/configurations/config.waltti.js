@@ -180,7 +180,7 @@ export default {
   parkingAreaSources: ['liipi'],
 
   parkAndRide: {
-    showParkAndRide: false,
+    showParkAndRide: true,
     parkAndRideMinZoom: 13,
     pageContent: {
       default: HSLParkAndRideUtils,
