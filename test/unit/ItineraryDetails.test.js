@@ -5,12 +5,15 @@ import { shallowWithIntl } from './helpers/mock-intl-enzyme';
 import { mockContext } from './helpers/mock-context';
 
 import { Component as ItineraryDetails } from '../../app/component/itinerary/ItineraryDetails';
-import dt2831 from './test-data/dt2831';
+import SecondaryButton from '../../app/component/SecondaryButton';
+import dt2830 from './test-data/dt2830';
+
+const followItinerary = () => {};
 
 describe('<ItineraryDetails />', () => {
   it('should render the container div', () => {
     const props = {
-      itinerary: dt2831,
+      itinerary: dt2830,
       focusToPoint: () => {},
       focusToLeg: () => {},
       openSettings: () => {},
@@ -26,5 +29,19 @@ describe('<ItineraryDetails />', () => {
       context: { ...mockContext },
     });
     expect(wrapper.find('.itinerary-tab').length).to.equal(1);
+  });
+
+  it('should show secondary button', () => {
+    const wrapper = shallowWithIntl(
+      <SecondaryButton
+        ariaLabel="follow"
+        buttonName="followtheitinerary"
+        buttonClickAction={followItinerary}
+        buttonIcon="icon.icon_mapMarker-via-map"
+        smallSize
+      />,
+      { context: { ...mockContext } },
+    );
+    expect(wrapper.find('.secondary-button').length).to.equal(1);
   });
 });
