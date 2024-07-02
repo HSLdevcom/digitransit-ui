@@ -51,11 +51,6 @@ const followItinerary = e => {
   /** Create user icon and set it to map. */
 };
 
-const followItinerary = e => {
-  e.stopPropagation();
-  window.open(followItineraryRoute, '_blank');
-};
-
 /* eslint-disable prettier/prettier */
 class ItineraryDetails extends React.Component {
   static propTypes = {
