@@ -84,7 +84,6 @@ const LOADSTATE = {
   UNSET: 'unset',
   LOADING: 'loading',
   DONE: 'done',
-  FOLLOW: 'follow',
 };
 
 const showVehiclesThresholdMinutes = 720;
