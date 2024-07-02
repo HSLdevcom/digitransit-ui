@@ -304,6 +304,13 @@ export default config => {
         }}
       </Route>
 
+      <Route
+        path="/FollowTheItinerary"
+        getComponent={() =>
+          import('./component/itinerary/FollowTheItinerary').then(getDefault)
+        }
+      />
+
       <Redirect
         from={`/${PREFIX_ITINERARY_SUMMARY}/:from`}
         to={`${config.indexPath === '' ? '' : `/${config.indexPath}`}/:from`}

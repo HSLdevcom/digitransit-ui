@@ -114,6 +114,8 @@ export default {
 
   showDisclaimer: true,
 
+  itineraryFollowerOn: true,
+
   stopsMinZoom: 14,
   mergeStopsByCode: true,
   useExtendedRouteTypes: true,

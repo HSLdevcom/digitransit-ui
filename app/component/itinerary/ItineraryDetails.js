@@ -42,6 +42,10 @@ import Emissions from './Emissions';
 import EmissionsInfo from './EmissionsInfo';
 import FareDisclaimer from './FareDisclaimer';
 
+import SecondaryButton from '../SecondaryButton';
+
+const followItineraryRoute = '../../../FollowTheItinerary';
+
 /* eslint-disable prettier/prettier */
 class ItineraryDetails extends React.Component {
   static propTypes = {
@@ -81,6 +85,10 @@ class ItineraryDetails extends React.Component {
     );
   };
 
+  getIsItineraryFollowerOn(config){
+    return config.itineraryFollowerOn;
+  };
+
   getFutureText(startTime) {
     const refTime = Date.now();
     if (isToday(startTime, refTime)) {
@@ -110,6 +118,7 @@ class ItineraryDetails extends React.Component {
       walkingDistance > 0 &&
       (bikingDistance > 0 || drivingDistance > 0) &&
       futureText !== '';
+
     return {
       walking: {
         duration: walkingDuration,
@@ -126,6 +135,11 @@ class ItineraryDetails extends React.Component {
       futureText,
       isMultiRow,
     };
+  };
+  
+  followItinerary = e => {
+    e.stopPropagation();
+    window.open(followItineraryRoute, '_blank');   
   };
 
   render() {
@@ -330,6 +344,19 @@ class ItineraryDetails extends React.Component {
                   }
                 />
               )}
+
+              {this.getIsItineraryFollowerOn(config) && (
+                <div>
+                  <SecondaryButton 
+                    ariaLabel="follow" 
+                    buttonName="followtheitinerary"
+                    buttonClickAction={this.followItinerary}
+                    buttonIcon="icon.icon_mapMarker-via-map"
+                    smallSize /> 
+                </div>
+              )}
+
+
               {this.shouldShowDisclaimer(config) && (
                 <div className="itinerary-disclaimer" key="disclaimer">
                   <FormattedMessage
