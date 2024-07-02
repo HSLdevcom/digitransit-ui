@@ -46,6 +46,11 @@ import SecondaryButton from '../SecondaryButton';
 
 const followItineraryRoute = '../../../FollowTheItinerary';
 
+const followItinerary = e => {
+  e.stopPropagation();
+  window.open(followItineraryRoute, '_blank');
+};
+
 /* eslint-disable prettier/prettier */
 class ItineraryDetails extends React.Component {
   static propTypes = {
@@ -83,10 +88,6 @@ class ItineraryDetails extends React.Component {
       this.context.match.params.hash !== streetHash.walk &&
       this.context.match.params.hash !== streetHash.bike
     );
-  };
-
-  getIsItineraryFollowerOn(config){
-    return config.itineraryFollowerOn;
   };
 
   getFutureText(startTime) {
@@ -137,11 +138,6 @@ class ItineraryDetails extends React.Component {
     };
   };
   
-  followItinerary = e => {
-    e.stopPropagation();
-    window.open(followItineraryRoute, '_blank');   
-  };
-
   render() {
     const { itinerary, currentLanguage, isMobile, bikeAndPublicItineraryCount } = this.props;
     const { config } = this.context;
@@ -345,12 +341,12 @@ class ItineraryDetails extends React.Component {
                 />
               )}
 
-              {this.getIsItineraryFollowerOn(config) && (
+              {config.itineraryFollowerOn && (
                 <div>
                   <SecondaryButton 
                     ariaLabel="follow" 
                     buttonName="followtheitinerary"
-                    buttonClickAction={this.followItinerary}
+                    buttonClickAction={followItinerary}
                     buttonIcon="icon.icon_mapMarker-via-map"
                     smallSize /> 
                 </div>
