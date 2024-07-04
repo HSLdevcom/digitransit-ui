@@ -665,7 +665,7 @@ TransitLeg.propTypes = {
   index: PropTypes.number.isRequired,
   mode: PropTypes.string.isRequired,
   focusAction: PropTypes.func.isRequired,
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node,
   lang: PropTypes.string.isRequired,
   omitDivider: PropTypes.bool,
   changeHash: PropTypes.func,
@@ -677,6 +677,7 @@ TransitLeg.defaultProps = {
   interliningLegs: [],
   changeHash: undefined,
   tabIndex: undefined,
+  children: undefined,
 };
 
 TransitLeg.contextTypes = {
