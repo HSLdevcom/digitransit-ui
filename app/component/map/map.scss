@@ -782,13 +782,6 @@ div.origin-popup {
   height: auto;
 }
 
-.leaflet-marker-icon.call {
-  width: auto;
-  height: auto;
-  margin-right: 0.75em;
-  font-size: 1.5em;
-}
-
 /* BEWARE! This is an ugly hack.
  * It so happens that firefox will not allow SVG clicks to bubble to DOM if pointer-events: none is not set.
  * If we set pointer-events: none for all browsers, then we lose "pointer cursor" for all browsers.
@@ -1218,10 +1211,6 @@ div.origin-popup {
       color: $white;
     }
   }
-}
-
-.map .leg-halo.call {
-  stroke: gray;
 }
 
 .map .leg-halo {

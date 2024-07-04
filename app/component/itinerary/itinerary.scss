@@ -73,7 +73,7 @@ $itinerary-tab-switch-height: 48px;
   }
 
   &.call {
-    @include getCircleSvg($bus-color, $fill);
+    @include getCircleSvg($call-agency-color, $fill);
   }
 
   &.scooter {
@@ -892,7 +892,7 @@ $itinerary-tab-switch-height: 48px;
     }
 
     &.call {
-      @include setModeCircles($bus-color);
+      @include setModeCircles($call-agency-color);
     }
 
     &.scooter {
@@ -1219,15 +1219,6 @@ $itinerary-tab-switch-height: 48px;
       border: none;
       width: 6px;
       left: 8px;
-    }
-
-    &.call {
-      border-left: dashed 1px;
-      border-right: dashed 1px;
-      border-color: #aaa;
-      width: 6px;
-      height: 100%;
-      background: $white;
     }
 
     &.car {
@@ -2478,21 +2469,32 @@ div.itinerary-container-content {
 }
 
 .itinerary-instruction-column.call {
-  .itinerary-transit-leg-route {
+  .itinerary-transit-leg-route.call {
     padding-top: $padding-medium;
 
     &.call,
     &.disruption {
-      padding-top: 2em;
+      margin-top: $padding-large;
+      padding-top: 1em;
       padding-right: 1em;
-      width: 90%;
-      background-color: rgba(254, 209, 0, 0.3);
+      padding-left: 0.5em;
+      width: 100%;
+      background-color: rgba(254, 209, 0, 0.1);
+      border: 1px solid #fed100;
+      border-radius: 3px;
+    }
+
+    .call-icon {
+      padding-right: 0.5em;
+      height: 5em;
+      width: 5em;
     }
   }
 
   .warning-message {
     white-space: normal;
     color: $black;
+    font-size: $font-size-xsmall;
 
     .route-name {
       @include font-medium;
@@ -2511,8 +2513,8 @@ div.itinerary-container-content {
   border-radius: 1.5em;
   padding: 0.6em 1.5em;
   text-align: center;
-  margin-top: 10px;
-  margin-bottom: 1.5em;
+  margin-top: 1em;
+  margin-bottom: 1em;
   margin-right: auto;
   cursor: pointer;
 

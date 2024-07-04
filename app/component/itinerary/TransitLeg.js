@@ -255,7 +255,6 @@ class TransitLeg extends React.Component {
       <FormattedMessage
         id="itinerary-details.transit-leg-part-2"
         values={{
-          vehicle: children,
           startStop: leg.from.name,
           startZoneInfo: intl.formatMessage(
             { id: 'zone-info' },
@@ -406,7 +405,16 @@ class TransitLeg extends React.Component {
       <div key={index} className="row itinerary-row">
         <span className="sr-only">{textVersionBeforeLink}</span>
         <div className="small-2 columns itinerary-time-column">
-          <span className="sr-only">{children}</span>
+          <span className="sr-only">
+            <FormattedMessage
+              id={`${this.props.mode}-with-route-number`}
+              values={{
+                routeNumber: leg.route?.shortName,
+                headSign: leg.trip?.tripHeadsign,
+              }}
+              defaultMessage={`${this.props.mode} {routeNumber} {headSign}`}
+            />
+          </span>
           <span aria-hidden="true">
             <div className="itinerary-time-column-time">
               <span className={cx({ realtime: leg.realTime })}>
@@ -502,6 +510,7 @@ class TransitLeg extends React.Component {
             displayTime={this.displayAlternativeLegs()}
             changeHash={this.props.changeHash}
             tabIndex={this.props.tabIndex}
+            isCallAgency={mode === 'call'}
           />
 
           {this.state.showAlternativeLegs &&
@@ -518,6 +527,7 @@ class TransitLeg extends React.Component {
                   l.start / 1000,
                 )}
                 displayTime
+                isCallAgency={mode === 'call'}
               />
             ))}
           {this.displayAlternativeLegs() && (
@@ -574,6 +584,7 @@ class TransitLeg extends React.Component {
           )}
           {routeNotifications}
           <LegAgencyInfo leg={leg} />
+          {children}
           {intermediateStopCount !== 0 && (
             <div className="intermediate-stops-button-container">
               {(leg.intermediatePlaces.length > 1 ||
@@ -654,7 +665,7 @@ TransitLeg.propTypes = {
   index: PropTypes.number.isRequired,
   mode: PropTypes.string.isRequired,
   focusAction: PropTypes.func.isRequired,
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node,
   lang: PropTypes.string.isRequired,
   omitDivider: PropTypes.bool,
   changeHash: PropTypes.func,
@@ -666,6 +677,7 @@ TransitLeg.defaultProps = {
   interliningLegs: [],
   changeHash: undefined,
   tabIndex: undefined,
+  children: undefined,
 };
 
 TransitLeg.contextTypes = {
