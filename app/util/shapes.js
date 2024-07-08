@@ -111,7 +111,7 @@ export const rentalVehicleShape = PropTypes.shape({
     ios: PropTypes.string,
     web: PropTypes.string,
   }),
-  vehicleRentalSystem: PropTypes.shape({
+  rentalNetwork: PropTypes.shape({
     url: PropTypes.string,
   }),
 });
