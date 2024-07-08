@@ -161,7 +161,7 @@ const containerComponent = createFragmentContainer(connectedComponent, {
         ios
         web
       }
-      vehicleRentalSystem {
+      rentalNetwork {
         url
       }
     }

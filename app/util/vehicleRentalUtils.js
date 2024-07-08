@@ -223,8 +223,8 @@ export const getRentalVehicleLink = (rentalVehicle, network, networkConfig) => {
     return web;
   }
 
-  if (rentalVehicle?.vehicleRentalSystem?.url?.includes(network)) {
-    return rentalVehicle.vehicleRentalSystem.url;
+  if (rentalVehicle?.rentalNetwork?.url?.includes(network)) {
+    return rentalVehicle.rentalNetwork.url;
   }
 
   return null;

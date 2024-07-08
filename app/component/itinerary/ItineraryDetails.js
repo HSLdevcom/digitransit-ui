@@ -455,7 +455,7 @@ const withRelay = createFragmentContainer(
                 ios 
                 web
               }
-              vehicleRentalSystem {
+              rentalNetwork {
                 url
               }
             }
