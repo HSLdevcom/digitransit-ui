@@ -346,7 +346,7 @@ const refetchContainer = createPaginationContainer(
         after: { type: "String" }
         maxResults: { type: "Int" }
         maxDistance: { type: "Int" }
-        filterByNetwork: { type: "[String]", defaultValue: null }
+        filterByNetwork: { type: "[String!]", defaultValue: null }
       ) {
         nearest(
           lat: $lat
