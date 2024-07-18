@@ -73,7 +73,7 @@ function setUpOpenId() {
       expectCt: false,
     }),
   );
-  setUpOIDC(app, port, indexPath, hostnames);
+  return setUpOIDC(app, port, indexPath, hostnames, config);
 }
 
 function setUpStaticFolders() {
@@ -460,19 +460,25 @@ function fetchCitybikeConfigurations() {
 }
 /* ********* Init ********* */
 
+const promises = [
+  setUpAvailableRouteTimetables(),
+  setUpAvailableTickets(),
+  collectGeoJsonZones(),
+  fetchCitybikeConfigurations(),
+];
+
 if (process.env.OIDC_CLIENT_ID) {
-  setUpOpenId();
+  promises.push(setUpOpenId());
 }
 setUpRaven();
 setUpStaticFolders();
 setUpMiddleware();
 setUpRoutes();
 setUpErrorHandling();
-Promise.all([
-  setUpAvailableRouteTimetables(),
-  setUpAvailableTickets(),
-  collectGeoJsonZones(),
-  fetchCitybikeConfigurations(),
-]).then(startServer);
+Promise.all(promises).then(() => {
+  console.log("starting")
+  console.log(app._router.stack)
+  startServer()
+});
 
 module.exports.app = app;
