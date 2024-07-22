@@ -1516,9 +1516,8 @@ const translations = {
     'settings-dropdown-close-label': 'Close options',
     'settings-dropdown-open-label': 'Open options',
     'settings-e-scooter':
-      'Voit valita haluamasi sähköpotkulaudat, jolloin ne huomioidaan osana reititystä. {paymentInfo}',
-    'settings-e-scooter-on':
-      'Laita sähköpotkulauta päälle asetuksista pysyvästi',
+      'Voit valita haluamasi sähköpotkulaudat, jolloin ne ovat osa reititystä. {paymentInfo}',
+    'settings-e-scooter-on': 'Lisää sähköpotkulauta pysyvästi asetuksiisi',
     'settings-e-scooter-routes': 'Sähköpotkulaudat osaksi reittejäsi!',
     'settings-label-change': 'Change settings',
     'settings-missing-itineraries-body':
@@ -1526,7 +1525,7 @@ const translations = {
     'settings-missing-itineraries-header':
       'Are some route alternatives missing?',
     'settings-taxi-lift':
-      'Voit valita haluamasi taksi ja kyytipalvelut, jolloin ne huomioidaan osana reititystä.',
+      'Voit valita haluamasi taksi ja kyytipalvelut, jolloin ne ovat osa reititystä.',
     share: 'Share itinerary',
     show: 'Show',
     'show-departures': 'Show departures',
@@ -2719,16 +2718,15 @@ const translations = {
     'settings-dropdown-close-label': 'Sulje vaihtoehdot',
     'settings-dropdown-open-label': 'Avaa vaihtoehdot',
     'settings-e-scooter':
-      'Voit valita haluamasi sähköpotkulaudat, jolloin ne huomioidaan osana reititystä. {paymentInfo}',
-    'settings-e-scooter-on':
-      'Laita sähköpotkulauta päälle asetuksista pysyvästi',
+      'Voit valita haluamasi sähköpotkulaudat, jolloin ne ovat osa reititystä. {paymentInfo}',
+    'settings-e-scooter-on': 'Lisää sähköpotkulauta pysyvästi asetuksiisi',
     'settings-e-scooter-routes': 'Sähköpotkulaudat osaksi reittejäsi!',
     'settings-label-change': 'Muuta reittihaun asetuksia',
     'settings-missing-itineraries-body':
       'Asetuksissa on päällä valintoja, jotka rajaavat pois joitain reittivaihtoehtoja.',
     'settings-missing-itineraries-header': 'Puuttuuko reittivaihtoehtoja?',
     'settings-taxi-lift':
-      'Voit valita haluamasi taksi ja kyytipalvelut, jolloin ne huomioidaan osana reititystä.',
+      'Voit valita haluamasi taksi ja kyytipalvelut, jolloin ne ovat osa reititystä.',
     share: 'Jaa ohje',
     show: 'Näytä',
     'show-departures': 'Näytä lähdöt',
@@ -5575,16 +5573,15 @@ const translations = {
     'settings-dropdown-close-label': 'Stäng alternativen',
     'settings-dropdown-open-label': 'Öppna alternativen',
     'settings-e-scooter':
-      'Voit valita haluamasi sähköpotkulaudat, jolloin ne huomioidaan osana reititystä. {paymentInfo}',
-    'settings-e-scooter-on':
-      'Laita sähköpotkulauta päälle asetuksista pysyvästi',
+      'Voit valita haluamasi sähköpotkulaudat, jolloin ne ovat osa reititystä. {paymentInfo}',
+    'settings-e-scooter-on': 'Lisää sähköpotkulauta pysyvästi asetuksiisi',
     'settings-e-scooter-routes': 'Sähköpotkulaudat osaksi reittejäsi!',
     'settings-label-change': 'Anpassa sökning',
     'settings-missing-itineraries-body':
       'Dina val i inställningar utesluter vissa ruttalternativ.',
     'settings-missing-itineraries-header': 'Saknas det några ruttförslag?',
     'settings-taxi-lift':
-      'Voit valita haluamasi taksi ja kyytipalvelut, jolloin ne huomioidaan osana reititystä.',
+      'Voit valita haluamasi taksi ja kyytipalvelut, jolloin ne ovat osa reititystä.',
     share: 'Dela resan',
     show: 'Visa',
     'show-departures': 'Visa avgångarna',
