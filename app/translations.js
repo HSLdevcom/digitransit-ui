@@ -510,7 +510,7 @@ const translations = {
     'map-layer-terminal-subway': 'U-Bahnhöfe',
     'map-layer-vehicles': 'Fahrzeuge',
     'map-zoom-in-button': 'Reinzoomen',
-    'map-zoom-out-button': 'Herauszoomen',	
+    'map-zoom-out-button': 'Herauszoomen',
     'menu-faq': 'FAQ',
     'menu-feedback': 'Feedback senden',
     'menu-link-to-privacy-policy': 'Datenschutz',
@@ -797,15 +797,15 @@ const translations = {
     'walk-bike-itinerary-2': 'Ihre Suche ergab nur Fahrrad-Routen.',
     'walk-bike-itinerary-3': 'Ihre Suche ergab nur Fußweg- und Fahrrad-Routen.',
     'walk-bike-itinerary-4':
-    'Ihre Suche ergab nur Fußweg- Fahrrad- und Auto-Routen.',
+      'Ihre Suche ergab nur Fußweg- Fahrrad- und Auto-Routen.',
     'walk-distance-duration': 'Gehen {duration} ({distance})',
     walking: 'Gehen',
     'walking-speed': 'Laufgeschwindigkeit',
     'warning-call-agency':
-    'Nur auf Nachfrage: {routeName}, muss vorher angefragt werden.',
+      'Nur auf Nachfrage: {routeName}, muss vorher angefragt werden.',
     'warning-call-agency-no-route':
-    'Nur auf Nachfrage. Diese Fahrt muss vorher angefragt werden.',
-     weather: 'Wetter',
+      'Nur auf Nachfrage. Diese Fahrt muss vorher angefragt werden.',
+    weather: 'Wetter',
     'weather-at-destination': 'Wetter am Reiseziel',
     'weather-data-source': 'Quelle: Finnish Meteorological Institute',
     'weather-detail-title': 'Wettervorhersage für das Reiseziel um ',
