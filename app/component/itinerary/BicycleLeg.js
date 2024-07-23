@@ -115,7 +115,7 @@ export default function BicycleLeg(
         index={index}
         modeClassName={mode.toLowerCase()}
         icon="icon-icon_scooter_rider"
-        appendClass={!scooterSettingsOn ? 'settings' : ''}
+        appendClass={!scooterSettingsOn ? 'settings' : 'scooter'}
       />
     );
   } else if (bicycleWalkLeg) {
