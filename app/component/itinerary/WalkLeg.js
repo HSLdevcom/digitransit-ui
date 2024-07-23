@@ -51,7 +51,7 @@ function WalkLeg(
   ).type;
   const isScooter = networkType === RentalNetworkType.Scooter;
   const returnNotice =
-    previousLeg && previousLeg.rentedBike && !isScooter ? (
+    previousLeg && previousLeg.rentedBike ? (
       <FormattedMessage
         id={
           networkType === RentalNetworkType.Scooter
@@ -65,7 +65,7 @@ function WalkLeg(
   let appendClass;
 
   if (returnNotice) {
-    appendClass = 'return-citybike';
+    appendClass = !isScooter ? 'return-citybike' : '';
   }
 
   return (
@@ -132,11 +132,12 @@ function WalkLeg(
           </div>
         ) : (
           <div
-            className={
+            className={cx(
               returnNotice
                 ? 'itinerary-leg-first-row-return-bike'
-                : 'itinerary-leg-first-row'
-            }
+                : 'itinerary-leg-first-row',
+              isScooter && 'scooter',
+            )}
           >
             <div className="itinerary-leg-row">
               {leg[toOrFrom].stop ? (

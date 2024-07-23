@@ -50,7 +50,12 @@ function VehicleRentalLeg(
   const returnMessageId = isScooter ? 'return-e-scooter-to' : 'return-cycle-to';
   const id = returnBike ? returnMessageId : rentMessageId;
   const legDescription = (
-    <span className="citybike-leg-header">
+    <span
+      className={cx(
+        'citybike-leg-header',
+        returnBike && isScooter && 'scooter-return',
+      )}
+    >
       <FormattedMessage id={id} defaultMessage="Fetch a bike" />
     </span>
   );
@@ -93,7 +98,7 @@ function VehicleRentalLeg(
         <div
           className={cx(
             'itinerary-leg-row-bike',
-            returnBike ? 'return' : 'rent',
+            !isScooter || !returnBike ? 'withPadding' : '',
           )}
         >
           {legDescription}

@@ -1171,7 +1171,7 @@ $itinerary-tab-switch-height: 48px;
     &.scooter {
       border-left: 6px solid;
       border-radius: 3px;
-      height: 54%;
+      height: 58%;
       left: 8px;
 
       &.settings {
@@ -1179,8 +1179,8 @@ $itinerary-tab-switch-height: 48px;
       }
 
       &.bottom {
-        height: 25%;
-        top: 82%;
+        height: 23%;
+        top: 90%;
         overflow: hidden;
 
         &.settings {
@@ -1549,9 +1549,11 @@ $itinerary-tab-switch-height: 48px;
     .itinerary-leg-row-bike {
       display: flex;
       flex-direction: column;
-      min-height: 34px;
       color: #333;
-      padding: 0.625em 0;
+
+      &.withPadding {
+        padding: 0.625em 0;
+      }
 
       .citybike-leg-header {
         font-size: 15px;
@@ -1571,6 +1573,10 @@ $itinerary-tab-switch-height: 48px;
       color: #333;
       font-size: 0.9375rem;
       align-items: center;
+
+      &.scooter {
+        min-height: 40px;
+      }
     }
 
     .itinerary-leg-first-row {

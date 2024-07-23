@@ -249,6 +249,7 @@ export default class Legs extends React.Component {
             {...legProps}
             bicycleWalkLeg={bicycleWalkLeg}
             openSettings={this.props.openSettings}
+            nextLegMode={nextLeg.mode}
           />,
         );
       } else if (leg.mode === 'CAR') {
