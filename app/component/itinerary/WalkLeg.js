@@ -42,8 +42,8 @@ function WalkLeg(
   const isFirstLeg = i => i === 0;
   const [address, place] = splitStringToAddressAndPlace(leg[toOrFrom].name);
   const network =
-    previousLeg?.[toOrFrom]?.vehicleRentalStation?.network ||
-    previousLeg?.[toOrFrom]?.rentalVehicle?.network;
+    previousLeg?.[toOrFrom]?.vehicleRentalStation?.rentalNetwork.networkId ||
+    previousLeg?.[toOrFrom]?.rentalVehicle?.rentalNetwork.networkId;
 
   const networkType = getRentalNetworkConfig(
     previousLeg?.rentedBike && network,

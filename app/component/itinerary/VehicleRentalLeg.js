@@ -44,7 +44,9 @@ function VehicleRentalLeg(
   if (!vehicleRentalStation && !isScooter) {
     return null;
   }
-  const network = vehicleRentalStation?.network || rentalVehicle?.network;
+  const network =
+    vehicleRentalStation?.rentalNetwork.networkId ||
+    rentalVehicle?.rentalNetwork.networkId;
   // eslint-disable-next-line no-nested-ternary
   const rentMessageId = isScooter ? 'rent-e-scooter-at' : 'rent-cycle-at';
   const returnMessageId = isScooter ? 'return-e-scooter-to' : 'return-cycle-to';
@@ -75,7 +77,7 @@ function VehicleRentalLeg(
     : null;
   const mobileReturn = breakpoint === 'small' && returnBike;
   const vehicleCapacity = vehicleRentalStation
-    ? getVehicleCapacity(config, vehicleRentalStation?.network)
+    ? getVehicleCapacity(config, vehicleRentalStation?.rentalNetwork.networkId)
     : null;
   const rentalStationLink = `/${PREFIX_BIKESTATIONS}/${vehicleRentalStation?.stationId}`;
   return (

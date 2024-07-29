@@ -107,7 +107,9 @@ const containerComponent = createRefetchContainer(
           total
         }
         capacity
-        network
+        rentalNetwork {
+          networkId
+        }
         operative
       }
     `,

@@ -43,8 +43,8 @@ export function isCallAgencyDeparture(departure) {
 function sameBicycleNetwork(leg1, leg2) {
   if (leg1.from.vehicleRentalStation && leg2.from.vehicleRentalStation) {
     return (
-      leg1.from.vehicleRentalStation.network ===
-      leg2.from.vehicleRentalStation.network
+      leg1.from.vehicleRentalStation.rentalNetwork.networkId ===
+      leg2.from.vehicleRentalStation.rentalNetwork.networkId
     );
   }
   return true;

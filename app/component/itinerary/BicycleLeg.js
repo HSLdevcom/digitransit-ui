@@ -54,7 +54,8 @@ export default function BicycleLeg(
   let modeClassName = 'bicycle';
   const [address, place] = splitStringToAddressAndPlace(leg.from.name);
   const rentalVehicleNetwork =
-    leg.from.vehicleRentalStation?.network || leg.from.rentalVehicle?.network;
+    leg.from.vehicleRentalStation?.rentalNetwork.networkId ||
+    leg.from.rentalVehicle?.rentalNetwork.networkId;
   const networkConfig =
     leg.rentedBike &&
     rentalVehicleNetwork &&
@@ -204,13 +205,15 @@ export default function BicycleLeg(
         ?.filter(
           n =>
             n?.node?.place?.__typename === 'RentalVehicle' && // eslint-disable-line no-underscore-dangle
-            n?.node?.place?.network !== rentalVehicleNetwork,
+            n?.node?.place?.rentalNetwork.networkId !== rentalVehicleNetwork,
         )
         // show only one scooter from each network
         .filter(
           (n, i, self) =>
             self.findIndex(
-              t => t?.node?.place?.network === n?.node?.place?.network,
+              t =>
+                t?.node?.place?.rentalNetwork.networkId ===
+                n?.node?.place?.rentalNetwork.networkId,
             ) === i,
         );
 

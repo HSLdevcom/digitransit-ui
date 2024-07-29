@@ -15,7 +15,7 @@ class ItineraryCircleLineWithIcon extends React.Component {
     color: PropTypes.string,
     appendClass: PropTypes.string,
     icon: PropTypes.string,
-    style: PropTypes.object,
+    style: PropTypes.shape({}),
   };
 
   static defaultProps = {

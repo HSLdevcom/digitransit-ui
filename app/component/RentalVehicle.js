@@ -11,7 +11,7 @@ const RentalVehicle = ({ rentalVehicle }, { config }) => {
   const disabled = !rentalVehicle.operative;
 
   const vehicleIcon = getRentalNetworkIcon(
-    getRentalNetworkConfig(rentalVehicle.network, config),
+    getRentalNetworkConfig(rentalVehicle.rentalNetwork.networkId, config),
     disabled,
   );
   return (

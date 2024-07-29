@@ -150,7 +150,7 @@ class ItineraryDetails extends React.Component {
     if (legsWithRentalBike.length > 0) {
       for (let i = 0; i < legsWithRentalBike.length; i++) {
         const leg = legsWithRentalBike[i];
-        const network = leg.from.vehicleRentalStation?.network;
+        const network = leg.from.vehicleRentalStation?.rentalNetwork.networkId;
         if (
           config.cityBike.networks[network]?.timeBeforeSurcharge &&
           config.cityBike.networks[network]?.durationInstructions
@@ -439,7 +439,9 @@ const withRelay = createFragmentContainer(
               vehicleParkingId
             }
             vehicleRentalStation {
-              network
+              rentalNetwork {
+               networkId
+            }
               availableVehicles {
                 total
               }
@@ -452,13 +454,13 @@ const withRelay = createFragmentContainer(
               name
               lat
               lon
-              network
               rentalUris {
                 android
                 ios 
                 web
               }
               rentalNetwork {
+                networkId
                 url
               }
             }
@@ -491,16 +493,20 @@ const withRelay = createFragmentContainer(
               lat
               lon
               stationId
-              network
+              rentalNetwork {
+               networkId
+              }
               availableVehicles {
                 total
               }
             }
             rentalVehicle {
-                vehicleId
-                lat
-                lon
-                network
+              vehicleId
+              lat
+              lon
+              rentalNetwork {
+                networkId
+              }
             }
             stop {
               gtfsId

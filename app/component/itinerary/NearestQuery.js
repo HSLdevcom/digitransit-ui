@@ -33,7 +33,6 @@ const nearestQuery = graphql`
                 lat
                 lon
                 name
-                network
                 vehicleId
                 rentalUris {
                   android
@@ -41,6 +40,7 @@ const nearestQuery = graphql`
                   web
                 }
                 rentalNetwork {
+                  networkId
                   url
                 }
               }

@@ -51,7 +51,9 @@ class VehicleMarkerContainer extends React.Component {
                     lat
                     lon
                     stationId
-                    network
+                    rentalNetwork {
+                      networkId
+                    }
                     availableVehicles {
                       total
                     }

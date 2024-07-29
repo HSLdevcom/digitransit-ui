@@ -174,7 +174,10 @@ export const ModeLeg = (
     networkIcon =
       leg.from.vehicleRentalStation &&
       getRentalNetworkIcon(
-        getRentalNetworkConfig(leg.from.vehicleRentalStation.network, config),
+        getRentalNetworkConfig(
+          leg.from.vehicleRentalStation.rentalNetwork.networkId,
+          config,
+        ),
       );
   } else if (mode === 'SCOOTER') {
     networkIcon = 'icon-icon_scooter_rider';
@@ -425,7 +428,7 @@ const Itinerary = (
     ) {
       const bikingTime = Math.floor(leg.duration / 60);
       // eslint-disable-next-line prefer-destructuring
-      bikeNetwork = leg.from.vehicleRentalStation.network;
+      bikeNetwork = leg.from.vehicleRentalStation.rentalNetwork.networkId;
       if (
         config.cityBike.networks &&
         config.cityBike.networks[bikeNetwork]?.timeBeforeSurcharge &&
@@ -640,7 +643,7 @@ const Itinerary = (
           <div>
             {getVehicleCapacity(
               config,
-              firstDeparture.from.vehicleRentalStation.network,
+              firstDeparture.from.vehicleRentalStation.rentalNetwork.networkId,
             ) !== BIKEAVL_UNKNOWN && (
               <FormattedMessage
                 id="bikes-available"
@@ -1030,7 +1033,9 @@ const containerComponent = createFragmentContainer(ItineraryWithBreakpoint, {
             availableVehicles {
               total
             }
-            network
+            rentalNetwork {
+              networkId
+            }
           }
         }
         to {

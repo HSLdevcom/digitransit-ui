@@ -361,11 +361,11 @@ function StopsNearYouMap(
       let sortedEdges;
       if (!isTransitMode) {
         const withNetworks = stopsNearYou.nearest.edges.filter(edge => {
-          return !!edge.node.place?.network;
+          return !!edge.node.place?.rentalNetwork?.networkId;
         });
         const filteredCityBikeEdges = withNetworks.filter(pattern => {
           return getDefaultNetworks(context.config).includes(
-            pattern.node.place?.network,
+            pattern.node.place?.rentalNetwork.networkId,
           );
         });
         sortedEdges = filteredCityBikeEdges

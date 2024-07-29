@@ -47,7 +47,7 @@ const VehicleRentalStationContent = (
   const isFull = vehiclesAvailable >= capacity;
 
   const networkConfig = getRentalNetworkConfig(
-    vehicleRentalStation.network,
+    vehicleRentalStation.rentalNetwork.networkId,
     config,
   );
   const cityBikeNetworkUrl = networkConfig?.url?.[language];
@@ -155,7 +155,9 @@ const containerComponent = createFragmentContainer(connectedComponent, {
         total
       }
       capacity
-      network
+      rentalNetwork {
+        networkId
+      }
       stationId
       operative
     }
