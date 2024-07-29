@@ -11,6 +11,7 @@ $itinerary-tab-switch-height: 48px;
 }
 
 @mixin setModeCircles($fill) {
+
   &.bus,
   &.bus-local {
     @include getCircleSvg($bus-color, $fill);
@@ -214,7 +215,7 @@ $itinerary-tab-switch-height: 48px;
         flex-direction: column;
         justify-content: flex-end;
 
-        > div {
+        >div {
           flex-grow: 0;
         }
       }
@@ -733,7 +734,7 @@ $itinerary-tab-switch-height: 48px;
         }
       }
 
-      &.multi-component + .multi-component {
+      &.multi-component+.multi-component {
         border-top: 1px solid $light-gray;
         padding-top: $padding-medium;
       }
@@ -789,7 +790,7 @@ $itinerary-tab-switch-height: 48px;
   align-items: center;
   flex: 0;
 
-  span + span {
+  span+span {
     margin-left: $padding-xsmall;
   }
 
@@ -807,6 +808,7 @@ $itinerary-tab-switch-height: 48px;
 }
 
 .desktop {
+
   .itinerary-ticket-information,
   .itinerary-co2-information {
     font-size: 0.9375rem;
@@ -830,6 +832,7 @@ $itinerary-tab-switch-height: 48px;
   @include setModeCircles(#fff);
 
   &.circle-fill {
+
     &.bus,
     &.bus-local {
       @include setModeCircles($bus-color);
@@ -1171,21 +1174,21 @@ $itinerary-tab-switch-height: 48px;
     &.scooter {
       border-left: 6px solid;
       border-radius: 3px;
-      height: 58%;
+      height: calc(58% + var(--scooter-amount));
       left: 8px;
 
       &.settings {
-        height: 58%;
+        height: calc(56% + var(--scooter-amount));
       }
 
       &.bottom {
-        height: 23%;
-        top: 90%;
+        height: calc(23% + var(--scooter-amount)*1.7);
         overflow: hidden;
+        top: calc(90% - var(--scooter-amount)*3.4);
 
         &.settings {
-          height: 30%;
-          top: 75%;
+          height: calc(30% + var(--scooter-amount));
+          top: calc(75% - var(--scooter-amount));
         }
       }
     }
@@ -1380,6 +1383,7 @@ $itinerary-tab-switch-height: 48px;
   }
 
   .special-icon {
+
     &.call,
     &.disruption {
       min-height: 24px;
@@ -1407,7 +1411,7 @@ $itinerary-tab-switch-height: 48px;
     content: '';
   }
 
-  .itinerary-main > div:nth-child(1)::after {
+  .itinerary-main>div:nth-child(1)::after {
     content: '';
   }
 
@@ -1518,7 +1522,7 @@ $itinerary-tab-switch-height: 48px;
     .intermediate-stop-info-container,
     .alternative-legs-info-container {
       @media print {
-        span > svg {
+        span>svg {
           display: none;
         }
       }
@@ -2029,7 +2033,7 @@ $itinerary-tab-switch-height: 48px;
     .alternative-legs-clickable {
       height: 60px;
 
-      > * {
+      >* {
         display: flex;
         align-items: center;
         height: 100%;
@@ -2384,22 +2388,22 @@ div.itinerary-container-content {
 
 @media print {
   .swipeable-tab {
-    &.inactive > .itinerary-tab {
-      > .itinerary-tabs__scroll {
+    &.inactive>.itinerary-tab {
+      >.itinerary-tabs__scroll {
         display: none;
       }
 
-      > .itinerary-summary-container > .itinerary-summary {
+      >.itinerary-summary-container>.itinerary-summary {
         display: none;
       }
     }
 
-    &.false > .itinerary-tab {
-      > .itinerary-tabs__scroll {
+    &.false>.itinerary-tab {
+      >.itinerary-tabs__scroll {
         width: 100vw;
       }
 
-      > .itinerary-summary-container {
+      >.itinerary-summary-container {
         width: 100vw;
       }
     }
@@ -2455,7 +2459,7 @@ div.itinerary-container-content {
   line-height: 1px;
 }
 
-.via-divider > .via-divider-line {
+.via-divider>.via-divider-line {
   display: inline-block;
   border-top: 1px solid $gray;
   width: 90%;
@@ -2915,6 +2919,7 @@ $font-print-decrease: 0.7;
     }
 
     .special-icon {
+
       &.call,
       &.disruption {
         margin-left: 5px;
@@ -2923,6 +2928,7 @@ $font-print-decrease: 0.7;
   }
 
   .itinerary-transit-leg-route {
+
     &.call,
     &.disruption {
       max-width: auto;

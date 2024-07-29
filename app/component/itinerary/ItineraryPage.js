@@ -25,7 +25,8 @@ import Loading from '../Loading';
 import { getItineraryPagePath, streetHash } from '../../util/path';
 import { boundWithMinimumArea } from '../../util/geo-utils';
 import planConnection from './PlanConnection';
-import {
+/* import nearestQuery from './NearestQuery';
+ */import {
   getSelectedItineraryIndex,
   reportError,
   addFeedbackly,
@@ -45,6 +46,7 @@ import {
   mergeBikeTransitPlans,
   mergeScooterTransitPlan,
   quitIteration,
+  /* scooterEdges, */
 } from './ItineraryPageUtils';
 import { isIOS } from '../../util/browser';
 import { addAnalyticsEvent } from '../../util/analyticsUtils';
@@ -137,7 +139,8 @@ export default function ItineraryPage(props, context) {
   });
   const [weatherState, setWeatherState] = useState({ loading: false });
   const [topicsState, setTopicsState] = useState(null);
-  const [mapState, setMapState] = useState({});
+  const [mapState, setMapState] = useState({});/* 
+  const [nearestScooterState, setNearestScooterState] = useState({}); */
 
   const { config, router } = context;
   const { match, breakpoint } = props;
@@ -417,6 +420,34 @@ export default function ItineraryPage(props, context) {
     }
   }
 
+/*   async function makeNearestScooterQuery() {
+    console.log("FROM", from.lat, from.lon) // this only works when the scooter is the first leg!! 
+    const planParams = {
+      lat: from.lat,
+      lon: from.lon,
+      maxResults: 5,
+      first: 5,// this.context.config.maxNearbyStopAmount,
+      maxDistance: 200, // meters
+      filterByModes: ['SCOOTER'],
+    }
+
+    const result = await fetchQuery(
+      props.relayEnvironment,
+      nearestQuery,
+      planParams,
+      {
+        force: true,
+      },
+    ).toPromise();
+    if (!plan) {
+      console.log("no plannn")
+    // plan = result.plan; 
+    } else  {
+      console.log("result", result.viewer.nearest.edges)
+      setNearestScooterState ({ plan: result.viewer.nearest.edges, loading: LOADSTATE.DONE });
+    }
+  } */
+  
   const onLater = async () => {
     addAnalyticsEvent({
       event: 'sendMatomoEvent',
@@ -478,10 +509,10 @@ export default function ItineraryPage(props, context) {
       // user clicked button above itinerary list
       const separators = state.routingFeedbackPosition
         ? {
-            separatorPosition: edges.length,
-            routingFeedbackPosition:
-              state.routingFeedbackPosition + edges.length,
-          }
+          separatorPosition: edges.length,
+          routingFeedbackPosition:
+            state.routingFeedbackPosition + edges.length,
+        }
         : { routingFeedbackPosition: edges.length };
       setState({
         ...newState,
@@ -570,10 +601,10 @@ export default function ItineraryPage(props, context) {
       // user clicked button above itinerary list
       const separators = state.routingFeedbackPosition
         ? {
-            separatorPosition: edges.length,
-            routingFeedbackPosition:
-              state.routingFeedbackPosition + edges.length,
-          }
+          separatorPosition: edges.length,
+          routingFeedbackPosition:
+            state.routingFeedbackPosition + edges.length,
+        }
         : { routingFeedbackPosition: edges.length };
       setState({
         ...newState,
@@ -770,6 +801,12 @@ export default function ItineraryPage(props, context) {
       makeWeatherQuery();
     }
   }, [params.from, query.time]);
+
+/*   useEffect(() => {
+    if(scooterEdges(combinedState.plan?.edges).length > 0) {
+      makeNearestScooterQuery();
+    }
+  }, [combinedState.plan]); */
 
   // merge two separate bike + transit plans into one
   useEffect(() => {
@@ -1015,13 +1052,13 @@ export default function ItineraryPage(props, context) {
     !detailView && breakpoint !== 'large'
       ? null
       : renderMap(
-          from,
-          to,
-          viaPoints,
-          combinedEdges,
-          selectedIndex,
-          detailView,
-        );
+        from,
+        to,
+        viaPoints,
+        combinedEdges,
+        selectedIndex,
+        detailView,
+      );
 
   const desktop = breakpoint === 'large';
   // must wait alternatives to render correct notifier
@@ -1066,7 +1103,9 @@ export default function ItineraryPage(props, context) {
         focusToLeg={focusToLeg}
         carEmissions={carEmissions}
         bikeAndPublicItineraryCount={bikePublicPlan.bikePublicItineraryCount}
-        openSettings={showSettingsPanel}
+        openSettings={showSettingsPanel}/* 
+        nearestScooters={nearestScooterState.plan} */
+        relayEnvironment={props.relayEnvironment}
       />
     );
   } else {

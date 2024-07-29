@@ -6,7 +6,7 @@ import { matchShape, routerShape } from 'found';
 import { FormattedMessage, intlShape } from 'react-intl';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import get from 'lodash/get';
-import { configShape, itineraryShape } from '../../util/shapes';
+import { configShape, itineraryShape, relayShape } from '../../util/shapes';
 import TicketInformation from './TicketInformation';
 import ItinerarySummary from './ItinerarySummary';
 import Legs from './Legs';
@@ -55,6 +55,7 @@ class ItineraryDetails extends React.Component {
     changeHash: PropTypes.func,
     openSettings: PropTypes.func.isRequired,
     bikeAndPublicItineraryCount: PropTypes.number,
+    relayEnvironment: relayShape,
   };
 
   static defaultProps = {
@@ -63,6 +64,7 @@ class ItineraryDetails extends React.Component {
     changeHash: () => {},
     bikeAndPublicItineraryCount: 0,
     carEmissions: undefined,
+    relayEnvironment: undefined,
   };
 
   static contextTypes = {
@@ -317,6 +319,7 @@ class ItineraryDetails extends React.Component {
                   tabIndex={itineraryIndex - 1}
                   openSettings={this.props.openSettings}
                   showBikeBoardingInformation={showBikeBoardingInformation}
+                  relayEnvironment={this.props.relayEnvironment}
                 />
               </div>
               {config.showCO2InItinerarySummary && (

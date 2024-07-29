@@ -15,6 +15,7 @@ class ItineraryCircleLineWithIcon extends React.Component {
     color: PropTypes.string,
     appendClass: PropTypes.string,
     icon: PropTypes.string,
+    style: PropTypes.object,
   };
 
   static defaultProps = {
@@ -24,6 +25,7 @@ class ItineraryCircleLineWithIcon extends React.Component {
     carPark: false,
     appendClass: undefined,
     icon: undefined,
+    style: {},
   };
 
   state = {
@@ -104,7 +106,7 @@ class ItineraryCircleLineWithIcon extends React.Component {
   render() {
     const topMarker = this.getMarker(true);
     const bottomMarker = this.getMarker(false);
-    const legBeforeLineStyle = { color: this.props.color };
+    const legBeforeLineStyle = { color: this.props.color, ...this.props.style };
     if (
       isBrowser &&
       (this.props.modeClassName === 'walk' ||

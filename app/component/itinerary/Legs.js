@@ -1,7 +1,12 @@
 /* eslint-disable react/no-array-index-key */
 import PropTypes from 'prop-types';
 import React from 'react';
-import { configShape, fareShape, itineraryShape } from '../../util/shapes';
+import {
+  configShape,
+  fareShape,
+  itineraryShape,
+  relayShape,
+} from '../../util/shapes';
 import TransitLeg from './TransitLeg';
 import WalkLeg from './WalkLeg';
 import WaitLeg from './WaitLeg';
@@ -42,6 +47,7 @@ export default class Legs extends React.Component {
     tabIndex: PropTypes.number,
     openSettings: PropTypes.func.isRequired,
     showBikeBoardingInformation: PropTypes.bool,
+    relayEnvironment: relayShape,
   };
 
   static contextTypes = { config: configShape };
@@ -51,6 +57,7 @@ export default class Legs extends React.Component {
     changeHash: undefined,
     tabIndex: undefined,
     showBikeBoardingInformation: false,
+    relayEnvironment: undefined,
   };
 
   getChildContext() {
@@ -73,7 +80,8 @@ export default class Legs extends React.Component {
   };
 
   render() {
-    const { itinerary, fares, showBikeBoardingInformation } = this.props;
+    const { itinerary, fares, showBikeBoardingInformation, relayEnvironment } =
+      this.props;
     const { waitThreshold } = this.context.config.itinerary;
 
     const compressedLegs = compressLegs(itinerary.legs, true).map(leg => ({
@@ -250,6 +258,7 @@ export default class Legs extends React.Component {
             bicycleWalkLeg={bicycleWalkLeg}
             openSettings={this.props.openSettings}
             nextLegMode={nextLeg.mode}
+            relayEnvironment={relayEnvironment}
           />,
         );
       } else if (leg.mode === 'CAR') {
