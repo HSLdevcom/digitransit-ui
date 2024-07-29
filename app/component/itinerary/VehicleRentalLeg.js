@@ -78,7 +78,7 @@ function VehicleRentalLeg(
     ? getVehicleCapacity(config, vehicleRentalStation?.network)
     : null;
   const rentalStationLink = `/${PREFIX_BIKESTATIONS}/${vehicleRentalStation?.stationId}`;
-    return (
+  return (
     <>
       {(!isScooter || (nextLegMode !== 'WALK' && isScooter)) && (
         <div
@@ -155,7 +155,7 @@ function VehicleRentalLeg(
       {nearestScooters &&
         !returnBike &&
         isScooter &&
-        nearestScooters.map((nearestScooter, i) => {
+        nearestScooters.map(nearestScooter => {
           return (
             <RentalVehicleLinkContainer
               key={`nearestScooter-${nearestScooter.node.place.vehicleId}`}

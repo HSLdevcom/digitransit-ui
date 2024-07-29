@@ -200,10 +200,19 @@ export default function BicycleLeg(
     } else {
       const nearest = result?.viewer?.nearest?.edges;
       // filter out the ones that are not scooters or from the same network as the original scooter
-      let filteredNearest = nearest?.filter(
-        n => n?.node?.place?.__typename === 'RentalVehicle' && n?.node?.place?.network !== rentalVehicleNetwork) // eslint-disable-line no-underscore-dangle
+      const filteredNearest = nearest
+        ?.filter(
+          n =>
+            n?.node?.place?.__typename === 'RentalVehicle' && // eslint-disable-line no-underscore-dangle
+            n?.node?.place?.network !== rentalVehicleNetwork,
+        )
         // show only one scooter from each network
-        .filter((n, index, self) => self.findIndex((t) => t?.node?.place?.network === n?.node?.place?.network) === index)
+        .filter(
+          (n, i, self) =>
+            self.findIndex(
+              t => t?.node?.place?.network === n?.node?.place?.network,
+            ) === i,
+        );
 
       setNearestScooterState({
         nearest: filteredNearest,
