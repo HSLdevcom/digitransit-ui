@@ -86,7 +86,7 @@ function VehicleRentalLeg(
         <div
           className={cx(
             'itinerary-leg-row-bike',
-            !isScooter || !returnBike ? 'withPadding' : '',
+            (!isScooter || !returnBike) && 'withPadding',
           )}
         >
           {legDescription}
