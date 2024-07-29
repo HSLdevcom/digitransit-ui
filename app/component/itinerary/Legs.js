@@ -257,7 +257,7 @@ export default class Legs extends React.Component {
             {...legProps}
             bicycleWalkLeg={bicycleWalkLeg}
             openSettings={this.props.openSettings}
-            nextLegMode={nextLeg.mode}
+            nextLegMode={nextLeg?.mode}
             relayEnvironment={relayEnvironment}
           />,
         );
