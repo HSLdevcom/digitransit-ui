@@ -92,7 +92,7 @@ export default configMerger(walttiConfig, {
   // Navbar logo
   logo: 'kotka/kotka.png',
 
-  feedIds: ['Kotka'],
+  feedIds: ['Kotka', 'KotkaLautat'],
   feedIdFiltering: true,
 
   searchParams: {
