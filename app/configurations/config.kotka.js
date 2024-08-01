@@ -41,6 +41,10 @@ export default configMerger(walttiConfig, {
     citybike: {
       availableForSelection: true,
     },
+    ferry: {
+      availableForSelection: true,
+      defaultValue: true,
+    },
   },
 
   cityBike: {
