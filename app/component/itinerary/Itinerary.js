@@ -291,6 +291,7 @@ const Itinerary = (
   }));
   let intermediateSlack = 0;
   let transitLegCount = 0;
+  let containsScooterLeg = false;
   compressedLegs.forEach((leg, i) => {
     if (isTransitLeg(leg)) {
       noTransitLegs = false;
@@ -303,6 +304,7 @@ const Itinerary = (
       intermediateSlack +=
         legTime(leg.start) - legTime(compressedLegs[i - 1].end); // calculate time spent at each intermediate place
     }
+    containsScooterLeg = leg.mode === 'SCOOTER' || containsScooterLeg;
   });
   const durationWithoutSlack = duration - intermediateSlack; // don't include time spent at intermediate places in calculations for bar lengths
   const relativeLength = durationMs =>
@@ -778,6 +780,11 @@ const Itinerary = (
   ) : (
     date
   );
+  const showCo2Info =
+    config.showCO2InItinerarySummary &&
+    co2value !== null &&
+    co2value >= 0 &&
+    !containsScooterLeg;
   return (
     <span role="listitem" className={classes} aria-atomic="true">
       <h3 className="sr-only">
@@ -789,10 +796,7 @@ const Itinerary = (
         />
       </h3>
       {textSummary}
-      {config.showCO2InItinerarySummary &&
-        co2value !== null &&
-        co2value >= 0 &&
-        co2summary}
+      {showCo2Info && co2summary}
       <div className="itinerary-summary-visible" style={{ display: 'flex' }}>
         {/* This next clickable region does not have proper accessible role, tabindex and keyboard handler
             because screen reader works weirdly with nested buttons. Same functonality works from the inner button */
@@ -836,16 +840,14 @@ const Itinerary = (
                   {(getTotalDistance(itinerary) / 1000).toFixed(1)} km
                 </div>
               )}
-              {config.showCO2InItinerarySummary &&
-                co2value !== null &&
-                co2value >= 0 && (
-                  <div className="itinerary-co2-value-container">
-                    {lowestCo2value === co2value && (
-                      <Icon img="icon-icon_co2_leaf" className="co2-leaf" />
-                    )}
-                    <div className="itinerary-co2-value">{co2value} g</div>
-                  </div>
-                )}
+              {showCo2Info && (
+                <div className="itinerary-co2-value-container">
+                  {lowestCo2value === co2value && (
+                    <Icon img="icon-icon_co2_leaf" className="co2-leaf" />
+                  )}
+                  <div className="itinerary-co2-value">{co2value} g</div>
+                </div>
+              )}
               <div className="itinerary-duration">
                 <RelativeDuration duration={duration} />
               </div>

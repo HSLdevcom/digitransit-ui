@@ -143,6 +143,7 @@ class ItineraryDetails extends React.Component {
       legContainsRentalBike(leg),
     );
     const legswithBikePark = compressLegs(itinerary.legs).filter(leg => legContainsBikePark(leg));
+    const legsWithScooter = compressLegs(itinerary.legs).some(leg => leg.mode === 'SCOOTER');
     const containsBiking = biking.duration > 0 && biking.distance > 0;
     const showBikeBoardingInformation = containsBiking && bikeAndPublicItineraryCount > 0 && legswithBikePark.length === 0;
     const rentalBikeNetworks = new Set();
@@ -289,7 +290,7 @@ class ItineraryDetails extends React.Component {
                   legs={itinerary.legs}
                 />
               )),
-            config.showCO2InItinerarySummary && (
+            config.showCO2InItinerarySummary && !legsWithScooter && (
               <EmissionsInfo
 		key="emissionsummary"
                 itinerary={itinerary}
@@ -322,7 +323,7 @@ class ItineraryDetails extends React.Component {
                   relayEnvironment={this.props.relayEnvironment}
                 />
               </div>
-              {config.showCO2InItinerarySummary && (
+              {config.showCO2InItinerarySummary && !legsWithScooter && (
                 <Emissions
 		  key="emissionsinfo"
                   config={config}
