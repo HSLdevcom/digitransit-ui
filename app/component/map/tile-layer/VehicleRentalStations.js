@@ -84,7 +84,6 @@ class VehicleRentalStations {
                   this.shouldShowStation(
                     feature.properties.id,
                     feature.properties.network,
-                    feature.properties.formFactors,
                   )
                 ) {
                   this.features.push(pick(feature, ['geom', 'properties']));
@@ -193,7 +192,8 @@ class VehicleRentalStations {
   };
 
   shouldShowStation = (id, network) =>
-    this.config.cityBike.networks[network].showRentalStations &&
+    (this.config.cityBike.networks[network].showRentalStations === undefined ||
+      this.config.cityBike.networks[network].showRentalStations) &&
     (!this.tile.stopsToShow || this.tile.stopsToShow.includes(id)) &&
     !this.tile.objectsToHide.vehicleRentalStations.includes(id) &&
     showCitybikeNetwork(this.config.cityBike.networks[network]);
