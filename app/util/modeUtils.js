@@ -80,6 +80,7 @@ export function showRentalVehiclesOfType(networks, config, type) {
   return Object.values(networks).some(
     network =>
       network.type === type.toLowerCase() &&
+      network.enabled &&
       (network.showRentalVehicles || showCitybikeNetwork(network, config)),
   );
 }
