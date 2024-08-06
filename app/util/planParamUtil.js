@@ -197,11 +197,11 @@ export function planQueryNeeded(
       );
 
     case PLANTYPE.SCOOTERTRANSIT:
-      /* special logic: relaxed scooter query is made only if no networks allowed */
+      /* special logic: relaxed scooter query is made only if no networks allowed, and scooters are available for selection */
       return (
         transitModes.length > 0 &&
         !wheelchair &&
-        (relaxSettings
+        (relaxSettings && config.transportModes.scooter.availableForSelection
           ? settings.scooterNetworks.length === 0
           : settings.scooterNetworks.length > 0)
       );
