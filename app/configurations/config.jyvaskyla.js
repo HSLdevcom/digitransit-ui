@@ -167,7 +167,7 @@ export default configMerger(walttiConfig, {
 
   showTicketLinkOnlyWhenTesting: true,
   settingsForFeatureTesting: {
-    walkSpeed: 2.22,
+    walkSpeed: 0.69,
     bikeSpeed: 8.33,
     includeBikeSuggestions: false,
     transferPenalty: 1600,
