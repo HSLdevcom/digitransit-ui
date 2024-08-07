@@ -76,7 +76,9 @@ VehicleRentalStationNearYou.propTypes = {
     lat: PropTypes.number,
     lon: PropTypes.number,
     name: PropTypes.string,
-    network: PropTypes.string,
+    rentalNetwork: PropTypes.shape({
+      networkId: PropTypes.string,
+    }),
     operative: PropTypes.bool,
     stationId: PropTypes.string,
     type: PropTypes.string,
