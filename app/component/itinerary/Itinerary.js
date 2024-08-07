@@ -32,6 +32,7 @@ import {
   getRentalNetworkIcon,
   getRentalNetworkConfig,
   getVehicleCapacity,
+  getRentalNetworkIdByRental,
 } from '../../util/vehicleRentalUtils';
 import { getRouteMode } from '../../util/modeUtils';
 import { getCapacityForLeg } from '../../util/occupancyUtil';
@@ -175,7 +176,7 @@ export const ModeLeg = (
       leg.from.vehicleRentalStation &&
       getRentalNetworkIcon(
         getRentalNetworkConfig(
-          leg.from.vehicleRentalStation.rentalNetwork.networkId,
+          getRentalNetworkIdByRental(leg.from.vehicleRentalStation, config),
           config,
         ),
       );
@@ -430,7 +431,10 @@ const Itinerary = (
     ) {
       const bikingTime = Math.floor(leg.duration / 60);
       // eslint-disable-next-line prefer-destructuring
-      bikeNetwork = leg.from.vehicleRentalStation.rentalNetwork.networkId;
+      bikeNetwork = getRentalNetworkIdByRental(
+        leg.from.vehicleRentalStation,
+        config,
+      );
       if (
         config.cityBike.networks &&
         config.cityBike.networks[bikeNetwork]?.timeBeforeSurcharge &&
@@ -645,7 +649,10 @@ const Itinerary = (
           <div>
             {getVehicleCapacity(
               config,
-              firstDeparture.from.vehicleRentalStation.rentalNetwork.networkId,
+              getRentalNetworkIdByRental(
+                firstDeparture.from.vehicleRentalStation,
+                config,
+              ),
             ) !== BIKEAVL_UNKNOWN && (
               <FormattedMessage
                 id="bikes-available"

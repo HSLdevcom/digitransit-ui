@@ -80,10 +80,17 @@ class VehicleRentalStations {
                 [[feature.geom]] = feature.loadGeometry();
                 // Must filter out stations that are not shown as there can be a large amount
                 // of invisible rental stations, which are often accidentally clicked
+                const networkConfig =
+                  this.config.cityBike.networks[feature.properties.network] ||
+                  this.config.cityBike.networks[
+                    feature.properties.network.split('_')[0]
+                  ];
+
                 if (
                   this.shouldShowStation(
                     feature.properties.id,
-                    feature.properties.network,
+                    networkConfig,
+                    this.config,
                   )
                 ) {
                   this.features.push(pick(feature, ['geom', 'properties']));
@@ -191,12 +198,12 @@ class VehicleRentalStations {
     }
   };
 
-  shouldShowStation = (id, network) =>
-    (this.config.cityBike.networks[network].showRentalStations === undefined ||
-      this.config.cityBike.networks[network].showRentalStations) &&
+  shouldShowStation = (id, networkConfig, config) =>
+    (networkConfig.showRentalStations === undefined ||
+      networkConfig.showRentalStations) &&
     (!this.tile.stopsToShow || this.tile.stopsToShow.includes(id)) &&
     !this.tile.objectsToHide.vehicleRentalStations.includes(id) &&
-    showCitybikeNetwork(this.config.cityBike.networks[network]);
+    showCitybikeNetwork(networkConfig, config);
 
   static getName = () => 'citybike';
 }

@@ -4,6 +4,7 @@ import Icon from './Icon';
 import {
   getRentalNetworkIcon,
   getRentalNetworkConfig,
+  getRentalNetworkIdByRental,
 } from '../util/vehicleRentalUtils';
 import { rentalVehicleShape } from '../util/shapes';
 
@@ -11,7 +12,10 @@ const RentalVehicle = ({ rentalVehicle }, { config }) => {
   const disabled = !rentalVehicle.operative;
 
   const vehicleIcon = getRentalNetworkIcon(
-    getRentalNetworkConfig(rentalVehicle.rentalNetwork.networkId, config),
+    getRentalNetworkConfig(
+      getRentalNetworkIdByRental(rentalVehicle, config),
+      config,
+    ),
     disabled,
   );
   return (

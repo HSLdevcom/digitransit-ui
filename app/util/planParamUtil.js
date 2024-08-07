@@ -62,6 +62,23 @@ export function getDefaultSettings(config) {
 }
 
 /**
+ * Retrieves all networkIds from the configuration.
+ * If the network is a multi-network, all networkIds are included.
+ *
+ * @param {*} networks
+ */
+export function getNetworkIds(config, networks) {
+  if (!networks) {
+    return {};
+  }
+  const networkIds = networks.flatMap(network => {
+    const multiNetworks = config.cityBike.networks[network]?.networkIds;
+    return multiNetworks || [network];
+  });
+  return networkIds;
+}
+
+/**
  * Retrieves the current (customized) settings kept in local store
  * Missing setting gets a default value
  * @param {*} config the configuration for the software installation
@@ -95,10 +112,13 @@ export function getSettings(config) {
         : defaultSettings.allowedBikeRentalNetworks,
     scooterNetworks:
       userSettings.scooterNetworks?.length > 0
-        ? userSettings.scooterNetworks.filter(network =>
-            allScooterNetworks.includes(network),
+        ? getNetworkIds(
+            config,
+            userSettings.scooterNetworks.filter(network =>
+              allScooterNetworks.includes(network),
+            ),
           )
-        : defaultSettings.scooterNetworks,
+        : getNetworkIds(config, defaultSettings.scooterNetworks),
   };
   const { defaultOptions } = config;
   return {
@@ -248,7 +268,6 @@ export function getPlanParams(
   },
   planType,
   relaxSettings,
-  // forceScooters = false,
 ) {
   const fromPlace = getLocation(from);
   const toPlace = getLocation(to);

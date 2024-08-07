@@ -4,6 +4,7 @@ import { configShape } from '../util/shapes';
 import Favourite from './Favourite';
 import { saveFavourite, deleteFavourite } from '../action/FavouriteActions';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
+import { getRentalNetworkIdByRental } from '../util/vehicleRentalUtils';
 
 const FavouriteVehicleRentalStationContainer = connectToStores(
   Favourite,
@@ -17,7 +18,10 @@ const FavouriteVehicleRentalStationContainer = connectToStores(
       context.executeAction(saveFavourite, {
         lat: vehicleRentalStation.lat,
         lon: vehicleRentalStation.lon,
-        network: vehicleRentalStation.rentalNetwork.networkId,
+        network: getRentalNetworkIdByRental(
+          vehicleRentalStation,
+          context.config,
+        ),
         name: vehicleRentalStation.name,
         stationId: vehicleRentalStation.stationId,
         type: 'bikeStation',
@@ -35,7 +39,7 @@ const FavouriteVehicleRentalStationContainer = connectToStores(
         .getStore('FavouriteStore')
         .getByStationIdAndNetworks(
           vehicleRentalStation.stationId,
-          vehicleRentalStation.rentalNetwork.networkId,
+          getRentalNetworkIdByRental(vehicleRentalStation, context.config),
         );
       context.executeAction(deleteFavourite, vehicleRentalStationToDelete);
       addAnalyticsEvent({

@@ -34,7 +34,10 @@ import {
 import { mapLayerShape } from '../../store/MapLayerStore';
 import Loading from '../Loading';
 import LazilyLoad, { importLazy } from '../LazilyLoad';
-import { getDefaultNetworks } from '../../util/vehicleRentalUtils';
+import {
+  getDefaultNetworks,
+  getRentalNetworkIdByRental,
+} from '../../util/vehicleRentalUtils';
 import { getRouteMode } from '../../util/modeUtils';
 import CookieSettingsButton from '../CookieSettingsButton';
 
@@ -361,11 +364,11 @@ function StopsNearYouMap(
       let sortedEdges;
       if (!isTransitMode) {
         const withNetworks = stopsNearYou.nearest.edges.filter(edge => {
-          return !!edge.node.place?.rentalNetwork?.networkId;
+          return !!getRentalNetworkIdByRental(edge.node.place, context.config);
         });
         const filteredCityBikeEdges = withNetworks.filter(pattern => {
           return getDefaultNetworks(context.config).includes(
-            pattern.node.place?.rentalNetwork.networkId,
+            getRentalNetworkIdByRental(pattern.node.place, context.config),
           );
         });
         sortedEdges = filteredCityBikeEdges

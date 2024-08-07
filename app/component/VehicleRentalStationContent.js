@@ -13,7 +13,10 @@ import VehicleRentalStation from './VehicleRentalStation';
 import ParkOrStationHeader from './ParkOrStationHeader';
 import Icon from './Icon';
 import withBreakpoint from '../util/withBreakpoint';
-import { getRentalNetworkConfig } from '../util/vehicleRentalUtils';
+import {
+  getRentalNetworkConfig,
+  getRentalNetworkIdByRental,
+} from '../util/vehicleRentalUtils';
 import { isBrowser } from '../util/browser';
 import { PREFIX_BIKESTATIONS } from '../util/path';
 import { TransportMode } from '../constants';
@@ -47,7 +50,7 @@ const VehicleRentalStationContent = (
   const isFull = vehiclesAvailable >= capacity;
 
   const networkConfig = getRentalNetworkConfig(
-    vehicleRentalStation.rentalNetwork.networkId,
+    getRentalNetworkIdByRental(vehicleRentalStation, config),
     config,
   );
   const cityBikeNetworkUrl = networkConfig?.url?.[language];

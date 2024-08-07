@@ -8,6 +8,7 @@ import Icon from './Icon';
 import withBreakpoint from '../util/withBreakpoint';
 import {
   getRentalNetworkIcon,
+  getRentalNetworkIdByRental,
   getRentalNetworkConfig,
 } from '../util/vehicleRentalUtils';
 import { isBrowser } from '../util/browser';
@@ -42,7 +43,7 @@ const RentalVehicleContent = (
     return null;
   }
   const networkConfig = getRentalNetworkConfig(
-    rentalVehicle.rentalNetwork.networkId,
+    getRentalNetworkIdByRental(rentalVehicle, config),
     config,
   );
   const vehicleIcon = getRentalNetworkIcon(
@@ -72,7 +73,7 @@ const RentalVehicleContent = (
                 <div className="header">
                   <h1>
                     {networkConfig.name[language] ||
-                      rentalVehicle.rentalNetwork.networkId}
+                      getRentalNetworkIdByRental(rentalVehicle, config)}
                   </h1>
                   <div className="scooter-sub-header">
                     <FormattedMessage id="e-scooter" />
@@ -101,7 +102,7 @@ const RentalVehicleContent = (
             <div className="header">
               <h1>
                 {networkConfig.name[language] ||
-                  rentalVehicle.rentalNetwork.networkId}
+                  getRentalNetworkIdByRental(rentalVehicle, config)}
               </h1>
               <div className="scooter-sub-header">
                 <FormattedMessage id="e-scooter" />

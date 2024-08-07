@@ -8,12 +8,13 @@ import {
   getVehicleCapacity,
   BIKEAVL_UNKNOWN,
   BIKEAVL_WITHMAX,
+  getRentalNetworkIdByRental,
 } from '../util/vehicleRentalUtils';
 
 const VehicleRentalStation = ({ vehicleRentalStation }, { config }) => {
   const vehicleCapacity = getVehicleCapacity(
     config,
-    vehicleRentalStation.rentalNetwork.networkId,
+    getRentalNetworkIdByRental(vehicleRentalStation, config),
   );
   if (vehicleCapacity === BIKEAVL_UNKNOWN) {
     return null;
@@ -32,7 +33,7 @@ const VehicleRentalStation = ({ vehicleRentalStation }, { config }) => {
   }
   const disabled = !vehicleRentalStation.operative;
   const networkConfig = getRentalNetworkConfig(
-    vehicleRentalStation.rentalNetwork.networkId,
+    getRentalNetworkIdByRental(vehicleRentalStation, config),
     config,
   );
   const vehicleIcon = getRentalNetworkIcon(networkConfig, disabled);

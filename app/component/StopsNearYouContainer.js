@@ -11,7 +11,10 @@ import { sortNearbyRentalStations, sortNearbyStops } from '../util/sortUtils';
 import CityBikeStopNearYou from './VehicleRentalStationNearYou';
 import Loading from './Loading';
 import Icon from './Icon';
-import { getDefaultNetworks } from '../util/vehicleRentalUtils';
+import {
+  getDefaultNetworks,
+  getRentalNetworkIdByRental,
+} from '../util/vehicleRentalUtils';
 
 class StopsNearYouContainer extends React.Component {
   static propTypes = {
@@ -186,11 +189,14 @@ class StopsNearYouContainer extends React.Component {
     let sortedPatterns;
     if (isCityBikeView) {
       const withNetworks = stopPatterns.filter(pattern => {
-        return !!pattern.node.place?.rentalNetwork?.networkId;
+        return !!getRentalNetworkIdByRental(
+          pattern.node.place,
+          this.context.config,
+        );
       });
       const filteredCityBikeStopPatterns = withNetworks.filter(pattern => {
         return getDefaultNetworks(this.context.config).includes(
-          pattern.node.place?.rentalNetwork?.networkId,
+          getRentalNetworkIdByRental(pattern.node.place, this.context.config),
         );
       });
       sortedPatterns = filteredCityBikeStopPatterns

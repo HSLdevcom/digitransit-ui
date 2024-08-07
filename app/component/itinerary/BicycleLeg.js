@@ -16,6 +16,7 @@ import { PREFIX_STOPS } from '../../util/path';
 import {
   getRentalNetworkConfig,
   RentalNetworkType,
+  getRentalNetworkIdByRental,
 } from '../../util/vehicleRentalUtils';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
 import { splitStringToAddressAndPlace } from '../../util/otpStrings';
@@ -53,13 +54,13 @@ export default function BicycleLeg(
   const firstLegClassName = index === 0 ? 'start' : '';
   let modeClassName = 'bicycle';
   const [address, place] = splitStringToAddressAndPlace(leg.from.name);
-  const rentalVehicleNetwork =
-    leg.from.vehicleRentalStation?.rentalNetwork.networkId ||
-    leg.from.rentalVehicle?.rentalNetwork.networkId;
+  const rentalNetworkId =
+    getRentalNetworkIdByRental(leg.from.vehicleRentalStation, config) ||
+    getRentalNetworkIdByRental(leg.from.rentalVehicle, config);
   const networkConfig =
     leg.rentedBike &&
-    rentalVehicleNetwork &&
-    getRentalNetworkConfig(rentalVehicleNetwork, config);
+    rentalNetworkId &&
+    getRentalNetworkConfig(rentalNetworkId, config);
   const isFirstLeg = i => i === 0;
   const isScooter =
     networkConfig && networkConfig.type === RentalNetworkType.Scooter;
@@ -205,15 +206,16 @@ export default function BicycleLeg(
         ?.filter(
           n =>
             n?.node?.place?.__typename === 'RentalVehicle' && // eslint-disable-line no-underscore-dangle
-            n?.node?.place?.rentalNetwork.networkId !== rentalVehicleNetwork,
+            getRentalNetworkIdByRental(n?.node?.place, config) !==
+              rentalNetworkId,
         )
         // show only one scooter from each network
         .filter(
           (n, i, self) =>
             self.findIndex(
               t =>
-                t?.node?.place?.rentalNetwork.networkId ===
-                n?.node?.place?.rentalNetwork.networkId,
+                getRentalNetworkIdByRental(t?.node?.place, config) ===
+                getRentalNetworkIdByRental(n?.node?.place, config),
             ) === i,
         );
 

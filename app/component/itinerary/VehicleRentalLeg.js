@@ -15,6 +15,7 @@ import {
   getRentalNetworkConfig,
   getRentalNetworkIcon,
   hasVehicleRentalCode,
+  getRentalNetworkIdByRental,
 } from '../../util/vehicleRentalUtils';
 
 import withBreakpoint from '../../util/withBreakpoint';
@@ -45,8 +46,8 @@ function VehicleRentalLeg(
     return null;
   }
   const network =
-    vehicleRentalStation?.rentalNetwork.networkId ||
-    rentalVehicle?.rentalNetwork.networkId;
+    getRentalNetworkIdByRental(vehicleRentalStation, config) ||
+    getRentalNetworkIdByRental(rentalVehicle, config);
   // eslint-disable-next-line no-nested-ternary
   const rentMessageId = isScooter ? 'rent-e-scooter-at' : 'rent-cycle-at';
   const returnMessageId = isScooter ? 'return-e-scooter-to' : 'return-cycle-to';
@@ -77,7 +78,10 @@ function VehicleRentalLeg(
     : null;
   const mobileReturn = breakpoint === 'small' && returnBike;
   const vehicleCapacity = vehicleRentalStation
-    ? getVehicleCapacity(config, vehicleRentalStation?.rentalNetwork.networkId)
+    ? getVehicleCapacity(
+        config,
+        getRentalNetworkIdByRental(vehicleRentalStation, config),
+      )
     : null;
   const rentalStationLink = `/${PREFIX_BIKESTATIONS}/${vehicleRentalStation?.stationId}`;
   return (
