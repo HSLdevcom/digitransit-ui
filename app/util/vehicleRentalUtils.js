@@ -47,11 +47,11 @@ export const getRentalNetworkId = networks => {
 };
 
 export const parseRentalNetworkId = (id, config) => {
-  if (!id) {
+  if (!id || !config) {
     return undefined;
   }
   const rentalNetworkId = id.split('_')[0];
-  return config.cityBike.networks[rentalNetworkId] ? rentalNetworkId : id;
+  return config.cityBike?.networks?.[rentalNetworkId] ? rentalNetworkId : id;
 };
 
 export const getRentalNetworkIdByRental = (rental, config) => {
@@ -66,7 +66,7 @@ export const getRentalNetworkIdByRental = (rental, config) => {
 };
 
 export const getRentalNetworkConfig = (networkId, config) => {
-  if (!networkId || !networkId.toLowerCase) {
+  if (!networkId || !networkId.toLowerCase || !config) {
     return defaultNetworkConfig;
   }
   const id = parseRentalNetworkId(networkId.toLowerCase(), config);
