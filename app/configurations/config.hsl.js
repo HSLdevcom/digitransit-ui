@@ -505,6 +505,7 @@ export default {
         type: 'scooter',
         showRentalVehicles: true,
         showRentalStations: false,
+        networkIds: ['bolt_helsinki'],
       },
     },
     buyUrl: {
