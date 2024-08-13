@@ -242,4 +242,6 @@ export default {
       ? fareId.substring(fareId.indexOf(':') + 1)
       : '';
   },
+
+  startSearchFromUserLocation: true,
 };

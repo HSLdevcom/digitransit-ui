@@ -9,6 +9,7 @@ import DTAutoSuggest from '@digitransit-component/digitransit-component-autosugg
 import DTAutosuggestPanel from '@digitransit-component/digitransit-component-autosuggest-panel';
 import { getModesWithAlerts } from '@digitransit-search-util/digitransit-search-util-query-utils';
 import { createUrl } from '@digitransit-store/digitransit-store-future-route';
+import inside from 'point-in-polygon';
 import { configShape, locationShape } from '../util/shapes';
 import storeOrigin from '../action/originActions';
 import storeDestination from '../action/destinationActions';
@@ -36,6 +37,10 @@ import {
   getNearYouModes,
   useCitybikes,
 } from '../util/modeUtils';
+import {
+  checkPositioningPermission,
+  startLocationWatch,
+} from '../action/PositionActions';
 
 const StopRouteSearch = withSearchContext(DTAutoSuggest);
 const LocationSearch = withSearchContext(DTAutosuggestPanel);
@@ -105,6 +110,18 @@ class IndexPage extends React.Component {
       this.context.executeAction(storeDestination, destination);
     }
 
+    if (this.context.config.startSearchFromUserLocation) {
+      checkPositioningPermission().then(permission => {
+        if (
+          permission.state === 'granted' &&
+          this.props.locationState.hasLocation === false &&
+          !this.props.locationState.isLocationingInProgress &&
+          this.props.locationState.status === 'no-location'
+        ) {
+          this.context.executeAction(startLocationWatch);
+        }
+      });
+    }
     scrollTop();
   }
 
@@ -269,7 +286,12 @@ class IndexPage extends React.Component {
     const hoverColor = colors.hover || LightenDarkenColor(colors.primary, -20);
     const accessiblePrimaryColor = colors.accessiblePrimary || colors.primary;
     const { breakpoint, lang } = this.props;
-    const origin = this.pendingOrigin || this.props.origin;
+    const currentLocation =
+      config.startSearchFromUserLocation &&
+      !this.props.origin.address &&
+      this.props.locationState?.hasLocation &&
+      this.props.locationState;
+    const origin = this.pendingOrigin || currentLocation || this.props.origin;
     const destination = this.pendingDestination || this.props.destination;
     const sources = ['Favourite', 'History', 'Datasource'];
     const stopAndRouteSearchTargets = ['Stops', 'Routes'];
@@ -279,6 +301,17 @@ class IndexPage extends React.Component {
       'FutureRoutes',
       'Stops',
     ];
+
+    if (
+      config.startSearchFromUserLocation &&
+      currentLocation &&
+      config.areaPolygon
+    ) {
+      const originPoint = [currentLocation.lon, currentLocation.lat];
+      if (inside(originPoint, config.areaPolygon)) {
+        this.context.executeAction(storeOrigin, currentLocation);
+      }
+    }
 
     if (useCitybikes(config.cityBike?.networks, config)) {
       stopAndRouteSearchTargets.push('VehicleRentalStations');
