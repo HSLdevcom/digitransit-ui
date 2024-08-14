@@ -39,7 +39,7 @@ export default function intializeSearchContext(context, searchContext) {
   // FeedId's like  [HSL, HSLLautta]
   searchContext.feedIDs = config.feedIds;
   searchContext.cityBikeNetworks = useCitybikes(
-    config.cityBike.networks,
+    config.vehicleRental.networks,
     config,
   )
     ? getDefaultNetworks(config).map(t => `citybikes${t}`)

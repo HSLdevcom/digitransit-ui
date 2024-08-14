@@ -51,7 +51,7 @@ class VehicleRentalStations {
 
   fetchAndDraw = lang => {
     const zoomedIn =
-      this.tile.coords.z > this.config.cityBike.cityBikeSmallIconZoom;
+      this.tile.coords.z > this.config.vehicleRental.cityBikeSmallIconZoom;
     const baseUrl = zoomedIn
       ? getLayerBaseUrl(this.config.URL.REALTIME_RENTAL_STATION_MAP, lang)
       : getLayerBaseUrl(this.config.URL.RENTAL_STATION_MAP, lang);
@@ -81,8 +81,10 @@ class VehicleRentalStations {
                 // Must filter out stations that are not shown as there can be a large amount
                 // of invisible rental stations, which are often accidentally clicked
                 const networkConfig =
-                  this.config.cityBike.networks[feature.properties.network] ||
-                  this.config.cityBike.networks[
+                  this.config.vehicleRental.networks[
+                    feature.properties.network
+                  ] ||
+                  this.config.vehicleRental.networks[
                     feature.properties.network.split('_')[0]
                   ];
 

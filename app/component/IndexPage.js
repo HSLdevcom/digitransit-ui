@@ -280,7 +280,7 @@ class IndexPage extends React.Component {
       'Stops',
     ];
 
-    if (useCitybikes(config.cityBike?.networks, config)) {
+    if (useCitybikes(config.vehicleRental?.networks, config)) {
       stopAndRouteSearchTargets.push('VehicleRentalStations');
       locationSearchTargets.push('VehicleRentalStations');
     }

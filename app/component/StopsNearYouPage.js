@@ -454,18 +454,18 @@ class StopsNearYouPage extends React.Component {
             variables={this.getQueryVariables(nearByStopMode)}
             environment={this.props.relayEnvironment}
             render={({ props }) => {
-              const { cityBike } = this.context.config;
+              const { vehicleRental } = this.context.config;
               // Use buy instructions if available
-              const cityBikeBuyUrl = cityBike.buyUrl;
+              const cityBikeBuyUrl = vehicleRental.buyUrl;
               const buyInstructions = cityBikeBuyUrl
-                ? cityBike.buyInstructions?.[this.props.lang]
+                ? vehicleRental.buyInstructions?.[this.props.lang]
                 : undefined;
 
               let cityBikeNetworkUrl;
               // Use general information about using city bike, if one network config is available
-              if (Object.keys(cityBike.networks).length === 1) {
+              if (Object.keys(vehicleRental.networks).length === 1) {
                 cityBikeNetworkUrl = getRentalNetworkConfig(
-                  getRentalNetworkId(Object.keys(cityBike.networks)),
+                  getRentalNetworkId(Object.keys(vehicleRental.networks)),
                   this.context.config,
                 ).url;
               }
@@ -819,7 +819,10 @@ class StopsNearYouPage extends React.Component {
     };
     const targets = ['Locations', 'Stops'];
     if (
-      useCitybikes(this.context.config.cityBike?.networks, this.context.config)
+      useCitybikes(
+        this.context.config.vehicleRental?.networks,
+        this.context.config,
+      )
     ) {
       targets.push('VehicleRentalStations');
     }
@@ -974,7 +977,7 @@ const PositioningWrapper = connectToStores(
       .filter(stop => stop.type === 'station')
       .map(stop => stop.gtfsId);
     let favouriteVehicleStationIds = [];
-    if (useCitybikes(context.config.cityBike?.networks, context.config)) {
+    if (useCitybikes(context.config.vehicleRental?.networks, context.config)) {
       favouriteVehicleStationIds = context
         .getStore('FavouriteStore')
         .getVehicleRentalStations()

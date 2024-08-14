@@ -32,24 +32,24 @@ describe('vehiclerental', () => {
       expect(getRentalNetworkConfig('Smoove', {})).to.equal(
         defaultNetworkConfig,
       );
-      expect(getRentalNetworkConfig('Smoove', { cityBike: {} })).to.equal(
+      expect(getRentalNetworkConfig('Smoove', { vehicleRental: {} })).to.equal(
         defaultNetworkConfig,
       );
       expect(
         getRentalNetworkConfig('Smoove', {
-          cityBike: { networks: {} },
+          vehicleRental: { networks: {} },
         }),
       ).to.equal(defaultNetworkConfig);
       expect(
         getRentalNetworkConfig('Smoove', {
-          cityBike: { networks: { smoove: {} } },
+          vehicleRental: { networks: { smoove: {} } },
         }),
       ).to.equal(defaultNetworkConfig);
     });
 
     it('should return the configuration by the given network id', () => {
       const config = {
-        cityBike: {
+        vehicleRental: {
           networks: {
             foobar: {
               icon: 'citybike',
@@ -59,13 +59,13 @@ describe('vehiclerental', () => {
         },
       };
       expect(getRentalNetworkConfig('foobar', config)).to.equal(
-        config.cityBike.networks.foobar,
+        config.vehicleRental.networks.foobar,
       );
     });
 
     it('should convert networkId to lowercase', () => {
       const config = {
-        cityBike: {
+        vehicleRental: {
           networks: {
             foobar: {
               icon: 'citybike',
@@ -75,7 +75,7 @@ describe('vehiclerental', () => {
         },
       };
       expect(getRentalNetworkConfig('Foobar', config)).to.equal(
-        config.cityBike.networks.foobar,
+        config.vehicleRental.networks.foobar,
       );
     });
   });

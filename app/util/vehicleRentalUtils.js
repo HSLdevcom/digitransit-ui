@@ -51,7 +51,9 @@ export const parseRentalNetworkId = (id, config) => {
     return undefined;
   }
   const rentalNetworkId = id.split('_')[0];
-  return config.cityBike?.networks?.[rentalNetworkId] ? rentalNetworkId : id;
+  return config.vehicleRental?.networks?.[rentalNetworkId]
+    ? rentalNetworkId
+    : id;
 };
 
 export const getRentalNetworkIdByRental = (rental, config) => {
@@ -71,17 +73,17 @@ export const getRentalNetworkConfig = (networkId, config) => {
   }
   const id = parseRentalNetworkId(networkId.toLowerCase(), config);
   if (
-    config.cityBike?.networks?.[id] &&
-    Object.keys(config.cityBike.networks[id]).length > 0
+    config.vehicleRental?.networks?.[id] &&
+    Object.keys(config.vehicleRental.networks[id]).length > 0
   ) {
-    return config.cityBike.networks[id];
+    return config.vehicleRental.networks[id];
   }
   return defaultNetworkConfig;
 };
 
 export const getDefaultNetworks = config => {
   const mappedNetworks = [];
-  Object.entries(config.cityBike.networks).forEach(n => {
+  Object.entries(config.vehicleRental.networks).forEach(n => {
     if (
       networkIsActive(n[1]) &&
       n[1]?.type !== RentalNetworkType.Scooter // scooter networks are never on by default
@@ -94,7 +96,7 @@ export const getDefaultNetworks = config => {
 
 export const getAllNetworksOfType = (config, type) => {
   const mappedNetworks = [];
-  Object.entries(config.cityBike.networks).forEach(n => {
+  Object.entries(config.vehicleRental.networks).forEach(n => {
     if (n[1].type.toLowerCase() === type.toLowerCase()) {
       mappedNetworks.push(n[0]);
     }
@@ -104,11 +106,11 @@ export const getAllNetworksOfType = (config, type) => {
 
 export const mapDefaultNetworkProperties = config => {
   const mappedNetworks = [];
-  Object.keys(config.cityBike.networks).forEach(key => {
-    if (networkIsActive(config.cityBike.networks[key])) {
+  Object.keys(config.vehicleRental.networks).forEach(key => {
+    if (networkIsActive(config.vehicleRental.networks[key])) {
       mappedNetworks.push({
         networkName: key,
-        ...config.cityBike.networks[key],
+        ...config.vehicleRental.networks[key],
       });
     }
   });
@@ -117,7 +119,8 @@ export const mapDefaultNetworkProperties = config => {
 
 export const getVehicleCapacity = (config, network = undefined) => {
   return (
-    config.cityBike?.networks[network]?.capacity || config.cityBike.capacity
+    config.vehicleRental?.networks[network]?.capacity ||
+    config.vehicleRental.capacity
   );
 };
 /**
@@ -179,10 +182,10 @@ export const updateVehicleNetworks = (currentSettings, newValue) => {
 };
 
 export const getVehicleMinZoomOnStopsNearYou = (config, override) => {
-  if (override && config.cityBike.minZoomStopsNearYou) {
-    return config.cityBike.minZoomStopsNearYou;
+  if (override && config.vehicleRental.minZoomStopsNearYou) {
+    return config.vehicleRental.minZoomStopsNearYou;
   }
-  return config.cityBike.cityBikeMinZoom;
+  return config.vehicleRental.cityBikeMinZoom;
 };
 
 /** *

@@ -41,7 +41,7 @@ export default {
 
   stopsMinZoom: 14,
 
-  cityBike: {},
+  vehicleRental: {},
 
   search: {
     minimalRegexp: /.+/,

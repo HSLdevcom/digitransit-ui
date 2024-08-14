@@ -384,7 +384,7 @@ export function getVehicleAvailabilityIndicatorColor(available, config) {
     // eslint-disable-next-line no-nested-ternary
     available === 0
       ? '#DC0451'
-      : available > config.cityBike.fewAvailableCount
+      : available > config.vehicleRental.fewAvailableCount
         ? '#3B7F00'
         : '#FCBC19'
   );
@@ -396,7 +396,7 @@ export function getVehicleAvailabilityIndicatorColor(available, config) {
  * @param {*} config the configuration for the software installation/
  */
 export function getVehicleAvailabilityTextColor(available, config) {
-  return available <= config.cityBike.fewAvailableCount && available > 0
+  return available <= config.vehicleRental.fewAvailableCount && available > 0
     ? '#333'
     : '#fff';
 }
@@ -413,7 +413,7 @@ export function getLegBadgeProps(leg, config) {
     !leg.rentedBike ||
     !leg.from ||
     !leg.from.vehicleRentalStation ||
-    config.cityBike.capacity === BIKEAVL_UNKNOWN ||
+    config.vehicleRental.capacity === BIKEAVL_UNKNOWN ||
     leg.mode === 'WALK' ||
     leg.mode === 'SCOOTER'
   ) {

@@ -83,7 +83,7 @@ export default configMerger(walttiConfig, {
   // Navbar logo
   logo: 'turku/foli-logo.png',
 
-  cityBike: {
+  vehicleRental: {
     networks: {
       donkey_turku: {
         capacity: BIKEAVL_WITHMAX,

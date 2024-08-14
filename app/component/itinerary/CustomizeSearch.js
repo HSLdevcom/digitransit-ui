@@ -136,7 +136,7 @@ class CustomizeSearch extends React.Component {
               />
             </div>
           </div>
-          {useCitybikes(config.cityBike?.networks, config) && (
+          {useCitybikes(config.vehicleRental?.networks, config) && (
             <div className="settings-section">
               <div className="settings-option-container">
                 <fieldset>
@@ -159,7 +159,7 @@ class CustomizeSearch extends React.Component {
               </div>
             </div>
           )}
-          {useScooters(config.cityBike?.networks) && (
+          {useScooters(config.vehicleRental?.networks) && (
             <div className="settings-section">
               <div className="settings-option-container">
                 <fieldset>

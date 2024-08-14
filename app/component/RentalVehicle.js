@@ -27,7 +27,7 @@ const RentalVehicle = ({ rentalVehicle }, { config }) => {
 
 RentalVehicle.contextTypes = {
   config: PropTypes.shape({
-    cityBike: { networks: PropTypes.arrayOf(PropTypes.string.isRequired) },
+    vehicleRental: { networks: PropTypes.arrayOf(PropTypes.string.isRequired) },
   }).isRequired,
 };
 RentalVehicle.propTypes = {

@@ -37,7 +37,7 @@ class RentalVehicles {
 
   fetchAndDraw = lang => {
     const zoomedIn =
-      this.tile.coords.z > this.config.cityBike.cityBikeSmallIconZoom;
+      this.tile.coords.z > this.config.vehicleRental.cityBikeSmallIconZoom;
     const baseUrl = getLayerBaseUrl(this.config.URL.RENTAL_VEHICLE_MAP, lang);
     const tileUrl = `${baseUrl}${
       this.tile.coords.z + (this.tile.props.zoomOffset || 0)

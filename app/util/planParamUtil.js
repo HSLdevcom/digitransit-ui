@@ -72,7 +72,7 @@ export function getNetworkIds(config, networks) {
     return {};
   }
   const networkIds = networks.flatMap(network => {
-    const multiNetworks = config.cityBike.networks[network]?.networkIds;
+    const multiNetworks = config.vehicleRental.networks[network]?.networkIds;
     return multiNetworks || [network];
   });
   return networkIds;

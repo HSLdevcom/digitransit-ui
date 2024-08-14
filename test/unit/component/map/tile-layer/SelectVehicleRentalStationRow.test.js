@@ -29,7 +29,7 @@ describe('<SelectVehicleRentalRow />', () => {
     const wrapper = shallowWithIntl(<SelectVehicleRentalRow {...props} />, {
       context: {
         config: {
-          cityBike: { networks: { scooter_network: { icon: 'scooter' } } },
+          vehicleRental: { networks: { scooter_network: { icon: 'scooter' } } },
         },
       },
     });

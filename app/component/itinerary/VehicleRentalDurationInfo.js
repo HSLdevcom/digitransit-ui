@@ -18,10 +18,10 @@ function VehicleRentalDurationInfo(props) {
       getRentalNetworkConfig(vehicleRentalStationNetwork, config),
     );
     const vehicleRentalStationNetworkDurationInfoLink =
-      config.cityBike.networks[vehicleRentalStationNetwork]
+      config.vehicleRental.networks[vehicleRentalStationNetwork]
         .durationInstructions[lang];
     const duration =
-      config.cityBike.networks[vehicleRentalStationNetwork]
+      config.vehicleRental.networks[vehicleRentalStationNetwork]
         .timeBeforeSurcharge / 60;
 
     return (
@@ -58,7 +58,7 @@ function VehicleRentalDurationInfo(props) {
   const durationInfoLinks = {};
   for (let i = 0; i < networks.length; i++) {
     durationInfoLinks[networks[i]] =
-      config.cityBike.networks[networks[i]].durationInstructions[lang];
+      config.vehicleRental.networks[networks[i]].durationInstructions[lang];
   }
 
   return (
@@ -79,11 +79,13 @@ function VehicleRentalDurationInfo(props) {
               <>
                 <a
                   href={
-                    config.cityBike.networks[value].durationInstructions[lang]
+                    config.vehicleRental.networks[value].durationInstructions[
+                      lang
+                    ]
                   }
                   key={value}
                 >
-                  {config.cityBike.networks[value].name[lang]}
+                  {config.vehicleRental.networks[value].name[lang]}
                   {' - '}
                   <FormattedMessage id="read-more" defaultMessage="Read more" />
                   ›

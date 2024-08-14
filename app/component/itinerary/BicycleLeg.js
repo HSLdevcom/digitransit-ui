@@ -182,9 +182,9 @@ export default function BicycleLeg(
     const planParams = {
       lat: from.lat,
       lon: from.lon,
-      maxResults: config.cityBike.maxNearbyRentalVehicleAmount,
-      first: config.cityBike.maxNearbyRentalVehicleAmount,
-      maxDistance: config.cityBike.maxDistanceToRentalVehiclesInMeters,
+      maxResults: config.vehicleRental.maxNearbyRentalVehicleAmount,
+      first: config.vehicleRental.maxNearbyRentalVehicleAmount,
+      maxDistance: config.vehicleRental.maxDistanceToRentalVehiclesInMeters,
       filterByModes: ['SCOOTER'],
       filterByPlaceTypes: ['VEHICLE_RENT'],
     };
