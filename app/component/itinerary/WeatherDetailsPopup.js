@@ -50,7 +50,7 @@ WeatherDetailsPopup.propTypes = {
   weatherData: PropTypes.shape({
     temperature: PropTypes.number,
     iconId: PropTypes.number,
-    time: PropTypes.number,
+    time: PropTypes.string,
   }).isRequired,
   onClose: PropTypes.func.isRequired,
 };
