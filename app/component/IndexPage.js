@@ -114,8 +114,6 @@ class IndexPage extends React.Component {
       checkPositioningPermission().then(permission => {
         if (
           permission.state === 'granted' &&
-          this.props.locationState.hasLocation === false &&
-          !this.props.locationState.isLocationingInProgress &&
           this.props.locationState.status === 'no-location'
         ) {
           this.context.executeAction(startLocationWatch);
@@ -144,6 +142,19 @@ class IndexPage extends React.Component {
 
     const { router, match, config } = this.context;
     const { location } = match;
+
+    const currentLocation =
+      config.startSearchFromUserLocation &&
+      !this.props.origin.address &&
+      this.props.locationState?.hasLocation &&
+      this.props.locationState;
+
+    if (config.startSearchFromUserLocation && currentLocation) {
+      const originPoint = [currentLocation.lon, currentLocation.lat];
+      if (inside(originPoint, config.areaPolygon)) {
+        this.context.executeAction(storeOrigin, currentLocation);
+      }
+    }
 
     if (definesItinerarySearch(origin, destination)) {
       const newLocation = {
@@ -286,12 +297,7 @@ class IndexPage extends React.Component {
     const hoverColor = colors.hover || LightenDarkenColor(colors.primary, -20);
     const accessiblePrimaryColor = colors.accessiblePrimary || colors.primary;
     const { breakpoint, lang } = this.props;
-    const currentLocation =
-      config.startSearchFromUserLocation &&
-      !this.props.origin.address &&
-      this.props.locationState?.hasLocation &&
-      this.props.locationState;
-    const origin = this.pendingOrigin || currentLocation || this.props.origin;
+    const origin = this.pendingOrigin || this.props.origin;
     const destination = this.pendingDestination || this.props.destination;
     const sources = ['Favourite', 'History', 'Datasource'];
     const stopAndRouteSearchTargets = ['Stops', 'Routes'];
@@ -301,17 +307,6 @@ class IndexPage extends React.Component {
       'FutureRoutes',
       'Stops',
     ];
-
-    if (
-      config.startSearchFromUserLocation &&
-      currentLocation &&
-      config.areaPolygon
-    ) {
-      const originPoint = [currentLocation.lon, currentLocation.lat];
-      if (inside(originPoint, config.areaPolygon)) {
-        this.context.executeAction(storeOrigin, currentLocation);
-      }
-    }
 
     if (useCitybikes(config.cityBike?.networks, config)) {
       stopAndRouteSearchTargets.push('VehicleRentalStations');
