@@ -19,6 +19,8 @@ export const PREFIX_TIMETABLE = 'aikataulu';
 export const stopUrl = id => id;
 export const LOCAL_STORAGE_EMITTER_PATH = '/local-storage-emitter';
 export const EMBEDDED_SEARCH_PATH = '/haku';
+export const PREFIX_RENTALVEHICLES = 'skuutit';
+export const PREFIX_RENTALVEHICLES_CLUSTER = 'skuuttiryhmat';
 
 /**
  * Join argument with slash separator.

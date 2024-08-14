@@ -9,8 +9,12 @@ import { getJson } from '../util/xhrPromise';
 import getZoneId from '../util/zoneIconUtils';
 import ZoneIcon from './ZoneIcon';
 import withBreakpoint from '../util/withBreakpoint';
-import { hasStationCode } from '../util/vehicleRentalUtils';
+import {
+  hasVehicleRentalCode,
+  getRentalNetworkConfig,
+} from '../util/vehicleRentalUtils';
 import { getIdWithoutFeed } from '../util/feedScopedIdUtils';
+import { TransportMode } from '../constants';
 
 const modules = {
   FavouriteVehicleRentalStationContainer: () =>
@@ -46,8 +50,13 @@ const ParkOrBikeStationHeader = (
     });
   }, []);
 
-  const { name, stationId } = parkOrStation;
+  const { name, stationId, network } = parkOrStation;
+  const networkConfig = getRentalNetworkConfig(network, config);
   const parkHeaderId = parkType === 'bike' ? 'bike-park' : 'car-park';
+  const noIdHeaderName =
+    networkConfig.type === TransportMode.Citybike.toLowerCase()
+      ? 'citybike-station-no-id'
+      : 'e-scooter-station';
   return (
     <div className="bike-station-header">
       {breakpoint === 'large' && (
@@ -59,10 +68,8 @@ const ParkOrBikeStationHeader = (
       <div className="header">
         <h1>{name}</h1>
         <div className="bike-station-sub-header">
-          <FormattedMessage
-            id={stationId ? 'citybike-station-no-id' : parkHeaderId}
-          />
-          {stationId && hasStationCode(parkOrStation) && (
+          <FormattedMessage id={stationId ? noIdHeaderName : parkHeaderId} />
+          {stationId && hasVehicleRentalCode(parkOrStation.stationId) && (
             <StopCode code={getIdWithoutFeed(stationId)} />
           )}
           {zoneId && (
@@ -92,6 +99,7 @@ ParkOrBikeStationHeader.propTypes = {
     stationId: PropTypes.string,
     lat: PropTypes.number.isRequired,
     lon: PropTypes.number.isRequired,
+    network: PropTypes.string.isRequired,
   }).isRequired,
   parkType: PropTypes.string,
 };

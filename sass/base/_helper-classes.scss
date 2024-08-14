@@ -24,8 +24,8 @@
   color: $speedtram-color;
 }
 
-.map .call {
-  color: $white;
+.call {
+  color: $call-agency-color;
 }
 
 .tram {
@@ -62,6 +62,10 @@
 
 .citybike-off {
   color: $citybike-color;
+}
+
+.scooter {
+  color: $scooter-color;
 }
 
 .walk {

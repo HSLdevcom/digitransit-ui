@@ -13,9 +13,10 @@ import VehicleRentalStation from './VehicleRentalStation';
 import ParkOrStationHeader from './ParkOrStationHeader';
 import Icon from './Icon';
 import withBreakpoint from '../util/withBreakpoint';
-import { getVehicleRentalStationNetworkConfig } from '../util/vehicleRentalUtils';
+import { getRentalNetworkConfig } from '../util/vehicleRentalUtils';
 import { isBrowser } from '../util/browser';
 import { PREFIX_BIKESTATIONS } from '../util/path';
+import { TransportMode } from '../constants';
 
 const VehicleRentalStationContent = (
   { vehicleRentalStation, breakpoint, language, router, error },
@@ -45,7 +46,7 @@ const VehicleRentalStationContent = (
   const vehiclesAvailable = availableVehicles.total;
   const isFull = vehiclesAvailable >= capacity;
 
-  const networkConfig = getVehicleRentalStationNetworkConfig(
+  const networkConfig = getRentalNetworkConfig(
     vehicleRentalStation.network,
     config,
   );
@@ -82,32 +83,33 @@ const VehicleRentalStationContent = (
           </a>
         </div>
       )}
-      {(cityBikeBuyUrl || cityBikeNetworkUrl) && (
-        <div className="citybike-use-disclaimer">
-          <h2 className="disclaimer-header">
-            <FormattedMessage id="citybike-start-using" />
-          </h2>
-          <div className="disclaimer-content">
-            {buyInstructions || (
-              <a className="external-link-citybike" href={cityBikeNetworkUrl}>
-                <FormattedMessage id="citybike-start-using-info" />
+      {networkConfig.type === TransportMode.Citybike.toLowerCase() &&
+        (cityBikeBuyUrl || cityBikeNetworkUrl) && (
+          <div className="citybike-use-disclaimer">
+            <h2 className="disclaimer-header">
+              <FormattedMessage id="citybike-start-using" />
+            </h2>
+            <div className="disclaimer-content">
+              {buyInstructions || (
+                <a className="external-link-citybike" href={cityBikeNetworkUrl}>
+                  <FormattedMessage id="citybike-start-using-info" />
+                </a>
+              )}
+            </div>
+            {isClient && cityBikeBuyUrl && (
+              <a
+                onClick={e => {
+                  e.stopPropagation();
+                }}
+                className="external-link"
+                href={cityBikeBuyUrl}
+              >
+                <FormattedMessage id="citybike-purchase-link" />
+                <Icon img="icon-icon_external-link-box" />
               </a>
             )}
           </div>
-          {isClient && cityBikeBuyUrl && (
-            <a
-              onClick={e => {
-                e.stopPropagation();
-              }}
-              className="external-link"
-              href={cityBikeBuyUrl}
-            >
-              <FormattedMessage id="citybike-purchase-link" />
-              <Icon img="icon-icon_external-link-box" />
-            </a>
-          )}
-        </div>
-      )}
+        )}
     </div>
   );
 };

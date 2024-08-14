@@ -62,6 +62,7 @@ export default {
       'mode-ferry-pier': '#666666',
       'mode-citybike': '#FCBC19',
       'mode-citybike-secondary': '#333333',
+      'mode-scooter': '#BABABA',
     },
   },
   feedIds: [
@@ -194,6 +195,10 @@ export default {
     citybike: {
       availableForSelection: true,
     },
+    scooter: {
+      availableForSelection: true,
+      defaultValue: false,
+    },
   },
 
   useRealtimeTravellerCapacities: true,
@@ -253,7 +258,8 @@ export default {
   parkingAreaSources: ['liipi'],
 
   parkAndRide: {
-    showParkAndRide: false,
+    showParkAndRide: true,
+    showParkAndRideForBikes: true,
     parkAndRideMinZoom: 13,
     pageContent: {
       default: HSLParkAndRideUtils,

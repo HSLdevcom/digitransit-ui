@@ -2,6 +2,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { configShape, fareShape, itineraryShape } from '../../util/shapes';
+import TransitLeg from './TransitLeg';
 import WalkLeg from './WalkLeg';
 import WaitLeg from './WaitLeg';
 import BicycleLeg from './BicycleLeg';
@@ -9,12 +10,7 @@ import EndLeg from './EndLeg';
 import AirportCheckInLeg from './AirportCheckInLeg';
 import AirportCollectLuggageLeg from './AirportCollectLuggageLeg';
 import StopCode from '../StopCode';
-import BusLeg from './BusLeg';
 import AirplaneLeg from './AirplaneLeg';
-import SubwayLeg from './SubwayLeg';
-import TramLeg from './TramLeg';
-import RailLeg from './RailLeg';
-import FerryLeg from './FerryLeg';
 import CarLeg from './CarLeg';
 import CarParkLeg from './CarParkLeg';
 import ViaLeg from './ViaLeg';
@@ -25,10 +21,10 @@ import {
   isLegOnFoot,
   legTime,
 } from '../../util/legUtils';
+import { getRouteMode } from '../../util/modeUtils';
 import { addAnalyticsEvent } from '../../util/analyticsUtils';
 import Profile from './Profile';
 import BikeParkLeg from './BikeParkLeg';
-import FunicularLeg from './FunicularLeg';
 
 const stopCode = stop => stop && stop.code && <StopCode code={stop.code} />;
 
@@ -44,6 +40,7 @@ export default class Legs extends React.Component {
     focusToLeg: PropTypes.func.isRequired,
     changeHash: PropTypes.func,
     tabIndex: PropTypes.number,
+    openSettings: PropTypes.func.isRequired,
     showBikeBoardingInformation: PropTypes.bool,
   };
 
@@ -160,13 +157,7 @@ export default class Legs extends React.Component {
         }
       }
       if (leg.mode !== 'WALK' && isCallAgencyPickupType(leg)) {
-        legs.push(
-          <CallAgencyLeg
-            index={j}
-            leg={leg}
-            focusAction={this.focus(leg.from)}
-          />,
-        );
+        legs.push(<CallAgencyLeg {...transitLegProps} />);
       } else if (leg.intermediatePlace) {
         legs.push(<ViaLeg {...legProps} arrival={startTime} />);
       } else if (bikePark) {
@@ -179,18 +170,17 @@ export default class Legs extends React.Component {
             {stopCode(leg.from.stop)}
           </WalkLeg>,
         );
-      } else if (leg.mode === 'BUS' && !leg.interlineWithPreviousLeg) {
-        legs.push(<BusLeg {...transitLegProps} />);
-      } else if (leg.mode === 'TRAM' && !leg.interlineWithPreviousLeg) {
-        legs.push(<TramLeg {...transitLegProps} />);
-      } else if (leg.mode === 'FERRY' && !leg.interlineWithPreviousLeg) {
-        legs.push(<FerryLeg {...transitLegProps} />);
-      } else if (leg.mode === 'FUNICULAR' && !leg.interlineWithPreviousLeg) {
-        legs.push(<FunicularLeg {...transitLegProps} />);
-      } else if (leg.mode === 'RAIL' && !leg.interlineWithPreviousLeg) {
-        legs.push(<RailLeg {...transitLegProps} />);
-      } else if (leg.mode === 'SUBWAY' && !leg.interlineWithPreviousLeg) {
-        legs.push(<SubwayLeg {...transitLegProps} />);
+      } else if (
+        (leg.mode === 'BUS' ||
+          leg.mode === 'TRAM' ||
+          leg.mode === 'RAIL' ||
+          leg.mode === 'SUBWAY' ||
+          leg.mode === 'FERRY' ||
+          leg.mode === 'FUNICULAR') &&
+        !leg.interlineWithPreviousLeg
+      ) {
+        const mode = getRouteMode({ mode: leg.mode, type: leg.route?.type });
+        legs.push(<TransitLeg mode={mode} {...transitLegProps} />);
       } else if (leg.mode === 'AIRPLANE') {
         legs.push(
           <AirportCheckInLeg
@@ -208,7 +198,11 @@ export default class Legs extends React.Component {
             focusAction={this.focus(leg.to)}
           />,
         );
-      } else if (leg.rentedBike || leg.mode === 'BICYCLE') {
+      } else if (
+        leg.rentedBike ||
+        leg.mode === 'BICYCLE' ||
+        leg.mode === 'SCOOTER'
+      ) {
         let bicycleWalkLeg;
         if (nextLeg?.mode === 'BICYCLE_WALK' && !bikeParked) {
           bicycleWalkLeg = nextLeg;
@@ -250,7 +244,13 @@ export default class Legs extends React.Component {
             mode: 'BICYCLE_WALK',
           };
         }
-        legs.push(<BicycleLeg {...legProps} bicycleWalkLeg={bicycleWalkLeg} />);
+        legs.push(
+          <BicycleLeg
+            {...legProps}
+            bicycleWalkLeg={bicycleWalkLeg}
+            openSettings={this.props.openSettings}
+          />,
+        );
       } else if (leg.mode === 'CAR') {
         legs.push(<CarLeg {...legProps}>{stopCode(leg.from.stop)}</CarLeg>);
       }

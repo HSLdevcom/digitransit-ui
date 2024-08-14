@@ -1,4 +1,5 @@
 import { uniqBy } from 'lodash';
+import { getSettings } from './planParamUtil';
 
 export const getFaresFromLegs = (legs, config) => {
   if (
@@ -80,6 +81,18 @@ export const getAlternativeFares = (zones, currentFares, allFares) => {
 };
 
 /**
+ * Compare user settings with settings for feature testing.
+ * @param {*} config
+ * @returns
+ */
+export const shouldAllowTesting = config => {
+  const settings = getSettings(config);
+  return Object.keys(config.settingsForFeatureTesting).every(
+    key => config.settingsForFeatureTesting[key] === settings[key],
+  );
+};
+
+/**
  * This function resolves if fare info should be shown.
  * Fare information is shown if showTicketInformation is true in config
  * and availableTickets includes tickets for some feedId from config.
@@ -87,6 +100,7 @@ export const getAlternativeFares = (zones, currentFares, allFares) => {
  * @param {*} config configuration.
  */
 export const shouldShowFareInfo = config =>
+  (!config.showTicketLinkOnlyWhenTesting || shouldAllowTesting(config)) &&
   config.showTicketInformation &&
   config.availableTickets &&
   Array.isArray(config.feedIds) &&

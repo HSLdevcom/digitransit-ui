@@ -29,8 +29,8 @@ import withBreakpoint from '../../util/withBreakpoint';
 import { isKeyboardSelectionEvent } from '../../util/browser';
 import {
   BIKEAVL_UNKNOWN,
-  getVehicleRentalStationNetworkIcon,
-  getVehicleRentalStationNetworkConfig,
+  getRentalNetworkIcon,
+  getRentalNetworkConfig,
   getVehicleCapacity,
 } from '../../util/vehicleRentalUtils';
 import { getRouteMode } from '../../util/modeUtils';
@@ -173,12 +173,11 @@ export const ModeLeg = (
   ) {
     networkIcon =
       leg.from.vehicleRentalStation &&
-      getVehicleRentalStationNetworkIcon(
-        getVehicleRentalStationNetworkConfig(
-          leg.from.vehicleRentalStation.network,
-          config,
-        ),
+      getRentalNetworkIcon(
+        getRentalNetworkConfig(leg.from.vehicleRentalStation.network, config),
       );
+  } else if (mode === 'SCOOTER') {
+    networkIcon = 'icon-icon_scooter_rider';
   }
   const routeNumber = (
     <RouteNumber
@@ -441,8 +440,8 @@ const Itinerary = (
         showRentalBikeDurationWarning =
           showRentalBikeDurationWarning || rentDurationOverSurchargeLimit;
         if (!citybikeicon) {
-          citybikeicon = getVehicleRentalStationNetworkIcon(
-            getVehicleRentalStationNetworkConfig(bikeNetwork, config),
+          citybikeicon = getRentalNetworkIcon(
+            getRentalNetworkConfig(bikeNetwork, config),
           );
         }
       }
@@ -454,6 +453,20 @@ const Itinerary = (
           leg={leg}
           duration={bikingTime}
           mode="CITYBIKE"
+          legLength={legLength}
+          large={breakpoint === 'large'}
+        />,
+      );
+    } else if (leg.mode === 'SCOOTER' && leg.rentedBike) {
+      const scooterDuration = Math.floor(leg.duration / 60);
+      legs.push(
+        <ModeLeg
+          key={`${leg.mode}_${leg.start.scheduledTime}`}
+          isTransitLeg={false}
+          renderModeIcons={renderModeIcons}
+          leg={leg}
+          duration={scooterDuration}
+          mode="SCOOTER"
           legLength={legLength}
           large={breakpoint === 'large'}
         />,

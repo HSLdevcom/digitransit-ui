@@ -14,7 +14,7 @@ const HSLParkAndRideUtils = require('../util/ParkAndRideUtils').default.HSL;
 const rootLink = process.env.ROOTLINK || 'https://test.hslfi.hsldev.com';
 const BANNER_URL =
   process.env.BANNER_URL ||
-  'https://test-api.hslfi.hsldev.com/api/v1/banners?site=JourneyPlanner';
+  'https://cms-test.hslfi.hsldev.com/api/v1/banners?site=JourneyPlanner';
 // 'https://content.hsl.fi/api/v1/banners?site=JourneyPlanner';
 const localStorageEmitter =
   process.env.USE_EMITTER && rootLink + '/local-storage-emitter';
@@ -33,6 +33,12 @@ export default {
     },
     REALTIME_RENTAL_STATION_MAP: {
       default: `${POI_MAP_PREFIX}/fi/realtimeRentalStations/`,
+    },
+    RENTAL_VEHICLE_MAP: {
+      default: `${POI_MAP_PREFIX}/fi/rentalVehicles/`,
+    },
+    REALTIME_RENTAL_VEHICLE_MAP: {
+      default: `${POI_MAP_PREFIX}/fi/realtimeRentalVehicles/`,
     },
     PARK_AND_RIDE_MAP: {
       default: `${POI_MAP_PREFIX}/en/vehicleParking/`,
@@ -188,6 +194,11 @@ export default {
   transportModes: {
     citybike: {
       availableForSelection: true,
+    },
+    scooter: {
+      availableForSelection: true,
+      defaultValue: false,
+      showIfSelectedForRouting: true,
     },
     airplane: {
       availableForSelection: false,
@@ -450,6 +461,7 @@ export default {
           en: 'https://www.hsl.fi/en/citybikes/helsinki/instructions#ride',
         },
         timeBeforeSurcharge: 60 * 60,
+        showRentalStations: true,
       },
       vantaa: {
         enabled: true,
@@ -477,6 +489,22 @@ export default {
           en: 'https://www.hsl.fi/en/citybikes/vantaa/instructions#ride',
         },
         timeBeforeSurcharge: 120 * 60,
+        showRentalStations: true,
+      },
+      bolt: {
+        enabled: true,
+        season: {
+          alwaysOn: true,
+        },
+        icon: 'scooter',
+        name: {
+          fi: 'Bolt',
+          sv: 'Bolt',
+          en: 'Bolt',
+        },
+        type: 'scooter',
+        showRentalVehicles: true,
+        showRentalStations: false,
       },
     },
     buyUrl: {

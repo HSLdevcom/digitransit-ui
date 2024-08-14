@@ -38,8 +38,9 @@ import StopsNearYouMapContainer from './StopsNearYouMapContainer';
 import StopsNearYouFavoritesMapContainer from './StopsNearYouFavoritesMapContainer';
 import { mapLayerShape } from '../store/MapLayerStore';
 import {
-  getVehicleRentalStationNetworkConfig,
-  getVehicleRentalStationNetworkId,
+  getRentalNetworkConfig,
+  getRentalNetworkId,
+  getDefaultNetworks,
 } from '../util/vehicleRentalUtils';
 import { getMapLayerOptions } from '../util/mapLayerUtils';
 import {
@@ -213,9 +214,11 @@ class StopsNearYouPage extends React.Component {
     const { searchPosition } = this.state;
     let placeTypes = ['STOP', 'STATION'];
     let modes = [mode];
+    let allowedNetworks = [];
     if (mode === 'CITYBIKE') {
-      placeTypes = 'BICYCLE_RENT';
+      placeTypes = 'VEHICLE_RENT';
       modes = ['BICYCLE'];
+      allowedNetworks = getDefaultNetworks(this.context.config);
     }
     const prioritizedStops =
       this.context.config.prioritizedStopsNearYou[mode.toLowerCase()] || [];
@@ -231,6 +234,7 @@ class StopsNearYouPage extends React.Component {
       omitNonPickups: this.context.config.omitNonPickups,
       feedIds: this.context.config.feedIds,
       prioritizedStopIds: prioritizedStops,
+      filterByNetwork: allowedNetworks,
     };
   };
 
@@ -426,6 +430,7 @@ class StopsNearYouPage extends React.Component {
                 $maxDistance: Int!
                 $omitNonPickups: Boolean!
                 $feedIds: [String!]
+                $filterByNetwork: [String!]
               ) {
                 stopPatterns: viewer {
                   ...StopsNearYouContainer_stopPatterns
@@ -438,6 +443,7 @@ class StopsNearYouPage extends React.Component {
                       maxResults: $maxResults
                       maxDistance: $maxDistance
                       omitNonPickups: $omitNonPickups
+                      filterByNetwork: $filterByNetwork
                     )
                 }
                 alerts: alerts(feeds: $feedIds, severityLevel: [SEVERE]) {
@@ -458,10 +464,8 @@ class StopsNearYouPage extends React.Component {
               let cityBikeNetworkUrl;
               // Use general information about using city bike, if one network config is available
               if (Object.keys(cityBike.networks).length === 1) {
-                cityBikeNetworkUrl = getVehicleRentalStationNetworkConfig(
-                  getVehicleRentalStationNetworkId(
-                    Object.keys(cityBike.networks),
-                  ),
+                cityBikeNetworkUrl = getRentalNetworkConfig(
+                  getRentalNetworkId(Object.keys(cityBike.networks)),
                   this.context.config,
                 ).url;
               }
@@ -719,6 +723,7 @@ class StopsNearYouPage extends React.Component {
             $maxDistance: Int!
             $omitNonPickups: Boolean!
             $prioritizedStopIds: [String!]!
+            $filterByNetwork: [String!]
           ) {
             stops: viewer {
               ...StopsNearYouMapContainer_stopsNearYou
@@ -731,6 +736,7 @@ class StopsNearYouPage extends React.Component {
                   maxResults: $maxResults
                   maxDistance: $maxDistance
                   omitNonPickups: $omitNonPickups
+                  filterByNetwork: $filterByNetwork
                 )
             }
             prioritizedStops: stops(ids: $prioritizedStopIds) {
@@ -981,7 +987,7 @@ const PositioningWrapper = connectToStores(
       lang: context.getStore('PreferencesStore').getLanguage(),
       mapLayers: context
         .getStore('MapLayerStore')
-        .getMapLayers({ notThese: ['vehicles'] }),
+        .getMapLayers({ notThese: ['vehicles', 'scooter'] }),
       favouriteStopIds,
       favouriteVehicleStationIds,
       favouriteStationIds,

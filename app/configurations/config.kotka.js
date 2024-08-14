@@ -41,6 +41,10 @@ export default configMerger(walttiConfig, {
     citybike: {
       availableForSelection: true,
     },
+    ferry: {
+      availableForSelection: true,
+      defaultValue: true,
+    },
   },
 
   cityBike: {
@@ -92,7 +96,7 @@ export default configMerger(walttiConfig, {
   // Navbar logo
   logo: 'kotka/kotka.png',
 
-  feedIds: ['Kotka'],
+  feedIds: ['Kotka', 'KotkaLautat'],
   feedIdFiltering: true,
 
   searchParams: {

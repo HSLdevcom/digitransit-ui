@@ -5,27 +5,28 @@ import { FormattedMessage } from 'react-intl';
 import { configShape } from '../../../util/shapes';
 import Icon from '../../Icon';
 import {
-  getVehicleRentalStationNetworkConfig,
-  getVehicleRentalStationNetworkIcon,
-  hasStationCode,
+  getRentalNetworkConfig,
+  getRentalNetworkIcon,
+  hasVehicleRentalCode,
 } from '../../../util/vehicleRentalUtils';
-import { PREFIX_BIKESTATIONS } from '../../../util/path';
 import { getIdWithoutFeed } from '../../../util/feedScopedIdUtils';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
-function SelectVehicleRentalStationRow(
-  { name, network, id, desc },
+function SelectVehicleRentalRow(
+  { name, network, id, desc, prefix, icon },
   { config },
 ) {
-  const img = `${getVehicleRentalStationNetworkIcon(
-    getVehicleRentalStationNetworkConfig(network, config),
-  )}-stop-lollipop`;
+  const img =
+    icon ||
+    `${getRentalNetworkIcon(
+      getRentalNetworkConfig(network, config),
+    )}-stop-lollipop`;
+
+  const linkAddress = `/${prefix}/${encodeURIComponent(id)}`;
+
   const address = desc || <FormattedMessage id="citybike-station-no-id" />;
   return (
-    <Link
-      className="stop-popup-choose-row"
-      to={`/${PREFIX_BIKESTATIONS}/${encodeURIComponent(id)}`}
-    >
+    <Link className="stop-popup-choose-row" to={linkAddress}>
       <span className="choose-row-left-column" aria-hidden="true">
         <Icon img={img} />
       </span>
@@ -33,7 +34,7 @@ function SelectVehicleRentalStationRow(
         <h5 className="choose-row-header">{name}</h5>
         <span className="choose-row-text">
           <span className="choose-row-address">{address}</span>
-          {hasStationCode({ stationId: id }) && (
+          {hasVehicleRentalCode(id) && (
             <span className="choose-row-number">{getIdWithoutFeed(id)}</span>
           )}
         </span>
@@ -45,21 +46,25 @@ function SelectVehicleRentalStationRow(
   );
 }
 
-SelectVehicleRentalStationRow.displayName = 'SelectVehicleRentalStationRow';
+SelectVehicleRentalRow.displayName = 'SelectVehicleRentalRow';
 
-SelectVehicleRentalStationRow.propTypes = {
-  name: PropTypes.string.isRequired,
+SelectVehicleRentalRow.propTypes = {
+  name: PropTypes.string,
   network: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
   desc: PropTypes.string,
+  prefix: PropTypes.string.isRequired,
+  icon: PropTypes.string,
 };
 
-SelectVehicleRentalStationRow.defaultProps = {
+SelectVehicleRentalRow.defaultProps = {
   desc: undefined,
+  name: undefined,
+  icon: undefined,
 };
 
-SelectVehicleRentalStationRow.contextTypes = {
+SelectVehicleRentalRow.contextTypes = {
   config: configShape.isRequired,
 };
 
-export default SelectVehicleRentalStationRow;
+export default SelectVehicleRentalRow;

@@ -36,11 +36,14 @@ $cancelation-red: #dc0451;
 $cancelation-black: #666;
 $cancelation-background: #fbe0ea;
 $disruption-color: $cancelation-red;
+$banner-disruption-color: $disruption-color;
 $realtime-color: #46850e;
 $visited-link-color: #8c4799;
 $current-location-color: $primary-color;
 $desktop-title-color: $primary-color;
 $desktop-title-arrow-icon-color: $secondary-color;
+$infobox-color-generic-blue: #e5f2fa;
+$info-icon-blue: #0074be;
 
 /* Component palette */
 $title-color: $white;
@@ -76,6 +79,8 @@ $walk-color: #666;
 $wait-color: #979797;
 $bicycle-color: #666;
 $car-color: #333;
+$scooter-color: #bababa;
+$call-agency-color: #666;
 
 /* Fonts */
 $font-family: 'Roboto', arial, georgia, serif;

@@ -13,8 +13,8 @@ import ServiceAlertIcon from '../ServiceAlertIcon';
 import { getActiveAlertSeverityLevel } from '../../util/alertUtils';
 import { PREFIX_STOPS } from '../../util/path';
 import {
-  CityBikeNetworkType,
-  getVehicleRentalStationNetworkConfig,
+  RentalNetworkType,
+  getRentalNetworkConfig,
 } from '../../util/vehicleRentalUtils';
 import { displayDistance } from '../../util/geo-utils';
 import { durationToString } from '../../util/timeUtils';
@@ -41,20 +41,20 @@ function WalkLeg(
   const fromMode = (leg[toOrFrom].stop && leg[toOrFrom].stop.vehicleMode) || '';
   const isFirstLeg = i => i === 0;
   const [address, place] = splitStringToAddressAndPlace(leg[toOrFrom].name);
+  const network =
+    previousLeg?.[toOrFrom]?.vehicleRentalStation?.network ||
+    previousLeg?.[toOrFrom]?.rentalVehicle?.network;
 
-  const networkType = getVehicleRentalStationNetworkConfig(
-    previousLeg &&
-      previousLeg.rentedBike &&
-      previousLeg[toOrFrom].vehicleRentalStation &&
-      previousLeg[toOrFrom].vehicleRentalStation.network,
+  const networkType = getRentalNetworkConfig(
+    previousLeg?.rentedBike && network,
     config,
   ).type;
-
+  const isScooter = networkType === RentalNetworkType.Scooter;
   const returnNotice =
-    previousLeg && previousLeg.rentedBike ? (
+    previousLeg && previousLeg.rentedBike && !isScooter ? (
       <FormattedMessage
         id={
-          networkType === CityBikeNetworkType.Scooter
+          networkType === RentalNetworkType.Scooter
             ? 'return-scooter-to'
             : 'return-cycle-to'
         }
@@ -63,7 +63,7 @@ function WalkLeg(
       />
     ) : null;
   let appendClass;
-  const isScooter = networkType === CityBikeNetworkType.Scooter;
+
   if (returnNotice) {
     appendClass = 'return-citybike';
   }
@@ -170,6 +170,7 @@ function WalkLeg(
                       stationName={leg[toOrFrom].name}
                       vehicleRentalStation={leg[toOrFrom].vehicleRentalStation}
                       returnBike
+                      rentalVehicle={leg.from.rentalVehicle}
                     />
                   ) : (
                     leg[toOrFrom].name
@@ -190,18 +191,20 @@ function WalkLeg(
                   />
                 </div>
               )}
-              <div className="stop-code-container">
-                {children}
-                {leg[toOrFrom].stop && (
-                  <PlatformNumber
-                    number={leg[toOrFrom].stop.platformCode}
-                    short
-                    isRailOrSubway={
-                      fromMode === 'RAIL' || fromMode === 'SUBWAY'
-                    }
-                  />
-                )}
-              </div>
+              {networkType !== RentalNetworkType.Scooter && (
+                <div className="stop-code-container">
+                  {children}
+                  {leg[toOrFrom].stop && (
+                    <PlatformNumber
+                      number={leg[toOrFrom].stop.platformCode}
+                      short
+                      isRailOrSubway={
+                        fromMode === 'RAIL' || fromMode === 'SUBWAY'
+                      }
+                    />
+                  )}
+                </div>
+              )}
             </div>
             {!returnNotice && (
               <ItineraryMapAction

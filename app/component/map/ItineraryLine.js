@@ -9,7 +9,6 @@ import { configShape, legShape } from '../../util/shapes';
 import { getRouteMode } from '../../util/modeUtils';
 import StopMarker from './non-tile-layer/StopMarker';
 import Line from './Line';
-import Icon from '../Icon';
 import VehicleMarker from './non-tile-layer/VehicleMarker';
 import { getMiddleOf } from '../../util/geo-utils';
 import { isBrowser } from '../../util/browser';
@@ -18,7 +17,6 @@ import {
   getLegText,
   getInterliningLegs,
 } from '../../util/legUtils';
-import IconMarker from './IconMarker';
 import SpeechBubble from './SpeechBubble';
 import { durationToString } from '../../util/timeUtils';
 import TransitLegMarkers from './non-tile-layer/TransitLegMarkers';
@@ -80,16 +78,23 @@ class ItineraryLine extends React.Component {
 
       const interliningWithRoute = interliningLines.join(' / ');
 
-      if (leg.rentedBike && leg.mode !== 'WALK') {
+      if (leg.rentedBike && leg.mode !== 'WALK' && leg.mode !== 'SCOOTER') {
         mode = 'CITYBIKE';
       }
 
-      const modePlusClass =
-        mode.toLowerCase() + (this.props.passive ? ' passive' : '');
-
+      const modePlusClass = isCallAgencyPickupType(leg)
+        ? 'call'
+        : mode.toLowerCase() + (this.props.passive ? ' passive' : '');
       const geometry = polyUtil.decode(leg.legGeometry.points);
       let middle = getMiddleOf(geometry);
       let { to, end } = leg;
+
+      const rentalId =
+        leg.from.vehicleRentalStation?.stationId ||
+        leg.from.rentalVehicle?.vehicleId;
+      const rentalNetwork =
+        leg.from.vehicleRentalStation?.network ||
+        leg.from.rentalVehicle?.network;
 
       if (interliningLegs.length > 0) {
         // merge the geometries of legs where user can wait in the vehicle and find the middle point
@@ -151,9 +156,17 @@ class ItineraryLine extends React.Component {
         if (leg.from.vertexType === 'BIKESHARE') {
           objs.push(
             <VehicleMarker
-              key={leg.from.vehicleRentalStation.stationId}
+              key={`${leg.from.lat}:${leg.from.lon}`}
               showBikeAvailability={leg.mode === 'BICYCLE'}
-              station={leg.from.vehicleRentalStation}
+              rental={{
+                id: rentalId,
+                lat: leg.from.lat,
+                lon: leg.from.lon,
+                network: rentalNetwork,
+                vehiclesAvailable:
+                  leg.from.vehicleRentalStation?.vehiclesAvailable,
+              }}
+              mode={leg.mode}
               transit
             />,
           );
@@ -163,68 +176,50 @@ class ItineraryLine extends React.Component {
             this.context.config,
             interliningWithRoute,
           );
-          if (isCallAgencyPickupType(leg)) {
-            objs.push(
-              <IconMarker
-                key="call"
-                position={{
-                  lat: middle.lat,
-                  lon: middle.lon,
-                }}
-                className="call"
-                icon={{
-                  element: <Icon img="icon-icon_call" viewBox="0 0 51 51" />,
-                  iconAnchor: [9, 9],
-                  iconSize: [18, 18],
-                  className: 'call',
-                }}
-              />,
-            );
-          } else {
-            if (!leg?.interlineWithPreviousLeg) {
-              transitLegs.push({
-                ...leg,
-                to,
-                end,
-                nextLeg,
-                index: i,
-                mode: mode.toLowerCase(),
-                legName: name,
-                zIndexOffset: 300,
-                interliningWithRoute,
-              });
-            }
-            objs.push(
-              <StopMarker
-                key={`${i},${leg.mode}marker,from`}
-                disableModeIcons
-                stop={{
-                  ...leg.from,
-                  gtfsId: leg.from.stop.gtfsId,
-                  code: leg.from.stop.code,
-                  platformCode: leg.from.stop.platformCode,
-                  transfer: true,
-                }}
-                mode={mode.toLowerCase()}
-                renderText={leg.transitLeg && this.props.showTransferLabels}
-              />,
-            );
-            objs.push(
-              <StopMarker
-                key={`${i},${leg.mode}marker,to`}
-                disableModeIcons
-                stop={{
-                  ...leg.to,
-                  gtfsId: leg.to.stop.gtfsId,
-                  code: leg.to.stop.code,
-                  platformCode: leg.to.stop.platformCode,
-                  transfer: true,
-                }}
-                mode={mode.toLowerCase()}
-                renderText={leg.transitLeg && this.props.showTransferLabels}
-              />,
-            );
+
+          if (!leg?.interlineWithPreviousLeg) {
+            transitLegs.push({
+              ...leg,
+              to,
+              end,
+              nextLeg,
+              index: i,
+              mode: isCallAgencyPickupType(leg) ? 'call' : mode.toLowerCase(),
+              legName: name,
+              zIndexOffset: 300,
+              interliningWithRoute,
+            });
           }
+          objs.push(
+            <StopMarker
+              key={`${i},${leg.mode}marker,from`}
+              disableModeIcons
+              stop={{
+                ...leg.from,
+                gtfsId: leg.from.stop.gtfsId,
+                code: leg.from.stop.code,
+                platformCode: leg.from.stop.platformCode,
+                transfer: true,
+              }}
+              mode={isCallAgencyPickupType(leg) ? 'call' : mode.toLowerCase()}
+              renderText={leg.transitLeg && this.props.showTransferLabels}
+            />,
+          );
+          objs.push(
+            <StopMarker
+              key={`${i},${leg.mode}marker,to`}
+              disableModeIcons
+              stop={{
+                ...leg.to,
+                gtfsId: leg.to.stop.gtfsId,
+                code: leg.to.stop.code,
+                platformCode: leg.to.stop.platformCode,
+                transfer: true,
+              }}
+              mode={isCallAgencyPickupType(leg) ? 'call' : mode.toLowerCase()}
+              renderText={leg.transitLeg && this.props.showTransferLabels}
+            />,
+          );
         }
       }
     });
@@ -285,6 +280,10 @@ export default createFragmentContainer(ItineraryLine, {
           availableVehicles {
             total
           }
+        }
+        rentalVehicle {
+          vehicleId
+          network
         }
         stop {
           gtfsId

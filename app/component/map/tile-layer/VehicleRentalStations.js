@@ -7,13 +7,13 @@ import { isBrowser } from '../../../util/browser';
 import {
   getMapIconScale,
   drawCitybikeIcon,
-  drawSmallCitybikeMarker,
+  drawSmallVehicleRentalMarker,
 } from '../../../util/mapIconUtils';
 import { showCitybikeNetwork } from '../../../util/modeUtils';
 
 import {
-  getVehicleRentalStationNetworkConfig,
-  getVehicleRentalStationNetworkIcon,
+  getRentalNetworkConfig,
+  getRentalNetworkIcon,
   getVehicleCapacity,
   BIKEAVL_UNKNOWN,
 } from '../../../util/vehicleRentalUtils';
@@ -78,19 +78,20 @@ class VehicleRentalStations {
               for (let i = 0, ref = layer.length - 1; i <= ref; i++) {
                 const feature = layer.feature(i);
                 [[feature.geom]] = feature.loadGeometry();
-                this.features.push(pick(feature, ['geom', 'properties']));
+                // Must filter out stations that are not shown as there can be a large amount
+                // of invisible rental stations, which are often accidentally clicked
+                if (
+                  this.shouldShowStation(
+                    feature.properties.id,
+                    feature.properties.network,
+                  )
+                ) {
+                  this.features.push(pick(feature, ['geom', 'properties']));
+                }
               }
             }
 
-            if (
-              this.features.length === 0 ||
-              !this.features.some(feature =>
-                this.shouldShowStation(
-                  feature.properties.id,
-                  feature.properties.network,
-                ),
-              )
-            ) {
+            if (this.features.length === 0) {
               this.canHaveStationUpdates = false;
             } else {
               // if zoomed out and there is a highlighted station,
@@ -109,13 +110,10 @@ class VehicleRentalStations {
   };
 
   draw = (feature, zoomedIn) => {
-    const { id, network } = feature.properties;
-    if (!this.shouldShowStation(id, network)) {
-      return;
-    }
+    const { id, network, formFactors } = feature.properties;
 
-    const iconName = getVehicleRentalStationNetworkIcon(
-      getVehicleRentalStationNetworkConfig(network, this.config),
+    const iconName = getRentalNetworkIcon(
+      getRentalNetworkConfig(network, this.config),
     );
     const isHilighted = this.tile.hilightedStops?.includes(id);
 
@@ -125,7 +123,7 @@ class VehicleRentalStations {
       this.canHaveStationUpdates = true;
       this.drawHighlighted(feature, iconName);
     } else {
-      this.drawSmallMarker(feature.geom, iconName);
+      this.drawSmallMarker(feature.geom, iconName, formFactors);
     }
   };
 
@@ -169,13 +167,17 @@ class VehicleRentalStations {
       .then(callback);
   };
 
-  drawSmallMarker = (geom, iconName) => {
-    const iconColor =
+  drawSmallMarker = (geom, iconName, formFactor) => {
+    const citybikeIconColor =
       iconName.includes('secondary') &&
       this.config.colors.iconColors['mode-citybike-secondary']
         ? this.config.colors.iconColors['mode-citybike-secondary']
         : this.config.colors.iconColors['mode-citybike'];
-    drawSmallCitybikeMarker(this.tile, geom, iconColor);
+    const iconColor =
+      formFactor === 'SCOOTER'
+        ? this.config.colors.iconColors['mode-scooter']
+        : citybikeIconColor;
+    drawSmallVehicleRentalMarker(this.tile, geom, iconColor, formFactor);
   };
 
   onTimeChange = lang => {
@@ -190,6 +192,8 @@ class VehicleRentalStations {
   };
 
   shouldShowStation = (id, network) =>
+    (this.config.cityBike.networks[network].showRentalStations === undefined ||
+      this.config.cityBike.networks[network].showRentalStations) &&
     (!this.tile.stopsToShow || this.tile.stopsToShow.includes(id)) &&
     !this.tile.objectsToHide.vehicleRentalStations.includes(id) &&
     showCitybikeNetwork(this.config.cityBike.networks[network]);

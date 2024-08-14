@@ -1,7 +1,7 @@
 import memoize from 'lodash/memoize';
 import getSelector from './get-selector';
 import glfun from './glfun';
-import { ParkTypes } from '../constants';
+import { ParkTypes, TransportMode } from '../constants';
 
 /**
  * Corresponds to an arc forming a full circle (Math.PI * 2).
@@ -11,7 +11,7 @@ const FULL_CIRCLE = Math.PI * 2;
 /**
  * Return icon style, width and height for stop icons
  *
- * @param {string} type one of 'stop', 'citybike', 'hybrid'
+ * @param {string} type one of 'stop', 'citybike', 'hybrid', 'scooter'
  * @param {number} zoom
  * @param {bool} isHilighted
  */
@@ -80,6 +80,28 @@ export function getStopIconStyles(type, zoom, isHilighted) {
       16: {
         style: 'large',
         width: 34,
+        height: 43,
+      },
+    },
+    scooter: {
+      13: {
+        style: 'small',
+        width: 10,
+        height: 10,
+      },
+      14: {
+        style: 'medium',
+        width: 16,
+        height: 22,
+      },
+      15: {
+        style: 'medium',
+        width: 20,
+        height: 27,
+      },
+      16: {
+        style: 'large',
+        width: 35,
         height: 43,
       },
     },
@@ -612,11 +634,11 @@ export function drawHybridStopIcon(
 /**
  * Draws small bike rental station icon. Color can vary.
  */
-export function drawSmallCitybikeMarker(tile, geom, iconColor) {
-  const radius = 5;
+export function drawSmallVehicleRentalMarker(tile, geom, iconColor, mode) {
+  const radius = mode !== TransportMode.Citybike ? 4 : 5;
   const x = geom.x / tile.ratio - radius;
   const y = geom.y / tile.ratio - radius;
-  getMemoizedStopIcon('CITYBIKE', radius, iconColor).then(image => {
+  getMemoizedStopIcon(mode, radius, iconColor).then(image => {
     tile.ctx.drawImage(image, x, y);
   });
 }
@@ -657,7 +679,10 @@ export function drawCitybikeIcon(
   if (style === 'medium') {
     x = geom.x / tile.ratio - width / 2;
     y = geom.y / tile.ratio - height;
-    let icon = `${iconName}_station_${color}_small`;
+    let icon =
+      iconName.indexOf('scooter') > -1
+        ? `${iconName}-lollipop`
+        : `${iconName}_station_${color}_small`;
     if (!operative) {
       icon = 'icon-icon_citybike_station_closed_small';
     }
@@ -676,7 +701,10 @@ export function drawCitybikeIcon(
     const iconY = y;
     const showAvailabilityBadge =
       showAvailability && (available || available === 0) && operative;
-    let icon = `${iconName}_station_${color}_large`;
+    let icon =
+      iconName.indexOf('scooter') > -1
+        ? `${iconName}-lollipop`
+        : `${iconName}_station_${color}_large`;
     if (!operative) {
       icon = 'icon-icon_citybike_station_closed_large';
     }
@@ -697,6 +725,51 @@ export function drawCitybikeIcon(
       }
       if (isHilighted) {
         drawSelectionCircle(tile, iconX, iconY, radius, true, true);
+      }
+    });
+  }
+}
+
+/**
+ * Draw an icon for rental vehicles.
+ * Determine icon size based on zoom level.
+ */
+export function drawScooterIcon(tile, geom, iconName, isHilighted) {
+  const zoom = tile.coords.z - 1;
+  const styles = getStopIconStyles('scooter', zoom, isHilighted);
+  const { style } = styles;
+  let { width, height } = styles;
+  width *= tile.scaleratio;
+  height *= tile.scaleratio;
+  if (!styles) {
+    return;
+  }
+  const radius = width / 2;
+  let x;
+  let y;
+  if (style === 'medium') {
+    x = geom.x / tile.ratio - width / 2;
+    y = geom.y / tile.ratio - height;
+    const icon = `${iconName}-lollipop`;
+    getImageFromSpriteCache(icon, width, height).then(image => {
+      tile.ctx.drawImage(image, x, y);
+      if (isHilighted) {
+        drawSelectionCircle(tile, x, y, radius, false, false);
+      }
+    });
+  }
+  if (style === 'large') {
+    const icon = `${iconName}-lollipop-large`;
+    const smallCircleRadius = 11 * tile.scaleratio;
+    x = geom.x / tile.ratio - width + smallCircleRadius * 2;
+    y = geom.y / tile.ratio - height;
+    const iconX = x;
+    const iconY = y;
+
+    getImageFromSpriteCache(icon, width, height).then(image => {
+      tile.ctx.drawImage(image, x, y);
+      if (isHilighted) {
+        drawSelectionCircle(tile, iconX, iconY, radius, true, false);
       }
     });
   }

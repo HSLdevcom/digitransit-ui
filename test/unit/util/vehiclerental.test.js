@@ -1,47 +1,47 @@
 import {
   defaultNetworkConfig,
-  getVehicleRentalStationNetworkId,
-  getVehicleRentalStationNetworkIcon,
-  getVehicleRentalStationNetworkName,
-  getVehicleRentalStationNetworkConfig,
+  getRentalNetworkId,
+  getRentalNetworkIcon,
+  getRentalNetworkName,
+  getRentalNetworkConfig,
 } from '../../../app/util/vehicleRentalUtils';
 
 describe('vehiclerental', () => {
-  describe('getVehicleRentalStationNetworkId', () => {
+  describe('getRentalNetworkId', () => {
     it('should default to undefined', () => {
-      expect(getVehicleRentalStationNetworkId(undefined)).to.equal(undefined);
-      expect(getVehicleRentalStationNetworkId([])).to.equal(undefined);
+      expect(getRentalNetworkId(undefined)).to.equal(undefined);
+      expect(getRentalNetworkId([])).to.equal(undefined);
     });
 
     it('should pick the first networkId', () => {
       const networks = ['Samocat', 'Smoove'];
-      expect(getVehicleRentalStationNetworkId(networks)).to.equal('Samocat');
+      expect(getRentalNetworkId(networks)).to.equal('Samocat');
     });
 
     it('should also accept an input string', () => {
       const networks = 'Samocat';
-      expect(getVehicleRentalStationNetworkId(networks)).to.equal('Samocat');
+      expect(getRentalNetworkId(networks)).to.equal('Samocat');
     });
   });
 
-  describe('getVehicleRentalStationNetworkId', () => {
+  describe('getRentalNetworkId', () => {
     it('should default to a default config', () => {
-      expect(getVehicleRentalStationNetworkConfig(undefined, {})).to.equal(
+      expect(getRentalNetworkConfig(undefined, {})).to.equal(
         defaultNetworkConfig,
       );
-      expect(getVehicleRentalStationNetworkConfig('Smoove', {})).to.equal(
+      expect(getRentalNetworkConfig('Smoove', {})).to.equal(
+        defaultNetworkConfig,
+      );
+      expect(getRentalNetworkConfig('Smoove', { cityBike: {} })).to.equal(
         defaultNetworkConfig,
       );
       expect(
-        getVehicleRentalStationNetworkConfig('Smoove', { cityBike: {} }),
-      ).to.equal(defaultNetworkConfig);
-      expect(
-        getVehicleRentalStationNetworkConfig('Smoove', {
+        getRentalNetworkConfig('Smoove', {
           cityBike: { networks: {} },
         }),
       ).to.equal(defaultNetworkConfig);
       expect(
-        getVehicleRentalStationNetworkConfig('Smoove', {
+        getRentalNetworkConfig('Smoove', {
           cityBike: { networks: { smoove: {} } },
         }),
       ).to.equal(defaultNetworkConfig);
@@ -58,7 +58,7 @@ describe('vehiclerental', () => {
           },
         },
       };
-      expect(getVehicleRentalStationNetworkConfig('foobar', config)).to.equal(
+      expect(getRentalNetworkConfig('foobar', config)).to.equal(
         config.cityBike.networks.foobar,
       );
     });
@@ -74,15 +74,15 @@ describe('vehiclerental', () => {
           },
         },
       };
-      expect(getVehicleRentalStationNetworkConfig('Foobar', config)).to.equal(
+      expect(getRentalNetworkConfig('Foobar', config)).to.equal(
         config.cityBike.networks.foobar,
       );
     });
   });
 
-  describe('getVehicleRentalStationNetworkIcon', () => {
+  describe('getRentalNetworkIcon', () => {
     it('should default to "icon-icon_citybike"', () => {
-      const result = getVehicleRentalStationNetworkIcon();
+      const result = getRentalNetworkIcon();
       expect(result).to.equal('icon-icon_citybike');
     });
 
@@ -90,7 +90,7 @@ describe('vehiclerental', () => {
       const networkConfig = {
         icon: undefined,
       };
-      const result = getVehicleRentalStationNetworkIcon(networkConfig);
+      const result = getRentalNetworkIcon(networkConfig);
       expect(result).to.equal('icon-icon_citybike');
     });
 
@@ -98,34 +98,28 @@ describe('vehiclerental', () => {
       const networkConfig = {
         icon: 'foobar',
       };
-      const result = getVehicleRentalStationNetworkIcon(networkConfig);
+      const result = getRentalNetworkIcon(networkConfig);
       expect(result).to.equal('icon-icon_foobar');
     });
   });
 
-  describe('getVehicleRentalStationNetworkName', () => {
+  describe('getRentalNetworkName', () => {
     it('should default to undefined', () => {
-      const result = getVehicleRentalStationNetworkName();
+      const result = getRentalNetworkName();
       expect(result).to.equal(undefined);
     });
 
     it('should return undefined if no matching language term exists', () => {
       const networkConfig = { name: { en: 'Test' } };
       const language = 'sv';
-      const result = getVehicleRentalStationNetworkName(
-        networkConfig,
-        language,
-      );
+      const result = getRentalNetworkName(networkConfig, language);
       expect(result).to.equal(undefined);
     });
 
     it('should pick the name for the given language', () => {
       const networkConfig = { name: { fi: 'Testi' } };
       const language = 'fi';
-      const result = getVehicleRentalStationNetworkName(
-        networkConfig,
-        language,
-      );
+      const result = getRentalNetworkName(networkConfig, language);
       expect(result).to.equal('Testi');
     });
   });

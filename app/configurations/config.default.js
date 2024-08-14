@@ -60,6 +60,12 @@ export default {
     REALTIME_RENTAL_STATION_MAP: {
       default: `${POI_MAP_PREFIX}/fi/realtimeRentalStations/`,
     },
+    RENTAL_VEHICLE_MAP: {
+      default: `${POI_MAP_PREFIX}/fi/rentalVehicles/`,
+    },
+    REALTIME_RENTAL_VEHICLE_MAP: {
+      default: `${POI_MAP_PREFIX}/fi/realtimeRentalVehicles/`,
+    },
     PARK_AND_RIDE_MAP: {
       default: `${POI_MAP_PREFIX}/en/vehicleParking/`,
       sv: `${POI_MAP_PREFIX}/sv/vehicleParking/`,
@@ -372,6 +378,7 @@ export default {
       'mode-rail': '#af8dbc',
       'mode-ferry': '#247C7B',
       'mode-citybike': '#f2b62d',
+      'mode-scooter': '#BABABA',
     },
   },
   iconModeSet: 'digitransit',
@@ -425,18 +432,6 @@ export default {
 
   useTicketIcons: false,
 
-  modeToOTP: {
-    bus: 'BUS',
-    tram: 'TRAM',
-    rail: 'RAIL',
-    subway: 'SUBWAY',
-    citybike: 'BICYCLE_RENT',
-    airplane: 'AIRPLANE',
-    ferry: 'FERRY',
-    funicular: 'FUNICULAR',
-    walk: 'WALK',
-  },
-
   // Control what transport modes that should be possible to select in the UI
   // and whether the transport mode is used in trip planning by default.
   transportModes: {
@@ -476,6 +471,11 @@ export default {
     },
 
     citybike: {
+      availableForSelection: false,
+      defaultValue: false, // always false
+    },
+
+    scooter: {
       availableForSelection: false,
       defaultValue: false, // always false
     },

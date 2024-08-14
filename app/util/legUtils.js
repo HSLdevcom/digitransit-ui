@@ -414,7 +414,8 @@ export function getLegBadgeProps(leg, config) {
     !leg.from ||
     !leg.from.vehicleRentalStation ||
     config.cityBike.capacity === BIKEAVL_UNKNOWN ||
-    leg.mode === 'WALK'
+    leg.mode === 'WALK' ||
+    leg.mode === 'SCOOTER'
   ) {
     return undefined;
   }

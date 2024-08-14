@@ -1,7 +1,8 @@
 import Store from 'fluxible/addons/BaseStore';
 import PropTypes from 'prop-types';
 import { setMapLayerSettings, getMapLayerSettings } from './localStorage';
-import { showCityBikes } from '../util/modeUtils';
+import { showRentalVehiclesOfType } from '../util/modeUtils';
+import { TransportMode } from '../constants';
 
 class MapLayerStore extends Store {
   static handlers = {
@@ -36,12 +37,23 @@ class MapLayerStore extends Store {
     super(dispatcher);
 
     const { config } = dispatcher.getContext();
-    this.mapLayers.citybike = showCityBikes(config.cityBike?.networks, config);
-
+    this.mapLayers.citybike = showRentalVehiclesOfType(
+      config.cityBike?.networks,
+      config,
+      TransportMode.Citybike,
+    );
+    this.mapLayers.scooter =
+      config.transportModes.scooter?.showIfSelectedForRouting &&
+      showRentalVehiclesOfType(
+        config.cityBike?.networks,
+        config,
+        TransportMode.Scooter,
+      );
     if (config.hideMapLayersByDefault) {
       this.mapLayers.stop = Object.keys(this.mapLayers.stop).map(() => false);
 
       this.mapLayers.citybike = false;
+      this.mapLayers.scooter = false;
     }
     const storedMapLayers = getMapLayerSettings();
     if (Object.keys(storedMapLayers).length > 0) {
@@ -119,6 +131,7 @@ export const mapLayerShape = PropTypes.shape({
   vehicles: PropTypes.bool,
   // eslint-disable-next-line
   geoJson: PropTypes.object,
+  scooter: PropTypes.bool,
 });
 
 export default MapLayerStore;

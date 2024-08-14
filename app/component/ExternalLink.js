@@ -21,6 +21,8 @@ export default function ExternalLink({
             }}
             className="external-link"
             href={href}
+            target="_blank"
+            rel="noopener noreferrer"
           >
             {name || children}
           </a>

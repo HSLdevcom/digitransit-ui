@@ -6,6 +6,7 @@ import SwipeableTabs from '../SwipeableTabs';
 import { planEdgeShape } from '../../util/shapes';
 
 /* eslint-disable react/no-array-index-key */
+
 function ItineraryTabs({ planEdges, tabIndex, isMobile, changeHash, ...rest }) {
   const itineraryTabs = planEdges.map((edge, i) => {
     return (

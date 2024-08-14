@@ -186,10 +186,10 @@ const RoutePageMapWithVehicles = connectToStores(
   ['RealTimeInformationStore', 'MapLayerStore'],
   ({ getStore }, { trip }) => {
     const mapLayers = getStore('MapLayerStore').getMapLayers({
-      notThese: ['stop', 'citybike', 'vehicles'],
+      notThese: ['stop', 'citybike', 'vehicles', 'scooter'],
     });
     const mapLayerOptions = getMapLayerOptions({
-      lockedMapLayers: ['vehicles', 'stop', 'citybike'],
+      lockedMapLayers: ['vehicles', 'stop', 'citybike', 'scooter'],
       selectedMapLayers: ['vehicles'],
     });
     if (trip) {

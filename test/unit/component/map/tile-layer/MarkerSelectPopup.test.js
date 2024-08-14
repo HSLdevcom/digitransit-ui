@@ -3,7 +3,8 @@ import React from 'react';
 import { shallowWithIntl } from '../../../helpers/mock-intl-enzyme';
 import MarkerSelectPopup from '../../../../../app/component/map/tile-layer/MarkerSelectPopup';
 import SelectStopRow from '../../../../../app/component/map/tile-layer/SelectStopRow';
-import SelectVehicleRentalStationRow from '../../../../../app/component/map/tile-layer/SelectVehicleRentalStationRow';
+import SelectVehicleRentalRow from '../../../../../app/component/map/tile-layer/SelectVehicleRentalRow';
+import SelectRentalVehicleClusterRow from '../../../../../app/component/map/tile-layer/SelectRentalVehicleClusterRow';
 import SelectParkAndRideRow from '../../../../../app/component/map/tile-layer/SelectParkAndRideRow';
 import SelectVehicleContainer from '../../../../../app/component/map/tile-layer/SelectVehicleContainer';
 import { mockMatch } from '../../../helpers/mock-router';
@@ -106,8 +107,54 @@ describe('<MarkerSelectPopup />', () => {
       },
     });
     expect(wrapper.find(SelectStopRow)).to.have.lengthOf(1);
-    expect(wrapper.find(SelectVehicleRentalStationRow)).to.have.lengthOf(1);
+    expect(wrapper.find(SelectVehicleRentalRow)).to.have.lengthOf(1);
     expect(wrapper.find(SelectParkAndRideRow)).to.have.lengthOf(2);
     expect(wrapper.find(SelectVehicleContainer)).to.have.lengthOf(1);
+  });
+
+  it('should render a scooter cluster row with valid data but not a scooter row', () => {
+    const props = {
+      options: [
+        {
+          layer: 'scooter',
+          feature: {
+            geom: { x: 2948, y: 3452 },
+            properties: {
+              scooterId: '116',
+              name: 'Clustered vehicles should be shown',
+              network: 'foobar',
+              networks: ['foo', 'bar'],
+              cluster: true,
+            },
+          },
+        },
+        {
+          layer: 'scooter',
+          feature: {
+            geom: { x: 2948, y: 3452 },
+            properties: {
+              id: '115',
+              name: 'Single vehicles should not be shown',
+              network: 'foobar',
+            },
+          },
+        },
+      ],
+      selectRow: () => {},
+      location: {
+        lat: 60.169525626502484,
+        lng: 24.933235645294193,
+      },
+      colors: {
+        primary: '#007ac9',
+        hover: '#0062a1',
+      },
+    };
+    const wrapper = shallowWithIntl(<MarkerSelectPopup {...props} />, {
+      context: {
+        match: mockMatch,
+      },
+    });
+    expect(wrapper.find(SelectRentalVehicleClusterRow)).to.have.lengthOf(1);
   });
 });

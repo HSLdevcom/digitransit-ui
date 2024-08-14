@@ -321,7 +321,7 @@ class Timetable extends React.Component {
           )
         : null;
     const virtualMonitorUrl =
-      this.context.config?.stopCard?.header?.virtualMonitorBaseUrl &&
+      this.context.config.stopCard?.header?.virtualMonitorBaseUrl &&
       `${
         this.context.config.stopCard.header.virtualMonitorBaseUrl
       }${locationType.toLowerCase()}/${this.props.stop.gtfsId}`;

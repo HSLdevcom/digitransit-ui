@@ -5,18 +5,17 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 import { configShape } from '../../util/shapes';
 import Icon from '../Icon';
 import {
-  getVehicleRentalStationNetworkConfig,
-  getVehicleRentalStationNetworkIcon,
-  getVehicleRentalStationNetworkId,
+  getRentalNetworkConfig,
+  getRentalNetworkIcon,
+  getRentalNetworkId,
 } from '../../util/vehicleRentalUtils';
 
 function VehicleRentalDurationInfo(props) {
   const { networks, lang, config } = props;
   if (networks.length === 1) {
-    const vehicleRentalStationNetwork =
-      getVehicleRentalStationNetworkId(networks);
-    const vehicleIcon = getVehicleRentalStationNetworkIcon(
-      getVehicleRentalStationNetworkConfig(vehicleRentalStationNetwork, config),
+    const vehicleRentalStationNetwork = getRentalNetworkId(networks);
+    const vehicleIcon = getRentalNetworkIcon(
+      getRentalNetworkConfig(vehicleRentalStationNetwork, config),
     );
     const vehicleRentalStationNetworkDurationInfoLink =
       config.cityBike.networks[vehicleRentalStationNetwork]
@@ -53,8 +52,8 @@ function VehicleRentalDurationInfo(props) {
       </div>
     );
   }
-  const citybikeicon = getVehicleRentalStationNetworkIcon(
-    getVehicleRentalStationNetworkConfig(networks[0], config),
+  const citybikeicon = getRentalNetworkIcon(
+    getRentalNetworkConfig(networks[0], config),
   );
   const durationInfoLinks = {};
   for (let i = 0; i < networks.length; i++) {

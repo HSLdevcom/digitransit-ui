@@ -356,6 +356,18 @@ export function transitEdges(edges) {
 }
 
 /**
+ * Filters away itineraries that don't use scooters
+ */
+export function scooterEdges(edges) {
+  if (!edges) {
+    return [];
+  }
+  return edges.filter(edge =>
+    edge.node.legs.some(leg => leg.mode === 'SCOOTER'),
+  );
+}
+
+/**
  * Filters away plain walk
  */
 export function filterWalk(edges) {
@@ -418,6 +430,35 @@ export function mergeBikeTransitPlans(bikeParkPlan, bikeTransitPlan) {
     ),
     bikeParkItineraryCount: n1,
     bikePublicItineraryCount: n2,
+  };
+}
+
+/**
+ * Combine a scooter edge with the main transit edges.
+ */
+export function mergeScooterTransitPlan(scooterPlan, transitPlan) {
+  const scooterTransitEdges = scooterEdges(scooterPlan?.edges);
+  const publicTransitEdges = transitEdges(transitPlan?.edges);
+  const maxTransitEdges =
+    scooterTransitEdges.length > 0 ? 4 : publicTransitEdges.length;
+
+  return {
+    edges: [
+      ...scooterTransitEdges.slice(0, 1),
+      ...publicTransitEdges.slice(0, maxTransitEdges),
+    ]
+      .sort((a, b) => {
+        return a.node.end > b.node.end;
+      })
+      .map(edge => {
+        return {
+          ...edge,
+          node: {
+            ...edge.node,
+            legs: compressLegs(edge.node.legs),
+          },
+        };
+      }),
   };
 }
 
