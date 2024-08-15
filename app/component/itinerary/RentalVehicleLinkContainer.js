@@ -8,7 +8,6 @@ import {
   getRentalNetworkConfig,
   getRentalNetworkIcon,
   getRentalVehicleLink,
-  getRentalNetworkIdByRental,
 } from '../../util/vehicleRentalUtils';
 
 import withBreakpoint from '../../util/withBreakpoint';
@@ -23,7 +22,7 @@ function RentalVehicleLinkContainer(
     return null;
   }
 
-  const network = getRentalNetworkIdByRental(rentalVehicle, config);
+  const network = rentalVehicle?.rentalNetwork.networkId;
   const networkConfig = getRentalNetworkConfig(network, config);
   const vehicleIcon = getRentalNetworkIcon(networkConfig);
   const scooterHeadsign = (

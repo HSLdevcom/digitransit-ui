@@ -41,7 +41,6 @@ import VehicleRentalDurationInfo from './VehicleRentalDurationInfo';
 import Emissions from './Emissions';
 import EmissionsInfo from './EmissionsInfo';
 import FareDisclaimer from './FareDisclaimer';
-import { getRentalNetworkIdByRental } from '../../util/vehicleRentalUtils';
 
 /* eslint-disable prettier/prettier */
 class ItineraryDetails extends React.Component {
@@ -152,7 +151,7 @@ class ItineraryDetails extends React.Component {
     if (legsWithRentalBike.length > 0) {
       for (let i = 0; i < legsWithRentalBike.length; i++) {
         const leg = legsWithRentalBike[i];
-        const network = getRentalNetworkIdByRental(leg.from.vehicleRentalStation, config);
+        const network = leg.from.vehicleRentalStation?.rentalNetwork.networkId;
         if (
           config.cityBike.networks[network]?.timeBeforeSurcharge &&
           config.cityBike.networks[network]?.durationInstructions
