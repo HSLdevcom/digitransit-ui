@@ -148,11 +148,7 @@ class IndexPage extends React.Component {
       !this.props.origin.address &&
       this.props.locationState?.hasLocation &&
       this.props.locationState;
-    if (
-      config.startSearchFromUserLocation &&
-      currentLocation &&
-      !currentLocation.isReverseGeocodingInProgress
-    ) {
+    if (currentLocation && !currentLocation.isReverseGeocodingInProgress) {
       const originPoint = [currentLocation.lon, currentLocation.lat];
       if (inside(originPoint, config.areaPolygon)) {
         this.context.executeAction(storeOrigin, currentLocation);
