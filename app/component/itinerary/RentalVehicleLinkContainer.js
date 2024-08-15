@@ -34,11 +34,7 @@ function RentalVehicleLinkContainer(
       defaultMessage="Open the app to use a scooter"
     />
   );
-  const rentalVehicleLink = getRentalVehicleLink(
-    rentalVehicle,
-    network,
-    networkConfig,
-  );
+  const rentalVehicleLink = getRentalVehicleLink(rentalVehicle, networkConfig);
   return (
     <div>
       {isScooter && (

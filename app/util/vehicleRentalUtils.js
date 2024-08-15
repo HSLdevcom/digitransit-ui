@@ -204,26 +204,27 @@ export const mapVehicleRentalToStore = vehicleRentalStation => {
   return newStation;
 };
 
-export const getRentalVehicleLink = (rentalVehicle, network, networkConfig) => {
+export const getRentalVehicleLink = (rentalVehicle, networkConfig) => {
   if (!networkConfig || !rentalVehicle) {
     return null;
   }
 
   const { ios, android, web } = rentalVehicle?.rentalUris || {};
+  const networkName = getRentalNetworkName(networkConfig).toLowerCase();
 
-  if (isIOS && ios?.startsWith(`${network}://`)) {
+  if (isIOS && ios?.startsWith(`${networkName}://`)) {
     return ios;
   }
 
-  if (isAndroid && android?.startsWith(`${network}://`)) {
+  if (isAndroid && android?.startsWith(`${networkName}://`)) {
     return android;
   }
 
-  if (web?.includes(network)) {
+  if (web?.includes(networkName)) {
     return web;
   }
 
-  if (rentalVehicle?.rentalNetwork?.url?.includes(network)) {
+  if (rentalVehicle?.rentalNetwork?.url?.includes(networkName)) {
     return rentalVehicle.rentalNetwork.url;
   }
 
