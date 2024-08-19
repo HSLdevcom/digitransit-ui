@@ -55,10 +55,10 @@ const VehicleRentalStationContent = (
   if (networkConfig.returnInstructions) {
     returnInstructionsUrl = networkConfig.returnInstructions[language];
   }
-  const { cityBike } = config;
-  const cityBikeBuyUrl = cityBike.buyUrl?.[language];
+  const { vehicleRental } = config;
+  const cityBikeBuyUrl = vehicleRental.buyUrl?.[language];
   const buyInstructions = cityBikeBuyUrl
-    ? cityBike.buyInstructions?.[language]
+    ? vehicleRental.buyInstructions?.[language]
     : undefined;
 
   return (
@@ -68,7 +68,7 @@ const VehicleRentalStationContent = (
         breakpoint={breakpoint}
       />
       <VehicleRentalStation vehicleRentalStation={vehicleRentalStation} />
-      {cityBike.showFullInfo && isFull && (
+      {vehicleRental.showFullInfo && isFull && (
         <div className="citybike-full-station-guide">
           <FormattedMessage id="citybike-return-full" />
           <a

@@ -332,7 +332,7 @@ export default {
     locationAware: true,
   },
 
-  cityBike: {
+  vehicleRental: {
     // Config for map features. NOTE: availability for routing is controlled by
     // transportModes.citybike.availableForSelection
     showFullInfo: false,

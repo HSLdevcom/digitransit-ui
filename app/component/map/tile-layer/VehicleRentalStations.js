@@ -51,7 +51,7 @@ class VehicleRentalStations {
 
   fetchAndDraw = lang => {
     const zoomedIn =
-      this.tile.coords.z > this.config.cityBike.cityBikeSmallIconZoom;
+      this.tile.coords.z > this.config.vehicleRental.cityBikeSmallIconZoom;
     const baseUrl = zoomedIn
       ? getLayerBaseUrl(this.config.URL.REALTIME_RENTAL_STATION_MAP, lang)
       : getLayerBaseUrl(this.config.URL.RENTAL_STATION_MAP, lang);
@@ -192,11 +192,12 @@ class VehicleRentalStations {
   };
 
   shouldShowStation = (id, network) =>
-    (this.config.cityBike.networks[network].showRentalStations === undefined ||
-      this.config.cityBike.networks[network].showRentalStations) &&
+    (this.config.vehicleRental.networks[network].showRentalStations ===
+      undefined ||
+      this.config.vehicleRental.networks[network].showRentalStations) &&
     (!this.tile.stopsToShow || this.tile.stopsToShow.includes(id)) &&
     !this.tile.objectsToHide.vehicleRentalStations.includes(id) &&
-    showCitybikeNetwork(this.config.cityBike.networks[network]);
+    showCitybikeNetwork(this.config.vehicleRental.networks[network]);
 
   static getName = () => 'citybike';
 }

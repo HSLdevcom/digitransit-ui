@@ -432,13 +432,13 @@ const Itinerary = (
       // eslint-disable-next-line prefer-destructuring
       bikeNetwork = leg.from.vehicleRentalStation.rentalNetwork.networkId;
       if (
-        config.cityBike.networks &&
-        config.cityBike.networks[bikeNetwork]?.timeBeforeSurcharge &&
-        config.cityBike.networks[bikeNetwork]?.durationInstructions
+        config.vehicleRental.networks &&
+        config.vehicleRental.networks[bikeNetwork]?.timeBeforeSurcharge &&
+        config.vehicleRental.networks[bikeNetwork]?.durationInstructions
       ) {
         const rentDurationOverSurchargeLimit =
           leg.duration >
-          config.cityBike?.networks[bikeNetwork].timeBeforeSurcharge;
+          config.vehicleRental?.networks[bikeNetwork].timeBeforeSurcharge;
         if (rentDurationOverSurchargeLimit) {
           citybikeNetworks.add(bikeNetwork);
         }
@@ -880,7 +880,7 @@ const Itinerary = (
                     id="citybike-duration-info-short"
                     values={{
                       duration:
-                        config.cityBike.networks[bikeNetwork]
+                        config.vehicleRental.networks[bikeNetwork]
                           .timeBeforeSurcharge / 60,
                     }}
                     defaultMessage=""

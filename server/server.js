@@ -424,8 +424,8 @@ function fetchCitybikeConfigurations() {
           // eslint-disable-next-line import/no-dynamic-require
           const conf = require(`${configsDir}/${file}`);
           const configName = conf.default.CONFIG;
-          const { cityBike } = conf.default;
-          if (cityBike && Object.keys(cityBike).length > 0) {
+          const { vehicleRental } = conf.default;
+          if (vehicleRental && Object.keys(vehicleRental).length > 0) {
             promises.push(
               new Promise(resolve => {
                 resolve(

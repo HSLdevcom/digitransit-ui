@@ -232,7 +232,7 @@ export default configMerger(walttiConfig, {
     tampere: tampereTimetables,
   },
 
-  cityBike: {
+  vehicleRental: {
     networks: {
       inurba_tampere: {
         capacity: BIKEAVL_WITHMAX,

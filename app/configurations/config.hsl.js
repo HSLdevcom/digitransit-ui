@@ -430,7 +430,7 @@ export default {
 
   localStorageEmitter,
 
-  cityBike: {
+  vehicleRental: {
     minZoomStopsNearYou: 10,
     showFullInfo: true,
     networks: {

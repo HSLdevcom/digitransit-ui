@@ -153,12 +153,12 @@ class ItineraryDetails extends React.Component {
         const leg = legsWithRentalBike[i];
         const network = leg.from.vehicleRentalStation?.rentalNetwork.networkId;
         if (
-          config.cityBike.networks[network]?.timeBeforeSurcharge &&
-          config.cityBike.networks[network]?.durationInstructions
+          config.vehicleRental.networks[network]?.timeBeforeSurcharge &&
+          config.vehicleRental.networks[network]?.durationInstructions
         ) {
           const rentDurationOverSurchargeLimit =
             leg.duration >
-            config.cityBike.networks[network].timeBeforeSurcharge;
+            config.vehicleRental.networks[network].timeBeforeSurcharge;
           if (rentDurationOverSurchargeLimit) {
             rentalBikeNetworks.add(network);
             showRentalBikeDurationWarning =
