@@ -347,6 +347,8 @@ export default {
       sv: 'Köp ett abonnemang för en dag, en vecka eller för en hel säsong',
       en: 'Buy a daily, weekly or season pass',
     },
+    maxNearbyRentalVehicleAmount: 5,
+    maxDistanceToRentalVehiclesInMeters: 100,
   },
 
   // Lowest level for stops and terminals are rendered

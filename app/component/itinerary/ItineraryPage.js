@@ -1067,6 +1067,7 @@ export default function ItineraryPage(props, context) {
         carEmissions={carEmissions}
         bikeAndPublicItineraryCount={bikePublicPlan.bikePublicItineraryCount}
         openSettings={showSettingsPanel}
+        relayEnvironment={props.relayEnvironment}
       />
     );
   } else {

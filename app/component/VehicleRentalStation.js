@@ -13,7 +13,7 @@ import {
 const VehicleRentalStation = ({ vehicleRentalStation }, { config }) => {
   const vehicleCapacity = getVehicleCapacity(
     config,
-    vehicleRentalStation.network,
+    vehicleRentalStation.rentalNetwork.networkId,
   );
   if (vehicleCapacity === BIKEAVL_UNKNOWN) {
     return null;
@@ -32,7 +32,7 @@ const VehicleRentalStation = ({ vehicleRentalStation }, { config }) => {
   }
   const disabled = !vehicleRentalStation.operative;
   const networkConfig = getRentalNetworkConfig(
-    vehicleRentalStation.network,
+    vehicleRentalStation.rentalNetwork.networkId,
     config,
   );
   const vehicleIcon = getRentalNetworkIcon(networkConfig, disabled);

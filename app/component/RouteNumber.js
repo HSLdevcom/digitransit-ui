@@ -101,7 +101,8 @@ function RouteNumber(props, context) {
         })}
         role="img"
       >
-        {!props.isTransitLeg && !props.renderModeIcons && (
+        {((!props.isTransitLeg && !props.renderModeIcons) ||
+          props.appendClass === 'scooter') && (
           <div className={cx('empty', props.appendClass)} />
         )}
         {props.isTransitLeg === true ? (

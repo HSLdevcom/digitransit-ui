@@ -93,8 +93,8 @@ class ItineraryLine extends React.Component {
         leg.from.vehicleRentalStation?.stationId ||
         leg.from.rentalVehicle?.vehicleId;
       const rentalNetwork =
-        leg.from.vehicleRentalStation?.network ||
-        leg.from.rentalVehicle?.network;
+        leg.from.vehicleRentalStation?.rentalNetwork.networkId ||
+        leg.from.rentalVehicle?.rentalNetwork.networkId;
 
       if (interliningLegs.length > 0) {
         // merge the geometries of legs where user can wait in the vehicle and find the middle point
@@ -276,14 +276,18 @@ export default createFragmentContainer(ItineraryLine, {
           lat
           lon
           stationId
-          network
+          rentalNetwork {
+            networkId
+          }
           availableVehicles {
             total
           }
         }
         rentalVehicle {
           vehicleId
-          network
+          rentalNetwork {
+            networkId
+          }
         }
         stop {
           gtfsId
@@ -300,7 +304,9 @@ export default createFragmentContainer(ItineraryLine, {
           lat
           lon
           stationId
-          network
+          rentalNetwork {
+            networkId
+          }
           availableVehicles {
             total
           }

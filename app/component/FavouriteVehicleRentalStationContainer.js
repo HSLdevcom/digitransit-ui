@@ -17,7 +17,7 @@ const FavouriteVehicleRentalStationContainer = connectToStores(
       context.executeAction(saveFavourite, {
         lat: vehicleRentalStation.lat,
         lon: vehicleRentalStation.lon,
-        network: vehicleRentalStation.network,
+        network: vehicleRentalStation.rentalNetwork.networkId,
         name: vehicleRentalStation.name,
         stationId: vehicleRentalStation.stationId,
         type: 'bikeStation',
@@ -35,7 +35,7 @@ const FavouriteVehicleRentalStationContainer = connectToStores(
         .getStore('FavouriteStore')
         .getByStationIdAndNetworks(
           vehicleRentalStation.stationId,
-          vehicleRentalStation.network,
+          vehicleRentalStation.rentalNetwork.networkId,
         );
       context.executeAction(deleteFavourite, vehicleRentalStationToDelete);
       addAnalyticsEvent({
