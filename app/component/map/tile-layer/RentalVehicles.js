@@ -66,16 +66,12 @@ class RentalVehicles {
                 [[feature.geom]] = feature.loadGeometry();
                 // Filter out vehicles that are not in the scooterNetworks (selected by a user) to avoid including unwanted vehicles in clusters
                 // Also Filter out vehicles that should not be shown to avoid user accidentally clicking on invisible objects on the map
-                const networkConfig = getRentalNetworkConfig(
-                  feature.properties.network,
-                  this.config,
-                );
                 if (
                   (showAllNetworks ||
                     scooterNetworks.includes(feature.properties.network)) &&
                   this.shouldShowRentalVehicle(
                     feature.properties.id,
-                    networkConfig,
+                    feature.properties.network,
                     feature.properties.isDisabled,
                     feature.properties.formFactor,
                   )
@@ -167,12 +163,13 @@ class RentalVehicles {
     );
   };
 
-  shouldShowRentalVehicle = (id, networkConfig, isDisabled, formFactor) =>
+  shouldShowRentalVehicle = (id, network, isDisabled, formFactor) =>
     (!this.tile.stopsToShow || this.tile.stopsToShow.includes(id)) &&
-    (!networkConfig ||
-      (networkConfig.enabled &&
-        networkConfig.showRentalVehicles &&
-        networkConfig.type === formFactor.toLowerCase())) &&
+    (!network ||
+      (this.config.cityBike.networks[network].enabled &&
+        this.config.cityBike.networks[network].showRentalVehicles &&
+        this.config.cityBike.networks[network].type ===
+          formFactor.toLowerCase())) &&
     !isDisabled;
 
   static getName = () => 'scooter';

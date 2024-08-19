@@ -46,32 +46,11 @@ export const getRentalNetworkId = networks => {
   return networks[0];
 };
 
-export const parseRentalNetworkId = (id, config) => {
-  if (!id || !config) {
-    return undefined;
-  }
-  const rentalNetworkId = id.split('_')[0];
-  return config.vehicleRental?.networks?.[rentalNetworkId]
-    ? rentalNetworkId
-    : id;
-};
-
-export const getRentalNetworkIdByRental = (rental, config) => {
-  if (!rental || !rental.rentalNetwork) {
-    return undefined;
-  }
-  const rentalNetworkId = parseRentalNetworkId(
-    rental.rentalNetwork.networkId,
-    config,
-  );
-  return rentalNetworkId || rental.rentalNetwork.networkId;
-};
-
 export const getRentalNetworkConfig = (networkId, config) => {
-  if (!networkId || !networkId.toLowerCase || !config) {
+  if (!networkId || !networkId.toLowerCase) {
     return defaultNetworkConfig;
   }
-  const id = parseRentalNetworkId(networkId.toLowerCase(), config);
+  const id = networkId.toLowerCase();
   if (
     config.vehicleRental?.networks?.[id] &&
     Object.keys(config.vehicleRental.networks[id]).length > 0
@@ -226,26 +205,27 @@ export const mapVehicleRentalToStore = vehicleRentalStation => {
   return newStation;
 };
 
-export const getRentalVehicleLink = (rentalVehicle, network, networkConfig) => {
+export const getRentalVehicleLink = (rentalVehicle, networkConfig) => {
   if (!networkConfig || !rentalVehicle) {
     return null;
   }
 
-  const { ios, android, web } = rentalVehicle?.rentalUris || {};
+  const { ios, android, web } = rentalVehicle.rentalUris || {};
+  const networkName = getRentalNetworkName(networkConfig).toLowerCase();
 
-  if (isIOS && ios?.startsWith(`${network}://`)) {
+  if (isIOS && ios?.startsWith(`${networkName}://`)) {
     return ios;
   }
 
-  if (isAndroid && android?.startsWith(`${network}://`)) {
+  if (isAndroid && android?.startsWith(`${networkName}://`)) {
     return android;
   }
 
-  if (web?.includes(network)) {
+  if (web?.includes(networkName)) {
     return web;
   }
 
-  if (rentalVehicle?.rentalNetwork?.url?.includes(network)) {
+  if (rentalVehicle.rentalNetwork?.url?.includes(networkName)) {
     return rentalVehicle.rentalNetwork.url;
   }
 

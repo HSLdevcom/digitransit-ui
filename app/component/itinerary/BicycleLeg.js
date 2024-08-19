@@ -16,7 +16,6 @@ import { PREFIX_STOPS } from '../../util/path';
 import {
   getRentalNetworkConfig,
   RentalNetworkType,
-  getRentalNetworkIdByRental,
 } from '../../util/vehicleRentalUtils';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
 import { splitStringToAddressAndPlace } from '../../util/otpStrings';
@@ -54,13 +53,13 @@ export default function BicycleLeg(
   const firstLegClassName = index === 0 ? 'start' : '';
   let modeClassName = 'bicycle';
   const [address, place] = splitStringToAddressAndPlace(leg.from.name);
-  const rentalNetworkId =
-    getRentalNetworkIdByRental(leg.from.vehicleRentalStation, config) ||
-    getRentalNetworkIdByRental(leg.from.rentalVehicle, config);
+  const rentalVehicleNetwork =
+    leg.from.vehicleRentalStation?.rentalNetwork.networkId ||
+    leg.from.rentalVehicle?.rentalNetwork.networkId;
   const networkConfig =
     leg.rentedBike &&
-    rentalNetworkId &&
-    getRentalNetworkConfig(rentalNetworkId, config);
+    rentalVehicleNetwork &&
+    getRentalNetworkConfig(rentalVehicleNetwork, config);
   const isFirstLeg = i => i === 0;
   const isScooter =
     networkConfig && networkConfig.type === RentalNetworkType.Scooter;
@@ -68,7 +67,6 @@ export default function BicycleLeg(
   const scooterSettingsOn = settings.scooterNetworks?.length > 0;
   const LOADSTATE = {
     UNSET: 'unset',
-    LOADING: 'loading',
     DONE: 'done',
   };
   const [nearestScooterState, setNearestScooterState] = useState({
@@ -178,7 +176,6 @@ export default function BicycleLeg(
     : leg.to.name;
 
   async function makeNearestScooterQuery(from) {
-    setNearestScooterState({ loading: LOADSTATE.LOADING });
     const planParams = {
       lat: from.lat,
       lon: from.lon,
@@ -189,40 +186,43 @@ export default function BicycleLeg(
       filterByPlaceTypes: ['VEHICLE_RENT'],
     };
 
-    const result = await fetchQuery(
-      relayEnvironment,
-      nearestQuery,
-      planParams,
-      {
-        force: true,
-      },
-    ).toPromise();
-    if (!result) {
-      setNearestScooterState({ loading: LOADSTATE.DONE });
-    } else {
-      const nearest = result?.viewer?.nearest?.edges;
-      // filter out the ones that are not scooters or from the same network as the original scooter
-      const filteredNearest = nearest
-        ?.filter(
-          n =>
-            n?.node?.place?.__typename === 'RentalVehicle' && // eslint-disable-line no-underscore-dangle
-            getRentalNetworkIdByRental(n?.node?.place, config) !==
-              rentalNetworkId,
-        )
-        // show only one scooter from each network
-        .filter(
-          (n, i, self) =>
-            self.findIndex(
-              t =>
-                getRentalNetworkIdByRental(t?.node?.place, config) ===
-                getRentalNetworkIdByRental(n?.node?.place, config),
-            ) === i,
-        );
+    try {
+      const result = await fetchQuery(
+        relayEnvironment,
+        nearestQuery,
+        planParams,
+        {
+          force: true,
+        },
+      ).toPromise();
+      if (!result) {
+        setNearestScooterState({ loading: LOADSTATE.DONE });
+      } else {
+        const nearest = result.viewer.nearest.edges;
+        // filter out the ones that are not scooters or from the same network as the original scooter
+        const filteredNearest = nearest
+          ?.filter(
+            n =>
+              n.node.place.__typename === 'RentalVehicle' && // eslint-disable-line no-underscore-dangle
+              n.node.place.rentalNetwork.networkId !== rentalVehicleNetwork,
+          )
+          // show only one scooter from each network
+          .filter(
+            (n, i, self) =>
+              self.findIndex(
+                t =>
+                  t.node.place.rentalNetwork.networkId ===
+                  n.node.place.rentalNetwork.networkId,
+              ) === i,
+          );
 
-      setNearestScooterState({
-        nearest: filteredNearest,
-        loading: LOADSTATE.DONE,
-      });
+        setNearestScooterState({
+          nearest: filteredNearest,
+          loading: LOADSTATE.DONE,
+        });
+      }
+    } catch (error) {
+      setNearestScooterState({ nearest: [], loading: LOADSTATE.DONE });
     }
   }
 

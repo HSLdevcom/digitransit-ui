@@ -491,7 +491,7 @@ export default {
         timeBeforeSurcharge: 120 * 60,
         showRentalStations: true,
       },
-      bolt: {
+      bolt_helsinki: {
         enabled: true,
         season: {
           alwaysOn: true,
@@ -505,7 +505,6 @@ export default {
         type: 'scooter',
         showRentalVehicles: true,
         showRentalStations: false,
-        networkIds: ['bolt_helsinki'],
       },
     },
     buyUrl: {

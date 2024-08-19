@@ -20,7 +20,6 @@ import {
 import SpeechBubble from './SpeechBubble';
 import { durationToString } from '../../util/timeUtils';
 import TransitLegMarkers from './non-tile-layer/TransitLegMarkers';
-import { getRentalNetworkIdByRental } from '../../util/vehicleRentalUtils';
 
 class ItineraryLine extends React.Component {
   static contextTypes = {
@@ -94,11 +93,8 @@ class ItineraryLine extends React.Component {
         leg.from.vehicleRentalStation?.stationId ||
         leg.from.rentalVehicle?.vehicleId;
       const rentalNetwork =
-        getRentalNetworkIdByRental(
-          leg.from.vehicleRentalStation,
-          this.context.config,
-        ) ||
-        getRentalNetworkIdByRental(leg.from.rentalVehicle, this.context.config);
+        leg.from.vehicleRentalStation?.rentalNetwork.networkId ||
+        leg.from.rentalVehicle?.rentalNetwork.networkId;
 
       if (interliningLegs.length > 0) {
         // merge the geometries of legs where user can wait in the vehicle and find the middle point

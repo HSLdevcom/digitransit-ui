@@ -15,7 +15,6 @@ import { PREFIX_STOPS } from '../../util/path';
 import {
   RentalNetworkType,
   getRentalNetworkConfig,
-  getRentalNetworkIdByRental,
 } from '../../util/vehicleRentalUtils';
 import { displayDistance } from '../../util/geo-utils';
 import { durationToString } from '../../util/timeUtils';
@@ -43,29 +42,25 @@ function WalkLeg(
   const isFirstLeg = i => i === 0;
   const [address, place] = splitStringToAddressAndPlace(leg[toOrFrom].name);
   const network =
-    getRentalNetworkIdByRental(
-      previousLeg?.[toOrFrom]?.vehicleRentalStation,
-      config,
-    ) ||
-    getRentalNetworkIdByRental(previousLeg?.[toOrFrom]?.rentalVehicle, config);
+    previousLeg?.[toOrFrom]?.vehicleRentalStation?.rentalNetwork.networkId ||
+    previousLeg?.[toOrFrom]?.rentalVehicle?.rentalNetwork.networkId;
 
   const networkType = getRentalNetworkConfig(
     previousLeg?.rentedBike && network,
     config,
   ).type;
   const isScooter = networkType === RentalNetworkType.Scooter;
-  const returnNotice =
-    previousLeg && previousLeg.rentedBike ? (
-      <FormattedMessage
-        id={
-          networkType === RentalNetworkType.Scooter
-            ? 'return-scooter-to'
-            : 'return-cycle-to'
-        }
-        values={{ station: leg[toOrFrom] ? leg[toOrFrom].name : '' }}
-        defaultMessage="Return the bike to {station} station"
-      />
-    ) : null;
+  const returnNotice = previousLeg?.rentedBike ? (
+    <FormattedMessage
+      id={
+        networkType === RentalNetworkType.Scooter
+          ? 'return-scooter-to'
+          : 'return-cycle-to'
+      }
+      values={{ station: leg[toOrFrom] ? leg[toOrFrom].name : '' }}
+      defaultMessage="Return the bike to {station} station"
+    />
+  ) : null;
   let appendClass;
 
   if (returnNotice) {

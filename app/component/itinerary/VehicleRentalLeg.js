@@ -15,7 +15,6 @@ import {
   getRentalNetworkConfig,
   getRentalNetworkIcon,
   hasVehicleRentalCode,
-  getRentalNetworkIdByRental,
 } from '../../util/vehicleRentalUtils';
 
 import withBreakpoint from '../../util/withBreakpoint';
@@ -26,7 +25,7 @@ import {
   getVehicleAvailabilityIndicatorColor,
 } from '../../util/legUtils';
 import { getIdWithoutFeed } from '../../util/feedScopedIdUtils';
-import RentalVehicleLinkContainer from './RentalVehicleLinkContainer';
+import ScooterLinkContainer from './ScooterLinkContainer';
 
 function VehicleRentalLeg(
   {
@@ -46,8 +45,8 @@ function VehicleRentalLeg(
     return null;
   }
   const network =
-    getRentalNetworkIdByRental(vehicleRentalStation, config) ||
-    getRentalNetworkIdByRental(rentalVehicle, config);
+    vehicleRentalStation?.rentalNetwork.networkId ||
+    rentalVehicle?.rentalNetwork.networkId;
   // eslint-disable-next-line no-nested-ternary
   const rentMessageId = isScooter ? 'rent-e-scooter-at' : 'rent-cycle-at';
   const returnMessageId = isScooter ? 'return-e-scooter-to' : 'return-cycle-to';
@@ -78,10 +77,7 @@ function VehicleRentalLeg(
     : null;
   const mobileReturn = breakpoint === 'small' && returnBike;
   const vehicleCapacity = vehicleRentalStation
-    ? getVehicleCapacity(
-        config,
-        getRentalNetworkIdByRental(vehicleRentalStation, config),
-      )
+    ? getVehicleCapacity(config, vehicleRentalStation?.rentalNetwork.networkId)
     : null;
   const rentalStationLink = `/${PREFIX_BIKESTATIONS}/${vehicleRentalStation?.stationId}`;
   return (
@@ -150,9 +146,8 @@ function VehicleRentalLeg(
           </div>
         </div>
       )}
-      {rentalVehicle && !returnBike && (
-        <RentalVehicleLinkContainer
-          isScooter
+      {rentalVehicle && !returnBike && isScooter && (
+        <ScooterLinkContainer
           rentalVehicle={rentalVehicle}
           language={language}
           mobileReturn={mobileReturn}
@@ -163,9 +158,8 @@ function VehicleRentalLeg(
         isScooter &&
         nearestScooters.map(nearestScooter => {
           return (
-            <RentalVehicleLinkContainer
+            <ScooterLinkContainer
               key={`nearestScooter-${nearestScooter.node.place.vehicleId}`}
-              isScooter
               rentalVehicle={nearestScooter.node.place}
               language={language}
               mobileReturn={mobileReturn}
