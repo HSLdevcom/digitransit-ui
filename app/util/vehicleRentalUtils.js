@@ -47,7 +47,7 @@ export const getRentalNetworkId = networks => {
 };
 
 export const getRentalNetworkConfig = (networkId, config) => {
-  if (!networkId || !networkId.toLowerCase || !config) {
+  if (!networkId || !networkId.toLowerCase) {
     return defaultNetworkConfig;
   }
   const id = networkId.toLowerCase();
@@ -209,7 +209,7 @@ export const getRentalVehicleLink = (rentalVehicle, networkConfig) => {
     return null;
   }
 
-  const { ios, android, web } = rentalVehicle?.rentalUris || {};
+  const { ios, android, web } = rentalVehicle.rentalUris || {};
   const networkName = getRentalNetworkName(networkConfig).toLowerCase();
 
   if (isIOS && ios?.startsWith(`${networkName}://`)) {
@@ -224,7 +224,7 @@ export const getRentalVehicleLink = (rentalVehicle, networkConfig) => {
     return web;
   }
 
-  if (rentalVehicle?.rentalNetwork?.url?.includes(networkName)) {
+  if (rentalVehicle.rentalNetwork?.url?.includes(networkName)) {
     return rentalVehicle.rentalNetwork.url;
   }
 

@@ -25,7 +25,7 @@ import {
   getVehicleAvailabilityIndicatorColor,
 } from '../../util/legUtils';
 import { getIdWithoutFeed } from '../../util/feedScopedIdUtils';
-import RentalVehicleLinkContainer from './RentalVehicleLinkContainer';
+import ScooterLinkContainer from './ScooterLinkContainer';
 
 function VehicleRentalLeg(
   {
@@ -146,9 +146,8 @@ function VehicleRentalLeg(
           </div>
         </div>
       )}
-      {rentalVehicle && !returnBike && (
-        <RentalVehicleLinkContainer
-          isScooter
+      {rentalVehicle && !returnBike && isScooter && (
+        <ScooterLinkContainer
           rentalVehicle={rentalVehicle}
           language={language}
           mobileReturn={mobileReturn}
@@ -159,9 +158,8 @@ function VehicleRentalLeg(
         isScooter &&
         nearestScooters.map(nearestScooter => {
           return (
-            <RentalVehicleLinkContainer
+            <ScooterLinkContainer
               key={`nearestScooter-${nearestScooter.node.place.vehicleId}`}
-              isScooter
               rentalVehicle={nearestScooter.node.place}
               language={language}
               mobileReturn={mobileReturn}
