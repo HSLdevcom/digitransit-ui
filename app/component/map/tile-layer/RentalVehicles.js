@@ -166,9 +166,9 @@ class RentalVehicles {
   shouldShowRentalVehicle = (id, network, isDisabled, formFactor) =>
     (!this.tile.stopsToShow || this.tile.stopsToShow.includes(id)) &&
     (!network ||
-      (this.config.cityBike.networks[network].enabled &&
-        this.config.cityBike.networks[network].showRentalVehicles &&
-        this.config.cityBike.networks[network].type ===
+      (this.config.vehicleRental.networks[network].enabled &&
+        this.config.vehicleRental.networks[network].showRentalVehicles &&
+        this.config.vehicleRental.networks[network].type ===
           formFactor.toLowerCase())) &&
     !isDisabled;
 
