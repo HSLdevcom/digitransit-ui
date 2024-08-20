@@ -439,15 +439,14 @@ export function mergeBikeTransitPlans(bikeParkPlan, bikeTransitPlan) {
  * Combine a scooter edge with the main transit edges.
  */
 export function mergeScooterTransitPlan(scooterPlan, transitPlan) {
-  const scooterTransitEdges = scooterEdges(scooterPlan?.edges);
-  const publicTransitEdges = transitEdges(transitPlan?.edges);
+  const scooterTransitEdges = scooterEdges(scooterPlan.edges);
   const maxTransitEdges =
-    scooterTransitEdges.length > 0 ? 4 : publicTransitEdges.length;
+    scooterTransitEdges.length > 0 ? 4 : transitPlan.edges.length;
 
   return {
     edges: [
       ...scooterTransitEdges.slice(0, 1),
-      ...publicTransitEdges.slice(0, maxTransitEdges),
+      ...transitPlan.edges.slice(0, maxTransitEdges),
     ]
       .sort((a, b) => {
         return a.node.end > b.node.end;
