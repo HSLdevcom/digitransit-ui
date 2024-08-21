@@ -367,7 +367,6 @@ export default {
     default: 18,
   },
 
-  appBarLink: { name: 'Digitransit', href: 'https://www.digitransit.fi/' },
   appBarStyle: 'default',
 
   colors: {

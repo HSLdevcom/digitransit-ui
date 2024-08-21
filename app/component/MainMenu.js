@@ -17,8 +17,8 @@ import intializeSearchContext from '../util/DTSearchContextInitializer';
 function MainMenu(props, { config, intl, executeAction }) {
   const [countries, setCountries] = useState(props.countries);
   const appBarLinkHref =
-    config.appBarLink.alternativeHref?.[props.currentLanguage] ||
-    config.appBarLink.href;
+    config.appBarLink?.alternativeHref?.[props.currentLanguage] ||
+    config.appBarLink?.href;
   return (
     <div className="main-menu no-select" tabIndex={-1}>
       <div className="main-menu-top-section">
@@ -67,7 +67,11 @@ function MainMenu(props, { config, intl, executeAction }) {
         )}
         {config.mainMenu.stopMonitor.show && (
           <div className="offcanvas-section">
-            <a href={config.mainMenu.stopMonitor.url}>
+            <a
+              href={config.mainMenu.stopMonitor.url}
+              target="_blank"
+              rel="noreferrer"
+            >
               <FormattedMessage id="create-stop-monitor" />
             </a>
           </div>
@@ -117,25 +121,25 @@ function MainMenu(props, { config, intl, executeAction }) {
             </div>
           </div>
         ))}
-        {config.appBarLink?.name &&
-          appBarLinkHref &&
-          !config.hideAppBarLink && (
-            <div className="offcanvas-section">
-              <a
-                id="appBarLink"
-                href={appBarLinkHref}
-                onClick={() => {
-                  addAnalyticsEvent({
-                    category: 'Navigation',
-                    action: 'appBarLink',
-                    name: null,
-                  });
-                }}
-              >
-                {config.appBarLink.name}
-              </a>
-            </div>
-          )}
+        {config.appBarLink?.name && appBarLinkHref && (
+          <div className="offcanvas-section">
+            <a
+              id="appBarLink"
+              href={appBarLinkHref}
+              target="_blank"
+              onClick={() => {
+                addAnalyticsEvent({
+                  category: 'Navigation',
+                  action: 'appBarLink',
+                  name: null,
+                });
+              }}
+              rel="noreferrer"
+            >
+              {config.appBarLink.name}
+            </a>
+          </div>
+        )}
       </section>
       <section className="menu-section secondary-links">
         <MainMenuLinks
