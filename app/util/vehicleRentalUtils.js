@@ -231,3 +231,13 @@ export const getRentalVehicleLink = (rentalVehicle, networkConfig) => {
 
   return null;
 };
+
+export const useDeepLink = (deepLink, fallBackAddress) => {
+  window.location.href = deepLink;
+  setTimeout(() => {
+    if (!document.hidden && document.hasFocus()) {
+      // If the document is still visible and has focus, the deep link must have failed
+      window.location.href = fallBackAddress;
+    }
+  }, 500);
+};
