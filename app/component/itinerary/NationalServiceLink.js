@@ -16,7 +16,7 @@ function NationalServiceLink({ currentLanguage, nationalServiceLink }) {
         id="use-national-service-prefix"
         defaultMessage="You can also try the national service available at"
       />
-      <a className="no-decoration" href={href}>
+      <a className="no-decoration" href={href} target="_blank" rel="noreferrer">
         {name}
       </a>
       <FormattedMessage id="use-national-service-postfix" defaultMessage="" />
