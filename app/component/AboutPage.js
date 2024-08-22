@@ -27,7 +27,7 @@ const AboutPage = ({ currentLanguage }, { config }) => {
                   />
                 ))}
               {section.link && (
-                <a href={section.link}>
+                <a href={section.link} target="_blank" rel="noreferrer">
                   <FormattedMessage
                     id="journey-planner-manual"
                     defaultMessage="Journey planner manual"
