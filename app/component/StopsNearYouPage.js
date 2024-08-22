@@ -522,6 +522,8 @@ class StopsNearYouPage extends React.Component {
                             <a
                               className="external-link-citybike"
                               href={cityBikeNetworkUrl[this.props.lang]}
+                              target="_blank"
+                              rel="noreferrer"
                             >
                               <FormattedMessage id="citybike-start-using-info" />
                             </a>
