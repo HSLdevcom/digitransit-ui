@@ -531,6 +531,8 @@ class StopsNearYouPage extends React.Component {
                           {cityBikeBuyUrl && (
                             <a
                               href={cityBikeBuyUrl[this.props.lang]}
+                              target="_blank"
+                              rel="noreferrer"
                               className="disclaimer-close-button-container"
                               tabIndex="0"
                               role="button"
