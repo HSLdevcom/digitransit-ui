@@ -45,6 +45,7 @@ import {
   mergeBikeTransitPlans,
   mergeScooterTransitPlan,
   quitIteration,
+  scooterEdges,
 } from './ItineraryPageUtils';
 import { isIOS } from '../../util/browser';
 import { addAnalyticsEvent } from '../../util/analyticsUtils';
@@ -411,7 +412,8 @@ export default function ItineraryPage(props, context) {
     };
     try {
       const plan = await iterateQuery(tunedParams);
-      setRelaxScooterState({ plan, loading: LOADSTATE.DONE });
+      const scooterPlan = { edges: scooterEdges(plan.edges) };
+      setRelaxScooterState({ plan: scooterPlan, loading: LOADSTATE.DONE });
     } catch (error) {
       setRelaxScooterState(emptyPlan);
     }
