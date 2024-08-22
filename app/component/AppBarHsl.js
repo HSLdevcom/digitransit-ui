@@ -124,7 +124,7 @@ const AppBarHsl = ({ lang, user, favourites }, context) => {
             id="CookieConsent"
             src="https://policy.app.cookieinformation.com/uc.js"
             data-gcm-version="2.0"
-            data-culture="FI"
+            data-culture={lang.toUpperCase()}
             type="text/javascript"
           />
         </Helmet>
