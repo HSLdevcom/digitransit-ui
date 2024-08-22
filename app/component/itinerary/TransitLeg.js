@@ -361,6 +361,8 @@ class TransitLeg extends React.Component {
         <a
           href={`https://www.${notification.link[lang]}`}
           className="disruption-link"
+          target="_blank"
+          rel="noreferrer"
         >
           {createNotification(notification)}
           <Icon
@@ -611,7 +613,11 @@ class TransitLeg extends React.Component {
               <div className="disclaimer-container unknown-fare-disclaimer__leg">
                 <div className="description-container">
                   {config.modeDisclaimers[mode][lang].disclaimer}
-                  <a href={config.modeDisclaimers[mode][lang].link}>
+                  <a
+                    href={config.modeDisclaimers[mode][lang].link}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
                     {config.modeDisclaimers[mode][lang].text}
                   </a>
                 </div>
