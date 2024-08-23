@@ -101,7 +101,7 @@ export default function BicycleLeg(
     modeClassName = 'citybike';
     legDescription = (
       <FormattedMessage
-        id={isScooter ? 'rent-scooter-at' : 'rent-cycle-at'}
+        id={isScooter ? 'rent-e-scooter-at' : 'rent-cycle-at'}
         values={{
           station: leg.from.name,
         }}
@@ -236,12 +236,18 @@ export default function BicycleLeg(
         {(leg.mode === 'WALK' || leg.mode === 'BICYCLE_WALK') &&
           stopsDescription}
         <FormattedMessage
-          id="itinerary-details.biking-leg"
+          id={
+            isScooter
+              ? 'itinerary-details.scooter-leg'
+              : 'itinerary-details.biking-leg'
+          }
           values={{
             time,
             to: intl.formatMessage({ id: `modes.to-${getToMode()}` }),
             distance,
-            origin,
+            origin: isScooter
+              ? intl.formatMessage({ id: 'from-scooter-location' })
+              : origin,
             destination,
             duration,
           }}
@@ -258,7 +264,15 @@ export default function BicycleLeg(
         <span className="sr-only">
           <FormattedMessage
             id="itinerary-summary.show-on-map"
-            values={{ target: leg.from.name || '' }}
+            values={{
+              target:
+                leg.from.name?.toLowerCase() === 'scooter'
+                  ? intl.formatMessage({
+                      id: 'e-scooter',
+                      defaultMessage: 'scooter',
+                    })
+                  : leg.from.name || '',
+            }}
           />
         </span>
         {isFirstLeg(index) || bicycleWalkLeg?.from.stop ? (

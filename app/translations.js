@@ -1081,6 +1081,7 @@ const translations = {
     'from-bus': 'bus',
     'from-ferry': 'ferry',
     'from-rail': 'train',
+    'from-scooter-location': 'the scooter location',
     'from-station': 'from station',
     'from-stop': 'from stop',
     'from-subway': 'subway',
@@ -1183,9 +1184,12 @@ const translations = {
       'Leaves at {firstDepartureTime} {firstDepartureStopType} {firstDepartureStop}{firstDeparturePlatform}',
     'itinerary-summary-row.first-leg-start-time-citybike':
       'Departure at {firstDepartureTime} from {firstDepartureStop} bike station',
+    'itinerary-summary-row.first-leg-start-time-scooter':
+      'Departure at {firstDepartureTime} by a scooter',
     'itinerary-summary-row.no-transit-legs': 'Leave when it suits you',
     'itinerary-summary-row.transfers':
       'Transfer to {vehicle} on stop {stopName}',
+    'itinerary-summary-row.transfers-to-rental': 'Transfer to {vehicle}',
     'itinerary-summary-row.walking-distance':
       'Total walking distance {totalDistance}.',
     'itinerary-summary.bike-boarding-information':
@@ -1625,7 +1629,9 @@ const translations = {
     'time-selector-hours-label': 'Hour',
     'time-selector-minutes-label': 'Minute',
     timetable: 'Timetable',
+    'to-bicycle': 'bicycle',
     'to-bus': 'bus',
+    'to-e-scooter': 'scooter',
     'to-ferry': 'ferry',
     'to-frontpage': 'To the front page',
     'to-rail': 'train',
@@ -2293,6 +2299,7 @@ const translations = {
     'from-bus': 'bussista',
     'from-ferry': 'lautasta',
     'from-rail': 'junasta',
+    'from-scooter-location': 'potkulaudan sijainti',
     'from-station': 'asemalta',
     'from-stop': 'pysäkiltä',
     'from-subway': 'metrosta',
@@ -2350,7 +2357,7 @@ const translations = {
     'itinerary-details.route-has-unknown-alert': 'Reitillä on häiriöitä.',
     'itinerary-details.route-has-warning-alert': 'Reitillä on häiriöitä.',
     'itinerary-details.scooter-leg':
-      '{time} potkulautaile {distance} kohteesta {origin} kohteeseen {destination}. Matka-aika {duration}',
+      '{time} potkulautaile kohteesta {origin} {distance} {to} {destination}. Matka-aika {duration}',
     'itinerary-details.transit-leg-part-1': '{time} {realtime} ota',
     'itinerary-details.transit-leg-part-2':
       'pysäkiltä {startStop} {startZoneInfo} {trackInfo} pysäkille {endStop} {endZoneInfo}. Arvioitu matka-aika {duration}',
@@ -2389,8 +2396,11 @@ const translations = {
       'Lähtee klo {firstDepartureTime} {firstDepartureStopType} {firstDepartureStop}{firstDeparturePlatform}',
     'itinerary-summary-row.first-leg-start-time-citybike':
       'Lähtö klo {firstDepartureTime} kaupunkipyöräasemalta {firstDepartureStop}',
+    'itinerary-summary-row.first-leg-start-time-scooter':
+      'Lähtö klo {firstDepartureTime} sähköpotkulaudalla',
     'itinerary-summary-row.no-transit-legs': 'Lähde, kun sinulle sopii',
     'itinerary-summary-row.transfers': 'Vaihto {vehicle} pysäkillä {stopName}',
+    'itinerary-summary-row.transfers-to-rental': 'Vaihto {vehicle}',
     'itinerary-summary-row.walking-distance':
       'Kävelyä yhteensä {totalDistance}.',
     'itinerary-summary.bike-boarding-information':
@@ -2830,7 +2840,9 @@ const translations = {
     'time-selector-hours-label': 'Tunti',
     'time-selector-minutes-label': 'Minuutti',
     timetable: 'Aikataulu',
+    'to-bicycle': 'polkupyörään',
     'to-bus': 'bussiin',
+    'to-e-scooter': 'sähköpotkulautaan',
     'to-ferry': 'lauttaan',
     'to-frontpage': 'Etusivulle',
     'to-rail': 'junaan',
@@ -5143,6 +5155,7 @@ const translations = {
     'from-bus': 'bussen',
     'from-ferry': 'färjan',
     'from-rail': 'tåget',
+    'from-scooter-location': 'platsen för sparkcykel',
     'from-station': 'från stationen',
     'from-stop': 'från hållplats',
     'from-subway': 'metron',
@@ -5243,9 +5256,12 @@ const translations = {
       'Avgår kl {firstDepartureTime} {firstDepartureStopType} {firstDepartureStop}{firstDeparturePlatform}',
     'itinerary-summary-row.first-leg-start-time-citybike':
       'Avgång kl {firstDepartureTime} från {firstDepartureStop} stadscykelstation',
+    'itinerary-summary-row.first-leg-start-time-scooter':
+      'Avgång kl {firstDepartureTime} med en sparkcykel',
     'itinerary-summary-row.no-transit-legs': 'Avgå när det passar för dig',
     'itinerary-summary-row.transfers':
       'Byte {vehicle} vid hållplats {stopName}',
+    'itinerary-summary-row.transfers-to-rental': 'Byte {vehicle}',
     'itinerary-summary-row.walking-distance':
       'Promenad sammanlagt {totalDistance}.',
     'itinerary-summary.bike-boarding-information':
@@ -5685,7 +5701,9 @@ const translations = {
     'time-selector-hours-label': 'Timme',
     'time-selector-minutes-label': 'Minut',
     timetable: 'Tidtabell',
+    'to-bicycle': 'stadscykeln',
     'to-bus': 'bussen',
+    'to-e-scooter': 'skotern',
     'to-ferry': 'färjan',
     'to-frontpage': 'Till startsidan',
     'to-rail': 'tåget',

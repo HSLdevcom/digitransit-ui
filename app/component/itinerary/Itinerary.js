@@ -270,6 +270,7 @@ const Itinerary = (
   { intl, intl: { formatMessage }, config },
 ) => {
   const isTransitLeg = leg => leg.transitLeg;
+  const isTransitOrRentalLeg = leg => leg.transitLeg || leg.rentedBike;
   const isLegOnFoot = leg => leg.mode === 'WALK' || leg.mode === 'BICYCLE_WALK';
   const usingOwnBicycle = itinerary.legs.some(
     leg => getLegMode(leg) === 'BICYCLE' && leg.rentedBike === false,
@@ -462,6 +463,12 @@ const Itinerary = (
           large={breakpoint === 'large'}
         />,
       );
+      vehicleNames.push(
+        formatMessage({
+          id: `to-bicycle`,
+        }),
+      );
+      stopNames.push(leg.from.name);
     } else if (leg.mode === 'SCOOTER' && leg.rentedBike) {
       const scooterDuration = Math.floor(leg.duration / 60);
       legs.push(
@@ -476,6 +483,12 @@ const Itinerary = (
           large={breakpoint === 'large'}
         />,
       );
+      vehicleNames.push(
+        formatMessage({
+          id: `to-e-scooter`,
+        }),
+      );
+      stopNames.push('');
     } else if (leg.mode === 'CAR') {
       const drivingTime = Math.floor(leg.duration / 60);
       legs.push(
@@ -709,6 +722,17 @@ const Itinerary = (
   ]);
 
   //  accessible representation for summary
+  const firstDepartureWithRentals = compressedLegs.find(isTransitOrRentalLeg);
+  firstDeparture = firstDepartureWithRentals.rentedBike
+    ? firstDepartureWithRentals
+    : firstDeparture;
+  const rentalLabelId =
+    firstDeparture?.mode.toLowerCase() === 'scooter'
+      ? 'itinerary-summary-row.first-leg-start-time-scooter'
+      : 'itinerary-summary-row.first-leg-start-time-citybike';
+  const firstDepartureLabelId = firstDepartureWithRentals?.rentedBike
+    ? rentalLabelId
+    : 'itinerary-summary-row.first-departure';
   const textSummary = (
     <div className="sr-only" key="screenReader">
       <FormattedMessage
@@ -720,11 +744,13 @@ const Itinerary = (
           arrivalTime,
           firstDeparture: vehicleNames.length && firstDeparture && (
             <FormattedMessage
-              id="itinerary-summary-row.first-departure"
+              id={firstDepartureLabelId}
               values={{
                 vehicle: vehicleNames[0],
                 departureTime: legTimeStr(firstDeparture.start),
+                firstDepartureTime: legTimeStr(firstDeparture.start), // vehicle rental start time
                 stopName: stopNames[0],
+                firstDepartureStop: stopNames[0], // vehicle rental stop name
               }}
             />
           ),
@@ -733,7 +759,11 @@ const Itinerary = (
               return null;
             }
             return formatMessage(
-              { id: 'itinerary-summary-row.transfers' },
+              {
+                id: stopNames[index]
+                  ? 'itinerary-summary-row.transfers'
+                  : 'itinerary-summary-row.transfers-to-rental',
+              },
               {
                 vehicle: name,
                 stopName: stopNames[index],

@@ -57,6 +57,7 @@ function VehicleRentalLeg(
         'citybike-leg-header',
         returnBike && isScooter && 'scooter-return',
       )}
+      aria-hidden={isScooter} // scooter screen reader message is already defined elsewhere
     >
       <FormattedMessage id={id} defaultMessage="Fetch a bike" />
     </span>
