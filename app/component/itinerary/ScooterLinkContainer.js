@@ -8,6 +8,7 @@ import {
   getRentalNetworkConfig,
   getRentalNetworkIcon,
   getRentalVehicleLink,
+  useDeepLink,
 } from '../../util/vehicleRentalUtils';
 
 import withBreakpoint from '../../util/withBreakpoint';
@@ -31,6 +32,10 @@ function ScooterLinkContainer(
     />
   );
   const rentalVehicleLink = getRentalVehicleLink(rentalVehicle, networkConfig);
+  const onClick = rentalVehicleLink.startsWith('http')
+    ? () => {}
+    : () => useDeepLink(rentalVehicleLink, rentalVehicle.rentalNetwork.url);
+
   return (
     <div>
       <div className="itinerary-transit-leg-route-bike">
@@ -43,6 +48,7 @@ function ScooterLinkContainer(
               <ExternalLink
                 className="rental-vehicle-link"
                 href={rentalVehicleLink}
+                onClick={onClick}
               >
                 {scooterHeadsign}
               </ExternalLink>
@@ -53,6 +59,7 @@ function ScooterLinkContainer(
           <ExternalLink
             className="rental-vehicle-link"
             href={rentalVehicleLink}
+            onClick={onClick}
           >
             <Icon
               img="icon-icon_square_right_corner_arrow"

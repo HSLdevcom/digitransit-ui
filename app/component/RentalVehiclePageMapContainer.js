@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
+import { FormattedMessage } from 'react-intl';
 import StopPageMap from './map/StopPageMap';
 import { rentalVehicleShape } from '../util/shapes';
 
@@ -8,7 +9,13 @@ const RentalVehiclePageMapContainer = ({ rentalVehicle }) => {
   if (!rentalVehicle) {
     return false;
   }
-  return <StopPageMap stop={rentalVehicle} scooter />;
+  const stopName = (
+    <FormattedMessage
+      id={rentalVehicle.name.toLowerCase() === 'scooter' && 'e-scooter'}
+      defaultMessage={rentalVehicle.name}
+    />
+  );
+  return <StopPageMap stop={rentalVehicle} stopName={stopName} scooter />;
 };
 
 RentalVehiclePageMapContainer.contextTypes = {
