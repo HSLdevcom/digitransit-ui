@@ -364,7 +364,7 @@ export function scooterEdges(edges) {
   }
   return edges.filter(edge =>
     edge.node.legs.some(
-      leg => leg.mode === 'SCOOTER' && !leg.from.vehicleRentalStation,
+      leg => leg.mode === 'SCOOTER' && leg.from.rentalVehicle,
     ),
   );
 }
