@@ -723,7 +723,7 @@ const Itinerary = (
 
   //  accessible representation for summary
   const firstDepartureWithRentals = compressedLegs.find(isTransitOrRentalLeg);
-  firstDeparture = firstDepartureWithRentals.rentedBike
+  firstDeparture = firstDepartureWithRentals?.rentedBike
     ? firstDepartureWithRentals
     : firstDeparture;
   const rentalLabelId =

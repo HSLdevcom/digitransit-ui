@@ -84,7 +84,7 @@ describe('<BicycleLeg />', () => {
       },
     });
     expect(wrapper.find(FormattedMessage).at(0).prop('id')).to.equal(
-      'rent-scooter-at',
+      'rent-e-scooter-at',
     );
   });
 
