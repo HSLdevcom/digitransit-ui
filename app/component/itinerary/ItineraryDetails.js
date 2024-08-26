@@ -292,7 +292,7 @@ class ItineraryDetails extends React.Component {
                   legs={itinerary.legs}
                 />
               )),
-            this.props.navigate && (
+            this.props.navigate && false && (
 	      // TODO: placeholder for real component, change this
               <div key="tracking">
                 <SecondaryButton
