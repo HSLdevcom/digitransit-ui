@@ -1071,6 +1071,7 @@ export default function ItineraryPage(props, context) {
       );
     } else {
       let carEmissions = carPlan?.edges?.[0]?.node.emissionsPerPerson?.co2;
+      const navigateHook = !desktop && config.navigation ? navigate : undefined;
       carEmissions = carEmissions ? Math.round(carEmissions) : undefined;
       content = (
         <ItineraryTabs
@@ -1085,7 +1086,7 @@ export default function ItineraryPage(props, context) {
           bikeAndPublicItineraryCount={bikePublicPlan.bikePublicItineraryCount}
           openSettings={showSettingsPanel}
           relayEnvironment={props.relayEnvironment}
-          navigate={!desktop && config.navigation && navigate}
+          navigate={navigateHook}
         />
       );
     }
