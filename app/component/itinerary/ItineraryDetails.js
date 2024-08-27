@@ -295,7 +295,6 @@ class ItineraryDetails extends React.Component {
               )),
 
             this.props.setNavigation && (
-	          // TODO: placeholder for real component, change this
               <div key="tracking">
                 <ToTripButton ariaLabel="followyourouteonscreen" 
                   buttonClickAction={() => {
