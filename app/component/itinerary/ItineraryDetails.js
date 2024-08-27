@@ -11,6 +11,7 @@ import TicketInformation from './TicketInformation';
 import ItinerarySummary from './ItinerarySummary';
 import Legs from './Legs';
 import BackButton from '../BackButton';
+import SecondaryButton from '../SecondaryButton';
 import MobileTicketPurchaseInformation from './MobileTicketPurchaseInformation';
 import {
   compressLegs,
@@ -54,6 +55,7 @@ class ItineraryDetails extends React.Component {
     currentLanguage: PropTypes.string,
     changeHash: PropTypes.func,
     openSettings: PropTypes.func.isRequired,
+    setNavigation: PropTypes.func,
     bikeAndPublicItineraryCount: PropTypes.number,
     relayEnvironment: relayShape,
   };
@@ -65,6 +67,7 @@ class ItineraryDetails extends React.Component {
     bikeAndPublicItineraryCount: 0,
     carEmissions: undefined,
     relayEnvironment: undefined,
+    setNavigation: undefined,
   };
 
   static contextTypes = {
@@ -290,6 +293,18 @@ class ItineraryDetails extends React.Component {
                   legs={itinerary.legs}
                 />
               )),
+            this.props.setNavigation && false && (
+	      // TODO: placeholder for real component, change this
+              <div key="tracking">
+                <SecondaryButton
+                  buttonName="tracking"
+                  ariaLabel="tracking"
+                  buttonClickAction={() => {
+                    this.props.setNavigation(true);
+		  }}
+		/>
+              </div>
+            ),
             config.showCO2InItinerarySummary && !legsWithScooter && (
               <EmissionsInfo
 		key="emissionsummary"

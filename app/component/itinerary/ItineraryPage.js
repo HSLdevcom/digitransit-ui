@@ -20,6 +20,7 @@ import ItineraryListContainer from './ItineraryListContainer';
 import { spinnerPosition } from './ItineraryList';
 import ItineraryPageControls from './ItineraryPageControls';
 import ItineraryTabs from './ItineraryTabs';
+import Navigator from './Navigator';
 import { getWeatherData } from '../../util/apiUtils';
 import Loading from '../Loading';
 import { getItineraryPagePath, streetHash } from '../../util/path';
@@ -139,6 +140,7 @@ export default function ItineraryPage(props, context) {
   const [weatherState, setWeatherState] = useState({ loading: false });
   const [topicsState, setTopicsState] = useState(null);
   const [mapState, setMapState] = useState({});
+  const [navigation, setNavigation] = useState(false);
 
   const { config, router } = context;
   const { match, breakpoint } = props;
@@ -732,6 +734,9 @@ export default function ItineraryPage(props, context) {
       if (altLoadingDone() && !mapHashToPlan()?.edges?.length) {
         selectStreetMode(); // back to root view
       }
+    } else if (navigation) {
+      // turn off tracking when user navigates away from tracking view
+      setNavigation(false);
     }
   }, [hash, secondHash]);
 
@@ -1055,23 +1060,37 @@ export default function ItineraryPage(props, context) {
       </div>
     );
   } else if (detailView) {
-    let carEmissions = carPlan?.edges?.[0]?.node.emissionsPerPerson?.co2;
-    carEmissions = carEmissions ? Math.round(carEmissions) : undefined;
-    content = (
-      <ItineraryTabs
-        isMobile={!desktop}
-        tabIndex={selectedIndex}
-        changeHash={changeHash}
-        plan={plan}
-        planEdges={combinedEdges}
-        focusToPoint={focusToPoint}
-        focusToLeg={focusToLeg}
-        carEmissions={carEmissions}
-        bikeAndPublicItineraryCount={bikePublicPlan.bikePublicItineraryCount}
-        openSettings={showSettingsPanel}
-        relayEnvironment={props.relayEnvironment}
-      />
-    );
+    if (navigation) {
+      content = (
+        <Navigator
+          itinerary={combinedEdges[selectedIndex]?.node}
+          focusToPoint={focusToPoint}
+          focusToLeg={focusToLeg}
+          relayEnvironment={props.relayEnvironment}
+        />
+      );
+    } else {
+      let carEmissions = carPlan?.edges?.[0]?.node.emissionsPerPerson?.co2;
+      const navigateHook =
+        !desktop && config.navigation ? setNavigation : undefined;
+      carEmissions = carEmissions ? Math.round(carEmissions) : undefined;
+      content = (
+        <ItineraryTabs
+          isMobile={!desktop}
+          tabIndex={selectedIndex}
+          changeHash={changeHash}
+          plan={plan}
+          planEdges={combinedEdges}
+          focusToPoint={focusToPoint}
+          focusToLeg={focusToLeg}
+          carEmissions={carEmissions}
+          bikeAndPublicItineraryCount={bikePublicPlan.bikePublicItineraryCount}
+          openSettings={showSettingsPanel}
+          relayEnvironment={props.relayEnvironment}
+          setNavigation={navigateHook}
+        />
+      );
+    }
   } else {
     if (state.loading === LOADSTATE.UNSET) {
       return null; // do not render 'no itineraries' before searches
