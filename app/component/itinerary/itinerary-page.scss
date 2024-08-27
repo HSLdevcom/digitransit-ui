@@ -494,8 +494,6 @@
 .to-trip-button-class {
   display: flex;
   flex-direction: row;
-  flex-grow: 1;
-  flex-shrink: 1;
   white-space: normal;
   position: relative;
   background-color: #e5f2fa;
@@ -513,7 +511,6 @@
 }
 
 .to-trip-instruction-text {
-  position: center;
   display: flex;
   margin-right: 10px;
   margin-left: 5px;
