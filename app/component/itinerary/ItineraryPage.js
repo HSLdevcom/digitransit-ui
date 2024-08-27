@@ -140,7 +140,7 @@ export default function ItineraryPage(props, context) {
   const [weatherState, setWeatherState] = useState({ loading: false });
   const [topicsState, setTopicsState] = useState(null);
   const [mapState, setMapState] = useState({});
-  const [navigation, navigate] = useState(false);
+  const [navigation, setNavigation] = useState(false);
 
   const { config, router } = context;
   const { match, breakpoint } = props;
@@ -736,7 +736,7 @@ export default function ItineraryPage(props, context) {
       }
     } else if (navigation) {
       // turn off tracking when user navigates away from tracking view
-      navigate(false);
+      setNavigation(false);
     }
   }, [hash, secondHash]);
 
@@ -1071,7 +1071,8 @@ export default function ItineraryPage(props, context) {
       );
     } else {
       let carEmissions = carPlan?.edges?.[0]?.node.emissionsPerPerson?.co2;
-      const navigateHook = !desktop && config.navigation ? navigate : undefined;
+      const navigateHook =
+        !desktop && config.navigation ? setNavigation : undefined;
       carEmissions = carEmissions ? Math.round(carEmissions) : undefined;
       content = (
         <ItineraryTabs
@@ -1086,7 +1087,7 @@ export default function ItineraryPage(props, context) {
           bikeAndPublicItineraryCount={bikePublicPlan.bikePublicItineraryCount}
           openSettings={showSettingsPanel}
           relayEnvironment={props.relayEnvironment}
-          navigate={navigateHook}
+          setNavigation={navigateHook}
         />
       );
     }

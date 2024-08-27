@@ -55,7 +55,7 @@ class ItineraryDetails extends React.Component {
     currentLanguage: PropTypes.string,
     changeHash: PropTypes.func,
     openSettings: PropTypes.func.isRequired,
-    navigate: PropTypes.func,
+    setNavigation: PropTypes.func,
     bikeAndPublicItineraryCount: PropTypes.number,
     relayEnvironment: relayShape,
   };
@@ -67,7 +67,7 @@ class ItineraryDetails extends React.Component {
     bikeAndPublicItineraryCount: 0,
     carEmissions: undefined,
     relayEnvironment: undefined,
-    navigate: undefined,
+    setNavigation: undefined,
   };
 
   static contextTypes = {
@@ -293,14 +293,14 @@ class ItineraryDetails extends React.Component {
                   legs={itinerary.legs}
                 />
               )),
-            this.props.navigate && false && (
+            this.props.setNavigation && false && (
 	      // TODO: placeholder for real component, change this
               <div key="tracking">
                 <SecondaryButton
                   buttonName="tracking"
                   ariaLabel="tracking"
                   buttonClickAction={() => {
-                    this.props.navigate(true);
+                    this.props.setNavigation(true);
 		  }}
 		/>
               </div>
