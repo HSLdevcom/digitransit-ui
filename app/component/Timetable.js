@@ -243,7 +243,11 @@ class Timetable extends React.Component {
           <div style={{ width: '85%' }}>
             <span>{constantOperationStops[stopId][locale].text}</span>
             <span style={{ display: 'inline-block' }}>
-              <a href={constantOperationStops[stopId][locale].link}>
+              <a
+                href={constantOperationStops[stopId][locale].link}
+                target="_blank"
+                rel="noreferrer"
+              >
                 {constantOperationStops[stopId][locale].link}
               </a>
             </span>

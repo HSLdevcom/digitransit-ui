@@ -717,7 +717,11 @@ class ScheduleContainer extends PureComponent {
             <div style={{ width: '95%' }}>
               <span>{constantOperationRoutes[routeId][locale].text}</span>
               <span style={{ display: 'inline-block' }}>
-                <a href={constantOperationRoutes[routeId][locale].link}>
+                <a
+                  href={constantOperationRoutes[routeId][locale].link}
+                  target="_blank"
+                  rel="noreferrer"
+                >
                   {constantOperationRoutes[routeId][locale].link}
                 </a>
               </span>

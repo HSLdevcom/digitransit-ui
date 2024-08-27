@@ -17,7 +17,11 @@ export default function FareDisclaimer({
       </div>
       <div className="description-container">
         {text || <FormattedMessage id={textId} values={values} />}
-        {href && <a href={href}>{linkText}</a>}
+        {href && (
+          <a href={href} target="_blank" rel="noreferrer">
+            {linkText}
+          </a>
+        )}
       </div>
     </div>
   );

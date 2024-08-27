@@ -77,7 +77,11 @@ class StopPageContent extends React.Component {
             <span>{constantOperationStops[stopId][locale].text}</span>
             {/* Next span inline-block so that the link doesn't render on multiple lines */}
             <span style={{ display: 'inline-block' }}>
-              <a href={constantOperationStops[stopId][locale].link}>
+              <a
+                href={constantOperationStops[stopId][locale].link}
+                target="_blank"
+                rel="noreferrer"
+              >
                 {constantOperationStops[stopId][locale].link}
               </a>
             </span>

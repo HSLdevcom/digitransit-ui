@@ -399,8 +399,6 @@ export default {
     showLayerSelector: false,
     showStopMarkerPopupOnMobile: false,
     showScaleBar: true,
-    attribution:
-      '<a tabindex="-1" href="http://osm.org/copyright">© OpenStreetMap</a>',
     // areBounds is for keeping map and user inside given area
     // HSL region + Lahti
     areaBounds: {

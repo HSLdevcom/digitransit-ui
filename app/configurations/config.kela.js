@@ -31,7 +31,6 @@ export default {
   feedIds: ['kela', 'matkahuolto', 'lansilinjat'],
   textLogo: true,
   logo: null, // override default logo from matka config
-  appBarLink: false, // override default config - would show Traficom otherwise
 
   meta: {
     description: APP_DESCRIPTION,
@@ -97,7 +96,6 @@ export default {
 
   availableLanguages: ['fi', 'sv', 'en'],
   defaultLanguage: 'fi',
-  hideAppBarLink: true,
 
   socialMedia: {
     title: APP_TITLE,

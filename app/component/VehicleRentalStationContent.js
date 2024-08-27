@@ -77,6 +77,8 @@ const VehicleRentalStationContent = (
             }}
             className="external-link-citybike"
             href={returnInstructionsUrl}
+            target="_blank"
+            rel="noreferrer"
           >
             {' '}
             <FormattedMessage id="citybike-return-full-link" />
@@ -91,7 +93,12 @@ const VehicleRentalStationContent = (
             </h2>
             <div className="disclaimer-content">
               {buyInstructions || (
-                <a className="external-link-citybike" href={cityBikeNetworkUrl}>
+                <a
+                  className="external-link-citybike"
+                  href={cityBikeNetworkUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                >
                   <FormattedMessage id="citybike-start-using-info" />
                 </a>
               )}
@@ -103,6 +110,8 @@ const VehicleRentalStationContent = (
                 }}
                 className="external-link"
                 href={cityBikeBuyUrl}
+                target="_blank"
+                rel="noreferrer"
               >
                 <FormattedMessage id="citybike-purchase-link" />
                 <Icon img="icon-icon_external-link-box" />

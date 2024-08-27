@@ -21,6 +21,8 @@ export default function MessageBarMessage(
         <a
           className="message-bar-link"
           href={link.href}
+          target="_blank"
+          rel="noreferrer"
           style={{ color: link.color || null }}
         >
           {link.content || link.href}

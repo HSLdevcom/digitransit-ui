@@ -44,7 +44,11 @@ function VehicleRentalDurationInfo(props) {
               defaultMessage=""
             />
             &nbsp;
-            <a href={vehicleRentalStationNetworkDurationInfoLink}>
+            <a
+              href={vehicleRentalStationNetworkDurationInfoLink}
+              target="_blank"
+              rel="noreferrer"
+            >
               <FormattedMessage id="read-more" defaultMessage="Read more" /> ›
             </a>
           </p>
