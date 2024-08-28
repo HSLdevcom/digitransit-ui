@@ -421,16 +421,6 @@ export default {
 
   hideExternalOperator: () => false,
   // Ticket information feature toggle
-  showTicketInformation: false,
-  ticketInformation: {
-    // This is the name of the primary agency operating in the area.
-    // It is used when a ticket price cannot be shown to the user, indicating
-    // that the primary agency is not responsible for ticketing.
-    /*
-    primaryAgencyName: ...,
-    */
-  },
-
   useTicketIcons: false,
 
   // Control what transport modes that should be possible to select in the UI

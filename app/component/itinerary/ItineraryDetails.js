@@ -5,7 +5,6 @@ import cx from 'classnames';
 import { matchShape, routerShape } from 'found';
 import { FormattedMessage, intlShape } from 'react-intl';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-import get from 'lodash/get';
 import { configShape, itineraryShape, relayShape } from '../../util/shapes';
 import TicketInformation from './TicketInformation';
 import ItinerarySummary from './ItinerarySummary';
@@ -220,7 +219,8 @@ class ItineraryDetails extends React.Component {
 	    key="faredisclaimer-separate-ticket-key"
             textId="separate-ticket-required-disclaimer"
             values={{
-              agencyName: get(config, 'ticketInformation.primaryAgencyName'),
+              agencyName: typeof config.primaryAgencyName === 'string' ? config.primaryAgencyName :
+		config.primaryAgencyName?.[currentLanguage]
             }}
           />,
         );
