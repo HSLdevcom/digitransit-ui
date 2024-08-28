@@ -493,6 +493,7 @@
 
 .to-trip-button-class {
   display: flex;
+  align-items: center;
   flex-direction: row;
   white-space: normal;
   position: relative;
@@ -500,7 +501,6 @@
   margin-right: 10px;
   margin-left: 10px;
   border-radius: 10px;
-  height: 35px;
 }
 
 .to-trip-icon {
@@ -520,16 +520,6 @@
   text-wrap: wrap;
 }
 
-.to-trip-secondary-button {
-  position: right;
-  margin-left: 70px;
-  border-radius: 999px;
-  align-content: center;
-  width: 120px;
-  height: 28px;
-  padding: 5px;
-}
-
 .to-trip-instruction-button {
   display: flex;
   background-color: #0074bf;
@@ -537,6 +527,11 @@
   width: 120px;
   height: 28px;
   padding-left: 20px;
+  padding-right: 10px;
+  padding-top: 3px;
+  padding-bottom: 5px;
   color: white;
-  align-content: center;
+  align-items: center;
+  margin-right: 16px;
+  margin-left: 55px;
 }

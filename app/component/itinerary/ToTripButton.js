@@ -18,22 +18,20 @@ const ToTripButton = (props, context) => {
         })}
       </div>
 
-      <div className="to-trip-secondary-button">
-        <div className="to-trip-instruction-button">
-          <button
-            type="button"
-            aria-label={context.intl.formatMessage({
-              id: 'follow',
-              defaultMessage: 'follow',
-            })}
-            onClick={e => props.buttonClickAction(e)}
-          >
-            <FormattedMessage
-              id="followtheitinerary"
-              defaultMessage="followtheitinerary"
-            />
-          </button>
-        </div>
+      <div className="to-trip-instruction-button">
+        <button
+          type="button"
+          aria-label={context.intl.formatMessage({
+            id: 'follow',
+            defaultMessage: 'follow',
+          })}
+          onClick={e => props.buttonClickAction(e)}
+        >
+          <FormattedMessage
+            id="followtheitinerary"
+            defaultMessage="followtheitinerary"
+          />
+        </button>
       </div>
     </div>
   );

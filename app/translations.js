@@ -1079,7 +1079,7 @@ const translations = {
     finnish: 'Finnish',
     follow: 'Follow route',
     followtheitinerary: 'To tour',
-    followyourouteonscreen: 'Find your way by guide!',
+    followyourouteonscreen: 'Find your way guided!',
     'free-of-charge': 'Free',
     'from-bus': 'bus',
     'from-ferry': 'ferry',
