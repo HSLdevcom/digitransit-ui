@@ -1034,16 +1034,15 @@ const translations = {
     'distance-between': 'Distance {distance1} m — {distance2} m',
     'distance-total': 'Total distance',
     'distance-under': 'Distance less than {distance} m',
-    'e-scooter': 'Sähköpotkulauta',
+    'e-scooter': 'Electric scooter',
     'e-scooter-alternative':
-      'Entä jos kulkisit osan matkasta sähköpotkulaudalla? {paymentInfo}',
+      'How about using an electric scooter for part of your journey? {paymentInfo}',
     'e-scooter-or-taxi-alternative':
-      'Entä jos kulkisit osan matkasta taksilla tai sähköpotkulaudalla? {paymentInfo}',
-    'e-scooter-quantity': 'Sähköpotkulautoja vapaana juuri nyt: ',
-    'e-scooter-station': 'Sähköpotkulauta-asema',
-    'e-scooters': 'Sähköpotkulaudat',
+      'How about using a taxi or an electric scooter for part of your journey? {paymentInfo}',
+    'e-scooter-station': 'Electric scooter station',
+    'e-scooters': 'Electric scooters',
     'e-scooters-available':
-      'Alueella sähköpotkulautoja vapaana. Ota sähköpotkulauta käyttöön sovelluksella.',
+      'There are electric scooters available in the area. Use an app to unlock the electric scooter.',
     earlier: 'Earlier departures',
     'edit-favourites': 'Edit the location in the Favorites',
     'elevation-gained-total': 'Elevation gained',
@@ -1331,8 +1330,8 @@ const translations = {
       'Log in to the service to save your favorites and utilize them on other devices',
     'one-way-journey': 'The length of a one-way journey',
     'open-app': 'Open the app',
-    'open-operator-app': 'Open {operator} app',
-    'open-settings': 'Avaa asetukset',
+    'open-operator-app': 'Open the {operator} app',
+    'open-settings': 'Open the settings',
     'option-default': 'Average',
     'option-least': 'Slow',
     'option-less': 'Calm',
@@ -1353,9 +1352,9 @@ const translations = {
     'park-and-ride-availability': 'Spaces available:',
     'pay-attention': 'N.B.',
     'payment-info-e-scooter':
-      'Huomaathan, että potkulautojen käyttö ja maksaminen tapahtuu toimijoiden omilla sovelluksilla.',
+      'Please note that you need to use the app of the operator in question in order to use and pay for the scooters.',
     'payment-info-e-scooter-taxi':
-      'Huomaathan, että potkulautojen ja taksin käyttö ja maksaminen tapahtuu toimijoiden omilla sovelluksilla.',
+      'Please note that you need to use the app of the operator in question in order to use and pay for the taxis or scooters.',
     'payment-info-taxi-lifts':
       'Huomaathan, että taksien ja kyytipalveluiden käyttö ja maksaminen tapahtuu toimijoiden omilla sovelluksilla.',
     payment_at_gate: 'Payment at the gate ',
@@ -1400,11 +1399,11 @@ const translations = {
     'remove-favourite': 'Remove from favorites',
     'remove-via-button-label': 'Remove via point {index}',
     'rent-cycle-at': 'Fetch a city bike:',
-    'rent-e-scooter-at': 'Ota sähköpotkulauta käyttöön sovelluksella',
+    'rent-e-scooter-at': 'Use an app to unlock the electric scooter',
     'rent-scooter-at': 'Rent a kick scooter at {station} station',
     'required-ticket': 'Ticket required for the journey',
     'return-cycle-to': 'Return the bike:',
-    'return-e-scooter-to': 'Jätä potkulauta turvalliseen paikkaan',
+    'return-e-scooter-to': 'Leave the scooter in a safe location',
     'return-scooter-to': 'Return the kick scooter to {station} station',
     'right-now': 'Right now',
     route: 'Route',
@@ -1516,9 +1515,10 @@ const translations = {
     'settings-dropdown-close-label': 'Close options',
     'settings-dropdown-open-label': 'Open options',
     'settings-e-scooter':
-      'Voit valita haluamasi sähköpotkulaudat, jolloin ne ovat osa reititystä. {paymentInfo}',
-    'settings-e-scooter-on': 'Lisää sähköpotkulauta pysyvästi asetuksiisi',
-    'settings-e-scooter-routes': 'Sähköpotkulaudat osaksi reittejäsi!',
+      'You can select the electric scooters you want and make them part of the route suggestions. {paymentInfo}',
+    'settings-e-scooter-on':
+      'Make electric scooters a permanent option in your settings',
+    'settings-e-scooter-routes': 'Make electric scooters part of your routes!',
     'settings-label-change': 'Change settings',
     'settings-missing-itineraries-body':
       'Some selections in the settings exclude certain route alternatives.',
@@ -2250,7 +2250,6 @@ const translations = {
       'Entä jos kulkisit osan matkasta sähköpotkulaudalla? {paymentInfo}',
     'e-scooter-or-taxi-alternative':
       'Entä jos kulkisit osan matkasta taksilla tai sähköpotkulaudalla? {paymentInfo}',
-    'e-scooter-quantity': 'Sähköpotkulautoja vapaana juuri nyt: ',
     'e-scooter-station': 'Sähköpotkulauta-asema',
     'e-scooters': 'Sähköpotkulaudat',
     'e-scooters-available':
@@ -5094,16 +5093,15 @@ const translations = {
     'distance-between': 'Avstånd {distance1} m — {distance2} m',
     'distance-total': 'Resans längd',
     'distance-under': 'Avstånd mindre än {distance} m',
-    'e-scooter': 'Sähköpotkulauta',
+    'e-scooter': 'Elsparkcykel',
     'e-scooter-alternative':
       'Entä jos kulkisit osan matkasta sähköpotkulaudalla? {paymentInfo}',
     'e-scooter-or-taxi-alternative':
       'Entä jos kulkisit osan matkasta taksilla tai sähköpotkulaudalla? {paymentInfo}',
-    'e-scooter-quantity': 'Sähköpotkulautoja vapaana juuri nyt: ',
-    'e-scooter-station': 'Sähköpotkulauta-asema',
-    'e-scooters': 'Sähköpotkulaudat',
+    'e-scooter-station': 'Elsparkcykelstation',
+    'e-scooters': 'Elsparkcyklar',
     'e-scooters-available':
-      'Alueella sähköpotkulautoja vapaana. Ota sähköpotkulauta käyttöön sovelluksella.',
+      'Det finns lediga elsparkcyklar i området. Ta en elsparkcykel i bruk med en app.',
     earlier: 'Tidigare avgångar',
     'edit-favourites': 'Redigera favoritdestination',
     'elevation-gained-total': 'Uppförsbacke totalt',
@@ -5385,7 +5383,7 @@ const translations = {
       'Genom att logga in kan du spara dina favoriter och använda dem med dina andra enheter.',
     'one-way-journey': ' Längden på en enkel resa',
     'open-app': ' Öppna appen',
-    'open-operator-app': 'Öppna {operator} appen',
+    'open-operator-app': 'Öppna appen {operator}',
     'open-settings': 'Öppna inställningar',
     'option-default': 'Standard',
     'option-least': 'Minst',
@@ -5408,7 +5406,7 @@ const translations = {
     'park-and-ride-availability': 'Lediga platser:',
     'pay-attention': 'Obs!',
     'payment-info-e-scooter':
-      'Huomaathan, että potkulautojen käyttö ja maksaminen tapahtuu toimijoiden omilla sovelluksilla.',
+      'Vänligen observera att användning och betalning av elsparkcyklar görs via operatörernas egna appar.',
     'payment-info-e-scooter-taxi':
       'Huomaathan, että potkulautojen ja taksin käyttö ja maksaminen tapahtuu toimijoiden omilla sovelluksilla.',
     'payment-info-taxi-lifts':
@@ -5454,7 +5452,7 @@ const translations = {
     'remove-favourite': 'Ta bort favoritmarkeringen',
     'remove-via-button-label': 'Ta bort viapunkt {index}',
     'rent-cycle-at': 'Sök en stadscykel:',
-    'rent-e-scooter-at': 'Ota sähköpotkulauta käyttöön sovelluksella',
+    'rent-e-scooter-at': 'Ta en elsparkcykel i bruk med en app.',
     'rent-scooter-at': 'Hyr en sparkcykel från stationen {station}',
     'required-ticket': 'Biljett som behövs under resan',
     'return-cycle-to': 'Returnera stadscykeln: ',
@@ -5573,9 +5571,9 @@ const translations = {
     'settings-dropdown-close-label': 'Stäng alternativen',
     'settings-dropdown-open-label': 'Öppna alternativen',
     'settings-e-scooter':
-      'Voit valita haluamasi sähköpotkulaudat, jolloin ne ovat osa reititystä. {paymentInfo}',
+      'Du kan välja de elsparkcyklar du vill och åka en del av din rutt med den. {paymentInfo}',
     'settings-e-scooter-on': 'Lisää sähköpotkulauta pysyvästi asetuksiisi',
-    'settings-e-scooter-routes': 'Sähköpotkulaudat osaksi reittejäsi!',
+    'settings-e-scooter-routes': 'Åk elsparkcykel under en del av din resa!',
     'settings-label-change': 'Anpassa sökning',
     'settings-missing-itineraries-body':
       'Dina val i inställningar utesluter vissa ruttalternativ.',
