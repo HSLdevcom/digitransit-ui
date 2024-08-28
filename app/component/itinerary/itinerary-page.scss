@@ -497,9 +497,10 @@
   flex-direction: row;
   white-space: normal;
   position: relative;
-  background-color: #e5f2fa;
+  background-color: #007ac9;
   margin-right: 10px;
   margin-left: 10px;
+  margin-top: 8px;
   border-radius: 10px;
 }
 
@@ -508,6 +509,7 @@
   margin-right: 5px;
   margin-left: 10px;
   align-content: center;
+  background-color: #e5f2fa;
 }
 
 .to-trip-instruction-text {
@@ -518,11 +520,12 @@
   font-size: 13px;
   padding: 8px;
   text-wrap: wrap;
+  color: white;
 }
 
 .to-trip-instruction-button {
   display: flex;
-  background-color: #0074bf;
+  background-color: #fff;
   border-radius: 999px;
   width: 120px;
   height: 28px;
@@ -530,7 +533,7 @@
   padding-right: 10px;
   padding-top: 3px;
   padding-bottom: 5px;
-  color: white;
+  color: #007ac9;
   align-items: center;
   margin-right: 16px;
   margin-left: 55px;
