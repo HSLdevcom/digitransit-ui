@@ -1053,7 +1053,6 @@ const translations = {
     'embedded-search.form-heading': 'Embedding tools',
     engine_ignition_aid: 'Engine starting aid',
     english: 'English',
-    'exit-vehicle': 'Nouse pois kyydistä ja kävele laiturille',
     explanations: 'Explanations',
     'extra-info': 'More info',
     'favourite-failed-text': 'Please try again in a while.',
@@ -1128,7 +1127,7 @@ const translations = {
     'itinerary-details.route-has-unknown-alert': 'Route has disruptions.',
     'itinerary-details.route-has-warning-alert': 'Route has disruptions.',
     'itinerary-details.scooter-leg':
-      'At {time} ride your kick scooter {distance} from {origin} to {destination}. Estimated time {duration}',
+      'At {time} travel by scooter {distance} from {origin} to {destination}. Estimated time {duration}',
     'itinerary-details.transit-leg-part-1': 'At {time} {realtime} take',
     'itinerary-details.transit-leg-part-2':
       'from stop {startStop} {startZoneInfo} {trackInfo} to stop {endStop} {endZoneInfo}. Estimated duration {duration}',
@@ -2264,7 +2263,6 @@ const translations = {
     'embedded-search.form-heading': 'Upotusvalinnat',
     engine_ignition_aid: 'Käynnistysapu',
     english: 'Englanti',
-    'exit-vehicle': 'Nouse pois kyydistä ja kävele laiturille',
     explanations: 'Selitykset',
     'extra-info': 'Lisätiedot',
     'favourite-failed-text': 'Yritä hetken päästä uudelleen.',
@@ -5095,9 +5093,9 @@ const translations = {
     'distance-under': 'Avstånd mindre än {distance} m',
     'e-scooter': 'Elsparkcykel',
     'e-scooter-alternative':
-      'Entä jos kulkisit osan matkasta sähköpotkulaudalla? {paymentInfo}',
+      'Och om du skulle åka elsparkcykel en del av din resa? {paymentInfo}',
     'e-scooter-or-taxi-alternative':
-      'Entä jos kulkisit osan matkasta taksilla tai sähköpotkulaudalla? {paymentInfo}',
+      'Och om du skulle åka elsparkcykel eller taxi en del av din resa? {paymentInfo}',
     'e-scooter-station': 'Elsparkcykelstation',
     'e-scooters': 'Elsparkcyklar',
     'e-scooters-available':
@@ -5112,7 +5110,6 @@ const translations = {
     'embedded-search.form-heading': 'Inbäddningsverktyg',
     engine_ignition_aid: 'Starthjälp',
     english: 'Engelsk',
-    'exit-vehicle': 'Nouse pois kyydistä ja kävele laiturille',
     explanations: 'Förklaringar',
     'extra-info': 'Mer info',
     'favourite-failed-text': 'Försök på nytt senare.',
@@ -5186,7 +5183,7 @@ const translations = {
     'itinerary-details.route-has-unknown-alert': 'Störningar längs rutten..',
     'itinerary-details.route-has-warning-alert': 'Störningar längs rutten..',
     'itinerary-details.scooter-leg':
-      '{time} sparkcykla {distance} från {origin} till destinationen {destination}. Restid {duration}',
+      '{time} åk elsparkcykel {distance} från {origin} till destinationen {destination}. Restid {duration}',
     'itinerary-details.transit-leg-part-1': '{time} {realtime} ta',
     'itinerary-details.transit-leg-part-2':
       'från hållplats {startStop} {startZoneInfo} {trackInfo} till hållplats {endStop} {endZoneInfo}. Beräknad restid {duration}',
@@ -5408,7 +5405,7 @@ const translations = {
     'payment-info-e-scooter':
       'Vänligen observera att användning och betalning av elsparkcyklar görs via operatörernas egna appar.',
     'payment-info-e-scooter-taxi':
-      'Huomaathan, että potkulautojen ja taksin käyttö ja maksaminen tapahtuu toimijoiden omilla sovelluksilla.',
+      'Vänligen observera att användning och betalning av elsparkcyklar och taxi görs via operatörernas egna appar.',
     'payment-info-taxi-lifts':
       'Huomaathan, että taksien ja kyytipalveluiden käyttö ja maksaminen tapahtuu toimijoiden omilla sovelluksilla.',
     payment_at_gate: 'Betalning vid porten',
@@ -5456,7 +5453,7 @@ const translations = {
     'rent-scooter-at': 'Hyr en sparkcykel från stationen {station}',
     'required-ticket': 'Biljett som behövs under resan',
     'return-cycle-to': 'Returnera stadscykeln: ',
-    'return-e-scooter-to': 'Jätä potkulauta turvalliseen paikkaan',
+    'return-e-scooter-to': 'Lämna elsparkcykeln på ett säkert ställe',
     'return-scooter-to': 'Returnera sparkcykeln till stationen {station}',
     'right-now': 'Just nu',
     route: 'Linje',
@@ -5572,7 +5569,8 @@ const translations = {
     'settings-dropdown-open-label': 'Öppna alternativen',
     'settings-e-scooter':
       'Du kan välja de elsparkcyklar du vill och åka en del av din rutt med den. {paymentInfo}',
-    'settings-e-scooter-on': 'Lisää sähköpotkulauta pysyvästi asetuksiisi',
+    'settings-e-scooter-on':
+      'Lägg till elsparkcyklar permanent i dina inställningar',
     'settings-e-scooter-routes': 'Åk elsparkcykel under en del av din resa!',
     'settings-label-change': 'Anpassa sökning',
     'settings-missing-itineraries-body':
