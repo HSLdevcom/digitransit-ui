@@ -4,7 +4,7 @@ import { FormattedMessage, intlShape } from 'react-intl';
 import Icon from '../Icon';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
-const ToTripButton = (props, context) => {
+const NavigatorButton = (props, context) => {
   return (
     <div className="to-trip-button-class">
       <div className="to-trip-icon">
@@ -13,8 +13,8 @@ const ToTripButton = (props, context) => {
 
       <div className="to-trip-instruction-text">
         {context.intl.formatMessage({
-          id: props.ariaLabel,
-          defaultMessage: props.ariaLabel,
+          id: 'navigation-description',
+          defaultMessage: 'navigation-description',
         })}
       </div>
 
@@ -22,14 +22,14 @@ const ToTripButton = (props, context) => {
         <button
           type="button"
           aria-label={context.intl.formatMessage({
-            id: 'follow',
-            defaultMessage: 'follow',
+            id: 'navigation-header',
+            defaultMessage: 'navigation-header',
           })}
           onClick={e => props.buttonClickAction(e)}
         >
           <FormattedMessage
-            id="followtheitinerary"
-            defaultMessage="followtheitinerary"
+            id="start-navigation"
+            defaultMessage="start-navigation"
           />
         </button>
       </div>
@@ -37,15 +37,14 @@ const ToTripButton = (props, context) => {
   );
 };
 
-ToTripButton.propTypes = {
-  ariaLabel: PropTypes.string.isRequired,
+NavigatorButton.propTypes = {
   buttonClickAction: PropTypes.func.isRequired,
 };
 
-ToTripButton.defaultProps = {};
+NavigatorButton.defaultProps = {};
 
-ToTripButton.contextTypes = {
+NavigatorButton.contextTypes = {
   intl: intlShape.isRequired,
 };
 
-export default ToTripButton;
+export default NavigatorButton;

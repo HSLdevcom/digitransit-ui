@@ -11,7 +11,7 @@ import TicketInformation from './TicketInformation';
 import ItinerarySummary from './ItinerarySummary';
 import Legs from './Legs';
 import BackButton from '../BackButton';
-import ToTripButton from './ToTripButton';
+import NavigatorButton from './NavigatorButton';
 import MobileTicketPurchaseInformation from './MobileTicketPurchaseInformation';
 import {
   compressLegs,
@@ -296,7 +296,7 @@ class ItineraryDetails extends React.Component {
 
             this.props.setNavigation && (
               <div key="tracking">
-                <ToTripButton ariaLabel="followyourouteonscreen" 
+                <NavigatorButton
                   buttonClickAction={() => {
                     this.props.setNavigation(true);
 		              }} />
