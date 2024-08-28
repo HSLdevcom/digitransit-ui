@@ -58,7 +58,7 @@ function MarkerSelectPopup(props, { intl }) {
             prefix={PREFIX_RENTALVEHICLES}
             id={option.feature.properties.scooterId}
             desc={intl.formatMessage({
-              id: 'scooter',
+              id: 'e-scooter',
               defaultMessage: 'scooter',
             })}
             isScooter
@@ -73,7 +73,7 @@ function MarkerSelectPopup(props, { intl }) {
             key={`scooter:${option.feature.properties.id}`}
             prefix={PREFIX_RENTALVEHICLES}
             desc={intl.formatMessage({
-              id: 'scooter',
+              id: 'e-scooter',
               defaultMessage: 'scooter',
             })}
             icon="icon-icon_scooter-lollipop"
