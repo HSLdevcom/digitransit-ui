@@ -38,14 +38,14 @@ class MapLayerStore extends Store {
 
     const { config } = dispatcher.getContext();
     this.mapLayers.citybike = showRentalVehiclesOfType(
-      config.cityBike?.networks,
+      config.vehicleRental?.networks,
       config,
       TransportMode.Citybike,
     );
     this.mapLayers.scooter =
       config.transportModes.scooter?.showIfSelectedForRouting &&
       showRentalVehiclesOfType(
-        config.cityBike?.networks,
+        config.vehicleRental?.networks,
         config,
         TransportMode.Scooter,
       );

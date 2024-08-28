@@ -331,7 +331,10 @@ class FavouritesContainer extends React.Component {
       item => item.type === 'place',
     );
     if (
-      useCitybikes(this.context.config.cityBike?.networks, this.context.config)
+      useCitybikes(
+        this.context.config.vehicleRental?.networks,
+        this.context.config,
+      )
     ) {
       targets.push('VehicleRentalStations');
     }

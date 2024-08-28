@@ -59,7 +59,7 @@ export default function TicketInformation(
             </div>
           ) : (
             (config.ticketLink && (
-              <a href={config.ticketLink}>
+              <a href={config.ticketLink} target="_blank" rel="noreferrer">
                 <div className="ticket-identifier">
                   {config.useTicketIcons
                     ? renderZoneTicket(fare.ticketName, alternativeFares)

@@ -42,31 +42,38 @@ function WalkLeg(
   const isFirstLeg = i => i === 0;
   const [address, place] = splitStringToAddressAndPlace(leg[toOrFrom].name);
   const network =
-    previousLeg?.[toOrFrom]?.vehicleRentalStation?.network ||
-    previousLeg?.[toOrFrom]?.rentalVehicle?.network;
+    previousLeg?.[toOrFrom]?.vehicleRentalStation?.rentalNetwork.networkId ||
+    previousLeg?.[toOrFrom]?.rentalVehicle?.rentalNetwork.networkId;
 
   const networkType = getRentalNetworkConfig(
     previousLeg?.rentedBike && network,
     config,
   ).type;
   const isScooter = networkType === RentalNetworkType.Scooter;
-  const returnNotice =
-    previousLeg && previousLeg.rentedBike && !isScooter ? (
-      <FormattedMessage
-        id={
-          networkType === RentalNetworkType.Scooter
-            ? 'return-scooter-to'
-            : 'return-cycle-to'
-        }
-        values={{ station: leg[toOrFrom] ? leg[toOrFrom].name : '' }}
-        defaultMessage="Return the bike to {station} station"
-      />
-    ) : null;
+  const returnNotice = previousLeg?.rentedBike ? (
+    <FormattedMessage
+      id={
+        networkType === RentalNetworkType.Scooter
+          ? 'return-e-scooter-to'
+          : 'return-cycle-to'
+      }
+      values={{ station: leg[toOrFrom] ? leg[toOrFrom].name : '' }}
+      defaultMessage="Return the bike to {station} station"
+    />
+  ) : null;
   let appendClass;
 
   if (returnNotice) {
-    appendClass = 'return-citybike';
+    appendClass = !isScooter ? 'return-citybike' : '';
   }
+
+  const destinationLabel =
+    leg.to?.name?.toLowerCase() === 'scooter'
+      ? intl.formatMessage({
+          id: 'e-scooter',
+          defaultMessage: 'scooter',
+        })
+      : leg.to?.name;
 
   return (
     <div key={index} className="row itinerary-row">
@@ -85,7 +92,7 @@ function WalkLeg(
             distance,
             duration,
             origin: leg[toOrFrom] ? leg[toOrFrom].name : '',
-            destination: leg.to ? leg.to.name : '',
+            destination: leg.to ? destinationLabel : '',
           }}
         />
       </span>
@@ -132,11 +139,12 @@ function WalkLeg(
           </div>
         ) : (
           <div
-            className={
+            className={cx(
               returnNotice
                 ? 'itinerary-leg-first-row-return-bike'
-                : 'itinerary-leg-first-row'
-            }
+                : 'itinerary-leg-first-row',
+              isScooter && 'scooter',
+            )}
           >
             <div className="itinerary-leg-row">
               {leg[toOrFrom].stop ? (

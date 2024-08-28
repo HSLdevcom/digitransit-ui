@@ -67,7 +67,7 @@ export default configMerger(walttiConfig, {
   showVehiclesOnStopPage: true,
   showVehiclesOnItineraryPage: true,
 
-  cityBike: {
+  vehicleRental: {
     networks: {
       freebike_kuopio: {
         enabled: true,

@@ -41,7 +41,7 @@ export default {
 
   stopsMinZoom: 14,
 
-  cityBike: {},
+  vehicleRental: {},
 
   search: {
     minimalRegexp: /.+/,
@@ -242,4 +242,6 @@ export default {
       ? fareId.substring(fareId.indexOf(':') + 1)
       : '';
   },
+
+  startSearchFromUserLocation: true,
 };

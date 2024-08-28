@@ -49,7 +49,15 @@ const getModeFromProps = props => {
 };
 
 function StopPageMap(
-  { stop, breakpoint, currentTime, locationState, mapLayers, mapLayerOptions },
+  {
+    stop,
+    breakpoint,
+    currentTime,
+    locationState,
+    mapLayers,
+    mapLayerOptions,
+    stopName,
+  },
   { config, match },
 ) {
   if (!stop) {
@@ -137,7 +145,7 @@ function StopPageMap(
   if (breakpoint === 'large') {
     leafletObjs.push(
       <SelectedStopPopup lat={stop.lat} lon={stop.lon} key="SelectedStopPopup">
-        <SelectedStopPopupContent stop={stop} />
+        <SelectedStopPopupContent stop={stop} name={stopName} />
       </SelectedStopPopup>,
     );
     if (config.useCookiesPrompt) {
@@ -225,11 +233,13 @@ StopPageMap.propTypes = {
   mapLayers: mapLayerShape.isRequired,
   mapLayerOptions: mapLayerOptionsShape.isRequired,
   parkType: PropTypes.string,
+  stopName: PropTypes.node,
 };
 
 StopPageMap.defaultProps = {
   stop: undefined,
   parkType: undefined,
+  stopName: undefined,
 };
 
 const componentWithBreakpoint = withBreakpoint(StopPageMap);

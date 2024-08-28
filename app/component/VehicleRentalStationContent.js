@@ -47,7 +47,7 @@ const VehicleRentalStationContent = (
   const isFull = vehiclesAvailable >= capacity;
 
   const networkConfig = getRentalNetworkConfig(
-    vehicleRentalStation.network,
+    vehicleRentalStation.rentalNetwork.networkId,
     config,
   );
   const cityBikeNetworkUrl = networkConfig?.url?.[language];
@@ -55,10 +55,10 @@ const VehicleRentalStationContent = (
   if (networkConfig.returnInstructions) {
     returnInstructionsUrl = networkConfig.returnInstructions[language];
   }
-  const { cityBike } = config;
-  const cityBikeBuyUrl = cityBike.buyUrl?.[language];
+  const { vehicleRental } = config;
+  const cityBikeBuyUrl = vehicleRental.buyUrl?.[language];
   const buyInstructions = cityBikeBuyUrl
-    ? cityBike.buyInstructions?.[language]
+    ? vehicleRental.buyInstructions?.[language]
     : undefined;
 
   return (
@@ -68,7 +68,7 @@ const VehicleRentalStationContent = (
         breakpoint={breakpoint}
       />
       <VehicleRentalStation vehicleRentalStation={vehicleRentalStation} />
-      {cityBike.showFullInfo && isFull && (
+      {vehicleRental.showFullInfo && isFull && (
         <div className="citybike-full-station-guide">
           <FormattedMessage id="citybike-return-full" />
           <a
@@ -77,6 +77,8 @@ const VehicleRentalStationContent = (
             }}
             className="external-link-citybike"
             href={returnInstructionsUrl}
+            target="_blank"
+            rel="noreferrer"
           >
             {' '}
             <FormattedMessage id="citybike-return-full-link" />
@@ -91,7 +93,12 @@ const VehicleRentalStationContent = (
             </h2>
             <div className="disclaimer-content">
               {buyInstructions || (
-                <a className="external-link-citybike" href={cityBikeNetworkUrl}>
+                <a
+                  className="external-link-citybike"
+                  href={cityBikeNetworkUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                >
                   <FormattedMessage id="citybike-start-using-info" />
                 </a>
               )}
@@ -103,6 +110,8 @@ const VehicleRentalStationContent = (
                 }}
                 className="external-link"
                 href={cityBikeBuyUrl}
+                target="_blank"
+                rel="noreferrer"
               >
                 <FormattedMessage id="citybike-purchase-link" />
                 <Icon img="icon-icon_external-link-box" />
@@ -155,7 +164,9 @@ const containerComponent = createFragmentContainer(connectedComponent, {
         total
       }
       capacity
-      network
+      rentalNetwork {
+        networkId
+      }
       stationId
       operative
     }

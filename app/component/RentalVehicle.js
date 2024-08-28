@@ -11,7 +11,7 @@ const RentalVehicle = ({ rentalVehicle }, { config }) => {
   const disabled = !rentalVehicle.operative;
 
   const vehicleIcon = getRentalNetworkIcon(
-    getRentalNetworkConfig(rentalVehicle.network, config),
+    getRentalNetworkConfig(rentalVehicle.rentalNetwork.networkId, config),
     disabled,
   );
   return (
@@ -23,7 +23,7 @@ const RentalVehicle = ({ rentalVehicle }, { config }) => {
 
 RentalVehicle.contextTypes = {
   config: PropTypes.shape({
-    cityBike: { networks: PropTypes.arrayOf(PropTypes.string.isRequired) },
+    vehicleRental: { networks: PropTypes.arrayOf(PropTypes.string.isRequired) },
   }).isRequired,
 };
 RentalVehicle.propTypes = {

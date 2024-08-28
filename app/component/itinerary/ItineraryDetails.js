@@ -6,11 +6,12 @@ import { matchShape, routerShape } from 'found';
 import { FormattedMessage, intlShape } from 'react-intl';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import get from 'lodash/get';
-import { configShape, itineraryShape } from '../../util/shapes';
+import { configShape, itineraryShape, relayShape } from '../../util/shapes';
 import TicketInformation from './TicketInformation';
 import ItinerarySummary from './ItinerarySummary';
 import Legs from './Legs';
 import BackButton from '../BackButton';
+import SecondaryButton from '../SecondaryButton';
 import MobileTicketPurchaseInformation from './MobileTicketPurchaseInformation';
 import {
   compressLegs,
@@ -54,7 +55,9 @@ class ItineraryDetails extends React.Component {
     currentLanguage: PropTypes.string,
     changeHash: PropTypes.func,
     openSettings: PropTypes.func.isRequired,
+    setNavigation: PropTypes.func,
     bikeAndPublicItineraryCount: PropTypes.number,
+    relayEnvironment: relayShape,
   };
 
   static defaultProps = {
@@ -63,6 +66,8 @@ class ItineraryDetails extends React.Component {
     changeHash: () => {},
     bikeAndPublicItineraryCount: 0,
     carEmissions: undefined,
+    relayEnvironment: undefined,
+    setNavigation: undefined,
   };
 
   static contextTypes = {
@@ -141,6 +146,7 @@ class ItineraryDetails extends React.Component {
       legContainsRentalBike(leg),
     );
     const legswithBikePark = compressLegs(itinerary.legs).filter(leg => legContainsBikePark(leg));
+    const legsWithScooter = compressLegs(itinerary.legs).some(leg => leg.mode === 'SCOOTER');
     const containsBiking = biking.duration > 0 && biking.distance > 0;
     const showBikeBoardingInformation = containsBiking && bikeAndPublicItineraryCount > 0 && legswithBikePark.length === 0;
     const rentalBikeNetworks = new Set();
@@ -148,14 +154,14 @@ class ItineraryDetails extends React.Component {
     if (legsWithRentalBike.length > 0) {
       for (let i = 0; i < legsWithRentalBike.length; i++) {
         const leg = legsWithRentalBike[i];
-        const network = leg.from.vehicleRentalStation?.network;
+        const network = leg.from.vehicleRentalStation?.rentalNetwork.networkId;
         if (
-          config.cityBike.networks[network]?.timeBeforeSurcharge &&
-          config.cityBike.networks[network]?.durationInstructions
+          config.vehicleRental.networks[network]?.timeBeforeSurcharge &&
+          config.vehicleRental.networks[network]?.durationInstructions
         ) {
           const rentDurationOverSurchargeLimit =
             leg.duration >
-            config.cityBike.networks[network].timeBeforeSurcharge;
+            config.vehicleRental.networks[network].timeBeforeSurcharge;
           if (rentDurationOverSurchargeLimit) {
             rentalBikeNetworks.add(network);
             showRentalBikeDurationWarning =
@@ -287,7 +293,19 @@ class ItineraryDetails extends React.Component {
                   legs={itinerary.legs}
                 />
               )),
-            config.showCO2InItinerarySummary && (
+            this.props.setNavigation && false && (
+	      // TODO: placeholder for real component, change this
+              <div key="tracking">
+                <SecondaryButton
+                  buttonName="tracking"
+                  ariaLabel="tracking"
+                  buttonClickAction={() => {
+                    this.props.setNavigation(true);
+		  }}
+		/>
+              </div>
+            ),
+            config.showCO2InItinerarySummary && !legsWithScooter && (
               <EmissionsInfo
 		key="emissionsummary"
                 itinerary={itinerary}
@@ -317,9 +335,10 @@ class ItineraryDetails extends React.Component {
                   tabIndex={itineraryIndex - 1}
                   openSettings={this.props.openSettings}
                   showBikeBoardingInformation={showBikeBoardingInformation}
+                  relayEnvironment={this.props.relayEnvironment}
                 />
               </div>
-              {config.showCO2InItinerarySummary && (
+              {config.showCO2InItinerarySummary && !legsWithScooter && (
                 <Emissions
 		  key="emissionsinfo"
                   config={config}
@@ -436,7 +455,9 @@ const withRelay = createFragmentContainer(
               vehicleParkingId
             }
             vehicleRentalStation {
-              network
+              rentalNetwork {
+               networkId
+            }
               availableVehicles {
                 total
               }
@@ -449,13 +470,13 @@ const withRelay = createFragmentContainer(
               name
               lat
               lon
-              network
               rentalUris {
                 android
                 ios 
                 web
               }
               rentalNetwork {
+                networkId
                 url
               }
             }
@@ -488,16 +509,20 @@ const withRelay = createFragmentContainer(
               lat
               lon
               stationId
-              network
+              rentalNetwork {
+               networkId
+              }
               availableVehicles {
                 total
               }
             }
             rentalVehicle {
-                vehicleId
-                lat
-                lon
-                network
+              vehicleId
+              lat
+              lon
+              rentalNetwork {
+                networkId
+              }
             }
             stop {
               gtfsId

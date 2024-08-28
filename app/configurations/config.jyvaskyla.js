@@ -165,6 +165,14 @@ export default configMerger(walttiConfig, {
   ticketLink: 'https://linkki.jyvaskyla.fi/liput-ja-hinnat',
   showTicketPrice: true,
 
+  showTicketLinkOnlyWhenTesting: true,
+  settingsForFeatureTesting: {
+    walkSpeed: 0.69,
+    bikeSpeed: 8.33,
+    includeBikeSuggestions: false,
+    transferPenalty: 1600,
+  },
+
   ticketPurchaseLink: function purchaseTicketLink(fare) {
     const fareId = fare.fareProducts[0].product.id;
     const ticket = fareId?.substring

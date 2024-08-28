@@ -456,7 +456,11 @@ const EmbeddedSearchGenerator = (props, context) => {
         </form>
         {config.embeddedSearch?.cookieLink && (
           <p>
-            <a href={config.embeddedSearch.cookieLink[lang].url}>
+            <a
+              href={config.embeddedSearch.cookieLink[lang].url}
+              target="_blank"
+              rel="noreferrer"
+            >
               {config.embeddedSearch.cookieLink[lang].text}
             </a>
           </p>

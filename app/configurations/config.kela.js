@@ -1,12 +1,4 @@
 /* eslint-disable prefer-template */
-import HSLConfig from './config.hsl';
-import TurkuConfig from './config.turku';
-import LappeenrantaConfig from './config.lappeenranta';
-import TampereConfig from './config.tampere';
-import KotkaConfig from './config.kotka';
-import KouvolaConfig from './config.kouvola';
-import KuopioConfig from './config.kuopio';
-import LahtiConfig from './config.lahti';
 
 const matkaConfig = require('./config.matka').default;
 const HSLParkAndRideUtils = require('../util/ParkAndRideUtils').default.HSL;
@@ -39,7 +31,6 @@ export default {
   feedIds: ['kela', 'matkahuolto', 'lansilinjat'],
   textLogo: true,
   logo: null, // override default logo from matka config
-  appBarLink: false, // override default config - would show Traficom otherwise
 
   meta: {
     description: APP_DESCRIPTION,
@@ -105,7 +96,6 @@ export default {
 
   availableLanguages: ['fi', 'sv', 'en'],
   defaultLanguage: 'fi',
-  hideAppBarLink: true,
 
   socialMedia: {
     title: APP_TITLE,
@@ -169,20 +159,6 @@ export default {
     },
   },
   suggestBikeMaxDistance: 2000000,
-
-  cityBike: {
-    useAllSeasons: true,
-    networks: {
-      ...HSLConfig.cityBike.networks,
-      ...TampereConfig.cityBike.networks,
-      ...TurkuConfig.cityBike.networks,
-      ...KuopioConfig.cityBike.networks,
-      ...LahtiConfig.cityBike.networks,
-      ...LappeenrantaConfig.cityBike.networks,
-      ...KotkaConfig.cityBike.networks,
-      ...KouvolaConfig.cityBike.networks,
-    },
-  },
 
   getAutoSuggestIcons: {
     citybikes: station => {

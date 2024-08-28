@@ -31,7 +31,7 @@ export default configMerger(walttiConfig, {
 
   favicon: './app/configurations/images/lappeenranta/lappeenranta-favicon.jpg',
 
-  cityBike: {
+  vehicleRental: {
     networks: {
       donkey_lappeenranta: {
         enabled: true,

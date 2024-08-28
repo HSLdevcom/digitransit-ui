@@ -35,7 +35,6 @@ export default {
 
   availableLanguages: ['fi', 'sv', 'en'],
   defaultLanguage: 'fi',
-  hideAppBarLink: true,
 
   socialMedia: {
     title: APP_TITLE,
@@ -165,17 +164,17 @@ export default {
   },
   suggestBikeMaxDistance: 2000000,
 
-  cityBike: {
+  vehicleRental: {
     useAllSeasons: true,
     networks: {
-      ...HSLConfig.cityBike.networks,
-      ...TampereConfig.cityBike.networks,
-      ...TurkuConfig.cityBike.networks,
-      ...KuopioConfig.cityBike.networks,
-      ...LahtiConfig.cityBike.networks,
-      ...LappeenrantaConfig.cityBike.networks,
-      ...KotkaConfig.cityBike.networks,
-      ...KouvolaConfig.cityBike.networks,
+      ...HSLConfig.vehicleRental.networks,
+      ...TampereConfig.vehicleRental.networks,
+      ...TurkuConfig.vehicleRental.networks,
+      ...KuopioConfig.vehicleRental.networks,
+      ...LahtiConfig.vehicleRental.networks,
+      ...LappeenrantaConfig.vehicleRental.networks,
+      ...KotkaConfig.vehicleRental.networks,
+      ...KouvolaConfig.vehicleRental.networks,
     },
   },
 

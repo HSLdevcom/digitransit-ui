@@ -148,7 +148,7 @@ export default configMerger(walttiConfig, {
     },
   },
 
-  cityBike: {
+  vehicleRental: {
     networks: {
       freebike_lahti: {
         enabled: true,

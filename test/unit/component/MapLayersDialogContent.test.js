@@ -218,7 +218,7 @@ describe('<MapLayersDialogContent />', () => {
     const context = {
       config: {
         CONFIG: 'default',
-        cityBike: {
+        vehicleRental: {
           networks: {
             foo: {
               type: 'citybike',

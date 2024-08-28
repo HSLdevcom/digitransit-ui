@@ -3,14 +3,9 @@ import React from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
 import { routerShape } from 'found';
 
-const mapToLink = (href, children, onClick, openInNewTab) => (
+const mapToLink = (href, children, onClick) => (
   <span className="cursor-pointer">
-    <a
-      href={href}
-      onClick={onClick}
-      target={openInNewTab ? '_blank' : '_self'}
-      rel="noreferrer"
-    >
+    <a href={href} onClick={onClick} target="_blank" rel="noreferrer">
       {children}
     </a>
   </span>
@@ -32,7 +27,7 @@ const mapToRoute = (router, route, children, onClick) => (
 );
 
 export default function MenuItem(
-  { name, href, label, route, onClick, openInNewTab },
+  { name, href, label, route, onClick },
   { router, intl },
 ) {
   const displayLabel = label || (
@@ -41,9 +36,9 @@ export default function MenuItem(
   let item = <span id={name}>{displayLabel}</span>;
   if (href) {
     if (typeof href === 'object') {
-      item = mapToLink(href[intl.locale], item, onClick, openInNewTab);
+      item = mapToLink(href[intl.locale], item, onClick);
     } else {
-      item = mapToLink(href, item, onClick, openInNewTab);
+      item = mapToLink(href, item, onClick);
     }
   } else if (route) {
     item = mapToRoute(router, route, item, onClick);
@@ -62,7 +57,6 @@ MenuItem.propTypes = {
   route: PropTypes.string,
   label: PropTypes.string,
   onClick: PropTypes.func,
-  openInNewTab: PropTypes.bool,
 };
 
 MenuItem.defaultProps = {
@@ -71,7 +65,6 @@ MenuItem.defaultProps = {
   route: undefined,
   label: undefined,
   onClick: undefined,
-  openInNewTab: false,
 };
 
 MenuItem.contextTypes = {

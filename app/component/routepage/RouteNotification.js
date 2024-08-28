@@ -38,6 +38,8 @@ const RouteNotification = (props, context) => {
             <a
               className="route-notification-link"
               href={`https://www.${props.link}`}
+              target="_blank"
+              rel="noreferrer"
             >
               {props.link}
             </a>
