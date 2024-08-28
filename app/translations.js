@@ -1492,7 +1492,7 @@ const translations = {
     scooter: 'Scooter',
     'scooter-availability': 'Kick scooters available at the station right now',
     'scooter-distance-duration':
-      'Ride your kick scooter {duration} ({distance})',
+      'Travel by scooter for {duration} ({distance})',
     'scooter-register-required': 'To use kick scooters, you need to register',
     'scooterwalk-distance-duration':
       'Walk your kick scooter {duration} ({distance})',
@@ -5553,7 +5553,7 @@ const translations = {
     save: 'Spara',
     scooter: 'Scooter',
     'scooter-availability': 'Antal sparkcyklar just nu',
-    'scooter-distance-duration': 'Sparkcykla {duration} ({distance})',
+    'scooter-distance-duration': 'Åk elsparkcykel {duration} ({distance})',
     'scooter-register-required':
       'Det krävs registrering för att kunna använda sparkcyklar',
     'scooterwalk-distance-duration': 'Led sparkcykeln {duration} ({distance})',
