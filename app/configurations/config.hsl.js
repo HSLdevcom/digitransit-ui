@@ -728,4 +728,6 @@ export default {
       },
     },
   },
+
+  startSearchFromUserLocation: true,
 };

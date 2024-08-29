@@ -389,4 +389,6 @@ export default {
   },
   // Include both bike and park and bike and public, if bike is enabled
   includePublicWithBikePlan: true,
+
+  startSearchFromUserLocation: true,
 };
