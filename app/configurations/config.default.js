@@ -420,7 +420,6 @@ export default {
   },
 
   hideExternalOperator: () => false,
-  // Ticket information feature toggle
   useTicketIcons: false,
 
   // Control what transport modes that should be possible to select in the UI
