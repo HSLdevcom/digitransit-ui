@@ -490,3 +490,51 @@
   position: relative;
   top: -1px;
 }
+
+.to-trip-button-class {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  white-space: normal;
+  position: relative;
+  background-color: #007ac9;
+  margin-right: 10px;
+  margin-left: 10px;
+  margin-top: 8px;
+  border-radius: 10px;
+}
+
+.to-trip-icon {
+  position: left;
+  margin-right: 5px;
+  margin-left: 10px;
+  align-content: center;
+  background-color: #e5f2fa;
+}
+
+.to-trip-instruction-text {
+  display: flex;
+  margin-right: 35px;
+  text-align: center;
+  font-weight: 325;
+  font-size: 13px;
+  padding: 8px;
+  text-wrap: wrap;
+  color: white;
+}
+
+.to-trip-instruction-button {
+  display: flex;
+  background-color: #fff;
+  border-radius: 999px;
+  width: 120px;
+  height: 28px;
+  padding-left: 20px;
+  padding-right: 10px;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  color: #007ac9;
+  align-items: center;
+  margin-right: 16px;
+  margin-left: 55px;
+}

@@ -11,7 +11,7 @@ import TicketInformation from './TicketInformation';
 import ItinerarySummary from './ItinerarySummary';
 import Legs from './Legs';
 import BackButton from '../BackButton';
-import SecondaryButton from '../SecondaryButton';
+import NavigatorButton from './NavigatorButton';
 import MobileTicketPurchaseInformation from './MobileTicketPurchaseInformation';
 import {
   compressLegs,
@@ -293,16 +293,13 @@ class ItineraryDetails extends React.Component {
                   legs={itinerary.legs}
                 />
               )),
-            this.props.setNavigation && false && (
-	      // TODO: placeholder for real component, change this
+
+            this.props.setNavigation && (
               <div key="tracking">
-                <SecondaryButton
-                  buttonName="tracking"
-                  ariaLabel="tracking"
+                <NavigatorButton
                   buttonClickAction={() => {
                     this.props.setNavigation(true);
-		  }}
-		/>
+		              }} />
               </div>
             ),
             config.showCO2InItinerarySummary && !legsWithScooter && (
