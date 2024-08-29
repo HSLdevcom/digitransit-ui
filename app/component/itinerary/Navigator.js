@@ -1,15 +1,14 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
-import { intlShape } from 'react-intl';
 import { createFragmentContainer, graphql } from 'react-relay';
 import { itineraryShape } from '../../util/shapes';
 import { legTime } from '../../util/legUtils';
 import Icon from '../Icon';
 
-function Navigator(
-  { itinerary, focusToLeg /* focusToPoint, relayEnvironment */ },
-  context,
-) {
+function Navigator({
+  itinerary,
+  focusToLeg /* focusToPoint, relayEnvironment */,
+}) {
   const [time, setTime] = useState(Date.now());
   const [currentLeg, setCurrentLeg] = useState(null);
 
@@ -44,10 +43,6 @@ function Navigator(
             }
           }}
           className="close-button cursor-pointer"
-          aria-label={context.intl.formatMessage({
-            id: 'navigator-label-close',
-            defaultMessage: 'Close the navigator view',
-          })}
         >
           <Icon img="icon-icon_close" className="medium" />
         </button>
@@ -64,10 +59,6 @@ Navigator.propTypes = {
   focusToPoint: PropTypes.func.isRequired,
   relayEnvironment: relayShape.isRequired,
   */
-};
-
-Navigator.contextTypes = {
-  intl: intlShape.isRequired,
 };
 
 const withRelay = createFragmentContainer(Navigator, {
