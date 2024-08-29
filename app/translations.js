@@ -5594,7 +5594,7 @@ const translations = {
     'separate-ticket-required':
       'Denna etapp av resan kräver en separat biljett.',
     'separate-ticket-required-disclaimer':
-      'Resan består av en eller fleta etapper vilka kräver biljetter som inte säljs av {agencyName}.',
+      'Resan består av en eller flera etapper vilka kräver biljetter som inte säljs av {agencyName}.',
     'separate-ticket-required-for-call-agency-disclaimer':
       'I resan ingår anropsbusstrafiken. Bekanta dig med betalningsmetoder och praxis på ',
     'set-specific-settings': 'Ställa avancerade inställningar',
