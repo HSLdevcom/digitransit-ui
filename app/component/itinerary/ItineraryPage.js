@@ -1067,6 +1067,9 @@ export default function ItineraryPage(props, context) {
           focusToPoint={focusToPoint}
           focusToLeg={focusToLeg}
           relayEnvironment={props.relayEnvironment}
+          buttonClickAction={() => {
+            props.setNavigation(false);
+          }}
         />
       );
     } else {
@@ -1227,9 +1230,11 @@ ItineraryPage.propTypes = {
   relayEnvironment: relayShape.isRequired,
   mapLayers: mapLayerShape.isRequired,
   mapLayerOptions: mapLayerOptionsShape.isRequired,
+  setNavigation: PropTypes.func,
 };
 
 ItineraryPage.defaultProps = {
   content: undefined,
   map: undefined,
+  setNavigation: undefined,
 };

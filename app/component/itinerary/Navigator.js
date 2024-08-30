@@ -37,11 +37,7 @@ function Navigator({
       <div className="navigator-top-section">
         <button
           type="button"
-          onClick={() => {
-            if (window && window.location) {
-              window.location.reload();
-            }
-          }}
+          // onClick={e => props.buttonClickAction(e)}
           className="close-button cursor-pointer"
         >
           <Icon img="icon-icon_close" />
@@ -55,6 +51,8 @@ function Navigator({
 Navigator.propTypes = {
   itinerary: itineraryShape.isRequired,
   focusToLeg: PropTypes.func.isRequired,
+  // eslint-disable-next-line react/require-default-props
+  // buttonClickAction: PropTypes.func,
   /*
   focusToPoint: PropTypes.func.isRequired,
   relayEnvironment: relayShape.isRequired,
