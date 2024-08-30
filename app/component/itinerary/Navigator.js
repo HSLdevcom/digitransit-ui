@@ -44,7 +44,7 @@ function Navigator({
           }}
           className="close-button cursor-pointer"
         >
-          <Icon img="icon-icon_close" className="medium" />
+          <Icon img="icon-icon_close" />
         </button>
       </div>
       Tracking {itinerary.legs.length} legs, current {currentLeg?.mode}
