@@ -5,10 +5,7 @@ import { itineraryShape } from '../../util/shapes';
 import { legTime } from '../../util/legUtils';
 import Icon from '../Icon';
 
-function Navigator({
-  itinerary,
-  focusToLeg /* focusToPoint, relayEnvironment */,
-}) {
+function Navigator(props) {
   const [time, setTime] = useState(Date.now());
   const [currentLeg, setCurrentLeg] = useState(null);
 
@@ -22,13 +19,13 @@ function Navigator({
   }, []);
 
   useEffect(() => {
-    const newLeg = itinerary.legs.find(leg => {
+    const newLeg = props.itinerary.legs.find(leg => {
       return legTime(leg.start) <= time && time <= legTime(leg.end);
     });
 
     if (newLeg && newLeg !== currentLeg) {
       setCurrentLeg(newLeg);
-      focusToLeg(newLeg);
+      props.focusToLeg(newLeg);
     }
   }, [time]);
 
@@ -37,13 +34,13 @@ function Navigator({
       <div className="navigator-top-section">
         <button
           type="button"
-          // onClick={e => props.buttonClickAction(e)}
+          onClick={e => props.buttonClickAction(e)}
           className="close-button cursor-pointer"
         >
           <Icon img="icon-icon_close" />
         </button>
       </div>
-      Tracking {itinerary.legs.length} legs, current {currentLeg?.mode}
+      Tracking {props.itinerary.legs.length} legs, current {currentLeg?.mode}
     </div>
   );
 }
@@ -52,7 +49,7 @@ Navigator.propTypes = {
   itinerary: itineraryShape.isRequired,
   focusToLeg: PropTypes.func.isRequired,
   // eslint-disable-next-line react/require-default-props
-  // buttonClickAction: PropTypes.func,
+  buttonClickAction: PropTypes.func,
   /*
   focusToPoint: PropTypes.func.isRequired,
   relayEnvironment: relayShape.isRequired,
