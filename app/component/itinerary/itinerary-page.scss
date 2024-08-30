@@ -491,50 +491,47 @@
   top: -1px;
 }
 
-.to-trip-button-class {
+.navigation-container {
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  height: 56px;
   flex-direction: row;
-  white-space: normal;
-  position: relative;
-  background-color: #007ac9;
+  background-color: #e5f2fa;
+  color: $black;
   margin-right: 10px;
   margin-left: 10px;
-  margin-top: 8px;
+  margin-top: 16px;
   border-radius: 10px;
 }
 
-.to-trip-icon {
-  position: left;
-  margin-right: 5px;
+.navigation-leftgroup {
+  display: flex;
+  flex-direction: row;
+  margin-top: 5px;
   margin-left: 10px;
-  align-content: center;
-  background-color: #e5f2fa;
+  font-size: $font-size-xsmall;
+  font-weight: $font-weight-book;
 }
 
-.to-trip-instruction-text {
-  display: flex;
-  margin-right: 35px;
-  text-align: center;
-  font-weight: 325;
-  font-size: 13px;
-  padding: 8px;
-  text-wrap: wrap;
-  color: white;
+.navigation-icon {
+  margin-right: 12px;
+  margin-left: 5px;
 }
 
-.to-trip-instruction-button {
-  display: flex;
-  background-color: #fff;
-  border-radius: 999px;
-  width: 120px;
-  height: 28px;
-  padding-left: 20px;
-  padding-right: 10px;
-  padding-top: 3px;
-  padding-bottom: 5px;
-  color: #007ac9;
-  align-items: center;
+.navigation-button {
   margin-right: 16px;
-  margin-left: 55px;
+  background-color: $primary-color;
+  color: $white;
+
+  &:hover {
+    background-color: $standalone-btn-hover-color;
+    color: $white;
+  }
+
+  font-size: $font-size-normal;
+  border-radius: 20px;
+  width: 140px;
+  height: 40px;
+  text-align: center;
 }
