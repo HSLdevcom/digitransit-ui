@@ -39,6 +39,8 @@ export default configMerger(walttiConfig, {
     hover: '#00BF6F',
     iconColors: {
       'mode-bus': colorPrimary,
+      'mode-ferry': '#0064f0',
+      'mode-ferry-pier': '#666666',
     },
   },
 
@@ -63,6 +65,12 @@ export default configMerger(walttiConfig, {
     bus: {
       availableForSelection: true,
       color: colorPrimary,
+    },
+
+    ferry: {
+      availableForSelection: true,
+      defaultValue: true,
+      color: '#0064f0',
     },
   },
 
