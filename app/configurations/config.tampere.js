@@ -7,7 +7,6 @@ const APP_TITLE = 'Nyssen reittiopas';
 const APP_DESCRIPTION = 'Nyssen reittiopas';
 const walttiConfig = require('./config.waltti').default;
 const tampereTimetables = require('./timetableConfigUtils').default.tampere;
-const HSLParkAndRideUtils = require('../util/ParkAndRideUtils').default.HSL;
 
 export default configMerger(walttiConfig, {
   CONFIG,
@@ -294,9 +293,5 @@ export default configMerger(walttiConfig, {
   parkAndRide: {
     showParkAndRide: true,
     showParkAndRideForBikes: true,
-    parkAndRideMinZoom: 13,
-    pageContent: {
-      default: HSLParkAndRideUtils,
-    },
   },
 });
