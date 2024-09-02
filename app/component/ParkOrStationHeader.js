@@ -50,12 +50,11 @@ const ParkOrBikeStationHeader = (
     });
   }, []);
 
-  const {
-    name,
-    stationId,
-    rentalNetwork: { networkId },
-  } = parkOrStation;
-  const networkConfig = getRentalNetworkConfig(networkId, config);
+  const { name, stationId } = parkOrStation;
+  const networkConfig = getRentalNetworkConfig(
+    parkOrStation.rentalNetwork?.networkId,
+    config,
+  );
   const parkHeaderId = parkType === 'bike' ? 'bike-park' : 'car-park';
   const noIdHeaderName =
     networkConfig.type === TransportMode.Citybike.toLowerCase()
@@ -105,7 +104,7 @@ ParkOrBikeStationHeader.propTypes = {
     lon: PropTypes.number.isRequired,
     rentalNetwork: PropTypes.shape({
       networkId: PropTypes.string.isRequired,
-    }).isRequired,
+    }),
   }).isRequired,
   parkType: PropTypes.string,
 };
