@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl';
 import Icon from '../Icon';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
-const NavigatorButton = props => {
+export default function NavigatorButton({ setNavigation }) {
   return (
     <div className="navigation-container">
       <div className="navigation-leftgroup">
@@ -22,7 +22,7 @@ const NavigatorButton = props => {
       <button
         className="navigation-button"
         type="button"
-        onClick={e => props.buttonClickAction(e)}
+        onClick={() => setNavigation(true)}
       >
         <FormattedMessage
           id="start-navigation"
@@ -31,12 +31,8 @@ const NavigatorButton = props => {
       </button>
     </div>
   );
-};
+}
 
 NavigatorButton.propTypes = {
-  buttonClickAction: PropTypes.func.isRequired,
+  setNavigation: PropTypes.func.isRequired,
 };
-
-NavigatorButton.defaultProps = {};
-
-export default NavigatorButton;
