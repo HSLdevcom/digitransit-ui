@@ -326,6 +326,7 @@ export function getPlanParams(
     case PLANTYPE.SCOOTERTRANSIT:
       access = ['WALK', 'SCOOTER_RENTAL'];
       egress = access;
+      direct = access;
       break;
     default: // direct modes
       direct = [planType];
