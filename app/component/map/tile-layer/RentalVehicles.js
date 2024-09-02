@@ -72,7 +72,7 @@ class RentalVehicles {
                   this.shouldShowRentalVehicle(
                     feature.properties.id,
                     feature.properties.network,
-                    feature.properties.isDisabled,
+                    feature.properties.pickupAllowed,
                     feature.properties.formFactor,
                   )
                 ) {
@@ -163,14 +163,14 @@ class RentalVehicles {
     );
   };
 
-  shouldShowRentalVehicle = (id, network, isDisabled, formFactor) =>
+  shouldShowRentalVehicle = (id, network, pickupAllowed, formFactor) =>
     (!this.tile.stopsToShow || this.tile.stopsToShow.includes(id)) &&
     (!network ||
       (this.config.vehicleRental.networks[network].enabled &&
         this.config.vehicleRental.networks[network].showRentalVehicles &&
         this.config.vehicleRental.networks[network].type ===
           formFactor.toLowerCase())) &&
-    !isDisabled;
+    pickupAllowed;
 
   static getName = () => 'scooter';
 
