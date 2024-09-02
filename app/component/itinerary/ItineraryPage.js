@@ -1230,11 +1230,9 @@ ItineraryPage.propTypes = {
   relayEnvironment: relayShape.isRequired,
   mapLayers: mapLayerShape.isRequired,
   mapLayerOptions: mapLayerOptionsShape.isRequired,
-  setNavigation: PropTypes.func,
 };
 
 ItineraryPage.defaultProps = {
   content: undefined,
   map: undefined,
-  setNavigation: undefined,
 };

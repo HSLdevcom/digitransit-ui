@@ -1,11 +1,12 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
+import { intlShape } from 'react-intl';
 import { createFragmentContainer, graphql } from 'react-relay';
 import { itineraryShape } from '../../util/shapes';
 import { legTime } from '../../util/legUtils';
 import Icon from '../Icon';
 
-function Navigator(props) {
+function Navigator(props, context) {
   const [time, setTime] = useState(Date.now());
   const [currentLeg, setCurrentLeg] = useState(null);
 
@@ -34,6 +35,10 @@ function Navigator(props) {
       <div className="navigator-top-section">
         <button
           type="button"
+          aria-label={context.intl.formatMessage({
+            id: 'navigation-label-close',
+            defaultMessage: 'Close the navigator view',
+          })}
           onClick={e => props.buttonClickAction(e)}
           className="close-button cursor-pointer"
         >
@@ -49,11 +54,15 @@ Navigator.propTypes = {
   itinerary: itineraryShape.isRequired,
   focusToLeg: PropTypes.func.isRequired,
   // eslint-disable-next-line react/require-default-props
-  buttonClickAction: PropTypes.func,
+  buttonClickAction: PropTypes.func.isRequired,
   /*
   focusToPoint: PropTypes.func.isRequired,
   relayEnvironment: relayShape.isRequired,
   */
+};
+
+Navigator.contextTypes = {
+  intl: intlShape.isRequired,
 };
 
 const withRelay = createFragmentContainer(Navigator, {
