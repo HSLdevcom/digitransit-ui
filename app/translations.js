@@ -2498,7 +2498,7 @@ const translations = {
     navigate: 'Navigoi',
     'navigation-description': 'Löydä perille ohjatusti!',
     'navigation-header': 'Matkan seuranta',
-    'navigation-label-close': 'Sulje navigaattori',
+    'navigation-label-close': 'Lopeta matkaopastus',
     nearest: 'Lähimmät {mode}',
     'nearest-favorites': 'Omat lähipysäkit',
     'nearest-favorites-browse-stops': 'Selaa ja valitse pysäkkejä',
