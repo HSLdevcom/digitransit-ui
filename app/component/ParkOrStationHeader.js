@@ -9,12 +9,8 @@ import { getJson } from '../util/xhrPromise';
 import getZoneId from '../util/zoneIconUtils';
 import ZoneIcon from './ZoneIcon';
 import withBreakpoint from '../util/withBreakpoint';
-import {
-  hasVehicleRentalCode,
-  getRentalNetworkConfig,
-} from '../util/vehicleRentalUtils';
+import { hasVehicleRentalCode } from '../util/vehicleRentalUtils';
 import { getIdWithoutFeed } from '../util/feedScopedIdUtils';
-import { TransportMode } from '../constants';
 
 const modules = {
   FavouriteVehicleRentalStationContainer: () =>
@@ -50,17 +46,10 @@ const ParkOrBikeStationHeader = (
     });
   }, []);
 
-  const {
-    name,
-    stationId,
-    rentalNetwork: { networkId },
-  } = parkOrStation;
-  const networkConfig = getRentalNetworkConfig(networkId, config);
+  const { name, stationId } = parkOrStation;
   const parkHeaderId = parkType === 'bike' ? 'bike-park' : 'car-park';
-  const noIdHeaderName =
-    networkConfig.type === TransportMode.Citybike.toLowerCase()
-      ? 'citybike-station-no-id'
-      : 'e-scooter-station';
+  const isRentalStation = stationId;
+
   return (
     <div className="bike-station-header">
       {breakpoint === 'large' && (
@@ -72,8 +61,10 @@ const ParkOrBikeStationHeader = (
       <div className="header">
         <h1>{name}</h1>
         <div className="bike-station-sub-header">
-          <FormattedMessage id={stationId ? noIdHeaderName : parkHeaderId} />
-          {stationId && hasVehicleRentalCode(parkOrStation.stationId) && (
+          <FormattedMessage
+            id={isRentalStation ? 'citybike-station-no-id' : parkHeaderId}
+          />
+          {isRentalStation && hasVehicleRentalCode(stationId) && (
             <StopCode code={getIdWithoutFeed(stationId)} />
           )}
           {zoneId && (
@@ -83,7 +74,7 @@ const ParkOrBikeStationHeader = (
           )}
         </div>
       </div>
-      {stationId && (
+      {isRentalStation && (
         <LazilyLoad modules={modules}>
           {({ FavouriteVehicleRentalStationContainer }) => (
             <FavouriteVehicleRentalStationContainer
@@ -103,9 +94,6 @@ ParkOrBikeStationHeader.propTypes = {
     stationId: PropTypes.string,
     lat: PropTypes.number.isRequired,
     lon: PropTypes.number.isRequired,
-    rentalNetwork: PropTypes.shape({
-      networkId: PropTypes.string.isRequired,
-    }).isRequired,
   }).isRequired,
   parkType: PropTypes.string,
 };

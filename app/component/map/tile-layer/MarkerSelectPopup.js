@@ -90,7 +90,7 @@ function MarkerSelectPopup(props, { intl }) {
         const { vehicleParking } = option.feature.properties;
         if (Array.isArray(vehicleParking) && vehicleParking.length > 0) {
           return (
-            <React.Fragment key="parkAndRideOptions">
+            <React.Fragment key={option.layer}>
               {vehicleParking.map(parking => {
                 return getRowForParking(parking, option.layer);
               })}
