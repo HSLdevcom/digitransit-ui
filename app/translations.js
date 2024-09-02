@@ -1283,7 +1283,7 @@ const translations = {
     'move-on-map': 'Move on the map',
     'move-to-tab': 'Go to tab {number}',
     navigate: 'Navigate',
-    'navigation-description': 'Find your way guided!',
+    'navigation-description': 'Find your way guided',
     'navigation-header': 'Follow route',
     'navigation-label-close': 'Close navigator',
     nearest: '{ mode } near you',
@@ -2496,7 +2496,7 @@ const translations = {
     'move-on-map': 'Siirry kartalla',
     'move-to-tab': 'Siirry välilehdelle {number}',
     navigate: 'Navigoi',
-    'navigation-description': 'Löydä perille ohjatusti!',
+    'navigation-description': 'Löydä perille ohjatusti',
     'navigation-header': 'Matkan seuranta',
     'navigation-label-close': 'Lopeta matkaopastus',
     nearest: 'Lähimmät {mode}',
@@ -5597,7 +5597,7 @@ const translations = {
     'separate-ticket-required':
       'Denna etapp av resan kräver en separat biljett.',
     'separate-ticket-required-disclaimer':
-      'Resan består av en eller fleta etapper vilka kräver biljetter som inte säljs av {agencyName}.',
+      'Resan består av en eller flera etapper vilka kräver biljetter som inte säljs av {agencyName}.',
     'separate-ticket-required-for-call-agency-disclaimer':
       'I resan ingår anropsbusstrafiken. Bekanta dig med betalningsmetoder och praxis på ',
     'set-specific-settings': 'Ställa avancerade inställningar',

@@ -1,38 +1,34 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage, intlShape } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import Icon from '../Icon';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
-const NavigatorButton = (props, context) => {
+const NavigatorButton = props => {
   return (
-    <div className="to-trip-button-class">
-      <div className="to-trip-icon">
-        <Icon img="icon-icon_show-on-map" className="itinerary-search-icon" />
+    <div className="navigation-container">
+      <div className="navigation-leftgroup">
+        <Icon
+          img="icon-icon_show-on-map"
+          width={1.4}
+          height={1.4}
+          className="navigation-icon"
+        />
+        <FormattedMessage
+          id="navigation-description"
+          defaultMessage="navigation-description"
+        />
       </div>
-
-      <div className="to-trip-instruction-text">
-        {context.intl.formatMessage({
-          id: 'navigation-description',
-          defaultMessage: 'navigation-description',
-        })}
-      </div>
-
-      <div className="to-trip-instruction-button">
-        <button
-          type="button"
-          aria-label={context.intl.formatMessage({
-            id: 'navigation-header',
-            defaultMessage: 'navigation-header',
-          })}
-          onClick={e => props.buttonClickAction(e)}
-        >
-          <FormattedMessage
-            id="start-navigation"
-            defaultMessage="start-navigation"
-          />
-        </button>
-      </div>
+      <button
+        className="navigation-button"
+        type="button"
+        onClick={e => props.buttonClickAction(e)}
+      >
+        <FormattedMessage
+          id="start-navigation"
+          defaultMessage="start-navigation"
+        />
+      </button>
     </div>
   );
 };
@@ -42,9 +38,5 @@ NavigatorButton.propTypes = {
 };
 
 NavigatorButton.defaultProps = {};
-
-NavigatorButton.contextTypes = {
-  intl: intlShape.isRequired,
-};
 
 export default NavigatorButton;

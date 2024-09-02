@@ -299,8 +299,10 @@ export default {
 
   hideExternalOperator: agency => agency.name === 'Helsingin seudun liikenne',
   showTicketInformation: true,
-  ticketInformation: {
-    primaryAgencyName: 'HSL',
+  primaryAgencyName: {
+    fi: 'HSL',
+    sv: 'HRT',
+    en: 'HSL',
   },
 
   maxNearbyStopAmount: 5,
@@ -726,4 +728,6 @@ export default {
       },
     },
   },
+
+  startSearchFromUserLocation: true,
 };
