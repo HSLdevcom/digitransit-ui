@@ -1067,9 +1067,7 @@ export default function ItineraryPage(props, context) {
           focusToPoint={focusToPoint}
           focusToLeg={focusToLeg}
           relayEnvironment={props.relayEnvironment}
-          buttonClickAction={() => {
-            setNavigation(false);
-          }}
+          setNavigation={setNavigation}
         />
       );
     } else {

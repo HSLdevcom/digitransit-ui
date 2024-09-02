@@ -6,7 +6,7 @@ import { itineraryShape } from '../../util/shapes';
 import { legTime } from '../../util/legUtils';
 import Icon from '../Icon';
 
-function Navigator(props, context) {
+function Navigator({ itinerary, focusToLeg, setNavigation }, context) {
   const [time, setTime] = useState(Date.now());
   const [currentLeg, setCurrentLeg] = useState(null);
 
@@ -20,13 +20,13 @@ function Navigator(props, context) {
   }, []);
 
   useEffect(() => {
-    const newLeg = props.itinerary.legs.find(leg => {
+    const newLeg = itinerary.legs.find(leg => {
       return legTime(leg.start) <= time && time <= legTime(leg.end);
     });
 
     if (newLeg && newLeg !== currentLeg) {
       setCurrentLeg(newLeg);
-      props.focusToLeg(newLeg);
+      focusToLeg(newLeg);
     }
   }, [time]);
 
@@ -39,13 +39,13 @@ function Navigator(props, context) {
             id: 'navigation-label-close',
             defaultMessage: 'Close the navigator view',
           })}
-          onClick={e => props.buttonClickAction(e)}
+          onClick={() => setNavigation(false)}
           className="close-button cursor-pointer"
         >
-          <Icon img="icon-icon_close" />
+          <Icon img="icon-icon_close" className="close-navigator-icon" />
         </button>
       </div>
-      Tracking {props.itinerary.legs.length} legs, current {currentLeg?.mode}
+      Tracking {itinerary.legs.length} legs, current {currentLeg?.mode}
     </div>
   );
 }
@@ -53,8 +53,7 @@ function Navigator(props, context) {
 Navigator.propTypes = {
   itinerary: itineraryShape.isRequired,
   focusToLeg: PropTypes.func.isRequired,
-  // eslint-disable-next-line react/require-default-props
-  buttonClickAction: PropTypes.func.isRequired,
+  setNavigation: PropTypes.func.isRequired,
   /*
   focusToPoint: PropTypes.func.isRequired,
   relayEnvironment: relayShape.isRequired,
