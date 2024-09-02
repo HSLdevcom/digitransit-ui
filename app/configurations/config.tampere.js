@@ -289,4 +289,9 @@ export default configMerger(walttiConfig, {
   },
 
   showTenWeeksOnRouteSchedule: true,
+
+  parkAndRide: {
+    showParkAndRide: true,
+    showParkAndRideForBikes: true,
+  },
 });
