@@ -391,4 +391,6 @@ export default {
   includePublicWithBikePlan: true,
 
   startSearchFromUserLocation: true,
+
+  scooterRoutingOn: false,
 };
