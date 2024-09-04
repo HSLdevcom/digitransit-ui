@@ -202,9 +202,7 @@ function NearStopsAndRoutes({
   const [cookies, setCookie] = useCookies(['nearbyTeaserShown']);
 
   useEffect(() => {
-    Object.keys(translations).forEach(lang => {
-      i18next.addResourceBundle(lang, 'translation', translations[lang]);
-    });
+    i18next.changeLanguage(language);
     if (alertsContext) {
       alertsContext
         .getModesWithAlerts(alertsContext.currentTime, alertsContext.feedIds)
@@ -436,7 +434,6 @@ class CtrlPanel extends React.Component {
 
   static propTypes = {
     children: PropTypes.arrayOf(PropTypes.node),
-    language: PropTypes.string.isRequired,
     position: PropTypes.string.isRequired,
     fontWeights: PropTypes.shape({
       medium: PropTypes.number,
@@ -450,29 +447,25 @@ class CtrlPanel extends React.Component {
     },
   };
 
+  constructor(props) {
+    super(props);
+    Object.keys(translations).forEach(lang => {
+      i18next.addResourceBundle(lang, 'translation', translations[lang]);
+    });
+  }
+
   render() {
     const className =
       this.props.position === 'bottom'
         ? styles['main-bottom']
         : styles['main-left'];
-    const children = React.Children.map(this.props.children, child => {
-      if (child) {
-        let lang = this.props.language;
-        if (lang === undefined) {
-          lang = 'fi';
-        }
-        i18next.changeLanguage(lang);
-        return React.cloneElement(child, { lang });
-      }
-      return null;
-    });
     return (
       <div
         key="main"
         className={className}
         style={{ '--font-weight-medium': this.props.fontWeights.medium }}
       >
-        {children}
+        {this.props.children}
       </div>
     );
   }
