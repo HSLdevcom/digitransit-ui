@@ -105,7 +105,6 @@ export function getSettings(config) {
     ...settings,
     walkSpeed: findNearestOption(settings.walkSpeed, defaultOptions.walkSpeed),
     bikeSpeed: findNearestOption(settings.bikeSpeed, defaultOptions.bikeSpeed),
-    minTransferTime: `PT${settings.minTransferTime}S`,
   };
 }
 
@@ -385,6 +384,7 @@ export function getPlanParams(
     fromPlace,
     toPlace,
     datetime,
+    minTransferTime: `PT${settings.minTransferTime}S`,
     first: numItineraries, // used in actual query
     numItineraries, // backup original value for convenient paging
     wheelchair,
