@@ -834,6 +834,4 @@ export default {
       },
     },
   ],
-
-  scooterRoutingOn: false,
 };

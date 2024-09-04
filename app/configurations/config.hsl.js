@@ -731,6 +731,4 @@ export default {
   },
 
   startSearchFromUserLocation: true,
-
-  scooterRoutingOn: false,
 };

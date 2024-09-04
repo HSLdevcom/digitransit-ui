@@ -199,7 +199,7 @@ export function planQueryNeeded(
     case PLANTYPE.SCOOTERTRANSIT:
       /* special logic: relaxed scooter query is made only if no networks allowed */
       return (
-        config.scooterRoutingOn &&
+        config.transportModes.scooter.availableForSelection &&
         transitModes.length > 0 &&
         !wheelchair &&
         (relaxSettings
