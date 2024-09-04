@@ -26,7 +26,7 @@ function Navigator({ itinerary, focusToLeg, setNavigation }, context) {
 
     if (newLeg && newLeg !== currentLeg) {
       setCurrentLeg(newLeg);
-      focusToLeg(newLeg);
+      focusToLeg(newLeg, false);
     }
   }, [time]);
 

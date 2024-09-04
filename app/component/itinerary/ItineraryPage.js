@@ -811,8 +811,8 @@ export default function ItineraryPage(props, context) {
     mwtRef.current = ref;
   };
 
-  const focusToPoint = (lat, lon) => {
-    if (breakpoint !== 'large') {
+  const focusToPoint = (lat, lon, maximize = true) => {
+    if (breakpoint !== 'large' && maximize) {
       window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
       expandMapRef.current += 1;
     }
@@ -820,8 +820,8 @@ export default function ItineraryPage(props, context) {
     setMapState({ center: { lat, lon }, bounds: null });
   };
 
-  const focusToLeg = leg => {
-    if (breakpoint !== 'large') {
+  const focusToLeg = (leg, maximize = true) => {
+    if (breakpoint !== 'large' && maximize) {
       window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
       expandMapRef.current += 1;
     }
