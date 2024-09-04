@@ -173,13 +173,18 @@ function WalkLeg(
               ) : (
                 <div>
                   {returnNotice ? (
-                    <VehicleRentalLeg
-                      isScooter={isScooter}
-                      stationName={leg[toOrFrom].name}
-                      vehicleRentalStation={leg[toOrFrom].vehicleRentalStation}
-                      returnBike
-                      rentalVehicle={leg.from.rentalVehicle}
-                    />
+                    <>
+                      <div className="divider" />
+                      <VehicleRentalLeg
+                        isScooter={isScooter}
+                        stationName={leg[toOrFrom].name}
+                        vehicleRentalStation={
+                          leg[toOrFrom].vehicleRentalStation
+                        }
+                        returnBike
+                        rentalVehicle={leg.from.rentalVehicle}
+                      />
+                    </>
                   ) : (
                     leg[toOrFrom].name
                   )}

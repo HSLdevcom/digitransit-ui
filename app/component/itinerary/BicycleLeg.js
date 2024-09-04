@@ -464,17 +464,14 @@ export default function BicycleLeg(
           </div>
         )}
         {isScooter && (
-          <div>
-            <div className="divider" />
-            <VehicleRentalLeg
-              stationName={leg.from.name}
-              isScooter={isScooter}
-              vehicleRentalStation={leg.from.vehicleRentalStation}
-              returnBike
-              rentalVehicle={leg.from.rentalVehicle}
-              nextLegMode={nextLegMode}
-            />
-          </div>
+          <VehicleRentalLeg
+            stationName={leg.from.name}
+            isScooter={isScooter}
+            vehicleRentalStation={leg.from.vehicleRentalStation}
+            returnBike
+            rentalVehicle={leg.from.rentalVehicle}
+            nextLegMode={nextLegMode}
+          />
         )}
       </div>
     </div>
