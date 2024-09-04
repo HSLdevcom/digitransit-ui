@@ -4,8 +4,6 @@
 import PropTypes from 'prop-types';
 import React, { Fragment, useEffect, useState } from 'react';
 import i18next from 'i18next';
-import { useCookies } from 'react-cookie';
-import cx from 'classnames';
 import Icon from '@digitransit-component/digitransit-component-icon';
 import styles from './helpers/styles.scss';
 import translations from './helpers/translations';
@@ -65,73 +63,6 @@ OriginToDestination.propTypes = {
 OriginToDestination.defaultProps = {
   showTitle: false,
   language: 'fi',
-};
-
-function BubbleDialog({ title, content, closeDialog, shouldRender, lang }) {
-  const [show, setShow] = useState(false);
-  useEffect(() => {
-    setTimeout(() => {
-      setShow(true);
-    }, 500);
-  }, [show]);
-
-  return (
-    <div
-      className={cx(styles['nearby-stops-bubble-dialog'], {
-        [styles['visible']]: shouldRender && show,
-      })}
-    >
-      <div
-        id="nearby-stops-bubble-dialog-container"
-        className={styles['nearby-stops-bubble-dialog-container']}
-      >
-        <div>
-          <div
-            className={cx(
-              styles['nearby-stops-bubble-dialog-header'],
-              styles[lang],
-            )}
-          >
-            {title}
-          </div>
-          <div className={styles['nearby-stops-bubble-dialog-content']}>
-            {content}
-          </div>
-          <button
-            className={styles['nearby-stops-bubble-dialog-close']}
-            aria-label={i18next.t('close-nearby-teaser')}
-            onClick={event => {
-              event.preventDefault();
-              closeDialog();
-            }}
-            onKeyDown={event => {
-              event.preventDefault();
-              const space = [13, ' ', 'Spacebar'];
-              const enter = [32, 'Enter'];
-              const key = event && event.key;
-              if (key && space.concat(enter).includes(key)) {
-                closeDialog();
-              }
-            }}
-            type="button"
-          >
-            <Icon img="close" />
-          </button>
-        </div>
-        <div className={styles['nearby-stops-bubble-dialog-tip-container']}>
-          <div className={styles['nearby-stops-bubble-dialog-tip']} />
-        </div>
-      </div>
-    </div>
-  );
-}
-
-BubbleDialog.propTypes = {
-  title: PropTypes.string.isRequired,
-  content: PropTypes.string.isRequired,
-  closeDialog: PropTypes.func.isRequired,
-  shouldRender: PropTypes.bool.isRequired,
-  lang: PropTypes.string.isRequired,
 };
 
 /**
@@ -196,15 +127,11 @@ function NearStopsAndRoutes({
   modeSet,
   modeIconColors,
   fontWeights,
-  showTeaser,
 }) {
   const [modesWithAlerts, setModesWithAlerts] = useState([]);
-  const [cookies, setCookie] = useCookies(['nearbyTeaserShown']);
 
   useEffect(() => {
-    Object.keys(translations).forEach(lang => {
-      i18next.addResourceBundle(lang, 'translation', translations[lang]);
-    });
+    i18next.changeLanguage(language);
     if (alertsContext) {
       alertsContext
         .getModesWithAlerts(alertsContext.currentTime, alertsContext.feedIds)
@@ -213,12 +140,6 @@ function NearStopsAndRoutes({
         });
     }
   }, []);
-
-  const closeBubbleDialog = () =>
-    setCookie('nearbyTeaserShown', true, {
-      path: '/',
-      maxAge: 10 * 365 * 24 * 60 * 60,
-    });
 
   let urlStart;
   if (omitLanguageUrl) {
@@ -328,20 +249,6 @@ function NearStopsAndRoutes({
             : title[language]}
         </h2>
       )}
-      {showTeaser && !cookies?.nearbyTeaserShown && (
-        <BubbleDialog
-          title={i18next.t('nearby-stops-teaser-header', { lng: language })}
-          content={i18next.t('nearby-stops-teaser-content', {
-            lng: language,
-          })}
-          closeDialog={closeBubbleDialog}
-          shouldRender={
-            i18next.t('nearby-stops-teaser-header', { lng: language }) !==
-            'nearby-stops-teaser-header'
-          }
-          lang={language}
-        />
-      )}
       <div
         className={
           !modes
@@ -381,7 +288,6 @@ NearStopsAndRoutes.propTypes = {
   fontWeights: PropTypes.shape({
     medium: PropTypes.number,
   }),
-  showTeaser: PropTypes.bool,
 };
 
 NearStopsAndRoutes.defaultProps = {
@@ -407,7 +313,6 @@ NearStopsAndRoutes.defaultProps = {
   fontWeights: {
     medium: 500,
   },
-  showTeaser: false,
 };
 
 /**
@@ -432,11 +337,8 @@ class CtrlPanel extends React.Component {
 
   static SeparatorLine = SeparatorLine;
 
-  static BubbleDialog = BubbleDialog;
-
   static propTypes = {
     children: PropTypes.arrayOf(PropTypes.node),
-    language: PropTypes.string.isRequired,
     position: PropTypes.string.isRequired,
     fontWeights: PropTypes.shape({
       medium: PropTypes.number,
@@ -450,29 +352,25 @@ class CtrlPanel extends React.Component {
     },
   };
 
+  constructor(props) {
+    super(props);
+    Object.keys(translations).forEach(lang => {
+      i18next.addResourceBundle(lang, 'translation', translations[lang]);
+    });
+  }
+
   render() {
     const className =
       this.props.position === 'bottom'
         ? styles['main-bottom']
         : styles['main-left'];
-    const children = React.Children.map(this.props.children, child => {
-      if (child) {
-        let lang = this.props.language;
-        if (lang === undefined) {
-          lang = 'fi';
-        }
-        i18next.changeLanguage(lang);
-        return React.cloneElement(child, { lang });
-      }
-      return null;
-    });
     return (
       <div
         key="main"
         className={className}
         style={{ '--font-weight-medium': this.props.fontWeights.medium }}
       >
-        {children}
+        {this.props.children}
       </div>
     );
   }
