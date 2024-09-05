@@ -6,6 +6,29 @@ import { itineraryShape } from '../../util/shapes';
 import { legTime, legTimeStr } from '../../util/legUtils';
 import Icon from '../Icon';
 
+/*
+  const legQuery = graphql`
+  query legQuery($id: String!) {
+    node(id: $id) {
+      ... on Leg {
+        start {
+          scheduledTime
+          estimated {
+            time
+          }
+        }
+        end {
+          scheduledTime
+          estimated {
+            time
+          }
+        }
+      }
+    }
+  }
+`;
+*/
+
 function Navigator({ itinerary, focusToLeg, setNavigation }, context) {
   const [time, setTime] = useState(Date.now());
   const [currentLeg, setCurrentLeg] = useState(null);
