@@ -1,10 +1,33 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
-import { intlShape } from 'react-intl';
+import { FormattedMessage, intlShape } from 'react-intl';
 import { createFragmentContainer, graphql } from 'react-relay';
 import { itineraryShape } from '../../util/shapes';
-import { legTime } from '../../util/legUtils';
+import { legTime, legTimeStr } from '../../util/legUtils';
 import Icon from '../Icon';
+
+/*
+  const legQuery = graphql`
+  query legQuery($id: String!) {
+    node(id: $id) {
+      ... on Leg {
+        start {
+          scheduledTime
+          estimated {
+            time
+          }
+        }
+        end {
+          scheduledTime
+          estimated {
+            time
+          }
+        }
+      }
+    }
+  }
+`;
+*/
 
 function Navigator({ itinerary, focusToLeg, setNavigation }, context) {
   const [time, setTime] = useState(Date.now());
@@ -30,6 +53,18 @@ function Navigator({ itinerary, focusToLeg, setNavigation }, context) {
     }
   }, [time]);
 
+  const first = itinerary.legs[0];
+  let msg;
+  if (time < legTime(first.start)) {
+    msg = (
+      <FormattedMessage
+        id="navigation-journey-start"
+        values={{ time: legTimeStr(first.start) }}
+      />
+    );
+  } else {
+    msg = `Tracking ${itinerary.legs.length} legs, current ${currentLeg?.mode}`;
+  }
   return (
     <div>
       <div className="navigator-top-section">
@@ -45,7 +80,7 @@ function Navigator({ itinerary, focusToLeg, setNavigation }, context) {
           <Icon img="icon-icon_close" className="close-navigator-icon" />
         </button>
       </div>
-      Tracking {itinerary.legs.length} legs, current {currentLeg?.mode}
+      {msg}
     </div>
   );
 }
