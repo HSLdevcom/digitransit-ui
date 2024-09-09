@@ -65,7 +65,7 @@ function Navigator({ itinerary, focusToLeg, setNavigation }, context) {
     );
   } else if (currentLeg) {
     if (!currentLeg.transitLeg) {
-      info = <NaviLeg leg={currentLeg} />;
+      info = <NaviLeg leg={currentLeg} focusToLeg={focusToLeg} />;
     } else {
       info = `Tracking ${currentLeg?.mode} leg`;
     }

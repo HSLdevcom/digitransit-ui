@@ -69,7 +69,7 @@
     margin: 15px 20px 0 20px;
     width: 100%;
 
-    .navileg-container {
+    .navileg-goto {
       display: flex;
       flex-direction: row;
       align-items: center;
@@ -78,6 +78,40 @@
         width: 32px;
         height: 32px;
         margin-right: 12px;
+      }
+    }
+
+    .navileg-destination {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      margin-top: 10px;
+      font-size: $font-size-xsmall;
+      font-weight: $font-weight-book;
+
+      .navi-left-bar {
+        margin-left: 10px;
+        margin-right: 10px;
+        width: 8px;
+        height: 80px;
+        border-radius: 4px;
+        background-color: #e5f2fa;
+      }
+
+      .navileg-destination-details {
+        display: flex;
+        flex-direction: column;
+
+        .navi-lollipop {
+          width: 24px;
+          height: 24px;
+        }
+
+        .navileg-focus {
+          font-weight: $font-weight-medium;
+          color: $primary-color;
+          margin-top: 8px;
+        }
       }
     }
   }
