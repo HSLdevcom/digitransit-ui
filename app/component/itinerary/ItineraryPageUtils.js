@@ -472,7 +472,7 @@ export function mergeScooterTransitPlan(scooterPlan, transitPlan) {
   if (
     transitPlanEdges.length === 1 &&
     transitPlanEdges[0].node.legs.every(leg => leg.mode === 'WALK') &&
-    transitPlanEdges[0].node.end < scooterTransitEdges?.[0]?.node.end
+    transitPlanEdges[0].node.end < scooterTransitEdges[0]?.node.end
   ) {
     return transitPlan;
   }
