@@ -25,8 +25,8 @@ export default function NavigatorButton({ setNavigation }) {
         onClick={() => setNavigation(true)}
       >
         <FormattedMessage
-          id="start-navigation"
-          defaultMessage="start-navigation"
+          id="navigation-start"
+          defaultMessage="navigation-start"
         />
       </button>
     </div>

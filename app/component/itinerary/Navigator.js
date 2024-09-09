@@ -66,8 +66,9 @@ function Navigator({ itinerary, focusToLeg, setNavigation }, context) {
     msg = `Tracking ${itinerary.legs.length} legs, current ${currentLeg?.mode}`;
   }
   return (
-    <div>
+    <div className="navigator">
       <div className="navigator-top-section">
+        <FormattedMessage id="navigation-header" />
         <button
           type="button"
           aria-label={context.intl.formatMessage({
@@ -75,12 +76,13 @@ function Navigator({ itinerary, focusToLeg, setNavigation }, context) {
             defaultMessage: 'Close the navigator view',
           })}
           onClick={() => setNavigation(false)}
-          className="close-button cursor-pointer"
+          className="close-navigator"
         >
           <Icon img="icon-icon_close" className="close-navigator-icon" />
         </button>
       </div>
-      {msg}
+      <div className="divider" />
+      <div className="info">{msg}</div>
     </div>
   );
 }

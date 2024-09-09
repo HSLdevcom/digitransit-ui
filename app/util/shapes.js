@@ -402,3 +402,10 @@ export const vehicleShape = PropTypes.shape({
   heading: PropTypes.number,
   headsign: PropTypes.string,
 });
+
+export const minTransferTimeShape = PropTypes.arrayOf(
+  PropTypes.shape({
+    title: PropTypes.string,
+    value: PropTypes.number,
+  }),
+);

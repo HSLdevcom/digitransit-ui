@@ -181,7 +181,9 @@ class ItineraryDetails extends React.Component {
 
     const disclaimers = [];
 
-    if (shouldShowFareInfo(config) && fares.some(fare => fare.isUnknown)) {
+    const externalOperatorJourneys = legsWithScooter;
+
+    if (shouldShowFareInfo(config) && (fares.some(fare => fare.isUnknown) || externalOperatorJourneys) ) {
       const found = {};
       itinerary.legs.forEach(leg => {
         if (config.modeDisclaimers?.[leg.mode] && !found[leg.mode]) {

@@ -244,4 +244,27 @@ export default {
   },
 
   startSearchFromUserLocation: true,
+
+  minTransferTimeSelection: [
+    {
+      title: '1.5 min',
+      value: 90,
+    },
+    {
+      title: '3 min',
+      value: 180,
+    },
+    {
+      title: '5 min',
+      value: 300,
+    },
+    {
+      title: '7 min',
+      value: 420,
+    },
+    {
+      title: '10 min',
+      value: 600,
+    },
+  ],
 };
