@@ -1,12 +1,13 @@
 .navigator {
   .navigator-top-section {
+    font-size: $font-size-xsmall;
     text-align: center;
+    margin-top: 10px;
 
     .close-navigator {
       position: absolute;
       right: 0;
-      top: 0;
-      padding: 20px;
+      padding-right: 20px;
       color: $secondary-color;
     }
   }
@@ -16,11 +17,23 @@
     height: 1px;
     border-top: 1px solid #ddd;
     margin-bottom: 10px;
-    margin-top: 20px;
+    margin-top: 10px;
   }
 
   .info {
-    margin: 5px 10px 0 20px;
+    margin: 15px 20px 0 20px;
     width: 100%;
+
+    .navileg-container {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      .navileg-mode {
+        width: 32px;
+        height: 32px;
+        margin-right: 12px;
+      }
+    }
   }
 }

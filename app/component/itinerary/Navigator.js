@@ -5,6 +5,7 @@ import { createFragmentContainer, graphql } from 'react-relay';
 import { itineraryShape } from '../../util/shapes';
 import { legTime, legTimeStr } from '../../util/legUtils';
 import Icon from '../Icon';
+import NaviLeg from './NaviLeg';
 
 /*
   const legQuery = graphql`
@@ -54,16 +55,20 @@ function Navigator({ itinerary, focusToLeg, setNavigation }, context) {
   }, [time]);
 
   const first = itinerary.legs[0];
-  let msg;
+  let info;
   if (time < legTime(first.start)) {
-    msg = (
+    info = (
       <FormattedMessage
         id="navigation-journey-start"
         values={{ time: legTimeStr(first.start) }}
       />
     );
-  } else {
-    msg = `Tracking ${itinerary.legs.length} legs, current ${currentLeg?.mode}`;
+  } else if (currentLeg) {
+    if (!currentLeg.transitLeg) {
+      info = <NaviLeg leg={currentLeg} />;
+    } else {
+      info = `Tracking ${currentLeg?.mode} leg`;
+    }
   }
   return (
     <div className="navigator">
@@ -82,7 +87,7 @@ function Navigator({ itinerary, focusToLeg, setNavigation }, context) {
         </button>
       </div>
       <div className="divider" />
-      <div className="info">{msg}</div>
+      <div className="info">{info}</div>
     </div>
   );
 }
@@ -108,6 +113,7 @@ const withRelay = createFragmentContainer(Navigator, {
       end
       legs {
         mode
+        transitLeg
         start {
           scheduledTime
           estimated {
@@ -123,7 +129,6 @@ const withRelay = createFragmentContainer(Navigator, {
         legGeometry {
           points
         }
-
         from {
           lat
           lon
@@ -131,6 +136,13 @@ const withRelay = createFragmentContainer(Navigator, {
         to {
           lat
           lon
+          stop {
+            code
+            platformCode
+            zoneId
+            name
+            vehicleMode
+          }
         }
       }
     }
