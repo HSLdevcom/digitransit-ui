@@ -468,6 +468,15 @@ export function mergeScooterTransitPlan(scooterPlan, transitPlan) {
   const maxTransitEdges =
     scooterTransitEdges.length > 0 ? 4 : transitPlanEdges.length;
 
+  // special case: if transitplan only has one walk itinerary, don't show scooter plan if it arrives later.
+  if (
+    transitPlanEdges.length === 1 &&
+    transitPlanEdges[0].node.legs.every(leg => leg.mode === 'WALK') &&
+    transitPlanEdges[0].node.end < scooterTransitEdges[0]?.node.end
+  ) {
+    return transitPlan;
+  }
+
   return {
     edges: [
       ...scooterTransitEdges.slice(0, 1),
