@@ -1,10 +1,34 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
-import { intlShape } from 'react-intl';
+import { FormattedMessage, intlShape } from 'react-intl';
 import { createFragmentContainer, graphql } from 'react-relay';
 import { itineraryShape } from '../../util/shapes';
-import { legTime } from '../../util/legUtils';
+import { legTime, legTimeStr } from '../../util/legUtils';
 import Icon from '../Icon';
+import NaviLeg from './NaviLeg';
+
+/*
+  const legQuery = graphql`
+  query legQuery($id: String!) {
+    node(id: $id) {
+      ... on Leg {
+        start {
+          scheduledTime
+          estimated {
+            time
+          }
+        }
+        end {
+          scheduledTime
+          estimated {
+            time
+          }
+        }
+      }
+    }
+  }
+`;
+*/
 
 function Navigator({ itinerary, focusToLeg, setNavigation }, context) {
   const [time, setTime] = useState(Date.now());
@@ -30,9 +54,26 @@ function Navigator({ itinerary, focusToLeg, setNavigation }, context) {
     }
   }, [time]);
 
+  const first = itinerary.legs[0];
+  let info;
+  if (time < legTime(first.start)) {
+    info = (
+      <FormattedMessage
+        id="navigation-journey-start"
+        values={{ time: legTimeStr(first.start) }}
+      />
+    );
+  } else if (currentLeg) {
+    if (!currentLeg.transitLeg) {
+      info = <NaviLeg leg={currentLeg} focusToLeg={focusToLeg} />;
+    } else {
+      info = `Tracking ${currentLeg?.mode} leg`;
+    }
+  }
   return (
-    <div>
+    <div className="navigator">
       <div className="navigator-top-section">
+        <FormattedMessage id="navigation-header" />
         <button
           type="button"
           aria-label={context.intl.formatMessage({
@@ -40,12 +81,13 @@ function Navigator({ itinerary, focusToLeg, setNavigation }, context) {
             defaultMessage: 'Close the navigator view',
           })}
           onClick={() => setNavigation(false)}
-          className="close-button cursor-pointer"
+          className="close-navigator"
         >
           <Icon img="icon-icon_close" className="close-navigator-icon" />
         </button>
       </div>
-      Tracking {itinerary.legs.length} legs, current {currentLeg?.mode}
+      <div className="divider" />
+      <div className="info">{info}</div>
     </div>
   );
 }
@@ -71,6 +113,7 @@ const withRelay = createFragmentContainer(Navigator, {
       end
       legs {
         mode
+        transitLeg
         start {
           scheduledTime
           estimated {
@@ -86,7 +129,6 @@ const withRelay = createFragmentContainer(Navigator, {
         legGeometry {
           points
         }
-
         from {
           lat
           lon
@@ -94,6 +136,30 @@ const withRelay = createFragmentContainer(Navigator, {
         to {
           lat
           lon
+          stop {
+            name
+            code
+            platformCode
+            vehicleMode
+          }
+          vehicleParking {
+            name
+          }
+          vehicleRentalStation {
+            name
+            rentalNetwork {
+              networkId
+            }
+            availableVehicles {
+              total
+            }
+          }
+          rentalVehicle {
+            rentalNetwork {
+              networkId
+              url
+            }
+          }
         }
       }
     }

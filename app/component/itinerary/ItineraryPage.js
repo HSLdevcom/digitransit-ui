@@ -1072,8 +1072,12 @@ export default function ItineraryPage(props, context) {
       );
     } else {
       let carEmissions = carPlan?.edges?.[0]?.node.emissionsPerPerson?.co2;
+      const pastSearch =
+        Date.parse(combinedEdges[selectedIndex]?.node.end) < Date.now();
       const navigateHook =
-        !desktop && config.navigation ? setNavigation : undefined;
+        !desktop && config.navigation && !pastSearch
+          ? setNavigation
+          : undefined;
       carEmissions = carEmissions ? Math.round(carEmissions) : undefined;
       content = (
         <ItineraryTabs
