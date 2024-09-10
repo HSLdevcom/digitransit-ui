@@ -1,9 +1,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, intlShape } from 'react-intl';
 import { legShape } from '../../util/shapes';
 import Icon from '../Icon';
 import StopCode from '../StopCode';
+import { legDestination } from '../../util/legUtils';
 
 const iconMap = {
   BICYCLE: 'icon-icon_cyclist',
@@ -16,22 +17,21 @@ const driveModes = ['CAR', 'SCOOTER'];
 
 /* eslint-disable jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */
 
-export default function NaviLeg({ leg, focusToLeg }) {
+export default function NaviLeg({ leg, focusToLeg }, { intl }) {
   const iconName = iconMap[leg.mode];
   const { stop } = leg.to;
   const stopMode = stop?.vehicleMode.toLowerCase();
-  const modeId = driveModes.includes(leg.mode)
+  const goTo = driveModes.includes(leg.mode)
     ? 'navileg-drive'
     : `navileg-${leg.mode.toLowerCase()}`;
-  const destination = `modes.to-${stopMode || 'place'}`;
 
   return (
     <div>
       <div className="navileg-goto">
         <Icon img={iconName} className="navileg-mode" />
-        <FormattedMessage id={modeId} defaultMessage="Go to " />
+        <FormattedMessage id={goTo} defaultMessage="Go to" />
         &nbsp;
-        <FormattedMessage id={destination} defaultMessage="stop" />
+        {legDestination(intl, leg.to)}
       </div>
       <div className="navileg-destination">
         <div className="navi-left-bar" />
@@ -58,4 +58,8 @@ export default function NaviLeg({ leg, focusToLeg }) {
 NaviLeg.propTypes = {
   leg: legShape.isRequired,
   focusToLeg: PropTypes.func.isRequired,
+};
+
+NaviLeg.contextTypes = {
+  intl: intlShape.isRequired,
 };
