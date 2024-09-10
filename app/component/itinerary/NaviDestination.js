@@ -19,8 +19,8 @@ function NaviDestination({ leg, focusToLeg }) {
     toIcon = 'icon-icon_citybike';
   }
 
-  const handleFocusToLeg = (l, isViaPoint) => () => {
-    focusToLeg(l, isViaPoint);
+  const handleFocusToLeg = (l, maximize) => () => {
+    focusToLeg(l, maximize);
   };
 
   return (
