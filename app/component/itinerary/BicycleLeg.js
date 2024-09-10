@@ -231,7 +231,7 @@ export default function BicycleLeg(
           }
           values={{
             time,
-            to: legDestination(intl, leg.to, bicycleWalkLeg?.to),
+            to: legDestination(intl, leg, bicycleWalkLeg?.to),
             distance,
             origin: isScooter
               ? intl.formatMessage({ id: 'from-scooter-location' })

@@ -9,7 +9,7 @@ import { legDestination } from '../../util/legUtils';
 const iconMap = {
   BICYCLE: 'icon-icon_cyclist',
   CAR: 'icon-icon_car-withoutBox',
-  SCOOTER: 'icon-icon_scooter',
+  SCOOTER: 'icon-icon_scooter_rider',
   WALK: 'icon-icon_walk',
 };
 
@@ -31,7 +31,7 @@ export default function NaviLeg({ leg, focusToLeg }, { intl }) {
         <Icon img={iconName} className="navileg-mode" />
         <FormattedMessage id={goTo} defaultMessage="Go to" />
         &nbsp;
-        {legDestination(intl, leg.to)}
+        {legDestination(intl, leg)}
       </div>
       <div className="navileg-destination">
         <div className="navi-left-bar" />

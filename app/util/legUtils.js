@@ -614,13 +614,13 @@ export const showBikeBoardingNote = (leg, config) => {
  * @param {object} secondary - optional walk leg
  * @returns {string}
  */
-export const legDestination = (intl, to, secondary) => {
+export const legDestination = (intl, leg, secondary) => {
+  const { to } = leg;
   let id = 'modes.to-place';
 
-  if (to.bikePark) {
+  if (leg.mode === 'BICYCLE' && to.vehicleParking) {
     id = 'modes.to-bike-park';
-  }
-  if (to.carPark) {
+  } else if (leg.mode === 'CAR' && to.vehicleParking) {
     id = 'modes.to-car-park';
   }
   const mode = to.stop?.vehicleMode || secondary?.stop?.vehicleMode;

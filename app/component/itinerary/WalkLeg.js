@@ -83,7 +83,7 @@ function WalkLeg(
           id="itinerary-details.walk-leg"
           values={{
             time: legTimeStr(leg.start),
-            to: legDestination(intl, leg.to),
+            to: legDestination(intl, leg),
             distance,
             duration,
             origin: leg[toOrFrom] ? leg[toOrFrom].name : '',

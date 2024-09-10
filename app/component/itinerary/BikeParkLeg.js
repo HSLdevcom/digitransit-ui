@@ -28,7 +28,7 @@ const BikeParkLeg = (
           values={{
             time,
             distance,
-            to: legDestination(intl, leg.to),
+            to: legDestination(intl, leg),
             origin: leg.from ? leg.from.name : '',
             destination: leg.to ? leg.to.name : '',
             duration,

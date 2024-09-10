@@ -70,7 +70,7 @@ function ViaLeg(props, { config, intl }) {
                 }
                 values={{
                   time: startTime,
-                  to: legDestination(intl, props.leg.to),
+                  to: legDestination(intl, props.leg),
                   distance,
                   origin: props.leg.from ? props.leg.from.name : '',
                   destination: props.leg.to ? props.leg.to.name : '',

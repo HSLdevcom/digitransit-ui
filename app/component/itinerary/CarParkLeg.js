@@ -32,7 +32,7 @@ function CarParkLeg(props, { config, intl }) {
             values={{
               time: legTimeStr(props.leg.start),
               distance,
-              to: legDestination(intl, props.leg.to),
+              to: legDestination(intl, props.leg),
               origin: props.leg.from ? props.leg.from.name : '',
               destination: props.leg.to ? props.leg.to.name : '',
               duration,
