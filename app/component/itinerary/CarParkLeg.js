@@ -11,7 +11,7 @@ import { durationToString } from '../../util/timeUtils';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
 import { PREFIX_CARPARK } from '../../util/path';
 import ItineraryCircleLine from './ItineraryCircleLine';
-import { legTimeStr } from '../../util/legUtils';
+import { legTimeStr, legDestination } from '../../util/legUtils';
 
 function CarParkLeg(props, { config, intl }) {
   const distance = displayDistance(
@@ -32,12 +32,7 @@ function CarParkLeg(props, { config, intl }) {
             values={{
               time: legTimeStr(props.leg.start),
               distance,
-              to: intl.formatMessage({
-                id: `modes.to-${
-                  props.leg.to.stop?.vehicleMode?.toLowerCase() || 'place'
-                }`,
-                defaultMessage: 'modes.to-stop',
-              }),
+              to: legDestination(intl, props.leg.to),
               origin: props.leg.from ? props.leg.from.name : '',
               destination: props.leg.to ? props.leg.to.name : '',
               duration,

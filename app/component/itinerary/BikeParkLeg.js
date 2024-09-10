@@ -3,7 +3,7 @@ import cx from 'classnames';
 import React from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
 import { legShape, parkShape, configShape } from '../../util/shapes';
-import { legTimeStr } from '../../util/legUtils';
+import { legTimeStr, legDestination } from '../../util/legUtils';
 import { displayDistance } from '../../util/geo-utils';
 import { durationToString } from '../../util/timeUtils';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
@@ -28,12 +28,7 @@ const BikeParkLeg = (
           values={{
             time,
             distance,
-            to: intl.formatMessage({
-              id: `modes.to-${
-                leg.to.stop?.vehicleMode?.toLowerCase() || 'place'
-              }`,
-              defaultMessage: 'modes.to-stop',
-            }),
+            to: legDestination(intl, leg.to),
             origin: leg.from ? leg.from.name : '',
             destination: leg.to ? leg.to.name : '',
             duration,
