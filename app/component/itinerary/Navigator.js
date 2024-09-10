@@ -146,6 +146,7 @@ const withRelay = createFragmentContainer(Navigator, {
             name
           }
           vehicleRentalStation {
+            name
             rentalNetwork {
               networkId
             }

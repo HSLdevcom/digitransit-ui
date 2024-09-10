@@ -16,9 +16,19 @@ const iconMap = {
 /* eslint-disable jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */
 export default function NaviLeg({ leg, focusToLeg }, { intl }) {
   const iconName = iconMap[leg.mode];
-  const { stop } = leg.to;
-  const stopMode = stop?.vehicleMode.toLowerCase();
+  const { stop, rentalVehicle, vehicleParking, vehicleRentalStation } = leg.to;
   const goTo = `navileg-${leg.mode.toLowerCase()}`;
+
+  let toIcon;
+  if (stop) {
+    toIcon = `icon-icon_${stop.vehicleMode.toLowerCase()}-stop-lollipop`;
+  } else if (rentalVehicle) {
+    toIcon = 'icon-icon_scooter-lollipop';
+  } else if (vehicleParking) {
+    toIcon = 'icon-bike_parking';
+  } else if (vehicleRentalStation) {
+    toIcon = 'icon-icon_citybike';
+  }
 
   return (
     <div>
@@ -31,15 +41,14 @@ export default function NaviLeg({ leg, focusToLeg }, { intl }) {
       <div className="navileg-destination">
         <div className="navi-left-bar" />
         <div className="navileg-destination-details">
-          {stopMode && (
-            <Icon
-              img={`icon-icon_${stopMode}-stop-lollipop`}
-              className="navi-lollipop"
-            />
-          )}
+          {toIcon && <Icon img={toIcon} className="navi-destination-icon" />}
           <div>
             {stop?.name}&nbsp;
             {stop?.code && <StopCode code={stop.code} />}
+            {rentalVehicle?.rentalNetwork.networkId}
+            {vehicleParking?.name}
+            {vehicleRentalStation?.rentalNetwork.networkId}&nbsp;
+            {vehicleRentalStation?.name}
           </div>
           <div onClick={() => focusToLeg(leg, false)} className="navileg-focus">
             Näytä reitti kartalla
