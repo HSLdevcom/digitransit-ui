@@ -1767,6 +1767,11 @@ $itinerary-tab-switch-height: 48px;
           }
         }
 
+        .scooter-icon .icon-container .icon {
+          background-color: $scooter-color;
+          border-radius: 3px;
+        }
+
         .citybike-info {
           position: absolute;
           bottom: 74px;
