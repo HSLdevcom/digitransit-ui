@@ -350,6 +350,7 @@ export default {
     maxNearbyRentalVehicleAmount: 5,
     maxDistanceToRentalVehiclesInMeters: 100,
     maxMinutesToRentalJourneyStart: 60,
+    allowDirectScooterJourneys: false,
   },
 
   // Lowest level for stops and terminals are rendered
