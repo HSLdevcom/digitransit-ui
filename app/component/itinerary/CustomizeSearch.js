@@ -167,6 +167,27 @@ class CustomizeSearch extends React.Component {
               </div>
             </div>
           )}
+          <div className="settings-section">
+            <div className="settings-option-container">
+              <StreetModeSelectorPanel
+                currentSettings={currentSettings}
+                defaultSettings={this.defaultSettings}
+              />
+            </div>
+          </div>
+          <div className="settings-section">
+            <div className="settings-option-container">
+              <AccessibilityOptionSection currentSettings={currentSettings} />
+            </div>
+          </div>
+          {config.showTicketSelector && (
+            <div className="settings-section">
+              <FareZoneSelector
+                options={ticketOptions}
+                currentOption={currentSettings.ticketTypes}
+              />
+            </div>
+          )}
           {useScooters(config.vehicleRental?.networks) && (
             <div className="settings-section">
               <div className="settings-option-container">
@@ -222,27 +243,6 @@ class CustomizeSearch extends React.Component {
                   </div>
                 </fieldset>
               </div>
-            </div>
-          )}
-          <div className="settings-section">
-            <div className="settings-option-container">
-              <StreetModeSelectorPanel
-                currentSettings={currentSettings}
-                defaultSettings={this.defaultSettings}
-              />
-            </div>
-          </div>
-          <div className="settings-section">
-            <div className="settings-option-container">
-              <AccessibilityOptionSection currentSettings={currentSettings} />
-            </div>
-          </div>
-          {config.showTicketSelector && (
-            <div className="settings-section">
-              <FareZoneSelector
-                options={ticketOptions}
-                currentOption={currentSettings.ticketTypes}
-              />
             </div>
           )}
         </ScrollableWrapper>
