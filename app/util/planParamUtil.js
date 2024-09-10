@@ -118,12 +118,20 @@ function filterTransitModes(modes, planType, config) {
   return modes;
 }
 
+function parseDateTime(arriveBy, time) {
+  const useLatestArrival = arriveBy === 'true';
+  const timeStr = (time ? moment(time * 1000) : moment()).format();
+  return useLatestArrival
+    ? { latestArrival: timeStr }
+    : { earliestDeparture: timeStr };
+}
+
 export function planQueryNeeded(
   config,
   {
     params: { from, to },
     location: {
-      query: { intermediatePlaces },
+      query: { intermediatePlaces, arriveBy, time },
     },
   },
   planType,
@@ -198,13 +206,18 @@ export function planQueryNeeded(
 
     case PLANTYPE.SCOOTERTRANSIT:
       /* special logic: relaxed scooter query is made only if no networks allowed */
+      /* special logic: scooter queries are not made if the search is n minutes or more into the future */
       return (
         config.transportModes.scooter.availableForSelection &&
         transitModes.length > 0 &&
         !wheelchair &&
         (relaxSettings
           ? settings.scooterNetworks.length === 0
-          : settings.scooterNetworks.length > 0)
+          : settings.scooterNetworks.length > 0) &&
+        moment(parseDateTime(arriveBy, time).earliestDeparture).diff(
+          moment(),
+          'minutes',
+        ) < config.vehicleRental.maxMinutesToRentalJourneyStart
       );
     case PLANTYPE.PARKANDRIDE:
       return (
@@ -253,7 +266,6 @@ export function getPlanParams(
 ) {
   const fromPlace = getLocation(from);
   const toPlace = getLocation(to);
-  const useLatestArrival = arriveBy === 'true';
   // estimate distance for search iteration heuristics
   const fromLocation = otpToLocation(from);
   const toLocation = otpToLocation(to);
@@ -369,10 +381,6 @@ export function getPlanParams(
     ? defaultSettings.transferPenalty
     : settings.transferPenalty;
 
-  const timeStr = (time ? moment(time * 1000) : moment()).format();
-  const datetime = useLatestArrival
-    ? { latestArrival: timeStr }
-    : { earliestDeparture: timeStr };
   const numItineraries = directOnly ? 1 : 5;
 
   return {
@@ -383,7 +391,7 @@ export function getPlanParams(
         : settings.allowedBikeRentalNetworks,
     fromPlace,
     toPlace,
-    datetime,
+    datetime: parseDateTime(arriveBy, time),
     minTransferTime: `PT${settings.minTransferTime}S`,
     first: numItineraries, // used in actual query
     numItineraries, // backup original value for convenient paging
