@@ -13,17 +13,12 @@ const iconMap = {
   WALK: 'icon-icon_walk',
 };
 
-const driveModes = ['CAR', 'SCOOTER'];
-
 /* eslint-disable jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */
-
 export default function NaviLeg({ leg, focusToLeg }, { intl }) {
   const iconName = iconMap[leg.mode];
   const { stop } = leg.to;
   const stopMode = stop?.vehicleMode.toLowerCase();
-  const goTo = driveModes.includes(leg.mode)
-    ? 'navileg-drive'
-    : `navileg-${leg.mode.toLowerCase()}`;
+  const goTo = `navileg-${leg.mode.toLowerCase()}`;
 
   return (
     <div>
