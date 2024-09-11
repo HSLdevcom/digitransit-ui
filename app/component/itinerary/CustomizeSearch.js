@@ -236,6 +236,10 @@ class CustomizeSearch extends React.Component {
                         </div>
                         {config.vehicleRental.scooterInfoLink && (
                           <a
+                            onClick={e => {
+                              e.stopPropagation();
+                            }}
+                            className="external-link"
                             href={
                               config.vehicleRental.scooterInfoLink[intl.locale]
                                 .url
@@ -244,6 +248,7 @@ class CustomizeSearch extends React.Component {
                             rel="noreferrer"
                           >
                             <FormattedMessage id="read-more" />
+                            <Icon img="icon-icon_external-link-box" />
                           </a>
                         )}
                       </div>
