@@ -24,6 +24,7 @@ import NaviLeg from './NaviLeg';
             time
           }
         }
+	realtimeState
       }
     }
   }
@@ -52,6 +53,24 @@ function Navigator({ itinerary, focusToLeg, setNavigation }, context) {
       setCurrentLeg(newLeg);
       focusToLeg(newLeg, false);
     }
+    /*
+    const legQueries = [];
+    itinerary.legs.forEach(leg => {
+      if (leg.transitLeg) {
+	legQueries.push(
+	  fetchQuery(
+            relayEnvironment,
+            legQuery,
+            { id: leg.id },
+            { force: true },
+	  ).toPromise();
+	)}
+    });
+    if (legQueries.length) {
+      Promise.all(legQueries).then(data => {
+      });
+      }
+    */
   }, [time]);
 
   const first = itinerary.legs[0];
