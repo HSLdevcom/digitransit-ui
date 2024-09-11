@@ -100,9 +100,10 @@ $itinerary-tab-switch-height: 48px;
   top: 5px;
 
   .disclaimer-container {
-    background-color: rgba(254, 209, 0, 0.1);
-    border: 1px solid #fed100;
-    border-radius: 3px;
+    background-color: $disclaimer-background-color;
+    font-weight: $font-weight-disclaimer;
+    border: 1px solid $disclaimer-border-color;
+    border-radius: $border-radius;
     display: flex;
     font-size: $font-size-xsmall;
     padding: $padding-medium;

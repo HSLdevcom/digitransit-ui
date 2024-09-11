@@ -62,6 +62,8 @@ $caution-icon-color: $white;
 $caution-icon-font-color: none;
 $top-bar-color: $primary-color;
 $nav-content-color: false;
+$disclaimer-background-color: rgba(254, 209, 0, 0.1);
+$disclaimer-border-color: #fed100;
 
 /* Vehicle palette */
 $airplane-color: $livi-airplane-blue;
@@ -89,6 +91,7 @@ $button-font-family: $font-family;
 $font-weight-book: 400;
 $font-weight-medium: 700;
 $font-weight-map-container: $font-weight-book;
+$font-weight-disclaimer: $font-weight-medium;
 $letter-spacing: 0;
 $letter-spacing-front-page: -0.67px;
 $font-family-narrow: 'Roboto Condensed', 'Arial Condensed', arial, georgia,
