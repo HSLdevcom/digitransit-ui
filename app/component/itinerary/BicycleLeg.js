@@ -1,10 +1,11 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useState } from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
 import cx from 'classnames';
 import Link from 'found/Link';
-import { legShape, configShape } from '../../util/shapes';
-import { legTimeStr } from '../../util/legUtils';
+import { fetchQuery } from 'react-relay';
+import { legShape, configShape, relayShape } from '../../util/shapes';
+import { legTimeStr, legDestination } from '../../util/legUtils';
 import Icon from '../Icon';
 import ItineraryMapAction from './ItineraryMapAction';
 import { displayDistance } from '../../util/geo-utils';
@@ -23,6 +24,7 @@ import { getSettings } from '../../util/planParamUtil';
 import { isKeyboardSelectionEvent } from '../../util/browser';
 import StopCode from '../StopCode';
 import PlatformNumber from '../PlatformNumber';
+import nearestQuery from './NearestQuery';
 
 export default function BicycleLeg(
   {
@@ -33,6 +35,7 @@ export default function BicycleLeg(
     bicycleWalkLeg,
     openSettings,
     nextLegMode,
+    relayEnvironment,
   },
   { config, intl },
 ) {
@@ -51,7 +54,8 @@ export default function BicycleLeg(
   let modeClassName = 'bicycle';
   const [address, place] = splitStringToAddressAndPlace(leg.from.name);
   const rentalVehicleNetwork =
-    leg.from.vehicleRentalStation?.network || leg.from.rentalVehicle?.network;
+    leg.from.vehicleRentalStation?.rentalNetwork.networkId ||
+    leg.from.rentalVehicle?.rentalNetwork.networkId;
   const networkConfig =
     leg.rentedBike &&
     rentalVehicleNetwork &&
@@ -61,6 +65,15 @@ export default function BicycleLeg(
     networkConfig && networkConfig.type === RentalNetworkType.Scooter;
   const settings = getSettings(config);
   const scooterSettingsOn = settings.scooterNetworks?.length > 0;
+  const LOADSTATE = {
+    UNSET: 'unset',
+    DONE: 'done',
+  };
+  const [nearestScooterState, setNearestScooterState] = useState({
+    nearest: [],
+    loading: LOADSTATE.UNSET,
+  });
+
   if (leg.mode === 'WALK' || leg.mode === 'BICYCLE_WALK') {
     modeClassName = leg.mode.toLowerCase();
     stopsDescription = (
@@ -88,7 +101,7 @@ export default function BicycleLeg(
     modeClassName = 'citybike';
     legDescription = (
       <FormattedMessage
-        id={isScooter ? 'rent-scooter-at' : 'rent-cycle-at'}
+        id={isScooter ? 'rent-e-scooter-at' : 'rent-cycle-at'}
         values={{
           station: leg.from.name,
         }}
@@ -110,12 +123,19 @@ export default function BicycleLeg(
   }
 
   if (isScooter) {
+    const style = {
+      '--scooter-amount': nearestScooterState.nearest?.length
+        ? `${nearestScooterState.nearest?.length}%`
+        : '0%',
+    };
+
     circleLine = (
       <ItineraryCircleLineWithIcon
         index={index}
         modeClassName={mode.toLowerCase()}
         icon="icon-icon_scooter_rider"
-        appendClass={!scooterSettingsOn ? 'settings' : ''}
+        appendClass={!scooterSettingsOn ? 'settings' : 'scooter'}
+        style={style}
       />
     );
   } else if (bicycleWalkLeg) {
@@ -138,22 +158,65 @@ export default function BicycleLeg(
     );
   }
   const fromStop = leg?.from.stop || bicycleWalkLeg?.from.stop;
-  const getToMode = () => {
-    if (leg.to.bikePark) {
-      return 'bike-park';
-    }
-    if (leg.to.stop?.vehicleMode) {
-      return leg.to.stop?.vehicleMode.toLowerCase();
-    }
-    if (bicycleWalkLeg?.to.stop?.vehicleMode) {
-      return bicycleWalkLeg.to.stop?.vehicleMode.toLowerCase();
-    }
-    return 'place';
-  };
   const origin = bicycleWalkLeg?.from.stop ? bicycleWalkLeg.from.name : address;
   const destination = bicycleWalkLeg?.to.stop
     ? bicycleWalkLeg?.to.name
     : leg.to.name;
+
+  async function makeNearestScooterQuery(from) {
+    const planParams = {
+      lat: from.lat,
+      lon: from.lon,
+      maxResults: config.vehicleRental.maxNearbyRentalVehicleAmount,
+      first: config.vehicleRental.maxNearbyRentalVehicleAmount,
+      maxDistance: config.vehicleRental.maxDistanceToRentalVehiclesInMeters,
+      filterByModes: ['SCOOTER'],
+      filterByPlaceTypes: ['VEHICLE_RENT'],
+    };
+
+    try {
+      const result = await fetchQuery(
+        relayEnvironment,
+        nearestQuery,
+        planParams,
+        {
+          force: true,
+        },
+      ).toPromise();
+      if (!result) {
+        setNearestScooterState({ loading: LOADSTATE.DONE });
+      } else {
+        const nearest = result.viewer.nearest.edges;
+        // filter out the ones that are not scooters or from the same network as the original scooter
+        const filteredNearest = nearest
+          ?.filter(
+            n =>
+              n.node.place.__typename === 'RentalVehicle' && // eslint-disable-line no-underscore-dangle
+              n.node.place.rentalNetwork.networkId !== rentalVehicleNetwork,
+          )
+          // show only one scooter from each network
+          .filter(
+            (n, i, self) =>
+              self.findIndex(
+                t =>
+                  t.node.place.rentalNetwork.networkId ===
+                  n.node.place.rentalNetwork.networkId,
+              ) === i,
+          );
+
+        setNearestScooterState({
+          nearest: filteredNearest,
+          loading: LOADSTATE.DONE,
+        });
+      }
+    } catch (error) {
+      setNearestScooterState({ nearest: [], loading: LOADSTATE.DONE });
+    }
+  }
+
+  if (isScooter && nearestScooterState.loading === LOADSTATE.UNSET) {
+    makeNearestScooterQuery(leg.from);
+  }
   return (
     <div key={index} className="row itinerary-row">
       <span className="sr-only">
@@ -161,12 +224,18 @@ export default function BicycleLeg(
         {(leg.mode === 'WALK' || leg.mode === 'BICYCLE_WALK') &&
           stopsDescription}
         <FormattedMessage
-          id="itinerary-details.biking-leg"
+          id={
+            isScooter
+              ? 'itinerary-details.scooter-leg'
+              : 'itinerary-details.biking-leg'
+          }
           values={{
             time,
-            to: intl.formatMessage({ id: `modes.to-${getToMode()}` }),
+            to: legDestination(intl, leg, bicycleWalkLeg?.to),
             distance,
-            origin,
+            origin: isScooter
+              ? intl.formatMessage({ id: 'from-scooter-location' })
+              : origin,
             destination,
             duration,
           }}
@@ -183,7 +252,15 @@ export default function BicycleLeg(
         <span className="sr-only">
           <FormattedMessage
             id="itinerary-summary.show-on-map"
-            values={{ target: leg.from.name || '' }}
+            values={{
+              target:
+                leg.from.name?.toLowerCase() === 'scooter'
+                  ? intl.formatMessage({
+                      id: 'e-scooter',
+                      defaultMessage: 'scooter',
+                    })
+                  : leg.from.name || '',
+            }}
           />
         </span>
         {isFirstLeg(index) || bicycleWalkLeg?.from.stop ? (
@@ -233,6 +310,7 @@ export default function BicycleLeg(
               isScooter={isScooter}
               vehicleRentalStation={leg.from.vehicleRentalStation}
               rentalVehicle={leg.from.rentalVehicle}
+              nearestScooters={nearestScooterState.nearest}
             />
           </div>
         )}
@@ -374,17 +452,14 @@ export default function BicycleLeg(
           </div>
         )}
         {isScooter && (
-          <div>
-            <div className="divider" />
-            <VehicleRentalLeg
-              stationName={leg.from.name}
-              isScooter={isScooter}
-              vehicleRentalStation={leg.from.vehicleRentalStation}
-              returnBike
-              rentalVehicle={leg.from.rentalVehicle}
-              nextLegMode={nextLegMode}
-            />
-          </div>
+          <VehicleRentalLeg
+            stationName={leg.from.name}
+            isScooter={isScooter}
+            vehicleRentalStation={leg.from.vehicleRentalStation}
+            returnBike
+            rentalVehicle={leg.from.rentalVehicle}
+            nextLegMode={nextLegMode}
+          />
         )}
       </div>
     </div>
@@ -399,11 +474,13 @@ BicycleLeg.propTypes = {
   focusToLeg: PropTypes.func.isRequired,
   openSettings: PropTypes.func.isRequired,
   nextLegMode: PropTypes.string,
+  relayEnvironment: relayShape,
 };
 
 BicycleLeg.defaultProps = {
   bicycleWalkLeg: undefined,
   nextLegMode: undefined,
+  relayEnvironment: undefined,
 };
 
 BicycleLeg.contextTypes = {

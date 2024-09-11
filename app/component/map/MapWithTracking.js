@@ -98,7 +98,7 @@ class MapWithTrackingStateHandler extends React.Component {
     mapRef: undefined,
     children: undefined,
     leafletObjs: undefined,
-    mapTracking: false,
+    mapTracking: undefined,
     onStartNavigation: undefined,
     onEndNavigation: undefined,
     onMapTracking: undefined,

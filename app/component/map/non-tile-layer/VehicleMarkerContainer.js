@@ -35,7 +35,7 @@ class VehicleMarkerContainer extends React.Component {
   render() {
     if (
       this.props.leaflet.map.getZoom() <
-      this.context.config.cityBike.cityBikeMinZoom
+      this.context.config.vehicleRental.cityBikeMinZoom
     ) {
       return false;
     }
@@ -51,7 +51,9 @@ class VehicleMarkerContainer extends React.Component {
                     lat
                     lon
                     stationId
-                    network
+                    rentalNetwork {
+                      networkId
+                    }
                     availableVehicles {
                       total
                     }

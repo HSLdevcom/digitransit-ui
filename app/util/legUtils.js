@@ -43,8 +43,8 @@ export function isCallAgencyDeparture(departure) {
 function sameBicycleNetwork(leg1, leg2) {
   if (leg1.from.vehicleRentalStation && leg2.from.vehicleRentalStation) {
     return (
-      leg1.from.vehicleRentalStation.network ===
-      leg2.from.vehicleRentalStation.network
+      leg1.from.vehicleRentalStation.rentalNetwork.networkId ===
+      leg2.from.vehicleRentalStation.rentalNetwork.networkId
     );
   }
   return true;
@@ -384,7 +384,7 @@ export function getVehicleAvailabilityIndicatorColor(available, config) {
     // eslint-disable-next-line no-nested-ternary
     available === 0
       ? '#DC0451'
-      : available > config.cityBike.fewAvailableCount
+      : available > config.vehicleRental.fewAvailableCount
         ? '#3B7F00'
         : '#FCBC19'
   );
@@ -396,7 +396,7 @@ export function getVehicleAvailabilityIndicatorColor(available, config) {
  * @param {*} config the configuration for the software installation/
  */
 export function getVehicleAvailabilityTextColor(available, config) {
-  return available <= config.cityBike.fewAvailableCount && available > 0
+  return available <= config.vehicleRental.fewAvailableCount && available > 0
     ? '#333'
     : '#fff';
 }
@@ -413,7 +413,7 @@ export function getLegBadgeProps(leg, config) {
     !leg.rentedBike ||
     !leg.from ||
     !leg.from.vehicleRentalStation ||
-    config.cityBike.capacity === BIKEAVL_UNKNOWN ||
+    config.vehicleRental.capacity === BIKEAVL_UNKNOWN ||
     leg.mode === 'WALK' ||
     leg.mode === 'SCOOTER'
   ) {
@@ -604,4 +604,28 @@ export const showBikeBoardingNote = (leg, config) => {
   return (
     bikeBoardingModes && bikeBoardingModes[leg.mode]?.showNotification === true
   );
+};
+
+/**
+ * Return translated string that describes leg destination
+ *
+ * @param {object} intl - rect-intl context
+ * @param {object} leg - The leg object.
+ * @param {object} secondary - optional walk leg
+ * @returns {string}
+ */
+export const legDestination = (intl, leg, secondary) => {
+  const { to } = leg;
+  let id = 'modes.to-place';
+
+  if (leg.mode === 'BICYCLE' && to.vehicleParking) {
+    id = 'modes.to-bike-park';
+  } else if (leg.mode === 'CAR' && to.vehicleParking) {
+    id = 'modes.to-car-park';
+  }
+  const mode = to.stop?.vehicleMode || secondary?.stop?.vehicleMode;
+  if (mode) {
+    id = `modes.to-${mode.toLowerCase()}`;
+  }
+  return intl.formatMessage({ id, defaultMessage: 'place' });
 };

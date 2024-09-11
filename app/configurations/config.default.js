@@ -308,7 +308,7 @@ export default {
     showStopMarkerPopupOnMobile: true,
     showScaleBar: true,
     attribution:
-      '<a tabIndex="-1" href="http://osm.org/copyright">© OpenStreetMap</a>',
+      '<a tabIndex="-1" href="http://osm.org/copyright" target="_blank">© OpenStreetMap</a>',
 
     useModeIconsInNonTileLayer: false,
     // areBounds is for keeping map and user inside given area
@@ -332,7 +332,7 @@ export default {
     locationAware: true,
   },
 
-  cityBike: {
+  vehicleRental: {
     // Config for map features. NOTE: availability for routing is controlled by
     // transportModes.citybike.availableForSelection
     showFullInfo: false,
@@ -347,6 +347,8 @@ export default {
       sv: 'Köp ett abonnemang för en dag, en vecka eller för en hel säsong',
       en: 'Buy a daily, weekly or season pass',
     },
+    maxNearbyRentalVehicleAmount: 5,
+    maxDistanceToRentalVehiclesInMeters: 100,
   },
 
   // Lowest level for stops and terminals are rendered
@@ -365,7 +367,6 @@ export default {
     default: 18,
   },
 
-  appBarLink: { name: 'Digitransit', href: 'https://www.digitransit.fi/' },
   appBarStyle: 'default',
 
   colors: {
@@ -419,17 +420,6 @@ export default {
   },
 
   hideExternalOperator: () => false,
-  // Ticket information feature toggle
-  showTicketInformation: false,
-  ticketInformation: {
-    // This is the name of the primary agency operating in the area.
-    // It is used when a ticket price cannot be shown to the user, indicating
-    // that the primary agency is not responsible for ticketing.
-    /*
-    primaryAgencyName: ...,
-    */
-  },
-
   useTicketIcons: false,
 
   // Control what transport modes that should be possible to select in the UI
@@ -596,7 +586,7 @@ export default {
       {
         header: 'Tietolähteet',
         paragraphs: [
-          'Tiedot perustuvat joukkoliikenneviranomaisten, liikennöitsijöiden, VR:n ja Finavian toimittamiin tietoihin. Tietolähteinä hyödynnetään Fintrafficin liikkumisen tietopalveluita, erityisesti liikkumispalveluiden avointa yhteyspistettä <a href="https://www.finap.fi/#/">Finap-palvelua</a>. Kartat, tiedot kaduista, rakennuksista, pysäkkien sijainnista ynnä muusta tarjoaa © OpenStreetMap contributors. Osoitetiedot tuodaan Digi- ja väestötietoviraston rakennusten osoitetietokannasta.',
+          'Tiedot perustuvat joukkoliikenneviranomaisten, liikennöitsijöiden, VR:n ja Finavian toimittamiin tietoihin. Tietolähteinä hyödynnetään Fintrafficin liikkumisen tietopalveluita, erityisesti liikkumispalveluiden avointa yhteyspistettä <a href="https://www.finap.fi/#/" target="_blank">Finap-palvelua</a>. Kartat, tiedot kaduista, rakennuksista, pysäkkien sijainnista ynnä muusta tarjoaa © OpenStreetMap contributors. Osoitetiedot tuodaan Digi- ja väestötietoviraston rakennusten osoitetietokannasta.',
         ],
       },
     ],
@@ -617,7 +607,7 @@ export default {
       {
         header: 'Datakällor',
         paragraphs: [
-          'Tjänsteinformationen baseras på information om kollektivtrafiken som tillhandahålls av kollektivtrafikmyndigheter, trafik operatörer, VR och Finavia. Fintraffics mobilitetsinformationstjänster används som datakällor, särskilt <a href="https://www.finap.fi/#/">National Access Point</a> för mobilitetstjänster FINAP Kartor, information om gator, byggnader, hållplatser och mer tillhandahålls av © OpenStreetMap-bidragsgivare. Adressuppgifter importeras från adressdatabasen till Myndigheten för Digitalisering och Befolkninsdata (DVV).',
+          'Tjänsteinformationen baseras på information om kollektivtrafiken som tillhandahålls av kollektivtrafikmyndigheter, trafik operatörer, VR och Finavia. Fintraffics mobilitetsinformationstjänster används som datakällor, särskilt <a href="https://www.finap.fi/#/" target="_blank">National Access Point</a> för mobilitetstjänster FINAP Kartor, information om gator, byggnader, hållplatser och mer tillhandahålls av © OpenStreetMap-bidragsgivare. Adressuppgifter importeras från adressdatabasen till Myndigheten för Digitalisering och Befolkninsdata (DVV).',
         ],
       },
     ],
@@ -638,7 +628,7 @@ export default {
       {
         header: 'Data sources',
         paragraphs: [
-          "The service information is based on public transport route information provided by public transport authorities, operators, VR and Finavia. Fintraffic's mobility information services are used as data sources, especially National Access Point for mobility services <a href='https://www.finap.fi/#/'>FINAP</a>. Maps, information about streets, buildings, bus stop locations and more is provided by © OpenStreetMap contributors. Address information is imported from the address database of the buildings of the Digital and Population Data Services Agency (DVV).",
+          "The service information is based on public transport route information provided by public transport authorities, operators, VR and Finavia. Fintraffic's mobility information services are used as data sources, especially National Access Point for mobility services <a href='https://www.finap.fi/#/' target='_blank'>FINAP</a>. Maps, information about streets, buildings, bus stop locations and more is provided by © OpenStreetMap contributors. Address information is imported from the address database of the buildings of the Digital and Population Data Services Agency (DVV).",
         ],
       },
     ],

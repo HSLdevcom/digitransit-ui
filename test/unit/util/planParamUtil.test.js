@@ -29,7 +29,7 @@ const config = {
     },
   },
   modePolygons: {},
-  cityBike: {
+  vehicleRental: {
     networks: {
       smoove: {
         icon: 'citybike',

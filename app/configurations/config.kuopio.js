@@ -36,11 +36,10 @@ export default configMerger(walttiConfig, {
   feedIds: ['Kuopio', 'digitraffic'],
 
   useTicketIcons: true,
-  showTicketInformation: true,
   showTicketPrice: true,
-  ticketInformation: {
-    primaryAgencyName: 'Kuopion seudun joukkoliikenne',
-  },
+  showTicketInformation: true,
+  primaryAgencyName: 'Kuopion seudun joukkoliikenne',
+
   ticketLink: 'https://vilkku.kuopio.fi/lipputyypit-hinnat/lippujen-hinnat',
 
   searchParams: {
@@ -67,7 +66,7 @@ export default configMerger(walttiConfig, {
   showVehiclesOnStopPage: true,
   showVehiclesOnItineraryPage: true,
 
-  cityBike: {
+  vehicleRental: {
     networks: {
       freebike_kuopio: {
         enabled: true,

@@ -1171,21 +1171,21 @@ $itinerary-tab-switch-height: 48px;
     &.scooter {
       border-left: 6px solid;
       border-radius: 3px;
-      height: 54%;
+      height: calc(58% + var(--scooter-amount));
       left: 8px;
 
       &.settings {
-        height: 58%;
+        height: calc(56% + var(--scooter-amount));
       }
 
       &.bottom {
-        height: 25%;
-        top: 82%;
+        height: calc(23% + var(--scooter-amount) * 1.7);
         overflow: hidden;
+        top: calc(90% - var(--scooter-amount) * 3.4);
 
         &.settings {
-          height: 30%;
-          top: 75%;
+          height: calc(30% + var(--scooter-amount));
+          top: calc(75% - var(--scooter-amount));
         }
       }
     }
@@ -1549,14 +1549,22 @@ $itinerary-tab-switch-height: 48px;
     .itinerary-leg-row-bike {
       display: flex;
       flex-direction: column;
-      min-height: 34px;
       color: #333;
-      padding: 0.625em 0;
+
+      &.withPadding {
+        padding: 0.625em 0;
+      }
 
       .citybike-leg-header {
         font-size: 15px;
         font-weight: $font-weight-book;
         max-height: 33px;
+
+        &.scooter-return {
+          min-height: 40px;
+          align-items: center;
+          display: flex;
+        }
       }
     }
 
@@ -1571,6 +1579,10 @@ $itinerary-tab-switch-height: 48px;
       color: #333;
       font-size: 0.9375rem;
       align-items: center;
+
+      &.scooter {
+        min-height: 40px;
+      }
     }
 
     .itinerary-leg-first-row {

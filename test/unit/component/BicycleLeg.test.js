@@ -23,7 +23,7 @@ describe('<BicycleLeg />', () => {
           name: 'Hertanmäenkatu',
           vehicleRentalStation: {
             vehiclesAvailable: 0,
-            network: 'foobar',
+            rentalNetwork: { networkId: 'foobar' },
           },
         },
         to: {
@@ -34,7 +34,7 @@ describe('<BicycleLeg />', () => {
     const wrapper = shallowWithIntl(<BicycleLeg {...props} />, {
       context: {
         config: {
-          cityBike: {
+          vehicleRental: {
             networks: { foobar: { type: RentalNetworkType.CityBike } },
           },
           defaultSettings: { walkSpeed: 1, bikeSpeed: 1 },
@@ -64,7 +64,7 @@ describe('<BicycleLeg />', () => {
           name: 'Hertanmäenkatu',
           vehicleRentalStation: {
             vehiclesAvailable: 0,
-            network: 'foobar',
+            rentalNetwork: { networkId: 'foobar' },
           },
         },
         to: {
@@ -75,7 +75,7 @@ describe('<BicycleLeg />', () => {
     const wrapper = shallowWithIntl(<BicycleLeg {...props} />, {
       context: {
         config: {
-          cityBike: {
+          vehicleRental: {
             networks: { foobar: { type: RentalNetworkType.Scooter } },
           },
           defaultSettings: { walkSpeed: 1, bikeSpeed: 1 },
@@ -84,7 +84,7 @@ describe('<BicycleLeg />', () => {
       },
     });
     expect(wrapper.find(FormattedMessage).at(0).prop('id')).to.equal(
-      'rent-scooter-at',
+      'rent-e-scooter-at',
     );
   });
 
@@ -105,7 +105,7 @@ describe('<BicycleLeg />', () => {
           name: 'Hertanmäenkatu',
           vehicleRentalStation: {
             vehiclesAvailable: 0,
-            network: 'foobar',
+            rentalNetwork: { networkId: 'foobar' },
           },
         },
         to: {
@@ -116,7 +116,7 @@ describe('<BicycleLeg />', () => {
     const wrapper = shallowWithIntl(<BicycleLeg {...props} />, {
       context: {
         config: {
-          cityBike: {
+          vehicleRental: {
             networks: { foobar: { type: RentalNetworkType.CityBike } },
           },
           defaultSettings: { walkSpeed: 1, bikeSpeed: 1 },
@@ -149,7 +149,7 @@ describe('<BicycleLeg />', () => {
           name: 'Hertanmäenkatu',
           vehicleRentalStation: {
             vehiclesAvailable: 0,
-            network: 'foobar',
+            rentalNetwork: { networkId: 'foobar' },
           },
         },
         to: {
@@ -160,7 +160,7 @@ describe('<BicycleLeg />', () => {
     const wrapper = shallowWithIntl(<BicycleLeg {...props} />, {
       context: {
         config: {
-          cityBike: {
+          vehicleRental: {
             networks: { foobar: { type: RentalNetworkType.Scooter } },
           },
           defaultSettings: { walkSpeed: 1, bikeSpeed: 1 },
@@ -193,7 +193,7 @@ describe('<BicycleLeg />', () => {
           name: 'Hertanmäenkatu',
           vehicleRentalStation: {
             vehiclesAvailable: 0,
-            network: 'foobar',
+            rentalNetwork: { networkId: 'foobar' },
           },
         },
         to: {
@@ -204,7 +204,7 @@ describe('<BicycleLeg />', () => {
     const wrapper = shallowWithIntl(<BicycleLeg {...props} />, {
       context: {
         config: {
-          cityBike: {
+          vehicleRental: {
             networks: { foobar: { type: RentalNetworkType.CityBike } },
           },
           defaultSettings: { walkSpeed: 1, bikeSpeed: 1 },
@@ -234,7 +234,7 @@ describe('<BicycleLeg />', () => {
           name: 'Hertanmäenkatu',
           vehicleRentalStation: {
             vehiclesAvailable: 0,
-            network: 'foobar',
+            rentalNetwork: { networkId: 'foobar' },
           },
         },
         to: {
@@ -245,7 +245,7 @@ describe('<BicycleLeg />', () => {
     const wrapper = shallowWithIntl(<BicycleLeg {...props} />, {
       context: {
         config: {
-          cityBike: {
+          vehicleRental: {
             networks: { foobar: { type: RentalNetworkType.Scooter } },
           },
           defaultSettings: { walkSpeed: 1, bikeSpeed: 1 },

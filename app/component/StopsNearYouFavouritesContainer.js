@@ -116,7 +116,9 @@ const refetchContainer = createFragmentContainer(
           total
         }
         capacity
-        network
+        rentalNetwork {
+          networkId
+        }
         lat
         lon
         operative

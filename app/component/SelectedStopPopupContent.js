@@ -1,10 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { stopShape } from '../util/shapes';
 
-const SelectedStopPopupContent = ({ stop }) => (
+const SelectedStopPopupContent = ({ stop, name }) => (
   <div className="origin-popup">
     <div className="origin-popup-header">
-      <div className="selected-stop-header">{stop.name}</div>
+      <div className="selected-stop-header">{name || stop.name}</div>
     </div>
     {(stop.code || stop.desc) && (
       <div>
@@ -20,7 +21,15 @@ const SelectedStopPopupContent = ({ stop }) => (
   </div>
 );
 
-SelectedStopPopupContent.propTypes = { stop: stopShape.isRequired };
+SelectedStopPopupContent.propTypes = {
+  stop: stopShape.isRequired,
+  name: PropTypes.node,
+};
+
+SelectedStopPopupContent.defaultProps = {
+  name: undefined,
+};
+
 SelectedStopPopupContent.displayName = 'SelectedStopPopupContent';
 
 export default SelectedStopPopupContent;

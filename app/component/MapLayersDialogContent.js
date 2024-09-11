@@ -37,7 +37,7 @@ const geoJsonConfigShape = PropTypes.shape({
 });
 
 const mapLayersconfigShape = PropTypes.shape({
-  cityBike: PropTypes.shape({
+  vehicleRental: PropTypes.shape({
     networks: PropTypes.object,
   }),
   geoJson: geoJsonConfigShape,
@@ -219,7 +219,7 @@ class MapLayersDialogContent extends React.Component {
             />
           )}
           {showRentalVehiclesOfType(
-            config.cityBike?.networks,
+            config.vehicleRental?.networks,
             config,
             TransportMode.Citybike,
           ) && (
@@ -236,7 +236,7 @@ class MapLayersDialogContent extends React.Component {
             />
           )}
           {showRentalVehiclesOfType(
-            config.cityBike?.networks,
+            config.vehicleRental?.networks,
             config,
             TransportMode.Scooter,
           ) && (

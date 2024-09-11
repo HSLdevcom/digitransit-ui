@@ -35,7 +35,6 @@ export default {
 
   availableLanguages: ['fi', 'sv', 'en'],
   defaultLanguage: 'fi',
-  hideAppBarLink: true,
 
   socialMedia: {
     title: APP_TITLE,
@@ -165,17 +164,17 @@ export default {
   },
   suggestBikeMaxDistance: 2000000,
 
-  cityBike: {
+  vehicleRental: {
     useAllSeasons: true,
     networks: {
-      ...HSLConfig.cityBike.networks,
-      ...TampereConfig.cityBike.networks,
-      ...TurkuConfig.cityBike.networks,
-      ...KuopioConfig.cityBike.networks,
-      ...LahtiConfig.cityBike.networks,
-      ...LappeenrantaConfig.cityBike.networks,
-      ...KotkaConfig.cityBike.networks,
-      ...KouvolaConfig.cityBike.networks,
+      ...HSLConfig.vehicleRental.networks,
+      ...TampereConfig.vehicleRental.networks,
+      ...TurkuConfig.vehicleRental.networks,
+      ...KuopioConfig.vehicleRental.networks,
+      ...LahtiConfig.vehicleRental.networks,
+      ...LappeenrantaConfig.vehicleRental.networks,
+      ...KotkaConfig.vehicleRental.networks,
+      ...KouvolaConfig.vehicleRental.networks,
     },
   },
 
@@ -390,4 +389,33 @@ export default {
   },
   // Include both bike and park and bike and public, if bike is enabled
   includePublicWithBikePlan: true,
+
+  startSearchFromUserLocation: true,
+
+  minTransferTimeSelection: [
+    {
+      title: '1.5 min',
+      value: 90,
+    },
+    {
+      title: '3 min',
+      value: 180,
+    },
+    {
+      title: '5 min',
+      value: 300,
+    },
+    {
+      title: '7 min',
+      value: 420,
+    },
+    {
+      title: '10 min',
+      value: 600,
+    },
+    {
+      title: '30 min',
+      value: 1800,
+    },
+  ],
 };

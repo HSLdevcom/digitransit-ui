@@ -42,7 +42,7 @@ export default configMerger(walttiConfig, {
     },
   },
 
-  cityBike: {
+  vehicleRental: {
     networks: {
       donkey_kouvola: {
         enabled: true,

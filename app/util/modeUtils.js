@@ -86,10 +86,10 @@ export function showRentalVehiclesOfType(networks, config, type) {
 }
 
 export function getNearYouModes(config) {
-  if (!config.cityBike?.networks) {
+  if (!config.vehicleRental?.networks) {
     return config.nearYouModes;
   }
-  if (!useCitybikes(config.cityBike.networks, config)) {
+  if (!useCitybikes(config.vehicleRental.networks, config)) {
     return config.nearYouModes.filter(mode => mode !== 'citybike');
   }
   return config.nearYouModes;
@@ -98,11 +98,11 @@ export function getNearYouModes(config) {
 export function getTransportModes(config) {
   let citybikeConfig = {};
   let scooterConfig = {};
-  if (config.cityBike?.networks) {
-    if (!useCitybikes(config.cityBike.networks, config)) {
+  if (config.vehicleRental?.networks) {
+    if (!useCitybikes(config.vehicleRental.networks, config)) {
       citybikeConfig = { citybike: { availableForSelection: false } };
     }
-    if (!useScooters(config.cityBike.networks)) {
+    if (!useScooters(config.vehicleRental.networks)) {
       scooterConfig = { scooter: { availableForSelection: false } };
     }
   }

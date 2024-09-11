@@ -186,11 +186,11 @@ class StopsNearYouContainer extends React.Component {
     let sortedPatterns;
     if (isCityBikeView) {
       const withNetworks = stopPatterns.filter(pattern => {
-        return !!pattern.node.place?.network;
+        return !!pattern.node.place?.rentalNetwork?.networkId;
       });
       const filteredCityBikeStopPatterns = withNetworks.filter(pattern => {
         return getDefaultNetworks(this.context.config).includes(
-          pattern.node.place?.network,
+          pattern.node.place?.rentalNetwork?.networkId,
         );
       });
       sortedPatterns = filteredCityBikeStopPatterns
@@ -367,7 +367,9 @@ const refetchContainer = createPaginationContainer(
                 ... on VehicleRentalStation {
                   ...VehicleRentalStationNearYou_stop
                   stationId
-                  network
+                  rentalNetwork {
+                    networkId
+                  }
                 }
                 ... on Stop {
                   ...StopNearYouContainer_stop

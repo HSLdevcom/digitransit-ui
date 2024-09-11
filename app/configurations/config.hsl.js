@@ -299,8 +299,10 @@ export default {
 
   hideExternalOperator: agency => agency.name === 'Helsingin seudun liikenne',
   showTicketInformation: true,
-  ticketInformation: {
-    primaryAgencyName: 'HSL',
+  primaryAgencyName: {
+    fi: 'HSL',
+    sv: 'HRT',
+    en: 'HSL',
   },
 
   maxNearbyStopAmount: 5,
@@ -399,8 +401,6 @@ export default {
     showLayerSelector: false,
     showStopMarkerPopupOnMobile: false,
     showScaleBar: true,
-    attribution:
-      '<a tabindex="-1" href="http://osm.org/copyright">© OpenStreetMap</a>',
     // areBounds is for keeping map and user inside given area
     // HSL region + Lahti
     areaBounds: {
@@ -430,7 +430,7 @@ export default {
 
   localStorageEmitter,
 
-  cityBike: {
+  vehicleRental: {
     minZoomStopsNearYou: 10,
     showFullInfo: true,
     networks: {
@@ -491,7 +491,7 @@ export default {
         timeBeforeSurcharge: 120 * 60,
         showRentalStations: true,
       },
-      bolt: {
+      bolt_helsinki: {
         enabled: true,
         season: {
           alwaysOn: true,
@@ -558,8 +558,9 @@ export default {
   },
 
   showSimilarRoutesOnRouteDropDown: true,
-
   useRealtimeTravellerCapacities: true,
+
+  navigation: true,
 
   stopCard: {
     header: {
@@ -728,4 +729,6 @@ export default {
       },
     },
   },
+
+  startSearchFromUserLocation: true,
 };

@@ -53,7 +53,7 @@ describe('<Itinerary />', () => {
     const wrapper = mountWithIntl(<Itinerary {...props} />, {
       context: {
         ...mockContext,
-        config: { CONFIG: 'default', cityBike: { fewAvailableCount: 3 } },
+        config: { CONFIG: 'default', vehicleRental: { fewAvailableCount: 3 } },
       },
       childContextTypes: { ...mockChildContextTypes },
     });

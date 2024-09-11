@@ -8,6 +8,7 @@ import FareZoneSelector from './customizesearch/FareZoneSelector';
 import StreetModeSelectorPanel from './customizesearch/StreetModeSelectorPanel';
 import TransportModesSection from './customizesearch/TransportModesSection';
 import WalkingOptionsSection from './customizesearch/WalkingOptionsSection';
+import MinTransferTimeSection from './customizesearch/MinTransferTimeSection';
 import AccessibilityOptionSection from './customizesearch/AccessibilityOptionSection';
 import TransferOptionsSection from './customizesearch/TransferOptionsSection';
 import RentalNetworkSelector from './customizesearch/RentalNetworkSelector';
@@ -128,6 +129,13 @@ class CustomizeSearch extends React.Component {
                 <TransportModesSection config={config} />
               </div>
             )}
+            {config.minTransferTimeSelection && (
+              <MinTransferTimeSection
+                minTransferTimeOptions={config.minTransferTimeSelection}
+                currentSettings={currentSettings}
+                defaultSettings={this.defaultSettings}
+              />
+            )}
             <div className="settings-option-container">
               <TransferOptionsSection
                 defaultSettings={this.defaultSettings}
@@ -136,7 +144,7 @@ class CustomizeSearch extends React.Component {
               />
             </div>
           </div>
-          {useCitybikes(config.cityBike?.networks, config) && (
+          {useCitybikes(config.vehicleRental?.networks, config) && (
             <div className="settings-section">
               <div className="settings-option-container">
                 <fieldset>
@@ -159,7 +167,7 @@ class CustomizeSearch extends React.Component {
               </div>
             </div>
           )}
-          {useScooters(config.cityBike?.networks) && (
+          {useScooters(config.vehicleRental?.networks) && (
             <div className="settings-section">
               <div className="settings-option-container">
                 <fieldset>

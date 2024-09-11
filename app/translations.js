@@ -1047,16 +1047,15 @@ const translations = {
     'distance-between': 'Distance {distance1} m — {distance2} m',
     'distance-total': 'Total distance',
     'distance-under': 'Distance less than {distance} m',
-    'e-scooter': 'Sähköpotkulauta',
+    'e-scooter': 'Electric scooter',
     'e-scooter-alternative':
-      'Entä jos kulkisit osan matkasta sähköpotkulaudalla? {paymentInfo}',
+      'How about using an electric scooter for part of your journey? {paymentInfo}',
     'e-scooter-or-taxi-alternative':
-      'Entä jos kulkisit osan matkasta taksilla tai sähköpotkulaudalla? {paymentInfo}',
-    'e-scooter-quantity': 'Sähköpotkulautoja vapaana juuri nyt: ',
-    'e-scooter-station': 'Sähköpotkulauta-asema',
-    'e-scooters': 'Sähköpotkulaudat',
+      'How about using a taxi or an electric scooter for part of your journey? {paymentInfo}',
+    'e-scooter-station': 'Electric scooter station',
+    'e-scooters': 'Electric scooters',
     'e-scooters-available':
-      'Alueella sähköpotkulautoja vapaana. Ota sähköpotkulauta käyttöön sovelluksella.',
+      'There are electric scooters available in the area. Use an app to unlock the electric scooter.',
     earlier: 'Earlier departures',
     'edit-favourites': 'Edit the location in the Favorites',
     'elevation-gained-total': 'Elevation gained',
@@ -1067,7 +1066,6 @@ const translations = {
     'embedded-search.form-heading': 'Embedding tools',
     engine_ignition_aid: 'Engine starting aid',
     english: 'English',
-    'exit-vehicle': 'Nouse pois kyydistä ja kävele laiturille',
     explanations: 'Explanations',
     'extra-info': 'More info',
     'favourite-failed-text': 'Please try again in a while.',
@@ -1081,6 +1079,7 @@ const translations = {
     'from-bus': 'bus',
     'from-ferry': 'ferry',
     'from-rail': 'train',
+    'from-scooter-location': 'the scooter location',
     'from-station': 'from station',
     'from-stop': 'from stop',
     'from-subway': 'subway',
@@ -1142,7 +1141,7 @@ const translations = {
     'itinerary-details.route-has-unknown-alert': 'Route has disruptions.',
     'itinerary-details.route-has-warning-alert': 'Route has disruptions.',
     'itinerary-details.scooter-leg':
-      'At {time} ride your kick scooter {distance} from {origin} to {destination}. Estimated time {duration}',
+      'At {time} travel by scooter {distance} from {origin} to {destination}. Estimated time {duration}',
     'itinerary-details.transit-leg-part-1': 'At {time} {realtime} take',
     'itinerary-details.transit-leg-part-2':
       'from stop {startStop} {startZoneInfo} {trackInfo} to stop {endStop} {endZoneInfo}. Estimated duration {duration}',
@@ -1183,9 +1182,12 @@ const translations = {
       'Leaves at {firstDepartureTime} {firstDepartureStopType} {firstDepartureStop}{firstDeparturePlatform}',
     'itinerary-summary-row.first-leg-start-time-citybike':
       'Departure at {firstDepartureTime} from {firstDepartureStop} bike station',
+    'itinerary-summary-row.first-leg-start-time-scooter':
+      'Departure at {firstDepartureTime} by a scooter',
     'itinerary-summary-row.no-transit-legs': 'Leave when it suits you',
     'itinerary-summary-row.transfers':
       'Transfer to {vehicle} on stop {stopName}',
+    'itinerary-summary-row.transfers-to-rental': 'Transfer to {vehicle}',
     'itinerary-summary-row.walking-distance':
       'Total walking distance {totalDistance}.',
     'itinerary-summary.bike-boarding-information':
@@ -1261,6 +1263,7 @@ const translations = {
     'menu-link-to-privacy-policy': 'Privacy policy',
     'messagebar-label-close-message-bar': 'Close banner',
     'messagebar-label-page': 'Page',
+    'min-transfer-time': 'Interchange time',
     'minute-short': 'min',
     minutes: 'min',
     'minutes-or-route': 'Min / Route',
@@ -1280,7 +1283,17 @@ const translations = {
     'more-settings': 'More settings',
     'move-on-map': 'Move on the map',
     'move-to-tab': 'Go to tab {number}',
+    'navidest-show-on-map': 'Show route on map',
     navigate: 'Navigate',
+    'navigation-description': 'Journey guidance',
+    'navigation-header': 'Journey tracking',
+    'navigation-journey-start': 'Your journey starts {time}',
+    'navigation-label-close': 'Stop journey guidance',
+    'navigation-start': 'Start journey',
+    'navileg-bicycle': 'Cycle to',
+    'navileg-car': 'Drive to',
+    'navileg-scooter': 'Travel by scooter to',
+    'navileg-walk': 'Walk to',
     nearest: '{ mode } near you',
     'nearest-favorites': 'Stops nearby me',
     'nearest-favorites-browse-stops': 'Browse and select stops',
@@ -1344,8 +1357,8 @@ const translations = {
       'Log in to the service to save your favorites and utilize them on other devices',
     'one-way-journey': 'The length of a one-way journey',
     'open-app': 'Open the app',
-    'open-operator-app': 'Open {operator} app',
-    'open-settings': 'Avaa asetukset',
+    'open-operator-app': 'Open the {operator} app',
+    'open-settings': 'Open the settings',
     'option-default': 'Average',
     'option-least': 'Slow',
     'option-less': 'Calm',
@@ -1366,9 +1379,9 @@ const translations = {
     'park-and-ride-availability': 'Spaces available:',
     'pay-attention': 'N.B.',
     'payment-info-e-scooter':
-      'Huomaathan, että potkulautojen käyttö ja maksaminen tapahtuu toimijoiden omilla sovelluksilla.',
+      'Please note that you need to use the app of the operator in question in order to use and pay for the scooters.',
     'payment-info-e-scooter-taxi':
-      'Huomaathan, että potkulautojen ja taksin käyttö ja maksaminen tapahtuu toimijoiden omilla sovelluksilla.',
+      'Please note that you need to use the app of the operator in question in order to use and pay for the taxis or scooters.',
     'payment-info-taxi-lifts':
       'Huomaathan, että taksien ja kyytipalveluiden käyttö ja maksaminen tapahtuu toimijoiden omilla sovelluksilla.',
     payment_at_gate: 'Payment at the gate ',
@@ -1413,11 +1426,11 @@ const translations = {
     'remove-favourite': 'Remove from favorites',
     'remove-via-button-label': 'Remove via point {index}',
     'rent-cycle-at': 'Fetch a city bike:',
-    'rent-e-scooter-at': 'Ota sähköpotkulauta käyttöön sovelluksella',
+    'rent-e-scooter-at': 'Use an app to unlock the electric scooter',
     'rent-scooter-at': 'Rent a kick scooter at {station} station',
     'required-ticket': 'Ticket required for the journey',
     'return-cycle-to': 'Return the bike:',
-    'return-e-scooter-to': 'Jätä potkulauta turvalliseen paikkaan',
+    'return-e-scooter-to': 'Leave the scooter in a safe location',
     'return-scooter-to': 'Return the kick scooter to {station} station',
     'right-now': 'Right now',
     route: 'Route',
@@ -1490,7 +1503,7 @@ const translations = {
     scooter: 'Scooter',
     'scooter-availability': 'Kick scooters available at the station right now',
     'scooter-distance-duration':
-      'Ride your kick scooter {duration} ({distance})',
+      'Travel by scooter for {duration} ({distance})',
     'scooter-register-required': 'To use kick scooters, you need to register',
     'scooterwalk-distance-duration':
       'Walk your kick scooter {duration} ({distance})',
@@ -1529,17 +1542,17 @@ const translations = {
     'settings-dropdown-close-label': 'Close options',
     'settings-dropdown-open-label': 'Open options',
     'settings-e-scooter':
-      'Voit valita haluamasi sähköpotkulaudat, jolloin ne huomioidaan osana reititystä. {paymentInfo}',
+      'You can select the electric scooters you want and make them part of the route suggestions. {paymentInfo}',
     'settings-e-scooter-on':
-      'Laita sähköpotkulauta päälle asetuksista pysyvästi',
-    'settings-e-scooter-routes': 'Sähköpotkulaudat osaksi reittejäsi!',
+      'Make electric scooters a permanent option in your settings',
+    'settings-e-scooter-routes': 'Make electric scooters part of your routes!',
     'settings-label-change': 'Change settings',
     'settings-missing-itineraries-body':
       'Some selections in the settings exclude certain route alternatives.',
     'settings-missing-itineraries-header':
       'Are some route alternatives missing?',
     'settings-taxi-lift':
-      'Voit valita haluamasi taksi ja kyytipalvelut, jolloin ne huomioidaan osana reititystä.',
+      'Voit valita haluamasi taksi ja kyytipalvelut, jolloin ne ovat osa reititystä.',
     share: 'Share itinerary',
     show: 'Show',
     'show-departures': 'Show departures',
@@ -1625,7 +1638,9 @@ const translations = {
     'time-selector-hours-label': 'Hour',
     'time-selector-minutes-label': 'Minute',
     timetable: 'Timetable',
+    'to-bicycle': 'bicycle',
     'to-bus': 'bus',
+    'to-e-scooter': 'scooter',
     'to-ferry': 'ferry',
     'to-frontpage': 'To the front page',
     'to-rail': 'train',
@@ -2264,7 +2279,6 @@ const translations = {
       'Entä jos kulkisit osan matkasta sähköpotkulaudalla? {paymentInfo}',
     'e-scooter-or-taxi-alternative':
       'Entä jos kulkisit osan matkasta taksilla tai sähköpotkulaudalla? {paymentInfo}',
-    'e-scooter-quantity': 'Sähköpotkulautoja vapaana juuri nyt: ',
     'e-scooter-station': 'Sähköpotkulauta-asema',
     'e-scooters': 'Sähköpotkulaudat',
     'e-scooters-available':
@@ -2279,7 +2293,6 @@ const translations = {
     'embedded-search.form-heading': 'Upotusvalinnat',
     engine_ignition_aid: 'Käynnistysapu',
     english: 'Englanti',
-    'exit-vehicle': 'Nouse pois kyydistä ja kävele laiturille',
     explanations: 'Selitykset',
     'extra-info': 'Lisätiedot',
     'favourite-failed-text': 'Yritä hetken päästä uudelleen.',
@@ -2293,6 +2306,7 @@ const translations = {
     'from-bus': 'bussista',
     'from-ferry': 'lautasta',
     'from-rail': 'junasta',
+    'from-scooter-location': 'potkulaudan sijainti',
     'from-station': 'asemalta',
     'from-stop': 'pysäkiltä',
     'from-subway': 'metrosta',
@@ -2350,7 +2364,7 @@ const translations = {
     'itinerary-details.route-has-unknown-alert': 'Reitillä on häiriöitä.',
     'itinerary-details.route-has-warning-alert': 'Reitillä on häiriöitä.',
     'itinerary-details.scooter-leg':
-      '{time} potkulautaile {distance} kohteesta {origin} kohteeseen {destination}. Matka-aika {duration}',
+      '{time} potkulautaile kohteesta {origin} {distance} {to} {destination}. Matka-aika {duration}',
     'itinerary-details.transit-leg-part-1': '{time} {realtime} ota',
     'itinerary-details.transit-leg-part-2':
       'pysäkiltä {startStop} {startZoneInfo} {trackInfo} pysäkille {endStop} {endZoneInfo}. Arvioitu matka-aika {duration}',
@@ -2389,8 +2403,11 @@ const translations = {
       'Lähtee klo {firstDepartureTime} {firstDepartureStopType} {firstDepartureStop}{firstDeparturePlatform}',
     'itinerary-summary-row.first-leg-start-time-citybike':
       'Lähtö klo {firstDepartureTime} kaupunkipyöräasemalta {firstDepartureStop}',
+    'itinerary-summary-row.first-leg-start-time-scooter':
+      'Lähtö klo {firstDepartureTime} sähköpotkulaudalla',
     'itinerary-summary-row.no-transit-legs': 'Lähde, kun sinulle sopii',
     'itinerary-summary-row.transfers': 'Vaihto {vehicle} pysäkillä {stopName}',
+    'itinerary-summary-row.transfers-to-rental': 'Vaihto {vehicle}',
     'itinerary-summary-row.walking-distance':
       'Kävelyä yhteensä {totalDistance}.',
     'itinerary-summary.bike-boarding-information':
@@ -2466,6 +2483,7 @@ const translations = {
     'menu-link-to-privacy-policy': 'Rekisteriseloste',
     'messagebar-label-close-message-bar': 'Sulje banneri',
     'messagebar-label-page': 'Sivu',
+    'min-transfer-time': 'Vaihtoaika',
     'minute-short': 'min',
     minutes: 'min',
     'minutes-or-route': 'Min / Linja',
@@ -2485,7 +2503,17 @@ const translations = {
     'more-settings': 'Lisäasetukset',
     'move-on-map': 'Siirry kartalla',
     'move-to-tab': 'Siirry välilehdelle {number}',
+    'navidest-show-on-map': 'Näytä reitti kartalla',
     navigate: 'Navigoi',
+    'navigation-description': 'Löydä perille ohjatusti',
+    'navigation-header': 'Matkan seuranta',
+    'navigation-journey-start': 'Matkasi alkaa {time}',
+    'navigation-label-close': 'Lopeta matkaopastus',
+    'navigation-start': 'Matkalle',
+    'navileg-bicycle': 'Pyöräile',
+    'navileg-car': 'Aja',
+    'navileg-scooter': 'Potkulautaile',
+    'navileg-walk': 'Kävele',
     nearest: 'Lähimmät {mode}',
     'nearest-favorites': 'Omat lähipysäkit',
     'nearest-favorites-browse-stops': 'Selaa ja valitse pysäkkejä',
@@ -2732,16 +2760,15 @@ const translations = {
     'settings-dropdown-close-label': 'Sulje vaihtoehdot',
     'settings-dropdown-open-label': 'Avaa vaihtoehdot',
     'settings-e-scooter':
-      'Voit valita haluamasi sähköpotkulaudat, jolloin ne huomioidaan osana reititystä. {paymentInfo}',
-    'settings-e-scooter-on':
-      'Laita sähköpotkulauta päälle asetuksista pysyvästi',
+      'Voit valita haluamasi sähköpotkulaudat, jolloin ne ovat osa reititystä. {paymentInfo}',
+    'settings-e-scooter-on': 'Lisää sähköpotkulauta pysyvästi asetuksiisi',
     'settings-e-scooter-routes': 'Sähköpotkulaudat osaksi reittejäsi!',
     'settings-label-change': 'Muuta reittihaun asetuksia',
     'settings-missing-itineraries-body':
       'Asetuksissa on päällä valintoja, jotka rajaavat pois joitain reittivaihtoehtoja.',
     'settings-missing-itineraries-header': 'Puuttuuko reittivaihtoehtoja?',
     'settings-taxi-lift':
-      'Voit valita haluamasi taksi ja kyytipalvelut, jolloin ne huomioidaan osana reititystä.',
+      'Voit valita haluamasi taksi ja kyytipalvelut, jolloin ne ovat osa reititystä.',
     share: 'Jaa ohje',
     show: 'Näytä',
     'show-departures': 'Näytä lähdöt',
@@ -2830,7 +2857,9 @@ const translations = {
     'time-selector-hours-label': 'Tunti',
     'time-selector-minutes-label': 'Minuutti',
     timetable: 'Aikataulu',
+    'to-bicycle': 'polkupyörään',
     'to-bus': 'bussiin',
+    'to-e-scooter': 'sähköpotkulautaan',
     'to-ferry': 'lauttaan',
     'to-frontpage': 'Etusivulle',
     'to-rail': 'junaan',
@@ -5109,16 +5138,15 @@ const translations = {
     'distance-between': 'Avstånd {distance1} m — {distance2} m',
     'distance-total': 'Resans längd',
     'distance-under': 'Avstånd mindre än {distance} m',
-    'e-scooter': 'Sähköpotkulauta',
+    'e-scooter': 'Elsparkcykel',
     'e-scooter-alternative':
-      'Entä jos kulkisit osan matkasta sähköpotkulaudalla? {paymentInfo}',
+      'Och om du skulle åka elsparkcykel en del av din resa? {paymentInfo}',
     'e-scooter-or-taxi-alternative':
-      'Entä jos kulkisit osan matkasta taksilla tai sähköpotkulaudalla? {paymentInfo}',
-    'e-scooter-quantity': 'Sähköpotkulautoja vapaana juuri nyt: ',
-    'e-scooter-station': 'Sähköpotkulauta-asema',
-    'e-scooters': 'Sähköpotkulaudat',
+      'Och om du skulle åka elsparkcykel eller taxi en del av din resa? {paymentInfo}',
+    'e-scooter-station': 'Elsparkcykelstation',
+    'e-scooters': 'Elsparkcyklar',
     'e-scooters-available':
-      'Alueella sähköpotkulautoja vapaana. Ota sähköpotkulauta käyttöön sovelluksella.',
+      'Det finns lediga elsparkcyklar i området. Ta en elsparkcykel i bruk med en app.',
     earlier: 'Tidigare avgångar',
     'edit-favourites': 'Redigera favoritdestination',
     'elevation-gained-total': 'Uppförsbacke totalt',
@@ -5129,7 +5157,6 @@ const translations = {
     'embedded-search.form-heading': 'Inbäddningsverktyg',
     engine_ignition_aid: 'Starthjälp',
     english: 'Engelsk',
-    'exit-vehicle': 'Nouse pois kyydistä ja kävele laiturille',
     explanations: 'Förklaringar',
     'extra-info': 'Mer info',
     'favourite-failed-text': 'Försök på nytt senare.',
@@ -5143,6 +5170,7 @@ const translations = {
     'from-bus': 'bussen',
     'from-ferry': 'färjan',
     'from-rail': 'tåget',
+    'from-scooter-location': 'platsen för sparkcykel',
     'from-station': 'från stationen',
     'from-stop': 'från hållplats',
     'from-subway': 'metron',
@@ -5203,7 +5231,7 @@ const translations = {
     'itinerary-details.route-has-unknown-alert': 'Störningar längs rutten..',
     'itinerary-details.route-has-warning-alert': 'Störningar längs rutten..',
     'itinerary-details.scooter-leg':
-      '{time} sparkcykla {distance} från {origin} till destinationen {destination}. Restid {duration}',
+      '{time} åk elsparkcykel {distance} från {origin} till destinationen {destination}. Restid {duration}',
     'itinerary-details.transit-leg-part-1': '{time} {realtime} ta',
     'itinerary-details.transit-leg-part-2':
       'från hållplats {startStop} {startZoneInfo} {trackInfo} till hållplats {endStop} {endZoneInfo}. Beräknad restid {duration}',
@@ -5243,9 +5271,12 @@ const translations = {
       'Avgår kl {firstDepartureTime} {firstDepartureStopType} {firstDepartureStop}{firstDeparturePlatform}',
     'itinerary-summary-row.first-leg-start-time-citybike':
       'Avgång kl {firstDepartureTime} från {firstDepartureStop} stadscykelstation',
+    'itinerary-summary-row.first-leg-start-time-scooter':
+      'Avgång kl {firstDepartureTime} med en sparkcykel',
     'itinerary-summary-row.no-transit-legs': 'Avgå när det passar för dig',
     'itinerary-summary-row.transfers':
       'Byte {vehicle} vid hållplats {stopName}',
+    'itinerary-summary-row.transfers-to-rental': 'Byte {vehicle}',
     'itinerary-summary-row.walking-distance':
       'Promenad sammanlagt {totalDistance}.',
     'itinerary-summary.bike-boarding-information':
@@ -5319,6 +5350,7 @@ const translations = {
     'menu-link-to-privacy-policy': 'Registerbeskrivning',
     'messagebar-label-close-message-bar': 'Stäng banner',
     'messagebar-label-page': 'Sidan',
+    'min-transfer-time': 'Bytestid',
     'minute-short': 'min',
     minutes: 'min',
     'minutes-or-route': 'Min / Linje',
@@ -5338,7 +5370,17 @@ const translations = {
     'more-settings': 'Fler inställningar',
     'move-on-map': 'Flytta på kartan',
     'move-to-tab': 'Gå till fliken {number}',
+    'navidest-show-on-map': 'Visa rutt på kartan',
     navigate: 'Navigera',
+    'navigation-description': 'Hitta fram med vägledning.',
+    'navigation-header': 'Följa',
+    'navigation-journey-start': 'Din resa börjar {time}',
+    'navigation-label-close': 'Stopp reseledare',
+    'navigation-start': 'På resa',
+    'navileg-bicycle': 'Cycla till',
+    'navileg-car': 'Kör till',
+    'navileg-scooter': 'Åk elsparkcykel',
+    'navileg-walk': 'Gå till',
     nearest: 'Närmaste { mode }',
     'nearest-favorites': 'Hållplatser nära mig',
     'nearest-favorites-browse-stops': 'Bläddra och välj hållplatser',
@@ -5400,7 +5442,7 @@ const translations = {
       'Genom att logga in kan du spara dina favoriter och använda dem med dina andra enheter.',
     'one-way-journey': ' Längden på en enkel resa',
     'open-app': ' Öppna appen',
-    'open-operator-app': 'Öppna {operator} appen',
+    'open-operator-app': 'Öppna appen {operator}',
     'open-settings': 'Öppna inställningar',
     'option-default': 'Standard',
     'option-least': 'Minst',
@@ -5423,9 +5465,9 @@ const translations = {
     'park-and-ride-availability': 'Lediga platser:',
     'pay-attention': 'Obs!',
     'payment-info-e-scooter':
-      'Huomaathan, että potkulautojen käyttö ja maksaminen tapahtuu toimijoiden omilla sovelluksilla.',
+      'Vänligen observera att användning och betalning av elsparkcyklar görs via operatörernas egna appar.',
     'payment-info-e-scooter-taxi':
-      'Huomaathan, että potkulautojen ja taksin käyttö ja maksaminen tapahtuu toimijoiden omilla sovelluksilla.',
+      'Vänligen observera att användning och betalning av elsparkcyklar och taxi görs via operatörernas egna appar.',
     'payment-info-taxi-lifts':
       'Huomaathan, että taksien ja kyytipalveluiden käyttö ja maksaminen tapahtuu toimijoiden omilla sovelluksilla.',
     payment_at_gate: 'Betalning vid porten',
@@ -5469,11 +5511,11 @@ const translations = {
     'remove-favourite': 'Ta bort favoritmarkeringen',
     'remove-via-button-label': 'Ta bort viapunkt {index}',
     'rent-cycle-at': 'Sök en stadscykel:',
-    'rent-e-scooter-at': 'Ota sähköpotkulauta käyttöön sovelluksella',
+    'rent-e-scooter-at': 'Ta en elsparkcykel i bruk med en app.',
     'rent-scooter-at': 'Hyr en sparkcykel från stationen {station}',
     'required-ticket': 'Biljett som behövs under resan',
     'return-cycle-to': 'Returnera stadscykeln: ',
-    'return-e-scooter-to': 'Jätä potkulauta turvalliseen paikkaan',
+    'return-e-scooter-to': 'Lämna elsparkcykeln på ett säkert ställe',
     'return-scooter-to': 'Returnera sparkcykeln till stationen {station}',
     'right-now': 'Just nu',
     route: 'Linje',
@@ -5544,7 +5586,7 @@ const translations = {
     save: 'Spara',
     scooter: 'Scooter',
     'scooter-availability': 'Antal sparkcyklar just nu',
-    'scooter-distance-duration': 'Sparkcykla {duration} ({distance})',
+    'scooter-distance-duration': 'Åk elsparkcykel {duration} ({distance})',
     'scooter-register-required':
       'Det krävs registrering för att kunna använda sparkcyklar',
     'scooterwalk-distance-duration': 'Led sparkcykeln {duration} ({distance})',
@@ -5577,7 +5619,7 @@ const translations = {
     'separate-ticket-required':
       'Denna etapp av resan kräver en separat biljett.',
     'separate-ticket-required-disclaimer':
-      'Resan består av en eller fleta etapper vilka kräver biljetter som inte säljs av {agencyName}.',
+      'Resan består av en eller flera etapper vilka kräver biljetter som inte säljs av {agencyName}.',
     'separate-ticket-required-for-call-agency-disclaimer':
       'I resan ingår anropsbusstrafiken. Bekanta dig med betalningsmetoder och praxis på ',
     'set-specific-settings': 'Ställa avancerade inställningar',
@@ -5588,16 +5630,16 @@ const translations = {
     'settings-dropdown-close-label': 'Stäng alternativen',
     'settings-dropdown-open-label': 'Öppna alternativen',
     'settings-e-scooter':
-      'Voit valita haluamasi sähköpotkulaudat, jolloin ne huomioidaan osana reititystä. {paymentInfo}',
+      'Du kan välja de elsparkcyklar du vill och åka en del av din rutt med den. {paymentInfo}',
     'settings-e-scooter-on':
-      'Laita sähköpotkulauta päälle asetuksista pysyvästi',
-    'settings-e-scooter-routes': 'Sähköpotkulaudat osaksi reittejäsi!',
+      'Lägg till elsparkcyklar permanent i dina inställningar',
+    'settings-e-scooter-routes': 'Åk elsparkcykel under en del av din resa!',
     'settings-label-change': 'Anpassa sökning',
     'settings-missing-itineraries-body':
       'Dina val i inställningar utesluter vissa ruttalternativ.',
     'settings-missing-itineraries-header': 'Saknas det några ruttförslag?',
     'settings-taxi-lift':
-      'Voit valita haluamasi taksi ja kyytipalvelut, jolloin ne huomioidaan osana reititystä.',
+      'Voit valita haluamasi taksi ja kyytipalvelut, jolloin ne ovat osa reititystä.',
     share: 'Dela resan',
     show: 'Visa',
     'show-departures': 'Visa avgångarna',
@@ -5685,7 +5727,9 @@ const translations = {
     'time-selector-hours-label': 'Timme',
     'time-selector-minutes-label': 'Minut',
     timetable: 'Tidtabell',
+    'to-bicycle': 'stadscykeln',
     'to-bus': 'bussen',
+    'to-e-scooter': 'skotern',
     'to-ferry': 'färjan',
     'to-frontpage': 'Till startsidan',
     'to-rail': 'tåget',

@@ -62,6 +62,7 @@ $body-font-weight: $font-weight-medium;
 @import '../app/component/itinerary/settings-panel';
 @import '../app/component/itinerary/mobile-ticket-purchase-information';
 @import 'base/button';
+@import '../app/component/itinerary/navigator';
 
 /* Modal */
 @import '~foundation-apps/scss/helpers/breakpoints';
