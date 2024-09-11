@@ -83,7 +83,6 @@ export default class Legs extends React.Component {
     const { itinerary, fares, showBikeBoardingInformation, relayEnvironment } =
       this.props;
     const { waitThreshold } = this.context.config.itinerary;
-
     const compressedLegs = compressLegs(itinerary.legs, true).map(leg => ({
       showBikeBoardingInformation,
       ...leg,
@@ -174,7 +173,7 @@ export default class Legs extends React.Component {
         legs.push(<CarParkLeg {...legProps} carPark={carPark} />);
       } else if (isLegOnFoot(leg)) {
         legs.push(
-          <WalkLeg {...legProps} previousLeg={previousLeg}>
+          <WalkLeg {...legProps} previousLeg={previousLeg} nextLeg={nextLeg}>
             {stopCode(leg.from.stop)}
           </WalkLeg>,
         );
@@ -281,6 +280,7 @@ export default class Legs extends React.Component {
           index={numberOfLegs}
           leg={compressedLegs[numberOfLegs - 1]}
           previousLeg={compressedLegs[numberOfLegs - 2]}
+          nextLeg={compressedLegs[numberOfLegs]}
           focusAction={this.focus(compressedLegs[numberOfLegs - 1].to)}
           focusToLeg={this.focusToLeg(compressedLegs[numberOfLegs - 1])}
         >

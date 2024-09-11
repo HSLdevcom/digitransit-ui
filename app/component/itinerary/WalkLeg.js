@@ -22,7 +22,7 @@ import { splitStringToAddressAndPlace } from '../../util/otpStrings';
 import VehicleRentalLeg from './VehicleRentalLeg';
 
 function WalkLeg(
-  { children, focusAction, focusToLeg, index, leg, previousLeg },
+  { children, focusAction, focusToLeg, index, leg, previousLeg, nextLeg },
   { config, intl },
 ) {
   const distance = displayDistance(
@@ -30,7 +30,6 @@ function WalkLeg(
     config,
     intl.formatNumber,
   );
-  //
   const duration = durationToString(
     leg.mode !== 'WALK' ? 0 : leg.duration * 1000,
   );
@@ -229,6 +228,15 @@ function WalkLeg(
         )}
 
         <div className="itinerary-leg-action">
+          {nextLeg?.mode === 'SUBWAY' && (
+            <div>
+              <FormattedMessage
+                id="station-entrance"
+                defaultMessage="Entrance"
+              />
+              <Icon img="icon-icon_subway" />
+            </div>
+          )}
           <div className="itinerary-leg-action-content">
             <FormattedMessage
               id="walk-distance-duration"
@@ -248,6 +256,12 @@ function WalkLeg(
               focusAction={focusToLeg}
             />
           </div>
+          {previousLeg?.mode === 'SUBWAY' && (
+            <div>
+              <FormattedMessage id="station-exit" defaultMessage="Exit" />
+              <Icon img="icon-icon_subway" />
+            </div>
+          )}
         </div>
       </div>
     </div>
@@ -260,11 +274,13 @@ WalkLeg.propTypes = {
   index: PropTypes.number.isRequired,
   leg: legShape.isRequired,
   previousLeg: legShape,
+  nextLeg: legShape,
   focusToLeg: PropTypes.func.isRequired,
 };
 
 WalkLeg.defaultProps = {
   previousLeg: undefined,
+  nextLeg: undefined,
   children: undefined,
 };
 
