@@ -160,12 +160,12 @@ export default configMerger(walttiConfig, {
     3: 'C',
   },
 
-  showTicketInformation: false,
+  showTicketInformation: true,
   useTicketIcons: true,
   ticketLink: 'https://linkki.jyvaskyla.fi/liput-ja-hinnat',
   showTicketPrice: true,
 
-  showTicketLinkOnlyWhenTesting: false,
+  showTicketLinkOnlyWhenTesting: true,
   settingsForFeatureTesting: {
     walkSpeed: 0.69,
     bikeSpeed: 8.33,
