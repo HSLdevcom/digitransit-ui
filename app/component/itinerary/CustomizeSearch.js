@@ -234,6 +234,18 @@ class CustomizeSearch extends React.Component {
                             }}
                           />
                         </div>
+                        {config.vehicleRental.scooterInfoLink && (
+                          <a
+                            href={
+                              config.vehicleRental.scooterInfoLink[intl.locale]
+                                .url
+                            }
+                            target="_blank"
+                            rel="noreferrer"
+                          >
+                            <FormattedMessage id="read-more" />
+                          </a>
+                        )}
                       </div>
                     )}
                     <ScooterNetworkSelector
