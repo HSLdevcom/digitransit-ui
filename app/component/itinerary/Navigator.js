@@ -1,15 +1,14 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
-import { createFragmentContainer, graphql } from 'react-relay';
-import { itineraryShape } from '../../util/shapes';
+import { createFragmentContainer, graphql, fetchQuery } from 'react-relay';
+import { itineraryShape, relayShape } from '../../util/shapes';
 import { legTime, legTimeStr } from '../../util/legUtils';
 import Icon from '../Icon';
 import NaviLeg from './NaviLeg';
 
-/*
-  const legQuery = graphql`
-  query legQuery($id: String!) {
+const legQuery = graphql`
+  query Navigator_legQuery($id: ID!) {
     node(id: $id) {
       ... on Leg {
         start {
@@ -24,56 +23,70 @@ import NaviLeg from './NaviLeg';
             time
           }
         }
-	realtimeState
+        realtimeState
       }
     }
   }
 `;
-*/
 
-function Navigator({ itinerary, focusToLeg, setNavigation }, context) {
+function Navigator(
+  { itinerary, focusToLeg, setNavigation, relayEnvironment },
+  context,
+) {
   const [time, setTime] = useState(Date.now());
   const [currentLeg, setCurrentLeg] = useState(null);
+  const [realTimeLegs, setRealTimeLegs] = useState(itinerary.legs);
 
-  // update view after every 5 seconds
+  // update view after every 10 seconds
   useEffect(() => {
     const interval = setInterval(() => {
       setTime(Date.now());
-    }, 5000);
+    }, 10000);
 
     return () => clearInterval(interval);
   }, []);
 
   useEffect(() => {
-    const newLeg = itinerary.legs.find(leg => {
+    const newLeg = realTimeLegs.find(leg => {
       return legTime(leg.start) <= time && time <= legTime(leg.end);
     });
 
-    if (newLeg && newLeg !== currentLeg) {
+    if (newLeg && newLeg.id !== currentLeg?.id) {
       setCurrentLeg(newLeg);
       focusToLeg(newLeg, false);
     }
-    /*
+
     const legQueries = [];
     itinerary.legs.forEach(leg => {
       if (leg.transitLeg) {
-	legQueries.push(
-	  fetchQuery(
+        legQueries.push(
+          fetchQuery(
             relayEnvironment,
             legQuery,
             { id: leg.id },
             { force: true },
-	  ).toPromise();
-	)}
+          ).toPromise(),
+        );
+      }
     });
     if (legQueries.length) {
-      Promise.all(legQueries).then(data => {
+      Promise.all(legQueries).then(responses => {
+        const legMap = {};
+        responses.forEach(data => {
+          legMap[data.node.id] = data.node;
+        });
+        const rtLegs = itinerary.legs.map(l => {
+          const rtLeg = legMap[l.id];
+          return rtLeg ? { ...l, ...rtLeg } : { ...l };
+        });
+        setRealTimeLegs(rtLegs);
       });
-      }
-    */
+    }
   }, [time]);
 
-  const first = itinerary.legs[0];
+  const canceled = realTimeLegs.find(leg => leg.realtimeState === 'CANCELED');
+
+  const first = realTimeLegs[0];
   let info;
   if (time < legTime(first.start)) {
     info = (
@@ -108,6 +121,9 @@ function Navigator({ itinerary, focusToLeg, setNavigation }, context) {
         </button>
       </div>
       <div className="divider" />
+      {canceled && (
+        <div className="notifiler">Osa matkan lähdöistä on peruttu</div>
+      )}
       <div className="info">{info}</div>
     </div>
   );
@@ -117,9 +133,9 @@ Navigator.propTypes = {
   itinerary: itineraryShape.isRequired,
   focusToLeg: PropTypes.func.isRequired,
   setNavigation: PropTypes.func.isRequired,
+  relayEnvironment: relayShape.isRequired,
   /*
   focusToPoint: PropTypes.func.isRequired,
-  relayEnvironment: relayShape.isRequired,
   */
 };
 
@@ -133,6 +149,7 @@ const withRelay = createFragmentContainer(Navigator, {
       start
       end
       legs {
+        id
         mode
         transitLeg
         start {
@@ -147,6 +164,7 @@ const withRelay = createFragmentContainer(Navigator, {
             time
           }
         }
+        realtimeState
         legGeometry {
           points
         }
