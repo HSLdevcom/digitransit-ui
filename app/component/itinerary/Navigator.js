@@ -55,6 +55,7 @@ function Navigator({ itinerary, focusToLeg, setNavigation }, context) {
   }, [time]);
 
   const first = itinerary.legs[0];
+  const last = itinerary.legs[itinerary.legs.length - 1];
   let info;
   if (time < legTime(first.start)) {
     info = (
@@ -69,8 +70,10 @@ function Navigator({ itinerary, focusToLeg, setNavigation }, context) {
     } else {
       info = `Tracking ${currentLeg?.mode} leg`;
     }
-  } else {
+  } else if (time > legTime(last.end)) {
     info = <FormattedMessage id="navigation-journey-end" />;
+  } else {
+    info = <FormattedMessage id="navigation-wait" />;
   }
 
   return (
