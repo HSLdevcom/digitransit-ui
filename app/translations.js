@@ -1277,6 +1277,7 @@ const translations = {
     'modes.to-car-park': 'car park',
     'modes.to-place': 'destination',
     'modes.to-rail': 'train station',
+    'modes.to-scooter': 'to scooter',
     'modes.to-stop': 'stop',
     'modes.to-subway': 'subway station',
     'modes.to-tram': 'tram stop',
