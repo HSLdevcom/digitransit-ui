@@ -69,7 +69,10 @@ function Navigator({ itinerary, focusToLeg, setNavigation }, context) {
     } else {
       info = `Tracking ${currentLeg?.mode} leg`;
     }
+  } else {
+    info = <FormattedMessage id="navigation-journey-end" />;
   }
+
   return (
     <div className="navigator">
       <div className="navigator-top-section">
