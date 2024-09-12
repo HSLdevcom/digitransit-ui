@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { FormattedMessage, intlShape } from 'react-intl';
 import Icon from '../Icon';
 import StopCode from '../StopCode';
+import PlatformNumber from '../PlatformNumber';
 import { legShape } from '../../util/shapes';
 
 function NaviDestination({ leg, focusToLeg }) {
@@ -29,6 +30,15 @@ function NaviDestination({ leg, focusToLeg }) {
       <div>
         {stop?.name}&nbsp;
         {stop?.code && <StopCode code={stop.code} />}
+        {stop?.platformCode && (
+          <PlatformNumber
+            number={stop.platformCode}
+            short={false}
+            isRailOrSubway={
+              stop.vehicleMode === 'RAIL' || stop.vehicleMode === 'SUBWAY'
+            }
+          />
+        )}
         {rentalVehicle?.rentalNetwork.networkId}
         {vehicleParking?.name}
         {vehicleRentalStation?.rentalNetwork.networkId}&nbsp;
