@@ -627,5 +627,11 @@ export const legDestination = (intl, leg, secondary) => {
   if (mode) {
     id = `modes.to-${mode.toLowerCase()}`;
   }
+
+  if (id === 'modes.to-place') {
+    return `${intl.formatMessage({ id, defaultMessage: 'place' })} ${
+      leg.to.name
+    }`;
+  }
   return intl.formatMessage({ id, defaultMessage: 'place' });
 };
