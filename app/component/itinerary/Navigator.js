@@ -139,6 +139,7 @@ const withRelay = createFragmentContainer(Navigator, {
         to {
           lat
           lon
+          name
           stop {
             name
             code
