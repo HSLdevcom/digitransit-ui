@@ -607,6 +607,18 @@ export const showBikeBoardingNote = (leg, config) => {
 };
 
 /**
+ * Determines whether to current or next leg  contains  rental vehicles
+ * @param {object} leg - The leg object.
+ * @param {object} nextLeg - Config data.
+ * @returns {boolean} - Returns true if a legs contains rental vehicles
+ */
+export const isRental = (leg, nextLeg) =>
+  leg.mode === 'WALK' &&
+  (leg.to.vehicleRentalStation ||
+    leg.to.vehicleRental ||
+    nextLeg?.mode === 'SCOOTER');
+
+/**
  * Return translated string that describes leg destination
  *
  * @param {object} intl - rect-intl context
@@ -614,10 +626,9 @@ export const showBikeBoardingNote = (leg, config) => {
  * @param {object} secondary - optional walk leg
  * @returns {string}
  */
-export const legDestination = (intl, leg, secondary) => {
+export const legDestination = (intl, leg, secondary, nextLeg = null) => {
   const { to } = leg;
   let id = 'modes.to-place';
-
   if (leg.mode === 'BICYCLE' && to.vehicleParking) {
     id = 'modes.to-bike-park';
   } else if (leg.mode === 'CAR' && to.vehicleParking) {
@@ -627,11 +638,8 @@ export const legDestination = (intl, leg, secondary) => {
   if (mode) {
     id = `modes.to-${mode.toLowerCase()}`;
   }
-
-  if (id === 'modes.to-place') {
-    return `${intl.formatMessage({ id, defaultMessage: 'place' })} ${
-      leg.to.name
-    }`;
+  if (isRental(leg, nextLeg)) {
+    id = 'modes.from-place';
   }
   return intl.formatMessage({ id, defaultMessage: 'place' });
 };
