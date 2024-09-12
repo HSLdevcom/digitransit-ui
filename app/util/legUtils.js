@@ -607,10 +607,10 @@ export const showBikeBoardingNote = (leg, config) => {
 };
 
 /**
- * Determines whether to current or next leg  contains  rental vehicles
+ * Determines whether to leg afrer walk leg contains rental vehicles
  * @param {object} leg - The leg object.
- * @param {object} nextLeg - Config data.
- * @returns {boolean} - Returns true if a legs contains rental vehicles
+ * @param {object} nextLeg - The Leg after the current leg.
+ * @returns {boolean}
  */
 export const isRental = (leg, nextLeg) =>
   leg.mode === 'WALK' &&

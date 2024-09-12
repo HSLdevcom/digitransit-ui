@@ -1281,7 +1281,6 @@ const translations = {
     'modes.to-stop': 'stop',
     'modes.to-subway': 'subway station',
     'modes.to-tram': 'tram stop',
-    'mods.to-scooter': 'scooter',
     'more-departures': 'More departures',
     'more-settings': 'More settings',
     'move-on-map': 'Move on the map',
