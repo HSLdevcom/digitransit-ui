@@ -5,7 +5,7 @@ import cx from 'classnames';
 import Link from 'found/Link';
 import { fetchQuery } from 'react-relay';
 import { legShape, configShape, relayShape } from '../../util/shapes';
-import { legTimeStr } from '../../util/legUtils';
+import { legTimeStr, legDestination } from '../../util/legUtils';
 import Icon from '../Icon';
 import ItineraryMapAction from './ItineraryMapAction';
 import { displayDistance } from '../../util/geo-utils';
@@ -158,18 +158,6 @@ export default function BicycleLeg(
     );
   }
   const fromStop = leg?.from.stop || bicycleWalkLeg?.from.stop;
-  const getToMode = () => {
-    if (leg.to.bikePark) {
-      return 'bike-park';
-    }
-    if (leg.to.stop?.vehicleMode) {
-      return leg.to.stop?.vehicleMode.toLowerCase();
-    }
-    if (bicycleWalkLeg?.to.stop?.vehicleMode) {
-      return bicycleWalkLeg.to.stop?.vehicleMode.toLowerCase();
-    }
-    return 'place';
-  };
   const origin = bicycleWalkLeg?.from.stop ? bicycleWalkLeg.from.name : address;
   const destination = bicycleWalkLeg?.to.stop
     ? bicycleWalkLeg?.to.name
@@ -243,7 +231,7 @@ export default function BicycleLeg(
           }
           values={{
             time,
-            to: intl.formatMessage({ id: `modes.to-${getToMode()}` }),
+            to: legDestination(intl, leg, bicycleWalkLeg?.to),
             distance,
             origin: isScooter
               ? intl.formatMessage({ id: 'from-scooter-location' })

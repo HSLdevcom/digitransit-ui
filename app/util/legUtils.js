@@ -605,3 +605,33 @@ export const showBikeBoardingNote = (leg, config) => {
     bikeBoardingModes && bikeBoardingModes[leg.mode]?.showNotification === true
   );
 };
+
+/**
+ * Return translated string that describes leg destination
+ *
+ * @param {object} intl - rect-intl context
+ * @param {object} leg - The leg object.
+ * @param {object} secondary - optional walk leg
+ * @returns {string}
+ */
+export const legDestination = (intl, leg, secondary) => {
+  const { to } = leg;
+  let id = 'modes.to-place';
+
+  if (leg.mode === 'BICYCLE' && to.vehicleParking) {
+    id = 'modes.to-bike-park';
+  } else if (leg.mode === 'CAR' && to.vehicleParking) {
+    id = 'modes.to-car-park';
+  }
+  const mode = to.stop?.vehicleMode || secondary?.stop?.vehicleMode;
+  if (mode) {
+    id = `modes.to-${mode.toLowerCase()}`;
+  }
+
+  if (id === 'modes.to-place') {
+    return `${intl.formatMessage({ id, defaultMessage: 'place' })} ${
+      leg.to.name
+    }`;
+  }
+  return intl.formatMessage({ id, defaultMessage: 'place' });
+};

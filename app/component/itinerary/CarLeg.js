@@ -7,7 +7,7 @@ import ItineraryMapAction from './ItineraryMapAction';
 import { displayDistance } from '../../util/geo-utils';
 import { durationToString } from '../../util/timeUtils';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
-import { legTimeStr } from '../../util/legUtils';
+import { legTimeStr, legDestination } from '../../util/legUtils';
 
 export default function CarLeg(props, { config, intl }) {
   const distance = displayDistance(
@@ -30,9 +30,7 @@ export default function CarLeg(props, { config, intl }) {
           values={{
             time: legTimeStr(props.leg.start),
             distance,
-            to: intl.formatMessage({
-              id: `modes.to-${props.leg.to.carPark ? 'car-park' : 'place'}`,
-            }),
+            to: legDestination(intl, props.leg),
             origin: props.leg.from ? props.leg.from.name : '',
             destination: props.leg.to ? props.leg.to.name : '',
             duration,

@@ -4,7 +4,7 @@ import React from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
 import Link from 'found/Link';
 import { legShape, configShape } from '../../util/shapes';
-import { legTime, legTimeStr } from '../../util/legUtils';
+import { legTime, legTimeStr, legDestination } from '../../util/legUtils';
 import Icon from '../Icon';
 import ItineraryMapAction from './ItineraryMapAction';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
@@ -83,12 +83,7 @@ function WalkLeg(
           id="itinerary-details.walk-leg"
           values={{
             time: legTimeStr(leg.start),
-            to: intl.formatMessage({
-              id: `modes.to-${
-                leg.to.stop?.vehicleMode?.toLowerCase() || 'place'
-              }`,
-              defaultMessage: 'modes.to-stop',
-            }),
+            to: legDestination(intl, leg),
             distance,
             duration,
             origin: leg[toOrFrom] ? leg[toOrFrom].name : '',

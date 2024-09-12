@@ -4,35 +4,35 @@ import { FormattedMessage } from 'react-intl';
 import Icon from '../Icon';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
-export default function NavigatorButton({ setNavigation }) {
+export default function StartNavi({ setNavigation }) {
   return (
-    <div className="navigation-container">
-      <div className="navigation-leftgroup">
+    <div className="navi-start-container">
+      <div className="navi-start-leftgroup">
         <Icon
           img="icon-icon_show-on-map"
           width={1.4}
           height={1.4}
-          className="navigation-icon"
+          className="navi-start-icon"
         />
         <FormattedMessage
           id="navigation-description"
-          defaultMessage="navigation-description"
+          defaultMessage="Journey guidance"
         />
       </div>
       <button
-        className="navigation-button"
+        className="navi-start-button"
         type="button"
         onClick={() => setNavigation(true)}
       >
         <FormattedMessage
-          id="start-navigation"
-          defaultMessage="start-navigation"
+          id="navigation-start"
+          defaultMessage="Start journey"
         />
       </button>
     </div>
   );
 }
 
-NavigatorButton.propTypes = {
+StartNavi.propTypes = {
   setNavigation: PropTypes.func.isRequired,
 };
