@@ -53,7 +53,6 @@ function Navigator({ itinerary, focusToLeg, setNavigation }, context) {
       focusToLeg(newLeg, false);
     }
   }, [time]);
-
   const first = itinerary.legs[0];
   const last = itinerary.legs[itinerary.legs.length - 1];
   let info;
@@ -66,7 +65,12 @@ function Navigator({ itinerary, focusToLeg, setNavigation }, context) {
     );
   } else if (currentLeg) {
     if (!currentLeg.transitLeg) {
-      info = <NaviLeg leg={currentLeg} focusToLeg={focusToLeg} />;
+      const next = itinerary.legs.find(
+        leg => legTime(leg.start) > legTime(currentLeg.start),
+      );
+      info = (
+        <NaviLeg leg={currentLeg} focusToLeg={focusToLeg} nextLeg={next} />
+      );
     } else {
       info = `Tracking ${currentLeg?.mode} leg`;
     }
