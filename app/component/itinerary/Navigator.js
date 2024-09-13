@@ -7,6 +7,8 @@ import { legTime, legTimeStr } from '../../util/legUtils';
 import Icon from '../Icon';
 import NaviLeg from './NaviLeg';
 
+const TRANSFER_SLACK = 60000; // milliseconds
+
 const legQuery = graphql`
   query Navigator_legQuery($id: ID!) {
     node(id: $id) {
@@ -29,6 +31,33 @@ const legQuery = graphql`
     }
   }
 `;
+
+function findTransferProblem(legs) {
+  for (let i = 1; i < legs.length - 1; i++) {
+    const prev = legs[i - 1];
+    const leg = legs[i];
+    const next = legs[i + 1];
+
+    if (prev.transitLeg && leg.transitLeg && !leg.interlineWithPreviousLeg) {
+      // transfer at a stop
+      if (legTime(leg.start) - legTime(prev.end) < TRANSFER_SLACK) {
+        return [prev, leg];
+      }
+    }
+
+    if (prev.transitLeg && next.transitLeg && !leg.transitLeg) {
+      // transfer with some walking
+      const t1 = legTime(prev.end);
+      const t2 = legTime(next.start);
+      const transferDuration = legTime(leg.end) - legTime(leg.start);
+      const slack = t2 - t1 - transferDuration;
+      if (slack < TRANSFER_SLACK) {
+        return [prev, next];
+      }
+    }
+  }
+  return null;
+}
 
 function Navigator(
   { itinerary, focusToLeg, setNavigation, relayEnvironment },
@@ -87,6 +116,8 @@ function Navigator(
   }, [time]);
 
   const canceled = realTimeLegs.find(leg => leg.realtimeState === 'CANCELED');
+  const transferProblem = findTransferProblem(realTimeLegs);
+
   const first = realTimeLegs[0];
   const last = realTimeLegs[realTimeLegs.length - 1];
 
@@ -135,6 +166,10 @@ function Navigator(
       {canceled && (
         <div className="notifiler">Osa matkan lähdöistä on peruttu</div>
       )}
+      {transferProblem && (
+        <div className="notifiler">{`Vaihto  ${transferProblem[0].route.shortName} - ${transferProblem[1].route.shortName} ei onnistu reittisuunnitelman mukaisesti`}</div>
+      )}
+
       <div className="info">{info}</div>
     </div>
   );
@@ -163,6 +198,7 @@ const withRelay = createFragmentContainer(Navigator, {
         id
         mode
         transitLeg
+        interlineWithPreviousLeg
         start {
           scheduledTime
           estimated {
@@ -178,6 +214,9 @@ const withRelay = createFragmentContainer(Navigator, {
         realtimeState
         legGeometry {
           points
+        }
+        route {
+          shortName
         }
         from {
           lat
