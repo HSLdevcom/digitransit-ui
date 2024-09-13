@@ -32,7 +32,7 @@ function NaviDestination({ leg, focusToLeg }) {
     <div className="navileg-destination-details">
       {toIcon && <Icon img={toIcon} className="navi-destination-icon" />}
       <div>
-        {stop ? stop?.name : placeName}
+        {stop?.name || placeName}
         {stop?.code && <StopCode code={stop.code} />}
         {stop?.platformCode && (
           <PlatformNumber
