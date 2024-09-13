@@ -206,7 +206,7 @@ export function planQueryNeeded(
 
     case PLANTYPE.SCOOTERTRANSIT:
       /* special logic: relaxed scooter query is made only if no networks allowed */
-      /* special logic: scooter queries are not made if the search is n minutes or more into the future */
+      /* special logic: scooter queries are not made if the search is n minutes or more into the future or if arrival time is too late */
       return (
         config.transportModes.scooter.availableForSelection &&
         transitModes.length > 0 &&
@@ -214,10 +214,10 @@ export function planQueryNeeded(
         (relaxSettings
           ? settings.scooterNetworks.length === 0
           : settings.scooterNetworks.length > 0) &&
-        moment(parseDateTime(arriveBy, time).earliestDeparture).diff(
-          moment(),
-          'minutes',
-        ) < config.vehicleRental.maxMinutesToRentalJourneyStart
+        ((arriveBy && time < Date.now() / 1000 + 12 * 60 * 60) || // arrive within 12 hours
+          (!arriveBy &&
+            (time - Date.now() / 1000) / 60 <
+              config.vehicleRental.maxMinutesToRentalJourneyStart)) // start within configure time
       );
     case PLANTYPE.PARKANDRIDE:
       return (
