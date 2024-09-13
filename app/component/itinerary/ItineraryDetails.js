@@ -391,6 +391,11 @@ const withRelay = createFragmentContainer(
           legGeometry {
             points
           }
+          steps {
+            entrance
+            lat
+            lon
+          }
           nextLegs(
             numberOfLegs: 2
             originModesWithParentStation: [RAIL]

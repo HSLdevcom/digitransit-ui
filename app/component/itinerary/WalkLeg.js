@@ -73,6 +73,7 @@ function WalkLeg(
           defaultMessage: 'scooter',
         })
       : leg.to?.name;
+  const entranceName = leg.steps?.find(step => step.entrance)?.entrance;
 
   return (
     <div key={index} className="row itinerary-row">
@@ -235,6 +236,11 @@ function WalkLeg(
                 defaultMessage="Entrance"
               />
               <Icon img="icon-icon_subway" />
+              {entranceName && entranceName !== 'MAIN_ENTRANCE' && (
+                <Icon
+                  img={`icon-icon_subway_entrance_${entranceName.toLowerCase()}`}
+                />
+              )}
             </div>
           )}
           <div className="itinerary-leg-action-content">
@@ -260,6 +266,11 @@ function WalkLeg(
             <div>
               <FormattedMessage id="station-exit" defaultMessage="Exit" />
               <Icon img="icon-icon_subway" />
+              {entranceName && entranceName !== 'MAIN_ENTRANCE' && (
+                <Icon
+                  img={`icon-icon_subway_entrance_${entranceName.toLowerCase()}`}
+                />
+              )}
             </div>
           )}
         </div>

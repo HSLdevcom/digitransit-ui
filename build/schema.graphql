@@ -2607,6 +2607,8 @@ type step {
   bogusName: Boolean
   "The distance in meters that this step takes."
   distance: Float
+  "The name of an station entrance"
+  entrance: String
   "The elevation profile as a list of { distance, elevation } values."
   elevationProfile: [elevationProfileComponent]
   "When exiting a highway or traffic circle, the exit name/number."

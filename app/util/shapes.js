@@ -219,6 +219,13 @@ export const legShape = PropTypes.shape({
   trip: tripShape,
   agency: agencyShape,
   fare: fareShape,
+  steps: PropTypes.arrayOf(
+    PropTypes.shape({
+      entrance: PropTypes.string,
+      lat: PropTypes.number,
+      lon: PropTypes.number,
+    }),
+  ),
   from: PropTypes.shape({
     name: PropTypes.string,
     stop: stopShape,

@@ -76,6 +76,11 @@ const planConnection = graphql`
             route {
               gtfsId
             }
+            steps {
+              entrance
+              lat
+              lon
+            }
             trip {
               gtfsId
               directionId

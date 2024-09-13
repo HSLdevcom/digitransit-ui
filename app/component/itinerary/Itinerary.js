@@ -89,7 +89,6 @@ export function RouteLeg(
   const isCallAgency = isCallAgencyPickupType(leg);
   let routeNumber;
   const mode = getRouteMode(leg.route);
-
   const getOccupancyStatus = () => {
     if (hasOneTransitLeg) {
       return getCapacityForLeg(config, leg);
