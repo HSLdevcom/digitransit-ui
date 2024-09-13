@@ -51,11 +51,12 @@ function Navigator(
       return legTime(leg.start) <= time && time <= legTime(leg.end);
     });
 
-    if (newLeg && newLeg.id !== currentLeg?.id) {
+    if (newLeg?.id !== currentLeg?.id) {
       setCurrentLeg(newLeg);
-      focusToLeg(newLeg, false);
+      if (newLeg) {
+        focusToLeg(newLeg, false);
+      }
     }
-
     const legQueries = [];
     itinerary.legs.forEach(leg => {
       if (leg.transitLeg) {
