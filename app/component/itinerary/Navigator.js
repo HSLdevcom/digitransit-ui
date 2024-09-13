@@ -11,6 +11,7 @@ const legQuery = graphql`
   query Navigator_legQuery($id: ID!) {
     node(id: $id) {
       ... on Leg {
+        id
         start {
           scheduledTime
           estimated {
