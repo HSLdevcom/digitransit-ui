@@ -192,6 +192,7 @@ class VehicleRentalStations {
   };
 
   shouldShowStation = (id, network) =>
+    this.config.vehicleRental.networks[network] &&
     (this.config.vehicleRental.networks[network].showRentalStations ===
       undefined ||
       this.config.vehicleRental.networks[network].showRentalStations) &&

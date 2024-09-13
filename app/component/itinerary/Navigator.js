@@ -85,8 +85,9 @@ function Navigator(
   }, [time]);
 
   const canceled = realTimeLegs.find(leg => leg.realtimeState === 'CANCELED');
-
   const first = realTimeLegs[0];
+  const last = realTimeLegs[realTimeLegs.length - 1];
+
   let info;
   if (time < legTime(first.start)) {
     info = (
@@ -97,13 +98,21 @@ function Navigator(
     );
   } else if (currentLeg) {
     if (!currentLeg.transitLeg) {
-      info = <NaviLeg leg={currentLeg} focusToLeg={focusToLeg} />;
+      const next = itinerary.legs.find(
+        leg => legTime(leg.start) > legTime(currentLeg.start),
+      );
+      info = (
+        <NaviLeg leg={currentLeg} focusToLeg={focusToLeg} nextLeg={next} />
+      );
     } else {
       info = `Tracking ${currentLeg?.mode} leg`;
     }
-  } else {
+  } else if (time > legTime(last.end)) {
     info = <FormattedMessage id="navigation-journey-end" />;
+  } else {
+    info = <FormattedMessage id="navigation-wait" />;
   }
+
   return (
     <div className="navigator">
       <div className="navigator-top-section">
@@ -175,6 +184,7 @@ const withRelay = createFragmentContainer(Navigator, {
         to {
           lat
           lon
+          name
           stop {
             name
             code
