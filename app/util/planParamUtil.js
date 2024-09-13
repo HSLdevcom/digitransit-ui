@@ -214,10 +214,12 @@ export function planQueryNeeded(
         (relaxSettings
           ? settings.scooterNetworks.length === 0
           : settings.scooterNetworks.length > 0) &&
-        ((arriveBy && time < Date.now() / 1000 + 12 * 60 * 60) || // arrive within 12 hours
-          (!arriveBy &&
-            (time - Date.now() / 1000) / 60 <
-              config.vehicleRental.maxMinutesToRentalJourneyStart)) // start within configure time
+        ((!arriveBy &&
+          (time - Date.now() / 1000) / 60 <
+            config.vehicleRental.maxMinutesToRentalJourneyStart) ||
+          (arriveBy &&
+            (time - Date.now() / 1000) / 60 / 60 <
+              config.vehicleRental.maxHoursToRentalJourneyEnd))
       );
     case PLANTYPE.PARKANDRIDE:
       return (
