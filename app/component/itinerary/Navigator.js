@@ -33,7 +33,7 @@ import NaviLeg from './NaviLeg';
 function Navigator({ itinerary, focusToLeg, setNavigation }, context) {
   const [time, setTime] = useState(Date.now());
   const [currentLeg, setCurrentLeg] = useState(null);
-  const [nextLeg, setNextLeg] = useState(null);
+
   // update view after every 5 seconds
   useEffect(() => {
     const interval = setInterval(() => {
@@ -51,11 +51,6 @@ function Navigator({ itinerary, focusToLeg, setNavigation }, context) {
     if (newLeg && newLeg !== currentLeg) {
       setCurrentLeg(newLeg);
       focusToLeg(newLeg, false);
-      // set nextLeg
-      const next = itinerary.legs.find(
-        leg => legTime(leg.start) > legTime(newLeg.start),
-      );
-      setNextLeg(next);
     }
   }, [time]);
   const first = itinerary.legs[0];
@@ -69,8 +64,11 @@ function Navigator({ itinerary, focusToLeg, setNavigation }, context) {
     );
   } else if (currentLeg) {
     if (!currentLeg.transitLeg) {
+      const next = itinerary.legs.find(
+        leg => legTime(leg.start) > legTime(currentLeg.start),
+      );
       info = (
-        <NaviLeg leg={currentLeg} focusToLeg={focusToLeg} nextLeg={nextLeg} />
+        <NaviLeg leg={currentLeg} focusToLeg={focusToLeg} nextLeg={next} />
       );
     } else {
       info = `Tracking ${currentLeg?.mode} leg`;
