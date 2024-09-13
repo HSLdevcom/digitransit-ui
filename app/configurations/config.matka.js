@@ -90,6 +90,7 @@ export default {
     'VARELY',
     'Harma',
     'PohjolanMatka',
+    'Korsisaari',
   ],
 
   additionalFeedIds: {
