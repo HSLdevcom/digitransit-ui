@@ -3,32 +3,13 @@ import PropTypes from 'prop-types';
 import { itineraryShape, relayShape } from '../../util/shapes';
 import Navigator from './Navigator';
 
-function NaviLabel({
-  itinerary,
-  focusToLeg,
-  setNavigation,
-  focusToPoint,
-  relayEnvironment,
-}) {
+function NaviLabel({ itinerary, focusToPoint, relayEnvironment }) {
   return (
-    <div
-      style={{
-        position: 'absolute',
-        zIndex: 99,
-        top: '17px',
-        border: '1px solid red',
-        width: '100%',
-        height: '70px',
-        textColor: 'white',
-        backgroundColor: '#007ac9',
-      }}
-    >
+    <div className="navigator-top-label">
       <Navigator
         itinerary={itinerary}
         focusToPoint={focusToPoint}
-        focusToLeg={focusToLeg}
         relayEnvironment={relayEnvironment}
-        setNavigation={setNavigation}
       />{' '}
     </div>
   );
@@ -36,8 +17,7 @@ function NaviLabel({
 
 NaviLabel.propTypes = {
   itinerary: itineraryShape.isRequired,
-  focusToLeg: PropTypes.func.isRequired,
-  setNavigation: PropTypes.func.isRequired,
+
   focusToPoint: PropTypes.func.isRequired,
   relayEnvironment: relayShape.isRequired,
 };

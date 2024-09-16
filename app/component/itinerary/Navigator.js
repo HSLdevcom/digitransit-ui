@@ -1,10 +1,8 @@
-import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
 import { createFragmentContainer, graphql } from 'react-relay';
 import { itineraryShape } from '../../util/shapes';
 import { legTime, legTimeStr } from '../../util/legUtils';
-import Icon from '../Icon';
 import NaviLeg from './NaviLeg';
 
 /*
@@ -30,7 +28,7 @@ import NaviLeg from './NaviLeg';
 `;
 */
 
-function Navigator({ itinerary, focusToLeg, setNavigation }, context) {
+function Navigator({ itinerary }) {
   const [time, setTime] = useState(Date.now());
   const [currentLeg, setCurrentLeg] = useState(null);
 
@@ -50,7 +48,6 @@ function Navigator({ itinerary, focusToLeg, setNavigation }, context) {
 
     if (newLeg && newLeg !== currentLeg) {
       setCurrentLeg(newLeg);
-      focusToLeg(newLeg, false);
     }
   }, [time]);
   const first = itinerary.legs[0];
@@ -68,9 +65,7 @@ function Navigator({ itinerary, focusToLeg, setNavigation }, context) {
       const next = itinerary.legs.find(
         leg => legTime(leg.start) > legTime(currentLeg.start),
       );
-      info = (
-        <NaviLeg leg={currentLeg} focusToLeg={focusToLeg} nextLeg={next} />
-      );
+      info = <NaviLeg leg={currentLeg} nextLeg={next} />;
     } else {
       info = `Tracking ${currentLeg?.mode} leg`;
     }
@@ -82,21 +77,6 @@ function Navigator({ itinerary, focusToLeg, setNavigation }, context) {
 
   return (
     <div className="navigator">
-      <div className="navigator-top-section">
-        <FormattedMessage id="navigation-header" />
-        <button
-          type="button"
-          aria-label={context.intl.formatMessage({
-            id: 'navigation-label-close',
-            defaultMessage: 'Close the navigator view',
-          })}
-          onClick={() => setNavigation(false)}
-          className="close-navigator"
-        >
-          <Icon img="icon-icon_close" className="close-navigator-icon" />
-        </button>
-      </div>
-      <div className="divider" />
       <div className="info">{info}</div>
     </div>
   );
@@ -104,8 +84,6 @@ function Navigator({ itinerary, focusToLeg, setNavigation }, context) {
 
 Navigator.propTypes = {
   itinerary: itineraryShape.isRequired,
-  focusToLeg: PropTypes.func.isRequired,
-  setNavigation: PropTypes.func.isRequired,
   /*
   focusToPoint: PropTypes.func.isRequired,
   relayEnvironment: relayShape.isRequired,

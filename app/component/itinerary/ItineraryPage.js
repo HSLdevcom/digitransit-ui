@@ -20,7 +20,6 @@ import ItineraryListContainer from './ItineraryListContainer';
 import { spinnerPosition } from './ItineraryList';
 import ItineraryPageControls from './ItineraryPageControls';
 import ItineraryTabs from './ItineraryTabs';
-import Navigator from './Navigator';
 import { getWeatherData } from '../../util/apiUtils';
 import Loading from '../Loading';
 import { getItineraryPagePath, streetHash } from '../../util/path';
@@ -1078,15 +1077,7 @@ export default function ItineraryPage(props, context) {
     );
   } else if (detailView) {
     if (navigation) {
-      content = (
-        <Navigator
-          itinerary={combinedEdges[selectedIndex]?.node}
-          focusToPoint={focusToPoint}
-          focusToLeg={focusToLeg}
-          relayEnvironment={props.relayEnvironment}
-          setNavigation={setNavigation}
-        />
-      );
+      content = null;
     } else {
       let carEmissions = carPlan?.edges?.[0]?.node.emissionsPerPerson?.co2;
       const pastSearch =
