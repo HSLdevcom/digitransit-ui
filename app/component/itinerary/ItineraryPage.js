@@ -821,7 +821,6 @@ export default function ItineraryPage(props, context) {
 
   const focusToPoint = (lat, lon, maximize = true) => {
     if (breakpoint !== 'large' && maximize) {
-      window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
       expandMapRef.current += 1;
     }
     navigateMap();
@@ -830,7 +829,6 @@ export default function ItineraryPage(props, context) {
 
   const focusToLeg = (leg, maximize = true) => {
     if (breakpoint !== 'large' && maximize) {
-      window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
       expandMapRef.current += 1;
     }
     navigateMap();
