@@ -591,7 +591,6 @@ export default function ItineraryPage(props, context) {
   const setNavigation = enable => {
     setNaviMode(enable);
     if (enable) {
-      window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
       expandMapRef.current += 1;
     }
   };
