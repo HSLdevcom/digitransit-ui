@@ -1,10 +1,9 @@
-import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import { FormattedMessage, intlShape } from 'react-intl';
 import { createFragmentContainer, graphql, fetchQuery } from 'react-relay';
 import { itineraryShape, relayShape } from '../../util/shapes';
 import { legTime, legTimeStr } from '../../util/legUtils';
-import Icon from '../Icon';
 import NaviLeg from './NaviLeg';
 
 const TRANSFER_SLACK = 60000; // milliseconds
@@ -59,10 +58,7 @@ function findTransferProblem(legs) {
   return null;
 }
 
-function Navigator(
-  { itinerary, focusToLeg, setNavigation, relayEnvironment },
-  context,
-) {
+function Navigator({ itinerary, focusToLeg, relayEnvironment }) {
   const [time, setTime] = useState(Date.now());
   const [currentLeg, setCurrentLeg] = useState(null);
   const [realTimeLegs, setRealTimeLegs] = useState(itinerary.legs);
@@ -134,9 +130,7 @@ function Navigator(
       const next = itinerary.legs.find(
         leg => legTime(leg.start) > legTime(currentLeg.start),
       );
-      info = (
-        <NaviLeg leg={currentLeg} focusToLeg={focusToLeg} nextLeg={next} />
-      );
+      info = <NaviLeg leg={currentLeg} nextLeg={next} />;
     } else {
       info = `Tracking ${currentLeg?.mode} leg`;
     }
@@ -148,21 +142,6 @@ function Navigator(
 
   return (
     <div className="navigator">
-      <div className="navigator-top-section">
-        <FormattedMessage id="navigation-header" />
-        <button
-          type="button"
-          aria-label={context.intl.formatMessage({
-            id: 'navigation-label-close',
-            defaultMessage: 'Close the navigator view',
-          })}
-          onClick={() => setNavigation(false)}
-          className="close-navigator"
-        >
-          <Icon img="icon-icon_close" className="close-navigator-icon" />
-        </button>
-      </div>
-      <div className="divider" />
       {canceled && (
         <div className="notifiler">Osa matkan lähdöistä on peruttu</div>
       )}
@@ -178,7 +157,6 @@ function Navigator(
 Navigator.propTypes = {
   itinerary: itineraryShape.isRequired,
   focusToLeg: PropTypes.func.isRequired,
-  setNavigation: PropTypes.func.isRequired,
   relayEnvironment: relayShape.isRequired,
   /*
   focusToPoint: PropTypes.func.isRequired,
