@@ -31,34 +31,34 @@ const legQuery = graphql`
   }
 `;
 
-function Navigator({ itinerary, focusToLeg, relayEnvironment }) {
-  function findTransferProblem(legs) {
-    for (let i = 1; i < legs.length - 1; i++) {
-      const prev = legs[i - 1];
-      const leg = legs[i];
-      const next = legs[i + 1];
+function findTransferProblem(legs) {
+  for (let i = 1; i < legs.length - 1; i++) {
+    const prev = legs[i - 1];
+    const leg = legs[i];
+    const next = legs[i + 1];
 
-      if (prev.transitLeg && leg.transitLeg && !leg.interlineWithPreviousLeg) {
-        // transfer at a stop
-        if (legTime(leg.start) - legTime(prev.end) < TRANSFER_SLACK) {
-          return [prev, leg];
-        }
-      }
-
-      if (prev.transitLeg && next.transitLeg && !leg.transitLeg) {
-        // transfer with some walking
-        const t1 = legTime(prev.end);
-        const t2 = legTime(next.start);
-        const transferDuration = legTime(leg.end) - legTime(leg.start);
-        const slack = t2 - t1 - transferDuration;
-        if (slack < TRANSFER_SLACK) {
-          return [prev, next];
-        }
+    if (prev.transitLeg && leg.transitLeg && !leg.interlineWithPreviousLeg) {
+      // transfer at a stop
+      if (legTime(leg.start) - legTime(prev.end) < TRANSFER_SLACK) {
+        return [prev, leg];
       }
     }
-    return null;
-  }
 
+    if (prev.transitLeg && next.transitLeg && !leg.transitLeg) {
+      // transfer with some walking
+      const t1 = legTime(prev.end);
+      const t2 = legTime(next.start);
+      const transferDuration = legTime(leg.end) - legTime(leg.start);
+      const slack = t2 - t1 - transferDuration;
+      if (slack < TRANSFER_SLACK) {
+        return [prev, next];
+      }
+    }
+  }
+  return null;
+}
+
+function Navigator({ itinerary, focusToLeg, relayEnvironment }) {
   const [time, setTime] = useState(Date.now());
   const [currentLeg, setCurrentLeg] = useState(null);
   const [realTimeLegs, setRealTimeLegs] = useState(itinerary.legs);
