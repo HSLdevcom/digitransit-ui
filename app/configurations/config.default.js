@@ -350,7 +350,7 @@ export default {
     maxNearbyRentalVehicleAmount: 5,
     maxDistanceToRentalVehiclesInMeters: 100,
     maxMinutesToRentalJourneyStart: 60,
-    maxHoursToRentalJourneyEnd: 12,
+    maxMinutesToRentalJourneyEnd: 720,
     allowDirectScooterJourneys: false,
   },
 

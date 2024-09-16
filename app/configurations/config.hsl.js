@@ -526,6 +526,7 @@ export default {
         url: 'https://www.hsl.fi/hsl/uutiset/teemat/potkulaudat',
       },
     },
+    maxMinutesToRentalJourneyEnd: 240,
   },
 
   showVehiclesOnItineraryPage: true,
