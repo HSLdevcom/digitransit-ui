@@ -58,25 +58,18 @@
   .navigator {
     margin-bottom: 5px;
 
-    .navigator-top-section {
-      font-size: $font-size-xsmall;
-      text-align: center;
-      margin-top: 10px;
-
-      .close-navigator {
-        position: absolute;
-        right: 0;
-        padding-right: 20px;
-        color: $secondary-color;
-      }
-    }
-
     .divider {
       width: 100%;
       height: 1px;
       border-top: 1px solid #ddd;
       margin-bottom: 10px;
       margin-top: 10px;
+    }
+
+    .notifier {
+      margin: 15px 20px 0 20px;
+      width: 100%;
+      color: red;
     }
 
     .info {

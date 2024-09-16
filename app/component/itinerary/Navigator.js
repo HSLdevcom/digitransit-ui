@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import { FormattedMessage, intlShape } from 'react-intl';
-import { createFragmentContainer, graphql } from 'react-relay';
-import { itineraryShape } from '../../util/shapes';
+import { createFragmentContainer, graphql, fetchQuery } from 'react-relay';
+import { itineraryShape, relayShape } from '../../util/shapes';
 import { legTime, legTimeStr } from '../../util/legUtils';
 import NaviLeg from './NaviLeg';
 
-/*
-  const legQuery = graphql`
-  query legQuery($id: String!) {
+const TRANSFER_SLACK = 60000; // milliseconds
+
+const legQuery = graphql`
+  query Navigator_legQuery($id: ID!) {
     node(id: $id) {
       ... on Leg {
+        id
         start {
           scheduledTime
           estimated {
@@ -22,36 +25,98 @@ import NaviLeg from './NaviLeg';
             time
           }
         }
+        realtimeState
       }
     }
   }
 `;
-*/
 
-function Navigator({ itinerary }) {
+function Navigator({ itinerary, focusToLeg, relayEnvironment }) {
+  function findTransferProblem(legs) {
+    for (let i = 1; i < legs.length - 1; i++) {
+      const prev = legs[i - 1];
+      const leg = legs[i];
+      const next = legs[i + 1];
+
+      if (prev.transitLeg && leg.transitLeg && !leg.interlineWithPreviousLeg) {
+        // transfer at a stop
+        if (legTime(leg.start) - legTime(prev.end) < TRANSFER_SLACK) {
+          return [prev, leg];
+        }
+      }
+
+      if (prev.transitLeg && next.transitLeg && !leg.transitLeg) {
+        // transfer with some walking
+        const t1 = legTime(prev.end);
+        const t2 = legTime(next.start);
+        const transferDuration = legTime(leg.end) - legTime(leg.start);
+        const slack = t2 - t1 - transferDuration;
+        if (slack < TRANSFER_SLACK) {
+          return [prev, next];
+        }
+      }
+    }
+    return null;
+  }
+
   const [time, setTime] = useState(Date.now());
   const [currentLeg, setCurrentLeg] = useState(null);
+  const [realTimeLegs, setRealTimeLegs] = useState(itinerary.legs);
 
-  // update view after every 5 seconds
+  // update view after every 10 seconds
   useEffect(() => {
     const interval = setInterval(() => {
       setTime(Date.now());
-    }, 5000);
+    }, 10000);
 
     return () => clearInterval(interval);
   }, []);
 
   useEffect(() => {
-    const newLeg = itinerary.legs.find(leg => {
+    const newLeg = realTimeLegs.find(leg => {
       return legTime(leg.start) <= time && time <= legTime(leg.end);
     });
 
-    if (newLeg && newLeg !== currentLeg) {
+    if (newLeg?.id !== currentLeg?.id) {
       setCurrentLeg(newLeg);
+      if (newLeg) {
+        focusToLeg(newLeg, false);
+      }
+    }
+    const legQueries = [];
+    itinerary.legs.forEach(leg => {
+      if (leg.transitLeg) {
+        legQueries.push(
+          fetchQuery(
+            relayEnvironment,
+            legQuery,
+            { id: leg.id },
+            { force: true },
+          ).toPromise(),
+        );
+      }
+    });
+    if (legQueries.length) {
+      Promise.all(legQueries).then(responses => {
+        const legMap = {};
+        responses.forEach(data => {
+          legMap[data.node.id] = data.node;
+        });
+        const rtLegs = itinerary.legs.map(l => {
+          const rtLeg = legMap[l.id];
+          return rtLeg ? { ...l, ...rtLeg } : { ...l };
+        });
+        setRealTimeLegs(rtLegs);
+      });
     }
   }, [time]);
-  const first = itinerary.legs[0];
-  const last = itinerary.legs[itinerary.legs.length - 1];
+
+  const canceled = realTimeLegs.find(leg => leg.realtimeState === 'CANCELED');
+  const transferProblem = findTransferProblem(realTimeLegs);
+
+  const first = realTimeLegs[0];
+  const last = realTimeLegs[realTimeLegs.length - 1];
+
   let info;
   if (time < legTime(first.start)) {
     info = (
@@ -77,6 +142,13 @@ function Navigator({ itinerary }) {
 
   return (
     <div className="navigator">
+      {canceled && (
+        <div className="notifiler">Osa matkan lähdöistä on peruttu</div>
+      )}
+      {transferProblem && (
+        <div className="notifiler">{`Vaihto  ${transferProblem[0].route.shortName} - ${transferProblem[1].route.shortName} ei onnistu reittisuunnitelman mukaisesti`}</div>
+      )}
+
       <div className="info">{info}</div>
     </div>
   );
@@ -84,9 +156,10 @@ function Navigator({ itinerary }) {
 
 Navigator.propTypes = {
   itinerary: itineraryShape.isRequired,
+  focusToLeg: PropTypes.func.isRequired,
+  relayEnvironment: relayShape.isRequired,
   /*
   focusToPoint: PropTypes.func.isRequired,
-  relayEnvironment: relayShape.isRequired,
   */
 };
 
@@ -100,8 +173,10 @@ const withRelay = createFragmentContainer(Navigator, {
       start
       end
       legs {
+        id
         mode
         transitLeg
+        interlineWithPreviousLeg
         start {
           scheduledTime
           estimated {
@@ -114,8 +189,12 @@ const withRelay = createFragmentContainer(Navigator, {
             time
           }
         }
+        realtimeState
         legGeometry {
           points
+        }
+        route {
+          shortName
         }
         from {
           lat
