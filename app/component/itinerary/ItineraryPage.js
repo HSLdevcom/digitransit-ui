@@ -68,7 +68,7 @@ import CustomizeSearch from './CustomizeSearch';
 import { getAllNetworksOfType } from '../../util/vehicleRentalUtils';
 import { TransportMode } from '../../constants';
 import { mapLayerShape } from '../../store/MapLayerStore';
-import NaviLabel from './NaviLabel';
+import NaviLabel from './NaviContainer';
 
 const MAX_QUERY_COUNT = 4; // number of attempts to collect enough itineraries
 

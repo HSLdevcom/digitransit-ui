@@ -47,13 +47,12 @@
   position: absolute;
   z-index: 3;
   top: 17px;
-  border: 1px solid #007ac9;
   width: 90%;
   margin-left: 5%;
   border-radius: 15px;
   height: 70px;
   color: white;
-  background-color: #007ac9;
+  background-color: $primary-color;
 
   .navigator {
     margin-bottom: 5px;
