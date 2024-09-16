@@ -349,6 +349,9 @@ export default {
     },
     maxNearbyRentalVehicleAmount: 5,
     maxDistanceToRentalVehiclesInMeters: 100,
+    maxMinutesToRentalJourneyStart: 60,
+    maxMinutesToRentalJourneyEnd: 720,
+    allowDirectScooterJourneys: false,
   },
 
   // Lowest level for stops and terminals are rendered
@@ -379,7 +382,7 @@ export default {
       'mode-rail': '#af8dbc',
       'mode-ferry': '#247C7B',
       'mode-citybike': '#f2b62d',
-      'mode-scooter': '#BABABA',
+      'mode-scooter': '#C5CAD2',
     },
   },
   iconModeSet: 'digitransit',

@@ -512,6 +512,21 @@ export default {
       sv: 'https://www.hsl.fi/sv/stadscyklar?utm_campaign=kaupunkipyorat-omat&utm_source=reittiopas&utm_medium=referral#block-28474',
       en: 'https://www.hsl.fi/en/citybikes?utm_campaign=kaupunkipyorat-omat&utm_source=reittiopas&utm_medium=referral#block-28474',
     },
+    scooterInfoLink: {
+      fi: {
+        text: 'Potkulaudat',
+        url: 'https://www.hsl.fi/hsl/uutiset/teemat/potkulaudat',
+      },
+      en: {
+        text: 'Scooters',
+        url: 'https://www.hsl.fi/hsl/uutiset/teemat/potkulaudat',
+      },
+      sv: {
+        text: 'Elsparkcyklar',
+        url: 'https://www.hsl.fi/hsl/uutiset/teemat/potkulaudat',
+      },
+    },
+    maxMinutesToRentalJourneyEnd: 240,
   },
 
   showVehiclesOnItineraryPage: true,

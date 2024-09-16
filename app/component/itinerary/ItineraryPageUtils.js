@@ -358,10 +358,10 @@ export function transitEdges(edges) {
 /**
  * Filters away itineraries that
  * 1. don't use scooters
- * 2. only use scooters
+ * 2. only use scooters (unless allowed by allowDirectScooterJourneys)
  * 3. use scooters that are not vehicles
  */
-export function scooterEdges(edges) {
+export function scooterEdges(edges, allowDirectScooterJourneys) {
   if (!edges) {
     return [];
   }
@@ -385,7 +385,11 @@ export function scooterEdges(edges) {
       }
     });
 
-    if (hasScooterLeg && hasNonScooterLeg && allScooterLegsHaveRentalVehicle) {
+    if (
+      hasScooterLeg &&
+      allScooterLegsHaveRentalVehicle &&
+      (hasNonScooterLeg || allowDirectScooterJourneys)
+    ) {
       filteredEdges.push(edge);
     }
   });
@@ -462,9 +466,16 @@ export function mergeBikeTransitPlans(bikeParkPlan, bikeTransitPlan) {
 /**
  * Combine a scooter edge with the main transit edges.
  */
-export function mergeScooterTransitPlan(scooterPlan, transitPlan) {
+export function mergeScooterTransitPlan(
+  scooterPlan,
+  transitPlan,
+  allowDirectScooterJourneys,
+) {
   const transitPlanEdges = transitPlan.edges || [];
-  const scooterTransitEdges = scooterEdges(scooterPlan.edges);
+  const scooterTransitEdges = scooterEdges(
+    scooterPlan.edges,
+    allowDirectScooterJourneys,
+  );
   const maxTransitEdges =
     scooterTransitEdges.length > 0 ? 4 : transitPlanEdges.length;
 
