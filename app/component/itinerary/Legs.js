@@ -28,6 +28,7 @@ import {
 } from '../../util/legUtils';
 import { getRouteMode } from '../../util/modeUtils';
 import { addAnalyticsEvent } from '../../util/analyticsUtils';
+import { getFeedWithoutId, isExternalFeed } from '../../util/feedScopedIdUtils';
 import Profile from './Profile';
 import BikeParkLeg from './BikeParkLeg';
 
@@ -188,7 +189,11 @@ export default class Legs extends React.Component {
         !leg.interlineWithPreviousLeg
       ) {
         const mode = getRouteMode({ mode: leg.mode, type: leg.route?.type });
-        legs.push(<TransitLeg mode={mode} {...transitLegProps} />);
+        const feedId = getFeedWithoutId(leg.route?.gtfsId);
+        const changedMode = isExternalFeed(feedId, this.context.config)
+          ? `${mode}-external`
+          : mode;
+        legs.push(<TransitLeg mode={changedMode} {...transitLegProps} />);
       } else if (leg.mode === 'AIRPLANE') {
         legs.push(
           <AirportCheckInLeg

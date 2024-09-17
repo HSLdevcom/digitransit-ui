@@ -27,6 +27,7 @@ import {
 import { dateOrEmpty, isTomorrow, timeStr } from '../../util/timeUtils';
 import withBreakpoint from '../../util/withBreakpoint';
 import { isKeyboardSelectionEvent } from '../../util/browser';
+import { getFeedWithoutId, isExternalFeed } from '../../util/feedScopedIdUtils';
 import {
   BIKEAVL_UNKNOWN,
   getRentalNetworkIcon,
@@ -97,6 +98,8 @@ export function RouteLeg(
     return undefined;
   };
 
+  const feedId = getFeedWithoutId(leg.route?.gtfsId);
+
   if (isCallAgency) {
     const message = intl.formatMessage({
       id: 'pay-attention',
@@ -126,6 +129,7 @@ export function RouteLeg(
         isTransitLeg={isTransitLeg}
         withBicycle={withBicycle}
         occupancyStatus={getOccupancyStatus()}
+        externalFeed={isExternalFeed(feedId, config)}
       />
     );
   }

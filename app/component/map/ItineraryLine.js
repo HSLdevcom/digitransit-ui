@@ -20,6 +20,7 @@ import {
 import SpeechBubble from './SpeechBubble';
 import { durationToString } from '../../util/timeUtils';
 import TransitLegMarkers from './non-tile-layer/TransitLegMarkers';
+import { getFeedWithoutId, isExternalFeed } from '../../util/feedScopedIdUtils';
 
 class ItineraryLine extends React.Component {
   static contextTypes = {
@@ -108,6 +109,10 @@ class ItineraryLine extends React.Component {
         end = interliningLegs[interliningLegs.length - 1].end;
       }
 
+      const feedId = getFeedWithoutId(leg.route?.gtfsId);
+      mode = isExternalFeed(feedId, this.context.config)
+        ? `${mode}-external`
+        : mode;
       objs.push(
         <Line
           color={leg.route && leg.route.color ? `#${leg.route.color}` : null}
@@ -260,6 +265,7 @@ export default createFragmentContainer(ItineraryLine, {
       transitLeg
       interlineWithPreviousLeg
       route {
+        gtfsId
         shortName
         color
         type

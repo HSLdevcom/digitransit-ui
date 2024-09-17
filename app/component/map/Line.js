@@ -111,18 +111,27 @@ export default class Line extends React.Component {
       legWeight *= 0.5;
     }
 
+    // The halo is not needed for lines that use the external color.
+    // At least currently the outline (halo) is very visible with the external gray color.
+    const displayHalo = !(
+      this.context.config.internalFeedIds !== undefined &&
+      this.props.mode.includes('external')
+    );
+
     return (
       <div style={{ display: 'none' }}>
-        <Polyline
-          key="halo"
-          ref={el => {
-            this.halo = el;
-          }}
-          positions={filteredPoints}
-          className={`leg-halo ${className}`}
-          weight={haloWeight}
-          interactive={false}
-        />
+        {displayHalo && (
+          <Polyline
+            key="halo"
+            ref={el => {
+              this.halo = el;
+            }}
+            positions={filteredPoints}
+            className={`leg-halo ${className}`}
+            weight={haloWeight}
+            interactive={false}
+          />
+        )}
         <Polyline
           key="line"
           ref={el => {
