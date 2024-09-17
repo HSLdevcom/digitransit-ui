@@ -177,6 +177,8 @@ const withRelay = createFragmentContainer(Navigator, {
         mode
         transitLeg
         interlineWithPreviousLeg
+        distance
+        duration
         start {
           scheduledTime
           estimated {
