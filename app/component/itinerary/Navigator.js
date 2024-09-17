@@ -63,6 +63,7 @@ function Navigator({ itinerary, focusToLeg, relayEnvironment }) {
   const [time, setTime] = useState(Date.now());
   const [currentLeg, setCurrentLeg] = useState(null);
   const [realTimeLegs, setRealTimeLegs] = useState(itinerary.legs);
+
   // update view after every 10 seconds
   useEffect(() => {
     const interval = setInterval(() => {
