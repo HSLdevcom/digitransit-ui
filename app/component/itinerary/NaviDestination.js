@@ -1,21 +1,30 @@
 import React from 'react';
 import { intlShape } from 'react-intl';
-import { legShape } from '../../util/shapes';
+import { legShape, configShape } from '../../util/shapes';
+import { displayDistance } from '../../util/geo-utils';
+import { durationToString } from '../../util/timeUtils';
 
-function NaviDestination({ leg }) {
+function NaviDestination({ leg }, { config, intl }) {
   const { stop, rentalVehicle, vehicleParking, vehicleRentalStation, name } =
     leg.to;
+  const { distance, duration } = leg;
   const plat = `Laituri: ${stop?.platformCode}`;
   return (
     <div className="navileg-destination-details">
       <div>
         {stop?.name || name} &nbsp;
         {stop?.code} &nbsp;
-        {stop?.platformCode && plat}
+        {stop?.platformCode && <>&bull; {plat}</>}
         {rentalVehicle?.rentalNetwork.networkId}
         {vehicleParking?.name}
         {vehicleRentalStation?.rentalNetwork.networkId}&nbsp;
         {vehicleRentalStation?.name}
+        {distance && (
+          <div>
+            {durationToString(duration * 1000)} (
+            {displayDistance(distance, config, intl.formatNumber)})
+          </div>
+        )}
       </div>
     </div>
   );
@@ -27,6 +36,7 @@ NaviDestination.propTypes = {
 
 NaviDestination.contextTypes = {
   intl: intlShape.isRequired,
+  config: configShape.isRequired,
 };
 
 export default NaviDestination;

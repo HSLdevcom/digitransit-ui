@@ -13,6 +13,7 @@ const legQuery = graphql`
     node(id: $id) {
       ... on Leg {
         id
+        distance
         start {
           scheduledTime
           estimated {
@@ -62,7 +63,6 @@ function Navigator({ itinerary, focusToLeg, relayEnvironment }) {
   const [time, setTime] = useState(Date.now());
   const [currentLeg, setCurrentLeg] = useState(null);
   const [realTimeLegs, setRealTimeLegs] = useState(itinerary.legs);
-
   // update view after every 10 seconds
   useEffect(() => {
     const interval = setInterval(() => {
@@ -177,6 +177,8 @@ const withRelay = createFragmentContainer(Navigator, {
         mode
         transitLeg
         interlineWithPreviousLeg
+        distance
+        duration
         start {
           scheduledTime
           estimated {
