@@ -12,10 +12,15 @@ const HSLTimetables = require('./timetableConfigUtils').default.HSL;
 const HSLParkAndRideUtils = require('../util/ParkAndRideUtils').default.HSL;
 
 const rootLink = process.env.ROOTLINK || 'https://test.hslfi.hsldev.com';
-const BANNER_URL =
-  process.env.BANNER_URL ||
-  'https://cms-test.hslfi.hsldev.com/api/v1/banners?site=JourneyPlanner';
-// 'https://content.hsl.fi/api/v1/banners?site=JourneyPlanner';
+
+const BANNER_URL = process.env.CONTENT_DOMAIN
+  ? `${process.env.CONTENT_DOMAIN}/api/v1/banners?site=JourneyPlanner`
+  : process.env.BANNER_URL ||
+    'https://cms-test.hslfi.hsldev.com/api/v1/banners?site=JourneyPlanner';
+const SUGGESTION_URL = process.env.CONTENT_DOMAIN
+  ? `${process.env.CONTENT_DOMAIN}/api/v1/search/suggestions`
+  : 'https://content.hsl.fi/api/v1/search/suggestions'; // old url
+
 const localStorageEmitter =
   process.env.USE_EMITTER && rootLink + '/local-storage-emitter';
 
@@ -54,7 +59,7 @@ export default {
     FONTCOUNTER: 'https://cloud.typography.com/6364294/7432412/css/fonts.css',
     ROOTLINK: rootLink,
     BANNERS: BANNER_URL,
-    HSL_FI_SUGGESTIONS: 'https://content.hsl.fi/api/v1/search/suggestions',
+    HSL_FI_SUGGESTIONS: SUGGESTION_URL,
     EMBEDDED_SEARCH_GENERATION: '/reittiopas-elementti',
     EMISSIONS_INFO: {
       fi: 'https://www.hsl.fi/hsl/sahkobussit/ymparisto-lukuina',
