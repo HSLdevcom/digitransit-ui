@@ -430,9 +430,11 @@ const Itinerary = (
       leg.rentedBike
     ) {
       const bikingTime = Math.floor(leg.duration / 60);
-      // eslint-disable-next-line prefer-destructuring
-      bikeNetwork = leg.from.vehicleRentalStation.rentalNetwork.networkId;
+      bikeNetwork =
+        leg.from.vehicleRentalStation?.rentalNetwork.networkId ||
+        leg.from.rentalVehicle?.rentalNetwork.networkId;
       if (
+        bikeNetwork &&
         config.vehicleRental.networks &&
         config.vehicleRental.networks[bikeNetwork]?.timeBeforeSurcharge &&
         config.vehicleRental.networks[bikeNetwork]?.durationInstructions
