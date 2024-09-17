@@ -13,8 +13,6 @@ const legQuery = graphql`
     node(id: $id) {
       ... on Leg {
         id
-        distance
-        duration
         start {
           scheduledTime
           estimated {
