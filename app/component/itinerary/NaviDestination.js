@@ -19,7 +19,7 @@ function NaviDestination({ leg }, { config, intl }) {
         {vehicleParking?.name}
         {vehicleRentalStation?.rentalNetwork.networkId}&nbsp;
         {vehicleRentalStation?.name}
-        {distance && (
+        {distance && duration && (
           <div>
             {durationToString(duration * 1000)} (
             {displayDistance(distance, config, intl.formatNumber)})
