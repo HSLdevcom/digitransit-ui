@@ -20,6 +20,7 @@ import ItineraryListContainer from './ItineraryListContainer';
 import { spinnerPosition } from './ItineraryList';
 import ItineraryPageControls from './ItineraryPageControls';
 import ItineraryTabs from './ItineraryTabs';
+import NaviBottom from './NaviBottom';
 import { getWeatherData } from '../../util/apiUtils';
 import Loading from '../Loading';
 import { getItineraryPagePath, streetHash } from '../../util/path';
@@ -68,7 +69,7 @@ import CustomizeSearch from './CustomizeSearch';
 import { getAllNetworksOfType } from '../../util/vehicleRentalUtils';
 import { TransportMode } from '../../constants';
 import { mapLayerShape } from '../../store/MapLayerStore';
-import NaviLabel from './NaviContainer';
+import NaviContainer from './NaviContainer';
 
 const MAX_QUERY_COUNT = 4; // number of attempts to collect enough itineraries
 
@@ -140,7 +141,7 @@ export default function ItineraryPage(props, context) {
   const [weatherState, setWeatherState] = useState({ loading: false });
   const [topicsState, setTopicsState] = useState(null);
   const [mapState, setMapState] = useState({});
-  const [navigation, setNavigation] = useState(false);
+  const [naviMode, setNaviMode] = useState(false);
 
   const { config, router } = context;
   const { match, breakpoint } = props;
@@ -587,6 +588,13 @@ export default function ItineraryPage(props, context) {
     }
   };
 
+  const setNavigation = enable => {
+    setNaviMode(enable);
+    if (enable) {
+      expandMapRef.current += 1;
+    }
+  };
+
   // save url-defined location to old searches
   function saveUrlSearch(endpoint) {
     const parts = endpoint.split('::'); // label::lat,lon
@@ -734,7 +742,7 @@ export default function ItineraryPage(props, context) {
       if (altLoadingDone() && !mapHashToPlan()?.edges?.length) {
         selectStreetMode(); // back to root view
       }
-    } else if (navigation) {
+    } else if (naviMode) {
       // turn off tracking when user navigates away from tracking view
       setNavigation(false);
     }
@@ -813,7 +821,6 @@ export default function ItineraryPage(props, context) {
 
   const focusToPoint = (lat, lon, maximize = true) => {
     if (breakpoint !== 'large' && maximize) {
-      window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
       expandMapRef.current += 1;
     }
     navigateMap();
@@ -822,7 +829,6 @@ export default function ItineraryPage(props, context) {
 
   const focusToLeg = (leg, maximize = true) => {
     if (breakpoint !== 'large' && maximize) {
-      window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
       expandMapRef.current += 1;
     }
     navigateMap();
@@ -966,8 +972,8 @@ export default function ItineraryPage(props, context) {
     );
     return (
       <>
-        {navigation && (
-          <NaviLabel
+        {naviMode && (
+          <NaviContainer
             itinerary={combinedEdges[selectedIndex]?.node}
             focusToPoint={focusToPoint}
             focusToLeg={focusToLeg}
@@ -1075,8 +1081,8 @@ export default function ItineraryPage(props, context) {
       </div>
     );
   } else if (detailView) {
-    if (navigation) {
-      content = null;
+    if (naviMode) {
+      content = <NaviBottom setNavigation={setNavigation} />;
     } else {
       let carEmissions = carPlan?.edges?.[0]?.node.emissionsPerPerson?.co2;
       const pastSearch =
