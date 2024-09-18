@@ -8,11 +8,13 @@ const BOTTOM_SHEET_OFFSET = 20;
 const topBarHeight = 64;
 
 function getMiddlePosition() {
-  return (window.innerHeight - topBarHeight) * 0.45;
+  return Math.floor((window.innerHeight - topBarHeight) * 0.45);
 }
 
-function slowlyScrollTo(el, to = BOTTOM_SHEET_OFFSET, duration = 1000) {
+function slowlyScrollTo(el) {
   const element = el;
+  const to = BOTTOM_SHEET_OFFSET;
+  const duration = 500;
   const start = element.scrollTop;
   const change = to - start;
   const increment = 20;
@@ -71,7 +73,6 @@ export default function MobileView({
     if (map && expandMap) {
       if (expandMap.position === 'bottom') {
         slowlyScrollTo(scrollRef.current);
-        setBottomPadding(0);
       } else {
         const newSheetPosition = getMiddlePosition();
         scrollRef.current.scrollTop = newSheetPosition;
@@ -81,11 +82,12 @@ export default function MobileView({
   }, [expandMap]);
 
   const onScroll = e => {
-    if (map) {
-      if (e.target.className === 'drawer-container') {
-        const scroll = e.target.scrollTop;
-        setBottomPadding(scroll);
-      }
+    if (map && e.target.className === 'drawer-container') {
+      const scroll = Math.min(
+        e.target.scrollTop,
+        window.innerHeight - topBarHeight,
+      );
+      setBottomPadding(scroll);
     }
   };
 
