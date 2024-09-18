@@ -30,7 +30,7 @@ import { mapLayerShape } from '../../store/MapLayerStore';
 
 const zoomOutText = `<svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-icon_minus"/></svg>`;
 const zoomInText = `<svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-icon_plus"/></svg>`;
-const BOTTOM_EXTRA_PADDING = 60; // margin on bottom when focusing the map
+const EXTRA_PADDING = 100; // margin on bottom and top when focusing the map
 
 /* foo-eslint-disable react/sort-comp */
 
@@ -116,7 +116,7 @@ export default class Map extends React.Component {
   constructor(props) {
     super(props);
     this.state = { zoom: 14 };
-    this.boundsOptions = {};
+    this.boundsOptions = { paddingTopLeft: [0, EXTRA_PADDING] };
   }
 
   updateZoom = () => {
@@ -191,9 +191,10 @@ export default class Map extends React.Component {
     if (bottomPadding !== undefined) {
       this.boundsOptions.paddingBottomRight = [
         0,
-        bottomPadding + BOTTOM_EXTRA_PADDING,
+        bottomPadding + EXTRA_PADDING,
       ];
     }
+
     if (this.props.bounds) {
       // bounds overrule center & zoom
       naviProps.bounds = boundWithMinimumArea(this.props.bounds); // validate
