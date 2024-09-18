@@ -2,8 +2,10 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { configShape } from '../../util/shapes';
+import { epochToTime } from '../../util/timeUtils';
 
-export default function NaviBottom({ setNavigation }, { config }) {
+export default function NaviBottom({ setNavigation, arrival }, { config }) {
+  const remainingDuration = Math.ceil((arrival - Date.now()) / 60000); // ms to minutes
   return (
     <div className="navibottomsheet">
       <div className="divider" />
@@ -16,8 +18,8 @@ export default function NaviBottom({ setNavigation }, { config }) {
           <FormattedMessage id="navigation-quit" />
         </button>
         <div className="navi-time">
-          <span>39 min</span>
-          <span className="navi-daytime">10:14</span>
+          <span>{remainingDuration} min</span>
+          <span className="navi-daytime">{epochToTime(arrival, config)}</span>
         </div>
         {config.ticketLink && (
           <button type="button" className="navi-ticket-button">
@@ -40,6 +42,7 @@ export default function NaviBottom({ setNavigation }, { config }) {
 
 NaviBottom.propTypes = {
   setNavigation: PropTypes.func.isRequired,
+  arrival: PropTypes.number.isRequired,
 };
 
 NaviBottom.contextTypes = {
