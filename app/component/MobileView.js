@@ -5,6 +5,11 @@ import MapBottomsheetContext from './map/MapBottomsheetContext';
 import MobileFooter from './MobileFooter';
 
 const BOTTOM_SHEET_OFFSET = 20;
+const topBarHeight = 64;
+
+function getMiddlePosition() {
+  return (window.innerHeight - topBarHeight) * 0.45;
+}
 
 function slowlyScrollTo(el, to = BOTTOM_SHEET_OFFSET, duration = 1000) {
   const element = el;
@@ -51,13 +56,12 @@ export default function MobileView({
     return <div className="mobile">{settingsDrawer}</div>;
   }
   const scrollRef = useRef(null);
-  const topBarHeight = 64;
   // pass this to map according to bottom sheet placement
   const [bottomPadding, setBottomPadding] = useState(0);
 
   useLayoutEffect(() => {
     if (map) {
-      const newSheetPosition = (window.innerHeight - topBarHeight) * 0.45;
+      const newSheetPosition = getMiddlePosition();
       scrollRef.current.scrollTop = newSheetPosition;
       setBottomPadding(newSheetPosition);
     }
@@ -65,8 +69,14 @@ export default function MobileView({
 
   useLayoutEffect(() => {
     if (map && expandMap) {
-      slowlyScrollTo(scrollRef.current);
-      setBottomPadding(0);
+      if (expandMap.position === 'bottom') {
+        slowlyScrollTo(scrollRef.current);
+        setBottomPadding(0);
+      } else {
+        const newSheetPosition = getMiddlePosition();
+        scrollRef.current.scrollTop = newSheetPosition;
+        setBottomPadding(newSheetPosition);
+      }
     }
   }, [expandMap]);
 
@@ -125,7 +135,7 @@ MobileView.propTypes = {
   settingsDrawer: PropTypes.node,
   selectFromMapHeader: PropTypes.node,
   searchBox: PropTypes.node,
-  expandMap: PropTypes.number,
+  expandMap: PropTypes.objectOf(PropTypes.string),
 };
 
 MobileView.defaultProps = {

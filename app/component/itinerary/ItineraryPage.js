@@ -110,7 +110,7 @@ const unset = { plan: {}, loading: LOADSTATE.UNSET };
 export default function ItineraryPage(props, context) {
   const headerRef = useRef(null);
   const mwtRef = useRef();
-  const expandMapRef = useRef(0);
+  const expandMapRef = useRef({ position: 'middle' });
   const ariaRef = useRef('summary-page.title');
 
   const [state, setState] = useState({
@@ -590,7 +590,9 @@ export default function ItineraryPage(props, context) {
   const setNavigation = enable => {
     setNaviMode(enable);
     if (enable) {
-      expandMapRef.current += 1;
+      expandMapRef.current = { position: 'bottom' };
+    } else {
+      expandMapRef.current = { position: 'middle' };
     }
   };
 
@@ -818,17 +820,17 @@ export default function ItineraryPage(props, context) {
     mwtRef.current = ref;
   };
 
-  const focusToPoint = (lat, lon, maximize = true) => {
-    if (breakpoint !== 'large' && maximize) {
-      expandMapRef.current += 1;
+  const focusToPoint = (lat, lon) => {
+    if (breakpoint !== 'large') {
+      expandMapRef.current = { position: 'bottom' };
     }
     navigateMap();
     setMapState({ center: { lat, lon }, bounds: null });
   };
 
-  const focusToLeg = (leg, maximize = true) => {
-    if (breakpoint !== 'large' && maximize) {
-      expandMapRef.current += 1;
+  const focusToLeg = leg => {
+    if (breakpoint !== 'large') {
+      expandMapRef.current = { position: 'bottom' };
     }
     navigateMap();
     const bounds = boundWithMinimumArea(
