@@ -20,7 +20,6 @@ import ItineraryListContainer from './ItineraryListContainer';
 import { spinnerPosition } from './ItineraryList';
 import ItineraryPageControls from './ItineraryPageControls';
 import ItineraryTabs from './ItineraryTabs';
-import NaviBottom from './NaviBottom';
 import { getWeatherData } from '../../util/apiUtils';
 import Loading from '../Loading';
 import { getItineraryPagePath, streetHash } from '../../util/path';
@@ -971,35 +970,23 @@ export default function ItineraryPage(props, context) {
       planEdges?.[activeIndex]?.node,
     );
     return (
-      <>
-        {naviMode && (
-          <NaviContainer
-            itinerary={combinedEdges[selectedIndex]?.node}
-            focusToPoint={focusToPoint}
-            focusToLeg={focusToLeg}
-            relayEnvironment={props.relayEnvironment}
-            combinedEdges={combinedEdges}
-          />
-        )}
-
-        <ItineraryPageMap
-          {...mwtProps}
-          from={from}
-          to={to}
-          viaPoints={viaPoints}
-          mapLayers={props.mapLayers}
-          mapLayerOptions={mapLayerOptions}
-          setMWTRef={setMWTRef}
-          breakpoint={breakpoint}
-          planEdges={planEdges}
-          topics={topicsState}
-          active={activeIndex}
-          showActive={!!detailView}
-          showVehicles={showVehicles()}
-          showDurationBubble={planEdges?.[0]?.node.legs?.length === 1}
-          objectsToHide={objectsToHide}
-        />
-      </>
+      <ItineraryPageMap
+        {...mwtProps}
+        from={from}
+        to={to}
+        viaPoints={viaPoints}
+        mapLayers={props.mapLayers}
+        mapLayerOptions={mapLayerOptions}
+        setMWTRef={setMWTRef}
+        breakpoint={breakpoint}
+        planEdges={planEdges}
+        topics={topicsState}
+        active={activeIndex}
+        showActive={!!detailView}
+        showVehicles={showVehicles()}
+        showDurationBubble={planEdges?.[0]?.node.legs?.length === 1}
+        objectsToHide={objectsToHide}
+      />
     );
   }
 
@@ -1082,7 +1069,16 @@ export default function ItineraryPage(props, context) {
     );
   } else if (detailView) {
     if (naviMode) {
-      content = <NaviBottom setNavigation={setNavigation} />;
+      content = (
+        <NaviContainer
+          itinerary={combinedEdges[selectedIndex]?.node}
+          focusToPoint={focusToPoint}
+          focusToLeg={focusToLeg}
+          relayEnvironment={props.relayEnvironment}
+          combinedEdges={combinedEdges}
+          setNavigation={setNavigation}
+        />
+      );
     } else {
       let carEmissions = carPlan?.edges?.[0]?.node.emissionsPerPerson?.co2;
       const pastSearch =

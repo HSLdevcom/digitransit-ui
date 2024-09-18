@@ -44,9 +44,9 @@
 }
 
 .navigator-top-label {
-  position: absolute;
+  position: fixed;
   z-index: 3;
-  top: 17px;
+  top: 80px;
   width: 90%;
   margin-left: 5%;
   border-radius: 15px;
