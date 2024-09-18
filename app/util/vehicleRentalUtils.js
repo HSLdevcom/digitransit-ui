@@ -185,10 +185,13 @@ export const hasVehicleRentalCode = rentalId => {
 
 export const mapVehicleRentalFromStore = vehicleRentalStation => {
   const network = vehicleRentalStation.networks[0];
+  const oldId = vehicleRentalStation.stationId;
+  const stationId = oldId.startsWith(network) ? oldId : `${network}:${oldId}`;
+
   const newStation = {
     ...vehicleRentalStation,
     network,
-    stationId: `${network}:${vehicleRentalStation.stationId}`,
+    stationId,
   };
   delete newStation.networks;
   return newStation;
