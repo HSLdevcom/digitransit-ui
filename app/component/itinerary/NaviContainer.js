@@ -60,7 +60,6 @@ function findTransferProblem(legs) {
 
 function NaviContainer({
   itinerary,
-  focusToPoint,
   focusToLeg,
   relayEnvironment,
   setNavigation,
@@ -124,14 +123,9 @@ function NaviContainer({
       <div className="navigator-top-label">
         <Navigator
           itinerary={itinerary}
-          focusToPoint={focusToPoint}
-          focusToLeg={focusToLeg}
-          relayEnvironment={relayEnvironment}
-          findTransferProbles={findTransferProblem}
           realTimeLegs={realTimeLegs}
           currentLeg={currentLeg}
           time={time}
-          setTime={setTime}
           canceled={canceled}
           transferProblem={transferProblem}
         />{' '}
@@ -144,7 +138,6 @@ function NaviContainer({
 NaviContainer.propTypes = {
   itinerary: itineraryShape.isRequired,
   focusToLeg: PropTypes.func.isRequired,
-  focusToPoint: PropTypes.func.isRequired,
   relayEnvironment: relayShape.isRequired,
   setNavigation: PropTypes.func.isRequired,
 };

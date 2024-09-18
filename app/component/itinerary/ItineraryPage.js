@@ -1072,7 +1072,6 @@ export default function ItineraryPage(props, context) {
       content = (
         <NaviContainer
           itinerary={combinedEdges[selectedIndex]?.node}
-          focusToPoint={focusToPoint}
           focusToLeg={focusToLeg}
           relayEnvironment={props.relayEnvironment}
           combinedEdges={combinedEdges}
