@@ -593,6 +593,7 @@ export default function ItineraryPage(props, context) {
       expandMapRef.current = { position: 'bottom' };
     } else {
       expandMapRef.current = { position: 'middle' };
+      setMapState({ center: undefined, bounds: undefined });
     }
   };
 
