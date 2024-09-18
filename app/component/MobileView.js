@@ -4,7 +4,9 @@ import { configShape } from '../util/shapes';
 import MapBottomsheetContext from './map/MapBottomsheetContext';
 import MobileFooter from './MobileFooter';
 
-function slowlyScrollTo(el, to = 0, duration = 1000) {
+const BOTTOM_SHEET_OFFSET = 20;
+
+function slowlyScrollTo(el, to = BOTTOM_SHEET_OFFSET, duration = 1000) {
   const element = el;
   const start = element.scrollTop;
   const change = to - start;
@@ -50,35 +52,21 @@ export default function MobileView({
   }
   const scrollRef = useRef(null);
   const topBarHeight = 64;
-  // pass these to map according to bottom sheet placement
-  const [bottomsheetState, changeBottomsheetState] = useState({
-    context: { mapBottomPadding: 0, buttonBottomPadding: 0 },
-  });
+  // pass this to map according to bottom sheet placement
+  const [bottomPadding, setBottomPadding] = useState(0);
 
   useLayoutEffect(() => {
     if (map) {
-      const paddingHeight = (window.innerHeight - topBarHeight) * 0.9; // height of .drawer-padding, defined as 90% of map height
-      const newSheetPosition = paddingHeight / 2;
+      const newSheetPosition = (window.innerHeight - topBarHeight) * 0.45;
       scrollRef.current.scrollTop = newSheetPosition;
-      changeBottomsheetState({
-        context: {
-          mapBottomPadding: newSheetPosition,
-          buttonBottomPadding: newSheetPosition,
-        },
-      });
+      setBottomPadding(newSheetPosition);
     }
   }, [header]);
 
   useLayoutEffect(() => {
     if (map && expandMap) {
-      const newSheetPosition = 0;
       slowlyScrollTo(scrollRef.current);
-      changeBottomsheetState({
-        context: {
-          mapBottomPadding: newSheetPosition,
-          buttonBottomPadding: newSheetPosition,
-        },
-      });
+      setBottomPadding(0);
     }
   }, [expandMap]);
 
@@ -86,9 +74,7 @@ export default function MobileView({
     if (map) {
       if (e.target.className === 'drawer-container') {
         const scroll = e.target.scrollTop;
-        changeBottomsheetState({
-          context: { ...bottomsheetState.context, buttonBottomPadding: scroll },
-        });
+        setBottomPadding(scroll);
       }
     }
   };
@@ -99,7 +85,7 @@ export default function MobileView({
       {searchBox}
       {map ? (
         <>
-          <MapBottomsheetContext.Provider value={bottomsheetState.context}>
+          <MapBottomsheetContext.Provider value={bottomPadding}>
             {map}
           </MapBottomsheetContext.Provider>
           <div
