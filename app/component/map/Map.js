@@ -30,6 +30,7 @@ import { mapLayerShape } from '../../store/MapLayerStore';
 
 const zoomOutText = `<svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-icon_minus"/></svg>`;
 const zoomInText = `<svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-icon_plus"/></svg>`;
+const EXTRA_PADDING = 100; // margin on bottom and top when focusing the map
 
 /* foo-eslint-disable react/sort-comp */
 
@@ -64,9 +65,6 @@ export default class Map extends React.Component {
     lon: PropTypes.number,
     zoom: PropTypes.number,
     bounds: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)),
-    boundsOptions: PropTypes.shape({
-      paddingBottomRight: PropTypes.arrayOf(PropTypes.number),
-    }),
     hilightedStops: PropTypes.arrayOf(PropTypes.string),
     stopsToShow: PropTypes.arrayOf(PropTypes.string),
     objectsToHide: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)),
@@ -78,8 +76,7 @@ export default class Map extends React.Component {
     mapRef: PropTypes.func,
     locationPopup: PropTypes.string,
     onSelectLocation: PropTypes.func,
-    mapBottomPadding: PropTypes.number,
-    buttonBottomPadding: PropTypes.number,
+    bottomPadding: PropTypes.number,
     bottomButtons: PropTypes.node,
     topButtons: PropTypes.node,
     // eslint-disable-next-line
@@ -95,9 +92,7 @@ export default class Map extends React.Component {
     zoom: undefined,
     bounds: undefined,
     locationPopup: 'reversegeocoding',
-    boundsOptions: {},
-    mapBottomPadding: 0,
-    buttonBottomPadding: 0,
+    bottomPadding: undefined,
     bottomButtons: null,
     topButtons: null,
     mergeStops: true,
@@ -121,6 +116,7 @@ export default class Map extends React.Component {
   constructor(props) {
     super(props);
     this.state = { zoom: 14 };
+    this.boundsOptions = { paddingTopLeft: [0, EXTRA_PADDING] };
   }
 
   updateZoom = () => {
@@ -156,11 +152,13 @@ export default class Map extends React.Component {
   componentDidUpdate() {
     // move leaflet attribution control elements according to given padding
     // leaflet api doesn't allow controlling element position so have to use this hack
-    const bottomControls = document.getElementsByClassName('leaflet-bottom');
-    Array.prototype.forEach.call(bottomControls, elem => {
-      // eslint-disable-next-line no-param-reassign
-      elem.style.transform = `translate(0, -${this.props.buttonBottomPadding}px)`;
-    });
+    if (this.props.bottomPadding !== undefined) {
+      const bottomControls = document.getElementsByClassName('leaflet-bottom');
+      Array.prototype.forEach.call(bottomControls, elem => {
+        // eslint-disable-next-line no-param-reassign
+        elem.style.transform = `translate(0, -${this.props.bottomPadding}px)`;
+      });
+    }
   }
 
   componentWillUnmount() {
@@ -180,21 +178,28 @@ export default class Map extends React.Component {
       zoom,
       lat,
       lon,
-      boundsOptions,
       locationPopup,
       onSelectLocation,
       leafletObjs,
       geoJson,
       mapLayers,
+      bottomPadding,
     } = this.props;
     const { config } = this.context;
 
     const naviProps = {}; // these define map center and zoom
+    if (bottomPadding !== undefined) {
+      this.boundsOptions.paddingBottomRight = [
+        0,
+        bottomPadding + EXTRA_PADDING,
+      ];
+    }
+
     if (this.props.bounds) {
       // bounds overrule center & zoom
       naviProps.bounds = boundWithMinimumArea(this.props.bounds); // validate
     } else if (lat && lon) {
-      if (this.props.mapBottomPadding && this.props.mapBottomPadding > 0) {
+      if (bottomPadding !== undefined) {
         // bounds fitting can take account the wanted padding, so convert to bounds
         naviProps.bounds = boundWithMinimumArea([[lat, lon]], zoom);
       } else {
@@ -227,9 +232,6 @@ export default class Map extends React.Component {
       return null;
     }
 
-    if (this.props.mapBottomPadding) {
-      boundsOptions.paddingBottomRight = [0, this.props.mapBottomPadding];
-    }
     const mapBaseUrl =
       (isDebugTiles && `${config.URL.OTP}inspector/tile/traversal/`) ||
       getLayerBaseUrl(config.URL.MAP, this.props.lang);
@@ -294,7 +296,7 @@ export default class Map extends React.Component {
         <span
           className="overlay-mover"
           style={{
-            transform: `translate(0, -${this.props.buttonBottomPadding}px)`,
+            transform: `translate(0, -${bottomPadding || 0}px)`,
           }}
         >
           {this.props.bottomButtons}
@@ -315,7 +317,7 @@ export default class Map extends React.Component {
             zoomControl={false}
             attributionControl={false}
             animate={this.props.animate}
-            boundsOptions={boundsOptions}
+            boundsOptions={this.boundsOptions}
             {...leafletEvents}
             onPopupopen={onPopupopen}
             closePopupOnClick={false}
