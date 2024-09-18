@@ -9,7 +9,7 @@ import { legTime } from '../../util/legUtils';
 const TRANSFER_SLACK = 60000; // milliseconds
 
 const legQuery = graphql`
-  query Navigator_legQuery($id: ID!) {
+  query NaviContainer_legQuery($id: ID!) {
     node(id: $id) {
       ... on Leg {
         id
@@ -142,7 +142,7 @@ NaviContainer.propTypes = {
 
 const withRelay = createFragmentContainer(NaviContainer, {
   itinerary: graphql`
-    fragment Navigator_itinerary on Itinerary {
+    fragment NaviContainer_itinerary on Itinerary {
       start
       end
       legs {
