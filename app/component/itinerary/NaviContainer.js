@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { createFragmentContainer, graphql, fetchQuery } from 'react-relay';
 import { itineraryShape, relayShape } from '../../util/shapes';
-import Navigator from './Navigator';
+import NaviTop from './NaviTop';
 import NaviBottom from './NaviBottom';
 import { legTime } from '../../util/legUtils';
 
@@ -120,16 +120,14 @@ function NaviContainer({
 
   return (
     <>
-      <div className="navigator-top-label">
-        <Navigator
-          itinerary={itinerary}
-          realTimeLegs={realTimeLegs}
-          currentLeg={currentLeg}
-          time={time}
-          canceled={canceled}
-          transferProblem={transferProblem}
-        />{' '}
-      </div>
+      <NaviTop
+        itinerary={itinerary}
+        realTimeLegs={realTimeLegs}
+        currentLeg={currentLeg}
+        time={time}
+        canceled={canceled}
+        transferProblem={transferProblem}
+      />{' '}
       <NaviBottom setNavigation={setNavigation} />
     </>
   );

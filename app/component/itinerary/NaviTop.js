@@ -5,7 +5,7 @@ import { itineraryShape, legShape } from '../../util/shapes';
 import { legTime, legTimeStr } from '../../util/legUtils';
 import NaviLeg from './NaviLeg';
 
-function Navigator({
+function NaviTop({
   itinerary,
   currentLeg,
   time,
@@ -40,20 +40,21 @@ function Navigator({
   }
 
   return (
-    <div className="navigator">
-      {canceled && (
-        <div className="notifiler">Osa matkan lähdöistä on peruttu</div>
-      )}
-      {transferProblem && (
-        <div className="notifiler">{`Vaihto  ${transferProblem[0].route.shortName} - ${transferProblem[1].route.shortName} ei onnistu reittisuunnitelman mukaisesti`}</div>
-      )}
-
-      <div className="info">{info}</div>
+    <div className="navigator-top-label">
+      <div className="navigator">
+        {canceled && (
+          <div className="notifiler">Osa matkan lähdöistä on peruttu</div>
+        )}
+        {transferProblem && (
+          <div className="notifiler">{`Vaihto  ${transferProblem[0].route.shortName} - ${transferProblem[1].route.shortName} ei onnistu reittisuunnitelman mukaisesti`}</div>
+        )}
+        <div className="info">{info}</div>
+      </div>
     </div>
   );
 }
 
-Navigator.propTypes = {
+NaviTop.propTypes = {
   itinerary: itineraryShape.isRequired,
   currentLeg: legShape,
   time: PropTypes.number.isRequired,
@@ -65,13 +66,13 @@ Navigator.propTypes = {
   */
 };
 
-Navigator.contextTypes = {
+NaviTop.contextTypes = {
   intl: intlShape.isRequired,
 };
 
-Navigator.defaultProps = {
+NaviTop.defaultProps = {
   canceled: undefined,
   transferProblem: undefined,
   currentLeg: undefined,
 };
-export default Navigator;
+export default NaviTop;
