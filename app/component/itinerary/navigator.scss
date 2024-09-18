@@ -43,9 +43,9 @@
   text-align: center;
 }
 
-.navigator-top-label {
+.navitop {
+  margin-bottom: 5px;
   position: fixed;
-  z-index: 3;
   top: 80px;
   width: 90%;
   margin-left: 5%;
@@ -54,53 +54,49 @@
   color: white;
   background-color: $primary-color;
 
-  .navigator {
-    margin-bottom: 5px;
+  .notifier {
+    margin: 15px 20px 0 20px;
+    width: 100%;
+    color: red;
+  }
 
-    .notifier {
-      margin: 15px 20px 0 20px;
-      width: 100%;
-      color: red;
-    }
+  .info {
+    margin: 15px 20px 0 20px;
 
-    .info {
-      margin: 15px 20px 0 20px;
+    .navileg-goto {
+      display: flex;
+      flex-direction: row;
+      height: 100%;
+      color: white;
 
-      .navileg-goto {
-        display: flex;
-        flex-direction: row;
-        height: 100%;
-        color: white;
-
-        .navileg-divider {
-          border: 1px solid #ffffff1a;
-          height: 70px;
-          margin: 0 20px 0 20px;
-        }
-
-        .navileg-mode {
-          width: 40px;
-          height: 40px;
-          margin-top: 10px;
-          color: white;
-        }
+      .navileg-divider {
+        border: 1px solid #ffffff1a;
+        height: 70px;
+        margin: 0 20px 0 20px;
       }
 
-      .navileg-destination {
+      .navileg-mode {
+        width: 40px;
+        height: 40px;
+        margin-top: 10px;
+        color: white;
+      }
+    }
+
+    .navileg-destination {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      font-size: $font-size-xsmall;
+      font-weight: $font-weight-book;
+
+      .destination-header {
+        font-size: $font-size-normal;
+        font-weight: $font-weight-medium;
+      }
+
+      .navileg-destination-details {
         display: flex;
-        flex-direction: column;
-        width: 100%;
-        font-size: $font-size-xsmall;
-        font-weight: $font-weight-book;
-
-        .destination-header {
-          font-size: $font-size-normal;
-          font-weight: $font-weight-medium;
-        }
-
-        .navileg-destination-details {
-          display: flex;
-        }
       }
     }
   }

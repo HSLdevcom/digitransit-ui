@@ -40,16 +40,14 @@ function NaviTop({
   }
 
   return (
-    <div className="navigator-top-label">
-      <div className="navigator">
-        {canceled && (
-          <div className="notifiler">Osa matkan lähdöistä on peruttu</div>
-        )}
-        {transferProblem && (
-          <div className="notifiler">{`Vaihto  ${transferProblem[0].route.shortName} - ${transferProblem[1].route.shortName} ei onnistu reittisuunnitelman mukaisesti`}</div>
-        )}
-        <div className="info">{info}</div>
-      </div>
+    <div className="navitop">
+      {canceled && (
+        <div className="notifiler">Osa matkan lähdöistä on peruttu</div>
+      )}
+      {transferProblem && (
+        <div className="notifiler">{`Vaihto  ${transferProblem[0].route.shortName} - ${transferProblem[1].route.shortName} ei onnistu reittisuunnitelman mukaisesti`}</div>
+      )}
+      <div className="info">{info}</div>
     </div>
   );
 }
@@ -59,7 +57,7 @@ NaviTop.propTypes = {
   currentLeg: legShape,
   time: PropTypes.number.isRequired,
   canceled: legShape,
-  transferProblem: PropTypes.array,
+  transferProblem: PropTypes.arrayOf(legShape),
   realTimeLegs: PropTypes.arrayOf(legShape).isRequired,
   /*
   focusToPoint: PropTypes.func.isRequired,
