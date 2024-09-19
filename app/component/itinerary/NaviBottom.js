@@ -18,7 +18,12 @@ export default function NaviBottom({ setNavigation, arrival }, { config }) {
           <FormattedMessage id="navigation-quit" />
         </button>
         <div className="navi-time">
-          <span>{remainingDuration} min</span>
+          <span>
+            <FormattedMessage
+              id="travel-time"
+              values={{ min: remainingDuration }}
+            />
+          </span>
           <span className="navi-daytime">{epochToTime(arrival, config)}</span>
         </div>
         {config.ticketLink && (
