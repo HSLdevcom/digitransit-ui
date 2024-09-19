@@ -24,7 +24,7 @@ const RouteNumberContainer = (
       className={className}
       isCallAgency={isCallAgency || route.type === 715}
       color={route.color ? `#${route.color}` : null}
-      mode={mode}
+      mode={mode !== undefined ? mode : route.mode}
       text={getLegText(route, config, interliningWithRoute)}
       withBicycle={withBicycle}
       occupancyStatus={occupancyStatus}
