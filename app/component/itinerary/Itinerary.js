@@ -89,7 +89,7 @@ export function RouteLeg(
 ) {
   const isCallAgency = isCallAgencyPickupType(leg);
   let routeNumber;
-  const mode = getRouteMode(leg.route);
+  const mode = getRouteMode(leg.route, config);
 
   const getOccupancyStatus = () => {
     if (hasOneTransitLeg) {
@@ -97,8 +97,6 @@ export function RouteLeg(
     }
     return undefined;
   };
-
-  const feedId = getFeedWithoutId(leg.route?.gtfsId);
 
   if (isCallAgency) {
     const message = intl.formatMessage({
@@ -117,11 +115,23 @@ export function RouteLeg(
       />
     );
   } else {
+    // Because className uses leg.mode instead of just mode, the externalFeed boolean is needed separately
+    // instead of using it through getRouteMode. It is unclear whether mode could be used for both mode
+    // and className.
+    const externalFeed = isExternalFeed(
+      getFeedWithoutId(leg.route?.gtfsId),
+      config,
+    );
     routeNumber = (
       <RouteNumberContainer
         alertSeverityLevel={getActiveLegAlertSeverityLevel(leg)}
         route={leg.route}
-        className={cx('line', leg.mode.toLowerCase())}
+        className={cx(
+          'line',
+          externalFeed
+            ? `${leg.mode.toLowerCase()}-external`
+            : leg.mode.toLowerCase(),
+        )}
         interliningWithRoute={interliningWithRoute}
         mode={mode}
         vertical
@@ -129,7 +139,6 @@ export function RouteLeg(
         isTransitLeg={isTransitLeg}
         withBicycle={withBicycle}
         occupancyStatus={getOccupancyStatus()}
-        externalFeed={isExternalFeed(feedId, config)}
       />
     );
   }

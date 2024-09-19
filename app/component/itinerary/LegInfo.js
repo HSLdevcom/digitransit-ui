@@ -12,7 +12,6 @@ import { PREFIX_ROUTES, PREFIX_STOPS } from '../../util/path';
 import { getCapacityForLeg } from '../../util/occupancyUtil';
 import Icon from '../Icon';
 import CapacityModal from '../CapacityModal';
-import { getFeedWithoutId, isExternalFeed } from '../../util/feedScopedIdUtils';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 export default function LegInfo(
@@ -33,11 +32,12 @@ export default function LegInfo(
   const { constantOperationRoutes } = config;
   const shouldLinkToTrip =
     !constantOperationRoutes || !constantOperationRoutes[leg.route.gtfsId];
-  let mode = isCallAgency
+  const mode = isCallAgency
     ? 'call'
-    : getRouteMode({ mode: leg.mode, type: leg.route.type });
-  const feedId = getFeedWithoutId(leg.route?.gtfsId);
-  mode = isExternalFeed(feedId, config) ? `${mode}-external` : mode;
+    : getRouteMode(
+        { mode: leg.mode, type: leg.route.type, gtfsId: leg.route?.gtfsId },
+        config,
+      );
   const capacity = getCapacityForLeg(config, leg);
   let capacityTranslation;
   if (capacity) {

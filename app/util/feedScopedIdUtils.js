@@ -35,8 +35,9 @@ export const getFeedWithoutId = feedScopedId => {
  */
 export const isExternalFeed = (feedId, config) => {
   return (
-    config.internalFeedIds !== undefined &&
+    config !== undefined &&
+    config.externalFeedIds !== undefined &&
     feedId !== undefined &&
-    !config.internalFeedIds.includes(feedId)
+    config.externalFeedIds.includes(feedId)
   );
 };

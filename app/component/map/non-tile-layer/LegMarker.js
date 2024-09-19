@@ -38,7 +38,7 @@ class LegMarker extends React.Component {
     const className = this.props.wide ? 'wide' : '';
     // Do not display route number if it is an external route and the route number is empty.
     const displayRouteNumber = !(
-      this.context.config.internalFeedIds !== undefined &&
+      this.context.config.externalFeedIds !== undefined &&
       this.props.mode.includes('external') &&
       this.props.leg.name === ''
     );

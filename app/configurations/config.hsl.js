@@ -90,7 +90,7 @@ export default {
   useRoutingFeedbackPrompt: true,
 
   feedIds: ['HSL', 'HSLlautta', 'Sipoo'],
-  internalFeedIds: ['HSL'],
+  externalFeedIds: ['HSLlautta', 'Sipoo'],
 
   showHSLTracking: false,
   allowLogin: true,

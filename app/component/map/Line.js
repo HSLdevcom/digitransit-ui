@@ -114,7 +114,7 @@ export default class Line extends React.Component {
     // The halo is not needed for lines that use the external color.
     // At least currently the outline (halo) is very visible with the external gray color.
     const displayHalo = !(
-      this.context.config.internalFeedIds !== undefined &&
+      this.context.config.externalFeedIds !== undefined &&
       this.props.mode.includes('external')
     );
 
