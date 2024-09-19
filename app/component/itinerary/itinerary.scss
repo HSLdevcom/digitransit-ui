@@ -1858,6 +1858,10 @@ $itinerary-tab-switch-height: 48px;
             width: auto;
             padding: 4px 4px 0 0;
           }
+
+          .vehicle-number.ferry-external {
+            color: $black;
+          }
         }
 
         .icon {
