@@ -110,9 +110,8 @@ const unset = { plan: {}, loading: LOADSTATE.UNSET };
 export default function ItineraryPage(props, context) {
   const headerRef = useRef(null);
   const mwtRef = useRef();
-  const expandMapRef = useRef({ position: 'middle' });
+  const mobileRef = useRef();
   const ariaRef = useRef('summary-page.title');
-
   const [state, setState] = useState({
     ...emptyState,
     loading: LOADSTATE.UNSET,
@@ -600,12 +599,10 @@ export default function ItineraryPage(props, context) {
   }
 
   const setNavigation = enable => {
-    if (enable) {
-      mwtRef.current?.setBottomPadding(0);
-      expandMapRef.current = { position: 'bottom' };
-    } else {
-      mwtRef.current?.setBottomPadding(window.innerHeight / 2);
-      expandMapRef.current = { position: 'middle' };
+    if (mobileRef.current) {
+      mobileRef.current.setBottomSheet(enable ? 'bottom' : 'middle');
+    }
+    if (!enable) {
       setMapState({ center: undefined, bounds: undefined });
       navigateMap();
     }
@@ -825,16 +822,16 @@ export default function ItineraryPage(props, context) {
   };
 
   const focusToPoint = (lat, lon) => {
-    if (breakpoint !== 'large') {
-      expandMapRef.current = { position: 'bottom' };
+    if (mobileRef.current) {
+      mobileRef.current.setBottomSheet('bottom');
     }
     navigateMap();
     setMapState({ center: { lat, lon }, bounds: null });
   };
 
   const focusToLeg = leg => {
-    if (breakpoint !== 'large') {
-      expandMapRef.current = { position: 'bottom' };
+    if (mobileRef.current) {
+      mobileRef.current.setBottomSheet('bottom');
     }
     navigateMap();
     const bounds = boundWithMinimumArea(
@@ -1224,7 +1221,7 @@ export default function ItineraryPage(props, context) {
       settingsDrawer={settingsDrawer}
       map={map}
       mapRef={mwtRef}
-      expandMap={expandMapRef.current}
+      ref={mobileRef}
     />
   );
 }
