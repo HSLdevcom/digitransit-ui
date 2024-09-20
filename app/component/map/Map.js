@@ -185,7 +185,7 @@ export default class Map extends React.Component {
     this.boundsOptions.paddingBottomRight = [
       0,
       Math.max(
-        Math.min(padding, window.innerHeight - EXTRA_PADDING),
+        Math.min(padding, window.innerHeight - 2 * EXTRA_PADDING),
         EXTRA_PADDING,
       ),
     ];
