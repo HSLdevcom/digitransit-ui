@@ -30,8 +30,7 @@ import { mapLayerShape } from '../../store/MapLayerStore';
 
 const zoomOutText = `<svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-icon_minus"/></svg>`;
 const zoomInText = `<svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-icon_plus"/></svg>`;
-const EXTRA_PADDING = 100; // margin on bottom and top when focusing the map
-
+const EXTRA_PADDING = 100;
 /* foo-eslint-disable react/sort-comp */
 
 const startClient = context => {
@@ -73,6 +72,7 @@ export default class Map extends React.Component {
     leafletEvents: PropTypes.object,
     leafletObjs: PropTypes.arrayOf(PropTypes.node),
     mergeStops: PropTypes.bool,
+    leafletMapRef: PropTypes.func,
     mapRef: PropTypes.func,
     locationPopup: PropTypes.string,
     onSelectLocation: PropTypes.func,
@@ -87,6 +87,7 @@ export default class Map extends React.Component {
   static defaultProps = {
     animate: true,
     mapRef: null,
+    leafletMapRef: null,
     lat: undefined,
     lon: undefined,
     zoom: undefined,
@@ -116,6 +117,9 @@ export default class Map extends React.Component {
   constructor(props) {
     super(props);
     this.state = { zoom: 14 };
+    if (props.mapRef) {
+      props.mapRef(this);
+    }
     this.boundsOptions = { paddingTopLeft: [0, EXTRA_PADDING] };
   }
 
@@ -132,6 +136,9 @@ export default class Map extends React.Component {
       startClient(this.context);
     }
     this.updateZoom();
+    if (this.props.mapRef) {
+      this.props.mapRef(this);
+    }
   }
 
   // eslint-disable-next-line camelcase
@@ -173,6 +180,17 @@ export default class Map extends React.Component {
     this.updateZoom();
   };
 
+  // eslint-disable-next-line react/no-unused-class-component-methods
+  setBottomPadding = padding => {
+    this.boundsOptions.paddingBottomRight = [
+      0,
+      Math.max(
+        Math.min(padding, window.innerHeight - EXTRA_PADDING),
+        EXTRA_PADDING,
+      ),
+    ];
+  };
+
   render() {
     const {
       zoom,
@@ -191,15 +209,14 @@ export default class Map extends React.Component {
     if (bottomPadding !== undefined) {
       this.boundsOptions.paddingBottomRight = [
         0,
-        Math.min(bottomPadding + EXTRA_PADDING, window.innerHeight / 2),
+        Math.min(bottomPadding + EXTRA_PADDING, window.innerHeight - 60),
       ];
     }
-
     if (this.props.bounds) {
       // bounds overrule center & zoom
       naviProps.bounds = boundWithMinimumArea(this.props.bounds); // validate
     } else if (lat && lon) {
-      if (bottomPadding !== undefined) {
+      if (this.boundsOptions.paddingBottomRight !== undefined) {
         // bounds fitting can take account the wanted padding, so convert to bounds
         naviProps.bounds = boundWithMinimumArea([[lat, lon]], zoom);
       } else {
@@ -308,8 +325,8 @@ export default class Map extends React.Component {
             keyboard={false}
             ref={el => {
               this.map = el;
-              if (this.props.mapRef) {
-                this.props.mapRef(el);
+              if (this.props.leafletMapRef) {
+                this.props.leafletMapRef(el);
               }
             }}
             minZoom={config.map.minZoom}

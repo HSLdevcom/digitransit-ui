@@ -587,14 +587,29 @@ export default function ItineraryPage(props, context) {
     }
   };
 
+  // make the map to obey external navigation
+  function navigateMap() {
+    // map sticks to user location if tracking is on, so set it off
+    if (mwtRef.current?.disableMapTracking) {
+      mwtRef.current.disableMapTracking();
+    }
+    // map will not react to location props unless they change or update is forced
+    if (mwtRef.current?.forceRefresh) {
+      mwtRef.current.forceRefresh();
+    }
+  }
+
   const setNavigation = enable => {
-    setNaviMode(enable);
     if (enable) {
+      mwtRef.current?.setBottomPadding(0);
       expandMapRef.current = { position: 'bottom' };
     } else {
+      mwtRef.current?.setBottomPadding(window.innerHeight / 2);
       expandMapRef.current = { position: 'middle' };
       setMapState({ center: undefined, bounds: undefined });
+      navigateMap();
     }
+    setNaviMode(enable);
   };
 
   // save url-defined location to old searches
@@ -681,18 +696,6 @@ export default function ItineraryPage(props, context) {
       !noTransitHash.includes(hash) &&
       (breakpoint === 'large' || hash)
     );
-  }
-
-  // make the map to obey external navigation
-  function navigateMap() {
-    // map sticks to user location if tracking is on, so set it off
-    if (mwtRef.current?.disableMapTracking) {
-      mwtRef.current.disableMapTracking();
-    }
-    // map will not react to location props unless they change or update is forced
-    if (mwtRef.current?.forceRefresh) {
-      mwtRef.current.forceRefresh();
-    }
   }
 
   function getCombinedPlanEdges() {
@@ -1220,6 +1223,7 @@ export default function ItineraryPage(props, context) {
       content={content}
       settingsDrawer={settingsDrawer}
       map={map}
+      mapRef={mwtRef}
       expandMap={expandMapRef.current}
     />
   );
