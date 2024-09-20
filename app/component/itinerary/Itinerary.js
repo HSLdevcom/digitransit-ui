@@ -27,7 +27,6 @@ import {
 import { dateOrEmpty, isTomorrow, timeStr } from '../../util/timeUtils';
 import withBreakpoint from '../../util/withBreakpoint';
 import { isKeyboardSelectionEvent } from '../../util/browser';
-import { getFeedWithoutId, isExternalFeed } from '../../util/feedScopedIdUtils';
 import {
   BIKEAVL_UNKNOWN,
   getRentalNetworkIcon,
@@ -115,23 +114,11 @@ export function RouteLeg(
       />
     );
   } else {
-    // Because className uses leg.mode instead of just mode, the externalFeed boolean is needed separately
-    // instead of using it through getRouteMode. It is unclear whether mode could be used for both mode
-    // and className.
-    const externalFeed = isExternalFeed(
-      getFeedWithoutId(leg.route?.gtfsId),
-      config,
-    );
     routeNumber = (
       <RouteNumberContainer
         alertSeverityLevel={getActiveLegAlertSeverityLevel(leg)}
         route={leg.route}
-        className={cx(
-          'line',
-          externalFeed
-            ? `${leg.mode.toLowerCase()}-external`
-            : leg.mode.toLowerCase(),
-        )}
+        className={cx('line', mode)}
         interliningWithRoute={interliningWithRoute}
         mode={mode}
         vertical
