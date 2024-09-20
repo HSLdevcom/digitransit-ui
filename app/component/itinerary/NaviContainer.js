@@ -118,6 +118,23 @@ function NaviContainer({
   const canceled = realTimeLegs.find(leg => leg.realtimeState === 'CANCELED');
   const transferProblem = findTransferProblem(realTimeLegs);
 
+  // recompute estimated arrival
+  let lastTransitLeg;
+  let arrivalChange = 0;
+  itinerary.legs.forEach(leg => {
+    if (leg.transitLeg) {
+      lastTransitLeg = leg;
+    }
+  });
+  if (lastTransitLeg) {
+    const rtLeg = realTimeLegs.find(leg => {
+      return leg.id === lastTransitLeg.id;
+    });
+    arrivalChange = legTime(rtLeg.end) - legTime(lastTransitLeg.end);
+  }
+  const arrivalTime =
+    legTime(itinerary.legs[itinerary.legs.length - 1].end) + arrivalChange;
+
   return (
     <>
       <NaviTop
@@ -128,7 +145,7 @@ function NaviContainer({
         canceled={canceled}
         transferProblem={transferProblem}
       />{' '}
-      <NaviBottom setNavigation={setNavigation} />
+      <NaviBottom setNavigation={setNavigation} arrival={arrivalTime} />
     </>
   );
 }

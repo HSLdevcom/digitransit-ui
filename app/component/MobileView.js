@@ -5,9 +5,16 @@ import MapBottomsheetContext from './map/MapBottomsheetContext';
 import MobileFooter from './MobileFooter';
 
 const BOTTOM_SHEET_OFFSET = 20;
+const topBarHeight = 64;
 
-function slowlyScrollTo(el, to = BOTTOM_SHEET_OFFSET, duration = 1000) {
+function getMiddlePosition() {
+  return Math.floor((window.innerHeight - topBarHeight) * 0.45);
+}
+
+function slowlyScrollTo(el) {
   const element = el;
+  const to = BOTTOM_SHEET_OFFSET;
+  const duration = 500;
   const start = element.scrollTop;
   const change = to - start;
   const increment = 20;
@@ -51,13 +58,12 @@ export default function MobileView({
     return <div className="mobile">{settingsDrawer}</div>;
   }
   const scrollRef = useRef(null);
-  const topBarHeight = 64;
   // pass this to map according to bottom sheet placement
   const [bottomPadding, setBottomPadding] = useState(0);
 
   useLayoutEffect(() => {
     if (map) {
-      const newSheetPosition = (window.innerHeight - topBarHeight) * 0.45;
+      const newSheetPosition = getMiddlePosition();
       scrollRef.current.scrollTop = newSheetPosition;
       setBottomPadding(newSheetPosition);
     }
@@ -65,17 +71,23 @@ export default function MobileView({
 
   useLayoutEffect(() => {
     if (map && expandMap) {
-      slowlyScrollTo(scrollRef.current);
-      setBottomPadding(0);
+      if (expandMap.position === 'bottom') {
+        slowlyScrollTo(scrollRef.current);
+      } else {
+        const newSheetPosition = getMiddlePosition();
+        scrollRef.current.scrollTop = newSheetPosition;
+        setBottomPadding(newSheetPosition);
+      }
     }
   }, [expandMap]);
 
   const onScroll = e => {
-    if (map) {
-      if (e.target.className === 'drawer-container') {
-        const scroll = e.target.scrollTop;
-        setBottomPadding(scroll);
-      }
+    if (map && e.target.className === 'drawer-container') {
+      const scroll = Math.min(
+        e.target.scrollTop,
+        window.innerHeight - topBarHeight,
+      );
+      setBottomPadding(scroll);
     }
   };
 
@@ -125,7 +137,7 @@ MobileView.propTypes = {
   settingsDrawer: PropTypes.node,
   selectFromMapHeader: PropTypes.node,
   searchBox: PropTypes.node,
-  expandMap: PropTypes.number,
+  expandMap: PropTypes.objectOf(PropTypes.string),
 };
 
 MobileView.defaultProps = {
