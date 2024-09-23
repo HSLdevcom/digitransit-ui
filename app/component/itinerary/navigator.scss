@@ -156,7 +156,7 @@
     animation: slideIn 0.5s ease-out forwards;
   }
 
-  .navi-top-info {
+  .navi-info {
     display: flex;
 
     .info-icon {
@@ -165,7 +165,7 @@
     }
   }
 
-  .card-content {
+  .navi-info-content {
     display: flex;
     flex-direction: column;
     margin-left: 25px;

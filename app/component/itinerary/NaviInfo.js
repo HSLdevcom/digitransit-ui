@@ -36,7 +36,7 @@ const NaviInfo = (
 
     if (estimatedTime) {
       info = (
-        <div className="card-content">
+        <div className="navi-info-content">
           <FormattedMessage id="navileg-mode-realtime" values={{ mode }} />
           <FormattedMessage
             id="navileg-start-realtime"
@@ -50,7 +50,7 @@ const NaviInfo = (
       );
     } else {
       info = (
-        <div className="card-content">
+        <div className="navi-info-content">
           <FormattedMessage id="navileg-mode-schedule" />
           <FormattedMessage
             id="navileg-start-schedule"
@@ -64,7 +64,7 @@ const NaviInfo = (
     }
   }
   return (
-    <div className={cx('navi-top-info')}>
+    <div className={cx('navi-info')}>
       <Icon
         img={iconId}
         height={1}
