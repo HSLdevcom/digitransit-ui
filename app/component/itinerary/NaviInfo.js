@@ -10,7 +10,6 @@ const NaviInfo = (
   {
     transferProblem,
     canceled,
-    backgroundColor,
     mode,
     iconColor,
     iconId,
@@ -65,7 +64,7 @@ const NaviInfo = (
     }
   }
   return (
-    <div className={cx('navi-top-info')} style={{ backgroundColor }}>
+    <div className={cx('navi-top-info')}>
       <Icon
         img={iconId}
         height={1}
@@ -81,7 +80,6 @@ const NaviInfo = (
 NaviInfo.propTypes = {
   transferProblem: PropTypes.arrayOf(legShape),
   canceled: PropTypes.bool,
-  backgroundColor: PropTypes.string.isRequired,
   mode: PropTypes.string.isRequired,
   iconColor: PropTypes.string.isRequired,
   iconId: PropTypes.string.isRequired,
