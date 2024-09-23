@@ -957,6 +957,7 @@ class StopsNearYouPage extends React.Component {
               map={this.renderMap()}
               searchBox={this.renderSearchBox()}
               mapRef={this.MWTRef}
+              match={this.props.match}
             />
           )}
         />
