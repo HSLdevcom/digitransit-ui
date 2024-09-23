@@ -110,6 +110,13 @@ export default class MobileView extends React.Component {
     }
   }
 
+  componentDidMount() {
+    if (this.scrollRef) {
+      const newSheetPosition = getMiddlePosition();
+      this.scrollRef.scrollTop = newSheetPosition;
+    }
+  }
+
   componentDidUpdate() {
     if (this.scrollRef && this.resetBottomSheet) {
       this.resetBottomSheet = false;
