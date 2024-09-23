@@ -46,7 +46,7 @@ const getInfo = nextLeg => {
 };
 
 const NaviStack = ({ transferProblem, nextLeg, canceled, show }, { intl }) => {
-  const type = getInfo(nextLeg);
+  const info = getInfo(nextLeg);
   const mode = nextLeg.mode.toLowerCase();
   const localizedMode = intl.formatMessage({
     id: `${mode}`,
@@ -54,7 +54,7 @@ const NaviStack = ({ transferProblem, nextLeg, canceled, show }, { intl }) => {
   });
   return (
     <div
-      style={{ backgroundColor: type.backgroundColor }}
+      style={{ backgroundColor: info.backgroundColor }}
       className={cx('info-stack', show ? 'slide-in' : 'slide-out')}
     >
       <NaviInfo
@@ -62,7 +62,7 @@ const NaviStack = ({ transferProblem, nextLeg, canceled, show }, { intl }) => {
         canceled={canceled}
         nextLeg={nextLeg}
         mode={localizedMode}
-        {...type}
+        {...info}
       />
     </div>
   );
