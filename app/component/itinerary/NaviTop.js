@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, intlShape } from 'react-intl';
 import { itineraryShape, legShape } from '../../util/shapes';
 import { legTime, legTimeStr } from '../../util/legUtils';
 import NaviLeg from './NaviLeg';
+import Icon from '../Icon';
+import NaviInfoStack from './NaviInfoStack';
 
 function NaviTop({
   itinerary,
@@ -13,10 +15,24 @@ function NaviTop({
   transferProblem,
   realTimeLegs,
 }) {
+  const [show, setShow] = useState(true);
+
+  const handleClick = () => {
+    setShow(!show);
+  };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShow(false);
+    }, 5000);
+
+    return () => clearTimeout(timer); // Cleanup the timer on component unmount
+  }, []);
   const first = realTimeLegs[0];
   const last = realTimeLegs[realTimeLegs.length - 1];
 
   let info;
+  let nextLeg;
   if (time < legTime(first.start)) {
     info = (
       <FormattedMessage
@@ -26,10 +42,10 @@ function NaviTop({
     );
   } else if (currentLeg) {
     if (!currentLeg.transitLeg) {
-      const next = itinerary.legs.find(
+      nextLeg = itinerary.legs.find(
         leg => legTime(leg.start) > legTime(currentLeg.start),
       );
-      info = <NaviLeg leg={currentLeg} nextLeg={next} />;
+      info = <NaviLeg leg={currentLeg} nextLeg={nextLeg} />;
     } else {
       info = `Tracking ${currentLeg?.mode} leg`;
     }
@@ -39,15 +55,34 @@ function NaviTop({
     info = <FormattedMessage id="navigation-wait" />;
   }
 
+  // Todo tää ei toimi nyt jostain syystä, naivinfostack tilttaa
   return (
-    <div className="navitop">
-      {canceled && (
-        <div className="notifiler">Osa matkan lähdöistä on peruttu</div>
+    <div>
+      <button
+        type="button"
+        className="navitop"
+        onClick={handleClick}
+        style={{ cursor: 'pointer' }}
+      >
+        <div className="info">{info}</div>
+        <div type="button" className="navitop-arrow">
+          {nextLeg && (
+            <Icon
+              img="icon-icon_arrow-collapse"
+              className={`cursor-pointer ${show ? 'inverted' : ''}`}
+              color="white"
+            />
+          )}
+        </div>
+      </button>
+      {nextLeg && (
+        <NaviInfoStack
+          transferProblem={transferProblem}
+          canceled={canceled}
+          nextLeg={nextLeg}
+          show={show}
+        />
       )}
-      {transferProblem && (
-        <div className="notifiler">{`Vaihto  ${transferProblem[0].route.shortName} - ${transferProblem[1].route.shortName} ei onnistu reittisuunnitelman mukaisesti`}</div>
-      )}
-      <div className="info">{info}</div>
     </div>
   );
 }

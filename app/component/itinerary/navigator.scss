@@ -52,7 +52,17 @@
   border-radius: 15px;
   height: 100px;
   color: white;
-  background-color: $primary-color;
+  background-color: $primary-color !important;
+  display: flex;
+  align-items: center;
+
+  .navitop-arrow {
+    .inverted {
+      transform: rotate(180deg);
+    }
+
+    margin-left: 20px;
+  }
 
   .notifier {
     margin: 15px 20px 0 20px;
@@ -98,6 +108,73 @@
       .navileg-destination-details {
         display: flex;
       }
+    }
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOut {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  to {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+}
+
+.info-stack {
+  position: fixed;
+  top: 180px;
+  height: 69px;
+  margin-left: 5%;
+  width: 90%;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+
+  &.slide-out {
+    animation: slideOut 0.5s ease-out forwards;
+  }
+
+  &.slide-in {
+    animation: slideIn 0.5s ease-out forwards;
+  }
+
+  .navi-top-info {
+    display: flex;
+
+    .info-icon {
+      margin-top: 10px;
+      margin-left: 20px;
+    }
+  }
+
+  .card-content {
+    display: flex;
+    flex-direction: column;
+    margin-left: 25px;
+
+    span:first-child {
+      font-weight: $font-weight-medium;
+      font-size: $font-size-normal;
+    }
+
+    span:last-child {
+      font-size: $font-size-xsmall;
     }
   }
 }
