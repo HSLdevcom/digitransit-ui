@@ -142,12 +142,13 @@
   height: 69px;
   margin-left: 5%;
   width: 90%;
-  border-radius: 5px;
+  border-radius: 15px;
   display: flex;
   align-items: center;
 
   &.slide-out {
     animation: slideOut 0.5s ease-out forwards;
+    pointer-events: none;
   }
 
   &.slide-in {

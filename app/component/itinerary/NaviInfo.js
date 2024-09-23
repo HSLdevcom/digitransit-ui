@@ -2,45 +2,49 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, intlShape } from 'react-intl';
 import cx from 'classnames';
-import { legShape } from '../../util/shapes';
+import { legShape, legTimeShape, stopShape } from '../../util/shapes';
 import { timeStr } from '../../util/timeUtils';
 import Icon from '../Icon';
 
-const NaviTopInfo = (
+const NaviInfo = (
   {
     transferProblem,
-    nextLeg,
     canceled,
     backgroundColor,
     mode,
     iconColor,
     iconId,
+    parentStation,
+    estimatedTime,
+    scheduledTime,
+    stopName,
   },
   { intl },
 ) => {
   let info;
   if (canceled) {
+    // todo: no current design
     info = <div className="notifiler">Osa matkan lähdöistä on peruttu</div>;
   } else if (transferProblem !== null) {
+    // todo: no current design
     info = (
       <div className="notifiler">{`Vaihto  ${transferProblem[0].route.shortName} - ${transferProblem[1].route.shortName} ei onnistu reittisuunnitelman mukaisesti`}</div>
     );
-  } else if (nextLeg) {
-    const from = nextLeg.to;
-    const stopOrStation = from.stop.parentStation
+  } else {
+    const stopOrStation = parentStation
       ? intl.formatMessage({ id: 'from-station' })
       : intl.formatMessage({ id: 'from-stop' });
 
-    if (nextLeg.start.estimatedTime) {
+    if (estimatedTime) {
       info = (
         <div className="card-content">
           <FormattedMessage id="navileg-mode-in-realtime" values={{ mode }} />
           <FormattedMessage
             id="navileg-starts-in-realtime"
             values={{
-              time: timeStr(nextLeg.start.estimatedTime),
+              time: timeStr(estimatedTime),
               stop: stopOrStation,
-              stopName: from.stop.name,
+              stopName,
             }}
           />
         </div>
@@ -52,7 +56,7 @@ const NaviTopInfo = (
           <FormattedMessage
             id="navileg-starts-in-schedule"
             values={{
-              time: timeStr(nextLeg.start.scheduledTime),
+              time: timeStr(scheduledTime),
               mode,
             }}
           />{' '}
@@ -74,22 +78,29 @@ const NaviTopInfo = (
   );
 };
 
-NaviTopInfo.propTypes = {
+NaviInfo.propTypes = {
   transferProblem: PropTypes.arrayOf(legShape),
-  nextLeg: legShape.isRequired,
   canceled: PropTypes.bool,
   backgroundColor: PropTypes.string.isRequired,
   mode: PropTypes.string.isRequired,
   iconColor: PropTypes.string.isRequired,
   iconId: PropTypes.string.isRequired,
+  parentStation: stopShape,
+  estimatedTime: legTimeShape,
+  scheduledTime: legTimeShape,
+  stopName: PropTypes.string,
 };
 
-NaviTopInfo.defaultProps = {
-  transferProblem: null,
+NaviInfo.defaultProps = {
+  transferProblem: undefined,
   canceled: false,
+  parentStation: undefined,
+  stopName: undefined,
+  estimatedTime: undefined,
+  scheduledTime: undefined,
 };
 
-NaviTopInfo.contextTypes = {
+NaviInfo.contextTypes = {
   intl: intlShape.isRequired,
 };
-export default NaviTopInfo;
+export default NaviInfo;

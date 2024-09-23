@@ -5,7 +5,7 @@ import { itineraryShape, legShape } from '../../util/shapes';
 import { legTime, legTimeStr } from '../../util/legUtils';
 import NaviLeg from './NaviLeg';
 import Icon from '../Icon';
-import NaviInfoStack from './NaviInfoStack';
+import NaviStack from './NaviStack';
 
 function NaviTop({
   itinerary,
@@ -55,15 +55,9 @@ function NaviTop({
     info = <FormattedMessage id="navigation-wait" />;
   }
 
-  // Todo tää ei toimi nyt jostain syystä, naivinfostack tilttaa
   return (
-    <div>
-      <button
-        type="button"
-        className="navitop"
-        onClick={handleClick}
-        style={{ cursor: 'pointer' }}
-      >
+    <>
+      <button type="button" className="navitop" onClick={handleClick}>
         <div className="info">{info}</div>
         <div type="button" className="navitop-arrow">
           {nextLeg && (
@@ -76,14 +70,14 @@ function NaviTop({
         </div>
       </button>
       {nextLeg && (
-        <NaviInfoStack
+        <NaviStack
           transferProblem={transferProblem}
           canceled={canceled}
           nextLeg={nextLeg}
           show={show}
         />
       )}
-    </div>
+    </>
   );
 }
 
