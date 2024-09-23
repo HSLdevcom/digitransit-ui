@@ -40,10 +40,10 @@ const NaviInfo = (
         <div className="card-content">
           <FormattedMessage id="navileg-mode-in-realtime" values={{ mode }} />
           <FormattedMessage
-            id="navileg-starts-in-realtime"
+            id="navileg-start-in-realtime"
             values={{
               time: timeStr(estimatedTime),
-              stop: stopOrStation,
+              stopOrStation,
               stopName,
             }}
           />
@@ -54,7 +54,7 @@ const NaviInfo = (
         <div className="card-content">
           <FormattedMessage id="navileg-mode-in-schedule" />
           <FormattedMessage
-            id="navileg-starts-in-schedule"
+            id="navileg-start-in-schedule"
             values={{
               time: timeStr(scheduledTime),
               mode,
