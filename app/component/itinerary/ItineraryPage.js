@@ -603,7 +603,7 @@ export default function ItineraryPage(props, context) {
       mobileRef.current.setBottomSheet(enable ? 'bottom' : 'middle');
     }
     if (!enable) {
-      setMapState({ center: undefined, bounds: undefined });
+      setMapState({ center: undefined, zoom: undefined, bounds: undefined });
       navigateMap();
     }
     setNaviMode(enable);
@@ -737,7 +737,7 @@ export default function ItineraryPage(props, context) {
 
   useEffect(() => {
     navigateMap();
-    setMapState({ center: undefined, bounds: undefined });
+    setMapState({ center: undefined, zoom: undefined, bounds: undefined });
 
     if (detailView) {
       // If itinerary is not found in detail view, go back to summary view
@@ -826,7 +826,7 @@ export default function ItineraryPage(props, context) {
       mobileRef.current.setBottomSheet('bottom');
     }
     navigateMap();
-    setMapState({ center: { lat, lon }, bounds: null });
+    setMapState({ center: { lat, lon }, zoom: 18, bounds: null });
   };
 
   const focusToLeg = leg => {
@@ -956,6 +956,7 @@ export default function ItineraryPage(props, context) {
     } else if (mapState.center) {
       mwtProps.lat = mapState.center.lat;
       mwtProps.lon = mapState.center.lon;
+      mwtProps.zoom = mapState.zoom;
     } else {
       mwtProps.bounds = getBounds(planEdges, from, to, viaPoints);
     }
