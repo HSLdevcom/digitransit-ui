@@ -147,6 +147,11 @@
   display: flex;
   align-items: center;
 
+  .info-icon {
+    margin-top: 10px;
+    margin-left: 20px;
+  }
+
   &.slide-out {
     animation: slideOut 0.5s ease-out forwards;
     pointer-events: none;
@@ -158,10 +163,16 @@
 
   .navi-info {
     display: flex;
+    flex-direction: column;
+    margin-left: 25px;
 
-    .info-icon {
-      margin-top: 10px;
-      margin-left: 20px;
+    span:first-child {
+      font-weight: $font-weight-medium;
+      font-size: $font-size-normal;
+    }
+
+    span:last-child {
+      font-size: $font-size-xsmall;
     }
   }
 
