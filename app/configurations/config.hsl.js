@@ -580,7 +580,7 @@ export default {
   showSimilarRoutesOnRouteDropDown: true,
   useRealtimeTravellerCapacities: true,
 
-  navigation: false,
+  navigation: true,
 
   stopCard: {
     header: {
