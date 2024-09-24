@@ -1,22 +1,46 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, intlShape } from 'react-intl';
 import { itineraryShape, legShape } from '../../util/shapes';
 import { legTime, legTimeStr } from '../../util/legUtils';
 import NaviLeg from './NaviLeg';
+import Icon from '../Icon';
+import NaviStack from './NaviStack';
 
-function NaviTop({
-  itinerary,
-  currentLeg,
-  time,
-  canceled,
-  transferProblem,
-  realTimeLegs,
-}) {
+function NaviTop({ itinerary, focusToLeg, time, realTimeLegs }) {
+  const [currentLeg, setCurrentLeg] = useState(null);
+  const [show, setShow] = useState(true);
+
+  const handleClick = () => {
+    setShow(!show);
+  };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShow(false);
+    }, 5000);
+
+    return () => clearTimeout(timer); // Cleanup the timer on component unmount
+  }, []);
+
+  useEffect(() => {
+    const newLeg = realTimeLegs.find(leg => {
+      return legTime(leg.start) <= time && time <= legTime(leg.end);
+    });
+
+    if (newLeg?.id !== currentLeg?.id) {
+      setCurrentLeg(newLeg);
+      if (newLeg) {
+        focusToLeg(newLeg, false);
+      }
+    }
+  }, [time]);
+
   const first = realTimeLegs[0];
   const last = realTimeLegs[realTimeLegs.length - 1];
 
   let info;
+  let nextLeg;
   if (time < legTime(first.start)) {
     info = (
       <FormattedMessage
@@ -26,10 +50,10 @@ function NaviTop({
     );
   } else if (currentLeg) {
     if (!currentLeg.transitLeg) {
-      const next = itinerary.legs.find(
+      nextLeg = itinerary.legs.find(
         leg => legTime(leg.start) > legTime(currentLeg.start),
       );
-      info = <NaviLeg leg={currentLeg} nextLeg={next} />;
+      info = <NaviLeg leg={currentLeg} nextLeg={nextLeg} />;
     } else {
       info = `Tracking ${currentLeg?.mode} leg`;
     }
@@ -40,24 +64,30 @@ function NaviTop({
   }
 
   return (
-    <div className="navitop">
-      {canceled && (
-        <div className="notifiler">Osa matkan lähdöistä on peruttu</div>
+    <>
+      <button type="button" className="navitop" onClick={handleClick}>
+        <div className="info">{info}</div>
+        <div type="button" className="navitop-arrow">
+          {nextLeg && (
+            <Icon
+              img="icon-icon_arrow-collapse"
+              className={`cursor-pointer ${show ? 'inverted' : ''}`}
+              color="white"
+            />
+          )}
+        </div>
+      </button>
+      {nextLeg && (
+        <NaviStack nextLeg={nextLeg} show={show} realTimeLegs={realTimeLegs} />
       )}
-      {transferProblem && (
-        <div className="notifiler">{`Vaihto  ${transferProblem[0].route.shortName} - ${transferProblem[1].route.shortName} ei onnistu reittisuunnitelman mukaisesti`}</div>
-      )}
-      <div className="info">{info}</div>
-    </div>
+    </>
   );
 }
 
 NaviTop.propTypes = {
   itinerary: itineraryShape.isRequired,
-  currentLeg: legShape,
+  focusToLeg: PropTypes.func.isRequired,
   time: PropTypes.number.isRequired,
-  canceled: legShape,
-  transferProblem: PropTypes.arrayOf(legShape),
   realTimeLegs: PropTypes.arrayOf(legShape).isRequired,
   /*
   focusToPoint: PropTypes.func.isRequired,
@@ -68,9 +98,4 @@ NaviTop.contextTypes = {
   intl: intlShape.isRequired,
 };
 
-NaviTop.defaultProps = {
-  canceled: undefined,
-  transferProblem: undefined,
-  currentLeg: undefined,
-};
 export default NaviTop;
