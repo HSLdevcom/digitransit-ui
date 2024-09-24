@@ -88,7 +88,7 @@ export function RouteLeg(
 ) {
   const isCallAgency = isCallAgencyPickupType(leg);
   let routeNumber;
-  const mode = getRouteMode(leg.route);
+  const mode = getRouteMode(leg.route, config);
 
   const getOccupancyStatus = () => {
     if (hasOneTransitLeg) {
@@ -118,7 +118,7 @@ export function RouteLeg(
       <RouteNumberContainer
         alertSeverityLevel={getActiveLegAlertSeverityLevel(leg)}
         route={leg.route}
-        className={cx('line', leg.mode.toLowerCase())}
+        className={cx('line', mode)}
         interliningWithRoute={interliningWithRoute}
         mode={mode}
         vertical
