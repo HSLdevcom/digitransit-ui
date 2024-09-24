@@ -8,23 +8,21 @@ import { legTime } from '../../util/legUtils';
 
 const legQuery = graphql`
   query NaviContainer_legQuery($id: ID!) {
-    node(id: $id) {
-      ... on Leg {
-        id
-        start {
-          scheduledTime
-          estimated {
-            time
-          }
+    leg(id: $id) {
+      id
+      start {
+        scheduledTime
+        estimated {
+          time
         }
-        end {
-          scheduledTime
-          estimated {
-            time
-          }
-        }
-        realtimeState
       }
+      end {
+        scheduledTime
+        estimated {
+          time
+        }
+      }
+      realtimeState
     }
   }
 `;

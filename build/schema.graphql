@@ -611,7 +611,7 @@ type Itinerary {
   walkTime: Long
 }
 
-type Leg implements Node {
+type Leg {
   """
   Computes a numeric accessibility score between 0 and 1.
     
@@ -674,7 +674,7 @@ type Leg implements Node {
   Re-fetching fails when the underlying transit data no longer exists.
   Non-transit legs cannot be refetched using their id.
   """
-  id: ID!
+  id: ID
   """
   Interlines with previous leg.
   This is true when the same vehicle is used for the previous leg as for this leg
@@ -1171,6 +1171,8 @@ type QueryType {
     "Departure time of the trip, format: seconds since midnight of the departure date"
     time: Int!
   ): Trip
+  "Try refetching the current state of a transit leg using its ID"
+  leg(id: ID!): Leg
   """
   Get all places (stops, stations, etc. with coordinates) within the specified
   radius from a location. The returned type is a Relay connection (see
@@ -2007,7 +2009,16 @@ type Stop implements Node & PlaceInterface {
   "Identifier of the platform, usually a number. This value is only present for stops that are part of a station"
   platformCode: String
   "Routes which pass through this stop"
-  routes: [Route!]
+  routes(
+    """
+    Only include routes which are operational on at least one service date specified by this filter.
+        
+    **Note**: A service date is a technical term useful for transit planning purposes and might not
+    correspond to a how a passenger thinks of a calendar date. For example, a night bus running
+    on Sunday morning at 1am to 3am, might have the previous Saturday's service date.
+    """
+    serviceDates: LocalDateRangeInput
+  ): [Route!]
   "Returns timetable of the specified pattern at this stop"
   stopTimesForPattern(
     "Id of the pattern"
