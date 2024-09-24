@@ -22,7 +22,6 @@ import PositionMarker from './PositionMarker';
 import VectorTileLayerContainer from './tile-layer/VectorTileLayerContainer';
 import { boundWithMinimumArea } from '../../util/geo-utils';
 import { isDebugTiles } from '../../util/browser';
-import { BreakpointConsumer } from '../../util/withBreakpoint';
 import events from '../../util/events';
 import { getLayerBaseUrl } from '../../util/mapLayerUtils';
 import GeoJSON from './GeoJSON';
@@ -82,6 +81,7 @@ export default class Map extends React.Component {
     // eslint-disable-next-line
     geoJson: PropTypes.object,
     mapLayers: mapLayerShape,
+    breakpoint: PropTypes.string,
   };
 
   static defaultProps = {
@@ -105,6 +105,7 @@ export default class Map extends React.Component {
     leafletEvents: undefined,
     leafletObjs: undefined,
     objectsToHide: { vehicleRentalStations: [] },
+    breakpoint: undefined,
   };
 
   static contextTypes = {
@@ -120,7 +121,17 @@ export default class Map extends React.Component {
     if (props.mapRef) {
       props.mapRef(this);
     }
-    this.boundsOptions = { paddingTopLeft: [0, EXTRA_PADDING] };
+    if (this.props.breakpoint === 'large') {
+      this.boundsOptions = {
+        paddingTopLeft: [0, EXTRA_PADDING],
+        paddingBottomRight: [0, (window.innerHeight - 64) / 2],
+      };
+    } else {
+      this.boundsOptions = {
+        paddingTopLeft: [0, 0],
+        paddingBottomRight: [0, 0],
+      };
+    }
   }
 
   updateZoom = () => {
@@ -163,7 +174,7 @@ export default class Map extends React.Component {
       const bottomControls = document.getElementsByClassName('leaflet-bottom');
       Array.prototype.forEach.call(bottomControls, elem => {
         // eslint-disable-next-line no-param-reassign
-        elem.style.transform = `translate(0, -${this.props.bottomPadding}px)`;
+        elem.style.transform = `translate(0, -${this.boundsOptions.paddingBottomRight}px)`;
       });
     }
   }
@@ -313,7 +324,9 @@ export default class Map extends React.Component {
         <span
           className="overlay-mover"
           style={{
-            transform: `translate(0, -${bottomPadding || 0}px)`,
+            transform: `translate(0, -${
+              this.boundsOptions.paddingBottomRight || 0
+            }px)`,
           }}
         >
           {this.props.bottomButtons}
@@ -353,42 +366,36 @@ export default class Map extends React.Component {
               maxZoom={config.map.maxZoom}
               attribution={attribution}
             />
-            <BreakpointConsumer>
-              {breakpoint =>
-                attribution && (
-                  <AttributionControl
-                    position={
-                      breakpoint === 'large' ? 'bottomright' : 'bottomleft'
-                    }
-                    prefix=""
-                  />
-                )
-              }
-            </BreakpointConsumer>
+            {attribution && (
+              <AttributionControl
+                position={
+                  this.props.breakpoint === 'large'
+                    ? 'bottomright'
+                    : 'bottomleft'
+                }
+                prefix=""
+              />
+            )}
             {config.map.showScaleBar && (
               <ScaleControl
                 imperial={false}
                 position={config.map.controls.scale.position}
               />
             )}
-            <BreakpointConsumer>
-              {breakpoint =>
-                breakpoint === 'large' &&
-                config.map.showZoomControl && (
-                  <ZoomControl
-                    position={config.map.controls.zoom.position}
-                    zoomInText={zoomInText}
-                    zoomOutText={zoomOutText}
-                    zoomInTitle={this.context.intl.formatMessage({
-                      id: 'map-zoom-in-button',
-                    })}
-                    zoomOutTitle={this.context.intl.formatMessage({
-                      id: 'map-zoom-out-button',
-                    })}
-                  />
-                )
-              }
-            </BreakpointConsumer>
+            {this.props.breakpoint === 'large' &&
+              config.map.showZoomControl && (
+                <ZoomControl
+                  position={config.map.controls.zoom.position}
+                  zoomInText={zoomInText}
+                  zoomOutText={zoomOutText}
+                  zoomInTitle={this.context.intl.formatMessage({
+                    id: 'map-zoom-in-button',
+                  })}
+                  zoomOutTitle={this.context.intl.formatMessage({
+                    id: 'map-zoom-out-button',
+                  })}
+                />
+              )}
             {leafletObjNew}
             <PositionMarker key="position" />
           </LeafletMap>

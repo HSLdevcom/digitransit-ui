@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { matchShape } from 'found';
 import { configShape } from '../util/shapes';
 import MobileFooter from './MobileFooter';
 
@@ -56,7 +55,6 @@ export default class MobileView extends React.Component {
     searchBox: PropTypes.node,
     // eslint-disable-next-line
     mapRef: PropTypes.shape({ current: PropTypes.object }),
-    match: matchShape.isRequired,
   };
 
   static defaultProps = {
@@ -79,7 +77,7 @@ export default class MobileView extends React.Component {
   }
 
   onScroll = e => {
-    if (this.props.map && e.target.className === 'drawer-container') {
+    if (this.props.mapRef && e.target.className === 'drawer-container') {
       this.props.mapRef?.current?.setBottomPadding(e.target.scrollTop);
     }
   };
@@ -102,9 +100,7 @@ export default class MobileView extends React.Component {
   };
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    const nextPage = nextProps.match.location.pathname.split('/')[1];
-    const page = this.props.match.location.pathname.split('/')[1];
-    if (page !== nextPage) {
+    if (nextProps.header !== this.props.header) {
       // view change should reset bottom sheet position
       this.resetBottomSheet = true;
     }

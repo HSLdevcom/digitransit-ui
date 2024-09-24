@@ -1223,7 +1223,6 @@ export default function ItineraryPage(props, context) {
       map={map}
       mapRef={mwtRef}
       ref={mobileRef}
-      match={match}
     />
   );
 }
