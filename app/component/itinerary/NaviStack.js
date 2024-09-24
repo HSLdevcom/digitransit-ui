@@ -5,11 +5,44 @@ import cx from 'classnames';
 import { legShape } from '../../util/shapes';
 import { timeStr } from '../../util/timeUtils';
 import Icon from '../Icon';
+import { legTime } from '../../util/legUtils';
 
-const getInfo = (nextLeg, canceled, transferProblem, intl) => {
+const TRANSFER_SLACK = 60000; // milliseconds
+
+function findTransferProblem(legs) {
+  for (let i = 1; i < legs.length - 1; i++) {
+    const prev = legs[i - 1];
+    const leg = legs[i];
+    const next = legs[i + 1];
+
+    if (prev.transitLeg && leg.transitLeg && !leg.interlineWithPreviousLeg) {
+      // transfer at a stop
+      if (legTime(leg.start) - legTime(prev.end) < TRANSFER_SLACK) {
+        return [prev, leg];
+      }
+    }
+
+    if (prev.transitLeg && next.transitLeg && !leg.transitLeg) {
+      // transfer with some walking
+      const t1 = legTime(prev.end);
+      const t2 = legTime(next.start);
+      const transferDuration = legTime(leg.end) - legTime(leg.start);
+      const slack = t2 - t1 - transferDuration;
+      if (slack < TRANSFER_SLACK) {
+        return [prev, next];
+      }
+    }
+  }
+  return null;
+}
+
+const getInfo = (nextLeg, realTimeLegs, intl) => {
   const { start, realTime, to, mode } = nextLeg;
   const { estimatedTime, scheduledTime } = start;
   const { parentStation, name } = to.stop;
+
+  const canceled = realTimeLegs.find(leg => leg.realtimeState === 'CANCELED');
+  const transferProblem = findTransferProblem(realTimeLegs);
 
   const localizedMode = intl.formatMessage({
     id: `${mode.toLowerCase()}`,
@@ -89,8 +122,8 @@ const getInfo = (nextLeg, canceled, transferProblem, intl) => {
   };
 };
 
-const NaviStack = ({ transferProblem, nextLeg, canceled, show }, { intl }) => {
-  const info = getInfo(nextLeg, canceled, transferProblem, intl);
+const NaviStack = ({ realTimeLegs, nextLeg, show }, { intl }) => {
+  const info = getInfo(nextLeg, realTimeLegs, intl);
 
   return (
     <div
@@ -109,15 +142,12 @@ const NaviStack = ({ transferProblem, nextLeg, canceled, show }, { intl }) => {
   );
 };
 NaviStack.propTypes = {
-  transferProblem: PropTypes.arrayOf(legShape),
   nextLeg: legShape,
-  canceled: PropTypes.bool,
   show: PropTypes.bool.isRequired,
+  realTimeLegs: PropTypes.arrayOf(legShape).isRequired,
 };
 
 NaviStack.defaultProps = {
-  transferProblem: null,
-  canceled: false,
   nextLeg: null,
 };
 

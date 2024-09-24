@@ -7,14 +7,8 @@ import NaviLeg from './NaviLeg';
 import Icon from '../Icon';
 import NaviStack from './NaviStack';
 
-function NaviTop({
-  itinerary,
-  currentLeg,
-  time,
-  canceled,
-  transferProblem,
-  realTimeLegs,
-}) {
+function NaviTop({ itinerary, focusToLeg, time, realTimeLegs }) {
+  const [currentLeg, setCurrentLeg] = useState(null);
   const [show, setShow] = useState(true);
 
   const handleClick = () => {
@@ -28,6 +22,20 @@ function NaviTop({
 
     return () => clearTimeout(timer); // Cleanup the timer on component unmount
   }, []);
+
+  useEffect(() => {
+    const newLeg = realTimeLegs.find(leg => {
+      return legTime(leg.start) <= time && time <= legTime(leg.end);
+    });
+
+    if (newLeg?.id !== currentLeg?.id) {
+      setCurrentLeg(newLeg);
+      if (newLeg) {
+        focusToLeg(newLeg, false);
+      }
+    }
+  }, [time]);
+
   const first = realTimeLegs[0];
   const last = realTimeLegs[realTimeLegs.length - 1];
 
@@ -70,12 +78,7 @@ function NaviTop({
         </div>
       </button>
       {nextLeg && (
-        <NaviStack
-          transferProblem={transferProblem}
-          canceled={canceled}
-          nextLeg={nextLeg}
-          show={show}
-        />
+        <NaviStack nextLeg={nextLeg} show={show} realTimeLegs={realTimeLegs} />
       )}
     </>
   );
@@ -83,10 +86,8 @@ function NaviTop({
 
 NaviTop.propTypes = {
   itinerary: itineraryShape.isRequired,
-  currentLeg: legShape,
+  focusToLeg: PropTypes.func.isRequired,
   time: PropTypes.number.isRequired,
-  canceled: legShape,
-  transferProblem: PropTypes.arrayOf(legShape),
   realTimeLegs: PropTypes.arrayOf(legShape).isRequired,
   /*
   focusToPoint: PropTypes.func.isRequired,
@@ -97,9 +98,4 @@ NaviTop.contextTypes = {
   intl: intlShape.isRequired,
 };
 
-NaviTop.defaultProps = {
-  canceled: undefined,
-  transferProblem: undefined,
-  currentLeg: undefined,
-};
 export default NaviTop;
