@@ -201,9 +201,9 @@ export default {
       availableForSelection: true,
     },
     scooter: {
-      availableForSelection: false,
+      availableForSelection: true,
       defaultValue: false,
-      showIfSelectedForRouting: false,
+      showIfSelectedForRouting: true,
     },
     airplane: {
       availableForSelection: false,
@@ -497,7 +497,7 @@ export default {
         showRentalStations: true,
       },
       bolt_helsinki: {
-        enabled: false,
+        enabled: true,
         season: {
           alwaysOn: true,
         },
