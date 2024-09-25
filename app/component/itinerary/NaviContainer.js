@@ -63,10 +63,10 @@ function NaviContainer({
       Promise.all(legQueries).then(responses => {
         const legMap = {};
         responses.forEach(data => {
-          legMap[data.node.id] = data.node;
+          legMap[data.leg.id] = data.leg;
         });
         const rtLegs = itinerary.legs.map(l => {
-          const rtLeg = legMap[l.id];
+          const rtLeg = l.id ? legMap[l.id] : null;
           return rtLeg ? { ...l, ...rtLeg } : { ...l };
         });
         setRealTimeLegs(rtLegs);
