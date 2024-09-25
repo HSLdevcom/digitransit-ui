@@ -54,7 +54,7 @@ export default class MobileView extends React.Component {
     selectFromMapHeader: PropTypes.node,
     searchBox: PropTypes.node,
     // eslint-disable-next-line
-    mapRef: PropTypes.shape({ current: PropTypes.object }),
+    mapRef: PropTypes.object,
   };
 
   static defaultProps = {
@@ -78,7 +78,7 @@ export default class MobileView extends React.Component {
 
   onScroll = e => {
     if (this.props.mapRef && e.target.className === 'drawer-container') {
-      this.props.mapRef?.current?.setBottomPadding(e.target.scrollTop);
+      this.props.mapRef.setBottomPadding(e.target.scrollTop);
     }
   };
 
@@ -89,12 +89,12 @@ export default class MobileView extends React.Component {
         pos === 'middle' ? getMiddlePosition() : BOTTOM_SHEET_OFFSET;
       if (slowly) {
         slowlyScrollTo(this.scrollRef, newPosition, () => {
-          this.props.mapRef?.current?.forceRefresh();
-          this.props.mapRef?.current?.setBottomPadding(newPosition);
+          this.props.mapRef?.forceRefresh();
+          this.props.mapRef?.setBottomPadding(newPosition);
         });
       } else {
         this.scrollRef.scrollTop = newPosition;
-        this.props.mapRef?.current?.setBottomPadding(newPosition);
+        this.props.mapRef?.setBottomPadding(newPosition);
       }
     }
   };
@@ -110,6 +110,10 @@ export default class MobileView extends React.Component {
     if (this.scrollRef) {
       const newSheetPosition = getMiddlePosition();
       this.scrollRef.scrollTop = newSheetPosition;
+      if (this.props.mapRef) {
+        this.props.mapRef.forceRefresh();
+        this.props.mapRef.setBottomPadding(newSheetPosition);
+      }
     }
   }
 
@@ -119,8 +123,8 @@ export default class MobileView extends React.Component {
       const newSheetPosition = getMiddlePosition();
       this.scrollRef.scrollTop = newSheetPosition;
       if (this.props.mapRef) {
-        this.props.mapRef?.current?.forceRefresh();
-        this.props.mapRef.current?.setBottomPadding(newSheetPosition);
+        this.props.mapRef.forceRefresh();
+        this.props.mapRef.setBottomPadding(newSheetPosition);
       }
     }
   }
