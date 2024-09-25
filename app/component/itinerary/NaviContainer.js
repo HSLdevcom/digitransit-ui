@@ -6,57 +6,26 @@ import NaviTop from './NaviTop';
 import NaviBottom from './NaviBottom';
 import { legTime } from '../../util/legUtils';
 
-const TRANSFER_SLACK = 60000; // milliseconds
-
 const legQuery = graphql`
   query NaviContainer_legQuery($id: ID!) {
-    node(id: $id) {
-      ... on Leg {
-        id
-        start {
-          scheduledTime
-          estimated {
-            time
-          }
+    leg(id: $id) {
+      id
+      start {
+        scheduledTime
+        estimated {
+          time
         }
-        end {
-          scheduledTime
-          estimated {
-            time
-          }
-        }
-        realtimeState
       }
+      end {
+        scheduledTime
+        estimated {
+          time
+        }
+      }
+      realtimeState
     }
   }
 `;
-
-function findTransferProblem(legs) {
-  for (let i = 1; i < legs.length - 1; i++) {
-    const prev = legs[i - 1];
-    const leg = legs[i];
-    const next = legs[i + 1];
-
-    if (prev.transitLeg && leg.transitLeg && !leg.interlineWithPreviousLeg) {
-      // transfer at a stop
-      if (legTime(leg.start) - legTime(prev.end) < TRANSFER_SLACK) {
-        return [prev, leg];
-      }
-    }
-
-    if (prev.transitLeg && next.transitLeg && !leg.transitLeg) {
-      // transfer with some walking
-      const t1 = legTime(prev.end);
-      const t2 = legTime(next.start);
-      const transferDuration = legTime(leg.end) - legTime(leg.start);
-      const slack = t2 - t1 - transferDuration;
-      if (slack < TRANSFER_SLACK) {
-        return [prev, next];
-      }
-    }
-  }
-  return null;
-}
 
 function NaviContainer({
   itinerary,
@@ -64,7 +33,6 @@ function NaviContainer({
   relayEnvironment,
   setNavigation,
 }) {
-  const [currentLeg, setCurrentLeg] = useState(null);
   const [realTimeLegs, setRealTimeLegs] = useState(itinerary.legs);
   const [time, setTime] = useState(Date.now());
 
@@ -76,17 +44,8 @@ function NaviContainer({
 
     return () => clearInterval(interval);
   }, []);
-  useEffect(() => {
-    const newLeg = realTimeLegs.find(leg => {
-      return legTime(leg.start) <= time && time <= legTime(leg.end);
-    });
 
-    if (newLeg?.id !== currentLeg?.id) {
-      setCurrentLeg(newLeg);
-      if (newLeg) {
-        focusToLeg(newLeg, false);
-      }
-    }
+  useEffect(() => {
     const legQueries = [];
     itinerary.legs.forEach(leg => {
       if (leg.transitLeg) {
@@ -104,19 +63,16 @@ function NaviContainer({
       Promise.all(legQueries).then(responses => {
         const legMap = {};
         responses.forEach(data => {
-          legMap[data.node.id] = data.node;
+          legMap[data.leg.id] = data.leg;
         });
         const rtLegs = itinerary.legs.map(l => {
-          const rtLeg = legMap[l.id];
+          const rtLeg = l.id ? legMap[l.id] : null;
           return rtLeg ? { ...l, ...rtLeg } : { ...l };
         });
         setRealTimeLegs(rtLegs);
       });
     }
   }, [time]);
-
-  const canceled = realTimeLegs.find(leg => leg.realtimeState === 'CANCELED');
-  const transferProblem = findTransferProblem(realTimeLegs);
 
   // recompute estimated arrival
   let lastTransitLeg;
@@ -140,10 +96,8 @@ function NaviContainer({
       <NaviTop
         itinerary={itinerary}
         realTimeLegs={realTimeLegs}
-        currentLeg={currentLeg}
+        focusToLeg={focusToLeg}
         time={time}
-        canceled={canceled}
-        transferProblem={transferProblem}
       />{' '}
       <NaviBottom setNavigation={setNavigation} arrival={arrivalTime} />
     </>
