@@ -183,7 +183,7 @@ export default configMerger(walttiConfig, {
     for (let i = 0; i < ticket.length; i++) {
       zones += `0${ticket.charCodeAt(i) - 64}`; // eslint-disable
     }
-    return `https://waltti.fi/walttiappfeat/busTicket/?operator=50209&ticketType=single&customerGroup=adult&zones=${zones}`;
+    return `https://waltti.fi/walttiapp/busTicket/?operator=50209&ticketType=single&customerGroup=adult&zones=${zones}`;
   },
 
   fareMapping: function mapFareId(fareId) {
