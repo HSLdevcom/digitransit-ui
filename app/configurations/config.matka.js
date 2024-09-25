@@ -196,7 +196,7 @@ export default {
       availableForSelection: true,
     },
     scooter: {
-      availableForSelection: false,
+      availableForSelection: true,
       defaultValue: false,
     },
   },
