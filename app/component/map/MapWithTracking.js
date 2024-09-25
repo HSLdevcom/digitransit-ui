@@ -87,6 +87,7 @@ class MapWithTrackingStateHandler extends React.Component {
     breakpoint: PropTypes.string.isRequired,
     lang: PropTypes.string.isRequired,
     topButtons: PropTypes.node,
+    bottomPadding: PropTypes.number,
   };
 
   static defaultProps = {
@@ -108,6 +109,7 @@ class MapWithTrackingStateHandler extends React.Component {
     leafletEvents: {},
     mapLayerOptions: null,
     topButtons: null,
+    bottomPadding: undefined,
   };
 
   constructor(props) {
