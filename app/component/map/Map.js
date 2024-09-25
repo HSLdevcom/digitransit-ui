@@ -174,7 +174,7 @@ export default class Map extends React.Component {
       const bottomControls = document.getElementsByClassName('leaflet-bottom');
       Array.prototype.forEach.call(bottomControls, elem => {
         // eslint-disable-next-line no-param-reassign
-        elem.style.transform = `translate(0, -${this.boundsOptions.paddingBottomRight[1]}px)`;
+        elem.style.transform = `translate(0, -${this.props.bottomPadding}px)`;
       });
     }
   }
@@ -324,7 +324,7 @@ export default class Map extends React.Component {
         <span
           className="overlay-mover"
           style={{
-            transform: `translate(0, -${this.boundsOptions.paddingBottomRight[1]}px)`,
+            transform: `translate(0, -${this.props.bottomPadding}px)`,
           }}
         >
           {this.props.bottomButtons}
