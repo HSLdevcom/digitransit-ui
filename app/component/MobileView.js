@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { configShape } from '../util/shapes';
 import MapBottomsheetContext from './map/MapBottomsheetContext';
 import MobileFooter from './MobileFooter';
 
@@ -66,10 +65,6 @@ export default class MobileView extends React.Component {
     selectFromMapHeader: undefined,
     searchBox: undefined,
     mapRef: undefined,
-  };
-
-  static contextTypes = {
-    config: configShape.isRequired,
   };
 
   constructor(props) {
