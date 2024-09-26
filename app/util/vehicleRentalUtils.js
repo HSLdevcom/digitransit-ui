@@ -184,11 +184,17 @@ export const hasVehicleRentalCode = rentalId => {
 };
 
 export const mapVehicleRentalFromStore = vehicleRentalStation => {
-  const network = vehicleRentalStation.networks[0];
+  const originalId = vehicleRentalStation.stationId;
+  const network =
+    vehicleRentalStation.networks?.[0] || originalId.split(':')[0];
+  const stationId = originalId.startsWith(network)
+    ? originalId
+    : `${network}:${originalId}`;
+
   const newStation = {
     ...vehicleRentalStation,
     network,
-    stationId: `${network}:${vehicleRentalStation.stationId}`,
+    stationId,
   };
   delete newStation.networks;
   return newStation;
