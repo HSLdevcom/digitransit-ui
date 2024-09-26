@@ -110,9 +110,8 @@ const unset = { plan: {}, loading: LOADSTATE.UNSET };
 export default function ItineraryPage(props, context) {
   const headerRef = useRef(null);
   const mwtRef = useRef();
-  const expandMapRef = useRef({ position: 'middle' });
+  const mobileRef = useRef();
   const ariaRef = useRef('summary-page.title');
-
   const [state, setState] = useState({
     ...emptyState,
     loading: LOADSTATE.UNSET,
@@ -587,14 +586,27 @@ export default function ItineraryPage(props, context) {
     }
   };
 
-  const setNavigation = enable => {
-    setNaviMode(enable);
-    if (enable) {
-      expandMapRef.current = { position: 'bottom' };
-    } else {
-      expandMapRef.current = { position: 'middle' };
-      setMapState({ center: undefined, bounds: undefined });
+  // make the map to obey external navigation
+  function navigateMap() {
+    // map sticks to user location if tracking is on, so set it off
+    if (mwtRef.current?.disableMapTracking) {
+      mwtRef.current.disableMapTracking();
     }
+    // map will not react to location props unless they change or update is forced
+    if (mwtRef.current?.forceRefresh) {
+      mwtRef.current.forceRefresh();
+    }
+  }
+
+  const setNavigation = enable => {
+    if (mobileRef.current) {
+      mobileRef.current.setBottomSheet(enable ? 'bottom' : 'middle');
+    }
+    if (!enable) {
+      setMapState({ center: undefined, zoom: undefined, bounds: undefined });
+      navigateMap();
+    }
+    setNaviMode(enable);
   };
 
   // save url-defined location to old searches
@@ -683,18 +695,6 @@ export default function ItineraryPage(props, context) {
     );
   }
 
-  // make the map to obey external navigation
-  function navigateMap() {
-    // map sticks to user location if tracking is on, so set it off
-    if (mwtRef.current?.disableMapTracking) {
-      mwtRef.current.disableMapTracking();
-    }
-    // map will not react to location props unless they change or update is forced
-    if (mwtRef.current?.forceRefresh) {
-      mwtRef.current.forceRefresh();
-    }
-  }
-
   function getCombinedPlanEdges() {
     return [
       ...(state.earlierEdges || []),
@@ -737,7 +737,7 @@ export default function ItineraryPage(props, context) {
 
   useEffect(() => {
     navigateMap();
-    setMapState({ center: undefined, bounds: undefined });
+    setMapState({ center: undefined, zoom: undefined, bounds: undefined });
 
     if (detailView) {
       // If itinerary is not found in detail view, go back to summary view
@@ -822,16 +822,16 @@ export default function ItineraryPage(props, context) {
   };
 
   const focusToPoint = (lat, lon) => {
-    if (breakpoint !== 'large') {
-      expandMapRef.current = { position: 'bottom' };
+    if (mobileRef.current) {
+      mobileRef.current.setBottomSheet('bottom');
     }
     navigateMap();
-    setMapState({ center: { lat, lon }, bounds: null });
+    setMapState({ center: { lat, lon }, zoom: 18, bounds: null });
   };
 
   const focusToLeg = leg => {
-    if (breakpoint !== 'large') {
-      expandMapRef.current = { position: 'bottom' };
+    if (mobileRef.current) {
+      mobileRef.current.setBottomSheet('bottom');
     }
     navigateMap();
     const bounds = boundWithMinimumArea(
@@ -956,6 +956,7 @@ export default function ItineraryPage(props, context) {
     } else if (mapState.center) {
       mwtProps.lat = mapState.center.lat;
       mwtProps.lon = mapState.center.lon;
+      mwtProps.zoom = mapState.zoom;
     } else {
       mwtProps.bounds = getBounds(planEdges, from, to, viaPoints);
     }
@@ -1220,7 +1221,8 @@ export default function ItineraryPage(props, context) {
       content={content}
       settingsDrawer={settingsDrawer}
       map={map}
-      expandMap={expandMapRef.current}
+      mapRef={mwtRef.current}
+      ref={mobileRef}
     />
   );
 }
