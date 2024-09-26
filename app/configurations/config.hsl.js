@@ -12,10 +12,15 @@ const HSLTimetables = require('./timetableConfigUtils').default.HSL;
 const HSLParkAndRideUtils = require('../util/ParkAndRideUtils').default.HSL;
 
 const rootLink = process.env.ROOTLINK || 'https://test.hslfi.hsldev.com';
-const BANNER_URL =
-  process.env.BANNER_URL ||
-  'https://cms-test.hslfi.hsldev.com/api/v1/banners?site=JourneyPlanner';
-// 'https://content.hsl.fi/api/v1/banners?site=JourneyPlanner';
+
+const BANNER_URL = process.env.CONTENT_DOMAIN
+  ? `${process.env.CONTENT_DOMAIN}/api/v1/banners?site=JourneyPlanner`
+  : process.env.BANNER_URL ||
+    'https://cms-test.hslfi.hsldev.com/api/v1/banners?site=JourneyPlanner';
+const SUGGESTION_URL = process.env.CONTENT_DOMAIN
+  ? `${process.env.CONTENT_DOMAIN}/api/v1/search/suggestions`
+  : 'https://content.hsl.fi/api/v1/search/suggestions'; // old url
+
 const localStorageEmitter =
   process.env.USE_EMITTER && rootLink + '/local-storage-emitter';
 
@@ -54,7 +59,7 @@ export default {
     FONTCOUNTER: 'https://cloud.typography.com/6364294/7432412/css/fonts.css',
     ROOTLINK: rootLink,
     BANNERS: BANNER_URL,
-    HSL_FI_SUGGESTIONS: 'https://content.hsl.fi/api/v1/search/suggestions',
+    HSL_FI_SUGGESTIONS: SUGGESTION_URL,
     EMBEDDED_SEARCH_GENERATION: '/reittiopas-elementti',
     EMISSIONS_INFO: {
       fi: 'https://www.hsl.fi/hsl/sahkobussit/ymparisto-lukuina',
@@ -85,6 +90,7 @@ export default {
   useRoutingFeedbackPrompt: true,
 
   feedIds: ['HSL', 'HSLlautta', 'Sipoo'],
+  externalFeedIds: ['HSLlautta'],
 
   showHSLTracking: false,
   allowLogin: true,
@@ -513,6 +519,21 @@ export default {
       sv: 'https://www.hsl.fi/sv/stadscyklar?utm_campaign=kaupunkipyorat-omat&utm_source=reittiopas&utm_medium=referral#block-28474',
       en: 'https://www.hsl.fi/en/citybikes?utm_campaign=kaupunkipyorat-omat&utm_source=reittiopas&utm_medium=referral#block-28474',
     },
+    scooterInfoLink: {
+      fi: {
+        text: 'Potkulaudat',
+        url: 'https://www.hsl.fi/hsl/uutiset/teemat/potkulaudat',
+      },
+      en: {
+        text: 'Scooters',
+        url: 'https://www.hsl.fi/hsl/uutiset/teemat/potkulaudat',
+      },
+      sv: {
+        text: 'Elsparkcyklar',
+        url: 'https://www.hsl.fi/hsl/uutiset/teemat/potkulaudat',
+      },
+    },
+    maxMinutesToRentalJourneyEnd: 240,
   },
 
   showVehiclesOnItineraryPage: true,
@@ -561,7 +582,7 @@ export default {
   showSimilarRoutesOnRouteDropDown: true,
   useRealtimeTravellerCapacities: true,
 
-  navigation: true,
+  navigation: false,
 
   stopCard: {
     header: {

@@ -811,7 +811,11 @@ export default function ItineraryPage(props, context) {
       state.loading === LOADSTATE.DONE &&
       scooterState.loading === LOADSTATE.DONE
     ) {
-      const plan = mergeScooterTransitPlan(scooterState.plan, state.plan);
+      const plan = mergeScooterTransitPlan(
+        scooterState.plan,
+        state.plan,
+        config.vehicleRental.allowDirectScooterJourneys,
+      );
       setCombinedState({ plan, loading: LOADSTATE.DONE });
       resetItineraryPageSelection();
     }
