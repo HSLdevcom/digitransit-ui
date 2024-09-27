@@ -13,16 +13,12 @@ import MobileFooter from './MobileFooter';
 import {
   PREFIX_ROUTES,
   PREFIX_NEARYOU,
-  PREFIX_STOPS,
-  PREFIX_TERMINALS,
   PREFIX_ITINERARY_SUMMARY,
 } from '../util/path';
 
 const noBottomSheetResetAtContentChange = [
   PREFIX_ROUTES,
   PREFIX_NEARYOU,
-  PREFIX_STOPS,
-  PREFIX_TERMINALS,
   PREFIX_ITINERARY_SUMMARY,
 ];
 
@@ -86,6 +82,8 @@ const MobileView = forwardRef(
       return <div className="mobile">{settingsDrawer}</div>;
     }
     const scrollRef = useRef(null);
+    const pathParts = match.location.pathname.split('/');
+    const pagePrefix = pathParts?.length > 1 ? pathParts[1] : undefined;
 
     // pass these to map according to bottom sheet placement
     const [bottomPadding, setBottomPadding] = useState(getMiddlePosition());
@@ -131,7 +129,7 @@ const MobileView = forwardRef(
 
     // effect below triggers when itinerary detail view opens
     useLayoutEffect(() => {
-      if (mapRef) {
+      if (pagePrefix === PREFIX_ITINERARY_SUMMARY) {
         changeBottomPadding(getMiddlePosition());
       }
     }, [header]);
@@ -145,10 +143,7 @@ const MobileView = forwardRef(
 
     // set bottom sheet for most views at content change
     useLayoutEffect(() => {
-      const pathParts = match.location.pathname.split('/');
-      const page = pathParts.length > 1 ? pathParts[1] : 'indexPage';
-
-      if (map && !noBottomSheetResetAtContentChange.includes(page)) {
+      if (map && !noBottomSheetResetAtContentChange.includes(pagePrefix)) {
         changeBottomPadding(getMiddlePosition());
       }
     }, [content]);
