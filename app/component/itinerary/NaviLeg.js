@@ -27,7 +27,7 @@ export default function NaviLeg({ leg, nextLeg }, { intl }) {
   return (
     <div>
       <div className="navileg-goto">
-        <Icon img={iconName} color="white" className="navileg-mode" />
+        <Icon img={iconName} color="black" className="navileg-mode" />
         <div className="navileg-divider" />
         <div className="navileg-destination">
           <div className="destination-header">
