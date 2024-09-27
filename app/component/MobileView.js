@@ -6,8 +6,25 @@ import React, {
   forwardRef,
   useImperativeHandle,
 } from 'react';
+import { matchShape } from 'found';
 import MapBottomsheetContext from './map/MapBottomsheetContext';
 import MobileFooter from './MobileFooter';
+
+import {
+  PREFIX_ROUTES,
+  PREFIX_NEARYOU,
+  PREFIX_STOPS,
+  PREFIX_TERMINALS,
+  PREFIX_ITINERARY_SUMMARY,
+} from '../util/path';
+
+const noBottomSheetResetAtContentChange = [
+  PREFIX_ROUTES,
+  PREFIX_NEARYOU,
+  PREFIX_STOPS,
+  PREFIX_TERMINALS,
+  PREFIX_ITINERARY_SUMMARY,
+];
 
 const BOTTOM_SHEET_OFFSET = 20;
 const topBarHeight = 64;
@@ -61,6 +78,7 @@ const MobileView = forwardRef(
       selectFromMapHeader,
       mapRef,
       searchBox,
+      match,
     },
     ref,
   ) => {
@@ -103,17 +121,37 @@ const MobileView = forwardRef(
       },
     }));
 
+    /* UI does not have a consistent way to render the map into mobile view.
+       Most views don't get a map reference. Itinerary page has the ref and knows
+       how to control bottom sheet whenever needed.
+
+       In most page transitions, we can only try to guess from props which view is
+       in question and what should happen when props change.
+    */
+
+    // effect below triggers when itinerary detail view opens
     useLayoutEffect(() => {
-      if (map) {
+      if (mapRef) {
         changeBottomPadding(getMiddlePosition());
       }
     }, [header]);
 
+    // always set bottom sheet when component mounts
     useLayoutEffect(() => {
       if (map) {
         changeBottomPadding(getMiddlePosition());
       }
     }, []);
+
+    // set bottom sheet for most views at content change
+    useLayoutEffect(() => {
+      const pathParts = match.location.pathname.split('/');
+      const page = pathParts.length > 1 ? pathParts[1] : 'indexPage';
+
+      if (map && !noBottomSheetResetAtContentChange.includes(page)) {
+        changeBottomPadding(getMiddlePosition());
+      }
+    }, [content]);
 
     return (
       <div className="mobile">
@@ -164,6 +202,7 @@ MobileView.propTypes = {
   searchBox: PropTypes.node,
   // eslint-disable-next-line
   mapRef: PropTypes.object,
+  match: matchShape.isRequired,
 };
 
 MobileView.defaultProps = {
