@@ -6,8 +6,21 @@ import React, {
   forwardRef,
   useImperativeHandle,
 } from 'react';
+import { matchShape } from 'found';
 import MapBottomsheetContext from './map/MapBottomsheetContext';
 import MobileFooter from './MobileFooter';
+
+import {
+  PREFIX_ROUTES,
+  PREFIX_NEARYOU,
+  PREFIX_ITINERARY_SUMMARY,
+} from '../util/path';
+
+const noBottomSheetResetAtContentChange = [
+  PREFIX_ROUTES,
+  PREFIX_NEARYOU,
+  PREFIX_ITINERARY_SUMMARY,
+];
 
 const BOTTOM_SHEET_OFFSET = 20;
 const topBarHeight = 64;
@@ -61,6 +74,7 @@ const MobileView = forwardRef(
       selectFromMapHeader,
       mapRef,
       searchBox,
+      match,
     },
     ref,
   ) => {
@@ -68,6 +82,8 @@ const MobileView = forwardRef(
       return <div className="mobile">{settingsDrawer}</div>;
     }
     const scrollRef = useRef(null);
+    const pathParts = match.location.pathname.split('/');
+    const pagePrefix = pathParts?.length > 1 ? pathParts[1] : undefined;
 
     // pass these to map according to bottom sheet placement
     const [bottomPadding, setBottomPadding] = useState(getMiddlePosition());
@@ -103,17 +119,34 @@ const MobileView = forwardRef(
       },
     }));
 
+    /* UI does not have a consistent way to render the map into mobile view.
+       Most views don't get a map reference. Itinerary page has the ref and knows
+       how to control bottom sheet whenever needed.
+
+       In most page transitions, we can only try to guess from props which view is
+       in question and what should happen when props change.
+    */
+
+    // effect below triggers when itinerary detail view opens
     useLayoutEffect(() => {
-      if (map) {
+      if (pagePrefix === PREFIX_ITINERARY_SUMMARY) {
         changeBottomPadding(getMiddlePosition());
       }
     }, [header]);
 
+    // always set bottom sheet when component mounts
     useLayoutEffect(() => {
       if (map) {
         changeBottomPadding(getMiddlePosition());
       }
     }, []);
+
+    // set bottom sheet for most views at content change
+    useLayoutEffect(() => {
+      if (map && !noBottomSheetResetAtContentChange.includes(pagePrefix)) {
+        changeBottomPadding(getMiddlePosition());
+      }
+    }, [content]);
 
     return (
       <div className="mobile">
@@ -164,6 +197,7 @@ MobileView.propTypes = {
   searchBox: PropTypes.node,
   // eslint-disable-next-line
   mapRef: PropTypes.object,
+  match: matchShape.isRequired,
 };
 
 MobileView.defaultProps = {
