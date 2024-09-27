@@ -1,5 +1,11 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, {
+  useRef,
+  useLayoutEffect,
+  useState,
+  forwardRef,
+  useImperativeHandle,
+} from 'react';
 import MapBottomsheetContext from './map/MapBottomsheetContext';
 import MobileFooter from './MobileFooter';
 
@@ -45,95 +51,69 @@ Math.easeInOutQuad = function easeInOutQuad(a, b, c, d) {
   return (-c / 2) * (t * (t - 2) - 1) + b;
 };
 
-export default class MobileView extends React.Component {
-  static propTypes = {
-    header: PropTypes.node,
-    map: PropTypes.node,
-    content: PropTypes.node,
-    settingsDrawer: PropTypes.node,
-    selectFromMapHeader: PropTypes.node,
-    searchBox: PropTypes.node,
-    // eslint-disable-next-line
-    mapRef: PropTypes.object,
-  };
-
-  static defaultProps = {
-    header: undefined,
-    map: undefined,
-    content: undefined,
-    settingsDrawer: undefined,
-    selectFromMapHeader: undefined,
-    searchBox: undefined,
-    mapRef: undefined,
-  };
-
-  constructor(props) {
-    super(props);
-    this.resetBottomSheet = true;
-    this.state = { bottomPadding: getMiddlePosition() };
-  }
-
-  onScroll = e => {
-    if (e.target.className === 'drawer-container') {
-      this.props.mapRef?.setBottomPadding(e.target.scrollTop);
-      this.setState({ bottomPadding: e.target.scrollTop });
-    }
-  };
-
-  setBottomPadding = (padding, slowly) => {
-    if (slowly) {
-      slowlyScrollTo(this.scrollRef, padding, () => {
-        this.props.mapRef?.forceRefresh();
-        this.props.mapRef?.setBottomPadding(padding);
-        this.setState({ bottomPadding: padding });
-      });
-    } else {
-      if (this.scrollRef) {
-        this.scrollRef.scrollTop = padding;
-      }
-      this.props.mapRef?.setBottomPadding(padding);
-      this.setState({ bottomPadding: padding });
-    }
-  };
-
-  // eslint-disable-next-line
-  setBottomSheet = (pos, slowly) => {
-    const pad = pos === 'middle' ? getMiddlePosition() : BOTTOM_SHEET_OFFSET;
-    this.setBottomPadding(pad);
-  };
-
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    if (nextProps.header !== this.props.header) {
-      // view change should reset bottom sheet position
-      this.resetBottomSheet = true;
-    }
-  }
-
-  componentDidMount() {
-    this.setBottomPadding(getMiddlePosition());
-  }
-
-  componentDidUpdate() {
-    if (this.resetBottomSheet) {
-      this.resetBottomSheet = false;
-      this.props.mapRef?.forceRefresh();
-      this.setBottomPadding(getMiddlePosition());
-    }
-  }
-
-  render() {
-    const {
+const MobileView = forwardRef(
+  (
+    {
       header,
       map,
       content,
       settingsDrawer,
       selectFromMapHeader,
+      mapRef,
       searchBox,
-    } = this.props;
-
+    },
+    ref,
+  ) => {
     if (settingsDrawer) {
       return <div className="mobile">{settingsDrawer}</div>;
     }
+    const scrollRef = useRef(null);
+
+    // pass these to map according to bottom sheet placement
+    const [bottomPadding, setBottomPadding] = useState(getMiddlePosition());
+
+    const onScroll = e => {
+      if (e.target.className === 'drawer-container') {
+        mapRef?.setBottomPadding(e.target.scrollTop);
+        setBottomPadding(e.target.scrollTop);
+      }
+    };
+
+    const changeBottomPadding = (padding, slowly) => {
+      if (slowly) {
+        slowlyScrollTo(scrollRef.current, padding, () => {
+          mapRef?.forceRefresh();
+          mapRef?.setBottomPadding(padding);
+          setBottomPadding(padding);
+        });
+      } else {
+        if (scrollRef.current) {
+          scrollRef.current.scrollTop = padding;
+        }
+        mapRef?.setBottomPadding(padding);
+        setBottomPadding(padding);
+      }
+    };
+
+    useImperativeHandle(ref, () => ({
+      setBottomSheet: (pos, slowly) => {
+        const pad =
+          pos === 'middle' ? getMiddlePosition() : BOTTOM_SHEET_OFFSET;
+        changeBottomPadding(pad, slowly);
+      },
+    }));
+
+    useLayoutEffect(() => {
+      if (map) {
+        changeBottomPadding(getMiddlePosition());
+      }
+    }, [header]);
+
+    useLayoutEffect(() => {
+      if (map) {
+        changeBottomPadding(getMiddlePosition());
+      }
+    }, []);
 
     return (
       <div className="mobile">
@@ -141,15 +121,13 @@ export default class MobileView extends React.Component {
         {searchBox}
         {map ? (
           <>
-            <MapBottomsheetContext.Provider value={this.state.bottomPadding}>
+            <MapBottomsheetContext.Provider value={bottomPadding}>
               {map}
             </MapBottomsheetContext.Provider>
             <div
               className="drawer-container"
-              onScroll={this.onScroll}
-              ref={el => {
-                this.scrollRef = el;
-              }}
+              onScroll={onScroll}
+              ref={scrollRef}
               role="main"
             >
               <div className="drawer-padding" />
@@ -168,10 +146,34 @@ export default class MobileView extends React.Component {
               {header}
               {content}
             </div>
+
             <MobileFooter />
           </div>
         )}
       </div>
     );
-  }
-}
+  },
+);
+
+MobileView.propTypes = {
+  header: PropTypes.node,
+  map: PropTypes.node,
+  content: PropTypes.node,
+  settingsDrawer: PropTypes.node,
+  selectFromMapHeader: PropTypes.node,
+  searchBox: PropTypes.node,
+  // eslint-disable-next-line
+  mapRef: PropTypes.object,
+};
+
+MobileView.defaultProps = {
+  header: undefined,
+  map: undefined,
+  content: undefined,
+  settingsDrawer: undefined,
+  selectFromMapHeader: undefined,
+  searchBox: undefined,
+  mapRef: undefined,
+};
+
+export default MobileView;

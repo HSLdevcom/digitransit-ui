@@ -7,7 +7,7 @@ import NaviBottom from './NaviBottom';
 import { legTime } from '../../util/legUtils';
 
 const legQuery = graphql`
-  query NaviContainer_legQuery($id: ID!) {
+  query NaviContainer_legQuery($id: String!) {
     leg(id: $id) {
       id
       start {

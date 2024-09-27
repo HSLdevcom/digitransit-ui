@@ -44,6 +44,10 @@ $itinerary-tab-switch-height: 48px;
     @include getCircleSvg($ferry-color, $fill);
   }
 
+  &.ferry-external {
+    @include getCircleSvg($external-feed-color, $fill);
+  }
+
   &.citybike {
     @include getCircleSvg($citybike-color, $fill);
   }
@@ -100,9 +104,10 @@ $itinerary-tab-switch-height: 48px;
   top: 5px;
 
   .disclaimer-container {
-    background-color: rgba(254, 209, 0, 0.1);
-    border: 1px solid #fed100;
-    border-radius: 3px;
+    background-color: $disclaimer-background-color;
+    font-weight: $font-weight-disclaimer;
+    border: 1px solid $disclaimer-border-color;
+    border-radius: $border-radius-disclaimer;
     display: flex;
     font-size: $font-size-xsmall;
     padding: $padding-medium;
@@ -853,6 +858,10 @@ $itinerary-tab-switch-height: 48px;
 
     &.ferry {
       @include setModeCircles($ferry-color);
+    }
+
+    .ferry-external {
+      @include setModeCircles($external-feed-color);
     }
 
     &.funicular {
@@ -1767,6 +1776,11 @@ $itinerary-tab-switch-height: 48px;
           }
         }
 
+        .scooter-icon .icon-container .icon {
+          background-color: $scooter-color;
+          border-radius: 3px;
+        }
+
         .citybike-info {
           position: absolute;
           bottom: 74px;
@@ -1843,6 +1857,10 @@ $itinerary-tab-switch-height: 48px;
           .vehicle-number.airplane {
             width: auto;
             padding: 4px 4px 0 0;
+          }
+
+          .vehicle-number.ferry-external {
+            color: $black;
           }
         }
 
