@@ -21,7 +21,6 @@ import {
 import PositionMarker from './PositionMarker';
 import VectorTileLayerContainer from './tile-layer/VectorTileLayerContainer';
 import { boundWithMinimumArea } from '../../util/geo-utils';
-import { isDebugTiles } from '../../util/browser';
 import { BreakpointConsumer } from '../../util/withBreakpoint';
 import events from '../../util/events';
 import { getLayerBaseUrl } from '../../util/mapLayerUtils';
@@ -230,9 +229,7 @@ export default class Map extends React.Component {
     if (this.props.mapBottomPadding) {
       boundsOptions.paddingBottomRight = [0, this.props.mapBottomPadding];
     }
-    const mapBaseUrl =
-      (isDebugTiles && `${config.URL.OTP}inspector/tile/traversal/`) ||
-      getLayerBaseUrl(config.URL.MAP, this.props.lang);
+    const mapBaseUrl = getLayerBaseUrl(config.URL.MAP, this.props.lang);
     const mapUrl = config.hasAPISubscriptionQueryParameter
       ? `${mapBaseUrl}{z}/{x}/{y}{size}.png?${config.API_SUBSCRIPTION_QUERY_PARAMETER_NAME}=${config.API_SUBSCRIPTION_TOKEN}`
       : `${mapBaseUrl}{z}/{x}/{y}{size}.png`;
@@ -325,11 +322,7 @@ export default class Map extends React.Component {
               tileSize={config.map.tileSize || 256}
               zoomOffset={config.map.zoomOffset || 0}
               updateWhenIdle={false}
-              size={
-                config.map.useRetinaTiles && L.Browser.retina && !isDebugTiles
-                  ? '@2x'
-                  : ''
-              }
+              size={config.map.useRetinaTiles && L.Browser.retina ? '@2x' : ''}
               minZoom={config.map.minZoom}
               maxZoom={config.map.maxZoom}
               attribution={attribution}
