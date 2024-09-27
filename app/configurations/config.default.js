@@ -10,7 +10,7 @@ const MAP_URL =
   process.env.MAP_URL || 'https://digitransit-dev-cdn-origin.azureedge.net';
 const MAP_VERSION = process.env.MAP_VERSION || 'v2';
 const POI_MAP_PREFIX = `${MAP_URL}/map/v3/finland`;
-const OTP_URL = process.env.OTP_URL || `${API_URL}/routing/v2/routers/finland/`;
+const OTP_URL = process.env.OTP_URL || `${API_URL}/routing/v2/finland/`;
 const STOP_TIMETABLES_URL =
   process.env.STOP_TIMETABLES_URL || 'https://dev.kartat.hsl.fi';
 const APP_PATH = process.env.APP_CONTEXT || '';
