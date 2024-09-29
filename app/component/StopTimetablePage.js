@@ -28,12 +28,12 @@ class StopTimetablePage extends React.Component {
   }
 
   onDateChange = value => {
+    this.setState({ date: value });
     this.props.relay.refetch(
       {
         date: value,
       },
       null,
-      () => this.setState({ date: value }),
     );
   };
 
