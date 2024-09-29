@@ -48,11 +48,8 @@ class StopTimetablePage extends React.Component {
       <TimetableContainer
         stop={this.props.stop}
         date={this.state.date}
-        propsForDateSelect={{
-          startDate: unixToYYYYMMDD(unixTime(), this.context.config),
-          selectedDate: this.state.date,
-          onDateChange: this.onDateChange,
-        }}
+        startDate={unixToYYYYMMDD(unixTime(), this.context.config)}
+        onDateChange={this.onDateChange}
       />
     );
   }
