@@ -22,6 +22,7 @@ const legQuery = graphql`
           time
         }
       }
+      realTime
       realtimeState
     }
   }
@@ -135,6 +136,7 @@ const withRelay = createFragmentContainer(NaviContainer, {
             time
           }
         }
+        realTime
         realtimeState
         legGeometry {
           points

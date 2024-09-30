@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { intlShape } from 'react-intl';
 import cx from 'classnames';
+import { configShape } from '../../util/shapes';
 import Icon from '../Icon';
 
 // eslint-disable-next-line no-unused-vars
-const NaviStack = ({ notifications, handleRemove, show }, { intl }) => {
+const NaviStack = ({ notifications, handleRemove, show }, { intl, config }) => {
   const [removingIndex, setRemovingIndex] = useState(null);
 
   const handleRemoveClick = index => {
@@ -17,7 +18,7 @@ const NaviStack = ({ notifications, handleRemove, show }, { intl }) => {
   };
   return (
     <div className={cx('info-stack', !show ? 'slide-out' : 'slide-in')}>
-      {notifications.map((info, index) => (
+      {notifications?.map((info, index) => (
         <div
           key={info.backgroundColor}
           style={{ backgroundColor: info.backgroundColor }}
@@ -39,7 +40,12 @@ const NaviStack = ({ notifications, handleRemove, show }, { intl }) => {
             className="info-close"
             onClick={() => handleRemoveClick(index)}
           >
-            <Icon img="icon-icon_close" color="blue" />
+            <Icon
+              img="icon-icon_close"
+              height="0.8"
+              width="0.8"
+              color={config.colors.primary}
+            />
           </button>
         </div>
       ))}
@@ -54,5 +60,6 @@ NaviStack.propTypes = {
 
 NaviStack.contextTypes = {
   intl: intlShape.isRequired,
+  config: configShape.isRequired,
 };
 export default NaviStack;

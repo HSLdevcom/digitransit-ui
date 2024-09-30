@@ -28,7 +28,7 @@ function NaviDestination({ leg }, { config, intl }) {
         {vehicleRentalStation?.rentalNetwork.networkId}&nbsp;
         {vehicleRentalStation?.name}
         {distance && duration && (
-          <div>
+          <div className="duration">
             {durationToString(duration * 1000)} (
             {displayDistance(distance, config, intl.formatNumber)})
           </div>

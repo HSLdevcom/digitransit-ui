@@ -51,7 +51,7 @@
   margin-left: 5%;
   border-radius: 15px;
   height: 100px;
-  color: white;
+  color: black;
   background-color: white !important;
   display: flex;
   align-items: center;
@@ -97,15 +97,20 @@
       display: flex;
       flex-direction: column;
       width: 100%;
-      font-size: $font-size-xsmall;
-      font-weight: $font-weight-book;
+      font-size: $font-size-normal;
+      font-weight: $font-weight-medium;
 
       .destination-header {
-        font-size: $font-size-normal;
-        font-weight: $font-weight-medium;
+        font-size: $font-size-xsmall;
+        font-weight: $font-weight-book;
       }
 
       .navileg-destination-details {
+        .duration {
+          font-size: $font-size-xsmall;
+          font-weight: $font-weight-book;
+        }
+
         display: flex;
       }
     }
@@ -174,6 +179,10 @@
     &.slide-out-right {
       animation: slideOutRight 0.5s ease-out forwards;
       pointer-events: none;
+    }
+
+    .info-close {
+      margin-bottom: 40px;
     }
 
     .info-icon {
