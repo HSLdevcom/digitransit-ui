@@ -300,20 +300,30 @@ class IndexPage extends React.Component {
     const destination = this.pendingDestination || this.props.destination;
     const sources = ['Favourite', 'History', 'Datasource'];
     const stopAndRouteSearchTargets = ['Stops', 'Routes'];
-    const locationSearchTargets = [
+    let locationSearchTargets = [
       'Locations',
       'CurrentPosition',
       'FutureRoutes',
-      'Stops',
     ];
 
-    if (useCitybikes(config.vehicleRental?.networks, config)) {
-      stopAndRouteSearchTargets.push('VehicleRentalStations');
-      locationSearchTargets.push('VehicleRentalStations');
-    }
-    if (config.includeParkAndRideSuggestions) {
-      stopAndRouteSearchTargets.push('ParkingAreas');
-      locationSearchTargets.push('ParkingAreas');
+    if (config.locationSearchTargetsFromOTP) {
+      // configurable setup
+      locationSearchTargets = [
+        ...locationSearchTargets,
+        ...config.locationSearchTargetsFromOTP,
+      ];
+    } else {
+      // default setup
+      locationSearchTargets.push('Stops');
+
+      if (useCitybikes(config.vehicleRental?.networks, config)) {
+        stopAndRouteSearchTargets.push('VehicleRentalStations');
+        locationSearchTargets.push('VehicleRentalStations');
+      }
+      if (config.includeParkAndRideSuggestions) {
+        stopAndRouteSearchTargets.push('ParkingAreas');
+        locationSearchTargets.push('ParkingAreas');
+      }
     }
     const locationSearchTargetsMobile = [
       ...locationSearchTargets,
