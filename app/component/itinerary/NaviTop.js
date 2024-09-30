@@ -38,14 +38,26 @@ function findTransferProblem(legs) {
 }
 const getScheduleInfo = (nextLeg, intl) => {
   const { start, realTime, to, mode } = nextLeg;
-  const { estimatedTime, scheduledTime } = start;
+  const { estimatedTime, scheduledTime, estimated } = start;
   const { parentStation, name } = to.stop;
+  const late = estimated?.delay > 0;
 
   const localizedMode = intl.formatMessage({
     id: `${mode.toLowerCase()}`,
     defaultMessage: `${mode}`,
   });
 
+  if (late) {
+    // todo: Do this when design is ready.
+    return {
+      content: (
+        <div className="navi-info-content"> Kulkuneuvo on myöhässä </div>
+      ),
+      backgroundColor: '#FFF8E8',
+      iconColor: '#FED100',
+      iconId: 'icon-icon_info',
+    };
+  }
   if (!realTime) {
     return {
       content: (
