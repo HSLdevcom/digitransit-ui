@@ -503,6 +503,9 @@ export default function ItineraryPage(props, context) {
         laterEdges: [...state.laterEdges, ...edges],
       });
     }
+    if (arriveBy) {
+      resetItineraryPageSelection();
+    }
   };
 
   const onEarlier = async () => {
@@ -554,7 +557,6 @@ export default function ItineraryPage(props, context) {
       return;
     }
     ariaRef.current = 'itinerary-page.itineraries-loaded';
-
     const newState = {
       ...state,
       loadingMore: undefined,
@@ -584,6 +586,9 @@ export default function ItineraryPage(props, context) {
         ...separators,
         earlierEdges: [...edges, ...state.earlierEdges],
       });
+    }
+    if (!arriveBy) {
+      resetItineraryPageSelection();
     }
   };
 
