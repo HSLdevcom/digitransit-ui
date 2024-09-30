@@ -22,7 +22,7 @@ function NaviDestination({ leg }, { config, intl }) {
     <div className="navileg-destination-details">
       <div>
         {stop?.name || name}
-        {stop.platformCode && (
+        {stop?.platformCode && (
           <>
             &nbsp; &bull; &nbsp;
             <FormattedMessage

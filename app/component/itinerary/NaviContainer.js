@@ -135,7 +135,6 @@ const withRelay = createFragmentContainer(NaviContainer, {
             time
           }
         }
-        realTime
         realtimeState
         legGeometry {
           points

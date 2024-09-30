@@ -18,7 +18,7 @@ const NaviStack = ({ notifications, handleRemove, show }, { intl, config }) => {
   };
   return (
     <div className={cx('info-stack', !show ? 'slide-out' : 'slide-in')}>
-      {notifications?.map((info, index) => (
+      {notifications.map((info, index) => (
         <div
           key={info.backgroundColor}
           style={{ backgroundColor: info.backgroundColor }}

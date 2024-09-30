@@ -37,7 +37,7 @@ function findTransferProblem(legs) {
   return null;
 }
 const getScheduleInfo = (nextLeg, intl) => {
-  const { start, realTime, to, mode } = nextLeg;
+  const { start, realtimeState, to, mode } = nextLeg;
   const { estimatedTime, scheduledTime, estimated } = start;
   const { parentStation, name } = to.stop;
   const late = estimated?.delay > 0;
@@ -58,7 +58,7 @@ const getScheduleInfo = (nextLeg, intl) => {
       iconId: 'icon-icon_info',
     };
   }
-  if (!realTime) {
+  if (!realtimeState !== 'UPDATED') {
     return {
       content: (
         <div className="navi-info-content">

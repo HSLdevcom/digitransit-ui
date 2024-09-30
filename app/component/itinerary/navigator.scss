@@ -103,6 +103,7 @@
       .destination-header {
         font-size: $font-size-xsmall;
         font-weight: $font-weight-book;
+        display: flex;
       }
 
       .navileg-destination-details {
@@ -113,6 +114,7 @@
 
           font-size: $font-size-xsmall;
           font-weight: $font-weight-book;
+          display: flex;
         }
 
         display: flex;
