@@ -138,7 +138,7 @@ const addAnalytics = (action, name) => {
  * @returns the updated citybike networks
  */
 
-export const updateVehicleNetworks = (currentSettings, newValue) => {
+export const updateVehicleNetworks = (currentSettings, newValue, type) => {
   let chosenNetworks;
 
   if (currentSettings) {
@@ -154,7 +154,7 @@ export const updateVehicleNetworks = (currentSettings, newValue) => {
   if (Array.isArray(currentSettings) && Array.isArray(chosenNetworks)) {
     const action = `Settings${
       currentSettings.length > chosenNetworks.length ? 'Disable' : 'Enable'
-    }CityBikeNetwork`;
+    }${type === 'citybike' ? 'CityBikeNetwork' : 'ScooterNetwork'}`;
     addAnalytics(action, newValue);
   }
   return chosenNetworks;
