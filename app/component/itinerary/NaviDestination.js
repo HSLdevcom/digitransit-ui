@@ -17,18 +17,20 @@ function NaviDestination({ leg }, { config, intl }) {
     }, 3000);
     return () => clearTimeout(timer);
   }, []);
-  const code = stop.platformCode ? (
-    <FormattedMessage
-      id={stop.vehicleMode === 'RAIL' ? 'track-num' : 'platform-num'}
-      values={{ platformCode: stop.platformCode }}
-    />
-  ) : (
-    stop.code
-  );
+
   return (
     <div className="navileg-destination-details">
       <div>
-        {stop?.name || name} &nbsp; &bull; &nbsp; {code}
+        {stop?.name || name}
+        {stop.platformCode && (
+          <>
+            &nbsp; &bull; &nbsp;
+            <FormattedMessage
+              id={stop.vehicleMode === 'RAIL' ? 'track-num' : 'platform-num'}
+              values={{ platformCode: stop.platformCode }}
+            />
+          </>
+        )}
         {rentalVehicle?.rentalNetwork.networkId}
         {vehicleParking?.name}
         {vehicleRentalStation?.rentalNetwork.networkId}&nbsp;
