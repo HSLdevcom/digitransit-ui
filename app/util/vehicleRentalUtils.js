@@ -131,33 +131,33 @@ const addAnalytics = (action, name) => {
  * Updates the list of allowed networks either by removing or adding.
  * Note: legacy settings had network names always in uppercase letters.
  *
- * @param currentSettings the current settings
- * @param newValue the network to be added/removed
+ * @param networks the previously selected networks
+ * @param networkName the network to be added/removed
  * @param config The configuration for the software installation
  * @param isUsingCitybike if citybike is enabled
  * @returns the updated citybike networks
  */
 
-export const updateVehicleNetworks = (currentSettings, newValue, type) => {
-  let chosenNetworks;
+export const updateVehicleNetworks = (networks, networkName, type) => {
+  let updatedNetworks;
 
-  if (currentSettings) {
-    chosenNetworks = currentSettings.find(
-      o => o.toLowerCase() === newValue.toLowerCase(),
+  if (networks) {
+    updatedNetworks = networks.find(
+      o => o.toLowerCase() === networkName.toLowerCase(),
     )
-      ? without(currentSettings, newValue, newValue.toUpperCase())
-      : currentSettings.concat([newValue]);
+      ? without(networks, networkName, networkName.toUpperCase())
+      : networks.concat([networkName]);
   } else {
-    chosenNetworks = [newValue];
+    updatedNetworks = [networkName];
   }
 
-  if (Array.isArray(currentSettings) && Array.isArray(chosenNetworks)) {
+  if (Array.isArray(networks) && Array.isArray(updatedNetworks)) {
     const action = `Settings${
-      currentSettings.length > chosenNetworks.length ? 'Disable' : 'Enable'
+      networks.length > updatedNetworks.length ? 'Disable' : 'Enable'
     }${type === 'citybike' ? 'CityBikeNetwork' : 'ScooterNetwork'}`;
-    addAnalytics(action, newValue);
+    addAnalytics(action, networkName);
   }
-  return chosenNetworks;
+  return updatedNetworks;
 };
 
 export const getVehicleMinZoomOnStopsNearYou = (config, override) => {
