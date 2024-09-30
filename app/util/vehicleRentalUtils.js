@@ -139,23 +139,21 @@ const addAnalytics = (action, name) => {
 
 export const updateVehicleNetworks = (networks, networkName, type) => {
   let updatedNetworks;
+  let toggleAction;
 
-  if (networks) {
-    updatedNetworks = networks.find(
-      o => o.toLowerCase() === networkName.toLowerCase(),
-    )
-      ? without(networks, networkName, networkName.toUpperCase())
-      : networks.concat([networkName]);
+  if (networks.find(o => o.toLowerCase() === networkName.toLowerCase())) {
+    updatedNetworks = without(networks, networkName, networkName.toUpperCase());
+    toggleAction = 'Disable';
   } else {
-    updatedNetworks = [networkName];
+    updatedNetworks = networks.concat([networkName]);
+    toggleAction = 'Enable';
   }
 
-  if (Array.isArray(networks) && Array.isArray(updatedNetworks)) {
-    const action = `Settings${
-      networks.length > updatedNetworks.length ? 'Disable' : 'Enable'
-    }${type === 'citybike' ? 'CityBikeNetwork' : 'ScooterNetwork'}`;
-    addAnalytics(action, networkName);
-  }
+  const action = `Settings${toggleAction}${
+    type === 'citybike' ? 'CityBikeNetwork' : 'ScooterNetwork'
+  }`;
+  addAnalytics(action, networkName);
+
   return updatedNetworks;
 };
 
