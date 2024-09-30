@@ -22,7 +22,6 @@ const legQuery = graphql`
           time
         }
       }
-      realTime
       realtimeState
     }
   }
