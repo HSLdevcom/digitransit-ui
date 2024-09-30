@@ -107,6 +107,10 @@
 
       .navileg-destination-details {
         .duration {
+          &.fade-out {
+            animation: fadeOut 3s forwards;
+          }
+
           font-size: $font-size-xsmall;
           font-weight: $font-weight-book;
         }
@@ -149,6 +153,16 @@
 
   to {
     transform: translateX(-100%);
+    opacity: 0;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+
+  to {
     opacity: 0;
   }
 }

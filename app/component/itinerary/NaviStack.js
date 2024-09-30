@@ -14,7 +14,7 @@ const NaviStack = ({ notifications, handleRemove, show }, { intl, config }) => {
     setTimeout(() => {
       handleRemove(index);
       setRemovingIndex(null);
-    }, 500); // Duration of the slide-out-right animation
+    }, 500);
   };
   return (
     <div className={cx('info-stack', !show ? 'slide-out' : 'slide-in')}>

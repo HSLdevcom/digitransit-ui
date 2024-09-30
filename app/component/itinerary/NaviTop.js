@@ -171,7 +171,9 @@ function NaviTop(
         }
         setCurrentLeg(newLeg);
         focusToLeg(newLeg, false);
-        notis.push(getScheduleInfo(nextLeg, intl));
+        if (nextLeg) {
+          notis.push(getScheduleInfo(nextLeg, intl));
+        }
       }
     }
     const problems = getAlerts(realTimeLegs, intl);
