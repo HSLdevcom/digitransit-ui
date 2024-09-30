@@ -133,8 +133,7 @@ const addAnalytics = (action, name) => {
  *
  * @param networks the previously selected networks
  * @param networkName the network to be added/removed
- * @param config The configuration for the software installation
- * @param isUsingCitybike if citybike is enabled
+ * @param type the type of the network
  * @returns the updated citybike networks
  */
 
