@@ -5,7 +5,7 @@ import { itineraryShape, legShape, configShape } from '../../util/shapes';
 import { legTime, legTimeStr } from '../../util/legUtils';
 import NaviLeg from './NaviLeg';
 import Icon from '../Icon';
-import NaviStack from './NaviStack'; // milliseconds
+import NaviStack from './NaviStack';
 import { timeStr } from '../../util/timeUtils';
 
 const TRANSFER_SLACK = 60000;
@@ -171,7 +171,7 @@ function NaviTop(
     const newLeg = realTimeLegs.find(leg => {
       return legTime(leg.start) <= time && time <= legTime(leg.end);
     });
-    const notis = [];
+    const notifs = [];
     if (newLeg?.id !== currentLeg?.id) {
       if (newLeg) {
         if (!newLeg.transitLeg) {
@@ -184,16 +184,16 @@ function NaviTop(
         setCurrentLeg(newLeg);
         focusToLeg(newLeg, false);
         if (nextLeg) {
-          notis.push(getScheduleInfo(nextLeg, intl));
+          notifs.push(getScheduleInfo(nextLeg, intl));
         }
       }
     }
     const problems = getAlerts(realTimeLegs, intl);
     if (problems.length > 0) {
-      notis.push(problems);
+      notifs.push(problems);
     }
-    if (notis.length > 0) {
-      const combinedNotifications = notifications.concat(...notis);
+    if (notifs.length > 0) {
+      const combinedNotifications = notifications.concat(...notifs);
       setNotifications(combinedNotifications);
       setShow(true);
     }
