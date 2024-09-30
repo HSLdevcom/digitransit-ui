@@ -872,7 +872,7 @@ export default function ItineraryPage(props, context) {
     router.replace(newLocationState);
   };
 
-  const showSettingsPanel = open => {
+  const showSettingsPanel = (open, changeScooterSettings) => {
     addAnalyticsEvent({
       event: 'sendMatomoEvent',
       category: 'ItinerarySettings',
@@ -885,6 +885,7 @@ export default function ItineraryPage(props, context) {
         ...settingsState,
         settingsOpen: true,
         settingsOnOpen: getSettings(config),
+        changeScooterSettings,
       });
       if (breakpoint !== 'large') {
         router.push({
@@ -897,6 +898,17 @@ export default function ItineraryPage(props, context) {
       }
       return;
     }
+    if (
+      settingsState.changeScooterSettings &&
+      settingsState.settingsOnOpen.scooterNetworks.length <
+        getSettings(config).scooterNetworks.length
+    ) {
+      addAnalyticsEvent({
+        category: 'ItinerarySettings',
+        action: 'SettingsEnableScooterNetwork',
+        name: 'AfterOnlyScooterRoutesFound',
+      });
+    }
 
     const settingsChanged = !isEqual(
       settingsState.settingsOnOpen,
@@ -908,6 +920,7 @@ export default function ItineraryPage(props, context) {
       ...settingsState,
       settingsOpen: false,
       settingsChanged,
+      changeScooterSettings: false,
     });
 
     if (settingsChanged && detailView) {
