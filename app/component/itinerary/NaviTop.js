@@ -73,7 +73,7 @@ const getScheduleInfo = (nextLeg, intl) => {
       ),
       backgroundColor: '#FFF8E8',
       iconColor: '#FED100',
-      iconId: 'icon-icon_info',
+      iconId: 'icon-icon_attention',
     };
   }
   if (nextLeg.transitLeg) {
