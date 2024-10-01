@@ -267,4 +267,17 @@ export default {
       value: 600,
     },
   ],
+
+  ticketPurchaseLink: function purchaseTicketLink(fare) {
+    const fareId = fare.fareProducts[0].product.id;
+    const ticket = fareId?.substring
+      ? fareId.substring(fareId.indexOf(':') + 1)
+      : '';
+    let zones = '';
+    // Waltti wants zone ids, so map A to 01, B to 02 etc
+    for (let i = 0; i < ticket.length; i++) {
+      zones += `0${ticket.charCodeAt(i) - 64}`; // eslint-disable
+    }
+    return `https://waltti.fi/walttiapp/busTicket/?operator=50209&ticketType=single&customerGroup=adult&zones=${zones}`;
+  },
 };
