@@ -37,7 +37,7 @@ function NaviDestination({ leg }, { config, intl }) {
         {vehicleRentalStation?.name}
         {distance && duration && (
           <div className={cx('duration', fadeOut && 'fade-out')}>
-            {durationToString(duration * 1000)} (
+            {durationToString(duration * 1000)} &bull; (
             {displayDistance(distance, config, intl.formatNumber)})
           </div>
         )}

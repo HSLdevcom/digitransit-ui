@@ -39,7 +39,6 @@ function findTransferProblem(legs) {
 const getScheduleInfo = (nextLeg, intl) => {
   const { start, realtimeState, to, mode } = nextLeg;
   const { estimatedTime, scheduledTime, estimated } = start;
-  const { parentStation, name } = to.stop;
   const late = estimated?.delay > 0;
 
   const localizedMode = intl.formatMessage({
@@ -78,6 +77,8 @@ const getScheduleInfo = (nextLeg, intl) => {
     };
   }
   if (nextLeg.transitLeg) {
+    const { parentStation, name } = to.stop;
+
     const stopOrStation = parentStation
       ? intl.formatMessage({ id: 'from-station' })
       : intl.formatMessage({ id: 'from-stop' });
