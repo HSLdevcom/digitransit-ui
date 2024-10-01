@@ -44,6 +44,10 @@ $itinerary-tab-switch-height: 48px;
     @include getCircleSvg($ferry-color, $fill);
   }
 
+  &.ferry-external {
+    @include getCircleSvg($external-feed-color, $fill);
+  }
+
   &.citybike {
     @include getCircleSvg($citybike-color, $fill);
   }
@@ -854,6 +858,10 @@ $itinerary-tab-switch-height: 48px;
 
     &.ferry {
       @include setModeCircles($ferry-color);
+    }
+
+    .ferry-external {
+      @include setModeCircles($external-feed-color);
     }
 
     &.funicular {
@@ -1849,6 +1857,10 @@ $itinerary-tab-switch-height: 48px;
           .vehicle-number.airplane {
             width: auto;
             padding: 4px 4px 0 0;
+          }
+
+          .vehicle-number.ferry-external {
+            color: $black;
           }
         }
 

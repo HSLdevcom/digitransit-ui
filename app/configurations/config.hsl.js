@@ -90,6 +90,7 @@ export default {
   useRoutingFeedbackPrompt: true,
 
   feedIds: ['HSL', 'HSLlautta', 'Sipoo'],
+  externalFeedIds: ['HSLlautta'],
 
   showHSLTracking: false,
   allowLogin: true,
@@ -520,15 +521,15 @@ export default {
     scooterInfoLink: {
       fi: {
         text: 'Potkulaudat',
-        url: 'https://www.hsl.fi/hsl/uutiset/teemat/potkulaudat',
+        url: 'https://www.hsl.fi/reittiopas_potkulaudat',
       },
       en: {
         text: 'Scooters',
-        url: 'https://www.hsl.fi/hsl/uutiset/teemat/potkulaudat',
+        url: 'https://www.hsl.fi/en/journey_planner_scooters',
       },
       sv: {
         text: 'Elsparkcyklar',
-        url: 'https://www.hsl.fi/hsl/uutiset/teemat/potkulaudat',
+        url: 'https://www.hsl.fi/sv/reseplaneraren_sparkcyklar',
       },
     },
     maxMinutesToRentalJourneyEnd: 240,
@@ -580,7 +581,7 @@ export default {
   showSimilarRoutesOnRouteDropDown: true,
   useRealtimeTravellerCapacities: true,
 
-  navigation: true,
+  navigation: false,
 
   stopCard: {
     header: {

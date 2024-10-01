@@ -90,6 +90,7 @@ export default {
     'VARELY',
     'Harma',
     'PohjolanMatka',
+    'Korsisaari',
   ],
 
   additionalFeedIds: {
@@ -175,6 +176,20 @@ export default {
       ...LappeenrantaConfig.vehicleRental.networks,
       ...KotkaConfig.vehicleRental.networks,
       ...KouvolaConfig.vehicleRental.networks,
+    },
+    scooterInfoLink: {
+      fi: {
+        text: 'Potkulaudat',
+        url: 'https://www.fintraffic.fi/fi/uutiset/sahkopotkulaudat-nyt-mukana-opasmatkafi-reittioppaassa',
+      },
+      en: {
+        text: 'Scooters',
+        url: 'https://www.fintraffic.fi/en/news/electric-scooters-now-included-opasmatkafi-journey-planner',
+      },
+      sv: {
+        text: 'Elsparkcyklar',
+        url: 'https://www.fintraffic.fi/sv/nyheter/elsparkcyklarna-finns-nu-med-i-reseplaneraren-opasmatkafi',
+      },
     },
   },
 
