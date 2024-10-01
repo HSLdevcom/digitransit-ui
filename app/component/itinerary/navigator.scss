@@ -191,6 +191,7 @@
     display: flex;
     align-items: center;
     height: 100%;
+    margin-top: 5px;
 
     &.slide-out-right {
       animation: slideOutRight 0.5s ease-out forwards;
@@ -198,7 +199,9 @@
     }
 
     .info-close {
-      margin-bottom: 40px;
+      position: absolute;
+      top: 7px;
+      right: 9px;
     }
 
     .info-icon {
