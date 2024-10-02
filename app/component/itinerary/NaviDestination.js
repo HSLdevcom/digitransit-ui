@@ -17,22 +17,26 @@ function NaviDestination({ leg }, { config, intl }) {
     }, 3000);
     return () => clearTimeout(timer);
   }, []);
-
+  const stopName = stop?.name || name;
   return (
     <div className="navileg-destination-details">
       <div>
-        <span style={{ float: 'left' }}>
-          {stop?.name || name}
-          {stop?.platformCode && (
-            <>
-              &nbsp; &bull; &nbsp;
-              <FormattedMessage
-                id={stop.vehicleMode === 'RAIL' ? 'track-num' : 'platform-num'}
-                values={{ platformCode: stop.platformCode }}
-              />
-            </>
-          )}
-        </span>
+        {stopName && (
+          <div style={{ float: 'left' }}>
+            {stopName}
+            {stop?.platformCode && (
+              <>
+                &nbsp; &bull; &nbsp;
+                <FormattedMessage
+                  id={
+                    stop.vehicleMode === 'RAIL' ? 'track-num' : 'platform-num'
+                  }
+                  values={{ platformCode: stop.platformCode }}
+                />
+              </>
+            )}
+          </div>
+        )}
         {rentalVehicle?.rentalNetwork.networkId}
         {vehicleParking?.name}
         {vehicleRentalStation?.rentalNetwork.networkId}&nbsp;
