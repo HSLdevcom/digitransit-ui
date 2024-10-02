@@ -53,6 +53,7 @@ const NaviStack = ({ notifications, handleRemove, show }, { intl, config }) => {
   );
 };
 NaviStack.propTypes = {
+  // eslint-disable-next-line
   notifications: PropTypes.arrayOf(PropTypes.object).isRequired,
   show: PropTypes.bool.isRequired,
   handleRemove: PropTypes.func.isRequired,
