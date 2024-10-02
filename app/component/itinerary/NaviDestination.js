@@ -21,24 +21,26 @@ function NaviDestination({ leg }, { config, intl }) {
   return (
     <div className="navileg-destination-details">
       <div>
-        {stop?.name || name}
-        {stop?.platformCode && (
-          <>
-            &nbsp; &bull; &nbsp;
-            <FormattedMessage
-              id={stop.vehicleMode === 'RAIL' ? 'track-num' : 'platform-num'}
-              values={{ platformCode: stop.platformCode }}
-            />
-          </>
-        )}
+        <span style={{ float: 'left' }}>
+          {stop?.name || name}
+          {stop?.platformCode && (
+            <>
+              &nbsp; &bull; &nbsp;
+              <FormattedMessage
+                id={stop.vehicleMode === 'RAIL' ? 'track-num' : 'platform-num'}
+                values={{ platformCode: stop.platformCode }}
+              />
+            </>
+          )}
+        </span>
         {rentalVehicle?.rentalNetwork.networkId}
         {vehicleParking?.name}
         {vehicleRentalStation?.rentalNetwork.networkId}&nbsp;
         {vehicleRentalStation?.name}
         {distance && duration && (
           <div className={cx('duration', fadeOut && 'fade-out')}>
-            {durationToString(duration * 1000)} &bull; (
-            {displayDistance(distance, config, intl.formatNumber)})
+            {durationToString(duration * 1000)} &bull; &nbsp;
+            {displayDistance(distance, config, intl.formatNumber)}
           </div>
         )}
       </div>
