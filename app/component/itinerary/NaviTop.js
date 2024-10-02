@@ -73,7 +73,7 @@ const getScheduleInfo = (nextLeg, intl) => {
       ),
       backgroundColor: '#FFF8E8',
       iconColor: '#FED100',
-      iconId: 'icon-icon_info',
+      iconId: 'icon-icon_attention',
     };
   }
   if (nextLeg.transitLeg) {
@@ -182,12 +182,12 @@ function NaviTop(
             leg => legTime(leg.start) > legTime(l.start),
           );
         }
-        setCurrentLeg(newLeg);
         focusToLeg?.(newLeg, false);
         if (nextLeg) {
           notifs.push(getScheduleInfo(nextLeg, intl));
         }
       }
+      setCurrentLeg(newLeg);
     }
     const problems = getAlerts(realTimeLegs, intl);
     if (problems.length > 0) {
