@@ -5,6 +5,7 @@ import { itineraryShape, relayShape } from '../../util/shapes';
 import NaviTop from './NaviTop';
 import NaviBottom from './NaviBottom';
 import { legTime } from '../../util/legUtils';
+import { checkPositioningPermission } from '../../action/PositionActions';
 
 const legQuery = graphql`
   query NaviContainer_legQuery($id: String!) {
@@ -32,12 +33,18 @@ function NaviContainer({
   focusToLeg,
   relayEnvironment,
   setNavigation,
+  mapRef,
 }) {
   const [realTimeLegs, setRealTimeLegs] = useState(itinerary.legs);
   const [time, setTime] = useState(Date.now());
 
   // update view after every 10 seconds
   useEffect(() => {
+    checkPositioningPermission().then(permission => {
+      if (permission.state === 'granted') {
+        mapRef?.enableMapTracking();
+      }
+    });
     const interval = setInterval(() => {
       setTime(Date.now());
     }, 10000);
@@ -96,7 +103,7 @@ function NaviContainer({
       <NaviTop
         itinerary={itinerary}
         realTimeLegs={realTimeLegs}
-        focusToLeg={focusToLeg}
+        focusToLeg={mapRef?.state.mapTracking ? null : focusToLeg}
         time={time}
       />{' '}
       <NaviBottom setNavigation={setNavigation} arrival={arrivalTime} />
@@ -109,7 +116,11 @@ NaviContainer.propTypes = {
   focusToLeg: PropTypes.func.isRequired,
   relayEnvironment: relayShape.isRequired,
   setNavigation: PropTypes.func.isRequired,
+  // eslint-disable-next-line
+  mapRef: PropTypes.object,
 };
+
+NaviContainer.defaultProps = { mapRef: undefined };
 
 const withRelay = createFragmentContainer(NaviContainer, {
   itinerary: graphql`

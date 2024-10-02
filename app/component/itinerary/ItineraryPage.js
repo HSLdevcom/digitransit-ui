@@ -1102,6 +1102,7 @@ export default function ItineraryPage(props, context) {
           relayEnvironment={props.relayEnvironment}
           combinedEdges={combinedEdges}
           setNavigation={setNavigation}
+          mapRef={mwtRef.current}
         />
       );
     } else {
