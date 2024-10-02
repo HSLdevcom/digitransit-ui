@@ -183,7 +183,7 @@ function NaviTop(
           );
         }
         setCurrentLeg(newLeg);
-        focusToLeg(newLeg, false);
+        focusToLeg?.(newLeg, false);
         if (nextLeg) {
           notifs.push(getScheduleInfo(nextLeg, intl));
         }
@@ -257,12 +257,16 @@ function NaviTop(
 
 NaviTop.propTypes = {
   itinerary: itineraryShape.isRequired,
-  focusToLeg: PropTypes.func.isRequired,
+  focusToLeg: PropTypes.func,
   time: PropTypes.number.isRequired,
   realTimeLegs: PropTypes.arrayOf(legShape).isRequired,
   /*
   focusToPoint: PropTypes.func.isRequired,
   */
+};
+
+NaviTop.defaultProps = {
+  focusToLeg: undefined,
 };
 
 NaviTop.contextTypes = {
