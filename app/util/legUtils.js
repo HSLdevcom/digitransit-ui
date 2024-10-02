@@ -607,9 +607,9 @@ export const showBikeBoardingNote = (leg, config) => {
 };
 
 /**
- * Determines whether to leg afrer walk leg contains rental vehicles
- * @param {object} leg - The leg object.
- * @param {object} nextLeg - The Leg after the current leg.
+ * Determines whether a leg after walk leg contains rental vehicles
+ * @param {object} leg - The leg object
+ * @param {object} nextLeg - The Leg after the current leg
  * @returns {boolean}
  */
 export const isRental = (leg, nextLeg) =>
@@ -621,9 +621,10 @@ export const isRental = (leg, nextLeg) =>
 /**
  * Return translated string that describes leg destination
  *
- * @param {object} intl - rect-intl context
- * @param {object} leg - The leg object.
- * @param {object} secondary - optional walk leg
+ * @param {object} intl - react-intl context
+ * @param {object} leg - leg object
+ * @param {object} secondary - optional second destination
+ * @param {object} nextLeg - optional leg after the current leg
  * @returns {string}
  */
 export const legDestination = (intl, leg, secondary, nextLeg = null) => {

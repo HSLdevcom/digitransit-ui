@@ -87,6 +87,7 @@ class MapWithTrackingStateHandler extends React.Component {
     breakpoint: PropTypes.string.isRequired,
     lang: PropTypes.string.isRequired,
     topButtons: PropTypes.node,
+    bottomPadding: PropTypes.number,
   };
 
   static defaultProps = {
@@ -108,6 +109,7 @@ class MapWithTrackingStateHandler extends React.Component {
     leafletEvents: {},
     mapLayerOptions: null,
     topButtons: null,
+    bottomPadding: undefined,
   };
 
   constructor(props) {
@@ -149,6 +151,10 @@ class MapWithTrackingStateHandler extends React.Component {
         this.props.mapRef(element);
       }
     }
+  };
+
+  setMap = map => {
+    this.map = map;
   };
 
   enableMapTracking = () => {
@@ -222,6 +228,12 @@ class MapWithTrackingStateHandler extends React.Component {
         ...forcedLayers.stop,
       },
     };
+  };
+
+  // eslint-disable-next-line react/no-unused-class-component-methods
+  setBottomPadding = padding => {
+    this.map?.setBottomPadding(padding);
+    this.setState({ bottomPadding: padding });
   };
 
   render() {
@@ -304,7 +316,6 @@ class MapWithTrackingStateHandler extends React.Component {
         : this.context.intl.formatMessage({ id: 'tracking-button-off' });
 
     const iconColor = this.state.mapTracking ? '#ff0000' : '#78909c';
-
     const mergedMapLayers = this.getMapLayers();
     return (
       <>
@@ -321,7 +332,9 @@ class MapWithTrackingStateHandler extends React.Component {
           }}
           {...this.naviProps}
           {...rest}
-          mapRef={this.setMapElementRef}
+          leafletMapRef={this.setMapElementRef}
+          mapRef={this.setMap}
+          breakpoint={this.props.breakpoint}
           bottomButtons={
             <div className={btnClassName}>
               {config.map.showLayerSelector && (
@@ -363,6 +376,7 @@ class MapWithTrackingStateHandler extends React.Component {
               />
             </div>
           }
+          bottomPadding={this.state.bottomPadding}
           topButtons={topButtons}
           mapLayers={mergedMapLayers}
         >

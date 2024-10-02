@@ -20,7 +20,6 @@ import ItineraryListContainer from './ItineraryListContainer';
 import { spinnerPosition } from './ItineraryList';
 import ItineraryPageControls from './ItineraryPageControls';
 import ItineraryTabs from './ItineraryTabs';
-import Navigator from './Navigator';
 import { getWeatherData } from '../../util/apiUtils';
 import Loading from '../Loading';
 import { getItineraryPagePath, streetHash } from '../../util/path';
@@ -69,6 +68,7 @@ import CustomizeSearch from './CustomizeSearch';
 import { getAllNetworksOfType } from '../../util/vehicleRentalUtils';
 import { TransportMode } from '../../constants';
 import { mapLayerShape } from '../../store/MapLayerStore';
+import NaviContainer from './NaviContainer';
 
 const MAX_QUERY_COUNT = 4; // number of attempts to collect enough itineraries
 
@@ -110,9 +110,8 @@ const unset = { plan: {}, loading: LOADSTATE.UNSET };
 export default function ItineraryPage(props, context) {
   const headerRef = useRef(null);
   const mwtRef = useRef();
-  const expandMapRef = useRef(0);
+  const mobileRef = useRef();
   const ariaRef = useRef('summary-page.title');
-
   const [state, setState] = useState({
     ...emptyState,
     loading: LOADSTATE.UNSET,
@@ -140,7 +139,7 @@ export default function ItineraryPage(props, context) {
   const [weatherState, setWeatherState] = useState({ loading: false });
   const [topicsState, setTopicsState] = useState(null);
   const [mapState, setMapState] = useState({});
-  const [navigation, setNavigation] = useState(false);
+  const [naviMode, setNaviMode] = useState(false);
 
   const { config, router } = context;
   const { match, breakpoint } = props;
@@ -592,6 +591,29 @@ export default function ItineraryPage(props, context) {
     }
   };
 
+  // make the map to obey external navigation
+  function navigateMap() {
+    // map sticks to user location if tracking is on, so set it off
+    if (mwtRef.current?.disableMapTracking) {
+      mwtRef.current.disableMapTracking();
+    }
+    // map will not react to location props unless they change or update is forced
+    if (mwtRef.current?.forceRefresh) {
+      mwtRef.current.forceRefresh();
+    }
+  }
+
+  const setNavigation = enable => {
+    if (mobileRef.current) {
+      mobileRef.current.setBottomSheet(enable ? 'bottom' : 'middle');
+    }
+    if (!enable) {
+      setMapState({ center: undefined, zoom: undefined, bounds: undefined });
+      navigateMap();
+    }
+    setNaviMode(enable);
+  };
+
   // save url-defined location to old searches
   function saveUrlSearch(endpoint) {
     const parts = endpoint.split('::'); // label::lat,lon
@@ -678,18 +700,6 @@ export default function ItineraryPage(props, context) {
     );
   }
 
-  // make the map to obey external navigation
-  function navigateMap() {
-    // map sticks to user location if tracking is on, so set it off
-    if (mwtRef.current?.disableMapTracking) {
-      mwtRef.current.disableMapTracking();
-    }
-    // map will not react to location props unless they change or update is forced
-    if (mwtRef.current?.forceRefresh) {
-      mwtRef.current.forceRefresh();
-    }
-  }
-
   function getCombinedPlanEdges() {
     return [
       ...(state.earlierEdges || []),
@@ -732,14 +742,14 @@ export default function ItineraryPage(props, context) {
 
   useEffect(() => {
     navigateMap();
-    setMapState({ center: undefined, bounds: undefined });
+    setMapState({ center: undefined, zoom: undefined, bounds: undefined });
 
     if (detailView) {
       // If itinerary is not found in detail view, go back to summary view
       if (altLoadingDone() && !mapHashToPlan()?.edges?.length) {
         selectStreetMode(); // back to root view
       }
-    } else if (navigation) {
+    } else if (naviMode) {
       // turn off tracking when user navigates away from tracking view
       setNavigation(false);
     }
@@ -820,19 +830,17 @@ export default function ItineraryPage(props, context) {
     mwtRef.current = ref;
   };
 
-  const focusToPoint = (lat, lon, maximize = true) => {
-    if (breakpoint !== 'large' && maximize) {
-      window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
-      expandMapRef.current += 1;
+  const focusToPoint = (lat, lon) => {
+    if (mobileRef.current) {
+      mobileRef.current.setBottomSheet('bottom');
     }
     navigateMap();
-    setMapState({ center: { lat, lon }, bounds: null });
+    setMapState({ center: { lat, lon }, zoom: 18, bounds: null });
   };
 
-  const focusToLeg = (leg, maximize = true) => {
-    if (breakpoint !== 'large' && maximize) {
-      window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
-      expandMapRef.current += 1;
+  const focusToLeg = leg => {
+    if (mobileRef.current) {
+      mobileRef.current.setBottomSheet('bottom');
     }
     navigateMap();
     const bounds = boundWithMinimumArea(
@@ -944,6 +952,24 @@ export default function ItineraryPage(props, context) {
       }
     }, 500);
   };
+  const hasNoTransitItineraries = filterWalk(state.plan?.edges).length === 0;
+
+  let plan = mapHashToPlan();
+
+  let combinedEdges;
+  // Remove old itineraries if new query cannot find a route
+  if (state.error) {
+    combinedEdges = [];
+  } else if (streetHashes.includes(hash)) {
+    combinedEdges = plan?.edges || [];
+  } else {
+    combinedEdges = getCombinedPlanEdges();
+    if (!hasNoTransitItineraries) {
+      // don't show plain walking in transit itinerary list
+      combinedEdges = filterWalk(combinedEdges);
+    }
+  }
+  const selectedIndex = getSelectedItineraryIndex(location, combinedEdges);
 
   function renderMap(from, to, viaPoints, planEdges, activeIndex) {
     const mwtProps = {};
@@ -952,6 +978,7 @@ export default function ItineraryPage(props, context) {
     } else if (mapState.center) {
       mwtProps.lat = mapState.center.lat;
       mwtProps.lon = mapState.center.lon;
+      mwtProps.zoom = mapState.zoom;
     } else {
       mwtProps.bounds = getBounds(planEdges, from, to, viaPoints);
     }
@@ -995,30 +1022,15 @@ export default function ItineraryPage(props, context) {
   const parkRidePlan = altStates[PLANTYPE.PARKANDRIDE][0].plan;
   const bikePublicPlan = bikePublicState.plan;
 
-  const hasNoTransitItineraries = filterWalk(state.plan?.edges).length === 0;
   const settings = getSettings(config);
 
-  let plan = mapHashToPlan();
   const showRelaxedPlanNotifier = plan === relaxState.plan;
   const showRentalVehicleNotifier = plan === relaxScooterState.plan;
   /* NOTE: as a temporary solution, do filtering by feedId in UI */
   if (config.feedIdFiltering && plan) {
     plan = filterItinerariesByFeedId(plan, config);
   }
-  let combinedEdges;
-  // Remove old itineraries if new query cannot find a route
-  if (state.error) {
-    combinedEdges = [];
-  } else if (streetHashes.includes(hash)) {
-    combinedEdges = plan?.edges || [];
-  } else {
-    combinedEdges = getCombinedPlanEdges();
-    if (!hasNoTransitItineraries) {
-      // don't show plain walking in transit itinerary list
-      combinedEdges = filterWalk(combinedEdges);
-    }
-  }
-  const selectedIndex = getSelectedItineraryIndex(location, combinedEdges);
+
   const from = otpToLocation(params.from);
   const to = otpToLocation(params.to);
   const viaPoints = getIntermediatePlaces(query);
@@ -1082,13 +1094,13 @@ export default function ItineraryPage(props, context) {
       </div>
     );
   } else if (detailView) {
-    if (navigation) {
+    if (naviMode) {
       content = (
-        <Navigator
+        <NaviContainer
           itinerary={combinedEdges[selectedIndex]?.node}
-          focusToPoint={focusToPoint}
           focusToLeg={focusToLeg}
           relayEnvironment={props.relayEnvironment}
+          combinedEdges={combinedEdges}
           setNavigation={setNavigation}
         />
       );
@@ -1231,7 +1243,9 @@ export default function ItineraryPage(props, context) {
       content={content}
       settingsDrawer={settingsDrawer}
       map={map}
-      expandMap={expandMapRef.current}
+      mapRef={mwtRef.current}
+      ref={mobileRef}
+      match={match}
     />
   );
 }

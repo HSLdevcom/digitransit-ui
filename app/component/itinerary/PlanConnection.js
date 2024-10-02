@@ -59,7 +59,7 @@ const planConnection = graphql`
         ...ItineraryListContainer_planEdges
         node {
           ...ItineraryDetails_itinerary
-          ...Navigator_itinerary
+          ...NaviContainer_itinerary
           duration
           walkDistance
           emissionsPerPerson {
