@@ -18,12 +18,24 @@ function NaviDestination({ leg }, { config, intl }) {
     return () => clearTimeout(timer);
   }, []);
   const stopName = stop?.name || name;
+  let n;
+
+  if (rentalVehicle) {
+    n = rentalVehicle.rentalNetwork.networkId;
+  } else if (vehicleParking) {
+    n = vehicleParking.name;
+  } else if (vehicleRentalStation) {
+    n = vehicleRentalStation.name;
+  } else if (stopName) {
+    n = stopName;
+  }
+
   return (
     <div className="navileg-destination-details">
       <div>
-        {stopName && (
-          <div style={{ float: 'left' }}>
-            {stopName}
+        {n && (
+          <div style={{ display: 'flex' }}>
+            {n}
             {stop?.platformCode && (
               <>
                 &nbsp; &bull; &nbsp;
@@ -37,10 +49,6 @@ function NaviDestination({ leg }, { config, intl }) {
             )}
           </div>
         )}
-        {rentalVehicle?.rentalNetwork.networkId}
-        {vehicleParking?.name}
-        {vehicleRentalStation?.rentalNetwork.networkId}&nbsp;
-        {vehicleRentalStation?.name}
         {distance && duration && (
           <div className={cx('duration', fadeOut && 'fade-out')}>
             {durationToString(duration * 1000)} &bull; &nbsp;
