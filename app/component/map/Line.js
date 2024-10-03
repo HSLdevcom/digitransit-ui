@@ -99,6 +99,10 @@ export default class Line extends React.Component {
     if (this.props.mode === 'walk') {
       legWeight *= 0.8;
     }
+    if (this.props.mode === 'ferry-external') {
+      haloWeight *= 0.6;
+      legWeight *= 0.6;
+    }
     if (this.props.passive) {
       haloWeight *= 0.5;
       legWeight *= 0.5;
@@ -111,27 +115,18 @@ export default class Line extends React.Component {
       legWeight *= 0.5;
     }
 
-    // The halo is not needed for lines that use the external color.
-    // At least currently the outline (halo) is very visible with the external gray color.
-    const displayHalo = !(
-      this.context.config.externalFeedIds !== undefined &&
-      this.props.mode.includes('external')
-    );
-
     return (
       <div style={{ display: 'none' }}>
-        {displayHalo && (
-          <Polyline
-            key="halo"
-            ref={el => {
-              this.halo = el;
-            }}
-            positions={filteredPoints}
-            className={`leg-halo ${className}`}
-            weight={haloWeight}
-            interactive={false}
-          />
-        )}
+        <Polyline
+          key="halo"
+          ref={el => {
+            this.halo = el;
+          }}
+          positions={filteredPoints}
+          className={`leg-halo ${className}`}
+          weight={haloWeight}
+          interactive={false}
+        />
         <Polyline
           key="line"
           ref={el => {

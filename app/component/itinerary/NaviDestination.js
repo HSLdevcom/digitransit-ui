@@ -1,74 +1,64 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
-import Icon from '../Icon';
-import StopCode from '../StopCode';
-import PlatformNumber from '../PlatformNumber';
-import { legShape } from '../../util/shapes';
+import cx from 'classnames';
+import { legShape, configShape } from '../../util/shapes';
+import { displayDistance } from '../../util/geo-utils';
+import { durationToString } from '../../util/timeUtils';
 
-function NaviDestination({ leg, focusToLeg }) {
+function NaviDestination({ leg }, { config, intl }) {
   const { stop, rentalVehicle, vehicleParking, vehicleRentalStation, name } =
     leg.to;
-  let placeName;
-  let toIcon;
-  if (stop) {
-    toIcon = `icon-icon_${stop.vehicleMode.toLowerCase()}-stop-lollipop`;
-  } else if (rentalVehicle) {
-    toIcon = 'icon-icon_scooter-lollipop';
-  } else if (vehicleParking) {
-    toIcon = 'icon-bike_parking';
-  } else if (vehicleRentalStation) {
-    toIcon = 'icon-icon_citybike';
-  } else {
-    toIcon = 'icon-icon_place';
-    placeName = name;
-  }
+  const { distance, duration } = leg;
+  const [fadeOut, setFadeOut] = useState(false);
 
-  const handleFocusToLeg = (l, maximize) => () => {
-    focusToLeg(l, maximize);
-  };
-
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setFadeOut(true);
+    }, 3000);
+    return () => clearTimeout(timer);
+  }, []);
+  const stopName = stop?.name || name;
   return (
     <div className="navileg-destination-details">
-      {toIcon && <Icon img={toIcon} className="navi-destination-icon" />}
       <div>
-        {stop?.name || placeName}
-        {stop?.code && <StopCode code={stop.code} />}
-        {stop?.platformCode && (
-          <PlatformNumber
-            number={stop.platformCode}
-            short={false}
-            isRailOrSubway={
-              stop.vehicleMode === 'RAIL' || stop.vehicleMode === 'SUBWAY'
-            }
-          />
+        {stopName && (
+          <div style={{ float: 'left' }}>
+            {stopName}
+            {stop?.platformCode && (
+              <>
+                &nbsp; &bull; &nbsp;
+                <FormattedMessage
+                  id={
+                    stop.vehicleMode === 'RAIL' ? 'track-num' : 'platform-num'
+                  }
+                  values={{ platformCode: stop.platformCode }}
+                />
+              </>
+            )}
+          </div>
         )}
         {rentalVehicle?.rentalNetwork.networkId}
         {vehicleParking?.name}
         {vehicleRentalStation?.rentalNetwork.networkId}&nbsp;
         {vehicleRentalStation?.name}
+        {distance && duration && (
+          <div className={cx('duration', fadeOut && 'fade-out')}>
+            {durationToString(duration * 1000)} &bull; &nbsp;
+            {displayDistance(distance, config, intl.formatNumber)}
+          </div>
+        )}
       </div>
-      <button
-        type="button"
-        onClick={handleFocusToLeg(leg, false)}
-        className="navileg-focus"
-      >
-        <FormattedMessage
-          id="navidest-show-on-map"
-          defaultMessage="View route on map"
-        />
-      </button>
     </div>
   );
 }
 
 NaviDestination.propTypes = {
   leg: legShape.isRequired,
-  focusToLeg: PropTypes.func.isRequired,
 };
 
 NaviDestination.contextTypes = {
   intl: intlShape.isRequired,
+  config: configShape.isRequired,
 };
 
 export default NaviDestination;
