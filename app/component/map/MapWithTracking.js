@@ -132,15 +132,8 @@ class MapWithTrackingStateHandler extends React.Component {
 
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps(newProps) {
-    let newState;
-
-    if (newProps.mapTracking && !this.state.mapTracking) {
-      newState = { ...newState, mapTracking: true };
-    } else if (newProps.mapTracking === false && this.state.mapTracking) {
-      newState = { ...newState, mapTracking: false };
-    }
-    if (newState) {
-      this.setState(newState);
+    if (newProps.mapTracking !== this.state.mapTracking) {
+      this.setState({ mapTracking: newProps.mapTracking });
     }
   }
 
