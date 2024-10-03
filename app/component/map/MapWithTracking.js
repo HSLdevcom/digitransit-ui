@@ -117,6 +117,7 @@ class MapWithTrackingStateHandler extends React.Component {
     this.state = {
       mapTracking: props.mapTracking,
       settingsOpen: false,
+      refreshTrigger: 0,
     };
     this.naviProps = {};
   }
@@ -132,7 +133,10 @@ class MapWithTrackingStateHandler extends React.Component {
 
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps(newProps) {
-    if (newProps.mapTracking !== this.state.mapTracking) {
+    if (
+      newProps.mapTracking !== undefined &&
+      newProps.mapTracking !== this.state.mapTracking
+    ) {
       this.setState({ mapTracking: newProps.mapTracking });
     }
   }
@@ -154,9 +158,12 @@ class MapWithTrackingStateHandler extends React.Component {
     if (!this.props.position.hasLocation) {
       this.context.executeAction(startLocationWatch);
     }
-    this.setState({
-      mapTracking: true,
-    });
+    if (!this.state.mapTracking) {
+      this.setState(prevState => ({
+        mapTracking: true,
+        refreshTrigger: prevState.refreshTrigger + 1,
+      }));
+    }
     if (this.props.onMapTracking) {
       this.props.onMapTracking();
     }
