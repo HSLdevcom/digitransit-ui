@@ -1304,6 +1304,10 @@ div.origin-popup {
   stroke-opacity: 0.5;
 }
 
+.map-line.ferry-external.leg {
+  color: $external-feed-map-color;
+}
+
 /* Fix to default leaflet behavior */
 .leaflet-map-pane svg {
   position: relative;
