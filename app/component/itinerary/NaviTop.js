@@ -37,13 +37,41 @@ function findTransferProblem(legs) {
   return null;
 }
 
+const generateStackMessage = (severity, content) => {
+  switch (severity) {
+    case 'INFO':
+      return {
+        content,
+        backgroundColor: '#E5F2FA',
+        iconColor: '#0074BF',
+        iconId: 'icon-icon_info',
+      };
+    case 'WARNING':
+      return {
+        content,
+        backgroundColor: '#FFF8E8',
+        iconColor: '#FED100',
+        iconId: 'icon-icon_attention',
+      };
+    case 'ALERT':
+      return {
+        content,
+        backgroundColor: '#FDF3F6',
+        iconColor: '#DC0451',
+        iconId: 'icon-icon_caution_white_exclamation',
+      };
+    default:
+      return null;
+  }
+};
+
 const getScheduleInfo = (nextLeg, intl) => {
   const { start, realtimeState, to, from, mode, id } = nextLeg;
   const { scheduledTime, estimated } = start;
   if (mode === 'WALK') {
     return null;
   }
-  let info;
+
   const time = estimated?.time || scheduledTime;
   let msgId = id || `${mode.toLowerCase()}-${time}`;
 
@@ -52,79 +80,63 @@ const getScheduleInfo = (nextLeg, intl) => {
     id: `${mode.toLowerCase()}`,
     defaultMessage: `${mode}`,
   });
+  let content;
+  let severity;
   if (mode === 'BICYCLE' && from.vehicleRentalStation) {
     const bikes = from.vehicleRentalStation.availableVehicles?.total;
     msgId += `-${bikes}`;
-    info = {
-      content: (
-        <div className="navi-info-content">
-          <FormattedMessage
-            id="navileg-mode-citybike"
-            values={{ available: bikes }}
-          />
-        </div>
-      ),
-      backgroundColor: '#E5F2FA',
-      iconColor: '#0074BF',
-      iconId: 'icon-icon_info',
-    };
+    content = (
+      <div className="navi-info-content">
+        <FormattedMessage
+          id="navileg-mode-citybike"
+          values={{ available: bikes }}
+        />
+      </div>
+    );
+    severity = 'INFO';
   } else if (late) {
     // todo: Do this when design is ready.
-    info = {
-      content: (
-        <div className="navi-info-content"> Kulkuneuvo on myöhässä </div>
-      ),
-      backgroundColor: '#FFF8E8',
-      iconColor: '#FED100',
-      iconId: 'icon-icon_info',
-    };
+    severity = 'ALERT';
+    content = <div className="navi-info-content"> Kulkuneuvo on myöhässä </div>;
   } else if (!realtimeState || realtimeState !== 'UPDATED') {
-    info = {
-      content: (
-        <div className="navi-info-content">
-          <FormattedMessage id="navileg-mode-schedule" />
-          <FormattedMessage
-            id="navileg-start-schedule"
-            values={{
-              time: timeStr(scheduledTime),
-              mode: localizedMode,
-            }}
-          />{' '}
-        </div>
-      ),
-      backgroundColor: '#FFF8E8',
-      iconColor: '#FED100',
-      iconId: 'icon-icon_attention',
-    };
+    severity = 'WARNING';
+    content = (
+      <div className="navi-info-content">
+        <FormattedMessage id="navileg-mode-schedule" />
+        <FormattedMessage
+          id="navileg-start-schedule"
+          values={{
+            time: timeStr(scheduledTime),
+            mode: localizedMode,
+          }}
+        />
+      </div>
+    );
   } else if (nextLeg.transitLeg) {
     const { parentStation, name } = to.stop;
 
     const stopOrStation = parentStation
       ? intl.formatMessage({ id: 'from-station' })
       : intl.formatMessage({ id: 'from-stop' });
-
-    info = {
-      content: (
-        <div className="navi-info-content">
-          <FormattedMessage
-            id="navileg-mode-realtime"
-            values={{ mode: localizedMode }}
-          />
-          <FormattedMessage
-            id="navileg-start-realtime"
-            values={{
-              time: timeStr(estimated.time),
-              stopOrStation,
-              stopName: name,
-            }}
-          />
-        </div>
-      ),
-      backgroundColor: '#E5F2FA',
-      iconColor: '#0074BF',
-      iconId: 'icon-icon_info',
-    };
+    content = (
+      <div className="navi-info-content">
+        <FormattedMessage
+          id="navileg-mode-realtime"
+          values={{ mode: localizedMode }}
+        />
+        <FormattedMessage
+          id="navileg-start-realtime"
+          values={{
+            time: timeStr(estimated.time),
+            stopOrStation,
+            stopName: name,
+          }}
+        />
+      </div>
+    );
+    severity = 'INFO';
   }
+  const info = generateStackMessage(severity, content);
   info.id = msgId;
   // Only one main info, first in stack.
   info.type = 'main';
@@ -138,38 +150,34 @@ const getAlerts = (realTimeLegs, intl) => {
   const canceled = realTimeLegs.filter(leg => leg.realtimeState === 'CANCELED');
   const transferProblem = findTransferProblem(realTimeLegs);
   const late = realTimeLegs.filter(leg => leg.start.estimate?.delay > 0);
-
+  let content;
   if (canceled.length > 0) {
+    content = <div className="notifiler">Osa matkan lähdöistä on peruttu</div>;
     // Todo: No current design
     // todo find modes that are canceled
     alerts.push({
-      content: <div className="notifiler">Osa matkan lähdöistä on peruttu</div>,
-      backgroundColor: '#DC0451',
-      iconColor: '#888',
-      iconId: 'icon-icon_caution_white_exclamation',
+      ...generateStackMessage('ALERT', content),
       id: 'alert-canceled',
     });
   }
 
   if (transferProblem !== null) {
     // todo no current design
+    content = (
+      <div className="notifiler">{`Vaihto ${transferProblem[0].route.shortName} - ${transferProblem[1].route.shortName} ei onnistu reittisuunnitelman mukaisesti`}</div>
+    );
+
     alerts.push({
-      content: (
-        <div className="notifiler">{`Vaihto ${transferProblem[0].route.shortName} - ${transferProblem[1].route.shortName} ei onnistu reittisuunnitelman mukaisesti`}</div>
-      ),
-      iconId: 'icon-icon_caution_white_exclamation',
-      iconColor: '#888',
-      id: `alert-${transferProblem[0].route.shortName} - ${transferProblem[1]}`,
+      ...generateStackMessage('ALERT', content),
+      id: 'alert-transfer',
     });
   }
   if (late.length) {
     // Todo: No current design
     // Todo add mode and delay time to this message
+    content = <div className="notifiler">Kulkuneuvo on myöhässä</div>;
     alerts.push({
-      content: <div className="notifiler">Kulkuneuvo on myöhässä</div>,
-      backgroundColor: '#FDF3F6',
-      iconColor: '#DC0451',
-      iconId: 'icon-icon_delay',
+      ...generateStackMessage('ALERT', content),
       id: 'alert-late',
     });
   }
