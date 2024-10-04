@@ -159,6 +159,12 @@ class MapWithTrackingStateHandler extends React.Component {
       this.context.executeAction(startLocationWatch);
     }
     if (!this.state.mapTracking) {
+      // enabling tracking will trigger same navigation events as user navigation
+      // this hack prevents those events from clearing tracking
+      this.ignoreNavigation = true;
+      setTimeout(() => {
+        this.ignoreNavigation = false;
+      }, 500);
       this.setState(prevState => ({
         mapTracking: true,
         refreshTrigger: prevState.refreshTrigger + 1,
@@ -363,12 +369,6 @@ class MapWithTrackingStateHandler extends React.Component {
                   if (this.state.mapTracking) {
                     this.disableMapTracking();
                   } else {
-                    // enabling tracking will trigger same navigation events as user navigation
-                    // this hack prevents those events from clearing tracking
-                    this.ignoreNavigation = true;
-                    setTimeout(() => {
-                      this.ignoreNavigation = false;
-                    }, 500);
                     this.enableMapTracking();
                   }
                 }}
