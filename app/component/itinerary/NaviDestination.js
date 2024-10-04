@@ -14,9 +14,13 @@ function NaviDestination({ leg }, { config, intl }) {
   useEffect(() => {
     const timer = setTimeout(() => {
       setFadeOut(true);
-    }, 3000);
-    return () => clearTimeout(timer);
-  }, []);
+    }, 10000);
+    return () => {
+      setFadeOut(false);
+      clearTimeout(timer);
+    };
+  }, [leg]);
+
   const stopName = stop?.name || name;
   let n;
 
