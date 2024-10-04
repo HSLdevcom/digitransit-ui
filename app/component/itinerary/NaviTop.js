@@ -38,10 +38,7 @@ function findTransferProblem(legs) {
 }
 
 const getScheduleInfo = (nextLeg, intl) => {
-  if (!nextLeg) {
-    return null;
-  }
-  const { start, realtimeState, to, mode, id } = nextLeg;
+  const { start, realtimeState, to, from, mode, id } = nextLeg;
   const { scheduledTime, estimated } = start;
   if (mode === 'WALK') {
     return null;
@@ -55,8 +52,8 @@ const getScheduleInfo = (nextLeg, intl) => {
     id: `${mode.toLowerCase()}`,
     defaultMessage: `${mode}`,
   });
-  if (mode === 'BICYCLE' && to.vehicleRentalStation) {
-    const bikes = to.vehicleRentalStation.availableVehicles?.total;
+  if (mode === 'BICYCLE' && from.vehicleRentalStation) {
+    const bikes = from.vehicleRentalStation.availableVehicles?.total;
     msgId += `-${bikes}`;
     info = {
       content: (

@@ -145,6 +145,15 @@ const withRelay = createFragmentContainer(NaviContainer, {
         from {
           lat
           lon
+          vehicleRentalStation {
+            name
+            rentalNetwork {
+              networkId
+            }
+            availableVehicles {
+              total
+            }
+          }
         }
         to {
           lat

@@ -22,24 +22,24 @@ function NaviDestination({ leg }, { config, intl }) {
   }, [leg]);
 
   const stopName = stop?.name || name;
-  let n;
+  let destination;
 
   if (rentalVehicle) {
-    n = rentalVehicle.rentalNetwork.networkId;
+    destination = rentalVehicle.rentalNetwork.networkId;
   } else if (vehicleParking) {
-    n = vehicleParking.name;
+    destination = vehicleParking.name;
   } else if (vehicleRentalStation) {
-    n = vehicleRentalStation.name;
+    destination = vehicleRentalStation.name;
   } else if (stopName) {
-    n = stopName;
+    destination = stopName;
   }
 
   return (
     <div className="navileg-destination-details">
       <div>
-        {n && (
+        {destination && (
           <div style={{ display: 'flex' }}>
-            {n}
+            {destination}
             {stop?.platformCode && (
               <>
                 &nbsp; &bull; &nbsp;
