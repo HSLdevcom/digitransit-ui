@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, intlShape } from 'react-intl';
-import { itineraryShape, legShape, configShape } from '../../util/shapes';
+import { legShape, configShape } from '../../util/shapes';
 import { legTime, legTimeStr } from '../../util/legUtils';
 import NaviLeg from './NaviLeg';
 import Icon from '../Icon';
@@ -154,10 +154,7 @@ const getAlerts = (realTimeLegs, intl) => {
   return alerts;
 };
 
-function NaviTop(
-  { itinerary, focusToLeg, time, realTimeLegs },
-  { intl, config },
-) {
+function NaviTop({ focusToLeg, time, realTimeLegs }, { intl, config }) {
   const [currentLeg, setCurrentLeg] = useState(null);
   const [show, setShow] = useState(true);
   const [notifications, setNotifications] = useState([]);
@@ -185,7 +182,7 @@ function NaviTop(
         if (!newLeg.transitLeg) {
           // When the component is first rendered, there is no currentLeg
           const l = currentLeg || newLeg;
-          nextLeg = itinerary.legs.find(
+          nextLeg = realTimeLegs.find(
             leg => legTime(leg.start) > legTime(l.start),
           );
         }
@@ -234,7 +231,7 @@ function NaviTop(
     );
   } else if (currentLeg) {
     if (!currentLeg.transitLeg) {
-      nextLeg = itinerary.legs.find(
+      nextLeg = realTimeLegs.find(
         leg => legTime(leg.start) > legTime(currentLeg.start),
       );
       info = <NaviLeg leg={currentLeg} nextLeg={nextLeg} />;
@@ -277,7 +274,6 @@ function NaviTop(
 }
 
 NaviTop.propTypes = {
-  itinerary: itineraryShape.isRequired,
   focusToLeg: PropTypes.func,
   time: PropTypes.number.isRequired,
   realTimeLegs: PropTypes.arrayOf(legShape).isRequired,
