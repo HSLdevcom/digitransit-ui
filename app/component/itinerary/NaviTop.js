@@ -36,19 +36,44 @@ function findTransferProblem(legs) {
   }
   return null;
 }
-const getScheduleInfo = (nextLeg, intl) => {
-  const { start, realtimeState, to, mode } = nextLeg;
-  const { estimatedTime, scheduledTime, estimated } = start;
-  const late = estimated?.delay > 0;
 
+const getScheduleInfo = (nextLeg, intl) => {
+  if (!nextLeg) {
+    return null;
+  }
+  const { start, realtimeState, to, mode, id } = nextLeg;
+  const { scheduledTime, estimated } = start;
+  if (mode === 'WALK') {
+    return null;
+  }
+  let info;
+  const time = estimated?.time || scheduledTime;
+  let msgId = id || `${mode.toLowerCase()}-${time}`;
+
+  const late = estimated?.delay > 0;
   const localizedMode = intl.formatMessage({
     id: `${mode.toLowerCase()}`,
     defaultMessage: `${mode}`,
   });
-
-  if (late) {
+  if (mode === 'BICYCLE' && to.vehicleRentalStation) {
+    const bikes = to.vehicleRentalStation.availableVehicles?.total;
+    msgId += `-${bikes}`;
+    info = {
+      content: (
+        <div className="navi-info-content">
+          <FormattedMessage
+            id="navileg-mode-citybike"
+            values={{ available: bikes }}
+          />
+        </div>
+      ),
+      backgroundColor: '#E5F2FA',
+      iconColor: '#0074BF',
+      iconId: 'icon-icon_info',
+    };
+  } else if (late) {
     // todo: Do this when design is ready.
-    return {
+    info = {
       content: (
         <div className="navi-info-content"> Kulkuneuvo on myöhässä </div>
       ),
@@ -56,9 +81,8 @@ const getScheduleInfo = (nextLeg, intl) => {
       iconColor: '#FED100',
       iconId: 'icon-icon_info',
     };
-  }
-  if (!realtimeState !== 'UPDATED') {
-    return {
+  } else if (!realtimeState || realtimeState !== 'UPDATED') {
+    info = {
       content: (
         <div className="navi-info-content">
           <FormattedMessage id="navileg-mode-schedule" />
@@ -75,34 +99,39 @@ const getScheduleInfo = (nextLeg, intl) => {
       iconColor: '#FED100',
       iconId: 'icon-icon_attention',
     };
-  }
-  if (nextLeg.transitLeg) {
+  } else if (nextLeg.transitLeg) {
     const { parentStation, name } = to.stop;
 
     const stopOrStation = parentStation
       ? intl.formatMessage({ id: 'from-station' })
       : intl.formatMessage({ id: 'from-stop' });
 
-    return {
+    info = {
       content: (
         <div className="navi-info-content">
-          <FormattedMessage id="navileg-mode-realtime" values={{ mode }} />
+          <FormattedMessage
+            id="navileg-mode-realtime"
+            values={{ mode: localizedMode }}
+          />
           <FormattedMessage
             id="navileg-start-realtime"
             values={{
-              time: timeStr(estimatedTime),
+              time: timeStr(estimated.time),
               stopOrStation,
               stopName: name,
             }}
           />
         </div>
       ),
-      backgroundColor: '##0074BF',
-      iconColor: '#FFF',
+      backgroundColor: '#E5F2FA',
+      iconColor: '#0074BF',
       iconId: 'icon-icon_info',
     };
   }
-  return null;
+  info.id = msgId;
+  // Only one main info, first in stack.
+  info.type = 'main';
+  return info;
 };
 
 // We'll need the intl later.
@@ -121,6 +150,7 @@ const getAlerts = (realTimeLegs, intl) => {
       backgroundColor: '#DC0451',
       iconColor: '#888',
       iconId: 'icon-icon_caution_white_exclamation',
+      id: 'alert-canceled',
     });
   }
 
@@ -132,6 +162,7 @@ const getAlerts = (realTimeLegs, intl) => {
       ),
       iconId: 'icon-icon_caution_white_exclamation',
       iconColor: '#888',
+      id: `alert-${transferProblem[0].route.shortName} - ${transferProblem[1]}`,
     });
   }
   if (late.length) {
@@ -142,6 +173,7 @@ const getAlerts = (realTimeLegs, intl) => {
       backgroundColor: '#FDF3F6',
       iconColor: '#DC0451',
       iconId: 'icon-icon_delay',
+      id: 'alert-late',
     });
   }
 
@@ -154,7 +186,10 @@ function NaviTop(
 ) {
   const [currentLeg, setCurrentLeg] = useState(null);
   const [show, setShow] = useState(true);
+  // All notifications including those user has dismissed.
   const [notifications, setNotifications] = useState([]);
+  // notifications that are shown to the user.
+  const [currentNotifs, setCurrentNotifs] = useState([]);
 
   const handleClick = () => {
     setShow(!show);
@@ -172,31 +207,47 @@ function NaviTop(
     const newLeg = realTimeLegs.find(leg => {
       return legTime(leg.start) <= time && time <= legTime(leg.end);
     });
+
     const notifs = [];
-    if (newLeg?.id !== currentLeg?.id) {
-      if (newLeg) {
-        if (!newLeg.transitLeg) {
-          // When the component is first rendered, there is no currentLeg
-          const l = currentLeg || newLeg;
-          nextLeg = itinerary.legs.find(
-            leg => legTime(leg.start) > legTime(l.start),
-          );
-        }
-        focusToLeg(newLeg, false);
-        if (nextLeg) {
-          notifs.push(getScheduleInfo(nextLeg, intl));
+    const isSame = newLeg?.id
+      ? newLeg.id === currentLeg?.id
+      : currentLeg?.mode === newLeg?.mode;
+    const l = currentLeg || newLeg;
+    if (l) {
+      nextLeg = itinerary.legs.find(
+        leg => legTime(leg.start) > legTime(l.start),
+      );
+      if (nextLeg) {
+        const i = getScheduleInfo(nextLeg, intl);
+        if (i) {
+          const found = notifications.find(n => n.id === i.id);
+          if (!found) {
+            notifs.push(i);
+          }
         }
       }
-      setCurrentLeg(newLeg);
-    }
-    const problems = getAlerts(realTimeLegs, intl);
-    if (problems.length > 0) {
-      notifs.push(problems);
-    }
-    if (notifs.length > 0) {
-      const combinedNotifications = notifications.concat(...notifs);
-      setNotifications(combinedNotifications);
-      setShow(true);
+      let currentNots = currentNotifs;
+      if (!isSame) {
+        // remove Old main notification when new leg is started.
+        currentNots = currentNots.filter(n => n.type !== 'main');
+        if (newLeg) {
+          focusToLeg(newLeg, false);
+          setCurrentLeg(newLeg);
+        }
+        const problems = getAlerts(realTimeLegs, intl);
+        if (problems.length > 0) {
+          const newAlerts = problems.filter(
+            p => !notifications.find(n => n.id === p.id),
+          );
+          notifs.push(newAlerts);
+        }
+      }
+      if (notifs.length > 0 || currentNots.length < currentNotifs.length) {
+        const combined = currentNots.concat(...notifs);
+        setCurrentNotifs(combined);
+        setNotifications(notifications.concat(...notifs));
+        setShow(true);
+      }
     }
   }, [time]);
 
@@ -226,7 +277,7 @@ function NaviTop(
     info = <FormattedMessage id="navigation-wait" />;
   }
   const handleRemove = index => {
-    setNotifications(notifications.filter((_, i) => i !== index));
+    setCurrentNotifs(currentNotifs.filter((_, i) => i !== index));
   };
 
   return (
@@ -234,7 +285,7 @@ function NaviTop(
       <button type="button" className="navitop" onClick={handleClick}>
         <div className="info">{info}</div>
         <div type="button" className="navitop-arrow">
-          {nextLeg && notifications.length > 0 && (
+          {nextLeg && currentNotifs.length > 0 && (
             <Icon
               img="icon-icon_arrow-collapse"
               className={`cursor-pointer ${show ? 'inverted' : ''}`}
@@ -245,7 +296,7 @@ function NaviTop(
       </button>
       {nextLeg && (
         <NaviStack
-          notifications={notifications}
+          notifications={currentNotifs}
           setShow={setShow}
           show={show}
           handleRemove={handleRemove}
