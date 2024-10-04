@@ -55,7 +55,8 @@ class ItineraryDetails extends React.Component {
     changeHash: PropTypes.func,
     openSettings: PropTypes.func.isRequired,
     setNavigation: PropTypes.func,
-    bikeAndPublicItineraryCount: PropTypes.number,
+    bikePublicItineraryCount: PropTypes.number,
+    carPublicItineraryCount: PropTypes.number,
     relayEnvironment: relayShape,
   };
 
@@ -63,7 +64,8 @@ class ItineraryDetails extends React.Component {
     hideTitle: false,
     currentLanguage: 'fi',
     changeHash: () => {},
-    bikeAndPublicItineraryCount: 0,
+    bikePublicItineraryCount: 0,
+    carPublicItineraryCount: 0,
     carEmissions: undefined,
     relayEnvironment: undefined,
     setNavigation: undefined,
@@ -133,7 +135,7 @@ class ItineraryDetails extends React.Component {
   };
 
   render() {
-    const { itinerary, currentLanguage, isMobile, bikeAndPublicItineraryCount } = this.props;
+    const { itinerary, currentLanguage, isMobile, bikePublicItineraryCount, carPublicItineraryCount } = this.props;
     const { config } = this.context;
     if (!itinerary?.legs[0]) {
       return null;
@@ -141,13 +143,22 @@ class ItineraryDetails extends React.Component {
     const fares = getFaresFromLegs(itinerary.legs, config);
     const extraProps = this.getExtraProps(itinerary);
     const {biking, walking, driving, futureText, isMultiRow} = extraProps;
+    // This does not take into account if the user is using a car at the time of using transit,
+    // instead this just calculates if the car is used for the whole trip
+    // a smarter approach would be to store the current personal mode of transport (walk, bike, car)
+    // this could then be used to set the waiting icon legs that need it.
+    const usingOwnCarWholeTrip = ((walking && walking.distance <= 0) || walking === undefined) &&
+                                 ((biking && biking.distance <= 0) || biking === undefined) &&
+                                 (driving && driving.distance > 0)
     const legsWithRentalBike = compressLegs(itinerary.legs).filter(leg =>
       legContainsRentalBike(leg),
     );
     const legswithBikePark = compressLegs(itinerary.legs).filter(leg => legContainsBikePark(leg));
     const legsWithScooter = compressLegs(itinerary.legs).some(leg => leg.mode === 'SCOOTER');
     const containsBiking = biking.duration > 0 && biking.distance > 0;
-    const showBikeBoardingInformation = containsBiking && bikeAndPublicItineraryCount > 0 && legswithBikePark.length === 0;
+    const showBikeBoardingInformation = containsBiking && bikePublicItineraryCount > 0 && legswithBikePark.length === 0;
+    const containsDriving = driving.duration > 0 && driving.distance > 0;
+    const showCarBoardingInformation = containsDriving && carPublicItineraryCount > 0;
     const rentalBikeNetworks = new Set();
     let showRentalBikeDurationWarning = false;
     if (legsWithRentalBike.length > 0) {
@@ -333,6 +344,8 @@ class ItineraryDetails extends React.Component {
                   tabIndex={itineraryIndex - 1}
                   openSettings={this.props.openSettings}
                   showBikeBoardingInformation={showBikeBoardingInformation}
+                  showCarBoardingInformation={showCarBoardingInformation}
+                  usingOwnCarWholeTrip={usingOwnCarWholeTrip}
                   relayEnvironment={this.props.relayEnvironment}
                 />
               </div>

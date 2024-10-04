@@ -12,7 +12,7 @@ const LONG_ROUTE_NUMBER_LENGTH = 6;
 
 function RouteNumber(props, context) {
   const mode = props.mode.toLowerCase();
-  const { alertSeverityLevel, color, withBicycle, text } = props;
+  const { alertSeverityLevel, color, withBicycle, withCar, text } = props;
   const isScooter = mode === TransportMode.Scooter.toLowerCase();
   const textIsText = typeof text === 'string'; // can be also react node
   const longText =
@@ -57,6 +57,12 @@ function RouteNumber(props, context) {
               className="itinerary-icon_with-bicycle"
             />
           )}
+          {withCar && (
+            <Icon
+              img="icon-icon_car-withoutBox"
+              className="itinerary-icon_with-car"
+            />
+          )}
         </React.Fragment>
       );
     }
@@ -81,6 +87,12 @@ function RouteNumber(props, context) {
           <Icon
             img="icon-icon_bicycle_walk"
             className="itinerary-icon_with-bicycle"
+          />
+        )}
+        {withCar && (
+          <Icon
+            img="icon-icon_car-withoutBox"
+            className="itinerary-icon_with-car"
           />
         )}
       </React.Fragment>
@@ -206,6 +218,7 @@ RouteNumber.propTypes = {
   duration: PropTypes.number,
   isTransitLeg: PropTypes.bool,
   withBicycle: PropTypes.bool,
+  withCar: PropTypes.bool,
   card: PropTypes.bool,
   appendClass: PropTypes.string,
   occupancyStatus: PropTypes.string,
@@ -228,6 +241,7 @@ RouteNumber.defaultProps = {
   isTransitLeg: false,
   renderModeIcons: false,
   withBicycle: false,
+  withCar: false,
   color: undefined,
   duration: undefined,
   occupancyStatus: undefined,

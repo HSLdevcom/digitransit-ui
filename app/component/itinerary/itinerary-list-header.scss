@@ -55,6 +55,49 @@
   }
 }
 
+.with-car-info {
+  border-radius: 5px;
+  border: solid 1px #ddd;
+  margin: 8px 60px 8px 0;
+  background-color: #e5f2fa;
+  display: flex;
+
+  .with-car-icon {
+    width: 18px;
+    height: 18px;
+    font-size: 18px;
+    margin: 4px 0 8px 8px;
+
+    .inline-icon {
+      margin-left: 0;
+    }
+  }
+
+  .with-car-info-notification-icon {
+    align-self: baseline;
+    margin-top: 5px;
+  }
+
+  .with-car-info-notification {
+    margin-top: 5px;
+
+    .with-car-info-content {
+      flex: 1;
+      color: #333;
+      margin: 0 4px 4px 8px;
+      font-style: normal;
+      line-height: normal;
+      letter-spacing: -0.39px;
+    }
+
+    .with-car-info-header {
+      font-size: $font-size-xsmall;
+      font-weight: bold;
+      margin: 0 4px 0 8px;
+    }
+  }
+}
+
 .mobile {
   .itinerary-summary-subtitle-container {
     padding: 22px 0 22px 25px;

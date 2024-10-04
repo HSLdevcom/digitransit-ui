@@ -38,6 +38,13 @@ export default function StreetModeSelectorButton(
         intl.formatNumber,
       );
       break;
+    case streetHash.carAndVehicle:
+      distance = displayDistance(
+        getTotalDrivingDistance(itinerary),
+        config,
+        intl.formatNumber,
+      );
+      break;
     case streetHash.parkAndRide:
       distance = displayDistance(
         getTotalDrivingDistance(itinerary),
@@ -57,7 +64,11 @@ export default function StreetModeSelectorButton(
   let secondaryIcon;
   let secondaryColor;
 
-  if (name === streetHash.parkAndRide || name === streetHash.bikeAndVehicle) {
+  if (
+    name === streetHash.parkAndRide ||
+    name === streetHash.bikeAndVehicle ||
+    name === streetHash.carAndVehicle
+  ) {
     const transitEdge = plan.edges.find(e =>
       e.node.legs.find(l => l.transitLeg),
     );
@@ -93,13 +104,18 @@ export default function StreetModeSelectorButton(
         <div
           className={`street-mode-selector-button-icon ${
             secondaryIcon ? 'primary-icon' : ''
-          } ${name === streetHash.parkAndRide ? 'car-park-primary' : ''} ${
+          } ${name === streetHash.parkAndRide ? 'car-park-primary' : ''}
+            ${
+              name === streetHash.carAndVehicle ? 'car-and-vehicle-primary' : ''
+            }
+          ${
             name === streetHash.bikeAndVehicle ? 'bike-and-vehicle-primary' : ''
           }`}
         >
           <Icon img={icon} />
         </div>
         {name === streetHash.bikeAndVehicle ||
+        name === streetHash.carAndVehicle ||
         name === streetHash.parkAndRide ? (
           <div
             className={`street-mode-selector-button-icon secondary-icon ${

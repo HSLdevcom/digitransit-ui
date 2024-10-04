@@ -139,11 +139,12 @@ export default function BicycleLeg(
       />
     );
   } else if (bicycleWalkLeg) {
-    const modeClassNames = bicycleWalkLeg.to?.stop
-      ? [modeClassName, bicycleWalkLeg.mode.toLowerCase()]
-      : [bicycleWalkLeg.mode.toLowerCase(), modeClassName];
     circleLine = (
-      <ItineraryCircleLineLong index={index} modeClassNames={modeClassNames} />
+      <ItineraryCircleLineLong
+        index={index}
+        modeClassName={modeClassName}
+        boardingLeg={bicycleWalkLeg}
+      />
     );
   } else if (mode === 'BICYCLE') {
     circleLine = (

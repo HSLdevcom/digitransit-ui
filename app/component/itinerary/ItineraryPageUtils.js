@@ -469,6 +469,36 @@ export function mergeBikeTransitPlans(bikeParkPlan, bikeTransitPlan) {
 }
 
 /**
+ * Merge the direct car plan with the car transit plan.
+ */
+export function mergeCarDirectAndTransitPlans(carPlan, carTransitPlan) {
+  let carPlanEdges = carPlan?.edges;
+  let carPublicEdges = carTransitPlan?.edges;
+  if (carPlanEdges === undefined) {
+    carPlanEdges = [];
+  }
+  if (carPublicEdges === undefined) {
+    carPublicEdges = [];
+  }
+
+  // If there is a direct car plan.
+  if (carPlanEdges.length === 1) {
+    return {
+      searchDateTime: carTransitPlan.searchDateTime,
+      edges: [...carPlanEdges, ...carPublicEdges],
+      carDirectItineraryCount: 1,
+      carPublicItineraryCount: carPublicEdges.length,
+    };
+  }
+  return {
+    searchDateTime: carTransitPlan.searchDateTime,
+    edges: carPublicEdges,
+    carDirectItineraryCount: 0,
+    carPublicItineraryCount: carPublicEdges.length,
+  };
+}
+
+/**
  * Combine a scooter edge with the main transit edges.
  */
 export function mergeScooterTransitPlan(
