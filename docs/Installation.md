@@ -89,7 +89,7 @@ By default digitransit-ui uses services from https://dev-api.digitransit.fi but 
 
 If you want to specify different URL (not just base URL) for individual services, you can define variables OTP_URL, MAP_URL and/or GEOCODING_BASE_URL (URL path before /search or /reverse).
 - `yarn run build`
-- `GEOCODING_BASE_URL=https://api.digitransit.fi/geocoding/v1 OTP_URL=https://api.digitransit.fi/routing/v1/routers/finland/ yarn run start`
+- `GEOCODING_BASE_URL=https://api.digitransit.fi/geocoding/v1 OTP_URL=https://api.digitransit.fi/routing/v2/finland/ yarn run start`
 
 ### Using Sentry to track client errors (optional)
 Sentry can be configured like so:

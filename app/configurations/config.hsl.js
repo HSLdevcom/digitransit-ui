@@ -3,7 +3,7 @@ import { BIKEAVL_WITHMAX } from '../util/vehicleRentalUtils';
 
 const CONFIG = 'hsl';
 const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
-const OTP_URL = process.env.OTP_URL || `${API_URL}/routing/v2/routers/hsl/`;
+const OTP_URL = process.env.OTP_URL || `${API_URL}/routing/v2/hsl/`;
 const MAP_URL =
   process.env.MAP_URL || 'https://digitransit-dev-cdn-origin.azureedge.net';
 const POI_MAP_PREFIX = `${MAP_URL}/map/v3/hsl`;
