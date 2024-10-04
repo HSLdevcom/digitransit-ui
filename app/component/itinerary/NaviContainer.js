@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { createFragmentContainer, graphql, fetchQuery } from 'react-relay';
 import { itineraryShape, relayShape } from '../../util/shapes';
@@ -37,13 +37,16 @@ function NaviContainer({
 }) {
   const [realTimeLegs, setRealTimeLegs] = useState(itinerary.legs);
   const [time, setTime] = useState(Date.now());
+  const locationOK = useRef(true);
 
   // update view after every 10 seconds
   useEffect(() => {
     checkPositioningPermission().then(permission => {
-      if (permission.state === 'granted') {
+      locationOK.current = permission.state === 'granted';
+      if (locationOK.current) {
         mapRef?.enableMapTracking();
       }
+      setTime(Date.now()); // force refresh
     });
     const interval = setInterval(() => {
       setTime(Date.now());
@@ -103,7 +106,9 @@ function NaviContainer({
       <NaviTop
         itinerary={itinerary}
         realTimeLegs={realTimeLegs}
-        focusToLeg={mapRef?.state.mapTracking ? null : focusToLeg}
+        focusToLeg={
+          mapRef?.state.mapTracking || locationOK.current ? null : focusToLeg
+        }
         time={time}
       />{' '}
       <NaviBottom setNavigation={setNavigation} arrival={arrivalTime} />
