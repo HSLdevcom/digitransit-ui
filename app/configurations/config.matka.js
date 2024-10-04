@@ -402,6 +402,11 @@ export default {
     FERRY: { showNotification: true },
     BUS: { showNotification: true },
   },
+
+  carBoardingModes: {
+    FERRY: { showNotification: true },
+  },
+
   // Include both bike and park and bike and public, if bike is enabled
   includePublicWithBikePlan: true,
 

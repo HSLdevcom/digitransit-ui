@@ -264,4 +264,7 @@ export default {
       value: 600,
     },
   ],
+  carBoardingModes: {
+    FERRY: { showNotification: true },
+  },
 };
