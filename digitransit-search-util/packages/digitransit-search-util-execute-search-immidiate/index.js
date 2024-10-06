@@ -167,9 +167,12 @@ function getBackSuggestion() {
   ]);
 }
 
-function filterFavouriteStops(stopsAndStations, input) {
-  return stopsAndStations.then(stops => {
-    return filterMatchingToInput(stops, input, [
+function filterFavouriteStops(stopsAndStations, input, useStops, useStations) {
+  return stopsAndStations.then(stopsStations => {
+    const candidates = stopsStations.filter(s =>
+      s.type === 'stop' ? useStops : useStations,
+    );
+    return filterMatchingToInput(candidates, input, [
       'properties.name',
       'properties.name',
       'properties.address',
@@ -323,7 +326,7 @@ export function getSearchResults(
     }
 
     if (allSources || sources.includes('Datasource')) {
-      const geocodingLayers = ['station', 'venue', 'address', 'street'];
+      const geocodingLayers = ['venue', 'address', 'street'];
       const feedis = feedIDs.map(v => `gtfs${v}`);
       const geosources = geocodingSources.concat(feedis).join(',');
       searchComponents.push(
@@ -404,7 +407,9 @@ export function getSearchResults(
     }
   }
 
-  if (allTargets || targets.includes('Stops')) {
+  if (allTargets || targets.includes('Stops') || targets.includes('Stations')) {
+    const useStops = targets.includes('Stops');
+    const useStations = targets.includes('Stations');
     if (sources.includes('Favourite')) {
       const favouriteStops = getFavouriteStops(context);
       let stopsAndStations;
@@ -430,10 +435,18 @@ export function getSearchResults(
             return results;
           });
       }
-      searchComponents.push(filterFavouriteStops(stopsAndStations, input));
+      searchComponents.push(
+        filterFavouriteStops(stopsAndStations, input, useStops, useStations),
+      );
     }
     if (allSources || sources.includes('Datasource')) {
-      const geocodingLayers = ['stop', 'station'];
+      const geocodingLayers = [];
+      if (useStops) {
+        geocodingLayers.push('stop');
+      }
+      if (useStations) {
+        geocodingLayers.push('station');
+      }
       const searchParams =
         geocodingSize && geocodingSize !== 10 ? { size: geocodingSize } : {};
       if (geocodingSearchParams && geocodingSearchParams['boundary.country']) {
@@ -483,6 +496,12 @@ export function getSearchResults(
       dropLayers.push(...routeLayers);
       dropLayers.push(...locationLayers);
       dropLayers.push(...parkingLayers);
+      if (!useStops) {
+        dropLayers.push('stop');
+      }
+      if (!useStations) {
+        dropLayers.push('station');
+      }
       if (transportMode) {
         if (transportMode !== 'route-CITYBIKE') {
           dropLayers.push('vehicleRentalStation');
@@ -500,7 +519,6 @@ export function getSearchResults(
       }
     }
   }
-
   if (allTargets || targets.includes('Routes')) {
     if (sources.includes('Favourite')) {
       const favouriteRoutes = getFavouriteRoutes(context);
