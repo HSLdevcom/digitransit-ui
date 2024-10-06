@@ -299,7 +299,7 @@ class IndexPage extends React.Component {
     const origin = this.pendingOrigin || this.props.origin;
     const destination = this.pendingDestination || this.props.destination;
     const sources = ['Favourite', 'History', 'Datasource'];
-    const stopAndRouteSearchTargets = ['Stops', 'Routes'];
+    const stopAndRouteSearchTargets = ['Stations', 'Stops', 'Routes'];
     let locationSearchTargets = [
       'Locations',
       'CurrentPosition',
@@ -314,8 +314,8 @@ class IndexPage extends React.Component {
       ];
     } else {
       // default setup
+      locationSearchTargets.push('Stations');
       locationSearchTargets.push('Stops');
-
       if (useCitybikes(config.vehicleRental?.networks, config)) {
         stopAndRouteSearchTargets.push('VehicleRentalStations');
         locationSearchTargets.push('VehicleRentalStations');
