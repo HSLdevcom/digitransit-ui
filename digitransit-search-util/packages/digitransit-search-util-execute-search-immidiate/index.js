@@ -234,7 +234,7 @@ const routeLayers = [
   'route-AIRPLANE',
   'route-FUNICULAR',
 ];
-const locationLayers = ['favouritePlace', 'venue', 'address', 'street'];
+const locationLayers = ['venue', 'address', 'street'];
 const parkingLayers = ['carpark', 'bikepark'];
 const stopLayers = ['stop', 'station'];
 
@@ -347,14 +347,7 @@ export function getSearchResults(
     }
     if (allSources || sources.includes('History')) {
       const locationHistory = getOldSearches(context, 'endpoint');
-      const dropLayers = [
-        'currentPosition',
-        'selectFromMap',
-        'futureRoute',
-        'ownLocations',
-        'bikestation',
-        'back',
-      ];
+      const dropLayers = ['bikestation'];
       dropLayers.push(...stopLayers);
       dropLayers.push(...routeLayers);
       dropLayers.push(...parkingLayers);
@@ -391,15 +384,7 @@ export function getSearchResults(
     }
     if (allSources || sources.includes('History')) {
       const history = getOldSearches(context);
-      const dropLayers = [
-        'currentPosition',
-        'selectFromMap',
-        'futureRoute',
-        'ownLocations',
-        'favouritePlace',
-        'bikestation',
-        'back',
-      ];
+      const dropLayers = ['bikestation'];
       dropLayers.push(...stopLayers);
       dropLayers.push(...routeLayers);
       dropLayers.push(...locationLayers);
@@ -484,15 +469,7 @@ export function getSearchResults(
         }
         return true;
       });
-      const dropLayers = [
-        'currentPosition',
-        'selectFromMap',
-        'futureRoute',
-        'ownLocations',
-        'favouritePlace',
-        'bikestation',
-        'back',
-      ];
+      const dropLayers = ['bikestation'];
       dropLayers.push(...routeLayers);
       dropLayers.push(...locationLayers);
       dropLayers.push(...parkingLayers);
@@ -532,17 +509,7 @@ export function getSearchResults(
     );
     if (allSources || sources.includes('History')) {
       const routeHistory = getOldSearches(context);
-      const dropLayers = [
-        'currentPosition',
-        'selectFromMap',
-        'futureRoute',
-        'favouritePlace',
-        'bikestation',
-        'bikepark',
-        'carpark',
-        'ownLocations',
-        'back',
-      ];
+      const dropLayers = ['bikestation'];
       if (transportMode) {
         dropLayers.push(...routeLayers.filter(i => !(i === transportMode)));
       }
@@ -592,15 +559,7 @@ export function getSearchResults(
     }
     if (allSources || sources.includes('History')) {
       const history = getOldSearches(context);
-      const dropLayers = [
-        'currentPosition',
-        'selectFromMap',
-        'futureRoute',
-        'ownLocations',
-        'favouritePlace',
-        'back',
-      ];
-      dropLayers.push(...stopLayers);
+      const dropLayers = [...stopLayers];
       dropLayers.push(...routeLayers);
       dropLayers.push(...locationLayers);
       dropLayers.push(...parkingLayers);
