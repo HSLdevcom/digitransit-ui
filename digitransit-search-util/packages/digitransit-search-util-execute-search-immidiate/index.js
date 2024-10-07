@@ -235,6 +235,8 @@ const routeLayers = [
 ];
 const locationLayers = ['favouritePlace', 'venue', 'address', 'street'];
 const parkingLayers = ['carpark', 'bikepark'];
+const stopLayers = ['stop', 'station'];
+
 /**
  * Executes the search
  *
@@ -349,13 +351,12 @@ export function getSearchResults(
         'selectFromMap',
         'futureRoute',
         'ownLocations',
-        'vehicleRentalStation',
-        'bikepark',
-        'carpark',
-        'stop',
+        'bikestation',
         'back',
       ];
+      dropLayers.push(...stopLayers);
       dropLayers.push(...routeLayers);
+      dropLayers.push(...parkingLayers);
       searchComponents.push(
         filterOldSearches(locationHistory, input, dropLayers),
       );
@@ -397,9 +398,8 @@ export function getSearchResults(
         'favouritePlace',
         'bikestation',
         'back',
-        'stop',
-        'station',
       ];
+      dropLayers.push(...stopLayers);
       dropLayers.push(...routeLayers);
       dropLayers.push(...locationLayers);
       searchComponents.push(filterOldSearches(history, input, dropLayers));
@@ -536,8 +536,6 @@ export function getSearchResults(
         'selectFromMap',
         'futureRoute',
         'favouritePlace',
-        'stop',
-        'station',
         'bikestation',
         'bikepark',
         'carpark',
@@ -547,7 +545,10 @@ export function getSearchResults(
       if (transportMode) {
         dropLayers.push(...routeLayers.filter(i => !(i === transportMode)));
       }
+      dropLayers.push(...stopLayers);
       dropLayers.push(...locationLayers);
+      dropLayers.push(...parkingLayers);
+
       searchComponents.push(
         filterOldSearches(routeHistory, input, dropLayers).then(results =>
           filterResults ? filterResults(results, mode, 'Routes') : results,
@@ -587,6 +588,23 @@ export function getSearchResults(
           return results;
         }),
       );
+    }
+    if (allSources || sources.includes('History')) {
+      const history = getOldSearches(context);
+      const dropLayers = [
+        'currentPosition',
+        'selectFromMap',
+        'futureRoute',
+        'ownLocations',
+        'favouritePlace',
+        'back',
+      ];
+      dropLayers.push(...stopLayers);
+      dropLayers.push(...routeLayers);
+      dropLayers.push(...locationLayers);
+      dropLayers.push(...parkingLayers);
+
+      searchComponents.push(filterOldSearches(history, input, dropLayers));
     }
   }
 
