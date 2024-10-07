@@ -232,6 +232,7 @@ const routeLayers = [
   'route-FERRY',
   'route-SUBWAY',
   'route-AIRPLANE',
+  'route-FUNICULAR',
 ];
 const locationLayers = ['favouritePlace', 'venue', 'address', 'street'];
 const parkingLayers = ['carpark', 'bikepark'];
