@@ -392,9 +392,10 @@ export function getSearchResults(
     }
   }
 
-  if (allTargets || targets.includes('Stops') || targets.includes('Stations')) {
-    const useStops = targets.includes('Stops');
-    const useStations = targets.includes('Stations');
+  const useStops = targets.includes('Stops');
+  const useStations = targets.includes('Stations');
+
+  if (allTargets || useStops || useStations) {
     if (sources.includes('Favourite')) {
       const favouriteStops = getFavouriteStops(context);
       let stopsAndStations;
