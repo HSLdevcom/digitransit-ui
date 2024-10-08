@@ -197,7 +197,7 @@ function NaviTop({ focusToLeg, time, realTimeLegs }, { intl, config }) {
   // All notifications including those user has dismissed.
   const [notifications, setNotifications] = useState([]);
   // notifications that are shown to the user.
-  const [displayNotifs, setdisplayNotifs] = useState([]);
+  const [activeNotifications, setActiveNotifications] = useState([]);
   const focusRef = useRef(false);
 
   const handleClick = () => {
@@ -218,6 +218,15 @@ function NaviTop({ focusToLeg, time, realTimeLegs }, { intl, config }) {
     });
 
     const notifs = [];
+
+    const alerts = getAlerts(realTimeLegs, intl);
+    if (alerts.length > 0) {
+      const newAlerts = alerts.filter(
+        p => !notifications.find(n => n.id === p.id),
+      );
+      notifs.push(newAlerts);
+    }
+
     const isSame = newLeg?.id
       ? newLeg.id === currentLeg?.id
       : currentLeg?.mode === newLeg?.mode;
@@ -233,20 +242,15 @@ function NaviTop({ focusToLeg, time, realTimeLegs }, { intl, config }) {
           }
         }
       }
-      let currentNots = displayNotifs;
+
       if (!isSame) {
         // remove Old main notification when new leg is started.
-        currentNots = currentNots.filter(n => n.type !== 'main');
+        setActiveNotifications(
+          activeNotifications.filter(n => n.type !== 'main'),
+        );
         if (newLeg) {
           focusToLeg?.(newLeg);
           setCurrentLeg(newLeg);
-        }
-        const alerts = getAlerts(realTimeLegs, intl);
-        if (alerts.length > 0) {
-          const newAlerts = alerts.filter(
-            p => !notifications.find(n => n.id === p.id),
-          );
-          notifs.push(newAlerts);
         }
       }
 
@@ -264,9 +268,8 @@ function NaviTop({ focusToLeg, time, realTimeLegs }, { intl, config }) {
         }
         focusRef.current = true;
       }
-      if (notifs.length > 0 || currentNots.length < displayNotifs.length) {
-        const combined = currentNots.concat(...notifs);
-        setdisplayNotifs(combined);
+      if (notifs.length > 0 || !isSame) {
+        setActiveNotifications(activeNotifications.concat(...notifs));
         setNotifications(notifications.concat(...notifs));
         setShow(true);
       }
@@ -298,7 +301,7 @@ function NaviTop({ focusToLeg, time, realTimeLegs }, { intl, config }) {
     info = <FormattedMessage id="navigation-wait" />;
   }
   const handleRemove = index => {
-    setdisplayNotifs(displayNotifs.filter((_, i) => i !== index));
+    setActiveNotifications(activeNotifications.filter((_, i) => i !== index));
   };
 
   return (
@@ -306,7 +309,7 @@ function NaviTop({ focusToLeg, time, realTimeLegs }, { intl, config }) {
       <button type="button" className="navitop" onClick={handleClick}>
         <div className="info">{info}</div>
         <div type="button" className="navitop-arrow">
-          {nextLeg && displayNotifs.length > 0 && (
+          {nextLeg && activeNotifications.length > 0 && (
             <Icon
               img="icon-icon_arrow-collapse"
               className={`cursor-pointer ${show ? 'inverted' : ''}`}
@@ -317,7 +320,7 @@ function NaviTop({ focusToLeg, time, realTimeLegs }, { intl, config }) {
       </button>
       {nextLeg && (
         <NaviStack
-          notifications={displayNotifs}
+          notifications={activeNotifications}
           setShow={setShow}
           show={show}
           handleRemove={handleRemove}
