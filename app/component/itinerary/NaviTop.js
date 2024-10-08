@@ -241,9 +241,9 @@ function NaviTop({ focusToLeg, time, realTimeLegs }, { intl, config }) {
           focusToLeg?.(newLeg);
           setCurrentLeg(newLeg);
         }
-        const problems = getAlerts(realTimeLegs, intl);
-        if (problems.length > 0) {
-          const newAlerts = problems.filter(
+        const alerts = getAlerts(realTimeLegs, intl);
+        if (alerts.length > 0) {
+          const newAlerts = alerts.filter(
             p => !notifications.find(n => n.id === p.id),
           );
           notifs.push(newAlerts);
