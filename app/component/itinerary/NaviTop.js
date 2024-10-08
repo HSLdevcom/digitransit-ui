@@ -184,7 +184,7 @@ const getAlerts = (realTimeLegs, intl) => {
     // Todo add mode and delay time to this message
     content = <div className="notifiler">Kulkuneuvo on myöhässä</div>;
     alerts.push({
-      ...generateStackMessage('WARNING', content, id),
+      ...generateStackMessage('ALERT', content, id),
     });
   }
 
