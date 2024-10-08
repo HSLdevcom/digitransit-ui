@@ -37,7 +37,7 @@ function findTransferProblem(legs) {
   return null;
 }
 
-const generateStackMessage = (severity, content) => {
+const generateStackMessage = (severity, content, id) => {
   switch (severity) {
     case 'INFO':
       return {
@@ -45,6 +45,7 @@ const generateStackMessage = (severity, content) => {
         backgroundColor: '#E5F2FA',
         iconColor: '#0074BF',
         iconId: 'icon-icon_info',
+        id,
       };
     case 'WARNING':
       return {
@@ -52,6 +53,7 @@ const generateStackMessage = (severity, content) => {
         backgroundColor: '#FFF8E8',
         iconColor: '#FED100',
         iconId: 'icon-icon_attention',
+        id,
       };
     case 'ALERT':
       return {
@@ -59,6 +61,7 @@ const generateStackMessage = (severity, content) => {
         backgroundColor: '#FDF3F6',
         iconColor: '#DC0451',
         iconId: 'icon-icon_caution_white_exclamation',
+        id,
       };
     default:
       return null;
@@ -136,8 +139,7 @@ const getScheduleInfo = (nextLeg, intl) => {
     );
     severity = 'INFO';
   }
-  const info = generateStackMessage(severity, content);
-  info.id = msgId;
+  const info = generateStackMessage(severity, content, msgId);
   // Only one main info, first in stack.
   info.type = 'main';
   return info;
@@ -151,13 +153,13 @@ const getAlerts = (realTimeLegs, intl) => {
   const transferProblem = findTransferProblem(realTimeLegs);
   const late = realTimeLegs.filter(leg => leg.start.estimate?.delay > 0);
   let content;
+  const id = 'alert-todo-proper-id';
   if (canceled.length > 0) {
     content = <div className="notifiler">Osa matkan lähdöistä on peruttu</div>;
     // Todo: No current design
     // todo find modes that are canceled
     alerts.push({
-      ...generateStackMessage('ALERT', content),
-      id: 'alert-canceled',
+      ...generateStackMessage('ALERT', content, id),
     });
   }
 
@@ -168,8 +170,7 @@ const getAlerts = (realTimeLegs, intl) => {
     );
 
     alerts.push({
-      ...generateStackMessage('ALERT', content),
-      id: 'alert-transfer',
+      ...generateStackMessage('ALERT', content, id),
     });
   }
   if (late.length) {
@@ -177,8 +178,7 @@ const getAlerts = (realTimeLegs, intl) => {
     // Todo add mode and delay time to this message
     content = <div className="notifiler">Kulkuneuvo on myöhässä</div>;
     alerts.push({
-      ...generateStackMessage('ALERT', content),
-      id: 'alert-late',
+      ...generateStackMessage('WARNING', content, id),
     });
   }
 
@@ -194,7 +194,7 @@ function NaviTop(
   // All notifications including those user has dismissed.
   const [notifications, setNotifications] = useState([]);
   // notifications that are shown to the user.
-  const [currentNotifs, setCurrentNotifs] = useState([]);
+  const [displayNotifs, setdisplayNotifs] = useState([]);
 
   const handleClick = () => {
     setShow(!show);
@@ -231,7 +231,7 @@ function NaviTop(
           }
         }
       }
-      let currentNots = currentNotifs;
+      let currentNots = displayNotifs;
       if (!isSame) {
         // remove Old main notification when new leg is started.
         currentNots = currentNots.filter(n => n.type !== 'main');
@@ -247,9 +247,9 @@ function NaviTop(
           notifs.push(newAlerts);
         }
       }
-      if (notifs.length > 0 || currentNots.length < currentNotifs.length) {
+      if (notifs.length > 0 || currentNots.length < displayNotifs.length) {
         const combined = currentNots.concat(...notifs);
-        setCurrentNotifs(combined);
+        setdisplayNotifs(combined);
         setNotifications(notifications.concat(...notifs));
         setShow(true);
       }
@@ -282,7 +282,7 @@ function NaviTop(
     info = <FormattedMessage id="navigation-wait" />;
   }
   const handleRemove = index => {
-    setCurrentNotifs(currentNotifs.filter((_, i) => i !== index));
+    setdisplayNotifs(displayNotifs.filter((_, i) => i !== index));
   };
 
   return (
@@ -290,7 +290,7 @@ function NaviTop(
       <button type="button" className="navitop" onClick={handleClick}>
         <div className="info">{info}</div>
         <div type="button" className="navitop-arrow">
-          {nextLeg && currentNotifs.length > 0 && (
+          {nextLeg && displayNotifs.length > 0 && (
             <Icon
               img="icon-icon_arrow-collapse"
               className={`cursor-pointer ${show ? 'inverted' : ''}`}
@@ -301,7 +301,7 @@ function NaviTop(
       </button>
       {nextLeg && (
         <NaviStack
-          notifications={currentNotifs}
+          notifications={displayNotifs}
           setShow={setShow}
           show={show}
           handleRemove={handleRemove}

@@ -29,8 +29,8 @@ const NaviStack = ({ notifications, handleRemove, show }, { intl, config }) => {
         >
           <Icon
             img={info.iconId}
-            height="1.4"
-            width="1.4"
+            height={1.4}
+            width={1.4}
             className="info-icon"
             color={info.iconColor}
           />
@@ -42,8 +42,8 @@ const NaviStack = ({ notifications, handleRemove, show }, { intl, config }) => {
           >
             <Icon
               img="icon-icon_close"
-              height="0.8"
-              width="0.8"
+              height={0.8}
+              width={0.8}
               color={config.colors.primary}
             />
           </button>
