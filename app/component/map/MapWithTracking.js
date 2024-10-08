@@ -117,7 +117,6 @@ class MapWithTrackingStateHandler extends React.Component {
     this.state = {
       mapTracking: props.mapTracking,
       settingsOpen: false,
-      refreshTrigger: 0,
     };
     this.naviProps = {};
   }
@@ -165,10 +164,7 @@ class MapWithTrackingStateHandler extends React.Component {
       setTimeout(() => {
         this.ignoreNavigation = false;
       }, 500);
-      this.setState(prevState => ({
-        mapTracking: true,
-        refreshTrigger: prevState.refreshTrigger + 1,
-      }));
+      this.setState({ mapTracking: true });
     }
     if (this.props.onMapTracking) {
       this.props.onMapTracking();

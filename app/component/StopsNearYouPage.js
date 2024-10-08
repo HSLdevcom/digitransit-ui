@@ -828,7 +828,7 @@ class StopsNearYouPage extends React.Component {
       modeSet: this.context.config.iconModeSet,
       getAutoSuggestIcons: this.context.config.getAutoSuggestIcons,
     };
-    const targets = ['Locations', 'Stops'];
+    const targets = ['Locations', 'Stations', 'Stops'];
     if (
       useCitybikes(
         this.context.config.vehicleRental?.networks,
