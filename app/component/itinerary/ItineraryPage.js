@@ -502,6 +502,9 @@ export default function ItineraryPage(props, context) {
         laterEdges: [...state.laterEdges, ...edges],
       });
     }
+    if (arriveBy) {
+      resetItineraryPageSelection();
+    }
   };
 
   const onEarlier = async () => {
@@ -553,7 +556,6 @@ export default function ItineraryPage(props, context) {
       return;
     }
     ariaRef.current = 'itinerary-page.itineraries-loaded';
-
     const newState = {
       ...state,
       loadingMore: undefined,
@@ -583,6 +585,9 @@ export default function ItineraryPage(props, context) {
         ...separators,
         earlierEdges: [...edges, ...state.earlierEdges],
       });
+    }
+    if (!arriveBy) {
+      resetItineraryPageSelection();
     }
   };
 
@@ -875,7 +880,7 @@ export default function ItineraryPage(props, context) {
     router.replace(newLocationState);
   };
 
-  const showSettingsPanel = open => {
+  const showSettingsPanel = (open, changeScooterSettings) => {
     addAnalyticsEvent({
       event: 'sendMatomoEvent',
       category: 'ItinerarySettings',
@@ -888,6 +893,7 @@ export default function ItineraryPage(props, context) {
         ...settingsState,
         settingsOpen: true,
         settingsOnOpen: getSettings(config),
+        changeScooterSettings,
       });
       if (breakpoint !== 'large') {
         router.push({
@@ -900,6 +906,17 @@ export default function ItineraryPage(props, context) {
       }
       return;
     }
+    if (
+      settingsState.changeScooterSettings &&
+      settingsState.settingsOnOpen.scooterNetworks.length <
+        getSettings(config).scooterNetworks.length
+    ) {
+      addAnalyticsEvent({
+        category: 'ItinerarySettings',
+        action: 'SettingsEnableScooterNetwork',
+        name: 'AfterOnlyScooterRoutesFound',
+      });
+    }
 
     const settingsChanged = !isEqual(
       settingsState.settingsOnOpen,
@@ -911,6 +928,7 @@ export default function ItineraryPage(props, context) {
       ...settingsState,
       settingsOpen: false,
       settingsChanged,
+      changeScooterSettings: false,
     });
 
     if (settingsChanged && detailView) {
@@ -1084,6 +1102,7 @@ export default function ItineraryPage(props, context) {
           relayEnvironment={props.relayEnvironment}
           combinedEdges={combinedEdges}
           setNavigation={setNavigation}
+          mapRef={mwtRef.current}
         />
       );
     } else {

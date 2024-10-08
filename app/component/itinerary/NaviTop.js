@@ -223,9 +223,7 @@ function NaviTop({ focusToLeg, time, realTimeLegs }, { intl, config }) {
       : currentLeg?.mode === newLeg?.mode;
     const l = currentLeg || newLeg;
     if (l) {
-      nextLeg = realTimeLegs.legs.find(
-        leg => legTime(leg.start) > legTime(l.start),
-      );
+      nextLeg = realTimeLegs.find(leg => legTime(leg.start) > legTime(l.start));
       if (nextLeg) {
         const i = getScheduleInfo(nextLeg, intl);
         if (i) {
@@ -287,7 +285,7 @@ function NaviTop({ focusToLeg, time, realTimeLegs }, { intl, config }) {
     );
   } else if (currentLeg) {
     if (!currentLeg.transitLeg) {
-      nextLeg = realTimeLegs.legs.find(
+      nextLeg = realTimeLegs.find(
         leg => legTime(leg.start) > legTime(currentLeg.start),
       );
       info = <NaviLeg leg={currentLeg} nextLeg={nextLeg} />;
@@ -330,12 +328,16 @@ function NaviTop({ focusToLeg, time, realTimeLegs }, { intl, config }) {
 }
 
 NaviTop.propTypes = {
-  focusToLeg: PropTypes.func.isRequired,
+  focusToLeg: PropTypes.func,
   time: PropTypes.number.isRequired,
   realTimeLegs: PropTypes.arrayOf(legShape).isRequired,
   /*
   focusToPoint: PropTypes.func.isRequired,
   */
+};
+
+NaviTop.defaultProps = {
+  focusToLeg: undefined,
 };
 
 NaviTop.contextTypes = {

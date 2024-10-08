@@ -3,7 +3,7 @@ import { BIKEAVL_WITHMAX } from '../util/vehicleRentalUtils';
 
 const CONFIG = 'hsl';
 const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
-const OTP_URL = process.env.OTP_URL || `${API_URL}/routing/v2/routers/hsl/`;
+const OTP_URL = process.env.OTP_URL || `${API_URL}/routing/v2/hsl/`;
 const MAP_URL =
   process.env.MAP_URL || 'https://digitransit-dev-cdn-origin.azureedge.net';
 const POI_MAP_PREFIX = `${MAP_URL}/map/v3/hsl`;
@@ -38,9 +38,6 @@ export default {
     },
     REALTIME_RENTAL_STATION_MAP: {
       default: `${POI_MAP_PREFIX}/fi/realtimeRentalStations/`,
-    },
-    RENTAL_VEHICLE_MAP: {
-      default: `${POI_MAP_PREFIX}/fi/rentalVehicles/`,
     },
     REALTIME_RENTAL_VEHICLE_MAP: {
       default: `${POI_MAP_PREFIX}/fi/realtimeRentalVehicles/`,
@@ -522,15 +519,15 @@ export default {
     scooterInfoLink: {
       fi: {
         text: 'Potkulaudat',
-        url: 'https://www.hsl.fi/hsl/uutiset/teemat/potkulaudat',
+        url: 'https://www.hsl.fi/reittiopas_potkulaudat',
       },
       en: {
         text: 'Scooters',
-        url: 'https://www.hsl.fi/hsl/uutiset/teemat/potkulaudat',
+        url: 'https://www.hsl.fi/en/journey_planner_scooters',
       },
       sv: {
         text: 'Elsparkcyklar',
-        url: 'https://www.hsl.fi/hsl/uutiset/teemat/potkulaudat',
+        url: 'https://www.hsl.fi/sv/reseplaneraren_sparkcyklar',
       },
     },
     maxMinutesToRentalJourneyEnd: 240,

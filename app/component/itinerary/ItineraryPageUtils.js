@@ -30,13 +30,25 @@ import { getTotalBikingDistance, compressLegs } from '../../util/legUtils';
 export function getSelectedItineraryIndex(
   { pathname, state } = {},
   edges = [],
-  defaultValue = 0,
 ) {
+  // path defines the selection in detail view
+  const lastURLSegment = pathname?.split('/').pop();
+  if (lastURLSegment !== '') {
+    const index = Number(pathname?.split('/').pop());
+    if (!Number.isNaN(index)) {
+      if (index >= edges.length) {
+        return 0;
+      }
+      return index;
+    }
+  }
+
+  // in summary view, look the location state
   if (state?.selectedItineraryIndex !== undefined) {
     if (state.selectedItineraryIndex < edges.length) {
       return state.selectedItineraryIndex;
     }
-    return defaultValue;
+    return 0;
   }
 
   /*
@@ -44,13 +56,6 @@ export function getSelectedItineraryIndex(
    * page by an external link, we check if an itinerary selection is
    * supplied in URL and make that the selection.
    */
-  const lastURLSegment = Number(pathname?.split('/').pop());
-  if (!Number.isNaN(lastURLSegment)) {
-    if (lastURLSegment >= edges.length) {
-      return defaultValue;
-    }
-    return lastURLSegment;
-  }
 
   return 0;
 }

@@ -5,7 +5,7 @@ const CONFIG = 'varely';
 const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
 const APP_TITLE = 'Seutu+ reittiopas';
 const APP_DESCRIPTION = 'Varsinais-Suomen ELY-keskuksen reittiopas';
-const OTP_URL = process.env.OTP_URL || `${API_URL}/routing/v2/routers/varely/`;
+const OTP_URL = process.env.OTP_URL || `${API_URL}/routing/v2/varely/`;
 const MAP_URL =
   process.env.MAP_URL || 'https://digitransit-dev-cdn-origin.azureedge.net';
 const POI_MAP_PREFIX = `${MAP_URL}/map/v3/varely`;
