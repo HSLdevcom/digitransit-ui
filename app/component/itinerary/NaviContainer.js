@@ -1,11 +1,14 @@
 import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { createFragmentContainer, graphql, fetchQuery } from 'react-relay';
-import { itineraryShape, relayShape } from '../../util/shapes';
+import connectToStores from 'fluxible-addons-react/connectToStores';
+import getContext from 'recompose/getContext';
+import { itineraryShape, relayShape, configShape } from '../../util/shapes';
 import NaviTop from './NaviTop';
 import NaviBottom from './NaviBottom';
 import { legTime } from '../../util/legUtils';
 import { checkPositioningPermission } from '../../action/PositionActions';
+import PositionStore from '../../store/PositionStore';
 
 const legQuery = graphql`
   query NaviContainer_legQuery($id: String!) {
@@ -34,11 +37,12 @@ function NaviContainer({
   relayEnvironment,
   setNavigation,
   mapRef,
+  // eslint-disable-next-line no-unused-vars
+  position,
 }) {
   const [realTimeLegs, setRealTimeLegs] = useState(itinerary.legs);
   const [time, setTime] = useState(Date.now());
   const locationOK = useRef(true);
-
   // update view after every 10 seconds
   useEffect(() => {
     checkPositioningPermission().then(permission => {
@@ -123,6 +127,12 @@ NaviContainer.propTypes = {
   setNavigation: PropTypes.func.isRequired,
   // eslint-disable-next-line
   mapRef: PropTypes.object,
+  position: PropTypes.shape({
+    hasLocation: PropTypes.bool.isRequired,
+    locationingFailed: PropTypes.bool,
+    lat: PropTypes.number.isRequired,
+    lon: PropTypes.number.isRequired,
+  }).isRequired,
 };
 
 NaviContainer.defaultProps = { mapRef: undefined };
@@ -205,4 +215,12 @@ const withRelay = createFragmentContainer(NaviContainer, {
   `,
 });
 
-export { NaviContainer as Component, withRelay as default };
+const NaviContainerWithTracking = connectToStores(
+  getContext({ config: configShape })(withRelay),
+  [PositionStore],
+  ({ getStore }) => ({
+    position: getStore(PositionStore).getLocationState(),
+  }),
+);
+
+export { NaviContainerWithTracking as default, NaviContainer as Component };
