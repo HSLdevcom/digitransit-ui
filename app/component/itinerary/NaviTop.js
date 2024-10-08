@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, intlShape } from 'react-intl';
-import { itineraryShape, legShape, configShape } from '../../util/shapes';
+import { legShape, configShape } from '../../util/shapes';
 import { legTime, legTimeStr } from '../../util/legUtils';
 import NaviLeg from './NaviLeg';
 import Icon from '../Icon';
@@ -9,6 +9,12 @@ import NaviStack from './NaviStack';
 import { timeStr } from '../../util/timeUtils';
 
 const TRANSFER_SLACK = 60000;
+
+function getFirstLastLegs(legs) {
+  const first = legs[0];
+  const last = legs[legs.length - 1];
+  return { first, last };
+}
 
 function findTransferProblem(legs) {
   for (let i = 1; i < legs.length - 1; i++) {
@@ -148,13 +154,11 @@ const getAlerts = (realTimeLegs, intl) => {
   return alerts;
 };
 
-function NaviTop(
-  { itinerary, focusToLeg, time, realTimeLegs },
-  { intl, config },
-) {
+function NaviTop({ focusToLeg, time, realTimeLegs }, { intl, config }) {
   const [currentLeg, setCurrentLeg] = useState(null);
   const [show, setShow] = useState(true);
   const [notifications, setNotifications] = useState([]);
+  const focusRef = useRef(false);
 
   const handleClick = () => {
     setShow(!show);
@@ -178,16 +182,31 @@ function NaviTop(
         if (!newLeg.transitLeg) {
           // When the component is first rendered, there is no currentLeg
           const l = currentLeg || newLeg;
-          nextLeg = itinerary.legs.find(
+          nextLeg = realTimeLegs.find(
             leg => legTime(leg.start) > legTime(l.start),
           );
         }
-        focusToLeg?.(newLeg, false);
+        // focus to a changed leg if not tracking location
+        focusToLeg?.(newLeg);
         if (nextLeg) {
           notifs.push(getScheduleInfo(nextLeg, intl));
         }
       }
       setCurrentLeg(newLeg);
+    }
+    if (!focusRef.current && focusToLeg) {
+      // handle initial focus when not tracking
+      if (newLeg) {
+        focusToLeg(newLeg);
+      } else {
+        const { first, last } = getFirstLastLegs(realTimeLegs);
+        if (time < legTime(first.start)) {
+          focusToLeg(first);
+        } else {
+          focusToLeg(last);
+        }
+      }
+      focusRef.current = true;
     }
     const problems = getAlerts(realTimeLegs, intl);
     if (problems.length > 0) {
@@ -200,8 +219,7 @@ function NaviTop(
     }
   }, [time]);
 
-  const first = realTimeLegs[0];
-  const last = realTimeLegs[realTimeLegs.length - 1];
+  const { first, last } = getFirstLastLegs(realTimeLegs);
 
   let info;
   if (time < legTime(first.start)) {
@@ -213,7 +231,7 @@ function NaviTop(
     );
   } else if (currentLeg) {
     if (!currentLeg.transitLeg) {
-      nextLeg = itinerary.legs.find(
+      nextLeg = realTimeLegs.find(
         leg => legTime(leg.start) > legTime(currentLeg.start),
       );
       info = <NaviLeg leg={currentLeg} nextLeg={nextLeg} />;
@@ -256,7 +274,6 @@ function NaviTop(
 }
 
 NaviTop.propTypes = {
-  itinerary: itineraryShape.isRequired,
   focusToLeg: PropTypes.func,
   time: PropTypes.number.isRequired,
   realTimeLegs: PropTypes.arrayOf(legShape).isRequired,
