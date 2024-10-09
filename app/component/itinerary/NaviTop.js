@@ -47,7 +47,7 @@ function NaviTop({ focusToLeg, time, realTimeLegs }, { intl, config }) {
       const newAlerts = alerts.filter(
         p => !notifications.find(n => n.id === p.id),
       );
-      notifs.push(newAlerts);
+      notifs.push(...newAlerts);
     }
 
     const isSame = newLeg?.id
