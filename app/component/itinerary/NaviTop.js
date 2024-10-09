@@ -99,9 +99,9 @@ function NaviTop({ focusToLeg, time, realTimeLegs }, { intl, config }) {
 
   const { first, last } = getFirstLastLegs(realTimeLegs);
 
-  let info;
+  let naviTopContent;
   if (time < legTime(first.start)) {
-    info = (
+    naviTopContent = (
       <FormattedMessage
         id="navigation-journey-start"
         values={{ time: legTimeStr(first.start) }}
@@ -112,14 +112,14 @@ function NaviTop({ focusToLeg, time, realTimeLegs }, { intl, config }) {
       nextLeg = realTimeLegs.find(
         leg => legTime(leg.start) > legTime(currentLeg.start),
       );
-      info = <NaviLeg leg={currentLeg} nextLeg={nextLeg} />;
+      naviTopContent = <NaviLeg leg={currentLeg} nextLeg={nextLeg} />;
     } else {
-      info = `Tracking ${currentLeg?.mode} leg`;
+      naviTopContent = `Tracking ${currentLeg?.mode} leg`;
     }
   } else if (time > legTime(last.end)) {
-    info = <FormattedMessage id="navigation-journey-end" />;
+    naviTopContent = <FormattedMessage id="navigation-journey-end" />;
   } else {
-    info = <FormattedMessage id="navigation-wait" />;
+    naviTopContent = <FormattedMessage id="navigation-wait" />;
   }
   const handleRemove = index => {
     setActiveNotifications(activeNotifications.filter((_, i) => i !== index));
@@ -128,7 +128,7 @@ function NaviTop({ focusToLeg, time, realTimeLegs }, { intl, config }) {
   return (
     <>
       <button type="button" className="navitop" onClick={handleClick}>
-        <div className="info">{info}</div>
+        <div className="content">{naviTopContent}</div>
         <div type="button" className="navitop-arrow">
           {nextLeg && showNotifications && (
             <Icon

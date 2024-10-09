@@ -32,8 +32,8 @@ function findTransferProblem(legs) {
   return null;
 }
 
-export const getScheduleInfo = (nextLeg, intl) => {
-  const { start, realtimeState, to, from, mode, id } = nextLeg;
+export const getScheduleInfo = (leg, intl) => {
+  const { start, realtimeState, to, from, mode, id } = leg;
   const { scheduledTime, estimated } = start;
   if (mode === 'WALK') {
     return null;
@@ -79,7 +79,7 @@ export const getScheduleInfo = (nextLeg, intl) => {
         />
       </div>
     );
-  } else if (nextLeg.transitLeg) {
+  } else if (leg.transitLeg) {
     const { parentStation, name } = to.stop;
     const stopOrStation = parentStation
       ? intl.formatMessage({ id: 'from-station' })

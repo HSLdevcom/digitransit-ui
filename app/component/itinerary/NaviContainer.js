@@ -1,14 +1,11 @@
 import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { createFragmentContainer, graphql, fetchQuery } from 'react-relay';
-import connectToStores from 'fluxible-addons-react/connectToStores';
-import getContext from 'recompose/getContext';
-import { itineraryShape, relayShape, configShape } from '../../util/shapes';
+import { itineraryShape, relayShape } from '../../util/shapes';
 import NaviTop from './NaviTop';
 import NaviBottom from './NaviBottom';
 import { legTime } from '../../util/legUtils';
 import { checkPositioningPermission } from '../../action/PositionActions';
-import PositionStore from '../../store/PositionStore';
 
 const legQuery = graphql`
   query NaviContainer_legQuery($id: String!) {
@@ -49,8 +46,6 @@ function NaviContainer({
   relayEnvironment,
   setNavigation,
   mapRef,
-  // eslint-disable-next-line no-unused-vars
-  position,
 }) {
   const [realTimeLegs, setRealTimeLegs] = useState(itinerary.legs);
   const [time, setTime] = useState(Date.now());
@@ -227,12 +222,4 @@ const withRelay = createFragmentContainer(NaviContainer, {
   `,
 });
 
-const NaviContainerWithTracking = connectToStores(
-  getContext({ config: configShape })(withRelay),
-  [PositionStore],
-  ({ getStore }) => ({
-    position: getStore(PositionStore).getLocationState(),
-  }),
-);
-
-export { NaviContainerWithTracking as default, NaviContainer as Component };
+export { NaviContainer as Component, withRelay as default };
