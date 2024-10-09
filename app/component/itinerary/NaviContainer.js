@@ -26,6 +26,18 @@ const legQuery = graphql`
           time
         }
       }
+      to {
+        stop {
+          parentStation {
+            name
+          }
+        }
+        vehicleRentalStation {
+          availableVehicles {
+            total
+          }
+        }
+      }
       realtimeState
     }
   }

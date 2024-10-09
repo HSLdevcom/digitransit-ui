@@ -6,190 +6,13 @@ import { legTime, legTimeStr } from '../../util/legUtils';
 import NaviLeg from './NaviLeg';
 import Icon from '../Icon';
 import NaviStack from './NaviStack';
-import { timeStr } from '../../util/timeUtils';
-
-const TRANSFER_SLACK = 60000;
+import { getAlerts, getScheduleInfo } from '../../util/navigation/messageUtils';
 
 function getFirstLastLegs(legs) {
   const first = legs[0];
   const last = legs[legs.length - 1];
   return { first, last };
 }
-
-function findTransferProblem(legs) {
-  for (let i = 1; i < legs.length - 1; i++) {
-    const prev = legs[i - 1];
-    const leg = legs[i];
-    const next = legs[i + 1];
-
-    if (prev.transitLeg && leg.transitLeg && !leg.interlineWithPreviousLeg) {
-      // transfer at a stop
-      if (legTime(leg.start) - legTime(prev.end) < TRANSFER_SLACK) {
-        return [prev, leg];
-      }
-    }
-
-    if (prev.transitLeg && next.transitLeg && !leg.transitLeg) {
-      // transfer with some walking
-      const t1 = legTime(prev.end);
-      const t2 = legTime(next.start);
-      const transferDuration = legTime(leg.end) - legTime(leg.start);
-      const slack = t2 - t1 - transferDuration;
-      if (slack < TRANSFER_SLACK) {
-        return [prev, next];
-      }
-    }
-  }
-  return null;
-}
-
-const generateStackMessage = (severity, content, id) => {
-  switch (severity) {
-    case 'INFO':
-      return {
-        content,
-        backgroundColor: '#E5F2FA',
-        iconColor: '#0074BF',
-        iconId: 'icon-icon_info',
-        id,
-      };
-    case 'WARNING':
-      return {
-        content,
-        backgroundColor: '#FFF8E8',
-        iconColor: '#FED100',
-        iconId: 'icon-icon_attention',
-        id,
-      };
-    case 'ALERT':
-      return {
-        content,
-        backgroundColor: '#FDF3F6',
-        iconColor: '#DC0451',
-        iconId: 'icon-icon_caution_white_exclamation',
-        id,
-      };
-    default:
-      return null;
-  }
-};
-
-const getScheduleInfo = (nextLeg, intl) => {
-  const { start, realtimeState, to, from, mode, id } = nextLeg;
-  const { scheduledTime, estimated } = start;
-  if (mode === 'WALK') {
-    return null;
-  }
-
-  const time = estimated?.time || scheduledTime;
-  let msgId = id || `${mode.toLowerCase()}-${time}`;
-
-  const late = estimated?.delay > 0;
-  const localizedMode = intl.formatMessage({
-    id: `${mode.toLowerCase()}`,
-    defaultMessage: `${mode}`,
-  });
-  let content;
-  let severity;
-  if (mode === 'BICYCLE' && from.vehicleRentalStation) {
-    const bikes = from.vehicleRentalStation.availableVehicles?.total;
-    msgId += `-${bikes}`;
-    content = (
-      <div className="navi-info-content">
-        <FormattedMessage
-          id="navileg-mode-citybike"
-          values={{ available: bikes }}
-        />
-      </div>
-    );
-    severity = 'INFO';
-  } else if (late) {
-    // todo: Do this when design is ready.
-    severity = 'ALERT';
-    content = <div className="navi-info-content"> Kulkuneuvo on myöhässä </div>;
-  } else if (!realtimeState || realtimeState !== 'UPDATED') {
-    severity = 'WARNING';
-    content = (
-      <div className="navi-info-content">
-        <FormattedMessage id="navileg-mode-schedule" />
-        <FormattedMessage
-          id="navileg-start-schedule"
-          values={{
-            time: timeStr(scheduledTime),
-            mode: localizedMode,
-          }}
-        />
-      </div>
-    );
-  } else if (nextLeg.transitLeg) {
-    const { parentStation, name } = to.stop;
-
-    const stopOrStation = parentStation
-      ? intl.formatMessage({ id: 'from-station' })
-      : intl.formatMessage({ id: 'from-stop' });
-    content = (
-      <div className="navi-info-content">
-        <FormattedMessage
-          id="navileg-mode-realtime"
-          values={{ mode: localizedMode }}
-        />
-        <FormattedMessage
-          id="navileg-start-realtime"
-          values={{
-            time: timeStr(estimated.time),
-            stopOrStation,
-            stopName: name,
-          }}
-        />
-      </div>
-    );
-    severity = 'INFO';
-  }
-  const info = generateStackMessage(severity, content, msgId);
-  // Only one main info, first in stack.
-  info.type = 'main';
-  return info;
-};
-
-// We'll need the intl later.
-// eslint-disable-next-line no-unused-vars
-const getAlerts = (realTimeLegs, intl) => {
-  const alerts = [];
-  const canceled = realTimeLegs.filter(leg => leg.realtimeState === 'CANCELED');
-  const transferProblem = findTransferProblem(realTimeLegs);
-  const late = realTimeLegs.filter(leg => leg.start.estimate?.delay > 0);
-  let content;
-  const id = 'alert-todo-proper-id';
-  if (canceled.length > 0) {
-    content = <div className="notifiler">Osa matkan lähdöistä on peruttu</div>;
-    // Todo: No current design
-    // todo find modes that are canceled
-    alerts.push({
-      ...generateStackMessage('ALERT', content, id),
-    });
-  }
-
-  if (transferProblem !== null) {
-    // todo no current design
-    content = (
-      <div className="notifiler">{`Vaihto ${transferProblem[0].route.shortName} - ${transferProblem[1].route.shortName} ei onnistu reittisuunnitelman mukaisesti`}</div>
-    );
-
-    alerts.push({
-      ...generateStackMessage('ALERT', content, id),
-    });
-  }
-  if (late.length) {
-    // Todo: No current design
-    // Todo add mode and delay time to this message
-    content = <div className="notifiler">Kulkuneuvo on myöhässä</div>;
-    alerts.push({
-      ...generateStackMessage('ALERT', content, id),
-    });
-  }
-
-  return alerts;
-};
 
 function NaviTop({ focusToLeg, time, realTimeLegs }, { intl, config }) {
   const [currentLeg, setCurrentLeg] = useState(null);
@@ -245,9 +68,7 @@ function NaviTop({ focusToLeg, time, realTimeLegs }, { intl, config }) {
 
       if (!isSame) {
         // remove Old main notification when new leg is started.
-        setActiveNotifications(
-          activeNotifications.filter(n => n.type !== 'main'),
-        );
+        setActiveNotifications(nots => nots.filter(n => n.type !== 'main'));
         if (newLeg) {
           focusToLeg?.(newLeg);
           setCurrentLeg(newLeg);
@@ -269,7 +90,7 @@ function NaviTop({ focusToLeg, time, realTimeLegs }, { intl, config }) {
         focusRef.current = true;
       }
       if (notifs.length > 0 || !isSame) {
-        setActiveNotifications(activeNotifications.concat(...notifs));
+        setActiveNotifications(nots => nots.concat(...notifs));
         setNotifications(notifications.concat(...notifs));
         setShow(true);
       }
@@ -303,13 +124,13 @@ function NaviTop({ focusToLeg, time, realTimeLegs }, { intl, config }) {
   const handleRemove = index => {
     setActiveNotifications(activeNotifications.filter((_, i) => i !== index));
   };
-
+  const showNotifications = activeNotifications.length > 0;
   return (
     <>
       <button type="button" className="navitop" onClick={handleClick}>
         <div className="info">{info}</div>
         <div type="button" className="navitop-arrow">
-          {nextLeg && activeNotifications.length > 0 && (
+          {nextLeg && showNotifications && (
             <Icon
               img="icon-icon_arrow-collapse"
               className={`cursor-pointer ${show ? 'inverted' : ''}`}
@@ -318,7 +139,7 @@ function NaviTop({ focusToLeg, time, realTimeLegs }, { intl, config }) {
           )}
         </div>
       </button>
-      {nextLeg && (
+      {showNotifications && (
         <NaviStack
           notifications={activeNotifications}
           setShow={setShow}

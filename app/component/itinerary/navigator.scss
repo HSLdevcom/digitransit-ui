@@ -193,6 +193,18 @@
     height: 100%;
     margin-top: 5px;
 
+    &.severity-info {
+      background-color: #e5f2fa;
+    }
+
+    &.severity-warning {
+      background-color: #fff8e8;
+    }
+
+    &.severity-alert {
+      background-color: #fdf3f6;
+    }
+
     &.slide-out-right {
       animation: slideOutRight 0.5s ease-out forwards;
       pointer-events: none;
