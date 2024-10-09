@@ -11,12 +11,12 @@ ui () {
 
 uiotp () {
     if [ "$1" = "hsl" ]; then
-        OTP_URL=http://localhost:9080/otp/routers/hsl/ ui hsl
+        OTP_URL=http://localhost:9080/otp/ ui hsl
     elif [ "$1" = "matka" ]; then
-        OTP_URL=http://localhost:9080/otp/routers/finland/ ui matka
+        OTP_URL=http://localhost:9080/otp/ ui matka
     elif [ "$1" = "kela" ]; then
-        OTP_URL=http://localhost:9080/otp/routers/kela/ ui kela
+        OTP_URL=http://localhost:9080/otp/ ui kela
     else
-        OTP_URL=http://localhost:9080/otp/routers/waltti/ ui $1
+        OTP_URL=http://localhost:9080/otp/ ui $1
     fi
 }

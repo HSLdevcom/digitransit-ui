@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
 import { legShape } from '../../util/shapes';
@@ -14,7 +13,7 @@ const iconMap = {
 };
 
 /* eslint-disable jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */
-export default function NaviLeg({ leg, focusToLeg, nextLeg }, { intl }) {
+export default function NaviLeg({ leg, nextLeg }, { intl }) {
   const iconName = iconMap[leg.mode];
   let goTo = `navileg-${leg.mode.toLowerCase()}`;
 
@@ -28,14 +27,16 @@ export default function NaviLeg({ leg, focusToLeg, nextLeg }, { intl }) {
   return (
     <div>
       <div className="navileg-goto">
-        <Icon img={iconName} className="navileg-mode" />
-        <FormattedMessage id={goTo} defaultMessage="Go to" />
-        &nbsp;
-        {legDestination(intl, leg, null, nextLeg)}
-      </div>
-      <div className="navileg-destination">
-        <div className="navi-left-bar" />
-        <NaviDestination leg={leg} focusToLeg={focusToLeg} />
+        <Icon img={iconName} color="black" className="navileg-mode" />
+        <div className="navileg-divider" />
+        <div className="navileg-destination">
+          <div className="destination-header">
+            <FormattedMessage id={goTo} defaultMessage="Go to" />
+            &nbsp;
+            {legDestination(intl, leg, null, nextLeg)}
+          </div>
+          <NaviDestination leg={leg} />
+        </div>
       </div>
     </div>
   );
@@ -43,7 +44,6 @@ export default function NaviLeg({ leg, focusToLeg, nextLeg }, { intl }) {
 
 NaviLeg.propTypes = {
   leg: legShape.isRequired,
-  focusToLeg: PropTypes.func.isRequired,
   nextLeg: legShape,
 };
 

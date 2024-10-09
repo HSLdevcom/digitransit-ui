@@ -1,5 +1,5 @@
 const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
-const OTP_URL = process.env.OTP_URL || `${API_URL}/routing/v2/routers/waltti/`;
+const OTP_URL = process.env.OTP_URL || `${API_URL}/routing/v2/waltti/`;
 const MAP_URL =
   process.env.MAP_URL || 'https://digitransit-dev-cdn-origin.azureedge.net';
 const POI_MAP_PREFIX = `${MAP_URL}/map/v3/waltti`;
@@ -30,9 +30,6 @@ export default {
       default: `${POI_MAP_PREFIX}/en/vehicleParkingGroups/`,
       sv: `${POI_MAP_PREFIX}/sv/vehicleParkingGroups/`,
       fi: `${POI_MAP_PREFIX}/fi/vehicleParkingGroups/`,
-    },
-    RENTAL_VEHICLE_MAP: {
-      default: `${POI_MAP_PREFIX}/fi/rentalVehicles/`,
     },
     REALTIME_RENTAL_VEHICLE_MAP: {
       default: `${POI_MAP_PREFIX}/fi/realtimeRentalVehicles/`,

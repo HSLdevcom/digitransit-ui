@@ -162,8 +162,7 @@ function getEnvironment(config, agent, locale) {
       ttl: 60 * 60 * 1000,
     }),
     urlMiddleware({
-      url: () =>
-        Promise.resolve(`${config.URL.OTP}index/graphql${queryParameters}`),
+      url: () => Promise.resolve(`${config.URL.OTP}gtfs/v1${queryParameters}`),
     }),
     errorMiddleware(),
     retryMiddleware({

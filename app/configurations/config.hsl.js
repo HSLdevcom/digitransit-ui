@@ -3,7 +3,7 @@ import { BIKEAVL_WITHMAX } from '../util/vehicleRentalUtils';
 
 const CONFIG = 'hsl';
 const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
-const OTP_URL = process.env.OTP_URL || `${API_URL}/routing/v2/routers/hsl/`;
+const OTP_URL = process.env.OTP_URL || `${API_URL}/routing/v2/hsl/`;
 const MAP_URL =
   process.env.MAP_URL || 'https://digitransit-dev-cdn-origin.azureedge.net';
 const POI_MAP_PREFIX = `${MAP_URL}/map/v3/hsl`;
@@ -38,9 +38,6 @@ export default {
     },
     REALTIME_RENTAL_STATION_MAP: {
       default: `${POI_MAP_PREFIX}/fi/realtimeRentalStations/`,
-    },
-    RENTAL_VEHICLE_MAP: {
-      default: `${POI_MAP_PREFIX}/fi/rentalVehicles/`,
     },
     REALTIME_RENTAL_VEHICLE_MAP: {
       default: `${POI_MAP_PREFIX}/fi/realtimeRentalVehicles/`,
@@ -420,6 +417,7 @@ export default {
   ticketPurchaseLink: function purchaseTicketLink(fare) {
     return `https://open.app.hsl.fi/zoneTicketWizard/TICKET_TYPE_SINGLE_TICKET/${fare.ticketName}/adult/-`;
   },
+  ticketLink: 'https://open.app.hsl.fi/tickets',
   // mapping fareId from OTP fare identifiers to human readable form
   // in the new HSL zone model, just strip off the prefix 'HSL:'
   fareMapping: function mapHslFareId(fareId) {
@@ -581,7 +579,7 @@ export default {
   showSimilarRoutesOnRouteDropDown: true,
   useRealtimeTravellerCapacities: true,
 
-  navigation: false,
+  navigation: true,
 
   stopCard: {
     header: {
