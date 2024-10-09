@@ -172,4 +172,46 @@ export default configMerger(walttiConfig, {
       },
     },
   },
+
+  showTicketInformation: true,
+  useTicketIcons: true,
+  ticketLink: 'https://www.lsl.fi/liput-ja-hinnat/',
+  showTicketPrice: true,
+
+  showTicketLinkOnlyWhenTesting: true,
+  settingsForFeatureTesting: {
+    walkSpeed: 0.69,
+    bikeSpeed: 8.33,
+    includeBikeSuggestions: false,
+    transferPenalty: 1600,
+  },
+  ticketLinkOperatorCode: 50223,
+
+  fareMapping: function mapFareId(fareId) {
+    const id = fareId?.substring?.(fareId.indexOf(':') + 1);
+    switch (id) {
+      case 'A':
+        return 'Käteismaksu autossa, Vyöhyke A';
+      case 'AB':
+        return 'Käteismaksu autossa, Vyöhykkeet AB';
+      case 'ABC':
+        return 'Käteismaksu autossa, Vyöhykkeet ABC';
+      case 'ABCD':
+        return 'Käteismaksu autossa, Vyöhykkeet ABCD';
+      case 'B':
+        return 'Käteismaksu autossa, Vyöhyke B';
+      case 'BC':
+        return 'Käteismaksu autossa, Vyöhykkeet BC';
+      case 'BCD':
+        return 'Käteismaksu autossa, Vyöhykkeet BCD';
+      case 'C':
+        return 'Käteismaksu autossa, Vyöhyke C';
+      case 'CD':
+        return 'Käteismaksu autossa, Vyöhykkeet CD';
+      case 'D':
+        return 'Käteismaksu autossa, Vyöhyke D';
+      default:
+        return '';
+    }
+  },
 });
