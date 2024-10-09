@@ -141,18 +141,11 @@ describe('OldSearchesStore', () => {
       setOldSearchesStorage({
         version: STORE_VERSION,
         items: [
-          {
-            type: 'endpoint',
-          },
-          {
-            type: 'route',
-          },
-          {
-            type: 'endpoint',
-          },
+          { item: {}, type: 'endpoint' },
+          { item: {}, type: 'route' },
+          { item: {}, type: 'endpoint' },
         ],
       });
-
       const store = new OldSearchesStore();
       const oldSearches = store.getOldSearches('endpoint');
       expect(oldSearches).to.not.be.empty;
