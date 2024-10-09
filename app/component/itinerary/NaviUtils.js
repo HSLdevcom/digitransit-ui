@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { legTime } from '../legUtils';
-import { timeStr } from '../timeUtils';
+import { legTime } from '../../util/legUtils';
+import { timeStr } from '../../util/timeUtils';
 
 const TRANSFER_SLACK = 60000;
 
@@ -117,6 +117,7 @@ export const getAlerts = (realTimeLegs, intl) => {
   const transferProblem = findTransferProblem(realTimeLegs);
   const late = realTimeLegs.filter(leg => leg.start.estimate?.delay > 0);
   let content;
+  // TODO: Proper ID handling
   const id = 'alert-todo-proper-id';
   if (canceled.length > 0) {
     content = <div className="notifiler">Osa matkan lähdöistä on peruttu</div>;

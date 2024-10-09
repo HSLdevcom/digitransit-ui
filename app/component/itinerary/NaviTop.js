@@ -6,7 +6,7 @@ import { legTime, legTimeStr } from '../../util/legUtils';
 import NaviLeg from './NaviLeg';
 import Icon from '../Icon';
 import NaviStack from './NaviStack';
-import { getAlerts, getScheduleInfo } from '../../util/navigation/messageUtils';
+import { getAlerts, getScheduleInfo } from './NaviUtils';
 
 function getFirstLastLegs(legs) {
   const first = legs[0];
