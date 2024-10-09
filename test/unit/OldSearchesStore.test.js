@@ -201,7 +201,7 @@ describe('OldSearchesStore', () => {
       MockDate.set(timestamp);
       setOldSearchesStorage({
         version: STORE_VERSION,
-        items: [{}],
+        items: [{ item: {} }],
       });
 
       const store = new OldSearchesStore();
