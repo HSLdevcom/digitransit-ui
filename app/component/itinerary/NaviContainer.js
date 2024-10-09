@@ -134,12 +134,6 @@ NaviContainer.propTypes = {
   setNavigation: PropTypes.func.isRequired,
   // eslint-disable-next-line
   mapRef: PropTypes.object,
-  position: PropTypes.shape({
-    hasLocation: PropTypes.bool.isRequired,
-    locationingFailed: PropTypes.bool,
-    lat: PropTypes.number.isRequired,
-    lon: PropTypes.number.isRequired,
-  }).isRequired,
 };
 
 NaviContainer.defaultProps = { mapRef: undefined };
