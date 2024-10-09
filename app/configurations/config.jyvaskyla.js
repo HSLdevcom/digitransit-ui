@@ -172,6 +172,7 @@ export default configMerger(walttiConfig, {
     includeBikeSuggestions: false,
     transferPenalty: 1600,
   },
+  ticketLinkOperatorCode: 50209,
 
   fareMapping: function mapFareId(fareId) {
     const id = fareId?.substring?.(fareId.indexOf(':') + 1);
