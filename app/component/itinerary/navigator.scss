@@ -193,15 +193,15 @@
     height: 100%;
     margin-top: 5px;
 
-    &.severity-info {
+    &.info {
       background-color: #e5f2fa;
     }
 
-    &.severity-warning {
+    &.warning {
       background-color: #fff8e8;
     }
 
-    &.severity-alert {
+    &.alert {
       background-color: #fdf3f6;
     }
 

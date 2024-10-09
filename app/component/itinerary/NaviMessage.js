@@ -40,7 +40,7 @@ function NaviMessage({ severity, children, index, handleRemove }, { config }) {
       className={cx(
         'info-stack-item',
         removingIndex === index ? 'slide-out-right' : '',
-        `severity-${severity.toLowerCase()}`,
+        `${severity.toLowerCase()}`,
       )}
     >
       <Icon
