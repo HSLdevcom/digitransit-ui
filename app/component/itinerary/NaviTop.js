@@ -34,45 +34,51 @@ function NaviTop({ focusToLeg, time, realTimeLegs }, { intl, config }) {
 
     return () => clearTimeout(timer);
   }, []);
-  let nextLeg;
+
   useEffect(() => {
     const newLeg = realTimeLegs.find(leg => {
       return legTime(leg.start) <= time && time <= legTime(leg.end);
     });
 
-    const notifs = [];
+    const incomingNotifications = [];
 
     const alerts = getAlerts(realTimeLegs, intl);
     if (alerts.length > 0) {
       const newAlerts = alerts.filter(
         p => !notifications.find(n => n.id === p.id),
       );
-      notifs.push(...newAlerts);
+      incomingNotifications.push(...newAlerts);
     }
 
-    const isSame = newLeg?.id
-      ? newLeg.id === currentLeg?.id
-      : currentLeg?.mode === newLeg?.mode;
+    const legChanged = newLeg?.id
+      ? newLeg.id !== currentLeg?.id
+      : currentLeg?.mode !== newLeg?.mode;
     const l = currentLeg || newLeg;
     if (l) {
-      nextLeg = realTimeLegs.find(leg => legTime(leg.start) > legTime(l.start));
+      const nextLeg = realTimeLegs.find(
+        leg => legTime(leg.start) > legTime(l.start),
+      );
       if (nextLeg) {
         const i = getScheduleInfo(nextLeg, intl);
         if (i) {
           const found = notifications.find(n => n.id === i.id);
           if (!found) {
-            notifs.push(i);
+            incomingNotifications.push(i);
           }
         }
       }
 
-      if (!isSame) {
+      if (legChanged) {
         // remove Old main notification when new leg is started.
+        // todo: this should be done in a better way.
         setActiveNotifications(nots => nots.filter(n => n.type !== 'main'));
-        if (newLeg) {
-          focusToLeg?.(newLeg);
-          setCurrentLeg(newLeg);
-        }
+        focusToLeg?.(newLeg);
+        setCurrentLeg(newLeg);
+      }
+      if (incomingNotifications.length > 0) {
+        setActiveNotifications(nots => nots.concat(...incomingNotifications));
+        setNotifications(nots => nots.concat(...incomingNotifications));
+        setShow(true);
       }
 
       if (!focusRef.current && focusToLeg) {
@@ -89,11 +95,6 @@ function NaviTop({ focusToLeg, time, realTimeLegs }, { intl, config }) {
         }
         focusRef.current = true;
       }
-      if (notifs.length > 0 || !isSame) {
-        setActiveNotifications(nots => nots.concat(...notifs));
-        setNotifications(notifications.concat(...notifs));
-        setShow(true);
-      }
     }
   }, [time]);
 
@@ -109,7 +110,7 @@ function NaviTop({ focusToLeg, time, realTimeLegs }, { intl, config }) {
     );
   } else if (currentLeg) {
     if (!currentLeg.transitLeg) {
-      nextLeg = realTimeLegs.find(
+      const nextLeg = realTimeLegs.find(
         leg => legTime(leg.start) > legTime(currentLeg.start),
       );
       naviTopContent = <NaviLeg leg={currentLeg} nextLeg={nextLeg} />;
@@ -130,7 +131,7 @@ function NaviTop({ focusToLeg, time, realTimeLegs }, { intl, config }) {
       <button type="button" className="navitop" onClick={handleClick}>
         <div className="content">{naviTopContent}</div>
         <div type="button" className="navitop-arrow">
-          {nextLeg && showNotifications && (
+          {showNotifications && (
             <Icon
               img="icon-icon_arrow-collapse"
               className={`cursor-pointer ${show ? 'inverted' : ''}`}
