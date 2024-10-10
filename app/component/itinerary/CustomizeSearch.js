@@ -208,7 +208,10 @@ class CustomizeSearch extends React.Component {
                           <FormattedMessage id="settings-e-scooter-routes" />
                           <div
                             className="disclaimer-close"
-                            aria-label="Sulje sähköpotkulautojen asetusohje."
+                            aria-label={intl.formatMessage({
+                              id: 'e-scooter-disclaimer-close',
+                              defaultMessage: 'close',
+                            })}
                             tabIndex="0"
                             onKeyDown={e => {
                               if (
