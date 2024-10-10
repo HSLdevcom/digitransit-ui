@@ -71,7 +71,7 @@
     color: red;
   }
 
-  .info {
+  .content {
     margin: 15px 20px 0 20px;
 
     .navileg-goto {
@@ -192,6 +192,18 @@
     align-items: center;
     height: 100%;
     margin-top: 5px;
+
+    &.info {
+      background-color: #e5f2fa;
+    }
+
+    &.warning {
+      background-color: #fff8e8;
+    }
+
+    &.alert {
+      background-color: #fdf3f6;
+    }
 
     &.slide-out-right {
       animation: slideOutRight 0.5s ease-out forwards;

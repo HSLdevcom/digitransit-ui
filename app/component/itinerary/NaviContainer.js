@@ -23,6 +23,18 @@ const legQuery = graphql`
           time
         }
       }
+      to {
+        stop {
+          parentStation {
+            name
+          }
+        }
+        vehicleRentalStation {
+          availableVehicles {
+            total
+          }
+        }
+      }
       realtimeState
     }
   }
@@ -38,7 +50,6 @@ function NaviContainer({
   const [realTimeLegs, setRealTimeLegs] = useState(itinerary.legs);
   const [time, setTime] = useState(Date.now());
   const locationOK = useRef(true);
-
   // update view after every 10 seconds
   useEffect(() => {
     checkPositioningPermission().then(permission => {
@@ -161,6 +172,15 @@ const withRelay = createFragmentContainer(NaviContainer, {
         from {
           lat
           lon
+          vehicleRentalStation {
+            name
+            rentalNetwork {
+              networkId
+            }
+            availableVehicles {
+              total
+            }
+          }
         }
         to {
           lat
