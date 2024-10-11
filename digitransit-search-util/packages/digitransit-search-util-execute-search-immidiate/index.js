@@ -330,15 +330,16 @@ export function getSearchResults(
 
     if (allSources || sources.includes('Datasource')) {
       const geocodingLayers = ['venue', 'address', 'street'];
-      const feedis = feedIDs.map(v => `gtfs${v}`);
-      const geosources = geocodingSources.concat(feedis).join(',');
+      if (targets.includes('Stations')) {
+        geocodingLayers.push('station'); // search stations from OSM
+      }
       searchComponents.push(
         getGeocodingResults(
           input,
           searchParams,
           language,
           focusPoint,
-          geosources,
+          geocodingSources.join(','),
           URL_PELIAS,
           minimalRegexp,
           geocodingLayers,
@@ -444,14 +445,14 @@ export function getSearchResults(
       if (allTargets || targets.includes('Locations')) {
         searchParams.dedupestops = 1;
       }
-      const feedis = feedIDs.map(v => `gtfs${v}`).join(',');
+      const feeds = feedIDs.map(v => `gtfs${v}`).join(',');
       searchComponents.push(
         getGeocodingResults(
           input,
           searchParams,
           language,
           focusPoint,
-          feedis,
+          feeds,
           URL_PELIAS,
           minimalRegexp,
           geocodingLayers,

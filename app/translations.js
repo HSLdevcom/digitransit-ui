@@ -1050,6 +1050,7 @@ const translations = {
     'e-scooter': 'Electric scooter',
     'e-scooter-alternative':
       'How about using an electric scooter for part of your journey? {paymentInfo}',
+    'e-scooter-disclaimer-close': 'Close scooter disclaimer',
     'e-scooter-or-taxi-alternative':
       'How about using a taxi or an electric scooter for part of your journey? {paymentInfo}',
     'e-scooter-station': 'Electric scooter station',
@@ -2293,6 +2294,7 @@ const translations = {
     'e-scooter': 'Sähköpotkulauta',
     'e-scooter-alternative':
       'Entä jos kulkisit osan matkasta sähköpotkulaudalla? {paymentInfo}',
+    'e-scooter-disclaimer-close': 'Sulje sähköpotkulautojen asetusohje',
     'e-scooter-or-taxi-alternative':
       'Entä jos kulkisit osan matkasta taksilla tai sähköpotkulaudalla? {paymentInfo}',
     'e-scooter-station': 'Sähköpotkulauta-asema',
@@ -5174,6 +5176,7 @@ const translations = {
     'e-scooter': 'Elsparkcykel',
     'e-scooter-alternative':
       'Och om du skulle åka elsparkcykel en del av din resa? {paymentInfo}',
+    'e-scooter-disclaimer-close': 'Stäng elsparkcykel info',
     'e-scooter-or-taxi-alternative':
       'Och om du skulle åka elsparkcykel eller taxi en del av din resa? {paymentInfo}',
     'e-scooter-station': 'Elsparkcykelstation',

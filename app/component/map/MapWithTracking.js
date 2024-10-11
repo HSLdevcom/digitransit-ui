@@ -317,7 +317,6 @@ class MapWithTrackingStateHandler extends React.Component {
         ? this.context.intl.formatMessage({ id: 'tracking-button-on' })
         : this.context.intl.formatMessage({ id: 'tracking-button-off' });
 
-    const iconColor = this.state.mapTracking ? '#ff0000' : '#78909c';
     const mergedMapLayers = this.getMapLayers();
     return (
       <>
@@ -359,7 +358,6 @@ class MapWithTrackingStateHandler extends React.Component {
               <ToggleMapTracking
                 key="toggleMapTracking"
                 img={img}
-                iconColor={iconColor}
                 ariaLabel={ariaLabel}
                 handleClick={() => {
                   if (this.state.mapTracking) {
