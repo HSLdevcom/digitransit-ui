@@ -581,6 +581,7 @@ export default {
   useRealtimeTravellerCapacities: true,
 
   navigation: true,
+  navigationLogo: 'hsl/navigator-logo.svg',
 
   stopCard: {
     header: {

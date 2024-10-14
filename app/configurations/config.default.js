@@ -834,4 +834,5 @@ export default {
       },
     },
   ],
+  navigation: false,
 };
