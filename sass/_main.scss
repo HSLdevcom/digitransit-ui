@@ -3,6 +3,9 @@
 $body-font-family: $font-family;
 $body-font-weight: $font-weight-medium;
 
+/* Design system core */
+@import '@hsl-fi/design-system-core/css/styles.css';
+
 /* Base styles */
 @import 'base/zindex';
 @import 'base/helper-mixins';
