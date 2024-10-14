@@ -69,6 +69,8 @@ import { getAllNetworksOfType } from '../../util/vehicleRentalUtils';
 import { TransportMode } from '../../constants';
 import { mapLayerShape } from '../../store/MapLayerStore';
 import NaviContainer from './NaviContainer';
+import NavigatorIntroModal from './NavigatorIntro/NavigatorIntroModal';
+import { getDialogState, setDialogState } from '../../store/localStorage';
 
 const MAX_QUERY_COUNT = 4; // number of attempts to collect enough itineraries
 
@@ -120,6 +122,9 @@ export default function ItineraryPage(props, context) {
   const [relaxScooterState, setRelaxScooterState] = useState(emptyPlan);
   const [scooterState, setScooterState] = useState(unset);
   const [combinedState, setCombinedState] = useState(emptyPlan);
+  const [isNavigatorIntroDismissed, setNavigatorIntroDismissed] = useState(
+    getDialogState('navi-start'),
+  );
 
   const altStates = {
     [PLANTYPE.WALK]: useState(unset),
@@ -1016,6 +1021,11 @@ export default function ItineraryPage(props, context) {
     );
   }
 
+  const toggleNavigatorIntro = () => {
+    setDialogState('navi-intro');
+    setNavigatorIntroDismissed(true);
+  };
+
   const walkPlan = altStates[PLANTYPE.WALK][0].plan;
   const bikePlan = altStates[PLANTYPE.BIKE][0].plan;
   const carPlan = altStates[PLANTYPE.CAR][0].plan;
@@ -1096,14 +1106,21 @@ export default function ItineraryPage(props, context) {
   } else if (detailView) {
     if (naviMode) {
       content = (
-        <NaviContainer
-          itinerary={combinedEdges[selectedIndex]?.node}
-          focusToLeg={focusToLeg}
-          relayEnvironment={props.relayEnvironment}
-          combinedEdges={combinedEdges}
-          setNavigation={setNavigation}
-          mapRef={mwtRef.current}
-        />
+        <>
+          <NavigatorIntroModal
+            isOpen={!isNavigatorIntroDismissed}
+            onClose={toggleNavigatorIntro}
+            isHSL={context.config.CONFIG !== 'hsl'}
+          />
+          <NaviContainer
+            itinerary={combinedEdges[selectedIndex]?.node}
+            focusToLeg={focusToLeg}
+            relayEnvironment={props.relayEnvironment}
+            combinedEdges={combinedEdges}
+            setNavigation={setNavigation}
+            mapRef={mwtRef.current}
+          />
+        </>
       );
     } else {
       let carEmissions = carPlan?.edges?.[0]?.node.emissionsPerPerson?.co2;
