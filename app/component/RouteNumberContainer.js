@@ -26,7 +26,13 @@ const RouteNumberContainer = (
       isCallAgency={isCallAgency || route.type === 715}
       color={route.color ? `#${route.color}` : null}
       mode={mode !== undefined ? mode : route.mode}
-      text={getLegText(route, config, interliningWithRoute)}
+      text={
+        config.disabledLegTextModes !== undefined &&
+        config.disabledLegTextModes.includes(route.mode) &&
+        className.includes('line')
+          ? ''
+          : getLegText(route, config, interliningWithRoute)
+      }
       withBicycle={withBicycle}
       withCar={withCar}
       occupancyStatus={occupancyStatus}
