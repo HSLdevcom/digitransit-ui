@@ -123,7 +123,7 @@ export default function ItineraryPage(props, context) {
   const [scooterState, setScooterState] = useState(unset);
   const [combinedState, setCombinedState] = useState(emptyPlan);
   const [isNavigatorIntroDismissed, setNavigatorIntroDismissed] = useState(
-    getDialogState('navi-start'),
+    getDialogState('navi-intro'),
   );
 
   const altStates = {
