@@ -1,6 +1,5 @@
-/* eslint-disable no-unused-vars */
 import Modal from '@hsl-fi/modal';
-import connectToStores from 'fluxible-addons-react/connectToStores';
+import { connectToStores } from 'fluxible-addons-react';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { intlShape } from 'react-intl';
@@ -63,13 +62,10 @@ NavigatorIntroModal.contextTypes = {
   config: configShape.isRequired,
 };
 
-const NavigatorIntroModalWithStores = connectToStores(NavigatorIntro, [
+export default connectToStores(NavigatorIntroModal, [
   ['UserStore'],
-  context => ({
+  ({ config, getStore }) => ({
     isLoggedIn:
-      context.config.allowLogin &&
-      context.getStore('UserStore').getUser().sub !== undefined,
+      config.allowLogin && getStore('UserStore').getUser().sub !== undefined,
   }),
 ]);
-
-export default NavigatorIntroModal;
