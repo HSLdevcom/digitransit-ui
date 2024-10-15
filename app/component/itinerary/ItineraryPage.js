@@ -1026,6 +1026,11 @@ export default function ItineraryPage(props, context) {
     setNavigatorIntroDismissed(true);
   };
 
+  const cancelNavigatorUsage = () => {
+    setNavigation(false);
+    toggleNavigatorIntro();
+  };
+
   const walkPlan = altStates[PLANTYPE.WALK][0].plan;
   const bikePlan = altStates[PLANTYPE.BIKE][0].plan;
   const carPlan = altStates[PLANTYPE.CAR][0].plan;
@@ -1109,7 +1114,8 @@ export default function ItineraryPage(props, context) {
         <>
           <NavigatorIntroModal
             isOpen={!isNavigatorIntroDismissed}
-            onClose={toggleNavigatorIntro}
+            onPrimaryClick={toggleNavigatorIntro}
+            onClose={cancelNavigatorUsage}
             isHSL={context.config.CONFIG !== 'hsl'}
           />
           <NaviContainer
