@@ -1,5 +1,6 @@
 import { Button } from '@hsl-fi/design-system-core';
 import { Icon, Idea, Route } from '@hsl-fi/icons';
+import { connectToStores } from 'fluxible-addons-react';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
@@ -63,7 +64,7 @@ const NavigatorIntro = (
           />
         </div>
 
-        {!isLoggedIn && (
+        {config.allowLogin && !isLoggedIn && (
           <div className="login-tip">
             <Icon icon={Idea} color="default" size="m" fixed />
             <FormattedMessage tagName="p" id="navigation-intro-login-prompt" />
@@ -105,4 +106,11 @@ NavigatorIntro.contextTypes = {
   config: configShape.isRequired,
 };
 
-export default NavigatorIntro;
+export default connectToStores(
+  NavigatorIntro,
+  ['UserStore'],
+  ({ config, getStore }) => ({
+    isLoggedIn:
+      config?.allowLogin && getStore('UserStore')?.getUser()?.sub !== undefined,
+  }),
+);

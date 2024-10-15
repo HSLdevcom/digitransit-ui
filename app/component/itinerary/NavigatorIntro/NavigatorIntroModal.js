@@ -1,5 +1,4 @@
 import Modal from '@hsl-fi/modal';
-import { connectToStores } from 'fluxible-addons-react';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { intlShape } from 'react-intl';
@@ -7,7 +6,7 @@ import { configShape } from '../../../util/shapes';
 import NavigatorIntro from './NavigatorIntro';
 
 const NavigatorIntroModal = ({ isOpen, onPrimaryClick, onClose }, context) => {
-  const { config, isLoggedIn } = context;
+  const { config } = context;
   const [logo, setLogo] = useState();
 
   useEffect(() => {
@@ -41,7 +40,6 @@ const NavigatorIntroModal = ({ isOpen, onPrimaryClick, onClose }, context) => {
         logo={logo}
         onPrimaryClick={onPrimaryClick}
         onClose={onClose}
-        isLoggedIn={isLoggedIn}
       />
     </Modal>
   );
@@ -62,10 +60,4 @@ NavigatorIntroModal.contextTypes = {
   config: configShape.isRequired,
 };
 
-export default connectToStores(NavigatorIntroModal, [
-  ['UserStore'],
-  ({ config, getStore }) => ({
-    isLoggedIn:
-      config.allowLogin && getStore('UserStore').getUser().sub !== undefined,
-  }),
-]);
+export default NavigatorIntroModal;
