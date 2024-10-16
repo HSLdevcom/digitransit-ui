@@ -331,7 +331,13 @@ export default async function serve(req, res, next) {
     if (req.url !== LOCAL_STORAGE_EMITTER_PATH) {
       // Write preload hints before doing anything else
       if (process.env.NODE_ENV !== 'development') {
-        res.write(getAnalyticsInitCode(config.GTMid));
+        res.write(
+          getAnalyticsInitCode(
+            config.GTMid,
+            config.analyticsScript,
+            req.hostname,
+          ),
+        );
 
         const preloads = [
           { as: 'style', href: config.URL.FONT },
