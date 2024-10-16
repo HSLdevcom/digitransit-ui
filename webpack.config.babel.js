@@ -176,10 +176,7 @@ module.exports = {
     rules: [
       {
         test: /\.js$/,
-        include: [
-          path.resolve(__dirname, 'app'),
-          /node_modules\/(@hsl-fi)\/layout-primitives/,
-        ],
+        include: [path.resolve(__dirname, 'app')],
         loader: 'babel-loader',
         options: {
           configFile: false,
@@ -208,8 +205,6 @@ module.exports = {
             '@babel/plugin-syntax-dynamic-import',
             '@babel/plugin-transform-class-properties',
             '@babel/plugin-transform-json-strings',
-            '@babel/plugin-transform-nullish-coalescing-operator',
-            '@babel/plugin-transform-optional-chaining',
           ],
         },
       },
