@@ -1250,6 +1250,16 @@ div.origin-popup {
   stroke-opacity: 0.5;
 }
 
+.map-line.walk-inside.leg {
+  color: #fff;
+  stroke: round;
+  stroke-dasharray: 0.1 11;
+}
+
+.leg-halo.walk-inside.map-line {
+  stroke: $walk-inside-color;
+}
+
 /* Fix to default leaflet behavior */
 .leaflet-map-pane svg {
   position: relative;

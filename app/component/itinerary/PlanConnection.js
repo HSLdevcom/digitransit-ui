@@ -77,7 +77,12 @@ const planConnection = graphql`
               gtfsId
             }
             steps {
-              entrance
+              entity {
+                __typename
+                ... on Entrance {
+                  code
+                }
+              }
               lat
               lon
             }

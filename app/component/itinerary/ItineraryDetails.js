@@ -392,10 +392,15 @@ const withRelay = createFragmentContainer(
             points
           }
           steps {
-            entrance
-            lat
-            lon
-          }
+            entity {
+              __typename
+              ... on Entrance {
+                code
+                }
+              }
+              lat
+              lon
+            }
           nextLegs(
             numberOfLegs: 2
             originModesWithParentStation: [RAIL]

@@ -73,7 +73,10 @@ function WalkLeg(
           defaultMessage: 'scooter',
         })
       : leg.to?.name;
-  const entranceName = leg.steps?.find(step => step.entrance)?.entrance;
+  const entranceName = leg?.steps?.find(
+    // eslint-disable-next-line no-underscore-dangle
+    step => step?.entity?.__typename === 'Entrance' || step?.entity?.code,
+  )?.entity?.code;
 
   return (
     <div key={index} className="row itinerary-row">
@@ -229,12 +232,9 @@ function WalkLeg(
         )}
 
         <div className="itinerary-leg-action">
-          {nextLeg?.mode === 'SUBWAY' && (
+          {previousLeg?.mode === 'SUBWAY' && (
             <div>
-              <FormattedMessage
-                id="station-entrance"
-                defaultMessage="Entrance"
-              />
+              <FormattedMessage id="station-exit" defaultMessage="Exit" />
               <Icon img="icon-icon_subway" />
               {entranceName && entranceName !== 'MAIN_ENTRANCE' && (
                 <Icon
@@ -262,9 +262,12 @@ function WalkLeg(
               focusAction={focusToLeg}
             />
           </div>
-          {previousLeg?.mode === 'SUBWAY' && (
+          {nextLeg?.mode === 'SUBWAY' && (
             <div>
-              <FormattedMessage id="station-exit" defaultMessage="Exit" />
+              <FormattedMessage
+                id="station-entrance"
+                defaultMessage="Entrance"
+              />
               <Icon img="icon-icon_subway" />
               {entranceName && entranceName !== 'MAIN_ENTRANCE' && (
                 <Icon
