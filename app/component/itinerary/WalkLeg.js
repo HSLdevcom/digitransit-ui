@@ -236,7 +236,7 @@ function WalkLeg(
             <div>
               <FormattedMessage id="station-exit" defaultMessage="Exit" />
               <Icon img="icon-icon_subway" />
-              {entranceName && entranceName !== 'MAIN_ENTRANCE' && (
+              {entranceName && (
                 <Icon
                   img={`icon-icon_subway_entrance_${entranceName.toLowerCase()}`}
                 />
@@ -269,7 +269,7 @@ function WalkLeg(
                 defaultMessage="Entrance"
               />
               <Icon img="icon-icon_subway" />
-              {entranceName && entranceName !== 'MAIN_ENTRANCE' && (
+              {entranceName && (
                 <Icon
                   img={`icon-icon_subway_entrance_${entranceName.toLowerCase()}`}
                 />
