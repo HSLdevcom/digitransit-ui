@@ -22,10 +22,6 @@
 .navigator-intro-modal-content {
   display: flex;
   flex-direction: column;
-  flex-wrap: wrap;
-  align-content: center;
-  justify-content: center;
-  align-items: center;
   padding: 0 var(--space-s);
 
   .body {
@@ -47,6 +43,8 @@
     .login-tip {
       display: flex;
       flex-direction: row;
+      flex-wrap: nowrap;
+      justify-content: center;
       gap: var(--space-xs);
       padding: var(--space-xxs) var(--space-l);
     }
@@ -55,6 +53,7 @@
       display: flex;
       flex-wrap: wrap;
       flex-direction: column;
+      align-content: center;
       align-items: stretch;
       gap: var(--space-m);
       padding: 0 var(--space-m);
@@ -64,16 +63,6 @@
         flex-direction: row;
         align-items: center;
         gap: var(--space-s);
-
-        .icon-container {
-          padding: 3px 3px;
-          border-radius: 50%;
-          background-color: $infobox-color-generic-blue;
-
-          svg > path {
-            fill: $primary-color;
-          }
-        }
 
         .right-column {
           display: flex;

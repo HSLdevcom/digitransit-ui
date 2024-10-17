@@ -1,48 +1,19 @@
-import { Button } from '@hsl-fi/design-system-core';
-import { Icon, Idea, Route } from '@hsl-fi/icons';
+import Button from '@hsl-fi/button';
 import { connectToStores } from 'fluxible-addons-react';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
 import { configShape } from '../../../util/shapes';
-
-const NavigatorIntroContentBox = ({ icon, header, body }) => {
-  return (
-    <div className="content-box">
-      {icon && (
-        <span className="icon-container">
-          <Icon icon={icon} size="l" fixed />
-        </span>
-      )}
-      <div className="right-column">
-        <FormattedMessage tagName="h3" id={header} />
-        <FormattedMessage tagName="p" id={body} />
-      </div>
-    </div>
-  );
-};
-
-NavigatorIntroContentBox.propTypes = {
-  header: PropTypes.string.isRequired,
-  body: PropTypes.string.isRequired,
-  icon: PropTypes.string,
-};
-
-NavigatorIntroContentBox.defaultProps = {
-  icon: undefined,
-};
+import Icon from '../../Icon';
+import NavigatorIntroFeature from './NavigatorIntroFeature';
 
 const NavigatorIntro = (
   { logo, onPrimaryClick, onClose, isLoggedIn },
   context,
 ) => {
-  const { config } = context;
+  const { config, intl } = context;
 
   const primaryColor = config.colors.accessiblePrimary || config.colors.primary;
-  const primaryButtonStyle = {
-    backgroundColor: primaryColor,
-    borderColor: primaryColor,
-  };
 
   return (
     <div className="navigator-intro-modal-content">
@@ -50,15 +21,17 @@ const NavigatorIntro = (
         {logo && <img src={logo} alt="navigator logo" />}
         <FormattedMessage tagName="h2" id="navigation-intro-header" />
         <div className="navigation-intro-body">
-          <NavigatorIntroContentBox
-            icon={Route}
+          <NavigatorIntroFeature
+            icon="icon-icon_future-route"
             iconColor={primaryColor}
+            iconBackgroundColor={config.colors.backgroundInfo}
             header="navigation-intro-help-header"
             body="navigation-intro-help-body"
           />
-          <NavigatorIntroContentBox
-            icon={Route}
+          <NavigatorIntroFeature
+            icon="icon-icon_comment"
             iconColor={primaryColor}
+            iconBackgroundColor={config.colors.backgroundInfo}
             header="navigation-intro-notifications-header"
             body="navigation-intro-notifications-body"
           />
@@ -66,23 +39,28 @@ const NavigatorIntro = (
 
         {config.allowLogin && !isLoggedIn && (
           <div className="login-tip">
-            <Icon icon={Idea} color="default" size="m" fixed />
+            <Icon img="icon-icon_idea" iconColor="black" height={1} width={1} />
             <FormattedMessage tagName="p" id="navigation-intro-login-prompt" />
           </div>
         )}
       </div>
       <div className="buttons">
         <Button
-          size="l"
-          expandOnMobile
-          style={primaryButtonStyle}
+          size="large"
+          fullWidth
+          variant="blue"
+          value={intl.formatMessage({ id: 'navigation-intro-begin' })}
           onClick={onPrimaryClick || onClose}
-        >
-          <FormattedMessage id="navigation-intro-begin" />
-        </Button>
-        <Button size="l" expandOnMobile variant="plain" onClick={onClose}>
-          <FormattedMessage id="cancel" />
-        </Button>
+          style={{ backgroundColor: primaryColor }}
+        />
+        <Button
+          size="large"
+          fullWidth
+          variant="white"
+          value={intl.formatMessage({ id: 'cancel' })}
+          onClick={onClose}
+          style={{ borderColor: 'transparent' }}
+        />
       </div>
     </div>
   );
