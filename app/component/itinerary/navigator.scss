@@ -101,9 +101,42 @@
       font-weight: $font-weight-medium;
 
       .destination-header {
-        font-size: $font-size-xsmall;
-        font-weight: $font-weight-book;
+        font-size: $font-size-normal;
+        font-weight: $font-weight-medium;
         display: flex;
+      }
+
+      .wait-leg {
+        display: flex;
+        align-items: center;
+        margin-top: 3px;
+
+        .headsign {
+          margin-left: 10px;
+          font-size: $font-size-small;
+          font-weight: $font-weight-book;
+          max-width: 120px;
+        }
+
+        .icon {
+          margin-top: 2px;
+          height: 25px;
+          width: 25px;
+        }
+
+        .route-number {
+          min-width: 55px;
+
+          .vcenter-children {
+            .vehicle-number {
+              color: white;
+              font-size: $font-size-large;
+              margin-top: 4px;
+            }
+
+            display: flex;
+          }
+        }
       }
 
       .navileg-destination-details {

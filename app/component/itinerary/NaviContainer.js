@@ -24,6 +24,8 @@ const legQuery = graphql`
         }
       }
       to {
+        lat
+        lon
         stop {
           parentStation {
             name
@@ -40,16 +42,15 @@ const legQuery = graphql`
   }
 `;
 
-function NaviContainer({
-  itinerary,
-  focusToLeg,
-  relayEnvironment,
-  setNavigation,
-  mapRef,
-}) {
+function NaviContainer(
+  { itinerary, focusToLeg, relayEnvironment, setNavigation, mapRef },
+  { getStore },
+) {
   const [realTimeLegs, setRealTimeLegs] = useState(itinerary.legs);
   const [time, setTime] = useState(Date.now());
   const locationOK = useRef(true);
+  const position = getStore('PositionStore').getLocationState();
+
   // update view after every 10 seconds
   useEffect(() => {
     checkPositioningPermission().then(permission => {
@@ -121,6 +122,7 @@ function NaviContainer({
           mapRef?.state.mapTracking || locationOK.current ? null : focusToLeg
         }
         time={time}
+        position={position}
       />{' '}
       <NaviBottom setNavigation={setNavigation} arrival={arrivalTime} />
     </>
@@ -134,6 +136,10 @@ NaviContainer.propTypes = {
   setNavigation: PropTypes.func.isRequired,
   // eslint-disable-next-line
   mapRef: PropTypes.object,
+};
+
+NaviContainer.contextTypes = {
+  getStore: PropTypes.func.isRequired,
 };
 
 NaviContainer.defaultProps = { mapRef: undefined };
@@ -150,6 +156,7 @@ const withRelay = createFragmentContainer(NaviContainer, {
         interlineWithPreviousLeg
         distance
         duration
+        headsign
         start {
           scheduledTime
           estimated {
@@ -168,6 +175,7 @@ const withRelay = createFragmentContainer(NaviContainer, {
         }
         route {
           shortName
+          color
         }
         from {
           lat

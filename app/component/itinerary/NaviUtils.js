@@ -32,7 +32,7 @@ function findTransferProblem(legs) {
   return null;
 }
 
-export const getScheduleInfo = (leg, intl) => {
+export const getJourneyStateMessages = (leg, intl) => {
   const { start, realtimeState, to, from, mode, id } = leg;
   const { scheduledTime, estimated } = start;
   if (mode === 'WALK') {
@@ -47,6 +47,8 @@ export const getScheduleInfo = (leg, intl) => {
     id: `${mode.toLowerCase()}`,
     defaultMessage: `${mode}`,
   });
+  // Todo: should bicycle be in other messages tba?
+  // This function will be more next transitLeg state.
   let content;
   let severity;
   if (mode === 'BICYCLE' && from.vehicleRentalStation) {
@@ -105,13 +107,13 @@ export const getScheduleInfo = (leg, intl) => {
   }
   const info = { severity, content, id: msgId };
   // Only one main info, first in stack.
-  info.type = 'main';
+  info.expiresOn = 'legChange';
   return info;
 };
 
 // We'll need the intl later.
 // eslint-disable-next-line no-unused-vars
-export const getAlerts = (realTimeLegs, intl) => {
+export const getJourneyStateAlerts = (realTimeLegs, intl) => {
   const alerts = [];
   const canceled = realTimeLegs.filter(leg => leg.realtimeState === 'CANCELED');
   const transferProblem = findTransferProblem(realTimeLegs);
