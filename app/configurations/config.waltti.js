@@ -278,4 +278,9 @@ export default {
     }
     return `https://waltti.fi/walttiapp/busTicket/?operator=${operatorCode}&ticketType=single&customerGroup=adult&zones=${zones}`;
   },
+
+  analyticsScript: function createAnalyticsScript(hostname) {
+    // eslint-disable-next-line no-useless-escape
+    return `<script defer data-domain="${hostname}" src="https://plausible.io/js/script.js"><\/script>\n`;
+  },
 };
