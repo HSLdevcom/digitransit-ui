@@ -12,6 +12,7 @@ $body-font-weight: $font-weight-medium;
 @import 'base/elements';
 @import '~zurb-foundation-5/scss/foundation/components/grid';
 @import 'base/helper-classes-after-foundations';
+@import 'base/spacing';
 
 // Some of these files override sass variables Foundation uses,
 // so they must be loaded before the relevant foundation modules
