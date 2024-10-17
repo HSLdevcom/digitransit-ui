@@ -133,6 +133,7 @@
     "@babel/preset-env": "7.23.9",
     "@babel/preset-react": "7.23.3",
     "@babel/register": "7.23.7",
+    "@hsl-fi/button": "^1.2.4",
     "@hsl-fi/container-spinner": "0.3.2",
     "@hsl-fi/hooks": "1.2.4",
     "@hsl-fi/modal": " ^0.3.2",
