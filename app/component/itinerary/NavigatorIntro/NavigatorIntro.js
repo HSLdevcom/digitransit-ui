@@ -13,7 +13,8 @@ const NavigatorIntro = (
 ) => {
   const { config, intl } = context;
 
-  const primaryColor = config.colors.accessiblePrimary || config.colors.primary;
+  const primaryColor =
+    config.colors?.accessiblePrimary || config.colors?.primary || 'black';
 
   return (
     <div className="navigator-intro-modal-content">
@@ -24,19 +25,18 @@ const NavigatorIntro = (
           <NavigatorIntroFeature
             icon="icon-icon_future-route"
             iconColor={primaryColor}
-            iconBackgroundColor={config.colors.backgroundInfo}
+            iconBackgroundColor={config.colors?.backgroundInfo || 'transparent'}
             header="navigation-intro-help-header"
             body="navigation-intro-help-body"
           />
           <NavigatorIntroFeature
             icon="icon-icon_comment"
             iconColor={primaryColor}
-            iconBackgroundColor={config.colors.backgroundInfo}
+            iconBackgroundColor={config.colors?.backgroundInfo || 'transparent'}
             header="navigation-intro-notifications-header"
             body="navigation-intro-notifications-body"
           />
         </div>
-
         {config.allowLogin && !isLoggedIn && (
           <div className="login-tip">
             <Icon img="icon-icon_idea" iconColor="black" height={1} width={1} />
