@@ -1308,6 +1308,10 @@ div.origin-popup {
   color: $external-feed-map-color;
 }
 
+.map-line.scooter.leg {
+  color: $scooter-map-color;
+}
+
 /* Fix to default leaflet behavior */
 .leaflet-map-pane svg {
   position: relative;
