@@ -116,6 +116,7 @@ const translations = {
     navigate: 'Naviger',
     nearest: 'Forrige',
     'network-error': 'Netværksfejl',
+    'new-feature': 'TODO_new-feature_DA',
     next: 'Næste',
     'no-position': 'Ingen position',
     'no-position-no-stops':
@@ -536,6 +537,7 @@ const translations = {
       'Position auf der Karte hat sich geändert',
     neighbourhood: 'Viertel ',
     'network-error': 'Ein Netzwerkfehler ist aufgetreten.',
+    'new-feature': 'TODO_new-feature_DE',
     next: 'Nächste',
     'no-bike-allowed-popup-train':
       'Die Fahrradmitnahme ist in Pendlerzügen erlaubt, in Fernverkehrszügen ist jedoch ein Zuschlag nötig und es könnte eine Reservierung erforderlich sein.',
@@ -1340,6 +1342,7 @@ const translations = {
     'network-error': 'Network error',
     // eslint-disable-next-line sort-keys
     neighbourhood: 'Neighbourhood ',
+    'new-feature': 'New feature!',
     next: 'Next',
     'no-bike-allowed-popup-train':
       'Bicycles are allowed on commuter trains but on long distance trains you have to pay an extra fee and it might require a reservation.',
@@ -1915,6 +1918,7 @@ const translations = {
     navigate: 'Navegar',
     nearest: 'Más cercano',
     'network-error': 'Error de red',
+    'new-feature': 'TODO_new-feature_ES',
     next: 'Siguiente',
     'no-position': 'Sin localización',
     'no-position-no-stops':
@@ -2586,6 +2590,7 @@ const translations = {
     'network-error': 'Verkkovirhe',
     // eslint-disable-next-line sort-keys
     neighbourhood: 'Naapurusto',
+    'new-feature': 'Uusi ominaisuus!',
     next: 'Seuraava',
     'no-bike-allowed-popup-train':
       'Lähiliikenteen juniin pyörän voi ottaa mukaan ilmaiseksi, mutta pitkän matkan junissa peritään lisämaksu ja mahdollisesti vaaditaan etukäteisvaraus.',
@@ -3172,6 +3177,7 @@ const translations = {
     navigate: 'Voyager',
     nearest: 'Le plus proche',
     'network-error': 'Erreur réseau',
+    'new-feature': 'TODO_new-feature_FR',
     next: 'Suivant',
     'no-bike-allowed-popup-train':
       'Bicycles are allowed on commuter trains but on long distance trains you have to pay an extra fee and it might require a reservation.',
@@ -3464,6 +3470,7 @@ const translations = {
     navigate: 'Naviger',
     nearest: 'Forrige',
     'network-error': 'Nettverksfeil',
+    'new-feature': 'TODO_new-feature_NB',
     next: 'Neste',
     'no-position': 'Ingen posisjon',
     'no-position-no-stops':
@@ -4080,6 +4087,7 @@ const translations = {
     'network-error': 'Błąd sieciowy',
     // eslint-disable-next-line sort-keys
     neighbourhood: 'Okolice ',
+    'new-feature': 'TODO_new-feature_PL',
     next: 'Next',
     'no-bike-allowed-popup-train':
       'Bicycles are allowed on commuter trains but on long distance trains you have to pay an extra fee and it might require a reservation.',
@@ -4733,6 +4741,7 @@ const translations = {
     'network-error': 'Eroare de rețea',
     // eslint-disable-next-line sort-keys
     neighbourhood: 'Cartier ',
+    'new-feature': 'TODO_new-feature_RO',
     next: 'Următorul',
     'no-bike-allowed-popup-train':
       'Bicicletele sunt permise în trenurile de navetă, însă e posibil să aveți nevoie de un bilet suplimentar sau de rezervare prealabilă.',
@@ -5480,6 +5489,7 @@ const translations = {
     'network-error': 'Nätverksfel',
     // eslint-disable-next-line sort-keys
     neighbourhood: 'Gransskap',
+    'new-feature': 'TODO_new-feature_SV',
     next: 'Nästa',
     'no-bike-allowed-popup-train':
       'Du kan ta med cykeln i närtågen avgiftsfritt, men i andra tåg är det avgiftsbelagt och kräver möjligtvis en förhandsreservation.',
