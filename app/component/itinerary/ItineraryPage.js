@@ -1112,12 +1112,14 @@ export default function ItineraryPage(props, context) {
     if (naviMode) {
       content = (
         <>
-          <NavigatorIntroModal
-            isOpen={!isNavigatorIntroDismissed}
-            onPrimaryClick={toggleNavigatorIntro}
-            onClose={cancelNavigatorUsage}
-            isHSL={context.config.CONFIG !== 'hsl'}
-          />
+          {!isNavigatorIntroDismissed && (
+            <NavigatorIntroModal
+              isOpen
+              onPrimaryClick={toggleNavigatorIntro}
+              onClose={cancelNavigatorUsage}
+              isHSL={config.CONFIG !== 'hsl'}
+            />
+          )}
           <NaviContainer
             itinerary={combinedEdges[selectedIndex]?.node}
             focusToLeg={focusToLeg}
