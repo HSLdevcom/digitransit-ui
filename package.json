@@ -152,7 +152,7 @@
     "cookie-parser": "1.4.5",
     "debug": "4.3.4",
     "esm": "3.2.25",
-    "express": "4.17.1",
+    "express": "4.20.0",
     "express-http-proxy": "1.6.2",
     "express-session": "1.18.0",
     "express-static-gzip": "2.0.8",
