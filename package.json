@@ -294,7 +294,7 @@
     "postcss-loader": "^4",
     "prettier": "3.1.1",
     "relay-compiler": "16.2.0",
-    "rollup": "2.35.1",
+    "rollup": "2.79.2",
     "rollup-plugin-babel": "4.4.0",
     "rollup-plugin-commonjs": "10.1.0",
     "rollup-plugin-peer-deps-external": "2.2.4",
