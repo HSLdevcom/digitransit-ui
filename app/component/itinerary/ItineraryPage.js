@@ -1117,7 +1117,6 @@ export default function ItineraryPage(props, context) {
               isOpen
               onPrimaryClick={toggleNavigatorIntro}
               onClose={cancelNavigatorUsage}
-              isHSL={config.CONFIG !== 'hsl'}
             />
           )}
           <NaviContainer

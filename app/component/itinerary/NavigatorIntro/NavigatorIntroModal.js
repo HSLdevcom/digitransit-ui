@@ -5,7 +5,7 @@ import { intlShape } from 'react-intl';
 import { configShape } from '../../../util/shapes';
 import NavigatorIntro from './NavigatorIntro';
 
-const NavigatorIntroModal = ({ isOpen, onPrimaryClick, onClose }, context) => {
+const NavigatorIntroModal = ({ onPrimaryClick, onClose }, context) => {
   const { config } = context;
   const [logo, setLogo] = useState();
 
@@ -32,7 +32,7 @@ const NavigatorIntroModal = ({ isOpen, onPrimaryClick, onClose }, context) => {
   return (
     <Modal
       appElement="#app"
-      isOpen={isOpen}
+      isOpen
       className="navigator-intro-modal"
       overlayClassName="navigator-intro-modal-overlay"
     >
@@ -46,7 +46,6 @@ const NavigatorIntroModal = ({ isOpen, onPrimaryClick, onClose }, context) => {
 };
 
 NavigatorIntroModal.propTypes = {
-  isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   onPrimaryClick: PropTypes.func,
 };
