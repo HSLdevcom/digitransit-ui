@@ -25,14 +25,14 @@ const NavigatorIntro = (
           <NavigatorIntroFeature
             icon="icon-icon_future-route"
             iconColor={primaryColor}
-            iconBackgroundColor={config.colors?.backgroundInfo || 'transparent'}
+            iconBackgroundColor={config.colors?.backgroundInfo}
             header="navigation-intro-help-header"
             body="navigation-intro-help-body"
           />
           <NavigatorIntroFeature
             icon="icon-icon_comment"
             iconColor={primaryColor}
-            iconBackgroundColor={config.colors?.backgroundInfo || 'transparent'}
+            iconBackgroundColor={config.colors?.backgroundInfo}
             header="navigation-intro-notifications-header"
             body="navigation-intro-notifications-body"
           />
