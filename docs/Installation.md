@@ -14,12 +14,27 @@ You also need a C compiler:
 - OS X: Xcode 5.0 or later
 - Windows: for example MSVC 2013 Express
 
+### WSL
+To use Windows Subsystem for Linux in digitransit-ui development you may need to do at least the following
+1. Add the following to your `/etc/hosts`. This is because the project uses ipv6 compliant `::1` instead of ipv4 style `0.0.0.0`:
+```
+::1     ip6-localhost ip6-loopback localhost
+``` 
+2. Add the following to your `/etc/resolv.conf` if not yet present. This prevents WSL from regenerating the `/etc/hosts` as well as the `/etc/resolv.conf`:
+```
+[network]
+generateResolvConf=false
+generateHosts = false
+```
+
 ## Install watchman
 
 ### Version
 
 A bit newer version of watchman is now required and 4.9.0 is no longer supported.
-Version 20220320.140531.0, for example, works.
+Working versions include at least 
+- 20220320.140531.0
+- 20240407.093313.0
 
 ### OS X
 

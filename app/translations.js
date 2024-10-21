@@ -116,6 +116,7 @@ const translations = {
     navigate: 'Naviger',
     nearest: 'Forrige',
     'network-error': 'Netværksfejl',
+    'new-feature': 'TODO_new-feature_DA',
     next: 'Næste',
     'no-position': 'Ingen position',
     'no-position-no-stops':
@@ -536,6 +537,7 @@ const translations = {
       'Position auf der Karte hat sich geändert',
     neighbourhood: 'Viertel ',
     'network-error': 'Ein Netzwerkfehler ist aufgetreten.',
+    'new-feature': 'TODO_new-feature_DE',
     next: 'Nächste',
     'no-bike-allowed-popup-train':
       'Die Fahrradmitnahme ist in Pendlerzügen erlaubt, in Fernverkehrszügen ist jedoch ein Zuschlag nötig und es könnte eine Reservierung erforderlich sein.',
@@ -1293,6 +1295,15 @@ const translations = {
     navigate: 'Navigate',
     'navigation-description': 'Journey guidance',
     'navigation-header': 'Journey tracking',
+    'navigation-intro-begin': 'TODO_navigation-intro-begin_EN',
+    'navigation-intro-header': 'TODO_navigation-intro-login-prompt_EN',
+    'navigation-intro-help-body': 'TODO_navigation-intro-login-prompt_EN',
+    'navigation-intro-help-header': 'TODO_navigation-intro-login-prompt_EN',
+    'navigation-intro-login-prompt': 'TODO_navigation-intro-login-prompt_EN',
+    'navigation-intro-notifications-body':
+      'TODO_navigation-intro-login-prompt_EN',
+    'navigation-intro-notifications-header':
+      'TODO_navigation-intro-login-prompt_EN',
     'navigation-journey-end': 'Journey has ended',
     'navigation-journey-start': 'Your journey starts {time}',
     'navigation-quit': 'Quit',
@@ -1331,6 +1342,7 @@ const translations = {
     'network-error': 'Network error',
     // eslint-disable-next-line sort-keys
     neighbourhood: 'Neighbourhood ',
+    'new-feature': 'New feature!',
     next: 'Next',
     'no-bike-allowed-popup-train':
       'Bicycles are allowed on commuter trains but on long distance trains you have to pay an extra fee and it might require a reservation.',
@@ -1906,6 +1918,7 @@ const translations = {
     navigate: 'Navegar',
     nearest: 'Más cercano',
     'network-error': 'Error de red',
+    'new-feature': 'TODO_new-feature_ES',
     next: 'Siguiente',
     'no-position': 'Sin localización',
     'no-position-no-stops':
@@ -2530,6 +2543,15 @@ const translations = {
     navigate: 'Navigoi',
     'navigation-description': 'Löydä perille ohjatusti',
     'navigation-header': 'Matkan seuranta',
+    'navigation-intro-begin': 'Aloita matka',
+    'navigation-intro-header': 'Mitä matkanseuranta tarjoaa?',
+    'navigation-intro-help-body': 'Löydä perille vaihe kerrallaan',
+    'navigation-intro-help-header': 'Apua navigointiin',
+    'navigation-intro-login-prompt':
+      'Kirjaudu käyttäjätilillesi niin voit palata takaisin matkallesi',
+    'navigation-intro-notifications-body':
+      'Pysy ajan tasalla matkasi vaiheista',
+    'navigation-intro-notifications-header': 'Ilmoitukset ja muutokset',
     'navigation-journey-end': 'Matka on päättynyt',
     'navigation-journey-start': 'Matkasi alkaa {time}',
     'navigation-quit': 'Poistu',
@@ -2568,6 +2590,7 @@ const translations = {
     'network-error': 'Verkkovirhe',
     // eslint-disable-next-line sort-keys
     neighbourhood: 'Naapurusto',
+    'new-feature': 'Uusi ominaisuus!',
     next: 'Seuraava',
     'no-bike-allowed-popup-train':
       'Lähiliikenteen juniin pyörän voi ottaa mukaan ilmaiseksi, mutta pitkän matkan junissa peritään lisämaksu ja mahdollisesti vaaditaan etukäteisvaraus.',
@@ -3154,6 +3177,7 @@ const translations = {
     navigate: 'Voyager',
     nearest: 'Le plus proche',
     'network-error': 'Erreur réseau',
+    'new-feature': 'TODO_new-feature_FR',
     next: 'Suivant',
     'no-bike-allowed-popup-train':
       'Bicycles are allowed on commuter trains but on long distance trains you have to pay an extra fee and it might require a reservation.',
@@ -3446,6 +3470,7 @@ const translations = {
     navigate: 'Naviger',
     nearest: 'Forrige',
     'network-error': 'Nettverksfeil',
+    'new-feature': 'TODO_new-feature_NB',
     next: 'Neste',
     'no-position': 'Ingen posisjon',
     'no-position-no-stops':
@@ -4062,6 +4087,7 @@ const translations = {
     'network-error': 'Błąd sieciowy',
     // eslint-disable-next-line sort-keys
     neighbourhood: 'Okolice ',
+    'new-feature': 'TODO_new-feature_PL',
     next: 'Next',
     'no-bike-allowed-popup-train':
       'Bicycles are allowed on commuter trains but on long distance trains you have to pay an extra fee and it might require a reservation.',
@@ -4715,6 +4741,7 @@ const translations = {
     'network-error': 'Eroare de rețea',
     // eslint-disable-next-line sort-keys
     neighbourhood: 'Cartier ',
+    'new-feature': 'TODO_new-feature_RO',
     next: 'Următorul',
     'no-bike-allowed-popup-train':
       'Bicicletele sunt permise în trenurile de navetă, însă e posibil să aveți nevoie de un bilet suplimentar sau de rezervare prealabilă.',
@@ -5415,6 +5442,15 @@ const translations = {
     navigate: 'Navigera',
     'navigation-description': 'Hitta fram med vägledning.',
     'navigation-header': 'Följa',
+    'navigation-intro-begin': 'TODO_navigation-intro-begin_SV',
+    'navigation-intro-header': 'TODO_navigation-intro-login-prompt_SV',
+    'navigation-intro-help-body': 'TODO_navigation-intro-login-prompt_SV',
+    'navigation-intro-help-header': 'TODO_navigation-intro-login-prompt_SV',
+    'navigation-intro-login-prompt': 'TODO_navigation-intro-login-prompt_SV',
+    'navigation-intro-notifications-body':
+      'TODO_navigation-intro-login-prompt_SV',
+    'navigation-intro-notifications-header':
+      'TODO_navigation-intro-login-prompt_SV',
     'navigation-journey-end': 'Resan är över',
     'navigation-journey-start': 'Din resa börjar {time}',
     'navigation-quit': 'Sluta',
@@ -5453,6 +5489,7 @@ const translations = {
     'network-error': 'Nätverksfel',
     // eslint-disable-next-line sort-keys
     neighbourhood: 'Gransskap',
+    'new-feature': 'TODO_new-feature_SV',
     next: 'Nästa',
     'no-bike-allowed-popup-train':
       'Du kan ta med cykeln i närtågen avgiftsfritt, men i andra tåg är det avgiftsbelagt och kräver möjligtvis en förhandsreservation.',

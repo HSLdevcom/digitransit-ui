@@ -170,4 +170,5 @@ export default configMerger(walttiConfig, {
   showNearYouButtons: true,
   allowLogin: false,
   routeNotifications: [],
+  analyticsScript: '',
 });

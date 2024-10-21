@@ -264,6 +264,7 @@ export default {
       value: 600,
     },
   ],
+  navigation: true,
 
   ticketPurchaseLink: function purchaseTicketLink(fare, operatorCode) {
     const fareId = fare.fareProducts[0].product.id;
@@ -276,5 +277,10 @@ export default {
       zones += `0${ticket.charCodeAt(i) - 64}`; // eslint-disable
     }
     return `https://waltti.fi/walttiapp/busTicket/?operator=${operatorCode}&ticketType=single&customerGroup=adult&zones=${zones}`;
+  },
+
+  analyticsScript: function createAnalyticsScript(hostname) {
+    // eslint-disable-next-line no-useless-escape
+    return `<script defer data-domain="${hostname}" src="https://plausible.io/js/script.js"><\/script>\n`;
   },
 };
