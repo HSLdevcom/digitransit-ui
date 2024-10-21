@@ -40,7 +40,6 @@ import {
   addBikeStationMapForRentalVehicleItineraries,
   checkDayNight,
   filterItinerariesByFeedId,
-  transitEdges,
   filterWalk,
   mergeBikeTransitPlans,
   mergeScooterTransitPlan,
@@ -713,6 +712,27 @@ export default function ItineraryPage(props, context) {
     ];
   }
 
+  function getItinerarySelection() {
+    const hasNoTransitItineraries = filterWalk(state.plan?.edges).length === 0;
+    const plan = mapHashToPlan();
+    let combinedEdges;
+    // Remove old itineraries if new query cannot find a route
+    if (state.error) {
+      combinedEdges = [];
+    } else if (streetHashes.includes(hash)) {
+      combinedEdges = plan?.edges || [];
+    } else {
+      combinedEdges = getCombinedPlanEdges();
+      if (!hasNoTransitItineraries) {
+        // don't show plain walking in transit itinerary list
+        combinedEdges = filterWalk(combinedEdges);
+      }
+    }
+    const selectedIndex = getSelectedItineraryIndex(location, combinedEdges);
+
+    return { plan, combinedEdges, selectedIndex, hasNoTransitItineraries };
+  }
+
   useEffect(() => {
     setCurrentTimeToURL(config, match);
     updateLocalStorage(true);
@@ -768,8 +788,11 @@ export default function ItineraryPage(props, context) {
   useEffect(() => {
     // vehicles on map
     if (showVehicles()) {
-      const combinedEdges = transitEdges(getCombinedPlanEdges());
-      const itineraryTopics = getTopics(config, combinedEdges, match);
+      const { combinedEdges, selectedIndex } = getItinerarySelection();
+      const selected = combinedEdges.length
+        ? combinedEdges[selectedIndex]
+        : null;
+      const itineraryTopics = getTopics(selected, config);
       const { client } = context.getStore('RealTimeInformationStore');
       // Client may not be initialized yet if there was an client before ComponentDidMount
       if (!isEqual(itineraryTopics, topicsState) || !client) {
@@ -957,24 +980,6 @@ export default function ItineraryPage(props, context) {
       }
     }, 500);
   };
-  const hasNoTransitItineraries = filterWalk(state.plan?.edges).length === 0;
-
-  let plan = mapHashToPlan();
-
-  let combinedEdges;
-  // Remove old itineraries if new query cannot find a route
-  if (state.error) {
-    combinedEdges = [];
-  } else if (streetHashes.includes(hash)) {
-    combinedEdges = plan?.edges || [];
-  } else {
-    combinedEdges = getCombinedPlanEdges();
-    if (!hasNoTransitItineraries) {
-      // don't show plain walking in transit itinerary list
-      combinedEdges = filterWalk(combinedEdges);
-    }
-  }
-  const selectedIndex = getSelectedItineraryIndex(location, combinedEdges);
 
   function renderMap(from, to, viaPoints, planEdges, activeIndex) {
     const mwtProps = {};
@@ -1020,6 +1025,11 @@ export default function ItineraryPage(props, context) {
       />
     );
   }
+
+  const itinerarySelection = getItinerarySelection();
+  const { combinedEdges, selectedIndex, hasNoTransitItineraries } =
+    itinerarySelection;
+  let { plan } = itinerarySelection;
 
   const toggleNavigatorIntro = () => {
     setDialogState('navi-intro');

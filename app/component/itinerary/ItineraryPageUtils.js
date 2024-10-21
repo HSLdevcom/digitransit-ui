@@ -87,14 +87,13 @@ export function addFeedbackly(context) {
   }
 }
 
-export function getTopics(config, edges, match) {
+export function getTopics(itinerary, config) {
   const itineraryTopics = [];
 
-  if (edges.length) {
+  if (itinerary) {
     const { realTime, feedIds } = config;
-    const selected = edges[getSelectedItineraryIndex(match.location, edges)];
 
-    selected.node.legs.forEach(leg => {
+    itinerary.node.legs.forEach(leg => {
       if (leg.transitLeg && leg.trip) {
         const feedId = leg.trip.gtfsId.split(':')[0];
         let topic;
