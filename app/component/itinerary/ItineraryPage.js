@@ -1026,7 +1026,6 @@ export default function ItineraryPage(props, context) {
     );
   }
 
-
   const itinerarySelection = getItinerarySelection();
   const { combinedEdges, selectedIndex, hasNoTransitItineraries } =
     itinerarySelection;
