@@ -113,13 +113,21 @@ class ItineraryLine extends React.Component {
         leg.mode === 'WALK' &&
         (nextLeg?.mode === 'SUBWAY' || previousLeg?.mode === 'SUBWAY')
       ) {
-        const entranceObject = leg?.steps?.find(
+        const entranceObjects = leg?.steps?.filter(
           // eslint-disable-next-line no-underscore-dangle
           step => step?.entity?.__typename === 'Entrance' || step?.entity?.code,
         );
+
+        // Select the entrance to the outside if there are multiple entrances
+        const entranceObject =
+          previousLeg?.mode === 'SUBWAY'
+            ? entranceObjects[entranceObjects.length - 1]
+            : entranceObjects[0];
+
         if (entranceObject) {
           const entranceCoordinates = [entranceObject.lat, entranceObject.lon];
-
+          // eslint-disable-next-line no-console
+          console.log('steps', leg.steps);
           const getDistance = (coord1, coord2) => {
             const [lat1, lon1] = coord1;
             const [lat2, lon2] = coord2;
@@ -160,7 +168,7 @@ class ItineraryLine extends React.Component {
                 leg.route && leg.route.color ? `#${leg.route.color}` : null
               }
               key={`${this.props.hash}_${i}_${mode}_1`}
-              geometry={geometry.slice(entranceIndex, -1)}
+              geometry={geometry.slice(entranceIndex)}
               mode={nextLeg?.mode === 'SUBWAY' ? 'walk-inside' : 'walk'}
               passive={this.props.passive}
             />,
