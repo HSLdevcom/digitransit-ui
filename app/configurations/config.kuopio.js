@@ -199,4 +199,5 @@ export default configMerger(walttiConfig, {
       },
     },
   },
+  devAnalyticsHost: 'http://dev-kuopio.digitransit.fi',
 });
