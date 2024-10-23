@@ -214,5 +214,5 @@ export default configMerger(walttiConfig, {
         return '';
     }
   },
-  devAnalyticsHost: 'http://dev-lahti.digitransit.fi',
+  devAnalytics: true,
 });

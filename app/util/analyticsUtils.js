@@ -36,9 +36,12 @@ export function addAnalyticsEvent(event) {
  * @return string
  */
 export function getAnalyticsInitCode(config, hostname) {
-  const host = hostname?.match(/dev|test/) ? config.devAnalyticsHost : hostname;
-  if (config.analyticsScript && host) {
-    return config.analyticsScript(host);
+  if (
+    config.analyticsScript &&
+    hostname &&
+    (!hostname.match(/dev|test/) || config.devAnalytics)
+  ) {
+    return config.analyticsScript(hostname);
   }
 
   if (config.GTMid) {
