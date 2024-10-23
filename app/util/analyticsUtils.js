@@ -37,7 +37,7 @@ export function addAnalyticsEvent(event) {
  */
 export function getAnalyticsInitCode(config, hostname) {
   const host = hostname?.match(/dev|test/) ? config.devAnalyticsHost : hostname;
-  if (config.analyticsScript && host) {
+  if (host && config.analyticsScript) {
     return config.analyticsScript(host);
   }
 
