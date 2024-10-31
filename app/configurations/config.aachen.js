@@ -370,12 +370,12 @@ export default configMerger(parentConfig, {
             {
                 name: 'imprint',
                 nameEn: 'Imprint',
-                href: 'https://www.aachen.de/DE/stadt_buerger/allgemeines/impressum.html',
+                href: 'https://www.aachen.de/DE/stadt_buerger/allgemeines/impressum_stadtnavi.html',
             },
             {
                 name: 'privacy',
                 nameEn: 'Privacy',
-                href: 'https://www.aachen.de/DE/stadt_buerger/allgemeines/datenschutz.html',
+                href: 'https://www.aachen.de/DE/stadt_buerger/allgemeines/datenschutz_stadtnavi.html',
             },
         ],
     },
