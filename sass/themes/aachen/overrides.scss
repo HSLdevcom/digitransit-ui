@@ -1,0 +1,69 @@
+$from-color: #000000;
+
+// font-family The Mix is to larger for fixed size button, need to reduce font-size
+.embedded-seach-container .embedded-search-button-container .search-button {
+  /* font-size: 0.92rem; */
+  font-size: 0.7rem;
+}
+
+.top-bar section.title {
+  color: #fff;
+  font-size: xx-large;
+
+  .logo {
+    font-weight: 300;
+    padding-left: 0.25em;
+    display: flex;
+    align-items: center;
+    height: 45px;
+  }
+}
+
+.origin-destination-bar div div div,
+.front-page div div div {
+  .origin-input-icon svg {
+    fill: $from-color;
+  }
+  .destination-input-icon svg {
+    fill: $to-color;
+  }
+}
+
+.icon .walk {
+  color: $black;
+}
+
+.logo-title {
+  margin-top: 13px;
+  margin-left: 240px;
+  font-size: 1.6em;
+  font-weight: 500;
+}
+
+.logo-title:after {
+  content: '';
+  position: absolute;
+  left: 236px;
+  top: 10%;
+  height: 100%;
+  border-left: 1px solid #fff;
+}
+
+.mobile .logo-title {
+  margin-top: 10px;
+  margin-left: 160px;
+  font-size: 1.0em;
+}
+
+.mobile .logo-title:after {
+  content: '';
+  position: absolute;
+  left: 158px;
+  top: 10%;
+  height: 100%;
+  border-left: 1px solid #fff;
+}
+
+.mobile.top-bar section.title .logo {
+  height: 30px;
+}

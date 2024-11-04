@@ -22,6 +22,7 @@ const BikeParkingType = {
   Unknown: {
     icon: 'bike-park',
     smallIconZoom: 17,
+    minZoom: 17,
   },
   Lockers: {
     icon: 'bike-park-lockers',
@@ -128,7 +129,10 @@ class ParkAndRideForBikes {
 
   drawStatus = ({ geom, properties }) => {
     const type = ParkAndRideForBikes.getBikeParkType(properties.tags);
-    if (this.tile.coords.z <= type.smallIconZoom) {
+    if (
+      this.tile.coords.z >= (type.minZoom || 0) &&
+      this.tile.coords.z <= type.smallIconZoom
+    ) {
       const mode = `mode-bike-park`;
       const color = this.config.colors.iconColors[mode];
       let width = 10;
@@ -140,7 +144,7 @@ class ParkAndRideForBikes {
       getMemoizedStopIcon(type, radius, color, false).then(image => {
         this.tile.ctx.drawImage(image, x, y);
       });
-    } else {
+    } else if (this.tile.coords.z >= type.smallIconZoom) {
       const icon = ParkAndRideForBikes.getIcon(properties);
       drawIcon(icon, this.tile, geom, this.iconSize).then(() => {
         if (typeof properties['availability.bicyclePlaces'] === 'number') {
@@ -161,6 +165,11 @@ class ParkAndRideForBikes {
     if (this.tile.coords.z > this.config.parkAndRideForBikes.minZoom) {
       this.fetchWithAction(this.drawStatus);
     }
+  };
+
+  shouldShowFeature = feature => {
+    const type = ParkAndRideForBikes.getBikeParkType(feature.properties?.tags);
+    return this.tile.coords.z >= (type.minZoom || 0);
   };
 
   static getName = () => 'parkAndRideForBikes';

@@ -5,6 +5,19 @@ import getContext from 'recompose/getContext';
 import GeoJsonStore from '../../store/GeoJsonStore';
 import { isBrowser } from '../../util/browser';
 
+// TODO we want to support other custom layers, so we should rename to getCustomLayers()
+const getGeoJSONLayers = async (config, getGeoJsonConfig) => {
+  if (
+    !config.geoJson ||
+    (!Array.isArray(config.geoJson.layers) && !config.geoJson.layerConfigUrl)
+  ) {
+    return [];
+  }
+  return config.geoJson.layerConfigUrl
+    ? getGeoJsonConfig(config.geoJson.layerConfigUrl)
+    : config.geoJson.layers;
+};
+
 /**
  * Adds geojson map layers to the leafletObjs props of the given component. The component should be a component that renders the leaflet map.
  *
@@ -24,19 +37,10 @@ function withGeojsonObjects(Component) {
         if (!isBrowser) {
           return;
         }
-        if (
-          !config.geoJson ||
-          (!Array.isArray(config.geoJson.layers) &&
-            !config.geoJson.layerConfigUrl)
-        ) {
-          return;
-        }
-        const layers = config.geoJson.layerConfigUrl
-          ? await getGeoJsonConfig(config.geoJson.layerConfigUrl)
-          : config.geoJson.layers;
-        if (Array.isArray(layers) && layers.length > 0) {
+        const customLayers = await getGeoJSONLayers(config, getGeoJsonConfig);
+        if (Array.isArray(customLayers) && customLayers.length > 0) {
           const json = await Promise.all(
-            layers.map(
+            customLayers.map(
               async ({
                 url,
                 name,
@@ -44,19 +48,36 @@ function withGeojsonObjects(Component) {
                 metadata,
                 icon,
                 minZoom,
+                type, // To support wmst
+                layers, // WMST specific attribute
               }) => ({
                 url,
                 isOffByDefault,
-                data: await getGeoJsonData(url, name, metadata),
+                data:
+                  (type || 'geojson') === 'geojson'
+                    ? await getGeoJsonData(url, name, metadata)
+                    : undefined,
                 icon,
                 minZoom,
+                type,
+                layers,
               }),
             ),
           );
           const newGeoJson = {};
-          json.forEach(({ url, data, isOffByDefault, icon, minZoom }) => {
-            newGeoJson[url] = { ...data, isOffByDefault, icon, minZoom };
-          });
+          json.forEach(
+            ({ url, data, isOffByDefault, icon, minZoom, type, layers }) => {
+              newGeoJson[url] = {
+                ...data,
+                isOffByDefault,
+                icon,
+                minZoom,
+                type,
+                url,
+                layers,
+              };
+            },
+          );
           updateGeoJson(newGeoJson);
         }
       }

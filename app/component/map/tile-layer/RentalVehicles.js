@@ -10,7 +10,7 @@ class RentalVehicles extends BikeRentalStations {
     return 'rentalVehicles';
   };
 
-  drawLargeIcon = ({ geom }, iconName, isHilighted) => {
+  drawLargeIcon = ({ geom }, iconName, isHilighted, bgColor, fgColor) => {
     drawCitybikeIcon(
       this.tile,
       geom,
@@ -19,6 +19,8 @@ class RentalVehicles extends BikeRentalStations {
       iconName,
       false, // showAvailability don't show number of available vehicles, it's already one
       isHilighted,
+      bgColor,
+      fgColor,
     );
   };
 }

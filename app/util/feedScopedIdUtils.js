@@ -12,5 +12,5 @@ export const getIdWithoutFeed = feedScopedId => {
   if (feedScopedId.indexOf(':') === -1) {
     return feedScopedId;
   }
-  return feedScopedId.split(':')[1];
+  return feedScopedId.substring(feedScopedId.indexOf(':') + 1);
 };

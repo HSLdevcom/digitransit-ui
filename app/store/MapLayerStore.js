@@ -3,7 +3,10 @@ import PropTypes from 'prop-types';
 import defaultsDeep from 'lodash/defaultsDeep';
 import cloneDeep from 'lodash/cloneDeep';
 import { setMapLayerSettings, getMapLayerSettings } from './localStorage';
-import { showCityBikes } from '../util/modeUtils';
+import {
+  showCityBikes,
+  showRentalVehiclesAndStations,
+} from '../util/modeUtils';
 
 class MapLayerStore extends Store {
   static defaultLayers = {
@@ -32,6 +35,14 @@ class MapLayerStore extends Store {
     weatherStations: false,
     chargingStations: false,
     roadworks: false,
+    /* rental is unset per default, set in constructor, if any rentalNetwork is configured
+    rental: {
+      bicycle: true,
+      scooter: true,
+      cargo_biycle: true,
+      car: true,
+    }
+    */
   };
 
   static handlers = {
@@ -46,7 +57,9 @@ class MapLayerStore extends Store {
     super(dispatcher);
 
     const { config } = dispatcher.getContext();
+    // TODO DEPRECATE citybike
     this.mapLayers.citybike = showCityBikes(config.cityBike?.networks);
+    this.mapLayers.rental = showRentalVehiclesAndStations(config);
 
     const datahubLayers =
       (config.datahubTiles && config.datahubTiles.layers) || [];
@@ -54,6 +67,8 @@ class MapLayerStore extends Store {
       datahubLayers.map(l => [l.name, true]),
     );
 
+    // TODO additionalLayers config should be moved in custom config section.
+    // That way, they could be iterated over without creating dependencies here
     this.mapLayers.weatherStations = !!config.weatherStations?.show;
     this.mapLayers.chargingStations = !!config.chargingStations?.show;
     this.mapLayers.roadworks = !!config.roadworks?.show;
@@ -63,9 +78,6 @@ class MapLayerStore extends Store {
       this.mapLayers = {
         ...this.mapLayers,
         ...storedMapLayers,
-        // todo: stop?
-        // todo: geoJson?
-        // todo: datahubTiles?
         terminal: { ...this.mapLayers.terminal, ...storedMapLayers.terminal },
       };
     }
@@ -111,7 +123,13 @@ class MapLayerStore extends Store {
 }
 
 export const mapLayerShape = PropTypes.shape({
-  citybike: PropTypes.bool,
+  citybike: PropTypes.bool, // TOOD: refactor all mapLayerShapes to rental/formFactor
+  rental: PropTypes.shape({
+    bicycle: PropTypes.bool,
+    scooter: PropTypes.bool,
+    cargo_bicycle: PropTypes.bool,
+    car: PropTypes.bool,
+  }),
   parkAndRide: PropTypes.bool,
   parkAndRideForBikes: PropTypes.bool,
   stop: PropTypes.shape({

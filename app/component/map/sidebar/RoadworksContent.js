@@ -1,14 +1,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment-timezone';
-import { intlShape } from 'react-intl';
 import withBreakpoint from '../../../util/withBreakpoint';
 import SidebarContainer from './SidebarContainer';
 
 class RoadworksContent extends React.Component {
   static contextTypes = {
     getStore: PropTypes.func.isRequired,
-    intl: intlShape.isRequired,
   };
 
   static propTypes = {
@@ -40,7 +38,6 @@ class RoadworksContent extends React.Component {
           location: { query: properties },
         },
       },
-      context: { intl },
     } = this;
 
     const duration = (
@@ -52,26 +49,9 @@ class RoadworksContent extends React.Component {
       </span>
     );
 
-    const url = properties.details_url;
     return (
-      <SidebarContainer name={properties.name} description={duration}>
-        <div>
-          {properties.locationDescription && (
-            <p>{properties.locationDescription}</p>
-          )}
-          <p>{properties.description}</p>
-          {url && (
-            <p>
-              {/* eslint-disable-next-line react/jsx-no-target-blank */}
-              <a href={url} target="_blank">
-                {intl.formatMessage({
-                  id: 'extra-info',
-                  defaultMessage: 'More information',
-                })}
-              </a>
-            </p>
-          )}
-        </div>
+      <SidebarContainer name={properties.street} description={duration}>
+        <div>{properties.description && <p>{properties.description}</p>}</div>
       </SidebarContainer>
     );
   }

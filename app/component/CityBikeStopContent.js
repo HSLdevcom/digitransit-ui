@@ -50,7 +50,7 @@ const CityBikeStopContent = ({ bikeRentalStation }, { config }) => {
         fewAvailableCount={fewAvailableCount}
         fewerAvailableCount={fewerAvailableCount}
         useSpacesAvailable={citybikeCapacity === BIKEAVL_WITHMAX}
-        formFactor={networkConfig.type || 'citybike'}
+        formFactor={networkConfig.type || 'bicycle'}
       />
     </div>
   );

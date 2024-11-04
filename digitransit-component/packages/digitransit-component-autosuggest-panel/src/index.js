@@ -450,6 +450,7 @@ class DTAutosuggestPanel extends React.Component {
             storeRef={this.storeReference}
             refPoint={this.props.refPoint}
             className={this.class(origin)}
+            inputClassName="origin"
             placeholder={this.props.originPlaceHolder}
             value={this.value(origin)}
             searchContext={searchContext}
@@ -636,6 +637,7 @@ class DTAutosuggestPanel extends React.Component {
             storeRef={this.storeReference}
             placeholder={this.props.destinationPlaceHolder}
             className={this.class(this.props.destination)}
+            inputClassName="destination"
             getAutoSuggestIcons={this.props.getAutoSuggestIcons}
             searchContext={searchContext}
             onSelect={this.props.onSelect}

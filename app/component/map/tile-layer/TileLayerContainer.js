@@ -326,9 +326,7 @@ class TileLayerContainer extends GridLayer {
           const {
             starttime,
             endtime,
-            details_url: detailsUrl,
-            'location.location_description': locationDescription,
-            'location.street': name,
+            street,
             description,
           } = this.state.selectableTargets[0].feature.properties;
           const { lat, lng } = this.state.coords;
@@ -338,10 +336,8 @@ class TileLayerContainer extends GridLayer {
               lng,
               starttime,
               endtime,
-              detailsUrl,
               description,
-              locationDescription,
-              name,
+              street,
             },
             value => value !== undefined,
           );

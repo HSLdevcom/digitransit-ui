@@ -16,10 +16,14 @@ import {
   isTransportModeAvailable,
 } from './modeUtils';
 import { otpToLocation, getIntermediatePlaces } from './otpStrings';
-import { getCitybikeNetworks, getDefaultNetworks } from './citybikes';
+import {
+  getCitybikeNetworks,
+  getDefaultNetworks,
+  getDefaultFormFactors,
+} from './citybikes';
 import { getCustomizedSettings } from '../store/localStorage';
 import { estimateItineraryDistance } from './geo-utils';
-import { BicycleParkingFilter } from '../constants';
+import { BicycleParkingFilter, FormFactorType } from '../constants';
 
 /**
  * Retrieves the default settings from the configuration.
@@ -35,6 +39,9 @@ export const getDefaultSettings = config => {
     modes: getDefaultModes(config).sort(),
     allowedVehicleRentalNetworks: config.transportModes.citybike.defaultValue
       ? getDefaultNetworks(config)
+      : [],
+    allowedVehicleRentalFormFactors: config.transportModes.citybike.defaultValue
+      ? getDefaultFormFactors(config)
       : [],
     useVehicleParkingAvailabilityInformation: null,
   };
@@ -155,6 +162,8 @@ export const getSettings = config => {
           ),
       ),
     allowedVehicleRentalNetworks: custSettings.allowedVehicleRentalNetworks,
+    allowedVehicleRentalFormFactors:
+      custSettings.allowedVehicleRentalFormFactors,
     includeBikeSuggestions: custSettings.includeBikeSuggestions,
     includeCarSuggestions: custSettings.includeCarSuggestions,
     includeParkAndRideSuggestions: custSettings.includeParkAndRideSuggestions,
@@ -190,6 +199,16 @@ const getShouldMakeCarQuery = (
     (settings.includeCarSuggestions !== undefined
       ? settings.includeCarSuggestions
       : defaultSettings.includeCarSuggestions)
+  );
+};
+
+const getShouldMakeCarRentalQuery = (linearDistance, config, settings) => {
+  return (
+    (linearDistance > config.suggestCarMinDistance &&
+      settings?.allowedVehicleRentalFormFactors?.includes(
+        FormFactorType.Car,
+      )) ||
+    false
   );
 };
 
@@ -262,7 +281,10 @@ export const preparePlanParams = (config, useDefaultModes) => (
         )
       : defaultSettings.allowedVehicleRentalNetworks;
 
-  const includeBikeRentSuggestions = modesOrDefault.includes('BICYCLE_RENT');
+  const includeBikeRentSuggestions =
+    settings?.allowedVehicleRentalFormFactors?.includes(
+      FormFactorType.Bicycle,
+    ) || false;
   // We need to remove BIYCLE_RENT as it is requested via Batch and not standard query
   const modesWithoutBikeRent = modesOrDefault.filter(
     mode => mode !== 'BICYCLE_RENT',
@@ -352,14 +374,15 @@ export const preparePlanParams = (config, useDefaultModes) => (
     ),
     // These modes are used by the "default" routing query.
     modes: [
-      // In bbnavi, we want direct Flex routing whenever bus routing is enabled.
+      // In stadtnavi, we want flex routing to be displayed as proper mode.
+      /*
       ...(formattedModes.some(({ mode }) => mode === 'BUS')
         ? [
             { mode: 'FLEX', qualifier: 'DIRECT' },
             { mode: 'FLEX', qualifier: 'ACCESS' },
             { mode: 'FLEX', qualifier: 'EGRESS' },
           ]
-        : []),
+        : []), */
       ...formattedModes,
     ],
     ticketTypes,
@@ -371,7 +394,19 @@ export const preparePlanParams = (config, useDefaultModes) => (
       !wheelchair &&
       linearDistance < config.suggestBikeMaxDistance &&
       includeBikeSuggestions,
+    shouldMakeScooterQuery:
+      (!wheelchair &&
+        settings?.allowedVehicleRentalFormFactors?.includes(
+          FormFactorType.Scooter,
+        )) ||
+      false,
     shouldMakeCarQuery: getShouldMakeCarQuery(
+      linearDistance,
+      config,
+      settings,
+      defaultSettings,
+    ),
+    shouldMakeCarRentalQuery: getShouldMakeCarRentalQuery(
       linearDistance,
       config,
       settings,
@@ -443,11 +478,16 @@ export const preparePlanParams = (config, useDefaultModes) => (
       ),
     ],
     bikeParkModes: [{ mode: 'BICYCLE', qualifier: 'PARK' }, ...formattedModes],
+    scooterRentAndPublicModes: [
+      { mode: 'SCOOTER', qualifier: 'RENT' },
+      ...modesAsOTPModes(getBicycleCompatibleModes(config, modesOrDefault)),
+    ],
     carParkModes: [
       isDestinationOldTownOfHerrenberg(toLocation)
         ? { mode: 'CAR', qualifier: 'PARK' }
         : { mode: 'CAR' },
     ],
+    carRentalModes: [{ mode: 'CAR', qualifier: 'RENT' }],
     parkRideModes: [
       { mode: 'CAR', qualifier: 'PARK' },
       ...modesAsOTPModes(

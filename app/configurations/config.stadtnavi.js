@@ -6,13 +6,14 @@ const CONFIG = 'stadtnavi';
 const APP_TITLE = 'stadtnavi Herrenberg';
 const APP_DESCRIPTION = 'Gemeinsam Mobilität neu denken - die intermodale Verbindungssuche mit offenen, lokalen Daten';
 const API_URL = process.env.API_URL || 'https://api.stadtnavi.de';
-const MAP_URL = process.env.MAP_URL || 'https://tiles.stadtnavi.eu/streets/{z}/{x}/{y}{r}.png';
-const BIKE_MAP_URL = process.env.BIKE_MAP_URL ||'https://tiles.stadtnavi.eu/bicycle/{z}/{x}/{y}{r}.png';
+const MAP_URL = process.env.MAP_URL || 'https://tiles-eu.stadtnavi.eu/styles/streets/{z}/{x}/{y}{r}.png';
+const BIKE_MAP_URL = process.env.BIKE_MAP_URL ||'https://tiles-eu.stadtnavi.eu/styles/bicycle/{z}/{x}/{y}{r}.png';
 
-const SEMI_TRANSPARENT_MAP_URL = process.env.SEMITRANSPARENT_MAP_URL || "https://tiles.stadtnavi.eu/satellite-overlay/{z}/{x}/{y}{r}.png";
-const GEOCODING_BASE_URL = process.env.GEOCODING_BASE_URL || "https://photon.stadtnavi.eu/pelias/v1";
+const SEMI_TRANSPARENT_MAP_URL = process.env.SEMITRANSPARENT_MAP_URL || "https://tiles-eu.stadtnavi.eu/styles/satellite-overlay/{z}/{x}/{y}{r}.png";
+const GEOCODING_BASE_URL = process.env.GEOCODING_BASE_URL || "https://photon-eu.stadtnavi.eu/pelias/v1";
 const YEAR = 1900 + new Date().getYear();
 const STATIC_MESSAGE_URL = process.env.STATIC_MESSAGE_URL;
+const MOBIDATA_BASE_URL = "https://api.mobidata-bw.de/";
 
 const parentConfig = require('./config.waltti.js').default;
 
@@ -27,13 +28,13 @@ export default configMerger(parentConfig, {
         OTP: process.env.OTP_URL || `${API_URL}/routing/v1/router/`,
         MAP: {
             default: MAP_URL,
-            satellite: 'https://tiles.stadtnavi.eu/orthophoto/{z}/{x}/{y}.jpg',
+            satellite: 'https://tiles-eu.stadtnavi.eu/orthophoto/{z}/{x}/{y}.jpg',
             semiTransparent: SEMI_TRANSPARENT_MAP_URL,
             bicycle: BIKE_MAP_URL
         },
         STOP_MAP: `${API_URL}/routing/v1/router/vectorTiles/stops/`,
         PARK_AND_RIDE_MAP: `${API_URL}/routing/v1/router/vectorTiles/parking/`,
-        ROADWORKS_MAP: `${API_URL}/map/v1/cifs/`,
+        ROADWORKS_MAP: `${MOBIDATA_BASE_URL}geoserver/gwc/service/tms/1.0.0/MobiData-BW:roadworks@EPSG:900913@pbf/{z}/{x}/{-y}.pbf`,
         RENTAL_STATION_MAP: `${API_URL}/routing/v1/router/vectorTiles/rentalStations/`,
         RENTAL_VEHICLE_MAP: `${API_URL}/routing/v1/router/vectorTiles/rentalVehicles/`,
         REALTIME_RENTAL_STATION_MAP: `${API_URL}/routing/v1/router/vectorTiles/realtimeRentalStations/`,
@@ -118,7 +119,7 @@ export default configMerger(parentConfig, {
         },
     },
 
-    sprites: 'assets/svg-sprite.hb.svg',
+    sprites: 'assets/svg-sprite.stadtnavi.svg',
     
     socialMedia: {
         title: APP_TITLE,
@@ -195,6 +196,87 @@ export default configMerger(parentConfig, {
         showStationId: false,
         useSpacesAvailable: false,
         showCityBikes: true,
+
+        operators : {
+          taxi: {
+            icon: "brand_taxi",
+            name: {
+                de: "Taxi"
+            },
+            colors: {
+                background: '#FFCD00'
+            }
+          },
+          deer: {
+            icon: "brand_deer",
+            name: {
+                de: "deer"
+            },
+            url: {
+                de: "https://www.deer-carsharing.de/"
+            },
+            colors: {
+                background: '#3C8325'
+            }
+          },
+           bolt: {
+             icon: "brand_bolt",
+             name: {
+               de: "bolt"
+             },
+             colors: {
+              background: '#30D287'
+             },
+           },
+           voi: {
+             icon: "brand_voi",
+             name: {
+               de: "VOI"
+             },
+             colors: {
+               background: '#F26961'
+             },
+           },
+           
+            regiorad: {
+             icon: "brand_regiorad",
+             name: {
+               de: "RegioRad"
+             },
+             colors: {
+               background: '#009fe4'
+             },
+            },
+            stadtmobil: {
+             icon: "brand_stadtmobil",
+             name: {
+               de: "stadtmobil"
+             },
+             colors: {
+               background: '#FF8A36'
+             },
+            },
+            zeus: {
+             icon: "brand_zeus",
+             name: {
+               de: "ZEUS Scooters",
+               en: "ZEUS Scooters"
+             },
+             colors: {
+               background: '#F75118'
+             },
+            },
+          other: {
+             icon: "brand_other",
+             name: {
+               de: "Weitere Anbieter"
+             },
+             colors: {
+               background: '#C84674'
+             },
+          }
+        },
+
         networks: {
         }
     },
@@ -270,7 +352,11 @@ export default configMerger(parentConfig, {
         [maxLon, minLat],
     ],
 
-    nationalServiceLink: { name: 'Fahrplanauskunft efa-bw', href: 'https://www.efa-bw.de' },
+    nationalServiceLink: { 
+        de: {
+            name: 'Fahrplanauskunft bwegt', href: 'https://www.bwegt.de' 
+        }
+    },
 
     defaultEndpoint: {
         lat: 48.5942066,
@@ -448,7 +534,7 @@ export default configMerger(parentConfig, {
     },
 
     separatedParkAndRideSwitch: false,
-
+    showCarpoolOfferButton: true,
     showTicketInformation: true,
     showTicketPrice: true,
     availableTickets: { 'hbg' : {}},
@@ -485,6 +571,8 @@ export default configMerger(parentConfig, {
     showVehiclesOnSummaryPage: false,
     showVehiclesOnStopPage: true,
 
+    includeScooterSuggestions: true,
+    showMapRoutingButton: false,
     showBikeAndPublicItineraries: true,
     showBikeAndParkItineraries: true,
     showStopAndRouteSearch: false,

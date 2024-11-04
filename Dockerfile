@@ -12,7 +12,7 @@ ENV \
 # install dependencies for npm packages
 RUN \
   # required for sharp, which builds libvips using node-gyp
-  apk add --no-cache python3 make g++ vips-dev
+  apk add --no-cache python3 make g++ vips-dev bash
 
 COPY .yarnrc.yml package.json yarn.lock lerna.json ./
 COPY .yarn ./.yarn

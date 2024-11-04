@@ -1,7 +1,5 @@
 /* eslint-disable camelcase */
 import unzip from 'lodash/unzip';
-
-import distance from '@digitransit-search-util/digitransit-search-util-distance';
 import { isImperial } from './browser';
 
 function toRad(deg) {
@@ -19,19 +17,19 @@ export function getBearing(lat1, lng1, lat2, lng2) {
   return (toDeg(Math.atan2(dx, dy)) + 360) % 360;
 }
 
-// const RADIUS = 6371000;
+const RADIUS = 6371000;
 
-// export function distance(latlon1, latlon2) {
-//   const rad = Math.PI / 180;
-//   const lat1 = latlon1.lat * rad;
-//   const lat2 = latlon2.lat * rad;
-//   const sinDLat = Math.sin((latlon2.lat - latlon1.lat) * rad / 2);
-//   const sinDLon = Math.sin((latlon2.lon - latlon1.lon) * rad / 2);
-//   const a =
-//     sinDLat * sinDLat + Math.cos(lat1) * Math.cos(lat2) * sinDLon * sinDLon;
-//   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-//   return RADIUS * c;
-// }
+export function distance(latlon1, latlon2) {
+  const rad = Math.PI / 180;
+  const lat1 = latlon1.lat * rad;
+  const lat2 = latlon2.lat * rad;
+  const sinDLat = Math.sin(((latlon2.lat - latlon1.lat) * rad) / 2);
+  const sinDLon = Math.sin(((latlon2.lon - latlon1.lon) * rad) / 2);
+  const a =
+    sinDLat * sinDLat + Math.cos(lat1) * Math.cos(lat2) * sinDLon * sinDLon;
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return RADIUS * c;
+}
 
 export function getDistanceToNearestStop(lat, lon, stops) {
   const myPos = { lat, lon };

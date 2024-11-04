@@ -7,7 +7,7 @@ const APP_DESCRIPTION = 'Verbindungssuche des VPE';
 const YEAR = 1900 + new Date().getYear();
 const STATIC_MESSAGE_URL =
     process.env.STATIC_MESSAGE_URL ||
-    '/assets/messages/message.vpe.json';
+    '/assets/messages/message.empty.json';
 
 const parentConfig = require('./config.stadtnavi.js').default;
 

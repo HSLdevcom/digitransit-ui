@@ -135,7 +135,11 @@ export default configMerger(walttiConfig, {
         [maxLon, minLat],
     ],
 
-    nationalServiceLink: { name: 'Fahrplanauskunft der Deutschen Bahn', href: 'https://www.bahn.de/' },
+    nationalServiceLink: { 
+        de: {
+            name: 'Fahrplanauskunft der Deutschen Bahn', href: 'https://www.bahn.de/' 
+        }
+    },
 
     defaultEndpoint: {
         lat: 53.5506,

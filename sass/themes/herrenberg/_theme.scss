@@ -21,6 +21,7 @@ $citybike-color: #009fe4;
 $carpool-color: #9fc727;
 $bike-color: #005ab4;
 $funicular-color: #FFCC00;
+$charging-station-color: #00b096;
 
 .funicular {
   color: $funicular-color;
@@ -51,5 +52,5 @@ $funicular-color: #FFCC00;
 }
 
 .charging-station {
-  color: #00b096;
+  color: $charging-station-color;
 }

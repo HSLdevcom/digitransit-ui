@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="350"
+   height="350"
+   id="icon-icon_brand_taxi"
+   version="1.1"
+   inkscape:version="1.1 (c4e8f9e, 2021-05-24)"
+   sodipodi:docname="icon-icon_brand_taxi.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.4142136"
+     inkscape:cx="405.17217"
+     inkscape:cy="155.20993"
+     inkscape:document-units="px"
+     inkscape:current-layer="text3786"
+     showgrid="false"
+     inkscape:window-width="1680"
+     inkscape:window-height="997"
+     inkscape:window-x="0"
+     inkscape:window-y="25"
+     inkscape:window-maximized="1"
+     inkscape:pagecheckerboard="0"
+     inkscape:lockguides="true" />
+  <g
+     inkscape:label="Ebene 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-100,-833.36218)">
+    <rect
+       style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06363"
+       id="rect3819"
+       width="330"
+       height="330"
+       x="100.05853"
+       y="848.53247" />
+    <rect
+       style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.06363"
+       id="rect3819"
+       width="311.81104"
+       height="284.45081"
+       x="113.05853"
+       y="863.53247" />
+    <g
+       transform="matrix(1.1450813,3.6327727e-4,-2.7420152e-4,0.87330036,0,0)"
+       style="font-style:normal;font-weight:normal;font-size:162.766px;line-height:125%;font-family:Sans;letter-spacing:0px;word-spacing:0px;fill:#ffcc00;fill-opacity:1;stroke:none"
+       id="text3786">
+      <path
+         d="m 168.2058,1143.7552 v -96.8011 h -34.57184 v -19.7099 h 92.58895 v 19.7099 h -34.49236 v 96.8011 z"
+         style="font-weight:bold;-inkscape-font-specification:'Sans Bold';fill:#ffcc00;fill-opacity:1"
+         id="path2991" />
+      <path
+         d="M 346.54881,1143.7552 H 320.9577 l -10.17286,-26.4653 H 264.2122 l -9.61654,26.4653 h -24.9553 l 45.3805,-116.511 h 24.87583 z m -43.31415,-46.0957 -16.05405,-43.2347 -15.73614,43.2347 z"
+         style="font-weight:bold;-inkscape-font-specification:'Sans Bold';fill:#ffcc00;fill-opacity:1"
+         id="path2993" />
+    </g>
+    <g
+       transform="matrix(1.1450813,3.6327727e-4,-2.7420152e-4,0.87330036,-4.2903506,126.40492)"
+       style="font-style:normal;font-weight:normal;font-size:162.766px;line-height:125%;font-family:Sans;letter-spacing:0px;word-spacing:0px;fill:#ffcc00;fill-opacity:1;stroke:none"
+       id="text3786-1">
+      <path
+         d="m 130.51304,1132.5096 39.81723,-60.7987 -36.08188,-55.7123 h 27.49852 l 23.3658,37.4329 22.88894,-37.4329 h 27.26009 l -36.24082,56.5865 39.81722,59.9245 h -28.37275 l -25.82954,-40.294 -25.90901,40.294 z"
+         style="font-weight:bold;-inkscape-font-specification:'Sans Bold';fill:#ffcc00;fill-opacity:1"
+         id="path2995-2"
+         inkscape:label="path-X" />
+    </g>
+    <g
+       transform="matrix(1.1450813,3.6327727e-4,-2.7420152e-4,0.87330036,26.853166,127.07257)"
+       style="font-style:normal;font-weight:normal;font-size:162.766px;line-height:125%;font-family:Sans;letter-spacing:0px;word-spacing:0px;fill:#ffcc00;fill-opacity:1;stroke:none"
+       id="text3786-1-7">
+      <path
+         d="m 250.36209,1132.5096 v -116.511 h 23.52474 v 116.511 z"
+         style="font-weight:bold;-inkscape-font-specification:'Sans Bold';fill:#ffcc00;fill-opacity:1"
+         id="path2997-1-1"
+         inkscape:label="path-I" />
+    </g>
+    <rect
+       style="fill:#ffcc00;fill-opacity:1;stroke:none"
+       id="rect3033"
+       width="50.204582"
+       height="22.627417"
+       x="302.64169"
+       y="112.93398"
+       transform="translate(0,833.36218)"
+       inkscape:label="path-TA" />
+  </g>
+</svg>

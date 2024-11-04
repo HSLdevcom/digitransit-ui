@@ -1,0 +1,38 @@
+.top-bar {
+    border-width: 10px 0px 1px 0px;
+    border-style: solid;
+    border-color: $primary-color;
+    background: #fff;
+    min-height: 80px;
+}
+
+.mobile.top-bar {
+    background: #fff;
+}
+
+.mobile.top-bar .logo {
+  height: 30px;
+}
+
+.origin-destination-bar div div div,
+.front-page div div div {
+    .origin-input-icon svg {
+        fill: $from-color;
+    }
+    .destination-input-icon svg {
+        fill: $to-color;
+    }
+}
+
+.ccfront-page div div div {
+  .origin-input-icon svg {
+    fill: $from-color;
+  }
+  .destination-input-icon svg {
+    fill: $to-color;
+  }
+}
+
+.main-menu-toggle .icon {
+    fill: $primary-color;
+}

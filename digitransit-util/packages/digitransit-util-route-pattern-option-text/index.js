@@ -19,6 +19,7 @@ i18next.addResourceBundle('es', 'translation', translations.es);
 i18next.addResourceBundle('fi', 'translation', translations.fi);
 i18next.addResourceBundle('fr', 'translation', translations.fr);
 i18next.addResourceBundle('nb', 'translation', translations.nb);
+i18next.addResourceBundle('nl', 'translation', translations.nl);
 i18next.addResourceBundle('ro', 'translation', translations.ro);
 i18next.addResourceBundle('sv', 'translation', translations.sv);
 

@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 38 38" version="1.1" width="38px" height="38px">
+  <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+    <g stroke="currentColor">
+      <circle stroke-width="2.197" cx="18.6884032" cy="19.2455103" r="17.5265812"/>
+      <circle stroke-width="2" cx="18.6884032" cy="19.2455103" r="13.3151577"/>
+      <circle stroke-width="6" fill="currentColor" fill-rule="evenodd" cx="18.6884032" cy="19.2455103" r="7.32737159"/>
+    </g>
+  </g>
+</svg>

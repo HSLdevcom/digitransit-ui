@@ -108,6 +108,7 @@ jobs:
         run: yarn lint
       - name: lint SVG sprites using xmllint
         run: |
+          sudo apt-get update
           sudo apt install -y libxml2-utils
           xmllint --nonet --noout static/assets/svg-sprite.*.svg
 
@@ -244,7 +245,7 @@ jobs:
     # branch's one. This is why, on the default branch (`next`), we *do* build & cache the Docker layers
     # but don't push and don't deploy the resulting image.
     # todo: as of 2023-04-27, this fails because of https://github.com/moby/buildkit/issues/2887
-    if: github.ref_name == 'next' || (github.ref_type == 'tag' && startsWith(github.ref_name, 'release_'))
+    if: github.ref_name == 'mobidatabw' || github.ref_name == 'next' || (github.ref_type == 'tag' && startsWith(github.ref_name, 'release_'))
     needs:
       - lint
       - unit-test
@@ -252,10 +253,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Set time zone to Europe/Helsinki
+      - name: Set time zone to Europe/Berlin
         uses: zcong1993/setup-timezone@master
         with:
-          timezone: "Europe/Helsinki"
+          timezone: "Europe/Berlin"
 
       - name: Create buildInfo.js file
         run: |

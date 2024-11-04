@@ -196,7 +196,20 @@ export const getFill = memoize(selector => getStyleOrDefault(selector).fill);
 
 export const getModeColor = mode => getColor(`.${mode}`);
 
-function getImageFromSpriteSync(icon, width, height, fill) {
+/**
+ * This function creates an image usind an inlined data:image/svg+xml
+ * from an icon. All elements of this icons are pre-processed as follows:
+ * * if an element has a style attribute which does not provide a fill property,
+ *   the given fill is set
+ * * if an element has a class 'modeColor', it's fill attribute is set
+ * * if a svg references symbols etc via use, they are inlined
+ *   NOTE: external references in files are currently expected as #symbol_id
+ *         which will not work in the standalone svgs
+ *   NOTE 2: Currently, only one level of use inlining is supported. In future,
+ *           recursive inlining might be necessary. Also, only direct children
+ *           of type 'use' are inlined.
+ * */
+function getImageFromSpriteSync(icon, width, height, fill, cssVars) {
   if (!document) {
     return null;
   }
@@ -209,17 +222,53 @@ function getImageFromSpriteSync(icon, width, height, fill) {
   svg.setAttribute('height', height);
   const vb = symbol.viewBox.baseVal;
   svg.setAttribute('viewBox', `${vb.x} ${vb.y} ${vb.width} ${vb.height}`);
+  if (cssVars) {
+    const styleVars = Object.entries(cssVars)
+      .map(([name, value]) => `--${name}: ${value}`)
+      .join(' ; ');
+    svg.setAttribute('style', styleVars);
+  }
 
-  // TODO: Simplify after https://github.com/Financial-Times/polyfill-service/pull/722 is merged
-  Array.prototype.forEach.call(symbol.childNodes, node => {
-    const child = node.cloneNode(true);
-    if (node.style && !child.attributes.fill) {
-      child.style.fill = fill || window.getComputedStyle(node).color;
+  // Copy all childNodes from symbol to svg (and set fill style)
+  symbol.childNodes.forEach(node => {
+    // todo: only direct use children are inlined, not deeper nested ones...
+    if (node.nodeName === 'use') {
+      const usedSymbolId =
+        node.getAttribute('xlink:href') || node.getAttribute('href');
+      const usedSymbol = document.getElementById(usedSymbolId.substring(1)); // substring to remove #
+      if (!usedSymbol) {
+        throw new Error(
+          `Could not find icon '${usedSymbolId}' referenced by use in '${icon}'`,
+        );
+      }
+      // todo: here we just deep copy the node, which might use nodes as well, but we don't replace for now
+      const inlineSymbol = usedSymbol.cloneNode(true);
+      // copy properties from icon to inlineSymbol
+      node.attributes.forEach(attr => {
+        if (
+          !(
+            attr.name.startsWith('xmlns') ||
+            attr.name.startsWith('href') ||
+            attr.name.startsWith('xlink')
+          )
+        ) {
+          inlineSymbol.setAttribute(attr.name, attr.value);
+        }
+      });
+      svg.appendChild(inlineSymbol);
+    } else {
+      const child = node.cloneNode(true);
+      if (node.style && !child.attributes.fill) {
+        // TODO this caught me ... What is the reasoning behind this?
+        child.style.fill = fill || window.getComputedStyle(node).color;
+      }
+      svg.appendChild(child);
     }
-    svg.appendChild(child);
   });
 
   if (fill) {
+    // todo: instead of setting fill, the svg could make use of vars
+    //       and set them on the parent element, e.g. fill: var(--modeColor,#<default>)
     const elements = svg.getElementsByClassName('modeColor');
     for (let i = 0; i < elements.length; i++) {
       elements[i].setAttribute('fill', fill);
@@ -232,17 +281,22 @@ function getImageFromSpriteSync(icon, width, height, fill) {
   return image;
 }
 
-function getImageFromSpriteAsync(icon, width, height, fill) {
+function getImageFromSpriteAsync(icon, width, height, fill, cssVars) {
   return new Promise(resolve => {
     // TODO: check that icon exists using MutationObserver
-    const image = getImageFromSpriteSync(icon, width, height, fill);
+    const image = getImageFromSpriteSync(icon, width, height, fill, cssVars);
     image.onload = () => resolve(image);
   });
 }
 
 const getImageFromSpriteCache = memoize(
   getImageFromSpriteAsync,
-  (icon, w, h, fill) => `${icon}_${w}_${h}_${fill}`,
+  (icon, w, h, fill, cssVars) =>
+    `${icon}_${w}_${h}_${fill}`.concat(
+      cssVars != null
+        ? Object.entries(cssVars).map(([k, v]) => `_${k}_${v}`)
+        : '',
+    ),
 );
 
 function drawIconImage(image, tile, geom, width, height) {
@@ -605,6 +659,12 @@ export function drawHybridStopIcon(
   }
 }
 
+export const getMemoizedRentalStationIcon = memoize(
+  getSmallStopIcon,
+  (icon, width, height, bgColor, fgColor, badgeColor) =>
+    `${icon}_${width}_${height}_${bgColor}_${fgColor}_${badgeColor}`,
+);
+
 /**
  * Draws small bike rental station icon. Color can vary.
  */
@@ -629,6 +689,8 @@ export function drawCitybikeIcon(
   iconName,
   showAvailability,
   isHilighted,
+  bgColor,
+  fgColor,
 ) {
   const zoom = tile.coords.z - 1;
   const styles = getStopIconStyles('citybike', zoom, isHilighted);
@@ -643,28 +705,40 @@ export function drawCitybikeIcon(
   // const radius = width / 2;
   let x;
   let y;
-  let color = 'green';
+
+  const cssVars = {
+    operatorfg: fgColor,
+    operatorbg: bgColor,
+  };
   if (showAvailability) {
     if (!bikesAvailable || bikesAvailable < 1) {
-      color = 'red';
+      cssVars.badgecolor = '#DC0451';
     } else if (bikesAvailable <= 3) {
-      color = 'yellow';
+      cssVars.badgecolor = '#FBB800';
+    } else {
+      cssVars.badgecolor = '#008854';
     }
+  } else {
+    cssVars.badgecolor = 'none';
+    cssVars.badgestroke = 'none';
   }
+
   if (style === 'medium') {
     x = geom.x / tile.ratio - width / 2;
     y = geom.y / tile.ratio - height;
-    let icon = `${iconName}_station_${color}_small`;
+    let icon = `${iconName}_station_small`;
     if (!operative) {
-      icon = 'icon-icon_citybike_station_closed_small';
+      icon = `${iconName}_station_closed_small`;
     }
-    getImageFromSpriteCache(icon, width, height).then(image => {
-      tile.ctx.drawImage(image, x, y);
-      // stadtnavi/bbnavi should not show selectionCircle
-      // if (isHilighted) {
-      //  drawSelectionCircle(tile, x, y, radius, false, false);
-      // }
-    });
+    getImageFromSpriteCache(icon, width, height, undefined, cssVars).then(
+      image => {
+        tile.ctx.drawImage(image, x, y);
+        // stadtnavi/bbnavi should not show selectionCircle
+        // if (isHilighted) {
+        //  drawSelectionCircle(tile, x, y, radius, false, false);
+        // }
+      },
+    );
   }
   if (style === 'large') {
     const smallCircleRadius = 11 * tile.scaleratio;
@@ -675,11 +749,11 @@ export function drawCitybikeIcon(
       Number.isSafeInteger(bikesAvailable) &&
       bikesAvailable > -1 &&
       operative;
-    let icon = `${iconName}_station_${color}_large`;
+    let icon = `${iconName}_station_large`;
     if (!operative) {
-      icon = 'icon-icon_citybike_station_closed_large';
+      icon = `${iconName}_station_closed_large`;
     }
-    getImageFromSpriteCache(icon, width, height)
+    getImageFromSpriteCache(icon, width, height, undefined, cssVars)
       .then(image => {
         tile.ctx.drawImage(image, x, y);
         x = x + width - smallCircleRadius;
@@ -689,7 +763,8 @@ export function drawCitybikeIcon(
           tile.ctx.font = `${
             10.8 * tile.scaleratio
           }px Gotham XNarrow SSm A, Gotham XNarrow SSm B, Gotham Rounded A, Gotham Rounded B, Arial, sans-serif`;
-          tile.ctx.fillStyle = color === 'yellow' ? '#000' : '#fff';
+          tile.ctx.fillStyle =
+            cssVars.badgecolor === '#FBB800' ? '#000' : '#fff'; // TODO better use brightness to switch
           tile.ctx.textAlign = 'center';
           tile.ctx.textBaseline = 'middle';
           tile.ctx.fillText(bikesAvailable, x, y);
@@ -702,7 +777,15 @@ export function drawCitybikeIcon(
       .catch(err => {
         // eslint-disable-next-line no-console
         console.error(
-          { icon, width, height, showAvailabilityBadge, isHilighted },
+          {
+            icon,
+            width,
+            height,
+            showAvailabilityBadge,
+            isHilighted,
+            bgColor,
+            fgColor,
+          },
           err,
         );
       });

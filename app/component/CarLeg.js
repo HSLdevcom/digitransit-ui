@@ -156,15 +156,20 @@ function CarLeg(props, { config, intl, router, match, executeAction }) {
             </button>
           </div>
         )}
-        <div className="itinerary-leg-action" aria-hidden="true">
-          <button
-            type="button"
-            className="standalone-btn cursor-pointer carpool-offer-btn"
-            onClick={props.toggleCarpoolDrawer}
-          >
-            <FormattedMessage id="offer-ride" defaultMessage="Offer carpool" />
-          </button>
-        </div>
+        {config.showCarpoolOfferButton === true && (
+          <div className="itinerary-leg-action" aria-hidden="true">
+            <button
+              type="button"
+              className="standalone-btn cursor-pointer carpool-offer-btn"
+              onClick={props.toggleCarpoolDrawer}
+            >
+              <FormattedMessage
+                id="offer-ride"
+                defaultMessage="Offer carpool"
+              />
+            </button>
+          </div>
+        )}
         {leg.to.vehicleParkingWithEntrance?.vehicleParking.tags.includes(
           'state:few',
         ) && (

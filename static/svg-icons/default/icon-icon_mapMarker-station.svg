@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 2348 2348" version="1.1">
+  <circle key="halo" class="stop-halo" cx="1174" cy="1174" r="1135" stroke-width="78" stroke="#333" stroke-opacity="0.4" fill="#fff" fill-opacity="1"/>
+  <circle fill="currentColor" fill-opacity="1" cx="1174" cy="1174" r="980"/>
+  <use x="657" y="657" width="1024" height="1024" class="fill-color14" fill="#fff" xlink:href="#icon-icon_station"/>
+</svg>

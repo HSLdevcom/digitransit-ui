@@ -2,15 +2,17 @@
 
 /* initialize a skeleton for a new theme */
 /* For example: npm run add-theme juupajoki 0x80CCAA */
+/* or yarn run add-theme mobidatabw #0c79bc stadtnavi mobidatabw_logo.png */
 const fs = require('fs');
 const path = require('path');
 
 const theme = process.argv[2];
 const color = process.argv[3] || '$livi-blue';
-const logoPath = process.argv[4];
+const templateTheme = process.argv[4] || 'waltti';
+const logoPath = process.argv[5];
 
 if (!theme || theme === '?') {
-  console.log('Usage: npm run add-theme <name> <optional hex color (with quotes!)> <optional logo image> \n');
+  console.log('Usage: npm run add-theme <name> <optional hex color (with quotes!)> <optional template theme (defaults to waltti)> <optional logo image> \n');
   process.exit(0);
 }
 
@@ -72,7 +74,7 @@ const regexTheme = new RegExp('__theme__', 'g');
 const regexName = new RegExp('__Theme__', 'g');
 const regexLogo = new RegExp('__textlogo__,', 'g');
 
-let conf = fs.readFileSync('build/template.waltti.js', 'utf-8');
+let conf = fs.readFileSync('build/template.' + templateTheme + '.js', 'utf-8');
 conf = conf.replace(regexColor, color).replace(regexTheme, theme)
            .replace(regexName, name)
 if (textLogo === 'true') {

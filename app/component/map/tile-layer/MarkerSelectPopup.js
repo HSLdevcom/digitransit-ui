@@ -110,19 +110,25 @@ function MarkerSelectPopup(props) {
       );
     }
     if (option.layer === 'roadworks') {
+      const { lat, lon } = option.coords;
       return (
         <SelectRoadworksRow
           {...option.feature}
           key={option.feature.properties.id}
+          latitude={lat}
+          longitude={lon}
         />
       );
     }
 
     if (option.layer === 'chargingStations') {
+      const { lat, lon } = option.coords;
       return (
         <SelectChargingStationRow
           {...option.feature}
           key={option.feature.properties.id}
+          latitude={lat}
+          longitude={lon}
         />
       );
     }

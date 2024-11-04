@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 2248 2248" version="1.1">
+  <circle fill="rgb(61, 183, 228)" cx="1124" cy="1124" r="340"/>
+  <circle cx="1124" cy="1124" r="732" stroke-width="784" fill="none" stroke="url(#mapMarker-white)"/>
+  <circle stroke-width="50" r="340" opacity="1" cx="1124" fill="transparent" stroke="rgb(61, 183, 228)" cy="1124"/>
+  <circle stroke-width="82" r="585" opacity="0.6" cx="1124" fill="transparent" stroke="rgb(61, 183, 228)" cy="1124"/>
+  <circle stroke-width="116" r="830" opacity="0.4" cx="1124" fill="transparent" stroke="rgb(61, 183, 228)" cy="1124"/>
+  <circle stroke-width="149" r="1075" opacity="0.1" cx="1124" fill="transparent" stroke="rgb(61, 183, 228)" cy="1124"/>
+  <!-- These circles are for the animated marker, which is currently disabled
+	<circle stroke-width="50" r="340" cx="1124" fill="transparent" stroke="rgb(239, 128, 198)" cy="1124" id="circle_pink_first"/>
+	<circle stroke-width="50" r="340" cx="1124" fill="transparent" stroke="rgb(239, 128, 198)" cy="1124" id="circle_pink_second"/>
+	<circle stroke-width="50" r="340" cx="1124" fill="transparent" stroke="rgb(239, 128, 198)" cy="1124" id="circle_pink_third"/>
+	<circle stroke-width="50" r="340" cx="1124" fill="transparent" stroke="rgb(239, 128, 198)" cy="1124" id="circle_pink_fourth"/>
+-->
+  <use x="850" y="830" width="550" height="550" class="fill-color14" xlink:href="#icon-icon_user" fill="#fff"/>
+</svg>

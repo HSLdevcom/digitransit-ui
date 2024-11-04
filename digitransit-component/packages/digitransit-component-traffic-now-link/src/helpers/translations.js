@@ -15,5 +15,11 @@ const translations = {
   pl: {
     traffic: 'Zmiany i zakłócenia',
   },
+  nl: {
+    traffic: 'Veranderingen en verstoringen',
+  },
+  fr: {
+    traffic: 'Changements et perturbations',
+  },
 };
 export default translations;

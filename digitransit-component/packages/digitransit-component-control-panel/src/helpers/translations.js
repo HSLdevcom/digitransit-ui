@@ -9,6 +9,7 @@ const translations = {
     'pick-mode-rail': 'Zug',
     'pick-mode-subway': 'U-Bahn',
     'pick-mode-tram': 'Straßenbahn',
+    'pick-mode-rental': 'Sharing-Anbebote',
     'placeholder-destination': 'Geben Sie Ihren Zielort ein',
     'placeholder-origin': 'Geben Sie Ihren Abfahrtsort ein',
     'placeholder-route-stop-station': 'Enter route, stop or station',
@@ -97,6 +98,51 @@ const translations = {
       'Wypróbuj nowe widoki mapy pokazujące pobliskie przystanki',
     'nearby-stops-teaser-content':
       'Rozkłady jazdy w czasie rzeczywistym dla pobliskich przystanków i pojazdów na mapie.',
+  },
+
+  nl: {
+    'close-teaser-modal': 'Sluiten',
+    'pick-mode': 'Een transportmiddel kiezen',
+    'pick-mode-airplane': 'Vlucht',
+    'pick-mode-bus': 'Bus',
+    'pick-mode-citybike': 'Huurfiets ',
+    'pick-mode-ferry': 'veerboot',
+    'pick-mode-rail': 'Trein',
+    'pick-mode-subway': 'Metro',
+    'pick-mode-tram': 'Tram',
+    'placeholder-destination': 'Bestemming invoeren',
+    'placeholder-origin': 'Vertrekpunt invoeren',
+    'placeholder-route-stop-station': 'Voer route, stop of station in',
+    'title-route-stop-station': 'Haltes en lijnen in de omgeving',
+    'title-origin-to-destination': 'Waarheen?',
+    'use-own-position': 'Huidige positie gebruiken',
+    'nearby-stops-teaser-header':
+      'Probeer de nieuwe kaart met haltes in de buurt',
+    'nearby-stops-teaser-content':
+      'Real-time dienstregelingen voor haltes en voertuigen in de buurt op de kaart.',
+  },
+
+  fr: {
+    'close-teaser-modal': 'Fermer',
+    'nearby-stops-teaser-content':
+      'Horaires en temps réel pour les arrêts à proximité et les véhicules sur la carte.',
+    'nearby-stops-teaser-header':
+      'Essayez les nouvelles vues de la carte montrant les arrêts à proximité',
+    'pick-mode': 'Sélectionner un mode de transport',
+    'pick-mode-airplane': 'Vol',
+    'pick-mode-bus': 'Bus',
+    'pick-mode-citybike': 'Vélo de ville',
+    'pick-mode-ferry': 'Ferry',
+    'pick-mode-rail': 'Train',
+    'pick-mode-subway': 'Métro',
+    'pick-mode-tram': 'Tram',
+    'placeholder-destination': 'Entrez la destination',
+    'placeholder-origin': 'Entrez le lieu de départ',
+    'placeholder-route-stop-station':
+      "Entrez l'itinéraire, l'arrêt ou la station",
+    'title-origin-to-destination': 'Où aller?',
+    'title-route-stop-station': 'Arrêts et itinéraires à proximité',
+    'use-own-position': 'Utiliser la position actuelle',
   },
 };
 

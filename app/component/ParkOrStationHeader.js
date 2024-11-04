@@ -63,7 +63,13 @@ const ParkOrBikeStationHeader = ({ parkOrStation, breakpoint }, { config }) => {
         />
       )}
       <div className="header">
-        <h1>{name}</h1>
+        <h1>
+          {name === 'Default vehicle type' ? (
+            <FormattedMessage id={subheaderMsgId} />
+          ) : (
+            name
+          )}
+        </h1>
         <div className="bike-station-sub-header">
           <FormattedMessage id={subheaderMsgId} />
           {hasStationCode(parkOrStation) && <StopCode code={stationId} />}

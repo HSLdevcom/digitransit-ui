@@ -31,8 +31,10 @@ const CityBikeNetworkSelector = (
         >
           <div className="mode-icon">
             <Icon
-              className={`${network.icon}-icon`}
-              img={`icon-icon_${network.icon}`}
+              className={`${network.icon}-icon ${network.operator}`}
+              // append formfactor
+              // img={`icon-icon_${network.icon}`}
+              img={`icon-icon_rental_${network.form_factors[0]}`}
               height={1}
               width={1}
             />

@@ -74,6 +74,36 @@ const translations = {
     'via-point-index': 'Punkt {{index}}',
     'viapoint-slack-amount': 'Czas trwania zatrzymania',
   },
+  nl: {
+    'add-via-button-label': 'Toevoegen via punt',
+    'add-via-duration-button-label': 'Stopduur instellen op viapunt {{index}}',
+    'add-via-duration-button-label-close':
+      'Selecteer de stopduur via punt sluiten {{index}}',
+    'add-via-duration-button-label-open':
+      'Open stop duur selector op via punt {{index}}',
+    'minute-short': 'min',
+    'remove-via-button-label': 'Via punt verwijderen {{index}}',
+    'swap-order-button-label': 'Start en finish verwisselen.',
+    'via-point': 'Via punt',
+    'via-point-index': 'Via punt {{index}}',
+    'viapoint-slack-amount': 'Transfertijd',
+  },
+
+  fr: {
+    'add-via-button-label': 'Ajouter par point',
+    'add-via-duration-button-label':
+      "Régler la durée d'arrêt au point {{index}}",
+    'add-via-duration-button-label-close':
+      "Fermer le sélecteur de durée d'arrêt via point {{index}}",
+    'add-via-duration-button-label-open':
+      "Ouvrir le sélecteur de durée d'arrêt au point {{index}}",
+    'minute-short': 'min',
+    'remove-via-button-label': 'Supprimer par point {{index}}',
+    'swap-order-button-label': 'Origine et destination inversées',
+    'via-point': 'Étape',
+    'via-point-index': 'Étape {index}',
+    'viapoint-slack-amount': "Durée de l'étape",
+  },
 };
 
 export default translations;

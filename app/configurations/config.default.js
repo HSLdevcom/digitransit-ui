@@ -241,7 +241,18 @@ export default {
   optimize: 'GREENWAYS',
   transferPenalty: 0,
   unpreferredBicycleParkingTagPenalty: 900,
-  availableLanguages: ['fi', 'sv', 'en', 'fr', 'nb', 'de', 'da', 'es', 'ro'],
+  availableLanguages: [
+    'fi',
+    'sv',
+    'en',
+    'fr',
+    'nb',
+    'de',
+    'da',
+    'es',
+    'nl',
+    'ro',
+  ],
   defaultLanguage: 'en',
   // This timezone data will expire in 2037
   timezoneData:
@@ -793,6 +804,8 @@ export default {
     oulu: 'oulu',
     hameenlinna: 'hameenlinna',
     matka: 'matka',
+    aachen: 'aachen',
+    mobidatabw: 'mobidatabw',
     vpe: 'vpe',
     bar: '(bar|hamburg)',
     walttiOpas: 'waltti',

@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 32.54 32.54" version="1.1">
+  <defs>
+    <style>
+          .cls-2,.cls-3{fill:#fff}.cls-3{fill-rule:evenodd}
+        </style>
+  </defs>
+  <path fill="#005ab4" d="M32.53 16.27A16.27 16.27 0 1116.26 0a16.26 16.26 0 0116.27 16.26" transform="translate(.01)"/>
+  <path fill="#fff" d="M10.44 15.67a2.18 2.18 0 01-.64.85 2.6 2.6 0 01-1 .49 4.59 4.59 0 01-1.2.15H5.81v2.95H4.16v-8.33H7.8a4 4 0 011.1.16 2.64 2.64 0 01.92.5 2.31 2.31 0 01.62.82 2.79 2.79 0 01.22 1.16 3.14 3.14 0 01-.22 1.25m-1.82-2a1.41 1.41 0 00-.89-.26H5.81v2.12h2c.79 0 1.19-.36 1.19-1.07a.92.92 0 00-.33-.79" class="cls-2" transform="translate(.01)"/>
+  <path fill="#fff" d="M15.89 16.79v2.26h-1.63v-2.26h-2.18v-1.55h2.18v-2.26h1.63v2.26h2.17v1.55h-2.17z" class="cls-2"/>
+  <path fill="#fff" d="M4.16 10.54h24.2a2.18 2.18 0 00-1.87-2.12H6a2.13 2.13 0 00-1.87 2.12M4.16 21.35h24.19a2.18 2.18 0 01-1.87 2.13H6a2.13 2.13 0 01-1.87-2.13" class="cls-3" transform="translate(.01)"/>
+  <path fill="#fff" d="M26.66 14.12l-2.23 6h-.74l-2.23-6v6h-1.68v-8.34h2.36L24.06 17 26 11.78h2.38v8.34h-1.7z" class="cls-2" transform="translate(.01)"/>
+</svg>

@@ -7,6 +7,8 @@ import { routerShape } from 'found';
 import pickBy from 'lodash/pickBy';
 import GenericMarker from './GenericMarker';
 import PreferencesStore from '../../store/PreferencesStore';
+import SelectedFeatureStore from '../../store/SelectedFeatureStore';
+import selectFeature from '../../action/SelectFeatureActions';
 import { isPointTypeGeometry } from '../../util/geo-utils';
 import {
   getCaseRadius,
@@ -115,7 +117,7 @@ export const getPropertyValueOrDefault = (
 
 const PointFeatureMarker = (
   { feature, icons, language, locationPopup },
-  { router },
+  { router, executeAction },
 ) => {
   const { geometry, properties } = feature;
   if (!isPointTypeGeometry(geometry)) {
@@ -143,6 +145,7 @@ const PointFeatureMarker = (
         isCustomIconVisible(zoom) || isRoundIconVisible(zoom)
       }
       onClick={() => {
+        executeAction(selectFeature, feature);
         const { name, popupContent, address, city } = properties;
         const params = pickBy(
           {
@@ -187,6 +190,7 @@ PointFeatureMarker.propTypes = {
 
 PointFeatureMarker.contextTypes = {
   router: routerShape.isRequired,
+  executeAction: PropTypes.func.isRequired,
 };
 
 PointFeatureMarker.defaultProps = {
@@ -195,7 +199,7 @@ PointFeatureMarker.defaultProps = {
 
 const connectedComponent = connectToStores(
   PointFeatureMarker,
-  [PreferencesStore],
+  [PreferencesStore, SelectedFeatureStore],
   ({ getStore }) => ({
     language: getStore(PreferencesStore).getLanguage(),
   }),

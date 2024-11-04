@@ -18,7 +18,7 @@ function SelectCityBikeRow({ name, network, id, desc }, { config }) {
   );
   // TODO append -stop-lollipop?
   const img = getCityBikeNetworkIcon(networkConfig);
-  const formFactor = networkConfig.type || 'citybike';
+  const formFactor = networkConfig.type || 'bicycle';
   const address = desc || (
     <FormattedMessage id={`${formFactor}-station-no-id`} />
   );

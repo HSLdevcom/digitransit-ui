@@ -89,6 +89,47 @@ const translations = {
     shopping: 'zakupy',
     'required-text': 'wymagane pole',
   },
+
+  nl: {
+    cancel: 'Annuleren',
+    'choose-icon': 'Selecteer een pictogram voor deze locatie',
+    'close-favourite-modal': 'De favoriete modal sluiten',
+    'edit-place': 'Plaats bewerken',
+    'favourite-modal-on-add-new': 'Een nieuwe favoriet toevoegen',
+    'favourite-modal-on-edit': 'Favoriet bewerken: {{favourite.name}}',
+    'input-placeholder': 'Geef de naam een plaats (facultatief)',
+    save: 'Opslaan',
+    'save-place': 'Favoriet opslaan',
+    'cannot-save-place': 'Kan geen plaats opslaan zonder adres of pictogram',
+    place: 'een plaats',
+    home: 'thuis',
+    work: 'werk',
+    sport: 'sport',
+    school: 'school',
+    shopping: 'winkelen',
+    'required-text': 'verplicht veld',
+  },
+
+  fr: {
+    cancel: 'Annuler',
+    'cannot-save-place':
+      "Impossible d'enregistrer un endroit sans adresse ou symbol",
+    'choose-icon': "Sélectionnez l'icône de l'endroit",
+    'close-favourite-modal': 'Fermez le mode préféré',
+    'edit-place': 'Modifier le lieu',
+    'favourite-modal-on-add-new': 'Ajouter un nouveau favori',
+    'favourite-modal-on-edit': 'Modifier le favori : {{favourite.name}}',
+    home: 'chez soi',
+    'input-placeholder': "Indiquer le nom d'un lieu (facultatif)",
+    place: 'un lieu',
+    'required-text': 'champ requis',
+    save: 'Enregistrer',
+    'save-place': 'Enregistrer la place',
+    school: 'école',
+    shopping: 'shopping',
+    sport: 'sport',
+    work: 'travail',
+  },
 };
 
 export default translations;

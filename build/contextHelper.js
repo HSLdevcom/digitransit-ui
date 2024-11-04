@@ -39,7 +39,7 @@ function getEntries(theme, sprites = null) {
     [`${theme}_theme`]: themeCss,
     ...(sprites !== null
       ? {
-          [sprites]: `./static/${sprites}`,
+          [sprites]: `./_static/${sprites}`,
         }
       : {}),
   };

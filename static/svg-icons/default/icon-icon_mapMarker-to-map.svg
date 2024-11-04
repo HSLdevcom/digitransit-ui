@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 29" version="1.1">
+  <path stroke="#FFF" stroke-width="1.5" d="M9.383 26.426C3.96 18.577 1.25 13.155 1.25 10a8.75 8.75 0 0 1 17.5 0c0 3.155-2.711 8.577-8.133 16.426L10 27.32l-.617-.894z"/>
+  <path fill="#FFF" d="M6.5 10c0-1.93 1.57-3.5 3.5-3.5s3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5-3.5-1.57-3.5-3.5z"/>
+</svg>

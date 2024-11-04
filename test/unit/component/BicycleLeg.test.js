@@ -41,7 +41,7 @@ describe('<BicycleLeg />', () => {
       },
     });
     expect(wrapper.find(FormattedMessage).at(0).prop('id')).to.equal(
-      'rent-citybike-at',
+      'rent-bicycle-at',
     );
   });
 
@@ -121,7 +121,7 @@ describe('<BicycleLeg />', () => {
     expect(
       wrapper
         .find(FormattedMessage)
-        .find('[id="cycle-distance-duration"]')
+        .find('[id="bicycle-distance-duration"]')
         .exists(),
     ).to.equal(true);
   });
@@ -203,7 +203,7 @@ describe('<BicycleLeg />', () => {
       },
     });
     expect(wrapper.find(FormattedMessage).at(1).prop('id')).to.equal(
-      'cyclewalk-distance-duration',
+      'bicyclewalk-distance-duration',
     );
   });
 

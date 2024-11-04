@@ -31,6 +31,7 @@ function CityBikeLeg(
     getCityBikeNetworkId(bikeRentalStation.networks),
     config,
   );
+  // TODO formFactor should be deduced from leg
   const formFactor = networkConfig.type || 'citybike';
 
   // eslint-disable-next-line no-nested-ternary

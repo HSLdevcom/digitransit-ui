@@ -1,0 +1,38 @@
+@import '../herrenberg/theme';
+
+/* main theme colors */
+$primary-color: #6E9BD2;
+$secondary-color: darken($primary-color, 20%);
+$hilight-color: $primary-color;
+$action-color: $primary-color;
+
+$bus-color: #B70F75;
+$rail-color: $primary-color;
+$walk-color: $primary-color;
+$bicycle-color: $primary-color;
+$car-color: $primary-color;
+$charging-station-color: #7ABC3C;
+
+$viewpoint-marker-color: $primary-color;
+$current-location-color: $primary-color;
+
+$standalone-btn-color: $primary-color;
+$link-color: $primary-color;
+$from-color: #000000;
+$to-color: $primary-color;
+
+/* Component palette */
+$desktop-title-color: $primary-color;
+$desktop-title-arrow-icon-color: $secondary-color;
+$top-bar-color: $primary-color;
+
+$font-family: "Gotham Rounded B", Arial, Georgia, Serif;
+$heading-font-family: "The Mix","Gotham Rounded B", Arial, Georgia, Serif;
+$button-font-family: $heading-font-family;
+$font-weight-medium: 500;
+$font-narrow-weight-medium: 500;
+$letter-spacing: initial;
+$letter-spacing-front-page: 0px;
+$font-size-medium-large: 1rem;
+
+$font-family-narrow: 'Transit', Arial, Georgia, serif;

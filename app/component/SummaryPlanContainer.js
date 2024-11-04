@@ -55,6 +55,7 @@ class SummaryPlanContainer extends React.Component {
     bikeAndPublicItinerariesToShow: PropTypes.number.isRequired,
     bikeRentAndPublicItinerariesToShow: PropTypes.number.isRequired,
     bikeAndParkItinerariesToShow: PropTypes.number.isRequired,
+    scooter: PropTypes.bool,
     parkAndRide: PropTypes.bool,
     car: PropTypes.bool,
     onDemandTaxi: PropTypes.bool,
@@ -70,7 +71,7 @@ class SummaryPlanContainer extends React.Component {
     alternativePlan: PropTypes.shape({
       date: PropTypes.number,
       itineraries: PropTypes.arrayOf(ItineraryShape),
-    }).isRequired,
+    }),
     showSettingsChangedNotification: PropTypes.func.isRequired,
     driving: PropTypes.bool,
     onlyHasWalkingItineraries: PropTypes.bool,
@@ -119,7 +120,15 @@ class SummaryPlanContainer extends React.Component {
   };
 
   getSubPath(fallback) {
-    const modesWithSubpath = ['bikeAndVehicle', 'parkAndRide', 'onDemandTaxi'];
+    // TODO the tabs with subpaths should be configurable/managed in a central place
+    // e.g. we want to show multiple car routing results (own and rented car)
+    const modesWithSubpath = [
+      'bikeAndVehicle',
+      'parkAndRide',
+      'onDemandTaxi',
+      'car',
+      'scooter',
+    ];
     const { hash } = this.props.params;
     if (modesWithSubpath.includes(hash)) {
       return `/${hash}/`;
@@ -244,6 +253,7 @@ class SummaryPlanContainer extends React.Component {
       bikeAndPublicItinerariesToShow,
       bikeRentAndPublicItinerariesToShow,
       bikeAndParkItinerariesToShow,
+      scooter,
       parkAndRide,
       car,
       onDemandTaxi,
@@ -264,7 +274,6 @@ class SummaryPlanContainer extends React.Component {
       currentTime;
     const disableButtons = !itineraries || itineraries.length === 0;
     const arriveBy = this.context.match.location.query.arriveBy === 'true';
-
     return (
       <div className="summary">
         <h2 className="sr-only">
@@ -299,6 +308,7 @@ class SummaryPlanContainer extends React.Component {
             bikeRentAndPublicItinerariesToShow
           }
           bikeAndParkItinerariesToShow={bikeAndParkItinerariesToShow}
+          scooter={scooter}
           parkAndRide={parkAndRide}
           car={car}
           onDemandTaxi={onDemandTaxi}

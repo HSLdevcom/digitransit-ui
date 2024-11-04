@@ -6,6 +6,8 @@ import last from 'lodash/last';
 import range from 'lodash/range';
 import { isBrowser } from '../../../util/browser';
 import { drawIcon } from '../../../util/mapIconUtils';
+import { templateTileUrl } from '../../../util/mapLayerUtils';
+
 import glfun from '../../../util/glfun';
 
 const getScale = glfun({
@@ -38,9 +40,12 @@ class Roadworks {
 
   fetchWithAction = actionFn =>
     fetch(
-      `${this.config.URL.ROADWORKS_MAP}` +
-        `${this.tile.coords.z + (this.tile.props.zoomOffset || 0)}/` +
-        `${this.tile.coords.x}/${this.tile.coords.y}.pbf`,
+      templateTileUrl(
+        this.config.URL.ROADWORKS_MAP,
+        this.tile.coords.x,
+        this.tile.coords.y,
+        this.tile.coords.z + (this.tile.props.zoomOffset || 0),
+      ),
     ).then(res => {
       if (res.status !== 200) {
         return undefined;
@@ -51,8 +56,7 @@ class Roadworks {
           const vt = new VectorTile(new Protobuf(buf));
 
           this.features = [];
-
-          const layerData = vt.layers.cifs || { length: 0 };
+          const layerData = vt.layers.roadworks || { length: 0 };
           const { length } = layerData;
 
           this.features = range(length).map(index => {
@@ -74,7 +78,7 @@ class Roadworks {
     let suffix = '';
     if (
       properties.type === IncidentType.RoadClosed &&
-      properties['location.direction'] === DirectionsType.BothDirections
+      properties.direction === DirectionsType.BothDirections
     ) {
       suffix = '-full-closure';
     }
@@ -84,9 +88,13 @@ class Roadworks {
   drawStatus = ({ polyline, properties }) => {
     const suffix = Roadworks.getIconSuffix(properties);
     const { ctx } = this.tile;
-
-    if (Date.parse(properties.starttime) > Date.now()) {
-      ctx.globalAlpha = 0.5;
+    const isActive =
+      Date.parse(properties.starttime) <= Date.now() &&
+      (!properties.endtime || Date.parse(properties.endtime) >= Date.now());
+    if (!isActive) {
+      return;
+      // for now, we don't render inactive oadworks
+      // ctx.globalAlpha = 0.5;
     }
 
     ctx.lineWidth = 6;
@@ -102,14 +110,16 @@ class Roadworks {
       ctx.lineTo(point.x / this.tile.ratio, point.y / this.tile.ratio);
     });
     ctx.stroke();
+    // No need to reset alpha as we don't change it
+    // ctx.globalAlpha = 1.0
 
-    return drawIcon(
+    drawIcon(
       `icon-icon_roadworks${suffix}`,
       this.tile,
       polyline[0],
       this.iconSize,
     ).then(
-      properties['location.direction'] === DirectionsType.BothDirections &&
+      properties.direction === DirectionsType.BothDirections &&
         drawIcon(
           `icon-icon_roadworks${suffix}`,
           this.tile,

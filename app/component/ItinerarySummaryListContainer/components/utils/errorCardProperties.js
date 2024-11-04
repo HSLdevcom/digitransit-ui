@@ -142,8 +142,8 @@ const errorCardProps = [
   },
   {
     id: 'walk-bike-itinerary-1',
-    bodyId: 'walk-bike-itinerary-1',
     props: {
+      bodyId: 'walk-bike-itinerary-1',
       ...info,
     },
   },

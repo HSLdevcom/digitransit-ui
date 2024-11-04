@@ -131,3 +131,10 @@ export const PlannerMessageType = Object.freeze({
   NoStopsInRange: 'NO_STOPS_IN_RANGE',
   SystemError: 'SYSTEM_ERROR',
 });
+
+export const FormFactorType = Object.freeze({
+  Scooter: 'scooter',
+  Car: 'car',
+  Bicycle: 'bicycle',
+  CargoBicycle: 'cargo_bicycle',
+});

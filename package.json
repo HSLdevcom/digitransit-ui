@@ -15,7 +15,7 @@
     "scripts": {
         "postinstall": "yarn run node14-patch && yarn react-charging-station-connector-icons-patch",
         "setup": "yarn install && yarn build-workspaces",
-        "static": "mkdir -p _static/js; mkdir -p _static/css; cp -r static/* _static",
+        "static": "mkdir -p _static/js; mkdir -p _static/css; cp -r static/* _static; ./build/generate-spritesheets.sh",
         "win-static": "xcopy static\\* _static /e /s /y /i& if not exist _static\\js mkdir _static\\js& if not exist _static\\css mkdir _static\\css",
         "prebuild": "yarn run static && yarn run relay && yarn run relay-bbnavi-datahub",
         "predev": "yarn run static",
@@ -313,6 +313,7 @@
         "style-loader": "1.2.1",
         "stylelint": "13.7.0",
         "stylelint-scss": "3.18.0",
+        "svg-sprite": "^2.0.3",
         "terser-webpack-plugin": "4.1.0",
         "url-loader": "3.0.0",
         "webpack": "^4.46.0",

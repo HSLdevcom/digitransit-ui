@@ -288,7 +288,11 @@ export default configMerger(walttiConfig, {
         [maxLon, minLat],
     ],
 
-    nationalServiceLink: { name: 'Fahrplanauskunft efa-bw', href: 'https://www.efa-bw.de' },
+    nationalServiceLink: { 
+        de: {
+            name: 'Fahrplanauskunft efa-bw', href: 'https://www.efa-bw.de'
+        }
+    },
 
     defaultEndpoint: {
         lat: 48.7779,

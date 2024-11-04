@@ -13,7 +13,6 @@ import { PREFIX_STOPS } from '../util/path';
 import {
   getCityBikeNetworkConfig,
   getCityBikeNetworkId,
-  CityBikeNetworkType,
 } from '../util/citybikes';
 import { isKeyboardSelectionEvent } from '../util/browser';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
@@ -59,29 +58,27 @@ function BicycleLeg(
       config,
     );
   const isFirstLeg = i => i === 0;
-  const isScooter =
-    networkConfig && networkConfig.type === CityBikeNetworkType.Scooter;
+  // TODO should better be deduced from leg, as network may rent different formFactors
+  const rentalFormFactor =
+    networkConfig?.type && networkConfig?.type !== 'citybike'
+      ? networkConfig?.type
+      : 'bicycle';
   let rentalUri;
-
   if (leg.mode === 'WALK' || leg.mode === 'BICYCLE_WALK') {
     modeClassName = leg.mode.toLowerCase();
     stopsDescription = (
       <FormattedMessage
-        id={
-          isScooter
-            ? 'scooterwalk-distance-duration'
-            : 'cyclewalk-distance-duration'
-        }
+        id={`${rentalFormFactor}walk-distance-duration`}
         values={{ distance, duration }}
-        defaultMessage="Walk your bike {distance} ({duration})"
+        defaultMessage="Walk your vehicle {distance} ({duration})"
       />
     );
   } else {
     stopsDescription = (
       <FormattedMessage
-        id={isScooter ? 'scooter-distance-duration' : 'cycle-distance-duration'}
+        id={`${rentalFormFactor}-distance-duration`}
         values={{ distance, duration }}
-        defaultMessage="Cycle {distance} ({duration})"
+        defaultMessage="Continue {distance} ({duration})"
       />
     );
   }
@@ -90,7 +87,7 @@ function BicycleLeg(
     modeClassName = 'citybike';
     legDescription = (
       <FormattedMessage
-        id={isScooter ? 'rent-scooter-at' : 'rent-citybike-at'}
+        id={`rent-${rentalFormFactor}-at`}
         defaultMessage="Fetch a bike"
       />
     );

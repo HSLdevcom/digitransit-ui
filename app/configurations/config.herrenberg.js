@@ -31,26 +31,129 @@ export default configMerger(parentConfig, {
         useSpacesAvailable: false,
         showCityBikes: true,
         networks: {
-            'de.mfdz.flinkster.cab.regiorad_stuttgart': {
-                icon: 'regiorad',
-                name: {
-                    de: 'RegioRad',
-                    en: 'RegioRad',
-                },
-                type: 'citybike',
-                url: {
-                    de: 'https://www.regioradstuttgart.de/de',
-                    en: 'https://www.regioradstuttgart.de/',
-                },
-                visibleInSettingsUi: true,
-                hideCode: true,
-                enabled: true,
-                season: {
-                    // 1.1. - 31.12.
-                    start: new Date(new Date().getFullYear(), 0, 1),
-                    end: new Date(new Date().getFullYear(), 11, 31),
-                },
-            },
+            deer: {
+             icon: "brand_deer",
+             operator: "deer",
+             name: {
+               de: "deer"
+             },
+             type: "car",
+             form_factors: ['car'],
+             hideCode: true,
+             enabled: true,
+             url: {
+               de: "https://www.deer-carsharing.de/"
+             }
+           },
+           stadtmobil_stuttgart: {
+             icon: "brand_stadtmobil",
+             operator: "stadtmobil",
+             name: {
+               de: "Stadtmobil Stuttgart"
+             },
+             type: "car",
+             form_factors: ['car'],
+             hideCode: true,
+             enabled: true,
+             url: {
+               de: "https://stuttgart.stadtmobil.de/"
+             }
+           },
+           regiorad_stuttgart: {
+             icon: "brand_regiorad",
+             operator: "regiorad",
+             name: {
+               de: "RegioRad Stuttgart"
+             },
+             type: "bicycle",
+             form_factors: ['bicycle'],
+             hideCode: true,
+             enabled: true,
+             url: {
+               de: "https://www.regioradstuttgart.de"
+             }
+           },
+           bolt_stuttgart: {
+             icon: "brand_bolt",
+             operator: "bolt",
+             name: {
+               de: "Bolt OÜ"
+             },
+             type: "scooter",
+             form_factors: ['scooter', 'bicycle'],
+             hideCode: true,
+             enabled: true,
+             url: {
+               de: "https://www.bolt.eu/"
+             }
+           },
+           bolt_reutlingen_tuebingen: {
+             icon: "brand_bolt",
+             operator: "bolt",
+             name: {
+               de: "Bolt OÜ"
+             },
+             type: "scooter",
+             form_factors: ['scooter', 'bicycle'],
+             hideCode: true,
+             enabled: true,
+             url: {
+               de: "https://www.bolt.eu/"
+             }
+           },
+           zeus_ludwigsburg: {
+             icon: "brand_zeus",
+             operator: "zeus",
+             name: {
+               de: "Zeus Scooters"
+             },
+             type: "scooter",
+             form_factors: ['scooter'],
+             hideCode: true,
+             enabled: true,
+             url: {
+               de: "https://zeusscooters.com"
+             }
+           },
+           zeus_pforzheim: {
+             icon: "brand_zeus",
+             operator: "zeus",
+             name: {
+               de: "Zeus Scooters"
+             },
+             type: "scooter",
+             form_factors: ['scooter'],
+             hideCode: true,
+             enabled: true,
+             url: {
+               de: "https://zeusscooters.com"
+             }
+           },
+           zeus_tubingen: {
+             icon: "brand_zeus",
+             operator: "zeus",
+             name: {
+               de: "Zeus Scooters"
+             },
+             type: "scooter",
+             form_factors: ['scooter'],
+             hideCode: true,
+             enabled: true,
+             url: {
+               de: "https://zeusscooters.com"
+             }
+           },
+           voi_karlsruhe: {
+             icon: "brand_voi",
+             operator: "voi",
+             name: {
+               de: "Voi Scooter Karlsruhe"
+             },
+             type: "scooter",
+             form_factors: ['scooter'],
+             hideCode: true,
+             enabled: true
+           },
             'tier_ludwigsburg': {
                 icon: 'tier_scooter',
                 name: {
@@ -67,31 +170,15 @@ export default configMerger(parentConfig, {
                 enabled: true,
             },
             'taxi': {
-                icon: 'taxi',
+                icon: 'brand_taxi',
+                operator: 'taxi',
                 name: {
                     de: 'Taxi',
                     en: 'Taxi',
                 },
                 type: 'taxi',
-                enabled: true,
-                season: {
-                    // currently not enabled for routing, but for display
-                    start: new Date(new Date().getFullYear()+10, 0, 1),
-                    end: new Date(new Date().getFullYear()+10, 11, 31),
-                    preSeasonStart: new Date(new Date().getFullYear(), 0, 1),
-                },
-            },
-            "car-sharing": {
-                icon: 'car-sharing',
-                name: {
-                    de: 'Carsharing',
-                    en: 'Car sharing',
-                },
-                type: 'car-sharing',
-                url: {
-                    de: 'https://stuttgart.stadtmobil.de/privatkunden/',
-                    en: 'https://stuttgart.stadtmobil.de/privatkunden/',
-                },
+                form_factors: ['car'],
+                hideCode: true,
                 enabled: true,
                 season: {
                     // currently not enabled for routing, but for display
@@ -102,11 +189,12 @@ export default configMerger(parentConfig, {
             },
             "cargo-bike": {
                 icon: 'cargobike',
+                operator: 'other',
                 name: {
                     de: 'Freie Lastenräder Herrenberg',
                     en: 'Free cargo bikes Herrenberg',
                 },
-                type: 'cargo-bike',
+                type: 'cargo_bicycle',
                 enabled: true,
                 season: {
                     // currently not enabled for routing, but for display
@@ -117,11 +205,12 @@ export default configMerger(parentConfig, {
             },
             "de.openbikebox.stadt-herrenberg": {
                 icon: 'cargobike',
+                operator: 'other',
                 name: {
                     de: 'Lastenrad Herrenberg',
                     en: 'Cargo bike Herrenberg',
                 },
-                type: 'cargo-bike',
+                type: 'cargo_bicycle',
                 enabled: true,
                 season: {
                     // currently not enabled for routing, but for display
@@ -224,6 +313,7 @@ export default configMerger(parentConfig, {
                 paragraphs: [
                     'Kartendaten: © <a target=new href=https://www.openstreetmap.org/>OpenStreetMap Mitwirkende</a>',
                     'ÖPNV-Daten: Datensätze der <a target=new href=https://www.nvbw.de/aufgaben/digitale-mobilitaet/open-data/>NVBW GmbH</a> und der <a target=new href=https://www.openvvs.de/dataset/gtfs-daten>VVS GmbH</a>, Shapes (d.h. Geometrien der Streckenverläufe) jeweils angereichert mit OpenStreetMap-Daten © OpenStreetMap Mitwirkende',
+                    'Sharing-Daten: Datensätze der <a target=new href=https://www.nvbw.de/aufgaben/digitale-mobilitaet/open-data/>NVBW GmbH</a>.',
                     'Alle Angaben ohne Gewähr.'
                 ],
             },
@@ -270,6 +360,7 @@ export default configMerger(parentConfig, {
                     de: "Service Stationen und Läden",
                 },
                 url: 'https://data.mfdz.de/hbg/dt-layers/bicycleinfrastructure.geojson',
+                category: 'bicycle',
                 icon: 'icon-icon_bike_repair',
             },
             // LoRaWan map layer
@@ -280,6 +371,7 @@ export default configMerger(parentConfig, {
                     de: 'LoRaWAN Gateways',
                 },
                 url: 'https://data.mfdz.de/hbg/dt-layers/lorawan-gateways.geojson',
+                category: 'other',
                 isOffByDefault: true,
                 icon: 'icon-icon_gateways',
             },
@@ -291,6 +383,7 @@ export default configMerger(parentConfig, {
                     de: 'Nette Toilette',
                 },
                 url: 'https://data.mfdz.de/hbg/dt-layers/toilet.geojson',
+                category: 'other',
                 isOffByDefault: true,
                 icon: 'icon-icon_public_toilets',
             },

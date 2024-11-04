@@ -292,6 +292,33 @@ const EmbeddedSearchGenerator = (props, context) => {
               />
               <FormattedMessage id="walk-only" defaultMessage="Walk only" />
             </label>
+
+            <label htmlFor="mode-car">
+              <input
+                type="radio"
+                value="carOnly=1"
+                name="mode"
+                id="mode-car"
+                onChange={event => setSearchModeRestriction(event.target.value)}
+                checked={searchModeRestriction === 'carOnly=1'}
+              />
+              <FormattedMessage id="car-only" defaultMessage="Car only" />
+            </label>
+
+            <label htmlFor="mode-carpool">
+              <input
+                type="radio"
+                value="carpoolOnly=1"
+                name="mode"
+                id="mode-carpool"
+                onChange={event => setSearchModeRestriction(event.target.value)}
+                checked={searchModeRestriction === 'carpoolOnly=1'}
+              />
+              <FormattedMessage
+                id="carpool-only"
+                defaultMessage="Carpool only"
+              />
+            </label>
           </fieldset>
 
           <fieldset id="origin-and-destination">

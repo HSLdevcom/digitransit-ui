@@ -252,7 +252,8 @@ class TopLevel extends React.Component {
         {!this.topBarOptions.hidden && (
           // DT-3375: added style
           <AppBarContainer
-            title={this.context.config.title}
+            // stadtnavi: we only render subTitle, in case logo contains parts of title
+            title={this.context.config.subTitle || this.context.config.title}
             {...this.topBarOptions}
             {...this.state}
             homeUrl={homeUrl}

@@ -7,6 +7,7 @@ import { durationToString } from '../util/timeUtils';
 import {
   getTotalDistance,
   getTotalBikingDistance,
+  getTotalScooterDistance,
   compressLegs,
 } from '../util/legUtils';
 
@@ -19,7 +20,11 @@ export const StreetModeSelectorButton = (
     return null;
   }
 
-  if (name === 'bikeAndVehicle' || name === 'parkAndRide') {
+  if (
+    name === 'bikeAndVehicle' ||
+    name === 'parkAndRide' ||
+    name === 'scooter'
+  ) {
     const compressedLegs = compressLegs(itinerary.legs);
     itinerary = {
       ...itinerary,
@@ -33,6 +38,13 @@ export const StreetModeSelectorButton = (
     case 'WALK':
       distance = displayDistance(
         itinerary.walkDistance,
+        config,
+        intl.formatNumber,
+      );
+      break;
+    case 'scooter':
+      distance = displayDistance(
+        getTotalScooterDistance(itinerary),
         config,
         intl.formatNumber,
       );
@@ -54,34 +66,18 @@ export const StreetModeSelectorButton = (
   }
 
   let secondaryIcon;
-  let metroColor;
+  let secondaryColor;
 
-  if (name === 'bikeAndVehicle') {
+  if (['bikeAndVehicle', 'scooter', 'parkAndRide'].includes(name)) {
     const publicModes = plan.itineraries[0].legs.filter(
-      obj => obj.mode !== 'WALK' && obj.mode !== 'BICYCLE',
+      leg => !['WALK', 'BICYCLE', 'CAR'].includes(leg.mode),
     );
-    if (publicModes.length > 0) {
-      const firstMode = publicModes[0].mode.toLowerCase();
-      secondaryIcon = `icon-icon_${firstMode}`;
-      if (firstMode === 'subway') {
-        metroColor = '#CA4000';
-      }
-    }
-  } else if (name === 'parkAndRide') {
-    let mode = 'rail';
-    for (let i = 0; i < plan.itineraries.length; i++) {
-      const publicModes = plan.itineraries[i].legs.filter(
-        obj =>
-          obj.mode !== 'WALK' && obj.mode !== 'BICYCLE' && obj.mode !== 'CAR',
-      );
-      if (publicModes.length > 0) {
-        mode = publicModes[0].mode.toLowerCase();
-        break;
-      }
-    }
-    secondaryIcon = `icon-icon_${mode}`;
-    if (mode === 'subway') {
-      metroColor = '#CA4000';
+
+    if (name !== 'scooter') {
+      const mode = publicModes?.[0]?.mode?.toLowerCase() || 'rail';
+      secondaryIcon = `icon-icon_${mode}`;
+      secondaryColor =
+        mode === 'subway' ? config.colors?.iconColors?.['mode-metro'] : '';
     }
   }
   return (
@@ -112,13 +108,13 @@ export const StreetModeSelectorButton = (
         >
           <Icon img={icon} />
         </div>
-        {name === 'bikeAndVehicle' || name === 'parkAndRide' ? (
+        {secondaryIcon ? (
           <div
             className={`street-mode-selector-button-icon secondary-icon ${
               name === 'parkAndRide' ? 'car-park-secondary' : ''
             }`}
           >
-            <Icon img={secondaryIcon} color={metroColor || ''} />
+            <Icon img={secondaryIcon} color={secondaryColor} />
           </div>
         ) : (
           ''

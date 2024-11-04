@@ -60,9 +60,6 @@ const AppBar = (
               logo={logo}
               title={title}
             />
-            {!!config.appBarTitle && (
-              <span className="logo community">{config.appBarTitle}</span>
-            )}
           </button>
         </section>
         <section className="controls">

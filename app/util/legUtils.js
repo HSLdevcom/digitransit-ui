@@ -68,6 +68,7 @@ export const LegMode = {
   Bicycle: 'BICYCLE',
   BicycleWalk: 'BICYCLE_WALK',
   CityBike: 'CITYBIKE',
+  Scooter: 'SCOOTER',
   Walk: 'WALK',
   Car: 'CAR',
 };
@@ -90,6 +91,8 @@ export const getLegMode = legOrMode => {
       return LegMode.BicycleWalk;
     case LegMode.CityBike:
       return LegMode.CityBike;
+    case LegMode.Scooter:
+      return LegMode.Scooter;
     case LegMode.Walk:
       return LegMode.Walk;
     case LegMode.Car:
@@ -254,6 +257,9 @@ const isWalkingLeg = leg =>
   [LegMode.BicycleWalk, LegMode.Walk].includes(getLegMode(leg));
 const isBikingLeg = leg =>
   [LegMode.Bicycle, LegMode.CityBike].includes(getLegMode(leg));
+const isScooterOrWalkLeg = leg =>
+  [LegMode.Scooter, LegMode.Walk].includes(getLegMode(leg));
+
 const isDrivingLeg = leg => [LegMode.Car].includes(getLegMode(leg));
 /**
  * Checks if the itinerary consists of a single biking leg.
@@ -296,6 +302,14 @@ export const getTotalWalkingDistance = itinerary =>
  */
 export const getTotalBikingDistance = itinerary =>
   sumDistances(itinerary.legs.filter(isBikingLeg));
+
+/**
+ * Calculates and returns the total scooter distance undertaken in an itinerary.
+ *
+ * @param {*} itinerary the itinerary to extract the total scooter distance from
+ */
+export const getTotalScooterDistance = itinerary =>
+  sumDistances(itinerary.legs.filter(isScooterOrWalkLeg));
 
 export const getTotalDrivingDistance = itinerary =>
   sumDistances(itinerary.legs.filter(isDrivingLeg));

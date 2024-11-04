@@ -218,13 +218,19 @@ class TileContainer {
 
       features = flatMap(this.layers, layer =>
         layer.features
-          ? layer.features.map(feature => ({
-              layer: layer.constructor.getName(),
-              // todo: this is really ugly!
-              layerConfig: layer.constructor.layerConfig,
-              feature,
-              coords: this.project(feature.geom),
-            }))
+          ? layer.features
+              .filter(feature => {
+                return layer.shouldShowFeature
+                  ? layer.shouldShowFeature(feature)
+                  : true;
+              })
+              .map(feature => ({
+                layer: layer.constructor.getName(),
+                // todo: this is really ugly!
+                layerConfig: layer.constructor.layerConfig,
+                feature,
+                coords: this.project(feature.geom),
+              }))
           : [],
       );
       features = projectedVehicles.concat(features);

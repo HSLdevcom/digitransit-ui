@@ -93,6 +93,45 @@ const translations = {
     ready: 'Gotowe',
     cancel: 'Anuluj',
   },
+  nl: {
+    today: 'Vandaag',
+    tomorrow: 'Morgen',
+    'accessible-close': 'Selectie sluiten',
+    'accessible-closed': 'Selectie gesloten',
+    'accessible-open': 'Open de selectie',
+    'accessible-opened': 'Selectie open',
+    'accessible-title': 'Datum en tijd selecteren',
+    'accessible-update-instructions':
+      'Als u de tijdparameters wijzigt, wordt er opnieuw gezocht.',
+    arrival: 'Aankomst',
+    date: 'Datum',
+    departure: 'Vertrek',
+    'departure-now': 'Vertrek nu',
+    time: 'Tijd',
+    'choose-time': 'Tijd kiezen',
+    ready: 'Klaar',
+    cancel: 'Annuleren',
+  },
+
+  fr: {
+    'accessible-close': 'Fermer la sélection',
+    'accessible-closed': 'Timepicker fermé',
+    'accessible-open': 'Ouvrez le sélecteur',
+    'accessible-opened': 'Timepicker ouvert',
+    'accessible-title': "Sélection de la date et de l'heure",
+    'accessible-update-instructions':
+      'Changer les paramètres de temps déclenchera une nouvelle recherche.',
+    arrival: 'Arrivée',
+    cancel: 'Annuler',
+    'choose-time': "Choisir l'heure",
+    date: 'Date',
+    departure: 'Départ',
+    'departure-now': 'Départ immédiat',
+    ready: 'Prêt',
+    time: 'Heure',
+    today: "Aujourd'hui",
+    tomorrow: 'Demain',
+  },
 };
 
 export default translations;

@@ -116,6 +116,10 @@ export function setCustomizedSettings(data) {
       oldSettings.walkReluctance,
     ),
     walkSpeed: getNumberValueOrDefault(data.walkSpeed, oldSettings.walkSpeed),
+    allowedVehicleRentalFormFactors: getValueOrDefault(
+      data.allowedVehicleRentalFormFactors,
+      oldSettings.allowedVehicleRentalFormFactors,
+    ),
     allowedVehicleRentalNetworks: getValueOrDefault(
       data.allowedVehicleRentalNetworks,
       oldSettings.allowedVehicleRentalNetworks,

@@ -67,6 +67,11 @@ const LayerCategoryDropdown = (
 
   const isMobile = breakpoint !== 'large';
 
+  // Don't render an empty category
+  if (!options.filter(l => l).length) {
+    return null;
+  }
+
   return (
     <div className="layer-category-dropdown-container">
       <div className="layer-category-dropdown-header">

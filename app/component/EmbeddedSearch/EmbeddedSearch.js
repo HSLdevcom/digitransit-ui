@@ -25,6 +25,8 @@ const translations = {
   de: {
     'own-position': 'Ihre aktuelle Position',
     'find-bike-route': 'Eine Radroute finden',
+    'find-car-route': 'Eine PKW-Route finden',
+    'find-carpool-route': 'Mitfahrgelegenheit finden',
     'find-walk-route': 'Einen Fußweg finden',
     'find-route': 'Verbindungssuche',
     'search-fields-sr-instructions': '',
@@ -33,6 +35,8 @@ const translations = {
   fi: {
     'own-position': 'Nykyinen sijaintisi',
     'find-bike-route': 'Löydä pyöräreitti',
+    'find-car-route': 'Löydä autoreitti',
+    'find-carpool-route': 'Löydä kyyti',
     'find-walk-route': 'Löydä kävelyreitti',
     'find-route': 'Löydä reitti',
     'search-fields-sr-instructions': '',
@@ -41,14 +45,28 @@ const translations = {
   en: {
     'own-position': 'Your current location',
     'find-bike-route': 'Find a biking route',
+    'find-car-route': 'Find a driving route',
+    'find-capool-route': 'Find a carpooling offer',
     'find-walk-route': 'Find a walking route',
     'find-route': 'Find a route',
     'search-fields-sr-instructions': '',
     'search-route': 'Search routes',
   },
+  nl: {
+    'own-position': 'Actuele locatie',
+    'find-bike-route': 'Zoek een fietsroute',
+    'find-car-route': 'Zoek een rijroute',
+    'find-capool-route': 'Zoek een carpoolaanbieding',
+    'find-walk-route': 'Zoek een looproute',
+    'find-route': 'Zoek een route',
+    'search-fields-sr-instructions': '',
+    'search-route': 'Routes zoeken',
+  },
   sv: {
     'own-position': 'Min position',
     'find-bike-route': 'Sök en cyckelrutt',
+    'find-car-route': 'Sök en bilrutt',
+    'find-carpool-route': 'Sök en resa',
     'find-walk-route': 'Sök en promenadsrutt',
     'find-route': 'Sök en rutt',
     'search-fields-sr-instructions': '',
@@ -76,6 +94,8 @@ const EmbeddedSearch = (props, context) => {
   const { config } = context;
   const { colors, fontWeights } = config;
   const bikeOnly = query?.bikeOnly;
+  const carOnly = query?.carOnly;
+  const carpoolOnly = query?.carpoolOnly;
   const walkOnly = query?.walkOnly;
   const lang = query.lang || 'fi';
   const url =
@@ -169,6 +189,10 @@ const EmbeddedSearch = (props, context) => {
     titleText = i18next.t('find-bike-route');
   } else if (walkOnly) {
     titleText = i18next.t('find-walk-route');
+  } else if (carOnly) {
+    titleText = i18next.t('find-car-route');
+  } else if (carpoolOnly) {
+    titleText = i18next.t('find-carpool-route');
   } else {
     titleText = i18next.t('find-route');
   }
@@ -231,7 +255,15 @@ const EmbeddedSearch = (props, context) => {
     isEmbedded: true,
   };
 
-  const mode = bikeOnly ? 'bike' : walkOnly ? 'walk' : 'all';
+  const mode = bikeOnly
+    ? 'bike'
+    : walkOnly
+    ? 'walk'
+    : carOnly
+    ? 'car'
+    : carpoolOnly
+    ? 'carpool'
+    : 'all';
 
   const utmCampaignParams = useUTMCampaignParams({
     mode,
@@ -240,7 +272,15 @@ const EmbeddedSearch = (props, context) => {
   });
 
   const executeSearch = () => {
-    const urlEnd = bikeOnly ? '/bike' : walkOnly ? '/walk' : '';
+    const urlEnd = bikeOnly
+      ? '/bike'
+      : walkOnly
+      ? '/walk'
+      : carOnly
+      ? '/car'
+      : carpoolOnly
+      ? '/carpool'
+      : '';
 
     const targetUrl = buildURL([
       lang,
@@ -249,7 +289,6 @@ const EmbeddedSearch = (props, context) => {
     ]);
 
     targetUrl.search += buildQueryString(utmCampaignParams);
-
     addAnalyticsEvent({
       category: 'EmbeddedSearch',
       action: 'executeSearch',
@@ -263,20 +302,11 @@ const EmbeddedSearch = (props, context) => {
 
   // eslint-disable-next-line consistent-return
   const drawBackgroundIcon = () => {
-    if (bikeOnly) {
+    if (mode !== 'all') {
       return (
         <Icon
-          img="icon-embedded-search-bike-background"
-          className="background bike"
-          color={config.colors.primary}
-        />
-      );
-    }
-    if (walkOnly) {
-      return (
-        <Icon
-          img="icon-embedded-search-walk-background"
-          className="background walk"
+          img={`icon-embedded-search-${mode}-background`}
+          className={`background ${mode}`}
           color={config.colors.primary}
         />
       );
@@ -304,9 +334,7 @@ const EmbeddedSearch = (props, context) => {
 
   return (
     <div
-      className={`embedded-seach-container ${
-        bikeOnly ? 'bike' : walkOnly ? 'walk' : ''
-      }`}
+      className={`embedded-seach-container ${mode === 'all' ? '' : mode}`}
       id={appElement}
     >
       <div className="background-container">{drawBackgroundIcon()}</div>

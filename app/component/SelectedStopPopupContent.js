@@ -4,7 +4,9 @@ import React from 'react';
 const SelectedStopPopupContent = ({ stop }) => (
   <div className="origin-popup">
     <div className="origin-popup-header">
-      <div className="selected-stop-header">{stop.name}</div>
+      <div className="selected-stop-header">
+        {stop.name === 'Default vehicle type' ? 'Sharing-Fahrzeug' : stop.name}
+      </div>
     </div>
     {(stop.code || stop.desc) && (
       <div>

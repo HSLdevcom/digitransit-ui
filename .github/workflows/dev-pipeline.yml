@@ -108,6 +108,7 @@ jobs:
         run: yarn lint
       - name: lint SVG sprites using xmllint
         run: |
+          sudo apt-get update
           sudo apt install -y libxml2-utils
           xmllint --nonet --noout static/assets/svg-sprite.*.svg
 

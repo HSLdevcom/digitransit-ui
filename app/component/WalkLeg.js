@@ -62,7 +62,7 @@ function WalkLeg(
   const returnNotice =
     previousLeg && previousLeg.rentedBike ? (
       <FormattedMessage
-        id={`return-${networkType}-to`}
+        id={`return-${networkType === 'citybike' ? 'bicycle' : networkType}-to`}
         values={{ station: leg[toOrFrom] ? leg[toOrFrom].name : '' }}
         defaultMessage="Return the bike to {station} station"
       />

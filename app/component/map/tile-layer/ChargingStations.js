@@ -9,6 +9,7 @@ import {
   drawStopIcon,
   drawAvailabilityBadge,
 } from '../../../util/mapIconUtils';
+import { templateTileUrl } from '../../../util/mapLayerUtils';
 import glfun from '../../../util/glfun';
 import { getIcon } from '../sidebar/ChargingStationContent';
 
@@ -37,15 +38,12 @@ class ChargingStations {
   getPromise = () => this.fetchWithAction(this.drawStatus);
 
   fetchWithAction = actionFn => {
-    const url = this.config.URL.CHARGING_STATIONS_MAP.replaceAll(
-      '{x}',
+    const url = templateTileUrl(
+      this.config.URL.CHARGING_STATIONS_MAP,
       this.tile.coords.x,
-    )
-      .replaceAll('{y}', this.tile.coords.y)
-      .replaceAll(
-        '{z}',
-        this.tile.coords.z + (this.tile.props.zoomOffset || 0),
-      );
+      this.tile.coords.y,
+      this.tile.coords.z + (this.tile.props.zoomOffset || 0),
+    );
     return fetch(url).then(res => {
       if (!res.ok) {
         return undefined;

@@ -15,7 +15,7 @@ const getDescription = (mode, distance, duration) => {
   if (mode === 'BICYCLE_WALK') {
     return (
       <FormattedMessage
-        id="cyclewalk-distance-duration"
+        id="bicyclewalk-distance-duration"
         values={{ distance, duration }}
         defaultMessage="Walk your bike {distance} ({duration})"
       />
@@ -25,7 +25,7 @@ const getDescription = (mode, distance, duration) => {
   if (mode === 'BICYCLE') {
     return (
       <FormattedMessage
-        id="cycle-distance-duration"
+        id="bicycle-distance-duration"
         values={{ distance, duration }}
         defaultMessage="Cycle {distance} ({duration})"
       />

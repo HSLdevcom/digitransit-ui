@@ -1,4 +1,38 @@
 /**
+ * Replaces placeholders in XYZ / TMS layer urls.
+ *
+ * @param {string} layerUrl The url of the layer, including placeholdes like {x}, {y}, {z}, {-y}.
+ * @param {number} x
+ * @param {number} y
+ * @param {number} z
+ */
+export const templateTileUrl = (layerUrl, x, y, z) => {
+  const template = (templateStr, data) => {
+    // (modified) template mechanism copied from Leaflet,
+    // see https://github.com/Leaflet/Leaflet/blob/ed5778c319a0b5466e6f52b49004539ff8fff774/src/core/Util.js#L139
+    // Simple templating facility, accepts a template string of the form `'Hello {a}, {b}'`
+    // and a data object like `{a: 'foo', b: 'bar'}`, returns evaluated string
+    // `('Hello foo, bar')`.
+    return templateStr.replace(/\{ *([\w_ -]+) *\}/g, (str, key) => {
+      const value = data[key];
+
+      if (value === undefined) {
+        throw new Error(`No value provided for variable ${str}`);
+      }
+      return value;
+    });
+  };
+
+  const data = {
+    x,
+    y,
+    z,
+    '-y': 2 ** z - (1 + y),
+  };
+  return template(layerUrl, data);
+};
+
+/**
  * Checks if the given map layer is enabled in the configuration.
  *
  * @param {string} layerName The name of the layer.

@@ -12,10 +12,8 @@ import {
 import { showCitybikeNetwork } from '../../../util/modeUtils';
 
 import {
-  getCityBikeNetworkConfig,
-  getCityBikeNetworkIcon,
-  getCityBikeNetworkId,
   getCitybikeCapacity,
+  getRentalNetworkIconAndColors,
   BIKEAVL_UNKNOWN,
 } from '../../../util/citybikes';
 import { getIdWithoutFeed } from '../../../util/feedScopedIdUtils';
@@ -33,6 +31,9 @@ const query = graphql`
 
 const REALTIME_REFETCH_FREQUENCY = 60000; // 60 seconds
 
+// TODO rename to VehicleRentalStation
+// TODO this is a Layer without saying so. If they had an explicit interface,
+// they could share some common logic
 class BikeRentalStations {
   constructor(tile, config, mapLayers, relayEnvironment) {
     this.tile = tile;
@@ -45,6 +46,7 @@ class BikeRentalStations {
       14 * this.scaleratio * getMapIconScale(this.tile.coords.z);
     this.timeOfLastFetch = undefined;
     this.canHaveStationUpdates = true;
+    this.rentalLayers = mapLayers.rental;
   }
 
   getPromise = lang => this.fetchAndDraw(lang);
@@ -95,12 +97,15 @@ class BikeRentalStations {
 
             if (
               this.features.length === 0 ||
-              !this.features.some(feature =>
-                this.shouldShowStation(
+              !this.features.some(feature => {
+                return this.shouldShowStation(
                   feature.properties.id,
                   feature.properties.network,
-                ),
-              )
+                  feature.properties.formFactors ||
+                    feature.properties.formFactor ||
+                    'bicycle',
+                );
+              })
             ) {
               this.canHaveStationUpdates = false;
             } else {
@@ -121,23 +126,28 @@ class BikeRentalStations {
   };
 
   draw = (feature, zoomedIn) => {
-    const { id, network } = feature.properties;
-    if (!this.shouldShowStation(id, network)) {
+    if (!this.shouldShowFeature(feature)) {
       return;
     }
 
-    const iconName = getCityBikeNetworkIcon(
-      getCityBikeNetworkConfig(getCityBikeNetworkId(network), this.config),
+    const { id, network, formFactors, formFactor } = feature.properties;
+    // stations have formFactors (comma separeted list), vehicles formFactor, or bicycle if non...
+    const formFactorsOrDefault = formFactors || formFactor || 'bicycle';
+
+    const { iconName, bgColor, fgColor } = getRentalNetworkIconAndColors(
+      network,
+      formFactorsOrDefault,
+      this.config,
     );
     const isHilighted = this.tile.hilightedStops?.includes(id);
 
     if (zoomedIn) {
-      this.drawLargeIcon(feature, iconName, isHilighted);
+      this.drawLargeIcon(feature, iconName, isHilighted, bgColor, fgColor);
     } else if (isHilighted) {
       this.canHaveStationUpdates = true;
-      this.drawHighlighted(feature, iconName);
+      this.drawHighlighted(feature, iconName, bgColor, fgColor);
     } else {
-      this.drawSmallMarker(feature.geom, iconName);
+      this.drawSmallMarker(feature.geom, bgColor);
     }
   };
 
@@ -145,6 +155,8 @@ class BikeRentalStations {
     { geom, properties: { network, operative, vehiclesAvailable } },
     iconName,
     isHilighted,
+    bgColor,
+    fgColor,
   ) => {
     const citybikeCapacity = getCitybikeCapacity(this.config, network);
 
@@ -156,10 +168,17 @@ class BikeRentalStations {
       iconName,
       citybikeCapacity !== BIKEAVL_UNKNOWN,
       isHilighted,
+      bgColor,
+      fgColor,
     );
   };
 
-  drawHighlighted = ({ geom, properties: { id, network } }, iconName) => {
+  drawHighlighted = (
+    { geom, properties: { id, network } },
+    iconName,
+    bgColor,
+    fgColor,
+  ) => {
     const citybikeCapacity = getCitybikeCapacity(this.config, network);
 
     const callback = ({ station: result }) => {
@@ -172,6 +191,8 @@ class BikeRentalStations {
           iconName,
           citybikeCapacity !== BIKEAVL_UNKNOWN,
           true,
+          bgColor,
+          fgColor,
         );
       }
       return this;
@@ -188,6 +209,7 @@ class BikeRentalStations {
   };
 
   drawSmallMarker = (geom, iconName) => {
+    // TODO marker color should be derived from network
     const iconColor =
       iconName.includes('secondary') &&
       this.config.colors.iconColors['mode-citybike-secondary']
@@ -207,9 +229,26 @@ class BikeRentalStations {
     }
   };
 
-  shouldShowStation = (id, network) =>
+  isAnyFormFactorEnabled = formFactors => {
+    return (
+      !this.rentalLayers ||
+      formFactors
+        .split(',')
+        .some(formFactor => this.rentalLayers[formFactor.toLowerCase()])
+    );
+  };
+
+  shouldShowStation = (id, network, formFactors) =>
     (!this.tile.stopsToShow || this.tile.stopsToShow.includes(id)) &&
+    this.isAnyFormFactorEnabled(formFactors) &&
     showCitybikeNetwork(this.config.cityBike.networks[network]);
+
+  shouldShowFeature = feature => {
+    const { id, network, formFactors, formFactor } = feature.properties;
+    // stations have formFactors (comma separeted list), vehicles formFactor, or bicycle if non...
+    const formFactorsOrDefault = formFactors || formFactor || 'bicycle';
+    return this.shouldShowStation(id, network, formFactorsOrDefault);
+  };
 
   static getName = () => 'citybike';
 }

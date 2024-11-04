@@ -167,6 +167,171 @@ export default configMerger(parentConfig, {
         ],
     },
 
+    cityBike: {
+        minZoomStopsNearYou: 10,
+        showStationId: false,
+        useSpacesAvailable: false,
+        showCityBikes: true,
+        networks: {
+            deer: {
+             icon: "brand_deer",
+             operator: "deer",
+             name: {
+               de: "deer"
+             },
+             type: "car",
+             form_factors: ['car'],
+             hideCode: true,
+             enabled: true,
+             url: {
+               de: "https://www.deer-carsharing.de/"
+             }
+           },
+           stadtmobil_stuttgart: {
+             icon: "brand_stadtmobil",
+             operator: "stadtmobil",
+             name: {
+               de: "Stadtmobil Stuttgart"
+             },
+             type: "car",
+             form_factors: ['car'],
+             hideCode: true,
+             enabled: true,
+             url: {
+               de: "https://stuttgart.stadtmobil.de/"
+             }
+           },
+           regiorad_stuttgart: {
+             icon: "brand_regiorad",
+             operator: "regiorad",
+             name: {
+               de: "RegioRad Stuttgart"
+             },
+             type: "bicycle",
+             form_factors: ['bicycle'],
+             hideCode: true,
+             enabled: true,
+             url: {
+               de: "https://www.regioradstuttgart.de"
+             }
+           },
+           bolt_stuttgart: {
+             icon: "brand_bolt",
+             operator: "bolt",
+             name: {
+               de: "Bolt OÜ"
+             },
+             type: "scooter",
+             form_factors: ['scooter', 'bicycle'],
+             hideCode: true,
+             enabled: true,
+             url: {
+               de: "https://www.bolt.eu/"
+             }
+           },
+           bolt_reutlingen_tuebingen: {
+             icon: "brand_bolt",
+             operator: "bolt",
+             name: {
+               de: "Bolt OÜ"
+             },
+             type: "scooter",
+             form_factors: ['scooter', 'bicycle'],
+             hideCode: true,
+             enabled: true,
+             url: {
+               de: "https://www.bolt.eu/"
+             }
+           },
+           zeus_ludwigsburg: {
+             icon: "brand_zeus",
+             operator: "zeus",
+             name: {
+               de: "Zeus Scooters"
+             },
+             type: "scooter",
+             form_factors: ['scooter'],
+             hideCode: true,
+             enabled: true,
+             url: {
+               de: "https://zeusscooters.com"
+             }
+           },
+           zeus_pforzheim: {
+             icon: "brand_zeus",
+             operator: "zeus",
+             name: {
+               de: "Zeus Scooters"
+             },
+             type: "scooter",
+             form_factors: ['scooter'],
+             hideCode: true,
+             enabled: true,
+             url: {
+               de: "https://zeusscooters.com"
+             }
+           },
+           zeus_tubingen: {
+             icon: "brand_zeus",
+             operator: "zeus",
+             name: {
+               de: "Zeus Scooters"
+             },
+             type: "scooter",
+             form_factors: ['scooter'],
+             hideCode: true,
+             enabled: true,
+             url: {
+               de: "https://zeusscooters.com"
+             }
+           },
+           voi_karlsruhe: {
+             icon: "brand_voi",
+             operator: "voi",
+             name: {
+               de: "Voi Scooter Karlsruhe"
+             },
+             type: "scooter",
+             form_factors: ['scooter'],
+             hideCode: true,
+             enabled: true
+           },
+            'tier_ludwigsburg': {
+                icon: 'tier_scooter',
+                name: {
+                    de: 'TIER Ludwigsburg',
+                    en: 'TIER Ludwigsburg',
+                },
+                type: 'scooter',
+                url: {
+                    de: 'https://www.tier.app/de',
+                    en: 'https://www.tier.app/',
+                },
+                visibleInSettingsUi: true,
+                hideCode: true,
+                enabled: true,
+            },
+            'taxi': {
+                icon: 'brand_taxi',
+                operator: 'taxi',
+                name: {
+                    de: 'Taxi',
+                    en: 'Taxi',
+                },
+                type: 'taxi',
+                form_factors: ['car'],
+                hideCode: true,
+                enabled: true,
+                season: {
+                    // currently not enabled for routing, but for display
+                    start: new Date(new Date().getFullYear()+10, 0, 1),
+                    end: new Date(new Date().getFullYear()+10, 11, 31),
+                    preSeasonStart: new Date(new Date().getFullYear(), 0, 1),
+                },
+            }
+        }
+    },
+
     // adding assets/geoJson/hb-layers layers
     geoJson: {
         layers: [
@@ -177,6 +342,7 @@ export default configMerger(parentConfig, {
                     en: 'Service stations and stores',
                     de: "Radservice Stationen",
                 },
+                category: 'other',
                 url: '/assets/geojson/lb-layers/radservice.json',
                 icon: 'icon-icon_bike_repair',
                 isOffByDefault: true,
@@ -188,6 +354,7 @@ export default configMerger(parentConfig, {
                     en: 'Public Toilets',
                     de: 'Nette Toilette',
                 },
+                category: 'other',
                 url: "/assets/geojson/lb-layers/nettetoilette.json",
                 icon: 'icon-icon_public_toilets',
                 isOffByDefault: true,

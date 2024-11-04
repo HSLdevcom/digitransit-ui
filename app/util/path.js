@@ -246,3 +246,13 @@ export const getDatahubPoiPath = (datahubId, name, latitude, longitude) => {
   }).toString();
   return `/${PREFIX_DATAHUB_POI}?${searchParams}`;
 };
+
+export const streetHash = {
+  walk: 'walk',
+  bike: 'bike',
+  bikeAndVehicle: 'bikeAndVehicle',
+  scooter: 'scooter',
+  car: 'car',
+  parkAndRide: 'parkAndRide',
+  onDemandTaxi: 'onDemandTaxi',
+};

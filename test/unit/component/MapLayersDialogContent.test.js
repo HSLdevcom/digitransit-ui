@@ -196,11 +196,13 @@ describe('<MapLayersDialogContent />', () => {
     expect(mapLayers.stop.ferry).to.equal(true);
   });
 
-  it('should update the citybike layer', () => {
+  it('should update the rental layer', () => {
     let mapLayers = {
-      citybike: false,
       stop: {},
       terminal: {},
+      rental: {
+        bicycle: false,
+      },
     };
     const props = {
       open: true,
@@ -214,7 +216,11 @@ describe('<MapLayersDialogContent />', () => {
     };
     const context = {
       config: {
+        URL: {
+          RENTAL_STATION_MAP: 'http://example.org/',
+        },
         cityBike: {
+          showCityBikes: true,
           networks: {
             foo: {
               enabled: true,
@@ -235,15 +241,14 @@ describe('<MapLayersDialogContent />', () => {
         childContextTypes: { ...mockChildContextTypes },
       },
     );
-
-    expect(mapLayers.citybike).to.equal(false);
+    expect(mapLayers.rental.bicycle).to.equal(false);
 
     wrapper
       .find('.option-checkbox input')
-      .at(2)
+      .at(0)
       .simulate('change', { target: { checked: true } });
 
-    expect(mapLayers.citybike).to.equal(true);
+    expect(mapLayers.rental.bicycle).to.equal(true);
   });
 
   xit('should update the park&ride layer', () => {
@@ -323,6 +328,9 @@ describe('<MapLayersDialogContent />', () => {
     };
     const context = {
       config: {
+        URL: {
+          STOP_MAP: 'http://example.org/',
+        },
         geoJson: {
           layers: [
             {
@@ -353,8 +361,7 @@ describe('<MapLayersDialogContent />', () => {
       },
     );
     const checkboxes = wrapper.find('.option-checkbox input');
-
-    checkboxes.at(4).simulate('change', { target: { checked: true } });
+    checkboxes.at(1).simulate('change', { target: { checked: true } });
 
     expect(mapLayers.geoJson.morejson).to.equal(true);
   });

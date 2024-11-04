@@ -1,0 +1,68 @@
+#! /usr/bin/python3
+
+# This script explodes all sprite files in static/assets/
+# into individual icon svgs in static/svg-icons/.
+# For all svg-sprite.{theme}.svg sprite files, where theme is not
+# default, exact duplicates of icons in the default sprite are
+# removed, so only different icons of the same name are retained.
+
+import glob
+import os
+import re
+import xml.dom.minidom
+from filecmp import dircmp
+
+
+def split_sprite(sprite_file, output_directory_name):
+    if not os.path.isdir(output_directory_name):
+        os.makedirs(output_directory_name)
+
+    sprites_xml = xml.dom.minidom.parse(sprite_file)
+    icons = sprites_xml.getElementsByTagName("symbol")
+
+    print(f"Found {len(icons)} icons {sprite_file}")
+
+    symbols = {icon.getAttribute("id"): icon for icon in icons}
+
+    for symbol_id in symbols:
+        svg_filename = output_directory_name + symbol_id + ".svg"
+        with open(svg_filename, "w") as svg_file:
+            symbol = symbols[symbol_id]
+            doc = xml.dom.minidom.Document()
+
+            svg = doc.createElement("svg")
+            svg.setAttribute("viewBox", symbol.getAttribute("viewBox"))
+            svg.setAttribute("version", "1.1")
+            svg.setAttribute("xmlns", "http://www.w3.org/2000/svg")
+            svg.setAttribute("xmlns:xlink", "http://www.w3.org/1999/xlink")
+            for attr_name, attr_value in symbol.attributes.items():
+                # we don't want to copy the id attribute, it corresponds to the filename
+                if not "id" == attr_name:
+                    svg.setAttribute(attr_name, attr_value)
+
+            doc.appendChild(svg)
+            for symbolChild in symbol.childNodes:
+                svg.appendChild(symbolChild.cloneNode(True))
+
+            svg_file.write(doc.toprettyxml(indent=" ", newl=""))
+            print(f"stored {symbol_id}")
+        os.system(f"xmllint --format {svg_filename} --output {svg_filename}")
+
+
+def remove_duplicates(override_dir, default_dir):
+    dcmp = dircmp(override_dir, default_dir)
+    for name in dcmp.same_files:
+        print("same_files %s found in %s and %s" % (name, dcmp.left, dcmp.right))
+        os.remove(f"{dcmp.left}{name}")
+
+
+# generate default icons at first, so duplicates can be detected later on
+split_sprite("static/assets/svg-sprite.default.svg", "static/svg-icons/default/")
+
+sprite_files = glob.glob("static/assets/svg-sprite.*.svg")
+for sprite_file in sprite_files:
+    theme = re.search(r"static/assets/svg-sprite\.(.*)\.svg", sprite_file)[1]
+    if theme == "default":
+        continue
+    split_sprite(f"static/assets/svg-sprite.{theme}.svg", f"static/svg-icons/{theme}/")
+    remove_duplicates(f"static/svg-icons/{theme}/", "static/svg-icons/default/")
