@@ -1,7 +1,7 @@
 import moment from 'moment-timezone';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useState } from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
 import Link from 'found/Link';
 
@@ -21,9 +21,19 @@ import { isKeyboardSelectionEvent } from '../util/browser';
 import { splitStringToAddressAndPlace } from '../util/otpStrings';
 import CityBikeLeg from './CityBikeLeg';
 import DelayedTime from './DelayedTime';
+import WalkSteps from './WalkSteps';
 
 function WalkLeg(
-  { children, focusAction, focusToLeg, index, leg, previousLeg, startTime },
+  {
+    children,
+    focusAction,
+    focusToLeg,
+    focusToPoint,
+    index,
+    leg,
+    previousLeg,
+    startTime,
+  },
   { config, intl },
 ) {
   const distance = displayDistance(
@@ -40,6 +50,7 @@ function WalkLeg(
   const fromMode = (leg[toOrFrom].stop && leg[toOrFrom].stop.vehicleMode) || '';
   const isFirstLeg = i => i === 0;
   const [address, place] = splitStringToAddressAndPlace(leg[toOrFrom].name);
+  const [showLegSteps, setShowLegSteps] = useState(false);
 
   const networkType = getCityBikeNetworkConfig(
     getCityBikeNetworkId(
@@ -259,11 +270,29 @@ function WalkLeg(
 
         <div className="itinerary-leg-action">
           <div className="itinerary-leg-action-content">
-            <FormattedMessage
-              id="walk-distance-duration"
-              values={{ distance, duration }}
-              defaultMessage="Walk {distance} ({duration})"
-            />
+            <div>
+              <FormattedMessage
+                id="walk-distance-duration"
+                values={{ distance, duration }}
+                defaultMessage="Walk {distance} ({duration})"
+              />
+              <button
+                type="button"
+                aria-label={intl.formatMessage({
+                  id: 'itinerary-summary-row.clickable-show-instructions',
+                })}
+                className="intinerary-steps-collapse-button"
+                onClick={() => setShowLegSteps(prev => !prev)}
+              >
+                <Icon
+                  img="icon-icon_arrow-collapse"
+                  color={config.colors.primary}
+                  className={cx(
+                    showLegSteps && 'intinerary-steps-collapse-icon-collapsed',
+                  )}
+                />
+              </button>
+            </div>
             <div
               className="itinerary-map-action"
               onClick={focusToLeg}
@@ -281,6 +310,13 @@ function WalkLeg(
             </div>
           </div>
         </div>
+        {showLegSteps && (
+          <div className="itinerary-leg-action">
+            <div className="itinerary-leg-action-content">
+              <WalkSteps steps={leg.steps} focusToPoint={focusToPoint} />
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -323,6 +359,15 @@ const walkLegShape = PropTypes.shape({
   startTime: PropTypes.number.isRequired,
   arrivalDelay: PropTypes.number,
   endTime: PropTypes.number.isRequired,
+  steps: PropTypes.arrayOf(
+    PropTypes.shape({
+      relativeDirection: PropTypes.string.isRequired,
+      streetName: PropTypes.string.isRequired,
+      distance: PropTypes.number.isRequired,
+      lat: PropTypes.number.isRequired,
+      lon: PropTypes.number,
+    }),
+  ).isRequired,
 });
 
 WalkLeg.propTypes = {
@@ -332,6 +377,7 @@ WalkLeg.propTypes = {
   leg: walkLegShape.isRequired,
   previousLeg: walkLegShape,
   focusToLeg: PropTypes.func.isRequired,
+  focusToPoint: PropTypes.func.isRequired,
   // This is not necessarily the `leg`'s start time!
   // Usually, it seems to be the previous leg's end time.
   startTime: PropTypes.number.isRequired,

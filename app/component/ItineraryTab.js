@@ -539,6 +539,22 @@ const withRelay = createFragmentContainer(
               bookingUrl
             }
           }
+          steps {
+            distance
+            lon
+            lat
+            relativeDirection
+            absoluteDirection
+            streetName
+            exit
+            stayOn
+            area
+            walkingBike
+            bogusName
+            alerts {
+              feed
+            }
+          }
           legGeometry {
             length
             points

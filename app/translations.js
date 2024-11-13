@@ -727,6 +727,7 @@ const translations = {
     'itinerary-summary-row.biking-distance':
       'Gesamte Fahrradstrecke: {totalDistance}.',
     'itinerary-summary-row.clickable-area-description': 'Auf der Karte zeigen',
+    'itinerary-summary-row.clickable-show-instructions': 'Anweisungen zeigen',
     'itinerary-summary-row.description':
       'Route fährt ab {departureDate} {departureTime} mit Ankunft {arrivalDate} {arrivalTime}. {firstDeparture} {transfers} Gesamte Dauer {totalTime}.',
     'itinerary-summary-row.first-departure':
@@ -740,16 +741,35 @@ const translations = {
       'Umstieg auf {vehicle} an Halt {stopName}',
     'itinerary-summary-row.walking-distance':
       'Gesamte Laufstrecke: {totalDistance}.',
-    'itinerary-summary.bikeAndPublic-title':
-      'Verbindungen mit Fahrradmitnahme',
-    'itinerary-summary.bikeRentAndPublic-title': 'Verbindungen mit ÖPNV & Leihrad',
+    'itinerary-summary-row.steps.direction.DEPART': 'Starten auf {street}',
+    'itinerary-summary-row.steps.direction.HARD_LEFT':
+      'Scharf links auf {street}',
+    'itinerary-summary-row.steps.direction.LEFT': 'Links auf {street}',
+    'itinerary-summary-row.steps.direction.SLIGHTLY_LEFT':
+      'Leicht links auf {street}',
+    'itinerary-summary-row.steps.direction.RIGHT': 'Rechts auf {street}',
+    'itinerary-summary-row.steps.direction.SLIGHTLY_RIGHT':
+      'Leicht rechts auf {street}',
+    'itinerary-summary-row.steps.direction.HARD_RIGHT':
+      'Scharf rechts auf {street}',
+    'itinerary-summary-row.steps.direction.CONTINUE': 'Weiter auf {street}',
+    'itinerary-summary-row.steps.direction.UTURN_LEFT':
+      'Wende links auf {street}',
+    'itinerary-summary-row.steps.direction.UTURN_RIGHT':
+      'Wende rechts auf {street}',
+    'itinerary-summary.bikeAndPublic-title': 'Verbindungen mit Fahrradmitnahme',
+    'itinerary-summary.bikeRentAndPublic-title':
+      'Verbindungen mit ÖPNV & Leihrad',
     'itinerary-summary.bikePark-title': 'Fahrrad abstellen und weiterfahren',
-    'itinerary-summary.interline-wait': 'Die Route ({shortName}) und Ziel ({destination}) werden sich am Halt {stop} verändern. Die Wartezeit beträgt {time}. Bitte bleiben Sie sitzen.',
+    'itinerary-summary.interline-wait':
+      'Die Route ({shortName}) und Ziel ({destination}) werden sich am Halt {stop} verändern. Die Wartezeit beträgt {time}. Bitte bleiben Sie sitzen.',
     'itinerary-summary.show-on-map': 'Auf Karte zeigen {target}',
     // TODO: rename to itinerary-summary....
     'leave-your-car-park-and-ride': 'Am P&R-Parkplatz parken und weiterfahren',
-    'disabled-parking-spaces-available':'{freeDisabled} von {totalDisabled} barrierefreien Stellplätzen verfügbar',
-    'disabled-parking-spaces-capacity':'{totalDisabled} barrierefreie Stellplätze',
+    'disabled-parking-spaces-available':
+      '{freeDisabled} von {totalDisabled} barrierefreien Stellplätzen verfügbar',
+    'disabled-parking-spaces-capacity':
+      '{totalDisabled} barrierefreie Stellplätze',
     'itinerary-ticket.title': 'Benötigte Fahrkarte',
     'itinerary-tickets.title': 'Benötigte Fahrkarten',
     'itinerary-time.title': 'Dauer',

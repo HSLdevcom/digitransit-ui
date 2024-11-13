@@ -1,0 +1,34 @@
+.step-container {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    color: $black;
+
+    > :first-child {
+        padding: 0.5em 0;
+    }
+
+    .step-element {
+        display: flex;
+        align-items: center;
+
+        > :first-child {
+            flex-grow: 0 !important;
+        }
+
+        .step-description {
+            display: flex;
+            flex-direction: column;
+            margin: 0 0.5em;
+
+            :first-child {
+                padding-bottom: 0.5em;
+            }
+
+            :last-child {
+                color: $dark-gray;
+                font-size: 0.8em;
+            }
+        }
+    }
+}

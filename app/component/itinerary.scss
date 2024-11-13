@@ -1544,6 +1544,20 @@ $itinerary-tab-switch-height: 48px;
         :first-child {
           flex-grow: 1;
         }
+
+        > div {
+          .intinerary-steps-collapse-button {
+            margin-left: 1em;
+
+            > span {
+              display: flex;
+            }
+
+            .intinerary-steps-collapse-icon-collapsed {
+                transform: rotate(180deg);
+            }
+          }
+        }
       }
       .route-number {
         position: absolute;

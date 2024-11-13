@@ -222,6 +222,7 @@ class ItineraryLegs extends React.Component {
               previousLeg={previousLeg}
               focusAction={this.focus(leg.from)}
               focusToLeg={this.focusToLeg(leg)}
+              focusToPoint={this.focus}
               startTime={startTime}
             >
               {this.stopCode(leg.from.stop)}
@@ -412,6 +413,7 @@ class ItineraryLegs extends React.Component {
           previousLeg={compressedLegs[numberOfLegs - 2]}
           focusAction={this.focus(compressedLegs[numberOfLegs - 1].to)}
           focusToLeg={this.focusToLeg(compressedLegs[numberOfLegs - 1])}
+          focusToPoint={this.focus}
         >
           {this.stopCode(compressedLegs[numberOfLegs - 1].to.stop)}
         </WalkLeg>,

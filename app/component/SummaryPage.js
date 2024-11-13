@@ -755,6 +755,22 @@ class SummaryPage extends React.Component {
             legs {
               mode
               ...ItineraryLine_legs
+              steps {
+                distance
+                lon
+                lat
+                relativeDirection
+                absoluteDirection
+                streetName
+                exit
+                stayOn
+                area
+                walkingBike
+                bogusName
+                alerts {
+                  feed
+                }
+              }
               legGeometry {
                 points
               }
@@ -1437,6 +1453,22 @@ class SummaryPage extends React.Component {
               mode
               ...ItineraryLine_legs
               transitLeg
+              steps {
+                distance
+                lon
+                lat
+                relativeDirection
+                absoluteDirection
+                streetName
+                exit
+                stayOn
+                area
+                walkingBike
+                bogusName
+                alerts {
+                  feed
+                }
+              }
               legGeometry {
                 points
               }
