@@ -389,7 +389,7 @@ const walkLegShape = PropTypes.shape({
       lat: PropTypes.number.isRequired,
       lon: PropTypes.number,
     }),
-  ).isRequired,
+  ),
 });
 
 WalkLeg.propTypes = {
@@ -399,7 +399,7 @@ WalkLeg.propTypes = {
   leg: walkLegShape.isRequired,
   previousLeg: walkLegShape,
   focusToLeg: PropTypes.func.isRequired,
-  focusToPoint: PropTypes.func.isRequired,
+  focusToPoint: PropTypes.func,
   // This is not necessarily the `leg`'s start time!
   // Usually, it seems to be the previous leg's end time.
   startTime: PropTypes.number.isRequired,

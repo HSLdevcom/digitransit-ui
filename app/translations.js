@@ -1694,8 +1694,25 @@ const translations = {
     'itinerary-summary-page.description': 'Route suggestions',
     'itinerary-summary-page.title': 'Route suggestions',
     'itinerary-summary-row.biking-distance':
-      'Total biking distance {totalDistance}.',
+    'Total biking distance {totalDistance}.',
+    'itinerary-summary-row.steps.direction.DEPART': 'Depart on {street}',
+    'itinerary-summary-row.steps.direction.HARD_LEFT':
+      'Hard left on {street}',
+    'itinerary-summary-row.steps.direction.LEFT': 'Left on {street}',
+    'itinerary-summary-row.steps.direction.SLIGHTLY_LEFT':
+      'Slightly left on {street}',
+    'itinerary-summary-row.steps.direction.RIGHT': 'Right on {street}',
+    'itinerary-summary-row.steps.direction.SLIGHTLY_RIGHT':
+      'Slightly right on {street}',
+    'itinerary-summary-row.steps.direction.HARD_RIGHT':
+      'Hard left on {street}',
+    'itinerary-summary-row.steps.direction.CONTINUE': 'Continue on {street}',
+    'itinerary-summary-row.steps.direction.UTURN_LEFT':
+      'Turn on {street}',
+    'itinerary-summary-row.steps.direction.UTURN_RIGHT':
+      'Turn on {street}',
     'itinerary-summary-row.clickable-area-description': 'Show on map',
+    'itinerary-summary-row.clickable-show-instructions': 'Show instructions',
     'itinerary-summary-row.description':
       'Itinerary departing at {departureDate} {departureTime} and arriving at {arrivalDate} {arrivalTime}. {firstDeparture} {transfers} Total time {totalTime}.',
     'itinerary-summary-row.first-departure':
