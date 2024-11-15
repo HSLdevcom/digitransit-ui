@@ -83,99 +83,59 @@ function WalkLeg(
     appendClass = 'return-citybike';
   }
   return (
-    <div key={index} className="row itinerary-row">
-      <span className="sr-only">
-        {returnNotice}
-        <FormattedMessage
-          id="itinerary-details.walk-leg"
-          values={{
-            time: moment(leg.startTime).format('HH:mm'),
-            to: intl.formatMessage({
-              id: `modes.to-${
-                leg.to.stop?.vehicleMode?.toLowerCase() || 'place'
-              }`,
-              defaultMessage: 'modes.to-stop',
-            }),
-            distance,
-            duration,
-            origin: leg[toOrFrom] ? leg[toOrFrom].name : '',
-            destination: leg.to ? leg.to.name : '',
-          }}
-        />
-      </span>
-      <div className="small-2 columns itinerary-time-column" aria-hidden="true">
-        <div className="itinerary-time-column-time">
-          <DelayedTime
-            leg={previousLeg}
-            delay={previousLeg && previousLeg.arrivalDelay}
-            startTime={startTime}
-          />
-        </div>
-      </div>
-      <ItineraryCircleLineWithIcon
-        appendClass={appendClass}
-        index={index}
-        modeClassName={modeClassName}
-      />
-      <div
-        className={`small-9 columns itinerary-instruction-column ${leg.mode.toLowerCase()}`}
-      >
+    <>
+      <div key={index} className="row itinerary-row">
         <span className="sr-only">
+          {returnNotice}
           <FormattedMessage
-            id="itinerary-summary.show-on-map"
-            values={{ target: leg[toOrFrom].name || '' }}
+            id="itinerary-details.walk-leg"
+            values={{
+              time: moment(leg.startTime).format('HH:mm'),
+              to: intl.formatMessage({
+                id: `modes.to-${
+                  leg.to.stop?.vehicleMode?.toLowerCase() || 'place'
+                }`,
+                defaultMessage: 'modes.to-stop',
+              }),
+              distance,
+              duration,
+              origin: leg[toOrFrom] ? leg[toOrFrom].name : '',
+              destination: leg.to ? leg.to.name : '',
+            }}
           />
         </span>
-        {isFirstLeg(index) ? (
-          <div className={cx('itinerary-leg-first-row', 'walk', 'first')}>
-            <div className="address-container">
-              <div className="address">
-                {address}
-                {leg[toOrFrom].stop && (
-                  <Icon
-                    img="icon-icon_arrow-collapse--right"
-                    className="itinerary-arrow-icon"
-                    color={config.colors.primary}
-                  />
-                )}
-              </div>
-              <div className="place">{place}</div>
-            </div>
-            <div
-              className="itinerary-map-action"
-              onClick={focusAction}
-              onKeyPress={e => isKeyboardSelectionEvent(e) && focusAction(e)}
-              role="button"
-              tabIndex="0"
-              aria-label={intl.formatMessage(
-                { id: 'itinerary-summary.show-on-map' },
-                { target: leg[toOrFrom].name || '' },
-              )}
-            >
-              <Icon
-                img="icon-icon_show-on-map"
-                className="itinerary-search-icon"
-              />
-            </div>
+        <div
+          className="small-2 columns itinerary-time-column"
+          aria-hidden="true"
+        >
+          <div className="itinerary-time-column-time">
+            <DelayedTime
+              leg={previousLeg}
+              delay={previousLeg && previousLeg.arrivalDelay}
+              startTime={startTime}
+            />
           </div>
-        ) : (
-          <div
-            className={
-              returnNotice
-                ? 'itinerary-leg-first-row-return-bike'
-                : 'itinerary-leg-first-row'
-            }
-            style={extraHeightForButton}
-          >
-            <div className="itinerary-leg-row">
-              {leg[toOrFrom].stop ? (
-                <Link
-                  onClick={e => {
-                    e.stopPropagation();
-                  }}
-                  to={`/${PREFIX_STOPS}/${leg[toOrFrom].stop.gtfsId}`}
-                >
-                  {returnNotice || leg[toOrFrom].name}
+        </div>
+
+        <ItineraryCircleLineWithIcon
+          appendClass={appendClass}
+          index={index}
+          modeClassName={modeClassName}
+        />
+        <div
+          className={`small-9 columns itinerary-instruction-column ${leg.mode.toLowerCase()}`}
+        >
+          <span className="sr-only">
+            <FormattedMessage
+              id="itinerary-summary.show-on-map"
+              values={{ target: leg[toOrFrom].name || '' }}
+            />
+          </span>
+          {isFirstLeg(index) ? (
+            <div className={cx('itinerary-leg-first-row', 'walk', 'first')}>
+              <div className="address-container">
+                <div className="address">
+                  {address}
                   {leg[toOrFrom].stop && (
                     <Icon
                       img="icon-icon_arrow-collapse--right"
@@ -183,71 +143,9 @@ function WalkLeg(
                       color={config.colors.primary}
                     />
                   )}
-                  <ServiceAlertIcon
-                    className="inline-icon"
-                    severityLevel={getActiveAlertSeverityLevel(
-                      leg[toOrFrom].stop && leg[toOrFrom].stop.alerts,
-                      leg.startTime / 1000,
-                    )}
-                  />
-                </Link>
-              ) : (
-                <div>
-                  {returnNotice ? (
-                    <CityBikeLeg
-                      stationName={leg[toOrFrom].name}
-                      bikeRentalStation={leg[toOrFrom].bikeRentalStation}
-                      returnBike
-                    />
-                  ) : (
-                    leg[toOrFrom].name
-                  )}
-                  {leg[toOrFrom].stop && (
-                    <Icon
-                      img="icon-icon_arrow-collapse--right"
-                      className="itinerary-arrow-icon"
-                      color={config.colors.primary}
-                    />
-                  )}
-                  <ServiceAlertIcon
-                    className="inline-icon"
-                    severityLevel={getActiveAlertSeverityLevel(
-                      leg[toOrFrom].stop && leg[toOrFrom].stop.alerts,
-                      leg.startTime / 1000,
-                    )}
-                  />
                 </div>
-              )}
-              <div className="stop-code-container">
-                {children}
-                {leg[toOrFrom].stop && (
-                  <PlatformNumber
-                    number={leg[toOrFrom].stop.platformCode}
-                    short
-                    isRailOrSubway={
-                      fromMode === 'RAIL' || fromMode === 'SUBWAY'
-                    }
-                  />
-                )}
+                <div className="place">{place}</div>
               </div>
-              {isBikeBox && (
-                <div style={{ padding: '15px 0px' }}>
-                  <a
-                    style={{ textDecoration: 'none', color: 'white' }}
-                    // eslint-disable-next-line react/jsx-no-target-blank
-                    target="_blank"
-                    className="standalone-btn"
-                    href="https://openbikebox.next-site.de/location/bahnhof-herrenberg/"
-                  >
-                    <FormattedMessage
-                      id="book-locker"
-                      defaultMessage="Book locker"
-                    />
-                  </a>
-                </div>
-              )}
-            </div>
-            {!returnNotice && (
               <div
                 className="itinerary-map-action"
                 onClick={focusAction}
@@ -264,61 +162,185 @@ function WalkLeg(
                   className="itinerary-search-icon"
                 />
               </div>
-            )}
-          </div>
-        )}
+            </div>
+          ) : (
+            <div
+              className={
+                returnNotice
+                  ? 'itinerary-leg-first-row-return-bike'
+                  : 'itinerary-leg-first-row'
+              }
+              style={extraHeightForButton}
+            >
+              <div className="itinerary-leg-row">
+                {leg[toOrFrom].stop ? (
+                  <Link
+                    onClick={e => {
+                      e.stopPropagation();
+                    }}
+                    to={`/${PREFIX_STOPS}/${leg[toOrFrom].stop.gtfsId}`}
+                  >
+                    {returnNotice || leg[toOrFrom].name}
+                    {leg[toOrFrom].stop && (
+                      <Icon
+                        img="icon-icon_arrow-collapse--right"
+                        className="itinerary-arrow-icon"
+                        color={config.colors.primary}
+                      />
+                    )}
+                    <ServiceAlertIcon
+                      className="inline-icon"
+                      severityLevel={getActiveAlertSeverityLevel(
+                        leg[toOrFrom].stop && leg[toOrFrom].stop.alerts,
+                        leg.startTime / 1000,
+                      )}
+                    />
+                  </Link>
+                ) : (
+                  <div>
+                    {returnNotice ? (
+                      <CityBikeLeg
+                        stationName={leg[toOrFrom].name}
+                        bikeRentalStation={leg[toOrFrom].bikeRentalStation}
+                        returnBike
+                      />
+                    ) : (
+                      leg[toOrFrom].name
+                    )}
+                    {leg[toOrFrom].stop && (
+                      <Icon
+                        img="icon-icon_arrow-collapse--right"
+                        className="itinerary-arrow-icon"
+                        color={config.colors.primary}
+                      />
+                    )}
+                    <ServiceAlertIcon
+                      className="inline-icon"
+                      severityLevel={getActiveAlertSeverityLevel(
+                        leg[toOrFrom].stop && leg[toOrFrom].stop.alerts,
+                        leg.startTime / 1000,
+                      )}
+                    />
+                  </div>
+                )}
+                <div className="stop-code-container">
+                  {children}
+                  {leg[toOrFrom].stop && (
+                    <PlatformNumber
+                      number={leg[toOrFrom].stop.platformCode}
+                      short
+                      isRailOrSubway={
+                        fromMode === 'RAIL' || fromMode === 'SUBWAY'
+                      }
+                    />
+                  )}
+                </div>
+                {isBikeBox && (
+                  <div style={{ padding: '15px 0px' }}>
+                    <a
+                      style={{ textDecoration: 'none', color: 'white' }}
+                      // eslint-disable-next-line react/jsx-no-target-blank
+                      target="_blank"
+                      className="standalone-btn"
+                      href="https://openbikebox.next-site.de/location/bahnhof-herrenberg/"
+                    >
+                      <FormattedMessage
+                        id="book-locker"
+                        defaultMessage="Book locker"
+                      />
+                    </a>
+                  </div>
+                )}
+              </div>
+              {!returnNotice && (
+                <div
+                  className="itinerary-map-action"
+                  onClick={focusAction}
+                  onKeyPress={e =>
+                    isKeyboardSelectionEvent(e) && focusAction(e)
+                  }
+                  role="button"
+                  tabIndex="0"
+                  aria-label={intl.formatMessage(
+                    { id: 'itinerary-summary.show-on-map' },
+                    { target: leg[toOrFrom].name || '' },
+                  )}
+                >
+                  <Icon
+                    img="icon-icon_show-on-map"
+                    className="itinerary-search-icon"
+                  />
+                </div>
+              )}
+            </div>
+          )}
 
-        <div className="itinerary-leg-action">
-          <div className="itinerary-leg-action-content">
-            <div>
-              <FormattedMessage
-                id="walk-distance-duration"
-                values={{ distance, duration }}
-                defaultMessage="Walk {distance} ({duration})"
-              />
-              <button
-                type="button"
+          <div className="itinerary-leg-action">
+            <div className="itinerary-leg-action-content">
+              <div>
+                <FormattedMessage
+                  id="walk-distance-duration"
+                  values={{ distance, duration }}
+                  defaultMessage="Walk {distance} ({duration})"
+                />
+                <button
+                  type="button"
+                  aria-label={intl.formatMessage({
+                    id: 'itinerary-summary-row.clickable-show-instructions',
+                  })}
+                  className="intinerary-steps-collapse-button"
+                  onClick={() => setShowLegSteps(prev => !prev)}
+                >
+                  <Icon
+                    img="icon-icon_arrow-collapse"
+                    color={config.colors.primary}
+                    className={cx(
+                      showLegSteps &&
+                        'intinerary-steps-collapse-icon-collapsed',
+                    )}
+                  />
+                </button>
+              </div>
+              <div
+                className="itinerary-map-action"
+                onClick={focusToLeg}
+                onKeyPress={e => isKeyboardSelectionEvent(e) && focusToLeg(e)}
+                role="button"
+                tabIndex="0"
                 aria-label={intl.formatMessage({
-                  id: 'itinerary-summary-row.clickable-show-instructions',
+                  id: 'itinerary-summary-row.clickable-area-description',
                 })}
-                className="intinerary-steps-collapse-button"
-                onClick={() => setShowLegSteps(prev => !prev)}
               >
                 <Icon
-                  img="icon-icon_arrow-collapse"
-                  color={config.colors.primary}
-                  className={cx(
-                    showLegSteps && 'intinerary-steps-collapse-icon-collapsed',
-                  )}
+                  img="icon-icon_show-on-map"
+                  className="itinerary-search-icon"
                 />
-              </button>
-            </div>
-            <div
-              className="itinerary-map-action"
-              onClick={focusToLeg}
-              onKeyPress={e => isKeyboardSelectionEvent(e) && focusToLeg(e)}
-              role="button"
-              tabIndex="0"
-              aria-label={intl.formatMessage({
-                id: 'itinerary-summary-row.clickable-area-description',
-              })}
-            >
-              <Icon
-                img="icon-icon_show-on-map"
-                className="itinerary-search-icon"
-              />
+              </div>
             </div>
           </div>
         </div>
-        {showLegSteps && (
-          <div className="itinerary-leg-action">
-            <div className="itinerary-leg-action-content">
-              <WalkSteps steps={leg.steps} focusToPoint={focusToPoint} />
+      </div>
+      {showLegSteps && (
+        <div key={index} className="row itinerary-row">
+          <div className="small-2 columns" aria-hidden="true" />
+          <ItineraryCircleLineWithIcon
+            appendClass={appendClass}
+            index={index}
+            modeClassName={modeClassName}
+            hideIcons
+          />
+          <div
+            className={`small-9 columns itinerary-instruction-column ${leg.mode.toLowerCase()}`}
+          >
+            <div className="itinerary-leg-action">
+              <div className="itinerary-leg-action-content">
+                <WalkSteps steps={leg.steps} focusToPoint={focusToPoint} />
+              </div>
             </div>
           </div>
-        )}
-      </div>
-    </div>
+        </div>
+      )}
+    </>
   );
 }
 
