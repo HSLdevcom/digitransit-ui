@@ -387,7 +387,7 @@ const walkLegShape = PropTypes.shape({
       streetName: PropTypes.string.isRequired,
       distance: PropTypes.number.isRequired,
       lat: PropTypes.number.isRequired,
-      lon: PropTypes.number,
+      lon: PropTypes.number.isRequired,
     }),
   ),
 });
@@ -407,6 +407,7 @@ WalkLeg.propTypes = {
 
 WalkLeg.defaultProps = {
   previousLeg: undefined,
+  focusToPoint: () => {},
 };
 
 WalkLeg.contextTypes = {

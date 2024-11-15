@@ -34,7 +34,7 @@ describe('<WalkLeg />', () => {
 
     const wrapper = shallowWithIntl(<WalkLeg {...props} />, {
       context: {
-        config: {},
+        config: { colors: { primary: '#007ac9' } },
       },
     });
 
@@ -84,7 +84,7 @@ describe('<WalkLeg />', () => {
 
     const wrapper = shallowWithIntl(<WalkLeg {...props} />, {
       context: {
-        config: {},
+        config: { colors: { primary: '#007ac9' } },
       },
     });
 
@@ -143,6 +143,7 @@ describe('<WalkLeg />', () => {
           cityBike: {
             networks: { foobar: { type: CityBikeNetworkType.Scooter } },
           },
+          colors: { primary: '#007ac9' },
         },
       },
     });
