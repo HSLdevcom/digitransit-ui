@@ -12,6 +12,7 @@ describe('<WalkLeg />', () => {
     const props = {
       focusAction: () => {},
       focusToLeg: () => {},
+      focusToStep: () => {},
       index: 2,
       leg: {
         distance: 284.787,
@@ -45,6 +46,7 @@ describe('<WalkLeg />', () => {
     const props = {
       focusAction: () => {},
       focusToLeg: () => {},
+      focusToStep: () => {},
       index: 2,
       leg: {
         distance: 284.787,
@@ -97,6 +99,7 @@ describe('<WalkLeg />', () => {
     const props = {
       focusAction: () => {},
       focusToLeg: () => {},
+      focusToStep: () => {},
       index: 2,
       leg: {
         distance: 284.787,
@@ -158,6 +161,7 @@ describe('<WalkLeg />', () => {
     const props = {
       focusAction: () => {},
       focusToLeg: () => {},
+      focusToStep: () => {},
       index: 2,
       leg: {
         distance: 284.787,
@@ -200,6 +204,7 @@ describe('<WalkLeg />', () => {
     const props = {
       focusAction: () => {},
       focusToLeg: () => {},
+      focusToStep: () => {},
       index: 1,
       leg: {
         distance: 1.23,

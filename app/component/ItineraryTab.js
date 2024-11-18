@@ -72,6 +72,7 @@ class ItineraryTab extends React.Component {
     itinerary: ItineraryShape.isRequired,
     focusToPoint: PropTypes.func.isRequired,
     focusToLeg: PropTypes.func.isRequired,
+    focusToStep: PropTypes.func.isRequired,
     isMobile: PropTypes.bool.isRequired,
     currentTime: PropTypes.number.isRequired,
     hideTitle: PropTypes.bool,
@@ -94,7 +95,7 @@ class ItineraryTab extends React.Component {
     fares: [],
     lang: '',
     fetchedFares: false,
-  }
+  };
 
   handleFocus = (lat, lon) => {
     this.props.focusToPoint(lat, lon);
@@ -184,14 +185,14 @@ class ItineraryTab extends React.Component {
   componentDidMount() {
     const { itinerary } = this.props;
     const { config } = this.context;
-    
+
     if (!this.state.fetchedFares && config.URL?.FARES) {
       fetchFares(itinerary, config.URL.FARES)
         .then(data => {
           this.setState({
             fares: data,
             lang: this.context.getStore('PreferencesStore').getLanguage(),
-            fetchedFares: true
+            fetchedFares: true,
           });
         })
         // eslint-disable-next-line no-console
@@ -200,7 +201,7 @@ class ItineraryTab extends React.Component {
       this.setState({
         fares: itinerary.fares,
         lang: this.context.getStore('PreferencesStore').getLanguage(),
-        fetchedFares: true
+        fetchedFares: true,
       });
     }
   }
@@ -213,7 +214,12 @@ class ItineraryTab extends React.Component {
       return null;
     }
 
-    const fares = getFares(this.state.fares, getRoutes(itinerary.legs), config, this.state.lang)
+    const fares = getFares(
+      this.state.fares,
+      getRoutes(itinerary.legs),
+      config,
+      this.state.lang,
+    );
     const extraProps = this.setExtraProps(itinerary);
     const legsWithRentalBike = compressLegs(itinerary.legs).filter(leg =>
       legContainsRentalBike(leg),
@@ -318,33 +324,35 @@ class ItineraryTab extends React.Component {
                   'bp-large': breakpoint === 'large',
                 })}
               >
-                {shouldShowFareInfo(config) && config.displayFareInfoTop &&
-                fares.some(fare => fare.isUnknown) && (
-                  <div className="disclaimer-container unknown-fare-disclaimer__top">
-                    <div className="icon-container">
-                      <Icon className="info" img="icon-icon_info" />
+                {shouldShowFareInfo(config) &&
+                  config.displayFareInfoTop &&
+                  fares.some(fare => fare.isUnknown) && (
+                    <div className="disclaimer-container unknown-fare-disclaimer__top">
+                      <div className="icon-container">
+                        <Icon className="info" img="icon-icon_info" />
+                      </div>
+                      <div className="description-container">
+                        <FormattedMessage
+                          id="separate-ticket-required-disclaimer"
+                          values={{
+                            agencyName: get(
+                              config,
+                              'ticketInformation.primaryAgencyName',
+                            ),
+                          }}
+                        />
+                      </div>
                     </div>
-                    <div className="description-container">
-                      <FormattedMessage
-                        id="separate-ticket-required-disclaimer"
-                        values={{
-                          agencyName: get(
-                            config,
-                            'ticketInformation.primaryAgencyName',
-                          ),
-                        }}
-                      />
-                    </div>
-                  </div>
-                )}
+                  )}
                 <ItineraryLegs
                   fares={fares}
                   itinerary={itinerary}
                   focusToPoint={this.handleFocus}
                   focusToLeg={this.props.focusToLeg}
+                  focusToStep={this.props.focusToStep}
                   toggleCarpoolDrawer={this.props.toggleCarpoolDrawer}
                 />
-                { this.shouldShowCarpoolDisclaimer(itinerary, config) && (
+                {this.shouldShowCarpoolDisclaimer(itinerary, config) && (
                   <div className="itinerary-disclaimer">
                     <div className="info-container">
                       <div className="icon-container">
@@ -355,8 +363,8 @@ class ItineraryTab extends React.Component {
                       </div>
                     </div>
                   </div>
-                  )}
-                
+                )}
+
                 {shouldShowFareInfo(config) && (
                   <TicketInformation
                     fares={fares}

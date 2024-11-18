@@ -28,7 +28,7 @@ function WalkLeg(
     children,
     focusAction,
     focusToLeg,
-    focusToPoint,
+    focusToStep,
     index,
     leg,
     previousLeg,
@@ -334,7 +334,7 @@ function WalkLeg(
           >
             <div className="itinerary-leg-action">
               <div className="itinerary-leg-action-content">
-                <WalkSteps steps={leg.steps} focusToPoint={focusToPoint} />
+                <WalkSteps steps={leg.steps} focusToStep={focusToStep} />
               </div>
             </div>
           </div>
@@ -399,7 +399,7 @@ WalkLeg.propTypes = {
   leg: walkLegShape.isRequired,
   previousLeg: walkLegShape,
   focusToLeg: PropTypes.func.isRequired,
-  focusToPoint: PropTypes.func,
+  focusToStep: PropTypes.func.isRequired,
   // This is not necessarily the `leg`'s start time!
   // Usually, it seems to be the previous leg's end time.
   startTime: PropTypes.number.isRequired,
@@ -407,7 +407,6 @@ WalkLeg.propTypes = {
 
 WalkLeg.defaultProps = {
   previousLeg: undefined,
-  focusToPoint: () => {},
 };
 
 WalkLeg.contextTypes = {

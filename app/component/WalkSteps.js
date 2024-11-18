@@ -34,7 +34,7 @@ function getDirectionIcon(relativeDirection) {
   }
 }
 
-function WalkSteps({ steps, focusToPoint }, { intl }) {
+function WalkSteps({ steps, focusToStep }, { intl }) {
   return (
     <div>
       {steps.map((step, i) => (
@@ -59,10 +59,10 @@ function WalkSteps({ steps, focusToPoint }, { intl }) {
           </div>
           <div
             className="itinerary-map-action"
-            onClick={focusToPoint({ lat: step.lat, lon: step.lon })}
+            onClick={focusToStep({ lat: step.lat, lon: step.lon })}
             onKeyPress={e =>
               isKeyboardSelectionEvent(e) &&
-              focusToPoint({ lat: step.lat, lon: step.lon })
+              focusToStep({ lat: step.lat, lon: step.lon })
             }
             role="button"
             tabIndex="0"
@@ -91,7 +91,7 @@ WalkSteps.propTypes = {
       lon: PropTypes.number,
     }),
   ).isRequired,
-  focusToPoint: PropTypes.func.isRequired,
+  focusToStep: PropTypes.func.isRequired,
 };
 
 WalkSteps.contextTypes = {
