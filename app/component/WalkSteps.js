@@ -10,20 +10,25 @@ import Icon from './Icon';
 function getDirectionIcon(relativeDirection) {
   switch (relativeDirection) {
     case 'DEPART':
-      return 'icon-icon_arrow-up';
+      return 'icon-icon-instruction-straight';
     case 'LEFT':
+      return 'icon-icon-instruction-turn-left';
     case 'SLIGHTLY_LEFT':
+      return 'icon-icon-instruction-turn-slight-left';
     case 'HARD_LEFT':
-      return 'icon-icon_arrow-left';
+      return 'icon-icon-instruction-sharp-turn-left';
     case 'RIGHT':
+      return 'icon-icon-instruction-turn-right';
     case 'SLIGHTLY_RIGHT':
+      return 'icon-icon-instruction-turn-slight-right';
     case 'HARD_RIGHT':
-      return 'icon-icon_arrow-right';
+      return 'icon-icon-instruction-sharp-turn-right';
     case 'CONTINUE':
-      return 'icon-icon_arrow-up';
+      return 'icon-icon-instruction-straight';
     case 'UTURN_LEFT':
+      return 'icon-icon-instruction-u-turn-left';
     case 'UTURN_RIGHT':
-      return 'icon-icon_arrow-down';
+      return 'icon-icon-instruction-u-turn-right';
     default:
       return '';
   }
@@ -35,11 +40,19 @@ function WalkSteps({ steps, focusToPoint }, { intl }) {
       {steps.map((step, i) => (
         <div className="step-container" key={`itinerary-leg-step-${i + 1}`}>
           <div className="step-element">
-            <Icon img={getDirectionIcon(step.relativeDirection)} />{' '}
+            <Icon
+              className="step-direction-icon"
+              img={getDirectionIcon(step.relativeDirection)}
+            />
             <div className="step-description">
               <FormattedMessage
                 id={`itinerary-summary-row.steps.direction.${step.relativeDirection}`}
-                values={{ street: step.streetName }}
+                values={{
+                  street: step.streetName,
+                  direction: intl.formatMessage({
+                    id: `itinerary-summary-row.steps.direction.${step.absoluteDirection}`,
+                  }),
+                }}
               />
               <span>{Math.round(step.distance)} m</span>
             </div>

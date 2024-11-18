@@ -741,22 +741,30 @@ const translations = {
       'Umstieg auf {vehicle} an Halt {stopName}',
     'itinerary-summary-row.walking-distance':
       'Gesamte Laufstrecke: {totalDistance}.',
-    'itinerary-summary-row.steps.direction.DEPART': 'Starten auf {street}',
+    'itinerary-summary-row.steps.direction.DEPART': 'Starten auf {street} in Richtung {direction}',
     'itinerary-summary-row.steps.direction.HARD_LEFT':
-      'Scharf links auf {street}',
-    'itinerary-summary-row.steps.direction.LEFT': 'Links auf {street}',
+      'Scharf links abbiegen auf {street}',
+    'itinerary-summary-row.steps.direction.LEFT': 'Links abbiegen auf {street}',
     'itinerary-summary-row.steps.direction.SLIGHTLY_LEFT':
-      'Leicht links auf {street}',
+      'Leicht links halten auf {street}',
     'itinerary-summary-row.steps.direction.RIGHT': 'Rechts auf {street}',
     'itinerary-summary-row.steps.direction.SLIGHTLY_RIGHT':
-      'Leicht rechts auf {street}',
+      'Leicht rechts halten auf {street}',
     'itinerary-summary-row.steps.direction.HARD_RIGHT':
-      'Scharf rechts auf {street}',
-    'itinerary-summary-row.steps.direction.CONTINUE': 'Weiter auf {street}',
+      'Scharf rechts abbiegen auf {street}',
+    'itinerary-summary-row.steps.direction.CONTINUE': 'Geradeaus weiter auf {street}',
     'itinerary-summary-row.steps.direction.UTURN_LEFT':
       'Wende links auf {street}',
     'itinerary-summary-row.steps.direction.UTURN_RIGHT':
       'Wende rechts auf {street}',
+    'itinerary-summary-row.steps.direction.NORTH': 'Norden',
+    'itinerary-summary-row.steps.direction.NORTHEAST': 'Nordosten',
+    'itinerary-summary-row.steps.direction.EAST': 'Osten',
+    'itinerary-summary-row.steps.direction.SOUTHEAST': 'Südosten',
+    'itinerary-summary-row.steps.direction.SOUTH': 'Süden',
+    'itinerary-summary-row.steps.direction.SOUTHWEST': 'Südwesten',
+    'itinerary-summary-row.steps.direction.WEST': 'Westen',
+    'itinerary-summary-row.steps.direction.NORTHWEST': 'Nordwesten',
     'itinerary-summary.bikeAndPublic-title': 'Verbindungen mit Fahrradmitnahme',
     'itinerary-summary.bikeRentAndPublic-title':
       'Verbindungen mit ÖPNV & Leihrad',
@@ -1695,22 +1703,30 @@ const translations = {
     'itinerary-summary-page.title': 'Route suggestions',
     'itinerary-summary-row.biking-distance':
     'Total biking distance {totalDistance}.',
-    'itinerary-summary-row.steps.direction.DEPART': 'Depart on {street}',
+    'itinerary-summary-row.steps.direction.DEPART': 'Start on {street} towards {direction}',
     'itinerary-summary-row.steps.direction.HARD_LEFT':
-      'Hard left on {street}',
-    'itinerary-summary-row.steps.direction.LEFT': 'Left on {street}',
+      'Turn sharp left onto {street}',
+    'itinerary-summary-row.steps.direction.LEFT': 'Turn left onto {street}',
     'itinerary-summary-row.steps.direction.SLIGHTLY_LEFT':
-      'Slightly left on {street}',
-    'itinerary-summary-row.steps.direction.RIGHT': 'Right on {street}',
+      'Keep slightly left onto {street}',
+    'itinerary-summary-row.steps.direction.RIGHT': 'Turn right onto {street}',
     'itinerary-summary-row.steps.direction.SLIGHTLY_RIGHT':
-      'Slightly right on {street}',
+      'Keep slightly right onto {street}',
     'itinerary-summary-row.steps.direction.HARD_RIGHT':
-      'Hard left on {street}',
-    'itinerary-summary-row.steps.direction.CONTINUE': 'Continue on {street}',
+      'Turn sharp right onto {street}',
+    'itinerary-summary-row.steps.direction.CONTINUE': 'Continue straight on {street}',
     'itinerary-summary-row.steps.direction.UTURN_LEFT':
       'Turn on {street}',
     'itinerary-summary-row.steps.direction.UTURN_RIGHT':
       'Turn on {street}',
+    'itinerary-summary-row.steps.direction.NORTH': 'North',
+    'itinerary-summary-row.steps.direction.NORTHEAST': 'Northeast',
+    'itinerary-summary-row.steps.direction.EAST': 'East',
+    'itinerary-summary-row.steps.direction.SOUTHEAST': 'Southeast',
+    'itinerary-summary-row.steps.direction.SOUTH': 'South',
+    'itinerary-summary-row.steps.direction.SOUTHWEST': 'Southwest',
+    'itinerary-summary-row.steps.direction.WEST': 'West',
+    'itinerary-summary-row.steps.direction.NORTHWEST': 'Northwest',
     'itinerary-summary-row.clickable-area-description': 'Show on map',
     'itinerary-summary-row.clickable-show-instructions': 'Show instructions',
     'itinerary-summary-row.description':
