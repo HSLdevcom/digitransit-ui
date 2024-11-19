@@ -43,6 +43,7 @@ class ItineraryLegs extends React.Component {
     toggleCanceledLegsBanner: PropTypes.func.isRequired,
     waitThreshold: PropTypes.number.isRequired,
     focusToLeg: PropTypes.func,
+    focusToStep: PropTypes.func,
     toggleCarpoolDrawer: PropTypes.func,
   };
 
@@ -83,6 +84,11 @@ class ItineraryLegs extends React.Component {
   focusToLeg = leg => e => {
     e.stopPropagation();
     this.props.focusToLeg(leg);
+  };
+
+  focusToStep = position => e => {
+    e.stopPropagation();
+    this.props.focusToStep(position.lat, position.lon);
   };
 
   stopCode = stop => stop && stop.code && <StopCode code={stop.code} />;
@@ -222,6 +228,7 @@ class ItineraryLegs extends React.Component {
               previousLeg={previousLeg}
               focusAction={this.focus(leg.from)}
               focusToLeg={this.focusToLeg(leg)}
+              focusToStep={this.focusToStep}
               startTime={startTime}
             >
               {this.stopCode(leg.from.stop)}
@@ -412,6 +419,8 @@ class ItineraryLegs extends React.Component {
           previousLeg={compressedLegs[numberOfLegs - 2]}
           focusAction={this.focus(compressedLegs[numberOfLegs - 1].to)}
           focusToLeg={this.focusToLeg(compressedLegs[numberOfLegs - 1])}
+          focusToPoint={this.focus}
+          focusToStep={this.focusToStep}
         >
           {this.stopCode(compressedLegs[numberOfLegs - 1].to.stop)}
         </WalkLeg>,

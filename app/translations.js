@@ -727,6 +727,7 @@ const translations = {
     'itinerary-summary-row.biking-distance':
       'Gesamte Fahrradstrecke: {totalDistance}.',
     'itinerary-summary-row.clickable-area-description': 'Auf der Karte zeigen',
+    'itinerary-summary-row.clickable-show-instructions': 'Anweisungen zeigen',
     'itinerary-summary-row.description':
       'Route fährt ab {departureDate} {departureTime} mit Ankunft {arrivalDate} {arrivalTime}. {firstDeparture} {transfers} Gesamte Dauer {totalTime}.',
     'itinerary-summary-row.first-departure':
@@ -740,16 +741,51 @@ const translations = {
       'Umstieg auf {vehicle} an Halt {stopName}',
     'itinerary-summary-row.walking-distance':
       'Gesamte Laufstrecke: {totalDistance}.',
-    'itinerary-summary.bikeAndPublic-title':
-      'Verbindungen mit Fahrradmitnahme',
-    'itinerary-summary.bikeRentAndPublic-title': 'Verbindungen mit ÖPNV & Leihrad',
+    'itinerary-summary-row.steps.direction.DEPART': 'Starten auf {street} in Richtung {direction}',
+    'itinerary-summary-row.steps.direction.HARD_LEFT':
+      'Scharf links abbiegen auf {street}',
+    'itinerary-summary-row.steps.direction.LEFT': 'Links abbiegen auf {street}',
+    'itinerary-summary-row.steps.direction.SLIGHTLY_LEFT':
+      'Leicht links halten auf {street}',
+    'itinerary-summary-row.steps.direction.RIGHT': 'Rechts auf {street}',
+    'itinerary-summary-row.steps.direction.SLIGHTLY_RIGHT':
+      'Leicht rechts halten auf {street}',
+    'itinerary-summary-row.steps.direction.HARD_RIGHT':
+      'Scharf rechts abbiegen auf {street}',
+    'itinerary-summary-row.steps.direction.CONTINUE': 'Geradeaus weiter auf {street}',
+    'itinerary-summary-row.steps.direction.UTURN_LEFT':
+      'Wende links auf {street}',
+    'itinerary-summary-row.steps.direction.UTURN_RIGHT':
+      'Wende rechts auf {street}',
+    'itinerary-summary-row.steps.direction.CIRCLE_COUNTERCLOCKWISE':
+      'In den Kreisverkehr einbiegen und die {exit}. Ausfahrt nehmen auf {street}',
+    'itinerary-summary-row.steps.direction.CIRCLE_CLOCKWISE':
+      'In den Kreisverkehr links einbiegen und die {exit}. Ausfahrt im Uhrzeigersinn nehmen auf {street}',
+    'itinerary-summary-row.steps.direction.ELEVATOR': 'Nehmen Sie den Aufzug zu {street}',
+    'itinerary-summary-row.steps.direction.ENTER_STATION': 'Betreten Sie die Station bei {street}',
+    'itinerary-summary-row.steps.direction.EXIT_STATION': 'Verlassen Sie die Station in Richtung {street}',
+    'itinerary-summary-row.steps.direction.FOLLOW_SIGNS': 'Folgen Sie den Schildern zu {street}',
+    'itinerary-summary-row.steps.direction.NORTH': 'Norden',
+    'itinerary-summary-row.steps.direction.NORTHEAST': 'Nordosten',
+    'itinerary-summary-row.steps.direction.EAST': 'Osten',
+    'itinerary-summary-row.steps.direction.SOUTHEAST': 'Südosten',
+    'itinerary-summary-row.steps.direction.SOUTH': 'Süden',
+    'itinerary-summary-row.steps.direction.SOUTHWEST': 'Südwesten',
+    'itinerary-summary-row.steps.direction.WEST': 'Westen',
+    'itinerary-summary-row.steps.direction.NORTHWEST': 'Nordwesten',
+    'itinerary-summary.bikeAndPublic-title': 'Verbindungen mit Fahrradmitnahme',
+    'itinerary-summary.bikeRentAndPublic-title':
+      'Verbindungen mit ÖPNV & Leihrad',
     'itinerary-summary.bikePark-title': 'Fahrrad abstellen und weiterfahren',
-    'itinerary-summary.interline-wait': 'Die Route ({shortName}) und Ziel ({destination}) werden sich am Halt {stop} verändern. Die Wartezeit beträgt {time}. Bitte bleiben Sie sitzen.',
+    'itinerary-summary.interline-wait':
+      'Die Route ({shortName}) und Ziel ({destination}) werden sich am Halt {stop} verändern. Die Wartezeit beträgt {time}. Bitte bleiben Sie sitzen.',
     'itinerary-summary.show-on-map': 'Auf Karte zeigen {target}',
     // TODO: rename to itinerary-summary....
     'leave-your-car-park-and-ride': 'Am P&R-Parkplatz parken und weiterfahren',
-    'disabled-parking-spaces-available':'{freeDisabled} von {totalDisabled} barrierefreien Stellplätzen verfügbar',
-    'disabled-parking-spaces-capacity':'{totalDisabled} barrierefreie Stellplätze',
+    'disabled-parking-spaces-available':
+      '{freeDisabled} von {totalDisabled} barrierefreien Stellplätzen verfügbar',
+    'disabled-parking-spaces-capacity':
+      '{totalDisabled} barrierefreie Stellplätze',
     'itinerary-ticket.title': 'Benötigte Fahrkarte',
     'itinerary-tickets.title': 'Benötigte Fahrkarten',
     'itinerary-time.title': 'Dauer',
@@ -1674,8 +1710,41 @@ const translations = {
     'itinerary-summary-page.description': 'Route suggestions',
     'itinerary-summary-page.title': 'Route suggestions',
     'itinerary-summary-row.biking-distance':
-      'Total biking distance {totalDistance}.',
+    'Total biking distance {totalDistance}.',
+    'itinerary-summary-row.steps.direction.DEPART': 'Start on {street} towards {direction}',
+    'itinerary-summary-row.steps.direction.HARD_LEFT':
+      'Turn sharp left onto {street}',
+    'itinerary-summary-row.steps.direction.LEFT': 'Turn left onto {street}',
+    'itinerary-summary-row.steps.direction.SLIGHTLY_LEFT':
+      'Keep slightly left onto {street}',
+    'itinerary-summary-row.steps.direction.RIGHT': 'Turn right onto {street}',
+    'itinerary-summary-row.steps.direction.SLIGHTLY_RIGHT':
+      'Keep slightly right onto {street}',
+    'itinerary-summary-row.steps.direction.HARD_RIGHT':
+      'Turn sharp right onto {street}',
+    'itinerary-summary-row.steps.direction.CONTINUE': 'Continue straight on {street}',
+    'itinerary-summary-row.steps.direction.UTURN_LEFT':
+      'Turn on {street}',
+    'itinerary-summary-row.steps.direction.UTURN_RIGHT':
+      'Turn on {street}',
+    'itinerary-summary-row.steps.direction.CIRCLE_COUNTERCLOCKWISE':
+      'Enter the roundabout and take the {exit} exit onto {street}',
+    'itinerary-summary-row.steps.direction.CIRCLE_CLOCKWISE':
+      'Enter the roundabout to the left and take the {exit} exit clockwise onto {street}',
+    'itinerary-summary-row.steps.direction.ELEVATOR': 'Take the elevator to {street}',
+    'itinerary-summary-row.steps.direction.ENTER_STATION': 'Enter the station at {street}',
+    'itinerary-summary-row.steps.direction.EXIT_STATION': 'Exit the station towards {street}',
+    'itinerary-summary-row.steps.direction.FOLLOW_SIGNS': 'Follow the signs to {street}',
+    'itinerary-summary-row.steps.direction.NORTH': 'North',
+    'itinerary-summary-row.steps.direction.NORTHEAST': 'Northeast',
+    'itinerary-summary-row.steps.direction.EAST': 'East',
+    'itinerary-summary-row.steps.direction.SOUTHEAST': 'Southeast',
+    'itinerary-summary-row.steps.direction.SOUTH': 'South',
+    'itinerary-summary-row.steps.direction.SOUTHWEST': 'Southwest',
+    'itinerary-summary-row.steps.direction.WEST': 'West',
+    'itinerary-summary-row.steps.direction.NORTHWEST': 'Northwest',
     'itinerary-summary-row.clickable-area-description': 'Show on map',
+    'itinerary-summary-row.clickable-show-instructions': 'Show instructions',
     'itinerary-summary-row.description':
       'Itinerary departing at {departureDate} {departureTime} and arriving at {arrivalDate} {arrivalTime}. {firstDeparture} {transfers} Total time {totalTime}.',
     'itinerary-summary-row.first-departure':

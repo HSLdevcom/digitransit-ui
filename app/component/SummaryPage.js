@@ -755,6 +755,22 @@ class SummaryPage extends React.Component {
             legs {
               mode
               ...ItineraryLine_legs
+              steps {
+                distance
+                lon
+                lat
+                relativeDirection
+                absoluteDirection
+                streetName
+                exit
+                stayOn
+                area
+                walkingBike
+                bogusName
+                alerts {
+                  feed
+                }
+              }
               legGeometry {
                 points
               }
@@ -1437,6 +1453,22 @@ class SummaryPage extends React.Component {
               mode
               ...ItineraryLine_legs
               transitLeg
+              steps {
+                distance
+                lon
+                lat
+                relativeDirection
+                absoluteDirection
+                streetName
+                exit
+                stayOn
+                area
+                walkingBike
+                bogusName
+                alerts {
+                  feed
+                }
+              }
               legGeometry {
                 points
               }
@@ -2020,7 +2052,10 @@ class SummaryPage extends React.Component {
       this.expandMap += 1;
     }
     this.navigateMap();
-    this.setState({ center: { lat, lon }, bounds: null });
+    this.setState({
+      center: { lat, lon },
+      bounds: null,
+    });
   };
 
   focusToLeg = leg => {
@@ -2043,6 +2078,15 @@ class SummaryPage extends React.Component {
     this.setState({
       bounds,
       center: undefined,
+    });
+  };
+
+  focusToStep = (lat, lon) => {
+    this.setState({
+      bounds: [
+        [lat, lon],
+        [lat, lon],
+      ],
     });
   };
 
@@ -2947,6 +2991,7 @@ class SummaryPage extends React.Component {
                   itinerary={itinerary}
                   focusToPoint={this.focusToPoint}
                   focusToLeg={this.focusToLeg}
+                  focusToStep={this.focusToStep}
                   isMobile={false}
                   toggleCarpoolDrawer={this.toggleCarpoolDrawer}
                 />

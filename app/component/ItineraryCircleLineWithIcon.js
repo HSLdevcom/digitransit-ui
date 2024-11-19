@@ -9,6 +9,7 @@ class ItineraryCircleLineWithIcon extends React.Component {
   static defaultProps = {
     isVia: false,
     color: null,
+    hideIcons: false,
   };
 
   static propTypes = {
@@ -20,6 +21,7 @@ class ItineraryCircleLineWithIcon extends React.Component {
     color: PropTypes.string,
     appendClass: PropTypes.string,
     icon: PropTypes.string,
+    hideIcons: PropTypes.bool,
   };
 
   state = {
@@ -107,6 +109,9 @@ class ItineraryCircleLineWithIcon extends React.Component {
     ) {
       // eslint-disable-next-line global-require
       legBeforeLineStyle.backgroundImage = this.state.imageUrl;
+      if (this.props.hideIcons) {
+        legBeforeLineStyle.height = '100%';
+      }
     }
     return (
       <div
@@ -116,7 +121,7 @@ class ItineraryCircleLineWithIcon extends React.Component {
         })}
         aria-hidden="true"
       >
-        {topMarker}
+        {!this.props.hideIcons && topMarker}
 
         <div
           style={legBeforeLineStyle}
@@ -126,21 +131,25 @@ class ItineraryCircleLineWithIcon extends React.Component {
             this.props.appendClass,
           )}
         />
-        <RouteNumber
-          appendClass={this.props.appendClass}
-          mode={this.props.modeClassName}
-          icon={this.props.icon}
-          vertical
-        />
-        <div
-          style={legBeforeLineStyle}
-          className={cx(
-            'leg-before-line',
-            this.props.modeClassName,
-            'bottom',
-            this.props.appendClass,
-          )}
-        />
+        {!this.props.hideIcons && (
+          <>
+            <RouteNumber
+              appendClass={this.props.appendClass}
+              mode={this.props.modeClassName}
+              icon={this.props.icon}
+              vertical
+            />
+            <div
+              style={legBeforeLineStyle}
+              className={cx(
+                'leg-before-line',
+                this.props.modeClassName,
+                'bottom',
+                this.props.appendClass,
+              )}
+            />
+          </>
+        )}
       </div>
     );
   }

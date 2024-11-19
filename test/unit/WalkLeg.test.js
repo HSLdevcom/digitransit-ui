@@ -12,6 +12,7 @@ describe('<WalkLeg />', () => {
     const props = {
       focusAction: () => {},
       focusToLeg: () => {},
+      focusToStep: () => {},
       index: 2,
       leg: {
         distance: 284.787,
@@ -34,7 +35,7 @@ describe('<WalkLeg />', () => {
 
     const wrapper = shallowWithIntl(<WalkLeg {...props} />, {
       context: {
-        config: {},
+        config: { colors: { primary: '#007ac9' } },
       },
     });
 
@@ -45,6 +46,7 @@ describe('<WalkLeg />', () => {
     const props = {
       focusAction: () => {},
       focusToLeg: () => {},
+      focusToStep: () => {},
       index: 2,
       leg: {
         distance: 284.787,
@@ -84,7 +86,7 @@ describe('<WalkLeg />', () => {
 
     const wrapper = shallowWithIntl(<WalkLeg {...props} />, {
       context: {
-        config: {},
+        config: { colors: { primary: '#007ac9' } },
       },
     });
 
@@ -97,6 +99,7 @@ describe('<WalkLeg />', () => {
     const props = {
       focusAction: () => {},
       focusToLeg: () => {},
+      focusToStep: () => {},
       index: 2,
       leg: {
         distance: 284.787,
@@ -143,6 +146,7 @@ describe('<WalkLeg />', () => {
           cityBike: {
             networks: { foobar: { type: CityBikeNetworkType.Scooter } },
           },
+          colors: { primary: '#007ac9' },
         },
       },
     });
@@ -157,6 +161,7 @@ describe('<WalkLeg />', () => {
     const props = {
       focusAction: () => {},
       focusToLeg: () => {},
+      focusToStep: () => {},
       index: 2,
       leg: {
         distance: 284.787,
@@ -199,6 +204,7 @@ describe('<WalkLeg />', () => {
     const props = {
       focusAction: () => {},
       focusToLeg: () => {},
+      focusToStep: () => {},
       index: 1,
       leg: {
         distance: 1.23,
