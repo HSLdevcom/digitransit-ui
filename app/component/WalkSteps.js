@@ -29,6 +29,18 @@ function getDirectionIcon(relativeDirection) {
       return 'icon-icon-instruction-u-turn-left';
     case 'UTURN_RIGHT':
       return 'icon-icon-instruction-u-turn-right';
+    case 'CIRCLE_COUNTERCLOCKWISE':
+      return 'icon-icon-instruction-roundabout-right';
+    case 'CIRCLE_CLOCKWISE':
+      return 'icon-icon-instruction-roundabout-left';
+    case 'ELEVATOR':
+      return 'icon-icon-instruction-elevator';
+    case 'ENTER_STATION':
+      return 'icon-icon-instruction-enter-station';
+    case 'EXIT_STATION':
+      return 'icon-icon-instruction-exit-station';
+    case 'FOLLOW_SIGNS':
+      return 'icon-icon-instruction-follow-signs';
     default:
       return '';
   }
@@ -52,6 +64,7 @@ function WalkSteps({ steps, focusToStep }, { intl }) {
                   direction: intl.formatMessage({
                     id: `itinerary-summary-row.steps.direction.${step.absoluteDirection}`,
                   }),
+                  exit: step.exit,
                 }}
               />
               <span>{Math.round(step.distance)} m</span>

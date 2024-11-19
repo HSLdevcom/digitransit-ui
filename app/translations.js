@@ -757,6 +757,14 @@ const translations = {
       'Wende links auf {street}',
     'itinerary-summary-row.steps.direction.UTURN_RIGHT':
       'Wende rechts auf {street}',
+    'itinerary-summary-row.steps.direction.CIRCLE_COUNTERCLOCKWISE':
+      'In den Kreisverkehr einbiegen und die {exit}. Ausfahrt nehmen auf {street}',
+    'itinerary-summary-row.steps.direction.CIRCLE_CLOCKWISE':
+      'In den Kreisverkehr links einbiegen und die {exit}. Ausfahrt im Uhrzeigersinn nehmen auf {street}',
+    'itinerary-summary-row.steps.direction.ELEVATOR': 'Nehmen Sie den Aufzug zu {street}',
+    'itinerary-summary-row.steps.direction.ENTER_STATION': 'Betreten Sie die Station bei {street}',
+    'itinerary-summary-row.steps.direction.EXIT_STATION': 'Verlassen Sie die Station in Richtung {street}',
+    'itinerary-summary-row.steps.direction.FOLLOW_SIGNS': 'Folgen Sie den Schildern zu {street}',
     'itinerary-summary-row.steps.direction.NORTH': 'Norden',
     'itinerary-summary-row.steps.direction.NORTHEAST': 'Nordosten',
     'itinerary-summary-row.steps.direction.EAST': 'Osten',
@@ -1719,6 +1727,14 @@ const translations = {
       'Turn on {street}',
     'itinerary-summary-row.steps.direction.UTURN_RIGHT':
       'Turn on {street}',
+    'itinerary-summary-row.steps.direction.CIRCLE_COUNTERCLOCKWISE':
+      'Enter the roundabout and take the {exit} exit onto {street}',
+    'itinerary-summary-row.steps.direction.CIRCLE_CLOCKWISE':
+      'Enter the roundabout to the left and take the {exit} exit clockwise onto {street}',
+    'itinerary-summary-row.steps.direction.ELEVATOR': 'Take the elevator to {street}',
+    'itinerary-summary-row.steps.direction.ENTER_STATION': 'Enter the station at {street}',
+    'itinerary-summary-row.steps.direction.EXIT_STATION': 'Exit the station towards {street}',
+    'itinerary-summary-row.steps.direction.FOLLOW_SIGNS': 'Follow the signs to {street}',
     'itinerary-summary-row.steps.direction.NORTH': 'North',
     'itinerary-summary-row.steps.direction.NORTHEAST': 'Northeast',
     'itinerary-summary-row.steps.direction.EAST': 'East',
