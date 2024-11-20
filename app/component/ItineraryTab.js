@@ -13,6 +13,7 @@ import RouteInformation from './RouteInformation';
 import ItinerarySummary from './ItinerarySummary';
 import ItineraryLegs from './ItineraryLegs';
 import BackButton from './BackButton';
+import EmissionsInfo from './EmissionsInfo';
 import {
   getRoutes,
   getZones,
@@ -58,6 +59,9 @@ const ItineraryShape = PropTypes.shape({
       trip: TripShape,
       distance: PropTypes.number,
       fares: PropTypes.arrayOf(FareShape),
+      emissionsPerPerson: PropTypes.shape({
+        co2: PropTypes.number,
+      }),
     }),
   ),
   fares: PropTypes.arrayOf(FareShape),
@@ -344,6 +348,12 @@ class ItineraryTab extends React.Component {
                       </div>
                     </div>
                   )}
+                {config.showCO2InItinerarySummary && (
+                  <EmissionsInfo
+                    itinerary={itinerary}
+                    isMobile={this.props.isMobile}
+                  />
+                )}
                 <ItineraryLegs
                   fares={fares}
                   itinerary={itinerary}
@@ -364,7 +374,6 @@ class ItineraryTab extends React.Component {
                     </div>
                   </div>
                 )}
-
                 {shouldShowFareInfo(config) && (
                   <TicketInformation
                     fares={fares}
@@ -424,6 +433,9 @@ const withRelay = createFragmentContainer(
             }
           }
           type
+        }
+        emissionsPerPerson {
+          co2
         }
         legs {
           mode
