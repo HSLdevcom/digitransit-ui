@@ -41,15 +41,15 @@ export default function withSearchContext(
       onGeolocationStart: PropTypes.func,
       fromMap: PropTypes.string,
       isMobile: PropTypes.bool,
-      showMultiPointControls: PropTypes.bool,
       favouriteContext: PropTypes.bool,
+      showViapointControl: PropTypes.bool,
     };
 
     static defaultProps = {
       onGeolocationStart: null,
       fromMap: undefined,
       isMobile: false,
-      showMultiPointControls: false,
+      showViapointControl: false,
     };
 
     constructor(props) {
@@ -261,7 +261,7 @@ export default function withSearchContext(
         return this.renderSelectFromMapModal(fromMap);
       }
 
-      const viaProps = this.props.showMultiPointControls
+      const viaProps = this.props.showViapointControl
         ? { handleViaPointLocationSelected: this.onSelect }
         : {};
       return (
