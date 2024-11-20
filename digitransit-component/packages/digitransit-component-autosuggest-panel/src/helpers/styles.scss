@@ -150,7 +150,7 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle,
   justify-content: center;
   text-align: center;
   max-height: 50px;
-  cursor: pointer;
+  min-width: var(--width);
   & + .itinerary-search-control {
     border-left: 1px solid rgba(151, 151, 151, 0.2);
   }
@@ -160,6 +160,7 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle,
     align-items: center;
     height: 100%;
     min-width: 40px;
+    cursor: pointer;
     svg {
       width: 19px;
       height: 17px;
@@ -171,6 +172,7 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle,
     align-items: center;
     height: 100%;
     min-width: 40px;
+    cursor: pointer;
     svg {
       width: 20px;
       height: 22px;
@@ -182,6 +184,7 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle,
     align-items: center;
     height: 100%;
     min-width: 47px;
+    cursor: pointer;
     svg {
       width: 18px;
       height: 19px;
@@ -194,6 +197,7 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle,
     height: 100%;
     max-height: 44px;
     min-width: 40px;
+    cursor: pointer;
     svg {
       width: 14px;
       height: 14px;
