@@ -61,6 +61,13 @@ function ItinerarySummaryListContainer(
     itineraries.length > 0 &&
     !itineraries.includes(undefined)
   ) {
+    const lowestCo2value = Math.round(
+      itineraries
+        .filter(itinerary => itinerary.emissionsPerPerson?.co2 >= 0)
+        .reduce((a, b) => {
+          return a.emissionsPerPerson?.co2 < b.emissionsPerPerson?.co2 ? a : b;
+        }, 0).emissionsPerPerson?.co2,
+    );
     const summaries = itineraries.map((itinerary, i) => (
       <SummaryRow
         refTime={searchTime}
@@ -79,6 +86,7 @@ function ItinerarySummaryListContainer(
           config.zones.stops && itinerary.legs ? getZones(itinerary.legs) : []
         }
         delayThreshold={config.itinerary.delayThreshold}
+        lowestCo2value={lowestCo2value}
       />
     ));
     if (
@@ -339,6 +347,9 @@ const containerComponent = createFragmentContainer(
         walkDistance
         startTime
         endTime
+        emissionsPerPerson {
+          co2
+        }
         legs {
           # Temporarilly commented out, still needed in upstream OTP
           # alerts {

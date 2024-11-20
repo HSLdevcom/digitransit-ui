@@ -294,6 +294,7 @@ const translations = {
     'hsl_ticket': 'HSL ticket',
     'hsl_travel_card': 'HSL card',
     'is-open': 'Geöffnet:',
+    'itinerary-co2.title': 'CO₂-Emissionen der Reise',
     'itinerary-details.via-leg': '{arrivalTime} Ankunft am Zwischenziel {viaPoint}. {leaveAction}',
     'itinerary-in-the-past': 'Die Verbindung liegt in der Vergangenheit.',
     'itinerary-in-the-past-link': 'Abfahrt jetzt ›',
@@ -1667,6 +1668,7 @@ const translations = {
     inquiry: 'How did you find the new Journey Planner? Please tell us!',
     instructions: 'Instructions',
     'is-open': 'Open:',
+    'itinerary-co2.title': 'CO₂ emissions of the journey',
     'itinerary-details.biking-leg':
       'At {time} cycle {distance} from {origin} to {to} {destination}. Estimated time {duration}',
     'itinerary-details.car-leg':

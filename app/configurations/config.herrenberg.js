@@ -401,4 +401,6 @@ export default configMerger(parentConfig, {
 
     // live bus locations
     vehicles: true,
+
+    showCO2InItinerarySummary: true,
 });

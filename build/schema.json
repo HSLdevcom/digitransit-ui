@@ -2277,6 +2277,16 @@
                 },
                 {
                     "kind": "SCALAR",
+                    "name": "Grams",
+                    "description": "",
+                    "fields": null,
+                    "inputFields": null,
+                    "interfaces": null,
+                    "enumValues": null,
+                    "possibleTypes": null
+                },
+                {
+                    "kind": "SCALAR",
                     "name": "ID",
                     "description": null,
                     "fields": null,
@@ -2833,6 +2843,18 @@
                             "type": {
                                 "kind": "SCALAR",
                                 "name": "Float",
+                                "ofType": null
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "emissionsPerPerson",
+                            "description": "Emissions of this itinerary per traveler.",
+                            "args": [],
+                            "type": {
+                                "kind": "OBJECT",
+                                "name": "Emissions",
                                 "ofType": null
                             },
                             "isDeprecated": false,
@@ -12058,6 +12080,29 @@
                                     "name": "String",
                                     "ofType": null
                                 }
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        }
+                    ],
+                    "inputFields": null,
+                    "interfaces": [],
+                    "enumValues": null,
+                    "possibleTypes": null
+                },
+                {
+                    "kind": "OBJECT",
+                    "name": "Emissions",
+                    "description": null,
+                    "fields": [
+                        {
+                            "name": "co2",
+                            "description": "CO₂ emissions in grams.",
+                            "args": [],
+                            "type": {
+                                "kind": "SCALAR",
+                                "name": "Grams",
+                                "ofType": null
                             },
                             "isDeprecated": false,
                             "deprecationReason": null
