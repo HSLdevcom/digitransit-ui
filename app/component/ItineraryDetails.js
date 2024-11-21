@@ -68,7 +68,7 @@ const ItineraryShape = PropTypes.shape({
 });
 
 /* eslint-disable prettier/prettier */
-class ItineraryTab extends React.Component {
+class ItineraryDetails extends React.Component {
   static propTypes = {
     plan: PropTypes.shape({
       date: PropTypes.number.isRequired,
@@ -402,17 +402,17 @@ class ItineraryTab extends React.Component {
 }
 
 const withRelay = createFragmentContainer(
-  connectToStores(ItineraryTab, ['TimeStore'], context => ({
+  connectToStores(ItineraryDetails, ['TimeStore'], context => ({
     currentTime: context.getStore('TimeStore').getCurrentTime().unix(),
   })),
   {
     plan: graphql`
-      fragment ItineraryTab_plan on Plan {
+      fragment ItineraryDetails_plan on Plan {
         date
       }
     `,
     itinerary: graphql`
-      fragment ItineraryTab_itinerary on Itinerary {
+      fragment ItineraryDetails_itinerary on Itinerary {
         walkDistance
         duration
         startTime
@@ -668,4 +668,4 @@ const withRelay = createFragmentContainer(
   },
 );
 
-export { ItineraryTab as Component, withRelay as default };
+export { ItineraryDetails as Component, withRelay as default };

@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import cx from 'classnames';
-import ChildrenShape from '../../../../prop-types/ChildrenShape';
-import Icon from '../../../Icon';
-import { ICON_INFO, ICON_CAUTION, ICON_TYPE_CAUTION } from '../constants';
+import ChildrenShape from '../../prop-types/ChildrenShape';
+import Icon from '../Icon';
+import { ICON_INFO, ICON_CAUTION, ICON_TYPE_CAUTION } from './constants';
 
 const Title = ({ msgId }) => (
   <div className="in-the-past">

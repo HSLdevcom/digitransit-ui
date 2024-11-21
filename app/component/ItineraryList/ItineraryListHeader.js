@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
-export const ItinerarySummarySubtitle = ({ translationId, defaultMessage }) => {
+export const ItineraryListHeader = ({ translationId, defaultMessage }) => {
   return (
     <div className="itinerary-summary-subtitle-container">
       <FormattedMessage id={translationId} defaultMessage={defaultMessage} />
@@ -10,13 +10,13 @@ export const ItinerarySummarySubtitle = ({ translationId, defaultMessage }) => {
   );
 };
 
-ItinerarySummarySubtitle.propTypes = {
+ItineraryListHeader.propTypes = {
   translationId: PropTypes.string.isRequired,
   defaultMessage: PropTypes.string,
 };
 
-ItinerarySummarySubtitle.defaultProps = {
+ItineraryListHeader.defaultProps = {
   defaultMessage: '',
 };
 
-export default ItinerarySummarySubtitle;
+export default ItineraryListHeader;

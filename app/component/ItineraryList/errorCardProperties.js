@@ -3,10 +3,10 @@ import {
   ICON_INFO,
   ICON_TYPE_INFO,
   ICON_TYPE_CAUTION,
-} from '../constants';
-import NationalServiceLink from '../components/NationalServiceLink';
-import PastLink from '../components/PastLink';
-import ChangeDepartureTimeLink from '../components/ChangeDepartureTimeLink';
+} from './constants';
+import NationalServiceLink from './NationalServiceLink';
+import PastLink from './PastLink';
+import ChangeDepartureTimeLink from './ChangeDepartureTimeLink';
 
 const info = { iconType: ICON_TYPE_INFO, iconImg: ICON_INFO };
 const caution = { iconImg: ICON_CAUTION, iconType: ICON_TYPE_CAUTION };

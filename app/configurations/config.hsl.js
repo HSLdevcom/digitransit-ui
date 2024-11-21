@@ -580,7 +580,7 @@ export default {
   },
 
   // DT-3611
-  showVehiclesOnSummaryPage: true,
+  showVehiclesOnItineraryPage: true,
   showBikeAndPublicItineraries: true,
   showBikeAndParkItineraries: true,
 

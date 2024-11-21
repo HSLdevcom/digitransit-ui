@@ -3,7 +3,7 @@
 import fs from 'fs';
 import getConfig from './helpers/image-snapshot-config';
 import * as MockHelper from './helpers/mock-request-helper';
-import summaryPageMockData from './mock-data/SummaryPageQueryResponse.json';
+import itineraryPageMockData from './mock-data/ItineraryPageQueryResponse.json';
 import walkBikeMockData from './mock-data/WalkBikeQueryResponse.json';
 
 const config = process.env.CONFIG || 'hsl';
@@ -18,20 +18,20 @@ const mockRoutes = async page => {
     const matched = MockHelper.matchGraphQLRequest(request, [
       {
         matchBody: MockHelper.createPropertyRegex({
-          id: 'queryUtils_SummaryPage_Query',
+          id: 'ItineraryQueries_ItineraryPage_Query',
           fromPlace: 'Rautatientori.*',
         }),
-        data: summaryPageMockData,
+        data: itineraryPageMockData,
       },
       {
         matchBody: MockHelper.createPropertyRegex({
-          id: 'queryUtils_SummaryPage_Query',
+          id: 'ItineraryQueries_ItineraryPage_Query',
           toPlace: 'Valittu sijanti::10,10',
         }),
       },
       {
         matchBody: MockHelper.createPropertyRegex({
-          id: 'SummaryPage_WalkBike_Query',
+          id: 'ItineraryPage_WalkBike_Query',
         }),
         data: walkBikeMockData,
       },

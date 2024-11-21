@@ -828,7 +828,7 @@ export default {
   timetables: {},
 
   // DT-3611
-  showVehiclesOnSummaryPage: false,
+  showVehiclesOnItineraryPage: false,
 
   showWeatherInformation: true,
   showBikeAndPublicItineraries: false,

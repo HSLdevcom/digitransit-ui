@@ -12,19 +12,19 @@ import {
 } from '../../util/planParamUtil';
 
 import Icon from '../Icon';
-import SummaryRow from '../SummaryRow';
+import Itinerary from '../Itinerary';
 import { isBrowser } from '../../util/browser';
 import { getZones } from '../../util/legUtils';
 import CanceledItineraryToggler from '../CanceledItineraryToggler';
 import { itineraryHasCancelation } from '../../util/alertUtils';
-import { ItinerarySummarySubtitle } from '../ItinerarySummarySubtitle';
+import { ItineraryListHeader } from './ItineraryListHeader';
 import Loading from '../Loading';
-import ItinerarySummaryMessage from './components/ItinerarySummaryMessage';
+import ItinerarySummaryMessage from './ItinerarySummaryMessage';
 import LocationShape from '../../prop-types/LocationShape';
 import ErrorShape from '../../prop-types/ErrorShape';
 import RoutingErrorShape from '../../prop-types/RoutingErrorShape';
 
-function ItinerarySummaryListContainer(
+function ItineraryList(
   {
     activeIndex,
     currentTime,
@@ -69,7 +69,7 @@ function ItinerarySummaryListContainer(
         }, 0).emissionsPerPerson?.co2,
     );
     const summaries = itineraries.map((itinerary, i) => (
-      <SummaryRow
+      <Itinerary
         refTime={searchTime}
         key={i} // eslint-disable-line react/no-array-index-key
         hash={i}
@@ -97,7 +97,7 @@ function ItinerarySummaryListContainer(
         summaries.splice(
           0,
           0,
-          <ItinerarySummarySubtitle
+          <ItineraryListHeader
             translationId="itinerary-summary.bikePark-title"
             defaultMessage="Biking \u0026 public transport \u0026 walking"
             key="itinerary-summary.bikePark-title"
@@ -111,7 +111,7 @@ function ItinerarySummaryListContainer(
         summaries.splice(
           bikeAndParkItinerariesToShow ? bikeAndParkItinerariesToShow + 1 : 0,
           0,
-          <ItinerarySummarySubtitle
+          <ItineraryListHeader
             translationId="itinerary-summary.bikeAndPublic-title"
             defaultMessage="Biking \u0026 public transport"
             key="itinerary-summary.bikeAndPublic-title"
@@ -126,7 +126,7 @@ function ItinerarySummaryListContainer(
             Math.min(1, bikeAndParkItinerariesToShow) +
             Math.min(1, bikeAndPublicItinerariesToShow),
           0,
-          <ItinerarySummarySubtitle
+          <ItineraryListHeader
             translationId="itinerary-summary.bikeRentAndPublic-title"
             defaultMessage="Bike rental \u0026 public transport"
             key="itinerary-summary.bikeRentAndPublic-title"
@@ -294,7 +294,7 @@ function ItinerarySummaryListContainer(
   );
 }
 
-ItinerarySummaryListContainer.propTypes = {
+ItineraryList.propTypes = {
   activeIndex: PropTypes.number.isRequired,
   currentTime: PropTypes.number.isRequired,
   error: ErrorShape,
@@ -320,7 +320,7 @@ ItinerarySummaryListContainer.propTypes = {
   onlyHasWalkingItineraries: PropTypes.bool,
 };
 
-ItinerarySummaryListContainer.defaultProps = {
+ItineraryList.defaultProps = {
   error: undefined,
   intermediatePlaces: [],
   itineraries: [],
@@ -333,129 +333,122 @@ ItinerarySummaryListContainer.defaultProps = {
   routingErrors: [],
 };
 
-ItinerarySummaryListContainer.contextTypes = {
+ItineraryList.contextTypes = {
   config: PropTypes.object.isRequired,
   match: matchShape.isRequired,
 };
 
-const containerComponent = createFragmentContainer(
-  ItinerarySummaryListContainer,
-  {
-    itineraries: graphql`
-      fragment ItinerarySummaryListContainer_itineraries on Itinerary
-      @relay(plural: true) {
-        walkDistance
+const containerComponent = createFragmentContainer(ItineraryList, {
+  itineraries: graphql`
+    fragment ItineraryList_itineraries on Itinerary @relay(plural: true) {
+      walkDistance
+      startTime
+      endTime
+      emissionsPerPerson {
+        co2
+      }
+      legs {
+        # Temporarilly commented out, still needed in upstream OTP
+        # alerts {
+        #  alertId
+        # }
+        realTime
+        departureDelay
+        realtimeState
+        transitLeg
         startTime
         endTime
-        emissionsPerPerson {
-          co2
-        }
-        legs {
-          # Temporarilly commented out, still needed in upstream OTP
-          # alerts {
-          #  alertId
-          # }
-          realTime
-          departureDelay
-          realtimeState
-          transitLeg
-          startTime
-          endTime
-          mode
-          distance
-          duration
-          rentedBike
-          interlineWithPreviousLeg
-          intermediatePlace
-          intermediatePlaces {
-            stop {
-              zoneId
-            }
+        mode
+        distance
+        duration
+        rentedBike
+        interlineWithPreviousLeg
+        intermediatePlace
+        intermediatePlaces {
+          stop {
+            zoneId
           }
-          route {
-            mode
-            shortName
-            type
-            color
-            agency {
-              name
-            }
-            alerts {
-              alertSeverityLevel
-              effectiveEndDate
-              effectiveStartDate
-              entities {
-                __typename
-                ... on Route {
-                  patterns {
-                    code
-                  }
+        }
+        route {
+          mode
+          shortName
+          type
+          color
+          agency {
+            name
+          }
+          alerts {
+            alertSeverityLevel
+            effectiveEndDate
+            effectiveStartDate
+            entities {
+              __typename
+              ... on Route {
+                patterns {
+                  code
                 }
               }
             }
           }
-          trip {
-            pattern {
-              code
+        }
+        trip {
+          pattern {
+            code
+          }
+          stoptimes {
+            realtimeState
+            stop {
+              gtfsId
             }
-            stoptimes {
-              realtimeState
-              stop {
-                gtfsId
-              }
-              pickupType
-            }
+            pickupType
+          }
+          alerts {
+            alertSeverityLevel
+            effectiveEndDate
+            effectiveStartDate
+          }
+        }
+        from {
+          name
+          lat
+          lon
+          stop {
+            gtfsId
+            zoneId
+            platformCode
             alerts {
               alertSeverityLevel
               effectiveEndDate
               effectiveStartDate
             }
           }
-          from {
-            name
-            lat
-            lon
-            stop {
-              gtfsId
-              zoneId
-              platformCode
-              alerts {
-                alertSeverityLevel
-                effectiveEndDate
-                effectiveStartDate
-              }
-            }
-            bikeRentalStation {
-              bikesAvailable
-              networks
+          bikeRentalStation {
+            bikesAvailable
+            networks
+          }
+        }
+        to {
+          stop {
+            gtfsId
+            zoneId
+            alerts {
+              alertSeverityLevel
+              effectiveEndDate
+              effectiveStartDate
             }
           }
-          to {
-            stop {
-              gtfsId
-              zoneId
-              alerts {
-                alertSeverityLevel
-                effectiveEndDate
-                effectiveStartDate
-              }
-            }
-            bikePark {
-              bikeParkId
-              name
-            }
-            carPark {
-              carParkId
-              name
-            }
+          bikePark {
+            bikeParkId
+            name
+          }
+          carPark {
+            carParkId
+            name
           }
         }
       }
-    `,
-  },
-);
+    }
+  `,
+});
 
-export {
-  containerComponent as default,
-  ItinerarySummaryListContainer as Component,
-};
+export { containerComponent as default, ItineraryList as Component };

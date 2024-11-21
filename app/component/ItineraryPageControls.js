@@ -5,13 +5,13 @@ import { matchShape, routerShape } from 'found';
 import { FormattedMessage } from 'react-intl';
 
 import OriginDestinationBar from './OriginDestinationBar';
-import QuickSettingsPanel from './QuickSettingsPanel';
+import SearchSettings from './SearchSettings';
 import { isBrowser } from '../util/browser';
 import { parseLocation, PREFIX_ITINERARY_SUMMARY } from '../util/path';
 import withBreakpoint from '../util/withBreakpoint';
 import BackButton from './BackButton';
 
-class SummaryNavigation extends React.Component {
+class ItineraryPageControls extends React.Component {
   static propTypes = {
     params: PropTypes.shape({
       from: PropTypes.string,
@@ -112,7 +112,7 @@ class SummaryNavigation extends React.Component {
         />
         {isBrowser && (
           <React.Fragment>
-            <QuickSettingsPanel
+            <SearchSettings
               timeSelectorStartTime={this.props.startTime}
               timeSelectorEndTime={this.props.endTime}
               timeSelectorServiceTimeRange={this.props.serviceTimeRange}
@@ -125,4 +125,4 @@ class SummaryNavigation extends React.Component {
   }
 }
 
-export default withBreakpoint(SummaryNavigation);
+export default withBreakpoint(ItineraryPageControls);
