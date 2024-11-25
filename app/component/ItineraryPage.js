@@ -364,6 +364,7 @@ class ItineraryPage extends React.Component {
     mapLayers: mapLayerShape.isRequired,
     mapLayerOptions: mapLayerOptionsShape.isRequired,
     alertRef: PropTypes.string.isRequired,
+    carItinerary: ItineraryShape,
   };
 
   static defaultProps = {
@@ -839,6 +840,9 @@ class ItineraryPage extends React.Component {
             endTime
             ...ItineraryDetails_itinerary
             ...ItineraryListContainer_itineraries
+            emissionsPerPerson {
+              co2
+            }
             legs {
               mode
               ...ItineraryLine_legs
@@ -898,6 +902,9 @@ class ItineraryPage extends React.Component {
             endTime
             ...ItineraryDetails_itinerary
             ...ItineraryListContainer_itineraries
+            emissionsPerPerson {
+              co2
+            }
             legs {
               mode
               ...ItineraryLine_legs
@@ -958,6 +965,9 @@ class ItineraryPage extends React.Component {
             endTime
             ...ItineraryDetails_itinerary
             ...ItineraryListContainer_itineraries
+            emissionsPerPerson {
+              co2
+            }
             legs {
               mode
               ...ItineraryLine_legs
@@ -1018,6 +1028,9 @@ class ItineraryPage extends React.Component {
             endTime
             ...ItineraryDetails_itinerary
             ...ItineraryListContainer_itineraries
+            emissionsPerPerson {
+              co2
+            }
             legs {
               mode
               ...ItineraryLine_legs
@@ -1077,6 +1090,9 @@ class ItineraryPage extends React.Component {
             endTime
             ...ItineraryDetails_itinerary
             ...ItineraryListContainer_itineraries
+            emissionsPerPerson {
+              co2
+            }
             legs {
               mode
               ...ItineraryLine_legs
@@ -1140,6 +1156,9 @@ class ItineraryPage extends React.Component {
             endTime
             ...ItineraryDetails_itinerary
             ...ItineraryListContainer_itineraries
+            emissionsPerPerson {
+              co2
+            }
             legs {
               startTime
               endTime
@@ -1210,6 +1229,9 @@ class ItineraryPage extends React.Component {
             endTime
             ...ItineraryDetails_itinerary
             ...ItineraryListContainer_itineraries
+            emissionsPerPerson {
+              co2
+            }
             legs {
               startTime
               endTime
@@ -1288,6 +1310,9 @@ class ItineraryPage extends React.Component {
             endTime
             ...ItineraryDetails_itinerary
             ...ItineraryListContainer_itineraries
+            emissionsPerPerson {
+              co2
+            }
             legs {
               mode
               ...ItineraryLine_legs
@@ -1446,6 +1471,9 @@ class ItineraryPage extends React.Component {
             endTime
             ...ItineraryDetails_itinerary
             ...ItineraryListContainer_itineraries
+            emissionsPerPerson {
+              co2
+            }
             legs {
               mode
               ...ItineraryLine_legs
@@ -2991,6 +3019,7 @@ class ItineraryPage extends React.Component {
                   focusToStep={this.focusToStep}
                   isMobile={false}
                   toggleCarpoolDrawer={this.toggleCarpoolDrawer}
+                  carItinerary={carPlan?.itineraries[0]}
                 />
               </div>
             );
@@ -3501,6 +3530,9 @@ const containerComponent = createRefetchContainer(
             endTime
             ...ItineraryDetails_itinerary
             ...ItineraryListContainer_itineraries
+            emissionsPerPerson {
+              co2
+            }
             legs {
               mode
               ...ItineraryLine_legs

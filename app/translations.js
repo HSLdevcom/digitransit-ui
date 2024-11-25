@@ -295,6 +295,16 @@ const translations = {
     'hsl_travel_card': 'HSL card',
     'is-open': 'Geöffnet:',
     'itinerary-co2.title': 'CO₂-Emissionen der Reise',
+    'itinerary-co2.title-sr': 'Kohlenstoffdioxid-Emissionen der Reise',
+    'itinerary-co2.description-simple':
+      '{co2value} g CO₂ Emissionen werden durch diese Reise verursacht.',
+    'itinerary-co2.description-simple-sr':
+      '{co2value} g Kohlenstoffdioxid Emissionen werden durch diese Reise verursacht.',
+    'itinerary-co2.description-sr':
+      '{co2value} g Kohlenstoffdioxid Emissionen werden durch diese Reise verursacht. Ein Auto würde {carCo2Value} g Kohlenstoffdioxid auf derselben Reise ausstoßen.',
+    'itinerary-co2.description':
+      '{co2value} g CO₂ Emissionen werden durch diese Reise verursacht. Ein Auto würde {carCo2Value} g CO₂ auf derselben Reise ausstoßen.',
+    'itinerary-co2.link': 'So reduzieren wir Emissionen ›',
     'itinerary-details.via-leg': '{arrivalTime} Ankunft am Zwischenziel {viaPoint}. {leaveAction}',
     'itinerary-in-the-past': 'Die Verbindung liegt in der Vergangenheit.',
     'itinerary-in-the-past-link': 'Abfahrt jetzt ›',
@@ -1669,6 +1679,16 @@ const translations = {
     instructions: 'Instructions',
     'is-open': 'Open:',
     'itinerary-co2.title': 'CO₂ emissions of the journey',
+    'itinerary-co2.title-sr': 'Carbondioxide emissions of the journey',
+    'itinerary-co2.description-simple':
+      '{co2value} g of CO₂ emissions will be generated on this journey.',
+    'itinerary-co2.description-simple-sr':
+      '{co2value} g of carbondioxide emissions will be generated on this journey.',
+    'itinerary-co2.description-sr':
+      '{co2value} g of carbondioxide emissions will be generated on this journey. A car would generate {carCo2Value} g of carbondioxide on the same journey.',
+    'itinerary-co2.description':
+      '{co2value} g of CO₂ emissions will be generated on this journey. A car would generate {carCo2Value} g of CO₂ on the same journey.',
+    'itinerary-co2.link': 'This is how we reduce emissions ›',
     'itinerary-details.biking-leg':
       'At {time} cycle {distance} from {origin} to {to} {destination}. Estimated time {duration}',
     'itinerary-details.car-leg':
