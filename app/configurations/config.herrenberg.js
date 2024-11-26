@@ -397,8 +397,6 @@ export default configMerger(parentConfig, {
         'lot_type:Parkhaus'
     ],
 
-    realtime: { hbg: realtimeHbg },
-
     // live bus locations
     vehicles: true,
 
