@@ -24,16 +24,7 @@ import DelayedTime from './DelayedTime';
 import WalkSteps from './WalkSteps';
 
 function WalkLeg(
-  {
-    children,
-    focusAction,
-    focusToLeg,
-    focusToStep,
-    index,
-    leg,
-    previousLeg,
-    startTime,
-  },
+  { children, focusAction, focusToLeg, focusToStep, index, leg, previousLeg },
   { config, intl },
 ) {
   const distance = displayDistance(
@@ -112,7 +103,7 @@ function WalkLeg(
             <DelayedTime
               leg={previousLeg}
               delay={previousLeg && previousLeg.arrivalDelay}
-              startTime={startTime}
+              startTime={leg.mode === 'WALK' ? leg.startTime : leg.endTime}
             />
           </div>
         </div>
@@ -400,9 +391,6 @@ WalkLeg.propTypes = {
   previousLeg: walkLegShape,
   focusToLeg: PropTypes.func.isRequired,
   focusToStep: PropTypes.func.isRequired,
-  // This is not necessarily the `leg`'s start time!
-  // Usually, it seems to be the previous leg's end time.
-  startTime: PropTypes.number.isRequired,
 };
 
 WalkLeg.defaultProps = {
