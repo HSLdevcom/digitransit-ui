@@ -1,6 +1,5 @@
 /* eslint-disable */
 import configMerger from '../util/configMerger';
-import { MapMode } from '../constants';
 
 const CONFIG = 'herrenberg';
 const APP_TITLE = 'stadtnavi Herrenberg';
@@ -291,7 +290,7 @@ export default configMerger(parentConfig, {
                 paragraphs: [
                     'stadtnavi ist eine Reiseplanungs-Anwendung für die Stadt Herrenberg und Umgebung. Dieser Dienst umfasst ÖPNV, Fußwege, Radverkehr, Straßen- und Parkplatzinformationen, Ladeinfrastruktur und Sharing-Angebote. Mobilitätsangebote werden durch intermodales Routing miteinander vernetzt.',
                     'Gefördert durch <br>',
-                    '<a href="https://www.herrenberg.de/stadtluft"><img src="https://www.herrenberg.de/ceasy/resource/?id=4355&predefinedImageSize=rightEditorContent"/></a>',
+                    '<a href="https://www.herrenberg.de/stadtluft"><img alt="BMDV Logo" src="https://www.herrenberg.de/ceasy/resource/?id=4355&predefinedImageSize=rightEditorContent"/></a>',
 
                 ],
             },
@@ -323,7 +322,7 @@ export default configMerger(parentConfig, {
                 header: 'About this service',
                 paragraphs: [
                     'stadtnavi is a travel planning application for the city of Herrenberg and its surroundings. This service includes public transport, footpaths, cycling, street and parking information, charging infrastructure and sharing offerings. The mobility offerings are connected through intermodal routing.',
-                    '<a href="https://www.herrenberg.de/stadtluft"><img src="https://www.herrenberg.de/ceasy/resource/?id=4355&predefinedImageSize=rightEditorContent"/></a>',
+                    '<a href="https://www.herrenberg.de/stadtluft"><img alt="BMDV Logo" src="https://www.herrenberg.de/ceasy/resource/?id=4355&predefinedImageSize=rightEditorContent"/></a>',
                 ],
             },
             {
