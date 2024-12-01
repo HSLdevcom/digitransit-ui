@@ -1,6 +1,10 @@
 /* eslint-disable import/prefer-default-export */
 import PropTypes from 'prop-types';
 
+export const configShape = PropTypes.shape({
+  CONFIG: PropTypes.string.isRequired,
+});
+
 export const dtLocationShape = PropTypes.shape({
   lat: PropTypes.number,
   lon: PropTypes.number,
@@ -29,6 +33,15 @@ export const mapLayerOptionsShape = PropTypes.shape({
   terminal: PropTypes.shape(mapLayerOptionStopOrTerminalShape),
   vehicles: PropTypes.shape(mapLayerOptionShape),
   citybike: PropTypes.shape(mapLayerOptionShape),
+});
+
+export const relayShape = PropTypes.shape({
+  refetchConnection: PropTypes.func,
+  refetch: PropTypes.func,
+  hasMore: PropTypes.func,
+  loadMore: PropTypes.func,
+  // eslint-disable-next-line
+  environment: PropTypes.object,
 });
 
 export const FareShape = PropTypes.shape({

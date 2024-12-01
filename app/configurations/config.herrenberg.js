@@ -390,7 +390,7 @@ export default configMerger(parentConfig, {
         ],
     },
     staticMessagesUrl: STATIC_MESSAGE_URL,
-
+    
     parkAndRideBannedVehicleParkingTags: [
         'lot_type:Parkplatz',
         'lot_type:Tiefgarage',

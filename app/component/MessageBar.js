@@ -5,18 +5,13 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { intlShape } from 'react-intl';
 import { graphql, fetchQuery, ReactRelayContext } from 'react-relay';
-
+import { configShape, relayShape } from '../util/shapes';
 import SwipeableTabs from './SwipeableTabs';
 import Icon from './Icon';
 import MessageBarMessage from './MessageBarMessage';
 import { markMessageAsRead } from '../action/MessageActions';
 import { getReadMessageIds } from '../store/localStorage';
-import {
-  getServiceAlertDescription,
-  getServiceAlertHeader,
-  getServiceAlertUrl,
-  mapAlertSource,
-} from '../util/alertUtils';
+import { mapAlertSource } from '../util/alertUtils';
 import { isKeyboardSelectionEvent } from '../util/browser';
 import hashCode from '../util/hashUtil';
 
@@ -38,23 +33,13 @@ const fetchServiceAlerts = async (feedids, relayEnvironment) => {
         alertUrl
         effectiveEndDate
         effectiveStartDate
-        alertDescriptionTextTranslations {
-          language
-          text
-        }
-        alertHeaderTextTranslations {
-          language
-          text
-        }
-        alertUrlTranslations {
-          language
-          text
-        }
       }
     }
   `;
 
-  const result = await fetchQuery(relayEnvironment, query, { feedids });
+  const result = await fetchQuery(relayEnvironment, query, {
+    feedids,
+  });
   return result && Array.isArray(result.alerts) ? result.alerts : [];
 };
 
@@ -68,52 +53,26 @@ export const getServiceAlertId = alert =>
      ${alert.feed}`,
   );
 
-const toMessage = (alert, intl, config) => {
-  const source = {
-    en: mapAlertSource(config, 'en', alert.feed),
-    fi: mapAlertSource(config, 'fi', alert.feed),
-    sv: mapAlertSource(config, 'sv', alert.feed),
-  };
+const toMessage = (alert, intl, config, lang) => {
+  const source = mapAlertSource(config, lang, alert.feed);
+  const content = {};
+  content[lang] = [
+    {
+      type: 'heading',
+      content: source
+        ? source.concat(alert.alertHeaderText)
+        : alert.alertHeaderText,
+    },
+    { type: 'text', content: alert.alertDescriptionText },
+    {
+      type: 'a',
+      content: intl.formatMessage({ id: 'extra-info' }),
+      href: alert.alertUrl,
+    },
+  ];
 
   return {
-    content: {
-      en: [
-        {
-          type: 'heading',
-          content: source.en.concat(getServiceAlertHeader(alert, 'en')),
-        },
-        { type: 'text', content: getServiceAlertDescription(alert, 'en') },
-        {
-          type: 'a',
-          content: intl.formatMessage({ id: 'extra-info' }),
-          href: getServiceAlertUrl(alert, 'en'),
-        },
-      ],
-      fi: [
-        {
-          type: 'heading',
-          content: source.fi.concat(getServiceAlertHeader(alert, 'fi')),
-        },
-        { type: 'text', content: getServiceAlertDescription(alert, 'fi') },
-        {
-          type: 'a',
-          content: intl.formatMessage({ id: 'extra-info' }),
-          href: getServiceAlertUrl(alert, 'fi'),
-        },
-      ],
-      sv: [
-        {
-          type: 'heading',
-          content: source.sv.concat(getServiceAlertHeader(alert, 'sv')),
-        },
-        { type: 'text', content: getServiceAlertDescription(alert, 'sv') },
-        {
-          type: 'a',
-          content: intl.formatMessage({ id: 'extra-info' }),
-          href: getServiceAlertUrl(alert, 'sv'),
-        },
-      ],
-    },
+    content,
     icon: 'caution',
     id: getServiceAlertId(alert),
     persistence: 'repeat',
@@ -126,21 +85,23 @@ class MessageBar extends Component {
     getStore: PropTypes.func.isRequired,
     intl: intlShape.isRequired,
     executeAction: PropTypes.func.isRequired,
-    config: PropTypes.object.isRequired,
+    config: configShape.isRequired,
   };
 
   static propTypes = {
     currentTime: PropTypes.number.isRequired,
     getServiceAlertsAsync: PropTypes.func,
     lang: PropTypes.string.isRequired,
-    messages: PropTypes.array.isRequired,
-    relayEnvironment: PropTypes.object,
+    // eslint-disable-next-line
+    messages: PropTypes.arrayOf(PropTypes.object).isRequired,
+    relayEnvironment: relayShape.isRequired,
     duplicateMessageCounter: PropTypes.number.isRequired,
     breakpoint: PropTypes.string,
   };
 
   static defaultProps = {
     getServiceAlertsAsync: fetchServiceAlerts,
+    breakpoint: undefined,
   };
 
   state = {
@@ -184,16 +145,6 @@ class MessageBar extends Component {
     }
   };
 
-  ariaContent = (content, id) => {
-    return (
-      <span key={`message-${id}`}>
-        {content.map(e => (
-          <span key={`message-content-${id}-${e.type}`}>{e.content}</span>
-        ))}
-      </span>
-    );
-  };
-
   getTabContent = (textColor, slideIndex) =>
     this.validMessages().map((el, index) => (
       <div
@@ -206,7 +157,6 @@ class MessageBar extends Component {
           textColor={textColor}
           truncate={!this.state.allAlertsOpen}
           onShowMore={this.openAllAlerts}
-          config={this.context.config}
         />
       </div>
     ));
@@ -221,7 +171,9 @@ class MessageBar extends Component {
     );
     const { lang, messages } = this.props;
     return [
-      ...filteredServiceAlerts.map(alert => toMessage(alert, intl, config)),
+      ...filteredServiceAlerts.map(alert =>
+        toMessage(alert, intl, config, lang),
+      ),
       ...messages,
     ].filter(el => {
       if (
@@ -265,14 +217,20 @@ class MessageBar extends Component {
     const backgroundColor = msg.backgroundColor || '#fff';
     const textColor = isDisruption ? '#fff' : msg.textColor || '#000';
     const dataURI = msg.dataURI || null;
+    const ariaContent = (content, id) => {
+      return (
+        <span key={`message-${id}`}>
+          {content.map(e => (
+            <span key={`message-content-${id}-${e.type}`}>{e.content}</span>
+          ))}
+        </span>
+      );
+    };
     return (
       <>
         <span className="sr-only" role="alert">
           {messages.map(el =>
-            this.ariaContent(
-              el.content[this.props.lang] || el.content.fi,
-              el.id,
-            ),
+            ariaContent(el.content[this.props.lang] || el.content.fi, el.id),
           )}
         </span>
         <section
