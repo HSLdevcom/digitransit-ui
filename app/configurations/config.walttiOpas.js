@@ -9,7 +9,8 @@ const APP_DESCRIPTION = 'Uusi Reittiopas - Waltti-opas';
 const walttiConfig = require('./config.waltti').default;
 
 const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
-const OTP_URL = process.env.OTP_URL || `${API_URL}/routing/v2/routers/waltti-alt/`
+const OTP_URL =
+  process.env.OTP_URL || `${API_URL}/routing/v2/routers/waltti-alt/`;
 const MAP_URL =
   process.env.MAP_URL || 'https://digitransit-dev-cdn-origin.azureedge.net';
 const POI_MAP_PREFIX = `${MAP_URL}/map/v3/waltti-alt`;
@@ -28,7 +29,7 @@ export default configMerger(walttiConfig, {
     },
     REALTIME_RENTAL_STATION_MAP: {
       default: `${POI_MAP_PREFIX}/fi/realtimeRentalStations/`,
-    }
+    },
   },
 
   appBarLink: { name: 'Waltti', href: 'https://waltti.fi/' },
@@ -168,7 +169,9 @@ export default configMerger(walttiConfig, {
   },
 
   menu: {
-    copyright: { label: `© TVV lippu- ja maksujärjestelmä Oy ${walttiConfig.YEAR}` },
+    copyright: {
+      label: `© TVV lippu- ja maksujärjestelmä Oy ${walttiConfig.YEAR}`,
+    },
     content: [
       {
         name: 'about-this-service',
@@ -244,7 +247,7 @@ export default configMerger(walttiConfig, {
       {
         header: 'Data sources',
         paragraphs: [
-          'Maps, streets, buildings, stop locations etc. are provided by © OpenStreetMap contributors. Address data is retrieved from the Building and Dwelling Register of the Finnish Population Register Center. Public transport routes and timetables are downloaded from Traficom\'s national public transit database.',
+          "Maps, streets, buildings, stop locations etc. are provided by © OpenStreetMap contributors. Address data is retrieved from the Building and Dwelling Register of the Finnish Population Register Center. Public transport routes and timetables are downloaded from Traficom's national public transit database.",
         ],
       },
     ],
@@ -252,7 +255,7 @@ export default configMerger(walttiConfig, {
 
   viaPointsEnabled: false,
   showVehiclesOnStopPage: true,
-  showVehiclesOnSummaryPage: true,
+  showVehiclesOnItineraryPage: true,
 
   sourceForAlertsAndDisruptions: {
     Kotka: {

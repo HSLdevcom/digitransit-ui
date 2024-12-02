@@ -173,7 +173,7 @@ export default configMerger(walttiConfig, {
   vehicles: false,
   viaPointsEnabled: false,
   showVehiclesOnStopPage: false,
-  showVehiclesOnSummaryPage: false,
+  showVehiclesOnItineraryPage: false,
 
   aboutThisService: {
     fi: [

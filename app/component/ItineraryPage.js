@@ -22,9 +22,10 @@ import SunCalc from 'suncalc';
 import DesktopView from './DesktopView';
 import MobileView from './MobileView';
 import ItineraryPageMap from './map/ItineraryPageMap';
-import SummaryPlanContainer from './SummaryPlanContainer';
-import SummaryNavigation from './SummaryNavigation';
+import ItineraryListContainer from './ItineraryListContainer';
+import ItineraryPageControls from './ItineraryPageControls';
 import MobileItineraryWrapper from './MobileItineraryWrapper';
+import { planQuery, moreItinerariesQuery } from './ItineraryQueries';
 import { getWeatherData } from '../util/apiUtils';
 import Loading from './Loading';
 import { getSummaryPath, streetHash } from '../util/path';
@@ -33,11 +34,7 @@ import {
   validateServiceTimeRange,
   getStartTimeWithColon,
 } from '../util/timeUtils';
-import {
-  planQuery,
-  moreItinerariesQuery,
-  clearQueryParams,
-} from '../util/queryUtils';
+import { clearQueryParams } from '../util/queryUtils';
 import withBreakpoint from '../util/withBreakpoint';
 import { isIOS } from '../util/browser';
 import { itineraryHasCancelation } from '../util/alertUtils';
@@ -54,7 +51,7 @@ import {
   stopRealTimeClient,
   changeRealTimeClientTopics,
 } from '../action/realTimeClientAction';
-import ItineraryTab from './ItineraryTab';
+import ItineraryDetails from './ItineraryDetails';
 import { StreetModeSelector } from './StreetModeSelector';
 import SwipeableTabs from './SwipeableTabs';
 import {
@@ -186,7 +183,7 @@ export function reportError(error) {
   addAnalyticsEvent({
     category: 'Itinerary',
     action: 'ErrorLoading',
-    name: 'SummaryPage',
+    name: 'ItineraryPage',
     message: error.message || error,
     stack: error.stack || null,
   });
@@ -330,7 +327,7 @@ const setCurrentTimeToURL = (config, match) => {
   }
 };
 
-class SummaryPage extends React.Component {
+class ItineraryPage extends React.Component {
   static contextTypes = {
     config: PropTypes.object,
     executeAction: PropTypes.func.isRequired,
@@ -673,7 +670,7 @@ class SummaryPage extends React.Component {
     this.query = this.context.match.location.query;
   };
 
-  resetSummaryPageSelection = () => {
+  resetItineraryPageSelection = () => {
     this.context.router.replace({
       ...this.context.match.location,
       state: {
@@ -685,7 +682,7 @@ class SummaryPage extends React.Component {
 
   makeWalkAndBikeQueries = () => {
     const query = graphql`
-      query SummaryPage_WalkBike_Query(
+      query ItineraryPage_WalkBike_Query(
         $fromPlace: String!
         $toPlace: String!
         $intermediatePlaces: [InputCoordinates!]
@@ -743,15 +740,15 @@ class SummaryPage extends React.Component {
           arriveBy: $arriveBy
           locale: $locale
         ) @include(if: $shouldMakeWalkQuery) {
-          ...SummaryPlanContainer_plan
-          ...ItineraryTab_plan
+          ...ItineraryListContainer_plan
+          ...ItineraryDetails_plan
           itineraries {
             walkDistance
             duration
             startTime
             endTime
-            ...ItineraryTab_itinerary
-            ...SummaryPlanContainer_itineraries
+            ...ItineraryDetails_itinerary
+            ...ItineraryListContainer_itineraries
             legs {
               mode
               ...ItineraryLine_legs
@@ -793,14 +790,14 @@ class SummaryPage extends React.Component {
           triangle: $triangle
           locale: $locale
         ) @include(if: $shouldMakeBikeQuery) {
-          ...SummaryPlanContainer_plan
-          ...ItineraryTab_plan
+          ...ItineraryListContainer_plan
+          ...ItineraryDetails_plan
           itineraries {
             duration
             startTime
             endTime
-            ...ItineraryTab_itinerary
-            ...SummaryPlanContainer_itineraries
+            ...ItineraryDetails_itinerary
+            ...ItineraryListContainer_itineraries
             legs {
               mode
               ...ItineraryLine_legs
@@ -834,14 +831,14 @@ class SummaryPage extends React.Component {
           unpreferred: $unpreferred
           locale: $locale
         ) @include(if: $showBikeAndPublicItineraries) {
-          ...SummaryPlanContainer_plan
-          ...ItineraryTab_plan
+          ...ItineraryListContainer_plan
+          ...ItineraryDetails_plan
           itineraries {
             duration
             startTime
             endTime
-            ...ItineraryTab_itinerary
-            ...SummaryPlanContainer_itineraries
+            ...ItineraryDetails_itinerary
+            ...ItineraryListContainer_itineraries
             legs {
               mode
               ...ItineraryLine_legs
@@ -893,14 +890,14 @@ class SummaryPage extends React.Component {
           locale: $locale
         ) @include(if: $showBikeRentAndPublicItineraries) {
           # todo: does this match the expected data of bike (rent) + public itineraries
-          ...SummaryPlanContainer_plan
-          ...ItineraryTab_plan
+          ...ItineraryListContainer_plan
+          ...ItineraryDetails_plan
           itineraries {
             duration
             startTime
             endTime
-            ...ItineraryTab_itinerary
-            ...SummaryPlanContainer_itineraries
+            ...ItineraryDetails_itinerary
+            ...ItineraryListContainer_itineraries
             legs {
               mode
               ...ItineraryLine_legs
@@ -953,14 +950,14 @@ class SummaryPage extends React.Component {
           locale: $locale
         ) @include(if: $shouldMakeScooterQuery) {
           # todo: does this match the expected data of scooter (rent) + public itineraries
-          ...SummaryPlanContainer_plan
-          ...ItineraryTab_plan
+          ...ItineraryListContainer_plan
+          ...ItineraryDetails_plan
           itineraries {
             duration
             startTime
             endTime
-            ...ItineraryTab_itinerary
-            ...SummaryPlanContainer_itineraries
+            ...ItineraryDetails_itinerary
+            ...ItineraryListContainer_itineraries
             legs {
               mode
               ...ItineraryLine_legs
@@ -1012,15 +1009,15 @@ class SummaryPage extends React.Component {
           locale: $locale
           searchWindow: 10800
         ) @include(if: $shouldMakeOnDemandTaxiQuery) {
-          ...SummaryPlanContainer_plan
-          ...ItineraryTab_plan
+          ...ItineraryListContainer_plan
+          ...ItineraryDetails_plan
           itineraries {
-            ...ItinerarySummaryListContainer_itineraries
+            ...ItineraryList_itineraries
             duration
             startTime
             endTime
-            ...ItineraryTab_itinerary
-            ...SummaryPlanContainer_itineraries
+            ...ItineraryDetails_itinerary
+            ...ItineraryListContainer_itineraries
             legs {
               mode
               ...ItineraryLine_legs
@@ -1072,14 +1069,14 @@ class SummaryPage extends React.Component {
         # preferredVehicleParkingTags: $preferredBicycleParkingTags
         # unpreferredVehicleParkingTagPenalty: $unpreferredBicycleParkingTagPenalty
         @include(if: $showBikeAndParkItineraries) {
-          ...SummaryPlanContainer_plan
-          ...ItineraryTab_plan
+          ...ItineraryListContainer_plan
+          ...ItineraryDetails_plan
           itineraries {
             duration
             startTime
             endTime
-            ...ItineraryTab_itinerary
-            ...SummaryPlanContainer_itineraries
+            ...ItineraryDetails_itinerary
+            ...ItineraryListContainer_itineraries
             legs {
               mode
               ...ItineraryLine_legs
@@ -1135,14 +1132,14 @@ class SummaryPage extends React.Component {
           unpreferred: $unpreferred
           locale: $locale
         ) @include(if: $shouldMakeCarQuery) {
-          ...SummaryPlanContainer_plan
-          ...ItineraryTab_plan
+          ...ItineraryListContainer_plan
+          ...ItineraryDetails_plan
           itineraries {
             duration
             startTime
             endTime
-            ...ItineraryTab_itinerary
-            ...SummaryPlanContainer_itineraries
+            ...ItineraryDetails_itinerary
+            ...ItineraryListContainer_itineraries
             legs {
               startTime
               endTime
@@ -1205,14 +1202,14 @@ class SummaryPage extends React.Component {
           allowedVehicleRentalNetworks: $allowedVehicleRentalNetworks
           locale: $locale
         ) @include(if: $shouldMakeCarQuery) {
-          ...SummaryPlanContainer_plan
-          ...ItineraryTab_plan
+          ...ItineraryListContainer_plan
+          ...ItineraryDetails_plan
           itineraries {
             duration
             startTime
             endTime
-            ...ItineraryTab_itinerary
-            ...SummaryPlanContainer_itineraries
+            ...ItineraryDetails_itinerary
+            ...ItineraryListContainer_itineraries
             legs {
               startTime
               endTime
@@ -1283,14 +1280,14 @@ class SummaryPage extends React.Component {
         # useVehicleParkingAvailabilityInformation: $useVehicleParkingAvailabilityInformation
         # bannedVehicleParkingTags: $bannedVehicleParkingTags
         @include(if: $shouldMakeParkRideQuery) {
-          ...SummaryPlanContainer_plan
-          ...ItineraryTab_plan
+          ...ItineraryListContainer_plan
+          ...ItineraryDetails_plan
           itineraries {
             duration
             startTime
             endTime
-            ...ItineraryTab_itinerary
-            ...SummaryPlanContainer_itineraries
+            ...ItineraryDetails_itinerary
+            ...ItineraryListContainer_itineraries
             legs {
               mode
               ...ItineraryLine_legs
@@ -1386,10 +1383,10 @@ class SummaryPage extends React.Component {
   makeQueryWithAllModes = () => {
     this.setLoading(true);
 
-    this.resetSummaryPageSelection();
+    this.resetItineraryPageSelection();
 
     const query = graphql`
-      query SummaryPage_Query(
+      query ItineraryPage_Query(
         $fromPlace: String!
         $toPlace: String!
         $intermediatePlaces: [InputCoordinates!]
@@ -1442,13 +1439,13 @@ class SummaryPage extends React.Component {
           #   code
           #   inputField
           # }
-          ...SummaryPlanContainer_plan
-          ...ItineraryTab_plan
+          ...ItineraryListContainer_plan
+          ...ItineraryDetails_plan
           itineraries {
             startTime
             endTime
-            ...ItineraryTab_itinerary
-            ...SummaryPlanContainer_itineraries
+            ...ItineraryDetails_itinerary
+            ...ItineraryListContainer_itineraries
             legs {
               mode
               ...ItineraryLine_legs
@@ -1616,7 +1613,7 @@ class SummaryPage extends React.Component {
               : reversedItineraries.length,
           };
         });
-        this.resetSummaryPageSelection();
+        this.resetItineraryPageSelection();
       } else {
         this.setState(prevState => {
           return {
@@ -1743,7 +1740,7 @@ class SummaryPage extends React.Component {
           };
         });
 
-        this.resetSummaryPageSelection();
+        this.resetItineraryPageSelection();
       }
     });
   };
@@ -1847,7 +1844,7 @@ class SummaryPage extends React.Component {
     if (this.showVehicles()) {
       const { client } = this.context.getStore('RealTimeInformationStore');
       // If user comes from eg. RoutePage, old client may not have been completely shut down yet.
-      // This will prevent situation where RoutePages vehicles would appear on SummaryPage
+      // This will prevent situation where RoutePages vehicles would appear on ItineraryPage
       if (!client) {
         const combinedItineraries = this.getCombinedItineraries();
         const itineraryTopics = getTopicOptions(
@@ -2497,7 +2494,7 @@ class SummaryPage extends React.Component {
                   },
                   () => {
                     this.showScreenreaderUpdatedAlert();
-                    this.resetSummaryPageSelection();
+                    this.resetItineraryPageSelection();
                   },
                 );
               });
@@ -2522,7 +2519,7 @@ class SummaryPage extends React.Component {
 
     return !!(
       this.inRange &&
-      this.context.config.showVehiclesOnSummaryPage &&
+      this.context.config.showVehiclesOnItineraryPage &&
       hash !== 'walk' &&
       hash !== 'bike' &&
       hash !== 'car' &&
@@ -2985,7 +2982,7 @@ class SummaryPage extends React.Component {
                 key={itinerary.key}
                 aria-hidden={activeIndex !== i}
               >
-                <ItineraryTab
+                <ItineraryDetails
                   hideTitle
                   plan={currentTime}
                   itinerary={itinerary}
@@ -3038,7 +3035,7 @@ class SummaryPage extends React.Component {
         }
         content = (
           <>
-            <SummaryPlanContainer
+            <ItineraryListContainer
               activeIndex={activeIndex}
               plan={this.selectedPlan}
               serviceTimeRange={serviceTimeRange}
@@ -3088,7 +3085,7 @@ class SummaryPage extends React.Component {
                   focusToPoint: this.focusToPoint,
                   plan: this.selectedPlan,
                 })}
-            </SummaryPlanContainer>
+            </ItineraryListContainer>
           </>
         );
       } else {
@@ -3120,7 +3117,7 @@ class SummaryPage extends React.Component {
             }
             header={
               <React.Fragment>
-                <SummaryNavigation params={match.params} />
+                <ItineraryPageControls params={match.params} />
                 <StreetModeSelector loading />
               </React.Fragment>
             }
@@ -3142,7 +3139,7 @@ class SummaryPage extends React.Component {
           }
           header={
             <span aria-hidden={this.getOffcanvasState()} ref={this.headerRef}>
-              <SummaryNavigation
+              <ItineraryPageControls
                 params={match.params}
                 serviceTimeRange={serviceTimeRange}
                 startTime={earliestStartTime}
@@ -3269,7 +3266,7 @@ class SummaryPage extends React.Component {
       } else {
         content = (
           <>
-            <SummaryPlanContainer
+            <ItineraryListContainer
               activeIndex={
                 hash || getActiveIndex(match.location, combinedItineraries)
               }
@@ -3332,7 +3329,7 @@ class SummaryPage extends React.Component {
             combinedItineraries,
           ) ? (
             <span aria-hidden={this.getOffcanvasState()} ref={this.headerRef}>
-              <SummaryNavigation
+              <ItineraryPageControls
                 params={match.params}
                 serviceTimeRange={serviceTimeRange}
                 startTime={earliestStartTime}
@@ -3412,16 +3409,16 @@ class SummaryPage extends React.Component {
   }
 }
 
-const SummaryPageWithBreakpoint = withBreakpoint(props => (
+const ItineraryPageWithBreakpoint = withBreakpoint(props => (
   <ReactRelayContext.Consumer>
     {({ environment }) => (
-      <SummaryPage {...props} relayEnvironment={environment} />
+      <ItineraryPage {...props} relayEnvironment={environment} />
     )}
   </ReactRelayContext.Consumer>
 ));
 
-const SummaryPageWithStores = connectToStores(
-  SummaryPageWithBreakpoint,
+const ItineraryPageWithStores = connectToStores(
+  ItineraryPageWithBreakpoint,
   ['MapLayerStore'],
   ({ getStore }) => ({
     mapLayers: getStore('MapLayerStore').getMapLayers({
@@ -3435,10 +3432,10 @@ const SummaryPageWithStores = connectToStores(
 );
 
 const containerComponent = createRefetchContainer(
-  SummaryPageWithStores,
+  ItineraryPageWithStores,
   {
     viewer: graphql`
-      fragment SummaryPage_viewer on QueryType
+      fragment ItineraryPage_viewer on QueryType
       @argumentDefinitions(
         fromPlace: { type: "String!" }
         toPlace: { type: "String!" }
@@ -3490,8 +3487,8 @@ const containerComponent = createRefetchContainer(
           locale: $locale
           modeWeight: $modeWeight
         ) {
-          ...SummaryPlanContainer_plan
-          ...ItineraryTab_plan
+          ...ItineraryListContainer_plan
+          ...ItineraryDetails_plan
           # The bbnavi OTP deployments don't have this feature yet.
           # todo: merge upstream OTP code, deploy, re-enable the code here
           # routingErrors {
@@ -3502,8 +3499,8 @@ const containerComponent = createRefetchContainer(
             duration
             startTime
             endTime
-            ...ItineraryTab_itinerary
-            ...SummaryPlanContainer_itineraries
+            ...ItineraryDetails_itinerary
+            ...ItineraryListContainer_itineraries
             legs {
               mode
               ...ItineraryLine_legs
@@ -3556,7 +3553,7 @@ const containerComponent = createRefetchContainer(
       }
     `,
     serviceTimeRange: graphql`
-      fragment SummaryPage_serviceTimeRange on serviceTimeRange {
+      fragment ItineraryPage_serviceTimeRange on serviceTimeRange {
         start
         end
       }
@@ -3567,5 +3564,5 @@ const containerComponent = createRefetchContainer(
 
 export {
   containerComponent as default,
-  SummaryPageWithBreakpoint as Component,
+  ItineraryPageWithBreakpoint as Component,
 };
