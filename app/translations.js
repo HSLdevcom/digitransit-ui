@@ -304,7 +304,7 @@ const translations = {
       '{co2value} g Kohlenstoffdioxid Emissionen werden durch diese Reise verursacht. Ein Auto würde {carCo2Value} g Kohlenstoffdioxid auf derselben Reise ausstoßen.',
     'itinerary-co2.description':
       '{co2value} g CO₂ Emissionen werden durch diese Reise verursacht. Ein Auto würde {carCo2Value} g CO₂ auf derselben Reise ausstoßen.',
-    'itinerary-co2.link': 'So reduzieren wir Emissionen ›',
+    'itinerary-co2.link': 'So berechnen wir die Emissionen ›',
     'itinerary-details.via-leg': '{arrivalTime} Ankunft am Zwischenziel {viaPoint}. {leaveAction}',
     'itinerary-in-the-past': 'Die Verbindung liegt in der Vergangenheit.',
     'itinerary-in-the-past-link': 'Abfahrt jetzt ›',
