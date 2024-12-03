@@ -434,9 +434,12 @@ class TileLayerContainer extends GridLayer {
         ) {
           const {
             airTemperatureC,
+            airPressureRelhPa,
+            moisturePercentage,
             precipitationType,
             roadCondition,
             roadTemperatureC,
+            icePercentage,
             updatedAt,
             address,
           } = this.state.selectableTargets[0].feature.properties;
@@ -446,9 +449,12 @@ class TileLayerContainer extends GridLayer {
               lat,
               lng,
               airTemperatureC,
+              airPressureRelhPa,
+              moisturePercentage,
               precipitationType,
               roadCondition,
               roadTemperatureC,
+              icePercentage,
               updatedAt,
               address,
             },

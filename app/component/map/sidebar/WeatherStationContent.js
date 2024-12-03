@@ -2,15 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
 import moment from 'moment-timezone';
-import { isNumber } from 'lodash';
 import SidebarContainer from './SidebarContainer';
-
-const makeValue = number => {
-  return {
-    sensorValue: number,
-    sensorUnit: '°C',
-  };
-};
 
 /*
 0  = kein Niederschlag
@@ -77,15 +69,18 @@ const translateRoadCondition = num => {
 const WeatherStationContent = ({ match }, { intl }) => {
   const {
     airTemperatureC,
+    airPressureRelhPa,
+    moisturePercentage,
     precipitationType,
     roadCondition,
     roadTemperatureC,
+    icePercentage,
     updatedAt,
     address,
   } = match.location.query;
 
-  const airTemperatureSensor = makeValue(airTemperatureC);
-  const roadTemperatureSensor = makeValue(roadTemperatureC);
+  const isValidValue = value => !Number.isNaN(value) && value !== undefined;
+
   return (
     <SidebarContainer
       name={intl.formatMessage({
@@ -97,7 +92,7 @@ const WeatherStationContent = ({ match }, { intl }) => {
     >
       <table className="component-list">
         <tbody>
-          {airTemperatureSensor && (
+          {isValidValue(airTemperatureC) && (
             <tr>
               <td>
                 <FormattedMessage
@@ -107,13 +102,36 @@ const WeatherStationContent = ({ match }, { intl }) => {
                   {(...content) => `${content}:`}
                 </FormattedMessage>
               </td>
-              <td>
-                {`${Math.round(airTemperatureSensor.sensorValue)}
-              ${airTemperatureSensor.sensorUnit}`}
-              </td>
+              <td>{`${Math.round(airTemperatureC)} °C`}</td>
             </tr>
           )}
-          {roadTemperatureSensor && (
+          {isValidValue(airPressureRelhPa) && (
+            <tr>
+              <td>
+                <FormattedMessage
+                  id="air-pressure"
+                  defaultMessage="Air pressure"
+                >
+                  {(...content) => `${content}:`}
+                </FormattedMessage>
+              </td>
+              <td>{`${Math.round(airPressureRelhPa)} hPa`}</td>
+            </tr>
+          )}
+          {isValidValue(moisturePercentage) && (
+            <tr>
+              <td>
+                <FormattedMessage
+                  id="air-moisture"
+                  defaultMessage="Air moisture"
+                >
+                  {(...content) => `${content}:`}
+                </FormattedMessage>
+              </td>
+              <td>{`${Math.round(moisturePercentage)} %`}</td>
+            </tr>
+          )}
+          {isValidValue(roadTemperatureC) && (
             <tr>
               <td>
                 <FormattedMessage
@@ -123,13 +141,25 @@ const WeatherStationContent = ({ match }, { intl }) => {
                   {(...content) => `${content}:`}
                 </FormattedMessage>
               </td>
+              <td>{`${Math.round(roadTemperatureC)} °C`}</td>
+            </tr>
+          )}
+          {isValidValue(roadCondition) && (
+            <tr>
               <td>
-                {`${Math.round(roadTemperatureSensor.sensorValue)}
-              ${roadTemperatureSensor.sensorUnit}`}
+                <FormattedMessage id="condition" defaultMessage="Condition">
+                  {(...content) => `${content}:`}
+                </FormattedMessage>
+              </td>
+              <td>
+                <FormattedMessage
+                  id={translateRoadCondition(Number(roadCondition))}
+                  defaultMessage={translateRoadCondition(Number(roadCondition))}
+                />
               </td>
             </tr>
           )}
-          {isNumber(precipitationType) && (
+          {isValidValue(precipitationType) && (
             <tr>
               <td>
                 <FormattedMessage
@@ -141,25 +171,25 @@ const WeatherStationContent = ({ match }, { intl }) => {
               </td>
               <td>
                 <FormattedMessage
-                  id={translatePrecipitation(precipitationType)}
-                  defaultMessage={translatePrecipitation(precipitationType)}
+                  id={translatePrecipitation(Number(precipitationType))}
+                  defaultMessage={translatePrecipitation(
+                    Number(precipitationType),
+                  )}
                 />
               </td>
             </tr>
           )}
-          {isNumber(roadCondition) && (
+          {isValidValue(icePercentage) && (
             <tr>
               <td>
-                <FormattedMessage id="condition" defaultMessage="Condition">
+                <FormattedMessage
+                  id="ice-probability"
+                  defaultMessage="Ice probability"
+                >
                   {(...content) => `${content}:`}
                 </FormattedMessage>
               </td>
-              <td>
-                <FormattedMessage
-                  id={translateRoadCondition(roadCondition)}
-                  defaultMessage={translateRoadCondition(roadCondition)}
-                />
-              </td>
+              <td>{`${Math.round(icePercentage)} %`}</td>
             </tr>
           )}
           {updatedAt && (
@@ -168,7 +198,7 @@ const WeatherStationContent = ({ match }, { intl }) => {
                 <FormattedMessage
                   id="last-updated"
                   defaultMessage="Last updated"
-                  values={{ time: moment(updatedAt).format('LT') || '' }}
+                  values={{ time: moment(updatedAt).format('LLL') || '' }}
                 />
               </td>
             </tr>
