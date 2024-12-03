@@ -198,7 +198,7 @@ const WeatherStationContent = ({ match }, { intl }) => {
                 <FormattedMessage
                   id="last-updated"
                   defaultMessage="Last updated"
-                  values={{ time: moment(updatedAt).format('LT') || '' }}
+                  values={{ time: moment(updatedAt).format('LLL') || '' }}
                 />
               </td>
             </tr>
