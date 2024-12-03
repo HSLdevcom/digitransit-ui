@@ -3,6 +3,7 @@
     display: none;
   }
 }
+
 .stop-page-content-wrapper {
   min-height: 0;
   display: flex;
@@ -25,12 +26,13 @@
 
 .stop-page.header {
   @include font-medium;
+
   @media print {
     padding-left: 0;
   }
 }
 
-.stop-no-alerts-container,
+.no-alerts-container,
 .stop-constant-operation-container,
 .stop-no-departures-container {
   align-items: center;
@@ -50,11 +52,13 @@
   .icon {
     font-size: 2.5em;
   }
+
   &.bottom-padding {
     flex: none;
     min-height: 0;
     padding-bottom: 20px;
   }
+
   &.bottom-margin {
     flex: none;
     min-height: 0;
@@ -63,19 +67,22 @@
 }
 
 .stop-scroll-container {
-  flex-basis: 0px;
+  flex-basis: 0;
   flex-grow: 1;
+
   .departure-list {
     overflow-x: hidden;
     width: 100%;
     margin: 0;
     border-spacing: 0;
-    tr, td {
+
+    tr,
+    td {
       padding: 0;
-      border: 0;
     }
   }
 }
+
 .mobile .stop-scroll-container {
   flex-basis: 100%;
   overflow-y: visible;
@@ -97,20 +104,23 @@
     font-size: 11px;
     font-weight: $font-weight-medium;
     margin-left: 4px;
-    margin-top: 14px;
     margin-right: 5px;
-    padding: 0px 2px 0px 2px;
+    padding: 0 2px 0 2px;
   }
+
   .circle {
-    padding: 0px 3px 0px 2px;
+    padding: 0 3px 0 2px;
+
     &.A {
-      padding: 0px 3px 0px 3px;
+      padding: 0 3px 0 3px;
     }
+
     &.B {
-      padding: 0px 3px 0px 2.5px;
+      padding: 0 3px 0 2.5px;
     }
+
     &.D {
-      padding: 0px 3px 0px 3px;
+      padding: 0 3px 0 3px;
     }
   }
 }
@@ -125,14 +135,16 @@
   p {
     display: inline;
   }
+
   .card-code {
     border: 1px solid $light-gray;
     border-radius: $border-radius;
     font-size: $font-size-xxsmall;
-    color: #666666;
+    color: #666;
   }
+
   .description {
-    color: #666666;
+    color: #666;
   }
 }
 
@@ -158,10 +170,11 @@
 
 .stop-tab-container {
   display: flex;
-  background-color: #dddddd;
+  background-color: #ddd;
   border-radius: 5px;
   margin: 8px 64px 16px 64px;
   position: relative;
+
   @media print {
     display: none;
   }
@@ -181,7 +194,7 @@
   font-size: $font-size-xxsmall;
   border-radius: 3px;
   cursor: pointer;
-  color: #333333;
+  color: #333;
   text-align: center;
   transition: 0.1s all ease-in;
   padding-top: 0;
@@ -205,17 +218,20 @@
     .icon-container {
       vertical-align: middle;
       margin-right: 5px;
+
       .icon {
         width: 0.85em;
         height: 0.95em;
       }
     }
   }
+
   .active-service-alert {
     .icon-container {
       vertical-align: middle;
       margin-right: 5px;
     }
+
     .service-alert-icon {
       fill: rgba(136, 136, 136, 1);
     }
@@ -234,13 +250,14 @@
   display: block;
   margin: 0 auto;
   letter-spacing: -0.4px;
+
   span {
     font-size: $font-size-small;
   }
 }
 
 .stop-page-departure-wrapper {
-  padding: 0em 60px 0em 60px;
+  padding: 0 60px 0 60px;
 }
 
 .stop-page-tab_icon {
@@ -252,7 +269,9 @@
 .departure-list-header {
   color: $gray;
   background-color: $white;
+
   @include font-narrow-book;
+
   font-size: $font-size-xxsmall;
   white-space: nowrap;
   padding-left: 0.5em;
@@ -264,12 +283,15 @@
     display: inline-block;
     vertical-align: top;
   }
+
   .route-number-header {
     width: 4em;
   }
+
   .route-destination-header {
     flex: 1 0 176px;
   }
+
   .time-header {
     font-weight: inherit;
     text-align: right;
@@ -282,13 +304,15 @@
   .route-number-header {
     width: 45px;
   }
+
   .time-header {
     width: 50px;
   }
 }
 
 .stop-page.departure-list {
-  padding: 0px 0px 15px 5px;
+  padding: 0 0 15px 5px;
+
   .departure-day-divider {
     height: 15px;
     width: 100%;
@@ -296,33 +320,26 @@
     border-radius: 5px;
     border: 1px solid #eaeaea;
   }
+
   .departure-row {
     width: 100%;
     min-height: 50px;
-    @include font-narrow-book;
-    font-weight: normal;
-    display: flex;
-    align-items: center;
-    border-bottom: 1px solid #dddddd;
 
     &.no-border {
       border: none;
     }
+
     &.bottom {
       height: 70px;
       padding-top: 12px;
       align-items: baseline;
+
       .drop-off-container {
-        margin-top: 5px;
+        margin-top: 3px;
       }
     }
+
     .route-arrival {
-      color: #333;
-      @include font-medium;
-      font-size: 0.75rem;
-      padding-right: 8px;
-      padding-left: 8px;
-      position: relative;
       span {
         vertical-align: sub;
       }
@@ -336,47 +353,45 @@
         color: $cancelation-red;
       }
     }
+
     .route-number-container {
-      background-color: currentColor;
-      border-radius: 3px;
       width: 3em;
       height: 1.5em;
-      text-align: center;
       min-width: 2.25em;
       padding: 0 2px;
+
       &.long {
         width: unset;
         min-width: 48px;
       }
+
       .route-number {
-        color: $white;
-        line-height: 1.5;
-        min-width: unset;
-        display: block;
-        white-space: nowrap;
-        overflow: hidden;
         .icon-container {
           font-size: 1.5em;
           line-height: 1;
         }
       }
     }
+
     .time-cell {
       display: flex;
       align-items: center;
       flex-wrap: wrap;
       max-width: 100px;
     }
+
     &.realtime {
       color: $realtime-color;
     }
     &.late {
       color: $late-color;
     }
+
     &.canceled {
       color: $cancelation-red;
     }
   }
+
   .route-headsign {
     font-family: $font-family-narrow;
     font-weight: $font-weight-book;
@@ -385,25 +400,28 @@
     padding-left: $padding-medium;
     overflow: clip;
     white-space: normal;
-    margin-bottom: -2px;
   }
+
   .route-time {
     font-size: $font-size-small;
     font-weight: $font-weight-medium;
     color: #333;
+
     &.realtime {
       color: $realtime-color;
     }
     &.late {
       color: $late-color;
     }
+
     &.canceled {
       color: $cancelation-red;
     }
   }
+
   .platform-code {
     background: #f4f4f5;
-    color: #333333;
+    color: #333;
     width: 28px;
     height: 24px;
     border-radius: 4px;
@@ -415,26 +433,9 @@
     line-height: 1.6;
     white-space: nowrap;
     margin-bottom: -2px;
+
     &.empty {
       background: none;
-    }
-  }
-  /* TODO: this seems to be duplicated with `.stop-page.departure-list .departure-row .route-number-container` above, can remove one of the two? */
-  .route-number-container {
-    margin-top: 2px;
-    background-color: currentColor;
-    border-radius: 3px;
-    min-width: 2.25em;
-    height: 1.25em;
-    padding: 0 4px;
-    text-align: center;
-    .route-number {
-      color: $white;
-      line-height: 1.35;
-      min-width: unset;
-      display: block;
-      white-space: nowrap;
-      overflow: hidden;
     }
   }
 }
@@ -455,7 +456,6 @@
       flex: 1;
       overflow: clip;
       white-space: normal;
-      margin-bottom: -2px;
     }
   }
 }
@@ -467,7 +467,7 @@
 #stop-page-action-bar {
   display: flex;
   justify-content: space-between;
-  z-index: 400; //get shadow over map
+  z-index: 400; // get shadow over map
   padding: 5px 10px;
   padding-bottom: 0.6em;
   text-align: right;
@@ -481,19 +481,23 @@
   a.external-link {
     font-size: $font-size-xxsmall;
     color: $gray-blue;
+
     svg.icon {
       top: 3px;
       font-size: 14px;
       position: relative;
     }
   }
+
   .external-link-icon-outer {
     color: #eef1f3;
   }
+
   .external-link-icon {
     color: $gray-blue;
   }
 }
+
 .external-stop-link {
   float: right;
   margin-right: 14px;
@@ -502,6 +506,7 @@
   a {
     color: $link-color !important;
     text-decoration: none;
+
     @include font-medium;
   }
 
@@ -534,10 +539,12 @@ hr.action-bar {
   #stop-page-action-bar {
     height: auto;
   }
+
   .action-bar {
     a.external-link {
       font-size: 14px;
       line-height: 22px;
+
       svg.icon {
         font-size: 18px;
       }
@@ -558,7 +565,7 @@ hr.action-bar {
 .filter-stop-modal {
   position: absolute;
   z-index: 99999;
-  background-color: #ffffff;
+  background-color: #fff;
   border-radius: 8px;
   width: 100%;
   left: 50%;
@@ -591,7 +598,7 @@ hr.action-bar {
   .routes-container {
     overflow-y: scroll;
     height: 500px;
-    border-radius: 0px 0px 8px 8px;
+    border-radius: 0 0 8px 8px;
   }
 
   .route-row {
@@ -602,6 +609,7 @@ hr.action-bar {
     padding-left: 1em;
     width: 100%;
   }
+
   .checkbox-container {
     margin-right: 2em;
     margin-top: 0.2em;
@@ -612,6 +620,7 @@ hr.action-bar {
       width: 2em;
       height: 2em;
     }
+
     & label {
       width: 2.3em;
       height: 2.3em;
@@ -622,14 +631,17 @@ hr.action-bar {
       position: absolute;
       top: -0.3em;
       left: 0;
+
       & .checkbox-icon {
         width: 2.3em;
         height: 2.3em;
       }
+
       &.checked {
         border: none;
       }
     }
+
     input[type='checkbox']:focus + label {
       outline: black solid 1px;
     }
@@ -664,6 +676,7 @@ hr.action-bar {
   justify-content: center;
   background: $white;
   margin: 8px 48px 16px 64px;
+
   .secondary-button.print {
     @media print {
       display: none;
@@ -673,8 +686,10 @@ hr.action-bar {
 
 .timetable-for-printing-header {
   display: none;
+
   @media print {
     display: block;
+
     h1 {
       font-family: $heading-font-family;
       font-size: 13px;
@@ -707,6 +722,7 @@ hr.action-bar {
 
 .timetable-for-printing {
   display: none;
+
   @media print {
     display: block;
     padding-top: $padding-medium;
@@ -720,15 +736,18 @@ hr.action-bar {
 
       .printable-date-icon {
         margin-right: 0.8em;
+
         svg {
           width: 28.3px;
           height: 28px;
         }
       }
+
       .printable-date-header {
         font-size: 11px;
         font-weight: $font-weight-book;
       }
+
       .printable-date-content {
         font-size: 12px;
         font-weight: $font-weight-medium;
@@ -748,6 +767,7 @@ hr.action-bar {
     width: 24px;
     height: 24px;
   }
+
   @media print {
     margin-left: 0;
   }
@@ -763,7 +783,6 @@ hr.action-bar {
   right: 0;
   background-color: none;
   z-index: 1000; // Needed to cover up the navbar
-  //transform: translate(-50%, -50%);
 }
 
 .mobile {
@@ -777,13 +796,15 @@ hr.action-bar {
 
   .stop-tab-container {
     border-bottom: none;
-    margin: 0em 16px 16px 16px;
+    margin: 0 16px 16px 16px;
   }
+
   .stop-tabs-fillerline {
     height: 5px;
   }
+
   .stop-page-departure-wrapper {
-    padding: 0em 16px 0em 16px;
+    padding: 0 16px 0 16px;
   }
 
   .filter-stop-modal-overlay {
@@ -796,11 +817,10 @@ hr.action-bar {
     right: 0;
     background-color: none;
     z-index: 1000; // Needs to be higher than the navbar
-    //transform: translate(-50%, -50%);
   }
 
   .filter-stop-modal {
-    background-color: #ffffff;
+    background-color: #fff;
     z-index: 99999;
     height: 100%;
     width: 100%;
@@ -810,8 +830,6 @@ hr.action-bar {
     position: fixed;
     border-radius: 0;
     transform: translate(-50%, -50%);
-    //left: 0;
-    //top: 0;
   }
 
   .routes-container {
@@ -821,9 +839,11 @@ hr.action-bar {
   .showroutes-header {
     width: 41%;
   }
+
   .departure-list-header {
-    margin-top: 0em;
+    margin-top: 0;
   }
+
   .route-number-header {
     width: 3.5em;
   }
