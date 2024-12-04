@@ -70,18 +70,12 @@ export default configMerger(parentConfig, {
   defaultLanguage: 'de',
   // issueTrackerUrls define issuetracker URLs per postalCode. In case none matches, issueTrackerUrl is used as falllback
   issueTrackerUrls: {
-    71083:
-      'https://www.herrenberg.de/tools/mvs/?lat=${lat}&lng=${lon}#mvPagePictures',
-    71634:
-      'https://www.ludwigsburg.de/,Lde/start/stadt_buerger/maengelmelder.html?uri=/bms/create%3Flat=${lat}%26lon=${lon}',
-    71636:
-      'https://www.ludwigsburg.de/,Lde/start/stadt_buerger/maengelmelder.html?uri=/bms/create%3Flat=${lat}%26lon=${lon}',
-    71638:
-      'https://www.ludwigsburg.de/,Lde/start/stadt_buerger/maengelmelder.html?uri=/bms/create%3Flat=${lat}%26lon=${lon}',
-    71640:
-      'https://www.ludwigsburg.de/,Lde/start/stadt_buerger/maengelmelder.html?uri=/bms/create%3Flat=${lat}%26lon=${lon}',
-    71642:
-      'https://www.ludwigsburg.de/,Lde/start/stadt_buerger/maengelmelder.html?uri=/bms/create%3Flat=${lat}%26lon=${lon}',
+    71083: 'https://www.herrenberg.de/tools/mvs/?lat=${lat}&lng=${lon}#mvPagePictures',
+    71634: 'https://www.ludwigsburg.de/,Lde/start/stadt_buerger/maengelmelder.html?uri=/bms/create%3Flat=${lat}%26lon=${lon}',
+    71636: 'https://www.ludwigsburg.de/,Lde/start/stadt_buerger/maengelmelder.html?uri=/bms/create%3Flat=${lat}%26lon=${lon}',
+    71638: 'https://www.ludwigsburg.de/,Lde/start/stadt_buerger/maengelmelder.html?uri=/bms/create%3Flat=${lat}%26lon=${lon}',
+    71640: 'https://www.ludwigsburg.de/,Lde/start/stadt_buerger/maengelmelder.html?uri=/bms/create%3Flat=${lat}%26lon=${lon}',
+    71642: 'https://www.ludwigsburg.de/,Lde/start/stadt_buerger/maengelmelder.html?uri=/bms/create%3Flat=${lat}%26lon=${lon}',
   },
 
   MATOMO_URL: process.env.MATOMO_URL,

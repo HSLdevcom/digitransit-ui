@@ -84,10 +84,14 @@ function DatetimepickerContainer(
     });
   };
 
+  const initialTime = match.location.query.time
+    ? parseInt(match.location.query.time, 10)
+    : undefined;
+
   return (
     <Datetimepicker
       realtime={realtime}
-      initialTimestamp={match.location.query.time}
+      initialTimestamp={initialTime}
       initialArriveBy={match.location.query.arriveBy === 'true'}
       onTimeChange={onTimeChange}
       onDateChange={onDateChange}
