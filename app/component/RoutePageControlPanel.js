@@ -411,6 +411,7 @@ class RoutePageControlPanel extends React.Component {
     const useCurrentTime = activeTab === Tab.Stops;
 
     const countOfButtons = 3;
+    const isOnDemandTaxi = route.type === 715;
 
     let disruptionIcon;
     if (disruptionClassName === 'active-disruption-alert') {
@@ -439,7 +440,7 @@ class RoutePageControlPanel extends React.Component {
             <FormattedMessage id="route-guide" defaultMessage="Route guide" />
           </h1>
         </div>
-        {route.type === 715 && <CallAgencyWarning route={route} />}
+        {isOnDemandTaxi && <CallAgencyWarning route={route} />}
         <div
           className={cx('route-control-panel', {
             'bp-large': breakpoint === 'large',
