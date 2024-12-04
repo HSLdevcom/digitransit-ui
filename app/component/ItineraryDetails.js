@@ -14,6 +14,7 @@ import ItinerarySummary from './ItinerarySummary';
 import ItineraryLegs from './ItineraryLegs';
 import BackButton from './BackButton';
 import EmissionsInfo from './EmissionsInfo';
+import Emissions from './Emissions';
 import {
   getRoutes,
   getZones,
@@ -81,6 +82,7 @@ class ItineraryDetails extends React.Component {
     currentTime: PropTypes.number.isRequired,
     hideTitle: PropTypes.bool,
     toggleCarpoolDrawer: PropTypes.func,
+    carItinerary: ItineraryShape,
   };
 
   static defaultProps = {
@@ -362,6 +364,14 @@ class ItineraryDetails extends React.Component {
                   focusToStep={this.props.focusToStep}
                   toggleCarpoolDrawer={this.props.toggleCarpoolDrawer}
                 />
+                {config.showCO2InItinerarySummary && (
+                  <Emissions
+                    config={config}
+                    itinerary={itinerary}
+                    carItinerary={this.props.carItinerary}
+                    emissionsInfolink={config.EMISSIONS_INFO}
+                  />
+                )}
                 {this.shouldShowCarpoolDisclaimer(itinerary, config) && (
                   <div className="itinerary-disclaimer">
                     <div className="info-container">
