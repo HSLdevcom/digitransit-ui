@@ -297,6 +297,23 @@ export const relayShape = PropTypes.shape({
   environment: PropTypes.object,
 });
 
+export const vehicleShape = PropTypes.shape({
+  id: PropTypes.string,
+  route: PropTypes.string,
+  direction: PropTypes.number,
+  tripStartTime: PropTypes.string,
+  operatingDay: PropTypes.string,
+  mode: PropTypes.string,
+  next_stop: PropTypes.string,
+  timestamp: PropTypes.number,
+  lat: PropTypes.number,
+  lon: PropTypes.number,
+  shortName: PropTypes.string,
+  color: PropTypes.string,
+  heading: PropTypes.number,
+  headsign: PropTypes.string,
+});
+
 export const FareShape = PropTypes.shape({
   agency: PropTypes.shape({
     fareUrl: PropTypes.string,

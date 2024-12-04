@@ -50,7 +50,7 @@ describe('<TileLayerContainer />', () => {
           ...mockContext,
           getStore: () => ({
             addChangeListener: () => {},
-            getCurrentTime: () => ({ unix: () => 123457890 }),
+            getCurrentTime: () => 123457890,
             getMapLayers: () => ({
               stop: {},
               terminal: {},
@@ -118,7 +118,7 @@ describe('<TileLayerContainer />', () => {
           ...mockContext,
           getStore: () => ({
             addChangeListener: () => {},
-            getCurrentTime: () => ({ unix: () => 123457890 }),
+            getCurrentTime: () => 123457890,
             getMapLayers: () => ({
               stop: {},
               terminal: {},
