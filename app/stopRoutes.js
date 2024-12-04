@@ -70,12 +70,10 @@ const queries = {
     pageAlerts: graphql`
       query stopRoutes_StopAlertsContainer_Query(
         $stopId: String!
-        $date: String!
         $startTime: Long!
       ) {
         stop(id: $stopId) {
-          ...StopAlertsContainer_stop
-          @arguments(date: $date, startTime: $startTime)
+          ...StopAlertsContainer_stop @arguments(startTime: $startTime)
         }
       }
     `,
@@ -129,12 +127,10 @@ const queries = {
     pageAlerts: graphql`
       query stopRoutes_TerminalAlertsContainer_Query(
         $terminalId: String!
-        $date: String!
         $startTime: Long!
       ) {
         station(id: $terminalId) {
-          ...TerminalAlertsContainer_station
-          @arguments(date: $date, startTime: $startTime)
+          ...TerminalAlertsContainer_station @arguments(startTime: $startTime)
         }
       }
     `,

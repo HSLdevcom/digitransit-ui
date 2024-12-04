@@ -16,13 +16,12 @@ import Autosuggest from 'react-autosuggest';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { enrichPatterns } from '@digitransit-util/digitransit-util';
 import { FormattedMessage, intlShape } from 'react-intl';
+import { routeShape, relayShape, configShape } from '../util/shapes';
 import Icon from './Icon';
 import { isBrowser } from '../util/browser';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
-// DT-3317
-
-const DATE_FORMAT = 'YYYYMMDD';
+import { unixToYYYYMMDD } from '../util/timeUtils';
 
 function patternOptionText(pattern) {
   if (pattern) {
@@ -52,7 +51,7 @@ function patternTextWithIcon(pattern) {
       </>
     );
   }
-  return <></>;
+  return null;
 }
 
 function filterSimilarRoutes(routes, currentRoute) {
@@ -112,13 +111,12 @@ function renderPatternSelectSuggestion(item, currentPattern) {
       </Link>
     );
   }
-  return <></>;
+  return null;
 }
 
 class RoutePatternSelect extends Component {
   constructor(props, context) {
     super(props, context);
-    this.resultsUpdatedAlertRef = React.createRef();
     this.state = {
       similarRoutes: [],
       loadingSimilar: true,
@@ -130,28 +128,29 @@ class RoutePatternSelect extends Component {
   }
 
   static propTypes = {
-    params: PropTypes.object.isRequired,
+    params: PropTypes.shape({
+      patternId: PropTypes.string.isRequired,
+    }).isRequired,
     className: PropTypes.string.isRequired,
-    route: PropTypes.object.isRequired,
+    route: routeShape.isRequired,
     onSelectChange: PropTypes.func.isRequired,
     serviceDay: PropTypes.string.isRequired,
-    relay: PropTypes.shape({
-      refetch: PropTypes.func.isRequired,
-    }).isRequired,
     gtfsId: PropTypes.string.isRequired,
-    useCurrentTime: PropTypes.bool, // DT-3182
-    lang: PropTypes.string.isRequired, // DT-3347
-    relayEnvironment: PropTypes.object,
+    useCurrentTime: PropTypes.bool,
+    lang: PropTypes.string.isRequired,
+    relayEnvironment: relayShape.isRequired,
+  };
+
+  static defaultProps = {
+    useCurrentTime: false,
   };
 
   static contextTypes = {
     router: routerShape.isRequired,
-    config: PropTypes.object, // DT-3317
-    getStore: PropTypes.func.isRequired, // DT-3347
+    config: configShape,
+    getStore: PropTypes.func.isRequired,
     intl: intlShape.isRequired,
   };
-
-  similarRoutesToOptions = () => {};
 
   fetchSimilarRoutes = (route, callFetch) => {
     if (callFetch) {
@@ -408,25 +407,31 @@ class RoutePatternSelect extends Component {
   }
 }
 
-// DT-2531: added activeDates
-const withStore = createRefetchContainer(
-  connectToStores(
-    props => (
-      <ReactRelayContext.Consumer>
-        {({ environment }) => (
-          <RoutePatternSelect {...props} relayEnvironment={environment} />
-        )}
-      </ReactRelayContext.Consumer>
-    ),
-    ['PreferencesStore'],
-    context => ({
-      serviceDay: context
-        .getStore('TimeStore')
-        .getCurrentTime()
-        .format(DATE_FORMAT),
-      lang: context.getStore('PreferencesStore').getLanguage(), // DT-3347
-    }),
+const storeComponent = connectToStores(
+  props => (
+    <ReactRelayContext.Consumer>
+      {({ environment }) => (
+        <RoutePatternSelect {...props} relayEnvironment={environment} />
+      )}
+    </ReactRelayContext.Consumer>
   ),
+  ['PreferencesStore'],
+  context => ({
+    serviceDay: unixToYYYYMMDD(
+      context.getStore('TimeStore').getCurrentTime(),
+      context.config,
+    ),
+    lang: context.getStore('PreferencesStore').getLanguage(),
+  }),
+);
+
+storeComponent.contextTypes = {
+  getStore: PropTypes.func.isRequired,
+  config: configShape.isRequired,
+};
+
+const withStore = createRefetchContainer(
+  storeComponent,
   {
     route: graphql`
       fragment RoutePatternSelect_route on Route

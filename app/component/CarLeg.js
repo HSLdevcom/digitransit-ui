@@ -11,7 +11,6 @@ import { isKeyboardSelectionEvent } from '../util/browser';
 import ServiceAlertIcon from './ServiceAlertIcon';
 import { AlertSeverityLevelType } from '../constants';
 import { replaceQueryParams } from '../util/queryUtils';
-import { getServiceAlertDescription } from '../util/alertUtils';
 import DelayedTime from './DelayedTime';
 
 function CarLeg(props, { config, intl, router, match, executeAction }) {
@@ -136,7 +135,7 @@ function CarLeg(props, { config, intl, router, match, executeAction }) {
                 className="inline-icon"
                 severityLevel={AlertSeverityLevelType.Info}
               />
-              {getServiceAlertDescription(carParkAlert, intl.locale)}
+              {carParkAlert.alertDescriptionText}
             </div>
             <button
               type="button"

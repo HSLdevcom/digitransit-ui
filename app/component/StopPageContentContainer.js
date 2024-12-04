@@ -112,7 +112,7 @@ class StopPageContent extends React.Component {
 
 const connectedComponent = createRefetchContainer(
   connectToStores(StopPageContent, ['TimeStore'], ({ getStore }) => ({
-    currentTime: getStore('TimeStore').getCurrentTime().unix(),
+    currentTime: getStore('TimeStore').getCurrentTime(),
   })),
   {
     stop: graphql`

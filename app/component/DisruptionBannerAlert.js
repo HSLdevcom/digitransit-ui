@@ -2,15 +2,11 @@ import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import cx from 'classnames';
 import { intlShape } from 'react-intl';
+import { configShape, alertShape } from '../util/shapes';
 
 import Icon from './Icon';
 import TruncatedMessage from './TruncatedMessage';
-import {
-  getServiceAlertDescription,
-  getServiceAlertHeader,
-  mapAlertSource,
-} from '../util/alertUtils';
-import { ServiceAlertShape } from '../util/shapes';
+import { mapAlertSource } from '../util/alertUtils';
 
 const DisruptionBannerAlert = (
   { language, alert, openAllAlerts, truncate, onClose },
@@ -18,8 +14,8 @@ const DisruptionBannerAlert = (
 ) => {
   const [renderLink, setRenderLink] = useState(false);
 
-  let header = getServiceAlertHeader(alert, language);
-  let message = getServiceAlertDescription(alert, language);
+  let header = alert.alertHeaderText;
+  let message = alert.alertDescriptionText;
   const useHeader =
     config.showAlertHeader &&
     header &&
@@ -46,13 +42,15 @@ const DisruptionBannerAlert = (
               <div className="disruption-source-label">
                 {mapAlertSource(config, language, alert.feed)}
               </div>
-              <TruncatedMessage
-                className="disruption-show-more"
-                lines={3}
-                message={message}
-                truncate={truncate}
-                onShowMore={openAllAlerts}
-              />
+              <div className="disruption-message-font-weight">
+                <TruncatedMessage
+                  className="disruption-show-more"
+                  lines={3}
+                  message={message}
+                  truncate={truncate}
+                  onShowMore={openAllAlerts}
+                />
+              </div>
             </>
           )}
           {config.URL.ROOTLINK &&
@@ -62,14 +60,16 @@ const DisruptionBannerAlert = (
                 <div className="disruption-source-label">
                   {mapAlertSource(config, language, alert.feed)}
                 </div>
-                <TruncatedMessage
-                  className="disruption-show-more"
-                  lines={3}
-                  message={message}
-                  truncate={truncate}
-                  onShowMore={openAllAlerts}
-                  onTruncate={i => setRenderLink(i)}
-                />
+                <div className="disruption-message-font-weight">
+                  <TruncatedMessage
+                    className="disruption-show-more"
+                    lines={3}
+                    message={message}
+                    truncate={truncate}
+                    onShowMore={openAllAlerts}
+                    onTruncate={i => setRenderLink(i)}
+                  />
+                </div>
               </>
             ) : (
               <a
@@ -104,7 +104,7 @@ const DisruptionBannerAlert = (
 };
 
 DisruptionBannerAlert.propTypes = {
-  alert: ServiceAlertShape.isRequired,
+  alert: alertShape.isRequired,
   language: PropTypes.string.isRequired,
   truncate: PropTypes.bool,
   openAllAlerts: PropTypes.func,
@@ -118,7 +118,7 @@ DisruptionBannerAlert.defaultProps = {
 
 DisruptionBannerAlert.contextTypes = {
   intl: intlShape.isRequired,
-  config: PropTypes.object.isRequired,
+  config: configShape.isRequired,
 };
 
 export default DisruptionBannerAlert;

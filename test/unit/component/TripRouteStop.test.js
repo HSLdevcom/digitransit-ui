@@ -31,7 +31,7 @@ describe('<TripRouteStop />', () => {
       setHumanScrolling: () => {},
     };
     const wrapper = mountWithIntl(<TripRouteStop {...props} />, {
-      context: { config: { zones: { stops: true } } },
+      context: { config: { CONFIG: 'default', zones: { stops: true } } },
       childContextTypes: { config: PropTypes.object },
     });
     expect(wrapper.find(ServiceAlertIcon).isEmptyRender()).to.equal(true);

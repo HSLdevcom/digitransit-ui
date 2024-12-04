@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
 import { intlShape } from 'react-intl';
+import { configShape } from '../util/shapes';
 import { getDialogState, setDialogState } from '../store/localStorage';
 
 import Icon from './Icon';
@@ -37,6 +38,8 @@ const RouteNotification = (props, context) => {
             <a
               className="route-notification-link"
               href={`https://www.${props.link}`}
+              target="_blank"
+              rel="noreferrer"
             >
               {props.link}
             </a>
@@ -83,7 +86,7 @@ const RouteNotification = (props, context) => {
 
 RouteNotification.propTypes = {
   header: PropTypes.string.isRequired,
-  content: PropTypes.array.isRequired,
+  content: PropTypes.arrayOf(PropTypes.string).isRequired,
   link: PropTypes.string,
   id: PropTypes.string.isRequired,
   closeButtonLabel: PropTypes.string,
@@ -91,10 +94,11 @@ RouteNotification.propTypes = {
 
 RouteNotification.defaultProps = {
   link: '',
+  closeButtonLabel: undefined,
 };
 
 RouteNotification.contextTypes = {
-  config: PropTypes.object.isRequired,
+  config: configShape.isRequired,
   intl: intlShape.isRequired,
 };
 

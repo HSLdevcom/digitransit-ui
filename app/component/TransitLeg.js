@@ -543,9 +543,11 @@ class TransitLeg extends React.Component {
                     />
                   </div>
                   {config.showAlertHeader ? (
-                    <div className="description">{alert.header}</div>
+                    <div className="description">{alert.alertHeaderText}</div>
                   ) : (
-                    <div className="description">{alert.description}</div>
+                    <div className="description">
+                      {alert.alertDescriptionText}
+                    </div>
                   )}
                   <Icon
                     img="icon-icon_arrow-collapse--right"

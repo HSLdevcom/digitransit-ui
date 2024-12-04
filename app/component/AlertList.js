@@ -5,31 +5,35 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
-import RouteAlertsRow from './RouteAlertsRow';
-import { createUniqueAlertList } from '../util/alertUtils';
+import AlertRow from './AlertRow';
+import {
+  alertCompare,
+  getEntitiesOfType,
+  isAlertValid,
+} from '../util/alertUtils';
+import { alertShape } from '../util/shapes';
 import withBreakpoint from '../util/withBreakpoint';
-import { getRouteMode } from '../util/modeUtils';
+import { AlertEntityType, AlertSeverityLevelType } from '../constants';
 
 const AlertList = ({
   cancelations,
   currentTime,
   disableScrolling,
-  showExpired,
   serviceAlerts,
-  showRouteNameLink,
+  showLinks,
   breakpoint,
+  onClickLink,
 }) => {
-  const groupedAlerts =
-    createUniqueAlertList(
-      serviceAlerts,
-      cancelations,
-      currentTime,
-      showExpired,
-    ) || [];
+  const validAlerts = serviceAlerts.filter(alert =>
+    isAlertValid(alert, currentTime),
+  );
+  const validCancelations = cancelations.filter(cancelation =>
+    isAlertValid(cancelation, currentTime),
+  );
 
-  if (groupedAlerts.length === 0) {
+  if (validAlerts.length === 0 && validCancelations.length === 0) {
     return (
-      <div className="stop-no-alerts-container" tabIndex="0" aria-live="polite">
+      <div className="no-alerts-container" tabIndex="0" aria-live="polite">
         <FormattedMessage
           id="disruption-info-no-alerts"
           defaultMessage="No known disruptions or diversions."
@@ -38,58 +42,67 @@ const AlertList = ({
     );
   }
 
+  // Cancelations should be between non-info alerts and info alerts
+  const alertsSorted = [
+    ...validAlerts
+      .filter(alert => alert.alertSeverityLevel !== AlertSeverityLevelType.Info)
+      .sort(alertCompare),
+    ...validCancelations.sort(alertCompare),
+    ...validAlerts
+      .filter(alert => alert.alertSeverityLevel === AlertSeverityLevelType.Info)
+      .sort(alertCompare),
+  ];
+
   return (
-    <div className="route-alerts-content-wrapper">
+    <div className="alerts-content-wrapper">
       <div
-        className={cx('route-alerts-list-wrapper', {
+        className={cx('alerts-list-wrapper', {
           'bp-large': breakpoint === 'large',
         })}
         aria-live="polite"
       >
         <div
-          className={cx('route-alerts-list', {
+          className={cx('alerts-list', {
             'momentum-scroll': !disableScrolling,
           })}
         >
-          {groupedAlerts.map(
+          {alertsSorted.map(
             (
               {
-                description,
-                expired,
-                header,
-                route: { color, mode, type, shortName, routeGtfsId } = {},
-                severityLevel,
-                stop: { code, vehicleMode, stopGtfsId, nameAndCode } = {},
-                url,
-                validityPeriod: { startTime, endTime },
-                source,
+                alertDescriptionText,
+                alertHeaderText,
+                entities,
+                alertSeverityLevel,
+                alertUrl,
+                effectiveStartDate,
+                effectiveEndDate,
+                feed,
               },
               i,
-            ) => (
-              <RouteAlertsRow
-                color={color ? `#${color}` : null}
-                currentTime={currentTime}
-                description={description}
-                endTime={endTime}
-                entityIdentifier={shortName || nameAndCode || code}
-                entityMode={
-                  (mode && getRouteMode({ mode, type })) ||
-                  (vehicleMode && vehicleMode.toLowerCase())
-                }
-                entityType={
-                  (shortName && 'route') || ((nameAndCode || code) && 'stop')
-                }
-                expired={expired}
-                header={header}
-                key={`alert-${shortName}-${severityLevel}-${i}`} // eslint-disable-line react/no-array-index-key
-                severityLevel={severityLevel}
-                startTime={startTime}
-                url={url}
-                gtfsIds={routeGtfsId || stopGtfsId}
-                showRouteNameLink={showRouteNameLink}
-                source={source}
-              />
-            ),
+            ) => {
+              const entityType =
+                getEntitiesOfType(entities, AlertEntityType.Stop).length > 0
+                  ? 'stop'
+                  : 'route';
+              return (
+                <AlertRow
+                  currentTime={currentTime}
+                  description={alertDescriptionText}
+                  endTime={effectiveEndDate}
+                  entities={entities}
+                  feed={feed}
+                  header={alertHeaderText}
+                  // eslint-disable-next-line react/no-array-index-key
+                  key={`alert-${entityType}-${alertSeverityLevel}-${i}`}
+                  severityLevel={alertSeverityLevel}
+                  showLinks={showLinks}
+                  startTime={effectiveStartDate}
+                  url={alertUrl}
+                  index={i}
+                  onClickLink={onClickLink}
+                />
+              );
+            },
           )}
         </div>
       </div>
@@ -97,48 +110,30 @@ const AlertList = ({
   );
 };
 
-const alertShape = PropTypes.shape({
-  description: PropTypes.string,
-  header: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
-  route: PropTypes.shape({
-    color: PropTypes.string,
-    mode: PropTypes.string,
-    shortName: PropTypes.string,
-  }),
-  severityLevel: PropTypes.string,
-  stop: PropTypes.shape({
-    code: PropTypes.string,
-    vehicleMode: PropTypes.string,
-  }),
-  url: PropTypes.string,
-  validityPeriod: PropTypes.shape({
-    startTime: PropTypes.number.isRequired,
-    endTime: PropTypes.number,
-  }).isRequired,
-});
-
 AlertList.propTypes = {
   cancelations: PropTypes.arrayOf(alertShape),
   currentTime: PropTypes.PropTypes.number.isRequired,
   disableScrolling: PropTypes.bool,
   serviceAlerts: PropTypes.arrayOf(alertShape),
-  showExpired: PropTypes.bool,
-  showRouteNameLink: PropTypes.bool,
+  showLinks: PropTypes.bool,
   breakpoint: PropTypes.string,
+  onClickLink: PropTypes.func,
 };
 
 AlertList.defaultProps = {
   cancelations: [],
   disableScrolling: false,
   serviceAlerts: [],
-  showExpired: false,
+  showLinks: false,
+  breakpoint: undefined,
+  onClickLink: undefined,
 };
 
 const connectedComponent = connectToStores(
   withBreakpoint(AlertList),
-  ['TimeStore'],
+  ['TimeStore', 'PreferencesStore'],
   context => ({
-    currentTime: context.getStore('TimeStore').getCurrentTime().unix(),
+    currentTime: context.getStore('TimeStore').getCurrentTime(),
   }),
 );
 

@@ -10,7 +10,7 @@ const StopsNearYouMapWithStores = connectToStores(
   StopsNearYouMap,
   [TimeStore, PreferencesStore, FavouriteStore],
   ({ getStore }, { match }) => {
-    const currentTime = getStore(TimeStore).getCurrentTime().unix();
+    const currentTime = getStore(TimeStore).getCurrentTime();
     const language = getStore(PreferencesStore).getLanguage();
     const favouriteIds =
       match.params.mode === 'CITYBIKE'
