@@ -248,7 +248,6 @@ class ItineraryPage extends React.Component {
         if (
           transitItineraries(this.props.viewer?.plan?.itineraries).length ===
             0 &&
-          !this.state.settingsChangedRecently &&
           this.state.relaxedPlan?.itineraries?.length > 0
         ) {
           return this.state.relaxedPlan;
@@ -270,42 +269,38 @@ class ItineraryPage extends React.Component {
 
     fetchQuery(this.props.relayEnvironment, walkAndBikeQuery, planParams)
       .then(result => {
-        // filter plain walking / biking away
-        const bikeParkItineraries = transitItineraries(
-          result.bikeParkPlan?.itineraries,
+        const bikeParkItineraries = filterItineraries(
+          transitItineraries(result.bikeParkPlan?.itineraries),
+          ['BICYCLE'],
         );
-        const bikePublicItineraries = transitItineraries(
-          result.bikeAndPublicPlan?.itineraries,
+        const bikePublicItineraries = filterItineraries(
+          transitItineraries(result.bikeAndPublicPlan?.itineraries),
+          ['BICYCLE'],
+        );
+        const bikeRentAndPublicPlan = filterItineraries(
+          transitItineraries(result.bikeRentAndPublicPlan?.itineraries),
+          ['BICYCLE'],
         );
 
-        // show 6 bike + transit itineraries, preferably 3 of both kind.
-        // If there is not enough of a kind, take more from the other kind
-        let n1 = bikeParkItineraries.length;
-        let n2 = bikePublicItineraries.length;
-        if (n1 < 3) {
-          n2 = Math.min(6 - n1, n2);
-        } else if (n2 < 3) {
-          n1 = Math.min(6 - n2, n1);
-        } else {
-          n1 = 3;
-          n2 = 3;
-        }
-        this.bikeAndParkItineraryCount = n1;
         const bikeTransitPlan = {
-          ...result.bikeParkPlan,
           itineraries: [
-            ...bikeParkItineraries.slice(0, n1),
+            ...bikeParkItineraries.slice(0, 3),
             ...bikePublicItineraries.slice(0, 3),
+            ...bikeRentAndPublicPlan.slice(0, 3),
           ],
         };
+        this.bikeAndParkItineraryCount = Math.min(
+          bikeParkItineraries.length,
+          3,
+        );
 
         this.bikeAndPublicItineraryCount = Math.min(
-          result.bikeAndPublicPlan?.itineraries.length,
+          bikePublicItineraries.length,
           3,
         );
 
         this.bikeRentAndPublicItineraryCount = Math.min(
-          result.bikeRentAndPublicPlan?.itineraries.length,
+          bikeRentAndPublicPlan.length,
           3,
         );
 
@@ -1056,7 +1051,6 @@ class ItineraryPage extends React.Component {
         laterItineraries: [],
         separatorPosition: undefined,
         relaxedPlan: undefined,
-        settingsChangedRecently: true,
       },
       () => {
         this.props.relay.refetch(planParams, null, () => {
