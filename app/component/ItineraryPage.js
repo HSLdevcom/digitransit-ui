@@ -1055,6 +1055,7 @@ class ItineraryPage extends React.Component {
       () => {
         this.props.relay.refetch(planParams, null, () => {
           this.makeAlternativeQuery();
+          this.makeRelaxedQuery();
           this.showScreenreaderUpdatedAlert();
           this.resetItineraryPageSelection();
         });
