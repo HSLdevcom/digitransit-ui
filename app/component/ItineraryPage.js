@@ -93,6 +93,8 @@ const streetHashes = [
   streetHash.bikeAndVehicle,
   streetHash.car,
   streetHash.parkAndRide,
+  streetHash.scooter,
+  streetHash.onDemandTaxi,
 ];
 const showVehiclesThresholdMinutes = 720;
 const emptyPlans = {

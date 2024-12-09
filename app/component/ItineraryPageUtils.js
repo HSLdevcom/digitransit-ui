@@ -19,7 +19,12 @@ import {
 import { getMapLayerOptions } from '../util/mapLayerUtils';
 import { streetHash } from '../util/path';
 
-export const noTransitHash = [streetHash.walk, streetHash.bike, streetHash.car];
+export const noTransitHash = [
+  streetHash.walk,
+  streetHash.bike,
+  streetHash.car,
+  streetHash.scooter,
+];
 
 /**
  * Returns the index of selected itinerary. Attempts to look for
@@ -69,7 +74,11 @@ export function getSelectedItineraryIndex(
 
 // this func is a bit fuzzy because it compares strings and numbers
 export function showDetailView(hash, secondHash, itineraries) {
-  if (hash === streetHash.bikeAndVehicle || hash === streetHash.parkAndRide) {
+  if (
+    hash === streetHash.bikeAndVehicle ||
+    hash === streetHash.parkAndRide ||
+    hash === streetHash.scooter
+  ) {
     // note that '0' < 1 in javascript, because strings are converted to numbers
     return secondHash < itineraries.length;
   }
