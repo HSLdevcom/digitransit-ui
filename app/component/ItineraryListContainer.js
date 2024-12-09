@@ -17,12 +17,12 @@ import ItineraryList from './ItineraryList/ItineraryList';
 import TimeStore from '../store/TimeStore';
 import PositionStore from '../store/PositionStore';
 import { otpToLocation, getIntermediatePlaces } from '../util/otpStrings';
-import { getSummaryPath } from '../util/path';
+import { getItineraryPagePath } from '../util/path';
 import { replaceQueryParams } from '../util/queryUtils';
 import withBreakpoint from '../util/withBreakpoint';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import { isIOS, isSafari } from '../util/browser';
-import SettingsChangedNotification from './SettingsChangedNotification';
+import SettingsNotification from './SettingsNotification';
 import ItineraryShape from '../prop-types/ItineraryShape';
 import ErrorShape from '../prop-types/ErrorShape';
 import LocationStateShape from '../prop-types/LocationStateShape';
@@ -48,31 +48,19 @@ class ItineraryListContainer extends React.Component {
       itineraries: PropTypes.arrayOf(ItineraryShape),
     }).isRequired,
     routingErrors: PropTypes.arrayOf(RoutingErrorShape),
-    serviceTimeRange: PropTypes.shape({
-      start: PropTypes.number.isRequired,
-      end: PropTypes.number.isRequired,
-    }).isRequired,
-    bikeAndPublicItinerariesToShow: PropTypes.number.isRequired,
-    bikeRentAndPublicItinerariesToShow: PropTypes.number.isRequired,
-    bikeAndParkItinerariesToShow: PropTypes.number.isRequired,
-    scooter: PropTypes.bool,
-    parkAndRide: PropTypes.bool,
+    bikeAndPublicItineraryCount: PropTypes.number.isRequired,
+    bikeRentAndPublicItineraryCount: PropTypes.number.isRequired,
+    bikeAndParkItineraryCount: PropTypes.number.isRequired,
     car: PropTypes.bool,
-    onDemandTaxi: PropTypes.bool,
     walking: PropTypes.bool,
     biking: PropTypes.bool,
     showAlternativePlan: PropTypes.bool,
     separatorPosition: PropTypes.number,
-    loading: PropTypes.bool.isRequired,
     onLater: PropTypes.func.isRequired,
     onEarlier: PropTypes.func.isRequired,
     onDetailsTabFocused: PropTypes.func.isRequired,
+    settingsNotification: PropTypes.func,
     loadingMoreItineraries: PropTypes.string,
-    alternativePlan: PropTypes.shape({
-      date: PropTypes.number,
-      itineraries: PropTypes.arrayOf(ItineraryShape),
-    }),
-    showSettingsChangedNotification: PropTypes.func.isRequired,
     driving: PropTypes.bool,
     onlyHasWalkingItineraries: PropTypes.bool,
   };
@@ -81,6 +69,7 @@ class ItineraryListContainer extends React.Component {
     activeIndex: 0,
     children: null,
     error: undefined,
+    car: false,
     walking: false,
     biking: false,
     showAlternativePlan: false,
@@ -88,6 +77,8 @@ class ItineraryListContainer extends React.Component {
     driving: false,
     routingErrors: [],
     separatorPosition: undefined,
+    settingsNotification: false,
+    onlyHasWalkingItineraries: false,
   };
 
   static contextTypes = {
@@ -105,7 +96,7 @@ class ItineraryListContainer extends React.Component {
       this.context.router.replace({
         ...this.context.match.location,
         state: { summaryPageSelected: index },
-        pathname: `${getSummaryPath(
+        pathname: `${getItineraryPagePath(
           this.props.params.from,
           this.props.params.to,
         )}${subpath}`,
@@ -156,11 +147,11 @@ class ItineraryListContainer extends React.Component {
       ...this.context.match.location,
       state: { summaryPageSelected: index },
     };
-    const basePath = `${getSummaryPath(
+    const basePath = `${getItineraryPagePath(
       this.props.params.from,
       this.props.params.to,
     )}${subpath}`;
-    const indexPath = `${getSummaryPath(
+    const indexPath = `${getItineraryPagePath(
       this.props.params.from,
       this.props.params.to,
     )}${subpath}${index}`;
@@ -250,21 +241,18 @@ class ItineraryListContainer extends React.Component {
       currentTime,
       locationState,
       itineraries,
-      bikeAndPublicItinerariesToShow,
-      bikeRentAndPublicItinerariesToShow,
-      bikeAndParkItinerariesToShow,
-      scooter,
-      parkAndRide,
+      bikeAndPublicItineraryCount,
+      bikeRentAndPublicItineraryCount,
+      bikeAndParkItineraryCount,
       car,
-      onDemandTaxi,
       walking,
       biking,
       showAlternativePlan,
       separatorPosition,
-      loading,
       loadingMoreItineraries,
       driving,
       onlyHasWalkingItineraries,
+      settingsNotification,
     } = this.props;
     const searchTime =
       this.props.plan?.date ||
@@ -303,30 +291,21 @@ class ItineraryListContainer extends React.Component {
           onSelectImmediately={this.onSelectImmediately}
           searchTime={searchTime}
           to={otpToLocation(to)}
-          bikeAndPublicItinerariesToShow={bikeAndPublicItinerariesToShow}
-          bikeRentAndPublicItinerariesToShow={
-            bikeRentAndPublicItinerariesToShow
-          }
-          bikeAndParkItinerariesToShow={bikeAndParkItinerariesToShow}
-          scooter={scooter}
-          parkAndRide={parkAndRide}
+          bikeAndPublicItineraryCount={bikeAndPublicItineraryCount}
+          bikeRentAndPublicItineraryCount={bikeRentAndPublicItineraryCount}
+          bikeAndParkItineraryCount={bikeAndParkItineraryCount}
           car={car}
-          onDemandTaxi={onDemandTaxi}
           walking={walking}
           biking={biking}
           showAlternativePlan={showAlternativePlan}
           separatorPosition={separatorPosition}
           loadingMoreItineraries={loadingMoreItineraries}
-          loading={loading}
           driving={driving}
           onlyHasWalkingItineraries={onlyHasWalkingItineraries}
         >
           {this.props.children}
         </ItineraryList>
-        {this.props.showSettingsChangedNotification(
-          this.props.plan,
-          this.props.alternativePlan,
-        ) && <SettingsChangedNotification />}
+        {settingsNotification && <SettingsNotification />}
         {(this.context.match.params.hash &&
           this.context.match.params.hash === 'bikeAndVehicle') ||
         disableButtons ||

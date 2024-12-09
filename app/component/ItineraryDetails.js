@@ -53,20 +53,22 @@ const TripShape = PropTypes.shape({
   }),
 });
 
-const ItineraryShape = PropTypes.shape({
-  legs: PropTypes.arrayOf(
-    PropTypes.shape({
-      route: RouteShape,
-      trip: TripShape,
-      distance: PropTypes.number,
-      fares: PropTypes.arrayOf(FareShape),
-      emissionsPerPerson: PropTypes.shape({
-        co2: PropTypes.number,
+const ItineraryShape = PropTypes.oneOfType([
+  PropTypes.any,
+  PropTypes.shape({
+    legs: PropTypes.arrayOf(
+      PropTypes.shape({
+        route: RouteShape,
+        trip: TripShape,
+        distance: PropTypes.number,
+        fares: PropTypes.arrayOf(FareShape),
       }),
+    ),
+    emissionsPerPerson: PropTypes.shape({
+      co2: PropTypes.number,
     }),
-  ),
-  fares: PropTypes.arrayOf(FareShape),
-});
+  }),
+]);
 
 /* eslint-disable prettier/prettier */
 class ItineraryDetails extends React.Component {
@@ -103,24 +105,26 @@ class ItineraryDetails extends React.Component {
     fetchedFares: false,
   };
 
-  handleFocus = (lat, lon) => {
+  handleFocus(lat, lon) {
     this.props.focusToPoint(lat, lon);
-  };
+  }
 
-  shouldShowDisclaimer = config => {
+  shouldShowDisclaimer(config) {
     return (
       config.showDisclaimer &&
       this.context.match.params.hash !== 'walk' &&
       this.context.match.params.hash !== 'bike'
     );
-  };
+  }
 
-  shouldShowCarpoolDisclaimer = (itinerary, config) => {
-    const hasCarpoolLegs = itinerary.legs.some(l => l.mode === 'CARPOOL');
+  shouldShowCarpoolDisclaimer(config) {
+    const hasCarpoolLegs = this.props.itinerary.legs.some(
+      l => l.mode === 'CARPOOL',
+    );
     return hasCarpoolLegs && config.carpoolDisclaimer;
-  };
+  }
 
-  printItinerary = e => {
+  printItinerary(e) {
     e.stopPropagation();
 
     addAnalyticsEvent({
@@ -135,9 +139,9 @@ class ItineraryDetails extends React.Component {
       ...this.context.match.location,
       pathname: printPath,
     });
-  };
+  }
 
-  getFutureText = (startTime, currentTime) => {
+  getFutureText(startTime, currentTime) {
     const refTime = getCurrentMillis(currentTime);
     if (isToday(startTime, refTime)) {
       return '';
@@ -148,9 +152,9 @@ class ItineraryDetails extends React.Component {
       });
     }
     return getFormattedTimeDate(startTime, 'dd D.M.');
-  };
+  }
 
-  setExtraProps = itinerary => {
+  getExtraProps(itinerary) {
     const compressedItinerary = {
       ...itinerary,
       legs: compressLegs(itinerary.legs),
@@ -186,7 +190,7 @@ class ItineraryDetails extends React.Component {
       isMultiRow,
     };
     return extraProps;
-  };
+  }
 
   componentDidMount() {
     const { itinerary } = this.props;
@@ -216,7 +220,7 @@ class ItineraryDetails extends React.Component {
     const { itinerary } = this.props;
     const { config } = this.context;
 
-    if (!itinerary || !itinerary.legs[0]) {
+    if (!itinerary?.legs[0]) {
       return null;
     }
 
@@ -226,7 +230,7 @@ class ItineraryDetails extends React.Component {
       config,
       this.state.lang,
     );
-    const extraProps = this.setExtraProps(itinerary);
+    const extraProps = this.getExtraProps(itinerary);
     const legsWithRentalBike = compressLegs(itinerary.legs).filter(leg =>
       legContainsRentalBike(leg),
     );
@@ -254,67 +258,57 @@ class ItineraryDetails extends React.Component {
       }
     }
 
-    const suggestionIndex = this.context.match.params.secondHash
-      ? Number(this.context.match.params.secondHash) + 1
-      : Number(this.context.match.params.hash) + 1;
+    let itineraryIndex = this.context.match.params.secondHash
+      ? Number(this.context.match.params.secondHash)
+      : Number(this.context.match.params.hash);
+
+    if (Number.isNaN(itineraryIndex)) {
+      itineraryIndex = 1;
+    } else {
+      itineraryIndex += 1;
+    }
     return (
       <div className="itinerary-tab">
-        <h2 className="sr-only">
+        <h2 className="sr-only" key="srlabel">
           <FormattedMessage
             id="summary-page.row-label"
             values={{
-              number: suggestionIndex,
+              number: itineraryIndex,
             }}
           />
         </h2>
         <BreakpointConsumer>
           {breakpoint => [
-            breakpoint !== 'large' ? (
-              <ItinerarySummary
-                itinerary={itinerary}
-                key="summary"
-                walking={extraProps.walking}
-                biking={extraProps.biking}
-                driving={extraProps.driving}
-                futureText={extraProps.futureText}
-                isMultiRow={extraProps.isMultiRow}
-                isMobile={this.props.isMobile}
-              />
-            ) : (
-              <>
-                {!this.props.hideTitle && (
-                  <div className="desktop-title" key="header">
-                    <div className="title-container h2">
-                      <BackButton
-                        title={
-                          <FormattedMessage
-                            id="itinerary-page.title"
-                            defaultMessage="Itinerary suggestions"
-                          />
-                        }
-                        icon="icon-icon_arrow-collapse--left"
-                        iconClassName="arrow-icon"
-                        fallback="pop"
+            breakpoint === 'large' && !this.props.hideTitle && (
+              <div className="desktop-title" key="header">
+                <div className="title-container h2">
+                  <BackButton
+                    title={
+                      <FormattedMessage
+                        id="itinerary-page.title"
+                        defaultMessage="Itinerary suggestions"
                       />
-                    </div>
-                  </div>
-                )}
-                <div className="itinerary-summary-container">
-                  <ItinerarySummary
-                    itinerary={itinerary}
-                    key="summary"
-                    walking={extraProps.walking}
-                    biking={extraProps.biking}
-                    driving={extraProps.driving}
-                    futureText={extraProps.futureText}
-                    isMultiRow={extraProps.isMultiRow}
-                    isMobile={this.props.isMobile}
+                    }
+                    icon="icon-icon_arrow-collapse--left"
+                    iconClassName="arrow-icon"
+                    fallback="pop"
                   />
                 </div>
-              </>
+              </div>
             ),
+            <ItinerarySummary
+              itinerary={itinerary}
+              key="summary"
+              walking={extraProps.walking}
+              biking={extraProps.biking}
+              driving={extraProps.driving}
+              futureText={extraProps.futureText}
+              isMultiRow={extraProps.isMultiRow}
+              isMobile={this.props.isMobile}
+            />,
             showRentalBikeDurationWarning && (
               <CityBikeDurationInfo
+                key="citybikedurationinfo"
                 networks={Array.from(rentalBikeNetworks)}
                 config={config}
               />
@@ -329,6 +323,7 @@ class ItineraryDetails extends React.Component {
                 className={cx('itinerary-main', {
                   'bp-large': breakpoint === 'large',
                 })}
+                key="legwrapper"
               >
                 {shouldShowFareInfo(config) &&
                   config.displayFareInfoTop &&
@@ -352,6 +347,7 @@ class ItineraryDetails extends React.Component {
                   )}
                 {config.showCO2InItinerarySummary && (
                   <EmissionsInfo
+                    key="emissionssummary"
                     itinerary={itinerary}
                     isMobile={this.props.isMobile}
                   />
@@ -372,8 +368,11 @@ class ItineraryDetails extends React.Component {
                     emissionsInfolink={config.EMISSIONS_INFO}
                   />
                 )}
-                {this.shouldShowCarpoolDisclaimer(itinerary, config) && (
-                  <div className="itinerary-disclaimer">
+                {this.shouldShowCarpoolDisclaimer(config) && (
+                  <div
+                    className="itinerary-disclaimer"
+                    key="carpool-disclaimer"
+                  >
                     <div className="info-container">
                       <div className="icon-container">
                         <Icon className="info" img="icon-icon_info" />
@@ -386,6 +385,7 @@ class ItineraryDetails extends React.Component {
                 )}
                 {shouldShowFareInfo(config) && (
                   <TicketInformation
+                    key="ticketinformation"
                     fares={fares}
                     zones={getZones(itinerary.legs)}
                     legs={itinerary.legs}
@@ -395,14 +395,14 @@ class ItineraryDetails extends React.Component {
                 {config.showRouteInformation && <RouteInformation />}
               </div>
               {this.shouldShowDisclaimer(config) && (
-                <div className="itinerary-disclaimer">
+                <div className="itinerary-disclaimer" key="disclaimer">
                   <FormattedMessage
                     id="disclaimer"
                     defaultMessage="Results are based on estimated travel times"
                   />
                 </div>
               )}
-              <div className="itinerary-empty-space" />
+              <div className="itinerary-empty-space" key="emptyspace" />
             </div>,
           ]}
         </BreakpointConsumer>

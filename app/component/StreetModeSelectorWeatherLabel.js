@@ -6,12 +6,9 @@ import { FormattedMessage } from 'react-intl';
 import Icon from './Icon';
 import WeatherDetailsPopup from './WeatherDetailsPopup';
 
-export const StreetModeSelectorWeatherLabel = ({ active, weatherData }) => {
+export const StreetModeSelectorWeatherLabel = ({ weatherData }) => {
   const [popupOpen, changeOpen] = useState(false);
-  if (active && weatherData && weatherData.temperature) {
-    if (weatherData.temperature === 'NaN' || weatherData.iconId === 'NaN') {
-      return null;
-    }
+  if (weatherData.temperature) {
     const { temperature, iconId } = weatherData;
     const tempLabel = `${Math.round(temperature)}\u00B0C`; // Temperature with Celsius
     return (
@@ -49,13 +46,18 @@ export const StreetModeSelectorWeatherLabel = ({ active, weatherData }) => {
 };
 
 StreetModeSelectorWeatherLabel.propTypes = {
-  active: PropTypes.bool.isRequired,
-  // eslint-disable-next-line react/require-default-props
-  weatherData: PropTypes.shape({
-    temperature: PropTypes.number,
-    windSpeed: PropTypes.number,
-    iconId: PropTypes.number,
-  }),
+  weatherData: PropTypes.oneOfType([
+    PropTypes.shape({}),
+    PropTypes.shape({
+      temperature: PropTypes.number.isRequired,
+      windSpeed: PropTypes.number.isRequired,
+      iconId: PropTypes.number.isRequired,
+    }),
+  ]),
+};
+
+StreetModeSelectorWeatherLabel.defaultProps = {
+  weatherData: {},
 };
 
 export default StreetModeSelectorWeatherLabel;

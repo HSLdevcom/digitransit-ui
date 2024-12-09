@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl';
 
 import Icon from './Icon';
 
-const SettingsChangedNotification = () => {
+const SettingsNotification = () => {
   return (
     <div className="settings-changed-notification">
       <div className="left-block">
@@ -27,4 +27,4 @@ const SettingsChangedNotification = () => {
   );
 };
 
-export default SettingsChangedNotification;
+export default SettingsNotification;
