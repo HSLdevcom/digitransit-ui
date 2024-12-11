@@ -10,6 +10,7 @@ describe('<BicycleLeg />', () => {
     const props = {
       focusAction: () => {},
       focusToLeg: () => {},
+      focusToStep: () => {},
       index: 1,
       leg: {
         distance: 0,
@@ -37,6 +38,7 @@ describe('<BicycleLeg />', () => {
           cityBike: {
             networks: { foobar: { type: CityBikeNetworkType.CityBike } },
           },
+          colors: { primary: '#007ac9' },
         },
       },
     });
@@ -49,6 +51,7 @@ describe('<BicycleLeg />', () => {
     const props = {
       focusAction: () => {},
       focusToLeg: () => {},
+      focusToStep: () => {},
       index: 1,
       leg: {
         distance: 0,
@@ -76,6 +79,7 @@ describe('<BicycleLeg />', () => {
           cityBike: {
             networks: { foobar: { type: CityBikeNetworkType.Scooter } },
           },
+          colors: { primary: '#007ac9' },
         },
       },
     });
@@ -88,6 +92,7 @@ describe('<BicycleLeg />', () => {
     const props = {
       focusAction: () => {},
       focusToLeg: () => {},
+      focusToStep: () => {},
       index: 1,
       leg: {
         distance: 0,
@@ -115,6 +120,7 @@ describe('<BicycleLeg />', () => {
           cityBike: {
             networks: { foobar: { type: CityBikeNetworkType.CityBike } },
           },
+          colors: { primary: '#007ac9' },
         },
       },
     });
@@ -130,6 +136,7 @@ describe('<BicycleLeg />', () => {
     const props = {
       focusAction: () => {},
       focusToLeg: () => {},
+      focusToStep: () => {},
       index: 1,
       leg: {
         distance: 0,
@@ -157,6 +164,7 @@ describe('<BicycleLeg />', () => {
           cityBike: {
             networks: { foobar: { type: CityBikeNetworkType.Scooter } },
           },
+          colors: { primary: '#007ac9' },
         },
       },
     });
@@ -172,6 +180,7 @@ describe('<BicycleLeg />', () => {
     const props = {
       focusAction: () => {},
       focusToLeg: () => {},
+      focusToStep: () => {},
       index: 1,
       leg: {
         distance: 0,
@@ -199,6 +208,7 @@ describe('<BicycleLeg />', () => {
           cityBike: {
             networks: { foobar: { type: CityBikeNetworkType.CityBike } },
           },
+          colors: { primary: '#007ac9' },
         },
       },
     });
@@ -211,6 +221,7 @@ describe('<BicycleLeg />', () => {
     const props = {
       focusAction: () => {},
       focusToLeg: () => {},
+      focusToStep: () => {},
       index: 1,
       leg: {
         distance: 0,
@@ -238,6 +249,7 @@ describe('<BicycleLeg />', () => {
           cityBike: {
             networks: { foobar: { type: CityBikeNetworkType.Scooter } },
           },
+          colors: { primary: '#007ac9' },
         },
       },
     });

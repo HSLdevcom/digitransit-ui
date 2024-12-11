@@ -346,6 +346,7 @@ class ItineraryLegs extends React.Component {
             leg={leg}
             focusAction={this.focus(leg.from)}
             focusToLeg={this.focusToLeg(leg)}
+            focusToStep={this.focusToStep}
             bicycleWalkLeg={bicycleWalkLeg}
             arrivedAtDestinationWithRentedBicycle={
               itinerary.arrivedAtDestinationWithRentedBicycle
@@ -361,6 +362,7 @@ class ItineraryLegs extends React.Component {
             leg={leg}
             focusAction={this.focus(leg.from)}
             focusToLeg={this.focusToLeg(leg)}
+            focusToStep={this.focusToStep}
             toggleCarpoolDrawer={toggleCarpoolDrawer}
             startTime={startTime}
             previousLeg={previousLeg}

@@ -101,7 +101,7 @@ class ItineraryCircleLineWithIcon extends React.Component {
 
   render() {
     const topMarker = this.getMarker(true);
-    const legBeforeLineStyle = { color: this.props.color };
+    let legBeforeLineStyle = { color: this.props.color };
     if (
       isBrowser &&
       (this.props.modeClassName === 'walk' ||
@@ -109,9 +109,14 @@ class ItineraryCircleLineWithIcon extends React.Component {
     ) {
       // eslint-disable-next-line global-require
       legBeforeLineStyle.backgroundImage = this.state.imageUrl;
-      if (this.props.hideIcons) {
-        legBeforeLineStyle.height = '100%';
-      }
+    }
+    if (this.props.hideIcons) {
+      // Full height line if icons are hidden
+      legBeforeLineStyle = {
+        ...legBeforeLineStyle,
+        height: '100%',
+        top: 0,
+      };
     }
     return (
       <div
