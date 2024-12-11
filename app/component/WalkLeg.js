@@ -21,7 +21,7 @@ import { isKeyboardSelectionEvent } from '../util/browser';
 import { splitStringToAddressAndPlace } from '../util/otpStrings';
 import CityBikeLeg from './CityBikeLeg';
 import DelayedTime from './DelayedTime';
-import WalkSteps from './WalkSteps';
+import LegSteps from './LegSteps';
 
 function WalkLeg(
   { children, focusAction, focusToLeg, focusToStep, index, leg, previousLeg },
@@ -325,7 +325,7 @@ function WalkLeg(
           >
             <div className="itinerary-leg-action">
               <div className="itinerary-leg-action-content">
-                <WalkSteps steps={leg.steps} focusToStep={focusToStep} />
+                <LegSteps steps={leg.steps} focusToStep={focusToStep} />
               </div>
             </div>
           </div>

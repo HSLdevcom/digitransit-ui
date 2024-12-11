@@ -46,7 +46,7 @@ function getDirectionIcon(relativeDirection) {
   }
 }
 
-function WalkSteps({ steps, focusToStep }, { intl }) {
+function LegSteps({ steps, focusToStep }, { intl }) {
   return (
     <div>
       {steps.map((step, i) => (
@@ -94,7 +94,7 @@ function WalkSteps({ steps, focusToStep }, { intl }) {
   );
 }
 
-WalkSteps.propTypes = {
+LegSteps.propTypes = {
   steps: PropTypes.arrayOf(
     PropTypes.shape({
       relativeDirection: PropTypes.string.isRequired,
@@ -107,9 +107,9 @@ WalkSteps.propTypes = {
   focusToStep: PropTypes.func.isRequired,
 };
 
-WalkSteps.contextTypes = {
+LegSteps.contextTypes = {
   config: PropTypes.object.isRequired,
   intl: intlShape.isRequired,
 };
 
-export default WalkSteps;
+export default LegSteps;
