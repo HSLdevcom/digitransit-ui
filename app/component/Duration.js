@@ -2,21 +2,21 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, intlShape } from 'react-intl';
 import Icon from './Icon';
 import { durationToString } from '../util/timeUtils';
 
-function Duration(props) {
+function Duration(props, { intl }) {
   const timeOptions = {
     hour: 'numeric',
     minute: 'numeric',
     hour12: false,
   };
   const duration = durationToString(props.duration * 1000);
-  const startTime = new Intl.DateTimeFormat('en-US', timeOptions).format(
+  const startTime = new Intl.DateTimeFormat(intl.locale, timeOptions).format(
     new Date(props.startTime),
   );
-  const endTime = new Intl.DateTimeFormat('en-US', timeOptions).format(
+  const endTime = new Intl.DateTimeFormat(intl.locale, timeOptions).format(
     new Date(props.endTime),
   );
   const futureText = props.futureText
@@ -72,6 +72,10 @@ Duration.propTypes = {
 Duration.defaultTypes = {
   futureText: '',
   multiRow: false,
+};
+
+Duration.contextTypes = {
+  intl: intlShape,
 };
 
 export default Duration;
