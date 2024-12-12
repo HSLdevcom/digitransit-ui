@@ -291,7 +291,7 @@ export default {
     },
 
     // this value is overridden in config.herrenberg.js
-    mqtt: 'wss://api.dev.stadtnavi.eu/mqtt/',
+    mqtt: 'wss://vehiclepositions.stadtnavi.eu/mqtt/',
 
     gtfsrt: true,
 
