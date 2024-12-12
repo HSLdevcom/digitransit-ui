@@ -132,7 +132,7 @@ export function getTopics(config, itineraries, match) {
           if (realTime[feedId]?.useFuzzyTripMatching) {
             topic = {
               feedId,
-              route: leg.route.gtfsId.split(':')[1],
+              route: leg.route.gtfsId.split(':').slice(1).join(':'),
               mode: leg.mode.toLowerCase(),
               direction: Number(leg.trip.directionId),
               shortName: leg.route.shortName,
@@ -144,8 +144,8 @@ export function getTopics(config, itineraries, match) {
           } else if (realTime[feedId]) {
             topic = {
               feedId,
-              route: leg.route.gtfsId.split(':')[1],
-              tripId: leg.trip.gtfsId.split(':')[1],
+              route: leg.route.gtfsId.split(':').slice(1).join(':'),
+              tripId: leg.trip.gtfsId.split(':').slice(1).join(':'),
               type: leg.route.type,
               shortName: leg.route.shortName,
             };

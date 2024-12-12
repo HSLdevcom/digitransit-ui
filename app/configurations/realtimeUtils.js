@@ -1,7 +1,7 @@
 /* eslint-disable prefer-template */
 function defaultRouteSelector(routePageProps) {
   const route = routePageProps.route.gtfsId.split(':');
-  return route[1];
+  return route.slice(1).join(':');
 }
 function walttiTopicResolver(
   route,

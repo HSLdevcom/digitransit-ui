@@ -277,10 +277,10 @@ function StopsNearYouMap(
       // eslint-disable-next-line no-unused-expressions
       place.patterns &&
         place.patterns.forEach(pattern => {
-          const feedId = pattern.route.gtfsId.split(':')[0];
+          const feedId = pattern.route.gtfsId.split(':').slice(1).join(':');
           realtimeTopics.push({
             feedId,
-            route: pattern.route.gtfsId.split(':')[1],
+            route: pattern.route.gtfsId.split(':').slice(1).join(':'),
             shortName: pattern.route.shortName,
             type: pattern.route.type,
           });
@@ -293,7 +293,7 @@ function StopsNearYouMap(
             const feedId = pattern.route.gtfsId.split(':')[0];
             realtimeTopics.push({
               feedId,
-              route: pattern.route.gtfsId.split(':')[1],
+              route: pattern.route.gtfsId.split(':').slice(1).join(':'),
               shortName: pattern.route.shortName,
               type: pattern.route.type,
             });
