@@ -286,12 +286,43 @@ export default {
     active: true,
   },
   hbg: {
-    mqttTopicResolver: function mqttTopicResolver() {
-      return '/gtfsrt/vp/#';
+    mqttTopicResolver: function hbgTopicResolver(
+      route,
+      direction,
+      tripStartTime,
+      headsign,
+      feedId,
+      tripId,
+      geoHash,
+    ) {
+      return (
+        '/gtfsrt/vp/' +
+        feedId +
+        '/+/+/+/' +
+        route +
+        '/' +
+        '+' + // direction is not available in VVS GTFS-RT-VP feed
+        '/' +
+        '+' + // headsign is not available in VVS GTFS-RT-VP feed
+        '/' +
+        tripId +
+        '/+/' +
+        '+' + // tripstartTime is not available in VVS GTFS-RT-VP feed
+        '/+/' +
+        geoHash[0] +
+        '/' +
+        geoHash[1] +
+        '/' +
+        geoHash[2] +
+        '/' +
+        geoHash[3] +
+        '/#'
+      );
     },
 
     // this value is overridden in config.herrenberg.js
     mqtt: 'wss://vehiclepositions.stadtnavi.eu/mqtt/',
+    topicFeedId: 'hbg',
 
     gtfsrt: true,
 

@@ -30,7 +30,7 @@ export const parseFeedMQTT = (feedParser, data, topic, agency) => {
     ,
     ,
     ,
-    ,
+    feedId,
     ,
     ,
     mode,
@@ -55,8 +55,8 @@ export const parseFeedMQTT = (feedParser, data, topic, agency) => {
       const { trip, position, vehicle } = vehiclePos;
       if (trip && position && vehicle) {
         const message = {
-          id: `${agency}:${vehicleId}`,
-          route: `${agency}:${routeId}`,
+          id: `${feedId}:${vehicleId}`,
+          route: `${feedId}:${routeId}`,
           direction:
             directionId === '' ? undefined : parseInt(directionId, 10) || 0,
           tripStartTime:
