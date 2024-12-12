@@ -1,6 +1,6 @@
 import Store from 'fluxible/addons/BaseStore';
-import moment from 'moment';
 import events from '../util/events';
+import { unixTime } from '../util/timeUtils';
 
 class RealTimeInformationStore extends Store {
   static storeName = 'RealTimeInformationStore';
@@ -61,7 +61,7 @@ class RealTimeInformationStore extends Store {
 
   handleMessage(message) {
     if (message) {
-      const receivedAt = moment().unix();
+      const receivedAt = unixTime();
       if (Array.isArray(message)) {
         message.forEach(msg => {
           if (
