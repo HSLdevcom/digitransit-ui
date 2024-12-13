@@ -18,6 +18,12 @@ import LayerCategoryDropdown from './LayerCategoryDropdown';
 import { mapLayerOptionsShape } from '../util/shapes';
 import { getTransportModes, showCityBikes } from '../util/modeUtils';
 
+import layerConfig from '../../layers.json';
+
+const healthAndSocialLayers = layerConfig
+  .filter(layer => layer.code === 'health_and_social_services')
+  .flatMap(({ categories }) => categories);
+
 const transportModeConfigShape = PropTypes.shape({
   availableForSelection: PropTypes.bool,
 });
@@ -411,6 +417,25 @@ class MapLayersDialogContent extends React.Component {
                 ),
               )}
             />
+            {healthAndSocialLayers.map(category => (
+              <LayerCategoryDropdown
+                key={category.code}
+                title={category.translations.de}
+                icon="icon-icon_material_map"
+                onChange={this.updateSetting}
+                options={category.categories.map(
+                  ({ code, translations, properties }) => ({
+                    checked: this.props.mapLayers[code],
+                    defaultMessage: translations.de,
+                    labelId: code,
+                    dataURI: `data:image/svg+xml;base64,${btoa(
+                      properties.icon.svg,
+                    )}`,
+                    settings: code,
+                  }),
+                )}
+              />
+            ))}
           </div>
 
           <p className="panel-maptype-title">

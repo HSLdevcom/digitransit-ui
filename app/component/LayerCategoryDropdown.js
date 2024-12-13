@@ -142,6 +142,7 @@ const LayerCategoryDropdown = (
                   />
                   <Icon
                     className="layer-category-dropdown-header-icon"
+                    dataURI={option.dataURI}
                     img={option.icon}
                     viewBox="0 0 15 11"
                     width={1.875}
