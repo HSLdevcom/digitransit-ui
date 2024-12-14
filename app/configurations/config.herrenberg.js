@@ -12,10 +12,7 @@ const STATIC_MESSAGE_URL =
 
 const parentConfig = require('./config.stadtnavi.js').default;
 
-const realtimeHbg = require('./realtimeUtils').default.hbg;
 const hostname = new URL(API_URL);
-realtimeHbg.mqtt = `wss://${hostname.host}/mqtt/`;
-
 const minLat = 47.6020;
 const maxLat = 49.0050;
 const minLon = 8.4087;
@@ -233,8 +230,6 @@ export default configMerger(parentConfig, {
     secondaryLogo: 'herrenberg/stadtnavi-logo-green.svg',
 
     feedIds: ['hbg'],
-
-    realtime: { hbg: realtimeHbg },
 
     searchSources: ['oa', 'osm'],
 

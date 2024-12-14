@@ -253,7 +253,7 @@ class RoutePageControlPanel extends React.Component {
               route: id,
               feedId,
               mode: route.mode.toLowerCase(),
-              gtfsId: routeParts[1],
+              gtfsId: routeParts.slice(1).join(':'),
               headsign: pattern[0].headsign,
             },
           ],
@@ -299,7 +299,7 @@ class RoutePageControlPanel extends React.Component {
     const source = realTime[feedId];
     const id =
       pattern.code !== match.params.patternId
-        ? routeParts[1]
+        ? routeParts.slice(1).join(':')
         : source.routeSelector(this.props);
     if (!source || !source.active) {
       return;
@@ -318,7 +318,7 @@ class RoutePageControlPanel extends React.Component {
           // to compensate potentially missing feed data
           feedId,
           mode: route.mode.toLowerCase(),
-          gtfsId: routeParts[1],
+          gtfsId: routeParts.slice(1).join(':'),
           headsign: pattern.headsign,
           direction,
           tripStartTime,
