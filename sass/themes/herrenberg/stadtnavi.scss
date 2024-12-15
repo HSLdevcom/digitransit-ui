@@ -211,3 +211,49 @@
   font-weight: normal;
   line-height: normal;
 }
+
+// --- Show disruptions on white background ---
+.message-bar {
+  .banner-container {
+    &.banner-disruption {
+      background: white;
+
+      .swipe-tab-ball {
+        &.selected {
+          border: solid 2px black;
+          background-color: black;
+        }
+      }
+      .icon {
+        color: white;
+        fill: $disruption-color;
+      }
+      #close-message-bar {
+        .icon {
+          fill: $disruption-color !important;
+        }
+      }
+      .message-bar-content,
+      a,
+      h2 {
+        color: black;
+      }
+      .message-bar-container {
+        .react-swipe-container, .single-alert {
+          .message-content {
+            .message-bar-link {
+              color: black;
+            }
+          }
+        }
+      }
+    }
+  }
+  .message-bar-container {
+    &.message-bar-disruption {
+      a {
+        color: white;
+      }
+    }
+  }
+}
