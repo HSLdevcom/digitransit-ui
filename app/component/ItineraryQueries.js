@@ -117,6 +117,9 @@ export const moreItinerariesQuery = graphql`
         endTime
         ...ItineraryDetails_itinerary
         ...ItineraryListContainer_itineraries
+        emissionsPerPerson {
+          co2
+        }
         legs {
           mode
           ...ItineraryLine_legs
@@ -331,6 +334,9 @@ export const walkAndBikeQuery = graphql`
         endTime
         ...ItineraryDetails_itinerary
         ...ItineraryListContainer_itineraries
+        emissionsPerPerson {
+          co2
+        }
         legs {
           mode
           ...ItineraryLine_legs
@@ -390,6 +396,9 @@ export const walkAndBikeQuery = graphql`
         endTime
         ...ItineraryDetails_itinerary
         ...ItineraryListContainer_itineraries
+        emissionsPerPerson {
+          co2
+        }
         legs {
           mode
           ...ItineraryLine_legs
@@ -450,6 +459,9 @@ export const walkAndBikeQuery = graphql`
         endTime
         ...ItineraryDetails_itinerary
         ...ItineraryListContainer_itineraries
+        emissionsPerPerson {
+          co2
+        }
         legs {
           mode
           ...ItineraryLine_legs
@@ -510,6 +522,9 @@ export const walkAndBikeQuery = graphql`
         endTime
         ...ItineraryDetails_itinerary
         ...ItineraryListContainer_itineraries
+        emissionsPerPerson {
+          co2
+        }
         legs {
           mode
           ...ItineraryLine_legs
@@ -569,6 +584,9 @@ export const walkAndBikeQuery = graphql`
         endTime
         ...ItineraryDetails_itinerary
         ...ItineraryListContainer_itineraries
+        emissionsPerPerson {
+          co2
+        }
         legs {
           mode
           ...ItineraryLine_legs
@@ -632,6 +650,9 @@ export const walkAndBikeQuery = graphql`
         endTime
         ...ItineraryDetails_itinerary
         ...ItineraryListContainer_itineraries
+        emissionsPerPerson {
+          co2
+        }
         legs {
           startTime
           endTime
@@ -702,6 +723,9 @@ export const walkAndBikeQuery = graphql`
         endTime
         ...ItineraryDetails_itinerary
         ...ItineraryListContainer_itineraries
+        emissionsPerPerson {
+          co2
+        }
         legs {
           startTime
           endTime
@@ -780,6 +804,9 @@ export const walkAndBikeQuery = graphql`
         endTime
         ...ItineraryDetails_itinerary
         ...ItineraryListContainer_itineraries
+        emissionsPerPerson {
+          co2
+        }
         legs {
           mode
           ...ItineraryLine_legs
@@ -885,6 +912,9 @@ export const allModesQuery = graphql`
         endTime
         ...ItineraryDetails_itinerary
         ...ItineraryListContainer_itineraries
+        emissionsPerPerson {
+          co2
+        }
         legs {
           mode
           ...ItineraryLine_legs
@@ -1018,6 +1048,9 @@ export const viewerQuery = graphql`
         endTime
         ...ItineraryDetails_itinerary
         ...ItineraryListContainer_itineraries
+        emissionsPerPerson {
+          co2
+        }
         legs {
           mode
           ...ItineraryLine_legs
