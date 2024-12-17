@@ -5,13 +5,7 @@ import range from 'lodash-es/range';
 import { drawIcon } from '../../../util/mapIconUtils';
 import { isBrowser } from '../../../util/browser';
 
-import layers from '../../../../layers.json';
-
-const healthAndSocialLayers = layers
-  .filter(layer => layer.code === 'health_and_social_services')
-  .flatMap(({ categories }) => categories);
-
-export default class VectorTileLayer {
+export default class PoiVectorTileLayer {
   constructor(tile, config) {
     this.tile = tile;
     this.config = config;
@@ -63,7 +57,9 @@ export default class VectorTileLayer {
               const feature = pick(layerFeature, ['geom', 'properties']);
 
               if (
-                !VectorTileLayer.visibleCategories[feature.properties.category3]
+                !PoiVectorTileLayer.visibleCategories[
+                  feature.properties.category3
+                ]
               ) {
                 return null;
               }
@@ -72,7 +68,10 @@ export default class VectorTileLayer {
             .filter(Boolean);
 
           this.features.forEach(feature => {
-            const { svg } = healthAndSocialLayers
+            const { layers } = this.config;
+
+            const { svg } = layers
+              .flatMap(({ categories }) => categories)
               .find(({ code }) => code === feature.properties.category2)
               .categories.find(
                 ({ code }) => code === feature.properties.category3,
@@ -83,6 +82,7 @@ export default class VectorTileLayer {
             const svgElement = docs.querySelector('svg');
 
             svgElement.id = `icon-${feature.properties.category3}`;
+            svgElement.style.display = 'none';
 
             document.body.appendChild(svgElement);
 

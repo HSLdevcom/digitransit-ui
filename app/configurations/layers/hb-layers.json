@@ -12,42 +12,33 @@
           "de": "Bushaltestellen",
           "en": "Bus stops"
         },
-        "categories": [
-          {
-            "code": "",
-            "translations": {
-              "de": "",
-              "en": ""
-            },
-            "properties": {
-              "layer": {
-                "type": "otp_layer",
-                "url": "",
-                "priority": null,
-                "min_zoom": null
-              },
-              "icon": {
-                "svg": "",
-                "origin": "",
-                "background_color": "",
-                "color": ""
-              },
-              "attributes": [
-                ""
-              ],
-              "osm": {
-                "filter": "",
-                "example": "",
-                "wiki": "",
-                "overpass_query": ""
-              },
-              "misc": {
-                "comment": "",
-                "origin": ""
-              }
-            }
+        "properties": {
+          "layer": {
+            "type": "otp_layer",
+            "url": "",
+            "priority": null,
+            "min_zoom": null
+          },
+          "icon": {
+            "svg": "",
+            "origin": "",
+            "background_color": "",
+            "color": ""
+          },
+          "attributes": [
+            ""
+          ],
+          "osm": {
+            "filter": "",
+            "example": "",
+            "wiki": "",
+            "overpass_query": ""
+          },
+          "misc": {
+            "comment": "",
+            "origin": ""
           }
-        ]
+        }
       },
       {
         "code": "subway",
@@ -55,42 +46,33 @@
           "de": "U-Bahnhöfe",
           "en": "Metro stations"
         },
-        "categories": [
-          {
-            "code": "",
-            "translations": {
-              "de": "",
-              "en": ""
-            },
-            "properties": {
-              "layer": {
-                "type": "otp_layer",
-                "url": "",
-                "priority": null,
-                "min_zoom": null
-              },
-              "icon": {
-                "svg": "",
-                "origin": "",
-                "background_color": "",
-                "color": ""
-              },
-              "attributes": [
-                ""
-              ],
-              "osm": {
-                "filter": "",
-                "example": "",
-                "wiki": "",
-                "overpass_query": ""
-              },
-              "misc": {
-                "comment": "",
-                "origin": ""
-              }
-            }
+        "properties": {
+          "layer": {
+            "type": "otp_layer",
+            "url": "",
+            "priority": null,
+            "min_zoom": null
+          },
+          "icon": {
+            "svg": "",
+            "origin": "",
+            "background_color": "",
+            "color": ""
+          },
+          "attributes": [
+            ""
+          ],
+          "osm": {
+            "filter": "",
+            "example": "",
+            "wiki": "",
+            "overpass_query": ""
+          },
+          "misc": {
+            "comment": "",
+            "origin": ""
           }
-        ]
+        }
       },
       {
         "code": "rail",
@@ -98,85 +80,67 @@
           "de": "Bahnhöfe",
           "en": "Train stations"
         },
-        "categories": [
-          {
-            "code": "",
-            "translations": {
-              "de": "",
-              "en": ""
-            },
-            "properties": {
-              "layer": {
-                "type": "otp_layer",
-                "url": "",
-                "priority": null,
-                "min_zoom": null
-              },
-              "icon": {
-                "svg": "",
-                "origin": "",
-                "background_color": "",
-                "color": ""
-              },
-              "attributes": [
-                ""
-              ],
-              "osm": {
-                "filter": "",
-                "example": "",
-                "wiki": "",
-                "overpass_query": ""
-              },
-              "misc": {
-                "comment": "",
-                "origin": ""
-              }
-            }
+        "properties": {
+          "layer": {
+            "type": "otp_layer",
+            "url": "",
+            "priority": null,
+            "min_zoom": null
+          },
+          "icon": {
+            "svg": "",
+            "origin": "",
+            "background_color": "",
+            "color": ""
+          },
+          "attributes": [
+            ""
+          ],
+          "osm": {
+            "filter": "",
+            "example": "",
+            "wiki": "",
+            "overpass_query": ""
+          },
+          "misc": {
+            "comment": "",
+            "origin": ""
           }
-        ]
+        }
       },
       {
         "code": "vehicles",
         "translations": {
-          "de": "Buspositionen",
-          "en": "Bus positions"
+          "de": "ÖPNV-Positionen",
+          "en": "Public transport positions"
         },
-        "categories": [
-          {
-            "code": "",
-            "translations": {
-              "de": "",
-              "en": ""
-            },
-            "properties": {
-              "layer": {
-                "type": "otp_layer",
-                "url": "",
-                "priority": null,
-                "min_zoom": null
-              },
-              "icon": {
-                "svg": "",
-                "origin": "",
-                "background_color": "",
-                "color": ""
-              },
-              "attributes": [
-                ""
-              ],
-              "osm": {
-                "filter": "",
-                "example": "",
-                "wiki": "",
-                "overpass_query": ""
-              },
-              "misc": {
-                "comment": "",
-                "origin": ""
-              }
-            }
+        "properties": {
+          "layer": {
+            "type": "otp_layer",
+            "url": "",
+            "priority": null,
+            "min_zoom": null
+          },
+          "icon": {
+            "svg": "",
+            "origin": "",
+            "background_color": "",
+            "color": ""
+          },
+          "attributes": [
+            ""
+          ],
+          "osm": {
+            "filter": "",
+            "example": "",
+            "wiki": "",
+            "overpass_query": ""
+          },
+          "misc": {
+            "comment": "",
+            "origin": ""
           }
-        ]
+        }
       }
     ]
   },
@@ -193,42 +157,33 @@
           "de": "Fahrradstellplätze",
           "en": "Bicycle parking spaces"
         },
-        "categories": [
-          {
-            "code": "",
-            "translations": {
-              "de": "",
-              "en": ""
-            },
-            "properties": {
-              "layer": {
-                "type": "otp_layer",
-                "url": "",
-                "priority": null,
-                "min_zoom": null
-              },
-              "icon": {
-                "svg": "",
-                "origin": "",
-                "background_color": "",
-                "color": ""
-              },
-              "attributes": [
-                ""
-              ],
-              "osm": {
-                "filter": "",
-                "example": "",
-                "wiki": "",
-                "overpass_query": ""
-              },
-              "misc": {
-                "comment": "",
-                "origin": ""
-              }
-            }
+        "properties": {
+          "layer": {
+            "type": "otp_layer",
+            "url": "",
+            "priority": null,
+            "min_zoom": null
+          },
+          "icon": {
+            "svg": "",
+            "origin": "",
+            "background_color": "",
+            "color": ""
+          },
+          "attributes": [
+            ""
+          ],
+          "osm": {
+            "filter": "",
+            "example": "",
+            "wiki": "",
+            "overpass_query": ""
+          },
+          "misc": {
+            "comment": "",
+            "origin": ""
           }
-        ]
+        }
       },
       {
         "code": "bike_repair",
@@ -236,42 +191,33 @@
           "de": "Radservice-Punkte",
           "en": "Bicycle service stations"
         },
-        "categories": [
-          {
-            "code": "",
-            "translations": {
-              "de": "",
-              "en": ""
-            },
-            "properties": {
-              "layer": {
-                "type": "geojson_layer",
-                "url": "https://data.mfdz.de/hbg/dt-layers/bicycleinfrastructure.geojson",
-                "priority": null,
-                "min_zoom": null
-              },
-              "icon": {
-                "svg": "",
-                "origin": "",
-                "background_color": "",
-                "color": ""
-              },
-              "attributes": [
-                ""
-              ],
-              "osm": {
-                "filter": "",
-                "example": "",
-                "wiki": "",
-                "overpass_query": ""
-              },
-              "misc": {
-                "comment": "",
-                "origin": ""
-              }
-            }
+        "properties": {
+          "layer": {
+            "type": "geojson_layer",
+            "url": "https://data.mfdz.de/hbg/dt-layers/bicycleinfrastructure.geojson",
+            "priority": null,
+            "min_zoom": null
+          },
+          "icon": {
+            "svg": "",
+            "origin": "",
+            "background_color": "",
+            "color": ""
+          },
+          "attributes": [
+            ""
+          ],
+          "osm": {
+            "filter": "",
+            "example": "",
+            "wiki": "",
+            "overpass_query": ""
+          },
+          "misc": {
+            "comment": "",
+            "origin": ""
           }
-        ]
+        }
       },
       {
         "code": "cycle_network",
@@ -279,42 +225,33 @@
           "de": "Radnetz",
           "en": "Bicycle network"
         },
-        "categories": [
-          {
-            "code": "",
-            "translations": {
-              "de": "",
-              "en": ""
-            },
-            "properties": {
-              "layer": {
-                "type": "wmst_layer",
-                "url": "https://api.mobidata-bw.de/geoserver/MobiData-BW/wms",
-                "priority": null,
-                "min_zoom": null
-              },
-              "icon": {
-                "svg": "",
-                "origin": "",
-                "background_color": "",
-                "color": ""
-              },
-              "attributes": [
-                ""
-              ],
-              "osm": {
-                "filter": "",
-                "example": "",
-                "wiki": "",
-                "overpass_query": ""
-              },
-              "misc": {
-                "comment": "",
-                "origin": ""
-              }
-            }
+        "properties": {
+          "layer": {
+            "type": "wmst_layer",
+            "url": "https://api.mobidata-bw.de/geoserver/MobiData-BW/wms",
+            "priority": null,
+            "min_zoom": null
+          },
+          "icon": {
+            "svg": "",
+            "origin": "",
+            "background_color": "",
+            "color": ""
+          },
+          "attributes": [
+            ""
+          ],
+          "osm": {
+            "filter": "",
+            "example": "",
+            "wiki": "",
+            "overpass_query": ""
+          },
+          "misc": {
+            "comment": "",
+            "origin": ""
           }
-        ]
+        }
       },
       {
         "code": "bike_shops_rental",
@@ -398,7 +335,8 @@
               }
             }
           }
-        ]
+        ],
+        "properties": null
       },
       {
         "code": "weatherStations",
@@ -406,42 +344,33 @@
           "de": "Wettersensoren",
           "en": "Weather sensors"
         },
-        "categories": [
-          {
-            "code": "",
-            "translations": {
-              "de": "",
-              "en": ""
-            },
-            "properties": {
-              "layer": {
-                "type": "vector_tiles_layer",
-                "url": "",
-                "priority": null,
-                "min_zoom": null
-              },
-              "icon": {
-                "svg": "",
-                "origin": "",
-                "background_color": "",
-                "color": ""
-              },
-              "attributes": [
-                ""
-              ],
-              "osm": {
-                "filter": "",
-                "example": "",
-                "wiki": "",
-                "overpass_query": ""
-              },
-              "misc": {
-                "comment": "",
-                "origin": ""
-              }
-            }
+        "properties": {
+          "layer": {
+            "type": "vector_tiles_layer",
+            "url": "",
+            "priority": null,
+            "min_zoom": null
+          },
+          "icon": {
+            "svg": "",
+            "origin": "",
+            "background_color": "",
+            "color": ""
+          },
+          "attributes": [
+            ""
+          ],
+          "osm": {
+            "filter": "",
+            "example": "",
+            "wiki": "",
+            "overpass_query": ""
+          },
+          "misc": {
+            "comment": "",
+            "origin": ""
           }
-        ]
+        }
       },
       {
         "code": "roadworks",
@@ -449,42 +378,33 @@
           "de": "Baustellen",
           "en": "Roadworks"
         },
-        "categories": [
-          {
-            "code": "",
-            "translations": {
-              "de": "",
-              "en": ""
-            },
-            "properties": {
-              "layer": {
-                "type": "vector_tiles_layer",
-                "url": "",
-                "priority": null,
-                "min_zoom": null
-              },
-              "icon": {
-                "svg": "",
-                "origin": "",
-                "background_color": "",
-                "color": ""
-              },
-              "attributes": [
-                ""
-              ],
-              "osm": {
-                "filter": "",
-                "example": "",
-                "wiki": "",
-                "overpass_query": ""
-              },
-              "misc": {
-                "comment": "",
-                "origin": ""
-              }
-            }
+        "properties": {
+          "layer": {
+            "type": "vector_tiles_layer",
+            "url": "",
+            "priority": null,
+            "min_zoom": null
+          },
+          "icon": {
+            "svg": "",
+            "origin": "",
+            "background_color": "",
+            "color": ""
+          },
+          "attributes": [
+            ""
+          ],
+          "osm": {
+            "filter": "",
+            "example": "",
+            "wiki": "",
+            "overpass_query": ""
+          },
+          "misc": {
+            "comment": "",
+            "origin": ""
           }
-        ]
+        }
       },
       {
         "code": "parkAndRide",
@@ -492,42 +412,33 @@
           "de": "Parkplätze/ Parkhäuser",
           "en": "Parkings"
         },
-        "categories": [
-          {
-            "code": "",
-            "translations": {
-              "de": "",
-              "en": ""
-            },
-            "properties": {
-              "layer": {
-                "type": "otp_layer",
-                "url": "",
-                "priority": null,
-                "min_zoom": null
-              },
-              "icon": {
-                "svg": "",
-                "origin": "",
-                "background_color": "",
-                "color": ""
-              },
-              "attributes": [
-                ""
-              ],
-              "osm": {
-                "filter": "",
-                "example": "",
-                "wiki": "",
-                "overpass_query": ""
-              },
-              "misc": {
-                "comment": "",
-                "origin": ""
-              }
-            }
+        "properties": {
+          "layer": {
+            "type": "otp_layer",
+            "url": "",
+            "priority": null,
+            "min_zoom": null
+          },
+          "icon": {
+            "svg": "",
+            "origin": "",
+            "background_color": "",
+            "color": ""
+          },
+          "attributes": [
+            ""
+          ],
+          "osm": {
+            "filter": "",
+            "example": "",
+            "wiki": "",
+            "overpass_query": ""
+          },
+          "misc": {
+            "comment": "",
+            "origin": ""
           }
-        ]
+        }
       },
       {
         "code": "gas_stations",
@@ -576,7 +487,8 @@
               }
             }
           }
-        ]
+        ],
+        "properties": null
       },
       {
         "code": "workshops_mv",
@@ -624,7 +536,8 @@
               }
             }
           }
-        ]
+        ],
+        "properties": null
       },
       {
         "code": "workshops",
@@ -672,7 +585,8 @@
               }
             }
           }
-        ]
+        ],
+        "properties": null
       },
       {
         "code": "chargingStations",
@@ -680,42 +594,33 @@
           "de": "Ladestationen",
           "en": "Charging Stations"
         },
-        "categories": [
-          {
-            "code": "",
-            "translations": {
-              "de": "",
-              "en": ""
-            },
-            "properties": {
-              "layer": {
-                "type": "vector_tiles_layer",
-                "url": "",
-                "priority": null,
-                "min_zoom": null
-              },
-              "icon": {
-                "svg": "",
-                "origin": "",
-                "background_color": "",
-                "color": ""
-              },
-              "attributes": [
-                ""
-              ],
-              "osm": {
-                "filter": "",
-                "example": "",
-                "wiki": "",
-                "overpass_query": ""
-              },
-              "misc": {
-                "comment": "",
-                "origin": ""
-              }
-            }
+        "properties": {
+          "layer": {
+            "type": "vector_tiles_layer",
+            "url": "",
+            "priority": null,
+            "min_zoom": null
+          },
+          "icon": {
+            "svg": "",
+            "origin": "",
+            "background_color": "",
+            "color": ""
+          },
+          "attributes": [
+            ""
+          ],
+          "osm": {
+            "filter": "",
+            "example": "",
+            "wiki": "",
+            "overpass_query": ""
+          },
+          "misc": {
+            "comment": "",
+            "origin": ""
           }
-        ]
+        }
       }
     ]
   },
@@ -732,42 +637,33 @@
           "de": "E-Scooter-Sharing",
           "en": "Scooter sharing"
         },
-        "categories": [
-          {
-            "code": "",
-            "translations": {
-              "de": "",
-              "en": ""
-            },
-            "properties": {
-              "layer": {
-                "type": "otp_layer",
-                "url": "",
-                "priority": null,
-                "min_zoom": null
-              },
-              "icon": {
-                "svg": "",
-                "origin": "",
-                "background_color": "",
-                "color": ""
-              },
-              "attributes": [
-                ""
-              ],
-              "osm": {
-                "filter": "",
-                "example": "",
-                "wiki": "",
-                "overpass_query": ""
-              },
-              "misc": {
-                "comment": "",
-                "origin": ""
-              }
-            }
+        "properties": {
+          "layer": {
+            "type": "otp_layer",
+            "url": "",
+            "priority": null,
+            "min_zoom": null
+          },
+          "icon": {
+            "svg": "",
+            "origin": "",
+            "background_color": "",
+            "color": ""
+          },
+          "attributes": [
+            ""
+          ],
+          "osm": {
+            "filter": "",
+            "example": "",
+            "wiki": "",
+            "overpass_query": ""
+          },
+          "misc": {
+            "comment": "",
+            "origin": ""
           }
-        ]
+        }
       },
       {
         "code": "cargo_bicycle",
@@ -775,42 +671,33 @@
           "de": "Lastenrad-Sharing",
           "en": "Cargo bike sharing"
         },
-        "categories": [
-          {
-            "code": "",
-            "translations": {
-              "de": "",
-              "en": ""
-            },
-            "properties": {
-              "layer": {
-                "type": "otp_layer",
-                "url": "",
-                "priority": null,
-                "min_zoom": null
-              },
-              "icon": {
-                "svg": "",
-                "origin": "",
-                "background_color": "",
-                "color": ""
-              },
-              "attributes": [
-                ""
-              ],
-              "osm": {
-                "filter": "",
-                "example": "",
-                "wiki": "",
-                "overpass_query": ""
-              },
-              "misc": {
-                "comment": "",
-                "origin": ""
-              }
-            }
+        "properties": {
+          "layer": {
+            "type": "otp_layer",
+            "url": "",
+            "priority": null,
+            "min_zoom": null
+          },
+          "icon": {
+            "svg": "",
+            "origin": "",
+            "background_color": "",
+            "color": ""
+          },
+          "attributes": [
+            ""
+          ],
+          "osm": {
+            "filter": "",
+            "example": "",
+            "wiki": "",
+            "overpass_query": ""
+          },
+          "misc": {
+            "comment": "",
+            "origin": ""
           }
-        ]
+        }
       },
       {
         "code": "bicycle",
@@ -818,42 +705,33 @@
           "de": "Bikesharing",
           "en": "Bike sharing"
         },
-        "categories": [
-          {
-            "code": "",
-            "translations": {
-              "de": "",
-              "en": ""
-            },
-            "properties": {
-              "layer": {
-                "type": "otp_layer",
-                "url": "",
-                "priority": null,
-                "min_zoom": null
-              },
-              "icon": {
-                "svg": "",
-                "origin": "",
-                "background_color": "",
-                "color": ""
-              },
-              "attributes": [
-                ""
-              ],
-              "osm": {
-                "filter": "",
-                "example": "",
-                "wiki": "",
-                "overpass_query": ""
-              },
-              "misc": {
-                "comment": "",
-                "origin": ""
-              }
-            }
+        "properties": {
+          "layer": {
+            "type": "otp_layer",
+            "url": "",
+            "priority": null,
+            "min_zoom": null
+          },
+          "icon": {
+            "svg": "",
+            "origin": "",
+            "background_color": "",
+            "color": ""
+          },
+          "attributes": [
+            ""
+          ],
+          "osm": {
+            "filter": "",
+            "example": "",
+            "wiki": "",
+            "overpass_query": ""
+          },
+          "misc": {
+            "comment": "",
+            "origin": ""
           }
-        ]
+        }
       },
       {
         "code": "car",
@@ -861,42 +739,33 @@
           "de": "Carsharing",
           "en": "Car sharing"
         },
-        "categories": [
-          {
-            "code": "",
-            "translations": {
-              "de": "",
-              "en": ""
-            },
-            "properties": {
-              "layer": {
-                "type": "otp_layer",
-                "url": "",
-                "priority": null,
-                "min_zoom": null
-              },
-              "icon": {
-                "svg": "",
-                "origin": "",
-                "background_color": "",
-                "color": ""
-              },
-              "attributes": [
-                ""
-              ],
-              "osm": {
-                "filter": "",
-                "example": "",
-                "wiki": "",
-                "overpass_query": ""
-              },
-              "misc": {
-                "comment": "",
-                "origin": ""
-              }
-            }
+        "properties": {
+          "layer": {
+            "type": "otp_layer",
+            "url": "",
+            "priority": null,
+            "min_zoom": null
+          },
+          "icon": {
+            "svg": "",
+            "origin": "",
+            "background_color": "",
+            "color": ""
+          },
+          "attributes": [
+            ""
+          ],
+          "osm": {
+            "filter": "",
+            "example": "",
+            "wiki": "",
+            "overpass_query": ""
+          },
+          "misc": {
+            "comment": "",
+            "origin": ""
           }
-        ]
+        }
       },
       {
         "code": "carpool_stops",
@@ -904,42 +773,33 @@
           "de": "Mitfahrpunkte",
           "en": "Carpool stops"
         },
-        "categories": [
-          {
-            "code": "",
-            "translations": {
-              "de": "",
-              "en": ""
-            },
-            "properties": {
-              "layer": {
-                "type": "otp_layer",
-                "url": "",
-                "priority": null,
-                "min_zoom": null
-              },
-              "icon": {
-                "svg": "",
-                "origin": "",
-                "background_color": "",
-                "color": ""
-              },
-              "attributes": [
-                ""
-              ],
-              "osm": {
-                "filter": "",
-                "example": "",
-                "wiki": "",
-                "overpass_query": ""
-              },
-              "misc": {
-                "comment": "",
-                "origin": ""
-              }
-            }
+        "properties": {
+          "layer": {
+            "type": "otp_layer",
+            "url": "",
+            "priority": null,
+            "min_zoom": null
+          },
+          "icon": {
+            "svg": "",
+            "origin": "",
+            "background_color": "",
+            "color": ""
+          },
+          "attributes": [
+            ""
+          ],
+          "osm": {
+            "filter": "",
+            "example": "",
+            "wiki": "",
+            "overpass_query": ""
+          },
+          "misc": {
+            "comment": "",
+            "origin": ""
           }
-        ]
+        }
       },
       {
         "code": "taxi",
@@ -983,7 +843,8 @@
               }
             }
           }
-        ]
+        ],
+        "properties": null
       }
     ]
   },
@@ -1000,42 +861,33 @@
           "de": "Sehenswürdigkeiten",
           "en": "Sights"
         },
-        "categories": [
-          {
-            "code": "",
-            "translations": {
-              "de": "",
-              "en": "Sehenswürdigkeiten"
-            },
-            "properties": {
-              "layer": {
-                "type": "geojson_layer",
-                "url": "",
-                "priority": 10,
-                "min_zoom": 15
-              },
-              "icon": {
-                "svg": "GeoJSON-Layer",
-                "origin": "https://labs.mapbox.com/maki-icons/ marker",
-                "background_color": "#C07E26",
-                "color": "#FFFFFF"
-              },
-              "attributes": [
-                ""
-              ],
-              "osm": {
-                "filter": "Öffnungszeiten, Rollstuhlzugang, Url, Name, Telefonnummer",
-                "example": "",
-                "wiki": "",
-                "overpass_query": ""
-              },
-              "misc": {
-                "comment": "",
-                "origin": ""
-              }
-            }
+        "properties": {
+          "layer": {
+            "type": "geojson_layer",
+            "url": "https://data.mfdz.de/hbg/dt-layers/sights.geojson",
+            "priority": 10,
+            "min_zoom": 15
+          },
+          "icon": {
+            "svg": "<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\"?> <svg width=\\\"300\\\" height=\\\"300\\\" viewBox=\\\"0 0 300 300\\\" xmlns=\\\"http://www.w3.org/2000/svg\\\" id=\\\"marker\\\">  <!-- Hintergrundkreis -->  <circle cx=\\\"150\\\" cy=\\\"150\\\" r=\\\"150\\\" fill=\\\"#C07E26\\\"/>  <!-- Wei\\u00dfe Form -->  <path d=\\\"M150 40C118.462 40 90 65.766 90 111.352C90 155.855 139.231 234.235 150 260C160.462 234.235 210 158.199 210 111.352C210 65.766 181.538 40 150 40Z\\\" fill=\\\"#FFFFFF\\\"/> </svg>",
+            "origin": "https://labs.mapbox.com/maki-icons/ marker",
+            "background_color": "#C07E26",
+            "color": "#FFFFFF"
+          },
+          "attributes": [
+            ""
+          ],
+          "osm": {
+            "filter": "Öffnungszeiten, Rollstuhlzugang, Url, Name, Telefonnummer",
+            "example": "",
+            "wiki": "",
+            "overpass_query": ""
+          },
+          "misc": {
+            "comment": "",
+            "origin": ""
           }
-        ]
+        }
       },
       {
         "code": "restaurants",
@@ -1128,7 +980,8 @@
               }
             }
           }
-        ]
+        ],
+        "properties": null
       },
       {
         "code": "cafes",
@@ -1221,7 +1074,8 @@
               }
             }
           }
-        ]
+        ],
+        "properties": null
       },
       {
         "code": "bars_and_pubs",
@@ -1272,7 +1126,8 @@
               }
             }
           }
-        ]
+        ],
+        "properties": null
       },
       {
         "code": "entertainment_arts_and_culture",
@@ -1547,7 +1402,8 @@
               }
             }
           }
-        ]
+        ],
+        "properties": null
       },
       {
         "code": "sports_parks_playgrounds",
@@ -2127,7 +1983,8 @@
               }
             }
           }
-        ]
+        ],
+        "properties": null
       },
       {
         "code": "accommodation",
@@ -2216,7 +2073,8 @@
               }
             }
           }
-        ]
+        ],
+        "properties": null
       },
       {
         "code": "benches_and_viewpoints",
@@ -2331,7 +2189,8 @@
               }
             }
           }
-        ]
+        ],
+        "properties": null
       },
       {
         "code": "drinking_water_and_fountains",
@@ -2408,7 +2267,8 @@
               }
             }
           }
-        ]
+        ],
+        "properties": null
       },
       {
         "code": "toilets",
@@ -2533,7 +2393,8 @@
               }
             }
           }
-        ]
+        ],
+        "properties": null
       },
       {
         "code": "loarawan_gateways",
@@ -2541,42 +2402,33 @@
           "de": "LoRaWAN Gateways",
           "en": "LoRaWAN Gateways"
         },
-        "categories": [
-          {
-            "code": "",
-            "translations": {
-              "de": "",
-              "en": ""
-            },
-            "properties": {
-              "layer": {
-                "type": "geojson_layer",
-                "url": "https://data.mfdz.de/hbg/dt-layers/lorawan-gateways.geojson",
-                "priority": 3000,
-                "min_zoom": 15
-              },
-              "icon": {
-                "svg": "",
-                "origin": "",
-                "background_color": "",
-                "color": ""
-              },
-              "attributes": [
-                ""
-              ],
-              "osm": {
-                "filter": "",
-                "example": "",
-                "wiki": "",
-                "overpass_query": ""
-              },
-              "misc": {
-                "comment": "",
-                "origin": "wie bisher"
-              }
-            }
+        "properties": {
+          "layer": {
+            "type": "geojson_layer",
+            "url": "https://data.mfdz.de/hbg/dt-layers/lorawan-gateways.geojson",
+            "priority": 3000,
+            "min_zoom": 15
+          },
+          "icon": {
+            "svg": "",
+            "origin": "",
+            "background_color": "",
+            "color": ""
+          },
+          "attributes": [
+            ""
+          ],
+          "osm": {
+            "filter": "",
+            "example": "",
+            "wiki": "",
+            "overpass_query": ""
+          },
+          "misc": {
+            "comment": "",
+            "origin": "wie bisher"
           }
-        ]
+        }
       }
     ]
   },
@@ -2787,7 +2639,8 @@
               }
             }
           }
-        ]
+        ],
+        "properties": null
       },
       {
         "code": "shops",
@@ -3651,7 +3504,8 @@
               }
             }
           }
-        ]
+        ],
+        "properties": null
       },
       {
         "code": "second-hand_and_sharing",
@@ -3699,7 +3553,8 @@
               }
             }
           }
-        ]
+        ],
+        "properties": null
       },
       {
         "code": "finance",
@@ -3822,7 +3677,8 @@
               }
             }
           }
-        ]
+        ],
+        "properties": null
       },
       {
         "code": "post_mailboxes_and_delivery_points",
@@ -3948,7 +3804,8 @@
               }
             }
           }
-        ]
+        ],
+        "properties": null
       }
     ]
   },
@@ -4004,7 +3861,8 @@
               }
             }
           }
-        ]
+        ],
+        "properties": null
       },
       {
         "code": "police_fire_department",
@@ -4089,7 +3947,8 @@
               }
             }
           }
-        ]
+        ],
+        "properties": null
       },
       {
         "code": "cemeteries",
@@ -4136,7 +3995,8 @@
               }
             }
           }
-        ]
+        ],
+        "properties": null
       },
       {
         "code": "trash_bins_and_recycling",
@@ -4215,7 +4075,8 @@
               }
             }
           }
-        ]
+        ],
+        "properties": null
       },
       {
         "code": "dog_waste_bag_stations",
@@ -4258,7 +4119,8 @@
               }
             }
           }
-        ]
+        ],
+        "properties": null
       }
     ]
   },
@@ -4542,7 +4404,8 @@
               }
             }
           }
-        ]
+        ],
+        "properties": null
       },
       {
         "code": "education",
@@ -4779,7 +4642,8 @@
               }
             }
           }
-        ]
+        ],
+        "properties": null
       },
       {
         "code": "school_route_map",
@@ -4787,42 +4651,33 @@
           "de": "Schulwegplan",
           "en": "School route map"
         },
-        "categories": [
-          {
-            "code": "",
-            "translations": {
-              "de": "",
-              "en": ""
-            },
-            "properties": {
-              "layer": {
-                "type": "geojson_layer",
-                "url": "",
-                "priority": 2000,
-                "min_zoom": 15
-              },
-              "icon": {
-                "svg": "",
-                "origin": "",
-                "background_color": "",
-                "color": "#FFFFFF"
-              },
-              "attributes": [
-                ""
-              ],
-              "osm": {
-                "filter": "",
-                "example": "",
-                "wiki": "",
-                "overpass_query": ""
-              },
-              "misc": {
-                "comment": "",
-                "origin": ""
-              }
-            }
+        "properties": {
+          "layer": {
+            "type": "geojson_layer",
+            "url": "https://data.mfdz.de/hbg/dt-layers/school_routes.geojson",
+            "priority": 2000,
+            "min_zoom": 15
+          },
+          "icon": {
+            "svg": "<svg xmlns=\\\"http://www.w3.org/2000/svg\\\" viewBox=\\\"0 0 56.69 56.69\\\">  <!-- Hintergrundkreis -->  <circle cx=\\\"28.34\\\" cy=\\\"28.34\\\" r=\\\"28\\\" fill=\\\"#C07E26\\\"/>    <!-- Bus (wei\\u00df) -->  <rect x=\\\"14\\\" y=\\\"20\\\" width=\\\"28\\\" height=\\\"12\\\" rx=\\\"3\\\" fill=\\\"#FFFFFF\\\"/>  <!-- Fenster -->  <rect x=\\\"16\\\" y=\\\"22\\\" width=\\\"4\\\" height=\\\"4\\\" fill=\\\"#C07E26\\\"/>  <rect x=\\\"21\\\" y=\\\"22\\\" width=\\\"4\\\" height=\\\"4\\\" fill=\\\"#C07E26\\\"/>  <rect x=\\\"26\\\" y=\\\"22\\\" width=\\\"4\\\" height=\\\"4\\\" fill=\\\"#C07E26\\\"/>  <rect x=\\\"31\\\" y=\\\"22\\\" width=\\\"4\\\" height=\\\"4\\\" fill=\\\"#C07E26\\\"/>  <rect x=\\\"36\\\" y=\\\"22\\\" width=\\\"4\\\" height=\\\"4\\\" fill=\\\"#C07E26\\\"/>    <!-- Fenster (runde Kreise als K\\u00f6pfe der Kinder, etwas kleiner) -->  <circle cx=\\\"18\\\" cy=\\\"24\\\" r=\\\"1.8\\\" fill=\\\"#FFFFFF\\\"/>  <circle cx=\\\"23\\\" cy=\\\"24\\\" r=\\\"1.8\\\" fill=\\\"#FFFFFF\\\"/>  <circle cx=\\\"28\\\" cy=\\\"24\\\" r=\\\"1.8\\\" fill=\\\"#FFFFFF\\\"/>  <circle cx=\\\"33\\\" cy=\\\"24\\\" r=\\\"1.8\\\" fill=\\\"#FFFFFF\\\"/>  <circle cx=\\\"38\\\" cy=\\\"24\\\" r=\\\"1.8\\\" fill=\\\"#FFFFFF\\\"/>  <!-- K\\u00fcrzere Beine der Kinder -->  <line x1=\\\"18\\\" y1=\\\"32\\\" x2=\\\"18\\\" y2=\\\"36\\\" stroke=\\\"#FFFFFF\\\" stroke-width=\\\"2\\\"/>  <line x1=\\\"23\\\" y1=\\\"32\\\" x2=\\\"23\\\" y2=\\\"36\\\" stroke=\\\"#FFFFFF\\\" stroke-width=\\\"2\\\"/>  <line x1=\\\"28\\\" y1=\\\"32\\\" x2=\\\"28\\\" y2=\\\"36\\\" stroke=\\\"#FFFFFF\\\" stroke-width=\\\"2\\\"/>  <line x1=\\\"33\\\" y1=\\\"32\\\" x2=\\\"33\\\" y2=\\\"36\\\" stroke=\\\"#FFFFFF\\\" stroke-width=\\\"2\\\"/>  <line x1=\\\"38\\\" y1=\\\"32\\\" x2=\\\"38\\\" y2=\\\"36\\\" stroke=\\\"#FFFFFF\\\" stroke-width=\\\"2\\\"/></svg>",
+            "origin": "",
+            "background_color": "#C07E26",
+            "color": "#FFFFFF"
+          },
+          "attributes": [
+            ""
+          ],
+          "osm": {
+            "filter": "",
+            "example": "",
+            "wiki": "",
+            "overpass_query": ""
+          },
+          "misc": {
+            "comment": "",
+            "origin": ""
           }
-        ]
+        }
       },
       {
         "code": "walking_bus",
@@ -4830,42 +4685,33 @@
           "de": "Schulbus auf Beinen",
           "en": "Walking Bus"
         },
-        "categories": [
-          {
-            "code": "",
-            "translations": {
-              "de": "",
-              "en": ""
-            },
-            "properties": {
-              "layer": {
-                "type": "geojson_layer",
-                "url": "",
-                "priority": 2000,
-                "min_zoom": 15
-              },
-              "icon": {
-                "svg": "Bus mit Colleghut?",
-                "origin": "",
-                "background_color": "",
-                "color": "#FFFFFF"
-              },
-              "attributes": [
-                ""
-              ],
-              "osm": {
-                "filter": "",
-                "example": "",
-                "wiki": "",
-                "overpass_query": ""
-              },
-              "misc": {
-                "comment": "denis.paz@trufi-association.org Das Symbol finde ich noch nicht so passend. Kann man vielleicht einen stilisierten Bus von der Seite (ohne Strich am Boden) mit Menschen, deren Beine bis dann über den Boden hinaus ragen machen? So ein bisschen wie die Kinderzeichnung, nur einfacher (bspw. ohne Fenster) https://www.lrabb.de/start/Aktuelles/bus+auf+beinen+hilft+zum+schulstart.html\nWenn das nicht geht, vielleicht ein Erwachsener und drei Kinder (da immer nur eine Erwachsene Person dabei ist)",
-                "origin": ""
-              }
-            }
+        "properties": {
+          "layer": {
+            "type": "geojson_layer",
+            "url": "",
+            "priority": 2000,
+            "min_zoom": 15
+          },
+          "icon": {
+            "svg": "Bus mit Colleghut?",
+            "origin": "",
+            "background_color": "",
+            "color": "#FFFFFF"
+          },
+          "attributes": [
+            ""
+          ],
+          "osm": {
+            "filter": "",
+            "example": "",
+            "wiki": "",
+            "overpass_query": ""
+          },
+          "misc": {
+            "comment": "denis.paz@trufi-association.org Das Symbol finde ich noch nicht so passend. Kann man vielleicht einen stilisierten Bus von der Seite (ohne Strich am Boden) mit Menschen, deren Beine bis dann über den Boden hinaus ragen machen? So ein bisschen wie die Kinderzeichnung, nur einfacher (bspw. ohne Fenster) https://www.lrabb.de/start/Aktuelles/bus+auf+beinen+hilft+zum+schulstart.html\nWenn das nicht geht, vielleicht ein Erwachsener und drei Kinder (da immer nur eine Erwachsene Person dabei ist)",
+            "origin": ""
           }
-        ]
+        }
       },
       {
         "code": "social_facilities",
@@ -4950,7 +4796,8 @@
               }
             }
           }
-        ]
+        ],
+        "properties": null
       },
       {
         "code": "children_and_youth",
@@ -5035,7 +4882,8 @@
               }
             }
           }
-        ]
+        ],
+        "properties": null
       },
       {
         "code": "religious_sites",
@@ -5196,7 +5044,8 @@
               }
             }
           }
-        ]
+        ],
+        "properties": null
       },
       {
         "code": "animal_facilities",
@@ -5281,7 +5130,8 @@
               }
             }
           }
-        ]
+        ],
+        "properties": null
       }
     ]
   }

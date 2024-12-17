@@ -1,6 +1,8 @@
 /* eslint-disable */
 import configMerger from '../util/configMerger';
 
+import layers from './layers/hb-layers.json';
+
 const CONFIG = 'herrenberg';
 const APP_TITLE = 'stadtnavi Herrenberg';
 const APP_DESCRIPTION = 'Gemeinsam Mobilität neu denken - die intermodale Verbindungssuche mit offenen, lokalen Daten';
@@ -388,6 +390,9 @@ export default configMerger(parentConfig, {
             },
         ],
     },
+
+    layers,
+
     staticMessagesUrl: STATIC_MESSAGE_URL,
     
     parkAndRideBannedVehicleParkingTags: [

@@ -253,19 +253,24 @@ class TileLayerContainer extends GridLayer {
         })
       ) {
         const { lat, lon: lng } = selectableTargets[0].coords;
-        const { category3, name } = selectableTargets[0].feature.properties;
+
+        const {
+          category3: code,
+          name,
+        } = selectableTargets[0].feature.properties;
+
         const params = pickBy(
           {
             lat,
             lng,
-            type: category3,
+            code,
             name,
           },
           value => value !== undefined,
         );
 
         this.context.router.push(
-          `/pois/${category3}?${new URLSearchParams(params).toString()}`,
+          `/pois/${code}?${new URLSearchParams(params).toString()}`,
         );
         return;
       }

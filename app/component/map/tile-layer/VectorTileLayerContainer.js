@@ -13,7 +13,7 @@ import Roadworks from './Roadworks';
 import ChargingStations from './ChargingStations';
 import { mapLayerShape } from '../../../store/MapLayerStore';
 import Loading from '../../Loading';
-import VectorTileLayer from './VectorTileLayer';
+import PoiVectorTileLayer from './PoiVectorTileLayer';
 
 export default function VectorTileLayerContainer(props, { config }) {
   const layers = [];
@@ -22,9 +22,9 @@ export default function VectorTileLayerContainer(props, { config }) {
     layers.push(Stops);
   }
 
-  VectorTileLayer.visibleCategories = props.mapLayers;
+  PoiVectorTileLayer.visibleCategories = props.mapLayers;
 
-  layers.push(VectorTileLayer);
+  layers.push(PoiVectorTileLayer);
 
   // TODO switch to mapLayers.rental
   if (props.mapLayers.citybike && config.URL.RENTAL_STATION_MAP) {

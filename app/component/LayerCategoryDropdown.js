@@ -56,6 +56,7 @@ const LayerCategoryDropdown = (
   const handleCheckAll = settingsChecked => {
     onChange(
       options
+        .flatMap(option => option?.categories || option)
         .filter(option => option)
         .map(option => updateSettings(option.settings, settingsChecked))
         .reduce((settings, setting) => {
@@ -135,9 +136,17 @@ const LayerCategoryDropdown = (
                     icon="icon-icon_check-white"
                     showLabel={false}
                     onChange={e => {
-                      onChange(
-                        updateSettings(option.settings, e.target.checked),
-                      );
+                      if (option.categories) {
+                        option.categories.forEach(category => {
+                          onChange(
+                            updateSettings(category.settings, e.target.checked),
+                          );
+                        });
+                      } else {
+                        onChange(
+                          updateSettings(option.settings, e.target.checked),
+                        );
+                      }
                     }}
                   />
                   <Icon
@@ -186,7 +195,10 @@ const LayerCategoryDropdown = (
                           <path
                             d="M0 5 H 20"
                             stroke="#006400"
-                            style={{ strokeWidth: '2', strokeDasharray: '3' }}
+                            style={{
+                              strokeWidth: '2',
+                              strokeDasharray: '3',
+                            }}
                           />
                         </svg>
                       </span>
@@ -227,7 +239,7 @@ const LayerCategoryDropdown = (
 
 LayerCategoryDropdown.propTypes = {
   title: PropTypes.string.isRequired,
-  icon: PropTypes.string.isRequired,
+  icon: PropTypes.string,
   options: PropTypes.array.isRequired,
   onChange: PropTypes.func.isRequired,
   breakpoint: PropTypes.string.isRequired,
