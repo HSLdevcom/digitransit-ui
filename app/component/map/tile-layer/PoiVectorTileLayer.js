@@ -3,6 +3,7 @@ import pick from 'lodash/pick';
 import Protobuf from 'pbf';
 import range from 'lodash-es/range';
 import { drawIcon } from '../../../util/mapIconUtils';
+import { getLayerByCode, templateTileUrl } from '../../../util/mapLayerUtils';
 import { isBrowser } from '../../../util/browser';
 
 export default class PoiVectorTileLayer {
@@ -19,9 +20,12 @@ export default class PoiVectorTileLayer {
 
   getPromise() {
     return fetch(
-      `https://features.stadtnavi.eu/public.pois/${
-        this.tile.coords.z + (this.tile.props.zoomOffset || 0)
-      }/${this.tile.coords.x}/${this.tile.coords.y}.pbf`,
+      templateTileUrl(
+        this.config.URL.PUBLIC_POIS_MAP,
+        this.tile.coords.x,
+        this.tile.coords.y,
+        this.tile.coords.z + (this.tile.props.zoomOffset || 0),
+      ),
     )
       .then(
         res => {
@@ -68,30 +72,31 @@ export default class PoiVectorTileLayer {
             .filter(Boolean);
 
           this.features.forEach(feature => {
-            const { layers } = this.config;
+            const layerCode = feature.properties.category3;
 
-            const { svg } = layers
-              .flatMap(({ categories }) => categories)
-              .find(({ code }) => code === feature.properties.category2)
-              .categories.find(
-                ({ code }) => code === feature.properties.category3,
-              ).properties.icon;
+            const poiLayer = getLayerByCode(layerCode, this.config);
+            if (poiLayer) {
+              const { icon, layer } = poiLayer.properties;
 
-            const parser = new DOMParser();
-            const docs = parser.parseFromString(svg, 'image/svg+xml');
-            const svgElement = docs.querySelector('svg');
+              if (this.tile.coords.z >= layer.min_zoom) {
+                const parser = new DOMParser();
+                const docs = parser.parseFromString(icon.svg, 'image/svg+xml');
+                const svgElement = docs.querySelector('svg');
 
-            svgElement.id = `icon-${feature.properties.category3}`;
-            svgElement.style.display = 'none';
+                svgElement.id = `icon-${layerCode}`;
+                svgElement.style.zIndex = layer.priority;
+                svgElement.style.display = 'none';
 
-            document.body.appendChild(svgElement);
+                document.body.appendChild(svgElement);
 
-            return drawIcon(
-              `icon-${feature.properties.category3}`,
-              this.tile,
-              feature.geom,
-              this.imageSize,
-            );
+                drawIcon(
+                  `icon-${feature.properties.category3}`,
+                  this.tile,
+                  feature.geom,
+                  this.imageSize,
+                );
+              }
+            }
           });
         }
       });
