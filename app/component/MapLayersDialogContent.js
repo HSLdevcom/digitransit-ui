@@ -172,7 +172,7 @@ class MapLayersDialogContent extends React.Component {
       transportMode && transportMode.availableForSelection;
     const transportModes = getTransportModes(this.context.config);
 
-    const { config } = this.context;
+    const { config, intl } = this.context;
     const datahubLayers =
       config.datahubTiles && config.datahubTiles.show
         ? config.datahubTiles.layers
@@ -210,8 +210,8 @@ class MapLayersDialogContent extends React.Component {
 
           return {
             checked,
-            defaultMessage: translations.de,
-            labelId: `map-layer-${code}`,
+            label: translations[intl.locale],
+            key: `map-layer-${code}`,
             categories: categories?.map(category => ({
               ...category,
               settings: category.code,

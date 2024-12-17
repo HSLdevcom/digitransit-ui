@@ -83,18 +83,20 @@ export default class PoiVectorTileLayer {
                 const docs = parser.parseFromString(icon.svg, 'image/svg+xml');
                 const svgElement = docs.querySelector('svg');
 
-                svgElement.id = `icon-${layerCode}`;
-                svgElement.style.zIndex = layer.priority;
-                svgElement.style.display = 'none';
+                if (svgElement) {
+                  svgElement.id = `icon-${layerCode}`;
+                  svgElement.style.zIndex = layer.priority;
+                  svgElement.style.display = 'none';
 
-                document.body.appendChild(svgElement);
+                  document.body.appendChild(svgElement);
 
-                drawIcon(
-                  `icon-${feature.properties.category3}`,
-                  this.tile,
-                  feature.geom,
-                  this.imageSize,
-                );
+                  drawIcon(
+                    `icon-${feature.properties.category3}`,
+                    this.tile,
+                    feature.geom,
+                    this.imageSize,
+                  );
+                }
               }
             }
           });

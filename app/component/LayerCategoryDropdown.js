@@ -157,10 +157,14 @@ const LayerCategoryDropdown = (
                     width={1.875}
                     height={1.25}
                   />
-                  <Message
-                    labelId={option.labelId}
-                    defaultMessage={option.defaultMessage}
-                  />
+                  {option.labelId || option.defaultMessage ? (
+                    <Message
+                      labelId={option.labelId}
+                      defaultMessage={option.defaultMessage}
+                    />
+                  ) : (
+                    option.label
+                  )}
                 </div>
                 {option.checked &&
                 option.defaultMessage === 'Radnetz Ludwigsburg' ? (
