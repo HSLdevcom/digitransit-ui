@@ -263,6 +263,7 @@ class MapLayersDialogContent extends React.Component {
         <div className="map-layers-content">
           <div>
             <LayerCategoryDropdown
+              icon="icon-icon_material_rail"
               title={this.context.intl.formatMessage({
                 id: 'map-layer-category-public-transit',
                 defaultMessage: 'Public Transit',
@@ -318,6 +319,7 @@ class MapLayersDialogContent extends React.Component {
               ]}
             />
             <LayerCategoryDropdown
+              icon="icon-icon_bike_car"
               title={this.context.intl.formatMessage({
                 id: 'map-layer-category-bicycle-car',
                 defaultMessage: 'Bicycle & Car',
@@ -389,6 +391,7 @@ class MapLayersDialogContent extends React.Component {
                 .concat(getPoiLayers(bikeCarLayer))}
             />
             <LayerCategoryDropdown
+              icon="icon-icon_material_bike_scooter"
               title={this.context.intl.formatMessage({
                 id: 'map-layer-category-sharing',
                 defaultMessage: 'Sharing',
@@ -441,6 +444,7 @@ class MapLayersDialogContent extends React.Component {
               ].concat(getPoiLayers(sharingServicesLayer))}
             />
             <LayerCategoryDropdown
+              icon="icon-icon_leisure_tourism"
               title={this.context.intl.formatMessage({
                 id: 'map-layer-category-leisure-tourism',
                 defaultMessage: 'Leisure & Tourism',
@@ -458,6 +462,7 @@ class MapLayersDialogContent extends React.Component {
                 )}
             />
             <LayerCategoryDropdown
+              icon="icon-icon_shopping_services"
               title={this.context.intl.formatMessage({
                 id: 'map-layer-category-shopping-services',
                 defaultMessage: 'Shopping & Services',
@@ -466,6 +471,7 @@ class MapLayersDialogContent extends React.Component {
               options={getPoiLayers(shoppingAndServicesLayer)}
             />
             <LayerCategoryDropdown
+              icon="icon-icon_public_facilities"
               title={this.context.intl.formatMessage({
                 id: 'map-layer-category-public-facilities',
                 defaultMessage: 'Public Facilities',
@@ -474,6 +480,7 @@ class MapLayersDialogContent extends React.Component {
               options={getPoiLayers(publicFacilitiesLayer)}
             />
             <LayerCategoryDropdown
+              icon="icon-icon_health_social_services"
               title={this.context.intl.formatMessage({
                 id: 'map-layer-category-health-social-services',
                 defaultMessage: 'Health & Social Services',
