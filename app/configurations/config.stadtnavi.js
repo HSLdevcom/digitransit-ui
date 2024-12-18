@@ -91,8 +91,8 @@ export default configMerger(parentConfig, {
     safetyFactor: 0.4,
     slopeFactor: 0.3,
     timeFactor: 0.3,
-    walkReluctance: 3
-    walkBoardCost: 150,
+    walkReluctance: 3,
+    walkBoardCost: 150
   },
 
   defaultOptions: {
