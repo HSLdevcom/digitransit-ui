@@ -257,6 +257,14 @@ class TileLayerContainer extends GridLayer {
         const {
           category3: code,
           name,
+          address,
+          opening_hours: openingHours,
+          phone,
+          website,
+          wheelchair,
+          dog,
+          outdoor_seating: outdoorSeating,
+          internet_access: internetAccess,
         } = selectableTargets[0].feature.properties;
 
         const params = pickBy(
@@ -265,6 +273,14 @@ class TileLayerContainer extends GridLayer {
             lng,
             code,
             name,
+            address,
+            openingHours,
+            phone,
+            website,
+            wheelchair,
+            dog,
+            outdoorSeating,
+            internetAccess,
           },
           value => value !== undefined,
         );
