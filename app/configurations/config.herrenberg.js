@@ -277,6 +277,10 @@ export default configMerger(parentConfig, {
             },
         ],
     },
+    defaultSettings: {
+        walkReluctance: 3,
+        walkBoardCost: 150
+    },
 
     aboutThisService: {
         de: [
