@@ -337,7 +337,7 @@ class MapLayersDialogContent extends React.Component {
               ]
                 .concat(
                   this.layerOptionsByCategory(
-                    'bicycle',
+                    'bicycle_car',
                     config.geoJson?.layers,
                     geoJson,
                     this.props.lang,
@@ -454,7 +454,7 @@ class MapLayersDialogContent extends React.Component {
                 .concat(getPoiLayers(leisureAndTourismLayer))
                 .concat(
                   this.layerOptionsByCategory(
-                    'other',
+                    'leisure_and_tourism',
                     config.geoJson?.layers,
                     geoJson,
                     this.props.lang,
@@ -486,7 +486,14 @@ class MapLayersDialogContent extends React.Component {
                 defaultMessage: 'Health & Social Services',
               })}
               onChange={this.updateSetting}
-              options={getPoiLayers(healthAndSocialServicesLayer)}
+              options={getPoiLayers(healthAndSocialServicesLayer).concat(
+                this.layerOptionsByCategory(
+                  'health_and_social_services',
+                  config.geoJson?.layers,
+                  geoJson,
+                  this.props.lang,
+                ),
+              )}
             />
           </div>
 
