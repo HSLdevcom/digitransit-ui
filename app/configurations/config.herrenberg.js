@@ -364,6 +364,22 @@ export default configMerger(parentConfig, {
           category: 'bicycle_car',
           icon: 'icon-icon_bike_repair',
         },
+        // Bicycle network layer
+        {
+          name: {
+            fi: '',
+            en: "Bicycle network",
+            de: 'Radnetz',
+          },
+          category: 'bicycle_car',
+          url: 'https://api.mobidata-bw.de/geoserver/MobiData-BW/wms',
+          icon: 'icon-icon_radnetz',
+          isOffByDefault: true,
+          minZoom: 12,
+          type: 'wmst',
+          layers: 'MobiData-BW:radvis_cycle_network',
+          attribution: 'RadNETZ-BW',
+        },
         // LoRaWan map layer
         {
           name: {
