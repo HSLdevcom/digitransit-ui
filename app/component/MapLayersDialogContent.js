@@ -172,7 +172,7 @@ class MapLayersDialogContent extends React.Component {
       transportMode && transportMode.availableForSelection;
     const transportModes = getTransportModes(this.context.config);
 
-    const { config } = this.context;
+    const { config, intl } = this.context;
     const datahubLayers =
       config.datahubTiles && config.datahubTiles.show
         ? config.datahubTiles.layers
@@ -186,6 +186,61 @@ class MapLayersDialogContent extends React.Component {
         settings: { datahubTiles: layer.name },
       };
     });
+
+    const getPoiLayers = layer => {
+      if (!layer || !layer.categories) {
+        return [];
+      }
+      return layer.categories
+        .map(({ code, translations, categories, properties }) => {
+          if (properties && properties.layer.type !== 'poi_layer') {
+            return null;
+          }
+
+          const { svg } = categories
+            ? categories[0].properties.icon
+            : properties.icon;
+
+          const checked =
+            categories === undefined
+              ? this.props.mapLayers[code]
+              : categories.every(
+                  subCategory => this.props.mapLayers[subCategory.code],
+                );
+
+          return {
+            checked,
+            label: translations[intl.locale],
+            key: `map-layer-${code}`,
+            categories: categories?.map(category => ({
+              ...category,
+              settings: category.code,
+            })),
+            settings: code,
+            dataURI: svg ? `data:image/svg+xml;base64,${btoa(svg)}` : undefined,
+          };
+        })
+        .filter(Boolean);
+    };
+
+    const layerConfig = config.layers;
+
+    const bikeCarLayer = layerConfig?.find(({ code }) => code === 'bike_car');
+    const sharingServicesLayer = layerConfig?.find(
+      ({ code }) => code === 'sharing_services',
+    );
+    const leisureAndTourismLayer = layerConfig?.find(
+      ({ code }) => code === 'leisure_and_tourism',
+    );
+    const shoppingAndServicesLayer = layerConfig?.find(
+      ({ code }) => code === 'shopping_and_services',
+    );
+    const publicFacilitiesLayer = layerConfig?.find(
+      ({ code }) => code === 'public_facilities',
+    );
+    const healthAndSocialServicesLayer = layerConfig?.find(
+      ({ code }) => code === 'health_and_social_services',
+    );
 
     return (
       <>
@@ -208,11 +263,11 @@ class MapLayersDialogContent extends React.Component {
         <div className="map-layers-content">
           <div>
             <LayerCategoryDropdown
+              icon="icon-icon_material_rail"
               title={this.context.intl.formatMessage({
                 id: 'map-layer-category-public-transit',
                 defaultMessage: 'Public Transit',
               })}
-              icon="icon-icon_material_rail"
               onChange={this.updateSetting}
               options={[
                 isTransportModeEnabled(transportModes.bus) && {
@@ -264,11 +319,11 @@ class MapLayersDialogContent extends React.Component {
               ]}
             />
             <LayerCategoryDropdown
+              icon="icon-icon_bike_car"
               title={this.context.intl.formatMessage({
-                id: 'map-layer-category-bicycle',
-                defaultMessage: 'Bicycle',
+                id: 'map-layer-category-bicycle-car',
+                defaultMessage: 'Bicycle & Car',
               })}
-              icon="icon-icon_material_bike"
               onChange={this.updateSetting}
               options={[
                 this.context.config.parkAndRideForBikes &&
@@ -288,14 +343,59 @@ class MapLayersDialogContent extends React.Component {
                     this.props.lang,
                   ),
                 )
-                .concat(datahubBicycleLayers)}
+                .concat([
+                  this.context.config.roadworks &&
+                    this.context.config.roadworks.show && {
+                      checked: roadworks,
+                      defaultMessage: 'Roadworks',
+                      labelId: 'map-layer-roadworks',
+                      icon: 'icon-icon_roadworks',
+                      settings: 'roadworks',
+                    },
+                  this.context.config.weatherStations &&
+                    this.context.config.weatherStations.show && {
+                      checked: weatherStations,
+                      defaultMessage: 'Road weather',
+                      labelId: 'map-layer-weather-stations',
+                      icon: 'icon-icon_stop_monitor',
+                      settings: 'weatherStations',
+                    },
+                  this.context.config.parkAndRide &&
+                    this.context.config.parkAndRide.show && {
+                      checked: parkAndRide,
+                      disabled: !!this.props.mapLayerOptions?.parkAndRide
+                        ?.isLocked,
+                      defaultMessage: 'Park &amp; ride',
+                      labelId: 'map-layer-park-and-ride',
+                      icon: 'icon-icon_open_carpark',
+                      settings: 'parkAndRide',
+                    },
+                  this.context.config.chargingStations &&
+                    this.context.config.chargingStations.show && {
+                      checked: chargingStations,
+                      defaultMessage: 'Charging stations',
+                      labelId: 'map-layer-charging-stations',
+                      icon: 'icon-icon_stop_car_charging_station',
+                      settings: 'chargingStations',
+                    },
+                ])
+                .concat(
+                  this.layerOptionsByCategory(
+                    'car',
+                    config.geoJson?.layers,
+                    geoJson,
+                    this.props.lang,
+                  ),
+                )
+                .concat(datahubBicycleLayers)
+                .concat(getPoiLayers(bikeCarLayer))}
             />
             <LayerCategoryDropdown
+              icon="icon-icon_material_bike_scooter"
               title={this.context.intl.formatMessage({
                 id: 'map-layer-category-sharing',
                 defaultMessage: 'Sharing',
               })}
-              icon="icon-icon_material_bike_scooter"
               onChange={this.updateSetting}
               options={[
                 this.context.config?.cityBike?.showCityBikes &&
@@ -341,75 +441,52 @@ class MapLayersDialogContent extends React.Component {
                   icon: 'icon-icon_carpool_stops',
                   settings: { stop: 'carpool', terminal: 'carpool' },
                 },
-              ]}
+              ].concat(getPoiLayers(sharingServicesLayer))}
             />
             <LayerCategoryDropdown
+              icon="icon-icon_leisure_tourism"
               title={this.context.intl.formatMessage({
-                id: 'map-layer-category-car',
-                defaultMessage: 'Car',
+                id: 'map-layer-category-leisure-tourism',
+                defaultMessage: 'Leisure & Tourism',
               })}
-              icon="icon-icon_material_car"
               onChange={this.updateSetting}
-              options={[
-                this.context.config.parkAndRide &&
-                  this.context.config.parkAndRide.show && {
-                    checked: parkAndRide,
-                    disabled: !!this.props.mapLayerOptions?.parkAndRide
-                      ?.isLocked,
-                    defaultMessage: 'Park &amp; ride',
-                    labelId: 'map-layer-park-and-ride',
-                    icon: 'icon-icon_open_carpark',
-                    settings: 'parkAndRide',
-                  },
-                this.context.config.chargingStations &&
-                  this.context.config.chargingStations.show && {
-                    checked: chargingStations,
-                    defaultMessage: 'Charging stations',
-                    labelId: 'map-layer-charging-stations',
-                    icon: 'icon-icon_stop_car_charging_station',
-                    settings: 'chargingStations',
-                  },
-              ].concat(
-                this.layerOptionsByCategory(
-                  'car',
-                  config.geoJson?.layers,
-                  geoJson,
-                  this.props.lang,
-                ),
-              )}
+              options={[]
+                .concat(getPoiLayers(leisureAndTourismLayer))
+                .concat(
+                  this.layerOptionsByCategory(
+                    'other',
+                    config.geoJson?.layers,
+                    geoJson,
+                    this.props.lang,
+                  ),
+                )}
             />
             <LayerCategoryDropdown
+              icon="icon-icon_shopping_services"
               title={this.context.intl.formatMessage({
-                id: 'map-layer-category-others',
-                defaultMessage: 'Others',
+                id: 'map-layer-category-shopping-services',
+                defaultMessage: 'Shopping & Services',
               })}
-              icon="icon-icon_material_map"
               onChange={this.updateSetting}
-              options={[
-                this.context.config.roadworks &&
-                  this.context.config.roadworks.show && {
-                    checked: roadworks,
-                    defaultMessage: 'Roadworks',
-                    labelId: 'map-layer-roadworks',
-                    icon: 'icon-icon_roadworks',
-                    settings: 'roadworks',
-                  },
-                this.context.config.weatherStations &&
-                  this.context.config.weatherStations.show && {
-                    checked: weatherStations,
-                    defaultMessage: 'Road weather',
-                    labelId: 'map-layer-weather-stations',
-                    icon: 'icon-icon_stop_monitor',
-                    settings: 'weatherStations',
-                  },
-              ].concat(
-                this.layerOptionsByCategory(
-                  'other',
-                  config.geoJson?.layers,
-                  geoJson,
-                  this.props.lang,
-                ),
-              )}
+              options={getPoiLayers(shoppingAndServicesLayer)}
+            />
+            <LayerCategoryDropdown
+              icon="icon-icon_public_facilities"
+              title={this.context.intl.formatMessage({
+                id: 'map-layer-category-public-facilities',
+                defaultMessage: 'Public Facilities',
+              })}
+              onChange={this.updateSetting}
+              options={getPoiLayers(publicFacilitiesLayer)}
+            />
+            <LayerCategoryDropdown
+              icon="icon-icon_health_social_services"
+              title={this.context.intl.formatMessage({
+                id: 'map-layer-category-health-social-services',
+                defaultMessage: 'Health & Social Services',
+              })}
+              onChange={this.updateSetting}
+              options={getPoiLayers(healthAndSocialServicesLayer)}
             />
           </div>
 

@@ -130,6 +130,9 @@ class TileContainer {
         ) {
           return isEnabled;
         }
+        if (layerName === 'publicPois') {
+          return true;
+        }
         return false;
       })
       .map(

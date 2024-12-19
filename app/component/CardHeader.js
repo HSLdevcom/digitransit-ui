@@ -20,6 +20,7 @@ const CardHeader = (
     code,
     externalLink,
     icon,
+    dataURI,
     icons,
     unlinked,
     showBackButton, // DT-3472
@@ -62,12 +63,16 @@ const CardHeader = (
       )}
       <div className={cx('card-header', className)}>
         <div className="card-header-content">
-          {icon ? (
+          {icon || dataURI ? (
             <div
               className="left"
               style={{ fontSize: 32, paddingRight: 10, height: 32 }}
             >
-              <Icon img={icon} color={config.colors.primary} />
+              <Icon
+                img={icon}
+                dataURI={dataURI}
+                color={config.colors.primary}
+              />
             </div>
           ) : null}
           <div className="card-header-wrapper">
@@ -122,6 +127,7 @@ CardHeader.propTypes = {
   code: PropTypes.string,
   externalLink: PropTypes.node,
   icon: PropTypes.string,
+  dataURI: PropTypes.string,
   icons: PropTypes.arrayOf(PropTypes.node),
   children: PropTypes.node,
   unlinked: PropTypes.bool,

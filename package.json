@@ -154,6 +154,7 @@
         "classnames": "2.2.6",
         "connect-redis": "5.0.0",
         "cookie-parser": "1.4.5",
+        "csv-parser": "^3.0.0",
         "debug": "4.1.1",
         "esm": "3.2.25",
         "express": "4.17.1",
