@@ -351,43 +351,81 @@ export default configMerger(parentConfig, {
 
     // adding assets/geoJson/hb-layers layers
     geoJson: {
-        layers: [
-            // bicycleinfrastructure includes shops, repair stations,
-            {
-                name: {
-                    fi: '',
-                    en: 'Service stations and stores',
-                    de: "Service Stationen und Läden",
-                },
-                url: 'https://data.mfdz.de/hbg/dt-layers/bicycleinfrastructure.geojson',
-                category: 'bicycle',
-                icon: 'icon-icon_bike_repair',
-            },
-            // LoRaWan map layer
-            {
-                name: {
-                    fi: '',
-                    en: 'LoRaWAN Gateways',
-                    de: 'LoRaWAN Gateways',
-                },
-                url: 'https://data.mfdz.de/hbg/dt-layers/lorawan-gateways.geojson',
-                category: 'other',
-                isOffByDefault: true,
-                icon: 'icon-icon_gateways',
-            },
-            // Nette Toilette layer
-            {
-                name: {
-                    fi: '',
-                    en: 'Public Toilets',
-                    de: 'Nette Toilette',
-                },
-                url: 'https://data.mfdz.de/hbg/dt-layers/toilet.geojson',
-                category: 'other',
-                isOffByDefault: true,
-                icon: 'icon-icon_public_toilets',
-            },
-        ],
+      layers: [
+        // bicycleinfrastructure includes shops, repair stations,
+        {
+          name: {
+            fi: '',
+            en: 'Service stations and stores',
+            de: 'Service Stationen und Läden',
+          },
+          url: 'https://data.mfdz.de/hbg/dt-layers/bicycleinfrastructure.geojson',
+          category: 'bicycle_car',
+          icon: 'icon-icon_bike_repair',
+        },
+        // Bicycle network layer
+        {
+          name: {
+            fi: '',
+            en: "Bicycle network",
+            de: 'Radnetz',
+          },
+          category: 'bicycle_car',
+          url: 'https://api.mobidata-bw.de/geoserver/MobiData-BW/wms',
+          icon: 'icon-icon_radnetz',
+          isOffByDefault: true,
+          minZoom: 12,
+          type: 'wmst',
+          layers: 'MobiData-BW:radvis_cycle_network',
+          attribution: 'RadNETZ-BW',
+        },
+        // LoRaWan map layer
+        {
+          name: {
+            fi: '',
+            en: 'LoRaWAN Gateways',
+            de: 'LoRaWAN Gateways',
+          },
+          url: 'https://data.mfdz.de/hbg/dt-layers/lorawan-gateways.geojson',
+          category: 'leisure_and_tourism',
+          isOffByDefault: true,
+          icon: 'icon-icon_gateways',
+        },
+        // Nette Toilette layer
+        {
+          name: {
+            fi: '',
+            en: 'Public Toilets',
+            de: 'Nette Toilette',
+          },
+          url: 'https://data.mfdz.de/hbg/dt-layers/toilet.geojson',
+          category: 'leisure_and_tourism',
+          isOffByDefault: true,
+          icon: 'icon-icon_public_toilets',
+        },
+        {
+          name: {
+            fi: '',
+            en: 'sights',
+            de: 'Sehenswürdigkeiten',
+          },
+          url: 'https://data.mfdz.de/hbg/dt-layers/sights.geojson',
+          category: 'leisure_and_tourism',
+          isOffByDefault: true,
+          icon: 'icon-icon_sights',
+        },
+        {
+          name: {
+            fi: '',
+            en: 'School route map',
+            de: 'Schulwegplan',
+          },
+          url: 'https://data.mfdz.de/hbg/dt-layers/school_routes.geojson',
+          category: 'health_and_social_services',
+          isOffByDefault: true,
+          icon: 'icon-icon_school_bus',
+        },
+      ],
     },
 
     layers,
