@@ -1317,6 +1317,8 @@ const translations = {
     'poi-tag-outdoor-seating': 'Sitzplätze im Freien',
     'poi-tag-dogs-allowed': 'Hunde erlaubt',
     'poi-tag-wifi': 'WLAN',
+    'poi-tag-operator': 'Betreiber: {operator}',
+    'poi-tag-brand': 'Marke: {brand}',
   },
 
   en: {
@@ -2345,6 +2347,8 @@ const translations = {
     'poi-tag-outdoor-seating': 'Outdoor seating',
     'poi-tag-dogs-allowed': 'Dogs allowed',
     'poi-tag-wifi': 'WiFi',
+    'poi-tag-operator': 'Operator: {operator}',
+    'poi-tag-brand': 'Brand: {brand}',
   },
 
   es: {

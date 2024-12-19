@@ -15,7 +15,10 @@ import { mapLayerShape } from '../../../store/MapLayerStore';
 import MarkerSelectPopup from './MarkerSelectPopup';
 import LocationPopup from '../popups/LocationPopup';
 import TileContainer from './TileContainer';
-import { isFeatureLayerEnabled } from '../../../util/mapLayerUtils';
+import {
+  isFeatureLayerEnabled,
+  getLayerByCode,
+} from '../../../util/mapLayerUtils';
 import RealTimeInformationStore from '../../../store/RealTimeInformationStore';
 import PreferencesStore from '../../../store/PreferencesStore';
 import { addAnalyticsEvent } from '../../../util/analyticsUtils';
@@ -186,6 +189,7 @@ class TileLayerContainer extends GridLayer {
         leaflet: { map },
         mapLayers,
       } = this.props;
+      const { config, intl } = this.context;
       const { coords: prevCoords } = this.state;
       const popup = map._popup; // eslint-disable-line no-underscore-dangle
       // navigate to citybike stop page if single stop is clicked
@@ -254,33 +258,31 @@ class TileLayerContainer extends GridLayer {
       ) {
         const { lat, lon: lng } = selectableTargets[0].coords;
 
-        const {
-          category3: code,
-          name,
-          address,
-          opening_hours: openingHours,
-          phone,
-          website,
-          wheelchair,
-          dog,
-          outdoor_seating: outdoorSeating,
-          internet_access: internetAccess,
-        } = selectableTargets[0].feature.properties;
+        const { properties } = selectableTargets[0].feature;
+
+        const { category3: code, name, address, website, phone } = properties;
+
+        const layer = getLayerByCode(code, config);
+
+        const detailsProperties = { ...properties };
+
+        // Filter out properties that are not in the layer's attributes
+        Object.keys(detailsProperties).forEach(key => {
+          if (!layer?.properties?.attributes?.includes(key)) {
+            delete detailsProperties[key];
+          }
+        });
 
         const params = pickBy(
           {
+            ...detailsProperties,
             lat,
             lng,
             code,
-            name,
+            name: name || layer.translations[intl.locale],
             address,
-            openingHours,
-            phone,
             website,
-            wheelchair,
-            dog,
-            outdoorSeating,
-            internetAccess,
+            phone,
           },
           value => value !== undefined,
         );

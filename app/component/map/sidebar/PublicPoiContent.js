@@ -13,13 +13,15 @@ const PublicPoiContent = ({ match }, { intl, config }) => {
     code,
     name,
     address,
-    openingHours,
+    opening_hours: openingHours,
     phone,
     website,
     wheelchair,
     dog,
-    outdoorSeating,
-    internetAccess,
+    outdoor_seating: outdoorSeating,
+    internet_access: internetAccess,
+    operator,
+    brand,
   } = match.location.query;
 
   const layer = getLayerByCode(code, config);
@@ -28,13 +30,45 @@ const PublicPoiContent = ({ match }, { intl, config }) => {
     return null;
   }
 
-  const accessibilityMessageId =
-    wheelchair === 'yes' ? 'poi-tag-wheelchair' : null;
-  const outdoorSeatingMessageId =
-    outdoorSeating === 'yes' ? 'poi-tag-outdoor-seating' : null;
-  const dogsAllowedMessageId = dog === 'yes' ? 'poi-tag-dogs-allowed' : null;
-  const internetAccessMessageId =
-    internetAccess === 'wlan' ? 'poi-tag-wifi' : null;
+  const accessibilityMessage =
+    wheelchair === 'yes'
+      ? {
+          message: <FormattedMessage id="poi-tag-wheelchair" />,
+          key: 'wheelchair',
+        }
+      : null;
+  const outdoorSeatingMessage =
+    outdoorSeating === 'yes'
+      ? {
+          message: <FormattedMessage id="poi-tag-outdoor-seating" />,
+          key: 'outdoor_seating',
+        }
+      : null;
+  const dogsAllowedMessage =
+    dog === 'yes'
+      ? {
+          message: <FormattedMessage id="poi-tag-dogs-allowed" />,
+          key: 'dogs-allowed',
+        }
+      : null;
+  const internetAccessMessage =
+    internetAccess === 'wlan'
+      ? { message: <FormattedMessage id="poi-tag-wifi" />, key: 'wifi' }
+      : null;
+  const operatorMessage = operator
+    ? {
+        message: (
+          <FormattedMessage id="poi-tag-operator" values={{ operator }} />
+        ),
+        key: 'operator',
+      }
+    : null;
+  const brandMessage = brand
+    ? {
+        message: <FormattedMessage id="poi-tag-brand" values={{ brand }} />,
+        key: 'brand',
+      }
+    : null;
 
   const svg = layer?.properties?.icon?.svg;
 
@@ -87,22 +121,19 @@ const PublicPoiContent = ({ match }, { intl, config }) => {
         )}
         <>
           {[
-            accessibilityMessageId,
-            outdoorSeatingMessageId,
-            dogsAllowedMessageId,
-            internetAccessMessageId,
+            accessibilityMessage,
+            outdoorSeatingMessage,
+            dogsAllowedMessage,
+            internetAccessMessage,
+            operatorMessage,
+            brandMessage,
           ]
             .filter(Boolean)
-            .map((messageId, index) => (
+            .map(({ message, key }, index) => (
               <>
                 {index === 0 && <div className="divider" />}
-                <div
-                  key={messageId}
-                  className="text-light sidebar-info-container"
-                >
-                  <span className="text-alignment">
-                    <FormattedMessage id={messageId} />
-                  </span>
+                <div key={key} className="text-light sidebar-info-container">
+                  <span className="text-alignment">{message}</span>
                 </div>
               </>
             ))}
