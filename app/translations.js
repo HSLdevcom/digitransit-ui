@@ -1312,7 +1312,11 @@ const translations = {
     yesterday: 'Gestern',
     zone: 'Tarifzone',
     zones: 'Tarifzonen',
-    'book-on-demand-taxi': 'Fahrt buchen'
+    'book-on-demand-taxi': 'Fahrt buchen',
+    'poi-tag-wheelchair': 'Rollstuhlgerecht',
+    'poi-tag-outdoor-seating': 'Sitzplätze im Freien',
+    'poi-tag-dogs-allowed': 'Hunde erlaubt',
+    'poi-tag-wifi': 'WLAN',
   },
 
   en: {
@@ -2337,6 +2341,10 @@ const translations = {
     'zone-info': 'Zone {zone}',
     'zone-unknown': 'Unknown zone',
     zones: 'Fare zones',
+    'poi-tag-wheelchair': 'Wheelchair accessible',
+    'poi-tag-outdoor-seating': 'Outdoor seating',
+    'poi-tag-dogs-allowed': 'Dogs allowed',
+    'poi-tag-wifi': 'WiFi',
   },
 
   es: {
