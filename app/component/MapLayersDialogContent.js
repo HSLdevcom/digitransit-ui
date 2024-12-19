@@ -337,7 +337,7 @@ class MapLayersDialogContent extends React.Component {
               ]
                 .concat(
                   this.layerOptionsByCategory(
-                    'bicycle_car',
+                    'bicycle',
                     config.geoJson?.layers,
                     geoJson,
                     this.props.lang,

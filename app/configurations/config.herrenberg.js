@@ -360,7 +360,7 @@ export default configMerger(parentConfig, {
             de: 'Service Stationen und Läden',
           },
           url: 'https://data.mfdz.de/hbg/dt-layers/bicycleinfrastructure.geojson',
-          category: 'bicycle_car',
+          category: 'bicycle',
           icon: 'icon-icon_bike_repair',
         },
         // Bicycle network layer
@@ -370,7 +370,7 @@ export default configMerger(parentConfig, {
             en: "Bicycle network",
             de: 'Radnetz',
           },
-          category: 'bicycle_car',
+          category: 'bicycle',
           url: 'https://api.mobidata-bw.de/geoserver/MobiData-BW/wms',
           icon: 'icon-icon_radnetz',
           isOffByDefault: true,
