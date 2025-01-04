@@ -300,6 +300,13 @@ class MapLayersDialogContent extends React.Component {
                   icon: 'icon-icon_stop_tram',
                   settings: { stop: 'tram' },
                 },
+                isTransportModeEnabled(transportModes.funicular) && {
+                  checked: stop.funicular,
+                  defaultMessage: 'Funicular stop',
+                  labelId: 'map-layer-stop-funicular',
+                  icon: 'icon-icon_stop_funicular',
+                  settings: { stop: 'funicular' },
+                },
                 isTransportModeEnabled(transportModes.ferry) && {
                   checked: stop.ferry,
                   disabled: !!this.props.mapLayerOptions?.stop?.ferry?.isLocked,
