@@ -105,9 +105,9 @@ class ItineraryDetails extends React.Component {
     fetchedFares: false,
   };
 
-  handleFocus(lat, lon) {
+  handleFocus = (lat, lon) => {
     this.props.focusToPoint(lat, lon);
-  }
+  };
 
   shouldShowDisclaimer(config) {
     return (

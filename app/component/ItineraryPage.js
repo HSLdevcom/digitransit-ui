@@ -774,6 +774,15 @@ class ItineraryPage extends React.Component {
     });
   };
 
+  focusToStep = (lat, lon) => {
+    this.setState({
+      bounds: [
+        [lat, lon],
+        [lat, lon],
+      ],
+    });
+  };
+
   makeWeatherQuery() {
     const from = otpToLocation(this.props.match.params.from);
     const { walkPlan, bikePlan, bikeTransitPlan } = this.state;
@@ -1379,6 +1388,7 @@ class ItineraryPage extends React.Component {
                   itinerary={itinerary}
                   focusToPoint={this.focusToPoint}
                   focusToLeg={this.focusToLeg}
+                  focusToStep={this.focusToStep}
                   isMobile={false}
                   carItinerary={carPlan?.itineraries[0]}
                   toggleCarpoolDrawer={this.toggleCarpoolDrawer}
@@ -1539,6 +1549,7 @@ class ItineraryPage extends React.Component {
           plan={this.selectedPlan}
           serviceTimeRange={props.serviceTimeRange}
           focusToLeg={this.focusToLeg}
+          focusToStep={this.focusToStep}
           onSwipe={this.changeHash}
           carItinerary={carPlan?.itineraries[0]}
           changeHash={this.changeHash}
