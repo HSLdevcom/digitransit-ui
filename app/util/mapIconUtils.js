@@ -954,8 +954,10 @@ export function drawAvailabilityBadge(
   });
 }
 
-export function drawIcon(icon, tile, geom, imageSize) {
-  return getImageFromSpriteCache(icon, imageSize, imageSize).then(image => {
-    drawIconImage(image, tile, geom, imageSize, imageSize);
-  });
+export function drawIcon(icon, tile, geom, imageSize, fill) {
+  return getImageFromSpriteCache(icon, imageSize, imageSize, fill).then(
+    image => {
+      drawIconImage(image, tile, geom, imageSize, imageSize);
+    },
+  );
 }

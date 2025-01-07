@@ -95,6 +95,7 @@ export default class PoiVectorTileLayer {
                     this.tile,
                     feature.geom,
                     this.imageSize,
+                    svgElement.style,
                   );
                 }
               }
