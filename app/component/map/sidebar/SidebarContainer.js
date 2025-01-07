@@ -69,6 +69,7 @@ const SidebarContainer = (
           description={description}
           showCardSubHeader={Boolean(description)}
           showBackButton={!isMobile}
+          isMobile={isMobile}
         />
         {children}
         {location && (
