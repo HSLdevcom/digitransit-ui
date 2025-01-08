@@ -362,7 +362,7 @@ class MapLayersDialogContent extends React.Component {
                   this.context.config.weatherStations &&
                     this.context.config.weatherStations.show && {
                       checked: weatherStations,
-                      defaultMessage: 'Road weather',
+                      defaultMessage: 'Weather stations',
                       labelId: 'map-layer-weather-stations',
                       icon: 'icon-icon_stop_monitor',
                       settings: 'weatherStations',
