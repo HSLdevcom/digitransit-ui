@@ -1551,7 +1551,7 @@ const translations = {
     'charging-spaces-in-total': '{capacity} charging slots',
     'charging-spaces-no-data' : 'No capacity data available',
     'choose-freely': 'Optional',
-    'choose-stop': 'Select stop',
+    'choose-stop': 'Select option',
     'choose-stop-or-vehicle': 'Select vehicle or stop',
     'choose-vehicle': 'Select vehicle',
     citybike: 'Sharing',
