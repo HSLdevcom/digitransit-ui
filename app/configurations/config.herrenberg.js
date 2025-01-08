@@ -33,28 +33,32 @@ export default configMerger(parentConfig, {
              icon: "brand_deer",
              operator: "deer",
              name: {
-               de: "deer"
+               de: "deer",
+               en: "deer"
              },
              type: "car",
              form_factors: ['car'],
              hideCode: true,
              enabled: true,
              url: {
-               de: "https://www.deer-carsharing.de/"
+               de: "https://www.deer-carsharing.de/",
+               en: "https://www.deer-carsharing.de/"
              }
            },
            stadtmobil_stuttgart: {
              icon: "brand_stadtmobil",
              operator: "stadtmobil",
              name: {
-               de: "Stadtmobil Stuttgart"
+               de: "Stadtmobil Stuttgart",
+               en: "Stadtmobil Stuttgart"
              },
              type: "car",
              form_factors: ['car'],
              hideCode: true,
              enabled: true,
              url: {
-               de: "https://stuttgart.stadtmobil.de/"
+               de: "https://stuttgart.stadtmobil.de/",
+               en: "https://stuttgart.stadtmobil.de/"
              }
            },
            regiorad_stuttgart: {
@@ -68,84 +72,96 @@ export default configMerger(parentConfig, {
              hideCode: true,
              enabled: true,
              url: {
-               de: "https://www.regioradstuttgart.de"
+               de: "https://www.regioradstuttgart.de",
+               en: "https://www.regioradstuttgart.de"
              }
            },
            bolt_stuttgart: {
              icon: "brand_bolt",
              operator: "bolt",
              name: {
-               de: "Bolt OÜ"
+               de: "Bolt OÜ",
+               en: "Bolt OÜ"
              },
              type: "scooter",
              form_factors: ['scooter', 'bicycle'],
              hideCode: true,
              enabled: true,
              url: {
-               de: "https://www.bolt.eu/"
+               de: "https://www.bolt.eu/",
+               en: "https://www.bolt.eu/"
              }
            },
            bolt_reutlingen_tuebingen: {
              icon: "brand_bolt",
              operator: "bolt",
              name: {
-               de: "Bolt OÜ"
+               de: "Bolt OÜ",
+               en: "Bolt OÜ"
              },
              type: "scooter",
              form_factors: ['scooter', 'bicycle'],
              hideCode: true,
              enabled: true,
              url: {
-               de: "https://www.bolt.eu/"
+               de: "https://www.bolt.eu/",
+               en: "https://www.bolt.eu/"
              }
            },
            zeus_ludwigsburg: {
              icon: "brand_zeus",
              operator: "zeus",
              name: {
-               de: "Zeus Scooters"
+               de: "Zeus Scooters",
+               en: "Zeus Scooters"
              },
              type: "scooter",
              form_factors: ['scooter'],
              hideCode: true,
              enabled: true,
              url: {
-               de: "https://zeusscooters.com"
+               de: "https://zeusscooters.com",
+               en: "https://zeusscooters.com"
              }
            },
            zeus_pforzheim: {
              icon: "brand_zeus",
              operator: "zeus",
              name: {
-               de: "Zeus Scooters"
+               de: "Zeus Scooters",
+               en: "Zeus Scooters"
              },
              type: "scooter",
              form_factors: ['scooter'],
              hideCode: true,
              enabled: true,
              url: {
-               de: "https://zeusscooters.com"
+               de: "https://zeusscooters.com",
+               en: "https://zeusscooters.com"
              }
            },
            zeus_tubingen: {
              icon: "brand_zeus",
              operator: "zeus",
              name: {
-               de: "Zeus Scooters"
+               de: "Zeus Scooters",
+               en: "Zeus Scooters"
              },
              type: "scooter",
              form_factors: ['scooter'],
              hideCode: true,
              enabled: true,
              url: {
-               de: "https://zeusscooters.com"
+               de: "https://zeusscooters.com",
+               en: "https://zeusscooters.com"
              }
            },
            voi_karlsruhe: {
              icon: "brand_voi",
              operator: "voi",
              name: {
-               de: "Voi Scooter Karlsruhe"
+               de: "Voi Scooter Karlsruhe",
+               en: "Voi Scooter Karlsruhe"
              },
              type: "scooter",
              form_factors: ['scooter'],
