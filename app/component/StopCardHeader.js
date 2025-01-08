@@ -91,6 +91,8 @@ class StopCardHeader extends React.Component {
       return false;
     }
 
+    const isMobile = breakpoint !== 'large';
+
     return (
       <CardHeader
         className={className}
@@ -98,12 +100,13 @@ class StopCardHeader extends React.Component {
         description={this.getDescription()}
         code={this.headerConfig.showStopCode && stop.code ? stop.code : null}
         icons={icons}
-        showBackButton={breakpoint === 'large'}
+        showBackButton={!isMobile}
         stop={stop}
         headerConfig={this.headerConfig}
         isTerminal={isTerminal}
         showHeaderTitle
         showCardSubHeader
+        isMobile={isMobile}
         // TODO: Fix places geocoder api request to reimplement favorite button.
         // https://github.com/stadtnavi/digitransit-ui/issues/481
         /** favouriteContainer={

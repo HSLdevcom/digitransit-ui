@@ -30,6 +30,7 @@ const CardHeader = (
     showHeaderTitle,
     headerPictureUrl,
     showCardSubHeader = true,
+    isMobile,
   },
   { config, intl },
 ) => {
@@ -65,8 +66,13 @@ const CardHeader = (
         <div className="card-header-content">
           {icon || dataURI ? (
             <div
-              className="left"
-              style={{ fontSize: 32, paddingRight: 10, height: 32 }}
+              className="left card-header-icon-container"
+              style={{
+                fontSize: 32,
+                paddingRight: 10,
+                height: 32,
+                transform: !isMobile ? 'translateY(12px)' : 'initial',
+              }}
             >
               <Icon
                 img={icon}
@@ -139,6 +145,7 @@ CardHeader.propTypes = {
   isTerminal: PropTypes.bool,
   showHeaderTitle: PropTypes.bool,
   showCardSubHeader: PropTypes.bool,
+  isMobile: PropTypes.bool,
 };
 
 CardHeader.defaultProps = {
