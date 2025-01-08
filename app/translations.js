@@ -1849,7 +1849,7 @@ const translations = {
     'map-layer-charging-stations': 'Charging stations',
     'map-layer-citybike': 'Citybike stations',
     'map-layer-park-and-ride': 'Park & ride sites',
-    'map-layer-bike-parks': 'Bike parking spaces',
+    'map-layer-bike-parks': 'Bicycle parking spaces',
     'map-layer-stop-bus': 'Bus stops',
     'map-layer-stop-ferry': 'Ferries',
     'map-layer-stop-funicular': 'Funiculars and cog railways',
