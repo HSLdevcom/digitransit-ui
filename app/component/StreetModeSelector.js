@@ -51,9 +51,10 @@ export const StreetModeSelector = ({
           ...(bikeParkPlan?.itineraries || []),
           ...(bikeAndPublicPlan?.itineraries || []),
           ...(bikeRentAndPublicPlan?.itineraries || []),
-        ],
+        ].filter(itinerary => itinerary.legs.some(l => l.transitLeg)),
       }
     : {};
+
   const carRentalOrOwn = !loading
     ? {
         itineraries: [
