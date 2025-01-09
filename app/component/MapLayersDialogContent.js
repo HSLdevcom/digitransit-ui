@@ -300,6 +300,13 @@ class MapLayersDialogContent extends React.Component {
                   icon: 'icon-icon_stop_tram',
                   settings: { stop: 'tram' },
                 },
+                isTransportModeEnabled(transportModes.funicular) && {
+                  checked: stop.funicular,
+                  defaultMessage: 'Funicular stop',
+                  labelId: 'map-layer-stop-funicular',
+                  icon: 'icon-icon_stop_funicular',
+                  settings: { stop: 'funicular' },
+                },
                 isTransportModeEnabled(transportModes.ferry) && {
                   checked: stop.ferry,
                   disabled: !!this.props.mapLayerOptions?.stop?.ferry?.isLocked,
@@ -355,7 +362,7 @@ class MapLayersDialogContent extends React.Component {
                   this.context.config.weatherStations &&
                     this.context.config.weatherStations.show && {
                       checked: weatherStations,
-                      defaultMessage: 'Road weather',
+                      defaultMessage: 'Weather stations',
                       labelId: 'map-layer-weather-stations',
                       icon: 'icon-icon_stop_monitor',
                       settings: 'weatherStations',

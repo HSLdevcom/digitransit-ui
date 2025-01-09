@@ -339,8 +339,8 @@ export default configMerger(parentConfig, {
             {
                 name: {
                     fi: '',
-                    en: 'Service stations and stores',
-                    de: "Radservice Stationen",
+                    en: 'Bicycle Service Stations',
+                    de: "Radservice-Punkte",
                 },
                 category: 'other',
                 url: '/assets/geojson/lb-layers/radservice.json',
