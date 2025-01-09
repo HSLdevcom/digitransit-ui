@@ -58,18 +58,18 @@ export default class PoiVectorTileLayer {
               const layerFeature = layerData.feature(index);
 
               [[layerFeature.geom]] = layerFeature.loadGeometry();
-              const feature = pick(layerFeature, ['geom', 'properties']);
-
-              if (
-                !PoiVectorTileLayer.visibleCategories[
-                  feature.properties.category3
-                ]
-              ) {
-                return null;
-              }
-              return feature;
+              return pick(layerFeature, ['geom', 'properties']);
             })
-            .filter(Boolean);
+            .filter(feature => {
+              const poiLayer = getLayerByCode(
+                feature.properties.category3,
+                this.config,
+              );
+              return (
+                PoiVectorTileLayer.visibleCategories[poiLayer.code] &&
+                this.tile.coords.z >= poiLayer.properties.layer.min_zoom
+              );
+            });
 
           this.features.forEach(feature => {
             const layerCode = feature.properties.category3;
@@ -78,26 +78,24 @@ export default class PoiVectorTileLayer {
             if (poiLayer) {
               const { icon, layer } = poiLayer.properties;
 
-              if (this.tile.coords.z >= layer.min_zoom) {
-                const parser = new DOMParser();
-                const docs = parser.parseFromString(icon.svg, 'image/svg+xml');
-                const svgElement = docs.querySelector('svg');
+              const parser = new DOMParser();
+              const docs = parser.parseFromString(icon.svg, 'image/svg+xml');
+              const svgElement = docs.querySelector('svg');
 
-                if (svgElement) {
-                  svgElement.id = `icon-${layerCode}`;
-                  svgElement.style.zIndex = layer.priority;
-                  svgElement.style.display = 'none';
+              if (svgElement) {
+                svgElement.id = `icon-${layerCode}`;
+                svgElement.style.zIndex = layer.priority;
+                svgElement.style.display = 'none';
 
-                  document.body.appendChild(svgElement);
+                document.body.appendChild(svgElement);
 
-                  drawIcon(
-                    `icon-${feature.properties.category3}`,
-                    this.tile,
-                    feature.geom,
-                    this.imageSize,
-                    svgElement.style,
-                  );
-                }
+                drawIcon(
+                  `icon-${feature.properties.category3}`,
+                  this.tile,
+                  feature.geom,
+                  this.imageSize,
+                  svgElement.style,
+                );
               }
             }
           });
