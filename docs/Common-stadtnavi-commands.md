@@ -56,11 +56,10 @@ This watches if any of the submodules has been changed and compiles it on-the-fl
 Map layers config from layers spreadsheet can be converted from CSV to JSON running
 
 ```
-node ./scripts/parse-layers-sheet.js
+node ./scripts/parse-layers-sheet.js "https://docs.google.com/spreadsheets/d/{key}/gviz/tq?tqx=out:csv&sheet={sheet}"
 ```
 
-Before running the script make sure to have CSV export of layers spreadsheet
-in place and to have set the correct input and output file names in the script.
+Before running make sure to have have set the correct output file name in the script.
 
 Created JSON file can be used to replace files in
 
