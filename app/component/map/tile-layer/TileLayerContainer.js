@@ -252,6 +252,7 @@ class TileLayerContainer extends GridLayer {
       }
 
       if (
+        selectableTargets.length === 1 &&
         selectableTargets?.find(({ layer }) => {
           return layer === 'publicPois';
         })
