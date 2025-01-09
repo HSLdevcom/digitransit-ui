@@ -354,6 +354,7 @@ export default configMerger(parentConfig, {
       layers: [
         // bicycleinfrastructure includes shops, repair stations,
         {
+          code: 'bike_repair',
           name: {
             fi: '',
             en: 'Service stations and stores',
@@ -365,6 +366,7 @@ export default configMerger(parentConfig, {
         },
         // Bicycle network layer
         {
+          code: 'cycle_network',
           name: {
             fi: '',
             en: "Bicycle network",
@@ -381,6 +383,7 @@ export default configMerger(parentConfig, {
         },
         // LoRaWan map layer
         {
+          code: 'loarawan_gateways',
           name: {
             fi: '',
             en: 'LoRaWAN Gateways',
@@ -393,6 +396,7 @@ export default configMerger(parentConfig, {
         },
         // Nette Toilette layer
         {
+          code: 'friendly_toilet',
           name: {
             fi: '',
             en: 'Public Toilets',
@@ -404,6 +408,7 @@ export default configMerger(parentConfig, {
           icon: 'icon-icon_public_toilets',
         },
         {
+          code: 'sights',
           name: {
             fi: '',
             en: 'sights',
@@ -415,6 +420,7 @@ export default configMerger(parentConfig, {
           icon: 'icon-icon_sights',
         },
         {
+          code: 'school_route_map',
           name: {
             fi: '',
             en: 'School route map',
