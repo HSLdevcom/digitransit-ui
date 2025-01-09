@@ -137,16 +137,16 @@ class MapLayersDialogContent extends React.Component {
             (l.category === undefined || l.category === category),
         )
         .map(layer => {
-          const key = layer.id || layer.url;
+          const id = layer.id || layer.url;
           return {
-            key,
+            key: layer.code || id,
             checked:
-              (layer.isOffByDefault && geoJson[key] === true) ||
-              (!layer.isOffByDefault && geoJson[key] !== false), // todo: is active?
+              (layer.isOffByDefault && geoJson[id] === true) ||
+              (!layer.isOffByDefault && geoJson[id] !== false), // todo: is active?
             defaultMessage: layer.name?.[lang] || layer.defaultMessage,
             labelId: layer.labelId, // todo: rename?
             icon: layer.icon,
-            settings: { geoJson: key },
+            settings: { geoJson: id },
           };
         }) || []
     );
@@ -211,7 +211,7 @@ class MapLayersDialogContent extends React.Component {
           return {
             checked,
             label: translations[intl.locale],
-            key: `map-layer-${code}`,
+            key: code,
             categories: categories?.map(category => ({
               ...category,
               settings: category.code,
@@ -241,6 +241,24 @@ class MapLayersDialogContent extends React.Component {
     const healthAndSocialServicesLayer = layerConfig?.find(
       ({ code }) => code === 'health_and_social_services',
     );
+
+    const sortLayersByKey = (a, b) => {
+      // Retrieve the order of the layers from the configuration.
+      // Top- and Sub-level category codes are considered.
+      const layerOrder =
+        config.layers
+          ?.flatMap(category => category.categories || category)
+          .map(category => [
+            category.code,
+            // Retrieve order of sub-categories if they exist
+            ...(category.categories
+              ? category.categories.map(({ code }) => code)
+              : []),
+          ])
+          .flat() || [];
+
+      return layerOrder.indexOf(a.key) - layerOrder.indexOf(b.key);
+    };
 
     return (
       <>
@@ -276,6 +294,7 @@ class MapLayersDialogContent extends React.Component {
                   defaultMessage: 'Bus stop',
                   labelId: 'map-layer-stop-bus',
                   icon: 'icon-icon_stop_bus',
+                  key: 'bus',
                   settings: { stop: 'bus' },
                 },
                 isTransportModeEnabled(transportModes.subway) && {
@@ -283,6 +302,7 @@ class MapLayersDialogContent extends React.Component {
                   defaultMessage: 'Subway station',
                   labelId: 'map-layer-terminal-subway',
                   icon: 'icon-icon_stop_subway',
+                  key: 'subway',
                   settings: { stop: 'subway', terminal: 'subway' },
                 },
                 isTransportModeEnabled(transportModes.rail) && {
@@ -290,6 +310,7 @@ class MapLayersDialogContent extends React.Component {
                   defaultMessage: 'Railway station',
                   labelId: 'map-layer-terminal-rail',
                   icon: 'icon-icon_stop_rail',
+                  key: 'rail',
                   settings: { stop: 'rail', terminal: 'rail' },
                 },
                 isTransportModeEnabled(transportModes.tram) && {
@@ -298,6 +319,7 @@ class MapLayersDialogContent extends React.Component {
                   defaultMessage: 'Tram stop',
                   labelId: 'map-layer-stop-tram',
                   icon: 'icon-icon_stop_tram',
+                  key: 'tram',
                   settings: { stop: 'tram' },
                 },
                 isTransportModeEnabled(transportModes.funicular) && {
@@ -313,6 +335,7 @@ class MapLayersDialogContent extends React.Component {
                   defaultMessage: 'Ferry',
                   labelId: 'map-layer-stop-ferry',
                   icon: 'icon-icon_stop_ferry',
+                  key: 'ferry',
                   settings: { stop: 'ferry' },
                 },
                 this.context.config.vehicles && {
@@ -321,9 +344,10 @@ class MapLayersDialogContent extends React.Component {
                   defaultMessage: 'Moving vehicles',
                   labelId: 'map-layer-vehicles',
                   icon: 'icon-icon_moving_bus',
+                  key: 'vehicles',
                   settings: 'vehicles',
                 },
-              ]}
+              ].sort(sortLayersByKey)}
             />
             <LayerCategoryDropdown
               icon="icon-icon_bike_car"
@@ -339,6 +363,7 @@ class MapLayersDialogContent extends React.Component {
                     defaultMessage: 'Bike parks',
                     labelId: 'map-layer-bike-parks', // todo: rename?
                     icon: 'icon-bike-park',
+                    key: 'parkAndRideForBikes',
                     settings: 'parkAndRideForBikes',
                   },
               ]
@@ -357,6 +382,7 @@ class MapLayersDialogContent extends React.Component {
                       defaultMessage: 'Roadworks',
                       labelId: 'map-layer-roadworks',
                       icon: 'icon-icon_roadworks',
+                      key: 'roadworks',
                       settings: 'roadworks',
                     },
                   this.context.config.weatherStations &&
@@ -365,6 +391,7 @@ class MapLayersDialogContent extends React.Component {
                       defaultMessage: 'Weather stations',
                       labelId: 'map-layer-weather-stations',
                       icon: 'icon-icon_stop_monitor',
+                      key: 'weatherStations',
                       settings: 'weatherStations',
                     },
                   this.context.config.parkAndRide &&
@@ -375,6 +402,7 @@ class MapLayersDialogContent extends React.Component {
                       defaultMessage: 'Park &amp; ride',
                       labelId: 'map-layer-park-and-ride',
                       icon: 'icon-icon_open_carpark',
+                      key: 'parkAndRide',
                       settings: 'parkAndRide',
                     },
                   this.context.config.chargingStations &&
@@ -383,6 +411,7 @@ class MapLayersDialogContent extends React.Component {
                       defaultMessage: 'Charging stations',
                       labelId: 'map-layer-charging-stations',
                       icon: 'icon-icon_stop_car_charging_station',
+                      key: 'chargingStations',
                       settings: 'chargingStations',
                     },
                 ])
@@ -395,7 +424,8 @@ class MapLayersDialogContent extends React.Component {
                   ),
                 )
                 .concat(datahubBicycleLayers)
-                .concat(getPoiLayers(bikeCarLayer))}
+                .concat(getPoiLayers(bikeCarLayer))
+                .sort(sortLayersByKey)}
             />
             <LayerCategoryDropdown
               icon="icon-icon_material_bike_scooter"
@@ -412,6 +442,7 @@ class MapLayersDialogContent extends React.Component {
                     defaultMessage: 'Rental Bikes',
                     labelId: 'map-layer-sharing-bicycle',
                     icon: 'icon-icon_rental_bicycle',
+                    key: 'bicycle',
                     settings: { rental: 'bicycle' },
                   },
                 this.context.config?.cityBike?.showCityBikes &&
@@ -421,6 +452,7 @@ class MapLayersDialogContent extends React.Component {
                     defaultMessage: 'Rental Scooters',
                     labelId: 'map-layer-sharing-scooter',
                     icon: 'icon-icon_rental_scooter',
+                    key: 'scooter',
                     settings: { rental: 'scooter' },
                   },
                 this.context.config?.cityBike?.showCityBikes &&
@@ -430,6 +462,7 @@ class MapLayersDialogContent extends React.Component {
                     defaultMessage: 'Rental Cargo-Bikes',
                     labelId: 'map-layer-sharing-cargo_bicycle',
                     icon: 'icon-icon_rental_cargo_bicycle',
+                    key: 'cargo_bicycle',
                     settings: { rental: 'cargo_bicycle' },
                   },
                 this.context.config?.cityBike?.showCityBikes &&
@@ -439,6 +472,7 @@ class MapLayersDialogContent extends React.Component {
                     defaultMessage: 'Rental Cars',
                     labelId: 'map-layer-sharing-car',
                     icon: 'icon-icon_rental_car',
+                    key: 'car',
                     settings: { rental: 'car' },
                   },
                 isTransportModeEnabled(transportModes.carpool) && {
@@ -446,9 +480,12 @@ class MapLayersDialogContent extends React.Component {
                   defaultMessage: 'Carpool stops',
                   labelId: 'map-layer-carpool',
                   icon: 'icon-icon_carpool_stops',
+                  key: 'carpool',
                   settings: { stop: 'carpool', terminal: 'carpool' },
                 },
-              ].concat(getPoiLayers(sharingServicesLayer))}
+              ]
+                .concat(getPoiLayers(sharingServicesLayer))
+                .sort(sortLayersByKey)}
             />
             <LayerCategoryDropdown
               icon="icon-icon_leisure_tourism"
@@ -457,8 +494,7 @@ class MapLayersDialogContent extends React.Component {
                 defaultMessage: 'Leisure & Tourism',
               })}
               onChange={this.updateSetting}
-              options={[]
-                .concat(getPoiLayers(leisureAndTourismLayer))
+              options={getPoiLayers(leisureAndTourismLayer)
                 .concat(
                   this.layerOptionsByCategory(
                     'leisure_and_tourism',
@@ -466,7 +502,8 @@ class MapLayersDialogContent extends React.Component {
                     geoJson,
                     this.props.lang,
                   ),
-                )}
+                )
+                .sort(sortLayersByKey)}
             />
             <LayerCategoryDropdown
               icon="icon-icon_shopping_services"
@@ -475,7 +512,9 @@ class MapLayersDialogContent extends React.Component {
                 defaultMessage: 'Shopping & Services',
               })}
               onChange={this.updateSetting}
-              options={getPoiLayers(shoppingAndServicesLayer)}
+              options={getPoiLayers(shoppingAndServicesLayer).sort(
+                sortLayersByKey,
+              )}
             />
             <LayerCategoryDropdown
               icon="icon-icon_public_facilities"
@@ -484,7 +523,9 @@ class MapLayersDialogContent extends React.Component {
                 defaultMessage: 'Public Facilities',
               })}
               onChange={this.updateSetting}
-              options={getPoiLayers(publicFacilitiesLayer)}
+              options={getPoiLayers(publicFacilitiesLayer).sort(
+                sortLayersByKey,
+              )}
             />
             <LayerCategoryDropdown
               icon="icon-icon_health_social_services"
@@ -493,14 +534,16 @@ class MapLayersDialogContent extends React.Component {
                 defaultMessage: 'Health & Social Services',
               })}
               onChange={this.updateSetting}
-              options={getPoiLayers(healthAndSocialServicesLayer).concat(
-                this.layerOptionsByCategory(
-                  'health_and_social_services',
-                  config.geoJson?.layers,
-                  geoJson,
-                  this.props.lang,
-                ),
-              )}
+              options={getPoiLayers(healthAndSocialServicesLayer)
+                .concat(
+                  this.layerOptionsByCategory(
+                    'health_and_social_services',
+                    config.geoJson?.layers,
+                    geoJson,
+                    this.props.lang,
+                  ),
+                )
+                .sort(sortLayersByKey)}
             />
           </div>
 
