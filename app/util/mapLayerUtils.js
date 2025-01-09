@@ -72,6 +72,9 @@ export const isFeatureLayerEnabled = (
   if (!feature || !layerName || !mapLayers) {
     return false;
   }
+  if (layerName === 'publicPois') {
+    return true;
+  }
   if (!Object.keys(mapLayers).includes(layerName)) {
     return false;
   }
