@@ -42,7 +42,6 @@ const MobileItineraryWrapper = (props, context) => {
           params={context.match.params}
           focusToPoint={props.focusToPoint}
           focusToLeg={props.focusToLeg}
-          focusToStep={props.focusToStep}
           isMobile
           toggleCarpoolDrawer={props.toggleCarpoolDrawer}
         />
@@ -67,7 +66,6 @@ const MobileItineraryWrapper = (props, context) => {
 MobileItineraryWrapper.propTypes = {
   focusToPoint: PropTypes.func.isRequired,
   focusToLeg: PropTypes.func,
-  focusToStep: PropTypes.func,
   children: PropTypes.arrayOf(PropTypes.node.isRequired).isRequired,
   params: PropTypes.shape({
     from: PropTypes.string.isRequired,
