@@ -79,7 +79,6 @@ class ItineraryDetails extends React.Component {
     itinerary: ItineraryShape.isRequired,
     focusToPoint: PropTypes.func.isRequired,
     focusToLeg: PropTypes.func.isRequired,
-    focusToStep: PropTypes.func.isRequired,
     isMobile: PropTypes.bool.isRequired,
     currentTime: PropTypes.number.isRequired,
     hideTitle: PropTypes.bool,
@@ -105,9 +104,9 @@ class ItineraryDetails extends React.Component {
     fetchedFares: false,
   };
 
-  handleFocus(lat, lon) {
+  handleFocus = (lat, lon) => {
     this.props.focusToPoint(lat, lon);
-  }
+  };
 
   shouldShowDisclaimer(config) {
     return (
@@ -357,7 +356,6 @@ class ItineraryDetails extends React.Component {
                   itinerary={itinerary}
                   focusToPoint={this.handleFocus}
                   focusToLeg={this.props.focusToLeg}
-                  focusToStep={this.props.focusToStep}
                   toggleCarpoolDrawer={this.props.toggleCarpoolDrawer}
                 />
                 {config.showCO2InItinerarySummary && (
