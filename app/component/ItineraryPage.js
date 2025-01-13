@@ -313,6 +313,11 @@ class ItineraryPage extends React.Component {
           ]),
         };
 
+        const parkRidePlan = {
+          ...result.parkRidePlan,
+          itineraries: transitItineraries(result.parkRidePlan.itineraries),
+        };
+
         this.setState(
           {
             loadingAlt: false,
@@ -324,7 +329,7 @@ class ItineraryPage extends React.Component {
             scooterRentAndPublicPlan: result.scooterRentAndPublicPlan,
             carPlan: result.carPlan,
             carRentalPlan: result.carRentalPlan,
-            parkRidePlan: result.parkRidePlan,
+            parkRidePlan,
             onDemandTaxiPlan: result.onDemandTaxiPlan,
           },
           () => {
