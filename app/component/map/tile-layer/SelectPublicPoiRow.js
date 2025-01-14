@@ -8,31 +8,18 @@ import Icon from '../../Icon';
 export default function SelectPublicPoi(props, { config, intl }) {
   const { properties, latitude, longitude } = props;
 
-  const { category3: code, name, address, website, phone } = properties;
+  const { category3: code, name, osm_id: osmId } = properties;
 
   const layer = getLayerByCode(code, config);
 
   const svg = layer?.properties?.icon?.svg;
 
-  const detailsProperties = { ...properties };
-
-  // Filter out properties that are not in the layer's attributes
-  Object.keys(detailsProperties).forEach(key => {
-    if (!layer?.properties?.attributes?.includes(key)) {
-      delete detailsProperties[key];
-    }
-  });
-
   const params = pickBy(
     {
-      ...detailsProperties,
       lat: latitude,
       lng: longitude,
-      code,
       name: name || layer.translations[intl.locale],
-      address,
-      website,
-      phone,
+      osmId,
     },
     value => value !== undefined,
   );
