@@ -153,7 +153,7 @@ export default configMerger(parentConfig, {
                     nl: 'Buwplaats',
                 },
                 url: 'https://data.mfdz.de/aachen/baustellen/roadworks.geojson',
-                category: 'other',
+                category: 'bicycle_car',
                 icon: 'icon-icon_roadworks',
             },
             {
@@ -165,7 +165,7 @@ export default configMerger(parentConfig, {
                     nl: 'Bezienswaardigheden',
                 },
                 url: 'https://kim.regioit.de/GIS/STAC/stadtnavi/poi_2.json',
-                category: 'other',
+                category: 'leisure_and_tourism',
                 icon: 'icon-icon_poi-marker',
             },
             {
@@ -177,7 +177,7 @@ export default configMerger(parentConfig, {
                     nl: 'Smart Shopping',
                 },
                 url: 'https://kim.regioit.de/GIS/STAC/stadtnavi/poi_smart_shopping.json',
-                category: 'other',
+                category: 'shopping_and_services',
                 icon: 'icon-icon_aac_smart-shopping-marker',
             },
             {
@@ -189,7 +189,7 @@ export default configMerger(parentConfig, {
                     nl: 'Winkelstraten',
                 },
                 url: 'https://kim.regioit.de/GIS/STAC/stadtnavi/einkaufsstrasse.json',
-                category: 'other',
+                category: 'shopping_and_services',
                 icon: 'icon-icon_aac_shopping-streets-marker',
             },
         ],
