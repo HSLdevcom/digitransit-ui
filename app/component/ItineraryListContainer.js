@@ -119,6 +119,7 @@ class ItineraryListContainer extends React.Component {
       'onDemandTaxi',
       'car',
       'scooter',
+      'bike',
     ];
     const { hash } = this.props.params;
     if (modesWithSubpath.includes(hash)) {

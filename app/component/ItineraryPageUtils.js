@@ -77,7 +77,8 @@ export function showDetailView(hash, secondHash, itineraries) {
   if (
     hash === streetHash.bikeAndVehicle ||
     hash === streetHash.parkAndRide ||
-    hash === streetHash.scooter
+    hash === streetHash.scooter ||
+    hash === streetHash.bike
   ) {
     // note that '0' < 1 in javascript, because strings are converted to numbers
     return secondHash < itineraries.length;

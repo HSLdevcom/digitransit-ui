@@ -279,7 +279,7 @@ class ItineraryPage extends React.Component {
           transitItineraries(result.bikeAndPublicPlan?.itineraries),
           ['BICYCLE'],
         );
-        const bikeRentAndPublicPlan = filterItineraries(
+        const bikeRentAndPublicItineraries = filterItineraries(
           transitItineraries(result.bikeRentAndPublicPlan?.itineraries),
           ['BICYCLE'],
         );
@@ -288,9 +288,10 @@ class ItineraryPage extends React.Component {
           itineraries: [
             ...bikeParkItineraries.slice(0, 3),
             ...bikePublicItineraries.slice(0, 3),
-            ...bikeRentAndPublicPlan.slice(0, 3),
+            ...bikeRentAndPublicItineraries.slice(0, 3),
           ],
         };
+
         this.bikeAndParkItineraryCount = Math.min(
           bikeParkItineraries.length,
           3,
@@ -302,15 +303,19 @@ class ItineraryPage extends React.Component {
         );
 
         this.bikeRentAndPublicItineraryCount = Math.min(
-          bikeRentAndPublicPlan.length,
+          bikeRentAndPublicItineraries.length,
           3,
         );
 
         const bikePlan = {
-          ...result.bikePlan,
-          itineraries: filterItineraries(result.bikePlan?.itineraries, [
-            'BICYCLE',
-          ]),
+          itineraries: filterItineraries(
+            [
+              ...(result.bikePlan?.itineraries || []),
+              ...(result.bikeRentAndPublicPlan?.itineraries || []),
+              ...(result.bikeParkPlan?.itineraries || []),
+            ],
+            ['BICYCLE'],
+          ).filter(itinerary => itinerary.legs.every(l => !l.transitLeg)),
         };
 
         const parkRidePlan = {
@@ -324,8 +329,12 @@ class ItineraryPage extends React.Component {
             walkPlan: result.walkPlan,
             bikePlan,
             bikeTransitPlan,
-            bikeRentAndPublicPlan: result.bikeRentAndPublicPlan,
-            bikeParkPlan: result.bikeParkPlan,
+            bikeRentAndPublicPlan: {
+              itineraries: bikeRentAndPublicItineraries,
+            },
+            bikeParkPlan: {
+              itineraries: bikeParkItineraries,
+            },
             scooterRentAndPublicPlan: result.scooterRentAndPublicPlan,
             carPlan: result.carPlan,
             carRentalPlan: result.carRentalPlan,
