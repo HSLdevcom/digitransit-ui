@@ -51,7 +51,7 @@ function ItineraryList(
     separatorPosition,
     loadingMoreItineraries,
     driving,
-    onlyHasWalkingItineraries,
+    hasNoTransitItineraries,
     routingErrors,
   },
   context,
@@ -85,7 +85,7 @@ function ItineraryList(
         intermediatePlaces={intermediatePlaces}
         isCancelled={itineraryHasCancelation(itinerary)}
         showCancelled={showCancelled}
-        hideBorder={onlyHasWalkingItineraries}
+        hideBorder={hasNoTransitItineraries}
         zones={
           config.zones.stops && itinerary.legs ? getZones(itinerary.legs) : []
         }
@@ -199,7 +199,7 @@ function ItineraryList(
             />
           )}
         </div>
-        {onlyHasWalkingItineraries && !showAlternativePlan && (
+        {hasNoTransitItineraries && !showAlternativePlan && (
           <div className="summary-no-route-found" style={{ marginTop: 0 }}>
             <div
               className={cx('flex-horizontal', 'summary-notification', 'info')}
@@ -316,7 +316,7 @@ ItineraryList.propTypes = {
   showAlternativePlan: PropTypes.bool,
   separatorPosition: PropTypes.number,
   loadingMoreItineraries: PropTypes.string,
-  onlyHasWalkingItineraries: PropTypes.bool,
+  hasNoTransitItineraries: PropTypes.bool,
 };
 
 ItineraryList.defaultProps = {
@@ -330,6 +330,7 @@ ItineraryList.defaultProps = {
   separatorPosition: undefined,
   loadingMoreItineraries: undefined,
   routingErrors: [],
+  hasNoTransitItineraries: false,
 };
 
 ItineraryList.contextTypes = {

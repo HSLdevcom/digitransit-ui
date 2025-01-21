@@ -381,6 +381,18 @@ class ItineraryPage extends React.Component {
     });
   }
 
+  setModeToMultiModalIfSelected(tunedParams) {
+    switch (this.props.match.params.hash) {
+      case streetHash.parkAndRide:
+        return {
+          ...tunedParams,
+          modes: [{ mode: 'CAR', qualifier: 'PARK' }, { mode: 'TRANSIT' }],
+        };
+      default:
+        return tunedParams;
+    }
+  }
+
   onLater = (itineraries, reversed) => {
     addAnalyticsEvent({
       event: 'sendMatomoEvent',
@@ -418,7 +430,7 @@ class ItineraryPage extends React.Component {
       useRelaxedRoutingPreferences,
     )(this.props.match.params, this.props.match);
 
-    const tunedParams = {
+    let tunedParams = {
       wheelchair: null,
       ...params,
       numItineraries: 5,
@@ -431,6 +443,8 @@ class ItineraryPage extends React.Component {
       loadingMore: reversed ? spinnerPosition.top : spinnerPosition.bottom,
     });
     this.showScreenreaderLoadingAlert();
+
+    tunedParams = this.setModeToMultiModalIfSelected(tunedParams);
 
     fetchQuery(
       this.props.relayEnvironment,
@@ -510,7 +524,7 @@ class ItineraryPage extends React.Component {
       useRelaxedRoutingPreferences,
     )(this.props.match.params, this.props.match);
 
-    const tunedParams = {
+    let tunedParams = {
       wheelchair: null,
       ...params,
       numItineraries: 5,
@@ -522,6 +536,8 @@ class ItineraryPage extends React.Component {
       loadingMore: reversed ? spinnerPosition.bottom : spinnerPosition.top,
     });
     this.showScreenreaderLoadingAlert();
+
+    tunedParams = this.setModeToMultiModalIfSelected(tunedParams);
 
     fetchQuery(
       this.props.relayEnvironment,
@@ -667,6 +683,8 @@ class ItineraryPage extends React.Component {
       this.setState({
         center: undefined,
         bounds: undefined,
+        earlierItineraries: [],
+        laterItineraries: [],
       });
     }
 
@@ -1171,11 +1189,9 @@ class ItineraryPage extends React.Component {
     // Remove old itineraries if new query cannot find a route
     if (error) {
       combinedItineraries = [];
-    } else if (streetHashes.includes(hash)) {
-      combinedItineraries = this.selectedPlan?.itineraries || [];
     } else {
       combinedItineraries = this.getCombinedItineraries();
-      if (!hasNoTransitItineraries) {
+      if (!streetHashes.includes(hash) && !hasNoTransitItineraries) {
         // don't show plain walking in transit itinerary list
         combinedItineraries = transitItineraries(combinedItineraries);
       }
@@ -1316,9 +1332,11 @@ class ItineraryPage extends React.Component {
       onEarlier: this.onEarlier,
       onDetailsTabFocused: this.onDetailsTabFocused,
       loading,
-      loadingMore: state.loadingMore, // spinner pos while loading earlier/later
+      loadingMoreItineraries: state.loadingMore, // spinner pos while loading earlier/later
       settingsNotification,
       routingFeedbackPosition: state.routingFeedbackPosition,
+      hasNoTransitItineraries:
+        transitItineraries(combinedItineraries).length === 0,
     };
 
     const streetModeSelectorProps = {
