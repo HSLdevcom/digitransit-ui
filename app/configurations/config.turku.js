@@ -251,14 +251,14 @@ export default configMerger(walttiConfig, {
           {
             type: 'text',
             content:
-              'Runkolinjasto alkaa 1.7.2025. Voit tarkistaa 1.7. alkavien linjojen ja reittien tiedot.',
+              'The trunk line network starts on 1 July 2025. Here you can look at how the new lines and routes will look like starting 1 July.',
           },
         ],
         sv: [
           {
             type: 'text',
             content:
-              'Runkolinjasto alkaa 1.7.2025. Voit tarkistaa 1.7. alkavien linjojen ja reittien tiedot.',
+              'Stomlinjenätet börjar 1.7.2025. Du kan här titta på de nya linjerna och rutterna som träder i kraft 1.7.',
           },
         ],
       },
