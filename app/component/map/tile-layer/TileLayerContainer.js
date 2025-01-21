@@ -257,33 +257,21 @@ class TileLayerContainer extends GridLayer {
           return layer === 'publicPois';
         })
       ) {
-        const { lat, lon: lng } = selectableTargets[0].coords;
+        const { coords: coordinates, feature } = selectableTargets[0];
 
-        const { properties } = selectableTargets[0].feature;
+        const { lat, lon: lng } = coordinates;
+        const { properties } = feature;
 
-        const { category3: code, name, address, website, phone } = properties;
+        const { category3: code, name, osm_id: osmId } = properties;
 
         const layer = getLayerByCode(code, config);
 
-        const detailsProperties = { ...properties };
-
-        // Filter out properties that are not in the layer's attributes
-        Object.keys(detailsProperties).forEach(key => {
-          if (!layer?.properties?.attributes?.includes(key)) {
-            delete detailsProperties[key];
-          }
-        });
-
         const params = pickBy(
           {
-            ...detailsProperties,
             lat,
             lng,
-            code,
             name: name || layer.translations[intl.locale],
-            address,
-            website,
-            phone,
+            osmId,
           },
           value => value !== undefined,
         );

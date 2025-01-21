@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { intlShape, FormattedMessage } from 'react-intl';
 import SidebarContainer from './SidebarContainer';
 import Icon from '../../Icon';
@@ -7,10 +7,31 @@ import OSMOpeningHours from '../popups/OSMOpeningHours';
 import { getLayerByCode } from '../../../util/mapLayerUtils';
 
 const PublicPoiContent = ({ match }, { intl, config }) => {
+  const { osmId, lat, lng } = match.location.query;
+
+  const [code] = match.location.pathname.split('/').reverse();
+
+  const layer = getLayerByCode(code, config);
+
+  const [featureProperties, setFeatureProperties] = useState(null);
+
+  useEffect(() => {
+    fetch(
+      `${config.featuresUrl}/collections/public.pois/items.json?osm_id=${osmId}&category3=${code}`,
+    )
+      .then(response => response.json())
+      .then(({ features }) => {
+        if (features.length) {
+          setFeatureProperties(features[0].properties);
+        }
+      });
+  }, [osmId, code]);
+
+  if (!layer || !featureProperties) {
+    return null;
+  }
+
   const {
-    lat,
-    lng: lon,
-    code,
     name,
     address,
     opening_hours: openingHours,
@@ -22,13 +43,10 @@ const PublicPoiContent = ({ match }, { intl, config }) => {
     internet_access: internetAccess,
     operator,
     brand,
-  } = match.location.query;
+  } = featureProperties;
 
-  const layer = getLayerByCode(code, config);
-
-  if (!layer) {
-    return null;
-  }
+  const latitude = Number(lat);
+  const longitude = Number(lng);
 
   const accessibilityMessage =
     wheelchair === 'yes'
@@ -77,7 +95,7 @@ const PublicPoiContent = ({ match }, { intl, config }) => {
       name={layer.translations[intl.locale] || layer.translations.en}
       description={name}
       dataURI={svg ? `data:image/svg+xml;base64,${btoa(svg)}` : undefined}
-      location={{ lat, lon, address, name }}
+      location={{ lat: latitude, lon: longitude, address: address || name }}
     >
       <div className="content">
         {(address || phone || website) && <div className="divider" />}

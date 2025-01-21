@@ -7,6 +7,7 @@ const CONFIG = 'herrenberg';
 const APP_TITLE = 'stadtnavi Herrenberg';
 const APP_DESCRIPTION = 'Gemeinsam Mobilität neu denken - die intermodale Verbindungssuche mit offenen, lokalen Daten';
 const API_URL = process.env.API_URL || 'https://api.stadtnavi.de';
+const FEATURES_URL = 'https://featuredetails.stadtnavi.eu'
 const YEAR = 1900 + new Date().getYear();
 const STATIC_MESSAGE_URL =
     process.env.STATIC_MESSAGE_URL ||
@@ -453,6 +454,8 @@ export default configMerger(parentConfig, {
     layers,
 
     staticMessagesUrl: STATIC_MESSAGE_URL,
+
+    featuresUrl: FEATURES_URL,
     
     parkAndRideBannedVehicleParkingTags: [
         'lot_type:Parkplatz',
