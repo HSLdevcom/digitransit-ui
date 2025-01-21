@@ -454,8 +454,6 @@ export const preparePlanParams = (config, useDefaultModes) => (
       // - include itineraries with rented `BICYCLE` legs
       // - include itineraries without any `BICYCLE` legs whatsoever
       { mode: 'BICYCLE', qualifier: 'RENT' },
-      // TODO: OTP seems to require FLEX DIRECT to return bike rental & transit results, to be checked
-      { mode: 'FLEX', qualifier: 'DIRECT' },
       ...modesAsOTPModes(getBicycleCompatibleModes(config, modesOrDefault)),
     ],
     bannedBicycleParkingTags,
