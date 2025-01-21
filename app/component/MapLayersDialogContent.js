@@ -512,9 +512,16 @@ class MapLayersDialogContent extends React.Component {
                 defaultMessage: 'Shopping & Services',
               })}
               onChange={this.updateSetting}
-              options={getPoiLayers(shoppingAndServicesLayer).sort(
-                sortLayersByKey,
-              )}
+              options={getPoiLayers(shoppingAndServicesLayer)
+                .concat(
+                  this.layerOptionsByCategory(
+                    'shopping_and_services',
+                    config.geoJson?.layers,
+                    geoJson,
+                    this.props.lang,
+                  ),
+                )
+                .sort(sortLayersByKey)}
             />
             <LayerCategoryDropdown
               icon="icon-icon_public_facilities"
@@ -523,9 +530,16 @@ class MapLayersDialogContent extends React.Component {
                 defaultMessage: 'Public Facilities',
               })}
               onChange={this.updateSetting}
-              options={getPoiLayers(publicFacilitiesLayer).sort(
-                sortLayersByKey,
-              )}
+              options={getPoiLayers(publicFacilitiesLayer)
+                .concat(
+                  this.layerOptionsByCategory(
+                    'public_facilities',
+                    config.geoJson?.layers,
+                    geoJson,
+                    this.props.lang,
+                  ),
+                )
+                .sort(sortLayersByKey)}
             />
             <LayerCategoryDropdown
               icon="icon-icon_health_social_services"

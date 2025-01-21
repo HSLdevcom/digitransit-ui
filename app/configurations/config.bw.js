@@ -559,6 +559,7 @@ export default configMerger(walttiConfig, {
           en: 'Service stations and stores',
           de: 'Service Stationen und Läden',
         },
+        category: 'bicycle_car',
         url: '/assets/geojson/hb-layers/bicycleinfrastructure.geojson',
       },
       /* Charging stations
@@ -578,6 +579,7 @@ export default configMerger(walttiConfig, {
           de: 'LoRaWAN Gateways',
         },
         url: '/assets/geojson/hb-layers/lorawan-gateways.geojson',
+        category: 'leisure_and_tourism',
         isOffByDefault: true,
       },
       // Nette Toilette layer
@@ -588,6 +590,7 @@ export default configMerger(walttiConfig, {
           de: 'Nette Toilette',
         },
         url: '/assets/geojson/hb-layers/toilet.geojson',
+        category: 'leisure_and_tourism',
         isOffByDefault: true,
       },
     ],
