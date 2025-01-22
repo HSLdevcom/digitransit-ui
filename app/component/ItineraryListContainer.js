@@ -62,7 +62,7 @@ class ItineraryListContainer extends React.Component {
     settingsNotification: PropTypes.func,
     loadingMoreItineraries: PropTypes.string,
     driving: PropTypes.bool,
-    onlyHasWalkingItineraries: PropTypes.bool,
+    hasNoTransitItineraries: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -78,7 +78,7 @@ class ItineraryListContainer extends React.Component {
     routingErrors: [],
     separatorPosition: undefined,
     settingsNotification: false,
-    onlyHasWalkingItineraries: false,
+    hasNoTransitItineraries: false,
   };
 
   static contextTypes = {
@@ -252,9 +252,10 @@ class ItineraryListContainer extends React.Component {
       separatorPosition,
       loadingMoreItineraries,
       driving,
-      onlyHasWalkingItineraries,
+      hasNoTransitItineraries,
       settingsNotification,
     } = this.props;
+
     const searchTime =
       this.props.plan?.date ||
       (location.query &&
@@ -274,7 +275,7 @@ class ItineraryListContainer extends React.Component {
         {(this.context.match.params.hash &&
           this.context.match.params.hash === 'bikeAndVehicle') ||
         disableButtons ||
-        onlyHasWalkingItineraries
+        hasNoTransitItineraries
           ? null
           : arriveBy
           ? this.laterButton(true)
@@ -302,7 +303,7 @@ class ItineraryListContainer extends React.Component {
           separatorPosition={separatorPosition}
           loadingMoreItineraries={loadingMoreItineraries}
           driving={driving}
-          onlyHasWalkingItineraries={onlyHasWalkingItineraries}
+          hasNoTransitItineraries={hasNoTransitItineraries}
         >
           {this.props.children}
         </ItineraryList>
@@ -310,7 +311,7 @@ class ItineraryListContainer extends React.Component {
         {(this.context.match.params.hash &&
           this.context.match.params.hash === 'bikeAndVehicle') ||
         disableButtons ||
-        onlyHasWalkingItineraries
+        hasNoTransitItineraries
           ? null
           : arriveBy
           ? this.earlierButton(true)
