@@ -68,14 +68,18 @@ export function getDefaultSettings(config) {
  */
 export function getNumberOfCustomizedSettings(config) {
   const defaultSettings = getDefaultSettings(config);
-  const userSettings = getCustomizedSettings();
+  const customizedSettings = getCustomizedSettings();
+  if (customizedSettings.keys === undefined) {
+    return 0;
+  }
   return Object.keys(defaultSettings).reduce((count, key) => {
     if (Array.isArray(defaultSettings[key])) {
       return (
-        count + Math.abs(userSettings[key].length - defaultSettings[key].length)
+        count +
+        Math.abs(customizedSettings[key].length - defaultSettings[key].length)
       );
     }
-    if (userSettings[key] !== defaultSettings[key]) {
+    if (customizedSettings[key] !== defaultSettings[key]) {
       return count + 1;
     }
     return count;
