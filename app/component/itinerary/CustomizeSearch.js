@@ -13,6 +13,7 @@ import AccessibilityOptionSection from './customizesearch/AccessibilityOptionSec
 import TransferOptionsSection from './customizesearch/TransferOptionsSection';
 import RentalNetworkSelector from './customizesearch/RentalNetworkSelector';
 import ScooterNetworkSelector from './customizesearch/ScooterNetworkSelector';
+import RestoreDefaultSettingSection from './customizesearch/RestoreDefaultSettingSection';
 import { getReadMessageIds, setReadMessageIds } from '../../store/localStorage';
 import { isKeyboardSelectionEvent } from '../../util/browser';
 import {
@@ -265,6 +266,7 @@ class CustomizeSearch extends React.Component {
               </div>
             </div>
           )}
+          <RestoreDefaultSettingSection config={config} />
         </ScrollableWrapper>
       </form>
     );

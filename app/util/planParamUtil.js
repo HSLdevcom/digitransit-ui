@@ -63,6 +63,26 @@ export function getDefaultSettings(config) {
 }
 
 /**
+ * The number of settings that differ from the default settings.
+ * @param {*} config the configuration for the software installation
+ */
+export function getNumberOfCustomizedSettings(config) {
+  const defaultSettings = getDefaultSettings(config);
+  const userSettings = getCustomizedSettings();
+  return Object.keys(defaultSettings).reduce((count, key) => {
+    if (Array.isArray(defaultSettings[key])) {
+      return (
+        count + Math.abs(userSettings[key].length - defaultSettings[key].length)
+      );
+    }
+    if (userSettings[key] !== defaultSettings[key]) {
+      return count + 1;
+    }
+    return count;
+  }, 0);
+}
+
+/**
  * Retrieves the current (customized) settings kept in local store
  * Missing setting gets a default value
  * @param {*} config the configuration for the software installation
