@@ -22,6 +22,7 @@ const GEOCODING_BASE_URL =
 const YEAR = 1900 + new Date().getYear();
 const STATIC_MESSAGE_URL = process.env.STATIC_MESSAGE_URL;
 const MOBIDATA_BASE_URL = 'https://api.mobidata-bw.de/';
+const STADTNAVI_SERVICES_BASE_URL = 'https://services.stadtnavi.eu';
 
 const parentConfig = require('./config.waltti.js').default;
 
@@ -36,7 +37,7 @@ export default configMerger(parentConfig, {
     OTP: process.env.OTP_URL || `${API_URL}/routing/v1/router/`,
     MAP: {
       default: MAP_URL,
-      satellite: 'https://tiles-eu.stadtnavi.eu/orthophoto/{z}/{x}/{y}.jpg',
+      satellite: `${STADTNAVI_SERVICES_BASE_URL}/tiles/orthophoto/{z}/{x}/{y}.jpg`,
       semiTransparent: SEMI_TRANSPARENT_MAP_URL,
       bicycle: BIKE_MAP_URL,
     },
@@ -47,8 +48,8 @@ export default configMerger(parentConfig, {
     RENTAL_VEHICLE_MAP: `${API_URL}/routing/v1/router/vectorTiles/rentalVehicles/`,
     REALTIME_RENTAL_STATION_MAP: `${API_URL}/routing/v1/router/vectorTiles/realtimeRentalStations/`,
     WEATHER_STATIONS_MAP: `${API_URL}/map/v1/weather-stations/`,
-    CHARGING_STATIONS_MAP: `${API_URL}/tiles/charging-stations/{z}/{x}/{y}.mvt`,
-    CHARGING_STATION_DETAILS_API: 'https://api.ocpdb.de/api/ocpi/2.2/location/',
+    CHARGING_STATIONS_MAP: `${STADTNAVI_SERVICES_BASE_URL}/tiles/charging-stations/{z}/{x}/{y}.mvt`,
+    CHARGING_STATION_DETAILS_API: `${STADTNAVI_SERVICES_BASE_URL}/ocpi/2.2/location/`,
     PUBLIC_POIS_MAP:
       'https://features.stadtnavi.eu/public.pois/{z}/{x}/{y}.pbf',
 
