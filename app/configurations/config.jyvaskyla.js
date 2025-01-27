@@ -163,7 +163,7 @@ export default configMerger(walttiConfig, {
   showTicketInformation: true,
   useTicketIcons: true,
   ticketLink: 'https://linkki.jyvaskyla.fi/liput-ja-hinnat',
-  // showTicketPrice: true,
+  showTicketPrice: true,
 
   ticketLinkOperatorCode: 50209,
 
