@@ -69,11 +69,11 @@ export function getDefaultSettings(config) {
 export function getNumberOfCustomizedSettings(config) {
   const defaultSettings = getDefaultSettings(config);
   const customizedSettings = getCustomizedSettings();
-  if (customizedSettings.keys === undefined) {
+  if (Object.keys(customizedSettings).length === 0) {
     return 0;
   }
-  return Object.keys(defaultSettings).reduce((count, key) => {
-    if (Array.isArray(defaultSettings[key])) {
+  return Object.keys(customizedSettings).reduce((count, key) => {
+    if (Array.isArray(customizedSettings[key])) {
       return (
         count +
         Math.abs(customizedSettings[key].length - defaultSettings[key].length)

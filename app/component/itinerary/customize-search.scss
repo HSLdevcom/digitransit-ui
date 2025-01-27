@@ -188,14 +188,12 @@
     }
   }
 
-  .restore-settings-button {
-    .restore-settings-button-text {
-      color: $link-color;
-      text-decoration: none;
-      font-weight: $font-weight-medium;
-      text-align: center;
-      display: block;
-    }
+  .restore-settings-button-text {
+    color: $link-color;
+    text-decoration: none;
+    font-weight: $font-weight-medium;
+    text-align: center;
+    display: block;
   }
 }
 
