@@ -105,7 +105,10 @@ export const shouldAllowTesting = config => {
  * @param {*} config configuration.
  */
 export const shouldShowFareInfo = config =>
-  (!config.showTicketLinkOnlyWhenTesting || shouldAllowTesting(config)) &&
+  (!config.showTicketLinkOnlyWhenTesting ||
+    window.localStorage
+      .getItem('favouriteStore')
+      ?.includes('Lippulinkkitestaus2025')) &&
   config.showTicketInformation &&
   config.availableTickets &&
   Array.isArray(config.feedIds) &&
