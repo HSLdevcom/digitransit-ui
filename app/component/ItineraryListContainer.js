@@ -95,7 +95,7 @@ class ItineraryListContainer extends React.Component {
     } else {
       this.context.router.replace({
         ...this.context.match.location,
-        state: { summaryPageSelected: index },
+        state: { selectedItineraryIndex: index },
         pathname: `${getItineraryPagePath(
           this.props.params.from,
           this.props.params.to,
@@ -146,7 +146,7 @@ class ItineraryListContainer extends React.Component {
     });
     const newLocation = {
       ...this.context.match.location,
-      state: { summaryPageSelected: index },
+      state: { selectedItineraryIndex: index },
     };
     const basePath = `${getItineraryPagePath(
       this.props.params.from,
