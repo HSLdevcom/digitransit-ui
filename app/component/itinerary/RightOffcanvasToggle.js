@@ -4,6 +4,7 @@ import { intlShape, FormattedMessage } from 'react-intl';
 import { configShape } from '../../util/shapes';
 import Icon from '../Icon';
 import { isKeyboardSelectionEvent } from '../../util/browser';
+import { getNumberOfCustomizedSettings } from '../../util/planParamUtil';
 
 export default function RightOffcanvasToggle(
   { onToggleClick, defaultMessage, translationId },
@@ -13,6 +14,7 @@ export default function RightOffcanvasToggle(
     id: 'settings-label-change',
     defaultMessage: 'Change settings',
   });
+  const numberOfCustomizedSettings = getNumberOfCustomizedSettings(config);
   return (
     <div className="right-offcanvas-toggle">
       <div
@@ -32,6 +34,7 @@ export default function RightOffcanvasToggle(
             <FormattedMessage
               id={translationId}
               defaultMessage={defaultMessage}
+              values={{ numberOfCustomizedSettings }}
             />
           </span>
         </div>
