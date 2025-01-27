@@ -27,17 +27,13 @@ const RestoreDefaultSettingSection = ({ config }, { executeAction }) => {
       onKeyPress={e => isKeyboardSelectionEvent(e) && restoreDefaultSettings()}
       aria-label="label"
       title="label"
-      className="noborder cursor-pointer restore-settings-button"
+      className="noborder cursor-pointer restore-settings-button-text"
     >
-      <div>
-        <span className="restore-settings-button-text">
-          <FormattedMessage
-            id="restore-default-settings"
-            defaultMessage="Restore default settings"
-            values={{ numberOfCustomizedSettings }}
-          />
-        </span>
-      </div>
+      <FormattedMessage
+        id="restore-default-settings"
+        defaultMessage="Restore default settings"
+        values={{ numberOfCustomizedSettings }}
+      />
     </div>
   );
 };
