@@ -8,15 +8,17 @@ import PlatformNumber from '../../PlatformNumber';
 import {
   getZoneLabel,
   getHeadsignFromRouteLongName,
+  legTime,
+  legTimeStr,
 } from '../../../util/legUtils';
 import ZoneIcon from '../../ZoneIcon';
 import { legShape, configShape } from '../../../util/shapes';
-import { getDestinationProperties, LEGTYPE } from './NaviUtils';
+import { getDestinationProperties, LEGTYPE, withRealTime } from './NaviUtils';
 import { getRouteMode } from '../../../util/modeUtils';
-
 import RouteNumberContainer from '../../RouteNumberContainer';
+import NaviBoardingInfo from './NaviBoardingInfo';
 
-const NaviCardExtension = ({ legType, leg, nextLeg }, { config }) => {
+const NaviCardExtension = ({ legType, leg, nextLeg, time }, { config }) => {
   const { stop, name, rentalVehicle, vehicleParking, vehicleRentalStation } =
     leg ? leg.to : nextLeg.from;
   const { code, platformCode, zoneId, vehicleMode } = stop || {};
@@ -73,10 +75,10 @@ const NaviCardExtension = ({ legType, leg, nextLeg }, { config }) => {
       </div>
     );
   }
-  const stopInformation = () => {
+  const stopInformation = (expandIcon = false) => {
     return (
       <div className="extension-walk">
-        <Icon img="navi-expand" className="icon-expand" />
+        {expandIcon && <Icon img="navi-expand" className="icon-expand" />}
         <Icon
           img={destination.iconId}
           height={2}
@@ -125,22 +127,50 @@ const NaviCardExtension = ({ legType, leg, nextLeg }, { config }) => {
             }}
           />
         </div>
-        {stopInformation()}
+        {stopInformation(true)}
       </div>
     );
   }
+  if (legType === LEGTYPE.MOVE && nextLeg?.transitLeg) {
+    const { headsign, route, start } = nextLeg;
+    const hs = headsign || nextLeg.trip?.tripHeadsign;
+    const remainingDuration = Math.max(
+      Math.ceil((legTime(start) - time) / 60000),
+      0,
+    ); // ms to minutes, >= 0
+    const rt = nextLeg.realtimeState === 'UPDATED';
+    const values = {
+      duration: withRealTime(rt, remainingDuration),
+      legTime: withRealTime(rt, legTimeStr(start)),
+    };
+    const routeMode = getRouteMode(route, config);
+    return (
+      <div className={cx('extension', 'no-gap')}>
+        {stopInformation()}
+        <div className="extension-divider" />
+        <NaviBoardingInfo
+          route={route}
+          mode={routeMode}
+          headsign={hs}
+          translationValues={values}
+          withExpandIcon
+        />
+      </div>
+    );
+  }
+
   return (
     <div className="extension">
       <div className="extension-divider" />
-      {stopInformation()}
+      {stopInformation(true)}
     </div>
   );
 };
-
 NaviCardExtension.propTypes = {
   leg: legShape,
   nextLeg: legShape,
   legType: PropTypes.string,
+  time: PropTypes.number.isRequired,
 };
 
 NaviCardExtension.defaultProps = {

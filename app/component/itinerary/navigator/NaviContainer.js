@@ -1,4 +1,4 @@
-import distance from '@digitransit-search-util/digitransit-search-util-distance';
+import connectToStores from 'fluxible-addons-react/connectToStores';
 import { routerShape } from 'found';
 import PropTypes from 'prop-types';
 import React, { useEffect, useRef } from 'react';
@@ -43,13 +43,13 @@ function NaviContainer(
   const {
     realTimeLegs,
     time,
-    origin,
+    tailLength,
     firstLeg,
     lastLeg,
     previousLeg,
     currentLeg,
     nextLeg,
-  } = useRealtimeLegs(relayEnvironment, legs);
+  } = useRealtimeLegs(relayEnvironment, legs, position);
 
   useEffect(() => {
     mapRef?.enableMapTracking(); // try always, shows annoying notifier
@@ -79,12 +79,11 @@ function NaviContainer(
   }
 
   const arrivalTime = legTime(lastLeg.end);
-
   const isDestinationReached =
-    position && distance(position, lastLeg.to) <= DESTINATION_RADIUS;
-
+    (currentLeg === lastLeg || time > arrivalTime) &&
+    position &&
+    tailLength <= DESTINATION_RADIUS;
   const isPastExpectedArrival = time > arrivalTime + ADDITIONAL_ARRIVAL_TIME;
-
   const isJourneyCompleted = isDestinationReached || isPastExpectedArrival;
 
   if (LEGLOG) {
@@ -100,7 +99,7 @@ function NaviContainer(
         time={time}
         position={position}
         mapLayerRef={mapLayerRef}
-        origin={origin}
+        tailLength={tailLength}
         currentLeg={time > arrivalTime ? previousLeg : currentLeg}
         nextLeg={nextLeg}
         firstLeg={firstLeg}
@@ -146,4 +145,12 @@ NaviContainer.defaultProps = {
   isNavigatorIntroDismissed: false,
 };
 
-export default NaviContainer;
+const connectedComponent = connectToStores(
+  NaviContainer,
+  ['MessageStore'],
+  context => ({
+    messages: context.getStore('MessageStore').getMessages(),
+  }),
+);
+
+export default connectedComponent;

@@ -7,6 +7,7 @@ import { GeodeticToEcef, GeodeticToEnu } from '../../../../util/geo-utils';
 import { legTime } from '../../../../util/legUtils';
 import { epochToIso } from '../../../../util/timeUtils';
 import { legQuery } from '../../queries/LegQuery';
+import { getRemainingTraversal } from '../NaviUtils';
 
 function nextTransitIndex(legs, i) {
   for (let j = i; j < legs.length; j++) {
@@ -147,7 +148,7 @@ function getInitialState(legs) {
   };
 }
 
-const useRealtimeLegs = (relayEnvironment, initialLegs) => {
+const useRealtimeLegs = (relayEnvironment, initialLegs, position) => {
   const [{ origin, time, realTimeLegs }, setTimeAndRealTimeLegs] = useState(
     () => getInitialState(initialLegs),
   );
@@ -237,10 +238,15 @@ const useRealtimeLegs = (relayEnvironment, initialLegs) => {
   const { firstLeg, lastLeg, currentLeg, nextLeg, previousLeg } =
     getLegsOfInterest(realTimeLegs, time);
 
+  const tailLength = currentLeg
+    ? getRemainingTraversal(currentLeg, position, origin, time) *
+      currentLeg.distance
+    : 0;
+
   return {
     realTimeLegs,
     time,
-    origin,
+    tailLength,
     firstLeg,
     lastLeg,
     previousLeg,

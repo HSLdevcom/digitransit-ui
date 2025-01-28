@@ -59,7 +59,7 @@ function NaviCardContainer(
     time,
     legs,
     position,
-    origin,
+    tailLength,
     mapLayerRef,
     currentLeg,
     nextLeg,
@@ -131,7 +131,7 @@ function NaviCardContainer(
         legs,
         time,
         position,
-        origin,
+        tailLength,
         intl,
         messages,
         makeNewItinerarySearch,
@@ -273,7 +273,7 @@ function NaviCardContainer(
           startTime={legTimeStr(firstLeg.start)}
           time={time}
           position={position}
-          origin={origin}
+          tailLength={tailLength}
         />
       </button>
       {activeMessages.length > 0 && (
@@ -296,10 +296,7 @@ NaviCardContainer.propTypes = {
   }),
   mapLayerRef: PropTypes.oneOfType([PropTypes.func, PropTypes.object])
     .isRequired,
-  origin: PropTypes.shape({
-    x: PropTypes.number.isRequired,
-    y: PropTypes.number.isRequired,
-  }).isRequired,
+  tailLength: PropTypes.number.isRequired,
   currentLeg: legShape,
   nextLeg: legShape,
   firstLeg: legShape,

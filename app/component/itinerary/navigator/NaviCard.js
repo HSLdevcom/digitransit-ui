@@ -27,7 +27,16 @@ const iconMap = {
 };
 
 export default function NaviCard(
-  { leg, nextLeg, legType, cardExpanded, startTime, time, position, origin },
+  {
+    leg,
+    nextLeg,
+    legType,
+    cardExpanded,
+    startTime,
+    time,
+    position,
+    tailLength,
+  },
   { config },
 ) {
   let mainCardContent;
@@ -83,7 +92,7 @@ export default function NaviCard(
             legType={legType}
             time={time}
             position={position}
-            origin={origin}
+            tailLength={tailLength}
           />
         </div>
         <div type="button" className="navi-top-card-arrow">
@@ -99,7 +108,12 @@ export default function NaviCard(
     <div className="main-card">
       <div className="content">{mainCardContent}</div>
       {cardExpanded && (
-        <NaviCardExtension legType={legType} leg={leg} nextLeg={nextLeg} />
+        <NaviCardExtension
+          legType={legType}
+          leg={leg}
+          nextLeg={nextLeg}
+          time={time}
+        />
       )}
     </div>
   );
@@ -116,10 +130,7 @@ NaviCard.propTypes = {
     lat: PropTypes.number,
     lon: PropTypes.number,
   }),
-  origin: PropTypes.shape({
-    x: PropTypes.number.isRequired,
-    y: PropTypes.number.isRequired,
-  }).isRequired,
+  tailLength: PropTypes.number.isRequired,
 };
 NaviCard.defaultProps = {
   cardExpanded: false,

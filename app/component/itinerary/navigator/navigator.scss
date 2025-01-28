@@ -39,6 +39,10 @@ $fixed-width-padding: 16px;
   }
 }
 
+.bar {
+  border-radius: $border-radius;
+}
+
 .bold {
   font-weight: $font-weight-medium;
 }
@@ -46,6 +50,7 @@ $fixed-width-padding: 16px;
 .notification-header {
   font-size: $font-size-normal;
   font-weight: $font-weight-medium;
+  text-align: left;
 }
 
 .navi-card-container {
@@ -63,6 +68,73 @@ $fixed-width-padding: 16px;
 
   &.show-card {
     animation: slideDownFromTop 2s ease-out forwards;
+  }
+}
+
+.route-info {
+  display: flex;
+  align-self: flex-start;
+  margin-bottom: var(--space-xcs);
+
+  .route-number {
+    display: flex;
+    flex-direction: row;
+    margin-top: 4px;
+
+    .vcenter-children {
+      .vehicle-number {
+        color: white;
+        margin-top: 5px;
+      }
+
+      display: flex;
+    }
+  }
+
+  .expand {
+    margin-left: var(--space-m);
+    display: flex;
+
+    .icon {
+      margin-right: var(--space-s);
+      margin-top: 5px;
+      width: 16px;
+      height: 16px;
+    }
+  }
+}
+
+.boarding {
+  display: flex;
+  margin-top: 3px;
+  align-items: flex-start;
+  flex-direction: column;
+
+  &.with-icon {
+    margin-left: var(--space-xl);
+
+    .wait-duration {
+      margin-top: var(--space-xs);
+      margin-left: var(--space-l);
+    }
+  }
+
+  .wait-duration {
+    margin-top: var(--space-xs);
+  }
+
+  .icon {
+    margin-top: 2px;
+    height: 25px;
+    width: 25px;
+  }
+
+  .headsign {
+    margin-left: 10px;
+    font-size: $font-size-small;
+    max-width: 85%;
+    text-align: left;
+    align-content: center;
   }
 }
 
@@ -126,52 +198,6 @@ $fixed-width-padding: 16px;
         width: 80%;
         text-align: left;
       }
-
-      .wait-leg {
-        display: flex;
-        margin-top: 3px;
-        flex-direction: column;
-        align-items: flex-start;
-
-        .route-info {
-          display: flex;
-          align-self: flex-start;
-          margin-bottom: var(--space-xcs);
-        }
-
-        .wait-duration {
-          margin-top: var(--space-xs);
-        }
-
-        .bar {
-          border-radius: $border-radius;
-        }
-
-        .route-number {
-          .vcenter-children {
-            .vehicle-number {
-              color: white;
-              margin-top: 5px;
-            }
-
-            display: flex;
-          }
-        }
-
-        .headsign {
-          margin-left: 10px;
-          font-size: $font-size-small;
-          max-width: 85%;
-          text-align: left;
-          align-content: center;
-        }
-
-        .icon {
-          margin-top: 2px;
-          height: 25px;
-          width: 25px;
-        }
-      }
     }
 
     .duration {
@@ -190,6 +216,11 @@ $fixed-width-padding: 16px;
       max-height: 250px;
       margin-bottom: var(--space-s);
       margin-top: var(--space-m);
+
+      &.no-gap {
+        margin-top: 0;
+        margin-bottom: 0;
+      }
 
       .extension-divider {
         height: 1px;
@@ -266,10 +297,35 @@ $fixed-width-padding: 16px;
         margin-left: var(--space-xl);
       }
 
+      .wait-leg {
+        display: flex;
+        margin-top: 3px;
+        flex-direction: column;
+        align-items: flex-start;
+        margin-left: var(--space-m);
+
+        .wait-duration {
+          margin-top: var(--space-xs);
+        }
+
+        .icon {
+          margin-top: 2px;
+          height: 25px;
+          width: 25px;
+        }
+      }
+
       .icon-expand {
         margin-top: 5px;
-        width: var(--space-m);
-        height: var(--space-m);
+        width: 24px;
+        height: 24px;
+      }
+
+      .icon-expand-small {
+        margin-top: 5px;
+        width: 16px;
+        height: 16px;
+        margin-right: var(--space-s);
       }
 
       .destination-icon {

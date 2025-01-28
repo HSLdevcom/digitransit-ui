@@ -1,5 +1,6 @@
 import distance from '@digitransit-search-util/digitransit-search-util-distance';
 import React from 'react';
+import cx from 'classnames';
 import { FormattedMessage } from 'react-intl';
 import { ExtendedRouteTypes } from '../../../constants';
 import { getFaresFromLegs, formatFare } from '../../../util/fareUtils';
@@ -122,7 +123,7 @@ export function getRemainingTraversal(leg, pos, origin, time) {
   return Math.min(Math.max((legTime(leg.end) - time) / duration, 0), 1.0);
 }
 
-function findTransferProblems(legs, time, position, origin) {
+function findTransferProblems(legs, time, position, tailLength) {
   const transfers = [];
 
   for (let i = 1; i < legs.length - 1; i++) {
@@ -182,15 +183,15 @@ function findTransferProblems(legs, time, position, origin) {
             // has transit walk already started ?
             if (time > legTime(leg.start)) {
               // compute how transit is proceeding
-              toGo = getRemainingTraversal(leg, position, origin, time);
+              toGo = tailLength;
               timeLeft = (t2 - time) / 1000;
             } else {
-              toGo = 1.0;
+              toGo = leg.distance;
               timeLeft = duration / 1000; // should we consider also transfer slack here?
             }
             if (toGo > 0) {
               const originalSpeed = leg.distance / leg.duration;
-              const newSpeed = (toGo * leg.distance) / (timeLeft + 0.0001);
+              const newSpeed = toGo / (timeLeft + 0.0001);
               if (newSpeed > 1.5 * originalSpeed) {
                 // too high speed compared to user's routing preference
                 severity = 'ALERT';
@@ -252,7 +253,7 @@ export const getAdditionalMessages = (
   ) {
     // Todo: multiple fares?
     const fares = getFaresFromLegs([nextLeg], config);
-    if (fares?.length) {
+    if (fares?.length && !fares[0].isUnknown) {
       msgs.push({
         severity: 'INFO',
         content: (
@@ -401,7 +402,7 @@ export const getItineraryAlerts = (
   legs,
   time,
   position,
-  origin,
+  tailLength,
   intl,
   messages,
   itinerarySearchCallback,
@@ -475,7 +476,7 @@ export const getItineraryAlerts = (
       }
     });
   } else {
-    const transfers = findTransferProblems(legs, time, position, origin);
+    const transfers = findTransferProblems(legs, time, position, tailLength);
     if (transfers.length) {
       const prob =
         transfers.find(p => p.severity === 'ALERT') ||
@@ -650,3 +651,7 @@ export const LEGTYPE = {
   END: 'END',
   WAIT_IN_VEHICLE: 'WAIT_IN_VEHICLE',
 };
+
+export const withRealTime = (rt, children) => (
+  <span className={cx('bold', { realtime: rt })}>{children}</span>
+);
