@@ -320,7 +320,7 @@ class ItineraryPage extends React.Component {
 
         const parkRidePlan = {
           ...result.parkRidePlan,
-          itineraries: transitItineraries(result.parkRidePlan.itineraries),
+          itineraries: transitItineraries(result.parkRidePlan?.itineraries),
         };
 
         this.setState(
@@ -369,7 +369,7 @@ class ItineraryPage extends React.Component {
     }).then(result => {
       const relaxedPlan = {
         ...result.plan,
-        itineraries: transitItineraries(result.plan.itineraries),
+        itineraries: transitItineraries(result.plan?.itineraries),
       };
       this.setState({
         relaxedPlan,

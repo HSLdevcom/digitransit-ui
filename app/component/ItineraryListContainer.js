@@ -254,6 +254,8 @@ class ItineraryListContainer extends React.Component {
       driving,
       hasNoTransitItineraries,
       settingsNotification,
+      error,
+      routingErrors,
     } = this.props;
 
     const searchTime =
@@ -284,8 +286,8 @@ class ItineraryListContainer extends React.Component {
           activeIndex={activeIndex}
           currentTime={currentTime}
           locationState={locationState}
-          error={this.props.error}
-          routingErrors={this.props.routingErrors}
+          error={error}
+          routingErrors={routingErrors}
           from={otpToLocation(from)}
           intermediatePlaces={getIntermediatePlaces(location.query)}
           itineraries={itineraries}
