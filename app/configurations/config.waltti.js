@@ -276,7 +276,7 @@ export default {
   },
   navigation: false,
 
-  ticketPurchaseLink: function purchaseTicketLink(fare, operatorCode) {
+  ticketPurchaseLink: function purchaseTicketLink(fare, operatorCode, appName) {
     const fareId = fare.fareProducts[0].product.id;
     const ticket = fareId?.substring
       ? fareId.substring(fareId.indexOf(':') + 1)
@@ -286,9 +286,10 @@ export default {
     for (let i = 0; i < ticket.length; i++) {
       zones += `0${ticket.charCodeAt(i) - 64}`; // eslint-disable
     }
-    return `https://waltti.fi/walttiapp/busTicket/?operator=${operatorCode}&ticketType=single&customerGroup=adult&zones=${zones}`;
+    return `https://waltti.fi/${appName}/busTicket/?operator=${operatorCode}&ticketType=single&customerGroup=adult&zones=${zones}`;
   },
   ticketButtonTextId: 'buy-in-app',
+  appName: 'walttiapp',
 
   analyticsScript: function createAnalyticsScript(
     hostname,
