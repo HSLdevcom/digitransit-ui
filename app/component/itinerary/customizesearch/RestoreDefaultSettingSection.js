@@ -8,7 +8,6 @@ import {
   getDefaultSettings,
   getNumberOfCustomizedSettings,
 } from '../../../util/planParamUtil';
-
 import { configShape } from '../../../util/shapes';
 
 const RestoreDefaultSettingSection = ({ config }, { executeAction }) => {
@@ -20,13 +19,11 @@ const RestoreDefaultSettingSection = ({ config }, { executeAction }) => {
   const numberOfCustomizedSettings = getNumberOfCustomizedSettings(config);
 
   return (
-    <div
-      role="button"
+    <button
+      type="button"
       tabIndex="0"
       onClick={restoreDefaultSettings}
       onKeyPress={e => isKeyboardSelectionEvent(e) && restoreDefaultSettings()}
-      aria-label="label"
-      title="label"
       className="noborder cursor-pointer restore-settings-button-text"
     >
       <FormattedMessage
@@ -34,7 +31,7 @@ const RestoreDefaultSettingSection = ({ config }, { executeAction }) => {
         defaultMessage="Restore default settings"
         values={{ numberOfCustomizedSettings }}
       />
-    </div>
+    </button>
   );
 };
 

@@ -275,7 +275,11 @@ class CustomizeSearch extends React.Component {
               </div>
             </div>
           )}
-          <RestoreDefaultSettingSection config={config} />
+          <div className="settings-section background">
+            <div className="settings-option-container">
+              <RestoreDefaultSettingSection config={config} />
+            </div>
+          </div>
         </ScrollableWrapper>
       </form>
     );

@@ -194,6 +194,9 @@
     font-weight: $font-weight-medium;
     text-align: center;
     display: block;
+    width: fit-content;
+    padding: 8px;
+    margin: 0 auto;
   }
 }
 
@@ -212,6 +215,10 @@
 
   &.compact-settings-section {
     padding-bottom: 0;
+  }
+
+  &.background {
+    background: #f4f4f5;
   }
 }
 
