@@ -1,5 +1,5 @@
 # syntax = docker/dockerfile:1.4
-FROM node:20-alpine as builder
+FROM node:20-slim as builder
 
 WORKDIR /opt/digitransit-ui
 
@@ -12,7 +12,7 @@ ENV \
 # install dependencies for npm packages
 RUN \
   # required for sharp, which builds libvips using node-gyp
-  apk add --no-cache python3 make g++ vips-dev
+  apt install python3 make g++ vips-dev
 
 COPY .yarnrc.yml package.json yarn.lock lerna.json ./
 COPY .yarn ./.yarn
@@ -55,7 +55,7 @@ RUN \
 RUN \
   rm -rf static docs .cache
 
-FROM node:20-alpine
+FROM node:20-slim
 LABEL org.opencontainers.image.title="digitransit-ui"
 LABEL org.opencontainers.image.description="open nationwide journey planning platform"
 LABEL org.opencontainers.image.authors="digitransit@hsl.fi"
@@ -104,7 +104,7 @@ ENV \
   ASSET_URL='' \
   STATIC_MESSAGE_URL=''
 
-RUN apk add --no-cache curl
+RUN apt install curl
 HEALTHCHECK \
   --interval=5s --timeout=3s --retries=3 --start-period=5s \
   CMD curl -fsSLI "http://localhost:$PORT/" || exit 1
