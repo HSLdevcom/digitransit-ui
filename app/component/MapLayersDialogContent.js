@@ -197,7 +197,7 @@ class MapLayersDialogContent extends React.Component {
             return null;
           }
 
-          const { svg } = categories
+          const { svg_menu: svgMenu } = categories
             ? categories[0].properties.icon
             : properties.icon;
 
@@ -217,7 +217,9 @@ class MapLayersDialogContent extends React.Component {
               settings: category.code,
             })),
             settings: code,
-            dataURI: svg ? `data:image/svg+xml;base64,${btoa(svg)}` : undefined,
+            dataURI: svgMenu
+              ? `data:image/svg+xml;base64,${btoa(svgMenu)}`
+              : undefined,
           };
         })
         .filter(Boolean);
