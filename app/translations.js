@@ -1497,7 +1497,9 @@ const translations = {
     'rent-scooter-at': 'Rent a kick scooter at {station} station',
     'required-ticket': 'Ticket required for the journey',
     'restore-default-settings':
-      'Restore default settings ({numberOfCustomizedSettings})',
+      'Restore default settings {numberOfCustomizedSettings}',
+    'restore-default-settings-aria-label':
+      'Restore default settings. You have {numberOfCustomizedSettings} customized settings.',
     'return-cycle-to': 'Return the bike:',
     'return-e-scooter-to': 'Leave the scooter in a safe location',
     'return-scooter-to': 'Return the kick scooter to {station} station',
@@ -2788,7 +2790,9 @@ const translations = {
     'rent-scooter-at': 'Vuokraa potkulauta asemalta {station}',
     'required-ticket': 'Reitillä tarvittava lippu',
     'restore-default-settings':
-      'Palauta oletusasetukset ({numberOfCustomizedSettings})',
+      'Palauta oletusasetukset {numberOfCustomizedSettings}',
+    'restore-default-settings-aria-label':
+      'Palauta oletusasetukset. Muutettuja asetuksia on {numberOfCustomizedSettings}.',
     'return-cycle-to': 'Palauta kaupunkipyörä:',
     'return-e-scooter-to': 'Jätä potkulauta turvalliseen paikkaan',
     'return-scooter-to': 'Palauta potkulauta asemalle {station}',
@@ -5732,7 +5736,9 @@ const translations = {
     'rent-scooter-at': 'Hyr en sparkcykel från stationen {station}',
     'required-ticket': 'Biljett som behövs under resan',
     'restore-default-settings':
-      'Återställ standardinställningar ({numberOfCustomizedSettings})',
+      'Återställ standardinställningar {numberOfCustomizedSettings}',
+    'restore-default-settings-aria-label':
+      'Återställ standardinställningar. Du har {numberOfCustomizedSettings} anpassade inställningar.',
     'return-cycle-to': 'Returnera stadscykeln: ',
     'return-e-scooter-to': 'Lämna elsparkcykeln på ett säkert ställe',
     'return-scooter-to': 'Returnera sparkcykeln till stationen {station}',

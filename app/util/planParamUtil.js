@@ -73,7 +73,10 @@ export function getNumberOfCustomizedSettings(config) {
     return 0;
   }
   return Object.keys(customizedSettings).reduce((count, key) => {
-    if (Array.isArray(customizedSettings[key])) {
+    if (
+      Array.isArray(customizedSettings[key]) &&
+      Array.isArray(defaultSettings[key])
+    ) {
       return (
         count +
         Math.abs(customizedSettings[key].length - defaultSettings[key].length)
