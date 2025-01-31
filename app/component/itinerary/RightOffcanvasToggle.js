@@ -34,7 +34,12 @@ export default function RightOffcanvasToggle(
             <FormattedMessage
               id={translationId}
               defaultMessage={defaultMessage}
-              values={{ numberOfCustomizedSettings }}
+              values={{
+                numberOfCustomizedSettings:
+                  numberOfCustomizedSettings > 0
+                    ? ` (${numberOfCustomizedSettings})`
+                    : '',
+              }}
             />
           </span>
         </div>
