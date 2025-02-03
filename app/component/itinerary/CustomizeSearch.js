@@ -87,6 +87,7 @@ class CustomizeSearch extends React.Component {
     ) : (
       <Icon className="close-icon" img="icon-icon_close" />
     );
+    const numberOfCustomizedSettings = getNumberOfCustomizedSettings(config);
     return (
       <form className="customize-search">
         <button
@@ -119,7 +120,9 @@ class CustomizeSearch extends React.Component {
               },
               {
                 numberOfCustomizedSettings:
-                  getNumberOfCustomizedSettings(config),
+                  numberOfCustomizedSettings > 0
+                    ? ` (${numberOfCustomizedSettings})`
+                    : '',
               },
             )}
           </h2>
@@ -275,7 +278,11 @@ class CustomizeSearch extends React.Component {
               </div>
             </div>
           )}
-          <RestoreDefaultSettingSection config={config} />
+          <div className="settings-section background">
+            <div className="settings-option-container">
+              <RestoreDefaultSettingSection config={config} />
+            </div>
+          </div>
         </ScrollableWrapper>
       </form>
     );

@@ -1498,7 +1498,9 @@ const translations = {
     'rent-scooter-at': 'Rent a kick scooter at {station} station',
     'required-ticket': 'Ticket required for the journey',
     'restore-default-settings':
-      'Restore default settings ({numberOfCustomizedSettings})',
+      'Restore default settings {numberOfCustomizedSettings}',
+    'restore-default-settings-aria-label':
+      'Restore default settings. You have {numberOfCustomizedSettings} customized settings.',
     'return-cycle-to': 'Return the bike:',
     'return-e-scooter-to': 'Leave the scooter in a safe location',
     'return-scooter-to': 'Return the kick scooter to {station} station',
@@ -1606,7 +1608,7 @@ const translations = {
       'The journey includes demand responsive transport service. Please check the payment methods and practices on ',
     'set-specific-settings': 'Set more specific settings',
     'set-stop-as-routes': "Set the stop as route's",
-    settings: 'Settings ({numberOfCustomizedSettings})',
+    settings: 'Settings {numberOfCustomizedSettings}',
     'settings-alternative-name-rail': 'Train',
     'settings-change-itinerary-settings': 'Change settings',
     'settings-dropdown-close-label': 'Close options',
@@ -2790,7 +2792,9 @@ const translations = {
     'rent-scooter-at': 'Vuokraa potkulauta asemalta {station}',
     'required-ticket': 'Reitillä tarvittava lippu',
     'restore-default-settings':
-      'Palauta oletusasetukset ({numberOfCustomizedSettings})',
+      'Palauta oletusasetukset {numberOfCustomizedSettings}',
+    'restore-default-settings-aria-label':
+      'Palauta oletusasetukset. Muutettuja asetuksia on {numberOfCustomizedSettings}.',
     'return-cycle-to': 'Palauta kaupunkipyörä:',
     'return-e-scooter-to': 'Jätä potkulauta turvalliseen paikkaan',
     'return-scooter-to': 'Palauta potkulauta asemalle {station}',
@@ -2897,7 +2901,7 @@ const translations = {
       'Matka sisältää kutsuliikennettä. Voit tarkistaa maksutavat ja käytännöt ',
     'set-specific-settings': 'Aseta tarkemmat asetukset',
     'set-stop-as-routes': 'Aseta pysäkki reitin',
-    settings: 'Asetukset ({numberOfCustomizedSettings})',
+    settings: 'Asetukset {numberOfCustomizedSettings}',
     'settings-alternative-name-rail': 'Juna',
     'settings-change-itinerary-settings': 'Muuta asetuksia',
     'settings-dropdown-close-label': 'Sulje vaihtoehdot',
@@ -5735,7 +5739,9 @@ const translations = {
     'rent-scooter-at': 'Hyr en sparkcykel från stationen {station}',
     'required-ticket': 'Biljett som behövs under resan',
     'restore-default-settings':
-      'Återställ standardinställningar ({numberOfCustomizedSettings})',
+      'Återställ standardinställningar {numberOfCustomizedSettings}',
+    'restore-default-settings-aria-label':
+      'Återställ standardinställningar. Du har {numberOfCustomizedSettings} anpassade inställningar.',
     'return-cycle-to': 'Returnera stadscykeln: ',
     'return-e-scooter-to': 'Lämna elsparkcykeln på ett säkert ställe',
     'return-scooter-to': 'Returnera sparkcykeln till stationen {station}',
@@ -5846,7 +5852,7 @@ const translations = {
       'I resan ingår anropsbusstrafiken. Bekanta dig med betalningsmetoder och praxis på ',
     'set-specific-settings': 'Ställa avancerade inställningar',
     'set-stop-as-routes': 'Ställa hållplats som rutter',
-    settings: 'Anpassa ({numberOfCustomizedSettings})',
+    settings: 'Anpassa {numberOfCustomizedSettings}',
     'settings-alternative-name-rail': 'Tåg',
     'settings-change-itinerary-settings': 'Anpassa sökning',
     'settings-dropdown-close-label': 'Stäng alternativen',
