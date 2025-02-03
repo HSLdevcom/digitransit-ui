@@ -49,7 +49,7 @@ export default class WeatherStations {
 
         this.features = [];
 
-        const layerData = vt.layers.weatherstations || { length: 0 };
+        const layerData = vt.layers['public.weather_stations'] || { length: 0 };
         const { length } = layerData;
 
         if (layerData != null) {

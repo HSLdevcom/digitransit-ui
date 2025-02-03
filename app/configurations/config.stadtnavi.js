@@ -23,6 +23,7 @@ const YEAR = 1900 + new Date().getYear();
 const STATIC_MESSAGE_URL = process.env.STATIC_MESSAGE_URL;
 const MOBIDATA_BASE_URL = 'https://api.mobidata-bw.de/';
 const STADTNAVI_SERVICES_BASE_URL = 'https://services.stadtnavi.eu';
+const STADTNAVI_FEATURES_BASE_URL = 'https://features.stadtnavi.eu';
 
 const parentConfig = require('./config.waltti.js').default;
 
@@ -47,11 +48,11 @@ export default configMerger(parentConfig, {
     RENTAL_STATION_MAP: `${API_URL}/routing/v1/router/vectorTiles/rentalStations/`,
     RENTAL_VEHICLE_MAP: `${API_URL}/routing/v1/router/vectorTiles/rentalVehicles/`,
     REALTIME_RENTAL_STATION_MAP: `${API_URL}/routing/v1/router/vectorTiles/realtimeRentalStations/`,
-    WEATHER_STATIONS_MAP: `${API_URL}/map/v1/weather-stations/`,
+    WEATHER_STATIONS_MAP: `${STADTNAVI_FEATURES_BASE_URL}/public.weather_stations/`,
     CHARGING_STATIONS_MAP: `${STADTNAVI_SERVICES_BASE_URL}/tiles/charging-stations/{z}/{x}/{y}.mvt`,
     CHARGING_STATION_DETAILS_API: `${STADTNAVI_SERVICES_BASE_URL}/ocpi/2.2/location/`,
     PUBLIC_POIS_MAP:
-      'https://features.stadtnavi.eu/public.pois/{z}/{x}/{y}.pbf',
+      `${STADTNAVI_FEATURES_BASE_URL}/public.pois/{z}/{x}/{y}.pbf`,
 
     PELIAS: `${process.env.GEOCODING_BASE_URL || GEOCODING_BASE_URL}/search`,
     PELIAS_REVERSE_GEOCODER: `${
