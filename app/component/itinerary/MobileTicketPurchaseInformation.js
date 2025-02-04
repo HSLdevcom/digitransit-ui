@@ -66,6 +66,7 @@ export default function MobileTicketPurchaseInformation(
             fare,
             config.ticketLinkOperatorCode,
             config.appName,
+            config.availableTickets,
           )}
           target="_blank"
           rel="noopener noreferrer"
