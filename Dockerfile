@@ -8,8 +8,7 @@ RUN apt install git && apt install build-essential \
 RUN cd /tmp \
   && git clone https://github.com/facebook/watchman.git \
   && cd watchman && ./autogen.sh && ./configure --enable-statedir=/tmp \
-  && sudo make && sudo make install \
-  && sudo mv watchman /usr/local/bin/watchman
+  && make && make install && mv watchman /usr/local/bin/watchman
 
 WORKDIR /opt/digitransit-ui
 
