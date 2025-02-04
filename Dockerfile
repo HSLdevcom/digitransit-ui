@@ -1,5 +1,5 @@
 # syntax = docker/dockerfile:1.4
-FROM node:20-slim
+FROM node:20-bookworm
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get -y update && apt -y install git && apt -y install build-essential \
   && apt -y install python-dev-is-python3 && apt -y install automake \
