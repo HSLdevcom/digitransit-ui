@@ -1,9 +1,9 @@
 # syntax = docker/dockerfile:1.4
 FROM node:20-slim
 
-RUN apt update && apt install git && apt install build-essential \
-  && apt install python-dev && apt install automake \
-  && apt install autoconf && apt install libtool
+RUN DEBIAN_FRONTEND=noninteractive apt-get -y update && apt -y install git && apt -y install build-essential \
+  && apt -y install python-dev && apt -y install automake \
+  && apt -y install autoconf && apt -y install libtool
 
 RUN cd /tmp \
   && git clone https://github.com/facebook/watchman.git \
