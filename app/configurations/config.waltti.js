@@ -276,16 +276,17 @@ export default {
   },
   navigation: false,
 
-  ticketPurchaseLink: function purchaseTicketLink(fare, operatorCode, appName) {
+  ticketPurchaseLink: function purchaseTicketLink(
+    fare,
+    operatorCode,
+    appName,
+    availableTickets,
+  ) {
     const fareId = fare.fareProducts[0].product.id;
-    const ticket = fareId?.substring
-      ? fareId.substring(fareId.indexOf(':') + 1)
-      : '';
-    let zones = '';
-    // Waltti wants zone ids, so map A to 01, B to 02 etc
-    for (let i = 0; i < ticket.length; i++) {
-      zones += `0${ticket.charCodeAt(i) - 64}`; // eslint-disable
-    }
+    const feed = fareId.split(':')[0];
+    const zones = availableTickets[feed][fareId].zones.reduce((acc, zone) => {
+      return `${acc}0${zone}`;
+    }, '');
     return `https://waltti.fi/${appName}/busTicket/?operator=${operatorCode}&ticketType=single&customerGroup=adult&zones=${zones}`;
   },
   ticketButtonTextId: 'buy-in-app',
