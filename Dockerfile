@@ -11,6 +11,7 @@ COPY . .
 RUN \
   yarn install \
   && yarn setup \
+  && yarn run relay \
   && rm -rf node_modules/.cache \
   && rm -rf /tmp/Relay*
 
