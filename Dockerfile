@@ -1,15 +1,6 @@
 # syntax = docker/dockerfile:1.4
 FROM node:20-bookworm
 
-RUN DEBIAN_FRONTEND=noninteractive apt-get -y update && apt -y install git && apt -y install build-essential \
-  && apt -y install python-dev-is-python3 && apt -y install automake \
-  && apt -y install autoconf && apt -y install libtool
-
-RUN cd /tmp \
-  && git clone https://github.com/facebook/watchman.git \
-  && cd watchman && ./autogen.sh && ./configure --enable-statedir=/tmp \
-  && make && make install && mv watchman /usr/local/bin/watchman
-
 WORKDIR /opt/digitransit-ui
 
 ARG CONFIG=''
@@ -20,9 +11,7 @@ COPY . .
 RUN \
   yarn install \
   && yarn setup \
-  && yarn run relay \
-  && rm -rf node_modules/.cache \
-  && rm -rf /tmp/Relay*
+  && yarn run relay
 
 LABEL org.opencontainers.image.title="digitransit-debug-ui"
 LABEL org.opencontainers.image.description="open nationwide journey planning platform"
