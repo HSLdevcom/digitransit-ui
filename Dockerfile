@@ -1,7 +1,7 @@
 # syntax = docker/dockerfile:1.4
 FROM node:20-slim
 
-RUN apt install git && apt install build-essential \
+RUN apt update && apt install git && apt install build-essential \
   && apt install python-dev && apt install automake \
   && apt install autoconf && apt install libtool
 
