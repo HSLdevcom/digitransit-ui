@@ -1,11 +1,15 @@
 # syntax = docker/dockerfile:1.4
 FROM node:20-slim
 
+RUN apt install git && apt install build-essential \
+  && apt install python-dev && apt install automake \
+  && apt install autoconf && apt install libtool
+
 RUN cd /tmp \
-&& git clone https://github.com/facebook/watchman.git \
-&& cd watchman && ./autogen.sh && ./configure --enable-statedir=/tmp \
-&& sudo make && sudo make install \
-&& sudo mv watchman /usr/local/bin/watchman
+  && git clone https://github.com/facebook/watchman.git \
+  && cd watchman && ./autogen.sh && ./configure --enable-statedir=/tmp \
+  && sudo make && sudo make install \
+  && sudo mv watchman /usr/local/bin/watchman
 
 WORKDIR /opt/digitransit-ui
 
