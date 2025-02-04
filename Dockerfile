@@ -2,7 +2,7 @@
 FROM node:20-slim
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get -y update && apt -y install git && apt -y install build-essential \
-  && apt -y install python-dev && apt -y install automake \
+  && apt -y install python-dev-is-python3 && apt -y install automake \
   && apt -y install autoconf && apt -y install libtool
 
 RUN cd /tmp \
