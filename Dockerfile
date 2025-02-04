@@ -1,6 +1,12 @@
 # syntax = docker/dockerfile:1.4
 FROM node:20-slim
 
+RUN cd /tmp \
+&& git clone https://github.com/facebook/watchman.git \
+&& cd watchman && ./autogen.sh && ./configure --enable-statedir=/tmp \
+&& sudo make && sudo make install \
+&& sudo mv watchman /usr/local/bin/watchman
+
 WORKDIR /opt/digitransit-ui
 
 ARG CONFIG=''
