@@ -1,5 +1,5 @@
 # syntax = docker/dockerfile:1.4
-FROM node20-slim
+FROM node:20-slim
 
 WORKDIR /opt/digitransit-ui
 
