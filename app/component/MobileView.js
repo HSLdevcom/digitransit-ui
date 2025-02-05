@@ -78,13 +78,14 @@ const MobileView = forwardRef(
       mapRef,
       searchBox,
       match,
+      enableBottomScroll,
     },
     ref,
   ) => {
     if (settingsDrawer) {
       return <div className="mobile">{settingsDrawer}</div>;
     }
-    const scrollRef = useRef(null);
+    const scrollRef = useRef();
     const pathParts = match.location.pathname.split('/');
     const pagePrefix = pathParts?.length > 1 ? pathParts[1] : undefined;
 
@@ -135,7 +136,7 @@ const MobileView = forwardRef(
       if (pagePrefix === PREFIX_ITINERARY_SUMMARY) {
         changeBottomPadding(getMiddlePosition());
       }
-    }, [header]);
+    }, [header, enableBottomScroll]);
 
     // always set bottom sheet when component mounts
     useLayoutEffect(() => {
@@ -166,9 +167,12 @@ const MobileView = forwardRef(
               ref={scrollRef}
               role="main"
             >
-              <div className="drawer-padding" />
-              <div className="drawer-content">
-                <div className="drag-line" />
+              <div
+                className={`drawer-content ${
+                  !enableBottomScroll && 'fit-content'
+                }`}
+              >
+                {enableBottomScroll && <div className="drag-line" />}
                 <div className="content-container">
                   {header}
                   {content}
@@ -201,6 +205,7 @@ MobileView.propTypes = {
   // eslint-disable-next-line
   mapRef: PropTypes.object,
   match: matchShape.isRequired,
+  enableBottomScroll: PropTypes.bool,
 };
 
 MobileView.defaultProps = {
@@ -211,6 +216,7 @@ MobileView.defaultProps = {
   selectFromMapHeader: undefined,
   searchBox: undefined,
   mapRef: undefined,
+  enableBottomScroll: true,
 };
 
 export default MobileView;

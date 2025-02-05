@@ -1382,6 +1382,7 @@ export default function ItineraryPage(props, context) {
       mapRef={mwtRef.current}
       ref={mobileRef}
       match={match}
+      enableBottomScroll={!naviMode}
     />
   );
 }

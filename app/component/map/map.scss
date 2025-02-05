@@ -56,6 +56,9 @@ div.map {
   }
 
   .drawer-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
     overflow-y: scroll;
     scrollbar-width: none;
     height: 100%;
@@ -68,10 +71,15 @@ div.map {
     }
 
     .drawer-content {
-      min-height: 50vh;
+      max-height: 10vh;
       background: white;
       position: relative;
       z-index: index($zindex, mobile-drawer);
+
+      &.fit-content {
+        min-height: unset;
+        max-height: fit-content;
+      }
 
       .drag-line {
         width: 48px;
