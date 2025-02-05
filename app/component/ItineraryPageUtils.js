@@ -321,11 +321,16 @@ export function updateClient(itineraryTopics, context) {
   startClient(itineraryTopics, context);
 }
 
-export function addBikeStationMapForRentalVehicleItineraries() {
-  return getMapLayerOptions({
-    lockedMapLayers: ['vehicles', 'citybike', 'stop'],
-    selectedMapLayers: ['vehicles', 'citybike'],
-  });
+export function addBikeStationMapForRentalVehicleItineraries(
+  enableLockedMapLayers,
+) {
+  return getMapLayerOptions(
+    {
+      lockedMapLayers: ['vehicles', 'citybike', 'stop'],
+      selectedMapLayers: ['vehicles', 'citybike'],
+    },
+    enableLockedMapLayers,
+  );
 }
 
 /**

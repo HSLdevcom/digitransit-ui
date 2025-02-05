@@ -94,7 +94,10 @@ export const isFeatureLayerEnabled = (
   return isLayerEnabled(layerName, mapLayers);
 };
 
-export const getMapLayerOptions = (options = {}) => {
+export const getMapLayerOptions = (
+  options = {},
+  enableLockedMapLayers = true,
+) => {
   const layerOptions = {
     parkAndRide: {
       isLocked: false,
@@ -147,7 +150,7 @@ export const getMapLayerOptions = (options = {}) => {
   };
   lockedMapLayers.forEach(key => {
     // Stop keyword locks every mode
-    if (key === 'stop') {
+    if (enableLockedMapLayers && key === 'stop') {
       Object.keys(layerOptions[key]).forEach(subKey => {
         if (layerOptions[key][subKey]) {
           layerOptions[key][subKey].isLocked = true;

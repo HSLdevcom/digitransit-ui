@@ -236,10 +236,13 @@ const StopPageMapWithStores = connectToStores(
     }
     const mapLayers = getStore(MapLayerStore).getMapLayers(ml);
     const mode = getModeFromProps(props);
-    const mapLayerOptions = getMapLayerOptions({
-      lockedMapLayers: ['vehicles', mode],
-      selectedMapLayers: ['vehicles', mode],
-    });
+    const mapLayerOptions = getMapLayerOptions(
+      {
+        lockedMapLayers: ['vehicles', mode],
+        selectedMapLayers: ['vehicles', mode],
+      },
+      config.enableLockedMapLayers,
+    );
     return {
       locationState,
       currentTime,

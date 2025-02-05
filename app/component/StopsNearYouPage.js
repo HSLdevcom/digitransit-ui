@@ -105,10 +105,13 @@ class StopsNearYouPage extends React.Component {
     const showCityBikeTeaser = !readMessageIds.includes('citybike_teaser');
     if (this.context.config.map.showLayerSelector) {
       const { mode } = this.props.match.params;
-      const mapLayerOptions = getMapLayerOptions({
-        lockedMapLayers: ['vehicles', 'citybike', 'stop'],
-        selectedMapLayers: ['vehicles', mode.toLowerCase()],
-      });
+      const mapLayerOptions = getMapLayerOptions(
+        {
+          lockedMapLayers: ['vehicles', 'citybike', 'stop'],
+          selectedMapLayers: ['vehicles', mode.toLowerCase()],
+        },
+        this.context.config.enableLockedMapLayers,
+      );
       this.setState({ showCityBikeTeaser, mapLayerOptions });
     } else {
       this.setState({ showCityBikeTeaser });
@@ -197,10 +200,13 @@ class StopsNearYouPage extends React.Component {
 
   setMapLayerOptions = () => {
     const { mode } = this.props.match.params;
-    const mapLayerOptions = getMapLayerOptions({
-      lockedMapLayers: ['vehicles', 'citybike', 'stop'],
-      selectedMapLayers: ['vehicles', mode.toLowerCase()],
-    });
+    const mapLayerOptions = getMapLayerOptions(
+      {
+        lockedMapLayers: ['vehicles', 'citybike', 'stop'],
+        selectedMapLayers: ['vehicles', mode.toLowerCase()],
+      },
+      this.context.config.enableLockedMapLayers,
+    );
     this.setState({ mapLayerOptions });
   };
 

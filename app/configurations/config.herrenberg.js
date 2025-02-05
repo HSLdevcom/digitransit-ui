@@ -452,6 +452,8 @@ export default configMerger(parentConfig, {
 
     layers,
 
+    enableLockedMapLayers: false,
+
     staticMessagesUrl: STATIC_MESSAGE_URL,
     
     parkAndRideBannedVehicleParkingTags: [
