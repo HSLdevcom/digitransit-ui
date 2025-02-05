@@ -1,21 +1,20 @@
+import { matchShape } from 'found';
 import PropTypes from 'prop-types';
 import React, {
-  useRef,
-  useLayoutEffect,
-  useState,
   forwardRef,
   useImperativeHandle,
+  useLayoutEffect,
+  useRef,
+  useState,
 } from 'react';
-import { matchShape } from 'found';
+import { isBrowser } from '../util/browser';
+import {
+  PREFIX_ITINERARY_SUMMARY,
+  PREFIX_NEARYOU,
+  PREFIX_ROUTES,
+} from '../util/path';
 import MapBottomsheetContext from './map/MapBottomsheetContext';
 import MobileFooter from './MobileFooter';
-import { isBrowser } from '../util/browser';
-
-import {
-  PREFIX_ROUTES,
-  PREFIX_NEARYOU,
-  PREFIX_ITINERARY_SUMMARY,
-} from '../util/path';
 
 const noBottomSheetResetAtContentChange = [
   PREFIX_ROUTES,
@@ -23,7 +22,7 @@ const noBottomSheetResetAtContentChange = [
   PREFIX_ITINERARY_SUMMARY,
 ];
 
-const BOTTOM_SHEET_OFFSET = 20;
+const BOTTOM_SHEET_OFFSET = 32;
 const topBarHeight = 64;
 
 function getMiddlePosition() {
@@ -93,7 +92,7 @@ const MobileView = forwardRef(
     const [bottomPadding, setBottomPadding] = useState(getMiddlePosition());
 
     const onScroll = e => {
-      if (e.target.className === 'drawer-container') {
+      if (e.target.className === 'drawer-container' && e.target.scrollTop) {
         mapRef?.setBottomPadding(e.target.scrollTop);
         setBottomPadding(e.target.scrollTop);
       }
