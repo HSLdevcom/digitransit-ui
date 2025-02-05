@@ -49,6 +49,7 @@ function NaviContainer(
     previousLeg,
     currentLeg,
     nextLeg,
+    startItinerary,
   } = useRealtimeLegs(relayEnvironment, legs, position);
 
   useEffect(() => {
@@ -106,6 +107,7 @@ function NaviContainer(
         lastLeg={lastLeg}
         isJourneyCompleted={isJourneyCompleted}
         previousLeg={previousLeg}
+        startItinerary={startItinerary}
       />
       {isJourneyCompleted && isNavigatorIntroDismissed && (
         <NavigatorOutroModal

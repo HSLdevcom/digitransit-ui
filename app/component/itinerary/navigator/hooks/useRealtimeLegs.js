@@ -192,7 +192,7 @@ const useRealtimeLegs = (relayEnvironment, initialLegs, position) => {
       // rtLegMap does not contain legs that have ended in the past as they've been filtered before updates are queried
       const rtLegs = prev.realTimeLegs.map(l => {
         const rtLeg =
-          l.legId && rtLegMap[l.legId] ? { ...rtLegMap[l.legId] } : null;
+          l.legId && rtLegMap?.[l.legId] ? { ...rtLegMap?.[l.legId] } : null;
         if (rtLeg) {
           // If start is frozen, the property is deleted to prevent it from affecting any views
           if (l.freezeStart) {
@@ -217,13 +217,43 @@ const useRealtimeLegs = (relayEnvironment, initialLegs, position) => {
 
       // Freezes any leg.start|end in the past
       rtLegs.forEach(l => {
-        l.freezeStart = legTime(l.start) <= now;
-        l.freezeEnd = legTime(l.end) <= now;
+        l.freezeStart = l.freezeStart || legTime(l.start) <= now;
+        l.freezeEnd = l.freezeEnd || legTime(l.end) <= now;
       });
 
       return { ...prev, time: now, realTimeLegs: rtLegs };
     });
-  }, [queryAndMapRealtimeLegs]);
+  }, [realTimeLegs, queryAndMapRealtimeLegs]);
+
+  const startItinerary = startTimeInMS => {
+    if (startTimeInMS < legTime(realTimeLegs[0].start)) {
+      setTimeAndRealTimeLegs(prev => {
+        const firstLeg = prev.realTimeLegs[0];
+
+        if (firstLeg.transitLeg) {
+          firstLeg.forceStart = true;
+          return {
+            ...prev,
+            time: startTimeInMS,
+          };
+        }
+        const adjustment = legTime(realTimeLegs[0].start) - startTimeInMS;
+
+        firstLeg.start.scheduledTime = epochToIso(startTimeInMS);
+        firstLeg.end.scheduledTime = epochToIso(
+          legTime(realTimeLegs[0].end) - adjustment,
+        );
+        firstLeg.freezeStart = true;
+        firstLeg.freezeEnd = true;
+
+        return {
+          ...prev,
+          time: startTimeInMS,
+          realTimeLegs: prev.realTimeLegs,
+        };
+      });
+    }
+  };
 
   useEffect(() => {
     fetchAndSetRealtimeLegs();
@@ -252,6 +282,7 @@ const useRealtimeLegs = (relayEnvironment, initialLegs, position) => {
     previousLeg,
     currentLeg,
     nextLeg,
+    startItinerary,
   };
 };
 

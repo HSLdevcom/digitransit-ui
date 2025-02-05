@@ -10,4 +10,4 @@
 
   When copying from a local OTP clone, usually something like this works:
 
-  `cd build; SCHEMA_SRC=~/OpenTripPlanner/src/main/resources/org/opentripplanner/apis/gtfs/schema.graphqls node generate-schema.js`
+  `cd build; SCHEMA_SRC=~/OpenTripPlanner/application/src/main/resources/org/opentripplanner/apis/gtfs/schema.graphqls node generate-schema.js`

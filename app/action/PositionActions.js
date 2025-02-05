@@ -47,6 +47,7 @@ const debouncedReverseGeocoding = debounce(reverseGeocodeAddress, 10000, {
 });
 
 function geoCallback(actionContext, pos) {
+  actionContext.dispatch('StartReverseGeocoding');
   actionContext.dispatch('GeolocationFound', {
     lat: pos.coords.latitude,
     lon: pos.coords.longitude,

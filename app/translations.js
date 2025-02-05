@@ -1326,7 +1326,9 @@ const translations = {
     'navigation-intro-notifications-header':
       'TODO_navigation-intro-login-prompt_EN',
     'navigation-journey-end': 'Journey has ended',
-    'navigation-journey-start': 'Your journey starts {time}',
+    'navigation-journey-start': 'Your journey starts at',
+    'navigation-journey-start-early-prompt':
+      'TODO_navigation-journey-start-early-prompt_EN',
     'navigation-mode-canceled': 'TODO_{name} on peruuntunut',
     'navigation-mode-early': 'TODO_{name} on etuajassa',
     'navigation-mode-late:': 'TODO_{name} on myöhässä',
@@ -2617,7 +2619,8 @@ const translations = {
       'Pysy ajan tasalla matkasi vaiheista',
     'navigation-intro-notifications-header': 'Ilmoitukset ja muutokset',
     'navigation-journey-end': 'Matka on päättynyt',
-    'navigation-journey-start': 'Matkasi alkaa {time}',
+    'navigation-journey-start': 'Matkasi alkaa klo',
+    'navigation-journey-start-early-prompt': 'Etkö halua odottaa?',
     'navigation-mode-canceled': '{name} on peruuntunut',
     'navigation-mode-early': '{name} on etuajassa',
     'navigation-mode-late:': '{name} on myöhässä',
@@ -5561,7 +5564,9 @@ const translations = {
     'navigation-intro-notifications-header':
       'TODO_navigation-intro-login-prompt_SV',
     'navigation-journey-end': 'Resan är över',
-    'navigation-journey-start': 'Din resa börjar {time}',
+    'navigation-journey-start': 'Din resa börjar',
+    'navigation-journey-start-early-prompt':
+      'TODO_navigation-journey-start-early-prompt_SV',
     'navigation-mode-canceled': 'TODO_{name} on peruuntunut',
     'navigation-mode-early': 'TODO_{name} on etuajassa',
     'navigation-mode-late:': 'TODO_{name} on myöhässä',

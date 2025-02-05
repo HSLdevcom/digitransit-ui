@@ -34,7 +34,7 @@ export default function LocationMarker({
         className: cx(validType, className),
         element: (
           <Icon
-            img={`icon-icon_mapMarker-${validType}-map`}
+            img="icon-icon_mapMarker-map"
             color={disabled ? '#bbbbbb' : null}
           />
         ),

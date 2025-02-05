@@ -146,7 +146,7 @@ export default {
   VARELY: walttiMqtt,
   PohjolanMatka: elyMqtt(true),
   Harma: elyMqtt(false),
-  Korsisaari: walttiMqtt,
+  Korsisaari: elyMqtt(true),
   FOLI: {
     mqttTopicResolver: function mqttTopicResolver(
       route,

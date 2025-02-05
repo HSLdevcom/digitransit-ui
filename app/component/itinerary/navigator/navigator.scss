@@ -1,10 +1,9 @@
-$fixed-width-padding: 16px;
-
 .navi-start-container {
   padding: 0 10px;
+  width: 100%;
 
   button {
-    width: 100%;
+    width: inherit;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -55,7 +54,14 @@ $fixed-width-padding: 16px;
 
 .navi-card-container {
   position: fixed;
-  width: 100vw;
+  width: 100%;
+  padding: 0 var(--space-s);
+
+  svg.mode {
+    width: 32px;
+    height: 32px;
+    color: black;
+  }
 
   &.slide-out {
     animation: slideUpToTop 3s ease-out forwards;
@@ -139,8 +145,7 @@ $fixed-width-padding: 16px;
 }
 
 .navi-top-card {
-  margin: 0 var(--space-s) 5px var(--space-s);
-  border-radius: 8px;
+  border-radius: var(--radius-m);
   min-height: 70px;
   color: black;
   background-color: white !important;
@@ -148,7 +153,7 @@ $fixed-width-padding: 16px;
   align-items: center;
   letter-spacing: -0.3px;
   box-shadow: 0 2px 4px 0 rgba(51, 51, 51, 0.2);
-  width: calc(100vw - #{$fixed-width-padding});
+  width: inherit;
   cursor: default;
   font-size: $font-size-normal;
   font-weight: $font-weight-book;
@@ -164,7 +169,7 @@ $fixed-width-padding: 16px;
   }
 
   .main-card {
-    width: 100%;
+    width: inherit;
     margin: var(--space-m) var(--space-l);
 
     .content {
@@ -173,10 +178,7 @@ $fixed-width-padding: 16px;
       color: black;
       justify-content: center;
 
-      .mode {
-        width: 32px;
-        height: 32px;
-        color: black;
+      svg.mode {
         margin-right: var(--space-s);
         margin-top: var(--space-xxs);
       }
@@ -400,6 +402,40 @@ $fixed-width-padding: 16px;
   }
 }
 
+.navi-initializer-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xxs);
+  font-weight: 325;
+  font-size: 14px;
+  line-height: 21px;
+
+  .navi-initializer-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xxs);
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+    flex-wrap: wrap;
+    background-color: white;
+    border-radius: var(--radius-m);
+    padding: var(--space-m);
+    box-shadow: 0 2px 4px 0 rgba(51, 51, 51, 0.2);
+    text-align: center;
+
+    &.success {
+      background-color: $success-color;
+      gap: var(--space-xs);
+
+      button {
+        color: white;
+        background-color: $realtime-color;
+      }
+    }
+  }
+}
+
 .navigator-modal-container {
   position: fixed;
   width: 100%;
@@ -436,20 +472,9 @@ $fixed-width-padding: 16px;
 }
 
 .info-stack {
-  position: fixed;
-  height: 69px;
+  position: relative;
   letter-spacing: -0.3px;
-  width: calc(100% - #{$fixed-width-padding});
-  margin-right: 8px;
-  margin-left: 8px;
-
-  div:first-child {
-    margin-top: 0;
-  }
-
-  .info-stack-item:not(:first-child) {
-    margin-top: 5px;
-  }
+  width: inherit;
 
   &.slide-out {
     animation:
@@ -476,6 +501,7 @@ $fixed-width-padding: 16px;
       fadeIn 0.5s ease-out forwards;
     font-size: $font-size-xsmall;
     font-weight: $font-weight-book;
+    margin-top: 5px;
 
     .icon-container {
       display: flex;

@@ -34,7 +34,7 @@ const NaviCardExtension = ({ legType, leg, nextLeg, time }, { config }) => {
       config,
     );
   } else {
-    destination.iconId = 'icon-icon_mapMarker-to';
+    destination.iconId = 'icon-icon_mapMarker';
     destination.className = 'place';
     destination.name = place;
   }
