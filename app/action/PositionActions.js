@@ -21,28 +21,31 @@ function reverseGeocodeAddress(actionContext, coords) {
     searchParams['boundary.country'] =
       actionContext.config.searchParams['boundary.country'];
   }
-  actionContext.dispatch('StartReverseGeocoding');
 
-  return getJson(
-    actionContext.config.URL.PELIAS_REVERSE_GEOCODER,
-    searchParams,
-  ).then(data => {
-    if (data.features != null && data.features.length > 0) {
-      const match = data.features[0].properties;
-      actionContext.dispatch('AddressFound', {
-        address: match.name,
-        gid: match.gid,
-        name: match.name,
-        layer: match.layer,
-        city: match.localadmin || match.locality,
-      });
-    } else {
+  getJson(actionContext.config.URL.PELIAS_REVERSE_GEOCODER, searchParams)
+    .then(data => {
+      if (data.features != null && data.features.length > 0) {
+        const match = data.features[0].properties;
+        actionContext.dispatch('AddressFound', {
+          address: match.name,
+          gid: match.gid,
+          name: match.name,
+          layer: match.layer,
+          city: match.localadmin || match.locality,
+        });
+      } else {
+        actionContext.dispatch('AddressFound', {});
+      }
+    })
+    .catch(() => {
       actionContext.dispatch('AddressFound', {});
-    }
-  });
+    });
 }
 
-const debouncedReverseGeocoding = debounce(reverseGeocodeAddress, 10000, {
+const runReverseGeocodingAction = (actionContext, coords) =>
+  actionContext.executeAction(reverseGeocodeAddress, coords);
+
+const debouncedReverseGeocoding = debounce(runReverseGeocodingAction, 10000, {
   leading: true,
 });
 
