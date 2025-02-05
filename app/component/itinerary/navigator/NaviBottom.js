@@ -27,13 +27,14 @@ export default function NaviBottom(
 
   const durationDiv = remainingDuration >= 0 && (
     <div className="navi-time">
-      <span>
-        <FormattedMessage
-          id="travel-time"
-          values={{ min: remainingDuration }}
-        />
-      </span>
-      <span className="navi-daytime">{epochToTime(arrival, config)}</span>
+      <FormattedMessage id="travel-time" values={{ min: remainingDuration }} />
+      <FormattedMessage id="at-time">
+        {msg => (
+          <span className="navi-daytime">
+            {msg} {epochToTime(arrival, config)}
+          </span>
+        )}
+      </FormattedMessage>
     </div>
   );
 
