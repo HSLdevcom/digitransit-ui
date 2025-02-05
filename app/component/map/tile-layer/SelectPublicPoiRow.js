@@ -1,16 +1,18 @@
 import React from 'react';
+import connectToStores from 'fluxible-addons-react/connectToStores';
 import Link from 'found/Link';
 import PropTypes from 'prop-types';
 import pickBy from 'lodash/pickBy';
 import { getLayerByCode } from '../../../util/mapLayerUtils';
 import Icon from '../../Icon';
+import LayerCategoriesStore from '../../../store/LayerCategoriesStore';
 
-export default function SelectPublicPoi(props, { config, intl }) {
+function SelectPublicPoi(props, { intl }) {
   const { properties, latitude, longitude } = props;
 
   const { category3: code, name, osm_id: osmId } = properties;
 
-  const layer = getLayerByCode(code, config);
+  const layer = getLayerByCode(code, props.layerCategories);
 
   const svg = layer?.properties?.icon?.svg;
 
@@ -46,6 +48,7 @@ export default function SelectPublicPoi(props, { config, intl }) {
 }
 
 SelectPublicPoi.propTypes = {
+  layerCategories: PropTypes.array.isRequired,
   properties: PropTypes.object.isRequired,
   latitude: PropTypes.number.isRequired,
   longitude: PropTypes.number.isRequired,
@@ -53,5 +56,14 @@ SelectPublicPoi.propTypes = {
 
 SelectPublicPoi.contextTypes = {
   intl: PropTypes.object.isRequired,
-  config: PropTypes.object.isRequired,
 };
+
+const connectedComponent = connectToStores(
+  SelectPublicPoi,
+  [LayerCategoriesStore],
+  ({ getStore }) => ({
+    layerCategories: getStore(LayerCategoriesStore).getLayerCategories(),
+  }),
+);
+
+export default connectedComponent;

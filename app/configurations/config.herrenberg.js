@@ -1,13 +1,13 @@
 /* eslint-disable */
 import configMerger from '../util/configMerger';
 
-import layers from './layers/hb-layers.json';
-
 const CONFIG = 'herrenberg';
 const APP_TITLE = 'stadtnavi Herrenberg';
 const APP_DESCRIPTION = 'Gemeinsam Mobilität neu denken - die intermodale Verbindungssuche mit offenen, lokalen Daten';
 const API_URL = process.env.API_URL || 'https://api.stadtnavi.de';
 const FEATURES_URL = 'https://featuredetails.stadtnavi.eu'
+const LAYER_CATEGORIES_URL =
+  'https://services.stadtnavi.eu/layer-categories/herrenberg/layers.json';
 const YEAR = 1900 + new Date().getYear();
 const STATIC_MESSAGE_URL =
     process.env.STATIC_MESSAGE_URL ||
@@ -451,7 +451,7 @@ export default configMerger(parentConfig, {
       ],
     },
 
-    layers,
+    layerCategoriesUrl: LAYER_CATEGORIES_URL,
 
     enableLockedMapLayers: false,
 

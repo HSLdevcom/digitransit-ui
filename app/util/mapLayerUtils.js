@@ -188,12 +188,11 @@ export const getLayerBaseUrl = (urlOrUrlMap, lang) => {
  * Finds a layer defined in app config by its layer code and returns the layer if it exists
  *
  * @param {String} code The layers code
- * @param {*} context
+ * @param {*} layerCategories The layer categories from state
  * @returns layer
  */
-export const getLayerByCode = (code, config) => {
-  return config.layers
+export const getLayerByCode = (code, layerCategories) =>
+  layerCategories
     ?.flatMap(category => category.categories || category)
     .flatMap(category => category.categories || category)
     .find(({ code: layerCode }) => layerCode === code);
-};

@@ -1,5 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import connectToStores from 'fluxible-addons-react/connectToStores';
+import LayerCategoriesStore from '../../../store/LayerCategoriesStore';
+import { getLayerByCode } from '../../../util/mapLayerUtils';
 
 import TileLayerContainer from './TileLayerContainer';
 import BikeRentalStations from './BikeRentalStations';
@@ -15,14 +18,18 @@ import { mapLayerShape } from '../../../store/MapLayerStore';
 import Loading from '../../Loading';
 import PoiVectorTileLayer from './PoiVectorTileLayer';
 
-export default function VectorTileLayerContainer(props, { config }) {
+function VectorTileLayerContainer(props, { config }) {
   const layers = [];
 
   if (config.URL.STOP_MAP) {
     layers.push(Stops);
   }
 
-  PoiVectorTileLayer.visibleCategories = props.mapLayers;
+  PoiVectorTileLayer.visibleCategories = Object.keys(props.mapLayers)
+    // Only include layer categories of layers that are enabled.
+    .filter(code => props.mapLayers[code] === true)
+    .map(code => getLayerByCode(code, props.layerCategories))
+    .filter(Boolean);
 
   layers.push(PoiVectorTileLayer);
 
@@ -100,6 +107,7 @@ export default function VectorTileLayerContainer(props, { config }) {
 
 VectorTileLayerContainer.propTypes = {
   mapLayers: mapLayerShape.isRequired,
+  layerCategories: PropTypes.array,
   hilightedStops: PropTypes.arrayOf(PropTypes.string),
   stopsToShow: PropTypes.arrayOf(PropTypes.string),
   disableMapTracking: PropTypes.func,
@@ -111,3 +119,13 @@ VectorTileLayerContainer.propTypes = {
 VectorTileLayerContainer.contextTypes = {
   config: PropTypes.object.isRequired,
 };
+
+const connectedComponent = connectToStores(
+  VectorTileLayerContainer,
+  [LayerCategoriesStore],
+  ({ getStore }) => ({
+    layerCategories: getStore(LayerCategoriesStore).getLayerCategories(),
+  }),
+);
+
+export default connectedComponent;

@@ -12,6 +12,7 @@ import { withLeaflet } from 'react-leaflet/es/context';
 import { matchShape, routerShape } from 'found';
 import pickBy from 'lodash/pickBy';
 import { mapLayerShape } from '../../../store/MapLayerStore';
+import LayerCategoriesStore from '../../../store/LayerCategoriesStore';
 import MarkerSelectPopup from './MarkerSelectPopup';
 import LocationPopup from '../popups/LocationPopup';
 import TileContainer from './TileContainer';
@@ -53,6 +54,7 @@ class TileLayerContainer extends GridLayer {
     onSelectLocation: PropTypes.func,
     mergeStops: PropTypes.bool,
     mapLayers: mapLayerShape.isRequired,
+    layerCategories: PropTypes.array,
     leaflet: PropTypes.shape({
       map: PropTypes.shape({
         addLayer: PropTypes.func.isRequired,
@@ -189,7 +191,7 @@ class TileLayerContainer extends GridLayer {
         leaflet: { map },
         mapLayers,
       } = this.props;
-      const { config, intl } = this.context;
+      const { intl } = this.context;
       const { coords: prevCoords } = this.state;
       const popup = map._popup; // eslint-disable-line no-underscore-dangle
       // navigate to citybike stop page if single stop is clicked
@@ -264,7 +266,7 @@ class TileLayerContainer extends GridLayer {
 
         const { category3: code, name, osm_id: osmId } = properties;
 
-        const layer = getLayerByCode(code, config);
+        const layer = getLayerByCode(code, this.props.layerCategories);
 
         const params = pickBy(
           {
@@ -600,6 +602,9 @@ const connectedComponent = withLeaflet(
     context => ({
       vehicles: context.getStore(RealTimeInformationStore).vehicles,
       lang: context.getStore(PreferencesStore).getLanguage(),
+      layerCategories: context
+        .getStore(LayerCategoriesStore)
+        .getLayerCategories(),
     }),
   ),
 );

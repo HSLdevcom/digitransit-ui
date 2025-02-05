@@ -3,7 +3,7 @@ import pick from 'lodash/pick';
 import Protobuf from 'pbf';
 import range from 'lodash-es/range';
 import { drawIcon } from '../../../util/mapIconUtils';
-import { getLayerByCode, templateTileUrl } from '../../../util/mapLayerUtils';
+import { templateTileUrl } from '../../../util/mapLayerUtils';
 import { isBrowser } from '../../../util/browser';
 
 export default class PoiVectorTileLayer {
@@ -61,12 +61,11 @@ export default class PoiVectorTileLayer {
               return pick(layerFeature, ['geom', 'properties']);
             })
             .filter(feature => {
-              const poiLayer = getLayerByCode(
-                feature.properties.category3,
-                this.config,
+              const poiLayer = PoiVectorTileLayer.visibleCategories.find(
+                ({ code }) => code === feature.properties.category3,
               );
               return (
-                PoiVectorTileLayer.visibleCategories[poiLayer.code] &&
+                poiLayer &&
                 this.tile.coords.z >= poiLayer.properties.layer.min_zoom
               );
             });
@@ -74,7 +73,9 @@ export default class PoiVectorTileLayer {
           this.features.forEach(feature => {
             const layerCode = feature.properties.category3;
 
-            const poiLayer = getLayerByCode(layerCode, this.config);
+            const poiLayer = PoiVectorTileLayer.visibleCategories.find(
+              ({ code }) => code === feature.properties.category3,
+            );
             if (poiLayer) {
               const { icon, layer } = poiLayer.properties;
 

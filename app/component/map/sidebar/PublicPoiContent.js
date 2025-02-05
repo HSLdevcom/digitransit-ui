@@ -1,17 +1,19 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { intlShape, FormattedMessage } from 'react-intl';
+import connectToStores from 'fluxible-addons-react/connectToStores';
 import SidebarContainer from './SidebarContainer';
 import Icon from '../../Icon';
 import OSMOpeningHours from '../popups/OSMOpeningHours';
 import { getLayerByCode } from '../../../util/mapLayerUtils';
+import LayerCategoriesStore from '../../../store/LayerCategoriesStore';
 
-const PublicPoiContent = ({ match }, { intl, config }) => {
+const PublicPoiContent = ({ match, layerCategories }, { intl, config }) => {
   const { osmId, lat, lng } = match.location.query;
 
   const [code] = match.location.pathname.split('/').reverse();
 
-  const layer = getLayerByCode(code, config);
+  const layer = getLayerByCode(code, layerCategories);
 
   const [featureProperties, setFeatureProperties] = useState(null);
 
@@ -165,6 +167,7 @@ const PublicPoiContent = ({ match }, { intl, config }) => {
 PublicPoiContent.displayName = 'PublicPoiContent';
 
 PublicPoiContent.propTypes = {
+  layerCategories: PropTypes.array.isRequired,
   match: PropTypes.object.isRequired,
 };
 
@@ -173,4 +176,12 @@ PublicPoiContent.contextTypes = {
   config: PropTypes.object.isRequired,
 };
 
-export default PublicPoiContent;
+const connectedComponent = connectToStores(
+  PublicPoiContent,
+  [LayerCategoriesStore],
+  ({ getStore }) => ({
+    layerCategories: getStore(LayerCategoriesStore).getLayerCategories(),
+  }),
+);
+
+export default connectedComponent;

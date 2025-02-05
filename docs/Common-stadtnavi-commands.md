@@ -50,19 +50,3 @@ yarn run digitransit-watch-components
 ```
 
 This watches if any of the submodules has been changed and compiles it on-the-fly.
-
-## Import map layers config
-
-Map layers config from layers spreadsheet can be converted from CSV to JSON running
-
-```
-node ./scripts/parse-layers-sheet.js "https://docs.google.com/spreadsheets/d/{key}/gviz/tq?tqx=out:csv&sheet={sheet}"
-```
-
-Before running make sure to have have set the correct output file name in the script.
-
-Created JSON file can be used to replace files in
-
-```
-./app/configurations/layers/
-```
