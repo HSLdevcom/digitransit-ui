@@ -15,4 +15,8 @@ RUN \
 
 EXPOSE 8080
 
+ENV \
+  # App specific settings to override when the image is run \
+  PORT=8080
+
 CMD yarn dev
