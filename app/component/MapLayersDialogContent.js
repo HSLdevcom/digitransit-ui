@@ -1,7 +1,7 @@
 /* eslint react/forbid-prop-types: 0 */
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { intlShape, FormattedMessage } from 'react-intl';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { routerShape, withRouter } from 'found';
@@ -17,6 +17,8 @@ import { setMapMode } from '../action/MapModeActions';
 import LayerCategoryDropdown from './LayerCategoryDropdown';
 import { mapLayerOptionsShape } from '../util/shapes';
 import { getTransportModes, showCityBikes } from '../util/modeUtils';
+import { getLayerByCode } from '../util/mapLayerUtils';
+import { getMapLayerSettings } from '../store/localStorage';
 
 const transportModeConfigShape = PropTypes.shape({
   availableForSelection: PropTypes.bool,
@@ -82,15 +84,47 @@ const MapLayersDialogContent = (props, context) => {
     geoJson: {},
   };
 
+  const { layerCategories, mapLayers } = props;
+
+  const updateSetting = newSetting => {
+    props.updateMapLayers(newSetting);
+  };
+
+  /**
+   * If the selected mapLayers are not set in local storage, set them based on the fetched layer categories settings.
+   */
+  useEffect(() => {
+    if (
+      layerCategories.length !== 0 &&
+      Object.keys(getMapLayerSettings()).length === 0
+    ) {
+      const newSettings = { ...mapLayers };
+
+      const isLayerEnabled = code => {
+        return Boolean(
+          getLayerByCode(code, layerCategories)?.properties?.layer
+            .enabled_per_default,
+        );
+      };
+
+      Object.keys(mapLayers).forEach(layer => {
+        if (typeof mapLayers[layer] === 'object') {
+          Object.keys(mapLayers[layer]).forEach(subLayer => {
+            newSettings[layer][subLayer] = isLayerEnabled(subLayer);
+          });
+        } else {
+          newSettings[layer] = isLayerEnabled(layer);
+        }
+      });
+      updateSetting(newSettings);
+    }
+  }, [layerCategories]);
+
   const handlePanelState = open => {
     if (open === props.open) {
       return;
     }
     props.setOpen(open);
-  };
-
-  const updateSetting = newSetting => {
-    props.updateMapLayers(newSetting);
   };
 
   const layerOptionsByCategory = (category, layers, geoJson, lang) => {
@@ -129,7 +163,7 @@ const MapLayersDialogContent = (props, context) => {
     datahubTiles,
     chargingStations,
     rental,
-  } = props.mapLayers;
+  } = mapLayers;
 
   const { mapMode: currentMapMode } = props;
 
@@ -168,10 +202,8 @@ const MapLayersDialogContent = (props, context) => {
 
         const checked =
           categories === undefined
-            ? props.mapLayers[code]
-            : categories.every(
-                subCategory => props.mapLayers[subCategory.code],
-              );
+            ? mapLayers[code]
+            : categories.every(subCategory => mapLayers[subCategory.code]);
 
         return {
           checked,
@@ -189,8 +221,6 @@ const MapLayersDialogContent = (props, context) => {
       })
       .filter(Boolean);
   };
-
-  const { layerCategories } = props;
 
   const sortLayersByKey = (a, b) => {
     // Retrieve the order of the layers from the configuration.

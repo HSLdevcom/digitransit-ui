@@ -20,6 +20,7 @@ describe('<MapLayersDialogContent />', () => {
         stop: {},
         terminal: {},
       },
+      layerCategories: [],
       updateMapLayers: () => {},
       setMapMode: () => {},
     };
