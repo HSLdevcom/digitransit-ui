@@ -150,7 +150,7 @@ class ItineraryDetails extends React.Component {
         id: 'tomorrow',
       });
     }
-    return getFormattedTimeDate(startTime, 'dd D.M.');
+    return getFormattedTimeDate(startTime, 'dd D.M.', this.context.intl.locale);
   }
 
   getExtraProps(itinerary) {

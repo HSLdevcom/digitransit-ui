@@ -118,8 +118,8 @@ export function isToday(startTime, refTime) {
 /**
  * Returns formatted date / time
  */
-export function getFormattedTimeDate(startTime, pattern) {
-  return moment(startTime).format(pattern);
+export function getFormattedTimeDate(startTime, pattern, locale) {
+  return moment(startTime).locale(locale).format(pattern);
 }
 
 /**
