@@ -1,4 +1,4 @@
-import moment from 'moment-timezone';
+import moment from 'moment';
 
 export const TIME_PATTERN = 'HH:mm';
 export const DATE_PATTERN = 'dd D.M.';
@@ -42,21 +42,18 @@ export function durationToString(inDuration) {
 /**
  * Returns date or '' if same day as reference
  */
-export const dateOrEmpty = (momentTime, momentRefTime) => {
-  if (momentTime.isSame(momentRefTime, 'day')) {
+export const dateOrEmpty = (time, refTime) => {
+  if (new Date(time).getDay() === new Date(refTime).getDay()) {
     return '';
   }
-  return momentTime.format(DATE_PATTERN);
+  return moment(time).format(DATE_PATTERN);
 };
-
-export const sameDay = (x, y) => dateOrEmpty(x, y) === '';
 
 /**
  * The default number of days to include to the service time range from the past.
  */
 export const RANGE_PAST = 7;
 
-// added itineraryFutureDays parameter (DT-3175)
 export const validateServiceTimeRange = (
   itineraryFutureDays,
   serviceTimeRange,
@@ -87,7 +84,6 @@ export const validateServiceTimeRange = (
   return { start, end };
 };
 
-// DT-3473
 // converts the given parameter into a string in format HH:mm
 // Input: time - seconds since midnight
 export function getStartTimeWithColon(time) {
@@ -124,6 +120,46 @@ export function isToday(startTime, refTime) {
  */
 export function getFormattedTimeDate(startTime, pattern, locale) {
   return moment(startTime).locale(locale).format(pattern);
+}
+
+/**
+ * Epoch ms to 'hh:mm'
+ */
+export function epochToTime(ms, config) {
+  const time = new Date(ms).toLocaleTimeString('en-GB', {
+    timeZone: config.timeZone,
+  });
+  const parts = time.split(':');
+  return `${parts[0]}:${parts[1]}`;
+}
+
+/**
+ * Unix time (from epoch milliseconds if given)
+ */
+export function unixTime(ms) {
+  const t = ms || Date.now();
+  return Math.floor(t / 1000);
+}
+
+/**
+ * Unix to 'YYYYMMDD'
+ */
+export function unixToYYYYMMDD(s, config) {
+  const date = new Date(s * 1000).toLocaleDateString('en-GB', {
+    timeZone: config.timeZone,
+  });
+  const parts = date.split('/');
+  return `${parts[2]}${parts[1]}${parts[0]}`;
+}
+
+/**
+ * ISO-8601/RFC3339 datetime str to 'hh:mm'
+ */
+export function timeStr(dateTime) {
+  // e.g. "2024-06-13T14:30+03:00"
+  const parts = dateTime.split('T');
+  const time = parts[1].split(':');
+  return `${time[0]}:${time[1]}`;
 }
 
 /**

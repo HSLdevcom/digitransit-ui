@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useState } from 'react';
 import moment from 'moment-timezone';
 import { FormattedMessage, intlShape } from 'react-intl';
+import cx from 'classnames';
 
 import Icon from './Icon';
 import { displayDistance } from '../util/geo-utils';
@@ -11,11 +12,12 @@ import { isKeyboardSelectionEvent } from '../util/browser';
 import ServiceAlertIcon from './ServiceAlertIcon';
 import { AlertSeverityLevelType } from '../constants';
 import { replaceQueryParams } from '../util/queryUtils';
-import { getServiceAlertDescription } from '../util/alertUtils';
 import DelayedTime from './DelayedTime';
+import LegSteps from './LegSteps';
 
 function CarLeg(props, { config, intl, router, match, executeAction }) {
   const { leg } = props;
+  const [showLegSteps, setShowLegSteps] = useState(false);
   const distance = displayDistance(
     parseInt(props.leg.distance, 10),
     config,
@@ -32,88 +34,66 @@ function CarLeg(props, { config, intl, router, match, executeAction }) {
 
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   return (
-    <div key={props.index} className="row itinerary-row">
-      <span className="sr-only">
-        <FormattedMessage
-          id="itinerary-details.car-leg"
-          values={{
-            time: moment(leg.startTime).format('HH:mm'),
-            distance,
-            to: intl.formatMessage({
-              id: `modes.to-${props.leg.to.carPark ? 'car-park' : 'place'}`,
-            }),
-            origin: props.leg.from ? props.leg.from.name : '',
-            destination: props.leg.to ? props.leg.to.name : '',
-            duration,
-          }}
-        />
-      </span>
-      <div className="small-2 columns itinerary-time-column" aria-hidden="true">
-        <div className="itinerary-time-column-time">
-          <DelayedTime
-            leg={props.previousLeg}
-            delay={props.previousLeg && props.previousLeg.arrivalDelay}
-            startTime={props.startTime}
+    <>
+      <div key={props.index} className="row itinerary-row">
+        <span className="sr-only">
+          <FormattedMessage
+            id="itinerary-details.car-leg"
+            values={{
+              time: moment(leg.startTime).format('HH:mm'),
+              distance,
+              to: intl.formatMessage({
+                id: `modes.to-${props.leg.to.carPark ? 'car-park' : 'place'}`,
+              }),
+              origin: props.leg.from ? props.leg.from.name : '',
+              destination: props.leg.to ? props.leg.to.name : '',
+              duration,
+            }}
           />
-        </div>
-      </div>
-      <ItineraryCircleLineWithIcon
-        index={props.index}
-        modeClassName={modeClassName}
-        icon="icon-icon_car-withoutBox"
-      />
-      <div
-        className={`small-9 columns itinerary-instruction-column ${firstLegClassName} ${leg.mode.toLowerCase()}`}
-      >
-        <div className={`itinerary-leg-first-row ${firstLegClassName}`}>
-          {!!carParkAlert && (
-            <FormattedMessage id="itinerary-details.route-has-info-alert" />
-          )}
-          <div className="address-container">
-            <div className="address">
-              {address}
-              {leg.from.stop && (
-                <Icon
-                  img="icon-icon_arrow-collapse--right"
-                  className="itinerary-arrow-icon"
-                  color="#333"
-                />
-              )}
-            </div>
-            <div className="place">{place}</div>
+        </span>
+        <div
+          className="small-2 columns itinerary-time-column"
+          aria-hidden="true"
+        >
+          <div className="itinerary-time-column-time">
+            <DelayedTime
+              leg={props.previousLeg}
+              delay={props.previousLeg && props.previousLeg.arrivalDelay}
+              startTime={props.startTime}
+            />
           </div>
-          <div>{props.children}</div>
-          <div
-            className="itinerary-map-action"
-            onClick={props.focusAction}
-            onKeyPress={e =>
-              isKeyboardSelectionEvent(e) && props.focusAction(e)
-            }
-            role="button"
-            tabIndex="0"
-            aria-label={intl.formatMessage(
-              { id: 'itinerary-summary.show-on-map' },
-              { target: props.leg.from.name || '' },
+        </div>
+        <ItineraryCircleLineWithIcon
+          index={props.index}
+          modeClassName={modeClassName}
+          icon="icon-icon_car-withoutBox"
+        />
+        <div
+          className={`small-9 columns itinerary-instruction-column ${firstLegClassName} ${leg.mode.toLowerCase()}`}
+        >
+          <div className={`itinerary-leg-first-row ${firstLegClassName}`}>
+            {!!carParkAlert && (
+              <FormattedMessage id="itinerary-details.route-has-info-alert" />
             )}
-          >
-            <Icon
-              img="icon-icon_show-on-map"
-              className="itinerary-search-icon"
-            />
-          </div>
-        </div>
-        <div className="itinerary-leg-action">
-          <div className="itinerary-leg-action-content">
-            <FormattedMessage
-              id="car-distance-duration"
-              values={{ distance, duration }}
-              defaultMessage="Drive {distance} ({duration})}"
-            />
+            <div className="address-container">
+              <div className="address">
+                {address}
+                {leg.from.stop && (
+                  <Icon
+                    img="icon-icon_arrow-collapse--right"
+                    className="itinerary-arrow-icon"
+                    color="#333"
+                  />
+                )}
+              </div>
+              <div className="place">{place}</div>
+            </div>
+            <div>{props.children}</div>
             <div
               className="itinerary-map-action"
-              onClick={props.focusToLeg}
+              onClick={props.focusAction}
               onKeyPress={e =>
-                isKeyboardSelectionEvent(e) && props.focusToLeg(e)
+                isKeyboardSelectionEvent(e) && props.focusAction(e)
               }
               role="button"
               tabIndex="0"
@@ -128,79 +108,144 @@ function CarLeg(props, { config, intl, router, match, executeAction }) {
               />
             </div>
           </div>
-        </div>
-        {carParkAlert && (
-          <div className="itinerary-alert-box" aria-hidden="true">
-            <div className="itinerary-alert-info carpool">
-              <ServiceAlertIcon
-                className="inline-icon"
-                severityLevel={AlertSeverityLevelType.Info}
-              />
-              {getServiceAlertDescription(carParkAlert, intl.locale)}
+          <div className="itinerary-leg-action">
+            <div className="itinerary-leg-action-content">
+              <div>
+                <FormattedMessage
+                  id="car-distance-duration"
+                  values={{ distance, duration }}
+                  defaultMessage="Drive {distance} ({duration})}"
+                />
+                <button
+                  type="button"
+                  aria-label={intl.formatMessage({
+                    id: 'itinerary-summary-row.clickable-show-instructions',
+                  })}
+                  className="intinerary-steps-collapse-button"
+                  onClick={() => setShowLegSteps(prev => !prev)}
+                >
+                  <Icon
+                    img="icon-icon_arrow-collapse"
+                    color={config.colors.primary}
+                    className={cx(
+                      showLegSteps &&
+                        'intinerary-steps-collapse-icon-collapsed',
+                    )}
+                  />
+                </button>
+              </div>
+              <div
+                className="itinerary-map-action"
+                onClick={props.focusToLeg}
+                onKeyPress={e =>
+                  isKeyboardSelectionEvent(e) && props.focusToLeg(e)
+                }
+                role="button"
+                tabIndex="0"
+                aria-label={intl.formatMessage(
+                  { id: 'itinerary-summary.show-on-map' },
+                  { target: props.leg.from.name || '' },
+                )}
+              >
+                <Icon
+                  img="icon-icon_show-on-map"
+                  className="itinerary-search-icon"
+                />
+              </div>
             </div>
-            <button
-              type="button"
-              className="standalone-btn cursor-pointer carpool-offer-btn"
-              onClick={() => {
-                replaceQueryParams(
-                  router,
-                  match,
-                  {
-                    useVehicleParkingAvailabilityInformation: true,
-                  },
-                  executeAction,
-                );
-              }}
-            >
-              <FormattedMessage id="car-park-full" />
-            </button>
           </div>
-        )}
-        {config.showCarpoolOfferButton === true && (
-          <div className="itinerary-leg-action" aria-hidden="true">
-            <button
-              type="button"
-              className="standalone-btn cursor-pointer carpool-offer-btn"
-              onClick={props.toggleCarpoolDrawer}
-            >
-              <FormattedMessage
-                id="offer-ride"
-                defaultMessage="Offer carpool"
-              />
-            </button>
-          </div>
-        )}
-        {leg.to.vehicleParkingWithEntrance?.vehicleParking.tags.includes(
-          'state:few',
-        ) && (
-          <div>
-            <div className="itinerary-alert-info carpool">
-              <ServiceAlertIcon
-                className="inline-icon"
-                severityLevel={AlertSeverityLevelType.Info}
-              />
-              <FormattedMessage id="car-park-capacity-alert" />
-            </div>
-            <div className="carparks-exclude-container">
+          {carParkAlert && (
+            <div className="itinerary-alert-box" aria-hidden="true">
+              <div className="itinerary-alert-info carpool">
+                <ServiceAlertIcon
+                  className="inline-icon"
+                  severityLevel={AlertSeverityLevelType.Info}
+                />
+                {carParkAlert.alertDescriptionText}
+              </div>
               <button
                 type="button"
-                className="standalone-btn cursor-pointer carparks-exclude-btn"
+                className="standalone-btn cursor-pointer carpool-offer-btn"
                 onClick={() => {
-                  replaceQueryParams(router, match, {
-                    bannedVehicleParkingTags: 'state:few',
-                  });
+                  replaceQueryParams(
+                    router,
+                    match,
+                    {
+                      useVehicleParkingAvailabilityInformation: true,
+                    },
+                    executeAction,
+                  );
                 }}
               >
+                <FormattedMessage id="car-park-full" />
+              </button>
+            </div>
+          )}
+          {config.showCarpoolOfferButton === true && (
+            <div className="itinerary-leg-action" aria-hidden="true">
+              <button
+                type="button"
+                className="standalone-btn cursor-pointer carpool-offer-btn"
+                onClick={props.toggleCarpoolDrawer}
+              >
                 <FormattedMessage
-                  id="exclude-full-carparks"
-                  defaultMessage="Exclude full car parks"
+                  id="offer-ride"
+                  defaultMessage="Offer carpool"
                 />
               </button>
             </div>
-          </div>
-        )}
+          )}
+          {leg.to.vehicleParkingWithEntrance?.vehicleParking.tags.includes(
+            'state:few',
+          ) && (
+            <div>
+              <div className="itinerary-alert-info carpool">
+                <ServiceAlertIcon
+                  className="inline-icon"
+                  severityLevel={AlertSeverityLevelType.Info}
+                />
+                <FormattedMessage id="car-park-capacity-alert" />
+              </div>
+              <div className="carparks-exclude-container">
+                <button
+                  type="button"
+                  className="standalone-btn cursor-pointer carparks-exclude-btn"
+                  onClick={() => {
+                    replaceQueryParams(router, match, {
+                      bannedVehicleParkingTags: 'state:few',
+                    });
+                  }}
+                >
+                  <FormattedMessage
+                    id="exclude-full-carparks"
+                    defaultMessage="Exclude full car parks"
+                  />
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+      {showLegSteps && (
+        <div key={props.index} className="row itinerary-row">
+          <div className="small-2 columns" aria-hidden="true" />
+          <ItineraryCircleLineWithIcon
+            index={props.index}
+            modeClassName={modeClassName}
+            hideIcons
+          />
+          <div
+            className={`small-9 columns itinerary-instruction-column ${leg.mode.toLowerCase()}`}
+          >
+            <div className="itinerary-leg-action">
+              <div className="itinerary-leg-action-content">
+                <LegSteps steps={leg.steps} focusToStep={props.focusToStep} />
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 }
 
@@ -226,6 +271,15 @@ CarLeg.propTypes = {
     }),
     mode: PropTypes.string.isRequired,
     alerts: PropTypes.array,
+    steps: PropTypes.arrayOf(
+      PropTypes.shape({
+        relativeDirection: PropTypes.string.isRequired,
+        streetName: PropTypes.string.isRequired,
+        distance: PropTypes.number.isRequired,
+        lat: PropTypes.number.isRequired,
+        lon: PropTypes.number.isRequired,
+      }),
+    ),
   }).isRequired,
   index: PropTypes.number.isRequired,
   focusAction: PropTypes.func.isRequired,
@@ -236,6 +290,7 @@ CarLeg.propTypes = {
   previousLeg: PropTypes.shape({
     arrivalDelay: PropTypes.number,
   }),
+  focusToStep: PropTypes.func.isRequired,
 };
 
 CarLeg.contextTypes = {

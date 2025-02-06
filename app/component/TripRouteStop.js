@@ -3,6 +3,7 @@ import React from 'react';
 import Link from 'found/Link';
 import cx from 'classnames';
 import isEmpty from 'lodash/isEmpty';
+import { alertShape, configShape, vehicleShape } from '../util/shapes';
 import TripLink from './TripLink';
 import FuzzyTripLink from './FuzzyTripLink';
 import AddressRow from './AddressRow';
@@ -14,7 +15,6 @@ import { estimateItineraryDistance } from '../util/geo-utils';
 import ZoneIcon from './ZoneIcon';
 import { getZoneLabel } from '../util/legUtils';
 import getVehicleState from '../util/vehicleStateUtils';
-import { VehicleShape } from '../util/shapes';
 
 const TripRouteStop = (props, { config }) => {
   const {
@@ -54,6 +54,14 @@ const TripRouteStop = (props, { config }) => {
       first,
       last,
     );
+    const vehicleWithParsedShortname = {
+      ...vehicle,
+      shortName:
+        vehicle.shortName &&
+        config.realTime[vehicle.route?.split(':')[0]].vehicleNumberParser(
+          vehicle.shortName,
+        ),
+    };
     const linkProps = {
       stopName: vehicleState === 'arriving' ? prevStop?.name : stop.name,
       nextStopName: vehicleState === 'arriving' ? stop?.name : nextStop?.name,
@@ -61,25 +69,28 @@ const TripRouteStop = (props, { config }) => {
       mode,
       pattern: props.pattern,
       route: props.route,
-      vehicleNumber: vehicle.shortName || shortName,
-      selected:
-        props.selectedVehicle && props.selectedVehicle.id === vehicle.id,
+      vehicleNumber: vehicleWithParsedShortname.shortName || shortName,
+      selected: props.selectedVehicle?.id === vehicle.id,
       color: !stopPassed ? vehicle.color : '',
       setHumanScrolling,
       keepTracking,
       vehicleState,
     };
     return (
-      <div className={cx('route-stop-now', vehicleState)}>
+      <div className={cx('route-stop-now', vehicleState)} key={vehicle.id}>
         {vehicle.tripId ? (
           <TripLink
             key={vehicle.id}
             shortName={shortName}
-            vehicle={vehicle}
+            vehicle={vehicleWithParsedShortname}
             {...linkProps}
           />
         ) : (
-          <FuzzyTripLink key={vehicle.id} vehicle={vehicle} {...linkProps} />
+          <FuzzyTripLink
+            key={vehicle.id}
+            vehicle={vehicleWithParsedShortname}
+            {...linkProps}
+          />
         )}
       </div>
     );
@@ -168,7 +179,7 @@ const TripRouteStop = (props, { config }) => {
 };
 
 TripRouteStop.propTypes = {
-  vehicles: PropTypes.arrayOf(VehicleShape),
+  vehicles: PropTypes.arrayOf(vehicleShape),
   mode: PropTypes.string.isRequired,
   color: PropTypes.string,
   stopPassed: PropTypes.bool.isRequired,
@@ -177,15 +188,7 @@ TripRouteStop.propTypes = {
     name: PropTypes.string,
     desc: PropTypes.string,
     gtfsId: PropTypes.string,
-    alerts: PropTypes.arrayOf(
-      PropTypes.shape({
-        severityLevel: PropTypes.string,
-        validityPeriod: PropTypes.shape({
-          startTime: PropTypes.number,
-          endTime: PropTypes.number,
-        }),
-      }),
-    ),
+    alerts: PropTypes.arrayOf(alertShape),
     zoneId: PropTypes.string,
   }).isRequired,
   nextStop: PropTypes.shape({
@@ -203,10 +206,7 @@ TripRouteStop.propTypes = {
   pattern: PropTypes.string.isRequired,
   route: PropTypes.string.isRequired,
   className: PropTypes.string,
-  selectedVehicle: PropTypes.oneOfType([
-    PropTypes.object,
-    PropTypes.oneOf([false]),
-  ]).isRequired,
+  selectedVehicle: vehicleShape,
   shortName: PropTypes.string,
   setHumanScrolling: PropTypes.func.isRequired,
   keepTracking: PropTypes.bool,
@@ -224,10 +224,11 @@ TripRouteStop.defaultProps = {
   nextStop: null,
   prevStop: null,
   shortName: undefined,
+  selectedVehicle: undefined,
 };
 
 TripRouteStop.contextTypes = {
-  config: PropTypes.object.isRequired,
+  config: configShape.isRequired,
 };
 
 TripRouteStop.displayName = 'TripRouteStop';

@@ -91,7 +91,9 @@ export default class OSMOpeningHours extends React.Component {
   getCurrentOpeningTime = opening => {
     const openingTable = opening.getTable();
     const currentDay = this.weekdays[moment().isoWeekday() - 1];
-    return openingTable[currentDay];
+    return Array.isArray(openingTable[currentDay])
+      ? openingTable[currentDay].join(' ')
+      : openingTable[currentDay];
   };
 
   getDropDownButton = () => {

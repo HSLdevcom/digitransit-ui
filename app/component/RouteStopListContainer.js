@@ -7,23 +7,23 @@ import groupBy from 'lodash/groupBy';
 import values from 'lodash/values';
 import cx from 'classnames';
 import { FormattedMessage } from 'react-intl';
-import moment from 'moment-timezone';
-
+import {
+  configShape,
+  relayShape,
+  vehicleShape,
+  patternShape,
+} from '../util/shapes';
 import RouteStop from './RouteStop';
 import withBreakpoint from '../util/withBreakpoint';
 import { getRouteMode } from '../util/modeUtils';
-import { PatternShape, VehicleShape } from '../util/shapes';
 
 class RouteStopListContainer extends React.PureComponent {
   static propTypes = {
-    pattern: PatternShape.isRequired,
-    patternId: PropTypes.string.isRequired,
+    pattern: patternShape.isRequired,
     className: PropTypes.string,
-    vehicles: PropTypes.objectOf(VehicleShape),
-    currentTime: PropTypes.instanceOf(moment).isRequired,
-    relay: PropTypes.shape({
-      refetch: PropTypes.func.isRequired,
-    }).isRequired,
+    vehicles: PropTypes.objectOf(vehicleShape),
+    currentTime: PropTypes.number.isRequired,
+    relay: relayShape.isRequired,
     breakpoint: PropTypes.string.isRequired,
     hideDepartures: PropTypes.bool,
   };
@@ -31,10 +31,11 @@ class RouteStopListContainer extends React.PureComponent {
   static defaultProps = {
     className: undefined,
     vehicles: [],
+    hideDepartures: false,
   };
 
   static contextTypes = {
-    config: PropTypes.object.isRequired,
+    config: configShape.isRequired,
     match: matchShape.isRequired,
   };
 
@@ -44,20 +45,17 @@ class RouteStopListContainer extends React.PureComponent {
     const mode = getRouteMode(this.props.pattern.route);
     const vehicles = groupBy(
       values(this.props.vehicles).filter(
-        vehicle =>
-          this.props.currentTime - vehicle.timestamp * 1000 < 5 * 60 * 1000,
+        vehicle => this.props.currentTime - vehicle.timestamp < 5 * 60,
       ),
       vehicle => vehicle.next_stop,
     );
     const rowClassName = `bp-${this.props.breakpoint}`;
 
     return stops.map((stop, i) => {
-      const idx = i; // DT-3159: using in key of RouteStop component
+      const idx = i;
       const nextStop = stops[i + 1];
       const prevStop = stops[i - 1];
 
-      const prevStopPattern =
-        i > 0 ? stops[i - 1].stopTimesForPattern[0] : null;
       return (
         <RouteStop
           color={
@@ -71,7 +69,7 @@ class RouteStopListContainer extends React.PureComponent {
           prevStop={prevStop}
           mode={mode}
           vehicle={vehicles[stop.gtfsId] ? vehicles[stop.gtfsId][0] : null}
-          currentTime={this.props.currentTime.unix()}
+          currentTime={this.props.currentTime}
           last={i === stops.length - 1}
           first={i === 0}
           className={rowClassName}
@@ -79,10 +77,6 @@ class RouteStopListContainer extends React.PureComponent {
           shortName={
             this.props.pattern.route && this.props.pattern.route.shortName
           }
-          prevVehicleDeparture={
-            prevStopPattern ? prevStopPattern.scheduledDeparture : null
-          }
-          patternId={this.props.patternId.split('-')[1]}
           hideDepartures={this.props.hideDepartures}
         />
       );
@@ -91,12 +85,12 @@ class RouteStopListContainer extends React.PureComponent {
 
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps({ relay, currentTime }) {
-    const currUnix = this.props.currentTime.unix();
-    const nextUnix = currentTime.unix();
-    if (currUnix !== nextUnix) {
+    const curr = this.props.currentTime;
+    const next = currentTime;
+    if (curr !== next) {
       relay.refetch(
         {
-          currentTime: nextUnix,
+          currentTime: next,
           patternId: this.context.match.params.patternId,
         },
         null,

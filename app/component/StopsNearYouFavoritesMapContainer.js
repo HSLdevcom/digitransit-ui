@@ -73,7 +73,7 @@ const StopsNearYouMapWithStores = connectToStores(
   StopsNearYouFavoritesMapContainer,
   [TimeStore, PreferencesStore, FavouriteStore],
   ({ getStore }) => {
-    const currentTime = getStore(TimeStore).getCurrentTime().unix();
+    const currentTime = getStore(TimeStore).getCurrentTime();
     const language = getStore(PreferencesStore).getLanguage();
     return {
       language,

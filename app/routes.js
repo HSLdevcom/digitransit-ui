@@ -464,6 +464,28 @@ export default config => {
           ),
         }}
       </Route>
+      <Route path="/pois/*">
+        {{
+          content: (
+            <Route
+              getComponent={() =>
+                import(
+                  /* webpackChunkName: "road weather" */ './component/map/sidebar/PublicPoiContent'
+                ).then(getDefault)
+              }
+            />
+          ),
+          map: (
+            <Route
+              getComponent={() =>
+                import(
+                  /* webpackChunkName: "map" */ './component/map/SidebarMap.js'
+                ).then(getDefault)
+              }
+            />
+          ),
+        }}
+      </Route>
       <Route
         path="/dieser-dienst"
         getComponent={() =>

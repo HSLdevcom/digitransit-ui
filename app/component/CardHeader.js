@@ -20,6 +20,7 @@ const CardHeader = (
     code,
     externalLink,
     icon,
+    dataURI,
     icons,
     unlinked,
     showBackButton, // DT-3472
@@ -29,6 +30,7 @@ const CardHeader = (
     showHeaderTitle,
     headerPictureUrl,
     showCardSubHeader = true,
+    isMobile,
   },
   { config, intl },
 ) => {
@@ -62,12 +64,21 @@ const CardHeader = (
       )}
       <div className={cx('card-header', className)}>
         <div className="card-header-content">
-          {icon ? (
+          {icon || dataURI ? (
             <div
-              className="left"
-              style={{ fontSize: 32, paddingRight: 10, height: 32 }}
+              className="left card-header-icon-container"
+              style={{
+                fontSize: 32,
+                paddingRight: 10,
+                height: 32,
+                transform: !isMobile ? 'translateY(12px)' : 'initial',
+              }}
             >
-              <Icon img={icon} color={config.colors.primary} />
+              <Icon
+                img={icon}
+                dataURI={dataURI}
+                color={config.colors.primary}
+              />
             </div>
           ) : null}
           <div className="card-header-wrapper">
@@ -122,6 +133,7 @@ CardHeader.propTypes = {
   code: PropTypes.string,
   externalLink: PropTypes.node,
   icon: PropTypes.string,
+  dataURI: PropTypes.string,
   icons: PropTypes.arrayOf(PropTypes.node),
   children: PropTypes.node,
   unlinked: PropTypes.bool,
@@ -133,6 +145,7 @@ CardHeader.propTypes = {
   isTerminal: PropTypes.bool,
   showHeaderTitle: PropTypes.bool,
   showCardSubHeader: PropTypes.bool,
+  isMobile: PropTypes.bool,
 };
 
 CardHeader.defaultProps = {

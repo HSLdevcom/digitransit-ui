@@ -24,6 +24,11 @@ import LocationShape from '../../prop-types/LocationShape';
 import ErrorShape from '../../prop-types/ErrorShape';
 import RoutingErrorShape from '../../prop-types/RoutingErrorShape';
 
+const spinnerPosition = {
+  top: 'top',
+  bottom: 'bottom',
+};
+
 function ItineraryList(
   {
     activeIndex,
@@ -37,17 +42,16 @@ function ItineraryList(
     onSelectImmediately,
     searchTime,
     to,
-    bikeAndPublicItinerariesToShow,
-    bikeRentAndPublicItinerariesToShow,
-    bikeAndParkItinerariesToShow,
+    bikeAndPublicItineraryCount,
+    bikeRentAndPublicItineraryCount,
+    bikeAndParkItineraryCount,
     walking,
     biking,
     showAlternativePlan,
     separatorPosition,
     loadingMoreItineraries,
-    loading,
     driving,
-    onlyHasWalkingItineraries,
+    hasNoTransitItineraries,
     routingErrors,
   },
   context,
@@ -81,7 +85,7 @@ function ItineraryList(
         intermediatePlaces={intermediatePlaces}
         isCancelled={itineraryHasCancelation(itinerary)}
         showCancelled={showCancelled}
-        onlyHasWalkingItineraries={onlyHasWalkingItineraries}
+        hideBorder={hasNoTransitItineraries}
         zones={
           config.zones.stops && itinerary.legs ? getZones(itinerary.legs) : []
         }
@@ -93,7 +97,7 @@ function ItineraryList(
       context.match.params.hash &&
       context.match.params.hash === 'bikeAndVehicle'
     ) {
-      if (bikeAndParkItinerariesToShow > 0) {
+      if (bikeAndParkItineraryCount > 0) {
         summaries.splice(
           0,
           0,
@@ -105,11 +109,11 @@ function ItineraryList(
         );
       }
       if (
-        itineraries.length > bikeAndParkItinerariesToShow &&
-        bikeAndPublicItinerariesToShow > 0
+        itineraries.length > bikeAndParkItineraryCount &&
+        bikeAndPublicItineraryCount > 0
       ) {
         summaries.splice(
-          bikeAndParkItinerariesToShow ? bikeAndParkItinerariesToShow + 1 : 0,
+          bikeAndParkItineraryCount ? bikeAndParkItineraryCount + 1 : 0,
           0,
           <ItineraryListHeader
             translationId="itinerary-summary.bikeAndPublic-title"
@@ -118,13 +122,13 @@ function ItineraryList(
           />,
         );
       }
-      if (bikeRentAndPublicItinerariesToShow > 0) {
+      if (bikeRentAndPublicItineraryCount > 0) {
         // TODO if we'd start from the end, we don't need to check if other results are shown
         summaries.splice(
-          bikeAndParkItinerariesToShow +
-            bikeAndPublicItinerariesToShow +
-            Math.min(1, bikeAndParkItinerariesToShow) +
-            Math.min(1, bikeAndPublicItinerariesToShow),
+          bikeAndParkItineraryCount +
+            bikeAndPublicItineraryCount +
+            Math.min(1, bikeAndParkItineraryCount) +
+            Math.min(1, bikeAndPublicItineraryCount),
           0,
           <ItineraryListHeader
             translationId="itinerary-summary.bikeRentAndPublic-title"
@@ -143,10 +147,6 @@ function ItineraryList(
           key={`summary-list-separator-${separatorPosition}`}
         />,
       );
-    }
-
-    if (loading) {
-      return null;
     }
 
     const canceledItinerariesCount = itineraries.filter(itineraryHasCancelation)
@@ -199,7 +199,7 @@ function ItineraryList(
             />
           )}
         </div>
-        {onlyHasWalkingItineraries && !showAlternativePlan && (
+        {hasNoTransitItineraries && !showAlternativePlan && (
           <div className="summary-no-route-found" style={{ marginTop: 0 }}>
             <div
               className={cx('flex-horizontal', 'summary-notification', 'info')}
@@ -307,17 +307,16 @@ ItineraryList.propTypes = {
   onSelectImmediately: PropTypes.func.isRequired,
   searchTime: PropTypes.number.isRequired,
   to: LocationShape.isRequired,
-  bikeAndPublicItinerariesToShow: PropTypes.number.isRequired,
-  bikeRentAndPublicItinerariesToShow: PropTypes.number.isRequired,
-  bikeAndParkItinerariesToShow: PropTypes.number.isRequired,
+  bikeAndPublicItineraryCount: PropTypes.number.isRequired,
+  bikeRentAndPublicItineraryCount: PropTypes.number.isRequired,
+  bikeAndParkItineraryCount: PropTypes.number.isRequired,
   walking: PropTypes.bool,
   biking: PropTypes.bool,
   driving: PropTypes.bool,
   showAlternativePlan: PropTypes.bool,
   separatorPosition: PropTypes.number,
   loadingMoreItineraries: PropTypes.string,
-  loading: PropTypes.bool.isRequired,
-  onlyHasWalkingItineraries: PropTypes.bool,
+  hasNoTransitItineraries: PropTypes.bool,
 };
 
 ItineraryList.defaultProps = {
@@ -331,6 +330,7 @@ ItineraryList.defaultProps = {
   separatorPosition: undefined,
   loadingMoreItineraries: undefined,
   routingErrors: [],
+  hasNoTransitItineraries: false,
 };
 
 ItineraryList.contextTypes = {
@@ -451,4 +451,8 @@ const containerComponent = createFragmentContainer(ItineraryList, {
   `,
 });
 
-export { containerComponent as default, ItineraryList as Component };
+export {
+  containerComponent as default,
+  ItineraryList as Component,
+  spinnerPosition,
+};

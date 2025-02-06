@@ -10809,6 +10809,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"csv-parser@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "csv-parser@npm:3.0.0"
+  dependencies:
+    minimist: ^1.2.0
+  bin:
+    csv-parser: bin/csv-parser
+  checksum: adc9d67d9f185249825570778c24d13004625301655330f6b735a052b9fdfbe1a239a014afb1f89939e0626ee573718f71f9f14164db7c17e4bcb2f38d6a162b
+  languageName: node
+  linkType: hard
+
 "current-script-polyfill@npm:^1.0.0":
   version: 1.0.0
   resolution: "current-script-polyfill@npm:1.0.0"
@@ -11407,6 +11418,7 @@ __metadata:
     cookie-parser: 1.4.5
     copy-webpack-plugin: 6.1.0
     css-loader: ^5.2.7
+    csv-parser: ^3.0.0
     debug: 4.1.1
     documentation: 13.2.5
     dotenv: ^10.0.0

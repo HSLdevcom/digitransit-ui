@@ -38,7 +38,6 @@ const MobileItineraryWrapper = (props, context) => {
           key={child.key}
           activeIndex={index + i}
           plan={props.plan}
-          serviceTimeRange={props.serviceTimeRange}
           itinerary={child.props.itinerary}
           params={context.match.params}
           focusToPoint={props.focusToPoint}
@@ -75,7 +74,6 @@ MobileItineraryWrapper.propTypes = {
     secondHash: PropTypes.string,
   }).isRequired,
   plan: PropTypes.object,
-  serviceTimeRange: PropTypes.object.isRequired,
   onSwipe: PropTypes.func,
   toggleCarpoolDrawer: PropTypes.func,
 };

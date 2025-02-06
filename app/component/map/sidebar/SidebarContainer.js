@@ -16,6 +16,7 @@ const SidebarContainer = (
     description,
     photoUrl,
     icon,
+    dataURI,
     breakpoint,
     children,
     className,
@@ -62,11 +63,13 @@ const SidebarContainer = (
             newLayout ? 'padding-new-layout' : '',
           )}
           icon={icon}
+          dataURI={dataURI}
           headerPictureUrl={photoUrl}
           headingStyle="h1"
           description={description}
           showCardSubHeader={Boolean(description)}
           showBackButton={!isMobile}
+          isMobile={isMobile}
         />
         {children}
         {location && (
@@ -87,6 +90,7 @@ SidebarContainer.propTypes = {
   name: PropTypes.string,
   description: PropTypes.string || PropTypes.node,
   icon: PropTypes.string,
+  dataURI: PropTypes.string,
   photoUrl: PropTypes.string,
   breakpoint: PropTypes.string.isRequired,
   children: PropTypes.node,

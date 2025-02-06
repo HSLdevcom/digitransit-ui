@@ -1,6 +1,4 @@
-import moment from 'moment-timezone';
 import React from 'react';
-
 import TripRouteStop from '../../../app/component/TripRouteStop';
 import { Component as TripStopListContainer } from '../../../app/component/TripStopListContainer';
 import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
@@ -9,7 +7,7 @@ describe('<TripStopListContainer />', () => {
   it('should properly mark passed stops when vehicle information is missing', () => {
     const serviceDay = 1551650400;
     const props = {
-      currentTime: moment.unix(serviceDay + 2000),
+      currentTime: serviceDay + 2000,
       locationState: {},
       relay: {
         forceFetch: () => {},
@@ -49,7 +47,7 @@ describe('<TripStopListContainer />', () => {
     };
     const wrapper = shallowWithIntl(<TripStopListContainer {...props} />, {
       context: {
-        config: {},
+        config: { CONFIG: 'default' },
       },
     });
     expect(wrapper.find(TripRouteStop)).to.have.lengthOf(2);
@@ -61,7 +59,7 @@ describe('<TripStopListContainer />', () => {
 
   it('should find the selected vehicle', () => {
     const props = {
-      currentTime: moment.unix(1554882006),
+      currentTime: 1554882006,
       locationState: {},
       relay: {
         forceFetch: () => {},
@@ -130,7 +128,7 @@ describe('<TripStopListContainer />', () => {
     };
     const wrapper = shallowWithIntl(<TripStopListContainer {...props} />, {
       context: {
-        config: {},
+        config: { CONFIG: 'default' },
       },
     });
     expect(wrapper.find(TripRouteStop).prop('selectedVehicle').id).to.equal(

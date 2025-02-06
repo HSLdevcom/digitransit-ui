@@ -72,6 +72,9 @@ export const isFeatureLayerEnabled = (
   if (!feature || !layerName || !mapLayers) {
     return false;
   }
+  if (layerName === 'publicPois') {
+    return true;
+  }
   if (!Object.keys(mapLayers).includes(layerName)) {
     return false;
   }
@@ -91,7 +94,10 @@ export const isFeatureLayerEnabled = (
   return isLayerEnabled(layerName, mapLayers);
 };
 
-export const getMapLayerOptions = (options = {}) => {
+export const getMapLayerOptions = (
+  options = {},
+  enableLockedMapLayers = true,
+) => {
   const layerOptions = {
     parkAndRide: {
       isLocked: false,
@@ -144,7 +150,7 @@ export const getMapLayerOptions = (options = {}) => {
   };
   lockedMapLayers.forEach(key => {
     // Stop keyword locks every mode
-    if (key === 'stop') {
+    if (enableLockedMapLayers && key === 'stop') {
       Object.keys(layerOptions[key]).forEach(subKey => {
         if (layerOptions[key][subKey]) {
           layerOptions[key][subKey].isLocked = true;
@@ -176,4 +182,18 @@ export const getLayerBaseUrl = (urlOrUrlMap, lang) => {
   return typeof urlOrUrlMap === 'string'
     ? urlOrUrlMap
     : urlOrUrlMap[lang] || urlOrUrlMap.default;
+};
+
+/**
+ * Finds a layer defined in app config by its layer code and returns the layer if it exists
+ *
+ * @param {String} code The layers code
+ * @param {*} context
+ * @returns layer
+ */
+export const getLayerByCode = (code, config) => {
+  return config.layers
+    ?.flatMap(category => category.categories || category)
+    .flatMap(category => category.categories || category)
+    .find(({ code: layerCode }) => layerCode === code);
 };

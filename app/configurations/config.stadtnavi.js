@@ -22,6 +22,7 @@ const GEOCODING_BASE_URL =
 const YEAR = 1900 + new Date().getYear();
 const STATIC_MESSAGE_URL = process.env.STATIC_MESSAGE_URL;
 const MOBIDATA_BASE_URL = 'https://api.mobidata-bw.de/';
+const STADTNAVI_SERVICES_BASE_URL = 'https://services.stadtnavi.eu';
 
 const parentConfig = require('./config.waltti.js').default;
 
@@ -36,7 +37,7 @@ export default configMerger(parentConfig, {
     OTP: process.env.OTP_URL || `${API_URL}/routing/v1/router/`,
     MAP: {
       default: MAP_URL,
-      satellite: 'https://tiles-eu.stadtnavi.eu/orthophoto/{z}/{x}/{y}.jpg',
+      satellite: `${STADTNAVI_SERVICES_BASE_URL}/tiles/orthophoto/{z}/{x}/{y}.jpg`,
       semiTransparent: SEMI_TRANSPARENT_MAP_URL,
       bicycle: BIKE_MAP_URL,
     },
@@ -47,8 +48,10 @@ export default configMerger(parentConfig, {
     RENTAL_VEHICLE_MAP: `${API_URL}/routing/v1/router/vectorTiles/rentalVehicles/`,
     REALTIME_RENTAL_STATION_MAP: `${API_URL}/routing/v1/router/vectorTiles/realtimeRentalStations/`,
     WEATHER_STATIONS_MAP: `${API_URL}/map/v1/weather-stations/`,
-    CHARGING_STATIONS_MAP: `${API_URL}/tiles/charging-stations/{z}/{x}/{y}.mvt`,
-    CHARGING_STATION_DETAILS_API: 'https://api.ocpdb.de/api/ocpi/2.2/location/',
+    CHARGING_STATIONS_MAP: `${STADTNAVI_SERVICES_BASE_URL}/tiles/charging-stations/{z}/{x}/{y}.mvt`,
+    CHARGING_STATION_DETAILS_API: `${STADTNAVI_SERVICES_BASE_URL}/ocpi/2.2/location/`,
+    PUBLIC_POIS_MAP:
+      'https://features.stadtnavi.eu/public.pois/{z}/{x}/{y}.pbf',
 
     PELIAS: `${process.env.GEOCODING_BASE_URL || GEOCODING_BASE_URL}/search`,
     PELIAS_REVERSE_GEOCODER: `${
@@ -70,18 +73,12 @@ export default configMerger(parentConfig, {
   defaultLanguage: 'de',
   // issueTrackerUrls define issuetracker URLs per postalCode. In case none matches, issueTrackerUrl is used as falllback
   issueTrackerUrls: {
-    71083:
-      'https://www.herrenberg.de/tools/mvs/?lat=${lat}&lng=${lon}#mvPagePictures',
-    71634:
-      'https://www.ludwigsburg.de/,Lde/start/stadt_buerger/maengelmelder.html?uri=/bms/create%3Flat=${lat}%26lon=${lon}',
-    71636:
-      'https://www.ludwigsburg.de/,Lde/start/stadt_buerger/maengelmelder.html?uri=/bms/create%3Flat=${lat}%26lon=${lon}',
-    71638:
-      'https://www.ludwigsburg.de/,Lde/start/stadt_buerger/maengelmelder.html?uri=/bms/create%3Flat=${lat}%26lon=${lon}',
-    71640:
-      'https://www.ludwigsburg.de/,Lde/start/stadt_buerger/maengelmelder.html?uri=/bms/create%3Flat=${lat}%26lon=${lon}',
-    71642:
-      'https://www.ludwigsburg.de/,Lde/start/stadt_buerger/maengelmelder.html?uri=/bms/create%3Flat=${lat}%26lon=${lon}',
+    71083: 'https://www.herrenberg.de/tools/mvs/?lat=${lat}&lng=${lon}#mvPagePictures',
+    71634: 'https://www.ludwigsburg.de/,Lde/start/stadt_buerger/maengelmelder.html?uri=/bms/create%3Flat=${lat}%26lon=${lon}',
+    71636: 'https://www.ludwigsburg.de/,Lde/start/stadt_buerger/maengelmelder.html?uri=/bms/create%3Flat=${lat}%26lon=${lon}',
+    71638: 'https://www.ludwigsburg.de/,Lde/start/stadt_buerger/maengelmelder.html?uri=/bms/create%3Flat=${lat}%26lon=${lon}',
+    71640: 'https://www.ludwigsburg.de/,Lde/start/stadt_buerger/maengelmelder.html?uri=/bms/create%3Flat=${lat}%26lon=${lon}',
+    71642: 'https://www.ludwigsburg.de/,Lde/start/stadt_buerger/maengelmelder.html?uri=/bms/create%3Flat=${lat}%26lon=${lon}',
   },
 
   MATOMO_URL: process.env.MATOMO_URL,
@@ -97,6 +94,8 @@ export default configMerger(parentConfig, {
     safetyFactor: 0.4,
     slopeFactor: 0.3,
     timeFactor: 0.3,
+    walkReluctance: 3,
+    walkBoardCost: 150
   },
 
   defaultOptions: {
@@ -318,6 +317,7 @@ export default configMerger(parentConfig, {
   // get newest version from: https://github.com/moment/moment-timezone/blame/develop/data/packed/latest.json
   timezoneData:
     'Europe/Berlin|CET CEST CEMT|-10 -20 -30|01010101010101210101210101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010|-2aFe0 11d0 1iO0 11A0 1o00 11A0 Qrc0 6i00 WM0 1fA0 1cM0 1cM0 1cM0 kL0 Nc0 m10 WM0 1ao0 1cp0 dX0 jz0 Dd0 1io0 17c0 1fA0 1a00 1ehA0 1a00 1cM0 1cM0 1cM0 1cM0 1cM0 1cM0 1cM0 1fA0 1cM0 1cM0 1cM0 1cM0 1cM0 1cM0 1cM0 1cM0 1cM0 1cM0 1cM0 1fA0 1cM0 1cM0 1cM0 1cM0 1cM0 1cM0 1cM0 1cM0 1cM0 1cM0 1fA0 1o00 11A0 1o00 11A0 1o00 11A0 1qM0 WM0 1qM0 WM0 1qM0 11A0 1o00 11A0 1o00 11A0 1qM0 WM0 1qM0 WM0 1qM0 WM0 1qM0 11A0 1o00 11A0 1o00 11A0 1qM0 WM0 1qM0 WM0 1qM0 11A0 1o00 11A0 1o00 11A0 1o00 11A0 1qM0 WM0 1qM0 WM0 1qM0 11A0 1o00 11A0 1o00 11A0 1qM0 WM0 1qM0 WM0 1qM0 11A0 1o00 11A0 1o00 11A0 1o00 11A0 1qM0 WM0 1qM0 WM0 1qM0 11A0 1o00 11A0 1o00 11A0 1qM0 WM0 1qM0 WM0 1qM0 WM0 1qM0 11A0 1o00 11A0 1o00|41e5',
+  timeZone: 'Europe/Berlin',
 
   map: {
     useRetinaTiles: true,

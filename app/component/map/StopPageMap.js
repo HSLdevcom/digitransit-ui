@@ -226,7 +226,7 @@ const StopPageMapWithStores = connectToStores(
   componentWithBreakpoint,
   [TimeStore, PositionStore, MapLayerStore],
   ({ config, getStore }, props) => {
-    const currentTime = getStore(TimeStore).getCurrentTime().unix();
+    const currentTime = getStore(TimeStore).getCurrentTime();
     const locationState = getStore(PositionStore).getLocationState();
     const ml = config.showVehiclesOnStopPage ? { notThese: ['vehicles'] } : {};
     if (props.citybike) {
@@ -236,10 +236,13 @@ const StopPageMapWithStores = connectToStores(
     }
     const mapLayers = getStore(MapLayerStore).getMapLayers(ml);
     const mode = getModeFromProps(props);
-    const mapLayerOptions = getMapLayerOptions({
-      lockedMapLayers: ['vehicles', mode],
-      selectedMapLayers: ['vehicles', mode],
-    });
+    const mapLayerOptions = getMapLayerOptions(
+      {
+        lockedMapLayers: ['vehicles', mode],
+        selectedMapLayers: ['vehicles', mode],
+      },
+      config.enableLockedMapLayers,
+    );
     return {
       locationState,
       currentTime,

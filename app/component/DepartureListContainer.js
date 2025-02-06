@@ -171,7 +171,7 @@ class DepartureListContainer extends Component {
             .indexOf(departure.stop.code) >= 0,
       )
       .map(departure => ({
-        tripId: departure.trip.gtfsId.split(':')[1],
+        tripId: departure.trip.gtfsId.split(':').slice(1).join(':'),
       }));
 
     const { config } = this.context;

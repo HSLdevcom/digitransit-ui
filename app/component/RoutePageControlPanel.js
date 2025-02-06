@@ -1,17 +1,18 @@
 /* eslint-disable import/no-unresolved */
-import moment from 'moment-timezone';
+import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
 import cx from 'classnames';
-import sortBy from 'lodash/sortBy'; // DT-3182
+import sortBy from 'lodash/sortBy';
 import { matchShape, routerShape } from 'found';
 import { enrichPatterns } from '@digitransit-util/digitransit-util';
 import connectToStores from 'fluxible-addons-react/connectToStores';
+import { configShape } from '../util/shapes';
 import CallAgencyWarning from './CallAgencyWarning';
 import RoutePatternSelect from './RoutePatternSelect';
 import RouteNotification from './routeNotification';
-import { AlertSeverityLevelType, DATE_FORMAT } from '../constants';
+import { DATE_FORMAT } from '../constants';
 import {
   startRealTimeClient,
   stopRealTimeClient,
@@ -19,13 +20,9 @@ import {
 } from '../action/realTimeClientAction';
 import {
   getCancelationsForRoute,
-  getServiceAlertsForRoute,
-  getServiceAlertsForRouteStops,
+  getAlertsForObject,
   isAlertActive,
   getActiveAlertSeverityLevel,
-  getServiceAlertsForStop,
-  getCancelationsForStop,
-  getServiceAlertsForStopRoutes,
 } from '../util/alertUtils';
 import { isActiveDate } from '../util/patternUtils';
 import {
@@ -64,7 +61,7 @@ class RoutePageControlPanel extends React.Component {
     executeAction: PropTypes.func.isRequired,
     intl: intlShape.isRequired,
     router: routerShape.isRequired,
-    config: PropTypes.object.isRequired,
+    config: configShape.isRequired,
   };
 
   static propTypes = {
@@ -86,7 +83,11 @@ class RoutePageControlPanel extends React.Component {
     tripStartTime: PropTypes.string,
   };
 
-  static defaultProps = { language: 'fi', noInitialServiceDay: false };
+  static defaultProps = {
+    language: 'fi',
+    noInitialServiceDay: false,
+    tripStartTime: undefined,
+  };
 
   constructor(props) {
     super(props);
@@ -197,12 +198,11 @@ class RoutePageControlPanel extends React.Component {
     }
 
     const routeParts = route.gtfsId.split(':');
-    const agency = routeParts[0];
-    const source = realTime[agency];
+    const feedId = routeParts[0];
+    const source = realTime[feedId];
     if (!source || !source.active) {
       return;
     }
-    // DT-4161: Start real time client if current day is in active days
     if (isActiveDate(selectedPattern)) {
       this.startClient(selectedPattern);
     }
@@ -234,27 +234,27 @@ class RoutePageControlPanel extends React.Component {
             this.context.config.itinerary.serviceTimeRange,
           )
         : route.patterns.filter(x => x.code === newPattern);
-
-    const isActivePattern = isActiveDate(pattern);
+    const isActivePattern = isActiveDate(pattern[0]);
 
     // if config contains mqtt feed and old client has not been removed
     if (client) {
       const { realTime } = config;
       const routeParts = route.gtfsId.split(':');
-      const agency = routeParts[0];
-      const source = realTime[agency];
+      const feedId = routeParts[0];
+      const source = realTime[feedId];
 
       if (isActivePattern) {
         const id = source.routeSelector(this.props);
         executeAction(changeRealTimeClientTopics, {
           ...source,
-          agency,
+          feedId,
           options: [
             {
               route: id,
+              feedId,
               mode: route.mode.toLowerCase(),
-              gtfsId: routeParts[1],
-              headsign: pattern.headsign,
+              gtfsId: routeParts.slice(1).join(':'),
+              headsign: pattern[0].headsign,
             },
           ],
           oldTopics: topics,
@@ -265,7 +265,7 @@ class RoutePageControlPanel extends React.Component {
         executeAction(stopRealTimeClient, client);
       }
     } else if (isActivePattern) {
-      this.startClient(pattern);
+      this.startClient(pattern[0]);
     }
 
     let newPathname = decodeURIComponent(match.location.pathname).replace(
@@ -295,11 +295,11 @@ class RoutePageControlPanel extends React.Component {
     }
 
     const routeParts = route.gtfsId.split(':');
-    const agency = routeParts[0];
-    const source = realTime[agency];
+    const feedId = routeParts[0];
+    const source = realTime[feedId];
     const id =
       pattern.code !== match.params.patternId
-        ? routeParts[1]
+        ? routeParts.slice(1).join(':')
         : source.routeSelector(this.props);
     if (!source || !source.active) {
       return;
@@ -307,20 +307,20 @@ class RoutePageControlPanel extends React.Component {
 
     const patternIdSplit = match.params.patternId.split(':');
     const direction = patternIdSplit[patternIdSplit.length - 2];
-    const directionInt = parseInt(direction, 10);
 
     executeAction(startRealTimeClient, {
       ...source,
-      agency,
+      feedId,
       options: [
         {
           route: id,
           // add some information from the context
           // to compensate potentially missing feed data
+          feedId,
           mode: route.mode.toLowerCase(),
-          gtfsId: routeParts[1],
+          gtfsId: routeParts.slice(1).join(':'),
           headsign: pattern.headsign,
-          directionInt,
+          direction,
           tripStartTime,
         },
       ],
@@ -368,7 +368,7 @@ class RoutePageControlPanel extends React.Component {
     ) {
       for (let i = 0; i < config.routeNotifications.length; i++) {
         const notification = config.routeNotifications[i];
-        if (notification.showForRoute(route)) {
+        if (notification.showForRoute?.(route)) {
           routeNotifications.push(
             <RouteNotification
               key={notification.id}
@@ -385,58 +385,31 @@ class RoutePageControlPanel extends React.Component {
 
     const activeTab = getActiveTab(match.location.pathname);
     const currentTime = moment().unix();
+    const selectedPattern = route?.patterns?.find(
+      pattern => pattern.code === patternId,
+    );
     const hasActiveAlert = isAlertActive(
-      getCancelationsForRoute(route, patternId),
-      [
-        ...getServiceAlertsForRoute(route, patternId),
-        ...getServiceAlertsForRouteStops(route, patternId),
-      ],
       currentTime,
+      getCancelationsForRoute(
+        route,
+        patternId,
+        currentTime,
+        config.routeCancelationAlertValidity,
+      ),
+      getAlertsForObject(selectedPattern),
     );
 
-    const routePatternStopAlerts = [];
-
-    if (route.patterns && route.patterns.length > 0) {
-      route.patterns.forEach(
-        pattern =>
-          pattern.stops &&
-          pattern.stops.forEach(stop => {
-            return (
-              getActiveAlertSeverityLevel(
-                [
-                  ...getCancelationsForStop(stop),
-                  ...getServiceAlertsForStop(stop),
-                  ...getServiceAlertsForStopRoutes(stop),
-                ],
-                currentTime,
-              ) && routePatternStopAlerts.push(...stop.alerts)
-            );
-          }),
-      );
-    }
-
     const hasActiveServiceAlerts = getActiveAlertSeverityLevel(
-      getServiceAlertsForRoute(route, patternId),
+      getAlertsForObject(selectedPattern),
       currentTime,
     );
 
     const disruptionClassName =
-      ((hasActiveAlert ||
-        routePatternStopAlerts.find(
-          alert =>
-            alert.severityLevel ===
-            (AlertSeverityLevelType.Severe || AlertSeverityLevelType.Warning),
-        )) &&
-        'active-disruption-alert') ||
-      ((hasActiveServiceAlerts ||
-        routePatternStopAlerts.find(
-          alert =>
-            alert.severityLevel !==
-            (AlertSeverityLevelType.Severe || AlertSeverityLevelType.Warning),
-        )) &&
-        'active-service-alert');
+      (hasActiveAlert && 'active-disruption-alert') ||
+      (hasActiveServiceAlerts && 'active-service-alert');
 
-    const useCurrentTime = activeTab === Tab.Stops; // DT-3182
+    const useCurrentTime = activeTab === Tab.Stops;
+
     const countOfButtons = 3;
     const isOnDemandTaxi = route.type === 715;
 

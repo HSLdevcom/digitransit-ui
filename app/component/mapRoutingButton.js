@@ -7,7 +7,7 @@ import Icon from './Icon';
 import { addressToItinerarySearch, locationToOTP } from '../util/otpStrings';
 import {
   getPathWithEndpointObjects,
-  getSummaryPath,
+  getItineraryPagePath,
   PREFIX_ITINERARY_SUMMARY,
 } from '../util/path';
 
@@ -55,7 +55,7 @@ const MapRoutingButton = ({ stop }, { intl, router, match, config }) => {
     } else {
       const newLocation = {
         ...location,
-        pathname: getSummaryPath(
+        pathname: getItineraryPagePath(
           addressToItinerarySearch({}),
           addressToItinerarySearch({}),
         ),

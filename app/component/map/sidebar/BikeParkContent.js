@@ -147,7 +147,7 @@ const BikeParkContent = ({ match }, { intl }) => {
               location={{
                 address: getName(props),
                 lat: Number(props?.vehicleParking?.lat),
-                lon: Number(props?.vehicleParking?.lng),
+                lon: Number(props?.vehicleParking?.lon),
               }}
               photoUrl={props?.vehicleParking?.imageUrl}
             >

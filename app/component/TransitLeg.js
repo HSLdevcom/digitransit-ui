@@ -300,7 +300,7 @@ class TransitLeg extends React.Component {
         const notification = config.routeNotifications[i];
         if (notification.showForRoute(leg.route)) {
           routeNotifications.push(
-            <div className="disruption">
+            <div className="disruption" key={`note-${i}`}>
               <a
                 href={`https://www.${notification.link[lang]}`}
                 className="disruption-link"
@@ -529,10 +529,12 @@ class TransitLeg extends React.Component {
                   to={
                     (alert.route &&
                       alert.route.gtfsId &&
+                      leg.route &&
+                      leg.trip &&
                       `/${PREFIX_ROUTES}/${leg.route.gtfsId}/${PREFIX_DISRUPTION}/${leg.trip.pattern.code}`) ||
-                    (alert.stop &&
-                      alert.stop.gtfsId &&
-                      `/${PREFIX_STOPS}/${alert.stop.gtfsId}/${PREFIX_DISRUPTION}/`)
+                    (alert.stop && alert.stop.gtfsId
+                      ? `/${PREFIX_STOPS}/${alert.stop.gtfsId}/${PREFIX_DISRUPTION}/`
+                      : '')
                   }
                   className="disruption-link"
                 >
@@ -543,9 +545,11 @@ class TransitLeg extends React.Component {
                     />
                   </div>
                   {config.showAlertHeader ? (
-                    <div className="description">{alert.header}</div>
+                    <div className="description">{alert.alertHeaderText}</div>
                   ) : (
-                    <div className="description">{alert.description}</div>
+                    <div className="description">
+                      {alert.alertDescriptionText}
+                    </div>
                   )}
                   <Icon
                     img="icon-icon_arrow-collapse--right"

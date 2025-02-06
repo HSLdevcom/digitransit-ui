@@ -113,7 +113,7 @@ Icon.propTypes = {
   color: PropTypes.string,
   height: PropTypes.number,
   id: PropTypes.string,
-  img: PropTypes.string.isRequired,
+  img: PropTypes.string,
   omitViewBox: PropTypes.bool,
   viewBox: PropTypes.string,
   width: PropTypes.number,

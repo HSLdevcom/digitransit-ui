@@ -15,7 +15,10 @@ import { mapLayerShape } from '../../../store/MapLayerStore';
 import MarkerSelectPopup from './MarkerSelectPopup';
 import LocationPopup from '../popups/LocationPopup';
 import TileContainer from './TileContainer';
-import { isFeatureLayerEnabled } from '../../../util/mapLayerUtils';
+import {
+  isFeatureLayerEnabled,
+  getLayerByCode,
+} from '../../../util/mapLayerUtils';
 import RealTimeInformationStore from '../../../store/RealTimeInformationStore';
 import PreferencesStore from '../../../store/PreferencesStore';
 import { addAnalyticsEvent } from '../../../util/analyticsUtils';
@@ -186,6 +189,7 @@ class TileLayerContainer extends GridLayer {
         leaflet: { map },
         mapLayers,
       } = this.props;
+      const { config, intl } = this.context;
       const { coords: prevCoords } = this.state;
       const popup = map._popup; // eslint-disable-line no-underscore-dangle
       // navigate to citybike stop page if single stop is clicked
@@ -245,6 +249,37 @@ class TileLayerContainer extends GridLayer {
           );
           return;
         }
+      }
+
+      if (
+        selectableTargets.length === 1 &&
+        selectableTargets?.find(({ layer }) => {
+          return layer === 'publicPois';
+        })
+      ) {
+        const { coords: coordinates, feature } = selectableTargets[0];
+
+        const { lat, lon: lng } = coordinates;
+        const { properties } = feature;
+
+        const { category3: code, name, osm_id: osmId } = properties;
+
+        const layer = getLayerByCode(code, config);
+
+        const params = pickBy(
+          {
+            lat,
+            lng,
+            name: name || layer.translations[intl.locale],
+            osmId,
+          },
+          value => value !== undefined,
+        );
+
+        this.context.router.push(
+          `/pois/${code}?${new URLSearchParams(params).toString()}`,
+        );
+        return;
       }
 
       if (
@@ -319,16 +354,18 @@ class TileLayerContainer extends GridLayer {
     const breakpoint = getClientBreakpoint(); // DT-3470
     let showPopup = true; // DT-3470
 
-    if (typeof this.state.selectableTargets !== 'undefined') {
-      if (this.state.selectableTargets.length === 1) {
+    const { selectableTargets } = this.state;
+
+    if (typeof selectableTargets !== 'undefined') {
+      if (selectableTargets.length === 1) {
         let id;
-        if (this.state.selectableTargets[0].layer === 'roadworks') {
+        if (selectableTargets[0].layer === 'roadworks') {
           const {
             starttime,
             endtime,
             street,
             description,
-          } = this.state.selectableTargets[0].feature.properties;
+          } = selectableTargets[0].feature.properties;
           const { lat, lng } = this.state.coords;
           const params = pickBy(
             {
@@ -346,10 +383,8 @@ class TileLayerContainer extends GridLayer {
             `/${PREFIX_ROADWORKS}?${new URLSearchParams(params).toString()}`,
           );
           showPopup = false;
-        } else if (
-          this.state.selectableTargets[0].layer === 'realTimeVehicle'
-        ) {
-          const { vehicle } = this.state.selectableTargets[0].feature;
+        } else if (selectableTargets[0].layer === 'realTimeVehicle') {
+          const { vehicle } = selectableTargets[0].feature;
           const realTimeInfoVehicle = this.props.vehicles[vehicle.id];
           if (realTimeInfoVehicle) {
             latlng = {
@@ -361,12 +396,12 @@ class TileLayerContainer extends GridLayer {
           contents = (
             <SelectVehicleContainer vehicle={vehicle} latlng={latlng} />
           );
-        } else if (this.state.selectableTargets[0].layer === 'parkAndRide') {
+        } else if (selectableTargets[0].layer === 'parkAndRide') {
           const { lat, lng } = this.state.coords;
           const {
             id: vehicleParkingId,
             name,
-          } = this.state.selectableTargets[0].feature.properties;
+          } = selectableTargets[0].feature.properties;
           const params = pickBy(
             {
               lat,
@@ -382,14 +417,12 @@ class TileLayerContainer extends GridLayer {
           );
           this.setState({ selectableTargets: undefined });
           showPopup = false;
-        } else if (
-          this.state.selectableTargets[0].layer === 'parkAndRideForBikes'
-        ) {
+        } else if (selectableTargets[0].layer === 'parkAndRideForBikes') {
           const {
             // eslint-disable-next-line no-shadow
             id,
             name,
-          } = this.state.selectableTargets[0].feature.properties;
+          } = selectableTargets[0].feature.properties;
           const { lat, lng } = this.state.coords;
           const params = pickBy(
             {
@@ -405,13 +438,11 @@ class TileLayerContainer extends GridLayer {
             `/${PREFIX_BIKEPARK}?${new URLSearchParams(params).toString()}`,
           );
           showPopup = false;
-        } else if (
-          this.state.selectableTargets[0].layer === 'chargingStations'
-        ) {
+        } else if (selectableTargets[0].layer === 'chargingStations') {
           const {
             id: stationId,
             name,
-          } = this.state.selectableTargets[0].feature.properties;
+          } = selectableTargets[0].feature.properties;
           const { lat, lng } = this.state.coords;
           const params = pickBy(
             {
@@ -429,9 +460,7 @@ class TileLayerContainer extends GridLayer {
             ).toString()}`,
           );
           showPopup = false;
-        } else if (
-          this.state.selectableTargets[0].layer === 'weatherStations'
-        ) {
+        } else if (selectableTargets[0].layer === 'weatherStations') {
           const {
             airTemperatureC,
             airPressureRelhPa,
@@ -442,7 +471,7 @@ class TileLayerContainer extends GridLayer {
             icePercentage,
             updatedAt,
             address,
-          } = this.state.selectableTargets[0].feature.properties;
+          } = selectableTargets[0].feature.properties;
           const { lat, lng } = this.state.coords;
           const params = pickBy(
             {
@@ -465,11 +494,10 @@ class TileLayerContainer extends GridLayer {
             `/${PREFIX_ROAD_WEATHER}?${new URLSearchParams(params).toString()}`,
           );
           showPopup = false;
-        } else if (this.state.selectableTargets[0].layer === 'datahubTiles') {
+        } else if (selectableTargets[0].layer === 'datahubTiles') {
           const { lat, lng } = this.state.coords;
-          const datahubId = this.state.selectableTargets[0].feature.properties
-            .datahub_id;
-          const name = this.state.selectableTargets[0].feature.properties?.name;
+          const datahubId = selectableTargets[0].feature.properties.datahub_id;
+          const name = selectableTargets[0].feature.properties?.name;
           const params = pickBy(
             {
               lat,
@@ -499,7 +527,7 @@ class TileLayerContainer extends GridLayer {
             {contents}
           </Popup>
         );
-      } else if (this.state.selectableTargets.length > 1) {
+      } else if (selectableTargets.length > 1) {
         if (
           !this.context.config.map.showStopMarkerPopupOnMobile &&
           breakpoint === 'small'
@@ -517,12 +545,12 @@ class TileLayerContainer extends GridLayer {
           >
             <MarkerSelectPopup
               selectRow={this.selectRow}
-              options={this.state.selectableTargets}
+              options={selectableTargets}
               colors={this.context.config.colors}
             />
           </Popup>
         );
-      } else if (this.state.selectableTargets.length === 0) {
+      } else if (selectableTargets.length === 0) {
         if (
           !this.context.config.map.showStopMarkerPopupOnMobile &&
           breakpoint === 'small'

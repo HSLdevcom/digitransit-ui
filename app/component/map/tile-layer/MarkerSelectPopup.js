@@ -11,6 +11,7 @@ import SelectCarpoolRow from './SelectCarpoolRow';
 import SelectRoadworksRow from './SelectRoadworksRow';
 import SelectChargingStationRow from './SelectChargingStationRow';
 import SelectDatahubPoiRow from './SelectDatahubPoiRow';
+import SelectPublicPoiRow from './SelectPublicPoiRow';
 
 function MarkerSelectPopup(props) {
   const hasStop = () =>
@@ -132,6 +133,19 @@ function MarkerSelectPopup(props) {
         />
       );
     }
+
+    if (option.layer === 'publicPois') {
+      const { lat, lon } = option.coords;
+      return (
+        <SelectPublicPoiRow
+          {...option.feature}
+          key={option.feature.properties.id}
+          latitude={lat}
+          longitude={lon}
+        />
+      );
+    }
+
     return null;
   });
   let id = 'choose-stop';

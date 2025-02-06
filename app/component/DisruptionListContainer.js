@@ -6,42 +6,50 @@ import { FormattedMessage, intlShape } from 'react-intl';
 import { createFragmentContainer, graphql } from 'react-relay';
 import AlertList from './AlertList';
 import Icon from './Icon';
-import { AlertSeverityLevelType } from '../constants';
+import { AlertSeverityLevelType, AlertEntityType } from '../constants';
 import {
-  getServiceAlertDescription,
-  getServiceAlertHeader,
-  getServiceAlertUrl,
+  getEntitiesOfTypeFromAlert,
+  hasEntitiesOfType,
+  hasEntitiesOfTypes,
   isAlertValid,
-  createUniqueAlertList,
 } from '../util/alertUtils';
 import { isKeyboardSelectionEvent } from '../util/browser';
 import withBreakpoint from '../util/withBreakpoint';
+import { alertShape } from '../util/shapes';
 
 const isDisruption = alert =>
-  alert && alert.severityLevel !== AlertSeverityLevelType.Info;
+  alert && alert.alertSeverityLevel !== AlertSeverityLevelType.Info;
 const isInfo = alert => !isDisruption(alert);
 
-const mapAlert = (alert, locale) => ({
-  description: getServiceAlertDescription(alert, locale),
-  header: getServiceAlertHeader(alert, locale),
-  route: { ...alert.route },
-  severityLevel: alert.alertSeverityLevel,
-  stop: { ...alert.stop },
-  url: getServiceAlertUrl(alert, locale),
-  validityPeriod: {
-    endTime: alert.effectiveEndDate,
-    startTime: alert.effectiveStartDate,
-  },
-  source: alert.feed,
-});
+const splitAlertByRouteModeAndColor = alert => {
+  const entitiesByModeAndColor = {};
+  alert.entities?.forEach(entity => {
+    // eslint-disable-next-line no-underscore-dangle
+    if (entity.__typename === AlertEntityType.Route) {
+      const color = entity.color ? entity.color.toLowerCase() : null;
+      const mapKey = `${entity.mode}-${color}`;
+      entitiesByModeAndColor[mapKey] = entitiesByModeAndColor[mapKey] || [];
+      entitiesByModeAndColor[mapKey].push(entity);
+    }
+  });
+  return Object.values(entitiesByModeAndColor).map(entities => {
+    return { ...alert, entities };
+  });
+};
 
 function DisruptionListContainer(
-  { breakpoint, currentTime, viewer },
+  { breakpoint, currentTime, viewer, onClickLink },
   { intl },
 ) {
-  if (!viewer || !viewer.alerts || viewer.alerts.length === 0) {
+  const validAlerts = viewer?.alerts
+    ?.filter(alert => isAlertValid(alert, currentTime))
+    .filter(alert =>
+      hasEntitiesOfTypes(alert, [AlertEntityType.Route, AlertEntityType.Stop]),
+    );
+
+  if (!validAlerts || validAlerts.length === 0) {
     return (
-      <div className="stop-no-alerts-container">
+      <div className="no-alerts-container">
         <FormattedMessage
           id="disruption-info-no-alerts"
           defaultMessage="No known disruptions or diversions."
@@ -50,57 +58,30 @@ function DisruptionListContainer(
     );
   }
 
-  const routeAlerts = [];
-  const stopAlerts = [];
-  const mappedRouteDisruptions = [];
-  const mappedRouteServiceAlerts = [];
-
-  const mappedStopDisruptions = [];
-  const mappedStopServiceAlerts = [];
-
-  viewer.alerts.forEach(alert => {
-    const mappedAlert = mapAlert(alert, intl.locale);
-    if (!isAlertValid(mappedAlert, currentTime)) {
-      return;
-    }
-    if (!isDisruption(mappedAlert)) {
-      if (alert.route) {
-        mappedRouteServiceAlerts.push(mappedAlert);
-      } else if (alert.stop) {
-        mappedStopServiceAlerts.push(mappedAlert);
-      }
-    } else if (alert.route) {
-      mappedRouteDisruptions.push(mappedAlert);
-    } else if (alert.stop) {
-      mappedStopDisruptions.push(mappedAlert);
-    }
-
-    if (alert.route) {
-      routeAlerts.push(mappedAlert);
-    } else if (alert.stop) {
-      stopAlerts.push(mappedAlert);
-    }
-  });
-
-  const disruptionCount =
-    createUniqueAlertList(mappedRouteDisruptions, false, currentTime, true)
-      .length +
-    createUniqueAlertList(mappedStopDisruptions, false, currentTime, true)
-      .length;
-  const infoCount =
-    createUniqueAlertList(mappedRouteServiceAlerts, false, currentTime, true)
-      .length +
-    createUniqueAlertList(mappedStopServiceAlerts, false, currentTime, true)
-      .length;
+  const disruptionCount = validAlerts.filter(isDisruption).length;
+  const infoCount = validAlerts.filter(isInfo).length;
 
   const [showDisruptions, setShowDisruptions] = useState(disruptionCount > 0);
 
-  const routeAlertsToShow = routeAlerts.filter(
-    showDisruptions ? isDisruption : isInfo,
-  );
-  const stopAlertsToShow = stopAlerts.filter(
-    showDisruptions ? isDisruption : isInfo,
-  );
+  const routeAlertsToShow = validAlerts
+    .filter(alert => hasEntitiesOfType(alert, AlertEntityType.Route))
+    .filter(showDisruptions ? isDisruption : isInfo)
+    .map(alert => {
+      return {
+        ...alert,
+        entities: getEntitiesOfTypeFromAlert(alert, AlertEntityType.Route),
+      };
+    })
+    .flatMap(splitAlertByRouteModeAndColor);
+  const stopAlertsToShow = validAlerts
+    .filter(alert => hasEntitiesOfType(alert, AlertEntityType.Stop))
+    .filter(showDisruptions ? isDisruption : isInfo)
+    .map(alert => {
+      return {
+        ...alert,
+        entities: getEntitiesOfTypeFromAlert(alert, AlertEntityType.Stop),
+      };
+    });
 
   return (
     <div className="disruption-list-container">
@@ -169,8 +150,9 @@ function DisruptionListContainer(
             </div>
             <AlertList
               disableScrolling
-              showRouteNameLink
+              showLinks
               serviceAlerts={routeAlertsToShow}
+              onClickLink={onClickLink}
             />
           </React.Fragment>
         )}
@@ -181,8 +163,9 @@ function DisruptionListContainer(
             </div>
             <AlertList
               disableScrolling
-              showRouteNameLink
+              showLinks
               serviceAlerts={stopAlertsToShow}
+              onClickLink={onClickLink}
             />
           </React.Fragment>
         )}
@@ -199,12 +182,14 @@ DisruptionListContainer.propTypes = {
   breakpoint: PropTypes.string,
   currentTime: PropTypes.number.isRequired,
   viewer: PropTypes.shape({
-    alerts: PropTypes.array,
+    alerts: PropTypes.arrayOf(alertShape),
   }).isRequired,
+  onClickLink: PropTypes.func,
 };
 
 DisruptionListContainer.defaultProps = {
   breakpoint: 'small',
+  onClickLink: undefined,
 };
 
 const containerComponent = createFragmentContainer(
@@ -212,7 +197,7 @@ const containerComponent = createFragmentContainer(
     withBreakpoint(DisruptionListContainer),
     ['TimeStore'],
     context => ({
-      currentTime: context.getStore('TimeStore').getCurrentTime().unix(),
+      currentTime: context.getStore('TimeStore').getCurrentTime(),
     }),
   ),
   {
@@ -229,29 +214,21 @@ const containerComponent = createFragmentContainer(
           alertUrl
           effectiveEndDate
           effectiveStartDate
-          alertDescriptionTextTranslations {
-            language
-            text
-          }
-          alertHeaderTextTranslations {
-            language
-            text
-          }
-          alertUrlTranslations {
-            language
-            text
-          }
-          route {
-            color
-            mode
-            shortName
-            gtfsId
-          }
-          stop {
-            name
-            code
-            vehicleMode
-            gtfsId
+          entities {
+            __typename
+            ... on Stop {
+              name
+              code
+              vehicleMode
+              gtfsId
+            }
+            ... on Route {
+              color
+              type
+              mode
+              shortName
+              gtfsId
+            }
           }
         }
       }

@@ -13,7 +13,7 @@ export const StreetModeSelector = ({
   showCarOptionButton,
   showParkRideOptionButton,
   showOnDemandTaxiOptionButton,
-  toggleStreetMode,
+  selectStreetMode,
   setStreetModeAndSelect,
   weatherData,
   walkPlan,
@@ -51,9 +51,10 @@ export const StreetModeSelector = ({
           ...(bikeParkPlan?.itineraries || []),
           ...(bikeAndPublicPlan?.itineraries || []),
           ...(bikeRentAndPublicPlan?.itineraries || []),
-        ],
+        ].filter(itinerary => itinerary.legs.some(l => l.transitLeg)),
       }
     : {};
+
   const carRentalOrOwn = !loading
     ? {
         itineraries: [
@@ -97,7 +98,7 @@ export const StreetModeSelector = ({
               icon="icon-icon_scooter_rider"
               name="scooter"
               plan={scooterRentAndPublicPlan}
-              onClick={toggleStreetMode}
+              onClick={selectStreetMode}
             />
           )}
           {showBikeAndPublicOptionButton && (
@@ -105,7 +106,7 @@ export const StreetModeSelector = ({
               icon="icon-icon_cyclist"
               name="bikeAndVehicle"
               plan={bikeAndVehicle}
-              onClick={toggleStreetMode}
+              onClick={selectStreetMode}
             />
           )}
 
@@ -114,7 +115,7 @@ export const StreetModeSelector = ({
               icon="icon-icon_car-withoutBox"
               name="parkAndRide"
               plan={{ itineraries: [...(parkAndRideItineraries || [])] }}
-              onClick={toggleStreetMode}
+              onClick={selectStreetMode}
             />
           )}
           {showCarOptionButton && (
@@ -122,7 +123,7 @@ export const StreetModeSelector = ({
               icon="icon-icon_car-withoutBox"
               name="car"
               plan={carRentalOrOwn}
-              onClick={toggleStreetMode}
+              onClick={selectStreetMode}
             />
           )}
           {showOnDemandTaxiOptionButton && (
@@ -147,7 +148,6 @@ StreetModeSelector.propTypes = {
   showCarOptionButton: PropTypes.bool.isRequired,
   showParkRideOptionButton: PropTypes.bool.isRequired,
   showOnDemandTaxiOptionButton: PropTypes.bool.isRequired,
-  toggleStreetMode: PropTypes.func.isRequired,
   setStreetModeAndSelect: PropTypes.func.isRequired,
   walkPlan: PropTypes.object,
   bikePlan: PropTypes.object,

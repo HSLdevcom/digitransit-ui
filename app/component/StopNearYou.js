@@ -102,7 +102,7 @@ const connectedComponent = connectToStores(
   (context, props) => {
     return {
       ...props,
-      currentTime: context.getStore('TimeStore').getCurrentTime().unix(),
+      currentTime: context.getStore('TimeStore').getCurrentTime(),
     };
   },
 );

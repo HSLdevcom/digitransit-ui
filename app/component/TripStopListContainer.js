@@ -6,45 +6,17 @@ import isEmpty from 'lodash/isEmpty';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import groupBy from 'lodash/groupBy';
 import values from 'lodash/values';
-import moment from 'moment-timezone';
+import { configShape, tripShape, vehicleShape } from '../util/shapes';
 import { getRouteMode } from '../util/modeUtils';
 import TripRouteStop from './TripRouteStop';
 import withBreakpoint from '../util/withBreakpoint';
 
 class TripStopListContainer extends React.PureComponent {
   static propTypes = {
-    trip: PropTypes.shape({
-      gtfsId: PropTypes.string.isRequired,
-      route: PropTypes.shape({
-        gtfsId: PropTypes.string,
-        shortName: PropTypes.string,
-        type: PropTypes.number,
-        mode: PropTypes.string,
-        color: PropTypes.string,
-      }),
-      stoptimesForDate: PropTypes.arrayOf(
-        PropTypes.shape({
-          stop: PropTypes.shape({
-            gtfsId: PropTypes.string,
-          }),
-          realtimeDeparture: PropTypes.number,
-          serviceDay: PropTypes.number,
-        }),
-      ).isRequired,
-      pattern: PropTypes.shape({
-        code: PropTypes.string.isRequired,
-        directionId: PropTypes.number.isRequired,
-      }).isRequired,
-    }).isRequired,
+    trip: tripShape.isRequired,
     className: PropTypes.string,
-    vehicles: PropTypes.objectOf(
-      PropTypes.shape({
-        id: PropTypes.string,
-        next_stop: PropTypes.string,
-        timestamp: PropTypes.number,
-      }),
-    ),
-    currentTime: PropTypes.instanceOf(moment).isRequired,
+    vehicles: PropTypes.objectOf(vehicleShape),
+    currentTime: PropTypes.number.isRequired,
     tripStart: PropTypes.string.isRequired,
     breakpoint: PropTypes.string.isRequired,
     keepTracking: PropTypes.bool,
@@ -59,7 +31,7 @@ class TripStopListContainer extends React.PureComponent {
   };
 
   static contextTypes = {
-    config: PropTypes.object.isRequired,
+    config: configShape.isRequired,
   };
 
   getStops() {
@@ -75,7 +47,7 @@ class TripStopListContainer extends React.PureComponent {
 
     const vehicles = groupBy(
       values(propVehicles).filter(
-        vehicle => currentTime - vehicle.timestamp * 1000 < 5 * 60 * 1000,
+        vehicle => currentTime - vehicle.timestamp < 5 * 60,
       ),
       vehicle => vehicle.next_stop,
     );
@@ -85,6 +57,8 @@ class TripStopListContainer extends React.PureComponent {
       .filter(
         vehicle =>
           vehicle.direction === undefined ||
+          trip.pattern.directionId === undefined ||
+          trip.pattern.directionId === -1 ||
           vehicle.direction === trip.pattern.directionId,
       )
       .filter(
@@ -98,7 +72,8 @@ class TripStopListContainer extends React.PureComponent {
       );
 
     // selected vehicle
-    const vehicle = matchingVehicles.length > 0 && matchingVehicles[0];
+    const vehicle =
+      matchingVehicles.length > 0 ? matchingVehicles[0] : undefined;
     const nextStop = vehicle && vehicle.next_stop;
     let stopPassed = true;
 
@@ -106,7 +81,7 @@ class TripStopListContainer extends React.PureComponent {
       if (nextStop === stoptime.stop.gtfsId) {
         stopPassed = false;
       } else if (
-        stoptime.realtimeDeparture + stoptime.serviceDay > currentTime.unix() &&
+        stoptime.realtimeDeparture + stoptime.serviceDay > currentTime &&
         (isEmpty(vehicle) || (vehicle && vehicle.next_stop === undefined))
       ) {
         stopPassed = false;
@@ -127,7 +102,7 @@ class TripStopListContainer extends React.PureComponent {
           selectedVehicle={vehicle}
           stopPassed={stopPassed}
           realtime={stoptime.realtime}
-          currentTime={currentTime.unix()}
+          currentTime={currentTime}
           realtimeDeparture={stoptime.realtimeDeparture}
           pattern={trip.pattern.code}
           route={trip.route.gtfsId}

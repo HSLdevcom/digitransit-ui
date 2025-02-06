@@ -1,6 +1,6 @@
 import Store from 'fluxible/addons/BaseStore';
-import moment from 'moment';
 import events from '../util/events';
+import { unixTime } from '../util/timeUtils';
 
 class RealTimeInformationStore extends Store {
   static storeName = 'RealTimeInformationStore';
@@ -61,12 +61,12 @@ class RealTimeInformationStore extends Store {
 
   handleMessage(message) {
     if (message) {
-      const receivedAt = moment().unix();
+      const receivedAt = unixTime();
       if (Array.isArray(message)) {
         message.forEach(msg => {
           if (
             !this.topicsByRoute ||
-            this.topicsByRoute[msg.route.split(':')[1]]
+            this.topicsByRoute[msg.route.split(':').slice(1).join(':')]
           ) {
             // Filter out old messages
             this.vehicles[msg.id] = { ...msg, receivedAt };
@@ -74,7 +74,7 @@ class RealTimeInformationStore extends Store {
         });
       } else if (
         !this.topicsByRoute ||
-        this.topicsByRoute[message.route.split(':')[1]]
+        this.topicsByRoute[message.route.split(':').slice(1).join(':')]
       ) {
         this.vehicles[message.id] = { ...message, receivedAt };
       }

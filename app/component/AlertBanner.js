@@ -2,20 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'found';
 import TruncateMarkup from 'react-truncate-markup';
-import connectToStores from 'fluxible-addons-react/connectToStores';
+import { alertShape, configShape } from '../util/shapes';
 import Icon from './Icon';
-import {
-  getServiceAlertDescription,
-  alertSeverityCompare,
-  getServiceAlertHeader,
-} from '../util/alertUtils';
+import { alertSeverityCompare } from '../util/alertUtils';
 
-const AlertBanner = ({ alerts, linkAddress, language }, { config }) => {
+const AlertBanner = ({ alerts, linkAddress }, { config }) => {
   const alert = [...alerts].sort(alertSeverityCompare)[0];
-  const message = getServiceAlertDescription(alert, language);
-  const header = getServiceAlertHeader(alert, language);
+  const message = alert.alertDescriptionText;
+  const header = alert.alertHeaderText;
   if (!message && !header) {
-    return <></>;
+    return null;
   }
   const icon =
     alert.alertSeverityLevel !== 'INFO'
@@ -41,26 +37,19 @@ const AlertBanner = ({ alerts, linkAddress, language }, { config }) => {
           <Icon
             img="icon-icon_arrow-collapse--right"
             color={config.colors.primary}
-          />{' '}
+          />
         </div>
       </div>
     </Link>
   );
 };
 
-const connectedComponent = connectToStores(
-  AlertBanner,
-  ['PreferencesStore'],
-  ({ getStore }) => ({
-    language: getStore('PreferencesStore').getLanguage(),
-  }),
-);
 AlertBanner.propTypes = {
-  alerts: PropTypes.array.isRequired,
+  alerts: PropTypes.arrayOf(alertShape).isRequired,
   linkAddress: PropTypes.string.isRequired,
-  language: PropTypes.string.isRequired,
 };
+
 AlertBanner.contextTypes = {
-  config: PropTypes.object.isRequired,
+  config: configShape.isRequired,
 };
-export default connectedComponent;
+export default AlertBanner;

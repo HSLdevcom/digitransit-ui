@@ -152,7 +152,7 @@ export function startMqttClient(settings, actionContext) {
               topic,
               settings.agency,
             );
-            parsedMessages.forEach(message => {
+            parsedMessages?.forEach(message => {
               actionContext.dispatch('RealTimeClientMessage', message);
             });
           });

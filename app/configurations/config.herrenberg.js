@@ -1,11 +1,13 @@
 /* eslint-disable */
 import configMerger from '../util/configMerger';
-import { MapMode } from '../constants';
+
+import layers from './layers/hb-layers.json';
 
 const CONFIG = 'herrenberg';
 const APP_TITLE = 'stadtnavi Herrenberg';
 const APP_DESCRIPTION = 'Gemeinsam Mobilität neu denken - die intermodale Verbindungssuche mit offenen, lokalen Daten';
 const API_URL = process.env.API_URL || 'https://api.stadtnavi.de';
+const FEATURES_URL = 'https://featuredetails.stadtnavi.eu'
 const YEAR = 1900 + new Date().getYear();
 const STATIC_MESSAGE_URL =
     process.env.STATIC_MESSAGE_URL ||
@@ -13,10 +15,7 @@ const STATIC_MESSAGE_URL =
 
 const parentConfig = require('./config.stadtnavi.js').default;
 
-const realtimeHbg = require('./realtimeUtils').default.hbg;
 const hostname = new URL(API_URL);
-realtimeHbg.mqtt = `wss://${hostname.host}/mqtt/`;
-
 const minLat = 47.6020;
 const maxLat = 49.0050;
 const minLon = 8.4087;
@@ -35,28 +34,32 @@ export default configMerger(parentConfig, {
              icon: "brand_deer",
              operator: "deer",
              name: {
-               de: "deer"
+               de: "deer",
+               en: "deer"
              },
              type: "car",
              form_factors: ['car'],
              hideCode: true,
              enabled: true,
              url: {
-               de: "https://www.deer-carsharing.de/"
+               de: "https://www.deer-carsharing.de/",
+               en: "https://www.deer-carsharing.de/"
              }
            },
            stadtmobil_stuttgart: {
              icon: "brand_stadtmobil",
              operator: "stadtmobil",
              name: {
-               de: "Stadtmobil Stuttgart"
+               de: "Stadtmobil Stuttgart",
+               en: "Stadtmobil Stuttgart"
              },
              type: "car",
              form_factors: ['car'],
              hideCode: true,
              enabled: true,
              url: {
-               de: "https://stuttgart.stadtmobil.de/"
+               de: "https://stuttgart.stadtmobil.de/",
+               en: "https://stuttgart.stadtmobil.de/"
              }
            },
            regiorad_stuttgart: {
@@ -70,84 +73,96 @@ export default configMerger(parentConfig, {
              hideCode: true,
              enabled: true,
              url: {
-               de: "https://www.regioradstuttgart.de"
+               de: "https://www.regioradstuttgart.de",
+               en: "https://www.regioradstuttgart.de"
              }
            },
            bolt_stuttgart: {
              icon: "brand_bolt",
              operator: "bolt",
              name: {
-               de: "Bolt OÜ"
+               de: "Bolt OÜ",
+               en: "Bolt OÜ"
              },
              type: "scooter",
              form_factors: ['scooter', 'bicycle'],
              hideCode: true,
              enabled: true,
              url: {
-               de: "https://www.bolt.eu/"
+               de: "https://www.bolt.eu/",
+               en: "https://www.bolt.eu/"
              }
            },
            bolt_reutlingen_tuebingen: {
              icon: "brand_bolt",
              operator: "bolt",
              name: {
-               de: "Bolt OÜ"
+               de: "Bolt OÜ",
+               en: "Bolt OÜ"
              },
              type: "scooter",
              form_factors: ['scooter', 'bicycle'],
              hideCode: true,
              enabled: true,
              url: {
-               de: "https://www.bolt.eu/"
+               de: "https://www.bolt.eu/",
+               en: "https://www.bolt.eu/"
              }
            },
            zeus_ludwigsburg: {
              icon: "brand_zeus",
              operator: "zeus",
              name: {
-               de: "Zeus Scooters"
+               de: "Zeus Scooters",
+               en: "Zeus Scooters"
              },
              type: "scooter",
              form_factors: ['scooter'],
              hideCode: true,
              enabled: true,
              url: {
-               de: "https://zeusscooters.com"
+               de: "https://zeusscooters.com",
+               en: "https://zeusscooters.com"
              }
            },
            zeus_pforzheim: {
              icon: "brand_zeus",
              operator: "zeus",
              name: {
-               de: "Zeus Scooters"
+               de: "Zeus Scooters",
+               en: "Zeus Scooters"
              },
              type: "scooter",
              form_factors: ['scooter'],
              hideCode: true,
              enabled: true,
              url: {
-               de: "https://zeusscooters.com"
+               de: "https://zeusscooters.com",
+               en: "https://zeusscooters.com"
              }
            },
            zeus_tubingen: {
              icon: "brand_zeus",
              operator: "zeus",
              name: {
-               de: "Zeus Scooters"
+               de: "Zeus Scooters",
+               en: "Zeus Scooters"
              },
              type: "scooter",
              form_factors: ['scooter'],
              hideCode: true,
              enabled: true,
              url: {
-               de: "https://zeusscooters.com"
+               de: "https://zeusscooters.com",
+               en: "https://zeusscooters.com"
              }
            },
            voi_karlsruhe: {
              icon: "brand_voi",
              operator: "voi",
              name: {
-               de: "Voi Scooter Karlsruhe"
+               de: "Voi Scooter Karlsruhe",
+               en: "Voi Scooter Karlsruhe"
              },
              type: "scooter",
              form_factors: ['scooter'],
@@ -235,8 +250,6 @@ export default configMerger(parentConfig, {
 
     feedIds: ['hbg'],
 
-    realtime: { hbg: realtimeHbg },
-
     searchSources: ['oa', 'osm'],
 
     searchParams: {
@@ -283,6 +296,10 @@ export default configMerger(parentConfig, {
             },
         ],
     },
+    defaultSettings: {
+        walkReluctance: 3,
+        walkBoardCost: 150
+    },
 
     aboutThisService: {
         de: [
@@ -291,7 +308,7 @@ export default configMerger(parentConfig, {
                 paragraphs: [
                     'stadtnavi ist eine Reiseplanungs-Anwendung für die Stadt Herrenberg und Umgebung. Dieser Dienst umfasst ÖPNV, Fußwege, Radverkehr, Straßen- und Parkplatzinformationen, Ladeinfrastruktur und Sharing-Angebote. Mobilitätsangebote werden durch intermodales Routing miteinander vernetzt.',
                     'Gefördert durch <br>',
-                    '<a href="https://www.herrenberg.de/stadtluft"><img src="https://www.herrenberg.de/ceasy/resource/?id=4355&predefinedImageSize=rightEditorContent"/></a>',
+                    '<a href="https://www.herrenberg.de/stadtluft"><img alt="BMDV Logo" src="https://www.herrenberg.de/ceasy/resource/?id=4355&predefinedImageSize=rightEditorContent"/></a>',
 
                 ],
             },
@@ -323,7 +340,7 @@ export default configMerger(parentConfig, {
                 header: 'About this service',
                 paragraphs: [
                     'stadtnavi is a travel planning application for the city of Herrenberg and its surroundings. This service includes public transport, footpaths, cycling, street and parking information, charging infrastructure and sharing offerings. The mobility offerings are connected through intermodal routing.',
-                    '<a href="https://www.herrenberg.de/stadtluft"><img src="https://www.herrenberg.de/ceasy/resource/?id=4355&predefinedImageSize=rightEditorContent"/></a>',
+                    '<a href="https://www.herrenberg.de/stadtluft"><img alt="BMDV Logo" src="https://www.herrenberg.de/ceasy/resource/?id=4355&predefinedImageSize=rightEditorContent"/></a>',
                 ],
             },
             {
@@ -351,45 +368,96 @@ export default configMerger(parentConfig, {
 
     // adding assets/geoJson/hb-layers layers
     geoJson: {
-        layers: [
-            // bicycleinfrastructure includes shops, repair stations,
-            {
-                name: {
-                    fi: '',
-                    en: 'Service stations and stores',
-                    de: "Service Stationen und Läden",
-                },
-                url: 'https://data.mfdz.de/hbg/dt-layers/bicycleinfrastructure.geojson',
-                category: 'bicycle',
-                icon: 'icon-icon_bike_repair',
-            },
-            // LoRaWan map layer
-            {
-                name: {
-                    fi: '',
-                    en: 'LoRaWAN Gateways',
-                    de: 'LoRaWAN Gateways',
-                },
-                url: 'https://data.mfdz.de/hbg/dt-layers/lorawan-gateways.geojson',
-                category: 'other',
-                isOffByDefault: true,
-                icon: 'icon-icon_gateways',
-            },
-            // Nette Toilette layer
-            {
-                name: {
-                    fi: '',
-                    en: 'Public Toilets',
-                    de: 'Nette Toilette',
-                },
-                url: 'https://data.mfdz.de/hbg/dt-layers/toilet.geojson',
-                category: 'other',
-                isOffByDefault: true,
-                icon: 'icon-icon_public_toilets',
-            },
-        ],
+      layers: [
+        // bicycleinfrastructure includes repair stations,
+        {
+          code: 'bike_repair',
+          name: {
+            fi: '',
+            en: 'Bicycle service stations',
+            de: 'Radservice-Punkte',
+          },
+          url: 'https://data.mfdz.de/hbg/dt-layers/bicycleinfrastructure.geojson',
+          category: 'bicycle',
+          icon: 'icon-icon_bike_repair',
+        },
+        // Bicycle network layer
+        {
+          code: 'cycle_network',
+          name: {
+            fi: '',
+            en: "Bicycle network",
+            de: 'Radnetz',
+          },
+          category: 'bicycle',
+          url: 'https://api.mobidata-bw.de/geoserver/MobiData-BW/wms',
+          icon: 'icon-icon_radnetz',
+          isOffByDefault: true,
+          minZoom: 12,
+          type: 'wmst',
+          layers: 'MobiData-BW:radvis_cycle_network',
+          attribution: 'RadNETZ-BW',
+        },
+        // LoRaWan map layer
+        {
+          code: 'loarawan_gateways',
+          name: {
+            fi: '',
+            en: 'LoRaWAN Gateways',
+            de: 'LoRaWAN Gateways',
+          },
+          url: 'https://data.mfdz.de/hbg/dt-layers/lorawan-gateways.geojson',
+          category: 'leisure_and_tourism',
+          isOffByDefault: true,
+          icon: 'icon-icon_gateways',
+        },
+        // Nette Toilette layer
+        {
+          code: 'friendly_toilet',
+          name: {
+            fi: '',
+            en: 'Public Toilets',
+            de: 'Nette Toilette',
+          },
+          url: 'https://data.mfdz.de/hbg/dt-layers/toilet.geojson',
+          category: 'leisure_and_tourism',
+          isOffByDefault: true,
+          icon: 'icon-icon_public_toilets',
+        },
+        {
+          code: 'sights',
+          name: {
+            fi: '',
+            en: 'sights',
+            de: 'Sehenswürdigkeiten',
+          },
+          url: 'https://data.mfdz.de/hbg/dt-layers/sights.geojson',
+          category: 'leisure_and_tourism',
+          isOffByDefault: true,
+          icon: 'icon-icon_sights',
+        },
+        {
+          code: 'school_route_map',
+          name: {
+            fi: '',
+            en: 'School route map',
+            de: 'Schulwegplan',
+          },
+          url: 'https://data.mfdz.de/hbg/dt-layers/school_routes.geojson',
+          category: 'health_and_social_services',
+          isOffByDefault: true,
+          icon: 'icon-icon_school_bus',
+        },
+      ],
     },
+
+    layers,
+
+    enableLockedMapLayers: false,
+
     staticMessagesUrl: STATIC_MESSAGE_URL,
+
+    featuresUrl: FEATURES_URL,
     
     parkAndRideBannedVehicleParkingTags: [
         'lot_type:Parkplatz',
@@ -397,10 +465,10 @@ export default configMerger(parentConfig, {
         'lot_type:Parkhaus'
     ],
 
-    realtime: { hbg: realtimeHbg },
-
     // live bus locations
     vehicles: true,
 
     showCO2InItinerarySummary: true,
+
+    EMISSIONS_INFO: 'https://www.herrenberg.de/Mobilit%C3%A4t/CO2'
 });
