@@ -183,14 +183,17 @@ class RoutePageMap extends React.Component {
 const RoutePageMapWithVehicles = connectToStores(
   withBreakpoint(RoutePageMap),
   ['RealTimeInformationStore', 'MapLayerStore'],
-  ({ getStore }, { trip }) => {
+  ({ config, getStore }, { trip }) => {
     const mapLayers = getStore('MapLayerStore').getMapLayers({
       notThese: ['stop', 'vehicles'],
     });
-    const mapLayerOptions = getMapLayerOptions({
-      lockedMapLayers: ['vehicles', 'stop', 'citybike'],
-      selectedMapLayers: ['vehicles'],
-    });
+    const mapLayerOptions = getMapLayerOptions(
+      {
+        lockedMapLayers: ['vehicles', 'stop', 'citybike'],
+        selectedMapLayers: ['vehicles'],
+      },
+      config.enableLockedMapLayers,
+    );
     if (trip) {
       const { vehicles } = getStore('RealTimeInformationStore');
       const tripStart = getStartTime(
@@ -226,6 +229,9 @@ const RoutePageMapWithVehicles = connectToStores(
       };
     }
     return { mapLayers, mapLayerOptions };
+  },
+  {
+    config: PropTypes.object,
   },
 );
 

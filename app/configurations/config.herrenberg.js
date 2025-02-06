@@ -453,6 +453,8 @@ export default configMerger(parentConfig, {
 
     layers,
 
+    enableLockedMapLayers: false,
+
     staticMessagesUrl: STATIC_MESSAGE_URL,
 
     featuresUrl: FEATURES_URL,

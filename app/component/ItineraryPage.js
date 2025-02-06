@@ -971,7 +971,9 @@ class ItineraryPage extends React.Component {
     ]?.legs.some(leg => leg.from?.vehicleRentalStation);
 
     const mapLayerOptions = itineraryContainsDepartureFromVehicleRentalStation
-      ? addBikeStationMapForRentalVehicleItineraries(itineraries)
+      ? addBikeStationMapForRentalVehicleItineraries(
+          this.context.config.enableLockedMapLayers,
+        )
       : this.props.mapLayerOptions;
 
     const objectsToHide = getRentalStationsToHideOnMap(
@@ -1650,10 +1652,10 @@ class ItineraryPage extends React.Component {
   }
 }
 
-const ItineraryPageWithBreakpoint = withBreakpoint(props => (
+const ItineraryPageWithBreakpoint = withBreakpoint((props, context) => (
   <ReactRelayContext.Consumer>
     {({ environment }) => (
-      <ItineraryPage {...props} relayEnvironment={environment} />
+      <ItineraryPage {...props} {...context} relayEnvironment={environment} />
     )}
   </ReactRelayContext.Consumer>
 ));
@@ -1661,15 +1663,21 @@ const ItineraryPageWithBreakpoint = withBreakpoint(props => (
 const ItineraryPageWithStores = connectToStores(
   ItineraryPageWithBreakpoint,
   ['MapLayerStore'],
-  ({ getStore }) => ({
+  ({ config, getStore }) => ({
     mapLayers: getStore('MapLayerStore').getMapLayers({
       notThese: ['stop', 'citybike', 'vehicles'],
     }),
-    mapLayerOptions: getMapLayerOptions({
-      lockedMapLayers: ['vehicles', 'citybike', 'stop'],
-      selectedMapLayers: ['vehicles'],
-    }),
+    mapLayerOptions: getMapLayerOptions(
+      {
+        lockedMapLayers: ['vehicles', 'citybike', 'stop'],
+        selectedMapLayers: ['vehicles'],
+      },
+      config.enableLockedMapLayers,
+    ),
   }),
+  {
+    config: PropTypes.object,
+  },
 );
 
 const containerComponent = createRefetchContainer(
