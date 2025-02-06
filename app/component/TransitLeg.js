@@ -527,14 +527,12 @@ class TransitLeg extends React.Component {
               <div className="disruption-link-container">
                 <Link
                   to={
-                    (alert.route &&
-                      alert.route.gtfsId &&
-                      leg.route &&
-                      leg.trip &&
-                      `/${PREFIX_ROUTES}/${leg.route.gtfsId}/${PREFIX_DISRUPTION}/${leg.trip.pattern.code}`) ||
-                    (alert.stop && alert.stop.gtfsId
+                    // eslint-disable-next-line no-nested-ternary
+                    leg?.route?.gtfsId && leg?.trip?.pattern?.code
+                      ? `/${PREFIX_ROUTES}/${leg.route.gtfsId}/${PREFIX_DISRUPTION}/${leg.trip.pattern.code}`
+                      : alert?.stop?.gtfsId
                       ? `/${PREFIX_STOPS}/${alert.stop.gtfsId}/${PREFIX_DISRUPTION}/`
-                      : '')
+                      : ''
                   }
                   className="disruption-link"
                 >
