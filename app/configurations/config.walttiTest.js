@@ -14,7 +14,12 @@ export default configMerger(ouluConfig, {
   CONFIG,
 
   feedIds: ['WalttiTest'],
-
+  mainMenu: {
+    stopMonitor: {
+      show: true,
+      url: 'https://waltti-test-monitor.digitransit.fi/createview',
+    },
+  },
   title: APP_TITLE,
 
   URL: {
@@ -80,4 +85,9 @@ export default configMerger(ouluConfig, {
       },
     },
   ],
+  stopCard: {
+    header: {
+      virtualMonitorBaseUrl: 'https://waltti-test-monitor.digitransit.fi/',
+    },
+  },
 });
