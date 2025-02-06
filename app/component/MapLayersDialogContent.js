@@ -190,11 +190,13 @@ const MapLayersDialogContent = (props, context) => {
       .filter(Boolean);
   };
 
+  const { layerCategories } = props;
+
   const sortLayersByKey = (a, b) => {
     // Retrieve the order of the layers from the configuration.
     // Top- and Sub-level category codes are considered.
     const layerOrder =
-      config.layers
+      layerCategories
         ?.flatMap(category => category.categories || category)
         .map(category => [
           category.code,
@@ -207,8 +209,6 @@ const MapLayersDialogContent = (props, context) => {
 
     return layerOrder.indexOf(a.key) - layerOrder.indexOf(b.key);
   };
-
-  const { layerCategories } = props;
 
   const bikeCarLayer = layerCategories?.find(({ code }) => code === 'bike_car');
   const sharingServicesLayer = layerCategories?.find(
