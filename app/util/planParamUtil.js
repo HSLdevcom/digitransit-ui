@@ -1,6 +1,10 @@
 import moment from 'moment';
 import isEqual from 'lodash/isEqual';
-import { getTransitModes, isTransportModeAvailable } from './modeUtils';
+import {
+  getTransitModes,
+  isTransportModeAvailable,
+  networkIsActive,
+} from './modeUtils';
 import { otpToLocation, getIntermediatePlaces } from './otpStrings';
 import { getAllNetworksOfType, getDefaultNetworks } from './vehicleRentalUtils';
 import { getCustomizedSettings } from '../store/localStorage';
@@ -73,6 +77,14 @@ export function getNumberOfCustomizedSettings(config) {
     return 0;
   }
   return Object.keys(customizedSettings).reduce((count, key) => {
+    if (key === 'allowedBikeRentalNetworks') {
+      return (
+        count +
+        customizedSettings.allowedBikeRentalNetworks.filter(network =>
+          networkIsActive(config.vehicleRental.networks[network]),
+        ).length
+      );
+    }
     if (
       Array.isArray(customizedSettings[key]) &&
       Array.isArray(defaultSettings[key])
