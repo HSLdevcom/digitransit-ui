@@ -3,7 +3,7 @@ import isEqual from 'lodash/isEqual';
 import {
   getTransitModes,
   isTransportModeAvailable,
-  useCitybikes,
+  networkIsActive,
 } from './modeUtils';
 import { otpToLocation, getIntermediatePlaces } from './otpStrings';
 import { getAllNetworksOfType, getDefaultNetworks } from './vehicleRentalUtils';
@@ -68,7 +68,7 @@ export function getDefaultSettings(config) {
 }
 
 /**
- * Checks if user has changed the citybike settings and automatically resets them if citybike settings are hidden (out of season).
+ * Checks if user has selected a citybike network that is not active and automatically removes inactive networks.
  * @param {*} config the configuration for the software installation
  * @param {*} executeAction the function to execute an action
  * @param {*} defaultSettings the default settings
@@ -77,16 +77,21 @@ export function getDefaultSettings(config) {
 export function validateCitybikeSettings(
   config,
   executeAction,
-  defaultSettings,
   customizedSettings,
 ) {
   if (
     customizedSettings.allowedBikeRentalNetworks?.length > 0 &&
-    !useCitybikes(config.vehicleRental?.networks, config)
+    customizedSettings.allowedBikeRentalNetworks.some(
+      network => !networkIsActive(config.vehicleRental.networks[network]),
+    )
   ) {
+    const activeAllowedBikeRentalNetworks =
+      customizedSettings.allowedBikeRentalNetworks.filter(network =>
+        networkIsActive(config.vehicleRental.networks[network]),
+      );
     executeAction(saveRoutingSettings, {
       ...customizedSettings,
-      allowedBikeRentalNetworks: defaultSettings.allowedBikeRentalNetworks,
+      allowedBikeRentalNetworks: activeAllowedBikeRentalNetworks,
     });
   }
 }
