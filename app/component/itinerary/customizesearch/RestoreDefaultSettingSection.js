@@ -16,10 +16,7 @@ const RestoreDefaultSettingSection = ({ config }, { executeAction, intl }) => {
       ...getDefaultSettings(config),
     });
   };
-  const numberOfCustomizedSettings = getNumberOfCustomizedSettings(
-    config,
-    executeAction,
-  );
+  const numberOfCustomizedSettings = getNumberOfCustomizedSettings(config);
 
   return (
     <button

@@ -1,16 +1,11 @@
 import moment from 'moment';
 import isEqual from 'lodash/isEqual';
-import {
-  getTransitModes,
-  isTransportModeAvailable,
-  useCitybikes,
-} from './modeUtils';
+import { getTransitModes, isTransportModeAvailable } from './modeUtils';
 import { otpToLocation, getIntermediatePlaces } from './otpStrings';
 import { getAllNetworksOfType, getDefaultNetworks } from './vehicleRentalUtils';
 import { getCustomizedSettings } from '../store/localStorage';
 import { estimateItineraryDistance } from './geo-utils';
 import { TransportMode } from '../constants';
-import { saveRoutingSettings } from '../action/SearchSettingsActions';
 
 export const PLANTYPE = {
   WALK: 'WALK',
@@ -68,44 +63,12 @@ export function getDefaultSettings(config) {
 }
 
 /**
- * Checks if user has changed the citybike settings and automatically resets them if citybike settings are hidden (out of season).
- * @param {*} config the configuration for the software installation
- * @param {*} executeAction the function to execute an action
- * @param {*} defaultSettings the default settings
- * @param {*} customizedSettings  the user selected settings
- */
-export function validateCitybikeSettings(
-  config,
-  executeAction,
-  defaultSettings,
-  customizedSettings,
-) {
-  if (
-    customizedSettings.allowedBikeRentalNetworks?.length > 0 &&
-    !useCitybikes(config.vehicleRental?.networks, config)
-  ) {
-    executeAction(saveRoutingSettings, {
-      ...customizedSettings,
-      allowedBikeRentalNetworks: defaultSettings.allowedBikeRentalNetworks,
-    });
-  }
-}
-
-/**
  * The number of settings that differ from the default settings.
  * @param {*} config the configuration for the software installation
  */
-export function getNumberOfCustomizedSettings(config, executeAction) {
+export function getNumberOfCustomizedSettings(config) {
   const defaultSettings = getDefaultSettings(config);
   const customizedSettings = getCustomizedSettings();
-
-  validateCitybikeSettings(
-    config,
-    executeAction,
-    defaultSettings,
-    customizedSettings,
-  );
-
   if (Object.keys(customizedSettings).length === 0) {
     return 0;
   }
