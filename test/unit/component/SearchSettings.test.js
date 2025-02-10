@@ -30,6 +30,7 @@ describe('<SearchSettings />', () => {
         match: mockMatch,
         config: defaultConfig,
         getStore: mockContext.getStore,
+        executeAction: () => {},
       },
       childContextTypes: { ...mockChildContextTypes },
     });
