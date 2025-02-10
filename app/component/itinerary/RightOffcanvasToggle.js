@@ -8,13 +8,17 @@ import { getNumberOfCustomizedSettings } from '../../util/planParamUtil';
 
 export default function RightOffcanvasToggle(
   { onToggleClick, defaultMessage, translationId },
-  { intl: { formatMessage }, config },
+  { intl: { formatMessage }, config, executeAction },
 ) {
   const label = formatMessage({
     id: 'settings-label-change',
     defaultMessage: 'Change settings',
   });
-  const numberOfCustomizedSettings = getNumberOfCustomizedSettings(config);
+
+  const numberOfCustomizedSettings = getNumberOfCustomizedSettings(
+    config,
+    executeAction,
+  );
   return (
     <div className="right-offcanvas-toggle">
       <div
@@ -62,6 +66,7 @@ RightOffcanvasToggle.defaultProps = {
 RightOffcanvasToggle.contextTypes = {
   intl: intlShape.isRequired,
   config: configShape,
+  executeAction: PropTypes.func.isRequired,
 };
 
 RightOffcanvasToggle.displayName = 'RightOffcanvasToggle';
