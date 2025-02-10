@@ -36,7 +36,6 @@ class CustomizeSearch extends React.Component {
   static contextTypes = {
     intl: intlShape.isRequired,
     config: configShape.isRequired,
-    executeAction: PropTypes.func.isRequired,
   };
 
   static propTypes = {
@@ -65,7 +64,7 @@ class CustomizeSearch extends React.Component {
   };
 
   render() {
-    const { config, intl, executeAction } = this.context;
+    const { config, intl } = this.context;
     const { onToggleClick, customizedSettings, mobile } = this.props;
     // Merge default and customized settings
     const currentSettings = { ...this.defaultSettings, ...customizedSettings };
@@ -88,10 +87,7 @@ class CustomizeSearch extends React.Component {
     ) : (
       <Icon className="close-icon" img="icon-icon_close" />
     );
-    const numberOfCustomizedSettings = getNumberOfCustomizedSettings(
-      config,
-      executeAction,
-    );
+    const numberOfCustomizedSettings = getNumberOfCustomizedSettings(config);
     return (
       <form className="customize-search">
         <button
