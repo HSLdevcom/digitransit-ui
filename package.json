@@ -207,7 +207,7 @@
     "recompose": "0.30.0",
     "redis": "2.8.0",
     "relay-runtime": "16.2.0",
-    "serialize-javascript": "4.0.0",
+    "serialize-javascript": "6.0.2",
     "suncalc": "1.8.0",
     "supercluster": "^8.0.1",
     "swipe-js-iso": "2.1.5",
