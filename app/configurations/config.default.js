@@ -507,14 +507,15 @@ export default {
       defaultValue: true,
     },
 
+    funicular: {
+      availableForSelection: false,
+      defaultValue: false,
+    },
+
     // this is just here so that the order is preserved when merging these config files
     // this is important because citybike needs to come last as it activates another toggle to select the
     // rental network which is rendered directly underneath.
     carpool: {
-      availableForSelection: false,
-      defaultValue: false,
-    },
-    funicular: {
       availableForSelection: false,
       defaultValue: false,
     },
