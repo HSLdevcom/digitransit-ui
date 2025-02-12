@@ -15,8 +15,13 @@ const YEAR = 1900 + new Date().getYear();
 
 const HSLParkAndRideUtils = require('../util/ParkAndRideUtils').default.HSL;
 
-// route timetable data needs to be up-to-date before this is enabled
-// const HSLRouteTimetable = require('./timetableConfigUtils').default.HSLRoutes;
+const IS_DEV =
+  process.env.RUN_ENV === 'development' ||
+  process.env.NODE_ENV !== 'production';
+
+const virtualMonitorBaseUrl = IS_DEV
+  ? 'https://dev-matkamonitori.digitransit.fi'
+  : 'https://matkamonitori.digitransit.fi';
 
 export default {
   CONFIG,
@@ -28,7 +33,7 @@ export default {
   mainMenu: {
     stopMonitor: {
       show: true,
-      url: 'https://matkamonitori.digitransit.fi/createview',
+      url: `${virtualMonitorBaseUrl}/createview`,
     },
     countrySelection: ['estonia'],
   },
@@ -91,6 +96,9 @@ export default {
     'Harma',
     'PohjolanMatka',
     'Korsisaari',
+    'KoivistonAuto',
+    'PahkakankaanLiikenne',
+    'IngvesSvanback',
   ],
 
   additionalFeedIds: {
@@ -385,7 +393,7 @@ export default {
   },
   stopCard: {
     header: {
-      virtualMonitorBaseUrl: 'https://matkamonitori.digitransit.fi/',
+      virtualMonitorBaseUrl,
     },
   },
   // Notice! Turning on this setting forces the search for car routes (for the CO2 comparison only).
@@ -438,8 +446,6 @@ export default {
   ],
   // features that should not be deployed to production
   experimental: {
-    navigation:
-      process.env.RUN_ENV === 'development' ||
-      process.env.NODE_ENV !== 'production',
+    navigation: IS_DEV,
   },
 };

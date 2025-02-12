@@ -74,7 +74,7 @@ function CarParkLeg(props, { config, intl }) {
                 <FormattedMessage id="car_park" defaultMessage="Park & Ride" />
                 {props.leg.isViaPoint && (
                   <Icon
-                    img="icon-icon_mapMarker-via"
+                    img="icon-icon_mapMarker"
                     className="itinerary-mapmarker-icon"
                   />
                 )}

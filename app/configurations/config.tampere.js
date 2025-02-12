@@ -8,6 +8,14 @@ const APP_DESCRIPTION = 'Nyssen reittiopas';
 const walttiConfig = require('./config.waltti').default;
 const tampereTimetables = require('./timetableConfigUtils').default.tampere;
 
+const IS_DEV =
+  process.env.RUN_ENV === 'development' ||
+  process.env.NODE_ENV !== 'production';
+
+const virtualMonitorBaseUrl = IS_DEV
+  ? 'https://dev-tremonitori.digitransit.fi'
+  : 'https://tremonitori.digitransit.fi.fi';
+
 export default configMerger(walttiConfig, {
   CONFIG,
 
@@ -60,7 +68,7 @@ export default configMerger(walttiConfig, {
 
   stopCard: {
     header: {
-      virtualMonitorBaseUrl: 'https://tremonitori.digitransit.fi/',
+      virtualMonitorBaseUrl,
     },
   },
   zones: {
@@ -170,7 +178,7 @@ export default configMerger(walttiConfig, {
   mainMenu: {
     stopMonitor: {
       show: true,
-      url: 'https://tremonitori.digitransit.fi/createview',
+      url: `${virtualMonitorBaseUrl}/createview`,
     },
   },
 

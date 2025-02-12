@@ -4,6 +4,13 @@ import configMerger from '../util/configMerger';
 const CONFIG = 'jyvaskyla';
 const APP_TITLE = 'Reittiopas Jyväskylä';
 const APP_DESCRIPTION = 'Jyväskylän uusi reittiopas';
+const IS_DEV =
+  process.env.RUN_ENV === 'development' ||
+  process.env.NODE_ENV !== 'production';
+
+const virtualMonitorBaseUrl = IS_DEV
+  ? 'https://dev-jyvaskylamonitori.digitransit.fi'
+  : 'https://pysakit.jyvaskyla.fi';
 
 const walttiConfig = require('./config.waltti').default;
 
@@ -68,7 +75,7 @@ export default configMerger(walttiConfig, {
   mainMenu: {
     stopMonitor: {
       show: true,
-      url: 'https://pysakit.jyvaskyla.fi/createview',
+      url: `${virtualMonitorBaseUrl}/createview`,
     },
   },
 
@@ -169,7 +176,7 @@ export default configMerger(walttiConfig, {
 
   stopCard: {
     header: {
-      virtualMonitorBaseUrl: 'https://pysakit.jyvaskyla.fi/',
+      virtualMonitorBaseUrl,
     },
   },
   zones: {

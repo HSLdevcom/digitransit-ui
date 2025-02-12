@@ -310,7 +310,7 @@ class Timetable extends React.Component {
       this.context.config.URL.STOP_TIMETABLES[stopIdSplitted[0]] &&
       locationType !== 'STATION' &&
       date
-        ? stopTimetableHandler.stopPdfUrlResolver(
+        ? stopTimetableHandler.stopTimetableUrlResolver(
             this.context.config.URL.STOP_TIMETABLES[stopIdSplitted[0]],
             this.props.stop,
             date,
@@ -321,7 +321,7 @@ class Timetable extends React.Component {
       this.context.config.stopCard?.header?.virtualMonitorBaseUrl &&
       `${
         this.context.config.stopCard.header.virtualMonitorBaseUrl
-      }${locationType.toLowerCase()}/${this.props.stop.gtfsId}`;
+      }/${locationType.toLowerCase()}/${this.props.stop.gtfsId}`;
     const timeTableRows = this.createTimeTableRows(timetableMap);
     const timeDifferenceDays = moment
       .duration(moment(this.props.date).diff(moment()))

@@ -12,6 +12,14 @@ const OTP_URL = process.env.OTP_URL || `${API_URL}/routing/v2/waltti-alt/`;
 const MAP_URL = process.env.MAP_URL || 'https://dev-cdn.digitransit.fi';
 const POI_MAP_PREFIX = `${MAP_URL}/map/v3/waltti-alt`;
 
+const IS_DEV =
+  process.env.RUN_ENV === 'development' ||
+  process.env.NODE_ENV !== 'production';
+
+const virtualMonitorBaseUrl = IS_DEV
+  ? 'https://dev-oulumonitori.digitransit.fi'
+  : 'https://pysakkinaytto.osl.fi';
+
 export default configMerger(walttiConfig, {
   CONFIG,
 
@@ -175,14 +183,14 @@ export default configMerger(walttiConfig, {
   },
   stopCard: {
     header: {
-      virtualMonitorBaseUrl: 'https://pysakkinaytto.osl.fi/',
+      virtualMonitorBaseUrl,
     },
   },
 
   mainMenu: {
     stopMonitor: {
       show: true,
-      url: 'https://pysakkinaytto.osl.fi/createview',
+      url: `${virtualMonitorBaseUrl}/createview`,
     },
   },
 

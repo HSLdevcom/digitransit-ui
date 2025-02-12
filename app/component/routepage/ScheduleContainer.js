@@ -3,6 +3,7 @@
 import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
+import { connectToStores } from 'fluxible-addons-react';
 import { matchShape, routerShape, RedirectException } from 'found';
 import moment from 'moment';
 import { intlShape } from 'react-intl';
@@ -356,10 +357,12 @@ class ScheduleContainer extends PureComponent {
     breakpoint: PropTypes.string.isRequired,
     router: routerShape.isRequired,
     route: routeShape.isRequired,
+    lang: PropTypes.string,
   };
 
   static defaultProps = {
     serviceDay: undefined,
+    lang: 'en',
   };
 
   static contextTypes = {
@@ -900,11 +903,11 @@ class ScheduleContainer extends PureComponent {
     const routeTimetableUrl =
       routeTimetableHandler &&
       this.context.config.URL.ROUTE_TIMETABLES[routeIdSplitted[0]] &&
-      routeTimetableHandler.timetableUrlResolver(
+      routeTimetableHandler.routeTimetableUrlResolver(
         this.context.config.URL.ROUTE_TIMETABLES[routeIdSplitted[0]],
         this.props.route,
-        this.context.config.API_SUBSCRIPTION_QUERY_PARAMETER_NAME,
-        this.context.config.API_SUBSCRIPTION_TOKEN,
+        newServiceDay,
+        this.props.lang,
       );
 
     const showTrips = this.getTrips(
@@ -1033,7 +1036,13 @@ class ScheduleContainer extends PureComponent {
 }
 
 const containerComponent = createFragmentContainer(
-  withBreakpoint(ScheduleContainer),
+  connectToStores(
+    withBreakpoint(ScheduleContainer),
+    ['PreferencesStore'],
+    context => ({
+      lang: context.getStore('PreferencesStore').getLanguage(),
+    }),
+  ),
   {
     pattern: graphql`
       fragment ScheduleContainer_pattern on Pattern {

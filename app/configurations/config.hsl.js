@@ -23,6 +23,14 @@ const SUGGESTION_URL = process.env.CONTENT_DOMAIN
 const localStorageEmitter =
   process.env.USE_EMITTER && rootLink + '/local-storage-emitter';
 
+const IS_DEV =
+  process.env.RUN_ENV === 'development' ||
+  process.env.NODE_ENV !== 'production';
+
+const virtualMonitorBaseUrl = IS_DEV
+  ? 'https://dev-hslmonitori.digitransit.fi'
+  : 'https://omatnaytot.hsl.fi';
+
 export default {
   CONFIG,
 
@@ -581,7 +589,7 @@ export default {
 
   stopCard: {
     header: {
-      virtualMonitorBaseUrl: 'https://omatnaytot.hsl.fi/',
+      virtualMonitorBaseUrl,
     },
   },
 
@@ -751,11 +759,10 @@ export default {
 
   navigationLogo: 'hsl/navigator-logo.svg',
   thumbsUpGraphic: 'hsl/thumbs-up.svg',
+  trafficLightGraphic: 'hsl/traffic-light.svg',
 
   // features that should not be deployed to production
   experimental: {
-    navigation:
-      process.env.RUN_ENV === 'development' ||
-      process.env.NODE_ENV !== 'production',
+    navigation: IS_DEV,
   },
 };

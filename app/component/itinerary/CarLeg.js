@@ -68,7 +68,7 @@ export default function CarLeg(props, { config, intl }) {
               {address}
               {props.leg.isViaPoint && (
                 <Icon
-                  img="icon-icon_mapMarker-via"
+                  img="icon-icon_mapMarker"
                   className="itinerary-mapmarker-icon"
                 />
               )}

@@ -58,7 +58,7 @@ const BikeParkLeg = (
               <FormattedMessage id="bike-park" />
               {leg.isViaPoint && (
                 <Icon
-                  img="icon-icon_mapMarker-via"
+                  img="icon-icon_mapMarker"
                   className="itinerary-mapmarker-icon"
                 />
               )}

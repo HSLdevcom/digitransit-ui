@@ -362,6 +362,8 @@ export function getPlanParams(
   let egress = access;
   let transfer = ['WALK'];
   let direct = null;
+  let numItineraries = directOnly ? 1 : 5;
+  let carReluctance = null;
 
   let noIterationsForShortTrips = false;
 
@@ -379,10 +381,14 @@ export function getPlanParams(
       noIterationsForShortTrips = shortTrip;
       break;
     case PLANTYPE.CARTRANSIT:
+      // For cars the direct mode is included to allow OTP to filter out unwanted routes.
+      direct = ['CAR'];
       access = ['CAR'];
       egress = ['CAR'];
       transfer = ['CAR'];
-      transitOnly = true;
+      transitOnly = false;
+      numItineraries = 6;
+      carReluctance = 1.75;
       // This is done to enable more cache hits. New cache entries are generated for different speeds otherwise.
       settings.walkSpeed = null;
       settings.bikeSpeed = null;
@@ -445,7 +451,6 @@ export function getPlanParams(
   const datetime = useLatestArrival
     ? { latestArrival: timeStr }
     : { earliestDeparture: timeStr };
-  const numItineraries = directOnly ? 1 : 5;
 
   return {
     ...settings,
@@ -467,5 +472,6 @@ export function getPlanParams(
     planType,
     noIterationsForShortTrips,
     via,
+    carReluctance,
   };
 }

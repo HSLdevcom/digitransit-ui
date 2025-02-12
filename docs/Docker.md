@@ -25,8 +25,6 @@ On Windows:
 
 ## Running in production
 You must use following additional variables:
-- `-e SENTRY_DSN=<..>`
-- `-e SENTRY_SECRET_DSN=<..>`
 - `-e CONFIG=<..>`
 - `-e NODE_ENV=production`
 

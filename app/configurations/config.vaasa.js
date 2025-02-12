@@ -11,6 +11,13 @@ const minLat = 63.005;
 const maxLat = 63.152;
 const minLon = 21.527;
 const maxLon = 22.170;
+const IS_DEV =
+process.env.RUN_ENV === 'development' ||
+process.env.NODE_ENV !== 'production';
+
+const virtualMonitorBaseUrl = IS_DEV
+? 'https://dev-vaasamonitori.digitransit.fi'
+: 'https://pysakit-vaasa.digitransit.fi';
 
 export default configMerger(walttiConfig, {
   CONFIG,
@@ -127,14 +134,14 @@ export default configMerger(walttiConfig, {
 
   stopCard: {
     header: {
-      virtualMonitorBaseUrl: 'https://pysakit-vaasa.digitransit.fi/',
+      virtualMonitorBaseUrl,
     },
   },
 
   mainMenu: {
     stopMonitor: {
       show: true,
-      url: 'https://pysakit-vaasa.digitransit.fi/createview',
+      url:`${virtualMonitorBaseUrl}/createview`,
     },
   },
 

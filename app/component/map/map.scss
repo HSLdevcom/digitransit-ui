@@ -57,6 +57,7 @@ div.map {
 
   .drawer-container {
     overflow-y: scroll;
+    scrollbar-width: none;
     height: 100%;
     position: absolute;
     width: 100%;

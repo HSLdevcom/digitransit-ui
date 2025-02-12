@@ -80,8 +80,6 @@ COPY --from=builder /opt/digitransit-ui/ .
 ARG WEBPACK_DEVTOOL=''
 ENV \
   # App specific settings to override when the image is run \
-  SENTRY_DSN='' \
-  SENTRY_SECRET_DSN='' \
   PORT=8080 \
   API_URL='' \
   MAP_URL='' \

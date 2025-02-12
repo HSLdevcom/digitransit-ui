@@ -9,6 +9,9 @@ import { legTime, legTimeAcc } from '../../../util/legUtils';
 import { locationToUri } from '../../../util/otpStrings';
 import { getItineraryPagePath } from '../../../util/path';
 import { durationToString, epochToIso, timeStr } from '../../../util/timeUtils';
+import { getRouteMode } from '../../../util/modeUtils';
+import RouteNumberContainer from '../../RouteNumberContainer';
+import Icon from '../../Icon';
 
 const TRANSFER_SLACK = 60000;
 const DISPLAY_MESSAGE_THRESHOLD = 120 * 1000; // 2 minutes
@@ -396,6 +399,39 @@ function withNewSearchBtn(children, searchCallback) {
   );
 }
 
+function Transfer(route1, route2, config) {
+  const mode1 = getRouteMode(route1, config);
+  const mode2 = getRouteMode(route2, config);
+
+  return (
+    <span className="navi-transfer-container">
+      <div className="navi-transfer">
+        <RouteNumberContainer
+          className={cx('line', mode1)}
+          route={route1}
+          mode={mode1}
+          isTransitLeg
+          vertical
+          withBar
+        />
+        &nbsp;
+        <div className="arrow-center">
+          <Icon img="icon-icon_arrow-right" width="0.8" height="0.8" />
+        </div>
+        &nbsp;
+        <RouteNumberContainer
+          className={cx('line', mode2)}
+          route={route2}
+          mode={mode2}
+          isTransitLeg
+          vertical
+          withBar
+        />
+      </div>
+    </span>
+  );
+}
+
 const notedSeverity = ['WARNING', 'ALERT'];
 
 export const getItineraryAlerts = (
@@ -406,6 +442,7 @@ export const getItineraryAlerts = (
   intl,
   messages,
   itinerarySearchCallback,
+  config,
 ) => {
   const alerts = [];
   legs.forEach(leg => {
@@ -488,15 +525,21 @@ export const getItineraryAlerts = (
           let content;
           if (prob.severity === 'ALERT') {
             content = withNewSearchBtn(
-              <span className="notification-header">
+              <>
+                <span className="notification-header">
+                  <FormattedMessage id="navigation-transfer-problem" />
+                </span>
                 <FormattedMessage
-                  id="navigation-transfer-problem"
+                  id="navigation-transfer-problem-details"
                   values={{
-                    route1: prob.fromLeg.route.shortName,
-                    route2: prob.toLeg.route.shortName,
+                    transfer: Transfer(
+                      prob.fromLeg.route,
+                      prob.toLeg.route,
+                      config,
+                    ),
                   }}
                 />
-              </span>,
+              </>,
               itinerarySearchCallback,
             );
           } else {
@@ -508,7 +551,11 @@ export const getItineraryAlerts = (
                 <FormattedMessage
                   id="navigation-hurry-transfer-value"
                   values={{
-                    transfer: `${prob.fromLeg.route.shortName} - ${prob.toLeg.route.shortName}`,
+                    transfer: Transfer(
+                      prob.fromLeg.route,
+                      prob.toLeg.route,
+                      config,
+                    ),
                     time: durationToString(prob.duration),
                   }}
                 />
@@ -542,7 +589,11 @@ export const getItineraryAlerts = (
                   <FormattedMessage
                     id="navigation-hurry-transfer-solved-details"
                     values={{
-                      transfer: `${tr.fromLeg.route.shortName} - ${tr.toLeg.route.shortName}`,
+                      transfer: Transfer(
+                        tr.fromLeg.route,
+                        tr.toLeg.route,
+                        config,
+                      ),
                       time: durationToString(tr.duration),
                     }}
                   />

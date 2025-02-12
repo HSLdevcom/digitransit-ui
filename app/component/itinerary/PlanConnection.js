@@ -8,6 +8,7 @@ const planConnection = graphql`
     $datetime: PlanDateTimeInput!
     $walkReluctance: Reluctance
     $walkBoardCost: Cost
+    $carReluctance: Reluctance
     $minTransferTime: Duration
     $walkSpeed: Speed
     $wheelchair: Boolean
@@ -42,6 +43,7 @@ const planConnection = graphql`
             reluctance: $walkReluctance
             boardCost: $walkBoardCost
           }
+          car: { reluctance: $carReluctance }
         }
         transit: {
           transfer: { cost: $transferPenalty, slack: $minTransferTime }
