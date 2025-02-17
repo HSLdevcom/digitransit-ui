@@ -87,7 +87,7 @@ export default configMerger(ouluConfig, {
   ],
   stopCard: {
     header: {
-      virtualMonitorBaseUrl: 'https://waltti-test-monitor.digitransit.fi/',
+      virtualMonitorBaseUrl: 'https://waltti-test-monitor.digitransit.fi',
     },
   },
 });
