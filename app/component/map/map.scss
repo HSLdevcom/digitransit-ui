@@ -56,6 +56,8 @@ div.map {
   }
 
   .drawer-container {
+    display: flex;
+    flex-direction: column;
     overflow-y: scroll;
     scrollbar-width: none;
     height: 100%;
@@ -63,15 +65,23 @@ div.map {
     width: 100%;
 
     .drawer-padding {
-      height: 90%;
+      flex-grow: 1;
+      flex-shrink: 0;
+      flex-basis: 90%;
       width: 0;
     }
 
     .drawer-content {
-      min-height: 50vh;
+      flex-grow: 0;
+      flex-shrink: 0;
+      flex-basis: 50vh;
       background: white;
       position: relative;
       z-index: index($zindex, mobile-drawer);
+
+      &.fit-content {
+        flex-basis: fit-content;
+      }
 
       .drag-line {
         width: 48px;
@@ -241,6 +251,15 @@ div.leaflet-marker-icon.via {
     > svg.icon {
       height: auto;
       width: auto;
+    }
+  }
+}
+
+div.leaflet-marker-icon.map-subway-entrance-info-icon-metro {
+  > span {
+    svg.icon {
+      width: auto;
+      height: auto;
     }
   }
 }
@@ -1311,6 +1330,16 @@ div.origin-popup {
 
 .map-line.scooter.leg {
   color: $scooter-map-color;
+}
+
+.map-line.walk-inside.leg {
+  color: #fff;
+  stroke: round;
+  stroke-dasharray: 0.1 11;
+}
+
+.leg-halo.walk-inside.map-line {
+  stroke: $walk-inside-color;
 }
 
 /* Fix to default leaflet behavior */

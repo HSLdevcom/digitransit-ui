@@ -666,7 +666,10 @@ export default function ItineraryPage(props, context) {
 
   const setNavigation = isEnabled => {
     if (mobileRef.current) {
-      mobileRef.current.setBottomSheet(isEnabled ? 'bottom' : 'middle');
+      setTimeout(
+        () => mobileRef.current.setBottomSheet(isEnabled ? 'bottom' : 'middle'),
+        10,
+      );
     }
     if (!isEnabled) {
       setMapState(noFocus);
@@ -691,6 +694,16 @@ export default function ItineraryPage(props, context) {
     };
     setLatestNavigatorItinerary(itineraryWithParams);
     setStoredItinerary(itineraryWithParams);
+  };
+
+  const updateStoredItinerary = legs => {
+    setStoredItinerary({
+      ...storedItinerary,
+      itinerary: {
+        ...storedItinerary.itinerary,
+        legs,
+      },
+    });
   };
 
   // save url-defined location to old searches
@@ -1104,6 +1117,7 @@ export default function ItineraryPage(props, context) {
         itinerary={explicitItinerary}
         showBackButton={!naviMode}
         isLocationPopupEnabled={!naviMode}
+        realtimeTransfers={!!explicitItinerary}
       />
     );
   }
@@ -1223,6 +1237,7 @@ export default function ItineraryPage(props, context) {
             mapRef={mwtRef.current}
             mapLayerRef={mapLayerRef}
             isNavigatorIntroDismissed={isNavigatorIntroDismissed}
+            updateLegs={updateStoredItinerary}
           />
         </>
       );
@@ -1382,6 +1397,7 @@ export default function ItineraryPage(props, context) {
       mapRef={mwtRef.current}
       ref={mobileRef}
       match={match}
+      enableBottomScroll={!naviMode}
     />
   );
 }

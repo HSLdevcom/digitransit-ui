@@ -6,17 +6,39 @@ import { isKeyboardSelectionEvent } from '../../../util/browser';
 import { saveRoutingSettings } from '../../../action/SearchSettingsActions';
 import {
   getDefaultSettings,
-  getNumberOfCustomizedSettings,
+  hasCustomizedSettings,
 } from '../../../util/planParamUtil';
 import { configShape } from '../../../util/shapes';
+import { getCustomizedSettings } from '../../../store/localStorage';
 
 const RestoreDefaultSettingSection = ({ config }, { executeAction, intl }) => {
   const restoreDefaultSettings = () => {
+    const customizedSettings = getCustomizedSettings(config);
+    const defaultSettings = getDefaultSettings(config);
+    const restoredSettings = Object.keys(customizedSettings).reduce(
+      (acc, setting) => ({
+        ...acc,
+        [setting]: defaultSettings[setting],
+      }),
+      {},
+    );
+
     executeAction(saveRoutingSettings, {
-      ...getDefaultSettings(config),
+      ...restoredSettings,
     });
   };
-  const numberOfCustomizedSettings = getNumberOfCustomizedSettings(config);
+  const userHasCustomizedSettings = hasCustomizedSettings(config);
+
+  if (!userHasCustomizedSettings) {
+    return (
+      <span className="sr-only">
+        <FormattedMessage
+          id="restore-default-settings-aria-label-done"
+          defaultMessage="Default settings are in use."
+        />
+      </span>
+    );
+  }
 
   return (
     <button
@@ -25,24 +47,16 @@ const RestoreDefaultSettingSection = ({ config }, { executeAction, intl }) => {
       onClick={restoreDefaultSettings}
       onKeyPress={e => isKeyboardSelectionEvent(e) && restoreDefaultSettings()}
       className="noborder cursor-pointer restore-settings-button-text"
-      aria-label={intl.formatMessage(
-        {
-          id: 'restore-default-settings-aria-label',
-          defaultMessage: `Restore default settings. ${numberOfCustomizedSettings} settings changed.`,
-        },
-        {
-          numberOfCustomizedSettings,
-        },
-      )}
+      aria-label={intl.formatMessage({
+        id: 'restore-default-settings-aria-label',
+        defaultMessage: 'Restore default settings',
+      })}
     >
       <FormattedMessage
         id="restore-default-settings"
         defaultMessage="Restore default settings"
         values={{
-          numberOfCustomizedSettings:
-            numberOfCustomizedSettings > 0
-              ? ` (${numberOfCustomizedSettings})`
-              : '',
+          changedSettingsIndicator: userHasCustomizedSettings ? '' : '', // Indicator coming later
         }}
       />
     </button>

@@ -1735,7 +1735,7 @@ $itinerary-tab-switch-height: 48px;
         padding: 3px 10px 3px 10px;
         border-radius: 5px;
         margin: 0 3px 0 3px;
-        background-color: #f4f4f5;
+        background-color: $background-color-lighter;
         font-weight: $font-weight-medium;
       }
 
@@ -1785,7 +1785,7 @@ $itinerary-tab-switch-height: 48px;
 
     .itinerary-transit-leg-route-bike {
       display: flex;
-      background-color: #f4f4f5;
+      background-color: $background-color-lighter;
       border-radius: 5px;
       margin-bottom: 8px;
       color: $black;
@@ -1887,7 +1887,7 @@ $itinerary-tab-switch-height: 48px;
 
     .itinerary-transit-leg-route {
       display: flex;
-      background-color: #f4f4f5;
+      background-color: $background-color-lighter;
       border-radius: 5px;
       margin-bottom: 2px;
 
@@ -1984,7 +1984,7 @@ $itinerary-tab-switch-height: 48px;
       }
 
       &.alternative-leg-suggestion {
-        border: 2px solid #f4f4f5;
+        border: 2px solid $background-color-lighter;
         background-color: white;
       }
 
@@ -2112,8 +2112,9 @@ $itinerary-tab-switch-height: 48px;
     .itinerary-leg-action {
       border-top: 1px solid #ddd;
       padding: 1.2em 0;
-      margin-bottom: 1px;
-      height: 60px;
+      margin-bottom: 1em;
+      min-height: 60px;
+      height: auto;
       font-size: 0.9375rem;
 
       @extend .itinerary-leg-text-gray;
@@ -2132,6 +2133,30 @@ $itinerary-tab-switch-height: 48px;
             padding-top: 5px;
           }
         }
+      }
+    }
+
+    .subway-entrance-info-container {
+      display: flex;
+      align-items: center;
+      height: 24px;
+      margin-top: 1px;
+
+      .subway-entrance-info-text {
+        margin-right: 0.4em;
+        align-items: center;
+      }
+
+      .icon-container {
+        display: flex;
+      }
+
+      .subway-entrance-info-icon {
+        width: 24px;
+        height: 100%;
+        vertical-align: middle;
+        display: flex;
+        margin-right: 1px;
       }
     }
 
@@ -3113,7 +3138,7 @@ $font-print-decrease: 0.7;
   font-size: 14px;
 
   &.caution {
-    background: #f4f4f5;
+    background: $background-color-lighter;
   }
 
   &.info {

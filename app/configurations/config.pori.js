@@ -168,6 +168,5 @@ export default configMerger(walttiConfig, {
   useTicketIcons: true,
   ticketLink: 'https://pjl.pori.fi/etusivu/liput-ja-hinnat/',
   showTicketPrice: true,
-  showTicketLinkOnlyWhenTesting: true,
   ticketLinkOperatorCode: 50231,
 });

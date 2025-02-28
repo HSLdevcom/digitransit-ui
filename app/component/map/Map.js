@@ -128,9 +128,13 @@ export default class Map extends React.Component {
         paddingBottomRight: [0, (window.innerHeight - 64) / 2],
       };
     }
+    this.mounted = false;
   }
 
   updateZoom = () => {
+    if (!this.mounted) {
+      return;
+    }
     // eslint-disable-next-line no-underscore-dangle
     const zoom = this.map?.leafletElement?._zoom || this.props.zoom || 16;
     if (zoom !== this.state.zoom) {
@@ -139,6 +143,7 @@ export default class Map extends React.Component {
   };
 
   componentDidMount() {
+    this.mounted = true;
     if (this.props.mapLayers.vehicles) {
       startClient(this.context);
     }
@@ -173,6 +178,7 @@ export default class Map extends React.Component {
   }
 
   componentWillUnmount() {
+    this.mounted = false;
     const { client } = this.context.getStore('RealTimeInformationStore');
     if (client) {
       this.context.executeAction(stopRealTimeClient, client);

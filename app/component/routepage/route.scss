@@ -438,7 +438,7 @@ $margin-left-right: 21.3px;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: #f4f4f5;
+            background: $background-color-lighter;
             color: #333;
             width: 24px;
             height: 17px;
@@ -1229,7 +1229,6 @@ $margin-left-right: 21.3px;
   }
 
   .icon {
-    color: $primary-color;
     position: absolute;
     right: 1rem;
     top: 15px;
@@ -1239,6 +1238,11 @@ $margin-left-right: 21.3px;
     @media print {
       display: none;
     }
+  }
+
+  .dropdown-arrow,
+  .in-text-arrow {
+    color: $primary-color;
   }
 
   .in-text-arrow {
@@ -1297,7 +1301,7 @@ $margin-left-right: 21.3px;
     }
 
     .react-autosuggest__suggestions-container {
-      background: #f4f4f5;
+      background: $background-color-lighter;
       z-index: index($zindex, 'autosuggest-suggestion-container');
       position: absolute;
       top: 52px;

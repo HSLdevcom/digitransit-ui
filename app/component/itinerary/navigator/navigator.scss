@@ -84,7 +84,7 @@
     display: flex;
     flex-direction: row;
     height: 18px;
-    
+
     .arrow-center {
       padding-top: 4px;
     }
@@ -95,11 +95,11 @@
 
       .vcenter-children {
         display: flex;
-        
+        margin-top: 1px;
+
         .vehicle-number {
           color: white;
           padding: 0 8px 0 2px;
-          margin-top: -1px;
         }
 
         .special-icon {

@@ -67,38 +67,30 @@ export function getDefaultSettings(config) {
 }
 
 /**
- * The number of settings that differ from the default settings.
+ * Whether user has customized any settings that are visible and make a difference.
  * @param {*} config the configuration for the software installation
  */
-export function getNumberOfCustomizedSettings(config) {
+export function hasCustomizedSettings(config) {
   const defaultSettings = getDefaultSettings(config);
   const customizedSettings = getCustomizedSettings();
   if (Object.keys(customizedSettings).length === 0) {
-    return 0;
+    return false;
   }
-  return Object.keys(customizedSettings).reduce((count, key) => {
+
+  return Object.keys(customizedSettings).some(key => {
     if (key === 'allowedBikeRentalNetworks') {
-      return (
-        count +
-        customizedSettings.allowedBikeRentalNetworks.filter(network =>
-          networkIsActive(config.vehicleRental.networks[network]),
-        ).length
+      return customizedSettings.allowedBikeRentalNetworks.some(network =>
+        networkIsActive(config.vehicleRental.networks[network]),
       );
     }
     if (
       Array.isArray(customizedSettings[key]) &&
       Array.isArray(defaultSettings[key])
     ) {
-      return (
-        count +
-        Math.abs(customizedSettings[key].length - defaultSettings[key].length)
-      );
+      return customizedSettings[key].length !== defaultSettings[key].length;
     }
-    if (customizedSettings[key] !== defaultSettings[key]) {
-      return count + 1;
-    }
-    return count;
-  }, 0);
+    return customizedSettings[key] !== defaultSettings[key];
+  });
 }
 
 /**

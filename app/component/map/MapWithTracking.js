@@ -118,9 +118,12 @@ class MapWithTrackingStateHandler extends React.Component {
       settingsOpen: false,
     };
     this.naviProps = {};
+    this.mounted = false;
   }
 
   async componentDidMount() {
+    this.mounted = true;
+
     if (!isBrowser) {
       return;
     }
@@ -129,18 +132,23 @@ class MapWithTrackingStateHandler extends React.Component {
     }
   }
 
+  componentWillUnmount() {
+    this.mounted = false;
+  }
+
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps(newProps) {
     if (
       newProps.mapTracking !== undefined &&
-      newProps.mapTracking !== this.state.mapTracking
+      newProps.mapTracking !== this.state.mapTracking &&
+      this.mounted
     ) {
       this.setState({ mapTracking: newProps.mapTracking });
     }
   }
 
   setMapElementRef = element => {
-    if (element && this.mapElement !== element) {
+    if (element && this.mapElement !== element && this.mounted) {
       this.mapElement = element;
       if (this.props.mapRef) {
         this.props.mapRef(element);
@@ -171,6 +179,10 @@ class MapWithTrackingStateHandler extends React.Component {
   };
 
   disableMapTracking = () => {
+    if (!this.mounted) {
+      return;
+    }
+
     this.setState({
       mapTracking: false,
     });
@@ -233,6 +245,10 @@ class MapWithTrackingStateHandler extends React.Component {
 
   // eslint-disable-next-line react/no-unused-class-component-methods
   setBottomPadding = padding => {
+    if (!this.mounted) {
+      return;
+    }
+
     this.map?.setBottomPadding(padding);
     this.setState({ bottomPadding: padding });
   };

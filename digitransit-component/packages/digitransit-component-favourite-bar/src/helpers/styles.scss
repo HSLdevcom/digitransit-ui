@@ -7,7 +7,7 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle, map-buttons,
   destination-input, viapoint-input-5, viapoint-input-4, viapoint-input-3,
   viapoint-input-2, viapoint-input-1, origin-input, search-input-focus,
   search-input-icon, rectangle, autosuggest-suggestion-container, front;
-$favourite-highlight-background-color: #f4f4f5;
+$favourite-highlight-background-color: #f2f5f7;
 
 .button-shared {
   background-color: #fff;
@@ -199,7 +199,7 @@ $favourite-highlight-background-color: #f4f4f5;
   .divider {
     display: block;
     height: 6px;
-    background-color: #f4f4f5;
+    background-color: #f2f5f7;
     border-top: 1px solid rgba(0, 0, 0, 0.1);
   }
 

@@ -107,6 +107,19 @@ export default {
     bucketSize: 100,
   },
 
+  defaultSettings: {
+    walkSpeed: 1.28,
+  },
+
+  /**
+   * These are used for dropdown selection of values to override the default
+   * settings. This means that values ought to be relative to the current default.
+   * If not, the selection may not make any sense.
+   */
+  defaultOptions: {
+    walkSpeed: [0.69, 0.97, 1.28, 1.67, 2.22],
+  },
+
   omitNonPickups: true,
 
   parkAndRide: {

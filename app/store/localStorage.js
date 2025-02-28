@@ -104,7 +104,7 @@ export function setCustomizedSettings(data) {
   const oldSettings = getCustomizedSettings();
 
   const newSettings = {
-    accessibilityOption: getNumberValueOrDefault(
+    accessibilityOption: getValueOrDefault(
       data.accessibilityOption,
       oldSettings.accessibilityOption,
     ),
@@ -206,7 +206,9 @@ export function getOldSearchesStorage() {
   return {
     ...storage,
     items: storage.items.filter(
-      search => search.item.address !== 'SelectFromMap',
+      search =>
+        search.item.address !== 'SelectFromMap' &&
+        search.item.address !== 'back',
     ),
   };
 }

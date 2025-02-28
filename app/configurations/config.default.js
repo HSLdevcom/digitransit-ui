@@ -178,7 +178,7 @@ export default {
   },
 
   defaultSettings: {
-    accessibilityOption: 0,
+    accessibilityOption: false,
     optimize: 'GREENWAYS',
     bikeSpeed: 5.55,
     ticketTypes: 'none',

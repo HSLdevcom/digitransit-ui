@@ -557,11 +557,13 @@ class DTAutosuggest extends React.Component {
         () => {
           if (this.state.suggestions.length) {
             this.input.blur();
-            this.props.onSelect(
-              this.state.suggestions[this.state.suggestionIndex],
-              this.props.id,
-            );
-
+            const item = this.state.suggestions[this.state.suggestionIndex];
+            if (item.type !== 'back') {
+              this.props.onSelect(
+                this.state.suggestions[this.state.suggestionIndex],
+                this.props.id,
+              );
+            }
             if (this.props.isMobile) {
               this.closeMobileSearch();
             }

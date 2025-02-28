@@ -461,7 +461,6 @@ class TileLayerContainer extends GridLayer {
         );
       }
     }
-
     return showPopup ? popup : null;
   }
 }

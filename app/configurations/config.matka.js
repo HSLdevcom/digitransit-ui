@@ -99,6 +99,7 @@ export default {
     'KoivistonAuto',
     'PahkakankaanLiikenne',
     'IngvesSvanback',
+    'CAR_FERRIES',
   ],
 
   additionalFeedIds: {

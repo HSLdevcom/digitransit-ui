@@ -880,6 +880,8 @@ const translations = {
     'set-time-earlier-button-label': 'Set travel time to earlier',
     'set-time-later-button-label': 'Set travel time to later',
     'set-time-now-button-label': 'Set travel time to current',
+    'station-entrance': 'Entrance',
+    'station-exit': 'Exit',
     'time-navigation-buttons': 'Time navigation buttons',
     'time-selector-form': 'Edit time',
     // eslint-disable-next-line sort-keys
@@ -1332,7 +1334,7 @@ const translations = {
     'navigation-mode-early': 'TODO_{name} on etuajassa',
     'navigation-mode-late:': 'TODO_{name} on myöhässä',
     'navigation-outro-header': 'TODO_navigation-outro-header_EN',
-    'navigation-quit': 'Quit',
+    'navigation-quit': 'Return',
     'navigation-remember-ticket': 'TODO_Muistithan ostaa lipun?',
     'navigation-start': 'Start journey',
     'navigation-ticket': 'Ticket',
@@ -1499,9 +1501,9 @@ const translations = {
     'rent-scooter-at': 'Rent a kick scooter at {station} station',
     'required-ticket': 'Ticket required for the journey',
     'restore-default-settings':
-      'Restore default settings {numberOfCustomizedSettings}',
-    'restore-default-settings-aria-label':
-      'Restore default settings. You have {numberOfCustomizedSettings} customized settings.',
+      'Restore default settings {changedSettingsIndicator}',
+    'restore-default-settings-aria-label': 'Restore default settings.',
+    'restore-default-settings-aria-label-done': 'Default settings are in use.',
     'return-cycle-to': 'Return the bike:',
     'return-e-scooter-to': 'Leave the scooter in a safe location',
     'return-scooter-to': 'Return the kick scooter to {station} station',
@@ -1609,7 +1611,7 @@ const translations = {
       'The journey includes demand responsive transport service. Please check the payment methods and practices on ',
     'set-specific-settings': 'Set more specific settings',
     'set-stop-as-routes': "Set the stop as route's",
-    settings: 'Settings {numberOfCustomizedSettings}',
+    settings: 'Settings {changedSettingsIndicator}',
     'settings-alternative-name-rail': 'Train',
     'settings-change-itinerary-settings': 'Change settings',
     'settings-dropdown-close-label': 'Close options',
@@ -1683,6 +1685,12 @@ const translations = {
     // eslint-disable-next-line sort-keys
     street: 'Street',
     subway: 'Metro',
+    'subway-entrance.sr-description': 'Metro station entrance {entranceName}',
+    'subway-entrance.sr-description.accessible':
+      'Metro station entrance {entranceName}, accessible',
+    'subway-exit.sr-description': 'Metro station exit {entranceName}}',
+    'subway-exit.sr-description.accessible':
+      'Metro station exit {entranceName}, accessible',
     'subway-with-route-number': 'Metro {routeNumber} {headSign}',
     'summary-page.description': '{from} - {to}',
     'summary-page.row-label': 'Itinerary suggestion {number}',
@@ -2182,6 +2190,8 @@ const translations = {
     'set-time-earlier-button-label': 'Aikaista matkustusajankohtaa',
     'set-time-later-button-label': 'Myöhäistä matkustusajankohtaa',
     'set-time-now-button-label': 'Aseta matkustusajankohdaksi nyt',
+    'station-entrance': 'Sisäänkäynti',
+    'station-exit': 'Uloskäynti',
     'time-navigation-buttons': 'Matkustusajankohdan muokkausnapit',
     'time-selector-form': 'Muokkaa Matkustusajankohtaa',
     // eslint-disable-next-line sort-keys
@@ -2628,7 +2638,7 @@ const translations = {
     'navigation-mode-early': '{name} on etuajassa',
     'navigation-mode-late:': '{name} on myöhässä',
     'navigation-outro-header': 'Olet perillä!',
-    'navigation-quit': 'Poistu',
+    'navigation-quit': 'Palaa',
     'navigation-remember-ticket': 'Muistithan ostaa lipun?',
     'navigation-start': 'Matkalle',
     'navigation-ticket': 'Lippu',
@@ -2795,9 +2805,9 @@ const translations = {
     'rent-scooter-at': 'Vuokraa potkulauta asemalta {station}',
     'required-ticket': 'Reitillä tarvittava lippu',
     'restore-default-settings':
-      'Palauta oletusasetukset {numberOfCustomizedSettings}',
-    'restore-default-settings-aria-label':
-      'Palauta oletusasetukset. Muutettuja asetuksia on {numberOfCustomizedSettings}.',
+      'Palauta oletusasetukset {changedSettingsIndicator}',
+    'restore-default-settings-aria-label': 'Palauta oletusasetukset.',
+    'restore-default-settings-aria-label-done': 'Oletusasetukset käytössä.',
     'return-cycle-to': 'Palauta kaupunkipyörä:',
     'return-e-scooter-to': 'Jätä potkulauta turvalliseen paikkaan',
     'return-scooter-to': 'Palauta potkulauta asemalle {station}',
@@ -2904,7 +2914,7 @@ const translations = {
       'Matka sisältää kutsuliikennettä. Voit tarkistaa maksutavat ja käytännöt ',
     'set-specific-settings': 'Aseta tarkemmat asetukset',
     'set-stop-as-routes': 'Aseta pysäkki reitin',
-    settings: 'Asetukset {numberOfCustomizedSettings}',
+    settings: 'Asetukset {changedSettingsIndicator}',
     'settings-alternative-name-rail': 'Juna',
     'settings-change-itinerary-settings': 'Muuta asetuksia',
     'settings-dropdown-close-label': 'Sulje vaihtoehdot',
@@ -2977,6 +2987,12 @@ const translations = {
     // eslint-disable-next-line sort-keys
     street: 'Katu',
     subway: 'Metro',
+    'subway-entrance.sr-description': 'Metroaseman sisäänkäynti {entranceName}',
+    'subway-entrance.sr-description.accessible':
+      'Metroaseman sisäänkäynti {entranceName}, esteetön',
+    'subway-exit.sr-description': 'Metroaseman uloskäynti {entranceName}',
+    'subway-exit.sr-description.accessible':
+      'Metroaseman uloskäynti {entranceName}, esteetön',
     'subway-with-route-number': 'Metro {routeNumber} {headSign}',
     'summary-page.description': '{from} - {to}',
     'summary-page.row-label': 'Reittiehdotus {number}',
@@ -5131,6 +5147,8 @@ const translations = {
     'set-time-earlier-button-label': 'Ställ in restid till tidigare',
     'set-time-later-button-label': 'Ställ in restid till senare',
     'set-time-now-button-label': 'Ställ in restid till nu',
+    'station-entrance': 'Ingång',
+    'station-exit': 'Utgång',
     'time-navigation-buttons': 'Tidsnavigeringsknappar',
     'time-selector-form': 'Redigera tid',
     // eslint-disable-next-line sort-keys
@@ -5579,7 +5597,7 @@ const translations = {
     'navigation-mode-early': 'TODO_{name} on etuajassa',
     'navigation-mode-late:': 'TODO_{name} on myöhässä',
     'navigation-outro-header': 'TODO_navigation-outro-header_SV',
-    'navigation-quit': 'Sluta',
+    'navigation-quit': 'Återgå',
     'navigation-remember-ticket': 'TODO_Muistithan ostaa lipun?',
     'navigation-start': 'På resa',
     'navigation-ticket': 'Biljett',
@@ -5744,9 +5762,10 @@ const translations = {
     'rent-scooter-at': 'Hyr en sparkcykel från stationen {station}',
     'required-ticket': 'Biljett som behövs under resan',
     'restore-default-settings':
-      'Återställ standardinställningar {numberOfCustomizedSettings}',
-    'restore-default-settings-aria-label':
-      'Återställ standardinställningar. Du har {numberOfCustomizedSettings} anpassade inställningar.',
+      'Återställ standardinställningar {changedSettingsIndicator}',
+    'restore-default-settings-aria-label': 'Återställ standardinställningar.',
+    'restore-default-settings-aria-label-done':
+      'Standardinställningar är aktiverade.',
     'return-cycle-to': 'Returnera stadscykeln: ',
     'return-e-scooter-to': 'Lämna elsparkcykeln på ett säkert ställe',
     'return-scooter-to': 'Returnera sparkcykeln till stationen {station}',
@@ -5857,7 +5876,7 @@ const translations = {
       'I resan ingår anropsbusstrafiken. Bekanta dig med betalningsmetoder och praxis på ',
     'set-specific-settings': 'Ställa avancerade inställningar',
     'set-stop-as-routes': 'Ställa hållplats som rutter',
-    settings: 'Anpassa {numberOfCustomizedSettings}',
+    settings: 'Anpassa {changedSettingsIndicator}',
     'settings-alternative-name-rail': 'Tåg',
     'settings-change-itinerary-settings': 'Anpassa sökning',
     'settings-dropdown-close-label': 'Stäng alternativen',
@@ -5929,6 +5948,12 @@ const translations = {
     // eslint-disable-next-line sort-keys
     street: 'Gata',
     subway: 'Metro',
+    'subway-entrance.sr-description': 'Metro stationens ingång {entranceName}',
+    'subway-entrance.sr-description.accessible':
+      'Metro stationens ingång {entranceName}, tillgänglig',
+    'subway-exit.sr-description': 'Metro stationens utgång {entranceName}',
+    'subway-exit.sr-description.accessible':
+      'Metro stationens utgång {entranceName}, tillgänglig',
     'subway-with-route-number': 'Metro {routeNumber} {headSign}',
     'summary-page.description': '{from} - {to}',
     'summary-page.row-label': 'Ruttförslag {number}',

@@ -24,7 +24,7 @@ import {
 import ScrollableWrapper from '../ScrollableWrapper';
 import {
   getDefaultSettings,
-  getNumberOfCustomizedSettings,
+  hasCustomizedSettings,
 } from '../../util/planParamUtil';
 import {
   getCitybikeNetworks,
@@ -87,7 +87,7 @@ class CustomizeSearch extends React.Component {
     ) : (
       <Icon className="close-icon" img="icon-icon_close" />
     );
-    const numberOfCustomizedSettings = getNumberOfCustomizedSettings(config);
+    const userHasCustomizedSettings = hasCustomizedSettings(config);
     return (
       <form className="customize-search">
         <button
@@ -119,10 +119,7 @@ class CustomizeSearch extends React.Component {
                 defaultMessage: 'Settings',
               },
               {
-                numberOfCustomizedSettings:
-                  numberOfCustomizedSettings > 0
-                    ? ` (${numberOfCustomizedSettings})`
-                    : '',
+                changedSettingsIndicator: userHasCustomizedSettings ? '' : '', // Indicator coming later
               },
             )}
           </h2>

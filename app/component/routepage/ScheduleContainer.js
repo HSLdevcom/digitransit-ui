@@ -900,13 +900,16 @@ class ScheduleContainer extends PureComponent {
         this.context.config.timetables[routeIdSplitted[0]]
       : undefined;
 
+    const timetableDay =
+      (wantedDay && wantedDay.format(DATE_FORMAT)) || newServiceDay;
     const routeTimetableUrl =
       routeTimetableHandler &&
+      timetableDay &&
       this.context.config.URL.ROUTE_TIMETABLES[routeIdSplitted[0]] &&
       routeTimetableHandler.routeTimetableUrlResolver(
         this.context.config.URL.ROUTE_TIMETABLES[routeIdSplitted[0]],
         this.props.route,
-        newServiceDay,
+        timetableDay,
         this.props.lang,
       );
 

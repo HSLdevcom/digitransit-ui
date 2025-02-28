@@ -148,7 +148,12 @@ function getInitialState(legs) {
   };
 }
 
-const useRealtimeLegs = (relayEnvironment, initialLegs, position) => {
+const useRealtimeLegs = (
+  relayEnvironment,
+  initialLegs,
+  position,
+  updateLegs,
+) => {
   const [{ origin, time, realTimeLegs }, setTimeAndRealTimeLegs] = useState(
     () => getInitialState(initialLegs),
   );
@@ -220,7 +225,7 @@ const useRealtimeLegs = (relayEnvironment, initialLegs, position) => {
         l.freezeStart = l.freezeStart || legTime(l.start) <= now;
         l.freezeEnd = l.freezeEnd || legTime(l.end) <= now;
       });
-
+      updateLegs?.(rtLegs);
       return { ...prev, time: now, realTimeLegs: rtLegs };
     });
   }, [realTimeLegs, queryAndMapRealtimeLegs]);

@@ -22,7 +22,7 @@ import { splitStringToAddressAndPlace } from '../../util/otpStrings';
 import VehicleRentalLeg from './VehicleRentalLeg';
 
 function WalkLeg(
-  { children, focusAction, focusToLeg, index, leg, previousLeg },
+  { children, focusAction, focusToLeg, index, leg, previousLeg, nextLeg },
   { config, intl },
 ) {
   const distance = displayDistance(
@@ -74,6 +74,19 @@ function WalkLeg(
           defaultMessage: 'scooter',
         })
       : leg.to.name;
+  const entranceName = leg?.steps?.find(
+    step =>
+      // eslint-disable-next-line no-underscore-dangle
+      step?.feature?.__typename === 'Entrance' || step?.feature?.publicCode,
+  )?.feature?.publicCode;
+
+  const entranceAccessible = leg?.steps?.find(
+    // eslint-disable-next-line no-underscore-dangle
+    step =>
+      // eslint-disable-next-line no-underscore-dangle
+      step?.feature?.__typename === 'Entrance' ||
+      step?.feature?.wheelchairAccessible,
+  )?.feature?.wheelchairAccessible;
 
   return (
     <div key={index} className="row itinerary-row">
@@ -229,20 +242,104 @@ function WalkLeg(
           </div>
         )}
 
-        <div className="itinerary-leg-action itinerary-leg-action-content">
-          <FormattedMessage
-            id="walk-distance-duration"
-            values={{
-              distance: config.emphasizeDistance ? <b>{distance}</b> : distance,
-              duration,
-            }}
-            defaultMessage="Walk {distance} ({duration})"
-          />
-          <ItineraryMapAction
-            target=""
-            ariaLabelId="itinerary-summary-row.clickable-area-description"
-            focusAction={focusToLeg}
-          />
+        <div className="itinerary-leg-action">
+          {previousLeg?.mode === 'SUBWAY' && (
+            <div
+              className="subway-entrance-info-container"
+              aria-labelledby="subway-entrance-label"
+            >
+              <span id="subway-entrance-label" className="sr-only">
+                <FormattedMessage
+                  id={
+                    entranceAccessible === 'POSSIBLE'
+                      ? 'subway-exit.sr-description.accessible'
+                      : 'subway-exit.sr-description'
+                  }
+                  defaultMessage="Exit {entranceName}"
+                  values={{ entranceName: entranceName || '' }}
+                />
+              </span>
+
+              <div className="subway-entrance-info-text" aria-hidden="true">
+                <FormattedMessage id="station-exit" defaultMessage="Exit" />
+              </div>
+              <Icon
+                img="icon-icon_subway_entrance"
+                className="subway-entrance-info-icon"
+              />
+              {entranceName && (
+                <Icon
+                  className="subway-entrance-info-icon"
+                  img={`icon-icon_subway_entrance_${entranceName.toLowerCase()}`}
+                />
+              )}
+              {entranceAccessible === 'POSSIBLE' && (
+                <Icon
+                  className="subway-entrance-info-icon"
+                  img="icon-icon_wheelchair_filled"
+                />
+              )}
+            </div>
+          )}
+          <div className=" itinerary-leg-action-content">
+            <FormattedMessage
+              id="walk-distance-duration"
+              values={{
+                distance: config.emphasizeDistance ? (
+                  <b>{distance}</b>
+                ) : (
+                  distance
+                ),
+                duration,
+              }}
+              defaultMessage="Walk {distance} ({duration})"
+            />
+            <ItineraryMapAction
+              target=""
+              ariaLabelId="itinerary-summary-row.clickable-area-description"
+              focusAction={focusToLeg}
+            />
+          </div>
+          {nextLeg?.mode === 'SUBWAY' && (
+            <div
+              className="subway-entrance-info-container"
+              aria-labelledby="subway-entrance-label"
+            >
+              <span id="subway-entrance-label" className="sr-only">
+                <FormattedMessage
+                  id={
+                    entranceAccessible === 'POSSIBLE'
+                      ? 'subway-entrance.sr-description.accessible'
+                      : 'subway-entrance.sr-description'
+                  }
+                  defaultMessage="Exit {entranceName}"
+                  values={{ entranceName: entranceName || '' }}
+                />
+              </span>
+              <div className="subway-entrance-info-text" aria-hidden="true">
+                <FormattedMessage
+                  id="station-entrance"
+                  defaultMessage="Entrance"
+                />
+              </div>
+              <Icon
+                img="icon-icon_subway_entrance"
+                className="subway-entrance-info-icon"
+              />
+              {entranceName && (
+                <Icon
+                  className="subway-entrance-info-icon"
+                  img={`icon-icon_subway_entrance_${entranceName.toLowerCase()}`}
+                />
+              )}
+              {entranceAccessible === 'POSSIBLE' && (
+                <Icon
+                  className="subway-entrance-info-icon"
+                  img="icon-icon_wheelchair_filled"
+                />
+              )}
+            </div>
+          )}
         </div>
       </div>
     </div>
@@ -255,11 +352,13 @@ WalkLeg.propTypes = {
   index: PropTypes.number.isRequired,
   leg: legShape.isRequired,
   previousLeg: legShape,
+  nextLeg: legShape,
   focusToLeg: PropTypes.func.isRequired,
 };
 
 WalkLeg.defaultProps = {
   previousLeg: undefined,
+  nextLeg: undefined,
   children: undefined,
 };
 

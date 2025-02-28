@@ -718,6 +718,9 @@ export function getHeadsignFromRouteLongName(route) {
   if (
     longName &&
     shortName &&
+    // Sometimes a "normal" shortname is included in longName, but sometimes
+    // shortName is just a shortened version of longName.
+    shortName.length < 7 &&
     longName.substring(0, shortName.length) === shortName &&
     longName.length > shortName.length
   ) {

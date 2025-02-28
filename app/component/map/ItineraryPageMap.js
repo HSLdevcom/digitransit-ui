@@ -33,6 +33,7 @@ function ItineraryPageMap(
     itinerary,
     showBackButton,
     isLocationPopupEnabled,
+    realtimeTransfers,
     ...rest
   },
   { match, router, executeAction, config },
@@ -53,9 +54,9 @@ function ItineraryPageMap(
         hash={active}
         streetMode={hash}
         legs={itinerary.legs}
-        showTransferLabels={showActiveOnly}
         showIntermediateStops
         showDurationBubble={showDurationBubble}
+        realtimeTransfers={realtimeTransfers}
       />,
     );
   } else {
@@ -80,9 +81,9 @@ function ItineraryPageMap(
           hash={active}
           streetMode={hash}
           legs={planEdges[active].node.legs}
-          showTransferLabels={showActiveOnly}
           showIntermediateStops
           showDurationBubble={showDurationBubble}
+          realtimeTransfers={realtimeTransfers}
         />,
       );
     }
@@ -156,6 +157,7 @@ ItineraryPageMap.propTypes = {
   itinerary: itineraryShape,
   showBackButton: PropTypes.bool,
   isLocationPopupEnabled: PropTypes.bool,
+  realtimeTransfers: PropTypes.bool,
 };
 
 ItineraryPageMap.defaultProps = {
@@ -166,6 +168,7 @@ ItineraryPageMap.defaultProps = {
   itinerary: undefined,
   showBackButton: true,
   isLocationPopupEnabled: false,
+  realtimeTransfers: false,
 };
 
 ItineraryPageMap.contextTypes = {

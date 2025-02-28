@@ -124,6 +124,11 @@ class TransitLegMarkers extends React.Component {
         off: PropTypes.func.isRequired,
       }).isRequired,
     }).isRequired,
+    realtimeTransfers: PropTypes.bool,
+  };
+
+  static defaultProps = {
+    realtimeTransfers: false,
   };
 
   static contextTypes = {
@@ -195,17 +200,19 @@ class TransitLegMarkers extends React.Component {
     return truePixelPosition;
   }
 
-  getSpeechBubbleText(leg, nextLeg) {
+  getSpeechBubbleText(leg, nextLeg, realtime) {
     let duration = '';
     const transferStart = legTime(leg.end);
     const transferEnd = legTime(nextLeg.start);
     if (transferStart && transferEnd) {
       duration = Math.floor((transferEnd - transferStart) / 1000 / 60);
     }
-    return `${this.context.intl.formatMessage({
-      id: 'transfer',
-      defaultMessage: 'Transfer',
-    })}: ${duration} min`;
+    const style = realtime ? 'color:#3b7f00' : '';
+
+    return `<span>
+        ${this.context.intl.formatMessage({ id: 'transfer' })}:
+        <span style="${style}">${duration} min</span>
+      </span>`;
   }
 
   componentDidMount() {
@@ -310,6 +317,7 @@ class TransitLegMarkers extends React.Component {
       const text = this.getSpeechBubbleText(
         leg,
         this.props.transitLegs[index + 1],
+        this.props.realtimeTransfers,
       );
       objs.push(
         <SpeechBubble

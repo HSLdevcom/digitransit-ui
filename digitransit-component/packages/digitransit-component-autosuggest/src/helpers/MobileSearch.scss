@@ -1,6 +1,6 @@
 $primary-color: #007ac9;
 $font-weight-medium: 500;
-$search-result-text-highlight-background-color: #f4f4f5;
+$search-result-text-highlight-background-color: #f2f5f7;
 $zindex: base, map-container, map-gradient, map-fullscreen-toggle, map-buttons,
   context-panel, search-panel, search-overlay, stop-route-station-input,
   destination-input, viapoint-input-5, viapoint-input-4, viapoint-input-3,
@@ -176,7 +176,7 @@ button.clear-input {
     list-style: none;
     padding-left: 0;
     margin: 0;
-    background: #f4f4f5;
+    background: #f2f5f7;
   }
 }
 
@@ -189,7 +189,7 @@ button.clear-input {
   justify-content: center;
   width: 100%;
   height: 62px;
-  background: #f4f4f5;
+  background: #f2f5f7;
   color: var(--accessible-primary-color);
   font-size: 15px;
   font-weight: var(--font-weight-medium);

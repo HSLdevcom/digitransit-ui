@@ -5,6 +5,7 @@ import React, {
   useState,
   forwardRef,
   useImperativeHandle,
+  useEffect,
 } from 'react';
 import { matchShape } from 'found';
 import MapBottomsheetContext from './map/MapBottomsheetContext';
@@ -78,13 +79,15 @@ const MobileView = forwardRef(
       mapRef,
       searchBox,
       match,
+      enableBottomScroll,
     },
     ref,
   ) => {
     if (settingsDrawer) {
       return <div className="mobile">{settingsDrawer}</div>;
     }
-    const scrollRef = useRef(null);
+    const contentRef = useRef();
+    const scrollRef = useRef();
     const pathParts = match.location.pathname.split('/');
     const pagePrefix = pathParts?.length > 1 ? pathParts[1] : undefined;
 
@@ -151,6 +154,12 @@ const MobileView = forwardRef(
       }
     }, [content]);
 
+    useEffect(() => {
+      if (!enableBottomScroll && contentRef.current) {
+        contentRef.current.scrollIntoView();
+      }
+    });
+
     return (
       <div className="mobile">
         {selectFromMapHeader}
@@ -167,8 +176,13 @@ const MobileView = forwardRef(
               role="main"
             >
               <div className="drawer-padding" />
-              <div className="drawer-content">
-                <div className="drag-line" />
+              <div
+                className={`drawer-content ${
+                  !enableBottomScroll && 'fit-content'
+                }`}
+                ref={contentRef}
+              >
+                {enableBottomScroll && <div className="drag-line" />}
                 <div className="content-container">
                   {header}
                   {content}
@@ -201,6 +215,7 @@ MobileView.propTypes = {
   // eslint-disable-next-line
   mapRef: PropTypes.object,
   match: matchShape.isRequired,
+  enableBottomScroll: PropTypes.bool,
 };
 
 MobileView.defaultProps = {
@@ -211,6 +226,7 @@ MobileView.defaultProps = {
   selectFromMapHeader: undefined,
   searchBox: undefined,
   mapRef: undefined,
+  enableBottomScroll: true,
 };
 
 export default MobileView;

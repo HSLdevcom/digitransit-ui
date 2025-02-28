@@ -316,7 +316,7 @@
   .departure-day-divider {
     height: 15px;
     width: 100%;
-    background-color: #f4f4f5;
+    background-color: $background-color-lighter;
     border-radius: 5px;
     border: 1px solid #eaeaea;
   }
@@ -405,7 +405,7 @@
   }
 
   .platform-code {
-    background: #f4f4f5;
+    background: $background-color-lighter;
     color: #333;
     width: 28px;
     height: 24px;

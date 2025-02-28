@@ -26,6 +26,7 @@ function NaviContainer(
     isNavigatorIntroDismissed,
     mapRef,
     mapLayerRef,
+    updateLegs,
   },
   { executeAction, getStore, router },
 ) {
@@ -50,7 +51,7 @@ function NaviContainer(
     currentLeg,
     nextLeg,
     startItinerary,
-  } = useRealtimeLegs(relayEnvironment, legs, position);
+  } = useRealtimeLegs(relayEnvironment, legs, position, updateLegs);
 
   useEffect(() => {
     mapRef?.enableMapTracking(); // try always, shows annoying notifier
@@ -64,7 +65,6 @@ function NaviContainer(
       ) {
         posFrozen.current += 1;
         if (posFrozen.current === 3) {
-          // window.alert('Restarting geolocation watch');
           executeAction(stopLocationWatch);
           setTimeout(() => executeAction(startLocationWatch), 10);
         }
@@ -134,6 +134,7 @@ NaviContainer.propTypes = {
   mapRef: PropTypes.object,
   mapLayerRef: PropTypes.oneOfType([PropTypes.func, PropTypes.object])
     .isRequired,
+  updateLegs: PropTypes.func.isRequired,
 };
 
 NaviContainer.contextTypes = {

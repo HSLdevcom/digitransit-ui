@@ -96,6 +96,7 @@ function renderPatternSelectSuggestion(item, currentPattern) {
           <Icon
             className={item.mode.toLowerCase()}
             img={`icon-icon_${item.mode.toLowerCase()}`}
+            color={item.color ? `#${item.color}` : null}
           />
           <div className="similar-route-text">
             <span className="similar-route-name">{item.shortName}</span>
@@ -169,6 +170,7 @@ class RoutePatternSelect extends Component {
             shortName
             longName
             mode
+            color
           }
         }
       `;
