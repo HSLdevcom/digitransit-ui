@@ -1238,6 +1238,7 @@ export default function ItineraryPage(props, context) {
             mapLayerRef={mapLayerRef}
             isNavigatorIntroDismissed={isNavigatorIntroDismissed}
             updateLegs={updateStoredItinerary}
+            forceStartAt={storedItinerary?.params?.forceStartAt}
           />
         </>
       );

@@ -300,3 +300,11 @@ export const getLatestNavigatorItinerary = () => {
 export const clearLatestNavigatorItinerary = () => {
   setItem('latestNavigatorItinerary', {});
 };
+
+export const updateLatestNavigatorItineraryParams = valueObj => {
+  const itinerary = getItemAsJson('latestNavigatorItinerary', '{}');
+  setItem('latestNavigatorItinerary', {
+    itinerary: itinerary.itinerary,
+    params: { ...itinerary.params, ...valueObj },
+  });
+};

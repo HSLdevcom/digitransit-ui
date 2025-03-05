@@ -2,20 +2,22 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 import { routerShape } from 'found';
 import PropTypes from 'prop-types';
 import React, { useEffect, useRef } from 'react';
-import { legTime } from '../../../util/legUtils';
-import { legShape, relayShape } from '../../../util/shapes';
 import {
   startLocationWatch,
   stopLocationWatch,
 } from '../../../action/PositionActions';
+import { legTime, legTimeStr } from '../../../util/legUtils';
+import { legShape, relayShape } from '../../../util/shapes';
+import { useRealtimeLegs } from './hooks/useRealtimeLegs';
 import NaviBottom from './NaviBottom';
 import NaviCardContainer from './NaviCardContainer';
-import { useRealtimeLegs } from './hooks/useRealtimeLegs';
 import NavigatorOutroModal from './navigatoroutro/NavigatorOutroModal';
+import NaviStarter from './NaviStarter';
 import { DESTINATION_RADIUS, summaryString } from './NaviUtils';
 
 const ADDITIONAL_ARRIVAL_TIME = 60000; // 60 seconds in ms
 const LEGLOG = true;
+const TOPBAR_PADDING = 8; // pixels
 
 function NaviContainer(
   {
@@ -27,6 +29,7 @@ function NaviContainer(
     mapRef,
     mapLayerRef,
     updateLegs,
+    forceStartAt,
   },
   { executeAction, getStore, router },
 ) {
@@ -51,7 +54,14 @@ function NaviContainer(
     currentLeg,
     nextLeg,
     startItinerary,
-  } = useRealtimeLegs(relayEnvironment, legs, position, updateLegs);
+    loading,
+  } = useRealtimeLegs(
+    relayEnvironment,
+    legs,
+    position,
+    updateLegs,
+    forceStartAt,
+  );
 
   useEffect(() => {
     mapRef?.enableMapTracking(); // try always, shows annoying notifier
@@ -75,7 +85,7 @@ function NaviContainer(
     prevPos.current = position;
   }, [time]);
 
-  if (!realTimeLegs?.length) {
+  if (loading || !realTimeLegs?.length) {
     return null;
   }
 
@@ -92,23 +102,35 @@ function NaviContainer(
     console.log(...summaryString(realTimeLegs, time, previousLeg, currentLeg, nextLeg));
   }
 
+  const containerTopPosition =
+    mapLayerRef.current.getBoundingClientRect().top + TOPBAR_PADDING;
+
+  const isPastStart = time > legTime(firstLeg.start);
+
   return (
     <>
-      <NaviCardContainer
-        legs={realTimeLegs}
-        focusToLeg={position ? null : focusToLeg}
-        time={time}
-        position={position}
-        mapLayerRef={mapLayerRef}
-        tailLength={tailLength}
-        currentLeg={time > arrivalTime ? previousLeg : currentLeg}
-        nextLeg={nextLeg}
-        firstLeg={firstLeg}
-        lastLeg={lastLeg}
-        isJourneyCompleted={isJourneyCompleted}
-        previousLeg={previousLeg}
+      <NaviStarter
+        containerTopPosition={containerTopPosition}
+        time={legTimeStr(firstLeg.start)}
         startItinerary={startItinerary}
+        isPastStart={isPastStart}
       />
+      {isPastStart && (
+        <NaviCardContainer
+          legs={realTimeLegs}
+          focusToLeg={position ? null : focusToLeg}
+          time={time}
+          position={position}
+          tailLength={tailLength}
+          currentLeg={time > arrivalTime ? previousLeg : currentLeg}
+          nextLeg={nextLeg}
+          firstLeg={firstLeg}
+          lastLeg={lastLeg}
+          isJourneyCompleted={isJourneyCompleted}
+          previousLeg={previousLeg}
+          containerTopPosition={containerTopPosition}
+        />
+      )}
       {isJourneyCompleted && isNavigatorIntroDismissed && (
         <NavigatorOutroModal
           destination={lastLeg.to.name}
@@ -135,6 +157,7 @@ NaviContainer.propTypes = {
   mapLayerRef: PropTypes.oneOfType([PropTypes.func, PropTypes.object])
     .isRequired,
   updateLegs: PropTypes.func.isRequired,
+  forceStartAt: PropTypes.number,
 };
 
 NaviContainer.contextTypes = {
@@ -146,6 +169,7 @@ NaviContainer.contextTypes = {
 NaviContainer.defaultProps = {
   mapRef: undefined,
   isNavigatorIntroDismissed: false,
+  forceStartAt: undefined,
 };
 
 const connectedComponent = connectToStores(

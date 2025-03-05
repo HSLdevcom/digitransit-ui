@@ -1,18 +1,40 @@
 import Button from '@hsl-fi/button';
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
 import { configShape } from '../../../util/shapes';
 import Icon from '../../Icon';
 import { useLogo } from './hooks/useLogo';
 
-const NaviStarter = ({ time, startItinerary }, { config, intl }) => {
+const NaviStarter = (
+  { time, startItinerary, containerTopPosition, isPastStart },
+  { config, intl },
+) => {
   const { logo } = useLogo(config.trafficLightGraphic);
+  const [isVisible, setIsVisible] = useState(!isPastStart);
+  const [isDismissed, setIsDismissed] = useState(false);
 
-  const handleClick = () => startItinerary(Date.now());
+  useEffect(() => {
+    setIsDismissed(isPastStart);
+  }, [isPastStart]);
+
+  const handleClick = () => setIsDismissed(true);
+
+  const handleAnimationEnd = () => {
+    setIsVisible(false);
+    startItinerary(Date.now());
+  };
+
+  if (!isVisible) {
+    return null;
+  }
 
   return (
-    <div className="navi-initializer-container">
+    <div
+      className={`navi-initializer-container ${isDismissed && 'slide-out'}`}
+      onAnimationEnd={handleAnimationEnd}
+      style={{ top: containerTopPosition }}
+    >
       <div className="navi-initializer-card">
         {logo ? (
           <img src={logo} alt="navigator logo" />
@@ -37,6 +59,13 @@ const NaviStarter = ({ time, startItinerary }, { config, intl }) => {
 NaviStarter.propTypes = {
   time: PropTypes.string.isRequired,
   startItinerary: PropTypes.func.isRequired,
+  containerTopPosition: PropTypes.number,
+  isPastStart: PropTypes.bool,
+};
+
+NaviStarter.defaultProps = {
+  containerTopPosition: 0,
+  isPastStart: true,
 };
 
 NaviStarter.contextTypes = {

@@ -437,12 +437,19 @@
 }
 
 .navi-initializer-container {
+  position: fixed;
+  width: 100%;
+  padding: 0 var(--space-s);
   display: flex;
   flex-direction: column;
   gap: var(--space-xxs);
   font-weight: 325;
   font-size: 14px;
   line-height: 21px;
+
+  &.slide-out {
+    animation: slideUpToTop 1s ease-in-out forwards;
+  }
 
   .navi-initializer-card {
     display: flex;
