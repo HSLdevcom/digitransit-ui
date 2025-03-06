@@ -7,12 +7,13 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    background-color: $infobox-color-generic-blue;
+    background-color: $navigation-background-color;
     margin: 4px 0 0 0;
     padding: var(--space-m);
     gap: var(--space-s);
     font-weight: normal;
     border-radius: $border-radius-bigger;
+    letter-spacing: $letter-spacing;
 
     .content {
       display: flex;
@@ -36,6 +37,11 @@
       margin-left: auto;
     }
   }
+
+  .navigation-icon {
+    width: $navigation-icon-size;
+    height: $navigation-icon-size;
+  }
 }
 
 .bar {
@@ -50,6 +56,7 @@
   font-size: $font-size-normal;
   font-weight: $font-weight-medium;
   text-align: left;
+  margin-bottom: 4px;
 }
 
 .navi-card-container {
@@ -60,7 +67,7 @@
   svg.mode {
     width: 32px;
     height: 32px;
-    color: black;
+    color: $black;
   }
 
   &.slide-out {
@@ -91,11 +98,10 @@
 
     .route-number {
       font-size: $font-size-xxsmall;
-      min-width: 12px;
+      min-width: fit-content;
 
       .vcenter-children {
         display: flex;
-        margin-top: 1px;
 
         .vehicle-number {
           color: white;
@@ -104,7 +110,6 @@
 
         .special-icon {
           padding: 2px 2px 0 1px;
-          height: 14px;
         }
       }
     }
@@ -114,22 +119,7 @@
 .route-info {
   display: flex;
   align-self: flex-start;
-  margin-bottom: var(--space-xcs);
-
-  .route-number {
-    display: flex;
-    flex-direction: row;
-    margin-top: 4px;
-
-    .vcenter-children {
-      .vehicle-number {
-        color: white;
-        margin-top: 5px;
-      }
-
-      display: flex;
-    }
-  }
+  margin-bottom: var(--space-xs);
 
   .expand {
     margin-left: var(--space-m);
@@ -144,6 +134,36 @@
   }
 }
 
+.extension-routenumber,
+.route-info {
+  .route-number {
+    min-width: fit-content;
+
+    .vcenter-children {
+      .vehicle-number {
+        color: white;
+        margin-top: 5px;
+      }
+
+      display: flex;
+    }
+
+    .icon,
+    .special-icon {
+      height: 24px;
+      font-size: 24px;
+    }
+
+    .vehicle-number-container-v {
+      .vehicle-number {
+        margin: 0;
+        vertical-align: middle;
+        padding: 0 var(--space-s) 0 var(--space-xxs);
+      }
+    }
+  }
+}
+
 .boarding {
   display: flex;
   margin-top: 3px;
@@ -154,19 +174,8 @@
     margin-left: var(--space-xl);
 
     .wait-duration {
-      margin-top: var(--space-xs);
       margin-left: var(--space-l);
     }
-  }
-
-  .wait-duration {
-    margin-top: var(--space-xs);
-  }
-
-  .icon {
-    margin-top: 2px;
-    height: 25px;
-    width: 25px;
   }
 
   .headsign {
@@ -181,7 +190,7 @@
 .navi-top-card {
   border-radius: var(--radius-m);
   min-height: 70px;
-  color: black;
+  color: $black;
   background-color: white !important;
   display: flex;
   align-items: center;
@@ -204,17 +213,17 @@
 
   .main-card {
     width: inherit;
-    margin: var(--space-m) var(--space-l);
+    margin: var(--space-m) var(--space-m);
 
     .content {
       display: flex;
       flex-direction: row;
-      color: black;
+      color: $black;
       justify-content: center;
 
       svg.mode {
         margin-right: var(--space-s);
-        margin-top: var(--space-xxs);
+        margin-top: 1px;
       }
     }
 
@@ -230,7 +239,6 @@
 
       .vehicle-leg {
         display: flex;
-        margin-top: var(--space-xs);
         width: 80%;
         text-align: left;
       }
@@ -244,7 +252,6 @@
       font-size: $font-size-xsmall;
       font-weight: $font-weight-book;
       display: flex;
-      margin-top: 4px;
     }
 
     .extension {
@@ -290,25 +297,6 @@
           border-radius: $border-radius;
         }
 
-        .route-number {
-          .vcenter-children {
-            .vehicle-number {
-              color: white;
-              margin-top: 5px;
-            }
-
-            display: flex;
-          }
-        }
-
-        .line {
-          text-align: center;
-
-          .icon {
-            font-size: 24px;
-          }
-        }
-
         .headsign {
           display: flex;
           flex-direction: column;
@@ -335,14 +323,9 @@
 
       .wait-leg {
         display: flex;
-        margin-top: 3px;
         flex-direction: column;
         align-items: flex-start;
         margin-left: var(--space-m);
-
-        .wait-duration {
-          margin-top: var(--space-xs);
-        }
 
         .icon {
           margin-top: 2px;
@@ -499,6 +482,8 @@
   background: white;
   width: 100%;
   border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  box-shadow: 0 -10px 10px 0 rgba(0, 52, 86, 0.1);
+  outline: none;
 
   &.slide-in {
     animation: slideUpFromBottom 0.5s ease-in-out;
@@ -543,6 +528,8 @@
     font-size: $font-size-xsmall;
     font-weight: $font-weight-book;
     margin-top: 5px;
+    color: $black;
+    line-height: $line-height-normal;
 
     .icon-container {
       display: flex;
@@ -561,7 +548,7 @@
     }
 
     &.info {
-      background-color: #e5f2fa;
+      background-color: $infobox-color-generic-blue;
     }
 
     &.warning {

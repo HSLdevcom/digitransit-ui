@@ -368,7 +368,7 @@ export default {
 
   colors: {
     primary: '#000F94',
-    backgroundInfo: '#e5f2fa',
+    backgroundInfo: '#ebf6fd',
     iconColors: {
       'mode-airplane': '#0046ad',
       'mode-bus': '#0088ce',

@@ -7,6 +7,10 @@
     align-content: center;
     gap: var(--space-m);
 
+    &.slide-in {
+      animation: slideUpFromBottom 0.5s ease-in-out;
+    }
+
     h2,
     p {
       margin: unset;

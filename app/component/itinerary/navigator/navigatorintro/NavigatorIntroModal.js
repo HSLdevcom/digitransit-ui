@@ -14,7 +14,7 @@ const NavigatorIntroModal = ({ onPrimaryClick, onClose }, { config }) => {
   }
 
   return (
-    <NavigatorModal isOpen withBackdrop>
+    <NavigatorModal isOpen withBackdrop slideUp>
       <NavigatorIntro
         logo={logo}
         onPrimaryClick={onPrimaryClick}

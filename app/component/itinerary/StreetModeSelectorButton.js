@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
+import cx from 'classnames';
 import { configShape, planShape } from '../../util/shapes';
 import Icon from '../Icon';
 import { displayDistance } from '../../util/geo-utils';
@@ -104,15 +105,12 @@ export default function StreetModeSelectorButton(
     >
       <div className="street-mode-selector-button-content">
         <div
-          className={`street-mode-selector-button-icon ${
-            secondaryIcon ? 'primary-icon' : ''
-          } ${name === streetHash.parkAndRide ? 'car-park-primary' : ''}
-            ${
-              name === streetHash.carAndVehicle ? 'car-and-vehicle-primary' : ''
-            }
-          ${
-            name === streetHash.bikeAndVehicle ? 'bike-and-vehicle-primary' : ''
-          }`}
+          className={cx('street-mode-selector-button-icon', {
+            'primary-icon': secondaryIcon,
+            'car-park-primary': name === streetHash.parkAndRide,
+            'car-and-vehicle-primary': name === streetHash.carAndVehicle,
+            'bike-and-vehicle-primary': name === streetHash.bikeAndVehicle,
+          })}
         >
           <Icon img={icon} />
         </div>

@@ -8,6 +8,7 @@
     img {
       background-color: white; /* Just for visualization */
       border-radius: var(--radius-pill);
+      box-shadow: 0 -10px 10px -3px rgba(0, 52, 86, 0.1);
     }
   }
 
@@ -50,10 +51,12 @@
 
     .close-button {
       background-color: $realtime-color;
+      border: none;
 
       &:hover,
       &:active {
         background-color: #316a00;
+        border: none;
       }
     }
   }

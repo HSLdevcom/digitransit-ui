@@ -178,7 +178,7 @@
     align-items: flex-start;
     margin-top: 4px;
     padding: 6px 10px 2px 4px;
-    background: #e5f2fa;
+    background: $infobox-color-generic-blue;
     border-radius: 5px;
     font-weight: normal;
     font-size: 13px;
@@ -428,6 +428,12 @@
               .leg-duration {
                 align-self: center;
               }
+            }
+          }
+
+          &.walk {
+            .icon {
+              width: 22px;
             }
           }
 

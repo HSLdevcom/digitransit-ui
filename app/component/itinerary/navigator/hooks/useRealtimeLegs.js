@@ -186,6 +186,10 @@ const useRealtimeLegs = (
     [relayEnvironment],
   );
 
+  useEffect(() => {
+    updateLegs?.(realTimeLegs);
+  }, [realTimeLegs]);
+
   const fetchAndSetRealtimeLegs = useCallback(async () => {
     const now = Date.now();
     const rtLegMap = await queryAndMapRealtimeLegs(realTimeLegs, now).catch(
@@ -228,7 +232,6 @@ const useRealtimeLegs = (
         l.freezeStart = l.freezeStart || legTime(l.start) <= now;
         l.freezeEnd = l.freezeEnd || legTime(l.end) <= now;
       });
-      updateLegs?.(rtLegs);
       return { ...prev, time: now, realTimeLegs: rtLegs };
     });
   }, [realTimeLegs, queryAndMapRealtimeLegs]);

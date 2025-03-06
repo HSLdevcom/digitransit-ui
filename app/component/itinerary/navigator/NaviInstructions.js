@@ -43,10 +43,10 @@ export default function NaviInstructions(
     const { mode, headsign, route, start } = nextLeg;
     const hs = headsign || nextLeg.trip?.tripHeadsign;
 
-    const remainingDuration = Math.max(
+    const remainingDuration = `${Math.max(
       Math.ceil((legTime(start) - time) / 60000),
       0,
-    ); // ms to minutes, >= 0
+    )} ${intl.formatMessage({ id: 'minute-short' })}`; // ms to minutes, >= 0
     const rt = nextLeg.realtimeState === 'UPDATED';
     const values = {
       duration: withRealTime(rt, remainingDuration),
@@ -109,7 +109,11 @@ export default function NaviInstructions(
           : 'navileg-at-stop';
     const stopOrStation = intl.formatMessage({ id: destId });
 
-    const remainingDuration = Math.max(Math.ceil((t - time) / 60000), 0); // ms to minutes, >= 0
+    const remainingDuration = `${Math.max(
+      Math.ceil((t - time) / 60000),
+      0,
+    )} ${intl.formatMessage({ id: 'minute-short' })}`; // ms to minutes, >= 0
+
     const values = {
       stopOrStation,
       stop: leg.to.stop.name,

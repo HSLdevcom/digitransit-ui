@@ -21,6 +21,7 @@ $favourite-color: $hsl-pink;
 $hilight-color: $hsl-pink;
 $action-color: $hsl-blue;
 $current-location-color: #f653b9;
+$navigation-background-color: #ebf6fd;
 
 /* Component palette */
 $standalone-btn-color: $primary-color;
@@ -31,8 +32,8 @@ $link-color: $primary-color;
 $desktop-title-color: #007ac9;
 $desktop-title-arrow-icon-color: $secondary-color;
 $top-bar-color: $primary-color;
-$disclaimer-background-color: #e5f2fa;
-$disclaimer-border-color: #e5f2fa;
+$disclaimer-background-color: #ebf6fd;
+$disclaimer-border-color: #ebf6fd;
 
 /* Vehicle palette */
 $airplane-color: #0046ad;
@@ -62,3 +63,6 @@ $font-weight-disclaimer: 400 !important;
 
 /* Borders */
 $border-radius-disclaimer: 8px;
+
+/* Navigator */
+$navigation-icon-size: 48px;

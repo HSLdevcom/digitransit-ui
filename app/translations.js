@@ -1346,14 +1346,14 @@ const translations = {
     'navileg-at-stop': 'stop',
     'navileg-bicycle': 'Cycle to',
     'navileg-car': 'Drive to',
-    'navileg-departing-at': 'TODO_{duration} min päästä klo {legTime}',
+    'navileg-departing-at': 'TODO_{duration} päästä klo {legTime}',
     'navileg-hop-on': 'TODO_ja nouse kyytiin',
     'navileg-in-transit': 'TODO_{mode}matka',
     'navileg-in-transit-interline':
       'TODO_Matka jatkuu {stopOrStation} {stop}  samassa kulkuneuvossa {duration} päästä klo {legTime}',
     'navileg-intermediate-stops': 'TODO_{stopCount} välipysäkkiä',
     'navileg-leave-at':
-      'Jää pois {stopOrStation} {stop} {duration} min päästä klo {legTime}',
+      'Jää pois {stopOrStation} {stop} {duration} päästä klo {legTime}',
     'navileg-mode-citybike': 'Kaupunkipyöriä on asemalla {available} kpl',
     'navileg-mode-realtime': '{mode} {route} on aikataulussa',
     'navileg-mode-schedule': 'The {mode} is on schedule',
@@ -1386,6 +1386,7 @@ const translations = {
     // eslint-disable-next-line sort-keys
     neighbourhood: 'Neighbourhood ',
     'new-feature': 'New feature!',
+    'new-route': 'Is the route new for you?',
     next: 'Next',
     'no-bike-allowed-popup-train':
       'Bicycles are allowed on commuter trains but on long distance trains you have to pay an extra fee and it might require a reservation.',
@@ -2650,14 +2651,14 @@ const translations = {
     'navileg-at-stop': 'pysäkillä',
     'navileg-bicycle': 'Pyöräile',
     'navileg-car': 'Aja',
-    'navileg-departing-at': '{duration} min päästä klo {legTime}',
+    'navileg-departing-at': '{duration} päästä klo {legTime}',
     'navileg-hop-on': 'ja nouse kyytiin',
     'navileg-in-transit': '{mode}matka',
     'navileg-in-transit-interline':
       'Matka jatkuu {stopOrStation} {stop}  samassa kulkuneuvossa {duration} min päästä klo {legTime}',
     'navileg-intermediate-stops': '{stopCount} välipysäkkiä',
     'navileg-leave-at':
-      'Jää pois {stopOrStation} {stop} {duration} min päästä klo {legTime}',
+      'Jää pois {stopOrStation} {stop} {duration} päästä klo {legTime}',
     'navileg-mode-citybike': 'Kaupunkipyöriä on asemalla {available} kpl',
     'navileg-mode-realtime': '{mode}  {route} on aikataulussa',
     'navileg-mode-schedule': 'Reaaliaikaista tietoa ei ole saatavilla',
@@ -2691,6 +2692,7 @@ const translations = {
     // eslint-disable-next-line sort-keys
     neighbourhood: 'Naapurusto',
     'new-feature': 'Uusi ominaisuus!',
+    'new-route': 'Onko reitti sinulle uusi?',
     next: 'Seuraava',
     'no-bike-allowed-popup-train':
       'Lähiliikenteen juniin pyörän voi ottaa mukaan ilmaiseksi, mutta pitkän matkan junissa peritään lisämaksu ja mahdollisesti vaaditaan etukäteisvaraus.',
@@ -5609,14 +5611,14 @@ const translations = {
     'navileg-at-stop': 'hållplats',
     'navileg-bicycle': 'Cycla till',
     'navileg-car': 'Kör till',
-    'navileg-departing-at': 'TODO_{duration} min päästä klo {legTime}',
+    'navileg-departing-at': 'TODO_{duration} päästä klo {legTime}',
     'navileg-hop-on': 'TODO_ja nouse kyytiin',
     'navileg-in-transit': 'TODO_{mode}matka',
     'navileg-in-transit-interline':
       'TODO_Matka jatkuu {stopOrStation} {stop}  samassa kulkuneuvossa {duration} päästä klo {legTime}',
     'navileg-intermediate-stops': 'TODO_{stopCount} välipysäkkiä',
     'navileg-leave-at':
-      'TODO_Jää pois {stopOrStation} {stop} {duration} min päästä klo {legTime}',
+      'TODO_Jää pois {stopOrStation} {stop} {duration} päästä klo {legTime}',
     'navileg-mode-citybike': 'Kaupunkipyöriä on asemalla {available} kpl',
     'navileg-mode-realtime': '{mode} {route} on aikataulussa',
     'navileg-mode-schedule': 'Reaaliaikaista tietoa ei ole saatavilla',
@@ -5649,6 +5651,7 @@ const translations = {
     // eslint-disable-next-line sort-keys
     neighbourhood: 'Gransskap',
     'new-feature': 'TODO_new-feature_SV',
+    'new-route': 'TODO_new_route_SV',
     next: 'Nästa',
     'no-bike-allowed-popup-train':
       'Du kan ta med cykeln i närtågen avgiftsfritt, men i andra tåg är det avgiftsbelagt och kräver möjligtvis en förhandsreservation.',

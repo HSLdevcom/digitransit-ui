@@ -17,6 +17,7 @@ const IconWithIcon = (
     subIconClassName,
     subIconShape,
     mode,
+    omitViewBox,
   },
   { intl },
 ) => (
@@ -29,6 +30,7 @@ const IconWithIcon = (
         color={color}
         img={img}
         viewBox={mode === 'call' ? '0 0 60 60' : undefined}
+        omitViewBox={omitViewBox}
       />
     </span>
     {subIcon && (
@@ -56,6 +58,7 @@ IconWithIcon.propTypes = {
   subIconClassName: PropTypes.string,
   subIconShape: PropTypes.string,
   mode: PropTypes.string,
+  omitViewBox: PropTypes.bool,
 };
 
 IconWithIcon.contextTypes = {
@@ -73,6 +76,7 @@ IconWithIcon.defaultProps = {
   subIconShape: undefined,
   mode: undefined,
   color: undefined,
+  omitViewBox: false,
 };
 
 export default IconWithIcon;

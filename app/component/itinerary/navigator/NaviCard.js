@@ -88,7 +88,7 @@ export default function NaviCard(
     >
       <div className="main-card">
         <div className="content">
-          <Icon img={iconName} className="mode" color={iconColor} />
+          <Icon img={iconName} className="mode" color={iconColor} omitViewBox />
           <div className={`instructions ${cardExpanded ? 'expanded' : ''}`}>
             <NaviInstructions
               leg={leg}

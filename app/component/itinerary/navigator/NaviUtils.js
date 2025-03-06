@@ -352,7 +352,9 @@ export const getTransitLegState = (leg, intl, messages, time) => {
         <FormattedMessage
           id="navileg-start-realtime"
           values={{
-            time: <span className="realtime">{timeStr(estimated.time)}</span>,
+            time: (
+              <span className="bold realtime">{timeStr(estimated.time)}</span>
+            ),
             stopOrStation,
             stopName: name,
           }}
@@ -416,7 +418,7 @@ function Transfer(route1, route2, config) {
         />
         &nbsp;
         <div className="arrow-center">
-          <Icon img="icon-icon_arrow-right" width="0.8" height="0.8" />
+          <Icon img="icon-icon_arrow-right" width={0.8} height={0.8} />
         </div>
         &nbsp;
         <RouteNumberContainer
