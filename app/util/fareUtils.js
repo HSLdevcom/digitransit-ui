@@ -101,7 +101,12 @@ export const shouldShowFareInfo = config =>
   Array.isArray(config.feedIds) &&
   config.feedIds.some(feedId => config.availableTickets[feedId]);
 
-export const shouldShowFarePurchaseInfo = (config, breakpoint, fares) => {
+export const shouldShowFarePurchaseInfo = (
+  config,
+  breakpoint,
+  fares,
+  itinerary,
+) => {
   const unknownFares = fares?.some(fare => fare.isUnknown);
   // Windows phones or Huawei should only show ticket information.
   const { userAgent } = navigator;
@@ -110,6 +115,17 @@ export const shouldShowFarePurchaseInfo = (config, breakpoint, fares) => {
   if (huaweiPattern.test(userAgent) || windowsPattern.test(userAgent)) {
     return false;
   }
+
+  if (
+    config.externalFareRoutes &&
+    itinerary?.legs?.some(
+      leg =>
+        leg.route && config.externalFareRoutes.includes(leg.route.shortName),
+    )
+  ) {
+    return false;
+  }
+
   return (
     !unknownFares &&
     fares?.length === 1 &&
