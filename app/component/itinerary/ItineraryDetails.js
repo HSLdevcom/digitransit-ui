@@ -294,7 +294,7 @@ class ItineraryDetails extends React.Component {
               isMobile={isMobile}
               hideBottomDivider={
                 isMobile &&
-                shouldShowFarePurchaseInfo(config, breakpoint, fares, itinerary)
+                shouldShowFarePurchaseInfo(config, breakpoint, fares)
               }
             />,
             showRentalBikeDurationWarning && (
@@ -304,13 +304,8 @@ class ItineraryDetails extends React.Component {
                 config={config}
               />
             ),
-            shouldShowFareInfo(config) &&
-              (shouldShowFarePurchaseInfo(
-                config,
-                breakpoint,
-                fares,
-                itinerary,
-              ) ? (
+            shouldShowFareInfo(config, itinerary) &&
+              (shouldShowFarePurchaseInfo(config, breakpoint, fares) ? (
                 <MobileTicketPurchaseInformation
                   key="mobileticketpurchaseinformation"
                   fares={fares}

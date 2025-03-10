@@ -91,31 +91,7 @@ export const getAlternativeFares = (zones, currentFares, allFares) => {
  *
  * @param {*} config configuration.
  */
-export const shouldShowFareInfo = config =>
-  (!config.showTicketLinkOnlyWhenTesting ||
-    window.localStorage
-      .getItem('favouriteStore')
-      ?.includes('Lippulinkkitestaus2025')) &&
-  config.showTicketInformation &&
-  config.availableTickets &&
-  Array.isArray(config.feedIds) &&
-  config.feedIds.some(feedId => config.availableTickets[feedId]);
-
-export const shouldShowFarePurchaseInfo = (
-  config,
-  breakpoint,
-  fares,
-  itinerary,
-) => {
-  const unknownFares = fares?.some(fare => fare.isUnknown);
-  // Windows phones or Huawei should only show ticket information.
-  const { userAgent } = navigator;
-  const huaweiPattern = /(?:huaweibrowser|huawei|emui|hmscore|honor)/i;
-  const windowsPattern = /windows phone/i;
-  if (huaweiPattern.test(userAgent) || windowsPattern.test(userAgent)) {
-    return false;
-  }
-
+export const shouldShowFareInfo = (config, itinerary) => {
   if (
     config.externalFareRoutes &&
     itinerary?.legs?.some(
@@ -123,6 +99,28 @@ export const shouldShowFarePurchaseInfo = (
         leg.route && config.externalFareRoutes.includes(leg.route.shortName),
     )
   ) {
+    return false;
+  }
+
+  return (
+    (!config.showTicketLinkOnlyWhenTesting ||
+      window.localStorage
+        .getItem('favouriteStore')
+        ?.includes('Lippulinkkitestaus2025')) &&
+    config.showTicketInformation &&
+    config.availableTickets &&
+    Array.isArray(config.feedIds) &&
+    config.feedIds.some(feedId => config.availableTickets[feedId])
+  );
+};
+
+export const shouldShowFarePurchaseInfo = (config, breakpoint, fares) => {
+  const unknownFares = fares?.some(fare => fare.isUnknown);
+  // Windows phones or Huawei should only show ticket information.
+  const { userAgent } = navigator;
+  const huaweiPattern = /(?:huaweibrowser|huawei|emui|hmscore|honor)/i;
+  const windowsPattern = /windows phone/i;
+  if (huaweiPattern.test(userAgent) || windowsPattern.test(userAgent)) {
     return false;
   }
 
