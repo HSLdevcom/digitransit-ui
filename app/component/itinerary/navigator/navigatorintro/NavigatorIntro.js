@@ -40,7 +40,7 @@ const NavigatorIntro = ({ logo, onPrimaryClick, onClose }, context) => {
           variant="blue"
           value={intl.formatMessage({ id: 'navigation-intro-begin' })}
           onClick={onPrimaryClick || onClose}
-          style={{ backgroundColor: primaryColor }}
+          style={{ backgroundColor: primaryColor, border: 'none' }}
         />
         <Button
           size="large"

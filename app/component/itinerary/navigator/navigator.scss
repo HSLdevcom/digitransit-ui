@@ -86,6 +86,8 @@
 
 .navi-transfer-container {
   display: inline-flex;
+  vertical-align: middle;
+  margin-bottom: 2px;
 
   .navi-transfer {
     display: flex;
@@ -93,12 +95,13 @@
     height: 18px;
 
     .arrow-center {
-      padding-top: 4px;
+      padding-top: 2px;
     }
 
     .route-number {
       font-size: $font-size-xxsmall;
       min-width: fit-content;
+      height: 18px;
 
       .vcenter-children {
         display: flex;
@@ -106,10 +109,17 @@
         .vehicle-number {
           color: white;
           padding: 0 8px 0 2px;
+          font-size: 15px;
+          line-height: 18px;
         }
 
         .special-icon {
-          padding: 2px 2px 0 1px;
+          padding: 1px 1px 0 1px;
+
+          .icon {
+            width: 16px;
+            height: 16px;
+          }
         }
       }
     }
@@ -143,6 +153,7 @@
       .vehicle-number {
         color: white;
         margin-top: 5px;
+        line-height: 24px;
       }
 
       display: flex;
@@ -157,8 +168,9 @@
     .vehicle-number-container-v {
       .vehicle-number {
         margin: 0;
-        vertical-align: middle;
+        font-size: $font-size-normal;
         padding: 0 var(--space-s) 0 var(--space-xxs);
+        line-height: 24px;
       }
     }
   }
@@ -281,8 +293,7 @@
         .icon {
           height: 16px;
           width: 16px;
-          margin-right: var(--space-xxs);
-          margin-top: 2px;
+          padding: 1px 1px 0 1px;
         }
       }
 
@@ -529,7 +540,7 @@
     font-weight: $font-weight-book;
     margin-top: 5px;
     color: $black;
-    line-height: $line-height-normal;
+    line-height: 1.4;
 
     .icon-container {
       display: flex;
@@ -565,7 +576,7 @@
       background: #0074bf;
       color: #fff;
       border-radius: 999px; // var(--radius-radius-medium, 8px);
-      margin-top: var(--space-xxs);
+      margin-top: var(--space-s);
       width: 220px;
     }
 

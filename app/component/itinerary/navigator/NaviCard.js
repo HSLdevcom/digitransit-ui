@@ -68,7 +68,7 @@ export default function NaviCard(
     if (leg.mode === 'WALK' && nextLeg?.mode === 'SCOOTER') {
       instructions = `navileg-rent-scooter`;
     } else {
-      instructions = 'rent-cycle-at';
+      instructions = 'navileg-rent-cycle';
     }
     iconName = iconMap[leg.mode];
   } else if (legType === LEGTYPE.MOVE) {

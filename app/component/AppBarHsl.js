@@ -9,9 +9,6 @@ import { clearOldSearches, clearFutureRoutes } from '../util/storeUtils';
 import { getJson } from '../util/xhrPromise';
 
 const SiteHeader = lazy(() => import('@hsl-fi/site-header'));
-const SharedLocalStorageObserver = lazy(
-  () => import('@hsl-fi/shared-local-storage'),
-);
 
 const clearStorages = context => {
   clearOldSearches(context);
@@ -141,12 +138,6 @@ const AppBarHsl = ({ lang, user, favourites }, context) => {
             banners={banners}
             suggestionsApiUrl={config.URL.HSL_FI_SUGGESTIONS}
             notificationApiUrls={notificationApiUrls}
-          />
-        )}
-        {config.localStorageEmitter && (
-          <SharedLocalStorageObserver
-            keys={['saved-searches', 'favouriteStore']}
-            url={config.localStorageEmitter}
           />
         )}
       </Suspense>
