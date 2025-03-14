@@ -5,7 +5,7 @@ on:
     branches:
       - v3
       - prerel
-      - waltti
+      - next
   pull_request:
     branches:
       - v3
