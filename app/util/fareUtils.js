@@ -93,10 +93,11 @@ export const getAlternativeFares = (zones, currentFares, allFares) => {
  */
 export const shouldShowFareInfo = (config, itinerary) => {
   if (
-    config.externalFareRoutes &&
+    config.externalFareRouteIds &&
     itinerary?.legs?.some(
       leg =>
-        leg.route && config.externalFareRoutes.includes(leg.route.shortName),
+        leg.route &&
+        config.externalFareRouteIds.includes(leg.route.gtfsId.split(':')[1]),
     )
   ) {
     return false;
