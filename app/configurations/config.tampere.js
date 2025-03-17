@@ -80,7 +80,9 @@ export default configMerger(walttiConfig, {
   showTicketInformation: true,
   primaryAgencyName: 'Tampereen seudun joukkoliikenne',
 
-  ticketLink: 'https://www.nysse.fi/liput-ja-hinnat.html',
+  ticketLink: {
+    fi: 'https://www.nysse.fi/liput-ja-hinnat.html',
+  },
 
   callAgencyInfo: {
     fi: {

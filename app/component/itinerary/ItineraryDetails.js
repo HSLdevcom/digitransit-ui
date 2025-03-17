@@ -10,6 +10,7 @@ import {
   shouldShowFareInfo,
   shouldShowFarePurchaseInfo,
 } from '../../util/fareUtils';
+import localizedUrl from '../../util/urlUtils';
 import {
   compressLegs,
   getTotalBikingDistance,
@@ -317,6 +318,7 @@ class ItineraryDetails extends React.Component {
                   fares={fares}
                   zones={getZones(itinerary.legs)}
                   legs={itinerary.legs}
+                  ticketLink={localizedUrl(config.ticketLink, currentLanguage)}
                 />
               )),
 
