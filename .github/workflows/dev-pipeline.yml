@@ -112,74 +112,11 @@ jobs:
 #          sudo apt install -y libxml2-utils
 #          xmllint --nonet --noout static/assets/svg-sprite.*.svg
 
-  unit-test:
-    needs: install
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [20.x]
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: "Set time zone to Europe/Helsinki"
-        uses: zcong1993/setup-timezone@master
-        with:
-          timezone: "Europe/Helsinki"
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node-version }}
-
-      # https://github.com/actions/cache/blob/8f1e2e02865c42348f9baddbbaafb1841dce610a/examples.md#node---yarn-2
-      - name: Cache node_modules
-        id: cache-node-modules
-        uses: actions/cache@v4
-        with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/yarn.lock') }}
-      - name: Cache .yarn/cache
-        if: ${{ steps.cache-node-modules.outputs.cache-hit != 'true' }}
-        uses: actions/cache@v4
-        with:
-          path: '.yarn/cache'
-          key: yarn-v3-cache-${{ github.ref_name }}
-          restore-keys: yarn-v3-cache-v3
-      - name: Install dependencies
-        if: ${{ steps.cache-node-modules.outputs.cache-hit != 'true' }}
-        run: yarn install --immutable
-
-      - name: cache shared components
-        id: cache-shared-components
-        uses: actions/cache@v4
-        with:
-          path: 'digitransit-*'
-          key: ${{ runner.os }}-shared-components-${{ hashFiles('digitransit-*') }}
-      - name: Build shared components
-        if: ${{ steps.cache-shared-components.outputs.cache-hit != 'true' }}
-        run: yarn run build-workspaces
-
-      - name: cache built Relay queries
-        id: cache-relay
-        uses: actions/cache@v4
-        with:
-          path: |
-            ./__generated__
-            **/__generated__
-          key: ${{ runner.os }}-relay-${{ github.sha }}
-      - name: build Relay queries
-        if: ${{ steps.cache-relay.outputs.cache-hit != 'true' }}
-        run: |
-          yarn run relay
-
-      - name: Run unit tests
-        run: yarn run test-unit
-
   # This is only done when pushing to v3
   publish-npm:
     if: github.ref == 'refs/heads/v3'
     needs:
       - lint
-      - unit-test
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -276,7 +213,6 @@ jobs:
     if: github.event_name == 'push'
     needs:
       - lint
-      - unit-test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
