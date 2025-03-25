@@ -14,6 +14,7 @@ import NaviCardContainer from './NaviCardContainer';
 import NavigatorOutroModal from './navigatoroutro/NavigatorOutroModal';
 import NaviStarter from './NaviStarter';
 import { DESTINATION_RADIUS, summaryString } from './NaviUtils';
+import { addAnalyticsEvent } from '../../../util/analyticsUtils';
 
 const ADDITIONAL_ARRIVAL_TIME = 60000; // 60 seconds in ms
 const LEGLOG = true;
@@ -59,9 +60,9 @@ function NaviContainer(
     relayEnvironment,
     legs,
     position,
+    vehicles,
     updateLegs,
     forceStartAt,
-    vehicles,
   );
 
   useEffect(() => {
@@ -108,6 +109,15 @@ function NaviContainer(
 
   const isPastStart = time > legTime(firstLeg.start);
 
+  const handleNavigatorEndClick = () => {
+    addAnalyticsEvent({
+      category: 'Itinerary',
+      event: 'navigator',
+      action: 'navigation_end_manual',
+    });
+    router.push('/');
+  };
+
   return (
     <>
       <NaviStarter
@@ -135,7 +145,7 @@ function NaviContainer(
       {isJourneyCompleted && isNavigatorIntroDismissed && (
         <NavigatorOutroModal
           destination={lastLeg.to.name}
-          onClose={() => router.push('/')}
+          onClose={handleNavigatorEndClick}
         />
       )}
       <NaviBottom

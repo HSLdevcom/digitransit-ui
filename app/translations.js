@@ -860,6 +860,7 @@ const translations = {
     'as-destination': 'Destination',
     'as-origin': 'Origin',
     'as-viapoint': 'Viapoint',
+    back: 'Back',
     'buy-in-app': 'Buy in App',
     'search-autosuggest-label': 'Venue, place and stopsearch.',
     'search-autosuggest-label-instructions':
@@ -1300,6 +1301,15 @@ const translations = {
     'more-settings': 'More settings',
     'move-on-map': 'Move on the map',
     'move-to-tab': 'Go to tab {number}',
+    'navi-change-info': 'TODO_Saat tiedon muutoksista',
+    'navi-geolocation-approval':
+      'TODO_Suostumuksesi sijaintitietoihin palvelua käytettäessä',
+    'navi-geolocation-details':
+      'TODO_Opastuksen alkaessa palvelu voi pyytää suostumuksesi sijaintiedon käyttämiseen. Voit määrittää luvan laitteesi ja selaimen asetuksista milloin tahansa.',
+    'navi-geolocation-purpose':
+      'TODO_Sallimalla laitteesi paikannuksen saat parhaan mahdollisen tuen reitillesi.',
+    'navi-more-guidance': 'TODO_Entistä opastetummin perille!',
+    'navi-support': 'TODO_Saat tukea reitilläsi',
     'navidest-show-on-map': 'Show route on map',
     navigate: 'Navigate',
     'navigation-abort-trip': 'Unfortunately your journey plan is not possible.',
@@ -1328,6 +1338,7 @@ const translations = {
     'navigation-mode-canceled': 'TODO_{name} on peruuntunut',
     'navigation-mode-early': 'TODO_{name} on etuajassa',
     'navigation-mode-late:': 'TODO_{name} on myöhässä',
+    'navigation-outro-dismiss': 'Exit Navigator',
     'navigation-outro-header': 'TODO_navigation-outro-header_EN',
     'navigation-quit': 'Return',
     'navigation-remember-ticket': 'TODO_Muistithan ostaa lipun?',
@@ -1349,7 +1360,7 @@ const translations = {
       'Jää pois {stopOrStation} {stop} {duration} päästä klo {legTime}',
     'navileg-mode-citybike': 'TODO_Kaupunkipyöriä on asemalla {available} kpl',
     'navileg-mode-realtime': '{mode} {route} on aikataulussa',
-    'navileg-mode-schedule': 'The {mode} is on schedule',
+    'navileg-mode-schedule': 'No up-to-date traffic data available',
     'navileg-one-intermediate-stop': 'TODO_{stopCount} välipysäkki',
     'navileg-rent-cycle': 'Pick up citybike',
     'navileg-rent-scooter': 'Pick up scooter',
@@ -2205,6 +2216,7 @@ const translations = {
     'at-time': 'klo',
     'avoid-transfers': 'Vältä vaihtoja',
     'avoid-walking': 'Vältä kävelyä',
+    back: 'Takaisin',
     'back-button-title': 'Siirry takaisin edelliselle sivulle',
     'back-to-front-page': 'Siirry etusivulle ›',
     bicycle: 'Polkupyörä',
@@ -2598,6 +2610,15 @@ const translations = {
     'more-settings': 'Lisäasetukset',
     'move-on-map': 'Siirry kartalla',
     'move-to-tab': 'Siirry välilehdelle {number}',
+    'navi-change-info': 'Saat tiedon muutoksista',
+    'navi-geolocation-approval':
+      'Suostumuksesi sijaintitietoihin palvelua käytettäessä',
+    'navi-geolocation-details':
+      'Opastuksen alkaessa palvelu voi pyytää suostumuksesi sijaintiedon käyttämiseen. Voit määrittää luvan laitteesi ja selaimen asetuksista milloin tahansa.',
+    'navi-geolocation-purpose':
+      'Sallimalla laitteesi paikannuksen saat parhaan mahdollisen tuen reitillesi.',
+    'navi-more-guidance': 'Entistä opastetummin perille!',
+    'navi-support': 'Saat tukea reitilläsi',
     'navidest-show-on-map': 'Näytä reitti kartalla',
     navigate: 'Navigoi',
     'navigation-abort-trip':
@@ -2625,6 +2646,7 @@ const translations = {
     'navigation-mode-canceled': '{name} on peruuntunut',
     'navigation-mode-early': '{name} on etuajassa',
     'navigation-mode-late:': '{name} on myöhässä',
+    'navigation-outro-dismiss': 'Poistu opastuksesta',
     'navigation-outro-header': 'Olet perillä!',
     'navigation-quit': 'Palaa',
     'navigation-remember-ticket': 'Muistithan ostaa lipun?',
@@ -2646,7 +2668,7 @@ const translations = {
       'Jää pois {stopOrStation} {stop} {duration} päästä klo {legTime}',
     'navileg-mode-citybike': 'Kaupunkipyöriä on asemalla {available} kpl',
     'navileg-mode-realtime': '{mode} {route} on aikataulussa',
-    'navileg-mode-schedule': 'Reaaliaikaista tietoa ei ole saatavilla',
+    'navileg-mode-schedule': 'Ei ajantasaisia liikennetietoja saatavilla',
     'navileg-one-intermediate-stop': '{stopCount} välipysäkki',
     'navileg-rent-cycle': 'Nouda kapunkipyörä',
     'navileg-rent-scooter': 'Nouda sähköpotkulauta',
@@ -5114,6 +5136,7 @@ const translations = {
     'as-destination': 'Destination',
     'as-origin': 'Avfärdsplats',
     'as-viapoint': 'Via punkt',
+    back: 'Tillbaka',
     'book-a-lift':
       'Tilaa kyyti sovelluksella ja jää odottamaan sen saapumista:',
     'buy-in-app': 'Köp i appen',
@@ -5544,6 +5567,15 @@ const translations = {
     'more-settings': 'Fler inställningar',
     'move-on-map': 'Flytta på kartan',
     'move-to-tab': 'Gå till fliken {number}',
+    'navi-change-info': 'TODO_Saat tiedon muutoksista',
+    'navi-geolocation-approval':
+      'TODO_Suostumuksesi sijaintitietoihin palvelua käytettäessä',
+    'navi-geolocation-details':
+      'TODO_Opastuksen alkaessa palvelu voi pyytää suostumuksesi sijaintiedon käyttämiseen. Voit määrittää luvan laitteesi ja selaimen asetuksista milloin tahansa.',
+    'navi-geolocation-purpose':
+      'TODO_Sallimalla laitteesi paikannuksen saat parhaan mahdollisen tuen reitillesi.',
+    'navi-more-guidance': 'TODO_Entistä opastetummin perille!',
+    'navi-support': 'TODO_Saat tukea reitilläsi',
     'navidest-show-on-map': 'Visa rutt på kartan',
     navigate: 'Navigera',
     'navigation-abort-trip':
@@ -5574,6 +5606,7 @@ const translations = {
     'navigation-mode-canceled': 'TODO_{name} on peruuntunut',
     'navigation-mode-early': 'TODO_{name} on etuajassa',
     'navigation-mode-late:': 'TODO_{name} on myöhässä',
+    'navigation-outro-dismiss': 'Avsluta Navigator',
     'navigation-outro-header': 'TODO_navigation-outro-header_SV',
     'navigation-quit': 'Återgå',
     'navigation-remember-ticket': 'TODO_Muistithan ostaa lipun?',
@@ -5595,7 +5628,7 @@ const translations = {
       'TODO_Jää pois {stopOrStation} {stop} {duration} päästä klo {legTime}',
     'navileg-mode-citybike': 'TODO_Kaupunkipyöriä on asemalla {available} kpl',
     'navileg-mode-realtime': '{mode} {route} on aikataulussa',
-    'navileg-mode-schedule': 'Reaaliaikaista tietoa ei ole saatavilla',
+    'navileg-mode-schedule': 'Inga aktuella trafikdata tillgängliga',
     'navileg-one-intermediate-stop': 'TODO_{stopCount} välipysäkki',
     'navileg-rent-cycle': 'Hämta  stadscykel',
     'navileg-rent-scooter': 'Hämta elsparkcykel',

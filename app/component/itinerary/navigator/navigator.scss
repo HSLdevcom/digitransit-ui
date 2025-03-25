@@ -59,6 +59,11 @@
   margin-bottom: 4px;
 }
 
+.navi-header-chain {
+  display: flex;
+  flex-direction: row;
+}
+
 .navi-card-container {
   position: fixed;
   width: 100%;
@@ -196,6 +201,35 @@
     max-width: 85%;
     text-align: left;
     align-content: center;
+  }
+}
+
+.compact-boarding {
+  display: flex;
+  margin-top: 3px;
+  align-items: flex-start;
+  flex-direction: row;
+  font-size: $font-size-xsmall;
+  font-weight: $font-weight-book;
+
+  .route-number {
+    margin-top: 1px;
+    height: 18px;
+
+    .vcenter-children {
+      .special-icon {
+        font-size: $font-size-xsmall;
+
+        .icon {
+          width: 16px;
+          height: 16px;
+        }
+      }
+    }
+  }
+
+  .wait-duration {
+    margin-left: var(--space-s);
   }
 }
 

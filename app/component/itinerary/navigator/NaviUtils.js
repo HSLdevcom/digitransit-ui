@@ -3,6 +3,7 @@ import React from 'react';
 import cx from 'classnames';
 import { FormattedMessage } from 'react-intl';
 import { ExtendedRouteTypes } from '../../../constants';
+import { addAnalyticsEvent } from '../../../util/analyticsUtils';
 import { getFaresFromLegs, formatFare } from '../../../util/fareUtils';
 import { GeodeticToEnu } from '../../../util/geo-utils';
 import { legTime, legTimeAcc } from '../../../util/legUtils';
@@ -398,6 +399,15 @@ export function itinerarySearchPath(time, leg, nextLeg, position, to) {
 }
 
 function withNewSearchBtn(children, searchCallback) {
+  const handleClick = callback => () => {
+    addAnalyticsEvent({
+      category: 'Itinerary',
+      event: 'navigator',
+      action: 'cancel_navigation',
+    });
+    callback();
+  };
+
   return (
     <div className="navi-info-content">
       {children}
@@ -405,7 +415,7 @@ function withNewSearchBtn(children, searchCallback) {
       <button
         className="new-itinerary-search"
         type="button"
-        onClick={searchCallback}
+        onClick={handleClick(searchCallback)}
       >
         <span className="notification-header">
           <FormattedMessage id="settings-dropdown-open-label" />
@@ -720,5 +730,5 @@ export const LEGTYPE = {
 };
 
 export const withRealTime = (rt, children) => (
-  <span className={cx('bold', { realtime: rt })}>{children}</span>
+  <span className={cx({ bold: rt, realtime: rt })}>{children}</span>
 );

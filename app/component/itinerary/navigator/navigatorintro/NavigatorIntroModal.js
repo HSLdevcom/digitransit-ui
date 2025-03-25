@@ -6,7 +6,10 @@ import { useLogo } from '../hooks/useLogo';
 import NavigatorModal from '../NavigatorModal';
 import NavigatorIntro from './NavigatorIntro';
 
-const NavigatorIntroModal = ({ onPrimaryClick, onClose }, { config }) => {
+const NavigatorIntroModal = (
+  { onPrimaryClick, onClose, onOpenGeolocationInfo },
+  { config },
+) => {
   const { logo, loading } = useLogo(config.navigationLogo);
 
   if (loading) {
@@ -19,6 +22,7 @@ const NavigatorIntroModal = ({ onPrimaryClick, onClose }, { config }) => {
         logo={logo}
         onPrimaryClick={onPrimaryClick}
         onClose={onClose}
+        onOpenGeolocationInfo={onOpenGeolocationInfo}
       />
     </NavigatorModal>
   );
@@ -27,6 +31,7 @@ const NavigatorIntroModal = ({ onPrimaryClick, onClose }, { config }) => {
 NavigatorIntroModal.propTypes = {
   onClose: PropTypes.func.isRequired,
   onPrimaryClick: PropTypes.func,
+  onOpenGeolocationInfo: PropTypes.func.isRequired,
 };
 
 NavigatorIntroModal.defaultProps = {

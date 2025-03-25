@@ -771,6 +771,7 @@ export default {
   navigationLogo: 'hsl/navigator-logo.svg',
   thumbsUpGraphic: 'hsl/thumbs-up.svg',
   trafficLightGraphic: 'hsl/traffic-light.svg',
+  naviGeolocationGraphic: 'hsl/geolocation.svg',
 
   // features that should not be deployed to production
   experimental: {

@@ -12,9 +12,16 @@ const NaviBoardingInfo = ({
   headsign,
   translationValues,
   withExpandIcon,
+  compact,
 }) => {
   return (
-    <div className={cx('boarding', { 'with-icon': withExpandIcon })}>
+    <div
+      className={cx({
+        boarding: !compact,
+        'compact-boarding': compact,
+        'with-icon': withExpandIcon,
+      })}
+    >
       <div className="route-info">
         {withExpandIcon && (
           <Icon img="navi-expand" className="icon-expand-small" />
@@ -26,16 +33,19 @@ const NaviBoardingInfo = ({
           isTransitLeg
           vertical
           withBar
+          hideText={compact}
         />
-        <div className="headsign">{headsign}</div>
+        {!compact && <div className="headsign">{headsign}</div>}
       </div>
-      <div className="wait-duration">
-        <FormattedMessage
-          id="navileg-departing-at"
-          defaultMessage="{duration} min päästä klo {legTime}"
-          values={translationValues}
-        />
-      </div>
+      {!withExpandIcon && (
+        <div className="wait-duration">
+          <FormattedMessage
+            id="navileg-departing-at"
+            defaultMessage="{duration} min päästä klo {legTime}"
+            values={translationValues}
+          />
+        </div>
+      )}
     </div>
   );
 };
@@ -47,9 +57,11 @@ NaviBoardingInfo.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   translationValues: PropTypes.object.isRequired,
   withExpandIcon: PropTypes.bool,
+  compact: PropTypes.bool,
 };
 NaviBoardingInfo.defaultProps = {
   withExpandIcon: false,
+  compact: false,
 };
 
 export default NaviBoardingInfo;

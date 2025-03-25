@@ -165,7 +165,7 @@ function watchPosition(actionContext) {
  * Small wrapper around permission api.
  * Returns a promise of checking positioning permission.
  */
-export function checkPositioningPermission() {
+export function checkPositioningPermission(actionContext) {
   const p = new Promise(resolve => {
     if (!navigator.permissions) {
       resolve({ state: 'error' });
@@ -178,6 +178,7 @@ export function checkPositioningPermission() {
             /* eslint-disable no-param-reassign */
             permissionStatus.onchange = function permOnChange() {
               if (this.state === 'granted') {
+                actionContext?.dispatch('GeolocationSearch');
                 addAnalyticsEvent({
                   category: 'Map',
                   action: 'AllowGeolocation',
@@ -200,7 +201,7 @@ let watchPending;
 export function startLocationWatch(actionContext) {
   if (typeof geoWatchId === 'undefined' && !watchPending) {
     watchPending = true;
-    checkPositioningPermission().then(status => {
+    checkPositioningPermission(actionContext).then(status => {
       switch (status.state) {
         case 'granted':
           actionContext.dispatch('GeolocationSearch');
@@ -213,7 +214,7 @@ export function startLocationWatch(actionContext) {
           break;
         case 'prompt':
           updateGeolocationMessage(actionContext, 'prompt');
-          actionContext.dispatch('GeolocationSearch');
+          actionContext.dispatch('GeolocationPrompt');
           watchPosition(actionContext);
           break;
         default:
