@@ -111,7 +111,7 @@ export function pathProgress(pos, geom) {
     y: geom[minI].y + minF * dy,
   };
 
-  return { projected, distance: dst, traversed };
+  return { projected, orthogonalDistance: dst, traversed };
 }
 
 export function getRemainingTraversal(leg, pos, origin, time) {
@@ -124,6 +124,20 @@ export function getRemainingTraversal(leg, pos, origin, time) {
   // estimate from elapsed time
   const duration = Math.max(legTime(leg.end) - legTime(leg.start), 1); // min 1 ms
   return Math.min(Math.max((legTime(leg.end) - time) / duration, 0), 1.0);
+}
+
+export function validateTransitLeg(leg, origin, vehicles) {
+  const shortName = leg?.route?.shortName;
+  const vehicle = Object.values(vehicles).find(v => v.shortName === shortName);
+  if (vehicle) {
+    const vehiclePos = { lat: vehicle.lat, lon: vehicle.long };
+    const posXY = GeodeticToEnu(vehiclePos.lat, vehiclePos.lon, origin);
+    const { traversed, orthogonalDistance } = pathProgress(posXY, leg.geometry);
+    return (
+      orthogonalDistance < DESTINATION_RADIUS && traversed > 0 && traversed < 1
+    );
+  }
+  return true;
 }
 
 function findTransferProblems(legs, time, position, tailLength) {

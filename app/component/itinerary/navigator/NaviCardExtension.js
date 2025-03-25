@@ -163,10 +163,10 @@ const NaviCardExtension = (
   }
 
   return (
-    <div className="extension">
+    <>
       <div className="extension-divider" />
       {stopInformation(true)}
-    </div>
+    </>
   );
 };
 NaviCardExtension.propTypes = {

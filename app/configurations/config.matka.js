@@ -406,6 +406,7 @@ export default {
     TRAM: { showNotification: true },
     FERRY: { showNotification: true },
     BUS: { showNotification: true },
+    SUBWAY: { showNotification: false },
   },
 
   carBoardingModes: {

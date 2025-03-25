@@ -1343,10 +1343,11 @@ const translations = {
     'navileg-hop-on': 'TODO_ja nouse kyytiin',
     'navileg-in-transit': 'TODO_{mode}matka',
     'navileg-in-transit-interline':
-      'TODO_Matka jatkuu {stopOrStation} {stop}  samassa kulkuneuvossa {duration} päästä klo {legTime}',
+      'TODO_Matka jatkuu {stopOrStation} {stop} samassa kulkuneuvossa {duration} päästä klo {legTime}',
     'navileg-intermediate-stops': 'TODO_{stopCount} välipysäkkiä',
     'navileg-leave-at':
       'Jää pois {stopOrStation} {stop} {duration} päästä klo {legTime}',
+    'navileg-mode-citybike': 'TODO_Kaupunkipyöriä on asemalla {available} kpl',
     'navileg-mode-realtime': '{mode} {route} on aikataulussa',
     'navileg-mode-schedule': 'The {mode} is on schedule',
     'navileg-one-intermediate-stop': 'TODO_{stopCount} välipysäkki',
@@ -2639,19 +2640,19 @@ const translations = {
     'navileg-hop-on': 'ja nouse kyytiin',
     'navileg-in-transit': '{mode}matka',
     'navileg-in-transit-interline':
-      'Matka jatkuu {stopOrStation} {stop}  samassa kulkuneuvossa {duration} min päästä klo {legTime}',
+      'Matka jatkuu {stopOrStation} {stop} samassa kulkuneuvossa {duration} päästä klo {legTime}',
     'navileg-intermediate-stops': '{stopCount} välipysäkkiä',
     'navileg-leave-at':
       'Jää pois {stopOrStation} {stop} {duration} päästä klo {legTime}',
-    'navileg-mode-realtime': '{mode}  {route} on aikataulussa',
+    'navileg-mode-citybike': 'Kaupunkipyöriä on asemalla {available} kpl',
+    'navileg-mode-realtime': '{mode} {route} on aikataulussa',
     'navileg-mode-schedule': 'Reaaliaikaista tietoa ei ole saatavilla',
     'navileg-one-intermediate-stop': '{stopCount} välipysäkki',
     'navileg-rent-cycle': 'Nouda kapunkipyörä',
     'navileg-rent-scooter': 'Nouda sähköpotkulauta',
     'navileg-scooter': 'Potkulautaile',
     'navileg-start-realtime': 'Lähtee klo {time} {stopOrStation} {stopName}',
-    'navileg-start-schedule':
-      '{mode}  {route} aikataulun mukainen lähtö {time}',
+    'navileg-start-schedule': '{mode} {route} aikataulun mukainen lähtö {time}',
     'navileg-walk': 'Kävele',
     nearest: 'Lähimmät {mode}',
     'nearest-favorites': 'Omat lähipysäkit',
@@ -5588,10 +5589,11 @@ const translations = {
     'navileg-hop-on': 'TODO_ja nouse kyytiin',
     'navileg-in-transit': 'TODO_{mode}matka',
     'navileg-in-transit-interline':
-      'TODO_Matka jatkuu {stopOrStation} {stop}  samassa kulkuneuvossa {duration} päästä klo {legTime}',
+      'TODO_Matka jatkuu {stopOrStation} {stop} samassa kulkuneuvossa {duration} päästä klo {legTime}',
     'navileg-intermediate-stops': 'TODO_{stopCount} välipysäkkiä',
     'navileg-leave-at':
       'TODO_Jää pois {stopOrStation} {stop} {duration} päästä klo {legTime}',
+    'navileg-mode-citybike': 'TODO_Kaupunkipyöriä on asemalla {available} kpl',
     'navileg-mode-realtime': '{mode} {route} on aikataulussa',
     'navileg-mode-schedule': 'Reaaliaikaista tietoa ei ole saatavilla',
     'navileg-one-intermediate-stop': 'TODO_{stopCount} välipysäkki',

@@ -8,7 +8,7 @@ import { GeodeticToEcef, GeodeticToEnu } from '../../../../util/geo-utils';
 import { legTime } from '../../../../util/legUtils';
 import { epochToIso } from '../../../../util/timeUtils';
 import { legQuery } from '../../queries/LegQuery';
-import { getRemainingTraversal } from '../NaviUtils';
+import { getRemainingTraversal, validateTransitLeg } from '../NaviUtils';
 
 function nextTransitIndex(legs, i) {
   for (let j = i; j < legs.length; j++) {
@@ -108,19 +108,20 @@ function getLegsOfInterest(legs, now) {
       nextLeg: undefined,
     };
   }
-
   const currentLeg = legs.find(
     ({ start, end }) => legTime(start) <= now && legTime(end) >= now,
   );
-  const previousLeg = legs.findLast(({ end }) => legTime(end) < now);
+
   const nextStart = currentLeg ? legTime(currentLeg.end) : now;
+  const nextLeg = legs.find(({ start }) => legTime(start) >= nextStart);
+  const previousLeg = legs.findLast(({ end }) => legTime(end) < now);
 
   return {
     firstLeg: legs[0],
     lastLeg: legs[legs.length - 1],
     previousLeg,
     currentLeg,
-    nextLeg: legs.find(({ start }) => legTime(start) >= nextStart),
+    nextLeg,
   };
 }
 
@@ -153,6 +154,7 @@ const useRealtimeLegs = (
   relayEnvironment,
   initialLegs,
   position,
+  vehicles,
   updateLegs,
   forceStartAt,
 ) => {
@@ -198,11 +200,12 @@ const useRealtimeLegs = (
         console.error('Failed to query and map real time legs', err),
     );
 
+    let newRtLegs;
     setTimeAndRealTimeLegs(prev => {
       // Maps previous legs with fresh real time transit legs. If transit leg start or end time is in the past according
       // to previous state, the time is marked as frozen to stabilize the current navigation state.
       // rtLegMap does not contain legs that have ended in the past as they've been filtered before updates are queried
-      const rtLegs = prev.realTimeLegs.map(l => {
+      newRtLegs = prev.realTimeLegs.map(l => {
         const rtLeg =
           l.legId && rtLegMap?.[l.legId] ? { ...rtLegMap?.[l.legId] } : null;
         if (rtLeg) {
@@ -225,16 +228,17 @@ const useRealtimeLegs = (
       });
 
       // Shift unfrozen, non-transit-legs to match possibly changed transit legs
-      matchLegEnds(rtLegs, now);
+      matchLegEnds(newRtLegs, now);
 
       // Freezes any leg.start|end in the past
-      rtLegs.forEach(l => {
+      newRtLegs.forEach(l => {
         l.freezeStart = l.freezeStart || legTime(l.start) <= now;
         l.freezeEnd = l.freezeEnd || legTime(l.end) <= now;
       });
-      return { ...prev, time: now, realTimeLegs: rtLegs };
+      return { ...prev, time: now, realTimeLegs: newRtLegs };
     });
-  }, [realTimeLegs, queryAndMapRealtimeLegs]);
+    updateLegs?.(newRtLegs);
+  }, [queryAndMapRealtimeLegs, realTimeLegs, updateLegs]);
 
   const startItinerary = startTimeInMS => {
     if (startTimeInMS < legTime(realTimeLegs[0].start)) {
@@ -248,14 +252,15 @@ const useRealtimeLegs = (
             time: startTimeInMS,
           };
         }
-        const adjustment = legTime(realTimeLegs[0].start) - startTimeInMS;
-
-        firstLeg.start.scheduledTime = epochToIso(startTimeInMS);
-        firstLeg.end.scheduledTime = epochToIso(
-          legTime(realTimeLegs[0].end) - adjustment,
-        );
-        firstLeg.freezeStart = true;
-        firstLeg.freezeEnd = true;
+        const adjustment = startTimeInMS - legTime(realTimeLegs[0].start);
+        const lastShifted = nextTransitIndex(realTimeLegs, 0) - 1;
+        shiftLegs(realTimeLegs, 0, lastShifted, adjustment);
+        for (let i = 0; i <= lastShifted; i++) {
+          const leg = realTimeLegs[i];
+          leg.freezeStart = true;
+          leg.freezeEnd = true;
+        }
+        updateLatestNavigatorItineraryParams({ forceStartAt: startTimeInMS });
 
         return {
           ...prev,
@@ -291,6 +296,10 @@ const useRealtimeLegs = (
       currentLeg.distance
     : 0;
 
+  const validated = currentLeg?.transitLeg
+    ? validateTransitLeg(currentLeg, origin, vehicles)
+    : true;
+
   return {
     realTimeLegs,
     time,
@@ -302,6 +311,7 @@ const useRealtimeLegs = (
     nextLeg,
     startItinerary,
     loading,
+    validated,
   };
 };
 

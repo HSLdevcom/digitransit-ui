@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { isAnyLegPropertyIdentical, isRental } from '../../../util/legUtils';
 import { getRouteMode } from '../../../util/modeUtils';
 import { configShape, legShape } from '../../../util/shapes';
@@ -31,11 +31,13 @@ export default function NaviCard(
   { config },
 ) {
   const [cardExpanded, setCardExpanded] = useState(false);
+  const contentRef = useRef();
   const { isEqual: legChanged } = usePrevious(leg, (prev, current) =>
     isAnyLegPropertyIdentical(prev, current, ['legId', 'mode']),
   );
+
   const handleClick = () => {
-    setCardExpanded(!cardExpanded);
+    setCardExpanded(prev => !prev);
   };
 
   if (legChanged) {
@@ -80,12 +82,12 @@ export default function NaviCard(
     iconName = iconMap.WAIT_IN_VEHICLE;
   }
 
+  const maxHeight = cardExpanded
+    ? `${contentRef.current?.scrollHeight}px`
+    : '0px';
+
   return (
-    <button
-      type="button"
-      className={`navi-top-card ${cardExpanded ? 'expanded' : ''}`}
-      onClick={handleClick}
-    >
+    <button type="button" className="navi-top-card" onClick={handleClick}>
       <div className="main-card">
         <div className="content">
           <Icon img={iconName} className="mode" color={iconColor} omitViewBox />
@@ -107,14 +109,20 @@ export default function NaviCard(
             />
           </div>
         </div>
-        {cardExpanded && (
+        <div
+          className="extension"
+          style={{
+            maxHeight,
+          }}
+          ref={contentRef}
+        >
           <NaviCardExtension
             legType={legType}
             leg={leg}
             nextLeg={nextLeg}
             time={time}
           />
-        )}
+        </div>
       </div>
     </button>
   );

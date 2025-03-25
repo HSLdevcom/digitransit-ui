@@ -43,7 +43,7 @@ function NaviContainer(
   } else {
     hasPosition.current = true;
   }
-
+  const { vehicles } = getStore('RealTimeInformationStore');
   const {
     realTimeLegs,
     time,
@@ -61,10 +61,11 @@ function NaviContainer(
     position,
     updateLegs,
     forceStartAt,
+    vehicles,
   );
 
   useEffect(() => {
-    mapRef?.enableMapTracking(); // try always, shows annoying notifier
+    setTimeout(() => mapRef?.enableMapTracking(), 10); // try always, shows annoying notifier
   }, [mapRef, hasPosition.current]);
 
   useEffect(() => {
