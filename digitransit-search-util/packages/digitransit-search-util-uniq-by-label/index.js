@@ -14,16 +14,16 @@ import cloneDeep from 'lodash/cloneDeep';
  */
 
 /**
- * Returns locality (city name) for suggestions
+ * Returns localadmin (city name) for suggestions
  *
- * @name getLocality
+ * @name getLocaladmin
  * @param {Object} suggestion suggestion's properties from geocoding or a favourite stop/station.
  * Expects last part of an address (after ',') to contain the city name of the suggestion location.
  * @returns {String}  City name or empty string
  */
-const getLocality = suggestion =>
+const getLocaladmin = suggestion =>
   suggestion.localadmin ||
-  suggestion.locality ||
+  suggestion.localadmin ||
   (suggestion.address &&
     suggestion.address.lastIndexOf(',') < suggestion.address.length - 2 &&
     suggestion.address.substring(suggestion.address.lastIndexOf(',') + 2)) ||
@@ -110,13 +110,13 @@ export const getNameLabel = memoize(
               suggestion.name ||
                 suggestion.label ||
                 (suggestion.address && suggestion.address.split(',')[0]),
-              getLocality(suggestion),
+              getLocaladmin(suggestion),
             ]
           : [
               suggestion.name,
               suggestion.id,
               getStopCode(suggestion),
-              getLocality(suggestion),
+              getLocaladmin(suggestion),
             ];
       case 'favouriteStation':
       case 'station':
@@ -125,7 +125,7 @@ export const getNameLabel = memoize(
           suggestion.name ||
             suggestion.label ||
             (suggestion.address && suggestion.address.split(',')[0]),
-          getLocality(suggestion),
+          getLocaladmin(suggestion),
         ];
     }
   },

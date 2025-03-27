@@ -142,9 +142,11 @@ export default function NaviInstructions(
       duration: withRealTime(rt, remainingDuration),
       legTime: withRealTime(rt, legTimeStr(leg.end)),
     };
+
     const translationId = nextLeg?.interlineWithPreviousLeg
       ? 'navileg-in-transit-interline'
       : 'navileg-leave-at';
+
     return (
       <>
         <div className="notification-header">

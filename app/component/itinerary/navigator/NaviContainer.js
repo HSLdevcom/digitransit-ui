@@ -16,7 +16,7 @@ import NaviStarter from './NaviStarter';
 import { DESTINATION_RADIUS, summaryString } from './NaviUtils';
 import { addAnalyticsEvent } from '../../../util/analyticsUtils';
 
-const ADDITIONAL_ARRIVAL_TIME = 60000; // 60 seconds in ms
+const ADDITIONAL_ARRIVAL_TIME = 300000; // 5 min in ms
 const LEGLOG = true;
 const TOPBAR_PADDING = 8; // pixels
 
@@ -107,7 +107,7 @@ function NaviContainer(
   const containerTopPosition =
     mapLayerRef.current.getBoundingClientRect().top + TOPBAR_PADDING;
 
-  const isPastStart = time > legTime(firstLeg.start);
+  const isPastStart = time > legTime(firstLeg.start) || !!firstLeg.forceStart;
 
   const handleNavigatorEndClick = () => {
     addAnalyticsEvent({

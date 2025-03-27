@@ -34,8 +34,12 @@ const getLegType = (
   interlineWithPreviousLeg,
 ) => {
   let legType;
-  if (!firstLeg.forceStart && time < legTime(firstLeg.start)) {
-    legType = LEGTYPE.PENDING;
+  if (time < legTime(firstLeg.start)) {
+    if (!firstLeg.forceStart) {
+      legType = LEGTYPE.PENDING;
+    } else {
+      legType = LEGTYPE.WAIT;
+    }
   } else if (leg) {
     if (!leg.transitLeg) {
       if (countAtLegEnd >= COUNT_AT_LEG_END) {

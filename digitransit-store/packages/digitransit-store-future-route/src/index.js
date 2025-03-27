@@ -10,7 +10,7 @@ import sortBy from 'lodash/sortBy';
  *         layer: 'futureRoute',
  *         origin: {
  *           name: 'Pasila',
- *           locality: 'Helsinki',
+ *           localadmin: 'Helsinki',
  *           coordinates: {
  *             lat: 60.198828,
  *             lon: 24.933514,
@@ -18,7 +18,7 @@ import sortBy from 'lodash/sortBy';
  *         },
  *         destination: {
  *           name: 'Ilmala',
- *           locality: 'Helsinki',
+ *           localadmin: 'Helsinki',
  *           coordinates: {
  *             lat: 60.208466,
  *             lon: 24.919756,
@@ -35,7 +35,7 @@ import sortBy from 'lodash/sortBy';
  *         layer: 'futureRoute',
  *         origin: {
  *           name: 'Ilmala',
- *           locality: 'Helsinki',
+ *           localadmin: 'Helsinki',
  *           coordinates: {
  *             lat: 60.208466,
  *             lon: 24.919756,
@@ -43,7 +43,7 @@ import sortBy from 'lodash/sortBy';
  *         },
  *         destination: {
  *           name: 'Pasila',
- *           locality: 'Helsinki',
+ *           localadmin: 'Helsinki',
  *           coordinates: {
  *             lat: 60.198828,
  *             lon: 24.933514,
@@ -80,9 +80,9 @@ function extractRoute(routeIn) {
   let extractedRoute = routeIn;
   if (routeIn.properties) {
     const route = routeIn.properties;
-    const oLoc = route.origin.locality ? `, ${route.origin.locality}` : '';
-    const dLoc = route.destination.locality
-      ? `, ${route.destination.locality}`
+    const oLoc = route.origin.localadmin ? `, ${route.origin.localadmin}` : '';
+    const dLoc = route.destination.localadmin
+      ? `, ${route.destination.localadmin}`
       : '';
 
     extractedRoute = {
@@ -147,13 +147,13 @@ export function addFutureRoute(newRoute, routeCollection, pathOpts) {
     const originAddress = newRoute.origin.address.split(', ');
     const originName = originAddress[0];
     originAddress.shift();
-    const originLocality =
+    const originLocalAdmin =
       originAddress.length === 1 ? originAddress[0] : originAddress.join(', ');
 
     const destinationAddress = newRoute.destination.address.split(', ');
     const destinationName = destinationAddress[0];
     destinationAddress.shift();
-    const destinationLocality =
+    const destinationLocalAdmin =
       destinationAddress.length === 1
         ? destinationAddress[0]
         : destinationAddress.join(', ');
@@ -164,7 +164,7 @@ export function addFutureRoute(newRoute, routeCollection, pathOpts) {
         layer: 'futureRoute',
         origin: {
           name: originName,
-          locality: originLocality,
+          localadmin: originLocalAdmin,
           coordinates: {
             lat: newRoute.origin.coordinates.lat,
             lon: newRoute.origin.coordinates.lon,
@@ -172,7 +172,7 @@ export function addFutureRoute(newRoute, routeCollection, pathOpts) {
         },
         destination: {
           name: destinationName,
-          locality: destinationLocality,
+          localadmin: destinationLocalAdmin,
           coordinates: {
             lat: newRoute.destination.coordinates.lat,
             lon: newRoute.destination.coordinates.lon,
@@ -184,12 +184,12 @@ export function addFutureRoute(newRoute, routeCollection, pathOpts) {
       },
     };
 
-    const newRouteOriginAndDestination = `${routeToAdd.properties.origin.name}, ${routeToAdd.properties.origin.locality} - ${routeToAdd.properties.destination.name}, ${routeToAdd.properties.destination.locality}`;
+    const newRouteOriginAndDestination = `${routeToAdd.properties.origin.name}, ${routeToAdd.properties.origin.localadmin} - ${routeToAdd.properties.destination.name}, ${routeToAdd.properties.destination.localadmin}`;
     const futureRoutes = routeCollection
       ? routeCollection.filter(
           r =>
             r.properties.time >= new Date().getTime() / 1000 &&
-            `${r.properties.origin.name}, ${r.properties.origin.locality} - ${r.properties.destination.name}, ${r.properties.destination.locality}` !==
+            `${r.properties.origin.name}, ${r.properties.origin.localadmin} - ${r.properties.destination.name}, ${r.properties.destination.localadmin}` !==
               newRouteOriginAndDestination,
         )
       : [];
