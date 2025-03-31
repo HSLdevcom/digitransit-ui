@@ -60,8 +60,7 @@
 }
 
 .navi-header-chain {
-  display: flex;
-  flex-direction: row;
+  display: block;
 }
 
 .navi-card-container {
@@ -282,7 +281,6 @@
 
       .vehicle-leg {
         display: flex;
-        width: 80%;
         text-align: left;
       }
     }

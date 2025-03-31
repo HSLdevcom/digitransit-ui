@@ -14,9 +14,8 @@ import { getRouteMode } from '../../../util/modeUtils';
 import RouteNumberContainer from '../../RouteNumberContainer';
 import Icon from '../../Icon';
 
-const TRANSFER_SLACK = 60000;
 const DISPLAY_MESSAGE_THRESHOLD = 120 * 1000; // 2 minutes
-
+const EARLIEST_NEXT_STOP = 60 * 1000;
 export const DESTINATION_RADIUS = 20; // meters
 
 export function summaryString(legs, time, previousLeg, currentLeg, nextLeg) {
@@ -141,7 +140,7 @@ export function validateTransitLeg(leg, origin, vehicles) {
   return true;
 }
 
-function findTransferProblems(legs, time, position, tailLength) {
+function findTransferProblems(legs, time, position, tailLength, slack) {
   const transfers = [];
 
   for (let i = 1; i < legs.length - 1; i++) {
@@ -158,7 +157,7 @@ function findTransferProblems(legs, time, position, tailLength) {
         let severity;
         if (start < end) {
           severity = 'ALERT';
-        } else if (duration < TRANSFER_SLACK) {
+        } else if (duration < slack) {
           severity = 'WARNING';
         } else {
           severity = 'INFO'; // normal transfer
@@ -192,8 +191,8 @@ function findTransferProblems(legs, time, position, tailLength) {
           // check if user is already at the next departure stop
           const atStop =
             position && distance(position, leg.to) <= DESTINATION_RADIUS;
-          let slack = duration - legDuration;
-          if (!atStop && slack < TRANSFER_SLACK) {
+          let currentSlack = duration - legDuration;
+          if (!atStop && currentSlack < slack) {
             // original transfer not possible
             let severity = 'WARNING';
             let toGo;
@@ -223,14 +222,14 @@ function findTransferProblems(legs, time, position, tailLength) {
             });
           } else {
             if (atStop) {
-              slack = TRANSFER_SLACK * 2; // no slack prob if at stop
+              currentSlack *= 2; // no slack prob if at stop
             }
             transfers.push({
               severity: 'INFO',
               fromLeg: prev,
               toLeg: next,
               duration,
-              slack,
+              slack: currentSlack,
             });
           }
         }
@@ -291,16 +290,15 @@ export const getAdditionalMessages = (
   return msgs;
 };
 
-export const getTransitLegState = (leg, intl, messages, time) => {
+export const getTransitLegState = (leg, intl, messages, time, settings) => {
   const { start, realtimeState, from, mode, legId, route } = leg;
   const { scheduledTime, estimated } = start;
 
   if (messages.get(legId)?.closed) {
     return [];
   }
-
-  const notInSchedule =
-    estimated?.delay > TRANSFER_SLACK || estimated?.delay < -TRANSFER_SLACK;
+  const slack = settings.minTransferTime * 1000;
+  const notInSchedule = estimated?.delay > slack || estimated?.delay < -slack;
   const localizedMode = getLocalizedMode(mode, intl);
   let content;
   let severity;
@@ -385,7 +383,7 @@ export function itinerarySearchPath(time, leg, nextLeg, position, to) {
   let from;
   if (leg?.transitLeg) {
     from = leg.intermediatePlaces.find(
-      p => legTime(p.arrival) > time + TRANSFER_SLACK,
+      p => legTime(p.arrival) > time + EARLIEST_NEXT_STOP,
     );
     if (!from) {
       from = leg.to;
@@ -469,8 +467,10 @@ export const getItineraryAlerts = (
   messages,
   itinerarySearchCallback,
   config,
+  settings,
 ) => {
   const alerts = [];
+  const slack = settings.minTransferTime * 1000;
   legs.forEach(leg => {
     if (leg.transitLeg && legTime(leg.end) > time) {
       const id = `alert-${leg.legId}`; // allow only one alert per leg
@@ -539,7 +539,13 @@ export const getItineraryAlerts = (
       }
     });
   } else {
-    const transfers = findTransferProblems(legs, time, position, tailLength);
+    const transfers = findTransferProblems(
+      legs,
+      time,
+      position,
+      tailLength,
+      slack,
+    );
     if (transfers.length) {
       const prob =
         transfers.find(p => p.severity === 'ALERT') ||
@@ -600,7 +606,7 @@ export const getItineraryAlerts = (
       }
       // show notification when problem gets solved
       transfers.forEach(tr => {
-        if (tr.severity === 'INFO' && tr.slack > 1.5 * TRANSFER_SLACK) {
+        if (tr.severity === 'INFO' && tr.slack > 1.1 * slack) {
           const id = `transfer-${tr.fromLeg.legId}-${tr.toLeg.legId}}`;
           const alert = messages.get(id);
           if (alert && alert.severity !== 'INFO') {

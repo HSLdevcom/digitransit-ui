@@ -1318,6 +1318,7 @@ export default function ItineraryPage(props, context) {
               isNavigatorIntroDismissed={isNavigatorIntroDismissed}
               updateLegs={updateStoredItinerary}
               forceStartAt={storedItinerary.current?.params?.forceStartAt}
+              settings={settings}
             />
           )}
         </div>

@@ -712,7 +712,6 @@ export default {
   /* key: name of theme, value: regex matching part of host name */
   themeMap: {
     hsl: '(reittiopas|next-dev.digitransit)',
-    apphsl: '(test.digitransit)',
     turku: '(turku|foli)',
     lappeenranta: 'lappeenranta',
     joensuu: 'joensuu',

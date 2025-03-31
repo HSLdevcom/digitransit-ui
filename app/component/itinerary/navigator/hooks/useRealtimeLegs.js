@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 import cloneDeep from 'lodash/cloneDeep';
 import polyUtil from 'polyline-encoded';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState, useRef } from 'react';
 import { fetchQuery } from 'react-relay';
 import { updateLatestNavigatorItineraryParams } from '../../../../store/localStorage';
 import { GeodeticToEcef, GeodeticToEnu } from '../../../../util/geo-utils';
@@ -34,6 +34,31 @@ function shiftLegs(legs, i1, i2, gap) {
     if (!leg.freezeEnd) {
       leg.end.scheduledTime = epochToIso(legTime(leg.end) + gap);
     }
+  }
+}
+
+// shift transit leg (for debugging)
+function shiftLeg(leg, gap) {
+  if (!leg.freezeStart) {
+    leg.start = {
+      ...leg.start,
+      estimated: {
+        ...leg.start.estimated,
+        time: epochToIso(legTime(leg.start) + gap),
+        delay: gap,
+      },
+    };
+  }
+  if (!leg.freezeEnd) {
+    leg.end = {
+      ...leg.end,
+      estimated: {
+        ...leg.end.estimated,
+        time: epochToIso(legTime(leg.end) + gap),
+        delay: gap,
+      },
+    };
+    leg.realtimeState = 'UPDATED';
   }
 }
 
@@ -157,11 +182,13 @@ const useRealtimeLegs = (
   vehicles,
   updateLegs,
   forceStartAt,
+  simulateTransferProblem,
 ) => {
   const [{ origin, time, realTimeLegs }, setTimeAndRealTimeLegs] = useState(
     () => getInitialState(initialLegs),
   );
   const [loading, setLoading] = useState(true);
+  const simCounter = useRef(0);
 
   const queryAndMapRealtimeLegs = useCallback(
     async (legs, now) => {
@@ -207,13 +234,12 @@ const useRealtimeLegs = (
       // rtLegMap does not contain legs that have ended in the past as they've been filtered before updates are queried
       newRtLegs = prev.realTimeLegs.map(l => {
         const rtLeg =
-          l.legId && rtLegMap?.[l.legId] ? { ...rtLegMap?.[l.legId] } : null;
+          l.legId && rtLegMap?.[l.legId] ? { ...rtLegMap[l.legId] } : null;
         if (rtLeg) {
           // If start is frozen, the property is deleted to prevent it from affecting any views
           if (l.freezeStart) {
             delete rtLeg.start;
           }
-
           return {
             ...l,
             ...rtLeg, // delete above prevent this from overwriting a previous, frozen state
@@ -226,6 +252,31 @@ const useRealtimeLegs = (
         // Non-transit legs are kept unfrozen for now to allow them to be scaled or shifted
         return l;
       });
+
+      // fake transfer problem by delaying 1st transfer leg and then back to normal
+      if (simulateTransferProblem) {
+        const rtLeg = newRtLegs.find(tl => tl.transitLeg);
+        switch (Math.floor(simCounter.current / 2)) {
+          case 1:
+            shiftLeg(rtLeg, 90000);
+            break;
+          case 2:
+            shiftLeg(rtLeg, 180000);
+            break;
+          case 3:
+            shiftLeg(rtLeg, 300000);
+            break;
+          case 4:
+            shiftLeg(rtLeg, 180000);
+            break;
+          case 5:
+            shiftLeg(rtLeg, 90000);
+            break;
+          default:
+            break;
+        }
+      }
+      simCounter.current += 1;
 
       // Shift unfrozen, non-transit-legs to match possibly changed transit legs
       matchLegEnds(newRtLegs, now);

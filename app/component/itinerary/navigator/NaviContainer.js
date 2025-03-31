@@ -31,6 +31,7 @@ function NaviContainer(
     mapLayerRef,
     updateLegs,
     forceStartAt,
+    settings,
   },
   { executeAction, getStore, router },
 ) {
@@ -45,6 +46,10 @@ function NaviContainer(
     hasPosition.current = true;
   }
   const { vehicles } = getStore('RealTimeInformationStore');
+
+  // TODO disable after testing
+  const simulateTransferProblem = LEGLOG && settings.bikeSpeed > 8;
+
   const {
     realTimeLegs,
     time,
@@ -63,6 +68,7 @@ function NaviContainer(
     vehicles,
     updateLegs,
     forceStartAt,
+    simulateTransferProblem,
   );
 
   useEffect(() => {
@@ -140,6 +146,7 @@ function NaviContainer(
           isJourneyCompleted={isJourneyCompleted}
           previousLeg={previousLeg}
           containerTopPosition={containerTopPosition}
+          settings={settings}
         />
       )}
       {isJourneyCompleted && isNavigatorIntroDismissed && (
@@ -169,6 +176,8 @@ NaviContainer.propTypes = {
     .isRequired,
   updateLegs: PropTypes.func.isRequired,
   forceStartAt: PropTypes.number,
+  // eslint-disable-next-line
+  settings: PropTypes.object.isRequired,
 };
 
 NaviContainer.contextTypes = {
