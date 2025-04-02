@@ -1,7 +1,8 @@
 import Button from '@hsl-fi/button';
 import PropTypes from 'prop-types';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
+import { addAnalyticsEvent } from '../../../util/analyticsUtils';
 import { configShape } from '../../../util/shapes';
 import Icon from '../../Icon';
 import { useLogo } from './hooks/useLogo';
@@ -18,7 +19,14 @@ const NaviStarter = (
     setIsDismissed(isPastStart);
   }, [isPastStart]);
 
-  const handleClick = () => setIsDismissed(true);
+  const handleClick = () => {
+    addAnalyticsEvent({
+      category: 'Itinerary',
+      event: 'navigator',
+      action: 'start_navigation_manual',
+    });
+    setIsDismissed(true);
+  };
 
   const handleAnimationEnd = () => {
     setIsVisible(false);
@@ -39,7 +47,12 @@ const NaviStarter = (
         {logo ? (
           <img src={logo} alt="navigator logo" />
         ) : (
-          <Icon img="icon-icon_navigation_wait" className="mode" />
+          <Icon
+            img="icon-icon_navigation_wait"
+            className="mode"
+            height={2}
+            width={2}
+          />
         )}
         <FormattedMessage id="navigation-journey-start" />
         <h3>{time}</h3>

@@ -42,3 +42,13 @@ export function LightenDarkenColor(color, amt) {
     String(`000000${(g | (b << 8) | (r << 16)).toString(16)}`).slice(-6)
   );
 }
+
+export function getModeIconColor(config, mode) {
+  if (!config?.colors?.iconColors) {
+    return undefined;
+  }
+
+  return mode.toLowerCase() === 'subway'
+    ? config.colors.iconColors['mode-metro']
+    : config.colors.iconColors[`mode-${mode.toLowerCase()}`];
+}

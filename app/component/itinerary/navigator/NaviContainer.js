@@ -19,6 +19,7 @@ import { addAnalyticsEvent } from '../../../util/analyticsUtils';
 const ADDITIONAL_ARRIVAL_TIME = 300000; // 5 min in ms
 const LEGLOG = true;
 const TOPBAR_PADDING = 8; // pixels
+const START_BUFFER = 120000; // 2 min in ms
 
 function NaviContainer(
   {
@@ -92,6 +93,12 @@ function NaviContainer(
     }
     prevPos.current = position;
   }, [time]);
+
+  useEffect(() => {
+    if (firstLeg && time > legTime(firstLeg.start) - START_BUFFER) {
+      startItinerary(Date.now());
+    }
+  }, [firstLeg]);
 
   if (loading || !realTimeLegs?.length) {
     return null;

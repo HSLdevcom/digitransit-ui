@@ -194,12 +194,6 @@ class MapWithTrackingStateHandler extends React.Component {
     this.refresh = true;
   };
 
-  // this is used outside of this component
-  // eslint-disable-next-line react/no-unused-class-component-methods
-  forceRerender = () => {
-    this.forceUpdate();
-  };
-
   startNavigation = e => {
     if (this.props.onStartNavigation) {
       this.props.onStartNavigation(this.mapElement, e);

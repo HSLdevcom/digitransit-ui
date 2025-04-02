@@ -2,6 +2,7 @@ import { matchShape, routerShape } from 'found';
 import PropTypes from 'prop-types';
 import React, { useEffect, useRef, useState } from 'react';
 import { intlShape } from 'react-intl';
+import { addAnalyticsEvent } from '../../../util/analyticsUtils';
 import { isAnyLegPropertyIdentical, legTime } from '../../../util/legUtils';
 import { configShape, legShape } from '../../../util/shapes';
 import { getTopics, updateClient } from '../ItineraryPageUtils';
@@ -114,6 +115,11 @@ function NaviCardContainer(
   };
 
   useEffect(() => {
+    addAnalyticsEvent({
+      category: 'Itinerary',
+      event: 'navigator',
+      action: 'start_navigation',
+    });
     updateClient(getNaviTopics(), context);
   }, []);
 
@@ -276,7 +282,7 @@ NaviCardContainer.propTypes = {
     lon: PropTypes.number,
     status: PropTypes.string,
     locationCount: PropTypes.number,
-    watchId: PropTypes.string,
+    watchId: PropTypes.number,
   }),
   tailLength: PropTypes.number.isRequired,
   containerTopPosition: PropTypes.number.isRequired,

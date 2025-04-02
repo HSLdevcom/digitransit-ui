@@ -96,33 +96,50 @@
   .navi-transfer {
     display: flex;
     flex-direction: row;
-    height: 18px;
+    align-items: center;
 
     .arrow-center {
-      padding-top: 2px;
+      .icon-container {
+        display: flex;
+        align-self: stretch;
+        height: 18px;
+        width: 14px;
+
+        .icon {
+          padding: 1px;
+        }
+      }
     }
 
-    .route-number {
-      font-size: $font-size-xxsmall;
-      min-width: fit-content;
+    .bar {
       height: 18px;
 
-      .vcenter-children {
-        display: flex;
+      .route-number {
+        font-size: $font-size-xxsmall;
+        min-width: fit-content;
+        height: 18px;
+        display: inline-flex;
 
-        .vehicle-number {
-          color: white;
-          padding: 0 8px 0 2px;
-          font-size: 15px;
-          line-height: 18px;
-        }
+        .vcenter-children {
+          display: flex;
+          align-items: center;
 
-        .special-icon {
-          padding: 1px 1px 0 1px;
+          .vehicle-number-container-v {
+            display: flex;
 
-          .icon {
-            width: 16px;
-            height: 16px;
+            .vehicle-number {
+              color: white;
+              padding: 0 8px 0 2px;
+              font-size: 15px;
+              line-height: 15px;
+            }
+
+            .special-icon {
+              .icon {
+                width: 16px;
+                height: 16px;
+              }
+            }
           }
         }
       }
@@ -151,7 +168,11 @@
 .extension-routenumber,
 .route-info {
   .route-number {
+    font-size: $font-size-xxsmall;
     min-width: fit-content;
+    height: fit-content;
+    display: inline-flex;
+    vertical-align: middle;
 
     .vcenter-children {
       .vehicle-number {
@@ -187,7 +208,7 @@
   flex-direction: column;
 
   &.with-icon {
-    margin-left: var(--space-xl);
+    margin-left: 40px;
 
     .wait-duration {
       margin-left: var(--space-l);
@@ -195,11 +216,12 @@
   }
 
   .headsign {
-    margin-left: 10px;
+    margin-left: var(--space-xs);
     font-size: $font-size-small;
     max-width: 85%;
     text-align: left;
     align-content: center;
+    line-height: 100%;
   }
 }
 
@@ -211,13 +233,21 @@
   font-size: $font-size-xsmall;
   font-weight: $font-weight-book;
 
+  .bar {
+    display: flex;
+  }
+
   .route-number {
     margin-top: 1px;
-    height: 18px;
+    height: 16px;
 
     .vcenter-children {
+      display: inline-flex;
+      align-self: stretch;
+
       .special-icon {
         font-size: $font-size-xsmall;
+        height: 18px;
 
         .icon {
           width: 16px;
@@ -274,6 +304,7 @@
       align-items: flex-start;
       flex-direction: column;
       width: 100%;
+      margin-right: var(--space-m);
 
       &.expanded {
         margin-bottom: 0;
@@ -297,8 +328,6 @@
 
     .extension {
       flex-direction: column;
-      margin-bottom: var(--space-s);
-      margin-top: var(--space-m);
       transition: all 0.4s ease;
       overflow-y: hidden;
 
@@ -320,19 +349,24 @@
         display: flex;
         margin-left: 35px;
 
-        .icon {
-          height: 16px;
-          width: 16px;
-          padding: 1px 1px 0 1px;
+        .icon-container {
+          display: flex;
+          align-items: center;
+
+          .icon {
+            height: 16px;
+            width: 16px;
+          }
         }
       }
 
       .extension-routenumber {
         display: flex;
         flex-direction: row;
-        margin-left: 35px;
+        margin-left: 40px;
         margin-bottom: var(--space-s);
         text-align: left;
+        margin-top: var(--space-m);
 
         .bar {
           border-radius: $border-radius;
@@ -345,6 +379,7 @@
           justify-content: center;
           font-size: $font-size-small;
           max-width: 85%;
+          line-height: 100%;
         }
       }
 
@@ -436,9 +471,9 @@
         text-align: left;
 
         .details {
-          > * {
-            margin-right: var(--space-xs);
-          }
+          display: flex;
+          flex-direction: row;
+          align-items: center;
 
           .address {
             color: #888;
@@ -446,14 +481,31 @@
 
           .platform-short {
             width: unset;
+            font-family: $font-family;
+            font-size: $font-size-small;
+            letter-spacing: $letter-spacing;
+            display: inline-flex;
+            align-items: center;
+
+            .platform-number-wrapper {
+              padding: 0 var(--space-xxs);
+              height: 16px;
+              display: inline-flex;
+              justify-content: center;
+              align-items: center;
+              line-height: 13px;
+              font-size: 11px;
+            }
           }
 
           .zone-icon-container {
-            margin-top: 2px;
+            .circle {
+              width: 16px;
+              height: 16px;
+              font-size: 0.9rem;
+              padding: 0 2px 0 2px;
+            }
           }
-
-          display: flex;
-          flex-direction: row;
         }
       }
     }
@@ -575,8 +627,12 @@
     .icon-container {
       display: flex;
       align-self: flex-start;
-      height: 16px;
-      width: 16px;
+      align-items: center;
+
+      .icon {
+        width: 16px;
+        height: 16px;
+      }
     }
 
     .navi-info-content {

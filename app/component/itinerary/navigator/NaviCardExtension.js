@@ -17,6 +17,7 @@ import { getDestinationProperties, LEGTYPE, withRealTime } from './NaviUtils';
 import { getRouteMode } from '../../../util/modeUtils';
 import RouteNumberContainer from '../../RouteNumberContainer';
 import NaviBoardingInfo from './NaviBoardingInfo';
+import { getModeIconColor } from '../../../util/colorUtils';
 
 const NaviCardExtension = (
   { legType, leg, nextLeg, time },
@@ -51,8 +52,7 @@ const NaviCardExtension = (
         ? 'navileg-one-intermediate-stop'
         : 'navileg-intermediate-stops';
     const mode = getRouteMode(route, config);
-    const iconColor =
-      config.colors.iconColors[`mode-${mode}`] || leg.route.color;
+    const iconColor = getModeIconColor(config, mode) || leg.route.color;
     return (
       <div className="extension">
         <div className="extension-routenumber">
@@ -68,7 +68,7 @@ const NaviCardExtension = (
         </div>
         <div className="extension-divider" />
         <div className="stop-count">
-          <Icon img="navi-intermediatestops" color={iconColor} />
+          <Icon img="navi-intermediatestops" color={iconColor} omitViewBox />
           <FormattedMessage
             id={translationId}
             values={{ stopCount }}
@@ -87,6 +87,7 @@ const NaviCardExtension = (
           height={2}
           width={2}
           className={`destination-icon ${destination.className}`}
+          color={destination.iconColor}
         />
         <div className="destination">
           {destination.name}
