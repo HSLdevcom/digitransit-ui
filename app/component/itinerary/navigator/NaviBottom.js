@@ -2,6 +2,7 @@ import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React, { useCallback } from 'react';
 import { FormattedMessage } from 'react-intl';
+import { addAnalyticsEvent } from '../../../util/analyticsUtils';
 import { configShape } from '../../../util/shapes';
 import { epochToTime } from '../../../util/timeUtils';
 
@@ -9,7 +10,14 @@ export default function NaviBottom(
   { setNavigation, arrival, time },
   { config },
 ) {
-  const handleClose = useCallback(() => setNavigation(false), [setNavigation]);
+  const handleClose = useCallback(() => {
+    addAnalyticsEvent({
+      category: 'Itinerary',
+      event: 'navigator',
+      action: 'cancel_navigation',
+    });
+    setNavigation(false);
+  }, [setNavigation]);
   const handleTicketButtonClick = useCallback(e => e.stopPropagation(), []);
 
   const isTicketSaleActive = !!config?.ticketLink;

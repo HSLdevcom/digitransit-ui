@@ -1,22 +1,35 @@
 import distance from '@digitransit-search-util/digitransit-search-util-distance';
-import React from 'react';
 import cx from 'classnames';
+import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { ExtendedRouteTypes } from '../../../constants';
-import { getFaresFromLegs, formatFare } from '../../../util/fareUtils';
+import { addAnalyticsEvent } from '../../../util/analyticsUtils';
+import { formatFare, getFaresFromLegs } from '../../../util/fareUtils';
 import { GeodeticToEnu } from '../../../util/geo-utils';
 import { legTime, legTimeAcc } from '../../../util/legUtils';
+import { getRouteMode } from '../../../util/modeUtils';
 import { locationToUri } from '../../../util/otpStrings';
 import { getItineraryPagePath } from '../../../util/path';
 import { durationToString, epochToIso, timeStr } from '../../../util/timeUtils';
-import { getRouteMode } from '../../../util/modeUtils';
-import RouteNumberContainer from '../../RouteNumberContainer';
 import Icon from '../../Icon';
+import { getModeIconColor } from '../../../util/colorUtils';
+import RouteNumberContainer from '../../RouteNumberContainer';
 
-const TRANSFER_SLACK = 60000;
 const DISPLAY_MESSAGE_THRESHOLD = 120 * 1000; // 2 minutes
+const EARLIEST_NEXT_STOP = 60 * 1000;
+const NOTED_SEVERITY = ['WARNING', 'ALERT'];
 
 export const DESTINATION_RADIUS = 20; // meters
+const ACCEPT_LOCATION_RADIUS = 200;
+
+export const LEGTYPE = {
+  WAIT: 'WAIT',
+  MOVE: 'MOVE',
+  TRANSIT: 'TRANSIT',
+  PENDING: 'PENDING',
+  END: 'END',
+  WAIT_IN_VEHICLE: 'WAIT_IN_VEHICLE',
+};
 
 export function summaryString(legs, time, previousLeg, currentLeg, nextLeg) {
   const parts = epochToIso(time).split('T')[1].split('+');
@@ -111,22 +124,39 @@ export function pathProgress(pos, geom) {
     y: geom[minI].y + minF * dy,
   };
 
-  return { projected, distance: dst, traversed };
+  return { projected, orthogonalDistance: dst, traversed };
 }
 
 export function getRemainingTraversal(leg, pos, origin, time) {
   if (pos) {
-    // TODO: maybe apply only when distance is close enough to the path
     const posXY = GeodeticToEnu(pos.lat, pos.lon, origin);
-    const { traversed } = pathProgress(posXY, leg.geometry);
-    return 1.0 - traversed;
+    const { traversed, orthogonalDistance } = pathProgress(posXY, leg.geometry);
+    if (orthogonalDistance < ACCEPT_LOCATION_RADIUS) {
+      return 1.0 - traversed;
+    }
   }
   // estimate from elapsed time
   const duration = Math.max(legTime(leg.end) - legTime(leg.start), 1); // min 1 ms
   return Math.min(Math.max((legTime(leg.end) - time) / duration, 0), 1.0);
 }
 
-function findTransferProblems(legs, time, position, tailLength) {
+export function validateTransitLeg(leg, origin, vehicles) {
+  const shortName = leg?.route?.shortName;
+  const vehicle = Object.values(vehicles).find(v => v.shortName === shortName);
+  if (vehicle) {
+    const vehiclePos = { lat: vehicle.lat, lon: vehicle.long };
+    const posXY = GeodeticToEnu(vehiclePos.lat, vehiclePos.lon, origin);
+    const { traversed, orthogonalDistance } = pathProgress(posXY, leg.geometry);
+    return (
+      orthogonalDistance < ACCEPT_LOCATION_RADIUS &&
+      traversed > 0 &&
+      traversed < 1
+    );
+  }
+  return true;
+}
+
+function findTransferProblems(legs, time, position, tailLength, slack) {
   const transfers = [];
 
   for (let i = 1; i < legs.length - 1; i++) {
@@ -143,7 +173,7 @@ function findTransferProblems(legs, time, position, tailLength) {
         let severity;
         if (start < end) {
           severity = 'ALERT';
-        } else if (duration < TRANSFER_SLACK) {
+        } else if (duration < slack) {
           severity = 'WARNING';
         } else {
           severity = 'INFO'; // normal transfer
@@ -177,8 +207,8 @@ function findTransferProblems(legs, time, position, tailLength) {
           // check if user is already at the next departure stop
           const atStop =
             position && distance(position, leg.to) <= DESTINATION_RADIUS;
-          let slack = duration - legDuration;
-          if (!atStop && slack < TRANSFER_SLACK) {
+          let currentSlack = duration - legDuration;
+          if (!atStop && currentSlack < slack) {
             // original transfer not possible
             let severity = 'WARNING';
             let toGo;
@@ -208,14 +238,14 @@ function findTransferProblems(legs, time, position, tailLength) {
             });
           } else {
             if (atStop) {
-              slack = TRANSFER_SLACK * 2; // no slack prob if at stop
+              currentSlack *= 2; // no slack prob if at stop
             }
             transfers.push({
               severity: 'INFO',
               fromLeg: prev,
               toLeg: next,
               duration,
-              slack,
+              slack: currentSlack,
             });
           }
         }
@@ -276,16 +306,15 @@ export const getAdditionalMessages = (
   return msgs;
 };
 
-export const getTransitLegState = (leg, intl, messages, time) => {
+export const getTransitLegState = (leg, intl, messages, time, settings) => {
   const { start, realtimeState, from, mode, legId, route } = leg;
   const { scheduledTime, estimated } = start;
 
   if (messages.get(legId)?.closed) {
     return [];
   }
-
-  const notInSchedule =
-    estimated?.delay > TRANSFER_SLACK || estimated?.delay < -TRANSFER_SLACK;
+  const slack = settings.minTransferTime * 1000;
+  const notInSchedule = estimated?.delay > slack || estimated?.delay < -slack;
   const localizedMode = getLocalizedMode(mode, intl);
   let content;
   let severity;
@@ -352,7 +381,9 @@ export const getTransitLegState = (leg, intl, messages, time) => {
         <FormattedMessage
           id="navileg-start-realtime"
           values={{
-            time: <span className="realtime">{timeStr(estimated.time)}</span>,
+            time: (
+              <span className="bold realtime">{timeStr(estimated.time)}</span>
+            ),
             stopOrStation,
             stopName: name,
           }}
@@ -368,7 +399,7 @@ export function itinerarySearchPath(time, leg, nextLeg, position, to) {
   let from;
   if (leg?.transitLeg) {
     from = leg.intermediatePlaces.find(
-      p => legTime(p.arrival) > time + TRANSFER_SLACK,
+      p => legTime(p.arrival) > time + EARLIEST_NEXT_STOP,
     );
     if (!from) {
       from = leg.to;
@@ -381,7 +412,23 @@ export function itinerarySearchPath(time, leg, nextLeg, position, to) {
   return getItineraryPagePath(locationToUri(location), to);
 }
 
-function withNewSearchBtn(children, searchCallback) {
+function withNewSearchBtn(children, searchCallback, alertType) {
+  addAnalyticsEvent({
+    category: 'Itinerary',
+    event: 'navigator',
+    action: 'notification_alert',
+  });
+
+  const handleClick = callback => () => {
+    addAnalyticsEvent({
+      category: 'Itinerary',
+      event: 'navigator',
+      action: 'notification_alert_click',
+      type: alertType,
+    });
+    callback();
+  };
+
   return (
     <div className="navi-info-content">
       {children}
@@ -389,7 +436,7 @@ function withNewSearchBtn(children, searchCallback) {
       <button
         className="new-itinerary-search"
         type="button"
-        onClick={searchCallback}
+        onClick={handleClick(searchCallback)}
       >
         <span className="notification-header">
           <FormattedMessage id="settings-dropdown-open-label" />
@@ -416,7 +463,7 @@ function Transfer(route1, route2, config) {
         />
         &nbsp;
         <div className="arrow-center">
-          <Icon img="icon-icon_arrow-right" width="0.8" height="0.8" />
+          <Icon img="icon-icon_arrow-right" omitViewBox />
         </div>
         &nbsp;
         <RouteNumberContainer
@@ -432,8 +479,6 @@ function Transfer(route1, route2, config) {
   );
 }
 
-const notedSeverity = ['WARNING', 'ALERT'];
-
 export const getItineraryAlerts = (
   legs,
   time,
@@ -443,8 +488,10 @@ export const getItineraryAlerts = (
   messages,
   itinerarySearchCallback,
   config,
+  settings,
 ) => {
   const alerts = [];
+  const slack = settings.minTransferTime * 1000;
   legs.forEach(leg => {
     if (leg.transitLeg && legTime(leg.end) > time) {
       const id = `alert-${leg.legId}`; // allow only one alert per leg
@@ -454,7 +501,7 @@ export const getItineraryAlerts = (
             // show only alerts that are active during the leg
             legTime(leg.end) / 1000 > al.effectiveStartDate &&
             legTime(leg.start) / 1000 < al.effectiveEndDate &&
-            notedSeverity.includes(al.alertSeverityLevel)
+            NOTED_SEVERITY.includes(al.alertSeverityLevel)
           );
         });
         if (alert) {
@@ -497,29 +544,40 @@ export const getItineraryAlerts = (
       // we want to show the show routes button only for the first canceled leg.
       const content =
         i === 0 ? (
-          withNewSearchBtn({ m }, itinerarySearchCallback)
+          withNewSearchBtn(
+            { m },
+            itinerarySearchCallback,
+            `canceled_${route.shortName}${mode.toLowerCase()}`,
+          )
         ) : (
           <div className="navi-info-content notification-header">{m}</div>
         );
-
-      if (!messages.get(`canceled-${legId}`)) {
+      const id = `canceled-${legId}`;
+      if (!messages.get(id)) {
         alerts.push({
           severity: 'ALERT',
           content,
-          id: `canceled-${legId}`,
+          id,
           hideClose: true,
           expiresOn: alert.effectiveEndDate * 1000,
         });
       }
     });
   } else {
-    const transfers = findTransferProblems(legs, time, position, tailLength);
+    const transfers = findTransferProblems(
+      legs,
+      time,
+      position,
+      tailLength,
+      slack,
+    );
     if (transfers.length) {
       const prob =
+        transfers.find(p => p.severity === 'INFO') ||
         transfers.find(p => p.severity === 'ALERT') ||
         transfers.find(p => p.severity === 'WARNING');
       if (prob) {
-        const transferId = `transfer-${prob.fromLeg.legId}-${prob.toLeg.legId}}`;
+        const transferId = `transfer-${prob.fromLeg.legId}-${prob.toLeg.legId}`;
         const alert = messages.get(transferId);
         if (!alert?.closed || alert?.severity !== prob.severity) {
           let content;
@@ -541,6 +599,11 @@ export const getItineraryAlerts = (
                 />
               </>,
               itinerarySearchCallback,
+              `transfer-${
+                prob.fromLeg.route.shortName
+              }${prob.fromLeg.mode.toLowerCase()}-${
+                prob.toLeg.route.shortName
+              }${prob.toLeg.mode.toLowerCase()}`,
             );
           } else {
             content = (
@@ -574,7 +637,7 @@ export const getItineraryAlerts = (
       }
       // show notification when problem gets solved
       transfers.forEach(tr => {
-        if (tr.severity === 'INFO' && tr.slack > 1.5 * TRANSFER_SLACK) {
+        if (tr.severity === 'INFO' && tr.slack > 1.1 * slack) {
           const id = `transfer-${tr.fromLeg.legId}-${tr.toLeg.legId}}`;
           const alert = messages.get(id);
           if (alert && alert.severity !== 'INFO') {
@@ -687,6 +750,7 @@ export const getDestinationProperties = (
     }
     destination = {
       ...iconProps,
+      iconColor: getModeIconColor(config, mode),
       name: stop.name,
     };
   }
@@ -694,15 +758,6 @@ export const getDestinationProperties = (
   return destination;
 };
 
-export const LEGTYPE = {
-  WAIT: 'WAIT',
-  MOVE: 'MOVE',
-  TRANSIT: 'TRANSIT',
-  PENDING: 'PENDING',
-  END: 'END',
-  WAIT_IN_VEHICLE: 'WAIT_IN_VEHICLE',
-};
-
 export const withRealTime = (rt, children) => (
-  <span className={cx('bold', { realtime: rt })}>{children}</span>
+  <span className={cx({ bold: rt, realtime: rt })}>{children}</span>
 );

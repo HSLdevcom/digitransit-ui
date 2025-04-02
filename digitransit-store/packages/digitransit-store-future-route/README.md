@@ -19,7 +19,7 @@ const oldRouteCollection = {
         layer: 'futureRoute',
         origin: {
           name: 'Pasila',
-          locality: 'Helsinki',
+          localadmin: 'Helsinki',
           coordinates: {
             lat: 60.198828,
             lon: 24.933514,
@@ -27,7 +27,7 @@ const oldRouteCollection = {
         },
         destination: {
           name: 'Ilmala',
-          locality: 'Helsinki',
+          localadmin: 'Helsinki',
           coordinates: {
             lat: 60.208466,
             lon: 24.919756,
@@ -44,7 +44,7 @@ const oldRouteCollection = {
         layer: 'futureRoute',
         origin: {
           name: 'Ilmala',
-          locality: 'Helsinki',
+          localadmin: 'Helsinki',
           coordinates: {
             lat: 60.208466,
             lon: 24.919756,
@@ -52,7 +52,7 @@ const oldRouteCollection = {
         },
         destination: {
           name: 'Pasila',
-          locality: 'Helsinki',
+          localadmin: 'Helsinki',
           coordinates: {
             lat: 60.198828,
             lon: 24.933514,

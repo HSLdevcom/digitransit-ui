@@ -40,7 +40,7 @@ $realtime-color: #3b7f00;
 $current-location-color: $primary-color;
 $desktop-title-color: $primary-color;
 $desktop-title-arrow-icon-color: $secondary-color;
-$infobox-color-generic-blue: #e5f2fa;
+$infobox-color-generic-blue: #ebf6fd;
 $info-icon-blue: #0074be;
 $success-color: #f1f8eb;
 
@@ -63,6 +63,7 @@ $top-bar-color: $primary-color;
 $nav-content-color: false;
 $disclaimer-background-color: rgba(254, 209, 0, 0.1);
 $disclaimer-border-color: #fed100;
+$navigation-background-color: $background-color-lighter;
 
 /* Vehicle palette */
 $airplane-color: $livi-airplane-blue;
@@ -132,3 +133,6 @@ $spinner-image: url('../default/default-spinner.png');
 
 /* Navbar dimensions */
 $nav-logo-height: 100%;
+
+/* Navigator */
+$navigation-icon-size: 40px;

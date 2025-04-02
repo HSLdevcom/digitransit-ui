@@ -368,7 +368,7 @@ export default {
 
   colors: {
     primary: '#000F94',
-    backgroundInfo: '#e5f2fa',
+    backgroundInfo: '#ebf6fd',
     iconColors: {
       'mode-airplane': '#0046ad',
       'mode-bus': '#0088ce',
@@ -712,7 +712,6 @@ export default {
   /* key: name of theme, value: regex matching part of host name */
   themeMap: {
     hsl: '(reittiopas|next-dev.digitransit)',
-    apphsl: '(test.digitransit)',
     turku: '(turku|foli)',
     lappeenranta: 'lappeenranta',
     joensuu: 'joensuu',

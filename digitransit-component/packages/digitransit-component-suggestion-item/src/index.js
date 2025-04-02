@@ -406,8 +406,8 @@ const SuggestionItem = pure(
                     styles[className],
                   )}
                 >
-                  {item.properties.origin.locality
-                    ? `, ${item.properties.origin.locality}`
+                  {item.properties.origin.localadmin
+                    ? `, ${item.properties.origin.localadmin.split('*')[0]}`
                     : ''}
                 </span>
               </div>
@@ -427,8 +427,10 @@ const SuggestionItem = pure(
                     styles[className],
                   )}
                 >
-                  {item.properties.destination.locality
-                    ? `, ${item.properties.destination.locality}`
+                  {item.properties.destination.localadmin
+                    ? `, ${
+                        item.properties.destination.localadmin.split('*')[0]
+                      }`
                     : ''}
                 </span>
               </div>

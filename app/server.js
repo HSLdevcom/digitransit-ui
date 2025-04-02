@@ -42,7 +42,6 @@ import { getConfiguration } from './config';
 import { getAnalyticsInitCode } from './util/analyticsUtils';
 
 import { historyMiddlewares, render } from './routes';
-import { LOCAL_STORAGE_EMITTER_PATH } from './util/path';
 import ErrorHandlerSSR from './component/ErrorHandlerSSR';
 
 // Look up paths for various asset files
@@ -327,94 +326,85 @@ export default async function serve(req, res, next) {
     res.write(`<html lang="${locale}">\n`);
     res.write('<head>\n');
 
-    // local storage emitter is used from a hidden iframe and these are not necessary for it
-    if (req.url !== LOCAL_STORAGE_EMITTER_PATH) {
-      // Write preload hints before doing anything else
-      if (process.env.NODE_ENV !== 'development') {
-        res.write(getAnalyticsInitCode(config, req.hostname));
+    // Write preload hints before doing anything else
+    if (process.env.NODE_ENV !== 'development') {
+      res.write(getAnalyticsInitCode(config, req.hostname));
 
-        const preloads = [
-          { as: 'style', href: config.URL.FONT },
-          {
-            as: 'style',
-            href: `${ASSET_URL}/${assets[`${config.CONFIG}_theme.css`]}`,
-            crossorigin: true,
-          },
-          ...mainAssets.map(asset => ({
-            as: asset.endsWith('.css') ? 'style' : 'script',
-            href: `${ASSET_URL}/${asset}`,
-            crossorigin: true,
-          })),
-        ];
+      const preloads = [
+        { as: 'style', href: config.URL.FONT },
+        {
+          as: 'style',
+          href: `${ASSET_URL}/${assets[`${config.CONFIG}_theme.css`]}`,
+          crossorigin: true,
+        },
+        ...mainAssets.map(asset => ({
+          as: asset.endsWith('.css') ? 'style' : 'script',
+          href: `${ASSET_URL}/${asset}`,
+          crossorigin: true,
+        })),
+      ];
 
-        preloads.forEach(({ as, href, crossorigin }) =>
-          res.write(
-            `<link rel="preload" as="${as}" ${
-              crossorigin ? 'crossorigin' : ''
-            } href="${href}">\n`,
-          ),
-        );
-
-        const preconnects = [config.URL.API_URL, config.URL.MAP_URL];
-
-        if (config.staticMessagesUrl) {
-          preconnects.push(config.staticMessagesUrl);
-        }
-
-        preconnects.forEach(href =>
-          res.write(`<link rel="preconnect" crossorigin href="${href}">\n`),
-        );
-
+      preloads.forEach(({ as, href, crossorigin }) =>
         res.write(
-          `<link rel="stylesheet" type="text/css" crossorigin href="${ASSET_URL}/${
-            assets[`${config.CONFIG}_theme.css`]
-          }"/>\n`,
-        );
-        mainAssets
-          .filter(asset => asset.endsWith('.css'))
-          .forEach(asset =>
-            res.write(
-              `<link rel="stylesheet" type="text/css" crossorigin href="${ASSET_URL}/${asset}"/>\n`,
-            ),
-          );
-      }
-
-      res.write(
-        `<link rel="stylesheet" type="text/css" href="${config.URL.FONT}"/>\n`,
+          `<link rel="preload" as="${as}" ${
+            crossorigin ? 'crossorigin' : ''
+          } href="${href}">\n`,
+        ),
       );
 
-      res.write(`<script>\n${polyfills}\n</script>\n`);
+      const preconnects = [config.URL.API_URL, config.URL.MAP_URL];
 
-      const head = Helmet.rewind();
-
-      if (head) {
-        res.write(head.title.toString());
-        res.write(head.meta.toString());
-        res.write(head.link.toString());
+      if (config.staticMessagesUrl) {
+        preconnects.push(config.staticMessagesUrl);
       }
+
+      preconnects.forEach(href =>
+        res.write(`<link rel="preconnect" crossorigin href="${href}">\n`),
+      );
+
+      res.write(
+        `<link rel="stylesheet" type="text/css" crossorigin href="${ASSET_URL}/${
+          assets[`${config.CONFIG}_theme.css`]
+        }"/>\n`,
+      );
+      mainAssets
+        .filter(asset => asset.endsWith('.css'))
+        .forEach(asset =>
+          res.write(
+            `<link rel="stylesheet" type="text/css" crossorigin href="${ASSET_URL}/${asset}"/>\n`,
+          ),
+        );
+    }
+    res.write(
+      `<link rel="stylesheet" type="text/css" href="${config.URL.FONT}"/>\n`,
+    );
+
+    res.write(`<script>\n${polyfills}\n</script>\n`);
+
+    const head = Helmet.rewind();
+
+    if (head) {
+      res.write(head.title.toString());
+      res.write(head.meta.toString());
+      res.write(head.link.toString());
     }
 
     res.write('</head>\n');
     res.write('<body>\n');
 
-    // local storage emitter is used from a hidden iframe and these are not necessary for it
-    if (req.url !== LOCAL_STORAGE_EMITTER_PATH) {
-      if (process.env.NODE_ENV !== 'development') {
-        res.write('<script>\n');
-        res.write(`fetch('${ASSET_URL}/${assets[spriteName]}')
+    if (process.env.NODE_ENV !== 'development') {
+      res.write('<script>\n');
+      res.write(`fetch('${ASSET_URL}/${assets[spriteName]}')
           .then(function(response) {return response.text();}).then(function(blob) {
             var div = document.createElement('div');
             div.innerHTML = blob;
             document.body.insertBefore(div, document.body.childNodes[0]);
           });`);
-        res.write('</script>\n');
-      } else {
-        res.write('<div>\n');
-        res.write(
-          fs.readFileSync(`${appRoot}_static/${spriteName}`).toString(),
-        );
-        res.write('</div>\n');
-      }
+      res.write('</script>\n');
+    } else {
+      res.write('<div>\n');
+      res.write(fs.readFileSync(`${appRoot}_static/${spriteName}`).toString());
+      res.write('</div>\n');
     }
 
     res.write(contentWithBreakpoint || '<div id="app" />');
@@ -425,16 +415,13 @@ export default async function serve(req, res, next) {
       )};\n</script>\n`,
     );
 
-    // local storage emitter is used from a hidden iframe and it does not use relay
-    if (req.url !== LOCAL_STORAGE_EMITTER_PATH) {
-      res.write('<script>\n');
-      res.write(
-        `window.__RELAY_PAYLOADS__ = ${serialize(JSON.stringify(relayData), {
-          isJSON: true,
-        })}`,
-      );
-      res.write('\n</script>\n');
-    }
+    res.write('<script>\n');
+    res.write(
+      `window.__RELAY_PAYLOADS__ = ${serialize(JSON.stringify(relayData), {
+        isJSON: true,
+      })}`,
+    );
+    res.write('\n</script>\n');
 
     if (process.env.NODE_ENV === 'development') {
       res.write('<script async src="/proxy/js/main.js"></script>\n');

@@ -18,7 +18,7 @@ import VehicleMarkerContainer from './VehicleMarkerContainer';
 
 const POINT_FOCUS_ZOOM = 17; // default
 
-function ItineraryPageMap(
+const ItineraryPageMap = (
   {
     planEdges,
     active,
@@ -37,7 +37,7 @@ function ItineraryPageMap(
     ...rest
   },
   { match, router, executeAction, config },
-) {
+) => {
   const { hash } = match.params;
   const leafletObjs = [];
 
@@ -135,7 +135,7 @@ function ItineraryPageMap(
       )}
     </MapWithTracking>
   );
-}
+};
 
 ItineraryPageMap.propTypes = {
   planEdges: PropTypes.arrayOf(planEdgeShape).isRequired,

@@ -1,0 +1,1167 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "1",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          23.773162,
+          61.49851
+        ]
+      },
+      "properties": {
+        "category": "SALES_POINT",
+        "name": "R-kioski Rautatieasema",
+        "name_fi": "R-kioski Rautatieasema",
+        "name_se": "R-kioski Rautatieasema",
+        "name_en": "R-kioski Rautatieasema",
+        "popup": "R-kioski Rautatieasema",
+        "text": "R-kioski Rautatieasema\nRautatienkatu 25, Tampere",
+        "city": "Tampere",
+        "city_sv": "Tampere",
+        "city_en": "Tampere",
+        "address": "Rautatienkatu 25",
+        "address_en": "Rautatienkatu 25",
+        "address_sv": "Rautatienkatu 25",
+        "icon": {
+          "id": "icon_sales_point",
+          "svg": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 345.83 345.83\">\n  <defs>\n    <style>\n      .cls-1 {\n        fill: #fff;\n      }\n\n      .cls-2 {\n        fill: #1a4a8f;\n      }\n\n      .cls-3 {\n        fill: #1c57cf;\n      }\n    </style>\n  </defs>\n  <g id=\"sininen_pallotausta\">\n    <g>\n      <path class=\"cls-1\" d=\"M172.91,340.83c-92.59,0-167.91-75.33-167.91-167.91S80.33,5,172.91,5s167.91,75.33,167.91,167.91-75.33,167.91-167.91,167.91Z\"/>\n      <path class=\"cls-2\" d=\"M172.91,10c43.52,0,84.43,16.95,115.2,47.72s47.72,71.68,47.72,115.2-16.95,84.43-47.72,115.2-71.68,47.72-115.2,47.72-84.43-16.95-115.2-47.72c-30.77-30.77-47.72-71.68-47.72-115.2S26.95,88.49,57.72,57.72c30.77-30.77,71.68-47.72,115.2-47.72M172.91,0C77.42,0,0,77.42,0,172.91s77.42,172.91,172.91,172.91,172.91-77.42,172.91-172.91S268.41,0,172.91,0h0Z\"/>\n    </g>\n  </g>\n  <g id=\"NYSSE_VALKOINEN\" data-name=\"NYSSE VALKOINEN\">\n    <g>\n      <path class=\"cls-2\" d=\"M255.21,233.59c.57,1.71.87,3.46.9,5.17V107.55c0-9.71-7.87-17.58-17.58-17.58s-17.58,7.87-17.58,17.58v78.69c14.68,13.02,28.14,29.07,34.25,47.35Z\"/>\n      <path class=\"cls-2\" d=\"M90.59,112.48c-.55-1.68-.84-3.38-.88-5.07,0,.04,0,.09,0,.13v131.25c0,9.71,7.87,17.58,17.58,17.58s17.58-7.87,17.58-17.58v-78.68c-20.82-18.4-30.17-35.19-34.27-47.64Z\"/>\n      <path class=\"cls-3\" d=\"M238.54,256.38c-7.36,0-14.21-4.65-16.67-12.01-5.94-17.79-26.99-38.19-57.75-55.98-49.72-28.75-67.43-56.84-73.52-75.34-3.04-9.22,1.97-19.16,11.19-22.2,9.22-3.04,19.16,1.97,22.2,11.19,5.83,17.69,26.87,38.07,57.73,55.91,22.38,12.94,61.7,39.93,73.5,75.27,3.08,9.21-1.9,19.17-11.1,22.24-1.85.62-3.72.91-5.57.91Z\"/>\n    </g>\n  </g>\n</svg>"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "2",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          23.731831,
+          61.470832
+        ]
+      },
+      "properties": {
+        "category": "SALES_POINT",
+        "name": "R-kioski Härmälä",
+        "name_fi": "R-kioski Härmälä",
+        "name_se": "R-kioski Härmälä",
+        "name_en": "R-kioski Härmälä",
+        "popup": "R-kioski Härmälä",
+        "text": "R-kioski Härmälä\nNuolialantie 52, Tampere",
+        "city": "Tampere",
+        "city_sv": "Tampere",
+        "city_en": "Tampere",
+        "address": "Nuolialantie 52",
+        "address_en": "Nuolialantie 52",
+        "address_sv": "Nuolialantie 52",
+        "icon": {
+          "id": "icon_sales_point"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "3",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          23.798119,
+          61.497026
+        ]
+      },
+      "properties": {
+        "category": "SALES_POINT",
+        "name": "R-kioski Kaleva",
+        "name_fi": "R-kioski Kaleva",
+        "name_se": "R-kioski Kaleva",
+        "name_en": "R-kioski Kaleva",
+        "popup": "R-kioski Kaleva",
+        "text": "R-kioski Kaleva\nSammonkatu 26, Tampere",
+        "city": "Tampere",
+        "city_sv": "Tampere",
+        "city_en": "Tampere",
+        "address": "Sammonkatu 26",
+        "address_en": "Sammonkatu 26",
+        "address_sv": "Sammonkatu 26",
+        "icon": {
+          "id": "icon_sales_point"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "4",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          23.873999,
+          61.473392
+        ]
+      },
+      "properties": {
+        "category": "SALES_POINT",
+        "name": "R-kioski Kaukajärvi",
+        "name_fi": "R-kioski Kaukajärvi",
+        "name_se": "R-kioski Kaukajärvi",
+        "name_en": "R-kioski Kaukajärvi",
+        "popup": "R-kioski Kaukajärvi",
+        "text": "R-kioski Kaukajärvi\nKeskisenkatu 5, Tampere",
+        "city": "Tampere",
+        "city_sv": "Tampere",
+        "city_en": "Tampere",
+        "address": "Keskisenkatu 5",
+        "address_en": "Keskisenkatu 5",
+        "address_sv": "Keskisenkatu 5",
+        "icon": {
+          "id": "icon_sales_point"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "5",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          23.850927,
+          61.450739
+        ]
+      },
+      "properties": {
+        "category": "SALES_POINT",
+        "name": "R-kioski Kauppakeskus Duo",
+        "name_fi": "R-kioski Kauppakeskus Duo",
+        "name_se": "R-kioski Kauppakeskus Duo",
+        "name_en": "R-kioski Kauppakeskus Duo",
+        "popup": "R-kioski Kauppakeskus Duo",
+        "text": "R-kioski Kauppakeskus Duo\nInsinöörinkatu 23, Tampere",
+        "city": "Tampere",
+        "city_sv": "Tampere",
+        "city_en": "Tampere",
+        "address": "Insinöörinkatu 23",
+        "address_en": "Insinöörinkatu 23",
+        "address_sv": "Insinöörinkatu 23",
+        "icon": {
+          "id": "icon_sales_point"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "6",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          23.814215,
+          61.50484
+        ]
+      },
+      "properties": {
+        "category": "SALES_POINT",
+        "name": "R-kioski Keskussairaala Tays",
+        "name_fi": "R-kioski Keskussairaala Tays",
+        "name_se": "R-kioski Keskussairaala Tays",
+        "name_en": "R-kioski Keskussairaala Tays",
+        "popup": "R-kioski Keskussairaala Tays",
+        "text": "R-kioski Keskussairaala Tays\nKuntokatu 2 D-rakennus, Tampere",
+        "city": "Tampere",
+        "city_sv": "Tampere",
+        "city_en": "Tampere",
+        "address": "Kuntokatu 2 D-rakennus",
+        "address_en": "Kuntokatu 2 D-rakennus",
+        "address_sv": "Kuntokatu 2 D-rakennus",
+        "icon": {
+          "id": "icon_sales_point"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "7",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          23.766586,
+          61.497339
+        ]
+      },
+      "properties": {
+        "category": "SALES_POINT",
+        "name": "R-kioski Hatanpään Valtatie 2",
+        "name_fi": "R-kioski Hatanpään Valtatie 2",
+        "name_se": "R-kioski Hatanpään Valtatie 2",
+        "name_en": "R-kioski Hatanpään Valtatie 2",
+        "popup": "R-kioski Hatanpään Valtatie 2",
+        "text": "R-kioski Hatanpään Valtatie 2\nHatanpään Valtatie 2, Tampere",
+        "city": "Tampere",
+        "city_sv": "Tampere",
+        "city_en": "Tampere",
+        "address": "Hatanpään Valtatie 2",
+        "address_en": "Hatanpään Valtatie 2",
+        "address_sv": "Hatanpään Valtatie 2",
+        "icon": {
+          "id": "icon_sales_point"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "8",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          23.77133,
+          61.498309
+        ]
+      },
+      "properties": {
+        "category": "SALES_POINT",
+        "name": "R-kioski Hämeenkatu 1",
+        "name_fi": "R-kioski Hämeenkatu 1",
+        "name_se": "R-kioski Hämeenkatu 1",
+        "name_en": "R-kioski Hämeenkatu 1",
+        "popup": "R-kioski Hämeenkatu 1",
+        "text": "R-kioski Hämeenkatu 1\nHämeenkatu 1, Tampere",
+        "city": "Tampere",
+        "city_sv": "Tampere",
+        "city_en": "Tampere",
+        "address": "Hämeenkatu 1",
+        "address_en": "Hämeenkatu 1",
+        "address_sv": "Hämeenkatu 1",
+        "icon": {
+          "id": "icon_sales_point"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "9",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          23.757398,
+          61.497621
+        ]
+      },
+      "properties": {
+        "category": "SALES_POINT",
+        "name": "R-kioski Hämeenkatu 20",
+        "name_fi": "R-kioski Hämeenkatu 20",
+        "name_se": "R-kioski Hämeenkatu 20",
+        "name_en": "R-kioski Hämeenkatu 20",
+        "popup": "R-kioski Hämeenkatu 20",
+        "text": "R-kioski Hämeenkatu 20\nHämeenkatu 20, Tampere",
+        "city": "Tampere",
+        "city_sv": "Tampere",
+        "city_en": "Tampere",
+        "address": "Hämeenkatu 20",
+        "address_en": "Hämeenkatu 20",
+        "address_sv": "Hämeenkatu 20",
+        "icon": {
+          "id": "icon_sales_point"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "10",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          23.762317,
+          61.497676
+        ]
+      },
+      "properties": {
+        "category": "SALES_POINT",
+        "name": "R-kioski Keskustori 1",
+        "name_fi": "R-kioski Keskustori 1",
+        "name_se": "R-kioski Keskustori 1",
+        "name_en": "R-kioski Keskustori 1",
+        "popup": "R-kioski Keskustori 1",
+        "text": "R-kioski Keskustori 1\nKeskustori 1, Tampere",
+        "city": "Tampere",
+        "city_sv": "Tampere",
+        "city_en": "Tampere",
+        "address": "Keskustori 1",
+        "address_en": "Keskustori 1",
+        "address_sv": "Keskustori 1",
+        "icon": {
+          "id": "icon_sales_point"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "11",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          23.755655,
+          61.49919
+        ]
+      },
+      "properties": {
+        "category": "SALES_POINT",
+        "name": "R-kioski Puutarhakatu 10",
+        "name_fi": "R-kioski Puutarhakatu 10",
+        "name_se": "R-kioski Puutarhakatu 10",
+        "name_en": "R-kioski Puutarhakatu 10",
+        "popup": "R-kioski Puutarhakatu 10",
+        "text": "R-kioski Puutarhakatu 10\nPuutarhakatu 10, Tampere",
+        "city": "Tampere",
+        "city_sv": "Tampere",
+        "city_en": "Tampere",
+        "address": "Puutarhakatu 10",
+        "address_en": "Puutarhakatu 10",
+        "address_sv": "Puutarhakatu 10",
+        "icon": {
+          "id": "icon_sales_point"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "12",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          23.775862,
+          61.47163
+        ]
+      },
+      "properties": {
+        "category": "SALES_POINT",
+        "name": "R-kioski Koivistonkylä",
+        "name_fi": "R-kioski Koivistonkylä",
+        "name_se": "R-kioski Koivistonkylä",
+        "name_en": "R-kioski Koivistonkylä",
+        "popup": "R-kioski Koivistonkylä",
+        "text": "R-kioski Koivistonkylä\nKoivistontie 10, Tampere",
+        "city": "Tampere",
+        "city_sv": "Tampere",
+        "city_en": "Tampere",
+        "address": "Koivistontie 10",
+        "address_en": "Koivistontie 10",
+        "address_sv": "Koivistontie 10",
+        "icon": {
+          "id": "icon_sales_point"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "13",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          23.662669,
+          61.517972
+        ]
+      },
+      "properties": {
+        "category": "SALES_POINT",
+        "name": "R-kioski Lielahti",
+        "name_fi": "R-kioski Lielahti",
+        "name_se": "R-kioski Lielahti",
+        "name_en": "R-kioski Lielahti",
+        "popup": "R-kioski Lielahti",
+        "text": "R-kioski Lielahti\nPossijärvenkatu 3, Tampere",
+        "city": "Tampere",
+        "city_sv": "Tampere",
+        "city_en": "Tampere",
+        "address": "Possijärvenkatu 3",
+        "address_en": "Possijärvenkatu 3",
+        "address_sv": "Possijärvenkatu 3",
+        "icon": {
+          "id": "icon_sales_point"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "14",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          23.769334,
+          61.493388
+        ]
+      },
+      "properties": {
+        "category": "SALES_POINT",
+        "name": "R-kioski Linja-autoasema",
+        "name_fi": "R-kioski Linja-autoasema",
+        "name_se": "R-kioski Linja-autoasema",
+        "name_en": "R-kioski Linja-autoasema",
+        "popup": "R-kioski Linja-autoasema",
+        "text": "R-kioski Linja-autoasema\nHatanpään valtatie 7, Tampere",
+        "city": "Tampere",
+        "city_sv": "Tampere",
+        "city_en": "Tampere",
+        "address": "Hatanpään valtatie 7",
+        "address_en": "Hatanpään valtatie 7",
+        "address_sv": "Hatanpään valtatie 7",
+        "icon": {
+          "id": "icon_sales_point"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "15",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          23.890508,
+          61.497187
+        ]
+      },
+      "properties": {
+        "category": "SALES_POINT",
+        "name": "R-kioski Linnainmaa",
+        "name_fi": "R-kioski Linnainmaa",
+        "name_se": "R-kioski Linnainmaa",
+        "name_en": "R-kioski Linnainmaa",
+        "popup": "R-kioski Linnainmaa",
+        "text": "R-kioski Linnainmaa\nMäentakusenkatu 1, Tampere",
+        "city": "Tampere",
+        "city_sv": "Tampere",
+        "city_en": "Tampere",
+        "address": "Mäentakusenkatu 1",
+        "address_en": "Mäentakusenkatu 1",
+        "address_sv": "Mäentakusenkatu 1",
+        "icon": {
+          "id": "icon_sales_point"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "16",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          23.758058,
+          61.455058
+        ]
+      },
+      "properties": {
+        "category": "SALES_POINT",
+        "name": "R-kioski Peltolammi",
+        "name_fi": "R-kioski Peltolammi",
+        "name_se": "R-kioski Peltolammi",
+        "name_en": "R-kioski Peltolammi",
+        "popup": "R-kioski Peltolammi",
+        "text": "R-kioski Peltolammi\nPeltolamminkatu 10, Tampere",
+        "city": "Tampere",
+        "city_sv": "Tampere",
+        "city_en": "Tampere",
+        "address": "Peltolamminkatu 10",
+        "address_en": "Peltolamminkatu 10",
+        "address_sv": "Peltolamminkatu 10",
+        "icon": {
+          "id": "icon_sales_point"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "17",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          23.743016,
+          61.497609
+        ]
+      },
+      "properties": {
+        "category": "SALES_POINT",
+        "name": "R-kioski Pyynikki",
+        "name_fi": "R-kioski Pyynikki",
+        "name_se": "R-kioski Pyynikki",
+        "name_en": "R-kioski Pyynikki",
+        "popup": "R-kioski Pyynikki",
+        "text": "R-kioski Pyynikki\nPyynikintori 8, Tampere",
+        "city": "Tampere",
+        "city_sv": "Tampere",
+        "city_en": "Tampere",
+        "address": "Pyynikintori 8",
+        "address_en": "Pyynikintori 8",
+        "address_sv": "Pyynikintori 8",
+        "icon": {
+          "id": "icon_sales_point"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "18",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          23.779176,
+          61.502502
+        ]
+      },
+      "properties": {
+        "category": "SALES_POINT",
+        "name": "R-kioski Kyllikinkatu 11",
+        "name_fi": "R-kioski Kyllikinkatu 11",
+        "name_se": "R-kioski Kyllikinkatu 11",
+        "name_en": "R-kioski Kyllikinkatu 11",
+        "popup": "R-kioski Kyllikinkatu 11",
+        "text": "R-kioski Kyllikinkatu 11\nKyllikinkatu 11, Tampere",
+        "city": "Tampere",
+        "city_sv": "Tampere",
+        "city_en": "Tampere",
+        "address": "Kyllikinkatu 11",
+        "address_en": "Kyllikinkatu 11",
+        "address_sv": "Kyllikinkatu 11",
+        "icon": {
+          "id": "icon_sales_point"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "19",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          23.780028,
+          61.499484
+        ]
+      },
+      "properties": {
+        "category": "SALES_POINT",
+        "name": "R-kioski Tammelan Puistokatu 35",
+        "name_fi": "R-kioski Tammelan Puistokatu 35",
+        "name_se": "R-kioski Tammelan Puistokatu 35",
+        "name_en": "R-kioski Tammelan Puistokatu 35",
+        "popup": "R-kioski Tammelan Puistokatu 35",
+        "text": "R-kioski Tammelan Puistokatu 35\nTammelan puistokatu 35, Tampere",
+        "city": "Tampere",
+        "city_sv": "Tampere",
+        "city_en": "Tampere",
+        "address": "Tammelan puistokatu 35",
+        "address_en": "Tammelan puistokatu 35",
+        "address_sv": "Tammelan puistokatu 35",
+        "icon": {
+          "id": "icon_sales_point"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          23.627688,
+          61.505948
+        ]
+      },
+      "properties": {
+        "category": "SALES_POINT",
+        "name": "R-kioski Tesoma",
+        "name_fi": "R-kioski Tesoma",
+        "name_se": "R-kioski Tesoma",
+        "name_en": "R-kioski Tesoma",
+        "popup": "R-kioski Tesoma",
+        "text": "R-kioski Tesoma\nTesoman valtatie 37, Tampere",
+        "city": "Tampere",
+        "city_sv": "Tampere",
+        "city_en": "Tampere",
+        "address": "Tesoman valtatie 37",
+        "address_en": "Tesoman valtatie 37",
+        "address_sv": "Tesoman valtatie 37",
+        "icon": {
+          "id": "icon_sales_point"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "21",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          23.848135,
+          61.450913
+        ]
+      },
+      "properties": {
+        "category": "SALES_POINT",
+        "name": "R-kioski Hervanta",
+        "name_fi": "R-kioski Hervanta",
+        "name_se": "R-kioski Hervanta",
+        "name_en": "R-kioski Hervanta",
+        "popup": "R-kioski Hervanta",
+        "text": "R-kioski Hervanta\nLindforsinkatu 2, Tampere",
+        "city": "Tampere",
+        "city_sv": "Tampere",
+        "city_en": "Tampere",
+        "address": "Lindforsinkatu 2",
+        "address_en": "Lindforsinkatu 2",
+        "address_sv": "Lindforsinkatu 2",
+        "icon": {
+          "id": "icon_sales_point"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "22",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.056395,
+          61.464927
+        ]
+      },
+      "properties": {
+        "category": "SALES_POINT",
+        "name": "R-kioski Kangasala",
+        "name_fi": "R-kioski Kangasala",
+        "name_se": "R-kioski Kangasala",
+        "name_en": "R-kioski Kangasala",
+        "popup": "R-kioski Kangasala",
+        "text": "R-kioski Kangasala\nKangasalantie 1070, Kangasala",
+        "city": "Kangasala",
+        "city_sv": "Kangasala",
+        "city_en": "Kangasala",
+        "address": "Kangasalantie 1070",
+        "address_en": "Kangasalantie 1070",
+        "address_sv": "Kangasalantie 1070",
+        "icon": {
+          "id": "icon_sales_point"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "23",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          23.751723,
+          61.315968
+        ]
+      },
+      "properties": {
+        "category": "SALES_POINT",
+        "name": "R-kioski Lempäälä",
+        "name_fi": "R-kioski Lempäälä",
+        "name_se": "R-kioski Lempäälä",
+        "name_en": "R-kioski Lempäälä",
+        "popup": "R-kioski Lempäälä",
+        "text": "R-kioski Lempäälä\nTampereentie 25, Lempäälä",
+        "city": "Lempäälä",
+        "city_sv": "Lempäälä",
+        "city_en": "Lempäälä",
+        "address": "Tampereentie 25",
+        "address_en": "Tampereentie 25",
+        "address_sv": "Tampereentie 25",
+        "icon": {
+          "id": "icon_sales_point"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "24",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          23.508111,
+          61.478231
+        ]
+      },
+      "properties": {
+        "category": "SALES_POINT",
+        "name": "R-kioski Nokia",
+        "name_fi": "R-kioski Nokia",
+        "name_se": "R-kioski Nokia",
+        "name_en": "R-kioski Nokia",
+        "popup": "R-kioski Nokia",
+        "text": "R-kioski Nokia\nVälikatu 14, Nokia",
+        "city": "Nokia",
+        "city_sv": "Nokia",
+        "city_en": "Nokia",
+        "address": "Välikatu 14",
+        "address_en": "Välikatu 14",
+        "address_sv": "Välikatu 14",
+        "icon": {
+          "id": "icon_sales_point"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "25",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          23.649064,
+          61.466199
+        ]
+      },
+      "properties": {
+        "category": "SALES_POINT",
+        "name": "R-kioski Pirkkala",
+        "name_fi": "R-kioski Pirkkala",
+        "name_se": "R-kioski Pirkkala",
+        "name_en": "R-kioski Pirkkala",
+        "popup": "R-kioski Pirkkala",
+        "text": "R-kioski Pirkkala\nSuupantie 2, Pirkkala",
+        "city": "Pirkkala",
+        "city_sv": "Pirkkala",
+        "city_en": "Pirkkala",
+        "address": "Suupantie 2",
+        "address_en": "Suupantie 2",
+        "address_sv": "Suupantie 2",
+        "icon": {
+          "id": "icon_sales_point"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "26",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          23.595715,
+          61.548401
+        ]
+      },
+      "properties": {
+        "category": "SALES_POINT",
+        "name": "R-kioski Ylöjärvi",
+        "name_fi": "R-kioski Ylöjärvi",
+        "name_se": "R-kioski Ylöjärvi",
+        "name_en": "R-kioski Ylöjärvi",
+        "popup": "R-kioski Ylöjärvi",
+        "text": "R-kioski Ylöjärvi\nMikkolantie 2, Ylöjärvi",
+        "city": "Ylöjärvi",
+        "city_sv": "Ylöjärvi",
+        "city_en": "Ylöjärvi",
+        "address": "Mikkolantie 2",
+        "address_en": "Mikkolantie 2",
+        "address_sv": "Mikkolantie 2",
+        "icon": {
+          "id": "icon_sales_point"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "27",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.029395,
+          61.26658
+        ]
+      },
+      "properties": {
+        "category": "SALES_POINT",
+        "name": "R-kioski Kauppakeskus Koskikara",
+        "name_fi": "R-kioski Kauppakeskus Koskikara",
+        "name_se": "R-kioski Kauppakeskus Koskikara",
+        "name_en": "R-kioski Kauppakeskus Koskikara",
+        "popup": "R-kioski Kauppakeskus Koskikara",
+        "text": "R-kioski Kauppakeskus Koskikara\nValtakatu 9-11, Valkeakoski",
+        "city": "Valkeakoski",
+        "city_sv": "Valkeakoski",
+        "city_en": "Valkeakoski",
+        "address": "Valtakatu 9-11",
+        "address_en": "Valtakatu 9-11",
+        "address_sv": "Valtakatu 9-11",
+        "icon": {
+          "id": "icon_sales_point"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "28",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          23.75801,
+          61.496778
+        ]
+      },
+      "properties": {
+        "category": "SALES_POINT",
+        "name": "Sokos Tampere Veikkauspiste",
+        "name_fi": "Sokos Tampere Veikkauspiste",
+        "name_se": "Sokos Tampere Veikkauspiste",
+        "name_en": "Sokos Tampere Veikkauspiste",
+        "popup": "Sokos Tampere Veikkauspiste",
+        "text": "Sokos Tampere Veikkauspiste\nHämeenkatu 21, Tampere",
+        "city": "Tampere",
+        "city_sv": "Tampere",
+        "city_en": "Tampere",
+        "address": "Hämeenkatu 21",
+        "address_en": "Hämeenkatu 21",
+        "address_sv": "Hämeenkatu 21",
+        "icon": {
+          "id": "icon_sales_point"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "29",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          23.770482,
+          61.498902
+        ]
+      },
+      "properties": {
+        "category": "SALES_POINT",
+        "name": "Stockmann Tampere",
+        "name_fi": "Stockmann Tampere",
+        "name_se": "Stockmann Tampere",
+        "name_en": "Stockmann Tampere",
+        "popup": "Stockmann Tampere",
+        "text": "Stockmann Tampere\nHämeenkatu 4, Tampere",
+        "city": "Tampere",
+        "city_sv": "Tampere",
+        "city_en": "Tampere",
+        "address": "Hämeenkatu 4",
+        "address_en": "Hämeenkatu 4",
+        "address_sv": "Hämeenkatu 4",
+        "icon": {
+          "id": "icon_sales_point"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "30",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          23.839919,
+          61.47597
+        ]
+      },
+      "properties": {
+        "category": "SALES_POINT",
+        "name": "K-Citymarket Turtola",
+        "name_fi": "K-Citymarket Turtola",
+        "name_se": "K-Citymarket Turtola",
+        "name_en": "K-Citymarket Turtola",
+        "popup": "K-Citymarket Turtola",
+        "text": "K-Citymarket Turtola\nMartinpojankatu 4, Tampere",
+        "city": "Tampere",
+        "city_sv": "Tampere",
+        "city_en": "Tampere",
+        "address": "Martinpojankatu 4",
+        "address_en": "Martinpojankatu 4",
+        "address_sv": "Martinpojankatu 4",
+        "icon": {
+          "id": "icon_sales_point"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "31",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          23.821676,
+          61.490982
+        ]
+      },
+      "properties": {
+        "category": "SALES_POINT",
+        "name": "Prisma Kaleva",
+        "name_fi": "Prisma Kaleva",
+        "name_se": "Prisma Kaleva",
+        "name_en": "Prisma Kaleva",
+        "popup": "Prisma Kaleva",
+        "text": "Prisma Kaleva\nSammonkatu 75, Tampere",
+        "city": "Tampere",
+        "city_sv": "Tampere",
+        "city_en": "Tampere",
+        "address": "Sammonkatu 75",
+        "address_en": "Sammonkatu 75",
+        "address_sv": "Sammonkatu 75",
+        "icon": {
+          "id": "icon_sales_point"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "32",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          23.666143,
+          61.519852
+        ]
+      },
+      "properties": {
+        "category": "SALES_POINT",
+        "name": "Prisma Lielahti",
+        "name_fi": "Prisma Lielahti",
+        "name_se": "Prisma Lielahti",
+        "name_en": "Prisma Lielahti",
+        "popup": "Prisma Lielahti",
+        "text": "Prisma Lielahti\nTurvesuonkatu 2, Tampere",
+        "city": "Tampere",
+        "city_sv": "Tampere",
+        "city_en": "Tampere",
+        "address": "Turvesuonkatu 2",
+        "address_en": "Turvesuonkatu 2",
+        "address_sv": "Turvesuonkatu 2",
+        "icon": {
+          "id": "icon_sales_point"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "33",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          23.883108,
+          61.496218
+        ]
+      },
+      "properties": {
+        "category": "SALES_POINT",
+        "name": "Prisma Linnainmaa",
+        "name_fi": "Prisma Linnainmaa",
+        "name_se": "Prisma Linnainmaa",
+        "name_en": "Prisma Linnainmaa",
+        "popup": "Prisma Linnainmaa",
+        "text": "Prisma Linnainmaa\nLiikekatu 3, Tampere",
+        "city": "Tampere",
+        "city_sv": "Tampere",
+        "city_en": "Tampere",
+        "address": "Liikekatu 3",
+        "address_en": "Liikekatu 3",
+        "address_sv": "Liikekatu 3",
+        "icon": {
+          "id": "icon_sales_point"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "34",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          23.776973,
+          61.469094
+        ]
+      },
+      "properties": {
+        "category": "SALES_POINT",
+        "name": "Prisma Koivistonkylä",
+        "name_fi": "Prisma Koivistonkylä",
+        "name_se": "Prisma Koivistonkylä",
+        "name_en": "Prisma Koivistonkylä",
+        "popup": "Prisma Koivistonkylä",
+        "text": "Prisma Koivistonkylä\nLempääläntie 21, Tampere",
+        "city": "Tampere",
+        "city_sv": "Tampere",
+        "city_en": "Tampere",
+        "address": "Lempääläntie 21",
+        "address_en": "Lempääläntie 21",
+        "address_sv": "Lempääläntie 21",
+        "icon": {
+          "id": "icon_sales_point"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "35",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          23.839464,
+          61.6308
+        ]
+      },
+      "properties": {
+        "category": "SALES_POINT",
+        "name": "Sale Kämmenniemi",
+        "name_fi": "Sale Kämmenniemi",
+        "name_se": "Sale Kämmenniemi",
+        "name_en": "Sale Kämmenniemi",
+        "popup": "Sale Kämmenniemi",
+        "text": "Sale Kämmenniemi\nAunessalmenkatu 25, Tampere",
+        "city": "Tampere",
+        "city_sv": "Tampere",
+        "city_en": "Tampere",
+        "address": "Aunessalmenkatu 25",
+        "address_en": "Aunessalmenkatu 25",
+        "address_sv": "Aunessalmenkatu 25",
+        "icon": {
+          "id": "icon_sales_point"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "36",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          23.708867,
+          61.505407
+        ]
+      },
+      "properties": {
+        "category": "SALES_POINT",
+        "name": "Sale Pispala",
+        "name_fi": "Sale Pispala",
+        "name_se": "Sale Pispala",
+        "name_en": "Sale Pispala",
+        "popup": "Sale Pispala",
+        "text": "Sale Pispala\nPispalan valtatie 2, Tampere",
+        "city": "Tampere",
+        "city_sv": "Tampere",
+        "city_en": "Tampere",
+        "address": "Pispalan valtatie 2",
+        "address_en": "Pispalan valtatie 2",
+        "address_sv": "Pispalan valtatie 2",
+        "icon": {
+          "id": "icon_sales_point"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "37",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          23.636535,
+          61.298043
+        ]
+      },
+      "properties": {
+        "category": "SALES_POINT",
+        "name": "Sale Vesilahti",
+        "name_fi": "Sale Vesilahti",
+        "name_se": "Sale Vesilahti",
+        "name_en": "Sale Vesilahti",
+        "popup": "Sale Vesilahti",
+        "text": "Sale Vesilahti\nKaskitie 1, Vesilahti",
+        "city": "Vesilahti",
+        "city_sv": "Vesilahti",
+        "city_en": "Vesilahti",
+        "address": "Kaskitie 1",
+        "address_en": "Kaskitie 1",
+        "address_sv": "Kaskitie 1",
+        "icon": {
+          "id": "icon_sales_point"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "38",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          23.929121,
+          61.485983
+        ]
+      },
+      "properties": {
+        "category": "SALES_POINT",
+        "name": "Orimuskioski",
+        "name_fi": "Orimuskioski",
+        "name_se": "Orimuskioski",
+        "name_en": "Orimuskioski",
+        "popup": "Orimuskioski",
+        "text": "Orimuskioski\nOrimuskatu 8, Tampere",
+        "city": "Tampere",
+        "city_sv": "Tampere",
+        "city_en": "Tampere",
+        "address": "Orimuskatu 8",
+        "address_en": "Orimuskatu 8",
+        "address_sv": "Orimuskatu 8",
+        "icon": {
+          "id": "icon_sales_point"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "39",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.352397,
+          61.67715
+        ]
+      },
+      "properties": {
+        "category": "SALES_POINT",
+        "name": "K-Supermarket Orivesi",
+        "name_fi": "K-Supermarket Orivesi",
+        "name_se": "K-Supermarket Orivesi",
+        "name_en": "K-Supermarket Orivesi",
+        "popup": "K-Supermarket Orivesi",
+        "text": "K-Supermarket Orivesi\nAihtiantie 10, Orivesi",
+        "city": "Orivesi",
+        "city_sv": "Orivesi",
+        "city_en": "Orivesi",
+        "address": "Aihtiantie 10",
+        "address_en": "Aihtiantie 10",
+        "address_sv": "Aihtiantie 10",
+        "icon": {
+          "id": "icon_sales_point"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "40",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          23.760179,
+          61.500397
+        ]
+      },
+      "properties": {
+        "category": "SERVICE_POINT",
+        "name": "Nyssen asiakaspalvelu",
+        "name_fi": "Nyssen asiakaspalvelu",
+        "name_se": "Nyssen asiakaspalvelu",
+        "name_en": "Nysse customer service",
+        "popup": "Nyssen asiakaspalvelu",
+        "text": "Nyssen asiakaspalvelu\nFrenckellinaukio 2 B, Tampere",
+        "city": "Tampere",
+        "city_sv": "Tampere",
+        "city_en": "Tampere",
+        "address": "Frenckellinaukio 2 B",
+        "address_en": "Frenckellinaukio 2 B",
+        "address_sv": "Frenckellinaukio 2 B",
+        "icon": {
+          "id": "icon_service_point",
+          "svg": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 345.83 345.83\">\n  <defs>\n    <style>\n      .cls-1 {\n        fill: #fff;\n      }\n\n      .cls-2 {\n        fill: #1c57cf;\n      }\n    </style>\n  </defs>\n  <g id=\"sininen_pallotausta\">\n    <rect class=\"cls-2\" y=\"0\" width=\"345.83\" height=\"345.83\" rx=\"48.19\" ry=\"48.19\"/>\n  </g>\n  <g id=\"NYSSE_VALKOINEN\" data-name=\"NYSSE VALKOINEN\">\n    <path class=\"cls-1\" d=\"M256.12,238.51s0-.06,0-.09c.05,7.4-4.6,14.32-12,16.79-1.85.62-3.72.91-5.57.91-7.36,0-14.21-4.65-16.67-12.01-5.94-17.79-26.99-38.19-57.75-55.98-16.29-9.41-29.12-18.76-39.25-27.72v78.12c0,9.71-7.87,17.58-17.58,17.58s-17.58-7.87-17.58-17.58V107.62s0-.08,0-.12v-.21s0-.09,0-.13c0,.03,0,.06,0,.08.02-7.36,4.69-14.21,12.07-16.64,9.22-3.04,19.16,1.97,22.2,11.19,5.83,17.69,26.87,38.07,57.73,55.91,10.81,6.25,25.55,15.78,39.25,27.93v-78.34c0-9.71,7.87-17.58,17.58-17.58s17.58,7.87,17.58,17.58v130.87s0,.05,0,.07v.27Z\"/>\n  </g>\n</svg>"
+        }
+      }
+    }
+  ]
+}

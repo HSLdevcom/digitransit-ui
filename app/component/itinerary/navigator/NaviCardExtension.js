@@ -1,7 +1,7 @@
 import React from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, intlShape } from 'react-intl';
 import Icon from '../../Icon';
 import StopCode from '../../StopCode';
 import PlatformNumber from '../../PlatformNumber';
@@ -17,8 +17,12 @@ import { getDestinationProperties, LEGTYPE, withRealTime } from './NaviUtils';
 import { getRouteMode } from '../../../util/modeUtils';
 import RouteNumberContainer from '../../RouteNumberContainer';
 import NaviBoardingInfo from './NaviBoardingInfo';
+import { getModeIconColor } from '../../../util/colorUtils';
 
-const NaviCardExtension = ({ legType, leg, nextLeg, time }, { config }) => {
+const NaviCardExtension = (
+  { legType, leg, nextLeg, time },
+  { config, intl },
+) => {
   const { stop, name, rentalVehicle, vehicleParking, vehicleRentalStation } =
     leg ? leg.to : nextLeg.from;
   const { code, platformCode, zoneId, vehicleMode } = stop || {};
@@ -48,8 +52,7 @@ const NaviCardExtension = ({ legType, leg, nextLeg, time }, { config }) => {
         ? 'navileg-one-intermediate-stop'
         : 'navileg-intermediate-stops';
     const mode = getRouteMode(route, config);
-    const iconColor =
-      config.colors.iconColors[`mode-${mode}`] || leg.route.color;
+    const iconColor = getModeIconColor(config, mode) || leg.route.color;
     return (
       <div className="extension">
         <div className="extension-routenumber">
@@ -65,7 +68,7 @@ const NaviCardExtension = ({ legType, leg, nextLeg, time }, { config }) => {
         </div>
         <div className="extension-divider" />
         <div className="stop-count">
-          <Icon img="navi-intermediatestops" color={iconColor} />
+          <Icon img="navi-intermediatestops" color={iconColor} omitViewBox />
           <FormattedMessage
             id={translationId}
             values={{ stopCount }}
@@ -84,6 +87,7 @@ const NaviCardExtension = ({ legType, leg, nextLeg, time }, { config }) => {
           height={2}
           width={2}
           className={`destination-icon ${destination.className}`}
+          color={destination.iconColor}
         />
         <div className="destination">
           {destination.name}
@@ -134,10 +138,10 @@ const NaviCardExtension = ({ legType, leg, nextLeg, time }, { config }) => {
   if (legType === LEGTYPE.MOVE && nextLeg?.transitLeg) {
     const { headsign, route, start } = nextLeg;
     const hs = headsign || nextLeg.trip?.tripHeadsign;
-    const remainingDuration = Math.max(
+    const remainingDuration = `${Math.max(
       Math.ceil((legTime(start) - time) / 60000),
       0,
-    ); // ms to minutes, >= 0
+    )} ${intl.formatMessage({ id: 'minute-short' })}`; // ms to minutes, >= 0
     const rt = nextLeg.realtimeState === 'UPDATED';
     const values = {
       duration: withRealTime(rt, remainingDuration),
@@ -160,10 +164,10 @@ const NaviCardExtension = ({ legType, leg, nextLeg, time }, { config }) => {
   }
 
   return (
-    <div className="extension">
+    <>
       <div className="extension-divider" />
       {stopInformation(true)}
-    </div>
+    </>
   );
 };
 NaviCardExtension.propTypes = {
@@ -181,6 +185,7 @@ NaviCardExtension.defaultProps = {
 
 NaviCardExtension.contextTypes = {
   config: configShape.isRequired,
+  intl: intlShape.isRequired,
 };
 
 export default NaviCardExtension;

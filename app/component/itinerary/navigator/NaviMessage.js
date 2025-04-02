@@ -14,10 +14,14 @@ function NaviMessage(
 
   const handleRemoveClick = () => {
     setRemovingIndex(index);
-    setTimeout(() => {
-      handleRemove(index);
-    }, 500);
   };
+
+  const handleAnimationEnd = ({ target }) => {
+    if (target.classList.contains('slide-out-right')) {
+      handleRemove(index);
+    }
+  };
+
   let iconId;
   let color;
   switch (severity) {
@@ -44,6 +48,7 @@ function NaviMessage(
         removingIndex === index ? 'slide-out-right' : '',
         `${severity.toLowerCase()}`,
       )}
+      onAnimationEnd={handleAnimationEnd}
     >
       <Icon img={iconId} height={1.4} width={1.4} color={color} />
       {children}

@@ -1,6 +1,6 @@
 {
   "name": "@digitransit-search-util/digitransit-search-util-helpers",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "digitransit-search-util helpers module",
   "main": "index.js",
   "publishConfig": {
@@ -21,7 +21,7 @@
   "author": "Digitransit Authors",
   "license": "(AGPL-3.0 OR EUPL-1.2)",
   "dependencies": {
-    "@digitransit-search-util/digitransit-search-util-is-duplicate": "2.0.0",
+    "@digitransit-search-util/digitransit-search-util-is-duplicate": "2.1.0",
     "lodash": "4.17.21"
   }
 }

@@ -13,9 +13,14 @@ const StartNavi = ({ startNavigation }, context) => {
   return (
     <div className="navi-start-container">
       <button type="button" onClick={startNavigation}>
-        <Icon img="icon-icon_navigation" color={color} height={2} width={2} />
+        <Icon
+          className="navigation-icon"
+          img="icon-icon_navigation"
+          color={color}
+          omitViewBox
+        />
         <div className="content">
-          <FormattedMessage tagName="div" id="new-feature" />
+          <FormattedMessage tagName="div" id="new-route" />
           <FormattedMessage tagName="h3" id="navigation-description" />
         </div>
         <Icon

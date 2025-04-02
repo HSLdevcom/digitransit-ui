@@ -55,6 +55,14 @@ export default configMerger(walttiConfig, {
         url: '/assets/geojson/tre_zone_lines_20240108.geojson',
         isOffByDefault: true,
       },
+      {
+        name: {
+          fi: 'Myyntipisteet',
+          sv: 'Servicekontorer',
+          en: 'Service points',
+        },
+        url: '/assets/temporary/tampere-servicepoints-20250305.geojson',
+      },
     ],
   },
 

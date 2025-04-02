@@ -20,9 +20,6 @@ const SUGGESTION_URL = process.env.CONTENT_DOMAIN
   ? `${process.env.CONTENT_DOMAIN}/api/v1/search/suggestions`
   : 'https://content.hsl.fi/api/v1/search/suggestions'; // old url
 
-const localStorageEmitter =
-  process.env.USE_EMITTER && rootLink + '/local-storage-emitter';
-
 const IS_DEV =
   process.env.RUN_ENV === 'development' ||
   process.env.NODE_ENV !== 'production';
@@ -453,8 +450,6 @@ export default {
     sv: 'att-resa/Trafiken-just-nu',
   },
 
-  localStorageEmitter,
-
   vehicleRental: {
     minZoomStopsNearYou: 10,
     showFullInfo: true,
@@ -559,6 +554,7 @@ export default {
   bikeBoardingModes: {
     RAIL: { showNotification: false },
     FERRY: { showNotification: false },
+    SUBWAY: { showNotification: false },
   },
 
   // Notice! Turning on this setting forces the search for car routes (for the CO2 comparison only).
@@ -773,6 +769,7 @@ export default {
   navigationLogo: 'hsl/navigator-logo.svg',
   thumbsUpGraphic: 'hsl/thumbs-up.svg',
   trafficLightGraphic: 'hsl/traffic-light.svg',
+  naviGeolocationGraphic: 'hsl/geolocation.svg',
 
   // features that should not be deployed to production
   experimental: {

@@ -14,10 +14,12 @@ import NaviCardContainer from './NaviCardContainer';
 import NavigatorOutroModal from './navigatoroutro/NavigatorOutroModal';
 import NaviStarter from './NaviStarter';
 import { DESTINATION_RADIUS, summaryString } from './NaviUtils';
+import { addAnalyticsEvent } from '../../../util/analyticsUtils';
 
-const ADDITIONAL_ARRIVAL_TIME = 60000; // 60 seconds in ms
+const ADDITIONAL_ARRIVAL_TIME = 300000; // 5 min in ms
 const LEGLOG = true;
 const TOPBAR_PADDING = 8; // pixels
+const START_BUFFER = 120000; // 2 min in ms
 
 function NaviContainer(
   {
@@ -30,6 +32,7 @@ function NaviContainer(
     mapLayerRef,
     updateLegs,
     forceStartAt,
+    settings,
   },
   { executeAction, getStore, router },
 ) {
@@ -43,6 +46,10 @@ function NaviContainer(
   } else {
     hasPosition.current = true;
   }
+  const { vehicles } = getStore('RealTimeInformationStore');
+
+  // TODO disable after testing
+  const simulateTransferProblem = LEGLOG && settings.bikeSpeed > 8;
 
   const {
     realTimeLegs,
@@ -59,12 +66,14 @@ function NaviContainer(
     relayEnvironment,
     legs,
     position,
+    vehicles,
     updateLegs,
     forceStartAt,
+    simulateTransferProblem,
   );
 
   useEffect(() => {
-    mapRef?.enableMapTracking(); // try always, shows annoying notifier
+    setTimeout(() => mapRef?.enableMapTracking(), 10); // try always, shows annoying notifier
   }, [mapRef, hasPosition.current]);
 
   useEffect(() => {
@@ -84,6 +93,12 @@ function NaviContainer(
     }
     prevPos.current = position;
   }, [time]);
+
+  useEffect(() => {
+    if (firstLeg && time > legTime(firstLeg.start) - START_BUFFER) {
+      startItinerary(Date.now());
+    }
+  }, [firstLeg]);
 
   if (loading || !realTimeLegs?.length) {
     return null;
@@ -105,7 +120,16 @@ function NaviContainer(
   const containerTopPosition =
     mapLayerRef.current.getBoundingClientRect().top + TOPBAR_PADDING;
 
-  const isPastStart = time > legTime(firstLeg.start);
+  const isPastStart = time > legTime(firstLeg.start) || !!firstLeg.forceStart;
+
+  const handleNavigatorEndClick = () => {
+    addAnalyticsEvent({
+      category: 'Itinerary',
+      event: 'navigator',
+      action: 'navigation_end_manual',
+    });
+    router.push('/');
+  };
 
   return (
     <>
@@ -129,12 +153,13 @@ function NaviContainer(
           isJourneyCompleted={isJourneyCompleted}
           previousLeg={previousLeg}
           containerTopPosition={containerTopPosition}
+          settings={settings}
         />
       )}
       {isJourneyCompleted && isNavigatorIntroDismissed && (
         <NavigatorOutroModal
           destination={lastLeg.to.name}
-          onClose={() => router.push('/')}
+          onClose={handleNavigatorEndClick}
         />
       )}
       <NaviBottom
@@ -158,6 +183,8 @@ NaviContainer.propTypes = {
     .isRequired,
   updateLegs: PropTypes.func.isRequired,
   forceStartAt: PropTypes.number,
+  // eslint-disable-next-line
+  settings: PropTypes.object.isRequired,
 };
 
 NaviContainer.contextTypes = {

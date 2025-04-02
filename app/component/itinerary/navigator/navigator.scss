@@ -7,12 +7,13 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    background-color: $infobox-color-generic-blue;
+    background-color: $navigation-background-color;
     margin: 4px 0 0 0;
     padding: var(--space-m);
     gap: var(--space-s);
     font-weight: normal;
     border-radius: $border-radius-bigger;
+    letter-spacing: $letter-spacing;
 
     .content {
       display: flex;
@@ -36,6 +37,11 @@
       margin-left: auto;
     }
   }
+
+  .navigation-icon {
+    width: $navigation-icon-size;
+    height: $navigation-icon-size;
+  }
 }
 
 .bar {
@@ -50,6 +56,11 @@
   font-size: $font-size-normal;
   font-weight: $font-weight-medium;
   text-align: left;
+  margin-bottom: 4px;
+}
+
+.navi-header-chain {
+  display: block;
 }
 
 .navi-card-container {
@@ -60,7 +71,7 @@
   svg.mode {
     width: 32px;
     height: 32px;
-    color: black;
+    color: $black;
   }
 
   &.slide-out {
@@ -79,32 +90,57 @@
 
 .navi-transfer-container {
   display: inline-flex;
+  vertical-align: middle;
+  margin-bottom: 2px;
 
   .navi-transfer {
     display: flex;
     flex-direction: row;
-    height: 18px;
+    align-items: center;
 
     .arrow-center {
-      padding-top: 4px;
+      .icon-container {
+        display: flex;
+        align-self: stretch;
+        height: 18px;
+        width: 14px;
+
+        .icon {
+          padding: 1px;
+        }
+      }
     }
 
-    .route-number {
-      font-size: $font-size-xxsmall;
-      min-width: 12px;
+    .bar {
+      height: 18px;
 
-      .vcenter-children {
-        display: flex;
-        margin-top: 1px;
+      .route-number {
+        font-size: $font-size-xxsmall;
+        min-width: fit-content;
+        height: 18px;
+        display: inline-flex;
 
-        .vehicle-number {
-          color: white;
-          padding: 0 8px 0 2px;
-        }
+        .vcenter-children {
+          display: flex;
+          align-items: center;
 
-        .special-icon {
-          padding: 2px 2px 0 1px;
-          height: 14px;
+          .vehicle-number-container-v {
+            display: flex;
+
+            .vehicle-number {
+              color: white;
+              padding: 0 8px 0 2px;
+              font-size: 15px;
+              line-height: 15px;
+            }
+
+            .special-icon {
+              .icon {
+                width: 16px;
+                height: 16px;
+              }
+            }
+          }
         }
       }
     }
@@ -114,22 +150,7 @@
 .route-info {
   display: flex;
   align-self: flex-start;
-  margin-bottom: var(--space-xcs);
-
-  .route-number {
-    display: flex;
-    flex-direction: row;
-    margin-top: 4px;
-
-    .vcenter-children {
-      .vehicle-number {
-        color: white;
-        margin-top: 5px;
-      }
-
-      display: flex;
-    }
-  }
+  margin-bottom: var(--space-xs);
 
   .expand {
     margin-left: var(--space-m);
@@ -144,6 +165,42 @@
   }
 }
 
+.extension-routenumber,
+.route-info {
+  .route-number {
+    font-size: $font-size-xxsmall;
+    min-width: fit-content;
+    height: fit-content;
+    display: inline-flex;
+    vertical-align: middle;
+
+    .vcenter-children {
+      .vehicle-number {
+        color: white;
+        margin-top: 5px;
+        line-height: 24px;
+      }
+
+      display: flex;
+    }
+
+    .icon,
+    .special-icon {
+      height: 24px;
+      font-size: 24px;
+    }
+
+    .vehicle-number-container-v {
+      .vehicle-number {
+        margin: 0;
+        font-size: $font-size-normal;
+        padding: 0 var(--space-s) 0 var(--space-xxs);
+        line-height: 24px;
+      }
+    }
+  }
+}
+
 .boarding {
   display: flex;
   margin-top: 3px;
@@ -151,37 +208,64 @@
   flex-direction: column;
 
   &.with-icon {
-    margin-left: var(--space-xl);
+    margin-left: 40px;
 
     .wait-duration {
-      margin-top: var(--space-xs);
       margin-left: var(--space-l);
     }
   }
 
-  .wait-duration {
-    margin-top: var(--space-xs);
-  }
-
-  .icon {
-    margin-top: 2px;
-    height: 25px;
-    width: 25px;
-  }
-
   .headsign {
-    margin-left: 10px;
+    margin-left: var(--space-xs);
     font-size: $font-size-small;
     max-width: 85%;
     text-align: left;
     align-content: center;
+    line-height: 100%;
+  }
+}
+
+.compact-boarding {
+  display: flex;
+  margin-top: 3px;
+  align-items: flex-start;
+  flex-direction: row;
+  font-size: $font-size-xsmall;
+  font-weight: $font-weight-book;
+
+  .bar {
+    display: flex;
+  }
+
+  .route-number {
+    margin-top: 1px;
+    height: 16px;
+
+    .vcenter-children {
+      display: inline-flex;
+      align-self: stretch;
+
+      .special-icon {
+        font-size: $font-size-xsmall;
+        height: 18px;
+
+        .icon {
+          width: 16px;
+          height: 16px;
+        }
+      }
+    }
+  }
+
+  .wait-duration {
+    margin-left: var(--space-s);
   }
 }
 
 .navi-top-card {
   border-radius: var(--radius-m);
   min-height: 70px;
-  color: black;
+  color: $black;
   background-color: white !important;
   display: flex;
   align-items: center;
@@ -191,10 +275,7 @@
   cursor: default;
   font-size: $font-size-normal;
   font-weight: $font-weight-book;
-
-  &.expanded {
-    max-height: unset;
-  }
+  z-index: 1;
 
   .navi-top-card-arrow {
     .inverted {
@@ -204,17 +285,17 @@
 
   .main-card {
     width: inherit;
-    margin: var(--space-m) var(--space-l);
+    margin: var(--space-m) var(--space-m);
 
     .content {
       display: flex;
       flex-direction: row;
-      color: black;
+      color: $black;
       justify-content: center;
 
       svg.mode {
         margin-right: var(--space-s);
-        margin-top: var(--space-xxs);
+        margin-top: 1px;
       }
     }
 
@@ -223,6 +304,7 @@
       align-items: flex-start;
       flex-direction: column;
       width: 100%;
+      margin-right: var(--space-m);
 
       &.expanded {
         margin-bottom: 0;
@@ -230,8 +312,6 @@
 
       .vehicle-leg {
         display: flex;
-        margin-top: var(--space-xs);
-        width: 80%;
         text-align: left;
       }
     }
@@ -244,14 +324,12 @@
       font-size: $font-size-xsmall;
       font-weight: $font-weight-book;
       display: flex;
-      margin-top: 4px;
     }
 
     .extension {
       flex-direction: column;
-      max-height: 250px;
-      margin-bottom: var(--space-s);
-      margin-top: var(--space-m);
+      transition: all 0.4s ease;
+      overflow-y: hidden;
 
       &.no-gap {
         margin-top: 0;
@@ -271,42 +349,27 @@
         display: flex;
         margin-left: 35px;
 
-        .icon {
-          height: 16px;
-          width: 16px;
-          margin-right: var(--space-xxs);
-          margin-top: 2px;
+        .icon-container {
+          display: flex;
+          align-items: center;
+
+          .icon {
+            height: 16px;
+            width: 16px;
+          }
         }
       }
 
       .extension-routenumber {
         display: flex;
         flex-direction: row;
-        margin-left: 35px;
+        margin-left: 40px;
         margin-bottom: var(--space-s);
         text-align: left;
+        margin-top: var(--space-m);
 
         .bar {
           border-radius: $border-radius;
-        }
-
-        .route-number {
-          .vcenter-children {
-            .vehicle-number {
-              color: white;
-              margin-top: 5px;
-            }
-
-            display: flex;
-          }
-        }
-
-        .line {
-          text-align: center;
-
-          .icon {
-            font-size: 24px;
-          }
         }
 
         .headsign {
@@ -316,6 +379,7 @@
           justify-content: center;
           font-size: $font-size-small;
           max-width: 85%;
+          line-height: 100%;
         }
       }
 
@@ -335,14 +399,9 @@
 
       .wait-leg {
         display: flex;
-        margin-top: 3px;
         flex-direction: column;
         align-items: flex-start;
         margin-left: var(--space-m);
-
-        .wait-duration {
-          margin-top: var(--space-xs);
-        }
 
         .icon {
           margin-top: 2px;
@@ -412,9 +471,9 @@
         text-align: left;
 
         .details {
-          > * {
-            margin-right: var(--space-xs);
-          }
+          display: flex;
+          flex-direction: row;
+          align-items: center;
 
           .address {
             color: #888;
@@ -422,14 +481,31 @@
 
           .platform-short {
             width: unset;
+            font-family: $font-family;
+            font-size: $font-size-small;
+            letter-spacing: $letter-spacing;
+            display: inline-flex;
+            align-items: center;
+
+            .platform-number-wrapper {
+              padding: 0 var(--space-xxs);
+              height: 16px;
+              display: inline-flex;
+              justify-content: center;
+              align-items: center;
+              line-height: 13px;
+              font-size: 11px;
+            }
           }
 
           .zone-icon-container {
-            margin-top: 2px;
+            .circle {
+              width: 16px;
+              height: 16px;
+              font-size: 0.9rem;
+              padding: 0 2px 0 2px;
+            }
           }
-
-          display: flex;
-          flex-direction: row;
         }
       }
     }
@@ -499,6 +575,8 @@
   background: white;
   width: 100%;
   border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  box-shadow: 0 -10px 10px 0 rgba(0, 52, 86, 0.1);
+  outline: none;
 
   &.slide-in {
     animation: slideUpFromBottom 0.5s ease-in-out;
@@ -543,12 +621,18 @@
     font-size: $font-size-xsmall;
     font-weight: $font-weight-book;
     margin-top: 5px;
+    color: $black;
+    line-height: 1.4;
 
     .icon-container {
       display: flex;
       align-self: flex-start;
-      height: 16px;
-      width: 16px;
+      align-items: center;
+
+      .icon {
+        width: 16px;
+        height: 16px;
+      }
     }
 
     .navi-info-content {
@@ -561,7 +645,7 @@
     }
 
     &.info {
-      background-color: #e5f2fa;
+      background-color: $infobox-color-generic-blue;
     }
 
     &.warning {
@@ -578,14 +662,12 @@
       background: #0074bf;
       color: #fff;
       border-radius: 999px; // var(--radius-radius-medium, 8px);
-      margin-top: var(--space-xxs);
+      margin-top: var(--space-s);
       width: 220px;
     }
 
     &.slide-out-right {
-      animation:
-        slideLeft 0.5s ease-out forwards,
-        fadeOut 0.5s ease-out forwards;
+      animation: slideLeft 0.5s cubic-bezier(0.3, -0.05, 0.7, -0.5);
       pointer-events: none;
     }
 

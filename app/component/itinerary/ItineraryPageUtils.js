@@ -495,6 +495,20 @@ export function parseCarTransitPlan(carTransitPlan) {
   };
 }
 
+export function getSortedEdges(edges, arriveBy) {
+  const sortedEdges = [...edges];
+  sortedEdges.sort((a, b) => {
+    if (a.node.end === b.node.end) {
+      return 0;
+    }
+    if (arriveBy) {
+      return b.node.end > a.node.end ? 1 : -1;
+    }
+    return a.node.end > b.node.end ? 1 : -1;
+  });
+  return sortedEdges;
+}
+
 /**
  * Combine a scooter edge with the main transit edges.
  */
@@ -502,6 +516,7 @@ export function mergeScooterTransitPlan(
   scooterPlan,
   transitPlan,
   allowDirectScooterJourneys,
+  arriveBy,
 ) {
   const transitPlanEdges = transitPlan.edges || [];
   const scooterTransitEdges = scooterEdges(
@@ -521,22 +536,21 @@ export function mergeScooterTransitPlan(
   }
 
   return {
-    edges: [
-      ...scooterTransitEdges.slice(0, 1),
-      ...transitPlanEdges.slice(0, maxTransitEdges),
-    ]
-      .sort((a, b) => {
-        return a.node.end > b.node.end;
-      })
-      .map(edge => {
-        return {
-          ...edge,
-          node: {
-            ...edge.node,
-            legs: compressLegs(edge.node.legs),
-          },
-        };
-      }),
+    edges: getSortedEdges(
+      [
+        ...scooterTransitEdges.slice(0, 1),
+        ...transitPlanEdges.slice(0, maxTransitEdges),
+      ],
+      arriveBy,
+    ).map(edge => {
+      return {
+        ...edge,
+        node: {
+          ...edge.node,
+          legs: compressLegs(edge.node.legs),
+        },
+      };
+    }),
   };
 }
 

@@ -1,8 +1,8 @@
-import distance from '@digitransit-search-util/digitransit-search-util-distance';
 import { matchShape, routerShape } from 'found';
 import PropTypes from 'prop-types';
 import React, { useEffect, useRef, useState } from 'react';
 import { intlShape } from 'react-intl';
+import { addAnalyticsEvent } from '../../../util/analyticsUtils';
 import { isAnyLegPropertyIdentical, legTime } from '../../../util/legUtils';
 import { configShape, legShape } from '../../../util/shapes';
 import { getTopics, updateClient } from '../ItineraryPageUtils';
@@ -35,8 +35,12 @@ const getLegType = (
   interlineWithPreviousLeg,
 ) => {
   let legType;
-  if (!firstLeg.forceStart && time < legTime(firstLeg.start)) {
-    legType = LEGTYPE.PENDING;
+  if (time < legTime(firstLeg.start)) {
+    if (!firstLeg.forceStart) {
+      legType = LEGTYPE.PENDING;
+    } else {
+      legType = LEGTYPE.WAIT;
+    }
   } else if (leg) {
     if (!leg.transitLeg) {
       if (countAtLegEnd >= COUNT_AT_LEG_END) {
@@ -67,6 +71,7 @@ function NaviCardContainer(
     previousLeg,
     isJourneyCompleted,
     containerTopPosition,
+    settings,
   },
   context,
 ) {
@@ -110,6 +115,11 @@ function NaviCardContainer(
   };
 
   useEffect(() => {
+    addAnalyticsEvent({
+      category: 'Itinerary',
+      event: 'navigator',
+      action: 'start_navigation',
+    });
     updateClient(getNaviTopics(), context);
   }, []);
 
@@ -128,6 +138,7 @@ function NaviCardContainer(
         messages,
         makeNewItinerarySearch,
         config,
+        settings,
       ),
     );
 
@@ -158,7 +169,7 @@ function NaviCardContainer(
     if (nextLeg?.transitLeg) {
       // Messages for NaviStack.
       addMessages(incomingMessages, [
-        ...getTransitLegState(nextLeg, intl, messages, time),
+        ...getTransitLegState(nextLeg, intl, messages, time, settings),
         ...getAdditionalMessages(
           currentLeg,
           nextLeg,
@@ -179,6 +190,7 @@ function NaviCardContainer(
       if (currentLeg) {
         focusToLeg?.(currentLeg);
       }
+      legEndRef.current = 0;
     }
 
     // Update messages if there are changes
@@ -215,12 +227,9 @@ function NaviCardContainer(
       position &&
       currentLeg &&
       nextLeg && // itinerary end has its own logic
-      distance(position, currentLeg.to) <= DESTINATION_RADIUS
+      tailLength <= DESTINATION_RADIUS
     ) {
       legEndRef.current += 1;
-    } else {
-      // Todo: this works in transit legs, but do we need additional logic for bikes / scooters?
-      legEndRef.current = 0;
     }
 
     return () => clearTimeout(timeoutId);
@@ -273,7 +282,7 @@ NaviCardContainer.propTypes = {
     lon: PropTypes.number,
     status: PropTypes.string,
     locationCount: PropTypes.number,
-    watchId: PropTypes.string,
+    watchId: PropTypes.number,
   }),
   tailLength: PropTypes.number.isRequired,
   containerTopPosition: PropTypes.number.isRequired,
@@ -283,6 +292,8 @@ NaviCardContainer.propTypes = {
   lastLeg: legShape,
   previousLeg: legShape,
   isJourneyCompleted: PropTypes.bool,
+  // eslint-disable-next-line
+  settings: PropTypes.object.isRequired,
 };
 
 NaviCardContainer.defaultProps = {

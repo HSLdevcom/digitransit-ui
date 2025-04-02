@@ -91,15 +91,29 @@ export const getAlternativeFares = (zones, currentFares, allFares) => {
  *
  * @param {*} config configuration.
  */
-export const shouldShowFareInfo = config =>
-  (!config.showTicketLinkOnlyWhenTesting ||
-    window.localStorage
-      .getItem('favouriteStore')
-      ?.includes('Lippulinkkitestaus2025')) &&
-  config.showTicketInformation &&
-  config.availableTickets &&
-  Array.isArray(config.feedIds) &&
-  config.feedIds.some(feedId => config.availableTickets[feedId]);
+export const shouldShowFareInfo = (config, itinerary) => {
+  if (
+    config.externalFareRouteIds &&
+    itinerary?.legs?.some(
+      leg =>
+        leg.route &&
+        config.externalFareRouteIds.includes(leg.route.gtfsId.split(':')[1]),
+    )
+  ) {
+    return false;
+  }
+
+  return (
+    (!config.showTicketLinkOnlyWhenTesting ||
+      window.localStorage
+        .getItem('favouriteStore')
+        ?.includes('Lippulinkkitestaus2025')) &&
+    config.showTicketInformation &&
+    config.availableTickets &&
+    Array.isArray(config.feedIds) &&
+    config.feedIds.some(feedId => config.availableTickets[feedId])
+  );
+};
 
 export const shouldShowFarePurchaseInfo = (config, breakpoint, fares) => {
   const unknownFares = fares?.some(fare => fare.isUnknown);
@@ -110,6 +124,7 @@ export const shouldShowFarePurchaseInfo = (config, breakpoint, fares) => {
   if (huaweiPattern.test(userAgent) || windowsPattern.test(userAgent)) {
     return false;
   }
+
   return (
     !unknownFares &&
     fares?.length === 1 &&
