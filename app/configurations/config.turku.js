@@ -37,10 +37,39 @@ const CONSTANT_OPERATION_PARAGRAPHS = {
 };
 const walttiConfig = require('./config.waltti').default;
 
+const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
+const OTP_URL = process.env.OTP_URL || `${API_URL}/routing/v2/waltti-alt/`;
+const MAP_URL = process.env.MAP_URL || 'https://dev-cdn.digitransit.fi';
+const POI_MAP_PREFIX = `${MAP_URL}/map/v3/waltti-alt`;
+
 export default configMerger(walttiConfig, {
   CONFIG,
 
-  feedIds: ['FOLI', 'FUNI', 'TurkuTest'],
+  feedIds: ['TurkuTrunkroutes'],
+
+  URL: {
+    OTP: OTP_URL,
+    STOP_MAP: {
+      default: `${POI_MAP_PREFIX}/fi/stops,stations/`,
+      sv: `${POI_MAP_PREFIX}/sv/stops,stations/`,
+    },
+    RENTAL_STATION_MAP: {
+      default: `${POI_MAP_PREFIX}/fi/rentalStations/`,
+    },
+    REALTIME_RENTAL_STATION_MAP: {
+      default: `${POI_MAP_PREFIX}/fi/realtimeRentalStations/`,
+    },
+    PARK_AND_RIDE_MAP: {
+      default: `${POI_MAP_PREFIX}/en/vehicleParking/`,
+      sv: `${POI_MAP_PREFIX}/sv/vehicleParking/`,
+      fi: `${POI_MAP_PREFIX}/fi/vehicleParking/`,
+    },
+    PARK_AND_RIDE_GROUP_MAP: {
+      default: `${POI_MAP_PREFIX}/en/vehicleParkingGroups/`,
+      sv: `${POI_MAP_PREFIX}/sv/vehicleParkingGroups/`,
+      fi: `${POI_MAP_PREFIX}/fi/vehicleParkingGroups/`,
+    },
+  },
 
   searchParams: {
     'boundary.rect.min_lat': 59.963388,
@@ -205,7 +234,36 @@ export default configMerger(walttiConfig, {
     ],
   },
 
-  staticMessages: [],
+  staticMessages: [
+    {
+      id: '2',
+      priority: -1,
+      content: {
+        fi: [
+          {
+            type: 'text',
+            content:
+              'Runkolinjasto alkaa 1.7.2025. Voit tarkistaa 1.7. alkavien linjojen ja reittien tiedot.',
+          },
+        ],
+        en: [
+          {
+            type: 'text',
+            content:
+              'The trunk line network starts on 1 July 2025. Here you can look at how the new lines and routes will look like starting 1 July.',
+          },
+        ],
+        sv: [
+          {
+            type: 'text',
+            content:
+              'Stomlinjenätet börjar 1.7.2025. Du kan här titta på de nya linjerna och rutterna som träder i kraft 1.7.',
+          },
+        ],
+      },
+    },
+  ],
+
   geoJson: {
     layerConfigUrl: 'https://data.foli.fi/geojson/reittiopas',
   },
@@ -226,4 +284,7 @@ export default configMerger(walttiConfig, {
     FERRY: 0.6,
     FUNICULAR: 0.1,
   },
+
+  realTime: undefined,
+  realTimePatch: undefined,
 });

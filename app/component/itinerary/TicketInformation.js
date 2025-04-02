@@ -9,7 +9,7 @@ import Icon from '../Icon';
 import { getAlternativeFares, formatFare } from '../../util/fareUtils';
 
 export default function TicketInformation(
-  { fares, zones, legs },
+  { fares, zones, legs, ticketLink },
   { config, intl },
 ) {
   if (fares.length === 0) {
@@ -58,8 +58,8 @@ export default function TicketInformation(
               )}
             </div>
           ) : (
-            (config.ticketLink && (
-              <a href={config.ticketLink} target="_blank" rel="noreferrer">
+            (ticketLink && (
+              <a href={ticketLink} target="_blank" rel="noreferrer">
                 <div className="ticket-identifier">
                   {config.useTicketIcons
                     ? renderZoneTicket(fare.ticketName, alternativeFares)
@@ -101,12 +101,14 @@ TicketInformation.propTypes = {
   legs: PropTypes.arrayOf(legShape),
   fares: PropTypes.arrayOf(fareShape),
   zones: PropTypes.arrayOf(PropTypes.string),
+  ticketLink: PropTypes.string,
 };
 
 TicketInformation.defaultProps = {
   fares: [],
   zones: [],
   legs: [],
+  ticketLink: null,
 };
 
 TicketInformation.contextTypes = {
