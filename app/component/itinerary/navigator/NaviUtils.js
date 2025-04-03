@@ -270,6 +270,7 @@ export const getAdditionalMessages = (
           </div>
         ),
         id: 'ticket',
+        notification: `${fares[0].ticketName} - ${formatFare(fares[0])}`,
       });
     }
   }
@@ -279,7 +280,7 @@ export const getAdditionalMessages = (
 export const getTransitLegState = (leg, intl, messages, time) => {
   const { start, realtimeState, from, mode, legId, route } = leg;
   const { scheduledTime, estimated } = start;
-
+  let notification;
   if (messages.get(legId)?.closed) {
     return [];
   }
@@ -298,7 +299,14 @@ export const getTransitLegState = (leg, intl, messages, time) => {
     const { delay } = estimated;
 
     const translationId = `navigation-mode-${delay > 0 ? 'late' : 'early'}`;
-
+    notification = intl.formatMessage(
+      {
+        id: translationId,
+      },
+      {
+        name: routeName,
+      },
+    );
     content = (
       <div className="navi-alert-content notification-header">
         <FormattedMessage id={translationId} values={{ name: routeName }} />
@@ -315,6 +323,17 @@ export const getTransitLegState = (leg, intl, messages, time) => {
     } else {
       severity = 'WARNING';
     }
+    notification = intl.formatMessage(
+      {
+        id: 'navileg-start-schedule',
+      },
+      {
+        route: shortName,
+        time: timeStr(scheduledTime),
+        mode: localizedMode,
+      },
+    );
+
     content = (
       <div className="navi-info-content">
         <span className="notification-header">
@@ -340,7 +359,10 @@ export const getTransitLegState = (leg, intl, messages, time) => {
           ? 'from-station'
           : 'from-stop';
     const stopOrStation = intl.formatMessage({ id: fromId });
-
+    notification = intl.formatMessage(
+      { id: 'navileg-start-realtime' },
+      { time: timeStr(estimated.time), stopOrStation, stopName: name },
+    );
     content = (
       <div className="navi-info-content">
         <span className="notification-header">
@@ -363,7 +385,10 @@ export const getTransitLegState = (leg, intl, messages, time) => {
     );
     severity = 'INFO';
   }
-  return [{ severity, content, id: legId, expiresOn: legTime(start) }];
+  notification = `${severity}: ${notification}`;
+  return [
+    { severity, content, id: legId, expiresOn: legTime(start), notification },
+  ];
 };
 
 export function itinerarySearchPath(time, leg, nextLeg, position, to) {

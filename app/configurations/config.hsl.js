@@ -772,5 +772,6 @@ export default {
   // features that should not be deployed to production
   experimental: {
     navigation: IS_DEV,
+    notifications: process.env.PUSH_NOTIFICATIONS,
   },
 };

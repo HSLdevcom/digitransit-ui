@@ -20,7 +20,14 @@ import usePrevious from './hooks/usePrevious';
 
 const COUNT_AT_LEG_END = 2; // update cycles within DESTINATION_RADIUS from leg.to
 const HIDE_TOPCARD_DURATION = 2000; // milliseconds
-
+function createNotification(title, content) {
+  if ('Notification' in window && Notification.permission === 'granted') {
+    return new Notification(title, {
+      body: content,
+    });
+  }
+  return null;
+}
 function addMessages(incomingMessages, newMessages) {
   newMessages.forEach(m => {
     incomingMessages.set(m.id, m);
@@ -75,7 +82,7 @@ function NaviCardContainer(
   // notifications that are shown to the user.
   const [activeMessages, setActiveMessages] = useState([]);
   const [legChanging, setLegChanging] = useState(false);
-
+  const [pushNotificationSend, setPushNotificationSend] = useState(new Map());
   const { isEqual: legChanged } = usePrevious(currentLeg, (prev, current) =>
     isAnyLegPropertyIdentical(prev, current, ['legId', 'mode']),
   );
@@ -90,7 +97,23 @@ function NaviCardContainer(
     msg.closed = true; // remember closing action
     setActiveMessages(activeMessages.filter((_, i) => i !== index));
   };
-
+  const notificationConsent = () => {
+    if (config.experimental.notifications && 'Notification' in window) {
+      if (
+        Notification.permission !== 'denied' &&
+        Notification.permission !== 'granted'
+      ) {
+        Notification.requestPermission().then(permission => {
+          if (permission === 'granted') {
+            createNotification(
+              'Notifications Approved',
+              'Notifications are now approved',
+            );
+          }
+        });
+      }
+    }
+  };
   // track only relevant vehicles for the journey.
   const getNaviTopics = () =>
     getTopics(
@@ -194,6 +217,20 @@ function NaviCardContainer(
       const keptMessages = previousValidMessages.filter(
         msg => !incomingMessages.get(msg.id),
       );
+      // TODO: Refactor this after functionality is properly tested
+      // with native mobile notifications.
+      if (config.experimental.notifications && 'Notification' in window) {
+        messages.forEach(m => {
+          const notificationSent = pushNotificationSend.get(m.id);
+          if (!notificationSent && m.notification) {
+            createNotification(m.id, m.notification);
+
+            setPushNotificationSend(
+              new Map(pushNotificationSend.set(m.id, true)),
+            );
+          }
+        });
+      }
       const newMessages = Array.from(incomingMessages.values());
       setActiveMessages([...keptMessages, ...newMessages]);
       setMessages(new Map([...messages, ...incomingMessages]));
@@ -243,9 +280,12 @@ function NaviCardContainer(
     className = 'show-card';
   }
   return (
+    // TODO Create proper button for asking notification permissions.
+    // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
     <div
       className={`navi-card-container ${className}`}
       style={{ top: containerTopPosition }}
+      onClick={notificationConsent}
     >
       <NaviCard
         leg={l}
