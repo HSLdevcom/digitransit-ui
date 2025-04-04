@@ -644,6 +644,14 @@
       width: 100%;
     }
 
+    .navi-alert-content {
+      display: flex;
+      align-self: flex-start;
+      margin-left: var(--space-s, 8px);
+      margin-right: var(--space-m, 16px);
+      width: 100%;
+    }
+
     &.info {
       background-color: $infobox-color-generic-blue;
     }

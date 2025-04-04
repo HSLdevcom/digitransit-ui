@@ -1,156 +1,56 @@
 import sortBy from 'lodash/sortBy';
 
-/**
- * @example
- * const oldRouteCollection = {
- *   [
- *     {
- *       type: 'FutureRoute',
- *       properties: {
- *         layer: 'futureRoute',
- *         origin: {
- *           name: 'Pasila',
- *           localadmin: 'Helsinki',
- *           coordinates: {
- *             lat: 60.198828,
- *             lon: 24.933514,
- *           },
- *         },
- *         destination: {
- *           name: 'Ilmala',
- *           localadmin: 'Helsinki',
- *           coordinates: {
- *             lat: 60.208466,
- *             lon: 24.919756,
- *           },
- *         },
- *         arriveBy: 'true',
- *         time: 1600866900,
- *         url: '/reitti/Pasila%2C%20Helsinki%3A%3A60.198828%2C24.933514/Ilmala%2C%20Helsinki%3A%3A60.208466%2C24.919756?arriveBy=true&time=1600866900',
- *       },
- *     },
- *     {
- *       type: 'FutureRoute',
- *       properties: {
- *         layer: 'futureRoute',
- *         origin: {
- *           name: 'Ilmala',
- *           localadmin: 'Helsinki',
- *           coordinates: {
- *             lat: 60.208466,
- *             lon: 24.919756,
- *           },
- *         },
- *         destination: {
- *           name: 'Pasila',
- *           localadmin: 'Helsinki',
- *           coordinates: {
- *             lat: 60.198828,
- *             lon: 24.933514,
- *           },
- *         },
- *         time: 1600877700,
- *         url: '/reitti/Ilmala%2C%20Helsinki%3A%3A60.208466%2C24.919756/Pasila%2C%20Helsinki%3A%3A60.198828%2C24.933514?arriveBy=true&time=1600877700',
- *       },
- *     },
- *   ],
- * }
- *
- * const newRoute = {
- *   origin: {
- *     address: 'Pasila, Helsinki',
- *     coordinates: { lat: 60.198828, lon: 24.933514 },
- *   },
- *   destination: {
- *     address: 'Myyrmäki, Vantaa',
- *     coordinates: { lat: 60.261238, lon: 24.854782 },
- *   },
- *   arriveBy: false,
- *   time: 1600888888,
- * };
- *
- * //add newRoute to oldRouteCollection
- * const newRouteCollection = addFutureRoute(newRoute, oldRouteCollection, { prefixItinerarySummary: 'reitti' });
- *
- * const url = createUrl(newRoute, { prefixItinerarySummary: 'reitti' });
- * //'/reitti/Pasila%2C%20Helsinki%3A%3A60.198828%2C24.933514/Myyrmäki%2C%20Vantaa%3A%3A60.261238%2C24.854782?time=1600888888'
- */
-
-function extractRoute(routeIn) {
-  let extractedRoute = routeIn;
-  if (routeIn.properties) {
-    const route = routeIn.properties;
-    const oLoc = route.origin.localadmin ? `, ${route.origin.localadmin}` : '';
-    const dLoc = route.destination.localadmin
-      ? `, ${route.destination.localadmin}`
-      : '';
-
-    extractedRoute = {
-      origin: {
-        address: `${route.origin.name}${oLoc}`,
-        coordinates: route.origin.coordinates,
-      },
-      destination: {
-        address: `${route.destination.name}${dLoc}`,
-        coordinates: route.destination.coordinates,
-      },
-      arriveBy: route.arriveBy ? route.arriveBy : false,
-      time: route.time,
-    };
-  }
-  return extractedRoute;
-}
-
 const DEFAULT_ITINERARY_PREFIX = 'reitti';
 
-export function createUrl(routeIn, pathOpts) {
-  const route = extractRoute(routeIn);
+export function createUrl(item, pathOpts) {
+  const props = item.properties;
   if (
-    route &&
-    route.origin &&
-    route.origin.address &&
-    route.origin.coordinates &&
-    route.destination &&
-    route.destination.address &&
-    route.destination.coordinates &&
-    route.time
+    props.origin?.coordinates &&
+    props.destination?.coordinates &&
+    props.time
   ) {
+    const oLoc = props.origin.localadmin ? `, ${props.origin.localadmin}` : '';
+    const oAddr = `${props.origin.name}${oLoc}`;
+    const dLoc = props.destination.localadmin
+      ? `, ${props.destination.localadmin}`
+      : '';
+    const dAddr = `${props.destination.name}${dLoc}`;
+
     let prefix;
-    if (pathOpts && pathOpts.itinerarySummaryPrefix) {
+    if (pathOpts?.itinerarySummaryPrefix) {
       prefix = pathOpts.itinerarySummaryPrefix;
     } else {
       prefix = DEFAULT_ITINERARY_PREFIX;
     }
-
-    let url = `/${prefix}/`;
-    // set origin
-    url += `${encodeURIComponent(
-      `${route.origin.address}::${route.origin.coordinates.lat},${route.origin.coordinates.lon}`,
-    )}/`;
-    // set destination
-    url += encodeURIComponent(
-      `${route.destination.address}::${route.destination.coordinates.lat},${route.destination.coordinates.lon}`,
+    const from = encodeURIComponent(
+      `${oAddr}::${props.origin.coordinates.lat},${props.origin.coordinates.lon}`,
     );
-    // set arrive by and time
-    if (route.arriveBy) {
-      url += `?arriveBy=true&time=${route.time}`;
-    } else {
-      url += `?time=${route.time}`;
+    const to = encodeURIComponent(
+      `${dAddr}::${props.destination.coordinates.lat},${props.destination.coordinates.lon}`,
+    );
+    let url = `/${prefix}/${from}/${to}?time=${props.time}`;
+    if (props.arriveBy) {
+      url += '&arriveBy=true';
     }
     return url;
   }
   return '';
 }
 
-export function addFutureRoute(newRoute, routeCollection, pathOpts) {
-  if (newRoute && newRoute.time > new Date().getTime() / 1000) {
-    const originAddress = newRoute.origin.address.split(', ');
+function searchId(props) {
+  return `${props.origin.name}, ${props.origin.localadmin} - ${props.destination.name}, ${props.destination.localadmin}`;
+}
+
+export function addFutureRoute(item, collection) {
+  const now = new Date().getTime() / 1000;
+  if (item && item.time > now) {
+    const originAddress = item.origin.address.split(', ');
     const originName = originAddress[0];
     originAddress.shift();
     const originLocalAdmin =
       originAddress.length === 1 ? originAddress[0] : originAddress.join(', ');
 
-    const destinationAddress = newRoute.destination.address.split(', ');
+    const destinationAddress = item.destination.address.split(', ');
     const destinationName = destinationAddress[0];
     destinationAddress.shift();
     const destinationLocalAdmin =
@@ -166,31 +66,28 @@ export function addFutureRoute(newRoute, routeCollection, pathOpts) {
           name: originName,
           localadmin: originLocalAdmin,
           coordinates: {
-            lat: newRoute.origin.coordinates.lat,
-            lon: newRoute.origin.coordinates.lon,
+            lat: item.origin.coordinates.lat,
+            lon: item.origin.coordinates.lon,
           },
         },
         destination: {
           name: destinationName,
           localadmin: destinationLocalAdmin,
           coordinates: {
-            lat: newRoute.destination.coordinates.lat,
-            lon: newRoute.destination.coordinates.lon,
+            lat: item.destination.coordinates.lat,
+            lon: item.destination.coordinates.lon,
           },
         },
-        arriveBy: newRoute.arriveBy,
-        time: newRoute.time,
-        url: createUrl(newRoute, pathOpts),
+        arriveBy: item.arriveBy,
+        time: item.time,
       },
     };
 
-    const newRouteOriginAndDestination = `${routeToAdd.properties.origin.name}, ${routeToAdd.properties.origin.localadmin} - ${routeToAdd.properties.destination.name}, ${routeToAdd.properties.destination.localadmin}`;
-    const futureRoutes = routeCollection
-      ? routeCollection.filter(
-          r =>
-            r.properties.time >= new Date().getTime() / 1000 &&
-            `${r.properties.origin.name}, ${r.properties.origin.localadmin} - ${r.properties.destination.name}, ${r.properties.destination.localadmin}` !==
-              newRouteOriginAndDestination,
+    const newId = searchId(routeToAdd.properties);
+
+    const futureRoutes = collection
+      ? collection.filter(
+          r => r.properties.time >= now && searchId(r.properties) !== newId,
         )
       : [];
     const sortedItems = sortBy(
@@ -203,5 +100,5 @@ export function addFutureRoute(newRoute, routeCollection, pathOpts) {
     );
     return sortedItems;
   }
-  return routeCollection || JSON.parse('[]');
+  return collection || [];
 }

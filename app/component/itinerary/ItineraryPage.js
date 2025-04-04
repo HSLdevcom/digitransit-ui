@@ -826,13 +826,13 @@ export default function ItineraryPage(props, context) {
     const itinerarySearch = {
       origin: {
         address: originArray[0],
-        ...parseLatLon(originArray[1]),
+        coordinates: { ...parseLatLon(originArray[1]) },
       },
       destination: {
         address: destinationArray[0],
-        ...parseLatLon(destinationArray[1]),
+        coordinates: { ...parseLatLon(destinationArray[1]) },
       },
-      query,
+      ...query,
     };
     executeAction(saveFutureRoute, itinerarySearch);
   }
