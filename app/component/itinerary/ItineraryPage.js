@@ -994,7 +994,7 @@ export default function ItineraryPage(props, context) {
         scooterState.plan,
         state.plan,
         config.vehicleRental.allowDirectScooterJourneys,
-        match.location.query.arriveBy,
+        match.location.query.arriveBy === 'true',
       );
       setCombinedState({ plan, loading: LOADSTATE.DONE });
       resetItineraryPageSelection();
