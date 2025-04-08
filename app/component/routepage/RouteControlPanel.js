@@ -21,7 +21,7 @@ import {
 import {
   getCancelationsForRoute,
   getAlertsForObject,
-  isAlertActive,
+  checkActiveDisruptions,
   getActiveAlertSeverityLevel,
 } from '../../util/alertUtils';
 import { isActiveDate } from '../../util/patternUtils';
@@ -387,7 +387,7 @@ class RouteControlPanel extends React.Component {
     const selectedPattern = route?.patterns?.find(
       pattern => pattern.code === patternId,
     );
-    const hasActiveAlert = isAlertActive(
+    const hasActiveAlert = checkActiveDisruptions(
       currentTime,
       getCancelationsForRoute(
         route,
