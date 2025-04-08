@@ -12,7 +12,7 @@ export default function IconWithBigCaution({
   const iconType =
     alertSeverityLevel === AlertSeverityLevelType.Info
       ? 'info'
-      : 'caution-no-excl-no-stroke';
+      : 'caution-no-excl';
   const subIconClassName =
     alertSeverityLevel === AlertSeverityLevelType.Info ? 'info' : 'caution';
   return (
