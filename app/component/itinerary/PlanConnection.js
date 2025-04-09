@@ -38,6 +38,7 @@ const planConnection = graphql`
             speed: $bikeSpeed
             rental: { allowedNetworks: $allowedRentalNetworks }
           }
+          scooter: { rental: { allowedNetworks: $allowedRentalNetworks } }
           walk: {
             speed: $walkSpeed
             reluctance: $walkReluctance

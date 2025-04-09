@@ -25,6 +25,8 @@ const useInitialLegState = initialLegs => {
           );
           clonedLeg.freezeStart = legTime(clonedLeg.start) <= time;
           clonedLeg.freezeEnd = legTime(clonedLeg.end) <= time;
+          clonedLeg.originalStart = cloneDeep(leg.start);
+          clonedLeg.originalEnd = cloneDeep(leg.end);
           return clonedLeg;
         }),
       };

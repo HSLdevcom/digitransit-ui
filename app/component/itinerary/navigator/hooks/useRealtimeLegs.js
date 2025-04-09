@@ -1,10 +1,10 @@
 /* eslint-disable no-param-reassign */
-import { useCallback, useEffect, useState, useRef } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { fetchQuery } from 'react-relay';
 import { updateLatestNavigatorItineraryParams } from '../../../../store/localStorage';
 import { legTime } from '../../../../util/legUtils';
 import { legQuery } from '../../queries/LegQuery';
-import { getRemainingTraversal, validateTransitLeg } from '../NaviUtils';
+import { getRemainingTraversal } from '../NaviUtils';
 import useInitialLegState from './useInitialLegState';
 import {
   getLegsOfInterest,
@@ -12,6 +12,7 @@ import {
   nextTransitIndex,
   shiftLeg,
   shiftLegs,
+  shiftLegsByGeolocation,
 } from './utils/realtimeLegUtils';
 
 const useRealtimeLegs = (
@@ -113,11 +114,12 @@ const useRealtimeLegs = (
           default:
             break;
         }
+        simCounter.current += 1;
       }
-      simCounter.current += 1;
-
       // Shift unfrozen, non-transit-legs to match possibly changed transit legs
       matchLegEnds(newRtLegs, now);
+
+      shiftLegsByGeolocation(newRtLegs, time, vehicles, position, origin);
 
       // Freezes any leg.start|end in the past
       newRtLegs.forEach(l => {
@@ -185,10 +187,6 @@ const useRealtimeLegs = (
       currentLeg.distance
     : 0;
 
-  const validated = currentLeg?.transitLeg
-    ? validateTransitLeg(currentLeg, origin, vehicles)
-    : true;
-
   return {
     realTimeLegs,
     time,
@@ -200,7 +198,6 @@ const useRealtimeLegs = (
     nextLeg,
     startItinerary,
     loading,
-    validated,
   };
 };
 

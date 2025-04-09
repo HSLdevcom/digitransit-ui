@@ -1,6 +1,6 @@
 import { legTime } from '../../../../../util/legUtils';
 import { epochToIso } from '../../../../../util/timeUtils';
-
+import { getVehiclePosition, validateLeg } from '../../NaviUtils';
 /**
  * Finds the index of the next transit leg starting from a given index.
  * @param {Array} legs - Array of legs.
@@ -176,10 +176,28 @@ function shiftLeg(leg, gap) {
   }
 }
 
+/*
+const BOARD_DELAY = 20000; // 20s, default delay for card change in transit board/alight
+*/
+
+function shiftLegsByGeolocation(legs, time, vehicles, position, origin) {
+  const { prev } = getLegsOfInterest(legs, time);
+
+  if (prev && !prev.freezeEnd) {
+    if (prev.transitLeg) {
+      const vPos = getVehiclePosition(prev, origin, vehicles);
+      if (vPos) {
+        validateLeg(prev, origin, vPos);
+      }
+    }
+  }
+}
+
 export {
   getLegsOfInterest,
   matchLegEnds,
   nextTransitIndex,
   shiftLeg,
   shiftLegs,
+  shiftLegsByGeolocation,
 };
