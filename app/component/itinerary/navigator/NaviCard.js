@@ -27,7 +27,7 @@ const iconMap = {
 };
 
 export default function NaviCard(
-  { leg, nextLeg, legType, time, position, tailLength },
+  { leg, nextLeg, legType, time, position, tailLength, cardAnimation },
   { config },
 ) {
   const [cardExpanded, setCardExpanded] = useState(false);
@@ -87,7 +87,11 @@ export default function NaviCard(
     : '0px';
 
   return (
-    <button type="button" className="navi-top-card" onClick={handleClick}>
+    <button
+      type="button"
+      className={`navi-top-card ${cardAnimation}`}
+      onClick={handleClick}
+    >
       <div className="main-card">
         <div className="content">
           <Icon img={iconName} className="mode" color={iconColor} omitViewBox />
@@ -138,6 +142,7 @@ NaviCard.propTypes = {
     lon: PropTypes.number,
   }),
   tailLength: PropTypes.number.isRequired,
+  cardAnimation: PropTypes.string.isRequired,
 };
 NaviCard.defaultProps = {
   leg: undefined,

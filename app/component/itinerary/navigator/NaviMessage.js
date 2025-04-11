@@ -7,7 +7,7 @@ import { configShape } from '../../../util/shapes';
 import Icon from '../../Icon';
 
 function NaviMessage(
-  { severity, children, index, handleRemove, hideClose },
+  { severity, children, index, handleRemove, hideClose, cardAnimation },
   { config },
 ) {
   const [removingIndex, setRemovingIndex] = useState(null);
@@ -45,7 +45,7 @@ function NaviMessage(
     <div
       className={cx(
         'info-stack-item',
-        removingIndex === index ? 'slide-out-right' : '',
+        removingIndex === index ? 'slide-out-right' : cardAnimation,
         `${severity.toLowerCase()}`,
       )}
       onAnimationEnd={handleAnimationEnd}
@@ -75,6 +75,7 @@ NaviMessage.propTypes = {
   index: PropTypes.number.isRequired,
   handleRemove: PropTypes.func.isRequired,
   hideClose: PropTypes.bool,
+  cardAnimation: PropTypes.string.isRequired,
 };
 
 NaviMessage.defaultProps = {

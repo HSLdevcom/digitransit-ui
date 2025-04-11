@@ -246,9 +246,7 @@ function NaviCardContainer(
   );
 
   let className;
-  if (isJourneyCompleted) {
-    className = 'slide-out';
-  } else if (legChanging) {
+  if (isJourneyCompleted || legChanging) {
     className = 'hide-card';
   } else {
     className = 'show-card';
@@ -265,9 +263,14 @@ function NaviCardContainer(
         time={time}
         position={position}
         tailLength={tailLength}
+        cardAnimation={className}
       />
       {activeMessages.length > 0 && (
-        <NaviStack messages={activeMessages} handleRemove={handleRemove} />
+        <NaviStack
+          messages={activeMessages}
+          handleRemove={handleRemove}
+          cardAnimation={className}
+        />
       )}
     </div>
   );
