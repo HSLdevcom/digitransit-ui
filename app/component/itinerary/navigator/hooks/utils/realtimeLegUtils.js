@@ -252,9 +252,6 @@ function shiftLegsByGeolocation(legs, time, vehicles, position, origin) {
         confirmStart(currentLeg, origin, vPos) ||
         confirmStart(currentLeg, origin, position);
       if (confirm === CONFIRM_NO) {
-        // Note: pushing leg to future may open a wait card
-        // Maybe there should be a minimum time for wait card:
-        // don't try to open it just for 10 seconds
         shiftLeg(currentLeg, time - legTime(currentLeg.start) + 5000);
       }
     }

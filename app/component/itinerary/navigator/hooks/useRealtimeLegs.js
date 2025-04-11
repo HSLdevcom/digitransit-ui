@@ -128,11 +128,11 @@ const useRealtimeLegs = (
         const adjustment = startTimeInMS - legTime(realTimeLegs[0].start);
         const lastShifted = nextTransitIndex(realTimeLegs, 0) - 1;
         shiftLegs(realTimeLegs, 0, lastShifted, adjustment);
-        for (let i = 0; i <= lastShifted; i++) {
-          const leg = realTimeLegs[i];
-          leg.freezeStart = true;
-          leg.freezeEnd = true;
-        }
+        // must freeze initial start time, otherwise transit
+        // leg matching might move start time again to future
+        // allow other times to move so that geolocation can
+        // modify the estimates
+        realTimeLegs[0].freezeStart = true;
         updateLatestNavigatorItineraryParams({ forceStartAt: startTimeInMS });
 
         return {
