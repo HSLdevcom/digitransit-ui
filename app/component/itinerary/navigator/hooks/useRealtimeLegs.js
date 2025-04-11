@@ -111,7 +111,7 @@ const useRealtimeLegs = (
       return { ...prev, time: now, realTimeLegs: newRtLegs };
     });
     updateLegs?.(newRtLegs);
-  }, [queryAndMapRealtimeLegs, realTimeLegs, updateLegs]);
+  }, [queryAndMapRealtimeLegs, realTimeLegs, updateLegs, vehicles, position]);
 
   const startItinerary = startTimeInMS => {
     if (startTimeInMS < legTime(realTimeLegs[0].start)) {
