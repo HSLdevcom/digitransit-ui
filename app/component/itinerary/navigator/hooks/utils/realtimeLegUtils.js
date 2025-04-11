@@ -1,6 +1,7 @@
 import { legTime } from '../../../../../util/legUtils';
 import { epochToIso } from '../../../../../util/timeUtils';
-import { getVehiclePosition, validateLeg } from '../../NaviUtils';
+import { DESTINATION_RADIUS, legTraversal } from '../../NaviUtils';
+
 /**
  * Finds the index of the next transit leg starting from a given index.
  * @param {Array} legs - Array of legs.
@@ -172,28 +173,151 @@ function shiftLeg(leg, gap) {
         delay: gap,
       },
     };
-    leg.realtimeState = 'UPDATED';
+    // leg.realtimeState = 'UPDATED';
   }
 }
 
-/*
+function getVehiclePosition(leg, origin, vehicles) {
+  const shortName = leg?.route?.shortName;
+  const vehicle = Object.values(vehicles).find(v => v.shortName === shortName);
+  if (vehicle) {
+    return { lat: vehicle.lat, lon: vehicle.long };
+  }
+  return null;
+}
+
+const CONFIRM_UNKNOWN = 0; // falsy
+const CONFIRM_YES = 1;
+const CONFIRM_NO = 2;
+
+function confirmEnd(leg, origin, pos) {
+  if (pos) {
+    const tail = legTraversal(leg, origin, pos);
+    if (tail) {
+      return tail.metersToGo < 1 ? CONFIRM_YES : CONFIRM_NO;
+    }
+  }
+  return CONFIRM_UNKNOWN;
+}
+
+function confirmStart(leg, origin, pos) {
+  if (pos) {
+    const head = legTraversal(leg, origin, pos);
+    if (head) {
+      return head.metersToGo < leg.distance - DESTINATION_RADIUS
+        ? CONFIRM_NO
+        : CONFIRM_YES;
+    }
+  }
+  return CONFIRM_UNKNOWN;
+}
+
 const BOARD_DELAY = 20000; // 20s, default delay for card change in transit board/alight
-*/
 
+// Adjust unfrozen leg start and end times by vehicle and traveler position
+// Logic is not too complicated but some edge cases are problematic:
+// Position of a long train may never reach end of the leg geometry in
+// the middle of a long platform of an ending rail
+// Apparently we should consider if the leg ends at an end stop
+// also geolocation certainty plays important role
 function shiftLegsByGeolocation(legs, time, vehicles, position, origin) {
-  const { prev } = getLegsOfInterest(legs, time);
+  const { previousLeg, currentLeg, nextLeg } = getLegsOfInterest(legs, time);
+  let confirm;
 
-  if (prev && !prev.freezeEnd) {
-    if (prev.transitLeg) {
-      const vPos = getVehiclePosition(prev, origin, vehicles);
-      if (vPos) {
-        validateLeg(prev, origin, vPos);
+  if (previousLeg && !previousLeg.freezeEnd) {
+    if (previousLeg.transitLeg) {
+      // Make sure prev leg has really ended
+      const vPos = getVehiclePosition(previousLeg, origin, vehicles);
+      // check more reliable vehicle position first
+      // if it is unknown use geolocation
+      confirm =
+        confirmEnd(previousLeg, origin, vPos) ||
+        confirmEnd(previousLeg, origin, position);
+    } else {
+      // also confirm that walk has ended
+      confirm = confirmEnd(previousLeg, origin, position);
+    }
+    if (confirm === CONFIRM_NO) {
+      // extend 5 sec to future
+      shiftLeg(previousLeg, time - legTime(previousLeg.end) + 5000);
+    }
+  }
+
+  if (currentLeg && !currentLeg.freezeStart) {
+    // curr leg is just starting
+    if (currentLeg.transitLeg) {
+      // Make sure curr leg has really started.
+      const vPos = getVehiclePosition(currentLeg, origin, vehicles);
+      confirm =
+        confirmStart(currentLeg, origin, vPos) ||
+        confirmStart(currentLeg, origin, position);
+      if (confirm === CONFIRM_NO) {
+        // Note: pushing leg to future may open a wait card
+        // Maybe there should be a minimum time for wait card:
+        // don't try to open it just for 10 seconds
+        shiftLeg(currentLeg, time - legTime(currentLeg.start) + 5000);
       }
+    }
+  } else if (currentLeg && !currentLeg.freezeEnd) {
+    // start already frozen, check if leg ended early
+    if (currentLeg.transitLeg) {
+      const vPos = getVehiclePosition(currentLeg, origin, vehicles);
+      confirm =
+        confirmEnd(currentLeg, origin, vPos) ||
+        confirmEnd(currentLeg, origin, position);
+    } else {
+      confirm = confirmEnd(currentLeg, origin, position);
+    }
+    if (confirm === CONFIRM_YES) {
+      let gap = time - legTime(currentLeg.end);
+      if (currentLeg.transitLeg) {
+        // finish transit leg after a decent time, not immediately
+        // transit might have just arrived and traveller is still boarded
+        gap += BOARD_DELAY;
+      }
+      shiftLeg(currentLeg, gap);
+      currentLeg.freezeEnd = true; // no more shifting
+    }
+  }
+
+  if (nextLeg?.transitLeg) {
+    // has next leg alreally started?
+    const vPos = getVehiclePosition(nextLeg, origin, vehicles);
+    confirm =
+      confirmStart(nextLeg, origin, vPos) ||
+      confirmStart(nextLeg, origin, position);
+    if (confirm === CONFIRM_YES) {
+      // start immediately
+      shiftLeg(nextLeg, time - legTime(nextLeg.start) - 1000);
     }
   }
 }
 
+function fakeDelay(legs, counter) {
+  const leg = legs.find(tl => tl.transitLeg);
+  switch (Math.floor(counter / 2)) {
+    case 1:
+      shiftLeg(leg, 90000);
+      break;
+    case 2:
+      shiftLeg(leg, 180000);
+      break;
+    case 3:
+      shiftLeg(leg, 300000);
+      break;
+    case 4:
+      shiftLeg(leg, 180000);
+      break;
+    case 5:
+      shiftLeg(leg, 90000);
+      break;
+    default:
+      break;
+  }
+}
+
 export {
+  fakeDelay,
   getLegsOfInterest,
   matchLegEnds,
   nextTransitIndex,

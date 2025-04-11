@@ -20,7 +20,7 @@ const EARLIEST_NEXT_STOP = 60 * 1000;
 const NOTED_SEVERITY = ['WARNING', 'ALERT'];
 
 export const DESTINATION_RADIUS = 20; // meters
-const ACCEPT_LOCATION_RADIUS = 200;
+export const ACCEPT_LOCATION_RADIUS = 200;
 
 export const LEGTYPE = {
   WAIT: 'WAIT',
@@ -140,24 +140,14 @@ export function getRemainingTraversal(leg, pos, origin, time) {
   return Math.min(Math.max((legTime(leg.end) - time) / duration, 0), 1.0);
 }
 
-export function getVehiclePosition(leg, origin, vehicles) {
-  const shortName = leg?.route?.shortName;
-  const vehicle = Object.values(vehicles).find(v => v.shortName === shortName);
-  if (vehicle) {
-    return { lat: vehicle.lat, lon: vehicle.long };
-  }
-  return null;
-}
-
-export function validateLeg(leg, origin, pos) {
+export function legTraversal(leg, origin, pos) {
   const posXY = GeodeticToEnu(pos.lat, pos.lon, origin);
   const { traversed, orthogonalDistance } = pathProgress(posXY, leg.geometry);
-  const d = traversed * leg.distance;
-  return (
-    orthogonalDistance < ACCEPT_LOCATION_RADIUS &&
-    d > DESTINATION_RADIUS &&
-    d < leg.distance - DESTINATION_RADIUS
-  );
+  const metersToGo = (1.0 - traversed) * leg.distance;
+
+  return orthogonalDistance > ACCEPT_LOCATION_RADIUS
+    ? null
+    : { traversed, metersToGo };
 }
 
 function transferId(transfer) {

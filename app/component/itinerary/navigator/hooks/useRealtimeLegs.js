@@ -7,10 +7,10 @@ import { legQuery } from '../../queries/LegQuery';
 import { getRemainingTraversal } from '../NaviUtils';
 import useInitialLegState from './useInitialLegState';
 import {
+  fakeDelay,
   getLegsOfInterest,
   matchLegEnds,
   nextTransitIndex,
-  shiftLeg,
   shiftLegs,
   shiftLegsByGeolocation,
 } from './utils/realtimeLegUtils';
@@ -94,32 +94,14 @@ const useRealtimeLegs = (
 
       // fake transfer problem by delaying 1st transfer leg and then back to normal
       if (simulateTransferProblem) {
-        const rtLeg = newRtLegs.find(tl => tl.transitLeg);
-        switch (Math.floor(simCounter.current / 2)) {
-          case 1:
-            shiftLeg(rtLeg, 90000);
-            break;
-          case 2:
-            shiftLeg(rtLeg, 180000);
-            break;
-          case 3:
-            shiftLeg(rtLeg, 300000);
-            break;
-          case 4:
-            shiftLeg(rtLeg, 180000);
-            break;
-          case 5:
-            shiftLeg(rtLeg, 90000);
-            break;
-          default:
-            break;
-        }
+        fakeDelay(newRtLegs, simCounter.current);
         simCounter.current += 1;
       }
+
       // Shift unfrozen, non-transit-legs to match possibly changed transit legs
       matchLegEnds(newRtLegs, now);
 
-      shiftLegsByGeolocation(newRtLegs, time, vehicles, position, origin);
+      shiftLegsByGeolocation(newRtLegs, now, vehicles, position, origin);
 
       // Freezes any leg.start|end in the past
       newRtLegs.forEach(l => {
