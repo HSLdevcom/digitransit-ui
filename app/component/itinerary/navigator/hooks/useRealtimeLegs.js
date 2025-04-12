@@ -24,8 +24,9 @@ const useRealtimeLegs = (
   forceStartAt,
   simulateTransferProblem,
 ) => {
-  const [{ origin, time, realTimeLegs }, setTimeAndRealTimeLegs] =
+  const [{ origin, realTimeLegs }, setRealTimeLegs] =
     useInitialLegState(initialLegs);
+  const [time, setTime] = useState(Date.now());
   const [loading, setLoading] = useState(true);
   const simCounter = useRef(0);
 
@@ -58,16 +59,15 @@ const useRealtimeLegs = (
     updateLegs?.(realTimeLegs);
   }, [realTimeLegs]);
 
-  const fetchAndSetRealtimeLegs = useCallback(async () => {
-    const now = Date.now();
-    const rtLegMap = await queryAndMapRealtimeLegs(realTimeLegs, now).catch(
+  const fetchAndSetRealtimeLegs = async () => {
+    const rtLegMap = await queryAndMapRealtimeLegs(realTimeLegs, time).catch(
       err =>
         // eslint-disable-next-line no-console
         console.error('Failed to query and map real time legs', err),
     );
 
     let newRtLegs;
-    setTimeAndRealTimeLegs(prev => {
+    setRealTimeLegs(prev => {
       // Maps previous legs with fresh real time transit legs. If transit leg start or end time is in the past according
       // to previous state, the time is marked as frozen to stabilize the current navigation state.
       // rtLegMap does not contain legs that have ended in the past as they've been filtered before updates are queried
@@ -99,31 +99,28 @@ const useRealtimeLegs = (
       }
 
       // Shift unfrozen, non-transit-legs to match possibly changed transit legs
-      matchLegEnds(newRtLegs, now);
+      matchLegEnds(newRtLegs, time);
 
-      shiftLegsByGeolocation(newRtLegs, now, vehicles, position, origin);
+      shiftLegsByGeolocation(newRtLegs, time, vehicles, position, origin);
 
       // Freezes any leg.start|end in the past
       newRtLegs.forEach(l => {
-        l.freezeStart = l.freezeStart || legTime(l.start) <= now;
-        l.freezeEnd = l.freezeEnd || legTime(l.end) <= now;
+        l.freezeStart = l.freezeStart || legTime(l.start) <= time;
+        l.freezeEnd = l.freezeEnd || legTime(l.end) <= time;
       });
-      return { ...prev, time: now, realTimeLegs: newRtLegs };
+      return { ...prev, realTimeLegs: newRtLegs };
     });
     updateLegs?.(newRtLegs);
-  }, [queryAndMapRealtimeLegs, realTimeLegs, updateLegs, vehicles, position]);
+  };
 
   const startItinerary = startTimeInMS => {
     if (startTimeInMS < legTime(realTimeLegs[0].start)) {
-      setTimeAndRealTimeLegs(prev => {
+      setRealTimeLegs(prev => {
         const firstLeg = prev.realTimeLegs[0];
 
         if (firstLeg.transitLeg) {
           firstLeg.forceStart = true;
-          return {
-            ...prev,
-            time: startTimeInMS,
-          };
+          return { ...prev };
         }
         const adjustment = startTimeInMS - legTime(realTimeLegs[0].start);
         const lastShifted = nextTransitIndex(realTimeLegs, 0) - 1;
@@ -135,11 +132,7 @@ const useRealtimeLegs = (
         realTimeLegs[0].freezeStart = true;
         updateLatestNavigatorItineraryParams({ forceStartAt: startTimeInMS });
 
-        return {
-          ...prev,
-          time: startTimeInMS,
-          realTimeLegs: prev.realTimeLegs,
-        };
+        return { ...prev };
       });
       updateLatestNavigatorItineraryParams({ forceStartAt: startTimeInMS });
     }
@@ -147,17 +140,17 @@ const useRealtimeLegs = (
 
   useEffect(() => {
     fetchAndSetRealtimeLegs();
+  }, [time]);
 
+  useEffect(() => {
     const interval = setInterval(() => {
-      fetchAndSetRealtimeLegs();
+      setTime(Date.now());
     }, 10000);
 
     if (forceStartAt) {
       startItinerary(forceStartAt);
     }
-
     setLoading(false);
-
     return () => clearInterval(interval);
   }, []);
 
