@@ -200,21 +200,36 @@ const CONFIRM_UNKNOWN = 0; // falsy
 const CONFIRM_YES = 1;
 const CONFIRM_NO = 2;
 
+function getRadius(leg) {
+  if (leg.mode === 'RAIL' || leg.mode === 'SUBWAY') {
+    return 10 * DESTINATION_RADIUS;
+  }
+  return DESTINATION_RADIUS;
+}
+
+// TODO:
+// - maybe long vehicles should return UNKNOWN, train may have been
+//   stopped quite a while until its position passes the stop position
+// - possibly remember two last positions and use speed as well
+// - start / end stations could have greater distance thresholds
+// - see if mqtt unsubscribe needs some delay
 function confirmEnd(leg, origin, pos) {
   if (pos) {
     const tail = legTraversal(leg, origin, pos);
     if (tail) {
-      return tail.metersToGo < 1 ? CONFIRM_YES : CONFIRM_NO;
+      return tail.metersToGo < getRadius(leg) ? CONFIRM_YES : CONFIRM_NO;
     }
   }
   return CONFIRM_UNKNOWN;
 }
 
+// Start is easier to confirm, because vehicle pos does not disappear
+// because of mqtt unsubscribe at leg end
 function confirmStart(leg, origin, pos) {
   if (pos) {
     const head = legTraversal(leg, origin, pos);
     if (head) {
-      return head.metersToGo < leg.distance - DESTINATION_RADIUS
+      return head.metersToGo < leg.distance - getRadius(leg)
         ? CONFIRM_YES
         : CONFIRM_NO;
     }
