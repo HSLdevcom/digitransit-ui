@@ -102,6 +102,8 @@ const useRealtimeLegs = (
       matchLegEnds(newRtLegs, time);
 
       shiftLegsByGeolocation(newRtLegs, time, vehicles, position, origin);
+      // transit legs may have changed, shift again
+      matchLegEnds(newRtLegs, time);
 
       // Freezes any leg.start|end in the past
       newRtLegs.forEach(l => {
@@ -110,7 +112,6 @@ const useRealtimeLegs = (
       });
       return { ...prev, realTimeLegs: newRtLegs };
     });
-    updateLegs?.(newRtLegs);
   };
 
   const startItinerary = startTimeInMS => {

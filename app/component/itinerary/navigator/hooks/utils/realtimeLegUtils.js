@@ -84,7 +84,9 @@ function matchLegEnds(legs) {
   transit = nextTransitIndex(legs, 0);
   if (transit > 0) {
     gap = getLegGap(legs, transit - 1);
-    if (gap) {
+    // try moving legs back in time if transit is early,
+    // or forward in time if itinerary has not started yet
+    if (gap < 0 || !legs[0].freezeStart) {
       shiftLegs(legs, 0, transit - 1, gap);
     }
   }
@@ -155,24 +157,32 @@ function getLegsOfInterest(legs, now) {
 function shiftLeg(leg, gap) {
   /* eslint-disable no-param-reassign */
   if (!leg.freezeStart) {
-    leg.start = {
-      ...leg.start,
-      estimated: {
-        ...leg.start.estimated,
-        time: epochToIso(legTime(leg.start) + gap),
-        delay: gap,
-      },
-    };
+    if (leg.transitLeg) {
+      leg.start = {
+        ...leg.start,
+        estimated: {
+          ...leg.start.estimated,
+          time: epochToIso(legTime(leg.start) + gap),
+          delay: gap,
+        },
+      };
+    } else {
+      leg.start.scheduledTime = epochToIso(legTime(leg.start) + gap);
+    }
   }
   if (!leg.freezeEnd) {
-    leg.end = {
-      ...leg.end,
-      estimated: {
-        ...leg.end.estimated,
-        time: epochToIso(legTime(leg.end) + gap),
-        delay: gap,
-      },
-    };
+    if (leg.transitLeg) {
+      leg.end = {
+        ...leg.end,
+        estimated: {
+          ...leg.end.estimated,
+          time: epochToIso(legTime(leg.end) + gap),
+          delay: gap,
+        },
+      };
+    } else {
+      leg.end.scheduledTime = epochToIso(legTime(leg.end) + gap);
+    }
     // leg.realtimeState = 'UPDATED';
   }
 }
