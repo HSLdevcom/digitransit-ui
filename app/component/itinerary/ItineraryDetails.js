@@ -155,15 +155,22 @@ class ItineraryDetails extends React.Component {
     // this could then be used to set the waiting icon legs that need it.
     const usingOwnCarWholeTrip =
       walking.distance === 0 && biking.distance === 0 && driving.distance > 0;
-    const legsWithRentalBike = compressLegs(itinerary.legs).filter(leg =>
+    const compressedLegs = compressLegs(itinerary.legs);
+    const legsWithRentalBike = compressedLegs.filter(leg =>
       legContainsRentalBike(leg),
     );
-    const legswithBikePark = compressLegs(itinerary.legs).filter(leg =>
+    const legswithBikePark = compressedLegs.filter(leg =>
       legContainsBikePark(leg),
     );
-    const legsWithScooter = compressLegs(itinerary.legs).some(
-      leg => leg.mode === 'SCOOTER',
-    );
+    const legsWithScooter = compressedLegs.some(leg => leg.mode === 'SCOOTER');
+    const onlyWalking = compressedLegs.every(leg => leg.mode === 'WALK');
+    const onlyBiking = compressedLegs.every(leg => leg.mode === 'BICYCLE');
+    const showStartNavi =
+      this.props.startNavigation &&
+      !onlyWalking &&
+      !onlyBiking &&
+      !legsWithScooter &&
+      legsWithRentalBike.length === 0;
     const containsBiking = biking.duration > 0 && biking.distance > 0;
     const showBikeBoardingInformation =
       containsBiking &&
@@ -322,7 +329,7 @@ class ItineraryDetails extends React.Component {
                 />
               )),
 
-            this.props.startNavigation && (
+            showStartNavi && (
               <StartNavi
                 key="navigation"
                 startNavigation={this.props.startNavigation}
