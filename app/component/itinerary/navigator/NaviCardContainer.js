@@ -30,7 +30,7 @@ function addMessages(
 ) {
   newMessages.forEach(m => {
     if (oldMessages && !oldMessages.get(m.id)) {
-      createNotification?.(m.id, m.pushNotification);
+      createNotification(m.pushNotification.title, m.pushNotification.content);
     }
     incomingMessages.set(m.id, m);
   });
@@ -184,6 +184,7 @@ function NaviCardContainer(
             time,
             config,
             messages,
+            intl,
           ),
         ],
         messages,

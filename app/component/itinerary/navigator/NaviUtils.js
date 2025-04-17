@@ -17,11 +17,6 @@ const TRANSFER_SLACK = 60000;
 const DISPLAY_MESSAGE_THRESHOLD = 120 * 1000; // 2 minutes
 
 export const DESTINATION_RADIUS = 20; // meters
-/* const createContent = (intl, id, values) => {
-  let content;
-  let notification;
-  return { content, notification };
-}; */
 
 export function summaryString(legs, time, previousLeg, currentLeg, nextLeg) {
   const parts = epochToIso(time).split('T')[1].split('+');
@@ -251,6 +246,7 @@ export const getAdditionalMessages = (
   time,
   config,
   messages,
+  intl,
 ) => {
   const msgs = [];
   const closed = messages.get('ticket')?.closed;
@@ -260,22 +256,27 @@ export const getAdditionalMessages = (
     legTime(leg.end) - time < DISPLAY_MESSAGE_THRESHOLD
   ) {
     // Todo: multiple fares?
+    const title = intl.formatMessage({
+      id: 'navigation-remember-ticket',
+      defaultMessage: 'Remember to check your ticket',
+    });
     const fares = getFaresFromLegs([nextLeg], config);
     if (fares?.length && !fares[0].isUnknown) {
       msgs.push({
         severity: 'INFO',
         content: (
           <div className="navi-info-content">
-            <span className="notification-header">
-              <FormattedMessage id="navigation-remember-ticket" />
-            </span>
+            <span className="notification-header">{title}</span>
             <span>
               {fares[0].ticketName} {formatFare(fares[0])}
             </span>
           </div>
         ),
         id: 'ticket',
-        pushNotification: `${fares[0].ticketName} - ${formatFare(fares[0])}`,
+        pushNotification: {
+          title,
+          content: `${fares[0].ticketName} - ${formatFare(fares[0])}`,
+        },
       });
     }
   }
@@ -304,7 +305,7 @@ export const getTransitLegState = (leg, intl, messages, time) => {
     const { delay } = estimated;
 
     const translationId = `navigation-mode-${delay > 0 ? 'late' : 'early'}`;
-    pushNotification = intl.formatMessage(
+    const title = intl.formatMessage(
       {
         id: translationId,
       },
@@ -312,10 +313,9 @@ export const getTransitLegState = (leg, intl, messages, time) => {
         name: routeName,
       },
     );
+    pushNotification = { title, content: '' };
     content = (
-      <div className="navi-alert-content notification-header">
-        <FormattedMessage id={translationId} values={{ name: routeName }} />
-      </div>
+      <div className="navi-alert-content notification-header">{title}</div>
     );
     severity = 'WARNING';
   } else if (!isRealTime) {
@@ -328,7 +328,10 @@ export const getTransitLegState = (leg, intl, messages, time) => {
     } else {
       severity = 'WARNING';
     }
-    pushNotification = intl.formatMessage(
+    const title = intl.formatMessage({
+      id: 'navileg-mode-schedule',
+    });
+    const body = intl.formatMessage(
       {
         id: 'navileg-start-schedule',
       },
@@ -338,20 +341,11 @@ export const getTransitLegState = (leg, intl, messages, time) => {
         mode: localizedMode,
       },
     );
-
+    pushNotification = { title, content: body };
     content = (
       <div className="navi-info-content">
-        <span className="notification-header">
-          <FormattedMessage id="navileg-mode-schedule" />
-        </span>
-        <FormattedMessage
-          id="navileg-start-schedule"
-          values={{
-            route: shortName,
-            time: timeStr(scheduledTime),
-            mode: localizedMode,
-          }}
-        />
+        <span className="notification-header">{title}</span>
+        {body}
       </div>
     );
   } else {
@@ -364,33 +358,35 @@ export const getTransitLegState = (leg, intl, messages, time) => {
           ? 'from-station'
           : 'from-stop';
     const stopOrStation = intl.formatMessage({ id: fromId });
-    pushNotification = intl.formatMessage(
-      { id: 'navileg-start-realtime' },
-      { time: timeStr(estimated.time), stopOrStation, stopName: name },
+    const title = intl.formatMessage(
+      {
+        id: 'navileg-mode-realtime',
+      },
+      { route: shortName, mode: localizedMode },
+    );
+    const body = intl.formatMessage(
+      {
+        id: 'navileg-start-realtime',
+      },
+      {
+        time: timeStr(estimated.time),
+        stopOrStation,
+        stopName: name,
+      },
     );
     content = (
       <div className="navi-info-content">
-        <span className="notification-header">
-          <FormattedMessage
-            id="navileg-mode-realtime"
-            values={{ route: shortName, mode: localizedMode }}
-          />
-        </span>
-        <FormattedMessage
-          id="navileg-start-realtime"
-          values={{
-            time: (
-              <span className="bold realtime">{timeStr(estimated.time)}</span>
-            ),
-            stopOrStation,
-            stopName: name,
-          }}
-        />
+        <span className="notification-header">{title}</span>
+        {body}
       </div>
     );
+    pushNotification = {
+      title,
+      content: body,
+    };
     severity = 'INFO';
   }
-  pushNotification = `${severity}: ${pushNotification}`;
+
   return [
     {
       severity,
@@ -506,6 +502,10 @@ export const getItineraryAlerts = (
               </div>
             ),
             id,
+            pushNotification: {
+              title: alert.alertHeaderText,
+              content: '',
+            },
           });
         }
       }
@@ -523,15 +523,15 @@ export const getItineraryAlerts = (
 
       const lMode = getLocalizedMode(mode, intl);
       const routeName = `${lMode} ${route.shortName}`;
-
-      const m = (
-        <span className="notification-header">
-          <FormattedMessage
-            id="navigation-mode-canceled"
-            values={{ name: routeName }}
-          />
-        </span>
+      const title = intl.formatMessage(
+        {
+          id: 'navigation-mode-canceled',
+        },
+        {
+          name: routeName,
+        },
       );
+      const m = <span className="notification-header">{title}</span>;
       // we want to show the show routes button only for the first canceled leg.
       const content =
         i === 0 ? (
@@ -547,6 +547,10 @@ export const getItineraryAlerts = (
           id: `canceled-${legId}`,
           hideClose: true,
           expiresOn: alert.effectiveEndDate * 1000,
+          pushNotification: {
+            title,
+            body: '',
+          },
         });
       }
     });
@@ -561,42 +565,63 @@ export const getItineraryAlerts = (
         const alert = messages.get(transferId);
         if (!alert?.closed || alert?.severity !== prob.severity) {
           let content;
+          let pushNotification;
           if (prob.severity === 'ALERT') {
+            const title = intl.formatMessage({
+              id: 'navigation-transfer-problem',
+              defaultMessage: 'Transfer problem',
+            });
+            const body = intl.formatMessage(
+              {
+                id: 'navigation-transfer-problem-details',
+                defaultMessage: 'Transfer {transfer} problem',
+              },
+              {
+                transfer: Transfer(
+                  prob.fromLeg.route,
+                  prob.toLeg.route,
+                  config,
+                ),
+              },
+            );
+            pushNotification = {
+              title,
+              body,
+            };
+
             content = withNewSearchBtn(
               <>
-                <span className="notification-header">
-                  <FormattedMessage id="navigation-transfer-problem" />
-                </span>
-                <FormattedMessage
-                  id="navigation-transfer-problem-details"
-                  values={{
-                    transfer: Transfer(
-                      prob.fromLeg.route,
-                      prob.toLeg.route,
-                      config,
-                    ),
-                  }}
-                />
+                <span className="notification-header">{title}</span>
+                {body}
               </>,
               itinerarySearchCallback,
             );
           } else {
+            const title = intl.formatMessage({
+              id: 'navigation-hurry-transfer',
+              defaultMessage: 'Hurry transfer',
+            });
+            const body = intl.formatMessage(
+              {
+                id: 'navigation-hurry-transfer-details',
+                defaultMessage: 'Hurry transfer {transfer}',
+              },
+              {
+                transfer: Transfer(
+                  prob.fromLeg.route,
+                  prob.toLeg.route,
+                  config,
+                ),
+              },
+            );
+            pushNotification = {
+              title,
+              body,
+            };
             content = (
               <div className="navi-info-content">
-                <span className="notification-header">
-                  <FormattedMessage id="navigation-hurry-transfer" />
-                </span>
-                <FormattedMessage
-                  id="navigation-hurry-transfer-value"
-                  values={{
-                    transfer: Transfer(
-                      prob.fromLeg.route,
-                      prob.toLeg.route,
-                      config,
-                    ),
-                    time: durationToString(prob.duration),
-                  }}
-                />
+                <span className="notification-header">{title}</span>
+                {body}
               </div>
             );
           }
@@ -607,6 +632,7 @@ export const getItineraryAlerts = (
             id: transferId,
             hideClose: prob.severity === 'ALERT',
             expiresOn: legTime(prob.toLeg.start),
+            pushNotification,
           });
         }
       }
@@ -616,29 +642,35 @@ export const getItineraryAlerts = (
           const id = `transfer-${tr.fromLeg.legId}-${tr.toLeg.legId}}`;
           const alert = messages.get(id);
           if (alert && alert.severity !== 'INFO') {
+            const title = intl.formatMessage({
+              id: 'navigation-hurry-transfer-solved',
+              defaultMessage: 'Hurry transfer solved',
+            });
+            const body = intl.formatMessage(
+              {
+                id: 'navigation-hurry-transfer-solved-details',
+                defaultMessage: 'Hurry transfer {transfer} solved',
+              },
+              {
+                transfer: Transfer(tr.fromLeg.route, tr.toLeg.route, config),
+                time: durationToString(tr.duration),
+              },
+            );
             // a warning/alert has been showm
             alerts.push({
               severity: 'INFO',
               content: (
                 <div className="navi-info-content">
-                  <span className="notification-header">
-                    <FormattedMessage id="navigation-hurry-transfer-solved" />
-                  </span>
-                  <FormattedMessage
-                    id="navigation-hurry-transfer-solved-details"
-                    values={{
-                      transfer: Transfer(
-                        tr.fromLeg.route,
-                        tr.toLeg.route,
-                        config,
-                      ),
-                      time: durationToString(tr.duration),
-                    }}
-                  />
+                  <span className="notification-header">{title}</span>
+                  {body}
                 </div>
               ),
               id,
               expiresOn: legTime(tr.toLeg.start),
+              pushNotification: {
+                title,
+                body,
+              },
             });
           }
         }
