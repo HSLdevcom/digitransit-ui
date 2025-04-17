@@ -17,19 +17,21 @@ import {
   LEGTYPE,
 } from './NaviUtils';
 import usePrevious from './hooks/usePrevious';
+import { usePushNotification } from './hooks/usePushNotification';
 
 const COUNT_AT_LEG_END = 2; // update cycles within DESTINATION_RADIUS from leg.to
 const HIDE_TOPCARD_DURATION = 2000; // milliseconds
-function createNotification(title, content) {
-  if ('Notification' in window && Notification.permission === 'granted') {
-    return new Notification(title, {
-      body: content,
-    });
-  }
-  return null;
-}
-function addMessages(incomingMessages, newMessages) {
+
+function addMessages(
+  incomingMessages,
+  newMessages,
+  oldMessages,
+  createNotification,
+) {
   newMessages.forEach(m => {
+    if (oldMessages && !oldMessages.get(m.id)) {
+      createNotification?.(m.id, m.pushNotification);
+    }
     incomingMessages.set(m.id, m);
   });
 }
@@ -82,7 +84,6 @@ function NaviCardContainer(
   // notifications that are shown to the user.
   const [activeMessages, setActiveMessages] = useState([]);
   const [legChanging, setLegChanging] = useState(false);
-  const [pushNotificationSend, setPushNotificationSend] = useState(new Map());
   const { isEqual: legChanged } = usePrevious(currentLeg, (prev, current) =>
     isAnyLegPropertyIdentical(prev, current, ['legId', 'mode']),
   );
@@ -91,29 +92,14 @@ function NaviCardContainer(
   const legEndRef = useRef(0);
 
   const { intl, config, match, router } = context;
-
+  const { createNotification, notificationConsent } =
+    usePushNotification(config);
   const handleRemove = index => {
     const msg = messages.get(activeMessages[index].id);
     msg.closed = true; // remember closing action
     setActiveMessages(activeMessages.filter((_, i) => i !== index));
   };
-  const notificationConsent = () => {
-    if (config.experimental.notifications && 'Notification' in window) {
-      if (
-        Notification.permission !== 'denied' &&
-        Notification.permission !== 'granted'
-      ) {
-        Notification.requestPermission().then(permission => {
-          if (permission === 'granted') {
-            createNotification(
-              'Notifications Approved',
-              'Notifications are now approved',
-            );
-          }
-        });
-      }
-    }
-  };
+
   // track only relevant vehicles for the journey.
   const getNaviTopics = () =>
     getTopics(
@@ -152,6 +138,8 @@ function NaviCardContainer(
         makeNewItinerarySearch,
         config,
       ),
+      messages,
+      createNotification,
     );
 
     if (
@@ -163,34 +151,44 @@ function NaviCardContainer(
       const info2 = `status: ${position.status}`;
       const info3 = `locations: ${position.locationCount} watchId: ${position.watchId}`;
 
-      addMessages(incomingMessages, [
-        {
-          severity: 'INFO',
-          content: (
-            <div className="navi-info-content">
-              <span>{info1}</span>
-              <span>{info2}</span>
-              <span>{info3}</span>
-            </div>
-          ),
-          id: 'debug',
-        },
-      ]);
+      addMessages(
+        incomingMessages,
+        [
+          {
+            severity: 'INFO',
+            content: (
+              <div className="navi-info-content">
+                <span>{info1}</span>
+                <span>{info2}</span>
+                <span>{info3}</span>
+              </div>
+            ),
+            id: 'debug',
+          },
+        ],
+        messages,
+        createNotification,
+      );
     }
 
     if (nextLeg?.transitLeg) {
       // Messages for NaviStack.
-      addMessages(incomingMessages, [
-        ...getTransitLegState(nextLeg, intl, messages, time),
-        ...getAdditionalMessages(
-          currentLeg,
-          nextLeg,
-          firstLeg,
-          time,
-          config,
-          messages,
-        ),
-      ]);
+      addMessages(
+        incomingMessages,
+        [
+          ...getTransitLegState(nextLeg, intl, messages, time),
+          ...getAdditionalMessages(
+            currentLeg,
+            nextLeg,
+            firstLeg,
+            time,
+            config,
+            messages,
+          ),
+        ],
+        messages,
+        createNotification,
+      );
     }
     let timeoutId;
     if (legChanged) {
@@ -217,20 +215,6 @@ function NaviCardContainer(
       const keptMessages = previousValidMessages.filter(
         msg => !incomingMessages.get(msg.id),
       );
-      // TODO: Refactor this after functionality is properly tested
-      // with native mobile notifications.
-      if (config.experimental.notifications && 'Notification' in window) {
-        messages.forEach(m => {
-          const notificationSent = pushNotificationSend.get(m.id);
-          if (!notificationSent && m.notification) {
-            createNotification(m.id, m.notification);
-
-            setPushNotificationSend(
-              new Map(pushNotificationSend.set(m.id, true)),
-            );
-          }
-        });
-      }
       const newMessages = Array.from(incomingMessages.values());
       setActiveMessages([...keptMessages, ...newMessages]);
       setMessages(new Map([...messages, ...incomingMessages]));
@@ -285,7 +269,7 @@ function NaviCardContainer(
     <div
       className={`navi-card-container ${className}`}
       style={{ top: containerTopPosition }}
-      onClick={notificationConsent}
+      onClick={() => notificationConsent()}
     >
       <NaviCard
         leg={l}

@@ -17,6 +17,11 @@ const TRANSFER_SLACK = 60000;
 const DISPLAY_MESSAGE_THRESHOLD = 120 * 1000; // 2 minutes
 
 export const DESTINATION_RADIUS = 20; // meters
+/* const createContent = (intl, id, values) => {
+  let content;
+  let notification;
+  return { content, notification };
+}; */
 
 export function summaryString(legs, time, previousLeg, currentLeg, nextLeg) {
   const parts = epochToIso(time).split('T')[1].split('+');
@@ -270,7 +275,7 @@ export const getAdditionalMessages = (
           </div>
         ),
         id: 'ticket',
-        notification: `${fares[0].ticketName} - ${formatFare(fares[0])}`,
+        pushNotification: `${fares[0].ticketName} - ${formatFare(fares[0])}`,
       });
     }
   }
@@ -280,7 +285,7 @@ export const getAdditionalMessages = (
 export const getTransitLegState = (leg, intl, messages, time) => {
   const { start, realtimeState, from, mode, legId, route } = leg;
   const { scheduledTime, estimated } = start;
-  let notification;
+  let pushNotification;
   if (messages.get(legId)?.closed) {
     return [];
   }
@@ -299,7 +304,7 @@ export const getTransitLegState = (leg, intl, messages, time) => {
     const { delay } = estimated;
 
     const translationId = `navigation-mode-${delay > 0 ? 'late' : 'early'}`;
-    notification = intl.formatMessage(
+    pushNotification = intl.formatMessage(
       {
         id: translationId,
       },
@@ -323,7 +328,7 @@ export const getTransitLegState = (leg, intl, messages, time) => {
     } else {
       severity = 'WARNING';
     }
-    notification = intl.formatMessage(
+    pushNotification = intl.formatMessage(
       {
         id: 'navileg-start-schedule',
       },
@@ -359,7 +364,7 @@ export const getTransitLegState = (leg, intl, messages, time) => {
           ? 'from-station'
           : 'from-stop';
     const stopOrStation = intl.formatMessage({ id: fromId });
-    notification = intl.formatMessage(
+    pushNotification = intl.formatMessage(
       { id: 'navileg-start-realtime' },
       { time: timeStr(estimated.time), stopOrStation, stopName: name },
     );
@@ -385,9 +390,15 @@ export const getTransitLegState = (leg, intl, messages, time) => {
     );
     severity = 'INFO';
   }
-  notification = `${severity}: ${notification}`;
+  pushNotification = `${severity}: ${pushNotification}`;
   return [
-    { severity, content, id: legId, expiresOn: legTime(start), notification },
+    {
+      severity,
+      content,
+      id: legId,
+      expiresOn: legTime(start),
+      pushNotification,
+    },
   ];
 };
 
