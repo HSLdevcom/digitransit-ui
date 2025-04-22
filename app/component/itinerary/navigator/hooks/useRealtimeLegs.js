@@ -6,7 +6,7 @@ import { updateLatestNavigatorItineraryParams } from '../../../../store/localSto
 import { legTime } from '../../../../util/legUtils';
 import { legQuery } from '../../queries/LegQuery';
 import { getRemainingTraversal } from '../NaviUtils';
-import useInitialLegState from './useInitialLegState';
+import useLegState from './useLegState';
 import {
   fakeDelay,
   getLegsOfInterest,
@@ -16,7 +16,7 @@ import {
   shiftLegsByGeolocation,
 } from './utils/realtimeLegUtils';
 
-const GEOLOCATED_LEGS = false;
+const GEOLOCATED_LEGS = true;
 
 const useRealtimeLegs = (
   relayEnvironment,
@@ -28,7 +28,7 @@ const useRealtimeLegs = (
   simulateTransferProblem,
 ) => {
   const [{ origin, time, realTimeLegs }, setRealTimeLegs] =
-    useInitialLegState(initialLegs); // time = time published to hook users
+    useLegState(initialLegs); // time = time published to hook users
   const [hookTime, setHookTime] = useState(Date.now()); // internal time to drive leg updates
   const [loading, setLoading] = useState(true);
   const simCounter = useRef(0);

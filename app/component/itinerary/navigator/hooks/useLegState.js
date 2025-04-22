@@ -9,7 +9,7 @@ import { legTime } from '../../../../util/legUtils';
  * @param {Array} initialLegs - The initial legs of the itinerary.
  * @returns {Array} State and state updater function.
  */
-const useInitialLegState = initialLegs => {
+const useLegState = initialLegs => {
   const getInitialState = legs => {
     const time = Date.now();
     if (legs.length) {
@@ -41,4 +41,4 @@ const useInitialLegState = initialLegs => {
   return [state, setState];
 };
 
-export default useInitialLegState;
+export default useLegState;
