@@ -11,7 +11,7 @@ const NavigatorIntroFeature = ({
   body,
 }) => {
   return (
-    <div className="feature">
+    <div className="feature" role="group">
       {icon && (
         <Icon
           img={icon}
@@ -20,10 +20,13 @@ const NavigatorIntroFeature = ({
           color={iconColor}
           height={2}
           width={2}
+          aria-hidden="true"
         />
       )}
       <div className="right-column">
-        <FormattedMessage tagName="h3" id={header} />
+        <FormattedMessage id={header}>
+          {msg => <h3 role="presentation">{msg}</h3>}
+        </FormattedMessage>
         <FormattedMessage tagName="p" id={body} />
       </div>
     </div>

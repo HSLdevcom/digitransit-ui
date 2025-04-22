@@ -21,6 +21,8 @@ const NaviBoardingInfo = ({
         'compact-boarding': compact,
         'with-icon': withExpandIcon,
       })}
+      aria-live="polite"
+      role="status"
     >
       <div className="route-info">
         {withExpandIcon && (
@@ -37,6 +39,9 @@ const NaviBoardingInfo = ({
         />
         {!compact && <div className="headsign">{headsign}</div>}
       </div>
+      <FormattedMessage id="leaves">
+        {msg => <span className="sr-only">{msg}</span>}
+      </FormattedMessage>
       {!withExpandIcon && (
         <div className="wait-duration">
           <FormattedMessage

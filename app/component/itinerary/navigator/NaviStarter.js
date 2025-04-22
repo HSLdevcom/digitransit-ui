@@ -1,6 +1,6 @@
 import Button from '@hsl-fi/button';
 import PropTypes from 'prop-types';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
 import { addAnalyticsEvent } from '../../../util/analyticsUtils';
 import { configShape } from '../../../util/shapes';
@@ -15,7 +15,12 @@ const NaviStarter = (
   const [isVisible, setIsVisible] = useState(!isPastStart);
   const [isDismissed, setIsDismissed] = useState(false);
 
+  const initializerCardRef = useRef(null);
+
   useEffect(() => {
+    if (initializerCardRef.current) {
+      initializerCardRef.current.focus();
+    }
     setIsDismissed(isPastStart);
   }, [isPastStart]);
 
@@ -43,11 +48,18 @@ const NaviStarter = (
       onAnimationEnd={handleAnimationEnd}
       style={{ top: containerTopPosition }}
     >
-      <div className="navi-initializer-card">
+      <div
+        className="navi-initializer-card"
+        aria-live="polite"
+        role="status"
+        ref={initializerCardRef}
+        tabIndex="-1"
+      >
         {logo ? (
-          <img src={logo} alt="navigator logo" />
+          <img src={logo} aria-hidden="true" alt="navigator logo" />
         ) : (
           <Icon
+            aria-hidden="true"
             img="icon-icon_navigation_wait"
             className="mode"
             height={2}

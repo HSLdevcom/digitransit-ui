@@ -36,8 +36,14 @@ function NaviBottom(
   );
 
   const durationDiv = remainingDuration >= 0 && (
-    <div className="navi-time">
+    <div className="navi-time" aria-live="polite" role="status">
+      <FormattedMessage id="travel-time-label">
+        {msg => <span className="sr-only">{msg}</span>}
+      </FormattedMessage>
       <FormattedMessage id="travel-time" values={{ min: remainingDuration }} />
+      <FormattedMessage id="arriving-at">
+        {msg => <span className="sr-only">{msg}</span>}
+      </FormattedMessage>
       <FormattedMessage id="at-time">
         {msg => (
           <span className="navi-daytime">

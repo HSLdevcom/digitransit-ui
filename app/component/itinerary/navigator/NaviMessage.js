@@ -49,6 +49,8 @@ function NaviMessage(
         `${severity.toLowerCase()}`,
       )}
       onAnimationEnd={handleAnimationEnd}
+      aria-live={severity === 'ALERT' ? 'assertive' : 'polite'}
+      role="alert"
     >
       <Icon img={iconId} height={1.4} width={1.4} color={color} />
       {children}

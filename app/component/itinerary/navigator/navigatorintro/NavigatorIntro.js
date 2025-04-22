@@ -18,8 +18,10 @@ const NavigatorIntro = (
   return (
     <>
       <div className="intro-body">
-        {logo && <img src={logo} alt="navigator logo" />}
-        <FormattedMessage tagName="h2" id="navi-more-guidance" />
+        {logo && <img src={logo} aria-hidden="true" alt="navigator logo" />}
+        <FormattedMessage id="navi-more-guidance">
+          {msg => <h2 role="presentation">{msg}</h2>}
+        </FormattedMessage>
         <div className="content">
           <NavigatorIntroFeature
             icon="icon-icon_future-route"

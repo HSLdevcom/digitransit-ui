@@ -91,6 +91,8 @@ export default function NaviCard(
       type="button"
       className={`navi-top-card ${cardAnimation}`}
       onClick={handleClick}
+      aria-expanded={cardExpanded}
+      aria-controls={`navi-card-content-${leg?.legId}`}
     >
       <div className="main-card">
         <div className="content">
@@ -114,11 +116,13 @@ export default function NaviCard(
           </div>
         </div>
         <div
+          id={`navi-card-content-${leg?.legId}`}
           className="extension"
           style={{
             maxHeight,
           }}
           ref={contentRef}
+          aria-hidden={!cardExpanded}
         >
           <NaviCardExtension
             legType={legType}

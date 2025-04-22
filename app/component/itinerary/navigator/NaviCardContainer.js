@@ -255,6 +255,8 @@ function NaviCardContainer(
     <div
       className={`navi-card-container ${className}`}
       style={{ top: containerTopPosition }}
+      aria-live={legChanging ? undefined : 'polite'}
+      aria-hidden={legChanging ? 'true' : 'false'}
     >
       <NaviCard
         leg={l}

@@ -162,11 +162,13 @@ function NaviContainer(
           onClose={handleNavigatorEndClick}
         />
       )}
-      <NaviBottom
-        setNavigation={setNavigation}
-        arrival={arrivalTime}
-        time={time}
-      />
+      {!isJourneyCompleted && (
+        <NaviBottom
+          setNavigation={setNavigation}
+          arrival={arrivalTime}
+          time={time}
+        />
+      )}
     </>
   );
 }

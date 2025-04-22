@@ -20,7 +20,7 @@ const NavigatorOutro = ({ onClose, destination, logo }, context) => {
 
   return (
     <>
-      <div className="outro-logo-container">
+      <div className="outro-logo-container" aria-hidden="true">
         {logo && <img src={logo} alt="Navigator outro icon" />}
       </div>
       <div className="outro-body">
