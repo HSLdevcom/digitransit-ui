@@ -32,6 +32,7 @@ const useInitialLegState = initialLegs => {
       };
     }
     return {
+      time,
       realTimeLegs: [],
     };
   };
