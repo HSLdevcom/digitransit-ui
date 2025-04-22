@@ -16,6 +16,8 @@ import {
   shiftLegsByGeolocation,
 } from './utils/realtimeLegUtils';
 
+const GEOLOCATED_LEGS = false;
+
 const useRealtimeLegs = (
   relayEnvironment,
   initialLegs,
@@ -104,9 +106,11 @@ const useRealtimeLegs = (
       // Shift unfrozen, non-transit-legs to match possibly changed transit legs
       matchLegEnds(newRtLegs, now);
 
-      shiftLegsByGeolocation(newRtLegs, now, vehicles, position, origin);
-      // transit legs may have changed, shift again
-      matchLegEnds(newRtLegs, now);
+      if (GEOLOCATED_LEGS) {
+        shiftLegsByGeolocation(newRtLegs, now, vehicles, position, origin);
+        // transit legs may have changed, shift again
+        matchLegEnds(newRtLegs, now);
+      }
 
       // Freezes any leg.start|end in the past
       newRtLegs.forEach(l => {
