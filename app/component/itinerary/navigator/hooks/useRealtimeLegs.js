@@ -1,4 +1,5 @@
 /* eslint-disable no-param-reassign */
+import cloneDeep from 'lodash/cloneDeep';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { fetchQuery } from 'react-relay';
 import { updateLatestNavigatorItineraryParams } from '../../../../store/localStorage';
@@ -72,7 +73,8 @@ const useRealtimeLegs = (
       // Maps previous legs with fresh real time transit legs. If transit leg start or end time is in the past according
       // to previous state, the time is marked as frozen to stabilize the current navigation state.
       // rtLegMap does not contain legs that have ended in the past as they've been filtered before updates are queried
-      newRtLegs = prev.realTimeLegs.map(l => {
+      newRtLegs = prev.realTimeLegs.map(leg => {
+        const l = cloneDeep(leg);
         const rtLeg =
           l.legId && rtLegMap?.[l.legId] ? { ...rtLegMap[l.legId] } : null;
         if (rtLeg) {
