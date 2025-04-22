@@ -28,8 +28,8 @@ const useRealtimeLegs = (
   simulateTransferProblem,
 ) => {
   const [{ origin, time, realTimeLegs }, setRealTimeLegs] =
-    useInitialLegState(initialLegs);
-  const [tick, setTick] = useState(Date.now());
+    useInitialLegState(initialLegs); // time = time published to hook users
+  const [hookTime, setHookTime] = useState(Date.now()); // internal time to drive leg updates
   const [loading, setLoading] = useState(true);
   const simCounter = useRef(0);
 
@@ -148,11 +148,11 @@ const useRealtimeLegs = (
 
   useEffect(() => {
     fetchAndSetRealtimeLegs();
-  }, [tick]);
+  }, [hookTime]);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setTick(Date.now());
+      setHookTime(Date.now());
     }, 10000);
 
     if (forceStartAt) {
