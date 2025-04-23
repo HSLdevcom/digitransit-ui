@@ -16,7 +16,7 @@ import {
   shiftLegsByGeolocation,
 } from './utils/realtimeLegUtils';
 
-const GEOLOCATED_LEGS = true;
+const GEOLOCATED_LEGS = false;
 
 const useRealtimeLegs = (
   relayEnvironment,
