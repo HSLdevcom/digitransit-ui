@@ -79,9 +79,11 @@ function NaviCardContainer(
   };
 
   // track only relevant vehicles for the journey.
+  // addd 20 s buffer so that vehicle location is available
+  // for leg validation long enough
   const getNaviTopics = () =>
     getTopics(
-      legs.filter(leg => legTime(leg.end) >= time),
+      legs.filter(leg => legTime(leg.end) >= time - 20000),
       config,
     );
 
