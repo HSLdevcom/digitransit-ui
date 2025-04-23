@@ -170,7 +170,8 @@ class ItineraryDetails extends React.Component {
       !onlyWalking &&
       !onlyBiking &&
       !legsWithScooter &&
-      legsWithRentalBike.length === 0;
+      legsWithRentalBike.length === 0 &&
+      driving.distance === 0;
     const containsBiking = biking.duration > 0 && biking.distance > 0;
     const showBikeBoardingInformation =
       containsBiking &&
