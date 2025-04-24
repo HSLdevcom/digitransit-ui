@@ -772,9 +772,5 @@ export default {
   thumbsUpGraphic: 'hsl/thumbs-up.svg',
   trafficLightGraphic: 'hsl/traffic-light.svg',
   naviGeolocationGraphic: 'hsl/geolocation.svg',
-
-  // features that should not be deployed to production
-  experimental: {
-    navigation: IS_DEV,
-  },
+  navigation: true,
 };

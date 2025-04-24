@@ -167,6 +167,7 @@ function NaviContainer(
           setNavigation={setNavigation}
           arrival={arrivalTime}
           time={time}
+          legs={legs}
         />
       )}
     </>

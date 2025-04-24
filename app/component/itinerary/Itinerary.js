@@ -10,7 +10,7 @@ import {
   configShape,
 } from '../../util/shapes';
 import Icon from '../Icon';
-import RelativeDuration from './RelativeDuration';
+import Duration from './Duration';
 import RouteNumber from '../RouteNumber';
 import RouteNumberContainer from '../RouteNumberContainer';
 import { getActiveLegAlertSeverityLevel } from '../../util/alertUtils';
@@ -819,7 +819,7 @@ const Itinerary = (
               },
             );
           }),
-          totalTime: <RelativeDuration duration={duration} />,
+          totalTime: <Duration duration={duration} />,
         }}
       />
     </div>
@@ -942,7 +942,7 @@ const Itinerary = (
                 </div>
               )}
               <div className="itinerary-duration">
-                <RelativeDuration duration={duration} />
+                <Duration duration={duration} />
               </div>
             </div>
             <div

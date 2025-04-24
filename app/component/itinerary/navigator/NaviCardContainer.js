@@ -137,6 +137,7 @@ function NaviCardContainer(
           time,
           config,
           messages,
+          legs,
         ),
       ]);
     }

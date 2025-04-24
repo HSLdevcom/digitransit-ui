@@ -9,6 +9,7 @@ import { legTime } from '../../../util/legUtils';
 import { getMiddleOf } from '../../../util/geo-utils';
 import LegMarker from './LegMarker';
 import SpeechBubble from '../SpeechBubble';
+import { durationToString } from '../../../util/timeUtils';
 
 const offsetNormal = { x: 22.5, y: 0 };
 const offsetArrow = { x: 55, y: 15 };
@@ -201,17 +202,14 @@ class TransitLegMarkers extends React.Component {
   }
 
   getSpeechBubbleText(leg, nextLeg, realtime) {
-    let duration = '';
-    const transferStart = legTime(leg.end);
-    const transferEnd = legTime(nextLeg.start);
-    if (transferStart && transferEnd) {
-      duration = Math.floor((transferEnd - transferStart) / 1000 / 60);
-    }
+    const duration = durationToString(
+      legTime(nextLeg.start) - legTime(leg.end),
+    );
     const style = realtime ? 'color:#3b7f00' : '';
 
     return `<span>
         ${this.context.intl.formatMessage({ id: 'transfer' })}:
-        <span style="${style}">${duration} min</span>
+        <span style="${style}">${duration}</span>
       </span>`;
   }
 

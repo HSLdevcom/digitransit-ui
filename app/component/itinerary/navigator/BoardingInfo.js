@@ -6,7 +6,7 @@ import RouteNumberContainer from '../../RouteNumberContainer';
 import { routeShape } from '../../../util/shapes';
 import Icon from '../../Icon';
 
-const NaviBoardingInfo = ({
+const BoardingInfo = ({
   route,
   mode,
   headsign,
@@ -46,7 +46,7 @@ const NaviBoardingInfo = ({
         <div className="wait-duration">
           <FormattedMessage
             id="navileg-departing-at"
-            defaultMessage="{duration} min päästä klo {legTime}"
+            defaultMessage="{duration} päästä klo {legTime}"
             values={translationValues}
           />
         </div>
@@ -55,7 +55,7 @@ const NaviBoardingInfo = ({
   );
 };
 
-NaviBoardingInfo.propTypes = {
+BoardingInfo.propTypes = {
   route: routeShape.isRequired,
   mode: PropTypes.string.isRequired,
   headsign: PropTypes.string.isRequired,
@@ -64,9 +64,9 @@ NaviBoardingInfo.propTypes = {
   withExpandIcon: PropTypes.bool,
   compact: PropTypes.bool,
 };
-NaviBoardingInfo.defaultProps = {
+BoardingInfo.defaultProps = {
   withExpandIcon: false,
   compact: false,
 };
 
-export default NaviBoardingInfo;
+export default BoardingInfo;

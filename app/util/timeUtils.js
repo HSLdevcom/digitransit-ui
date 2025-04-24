@@ -25,18 +25,20 @@ export function isTomorrow(startTime, refTime) {
 
 // renders trip duration to string
 // input: time duration - milliseconds
-export function durationToString(inDuration) {
-  const duration = moment.duration(inDuration);
-  if (duration.asHours() >= 1) {
-    return `${
-      duration.hours() + duration.days() * 24
-    } h ${duration.minutes()} min`;
+export function durationToString(durationMs) {
+  const dur = Math.max(durationMs, 0);
+  const hours = Math.floor(dur / 3600000);
+  const mins = Math.floor(dur / 60000 - hours * 60);
+  if (hours >= 1) {
+    if (mins > 0) {
+      return `${hours} h ${mins} min`;
+    }
+    return `${hours} h`;
   }
-  if (duration.minutes() < 1) {
-    return `< 1 min`;
+  if (mins < 1) {
+    return '< 1 min';
   }
-
-  return `${duration.minutes()} min`;
+  return `${mins} min`;
 }
 
 /**

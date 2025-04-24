@@ -446,8 +446,5 @@ export default {
       value: 1800,
     },
   ],
-  // features that should not be deployed to production
-  experimental: {
-    navigation: IS_DEV,
-  },
+  navigation: true,
 };

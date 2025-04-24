@@ -1325,10 +1325,14 @@ export default function ItineraryPage(props, context) {
       );
     } else {
       let carEmissions = carPlan?.edges?.[0]?.node.emissionsPerPerson?.co2;
-      const pastSearch =
-        Date.parse(combinedEdges[selectedIndex]?.node.end) < Date.now();
+      // show navi if search is not in past and not more than 24 hours in future
+      const presentSearch =
+        Date.parse(combinedEdges[selectedIndex]?.node.end) > Date.now() &&
+        Date.parse(combinedEdges[selectedIndex]?.node.start) <
+          Date.now() + 24 * 3600 * 1000;
+
       const navigateHook =
-        !desktop && config.experimental?.navigation && !pastSearch
+        !desktop && config.navigation && presentSearch
           ? () =>
               storeItineraryAndStartNavigationWithAnalytics(
                 combinedEdges[selectedIndex]?.node,
