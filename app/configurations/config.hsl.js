@@ -117,6 +117,9 @@ export default {
     walkSpeed: [0.69, 0.97, 1.28, 1.67, 2.22],
   },
 
+  suggestWalkMaxDistance: 12000,
+  suggestBikeMaxDistance: 100000,
+
   omitNonPickups: true,
 
   parkAndRide: {
