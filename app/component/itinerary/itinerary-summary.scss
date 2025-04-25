@@ -137,25 +137,25 @@
       right: 82.38px;
       top: 416px;
       overflow: visible;
-      background: rgba(100, 190, 30, 0.15);
+      background: #f1f8eb;
       border-radius: 4px;
 
       .icon-container {
         .icon {
           &.co2-leaf {
-            width: 11px;
-            height: 11px;
-            margin-left: 2px;
+            width: 16px;
+            height: 16px;
+            margin-top: 6px;
           }
         }
       }
 
       .itinerary-co2-value {
-        min-width: 29px;
+        min-width: auto;
         height: 16px;
         font-family: $font-family;
         font-style: normal;
-        font-weight: $itinerary-co2-font-weight;
+        font-weight: $itinerary-co2-badge-font-weight;
         font-size: 13px;
         line-height: 16px;
         color: #3b7f00;
