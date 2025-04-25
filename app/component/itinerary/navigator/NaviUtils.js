@@ -25,7 +25,7 @@ const EARLIEST_NEXT_STOP = 60 * 1000;
 const NOTED_SEVERITY = ['WARNING', 'ALERT'];
 
 export const DESTINATION_RADIUS = 20; // meters
-export const ACCEPT_LOCATION_RADIUS = 500;
+export const ACCEPT_LOCATION_RADIUS = 1000;
 
 export const LEGTYPE = {
   WAIT: 'WAIT',

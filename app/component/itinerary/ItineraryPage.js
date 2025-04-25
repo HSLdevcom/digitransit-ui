@@ -361,11 +361,10 @@ export default function ItineraryPage(props, context) {
     altState[1]({ loading: LOADSTATE.LOADING });
     const planParams = getPlanParams(config, match, planType);
     try {
-      let reps;
-      if (planType === PLANTYPE.CARTRANSIT) {
-        reps = 1;
-      }
-      const plan = await iterateQuery(planParams, reps);
+      const plan = await iterateQuery(
+        planParams,
+        planParams.maxQueryIterations,
+      );
       altState[1]({ plan, loading: LOADSTATE.DONE });
     } catch (error) {
       altState[1]({ plan: {}, loading: LOADSTATE.DONE });
@@ -380,7 +379,10 @@ export default function ItineraryPage(props, context) {
     setRelaxState({ loading: LOADSTATE.LOADING });
     const planParams = getPlanParams(config, match, PLANTYPE.TRANSIT, true);
     try {
-      const plan = await iterateQuery(planParams);
+      const plan = await iterateQuery(
+        planParams,
+        planParams.maxQueryIterations,
+      );
       setRelaxState({ plan, loading: LOADSTATE.DONE });
     } catch (error) {
       setRelaxState(emptyPlan);
@@ -396,7 +398,10 @@ export default function ItineraryPage(props, context) {
     setState({ ...emptyState, loading: LOADSTATE.LOADING });
     const planParams = getPlanParams(config, match, PLANTYPE.TRANSIT);
     try {
-      const plan = await iterateQuery(planParams);
+      const plan = await iterateQuery(
+        planParams,
+        planParams.maxQueryIterations,
+      );
       setState({ ...emptyState, plan, loading: LOADSTATE.DONE });
       ariaRef.current = 'itinerary-page.itineraries-loaded';
     } catch (error) {
@@ -420,7 +425,10 @@ export default function ItineraryPage(props, context) {
     );
 
     try {
-      const plan = await iterateQuery(planParams);
+      const plan = await iterateQuery(
+        planParams,
+        planParams.maxQueryIterations,
+      );
       setScooterState({ plan, loading: LOADSTATE.DONE });
     } catch (error) {
       reportError(error);
@@ -452,7 +460,10 @@ export default function ItineraryPage(props, context) {
       allowedRentalNetworks: allScooterNetworks,
     };
     try {
-      const plan = await iterateQuery(tunedParams);
+      const plan = await iterateQuery(
+        tunedParams,
+        tunedParams.maxQueryIterations,
+      );
       const scooterPlan = { edges: scooterEdges(plan.edges) };
       setRelaxScooterState({ plan: scooterPlan, loading: LOADSTATE.DONE });
     } catch (error) {

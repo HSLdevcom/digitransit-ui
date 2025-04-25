@@ -16,7 +16,7 @@ import NaviStarter from './NaviStarter';
 import { DESTINATION_RADIUS, summaryString } from './NaviUtils';
 import { addAnalyticsEvent } from '../../../util/analyticsUtils';
 
-const ADDITIONAL_ARRIVAL_TIME = 300000; // 5 min in ms
+const ADDITIONAL_ARRIVAL_TIME = 30000; // 30 s
 const LEGLOG = true;
 const TOPBAR_PADDING = 8; // pixels
 const START_BUFFER = 120000; // 2 min in ms
@@ -109,7 +109,10 @@ function NaviContainer(
     (currentLeg === lastLeg || time > arrivalTime) &&
     position &&
     tailLength <= DESTINATION_RADIUS;
-  const isPastExpectedArrival = time > arrivalTime + ADDITIONAL_ARRIVAL_TIME;
+  const arrivalMargin = position
+    ? 10 * ADDITIONAL_ARRIVAL_TIME
+    : ADDITIONAL_ARRIVAL_TIME;
+  const isPastExpectedArrival = time > arrivalTime + arrivalMargin;
   const isJourneyCompleted = isDestinationReached || isPastExpectedArrival;
 
   if (LEGLOG) {
