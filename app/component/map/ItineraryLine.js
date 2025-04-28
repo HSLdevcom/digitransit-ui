@@ -74,6 +74,7 @@ class ItineraryLine extends React.Component {
         {
           mode: leg.mode,
           type: leg.route?.type,
+          gtfsId: leg.route?.gtfsId,
         },
         this.context.config,
       );
