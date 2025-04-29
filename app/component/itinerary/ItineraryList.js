@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { createFragmentContainer, graphql } from 'react-relay';
+import { useFragment, graphql } from 'react-relay';
 import { FormattedMessage } from 'react-intl';
 import cx from 'classnames';
 import { matchShape } from 'found';
@@ -27,7 +27,7 @@ const spinnerPosition = {
 
 function ItineraryList(
   {
-    planEdges,
+    planEdges: planEdgesRef,
     activeIndex,
     onSelect,
     onSelectImmediately,
@@ -46,6 +46,28 @@ function ItineraryList(
   const { config } = context;
   const { location } = context.match;
   const { hash } = context.match.params;
+
+  const planEdges = useFragment(
+    graphql`
+      fragment ItineraryList_planEdges on PlanEdge @relay(plural: true) {
+        node {
+          ...Itinerary_itinerary
+          emissionsPerPerson {
+            co2
+          }
+          legs {
+            transitLeg
+            mode
+            route {
+              mode
+              type
+            }
+          }
+        }
+      }
+    `,
+    planEdgesRef,
+  );
 
   const co2s = planEdges
     .filter(e => e.node.emissionsPerPerson?.co2 >= 0)
@@ -261,29 +283,4 @@ ItineraryList.contextTypes = {
   match: matchShape.isRequired,
 };
 
-const containerComponent = createFragmentContainer(ItineraryList, {
-  planEdges: graphql`
-    fragment ItineraryList_planEdges on PlanEdge @relay(plural: true) {
-      node {
-        ...Itinerary_itinerary
-        emissionsPerPerson {
-          co2
-        }
-        legs {
-          transitLeg
-          mode
-          route {
-            mode
-            type
-          }
-        }
-      }
-    }
-  `,
-});
-
-export {
-  containerComponent as default,
-  ItineraryList as Component,
-  spinnerPosition,
-};
+export { ItineraryList as default, spinnerPosition };

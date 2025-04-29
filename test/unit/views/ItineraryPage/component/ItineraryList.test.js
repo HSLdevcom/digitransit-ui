@@ -1,6 +1,5 @@
 import React from 'react';
-
-import { Component as ItineraryList } from '../../../../../app/component/itinerary/ItineraryList';
+import ItineraryList from '../../../../../app/component/itinerary/ItineraryList';
 import {
   mockChildContextTypes,
   mockContext,
@@ -60,7 +59,6 @@ describe('<ItineraryList />', () => {
     const props = {
       ...PROPS_TEMPLATE,
     };
-
     const wrapper = mountWithIntl(
       <div>
         <ItineraryList {...props} />
