@@ -9,6 +9,7 @@ import styles from './helpers/styles.scss';
 const BUS_EXPRESS = 702;
 const BUS_LOCAL = 704;
 const SPEEDTRAM = 900;
+const BUS_REPLACEMENT = 714;
 
 const getRouteMode = props => {
   switch (props.type) {
@@ -18,6 +19,8 @@ const getRouteMode = props => {
       return 'bus-express';
     case SPEEDTRAM:
       return 'speedtram';
+    case BUS_REPLACEMENT:
+      return 'bus-replacement';
     default:
       return props?.mode?.toLowerCase() || 'bus';
   }

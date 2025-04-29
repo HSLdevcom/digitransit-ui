@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
 import { createFragmentContainer, graphql } from 'react-relay';
+import { getRouteMode } from '../../util/modeUtils';
 import {
   getFaresFromLegs,
   shouldShowFareInfo,
@@ -36,6 +37,7 @@ import BackButton from '../BackButton';
 import Emissions from './Emissions';
 import EmissionsInfo from './EmissionsInfo';
 import FareDisclaimer from './FareDisclaimer';
+import RouteDisclaimer from './RouteDisclaimer';
 import ItinerarySummary from './ItinerarySummary';
 import Legs from './Legs';
 import MobileTicketPurchaseInformation from './MobileTicketPurchaseInformation';
@@ -263,6 +265,24 @@ class ItineraryDetails extends React.Component {
       }
     }
 
+    if (config.showRouteDisclaimer) {
+      itinerary.legs.forEach(leg => {
+        const { route } = leg;
+        if (
+          route?.desc?.length &&
+          getRouteMode(route, config)?.includes('replacement')
+        ) {
+          disclaimers.push(
+            <RouteDisclaimer
+              key={disclaimers.length}
+              text={route.desc}
+              href={route.url}
+              linkText={this.context.intl.formatMessage({ id: 'extra-info' })}
+            />,
+          );
+        }
+      });
+    }
     return (
       <div className="itinerary-tab">
         <h2 className="sr-only" key="srlabel">
@@ -647,6 +667,7 @@ const withRelay = createFragmentContainer(
             type
             longName
             desc
+            url
             agency {
               gtfsId
               fareUrl

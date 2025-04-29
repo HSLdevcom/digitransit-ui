@@ -87,6 +87,10 @@ $itinerary-tab-switch-height: 48px;
   &.scooter {
     @include getCircleSvg($scooter-color, $fill);
   }
+
+  &.replacement-bus {
+    @include getCircleSvg($replacement-bus-color, $fill);
+  }
 }
 
 .itinerary-list-container {
@@ -164,6 +168,68 @@ $itinerary-tab-switch-height: 48px;
       .description-container {
         flex: 1;
         margin-left: $padding-medium;
+      }
+    }
+  }
+
+  .route-disclaimer-container {
+    background-color: $disclaimer-background-color;
+    font-weight: $font-weight-disclaimer;
+    border: 1px solid $disclaimer-border-color;
+    border-radius: $border-radius-disclaimer;
+    display: flex;
+    font-size: $font-size-xsmall;
+    padding: var(--space-s) $padding-medium;
+    white-space: normal;
+    margin-bottom: 5px;
+    margin-top: 9px;
+
+    .icon-container {
+      flex: 0;
+      font-size: 20px;
+
+      .icon {
+        color: $primary-color;
+      }
+    }
+
+    .disclaimer {
+      display: flex;
+      flex-direction: column;
+      margin-left: 0.7em;
+
+      .disclaimer-header {
+        display: flex;
+        font-size: $font-size-normal;
+        font-weight: $font-weight-medium;
+        line-height: 22px;
+        margin: 0 0 4px;
+        color: #333;
+      }
+
+      .disclaimer-content {
+        display: flex;
+        font-size: $font-size-normal;
+        margin-bottom: 8px;
+        color: #666;
+        line-height: 18px;
+        letter-spacing: -0.03em;
+      }
+
+      .external-link {
+        color: $link-color;
+        text-decoration: none;
+        font-weight: $font-weight-medium;
+
+        .icon-container {
+          padding-left: var(--space-xxs);
+
+          .icon {
+            width: 16px;
+            height: 16px;
+            vertical-align: middle;
+          }
+        }
       }
     }
   }
@@ -882,6 +948,10 @@ $itinerary-tab-switch-height: 48px;
 
     &.scooter {
       @include setModeCircles($scooter-color);
+    }
+
+    &.replacement-bus {
+      @include setModeCircles($replacement-bus-color);
     }
   }
 }

@@ -378,6 +378,7 @@ export default {
       'mode-ferry': '#247C7B',
       'mode-citybike': '#f2b62d',
       'mode-scooter': '#C5CAD2',
+      'mode-replacement-bus': '#DC0451',
     },
   },
   iconModeSet: 'digitransit',
@@ -851,4 +852,5 @@ export default {
   navigation: false,
   sendAnalyticsCustomEventGoals: false,
   shortenLongTextThreshold: 10, // for route number in itinerary summary
+  showRouteDisclaimer: true,
 };
