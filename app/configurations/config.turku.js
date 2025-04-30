@@ -37,10 +37,39 @@ const CONSTANT_OPERATION_PARAGRAPHS = {
 };
 const walttiConfig = require('./config.waltti').default;
 
+const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
+const OTP_URL = process.env.OTP_URL || `${API_URL}/routing/v2/waltti-alt/`;
+const MAP_URL = process.env.MAP_URL || 'https://dev-cdn.digitransit.fi';
+const POI_MAP_PREFIX = `${MAP_URL}/map/v3/waltti-alt`;
+
 export default configMerger(walttiConfig, {
   CONFIG,
 
-  feedIds: ['FOLI', 'FUNI', 'TurkuTest'],
+  feedIds: ['TurkuTrunkroutes'],
+
+  URL: {
+    OTP: OTP_URL,
+    STOP_MAP: {
+      default: `${POI_MAP_PREFIX}/fi/stops,stations/`,
+      sv: `${POI_MAP_PREFIX}/sv/stops,stations/`,
+    },
+    RENTAL_STATION_MAP: {
+      default: `${POI_MAP_PREFIX}/fi/rentalStations/`,
+    },
+    REALTIME_RENTAL_STATION_MAP: {
+      default: `${POI_MAP_PREFIX}/fi/realtimeRentalStations/`,
+    },
+    PARK_AND_RIDE_MAP: {
+      default: `${POI_MAP_PREFIX}/en/vehicleParking/`,
+      sv: `${POI_MAP_PREFIX}/sv/vehicleParking/`,
+      fi: `${POI_MAP_PREFIX}/fi/vehicleParking/`,
+    },
+    PARK_AND_RIDE_GROUP_MAP: {
+      default: `${POI_MAP_PREFIX}/en/vehicleParkingGroups/`,
+      sv: `${POI_MAP_PREFIX}/sv/vehicleParkingGroups/`,
+      fi: `${POI_MAP_PREFIX}/fi/vehicleParkingGroups/`,
+    },
+  },
 
   searchParams: {
     'boundary.rect.min_lat': 59.963388,
@@ -205,7 +234,35 @@ export default configMerger(walttiConfig, {
     ],
   },
 
-  staticMessages: [],
+  staticMessages: [
+    {
+      id: '2',
+      priority: -1,
+      content: {
+        fi: [
+          {
+            type: 'text',
+            content: `Fölin linjasto uudistuu 1.7.2025. Tämän reittioppaan avulla voit tarkastella uusia linjoja ja tehdä reittihakuja kesäaikatauluilla 1.7.–10.8. ajalle. Aikataulukausi vaihtuu 11.8., jolloin siirrytään uuden linjaston peruskauteen. http://reittiopas.foli.fi  päivittyy 1.7., jolloin tämä versio suljetaan.`,
+          },
+        ],
+        en: [
+          {
+            type: 'text',
+            content:
+              "Föli's line network is being reformed on 1 July 2025. You can search new lines and plan future trips with this version of the journey planner. Available summer timetables are in effect 1 July until 10 August. Schedules will change on 11 August to the regular schedule. http://reittiopas.foli.fi  will be updated on 1 July and this version will close.",
+          },
+        ],
+        sv: [
+          {
+            type: 'text',
+            content:
+              'Fölis linjenätverk förnyas 1.7.2025. Med denna reseplanerare kan du se de nya linjerna samt göra sökningar med sommartidtabeller för tiden: 1.7.-10.8. Nya tidtabellerna, de sk. ordinarie tidtabellerna, träder i kraft 11.8. http://reittiopas.foli.fi  uppdateras 1.7. och denna version stängs av.',
+          },
+        ],
+      },
+    },
+  ],
+
   geoJson: {
     layerConfigUrl: 'https://data.foli.fi/geojson/reittiopas',
   },
@@ -226,4 +283,7 @@ export default configMerger(walttiConfig, {
     FERRY: 0.6,
     FUNICULAR: 0.1,
   },
+
+  realTime: undefined,
+  realTimePatch: undefined,
 });

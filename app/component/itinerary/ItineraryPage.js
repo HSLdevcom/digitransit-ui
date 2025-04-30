@@ -1340,7 +1340,7 @@ export default function ItineraryPage(props, context) {
       const presentSearch =
         Date.parse(combinedEdges[selectedIndex]?.node.end) > Date.now() &&
         Date.parse(combinedEdges[selectedIndex]?.node.start) <
-          Date.now() + 24 * 3600 * 1000;
+          Date.now() + 60 * 24 * 3600 * 1000;
 
       const navigateHook =
         !desktop && config.navigation && presentSearch

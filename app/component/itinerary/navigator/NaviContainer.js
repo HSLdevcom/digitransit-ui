@@ -17,7 +17,7 @@ import { DESTINATION_RADIUS, summaryString } from './NaviUtils';
 import { addAnalyticsEvent } from '../../../util/analyticsUtils';
 
 const ADDITIONAL_ARRIVAL_TIME = 30000; // 30 s
-const LEGLOG = false;
+const LEGLOG = true;
 const TOPBAR_PADDING = 8; // pixels
 const START_BUFFER = 120000; // 2 min in ms
 

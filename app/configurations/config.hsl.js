@@ -156,6 +156,7 @@ export default {
       'mode-citybike': '#f2b62d',
       'mode-citybike-secondary': '#333333',
       'mode-speedtram': '#007E79',
+      'mode-replacement-bus': '#DC0451',
     },
   },
   getAutoSuggestIcons: {
@@ -436,7 +437,9 @@ export default {
   ticketPurchaseLink: function purchaseTicketLink(fare) {
     return `https://open.app.hsl.fi/zoneTicketWizard/TICKET_TYPE_SINGLE_TICKET/${fare.ticketName}/adult/-`;
   },
-  ticketLink: 'https://open.app.hsl.fi/tickets',
+  ticketLink: {
+    fi: 'https://open.app.hsl.fi/tickets',
+  },
   ticketLinkOperatorCode: 'hsl',
   // mapping fareId from OTP fare identifiers to human readable form
   // in the new HSL zone model, just strip off the prefix 'HSL:'
@@ -774,4 +777,6 @@ export default {
   trafficLightGraphic: 'hsl/traffic-light.svg',
   naviGeolocationGraphic: 'hsl/geolocation.svg',
   navigation: true,
+
+  showRouteDisclaimer: true,
 };
