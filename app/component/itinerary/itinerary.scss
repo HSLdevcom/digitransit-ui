@@ -162,6 +162,8 @@ $itinerary-tab-switch-height: 48px;
 
         .icon {
           color: $primary-color;
+          width: 1em;
+          height: 1em;
         }
       }
 
@@ -189,7 +191,11 @@ $itinerary-tab-switch-height: 48px;
       font-size: 20px;
 
       .icon {
-        color: $primary-color;
+        &.info {
+          color: $primary-color;
+          width: 1em;
+          height: 1em;
+        }
       }
     }
 
@@ -1807,6 +1813,7 @@ $itinerary-tab-switch-height: 48px;
         margin: 0 3px 0 3px;
         background-color: $background-color-lighter;
         font-weight: $font-weight-medium;
+        font-family: $id-font-family;
       }
 
       .stop-code-container {
@@ -1814,6 +1821,7 @@ $itinerary-tab-switch-height: 48px;
 
         .itinerary-stop-code {
           margin-left: 0;
+          font-family: $id-font-family;
         }
       }
 
@@ -2423,7 +2431,7 @@ div.itinerary-container-content {
 
       a {
         font-weight: $font-weight-medium;
-        color: $link-color;
+        color: $link-button-color;
         max-width: 100%;
       }
 
@@ -2432,7 +2440,7 @@ div.itinerary-container-content {
       }
 
       .external-link-icon {
-        color: $link-color;
+        color: $link-button-color;
       }
     }
   }

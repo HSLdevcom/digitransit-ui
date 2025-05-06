@@ -27,7 +27,7 @@ export default {
   CONFIG,
   OTPTimeout: process.env.OTP_TIMEOUT || 30000,
   URL: {
-    FONT: 'https://cdn.digitransit.fi/matka-fonts/roboto/roboto+montserrat.css',
+    FONT: 'https://cdn.digitransit.fi/matka-fonts/publicsans/publicsans+robotomono.css',
   },
 
   mainMenu: {
@@ -54,14 +54,16 @@ export default {
 
   favicon: './app/configurations/images/matka/matka-favicon.svg',
 
+  themeSprites: 'assets/svg-sprite.matka.svg',
+
   colors: {
-    primary: '#002c74',
+    primary: '#000',
     iconColors: {
       'mode-airplane': '#0046AD',
       'mode-bus': '#007ac9',
       'mode-tram': '#5E7921',
       'mode-metro': '#CA4000',
-      'mode-rail': '#8E5EA0',
+      'mode-rail': '#000',
       'mode-ferry': '#247C7B',
       'mode-ferry-pier': '#666666',
       'mode-citybike': '#FCBC19',
@@ -132,17 +134,20 @@ export default {
     description: APP_DESCRIPTION,
     keywords: `reitti,reitit,opas,reittiopas,joukkoliikenne`,
   },
-
   menu: {
     copyright: { label: `© Matka.fi ${YEAR}` },
     content: [
       {
-        name: 'traficom',
-        href: 'https://www.traficom.fi/fi/liikenne/liikennejarjestelma/joukkoliikenteen-informaatiopalvelut',
+        name: 'Fintraffic',
+        href: 'https://www.fintraffic.fi',
       },
       {
-        name: 'about-service-feedback',
-        href: 'http://www.matka.fi',
+        name: 'menu-feedback',
+        href: 'https://www.fintraffic.fi/fi/feedback',
+      },
+      {
+        name: 'about-this-service',
+        href: 'https://www.fintraffic.fi/fi/digitaalisetpalvelut/fintrafficin-datapalvelut/liikkumisen-tietopalvelut/joukkoliikenteen-tietopalvelut/digitransit',
       },
       {
         name: 'accessibility-statement',
@@ -151,10 +156,6 @@ export default {
           sv: 'https://www.digitransit.fi/accessibility',
           en: 'https://www.digitransit.fi/en/accessibility',
         },
-      },
-      {
-        name: 'about-these-pages',
-        href: 'https://traficom.fi/fi/tietoa-matkafi-sivustosta',
       },
     ],
   },

@@ -293,7 +293,8 @@
 .departure-row {
   @include font-narrow-book;
 
-  font-weight: normal;
+  font-size: $id-font-size;
+  font-weight: $id-font-weight;
   display: flex;
   align-items: center;
   border-bottom: 1px solid #ddd;

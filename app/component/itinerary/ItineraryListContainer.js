@@ -1,10 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import {
-  graphql,
-  createFragmentContainer,
-  ReactRelayContext,
-} from 'react-relay';
+import { graphql, useFragment, ReactRelayContext } from 'react-relay';
 import { matchShape, routerShape } from 'found';
 import getContext from 'recompose/getContext';
 import { intlShape, FormattedMessage } from 'react-intl';
@@ -19,7 +15,7 @@ import { transitEdges } from './ItineraryPageUtils';
 
 function ItineraryListContainer(
   {
-    planEdges,
+    planEdges: planEdgesRef,
     activeIndex,
     params,
     focusToHeader,
@@ -32,6 +28,21 @@ function ItineraryListContainer(
   },
   { router, match, intl },
 ) {
+  const planEdges = useFragment(
+    graphql`
+      fragment ItineraryListContainer_planEdges on PlanEdge
+      @relay(plural: true) {
+        ...ItineraryList_planEdges
+        node {
+          legs {
+            mode
+          }
+        }
+      }
+    `,
+    planEdgesRef,
+  );
+
   function getSubPath(fallback) {
     const modesWithSubpath = [
       streetHash.bikeAndVehicle,
@@ -226,17 +237,4 @@ const withConfig = getContext({
   </ReactRelayContext.Consumer>
 ));
 
-const connectedContainer = createFragmentContainer(withConfig, {
-  planEdges: graphql`
-    fragment ItineraryListContainer_planEdges on PlanEdge @relay(plural: true) {
-      ...ItineraryList_planEdges
-      node {
-        legs {
-          mode
-        }
-      }
-    }
-  `,
-});
-
-export { connectedContainer as default, ItineraryListContainer as Component };
+export { withConfig as default, ItineraryListContainer as Component };

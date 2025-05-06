@@ -324,13 +324,14 @@ div.leaflet-marker-icon.vehicle-icon {
     position: absolute;
     bottom: 20px;
     left: 15px;
-    background: #fff;
+    background: $primary-color;
     border-radius: 50px;
     font-weight: 325;
     display: flex;
     font-size: 12px;
-    color: #333;
+    color: white;
     padding: 5px 10px;
+    letter-spacing: -0.3px;
   }
 }
 

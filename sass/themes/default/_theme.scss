@@ -117,6 +117,9 @@ $font-size-xlarge: 1.5rem;
 $disruption-message-font-weight: 200;
 $itinerary-co2-font-weight: 325;
 $itinerary-co2-badge-font-weight: 500;
+$id-font-family: $font-family;
+$id-font-size: $font-size-normal;
+$id-font-weight: normal;
 
 /* Paddings */
 $padding-xxsmall: 0.125em;
@@ -135,6 +138,7 @@ $spinner-image: url('../default/default-spinner.png');
 
 /* Navbar dimensions */
 $nav-logo-height: 100%;
+$nav-logo-min-height: 40px;
 
 /* Navigator */
 $navigation-icon-size: 40px;

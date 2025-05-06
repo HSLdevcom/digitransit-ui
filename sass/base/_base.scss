@@ -8,6 +8,13 @@ $transparency: 0.5;
 $transparent-color: $white;
 $spinner-size: 68px;
 
+/* Link-button-color defaults to link-color */
+$link-button-color: if(
+  global-variable-exists(link-button-color),
+  $link-button-color,
+  $link-color
+);
+
 html {
   /* Fix font display on webkit based browsers */
   -webkit-font-smoothing: antialiased;
