@@ -56,7 +56,7 @@ export function getAnalyticsInitCode(config, hostname) {
         })(window,document,'script','dataLayer','${config.GTMid}');</script>\n`
     : '';
 
-  if (config.grazyEgg) {
+  if (config.crazyEgg) {
     script = `${script}<script type="text/javascript" src="//script.crazyegg.com/pages/scripts/0030/3436.js" async="async" ></script>`;
   }
   return script;
