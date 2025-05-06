@@ -118,7 +118,7 @@ export default {
   },
 
   suggestWalkMaxDistance: 12000,
-  suggestBikeMaxDistance: 100000,
+  suggestBikeMaxDistance: 40000,
 
   omitNonPickups: true,
 
