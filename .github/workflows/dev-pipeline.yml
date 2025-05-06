@@ -5,6 +5,7 @@ on:
     branches:
       - v3
       - next
+      - hotfix
   pull_request:
     branches:
       - v3
