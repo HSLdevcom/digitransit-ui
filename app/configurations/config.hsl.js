@@ -779,4 +779,5 @@ export default {
   navigation: true,
 
   showRouteDisclaimer: true,
+  crazyEgg: true,
 };
