@@ -82,7 +82,7 @@ class RoutePage extends React.Component {
       }
       return null;
     }
-    const mode = getRouteMode(route);
+    const mode = getRouteMode(route, config);
     const label = route.shortName ? route.shortName : route.longName || '';
     const selectedPattern =
       patternId && route.patterns.find(p => p.code === patternId);
@@ -122,7 +122,7 @@ class RoutePage extends React.Component {
             </div>
             <div className="route-info">
               <h1
-                className={cx('route-short-name', mode.toLowerCase())}
+                className={cx('route-short-name', mode)}
                 style={{ color: route.color ? `#${route.color}` : null }}
               >
                 <span className="sr-only" style={{ whiteSpace: 'pre' }}>

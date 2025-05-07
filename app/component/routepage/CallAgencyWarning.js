@@ -17,7 +17,7 @@ const CallAgencyWarning = ({ route }) => (
       <div className="call-button">
         <a href={`tel:${route.agency.phone}`}>
           <FormattedMessage
-            id="call"
+            id="call-number"
             defaultMessage="Call"
             values={{ number: route.agency.phone }}
           />

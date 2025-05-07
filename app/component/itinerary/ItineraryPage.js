@@ -78,7 +78,7 @@ import {
 } from './ItineraryPageUtils';
 import ItineraryTabs from './ItineraryTabs';
 import NaviGeolocationInfoModal from './navigator/navigatorgeolocation/NaviGeolocationInfoModal';
-import planConnection from './PlanConnection';
+import { planConnection } from './queries/PlanConnection';
 import NaviContainer from './navigator/NaviContainer';
 import NavigatorIntroModal from './navigator/navigatorintro/NavigatorIntroModal';
 import { startLocationWatch } from '../../action/PositionActions';

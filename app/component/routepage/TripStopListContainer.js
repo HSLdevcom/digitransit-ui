@@ -43,7 +43,7 @@ class TripStopListContainer extends React.PureComponent {
       vehicles: propVehicles,
     } = this.props;
 
-    const mode = getRouteMode(trip.route);
+    const mode = getRouteMode(trip.route, this.context.config);
 
     const vehicles = groupBy(
       values(propVehicles).filter(

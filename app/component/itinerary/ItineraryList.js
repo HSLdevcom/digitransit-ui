@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { useFragment, graphql } from 'react-relay';
+import { useFragment } from 'react-relay';
 import { FormattedMessage } from 'react-intl';
 import cx from 'classnames';
 import { matchShape } from 'found';
@@ -19,6 +19,7 @@ import Loading from '../Loading';
 import FeedbackPrompt from './FeedbackPrompt';
 import { streetHash } from '../../util/path';
 import { getIntermediatePlaces } from '../../util/otpStrings';
+import { ItineraryListPlanEdges } from './queries/ItineraryListPlanEdges';
 
 const spinnerPosition = {
   top: 'top',
@@ -47,27 +48,7 @@ function ItineraryList(
   const { location } = context.match;
   const { hash } = context.match.params;
 
-  const planEdges = useFragment(
-    graphql`
-      fragment ItineraryList_planEdges on PlanEdge @relay(plural: true) {
-        node {
-          ...Itinerary_itinerary
-          emissionsPerPerson {
-            co2
-          }
-          legs {
-            transitLeg
-            mode
-            route {
-              mode
-              type
-            }
-          }
-        }
-      }
-    `,
-    planEdgesRef,
-  );
+  const planEdges = useFragment(ItineraryListPlanEdges, planEdgesRef);
 
   const co2s = planEdges
     .filter(e => e.node.emissionsPerPerson?.co2 >= 0)
