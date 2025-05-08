@@ -185,7 +185,6 @@
     "react-autosuggest": "^10.0.0",
     "react-autowhatever": "10.2.1",
     "react-click-outside": "3.0.1",
-    "react-cookie": "4.0.3",
     "react-dom": "16.13.0",
     "react-helmet": "6.1.0",
     "react-intl": "2.8.0",
@@ -203,7 +202,7 @@
     "serialize-javascript": "6.0.2",
     "suncalc": "1.8.0",
     "supercluster": "^8.0.1",
-    "universal-cookie": "4.0.4",
+    "universal-cookie": "7.2.2",
     "uuid": "8.3.2",
     "zurb-foundation-5": "5.4.7"
   },
