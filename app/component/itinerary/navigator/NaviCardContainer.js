@@ -22,20 +22,6 @@ import { usePushNotification } from './hooks/usePushNotification';
 const COUNT_AT_LEG_END = 2; // update cycles within DESTINATION_RADIUS from leg.to
 const HIDE_TOPCARD_DURATION = 2000; // milliseconds
 
-function addMessages(
-  incomingMessages,
-  newMessages,
-  oldMessages,
-  createNotification,
-) {
-  newMessages.forEach(m => {
-    if (oldMessages && !oldMessages.get(m.id)) {
-      createNotification(m.pushNotification.title, m.pushNotification.content);
-    }
-    incomingMessages.set(m.id, m);
-  });
-}
-
 const getLegType = (
   leg,
   firstLeg,
@@ -100,6 +86,15 @@ function NaviCardContainer(
     setActiveMessages(activeMessages.filter((_, i) => i !== index));
   };
 
+  function addMessages(incomingMessages, newMessages) {
+    newMessages.forEach(m => {
+      if (messages && !messages.get(m.id)) {
+        createNotification(m.title, m.body);
+      }
+      incomingMessages.set(m.id, m);
+    });
+  }
+
   // track only relevant vehicles for the journey.
   const getNaviTopics = () =>
     getTopics(
@@ -138,8 +133,6 @@ function NaviCardContainer(
         makeNewItinerarySearch,
         config,
       ),
-      messages,
-      createNotification,
     );
 
     if (
@@ -151,45 +144,35 @@ function NaviCardContainer(
       const info2 = `status: ${position.status}`;
       const info3 = `locations: ${position.locationCount} watchId: ${position.watchId}`;
 
-      addMessages(
-        incomingMessages,
-        [
-          {
-            severity: 'INFO',
-            content: (
-              <div className="navi-info-content">
-                <span>{info1}</span>
-                <span>{info2}</span>
-                <span>{info3}</span>
-              </div>
-            ),
-            id: 'debug',
-          },
-        ],
-        messages,
-        createNotification,
-      );
+      addMessages(incomingMessages, [
+        {
+          severity: 'INFO',
+          content: (
+            <div className="navi-info-content">
+              <span>{info1}</span>
+              <span>{info2}</span>
+              <span>{info3}</span>
+            </div>
+          ),
+          id: 'debug',
+        },
+      ]);
     }
 
     if (nextLeg?.transitLeg) {
       // Messages for NaviStack.
-      addMessages(
-        incomingMessages,
-        [
-          ...getTransitLegState(nextLeg, intl, messages, time),
-          ...getAdditionalMessages(
-            currentLeg,
-            nextLeg,
-            firstLeg,
-            time,
-            config,
-            messages,
-            intl,
-          ),
-        ],
-        messages,
-        createNotification,
-      );
+      addMessages(incomingMessages, [
+        ...getTransitLegState(nextLeg, intl, messages, time),
+        ...getAdditionalMessages(
+          currentLeg,
+          nextLeg,
+          firstLeg,
+          time,
+          config,
+          messages,
+          intl,
+        ),
+      ]);
     }
     let timeoutId;
     if (legChanged) {
