@@ -244,7 +244,7 @@ class ItineraryLine extends React.Component {
             );
         }
 
-        if (leg.from.vertexType === 'BIKESHARE') {
+        if (rentalId) {
           objs.push(
             <VehicleMarker
               key={`${leg.from.lat}:${leg.from.lon}`}

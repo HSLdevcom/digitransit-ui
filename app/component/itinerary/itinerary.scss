@@ -3221,7 +3221,7 @@ $font-print-decrease: 0.7;
   }
 
   &.info {
-    background: #e5f1f9;
+    background: $info-background-color;
   }
 }
 
@@ -3230,7 +3230,7 @@ $font-print-decrease: 0.7;
 }
 
 .routing-feedback-container {
-  background-color: #f4f4f4;
+  background-color: $selector-background-color;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -3255,6 +3255,7 @@ $font-print-decrease: 0.7;
 .alternative-vehicle-info {
   background-color: $infobox-color-generic-blue;
   margin-top: 30px;
+  border: 1px solid $infobox-border-color;
 
   .info-icon {
     margin-right: 1em;

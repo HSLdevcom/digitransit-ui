@@ -17,7 +17,7 @@ function Duration({ duration }) {
   return (
     <FormattedMessage
       id="travel-time"
-      values={{ min: mins === 0 ? '< 1' : mins }}
+      values={{ min: mins === 0 ? '<1' : mins }}
     />
   );
 }

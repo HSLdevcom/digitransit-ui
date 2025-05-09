@@ -35,6 +35,18 @@ $id-font-family: 'Roboto Mono', arial, georgia, sans-serif;
 $font-family-narrow: $id-font-family;
 $id-font-size: $font-size-xsmall;
 $id-font-weight: $font-weight-medium;
+$background-color-lighter: #f6f6f6;
+$background-color-darker: #cdcdd7;
+$gray-blue: $background-color;
+$info-background-color: $background-color-lighter;
+$caution-icon-color: #000;
+$secondary-color: $primary-color;
+$action-color: $primary-color;
+$infobox-color-generic-blue: #fff;
+$infobox-border-color: #000;
+$selector-background-color: $background-color-lighter;
+$button-hover-color: $background-color-lighter;
+$info-icon-blue: $primary-color;
 
 .message-bar {
   border-bottom: 1px solid #ddd;

@@ -290,7 +290,7 @@ div.leaflet-marker-icon.vehicle-icon {
     cursor: pointer;
 
     &:hover {
-      background: #f4f4f4;
+      background: $button-hover-color;
     }
   }
 

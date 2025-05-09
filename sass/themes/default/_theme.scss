@@ -25,6 +25,8 @@ $livi-funicular-pink: #f0f;
 $background-color: #fff;
 $background-color-darker: #e0e5e8;
 $background-color-lighter: #f2f5f7;
+$selector-background-color: #f4f4f4;
+$button-hover-color: #f4f4f4;
 $primary-color: $livi-blue;
 $primary-font-color: $white;
 $secondary-color: #008bde;
@@ -41,7 +43,9 @@ $current-location-color: $primary-color;
 $desktop-title-color: $primary-color;
 $desktop-title-arrow-icon-color: $secondary-color;
 $infobox-color-generic-blue: #ebf6fd;
+$infobox-border-color: $infobox-color-generic-blue;
 $info-icon-blue: #0074be;
+$info-background-color: #e5f1f9;
 $success-color: #f1f8eb;
 
 /* Component palette */

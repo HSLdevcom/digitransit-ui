@@ -65,7 +65,6 @@ const walkQuery = graphql`
               lat
               lon
               name
-              vertexType
               vehicleRentalStation {
                 lat
                 lon
@@ -93,7 +92,6 @@ const walkQuery = graphql`
               lat
               lon
               name
-              vertexType
               vehicleRentalStation {
                 lat
                 lon
