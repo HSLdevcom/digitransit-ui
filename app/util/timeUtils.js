@@ -36,7 +36,7 @@ export function durationToString(durationMs) {
     return `${hours} h`;
   }
   if (mins < 1) {
-    return '< 1 min';
+    return '<1 min';
   }
   return `${mins} min`;
 }

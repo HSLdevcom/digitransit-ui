@@ -2,14 +2,16 @@ import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React, { useCallback } from 'react';
 import { FormattedMessage } from 'react-intl';
+import connectToStores from 'fluxible-addons-react/connectToStores';
 import { addAnalyticsEvent } from '../../../util/analyticsUtils';
 import { configShape, legShape } from '../../../util/shapes';
 import { epochToTime } from '../../../util/timeUtils';
+import localizedUrl from '../../../util/urlUtils';
 import Duration from '../Duration';
 import { getFaresFromLegs, shouldShowFareInfo } from '../../../util/fareUtils';
 
-export default function NaviBottom(
-  { setNavigation, arrival, time, legs },
+function NaviBottom(
+  { setNavigation, arrival, time, currentLanguage, legs },
   { config },
 ) {
   const handleClose = useCallback(() => {
@@ -74,7 +76,7 @@ export default function NaviBottom(
         >
           <a
             onClick={handleTicketButtonClick}
-            href={config.ticketLink}
+            href={localizedUrl(config.ticketLink, currentLanguage)}
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -90,9 +92,20 @@ NaviBottom.propTypes = {
   setNavigation: PropTypes.func.isRequired,
   arrival: PropTypes.number.isRequired,
   time: PropTypes.number.isRequired,
+  currentLanguage: PropTypes.string.isRequired,
   legs: PropTypes.arrayOf(legShape).isRequired,
 };
 
 NaviBottom.contextTypes = {
   config: configShape.isRequired,
 };
+
+const connectedComponent = connectToStores(
+  NaviBottom,
+  ['PreferencesStore'],
+  context => ({
+    currentLanguage: context.getStore('PreferencesStore').getLanguage(),
+  }),
+);
+
+export { connectedComponent as default, NaviBottom as Component };

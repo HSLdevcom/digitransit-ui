@@ -161,7 +161,6 @@ export const planConnection = graphql`
               lat
               lon
               name
-              vertexType
               stop {
                 gtfsId
                 name
@@ -198,7 +197,6 @@ export const planConnection = graphql`
               lat
               lon
               name
-              vertexType
               stop {
                 gtfsId
                 name

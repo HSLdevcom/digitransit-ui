@@ -87,6 +87,10 @@ $itinerary-tab-switch-height: 48px;
   &.scooter {
     @include getCircleSvg($scooter-color, $fill);
   }
+
+  &.replacement-bus {
+    @include getCircleSvg($replacement-bus-color, $fill);
+  }
 }
 
 .itinerary-list-container {
@@ -950,6 +954,10 @@ $itinerary-tab-switch-height: 48px;
 
     &.scooter {
       @include setModeCircles($scooter-color);
+    }
+
+    &.replacement-bus {
+      @include setModeCircles($replacement-bus-color);
     }
   }
 }

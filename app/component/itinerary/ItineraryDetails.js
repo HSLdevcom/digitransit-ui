@@ -5,11 +5,13 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
 import { useFragment } from 'react-relay';
+import { getRouteMode } from '../../util/modeUtils';
 import {
   getFaresFromLegs,
   shouldShowFareInfo,
   shouldShowFarePurchaseInfo,
 } from '../../util/fareUtils';
+import localizedUrl from '../../util/urlUtils';
 import {
   compressLegs,
   getTotalBikingDistance,
@@ -35,6 +37,7 @@ import BackButton from '../BackButton';
 import Emissions from './Emissions';
 import EmissionsInfo from './EmissionsInfo';
 import FareDisclaimer from './FareDisclaimer';
+import RouteDisclaimer from './RouteDisclaimer';
 import ItinerarySummary from './ItinerarySummary';
 import Legs from './Legs';
 import MobileTicketPurchaseInformation from './MobileTicketPurchaseInformation';
@@ -108,7 +111,6 @@ function ItineraryDetails(
   },
   { config, match, intl },
 ) {
-  // TODO: Move fragment to a dedicated file
   const itinerary = useFragment(ItineraryDetailsFragment, itineraryRef);
 
   const shouldShowDisclaimer =
@@ -136,6 +138,7 @@ function ItineraryDetails(
     legContainsBikePark(leg),
   );
   const legsWithScooter = compressedLegs.some(leg => leg.mode === 'SCOOTER');
+  const legsWithAirplane = compressedLegs.some(leg => leg.mode === 'AIRPLANE');
   const onlyWalking = compressedLegs.every(leg => leg.mode === 'WALK');
   const onlyBiking = compressedLegs.every(leg => leg.mode === 'BICYCLE');
   const showStartNavi =
@@ -143,6 +146,7 @@ function ItineraryDetails(
     !onlyWalking &&
     !onlyBiking &&
     !legsWithScooter &&
+    !legsWithAirplane &&
     legsWithRentalBike.length === 0 &&
     driving.distance === 0;
   const containsBiking = biking.duration > 0 && biking.distance > 0;
@@ -230,6 +234,25 @@ function ItineraryDetails(
         />,
       );
     }
+
+    if (config.showRouteDisclaimer) {
+      itinerary.legs.forEach(leg => {
+        const { route } = leg;
+        if (
+          route?.desc?.length &&
+          getRouteMode(route, config)?.includes('replacement')
+        ) {
+          disclaimers.push(
+            <RouteDisclaimer
+              key={disclaimers.length}
+              text={route.desc}
+              href={route.url}
+              linkText={intl.formatMessage({ id: 'extra-info' })}
+            />,
+          );
+        }
+      });
+    }
   }
 
   return (
@@ -294,6 +317,7 @@ function ItineraryDetails(
                 fares={fares}
                 zones={getZones(itinerary.legs)}
                 legs={itinerary.legs}
+                ticketLink={localizedUrl(config.ticketLink, currentLanguage)}
               />
             )),
 
