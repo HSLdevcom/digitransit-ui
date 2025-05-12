@@ -66,20 +66,25 @@ export function getAnalyticsInitCode(config, req) {
 }
 
 const handleChange = () => {
+  // eslint-disable-next-line
+  console.log('handleChange called', window.CookieInformation);
   if (!window.CookieInformation) {
     return false;
   }
   const allow = window.CookieInformation.getConsentGivenFor(
     'cookie_cat_statistic',
   );
+  // eslint-disable-next-line
+  console.log('consent=', allow);
   const cookies = new Cookies();
-  const oldState = cookies.get('cookieConsent') || 'false';
-  const newState = allow ? 'true' : 'false';
-  cookies.set('cookieConsent', newState);
-
-  if (newState !== oldState) {
-    window.location.reload();
+  cookies.set('cookieConsent', allow ? 'true' : 'false');
+  if (allow) {
+    // this is not needed if page load below is executed
+    window.dataLayer = window.dataLayer || [];
+  } else {
+    window.dataLayer = undefined;
   }
+  // window.location.reload();
   return allow;
 };
 
