@@ -80,12 +80,11 @@ const handleChange = () => {
   );
   const cookies = new Cookies();
   cookies.set('cookieConsent', allow ? 'true' : 'false');
-  /* if (allow) {
+  if (allow) {
     // this is not needed if page load below is executed
     window.dataLayer = window.dataLayer || [];
-  } */
-  // change will not take place immediately without page reload
-  window.location.reload();
+  }
+  // window.location.reload();
   return allow;
 };
 
