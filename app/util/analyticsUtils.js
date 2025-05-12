@@ -72,7 +72,7 @@ const handleChange = () => {
     return false;
   }
   const allow = window.CookieInformation.getConsentGivenFor(
-    'cookie_cat_statistics',
+    'cookie_cat_statistic',
   );
   // eslint-disable-next-line
   console.log('consent=', allow);
