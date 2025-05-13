@@ -339,6 +339,9 @@ export default {
     ferry: ['HSL:1030701'],
   },
 
+  suggestWalkMaxDistance: 12000,
+  suggestBikeMaxDistance: 60000,
+
   showTicketSelector: false,
 
   staticMessages: [
