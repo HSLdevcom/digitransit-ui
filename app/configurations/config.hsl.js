@@ -340,7 +340,7 @@ export default {
   },
 
   suggestWalkMaxDistance: 12000,
-  suggestBikeMaxDistance: 60000,
+  suggestBikeMaxDistance: 100000,
 
   showTicketSelector: false,
 
