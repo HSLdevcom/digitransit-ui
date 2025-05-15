@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl';
 import NaviMessage from './NaviMessage';
 import { Transfer } from './NaviUtils';
 import { configShape } from '../../../util/shapes';
-import { durationToString } from '../../../util/timeUtils';
+import Duration from '../Duration';
 
 const NaviStack = ({ messages, handleRemove, cardAnimation }, { config }) => {
   const getMessageBody = message => {
@@ -18,7 +18,11 @@ const NaviStack = ({ messages, handleRemove, cardAnimation }, { config }) => {
           id="navigation-hurry-transfer-value"
           values={{
             transfer: Transfer(message.route1, message.route2, config),
-            time: durationToString(message.duration),
+            time: <Duration duration={message.transferDuration} />,
+            change: Math.floor(
+              (message.transferDuration - message.originalTransferDuration) /
+                60000,
+            ),
           }}
         />
       );

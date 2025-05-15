@@ -651,7 +651,8 @@ export const getItineraryAlerts = (
             transferTimeChanged: true,
             route1: prob.fromLeg.route,
             route2: prob.toLeg.route,
-            duration: prob.duration,
+            transferDuration: prob.duration,
+            originalTransferduration: prob.originalDuration,
             showTransferBtn,
             alertContent: content,
           });
