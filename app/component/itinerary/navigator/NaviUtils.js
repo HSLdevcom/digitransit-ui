@@ -318,20 +318,6 @@ export const getAdditionalMessages = (
         body,
       });
     }
-    msgs.push({
-      severity: 'INFO',
-      content: (
-        <div className="navi-info-content">
-          <span className="notification-header">
-            <FormattedMessage id="navigation-remember-ticket" />
-          </span>
-          <span>
-            {fare.ticketName} {formatFare(fare)}
-          </span>
-        </div>
-      ),
-      id: 'ticket',
-    });
   }
   return msgs;
 };
