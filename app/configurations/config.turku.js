@@ -242,21 +242,22 @@ export default configMerger(walttiConfig, {
         fi: [
           {
             type: 'text',
-            content: `Fölin linjasto uudistuu 1.7.2025. Tämän reittioppaan avulla voit tarkastella uusia linjoja ja tehdä reittihakuja kesäaikatauluilla 1.7.–10.8. ajalle. Aikataulukausi vaihtuu 11.8., jolloin siirrytään uuden linjaston peruskauteen. http://reittiopas.foli.fi  päivittyy 1.7., jolloin tämä versio suljetaan.`,
+            content:
+              'Fölin linjasto uudistuu 1.7.2025. Tämän reittioppaan avulla voit tarkastella uusia linjoja ja tehdä reittihakuja uusilla peruskauden aikatauluilla, 11.8.2025 –31.5.2026 ajalle. Nykyisen reittioppaan avulla voit tarkastella runkolinjaston kesäaikatauluja, jotka astuvat voimaan 1.7.',
           },
         ],
         en: [
           {
             type: 'text',
             content:
-              "Föli's line network is being reformed on 1 July 2025. You can search new lines and plan future trips with this version of the journey planner. Available summer timetables are in effect 1 July until 10 August. Schedules will change on 11 August to the regular schedule. http://reittiopas.foli.fi  will be updated on 1 July and this version will close.",
+              "Föli's line network is being reformed on 1 July 2025. You can search new lines and plan future trips with this version of the journey planner. Available are the regular timetables which are in effect 11 August 2025 until 31 May 2026. You can view summer timetables, starting 1 July, with the regular journey planner.",
           },
         ],
         sv: [
           {
             type: 'text',
             content:
-              'Fölis linjenätverk förnyas 1.7.2025. Med denna reseplanerare kan du se de nya linjerna samt göra sökningar med sommartidtabeller för tiden: 1.7.-10.8. Nya tidtabellerna, de sk. ordinarie tidtabellerna, träder i kraft 11.8. http://reittiopas.foli.fi  uppdateras 1.7. och denna version stängs av.',
+              'Fölis linjenätverk förnyas 1.7.2025. Med denna reseplanerare kan du se de nya linjerna samt göra sökningar med ordinarie tidtabeller för tiden: 11.8.2025 - 31.5.2026. Med den nuvarande reseplaneraren kan du kontrollera stomlinjenätets sommartidtabeller, som träder i kraft 1.7.',
           },
         ],
       },
