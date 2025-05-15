@@ -11,6 +11,7 @@ import { mountWithIntl } from '../../../helpers/mock-intl-enzyme';
 
 const defaultProps = {
   onClose: () => {},
+  onOpenGeolocationInfo: () => {},
 };
 
 describe('<NavigatorIntro />', () => {

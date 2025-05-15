@@ -7,7 +7,7 @@ import { Transfer } from './NaviUtils';
 import { configShape } from '../../../util/shapes';
 import { durationToString } from '../../../util/timeUtils';
 
-const NaviStack = ({ messages, handleRemove }, { config }) => {
+const NaviStack = ({ messages, handleRemove, cardAnimation }, { config }) => {
   const getMessageBody = message => {
     if (message.alertContent) {
       return message.alertContent;
@@ -26,7 +26,11 @@ const NaviStack = ({ messages, handleRemove }, { config }) => {
     return message.body;
   };
   return (
-    <div className={cx('info-stack', 'slide-in')}>
+    <div
+      className={cx('info-stack', cardAnimation)}
+      aria-live="polite"
+      role="status"
+    >
       {messages.map((notification, index) => (
         <NaviMessage
           key={notification.id}
@@ -34,6 +38,7 @@ const NaviStack = ({ messages, handleRemove }, { config }) => {
           index={index}
           handleRemove={handleRemove}
           hideClose={notification.hideClose}
+          cardAnimation={cardAnimation}
         >
           <div className="navi-info-content">
             <span className="notification-header">{notification.title}</span>
@@ -53,6 +58,7 @@ NaviStack.propTypes = {
     }),
   ).isRequired,
   handleRemove: PropTypes.func.isRequired,
+  cardAnimation: PropTypes.string.isRequired,
 };
 
 NaviMessage.contextTypes = {

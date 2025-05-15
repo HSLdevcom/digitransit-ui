@@ -67,7 +67,11 @@ function ScooterLinkContainer(
             href={rentalVehicleLink}
             onClick={onClick}
           >
-            <Icon img="icon-icon_external-link-box" height={1} width={1} />
+            <Icon
+              img="icon-icon_external-link-box"
+              className="scooter-link-icon"
+              omitViewBox
+            />
           </ExternalLink>
         </div>
       </div>

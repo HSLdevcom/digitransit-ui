@@ -1,7 +1,8 @@
 import Button from '@hsl-fi/button';
 import PropTypes from 'prop-types';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
+import { addAnalyticsEvent } from '../../../util/analyticsUtils';
 import { configShape } from '../../../util/shapes';
 import Icon from '../../Icon';
 import { useLogo } from './hooks/useLogo';
@@ -14,11 +15,23 @@ const NaviStarter = (
   const [isVisible, setIsVisible] = useState(!isPastStart);
   const [isDismissed, setIsDismissed] = useState(false);
 
+  const initializerCardRef = useRef(null);
+
   useEffect(() => {
+    if (initializerCardRef.current) {
+      initializerCardRef.current.focus();
+    }
     setIsDismissed(isPastStart);
   }, [isPastStart]);
 
-  const handleClick = () => setIsDismissed(true);
+  const handleClick = () => {
+    addAnalyticsEvent({
+      category: 'Itinerary',
+      event: 'navigator',
+      action: 'start_navigation_manual',
+    });
+    setIsDismissed(true);
+  };
 
   const handleAnimationEnd = () => {
     setIsVisible(false);
@@ -35,11 +48,23 @@ const NaviStarter = (
       onAnimationEnd={handleAnimationEnd}
       style={{ top: containerTopPosition }}
     >
-      <div className="navi-initializer-card">
+      <div
+        className="navi-initializer-card"
+        aria-live="polite"
+        role="status"
+        ref={initializerCardRef}
+        tabIndex="-1"
+      >
         {logo ? (
-          <img src={logo} alt="navigator logo" />
+          <img src={logo} aria-hidden="true" alt="navigator logo" />
         ) : (
-          <Icon img="icon-icon_navigation_wait" className="mode" />
+          <Icon
+            aria-hidden="true"
+            img="icon-icon_navigation_wait"
+            className="mode"
+            height={2}
+            width={2}
+          />
         )}
         <FormattedMessage id="navigation-journey-start" />
         <h3>{time}</h3>

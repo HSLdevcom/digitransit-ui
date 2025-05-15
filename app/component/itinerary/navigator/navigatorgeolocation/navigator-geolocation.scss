@@ -1,0 +1,24 @@
+.navigator-modal-content {
+  .geolocation-body {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: stretch;
+    align-content: center;
+    gap: var(--space-m);
+
+    &.slide-in {
+      animation: slideUpFromBottom 0.5s ease-in-out;
+    }
+
+    h2 {
+      text-align: center;
+      margin: unset;
+    }
+
+    p {
+      margin: 0 0 var(--space-m) 0;
+      line-height: 1.3;
+    }
+  }
+}

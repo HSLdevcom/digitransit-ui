@@ -3,35 +3,8 @@ import { getNameLabel } from '@digitransit-search-util/digitransit-search-util-u
  * Returns label for properties
  *
  * @name getLabel
- * @param {*} properties object that contains 
+ * @param {*} properties object
  * @returns {Boolean} true/false
- * @example
- * const properties: {
-    "id": "GTFS:MATKA:318915",
-    "gid": "gtfsmatka:station:GTFS:MATKA:318915",
-    "layer": "station",
-    "source": "gtfsmatka",
-    "source_id": "GTFS:MATKA:318915",
-    "name": "Rautatientori",
-    "postalcode": "00100",
-    "postalcode_gid": "whosonfirst:postalcode:421479569",
-    "confidence": 1,
-    "accuracy": "centroid",
-    "country": "Suomi",
-    "country_gid": "whosonfirst:country:0",
-    "country_a": "FIN",
-    "region": "Uusimaa",
-    "region_gid": "whosonfirst:region:85683067",
-    "localadmin": "Helsinki",
-    "localadmin_gid": "whosonfirst:localadmin:907199715",
-    "locality": "Helsinki",
-    "locality_gid": "whosonfirst:locality:101748417",
-    "neighbourhood": "Kluuvi",
-    "neighbourhood_gid": "whosonfirst:neighbourhood:85898847",
-    "label": "Rautatientori, koillinen, Kluuvi, Helsinki"
-    }
- * digitransit-search-util.getLabel(param1, param2);
- * //=true
  */
 export default function getLabel(properties) {
   const parts = getNameLabel(properties, true);

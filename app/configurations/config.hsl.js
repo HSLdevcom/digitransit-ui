@@ -117,6 +117,9 @@ export default {
     walkSpeed: [0.69, 0.97, 1.28, 1.67, 2.22],
   },
 
+  suggestWalkMaxDistance: 12000,
+  suggestBikeMaxDistance: 100000,
+
   omitNonPickups: true,
 
   parkAndRide: {
@@ -153,6 +156,7 @@ export default {
       'mode-citybike': '#f2b62d',
       'mode-citybike-secondary': '#333333',
       'mode-speedtram': '#007E79',
+      'mode-replacement-bus': '#DC0451',
     },
   },
   getAutoSuggestIcons: {
@@ -433,7 +437,9 @@ export default {
   ticketPurchaseLink: function purchaseTicketLink(fare) {
     return `https://open.app.hsl.fi/zoneTicketWizard/TICKET_TYPE_SINGLE_TICKET/${fare.ticketName}/adult/-`;
   },
-  ticketLink: 'https://open.app.hsl.fi/tickets',
+  ticketLink: {
+    fi: 'https://open.app.hsl.fi/tickets',
+  },
   ticketLinkOperatorCode: 'hsl',
   // mapping fareId from OTP fare identifiers to human readable form
   // in the new HSL zone model, just strip off the prefix 'HSL:'
@@ -554,6 +560,7 @@ export default {
   bikeBoardingModes: {
     RAIL: { showNotification: false },
     FERRY: { showNotification: false },
+    SUBWAY: { showNotification: false },
   },
 
   // Notice! Turning on this setting forces the search for car routes (for the CO2 comparison only).
@@ -768,10 +775,13 @@ export default {
   navigationLogo: 'hsl/navigator-logo.svg',
   thumbsUpGraphic: 'hsl/thumbs-up.svg',
   trafficLightGraphic: 'hsl/traffic-light.svg',
+  naviGeolocationGraphic: 'hsl/geolocation.svg',
+  navigation: true,
+  showRouteDisclaimer: true,
+  crazyEgg: true,
 
   // features that should not be deployed to production
   experimental: {
-    navigation: IS_DEV,
     notifications: process.env.PUSH_NOTIFICATIONS,
   },
 };

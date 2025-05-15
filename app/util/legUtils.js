@@ -2,6 +2,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import get from 'lodash/get';
 import { getRouteMode } from './modeUtils';
 import { BIKEAVL_UNKNOWN } from './vehicleRentalUtils';
+import { ExtendedRouteTypes } from '../constants';
 
 /**
  * Gets a (nested) property value from an object
@@ -69,21 +70,6 @@ export function legTimeAcc(lt) {
   const t = lt.estimated?.time || lt.scheduledTime;
   const parts = t.split('T')[1].split('+');
   return parts[0];
-}
-
-function filterLegStops(leg, filter) {
-  if (leg.from.stop && leg.to.stop && leg.trip) {
-    const stops = [leg.from.stop.gtfsId, leg.to.stop.gtfsId];
-    if (leg.trip.stoptimesForDate) {
-      return leg.trip.stoptimesForDate
-        .filter(stoptime => stops.indexOf(stoptime.stop.gtfsId) !== -1)
-        .filter(filter);
-    }
-    return leg.trip.stoptimes
-      .filter(stoptime => stops.indexOf(stoptime.stop.gtfsId) !== -1)
-      .filter(filter);
-  }
-  return false;
 }
 
 function sameBicycleNetwork(leg1, leg2) {
@@ -154,22 +140,8 @@ export function getLegMode(legOrMode) {
   }
 }
 
-/**
- * Check if legs start stop pickuptype or end stop pickupType is CALL_AGENCY
- *
- * leg must have:
- * from.stop.gtfsId
- * to.stop.gtfsId
- * trip.stoptimes (with props:)
- *   stop.gtfsId
- *   pickupType
- */
 export function isCallAgencyLeg(leg) {
-  return (
-    leg.route?.type === 715 ||
-    filterLegStops(leg, stoptime => stoptime.pickupType === 'CALL_AGENCY')
-      .length > 0
-  );
+  return leg.route?.type === ExtendedRouteTypes.CallAgency;
 }
 
 /**

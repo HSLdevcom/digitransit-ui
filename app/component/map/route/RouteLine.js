@@ -8,7 +8,7 @@ import Line from '../Line';
 import { getClosestPoint } from '../../../util/geo-utils';
 import { getRouteMode } from '../../../util/modeUtils';
 import { isBrowser } from '../../../util/browser';
-import { patternShape } from '../../../util/shapes';
+import { patternShape, configShape } from '../../../util/shapes';
 
 /**
  * Split the array points in two at the given position. Return index to split at
@@ -40,13 +40,13 @@ function getSplitIndex(points, position) {
   return bestIndex + 1;
 }
 
-function RouteLine(props) {
+function RouteLine(props, context) {
   if (!isBrowser || !props.pattern) {
     return false;
   }
 
   const objs = [];
-  const modeClass = getRouteMode(props.pattern.route);
+  const modeClass = getRouteMode(props.pattern.route, context.config);
 
   if (!props.thin) {
     // We are drawing a background line under an itinerary line,
@@ -188,6 +188,10 @@ RouteLine.defaultProps = {
   vehiclePosition: null,
 };
 
+RouteLine.contextTypes = {
+  config: configShape.isRequired,
+};
+
 export default createFragmentContainer(RouteLine, {
   pattern: graphql`
     fragment RouteLine_pattern on Pattern {
@@ -200,6 +204,7 @@ export default createFragmentContainer(RouteLine, {
         mode
         type
         color
+        gtfsId
       }
       stops {
         lat

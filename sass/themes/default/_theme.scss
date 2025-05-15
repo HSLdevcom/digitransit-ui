@@ -25,6 +25,8 @@ $livi-funicular-pink: #f0f;
 $background-color: #fff;
 $background-color-darker: #e0e5e8;
 $background-color-lighter: #f2f5f7;
+$selector-background-color: #f4f4f4;
+$button-hover-color: #f4f4f4;
 $primary-color: $livi-blue;
 $primary-font-color: $white;
 $secondary-color: #008bde;
@@ -41,7 +43,9 @@ $current-location-color: $primary-color;
 $desktop-title-color: $primary-color;
 $desktop-title-arrow-icon-color: $secondary-color;
 $infobox-color-generic-blue: #ebf6fd;
+$infobox-border-color: $infobox-color-generic-blue;
 $info-icon-blue: #0074be;
+$info-background-color: #e5f1f9;
 $success-color: #f1f8eb;
 
 /* Component palette */
@@ -87,6 +91,7 @@ $call-agency-color: #666;
 $external-feed-color: #c5cad2;
 $external-feed-map-color: #666;
 $walk-inside-color: #666;
+$replacement-bus-color: #dc0451;
 
 /* Fonts */
 $font-family: 'Roboto', arial, georgia, serif;
@@ -115,6 +120,10 @@ $font-size-large: 1.25rem;
 $font-size-xlarge: 1.5rem;
 $disruption-message-font-weight: 200;
 $itinerary-co2-font-weight: 325;
+$itinerary-co2-badge-font-weight: 500;
+$id-font-family: $font-family;
+$id-font-size: $font-size-normal;
+$id-font-weight: normal;
 
 /* Paddings */
 $padding-xxsmall: 0.125em;
@@ -133,6 +142,9 @@ $spinner-image: url('../default/default-spinner.png');
 
 /* Navbar dimensions */
 $nav-logo-height: 100%;
+$nav-logo-min-height: 40px;
 
 /* Navigator */
 $navigation-icon-size: 40px;
+$slide-up-down-animation: 0.8s cubic-bezier(0.47, 0, 0.23, 1.38) forwards;
+$slide-up-down-fade: 0.8s ease-out forwards;

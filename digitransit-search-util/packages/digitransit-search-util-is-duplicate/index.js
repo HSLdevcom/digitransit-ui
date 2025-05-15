@@ -47,8 +47,8 @@ export default function isDuplicate(item1, item2) {
     const o2 = props2.origin;
     const d2 = props2.destination;
 
-    const name1 = `${o1.name}//${o1.locality}//${d1.name}//${d1.locality}`;
-    const name2 = `${o2.name}//${o2.locality}//${d2.name}//${d2.locality}`;
+    const name1 = `${o1.name}//${o1.localadmin}//${d1.name}//${d1.localadmin}`;
+    const name2 = `${o2.name}//${o2.localadmin}//${d2.name}//${d2.localadmin}`;
 
     return name1 === name2;
   }

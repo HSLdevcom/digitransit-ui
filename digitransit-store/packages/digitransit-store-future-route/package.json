@@ -1,6 +1,6 @@
 {
   "name": "@digitransit-store/digitransit-store-future-route",
-  "version": "0.1.1",
+  "version": "1.1.0",
   "description": "digitransit-store future-route module",
   "main": "lib/index.js",
   "publishConfig": {
@@ -21,6 +21,10 @@
     "digitransit-store",
     "FutureRoute"
   ],
+  "peerDependencies": {
+    "lodash": "4.17.21",
+    "lodash-es": "4.17.21"
+  },
   "author": "Digitransit Authors",
   "license": "(AGPL-3.0 OR EUPL-1.2)"
 }

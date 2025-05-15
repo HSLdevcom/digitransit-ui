@@ -26,7 +26,7 @@ const CallAgencyLeg = ({ leg, ...props }) => {
             <div className="call-button">
               <a href={`tel:${leg.route.agency.phone}`}>
                 <FormattedMessage
-                  id="call"
+                  id="call-number"
                   defaultMessage="Call"
                   values={{ number: leg.route.agency.phone }}
                 />

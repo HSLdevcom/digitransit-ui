@@ -5,7 +5,6 @@ import {
   getIntermediatePlaces,
 } from './otpStrings';
 import { getPathWithEndpointObjects, PREFIX_ITINERARY_SUMMARY } from './path';
-import { saveFutureRoute } from '../action/FutureRoutesActions';
 import { addViaPoint } from '../action/ViaPointActions';
 
 /**
@@ -84,14 +83,7 @@ export const updateItinerarySearch = (
   destination,
   router,
   location,
-  executeAction,
 ) => {
-  executeAction(saveFutureRoute, {
-    origin,
-    destination,
-    query: location.query,
-  });
-
   const newLocation = {
     ...location,
     state: {
@@ -123,11 +115,5 @@ export const onLocationPopup = (item, id, router, match, executeAction) => {
   } else {
     destination = item;
   }
-  updateItinerarySearch(
-    origin,
-    destination,
-    router,
-    match.location,
-    executeAction,
-  );
+  updateItinerarySearch(origin, destination, router, match.location);
 };

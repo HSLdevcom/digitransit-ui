@@ -3,31 +3,58 @@
 /* Base theme */
 @import '../default/theme';
 
-$primary-color: #002c74;
+$primary-color: #000;
 $hilight-color: $primary-color;
 $action-color: $primary-color;
 $bus-color: $primary-color;
 $viewpoint-marker-color: $primary-color;
 $current-location-color: $primary-color;
 $standalone-btn-color: $primary-color;
-$link-color: $primary-color;
-$link-text-color: $primary-color;
-$top-bar-color: white;
-$top-navigation-icon-color: $primary-color;
-$font-family: 'Roboto', arial, georgia, sans-serif;
+$link-color: #0034ac;
+$link-button-color: #000;
+$top-bar-color: #000;
+$top-navigation-icon-color: #fff;
+$font-family: 'Public Sans', 'Roboto Mono', arial, georgia, sans-serif;
 $disruption-message-font-weight: 400;
 $itinerary-co2-font-weight: 400;
-$heading-font-family: 'Montserrat', arial, georgia, sans-serif;
-$button-font-family: 'Montserrat', arial, georgia, sans-serif;
+$heading-font-family: 'Public Sans', 'Roboto Mono', arial, georgia, sans-serif;
+$button-font-family: 'Public Sans', 'Roboto Mono', arial, georgia, sans-serif;
 $bus-color: #007ac9;
+$bus-express-color: $bus-color;
 $airplane-color: #0046ad;
 $tram-color: #5e7921;
 $speedtram-color: #5e7921;
 $metro-color: #ca4000;
-$rail-color: #8c4799;
+$rail-color: #000;
 $ferry-color: #247c7b;
 $wait-color: #aaa;
+$car-color: #505064;
+$nav-logo-height: 2em;
+$nav-logo-min-height: 30px;
+$id-font-family: 'Roboto Mono', arial, georgia, sans-serif;
+$font-family-narrow: $id-font-family;
+$id-font-size: $font-size-xsmall;
+$id-font-weight: $font-weight-medium;
+$background-color-lighter: #f6f6f6;
+$background-color-darker: #cdcdd7;
+$gray-blue: $background-color;
+$info-background-color: $background-color-lighter;
+$caution-icon-color: #000;
+$secondary-color: $primary-color;
+$action-color: $primary-color;
+$infobox-color-generic-blue: #fff;
+$infobox-border-color: #000;
+$selector-background-color: $background-color-lighter;
+$button-hover-color: $background-color-lighter;
+$info-icon-blue: $primary-color;
 
 .message-bar {
   border-bottom: 1px solid #ddd;
 }
+
+/* Component palette */
+$disclaimer-background-color: #fff;
+$disclaimer-border-color: #000;
+
+/* Borders */
+$border-radius-disclaimer: $border-radius-bigger;

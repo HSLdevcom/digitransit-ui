@@ -14,10 +14,39 @@ const IS_DEV =
 
 const virtualMonitorBaseUrl = IS_DEV
   ? 'https://dev-tremonitori.digitransit.fi'
-  : 'https://tremonitori.digitransit.fi.fi';
+  : 'https://tremonitori.digitransit.fi';
+
+const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
+const OTP_URL = process.env.OTP_URL || `${API_URL}/routing/v2/waltti-alt/`;
+const MAP_URL = process.env.MAP_URL || 'https://dev-cdn.digitransit.fi';
+const POI_MAP_PREFIX = `${MAP_URL}/map/v3/waltti-alt`;
 
 export default configMerger(walttiConfig, {
   CONFIG,
+
+  URL: {
+    OTP: OTP_URL,
+    STOP_MAP: {
+      default: `${POI_MAP_PREFIX}/fi/stops,stations/`,
+      sv: `${POI_MAP_PREFIX}/sv/stops,stations/`,
+    },
+    RENTAL_STATION_MAP: {
+      default: `${POI_MAP_PREFIX}/fi/rentalStations/`,
+    },
+    REALTIME_RENTAL_STATION_MAP: {
+      default: `${POI_MAP_PREFIX}/fi/realtimeRentalStations/`,
+    },
+    PARK_AND_RIDE_MAP: {
+      default: `${POI_MAP_PREFIX}/en/vehicleParking/`,
+      sv: `${POI_MAP_PREFIX}/sv/vehicleParking/`,
+      fi: `${POI_MAP_PREFIX}/fi/vehicleParking/`,
+    },
+    PARK_AND_RIDE_GROUP_MAP: {
+      default: `${POI_MAP_PREFIX}/en/vehicleParkingGroups/`,
+      sv: `${POI_MAP_PREFIX}/sv/vehicleParkingGroups/`,
+      fi: `${POI_MAP_PREFIX}/fi/vehicleParkingGroups/`,
+    },
+  },
 
   appBarLink: { name: 'Nysse', href: 'https://www.nysse.fi/' },
 
@@ -55,6 +84,14 @@ export default configMerger(walttiConfig, {
         url: '/assets/geojson/tre_zone_lines_20240108.geojson',
         isOffByDefault: true,
       },
+      {
+        name: {
+          fi: 'Myyntipisteet',
+          sv: 'Servicekontorer',
+          en: 'Service points',
+        },
+        url: '/assets/temporary/tampere-servicepoints-20250305.geojson',
+      },
     ],
   },
 
@@ -72,7 +109,9 @@ export default configMerger(walttiConfig, {
   showTicketInformation: true,
   primaryAgencyName: 'Tampereen seudun joukkoliikenne',
 
-  ticketLink: 'https://www.nysse.fi/liput-ja-hinnat.html',
+  ticketLink: {
+    fi: 'https://www.nysse.fi/liput-ja-hinnat.html',
+  },
 
   callAgencyInfo: {
     fi: {
@@ -270,9 +309,9 @@ export default configMerger(walttiConfig, {
       en: 'https://www.nysse.fi/en/city-bikes.html',
     },
     buyInstructions: {
-      fi: 'Osta käyttöoikeutta päiväksi, kuukaudeksi tai koko kaudeksi.',
-      sv: 'Köp ett abonnemang för en dag, en månad eller en hel säsong.',
-      en: 'Buy licenses for a day, a month or an entire season.',
+      fi: 'Osta yksittäinen matka kertamaksulla tai pidempi käyttöoikeus päiväksi, kuukaudeksi tai koko kaudeksi.',
+      sv: 'Köp en enkelresa eller abonnemang för en dag, en månad eller för en hel säsong.',
+      en: 'Buy a single trip or a daily, monthly or seasonal pass.',
     },
   },
 

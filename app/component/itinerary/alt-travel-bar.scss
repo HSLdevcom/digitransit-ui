@@ -220,7 +220,7 @@
   }
 
   span {
-    color: $link-color;
+    color: $link-button-color;
     letter-spacing: -0.5px;
     font-weight: $font-weight-medium;
     text-align: center;
@@ -228,7 +228,7 @@
 
   width: auto;
   margin: 0;
-  color: $link-color;
+  color: $link-button-color;
   display: flex;
   align-items: center;
   line-height: 1;

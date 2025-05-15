@@ -11,48 +11,66 @@ import {
   getToLocalizedMode,
   withRealTime,
 } from './NaviUtils';
-import { durationToString } from '../../../util/timeUtils';
 import { getRouteMode } from '../../../util/modeUtils';
-import NaviBoardingInfo from './NaviBoardingInfo';
+import BoardingInfo from './BoardingInfo';
+import Duration from '../Duration';
+
+function getBoardingParams(leg, time, config) {
+  if (!leg?.transitLeg) {
+    return {};
+  }
+  const { headsign, route, start } = leg;
+  const hs = headsign || leg.trip?.tripHeadsign;
+
+  const remainingDuration = <Duration duration={legTime(start) - time} />;
+  const rt = leg.realtimeState === 'UPDATED';
+  const values = {
+    duration: withRealTime(rt, remainingDuration),
+    legTime: withRealTime(rt, legTimeStr(start)),
+  };
+  const routeMode = getRouteMode(route, config);
+  return { routeMode, route, hs, values };
+}
 
 export default function NaviInstructions(
   { leg, nextLeg, instructions, legType, time, position, tailLength },
   { intl, config },
 ) {
+  const { routeMode, route, hs, values } = getBoardingParams(
+    nextLeg,
+    time,
+    config,
+  );
   if (legType === LEGTYPE.MOVE) {
     return (
       <>
-        <div className="notification-header">
+        <div className="notification-header navi-header-chain">
           <FormattedMessage id={instructions} defaultMessage="Go to" />
           &nbsp;
           {legDestination(intl, leg, null, nextLeg)}
           &nbsp;
+          <span className={cx({ realtime: !!position })}>
+            {displayDistance(tailLength, config, intl.formatNumber)}&nbsp;
+          </span>
           {nextLeg?.transitLeg && (
             <FormattedMessage id="navileg-hop-on" defaultMessage="by" />
           )}
         </div>
-
-        <div className={cx('duration', { realtime: !!position })}>
-          {displayDistance(tailLength, config, intl.formatNumber)}&nbsp;
-          {durationToString(legTime(leg.end) - time)}
-        </div>
+        {nextLeg?.transitLeg && (
+          <BoardingInfo
+            route={route}
+            mode={routeMode}
+            headsign={hs}
+            translationValues={values}
+            compact
+          />
+        )}
       </>
     );
   }
-  if (legType === LEGTYPE.WAIT && nextLeg?.transitLeg) {
-    const { mode, headsign, route, start } = nextLeg;
-    const hs = headsign || nextLeg.trip?.tripHeadsign;
 
-    const remainingDuration = `${Math.max(
-      Math.ceil((legTime(start) - time) / 60000),
-      0,
-    )} ${intl.formatMessage({ id: 'minute-short' })}`; // ms to minutes, >= 0
-    const rt = nextLeg.realtimeState === 'UPDATED';
-    const values = {
-      duration: withRealTime(rt, remainingDuration),
-      legTime: withRealTime(rt, legTimeStr(start)),
-    };
-    const routeMode = getRouteMode(route, config);
+  if (legType === LEGTYPE.WAIT && nextLeg?.transitLeg) {
+    const { mode } = nextLeg;
     return (
       <>
         <div className="notification-header">
@@ -62,7 +80,7 @@ export default function NaviInstructions(
             defaultMessage="Get on the {mode}"
           />
         </div>
-        <NaviBoardingInfo
+        <BoardingInfo
           route={route}
           mode={routeMode}
           headsign={hs}
@@ -73,7 +91,7 @@ export default function NaviInstructions(
   }
 
   if (legType === LEGTYPE.WAIT_IN_VEHICLE) {
-    const totalWait = legTime(nextLeg.start) - time;
+    const totalWait = <Duration duration={legTime(nextLeg.start) - time} />;
     return (
       <>
         <div className="notification-header">
@@ -88,7 +106,7 @@ export default function NaviInstructions(
             values={{
               duration: withRealTime(
                 nextLeg.realtimeState === 'UPDATED',
-                durationToString(totalWait),
+                totalWait,
               ),
             }}
           />
@@ -109,20 +127,18 @@ export default function NaviInstructions(
           : 'navileg-at-stop';
     const stopOrStation = intl.formatMessage({ id: destId });
 
-    const remainingDuration = `${Math.max(
-      Math.ceil((t - time) / 60000),
-      0,
-    )} ${intl.formatMessage({ id: 'minute-short' })}`; // ms to minutes, >= 0
-
-    const values = {
+    const remainingDuration = <Duration duration={t - time} />;
+    const values2 = {
       stopOrStation,
       stop: leg.to.stop.name,
       duration: withRealTime(rt, remainingDuration),
       legTime: withRealTime(rt, legTimeStr(leg.end)),
     };
+
     const translationId = nextLeg?.interlineWithPreviousLeg
       ? 'navileg-in-transit-interline'
       : 'navileg-leave-at';
+
     return (
       <>
         <div className="notification-header">
@@ -136,7 +152,7 @@ export default function NaviInstructions(
           <FormattedMessage
             id={translationId}
             defaultMessage="leave from the vehicle at stop {stop} in {duration} minutes at {legTime}"
-            values={values}
+            values={values2}
           />
         </div>
       </>

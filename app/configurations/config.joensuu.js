@@ -81,7 +81,7 @@ export default configMerger(walttiConfig, {
           sv: 'Zoner',
           en: 'Zones',
         },
-        url: '/assets/geojson/joensuu_zone_lines_20230830.geojson',
+        url: '/assets/geojson/joensuu_zone_lines_20250402.geojson',
       },
     ],
   },
@@ -129,9 +129,6 @@ export default configMerger(walttiConfig, {
     2: 'B',
     3: 'C',
     4: 'D',
-    5: 'E',
-    6: 'F',
-    7: 'G',
   },
   zones: {
     stops: true,

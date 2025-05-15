@@ -55,4 +55,24 @@
     width: 100%;
     gap: var(--space-s);
   }
+
+  .navi-geolocation-purpose {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-s);
+
+    .info-content {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--space-xs);
+
+      p {
+        margin: unset;
+        font-weight: 325;
+        color: #333;
+        line-height: $line-height-normal;
+      }
+    }
+  }
 }

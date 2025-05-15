@@ -353,15 +353,15 @@ describe('alertUtils', () => {
     });
   });
 
-  describe('isAlertActive', () => {
+  describe('checkActiveDisruptions', () => {
     it('should not crash even if cancelations or alerts is not defined', () => {
-      expect(utils.isAlertActive(1, undefined, [])).to.equal(false);
-      expect(utils.isAlertActive(1, [], undefined)).to.equal(false);
+      expect(utils.checkActiveDisruptions(1, undefined, [])).to.equal(false);
+      expect(utils.checkActiveDisruptions(1, [], undefined)).to.equal(false);
     });
 
     it('should return true if there is an active cancelation', () => {
       expect(
-        utils.isAlertActive(50, [
+        utils.checkActiveDisruptions(50, [
           {
             realtimeState: RealtimeStateType.Canceled,
             scheduledArrival: 1,
@@ -374,7 +374,7 @@ describe('alertUtils', () => {
 
     it('should return true if there is an active alert with no severity level', () => {
       expect(
-        utils.isAlertActive(
+        utils.checkActiveDisruptions(
           50,
           [],
           [
@@ -389,7 +389,7 @@ describe('alertUtils', () => {
 
     it('should return true if there is an active alert with a severity level !== INFO', () => {
       expect(
-        utils.isAlertActive(
+        utils.checkActiveDisruptions(
           50,
           [],
           [
@@ -405,7 +405,7 @@ describe('alertUtils', () => {
 
     it('should return false if there is an active alert with a severity level === INFO', () => {
       expect(
-        utils.isAlertActive(
+        utils.checkActiveDisruptions(
           50,
           [],
           [
@@ -421,7 +421,7 @@ describe('alertUtils', () => {
 
     it('should return false if there is an expired service alert', () => {
       expect(
-        utils.isAlertActive(
+        utils.checkActiveDisruptions(
           200,
           [],
           [
@@ -435,7 +435,7 @@ describe('alertUtils', () => {
     });
 
     it('should return true by default for service alerts that have no start or end', () => {
-      expect(utils.isAlertActive(200, [], [{}])).to.equal(true);
+      expect(utils.checkActiveDisruptions(200, [], [{}])).to.equal(true);
     });
   });
 

@@ -13,6 +13,7 @@ const MobileFooter = (props, { config }) => {
             onClick={() =>
               window.CookieConsent.renew && window.CookieConsent.renew()
             }
+            className="cookie-settings-button-mobile"
           >
             <FormattedMessage id="cookie-settings" default="Cookie settings" />
           </button>

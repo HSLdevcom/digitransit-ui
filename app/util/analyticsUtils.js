@@ -1,3 +1,5 @@
+import Cookies from 'universal-cookie';
+
 /**
  * This file contains functions for UI analytics.
  * Contains code used in both client and server
@@ -12,18 +14,12 @@
  * @return void
  */
 export function addAnalyticsEvent(event) {
-  let newEvent = event;
-  const config = window.state?.context?.plugins['extra-context-plugin'].config;
-  if (event.event === undefined) {
-    // this is the default event field if none is defined
-    newEvent = { event: 'sendMatomoEvent', ...event };
-  }
-
-  if (
-    (config?.useCookiesPrompt &&
-      window.CookieInformation?.getConsentGivenFor('cookie_cat_statistic')) ||
-    !config?.useCookiesPrompt
-  ) {
+  if (window.dataLayer) {
+    let newEvent = event;
+    if (event.event === undefined) {
+      // this is the default event field if none is defined
+      newEvent = { event: 'sendMatomoEvent', ...event };
+    }
     window.dataLayer.push(newEvent);
   }
 }
@@ -35,7 +31,15 @@ export function addAnalyticsEvent(event) {
  *
  * @return string
  */
-export function getAnalyticsInitCode(config, hostname) {
+export function getAnalyticsInitCode(config, req) {
+  const { hostname, cookies } = req;
+  const useAnalytics =
+    !config.useCookiesPrompt || cookies.cookieConsent === 'true';
+
+  if (!useAnalytics) {
+    return '';
+  }
+
   if (
     config.analyticsScript &&
     hostname &&
@@ -47,30 +51,51 @@ export function getAnalyticsInitCode(config, hostname) {
     );
   }
 
-  if (config.GTMid) {
-    // Google Tag Manager script
-    return `<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  let script = config.GTMid
+    ? // Google Tag Manager script
+      `<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
         new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
         j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-        })(window,document,'script','dataLayer','${config.GTMid}');</script>\n`;
+        })(window,document,'script','dataLayer','${config.GTMid}');</script>\n`
+    : '';
+  if (config.crazyEgg) {
+    script = `${script}<script type="text/javascript" src="//script.crazyegg.com/pages/scripts/0030/3436.js" async="async" ></script>`;
   }
-  return '';
+  return script;
 }
+
 const handleChange = () => {
   if (!window.CookieInformation) {
     return false;
   }
-  return window.CookieInformation.getConsentGivenFor('cookie_cat_statistics');
+  const allow = window.CookieInformation.getConsentGivenFor(
+    'cookie_cat_statistic',
+  );
+  const cookies = new Cookies();
+  cookies.set('cookieConsent', allow ? 'true' : 'false');
+  if (allow) {
+    window.dataLayer = window.dataLayer || [];
+  } else {
+    window.dataLayer = undefined;
+  }
+  return allow;
 };
+
 /**
  * Client side intialization for UI analytics
  *
  * @return void
  */
 export function initAnalyticsClientSide(config) {
-  window.dataLayer = window.dataLayer || [];
-  if (config?.useCookiesPrompt) {
+  const cookies = new Cookies();
+  const useAnalytics =
+    !config.useCookiesPrompt || cookies.get('cookieConsent') === 'true';
+
+  if (useAnalytics) {
+    window.dataLayer = window.dataLayer || [];
+  }
+  if (config.useCookiesPrompt) {
     window.addEventListener(
       'CookieInformationConsentGiven',
       handleChange,

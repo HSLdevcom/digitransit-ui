@@ -39,6 +39,7 @@ import CautionWhite from './assets/caution_white_exclamation.svg';
 import Trash from './assets/trash.svg';
 import ModeBus from './assets/mode_bus.svg';
 import ModeBusExpress from './assets/bus-express.svg';
+import ModeBusReplacement from './assets/bus-replacement.svg';
 import ModeSpeedTram from './assets/speedtram.svg';
 import ModeBusLocal from './assets/bus-local.svg';
 import ModeRail from './assets/mode_rail.svg';
@@ -124,6 +125,7 @@ const IconMap = style => {
     'mode-bus': <ModeBus style={style} />,
     'mode-bus-express': <ModeBusExpress style={style} />,
     'mode-bus-local': <ModeBusLocal style={style} />,
+    'mode-bus-replacement': <ModeBusReplacement style={style} />,
     'mode-speedtram': <ModeSpeedTram style={style} />,
     'mode-rail': <ModeRail style={style} />,
     'mode-tram': <ModeTram style={style} />,

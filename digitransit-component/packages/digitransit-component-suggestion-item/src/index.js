@@ -9,6 +9,7 @@ import styles from './helpers/styles.scss';
 const BUS_EXPRESS = 702;
 const BUS_LOCAL = 704;
 const SPEEDTRAM = 900;
+const BUS_REPLACEMENT = 714;
 
 const getRouteMode = props => {
   switch (props.type) {
@@ -18,6 +19,8 @@ const getRouteMode = props => {
       return 'bus-express';
     case SPEEDTRAM:
       return 'speedtram';
+    case BUS_REPLACEMENT:
+      return 'bus-replacement';
     default:
       return props?.mode?.toLowerCase() || 'bus';
   }
@@ -406,8 +409,8 @@ const SuggestionItem = pure(
                     styles[className],
                   )}
                 >
-                  {item.properties.origin.locality
-                    ? `, ${item.properties.origin.locality}`
+                  {item.properties.origin.localadmin
+                    ? `, ${item.properties.origin.localadmin.split('*')[0]}`
                     : ''}
                 </span>
               </div>
@@ -427,8 +430,10 @@ const SuggestionItem = pure(
                     styles[className],
                   )}
                 >
-                  {item.properties.destination.locality
-                    ? `, ${item.properties.destination.locality}`
+                  {item.properties.destination.localadmin
+                    ? `, ${
+                        item.properties.destination.localadmin.split('*')[0]
+                      }`
                     : ''}
                 </span>
               </div>

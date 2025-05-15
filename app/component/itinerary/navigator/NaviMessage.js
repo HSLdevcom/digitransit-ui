@@ -7,17 +7,21 @@ import { configShape } from '../../../util/shapes';
 import Icon from '../../Icon';
 
 function NaviMessage(
-  { severity, children, index, handleRemove, hideClose },
+  { severity, children, index, handleRemove, hideClose, cardAnimation },
   { config },
 ) {
   const [removingIndex, setRemovingIndex] = useState(null);
 
   const handleRemoveClick = () => {
     setRemovingIndex(index);
-    setTimeout(() => {
-      handleRemove(index);
-    }, 500);
   };
+
+  const handleAnimationEnd = ({ target }) => {
+    if (target.classList.contains('slide-out-right')) {
+      handleRemove(index);
+    }
+  };
+
   let iconId;
   let color;
   switch (severity) {
@@ -41,9 +45,12 @@ function NaviMessage(
     <div
       className={cx(
         'info-stack-item',
-        removingIndex === index ? 'slide-out-right' : '',
+        removingIndex === index ? 'slide-out-right' : cardAnimation,
         `${severity.toLowerCase()}`,
       )}
+      onAnimationEnd={handleAnimationEnd}
+      aria-live={severity === 'ALERT' ? 'assertive' : 'polite'}
+      role="alert"
     >
       <Icon img={iconId} height={1.4} width={1.4} color={color} />
       {children}
@@ -70,6 +77,7 @@ NaviMessage.propTypes = {
   index: PropTypes.number.isRequired,
   handleRemove: PropTypes.func.isRequired,
   hideClose: PropTypes.bool,
+  cardAnimation: PropTypes.string.isRequired,
 };
 
 NaviMessage.defaultProps = {

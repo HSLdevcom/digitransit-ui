@@ -358,6 +358,8 @@ export function getPlanParams(
   let carReluctance = null;
 
   let noIterationsForShortTrips = false;
+  // A null value uses the default amount of maximum iterations.
+  let maxQueryIterations = null;
 
   switch (planType) {
     case PLANTYPE.BIKEPARK:
@@ -386,6 +388,8 @@ export function getPlanParams(
       settings.bikeSpeed = null;
       settings.walkReluctance = null;
       settings.bikeReluctance = null;
+      // As of writing this comment, iterating (paging) does not support filtering of bad car transit itineraries.
+      maxQueryIterations = 1;
       break;
     case PLANTYPE.PARKANDRIDE:
       access = ['CAR_PARKING'];
@@ -465,5 +469,6 @@ export function getPlanParams(
     noIterationsForShortTrips,
     via,
     carReluctance,
+    maxQueryIterations,
   };
 }

@@ -12,7 +12,7 @@ import { configShape } from '../../util/shapes';
 import CallAgencyWarning from './CallAgencyWarning';
 import RoutePatternSelect from './RoutePatternSelect';
 import RouteNotification from './RouteNotification';
-import { DATE_FORMAT } from '../../constants';
+import { DATE_FORMAT, ExtendedRouteTypes } from '../../constants';
 import {
   startRealTimeClient,
   stopRealTimeClient,
@@ -21,7 +21,7 @@ import {
 import {
   getCancelationsForRoute,
   getAlertsForObject,
-  isAlertActive,
+  checkActiveDisruptions,
   getActiveAlertSeverityLevel,
 } from '../../util/alertUtils';
 import { isActiveDate } from '../../util/patternUtils';
@@ -387,7 +387,7 @@ class RouteControlPanel extends React.Component {
     const selectedPattern = route?.patterns?.find(
       pattern => pattern.code === patternId,
     );
-    const hasActiveAlert = isAlertActive(
+    const hasActiveAlert = checkActiveDisruptions(
       currentTime,
       getCancelationsForRoute(
         route,
@@ -438,7 +438,9 @@ class RouteControlPanel extends React.Component {
             <FormattedMessage id="route-guide" defaultMessage="Route guide" />
           </h1>
         </div>
-        {route.type === 715 && <CallAgencyWarning route={route} />}
+        {route.type === ExtendedRouteTypes.CallAgency && (
+          <CallAgencyWarning route={route} />
+        )}
         <div
           className={cx('route-control-panel', {
             'bp-large': breakpoint === 'large',

@@ -5,12 +5,7 @@ import polyUtil from 'polyline-encoded';
 import React from 'react';
 import { isBrowser } from '../../util/browser';
 import { getMiddleOf } from '../../util/geo-utils';
-import {
-  getInterliningLegs,
-  getRouteText,
-  isCallAgencyLeg,
-  LegMode,
-} from '../../util/legUtils';
+import { getInterliningLegs, getRouteText, LegMode } from '../../util/legUtils';
 import { getRouteMode } from '../../util/modeUtils';
 import { configShape, legShape } from '../../util/shapes';
 import { durationToString } from '../../util/timeUtils';
@@ -74,6 +69,7 @@ class ItineraryLine extends React.Component {
         {
           mode: leg.mode,
           type: leg.route?.type,
+          gtfsId: leg.route?.gtfsId,
         },
         this.context.config,
       );
@@ -86,12 +82,9 @@ class ItineraryLine extends React.Component {
       const interliningWithRoute = interliningLines.join(' / ');
 
       if (leg.rentedBike && leg.mode !== 'WALK' && leg.mode !== 'SCOOTER') {
-        mode = 'CITYBIKE';
+        mode = 'citybike';
       }
 
-      const modePlusClass = isCallAgencyLeg(leg)
-        ? 'call'
-        : mode.toLowerCase() + (this.props.passive ? ' passive' : '');
       const geometry = polyUtil.decode(leg.legGeometry.points);
       let middle = getMiddleOf(geometry);
       let { to, end } = leg;
@@ -199,7 +192,7 @@ class ItineraryLine extends React.Component {
               }
               key={`${this.props.hash}_${i}_${mode}`}
               geometry={geometry}
-              mode={isCallAgencyLeg(leg) ? 'call' : mode.toLowerCase()}
+              mode={mode}
               passive={this.props.passive}
             />,
           );
@@ -210,7 +203,7 @@ class ItineraryLine extends React.Component {
             color={leg.route && leg.route.color ? `#${leg.route.color}` : null}
             key={`${this.props.hash}_${i}_${mode}`}
             geometry={geometry}
-            mode={isCallAgencyLeg(leg) ? 'call' : mode.toLowerCase()}
+            mode={mode}
             passive={this.props.passive}
           />,
         );
@@ -244,14 +237,14 @@ class ItineraryLine extends React.Component {
                   limitZoom={14}
                   stop={place.stop}
                   key={`intermediate-${place.stop.gtfsId}`}
-                  mode={modePlusClass}
+                  mode={mode}
                   thin
                 />,
               ),
             );
         }
 
-        if (leg.from.vertexType === 'BIKESHARE') {
+        if (rentalId) {
           objs.push(
             <VehicleMarker
               key={`${leg.from.lat}:${leg.from.lon}`}
@@ -282,7 +275,7 @@ class ItineraryLine extends React.Component {
               end,
               nextLeg,
               index: i,
-              mode: isCallAgencyLeg(leg) ? 'call' : mode.toLowerCase(),
+              mode,
               legName: name,
               zIndexOffset: 300,
               interliningWithRoute,
@@ -299,7 +292,7 @@ class ItineraryLine extends React.Component {
                 platformCode: leg.from.stop.platformCode,
                 transfer: true,
               }}
-              mode={isCallAgencyLeg(leg) ? 'call' : mode.toLowerCase()}
+              mode={mode}
             />,
           );
           objs.push(
@@ -313,7 +306,7 @@ class ItineraryLine extends React.Component {
                 platformCode: leg.to.stop.platformCode,
                 transfer: true,
               }}
-              mode={isCallAgencyLeg(leg) ? 'call' : mode.toLowerCase()}
+              mode={mode}
             />,
           );
         }

@@ -13,9 +13,9 @@ import {
   getModes,
   toggleTransportMode,
 } from '../../../util/modeUtils';
+import { getModeIconColor } from '../../../util/colorUtils';
 
 const TransportModesSection = ({ config }, { executeAction }) => {
-  const { iconColors } = config.colors;
   const alternativeNames = config.useAlternativeNameForModes || [];
   const transitModes = getTransitModes(config);
   const selectedModes = getModes(config);
@@ -48,13 +48,7 @@ const TransportModesSection = ({ config }, { executeAction }) => {
                 <Icon
                   className={`${mode}-icon`}
                   img={`icon-icon_${mode.toLowerCase()}`}
-                  color={
-                    iconColors[
-                      mode.toLowerCase() === 'subway'
-                        ? 'mode-metro'
-                        : `mode-${mode.toLowerCase()}`
-                    ]
-                  }
+                  color={getModeIconColor(config, mode)}
                 />
               </div>
               <div className="mode-name">

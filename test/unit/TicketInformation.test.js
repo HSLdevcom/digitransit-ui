@@ -501,9 +501,10 @@ describe('<TicketInformation />', () => {
         ],
         defaultConfig,
       ),
+      ticketLink: 'foobar',
     };
     const wrapper = shallowWithIntl(<TicketInformation {...props} />, {
-      context: { config: { ...defaultConfig, ticketLink: 'foobar' } },
+      context: { config: { ...defaultConfig } },
     });
     expect(wrapper.find('a').prop('href')).to.equal('foobar');
   });
@@ -563,9 +564,10 @@ describe('<TicketInformation />', () => {
         ],
         defaultConfig,
       ),
+      ticketLink: 'foobaz',
     };
     const wrapper = shallowWithIntl(<TicketInformation {...props} />, {
-      context: { config: { ...defaultConfig, ticketLink: 'foobaz' } },
+      context: { config: { ...defaultConfig } },
     });
     expect(wrapper.find('.ticket-identifier')).to.have.lengthOf(2);
 

@@ -7,11 +7,9 @@ import Icon from '../Icon';
 import { durationToString } from '../../util/timeUtils';
 import { displayDistance } from '../../util/geo-utils';
 
-export default function Distance(props, { config, intl }) {
+export default function StreetSummary(props, { config, intl }) {
   const distance = displayDistance(props.distance, config, intl.formatNumber);
-
   const icon = `icon-${props.icon || 'icon_walk'}`;
-
   const duration = durationToString(props.duration * 1000);
 
   return (
@@ -37,11 +35,7 @@ export default function Distance(props, { config, intl }) {
   );
 }
 
-Distance.description =
-  'Displays the total distance of the itinerary in precision of 10 meters. ' +
-  'Requires distance in meters as props. Displays distance in km if distance is 1000 or above';
-
-Distance.propTypes = {
+StreetSummary.propTypes = {
   distance: PropTypes.number.isRequired,
   icon: PropTypes.string,
   className: PropTypes.string,
@@ -49,11 +43,9 @@ Distance.propTypes = {
   mode: PropTypes.string.isRequired,
 };
 
-Distance.defaultProps = { className: '', icon: undefined };
+StreetSummary.defaultProps = { className: '', icon: undefined };
 
-Distance.contextTypes = {
+StreetSummary.contextTypes = {
   config: configShape.isRequired,
   intl: intlShape.isRequired,
 };
-
-Distance.displayName = 'Distance';

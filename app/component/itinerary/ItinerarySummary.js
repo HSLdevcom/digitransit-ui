@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
-import Duration from './Duration';
-import Distance from './Distance';
+import TimeSummary from './TimeSummary';
+import StreetSummary from './StreetSummary';
 import { itineraryShape } from '../../util/shapes';
 
 function ItinerarySummary({
@@ -18,7 +18,7 @@ function ItinerarySummary({
   return (
     <div className="itinerary-summary">
       {!isMobile && <div className="divider-top" />}
-      <Duration
+      <TimeSummary
         duration={itinerary.duration}
         className="duration--itinerary-summary"
         startTime={itinerary.start}
@@ -27,7 +27,7 @@ function ItinerarySummary({
         multiRow={isMultiRow}
       />
       {walking?.distance > 0 && (
-        <Distance
+        <StreetSummary
           className="distance--itinerary-summary"
           distance={walking.distance}
           duration={walking.duration}
@@ -35,7 +35,7 @@ function ItinerarySummary({
         />
       )}
       {biking?.distance > 0 && (
-        <Distance
+        <StreetSummary
           className="distance--itinerary-summary"
           icon="icon_cyclist"
           distance={biking.distance}
@@ -44,7 +44,7 @@ function ItinerarySummary({
         />
       )}
       {driving?.distance > 0 && (
-        <Distance
+        <StreetSummary
           className="distance--itinerary-summary driving-summary"
           icon="icon_car-withoutBox"
           distance={driving.distance}

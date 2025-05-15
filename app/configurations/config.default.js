@@ -184,7 +184,7 @@ export default {
     ticketTypes: 'none',
     walkBoardCost: 120,
     walkReluctance: 1.8,
-    walkSpeed: 1.2,
+    walkSpeed: 1.28,
     transferPenalty: 0,
     minTransferTime: 90,
     includeBikeSuggestions: true,
@@ -205,7 +205,7 @@ export default {
       more: 1,
       most: 0.2,
     },
-    walkSpeed: [0.69, 0.97, 1.2, 1.67, 2.22],
+    walkSpeed: [0.69, 0.97, 1.28, 1.67, 2.22],
     bikeSpeed: [2.77, 4.15, 5.55, 6.94, 8.33],
   },
 
@@ -378,6 +378,7 @@ export default {
       'mode-ferry': '#247C7B',
       'mode-citybike': '#f2b62d',
       'mode-scooter': '#C5CAD2',
+      'mode-replacement-bus': '#DC0451',
     },
   },
   iconModeSet: 'digitransit',
@@ -712,7 +713,6 @@ export default {
   /* key: name of theme, value: regex matching part of host name */
   themeMap: {
     hsl: '(reittiopas|next-dev.digitransit)',
-    apphsl: '(test.digitransit)',
     turku: '(turku|foli)',
     lappeenranta: 'lappeenranta',
     joensuu: 'joensuu',
@@ -721,6 +721,7 @@ export default {
     matka: '(matka|^dev.digitransit)',
     vaasa: 'vaasa',
     walttiOpas: 'waltti',
+    walttiTest: 'waltti-test',
     rovaniemi: 'rovaniemi',
     kouvola: 'kouvola',
     tampere: 'tampere',
@@ -851,4 +852,5 @@ export default {
   navigation: false,
   sendAnalyticsCustomEventGoals: false,
   shortenLongTextThreshold: 10, // for route number in itinerary summary
+  showRouteDisclaimer: true,
 };

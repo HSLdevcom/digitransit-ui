@@ -36,7 +36,7 @@ export default function DepartureRow(
   { config, intl },
 ) {
   const { trip, trip: { route } = {} } = departure;
-  const mode = getRouteMode(route);
+  const mode = getRouteMode(route, config);
   const departureTimeMs = departureTime * 1000;
   const time = epochToTime(departureTimeMs, config);
   const timeDiffInMinutes = Math.floor(

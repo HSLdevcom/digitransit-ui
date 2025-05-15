@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { isAnyLegPropertyIdentical, isRental } from '../../../util/legUtils';
 import { getRouteMode } from '../../../util/modeUtils';
 import { configShape, legShape } from '../../../util/shapes';
@@ -27,15 +27,17 @@ const iconMap = {
 };
 
 export default function NaviCard(
-  { leg, nextLeg, legType, time, position, tailLength },
+  { leg, nextLeg, legType, time, position, tailLength, cardAnimation },
   { config },
 ) {
   const [cardExpanded, setCardExpanded] = useState(false);
+  const contentRef = useRef();
   const { isEqual: legChanged } = usePrevious(leg, (prev, current) =>
     isAnyLegPropertyIdentical(prev, current, ['legId', 'mode']),
   );
+
   const handleClick = () => {
-    setCardExpanded(!cardExpanded);
+    setCardExpanded(prev => !prev);
   };
 
   if (legChanged) {
@@ -80,11 +82,17 @@ export default function NaviCard(
     iconName = iconMap.WAIT_IN_VEHICLE;
   }
 
+  const maxHeight = cardExpanded
+    ? `${contentRef.current?.scrollHeight}px`
+    : '0px';
+
   return (
     <button
       type="button"
-      className={`navi-top-card ${cardExpanded ? 'expanded' : ''}`}
+      className={`navi-top-card ${cardAnimation}`}
       onClick={handleClick}
+      aria-expanded={cardExpanded}
+      aria-controls={`navi-card-content-${leg?.legId}`}
     >
       <div className="main-card">
         <div className="content">
@@ -107,14 +115,22 @@ export default function NaviCard(
             />
           </div>
         </div>
-        {cardExpanded && (
+        <div
+          id={`navi-card-content-${leg?.legId}`}
+          className="extension"
+          style={{
+            maxHeight,
+          }}
+          ref={contentRef}
+          aria-hidden={!cardExpanded}
+        >
           <NaviCardExtension
             legType={legType}
             leg={leg}
             nextLeg={nextLeg}
             time={time}
           />
-        )}
+        </div>
       </div>
     </button>
   );
@@ -130,6 +146,7 @@ NaviCard.propTypes = {
     lon: PropTypes.number,
   }),
   tailLength: PropTypes.number.isRequired,
+  cardAnimation: PropTypes.string.isRequired,
 };
 NaviCard.defaultProps = {
   leg: undefined,

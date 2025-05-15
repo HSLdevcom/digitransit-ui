@@ -1,12 +1,12 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 
-import converter from 'base64-arraybuffer';
+import { decode } from 'base64-arraybuffer';
 import bindings from '../../../app/util/gtfsrt';
 import { parseFeedMQTT } from '../../../app/util/gtfsRtParser';
 
 // Real arraybuffer data that was encoded into base64
-const arrayBuffer = converter.decode(
+const arrayBuffer = decode(
   'Cg0KAzEuMBABGMa+6OQFEmgKBjEzMDIxMBAAIlwKKwoKNTY0NTkzNDY0NhIIMTQ6MzU6MDAaCDIwMTkwMzI2IAAqBTg2OTIxMAESFA1OCHZCFc1OvUEdKWNcQi1TCXM9KMW+6OQFMABCDwoGMTMwMjEwEgVBdGFsYQ==',
 );
 

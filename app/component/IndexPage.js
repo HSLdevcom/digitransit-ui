@@ -204,7 +204,9 @@ class IndexPage extends React.Component {
     });
 
     if (item.type === 'FutureRoute') {
-      router.push(createUrl(item));
+      router.push(
+        createUrl(item, { itinerarySummaryPrefix: PREFIX_ITINERARY_SUMMARY }),
+      );
     } else if (id === 'origin') {
       executeAction(storeOrigin, item);
     } else {

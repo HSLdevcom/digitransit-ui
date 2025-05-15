@@ -1,6 +1,6 @@
 import { graphql } from 'react-relay';
 
-const legQuery = graphql`
+export const legQuery = graphql`
   query LegQuery($id: String!) {
     leg(id: $id) {
       legId: id
@@ -48,5 +48,3 @@ const legQuery = graphql`
     }
   }
 `;
-
-export { legQuery };
