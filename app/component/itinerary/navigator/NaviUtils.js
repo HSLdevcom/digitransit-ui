@@ -268,10 +268,7 @@ export const getAdditionalMessages = (
       msgs.push({
         severity: 'INFO',
         id: 'ticket',
-        pushNotification: {
-          title,
-          content: `${fares[0].ticketName} - ${formatFare(fares[0])}`,
-        },
+
         title,
         body,
       });
@@ -283,7 +280,6 @@ export const getAdditionalMessages = (
 export const getTransitLegState = (leg, intl, messages, time) => {
   const { start, realtimeState, from, mode, legId, route } = leg;
   const { scheduledTime, estimated } = start;
-  let pushNotification;
   if (messages.get(legId)?.closed) {
     return [];
   }
@@ -312,7 +308,6 @@ export const getTransitLegState = (leg, intl, messages, time) => {
         name: routeName,
       },
     );
-    pushNotification = { title, content: '' };
     severity = 'WARNING';
   } else if (!isRealTime) {
     const departure = leg.trip.stoptimesForDate[0];
@@ -337,7 +332,6 @@ export const getTransitLegState = (leg, intl, messages, time) => {
         mode: localizedMode,
       },
     );
-    pushNotification = { title, content: body };
   } else {
     const { parentStation, name } = from.stop;
 
@@ -364,10 +358,7 @@ export const getTransitLegState = (leg, intl, messages, time) => {
         stopName: name,
       },
     );
-    pushNotification = {
-      title,
-      content: body,
-    };
+
     severity = 'INFO';
   }
 
@@ -377,7 +368,6 @@ export const getTransitLegState = (leg, intl, messages, time) => {
       content,
       id: legId,
       expiresOn: legTime(start),
-      pushNotification,
       title,
       body,
     },
@@ -480,10 +470,7 @@ export const getItineraryAlerts = (
           alerts.push({
             severity: 'ALERT',
             id,
-            pushNotification: {
-              title: alert.alertHeaderText,
-              content: '',
-            },
+
             title: alert.alertHeaderText,
             body: '',
           });
@@ -528,10 +515,6 @@ export const getItineraryAlerts = (
           id: `canceled-${legId}`,
           hideClose: true,
           expiresOn: alert.effectiveEndDate * 1000,
-          pushNotification: {
-            title,
-            body: '',
-          },
           title,
           body: '',
           showSearchBtn,
@@ -629,10 +612,6 @@ export const getItineraryAlerts = (
               severity: 'INFO',
               id,
               expiresOn: legTime(tr.toLeg.start),
-              pushNotification: {
-                title,
-                body,
-              },
               title,
               body,
               transferTimeChanged: true,
