@@ -75,7 +75,7 @@ function NaviCardContainer(
 
   function addMessages(incomingMessages, newMessages) {
     newMessages.forEach(m => {
-      if (messages && !messages.get(m.id)) {
+      if (!messages.get(m.id)) {
         createNotification(m.title, m.body);
       }
       incomingMessages.set(m.id, m);
