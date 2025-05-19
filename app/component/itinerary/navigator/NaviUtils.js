@@ -13,6 +13,7 @@ import { durationToString, epochToIso, timeStr } from '../../../util/timeUtils';
 import Icon from '../../Icon';
 import { getModeIconColor } from '../../../util/colorUtils';
 import RouteNumberContainer from '../../RouteNumberContainer';
+import Duration from '../Duration';
 import {
   formatFare,
   getFaresFromLegs,
@@ -415,7 +416,7 @@ export function itinerarySearchPath(time, leg, nextLeg, position, to) {
   return getItineraryPagePath(locationToUri(location), to);
 }
 
-function withNewSearchBtn(searchCallback, alertType) {
+function withNewSearchBtn(children, searchCallback, alertType) {
   addAnalyticsEvent({
     category: 'Itinerary',
     event: 'navigator',
@@ -434,6 +435,7 @@ function withNewSearchBtn(searchCallback, alertType) {
 
   return (
     <div className="navi-info-content">
+      {children}
       <FormattedMessage id="navigation-abort-trip" />
       <button
         className="new-itinerary-search"
@@ -448,7 +450,7 @@ function withNewSearchBtn(searchCallback, alertType) {
   );
 }
 
-export function Transfer(route1, route2, config) {
+function Transfer(route1, route2, config) {
   const mode1 = getRouteMode(route1, config);
   const mode2 = getRouteMode(route2, config);
 
@@ -479,6 +481,16 @@ export function Transfer(route1, route2, config) {
       </div>
     </span>
   );
+}
+
+function TransferText(route1, route2, config, intl) {
+  const from = `${getLocalizedMode(getRouteMode(route1, config), intl)} ${
+    route1.shortName || ''
+  }`;
+  const to = `${getLocalizedMode(getRouteMode(route2, config), intl)} ${
+    route2.shortName || ''
+  }`;
+  return `${from} -> ${to}`;
 }
 
 export const getItineraryAlerts = (
@@ -523,40 +535,33 @@ export const getItineraryAlerts = (
   );
 
   if (canceled.length) {
-    // show routes button only for first canceled leg.
+    // show new itinerary search button only for first canceled leg
     canceled.forEach((leg, i) => {
       const { legId, mode, route } = leg;
-      const lMode = getLocalizedMode(mode, intl);
-      const routeName = `${lMode} ${route.shortName}`;
-      const title = intl.formatMessage(
-        { id: 'navigation-mode-canceled' },
-        { name: routeName },
-      );
-      // TODO katso tää läpi miten tän saisi tehtyä hvyin
-      const m = <span className="notification-header">{title}</span>;
-      const showSearchBtn = i === 0;
-      // we want to show the show routes button only for the first canceled leg.
-      const content =
-        i === 0 ? (
-          withNewSearchBtn(
-            { m },
-            itinerarySearchCallback,
-            `canceled_${route.shortName}${mode.toLowerCase()}`,
-          )
-        ) : (
-          <div className="navi-info-content notification-header">{m}</div>
-        );
       const id = `canceled-${legId}`;
       if (!messages.get(id)) {
+        const lMode = getLocalizedMode(mode, intl);
+        const routeName = `${lMode} ${route.shortName}`;
+        const title = intl.formatMessage(
+          { id: 'navigation-mode-canceled' },
+          { name: routeName },
+        );
+        const jsxBody =
+          i === 0
+            ? withNewSearchBtn(
+                '',
+                itinerarySearchCallback,
+                `canceled_${route.shortName}${mode.toLowerCase()}`,
+              )
+            : undefined;
         alerts.push({
           severity: 'ALERT',
-          content,
           id,
           hideClose: true,
           expiresOn: alert.effectiveEndDate * 1000,
           title,
           body: '',
-          showSearchBtn,
+          jsxBody,
         });
       }
     });
@@ -568,10 +573,10 @@ export const getItineraryAlerts = (
       tailLength,
       slack,
     );
-    let title;
-    let body;
-    let showTransferBtn = false;
     if (transfers.length) {
+      let title;
+      let body;
+      let jsxBody;
       const prob =
         transfers.find(p => p.severity === 'ALERT') ||
         transfers.find(p => p.severity === 'WARNING');
@@ -579,40 +584,55 @@ export const getItineraryAlerts = (
         const id = transferId(prob);
         const alert = messages.get(id);
         if (!alert?.closed || alert?.severity !== prob.severity) {
-          let content;
+          const transfer = Transfer(
+            prob.fromLeg.route,
+            prob.toLeg.route,
+            config,
+          );
+          const desc = TransferText(
+            prob.fromLeg.route,
+            prob.toLeg.route,
+            config,
+            intl,
+          );
+
           if (prob.severity === 'ALERT') {
-            title = intl.formatMessage({
-              id: 'navigation-transfer-problem',
-              defaultMessage: 'Transfer problem',
-            });
+            title = intl.formatMessage({ id: 'navigation-transfer-problem' });
             body = intl.formatMessage(
-              {
-                id: 'navigation-transfer-problem-details',
-                defaultMessage: 'Transfer {transfer} problem',
-              },
-              {
-                transfer: ` ${getRouteMode(prob.fromLeg.route, config)} ->
-                  ${getRouteMode(prob.toLeg.route, config)} `,
-              },
+              { id: 'navigation-transfer-problem-details' },
+              { transfer: desc },
+            );
+            jsxBody = withNewSearchBtn(
+              <FormattedMessage
+                id="navigation-transfer-problem-details"
+                values={{ transfer }}
+              />,
+              itinerarySearchCallback,
+              `transfer-${
+                prob.fromLeg.route.shortName
+              }${prob.fromLeg.mode.toLowerCase()}-${
+                prob.toLeg.route.shortName
+              }${prob.toLeg.mode.toLowerCase()}`,
+            );
+          } else {
+            title = intl.formatMessage({ id: 'navigation-hurry-transfer' });
+            const change = Math.floor(
+              (prob.duration - prob.originalDuration) / 60000,
             );
 
-            showTransferBtn = true;
-            // Todo fix this
-            content = withNewSearchBtn(itinerarySearchCallback);
-          } else {
-            title = intl.formatMessage({
-              id: 'navigation-hurry-transfer',
-              defaultMessage: 'Hurry transfer',
-            });
             body = intl.formatMessage(
-              {
-                id: 'navigation-hurry-transfer-details',
-                defaultMessage: 'Hurry transfer {transfer}',
-              },
-              {
-                transfer: ` ${getRouteMode(prob.fromLeg.route, config)} -> 
-                  ${getRouteMode(prob.fromLeg.route, config)} `,
-              },
+              { id: 'navigation-hurry-transfer-value' },
+              { transfer: desc, time: durationToString(prob.duration), change },
+            );
+            jsxBody = (
+              <FormattedMessage
+                id="navigation-hurry-transfer-value"
+                values={{
+                  transfer,
+                  time: <Duration duration={prob.duration} />,
+                  change,
+                }}
+              />
             );
           }
 
@@ -623,13 +643,7 @@ export const getItineraryAlerts = (
             expiresOn: legTime(prob.toLeg.start),
             title,
             body,
-            transferTimeChanged: true,
-            route1: prob.fromLeg.route,
-            route2: prob.toLeg.route,
-            transferDuration: prob.duration,
-            originalTransferduration: prob.originalDuration,
-            showTransferBtn,
-            alertContent: content,
+            jsxBody,
           });
         }
       }
@@ -641,26 +655,37 @@ export const getItineraryAlerts = (
           if (alert && alert.severity !== 'INFO') {
             title = intl.formatMessage({
               id: 'navigation-hurry-transfer-solved',
-              defaultMessage: 'Hurry transfer solved',
             });
             body = intl.formatMessage(
+              { id: 'navigation-hurry-transfer-solved-details' },
               {
-                id: 'navigation-hurry-transfer-solved-details',
-                defaultMessage: 'Hurry transfer {transfer} solved',
-              },
-              {
-                transfer: Transfer(tr.fromLeg.route, tr.toLeg.route, config),
+                transfer: TransferText(
+                  tr.fromLeg.route,
+                  tr.toLeg.route,
+                  config,
+                  intl,
+                ),
                 time: durationToString(tr.duration),
               },
             );
-            // a warning/alert has been showm
+            jsxBody = (
+              <FormattedMessage
+                id="navigation-hurry-transfer-solved-details"
+                values={{
+                  transfer: Transfer(tr.fromLeg.route, tr.toLeg.route, config),
+                  time: <Duration duration={tr.duration} />,
+                }}
+              />
+            );
+
+            // a warning/alert has been shown
             alerts.push({
               severity: 'INFO',
               id,
               expiresOn: legTime(tr.toLeg.start),
               title,
               body,
-              transferTimeChanged: true,
+              jsxBody,
             });
           }
         }
