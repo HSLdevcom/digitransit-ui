@@ -2,8 +2,7 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import React from 'react';
 import { mockContext } from '../helpers/mock-context';
-
-import Timetable from '../../../app/component/stop/Timetable';
+import { Component as Timetable } from '../../../app/component/stop/Timetable';
 import TimetableRow from '../../../app/component/stop/TimetableRow';
 import SecondaryButton from '../../../app/component/SecondaryButton';
 import { shallowWithIntl } from '../helpers/mock-intl-enzyme';

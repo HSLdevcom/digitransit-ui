@@ -48,7 +48,9 @@ export function getModeIconColor(config, mode) {
     return undefined;
   }
 
-  return mode.toLowerCase() === 'subway'
+  const lowerCaseMode = mode.toLowerCase();
+
+  return lowerCaseMode === 'subway'
     ? config.colors.iconColors['mode-metro']
-    : config.colors.iconColors[`mode-${mode.toLowerCase()}`];
+    : config.colors.iconColors[`mode-${lowerCaseMode}`];
 }

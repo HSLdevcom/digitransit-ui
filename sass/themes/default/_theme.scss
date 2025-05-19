@@ -85,11 +85,11 @@ $walk-color: #000;
 $wait-color: #979797;
 $bicycle-color: #666;
 $car-color: #333;
-$scooter-color: #c5cad2;
-$scooter-map-color: #666;
+$scooter-color: #647693;
+$scooter-map-color: #647693;
 $call-agency-color: #666;
-$external-feed-color: #c5cad2;
-$external-feed-map-color: #666;
+$external-feed-color: #647693;
+$external-feed-map-color: #647693;
 $walk-inside-color: #666;
 $replacement-bus-color: #dc0451;
 
@@ -148,3 +148,11 @@ $nav-logo-min-height: 40px;
 $navigation-icon-size: 40px;
 $slide-up-down-animation: 0.8s cubic-bezier(0.47, 0, 0.23, 1.38) forwards;
 $slide-up-down-fade: 0.8s ease-out forwards;
+
+.theme-default {
+  display: block;
+}
+
+.theme-matka {
+  display: none;
+}

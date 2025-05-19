@@ -317,7 +317,7 @@ export default async function serve(req, res, next) {
       relayData = [];
     }
 
-    const spriteNames = [config.themeSprites, config.sprites].filter(Boolean);
+    const spriteName = config.sprites;
 
     const ASSET_URL = process.env.ASSET_URL || config.APP_PATH;
 
@@ -394,21 +394,17 @@ export default async function serve(req, res, next) {
 
     if (process.env.NODE_ENV !== 'development') {
       res.write('<script>\n');
-      spriteNames.forEach(spriteName => {
-        res.write(`fetch('${ASSET_URL}/${assets[spriteName]}')
+      res.write(`fetch('${ASSET_URL}/${assets[spriteName]}')
           .then(function(response) {return response.text();}).then(function(blob) {
             var div = document.createElement('div');
             div.innerHTML = blob;
             document.body.insertBefore(div, document.body.childNodes[0]);
           });`);
-      });
       res.write('</script>\n');
     } else {
-      spriteNames.forEach(spriteName => {
-        res.write(
-          fs.readFileSync(`${appRoot}_static/${spriteName}`).toString(),
-        );
-      });
+      res.write('<div>\n');
+      res.write(fs.readFileSync(`${appRoot}_static/${spriteName}`).toString());
+      res.write('</div>\n');
     }
 
     res.write(contentWithBreakpoint || '<div id="app" />');

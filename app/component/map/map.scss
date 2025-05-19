@@ -887,10 +887,6 @@ div.origin-popup {
       color: $white;
     }
 
-    .map-route-number.ferry-external {
-      color: $black;
-    }
-
     &::before {
       content: '';
       width: 0;
@@ -951,10 +947,6 @@ div.origin-popup {
       justify-content: center;
       padding-right: 3px;
       color: $white;
-    }
-
-    .map-route-number.ferry-external {
-      color: $black;
     }
 
     &::before {
@@ -1018,10 +1010,6 @@ div.origin-popup {
       color: $white;
     }
 
-    .map-route-number.ferry-external {
-      color: $black;
-    }
-
     &::before {
       content: '';
       width: 0;
@@ -1083,10 +1071,6 @@ div.origin-popup {
       justify-content: center;
       padding-right: 3px;
       color: $white;
-    }
-
-    .map-route-number.ferry-external {
-      color: $black;
     }
 
     &::before {
@@ -1280,10 +1264,6 @@ div.origin-popup {
       justify-content: center;
       padding-right: 3px;
       color: $white;
-    }
-
-    .map-route-number.ferry-external {
-      color: $black;
     }
   }
 }

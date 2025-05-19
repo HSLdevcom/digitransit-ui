@@ -173,6 +173,9 @@ export const planConnection = graphql`
                 parentStation {
                   name
                 }
+                routes {
+                  type
+                }
               }
               vehicleRentalStation {
                 lat
@@ -209,6 +212,7 @@ export const planConnection = graphql`
                 }
                 routes {
                   type
+                  gtfsId
                 }
               }
               vehicleParking {

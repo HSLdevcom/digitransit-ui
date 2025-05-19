@@ -133,7 +133,7 @@ export default function BicycleLeg(
       <ItineraryCircleLineWithIcon
         index={index}
         modeClassName={mode.toLowerCase()}
-        icon="icon-icon_scooter_rider"
+        icon="icon-icon_scooter_rider_dark"
         appendClass={!scooterSettingsOn ? 'settings' : 'scooter'}
         style={style}
       />

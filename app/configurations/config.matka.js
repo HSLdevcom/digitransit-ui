@@ -54,8 +54,6 @@ export default {
 
   favicon: './app/configurations/images/matka/matka-favicon.svg',
 
-  themeSprites: 'assets/svg-sprite.matka.svg',
-
   colors: {
     primary: '#000',
     iconColors: {

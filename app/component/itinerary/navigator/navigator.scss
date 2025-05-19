@@ -449,6 +449,10 @@
           color: $ferry-color;
         }
 
+        &.ferry-external-stop {
+          color: $external-feed-color;
+        }
+
         &.funicular-stop {
           color: $funicular-color;
         }

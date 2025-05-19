@@ -106,6 +106,7 @@ export default {
 
   defaultSettings: {
     walkSpeed: 1.28,
+    showBikeAndParkItineraries: true,
   },
 
   /**
@@ -566,12 +567,12 @@ export default {
   // Notice! Turning on this setting forces the search for car routes (for the CO2 comparison only).
   showCO2InItinerarySummary: true,
 
-  includeCarSuggestions: false,
+  includeCarSuggestions: true,
   includeParkAndRideSuggestions: true,
   // Include both bike and park and bike and public, if bike is enabled
-  includePublicWithBikePlan: true,
+  includePublicWithBikePlan: false,
   // Park and ride and car suggestions separated into two switches
-  separatedParkAndRideSwitch: false,
+  separatedParkAndRideSwitch: true,
 
   parkingAreaSources: ['liipi'],
 

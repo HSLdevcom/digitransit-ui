@@ -58,3 +58,11 @@ $disclaimer-border-color: #000;
 
 /* Borders */
 $border-radius-disclaimer: $border-radius-bigger;
+
+.theme-default {
+  display: none;
+}
+
+.theme-matka {
+  display: block;
+}
