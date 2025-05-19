@@ -304,16 +304,12 @@ export const getAdditionalMessages = (
     const fares = getFaresFromLegs([nextLeg], config);
 
     if (fares?.length && !fares[0].isUnknown) {
-      const title = intl.formatMessage({
-        id: 'navigation-remember-ticket',
-        defaultMessage: 'Remember to check your ticket',
-      });
+      const title = intl.formatMessage({ id: 'navigation-remember-ticket' });
       const body = `${fares[0].ticketName} ${formatFare(fares[0])}`;
 
       msgs.push({
         severity: 'INFO',
         id: 'ticket',
-
         title,
         body,
       });
@@ -344,14 +340,7 @@ export const getTransitLegState = (leg, intl, messages, time, settings) => {
     const { delay } = estimated;
 
     const translationId = `navigation-mode-${delay > 0 ? 'late' : 'early'}`;
-    title = intl.formatMessage(
-      {
-        id: translationId,
-      },
-      {
-        name: routeName,
-      },
-    );
+    title = intl.formatMessage({ id: translationId }, { name: routeName });
     severity = 'WARNING';
   } else if (!isRealTime) {
     const departure = leg.trip.stoptimesForDate[0];
@@ -363,13 +352,9 @@ export const getTransitLegState = (leg, intl, messages, time, settings) => {
     } else {
       severity = 'WARNING';
     }
-    title = intl.formatMessage({
-      id: 'navileg-mode-schedule',
-    });
+    title = intl.formatMessage({ id: 'navileg-mode-schedule' });
     body = intl.formatMessage(
-      {
-        id: 'navileg-start-schedule',
-      },
+      { id: 'navileg-start-schedule' },
       {
         route: shortName,
         time: timeStr(scheduledTime),
@@ -387,22 +372,17 @@ export const getTransitLegState = (leg, intl, messages, time, settings) => {
           : 'from-stop';
     const stopOrStation = intl.formatMessage({ id: fromId });
     title = intl.formatMessage(
-      {
-        id: 'navileg-mode-realtime',
-      },
+      { id: 'navileg-mode-realtime' },
       { route: shortName, mode: localizedMode },
     );
     body = intl.formatMessage(
-      {
-        id: 'navileg-start-realtime',
-      },
+      { id: 'navileg-start-realtime' },
       {
         time: timeStr(estimated.time),
         stopOrStation,
         stopName: name,
       },
     );
-
     severity = 'INFO';
   }
 
@@ -530,7 +510,6 @@ export const getItineraryAlerts = (
           alerts.push({
             severity: 'ALERT',
             id,
-
             title: alert.alertHeaderText,
             body: '',
           });
@@ -550,12 +529,8 @@ export const getItineraryAlerts = (
       const lMode = getLocalizedMode(mode, intl);
       const routeName = `${lMode} ${route.shortName}`;
       const title = intl.formatMessage(
-        {
-          id: 'navigation-mode-canceled',
-        },
-        {
-          name: routeName,
-        },
+        { id: 'navigation-mode-canceled' },
+        { name: routeName },
       );
       // TODO katso tää läpi miten tän saisi tehtyä hvyin
       const m = <span className="notification-header">{title}</span>;
