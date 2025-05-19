@@ -779,4 +779,9 @@ export default {
   navigation: true,
   showRouteDisclaimer: true,
   crazyEgg: true,
+
+  // features that should not be deployed to production
+  experimental: {
+    notifications: process.env.PUSH_NOTIFICATIONS,
+  },
 };

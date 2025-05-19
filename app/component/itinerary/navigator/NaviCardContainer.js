@@ -16,14 +16,9 @@ import {
   LEGTYPE,
 } from './NaviUtils';
 import usePrevious from './hooks/usePrevious';
+import { usePushNotification } from './hooks/usePushNotification';
 
 const HIDE_TOPCARD_DURATION = 2000; // milliseconds
-
-function addMessages(incomingMessages, newMessages) {
-  newMessages.forEach(m => {
-    incomingMessages.set(m.id, m);
-  });
-}
 
 const getLegType = (leg, firstLeg, time, interlineWithPreviousLeg) => {
   let legType;
@@ -64,19 +59,28 @@ function NaviCardContainer(
   // notifications that are shown to the user.
   const [activeMessages, setActiveMessages] = useState([]);
   const [legChanging, setLegChanging] = useState(false);
-
   const { isEqual: legChanged } = usePrevious(currentLeg, (prev, current) =>
     isAnyLegPropertyIdentical(prev, current, ['legId', 'mode']),
   );
   const focusRef = useRef(false);
 
   const { intl, config, match, router } = context;
-
+  const { createNotification, notificationConsent } =
+    usePushNotification(config);
   const handleRemove = index => {
     const msg = messages.get(activeMessages[index].id);
     msg.closed = true; // remember closing action
     setActiveMessages(activeMessages.filter((_, i) => i !== index));
   };
+
+  function addMessages(incomingMessages, newMessages) {
+    newMessages.forEach(m => {
+      if (!messages.get(m.id)) {
+        createNotification(m.title, m.body);
+      }
+      incomingMessages.set(m.id, m);
+    });
+  }
 
   // track only relevant vehicles for the journey.
   // addd 20 s buffer so that vehicle location is available
@@ -137,6 +141,7 @@ function NaviCardContainer(
           time,
           config,
           messages,
+          intl,
           legs,
         ),
       ]);
@@ -201,11 +206,14 @@ function NaviCardContainer(
     className = 'show-card';
   }
   return (
+    // TODO Create proper button for asking notification permissions.
+    // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
     <div
       className={`navi-card-container ${className}`}
       style={{ top: containerTopPosition }}
       aria-live={legChanging ? undefined : 'polite'}
       aria-hidden={legChanging ? 'true' : 'false'}
+      onClick={() => notificationConsent()}
     >
       <NaviCard
         leg={l}
