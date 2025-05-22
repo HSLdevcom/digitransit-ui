@@ -31,10 +31,9 @@
   "peerDependencies": {
     "@digitransit-component/digitransit-component-icon": "^1.0.2",
     "@hsl-fi/sass": "^0.2.0",
-    "classnames": "2.2.6",
-    "i18next": "^19.3.3",
-    "prop-types": "^15.7.2",
-    "react": "^16.13.0",
-    "react-cookie": "^4.0.3"
+    "classnames": "2.5.1",
+    "i18next": "^22.5.1",
+    "prop-types": "^15.8.1",
+    "react": "^16.13.0"
   }
 }

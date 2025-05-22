@@ -309,7 +309,7 @@ function Timetable(
               <FormattedMessage id="timetable" defaultMessage="Timetable" />
             </h1>
           </div>
-          <div className="timetable-for-printing">{dateForPrinting()}</div>
+          <div className="timetable-for-printing">{dateForPrinting(date)}</div>
           {timeTableRows.length > 0 ? (
             <div className="timetable-note">
               <h2>

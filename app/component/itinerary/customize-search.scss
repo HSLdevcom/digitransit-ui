@@ -299,6 +299,10 @@
     .icon {
       font-size: 2.5em;
       margin-top: 0.2em;
+
+      &.scooter-icon {
+        color: #333;
+      }
     }
 
     .mode-icon {

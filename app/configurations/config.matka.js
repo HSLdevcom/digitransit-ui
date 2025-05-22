@@ -9,8 +9,9 @@ import KuopioConfig from './config.kuopio';
 import LahtiConfig from './config.lahti';
 
 const CONFIG = 'matka';
-const APP_DESCRIPTION = 'Matka.fi–palvelu.';
-const APP_TITLE = 'Matka.fi';
+const APP_DESCRIPTION =
+  'Fintraffic Matka on reittiopaspalvelu, joka auttaa suunnittelemaan matkoja koko Suomessa yhdistämällä eri liikennemuodot helposti ovelta ovelle.';
+const APP_TITLE = 'Fintraffic Matka – Joukkoliikenteen reittiopas ja matkahaku';
 const YEAR = 1900 + new Date().getYear();
 
 const HSLParkAndRideUtils = require('../util/ParkAndRideUtils').default.HSL;
@@ -130,7 +131,7 @@ export default {
 
   meta: {
     description: APP_DESCRIPTION,
-    keywords: `reitti,reitit,opas,reittiopas,joukkoliikenne`,
+    keywords: `reitti,reitit,opas,reittiopas,joukkoliikenne,joukkoliikenne, matkasuunnittelu, matkareitti, aikataulut, bussi, juna, metro, raitiovaunu, lautta, matka, suomen joukkoliikenne, reitti kartalla, matkareitti ovelta ovelle, opas.matka.fi, fintraffic matka, digitransit, reittiopas suomi, liikenneopas, julkinen liikenne, reittihaku, liityntäpysäköinti, pyöräily, autoilu, lennot, matkakumppani, matkaketju, reitti yhdellä haulla`,
   },
   menu: {
     copyright: { label: `© Matka.fi ${YEAR}` },
@@ -145,7 +146,7 @@ export default {
       },
       {
         name: 'about-this-service',
-        href: 'https://www.fintraffic.fi/fi/digitaalisetpalvelut/fintrafficin-datapalvelut/liikkumisen-tietopalvelut/joukkoliikenteen-tietopalvelut/digitransit',
+        href: 'https://www.fintraffic.fi/fi/digitaalisetpalvelut/matkatietoa',
       },
       {
         name: 'accessibility-statement',
