@@ -13,6 +13,7 @@ import AccessibilityOptionSection from './customizesearch/AccessibilityOptionSec
 import TransferOptionsSection from './customizesearch/TransferOptionsSection';
 import RentalNetworkSelector from './customizesearch/RentalNetworkSelector';
 import ScooterNetworkSelector from './customizesearch/ScooterNetworkSelector';
+import TaxiOptionsSection from './customizesearch/TaxiOptionsSection';
 import RestoreDefaultSettingSection from './customizesearch/RestoreDefaultSettingSection';
 import { getReadMessageIds, setReadMessageIds } from '../../store/localStorage';
 import { isKeyboardSelectionEvent } from '../../util/browser';
@@ -275,6 +276,17 @@ class CustomizeSearch extends React.Component {
               </div>
             </div>
           )}
+          {config.experimental?.allowFlexJourneys &&
+            config.transportModes.taxi.availableForSelection && (
+              <div className="settings-section">
+                <div className="settings-option-container">
+                  <TaxiOptionsSection
+                    defaultSettings={this.defaultSettings}
+                    currentSettings={currentSettings}
+                  />
+                </div>
+              </div>
+            )}
           <div className="settings-section background">
             <div className="settings-option-container">
               <RestoreDefaultSettingSection config={config} />

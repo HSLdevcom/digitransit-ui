@@ -27,11 +27,7 @@ import {
 } from '../../util/legUtils';
 import { streetHash } from '../../util/path';
 import { configShape, itineraryShape, relayShape } from '../../util/shapes';
-import {
-  getFormattedTimeDate,
-  isToday,
-  isTomorrow,
-} from '../../util/timeUtils';
+import { getFutureText } from '../../util/timeUtils';
 import { BreakpointConsumer } from '../../util/withBreakpoint';
 import BackButton from '../BackButton';
 import Emissions from './Emissions';
@@ -45,19 +41,6 @@ import StartNavi from './StartNavi';
 import TicketInformation from './TicketInformation';
 import VehicleRentalDurationInfo from './VehicleRentalDurationInfo';
 import { ItineraryDetailsFragment } from './queries/ItineraryDetailsFragment';
-
-function getFutureText(startTime, intl) {
-  const refTime = Date.now();
-  if (isToday(startTime, refTime)) {
-    return '';
-  }
-  if (isTomorrow(startTime, refTime)) {
-    return intl.formatMessage({
-      id: 'tomorrow',
-    });
-  }
-  return getFormattedTimeDate(startTime, 'dd D.M.');
-}
 
 function getExtraProps(itinerary, intl) {
   const compressedItinerary = {

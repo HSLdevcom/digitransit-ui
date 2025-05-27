@@ -91,7 +91,7 @@ export default {
   useRoutingFeedbackPrompt: true,
 
   feedIds: ['HSL', 'HSLlautta', 'Sipoo'],
-  externalFeedIds: ['HSLlautta'],
+  externalFeedIds: ['HSLlautta', '02Taksi'],
 
   showHSLTracking: false,
   allowLogin: true,
@@ -227,6 +227,10 @@ export default {
     },
     airplane: {
       availableForSelection: false,
+      defaultValue: false,
+    },
+    taxi: {
+      availableForSelection: true, // experimental feature
       defaultValue: false,
     },
   },
@@ -780,9 +784,10 @@ export default {
   navigation: true,
   showRouteDisclaimer: true,
   crazyEgg: true,
-
   // features that should not be deployed to production
   experimental: {
     notifications: process.env.PUSH_NOTIFICATIONS,
+    allowFlexJourneys: IS_DEV,
+    allowDirectFlexJourneys: false,
   },
 };

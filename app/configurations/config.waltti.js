@@ -131,6 +131,11 @@ export default {
       availableForSelection: false,
       defaultValue: false,
     },
+
+    taxi: {
+      availableForSelection: true, // experimental feature
+      defaultValue: false,
+    },
   },
 
   nearbyModeSet: 'waltti',
@@ -306,4 +311,16 @@ export default {
   viaPointsEnabled: false,
   hideNaviTickets: true, // TODO: temporary force switch
   navigation: true,
+
+  externalFeedIds: ['02Taksi'],
+
+  // features that should not be deployed to production
+  experimental: {
+    allowFlexJourneys:
+      process.env.RUN_ENV === 'development' ||
+      process.env.NODE_ENV !== 'production',
+    allowDirectFlexJourneys:
+      process.env.RUN_ENV === 'development' ||
+      process.env.NODE_ENV !== 'production',
+  },
 };

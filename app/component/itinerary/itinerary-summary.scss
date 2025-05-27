@@ -384,7 +384,8 @@
           &.wait,
           &.bicycle_walk,
           &.car,
-          &.scooter {
+          &.scooter,
+          &.taxi-external {
             display: block;
             overflow: hidden;
             min-width: unset;
@@ -484,6 +485,13 @@
               }
             }
           }
+
+          &.taxi-external {
+            .icon {
+              width: 24px;
+              fill: white;
+            }
+          }
         }
 
         .itinerary-icon_with-bicycle {
@@ -548,6 +556,12 @@
           }
 
           &.car {
+            .leg-duration {
+              color: $white;
+            }
+          }
+
+          &.taxi-external {
             .leg-duration {
               color: $white;
             }

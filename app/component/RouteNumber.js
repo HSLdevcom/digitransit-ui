@@ -14,13 +14,15 @@ function RouteNumber(props, context) {
   const mode = props.mode.toLowerCase();
   const { alertSeverityLevel, color, withBicycle, withCar } = props;
   const isScooter = mode === TransportMode.Scooter.toLowerCase();
+  const isTaxi = mode === TransportMode.Taxi.toLowerCase();
 
   // Perform text-related processing
   let filteredText = props.text;
   if (
-    props.shortenLongText &&
-    context.config.disabledLegTextModes?.includes(mode) &&
-    props.className.includes('line')
+    (props.shortenLongText &&
+      context.config.disabledLegTextModes?.includes(mode) &&
+      props.className.includes('line')) ||
+    isTaxi
   ) {
     filteredText = '';
   }
@@ -37,6 +39,7 @@ function RouteNumber(props, context) {
       context.config.shortenLongTextThreshold - 3,
     )}...`;
   }
+
   const longText =
     filteredText &&
     textFieldIsText &&
@@ -195,8 +198,9 @@ function RouteNumber(props, context) {
             )}
           </div>
         )}
-        {!context.config.hideWalkLegDurationSummary &&
-          props.isTransitLeg === false &&
+        {((!context.config.hideWalkLegDurationSummary &&
+          props.isTransitLeg === false) ||
+          isTaxi) &&
           props.duration > 0 && (
             <div className={`leg-duration-container ${mode} `}>
               <span className="leg-duration">{props.duration}</span>

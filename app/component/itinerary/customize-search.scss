@@ -300,6 +300,11 @@
       font-size: 2.5em;
       margin-top: 0.2em;
 
+      &.taxi-icon {
+        color: $external-feed-color;
+        fill: white;
+      }
+
       &.scooter-icon {
         color: #333;
       }

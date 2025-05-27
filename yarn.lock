@@ -11110,6 +11110,7 @@ __metadata:
     lint-staged: 10.3.0
     lodash: 4.17.21
     lru-cache: 6.0.0
+    luxon: ^3.6.1
     mini-css-extract-plugin: 0.11.3
     mocha: 11.2.2
     mock-local-storage: 1.1.24
@@ -18260,6 +18261,13 @@ __metadata:
   version: 7.18.3
   resolution: "lru-cache@npm:7.18.3"
   checksum: e550d772384709deea3f141af34b6d4fa392e2e418c1498c078de0ee63670f1f46f5eee746e8ef7e69e1c895af0d4224e62ee33e66a543a14763b0f2e74c1356
+  languageName: node
+  linkType: hard
+
+"luxon@npm:^3.6.1":
+  version: 3.6.1
+  resolution: "luxon@npm:3.6.1"
+  checksum: bc6c24dde90f4263f548cc5a4ea3328e9c9511bee0b2255bd319639712862f1eb14a39c1b2dcbff8a8bf6686996d28f45b8fc902994a72dd05a29cef1269a6a4
   languageName: node
   linkType: hard
 

@@ -68,6 +68,7 @@ export default {
       'mode-citybike': '#FCBC19',
       'mode-citybike-secondary': '#333333',
       'mode-scooter': '#C5CAD2',
+      'mode-taxi': '#647693',
     },
   },
   feedIds: [
@@ -102,6 +103,7 @@ export default {
     'IngvesSvanback',
     'CAR_FERRIES',
   ],
+  externalFeedIds: ['02Taksi'],
 
   additionalFeedIds: {
     estonia: ['Vikingline', 'Viro'],
@@ -216,6 +218,10 @@ export default {
     },
     scooter: {
       availableForSelection: true,
+      defaultValue: false,
+    },
+    taxi: {
+      availableForSelection: true, // experimental feature
       defaultValue: false,
     },
   },
@@ -447,4 +453,10 @@ export default {
     },
   ],
   navigation: true,
+
+  // features that should not be deployed to production
+  experimental: {
+    allowFlexJourneys: IS_DEV,
+    allowDirectFlexJourneys: IS_DEV,
+  },
 };

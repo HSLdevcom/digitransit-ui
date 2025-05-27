@@ -66,6 +66,7 @@ import {
   isStoredItineraryRelevant,
   mergeBikeTransitPlans,
   mergeScooterTransitPlan,
+  mergeExternalTransitPlan,
   parseCarTransitPlan,
   quitIteration,
   reportError,
@@ -142,6 +143,7 @@ export default function ItineraryPage(props, context) {
   const [relaxScooterState, setRelaxScooterState] = useState(emptyPlan);
   const [scooterState, setScooterState] = useState(unset);
   const [combinedState, setCombinedState] = useState(emptyPlan);
+  const [flexState, setFlexState] = useState(unset);
   const [isNavigatorIntroDismissed, setNavigatorIntroDismissed] = useState(
     getDialogState('navi-intro'),
   );
@@ -252,7 +254,8 @@ export default function ItineraryPage(props, context) {
           !settingsState.settingsChanged
         ) {
           // Note: plan and scooter plan are merged, but relaxed ones are not
-          // Is this intended behavior ?
+          // because a relaxed scooter search is performed separately
+          // and shown only if basic relaxed search finds no journeys.
           if (relaxState.plan?.edges?.length > 0) {
             return relaxState.plan;
           }
@@ -468,6 +471,28 @@ export default function ItineraryPage(props, context) {
       setRelaxScooterState({ plan: scooterPlan, loading: LOADSTATE.DONE });
     } catch (error) {
       setRelaxScooterState(emptyPlan);
+    }
+  }
+
+  async function makeFlexQuery() {
+    if (!planQueryNeeded(config, match, PLANTYPE.FLEXTRANSIT)) {
+      setFlexState(emptyPlan);
+      return;
+    }
+    setFlexState({ loading: LOADSTATE.LOADING });
+    const planParams = getPlanParams(
+      config,
+      match,
+      PLANTYPE.FLEXTRANSIT,
+      false, // no relaxed settings
+    );
+
+    try {
+      const plan = await iterateQuery(planParams);
+      setFlexState({ plan, loading: LOADSTATE.DONE });
+    } catch (error) {
+      reportError(error);
+      setFlexState(emptyPlan);
     }
   }
 
@@ -886,6 +911,7 @@ export default function ItineraryPage(props, context) {
   useEffect(() => {
     setCombinedState({ ...emptyState, loading: LOADSTATE.LOADING });
     makeScooterQuery();
+    makeFlexQuery();
     makeMainQuery();
     Object.keys(altStates).forEach(key => makeAltQuery(key));
 
@@ -995,22 +1021,33 @@ export default function ItineraryPage(props, context) {
     }
   }, [altStates[PLANTYPE.CARTRANSIT][0].plan]);
 
-  // merge the main plan and the scooter plan into one
+  // merge the main plan, the scooter plan and the flex plan into one
   useEffect(() => {
     if (
       state.loading === LOADSTATE.DONE &&
-      scooterState.loading === LOADSTATE.DONE
+      scooterState.loading === LOADSTATE.DONE &&
+      flexState.loading === LOADSTATE.DONE
     ) {
-      const plan = mergeScooterTransitPlan(
+      let plan = mergeScooterTransitPlan(
         scooterState.plan,
         state.plan,
         config.vehicleRental.allowDirectScooterJourneys,
         match.location.query.arriveBy === 'true',
       );
+
+      if (flexState.plan?.edges) {
+        plan = mergeExternalTransitPlan(
+          flexState.plan,
+          plan,
+          match.location.query.arriveBy === 'true',
+          config.allowedFlexRouteTypes,
+        );
+      }
+
       setCombinedState({ plan, loading: LOADSTATE.DONE });
       resetItineraryPageSelection();
     }
-  }, [scooterState.plan, state.plan]);
+  }, [scooterState.plan, state.plan, flexState.plan]);
 
   const setMWTRef = ref => {
     mwtRef.current = ref;

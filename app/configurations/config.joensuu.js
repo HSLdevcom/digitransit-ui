@@ -41,13 +41,6 @@ export default configMerger(walttiConfig, {
     description: APP_DESCRIPTION,
   },
 
-  transportModes: {
-    ferry: {
-      availableForSelection: true,
-      defaultValue: true,
-    },
-  },
-
   areaPolygon: [
     [27.1, 61.6],
     [27.1, 63.6],

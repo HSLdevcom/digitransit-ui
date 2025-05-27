@@ -5,6 +5,9 @@ import {
   validateServiceTimeRange,
   RANGE_PAST,
   convertTo24HourFormat,
+  getStartTime,
+  isTomorrow,
+  isToday,
 } from '../../../app/util/timeUtils';
 
 const now = moment().unix();
@@ -75,6 +78,43 @@ describe('timeUtils', () => {
     });
     it('should return given parameter if already correct format', () => {
       expect(convertTo24HourFormat('23:45')).to.equal('23:45');
+    });
+  });
+  describe('getStartTime', () => {
+    it('should convert zero seconds to 0000', () => {
+      expect(getStartTime(0)).to.equal('0000');
+    });
+    it('should convert seconds to HHmm', () => {
+      expect(getStartTime(5 * 3600 + 32 * 60)).to.equal('0532');
+    });
+  });
+  describe('isTomorrow', () => {
+    it('should return true if startTime is tomorrow', () => {
+      const startTime = moment().add(1, 'd').unix() * 1000;
+      expect(isTomorrow(startTime)).to.equal(true);
+    });
+    it('should return true if startTime is tomorrow', () => {
+      const startTime = moment().add(1, 'd').unix() * 1000;
+      expect(isTomorrow(startTime)).to.equal(true);
+    });
+    it('should return false if startTime is not tomorrow', () => {
+      const startTime = moment().add(2, 'd').unix() * 1000;
+      expect(isTomorrow(startTime)).to.equal(false);
+    });
+    it('should return false if refTime is not today', () => {
+      const startTime = moment().add(1, 'd').unix() * 1000;
+      const refTime = moment().add(-8, 'd').unix() * 1000;
+      expect(isTomorrow(startTime, refTime)).to.equal(false);
+    });
+    it('should return false if startTime is one week and one day from today', () => {
+      const startTime = moment().add(8, 'd').unix() * 1000;
+      expect(isTomorrow(startTime)).to.equal(false);
+    });
+  });
+  describe('isToday', () => {
+    it('should return true if startTime is today', () => {
+      const startTime = moment().unix() * 1000;
+      expect(isToday(startTime)).to.equal(true);
     });
   });
 });

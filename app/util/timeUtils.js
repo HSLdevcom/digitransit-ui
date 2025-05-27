@@ -1,30 +1,60 @@
-import moment from 'moment';
+import { DateTime } from 'luxon';
 
 export const TIME_PATTERN = 'HH:mm';
-export const DATE_PATTERN = 'dd D.M.';
+export const DATE_PATTERN = 'ccc d.L.';
 
-// converts the given parameter into a string in format HHmm
-// Input: time - seconds since midnight
-export function getStartTime(time) {
-  const hours = `0${Math.floor(time / 60 / 60)}`.slice(-2);
-  const mins = `0${(time / 60) % 60}`.slice(-2);
+/**
+ * converts the given parameter into a string in format HHmm
+ * @param {number} seconds seconds since midnight
+ * @returns {string} time in format HHmm
+ */
+export function getStartTime(seconds) {
+  const hours = `0${Math.floor(seconds / 60 / 60)}`.slice(-2);
+  const mins = `0${(seconds / 60) % 60}`.slice(-2);
   return hours + mins;
 }
 
 /**
- * Returns true if startTime is the next day compared to refTime and refTime is some time in current day
+ * converts the given parameter into a string in format HH:mm
+ * @param {number} seconds seconds since midnight
+ * @returns {string} time in format HH:mm
+ */
+export function getStartTimeWithColon(seconds) {
+  const hours = `0${Math.floor(seconds / 60 / 60)}`.slice(-2);
+  const mins = `0${(seconds / 60) % 60}`.slice(-2);
+  return `${hours}:${mins}`;
+}
+
+/**
+ * @param {number} startTime milliseconds since 1970 UTC
+ * @param {number} [refTime] milliseconds since 1970 UTC
+ * @returns {boolean} true if startTime is the same day compared to refTime or if refTime is not given and startTime is today
+ */
+export function isToday(startTime, refTime) {
+  const now = refTime ? DateTime.fromMillis(refTime) : DateTime.now();
+  const start = DateTime.fromMillis(startTime);
+  return start.hasSame(now, 'day');
+}
+
+/**
+ * @param {number} startTime milliseconds since 1970 UTC
+ * @param {number} [refTime] milliseconds since 1970 UTC
+ * @returns {boolean} true if startTime is the next day compared to refTime and refTime is some time in current day
  */
 export function isTomorrow(startTime, refTime) {
-  const now = refTime ? moment(refTime) : moment();
-  const start = moment(startTime);
+  const now = refTime ? DateTime.fromMillis(refTime) : DateTime.now();
+  const start = DateTime.fromMillis(startTime);
   return (
-    now.clone().add(1, 'day').days() === start.days() &&
-    moment().days() === now.days()
+    now.plus({ days: 1 }).hasSame(start, 'day') &&
+    DateTime.now().hasSame(now, 'day')
   );
 }
 
-// renders trip duration to string
-// input: time duration - milliseconds
+/**
+ * renders trip duration to string
+ * @param {number} durationMs duration in ms
+ * @returns {string} duration formatted in hours and minutes
+ */
 export function durationToString(durationMs) {
   const dur = Math.max(durationMs, 0);
   const hours = Math.floor(dur / 3600000);
@@ -42,63 +72,114 @@ export function durationToString(durationMs) {
 }
 
 /**
- * Returns date or '' if same day as reference
+ * Returns formatted date / time
+ * @param {number} startTime milliseconds since 1970 UTC
+ * @param {string} pattern format string using luxon tokens
+ * @returns {string} formatted date
+ */
+export function getFormattedTimeDate(startTime, pattern) {
+  return DateTime.fromMillis(startTime).toFormat(pattern);
+}
+
+/**
+ *
+ * @param {number} time milliseconds since 1970 UTC
+ * @param {number} refTime milliseconds since 1970 UTC
+ * @returns {string} date or '' if same day as reference
  */
 export const dateOrEmpty = (time, refTime) => {
-  if (new Date(time).getDay() === new Date(refTime).getDay()) {
+  const date = DateTime.fromMillis(time);
+  const refDate = DateTime.fromMillis(refTime);
+  if (date.hasSame(refDate, 'day')) {
     return '';
   }
-  return moment(time).format(DATE_PATTERN);
+  return date.toFormat(DATE_PATTERN);
 };
+
+/**
+ * Returns a localized date string if start time is not today
+ * @param {number} itineraryStart time in milliseconds since 1970 UTC
+ * @param {object} intl
+ * @returns {string} localized date
+ */
+export function getFutureText(itineraryStart, intl) {
+  const startTime = Date.parse(itineraryStart);
+  const refTime = Date.now();
+  if (isToday(startTime, refTime)) {
+    return '';
+  }
+  if (isTomorrow(startTime, refTime)) {
+    return intl.formatMessage({
+      id: 'tomorrow',
+    });
+  }
+  return getFormattedTimeDate(startTime, 'ccc d.L.');
+}
 
 /**
  * The default number of days to include to the service time range from the past.
  */
 export const RANGE_PAST = 7;
 
+/**
+ *
+ * @param {number} [itineraryFutureDays]
+ * @param {object} [serviceTimeRange]
+ * @param {number} [now] seconds since 1970 UTC
+ * @returns
+ */
 export const validateServiceTimeRange = (
   itineraryFutureDays,
   serviceTimeRange,
   now,
 ) => {
-  const NOW = now ? moment.unix(now) : moment();
-  const RANGE_FUTURE = !itineraryFutureDays ? 30 : itineraryFutureDays;
-  const START = NOW.clone().subtract(RANGE_PAST, 'd').unix();
-  const END = NOW.clone().add(RANGE_FUTURE, 'd').unix();
-  const NOWUX = NOW.unix();
+  const nowDate = now ? DateTime.fromSeconds(now) : DateTime.now();
+  const rangeFuture = !itineraryFutureDays ? 30 : itineraryFutureDays;
+  const startSeconds = nowDate
+    .minus({
+      days: RANGE_PAST,
+    })
+    .toSeconds();
+  const endSeconds = nowDate
+    .plus({
+      days: rangeFuture,
+    })
+    .toSeconds();
+  const nowSeconds = nowDate.toSeconds();
 
   if (!serviceTimeRange) {
     // empty param returns a default range
     return {
-      start: START,
-      end: END,
+      start: startSeconds,
+      end: endSeconds,
     };
   }
 
   // always include today!
-  let start = Math.min(Math.max(serviceTimeRange.start, START), NOWUX);
+  let start = Math.min(
+    Math.max(serviceTimeRange.start, startSeconds),
+    nowSeconds,
+  );
   // make sure whole day is included, for comparing timestamps
-  start = moment.unix(start).startOf('day').unix();
+  start = DateTime.fromSeconds(start).startOf('day').toSeconds();
 
-  let end = Math.max(Math.min(serviceTimeRange.end, END), NOWUX);
-  end = moment.unix(end).endOf('day').unix();
-
+  let end = Math.max(Math.min(serviceTimeRange.end, endSeconds), nowSeconds);
+  end = DateTime.fromSeconds(end).endOf('day').toSeconds();
   return { start, end };
 };
 
-// converts the given parameter into a string in format HH:mm
-// Input: time - seconds since midnight
-export function getStartTimeWithColon(time) {
-  const hours = `0${Math.floor(time / 60 / 60)}`.slice(-2);
-  const mins = `0${(time / 60) % 60}`.slice(-2);
-  return `${hours}:${mins}`;
-}
-
+/**
+ * @returns {number} current time as seconds since 1970 UTC
+ */
 export function getCurrentSecs() {
-  return moment().unix();
+  return DateTime.now().toSeconds();
 }
 
-// converts time from 24+ hour HHmm to 24 hour HH:mm format
+/**
+ * converts time from 24+ hour HHmm to 24 hour HH:mm format
+ * @param {string} time
+ * @returns {string}
+ */
 export function convertTo24HourFormat(time) {
   if (time.match(/^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/)) {
     return time;
@@ -109,23 +190,10 @@ export function convertTo24HourFormat(time) {
 }
 
 /**
- * Returns true if startTime is the same day compared to refTime and refTime is some time in current day
- */
-export function isToday(startTime, refTime) {
-  const now = refTime ? moment(refTime) : moment();
-  const start = moment(startTime);
-  return start.isSame(now, 'day');
-}
-
-/**
- * Returns formatted date / time
- */
-export function getFormattedTimeDate(startTime, pattern) {
-  return moment(startTime).format(pattern);
-}
-
-/**
  * Epoch ms to 'hh:mm'
+ * @param {number} ms milliseconds since 1970 UTC
+ * @param {object} config
+ * @returns {string} time in 'hh:mm'
  */
 export function epochToTime(ms, config) {
   const time = new Date(ms).toLocaleTimeString('en-GB', {
@@ -136,7 +204,9 @@ export function epochToTime(ms, config) {
 }
 
 /**
- * Unix time (from epoch milliseconds if given)
+ * Unix time as seconds (from epoch milliseconds if given)
+ * @param {number} [ms] milliseconds since 1970 UTC
+ * @returns {number} seconds since 1970
  */
 export function unixTime(ms) {
   const t = ms || Date.now();
@@ -145,6 +215,9 @@ export function unixTime(ms) {
 
 /**
  * Unix to 'YYYYMMDD'
+ * @param {number} s seconds since 1970 UTC
+ * @param {object} config config containing timeZone
+ * @returns {string} date in 'YYYYMMDD'
  */
 export function unixToYYYYMMDD(s, config) {
   const date = new Date(s * 1000).toLocaleDateString('en-GB', {
@@ -156,6 +229,8 @@ export function unixToYYYYMMDD(s, config) {
 
 /**
  * ISO-8601/RFC3339 datetime str to 'hh:mm'
+ * @param {string} dateTime ISO-8601/RFC3339 datetime
+ * @returns {string} time in 'hh:mm'
  */
 export function timeStr(dateTime) {
   // e.g. "2024-06-13T14:30+03:00"
@@ -166,7 +241,9 @@ export function timeStr(dateTime) {
 
 /**
  * Epoch ms to ISO-8601/RFC3339 datetime str
+ * @param {number} ms milliseconds since 1970 UTC
+ * @returns {string} ISO-8601/RFC3339 datetime str
  */
 export function epochToIso(ms) {
-  return moment(ms).format();
+  return DateTime.fromMillis(ms).toISO();
 }

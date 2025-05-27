@@ -134,6 +134,7 @@ export function RouteLeg(
         withBicycle={withBicycle}
         withCar={withCar}
         occupancyStatus={getOccupancyStatus()}
+        duration={Math.floor(leg.duration / 60)}
         shortenLongText={shortenLabels}
       />
     );

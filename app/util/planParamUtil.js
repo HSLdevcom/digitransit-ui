@@ -21,6 +21,7 @@ export const PLANTYPE = {
   BIKETRANSIT: 'BIKETRANSIT',
   PARKANDRIDE: 'PARKANDRIDE',
   SCOOTERTRANSIT: 'SCOOTERTRANSIT',
+  FLEXTRANSIT: 'FLEXTRANSIT',
 };
 
 const directModes = [PLANTYPE.WALK, PLANTYPE.BIKE, PLANTYPE.CAR];
@@ -107,7 +108,6 @@ export function getSettings(config) {
     TransportMode.Scooter,
   );
 
-  // const allScooterNetworks = getAllScooterNetworks(config);
   const settings = {
     ...defaultSettings,
     ...userSettings,
@@ -261,6 +261,14 @@ export function planQueryNeeded(
         settings.includeParkAndRideSuggestions
       );
 
+    case PLANTYPE.FLEXTRANSIT:
+      return (
+        config.experimental?.allowFlexJourneys &&
+        settings.includeTaxiSuggestions &&
+        (transitModes.length > 0 ||
+          config.experimental?.allowDirectFlexJourneys)
+      );
+
     case PLANTYPE.TRANSIT:
     default:
       return true;
@@ -297,7 +305,6 @@ export function getPlanParams(
   },
   planType,
   relaxSettings,
-  // forceScooters = false,
 ) {
   const fromPlace = getLocation(from);
   const toPlace = getLocation(to);
@@ -344,6 +351,11 @@ export function getPlanParams(
       }
     });
   }
+
+  // non-direct for testing purposes on planners that only allow direct
+  const directFlexOnly =
+    config.experimental?.allowDirectFlexJourneys &&
+    !window.localStorage.getItem('favouriteStore')?.includes('Flextestaus2025');
   const directOnly = directModes.includes(planType) || otpModes.length === 0;
   let transitOnly = !!relaxSettings;
   const wheelchair = !!settings.accessibilityOption;
@@ -356,7 +368,6 @@ export function getPlanParams(
   let direct = null;
   let numItineraries = directOnly ? 1 : 5;
   let carReluctance = null;
-
   let noIterationsForShortTrips = false;
   // A null value uses the default amount of maximum iterations.
   let maxQueryIterations = null;
@@ -402,6 +413,12 @@ export function getPlanParams(
       access = ['WALK', 'SCOOTER_RENTAL'];
       egress = access;
       direct = access;
+      break;
+    case PLANTYPE.FLEXTRANSIT:
+      access = directFlexOnly ? null : ['WALK', 'FLEX'];
+      egress = access;
+      direct = directFlexOnly ? ['WALK', 'FLEX'] : null;
+      transitOnly = false;
       break;
     default: // direct modes
       direct = [planType];

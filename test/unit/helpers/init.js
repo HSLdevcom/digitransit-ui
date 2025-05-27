@@ -7,6 +7,7 @@ import relay from 'react-relay';
 import { JSDOM } from 'jsdom';
 import { after, afterEach, before } from 'mocha';
 import { stub } from 'sinon';
+import { Settings } from 'luxon';
 import { initAnalyticsClientSide } from '../../../app/util/analyticsUtils';
 
 /**
@@ -28,6 +29,10 @@ const copyProps = (src, target) => {
     );
   Object.defineProperties(target, props);
 };
+
+// set up timezone in luxon
+Settings.defaultZone = 'Europe/Helsinki';
+Settings.defaultLocale = 'fi';
 
 // set up jsdom
 const jsdom = new JSDOM('<!doctype html><html><body></body></html>', {

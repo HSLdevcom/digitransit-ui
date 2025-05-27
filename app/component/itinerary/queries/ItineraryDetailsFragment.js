@@ -24,6 +24,12 @@ export const ItineraryDetailsFragment = graphql`
       legGeometry {
         points
       }
+      pickupBookingInfo {
+        contactInfo {
+          bookingUrl
+          infoUrl
+        }
+      }
       steps {
         feature {
           __typename

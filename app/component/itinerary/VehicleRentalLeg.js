@@ -53,10 +53,7 @@ function VehicleRentalLeg(
   const id = returnBike ? returnMessageId : rentMessageId;
   const legDescription = (
     <span
-      className={cx(
-        'citybike-leg-header',
-        returnBike && isScooter && 'scooter-return',
-      )}
+      className={cx('leg-header', returnBike && isScooter && 'scooter-return')}
       aria-hidden={isScooter} // scooter screen reader message is already defined elsewhere
     >
       <FormattedMessage id={id} defaultMessage="Fetch a bike" />
@@ -86,7 +83,7 @@ function VehicleRentalLeg(
       {(!isScooter || (nextLegMode !== 'WALK' && isScooter)) && (
         <div
           className={cx(
-            'itinerary-leg-row-bike',
+            'itinerary-leg-row-with-link',
             (!isScooter || !returnBike) && 'withPadding',
           )}
         >
@@ -94,8 +91,8 @@ function VehicleRentalLeg(
         </div>
       )}
       {vehicleRentalStation && (
-        <div className="itinerary-transit-leg-route-bike">
-          <div className="citybike-itinerary">
+        <div className="itinerary-transit-leg-route-with-link">
+          <div className="itinerary-with-link">
             <div
               className={cx(
                 'citybike-icon',
@@ -118,7 +115,7 @@ function VehicleRentalLeg(
                 badgeTextFill={returnBike ? null : availabilityTextColor}
               />
             </div>
-            <div className="citybike-itinerary-text-container">
+            <div className="itinerary-with-link-text-container">
               <span className={cx('headsign', isScooter && 'scooter-headsign')}>
                 <Link
                   style={{ textDecoration: 'none', color: 'black' }}

@@ -191,6 +191,7 @@ export default {
     includeParkAndRideSuggestions: false,
     includeCarSuggestions: false,
     showBikeAndParkItineraries: false,
+    includeTaxiSuggestions: false,
   },
 
   /**
@@ -379,6 +380,7 @@ export default {
       'mode-citybike': '#f2b62d',
       'mode-scooter': '#C5CAD2',
       'mode-replacement-bus': '#DC0451',
+      'mode-taxi': '#647693',
     },
   },
   iconModeSet: 'digitransit',
@@ -465,6 +467,11 @@ export default {
     },
 
     scooter: {
+      availableForSelection: false,
+      defaultValue: false, // always false
+    },
+
+    taxi: {
       availableForSelection: false,
       defaultValue: false, // always false
     },
@@ -853,4 +860,7 @@ export default {
   sendAnalyticsCustomEventGoals: false,
   shortenLongTextThreshold: 10, // for route number in itinerary summary
   showRouteDisclaimer: true,
+  allowFlexJourneys: false,
+  allowDirectFlexJourneys: false,
+  allowedFlexRouteTypes: [1501],
 };
