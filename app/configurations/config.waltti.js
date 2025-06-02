@@ -306,4 +306,35 @@ export default {
   viaPointsEnabled: false,
   hideNaviTickets: true, // TODO: temporary force switch
   navigation: true,
+
+  routeNotifications: [
+    {
+      showForRoute: route => route.type === 714,
+      id: 'replacementBusNotification',
+      // header: {
+      //   fi: '',
+      //   en: '',
+      //   sv: '',
+      // },
+      content: {
+        fi: [
+          'Voit nousta kyytiin myös bussin keskiovista.',
+          'Pysäkit on merkitty punaisilla tunnuksilla.',
+          'Linja käyttää valikoituja pysäkkejä, eli bussi ei pysähdy kaikilla pysäkeillä.',
+        ],
+        en: ['TO DO', 'TO DO', 'TO DO'],
+        sv: ['TO DO', 'TO DO', 'TO DO'],
+      },
+      closeButtonLabel: {
+        fi: '',
+        en: '',
+        sv: '',
+      },
+      link: {
+        fi: '',
+        en: '',
+        sv: '',
+      },
+    },
+  ],
 };

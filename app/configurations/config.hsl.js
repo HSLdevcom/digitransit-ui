@@ -739,6 +739,34 @@ export default {
         sv: 'hsl.fi/sv/kampanjer/snabbsparvag',
       },
     },
+    {
+      showForRoute: route => route.type === 714,
+      id: 'replacementBusNotification',
+      // header: {
+      //   fi: '',
+      //   en: '',
+      //   sv: '',
+      // },
+      content: {
+        fi: [
+          'Voit nousta kyytiin myös bussin keskiovista.',
+          'Pysäkit on merkitty punaisilla tunnuksilla.',
+          'Linja käyttää valikoituja pysäkkejä, eli bussi ei pysähdy kaikilla pysäkeillä.',
+        ],
+        en: ['TO DO', 'TO DO', 'TO DO'],
+        sv: ['TO DO', 'TO DO', 'TO DO'],
+      },
+      closeButtonLabel: {
+        fi: '',
+        en: '',
+        sv: '',
+      },
+      link: {
+        fi: 'hsl.fi/korvaavabussi',
+        en: 'hsl.fi/korvaavabussi',
+        sv: 'hsl.fi/korvaavabussi',
+      },
+    },
   ],
 
   embeddedSearch: {
