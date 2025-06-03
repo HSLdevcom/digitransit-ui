@@ -81,7 +81,7 @@ const handleChange = () => {
     // no consent any more, reload page
     // eslint-disable-next-line
     console.log(`reload page`);
-    window.location.reload();
+    setTimeout(() => window.location.reload(), 5000);
   }
   return allow;
 };
