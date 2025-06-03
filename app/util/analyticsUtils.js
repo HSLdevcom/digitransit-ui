@@ -97,10 +97,14 @@ export function initAnalyticsClientSide(config) {
     window.dataLayer = window.dataLayer || [];
   }
   if (config.useCookiesPrompt) {
-    window.addEventListener(
-      'CookieInformationConsentGiven',
-      handleChange,
-      false,
+    setTimeout(
+      () =>
+        window.addEventListener(
+          'CookieInformationConsentGiven',
+          handleChange,
+          false,
+        ),
+      2000,
     );
   }
 }
