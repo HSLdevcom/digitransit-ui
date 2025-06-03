@@ -73,11 +73,12 @@ const handleChange = () => {
     'cookie_cat_statistic',
   );
   const cookies = new Cookies();
+  const oldState = cookies.get('cookieConsent') === 'true';
   cookies.set('cookieConsent', allow ? 'true' : 'false');
-  if (allow) {
-    window.dataLayer = window.dataLayer || [];
-  } else {
-    window.dataLayer = undefined;
+
+  if (oldState && !allow && window.dataLayer) {
+    // no consent any more, reload page
+    window.location.reload();
   }
   return allow;
 };
