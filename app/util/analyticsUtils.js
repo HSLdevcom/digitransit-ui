@@ -73,6 +73,9 @@ const handleChange = () => {
     'cookie_cat_statistic',
   );
   const cookies = new Cookies();
+  // eslint-disable-next-line
+  console.log(`cookie state in handleChange: ${cookies.get('cookieConsent')}`);
+
   const oldState = cookies.get('cookieConsent') === 'true';
   cookies.set('cookieConsent', allow ? 'true' : 'false');
   // eslint-disable-next-line
@@ -95,6 +98,9 @@ export function initAnalyticsClientSide(config) {
   const cookies = new Cookies();
   const useAnalytics =
     !config.useCookiesPrompt || cookies.get('cookieConsent') === 'true';
+
+  // eslint-disable-next-line
+  console.log(`cookie state in initAnalyticsClient: ${cookies.get('cookieConsent')}`);
 
   if (useAnalytics) {
     window.dataLayer = window.dataLayer || [];
