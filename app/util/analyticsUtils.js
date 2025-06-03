@@ -75,9 +75,12 @@ const handleChange = () => {
   const cookies = new Cookies();
   const oldState = cookies.get('cookieConsent') === 'true';
   cookies.set('cookieConsent', allow ? 'true' : 'false');
-
+  // eslint-disable-next-line
+  console.log(`cookie change ${oldState} -> ${allow}`);
   if (oldState && !allow && window.dataLayer) {
     // no consent any more, reload page
+    // eslint-disable-next-line
+    console.log(`reload page`);
     window.location.reload();
   }
   return allow;
