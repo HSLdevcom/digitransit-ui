@@ -328,19 +328,27 @@ export default {
     {
       showForRoute: route => route.type === 714,
       id: 'replacementBusNotification',
-      // header: {
-      //   fi: '',
-      //   en: '',
-      //   sv: '',
-      // },
+      header: {
+        fi: 'Korvaava bussi',
+        en: 'Korvaava bussi',
+        sv: 'Korvaava bussi',
+      },
       content: {
         fi: [
           'Voit nousta kyytiin myös bussin keskiovista.',
           'Pysäkit on merkitty punaisilla tunnuksilla.',
           'Linja käyttää valikoituja pysäkkejä, eli bussi ei pysähdy kaikilla pysäkeillä.',
         ],
-        en: ['TO DO', 'TO DO', 'TO DO'],
-        sv: ['TO DO', 'TO DO', 'TO DO'],
+        en: [
+          'Voit nousta kyytiin myös bussin keskiovista.',
+          'Pysäkit on merkitty punaisilla tunnuksilla.',
+          'Linja käyttää valikoituja pysäkkejä, eli bussi ei pysähdy kaikilla pysäkeillä.',
+        ],
+        sv: [
+          'Voit nousta kyytiin myös bussin keskiovista.',
+          'Pysäkit on merkitty punaisilla tunnuksilla.',
+          'Linja käyttää valikoituja pysäkkejä, eli bussi ei pysähdy kaikilla pysäkeillä.',
+        ],
       },
       closeButtonLabel: {
         fi: '',
