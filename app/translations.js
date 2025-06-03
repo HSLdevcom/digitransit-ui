@@ -2756,7 +2756,7 @@ const translations = {
       'Kirjautumalla palveluun saat suosikit talteen ja voit hyödyntää niitä muillakin laitteillasi',
     'one-way-journey': 'Yhdensuuntaisen matkan pituus',
     'open-app': 'Avaa sovellus',
-    'open-operator-app': 'Avaa {operator}-sovellus',
+    'open-operator-app': 'Avaa {operator} -sovellus',
     'open-settings': 'Avaa asetukset',
     'option-default': 'Keskimääräinen',
     'option-least': 'Hidas',

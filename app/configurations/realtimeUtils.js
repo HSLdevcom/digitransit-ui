@@ -217,7 +217,11 @@ export default {
   PahkakankaanLiikenne: elyMqtt(true),
   IngvesSvanback: elyMqtt(true),
   FOLI: { ...walttiMqtt, mqttTopicResolver: noHeadsignTopicResolver },
-  MATKA: { ...elyMqtt(true), vehicleNumberParser: vehicleNumberPartParser },
+  MATKA: {
+    ...walttiMqtt,
+    mqttTopicResolver: tripRouteTopicResolver,
+    vehicleNumberParser: vehicleNumberPartParser,
+  },
   digitraffic: {
     ...walttiMqtt,
     mqttTopicResolver: tripRouteTopicResolver,

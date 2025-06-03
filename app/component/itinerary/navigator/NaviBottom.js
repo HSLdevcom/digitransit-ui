@@ -6,12 +6,12 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 import { addAnalyticsEvent } from '../../../util/analyticsUtils';
 import { configShape, legShape } from '../../../util/shapes';
 import { epochToTime } from '../../../util/timeUtils';
-import localizedUrl from '../../../util/urlUtils';
 import Duration from '../Duration';
 import { getFaresFromLegs, shouldShowFareInfo } from '../../../util/fareUtils';
+import localizedUrl from '../../../util/urlUtils';
 
 function NaviBottom(
-  { setNavigation, arrival, time, currentLanguage, legs },
+  { setNavigation, arrival, time, legs, currentLanguage },
   { config },
 ) {
   const handleClose = useCallback(() => {
@@ -92,8 +92,8 @@ NaviBottom.propTypes = {
   setNavigation: PropTypes.func.isRequired,
   arrival: PropTypes.number.isRequired,
   time: PropTypes.number.isRequired,
-  currentLanguage: PropTypes.string.isRequired,
   legs: PropTypes.arrayOf(legShape).isRequired,
+  currentLanguage: PropTypes.string.isRequired,
 };
 
 NaviBottom.contextTypes = {
