@@ -148,6 +148,10 @@ export function setCustomizedSettings(data) {
       data.showBikeAndParkItineraries,
       oldSettings.showBikeAndParkItineraries,
     ),
+    includeTaxiSuggestions: getValueOrDefault(
+      data.includeTaxiSuggestions,
+      oldSettings.includeTaxiSuggestions,
+    ),
   };
   if (newSettings.modes) {
     // cleanup

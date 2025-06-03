@@ -1,11 +1,13 @@
 import React from 'react';
-import { createFragmentContainer, graphql } from 'react-relay';
+import { useFragment } from 'react-relay';
 import get from 'lodash/get';
 import { intlShape } from 'react-intl';
 import { legShape, configShape } from '../../util/shapes';
 import AgencyInfo from '../AgencyInfo';
+import { LegAgencyInfoFragment } from './queries/LegAgencyInfoFragment';
 
-function LegAgencyInfo({ leg }, { config }) {
+function LegAgencyInfo({ leg: legRef }, { config }) {
+  const leg = useFragment(LegAgencyInfoFragment, legRef);
   const agencyName = get(leg, 'agency.name');
   const url = get(leg, 'agency.fareUrl') || get(leg, 'agency.url');
   const show = get(config, 'agency.show', false);
@@ -26,14 +28,4 @@ LegAgencyInfo.contextTypes = {
 
 LegAgencyInfo.propTypes = { leg: legShape.isRequired };
 
-export default createFragmentContainer(LegAgencyInfo, {
-  leg: graphql`
-    fragment LegAgencyInfo_leg on Leg {
-      agency {
-        name
-        url
-        fareUrl
-      }
-    }
-  `,
-});
+export default LegAgencyInfo;

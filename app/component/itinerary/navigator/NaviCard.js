@@ -20,6 +20,8 @@ const iconMap = {
   SUBWAY: 'icon-icon_subway',
   TRAM: 'icon-icon_tram',
   FERRY: 'icon-icon_ferry',
+  'FERRY-EXTERNAL': 'icon-icon_ferry-external',
+  CALL: 'icon-icon_call',
   'BUS-EXPRESS': 'icon-icon_bus-express',
   'BUS-LOCAL': 'icon-icon_bus-local',
   SPEEDTRAM: 'icon-icon_speedtram',

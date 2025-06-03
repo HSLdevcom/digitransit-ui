@@ -91,7 +91,7 @@ export default {
   useRoutingFeedbackPrompt: true,
 
   feedIds: ['HSL', 'HSLlautta', 'Sipoo'],
-  externalFeedIds: ['HSLlautta'],
+  externalFeedIds: ['HSLlautta', '02Taksi'],
 
   showHSLTracking: false,
   allowLogin: true,
@@ -106,6 +106,7 @@ export default {
 
   defaultSettings: {
     walkSpeed: 1.28,
+    showBikeAndParkItineraries: true,
   },
 
   /**
@@ -226,6 +227,10 @@ export default {
     },
     airplane: {
       availableForSelection: false,
+      defaultValue: false,
+    },
+    taxi: {
+      availableForSelection: true, // experimental feature
       defaultValue: false,
     },
   },
@@ -437,7 +442,9 @@ export default {
   ticketPurchaseLink: function purchaseTicketLink(fare) {
     return `https://open.app.hsl.fi/zoneTicketWizard/TICKET_TYPE_SINGLE_TICKET/${fare.ticketName}/adult/-`;
   },
-  ticketLink: 'https://open.app.hsl.fi/tickets',
+  ticketLink: {
+    fi: 'https://open.app.hsl.fi/tickets',
+  },
   ticketLinkOperatorCode: 'hsl',
   // mapping fareId from OTP fare identifiers to human readable form
   // in the new HSL zone model, just strip off the prefix 'HSL:'
@@ -564,12 +571,12 @@ export default {
   // Notice! Turning on this setting forces the search for car routes (for the CO2 comparison only).
   showCO2InItinerarySummary: true,
 
-  includeCarSuggestions: false,
+  includeCarSuggestions: true,
   includeParkAndRideSuggestions: true,
   // Include both bike and park and bike and public, if bike is enabled
-  includePublicWithBikePlan: true,
+  includePublicWithBikePlan: false,
   // Park and ride and car suggestions separated into two switches
-  separatedParkAndRideSwitch: false,
+  separatedParkAndRideSwitch: true,
 
   parkingAreaSources: ['liipi'],
 
@@ -811,6 +818,12 @@ export default {
   trafficLightGraphic: 'hsl/traffic-light.svg',
   naviGeolocationGraphic: 'hsl/geolocation.svg',
   navigation: true,
-
   showRouteDisclaimer: true,
+  crazyEgg: true,
+  // features that should not be deployed to production
+  experimental: {
+    notifications: process.env.PUSH_NOTIFICATIONS,
+    allowFlexJourneys: IS_DEV,
+    allowDirectFlexJourneys: false,
+  },
 };

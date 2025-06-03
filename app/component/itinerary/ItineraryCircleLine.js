@@ -10,6 +10,7 @@ class ItineraryCircleLine extends React.Component {
     color: null,
     renderBottomMarker: true,
     carPark: false,
+    appendClass: undefined,
   };
 
   static propTypes = {
@@ -19,6 +20,7 @@ class ItineraryCircleLine extends React.Component {
     color: PropTypes.string,
     renderBottomMarker: PropTypes.bool,
     carPark: PropTypes.bool,
+    appendClass: PropTypes.string,
   };
 
   constructor(props) {
@@ -58,6 +60,7 @@ class ItineraryCircleLine extends React.Component {
         </svg>
       </div>
     );
+    const showCircle = this.props.appendClass !== 'taxi';
     if (this.isFirstChild() && top) {
       return (
         <>
@@ -67,7 +70,7 @@ class ItineraryCircleLine extends React.Component {
               className="itinerary-icon from from-it"
             />
           </div>
-          {circleMarker}
+          {showCircle && circleMarker}
         </>
       );
     }
@@ -87,6 +90,9 @@ class ItineraryCircleLine extends React.Component {
           />
         </div>
       );
+    }
+    if (!showCircle) {
+      return null;
     }
     return (
       <div
@@ -110,7 +116,11 @@ class ItineraryCircleLine extends React.Component {
     const topMarker = this.getMarker(true);
     const bottomMarker = this.getMarker(false);
     const legBeforeLineStyle = { color: this.props.color };
-    if (isBrowser && this.props.modeClassName === 'car-park-walk') {
+    if (
+      isBrowser &&
+      (this.props.modeClassName === 'car-park-walk' ||
+        this.props.modeClassName === 'walk')
+    ) {
       // eslint-disable-next-line global-require
       legBeforeLineStyle.backgroundImage = this.state.imageUrl;
     }
@@ -126,7 +136,11 @@ class ItineraryCircleLine extends React.Component {
 
         <div
           style={legBeforeLineStyle}
-          className={cx('leg-before-line', this.props.modeClassName)}
+          className={cx(
+            'leg-before-line',
+            this.props.modeClassName,
+            this.props.appendClass,
+          )}
         />
         {this.props.renderBottomMarker && bottomMarker}
       </div>

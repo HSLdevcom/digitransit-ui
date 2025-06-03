@@ -19,7 +19,10 @@ const NaviStack = ({ messages, handleRemove, cardAnimation }) => {
           hideClose={notification.hideClose}
           cardAnimation={cardAnimation}
         >
-          {notification.content}
+          <div className="navi-info-content">
+            <span className="notification-header">{notification.title}</span>
+            {notification.jsxBody || notification.body}
+          </div>
         </NaviMessage>
       ))}
     </div>

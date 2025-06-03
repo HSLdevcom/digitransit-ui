@@ -38,8 +38,9 @@ export const getFaresFromLegs = (legs, config) => {
   }));
 
   // Legs that have empty fares but still have a route, i.e. transit legs
+  // Never show unknown fares for TAXI legs
   const unknownFareLegs = filteredLegs
-    .filter(l => l.fareProducts.length === 0 && l.route)
+    .filter(l => l.fareProducts.length === 0 && l.route && l.mode !== 'TAXI')
     .map(leg => ({
       agency: {
         fareUrl: leg.route.agency.fareUrl,

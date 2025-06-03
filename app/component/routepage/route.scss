@@ -527,7 +527,7 @@ $margin-left-right: 21.3px;
               height: 18px;
               line-height: 18px;
               min-width: unset;
-              width: 2rem;
+              width: fit-content;
               margin-left: 9px;
             }
           }
@@ -1221,7 +1221,7 @@ $margin-left-right: 21.3px;
     }
 
     .toggle-icon {
-      color: $link-color;
+      color: $link-button-color;
       position: absolute;
       right: 16px;
       transform: rotate(90deg);

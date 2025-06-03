@@ -328,7 +328,7 @@ export default async function serve(req, res, next) {
 
     // Write preload hints before doing anything else
     if (process.env.NODE_ENV !== 'development') {
-      res.write(getAnalyticsInitCode(config, req.hostname));
+      res.write(getAnalyticsInitCode(config, req));
 
       const preloads = [
         { as: 'style', href: config.URL.FONT },

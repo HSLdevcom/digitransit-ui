@@ -184,13 +184,14 @@ export default {
     ticketTypes: 'none',
     walkBoardCost: 120,
     walkReluctance: 1.8,
-    walkSpeed: 1.2,
+    walkSpeed: 1.28,
     transferPenalty: 0,
     minTransferTime: 90,
     includeBikeSuggestions: true,
     includeParkAndRideSuggestions: false,
     includeCarSuggestions: false,
     showBikeAndParkItineraries: false,
+    includeTaxiSuggestions: false,
   },
 
   /**
@@ -205,7 +206,7 @@ export default {
       more: 1,
       most: 0.2,
     },
-    walkSpeed: [0.69, 0.97, 1.2, 1.67, 2.22],
+    walkSpeed: [0.69, 0.97, 1.28, 1.67, 2.22],
     bikeSpeed: [2.77, 4.15, 5.55, 6.94, 8.33],
   },
 
@@ -379,6 +380,7 @@ export default {
       'mode-citybike': '#f2b62d',
       'mode-scooter': '#C5CAD2',
       'mode-replacement-bus': '#DC0451',
+      'mode-taxi': '#647693',
     },
   },
   iconModeSet: 'digitransit',
@@ -465,6 +467,11 @@ export default {
     },
 
     scooter: {
+      availableForSelection: false,
+      defaultValue: false, // always false
+    },
+
+    taxi: {
       availableForSelection: false,
       defaultValue: false, // always false
     },
@@ -721,6 +728,7 @@ export default {
     matka: '(matka|^dev.digitransit)',
     vaasa: 'vaasa',
     walttiOpas: 'waltti',
+    walttiTest: 'waltti-test',
     rovaniemi: 'rovaniemi',
     kouvola: 'kouvola',
     tampere: 'tampere',
@@ -852,4 +860,7 @@ export default {
   sendAnalyticsCustomEventGoals: false,
   shortenLongTextThreshold: 10, // for route number in itinerary summary
   showRouteDisclaimer: true,
+  allowFlexJourneys: false,
+  allowDirectFlexJourneys: false,
+  allowedFlexRouteTypes: [1501],
 };

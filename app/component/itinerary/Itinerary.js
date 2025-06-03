@@ -1,7 +1,7 @@
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React, { createRef, useLayoutEffect, useState } from 'react';
-import { graphql, createFragmentContainer } from 'react-relay';
+import { useFragment } from 'react-relay';
 import { FormattedMessage, intlShape } from 'react-intl';
 import {
   legShape,
@@ -19,7 +19,6 @@ import {
   splitLegsAtViaPoints,
   compressLegs,
   getLegBadgeProps,
-  isCallAgencyLeg,
   getInterliningLegs,
   isFirstInterliningLeg,
   getTotalDistance,
@@ -40,6 +39,7 @@ import {
 import { getRouteMode } from '../../util/modeUtils';
 import { getCapacityForLeg } from '../../util/occupancyUtil';
 import getCo2Value from '../../util/emissions';
+import { ItineraryFragment } from './queries/ItineraryFragment';
 
 const NAME_LENGTH_THRESHOLD = 65; // for truncating long short names
 
@@ -94,7 +94,6 @@ export function RouteLeg(
   },
   { config },
 ) {
-  const isCallAgency = isCallAgencyLeg(leg);
   let routeNumber;
   const mode = getRouteMode(leg.route, config);
 
@@ -105,7 +104,7 @@ export function RouteLeg(
     return undefined;
   };
 
-  if (isCallAgency) {
+  if (mode === 'call') {
     const message = intl.formatMessage({
       id: 'pay-attention',
       defaultMessage: 'Pay Attention',
@@ -135,6 +134,7 @@ export function RouteLeg(
         withBicycle={withBicycle}
         withCar={withCar}
         occupancyStatus={getOccupancyStatus()}
+        duration={Math.floor(leg.duration / 60)}
         shortenLongText={shortenLabels}
       />
     );
@@ -273,7 +273,7 @@ const hasOneTransitLeg = itinerary => {
 
 const Itinerary = (
   {
-    itinerary,
+    itinerary: itineraryRef,
     breakpoint,
     intermediatePlaces,
     hideSelectionIndicator,
@@ -282,6 +282,7 @@ const Itinerary = (
   },
   { intl, intl: { formatMessage }, config },
 ) => {
+  const itinerary = useFragment(ItineraryFragment, itineraryRef);
   const isTransitLeg = leg => leg.transitLeg;
   const isTransitOrRentalLeg = leg => leg.transitLeg || leg.rentedBike;
   const isLegOnFoot = leg => leg.mode === 'WALK' || leg.mode === 'BICYCLE_WALK';
@@ -1060,123 +1061,4 @@ Itinerary.displayName = 'Itinerary';
 
 const ItineraryWithBreakpoint = withBreakpoint(Itinerary);
 
-const containerComponent = createFragmentContainer(ItineraryWithBreakpoint, {
-  itinerary: graphql`
-    fragment Itinerary_itinerary on Itinerary {
-      start
-      end
-      emissionsPerPerson {
-        co2
-      }
-      legs {
-        realTime
-        realtimeState
-        transitLeg
-        start {
-          scheduledTime
-          estimated {
-            time
-          }
-        }
-        end {
-          scheduledTime
-          estimated {
-            time
-          }
-        }
-        mode
-        distance
-        duration
-        rentedBike
-        interlineWithPreviousLeg
-        intermediatePlace
-        intermediatePlaces {
-          stop {
-            zoneId
-            gtfsId
-            parentStation {
-              gtfsId
-            }
-          }
-          arrival {
-            scheduledTime
-            estimated {
-              time
-            }
-          }
-        }
-        route {
-          gtfsId
-          mode
-          shortName
-          type
-          color
-          agency {
-            name
-          }
-          alerts {
-            alertSeverityLevel
-            effectiveEndDate
-            effectiveStartDate
-          }
-        }
-        trip {
-          gtfsId
-          stoptimes {
-            stop {
-              gtfsId
-            }
-            pickupType
-          }
-          occupancy {
-            occupancyStatus
-          }
-        }
-        from {
-          lat
-          lon
-          name
-          stop {
-            gtfsId
-            parentStation {
-              gtfsId
-            }
-            zoneId
-            alerts {
-              alertSeverityLevel
-              effectiveEndDate
-              effectiveStartDate
-            }
-          }
-          vehicleRentalStation {
-            availableVehicles {
-              total
-            }
-            rentalNetwork {
-              networkId
-            }
-          }
-        }
-        to {
-          stop {
-            gtfsId
-            parentStation {
-              gtfsId
-            }
-            zoneId
-            alerts {
-              alertSeverityLevel
-              effectiveEndDate
-              effectiveStartDate
-            }
-          }
-          vehicleParking {
-            name
-          }
-        }
-      }
-    }
-  `,
-});
-
-export { containerComponent as default, Itinerary as component };
+export { ItineraryWithBreakpoint as default, Itinerary as component };

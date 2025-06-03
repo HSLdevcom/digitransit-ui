@@ -91,6 +91,10 @@ $itinerary-tab-switch-height: 48px;
   &.replacement-bus {
     @include getCircleSvg($replacement-bus-color, $fill);
   }
+
+  &.taxi-external {
+    @include getCircleSvg($external-feed-color, $fill);
+  }
 }
 
 .itinerary-list-container {
@@ -162,6 +166,8 @@ $itinerary-tab-switch-height: 48px;
 
         .icon {
           color: $primary-color;
+          width: 1em;
+          height: 1em;
         }
       }
 
@@ -189,7 +195,11 @@ $itinerary-tab-switch-height: 48px;
       font-size: 20px;
 
       .icon {
-        color: $primary-color;
+        &.info {
+          color: $primary-color;
+          width: 1em;
+          height: 1em;
+        }
       }
     }
 
@@ -634,6 +644,14 @@ $itinerary-tab-switch-height: 48px;
       height: 18px;
     }
   }
+
+  &.taxi {
+    .icon-container {
+      .icon {
+        width: 24px;
+      }
+    }
+  }
 }
 
 .itinerary-icon {
@@ -953,6 +971,10 @@ $itinerary-tab-switch-height: 48px;
     &.replacement-bus {
       @include setModeCircles($replacement-bus-color);
     }
+
+    &.taxi-external {
+      @include setModeCircles($external-feed-color);
+    }
   }
 }
 
@@ -1193,6 +1215,36 @@ $itinerary-tab-switch-height: 48px;
       }
     }
 
+    &.taxi-external {
+      .route-number {
+        top: 60%;
+
+        .icon-container {
+          .icon {
+            fill: black;
+            color: transparent;
+            font-size: 28px;
+          }
+        }
+      }
+
+      .leg-before-line {
+        &.taxi-external {
+          height: calc(85px + var(--taxi-leg-line-top));
+          background-position-y: 3px;
+          border-radius: 3px;
+        }
+
+        &.bottom {
+          background-position-y: 5px;
+          border-radius: 3px;
+          height: calc(60px + var(--taxi-leg-line-bottom));
+          overflow: hidden;
+          top: calc(77% - var(--taxi-leg-line-bottom) * 0.4);
+        }
+      }
+    }
+
     &.car {
       :last-child {
         bottom: initial;
@@ -1252,6 +1304,11 @@ $itinerary-tab-switch-height: 48px;
       .leg-before-line {
         top: 42px;
         height: calc(100% - 30px);
+
+        &.taxi {
+          top: 30px;
+          height: 100%;
+        }
       }
 
       .leg-before-circle {
@@ -1716,7 +1773,7 @@ $itinerary-tab-switch-height: 48px;
       min-height: 3em;
     }
 
-    .itinerary-leg-row-bike {
+    .itinerary-leg-row-with-link {
       display: flex;
       flex-direction: column;
       color: #333;
@@ -1725,7 +1782,7 @@ $itinerary-tab-switch-height: 48px;
         padding: 0.625em 0;
       }
 
-      .citybike-leg-header {
+      .leg-header {
         font-size: 15px;
         font-weight: $font-weight-book;
         max-height: 33px;
@@ -1807,6 +1864,7 @@ $itinerary-tab-switch-height: 48px;
         margin: 0 3px 0 3px;
         background-color: $background-color-lighter;
         font-weight: $font-weight-medium;
+        font-family: $id-font-family;
       }
 
       .stop-code-container {
@@ -1814,6 +1872,7 @@ $itinerary-tab-switch-height: 48px;
 
         .itinerary-stop-code {
           margin-left: 0;
+          font-family: $id-font-family;
         }
       }
 
@@ -1851,9 +1910,14 @@ $itinerary-tab-switch-height: 48px;
         flex-grow: 1;
         max-width: calc(100% - 20px);
       }
+
+      &.alight {
+        display: flex;
+        align-items: center;
+      }
     }
 
-    .itinerary-transit-leg-route-bike {
+    .itinerary-transit-leg-route-with-link {
       display: flex;
       background-color: $background-color-lighter;
       border-radius: 5px;
@@ -1871,11 +1935,11 @@ $itinerary-tab-switch-height: 48px;
         color: $link-color;
       }
 
-      .citybike-itinerary {
+      .itinerary-with-link {
         display: flex;
         padding: 7px;
 
-        .citybike-itinerary-text-container {
+        .itinerary-with-link-text-container {
           display: flex;
           flex-direction: column;
         }
@@ -1945,12 +2009,21 @@ $itinerary-tab-switch-height: 48px;
 
         .scooter-icon .icon-container .icon {
           background-color: $scooter-color;
+          color: #fff;
           border-radius: 3px;
         }
 
         .citybike-info {
           position: absolute;
           bottom: 74px;
+        }
+
+        .taxi-icon .icon-container .icon {
+          display: flex;
+          color: $external-feed-color;
+          border-radius: 3px;
+          font-size: 24px;
+          fill: white;
         }
       }
     }
@@ -1986,6 +2059,7 @@ $itinerary-tab-switch-height: 48px;
           background-color: currentcolor;
           height: 1.5em;
           border-radius: $border-radius;
+          padding-right: 3px;
         }
 
         .occupancy-icon-container {
@@ -2024,10 +2098,6 @@ $itinerary-tab-switch-height: 48px;
           .vehicle-number.airplane {
             width: auto;
             padding: 4px 4px 0 0;
-          }
-
-          .vehicle-number.ferry-external {
-            color: $black;
           }
         }
 
@@ -2423,7 +2493,7 @@ div.itinerary-container-content {
 
       a {
         font-weight: $font-weight-medium;
-        color: $link-color;
+        color: $link-button-color;
         max-width: 100%;
       }
 
@@ -2432,7 +2502,7 @@ div.itinerary-container-content {
       }
 
       .external-link-icon {
-        color: $link-color;
+        color: $link-button-color;
       }
     }
   }
@@ -3212,7 +3282,7 @@ $font-print-decrease: 0.7;
   }
 
   &.info {
-    background: #e5f1f9;
+    background: $info-background-color;
   }
 }
 
@@ -3221,7 +3291,7 @@ $font-print-decrease: 0.7;
 }
 
 .routing-feedback-container {
-  background-color: #f4f4f4;
+  background-color: $selector-background-color;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -3246,6 +3316,7 @@ $font-print-decrease: 0.7;
 .alternative-vehicle-info {
   background-color: $infobox-color-generic-blue;
   margin-top: 30px;
+  border: 1px solid $infobox-border-color;
 
   .info-icon {
     margin-right: 1em;

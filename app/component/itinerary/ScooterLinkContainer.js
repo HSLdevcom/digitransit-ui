@@ -38,8 +38,8 @@ function ScooterLinkContainer(
 
   return (
     <div>
-      <div className="itinerary-transit-leg-route-bike">
-        <div className="citybike-itinerary">
+      <div className="itinerary-transit-leg-route-with-link">
+        <div className="itinerary-with-link">
           <div
             className={cx(
               'citybike-icon',
@@ -49,7 +49,7 @@ function ScooterLinkContainer(
           >
             <Icon img={vehicleIcon} width={1.655} height={1.655} />
           </div>
-          <div className="citybike-itinerary-text-container">
+          <div className="itinerary-with-link-text-container">
             <span className={cx('headsign', 'scooter-headsign')}>
               <ExternalLink
                 className="rental-vehicle-link"

@@ -1,6 +1,6 @@
 import { graphql } from 'react-relay';
 
-const planConnection = graphql`
+export const planConnection = graphql`
   query PlanConnectionQuery(
     $fromPlace: PlanLabeledLocationInput!
     $toPlace: PlanLabeledLocationInput!
@@ -61,9 +61,9 @@ const planConnection = graphql`
         endCursor
       }
       edges {
-        ...ItineraryListContainer_planEdges
+        ...ItineraryListContainerPlanEdges
         node {
-          ...ItineraryDetails_itinerary
+          ...ItineraryDetailsFragment
           duration
           walkDistance
           emissionsPerPerson {
@@ -155,14 +155,12 @@ const planConnection = graphql`
                 stop {
                   gtfsId
                 }
-                pickupType
               }
             }
             from {
               lat
               lon
               name
-              vertexType
               stop {
                 gtfsId
                 name
@@ -174,6 +172,9 @@ const planConnection = graphql`
                 zoneId
                 parentStation {
                   name
+                }
+                routes {
+                  type
                 }
               }
               vehicleRentalStation {
@@ -199,7 +200,6 @@ const planConnection = graphql`
               lat
               lon
               name
-              vertexType
               stop {
                 gtfsId
                 name
@@ -212,6 +212,7 @@ const planConnection = graphql`
                 }
                 routes {
                   type
+                  gtfsId
                 }
               }
               vehicleParking {
@@ -255,5 +256,3 @@ const planConnection = graphql`
     }
   }
 `;
-
-export default planConnection;

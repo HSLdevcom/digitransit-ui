@@ -189,7 +189,7 @@
   }
 
   .restore-settings-button-text {
-    color: $link-color;
+    color: $link-button-color;
     text-decoration: none;
     font-weight: $font-weight-medium;
     text-align: center;
@@ -299,6 +299,15 @@
     .icon {
       font-size: 2.5em;
       margin-top: 0.2em;
+
+      &.taxi-icon {
+        color: $external-feed-color;
+        fill: white;
+      }
+
+      &.scooter-icon {
+        color: #333;
+      }
     }
 
     .mode-icon {
@@ -500,6 +509,7 @@
   min-height: 120px;
   border-radius: 8px;
   background-color: $infobox-color-generic-blue;
+  border: 1px solid $infobox-border-color;
   padding: 16px;
   width: fit-content;
   margin-left: 14.72px;

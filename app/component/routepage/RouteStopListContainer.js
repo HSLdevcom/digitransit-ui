@@ -42,7 +42,7 @@ class RouteStopListContainer extends React.PureComponent {
   getStops() {
     const { stops } = this.props.pattern;
 
-    const mode = getRouteMode(this.props.pattern.route);
+    const mode = getRouteMode(this.props.pattern.route, this.context.config);
     const vehicles = groupBy(
       values(this.props.vehicles).filter(
         vehicle => this.props.currentTime - vehicle.timestamp < 5 * 60,
@@ -137,6 +137,7 @@ const containerComponent = createRefetchContainer(
           color
           shortName
           type
+          gtfsId
         }
         stops {
           alerts {

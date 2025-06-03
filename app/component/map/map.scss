@@ -290,7 +290,7 @@ div.leaflet-marker-icon.vehicle-icon {
     cursor: pointer;
 
     &:hover {
-      background: #f4f4f4;
+      background: $button-hover-color;
     }
   }
 
@@ -324,13 +324,14 @@ div.leaflet-marker-icon.vehicle-icon {
     position: absolute;
     bottom: 20px;
     left: 15px;
-    background: #fff;
+    background: $primary-color;
     border-radius: 50px;
     font-weight: 325;
     display: flex;
     font-size: 12px;
-    color: #333;
+    color: white;
     padding: 5px 10px;
+    letter-spacing: -0.3px;
   }
 }
 
@@ -886,10 +887,6 @@ div.origin-popup {
       color: $white;
     }
 
-    .map-route-number.ferry-external {
-      color: $black;
-    }
-
     &::before {
       content: '';
       width: 0;
@@ -950,10 +947,6 @@ div.origin-popup {
       justify-content: center;
       padding-right: 3px;
       color: $white;
-    }
-
-    .map-route-number.ferry-external {
-      color: $black;
     }
 
     &::before {
@@ -1017,10 +1010,6 @@ div.origin-popup {
       color: $white;
     }
 
-    .map-route-number.ferry-external {
-      color: $black;
-    }
-
     &::before {
       content: '';
       width: 0;
@@ -1082,10 +1071,6 @@ div.origin-popup {
       justify-content: center;
       padding-right: 3px;
       color: $white;
-    }
-
-    .map-route-number.ferry-external {
-      color: $black;
     }
 
     &::before {
@@ -1280,10 +1265,6 @@ div.origin-popup {
       padding-right: 3px;
       color: $white;
     }
-
-    .map-route-number.ferry-external {
-      color: $black;
-    }
   }
 }
 
@@ -1325,6 +1306,10 @@ div.origin-popup {
 }
 
 .map-line.ferry-external.leg {
+  color: $external-feed-map-color;
+}
+
+.map-line.taxi-external.leg {
   color: $external-feed-map-color;
 }
 

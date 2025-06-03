@@ -9,7 +9,11 @@ import { legTime, legTimeAcc } from '../../../util/legUtils';
 import { getRouteMode } from '../../../util/modeUtils';
 import { locationToUri } from '../../../util/otpStrings';
 import { getItineraryPagePath } from '../../../util/path';
-import { epochToIso, timeStr } from '../../../util/timeUtils';
+import { durationToString, epochToIso, timeStr } from '../../../util/timeUtils';
+import {
+  getFeedWithoutId,
+  isExternalFeed,
+} from '../../../util/feedScopedIdUtils';
 import Icon from '../../Icon';
 import { getModeIconColor } from '../../../util/colorUtils';
 import RouteNumberContainer from '../../RouteNumberContainer';
@@ -285,6 +289,7 @@ export const getAdditionalMessages = (
   time,
   config,
   messages,
+  intl,
   legs,
 ) => {
   // Todo: multiple fares?
@@ -300,20 +305,20 @@ export const getAdditionalMessages = (
     legTime(leg.end) - time < DISPLAY_MESSAGE_THRESHOLD &&
     isTicketSaleActive
   ) {
-    msgs.push({
-      severity: 'INFO',
-      content: (
-        <div className="navi-info-content">
-          <span className="notification-header">
-            <FormattedMessage id="navigation-remember-ticket" />
-          </span>
-          <span>
-            {fare.ticketName} {formatFare(fare)}
-          </span>
-        </div>
-      ),
-      id: 'ticket',
-    });
+    // Todo: multiple fares?
+    const fares = getFaresFromLegs([nextLeg], config);
+
+    if (fares?.length && !fares[0].isUnknown) {
+      const title = intl.formatMessage({ id: 'navigation-remember-ticket' });
+      const body = `${fares[0].ticketName} ${formatFare(fares[0])}`;
+
+      msgs.push({
+        severity: 'INFO',
+        id: 'ticket',
+        title,
+        body,
+      });
+    }
   }
   return msgs;
 };
@@ -321,7 +326,6 @@ export const getAdditionalMessages = (
 export const getTransitLegState = (leg, intl, messages, time, settings) => {
   const { start, realtimeState, from, mode, legId, route } = leg;
   const { scheduledTime, estimated } = start;
-
   if (messages.get(legId)?.closed) {
     return [];
   }
@@ -329,6 +333,8 @@ export const getTransitLegState = (leg, intl, messages, time, settings) => {
   const notInSchedule = estimated?.delay > slack || estimated?.delay < -slack;
   const localizedMode = getLocalizedMode(mode, intl);
   let content;
+  let title;
+  let body = '';
   let severity;
   const isRealTime = realtimeState === 'UPDATED';
   const shortName = route.shortName || '';
@@ -339,12 +345,7 @@ export const getTransitLegState = (leg, intl, messages, time, settings) => {
     const { delay } = estimated;
 
     const translationId = `navigation-mode-${delay > 0 ? 'late' : 'early'}`;
-
-    content = (
-      <div className="navi-alert-content notification-header">
-        <FormattedMessage id={translationId} values={{ name: routeName }} />
-      </div>
-    );
+    title = intl.formatMessage({ id: translationId }, { name: routeName });
     severity = 'WARNING';
   } else if (!isRealTime) {
     const departure = leg.trip.stoptimesForDate[0];
@@ -356,20 +357,14 @@ export const getTransitLegState = (leg, intl, messages, time, settings) => {
     } else {
       severity = 'WARNING';
     }
-    content = (
-      <div className="navi-info-content">
-        <span className="notification-header">
-          <FormattedMessage id="navileg-mode-schedule" />
-        </span>
-        <FormattedMessage
-          id="navileg-start-schedule"
-          values={{
-            route: shortName,
-            time: timeStr(scheduledTime),
-            mode: localizedMode,
-          }}
-        />
-      </div>
+    title = intl.formatMessage({ id: 'navileg-mode-schedule' });
+    body = intl.formatMessage(
+      { id: 'navileg-start-schedule' },
+      {
+        route: shortName,
+        time: timeStr(scheduledTime),
+        mode: localizedMode,
+      },
     );
   } else {
     const { parentStation, name } = from.stop;
@@ -381,30 +376,31 @@ export const getTransitLegState = (leg, intl, messages, time, settings) => {
           ? 'from-station'
           : 'from-stop';
     const stopOrStation = intl.formatMessage({ id: fromId });
-
-    content = (
-      <div className="navi-info-content">
-        <span className="notification-header">
-          <FormattedMessage
-            id="navileg-mode-realtime"
-            values={{ route: shortName, mode: localizedMode }}
-          />
-        </span>
-        <FormattedMessage
-          id="navileg-start-realtime"
-          values={{
-            time: (
-              <span className="bold realtime">{timeStr(estimated.time)}</span>
-            ),
-            stopOrStation,
-            stopName: name,
-          }}
-        />
-      </div>
+    title = intl.formatMessage(
+      { id: 'navileg-mode-realtime' },
+      { route: shortName, mode: localizedMode },
+    );
+    body = intl.formatMessage(
+      { id: 'navileg-start-realtime' },
+      {
+        time: timeStr(estimated.time),
+        stopOrStation,
+        stopName: name,
+      },
     );
     severity = 'INFO';
   }
-  return [{ severity, content, id: legId, expiresOn: legTime(start) }];
+
+  return [
+    {
+      severity,
+      content,
+      id: legId,
+      expiresOn: legTime(start),
+      title,
+      body,
+    },
+  ];
 };
 
 export function itinerarySearchPath(time, leg, nextLeg, position, to) {
@@ -491,6 +487,16 @@ function Transfer(route1, route2, config) {
   );
 }
 
+function TransferText(route1, route2, config, intl) {
+  const from = `${getLocalizedMode(getRouteMode(route1, config), intl)} ${
+    route1.shortName || ''
+  }`;
+  const to = `${getLocalizedMode(getRouteMode(route2, config), intl)} ${
+    route2.shortName || ''
+  }`;
+  return `${from} -> ${to}`;
+}
+
 export const getItineraryAlerts = (
   legs,
   time,
@@ -519,14 +525,9 @@ export const getItineraryAlerts = (
         if (alert) {
           alerts.push({
             severity: 'ALERT',
-            content: (
-              <div className="navi-info-content">
-                <span className="notification-header">
-                  {alert.alertHeaderText}
-                </span>
-              </div>
-            ),
             id,
+            title: alert.alertHeaderText,
+            body: '',
           });
         }
       }
@@ -538,40 +539,33 @@ export const getItineraryAlerts = (
   );
 
   if (canceled.length) {
-    // show routes button only for first canceled leg.
+    // show new itinerary search button only for first canceled leg
     canceled.forEach((leg, i) => {
       const { legId, mode, route } = leg;
-
-      const lMode = getLocalizedMode(mode, intl);
-      const routeName = `${lMode} ${route.shortName}`;
-
-      const m = (
-        <span className="notification-header">
-          <FormattedMessage
-            id="navigation-mode-canceled"
-            values={{ name: routeName }}
-          />
-        </span>
-      );
-      // we want to show the show routes button only for the first canceled leg.
-      const content =
-        i === 0 ? (
-          withNewSearchBtn(
-            { m },
-            itinerarySearchCallback,
-            `canceled_${route.shortName}${mode.toLowerCase()}`,
-          )
-        ) : (
-          <div className="navi-info-content notification-header">{m}</div>
-        );
       const id = `canceled-${legId}`;
       if (!messages.get(id)) {
+        const lMode = getLocalizedMode(mode, intl);
+        const routeName = `${lMode} ${route.shortName}`;
+        const title = intl.formatMessage(
+          { id: 'navigation-mode-canceled' },
+          { name: routeName },
+        );
+        const jsxBody =
+          i === 0
+            ? withNewSearchBtn(
+                '',
+                itinerarySearchCallback,
+                `canceled_${route.shortName}${mode.toLowerCase()}`,
+              )
+            : undefined;
         alerts.push({
           severity: 'ALERT',
-          content,
           id,
           hideClose: true,
           expiresOn: alert.effectiveEndDate * 1000,
+          title,
+          body: '',
+          jsxBody,
         });
       }
     });
@@ -584,6 +578,9 @@ export const getItineraryAlerts = (
       slack,
     );
     if (transfers.length) {
+      let title;
+      let body;
+      let jsxBody;
       const prob =
         transfers.find(p => p.severity === 'ALERT') ||
         transfers.find(p => p.severity === 'WARNING');
@@ -591,24 +588,29 @@ export const getItineraryAlerts = (
         const id = transferId(prob);
         const alert = messages.get(id);
         if (!alert?.closed || alert?.severity !== prob.severity) {
-          let content;
+          const transfer = Transfer(
+            prob.fromLeg.route,
+            prob.toLeg.route,
+            config,
+          );
+          const desc = TransferText(
+            prob.fromLeg.route,
+            prob.toLeg.route,
+            config,
+            intl,
+          );
+
           if (prob.severity === 'ALERT') {
-            content = withNewSearchBtn(
-              <>
-                <span className="notification-header">
-                  <FormattedMessage id="navigation-transfer-problem" />
-                </span>
-                <FormattedMessage
-                  id="navigation-transfer-problem-details"
-                  values={{
-                    transfer: Transfer(
-                      prob.fromLeg.route,
-                      prob.toLeg.route,
-                      config,
-                    ),
-                  }}
-                />
-              </>,
+            title = intl.formatMessage({ id: 'navigation-transfer-problem' });
+            body = intl.formatMessage(
+              { id: 'navigation-transfer-problem-details' },
+              { transfer: desc },
+            );
+            jsxBody = withNewSearchBtn(
+              <FormattedMessage
+                id="navigation-transfer-problem-details"
+                values={{ transfer }}
+              />,
               itinerarySearchCallback,
               `transfer-${
                 prob.fromLeg.route.shortName
@@ -617,35 +619,35 @@ export const getItineraryAlerts = (
               }${prob.toLeg.mode.toLowerCase()}`,
             );
           } else {
-            content = (
-              <div className="navi-info-content">
-                <span className="notification-header">
-                  <FormattedMessage id="navigation-hurry-transfer" />
-                </span>
-                <FormattedMessage
-                  id="navigation-hurry-transfer-value"
-                  values={{
-                    transfer: Transfer(
-                      prob.fromLeg.route,
-                      prob.toLeg.route,
-                      config,
-                    ),
-                    time: <Duration duration={prob.duration} />,
-                    change: Math.floor(
-                      (prob.duration - prob.originalDuration) / 60000,
-                    ),
-                  }}
-                />
-              </div>
+            title = intl.formatMessage({ id: 'navigation-hurry-transfer' });
+            const change = Math.floor(
+              (prob.duration - prob.originalDuration) / 60000,
+            );
+
+            body = intl.formatMessage(
+              { id: 'navigation-hurry-transfer-value' },
+              { transfer: desc, time: durationToString(prob.duration), change },
+            );
+            jsxBody = (
+              <FormattedMessage
+                id="navigation-hurry-transfer-value"
+                values={{
+                  transfer,
+                  time: <Duration duration={prob.duration} />,
+                  change,
+                }}
+              />
             );
           }
 
           alerts.push({
             severity: prob.severity,
-            content,
             id,
             hideClose: prob.severity === 'ALERT',
             expiresOn: legTime(prob.toLeg.start),
+            title,
+            body,
+            jsxBody,
           });
         }
       }
@@ -655,29 +657,39 @@ export const getItineraryAlerts = (
           const id = transferId(tr);
           const alert = messages.get(id);
           if (alert && alert.severity !== 'INFO') {
-            // a warning/alert has been showm
+            title = intl.formatMessage({
+              id: 'navigation-hurry-transfer-solved',
+            });
+            body = intl.formatMessage(
+              { id: 'navigation-hurry-transfer-solved-details' },
+              {
+                transfer: TransferText(
+                  tr.fromLeg.route,
+                  tr.toLeg.route,
+                  config,
+                  intl,
+                ),
+                time: durationToString(tr.duration),
+              },
+            );
+            jsxBody = (
+              <FormattedMessage
+                id="navigation-hurry-transfer-solved-details"
+                values={{
+                  transfer: Transfer(tr.fromLeg.route, tr.toLeg.route, config),
+                  time: <Duration duration={tr.duration} />,
+                }}
+              />
+            );
+
+            // a warning/alert has been shown
             alerts.push({
               severity: 'INFO',
-              content: (
-                <div className="navi-info-content">
-                  <span className="notification-header">
-                    <FormattedMessage id="navigation-hurry-transfer-solved" />
-                  </span>
-                  <FormattedMessage
-                    id="navigation-hurry-transfer-solved-details"
-                    values={{
-                      transfer: Transfer(
-                        tr.fromLeg.route,
-                        tr.toLeg.route,
-                        config,
-                      ),
-                      time: <Duration duration={tr.duration} />,
-                    }}
-                  />
-                </div>
-              ),
               id,
               expiresOn: legTime(tr.toLeg.start),
+              title,
+              body,
+              jsxBody,
             });
           }
         }
@@ -708,6 +720,10 @@ export const getDestinationProperties = (
   } else if (routes && vehicleMode === 'TRAM' && config.useExtendedRouteTypes) {
     if (routes.some(p => p.type === ExtendedRouteTypes.SpeedTram)) {
       mode = 'speedtram';
+    }
+  } else if (routes && vehicleMode === 'FERRY') {
+    if (routes.some(p => isExternalFeed(getFeedWithoutId(p.gtfsId), config))) {
+      mode = 'ferry-external';
     }
   }
   // todo: scooter and citybike icons etc.
@@ -743,6 +759,12 @@ export const getDestinationProperties = (
         iconProps = {
           iconId: 'icon-icon_ferry',
           className: 'ferry-stop',
+        };
+        break;
+      case 'ferry-external':
+        iconProps = {
+          iconId: 'icon-icon_ferry-external',
+          className: 'ferry-external-stop',
         };
         break;
       case 'bus-express':
