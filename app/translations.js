@@ -1509,6 +1509,7 @@ const translations = {
     'rent-cycle-at': 'Fetch a city bike:',
     'rent-e-scooter-at': 'Use an app to unlock the electric scooter',
     'rent-scooter-at': 'Rent a kick scooter at {station} station',
+    'replacement-bus': 'Replacement bus',
     'required-ticket': 'Ticket required for the journey',
     'restore-default-settings':
       'Restore default settings {changedSettingsIndicator}',
@@ -2827,6 +2828,7 @@ const translations = {
     'rent-cycle-at': 'Nouda Kaupunkipyörä: ',
     'rent-e-scooter-at': 'Ota sähköpotkulauta käyttöön sovelluksella',
     'rent-scooter-at': 'Vuokraa potkulauta asemalta {station}',
+    'replacement-bus': 'Korvaava bussi',
     'required-ticket': 'Reitillä tarvittava lippu',
     'restore-default-settings':
       'Palauta oletusasetukset {changedSettingsIndicator}',
@@ -5794,6 +5796,7 @@ const translations = {
     'rent-cycle-at': 'Sök en stadscykel:',
     'rent-e-scooter-at': 'Ta en elsparkcykel i bruk med en app.',
     'rent-scooter-at': 'Hyr en sparkcykel från stationen {station}',
+    'replacement-bus': 'Ersättande buss',
     'required-ticket': 'Biljett som behövs under resan',
     'restore-default-settings':
       'Återställ standardinställningar {changedSettingsIndicator}',

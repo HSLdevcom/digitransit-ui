@@ -312,6 +312,44 @@ export default {
   hideNaviTickets: true, // TODO: temporary force switch
   navigation: true,
 
+  routeNotifications: [
+    {
+      showForRoute: route => route.type === 714,
+      id: 'replacementBusNotification',
+      header: {
+        fi: 'Korvaava bussi',
+        en: 'Korvaava bussi',
+        sv: 'Korvaava bussi',
+      },
+      content: {
+        fi: [
+          'Voit nousta kyytiin myös bussin keskiovista.',
+          'Pysäkit on merkitty punaisilla tunnuksilla.',
+          'Linja käyttää valikoituja pysäkkejä, eli bussi ei pysähdy kaikilla pysäkeillä.',
+        ],
+        en: [
+          'Voit nousta kyytiin myös bussin keskiovista.',
+          'Pysäkit on merkitty punaisilla tunnuksilla.',
+          'Linja käyttää valikoituja pysäkkejä, eli bussi ei pysähdy kaikilla pysäkeillä.',
+        ],
+        sv: [
+          'Voit nousta kyytiin myös bussin keskiovista.',
+          'Pysäkit on merkitty punaisilla tunnuksilla.',
+          'Linja käyttää valikoituja pysäkkejä, eli bussi ei pysähdy kaikilla pysäkeillä.',
+        ],
+      },
+      closeButtonLabel: {
+        fi: '',
+        en: '',
+        sv: '',
+      },
+      link: {
+        fi: '',
+        en: '',
+        sv: '',
+      },
+    },
+  ],
   externalFeedIds: ['02Taksi'],
 
   // features that should not be deployed to production
