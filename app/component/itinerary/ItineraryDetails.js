@@ -217,25 +217,25 @@ function ItineraryDetails(
         />,
       );
     }
+  }
 
-    if (config.showRouteDisclaimer) {
-      itinerary.legs.forEach(leg => {
-        const { route } = leg;
-        if (
-          route?.desc?.length &&
-          getRouteMode(route, config)?.includes('replacement')
-        ) {
-          disclaimers.push(
-            <RouteDisclaimer
-              key={disclaimers.length}
-              text={route.desc}
-              href={route.url}
-              linkText={intl.formatMessage({ id: 'extra-info' })}
-            />,
-          );
-        }
-      });
-    }
+  if (config.showRouteDisclaimer) {
+    itinerary.legs.forEach(leg => {
+      const { route } = leg;
+      if (
+        route?.desc?.length &&
+        getRouteMode(route, config)?.includes('replacement')
+      ) {
+        disclaimers.push(
+          <RouteDisclaimer
+            key={disclaimers.length}
+            text={route.desc}
+            href={route.url}
+            linkText={intl.formatMessage({ id: 'extra-info' })}
+          />,
+        );
+      }
+    });
   }
 
   return (
