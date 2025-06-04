@@ -218,18 +218,21 @@ function ItineraryDetails(
   }
 
   // FIXME: Uncomment when route disclaimer is needed
-  // if (config.showRouteDisclaimer) {
+  // if (config.replacementBusNotification) {
   //   itinerary.legs.forEach(leg => {
-  //     const { route } = leg;
+  //     const { route, trip } = leg;
   //     if (
-  //       route?.desc?.length &&
-  //       getRouteMode(route, config)?.includes('replacement')
+  //       (route && getRouteMode(route, config)?.includes('replacement')) ||
+  //       (trip &&
+  //         (trip.submode?.includes('replacement') ||
+  //           trip.submode?.includes(714)))
   //     ) {
+  //       const notification = config.replacementBusNotification;
   //       disclaimers.push(
   //         <RouteDisclaimer
-  //           key={disclaimers.length}
-  //           text={route.desc}
-  //           href={route.url}
+  //           key="replacementBusNotification"
+  //           text={notification.content?.[currentLanguage].join(' ')}
+  //           href={notification.link?.[currentLanguage]}
   //           linkText={intl.formatMessage({ id: 'extra-info' })}
   //         />,
   //       );

@@ -324,32 +324,28 @@ export default {
       process.env.NODE_ENV !== 'production',
   },
 
-  routeNotifications: [
-    {
-      showForRoute: route => route.type === 714,
-      id: 'replacementBusNotification',
-      header: {
-        fi: 'Korvaava bussi',
-        en: 'Replacement bus',
-        sv: 'Ersättande buss',
-      },
-      content: {
-        fi: [
-          'Voit nousta kyytiin myös bussin keskiovista.',
-          'Pysäkit on merkitty punaisilla tunnuksilla.',
-          'Linja käyttää valikoituja pysäkkejä, eli bussi ei pysähdy kaikilla pysäkeillä.',
-        ],
-        en: [
-          'You can also board the bus through the middle doors.',
-          'The stops are marked with red signs.',
-          'The bus stops only at designated stops and does not serve all stops.',
-        ],
-        sv: [
-          'Du kan också stiga på bussen genom mittdörren.',
-          'Hållplatserna är markerade med röda punkter.',
-          'Linjen stannar endast vid vissa hållplatser, dvs. bussen stannar inte vid alla hållplatser.',
-        ],
-      },
+  replacementBusNotification: {
+    header: {
+      fi: 'Korvaava bussi',
+      en: 'Replacement bus',
+      sv: 'Ersättande buss',
     },
-  ],
+    content: {
+      fi: [
+        'Voit nousta kyytiin myös bussin keskiovista.',
+        'Pysäkit on merkitty punaisilla tunnuksilla.',
+        'Linja käyttää valikoituja pysäkkejä, eli bussi ei pysähdy kaikilla pysäkeillä.',
+      ],
+      en: [
+        'You can also board the bus through the middle doors.',
+        'The stops are marked with red signs.',
+        'The bus stops only at designated stops and does not serve all stops.',
+      ],
+      sv: [
+        'Du kan också stiga på bussen genom mittdörren.',
+        'Hållplatserna är markerade med röda punkter.',
+        'Linjen stannar endast vid vissa hållplatser, dvs. bussen stannar inte vid alla hållplatser.',
+      ],
+    },
+  },
 };
