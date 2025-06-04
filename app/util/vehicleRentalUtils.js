@@ -47,7 +47,7 @@ export const getRentalNetworkId = networks => {
 };
 
 export const getRentalNetworkConfig = (networkId, config) => {
-  if (!networkId || !networkId.toLowerCase) {
+  if (!networkId) {
     return defaultNetworkConfig;
   }
   const id = networkId.toLowerCase();

@@ -117,7 +117,7 @@ function IntermediateLeg(
         </div>
         <div style={{ color }} className={`leg-before-line ${modeClassName}`} />
         {isLastPlace && (
-          <div className={`leg-before-circle circle ${mode.toLowerCase()}`}>
+          <div className={`leg-before-circle circle ${modeClassName}`}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width={28}

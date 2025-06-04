@@ -67,7 +67,7 @@ export const getCancelations = (stop, intl, config) => {
     };
     const departureTime = stoptime.serviceDay + stoptime.scheduledDeparture;
     const translatedMode = intl.formatMessage({
-      id: getRouteMode(stoptime.trip.route).toLowerCase(),
+      id: getRouteMode(stoptime.trip.route),
     });
     return {
       alertDescriptionText: intl.formatMessage(

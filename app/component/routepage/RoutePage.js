@@ -127,7 +127,7 @@ class RoutePage extends React.Component {
               >
                 <span className="sr-only" style={{ whiteSpace: 'pre' }}>
                   {this.context.intl.formatMessage({
-                    id: mode.toLowerCase(),
+                    id: mode,
                   })}{' '}
                   {label?.toLowerCase()}
                 </span>

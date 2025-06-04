@@ -13,16 +13,20 @@ const OTP_URL = process.env.OTP_URL || `${API_URL}/routing/v2/finland/`;
 const HSL_TIMETABLES_URL =
   process.env.HSL_TIMETABLES_URL || 'https://dev.kartat.hsl.fi';
 const APP_PATH = process.env.APP_CONTEXT || '';
+const API_SUBSCRIPTION_QUERY_PARAMETER_NAME =
+  process.env.API_SUBSCRIPTION_QUERY_PARAMETER_NAME ||
+  'digitransit-subscription-key';
+const API_SUBSCRIPTION_HEADER_NAME =
+  process.env.API_SUBSCRIPTION_HEADER_NAME || 'digitransit-subscription-key';
+const API_SUBSCRIPTION_TOKEN =
+  process.env.API_SUBSCRIPTION_TOKEN || 'c65af0cd2d0a401a9599894970a2b29c';
+
 const {
   // AXE,
   NODE_ENV,
-  API_SUBSCRIPTION_QUERY_PARAMETER_NAME,
-  API_SUBSCRIPTION_HEADER_NAME,
-  API_SUBSCRIPTION_TOKEN,
   RUN_ENV,
 } = process.env;
-const hasAPISubscriptionQueryParameter =
-  API_SUBSCRIPTION_QUERY_PARAMETER_NAME && API_SUBSCRIPTION_TOKEN;
+const hasAPISubscriptionQueryParameter = true;
 const PORT = process.env.PORT || 8080;
 const APP_DESCRIPTION = 'Digitransit journey planning UI';
 const OTP_TIMEOUT = process.env.OTP_TIMEOUT || 12000;

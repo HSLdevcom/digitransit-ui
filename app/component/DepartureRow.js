@@ -88,12 +88,10 @@ export default function DepartureRow(
     );
   }
   const { shortName } = departure.trip.route;
+  const lowerCaseShortName = shortName?.toLowerCase();
   const nameOrIcon =
     shortName?.length > 6 || !shortName?.length ? (
-      <Icon
-        className={mode.toLowerCase()}
-        img={`icon-icon_${mode.toLowerCase()}`}
-      />
+      <Icon className={mode} img={`icon-icon_${mode}`} />
     ) : (
       shortName
     );
@@ -121,7 +119,7 @@ export default function DepartureRow(
               id: 'departure-page-sr',
             },
             {
-              shortName: shortName?.toLowerCase(),
+              shortName: lowerCaseShortName,
               destination: headsign,
               time,
             },
@@ -159,7 +157,7 @@ export default function DepartureRow(
             <div aria-hidden="true" className="route-number">
               {nameOrIcon}
             </div>
-            <span className="sr-only">{shortName?.toLowerCase()}</span>
+            <span className="sr-only">{lowerCaseShortName}</span>
             {icon && (
               <>
                 <Icon

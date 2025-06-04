@@ -39,7 +39,7 @@ const getCancelations = (
       const first = trip.stoptimes[0];
       const departureTime = first.serviceDay + first.scheduledDeparture;
       const mode = intl.formatMessage({
-        id: getRouteMode(route).toLowerCase(),
+        id: getRouteMode(route),
       });
       return {
         alertDescriptionText: intl.formatMessage(

@@ -63,13 +63,13 @@ export default function LegInfo(
           // TODO: Create a helper function for generating links
         }
         aria-label={`${intl.formatMessage({
-          id: mode.toLowerCase(),
+          id: mode,
           defaultMessage: 'Vehicle',
         })} ${leg.route && leg.route.shortName?.toLowerCase()}`}
       >
         <span aria-hidden="true">
           <RouteNumber
-            mode={mode.toLowerCase()}
+            mode={mode}
             alertSeverityLevel={alertSeverityLevel}
             color={leg.route ? `#${leg.route.color}` : 'currentColor'}
             text={leg.route && leg.route.shortName}

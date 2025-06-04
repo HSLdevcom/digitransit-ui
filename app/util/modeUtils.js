@@ -114,6 +114,9 @@ export function getTransportModes(config) {
   };
 }
 
+/**
+ * @returns mode always in lower case
+ */
 export function getRouteMode(route, config) {
   switch (route.type) {
     case ExtendedRouteTypes.BusExpress:

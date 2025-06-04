@@ -38,6 +38,7 @@ export default function TaxiLeg(props, { config, intl }) {
   );
   const duration = durationToString(props.leg.duration * 1000);
   const firstLegClassName = props.index === 0 ? 'first' : '';
+  const lowerCaseLegMode = props.leg.mode.toLowerCase();
   const modeClassName = 'taxi-external';
 
   const legDescription = (
@@ -69,7 +70,7 @@ export default function TaxiLeg(props, { config, intl }) {
             appendClass="taxi"
           />
           <div
-            className={`small-9 columns itinerary-instruction-column ${firstLegClassName} ${props.leg.mode.toLowerCase()}`}
+            className={`small-9 columns itinerary-instruction-column ${firstLegClassName} ${lowerCaseLegMode}`}
           >
             <div className={cx('itinerary-leg-first-row', 'walk', 'first')}>
               <div className="address-container">
@@ -121,7 +122,7 @@ export default function TaxiLeg(props, { config, intl }) {
           isNotFirstLeg
         />
         <div
-          className={`small-9 columns itinerary-instruction-column ${firstLegClassName} ${props.leg.mode.toLowerCase()}`}
+          className={`small-9 columns itinerary-instruction-column ${firstLegClassName} ${lowerCaseLegMode}`}
         >
           <div className={`itinerary-leg-first-row ${firstLegClassName}`}>
             <div className="itinerary-leg-row-with-link">{legDescription}</div>

@@ -101,7 +101,7 @@ class FilterTimeTableModal extends React.Component {
                 },
                 {
                   mode: this.context.intl.formatMessage({
-                    id: mode.toLowerCase(),
+                    id: mode,
                   }),
                   shortName: o.shortName,
                   headsign: o.headsign,
@@ -138,13 +138,10 @@ class FilterTimeTableModal extends React.Component {
             {/* eslint-enable jsx-a11y/label-has-associated-control */}
           </div>
           <div className="route-mode">
-            <Icon
-              className={mode.toLowerCase()}
-              img={`icon-icon_${mode.toLowerCase()}`}
-            />
+            <Icon className={mode} img={`icon-icon_${mode}`} />
           </div>
           <div
-            className={`route-number ${mode.toLowerCase()} ${cx({
+            className={`route-number ${mode} ${cx({
               'overflow-fade':
                 (o.shortName ? o.shortName : o.agency) &&
                 (o.shortName ? o.shortName : o.agency).length > LONG_LINE_NAME,
