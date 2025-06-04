@@ -217,6 +217,26 @@ function ItineraryDetails(
     }
   }
 
+  // FIXME: Uncomment when route disclaimer is needed
+  // if (config.showRouteDisclaimer) {
+  //   itinerary.legs.forEach(leg => {
+  //     const { route } = leg;
+  //     if (
+  //       route?.desc?.length &&
+  //       getRouteMode(route, config)?.includes('replacement')
+  //     ) {
+  //       disclaimers.push(
+  //         <RouteDisclaimer
+  //           key={disclaimers.length}
+  //           text={route.desc}
+  //           href={route.url}
+  //           linkText={intl.formatMessage({ id: 'extra-info' })}
+  //         />,
+  //       );
+  //     }
+  //   });
+  // }
+
   return (
     <div className="itinerary-tab">
       <h2 className="sr-only" key="srlabel">
