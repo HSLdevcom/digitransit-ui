@@ -2156,6 +2156,14 @@ $itinerary-tab-switch-height: 48px;
       border: solid 1px #ddd;
       margin-bottom: 10px;
 
+      &.no-link {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 6px 15px 8px 12px;
+        text-decoration: none;
+      }
+
       .disruption-icon {
         width: 18px;
         height: 18px;
