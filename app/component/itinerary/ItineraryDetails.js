@@ -239,6 +239,7 @@ function ItineraryDetails(
             text={notification.content?.[currentLanguage]?.join(' ')}
             href={notification.link?.[currentLanguage]}
             linkText={intl.formatMessage({ id: 'extra-info' })}
+            header={intl.formatMessage({ id: 'replacement-bus' })}
           />,
         );
       }

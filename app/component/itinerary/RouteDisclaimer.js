@@ -9,6 +9,7 @@ export default function RouteDisclaimer({
   values,
   href,
   linkText,
+  header,
 }) {
   return (
     <div className="route-disclaimer-container">
@@ -16,6 +17,7 @@ export default function RouteDisclaimer({
         <Icon className="info" img="icon-icon_info" />
       </div>
       <div className="disclaimer">
+        {header && <h3 className="info-header">{header}</h3>}
         {text || <FormattedMessage id={textId} values={values} />}
         {href && (
           <a
@@ -41,6 +43,7 @@ RouteDisclaimer.propTypes = {
   values: PropTypes.objectOf(PropTypes.string),
   href: PropTypes.string,
   linkText: PropTypes.string,
+  header: PropTypes.string,
 };
 
 RouteDisclaimer.defaultProps = {
@@ -49,4 +52,5 @@ RouteDisclaimer.defaultProps = {
   values: {},
   href: null,
   linkText: null,
+  header: null,
 };
