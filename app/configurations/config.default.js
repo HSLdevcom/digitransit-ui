@@ -863,8 +863,8 @@ export default {
   navigation: false,
   sendAnalyticsCustomEventGoals: false,
   shortenLongTextThreshold: 10, // for route number in itinerary summary
-  showRouteDisclaimer: true,
   allowFlexJourneys: false,
   allowDirectFlexJourneys: false,
   allowedFlexRouteTypes: [1501],
+  showRouteDescNotification: false,
 };

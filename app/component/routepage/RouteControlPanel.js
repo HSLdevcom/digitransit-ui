@@ -373,9 +373,9 @@ class RouteControlPanel extends React.Component {
               key={notification.id}
               header={notification.header[language]}
               content={notification.content[language]}
-              link={notification.link[language]}
+              link={notification.link?.[language]}
               id={notification.id}
-              closeButtonLabel={notification.closeButtonLabel[language]}
+              closeButtonLabel={notification.closeButtonLabel?.[language]}
             />,
           );
         }
