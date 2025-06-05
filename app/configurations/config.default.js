@@ -862,4 +862,5 @@ export default {
   allowFlexJourneys: false,
   allowDirectFlexJourneys: false,
   allowedFlexRouteTypes: [1501],
+  showRouteDescNotification: false,
 };
