@@ -771,7 +771,7 @@ export default {
       ],
     },
     link: {
-      fi: 'hsl.fi/korvaavabussi',
+      fi: 'https://hsl.fi/korvaavabussi',
     },
   },
 
