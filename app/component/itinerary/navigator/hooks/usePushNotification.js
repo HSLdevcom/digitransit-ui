@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 
+navigator.serviceWorker.register('/sw.js');
+
 const usePushNotification = config => {
   const [notification, setNotification] = useState(null);
 
@@ -14,10 +16,12 @@ const usePushNotification = config => {
 
   const createNotification = (title, content) => {
     if ('Notification' in window && Notification.permission === 'granted') {
-      const newNotification = new Notification(title, {
-        body: content,
+      navigator.serviceWorker.ready.then(registration => {
+        const newNotification = registration.showNotification(title, {
+          body: content,
+        });
+        setNotification(newNotification);
       });
-      setNotification(newNotification);
     }
   };
   const notificationConsent = () => {
