@@ -94,7 +94,10 @@ function VehicleMarkerContainer(props, { config }) {
       mode = 'bus-express';
     } else if (type === ExtendedRouteTypes.SpeedTram) {
       mode = 'speedtram';
-    } else if (type === ExtendedRouteTypes.ReplacementBus) {
+    } else if (
+      type === ExtendedRouteTypes.ReplacementBus ||
+      config.replacementBusRoutes?.includes(message.route)
+    ) {
       mode = 'replacement-bus';
     } else {
       mode = message.mode;

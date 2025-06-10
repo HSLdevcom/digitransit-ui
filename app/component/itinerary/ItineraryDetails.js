@@ -222,7 +222,8 @@ function ItineraryDetails(
   if (config.replacementBusNotification) {
     itinerary.legs.forEach(({ route, trip }) => {
       const isReplacementRoute =
-        route && getRouteMode(route, config)?.includes('replacement');
+        (route && getRouteMode(route, config)?.includes('replacement')) ||
+        config.replacementBusRoutes?.includes(route?.gtfsId);
       const isReplacementTrip =
         trip?.submode?.includes('replacement') || trip?.submode?.includes(714);
 
@@ -235,10 +236,13 @@ function ItineraryDetails(
             : config.replacementBusNotification;
         const notificationText =
           notification.content?.[currentLanguage]?.join(' ');
+        const key = `replacementBusNotification-${
+          route?.gtfsId || trip?.gtfsId
+        }`;
         if (!disclaimers.some(d => d?.props?.text === notificationText)) {
           disclaimers.push(
             <RouteDisclaimer
-              key="replacementBusNotification"
+              key={key}
               text={notificationText}
               href={notification.link?.[currentLanguage]}
               linkText={intl.formatMessage({ id: 'extra-info' })}
