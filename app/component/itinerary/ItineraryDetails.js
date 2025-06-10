@@ -233,16 +233,19 @@ function ItineraryDetails(
           route?.desc?.length
             ? { content: route.desc, link: route.url }
             : config.replacementBusNotification;
-
-        disclaimers.push(
-          <RouteDisclaimer
-            key="replacementBusNotification"
-            text={notification.content?.[currentLanguage]?.join(' ')}
-            href={notification.link?.[currentLanguage]}
-            linkText={intl.formatMessage({ id: 'extra-info' })}
-            header={intl.formatMessage({ id: 'replacement-bus' })}
-          />,
-        );
+        const notificationText =
+          notification.content?.[currentLanguage]?.join(' ');
+        if (!disclaimers.some(d => d?.props?.text === notificationText)) {
+          disclaimers.push(
+            <RouteDisclaimer
+              key="replacementBusNotification"
+              text={notificationText}
+              href={notification.link?.[currentLanguage]}
+              linkText={intl.formatMessage({ id: 'extra-info' })}
+              header={intl.formatMessage({ id: 'replacement-bus' })}
+            />,
+          );
+        }
       }
     });
   }
