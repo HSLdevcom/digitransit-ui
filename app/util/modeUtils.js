@@ -115,7 +115,7 @@ export function getTransportModes(config) {
 }
 
 export function getRouteMode(route, config) {
-  if (config?.replacementBusRoutes?.includes(route?.gtfsId)) {
+  if (config?.replacementBusRoutes?.includes(route.gtfsId)) {
     return 'replacement-bus';
   }
   switch (route.type) {
