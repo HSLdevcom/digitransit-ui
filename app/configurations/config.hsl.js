@@ -811,6 +811,7 @@ export default {
   crazyEgg: true,
   // features that should not be deployed to production
   experimental: {
+    notifications: process.env.PUSH_NOTIFICATIONS,
     allowFlexJourneys: IS_DEV,
     allowDirectFlexJourneys: false,
   },
