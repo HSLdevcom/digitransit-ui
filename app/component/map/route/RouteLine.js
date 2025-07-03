@@ -6,8 +6,8 @@ import StopMarker from '../non-tile-layer/StopMarker';
 import LocationMarker from '../LocationMarker';
 import Line from '../Line';
 import { getClosestPoint } from '../../../util/geo-utils';
-import { getRouteMode } from '../../../util/modeUtils';
-import { patternShape, configShape } from '../../../util/shapes';
+import { getTripOrRouteMode } from '../../../util/modeUtils';
+import { patternShape, tripShape, configShape } from '../../../util/shapes';
 
 /**
  * Split the array points in two at the given position. Return index to split at
@@ -45,7 +45,11 @@ function RouteLine(props, context) {
   }
 
   const objs = [];
-  const modeClass = getRouteMode(props.pattern.route, context.config);
+  const modeClass = getTripOrRouteMode(
+    props.trip,
+    props.pattern.route,
+    context.config,
+  );
 
   if (!props.thin) {
     // We are drawing a background line under an itinerary line,
@@ -173,6 +177,7 @@ function RouteLine(props, context) {
 
 RouteLine.propTypes = {
   pattern: patternShape.isRequired,
+  trip: tripShape,
   thin: PropTypes.bool,
   filteredStops: PropTypes.arrayOf(PropTypes.string.isRequired),
   vehiclePosition: PropTypes.shape({
@@ -183,6 +188,7 @@ RouteLine.propTypes = {
 
 RouteLine.defaultProps = {
   thin: false,
+  trip: null,
   filteredStops: [],
   vehiclePosition: null,
 };

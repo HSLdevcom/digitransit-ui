@@ -72,7 +72,7 @@ class RouteControlPanel extends React.Component {
       longName: PropTypes.string,
       shortName: PropTypes.string,
       patterns: PropTypes.arrayOf(PropTypes.shape({})),
-      type: PropTypes.number.isRequired,
+      type: PropTypes.number,
       agency: PropTypes.shape({
         name: PropTypes.string.isRequired,
       }).isRequired,
@@ -159,7 +159,7 @@ class RouteControlPanel extends React.Component {
       sorted => sorted.code === match.params.patternId,
     );
 
-    if (match.params.type === PREFIX_TIMETABLE) {
+    if (match.params.type === PREFIX_TIMETABLE && !location.query?.serviceDay) {
       const enrichedPattern = enrichPatterns(
         [selectedPattern],
         false,
@@ -328,6 +328,10 @@ class RouteControlPanel extends React.Component {
   changeTab = tab => {
     const path = `/${PREFIX_ROUTES}/${this.props.route.gtfsId}/${tab}/${
       this.props.match.params.patternId || ''
+    }${
+      this.props.match.location.query.serviceDay
+        ? `?serviceDay=${this.props.match.location.query.serviceDay}`
+        : ''
     }`;
     this.context.router.replace(path);
     let action;

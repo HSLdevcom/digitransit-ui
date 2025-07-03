@@ -89,8 +89,16 @@ class RoutePageMap extends React.Component {
   }
 
   render() {
-    const { pattern, lat, lon, match, breakpoint, mapLayers, mapLayerOptions } =
-      this.props;
+    const {
+      pattern,
+      trip,
+      lat,
+      lon,
+      match,
+      breakpoint,
+      mapLayers,
+      mapLayerOptions,
+    } = this.props;
     if (!pattern) {
       return false;
     }
@@ -133,14 +141,14 @@ class RoutePageMap extends React.Component {
       }
       mwtProps.bounds = this.bounds;
     }
-    const tripSelected =
-      this.props.trip && this.props.trip.gtfsId && isActiveDate(pattern);
+    const tripSelected = trip && trip.gtfsId && isActiveDate(pattern);
     let tripStart;
     // BUG ??  tripStar prop is never set
     const leafletObjs = [
       <RouteLine
         key="line"
         pattern={pattern}
+        trip={trip}
         vehiclePosition={tripSelected ? { lat, lon } : null}
       />,
     ];
@@ -263,6 +271,7 @@ export default createFragmentContainer(RoutePageMapWithVehicles, {
       stoptimesForDate {
         scheduledDeparture
       }
+      replacementMode
       gtfsId
       directionId
     }

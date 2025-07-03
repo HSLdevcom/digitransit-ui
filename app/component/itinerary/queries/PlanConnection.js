@@ -144,6 +144,8 @@ export const planConnection = graphql`
               gtfsId
               directionId
               tripHeadsign
+              replacementMode
+              tripShortName
               stoptimesForDate {
                 stop {
                   gtfsId

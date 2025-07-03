@@ -14,7 +14,7 @@ import {
 import ZoneIcon from '../../ZoneIcon';
 import { legShape, configShape } from '../../../util/shapes';
 import { getDestinationProperties, LEGTYPE, withRealTime } from './NaviUtils';
-import { getRouteMode } from '../../../util/modeUtils';
+import { getTripOrRouteMode } from '../../../util/modeUtils';
 import RouteNumberContainer from '../../RouteNumberContainer';
 import BoardingInfo from './BoardingInfo';
 import { getModeIconColor } from '../../../util/colorUtils';
@@ -49,7 +49,7 @@ const NaviCardExtension = ({ legType, leg, nextLeg, time }, { config }) => {
       intermediatePlaces.length === 1
         ? 'navileg-one-intermediate-stop'
         : 'navileg-intermediate-stops';
-    const mode = getRouteMode(route, config);
+    const mode = getTripOrRouteMode(trip, route, config);
     const iconColor = getModeIconColor(config, mode) || leg.route.color;
     return (
       <div className="extension">
@@ -134,7 +134,7 @@ const NaviCardExtension = ({ legType, leg, nextLeg, time }, { config }) => {
     );
   }
   if (legType === LEGTYPE.MOVE && nextLeg?.transitLeg) {
-    const { headsign, route, start } = nextLeg;
+    const { headsign, trip, route, start } = nextLeg;
     const hs = headsign || nextLeg.trip?.tripHeadsign;
     const remainingDuration = <Duration duration={legTime(start) - time} />;
     const rt = nextLeg.realtimeState === 'UPDATED';
@@ -142,7 +142,7 @@ const NaviCardExtension = ({ legType, leg, nextLeg, time }, { config }) => {
       duration: withRealTime(rt, remainingDuration),
       legTime: withRealTime(rt, legTimeStr(start)),
     };
-    const routeMode = getRouteMode(route, config);
+    const routeMode = getTripOrRouteMode(trip, route, config);
     return (
       <div className={cx('extension', 'no-gap')}>
         {stopInformation()}

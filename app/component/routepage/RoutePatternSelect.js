@@ -24,12 +24,12 @@ import { unixToYYYYMMDD } from '../../util/timeUtils';
 
 function patternOptionText(pattern) {
   if (pattern) {
-    let destinationName = pattern.headsign;
-    if (destinationName === null) {
-      destinationName = pattern.stops[pattern.stops.length - 1].name;
+    const sourceName = pattern.stops[0].name;
+    let destinationName = pattern.stops[pattern.stops.length - 1].name;
+    if (!pattern.code.startsWith('NETEX:') && pattern.headsign) {
+      destinationName = pattern.headsign;
     }
-    const text = `${pattern.stops[0].name} ➔ ${destinationName}`;
-    return text;
+    return `${sourceName} ➔ ${destinationName}`;
   }
   return '';
 }

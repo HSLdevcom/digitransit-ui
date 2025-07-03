@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { useRef, useState } from 'react';
 import { isAnyLegPropertyIdentical, isRental } from '../../../util/legUtils';
-import { getRouteMode } from '../../../util/modeUtils';
+import { getTripOrRouteMode } from '../../../util/modeUtils';
 import { configShape, legShape } from '../../../util/shapes';
 import Icon from '../../Icon';
 import NaviCardExtension from './NaviCardExtension';
@@ -59,7 +59,7 @@ export default function NaviCard(
   let instructions = '';
 
   if (legType === LEGTYPE.TRANSIT) {
-    const m = getRouteMode(leg.route, config);
+    const m = getTripOrRouteMode(leg.trip, leg.route, config);
     iconColor = config.colors.iconColors[`mode-${m}`] || leg.route.color;
     iconName = iconMap[m.toUpperCase()];
 
