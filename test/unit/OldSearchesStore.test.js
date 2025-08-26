@@ -2,7 +2,7 @@
 import { expect } from 'chai';
 import { afterEach, describe, it } from 'mocha';
 import MockDate from 'mockdate';
-import moment from 'moment';
+import { DateTime } from 'luxon';
 
 import OldSearchesStore, {
   STORE_VERSION,
@@ -153,7 +153,7 @@ describe('OldSearchesStore', () => {
     });
 
     it('should filter by timestamp', () => {
-      const timestamp = () => moment('2018-02-18');
+      const timestamp = () => new DateTime(2018, 2, 18);
       MockDate.set(timestamp());
       setOldSearchesStorage({
         version: STORE_VERSION,
@@ -162,28 +162,28 @@ describe('OldSearchesStore', () => {
             item: {
               foo: 'bar',
             },
-            lastUpdated: timestamp().unix(),
+            lastUpdated: timestamp().toUnixInteger(),
           },
           {
             item: {
               foo: 'baz',
             },
-            lastUpdated: timestamp().add(1, 'seconds').unix(),
+            lastUpdated: timestamp().plus({ seconds: 1 }).toUnixInteger(),
           },
           {
             item: {
               foo: 'yes_filter',
             },
-            lastUpdated: timestamp().subtract(60, 'days').unix(),
+            lastUpdated: timestamp().minus({ days: 60 }).toUnixInteger(),
           },
           {
             item: {
               foo: 'no_filter',
             },
             lastUpdated: timestamp()
-              .subtract(60, 'days')
-              .add(1, 'seconds')
-              .unix(),
+              .minus({ days: 60 })
+              .plus({ seconds: 1 })
+              .toUnixInteger(),
           },
         ],
       });
@@ -197,7 +197,7 @@ describe('OldSearchesStore', () => {
     });
 
     it('should ignore a missing timestamp', () => {
-      const timestamp = moment('2018-02-18');
+      const timestamp = new DateTime(2018, 2, 18);
       MockDate.set(timestamp);
       setOldSearchesStorage({
         version: STORE_VERSION,
@@ -226,13 +226,13 @@ describe('OldSearchesStore', () => {
     });
 
     it('should apply the current timestamp', () => {
-      const timestamp = moment('2018-02-18');
+      const timestamp = new DateTime(2018, 2, 18);
       MockDate.set(timestamp);
 
       const store = new OldSearchesStore();
       store.saveSearch(mockData.updated);
       const storedDestination = getOldSearchesStorage().items[0];
-      expect(storedDestination.lastUpdated).to.equal(timestamp.unix());
+      expect(storedDestination.lastUpdated).to.equal(timestamp.toUnixInteger());
     });
 
     it("should update a route item's properties if found from store", () => {

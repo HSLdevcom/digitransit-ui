@@ -1,11 +1,9 @@
-/* eslint-disable prefer-template */
 import configMerger from '../util/configMerger';
+import walttiConfig from './config.waltti';
 
 const CONFIG = 'oulu';
 const APP_DESCRIPTION = 'Oulun seudun reittiopas';
 const APP_TITLE = 'Reittiopas';
-
-const walttiConfig = require('./config.waltti').default;
 
 const IS_DEV =
   process.env.RUN_ENV === 'development' ||
@@ -37,6 +35,11 @@ export default configMerger(walttiConfig, {
     description: APP_DESCRIPTION,
     twitter: {
       site: '@oulunkaupunki',
+    },
+    image: {
+      url: 'img/social-share-oulu.png',
+      width: 1181,
+      height: 472,
     },
   },
 
@@ -173,7 +176,6 @@ export default configMerger(walttiConfig, {
     en: 'https://www.osl.fi/en/tickets-and-fares/osl-app/',
   },
   showTicketPrice: true,
-  showTicketLinkOnlyWhenTesting: true,
   ticketLinkOperatorCode: 50229,
   appName: 'oslapp',
 });

@@ -1,11 +1,10 @@
 /* eslint-disable prefer-template */
 import configMerger from '../util/configMerger';
+import walttiConfig from './config.waltti';
 
 const CONFIG = 'hameenlinna';
 const APP_TITLE = 'reittiopas.hameenlinna.fi';
 const APP_DESCRIPTION = '';
-
-const walttiConfig = require('./config.waltti').default;
 
 export default configMerger(walttiConfig, {
   CONFIG,
@@ -28,6 +27,11 @@ export default configMerger(walttiConfig, {
     twitter: {
       site: '@hmlkaupunki',
     },
+    image: {
+      url: 'img/social-share-hameenlinna.png',
+      width: 800,
+      height: 352,
+    },
   },
 
   title: APP_TITLE,
@@ -35,7 +39,7 @@ export default configMerger(walttiConfig, {
   favicon: './app/configurations/images/hameenlinna/hameenlinna-favicon.png',
 
   // Navbar logo
-  logo: 'hameenlinna/logo.png',
+  logo: 'hameenlinna/hameenlinna-logo.png',
   secondaryLogo: 'hameenlinna/secondary-logo.png',
 
   feedIds: ['Hameenlinna'],

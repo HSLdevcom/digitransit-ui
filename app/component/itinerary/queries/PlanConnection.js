@@ -217,6 +217,7 @@ export const planConnection = graphql`
               }
               vehicleParking {
                 name
+                vehicleParkingId
               }
               vehicleRentalStation {
                 lat

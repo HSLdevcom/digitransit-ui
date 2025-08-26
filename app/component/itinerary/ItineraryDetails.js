@@ -24,6 +24,7 @@ import {
   isCallAgencyLeg,
   legContainsBikePark,
   legContainsRentalBike,
+  legTimeStr,
 } from '../../util/legUtils';
 import { streetHash } from '../../util/path';
 import { configShape, itineraryShape, relayShape } from '../../util/shapes';
@@ -82,6 +83,7 @@ function ItineraryDetails(
     focusToPoint,
     focusToLeg,
     isMobile,
+    tabIndex,
     hideTitle,
     carEmissions,
     currentLanguage,
@@ -257,13 +259,20 @@ function ItineraryDetails(
 
   return (
     <div className="itinerary-tab">
-      <h2 className="sr-only" key="srlabel">
+      <h2 className="sr-only">
         <FormattedMessage
           id="summary-page.row-label"
           values={{
             number: itineraryIndex,
           }}
         />
+        <FormattedMessage id="leaves">
+          {msg => (
+            <span id={`tab-${tabIndex}-context`}>{`, ${msg} ${legTimeStr(
+              itinerary.legs[0].start,
+            )}.`}</span>
+          )}
+        </FormattedMessage>
       </h2>
       <BreakpointConsumer>
         {breakpoint => [
@@ -351,7 +360,7 @@ function ItineraryDetails(
                 focusToPoint={focusToPoint}
                 focusToLeg={focusToLeg}
                 changeHash={changeHash}
-                tabIndex={itineraryIndex - 1}
+                tabIndex={tabIndex}
                 openSettings={openSettings}
                 showBikeBoardingInformation={showBikeBoardingInformation}
                 showCarBoardingInformation={showCarBoardingInformation}
@@ -389,6 +398,7 @@ ItineraryDetails.propTypes = {
   focusToPoint: PropTypes.func.isRequired,
   focusToLeg: PropTypes.func.isRequired,
   isMobile: PropTypes.bool.isRequired,
+  tabIndex: PropTypes.number.isRequired,
   hideTitle: PropTypes.bool,
   carEmissions: PropTypes.number,
   currentLanguage: PropTypes.string,

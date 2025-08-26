@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import moment from 'moment';
+import { DateTime } from 'luxon';
 import {
   validateServiceTimeRange,
   RANGE_PAST,
@@ -10,14 +10,14 @@ import {
   isToday,
 } from '../../../app/util/timeUtils';
 
-const now = moment().unix();
+const now = DateTime.now();
 
 const test = validated => {
   expect(validated).to.be.an('object');
   expect(validated).to.have.own.property('start');
   expect(validated).to.have.own.property('end');
-  expect(validated.start).to.be.at.most(now);
-  expect(validated.end).to.be.at.least(now);
+  expect(validated.start).to.be.at.most(now.toUnixInteger());
+  expect(validated.end).to.be.at.least(now.toUnixInteger());
 };
 
 describe('timeUtils', () => {
@@ -25,41 +25,49 @@ describe('timeUtils', () => {
     it('should return valid default time range from undefined input', () => {
       const range = null;
       const futureDays = null; // DT-3175
-      test(validateServiceTimeRange(futureDays, range, now));
+      test(validateServiceTimeRange(futureDays, range, now.toUnixInteger()));
     });
 
     it('should fix invalid time range', () => {
       const range = {
-        start: now + 3600, // future
-        end: now - 3600, // past
+        start: now.toUnixInteger() + 3600, // future
+        end: now.toUnixInteger() - 3600, // past
       };
       const futureDays = null; // DT-3175
-      test(validateServiceTimeRange(futureDays, range, now));
+      test(validateServiceTimeRange(futureDays, range, now.toUnixInteger()));
     });
 
     it('should not change the days of a proper time range', () => {
       const range = {
-        start: now - 3600 * 24, // yesterday
-        end: now + 3600 * 24 * 7, // next week
+        start: now.toUnixInteger() - 3600 * 24, // yesterday
+        end: now.toUnixInteger() + 3600 * 24 * 7, // next week
       };
       const futureDays = null; // DT-3175
-      const validated = validateServiceTimeRange(futureDays, range, now);
-      test(validated);
-      expect(moment.unix(validated.start).dayOfYear()).to.equal(
-        moment.unix(range.start).dayOfYear(),
+      const validated = validateServiceTimeRange(
+        futureDays,
+        range,
+        now.toUnixInteger(),
       );
-      expect(moment.unix(validated.end).dayOfYear()).to.equal(
-        moment.unix(range.end).dayOfYear(),
+      test(validated);
+      expect(DateTime.fromSeconds(validated.start).ordinal).to.equal(
+        DateTime.fromSeconds(range.start).ordinal,
+      );
+      expect(DateTime.fromSeconds(validated.end).ordinal).to.equal(
+        DateTime.fromSeconds(range.end).ordinal,
       );
     });
 
     it('should not return too long a range', () => {
       const range = {
-        start: now - 3600 * 24 * 365 * 2, // 2 years in the past
-        end: now + 3600 * 24 * 365 * 2,
+        start: now.toUnixInteger() - 3600 * 24 * 365 * 2, // 2 years in the past
+        end: now.toUnixInteger() + 3600 * 24 * 365 * 2,
       };
       const RANGE_FUTURE = 30; // DT-3175
-      const validated = validateServiceTimeRange(RANGE_FUTURE, range, now);
+      const validated = validateServiceTimeRange(
+        RANGE_FUTURE,
+        range,
+        now.toUnixInteger(),
+      );
       test(validated);
       expect((validated.end - validated.start) / 1000 / 86400).to.be.at.most(
         RANGE_FUTURE + RANGE_PAST + 1,
@@ -90,30 +98,26 @@ describe('timeUtils', () => {
   });
   describe('isTomorrow', () => {
     it('should return true if startTime is tomorrow', () => {
-      const startTime = moment().add(1, 'd').unix() * 1000;
-      expect(isTomorrow(startTime)).to.equal(true);
-    });
-    it('should return true if startTime is tomorrow', () => {
-      const startTime = moment().add(1, 'd').unix() * 1000;
+      const startTime = now.plus({ days: 1 }).toMillis();
       expect(isTomorrow(startTime)).to.equal(true);
     });
     it('should return false if startTime is not tomorrow', () => {
-      const startTime = moment().add(2, 'd').unix() * 1000;
+      const startTime = now.plus({ days: 2 }).toMillis();
       expect(isTomorrow(startTime)).to.equal(false);
     });
     it('should return false if refTime is not today', () => {
-      const startTime = moment().add(1, 'd').unix() * 1000;
-      const refTime = moment().add(-8, 'd').unix() * 1000;
+      const startTime = now.plus({ days: 1 }).toMillis();
+      const refTime = now.minus({ days: 2 }).toMillis();
       expect(isTomorrow(startTime, refTime)).to.equal(false);
     });
     it('should return false if startTime is one week and one day from today', () => {
-      const startTime = moment().add(8, 'd').unix() * 1000;
+      const startTime = now.plus({ days: 1 + 7 }).toMillis();
       expect(isTomorrow(startTime)).to.equal(false);
     });
   });
   describe('isToday', () => {
     it('should return true if startTime is today', () => {
-      const startTime = moment().unix() * 1000;
+      const startTime = now.toMillis();
       expect(isToday(startTime)).to.equal(true);
     });
   });

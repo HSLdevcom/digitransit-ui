@@ -7,7 +7,6 @@ import LocationMarker from '../LocationMarker';
 import Line from '../Line';
 import { getClosestPoint } from '../../../util/geo-utils';
 import { getRouteMode } from '../../../util/modeUtils';
-import { isBrowser } from '../../../util/browser';
 import { patternShape, configShape } from '../../../util/shapes';
 
 /**
@@ -41,7 +40,7 @@ function getSplitIndex(points, position) {
 }
 
 function RouteLine(props, context) {
-  if (!isBrowser || !props.pattern) {
+  if (!props.pattern) {
     return false;
   }
 

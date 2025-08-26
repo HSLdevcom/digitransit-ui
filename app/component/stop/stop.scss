@@ -285,18 +285,23 @@
   }
 
   .route-number-header {
-    width: 4em;
+    flex: 0 0 fit-content;
+    margin-right: $route-title-margin;
   }
 
   .route-destination-header {
-    flex: 1 0 176px;
+    flex: 1 0 fit-content;
+    margin-right: 1em;
   }
 
   .time-header {
-    font-weight: inherit;
+    flex: 0 0 fit-content;
+    margin-right: 1em;
+  }
+
+  .track-header {
+    flex: 0 0 fit-content;
     text-align: right;
-    width: 3.5em;
-    margin-right: 2em;
   }
 }
 
@@ -407,7 +412,8 @@
   .platform-code {
     background: $background-color-lighter;
     color: #333;
-    width: 28px;
+    width: max-content;
+    min-width: 28px;
     height: 24px;
     border-radius: 4px;
     font-size: $font-size-small;

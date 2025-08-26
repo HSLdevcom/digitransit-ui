@@ -1,8 +1,7 @@
 import PropTypes from 'prop-types';
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, memo } from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import cx from 'classnames';
-import pure from 'recompose/pure';
 import { matchShape } from 'found';
 import debounce from 'lodash/debounce';
 import RouteControlPanel from './RouteControlPanel';
@@ -12,7 +11,12 @@ import withBreakpoint from '../../util/withBreakpoint';
 import ScrollableWrapper from '../ScrollableWrapper';
 import { routeShape } from '../../util/shapes';
 
-function TripStopsContainer({ breakpoint, match, trip, route }) {
+const TripStopsContainer = memo(function TripStopsContainer({
+  breakpoint,
+  match,
+  trip,
+  route,
+}) {
   const [keepTracking, setTracking] = useState(true);
   const humanScrolling = useRef(true);
 
@@ -59,7 +63,7 @@ function TripStopsContainer({ breakpoint, match, trip, route }) {
       />
     </ScrollableWrapper>
   );
-}
+});
 
 TripStopsContainer.propTypes = {
   trip: PropTypes.shape({
@@ -79,8 +83,8 @@ TripStopsContainer.defaultProps = {
   route: undefined,
 };
 
-const pureComponent = pure(withBreakpoint(TripStopsContainer));
-const containerComponent = createFragmentContainer(pureComponent, {
+const componentWithBreakpoint = withBreakpoint(TripStopsContainer);
+const containerComponent = createFragmentContainer(componentWithBreakpoint, {
   trip: graphql`
     fragment TripStopsContainer_trip on Trip {
       stoptimesForDate {

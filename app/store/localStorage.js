@@ -1,5 +1,3 @@
-import { isBrowser } from '../util/browser';
-
 function handleSecurityError(error, logMessage) {
   if (error.name === 'SecurityError') {
     if (logMessage) {
@@ -10,24 +8,17 @@ function handleSecurityError(error, logMessage) {
   }
 }
 
-export const getLocalStorage = (
-  runningInBrowser,
-  errorHandler = handleSecurityError,
-) => {
-  if (runningInBrowser) {
-    try {
-      return window.localStorage;
-    } catch (error) {
-      errorHandler(error);
-      return null;
-    }
-  } else {
-    return global.localStorage;
+export const getLocalStorage = (errorHandler = handleSecurityError) => {
+  try {
+    return window.localStorage;
+  } catch (error) {
+    errorHandler(error);
+    return null;
   }
 };
 
 function setItem(key, value) {
-  const localStorage = getLocalStorage(isBrowser);
+  const localStorage = getLocalStorage();
   if (localStorage) {
     try {
       localStorage.setItem(key, JSON.stringify(value));
@@ -50,7 +41,7 @@ function setItem(key, value) {
 }
 
 function getItem(key) {
-  const localStorage = getLocalStorage(isBrowser);
+  const localStorage = getLocalStorage();
   if (localStorage) {
     try {
       return localStorage.getItem(key);
@@ -72,7 +63,7 @@ function getItemAsJson(key, defaultValue) {
 }
 
 export function removeItem(k) {
-  const localStorage = getLocalStorage(isBrowser);
+  const localStorage = getLocalStorage();
   if (localStorage) {
     try {
       localStorage.removeItem(k);

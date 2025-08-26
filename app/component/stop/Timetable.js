@@ -1,12 +1,12 @@
 import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
-import moment from 'moment';
+import { DateTime } from 'luxon';
 import uniqBy from 'lodash/uniqBy';
 import sortBy from 'lodash/sortBy';
 import groupBy from 'lodash/groupBy';
 import padStart from 'lodash/padStart';
 import { FormattedMessage, intlShape } from 'react-intl';
-import { matchShape, routerShape, RedirectException } from 'found';
+import { matchShape, routerShape } from 'found';
 import { useFragment } from 'react-relay';
 import { connectToStores } from 'fluxible-addons-react';
 import cx from 'classnames';
@@ -15,13 +15,12 @@ import Icon from '../Icon';
 import FilterTimeTableModal from './FilterTimeTableModal';
 import TimeTableOptionsPanel from './TimeTableOptionsPanel';
 import TimetableRow from './TimetableRow';
-import { RealtimeStateType } from '../../constants';
+import { DATE_FORMAT, RealtimeStateType } from '../../constants';
 import SecondaryButton from '../SecondaryButton';
 import { addAnalyticsEvent } from '../../util/analyticsUtils';
 import DateSelect from './DateSelect';
 import ScrollableWrapper from '../ScrollableWrapper';
 import { replaceQueryParams } from '../../util/queryUtils';
-import { isBrowser } from '../../util/browser';
 import { PREFIX_STOPS } from '../../util/path';
 import { TimetableFragment } from './queries/TimetableFragment';
 
@@ -39,6 +38,7 @@ const mapStopTimes = stoptimesObject =>
           longName: stoptime.pattern.route.longName,
           isCanceled: st.realtimeState === RealtimeStateType.Canceled,
           mode: stoptime.pattern.route.mode,
+          gtfsId: st.stop.gtfsId,
         })),
     )
     .reduce((acc, val) => acc.concat(val), []);
@@ -81,7 +81,7 @@ const getDuplicatedRoutes = stop => {
 };
 
 const dateForPrinting = date => {
-  const selectedDate = moment(date);
+  const selectedDate = DateTime.fromFormat(date, DATE_FORMAT);
   return (
     <div className="printable-date-container">
       <div className="printable-date-icon">
@@ -92,7 +92,7 @@ const dateForPrinting = date => {
           <FormattedMessage id="date" defaultMessage="Date" />
         </div>
         <div className="printable-date-content">
-          {moment(selectedDate).format('dd DD.MM.YYYY')}
+          {selectedDate.toFormat('ccc dd.LL.yyyy')}
         </div>
       </div>
     </div>
@@ -108,7 +108,9 @@ const formTimeRow = (timetableMap, hour, showRoutes) => {
     .map(
       time =>
         showRoutes.filter(o => o === time.name || o === time.id).length > 0 &&
-        moment.unix(time.serviceDay + time.scheduledDeparture).format('HH'),
+        DateTime.fromSeconds(
+          time.serviceDay + time.scheduledDeparture,
+        ).toFormat('HH'),
     )
     .filter(o => o === padStart(hour % 24, 2, '0'));
 
@@ -135,11 +137,7 @@ function Timetable(
   const stop = useFragment(TimetableFragment, stopRef);
   if (!stop) {
     const path = `/${PREFIX_STOPS}`;
-    if (isBrowser) {
-      router.replace(path);
-    } else {
-      throw new RedirectException(path);
-    }
+    router.replace(path);
   }
   const [showRoutes, setShowRoutes] = useState([]);
   const [showFilterModal, setShowFilterModal] = useState(false);
@@ -265,9 +263,9 @@ function Timetable(
       config.stopCard.header.virtualMonitorBaseUrl
     }/${locationType.toLowerCase()}/${stop.gtfsId}`;
   const timeTableRows = createTimeTableRows(timetableMap, showRoutes);
-  const timeDifferenceDays = moment
-    .duration(moment(date).diff(moment()))
-    .asDays();
+  const timeDifferenceDays = DateTime.fromFormat(date, DATE_FORMAT).diffNow(
+    'days',
+  ).days;
   return (
     <>
       <ScrollableWrapper>
@@ -296,7 +294,7 @@ function Timetable(
                   name: null,
                 });
               }}
-              dateFormat="YYYYMMDD"
+              dateFormat={DATE_FORMAT}
             />
             <TimeTableOptionsPanel
               showRoutes={showRoutes}
@@ -463,6 +461,9 @@ Timetable.propTypes = {
             realtimeState: PropTypes.string.isRequired,
             scheduledDeparture: PropTypes.number.isRequired,
             serviceDay: PropTypes.number.isRequired,
+            stop: PropTypes.shape({
+              gtfsId: PropTypes.string.isRequired,
+            }).isRequired,
           }),
         ).isRequired,
       }),

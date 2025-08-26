@@ -1,17 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
+import Polyline from 'react-leaflet/es/Polyline';
 import { configShape } from '../../util/shapes';
-
-import { isBrowser } from '../../util/browser';
-
-let Polyline;
-
-/* eslint-disable global-require */
-if (isBrowser) {
-  Polyline = require('react-leaflet/es/Polyline').default;
-}
-/* eslint-enable global-require */
 
 export default class Line extends React.Component {
   static propTypes = {

@@ -239,7 +239,7 @@ $margin-left-right: 21.3px;
   align-items: center;
   height: 1.125em;
   min-width: calc(100% - 13% - 15px);
-  margin-bottom: 5px;
+  margin-bottom: 3px;
   flex-direction: row;
   font-family: $font-family;
 }
@@ -461,7 +461,9 @@ $margin-left-right: 21.3px;
       .route-details-bottom-row {
         display: flex;
         align-items: center;
-        height: 1em;
+        text-align: left;
+        min-height: 1em;
+        height: auto;
         justify-content: space-between;
 
         .route-address-container {

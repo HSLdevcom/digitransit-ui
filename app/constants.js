@@ -64,8 +64,14 @@ export const RealtimeStateType = Object.freeze({
 
 /**
  * This is the date format string to use for querying dates from OTP.
+ * @example "19980819"
  */
-export const DATE_FORMAT = 'YYYYMMDD';
+export const DATE_FORMAT = 'yyyyLLdd';
+/**
+ * Used to format dates in the MQTT client.
+ * @example "1998-08-19"
+ */
+export const DATE_FORMAT_MQTT = 'yyyy-LL-dd';
 
 /**
  * AlertSeverityLevelType is an experimental part of the gtfs-rt specification.

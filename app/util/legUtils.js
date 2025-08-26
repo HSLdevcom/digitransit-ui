@@ -498,6 +498,16 @@ export function legContainsBikePark(leg) {
 }
 
 /**
+ * Checks if a leg contains a car park.
+ *
+ * @param {*} leg - The leg object to check.
+ * @returns {boolean} - True if the leg contains a car park, false otherwise.
+ */
+export function legContainsCarPark(leg) {
+  return leg.mode === LegMode.Car && leg.to.vehicleParking;
+}
+
+/**
  * Calculates and returns the total walking distance undertaken in an itinerary.
  * This could be used as a fallback if the backend returns an invalid value.
  *

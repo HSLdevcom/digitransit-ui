@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import getContext from 'recompose/getContext';
 import GeoJsonStore from '../../store/GeoJsonStore';
-import { isBrowser } from '../../util/browser';
 
 /**
  * Adds geojson map layers to the leafletObjs props of the given component. The component should be a component that renders the leaflet map.
@@ -24,9 +23,6 @@ function withGeojsonObjects(Component) {
       let isMounted = true;
 
       async function fetch() {
-        if (!isBrowser) {
-          return;
-        }
         if (
           !config.geoJson ||
           (!Array.isArray(config.geoJson.layers) &&

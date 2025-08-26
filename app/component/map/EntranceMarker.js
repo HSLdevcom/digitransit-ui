@@ -1,18 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { default as L } from 'leaflet';
 
 import Icon from '../Icon';
 import { locationShape } from '../../util/shapes';
 import GenericMarker from './GenericMarker';
-import { isBrowser } from '../../util/browser';
 import { getCaseRadius } from '../../util/mapIconUtils';
-
-let L;
-
-/* eslint-disable global-require */
-if (isBrowser) {
-  L = require('leaflet');
-}
 
 export default function EntranceMarker({ position, code }) {
   const objs = [];

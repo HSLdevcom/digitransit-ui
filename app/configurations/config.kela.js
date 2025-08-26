@@ -1,6 +1,4 @@
-/* eslint-disable prefer-template */
-
-const matkaConfig = require('./config.matka').default;
+import matkaConfig from './config.matka';
 
 const CONFIG = 'kela';
 const APP_TITLE = 'Reittiopas';
@@ -21,6 +19,10 @@ export default {
     STOP_MAP: {
       default: `${POI_MAP_PREFIX}/fi/stops,stations/`,
       sv: `${POI_MAP_PREFIX}/sv/stops,stations/`,
+    },
+    REALTIME_STOP_MAP: {
+      default: `${POI_MAP_PREFIX}/fi/realtimeStops,stations/`,
+      sv: `${POI_MAP_PREFIX}/sv/realtimeStops,stations/`,
     },
   },
 

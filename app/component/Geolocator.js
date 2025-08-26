@@ -3,7 +3,6 @@ import React from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { startLocationWatch } from '../action/PositionActions';
 import Loading from './Loading';
-import { isBrowser } from '../util/browser';
 import { locationToUri } from '../util/otpStrings';
 
 const Geolocator = () => <Loading />;
@@ -49,23 +48,21 @@ const GeolocatorWithPosition = connectToStores(
       props.router.replace(newLocation);
     };
 
-    if (isBrowser) {
-      if (locationState.locationingFailed) {
-        redirect();
-      }
-      if (locationState.hasLocation === false) {
-        if (
-          !locationState.isLocationingInProgress &&
-          locationState.status === 'no-location'
-        ) {
-          context.executeAction(startLocationWatch);
-        }
-      } else if (
-        locationState.hasLocation &&
-        !locationState.isReverseGeocodingInProgress
+    if (locationState.locationingFailed) {
+      redirect();
+    }
+    if (locationState.hasLocation === false) {
+      if (
+        !locationState.isLocationingInProgress &&
+        locationState.status === 'no-location'
       ) {
-        redirect();
+        context.executeAction(startLocationWatch);
       }
+    } else if (
+      locationState.hasLocation &&
+      !locationState.isReverseGeocodingInProgress
+    ) {
+      redirect();
     }
     return {};
   },

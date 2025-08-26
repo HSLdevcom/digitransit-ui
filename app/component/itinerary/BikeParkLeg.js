@@ -1,14 +1,16 @@
-import PropTypes from 'prop-types';
-import cx from 'classnames';
 import React from 'react';
+import cx from 'classnames';
+import { Link } from 'found';
+import PropTypes from 'prop-types';
 import { FormattedMessage, intlShape } from 'react-intl';
-import { legShape, parkShape, configShape } from '../../util/shapes';
-import { legTimeStr, legDestination } from '../../util/legUtils';
 import { displayDistance } from '../../util/geo-utils';
+import { legDestination, legTimeStr } from '../../util/legUtils';
+import { PREFIX_BIKEPARK } from '../../util/path';
+import { configShape, legShape, parkShape } from '../../util/shapes';
 import { durationToString } from '../../util/timeUtils';
+import Icon from '../Icon';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
 import ItineraryMapAction from './ItineraryMapAction';
-import Icon from '../Icon';
 
 const BikeParkLeg = (
   { leg, index, focusAction, bikePark },
@@ -47,31 +49,29 @@ const BikeParkLeg = (
       <div className="small-9 columns itinerary-instruction-column">
         <div className={cx('itinerary-leg-first-row', 'bicycle')}>
           <div className="address-container">
-            {/*  TODO linking when bikepark pages are available */}
-            {/* <Link
-                  onClick={e => {
-                    e.stopPropagation();
-                  }}
-                  to={''}
-                > */}
-            <div className="address">
-              <FormattedMessage id="bike-park" />
-              {leg.isViaPoint && (
-                <Icon
-                  img="icon-icon_mapMarker"
-                  className="itinerary-mapmarker-icon"
-                />
-              )}
-              {/* TODO */}
-              {/* {bikePark && (
+            <Link
+              onClick={e => {
+                e.stopPropagation();
+              }}
+              to={`/${PREFIX_BIKEPARK}/${bikePark.vehicleParkingId}`}
+            >
+              <div className="address">
+                <FormattedMessage id="bike-park" />
+                {leg.isViaPoint && (
+                  <Icon
+                    img="icon-icon_mapMarker"
+                    className="itinerary-mapmarker-icon"
+                  />
+                )}
+                {bikePark && (
                   <Icon
                     img="icon-icon_arrow-collapse--right"
                     className="itinerary-arrow-icon"
                     color={config.colors.primary}
                   />
-                )} */}
-            </div>
-            {/* </Link> */}
+                )}
+              </div>
+            </Link>
             <div className="place">{bikePark.name}</div>
           </div>
           <ItineraryMapAction

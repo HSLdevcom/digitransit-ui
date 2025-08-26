@@ -4,7 +4,6 @@ import { withLeaflet } from 'react-leaflet/es/context';
 import polyUtil from 'polyline-encoded';
 import { intlShape } from 'react-intl';
 import { configShape, legShape } from '../../../util/shapes';
-import { isBrowser } from '../../../util/browser';
 import { legTime } from '../../../util/legUtils';
 import { getMiddleOf } from '../../../util/geo-utils';
 import LegMarker from './LegMarker';
@@ -226,10 +225,6 @@ class TransitLegMarkers extends React.Component {
   };
 
   render() {
-    if (!isBrowser) {
-      return '';
-    }
-
     const objs = [];
     const pixelPositions = [];
     const legsWithPositions = this.props.transitLegs.map(leg => ({

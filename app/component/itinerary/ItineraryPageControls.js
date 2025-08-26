@@ -6,7 +6,6 @@ import { FormattedMessage } from 'react-intl';
 import { configShape } from '../../util/shapes';
 import OriginDestinationBar from './OriginDestinationBar';
 import SearchSettings from './SearchSettings';
-import { isBrowser } from '../../util/browser';
 import {
   parseLocation,
   PREFIX_ITINERARY_SUMMARY,
@@ -96,9 +95,7 @@ class ItineraryPageControls extends React.Component {
           isMobile={this.props.breakpoint !== 'large'}
           modeSet={this.context.config.iconModeSet}
         />
-        {isBrowser && (
-          <SearchSettings toggleSettings={this.props.toggleSettings} />
-        )}
+        <SearchSettings toggleSettings={this.props.toggleSettings} />
       </div>
     );
   }

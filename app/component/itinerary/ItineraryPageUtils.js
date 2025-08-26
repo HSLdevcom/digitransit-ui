@@ -1,4 +1,3 @@
-import get from 'lodash/get';
 import isEmpty from 'lodash/isEmpty';
 import isEqual from 'lodash/isEqual';
 import pick from 'lodash/pick';
@@ -75,18 +74,6 @@ export function reportError(error) {
   });
 }
 
-export function addFeedbackly(context) {
-  const host = context.headers['x-forwarded-host'] || context.headers.host;
-  if (
-    get(context, 'config.showHSLTracking', false) &&
-    host?.indexOf('127.0.0.1') === -1 &&
-    host?.indexOf('localhost') === -1
-  ) {
-    // eslint-disable-next-line no-unused-expressions
-    import('../../util/feedbackly');
-  }
-}
-
 export function getTopics(legs, config) {
   const itineraryTopics = [];
 
@@ -96,33 +83,19 @@ export function getTopics(legs, config) {
     legs.forEach(leg => {
       if (leg.transitLeg && leg.trip) {
         const feedId = leg.trip.gtfsId.split(':')[0];
-        let topic;
         if (realTime && feedIds.includes(feedId)) {
-          const routeProps = {
+          itineraryTopics.push({
             route: leg.route.gtfsId.split(':')[1],
             shortName: leg.route.shortName,
             type: leg.route.type,
-          };
-          if (realTime[feedId]?.useFuzzyTripMatching) {
-            topic = {
-              ...routeProps,
-              feedId,
-              mode: leg.mode.toLowerCase(),
-              direction: Number(leg.trip.directionId),
-              tripStartTime: getStartTimeWithColon(
-                leg.trip.stoptimesForDate[0].scheduledDeparture,
-              ),
-            };
-          } else if (realTime[feedId]) {
-            topic = {
-              ...routeProps,
-              feedId,
-              tripId: leg.trip.gtfsId.split(':')[1],
-            };
-          }
-        }
-        if (topic) {
-          itineraryTopics.push(topic);
+            feedId,
+            mode: leg.mode.toLowerCase(),
+            direction: Number(leg.trip.directionId),
+            tripStartTime: getStartTimeWithColon(
+              leg.trip.stoptimesForDate[0].scheduledDeparture,
+            ),
+            tripId: leg.trip.gtfsId.split(':')[1],
+          });
         }
       }
     });
@@ -650,7 +623,7 @@ export function quitIteration(plan, newPlan, planParams, startTime) {
  * - the stored itinerary ends in future
  * - the params stored along itinerary are identical to current URL parameters
  *
- * @param {{itinerary: itineraryShape, params: {from: string, to: string, time: number, arriveBy: boolean, index: string}}} itinerary matchContext with URL params
+ * @param {{itinerary: itineraryShape, params: {from: string, to: string, queryTime: number, arriveBy: boolean, index: string}}} itinerary matchContext with URL params
  * @param {matchShape} match matchContext with URL params
  * @returns true if Navigator can be initialized with stored itinerary
  */
@@ -663,7 +636,7 @@ export const isStoredItineraryRelevant = ({ itinerary, params }, match) => {
     Date.parse(itinerary.end) > Date.now() &&
     params.from === match.params.from &&
     params.to === match.params.to &&
-    params.time === match.location?.query?.time &&
+    params.queryTime === match.location?.query?.time &&
     params.arriveBy === match.location?.query?.arriveBy &&
     params.hash === match.params.hash &&
     params.secondHash === match.params.secondHash

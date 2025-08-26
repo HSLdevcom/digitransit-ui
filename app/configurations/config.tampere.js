@@ -1,12 +1,12 @@
-/* eslint-disable prefer-template */
 import configMerger from '../util/configMerger';
 import { BIKEAVL_WITHMAX } from '../util/vehicleRentalUtils';
+import walttiConfig from './config.waltti';
+import ttConfig from './timetableConfigUtils';
 
+const tampereTimetables = ttConfig.tampere;
 const CONFIG = 'tampere';
 const APP_TITLE = 'Nyssen reittiopas';
 const APP_DESCRIPTION = 'Nyssen reittiopas';
-const walttiConfig = require('./config.waltti').default;
-const tampereTimetables = require('./timetableConfigUtils').default.tampere;
 
 const IS_DEV =
   process.env.RUN_ENV === 'development' ||
@@ -62,6 +62,11 @@ export default configMerger(walttiConfig, {
   socialMedia: {
     title: APP_TITLE,
     description: APP_DESCRIPTION,
+    image: {
+      url: 'img/social-share-tampere.png',
+      width: 400,
+      height: 400,
+    },
   },
 
   title: APP_TITLE,
@@ -329,6 +334,8 @@ export default configMerger(walttiConfig, {
       availableForSelection: true,
     },
   },
+
+  nearYouModes: ['bus', 'tram', 'rail', 'citybike'],
 
   bikeBoardingModes: {
     RAIL: { showNotification: true },

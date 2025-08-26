@@ -5,7 +5,6 @@ import { configShape } from '../../util/shapes';
 import { ExtendedRouteTypes } from '../../constants';
 import VehicleIcon from '../VehicleIcon';
 import IconMarker from './IconMarker';
-import { isBrowser } from '../../util/browser';
 
 const MODES_WITH_ICONS = [
   'bus',
@@ -18,16 +17,7 @@ const MODES_WITH_ICONS = [
   'replacement-bus',
 ];
 
-function getVehicleIcon(
-  mode,
-  heading,
-  vehicleNumber,
-  color,
-  useLargeIcon = true,
-) {
-  if (!isBrowser) {
-    return null;
-  }
+function getVehicleIcon(mode, heading, vehicleNumber, color, useLargeIcon) {
   const modeOrDefault = MODES_WITH_ICONS.indexOf(mode) !== -1 ? mode : 'bus';
 
   return {
@@ -49,7 +39,15 @@ function getVehicleIcon(
 // if tripStartTime has been specified,
 // use only the updates for vehicles with matching startTime
 
-function shouldShowVehicle(message, direction, tripStart, pattern, headsign) {
+function shouldShowVehicle(
+  message,
+  direction,
+  tripStart,
+  pattern,
+  headsign,
+  trip,
+) {
+  const msgTrip = message.tripId?.split(':')[1];
   return (
     !Number.isNaN(parseFloat(message.lat)) &&
     !Number.isNaN(parseFloat(message.long)) &&
@@ -64,21 +62,27 @@ function shouldShowVehicle(message, direction, tripStart, pattern, headsign) {
       message.direction === direction) &&
     (tripStart === undefined ||
       message.tripStartTime === undefined ||
-      message.tripStartTime === tripStart)
+      message.tripStartTime === tripStart) &&
+    (trip === undefined || msgTrip === undefined || msgTrip === trip)
   );
 }
 
 function VehicleMarkerContainer(props, { config }) {
+  // TODO: move vehicle filtering logic to RealtimeInformationStore
   const visibleVehicles = Object.entries(props.vehicles).filter(
     ([, message]) => {
-      const feed = message.route?.split(':')[0];
+      const routeParts = message.route?.split(':');
+      const feed = routeParts?.[0];
+      const id = routeParts?.[1]; // route id without feed
       const { ignoreHeadsign } = config.realTime[feed];
+      const desc = id ? props.topics?.find(t => t.route === id) : undefined;
       return shouldShowVehicle(
         message,
-        props.direction,
-        props.tripStart,
+        props.direction || desc?.direction,
+        props.tripStart || desc?.tripStart,
         props.pattern,
         ignoreHeadsign ? undefined : props.headsign,
+        desc?.tripId,
       );
     },
   );
@@ -86,8 +90,9 @@ function VehicleMarkerContainer(props, { config }) {
   props.setVisibleVehicles(visibleVehicleIds);
 
   return visibleVehicles.map(([id, message]) => {
+    const r = message.route.split(':')[1];
     const type = props.topics?.find(
-      t => t.shortName === message.shortName,
+      t => t.shortName === message.shortName || t.route === r,
     )?.type;
     let mode;
     if (type === ExtendedRouteTypes.BusExpress) {
@@ -105,7 +110,7 @@ function VehicleMarkerContainer(props, { config }) {
     const feed = message.route?.split(':')[0];
     let vehicleNumber = message.shortName
       ? config.realTime[feed].vehicleNumberParser(message.shortName)
-      : message.route.split(':')[1];
+      : r;
     // Fallback to a question mark if the vehicle number is too long to fit in the icon
     vehicleNumber = vehicleNumber.length > 5 ? '?' : vehicleNumber;
     return (
@@ -143,11 +148,13 @@ VehicleMarkerContainer.propTypes = {
       long: PropTypes.number.isRequired,
     }).isRequired,
   ).isRequired,
+  useLargeIcon: PropTypes.bool,
 };
 
 VehicleMarkerContainer.defaultProps = {
   tripStart: undefined,
   direction: undefined,
+  useLargeIcon: true,
 };
 
 VehicleMarkerContainer.contextTypes = {

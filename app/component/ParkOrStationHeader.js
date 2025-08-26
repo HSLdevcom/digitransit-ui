@@ -4,18 +4,14 @@ import { FormattedMessage } from 'react-intl';
 import { configShape } from '../util/shapes';
 import StopCode from './StopCode';
 import BackButton from './BackButton';
-import LazilyLoad, { importLazy } from './LazilyLoad';
 import { getJson } from '../util/xhrPromise';
 import getZoneId from '../util/zoneIconUtils';
 import ZoneIcon from './ZoneIcon';
 import withBreakpoint from '../util/withBreakpoint';
 import { hasVehicleRentalCode } from '../util/vehicleRentalUtils';
 import { getIdWithoutFeed } from '../util/feedScopedIdUtils';
+import FavouriteVehicleRentalStationContainer from './FavouriteVehicleRentalStationContainer';
 
-const modules = {
-  FavouriteVehicleRentalStationContainer: () =>
-    importLazy(import('./FavouriteVehicleRentalStationContainer')),
-};
 const ParkOrBikeStationHeader = (
   { parkOrStation, breakpoint, parkType },
   { config },
@@ -75,13 +71,9 @@ const ParkOrBikeStationHeader = (
         </div>
       </div>
       {isRentalStation && (
-        <LazilyLoad modules={modules}>
-          {({ FavouriteVehicleRentalStationContainer }) => (
-            <FavouriteVehicleRentalStationContainer
-              vehicleRentalStation={parkOrStation}
-            />
-          )}
-        </LazilyLoad>
+        <FavouriteVehicleRentalStationContainer
+          vehicleRentalStation={parkOrStation}
+        />
       )}
     </div>
   );

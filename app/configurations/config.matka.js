@@ -7,14 +7,14 @@ import KotkaConfig from './config.kotka';
 import KouvolaConfig from './config.kouvola';
 import KuopioConfig from './config.kuopio';
 import LahtiConfig from './config.lahti';
+import prUtils from '../util/ParkAndRideUtils';
 
+const HSLParkAndRideUtils = prUtils.HSL;
 const CONFIG = 'matka';
 const APP_DESCRIPTION =
   'Fintraffic Matka on reittiopaspalvelu, joka auttaa suunnittelemaan matkoja koko Suomessa yhdistämällä eri liikennemuodot helposti ovelta ovelle.';
 const APP_TITLE = 'Fintraffic Matka – Joukkoliikenteen reittiopas ja matkahaku';
 const YEAR = 1900 + new Date().getYear();
-
-const HSLParkAndRideUtils = require('../util/ParkAndRideUtils').default.HSL;
 
 const IS_DEV =
   process.env.RUN_ENV === 'development' ||
@@ -46,6 +46,11 @@ export default {
     title: APP_TITLE,
     description: APP_DESCRIPTION,
     locale: 'fi_FI',
+    image: {
+      url: 'img/social-share-matka.png',
+      width: 511,
+      height: 511,
+    },
   },
 
   title: APP_TITLE,
@@ -146,7 +151,11 @@ export default {
       },
       {
         name: 'menu-feedback',
-        href: 'https://www.fintraffic.fi/fi/feedback',
+        href: {
+          fi: 'https://www.fintraffic.fi/fi/feedback',
+          sv: 'https://www.fintraffic.fi/sv/feedback',
+          en: 'https://www.fintraffic.fi/en/feedback',
+        },
       },
       {
         name: 'about-this-service',
@@ -468,4 +477,6 @@ export default {
     g.async=true; g.src='https://cdn.matomo.cloud/fintraffic.matomo.cloud/container_p27GPdXl.js'; s.parentNode.insertBefore(g,s);
     })();\n<\/script>\n`; // eslint-disable-line no-useless-escape
   },
+
+  showStopStatusMarkers: true,
 };

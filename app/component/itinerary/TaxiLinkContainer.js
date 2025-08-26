@@ -5,7 +5,6 @@ import cx from 'classnames';
 import { useDeepLink } from '../../util/vehicleRentalUtils';
 import Icon from '../Icon';
 import ExternalLink from '../ExternalLink';
-import { isBrowser } from '../../util/browser';
 
 export default function TaxiLinkContainer({
   operatorName,
@@ -23,7 +22,7 @@ export default function TaxiLinkContainer({
     />
   );
 
-  const url = isBrowser && bookingUrl.startsWith('http') ? bookingUrl : infoUrl;
+  const url = bookingUrl.startsWith('http') ? bookingUrl : infoUrl;
   const onClick = url.startsWith('http')
     ? () => {}
     : () => useDeepLink(url, infoUrl);

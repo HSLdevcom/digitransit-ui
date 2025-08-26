@@ -7,7 +7,6 @@ import { matchShape } from 'found';
 import { configShape, planEdgeShape } from '../../util/shapes';
 import Icon from '../Icon';
 import Itinerary from './Itinerary';
-import { isBrowser } from '../../util/browser';
 import {
   getExtendedMode,
   showBikeBoardingNote,
@@ -215,16 +214,13 @@ function ItineraryList(
           <Loading />
         </div>
       )}
-      {isBrowser && (
-        <div
-          className={cx('summary-list-items', {
-            'summary-list-items-loading-top':
-              loadingMore === spinnerPosition.top,
-          })}
-        >
-          {summaries}
-        </div>
-      )}
+      <div
+        className={cx('summary-list-items', {
+          'summary-list-items-loading-top': loadingMore === spinnerPosition.top,
+        })}
+      >
+        {summaries}
+      </div>
       {loadingMore === spinnerPosition.bottom && (
         <div className="summary-list-spinner-container">
           <Loading />

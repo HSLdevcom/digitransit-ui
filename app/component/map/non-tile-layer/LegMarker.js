@@ -1,15 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import Marker from 'react-leaflet/es/Marker';
+import { default as L } from 'leaflet';
 import Icon from '../../Icon';
-import { isBrowser } from '../../../util/browser';
 import { legShape, configShape } from '../../../util/shapes';
-
-/* eslint-disable global-require */
-
-const Marker = isBrowser && require('react-leaflet/es/Marker').default;
-const L = isBrowser && require('leaflet');
-
-/* eslint-enable global-require */
 
 class LegMarker extends React.Component {
   static propTypes = {
@@ -78,10 +72,6 @@ class LegMarker extends React.Component {
   }
 
   render() {
-    if (!isBrowser) {
-      return '';
-    }
-
     return <div>{this.getLegMarker()}</div>;
   }
 }

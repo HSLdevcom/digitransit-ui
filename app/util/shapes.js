@@ -170,6 +170,10 @@ export const stopTimeShape = PropTypes.shape({
   trip: tripShape,
   dropoffType: PropTypes.string,
   pickupType: PropTypes.string,
+  stop: PropTypes.shape({
+    platformCode: PropTypes.string,
+    gtfsId: PropTypes.string,
+  }),
 });
 
 export const stopShape = PropTypes.shape({

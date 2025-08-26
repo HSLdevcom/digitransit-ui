@@ -1,11 +1,10 @@
 /* eslint-disable */
 import configMerger from '../util/configMerger';
+import walttiConfig from './config.waltti';
 
 const CONFIG = 'vaasa';
 const APP_TITLE = 'Vaasan reittiopas';
 const APP_DESCRIPTION = '';
-
-const walttiConfig = require('./config.waltti').default;
 
 const minLat = 63.005;
 const maxLat = 63.152;
@@ -34,6 +33,11 @@ export default configMerger(walttiConfig, {
   socialMedia: {
     title: APP_TITLE,
     description: APP_DESCRIPTION,
+    image: {
+      url: 'img/social-share-vaasa.png',
+      width: 1280,
+      height: 400,
+    },
 
     twitter: {
       site: '@vaasavasa',
@@ -43,7 +47,7 @@ export default configMerger(walttiConfig, {
   title: APP_TITLE,
 
   logo: 'vaasa/vaasa-favicon.png',
-  secondaryLogo: 'vaasa/secondary-logo.png',
+  secondaryLogo: 'vaasa/vaasa-secondary-logo.png',
 
   feedIds: ['Vaasa'],
 

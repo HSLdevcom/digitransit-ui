@@ -2,7 +2,7 @@
 /* eslint-disable func-names */
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import moment from 'moment';
+import { DateTime } from 'luxon';
 import cloneDeep from 'lodash/cloneDeep';
 import routePatternOptionText from '.';
 
@@ -25,9 +25,9 @@ const fd1 = [];
 const fd2 = [];
 const fd3 = [];
 ad.forEach(function (d) {
-  fd1.push(moment(d.day[0], 'YYYYMMDD').format('D.'));
-  fd2.push(moment(d.day[0], 'YYYYMMDD').format('D.M.'));
-  fd3.push(moment(d.day[0], 'YYYYMMDD').format('YYYYMMDD'));
+  fd1.push(DateTime.fromFormat(d.day[0], 'yyyyLLdd').toFormat('d.'));
+  fd2.push(DateTime.fromFormat(d.day[0], 'yyyyLLdd').toFormat('d.L.'));
+  fd3.push(DateTime.fromFormat(d.day[0], 'yyyyLLdd').toFormat('yyyyLLdd'));
 });
 
 const tests = [
@@ -215,8 +215,8 @@ const defPattern = {
   headsign: 'Kirkkonummi',
   stops: [{ name: 'Helsinki' }, { name: 'Kirkkonummi' }],
   tripsForDate: [],
-  lastRangeDate: moment('20200330').format('YYYYMMDD'),
-  currentDate: moment('20200220').format('YYYYMMDD'),
+  lastRangeDate: '20200330',
+  currentDate: '20200220',
 };
 
 describe('Testing @digitransit-util/digitransit-util-route-pattern-option-text module', () => {

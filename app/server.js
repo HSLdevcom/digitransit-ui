@@ -1,48 +1,13 @@
-// React
-import React from 'react';
-import ReactDOM from 'react-dom/server';
-import PropTypes from 'prop-types';
-
-// Routing and state handling
-import { Environment, RecordSource, Store } from 'relay-runtime';
-import { getFarceResult } from 'found/server';
-import makeRouteConfig from 'found/makeRouteConfig';
-import { Resolver } from 'found-relay';
-import { Helmet } from 'react-helmet';
-import {
-  RelayNetworkLayer,
-  urlMiddleware,
-  retryMiddleware,
-  errorMiddleware,
-  cacheMiddleware,
-} from 'react-relay-network-modern';
-import RelayServerSSR from 'react-relay-network-modern-ssr/lib/server';
-import { ReactRelayContext } from 'react-relay';
-import provideContext from 'fluxible-addons-react/provideContext';
-
 // Libraries
 import serialize from 'serialize-javascript';
-import { IntlProvider } from 'react-intl';
 import polyfillLibrary from 'polyfill-library';
 import fs from 'fs';
 import path from 'path';
 import LRU from 'lru-cache';
-
-// Application
-import { setRelayEnvironment } from '@digitransit-search-util/digitransit-search-util-query-utils';
-import { configShape } from './util/shapes';
-import appCreator from './app';
-import translations from './translations';
-import configureMoment from './util/configure-moment';
-import { BreakpointProvider, getServerBreakpoint } from './util/withBreakpoint';
 import meta from './meta';
-
 // configuration
 import { getConfiguration } from './config';
 import { getAnalyticsInitCode } from './util/analyticsUtils';
-
-import { historyMiddlewares, render } from './routes';
-import ErrorHandlerSSR from './component/ErrorHandlerSSR';
 
 // Look up paths for various asset files
 const appRoot = `${process.cwd()}/`;
@@ -130,65 +95,21 @@ function getPolyfills(userAgent, config) {
   return polyfill;
 }
 
-const ContextProvider = provideContext(IntlProvider, {
-  config: configShape,
-  url: PropTypes.string,
-  headers: PropTypes.objectOf(PropTypes.string),
-});
-
-const isRobotRequest = agent =>
-  agent &&
-  (agent.indexOf('facebook') !== -1 || agent.indexOf('Twitterbot') !== -1);
-
-const RELAY_FETCH_TIMEOUT =
-  parseInt(process.env.RELAY_FETCH_TIMEOUT, 10) || 3000;
-
-function getEnvironment(config, agent, locale) {
-  const relaySSRMiddleware = new RelayServerSSR();
-  relaySSRMiddleware.debug = false;
-  const queryParameters = config.hasAPISubscriptionQueryParameter
-    ? `?${config.API_SUBSCRIPTION_QUERY_PARAMETER_NAME}=${config.API_SUBSCRIPTION_TOKEN}`
-    : '';
-
-  const layer = new RelayNetworkLayer([
-    next => req => {
-      req.fetchOpts.headers['Accept-Language'] = locale;
-      return next(req).catch(() => ({ payload: { data: null } }));
-    },
-    relaySSRMiddleware.getMiddleware(),
-    cacheMiddleware({
-      size: 200,
-      ttl: 60 * 60 * 1000,
-    }),
-    urlMiddleware({
-      url: () => Promise.resolve(`${config.URL.OTP}gtfs/v1${queryParameters}`),
-    }),
-    errorMiddleware(),
-    retryMiddleware({
-      fetchTimeout: isRobotRequest(agent) ? 10000 : RELAY_FETCH_TIMEOUT,
-      retryDelays: [],
-    }),
-  ]);
-
-  const environment = new Environment({
-    network: layer,
-    store: new Store(new RecordSource()),
-  });
-  environment.relaySSRMiddleware = relaySSRMiddleware;
-
-  return environment;
-}
-
 export default async function serve(req, res, next) {
   try {
     const config = getConfiguration(req);
-    const application = appCreator(config);
     const agent = req.headers['user-agent'];
-    global.navigator = { userAgent: agent };
 
     // TODO: Move this to PreferencesStore
     // 1. use locale from cookie (user selected) or default
     let locale = req.cookies.lang || config.defaultLanguage;
+
+    const metadata = meta(
+      locale,
+      req.hostname,
+      `https://${req.hostname}${req.originalUrl}`,
+      config,
+    ).meta.filter(a => a !== '');
 
     if (config.availableLanguages.indexOf(locale) === -1) {
       locale = config.defaultLanguage;
@@ -198,124 +119,7 @@ export default async function serve(req, res, next) {
       res.cookie('lang', locale);
     }
 
-    const environment = getEnvironment(config, agent, locale);
-
-    setRelayEnvironment(environment);
-
-    const resolver = new Resolver(environment);
-
-    const { redirect, status, element } = await getFarceResult({
-      url: req.url,
-      historyMiddlewares,
-      routeConfig: makeRouteConfig(application.getComponent()),
-      resolver,
-      render,
-    });
-
-    if (redirect) {
-      res.redirect(302, redirect.url);
-      return;
-    }
-
-    if (
-      element &&
-      element.props &&
-      element.props.renderArgs &&
-      Array.isArray(element.props.renderArgs.elements) &&
-      element.props.renderArgs.elements.filter(
-        component =>
-          component &&
-          component.type &&
-          component.type.displayName === 'Error404',
-      ).length > 0
-    ) {
-      res.status(404);
-    }
-
-    const context = application.createContext({
-      url: req.url,
-      headers: req.headers,
-      config,
-    });
-
-    context
-      .getComponentContext()
-      .getStore('MessageStore')
-      .addConfigMessages(config);
-
-    const language = context
-      .getComponentContext()
-      .getStore('PreferencesStore')
-      .getLanguage();
-
-    configureMoment(language, config);
-
     const polyfills = await getPolyfills(agent, config);
-    const breakpoint = getServerBreakpoint(agent);
-
-    let content;
-    try {
-      content = ReactDOM.renderToString(
-        <BreakpointProvider value={breakpoint}>
-          <ContextProvider
-            locale={locale}
-            messages={translations[locale]}
-            context={context.getComponentContext()}
-          >
-            <ReactRelayContext.Provider value={{ environment }}>
-              <React.Fragment>
-                {element}
-                <Helmet
-                  {...meta(
-                    context.getStore('PreferencesStore').getLanguage(),
-                    req.hostname,
-                    `https://${req.hostname}${req.originalUrl}`,
-                    config,
-                  )}
-                />
-              </React.Fragment>
-            </ReactRelayContext.Provider>
-          </ContextProvider>
-        </BreakpointProvider>,
-      );
-    } catch (e) {
-      if (e.isFoundRedirectException) {
-        res.redirect(e.status, e.location);
-        return;
-      }
-      try {
-        content = ReactDOM.renderToString(
-          <ContextProvider
-            locale={locale}
-            messages={translations[locale]}
-            context={context.getComponentContext()}
-          >
-            <>
-              <ErrorHandlerSSR />
-              <Helmet
-                {...meta(
-                  context.getStore('PreferencesStore').getLanguage(),
-                  req.hostname,
-                  `https://${req.hostname}${req.originalUrl}`,
-                  config,
-                )}
-              />
-            </>
-          </ContextProvider>,
-        );
-      } catch (_) {
-        content = '';
-      }
-    }
-
-    const contentWithBreakpoint = `<div id="app" data-initial-breakpoint="${breakpoint}">${content}</div>\n`;
-
-    let relayData;
-    try {
-      relayData = await environment.relaySSRMiddleware.getCache();
-    } catch {
-      relayData = [];
-    }
 
     const spriteName = config.sprites;
 
@@ -325,6 +129,12 @@ export default async function serve(req, res, next) {
     res.write('<!doctype html>\n');
     res.write(`<html lang="${locale}">\n`);
     res.write('<head>\n');
+    metadata.forEach(m => {
+      const entries = Object.entries(m);
+      res.write(
+        `<meta ${entries[0][0]}="${entries[0][1]}" ${entries[1][0]}="${entries[1][1]}" data-react-helmet="true" />\n`,
+      );
+    });
 
     // Write preload hints before doing anything else
     if (process.env.NODE_ENV !== 'development') {
@@ -381,13 +191,7 @@ export default async function serve(req, res, next) {
 
     res.write(`<script>\n${polyfills}\n</script>\n`);
 
-    const head = Helmet.rewind();
-
-    if (head) {
-      res.write(head.title.toString());
-      res.write(head.meta.toString());
-      res.write(head.link.toString());
-    }
+    res.write(`<script>\nwindow.config=${serialize(config)};\n</script>\n`);
 
     res.write('</head>\n');
     res.write('<body>\n');
@@ -407,21 +211,7 @@ export default async function serve(req, res, next) {
       res.write('</div>\n');
     }
 
-    res.write(contentWithBreakpoint || '<div id="app" />');
-
-    res.write(
-      `<script>\nwindow.state=${serialize(
-        application.dehydrate(context),
-      )};\n</script>\n`,
-    );
-
-    res.write('<script>\n');
-    res.write(
-      `window.__RELAY_PAYLOADS__ = ${serialize(JSON.stringify(relayData), {
-        isJSON: true,
-      })}`,
-    );
-    res.write('\n</script>\n');
+    res.write('<div id="app" />');
 
     if (process.env.NODE_ENV === 'development') {
       res.write('<script async src="/proxy/js/main.js"></script>\n');
@@ -442,7 +232,7 @@ export default async function serve(req, res, next) {
     }
     res.write('</body>\n');
     res.write('</html>\n');
-    res.status(status).end();
+    res.end();
   } catch (err) {
     next(err);
   }

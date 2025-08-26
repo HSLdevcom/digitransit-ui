@@ -138,6 +138,32 @@ function tripRouteTopicResolver(
   );
 }
 
+function routeTopicResolver(
+  route,
+  direction,
+  tripStartTime,
+  headsign,
+  feedId,
+  tripId,
+  geoHash,
+) {
+  return (
+    '/gtfsrt/vp/' +
+    feedId +
+    '/+/+/+/' +
+    route +
+    '/+/+/+/+/+/+/+/' +
+    geoHash[0] +
+    '/' +
+    geoHash[1] +
+    '/' +
+    geoHash[2] +
+    '/' +
+    geoHash[3] +
+    '/#'
+  );
+}
+
 function hslTopicResolver(
   route,
   hslDirection,
@@ -194,7 +220,6 @@ export default {
     mqtt: 'wss://mqtt.hsl.fi',
     mqttTopicResolver: hslTopicResolver,
     gtfsrt: false,
-    useFuzzyTripMatching: true,
   },
   tampere: walttiMqtt,
   LINKKI: walttiMqtt,
@@ -224,7 +249,7 @@ export default {
   FOLI: { ...walttiMqtt, mqttTopicResolver: noHeadsignTopicResolver },
   MATKA: {
     ...walttiMqtt,
-    mqttTopicResolver: tripRouteTopicResolver,
+    mqttTopicResolver: routeTopicResolver,
     vehicleNumberParser: vehicleNumberPartParser,
   },
   digitraffic: {

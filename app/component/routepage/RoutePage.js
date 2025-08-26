@@ -4,18 +4,15 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 import { createFragmentContainer, graphql } from 'react-relay';
 import { FormattedMessage, intlShape } from 'react-intl';
 import cx from 'classnames';
-import { matchShape, routerShape, RedirectException } from 'found';
+import { matchShape, routerShape } from 'found';
 import { routeShape, configShape, errorShape } from '../../util/shapes';
 import Icon from '../Icon';
-import Loading from '../Loading';
 import RouteAgencyInfo from './RouteAgencyInfo';
 import RouteNumber from '../RouteNumber';
 import RouteControlPanel from './RouteControlPanel';
 import { PREFIX_DISRUPTION, PREFIX_ROUTES } from '../../util/path';
 import withBreakpoint from '../../util/withBreakpoint';
 import BackButton from '../BackButton';
-import { isBrowser } from '../../util/browser';
-import LazilyLoad, { importLazy } from '../LazilyLoad';
 import { getRouteMode } from '../../util/modeUtils';
 import AlertBanner from '../AlertBanner';
 import {
@@ -24,11 +21,7 @@ import {
   isAlertValid,
 } from '../../util/alertUtils';
 import { AlertEntityType } from '../../constants';
-
-const modules = {
-  FavouriteRouteContainer: () =>
-    importLazy(import('./FavouriteRouteContainer')),
-};
+import FavouriteRouteContainer from './FavouriteRouteContainer';
 
 // eslint-disable-next-line react/prefer-stateless-function
 class RoutePage extends React.Component {
@@ -66,20 +59,11 @@ class RoutePage extends React.Component {
     const tripId = this.props.match.params?.tripId;
     const patternId = this.props.match.params?.patternId;
 
-    // Render something in client side to clear SSR
-    if (isBrowser && error && !route) {
-      return <Loading />;
-    }
-
     if (route == null && !error) {
       /* In this case there is little we can do
        * There is no point continuing rendering as it can only
        * confuse user. Therefore redirect to Routes page */
-      if (isBrowser) {
-        router.replace(`/${PREFIX_ROUTES}`);
-      } else {
-        throw new RedirectException(`/${PREFIX_ROUTES}`);
-      }
+      router.replace(`/${PREFIX_ROUTES}`);
       return null;
     }
     const mode = getRouteMode(route, config);
@@ -141,14 +125,10 @@ class RoutePage extends React.Component {
               )}
             </div>
             {!tripId && (
-              <LazilyLoad modules={modules}>
-                {({ FavouriteRouteContainer }) => (
-                  <FavouriteRouteContainer
-                    className="route-page-header"
-                    gtfsId={route.gtfsId}
-                  />
-                )}
-              </LazilyLoad>
+              <FavouriteRouteContainer
+                className="route-page-header"
+                gtfsId={route.gtfsId}
+              />
             )}
           </div>
           {tripId && hasMeaningfulData(filteredAlerts) && (

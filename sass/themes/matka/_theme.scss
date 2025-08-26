@@ -4,7 +4,7 @@
 @import '../default/theme';
 
 $primary-color: #000;
-$hilight-color: $primary-color;
+$highlight-color: $primary-color;
 $action-color: $primary-color;
 $bus-color: $primary-color;
 $viewpoint-marker-color: $primary-color;
@@ -32,7 +32,7 @@ $car-color: #505064;
 $nav-logo-height: 2em;
 $nav-logo-min-height: 30px;
 $id-font-family: 'Roboto Mono', arial, georgia, sans-serif;
-$font-family-narrow: $id-font-family;
+$font-family-narrow: $font-family;
 $id-font-size: $font-size-xsmall;
 $id-font-weight: $font-weight-medium;
 $background-color-lighter: #f6f6f6;
@@ -55,6 +55,7 @@ $info-icon-blue: $primary-color;
 /* Component palette */
 $disclaimer-background-color: #fff;
 $disclaimer-border-color: #000;
+$route-title-margin: 1em;
 
 /* Borders */
 $border-radius-disclaimer: $border-radius-bigger;

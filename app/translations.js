@@ -15,7 +15,6 @@ const translations = {
     'airport-collect-luggage': 'Hent eventuel bagage',
     'airport-security-check-go-to-gate':
       'Passer sikkerhedskontrollen og fortsæt til gate',
-    'approx-meters': '{approxDistance} meter',
     'arriving-at': 'Ankomst',
     'arriving-soon': 'Nu',
     'avoid-transfers': 'Undgå skift',
@@ -280,7 +279,6 @@ const translations = {
       'Gehen Sie durch die Sicherheitskontrolle zum Abfluggate',
     'all-routes': 'Alle Linien',
     'all-routes-disabled': 'Keine Linien',
-    'approx-meters': '{approxDistance} Meter',
     'aria-itinerary-summary':
       'Gesamtdauer {duration}. Route fährt ab {inFuture} {departureTime} mit Ankunft {arrivalTime}.',
     'aria-itinerary-summary-bike-distance':
@@ -318,7 +316,6 @@ const translations = {
       '{itineraryAmount, plural, =1 {1 weitere} other {{itineraryAmount} weitere}} ausgefallene Verbindungen',
     'canceled-itineraries-amount-hide':
       'Ausgefallene Verbindungen ausblenden ({itineraryAmount})',
-    'canceled-legs': 'Ausgefallene Abfahrten auf der Route',
     car: 'Auto',
     'car-distance-duration': 'Auto {duration} ({distance})',
     'car-park': 'Park & Ride',
@@ -379,7 +376,6 @@ const translations = {
     'favourite-target': 'Favoriten',
     ferry: 'Fähre',
     'ferry-with-route-number': 'Fähre {routeNumber} {headSign}',
-    'fetch-new-route': 'Neue Verbindung anfragen',
     'from-station': 'Bahnhof',
     'from-stop': 'Halt',
     frontpage: 'Startseite',
@@ -738,11 +734,8 @@ const translations = {
     'summary-page.row-label': 'Reisevorschlag {number}',
     'summary-page.title': 'Reisevorschläge',
     'swap-order-button-label': 'Start und Ziel tauschen',
-    'swipe-result-tab-left':
-      'Swipe result tabs left arrow. Press Enter or Space to show the previous tab.',
-    'swipe-result-tab-right':
-      'Swipe result tabs right arrow. Press Enter or Space to show the next tab.',
-    'swipe-result-tabs': 'Switch tabs using arrow keys.',
+    'swipe-result-tab-left': 'Show the previous tab.',
+    'swipe-result-tab-right': 'Show the next tab.',
     'terminal-page.description': 'Terminal - {name}',
     'terminal-page.title': 'Terminal',
     'terminal-page.title-short': 'Terminal - {name}',
@@ -863,8 +856,6 @@ const translations = {
     back: 'Back',
     'buy-in-app': 'Buy in App',
     'search-autosuggest-label': 'Venue, place and stopsearch.',
-    'search-autosuggest-label-instructions':
-      'Navigate list with arrow keys and select with enter key.',
     'search-autosuggest-label-move-to-destination':
       'After selecting the starting location you are automatically moved to the destination field.',
     'search-autosuggest-len':
@@ -896,7 +887,6 @@ const translations = {
       'Proceed to your gate through security check',
     'all-routes': 'All routes',
     'all-routes-disabled': 'No routes',
-    'approx-meters': '{approxDistance} m',
     'arriving-at': 'Arriving',
     'arriving-soon': 'Now',
     'at-time': 'at',
@@ -949,7 +939,6 @@ const translations = {
       'Additional {itineraryAmount, plural, =1 {1 canceled itinerary} other {{itineraryAmount} canceled itineraries}}',
     'canceled-itineraries-amount-hide':
       'Hide canceled itineraries ({itineraryAmount})',
-    'canceled-legs': 'Canceled departures on the route',
     'capacity-modal.crushed-standing-room-only-body':
       'Only a little standing room available',
     'capacity-modal.crushed-standing-room-only-heading': 'Very crowded',
@@ -1085,7 +1074,6 @@ const translations = {
     'ferry-external': 'Ferry',
     'ferry-external-with-route-number': 'Ferry {routeNumber} {headSign}',
     'ferry-with-route-number': 'Ferry {routeNumber} {headSign}',
-    'fetch-new-route': 'Fetch a new route',
     'few-seats-available': 'Few seats available',
     finnish: 'Finnish',
     'free-of-charge': 'Free',
@@ -1710,18 +1698,13 @@ const translations = {
     surveillance_cameras: 'Camera surveillance',
     'swap-order-button-label': 'Reverse origin and destination',
     swedish: 'Swedish',
-    'swipe-disruption-info': 'Disruption info  swipe result tabs',
-    'swipe-disruption-info-header': 'Disruption info swipe result tabs.',
-    'swipe-message-bar': 'Message swipe result tabs',
-    'swipe-message-bar-header': 'Message swipe result tabs.',
-    'swipe-result-tab-left': 'Press Enter or Space to show the previous tab.',
-    'swipe-result-tab-right': 'Press Enter or Space to show the next tab.',
-    'swipe-result-tabs': 'Switch tabs using arrow keys.',
+    'swipe-disruption-info-tab': 'Disruption info  swipe result tabs',
+    'swipe-message-bar-tab': 'Message swipe result tabs',
+    'swipe-result-tab-left': 'Show the previous tab.',
+    'swipe-result-tab-right': 'Show the next tab.',
     'swipe-sr-new-tab-opened': 'Tab {number} opened.',
-    'swipe-stops-near-you': 'Stops near you swipe result tabs.',
-    'swipe-stops-near-you-header': 'Stops near you swipe result tabs',
-    'swipe-summary-page': 'Itinerary swipe result tabs',
-    'swipe-summary-page-header': 'Itinerary swipe result tabs.',
+    'swipe-stops-near-you-tab': 'Stops near you swipe result tabs.',
+    'swipe-summary-page-tab': 'Itinerary swipe result tabs',
     taxi: 'Taxi',
     'taxi-alternative':
       'How about using a taxi for part of your journey? {paymentInfo}',
@@ -1870,7 +1853,6 @@ const translations = {
       'Proceda a su puerta a través del control de seguridad',
     'all-routes': 'Todas las rutas',
     'all-routes-disabled': 'Ninguna ruta',
-    'approx-meters': '{approxDistance} m',
     'arriving-at': 'Llegada',
     'arriving-soon': 'Ahora',
     'avoid-transfers': 'Evitar transbordos',
@@ -2186,8 +2168,6 @@ const translations = {
     'as-viapoint': 'Välipisteeksi',
     'buy-in-app': 'Osta sovelluksessa',
     'search-autosuggest-label': 'Paikka, linja ja pysäkkihaku.',
-    'search-autosuggest-label-instructions':
-      'Navigoi listassa nuolinäppäimillä ja valitse enterillä.',
     'search-autosuggest-label-move-to-destination':
       'Valittuasi lähtöpaikan siirrytään suoraan määränpää-kenttään.',
     'search-autosuggest-len':
@@ -2226,7 +2206,6 @@ const translations = {
       'Kävele turvatarkastuksen läpi lähtöportille',
     'all-routes': 'Kaikki linjat',
     'all-routes-disabled': 'Ei linjoja',
-    'approx-meters': '{approxDistance} m',
     'arriving-at': 'Perillä',
     'arriving-soon': 'Nyt',
     'at-time': 'klo',
@@ -2249,11 +2228,11 @@ const translations = {
     'bike-not-allowed-bus': 'Pyörää ei voi kuljettaa bussissa',
     'bike-not-allowed-tram': 'Pyörää ei voi kuljettaa raitiovaunussa',
     'bike-only': 'Vain pyöräily',
-    'bike-park': 'Liityntäpyöräparkki',
+    'bike-park': 'Liityntäpysäköinti',
     'bike-park-disclaimer':
       'Voit yhdistää kätevästi joukkoliikenteen ja pyöräilyn, kun jätät pyöräsi liityntäpysäköintiin ja jatkat matkaasi junalla, bussilla, metrolla tai ratikalla. Pyörän pysäköinti on maksutonta eikä siinä ole aikarajaa.',
     'bike-park-disclaimer-header': 'Jätä pyörä parkkiin',
-    'bike-park-disclaimer-link': 'Lue lisää liityntäpyöräpysäköinnistä',
+    'bike-park-disclaimer-link': 'Lue lisää liityntäpysäköinnistä',
     'bike-station-disabled': 'Pyöräasema ei ole käytössä.',
     'bikes-available': 'Pyöriä asemalla {amount}',
     'biketransport-citybike': 'Käytän kaupunkipyörää',
@@ -2277,7 +2256,6 @@ const translations = {
       'Lisäksi {itineraryAmount, plural, =1 {1 peruttu reittiehdotus} other {{itineraryAmount} peruttua reittiehdotusta}}',
     'canceled-itineraries-amount-hide':
       'Piilota perutut reittiehdotukset ({itineraryAmount})',
-    'canceled-legs': 'Reitillä peruttuja vuoroja',
     'capacity-modal.crushed-standing-room-only-body':
       'Vain vähän seisomapaikkoja',
     'capacity-modal.crushed-standing-room-only-heading': 'Kova tungos',
@@ -2415,7 +2393,6 @@ const translations = {
     'ferry-external': 'Lautta',
     'ferry-external-with-route-number': 'Lautta {routeNumber} {headSign}',
     'ferry-with-route-number': 'Lautta {routeNumber} {headSign}',
-    'fetch-new-route': 'Hae uusi reitti',
     'few-seats-available': 'Joitakin istumapaikkoja vapaana',
     finnish: 'Suomi',
     'free-of-charge': 'Maksuton',
@@ -3030,20 +3007,13 @@ const translations = {
     surveillance_cameras: 'Kameravalvonta',
     'swap-order-button-label': 'Käännä reitin suunta vastakkaiseksi',
     swedish: 'Ruotsi',
-    'swipe-disruption-info': 'Poikkeustietovälilehtien',
-    'swipe-disruption-info-header': 'Poikkeustietovälilehdet.',
-    'swipe-message-bar': 'Viestivälilehtien',
-    'swipe-message-bar-header': 'Viestivälilehdet.',
-    'swipe-result-tab-left':
-      'Navigointipainike. Näytä edellinen välilehti painamalla enteriä tai välilyöntiä.',
-    'swipe-result-tab-right':
-      'Navigointipainike. Näytä seuraava välilehti painamalla enteriä tai välilyöntiä.',
-    'swipe-result-tabs': 'Selaa välilehtiä nuolinäppäimillä.',
+    'swipe-disruption-info-tab': 'Poikkeustietovälilehti {number}',
+    'swipe-message-bar-tab': 'Viestivälilehti {number}',
+    'swipe-result-tab-left': 'Näytä edellinen välilehti.',
+    'swipe-result-tab-right': 'Näytä seuraava välilehti.',
     'swipe-sr-new-tab-opened': 'Välilehti {number} avattu.',
-    'swipe-stops-near-you': 'Lähipysäkkinäkymävälilehtien',
-    'swipe-stops-near-you-header': 'Lähipysäkkinäkymävälilehdet.',
-    'swipe-summary-page': 'Reittiehdotusvälilehtien',
-    'swipe-summary-page-header': 'Reittiehdotusvälilehdet.',
+    'swipe-stops-near-you-tab': 'Lähipysäkkivälilehti {number}',
+    'swipe-summary-page-tab': 'Reittiehdotus {number}',
     taxi: 'Taxi',
     'taxi-alternative':
       'Entä jos kulkisit osan matkasta taksilla? {paymentInfo}',
@@ -3194,7 +3164,6 @@ const translations = {
       "Franchir les contrôles de sécurité et se rendre à la porte d'embarquement",
     'all-routes': 'Toutes lignes',
     'all-routes-disabled': 'Aucune ligne',
-    'approx-meters': '{approxDistance} m',
     'arriving-at': 'Arrivée',
     'arriving-soon': 'Imm.',
     'avoid-transfers': 'Éviter les correspondances',
@@ -3521,7 +3490,6 @@ const translations = {
     'airport-collect-luggage': 'Hent eventuell bagasje',
     'airport-security-check-go-to-gate':
       'Passer sikkerhetskontrollen og fortsett til gate',
-    'approx-meters': '{approxDistance} meter',
     'arriving-at': 'Ankomst',
     'arriving-soon': 'Nå',
     'avoid-transfers': 'Unngå bytter',
@@ -3802,8 +3770,6 @@ const translations = {
     'as-origin': 'Początek',
     'as-viapoint': 'Punkt pośredni',
     'search-autosuggest-label': 'Miejsce, lokalizacja i przystanek.',
-    'search-autosuggest-label-instructions':
-      'Nawiguj po liście używając strzałek i wybieraj klawiszem Enter.',
     'search-autosuggest-label-move-to-destination':
       'Po wybraniu lokalizacji początkowej, automatycznie przejdziesz do pola miejsca docelowego.',
     'search-autosuggest-len':
@@ -3833,7 +3799,6 @@ const translations = {
       'Proceed to your gate through security check',
     'all-routes': 'Wszystkie trasy',
     'all-routes-disabled': 'Brak tras',
-    'approx-meters': '{approxDistance} m',
     'arriving-at': 'Arriving',
     'arriving-soon': 'Teraz',
     'at-time': 'o',
@@ -3882,7 +3847,6 @@ const translations = {
       'Additional {itineraryAmount, plural, =1 {1 canceled itinerary} other {{itineraryAmount} canceled itineraries}}',
     'canceled-itineraries-amount-hide':
       'Hide canceled itineraries ({itineraryAmount})',
-    'canceled-legs': 'Anulowane odjazdy z trasy',
     'capacity-modal.crushed-standing-room-only-body':
       'Pozostało niewiele miejsc stojących',
     'capacity-modal.crushed-standing-room-only-heading': 'Bardzo zatłoczony',
@@ -4007,7 +3971,6 @@ const translations = {
     'favourite-target': 'Favorite location',
     ferry: 'Prom',
     'ferry-with-route-number': 'Prom {routeNumber} {headSign}',
-    'fetch-new-route': 'Pobierz nową trasę',
     'few-seats-available': 'Dostępne jest niewiele miejsc',
     finnish: 'Fiński',
     'free-of-charge': 'Za darmo',
@@ -4517,20 +4480,13 @@ const translations = {
     surveillance_cameras: 'Camera surveillance',
     'swap-order-button-label': 'Odwróć punkt początkowy i końcowy',
     swedish: 'Szwedzki',
-    'swipe-disruption-info': 'Disruption info  swipe result tabs',
-    'swipe-disruption-info-header': 'Disruption info swipe result tabs.',
-    'swipe-message-bar': 'Message swipe result tabs',
-    'swipe-message-bar-header': 'Message swipe result tabs.',
-    'swipe-result-tab-left':
-      'Użyj Enter lub Spacji, aby wyświetlić poprzednią kartę.',
-    'swipe-result-tab-right':
-      'Użyj Enter lub Spacji, aby wyświetlić następną kartę.',
-    'swipe-result-tabs': 'Przełącz karty klawiszami strzałek.',
+    'swipe-disruption-info-tab': 'Disruption info  swipe result tabs',
+    'swipe-message-bar-tab': 'Message swipe result tabs',
+    'swipe-result-tab-left': 'Aby wyświetlić poprzednią kartę.',
+    'swipe-result-tab-right': 'Aby wyświetlić następną kartę.',
     'swipe-sr-new-tab-opened': 'Otwarto kartę {number}.',
-    'swipe-stops-near-you': 'Stops near you swipe result tabs.',
-    'swipe-stops-near-you-header': 'Stops near you swipe result tabs',
-    'swipe-summary-page': 'Itinerary swipe result tabs',
-    'swipe-summary-page-header': 'Itinerary swipe result tabs.',
+    'swipe-stops-near-you-tab': 'Stops near you swipe result tabs.',
+    'swipe-summary-page-tab': 'Itinerary swipe result tabs',
     'terminal-page.description': 'Terminal {name}',
     'terminal-page.title': 'Terminal {name}',
     'terminal-page.title-short': 'Terminal',
@@ -4686,7 +4642,6 @@ const translations = {
       'Mergeți spre poartă, trecând prin controlul de securitate',
     'all-routes': 'Toate',
     'all-routes-disabled': 'Niciuna',
-    'approx-meters': '{approxDistance} m',
     'arriving-at': 'Ajunge',
     'arriving-soon': 'Acum',
     'at-time': 'la',
@@ -4715,7 +4670,6 @@ const translations = {
       'Și {itineraryAmount, plural, =1 {un itinerar} alte {{itineraryAmount} itinerarii anulate}}',
     'canceled-itineraries-amount-hide':
       'Ascunde itinerarii anulate ({itineraryAmount})',
-    'canceled-legs': 'Plecări anulate',
     car: 'Mașină',
     'car-distance-duration': 'Condu {duration} ({distance})',
     'car-park': 'park & ride',
@@ -4769,7 +4723,6 @@ const translations = {
     'favourite-target': 'Locație favorită',
     ferry: 'Feribot',
     'ferry-with-route-number': 'Feribotul {routeNumber} {headSign}',
-    'fetch-new-route': 'Încărcați o nouă rută',
     frontpage: 'Prima pagină',
     'generic-error': 'A apărut o eroare',
     'geolocate-yourself': 'Detectați locația',
@@ -5059,11 +5012,8 @@ const translations = {
     'summary-page.row-label': 'Sugestii itinerar {number}',
     'summary-page.title': 'Sugestii itinerar',
     'swap-order-button-label': 'Schimbați originea cu destinația',
-    'swipe-result-tab-left':
-      'Swipe result tabs left arrow. Press Enter or Space to show the previous tab.',
-    'swipe-result-tab-right':
-      'Swipe result tabs right arrow. Press Enter or Space to show the next tab.',
-    'swipe-result-tabs': 'Switch tabs using arrow keys.',
+    'swipe-result-tab-left': 'Show the previous tab.',
+    'swipe-result-tab-right': 'Show the next tab.',
     'terminal-page.description': 'Terminalul {name}',
     'terminal-page.title': 'Terminalul {name}',
     'terminal-page.title-short': 'Terminal',
@@ -5172,8 +5122,6 @@ const translations = {
       'Tilaa kyyti sovelluksella ja jää odottamaan sen saapumista:',
     'buy-in-app': 'Köp i appen',
     'search-autosuggest-label': 'Plats, linje och hållplatssökning.',
-    'search-autosuggest-label-instructions':
-      'Navigera listan med piltangenterna och välj med Enter-tangeten.',
     'search-autosuggest-label-move-to-destination':
       'Efter att du valt avgångsplatsen tas du direkt till Destination-fältet.',
     'search-autosuggest-len': 'Hittade {len} förslag',
@@ -5199,7 +5147,6 @@ const translations = {
       'Gå igenom säkerhetskontrollen till gate',
     'all-routes': 'Alla linjer',
     'all-routes-disabled': 'Inga linjer',
-    'approx-meters': '{approxDistance} m',
     'arriving-at': 'Anländer',
     'arriving-soon': 'Nu',
     'at-time': 'kl.',
@@ -5249,7 +5196,6 @@ const translations = {
       'Ytterligare {itineraryAmount, plural, =1 {1 avställt avgång} other {{itineraryAmount} avställda avgångar}}',
     'canceled-itineraries-amount-hide':
       'Dölja inställda reseförslag ({itineraryAmount})',
-    'canceled-legs': 'Inställda avgångar på linjen',
     'capacity-modal.crushed-standing-room-only-body': 'Endast några ståplatser',
     'capacity-modal.crushed-standing-room-only-heading': 'Nästan fullt',
     'capacity-modal.few-seats-available-body': 'Några sittplatser',
@@ -5385,7 +5331,6 @@ const translations = {
     'ferry-external': 'Färja',
     'ferry-external-with-route-number': 'Färja {routeNumber} {headSign}',
     'ferry-with-route-number': 'Färja {routeNumber} {headSign}',
-    'fetch-new-route': 'Sök en ny rutt',
     'few-seats-available': 'Några sittplatser',
     finnish: 'Finska',
     'free-of-charge': 'Kostnadsfri',
@@ -6005,21 +5950,17 @@ const translations = {
     surveillance_cameras: 'Kameraövervakning',
     'swap-order-button-label': 'Sväng ruttens riktning till den motsatta',
     swedish: 'Svenska',
-    'swipe-disruption-info': 'Navigeringsknapp för att kunna bläddra störning',
-    'swipe-disruption-info-header': 'Störning.',
-    'swipe-message-bar': 'Navigeringsknapp för att kunna bläddra stäng banner',
-    'swipe-message-bar-header': 'Stäng banner.',
-    'swipe-result-tab-left':
-      'Gå till föregående blad genom att trycka på enter eller mellanslag.',
-    'swipe-result-tab-right':
-      'Gå till följande blad genom att trycka på enter eller mellanslag.',
-    'swipe-result-tabs': 'Bläddra mellan blad med pilknapparna.',
+    'swipe-disruption-info-tab':
+      'Navigeringsknapp för att kunna bläddra störning',
+    'swipe-message-bar-tab':
+      'Navigeringsknapp för att kunna bläddra stäng banner',
+    'swipe-result-tab-left': 'Gå till föregående blad.',
+    'swipe-result-tab-right': 'Gå till följande blad.',
     'swipe-sr-new-tab-opened': 'Blad {number} öppnad.',
-    'swipe-stops-near-you':
+    'swipe-stops-near-you-tab':
       'Navigeringsknapp för att kunna bläddra hållplatser nära mig.',
-    'swipe-stops-near-you-header': 'Hållplatser nära mig.',
-    'swipe-summary-page': 'Navigeringsknapp för att kunna bläddra ruttförslag.',
-    'swipe-summary-page-header': 'Ruttförslag.',
+    'swipe-summary-page-tab':
+      'Navigeringsknapp för att kunna bläddra ruttförslag.',
     taxi: 'Taxi',
     'taxi-alternative':
       'Och om du skulle åka taxi en del av din resa? {paymentInfo}',

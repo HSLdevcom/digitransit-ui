@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
-import moment from 'moment-timezone';
+import { DateTime, Settings } from 'luxon';
 import Select from 'react-select';
 import i18next from 'i18next';
 import cx from 'classnames';
@@ -45,7 +45,7 @@ function DesktopDatetimepicker({
   datePicker,
   translationSettings,
 }) {
-  moment.tz.setDefault(timeZone);
+  Settings.defaultZone = timeZone;
   const [displayValue, changeDisplayValue] = useState(getDisplay(value));
   const [typing, setTyping] = useState(false);
   const [showAllOptions, setShowAllOptions] = useState(true);
@@ -60,12 +60,10 @@ function DesktopDatetimepicker({
   // newValue is string
   const handleTimestamp = newValue => {
     const asNumber = Number(newValue);
-    if (
-      Number.isNaN(asNumber) ||
-      !moment(asNumber).isValid() ||
-      moment(asNumber).valueOf() !== asNumber
-    ) {
-      // TODO handle error?
+    try {
+      DateTime.fromMillis(asNumber);
+    } catch (e) {
+      // If the value is not a valid timestamp, we don't change it
       return;
     }
     onChange(asNumber);
@@ -159,7 +157,7 @@ function DesktopDatetimepicker({
         options={options}
         inputId={inputId}
         onChange={time => {
-          const currentTime = moment(value).format('HH:mm');
+          const currentTime = DateTime.fromMillis(value).toFormat('HH:mm');
           const ts = getTs(displayValue, value);
           if (typing) {
             if (ts !== null) {

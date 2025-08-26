@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { useState, useRef, useLayoutEffect } from 'react';
-import moment from 'moment-timezone';
+import { DateTime, Settings } from 'luxon';
 import Autosuggest from 'react-autosuggest';
 import styles from './styles.scss';
 import { isAndroid } from './mobileDetection';
@@ -19,13 +19,12 @@ function MobileDatepicker({
   icon,
   timeZone,
 }) {
-  moment.tz.setDefault(timeZone);
-
+  Settings.defaultZone = timeZone;
   const [open, changeOpen] = useState(false);
   const scrollRef = useRef(null);
   const dateChoices = Array(itemCount)
     .fill()
-    .map((_, i) => moment(startTime).add(i, 'day').valueOf());
+    .map((_, i) => DateTime.fromMillis(startTime).plus({ days: i }).toMillis());
   const minute = 1000 * 60;
   const diffs = dateChoices.map(t => value - t);
   const scrollIndex = diffs.findIndex(t => t < minute); // when time is now, the times might differ by less than one minute

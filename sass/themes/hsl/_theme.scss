@@ -18,7 +18,7 @@ $hsl-ferry-blue: #007a97;
 $primary-color: $hsl-blue;
 $secondary-color: $hsl-dark-blue;
 $favourite-color: $hsl-pink;
-$hilight-color: $hsl-pink;
+$highlight-color: $hsl-pink;
 $action-color: $hsl-blue;
 $current-location-color: #f653b9;
 $navigation-background-color: #ebf6fd;
@@ -56,6 +56,7 @@ $letter-spacing: -0.025em;
 $font-size-medium-large: 1rem;
 $font-family-narrow: 'Gotham XNarrow SSm A', 'Gotham XNarrow SSm B',
   'Gotham Rounded A', 'Gotham Rounded B', arial, georgia, serif;
+$id-font-family: $font-family-narrow;
 
 /* Spinner */
 $spinner-image: url('hsl-spinner.png');

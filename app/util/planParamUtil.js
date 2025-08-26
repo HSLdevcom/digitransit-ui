@@ -1,4 +1,4 @@
-import moment from 'moment';
+import { DateTime } from 'luxon';
 import isEqual from 'lodash/isEqual';
 import {
   getTransitModes,
@@ -457,8 +457,9 @@ export function getPlanParams(
   const transferPenalty = relaxSettings
     ? defaultSettings.transferPenalty
     : settings.transferPenalty;
-
-  const timeStr = (time ? moment(time * 1000) : moment()).format();
+  const timeStr = (time ? DateTime.fromSeconds(+time) : DateTime.now()).toISO({
+    suppressMilliseconds: true,
+  });
   const datetime = useLatestArrival
     ? { latestArrival: timeStr }
     : { earliestDeparture: timeStr };

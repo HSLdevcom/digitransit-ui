@@ -7,11 +7,7 @@ import CardHeader from '../CardHeader';
 import { getJson } from '../../util/xhrPromise';
 import { saveSearch } from '../../action/SearchActions';
 import { isIOS } from '../../util/browser';
-import LazilyLoad, { importLazy } from '../LazilyLoad';
-
-const modules = {
-  FavouriteStopContainer: () => importLazy(import('../FavouriteStopContainer')),
-};
+import FavouriteStopContainer from '../FavouriteStopContainer';
 
 class StopCardHeader extends React.Component {
   componentDidMount() {
@@ -106,11 +102,7 @@ class StopCardHeader extends React.Component {
         headerConfig={!!this.headerConfig}
         isTerminal={isTerminal}
         favouriteContainer={
-          <LazilyLoad modules={modules}>
-            {({ FavouriteStopContainer }) => (
-              <FavouriteStopContainer stop={stop} isTerminal={isTerminal} />
-            )}
-          </LazilyLoad>
+          <FavouriteStopContainer stop={stop} isTerminal={isTerminal} />
         }
       />
     );

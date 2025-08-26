@@ -4,7 +4,6 @@ import { intlShape } from 'react-intl';
 import { matchShape, routerShape } from 'found';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { configShape } from '../util/shapes';
-import { isBrowser } from '../util/browser';
 
 const language = (lang, highlight, match, intl) => {
   const aria = highlight
@@ -27,16 +26,13 @@ const language = (lang, highlight, match, intl) => {
 };
 
 const LangSelect = ({ currentLanguage }, { config, match, intl }) => {
-  if (isBrowser) {
-    return (
-      <div key="lang-select" id="lang-select">
-        {config.availableLanguages.map(lang =>
-          language(lang, lang === currentLanguage, match, intl),
-        )}
-      </div>
-    );
-  }
-  return null;
+  return (
+    <div key="lang-select" id="lang-select">
+      {config.availableLanguages.map(lang =>
+        language(lang, lang === currentLanguage, match, intl),
+      )}
+    </div>
+  );
 };
 
 LangSelect.displayName = 'LangSelect';

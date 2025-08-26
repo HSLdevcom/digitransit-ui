@@ -15,6 +15,7 @@ import CityBikeStopNearYou from './VehicleRentalStationNearYou';
 import Loading from '../Loading';
 import Icon from '../Icon';
 import { getDefaultNetworks } from '../../util/vehicleRentalUtils';
+import DisruptionBanner from '../DisruptionBanner';
 
 class StopsNearYouContainer extends React.Component {
   static propTypes = {
@@ -33,12 +34,15 @@ class StopsNearYouContainer extends React.Component {
     }).isRequired,
     withSeparator: PropTypes.bool,
     prioritizedStops: PropTypes.arrayOf(PropTypes.string),
+    nearByStopMode: PropTypes.string.isRequired,
+    renderDisruptionBanner: PropTypes.bool,
   };
 
   static defaultProps = {
     stopPatterns: undefined,
     withSeparator: false,
     prioritizedStops: undefined,
+    renderDisruptionBanner: false,
   };
 
   static contextTypes = {
@@ -254,12 +258,23 @@ class StopsNearYouContainer extends React.Component {
       />
     );
     const stops = this.createNearbyStops().filter(e => e);
+    const alerts = stops
+      .flatMap(stop => stop.props.stop?.routes || [])
+      .flatMap(route => route?.alerts || [])
+      .filter(alert => alert.alertSeverityLevel === 'SEVERE');
     const noStopsFound =
       !stops.length &&
       this.state.refetches >= this.state.maxRefetches &&
       !this.state.isLoadingmoreStops;
     return (
       <>
+        {this.props.renderDisruptionBanner && (
+          <DisruptionBanner
+            alerts={alerts || []}
+            mode={this.props.nearByStopMode}
+            trafficNowLink={this.context.config.trafficNowLink}
+          />
+        )}
         {((!this.props.relay.hasMore() &&
           !stops.length &&
           !this.props.prioritizedStops?.length) ||
@@ -388,6 +403,28 @@ const refetchContainer = createPaginationContainer(
                     omitNonPickups: $omitNonPickups
                   ) {
                     scheduledArrival
+                  }
+                  routes {
+                    ... on Route {
+                      alerts {
+                        feed
+                        id
+                        alertSeverityLevel
+                        alertHeaderText
+                        alertEffect
+                        alertCause
+                        alertDescriptionText
+                        effectiveStartDate
+                        effectiveEndDate
+                        entities {
+                          __typename
+                          ... on Route {
+                            mode
+                            shortName
+                          }
+                        }
+                      }
+                    }
                   }
                 }
               }

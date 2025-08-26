@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import ItineraryDetails from './ItineraryDetails';
-
 import SwipeableTabs from '../SwipeableTabs';
 import { planEdgeShape } from '../../util/shapes';
 
@@ -20,6 +19,7 @@ function ItineraryTabs({ planEdges, tabIndex, isMobile, changeHash, ...rest }) {
           hideTitle={!isMobile}
           changeHash={isMobile ? changeHash : undefined}
           isMobile={isMobile}
+          tabIndex={i}
           {...rest}
         />
       </div>
@@ -32,8 +32,7 @@ function ItineraryTabs({ planEdges, tabIndex, isMobile, changeHash, ...rest }) {
       tabIndex={tabIndex}
       onSwipe={changeHash}
       classname={isMobile ? 'swipe-mobile-divider' : 'swipe-desktop-view'}
-      ariaFrom="swipe-summary-page"
-      ariaFromHeader="swipe-summary-page-header"
+      ariaRole="swipe-summary-page-tab"
     />
   );
 }

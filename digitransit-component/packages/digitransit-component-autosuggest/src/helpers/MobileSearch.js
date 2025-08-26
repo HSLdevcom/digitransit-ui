@@ -188,6 +188,8 @@ const MobileSearch = ({
       </div>
     );
   };
+  // This does not seem to do anything.
+  // When doing quick testing on this it looked like inputRef.current is always undefined.
   if (focusInput && inputRef.current?.input) {
     inputRef.current.input.focus();
   }

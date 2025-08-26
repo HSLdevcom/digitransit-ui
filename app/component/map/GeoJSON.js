@@ -2,21 +2,13 @@ import L from 'leaflet';
 import PropTypes from 'prop-types';
 import React from 'react';
 import uniqBy from 'lodash/uniqBy';
+import { default as Geojson } from 'react-leaflet/es/GeoJSON';
 import PointFeatureMarker from './PointFeatureMarker';
-import { isBrowser } from '../../util/browser';
 import { configShape, geoJsonFeatureShape } from '../../util/shapes';
 import {
   isMultiPointTypeGeometry,
   isPointTypeGeometry,
 } from '../../util/geo-utils';
-
-let Geojson;
-
-/* eslint-disable global-require */
-if (isBrowser) {
-  Geojson = require('react-leaflet/es/GeoJSON').default;
-}
-/* eslint-enable global-require */
 
 /**
  * Extracts svg-formatted icon data from the given features' properties.

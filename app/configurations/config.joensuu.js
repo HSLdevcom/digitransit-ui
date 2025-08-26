@@ -1,11 +1,9 @@
-/* eslint-disable prefer-template */
 import configMerger from '../util/configMerger';
+import walttiConfig from './config.waltti';
 
 const CONFIG = 'joensuu';
 const APP_TITLE = 'Joensuun reittiopas';
 const APP_DESCRIPTION = 'Joensuun uusi reittiopas';
-
-const walttiConfig = require('./config.waltti').default;
 
 export default configMerger(walttiConfig, {
   CONFIG,
@@ -39,6 +37,11 @@ export default configMerger(walttiConfig, {
   socialMedia: {
     title: APP_TITLE,
     description: APP_DESCRIPTION,
+    image: {
+      url: 'img/social-share-joensuu.png',
+      width: 346,
+      height: 80,
+    },
   },
 
   areaPolygon: [
@@ -127,4 +130,16 @@ export default configMerger(walttiConfig, {
     stops: true,
     itinerary: true,
   },
+
+  showTicketLinkOnlyWhenTesting: true,
+  showTicketInformation: true,
+  useTicketIcons: true,
+  ticketLink: {
+    fi: 'https://jojo.joensuu.fi/liput-ja-hinnat',
+    sv: 'https://jojo.joensuu.fi/web/jojo-english/tickets',
+    en: 'https://jojo.joensuu.fi/web/jojo-english/tickets',
+  },
+  showTicketPrice: false,
+  ticketLinkOperatorCode: 50207,
+  externalFareRouteIds: ['401'],
 });

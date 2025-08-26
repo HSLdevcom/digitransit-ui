@@ -13,8 +13,10 @@ import BackButton from '../BackButton';
 import CookieSettingsButton from '../CookieSettingsButton';
 import ItineraryLine from './ItineraryLine';
 import LocationMarker from './LocationMarker';
+import ParkingAreaMarker from './non-tile-layer/ParkingAreaMarker';
 import MapWithTracking from './MapWithTracking';
 import VehicleMarkerContainer from './VehicleMarkerContainer';
+import { legContainsBikePark, legContainsCarPark } from '../../util/legUtils';
 
 const POINT_FOCUS_ZOOM = 17; // default
 
@@ -86,6 +88,27 @@ const ItineraryPageMap = (
           realtimeTransfers={realtimeTransfers}
         />,
       );
+      planEdges[active].node.legs.filter(legContainsBikePark).forEach(leg => {
+        leafletObjs.push(
+          <ParkingAreaMarker
+            key={`parking-${leg.to.lat + leg.to.lon}`}
+            position={leg.to}
+            type="bike"
+            liipiId={leg.to.vehicleParking.vehicleParkingId}
+          />,
+        );
+      });
+
+      planEdges[active].node.legs.filter(legContainsCarPark).forEach(leg => {
+        leafletObjs.push(
+          <ParkingAreaMarker
+            key={`parking-${leg.to.lat + leg.to.lon}`}
+            position={leg.to}
+            type="car"
+            liipiId={leg.to.vehicleParking.vehicleParkingId}
+          />,
+        );
+      });
     }
   }
 

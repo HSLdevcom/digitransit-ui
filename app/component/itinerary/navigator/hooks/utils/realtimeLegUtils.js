@@ -187,7 +187,7 @@ function shiftLeg(leg, gap) {
   }
 }
 
-function getVehiclePosition(leg, origin, vehicles) {
+function getVehiclePosition(leg, vehicles) {
   const shortName = leg?.route?.shortName;
   const vehicle = Object.values(vehicles).find(v => v.shortName === shortName);
   if (vehicle) {
@@ -252,7 +252,7 @@ function shiftLegsByGeolocation(legs, time, vehicles, position, origin) {
   if (previousLeg && !previousLeg.freezeEnd) {
     if (previousLeg.transitLeg) {
       // Make sure prev leg has really ended
-      const vPos = getVehiclePosition(previousLeg, origin, vehicles);
+      const vPos = getVehiclePosition(previousLeg, vehicles);
       // check more reliable vehicle position first
       // if it is unknown use geolocation
       confirm =
@@ -274,7 +274,7 @@ function shiftLegsByGeolocation(legs, time, vehicles, position, origin) {
     // curr leg is just starting
     if (currentLeg.transitLeg) {
       // Make sure curr leg has really started.
-      const vPos = getVehiclePosition(currentLeg, origin, vehicles);
+      const vPos = getVehiclePosition(currentLeg, vehicles);
       confirm =
         confirmStart(currentLeg, origin, vPos) ||
         confirmStart(currentLeg, origin, position);
@@ -289,7 +289,7 @@ function shiftLegsByGeolocation(legs, time, vehicles, position, origin) {
   } else if (currentLeg && !currentLeg.freezeEnd) {
     // start already frozen, check if leg ended early
     if (currentLeg.transitLeg) {
-      const vPos = getVehiclePosition(currentLeg, origin, vehicles);
+      const vPos = getVehiclePosition(currentLeg, vehicles);
       confirm =
         confirmEnd(currentLeg, origin, vPos) ||
         confirmEnd(currentLeg, origin, position);
@@ -312,7 +312,7 @@ function shiftLegsByGeolocation(legs, time, vehicles, position, origin) {
 
   if (nextLeg?.transitLeg) {
     // has next leg alreally started?
-    const vPos = getVehiclePosition(nextLeg, origin, vehicles);
+    const vPos = getVehiclePosition(nextLeg, vehicles);
     confirm =
       confirmStart(nextLeg, origin, vPos) ||
       confirmStart(nextLeg, origin, position);

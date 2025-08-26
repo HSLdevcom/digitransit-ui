@@ -3,15 +3,13 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { matchShape, routerShape } from 'found';
 import connectToStores from 'fluxible-addons-react/connectToStores';
+import Popup from 'react-leaflet/es/Popup';
 import ViaPointStore from '../../../store/ViaPointStore';
 import { setViaPoints } from '../../../action/ViaPointActions';
 import { setIntermediatePlaces } from '../../../util/queryUtils';
 import { locationToOTP } from '../../../util/otpStrings';
 import { locationShape } from '../../../util/shapes';
 import Card from '../../Card';
-import { isBrowser } from '../../../util/browser';
-
-const Popup = isBrowser ? require('react-leaflet/es/Popup').default : null; // eslint-disable-line global-require
 
 const filterViaPoint = (allPoints, pointToRemove) => {
   return allPoints.filter(

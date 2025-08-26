@@ -1,11 +1,10 @@
-/* eslint-disable prefer-template */
 import configMerger from '../util/configMerger';
 import { BIKEAVL_WITHMAX } from '../util/vehicleRentalUtils';
+import walttiConfig from './config.waltti';
 
 const CONFIG = 'kouvola';
 const APP_TITLE = 'Kouvolan reittiopas';
 const APP_DESCRIPTION = 'Kouvolan reittiopas';
-const walttiConfig = require('./config.waltti').default;
 
 const minLat = 60.574886232976134;
 const maxLat = 61.2909051236272;
@@ -42,6 +41,8 @@ export default configMerger(walttiConfig, {
     },
   },
 
+  nearYouModes: ['bus', 'citybike'],
+
   vehicleRental: {
     networks: {
       donkey_kouvola: {
@@ -77,6 +78,11 @@ export default configMerger(walttiConfig, {
     description: APP_DESCRIPTION,
     twitter: {
       site: '@kouvolakaupunki',
+    },
+    image: {
+      url: 'img/social-share-kouvola.png',
+      width: 134,
+      height: 134,
     },
   },
 

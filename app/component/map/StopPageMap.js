@@ -167,7 +167,7 @@ function StopPageMap(
   return (
     <MapWithTracking
       className="flex-grow"
-      hilightedStops={[id]}
+      highlightedStops={[id]}
       leafletObjs={leafletObjs}
       {...mwtProps}
       mapLayers={mapLayers}

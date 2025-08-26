@@ -1,18 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { createPortal } from 'react-dom';
-
-import { isBrowser } from '../../util/browser';
-
-let L;
-let Marker;
-
-/* eslint-disable global-require */
-if (isBrowser) {
-  L = require('leaflet');
-  Marker = require('react-leaflet/es/Marker').default;
-}
-/* eslint-enaable global-require */
+import { default as L } from 'leaflet';
+import Marker from 'react-leaflet/es/Marker';
 
 /* eslint-disable no-underscore-dangle */
 export default class IconMarker extends React.Component {

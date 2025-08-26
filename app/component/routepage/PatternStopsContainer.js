@@ -8,7 +8,6 @@ import { routeShape, configShape } from '../../util/shapes';
 import RouteStopListContainer from './RouteStopListContainer';
 import withBreakpoint from '../../util/withBreakpoint';
 import RouteControlPanel from './RouteControlPanel';
-import { isBrowser } from '../../util/browser';
 import { PREFIX_ROUTES } from '../../util/path';
 import Error404 from '../404';
 import ScrollableWrapper from '../ScrollableWrapper';
@@ -31,15 +30,13 @@ class PatternStopsContainer extends React.PureComponent {
 
   render() {
     if (!this.props.pattern) {
-      if (isBrowser) {
-        if (this.props.route.gtfsId) {
-          // Redirect back to routes default pattern
-          this.props.router.replace(
-            `/${PREFIX_ROUTES}/${this.props.route.gtfsId}`,
-          );
-        } else {
-          return <Error404 />;
-        }
+      if (this.props.route.gtfsId) {
+        // Redirect back to routes default pattern
+        this.props.router.replace(
+          `/${PREFIX_ROUTES}/${this.props.route.gtfsId}`,
+        );
+      } else {
+        return <Error404 />;
       }
       return false;
     }

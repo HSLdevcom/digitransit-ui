@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
-import moment from 'moment-timezone';
+import { Settings, DateTime } from 'luxon';
 import debounce from 'lodash/debounce';
 import Datetimepicker from './helpers/Datetimepicker';
 
@@ -61,9 +61,9 @@ function DatetimepickerStateContainer({
   onClose,
   openPicker,
 }) {
-  moment.locale(lang);
-  moment.tz.setDefault(timeZone);
-  const initialNow = realtime ? null : moment().valueOf();
+  Settings.defaultLocale = lang;
+  Settings.defaultZone = timeZone;
+  const initialNow = realtime ? null : DateTime.now().toMillis();
   const [timestamp, changeTimestampState] = useState(
     initialTimestamp ? initialTimestamp * 1000 : initialNow,
   );
@@ -93,9 +93,9 @@ function DatetimepickerStateContainer({
 
   const timeChanged = debounce(newTime => {
     if (newTime === null) {
-      changeTimestampState(moment().valueOf());
+      changeTimestampState(DateTime.now().toMillis());
       onTimeChange(
-        Math.round(moment().valueOf() / 1000),
+        DateTime.now().toUnixInteger(),
         departureOrArrival === 'arrival',
       );
       return;
@@ -106,9 +106,9 @@ function DatetimepickerStateContainer({
 
   const dateChanged = debounce(newDate => {
     if (newDate === null) {
-      changeTimestampState(moment().valueOf());
+      changeTimestampState(DateTime.now().toMillis());
       onDateChange(
-        Math.round(moment().valueOf() / 1000),
+        DateTime.now().toUnixInteger(),
         departureOrArrival === 'arrival',
       );
       return;
@@ -119,7 +119,7 @@ function DatetimepickerStateContainer({
 
   const nowClicked = () => {
     changeDepartureOrArrival('departure');
-    const newTimestamp = realtime ? null : moment().valueOf();
+    const newTimestamp = realtime ? null : DateTime.now().toMillis();
     changeTimestampState(newTimestamp);
     onNowClick(Math.round(newTimestamp / 1000));
   };
@@ -128,7 +128,7 @@ function DatetimepickerStateContainer({
     let changed = false;
     let newTime = timestamp;
     if (timestamp === null) {
-      const now = moment().valueOf();
+      const now = DateTime.now().toMillis();
       changeTimestampState(now);
       newTime = now;
       changed = true;
@@ -146,7 +146,7 @@ function DatetimepickerStateContainer({
     let changed = false;
     let newTime = timestamp;
     if (timestamp === null) {
-      const now = moment().valueOf();
+      const now = DateTime.now().toMillis();
       changeTimestampState(now);
       newTime = now;
       changed = true;

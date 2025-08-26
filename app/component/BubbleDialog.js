@@ -7,11 +7,7 @@ import { matchShape, routerShape } from 'found';
 
 import Icon from './Icon';
 import { getDialogState, setDialogState } from '../store/localStorage';
-import {
-  getIsBrowser,
-  isBrowser,
-  isKeyboardSelectionEvent,
-} from '../util/browser';
+import { isKeyboardSelectionEvent } from '../util/browser';
 import withBreakpoint from '../util/withBreakpoint';
 
 class BubbleDialog extends React.Component {
@@ -141,9 +137,6 @@ class BubbleDialog extends React.Component {
   }
 
   render() {
-    if (!isBrowser && !getIsBrowser()) {
-      return null;
-    }
     const { breakpoint, isFullscreenOnMobile } = this.props;
     const isFullscreen = breakpoint !== 'large' && isFullscreenOnMobile;
     return this.renderContainer(isFullscreen);

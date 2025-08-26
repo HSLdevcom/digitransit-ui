@@ -1,4 +1,4 @@
-import moment from 'moment';
+import { DateTime } from 'luxon';
 /**
  Helper for determining is current date in active dates.
  Return false if pattern doesn't have active dates information available
@@ -12,6 +12,6 @@ export const isActiveDate = pattern => {
   const activeDates = pattern.activeDates.reduce((dates, activeDate) => {
     return dates.concat(activeDate.day);
   }, []);
-  const now = moment().format('YYYYMMDD');
+  const now = DateTime.now().toFormat('yyyyLLdd');
   return activeDates.indexOf(now) > -1;
 };

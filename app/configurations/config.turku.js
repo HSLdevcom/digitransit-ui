@@ -1,6 +1,6 @@
-/* eslint-disable prefer-template */
 import configMerger from '../util/configMerger';
 import { BIKEAVL_WITHMAX } from '../util/vehicleRentalUtils';
+import walttiConfig from './config.waltti';
 
 const CONFIG = 'turku';
 const APP_TITLE = 'Fölin reittiopas';
@@ -35,7 +35,6 @@ const CONSTANT_OPERATION_PARAGRAPHS = {
     },
   },
 };
-const walttiConfig = require('./config.waltti').default;
 
 const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
 const OTP_URL = process.env.OTP_URL || `${API_URL}/routing/v2/waltti-alt/`;
@@ -98,6 +97,11 @@ export default configMerger(walttiConfig, {
 
     twitter: {
       site: '@Turkukaupunki',
+    },
+    image: {
+      url: 'img/social-share-foli.png',
+      width: 339,
+      height: 78,
     },
   },
 

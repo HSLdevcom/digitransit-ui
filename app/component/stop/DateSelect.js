@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
-import moment from 'moment';
+import { DateTime } from 'luxon';
 import { intlShape } from 'react-intl';
 
 import Select from 'react-select';
@@ -13,11 +13,11 @@ function DateSelect(props, context) {
   const onMenuClose = () => setIsMenuOpen(false);
 
   const dates = [];
-  const date = moment(props.startDate, props.dateFormat);
+  const date = DateTime.fromFormat(props.startDate, props.dateFormat);
 
   dates.push({
     label: context.intl.formatMessage({ id: 'today', defaultMessage: 'Today' }),
-    value: date.format(props.dateFormat),
+    value: date.toFormat(props.dateFormat),
   });
 
   dates.push({
@@ -25,13 +25,14 @@ function DateSelect(props, context) {
       id: 'tomorrow',
       defaultMessage: 'Tomorrow',
     }),
-    value: date.add(1, 'd').format(props.dateFormat),
+    value: date.plus({ days: 1 }).toFormat(props.dateFormat),
   });
 
-  for (let i = 0; i < 58; i++) {
+  for (let i = 2; i < 60; i++) {
+    const dateValue = date.plus({ days: i });
     dates.push({
-      value: date.add(1, 'd').format(props.dateFormat),
-      label: date.format('dd D.M.'),
+      value: dateValue.toFormat(props.dateFormat),
+      label: dateValue.toFormat('ccc d.L.'),
     });
   }
   const dateList = dates.map(option => {

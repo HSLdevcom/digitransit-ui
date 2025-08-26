@@ -33,7 +33,7 @@ export default function VectorTileLayerContainer(props, { config }) {
       layers={layers}
       mapLayers={props.mapLayers}
       mergeStops={props.mergeStops}
-      hilightedStops={props.hilightedStops}
+      highlightedStops={props.highlightedStops}
       stopsToShow={props.stopsToShow}
       objectsToHide={props.objectsToHide}
       tileSize={config.map.tileSize || 256}
@@ -46,7 +46,7 @@ export default function VectorTileLayerContainer(props, { config }) {
 
 VectorTileLayerContainer.propTypes = {
   mapLayers: mapLayerShape.isRequired,
-  hilightedStops: PropTypes.arrayOf(PropTypes.string),
+  highlightedStops: PropTypes.arrayOf(PropTypes.string),
   stopsToShow: PropTypes.arrayOf(PropTypes.string),
   objectsToHide: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)),
   mergeStops: PropTypes.bool,
@@ -56,7 +56,7 @@ VectorTileLayerContainer.propTypes = {
 
 VectorTileLayerContainer.defaultProps = {
   objectsToHide: { vehicleRentalStations: [] },
-  hilightedStops: undefined,
+  highlightedStops: undefined,
   stopsToShow: undefined,
   mergeStops: false,
   onSelectLocation: undefined,

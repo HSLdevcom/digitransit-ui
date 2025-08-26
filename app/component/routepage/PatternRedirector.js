@@ -1,10 +1,9 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import sortBy from 'lodash/sortBy';
-import { matchShape, routerShape, RedirectException } from 'found';
+import { matchShape, routerShape } from 'found';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../../util/path';
-import { isBrowser } from '../../util/browser';
 import Error404 from '../404';
 import { saveSearchItems } from '../../action/SearchActions';
 import { getOldSearchItems } from '../../util/storeUtils';
@@ -58,11 +57,11 @@ const PatternRedirector = ({ router, match, route }, context) => {
   const path = `/${PREFIX_ROUTES}/${match.params.routeId}/${
     match.params.type || PREFIX_STOPS
   }/${pattern ? pattern.code : `${match.params.routeId}:0:01`}`;
-  if (isBrowser) {
+
+  useEffect(() => {
     router.replace(path);
-  } else {
-    throw new RedirectException(path);
-  }
+  }, [router, path]);
+
   return null;
 };
 

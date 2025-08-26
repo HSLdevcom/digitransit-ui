@@ -3,7 +3,6 @@ import Protobuf from 'pbf';
 import { graphql, fetchQuery } from 'react-relay';
 import pick from 'lodash/pick';
 
-import { isBrowser } from '../../../util/browser';
 import {
   getMapIconScale,
   drawCitybikeIcon,
@@ -38,7 +37,7 @@ class VehicleRentalStations {
     this.tile = tile;
     this.config = config;
     this.relayEnvironment = relayEnvironment;
-    this.scaleratio = (isBrowser && window.devicePixelRatio) || 1;
+    this.scaleratio = window.devicePixelRatio || 1;
     this.citybikeImageSize =
       20 * this.scaleratio * getMapIconScale(this.tile.coords.z);
     this.availabilityImageSize =
@@ -115,11 +114,11 @@ class VehicleRentalStations {
     const iconName = getRentalNetworkIcon(
       getRentalNetworkConfig(network, this.config),
     );
-    const isHilighted = this.tile.hilightedStops?.includes(id);
+    const isHighlighted = this.tile.highlightedStops?.includes(id);
 
     if (zoomedIn) {
-      this.drawLargeIcon(feature, iconName, isHilighted);
-    } else if (isHilighted) {
+      this.drawLargeIcon(feature, iconName, isHighlighted);
+    } else if (isHighlighted) {
       this.canHaveStationUpdates = true;
       this.drawHighlighted(feature, iconName);
     } else {
@@ -130,7 +129,7 @@ class VehicleRentalStations {
   drawLargeIcon = (
     { geom, properties: { network, operative, vehiclesAvailable } },
     iconName,
-    isHilighted,
+    isHighlighted,
   ) => {
     const citybikeCapacity = getVehicleCapacity(this.config, network);
 
@@ -141,7 +140,7 @@ class VehicleRentalStations {
       vehiclesAvailable,
       iconName,
       citybikeCapacity !== BIKEAVL_UNKNOWN,
-      isHilighted,
+      isHighlighted,
     );
   };
 

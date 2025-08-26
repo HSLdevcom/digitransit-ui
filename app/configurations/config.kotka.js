@@ -1,11 +1,10 @@
-/* eslint-disable prefer-template */
 import configMerger from '../util/configMerger';
 import { BIKEAVL_WITHMAX } from '../util/vehicleRentalUtils';
+import walttiConfig from './config.waltti';
 
 const CONFIG = 'kotka';
 const APP_TITLE = 'Kotkan seudun reittiopas';
 const APP_DESCRIPTION = 'Kotkan seudun reittiopas';
-const walttiConfig = require('./config.waltti').default;
 
 const minLat = 60.243;
 const maxLat = 60.688;
@@ -46,6 +45,8 @@ export default configMerger(walttiConfig, {
       defaultValue: true,
     },
   },
+
+  nearYouModes: ['bus', 'ferry', 'citybike'],
 
   vehicleRental: {
     networks: {

@@ -84,7 +84,12 @@ class FilterTimeTableModal extends React.Component {
           },
       )
       .filter(o => o)
-      .sort(routeCompare);
+      .sort(routeCompare)
+      // deduplicate patterns with same code
+      .filter(
+        (pattern, index, self) =>
+          self.map(itm => itm.code).indexOf(pattern.code) === index,
+      );
 
     routesWithStopTimes.forEach(o => {
       const mode = getRouteMode(o);

@@ -1,6 +1,6 @@
 import cx from 'classnames';
 import capitalize from 'lodash/capitalize';
-import moment from 'moment';
+import { DateTime } from 'luxon';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
@@ -19,31 +19,40 @@ import {
 import { AlertEntityType } from '../constants';
 import { getRouteMode } from '../util/modeUtils';
 
+/**
+ * Returns a localized string representing a time period between startTime and endTime
+ * @param {{currentTime: DateTime, startTime: DateTime, endTime: DateTime, intl: any}}
+ * @returns {string} A formatted string representing the time period
+ */
 export const getTimePeriod = ({ currentTime, startTime, endTime, intl }) => {
   const at = intl.formatMessage({
     id: 'at-time',
   });
-  const defaultFormat = `D.M.YYYY [${at}] HH:mm`;
-  const start = capitalize(
-    startTime.calendar(currentTime, {
-      lastDay: `[${intl.formatMessage({ id: 'yesterday' })} ${at}] HH:mm`,
-      sameDay: `[${intl.formatMessage({ id: 'today' })} ${at}] HH:mm`,
-      nextDay: `[${intl.formatMessage({ id: 'tomorrow' })} ${at}] HH:mm`,
-      lastWeek: defaultFormat,
-      nextWeek: defaultFormat,
-      sameElse: defaultFormat,
-    }),
-  );
+  const defaultFormat = `d.L.yyyy '${at}' HH:mm`;
+  const diffBetween = startTime
+    .startOf('day')
+    .diff(currentTime.startOf('day'), 'days').days;
+
+  let start;
+  // if yesterday, today or tomorrow, format to localized relative time
+  // else format to d.L.yyyy
+  if (diffBetween >= -1 && diffBetween <= 1) {
+    const relativeStart = startTime.toRelativeCalendar({ base: currentTime });
+    start = `${relativeStart} ${at} ${startTime.toFormat('HH:mm')}`;
+  } else {
+    start = startTime.toFormat(defaultFormat);
+  }
+
   if (!endTime) {
     return start;
   }
-  const end = endTime.calendar(startTime, {
-    sameDay: 'HH:mm',
-    nextDay: defaultFormat,
-    nextWeek: defaultFormat,
-    sameElse: defaultFormat,
-  });
-  return `${start} - ${end}`;
+  let end;
+  if (endTime.hasSame(startTime, 'day')) {
+    end = endTime.toFormat('HH:mm');
+  } else {
+    end = endTime.toFormat(defaultFormat);
+  }
+  return `${capitalize(start)} - ${end}`;
 };
 
 const getColor = entities => {
@@ -215,9 +224,9 @@ export default function AlertRow(
           {showTime && (
             <>
               {getTimePeriod({
-                currentTime: moment.unix(currentTime),
-                startTime: moment.unix(startTime),
-                endTime: endTime ? moment.unix(endTime) : undefined,
+                currentTime: DateTime.fromSeconds(currentTime),
+                startTime: DateTime.fromSeconds(startTime),
+                endTime: endTime ? DateTime.fromSeconds(endTime) : undefined,
                 intl,
               })}
             </>
@@ -265,7 +274,7 @@ AlertRow.contextTypes = {
 
 AlertRow.defaultProps = {
   description: undefined,
-  currentTime: moment().unix(),
+  currentTime: DateTime.now().toSeconds(),
   endTime: undefined,
   severityLevel: undefined,
   startTime: undefined,

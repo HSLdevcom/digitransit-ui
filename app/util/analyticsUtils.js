@@ -32,24 +32,9 @@ export function addAnalyticsEvent(event) {
  * @return string
  */
 export function getAnalyticsInitCode(config, req) {
-  const { hostname, cookies } = req;
-  const useAnalytics =
-    !config.useCookiesPrompt || cookies.cookieConsent === 'true';
-
-  if (!useAnalytics) {
-    return '';
-  }
-
-  if (
-    config.analyticsScript &&
-    hostname &&
-    (!hostname.match(/dev|test/) || config.devAnalytics)
-  ) {
-    return config.analyticsScript(
-      hostname,
-      config.sendAnalyticsCustomEventGoals,
-    );
-  }
+  const { hostname } = req;
+  const cookies = new Cookies(req.headers.cookie, { path: '/' });
+  const cookieConsent = cookies.get('cookieConsent');
 
   let script = config.GTMid
     ? // Google Tag Manager script
@@ -59,8 +44,26 @@ export function getAnalyticsInitCode(config, req) {
         'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
         })(window,document,'script','dataLayer','${config.GTMid}');</script>\n`
     : '';
-  if (config.crazyEgg) {
-    script = `${script}<script type="text/javascript" src="//script.crazyegg.com/pages/scripts/0030/3436.js" async="async" ></script>`;
+
+  const useAnalytics =
+    !config.useCookiesPrompt ||
+    cookieConsent === 'true' ||
+    cookieConsent === true;
+
+  if (useAnalytics) {
+    if (
+      config.analyticsScript &&
+      hostname &&
+      (!hostname.match(/dev|test/) || config.devAnalytics)
+    ) {
+      return config.analyticsScript(
+        hostname,
+        config.sendAnalyticsCustomEventGoals,
+      );
+    }
+    if (config.crazyEgg) {
+      script = `${script}<script type="text/javascript" src="//script.crazyegg.com/pages/scripts/0030/3436.js" async="async" ></script>`;
+    }
   }
   return script;
 }
@@ -72,11 +75,23 @@ const handleChange = () => {
   const allow = window.CookieInformation.getConsentGivenFor(
     'cookie_cat_statistic',
   );
+  if (allow === undefined) {
+    // happens in incognito
+    return false;
+  }
   const cookies = new Cookies();
-  const oldState = cookies.get('cookieConsent') === true;
-  cookies.set('cookieConsent', allow);
-  if (oldState && !allow) {
-    // no consent any more, reload page
+  const cookieConsent = cookies.get('cookieConsent');
+  const oldState = cookieConsent === true || cookieConsent === 'true';
+
+  cookies.set('cookieConsent', allow, {
+    maxAge: 100 * 365 * 24 * 60 * 60,
+    path: '/',
+    Secure: true,
+    SameSite: 'Strict',
+  });
+
+  if (oldState !== allow) {
+    // consent changed, reload page
     window.location.reload();
   }
   return allow;

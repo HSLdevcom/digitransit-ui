@@ -61,7 +61,7 @@ class TileLayerContainer extends GridLayer {
       }).isRequired,
     }).isRequired,
     relayEnvironment: relayShape.isRequired,
-    hilightedStops: PropTypes.arrayOf(PropTypes.string),
+    highlightedStops: PropTypes.arrayOf(PropTypes.string),
     stopsToShow: PropTypes.arrayOf(PropTypes.string),
     objectsToHide: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)),
     vehicles: PropTypes.objectOf(vehicleShape),
@@ -73,7 +73,7 @@ class TileLayerContainer extends GridLayer {
     locationPopup: undefined,
     allowViaPoint: false,
     objectsToHide: { vehicleRentalStations: [] },
-    hilightedStops: undefined,
+    highlightedStops: undefined,
     stopsToShow: undefined,
     vehicles: undefined,
     mergeStops: false,
@@ -126,7 +126,7 @@ class TileLayerContainer extends GridLayer {
     if (!isEqual(prevProps.mapLayers, this.props.mapLayers)) {
       this.leafletElement.redraw();
     }
-    if (!isEqual(prevProps.hilightedStops, this.props.hilightedStops)) {
+    if (!isEqual(prevProps.highlightedStops, this.props.highlightedStops)) {
       this.leafletElement.redraw();
     }
   }
@@ -183,7 +183,7 @@ class TileLayerContainer extends GridLayer {
       this.context.config,
       this.props.mergeStops,
       this.props.relayEnvironment,
-      this.props.hilightedStops,
+      this.props.highlightedStops,
       this.props.vehicles,
       this.props.stopsToShow,
       this.props.objectsToHide,

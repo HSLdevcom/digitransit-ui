@@ -3,7 +3,6 @@
 'use strict';
 
 const { Issuer, Strategy, custom } = require('openid-client');
-const moment = require('moment');
 const util = require('util');
 const process = require('process');
 const User = require('./User').User;
@@ -62,7 +61,7 @@ OICStrategy.prototype.authenticate = function auth(req, opts) {
   const cookieLang = req.cookies.lang || 'fi';
   const { ssoValidTo, ssoToken } = req.session;
   const authurl =
-    ssoValidTo && ssoValidTo > moment().unix()
+    ssoValidTo && ssoValidTo > Math.floor(new Date().getTime() / 1000)
       ? this.createAuthUrl(redirectUri, cookieLang, ssoToken)
       : this.createAuthUrl(redirectUri, cookieLang);
   if (debugLogging) {

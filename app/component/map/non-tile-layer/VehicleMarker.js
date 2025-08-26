@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { routerShape } from 'found';
+import { default as L } from 'leaflet';
 import { TransportMode } from '../../../constants';
 import {
   vehicleRentalStationShape,
@@ -15,24 +16,12 @@ import {
   getRentalNetworkIcon,
   getVehicleCapacity,
 } from '../../../util/vehicleRentalUtils';
-import { isBrowser } from '../../../util/browser';
 import {
   getVehicleAvailabilityIndicatorColor,
   getVehicleAvailabilityTextColor,
 } from '../../../util/legUtils';
 
 import { PREFIX_BIKESTATIONS, PREFIX_RENTALVEHICLES } from '../../../util/path';
-
-let L;
-
-/* eslint-disable global-require */
-// TODO When server side rendering is re-enabled,
-//      these need to be loaded only when isBrowser is true.
-//      Perhaps still using the require from webpack?
-if (isBrowser) {
-  L = require('leaflet');
-}
-/* eslint-enable global-require */
 
 // Small icon for zoom levels <= 15
 const smallIconSvg = `
@@ -109,9 +98,6 @@ export default class VehicleMarker extends React.Component {
   };
 
   render() {
-    if (!isBrowser) {
-      return false;
-    }
     return (
       <GenericMarker
         position={{

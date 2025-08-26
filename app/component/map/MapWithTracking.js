@@ -12,7 +12,6 @@ import { mapLayerOptionsShape, configShape } from '../../util/shapes';
 import { startLocationWatch } from '../../action/PositionActions';
 import MapContainer from './MapContainer';
 import ToggleMapTracking from '../ToggleMapTracking';
-import { isBrowser } from '../../util/browser';
 import PositionStore from '../../store/PositionStore';
 import { mapLayerShape } from '../../store/MapLayerStore';
 import BubbleDialog from '../BubbleDialog';
@@ -124,9 +123,6 @@ class MapWithTrackingStateHandler extends React.Component {
   async componentDidMount() {
     this.mounted = true;
 
-    if (!isBrowser) {
-      return;
-    }
     if (this.props.setMWTRef) {
       this.props.setMWTRef(this);
     }

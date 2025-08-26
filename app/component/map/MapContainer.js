@@ -3,21 +3,13 @@ import React, { useContext } from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import MapBottomsheetContext from './MapBottomsheetContext';
 import withGeojsonObjects from './withGeojsonObjects';
-import LazilyLoad, { importLazy } from '../LazilyLoad';
-
-const mapModules = {
-  Map: () => importLazy(import(/* webpackChunkName: "map" */ './Map')),
-};
+import Map from './Map';
 
 function MapContainer({ className, children, ...props }) {
   const contextPadding = useContext(MapBottomsheetContext);
   return (
     <div className={`map ${className}`}>
-      <LazilyLoad modules={mapModules}>
-        {({ Map }) => {
-          return <Map {...props} bottomPadding={contextPadding} />;
-        }}
-      </LazilyLoad>
+      <Map {...props} bottomPadding={contextPadding} />
       {children}
     </div>
   );

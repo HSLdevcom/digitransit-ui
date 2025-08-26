@@ -1,40 +1,5 @@
 @import '~@hsl-fi/sass/animations/fade';
 
-.canceled-legs-banner {
-  width: 100%;
-  background: $cancelation-red;
-  color: #fff;
-  padding: 1em;
-
-  .canceled-legs-container {
-    display: flex;
-
-    svg {
-      fill: $white;
-      color: $cancelation-red;
-      font-size: 1.5em;
-    }
-
-    .canceled-legs-right-content {
-      margin-left: 1em;
-
-      .canceled-legs-text {
-        margin-bottom: 0.5em;
-      }
-
-      button {
-        background: $cancelation-red;
-        color: $white;
-        border: 1px solid $white;
-        border-radius: 4px;
-        padding: 0.5em;
-        font-size: $font-size-xxsmall;
-        margin-bottom: 0;
-      }
-    }
-  }
-}
-
 .desktop .itinerary-summary-row::before {
   content: '';
   position: absolute;

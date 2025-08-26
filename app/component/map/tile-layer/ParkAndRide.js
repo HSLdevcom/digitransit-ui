@@ -3,7 +3,6 @@ import pick from 'lodash/pick';
 import Protobuf from 'pbf';
 
 import { drawParkAndRideIcon } from '../../../util/mapIconUtils';
-import { isBrowser } from '../../../util/browser';
 import { fetchWithLanguageAndSubscription } from '../../../util/fetchUtils';
 import { ParkTypes } from '../../../constants';
 import { getLayerBaseUrl } from '../../../util/mapLayerUtils';
@@ -15,7 +14,7 @@ export default class ParkAndRide {
     this.tile = tile;
     this.config = config;
     this.relayEnvironment = relayEnvironment;
-    const scaleratio = (isBrowser && window.devicePixelRatio) || 1;
+    const scaleratio = window.devicePixelRatio || 1;
     this.width = 24 * scaleratio;
     this.height = 24 * scaleratio;
   }
@@ -105,16 +104,16 @@ export default class ParkAndRide {
               if (hasSpaces(parkType, feature)) {
                 [[feature.geom]] = feature.loadGeometry();
                 this.features.push(feature);
-                const isHilighted =
-                  this.tile.hilightedStops &&
-                  this.tile.hilightedStops.includes(feature.properties.id);
+                const isHighlighted =
+                  this.tile.highlightedStops &&
+                  this.tile.highlightedStops.includes(feature.properties.id);
                 drawParkAndRideIcon(
                   parkType,
                   this.tile,
                   feature.geom,
                   this.width,
                   this.height,
-                  isHilighted,
+                  isHighlighted,
                 );
               }
             }

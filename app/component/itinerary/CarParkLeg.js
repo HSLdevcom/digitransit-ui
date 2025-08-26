@@ -71,7 +71,7 @@ function CarParkLeg(props, { config, intl }) {
               to={`/${PREFIX_CARPARK}/${props.carPark.vehicleParkingId}`}
             >
               <div className="address">
-                <FormattedMessage id="car_park" defaultMessage="Park & Ride" />
+                <FormattedMessage id="car-park" defaultMessage="Park & Ride" />
                 {props.leg.isViaPoint && (
                   <Icon
                     img="icon-icon_mapMarker"

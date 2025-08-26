@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { FormattedMessage } from 'react-intl';
-import { routerShape, RedirectException } from 'found';
+import { routerShape } from 'found';
 import {
   configShape,
   vehicleRentalStationShape,
@@ -14,7 +14,6 @@ import ParkOrStationHeader from './ParkOrStationHeader';
 import Icon from './Icon';
 import withBreakpoint from '../util/withBreakpoint';
 import { getRentalNetworkConfig } from '../util/vehicleRentalUtils';
-import { isBrowser } from '../util/browser';
 import { PREFIX_BIKESTATIONS } from '../util/path';
 import { TransportMode } from '../constants';
 
@@ -22,24 +21,13 @@ const VehicleRentalStationContent = (
   { vehicleRentalStation, breakpoint, language, router, error },
   { config },
 ) => {
-  const [isClient, setClient] = useState(false);
-
-  useEffect(() => {
-    // To prevent SSR from rendering something https://reactjs.org/docs/react-dom.html#hydrate
-    setClient(true);
-  });
-
-  // throw error in client side relay query fails
-  if (isClient && error && !vehicleRentalStation) {
+  // throw error when relay query fails
+  if (error && !vehicleRentalStation) {
     throw error.message;
   }
 
   if (!vehicleRentalStation && !error) {
-    if (isBrowser) {
-      router.replace(`/${PREFIX_BIKESTATIONS}`);
-    } else {
-      throw new RedirectException(`/${PREFIX_BIKESTATIONS}`);
-    }
+    router.replace(`/${PREFIX_BIKESTATIONS}`);
     return null;
   }
   const { availableVehicles, capacity } = vehicleRentalStation;
@@ -103,7 +91,7 @@ const VehicleRentalStationContent = (
                 </a>
               )}
             </div>
-            {isClient && cityBikeBuyUrl && (
+            {cityBikeBuyUrl && (
               <a
                 onClick={e => {
                   e.stopPropagation();

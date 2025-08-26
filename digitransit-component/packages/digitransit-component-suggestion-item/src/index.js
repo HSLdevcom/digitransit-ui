@@ -1,8 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React, { useState, memo } from 'react';
 import cx from 'classnames';
-import pure from 'recompose/pure';
 import Icon from '@digitransit-component/digitransit-component-icon';
 import styles from './helpers/styles.scss';
 
@@ -27,7 +26,7 @@ const getRouteMode = props => {
 };
 
 function isFavourite(item) {
-  return item?.type?.includes('Favourite');
+  return item.type?.includes('Favourite');
 }
 
 function getAriaDescription(ariaContentArray) {
@@ -47,7 +46,7 @@ function getIconProperties(
 ) {
   let iconId;
   let iconColor = '#888888';
-  if (item?.properties?.layer === 'bikestation' && getIcons) {
+  if (item.properties?.layer === 'bikestation' && getIcons) {
     return getIcons.citybikes(item);
   }
   // because of legacy favourites there might be selectedIconId for some stops or stations
@@ -59,22 +58,22 @@ function getIconProperties(
   } else if (item.type === 'Route') {
     const mode =
       modeSet === 'default'
-        ? getRouteMode(item?.properties)
-        : item?.properties?.mode?.toLowerCase() || 'bus';
+        ? getRouteMode(item.properties)
+        : item.properties?.mode?.toLowerCase() || 'bus';
     return modeSet === 'default'
       ? [`mode-${mode}`, `mode-${mode}`]
       : [`mode-${modeSet}-${mode}`, `mode-${mode}`];
-  } else if (item.type === 'OldSearch' && item?.properties?.mode) {
+  } else if (item.type === 'OldSearch' && item.properties?.mode) {
     const mode =
       modeSet === 'default'
-        ? getRouteMode(item?.properties)
-        : item?.properties?.mode?.toLowerCase() || 'bus';
+        ? getRouteMode(item.properties)
+        : item.properties?.mode?.toLowerCase() || 'bus';
     return modeSet === 'default'
       ? [`mode-${mode}`, `mode-${mode}`]
       : [`mode-${modeSet}-${mode}`, `mode-${mode}`];
-  } else if (item && item.selectedIconId) {
+  } else if (item.selectedIconId) {
     iconId = item.selectedIconId;
-  } else if (item && item.properties) {
+  } else if (item.properties) {
     if (item.properties.layer === 'bikestation') {
       return [`citybike-stop-${modeSet}`, 'mode-citybike'];
     }
@@ -263,7 +262,7 @@ function hasVehicleStationCode(stationId) {
  *    loading={false}
  * />
  */
-const SuggestionItem = pure(
+const SuggestionItem = memo(
   ({
     item,
     content,
@@ -295,9 +294,16 @@ const SuggestionItem = pure(
     const [arrowClicked, setArrowClicked] = useState(false);
     const icon = (
       <span
-        className={`${styles[iconId]} ${item?.properties?.mode?.toLowerCase()}`}
+        className={`${styles[iconId]} ${item.properties?.mode?.toLowerCase()}`}
       >
-        <Icon color={modeIconColor || iconColor} img={iconId} />
+        <Icon
+          color={
+            item.properties?.color
+              ? `#${item.properties.color}`
+              : modeIconColor || iconColor
+          }
+          img={iconId}
+        />
       </span>
     );
     let ariaParts;
@@ -448,7 +454,7 @@ const SuggestionItem = pure(
           )}
         </div>
         {iconId !== 'arrow' &&
-          (item?.properties?.layer !== 'street' ||
+          (item.properties?.layer !== 'street' ||
             !isMobile ||
             arrowClicked) && (
             <span
@@ -460,7 +466,7 @@ const SuggestionItem = pure(
             </span>
           )}
         {iconId !== 'arrow' &&
-          item?.properties?.layer === 'street' &&
+          item.properties?.layer === 'street' &&
           !arrowClicked &&
           isMobile && (
             // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions
@@ -517,11 +523,32 @@ SuggestionItem.propTypes = {
     address: PropTypes.string,
     selectedIconId: PropTypes.string,
     iconColor: PropTypes.string,
-  }),
+    translatedText: PropTypes.string,
+    properties: PropTypes.shape({
+      layer: PropTypes.string,
+      color: PropTypes.string,
+      localadmin: PropTypes.string,
+      mode: PropTypes.string,
+      id: PropTypes.string,
+      source: PropTypes.string,
+      arrowClicked: PropTypes.bool,
+      destination: PropTypes.shape({
+        name: PropTypes.string,
+        localadmin: PropTypes.string,
+      }),
+      origin: PropTypes.shape({
+        name: PropTypes.string,
+        localadmin: PropTypes.string,
+      }),
+    }),
+  }).isRequired,
   // eslint-disable-next-line
   content: PropTypes.array,
   className: PropTypes.string,
   isMobile: PropTypes.bool,
+  ariaFavouriteString: PropTypes.string,
+  loading: PropTypes.bool,
+  fillInput: PropTypes.func,
   color: PropTypes.string,
   accessiblePrimaryColor: PropTypes.string,
   fontWeights: PropTypes.shape({
@@ -533,6 +560,9 @@ SuggestionItem.propTypes = {
 };
 
 SuggestionItem.defaultProps = {
+  loading: false,
+  ariaFavouriteString: '',
+  fillInput: () => {},
   className: undefined,
   isMobile: false,
   color: '#007ac9',

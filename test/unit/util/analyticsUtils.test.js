@@ -4,7 +4,7 @@ import {
   initAnalyticsClientSide,
 } from '../../../app/util/analyticsUtils';
 
-const req = { hostname: 'foo', cookies: {} };
+const req = { hostname: 'foo', headers: { cookie: {} } };
 describe('analytics utils', () => {
   describe('addAnalyticsEvent', () => {
     it('should add a new entry to window.dataLayer', () => {

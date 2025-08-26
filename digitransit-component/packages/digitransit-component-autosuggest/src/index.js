@@ -13,10 +13,7 @@ import {
 import { getStopName } from '@digitransit-search-util/digitransit-search-util-helpers';
 import getLabel from '@digitransit-search-util/digitransit-search-util-get-label';
 import Icon from '@digitransit-component/digitransit-component-icon';
-import moment from 'moment-timezone';
-import 'moment/locale/fi';
-import 'moment/locale/sv';
-import 'moment/locale/de';
+import { DateTime, Settings } from 'luxon';
 import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
 import translations from './helpers/translations';
@@ -24,7 +21,7 @@ import styles from './helpers/styles.scss';
 import MobileSearch from './helpers/MobileSearch';
 import withScrollLock from './helpers/withScrollLock';
 
-moment.locale('en');
+Settings.defaultLocale = 'en';
 
 i18next.init({
   fallbackLng: 'fi',
@@ -147,18 +144,19 @@ function getSuggestionContent(item) {
 }
 
 function translateFutureRouteSuggestionTime(item) {
-  const time = moment.unix(item.properties.time);
+  const time = DateTime.fromSeconds(Number(item.properties.time));
+  const now = DateTime.now();
   let str = item.properties.arriveBy
     ? i18next.t('arrival')
     : i18next.t('departure');
-  if (time.isSame(moment(), 'day')) {
+  if (time.hasSame(now, 'day')) {
     str = `${str} ${i18next.t('today-at')}`;
-  } else if (time.isSame(moment().add(1, 'day'), 'day')) {
+  } else if (time.hasSame(now.plus({ days: 1 }), 'day')) {
     str = `${str} ${i18next.t('tomorrow-at')}`;
   } else {
-    str = `${str} ${time.format('dd D.M.')}`;
+    str = `${str} ${time.toFormat('ccc d.L.')}`;
   }
-  str = `${str} ${moment(time).format('HH:mm')}`;
+  str = `${str} ${time.toFormat('HH:mm')}`;
   return str;
 }
 
@@ -355,9 +353,8 @@ class DTAutosuggest extends React.Component {
 
   constructor(props) {
     super(props);
-    moment.tz.setDefault(props.timeZone);
-    moment.locale(props.lang);
-
+    Settings.defaultZone = props.timeZone;
+    Settings.defaultLocale = props.lang;
     this.state = {
       value: props.value,
       suggestions: [],
@@ -431,9 +428,6 @@ class DTAutosuggest extends React.Component {
   };
 
   onBlur = () => {
-    if (this.state.renderMobileSearch) {
-      return;
-    }
     if (this.state.editing) {
       this.input.focus();
     }
@@ -442,6 +436,9 @@ class DTAutosuggest extends React.Component {
       renderMobileSearch: false,
       value: this.props.value,
     });
+    if (this.props.isMobile && this.state.renderMobileSearch) {
+      this.closeMobileSearch();
+    }
   };
 
   onSelected = (e, ref) => {
@@ -507,7 +504,7 @@ class DTAutosuggest extends React.Component {
           ) {
             this.props.focusChange();
           }
-          if (this.props.isMobile) {
+          if (this.props.isMobile && this.state.renderMobileSearch) {
             this.closeMobileSearch();
           }
         },
@@ -564,7 +561,7 @@ class DTAutosuggest extends React.Component {
                 this.props.id,
               );
             }
-            if (this.props.isMobile) {
+            if (this.props.isMobile && this.state.renderMobileSearch) {
               this.closeMobileSearch();
             }
             if (
@@ -661,7 +658,8 @@ class DTAutosuggest extends React.Component {
                 suggestion =>
                   suggestion.type !== 'FutureRoute' ||
                   (suggestion.type === 'FutureRoute' &&
-                    suggestion.properties.time > moment().unix()),
+                    suggestion.properties.time >
+                      DateTime.now().toUnixInteger()),
               )
               .map(suggestion => {
                 if (
@@ -823,6 +821,9 @@ class DTAutosuggest extends React.Component {
         this.onSuggestionsClearRequested();
       },
     );
+    this.input.focus();
+    // This closes the mobile keyboard
+    this.input.blur();
   };
 
   keyDown = event => {
@@ -830,8 +831,13 @@ class DTAutosuggest extends React.Component {
       return;
     }
     const keyCode = event.key;
+    if (keyCode === 'Shift') {
+      // This enables shift + tab to be used
+      return;
+    }
     if (keyCode === 'Escape') {
-      this.setState({ editing: false });
+      // Using onBlur makes 'Escape' act similarly to using 'Tab'
+      this.onBlur();
     }
     if (this.state.editing) {
       if (keyCode === 'Enter' && this.state.value !== '') {
@@ -863,6 +869,7 @@ class DTAutosuggest extends React.Component {
     }
     if (!this.state.editing) {
       this.setState({ editing: true });
+      this.clearLocationText();
     }
 
     if (keyCode === 'Tab') {
@@ -920,8 +927,6 @@ class DTAutosuggest extends React.Component {
   };
 
   onFocus = () => {
-    this.clearLocationText();
-
     const scrollY = window.pageYOffset;
     return this.setState({ scrollY });
   };

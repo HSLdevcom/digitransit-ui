@@ -7,18 +7,13 @@ import MapWithTracking from './MapWithTracking';
 import { sameLocations } from '../../util/path';
 import OriginStore from '../../store/OriginStore';
 import DestinationStore from '../../store/DestinationStore';
-import LazilyLoad, { importLazy } from '../LazilyLoad';
 import { configShape, locationShape } from '../../util/shapes';
 import storeOrigin from '../../action/originActions';
 import storeDestination from '../../action/destinationActions';
 // eslint-disable-next-line import/no-named-as-default
 import { mapLayerShape } from '../../store/MapLayerStore';
 import CookieSettingsButton from '../CookieSettingsButton';
-
-const locationMarkerModules = {
-  LocationMarker: () =>
-    importLazy(import(/* webpackChunkName: "map" */ './LocationMarker')),
-};
+import LocationMarker from './LocationMarker';
 
 let focus = {};
 const mwtProps = {};
@@ -59,21 +54,21 @@ function IndexPageMap(
 
   if (origin.lat) {
     leafletObjs.push(
-      <LazilyLoad modules={locationMarkerModules} key="from">
-        {({ LocationMarker }) => (
-          <LocationMarker position={origin} type="from" />
-        )}
-      </LazilyLoad>,
+      <LocationMarker
+        key={`${origin.lat},${origin.lon}`}
+        position={origin}
+        type="from"
+      />,
     );
   }
 
   if (destination.lat) {
     leafletObjs.push(
-      <LazilyLoad modules={locationMarkerModules} key="to">
-        {({ LocationMarker }) => (
-          <LocationMarker position={destination} type="to" />
-        )}
-      </LazilyLoad>,
+      <LocationMarker
+        key={`${destination.lat},${destination.lon}`}
+        position={destination}
+        type="to"
+      />,
     );
   }
 

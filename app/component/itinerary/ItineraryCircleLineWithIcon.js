@@ -3,7 +3,6 @@ import React from 'react';
 import cx from 'classnames';
 import Icon from '../Icon';
 import RouteNumber from '../RouteNumber';
-import { isBrowser } from '../../util/browser';
 
 class ItineraryCircleLineWithIcon extends React.Component {
   static propTypes = {
@@ -114,11 +113,9 @@ class ItineraryCircleLineWithIcon extends React.Component {
     const bottomMarker = this.getMarker(false);
     const legBeforeLineStyle = { color: this.props.color, ...this.props.style };
     if (
-      isBrowser &&
-      (this.props.modeClassName === 'walk' ||
-        this.props.modeClassName === 'bicycle_walk')
+      this.props.modeClassName === 'walk' ||
+      this.props.modeClassName === 'bicycle_walk'
     ) {
-      // eslint-disable-next-line global-require
       legBeforeLineStyle.backgroundImage = this.state.imageUrl;
     }
     return (

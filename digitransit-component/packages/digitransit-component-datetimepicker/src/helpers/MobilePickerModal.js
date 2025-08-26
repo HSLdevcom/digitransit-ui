@@ -1,9 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
-import moment from 'moment-timezone';
-import 'moment/locale/fi';
-import 'moment/locale/sv';
-import 'moment/locale/de';
+import { DateTime, Settings } from 'luxon';
 import uniqueId from 'lodash/uniqueId';
 import i18next from 'i18next';
 import Modal from 'react-modal';
@@ -13,14 +10,27 @@ import MobileTimepicker from './MobileTimepicker';
 import translations from './translations';
 import styles from './styles.scss';
 
-moment.locale('en');
+Settings.defaultLocale = 'en';
 i18next.init({ lng: 'en', resources: {} });
 Object.keys(translations).forEach(lang =>
   i18next.addResourceBundle(lang, 'translation', translations[lang]),
 );
 
 /**
- * TODO
+ * @param {object} props
+ * @param {'arrival'|'departure'} props.departureOrArrival Whether the picker is for arrival or departure time
+ * @param {function} props.onNowClick Called when the "Now" button is clicked
+ * @param {string} props.lang Language code for translations
+ * @param {string} props.color Color for the component, used in styles
+ * @param {string} props.timeZone Time zone to use for date and time calculations
+ * @param {function} props.onSubmit Called when the user submits the selected date and time
+ * @param {function} props.onCancel called when the user cancels the selection
+ * @param {number} props.timestamp Initial timestamp to display in the picker
+ * @param {function} props.getTimeDisplay Called to get the display string for a given timestamp
+ * @param {number} props.dateSelectItemCount Determines how many date options are shown in the date picker
+ * @param {function} props.getDateDisplay Called to get the display string for a given date
+ * @param {object} props.fontWeights Font weights used in the component styles
+ * @returns {JSX.Element}
  */
 function MobilePickerModal({
   departureOrArrival,
@@ -35,8 +45,9 @@ function MobilePickerModal({
   dateSelectItemCount,
   getDateDisplay,
   fontWeights,
+  onAfterClose,
 }) {
-  moment.tz.setDefault(timeZone);
+  Settings.defaultZone = timeZone;
   const translationSettings = { lng: lang };
 
   const [displayTimestamp, changeTimestamp] = useState(timestamp);
@@ -54,11 +65,13 @@ function MobilePickerModal({
 
   // for input labels
   const [htmlId] = useState(uniqueId('datetimepicker-'));
-  const dateSelectStartTime = moment()
+  const dateSelectStartTime = DateTime.now()
     .startOf('day')
-    .hour(moment(displayTimestamp).hour())
-    .minute(moment(displayTimestamp).minute())
-    .valueOf();
+    .set({
+      hour: DateTime.fromMillis(displayTimestamp).hour,
+      minute: DateTime.fromMillis(displayTimestamp).minute,
+    })
+    .toMillis();
 
   return (
     <Modal
@@ -66,6 +79,7 @@ function MobilePickerModal({
       isOpen
       className={styles['mobile-modal-content']}
       overlayClassName={styles['mobile-modal-overlay']}
+      onAfterClose={onAfterClose}
     >
       <div
         style={{
@@ -200,6 +214,7 @@ MobilePickerModal.propTypes = {
   color: PropTypes.string,
   onSubmit: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
+  onAfterClose: PropTypes.func.isRequired,
   timestamp: PropTypes.number.isRequired,
   getTimeDisplay: PropTypes.func.isRequired,
   dateSelectItemCount: PropTypes.number.isRequired,

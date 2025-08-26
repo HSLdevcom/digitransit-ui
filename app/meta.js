@@ -9,14 +9,6 @@ export default function getMetadata(lang, host, url, config) {
 
     meta: [
       {
-        'http-equiv': 'x-ua-compatible',
-        content: 'ie=edge',
-      },
-      {
-        'http-equiv': 'Content-Language',
-        content: lang,
-      },
-      {
         name: 'charset',
         content: 'utf-8',
       },
@@ -59,7 +51,7 @@ export default function getMetadata(lang, host, url, config) {
       },
       {
         property: 'og:image',
-        content: `${imageHost}${config.socialMedia.image.url}`,
+        content: `${imageHost}/${config.socialMedia.image.url}`,
       },
       {
         property: 'og:image:width',
@@ -95,7 +87,7 @@ export default function getMetadata(lang, host, url, config) {
       },
       {
         property: 'twitter:image',
-        content: `${imageHost}${config.socialMedia.image.url}`,
+        content: `${imageHost}/${config.socialMedia.image.url}`,
       },
     ],
     link: [

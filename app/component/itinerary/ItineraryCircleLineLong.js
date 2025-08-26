@@ -61,7 +61,6 @@ const ItineraryCircleLineLong = props => {
   const carBoardingRouteNumber = (
     <RouteNumber mode="car" icon="icon-icon_car-withoutBox" vertical />
   );
-  // eslint-disable-next-line global-require
   legBeforeLineStyle.backgroundImage = imgUrl;
   return (
     <div

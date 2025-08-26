@@ -32,7 +32,7 @@ let themeContent =
 /* main theme colors */
 $primary-color: ${color};
 $secondary-color: darken($primary-color, 20%);
-$hilight-color: $primary-color;
+$highlight-color: $primary-color;
 $action-color: $primary-color;
 $bus-color: $primary-color;
 $viewpoint-marker-color: $primary-color;

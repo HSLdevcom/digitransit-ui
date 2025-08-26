@@ -1,3 +1,5 @@
+@import '~leaflet/dist/leaflet.css';
+
 $small-map-height: 10rem;
 $stop-thin-opacity: 0.2;
 $top-bar-height: 64px;
@@ -246,21 +248,12 @@ div.current-location-marker > span > svg.icon {
 div.leaflet-marker-icon.from,
 div.leaflet-marker-icon.place,
 div.leaflet-marker-icon.to,
-div.leaflet-marker-icon.via {
-  > span {
-    > svg.icon {
-      height: auto;
-      width: auto;
-    }
-  }
-}
-
-div.leaflet-marker-icon.map-subway-entrance-info-icon-metro {
-  > span {
-    svg.icon {
-      width: auto;
-      height: auto;
-    }
+div.leaflet-marker-icon.via,
+div.leaflet-marker-icon.map-subway-entrance-info-icon-metro,
+div.leaflet-marker-icon.parking {
+  > span > svg.icon {
+    width: auto;
+    height: auto;
   }
 }
 

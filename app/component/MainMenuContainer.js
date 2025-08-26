@@ -1,16 +1,13 @@
 import PropTypes from 'prop-types';
-import React, { Suspense, lazy } from 'react';
-
-const MenuDrawer = lazy(() => import('./MenuDrawer'));
-const MainMenu = lazy(() => import('./MainMenu'));
+import React from 'react';
+import MenuDrawer from './MenuDrawer';
+import MainMenu from './MainMenu';
 
 export default function MainMenuContainer({ breakpoint, closeMenu, ...rest }) {
   return (
-    <Suspense fallback="">
-      <MenuDrawer open onRequestChange={closeMenu} breakpoint={breakpoint}>
-        <MainMenu closeMenu={closeMenu} {...rest} />
-      </MenuDrawer>
-    </Suspense>
+    <MenuDrawer open onRequestChange={closeMenu} breakpoint={breakpoint}>
+      <MainMenu closeMenu={closeMenu} {...rest} />
+    </MenuDrawer>
   );
 }
 

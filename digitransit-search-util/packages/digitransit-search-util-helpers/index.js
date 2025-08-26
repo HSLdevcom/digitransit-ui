@@ -11,6 +11,46 @@ const normalize = str => {
 };
 
 /**
+ * This takes the sorted search results as input and moves results that end in letters first
+ * among results with the same short name length.
+ */
+const orderResultsWithLettersFirst = sortedSearchResults => {
+  let orderedResultsWithLettersFirst = [];
+
+  let i = 0;
+  let currentLength = 0;
+  let letterArray = [];
+  let numberArray = [];
+  while (i < sortedSearchResults.length) {
+    if (
+      currentLength !== sortedSearchResults[i].properties?.shortName?.length
+    ) {
+      orderedResultsWithLettersFirst = orderedResultsWithLettersFirst.concat(
+        letterArray,
+        numberArray,
+      );
+      currentLength = sortedSearchResults[i].properties?.shortName?.length;
+      letterArray = [];
+      numberArray = [];
+    }
+    // Global isNaN and Number.isNaN have different functionality.
+    // eslint-disable-next-line no-restricted-globals
+    if (isNaN(sortedSearchResults[i].properties?.shortName?.slice(-1))) {
+      letterArray.push(sortedSearchResults[i]);
+    } else {
+      numberArray.push(sortedSearchResults[i]);
+    }
+    i += 1;
+  }
+  orderedResultsWithLettersFirst = orderedResultsWithLettersFirst.concat(
+    letterArray,
+    numberArray,
+  );
+
+  return orderedResultsWithLettersFirst;
+};
+
+/**
  * LayerType depicts the type of the point-of-interest.
  */
 const LayerType = {
@@ -214,11 +254,13 @@ export const sortSearchResults = (lineRegexp, results, term = '') => {
             return confidence;
         }
       },
+      'properties.shortName',
+      'properties.longName',
     ],
-    ['desc', 'desc'],
+    ['desc', 'desc', 'asc', 'asc'],
   );
 
-  return uniqWith(orderedResults, isDuplicate);
+  return uniqWith(orderResultsWithLettersFirst(orderedResults), isDuplicate);
 };
 
 /**

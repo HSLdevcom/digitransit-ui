@@ -1,11 +1,9 @@
-/* eslint-disable prefer-template */
 import configMerger from '../util/configMerger';
+import walttiConfig from './config.waltti';
 
 const CONFIG = 'rovaniemi';
 const APP_TITLE = 'Rovaniemen reittiopas';
 const APP_DESCRIPTION = 'Rovaniemen uusi reittiopas';
-
-const walttiConfig = require('./config.waltti').default;
 
 const minLat = 66.147037;
 const maxLat = 67.180128;
@@ -26,6 +24,11 @@ export default configMerger(walttiConfig, {
   socialMedia: {
     title: APP_TITLE,
     description: APP_DESCRIPTION,
+    image: {
+      url: 'img/social-share-rovaniemi.png',
+      width: 504,
+      height: 426,
+    },
   },
 
   title: APP_TITLE,

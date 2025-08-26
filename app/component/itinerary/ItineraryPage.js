@@ -9,21 +9,21 @@ import React, { cloneElement, useEffect, useRef, useState } from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
 import { fetchQuery } from 'react-relay';
 import { saveFutureRoute } from '../../action/FutureRoutesActions';
+import { startLocationWatch } from '../../action/PositionActions';
 import { saveSearch } from '../../action/SearchActions';
 import { TransportMode } from '../../constants';
 import { mapLayerShape } from '../../store/MapLayerStore';
 import {
   clearLatestNavigatorItinerary,
   getDialogState,
+  getGeolocationState,
   getLatestNavigatorItinerary,
   setDialogState,
-  setLatestNavigatorItinerary,
-  getGeolocationState,
 } from '../../store/localStorage';
 import { addAnalyticsEvent } from '../../util/analyticsUtils';
 import { getWeatherData } from '../../util/apiUtils';
 import { isIOS } from '../../util/browser';
-import { boundWithMinimumArea } from '../../util/geo-utils';
+import { boundWithMinimumArea, GeodeticToEcef } from '../../util/geo-utils';
 import {
   getIntermediatePlaces,
   otpToLocation,
@@ -31,10 +31,10 @@ import {
 } from '../../util/otpStrings';
 import { getItineraryPagePath, streetHash } from '../../util/path';
 import {
-  PLANTYPE,
   getPlanParams,
   getSettings,
   planQueryNeeded,
+  PLANTYPE,
 } from '../../util/planParamUtil';
 import {
   configShape,
@@ -54,37 +54,37 @@ import ItineraryListContainer from './ItineraryListContainer';
 import ItineraryPageControls from './ItineraryPageControls';
 import {
   addBikeStationMapForRentalVehicleItineraries,
-  addFeedbackly,
   checkDayNight,
   filterItinerariesByFeedId,
+  filterItinerariesByRouteType,
   filterWalk,
   getBounds,
   getRentalStationsToHideOnMap,
   getSelectedItineraryIndex,
+  getSortedEdges,
   getTopics,
   isEqualItineraries,
   isStoredItineraryRelevant,
   mergeBikeTransitPlans,
-  mergeScooterTransitPlan,
   mergeExternalTransitPlan,
+  mergeScooterTransitPlan,
   parseCarTransitPlan,
   quitIteration,
   reportError,
   scooterEdges,
   setCurrentTimeToURL,
   settingsLimitRouting,
+  sortAndMergeExternalPlans,
   stopClient,
   updateClient,
-  getSortedEdges,
-  filterItinerariesByRouteType,
-  sortAndMergeExternalPlans,
 } from './ItineraryPageUtils';
 import ItineraryTabs from './ItineraryTabs';
-import NaviGeolocationInfoModal from './navigator/navigatorgeolocation/NaviGeolocationInfoModal';
-import { planConnection } from './queries/PlanConnection';
+import { useItineraryContext } from './context/ItineraryContext';
+import { REDUCER_ACTION_TYPES } from './context/useItineraryReducer';
 import NaviContainer from './navigator/NaviContainer';
+import NaviGeolocationInfoModal from './navigator/navigatorgeolocation/NaviGeolocationInfoModal';
 import NavigatorIntroModal from './navigator/navigatorintro/NavigatorIntroModal';
-import { startLocationWatch } from '../../action/PositionActions';
+import { planConnection } from './queries/PlanConnection';
 
 const MAX_QUERY_COUNT = 4; // number of attempts to collect enough itineraries
 
@@ -177,9 +177,8 @@ export default function ItineraryPage(props, context) {
   const [topicsState, setTopicsState] = useState(null);
   const [mapState, setMapState] = useState({});
   const [naviMode, setNaviMode] = useState(false);
-  const [storedItinerary, setStoredItinerary] = useState(
-    getLatestNavigatorItinerary(),
-  );
+
+  const itineraryContext = useItineraryContext();
 
   const { config, router, executeAction } = context;
   const { match, breakpoint } = props;
@@ -797,21 +796,28 @@ export default function ItineraryPage(props, context) {
     }
   }, [locationPermissionsLoadState, isNavigatorIntroDismissed]);
 
-  const storeItineraryAndStartNavigation = itinerary => {
+  const startNavigation = itinerary => {
     const itineraryWithParams = {
       itinerary,
       params: {
         from: params.from,
         to: params.to,
         arriveBy: query.arriveBy,
-        time: query.time,
+        queryTime: query.time,
         hash,
         secondHash,
+        updatedAt: Date.now(),
+        origin: GeodeticToEcef(
+          itinerary.legs[0].from.lat,
+          itinerary.legs[0].from.lon,
+        ),
       },
     };
 
-    setLatestNavigatorItinerary(itineraryWithParams);
-    setStoredItinerary(itineraryWithParams);
+    itineraryContext.dispatch({
+      payload: itineraryWithParams,
+      type: REDUCER_ACTION_TYPES.SET_ITINERARY_LEGS_AND_PARAMS,
+    });
 
     if (
       locationPermissionsLoadState === LOADSTATE.DONE ||
@@ -826,23 +832,13 @@ export default function ItineraryPage(props, context) {
     }
   };
 
-  const storeItineraryAndStartNavigationWithAnalytics = itinerary => {
+  const startNavigationWithAnalytics = itinerary => {
     addAnalyticsEvent({
       category: 'Itinerary',
       event: 'navigator',
       action: 'cta_click',
     });
-    storeItineraryAndStartNavigation(itinerary);
-  };
-
-  const updateStoredItinerary = legs => {
-    setStoredItinerary({
-      ...storedItinerary,
-      itinerary: {
-        ...storedItinerary.itinerary,
-        legs,
-      },
-    });
+    startNavigation(itinerary);
   };
 
   // save url-defined location to old searches
@@ -934,9 +930,8 @@ export default function ItineraryPage(props, context) {
   useEffect(() => {
     setCurrentTimeToURL(config, match);
     updateLocalStorage(true);
-    addFeedbackly(context);
 
-    if (isStoredItineraryRelevant(storedItinerary, match)) {
+    if (isStoredItineraryRelevant(itineraryContext, match)) {
       setNavigation(true);
     } else {
       clearLatestNavigatorItinerary();
@@ -1265,8 +1260,8 @@ export default function ItineraryPage(props, context) {
     );
 
     const explicitItinerary =
-      !!detailView && naviMode && !!storedItinerary.itinerary
-        ? storedItinerary.itinerary
+      !!detailView && naviMode && !!itineraryContext.itinerary
+        ? itineraryContext.itinerary
         : undefined;
 
     return (
@@ -1407,9 +1402,6 @@ export default function ItineraryPage(props, context) {
     );
   } else if (detailView) {
     if (naviMode) {
-      const itineraryForNavigator =
-        storedItinerary.itinerary || combinedEdges[selectedIndex]?.node;
-
       content = (
         <div>
           {!isNavigatorIntroDismissed ||
@@ -1430,15 +1422,12 @@ export default function ItineraryPage(props, context) {
             </>
           ) : (
             <NaviContainer
-              legs={itineraryForNavigator.legs}
               focusToLeg={focusToLeg}
               relayEnvironment={props.relayEnvironment}
               setNavigation={setNavigation}
               mapRef={mwtRef.current}
               mapLayerRef={mapLayerRef}
               isNavigatorIntroDismissed={isNavigatorIntroDismissed}
-              updateLegs={updateStoredItinerary}
-              forceStartAt={storedItinerary.params?.forceStartAt}
               settings={settings}
             />
           )}
@@ -1455,9 +1444,7 @@ export default function ItineraryPage(props, context) {
       const navigateHook =
         !desktop && config.navigation && presentSearch
           ? () =>
-              storeItineraryAndStartNavigationWithAnalytics(
-                combinedEdges[selectedIndex]?.node,
-              )
+              startNavigationWithAnalytics(combinedEdges[selectedIndex]?.node)
           : undefined;
       carEmissions = carEmissions ? Math.round(carEmissions) : undefined;
       content = (
@@ -1612,7 +1599,6 @@ export default function ItineraryPage(props, context) {
 ItineraryPage.contextTypes = {
   config: configShape,
   executeAction: PropTypes.func.isRequired,
-  headers: PropTypes.objectOf(PropTypes.string),
   getStore: PropTypes.func,
   router: routerShape.isRequired,
   match: matchShape.isRequired,

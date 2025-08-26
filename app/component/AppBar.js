@@ -9,7 +9,6 @@ import DisruptionInfo from './DisruptionInfo';
 import MainMenuContainer from './MainMenuContainer';
 import MessageBar from './MessageBar';
 import LogoSmall from './LogoSmall';
-import CanceledLegsBar from './CanceledLegsBar';
 import LoginButton from './LoginButton';
 import UserMenu from './UserMenu';
 
@@ -45,7 +44,6 @@ export default function AppBar(
     <>
       {disruptionInfoOpen && <DisruptionInfo setOpen={toggleDisruptionInfo} />}
       {config.NODE_ENV !== 'test' && <MessageBar breakpoint={breakpoint} />}
-      <CanceledLegsBar />
       <nav className={`top-bar ${breakpoint !== 'large' ? 'mobile' : ''}`}>
         <section className="title">
           <button

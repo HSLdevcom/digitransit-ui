@@ -1,7 +1,8 @@
 import ceil from 'lodash/ceil';
-import moment from 'moment';
+import { DateTime } from 'luxon';
 import { parseFeedMQTT } from './gtfsRtParser';
 import { convertTo24HourFormat } from './timeUtils';
+import { DATE_FORMAT_MQTT } from '../constants';
 
 const standardModes = ['bus', 'tram', 'ferry'];
 
@@ -97,7 +98,7 @@ export function parseMessage(topic, message, defaultFeedId) {
       operatingDay:
         parsedMessage.oday && parsedMessage.oday !== 'XXX'
           ? parsedMessage.oday
-          : moment().format('YYYY-MM-DD'),
+          : DateTime.now().toFormat(DATE_FORMAT_MQTT),
       mode: getMode(mode),
       next_stop: `${defaultFeedId}:${nextStop}`,
       timestamp: parsedMessage.tsi,

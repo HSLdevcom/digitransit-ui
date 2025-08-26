@@ -8,12 +8,12 @@ import {
 
 describe('sessionStorage', () => {
   describe('getSessionStorage', () => {
-    it('should invoke the given errorHandler if in browser and sessionStorage throws', () => {
+    it('should invoke the given errorHandler and sessionStorage throws', () => {
       const handler = sinon.stub();
       const stub = sinon.stub(window, 'sessionStorage').get(() => {
         throw new DOMException();
       });
-      getSessionStorage(true, handler);
+      getSessionStorage(handler);
       expect(handler.called).to.equal(true);
       stub.restore();
     });
@@ -22,19 +22,14 @@ describe('sessionStorage', () => {
       const stub = sinon.stub(window, 'sessionStorage').get(() => {
         throw new DOMException('Foo', 'SecurityError');
       });
-      const result = getSessionStorage(true);
+      const result = getSessionStorage();
       expect(result).to.equal(null);
       stub.restore();
     });
 
-    it('should return window.sessionStorage if in browser', () => {
+    it('should return window.sessionStorage', () => {
       const result = getSessionStorage(true);
       expect(result).to.equal(window.sessionStorage);
-    });
-
-    it('should return global.sessionStorage if not in browser', () => {
-      const result = getSessionStorage(false);
-      expect(result).to.equal(global.sessionStorage);
     });
   });
 

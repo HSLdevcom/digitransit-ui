@@ -35,7 +35,6 @@ There are also optional variables:
 - `-e GEOCODING_BASE_URL=<..>`
 - `-e ASSET_URL=<..>`
 - `-e STATIC_MESSAGE_URL=<..>`
-- `-e RELAY_FETCH_TIMEOUT=<..>`
 - `-e NODE_OPTS=<..>`
 - `-e BASE_CONFIG=true`
 - `-e API_SUBSCRIPTION_QUERY_PARAMETER_NAME=<..>`

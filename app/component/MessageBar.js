@@ -274,8 +274,7 @@ class MessageBar extends Component {
                         onSwipe={this.onSwipe}
                         hideArrows={this.props.breakpoint !== 'large'}
                         navigationOnBottom
-                        ariaFrom="swipe-message-bar"
-                        ariaFromHeader="swipe-message-bar-header"
+                        ariaRole="swipe-message-bar-tab"
                       />
                     ) : (
                       <div className="single-alert">

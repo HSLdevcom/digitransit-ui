@@ -3,14 +3,13 @@ import React, { useState, useEffect } from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { FormattedMessage } from 'react-intl';
-import { routerShape, RedirectException } from 'found';
+import { routerShape } from 'found';
 import Icon from './Icon';
 import withBreakpoint from '../util/withBreakpoint';
 import {
   getRentalNetworkIcon,
   getRentalNetworkConfig,
 } from '../util/vehicleRentalUtils';
-import { isBrowser } from '../util/browser';
 import { PREFIX_RENTALVEHICLES } from '../util/path';
 import VehicleRentalLeg from './itinerary/VehicleRentalLeg';
 import BackButton from './BackButton';
@@ -34,11 +33,7 @@ const RentalVehicleContent = (
   }
 
   if (!rentalVehicle && !error) {
-    if (isBrowser) {
-      router.replace(`/${PREFIX_RENTALVEHICLES}`);
-    } else {
-      throw new RedirectException(`/${PREFIX_RENTALVEHICLES}`);
-    }
+    router.replace(`/${PREFIX_RENTALVEHICLES}`);
     return null;
   }
   const networkConfig = getRentalNetworkConfig(

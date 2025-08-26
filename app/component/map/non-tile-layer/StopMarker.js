@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 import { routerShape } from 'found';
+import { default as L } from 'leaflet';
 import { stopShape, configShape } from '../../../util/shapes';
 import GenericMarker from '../GenericMarker';
 import Icon from '../../Icon';
@@ -10,20 +11,8 @@ import {
   getStopRadius,
   getHubRadius,
 } from '../../../util/mapIconUtils';
-import { isBrowser } from '../../../util/browser';
 import { addAnalyticsEvent } from '../../../util/analyticsUtils';
 import { PREFIX_STOPS } from '../../../util/path';
-
-let L;
-
-/* eslint-disable global-require */
-// TODO When server side rendering is re-enabled,
-//      these need to be loaded only when isBrowser is true.
-//      Perhaps still using the require from webpack?
-if (isBrowser) {
-  L = require('leaflet');
-}
-/* eslint-enable global-require */
 
 class StopMarker extends React.Component {
   static propTypes = {
@@ -146,10 +135,6 @@ class StopMarker extends React.Component {
   };
 
   render() {
-    if (!isBrowser) {
-      return '';
-    }
-
     return (
       <GenericMarker
         position={{

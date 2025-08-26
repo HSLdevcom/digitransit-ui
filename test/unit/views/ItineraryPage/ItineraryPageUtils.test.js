@@ -22,6 +22,7 @@ describe('itineraryPageUtils', () => {
           time: TIME,
           hash: INDEX,
           secondHash: undefined,
+          queryTime: TIME,
         },
       };
 

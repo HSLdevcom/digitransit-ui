@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
 
-const isBrowser = typeof window !== 'undefined';
-
 const getSize = window => ({
   width: window.innerWidth,
   height: window.innerHeight,
@@ -28,18 +26,7 @@ const getSize = window => ({
  * @returns {WindowSize}
  */
 const useWindowSize = () => {
-  const [size, setSize] = useState(
-    isBrowser
-      ? getSize(window)
-      : {
-          width: undefined,
-          height: undefined,
-          outer: {
-            width: undefined,
-            height: undefined,
-          },
-        },
-  );
+  const [size, setSize] = useState(getSize(window));
 
   useEffect(() => {
     const onResize = () => setSize(getSize(window));

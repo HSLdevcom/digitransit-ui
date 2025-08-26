@@ -1,17 +1,9 @@
 import React from 'react';
 import { matchShape } from 'found';
-import LazilyLoad, { importLazy } from '../LazilyLoad';
-
-const modules = {
-  EmbeddedSearch: () => importLazy(import('./EmbeddedSearch')),
-};
+import EmbeddedSearch from './EmbeddedSearch';
 
 const EmbeddedSearchContainer = props => {
-  return (
-    <LazilyLoad modules={modules}>
-      {({ EmbeddedSearch }) => <EmbeddedSearch match={props.match} />}
-    </LazilyLoad>
-  );
+  return <EmbeddedSearch match={props.match} />;
 };
 
 EmbeddedSearchContainer.propTypes = {

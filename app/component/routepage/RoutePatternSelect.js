@@ -11,14 +11,13 @@ import {
 } from 'react-relay';
 import cx from 'classnames';
 import sortBy from 'lodash/sortBy';
-import { routerShape, RedirectException, Link } from 'found';
+import { routerShape, Link } from 'found';
 import Autosuggest from 'react-autosuggest';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { enrichPatterns } from '@digitransit-util/digitransit-util';
 import { FormattedMessage, intlShape } from 'react-intl';
 import { routeShape, relayShape, configShape } from '../../util/shapes';
 import Icon from '../Icon';
-import { isBrowser } from '../../util/browser';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../../util/path';
 import { addAnalyticsEvent } from '../../util/analyticsUtils';
 import { unixToYYYYMMDD } from '../../util/timeUtils';
@@ -217,15 +216,9 @@ class RoutePatternSelect extends Component {
       'countTripsForDate',
     ).reverse();
     if (options.every(o => o.code !== params.patternId)) {
-      if (isBrowser) {
-        router.replace(
-          `/${PREFIX_ROUTES}/${gtfsId}/${PREFIX_STOPS}/${options[0].code}`,
-        );
-      } else {
-        throw new RedirectException(
-          `/${PREFIX_ROUTES}/${gtfsId}/${PREFIX_STOPS}/${options[0].code}`,
-        );
-      }
+      router.replace(
+        `/${PREFIX_ROUTES}/${gtfsId}/${PREFIX_STOPS}/${options[0].code}`,
+      );
     }
     return options;
   };

@@ -1,6 +1,6 @@
 {
   "name": "@digitransit-component/digitransit-component-datetimepicker",
-  "version": "1.1.9",
+  "version": "2.0.1",
   "description": "digitransit-component datetimepicker module",
   "main": "index.js",
   "files": [
@@ -34,8 +34,7 @@
     "i18next": "^22.5.1",
     "lodash": "4.17.21",
     "lodash-es": "4.17.21",
-    "moment": "2.30.1",
-    "moment-timezone": "0.5.45",
+    "luxon": "^3.6.1",
     "prop-types": "^15.8.1",
     "react": "^16.13.0",
     "react-autosuggest": "^10.0.0",

@@ -97,7 +97,6 @@ ENV \
   # the --title option just sets the harmless property process.title
   # https://nodejs.org/api/cli.html#cli_title_title
   NODE_OPTS='--title=digitransit-ui' \
-  RELAY_FETCH_TIMEOUT='' \
   WEBPACK_DEVTOOL=$WEBPACK_DEVTOOL \
   ASSET_URL='' \
   STATIC_MESSAGE_URL=''
