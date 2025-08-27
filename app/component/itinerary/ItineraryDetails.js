@@ -241,17 +241,17 @@ function ItineraryDetails(
                   config.replacementBusNotification.content?.[
                     currentLanguage
                   ]?.join(' '),
-                link: config.replacementBusNotification.link,
+                link: config.replacementBusNotification.link[currentLanguage],
               };
         const key = `replacementBusNotification-${
           route.gtfsId || trip?.gtfsId
         }`;
-        if (!disclaimers.some(d => d.props?.text === notification)) {
+        if (!disclaimers.some(d => d.props?.text === notification.content)) {
           disclaimers.push(
             <RouteDisclaimer
               key={key}
               text={notification.content}
-              href={notification.link?.[currentLanguage]}
+              href={notification.link}
               linkText={intl.formatMessage({ id: 'extra-info' })}
               header={intl.formatMessage({ id: 'replacement-bus' })}
             />,
