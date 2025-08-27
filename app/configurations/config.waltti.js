@@ -355,4 +355,8 @@ export default {
       ],
     },
   },
+
+  showRouteDescNotification:
+    process.env.RUN_ENV === 'development' ||
+    process.env.NODE_ENV !== 'production',
 };
