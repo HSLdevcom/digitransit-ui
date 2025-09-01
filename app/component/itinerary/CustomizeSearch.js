@@ -199,7 +199,7 @@ class CustomizeSearch extends React.Component {
               />
             </div>
           )}
-          {useScooters(config.vehicleRental?.networks) && (
+          {useScooters(config) && (
             <div className="settings-section">
               <div className="settings-option-container">
                 <fieldset>

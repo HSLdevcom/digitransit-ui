@@ -1,24 +1,12 @@
 /* eslint no-console: ["error", { allow: ["warn", "error"] }] */
 /* eslint react/forbid-prop-types: 0 */
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useEffect } from 'react';
 import cx from 'classnames';
 import i18next from 'i18next';
 import Modal from '@hsl-fi/modal';
 import styles from './helpers/styles.scss';
 import translations from './helpers/translations';
-
-i18next.init({
-  lng: 'fi',
-  fallbackLng: 'fi',
-  defaultNS: 'translation',
-  interpolation: {
-    escapeValue: false, // not needed for react as it escapes by default
-  },
-});
-Object.keys(translations).forEach(lang => {
-  i18next.addResourceBundle(lang, 'translation', translations[lang]);
-});
 
 const isKeyboardSelectionEvent = event => {
   const space = [13, ' ', 'Spacebar'];
@@ -54,7 +42,23 @@ const DialogModal = ({
   hoverColor,
   fontWeights,
 }) => {
-  i18next.changeLanguage(lang);
+  useEffect(() => {
+    i18next
+      .init({
+        lng: lang,
+        fallbackLng: 'fi',
+        defaultNS: 'translation',
+        interpolation: {
+          escapeValue: false, // not needed for react as it escapes by default
+        },
+      })
+      .then(() => {
+        Object.keys(translations).forEach(l => {
+          i18next.addResourceBundle(l, 'translation', translations[l]);
+        });
+      });
+  }, [lang]);
+
   return (
     <Modal
       appElement={appElement}

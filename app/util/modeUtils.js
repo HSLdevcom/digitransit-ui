@@ -64,7 +64,11 @@ export function useCitybikes(networks, config) {
   );
 }
 
-export function useScooters(networks) {
+export function useScooters(config) {
+  if (!config.transportModes?.scooter?.availableForSelection) {
+    return false;
+  }
+  const networks = config.vehicleRental?.networks;
   if (!networks) {
     return false;
   }
@@ -103,7 +107,7 @@ export function getTransportModes(config) {
     if (!useCitybikes(config.vehicleRental.networks, config)) {
       citybikeConfig = { citybike: { availableForSelection: false } };
     }
-    if (!useScooters(config.vehicleRental.networks)) {
+    if (!useScooters(config)) {
       scooterConfig = { scooter: { availableForSelection: false } };
     }
   }

@@ -196,6 +196,11 @@ button.clear-input {
   letter-spacing: -0.42px;
   border: none;
   border-top: 1px solid #ddd;
+
+  .suggestionHighlighted & {
+    background-color: transparent;
+    color: inherit;
+  }
 }
 
 .mobile-modal-overlay {

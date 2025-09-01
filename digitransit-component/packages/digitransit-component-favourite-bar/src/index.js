@@ -399,8 +399,7 @@ class FavouriteBar extends React.Component {
             id="favourite-expand-button"
             onKeyDown={e => this.handleKeyDown(e)}
             onClick={() => this.toggleList()}
-            aria-haspopup
-            aria-pressed={this.state.listOpen}
+            aria-expanded={this.state.listOpen}
             aria-label={i18next.t('open-favourites')}
           >
             <Shimmer active={isLoading}>

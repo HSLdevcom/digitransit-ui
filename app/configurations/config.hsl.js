@@ -224,9 +224,9 @@ export default {
       availableForSelection: true,
     },
     scooter: {
-      availableForSelection: true,
+      availableForSelection: false,
       defaultValue: false,
-      showIfSelectedForRouting: true,
+      showIfSelectedForRouting: false,
     },
     airplane: {
       availableForSelection: false,
@@ -525,21 +525,6 @@ export default {
         timeBeforeSurcharge: 120 * 60,
         showRentalStations: true,
       },
-      bolt_helsinki: {
-        enabled: true,
-        season: {
-          alwaysOn: true,
-        },
-        icon: 'scooter',
-        name: {
-          fi: 'Bolt',
-          sv: 'Bolt',
-          en: 'Bolt',
-        },
-        type: 'scooter',
-        showRentalVehicles: true,
-        showRentalStations: false,
-      },
     },
     buyUrl: {
       fi: 'https://www.hsl.fi/kaupunkipyorat?utm_campaign=kaupunkipyorat-omat&utm_source=reittiopas&utm_medium=referral#block-28474',
@@ -814,7 +799,6 @@ export default {
   crazyEgg: true,
   // features that should not be deployed to production
   experimental: {
-    notifications: process.env.PUSH_NOTIFICATIONS,
     allowFlexJourneys: IS_DEV,
     allowDirectFlexJourneys: false,
   },
