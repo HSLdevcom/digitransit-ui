@@ -315,6 +315,7 @@ jobs:
           # https://github.com/moby/buildkit#registry-push-image-and-cache-separately
           cache-from: type=gha
           cache-to: type=gha,mode=max,oci-mediatypes=true,compression=zstd
+          load: true
           push: false
       - name: run integration tests
         run: |
