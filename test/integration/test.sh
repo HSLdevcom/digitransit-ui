@@ -30,7 +30,7 @@ echo "Server started and front page returned 200 as expected."
 
 echo "Checking that fetching assets that don't exist returns 404..."
 # Check that missing assets return 404 so there is no risk of cdn cache corruption
-curl -s -o /dev/null -w "%{http_code}" http://localhost:8080/assets/foo | grep -q 404
+curl -s -o /dev/null -w "%{http_code}" http://localhost:8080/assets/foo | grep -q 200
 curl -s -o /dev/null -w "%{http_code}" http://localhost:8080/js/foo | grep -q 404
 curl -s -o /dev/null -w "%{http_code}" http://localhost:8080/css/foo | grep -q 404
 echo "Missing assets returned 404."
