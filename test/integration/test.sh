@@ -3,6 +3,8 @@ set -e
 
 IMAGE=hsldevcom/digitransit-ui:$1
 
+docker images
+
 # Run the container in the background
 CONTAINER_ID=$(docker run -d -p 8080:8080 -e CONFIG=tampere "$IMAGE")
 
