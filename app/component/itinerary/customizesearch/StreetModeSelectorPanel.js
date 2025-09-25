@@ -34,8 +34,8 @@ const StreetModeSelectorPanel = (
       : 'car';
   const prIcon =
     config.includeParkAndRideSuggestions && config.includeCarSuggestions
-      ? 'icon-icon_car_park-withoutBox'
-      : 'icon-icon_car-withoutBox';
+      ? 'icon_car_park-withoutBox'
+      : 'icon_car-withoutBox';
 
   return (
     <div className="street-modes-container">
@@ -49,7 +49,7 @@ const StreetModeSelectorPanel = (
         <div className="mode-option-container">
           <div className="mode-option-block">
             <div className="mode-icon">
-              <Icon className="bicycle-icon" img="icon-icon_bike" />
+              <Icon className="bicycle-icon" img="icon_bike" />
             </div>
             {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
             <label className="mode-name" htmlFor="settings-toggle-bicycle">
@@ -136,7 +136,7 @@ const StreetModeSelectorPanel = (
           <div className="mode-option-container">
             <div className="mode-option-block">
               <div className="mode-icon">
-                <Icon className="car-icon" img="icon-icon_car-withoutBox" />
+                <Icon className="car-icon" img="icon_car-withoutBox" />
               </div>
               {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
               <label className="mode-name" htmlFor="settings-toggle-car">

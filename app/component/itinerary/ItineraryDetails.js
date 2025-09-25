@@ -286,7 +286,7 @@ function ItineraryDetails(
                       defaultMessage="Itinerary suggestions"
                     />
                   }
-                  icon="icon-icon_arrow-collapse--left"
+                  icon="icon_arrow-collapse--left"
                   iconClassName="arrow-icon"
                   fallback="pop"
                 />

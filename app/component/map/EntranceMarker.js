@@ -11,7 +11,7 @@ export default function EntranceMarker({ position, code }) {
   const objs = [];
 
   const getSubwayIcon = zoom => {
-    const iconId = `icon-icon_subway_entrance`;
+    const iconId = `icon_subway_entrance`;
     const icon = Icon.asString({ img: iconId });
 
     const iconSize = Math.max(getCaseRadius(zoom) * 2, 8);
@@ -25,7 +25,7 @@ export default function EntranceMarker({ position, code }) {
   };
 
   const getCodeIcon = zoom => {
-    const iconId = `icon-icon_subway_entrance_${code}`;
+    const iconId = `icon_subway_entrance_${code}`;
     const icon = Icon.asString({ img: iconId });
     const iconSize = Math.max(getCaseRadius(zoom) * 2, 8);
 
@@ -39,7 +39,7 @@ export default function EntranceMarker({ position, code }) {
 
   objs.push(
     <GenericMarker
-      key="icon-icon_subway_entrance"
+      key="icon_subway_entrance"
       position={position}
       getIcon={getSubwayIcon}
     />,
@@ -48,7 +48,7 @@ export default function EntranceMarker({ position, code }) {
   if (code) {
     objs.push(
       <GenericMarker
-        key="icon-icon_subway_entrance_code"
+        key="icon_subway_entrance_code"
         position={position}
         getIcon={getCodeIcon}
       />,

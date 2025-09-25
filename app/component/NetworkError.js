@@ -8,7 +8,7 @@ import Icon from './Icon';
 
 const NetworkError = ({ retry }, { match }) => (
   <div className="page-not-found">
-    <Icon img="icon-icon_error_page_not_found" />
+    <Icon img="icon_error_page_not_found" />
     <p>
       <FormattedMessage
         id="network-error"

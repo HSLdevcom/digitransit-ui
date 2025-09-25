@@ -21,7 +21,7 @@ const RouteNotification = (props, context) => {
     <div className={`route-notification ${hideNote ? 'minimized' : ' '}`}>
       <div className="left-block">
         <Icon
-          img="icon-icon_info"
+          img="icon_info"
           className="route-notification-icon"
           color={context.config.colors.primary}
         />
@@ -72,7 +72,7 @@ const RouteNotification = (props, context) => {
           }
         >
           <Icon
-            img="icon-icon_arrow-dropdown"
+            img="icon_arrow-dropdown"
             color={context.config.colors.primary}
             className={`route-notification-collapse-icon ${
               !hideNote ? 'inverted' : ''

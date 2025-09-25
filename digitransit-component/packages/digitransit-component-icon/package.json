@@ -1,6 +1,6 @@
 {
   "name": "@digitransit-component/digitransit-component-icon",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "digitransit-component icon module",
   "main": "index.js",
   "files": [
@@ -29,7 +29,6 @@
   "author": "Digitransit Authors",
   "license": "(AGPL-3.0 OR EUPL-1.2)",
   "peerDependencies": {
-    "i18next": "^22.5.1",
     "prop-types": "^15.8.1",
     "react": "^16.13.0"
   }

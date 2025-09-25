@@ -1,4 +1,4 @@
-.disruption-info .icon.disruption-info {
+.disruption-info .icon.info {
   padding-left: 2vh;
   width: 2em;
   fill: $disruption-color;
@@ -11,6 +11,10 @@
 
   .stop-tab-container {
     flex: 0 0 auto;
+
+    .icon.disruption-info {
+      fill: $gray-blue;
+    }
   }
 
   .stop-tab-singletab,
@@ -97,6 +101,14 @@
       &.warning {
         fill: $disruption-color;
       }
+
+      &.info {
+        fill: $gray-blue;
+      }
+    }
+
+    .icon.info {
+      color: $dark-gray;
 
       &.info {
         fill: $gray-blue;

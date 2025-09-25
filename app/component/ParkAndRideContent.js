@@ -148,7 +148,7 @@ function ParkAndRideContent(
         parkType={bikePark ? 'bike' : 'car'}
       />
       <div className="park-content-container">
-        <Icon img={`icon-icon_${prePostFix}`} height={2.4} width={2.4} />
+        <Icon img={`icon_${prePostFix}`} height={2.4} width={2.4} />
         <div className="park-details">
           {showOpeningHours && (
             <div className="park-opening-hours">

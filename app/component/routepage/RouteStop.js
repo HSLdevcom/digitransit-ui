@@ -3,7 +3,12 @@ import React from 'react';
 import Link from 'found/Link';
 import { FormattedMessage, intlShape } from 'react-intl';
 import cx from 'classnames';
-import { alertShape, configShape, vehicleShape } from '../../util/shapes';
+import {
+  alertShape,
+  configShape,
+  vehicleShape,
+  stopTimeShape,
+} from '../../util/shapes';
 import AddressRow from '../AddressRow';
 import TripLink from './TripLink';
 import FuzzyTripLink from './FuzzyTripLink';
@@ -17,6 +22,15 @@ import { getZoneLabel } from '../../util/legUtils';
 import { estimateItineraryDistance } from '../../util/geo-utils';
 import getVehicleState from '../../util/vehicleStateUtils';
 import Icon from '../Icon';
+
+function getDepartureTime(stoptime) {
+  return (
+    stoptime.serviceDay +
+    (stoptime.realtimeState === 'CANCELED' || stoptime.realtimeDeparture === -1
+      ? stoptime.scheduledDeparture
+      : stoptime.realtimeDeparture)
+  );
+}
 
 const RouteStop = (
   {
@@ -33,24 +47,62 @@ const RouteStop = (
     shortName,
     prevStop,
     hideDepartures,
+    loop,
+    singleLoop,
   },
   { config, intl },
 ) => {
-  const patternExists =
-    stop.stopTimesForPattern && stop.stopTimesForPattern.length > 0;
+  let firstDeparture;
+  let nextDeparture;
 
-  const firstDeparture = patternExists && stop.stopTimesForPattern[0];
-  const nextDeparture = patternExists && stop.stopTimesForPattern[1];
+  if (stop.stopTimesForPattern?.length > 0) {
+    const st1 = stop.stopTimesForPattern[0];
+    const st2 = stop.stopTimesForPattern[1];
+    let showDepartures = true;
 
-  const getDepartureTime = stoptime => {
+    // special logic for cyclic routes: try to pick
+    // departures at start stop and arrivals at end stop
+    if (first && loop) {
+      if (singleLoop) {
+        // check if first stop is already behind
+        // we do not want to show arrival time to it
+        const nextStopTime = nextStop?.stopTimesForPattern[0];
+        if (
+          (st1 && !nextStopTime) ||
+          getDepartureTime(st1) > getDepartureTime(nextStopTime)
+        ) {
+          showDepartures = false;
+        } else {
+          firstDeparture = st1;
+          // do not set nextDeparture, it is arrival back to start
+        }
+      } else if (
+        st1?.pickupType === 'NONE' &&
+        st2 &&
+        st2.pickupType !== 'NONE'
+      ) {
+        firstDeparture = st2;
+      }
+    }
+    if (last && loop) {
+      if (
+        (singleLoop && st2) ||
+        (st1?.pickupType !== 'NONE' && st2?.pickupType === 'NONE')
+      ) {
+        firstDeparture = st2;
+      }
+    }
+    if (!firstDeparture && showDepartures) {
+      // no special logic applied, use defaults
+      firstDeparture = st1;
+      nextDeparture = st2;
+    }
+  }
+
+  const getDepartureText = stoptime => {
     let departureText = '';
     if (stoptime) {
-      const departureTime =
-        stoptime.serviceDay +
-        (stoptime.realtimeState === 'CANCELED' ||
-        stoptime.realtimeDeparture === -1
-          ? stoptime.scheduledDeparture
-          : stoptime.realtimeDeparture);
+      const departureTime = getDepartureTime(stoptime);
       const timeDiffInMinutes = Math.floor((departureTime - currentTime) / 60);
       if (
         timeDiffInMinutes < 0 ||
@@ -87,9 +139,9 @@ const RouteStop = (
       })},`;
     }
 
-    if (patternExists) {
+    if (firstDeparture) {
       text += `${intl.formatMessage({ id: 'leaves' })},`;
-      text += `${getDepartureTime(stop.stopTimesForPattern[0])},`;
+      text += `${getDepartureText(stop.stopTimesForPattern[0])},`;
       if (firstDeparture.realtime) {
         text += `${intl.formatMessage({ id: 'realtime' })},`;
       }
@@ -99,7 +151,7 @@ const RouteStop = (
       }
       if (displayNextDeparture) {
         text += `${intl.formatMessage({ id: 'next' })},`;
-        text += `${getDepartureTime(
+        text += `${getDepartureText(
           stop.stopTimesForPattern[1],
           currentTime,
         )},`;
@@ -121,7 +173,7 @@ const RouteStop = (
   const getVehicleTripLink = () => {
     let vehicleTripLink;
     let vehicleState;
-    if (vehicle) {
+    if (vehicle && firstDeparture) {
       const maxDistance = vehicle.mode === 'rail' ? 100 : 50;
       const { realtimeDeparture, realtimeArrival, serviceDay } = firstDeparture;
       const arrivalTimeToStop = (serviceDay + realtimeArrival) * 1000;
@@ -236,7 +288,7 @@ const RouteStop = (
                   </div>
                 </div>
               </div>
-              {patternExists && (
+              {firstDeparture && (
                 <div
                   key={firstDeparture.scheduledDeparture}
                   className="route-stop-time"
@@ -266,11 +318,11 @@ const RouteStop = (
                 </div>
               )}
             </div>
-            {patternExists &&
+            {firstDeparture &&
               stop.stopTimesForPattern[0].pickupType === 'NONE' &&
               !last && (
                 <div className="drop-off-container">
-                  <Icon img="icon-icon_info" color={config.colors.primary} />
+                  <Icon img="icon_info" color={config.colors.primary} />
                   <FormattedMessage
                     id="route-destination-arrives"
                     defaultMessage="Drop-off only"
@@ -296,20 +348,11 @@ RouteStop.propTypes = {
     scheduledDeparture: PropTypes.number,
     platformCode: PropTypes.string,
     alerts: PropTypes.arrayOf(alertShape),
-    stopTimesForPattern: PropTypes.arrayOf(
-      PropTypes.shape({
-        realtimeDeparture: PropTypes.number,
-        realtimeArrival: PropTypes.number,
-        serviceDay: PropTypes.number,
-        pickupType: PropTypes.string,
-        stop: PropTypes.shape({
-          platformCode: PropTypes.string,
-        }),
-      }),
-    ),
+    stopTimesForPattern: PropTypes.arrayOf(stopTimeShape),
   }).isRequired,
   nextStop: PropTypes.shape({
     name: PropTypes.string,
+    stopTimesForPattern: PropTypes.arrayOf(stopTimeShape),
   }),
   prevStop: PropTypes.shape({
     name: PropTypes.string,
@@ -322,6 +365,8 @@ RouteStop.propTypes = {
   displayNextDeparture: PropTypes.bool,
   shortName: PropTypes.string,
   hideDepartures: PropTypes.bool,
+  loop: PropTypes.bool,
+  singleLoop: PropTypes.bool,
 };
 
 RouteStop.defaultProps = {
@@ -336,6 +381,8 @@ RouteStop.defaultProps = {
   shortName: undefined,
   vehicle: undefined,
   hideDepartures: false,
+  loop: false,
+  singleLoop: false,
 };
 
 RouteStop.contextTypes = {

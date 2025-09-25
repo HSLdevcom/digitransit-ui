@@ -10,7 +10,7 @@ import GenericMarker from '../GenericMarker';
 
 const ParkingAreaMarker = ({ position, type, liipiId }, { router }) => {
   const getIcon = zoom => {
-    const icon = Icon.asString({ img: `icon-icon_${type}-park` });
+    const icon = Icon.asString({ img: `icon_${type}-park` });
 
     const iconSize = Math.max(getCaseRadius(zoom) * 3, 18);
 

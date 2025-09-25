@@ -7,7 +7,7 @@ import Icon from '../Icon';
 const CallAgencyWarning = ({ route }) => (
   <div className="route-warning-message padding-normal">
     <div className="upper">
-      <Icon className="warning-message-icon" img="icon-icon_call" />
+      <Icon className="warning-message-icon" img="icon_call" />
       <FormattedMessage
         id="warning-call-agency-no-route"
         defaultMessage="Only on demand. Needs to be booked in advance."

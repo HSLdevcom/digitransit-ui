@@ -13,7 +13,7 @@ describe('<IconWithBigCaution />', () => {
       };
       const wrapper = shallowWithIntl(<IconWithBigCaution {...props} />);
       expect(wrapper.find(IconWithIcon).prop('subIcon')).to.equal(
-        'icon-icon_caution',
+        'icon_caution',
       );
     });
   });
@@ -25,7 +25,7 @@ describe('<IconWithBigCaution />', () => {
     };
     const wrapper = shallowWithIntl(<IconWithBigCaution {...props} />);
     expect(wrapper.find(IconWithIcon).prop('subIcon')).to.equal(
-      'icon-icon_caution-no-excl',
+      'icon_caution-no-excl',
     );
   });
 
@@ -35,8 +35,6 @@ describe('<IconWithBigCaution />', () => {
       img: 'foobar',
     };
     const wrapper = shallowWithIntl(<IconWithBigCaution {...props} />);
-    expect(wrapper.find(IconWithIcon).prop('subIcon')).to.equal(
-      'icon-icon_info',
-    );
+    expect(wrapper.find(IconWithIcon).prop('subIcon')).to.equal('icon_info');
   });
 });

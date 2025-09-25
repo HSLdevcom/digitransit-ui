@@ -2,11 +2,15 @@
 /* eslint no-console: ["error", { allow: ["warn", "error"] }] */
 /* eslint react/forbid-prop-types: 0 */
 import PropTypes from 'prop-types';
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import i18next from 'i18next';
 import Icon from '@digitransit-component/digitransit-component-icon';
 import styles from './helpers/styles.scss';
 import translations from './helpers/translations';
+
+Object.keys(translations).forEach(lang =>
+  i18next.addResourceBundle(lang, 'translation', translations[lang], true),
+);
 
 const isKeyboardSelectionEvent = event => {
   const space = [13, ' ', 'Spacebar'];
@@ -103,25 +107,8 @@ function NearStopsAndRoutes({
   fontWeights,
 }) {
   const [modesWithAlerts, setModesWithAlerts] = useState([]);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    i18next
-      .init({
-        lng: 'fi',
-        fallbackLng: 'fi',
-        defaultNS: 'translation',
-        interpolation: {
-          escapeValue: false, // not needed for react as it escapes by default
-        },
-      })
-      .then(() => {
-        Object.keys(translations).forEach(lang => {
-          i18next.addResourceBundle(lang, 'translation', translations[lang]);
-        });
-        setLoading(false);
-      });
-
     if (alertsContext) {
       alertsContext
         .getModesWithAlerts(alertsContext.currentTime, alertsContext.feedIds)
@@ -131,9 +118,6 @@ function NearStopsAndRoutes({
     }
   }, []);
 
-  if (loading) {
-    return null;
-  }
   let urlStart;
   if (omitLanguageUrl) {
     urlStart = urlPrefix;

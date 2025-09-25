@@ -11,14 +11,9 @@ import Select from './helpers/Select';
 import translations from './helpers/translations';
 import styles from './helpers/styles.scss';
 
-i18next.init({
-  lng: 'fi',
-  fallbackLng: 'fi',
-  defaultNS: 'translation',
-  interpolation: {
-    escapeValue: false, // not needed for react as it escapes by default
-  },
-});
+Object.keys(translations).forEach(lang =>
+  i18next.addResourceBundle(lang, 'translation', translations[lang], true),
+);
 
 export const getEmptyViaPointPlaceHolder = () => ({});
 
@@ -59,10 +54,6 @@ const ItinerarySearchControl = ({
     )}
   </div>
 );
-
-const getSlackDisplay = slackInSeconds => {
-  return `${slackInSeconds / 60} ${i18next.t('minute-short')}`;
-};
 
 const updateViaPointSlack = (
   activeViaPointSlacks,
@@ -239,7 +230,7 @@ class DTAutosuggestPanel extends React.Component {
     onSelect: PropTypes.func.isRequired,
     onClear: PropTypes.func,
     addAnalyticsEvent: PropTypes.func,
-    lang: PropTypes.string,
+    lang: PropTypes.string.isRequired,
     disableAutoFocus: PropTypes.bool,
     sources: PropTypes.arrayOf(PropTypes.string),
     targets: PropTypes.arrayOf(PropTypes.string),
@@ -272,7 +263,6 @@ class DTAutosuggestPanel extends React.Component {
     destinationPlaceHolder: 'give-destination',
     swapOrder: undefined,
     updateViaPoints: () => {},
-    lang: 'fi',
     searchPanelText: undefined,
     sources: [],
     targets: [],
@@ -307,19 +297,6 @@ class DTAutosuggestPanel extends React.Component {
       activeSlackInputs: [],
       refs: [],
     };
-    Object.keys(translations).forEach(lang => {
-      i18next.addResourceBundle(lang, 'translation', translations[lang]);
-    });
-  }
-
-  componentDidMount() {
-    i18next.changeLanguage(this.props.lang);
-  }
-
-  componentDidUpdate() {
-    if (i18next.language !== this.props.lang) {
-      i18next.changeLanguage(this.props.lang);
-    }
   }
 
   storeReference = ref => {
@@ -418,6 +395,11 @@ class DTAutosuggestPanel extends React.Component {
     this.props.swapOrder();
   };
 
+  getSlackDisplay = slackInSeconds =>
+    `${slackInSeconds / 60} ${i18next.t('minute-short', {
+      lng: this.props.lang,
+    })}`;
+
   render() {
     const {
       origin,
@@ -432,6 +414,7 @@ class DTAutosuggestPanel extends React.Component {
       showSwapControl,
       showViapointControl,
     } = this.props;
+    const lng = this.props.lang;
     const { activeSlackInputs } = this.state;
     const slackTime = getSlackTimeOptions();
     const defaultSlackTimeValue = 0;
@@ -505,7 +488,7 @@ class DTAutosuggestPanel extends React.Component {
               onKeyPress={e =>
                 isKeyboardSelectionEvent(e) && this.handleSwapOrderClick()
               }
-              aria-label={i18next.t('swap-order-button-label')}
+              aria-label={i18next.t('swap-order-button-label', { lng })}
             >
               <Icon img="opposite" color={this.props.color} />
             </ItinerarySearchControl>
@@ -559,7 +542,10 @@ class DTAutosuggestPanel extends React.Component {
                       appElement={this.props.appElement}
                       icon="mapMarker-via"
                       id="via-point"
-                      ariaLabel={i18next.t('via-point-index', { index: i + 1 })}
+                      ariaLabel={i18next.t('via-point-index', {
+                        index: i + 1,
+                        lng,
+                      })}
                       autoFocus={
                         disableAutoFocus === true ? false : !this.props.isMobile
                       }
@@ -600,7 +586,7 @@ class DTAutosuggestPanel extends React.Component {
                         isViaPointSlackTimeInputActive(i)
                           ? 'add-via-duration-button-label-open'
                           : 'add-via-duration-button-label-close',
-                        { index: i + 1 },
+                        { index: i + 1, lng },
                       )}
                       wide
                     >
@@ -613,7 +599,9 @@ class DTAutosuggestPanel extends React.Component {
                   viaPoints[i].locationSlack > 0 && (
                     <span
                       className={styles['viapoint-slack-time']}
-                    >{`${i18next.t('viapoint-slack-amount')}: ${getSlackDisplay(
+                    >{`${i18next.t('viapoint-slack-amount', {
+                      lng,
+                    })}: ${this.getSlackDisplay(
                       viaPoints[i].locationSlack,
                     )}`}</span>
                   )}
@@ -625,10 +613,10 @@ class DTAutosuggestPanel extends React.Component {
                   <div className={styles['select-wrapper']}>
                     <Select
                       id={`viapoint-slack-${i}`}
-                      label={i18next.t('viapoint-slack-amount')}
+                      label={i18next.t('viapoint-slack-amount', { lng })}
                       options={slackTime}
                       value={getViaPointSlackTimeOrDefault(viaPoints[i])}
-                      getDisplay={getSlackDisplay}
+                      getDisplay={this.getSlackDisplay}
                       viaPointIndex={i}
                       icon={
                         <span
@@ -652,6 +640,7 @@ class DTAutosuggestPanel extends React.Component {
                 }
                 aria-label={i18next.t('remove-via-button-label', {
                   index: i + 1,
+                  lng,
                 })}
               >
                 <Icon img="trash" color={this.props.color} />
@@ -702,7 +691,7 @@ class DTAutosuggestPanel extends React.Component {
               onKeyPress={e =>
                 isKeyboardSelectionEvent(e) && this.handleAddViaPointClick()
               }
-              aria-label={i18next.t('add-via-button-label')}
+              aria-label={i18next.t('add-via-button-label', { lng })}
             >
               <Icon
                 img="viapoint"

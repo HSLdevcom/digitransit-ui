@@ -98,7 +98,7 @@ export default function LegInfo(
           <Icon
             width={1.75}
             height={1.75}
-            img={`icon-icon_${capacity}`}
+            img={`icon_${capacity}`}
             color={config.colors.primary}
           />
         </button>

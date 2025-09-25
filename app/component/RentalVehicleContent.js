@@ -48,7 +48,7 @@ const RentalVehicleContent = (
         <div className="scooter-cluster-back-button-container">
           {breakpoint === 'large' && (
             <BackButton
-              icon="icon-icon_arrow-collapse--left"
+              icon="icon_arrow-collapse--left"
               iconClassName="arrow-icon"
             />
           )}
@@ -86,7 +86,7 @@ const RentalVehicleContent = (
           <div className="scooter-header">
             {breakpoint === 'large' && (
               <BackButton
-                icon="icon-icon_arrow-collapse--left"
+                icon="icon_arrow-collapse--left"
                 iconClassName="arrow-icon"
               />
             )}

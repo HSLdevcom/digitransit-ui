@@ -127,11 +127,11 @@ export function getRouteMode(route, config) {
   }
   switch (route.type) {
     case ExtendedRouteTypes.BusExpress:
-      return 'bus-express';
+      return config?.useExtendedRouteTypes ? 'bus-express' : 'bus';
     case ExtendedRouteTypes.BusLocal:
-      return 'bus-local';
+      return config?.useExtendedRouteTypes ? 'bus-local' : 'bus';
     case ExtendedRouteTypes.SpeedTram:
-      return 'speedtram';
+      return config?.useExtendedRouteTypes ? 'speedtram' : 'tram';
     case ExtendedRouteTypes.CallAgency:
       return 'call';
     case ExtendedRouteTypes.ReplacementBus:

@@ -149,7 +149,7 @@ class MapLayersDialogContent extends React.Component {
           }
           type="button"
         >
-          <Icon img="icon-icon_close" />
+          <Icon img="icon_close" />
         </button>
         <span className="map-layer-header">
           {this.context.intl.formatMessage({

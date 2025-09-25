@@ -24,10 +24,7 @@ const ItineraryCircleLineLong = props => {
     if (isFirstChild() && top) {
       return (
         <div className="itinerary-icon-container start">
-          <Icon
-            img="icon-icon_mapMarker"
-            className="itinerary-icon from from-it"
-          />
+          <Icon img="icon_mapMarker" className="itinerary-icon from from-it" />
         </div>
       );
     }
@@ -59,7 +56,7 @@ const ItineraryCircleLineLong = props => {
   const bottomMarker = getMarker(false);
   const legBeforeLineStyle = { color: props.color };
   const carBoardingRouteNumber = (
-    <RouteNumber mode="car" icon="icon-icon_car-withoutBox" vertical />
+    <RouteNumber mode="car" icon="icon_car-withoutBox" vertical />
   );
   legBeforeLineStyle.backgroundImage = imgUrl;
   return (

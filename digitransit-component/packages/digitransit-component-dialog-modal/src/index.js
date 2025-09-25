@@ -43,27 +43,16 @@ const DialogModal = ({
   fontWeights,
 }) => {
   useEffect(() => {
-    i18next
-      .init({
-        lng: lang,
-        fallbackLng: 'fi',
-        defaultNS: 'translation',
-        interpolation: {
-          escapeValue: false, // not needed for react as it escapes by default
-        },
-      })
-      .then(() => {
-        Object.keys(translations).forEach(l => {
-          i18next.addResourceBundle(l, 'translation', translations[l]);
-        });
-      });
-  }, [lang]);
+    Object.keys(translations).forEach(l =>
+      i18next.addResourceBundle(l, 'translation', translations[l], true),
+    );
+  }, []);
 
   return (
     <Modal
       appElement={appElement}
       contentLabel={modalAriaLabel}
-      closeButtonLabel={i18next.t('close-modal')}
+      closeButtonLabel={i18next.t('close-modal', { lng: lang })}
       variant="confirmation"
       isOpen={isModalOpen}
       onCrossClick={handleClose}
@@ -137,7 +126,7 @@ DialogModal.propTypes = {
   secondaryButtonText: PropTypes.string,
   secondaryButtonOnClick: PropTypes.func,
   dialogContent: PropTypes.string,
-  lang: PropTypes.string,
+  lang: PropTypes.string.isRequired,
   modalAriaLabel: PropTypes.string,
   href: PropTypes.string,
   color: PropTypes.string,
@@ -148,7 +137,6 @@ DialogModal.propTypes = {
 };
 
 DialogModal.defaultProps = {
-  lang: 'fi',
   dialogContent: undefined,
   handleClose: () => {},
   secondaryButtonText: undefined,

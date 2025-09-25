@@ -10,22 +10,22 @@ import { LEGTYPE } from './NaviUtils';
 import usePrevious from './hooks/usePrevious';
 
 const iconMap = {
-  BICYCLE: 'icon-icon_cyclist',
-  CAR: 'icon-icon_car-withoutBox',
-  SCOOTER: 'icon-icon_scooter_rider',
-  WALK: 'icon-icon_walk',
-  WAIT: 'icon-icon_navigation_wait',
-  BUS: 'icon-icon_bus',
-  RAIL: 'icon-icon_rail',
-  SUBWAY: 'icon-icon_subway',
-  TRAM: 'icon-icon_tram',
-  FERRY: 'icon-icon_ferry',
-  'FERRY-EXTERNAL': 'icon-icon_ferry-external',
-  CALL: 'icon-icon_call',
-  'BUS-EXPRESS': 'icon-icon_bus-express',
-  'BUS-LOCAL': 'icon-icon_bus-local',
-  SPEEDTRAM: 'icon-icon_speedtram',
-  WAIT_IN_VEHICLE: 'icon-icon_wait',
+  BICYCLE: 'icon_cyclist',
+  CAR: 'icon_car-withoutBox',
+  SCOOTER: 'icon_scooter_rider',
+  WALK: 'icon_walk',
+  WAIT: 'icon_navigation_wait',
+  BUS: 'icon_bus',
+  RAIL: 'icon_rail',
+  SUBWAY: 'icon_subway',
+  TRAM: 'icon_tram',
+  FERRY: 'icon_ferry',
+  'FERRY-EXTERNAL': 'icon_ferry-external',
+  CALL: 'icon_call',
+  'BUS-EXPRESS': 'icon_bus-express',
+  'BUS-LOCAL': 'icon_bus-local',
+  SPEEDTRAM: 'icon_speedtram',
+  WAIT_IN_VEHICLE: 'icon_wait',
 };
 
 export default function NaviCard(
@@ -112,7 +112,7 @@ export default function NaviCard(
           </div>
           <div type="button" className="navi-top-card-arrow">
             <Icon
-              img="icon-icon_arrow-collapse"
+              img="icon_arrow-collapse"
               className={`cursor-pointer ${cardExpanded ? 'inverted' : ''}`}
             />
           </div>

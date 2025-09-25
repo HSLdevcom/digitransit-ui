@@ -31,7 +31,7 @@ export default function CarLeg(props, { config, intl }) {
     <ItineraryCircleLineWithIcon
       index={props.index}
       modeClassName={modeClassName}
-      icon="icon-icon_car-withoutBox"
+      icon="icon_car-withoutBox"
     />
   );
 
@@ -68,13 +68,13 @@ export default function CarLeg(props, { config, intl }) {
               {address}
               {props.leg.isViaPoint && (
                 <Icon
-                  img="icon-icon_mapMarker"
+                  img="icon_mapMarker"
                   className="itinerary-mapmarker-icon"
                 />
               )}
               {props.leg.from.stop && (
                 <Icon
-                  img="icon-icon_arrow-collapse--right"
+                  img="icon_arrow-collapse--right"
                   className="itinerary-arrow-icon"
                   color="#333"
                 />

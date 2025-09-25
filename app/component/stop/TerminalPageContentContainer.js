@@ -31,7 +31,7 @@ function TerminalPageContent({ station, relay, currentTime, error }) {
   if (!stoptimes || stoptimes.length === 0) {
     return (
       <div className="stop-no-departures-container">
-        <Icon img="icon-icon_station" />
+        <Icon img="icon_station" />
         <FormattedMessage id="no-departures" defaultMessage="No departures" />
       </div>
     );

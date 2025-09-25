@@ -147,7 +147,7 @@ class SearchSettingsDropdown extends React.Component {
               {option.value === this.props.currentSelection.value && (
                 <Icon
                   className="selected-checkmark"
-                  img="icon-icon_check"
+                  img="icon_check"
                   viewBox="0 0 15 11"
                 />
               )}
@@ -276,7 +276,7 @@ class SearchSettingsDropdown extends React.Component {
                   ? 'fake-select-arrow inverted'
                   : 'fake-select-arrow'
               }
-              img="icon-icon_arrow-dropdown"
+              img="icon_arrow-dropdown"
             />
           </span>
         </button>

@@ -65,7 +65,7 @@ class StopMarker extends React.Component {
   };
 
   getModeIcon = zoom => {
-    const iconId = `icon-icon_${this.props.mode}`;
+    const iconId = `icon_${this.props.mode}`;
     const icon = Icon.asString({ img: iconId, className: 'mode-icon' });
     let size;
     if (zoom <= this.context.config.stopsSmallMaxZoom) {

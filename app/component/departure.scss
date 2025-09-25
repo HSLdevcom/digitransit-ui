@@ -299,6 +299,10 @@
   align-items: center;
   border-bottom: 1px solid #ddd;
 
+  &.clickable {
+    cursor: pointer;
+  }
+
   td {
     position: relative;
 

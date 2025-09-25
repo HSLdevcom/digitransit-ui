@@ -519,7 +519,6 @@ export const getActiveLegAlerts = (leg, legStartTime) => {
         ),
       };
     }),
-  ].filter(alert => isAlertActive(legStartTime, alert));
-
+  ].filter(alert => isAlertValid(alert, legStartTime));
   return serviceAlerts;
 };

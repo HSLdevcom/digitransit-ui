@@ -85,7 +85,6 @@ ENV \
   MAP_URL='' \
   OTP_URL='' \
   GEOCODING_BASE_URL='' \
-  APP_PATH='' \
   CONFIG=$CONFIG \
   NODE_ENV='' \
   RUN_ENV='' \

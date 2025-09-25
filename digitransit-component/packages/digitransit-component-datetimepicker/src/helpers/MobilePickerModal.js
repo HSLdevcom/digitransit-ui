@@ -7,14 +7,9 @@ import Modal from 'react-modal';
 import Icon from '@digitransit-component/digitransit-component-icon';
 import MobileDatepicker from './MobileDatepicker';
 import MobileTimepicker from './MobileTimepicker';
-import translations from './translations';
 import styles from './styles.scss';
 
 Settings.defaultLocale = 'en';
-i18next.init({ lng: 'en', resources: {} });
-Object.keys(translations).forEach(lang =>
-  i18next.addResourceBundle(lang, 'translation', translations[lang]),
-);
 
 /**
  * @param {object} props

@@ -51,6 +51,8 @@ export const ItineraryDetailsFragment = graphql`
         route {
           alerts {
             alertSeverityLevel
+            effectiveStartDate
+            effectiveEndDate
           }
           shortName
           mode
@@ -63,6 +65,8 @@ export const ItineraryDetailsFragment = graphql`
             platformCode
             alerts {
               alertSeverityLevel
+              effectiveStartDate
+              effectiveEndDate
             }
           }
         }
@@ -70,6 +74,8 @@ export const ItineraryDetailsFragment = graphql`
           stop {
             alerts {
               alertSeverityLevel
+              effectiveStartDate
+              effectiveEndDate
             }
           }
         }

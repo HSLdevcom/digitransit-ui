@@ -12,13 +12,9 @@ import { formatFavouritePlaceLabel } from '@digitransit-search-util/digitransit-
 import styles from './helpers/styles.scss';
 import translations from './helpers/translations';
 
-i18next.init({
-  fallbackLng: 'fi',
-  defaultNS: 'translation',
-  interpolation: {
-    escapeValue: false, // not needed for react as it escapes by default
-  },
-});
+Object.keys(translations).forEach(lang =>
+  i18next.addResourceBundle(lang, 'translation', translations[lang], true),
+);
 
 const isKeyboardSelectionEvent = event => {
   const space = [13, ' ', 'Spacebar'];
@@ -48,9 +44,12 @@ const FavouriteLocation = ({
   label,
   isLoading,
   color,
+  lang,
 }) => {
   const ariaLabel =
-    label === '' ? text : `${text} ${label} ${i18next.t('add-destination')}`;
+    label === ''
+      ? text
+      : `${text} ${label} ${i18next.t('add-destination', { lng: lang })}`;
   return (
     <button
       type="button"
@@ -80,6 +79,7 @@ FavouriteLocation.propTypes = {
   label: PropTypes.string.isRequired,
   isLoading: PropTypes.bool,
   color: PropTypes.string.isRequired,
+  lang: PropTypes.string.isRequired,
 };
 
 FavouriteLocation.defaultProps = {
@@ -182,9 +182,6 @@ class FavouriteBar extends React.Component {
     this.expandListRef = React.createRef();
     this.suggestionListRef = React.createRef();
     this.firstItemRef = React.createRef();
-    Object.keys(translations).forEach(lang => {
-      i18next.addResourceBundle(lang, 'translation', translations[lang]);
-    });
   }
 
   componentDidMount() {
@@ -215,9 +212,6 @@ class FavouriteBar extends React.Component {
 
   toggleList = () => {
     const eventDiff = new Date().getTime() - this.state.timestamp;
-    if (i18next.language !== this.props.lang) {
-      i18next.changeLanguage(this.props.lang);
-    }
     if (eventDiff > 200) {
       this.setState(
         prevState => ({
@@ -233,6 +227,10 @@ class FavouriteBar extends React.Component {
         },
       );
     }
+  };
+
+  translate = id => {
+    return i18next.t(id, { lng: this.props.lang });
   };
 
   handleClickOutside = event => {
@@ -320,7 +318,7 @@ class FavouriteBar extends React.Component {
   getCustomSuggestions = () => {
     const customSuggestions = [
       {
-        name: i18next.t('add-place'),
+        name: this.translate('add-place'),
         selectedIconId: 'favourite',
       },
     ];
@@ -330,7 +328,7 @@ class FavouriteBar extends React.Component {
     return [
       ...customSuggestions,
       {
-        name: i18next.t('edit'),
+        name: this.translate('edit'),
         selectedIconId: 'edit',
         iconColor: this.props.color,
       },
@@ -343,10 +341,6 @@ class FavouriteBar extends React.Component {
       this.state;
     const expandIcon = this.props.favourites.length === 0 ? 'plus' : 'arrow';
 
-    if (i18next.language !== this.props.lang) {
-      i18next.changeLanguage(this.props.lang);
-    }
-
     const [name1, address1] = formatFavourite(firstFavourite);
     const [name2, address2] = formatFavourite(secondFavourite);
 
@@ -354,7 +348,7 @@ class FavouriteBar extends React.Component {
       <div style={{ '--font-weight-medium': fontWeights.medium }}>
         <div className={styles['favourite-container']}>
           <FavouriteLocation
-            text={name1 || i18next.t('add-home')}
+            text={name1 || this.translate('add-home')}
             label={address1 || ''}
             clickItem={() =>
               firstFavourite
@@ -370,9 +364,10 @@ class FavouriteBar extends React.Component {
             }
             isLoading={isLoading}
             color={this.props.color}
+            lang={this.props.lang}
           />
           <FavouriteLocation
-            text={name2 || i18next.t('add-work')}
+            text={name2 || this.translate('add-work')}
             label={address2 || ''}
             clickItem={() =>
               secondFavourite
@@ -388,6 +383,7 @@ class FavouriteBar extends React.Component {
             }
             isLoading={isLoading}
             color={this.props.color}
+            lang={this.props.lang}
           />
           {/* eslint-disable jsx-a11y/role-supports-aria-props */}
           <button
@@ -400,7 +396,7 @@ class FavouriteBar extends React.Component {
             onKeyDown={e => this.handleKeyDown(e)}
             onClick={() => this.toggleList()}
             aria-expanded={this.state.listOpen}
-            aria-label={i18next.t('open-favourites')}
+            aria-label={this.translate('open-favourites')}
           >
             <Shimmer active={isLoading}>
               <Icon img={expandIcon} color={this.props.color} />
@@ -414,7 +410,7 @@ class FavouriteBar extends React.Component {
               className={styles['favourite-suggestion-list']}
               id="favourite-suggestion-list"
               ref={this.suggestionListRef}
-              aria-label={i18next.t('favourites-list')}
+              aria-label={this.translate('favourites-list')}
             >
               {favourites.map((item, index) => {
                 const favouriteLabel = formatFavouritePlaceLabel(
@@ -430,7 +426,7 @@ class FavouriteBar extends React.Component {
                     iconColor: this.props.color,
                   },
                   index,
-                  `, ${i18next.t('add-destination')}`,
+                  `, ${this.translate('add-destination')}`,
                 );
               })}
               {favourites.length > 0 && (

@@ -85,7 +85,7 @@ const dateForPrinting = date => {
   return (
     <div className="printable-date-container">
       <div className="printable-date-icon">
-        <Icon className="large-icon" img="icon-icon_schedule" />
+        <Icon className="large-icon" img="icon_schedule" />
       </div>
       <div className="printable-date-right">
         <div className="printable-date-header">
@@ -333,7 +333,7 @@ function Timetable(
                 >
                   <Icon
                     className={cx('no-timetable-icon', 'caution')}
-                    img="icon-icon_info"
+                    img="icon_info"
                     color="#0074be"
                   />
                   {timeDifferenceDays > 30 ? (
@@ -404,7 +404,7 @@ function Timetable(
                 name: null,
               });
             }}
-            buttonIcon="icon-icon_print"
+            buttonIcon="icon_print"
             smallSize
           />
           {stopPDFURL && (
@@ -419,7 +419,7 @@ function Timetable(
                   name: null,
                 });
               }}
-              buttonIcon="icon-icon_print"
+              buttonIcon="icon_print"
               smallSize
             />
           )}

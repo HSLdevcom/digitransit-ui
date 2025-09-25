@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Link from 'found/Link';
 import { FormattedMessage } from 'react-intl';
-import { configShape } from '../../../util/shapes';
+import { configShape, popupColorShape } from '../../../util/shapes';
 import Icon from '../../Icon';
 import { hasVehicleRentalCode } from '../../../util/vehicleRentalUtils';
 import { getIdWithoutFeed } from '../../../util/feedScopedIdUtils';
@@ -15,11 +15,11 @@ function SelectVehicleRentalClusterRow({
   prefix,
   networks: networksInCluster,
   isScooter,
+  colors,
 }) {
-  const img = isScooter
-    ? 'icon-icon_scooter-lollipop'
-    : 'icon-icon_citybike-stop-lollipop';
-
+  const img = isScooter ? 'icon_scooter-lollipop' : 'icon_citybike-lollipop';
+  const color =
+    colors?.iconColors[isScooter ? 'mode-scooter' : 'mode-citybike'];
   const linkAddress = `/${prefix}/${encodeURIComponent(id)}/${[
     ...networksInCluster,
   ]}`;
@@ -28,7 +28,7 @@ function SelectVehicleRentalClusterRow({
   return (
     <Link className="stop-popup-choose-row" to={linkAddress}>
       <span className="choose-row-left-column" aria-hidden="true">
-        <Icon img={img} />
+        <Icon img={img} color={color} />
       </span>
       <span className="choose-row-center-column">
         <h5 className="choose-row-header">{name}</h5>
@@ -40,7 +40,7 @@ function SelectVehicleRentalClusterRow({
         </span>
       </span>
       <span className="choose-row-right-column">
-        <Icon img="icon-icon_arrow-collapse--right" />
+        <Icon img="icon_arrow-collapse--right" />
       </span>
     </Link>
   );
@@ -55,12 +55,14 @@ SelectVehicleRentalClusterRow.propTypes = {
   prefix: PropTypes.string.isRequired,
   networks: PropTypes.arrayOf(PropTypes.string).isRequired,
   isScooter: PropTypes.bool,
+  colors: popupColorShape,
 };
 
 SelectVehicleRentalClusterRow.defaultProps = {
   desc: undefined,
   name: undefined,
   isScooter: false,
+  colors: undefined,
 };
 
 SelectVehicleRentalClusterRow.contextTypes = {

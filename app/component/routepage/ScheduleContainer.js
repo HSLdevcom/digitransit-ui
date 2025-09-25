@@ -451,21 +451,21 @@ class ScheduleContainer extends PureComponent {
     }
 
     if (trips.length === 0) {
+      const day = this.context.match.location.query?.serviceDay
+        ? DateTime.fromFormat(
+            this.context.match.location.query.serviceDay,
+            DATE_FORMAT,
+          ).toFormat(DATE_FORMAT_SCHEDULE)
+        : '';
       return (
         <div className="text-center">
           {this.context.intl.formatMessage(
             {
               id: 'no-trips-found',
-              defaultMessage: `No journeys found for the selected date ${DateTime.fromFormat(
-                this.context.match.location.query.serviceDay,
-                DATE_FORMAT,
-              ).toFormat(DATE_FORMAT_SCHEDULE)}`,
+              defaultMessage: `No journeys found for the selected date ${day}`,
             },
             {
-              selectedDate: DateTime.fromFormat(
-                this.context.match.location.query.serviceDay,
-                DATE_FORMAT,
-              ).toFormat(DATE_FORMAT_SCHEDULE),
+              selectedDate: day,
             },
           )}
         </div>
@@ -967,7 +967,7 @@ class ScheduleContainer extends PureComponent {
                     name: null,
                   });
                 }}
-                buttonIcon="icon-icon_print"
+                buttonIcon="icon_print"
                 smallSize
               />
             )}
@@ -982,7 +982,7 @@ class ScheduleContainer extends PureComponent {
                   name: null,
                 });
               }}
-              buttonIcon="icon-icon_print"
+              buttonIcon="icon_print"
               smallSize
             />
           </div>

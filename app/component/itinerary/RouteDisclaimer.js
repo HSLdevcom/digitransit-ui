@@ -14,7 +14,7 @@ export default function RouteDisclaimer({
   return (
     <div className="route-disclaimer-container">
       <div className="icon-container">
-        <Icon className="info" img="icon-icon_info" />
+        <Icon className="info" img="icon_info" />
       </div>
       <div className="disclaimer">
         {header && <h3 className="info-header">{header}</h3>}
@@ -30,7 +30,7 @@ export default function RouteDisclaimer({
             rel="noreferrer"
           >
             {linkText}
-            <Icon img="icon-icon_external-link-box" omitViewBox />
+            <Icon img="icon_external-link-box" omitViewBox />
           </a>
         )}
       </div>

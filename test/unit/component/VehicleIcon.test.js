@@ -13,7 +13,7 @@ describe('<VehicleIcon />', () => {
     const wrapper = shallowWithIntl(<VehicleIcon {...props} />);
 
     expect(wrapper.find('use').at(0).prop('xlinkHref')).to.equal(
-      '#icon-icon_vehicle-live-marker',
+      '#icon_vehicle-live-marker',
     );
   });
 
@@ -27,7 +27,7 @@ describe('<VehicleIcon />', () => {
       const wrapper = shallowWithIntl(<VehicleIcon {...props} />);
 
       expect(wrapper.find('use').at(0).prop('xlinkHref')).to.equal(
-        '#icon-icon_vehicle-live-marker',
+        '#icon_vehicle-live-marker',
       );
 
       expect(wrapper.find('tspan').text()).to.equal('32');
@@ -41,7 +41,7 @@ describe('<VehicleIcon />', () => {
       const wrapper = shallowWithIntl(<VehicleIcon {...props} />);
 
       expect(wrapper.find('use').prop('xlinkHref')).to.equal(
-        '#icon-icon_all-vehicles-small',
+        '#icon_all-vehicles-small',
       );
     });
   });

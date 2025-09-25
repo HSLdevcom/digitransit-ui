@@ -172,7 +172,7 @@ function ItineraryList(
             'show-alternatives',
           )}
         >
-          <Icon className="icon-icon_settings" img="icon-icon_settings" />
+          <Icon className="icon_settings" img="icon_settings" />
           <div>
             <FormattedMessage
               id="no-route-showing-alternative-options"
@@ -189,7 +189,7 @@ function ItineraryList(
             'summary-notification',
           )}
         >
-          <Icon className="info-icon" img="icon-icon_info" />
+          <Icon className="info-icon" img="icon_info" />
           <div>
             <div className="alternative-vehicle-info-header">
               <FormattedMessage id="no-route-msg" />

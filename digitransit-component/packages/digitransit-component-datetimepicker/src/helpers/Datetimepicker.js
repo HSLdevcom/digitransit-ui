@@ -11,15 +11,11 @@ import { isMobile } from './mobileDetection';
 import dateTimeInputIsSupported from './dateTimeInputIsSupported';
 import MobilePickerModal from './MobilePickerModal';
 
+Object.keys(translations).forEach(l =>
+  i18next.addResourceBundle(l, 'translation', translations[l], true),
+);
+
 Settings.defaultLocale = 'en';
-i18next.init({
-  lng: 'fi',
-  fallbackLng: 'fi',
-  defaultNS: 'translation',
-  interpolation: {
-    escapeValue: false, // not needed for react as it escapes by default
-  },
-});
 
 /**
  * This component renders combobox style inputs for selecting date and time. This is a controlled component, timestamp is the current value of both inputs.
@@ -90,12 +86,6 @@ function Datetimepicker({
   const alertRef = useRef();
 
   const translationSettings = { lng: lang };
-
-  useEffect(() => {
-    Object.keys(translations).forEach(language =>
-      i18next.addResourceBundle(language, 'translation', translations[lang]),
-    );
-  }, []);
 
   useEffect(() => {
     Settings.defaultLocale = lang;
@@ -274,7 +264,6 @@ function Datetimepicker({
         )
       );
     }
-
     return (
       <>
         <div

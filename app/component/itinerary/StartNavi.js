@@ -15,7 +15,7 @@ const StartNavi = ({ startNavigation }, context) => {
       <button type="button" onClick={startNavigation}>
         <Icon
           className="navigation-icon"
-          img="icon-icon_navigation"
+          img="icon_navigation"
           color={color}
           omitViewBox
         />
@@ -24,7 +24,7 @@ const StartNavi = ({ startNavigation }, context) => {
           <FormattedMessage tagName="h3" id="navigation-description" />
         </div>
         <Icon
-          img="icon-icon_arrow-collapse--right"
+          img="icon_arrow-collapse--right"
           title={intl.formatMessage({ id: 'continue' })}
           color={color}
           height={1}

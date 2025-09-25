@@ -19,7 +19,7 @@ const setFocusables = () => {
   for (let i = 0; i < swipeableTabs.length; i++) {
     const focusables = swipeableTabs[i].querySelectorAll(focusableTags);
     const unFocusables = swipeableTabs[i].querySelectorAll(unFocusableTags);
-    if (swipeableTabs[i].className === 'swipeable-tab inactive') {
+    if (swipeableTabs[i].classList.contains('inactive')) {
       focusables.forEach(focusable => {
         // eslint-disable-next-line no-param-reassign
         focusable.tabIndex = '-2';
@@ -180,7 +180,7 @@ export default class SwipeableTabs extends React.Component {
                   })}
                 >
                   <Icon
-                    img="icon-icon_arrow-collapse--left"
+                    img="icon_arrow-collapse--left"
                     className={`itinerary-arrow-icon ${
                       disabled || this.props.tabIndex <= 0 ? 'disabled' : ''
                     }`}
@@ -224,7 +224,7 @@ export default class SwipeableTabs extends React.Component {
                   })}
                 >
                   <Icon
-                    img="icon-icon_arrow-collapse--right"
+                    img="icon_arrow-collapse--right"
                     className={`itinerary-arrow-icon ${
                       disabled || this.props.tabIndex >= tabs.length - 1
                         ? 'disabled'

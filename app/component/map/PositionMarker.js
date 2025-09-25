@@ -7,7 +7,7 @@ import Icon from '../Icon';
 import { locationShape } from '../../util/shapes';
 
 const currentLocationIcon = L.divIcon({
-  html: Icon.asString({ img: 'icon-icon_current-location' }),
+  html: Icon.asString({ img: 'icon_current-location' }),
   className: 'current-location-marker',
   iconSize: [40, 40],
 });

@@ -31,7 +31,7 @@ export default function AlternativeItineraryBar(
           )}
           {walkPlan?.edges?.length > 0 && (
             <StreetModeSelectorButton
-              icon="icon-icon_walk"
+              icon="icon_walk"
               name={streetHash.walk}
               plan={walkPlan}
               onClick={selectStreetMode}
@@ -39,7 +39,7 @@ export default function AlternativeItineraryBar(
           )}
           {bikePlan?.edges?.length > 0 && (
             <StreetModeSelectorButton
-              icon="icon-icon_cyclist"
+              icon="icon_cyclist"
               name={streetHash.bike}
               plan={bikePlan}
               onClick={selectStreetMode}
@@ -47,7 +47,7 @@ export default function AlternativeItineraryBar(
           )}
           {bikePublicPlan?.edges?.length > 0 && (
             <StreetModeSelectorButton
-              icon="icon-icon_cyclist"
+              icon="icon_cyclist"
               name={streetHash.bikeAndVehicle}
               plan={bikePublicPlan}
               onClick={selectStreetMode}
@@ -56,7 +56,7 @@ export default function AlternativeItineraryBar(
 
           {parkRidePlan?.edges?.length > 0 && (
             <StreetModeSelectorButton
-              icon="icon-icon_car-withoutBox"
+              icon="icon_car-withoutBox"
               name={streetHash.parkAndRide}
               plan={parkRidePlan}
               onClick={selectStreetMode}
@@ -64,7 +64,7 @@ export default function AlternativeItineraryBar(
           )}
           {carPlan?.edges?.length > 0 && (
             <StreetModeSelectorButton
-              icon="icon-icon_car-withoutBox"
+              icon="icon_car-withoutBox"
               name={streetHash.car}
               plan={carPlan}
               onClick={selectStreetMode}
@@ -72,7 +72,7 @@ export default function AlternativeItineraryBar(
           )}
           {carPublicPlan?.edges?.length > 0 && (
             <StreetModeSelectorButton
-              icon="icon-icon_car-withoutBox"
+              icon="icon_car-withoutBox"
               name={streetHash.carAndVehicle}
               plan={carPublicPlan}
               onClick={selectStreetMode}

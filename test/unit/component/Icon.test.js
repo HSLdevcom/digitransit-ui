@@ -7,7 +7,7 @@ describe('<Icon />', () => {
   const backgroundShape = 'circle';
   const className = 'foo_class';
   const id = 'foo_id';
-  const img = 'icon-icon_bus';
+  const img = 'icon_bus';
 
   it('should include a circle as part of the svg render', () => {
     const props = { backgroundShape, className, id, img };

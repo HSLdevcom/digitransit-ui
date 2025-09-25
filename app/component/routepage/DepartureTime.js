@@ -81,7 +81,7 @@ export default function DepartureTime(props, context) {
         {epochToTime(props.departureTime * 1000, context.config)}
       </span>
       {props.canceled && props.showCancelationIcon && (
-        <Icon className="caution" img="icon-icon_caution" />
+        <Icon className="caution" img="icon_caution" />
       )}
     </React.Fragment>
   );

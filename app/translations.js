@@ -128,7 +128,7 @@ const translations = {
       'No route suggestions were found because the origin and destination are very close to each other.',
     'no-route-start-end': 'Venligst vælg udgangspunkt og destination.',
     'no-transfers-margin': 'Ingen',
-    'no-trips-found': 'Ingen rejser tilgænglig for denne dag ({selectedDate}).',
+    'no-trips-found': 'Ingen rejser tilgænglig for denne dag {selectedDate}.',
     now: 'Nu',
     'number-of-intermediate-stops':
       '{number, plural, =0 {Ingen stop} other {{number} stop} }',
@@ -554,7 +554,7 @@ const translations = {
       'Keine Routenvorschläge mit Ihren Einstelllungen gefunden. Stattdessen haben wird die folgenden Reiseoptionen gefunden:',
     'no-route-start-end': 'Bitte Start und Ziel auswählen.',
     'no-transfers-margin': 'Keine',
-    'no-trips-found': 'Keine Reisen für diesen Tag gefunden ({selectedDate}).',
+    'no-trips-found': 'Keine Reisen für diesen Tag gefunden {selectedDate}.',
     now: 'Jetzt',
     'number-of-intermediate-stops':
       '{number, plural, =0 {Keine Zwischenstopps} one {1 Zwischenstopp} other {{number} Zwischenstopps} }',
@@ -1014,9 +1014,9 @@ const translations = {
     'delete-favourite-failed-heading': 'Unable to delete save',
     'departure-list-update.sr-instructions':
       'The list of upcoming departures and departure times will update in real time.',
-    'departure-page-sr': 'Trip {shortName} {destination} {time} information',
+    'departure-page-sr': 'Route {shortName} {destination}, departs at {time},',
     'departure-time-in-minutes': '{minutes} min',
-    'departure-time-sr': '{when} clock {time}. {realTime}',
+    'departure-time-sr': '{when} clock {time}, {realTime}',
     departures: 'Departures',
     'departures-by-hour': 'Departures by hour',
     'departures-by-hour-minutes-route': '(minutes/route)',
@@ -1412,8 +1412,7 @@ const translations = {
     'no-route-start': 'Please select origin',
     'no-route-start-end': 'Please select origin and destination',
     'no-transfers-margin': '1 min',
-    'no-trips-found':
-      'No journeys found for the selected date ({selectedDate}).',
+    'no-trips-found': 'No journeys found for the selected date {selectedDate}.',
     'notification-minimize': 'Close message',
     'notification-open': 'Open message',
     now: 'Now',
@@ -1743,6 +1742,10 @@ const translations = {
     'tracking-button-off': 'tracking off',
     'tracking-button-offline': 'tracking failed',
     'tracking-button-on': 'tracking on',
+    trafficnow: 'Traffic now',
+    'trafficnow-bread': 'Travelling',
+    'trafficnow-description':
+      'Up-to-date information on disruptions and exceptions',
     traficom: 'Traficom',
     tram: 'Tram',
     'tram-with-route-number': 'Tram {routeNumber} {headSign}',
@@ -1991,7 +1994,7 @@ const translations = {
     'no-route-start-end': 'Por favor seleccione origen y destino.',
     'no-transfers-margin': '1 min',
     'no-trips-found':
-      'No se han encontrado viajes para la fecha seleccionada ({selectedDate}).',
+      'No se han encontrado viajes para la fecha seleccionada {selectedDate}.',
     now: 'Ahora',
     'number-of-intermediate-stops':
       '{number, plural, =0 {Sin paradas} one {1 parada} other {{number} paradas} }',
@@ -2331,9 +2334,10 @@ const translations = {
     'delete-favourite-failed-heading': 'Tallennuksen poistaminen ei onnistunut',
     'departure-list-update.sr-instructions':
       'Tulevien lähtöjen lista ja lähtöajat päivittyvät reaaliajassa.',
-    'departure-page-sr': 'Lähdön {shortName} {destination} {time} tiedot',
+    'departure-page-sr':
+      'Lähtö {shortName} {destination}, lähtee kello {time},',
     'departure-time-in-minutes': '{minutes} min',
-    'departure-time-sr': '{when} kello {time}. {realTime}',
+    'departure-time-sr': '{when} kello {time}, {realTime}',
     departures: 'Lähdöt',
     'departures-by-hour': 'Lähdöt tunneittain',
     'departures-by-hour-minutes-route': '(minuutit/linja)',
@@ -2724,7 +2728,7 @@ const translations = {
     'no-route-start': 'Syötä vielä lähtöpaikka',
     'no-route-start-end': 'Syötä lähtöpaikka ja määränpää',
     'no-transfers-margin': '1 min',
-    'no-trips-found': 'Valitulle päivälle ({selectedDate}) ei löydy matkoja.',
+    'no-trips-found': 'Valitulle päivälle {selectedDate} ei löydy matkoja.',
     'notification-minimize': 'Sulje ilmoitus',
     'notification-open': 'Avaa ilmoitus',
     now: 'Nyt',
@@ -3052,6 +3056,9 @@ const translations = {
     'tracking-button-off': 'paikannus pois päältä',
     'tracking-button-offline': 'paikannus epäonnistui',
     'tracking-button-on': 'paikannus päällä',
+    trafficnow: 'Liikenne nyt',
+    'trafficnow-bread': 'Matkustaminen',
+    'trafficnow-description': 'Ajantasaiset tiedot häiriöistä ja poikkeuksista',
     traficom: 'Traficom',
     tram: 'Raitiovaunu',
     'tram-with-route-number': 'Raitiovaunu {routeNumber} {headSign}',
@@ -3316,7 +3323,7 @@ const translations = {
     'no-route-start-end': 'Choisir un point de départ et une destination',
     'no-transfers-margin': 'Aucune',
     'no-trips-found':
-      "Il n'y a pas de trajet possible au jour choisi ({selectedDate}).",
+      "Il n'y a pas de trajet possible au jour choisi {selectedDate}.",
     now: 'Maintenant',
     'number-of-intermediate-stops':
       '{number, plural, =0 {Sans arrêt} =1 {{number} arrêt} other {{number} arrêts} }',
@@ -3603,7 +3610,7 @@ const translations = {
     'no-route-start-end': 'Vennligst velg avgangssted og destinasjon.',
     'no-transfers-margin': 'Ingen',
     'no-trips-found':
-      'Ingen reiser tilgjenelig for denne dagen ({selectedDate}).',
+      'Ingen reiser tilgjenelig for denne dagen {selectedDate}.',
     now: 'Nå',
     'number-of-intermediate-stops':
       '{number, plural, =0 {Ingen stopp} other {{number} stopp} }',
@@ -3922,9 +3929,9 @@ const translations = {
     'departure-list-update.sr-instructions':
       'The list of upcoming departures and departure times will update in real time.',
     'departure-page-sr':
-      'Informacje o podróży {shortName} {destination} {time}',
+      'Informacje o podróży {shortName} {destination} {time}.',
     'departure-time-in-minutes': '{minutes} min.',
-    'departure-time-sr': '{when} clock {time}. {realTime}',
+    'departure-time-sr': '{when} clock {time}, {realTime}',
     departures: 'Odjazdy',
     'departures-by-hour': 'Odjazdy według godziny',
     'departures-by-hour-minutes-route': '(minuty/trasa)',
@@ -4229,7 +4236,7 @@ const translations = {
     'no-route-start-end': 'Wybierz punkt początkowy i cel',
     'no-transfers-margin': '1 min.',
     'no-trips-found':
-      'Nie odnaleziono podróży dla wybranej daty ({selectedDate}).',
+      'Nie odnaleziono podróży dla wybranej daty {selectedDate}.',
     'notification-minimize': 'Zamknij wiadomość',
     'notification-open': 'Otwórz wiadomość',
     now: 'Teraz',
@@ -4862,7 +4869,7 @@ const translations = {
     'no-route-start-end': 'Selectați punctele de plecare și destinație.',
     'no-transfers-margin': '1 min',
     'no-trips-found':
-      'Nicio călătorie găsită pentru data respectivă ({selectedDate}).',
+      'Nicio călătorie găsită pentru data respectivă {selectedDate}.',
     now: 'Now',
     'number-of-intermediate-stops':
       '{number, plural, =0 {Nicio stație intermediară} O {1 stație} altă {{number} opriri} }',
@@ -5270,9 +5277,10 @@ const translations = {
     'delete-favourite-failed-heading': 'Unable to delete save',
     'departure-list-update.sr-instructions':
       'Listan på avgångar och avgångstider uppdateras i realtid.',
-    'departure-page-sr': 'Visa avgång {shortName} {destination} {time}',
+    'departure-page-sr':
+      'Linjenumret {shortName} {destination}, avgår kl {time},',
     'departure-time-in-minutes': '{minutes} min',
-    'departure-time-sr': '{when} klockan {time}. {realTime}',
+    'departure-time-sr': '{when} klockan {time}, {realTime}',
     departures: 'Avgångar',
     'departures-by-hour': 'Avgångar per timme',
     'departures-by-hour-minutes-route': '(minuter/rad)',
@@ -5663,7 +5671,7 @@ const translations = {
     'no-route-start': 'Välj avfärdsplats',
     'no-route-start-end': 'Välj avfärdsplats och destination',
     'no-transfers-margin': '1 min',
-    'no-trips-found': 'Inga resor på den valda dagen ({selectedDate}).',
+    'no-trips-found': 'Inga resor på den valda dagen {selectedDate}.',
     'notification-minimize': 'Stäng meddelande',
     'notification-open': 'Öppna meddelande',
     now: 'Nu',
@@ -5999,6 +6007,9 @@ const translations = {
     'tracking-button-off': 'lokalisering av',
     'tracking-button-offline': 'lokalisering misslyckades',
     'tracking-button-on': 'lokalisering på',
+    trafficnow: 'Trafikläget nu',
+    'trafficnow-bread': 'Att resa med oss',
+    'trafficnow-description': 'Aktuell information om störningar och undantag',
     traficom: 'Traficom',
     tram: 'Spårvagn',
     'tram-with-route-number': 'Spårvagn {routeNumber} {headSign}',

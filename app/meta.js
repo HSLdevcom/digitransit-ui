@@ -1,5 +1,5 @@
 export default function getMetadata(lang, host, url, config) {
-  const root = config.URL.ASSET_URL || config.APP_PATH;
+  const root = config.URL.ASSET_URL || '';
   const path = config.iconPath || 'icons';
   const iconPath = `${root}/${path}`;
   const imageHost = config.URL.ASSET_URL || `https://${host}`;

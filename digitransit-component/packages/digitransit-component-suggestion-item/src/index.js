@@ -5,24 +5,88 @@ import cx from 'classnames';
 import Icon from '@digitransit-component/digitransit-component-icon';
 import styles from './helpers/styles.scss';
 
-const BUS_EXPRESS = 702;
-const BUS_LOCAL = 704;
-const SPEEDTRAM = 900;
-const BUS_REPLACEMENT = 714;
+const extendedModes = {
+  702: 'bus-express',
+  704: 'bus-local',
+  714: 'bus-replacement',
+  900: 'speedtram',
+};
 
-const getRouteMode = props => {
-  switch (props.type) {
-    case BUS_LOCAL:
-      return 'bus-local';
-    case BUS_EXPRESS:
-      return 'bus-express';
-    case SPEEDTRAM:
-      return 'speedtram';
-    case BUS_REPLACEMENT:
-      return 'bus-replacement';
-    default:
-      return props?.mode?.toLowerCase() || 'bus';
+const getRouteMode = (props, set) => {
+  let eMode;
+  if (set === 'default') {
+    eMode = extendedModes[props.type];
   }
+  return eMode || props.mode?.toLowerCase() || 'bus';
+};
+
+const iconProps = {
+  bikestation: ['citybike'],
+  currentPosition: ['locate'],
+  favouritePlace: ['star'],
+  favouriteRoute: ['star'],
+  favouriteStop: ['star'],
+  favouriteStation: ['star'],
+  favouriteVehicleRentalStation: ['star'],
+  favourite: ['star'],
+  stop: ['busstop'],
+  locality: ['city'],
+  station: ['station'],
+  localadmin: ['city'],
+  neighbourhood: ['city'],
+  'route-BUS': ['mode-bus'],
+  'route-TRAM': ['mode-tram'],
+  'route-RAIL': ['mode-rail'],
+  'route-SUBWAY': ['subway'],
+  'route-FERRY': ['mode-ferry'],
+  'route-FUNICULAR': ['mode-funicular'],
+  'route-AIRPLANE': ['airplane'],
+  edit: ['edit'],
+  'icon-icon_home': ['home'],
+  'icon-icon_work': ['work'],
+  'icon-icon_sport': ['sport'],
+  'icon-icon_school': ['school'],
+  'icon-icon_shopping': ['shopping'],
+  selectFromMap: ['select-from-map'],
+  ownLocations: ['star'],
+  back: ['arrow'],
+  futureRoute: ['future-route'],
+  'BUS-default': ['search-bus-stop-default', 'mode-bus'],
+  'BUS-EXPRESS-default': [
+    'search-bus-stop-express-default',
+    'mode-bus-express',
+  ],
+  'SPEEDTRAM-default': ['search-speedtram-stop-default', 'mode-speedtram'],
+  'BUS-digitransit': ['search-bus-stop-digitransit', 'mode-bus'],
+  'BUS-STATION-default': ['mode-bus', 'mode-bus'],
+  'BUS-STATION-digitransit': ['search-bus-station-digitransit', 'mode-bus'],
+  'FUNICULAR-digitransit': [
+    'search-funicular-stop-digitransit',
+    'mode-funicular',
+  ],
+  'RAIL-default': ['search-rail-stop-default', 'mode-rail'],
+  'RAIL-digitransit': ['search-rail-stop-digitransit', 'mode-rail'],
+  'RAIL-STATION-default': ['mode-rail', 'mode-rail'],
+  'RAIL-STATION-digitransit': ['search-rail-station-digitransit', 'mode-rail'],
+  'TRAM-default': ['search-tram-stop-default', 'mode-tram'],
+  'TRAM-digitransit': ['search-tram-stop-digitransit', 'mode-tram'],
+  'SUBWAY-default': ['subway', 'mode-metro'],
+  'SUBWAY-digitransit': ['subway', 'mode-metro'],
+  'SUBWAY-STATION-default': ['subway', 'mode-metro'],
+  'SUBWAY-STATION-digitransit': ['subway', 'mode-metro'],
+  'SPEEDTRAM-STATION-default': ['mode-speedtram', 'mode-speedtram'],
+  'TRAM-STATION-default': ['mode-tram', 'mode-tram'],
+  'TRAM-STATION-digitransit': ['mode-tram', 'mode-tram'],
+  'SPEEDTRAM-STATION-digitransit': ['mode-tram', 'mode-tram'],
+  'FERRY-STATION-default': ['search-ferry-default', 'mode-ferry'],
+  'FERRY-STATION-digitransit': ['search-ferry-digitransit', 'mode-ferry'],
+  'FERRY-default': ['search-ferry-stop-default', 'mode-ferry-pier'],
+  'FERRY-digitransit': ['search-ferry-stop-digitransit', 'mode-ferry-pier'],
+  'AIRPLANE-digitransit': ['search-airplane-digitransit', 'mode-airplane'],
+  'BUS-TRAM-STATION-digitransit': [
+    'search-bustram-stop-digitransit',
+    'mode-tram',
+  ],
 };
 
 function isFavourite(item) {
@@ -55,19 +119,11 @@ function getIconProperties(
     iconId = 'favouriteStop';
   } else if (item.type === 'FavouriteVehicleRentalStation') {
     iconId = 'favouriteVehicleRentalStation';
-  } else if (item.type === 'Route') {
-    const mode =
-      modeSet === 'default'
-        ? getRouteMode(item.properties)
-        : item.properties?.mode?.toLowerCase() || 'bus';
-    return modeSet === 'default'
-      ? [`mode-${mode}`, `mode-${mode}`]
-      : [`mode-${modeSet}-${mode}`, `mode-${mode}`];
-  } else if (item.type === 'OldSearch' && item.properties?.mode) {
-    const mode =
-      modeSet === 'default'
-        ? getRouteMode(item.properties)
-        : item.properties?.mode?.toLowerCase() || 'bus';
+  } else if (
+    item.type === 'Route' ||
+    (item.type === 'OldSearch' && item.properties?.mode)
+  ) {
+    const mode = getRouteMode(item.properties, modeSet);
     return modeSet === 'default'
       ? [`mode-${mode}`, `mode-${mode}`]
       : [`mode-${modeSet}-${mode}`, `mode-${mode}`];
@@ -89,154 +145,39 @@ function getIconProperties(
       iconId = item.properties.selectedIconId || item.properties.layer;
     }
   }
-  if (item && item.iconColor) {
-    // eslint-disable-next-line prefer-destructuring
-    iconColor = item.iconColor;
-  } else if (isFavourite(item)) {
+  if (iconId === 'currentPosition' || isFavourite(item)) {
     iconColor = color;
+  } else if (item.iconColor) {
+    iconColor = item.iconColor;
   }
-  const layerIcon = new Map([
-    ['bikestation', 'citybike'],
-    ['currentPosition', 'locate'],
-    ['favouritePlace', 'star'],
-    ['favouriteRoute', 'star'],
-    ['favouriteStop', 'star'],
-    ['favouriteStation', 'star'],
-    ['favouriteVehicleRentalStation', 'star'],
-    ['favourite', 'star'],
-    ['address', 'place'],
-    ['stop', 'busstop'],
-    ['locality', 'city'],
-    ['station', 'station'],
-    ['localadmin', 'city'],
-    ['neighbourhood', 'city'],
-    ['route-BUS', 'mode-bus'],
-    ['route-TRAM', 'mode-tram'],
-    ['route-RAIL', 'mode-rail'],
-    ['route-SUBWAY', 'subway'],
-    ['route-FERRY', 'mode-ferry'],
-    ['route-FUNICULAR', 'mode-funicular'],
-    ['route-AIRPLANE', 'airplane'],
-    ['edit', 'edit'],
-    ['icon-icon_home', 'home'],
-    ['icon-icon_work', 'work'],
-    ['icon-icon_sport', 'sport'],
-    ['icon-icon_school', 'school'],
-    ['icon-icon_shopping', 'shopping'],
-    ['selectFromMap', 'select-from-map'],
-    ['ownLocations', 'star'],
-    ['back', 'arrow'],
-    ['futureRoute', 'future-route'],
-    ['BUS-default', { icon: 'search-bus-stop-default', color: 'mode-bus' }],
-    [
-      'BUS-EXPRESS-default',
-      { icon: 'search-bus-stop-express-default', color: 'mode-bus-express' },
-    ],
-    [
-      'SPEEDTRAM-default',
-      { icon: 'search-speedtram-stop-default', color: 'mode-speedtram' },
-    ],
-    [
-      'BUS-digitransit',
-      { icon: 'search-bus-stop-digitransit', color: 'mode-bus' },
-    ],
-    ['BUS-STATION-default', { icon: 'mode-bus', color: 'mode-bus' }],
-    [
-      'BUS-STATION-digitransit',
-      { icon: 'search-bus-station-digitransit', color: 'mode-bus' },
-    ],
-    [
-      'FUNICULAR-digitransit',
-      { icon: 'search-funicular-stop-digitransit', color: 'mode-funicular' },
-    ],
-    ['RAIL-default', { icon: 'search-rail-stop-default', color: 'mode-rail' }],
-    [
-      'RAIL-digitransit',
-      { icon: 'search-rail-stop-digitransit', color: 'mode-rail' },
-    ],
-    ['RAIL-STATION-default', { icon: 'mode-rail', color: 'mode-rail' }],
-    [
-      'RAIL-STATION-digitransit',
-      { icon: 'search-rail-station-digitransit', color: 'mode-rail' },
-    ],
-    ['TRAM-default', { icon: 'search-tram-stop-default', color: 'mode-tram' }],
-    [
-      'TRAM-digitransit',
-      { icon: 'search-tram-stop-digitransit', color: 'mode-tram' },
-    ],
-    ['SUBWAY-default', { icon: 'subway', color: 'mode-metro' }],
-    ['SUBWAY-digitransit', { icon: 'subway', color: 'mode-metro' }],
-    ['SUBWAY-STATION-default', { icon: 'subway', color: 'mode-metro' }],
-    ['SUBWAY-STATION-digitransit', { icon: 'subway', color: 'mode-metro' }],
-    [
-      'FERRY-STATION-default',
-      { icon: 'search-ferry-default', color: 'mode-ferry' },
-    ],
-    [
-      'FERRY-STATION-digitransit',
-      { icon: 'search-ferry-digitransit', color: 'mode-ferry' },
-    ],
-    [
-      'FERRY-default',
-      { icon: 'search-ferry-stop-default', color: 'mode-ferry-pier' },
-    ],
-    [
-      'FERRY-digitransit',
-      { icon: 'search-ferry-stop-digitransit', color: 'mode-ferry-pier' },
-    ],
-
-    [
-      'AIRPLANE-digitransit',
-      { icon: 'search-airplane-digitransit', color: 'mode-airplane' },
-    ],
-    [
-      'BUS-TRAM-STATION-digitransit',
-      {
-        icon: 'search-bustram-stop-digitransit',
-        color: 'mode-tram',
-      },
-    ],
-  ]);
-  const defaultIcon = 'place';
   // Use more accurate icons in stop/station search, depending on mode from geocoding
   if (modes?.length) {
     const mode = modes[0];
-    let iconStr;
     if (item.properties.layer === 'station' || (mode === 'FERRY' && stopCode)) {
-      const iconProperties = layerIcon.get(
-        mode.concat('-STATION').concat('-').concat(modeSet),
-      );
-      if (iconProperties) {
-        iconStr = [iconProperties]; // layerIcon.get(mode.concat('-STATION').concat('-').concat(modeSet)),
-      } else {
-        iconStr = ['busstop', 'mode-bus'];
+      if (modes.includes('SPEEDTRAM') && modeSet === 'default') {
+        return iconProps['SPEEDTRAM-STATION-default'];
       }
-    } else if (modes.includes('BUS-EXPRESS') && modeSet === 'default') {
-      iconStr = [layerIcon.get('BUS-EXPRESS'.concat('-').concat(modeSet))];
-    } else if (
-      (modes.includes('SPEEDTRAM') && modeSet === 'default') ||
-      (modes.includes('SPEEDTRAM') && modeSet === 'digitransit')
-    ) {
-      iconStr = [layerIcon.get('SPEEDTRAM'.concat('-').concat('default'))];
-    } else {
-      iconStr = [layerIcon.get(mode.concat('-').concat(modeSet))];
+      return iconProps[`${mode}-STATION-${modeSet}`];
     }
-    let icon;
-    if (Array.isArray(iconStr) && iconStr.filter(i => i).length > 0) {
-      icon = iconStr[0].icon;
-      iconColor = iconStr[0].color;
-      if (!icon) {
-        return ['busstop', 'mode-bus'];
-      }
-      return [icon, iconColor];
+    if (modes.includes('BUS-EXPRESS') && modeSet === 'default') {
+      return iconProps[`BUS-EXPRESS-${modeSet}`];
     }
-    // If no icon's found, return default stop icon.
-    return iconStr.filter(k => k).length ? iconStr : [layerIcon.get('stop')];
+    if (modes.includes('SPEEDTRAM')) {
+      return modeSet === 'default'
+        ? iconProps['SPEEDTRAM-default']
+        : iconProps['TRAM-digitransit'];
+    }
+    const props = iconProps[`${mode}-${modeSet}`];
+    return props || ['busstop', 'mode-bus'];
   }
-  if (layerIcon.get(iconId) === 'locate') {
-    iconColor = color;
+  let props;
+  if (iconId) {
+    props = iconProps[iconId];
+    if (props?.length === 1) {
+      props.push(iconColor);
+    }
   }
-  return [layerIcon.get(iconId) || defaultIcon, iconColor];
+  return props || ['place', iconColor];
 }
 
 /** *

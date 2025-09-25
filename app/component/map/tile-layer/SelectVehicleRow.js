@@ -9,7 +9,7 @@ import Icon from '../../Icon';
 
 function SelectVehicleRow(props) {
   const mode = getRouteMode(props.trip.route);
-  const iconId = `icon-icon_${mode || 'bus'}`;
+  const iconId = `icon_${mode || 'bus'}`;
 
   let patternPath = `/${PREFIX_ROUTES}/${props.trip.route.gtfsId}/${PREFIX_STOPS}`;
 
@@ -36,7 +36,7 @@ function SelectVehicleRow(props) {
         </span>
       </span>
       <span className="choose-row-right-column">
-        <Icon img="icon-icon_arrow-collapse--right" />
+        <Icon img="icon_arrow-collapse--right" />
       </span>
     </Link>
   );

@@ -19,6 +19,7 @@ export const PREFIX_TIMETABLE = 'aikataulu';
 export const stopUrl = id => id;
 export const EMBEDDED_SEARCH_PATH = '/haku';
 export const PREFIX_RENTALVEHICLES = 'skuutit';
+export const TRAFFICNOW = 'liikenne';
 
 /**
  * Join argument with slash separator.

@@ -102,8 +102,7 @@ const handleChange = () => {
  *
  * @return void
  */
-export function initAnalyticsClientSide(config) {
-  const cookies = new Cookies();
+export function initAnalyticsClientSide(config, cookies = new Cookies()) {
   const useAnalytics =
     !config.useCookiesPrompt || cookies.get('cookieConsent') === true;
 

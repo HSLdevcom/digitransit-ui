@@ -36,7 +36,7 @@ function AirportCollectLuggageLeg(props, { config }) {
             >
               {name}
               <Icon
-                img="icon-icon_arrow-collapse--right"
+                img="icon_arrow-collapse--right"
                 className="itinerary-arrow-icon"
                 color={config.colors.primary}
               />
@@ -47,7 +47,7 @@ function AirportCollectLuggageLeg(props, { config }) {
         </div>
 
         <div className="info-message">
-          <Icon img="icon-icon_info" />
+          <Icon img="icon_info" />
           <FormattedMessage
             id="airport-collect-luggage"
             defaultMessage="Collect your luggage"

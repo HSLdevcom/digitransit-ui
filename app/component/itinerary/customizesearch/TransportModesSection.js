@@ -49,7 +49,7 @@ const TransportModesSection = ({ config }, { executeAction }) => {
                 <div className="mode-icon">
                   <Icon
                     className={`${mode}-icon`}
-                    img={`icon-icon_${lowerCaseMode}`}
+                    img={`icon_${lowerCaseMode}`}
                     color={getModeIconColor(config, mode)}
                   />
                 </div>

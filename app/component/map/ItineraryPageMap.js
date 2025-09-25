@@ -147,7 +147,7 @@ const ItineraryPageMap = (
     >
       {showBackButton && breakpoint !== 'large' && (
         <BackButton
-          icon="icon-icon_arrow-collapse--left"
+          icon="icon_arrow-collapse--left"
           iconClassName="arrow-icon"
           fallback="pop"
         />

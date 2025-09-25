@@ -133,7 +133,7 @@ export default function BicycleLeg(
       <ItineraryCircleLineWithIcon
         index={index}
         modeClassName={mode.toLowerCase()}
-        icon="icon-icon_scooter_rider"
+        icon="icon_scooter_rider"
         appendClass={!scooterSettingsOn ? 'settings' : 'scooter'}
         style={style}
       />
@@ -278,12 +278,12 @@ export default function BicycleLeg(
                     {origin}
                     {leg.isViaPoint && (
                       <Icon
-                        img="icon-icon_mapMarker"
+                        img="icon_mapMarker"
                         className="itinerary-mapmarker-icon"
                       />
                     )}
                     <Icon
-                      img="icon-icon_arrow-collapse--right"
+                      img="icon_arrow-collapse--right"
                       className="itinerary-arrow-icon"
                       color={config.colors.primary}
                     />
@@ -403,11 +403,7 @@ export default function BicycleLeg(
                 </div>
               </div>
               <div className="link-to-e-scooter-operator">
-                <Icon
-                  img="icon-icon_arrow-collapse--right"
-                  height={1}
-                  width={1}
-                />
+                <Icon img="icon_arrow-collapse--right" height={1} width={1} />
               </div>
             </div>
           </div>

@@ -167,7 +167,7 @@ module.exports = {
     path: path.join(__dirname, '_static'),
     filename: isDevelopment ? 'js/[name].js' : 'js/[name].[chunkhash].js',
     chunkFilename: 'js/[chunkhash].js',
-    publicPath: isDevelopment ? '/proxy/' : `${process.env.APP_PATH || ''}/`,
+    publicPath: isDevelopment ? '/proxy/' : '/',
     crossOriginLoading: 'anonymous',
   },
   module: {

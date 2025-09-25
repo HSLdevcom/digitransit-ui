@@ -67,8 +67,8 @@ function RouteNumber(props, context) {
         <IconWithIcon
           color={color}
           className={`${mode} call`}
-          img={icon || `icon-icon_${mode}`}
-          subIcon="icon-icon_call"
+          img={icon || `icon_${mode}`}
+          subIcon="icon_call"
         />
       );
     }
@@ -80,18 +80,18 @@ function RouteNumber(props, context) {
             alertSeverityLevel={alertSeverityLevel}
             color={color}
             className={mode}
-            img={icon || `icon-icon_${mode}`}
+            img={icon || `icon_${mode}`}
             omitViewBox
           />
           {withBicycle && (
             <Icon
-              img="icon-icon_bicycle_walk"
+              img="icon_bicycle_walk"
               className="itinerary-icon_with-bicycle"
             />
           )}
           {withCar && (
             <Icon
-              img="icon-icon_car-withoutBox"
+              img="icon_car-withoutBox"
               className="itinerary-icon_with-car"
             />
           )}
@@ -111,22 +111,19 @@ function RouteNumber(props, context) {
               props.icon &&
               props.icon.includes('secondary'), // Vantaa citybike station
           })}
-          img={icon || `icon-icon_${mode}`}
+          img={icon || `icon_${mode}`}
           subIcon=""
           mode={mode}
           omitViewBox
         />
         {withBicycle && (
           <Icon
-            img="icon-icon_bicycle_walk"
+            img="icon_bicycle_walk"
             className="itinerary-icon_with-bicycle"
           />
         )}
         {withCar && (
-          <Icon
-            img="icon-icon_car-withoutBox"
-            className="itinerary-icon_with-car"
-          />
+          <Icon img="icon_car-withoutBox" className="itinerary-icon_with-car" />
         )}
       </React.Fragment>
     );
@@ -207,13 +204,13 @@ function RouteNumber(props, context) {
             </div>
           )}
         {isScooter && !props.vertical && (
-          <Icon img="icon-icon_smartphone" className="phone-icon" />
+          <Icon img="icon_smartphone" className="phone-icon" />
         )}
       </span>
       {props.occupancyStatus && (
         <span className="occupancy-icon-container">
           <Icon
-            img={`icon-icon_${props.occupancyStatus}`}
+            img={`icon_${props.occupancyStatus}`}
             height={1.5}
             width={1.5}
             color="white"

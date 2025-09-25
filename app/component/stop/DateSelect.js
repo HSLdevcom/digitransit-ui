@@ -43,7 +43,7 @@ function DateSelect(props, context) {
         <>
           <span>{option.label}</span>
           {option.value === props.selectedDate && (
-            <Icon img="icon-icon_check" height={1.1525} width={0.904375} />
+            <Icon img="icon_check" height={1.1525} width={0.904375} />
           )}
         </>
       ),
@@ -105,7 +105,7 @@ function DateSelect(props, context) {
             <span className="selected-value">{selectedDate.textLabel}</span>
           </span>
           <div>
-            <Icon id="route-schedule-date-icon" img="icon-icon_calendar" />
+            <Icon id="route-schedule-date-icon" img="icon_calendar" />
           </div>
         </>
       }

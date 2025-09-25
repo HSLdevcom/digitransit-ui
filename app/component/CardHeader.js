@@ -36,7 +36,7 @@ export default function CardHeader(
       <div className={cx('card-header', className)}>
         {showBackButton && (
           <BackButton
-            icon="icon-icon_arrow-collapse--left"
+            icon="icon_arrow-collapse--left"
             iconClassName="arrow-icon"
           />
         )}

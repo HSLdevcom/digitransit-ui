@@ -36,7 +36,7 @@ export default function AirportCheckInLeg(props, { config }) {
             >
               {name}
               <Icon
-                img="icon-icon_arrow-collapse--right"
+                img="icon_arrow-collapse--right"
                 className="itinerary-arrow-icon"
                 color={config.colors.primary}
               />
@@ -47,7 +47,7 @@ export default function AirportCheckInLeg(props, { config }) {
         </div>
 
         <div className="info-message">
-          <Icon img="icon-icon_info" />
+          <Icon img="icon_info" />
           <FormattedMessage
             id="airport-check-in"
             values={{ agency: props.leg.agency && props.leg.agency.name }}
@@ -55,7 +55,7 @@ export default function AirportCheckInLeg(props, { config }) {
           />
         </div>
         <div className="info-message">
-          <Icon img="icon-icon_info" />
+          <Icon img="icon_info" />
           <FormattedMessage
             id="airport-security-check-go-to-gate"
             defaultMessage="Proceed to your gate through security check"

@@ -136,7 +136,7 @@ function StopPageMap(
   } else {
     children.push(
       <BackButton
-        icon="icon-icon_arrow-collapse--left"
+        icon="icon_arrow-collapse--left"
         iconClassName="arrow-icon"
         key="stop-page-back-button"
       />,

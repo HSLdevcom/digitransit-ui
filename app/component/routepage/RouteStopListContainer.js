@@ -50,7 +50,19 @@ class RouteStopListContainer extends React.PureComponent {
       vehicle => vehicle.next_stop,
     );
     const rowClassName = `bp-${this.props.breakpoint}`;
-
+    const loop =
+      stops.length && stops[0].gtfsId === stops[stops.length - 1].gtfsId;
+    let singleLoop; // runs only once through the stop chain
+    if (loop) {
+      let i;
+      for (i = 1; i < stops.length - 1; i++) {
+        if (stops[i].stopTimesForPattern[1]) {
+          // stop is visited many times
+          break;
+        }
+      }
+      singleLoop = i === stops.length - 1; // no double time values
+    }
     return stops.map((stop, i) => {
       const idx = i;
       const nextStop = stops[i + 1];
@@ -59,7 +71,7 @@ class RouteStopListContainer extends React.PureComponent {
       return (
         <RouteStop
           color={
-            this.props.pattern.route && this.props.pattern.route.color
+            this.props.pattern.route?.color
               ? `#${this.props.pattern.route.color}`
               : null
           }
@@ -68,16 +80,16 @@ class RouteStopListContainer extends React.PureComponent {
           nextStop={nextStop}
           prevStop={prevStop}
           mode={mode}
-          vehicle={vehicles[stop.gtfsId] ? vehicles[stop.gtfsId][0] : null}
+          vehicle={vehicles[stop.gtfsId]?.[0]}
           currentTime={this.props.currentTime}
           last={i === stops.length - 1}
           first={i === 0}
           className={rowClassName}
           displayNextDeparture={this.context.config.displayNextDeparture}
-          shortName={
-            this.props.pattern.route && this.props.pattern.route.shortName
-          }
+          shortName={this.props.pattern.route?.shortName}
           hideDepartures={this.props.hideDepartures}
+          loop={loop}
+          singleLoop={singleLoop}
         />
       );
     });

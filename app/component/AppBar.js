@@ -106,7 +106,7 @@ export default function AppBar(
                 onClick={() => setMenuOpenWithAnalytics(true)}
                 className="noborder cursor-pointer"
               >
-                <Icon img="icon-icon_menu" className="icon" />
+                <Icon img="icon_menu" className="icon" />
               </button>
             </div>
           ) : null}

@@ -1,6 +1,6 @@
 {
   "name": "@digitransit-component/digitransit-component-autosuggest",
-  "version": "4.6.0",
+  "version": "5.0.1",
   "description": "digitransit-component autosuggest module",
   "main": "index.js",
   "files": [
@@ -35,9 +35,9 @@
     "@hsl-fi/hooks": "^1.2.4"
   },
   "peerDependencies": {
-    "@digitransit-component/digitransit-component-dialog-modal": "^0.3.8",
-    "@digitransit-component/digitransit-component-icon": "^1.0.2",
-    "@digitransit-component/digitransit-component-suggestion-item": "^2.1.0",
+    "@digitransit-component/digitransit-component-dialog-modal": "^1.0.0",
+    "@digitransit-component/digitransit-component-icon": "^1.1.0",
+    "@digitransit-component/digitransit-component-suggestion-item": "^2.2.1",
     "@hsl-fi/sass": "^0.2.0",
     "classnames": "2.5.1",
     "i18next": "^22.5.1",
@@ -47,7 +47,6 @@
     "prop-types": "^15.8.1",
     "react": "^16.13.0",
     "react-autosuggest": "^10.0.0",
-    "react-modal": "~3.11.2",
-    "recompose": "0.30.0"
+    "react-modal": "~3.11.2"
   }
 }

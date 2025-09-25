@@ -68,7 +68,7 @@ function ScooterLinkContainer(
             onClick={onClick}
           >
             <Icon
-              img="icon-icon_external-link-box"
+              img="icon_external-link-box"
               className="scooter-link-icon"
               omitViewBox
             />

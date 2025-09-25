@@ -55,6 +55,8 @@ const containerComponent = createRefetchContainer(
             route {
               alerts {
                 alertSeverityLevel
+                effectiveStartDate
+                effectiveEndDate
               }
               type
               shortName

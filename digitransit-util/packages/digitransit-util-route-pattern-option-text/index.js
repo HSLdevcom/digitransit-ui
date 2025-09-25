@@ -10,30 +10,26 @@ const DATE_FORMAT = 'yyyyLLdd';
 const DATE_FORMAT2 = 'd.L.';
 const DATE_FORMAT3 = 'd.';
 
-i18next.init({ lng: 'en', resources: {} });
-
-i18next.addResourceBundle('da', 'translation', translations.da);
-i18next.addResourceBundle('de', 'translation', translations.de);
-i18next.addResourceBundle('en', 'translation', translations.en);
-i18next.addResourceBundle('es', 'translation', translations.es);
-i18next.addResourceBundle('fi', 'translation', translations.fi);
-i18next.addResourceBundle('fr', 'translation', translations.fr);
-i18next.addResourceBundle('nb', 'translation', translations.nb);
-i18next.addResourceBundle('pl', 'translation', translations.pl);
-i18next.addResourceBundle('ro', 'translation', translations.ro);
-i18next.addResourceBundle('sv', 'translation', translations.sv);
-
-function translateText(objectToTranslate) {
-  if (
-    objectToTranslate.range === undefined &&
-    objectToTranslate.day === undefined
-  ) {
-    return i18next.t(objectToTranslate.id);
-  }
-  return i18next.t(objectToTranslate.id, {
-    range: objectToTranslate.range,
-    day: objectToTranslate.day,
-  });
+if (!i18next.hasLoadedNamespace('translation')) {
+  i18next
+    .init({
+      fallbackLng: 'fi',
+      defaultNS: 'translation',
+      // debug: true,
+      interpolation: {
+        escapeValue: false, // not needed for react as it escapes by default
+      },
+      resources: {},
+    })
+    .then(() =>
+      Object.keys(translations).forEach(l =>
+        i18next.addResourceBundle(l, 'translation', translations[l], true),
+      ),
+    );
+} else {
+  Object.keys(translations).forEach(l =>
+    i18next.addResourceBundle(l, 'translation', translations[l], true),
+  );
 }
 
 /**
@@ -49,7 +45,6 @@ function translateText(objectToTranslate) {
  * //=Kirkkonummi ➔ Helsinki
  */
 export default function routePatternOptionText(language, pattern, isTogglable) {
-  i18next.changeLanguage(language);
   // Starts with route info:  Kirkkonummi ➔ Helsinki
   let destinationName = pattern ? pattern.headsign : null; // DT-3422
   if (destinationName === null) {
@@ -58,8 +53,8 @@ export default function routePatternOptionText(language, pattern, isTogglable) {
   let retValue = `${pattern.stops[0].name} ➔ ${destinationName}`;
   if (isTogglable) {
     if (pattern.dayString !== 'ma-su' && pattern.dayString !== '-') {
-      retValue += translateText({
-        id: `route-pattern-select-range-${pattern.dayString}`,
+      retValue += i18next.t(`route-pattern-select-range-${pattern.dayString}`, {
+        lng: language,
       });
     }
     return retValue;
@@ -82,9 +77,7 @@ export default function routePatternOptionText(language, pattern, isTogglable) {
       pattern.activeDates.length === 1 ||
       pattern.rangeFollowingDays[0][1] === 0
     ) {
-      retValue += translateText({
-        id: 'route-pattern-select-only',
-      });
+      retValue += i18next.t('route-pattern-select-only', { lng: language });
     }
 
     retValue += DateTime.fromFormat(
@@ -199,10 +192,12 @@ export default function routePatternOptionText(language, pattern, isTogglable) {
     pattern.fromDate === '-' &&
     pattern.dayString === 'ma-su'
   ) {
-    retValue += translateText({
-      id: `route-pattern-select-range-${pattern.dayString}`,
-    }).replace(/\(|\)| /gi, '');
-    return retValue;
+    return (
+      retValue +
+      i18next
+        .t(`route-pattern-select-range-${pattern.dayString}`, { lng: language })
+        .replace(/\(|\)| /gi, '')
+    );
   }
 
   // Add opt #3b: (ma-pe), (la-su) or (ma-la)
@@ -212,10 +207,12 @@ export default function routePatternOptionText(language, pattern, isTogglable) {
     pattern.dayString !== 'ma-su' &&
     pattern.dayString !== '-'
   ) {
-    retValue += translateText({
-      id: `route-pattern-select-range-${pattern.dayString}`,
-    });
-    return retValue;
+    return (
+      retValue +
+      i18next.t(`route-pattern-select-range-${pattern.dayString}`, {
+        lng: language,
+      })
+    );
   }
 
   // Add opt #4a: (31.1. saakka)
@@ -225,16 +222,22 @@ export default function routePatternOptionText(language, pattern, isTogglable) {
     pattern.untilDate !== 'Invalid date' &&
     DateTime.fromFormat(pattern.untilDate, DATE_FORMAT).isValid
   ) {
-    retValue += translateText({
-      id: 'route-pattern-select-until',
-      range: translateText({
-        id: `route-pattern-select-range-${pattern.dayString}`,
-      }).replace(/\(|\)| /gi, ''),
-      day: DateTime.fromFormat(pattern.untilDate, DATE_FORMAT).toFormat(
-        DATE_FORMAT2,
-      ),
-    }).replace(/\( {2}|\( |\(/gi, '(');
-    return retValue;
+    return (
+      retValue +
+      i18next
+        .t('route-pattern-select-until', {
+          lng: language,
+          range: i18next
+            .t(`route-pattern-select-range-${pattern.dayString}`, {
+              lng: language,
+            })
+            .replace(/\(|\)| /gi, ''),
+          day: DateTime.fromFormat(pattern.untilDate, DATE_FORMAT).toFormat(
+            DATE_FORMAT2,
+          ),
+        })
+        .replace(/\( {2}|\( |\(/gi, '(')
+    );
   }
 
   // Add opt #4b: (ma-pe 31.1. saakka) or (la-su 31.1. saakka)
@@ -244,16 +247,22 @@ export default function routePatternOptionText(language, pattern, isTogglable) {
     pattern.untilDate !== 'Invalid date' &&
     DateTime.fromFormat(pattern.untilDate, DATE_FORMAT).isValid
   ) {
-    retValue += translateText({
-      id: 'route-pattern-select-until',
-      range: translateText({
-        id: `route-pattern-select-range-${pattern.dayString}`,
-      }).replace(/\(|\)/gi, ''),
-      day: DateTime.fromFormat(pattern.untilDate, DATE_FORMAT).toFormat(
-        DATE_FORMAT2,
-      ),
-    }).replace(/\( {2}|\( |\(/gi, '(');
-    return retValue;
+    return (
+      retValue +
+      i18next
+        .t('route-pattern-select-until', {
+          lng: language,
+          range: i18next
+            .t(`route-pattern-select-range-${pattern.dayString}`, {
+              lng: language,
+            })
+            .replace(/\(|\)/gi, ''),
+          day: DateTime.fromFormat(pattern.untilDate, DATE_FORMAT).toFormat(
+            DATE_FORMAT2,
+          ),
+        })
+        .replace(/\( {2}|\( |\(/gi, '(')
+    );
   }
 
   // Add opt #5a: (1.1. lähtien)
@@ -262,16 +271,22 @@ export default function routePatternOptionText(language, pattern, isTogglable) {
     pattern.dayString === 'ma-su' &&
     DateTime.fromFormat(pattern.fromDate, DATE_FORMAT).isValid
   ) {
-    retValue += translateText({
-      id: 'route-pattern-select-from',
-      range: translateText({
-        id: `route-pattern-select-range-${pattern.dayString}`,
-      }).replace(/\(|\)| /gi, ''),
-      day: DateTime.fromFormat(pattern.fromDate, DATE_FORMAT).toFormat(
-        DATE_FORMAT2,
-      ),
-    }).replace(/\( {2}|\( |\(/gi, '(');
-    return retValue;
+    return (
+      retValue +
+      i18next
+        .t('route-pattern-select-from', {
+          lng: language,
+          range: i18next
+            .t(`route-pattern-select-range-${pattern.dayString}`, {
+              lng: language,
+            })
+            .replace(/\(|\)| /gi, ''),
+          day: DateTime.fromFormat(pattern.fromDate, DATE_FORMAT).toFormat(
+            DATE_FORMAT2,
+          ),
+        })
+        .replace(/\( {2}|\( |\(/gi, '(')
+    );
   }
 
   // Add opt #5b: (ma-pe 1.1. lähtien) or (la-su 31.1. lähtien)
@@ -280,30 +295,34 @@ export default function routePatternOptionText(language, pattern, isTogglable) {
     pattern.dayString !== 'ma-su' &&
     DateTime.fromFormat(pattern.fromDate, DATE_FORMAT).isValid
   ) {
-    retValue += translateText({
-      id: 'route-pattern-select-from',
-      range: translateText({
-        id: `route-pattern-select-range-${pattern.dayString}`,
-      }).replace(/\(|\)/gi, ''),
-      day: DateTime.fromFormat(pattern.fromDate, DATE_FORMAT).toFormat(
-        DATE_FORMAT2,
-      ),
-    }).replace(/\( {2}|\( |\(/gi, '(');
-    return retValue;
+    return (
+      retValue +
+      i18next
+        .t('route-pattern-select-from', {
+          lng: language,
+          range: i18next
+            .t(`route-pattern-select-range-${pattern.dayString}`, {
+              lng: language,
+            })
+            .replace(/\(|\)/gi, ''),
+          day: DateTime.fromFormat(pattern.fromDate, DATE_FORMAT).toFormat(
+            DATE_FORMAT2,
+          ),
+        })
+        .replace(/\( {2}|\( |\(/gi, '(')
+    );
   }
   return retValue;
 }
 
 export function getTranslatedDayString(language, dayString, clean) {
-  i18next.changeLanguage(language);
   const splittedDayStr = dayString.split(',');
-  let text = translateText({
-    id: `route-pattern-select-range-${splittedDayStr[0]}`,
+  let text = i18next.t(`route-pattern-select-range-${splittedDayStr[0]}`, {
+    lng: language,
   });
   if (splittedDayStr.length > 1) {
-    text += ` - ${translateText({
-      id: `route-pattern-select-range-${splittedDayStr[1]}`,
-    })}`;
+    const id = `route-pattern-select-range-${splittedDayStr[1]}`;
+    text += ` - ${i18next.t(id, { lng: language })}`;
   }
   if (clean) {
     text = text.replace(/\(|\)| /gi, '');

@@ -92,7 +92,7 @@ class RoutePage extends React.Component {
         >
           {breakpoint === 'large' && (
             <BackButton
-              icon="icon-icon_arrow-collapse--left"
+              icon="icon_arrow-collapse--left"
               iconClassName="arrow-icon"
             />
           )}
@@ -119,7 +119,7 @@ class RoutePage extends React.Component {
               </h1>
               {tripId && headsign && (
                 <div className="trip-destination">
-                  <Icon className="in-text-arrow" img="icon-icon_arrow-right" />
+                  <Icon className="in-text-arrow" img="icon_arrow-right" />
                   <div className="destination-headsign">{headsign}</div>
                 </div>
               )}

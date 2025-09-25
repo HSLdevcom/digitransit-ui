@@ -36,8 +36,9 @@
       color: white;
       border-radius: 40px;
       font-weight: 500;
-      width: 128px;
+      min-width: 128px;
       height: 40px;
+      padding: 5px 10px;
       font-size: $font-size-small;
     }
 

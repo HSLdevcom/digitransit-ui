@@ -36,6 +36,7 @@ class StopsNearYouContainer extends React.Component {
     prioritizedStops: PropTypes.arrayOf(PropTypes.string),
     nearByStopMode: PropTypes.string.isRequired,
     renderDisruptionBanner: PropTypes.bool,
+    isParentTabActive: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -43,6 +44,7 @@ class StopsNearYouContainer extends React.Component {
     withSeparator: false,
     prioritizedStops: undefined,
     renderDisruptionBanner: false,
+    isParentTabActive: false,
   };
 
   static contextTypes = {
@@ -226,6 +228,7 @@ class StopsNearYouContainer extends React.Component {
                   key={`${stop.gtfsId}`}
                   stop={stop}
                   currentMode={this.props.match.params.mode}
+                  isParentTabActive={this.props.isParentTabActive}
                 />
               );
             }
@@ -283,7 +286,7 @@ class StopsNearYouContainer extends React.Component {
             {this.props.withSeparator && <div className="separator" />}
             <div className="stops-near-you-no-stops">
               <Icon
-                img="icon-icon_info"
+                img="icon_info"
                 color={this.context.config.colors.primary}
               />
               <FormattedMessage id="nearest-no-stops" />

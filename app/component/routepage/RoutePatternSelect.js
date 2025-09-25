@@ -44,7 +44,7 @@ function patternTextWithIcon(pattern) {
     return (
       <>
         {text.slice(0, i)}
-        <Icon className="in-text-arrow" img="icon-icon_arrow-right-long" />
+        <Icon className="in-text-arrow" img="icon_arrow-right-long" />
         <span className="sr-only">➔</span>
         {text.slice(i + 1)}
       </>
@@ -73,7 +73,7 @@ function renderPatternSelectSuggestion(item, currentPattern) {
         {patternTextWithIcon(item)}
         {item.code === currentPattern.code && (
           <>
-            <Icon className="check" img="icon-icon_check" />
+            <Icon className="check" img="icon_check" />
             <span className="sr-only">
               <FormattedMessage id="route-page.pattern-chosen" />
             </span>
@@ -95,7 +95,7 @@ function renderPatternSelectSuggestion(item, currentPattern) {
         <div className="similar-route">
           <Icon
             className={lowerCaseItemMode}
-            img={`icon-icon_${lowerCaseItemMode}`}
+            img={`icon_${lowerCaseItemMode}`}
             color={item.color ? `#${item.color}` : null}
           />
           <div className="similar-route-text">
@@ -105,7 +105,7 @@ function renderPatternSelectSuggestion(item, currentPattern) {
           <div className="similar-route-arrow-container">
             <Icon
               className="similar-route-arrow"
-              img="icon-icon_arrow-collapse--right"
+              img="icon_arrow-collapse--right"
             />
           </div>
         </div>
@@ -286,7 +286,7 @@ class RoutePatternSelect extends Component {
             >
               {patternTextWithIcon(currentPattern)}
               {directionSwap && (
-                <Icon className="toggle-icon" img="icon-icon_direction-c" />
+                <Icon className="toggle-icon" img="icon_direction-c" />
               )}
             </button>
           </label>
@@ -392,7 +392,7 @@ class RoutePatternSelect extends Component {
                     {patternTextWithIcon(currentPattern)}
                     <Icon
                       className="dropdown-arrow"
-                      img="icon-icon_arrow-collapse"
+                      img="icon_arrow-collapse"
                     />
                   </div>
                   <input {...inputProps} />

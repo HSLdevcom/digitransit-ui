@@ -103,7 +103,7 @@ class BubbleDialog extends React.Component {
             }
             type="button"
           >
-            <Icon img="icon-icon_close" />
+            <Icon img="icon_close" />
           </button>
         </div>
         <div className="bubble-dialog-tip-container">
@@ -130,7 +130,7 @@ class BubbleDialog extends React.Component {
           role="button"
           tabIndex="0"
         >
-          <Icon img={`icon-icon_${this.props.icon}`} viewBox="0 0 25 25" />
+          <Icon img={`icon_${this.props.icon}`} viewBox="0 0 25 25" />
         </div>
       </div>
     );

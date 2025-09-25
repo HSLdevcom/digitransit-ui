@@ -1,9 +1,7 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { memo } from 'react';
 import cx from 'classnames';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys';
-import getContext from 'recompose/getContext';
 import isEqual from 'lodash/isEqual';
 import cloneDeep from 'lodash/cloneDeep';
 import isEmpty from 'lodash/isEmpty';
@@ -20,20 +18,19 @@ import MapLayersDialogContent from '../MapLayersDialogContent';
 import MenuDrawer from '../MenuDrawer';
 import withBreakpoint from '../../util/withBreakpoint';
 
-const onlyUpdateCoordChanges = onlyUpdateForKeys([
-  'lat',
-  'lon',
-  'zoom',
-  'bounds',
-  'mapTracking',
-  'mapLayers',
-  'children',
-  'leafletObjs',
-  'bottomButtons',
-  'topButtons',
-]);
+const onlyUpdateCoordChanges = (prevProps, nextProps) =>
+  prevProps.lat === nextProps.lat &&
+  prevProps.lon === nextProps.lon &&
+  prevProps.zoom === nextProps.zoom &&
+  prevProps.bounds === nextProps.bounds &&
+  prevProps.mapTracking === nextProps.mapTracking &&
+  prevProps.mapLayers === nextProps.mapLayers &&
+  prevProps.children === nextProps.children &&
+  prevProps.leafletObjs === nextProps.leafletObjs &&
+  prevProps.bottomButtons === nextProps.bottomButtons &&
+  prevProps.topButtons === nextProps.topButtons;
 
-const MapCont = onlyUpdateCoordChanges(MapContainer);
+const MapCont = memo(MapContainer, onlyUpdateCoordChanges);
 
 const getForcedLayersFromMapLayerOptions = mapLayerOptions => {
   const forcedLayers = {};
@@ -56,6 +53,13 @@ const getForcedLayersFromMapLayerOptions = mapLayerOptions => {
 };
 
 class MapWithTrackingStateHandler extends React.Component {
+  static contextTypes = {
+    executeAction: PropTypes.func,
+    getStore: PropTypes.func,
+    intl: intlShape.isRequired,
+    config: configShape.isRequired,
+  };
+
   static propTypes = {
     lat: PropTypes.number,
     lon: PropTypes.number,
@@ -418,21 +422,12 @@ class MapWithTrackingStateHandler extends React.Component {
   }
 }
 
-MapWithTrackingStateHandler.contextTypes = {
-  executeAction: PropTypes.func,
-  getStore: PropTypes.func,
-  intl: intlShape.isRequired,
-  config: configShape.isRequired,
-};
-
 const MapWithTrackingStateHandlerapWithBreakpoint = withBreakpoint(
   MapWithTrackingStateHandler,
 );
 
 const MapWithTracking = connectToStores(
-  getContext({ config: configShape })(
-    MapWithTrackingStateHandlerapWithBreakpoint,
-  ),
+  MapWithTrackingStateHandlerapWithBreakpoint,
   [PositionStore, PreferencesStore],
   ({ getStore }) => ({
     position: getStore(PositionStore).getLocationState(),

@@ -221,7 +221,7 @@ class MessageBar extends Component {
     const icon = msg.icon || 'info';
     // eslint-disable-next-line prefer-destructuring
     const iconColor = msg.iconColor;
-    const iconName = `icon-icon_${icon}`;
+    const iconName = `icon_${icon}`;
     const isDisruption = msg.type === 'disruption';
     const backgroundColor = msg.backgroundColor || '#fff';
     const textColor = isDisruption ? '#fff' : msg.textColor || '#000';
@@ -301,7 +301,7 @@ class MessageBar extends Component {
                 className="noborder close-button  cursor-pointer"
                 type="button"
               >
-                <Icon img="icon-icon_close" className="close" color="#333333" />
+                <Icon img="icon_close" className="close" color="#333333" />
               </button>
             </div>
           </div>

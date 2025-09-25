@@ -81,7 +81,7 @@ export default function StreetModeSelectorButton(
           config,
         )) ||
       'rail';
-    secondaryIcon = `icon-icon_${mode}`;
+    secondaryIcon = `icon_${mode}`;
     secondaryColor = getModeIconColor(config, mode);
   }
   return (

@@ -336,10 +336,7 @@ class DepartureListContainer extends Component {
         realtime: departure.realtime,
         bottomRow: dropoffMessage ? (
           <div className="drop-off-container">
-            <Icon
-              img="icon-icon_info"
-              color={this.context.config.colors.primary}
-            />
+            <Icon img="icon_info" color={this.context.config.colors.primary} />
             <FormattedMessage
               id={dropoffMessage}
               defaultMessage="Drop-off only"

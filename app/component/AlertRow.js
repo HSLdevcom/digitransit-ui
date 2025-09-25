@@ -186,12 +186,9 @@ export default function AlertRow(
         (entityType === AlertEntityType.Stop && (
           <div className="route-number">
             {severityLevel === 'INFO' ? (
-              <Icon img="icon-icon_info" className="stop-disruption info" />
+              <Icon img="icon_info" className="stop-disruption info" />
             ) : (
-              <Icon
-                img="icon-icon_caution"
-                className="stop-disruption warning"
-              />
+              <Icon img="icon_caution" className="stop-disruption warning" />
             )}
           </div>
         )) || (

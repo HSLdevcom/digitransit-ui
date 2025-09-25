@@ -13,7 +13,6 @@ const POI_MAP_PREFIX = `${MAP_URL}/map/v3/finland`;
 const OTP_URL = process.env.OTP_URL || `${API_URL}/routing/v2/finland/`;
 const HSL_TIMETABLES_URL =
   process.env.HSL_TIMETABLES_URL || 'https://dev.kartat.hsl.fi';
-const APP_PATH = process.env.APP_CONTEXT || '';
 const API_SUBSCRIPTION_QUERY_PARAMETER_NAME =
   process.env.API_SUBSCRIPTION_QUERY_PARAMETER_NAME ||
   'digitransit-subscription-key';
@@ -121,7 +120,6 @@ export default {
   hasAPISubscriptionHeader:
     API_SUBSCRIPTION_HEADER_NAME && API_SUBSCRIPTION_TOKEN,
 
-  APP_PATH: `${APP_PATH}`,
   indexPath: '',
   title: 'Reittihaku',
 
@@ -379,10 +377,12 @@ export default {
       'mode-airplane': '#0046ad',
       'mode-bus': '#0088ce',
       'mode-tram': '#6a8925',
-      'mode-metro': '#ed8c00',
+      'mode-metro': '#ed8c00', // there is no 'metro' mode
+      'mode-subway': '#ed8c00',
       'mode-rail': '#af8dbc',
       'mode-ferry': '#247C7B',
       'mode-citybike': '#f2b62d',
+      'mode-citybike-secondary': '#333333',
       'mode-scooter': '#C5CAD2',
       'mode-taxi': '#647693',
       'mode-replacement-bus': '#DC0451',
@@ -750,7 +750,6 @@ export default {
 
   vehicles: false,
   showVehiclesOnStopPage: false,
-  trafficNowLink: '',
 
   timetables: {},
 

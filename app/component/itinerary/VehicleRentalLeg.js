@@ -140,11 +140,7 @@ function VehicleRentalLeg(
           </div>
           <div className="link-to-stop">
             <Link to={rentalStationLink}>
-              <Icon
-                img="icon-icon_arrow-collapse--right"
-                height={1.3}
-                width={1.3}
-              />
+              <Icon img="icon_arrow-collapse--right" height={1.3} width={1.3} />
             </Link>
           </div>
         </div>

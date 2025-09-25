@@ -195,7 +195,7 @@ export const ModeLeg = (
         ),
       );
   } else if (mode === 'SCOOTER') {
-    networkIcon = 'icon-icon_scooter_rider';
+    networkIcon = 'icon_scooter_rider';
   }
   const routeNumber = (
     <RouteNumber
@@ -243,7 +243,7 @@ ModeLeg.contextTypes = {
 
 export const ViaLeg = () => (
   <div className="leg via">
-    <Icon img="icon-icon_mapMarker" className="itinerary-icon place" />
+    <Icon img="icon_mapMarker" className="itinerary-icon place" />
   </div>
 );
 
@@ -541,7 +541,7 @@ const Itinerary = (
           mode="CAR"
           legLength={legLength}
           large={breakpoint === 'large'}
-          icon="icon-icon_car-withoutBox"
+          icon="icon_car-withoutBox"
         />,
       );
       if (leg.to.vehicleParking) {
@@ -551,10 +551,7 @@ const Itinerary = (
             className="leg car_park"
             key={`${leg.mode}_${startMs}_car_park_indicator`}
           >
-            <Icon
-              img="icon-icon_car-park"
-              className="itinerary-icon car_park"
-            />
+            <Icon img="icon_car-park" className="itinerary-icon car_park" />
           </div>,
         );
       }
@@ -650,7 +647,7 @@ const Itinerary = (
           isTransitLeg={false}
           mode={LegMode.Wait}
           large={breakpoint === 'large'}
-          icon={usingOwnCarWholeTrip ? 'icon-icon_wait-car' : undefined}
+          icon={usingOwnCarWholeTrip ? 'icon_wait-car' : undefined}
         />,
       );
     }
@@ -948,7 +945,7 @@ const Itinerary = (
               {showCo2Info && (
                 <div className="itinerary-co2-value-container">
                   {lowestCo2value === co2value && (
-                    <Icon img="icon-icon_co2_leaf" className="co2-leaf" />
+                    <Icon img="icon_co2_leaf" className="co2-leaf" />
                   )}
                   <div className="itinerary-co2-value">{co2value} g</div>
                 </div>
@@ -975,7 +972,7 @@ const Itinerary = (
               </div>
               <div className="overflow-icon-container">
                 {showOverflowIcon && (
-                  <Icon img="icon-icon_three-dots" className="overflow-icon" />
+                  <Icon img="icon_three-dots" className="overflow-icon" />
                 )}
               </div>
             </div>
@@ -1030,7 +1027,7 @@ const Itinerary = (
               aria-label={ariaLabelMessage}
             >
               <div className="action-arrow flex-grow">
-                <Icon img="icon-icon_arrow-collapse--right" />
+                <Icon img="icon_arrow-collapse--right" />
               </div>
             </div>
           )}

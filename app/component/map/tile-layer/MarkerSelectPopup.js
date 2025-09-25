@@ -46,6 +46,7 @@ function MarkerSelectPopup(props, { intl }) {
           {...option.feature.properties}
           key={`citybike:${option.feature.properties.id}`}
           prefix={PREFIX_BIKESTATIONS}
+          colors={props.colors}
         />
       );
     }
@@ -62,6 +63,7 @@ function MarkerSelectPopup(props, { intl }) {
               defaultMessage: 'scooter',
             })}
             isScooter
+            colors={props.colors}
           />
         );
       }
@@ -76,7 +78,7 @@ function MarkerSelectPopup(props, { intl }) {
               id: 'e-scooter',
               defaultMessage: 'scooter',
             })}
-            icon="icon-icon_scooter-lollipop"
+            icon="icon_scooter-lollipop"
           />
         );
       }
