@@ -2255,7 +2255,7 @@ __metadata:
   resolution: "@digitransit-search-util/digitransit-search-util-get-json@workspace:digitransit-search-util/packages/digitransit-search-util-get-json"
   dependencies:
     "@digitransit-search-util/digitransit-search-util-serialize": 0.0.2
-    axios: 1.9.0
+    axios: 1.12.0
   languageName: unknown
   linkType: soft
 
@@ -2375,7 +2375,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digitransit-util/digitransit-util-route-pattern-option-text@^4.0.0, @digitransit-util/digitransit-util-route-pattern-option-text@workspace:digitransit-util/packages/digitransit-util-route-pattern-option-text":
+"@digitransit-util/digitransit-util-route-pattern-option-text@^4.1.0, @digitransit-util/digitransit-util-route-pattern-option-text@workspace:digitransit-util/packages/digitransit-util-route-pattern-option-text":
   version: 0.0.0-use.local
   resolution: "@digitransit-util/digitransit-util-route-pattern-option-text@workspace:digitransit-util/packages/digitransit-util-route-pattern-option-text"
   peerDependencies:
@@ -2393,7 +2393,7 @@ __metadata:
     "@digitransit-util/digitransit-util-day-range-allowed-diff": ^1.0.4
     "@digitransit-util/digitransit-util-day-range-pattern": ^1.1.0
     "@digitransit-util/digitransit-util-enrich-patterns": ^2.0.0
-    "@digitransit-util/digitransit-util-route-pattern-option-text": ^4.0.0
+    "@digitransit-util/digitransit-util-route-pattern-option-text": ^4.1.0
   languageName: unknown
   linkType: soft
 
@@ -7465,7 +7465,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:1.9.0, axios@npm:^1.6.1":
+"axios@npm:1.12.0":
+  version: 1.12.0
+  resolution: "axios@npm:1.12.0"
+  dependencies:
+    follow-redirects: ^1.15.6
+    form-data: ^4.0.4
+    proxy-from-env: ^1.1.0
+  checksum: f2a109efea16711907ae86acc46434d52da28e889bf1d2fc2b66844e82c9908f6d96d988ad9043b37d4146abc182e67d61abd87367152bbbc1cd73afa3c5de71
+  languageName: node
+  linkType: hard
+
+"axios@npm:^1.6.1":
   version: 1.9.0
   resolution: "axios@npm:1.9.0"
   dependencies:
@@ -11018,7 +11029,7 @@ __metadata:
     async: ^3.2.6
     autoprefixer: 9.8.6
     axe-core: ^4.10.3
-    axios: 1.9.0
+    axios: 1.12.0
     babel-loader: 8.2.5
     babel-plugin-dynamic-import-node: 2.3.3
     babel-plugin-inline-react-svg: 2.0.2
@@ -13485,6 +13496,19 @@ __metadata:
     es-set-tostringtag: ^2.1.0
     mime-types: ^2.1.12
   checksum: e887298b22c13c7c9c5a8ba3716f295a479a13ca78bfd855ef11cbce1bcf22bc0ae2062e94808e21d46e5c667664a1a1a8a7f57d7040193c1fefbfb11af58aab
+  languageName: node
+  linkType: hard
+
+"form-data@npm:^4.0.4":
+  version: 4.0.4
+  resolution: "form-data@npm:4.0.4"
+  dependencies:
+    asynckit: ^0.4.0
+    combined-stream: ^1.0.8
+    es-set-tostringtag: ^2.1.0
+    hasown: ^2.0.2
+    mime-types: ^2.1.12
+  checksum: 9b7788836df9fa5a6999e0c02515b001946b2a868cfe53f026c69e2c537a2ff9fbfb8e9d2b678744628f3dc7a2d6e14e4e45dfaf68aa6239727f0bdb8ce0abf2
   languageName: node
   linkType: hard
 

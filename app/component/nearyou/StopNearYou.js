@@ -14,7 +14,7 @@ import StopNearYouDepartureRowContainer from './StopNearYouDepartureRowContainer
 import CapacityModal from '../CapacityModal';
 
 const StopNearYou = (
-  { stop, desc, stopId, currentTime, currentMode, relay },
+  { stop, desc, stopId, currentTime, currentMode, relay, isParentTabActive },
   { config, intl },
 ) => {
   if (!stop.stoptimesWithoutPatterns) {
@@ -91,6 +91,7 @@ const StopNearYou = (
               stopTimes={stop.stoptimesWithoutPatterns}
               isStation={isStation && stopMode !== 'SUBWAY'}
               setCapacityModalOpen={() => setCapacityModalOpen(true)}
+              isParentTabActive={isParentTabActive}
             />
             <Link
               className="stop-near-you-more-departures"
@@ -140,12 +141,14 @@ StopNearYou.propTypes = {
   currentMode: PropTypes.string.isRequired,
   desc: PropTypes.string,
   relay: relayShape,
+  isParentTabActive: PropTypes.bool,
 };
 
 StopNearYou.defaultProps = {
   stopId: undefined,
   desc: undefined,
   relay: undefined,
+  isParentTabActive: false,
 };
 
 StopNearYou.contextTypes = {

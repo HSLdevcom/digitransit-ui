@@ -1,5 +1,4 @@
 import React from 'react';
-import { v4 as uuid } from 'uuid';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import DepartureRow from '../DepartureRow';
@@ -8,6 +7,7 @@ export default function StopNearYouDepartureRowContainer({
   stopTimes,
   mode,
   setCapacityModalOpen,
+  isParentTabActive,
   ...props
 }) {
   const sortedStopTimes = stopTimes
@@ -20,15 +20,17 @@ export default function StopNearYouDepartureRowContainer({
     );
   const departures = sortedStopTimes.map(row => {
     const departureTime = row.serviceDay + row.realtimeDeparture;
+    const key = row.trip.gtfsId;
     return (
       <DepartureRow
-        key={uuid()}
+        key={key}
         departure={row}
         departureTime={departureTime}
         currentTime={props.currentTime}
         showPlatformCode={props.isStation}
         showLink
         onCapacityClick={() => setCapacityModalOpen(true)}
+        isParentTabActive={isParentTabActive}
       />
     );
   });
@@ -68,4 +70,9 @@ StopNearYouDepartureRowContainer.propTypes = {
   isStation: PropTypes.bool.isRequired,
   currentTime: PropTypes.number.isRequired,
   setCapacityModalOpen: PropTypes.func.isRequired,
+  isParentTabActive: PropTypes.bool,
+};
+
+StopNearYouDepartureRowContainer.defaultProps = {
+  isParentTabActive: false,
 };

@@ -797,7 +797,7 @@ export default {
 
   // features that should not be deployed to production
   experimental: {
-    allowFlexJourneys: false,
+    allowFlexJourneys: IS_DEV,
     allowDirectFlexJourneys: false,
   },
 

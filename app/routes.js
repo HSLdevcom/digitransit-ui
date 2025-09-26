@@ -19,6 +19,7 @@ import {
   TAB_NEARBY,
   TAB_FAVOURITES,
   EMBEDDED_SEARCH_PATH,
+  TRAFFICNOW,
 } from './util/path';
 import {
   getDefault,
@@ -33,6 +34,10 @@ import routeRoutes from './routeRoutes';
 export const historyMiddlewares = [queryMiddleware];
 
 export const render = createRender({});
+
+const IS_DEV =
+  process.env.RUN_ENV === 'development' ||
+  process.env.NODE_ENV !== 'production';
 
 export default config => {
   const indexPageComponents = {
@@ -522,6 +527,16 @@ export default config => {
       </Route>
       {config.indexPath !== '' && (
         <Redirect from="/" to={`/${config.indexPath}`} />
+      )}
+      {IS_DEV && (
+        <Route
+          path={TRAFFICNOW}
+          getComponent={() =>
+            import(
+              /* webpackChunkName: "trafficnow" */ './component/trafficnow/TrafficNow'
+            ).then(getDefault)
+          }
+        />
       )}
       {/* For all the rest render 404 */}
       <Route path="*" Component={Error404} />
