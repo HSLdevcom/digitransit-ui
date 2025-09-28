@@ -145,6 +145,11 @@ export default class Legs extends React.Component {
         previousLeg?.mode === 'BICYCLE' && previousLeg.to.vehicleParking;
       const carPark =
         previousLeg?.mode === 'CAR' && previousLeg.to.vehicleParking;
+      const isSameStopTransfer =
+        leg?.to?.stop?.gtfsId !== null &&
+        nextLeg?.from?.stop?.gtfsId !== null &&
+        leg?.to?.stop?.gtfsId === nextLeg?.from?.stop?.gtfsId &&
+        leg?.transitLeg === nextLeg?.transitLeg;
       const legProps = {
         leg,
         index: j,
@@ -166,7 +171,7 @@ export default class Legs extends React.Component {
         const waitThresholdInMs = waitThreshold * 1000;
         const waitTime = legTime(nextLeg.start) - legTime(leg.end);
         if (
-          waitTime > waitThresholdInMs &&
+          (waitTime > waitThresholdInMs || isSameStopTransfer) &&
           (nextLeg != null ? nextLeg.mode : null) !== 'AIRPLANE' &&
           leg.mode !== 'AIRPLANE' &&
           !nextLeg.intermediatePlace &&
