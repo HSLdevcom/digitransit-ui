@@ -287,6 +287,8 @@ export default {
     FERRY: { showNotification: true },
   },
 
+  externalFareFeedIds: ['digitraffic'],
+
   ticketPurchaseLink: function purchaseTicketLink(
     fare,
     operatorCode,

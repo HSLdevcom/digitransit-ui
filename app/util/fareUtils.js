@@ -94,16 +94,19 @@ export const getAlternativeFares = (zones, currentFares, allFares) => {
  */
 export const shouldShowFareInfo = (config, legs) => {
   if (
-    config.externalFareRouteIds &&
-    legs?.some(
-      leg =>
-        leg.route &&
-        config.externalFareRouteIds.includes(leg.route.gtfsId.split(':')[1]),
-    )
+    legs?.some(leg => {
+      const gtfsId = leg?.route?.gtfsId?.split(':');
+      if (!gtfsId) {
+        return false;
+      }
+      return (
+        config?.externalFareFeedIds?.includes(gtfsId[0]) ||
+        config?.externalFareRouteIds?.includes(gtfsId[1])
+      );
+    })
   ) {
     return false;
   }
-
   return (
     (!config.showTicketLinkOnlyWhenTesting ||
       window.localStorage
