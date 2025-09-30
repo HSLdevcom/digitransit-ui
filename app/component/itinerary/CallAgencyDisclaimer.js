@@ -39,7 +39,7 @@ export default function CallAgencyDisclaimer({
         route={route}
         pickupBookingInfo={pickupBookingInfo}
         agency={agency}
-        onClose={() => closeOnDemandInfo()}
+        onClose={closeOnDemandInfo}
         mobile={mobile}
       />
     );
@@ -47,9 +47,7 @@ export default function CallAgencyDisclaimer({
 
   return (
     <div className="call-agency-disclaimer-container">
-      <div className="icon-container">
-        <Icon className="info" img="icon_info" />
-      </div>
+      <Icon className="info" img="icon_info" />
       <div className="disclaimer">
         {header && <h3 className="disclaimer-header">{header}</h3>}
         {text || <FormattedMessage id={textId} values={values} />}
@@ -57,7 +55,7 @@ export default function CallAgencyDisclaimer({
           <button
             type="button"
             className="external-link-button"
-            onClick={() => openOnDemandInfo()}
+            onClick={openOnDemandInfo}
           >
             {linkText}
           </button>

@@ -591,7 +591,6 @@ const Itinerary = (
             (fitAllRouteNumbers && !longName) || renderRouteNumberForALongLeg
           }
           interliningWithRoute={interliningWithRoute}
-          intl={intl}
           legLength={legLength}
           large={breakpoint === 'large'}
           withBicycle={withBicycle}

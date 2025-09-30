@@ -299,7 +299,7 @@ function getLocation(str) {
  * agencies is empty or not provided.
  */
 function excludeAgencies(agencies) {
-  if (!agencies || !agencies.length) {
+  if (!agencies?.length) {
     return null;
   }
   return {
