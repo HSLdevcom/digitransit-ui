@@ -375,7 +375,9 @@ export function getPlanParams(
   const wheelchair = !!settings.accessibilityOption;
   const cityBike =
     !wheelchair && settings.allowedBikeRentalNetworks?.length > 0;
-  const flexEnabled = config.flex?.internalFlexEnabled;
+  const flexEnabled =
+    config.flex?.internalFlexEnabled &&
+    transitModes.includes(TransportMode.Bus);
   // set defaults
   let access = cityBike ? ['WALK', 'BICYCLE_RENTAL'] : ['WALK'];
   access = flexEnabled ? [...access, 'FLEX'] : access;
