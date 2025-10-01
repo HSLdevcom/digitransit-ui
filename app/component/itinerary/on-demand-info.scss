@@ -10,18 +10,6 @@
   }
 }
 
-.info-page-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  z-index: 1000;
-  background: rgba(255, 255, 255, 0.98);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .on-demand-info-container {
   position: absolute;
   top: 0;
@@ -31,6 +19,7 @@
   max-width: 520px;
   height: 100%;
   overflow-y: auto;
+  z-index: 1000;
 
   .divider {
     border-top: 1px solid #ddd;
@@ -62,14 +51,13 @@
     .bar-container {
       padding-top: 21px;
       min-width: calc(3.75em + 14px);
-      height: calc(1.5em + 14px);
+      height: calc(2em + 14px);
       font-size: 16px;
       white-space: nowrap;
 
       .bar {
         width: 100%;
-        background-color: currentcolor;
-        height: 1.5em;
+        height: 2em;
         border-radius: $border-radius;
         padding-right: 3px;
       }
@@ -84,13 +72,12 @@
 
         .vehicle-number {
           color: $white;
-          left: 1.5em;
           width: 2.25em;
           text-align: center;
           padding: 2px 0 0 0;
+          font-size: 1.25em;
 
           &.long {
-            left: 1.7em;
             width: 100%;
             text-align: left;
           }
@@ -98,10 +85,10 @@
       }
 
       .icon {
-        height: 1.5em;
-        width: 1.5em;
+        height: 2em;
+        width: 2em;
         margin: 0 0 2px 1px;
-        fill: $primary-color;
+        fill: $call-agency-color;
 
         .call {
           top: 50%;
