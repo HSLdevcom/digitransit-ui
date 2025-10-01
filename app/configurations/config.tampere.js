@@ -116,7 +116,13 @@ export default configMerger(walttiConfig, {
 
   ticketLink: {
     fi: 'https://www.nysse.fi/liput-ja-hinnat.html',
+    sv: 'https://www.nysse.fi/en/tickets-and-fares.html',
+    en: 'https://www.nysse.fi/en/tickets-and-fares.html',
   },
+
+  showTicketLinkOnlyWhenTesting: true,
+  showTicketPrice: false,
+  ticketLinkOperatorCode: 50245,
 
   callAgencyInfo: {
     fi: {
@@ -137,7 +143,7 @@ export default configMerger(walttiConfig, {
     RAIL: {
       fi: {
         disclaimer:
-          'Nyssen liput käyvät junaliikenteessä rajoitetusti vain Nysse-alueella. Lue lisää ',
+          'Nyssen liput käyvät Nysse-alueen junaliikenteessä rajoitetusti. Lue lisää ',
         link: 'https://www.nysse.fi/junat',
         text: 'nysse.fi/junat',
       },

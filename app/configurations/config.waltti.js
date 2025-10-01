@@ -259,6 +259,10 @@ export default {
       : '';
   },
 
+  // if true we don't show fare information on top of the itinerary
+  // when there are legs from unknown operators
+  hideUnknownFares: true,
+
   startSearchFromUserLocation: true,
 
   minTransferTimeSelection: [

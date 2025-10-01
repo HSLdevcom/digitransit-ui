@@ -750,6 +750,7 @@ export default {
 
   vehicles: false,
   showVehiclesOnStopPage: false,
+  trafficNowLink: '',
 
   timetables: {},
 
