@@ -1,9 +1,20 @@
+.content-container {
+  .on-demand-info-container {
+    &.mobile {
+      position: absolute;
+      min-height: 100%;
+      height: auto;
+      width: auto;
+      min-width: 100%;
+    }
+  }
+}
+
 .info-page-container {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
-  height: 100vh;
   z-index: 1000;
   background: rgba(255, 255, 255, 0.98);
   display: flex;
@@ -17,9 +28,9 @@
   left: 0;
   background: #fff;
   padding: 0 var(--space-xl);
-  max-width: 480px;
-  min-height: 100%;
-  height: auto;
+  max-width: 520px;
+  height: 100%;
+  overflow-y: auto;
 
   .divider {
     border-top: 1px solid #ddd;
@@ -27,6 +38,11 @@
 
     &.top {
       margin: 0 0 var(--space-s) 0;
+    }
+
+    &.invisible {
+      margin: 0 0 var(--space-s) 0;
+      border-color: transparent;
     }
   }
 

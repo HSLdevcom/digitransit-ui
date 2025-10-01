@@ -19,7 +19,7 @@ function OnDemandInfo(
     : document.getElementById('main-content');
   return ReactDOM.createPortal(
     <div className="main-content">
-      <div className="on-demand-info-container">
+      <div className={`on-demand-info-container ${mobile ? 'mobile' : ''}`}>
         <div className="route-header ">
           <div className={`back-button ${mobile ? 'mobile' : ''}`}>
             <button
@@ -128,6 +128,7 @@ function OnDemandInfo(
             </div>
           </>
         )}
+        <div className="divider invisible" />
       </div>
     </div>,
     container,
