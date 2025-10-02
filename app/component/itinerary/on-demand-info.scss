@@ -10,6 +10,19 @@
   }
 }
 
+.main-content {
+  .back-button {
+    position: absolute;
+    z-index: 1;
+
+    &.mobile {
+      position: fixed;
+      top: 65px;
+      z-index: 1;
+    }
+  }
+}
+
 .on-demand-info-container {
   position: absolute;
   top: 0;
@@ -39,14 +52,6 @@
     display: flex;
     align-items: center;
     height: 90px;
-
-    .back-button {
-      &.mobile {
-        position: fixed;
-        top: 65px;
-        z-index: 1001;
-      }
-    }
 
     .bar-container {
       padding-top: 21px;
