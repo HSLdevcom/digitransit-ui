@@ -32,7 +32,8 @@
   max-width: 520px;
   height: 100%;
   overflow-y: auto;
-  z-index: 1000;
+  z-index: 1;
+  border-radius: 15px 15px 0 0;
 
   .divider {
     border-top: 1px solid #ddd;
