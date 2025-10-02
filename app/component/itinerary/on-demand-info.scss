@@ -12,8 +12,8 @@
 
 .main-content {
   .back-button {
-    position: absolute;
-    z-index: 1;
+    top: 45px;
+    z-index: 2;
 
     &.mobile {
       position: fixed;
