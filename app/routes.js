@@ -370,6 +370,14 @@ export default config => {
         }}
       </Route>
       <Route
+        path={TRAFFICNOW}
+        getComponent={() =>
+          import(
+            /* webpackChunkName: "trafficnow" */ './component/trafficnow/TrafficNow'
+          ).then(getDefault)
+        }
+      />
+      <Route
         path="/tietoja-palvelusta"
         getComponent={() =>
           import(/* webpackChunkName: "about" */ './component/AboutPage').then(
@@ -524,14 +532,6 @@ export default config => {
       {config.indexPath !== '' && (
         <Redirect from="/" to={`/${config.indexPath}`} />
       )}
-      <Route
-        path={TRAFFICNOW}
-        getComponent={() =>
-          import(
-            /* webpackChunkName: "trafficnow" */ './component/trafficnow/TrafficNow'
-          ).then(getDefault)
-        }
-      />
       {/* For all the rest render 404 */}
       <Route path="*" Component={Error404} />
     </Route>
