@@ -133,13 +133,7 @@ export default configMerger(walttiConfig, {
 
   ticketLink: {
     fi: 'https://www.nysse.fi/liput-ja-hinnat.html',
-    sv: 'https://www.nysse.fi/en/tickets-and-fares.html',
-    en: 'https://www.nysse.fi/en/tickets-and-fares.html',
   },
-
-  showTicketLinkOnlyWhenTesting: true,
-  showTicketPrice: false,
-  ticketLinkOperatorCode: 50245,
 
   callAgencyInfo: {
     fi: {
