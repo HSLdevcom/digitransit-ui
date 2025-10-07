@@ -259,6 +259,10 @@ export default {
       : '';
   },
 
+  // if true we don't show fare information on top of the itinerary
+  // when there are legs from unknown operators
+  hideUnknownFares: true,
+
   startSearchFromUserLocation: true,
 
   minTransferTimeSelection: [
@@ -287,18 +291,13 @@ export default {
     FERRY: { showNotification: true },
   },
 
-  ticketPurchaseLink: function purchaseTicketLink(
-    fare,
-    operatorCode,
-    appName,
-    availableTickets,
-  ) {
+  ticketPurchaseLink: function purchaseTicketLink(fare, availableTickets) {
     const fareId = fare.fareProducts[0].product.id;
     const feed = fareId.split(':')[0];
     const zones = availableTickets[feed][fareId].zones.reduce((acc, zone) => {
       return `${acc}0${zone}`;
     }, '');
-    return `https://waltti.fi/${appName}/busTicket/?operator=${operatorCode}&ticketType=single&customerGroup=adult&zones=${zones}`;
+    return `https://waltti.fi/${this.appName}/busTicket/?operator=${this.ticketLinkOperatorCode}&ticketType=single&customerGroup=adult&zones=${zones}`;
   },
   appName: 'walttiapp',
   ticketButtonTextId: 'buy-in-app',

@@ -229,7 +229,11 @@ class TransitLeg extends React.Component {
 
   renderFareDisclaimer(leg, mode, lang, LegRouteName) {
     const { config, intl } = this.context;
-    if (leg.fare?.isUnknown && shouldShowFareInfo(config)) {
+    if (
+      leg.fare?.isUnknown &&
+      !config.hideUnknownFares &&
+      shouldShowFareInfo(config)
+    ) {
       const modeDisclaimer = config.modeDisclaimers?.[mode]?.[lang];
       if (modeDisclaimer) {
         return (

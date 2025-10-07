@@ -131,7 +131,6 @@ export default configMerger(walttiConfig, {
     itinerary: true,
   },
 
-  showTicketLinkOnlyWhenTesting: true,
   showTicketInformation: true,
   useTicketIcons: true,
   ticketLink: {
