@@ -12,11 +12,22 @@ This is only worth it when the execution is long running, i.e. more than ~50 mil
 """
 directive @async on FIELD_DEFINITION
 
+"This directive allows results to be deferred during execution"
+directive @defer(
+    "Deferred behaviour is controlled by this argument"
+    if: Boolean! = true,
+    "A unique label that represents the fragment being deferred"
+    label: String
+  ) on FRAGMENT_SPREAD | INLINE_FRAGMENT
+
 "Marks the field, argument, input field or enum value as deprecated"
 directive @deprecated(
     "The reason for the deprecation"
-    reason: String = "No longer supported"
+    reason: String! = "No longer supported"
   ) on FIELD_DEFINITION | ARGUMENT_DEFINITION | ENUM_VALUE | INPUT_FIELD_DEFINITION
+
+"This directive disables error propagation when a non nullable field returns null for the given operation."
+directive @experimental_disableErrorPropagation on QUERY | MUTATION | SUBSCRIPTION
 
 "Directs the executor to include this field or fragment only when the `if` argument is true"
 directive @include(
@@ -38,6 +49,9 @@ directive @specifiedBy(
     "The URL that specifies the behaviour of this scalar."
     url: String!
   ) on SCALAR
+
+"Add timing data to prometheus, if Actuator API is enabled"
+directive @timingData on FIELD_DEFINITION
 
 "A fare product (a ticket) to be bought by a passenger"
 interface FareProduct {
@@ -73,8 +87,17 @@ interface PlaceInterface {
 "Entity related to an alert"
 union AlertEntity = Agency | Pattern | Route | RouteType | Stop | StopOnRoute | StopOnTrip | Trip | Unknown
 
+"Scheduled times for a trip on a service date for a stop location."
+union CallScheduledTime = ArrivalDepartureTime | TimeWindow
+
+"Location where a transit vehicle stops at."
+union CallStopLocation = Location | LocationGroup | Stop
+
 "Rental place union that represents either a VehicleRentalStation or a RentalVehicle"
 union RentalPlace = RentalVehicle | VehicleRentalStation
+
+"A feature for a step"
+union StepFeature = Entrance
 
 union StopPosition = PositionAtStop | PositionBetweenStops
 
@@ -116,7 +139,7 @@ type Alert implements Node {
   Agency affected by the disruption. Note that this value is present only if the
   disruption has an effect on all operations of the agency (e.g. in case of a strike).
   """
-  agency: Agency @deprecated(reason : "Alert can have multiple affected entities now instead of there being duplicate alerts\nfor different entities. This will return only one of the affected agencies.\nUse entities instead.")
+  agency: Agency @deprecated(reason : "Alert can have multiple affected entities now instead of there being duplicate alerts\nfor different entities. This will return only one of the affected agencies.\nUse entities instead.") @timingData
   "Alert cause"
   alertCause: AlertCauseType
   "Long description of the alert"
@@ -125,7 +148,7 @@ type Alert implements Node {
     language: String
   ): String!
   "Long descriptions of the alert in all different available languages"
-  alertDescriptionTextTranslations: [TranslatedString!]! @deprecated(reason : "Use `alertDescriptionText` instead. `accept-language` header can be used for translations or the `language` parameter on the `alertDescriptionText` field.")
+  alertDescriptionTextTranslations: [TranslatedString!]! @deprecated(reason : "Use `alertDescriptionText` instead. `accept-language` header can be used for translations or the `language` parameter on the `alertDescriptionText` field.") @timingData
   "Alert effect"
   alertEffect: AlertEffectType
   "hashcode from the original GTFS-RT alert"
@@ -136,7 +159,7 @@ type Alert implements Node {
     language: String
   ): String
   "Header of the alert in all different available languages"
-  alertHeaderTextTranslations: [TranslatedString!]! @deprecated(reason : "Use `alertHeaderText` instead. `accept-language` header can be used for translations or the `language` parameter on the `alertHeaderText` field.")
+  alertHeaderTextTranslations: [TranslatedString!]! @deprecated(reason : "Use `alertHeaderText` instead. `accept-language` header can be used for translations or the `language` parameter on the `alertHeaderText` field.") @timingData
   "Alert severity level"
   alertSeverityLevel: AlertSeverityLevelType
   "Url with more information"
@@ -145,7 +168,7 @@ type Alert implements Node {
     language: String
   ): String
   "Url with more information in all different available languages"
-  alertUrlTranslations: [TranslatedString!]! @deprecated(reason : "Use `alertUrl` instead. `accept-language` header can be used for translations or the `language` parameter on the `alertUrl` field.")
+  alertUrlTranslations: [TranslatedString!]! @deprecated(reason : "Use `alertUrl` instead. `accept-language` header can be used for translations or the `language` parameter on the `alertUrl` field.") @timingData
   "Time when this alert is not in effect anymore. Format: Unix timestamp in seconds"
   effectiveEndDate: Long
   "Time when this alert comes into effect. Format: Unix timestamp in seconds"
@@ -157,13 +180,21 @@ type Alert implements Node {
   "Global object ID provided by Relay. This value can be used to refetch this object using **node** query."
   id: ID!
   "Patterns affected by the disruption"
-  patterns: [Pattern] @deprecated(reason : "This will always return an empty list. Use entities instead.")
+  patterns: [Pattern] @deprecated(reason : "This will always return an empty list. Use entities instead.") @timingData
   "Route affected by the disruption"
-  route: Route @deprecated(reason : "Alert can have multiple affected entities now instead of there being duplicate alerts\nfor different entities. This will return only one of the affected routes.\nUse entities instead.")
+  route: Route @deprecated(reason : "Alert can have multiple affected entities now instead of there being duplicate alerts\nfor different entities. This will return only one of the affected routes.\nUse entities instead.") @timingData
   "Stop affected by the disruption"
-  stop: Stop @deprecated(reason : "Alert can have multiple affected entities now instead of there being duplicate alerts\nfor different entities. This will return only one of the affected stops.\nUse entities instead.")
+  stop: Stop @deprecated(reason : "Alert can have multiple affected entities now instead of there being duplicate alerts\nfor different entities. This will return only one of the affected stops.\nUse entities instead.") @timingData
   "Trip affected by the disruption"
-  trip: Trip @deprecated(reason : "Alert can have multiple affected entities now instead of there being duplicate alerts\nfor different entities. This will return only one of the affected trips.\nUse entities instead.")
+  trip: Trip @deprecated(reason : "Alert can have multiple affected entities now instead of there being duplicate alerts\nfor different entities. This will return only one of the affected trips.\nUse entities instead.") @timingData
+}
+
+"Arrival and departure time (not relative to midnight)."
+type ArrivalDepartureTime {
+  "Arrival time as an ISO-8601-formatted datetime."
+  arrival: OffsetDateTime
+  "Departure time as an ISO-8601-formatted datetime."
+  departure: OffsetDateTime
 }
 
 "Bike park represents a location where bicycles can be parked."
@@ -241,7 +272,7 @@ type BikeRentalStation implements Node & PlaceInterface {
   """
   spacesAvailable: Int
   "A description of the current state of this bike rental station, e.g. \"Station on\""
-  state: String @deprecated(reason : "Use operative instead")
+  state: String @deprecated(reason : "Use operative instead") @timingData
   "ID of the bike rental station"
   stationId: String
 }
@@ -279,12 +310,16 @@ type BookingInfo {
   earliestBookingTime: BookingTime
   "When is the latest time the service can be booked"
   latestBookingTime: BookingTime
+  "Maximum duration before travel to make the request."
+  maximumBookingNotice: Duration
   "Maximum number of seconds before travel to make the request"
-  maximumBookingNoticeSeconds: Long
+  maximumBookingNoticeSeconds: Long @deprecated(reason : "Use `maximumBookingNotice`") @timingData
   "A general message for those booking the service"
   message: String
+  "Minimum duration before travel to make the request"
+  minimumBookingNotice: Duration
   "Minimum number of seconds before travel to make the request"
-  minimumBookingNoticeSeconds: Long
+  minimumBookingNoticeSeconds: Long @deprecated(reason : "Use `minimumBookingNotice`") @timingData
   "A message specific to the pick up"
   pickupMessage: String
 }
@@ -295,6 +330,20 @@ type BookingTime {
   daysPrior: Int
   "Time of the booking"
   time: String
+}
+
+"Real-time estimates for arrival and departure times for a stop location."
+type CallRealTime {
+  "Real-time estimates for the arrival."
+  arrival: EstimatedTime
+  "Real-time estimates for the departure."
+  departure: EstimatedTime
+}
+
+"What is scheduled for a trip on a service date for a stop location."
+type CallSchedule {
+  "Scheduled time for a trip on a service date for a stop location."
+  time: CallScheduledTime
 }
 
 "Car park represents a location where cars can be parked."
@@ -330,17 +379,17 @@ type CarPark implements Node & PlaceInterface {
 "Cluster is a list of stops grouped by name and proximity"
 type Cluster implements Node {
   "ID of the cluster"
-  gtfsId: String!
+  gtfsId: String! @deprecated(reason : "Not implemented")
   "Global object ID provided by Relay. This value can be used to refetch this object using **node** query."
-  id: ID!
+  id: ID! @deprecated(reason : "Not implemented")
   "Latitude of the center of this cluster (i.e. average latitude of stops in this cluster)"
-  lat: Float!
+  lat: Float! @deprecated(reason : "Not implemented")
   "Longitude of the center of this cluster (i.e. average longitude of stops in this cluster)"
-  lon: Float!
+  lon: Float! @deprecated(reason : "Not implemented")
   "Name of the cluster"
-  name: String!
+  name: String! @deprecated(reason : "Not implemented")
   "List of stops in the cluster"
-  stops: [Stop!]
+  stops: [Stop!] @deprecated(reason : "Not implemented")
 }
 
 "Contact information for booking an on-demand or flexible service."
@@ -451,9 +500,58 @@ type DepartureRow implements Node & PlaceInterface {
   ): [Stoptime]
 }
 
+"""
+A (possibly discounted) fare product that requires another fare product to be purchased previously
+in order to be valid.
+
+For example, when taking the train into a city, you might get a discounted "transfer fare" when
+switching to the bus for the second leg.
+"""
+type DependentFareProduct implements FareProduct {
+  "The fare product is _not_ valid without purchasing at least _one_ of"
+  dependencies(filter: DependentFareProductFilter = ALL): [FareProduct!]!
+  id: String!
+  """
+  The 'medium' that this product applies to, for example "Oyster Card" or "Berlin Ticket App".
+    
+  This communicates to riders that a specific way of buying or keeping this product is required.
+  """
+  medium: FareMedium
+  "Human readable name of the product, for example example \"Day pass\" or \"Single ticket\"."
+  name: String!
+  "The price of the product"
+  price: Money!
+  "The category of riders this product applies to, for example students or pensioners."
+  riderCategory: RiderCategory
+}
+
 type Emissions {
   "CO₂ emissions in grams."
   co2: Grams
+}
+
+"Station entrance or exit, originating from OSM or GTFS data."
+type Entrance {
+  "ID of the entrance in the format of `FeedId:EntranceId`. If the `FeedId` is `osm`, the entrance originates from OSM data."
+  entranceId: String!
+  "Name of the entrance or exit."
+  name: String
+  "Short text or a number that identifies the entrance or exit for passengers. For example, `A` or `B`."
+  publicCode: String
+  "Whether the entrance or exit is accessible by wheelchair"
+  wheelchairAccessible: WheelchairBoarding
+}
+
+"Real-time estimates for an arrival or departure at a certain place."
+type EstimatedTime {
+  """
+  The delay or "earliness" of the vehicle at a certain place. This estimate can change quite often.
+    
+  If the vehicle is early then this is a negative duration.
+  """
+  delay: Duration!
+  "The estimate for a call event (such as arrival or departure) at a certain place. This estimate can change quite often."
+  time: OffsetDateTime!
 }
 
 "A 'medium' that a fare product applies to, for example cash, 'Oyster Card' or 'DB Navigator App'."
@@ -581,12 +679,12 @@ type Itinerary {
   "Time when the user leaves arrives at the destination."
   end: OffsetDateTime
   "Time when the user arrives to the destination. Format: Unix timestamp in milliseconds."
-  endTime: Long @deprecated(reason : "Use `end` instead which includes timezone information.")
+  endTime: Long @deprecated(reason : "Use `end` instead which includes timezone information.") @timingData
   """
   Information about the fares for this itinerary. This is primarily a GTFS Fares V1 interface
   and always returns an empty list. Use the leg's `fareProducts` instead.
   """
-  fares: [fare] @deprecated(reason : "Use the leg's `fareProducts`.")
+  fares: [fare] @deprecated(reason : "Use the leg's `fareProducts`.") @timingData
   "Generalized cost of the itinerary. Used for debugging search results."
   generalizedCost: Int
   """
@@ -607,7 +705,7 @@ type Itinerary {
   "Time when the user leaves from the origin."
   start: OffsetDateTime
   "Time when the user leaves from the origin. Format: Unix timestamp in milliseconds."
-  startTime: Long @deprecated(reason : "Use `start` instead which includes timezone information.")
+  startTime: Long @deprecated(reason : "Use `start` instead which includes timezone information.") @timingData
   """
   A list of system notices. Contains debug information for itineraries.
   One use-case is to run a routing search with 'debugItineraryFilter: true'.
@@ -642,13 +740,13 @@ type Leg {
   stop in this leg, i.e. scheduled time of arrival at alighting stop = `endTime
   - arrivalDelay`
   """
-  arrivalDelay: Int @deprecated(reason : "Use `start.estimated.delay` instead.")
+  arrivalDelay: Int @deprecated(reason : "Use `start.estimated.delay` instead.") @timingData
   """
   For transit leg, the offset from the scheduled departure time of the boarding
   stop in this leg, i.e. scheduled time of departure at boarding stop =
   `startTime - departureDelay`
   """
-  departureDelay: Int @deprecated(reason : "Use `end.estimated.delay` instead.")
+  departureDelay: Int @deprecated(reason : "Use `end.estimated.delay` instead.") @timingData
   "The distance traveled while traversing the leg in meters."
   distance: Float
   """
@@ -663,7 +761,7 @@ type Leg {
   "The time when the leg ends including real-time information, if available."
   end: LegTime!
   "The date and time when this leg ends. Format: Unix timestamp in milliseconds."
-  endTime: Long @deprecated(reason : "Use `end.estimated.time` instead which contains timezone information.")
+  endTime: Long @deprecated(reason : "Use `end.estimated.time` instead which contains timezone information.") @timingData
   """
   Fare products are purchasable tickets which may have an optional fare container or rider
   category that limits who can buy them or how.
@@ -695,18 +793,20 @@ type Leg {
   """
   interlineWithPreviousLeg: Boolean
   "Whether the destination of this leg (field `to`) is one of the intermediate places specified in the query."
-  intermediatePlace: Boolean
-  """
-  For transit legs, intermediate stops between the Place where the leg
-  originates and the Place where the leg ends. For non-transit legs, null.
-  Returns Place type, which has fields for e.g. departure and arrival times
-  """
-  intermediatePlaces: [Place]
+  intermediatePlace: Boolean @deprecated(reason : "Not implemented")
   """
   For transit legs, intermediate stops between the Place where the leg
   originates and the Place where the leg ends. For non-transit legs, null.
   """
-  intermediateStops: [Stop]
+  intermediatePlaces: [Place] @deprecated(reason : "Use `leg.stopCalls` instead")
+  """
+  For transit legs, intermediate stops between the Place where the leg
+  originates and the Place where the leg ends. For non-transit legs, null.
+    
+  The `include` parameter allows filtering of the returned places by stop type. If not provided, the
+  field returns all types. An empty list is not permitted.
+  """
+  intermediateStops(include: [StopType!]): [Stop] @deprecated(reason : "Use `leg.stopCalls` instead")
   "The leg's geometry."
   legGeometry: Geometry
   "The mode (e.g. `WALK`) used when traversing this leg."
@@ -758,7 +858,7 @@ type Leg {
   realTime: Boolean
   "State of real-time data"
   realtimeState: RealtimeState
-  "Whether this leg is traversed with a rented bike."
+  "Whether this leg is traversed with a rented vehicle."
   rentedBike: Boolean
   "Estimate of a hailed ride like Uber."
   rideHailingEstimate: RideHailingEstimate
@@ -769,9 +869,15 @@ type Leg {
   "The time when the leg starts including real-time information, if available."
   start: LegTime!
   "The date and time when this leg begins. Format: Unix timestamp in milliseconds."
-  startTime: Long @deprecated(reason : "Use `start.estimated.time` instead which contains timezone information.")
+  startTime: Long @deprecated(reason : "Use `start.estimated.time` instead which contains timezone information.") @timingData
   "The turn-by-turn navigation instructions."
   steps: [step]
+  """
+  All the stop calls (stop times) of this _leg_ (but not trip) including the boarding and alighting one.
+    
+  Non-transit legs return an empty list.
+  """
+  stopCalls: [StopCall!]!
   "The Place where the leg ends."
   to: Place!
   "Whether this leg is a transit leg or not."
@@ -807,6 +913,34 @@ type LocalTimeSpanDate {
   date: String!
   "The time spans for this date."
   timeSpans: [LocalTimeSpan]
+}
+
+"""
+A stop that isn't a fixed point but zone where passengers can board or alight anywhere.
+
+This is mostly used by demand-responsive services.
+"""
+type Location {
+  "The geometry representing the geographic extend of the location."
+  geometry: StopGeometries!
+  "ÌD of the location in format `FeedId:LocationId`"
+  gtfsId: String!
+  "Optional name of the location."
+  name: String
+}
+
+"""
+A group of fixed stops that is visited in an arbitrary order.
+
+This is mostly used by demand-responsive services.
+"""
+type LocationGroup {
+  "ÌD of the location group in format `FeedId:LocationGroupId`"
+  gtfsId: String!
+  "The stops that are part of the group (cannot be stations)."
+  members: [Stop!]!
+  "Optional name of the group."
+  name: String
 }
 
 "An amount of money."
@@ -919,20 +1053,20 @@ type Place {
   """
   arrival: LegTime
   "The time the rider will arrive at the place. Format: Unix timestamp in milliseconds."
-  arrivalTime: Long! @deprecated(reason : "Use `arrival` which includes timezone information.")
+  arrivalTime: Long! @deprecated(reason : "Use `arrival` which includes timezone information.") @timingData
   "The bike parking related to the place"
-  bikePark: BikePark @deprecated(reason : "bikePark is deprecated. Use vehicleParking instead.")
+  bikePark: BikePark @deprecated(reason : "bikePark is deprecated. Use vehicleParking instead.") @timingData
   "The bike rental station related to the place"
-  bikeRentalStation: BikeRentalStation @deprecated(reason : "Use vehicleRentalStation and rentalVehicle instead")
+  bikeRentalStation: BikeRentalStation @deprecated(reason : "Use vehicleRentalStation and rentalVehicle instead") @timingData
   "The car parking related to the place"
-  carPark: CarPark @deprecated(reason : "carPark is deprecated. Use vehicleParking instead.")
+  carPark: CarPark @deprecated(reason : "carPark is deprecated. Use vehicleParking instead.") @timingData
   """
   The time the rider will depart the place. This also includes real-time information
   if available.
   """
   departure: LegTime
   "The time the rider will depart the place. Format: Unix timestamp in milliseconds."
-  departureTime: Long! @deprecated(reason : "Use `departure` which includes timezone information.")
+  departureTime: Long! @deprecated(reason : "Use `departure` which includes timezone information.") @timingData
   "Latitude of the place (WGS 84)"
   lat: Float!
   "Longitude of the place (WGS 84)"
@@ -966,7 +1100,7 @@ type Place {
   Type of vertex. (Normal, Bike sharing station, Bike P+R, Transit stop) Mostly
   used for better localization of bike sharing and P+R station names
   """
-  vertexType: VertexType
+  vertexType: VertexType @deprecated(reason : "Unmaintained. Use `stop`, `rentalVehicle`, `vehicleParking` or `vehicleRentalStation` to tell which type it is.") @timingData
 }
 
 type Plan {
@@ -988,7 +1122,7 @@ type Plan {
   search-window AFTER the current search. No duplicate trips should be returned, unless a trip
   is delayed and new real-time data is available.
   """
-  nextDateTime: Long @deprecated(reason : "Use nextPageCursor instead")
+  nextDateTime: Long @deprecated(reason : "Use nextPageCursor instead") @timingData
   """
   Use the cursor to go to the next "page" of itineraries. Copy the cursor from the last response
   to the pageCursor query parameter and keep the original request as is. This will enable you to
@@ -1003,7 +1137,7 @@ type Plan {
   search-window BEFORE the current search. No duplicate trips should be returned, unless a trip
   is delayed and new real-time data is available.
   """
-  prevDateTime: Long @deprecated(reason : "Use previousPageCursor instead")
+  prevDateTime: Long @deprecated(reason : "Use previousPageCursor instead") @timingData
   """
   Use the cursor to go to the previous "page" of itineraries. Copy the cursor from the last
   response to the pageCursor query parameter and keep the original request otherwise as is.
@@ -1116,11 +1250,11 @@ type QueryType {
     stop: [String!]
   ): [Alert]
   "Get a single bike park based on its ID, i.e. value of field `bikeParkId`"
-  bikePark(id: String!): BikePark @deprecated(reason : "bikePark is deprecated. Use vehicleParking instead.")
+  bikePark(id: String!): BikePark @deprecated(reason : "bikePark is deprecated. Use vehicleParking instead.") @timingData
   "Get all bike parks"
-  bikeParks: [BikePark] @deprecated(reason : "bikeParks is deprecated. Use vehicleParkings instead.")
+  bikeParks: [BikePark] @deprecated(reason : "bikeParks is deprecated. Use vehicleParkings instead.") @timingData
   "Get a single bike rental station based on its ID, i.e. value of field `stationId`"
-  bikeRentalStation(id: String!): BikeRentalStation @deprecated(reason : "Use rentalVehicle or vehicleRentalStation instead")
+  bikeRentalStation(id: String!): BikeRentalStation @deprecated(reason : "Use rentalVehicle or vehicleRentalStation instead") @timingData
   "Get all bike rental stations"
   bikeRentalStations(
     """
@@ -1129,32 +1263,61 @@ type QueryType {
     the returned list will contain `null` values.
     """
     ids: [String]
-  ): [BikeRentalStation] @deprecated(reason : "Use rentalVehicles or vehicleRentalStations instead")
-  "Get cancelled TripTimes."
+  ): [BikeRentalStation] @deprecated(reason : "Use rentalVehicles or vehicleRentalStations instead") @timingData
+  """
+  Get pages of canceled trips. Planned cancellations are not currently supported. Limiting the number of
+  returned trips with either `first` or `last` is highly recommended since the number of returned trips
+  can be really high when there is a strike affecting the transit services, for example. Follows the
+  [GraphQL Cursor Connections Specification](https://relay.dev/graphql/connections.htm).
+  """
+  canceledTrips(
+    """
+    This parameter is part of the [GraphQL Cursor Connections Specification](https://relay.dev/graphql/connections.htm)
+    and should be used together with the `first` parameter.
+    """
+    after: String,
+    """
+    This parameter is part of the [GraphQL Cursor Connections Specification](https://relay.dev/graphql/connections.htm)
+    and should be used together with the `last` parameter.
+    """
+    before: String,
+    """
+    Limits how many trips are returned. This parameter is part of the
+    [GraphQL Cursor Connections Specification](https://relay.dev/graphql/connections.htm) and can be used together with
+    the `after` parameter.
+    """
+    first: Int,
+    """
+    This parameter is part of the [GraphQL Cursor Connections Specification](https://relay.dev/graphql/connections.htm)
+    and should be used together with the `before` parameter.
+    """
+    last: Int
+  ): TripOnServiceDateConnection
+  "Get canceled TripTimes."
   cancelledTripTimes(
     "Feed feedIds (e.g. [\"HSL\"])."
     feeds: [String],
     """
-    Only cancelled trip times that have last stop arrival time at maxArrivalTime
+    Only canceled trip times that have last stop arrival time at maxArrivalTime
     or before are returned. Format: seconds since midnight of maxDate.
     """
     maxArrivalTime: Int,
-    "Only cancelled trip times scheduled to run on maxDate or before are returned. Format: \"2019-12-23\" or \"20191223\"."
+    "Only canceled trip times scheduled to run on maxDate or before are returned. Format: \"2019-12-23\" or \"20191223\"."
     maxDate: String,
     """
-    Only cancelled trip times that have first stop departure time at
+    Only canceled trip times that have first stop departure time at
     maxDepartureTime or before are returned. Format: seconds since midnight of maxDate.
     """
     maxDepartureTime: Int,
     """
-    Only cancelled trip times that have last stop arrival time at minArrivalTime
+    Only canceled trip times that have last stop arrival time at minArrivalTime
     or after are returned. Format: seconds since midnight of minDate.
     """
     minArrivalTime: Int,
-    "Only cancelled trip times scheduled to run on minDate or after are returned. Format: \"2019-12-23\" or \"20191223\"."
+    "Only canceled trip times scheduled to run on minDate or after are returned. Format: \"2019-12-23\" or \"20191223\"."
     minDate: String,
     """
-    Only cancelled trip times that have first stop departure time at
+    Only canceled trip times that have first stop departure time at
     minDepartureTime or after are returned. Format: seconds since midnight of minDate.
     """
     minDepartureTime: Int,
@@ -1164,9 +1327,9 @@ type QueryType {
     routes: [String],
     "Trip gtfsIds (e.g. [\"HSL:1098_20190405_Ma_2_1455\"])."
     trips: [String]
-  ): [Stoptime]
+  ): [Stoptime] @deprecated(reason : "`cancelledTripTimes` is not implemented. Use `canceledTrips` instead.") @timingData
   "Get a single car park based on its ID, i.e. value of field `carParkId`"
-  carPark(id: String!): CarPark @deprecated(reason : "carPark is deprecated. Use vehicleParking instead.")
+  carPark(id: String!): CarPark @deprecated(reason : "carPark is deprecated. Use vehicleParking instead.") @timingData
   "Get all car parks"
   carParks(
     """
@@ -1174,11 +1337,11 @@ type QueryType {
     **Note:** if an id is invalid (or the car park service is unavailable) the returned list will contain `null` values.
     """
     ids: [String]
-  ): [CarPark] @deprecated(reason : "carParks is deprecated. Use vehicleParkings instead.")
+  ): [CarPark] @deprecated(reason : "carParks is deprecated. Use vehicleParkings instead.") @timingData
   "Get a single cluster based on its ID, i.e. value of field `gtfsId`"
-  cluster(id: String!): Cluster
+  cluster(id: String!): Cluster @deprecated(reason : "Not implemented")
   "Get all clusters"
-  clusters: [Cluster]
+  clusters: [Cluster] @deprecated(reason : "Not implemented")
   "Get a single departure row based on its ID (ID format is `FeedId:StopId:PatternId`)"
   departureRow(id: String!): DepartureRow
   "Get all available feeds"
@@ -1244,7 +1407,7 @@ type QueryType {
     maxDistance: Int = 2000,
     "Maximum number of results. Search is stopped when this limit is reached. Default is 20."
     maxResults: Int = 20
-  ): placeAtDistanceConnection @async
+  ): placeAtDistanceConnection @async @timingData
   "Fetches an object given its ID"
   node(
     "The ID of an object"
@@ -1357,7 +1520,7 @@ type QueryType {
     "When true, real-time updates are ignored during this search. Default value: false"
     ignoreRealtimeUpdates: Boolean,
     "An ordered list of intermediate locations to be visited."
-    intermediatePlaces: [InputCoordinates] @deprecated(reason : "Not implemented in OTP2."),
+    intermediatePlaces: [InputCoordinates] @deprecated(reason : "Not implemented"),
     """
     How easily bad itineraries are filtered from results. Value 0 (default)
     disables filtering. Itineraries are filtered if they are worse than another
@@ -1424,7 +1587,7 @@ type QueryType {
     "Preferences for vehicle parking"
     parking: VehicleParkingInput,
     "List of routes and agencies which are given higher preference when planning the itinerary"
-    preferred: InputPreferred,
+    preferred: InputPreferred @deprecated(reason : "Not implemented"),
     """
     **Consider this argument experimental** – setting this argument to true
     causes timeouts and unoptimal routes in many cases.
@@ -1476,7 +1639,7 @@ type QueryType {
     travel time of the trip (and therefore arguments `time` and `from` must be
     used correctly to get meaningful itineraries).
     """
-    startTransitTripId: String @deprecated(reason : "Not implemented in OTP2"),
+    startTransitTripId: String @deprecated(reason : "Not implemented"),
     "Time of departure or arrival in format hh:mm:ss. Default value: current time"
     time: String,
     """
@@ -1560,7 +1723,7 @@ type QueryType {
     walkSpeed: Float,
     "Whether the itinerary must be wheelchair accessible. Default value: false"
     wheelchair: Boolean
-  ): Plan @async @deprecated(reason : "Use `planConnection` instead.")
+  ): Plan @async @deprecated(reason : "Use `planConnection` instead.") @timingData
   """
   Plan (itinerary) search that follows
   [GraphQL Cursor Connections Specification](https://relay.dev/graphql/connections.htm).
@@ -1632,8 +1795,8 @@ type QueryType {
     preferences: PlanPreferencesInput,
     """
     Duration of the search window. This either starts at the defined earliest departure
-    time or ends at the latest arrival time. If this is not provided, a reasonable
-    search window is automatically generated. When searching for earlier or later itineraries
+    time or ends at the latest arrival time. If this is not provided or the value is set as null,
+    a reasonable search window is automatically generated. When searching for earlier or later itineraries
     with paging, this search window is no longer used and the new window will be based
     on how many suggestions were returned in the previous search. The new search window can be
     shorter or longer than the original search window. Note, itineraries are returned faster
@@ -1647,7 +1810,7 @@ type QueryType {
     searchWindow: Duration,
     "The list of points the itinerary is required to pass through."
     via: [PlanViaLocationInput!]
-  ): PlanConnection @async
+  ): PlanConnection @async @timingData
   "Get a single rental vehicle based on its ID, i.e. value of field `vehicleId`"
   rentalVehicle(id: String!): RentalVehicle
   "Get all rental vehicles"
@@ -1683,7 +1846,7 @@ type QueryType {
     serviceDates: LocalDateRangeInput,
     "Only include routes, which use one of these modes"
     transportModes: [Mode]
-  ): [Route]
+  ): [Route] @timingData
   "Get the time range for which the API has data available"
   serviceTimeRange: serviceTimeRange
   "Get a single station based on its ID, i.e. value of field `gtfsId` (format is `FeedId:StopId`)"
@@ -1801,6 +1964,10 @@ type RealTimeEstimate {
 type RentalVehicle implements Node & PlaceInterface {
   "If true, vehicle is currently available for renting."
   allowPickupNow: Boolean
+  "The vehicle should be returned before this deadline."
+  availableUntil: OffsetDateTime
+  "Fuel or battery status of the rental vehicle"
+  fuel: RentalVehicleFuel
   "Global object ID provided by Relay. This value can be used to refetch this object using **node** query."
   id: ID!
   "Latitude of the vehicle (WGS 84)"
@@ -1810,7 +1977,7 @@ type RentalVehicle implements Node & PlaceInterface {
   "Name of the vehicle"
   name: String!
   "ID of the rental network."
-  network: String @deprecated(reason : "Use `networkId` from `rentalNetwork` instead.")
+  network: String @deprecated(reason : "Use `networkId` from `rentalNetwork` instead.") @timingData
   "If true, vehicle is not disabled."
   operative: Boolean
   "The vehicle rental network information. This is referred as system in the GBFS terminology."
@@ -1828,6 +1995,14 @@ type RentalVehicleEntityCounts {
   byType: [RentalVehicleTypeCount!]!
   "The total number of entities (e.g. vehicles, spaces)."
   total: Int!
+}
+
+"Rental vehicle fuel represent the current status of the battery or fuel of a rental vehicle"
+type RentalVehicleFuel {
+  "Fuel or battery power remaining in the vehicle. Expressed from 0 to 1."
+  percent: Ratio
+  "Range in meters that the vehicle can travel with the current charge or fuel."
+  range: Int
 }
 
 type RentalVehicleType {
@@ -2010,7 +2185,7 @@ type Stop implements Node & PlaceInterface {
     types: [StopAlertType]
   ): [Alert]
   "The cluster which this stop is part of"
-  cluster: Cluster
+  cluster: Cluster @deprecated(reason : "Not implemented")
   "Stop code which is visible at the stop"
   code: String
   "Description of the stop, usually a street name"
@@ -2152,11 +2327,26 @@ type Stop implements Node & PlaceInterface {
   https://developers.google.com/transit/gtfs/reference/#routestxt and
   https://developers.google.com/transit/gtfs/reference/extended-route-types
   """
-  vehicleType: Int
+  vehicleType: Int @deprecated(reason : "Not implemented. Use `vehicleMode`.") @timingData
   "Whether wheelchair boarding is possible for at least some of vehicles on this stop"
   wheelchairBoarding: WheelchairBoarding
   "ID of the zone where this stop is located"
   zoneId: String
+}
+
+"""
+Represents the time or time window when a specific trip on a specific date arrives to and/or departs
+from a specific stop location.
+
+This may contain real-time information, if available.
+"""
+type StopCall {
+  "Real-time estimates for arrival and departure times for this stop location."
+  realTime: CallRealTime
+  "Scheduled arrival and departure times for this stop location."
+  schedule: CallSchedule
+  "The stop where this arrival/departure happens."
+  stopLocation: CallStopLocation!
 }
 
 type StopGeometries {
@@ -2314,6 +2504,12 @@ type TicketType implements Node {
   zones: [String!]
 }
 
+"A time window when a vehicle visits a stop, area or group of stops."
+type TimeWindow {
+  end: OffsetDateTime!
+  start: OffsetDateTime!
+}
+
 "Text with language"
 type TranslatedString {
   "Two-letter language code (ISO 639-1)"
@@ -2336,7 +2532,11 @@ type Trip implements Node {
     """
     types: [TripAlertType]
   ): [Alert]
-  "Arrival time to the final stop"
+  """
+  Arrival time to the final stop. If the trip does not run on the given date,
+  it will return scheduled times from another date. This field is slightly
+  confusing and will be deprecated when a better replacement is implemented.
+  """
   arrivalStoptime(
     """
     Date for which the arrival time is returned. Format: YYYYMMDD. If this
@@ -2347,7 +2547,11 @@ type Trip implements Node {
   "Whether bikes are allowed on board the vehicle running this trip"
   bikesAllowed: BikesAllowed
   blockId: String
-  "Departure time from the first stop"
+  """
+  Departure time from the first stop. If the trip does not run on the given date,
+  it will return scheduled times from another date. This field is slightly
+  confusing and will be deprecated when a better replacement is implemented.
+  """
   departureStoptime(
     """
     Date for which the departure time is returned. Format: YYYYMMDD. If this
@@ -2386,6 +2590,12 @@ type Trip implements Node {
   stops: [Stop!]!
   "List of times when this trip arrives to or departs from a stop"
   stoptimes: [Stoptime]
+  """
+  List of times when this trip arrives to or departs from each stop on a given date, or
+  today if the date is not given. If the trip does not run on the given date, it will
+  return scheduled times from another date. This field is slightly confusing and
+  will be deprecated when a better replacement is implemented.
+  """
   stoptimesForDate(
     "Date for which stoptimes are returned. Format: YYYYMMDD"
     serviceDate: String
@@ -2412,6 +2622,60 @@ available for a trip. Historic data might not be available.
 type TripOccupancy {
   "Occupancy information mapped to a limited set of descriptive states."
   occupancyStatus: OccupancyStatus
+}
+
+"A trip on a specific service date."
+type TripOnServiceDate {
+  "Information related to trip's scheduled arrival to the final stop location. Can contain real-time information."
+  end: StopCall!
+  """
+  The service date when the trip occurs.
+    
+  **Note**: A service date is a technical term useful for transit planning purposes and might not
+    correspond to a how a passenger thinks of a calendar date. For example, a night bus running
+    on Sunday morning at 1am to 3am, might have the previous Saturday's service date.
+  """
+  serviceDate: LocalDate!
+  "Information related to trip's scheduled departure from the first stop location. Can contain real-time information."
+  start: StopCall!
+  "List of times when this trip arrives to or departs from a stop location and information related to the visit to the stop location."
+  stopCalls: [StopCall!]!
+  "This trip on service date is an instance of this trip."
+  trip: Trip
+}
+
+"""
+A connection to a list of trips on service dates that follows
+[GraphQL Cursor Connections Specification](https://relay.dev/graphql/connections.htm).
+"""
+type TripOnServiceDateConnection {
+  """
+  Edges which contain the trips. Part of the
+  [GraphQL Cursor Connections Specification](https://relay.dev/graphql/connections.htm).
+  """
+  edges: [TripOnServiceDateEdge]
+  """
+  Contains cursors to fetch more pages of trips.
+  Part of the [GraphQL Cursor Connections Specification](https://relay.dev/graphql/connections.htm).
+  """
+  pageInfo: PageInfo!
+}
+
+"""
+An edge for TripOnServiceDate connection. Part of the
+[GraphQL Cursor Connections Specification](https://relay.dev/graphql/connections.htm).
+"""
+type TripOnServiceDateEdge {
+  """
+  The cursor of the edge. Part of the
+  [GraphQL Cursor Connections Specification](https://relay.dev/graphql/connections.htm).
+  """
+  cursor: String!
+  """
+  Trip on a service date as a node. Part of the
+  [GraphQL Cursor Connections Specification](https://relay.dev/graphql/connections.htm).
+  """
+  node: TripOnServiceDate
 }
 
 "This is used for alert entities that we don't explicitly handle or they are missing."
@@ -2497,8 +2761,10 @@ type VehiclePosition {
   heading: Float
   "Human-readable label of the vehicle, eg. a publicly visible number or a license plate"
   label: String
+  "When the position of the vehicle was recorded."
+  lastUpdate: OffsetDateTime
   "When the position of the vehicle was recorded in seconds since the UNIX epoch."
-  lastUpdated: Long
+  lastUpdated: Long @deprecated(reason : "Use `lastUpdate` instead.") @timingData
   "Latitude of the vehicle"
   lat: Float
   "Longitude of the vehicle"
@@ -2558,7 +2824,7 @@ type VehicleRentalStation implements Node & PlaceInterface {
   "Name of the vehicle rental station"
   name: String!
   "ID of the rental network."
-  network: String @deprecated(reason : "Use `networkId` from `rentalNetwork` instead.")
+  network: String @deprecated(reason : "Use `networkId` from `rentalNetwork` instead.") @timingData
   "If true, station is on and in service."
   operative: Boolean
   """
@@ -2578,14 +2844,14 @@ type VehicleRentalStation implements Node & PlaceInterface {
   the rental station, even if the vehicle racks don't have any spaces available.
   See field `allowDropoffNow` to know if is currently possible to return a vehicle.
   """
-  spacesAvailable: Int @deprecated(reason : "Use `availableSpaces` instead, which also contains the space vehicle types")
+  spacesAvailable: Int @deprecated(reason : "Use `availableSpaces` instead, which also contains the space vehicle types") @timingData
   "ID of the vehicle in the format of network:id"
   stationId: String
   """
   Number of vehicles currently available on the rental station.
   See field `allowPickupNow` to know if is currently possible to pick up a vehicle.
   """
-  vehiclesAvailable: Int @deprecated(reason : "Use `availableVehicles` instead, which also contains vehicle types")
+  vehiclesAvailable: Int @deprecated(reason : "Use `availableVehicles` instead, which also contains vehicle types") @timingData
 }
 
 type VehicleRentalUris {
@@ -2631,12 +2897,12 @@ type fare {
   Fare price in cents. **Note:** this value is dependent on the currency used,
   as one cent is not necessarily ¹/₁₀₀ of the basic monerary unit.
   """
-  cents: Int @deprecated(reason : "No longer supported")
+  cents: Int @deprecated(reason : "No longer supported") @timingData
   "Components which this fare is composed of"
-  components: [fareComponent] @deprecated(reason : "No longer supported")
+  components: [fareComponent] @deprecated(reason : "No longer supported") @timingData
   "ISO 4217 currency code"
-  currency: String @deprecated(reason : "No longer supported")
-  type: String @deprecated(reason : "No longer supported")
+  currency: String @deprecated(reason : "No longer supported") @timingData
+  type: String @deprecated(reason : "No longer supported") @timingData
 }
 
 """
@@ -2648,13 +2914,13 @@ type fareComponent {
   Fare price in cents. **Note:** this value is dependent on the currency used,
   as one cent is not necessarily ¹/₁₀₀ of the basic monerary unit.
   """
-  cents: Int @deprecated(reason : "No longer supported")
+  cents: Int @deprecated(reason : "No longer supported") @timingData
   "ISO 4217 currency code"
-  currency: String @deprecated(reason : "No longer supported")
+  currency: String @deprecated(reason : "No longer supported") @timingData
   "ID of the ticket type. Corresponds to `fareId` in **TicketType**."
-  fareId: String @deprecated(reason : "No longer supported")
+  fareId: String @deprecated(reason : "No longer supported") @timingData
   "List of routes which use this fare component"
-  routes: [Route] @deprecated(reason : "No longer supported")
+  routes: [Route] @deprecated(reason : "No longer supported") @timingData
 }
 
 type placeAtDistance implements Node {
@@ -2686,13 +2952,6 @@ type serviceTimeRange {
   start: Long
 }
 
-type Entrance {
-  publicCode: String
-  wheelchairAccessible: Boolean
-}
-
-union StepFeature = Entrance
-
 type step {
   "The cardinal (compass) direction (e.g. north, northeast) taken when engaging this step."
   absoluteDirection: AbsoluteDirection
@@ -2714,6 +2973,8 @@ type step {
   elevationProfile: [elevationProfileComponent]
   "When exiting a highway or traffic circle, the exit name/number."
   exit: String
+  "Information about an feature associated with a step e.g. an station entrance or exit"
+  feature: StepFeature
   "The latitude of the start of the step."
   lat: Float
   "The longitude of the start of the step."
@@ -2726,7 +2987,6 @@ type step {
   streetName: String
   "Is this step walking with a bike?"
   walkingBike: Boolean
-  feature: StepFeature
 }
 
 type stopAtDistance implements Node {
@@ -2839,7 +3099,7 @@ enum AlertSeverityLevelType {
   INFO
   """
   Severe alerts are used when a significant part of public transport services is
-  affected, for example: All train services are cancelled due to technical problems.
+  affected, for example: All train services are canceled due to technical problems.
   """
   SEVERE
   "Severity of alert is unknown"
@@ -2888,6 +3148,22 @@ enum CyclingOptimizationType {
   `QUICK`.
   """
   SHORTEST_DURATION
+}
+
+"""
+Dependent fare products can lead to many combinations of fares, however it is often not useful
+information to the passenger.
+
+This enum allows filtering of the dependencies.
+
+Since it is recognised that this is not covered well in the specification, it is discussed here:
+https://github.com/google/transit/pull/423
+"""
+enum DependentFareProductFilter {
+  "Show all dependencies"
+  ALL
+  "Show only dependencies where the rider category and medium is the same es the main fare product."
+  MATCH_CATEGORY_AND_MEDIUM
 }
 
 "Entities, which are relevant for a feed and can contain alerts"
@@ -3389,15 +3665,40 @@ enum RealtimeState {
   UPDATED
 }
 
-"Actions to take relative to the current position when engaging a walking/driving step."
+"""
+A direction that is not absolute but rather fuzzy and context-dependent.
+It provides the passenger with information what they should do in this step depending on where they
+were in the previous one.
+"""
 enum RelativeDirection {
   CIRCLE_CLOCKWISE
   CIRCLE_COUNTERCLOCKWISE
+  """
+  Moving straight ahead in one of these cases
+    
+    - Passing through a crossing or intersection.
+    - Passing through a station entrance or exit when it is not know whether the passenger is
+      entering or exiting. If it _is_ known then `ENTER_STATION`/`EXIT_STATION` is used.
+      More information about the entrance is in the `step.feature` field.
+  """
   CONTINUE
   DEPART
   ELEVATOR
+  """
+  Entering a public transport station. If it's not known if the passenger is entering or exiting
+  then `CONTINUE` is used.
+    
+  More information about the entrance is in the `step.feature` field.
+  """
   ENTER_STATION
+  """
+  Exiting a public transport station. If it's not known if the passenger is entering or exiting
+  then `CONTINUE` is used.
+    
+  More information about the entrance is in the `step.feature` field.
+  """
   EXIT_STATION
+  "Follow the signs indicating a specific location like \"platform 1\" or \"exit B\"."
   FOLLOW_SIGNS
   HARD_LEFT
   HARD_RIGHT
@@ -3526,6 +3827,15 @@ enum StopAlertType {
   STOP_ON_TRIPS
   "Alerts affecting the trips that go through this stop"
   TRIPS
+}
+
+enum StopType {
+  "An area or zone represented by a polygon. Introduced by the GTFS-Flex spec process."
+  LOCATION
+  "A group of stops. Introduced by the GTFS-Flex spec process."
+  LOCATION_GROUP
+  "A fixed stop represented by a coordinate."
+  STOP
 }
 
 """
@@ -3732,7 +4042,10 @@ input BicyclePreferencesInput {
 
 "Preferences related to bicycle rental (station based or floating bicycle rental)."
 input BicycleRentalPreferencesInput {
-  "Rental networks which can be potentially used as part of an itinerary."
+  """
+  Rental networks which can be potentially used as part of an itinerary. If this field has no default value,
+  it means that all networks are allowed unless some are banned with `bannedNetworks`.
+  """
   allowedNetworks: [String!]
   "Rental networks which cannot be used as part of an itinerary."
   bannedNetworks: [String!]
@@ -3813,6 +4126,8 @@ input CarParkingPreferencesInput {
 
 "Preferences related to traveling on a car (excluding car travel on transit services such as taxi)."
 input CarPreferencesInput {
+  "Cost of boarding a vehicle with a car."
+  boardCost: Cost
   "Car parking related preferences."
   parking: CarParkingPreferencesInput
   "A multiplier for how bad travelling on car is compared to being in transit for equal lengths of time."
@@ -3823,7 +4138,10 @@ input CarPreferencesInput {
 
 "Preferences related to car rental (station based or floating car rental)."
 input CarRentalPreferencesInput {
-  "Rental networks which can be potentially used as part of an itinerary."
+  """
+  Rental networks which can be potentially used as part of an itinerary. If this field has no default value,
+  it means that all networks are allowed unless some are banned with `bannedNetworks`.
+  """
   allowedNetworks: [String!]
   "Rental networks which cannot be used as part of an itinerary."
   bannedNetworks: [String!]
@@ -3877,14 +4195,14 @@ input InputBanned {
   banned for boarding and disembarking vehicles — it is possible to get an
   itinerary where a vehicle stops at one of these stops
   """
-  stops: String @deprecated(reason : "Not implemented in OTP2.")
+  stops: String @deprecated(reason : "Not implemented")
   """
   A comma-separated list of banned stop ids. Only itineraries where these stops
   are not travelled through are returned, e.g. if a bus route stops at one of
   these stops, that route will not be used in the itinerary, even if the stop is
   not used for boarding or disembarking the vehicle.
   """
-  stopsHard: String @deprecated(reason : "Not implemented in OTP2.")
+  stopsHard: String @deprecated(reason : "Not implemented")
   "A comma-separated list of banned trip ids"
   trips: String
 }
@@ -3948,15 +4266,15 @@ input InputModeWeight {
 
 input InputPreferred {
   "A comma-separated list of ids of the agencies preferred by the user."
-  agencies: String
+  agencies: String @deprecated(reason : "Not implemented")
   """
   Penalty added for using every route that is not preferred if user set any
   route as preferred. We return number of seconds that we are willing to wait
   for preferred route.
   """
-  otherThanPreferredRoutesPenalty: Int
+  otherThanPreferredRoutesPenalty: Int @deprecated(reason : "Not implemented")
   "A comma-separated list of ids of the routes preferred by the user."
-  routes: String
+  routes: String @deprecated(reason : "Not implemented")
 }
 
 """
@@ -4138,7 +4456,6 @@ input PlanModesInput {
   If more than one mode is selected, at least one of them must be used but not necessarily all.
   There are modes that automatically also use walking such as the rental modes. To force rental
   to be used, this should only include the rental mode and not `WALK` in addition.
-  The default access mode is `WALK`.
   """
   direct: [PlanDirectMode!]
   "Should only the direct search without any transit be done."
@@ -4146,8 +4463,7 @@ input PlanModesInput {
   """
   Modes for different phases of an itinerary when transit is included. Also
   includes street mode selections related to connecting to the transit network
-  and transfers. By default, all transit modes are usable and `WALK` is used for
-  access, egress and transfers.
+  and transfers. By default, all transit modes are usable.
   """
   transit: PlanTransitModesInput
   """
@@ -4240,7 +4556,6 @@ input PlanTransitModesInput {
   If more than one mode is selected, at least one of them must be used but not necessarily all.
   There are modes that automatically also use walking such as the rental modes. To force rental
   to be used, this should only include the rental mode and not `WALK` in addition.
-  The default access mode is `WALK`.
   """
   access: [PlanAccessMode!]
   """
@@ -4248,13 +4563,9 @@ input PlanTransitModesInput {
   If more than one mode is selected, at least one of them must be used but not necessarily all.
   There are modes that automatically also use walking such as the rental modes. To force rental
   to be used, this should only include the rental mode and not `WALK` in addition.
-  The default access mode is `WALK`.
   """
   egress: [PlanEgressMode!]
-  """
-  Street mode that is used when searching for transfers. Selection of only one allowed for now.
-  The default transfer mode is `WALK`.
-  """
+  "Street mode that is used when searching for transfers. Selection of only one allowed for now."
   transfer: [PlanTransferMode!]
   """
   Transit modes and reluctances associated with them. Each defined mode can be used in
@@ -4280,10 +4591,14 @@ A visit-via-location is a physical visit to one of the stop locations or coordin
 on-board visit does not count, the traveler must alight or board at the given stop for it to to
 be accepted. To visit a coordinate, the traveler must walk(bike or drive) to the closest point
 in the street network from a stop and back to another stop to join the transit network.
-
-NOTE! Coordinates are NOT supported yet.
 """
 input PlanVisitViaLocationInput {
+  """
+  A coordinate to route through. To visit a coordinate, the traveler must walk(bike or drive)
+  to the closest point in the street network from a stop and back to another stop to join the transit
+  network.
+  """
+  coordinate: PlanCoordinateInput
   "The label/name of the location. This is pass-through information and is not used in routing."
   label: String
   """
@@ -4327,7 +4642,10 @@ input ScooterPreferencesInput {
 
 "Preferences related to scooter rental (station based or floating scooter rental)."
 input ScooterRentalPreferencesInput {
-  "Rental networks which can be potentially used as part of an itinerary."
+  """
+  Rental networks which can be potentially used as part of an itinerary. If this field has no default value,
+  it means that all networks are allowed unless some are banned with `bannedNetworks`.
+  """
   allowedNetworks: [String!]
   "Rental networks which cannot be used as part of an itinerary."
   bannedNetworks: [String!]
@@ -4343,21 +4661,21 @@ input TimetablePreferencesInput {
   When false, real-time updates are considered during the routing.
   In practice, when this option is set as true, some of the suggestions might not be
   realistic as the transfers could be invalid due to delays,
-  trips can be cancelled or stops can be skipped.
+  trips can be canceled or stops can be skipped.
   """
   excludeRealTimeUpdates: Boolean
   """
-  When true, departures that have been cancelled ahead of time will be
+  When true, departures that have been canceled ahead of time will be
   included during the routing. This means that an itinerary can include
-  a cancelled departure while some other alternative that contains no cancellations
+  a canceled departure while some other alternative that contains no cancellations
   could be filtered out as the alternative containing a cancellation would normally
   be better.
   """
   includePlannedCancellations: Boolean
   """
-  When true, departures that have been cancelled through a real-time feed will be
+  When true, departures that have been canceled through a real-time feed will be
   included during the routing. This means that an itinerary can include
-  a cancelled departure while some other alternative that contains no cancellations
+  a canceled departure while some other alternative that contains no cancellations
   could be filtered out as the alternative containing a cancellation would normally
   be better. This option can't be set to true while `includeRealTimeUpdates` is false.
   """
@@ -4376,13 +4694,59 @@ input TransferPreferencesInput {
   "How many transfers there can be at maximum in an itinerary."
   maximumTransfers: Int
   """
-  A global minimum transfer time (in seconds) that specifies the minimum amount of time
-  that must pass between exiting one transit vehicle and boarding another. This time is
-  in addition to time it might take to walk between transit stops. Setting this value
-  as `PT0S`, for example, can lead to passenger missing a connection when the vehicle leaves
-  ahead of time or the passenger arrives to the stop later than expected.
+  A global minimum transfer time that specifies the minimum amount of time that must pass
+  between exiting one transit vehicle and boarding another. This time is in addition to
+  time it might take to walk between transit stops. Setting this value as `PT0S`, for
+  example, can lead to passenger missing a connection when the vehicle leaves ahead of time
+  or the passenger arrives to the stop later than expected.
   """
   slack: Duration
+}
+
+"""
+A collection of selectors for what routes/agencies should be included in or excluded from the search.
+
+The `include` is always applied to select the initial set, then `exclude` to remove elements.
+If only `exclude` is present, the exclude is applied to the existing set of results.
+
+Therefore, if an entity is both included _and_ excluded the exclusion takes precedence.
+"""
+input TransitFilterInput {
+  """
+  A list of selectors for what routes/agencies should be excluded during search.
+    
+  In order to be excluded, a route/agency has to match with at least one selector.
+    
+  An empty list or a list containing `null` is forbidden.
+  """
+  exclude: [TransitFilterSelectInput!]
+  """
+  A list of selectors for what routes/agencies should be allowed during the search.
+    
+  If route/agency matches with at least one selector it will be included.
+    
+  An empty list or a list containing `null` is forbidden.
+  """
+  include: [TransitFilterSelectInput!]
+}
+
+"""
+A list of selectors for including or excluding entities from the routing results. Null
+means everything is allowed to be returned and empty lists are not allowed.
+"""
+input TransitFilterSelectInput @oneOf {
+  """
+  Set of ids for agencies that should be included in/excluded from the search.
+    
+  Format: `FeedId:AgencyId`
+  """
+  agencies: [String!]
+  """
+  Set of ids for routes that should be included in/excluded from the search.
+    
+  Format: `FeedId:AgencyId`
+  """
+  routes: [String!]
 }
 
 "Costs related to using a transit mode."
@@ -4400,6 +4764,57 @@ input TransitPreferencesInput {
   can be found under the street mode preferences.
   """
   board: BoardPreferencesInput
+  """
+  A list of filters for which trips should be included or excluded. A trip will be considered in the
+  result if it is included by at least one filter and isn't excluded by another one at the same time.
+    
+  An empty list of filters or no value means that all trips should be included.
+    
+  **AND/OR Logic**
+    
+  Several filters can be defined and form an OR-condition.
+    
+  The following example means "include all trips with `F:route1` _or_ `F:agency1`":
+    
+  ```
+  filters: [
+    {
+      include: {
+        routes: ["F:route1"]
+      }
+    },
+    { 
+      include: {
+        agencies: ["F:agency1"]
+      }
+    }
+  }]
+  ```
+    
+  The following example means "include all trips of `F:agency1` _and_ exclude `F:route1`":
+    
+  ```
+  filters: [
+    {
+      include: {
+        agencies: ["F:agency1"]
+      },
+      exclude: {
+        routes: ["F:route1"]
+      }
+    }
+  ]
+  ```
+    
+  Be aware of the following pitfalls:
+    - It is easy to construct AND-conditions that can lead to zero results.
+    - OR-conditions that have an element which consists of only an exclude are likely to be
+      unwanted and may lead to unexpected results.
+    
+  **Note**: This parameter also interacts with the modes set in `modes.transit` by forming
+  an AND-condition.
+  """
+  filters: [TransitFilterInput!]
   "Preferences related to cancellations and real-time."
   timetable: TimetablePreferencesInput
   "Preferences related to transfers between transit vehicles (typically between stops)."

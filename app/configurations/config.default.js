@@ -854,9 +854,15 @@ export default {
   navigation: false,
   sendAnalyticsCustomEventGoals: false,
   shortenLongTextThreshold: 10, // for route number in itinerary summary
-  allowFlexJourneys: false,
-  allowDirectFlexJourneys: false,
-  allowedFlexRouteTypes: [1501],
   showRouteDescNotification: false,
   showStopStatusMarkers: false,
+
+  flex: {
+    internalFlexEnabled: false,
+    allowTaxiJourneys: false,
+    directOnlyTaxiJourneys: false,
+    internalAgencies: [], // "FeedId:AgencyId"
+    externalAgencies: [], // "FeedId:AgencyId"
+    allowedExternalFlexRouteTypes: [1501],
+  },
 };

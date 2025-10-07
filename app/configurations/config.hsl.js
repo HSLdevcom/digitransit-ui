@@ -798,6 +798,7 @@ export default {
   naviGeolocationGraphic: 'hsl/geolocation.svg',
   navigation: true,
   crazyEgg: true,
+
   // features that should not be deployed to production
   experimental: {
     allowFlexJourneys: IS_DEV,
@@ -816,4 +817,15 @@ export default {
   ],
 
   showStopStatusMarkers: true,
+
+  flex: {
+    internalFlexEnabled: IS_DEV,
+    allowTaxiJourneys: IS_DEV,
+    directOnlyTaxiJourneys: false,
+    internalAgencies: ['KirkkonummiE:612', 'KirkkonummiP:612'],
+    externalAgencies: ['02Taksi:02_taksi'],
+    allowedExternalFlexRouteTypes: [1501],
+  },
+
+  showRouteDescNotification: IS_DEV,
 };
