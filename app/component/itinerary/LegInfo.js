@@ -46,15 +46,17 @@ export default function LegInfo(
   const startTime = legTimeStr(leg.start);
 
   const routeNumber = (
-    <RouteNumber
-      mode={mode}
-      alertSeverityLevel={alertSeverityLevel}
-      color={leg.route ? `#${leg.route.color}` : 'currentColor'}
-      text={leg.route && leg.route.shortName}
-      realtime={false}
-      withBar
-      fadeLong
-    />
+    <span aria-hidden="true">
+      <RouteNumber
+        mode={mode}
+        alertSeverityLevel={alertSeverityLevel}
+        color={leg.route ? `#${leg.route.color}` : 'currentColor'}
+        text={leg.route && leg.route.shortName}
+        realtime={false}
+        withBar
+        fadeLong
+      />
+    </span>
   );
   return (
     <div
@@ -64,7 +66,7 @@ export default function LegInfo(
       })}
     >
       {isCallAgency ? (
-        <span aria-hidden="true">{routeNumber}</span>
+        <> {routeNumber}</>
       ) : (
         <Link
           onClick={e => {
@@ -81,7 +83,7 @@ export default function LegInfo(
             defaultMessage: 'Vehicle',
           })} ${leg.route && leg.route.shortName?.toLowerCase()}`}
         >
-          <span aria-hidden="true">{routeNumber}</span>
+          {routeNumber}
         </Link>
       )}
       <div className="headsign">{headsign}</div>
