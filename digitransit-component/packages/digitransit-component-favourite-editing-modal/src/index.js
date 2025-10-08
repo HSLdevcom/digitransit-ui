@@ -144,9 +144,13 @@ class FavouriteEditingModal extends React.Component {
   };
 
   renderFavouriteListItem = (favourite, index) => {
-    const iconId = favourite.selectedIconId
-      ? favourite.selectedIconId.replace('icon-icon_', '')
-      : 'place';
+    let iconId = 'place';
+    if (favourite.selectedIconId) {
+      const prefixPos = favourite.selectedIconId.indexOf('icon_');
+      if (prefixPos > 0) {
+        iconId = favourite.selectedIconId.substring(prefixPos + 5);
+      }
+    }
     const [name, address] = formatFavouritePlaceLabel(
       favourite.name,
       favourite.address,

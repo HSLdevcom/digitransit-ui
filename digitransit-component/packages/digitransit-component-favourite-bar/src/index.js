@@ -168,6 +168,9 @@ class FavouriteBar extends React.Component {
     'icon-icon_sport': 'sport',
     'icon-icon_school': 'school',
     'icon-icon_shopping': 'shopping',
+    // Map two buggy ids temporarily. This code can be removed at some point.
+    icon_home: 'home',
+    icon_work: 'work',
   };
 
   constructor(props) {

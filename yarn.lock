@@ -2085,7 +2085,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digitransit-component/digitransit-component-favourite-bar@3.0.1, @digitransit-component/digitransit-component-favourite-bar@workspace:digitransit-component/packages/digitransit-component-favourite-bar":
+"@digitransit-component/digitransit-component-favourite-bar@3.1.0, @digitransit-component/digitransit-component-favourite-bar@workspace:digitransit-component/packages/digitransit-component-favourite-bar":
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-favourite-bar@workspace:digitransit-component/packages/digitransit-component-favourite-bar"
   dependencies:
@@ -2104,7 +2104,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digitransit-component/digitransit-component-favourite-editing-modal@^3.0.1, @digitransit-component/digitransit-component-favourite-editing-modal@workspace:digitransit-component/packages/digitransit-component-favourite-editing-modal":
+"@digitransit-component/digitransit-component-favourite-editing-modal@^3.1.0, @digitransit-component/digitransit-component-favourite-editing-modal@workspace:digitransit-component/packages/digitransit-component-favourite-editing-modal":
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-favourite-editing-modal@workspace:digitransit-component/packages/digitransit-component-favourite-editing-modal"
   dependencies:
@@ -2189,8 +2189,8 @@ __metadata:
     "@digitransit-component/digitransit-component-autosuggest": ^5.0.1
     "@digitransit-component/digitransit-component-autosuggest-panel": ^6.0.1
     "@digitransit-component/digitransit-component-control-panel": ^5.0.1
-    "@digitransit-component/digitransit-component-favourite-bar": 3.0.1
-    "@digitransit-component/digitransit-component-favourite-editing-modal": ^3.0.1
+    "@digitransit-component/digitransit-component-favourite-bar": 3.1.0
+    "@digitransit-component/digitransit-component-favourite-editing-modal": ^3.1.0
     "@digitransit-component/digitransit-component-favourite-modal": ^2.0.1
     "@digitransit-component/digitransit-component-icon": ^1.1.0
     "@digitransit-component/digitransit-component-suggestion-item": ^2.2.2
