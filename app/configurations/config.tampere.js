@@ -95,7 +95,7 @@ export default configMerger(walttiConfig, {
           sv: 'Servicekontorer',
           en: 'Service points',
         },
-        url: '/assets/temporary/tampere-servicepoints-20250305.geojson',
+        url: '/assets/temporary/tampere-servicepoints-20251010.geojson',
       },
     ],
   },
