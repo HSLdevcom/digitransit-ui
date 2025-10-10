@@ -188,6 +188,14 @@ export default configMerger(walttiConfig, {
         },
         url: '/assets/geojson/kotka_zone_lines_20250114.geojson',
       },
+      {
+        name: {
+          fi: 'Myyntipisteet',
+          sv: 'Servicekontorer',
+          en: 'Service points',
+        },
+        url: '/assets/servicepoints/kotka-servicepoints-20251010.geojson',
+      },
     ],
   },
 
