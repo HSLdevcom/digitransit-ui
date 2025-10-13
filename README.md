@@ -17,7 +17,7 @@ We are currently moving our issue tracking into another platform.
 ## Demos
 
 - [https://reittiopas.hsl.fi - Helsinki city area demo](https://reittiopas.hsl.fi/)
-- [https://opas.matka.fi/ - National demo](https://opas.matka.fi/)
+- [https://matka.fintraffic.fi - National demo](https://matka.fintraffic.fi/)
 
 ## Testing
 

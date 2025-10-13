@@ -183,16 +183,16 @@ export default {
 
   nationalServiceLink: {
     fi: {
-      name: 'matka.fi',
-      href: 'https://opas.matka.fi/',
+      name: 'matka.fintraffic.fi',
+      href: 'https://matka.fintraffic.fi/',
     },
     sv: {
-      name: 'matka.fi',
-      href: 'https://opas.matka.fi/sv/',
+      name: 'matka.fintraffic.fi',
+      href: 'https://matka.fintraffic.fi/sv/',
     },
     en: {
-      name: 'matka.fi',
-      href: 'https://opas.matka.fi/en/',
+      name: 'matka.fintraffic.fi',
+      href: 'https://matka.fintraffic.fi/en/',
     },
   },
 
