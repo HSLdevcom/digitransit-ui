@@ -239,6 +239,7 @@ export default {
   Rauma: walttiMqtt,
   Pori: walttiMqtt,
   VARELY: walttiMqtt,
+  WalttiTest: walttiMqtt,
   PohjolanMatka: elyMqtt(true),
   Harma: elyMqtt(false),
   Korsisaari: elyMqtt(true),

@@ -190,4 +190,16 @@ export default configMerger(walttiConfig, {
       },
     ],
   },
+
+  showTicketLinkOnlyWhenTesting: true,
+  showTicketInformation: true,
+  useTicketIcons: true,
+  ticketLink: {
+    fi: 'https://jonnejaminne.fi/liput-ja-hinnastot/hinnasto/',
+    sv: 'https://jonnejaminne.fi/en/tickets-and-prices/price-list/ ',
+    en: 'https://jonnejaminne.fi/en/tickets-and-prices/price-list/ ',
+  },
+  showTicketPrice: false,
+  ticketLinkOperatorCode: 50217,
+  externalFareRouteIds: ['77ELY', '707'],
 });

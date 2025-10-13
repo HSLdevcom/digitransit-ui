@@ -320,14 +320,16 @@ export default {
 
   externalFeedIds: ['02Taksi'],
 
-  // features that should not be deployed to production
-  experimental: {
-    allowFlexJourneys:
+  flex: {
+    internalFlexEnabled: false,
+    allowTaxiJourneys:
       process.env.RUN_ENV === 'development' ||
       process.env.NODE_ENV !== 'production',
-    allowDirectFlexJourneys:
+    directOnlyTaxiJourneys:
       process.env.RUN_ENV === 'development' ||
       process.env.NODE_ENV !== 'production',
+    internalAgencies: [],
+    externalAgencies: ['02Taksi:02_taksi'],
   },
 
   replacementBusNotification: {
@@ -354,4 +356,7 @@ export default {
       ],
     },
   },
+  showRouteDescNotification:
+    process.env.RUN_ENV === 'development' ||
+    process.env.NODE_ENV !== 'production',
 };

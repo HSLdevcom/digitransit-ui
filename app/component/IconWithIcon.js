@@ -38,7 +38,11 @@ const IconWithIcon = (
         className={subIconClassName}
         title={intl.formatMessage({ id: 'disruption' })}
       >
-        <Icon backgroundShape={subIconShape} img={subIcon} />
+        <Icon
+          backgroundShape={subIconShape}
+          img={subIcon}
+          omitViewBox={omitViewBox}
+        />
       </span>
     )}
   </span>
