@@ -17,7 +17,7 @@ import {
 import OfflinePlugin from 'offline-plugin/runtime';
 import { Helmet } from 'react-helmet';
 import { Environment, RecordSource, Store } from 'relay-runtime';
-import { ReactRelayContext } from 'react-relay';
+import { RelayEnvironmentProvider } from 'react-relay';
 import { setRelayEnvironment } from '@digitransit-search-util/digitransit-search-util-query-utils';
 import { Settings } from 'luxon';
 import { configShape } from './util/shapes';
@@ -227,7 +227,7 @@ async function init() {
           translations={translations}
           context={context.getComponentContext()}
         >
-          <ReactRelayContext.Provider value={{ environment }}>
+          <RelayEnvironmentProvider environment={environment}>
             <ErrorBoundary>
               <React.Fragment>
                 <Helmet
@@ -241,7 +241,7 @@ async function init() {
                 <Router resolver={resolver} />
               </React.Fragment>
             </ErrorBoundary>
-          </ReactRelayContext.Provider>
+          </RelayEnvironmentProvider>
         </ContextProvider>
       </ClientBreakpointProvider>
     </ConfigProvider>
