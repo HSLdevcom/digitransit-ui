@@ -43,6 +43,7 @@ import {
   fetchFavourites,
   fetchFavouritesComplete,
 } from './action/FavouriteActions';
+import { ConfigProvider } from './configurations/ConfigContext';
 
 window.debug = debug; // Allow _debug.enable('*') in browser console
 
@@ -220,28 +221,30 @@ async function init() {
   });
 
   const content = (
-    <ClientBreakpointProvider>
-      <ContextProvider
-        translations={translations}
-        context={context.getComponentContext()}
-      >
-        <ReactRelayContext.Provider value={{ environment }}>
-          <ErrorBoundary>
-            <React.Fragment>
-              <Helmet
-                {...meta(
-                  context.getStore('PreferencesStore').getLanguage(),
-                  window.location.host,
-                  window.location.href,
-                  config,
-                )}
-              />
-              <Router resolver={resolver} />
-            </React.Fragment>
-          </ErrorBoundary>
-        </ReactRelayContext.Provider>
-      </ContextProvider>
-    </ClientBreakpointProvider>
+    <ConfigProvider value={config}>
+      <ClientBreakpointProvider>
+        <ContextProvider
+          translations={translations}
+          context={context.getComponentContext()}
+        >
+          <ReactRelayContext.Provider value={{ environment }}>
+            <ErrorBoundary>
+              <React.Fragment>
+                <Helmet
+                  {...meta(
+                    context.getStore('PreferencesStore').getLanguage(),
+                    window.location.host,
+                    window.location.href,
+                    config,
+                  )}
+                />
+                <Router resolver={resolver} />
+              </React.Fragment>
+            </ErrorBoundary>
+          </ReactRelayContext.Provider>
+        </ContextProvider>
+      </ClientBreakpointProvider>
+    </ConfigProvider>
   );
 
   const rootNode = document.getElementById('app');
