@@ -1,12 +1,13 @@
 import { FormattedMessage } from 'react-intl';
 import React from 'react';
 import Link from 'found/Link';
+import cx from 'classnames';
 import Icon from '../Icon';
 
 export default function Header() {
   return (
-    <div className="trafficnow-header">
-      <span className="tn-breadcrumb">
+    <div className={cx('header')}>
+      <span className="breadcrumb">
         <Link to="/">
           <FormattedMessage id="trafficnow-bread" />
         </Link>
@@ -18,7 +19,7 @@ export default function Header() {
       <h2>
         <FormattedMessage id="trafficnow" />
       </h2>
-      <span className="tn-description">
+      <span className="description">
         <FormattedMessage id="trafficnow-description" />
       </span>
     </div>
