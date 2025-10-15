@@ -12,6 +12,8 @@ const StopNearYouHeader = (
   { stop, desc, isStation, linkAddress },
   { config },
 ) => {
+  const zoneId =
+    isStation && stop.stops.length ? stop.stops[0].zoneId : stop.zoneId;
   return (
     <div className="stop-near-you-header-container">
       <div className="stop-header-content">
@@ -31,10 +33,11 @@ const StopNearYouHeader = (
         <div className="stop-near-you-info">
           <AddressRow desc={desc} code={stop.code} isTerminal={isStation} />
           <PlatformNumber number={stop.platformCode} short />
-          {config.zones.stops &&
+          {zoneId &&
+            config.zones.stops &&
             config.feedIds.includes(stop.gtfsId.split(':')[0]) && (
               <ZoneIcon
-                zoneId={getZoneLabel(stop.zoneId, config)}
+                zoneId={getZoneLabel(zoneId, config)}
                 showUnknown={false}
               />
             )}

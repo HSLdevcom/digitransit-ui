@@ -99,7 +99,6 @@ class StopCardHeader extends React.Component {
         icons={icons}
         showBackButton={breakpoint === 'large'}
         stop={stop}
-        headerConfig={!!this.headerConfig}
         isTerminal={isTerminal}
         favouriteContainer={
           <FavouriteStopContainer stop={stop} isTerminal={isTerminal} />
