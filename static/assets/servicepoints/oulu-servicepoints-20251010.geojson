@@ -1,0 +1,188 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "1",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [25.51516, 65.00736]
+      },
+      "properties": {
+        "category": "LIPUNMYYNTIPISTE",
+        "name": "R-kioski OYS",
+        "name_fi": "R-kioski OYS",
+        "name_sv": "R-kioski OYS",
+        "name_en": "R-kioski OYS",
+        "popup": "<div class=\"card-header-wrapper\">\n <span class=\"h4\"> R-kioski OYS</span>\n <div class=\"card-sub-header\">Kiviharjuntie 9</div>\n</div>\n",
+        "text": " R-kioski OYS\nKiviharjuntie 9",
+        "city": "OYS",
+        "city_fi": "OYS",
+        "city_sv": "OYS",
+        "address": "Kiviharjuntie 9",
+        "address_fi": "Kiviharjuntie 9",
+        "address_sv": "Kiviharjuntie 9",
+        "icon": {
+          "id": "icon_service_point",
+          "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 855 314.96353436\"><defs><style>.cls-1{fill:#e1001a;}.cls-2{fill:#fff;}</style></defs><g id=\"Layer_2\" data-name=\"Layer 2\"><g id=\"Layer_1-2\" data-name=\"Layer 1\"><rect class=\"cls-1\" width=\"855\" height=\"314.96\"/><polygon class=\"cls-2\" points=\"0 0 100 0 50 100\"/></g></g></svg>"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "2",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [25.47203, 65.01094]
+      },
+      "properties": {
+        "category": "LIPUNMYYNTIPISTE",
+        "name": "R-kioski Rotuaari",
+        "name_fi": "R-kioski Rotuaari",
+        "name_sv": "R-kioski Rotuaari",
+        "name_en": "R-kioski Rotuaari",
+        "popup": "<div class=\"card-header-wrapper\">\n <span class=\"h4\"> R-kioski Rotuaari</span>\n <div class=\"card-sub-header\">Isokatu 29</div>\n</div>\n",
+        "text": " R-kioski Rotuaari\nIsokatu 29",
+        "city": "Oulun keskusta",
+        "city_fi": "Oulun keskusta",
+        "city_sv": "Oulun keskusta",
+        "address": "Isokatu 29",
+        "address_fi": "Isokatu 29",
+        "address_sv": "Isokatu 29",
+        "icon": {
+          "id": "icon_service_point"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "3",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [25.4849, 65.00914]
+      },
+      "properties": {
+        "category": "LIPUNMYYNTIPISTE",
+        "name": "R-kioski Raksila",
+        "name_fi": "R-kioski Raksila",
+        "name_sv": "R-kioski Raksila",
+        "name_en": "R-kioski Raksila",
+        "popup": "<div class=\"card-header-wrapper\">\n <span class=\"h4\"> R-kioski Raksila</span>\n <div class=\"card-sub-header\">Ratakatu 11 L 1</div>\n</div>\n",
+        "text": " R-kioski Raksila\nRatakatu 11 L 1",
+        "city": "Raksila",
+        "city_fi": "Raksila",
+        "city_sv": "Raksila",
+        "address": "Ratakatu 11 L 1",
+        "address_fi": "Ratakatu 11 L 1",
+        "address_sv": "Ratakatu 11 L 1",
+        "icon": {
+          "id": "icon_service_point"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "4",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [25.48087, 65.01126]
+      },
+      "properties": {
+        "category": "LIPUNMYYNTIPISTE",
+        "name": "R-kioski Postiaukio",
+        "name_fi": "R-kioski Postiaukio",
+        "name_sv": "R-kioski Postiaukio",
+        "name_en": "R-kioski Postiaukio",
+        "popup": "<div class=\"card-header-wrapper\">\n <span class=\"h4\"> R-kioski Postiaukio</span>\n <div class=\"card-sub-header\">Hallituskatu 31</div>\n</div>\n",
+        "text": " R-kioski Postiaukio\nHallituskatu 31",
+        "city": "Oulu",
+        "city_fi": "Oulu",
+        "city_sv": "Oulu",
+        "address": "Hallituskatu 31",
+        "address_fi": "Hallituskatu 31",
+        "address_sv": "Hallituskatu 31",
+        "icon": {
+          "id": "icon_service_point"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "5",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [25.47025, 65.0246]
+      },
+      "properties": {
+        "category": "LIPUNMYYNTIPISTE",
+        "name": "R-kioski Tuira",
+        "name_fi": "R-kioski Tuira",
+        "name_sv": "R-kioski Tuira",
+        "name_en": "R-kioski Tuira",
+        "popup": "<div class=\"card-header-wrapper\">\n <span class=\"h4\"> R-kioski Tuira</span>\n <div class=\"card-sub-header\">Merikoskenkatu 6</div>\n</div>\n",
+        "text": " R-kioski Tuira\nMerikoskenkatu 6",
+        "city": "Tuira",
+        "city_fi": "Tuira",
+        "city_sv": "Tuira",
+        "address": "Merikoskenkatu 6",
+        "address_fi": "Merikoskenkatu 6",
+        "address_sv": "Merikoskenkatu 6",
+        "icon": {
+          "id": "icon_service_point"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "6",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [25.5287, 64.95742]
+      },
+      "properties": {
+        "category": "LIPUNMYYNTIPISTE",
+        "name": "R-kioski Kaakkuri",
+        "name_fi": "R-kioski Kaakkuri",
+        "name_sv": "R-kioski Kaakkuri",
+        "name_en": "R-kioski Kaakkuri",
+        "popup": "<div class=\"card-header-wrapper\">\n <span class=\"h4\"> R-kioski Kaakkuri</span>\n <div class=\"card-sub-header\">Metsokankaantie 3</div>\n</div>\n",
+        "text": " R-kioski Kaakkuri\nMetsokankaantie 3",
+        "city": "Kaakkuri",
+        "city_fi": "Kaakkuri",
+        "city_sv": "Kaakkuri",
+        "address": "Metsokankaantie 3",
+        "address_fi": "Metsokankaantie 3",
+        "address_sv": "Metsokankaantie 3",
+        "icon": {
+          "id": "icon_service_point"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "7",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [25.3514, 65.17594]
+      },
+      "properties": {
+        "category": "LIPUNMYYNTIPISTE",
+        "name": "R-kioski Haukipudas",
+        "name_fi": "R-kioski Haukipudas",
+        "name_sv": "R-kioski Haukipudas",
+        "name_en": "R-kioski Haukipudas",
+        "popup": "<div class=\"card-header-wrapper\">\n <span class=\"h4\"> R-kioski Haukipudas</span>\n <div class=\"card-sub-header\">Revontie 1</div>\n</div>\n",
+        "text": " R-kioski Haukipudas\nRevontie 1",
+        "city": "Haukipudas",
+        "city_fi": "Haukipudas",
+        "city_sv": "Haukipudas",
+        "address": "Revontie 1",
+        "address_fi": "Revontie 1",
+        "address_sv": "Revontie 1",
+        "icon": {
+          "id": "icon_service_point"
+        }
+      }
+    }
+  ]
+}

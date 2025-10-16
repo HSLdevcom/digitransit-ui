@@ -113,6 +113,14 @@ export default configMerger(walttiConfig, {
         },
         url: '/assets/geojson/oulu_zone_lines_20241011.geojson',
       },
+      {
+        name: {
+          fi: 'Myyntipisteet',
+          sv: 'Servicekontorer',
+          en: 'Service points',
+        },
+        url: '/assets/servicepoints/oulu-servicepoints-20251010.geojson',
+      },
     ],
   },
 
