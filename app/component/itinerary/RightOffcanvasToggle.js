@@ -17,7 +17,7 @@ export default function RightOffcanvasToggle(
     useState(getDialogState('setting-change-acknowledged', config));
   const label = userHasCustomizedSettings
     ? formatMessage({
-        id: 'settings-changed',
+        id: 'settings-changed-by-you',
         defaultMessage: 'Settings changed',
       })
     : formatMessage({
@@ -41,11 +41,11 @@ export default function RightOffcanvasToggle(
           message={
             <FormattedMessage
               id="settings-changed-by-you"
-              defaultMessage="You have changed the settings"
+              defaultMessage="Settings changed"
             />
           }
           buttonText={
-            <FormattedMessage id="acknowledged" defaultMessage="Understood" />
+            <FormattedMessage id="acknowledged" defaultMessage="OK" />
           }
         />
       )}

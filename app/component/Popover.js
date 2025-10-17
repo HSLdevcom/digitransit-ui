@@ -15,6 +15,8 @@ export default function Popover({ onClose, message, buttonText }, { intl }) {
   return (
     <div
       className={`popover ${isSettingChangeInfoDismissed ? 'fade-away' : ''}`}
+      aria-live="polite"
+      role="alert"
     >
       <Icon img="icon_checkmark" className="checkmark" />
       <div className="popover-content">

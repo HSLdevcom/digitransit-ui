@@ -1,7 +1,9 @@
 .mobile {
   .popover {
+    right: 0;
+
     &::before {
-      left: 67%;
+      right: 64px;
     }
   }
 }
@@ -10,7 +12,7 @@
   display: flex;
   position: absolute;
   top: 160%;
-  left: -150px;
+  right: -50px;
   border-radius: 16px;
   background: #fff;
   border: 1px solid #ddd;
@@ -28,7 +30,7 @@
     width: 24px;
     height: 24px;
     position: absolute;
-    left: 63%;
+    right: 113px;
     top: -13px;
     transform: translateX(-50%) rotate(45deg);
     z-index: 2500;
