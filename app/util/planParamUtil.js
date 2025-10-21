@@ -261,9 +261,8 @@ export function planQueryNeeded(
     /* special logic: relaxed flex query is made only if taxis are not allowed */
     case PLANTYPE.FLEXTRANSIT:
       return (
-        config.experimental?.allowFlexJourneys &&
-        (transitModes.length > 0 ||
-          config.experimental?.allowDirectFlexJourneys) &&
+        config.flex?.allowTaxiJourneys &&
+        (transitModes.length > 0 || config.flex?.directOnlyTaxiJourneys) &&
         settings.includeTaxiSuggestions !== relaxSettings
       );
 
@@ -290,6 +289,23 @@ function getLocation(str) {
       },
     },
     label: loc.address,
+  };
+}
+
+/*
+ * Exclude agencies from the plan query. Format is: { exclude: { agencies: [FeedId:AgencyId] } }
+ * @param {Array} agencies - List of agency IDs to exclude.
+ * @returns {Object|null} - Returns an object with the exclude filter or null if
+ * agencies is empty or not provided.
+ */
+function excludeAgencies(agencies) {
+  if (!agencies?.length) {
+    return null;
+  }
+  return {
+    exclude: {
+      agencies,
+    },
   };
 }
 
@@ -352,15 +368,19 @@ export function getPlanParams(
 
   // non-direct for testing purposes on planners that only allow direct
   const directFlexOnly =
-    config.experimental?.allowDirectFlexJourneys &&
+    config.flex?.directOnlyTaxiJourneys &&
     !window.localStorage.getItem('favouriteStore')?.includes('Flextestaus2025');
   const directOnly = directModes.includes(planType) || otpModes.length === 0;
   let transitOnly = !!relaxSettings;
   const wheelchair = !!settings.accessibilityOption;
   const cityBike =
     !wheelchair && settings.allowedBikeRentalNetworks?.length > 0;
+  const flexEnabled =
+    config.flex?.internalFlexEnabled &&
+    transitModes.includes(TransportMode.Bus);
   // set defaults
   let access = cityBike ? ['WALK', 'BICYCLE_RENTAL'] : ['WALK'];
+  access = flexEnabled ? [...access, 'FLEX'] : access;
   let egress = access;
   let transfer = ['WALK'];
   let direct = null;
@@ -369,6 +389,7 @@ export function getPlanParams(
   let noIterationsForShortTrips = false;
   // A null value uses the default amount of maximum iterations.
   let maxQueryIterations = null;
+  let filters = null;
 
   switch (planType) {
     case PLANTYPE.BIKEPARK:
@@ -406,6 +427,7 @@ export function getPlanParams(
       break;
     case PLANTYPE.TRANSIT:
       direct = access;
+      filters = excludeAgencies(config.flex?.externalAgencies);
       break;
     case PLANTYPE.SCOOTERTRANSIT:
       access = ['WALK', 'SCOOTER_RENTAL'];
@@ -417,6 +439,7 @@ export function getPlanParams(
       egress = access;
       direct = directFlexOnly ? ['WALK', 'FLEX'] : null;
       transitOnly = false;
+      filters = excludeAgencies(config.flex?.internalAgencies);
       break;
     default: // direct modes
       direct = [planType];
@@ -486,5 +509,6 @@ export function getPlanParams(
     via,
     carReluctance,
     maxQueryIterations,
+    filters,
   };
 }

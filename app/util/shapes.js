@@ -423,3 +423,12 @@ export const minTransferTimeShape = PropTypes.arrayOf(
     value: PropTypes.number,
   }),
 );
+
+export const pickupBookingInfoShape = PropTypes.shape({
+  contactInfo: PropTypes.shape({
+    bookingUrl: PropTypes.string,
+    infoUrl: PropTypes.string,
+    phoneNumber: PropTypes.string,
+  }),
+  message: PropTypes.string,
+});

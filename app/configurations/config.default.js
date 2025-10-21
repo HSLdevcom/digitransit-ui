@@ -190,7 +190,7 @@ export default {
     ticketTypes: 'none',
     walkBoardCost: 120,
     walkReluctance: 1.8,
-    walkSpeed: 1.2,
+    walkSpeed: 1.28,
     transferPenalty: 0,
     minTransferTime: 90,
     includeBikeSuggestions: true,
@@ -212,7 +212,7 @@ export default {
       more: 1,
       most: 0.2,
     },
-    walkSpeed: [0.69, 0.97, 1.2, 1.67, 2.22],
+    walkSpeed: [0.69, 0.97, 1.28, 1.67, 2.22],
     bikeSpeed: [2.77, 4.15, 5.55, 6.94, 8.33],
   },
 
@@ -723,6 +723,7 @@ export default {
     matka: '(matka|^dev.digitransit)',
     vaasa: 'vaasa',
     walttiOpas: 'waltti',
+    walttiTest: 'waltti-test',
     rovaniemi: 'rovaniemi',
     kouvola: 'kouvola',
     tampere: 'tampere',
@@ -853,9 +854,15 @@ export default {
   navigation: false,
   sendAnalyticsCustomEventGoals: false,
   shortenLongTextThreshold: 10, // for route number in itinerary summary
-  allowFlexJourneys: false,
-  allowDirectFlexJourneys: false,
-  allowedFlexRouteTypes: [1501],
   showRouteDescNotification: false,
   showStopStatusMarkers: false,
+
+  flex: {
+    internalFlexEnabled: false,
+    allowTaxiJourneys: false,
+    directOnlyTaxiJourneys: false,
+    internalAgencies: [], // "FeedId:AgencyId"
+    externalAgencies: [], // "FeedId:AgencyId"
+    allowedExternalFlexRouteTypes: [1501],
+  },
 };
