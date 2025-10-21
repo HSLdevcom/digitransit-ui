@@ -211,9 +211,9 @@ class IndexPage extends React.Component {
   };
 
   trafficNowHandler = (e, lang) => {
-    window.location = `${this.context.config.URL.ROOTLINK}/${
-      lang === 'fi' ? '' : `${lang}/`
-    }${this.context.config.trafficNowLink[lang]}`;
+    window.location = `/${lang === 'fi' || !lang ? '' : `${lang}/`}${
+      this.context.config.trafficNowLink
+    }`;
   };
 
   clickStopNearIcon = url => {
@@ -410,7 +410,7 @@ class IndexPage extends React.Component {
                 <CtrlPanel.SeparatorLine />
               </>
             )}
-            {trafficNowLink?.[lang] && (
+            {trafficNowLink && (
               <TrafficNowLink
                 lang={lang}
                 handleClick={this.trafficNowHandler}
@@ -459,7 +459,7 @@ class IndexPage extends React.Component {
             </div>
             <CtrlPanel.SeparatorLine usePaddingBottom20 />
             {!trafficNowLink ||
-              (trafficNowLink[lang] !== '' && (
+              (trafficNowLink !== '' && (
                 <TrafficNowLink
                   lang={lang}
                   handleClick={this.trafficNowHandler}

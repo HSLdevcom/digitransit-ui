@@ -750,7 +750,7 @@ export default {
 
   vehicles: false,
   showVehiclesOnStopPage: false,
-  trafficNowLink: '',
+  trafficNowLink: 'liikenne',
 
   timetables: {},
 
