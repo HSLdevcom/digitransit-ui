@@ -236,18 +236,25 @@ function ItineraryDetails(
           config.showRouteDescNotification &&
           route.desc?.length
             ? { content: route.desc, link: route.url }
-            : config.replacementBusNotification;
-        const notificationText =
-          notification.content?.[currentLanguage]?.join(' ');
+            : {
+                content:
+                  config.replacementBusNotification?.content?.[
+                    currentLanguage
+                  ]?.join(' '),
+                link: config.replacementBusNotification?.link?.[
+                  currentLanguage
+                ],
+              };
+
         const key = `replacementBusNotification-${
           route.gtfsId || trip?.gtfsId
         }`;
-        if (!disclaimers.some(d => d.props?.text === notificationText)) {
+        if (!disclaimers.some(d => d.props?.text === notification.content)) {
           disclaimers.push(
             <RouteDisclaimer
               key={key}
-              text={notificationText}
-              href={notification.link?.[currentLanguage]}
+              text={notification.content}
+              href={notification.link}
               linkText={intl.formatMessage({ id: 'extra-info' })}
               header={intl.formatMessage({ id: 'replacement-bus' })}
             />,
