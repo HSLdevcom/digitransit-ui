@@ -1,4 +1,5 @@
 import Cookies from 'universal-cookie';
+import { PREFIX_ITINERARY_SUMMARY } from './path';
 
 /**
  * This file contains functions for UI analytics.
@@ -62,6 +63,8 @@ export function getAnalyticsInitCode(config, req) {
       );
     }
     if (config.crazyEgg) {
+      const surveyShare = process.env.SURVEY_SHARE || 2;
+
       const lang = cookies.get('lang');
       let id;
       switch (lang) {
@@ -77,7 +80,8 @@ export function getAnalyticsInitCode(config, req) {
       }
       const ce1 =
         '<script type="text/javascript" src="//script.crazyegg.com/pages/scripts/0030/3436.js" async="async" ></script>';
-      const ce2 = `<script type="text/javascript">(window.CE_API || (window.CE_API=[])).push(function(){CE2.showSurvey("${id}");});</script>`;
+      // show survey only in itinerary page after 8 s delay for certain share of page loads
+      const ce2 = `<script type="text/javascript">(window.CE_API||(window.CE_API=[])).push(function(){if(window.location.includes("${PREFIX_ITINERARY_SUMMARY}")&&Math.floor(Date.now()/1000)%${surveyShare}===0){setTimeout(()=>{CE2.showSurvey("${id}");},8000);}});</script>`;
       script = `${script}${ce1}${ce2}`;
     }
   }
