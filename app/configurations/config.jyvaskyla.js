@@ -12,28 +12,20 @@ const virtualMonitorBaseUrl = IS_DEV
   ? 'https://dev-jyvaskylamonitori.digitransit.fi'
   : 'https://pysakit.jyvaskyla.fi';
 
-const minLat = 61.835318;
-const maxLat = 62.603473;
-const minLon = 25.230388;
-const maxLon = 26.358237;
-
 export default configMerger(walttiConfig, {
   CONFIG,
 
   feedIds: ['LINKKI'],
 
-  searchParams: {
-    'boundary.rect.min_lat': minLat,
-    'boundary.rect.max_lat': maxLat,
-    'boundary.rect.min_lon': minLon,
-    'boundary.rect.max_lon': maxLon,
-  },
+  useSearchPolygon: true,
 
   areaPolygon: [
-    [minLon, minLat],
-    [minLon, maxLat],
-    [maxLon, maxLat],
-    [maxLon, minLat],
+    [25.23039, 61.83532],
+    [26.35824, 61.83532],
+    [26.88962, 62.32949],
+    [26.22059, 62.91141],
+    [25.58789, 62.93897],
+    [24.88556, 62.29714],
   ],
 
   defaultEndpoint: {
