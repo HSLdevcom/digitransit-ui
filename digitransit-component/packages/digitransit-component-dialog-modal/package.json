@@ -1,6 +1,6 @@
 {
   "name": "@digitransit-component/digitransit-component-dialog-modal",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "digitransit-component dialog-modal module",
   "main": "index.js",
   "files": [
@@ -36,6 +36,7 @@
     "classnames": "2.5.1",
     "i18next": "^22.5.1",
     "prop-types": "^15.8.1",
-    "react": "^16.13.0"
+    "react": "^16.13.0",
+    "react-i18next": "^12.3.1"
   }
 }

@@ -3,14 +3,10 @@
 /* eslint react/forbid-prop-types: 0 */
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
-import i18next from 'i18next';
+import { useTranslation, I18nextProvider } from 'react-i18next';
 import Icon from '@digitransit-component/digitransit-component-icon';
 import styles from './helpers/styles.scss';
-import translations from './helpers/translations';
-
-Object.keys(translations).forEach(lang =>
-  i18next.addResourceBundle(lang, 'translation', translations[lang], true),
-);
+import i18n from './helpers/i18n';
 
 const isKeyboardSelectionEvent = event => {
   const space = [13, ' ', 'Spacebar'];
@@ -107,6 +103,7 @@ function NearStopsAndRoutes({
   fontWeights,
 }) {
   const [modesWithAlerts, setModesWithAlerts] = useState([]);
+  const [t] = useTranslation();
 
   useEffect(() => {
     if (alertsContext) {
@@ -140,7 +137,7 @@ function NearStopsAndRoutes({
       const modeButton = !modes ? (
         <>
           <span className={styles['sr-only']}>
-            {i18next.t(`pick-mode-${mode}`, { lng: language })}
+            {t(`pick-mode-${mode}`, { lng: language })}
           </span>
           <span className={styles['transport-mode-icon-container']}>
             <span className={styles['transport-mode-icon-with-icon']}>
@@ -159,7 +156,7 @@ function NearStopsAndRoutes({
       ) : (
         <>
           <span className={styles['sr-only']}>
-            {i18next.t(`pick-mode-${mode}`, { lng: language })}
+            {t(`pick-mode-${mode}`, { lng: language })}
           </span>
           <span className={styles['transport-mode-icon-container']}>
             <span
@@ -226,7 +223,7 @@ function NearStopsAndRoutes({
       {showTitle && (
         <h2 className={styles['near-you-title']}>
           {!modes
-            ? i18next.t('title-route-stop-station', { lng: language })
+            ? t('title-route-stop-station', { lng: language })
             : title[language]}
         </h2>
       )}
@@ -336,13 +333,15 @@ class CtrlPanel extends React.Component {
         ? styles['main-bottom']
         : styles['main-left'];
     return (
-      <div
-        key="main"
-        className={className}
-        style={{ '--font-weight-medium': this.props.fontWeights.medium }}
-      >
-        {this.props.children}
-      </div>
+      <I18nextProvider i18n={i18n}>
+        <div
+          key="main"
+          className={className}
+          style={{ '--font-weight-medium': this.props.fontWeights.medium }}
+        >
+          {this.props.children}
+        </div>
+      </I18nextProvider>
     );
   }
 }

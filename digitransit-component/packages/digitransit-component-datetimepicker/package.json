@@ -1,6 +1,6 @@
 {
   "name": "@digitransit-component/digitransit-component-datetimepicker",
-  "version": "3.0.1",
+  "version": "4.0.1",
   "description": "digitransit-component datetimepicker module",
   "main": "index.js",
   "files": [
@@ -38,6 +38,7 @@
     "prop-types": "^15.8.1",
     "react": "^16.13.0",
     "react-autosuggest": "^10.0.0",
+    "react-i18next": "^12.3.1",
     "react-modal": "~3.11.2",
     "react-select": "5.8.0"
   }
