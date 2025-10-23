@@ -1670,7 +1670,7 @@ const translations = {
     'stop-page.title-short': 'Stop',
     'stop-virtual-monitor': 'Stop display',
     stops: 'Stops',
-    'stops-near-you.description': 'Stop timetables and vehicles near your',
+    'stops-near-you.description': 'Stop timetables and vehicles near you',
     'stops-near-you.title': 'Near by stops timetables',
     'street-mode-bike-aria':
       'Show cycle route. Duration {duration}, distance {length}',
@@ -5941,8 +5941,8 @@ const translations = {
     'stop-page.title-short': 'Hållplats',
     'stop-virtual-monitor': 'Stoppdisplay',
     stops: 'Hållplatser',
-    'stops-near-you.description': 'Stop timetables and vehicles near your',
-    'stops-near-you.title': 'Near by stops timetables',
+    'stops-near-you.description': 'Tidtabeller hållplatser och fordon nära dig',
+    'stops-near-you.title': 'Tidtabeller för hållplatser nära dig',
     'street-mode-bike-aria': 'Visa cykelrutten. Tid {duration}, längd {length}',
     'street-mode-bikeandvehicle-aria':
       'Visa kombinationen av cykling och kollektivtrafik. Tid {duration}, längd {length}',

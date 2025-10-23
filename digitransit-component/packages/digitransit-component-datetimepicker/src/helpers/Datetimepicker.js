@@ -2,18 +2,13 @@ import PropTypes from 'prop-types';
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { DateTime, Settings } from 'luxon';
 import uniqueId from 'lodash/uniqueId';
-import i18next from 'i18next';
+import { useTranslation } from 'react-i18next';
 import Icon from '@digitransit-component/digitransit-component-icon';
 import DesktopDatetimepicker from './DesktopDatetimepicker';
-import translations from './translations';
 import styles from './styles.scss';
 import { isMobile } from './mobileDetection';
 import dateTimeInputIsSupported from './dateTimeInputIsSupported';
 import MobilePickerModal from './MobilePickerModal';
-
-Object.keys(translations).forEach(l =>
-  i18next.addResourceBundle(l, 'translation', translations[l], true),
-);
 
 Settings.defaultLocale = 'en';
 
@@ -72,6 +67,7 @@ function Datetimepicker({
   openPicker,
 }) {
   Settings.defaultZone = timeZone;
+  const [t] = useTranslation();
   const [isOpen, changeOpen] = useState(openPicker || false);
   const [displayTimestamp, changeDisplayTimestamp] = useState(
     timestamp || DateTime.now().toMillis(),
@@ -138,10 +134,10 @@ function Datetimepicker({
     const now = DateTime.now();
     let formatted;
     if (time.hasSame(now, 'day')) {
-      formatted = i18next.t('today', translationSettings);
+      formatted = t('today', translationSettings);
       formatted = `${formatted.charAt(0).toUpperCase()}${formatted.slice(1)}`;
     } else if (time.hasSame(now.plus({ days: 1 }), 'day')) {
-      formatted = i18next.t('tomorrow', translationSettings);
+      formatted = t('tomorrow', translationSettings);
       formatted = `${formatted.charAt(0).toUpperCase()}${formatted.slice(1)}`;
     } else {
       formatted = time.toFormat('ccc d.L.');
@@ -181,8 +177,8 @@ function Datetimepicker({
         .fill()
         .map((_, i) => nextFiveMin + i * fiveMinutes);
       const closestIndexAfter = newTimeChoices
-        .map(t => displayTimestamp - t)
-        .findIndex(t => t <= 0);
+        .map(time => displayTimestamp - time)
+        .findIndex(time => time <= 0);
       newTimeChoices.splice(closestIndexAfter, 0, ...timesToAdd);
       newTimeChoices = Array.from(new Set(newTimeChoices)); // remove duplicates
     }
@@ -198,10 +194,7 @@ function Datetimepicker({
 
   function showScreenreaderCloseAlert() {
     if (alertRef.current) {
-      alertRef.current.innerHTML = i18next.t(
-        'accessible-closed',
-        translationSettings,
-      );
+      alertRef.current.innerHTML = t('accessible-closed', translationSettings);
       setTimeout(() => {
         alertRef.current.innerHTML = null;
       }, 100);
@@ -210,10 +203,7 @@ function Datetimepicker({
 
   function showScreenreaderOpenAlert() {
     if (alertRef.current) {
-      alertRef.current.innerHTML = i18next.t(
-        'accessible-opened',
-        translationSettings,
-      );
+      alertRef.current.innerHTML = t('accessible-opened', translationSettings);
       setTimeout(() => {
         alertRef.current.innerHTML = null;
       }, 100);
@@ -292,7 +282,7 @@ function Datetimepicker({
                   ]
                 }`}
               >
-                {i18next.t('departure', translationSettings)}
+                {t('departure', translationSettings)}
                 <input
                   id={`${htmlId}-departure`}
                   name="departureOrArrival"
@@ -314,7 +304,7 @@ function Datetimepicker({
                   ]
                 }`}
               >
-                {i18next.t('arrival', translationSettings)}
+                {t('arrival', translationSettings)}
                 <input
                   id={`${htmlId}-arrival`}
                   name="departureOrArrival"
@@ -335,7 +325,7 @@ function Datetimepicker({
               onClick={handleNowClick}
               ref={inputRef}
             >
-              {i18next.t('departure-now', translationSettings)}
+              {t('departure-now', translationSettings)}
             </button>
             <span className={styles['right-edge']}>
               <button
@@ -349,7 +339,7 @@ function Datetimepicker({
                   <Icon img="close" color={color} />
                 </span>
                 <span className={styles['sr-only']}>
-                  {i18next.t('accessible-close', translationSettings)}
+                  {t('accessible-close', translationSettings)}
                 </span>
               </button>
             </span>
@@ -378,7 +368,7 @@ function Datetimepicker({
                   </span>
                 }
                 id={`${htmlId}-date`}
-                label={i18next.t('date', translationSettings)}
+                label={t('date', translationSettings)}
                 disableTyping
                 timeZone={timeZone}
                 datePicker
@@ -400,7 +390,7 @@ function Datetimepicker({
                   </span>
                 }
                 id={`${htmlId}-time`}
-                label={i18next.t('time', translationSettings)}
+                label={t('time', translationSettings)}
                 timeZone={timeZone}
                 translationSettings={translationSettings}
               />
@@ -415,11 +405,11 @@ function Datetimepicker({
 
   const formatToprowSummary = () => {
     if (nowSelected && departureOrArrival === 'departure') {
-      return <span>{i18next.t('departure-now', translationSettings)}</span>;
+      return <span>{t('departure-now', translationSettings)}</span>;
     }
     const dateDisplay = getDateDisplay(displayTimestamp);
     const timeDisplay = getTimeDisplay(displayTimestamp);
-    const summary = i18next.t(
+    const summary = t(
       departureOrArrival === 'departure' ? 'departure' : 'arrival',
       translationSettings,
     );
@@ -451,10 +441,10 @@ function Datetimepicker({
       }}
     >
       <legend className={styles['sr-only']}>
-        {i18next.t('accessible-title', translationSettings)}
+        {t('accessible-title', translationSettings)}
       </legend>
       <span className={styles['sr-only']}>
-        {i18next.t('accessible-update-instructions', translationSettings)}
+        {t('accessible-update-instructions', translationSettings)}
       </span>
       <div
         className={
@@ -468,7 +458,7 @@ function Datetimepicker({
             <Icon img="time" color={color} />
           </span>
           <span className={styles['sr-only']}>
-            {i18next.t('accessible-open', translationSettings)}
+            {t('accessible-open', translationSettings)}
           </span>
           <span role="alert" className={styles['sr-only']} ref={alertRef} />
           <button

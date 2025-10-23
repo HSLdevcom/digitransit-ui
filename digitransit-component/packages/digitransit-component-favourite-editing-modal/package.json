@@ -1,6 +1,6 @@
 {
   "name": "@digitransit-component/digitransit-component-favourite-editing-modal",
-  "version": "3.1.0",
+  "version": "4.0.0",
   "description": "digitransit-component favourite-editing-modal module",
   "main": "index.js",
   "files": [
@@ -32,7 +32,7 @@
     "@digitransit-search-util/digitransit-search-util-uniq-by-label": "^2.1.0"
   },
   "peerDependencies": {
-    "@digitransit-component/digitransit-component-dialog-modal": "^1.0.0",
+    "@digitransit-component/digitransit-component-dialog-modal": "^2.0.0",
     "@digitransit-component/digitransit-component-icon": "^1.1.0",
     "@hsl-fi/container-spinner": "0.3.2",
     "@hsl-fi/modal": "^0.3.2",
@@ -40,6 +40,7 @@
     "i18next": "^22.5.1",
     "prop-types": "^15.8.1",
     "react": "^16.13.0",
+    "react-i18next": "^12.3.1",
     "react-sortablejs": "2.0.11"
   }
 }

@@ -2,19 +2,19 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import i18next from 'i18next';
+import {
+  I18nextProvider,
+  useTranslation,
+  withTranslation,
+} from 'react-i18next';
 import isEmpty from 'lodash/isEmpty';
 import isNumber from 'lodash/isNumber';
 import Modal from '@hsl-fi/modal';
 import Icon from '@digitransit-component/digitransit-component-icon';
 import styles from './helpers/styles.scss';
-import translations from './helpers/translations';
+import i18n from './helpers/i18n';
 import DesktopModal from './helpers/DesktopModal';
 import MobileModal from './helpers/MobileModal';
-
-Object.keys(translations).forEach(lang =>
-  i18next.addResourceBundle(lang, 'translation', translations[lang], true),
-);
 
 const FavouriteIconIdToNameMap = {
   'icon-icon_place': 'place',
@@ -32,6 +32,7 @@ const FavouriteIconTableButton = ({
   color,
   lang,
 }) => {
+  const [t] = useTranslation();
   const [isHovered, setHover] = useState(false);
   const [isFocused, setFocus] = useState(false);
   const iconColor =
@@ -50,7 +51,7 @@ const FavouriteIconTableButton = ({
       onFocus={() => setFocus(true)}
       onBlur={() => setFocus(false)}
       onClick={() => handleClick(value)}
-      aria-label={i18next.t(value, { lng: lang })}
+      aria-label={t(value, { lng: lang })}
     >
       <Icon img={value} color={iconColor} />
     </button>
@@ -176,6 +177,8 @@ class FavouriteModal extends React.Component {
     /** Optional. Language, fi, en or sv.
      * @type {string} */
     lang: PropTypes.string,
+    /** Translation function */
+    t: PropTypes.func.isRequired,
     /** Optional. */
     isMobile: PropTypes.bool,
     appElement: PropTypes.string.isRequired,
@@ -328,10 +331,10 @@ class FavouriteModal extends React.Component {
 
   render() {
     const { favourite } = this.state;
-    const { color, hoverColor, fontWeights, lang } = this.props;
+    const { color, hoverColor, fontWeights, lang, t } = this.props;
     const headerText = this.isEdit()
-      ? i18next.t('edit-place', { lng: lang })
-      : i18next.t('save-place', { lng: lang });
+      ? t('edit-place', { lng: lang })
+      : t('save-place', { lng: lang });
     const modalProps = {
       headerText,
       autosuggestComponent: {
@@ -339,10 +342,10 @@ class FavouriteModal extends React.Component {
         color,
         hoverColor,
       },
-      inputPlaceholder: i18next.t('input-placeholder', { lng: lang }),
+      inputPlaceholder: t('input-placeholder', { lng: lang }),
       specifyName: this.specifyName,
       name: (favourite && favourite.name) || '',
-      chooseIconText: i18next.t('choose-icon', { lng: lang }),
+      chooseIconText: t('choose-icon', { lng: lang }),
       favouriteIconTable: (
         <FavouriteIconTable
           selectedIconId={(() => {
@@ -358,16 +361,16 @@ class FavouriteModal extends React.Component {
         />
       ),
       saveFavourite: this.save,
-      saveText: i18next.t('save', { lng: lang }),
+      saveText: t('save', { lng: lang }),
       canSave: this.canSave,
       isEdit: this.isEdit(),
-      cancelText: i18next.t('cancel', { lng: lang }),
+      cancelText: t('cancel', { lng: lang }),
       cancelSelected: () => this.cancelSelected(),
       color,
       hoverColor,
-      savePlaceText: i18next.t('save-place', { lng: lang }),
-      cantSaveText: i18next.t('cannot-save-place', { lng: lang }),
-      requiredText: i18next.t('required-text', { lng: lang }),
+      savePlaceText: t('save-place', { lng: lang }),
+      cantSaveText: t('cannot-save-place', { lng: lang }),
+      requiredText: t('required-text', { lng: lang }),
       fontWeights,
     };
     return (
@@ -375,10 +378,10 @@ class FavouriteModal extends React.Component {
         appElement={this.props.appElement}
         contentLabel={
           this.isEdit()
-            ? i18next.t('favourite-modal-on-edit', { lng: lang, favourite })
-            : i18next.t('favourite-modal-on-add-new', { lng: lang })
+            ? t('favourite-modal-on-edit', { lng: lang, favourite })
+            : t('favourite-modal-on-add-new', { lng: lang })
         }
-        closeButtonLabel={i18next.t('close-favourite-modal', { lng: lang })}
+        closeButtonLabel={t('close-favourite-modal', { lng: lang })}
         variant={!this.props.isMobile ? 'small' : 'large'}
         isOpen={this.props.isModalOpen}
         onCrossClick={() => this.closeModal()}
@@ -390,4 +393,10 @@ class FavouriteModal extends React.Component {
   }
 }
 
-export default FavouriteModal;
+const FavouriteModalWithTranslation = withTranslation()(FavouriteModal);
+
+export default props => (
+  <I18nextProvider i18n={i18n}>
+    <FavouriteModalWithTranslation {...props} />
+  </I18nextProvider>
+);

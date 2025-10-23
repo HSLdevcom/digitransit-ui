@@ -1,6 +1,6 @@
 {
   "name": "@digitransit-component/digitransit-component-traffic-now-link",
-  "version": "2.0.1",
+  "version": "3.0.0",
   "description": "digitransit-component traffic-now-link module",
   "main": "index.js",
   "files": [
@@ -33,6 +33,7 @@
     "@hsl-fi/sass": "^0.2.0",
     "i18next": "^22.5.1",
     "prop-types": "^15.8.1",
-    "react": "^16.13.0"
+    "react": "^16.13.0",
+    "react-i18next": "^12.3.2"
   }
 }

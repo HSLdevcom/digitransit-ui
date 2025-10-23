@@ -80,8 +80,11 @@ export function getAnalyticsInitCode(config, req) {
       }
       const ce1 =
         '<script type="text/javascript" src="//script.crazyegg.com/pages/scripts/0030/3436.js" async="async" ></script>';
-      // show survey only in itinerary page after 8 s delay for certain share of page loads
-      const ce2 = `<script type="text/javascript">(window.CE_API||(window.CE_API=[])).push(function(){if(window.location.pathname.includes("${PREFIX_ITINERARY_SUMMARY}")&&(Math.floor(Date.now()/1000)%${surveyShare})===0){setTimeout(()=>{CE2.showSurvey("${id}");},8000);}});</script>`;
+      // show survey conditions for certain share of page loads:
+      // - only in itinerary page
+      // - after 8 s delay
+      // - not when mobile time picker or mobile settings are open
+      const ce2 = `<script type="text/javascript">(window.CE_API||(window.CE_API=[])).push(function(){if(window.location.pathname.includes("${PREFIX_ITINERARY_SUMMARY}")&&(Math.floor(Date.now()/1000)%${surveyShare})===0){setTimeout(()=>{if(!document.getElementsByClassName('offcanvas-mobile')[0]&&!document.getElementById('digitransit-mobile-datetime')){CE2.showSurvey("${id}")};},8000);}});</script>`;
       script = `${script}${ce1}${ce2}`;
     }
   }

@@ -1,7 +1,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import {
+  I18nextProvider,
+  useTranslation,
+  withTranslation,
+} from 'react-i18next';
 import cx from 'classnames';
-import i18next from 'i18next';
 import differenceWith from 'lodash/differenceWith';
 import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
@@ -10,11 +14,7 @@ import SuggestionItem from '@digitransit-component/digitransit-component-suggest
 import Icon from '@digitransit-component/digitransit-component-icon';
 import { formatFavouritePlaceLabel } from '@digitransit-search-util/digitransit-search-util-uniq-by-label';
 import styles from './helpers/styles.scss';
-import translations from './helpers/translations';
-
-Object.keys(translations).forEach(lang =>
-  i18next.addResourceBundle(lang, 'translation', translations[lang], true),
-);
+import i18n from './helpers/i18n';
 
 const isKeyboardSelectionEvent = event => {
   const space = [13, ' ', 'Spacebar'];
@@ -46,10 +46,11 @@ const FavouriteLocation = ({
   color,
   lang,
 }) => {
+  const [t] = useTranslation();
   const ariaLabel =
     label === ''
       ? text
-      : `${text} ${label} ${i18next.t('add-destination', { lng: lang })}`;
+      : `${text} ${label} ${t('add-destination', { lng: lang })}`;
   return (
     <button
       type="button"
@@ -145,6 +146,8 @@ class FavouriteBar extends React.Component {
       /** Default value is 500. */
       medium: PropTypes.number,
     }),
+    /** Translation function */
+    t: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -233,7 +236,7 @@ class FavouriteBar extends React.Component {
   };
 
   translate = id => {
-    return i18next.t(id, { lng: this.props.lang });
+    return this.props.t(id, { lng: this.props.lang });
   };
 
   handleClickOutside = event => {
@@ -454,4 +457,10 @@ class FavouriteBar extends React.Component {
   }
 }
 
-export default FavouriteBar;
+const FavouriteBarWithTranslation = withTranslation()(FavouriteBar);
+
+export default props => (
+  <I18nextProvider i18n={i18n}>
+    <FavouriteBarWithTranslation {...props} />
+  </I18nextProvider>
+);
