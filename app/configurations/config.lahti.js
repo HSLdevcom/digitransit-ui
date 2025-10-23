@@ -6,10 +6,10 @@ const CONFIG = 'lahti';
 const APP_TITLE = 'LSL reittiopas';
 const APP_DESCRIPTION = 'Lahden seudun liikenteen reittiopas';
 
-const minLat = 60.692506;
-const maxLat = 61.790694;
-const minLon = 24.873833;
-const maxLon = 26.544819;
+const minLat = 60.6546;
+const maxLat = 61.819;
+const minLon = 24.81629;
+const maxLon = 26.5902;
 
 const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
 const OTP_URL = process.env.OTP_URL || `${API_URL}/routing/v2/waltti-alt/`;
