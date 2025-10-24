@@ -459,6 +459,8 @@ export default {
   },
   ticketButtonTextId: 'open-app',
 
+  trafficNowLink: true,
+
   vehicleRental: {
     minZoomStopsNearYou: 10,
     showFullInfo: true,
