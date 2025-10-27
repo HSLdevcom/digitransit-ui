@@ -77,14 +77,17 @@ export default function RouteBadges({ entities }) {
       {Object.entries(routesByMode).map(([mode, routesMap]) => {
         const uniqueRoutes = getUniqueShortNameRoutes(routesMap);
         return (
-          <div className="mode flex-row vertically-centered" key={mode}>
+          <div
+            className="route-badges-mode flex-row vertically-centered"
+            key={mode}
+          >
             <Icon
               img={`icon_${mode.toLowerCase()}`}
               height={2}
               width={2}
               color={colors.iconColors[`mode-${mode.toLowerCase()}`]}
             />
-            <div className={`${mode.toLowerCase()}-lines lines-row`}>
+            <div className={`route-badges-lines-row ${mode.toLowerCase()}`}>
               {uniqueRoutes.map(({ id, shortName }) => (
                 <span key={id}>{shortName}</span>
               ))}

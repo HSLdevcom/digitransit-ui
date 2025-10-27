@@ -11,13 +11,13 @@ import Loading from '../Loading';
 export default function TrafficNow() {
   const breakpoint = useBreakpoint();
 
-  const desktop = breakpoint === 'large';
+  const mobile = breakpoint !== 'large';
 
   return (
     <div className={cx('traffic-now')}>
       <Gutterer
         maxWidth="1440px"
-        leftGutterPadding={desktop ? '0 50px 0 0' : '0 20px 0 0'}
+        leftGutterPadding={mobile ? undefined : '0 50px 0 0'}
       >
         <Header />
       </Gutterer>
@@ -26,10 +26,14 @@ export default function TrafficNow() {
         maxWidth="1440px"
         leftBg="#fff"
         rightBg="#f2f5f7"
-        leftGutterPadding={desktop ? '0 50px 0 0' : undefined}
+        leftGutterPadding={mobile ? undefined : '0 50px 0 0'}
       >
         <div
-          className={cx('bottom', desktop ? 'flex-row desktop' : 'flex-column')}
+          className={cx(
+            'traffic-now__bottom',
+            { 'traffic-now__bottom--mobile': mobile },
+            { 'flex-column': mobile, 'flex-row': !mobile },
+          )}
         >
           {/* !desktop ? (
             <Filters />

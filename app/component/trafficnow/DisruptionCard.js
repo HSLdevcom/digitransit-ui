@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import cx from 'classnames';
 import { useFragment } from 'react-relay';
+import { FormattedMessage } from 'react-intl';
 import Card from '../Card';
 import { alertShape } from '../../util/shapes';
 import Icon from '../Icon';
@@ -35,26 +36,33 @@ export default function DisruptionCard({ alert }) {
   )} - ${getFormattedTimeDate(effectiveEndDate * 1000, DATE_FORMAT)}`;
 
   return (
-    <Card className="flex-column">
-      <div className="top-row flex-row">
+    <Card className="traffic-now__disruption-card">
+      <div className="traffic-now__disruption-card__top-row">
         <Badge showIcon variant={alertSeverityLevel} label={alertEffect} />
         <button type="button" onClick={() => setOpen(!isOpen)}>
           <Icon
             img="icon_arrow-dropdown"
             color={colors.primary}
-            className={cx(isOpen && 'inverted')}
+            className={cx('traffic-now__disruption-card__icon', {
+              'traffic-now__disruption-card__icon--inverted': isOpen,
+            })}
           />
         </button>
       </div>
-      <RouteBadges entities={entities} />
+      {entities && (
+        <RouteBadges
+          entities={entities}
+          className="traffic-now__disruption-card__route-badges"
+        />
+      )}
       <h2>{alertHeaderText}</h2>
       {isOpen && <p>{alertDescriptionText}</p>}
-      <div className="validity flex-row">
+      <div className="traffic-now__disruption-card__validity">
         {isValid && (
           <>
-            <div className="valid flex-row vertically-centered">
+            <div className="traffic-now__disruption-card__validity__valid">
               <Icon img="icon_clock" />
-              Voimassa
+              <FormattedMessage id="valid" default="Active" />
             </div>
             <div className="separator vertical" />
           </>

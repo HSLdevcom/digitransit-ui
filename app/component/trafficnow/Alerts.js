@@ -1,6 +1,7 @@
 import React from 'react';
 import cx from 'classnames';
 import { useLazyLoadQuery } from 'react-relay/hooks';
+import { FormattedMessage } from 'react-intl';
 import DisruptionCard from './DisruptionCard';
 import { useBreakpoint } from '../../util/withBreakpoint';
 import { useConfigContext } from '../../configurations/ConfigContext';
@@ -20,9 +21,19 @@ export default function Alerts() {
   const rows = alerts.map(a => <DisruptionCard key={a.id} alert={a} />);
 
   return (
-    <div className={cx('alerts', desktop && 'desktop')}>
-      <h3>Löytyi {alerts.length} tiedotetta</h3>
-      <div className="list">{rows}</div>
+    <div
+      className={cx('traffic-now__bottom__alerts', {
+        'traffic-now__bottom__alerts--desktop': desktop,
+      })}
+    >
+      <FormattedMessage
+        id="disruptions-found-amount"
+        values={{ amount: alerts.length }}
+        defaultValue="Hello world!"
+      >
+        {msg => <h3>{msg}</h3>}
+      </FormattedMessage>
+      <div className="traffic-now__bottom__alerts-list">{rows}</div>
     </div>
   );
 }

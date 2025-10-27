@@ -1,7 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
+import { FormattedMessage } from 'react-intl';
+import capitalize from 'lodash/capitalize';
 import Icon from './Icon';
+
+const DISRUPTION_BADGE_PREFIX = 'disruption-badge-';
 
 function variantValidator(props, propName, componentName) {
   if (
@@ -45,7 +49,10 @@ export default function Badge({
   return (
     <div {...rest} className={cx('badge', variant.toLowerCase(), className)}>
       {showIcon && getIcon(variant.toLowerCase())}
-      {label}
+      <FormattedMessage
+        id={`${DISRUPTION_BADGE_PREFIX}${label.toLowerCase()}`}
+        defaultMessage={capitalize(label.toLowerCase()).replace(/_/g, ' ')}
+      />
     </div>
   );
 }

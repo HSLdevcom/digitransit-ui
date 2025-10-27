@@ -26,12 +26,13 @@
     }
   }
 
-  .header {
+  &__header {
     display: flex;
     flex-direction: column;
     height: 216px;
+    gap: 20px;
 
-    h2 {
+    /* h2 {
       font-size: 36px;
       letter-spacing: -1px;
     }
@@ -41,52 +42,54 @@
       font-size: 20px;
       line-height: 30px;
       letter-spacing: -0.5px;
-    }
+    } */
 
-    .breadcrumb {
+    &-breadcrumb {
       display: inline-flex;
       align-items: center;
-      font-weight: 350;
-      font-size: 16px;
-      letter-spacing: -2%;
+
+      // font-weight: 350;
+      // font-size: 16px;
+      // letter-spacing: -2%;
     }
 
-    .crumbarrow {
+    &-crumbarrow {
       width: 10px;
       height: 10px;
       rotate: -90deg;
       color: $link-color;
     }
+
+    &--mobile {
+      padding: 25px 20px 20px 20px;
+    }
   }
 
   // Layout: Main content row
-  .bottom {
+  &__bottom {
     display: flex;
     align-content: center;
     height: 100%;
     justify-content: center;
     background-color: #f2f5f7;
-    padding: var(--space-m) var(--space-s) 0 var(--space-s);
-    gap: var(--space-l);
 
-    &.desktop {
-      padding: unset;
-      gap: unset;
+    &--mobile {
+      padding: var(--space-m) var(--space-s) 0 var(--space-s);
+      gap: var(--space-l);
     }
 
     // Filters panel
-    .filters {
+    &__filters {
       display: flex;
       flex-direction: column;
       min-width: 320px;
       max-width: 480px;
-      padding-top: var(--space-xl);
       background-color: #fff;
       flex-shrink: 0;
     }
 
     // Main content area
-    .alerts {
+    &__alerts {
       display: flex;
       flex: 1 1 0;
       width: 100%;
@@ -95,7 +98,7 @@
       min-width: 0;
       gap: inherit;
 
-      .list {
+      &-list {
         display: flex;
         flex-direction: column;
         gap: 4px;
@@ -105,7 +108,7 @@
         padding-bottom: var(--space-s);
       }
 
-      &.desktop {
+      &--desktop {
         border-left: 1px solid #ddd;
         padding: var(--space-xl);
         gap: var(--space-s);
@@ -117,22 +120,24 @@
     }
   }
 
-  // Card styling
-  .card {
+  &__disruption-card {
+    display: flex;
+    flex-direction: column;
     padding: var(--space-l) var(--space-l) var(--space-m) var(--space-l);
-    margin-bottom: unset;
     gap: var(--space-s);
 
-    .top-row {
+    &__top-row {
+      display: flex;
+      flex-direction: row;
       justify-content: space-between;
     }
 
-    .icon {
-      &.inverted {
+    &__icon {
+      &--inverted {
         transform: rotate(180deg);
       }
 
-      &.info {
+      &--info {
         color: #0074bf;
       }
     }
@@ -142,25 +147,30 @@
       flex-wrap: wrap;
       gap: var(--space-xxs);
 
-      .mode {
+      &-mode {
         gap: var(--space-xxs);
       }
 
-      .lines-row {
+      &-lines-row {
         display: flex;
         flex-wrap: wrap;
         gap: var(--space-xxs);
 
-        &.bus-lines span {
-          background-color: rgba($bus-color, 0.1);
+        &.bus span {
+          @include line-color($bus-color);
         }
 
-        &.metro-lines span {
-          background-color: rgba($metro-color, 0.1);
+        &.metro span,
+        &.subway span {
+          @include line-color($metro-color);
         }
 
-        &.tram-lines span {
-          background-color: rgba($tram-color, 0.1);
+        &.tram span {
+          @include line-color($tram-color);
+        }
+
+        &.rail span {
+          @include line-color($rail-color);
         }
 
         span {
@@ -170,11 +180,14 @@
       }
     }
 
-    .validity {
+    &__validity {
+      display: flex;
       gap: var(--space-xs);
 
-      .valid {
+      &__valid {
+        display: flex;
         gap: 4px;
+        align-items: center;
       }
     }
   }
