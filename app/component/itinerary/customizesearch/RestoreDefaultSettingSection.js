@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import PropTypes from 'prop-types';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import cx from 'classnames';
 import { FormattedMessage, intlShape } from 'react-intl';
 import { isKeyboardSelectionEvent } from '../../../util/browser';
@@ -17,31 +17,43 @@ const RestoreDefaultSettingSection = ({ config }, { executeAction, intl }) => {
   const [showSnackbar, setShowSnackbar] = useState(null);
   const [slideOutRestoreSettingsButton, setSlideOutRestoreSettingsButton] =
     useState(null);
-  const [liveRegionMessage, setLiveRegionMessage] = useState('');
-  const noChangesRef = React.useRef(null);
-  const liveRegionRef = React.useRef(null);
+  const [snackBarLiveRegionMessage, setSnackBarLiveRegionMessage] =
+    useState('');
+  const snackBarLiveRegionRef = useRef(null);
+  const [restoreButtonLiveRegionMessage, setRestoreButtonLiveRegionMessage] =
+    useState('');
+  const restoreButtonLiveRegionRef = useRef(null);
   const userHasCustomizedSettings = hasCustomizedSettings(config);
+  const snackBarTimeout = useRef(null);
+
+  useEffect(() => {
+    return () => {
+      clearTimeout(snackBarTimeout.current);
+    };
+  }, []);
 
   useEffect(() => {
     if (userHasCustomizedSettings) {
-      setLiveRegionMessage(
+      setRestoreButtonLiveRegionMessage(
         intl.formatMessage({
           id: 'settings-changed-by-you',
           defaultMessage: 'Settings changed',
         }),
       );
+      const liveRegionTimeoutId = setTimeout(
+        () => setRestoreButtonLiveRegionMessage(''),
+        1000,
+      );
+      return () => clearTimeout(liveRegionTimeoutId);
     }
     if (
       userHasCustomizedSettings === false &&
       slideOutRestoreSettingsButton !== null
     ) {
       setSlideOutRestoreSettingsButton(true);
-      setLiveRegionMessage('');
-
-      const timeoutId = setTimeout(
-        () => setSlideOutRestoreSettingsButton(false),
-        1000,
-      );
+      const timeoutId = setTimeout(() => {
+        setSlideOutRestoreSettingsButton(false);
+      }, 1000);
       return () => clearTimeout(timeoutId);
     }
     setSlideOutRestoreSettingsButton(false);
@@ -63,26 +75,20 @@ const RestoreDefaultSettingSection = ({ config }, { executeAction, intl }) => {
       ...restoredSettings,
     });
     setShowSnackbar(true);
-    setLiveRegionMessage(
+    setSnackBarLiveRegionMessage(
       intl.formatMessage({
         id: 'restore-default-settings-success',
         defaultMessage: 'Settings restored to default.',
       }),
     );
-    setTimeout(() => {
-      setLiveRegionMessage('');
+    snackBarTimeout.current = setTimeout(() => {
+      setSnackBarLiveRegionMessage('');
       setShowSnackbar(false);
     }, 4000);
   };
 
   const noChangesSRContainer = (
-    <span
-      className="sr-only"
-      tabIndex="-1"
-      ref={noChangesRef}
-      aria-live="polite"
-      role="status"
-    >
+    <span className="sr-only" aria-live="polite" role="status">
       <FormattedMessage
         id="restore-default-settings-aria-label-done"
         defaultMessage="Default settings are in use."
@@ -115,6 +121,7 @@ const RestoreDefaultSettingSection = ({ config }, { executeAction, intl }) => {
             defaultMessage: 'Close notification',
           })}
           onClick={() => setShowSnackbar(false)}
+          tabIndex="-1"
         >
           <Icon id="close-icon" img="notification-close" omitViewBox />
         </button>
@@ -123,10 +130,17 @@ const RestoreDefaultSettingSection = ({ config }, { executeAction, intl }) => {
         className="sr-only"
         aria-live="polite"
         role="status"
-        tabIndex="-1"
-        ref={liveRegionRef}
+        ref={snackBarLiveRegionRef}
       >
-        {liveRegionMessage}
+        {snackBarLiveRegionMessage}
+      </div>
+      <div
+        className="sr-only"
+        aria-live="polite"
+        role="status"
+        ref={restoreButtonLiveRegionRef}
+      >
+        {restoreButtonLiveRegionMessage}
       </div>
       {userHasCustomizedSettings || slideOutRestoreSettingsButton ? (
         <div
