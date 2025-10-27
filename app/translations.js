@@ -820,6 +820,7 @@ const translations = {
     'accessibility-limited': 'Wheelchair',
     'accessibility-nolimit': 'No limits',
     'accessibility-statement': 'Accessibility statement',
+    acknowledged: 'OK',
     'add-favourite-bikeStation-failed-heading':
       'Saving the citybike station failed',
     'add-favourite-place-failed-heading': 'Unable to save location',
@@ -1502,10 +1503,10 @@ const translations = {
     'replacement-bus': 'Replacement bus',
     'replacement-bus-with-route-number': 'Replacement bus {routeNumber}',
     'required-ticket': 'Ticket required for the journey',
-    'restore-default-settings':
-      'Restore default settings {changedSettingsIndicator}',
+    'restore-default-settings': 'Reset',
     'restore-default-settings-aria-label': 'Restore default settings.',
     'restore-default-settings-aria-label-done': 'Default settings are in use.',
+    'restore-default-settings-success': 'Default settings restored',
     'return-cycle-to': 'Return the bike:',
     'return-e-scooter-to': 'Leave the scooter in a safe location',
     'return-scooter-to': 'Return the kick scooter to {station} station',
@@ -1613,9 +1614,11 @@ const translations = {
       'The journey includes demand responsive transport service. Please check the payment methods and practices on ',
     'set-specific-settings': 'Set more specific settings',
     'set-stop-as-routes': "Set the stop as route's",
-    settings: 'Settings {changedSettingsIndicator}',
+    settings: 'Settings',
     'settings-alternative-name-rail': 'Train',
     'settings-change-itinerary-settings': 'Change settings',
+    'settings-changed': 'Settings changed',
+    'settings-changed-by-you': 'You have edited your settings',
     'settings-dropdown-close-label': 'Close options',
     'settings-dropdown-open-label': 'Open options',
     'settings-e-scooter':
@@ -2143,6 +2146,7 @@ const translations = {
     'accessibility-limited': 'Pyörätuoli',
     'accessibility-nolimit': 'Ei rajoitusta',
     'accessibility-statement': 'Saavutettavuusseloste',
+    acknowledged: 'Selvä',
     'add-favourite-bikeStation-failed-heading':
       'Kaupunkipyöräaseman tallentaminen ei onnistunut',
     'add-favourite-place-failed-heading': 'Paikan tallentaminen ei onnistunut',
@@ -2822,10 +2826,10 @@ const translations = {
     'replacement-bus': 'Korvaava bussi',
     'replacement-bus-with-route-number': 'Korvaava bussi {routeNumber}',
     'required-ticket': 'Reitillä tarvittava lippu',
-    'restore-default-settings':
-      'Palauta oletusasetukset {changedSettingsIndicator}',
+    'restore-default-settings': 'Palauta',
     'restore-default-settings-aria-label': 'Palauta oletusasetukset.',
     'restore-default-settings-aria-label-done': 'Oletusasetukset käytössä.',
+    'restore-default-settings-success': 'Oletusasetukset palautettu',
     'return-cycle-to': 'Palauta kaupunkipyörä:',
     'return-e-scooter-to': 'Jätä potkulauta turvalliseen paikkaan',
     'return-scooter-to': 'Palauta potkulauta asemalle {station}',
@@ -2932,9 +2936,11 @@ const translations = {
       'Matka sisältää kutsuliikennettä. Voit tarkistaa maksutavat ja käytännöt ',
     'set-specific-settings': 'Aseta tarkemmat asetukset',
     'set-stop-as-routes': 'Aseta pysäkki reitin',
-    settings: 'Asetukset {changedSettingsIndicator}',
+    settings: 'Asetukset',
     'settings-alternative-name-rail': 'Juna',
     'settings-change-itinerary-settings': 'Muuta asetuksia',
+    'settings-changed': 'Asetuksia muokattu',
+    'settings-changed-by-you': 'Olet muokannut asetuksia',
     'settings-dropdown-close-label': 'Sulje vaihtoehdot',
     'settings-dropdown-open-label': 'Avaa vaihtoehdot',
     'settings-e-scooter':
@@ -5097,6 +5103,7 @@ const translations = {
     'accessibility-limited': 'Med rullstolen',
     'accessibility-nolimit': 'Ingen begränsning',
     'accessibility-statement': 'Tillgänglighetsförklaring',
+    acknowledged: 'Klart',
     'add-favourite-bikeStation-failed-heading':
       'Kunde inte spara stadscykelstationen',
     'add-favourite-place-failed-heading': 'Kunde inte spara platsen',
@@ -5769,11 +5776,12 @@ const translations = {
     'replacement-bus': 'Ersättande buss',
     'replacement-bus-with-route-number': 'Ersättande buss {routeNumber}',
     'required-ticket': 'Biljett som behövs under resan',
-    'restore-default-settings':
-      'Återställ standardinställningar {changedSettingsIndicator}',
+    'restore-default-settings': 'Återställ',
     'restore-default-settings-aria-label': 'Återställ standardinställningar.',
     'restore-default-settings-aria-label-done':
       'Standardinställningar är aktiverade.',
+    'restore-default-settings-success':
+      'Standardinställningar har återställts.',
     'return-cycle-to': 'Returnera stadscykeln: ',
     'return-e-scooter-to': 'Lämna elsparkcykeln på ett säkert ställe',
     'return-scooter-to': 'Returnera sparkcykeln till stationen {station}',
@@ -5884,9 +5892,11 @@ const translations = {
       'I resan ingår anropsbusstrafiken. Bekanta dig med betalningsmetoder och praxis på ',
     'set-specific-settings': 'Ställa avancerade inställningar',
     'set-stop-as-routes': 'Ställa hållplats som rutter',
-    settings: 'Anpassa {changedSettingsIndicator}',
+    settings: 'Anpassa',
     'settings-alternative-name-rail': 'Tåg',
     'settings-change-itinerary-settings': 'Anpassa sökning',
+    'settings-changed': 'Ändrade inställningar',
+    'settings-changed-by-you': 'Du har ändrat inställningarna',
     'settings-dropdown-close-label': 'Stäng alternativen',
     'settings-dropdown-open-label': 'Öppna alternativen',
     'settings-e-scooter':
