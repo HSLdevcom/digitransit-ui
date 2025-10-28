@@ -1,3 +1,11 @@
+@mixin line-color($color) {
+  background-color: color-mix(in srgb, $color, white 90%);
+
+  &:hover {
+    background-color: color-mix(in srgb, $color, white 80%);
+  }
+}
+
 /* Using these avoids making mistakes when some font settings are inherited
    from a parent using different font-family. */
 

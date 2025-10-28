@@ -1,73 +1,209 @@
-.trafficnow-main {
+// Layout: Main container
+.traffic-now {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
   height: 100%;
-}
-
-.tn-centered {
-  min-width: 900px;
-  max-width: 1300px;
-}
-
-.trafficnow-header {
-  display: flex;
-  flex-direction: column;
-  height: 216px;
 
   h2 {
-    font-size: 36px;
-    letter-spacing: -1px;
+    margin: unset;
   }
 
-  .tn-description {
-    font-weight: 325;
-    font-size: 20px;
-    line-height: 30px;
-    letter-spacing: -0.5px;
+  p {
+    margin: unset;
   }
 
-  .tn-breadcrumb {
-    font-weight: 350;
-    font-size: 16px;
-    letter-spacing: -2%;
+  .icon-container {
+    display: flex;
   }
 
-  .crumbarrow {
-    width: 10px;
-    height: 10px;
-    rotate: -90deg;
-    color: $link-color;
+  .separator {
+    &.horizontal {
+      border-top: 1px solid #ddd;
+    }
+
+    &.vertical {
+      border-right: 1px solid #ddd;
+    }
   }
-}
 
-.separator {
-  width: 100%;
-  border-bottom: 1px solid #ddd;
-}
+  &__header {
+    display: flex;
+    flex-direction: column;
+    height: 216px;
+    gap: 20px;
 
-.trafficnow-bottom {
-  display: flex;
-  flex-direction: row;
-  height: 100%;
-}
+    /* h2 {
+      font-size: 36px;
+      letter-spacing: -1px;
+    }
 
-.trafficnow-filters {
-  min-width: 320px;
-  max-width: 480px;
-  display: flex;
-  flex-direction: column;
-  padding-top: 48px;
-}
+    .description {
+      font-weight: 325;
+      font-size: 20px;
+      line-height: 30px;
+      letter-spacing: -0.5px;
+    } */
 
-.trafficnow-contents {
-  display: flex;
-  width: 100%;
-  height: 100%;
-  flex-direction: column;
-  background-color: #f2f5f7;
-  border-left: 1px solid #ddd;
-  padding-top: 48px;
-  padding-left: 48px;
+    &-breadcrumb {
+      display: inline-flex;
+      align-items: center;
+
+      // font-weight: 350;
+      // font-size: 16px;
+      // letter-spacing: -2%;
+    }
+
+    &-crumbarrow {
+      width: 10px;
+      height: 10px;
+      rotate: -90deg;
+      color: $link-color;
+    }
+
+    &--mobile {
+      padding: 25px 20px 20px 20px;
+    }
+  }
+
+  // Layout: Main content row
+  &__bottom {
+    display: flex;
+    align-content: center;
+    height: 100%;
+    justify-content: center;
+    background-color: #f2f5f7;
+
+    &--mobile {
+      padding: var(--space-m) var(--space-s) 0 var(--space-s);
+      gap: var(--space-l);
+    }
+
+    // Filters panel
+    &__filters {
+      display: flex;
+      flex-direction: column;
+      min-width: 320px;
+      max-width: 480px;
+      background-color: #fff;
+      flex-shrink: 0;
+    }
+
+    // Main content area
+    &__alerts {
+      display: flex;
+      flex: 1 1 0;
+      width: 100%;
+      height: 100%;
+      flex-direction: column;
+      min-width: 0;
+      gap: inherit;
+
+      &-list {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      h3 {
+        padding-bottom: var(--space-s);
+      }
+
+      &--desktop {
+        border-left: 1px solid #ddd;
+        padding: var(--space-xl);
+        gap: var(--space-s);
+
+        .list {
+          gap: inherit;
+        }
+      }
+    }
+  }
+
+  &__disruption-card {
+    display: flex;
+    flex-direction: column;
+    padding: var(--space-l) var(--space-l) var(--space-m) var(--space-l);
+    gap: var(--space-s);
+
+    &__top-row {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+    }
+
+    &__icon {
+      &--inverted {
+        transform: rotate(180deg);
+      }
+
+      &--info {
+        color: #0074bf;
+      }
+    }
+
+    .route-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-xxs);
+
+      &-mode {
+        gap: var(--space-xxs);
+      }
+
+      &-lines-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-xxs);
+
+        &.bus span {
+          @include line-color($bus-color);
+        }
+
+        &.metro span,
+        &.subway span {
+          @include line-color($metro-color);
+        }
+
+        &.tram span {
+          @include line-color($tram-color);
+        }
+
+        &.rail span {
+          @include line-color($rail-color);
+        }
+
+        span {
+          border-radius: var(--radius-s);
+          padding: var(--space-xs) var(--space-xxs);
+        }
+      }
+    }
+
+    &__validity {
+      display: flex;
+      gap: var(--space-xs);
+
+      &__valid {
+        display: flex;
+        gap: 4px;
+        align-items: center;
+      }
+    }
+  }
+
+  // Utilities
+  .flex-row {
+    display: flex;
+    flex-direction: row;
+
+    &.vertically-centered {
+      align-items: center;
+    }
+  }
+
+  .flex-column {
+    display: flex;
+    flex-direction: column;
+  }
 }

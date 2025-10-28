@@ -29,6 +29,7 @@ import {
   definesItinerarySearch,
   PREFIX_NEARYOU,
   PREFIX_ITINERARY_SUMMARY,
+  TRAFFICNOW,
 } from '../util/path';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import withBreakpoint from '../util/withBreakpoint';
@@ -49,6 +50,10 @@ import {
 
 const StopRouteSearch = withSearchContext(DTAutoSuggest);
 const LocationSearch = withSearchContext(DTAutosuggestPanel);
+
+const trafficNowHandler = (e, lang) => {
+  window.location = `/${lang === 'fi' || !lang ? '' : `${lang}/`}${TRAFFICNOW}`;
+};
 
 class IndexPage extends React.Component {
   static contextTypes = {
@@ -208,12 +213,6 @@ class IndexPage extends React.Component {
       favorite_type: 'place',
     });
     this.context.executeAction(storeDestination, favourite);
-  };
-
-  trafficNowHandler = (e, lang) => {
-    window.location = `${this.context.config.URL.ROOTLINK}/${
-      lang === 'fi' ? '' : `${lang}/`
-    }${this.context.config.trafficNowLink[lang]}`;
   };
 
   clickStopNearIcon = url => {
@@ -410,11 +409,8 @@ class IndexPage extends React.Component {
                 <CtrlPanel.SeparatorLine />
               </>
             )}
-            {trafficNowLink?.[lang] && (
-              <TrafficNowLink
-                lang={lang}
-                handleClick={this.trafficNowHandler}
-              />
+            {trafficNowLink && (
+              <TrafficNowLink lang={lang} handleClick={trafficNowHandler} />
             )}
           </CtrlPanel>
         </div>
@@ -459,10 +455,10 @@ class IndexPage extends React.Component {
             </div>
             <CtrlPanel.SeparatorLine usePaddingBottom20 />
             {!trafficNowLink ||
-              (trafficNowLink[lang] !== '' && (
+              (trafficNowLink !== '' && (
                 <TrafficNowLink
                   lang={lang}
-                  handleClick={this.trafficNowHandler}
+                  handleClick={trafficNowHandler}
                   fontWeights={fontWeights}
                 />
               ))}
