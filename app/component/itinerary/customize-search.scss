@@ -27,7 +27,7 @@
 
 .restore-settings-success-snackbar {
   position: fixed;
-  left: 480px;
+  left: 50%;
   top: 78px;
   z-index: 9999;
   color: #fff;
@@ -50,13 +50,13 @@
   align-items: center;
 
   &.show {
-    animation: slideDownFromTop 0.5s $slide-up-down-animation;
-    transform: translateY(calc(-100% - 78px));
+    animation: slideDownFromTopCenter 0.5s $slide-up-down-animation;
+    transform: translateY(calc(-100% - 78px)) translateX(-50%);
   }
 
   &.slide-out {
-    animation: slideUpToTop 1s ease-in-out forwards;
-    transform: translateY(0);
+    animation: slideUpToTopCenter 1s ease-in-out forwards;
+    transform: translateY(0) translateX(-50%);
   }
 
   .icon-container {

@@ -89,3 +89,24 @@
     transform: translateY(calc(100% + 16px));
   }
 }
+
+@keyframes slideDownFromTopCenter {
+  from {
+    transform: translateY(-100%) translateX(-50%);
+    margin-top: -65px;
+  }
+
+  to {
+    transform: translateY(0) translateX(-50%);
+  }
+}
+
+@keyframes slideUpToTopCenter {
+  from {
+    transform: translateY(0) translateX(-50%);
+  }
+
+  to {
+    transform: translateY(calc(-100vh - 100%)) translateX(-50%);
+  }
+}
