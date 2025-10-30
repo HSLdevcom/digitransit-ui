@@ -190,7 +190,7 @@ export default configMerger(walttiConfig, {
     sv: 'https://jonnejaminne.fi/en/tickets-and-prices/price-list/ ',
     en: 'https://jonnejaminne.fi/en/tickets-and-prices/price-list/ ',
   },
-  showTicketPrice: false,
+  showTicketPrice: true,
   ticketLinkOperatorCode: 50217,
   externalFareRouteIds: ['77ELY', '707'],
 });
