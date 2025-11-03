@@ -1052,6 +1052,7 @@ const translations = {
       'No known disruptions or diversions to the route.',
     disruptions: 'Disruptions',
     'disruptions-and-diversions': 'Disruptions and diversions',
+    'disruptions-change-filters': 'Please try again with different filters',
     'disruptions-found-amount':
       '{amount, plural, =0 {No disruptions found} one {Found 1 disruption} other {Found {amount} disruptions} }',
     'disruptions-tab.sr-disruptions': 'One or more known disruptions',
@@ -1781,6 +1782,7 @@ const translations = {
     'trip-page.description': 'Route {route_short_name} - {route_long_name}',
     'trip-page.title': 'Route {route_short_name}',
     'try-again': 'Try again',
+    upcoming: 'Upcoming',
     'use-citybike': 'Start using',
     'use-national-service-postfix': '.',
     'use-national-service-prefix':
@@ -2395,6 +2397,7 @@ const translations = {
       'Linjalla ei tiedossa olevia häiriöitä tai poikkeuksia.',
     disruptions: 'Häiriöt',
     'disruptions-and-diversions': 'Häiriöt ja poikkeukset',
+    'disruptions-change-filters': 'Kokeile uudestaan muuttamalla valintoja',
     'disruptions-found-amount':
       '{amount, plural, =0 {Tiedotteita ei löytynyt} one {Löytyi 1 tiedote} other {Löytyi {amount} tiedotetta} }',
     'disruptions-tab.sr-disruptions': 'Yksi tai useampi häiriö tiedossa',
@@ -3114,6 +3117,7 @@ const translations = {
     'trip-page.description': 'Linja {shortName}, {longName}',
     'trip-page.title': 'Linja {shortName}',
     'try-again': 'Yritä uudelleen',
+    upcoming: 'Tuleva',
     'use-citybike': 'Ota käyttöön',
     'use-national-service-postfix': '-palvelusta.',
     'use-national-service-prefix':
@@ -5357,6 +5361,7 @@ const translations = {
       'Linjen har för tillfället inga kända störningar eller avvikelser.',
     disruptions: 'Störningar',
     'disruptions-and-diversions': 'Störningar och avvikelser',
+    'disruptions-change-filters': 'Försök igen genom att ändra dina val.',
     'disruptions-found-amount':
       '{amount, plural, =0 {Inga störningar hittades} one {Hittades 1 störning} other {Hittades {amount} störningar} }',
     'disruptions-tab.sr-disruptions': 'En eller flera kända störningar',
@@ -6086,6 +6091,7 @@ const translations = {
     'trip-page.description': 'Linje {shortName} - {longName}',
     'trip-page.title': 'Linje {shortName}',
     'try-again': 'Försök igen',
+    upcoming: 'Kommande',
     'use-citybike': 'Ta i bruk',
     'use-national-service': 'Du kan också använda national tjänsten:',
     'use-national-service-postfix': '.',
