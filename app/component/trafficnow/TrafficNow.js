@@ -15,18 +15,19 @@ export default function TrafficNow() {
 
   return (
     <div className={cx('traffic-now')}>
-      <Gutterer
-        maxWidth="1440px"
-        leftGutterPadding={mobile ? undefined : '0 50px 0 0'}
-      >
+      <Gutterer maxWidth="1440px">
         <Header />
       </Gutterer>
       <div className="separator horizontal" />
       <Gutterer
         maxWidth="1440px"
-        leftBg="#fff"
-        rightBg="#f2f5f7"
-        leftGutterPadding={mobile ? undefined : '0 50px 0 0'}
+        leftGutterStyles={{
+          backgroundColor: 'var(--white)',
+        }}
+        rightGutterStyles={{
+          backgroundColor: 'var(--background-color-lighter)',
+        }}
+        containerStyles={{ height: '100%' }}
       >
         <div
           className={cx(
