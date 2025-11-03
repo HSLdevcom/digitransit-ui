@@ -38,6 +38,7 @@ function groupRoutesByMode(entities) {
         acc[route.mode].set(route.id, {
           id: route.id,
           shortName: route.shortName,
+          gtfsId: route.gtfsId,
         });
       }
     });
@@ -77,19 +78,20 @@ export default function RouteBadges({ entities }) {
       {Object.entries(routesByMode).map(([mode, routesMap]) => {
         const uniqueRoutes = getUniqueShortNameRoutes(routesMap);
         return (
-          <div
-            className="route-badges-mode flex-row vertically-centered"
-            key={mode}
-          >
+          <div className="route-badges-mode flex-row" key={mode}>
             <Icon
               img={`icon_${mode.toLowerCase()}`}
               height={2}
               width={2}
               color={colors.iconColors[`mode-${mode.toLowerCase()}`]}
             />
-            <div className={`route-badges-lines-row ${mode.toLowerCase()}`}>
-              {uniqueRoutes.map(({ id, shortName }) => (
-                <span key={id}>{shortName}</span>
+            <div
+              className={`route-badges-lines-row flex-row vertically-centered ${mode.toLowerCase()}`}
+            >
+              {uniqueRoutes.map(({ id, shortName, gtfsId }) => (
+                <a key={id} href={`/linjat/${gtfsId}`}>
+                  {shortName}
+                </a>
               ))}
             </div>
           </div>
