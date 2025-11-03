@@ -28,7 +28,9 @@ export const ItineraryDetailsFragment = graphql`
         contactInfo {
           bookingUrl
           infoUrl
+          phoneNumber
         }
+        message
       }
       steps {
         feature {

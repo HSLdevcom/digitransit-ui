@@ -1,4 +1,5 @@
 import Cookies from 'universal-cookie';
+import { PREFIX_ITINERARY_SUMMARY } from './path';
 
 /**
  * This file contains functions for UI analytics.
@@ -62,7 +63,29 @@ export function getAnalyticsInitCode(config, req) {
       );
     }
     if (config.crazyEgg) {
-      script = `${script}<script type="text/javascript" src="//script.crazyegg.com/pages/scripts/0030/3436.js" async="async" ></script>`;
+      const surveyShare = process.env.SURVEY_SHARE || 2;
+
+      const lang = cookies.get('lang');
+      let id;
+      switch (lang) {
+        case 'sv':
+          id = 'dd11434b-5a93-4daa-905e-3198ac502d1e';
+          break;
+        case 'en':
+          id = 'd2ffe981-45a8-43b9-aa1b-68e100aa1c12';
+          break;
+        default:
+          id = '470215ef-c02e-4123-a9de-2792c0fcaf97';
+          break;
+      }
+      const ce1 =
+        '<script type="text/javascript" src="//script.crazyegg.com/pages/scripts/0030/3436.js" async="async" ></script>';
+      // show survey conditions for certain share of page loads:
+      // - only in itinerary page
+      // - after 8 s delay
+      // - not when mobile time picker or mobile settings are open
+      const ce2 = `<script type="text/javascript">(window.CE_API||(window.CE_API=[])).push(function(){if(window.location.pathname.includes("${PREFIX_ITINERARY_SUMMARY}")&&(Math.floor(Date.now()/1000)%${surveyShare})===0){setTimeout(()=>{if(!document.getElementsByClassName('offcanvas-mobile')[0]&&!document.getElementById('digitransit-mobile-datetime')){CE2.showSurvey("${id}")};},8000);}});</script>`;
+      script = `${script}${ce1}${ce2}`;
     }
   }
   return script;

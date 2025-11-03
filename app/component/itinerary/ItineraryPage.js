@@ -527,7 +527,7 @@ export default function ItineraryPage(props, context) {
       const flexPlan = {
         edges: filterItinerariesByRouteType(
           plan.edges,
-          config.allowedFlexRouteTypes,
+          config.flex.allowedExternalFlexRouteTypes,
         ),
       };
       setRelaxFlexState({ plan: flexPlan, loading: LOADSTATE.DONE });
@@ -1077,7 +1077,7 @@ export default function ItineraryPage(props, context) {
           flexState.plan,
           plan,
           match.location.query.arriveBy === 'true',
-          config.allowedFlexRouteTypes,
+          config.flex.allowedExternalFlexRouteTypes,
         );
       }
 

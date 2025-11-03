@@ -86,7 +86,6 @@ export function RouteLeg(
   {
     leg,
     large,
-    intl,
     legLength,
     isTransitLeg,
     interliningWithRoute,
@@ -98,7 +97,6 @@ export function RouteLeg(
   },
   { config },
 ) {
-  let routeNumber;
   const mode = getRouteMode(leg.route, config);
 
   const getOccupancyStatus = () => {
@@ -108,41 +106,23 @@ export function RouteLeg(
     return undefined;
   };
 
-  if (mode === 'call') {
-    const message = intl.formatMessage({
-      id: 'pay-attention',
-      defaultMessage: 'Pay Attention',
-    });
-
-    routeNumber = (
-      <RouteNumber
-        mode="call"
-        text={message}
-        className={cx('line', 'call')}
-        vertical
-        withBar
-        isTransitLeg={isTransitLeg}
-      />
-    );
-  } else {
-    routeNumber = (
-      <RouteNumberContainer
-        alertSeverityLevel={getActiveLegAlertSeverityLevel(leg)}
-        route={leg.route}
-        className={cx('line', mode)}
-        interliningWithRoute={interliningWithRoute}
-        mode={mode}
-        vertical
-        withBar
-        isTransitLeg={isTransitLeg}
-        withBicycle={withBicycle}
-        withCar={withCar}
-        occupancyStatus={getOccupancyStatus()}
-        duration={Math.floor(leg.duration / 60)}
-        shortenLongText={shortenLabels}
-      />
-    );
-  }
+  const routeNumber = (
+    <RouteNumberContainer
+      alertSeverityLevel={getActiveLegAlertSeverityLevel(leg)}
+      route={leg.route}
+      className={cx('line', mode)}
+      interliningWithRoute={interliningWithRoute}
+      mode={mode}
+      vertical
+      withBar
+      isTransitLeg={isTransitLeg}
+      withBicycle={withBicycle}
+      withCar={withCar}
+      occupancyStatus={getOccupancyStatus()}
+      duration={Math.floor(leg.duration / 60)}
+      shortenLongText={shortenLabels}
+    />
+  );
   return (
     <Leg
       mode={mode}
@@ -156,7 +136,6 @@ export function RouteLeg(
 
 RouteLeg.propTypes = {
   leg: legShape.isRequired,
-  intl: intlShape.isRequired,
   large: PropTypes.bool.isRequired,
   legLength: PropTypes.number.isRequired,
   fitRouteNumber: PropTypes.bool.isRequired,
@@ -614,7 +593,6 @@ const Itinerary = (
             (fitAllRouteNumbers && !longName) || renderRouteNumberForALongLeg
           }
           interliningWithRoute={interliningWithRoute}
-          intl={intl}
           legLength={legLength}
           large={breakpoint === 'large'}
           withBicycle={withBicycle}
@@ -998,7 +976,12 @@ const Itinerary = (
               </div>
               <div className="overflow-icon-container">
                 {showOverflowIcon && (
-                  <Icon img="icon_three-dots" className="overflow-icon" />
+                  <Icon
+                    img="icon_three-dots"
+                    backgroundShape="circle"
+                    backgroundColor="#fff"
+                    className="overflow-icon"
+                  />
                 )}
               </div>
             </div>

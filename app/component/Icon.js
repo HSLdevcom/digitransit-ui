@@ -79,6 +79,7 @@ function Icon({
       <svg
         id={id}
         style={{
+          color: color || null,
           fill: color || null,
           height: height ? `${height}em` : null,
           width: width ? `${width}em` : null,
