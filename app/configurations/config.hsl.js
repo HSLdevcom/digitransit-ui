@@ -96,6 +96,7 @@ export default {
 
   feedIds: ['HSL', 'HSLlautta', 'Sipoo'],
   externalFeedIds: ['HSLlautta', '02Taksi'],
+  externalFerryByStopCode: true, // no stop code means external ferry
 
   allowLogin: true,
   allowFavouritesFromLocalstorage: !process.env.OIDC_CLIENT_ID,
@@ -149,19 +150,9 @@ export default {
     accessiblePrimary: '#0074be',
     hover: '#0062a1',
     iconColors: {
-      'mode-bus': '#007ac9',
       'mode-bus-express': '#CA4000',
       'mode-bus-local': '#007ac9',
-      'mode-rail': '#8c4799',
-      'mode-tram': '#008151',
-      'mode-ferry': '#007A97',
-      'mode-ferry-pier': '#666666',
-      'mode-metro': '#CA4000',
-      'mode-subway': '#CA4000',
-      'mode-citybike': '#f2b62d',
-      'mode-citybike-secondary': '#333333',
       'mode-speedtram': '#007E79',
-      'mode-replacement-bus': '#DC0451',
     },
   },
   getAutoSuggestIcons: {
@@ -558,8 +549,6 @@ export default {
 
   includeCarSuggestions: true,
   includeParkAndRideSuggestions: true,
-  // Park and ride and car suggestions separated into two switches
-  separatedParkAndRideSwitch: true,
 
   parkingAreaSources: ['liipi'],
 

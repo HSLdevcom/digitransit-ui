@@ -24,19 +24,6 @@ const StreetModeSelectorPanel = (
     executeAction(saveRoutingSettings, action);
   };
 
-  const overrideStyle = config.separatedParkAndRideSwitch
-    ? { borderBottom: '1px solid #e3e3e3' }
-    : {};
-
-  const prId =
-    config.includeParkAndRideSuggestions && config.includeCarSuggestions
-      ? 'park-and-ride'
-      : 'car';
-  const prIcon =
-    config.includeParkAndRideSuggestions && config.includeCarSuggestions
-      ? 'icon_car_park-withoutBox'
-      : 'icon_car-withoutBox';
-
   return (
     <div className="street-modes-container">
       <div className="transport-mode-subheader settings-header">
@@ -70,10 +57,10 @@ const StreetModeSelectorPanel = (
           bikeSpeed={currentSettings.bikeSpeed}
           defaultSettings={defaultSettings}
           bikeSpeedOptions={config.defaultOptions.bikeSpeed}
-          overrideStyle={overrideStyle}
+          overrideStyle={{ borderBottom: '1px solid #e3e3e3' }}
         />
 
-        {config.showBikeAndParkItineraries ? (
+        {config.showBikeAndParkItineraries && (
           <div className="settings-mode-option-container">
             {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
             <label
@@ -99,44 +86,14 @@ const StreetModeSelectorPanel = (
               </span>
             </label>
           </div>
-        ) : null}
-      </div>
-      {config.includeParkAndRideSuggestions &&
-        !config.separatedParkAndRideSwitch && (
-          <div key="mode-option-park-and-ride">
-            <div className="mode-option-container">
-              <div className="mode-option-block">
-                <div className="mode-icon">
-                  <Icon className="car-icon" img={prIcon} />
-                </div>
-                {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-                <label
-                  className="mode-name"
-                  htmlFor="settings-toggle-parkAndRide"
-                >
-                  <FormattedMessage
-                    className="mode-name"
-                    id={prId}
-                    defaultMessage="Park & Ride"
-                  />
-                  <Toggle
-                    id="settings-toggle-parkAndRide"
-                    toggled={currentSettings.includeParkAndRideSuggestions}
-                    onToggle={() =>
-                      onToggle('includeParkAndRideSuggestions', 'ParkAndRide')
-                    }
-                  />
-                </label>
-              </div>
-            </div>
-          </div>
         )}
+      </div>
       {config.includeCarSuggestions && (
         <div key="mode-option-car">
           <div className="mode-option-container">
             <div className="mode-option-block">
               <div className="mode-icon">
-                <Icon className="car-icon" img="icon_car-withoutBox" />
+                <Icon className="car-icon" img="icon_car" />
               </div>
               {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
               <label className="mode-name" htmlFor="settings-toggle-car">
@@ -153,8 +110,7 @@ const StreetModeSelectorPanel = (
               </label>
             </div>
           </div>
-          {config.includeParkAndRideSuggestions &&
-          config.separatedParkAndRideSwitch ? (
+          {config.includeParkAndRideSuggestions && (
             <div className="settings-mode-option-container">
               <label
                 className="settings-mode-option-label"
@@ -181,7 +137,7 @@ const StreetModeSelectorPanel = (
                 </span>
               </label>
             </div>
-          ) : null}
+          )}
         </div>
       )}
     </div>

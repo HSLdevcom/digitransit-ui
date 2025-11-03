@@ -1,6 +1,6 @@
 {
   "name": "@digitransit-component/digitransit-component-control-panel",
-  "version": "6.0.0",
+  "version": "6.0.1",
   "description": "digitransit-component control-panel module",
   "main": "index.js",
   "files": [

@@ -312,7 +312,7 @@ class FavouriteBar extends React.Component {
         >
           <SuggestionItem
             item={item}
-            iconColor={this.props.color}
+            color={this.props.color}
             className={className}
             fontWeights={this.props.fontWeights}
           />
@@ -336,7 +336,6 @@ class FavouriteBar extends React.Component {
       {
         name: this.translate('edit'),
         selectedIconId: 'edit',
-        iconColor: this.props.color,
       },
     ];
   };
@@ -429,7 +428,6 @@ class FavouriteBar extends React.Component {
                   {
                     ...item,
                     address,
-                    iconColor: this.props.color,
                   },
                   index,
                   `, ${this.translate('add-destination')}`,
@@ -440,10 +438,7 @@ class FavouriteBar extends React.Component {
               )}
               {this.getCustomSuggestions().map((item, index) =>
                 this.renderSuggestion(
-                  {
-                    ...item,
-                    iconColor: this.props.color,
-                  },
+                  item,
                   favourites.length + index,
                   undefined,
                   'favouriteCustom',

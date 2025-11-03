@@ -63,17 +63,9 @@ export default {
   colors: {
     primary: '#000',
     iconColors: {
-      'mode-airplane': '#0046AD',
-      'mode-bus': '#007ac9',
       'mode-tram': '#5E7921',
-      'mode-metro': '#CA4000',
       'mode-rail': '#000',
       'mode-ferry': '#247C7B',
-      'mode-ferry-pier': '#666666',
-      'mode-citybike': '#FCBC19',
-      'mode-citybike-secondary': '#333333',
-      'mode-scooter': '#C5CAD2',
-      'mode-taxi': '#647693',
     },
   },
   feedIds: IS_DEV
@@ -289,8 +281,6 @@ export default {
 
   includeCarSuggestions: true,
   includeParkAndRideSuggestions: true,
-  // Park and ride and car suggestions separated into two switches
-  separatedParkAndRideSwitch: true,
   showBikeAndParkItineraries: true,
 
   parkingAreaSources: ['liipi'],

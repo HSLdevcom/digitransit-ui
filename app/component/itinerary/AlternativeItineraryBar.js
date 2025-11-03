@@ -56,7 +56,7 @@ export default function AlternativeItineraryBar(
 
           {parkRidePlan?.edges?.length > 0 && (
             <StreetModeSelectorButton
-              icon="icon_car-withoutBox"
+              icon="icon_car"
               name={streetHash.parkAndRide}
               plan={parkRidePlan}
               onClick={selectStreetMode}
@@ -64,7 +64,7 @@ export default function AlternativeItineraryBar(
           )}
           {carPlan?.edges?.length > 0 && (
             <StreetModeSelectorButton
-              icon="icon_car-withoutBox"
+              icon="icon_car"
               name={streetHash.car}
               plan={carPlan}
               onClick={selectStreetMode}
@@ -72,7 +72,7 @@ export default function AlternativeItineraryBar(
           )}
           {carPublicPlan?.edges?.length > 0 && (
             <StreetModeSelectorButton
-              icon="icon_car-withoutBox"
+              icon="icon_car"
               name={streetHash.carAndVehicle}
               plan={carPublicPlan}
               onClick={selectStreetMode}

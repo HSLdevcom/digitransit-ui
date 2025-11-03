@@ -283,7 +283,7 @@ NearStopsAndRoutes.defaultProps = {
     'mode-bus': '#007ac9',
     'mode-rail': '#8c4799',
     'mode-tram': '#008151',
-    'mode-metro': '#ed8c00',
+    'mode-subway': '#ed8c00',
     'mode-ferry': '#007A97',
     'mode-citybike': '#F2B62D',
   },
