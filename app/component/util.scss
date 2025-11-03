@@ -353,7 +353,6 @@ select {
   display: flex;
   flex-direction: row;
   width: 100%;
-  height: 100%;
 
   .right-gutter,
   .left-gutter {
@@ -385,17 +384,12 @@ select {
     }
   }
 
+  &.warning,
   &.danger,
   &.severe {
     border-color: #fadbe5;
     color: $cancelation-red;
     background-color: #fdf3f6;
-  }
-
-  &.warning {
-    border-color: #fae6d1;
-    color: $slider-severe-color;
-    background-color: #fff8e8;
   }
 
   &.success {

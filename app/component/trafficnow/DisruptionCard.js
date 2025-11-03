@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import cx from 'classnames';
 import { useFragment } from 'react-relay';
 import { FormattedMessage } from 'react-intl';
+import Button from '@hsl-fi/button';
 import Card from '../Card';
 import { alertShape } from '../../util/shapes';
 import Icon from '../Icon';
@@ -13,6 +14,11 @@ import { getFormattedTimeDate } from '../../util/timeUtils';
 
 const DATE_FORMAT = 'd.L.yyyy';
 
+const handleExtraInfoClick = url => e => {
+  e.stopPropagation();
+  window.location.href = url;
+};
+
 export default function DisruptionCard({ alert }) {
   const {
     alertSeverityLevel,
@@ -22,6 +28,7 @@ export default function DisruptionCard({ alert }) {
     alertDescriptionText,
     effectiveStartDate,
     effectiveEndDate,
+    alertUrl,
   } = useFragment(DisruptionCardFragment, alert);
   const [isOpen, setOpen] = useState(false);
   const { colors } = useConfigContext();
@@ -36,10 +43,13 @@ export default function DisruptionCard({ alert }) {
   )} - ${getFormattedTimeDate(effectiveEndDate * 1000, DATE_FORMAT)}`;
 
   return (
-    <Card className="traffic-now__disruption-card">
+    <Card
+      className="traffic-now__disruption-card"
+      onClick={() => setOpen(!isOpen)}
+    >
       <div className="traffic-now__disruption-card__top-row">
         <Badge showIcon variant={alertSeverityLevel} label={alertEffect} />
-        <button type="button" onClick={() => setOpen(!isOpen)}>
+        <button type="button">
           <Icon
             img="icon_arrow-dropdown"
             color={colors.primary}
@@ -56,18 +66,42 @@ export default function DisruptionCard({ alert }) {
         />
       )}
       <h2>{alertHeaderText}</h2>
-      {isOpen && <p>{alertDescriptionText}</p>}
-      <div className="traffic-now__disruption-card__validity">
-        {isValid && (
-          <>
-            <div className="traffic-now__disruption-card__validity__valid">
-              <Icon img="icon_clock" />
-              <FormattedMessage id="valid" default="Active" />
-            </div>
-            <div className="separator vertical" />
-          </>
+      <div
+        className={cx('traffic-now__disruption-card__content', {
+          'traffic-now__disruption-card__content--open': isOpen,
+        })}
+      >
+        <p>{alertDescriptionText}</p>
+      </div>
+      <div className="traffic-now__disruption-card__bottom-row">
+        <div className="traffic-now__disruption-card__bottom-row-validity">
+          <div className="traffic-now__disruption-card__bottom-row-validity-icon">
+            {isValid ? (
+              <>
+                <Icon img="icon_clock" />
+                <FormattedMessage id="valid" default="Active" />
+              </>
+            ) : (
+              <>
+                <Icon img="icon_calendar" />
+                <FormattedMessage id="upcoming" default="Upcoming" />
+              </>
+            )}
+          </div>
+          <div className="separator vertical" />
+          {validityPeriod}
+        </div>
+        {alertUrl && isOpen && (
+          <div className="traffic-now__disruption-card__bottom-row-info">
+            <Button
+              size="small"
+              fullWidth
+              variant="white"
+              value={<FormattedMessage id="extra-info" default="Details" />}
+              onClick={handleExtraInfoClick(alertUrl)}
+            />
+          </div>
         )}
-        {validityPeriod}
       </div>
     </Card>
   );

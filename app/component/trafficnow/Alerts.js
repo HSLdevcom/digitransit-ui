@@ -6,19 +6,17 @@ import DisruptionCard from './DisruptionCard';
 import { useBreakpoint } from '../../util/withBreakpoint';
 import { useConfigContext } from '../../configurations/ConfigContext';
 import AlertsQuery from './queries/AlertsQuery';
+import NoAlerts from './NoAlerts';
 
 export default function Alerts() {
   const breakpoint = useBreakpoint();
   const { feedIds } = useConfigContext();
 
-  // Fetch alerts when component mounts
   const { alerts } = useLazyLoadQuery(AlertsQuery, {
     feedIds,
   });
 
   const desktop = breakpoint === 'large';
-
-  const rows = alerts.map(a => <DisruptionCard key={a.id} alert={a} />);
 
   return (
     <div
@@ -26,14 +24,23 @@ export default function Alerts() {
         'traffic-now__bottom__alerts--desktop': desktop,
       })}
     >
-      <FormattedMessage
-        id="disruptions-found-amount"
-        values={{ amount: alerts.length }}
-        defaultValue="Hello world!"
-      >
-        {msg => <h3>{msg}</h3>}
-      </FormattedMessage>
-      <div className="traffic-now__bottom__alerts-list">{rows}</div>
+      {alerts.length === 0 ? (
+        <NoAlerts />
+      ) : (
+        <>
+          <FormattedMessage
+            id="disruptions-found-amount"
+            values={{ amount: alerts.length }}
+            defaultValue="No disruptions found"
+            tagName="h3"
+          />
+          <div className="traffic-now__bottom__alerts-list">
+            {alerts.map(a => (
+              <DisruptionCard key={a.id} alert={a} />
+            ))}
+          </div>
+        </>
+      )}
     </div>
   );
 }

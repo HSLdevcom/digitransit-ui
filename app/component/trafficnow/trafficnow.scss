@@ -1,13 +1,14 @@
 // Layout: Main container
 .traffic-now {
+  --white: #{$white};
+  --background-color-lighter: #{$background-color-lighter};
+
   display: flex;
   flex-direction: column;
   height: 100%;
 
-  h2 {
-    margin: unset;
-  }
-
+  h2,
+  h3,
   p {
     margin: unset;
   }
@@ -18,11 +19,11 @@
 
   .separator {
     &.horizontal {
-      border-top: 1px solid #ddd;
+      border-top: 1px solid $light-gray;
     }
 
     &.vertical {
-      border-right: 1px solid #ddd;
+      border-right: 1px solid $light-gray;
     }
   }
 
@@ -31,6 +32,7 @@
     flex-direction: column;
     height: 216px;
     gap: 20px;
+    padding: 0 50px;
 
     /* h2 {
       font-size: 36px;
@@ -71,7 +73,7 @@
     align-content: center;
     height: 100%;
     justify-content: center;
-    background-color: #f2f5f7;
+    background-color: $background-color-lighter;
 
     &--mobile {
       padding: var(--space-m) var(--space-s) 0 var(--space-s);
@@ -84,8 +86,10 @@
       flex-direction: column;
       min-width: 320px;
       max-width: 480px;
-      background-color: #fff;
+      background-color: $white;
       flex-shrink: 0;
+      padding-left: 50px;
+      border-right: 1px solid $light-gray;
     }
 
     // Main content area
@@ -104,13 +108,20 @@
         gap: 4px;
       }
 
-      h3 {
-        padding-bottom: var(--space-s);
+      &--empty {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        background-color: $white;
+        border: 1px solid $light-gray;
+        border-radius: var(--radius-l);
+        gap: var(--space-s);
       }
 
       &--desktop {
-        border-left: 1px solid #ddd;
-        padding: var(--space-xl);
+        padding: var(--space-xl) 50px var(--space-xl) var(--space-xl);
         gap: var(--space-s);
 
         .list {
@@ -125,6 +136,18 @@
     flex-direction: column;
     padding: var(--space-l) var(--space-l) var(--space-m) var(--space-l);
     gap: var(--space-s);
+    border-radius: var(--radius-m);
+    border: 1px solid $light-gray;
+
+    &:hover &__icon {
+      transform: translateY(4px);
+      transition: transform 0.1s;
+
+      &--inverted {
+        transform: rotate(180deg) translateY(4px);
+        transition: transform 0.1s;
+      }
+    }
 
     &__top-row {
       display: flex;
@@ -136,16 +159,12 @@
       &--inverted {
         transform: rotate(180deg);
       }
-
-      &--info {
-        color: #0074bf;
-      }
     }
 
     .route-badges {
       display: flex;
       flex-wrap: wrap;
-      gap: var(--space-xxs);
+      gap: var(--space-xs);
 
       &-mode {
         gap: var(--space-xxs);
@@ -156,38 +175,60 @@
         flex-wrap: wrap;
         gap: var(--space-xxs);
 
-        &.bus span {
+        &.bus a {
           @include line-color($bus-color);
         }
 
-        &.metro span,
-        &.subway span {
+        &.metro a,
+        &.subway a {
           @include line-color($metro-color);
         }
 
-        &.tram span {
+        &.tram a {
           @include line-color($tram-color);
         }
 
-        &.rail span {
+        &.rail a {
           @include line-color($rail-color);
         }
 
-        span {
+        a {
+          color: $black;
           border-radius: var(--radius-s);
           padding: var(--space-xs) var(--space-xxs);
+          text-decoration: none;
         }
       }
     }
 
-    &__validity {
-      display: flex;
-      gap: var(--space-xs);
+    &__content {
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      transition:
+        max-height 0.2s cubic-bezier(0.4, 0.2, 0.2, 1),
+        opacity 0.1s ease-in 0.1s;
 
-      &__valid {
+      &--open {
+        max-height: 500px; // Should be larger than expected content height
+        opacity: 1;
+      }
+    }
+
+    &__bottom-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      &-validity {
         display: flex;
-        gap: 4px;
-        align-items: center;
+        gap: var(--space-xs);
+
+        &-icon {
+          display: flex;
+          gap: 4px;
+          align-items: center;
+        }
       }
     }
   }

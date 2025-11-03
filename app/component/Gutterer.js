@@ -1,53 +1,51 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
+import { stylesShape } from '../util/shapes';
 
 const Gutterer = ({
   children,
   className,
-  leftBg,
-  rightBg,
-  leftGutterPadding,
-  rightGutterPadding,
+  containerStyles,
+  leftGutterStyles,
+  rightGutterStyles,
+  contentStyles,
   maxWidth,
-}) => (
-  <div className={cx('gutterer', className)}>
-    <div
-      className="left-gutter"
-      style={{ backgroundColor: leftBg, padding: leftGutterPadding }}
-    />
-    <div
-      className="gutterer-content"
-      style={
-        maxWidth ? { maxWidth, margin: '0 auto', width: '100%' } : undefined
-      }
-    >
-      {children}
+}) => {
+  const contentStylesWithMaxWidth = {
+    ...contentStyles,
+    maxWidth,
+    margin: maxWidth ? '0 auto' : undefined,
+    width: maxWidth ? '100%' : undefined,
+  };
+
+  return (
+    <div className={cx('gutterer', className)} style={containerStyles}>
+      <div className="left-gutter" style={leftGutterStyles} />
+      <div className="gutterer-content" style={contentStylesWithMaxWidth}>
+        {children}
+      </div>
+      <div className="right-gutter" style={rightGutterStyles} />
     </div>
-    <div
-      className="right-gutter"
-      style={{ backgroundColor: rightBg, padding: rightGutterPadding }}
-    />
-  </div>
-);
+  );
+};
 
 Gutterer.propTypes = {
   children: PropTypes.node.isRequired,
   className: PropTypes.string,
-  maxWidth: PropTypes.string,
-  leftBg: PropTypes.string,
-  rightBg: PropTypes.string,
-  leftGutterPadding: PropTypes.string,
-  rightGutterPadding: PropTypes.string,
+  maxWidth: PropTypes.string.isRequired,
+  containerStyles: stylesShape,
+  leftGutterStyles: stylesShape,
+  rightGutterStyles: stylesShape,
+  contentStyles: stylesShape,
 };
 
 Gutterer.defaultProps = {
   className: undefined,
-  maxWidth: undefined,
-  leftBg: 'inherit',
-  rightBg: 'inherit',
-  leftGutterPadding: 'inherit',
-  rightGutterPadding: 'inherit',
+  containerStyles: {},
+  leftGutterStyles: {},
+  rightGutterStyles: {},
+  contentStyles: {},
 };
 
 export default Gutterer;

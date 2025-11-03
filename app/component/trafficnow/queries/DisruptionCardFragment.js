@@ -9,6 +9,7 @@ export default graphql`
     alertSeverityLevel
     effectiveStartDate
     effectiveEndDate
+    alertUrl
     entities {
       __typename
       ... on Stop {
@@ -17,18 +18,21 @@ export default graphql`
         code
         gtfsId
         routes {
+          gtfsId
           id
           mode
           shortName
         }
       }
       ... on Route {
+        gtfsId
         id
         mode
         shortName
       }
       ... on StopOnRoute {
         route {
+          gtfsId
           id
           mode
           shortName
