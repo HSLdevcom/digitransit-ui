@@ -950,7 +950,12 @@ const Itinerary = (
               </div>
               <div className="overflow-icon-container">
                 {showOverflowIcon && (
-                  <Icon img="icon_three-dots" className="overflow-icon" />
+                  <Icon
+                    img="icon_three-dots"
+                    backgroundShape="circle"
+                    backgroundColor="#fff"
+                    className="overflow-icon"
+                  />
                 )}
               </div>
             </div>
