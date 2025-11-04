@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { useRef, useState } from 'react';
 import { isAnyLegPropertyIdentical, isRental } from '../../../util/legUtils';
-import { getRouteMode } from '../../../util/modeUtils';
+import { getRouteMode, transitIconName } from '../../../util/modeUtils';
 import { configShape, legShape } from '../../../util/shapes';
 import Icon from '../../Icon';
 import NaviCardExtension from './NaviCardExtension';
@@ -11,20 +11,11 @@ import usePrevious from './hooks/usePrevious';
 
 const iconMap = {
   BICYCLE: 'icon_cyclist',
-  CAR: 'icon_car-withoutBox',
+  CAR: 'icon_car',
   SCOOTER: 'icon_scooter_rider',
   WALK: 'icon_walk',
   WAIT: 'icon_navigation_wait',
-  BUS: 'icon_bus',
-  RAIL: 'icon_rail',
-  SUBWAY: 'icon_subway',
-  TRAM: 'icon_tram',
-  FERRY: 'icon_ferry',
-  'FERRY-EXTERNAL': 'icon_ferry-external',
   CALL: 'icon_call',
-  'BUS-EXPRESS': 'icon_bus-express',
-  'BUS-LOCAL': 'icon_bus-local',
-  SPEEDTRAM: 'icon_speedtram',
   WAIT_IN_VEHICLE: 'icon_wait',
 };
 
@@ -61,8 +52,7 @@ export default function NaviCard(
   if (legType === LEGTYPE.TRANSIT) {
     const m = getRouteMode(leg.route, config);
     iconColor = config.colors.iconColors[`mode-${m}`] || leg.route.color;
-    iconName = iconMap[m.toUpperCase()];
-
+    iconName = transitIconName(m, false);
     instructions = `navileg-in-transit`;
   } else if (
     legType !== LEGTYPE.WAIT &&

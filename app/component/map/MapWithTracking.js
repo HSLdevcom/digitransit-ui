@@ -9,7 +9,7 @@ import { intlShape } from 'react-intl';
 import { mapLayerOptionsShape, configShape } from '../../util/shapes';
 import { startLocationWatch } from '../../action/PositionActions';
 import MapContainer from './MapContainer';
-import ToggleMapTracking from '../ToggleMapTracking';
+import ToggleMapTracking from './ToggleMapTracking';
 import PositionStore from '../../store/PositionStore';
 import { mapLayerShape } from '../../store/MapLayerStore';
 import BubbleDialog from '../BubbleDialog';
@@ -320,12 +320,15 @@ class MapWithTrackingStateHandler extends React.Component {
     }
     this.refresh = false;
 
-    // eslint-disable-next-line no-nested-ternary
-    const img = position.locationingFailed
-      ? 'icon-tracking-off-v2'
-      : this.state.mapTracking
-        ? 'icon-tracking-on-v2'
-        : 'icon-tracking-offline-v2';
+    let img;
+    let color;
+    if (position.locationingFailed) {
+      img = 'icon-tracking-off';
+      color = '#888';
+    } else {
+      img = 'icon-tracking';
+      color = this.state.mapTracking ? '#007ac9' : '#78909c';
+    }
     // eslint-disable-next-line no-nested-ternary
     const ariaLabel = position.locationingFailed
       ? this.context.intl.formatMessage({ id: 'tracking-button-offline' })
@@ -372,8 +375,8 @@ class MapWithTrackingStateHandler extends React.Component {
               )}
               {renderCustomButtons && renderCustomButtons()}
               <ToggleMapTracking
-                key="toggleMapTracking"
                 img={img}
+                color={color}
                 ariaLabel={ariaLabel}
                 handleClick={() => {
                   if (this.state.mapTracking) {
@@ -382,7 +385,6 @@ class MapWithTrackingStateHandler extends React.Component {
                     this.enableMapTracking();
                   }
                 }}
-                className="icon-mapMarker-toggle-positioning"
               />
             </div>
           }

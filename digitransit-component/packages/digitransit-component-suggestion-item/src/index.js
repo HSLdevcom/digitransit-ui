@@ -12,6 +12,22 @@ const extendedModes = {
   900: 'speedtram',
 };
 
+const iconColors = {
+  'mode-airplane': '#0046AD',
+  'mode-bus': '#007ac9',
+  'mode-bus-express': '#CA4000',
+  'mode-bus-local': '#007ac9',
+  'mode-rail': '#8c4799',
+  'mode-tram': '#008151',
+  'mode-speedtram': '#007E79',
+  'mode-subway': '#ed8c00',
+  'mode-ferry': '#007A97',
+  'mode-ferry-external': '#666666',
+  'mode-funicular': '#ff00ff',
+  'mode-citybike': '#f2b62d',
+  'mode-citybike-secondary': '#333333',
+};
+
 const getRouteMode = (props, set) => {
   let eMode;
   if (set === 'default') {
@@ -23,24 +39,11 @@ const getRouteMode = (props, set) => {
 const iconProps = {
   bikestation: ['citybike'],
   currentPosition: ['locate'],
-  favouritePlace: ['star'],
-  favouriteRoute: ['star'],
-  favouriteStop: ['star'],
-  favouriteStation: ['star'],
-  favouriteVehicleRentalStation: ['star'],
-  favourite: ['star'],
   stop: ['busstop'],
   locality: ['city'],
   station: ['station'],
   localadmin: ['city'],
   neighbourhood: ['city'],
-  'route-BUS': ['mode-bus'],
-  'route-TRAM': ['mode-tram'],
-  'route-RAIL': ['mode-rail'],
-  'route-SUBWAY': ['subway'],
-  'route-FERRY': ['mode-ferry'],
-  'route-FUNICULAR': ['mode-funicular'],
-  'route-AIRPLANE': ['airplane'],
   edit: ['edit'],
   'icon-icon_home': ['home'],
   'icon-icon_work': ['work'],
@@ -70,18 +73,18 @@ const iconProps = {
   'RAIL-STATION-digitransit': ['search-rail-station-digitransit', 'mode-rail'],
   'TRAM-default': ['search-tram-stop-default', 'mode-tram'],
   'TRAM-digitransit': ['search-tram-stop-digitransit', 'mode-tram'],
-  'SUBWAY-default': ['subway', 'mode-metro'],
-  'SUBWAY-digitransit': ['subway', 'mode-metro'],
-  'SUBWAY-STATION-default': ['subway', 'mode-metro'],
-  'SUBWAY-STATION-digitransit': ['subway', 'mode-metro'],
+  'SUBWAY-default': ['subway', 'mode-subway'],
+  'SUBWAY-digitransit': ['subway', 'mode-subway'],
+  'SUBWAY-STATION-default': ['subway', 'mode-subway'],
+  'SUBWAY-STATION-digitransit': ['subway', 'mode-subway'],
   'SPEEDTRAM-STATION-default': ['mode-speedtram', 'mode-speedtram'],
   'TRAM-STATION-default': ['mode-tram', 'mode-tram'],
   'TRAM-STATION-digitransit': ['mode-tram', 'mode-tram'],
   'SPEEDTRAM-STATION-digitransit': ['mode-tram', 'mode-tram'],
   'FERRY-STATION-default': ['search-ferry-default', 'mode-ferry'],
   'FERRY-STATION-digitransit': ['search-ferry-digitransit', 'mode-ferry'],
-  'FERRY-default': ['search-ferry-stop-default', 'mode-ferry-pier'],
-  'FERRY-digitransit': ['search-ferry-stop-digitransit', 'mode-ferry-pier'],
+  'FERRY-default': ['search-ferry-stop-default', 'mode-ferry-external'],
+  'FERRY-digitransit': ['search-ferry-stop-digitransit', 'mode-ferry-external'],
   'AIRPLANE-digitransit': ['search-airplane-digitransit', 'mode-airplane'],
   'BUS-TRAM-STATION-digitransit': [
     'search-bustram-stop-digitransit',
@@ -100,26 +103,15 @@ function getAriaDescription(ariaContentArray) {
   return description?.toLowerCase();
 }
 
-function getIconProperties(
-  item,
-  color,
-  modeSet,
-  stopCode,
-  getIcons,
-  modes = undefined,
-) {
+function getIconProperties(item, modeSet, stopCode, modes) {
   let iconId;
-  let iconColor = '#888888';
-  if (item.properties?.layer === 'bikestation' && getIcons) {
-    return getIcons.citybikes(item);
-  }
+
   // because of legacy favourites there might be selectedIconId for some stops or stations
   // but we do not want to show those icons
-  if (item.type === 'FavouriteStop') {
-    iconId = 'favouriteStop';
-  } else if (item.type === 'FavouriteVehicleRentalStation') {
-    iconId = 'favouriteVehicleRentalStation';
-  } else if (
+  if (isFavourite(item)) {
+    return ['star'];
+  }
+  if (
     item.type === 'Route' ||
     (item.type === 'OldSearch' && item.properties?.mode)
   ) {
@@ -127,28 +119,23 @@ function getIconProperties(
     return modeSet === 'default'
       ? [`mode-${mode}`, `mode-${mode}`]
       : [`mode-${modeSet}-${mode}`, `mode-${mode}`];
-  } else if (item.selectedIconId) {
+  }
+  if (item.selectedIconId) {
     iconId = item.selectedIconId;
   } else if (item.properties) {
     if (item.properties.layer === 'bikestation') {
       return [`citybike-stop-${modeSet}`, 'mode-citybike'];
     }
     if (item.properties.layer === 'carpark') {
-      return [`car-park`, 'mode-carpark'];
+      return [`car-park`];
     }
     if (item.properties.layer === 'bikepark') {
-      return [`bike-park`, 'mode-bikepark'];
+      return [`bike-park`];
     }
     if (item.properties.label?.split(',').length === 1 && !isFavourite(item)) {
-      iconId = 'localadmin'; // plain city name
-    } else {
-      iconId = item.properties.selectedIconId || item.properties.layer;
+      return ['city'];
     }
-  }
-  if (iconId === 'currentPosition' || isFavourite(item)) {
-    iconColor = color;
-  } else if (item.iconColor) {
-    iconColor = item.iconColor;
+    iconId = item.properties.layer;
   }
   // Use more accurate icons in stop/station search, depending on mode from geocoding
   if (modes?.length) {
@@ -170,14 +157,7 @@ function getIconProperties(
     const props = iconProps[`${mode}-${modeSet}`];
     return props || ['busstop', 'mode-bus'];
   }
-  let props;
-  if (iconId) {
-    props = iconProps[iconId];
-    if (props?.length === 1) {
-      props.push(iconColor);
-    }
-  }
-  return props || ['place', iconColor];
+  return iconProps[iconId] || ['place'];
 }
 
 /** *
@@ -221,30 +201,35 @@ const SuggestionItem = memo(
   }) => {
     const [suggestionType, name, label, stopCode, modes, platform] =
       content || ['', item.name, item.address];
-    const [iconId, iconColor] = getIconProperties(
-      item,
-      color,
-      modeSet,
-      stopCode,
-      getAutoSuggestIcons,
-      modes,
-    );
-    const modeIconColor = modeIconColors[iconColor] || modeIconColors[iconId];
+
+    let iconId;
+    let iconColor;
+    if (
+      item.properties?.layer &&
+      getAutoSuggestIcons?.[item.properties?.layer]
+    ) {
+      [iconId, iconColor] = getAutoSuggestIcons[item.properties?.layer](item);
+    } else {
+      let colorId;
+      [iconId, colorId] = getIconProperties(item, modeSet, stopCode, modes);
+      if (item.properties?.color) {
+        iconColor = `#${item.properties.color}`;
+      } else if (iconId === 'locate' || isFavourite(item)) {
+        iconColor = color;
+      } else {
+        iconColor = modeIconColors?.[colorId] || iconColors[colorId] || '#888';
+      }
+    }
+    // console.log(item, iconId, iconColor);
     // Arrow clicked is for street. Instead of selecting item when a user clicks on arrow,
     // It fills the input field.
     const [arrowClicked, setArrowClicked] = useState(false);
+
     const icon = (
       <span
         className={`${styles[iconId]} ${item.properties?.mode?.toLowerCase()}`}
       >
-        <Icon
-          color={
-            item.properties?.color
-              ? `#${item.properties.color}`
-              : modeIconColor || iconColor
-          }
-          img={iconId}
-        />
+        <Icon color={iconColor} img={iconId} />
       </span>
     );
     let ariaParts;
@@ -463,7 +448,6 @@ SuggestionItem.propTypes = {
     type: PropTypes.string,
     address: PropTypes.string,
     selectedIconId: PropTypes.string,
-    iconColor: PropTypes.string,
     translatedText: PropTypes.string,
     properties: PropTypes.shape({
       layer: PropTypes.string,
@@ -511,18 +495,7 @@ SuggestionItem.defaultProps = {
   fontWeights: {
     medium: 500,
   },
-  modeIconColors: {
-    'mode-bus': '#007ac9',
-    'mode-rail': '#8c4799',
-    'mode-tram': '#008151',
-    'mode-metro': '#ed8c00',
-    'mode-ferry': '#007A97',
-    'mode-ferry-pier': '#666666',
-    'mode-funicular': '#ff00ff',
-    'mode-citybike': '#f2b62d',
-    'mode-bus-express': '#CA4000',
-    'mode-bus-local': '#007ac9',
-  },
+  modeIconColors: undefined,
   getAutoSuggestIcons: {
     citybikes: station => {
       if (station.properties.source === 'citybikessmoove') {

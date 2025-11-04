@@ -153,7 +153,7 @@ describe('OldSearchesStore', () => {
     });
 
     it('should filter by timestamp', () => {
-      const timestamp = () => new DateTime(2018, 2, 18);
+      const timestamp = () => DateTime.local(2018, 2, 18);
       MockDate.set(timestamp());
       setOldSearchesStorage({
         version: STORE_VERSION,
@@ -197,7 +197,7 @@ describe('OldSearchesStore', () => {
     });
 
     it('should ignore a missing timestamp', () => {
-      const timestamp = new DateTime(2018, 2, 18);
+      const timestamp = DateTime.local(2018, 2, 18);
       MockDate.set(timestamp);
       setOldSearchesStorage({
         version: STORE_VERSION,
@@ -226,7 +226,7 @@ describe('OldSearchesStore', () => {
     });
 
     it('should apply the current timestamp', () => {
-      const timestamp = new DateTime(2018, 2, 18);
+      const timestamp = DateTime.local(2018, 2, 18);
       MockDate.set(timestamp);
 
       const store = new OldSearchesStore();

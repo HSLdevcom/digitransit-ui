@@ -56,7 +56,7 @@ const ItineraryCircleLineLong = props => {
   const bottomMarker = getMarker(false);
   const legBeforeLineStyle = { color: props.color };
   const carBoardingRouteNumber = (
-    <RouteNumber mode="car" icon="icon_car-withoutBox" vertical />
+    <RouteNumber mode="car" icon="icon_car" vertical />
   );
   legBeforeLineStyle.backgroundImage = imgUrl;
   return (

@@ -160,16 +160,16 @@ export default {
 
   nationalServiceLink: {
     fi: {
-      name: 'matka.fi',
-      href: 'https://opas.matka.fi/',
+      name: 'matka.fintraffic.fi',
+      href: 'https://matka.fintraffic.fi/',
     },
     sv: {
-      name: 'matka.fi',
-      href: 'https://opas.matka.fi/sv/',
+      name: 'matka.fintraffic.fi',
+      href: 'https://matka.fintraffic.fi/',
     },
     en: {
-      name: 'matka.fi',
-      href: 'https://opas.matka.fi/en/',
+      name: 'matka.fintraffic.fi',
+      href: 'https://matka.fintraffic.fi/',
     },
   },
 
@@ -190,8 +190,6 @@ export default {
 
   includeCarSuggestions: true,
   includeParkAndRideSuggestions: true,
-  // Park and ride and car suggestions separated into two switches
-  separatedParkAndRideSwitch: true,
   showBikeAndParkItineraries: true,
   parkingAreaSources: ['liipi'],
 

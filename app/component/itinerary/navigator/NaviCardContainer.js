@@ -16,7 +16,6 @@ import {
   LEGTYPE,
 } from './NaviUtils';
 import usePrevious from './hooks/usePrevious';
-import { usePushNotification } from './hooks/usePushNotification';
 
 const HIDE_TOPCARD_DURATION = 2000; // milliseconds
 
@@ -65,8 +64,7 @@ function NaviCardContainer(
   const focusRef = useRef(false);
 
   const { intl, config, match, router } = context;
-  const { createNotification, notificationConsent } =
-    usePushNotification(config);
+
   const handleRemove = index => {
     const msg = messages.get(activeMessages[index].id);
     msg.closed = true; // remember closing action
@@ -75,9 +73,6 @@ function NaviCardContainer(
 
   function addMessages(incomingMessages, newMessages) {
     newMessages.forEach(m => {
-      if (!messages.get(m.id)) {
-        createNotification(m.title, m.body);
-      }
       incomingMessages.set(m.id, m);
     });
   }
@@ -206,14 +201,12 @@ function NaviCardContainer(
     className = 'show-card';
   }
   return (
-    // TODO Create proper button for asking notification permissions.
     // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
     <div
       className={`navi-card-container ${className}`}
       style={{ top: containerTopPosition }}
       aria-live={legChanging ? undefined : 'polite'}
       aria-hidden={legChanging ? 'true' : 'false'}
-      onClick={() => notificationConsent()}
     >
       <NaviCard
         leg={l}

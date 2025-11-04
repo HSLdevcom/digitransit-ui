@@ -3,6 +3,7 @@ import React from 'react';
 import cx from 'classnames';
 import { intlShape } from 'react-intl';
 import { configShape } from '../util/shapes';
+import { transitIconName } from '../util/modeUtils';
 import IconWithBigCaution from './IconWithBigCaution';
 import IconWithIcon from './IconWithIcon';
 import Icon from './Icon';
@@ -62,12 +63,13 @@ function RouteNumber(props, context) {
     badgeText,
     badgeTextFill,
   ) => {
+    const iconName = icon || transitIconName(mode, false);
     if (isCallAgency) {
       return (
         <IconWithIcon
           color={color}
           className={`${mode} call`}
-          img={icon || `icon_${mode}`}
+          img={iconName}
           subIcon="icon_call"
         />
       );
@@ -80,7 +82,7 @@ function RouteNumber(props, context) {
             alertSeverityLevel={alertSeverityLevel}
             color={color}
             className={mode}
-            img={icon || `icon_${mode}`}
+            img={iconName}
             omitViewBox
           />
           {withBicycle && (
@@ -90,10 +92,7 @@ function RouteNumber(props, context) {
             />
           )}
           {withCar && (
-            <Icon
-              img="icon_car-withoutBox"
-              className="itinerary-icon_with-car"
-            />
+            <Icon img="icon_car" className="itinerary-icon_with-car" />
           )}
         </React.Fragment>
       );
@@ -111,7 +110,7 @@ function RouteNumber(props, context) {
               props.icon &&
               props.icon.includes('secondary'), // Vantaa citybike station
           })}
-          img={icon || `icon_${mode}`}
+          img={iconName}
           subIcon=""
           mode={mode}
           omitViewBox
@@ -122,9 +121,7 @@ function RouteNumber(props, context) {
             className="itinerary-icon_with-bicycle"
           />
         )}
-        {withCar && (
-          <Icon img="icon_car-withoutBox" className="itinerary-icon_with-car" />
-        )}
+        {withCar && <Icon img="icon_car" className="itinerary-icon_with-car" />}
       </React.Fragment>
     );
   };

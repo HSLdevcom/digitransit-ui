@@ -1,12 +1,12 @@
 /* eslint no-console: ["error", { allow: ["warn", "error"] }] */
 /* eslint react/forbid-prop-types: 0 */
 import PropTypes from 'prop-types';
-import React, { useEffect } from 'react';
+import React from 'react';
 import cx from 'classnames';
-import i18next from 'i18next';
+import { I18nextProvider, useTranslation } from 'react-i18next';
 import Modal from '@hsl-fi/modal';
 import styles from './helpers/styles.scss';
-import translations from './helpers/translations';
+import i18n from './helpers/i18n';
 
 const isKeyboardSelectionEvent = event => {
   const space = [13, ' ', 'Spacebar'];
@@ -42,17 +42,13 @@ const DialogModal = ({
   hoverColor,
   fontWeights,
 }) => {
-  useEffect(() => {
-    Object.keys(translations).forEach(l =>
-      i18next.addResourceBundle(l, 'translation', translations[l], true),
-    );
-  }, []);
+  const [t] = useTranslation();
 
   return (
     <Modal
       appElement={appElement}
       contentLabel={modalAriaLabel}
-      closeButtonLabel={i18next.t('close-modal', { lng: lang })}
+      closeButtonLabel={t('close-modal', { lng: lang })}
       variant="confirmation"
       isOpen={isModalOpen}
       onCrossClick={handleClose}
@@ -154,4 +150,8 @@ DialogModal.contextTypes = {
   config: PropTypes.object,
 };
 
-export default DialogModal;
+export default props => (
+  <I18nextProvider i18n={i18n}>
+    <DialogModal {...props} />
+  </I18nextProvider>
+);

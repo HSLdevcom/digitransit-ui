@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
 import { DateTime, Settings } from 'luxon';
+import { useTranslation } from 'react-i18next';
 import Select from 'react-select';
-import i18next from 'i18next';
 import cx from 'classnames';
 import { parseTypedTime, validateInput, getTs } from './utils';
 import styles from './styles.scss';
@@ -46,6 +46,7 @@ function DesktopDatetimepicker({
   translationSettings,
 }) {
   Settings.defaultZone = timeZone;
+  const [t] = useTranslation();
   const [displayValue, changeDisplayValue] = useState(getDisplay(value));
   const [typing, setTyping] = useState(false);
   const [showAllOptions, setShowAllOptions] = useState(true);
@@ -99,8 +100,8 @@ function DesktopDatetimepicker({
       setTyping(true);
     }
   };
-  const options = timeChoices.map(t => {
-    return { value: t.toString(), label: getDisplay(t) };
+  const options = timeChoices.map(time => {
+    return { value: time.toString(), label: getDisplay(time) };
   });
 
   // Time picker has a list of minutes, instead of 15 minutes. We need to filter those out
@@ -124,7 +125,7 @@ function DesktopDatetimepicker({
       ? option.label.split(':')[0] === comp.split(':')[0]
       : true;
   };
-  const ariaError = i18next.t('invalid-input', translationSettings);
+  const ariaError = t('invalid-input', translationSettings);
   return (
     <label className={styles['combobox-container']} htmlFor={inputId}>
       <span className={styles['sr-only']} id={labelId}>
@@ -222,8 +223,8 @@ function DesktopDatetimepicker({
             const optH = option.label.split(':')[0];
             const optM = option.label.split(':')[1];
             if (inputH === optH) {
-              const t = Number(inputM) * 10;
-              const total = Number(optM) - t;
+              const time = Number(inputM) * 10;
+              const total = Number(optM) - time;
               if (total >= 0 && total <= 9) {
                 return true;
               }

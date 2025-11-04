@@ -15,10 +15,10 @@ $livi-blue: #000f94;
 $livi-gold: rgb(233, 171, 0);
 $livi-bus-blue: rgb(0, 136, 206);
 $livi-airplane-blue: #1a4a8f;
-$livi-ferry-blue: #247c7b;
-$livi-rail-purple: rgb(175, 141, 188);
-$livi-subway-orange: rgb(237, 140, 0);
-$livi-tram-green: rgb(106, 137, 37);
+$livi-ferry-blue: #007a97;
+$livi-rail-purple: #8c4799;
+$livi-subway-orange: #ca4000;
+$livi-tram-green: #008151;
 $livi-funicular-pink: #f0f;
 
 /* Application palette */
@@ -72,7 +72,7 @@ $route-title-margin: 2.7em;
 
 /* Vehicle palette */
 $airplane-color: $livi-airplane-blue;
-$bus-color: $livi-bus-blue;
+$bus-color: #007ac9;
 $bus-express-color: $livi-bus-blue;
 $speedtram-color: $livi-tram-green;
 $tram-color: $livi-tram-green;

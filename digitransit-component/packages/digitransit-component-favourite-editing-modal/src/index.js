@@ -1,9 +1,9 @@
 /* eslint react/forbid-prop-types: 0 */
 import PropTypes from 'prop-types';
 import React from 'react';
+import { I18nextProvider, withTranslation } from 'react-i18next';
 import { ReactSortable } from 'react-sortablejs';
 import cx from 'classnames';
-import i18next from 'i18next';
 import differenceWith from 'lodash/differenceWith';
 import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
@@ -15,11 +15,7 @@ import DialogModal from '@digitransit-component/digitransit-component-dialog-mod
 import { formatFavouritePlaceLabel } from '@digitransit-search-util/digitransit-search-util-uniq-by-label';
 import ModalContent from './helpers/ModalContent';
 import styles from './helpers/styles.scss';
-import translations from './helpers/translations';
-
-Object.keys(translations).forEach(lang =>
-  i18next.addResourceBundle(lang, 'translation', translations[lang], true),
-);
+import i18n from './helpers/i18n';
 
 const isKeyboardSelectionEvent = event => {
   const space = [13, ' ', 'Spacebar'];
@@ -75,6 +71,7 @@ class FavouriteEditingModal extends React.Component {
       }),
     ).isRequired,
     lang: PropTypes.string,
+    t: PropTypes.func.isRequired,
     appElement: PropTypes.string.isRequired,
     isModalOpen: PropTypes.bool.isRequired,
     isMobile: PropTypes.bool,
@@ -125,7 +122,7 @@ class FavouriteEditingModal extends React.Component {
   }
 
   translate = (id, options) => {
-    return i18next.t(id, {
+    return this.props.t(id, {
       lng: this.props.lang,
       ...options,
     });
@@ -378,4 +375,12 @@ class FavouriteEditingModal extends React.Component {
   }
 }
 
-export default FavouriteEditingModal;
+const FavouriteEditingModalWithTranslation = withTranslation()(
+  FavouriteEditingModal,
+);
+
+export default props => (
+  <I18nextProvider i18n={i18n}>
+    <FavouriteEditingModalWithTranslation {...props} />
+  </I18nextProvider>
+);

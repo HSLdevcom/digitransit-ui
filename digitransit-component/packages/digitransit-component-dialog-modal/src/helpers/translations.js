@@ -1,18 +1,28 @@
 const translations = {
   de: {
-    'close-modal': 'Schließe den Dialog',
+    translation: {
+      'close-modal': 'Schließe den Dialog',
+    },
   },
   en: {
-    'close-modal': 'Close the modal',
+    translation: {
+      'close-modal': 'Close the modal',
+    },
   },
   fi: {
-    'close-modal': 'Sulje modaali',
+    translation: {
+      'close-modal': 'Sulje modaali',
+    },
   },
   pl: {
-    'close-modal': 'Zamknij modal',
+    translation: {
+      'close-modal': 'Zamknij modal',
+    },
   },
   sv: {
-    'close-modal': 'Stäng modalen',
+    translation: {
+      'close-modal': 'Stäng modalen',
+    },
   },
 };
 

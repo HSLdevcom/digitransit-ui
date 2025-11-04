@@ -7,7 +7,6 @@ import makeRouteConfig from 'found/makeRouteConfig';
 import { Resolver } from 'found-relay';
 import provideContext from 'fluxible-addons-react/provideContext';
 import debug from 'debug';
-import i18next from 'i18next';
 import {
   RelayNetworkLayer,
   urlMiddleware,
@@ -22,6 +21,7 @@ import { ReactRelayContext } from 'react-relay';
 import { setRelayEnvironment } from '@digitransit-search-util/digitransit-search-util-query-utils';
 import { Settings } from 'luxon';
 import { configShape } from './util/shapes';
+import i18n from './i18n';
 import { historyMiddlewares, render } from './routes';
 import StoreListeningIntlProvider from './util/StoreListeningIntlProvider';
 import appCreator from './app';
@@ -123,16 +123,7 @@ async function init() {
     .getStore('PreferencesStore')
     .getLanguage();
 
-  await i18next.init({
-    lang: language,
-    fallbackLng: 'fi',
-    defaultNS: 'translation',
-    // debug: true,
-    interpolation: {
-      escapeValue: false, // not needed for react as it escapes by default
-    },
-    resources: {},
-  });
+  i18n.changeLanguage(language);
 
   const network = new RelayNetworkLayer([
     cacheMiddleware({

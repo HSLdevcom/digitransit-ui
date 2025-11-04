@@ -24,13 +24,15 @@ export default function CardHeader(
     icons,
     unlinked,
     showBackButton,
-    headerConfig,
     favouriteContainer,
     isTerminal,
   },
   { config },
 ) {
   const headerTitle = stop.name ? stop.name : name;
+  // Station query does not return zoneId, so dig it up from child stops
+  const zoneId =
+    isTerminal && stop.stops.length ? stop.stops[0].zoneId : stop.zoneId;
   return (
     <Fragment>
       <div className={cx('card-header', className)}>
@@ -64,13 +66,12 @@ export default function CardHeader(
                   isTerminal={isTerminal}
                 />
               </div>
-              {headerConfig &&
-                config.zones.stops &&
-                stop.zoneId &&
+              {config.zones?.stops &&
+                zoneId &&
                 stop.gtfsId &&
                 config.feedIds.includes(stop.gtfsId.split(':')[0]) && (
                   <ZoneIcon
-                    zoneId={getZoneLabel(stop.zoneId, config)}
+                    zoneId={getZoneLabel(zoneId, config)}
                     showUnknown={false}
                   />
                 )}
@@ -100,7 +101,6 @@ CardHeader.propTypes = {
   children: PropTypes.node,
   unlinked: PropTypes.bool,
   showBackButton: PropTypes.bool,
-  headerConfig: PropTypes.bool,
   favouriteContainer: PropTypes.element,
   name: PropTypes.string,
   isTerminal: PropTypes.bool,
@@ -119,7 +119,6 @@ CardHeader.defaultProps = {
   children: undefined,
   unlinked: false,
   showBackButton: false,
-  headerConfig: false,
   name: undefined,
   isTerminal: false,
 };

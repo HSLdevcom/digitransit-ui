@@ -1,6 +1,6 @@
 {
   "name": "@digitransit-component/digitransit-component-favourite-modal",
-  "version": "2.0.1",
+  "version": "3.0.0",
   "description": "digitransit-component favourite-modal module",
   "main": "index.js",
   "files": [
@@ -37,6 +37,7 @@
     "lodash": "4.17.21",
     "lodash-es": "4.17.21",
     "prop-types": "^15.8.1",
-    "react": "^16.13.0"
+    "react": "^16.13.0",
+    "react-i18next": "^12.3.1"
   }
 }

@@ -30,6 +30,10 @@ class LegMarker extends React.Component {
   getLegMarker() {
     const color = this.props.color ? this.props.color : 'currentColor';
     const className = this.props.wide ? 'wide' : '';
+    const iconName =
+      this.props.mode === 'bus-express'
+        ? 'icon_bus'
+        : `icon_${this.props.mode}`;
     // Do not display route number if it is an external route and the route number is empty.
     const displayRouteNumber = !(
       this.context.config.externalFeedIds !== undefined &&
@@ -54,7 +58,7 @@ class LegMarker extends React.Component {
           html: `
             <div class="${className}" style="--background-color: ${color}">
             ${Icon.asString({
-              img: `icon_${this.props.mode}`,
+              img: `${iconName}`,
               className: 'map-route-icon',
               color,
             })}
