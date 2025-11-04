@@ -787,6 +787,25 @@ const Itinerary = (
   const firstDepartureLabelId = firstDepartureWithRentals?.rentedBike
     ? rentalLabelId
     : 'itinerary-summary-row.first-departure';
+
+  // Add platform/track info for SR
+  let platformOrTrackText = '';
+  const { platformCode } = firstDeparture?.from.stop || {};
+  if (platformCode) {
+    const isTrack = modeUsesTrack(firstDeparture.mode);
+    const labelId = isTrack ? 'track-num' : 'platform-num';
+    const changeId = isTrack
+      ? 'navigation-track-change'
+      : 'navigation-platform-change';
+
+    const platformLabel = formatMessage({ id: labelId }, { platformCode });
+    const platformChangeLabel = formatMessage({ id: changeId });
+
+    platformOrTrackText = isPlatformChanged(firstDeparture)
+      ? `${platformChangeLabel}: ${platformLabel}`
+      : platformLabel;
+  }
+
   const textSummary = (
     <div className="sr-only" key="screenReader">
       <FormattedMessage
@@ -805,6 +824,7 @@ const Itinerary = (
                 firstDepartureTime: legTimeStr(firstDeparture.start), // vehicle rental start time
                 stopName: stopNames[0],
                 firstDepartureStop: stopNames[0], // vehicle rental stop name
+                platformOrTrack: platformOrTrackText,
               }}
             />
           ),
