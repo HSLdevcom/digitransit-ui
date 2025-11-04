@@ -144,6 +144,75 @@ export function getRouteMode(route, config) {
 }
 
 /**
+ * extract stop's transit mode. Handles routes from map API and from OTP graphql query
+ */
+export function getStopMode(vehicleMode, routes, code, config, isTerminal) {
+  if (routes) {
+    switch (vehicleMode) {
+      case 'BUS':
+        if (config.useExtendedRouteTypes && !isTerminal) {
+          const arr = typeof routes === 'string' ? JSON.parse(routes) : routes;
+          if (
+            arr.some(
+              r => (r.gtfsType || r.type) === ExtendedRouteTypes.BusExpress,
+            )
+          ) {
+            return 'bus-express';
+          }
+        }
+        break;
+      case 'TRAM':
+        if (config.useExtendedRouteTypes) {
+          const arr = typeof routes === 'string' ? JSON.parse(routes) : routes;
+          if (
+            arr.some(
+              r => (r.gtfsType || r.type) === ExtendedRouteTypes.SpeedTram,
+            )
+          ) {
+            return 'speedtram';
+          }
+        }
+        break;
+      case 'FERRY':
+        {
+          if (config.externalFerryByStopCode && !isTerminal && !code) {
+            return 'ferry-external';
+          }
+          const arr = typeof routes === 'string' ? JSON.parse(routes) : routes;
+          if (
+            arr.some(r => isExternalFeed(getFeedWithoutId(r.gtfsId), config))
+          ) {
+            return 'ferry-external';
+          }
+        }
+        break;
+      default:
+        break;
+    }
+  }
+  return vehicleMode.toLowerCase();
+}
+
+/**
+ * @returns icon name
+ */
+export function transitIconName(mode, lollipop) {
+  switch (mode) {
+    case 'bus-express':
+      return lollipop ? 'icon_bus-lollipop' : 'icon_bus';
+    case 'bus-local':
+      return lollipop ? 'icon_bus-lollipop' : 'icon_bus-local';
+    case 'replacement-bus':
+      return lollipop ? 'icon_bus-lollipop' : 'icon_replacement-bus';
+    case 'subway':
+    case 'airplane':
+      return `icon_${mode}`; // no lollipop version
+    default:
+      return lollipop ? `icon_${mode}-lollipop` : `icon_${mode}`;
+  }
+}
+
+/**
  * Retrieves all transport modes that have specified "availableForSelection": true.
  * The full configuration will be returned.
  *

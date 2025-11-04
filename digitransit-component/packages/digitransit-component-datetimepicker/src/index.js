@@ -1,8 +1,10 @@
 import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
+import { I18nextProvider } from 'react-i18next';
 import { Settings, DateTime } from 'luxon';
 import debounce from 'lodash/debounce';
 import Datetimepicker from './helpers/Datetimepicker';
+import i18n from './helpers/i18n';
 
 /**
  * This component renders an input to choose a date and time. Renders separate input fields for date and time selection. Values for timestamp and arriveBy correspond to Digitransit query params time and arriveBy. This component will display a native date input on mobile and a custom one for desktop. Mobile detection is done by parsing user agent.
@@ -166,26 +168,28 @@ function DatetimepickerStateContainer({
   };
 
   return (
-    <Datetimepicker
-      timestamp={timestamp}
-      onTimeChange={timeChanged}
-      onDateChange={dateChanged}
-      departureOrArrival={departureOrArrival}
-      onNowClick={nowClicked}
-      onDepartureClick={departureClicked}
-      onArrivalClick={arrivalClicked}
-      embedWhenClosed={embedWhenClosed}
-      embedWhenOpen={embedWhenOpen}
-      lang={lang}
-      color={color}
-      timeZone={timeZone}
-      onModalSubmit={onModalSubmit}
-      fontWeights={fontWeights}
-      serviceTimeRange={serviceTimeRange}
-      onOpen={onOpen}
-      onClose={onClose}
-      openPicker={openPicker}
-    />
+    <I18nextProvider i18n={i18n}>
+      <Datetimepicker
+        timestamp={timestamp}
+        onTimeChange={timeChanged}
+        onDateChange={dateChanged}
+        departureOrArrival={departureOrArrival}
+        onNowClick={nowClicked}
+        onDepartureClick={departureClicked}
+        onArrivalClick={arrivalClicked}
+        embedWhenClosed={embedWhenClosed}
+        embedWhenOpen={embedWhenOpen}
+        lang={lang}
+        color={color}
+        timeZone={timeZone}
+        onModalSubmit={onModalSubmit}
+        fontWeights={fontWeights}
+        serviceTimeRange={serviceTimeRange}
+        onOpen={onOpen}
+        onClose={onClose}
+        openPicker={openPicker}
+      />
+    </I18nextProvider>
   );
 }
 

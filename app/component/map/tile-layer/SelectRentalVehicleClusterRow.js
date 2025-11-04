@@ -2,24 +2,19 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Link from 'found/Link';
 import { FormattedMessage } from 'react-intl';
-import { configShape, popupColorShape } from '../../../util/shapes';
+import { configShape } from '../../../util/shapes';
 import Icon from '../../Icon';
 import { hasVehicleRentalCode } from '../../../util/vehicleRentalUtils';
 import { getIdWithoutFeed } from '../../../util/feedScopedIdUtils';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
-function SelectVehicleRentalClusterRow({
-  name,
-  id,
-  desc,
-  prefix,
-  networks: networksInCluster,
-  isScooter,
-  colors,
-}) {
+function SelectVehicleRentalClusterRow(
+  { name, id, desc, prefix, networks: networksInCluster, isScooter },
+  { config },
+) {
   const img = isScooter ? 'icon_scooter-lollipop' : 'icon_citybike-lollipop';
   const color =
-    colors?.iconColors[isScooter ? 'mode-scooter' : 'mode-citybike'];
+    config.colors.iconColors[isScooter ? 'mode-scooter' : 'mode-citybike'];
   const linkAddress = `/${prefix}/${encodeURIComponent(id)}/${[
     ...networksInCluster,
   ]}`;
@@ -55,14 +50,12 @@ SelectVehicleRentalClusterRow.propTypes = {
   prefix: PropTypes.string.isRequired,
   networks: PropTypes.arrayOf(PropTypes.string).isRequired,
   isScooter: PropTypes.bool,
-  colors: popupColorShape,
 };
 
 SelectVehicleRentalClusterRow.defaultProps = {
   desc: undefined,
   name: undefined,
   isScooter: false,
-  colors: undefined,
 };
 
 SelectVehicleRentalClusterRow.contextTypes = {

@@ -22,6 +22,7 @@ function StopsNearYouFavorites({
   breakpoint,
   noFavorites,
   favouritesFetched,
+  isParentTabActive,
 }) {
   if (!favouritesFetched) {
     return <Loading />;
@@ -83,6 +84,7 @@ function StopsNearYouFavorites({
               stops={props.stops}
               stations={props.stations}
               vehicleStations={props.vehicleStations}
+              isParentTabActive={isParentTabActive}
             />
           );
         }
@@ -103,6 +105,7 @@ StopsNearYouFavorites.propTypes = {
   breakpoint: PropTypes.string,
   noFavorites: PropTypes.bool,
   favouritesFetched: PropTypes.bool,
+  isParentTabActive: PropTypes.bool,
 };
 
 StopsNearYouFavorites.defaultProps = {
@@ -115,6 +118,7 @@ StopsNearYouFavorites.defaultProps = {
   breakpoint: undefined,
   noFavorites: false,
   favouritesFetched: false,
+  isParentTabActive: false,
 };
 
 const StopsNearYouFavoritesWithBreakpoint = withBreakpoint(props => (

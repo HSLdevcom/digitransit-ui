@@ -81,13 +81,36 @@ export default configMerger(walttiConfig, {
     itinerary: true,
   },
 
+  ticketPurchaseLink: function purchaseTicketLink(fare, availableTickets) {
+    // tampere zones need to be mapped from letters to numbers for ticket link
+    const zoneMapping = {
+      A: '1',
+      B: '2',
+      C: '3',
+      D: '4',
+    };
+    const fareId = fare.fareProducts[0].product.id;
+    const feed = fareId.split(':')[0];
+    const zones = availableTickets[feed][fareId].zones.reduce((acc, zone) => {
+      return `${acc}0${zoneMapping[zone]}`;
+    }, '');
+    return `https://waltti.fi/${this.appName}/busTicket/?operator=${this.ticketLinkOperatorCode}&ticketType=single&customerGroup=adult&zones=${zones}`;
+  },
+  appName: 'nysseapp',
+
   useTicketIcons: true,
   showTicketInformation: true,
   primaryAgencyName: 'Tampereen seudun joukkoliikenne',
 
   ticketLink: {
     fi: 'https://www.nysse.fi/liput-ja-hinnat.html',
+    sv: 'https://www.nysse.fi/en/tickets-and-fares.html',
+    en: 'https://www.nysse.fi/en/tickets-and-fares.html',
   },
+
+  showTicketLinkOnlyWhenTesting: true,
+  showTicketPrice: false,
+  ticketLinkOperatorCode: 50245,
 
   callAgencyInfo: {
     fi: {
@@ -108,7 +131,7 @@ export default configMerger(walttiConfig, {
     RAIL: {
       fi: {
         disclaimer:
-          'Nyssen liput käyvät junaliikenteessä rajoitetusti vain Nysse-alueella. Lue lisää ',
+          'Nyssen liput käyvät Nysse-alueen junaliikenteessä rajoitetusti. Lue lisää ',
         link: 'https://www.nysse.fi/junat',
         text: 'nysse.fi/junat',
       },

@@ -19,7 +19,7 @@ const setFocusables = () => {
   for (let i = 0; i < swipeableTabs.length; i++) {
     const focusables = swipeableTabs[i].querySelectorAll(focusableTags);
     const unFocusables = swipeableTabs[i].querySelectorAll(unFocusableTags);
-    if (swipeableTabs[i].className === 'swipeable-tab inactive') {
+    if (swipeableTabs[i].classList.contains('inactive')) {
       focusables.forEach(focusable => {
         // eslint-disable-next-line no-param-reassign
         focusable.tabIndex = '-2';

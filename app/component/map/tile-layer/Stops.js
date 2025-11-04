@@ -9,7 +9,7 @@ import {
   drawHybridStopIcon,
   drawHybridStationIcon,
 } from '../../../util/mapIconUtils';
-import { ExtendedRouteTypes } from '../../../constants';
+import { getStopMode } from '../../../util/modeUtils';
 import {
   isFeatureLayerEnabled,
   getLayerBaseUrl,
@@ -64,34 +64,19 @@ class Stops {
 
   static getName = () => 'stop';
 
-  hasSpeedTram(feature, routes) {
-    if (
-      feature.properties.type === 'TRAM' &&
-      this.config.useExtendedRouteTypes
-    ) {
-      return routes.some(p => p.gtfsType === ExtendedRouteTypes.SpeedTram);
-    }
-    return false;
-  }
-
-  hasTrunkRoute(feature, routes) {
-    if (
-      feature.properties.type === 'BUS' &&
-      this.config.useExtendedRouteTypes
-    ) {
-      return routes.some(p => p.gtfsType === ExtendedRouteTypes.BusExpress);
-    }
-    return false;
-  }
-
   drawStop(feature, isHybrid, zoom, minZoom) {
     const isHighlighted =
       this.tile.highlightedStops &&
       this.tile.highlightedStops.includes(feature.properties.gtfsId);
 
     const routes = JSON.parse(feature.properties.routes);
-    const hasSpeedTram = this.hasSpeedTram(feature, routes);
-    const hasTrunkRoute = this.hasTrunkRoute(feature, routes);
+    const mode = getStopMode(
+      feature.properties.type,
+      routes,
+      feature.properties.code,
+      this.config,
+    );
+
     const ignoreMinZoomLevel =
       feature.properties.type === 'FERRY' ||
       feature.properties.type === 'RAIL' ||
@@ -102,18 +87,12 @@ class Stops {
           this.tile,
           feature.geom,
           isHighlighted,
-          this.config.colors.iconColors,
-          hasTrunkRoute,
+          this.config,
+          mode === 'bus-express',
         );
         return;
       }
 
-      let mode = feature.properties.type;
-      if (hasTrunkRoute) {
-        mode = 'bus-express';
-      } else if (hasSpeedTram) {
-        mode = 'speedtram';
-      }
       const stopOutOfService =
         this.config.showStopStatusMarkers &&
         (!!feature.properties.closedByServiceAlert ||
@@ -143,9 +122,10 @@ class Stops {
           isHighlighted,
           !!(
             feature.properties.type === 'FERRY' &&
+            this.config.externalFerryByStopCode &&
             !isNull(feature.properties.code)
           ),
-          this.config.colors.iconColors,
+          this.config,
           stopOutOfService,
           noServiceOnServiceDay,
         );
@@ -328,7 +308,7 @@ class Stops {
                     this.tile,
                     feature.geom,
                     isHighlighted,
-                    this.config.colors.iconColors,
+                    this.config,
                   );
                 }
                 if (
@@ -342,15 +322,19 @@ class Stops {
                   )
                 ) {
                   const routes = JSON.parse(feature.properties.routes);
-                  const type = this.hasSpeedTram(feature, routes)
-                    ? 'speedtram'
-                    : feature.properties.type;
+                  const mode = getStopMode(
+                    feature.properties.type,
+                    routes,
+                    undefined, // terminal has no stop code
+                    this.config,
+                    true,
+                  );
                   drawTerminalIcon(
                     this.tile,
                     feature.geom,
-                    type,
+                    mode,
                     isHighlighted,
-                    this.config.colors.iconColors,
+                    this.config,
                   );
                 }
               }
@@ -382,9 +366,10 @@ class Stops {
           isHighlighted,
           !!(
             feature.properties.type === 'FERRY' &&
+            this.config.externalFerryByStopCode &&
             !isNull(feature.properties.code)
           ),
-          this.config.colors.iconColors,
+          this.config,
           stopOutOfService,
           noServiceOnServiceDay,
         );

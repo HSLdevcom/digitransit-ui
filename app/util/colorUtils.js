@@ -43,14 +43,10 @@ export function LightenDarkenColor(color, amt) {
   );
 }
 
+/* map extended route mode to color */
 export function getModeIconColor(config, mode) {
-  if (!config?.colors?.iconColors) {
-    return undefined;
-  }
-
-  const lowerCaseMode = mode.toLowerCase();
-
-  return lowerCaseMode === 'subway'
-    ? config.colors.iconColors['mode-metro']
-    : config.colors.iconColors[`mode-${lowerCaseMode}`];
+  return (
+    config.colors.iconColors[`mode-${mode.toLowerCase()}`] ||
+    config.colors.primary
+  );
 }

@@ -1,26 +1,30 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Icon from './Icon';
+import Icon from '../Icon';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
-function ToggleMapTracking(props) {
+function ToggleMapTracking({ handleClick, ariaLabel, color, img }) {
   return (
     <div
       className="toggle-positioning-container"
-      onClick={props.handleClick}
+      onClick={handleClick}
       role="button"
       tabIndex={0}
-      aria-label={props.ariaLabel}
+      aria-label={ariaLabel}
     >
-      <Icon img={props.img} className={props.className} />
+      <Icon
+        img={img}
+        color={color}
+        className="icon-mapMarker-toggle-positioning"
+      />
     </div>
   );
 }
 
 ToggleMapTracking.propTypes = {
   handleClick: PropTypes.func.isRequired,
-  className: PropTypes.string.isRequired,
   img: PropTypes.string.isRequired,
+  color: PropTypes.string.isRequired,
   ariaLabel: PropTypes.string.isRequired,
 };
 

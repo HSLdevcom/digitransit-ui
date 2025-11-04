@@ -541,7 +541,7 @@ const Itinerary = (
           mode="CAR"
           legLength={legLength}
           large={breakpoint === 'large'}
-          icon="icon_car-withoutBox"
+          icon="icon_car"
         />,
       );
       if (leg.to.vehicleParking) {

@@ -31,7 +31,7 @@ export default function CarLeg(props, { config, intl }) {
     <ItineraryCircleLineWithIcon
       index={props.index}
       modeClassName={modeClassName}
-      icon="icon_car-withoutBox"
+      icon="icon_car"
     />
   );
 

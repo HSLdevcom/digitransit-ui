@@ -48,7 +48,7 @@ const Checkbox = (
           {checked && (
             <Icon
               className="checkmark"
-              img="icon_check-digitransit"
+              img="icon_check"
               viewBox="0 0 15 11"
               width={1.875}
               height={1.75}

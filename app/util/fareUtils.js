@@ -92,7 +92,10 @@ export const getAlternativeFares = (zones, currentFares, allFares) => {
  *
  * @param {*} config configuration.
  */
-export const shouldShowFareInfo = (config, legs) => {
+export const shouldShowFareInfo = (config, legs, fares) => {
+  if (fares && config.hideUnknownFares && fares.some(fare => fare.isUnknown)) {
+    return false;
+  }
   if (
     config.externalFareRouteIds &&
     legs?.some(
@@ -105,10 +108,6 @@ export const shouldShowFareInfo = (config, legs) => {
   }
 
   return (
-    (!config.showTicketLinkOnlyWhenTesting ||
-      window.localStorage
-        .getItem('favouriteStore')
-        ?.includes('Lippulinkkitestaus2025')) &&
     config.showTicketInformation &&
     config.availableTickets &&
     Array.isArray(config.feedIds) &&
@@ -127,6 +126,10 @@ export const shouldShowFarePurchaseInfo = (config, breakpoint, fares) => {
   }
 
   return (
+    (!config.showTicketLinkOnlyWhenTesting ||
+      window.localStorage
+        .getItem('favouriteStore')
+        ?.includes('Lippulinkkitestaus2025')) &&
     !unknownFares &&
     fares?.length === 1 &&
     config.ticketPurchaseLink &&

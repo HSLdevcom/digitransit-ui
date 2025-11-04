@@ -28,6 +28,9 @@ const containerComponent = createRefetchContainer(
         zoneId
         platformCode
         locationType
+        stops {
+          zoneId
+        }
         stoptimesWithoutPatterns(
           startTime: $startTime
           omitNonPickups: $omitNonPickups

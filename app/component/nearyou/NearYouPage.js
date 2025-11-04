@@ -393,15 +393,16 @@ class NearYouPage extends React.Component {
       const renderSearch =
         nearByStopMode !== 'FERRY' && nearByStopMode !== 'FAVORITE';
       const renderDisruptionBanner = nearByStopMode !== 'CITYBIKE';
+      const isActive = nearByStopMode === mode;
       if (nearByStopMode === 'FAVORITE') {
         const noFavs = this.noFavorites();
         return (
           <div
             key={nearByStopMode}
             className={`stops-near-you-page swipeable-tab ${
-              nearByStopMode !== mode && 'inactive'
+              !isActive && 'inactive'
             }`}
-            aria-hidden={nearByStopMode !== mode}
+            aria-hidden={!isActive}
           >
             {renderRefetchButton && this.refetchButton()}
             <StopsNearYouFavorites
@@ -414,6 +415,7 @@ class NearYouPage extends React.Component {
               }
               noFavorites={noFavs}
               favouritesFetched={this.props.favouritesFetched}
+              isParentTabActive={isActive}
             />
           </div>
         );
@@ -421,9 +423,9 @@ class NearYouPage extends React.Component {
 
       return (
         <div
-          className={`swipeable-tab ${nearByStopMode !== mode && 'inactive'}`}
+          className={`swipeable-tab ${!isActive && 'inactive'}`}
           key={nearByStopMode}
-          aria-hidden={nearByStopMode !== mode}
+          aria-hidden={!isActive}
         >
           <QueryRenderer
             query={graphql`
@@ -587,6 +589,7 @@ class NearYouPage extends React.Component {
                                     stop={stop}
                                     key={stop.gtfsId}
                                     currentMode={nearByStopMode}
+                                    isParentTabActive={isActive}
                                   />
                                 );
                               })}
@@ -612,6 +615,7 @@ class NearYouPage extends React.Component {
                       withSeparator={!renderSearch}
                       nearByStopMode={nearByStopMode}
                       renderDisruptionBanner={renderDisruptionBanner}
+                      isParentTabActive={isActive}
                     />
                   )}
                 </div>

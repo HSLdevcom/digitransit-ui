@@ -23,8 +23,6 @@ export default configMerger(walttiConfig, {
     primary: '#0001FF',
     iconColors: {
       'mode-bus': '#0001FF',
-      'mode-citybike': '#f2b62d',
-      'mode-citybike-secondary': '#333333',
     },
   },
   transportModes: {

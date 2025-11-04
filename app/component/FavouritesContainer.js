@@ -130,7 +130,7 @@ class FavouritesContainer extends React.Component {
           id: 'location-home',
           defaultMessage: 'Home',
         }),
-        selectedIconId: 'icon_home',
+        selectedIconId: 'icon-icon_home',
       },
     });
   };
@@ -147,7 +147,7 @@ class FavouritesContainer extends React.Component {
           id: 'location-work',
           defaultMessage: 'Work',
         }),
-        selectedIconId: 'icon_work',
+        selectedIconId: 'icon-icon_work',
       },
     });
   };

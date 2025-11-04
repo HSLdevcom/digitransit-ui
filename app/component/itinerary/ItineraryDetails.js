@@ -313,7 +313,7 @@ function ItineraryDetails(
               config={config}
             />
           ),
-          shouldShowFareInfo(config, itinerary.legs) &&
+          shouldShowFareInfo(config, itinerary.legs, fares) &&
             (shouldShowFarePurchaseInfo(config, breakpoint, fares) ? (
               <MobileTicketPurchaseInformation
                 key="mobileticketpurchaseinformation"

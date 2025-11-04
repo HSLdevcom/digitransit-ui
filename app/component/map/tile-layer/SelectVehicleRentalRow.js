@@ -21,15 +21,14 @@ function SelectVehicleRentalRow(
     `${getRentalNetworkIcon(getRentalNetworkConfig(network, config))}-lollipop`;
   const { colors } = config;
   let color;
-  if (colors) {
-    if (iconName.includes('scooter')) {
-      color = colors.iconColors['mode-scooter'];
-    } else if (iconName.includes('secondary')) {
-      color = colors.iconColors['mode-citybike-secondary'];
-    } else {
-      color = colors.iconColors['mode-citybike'];
-    }
+  if (iconName.includes('scooter')) {
+    color = colors.iconColors['mode-scooter'];
+  } else if (iconName.includes('secondary')) {
+    color = colors.iconColors['mode-citybike-secondary'];
+  } else {
+    color = colors.iconColors['mode-citybike'];
   }
+
   const linkAddress = `/${prefix}/${encodeURIComponent(id)}`;
 
   const address = desc || <FormattedMessage id="citybike-station-no-id" />;

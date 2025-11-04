@@ -63,17 +63,9 @@ export default {
   colors: {
     primary: '#000',
     iconColors: {
-      'mode-airplane': '#0046AD',
-      'mode-bus': '#007ac9',
       'mode-tram': '#5E7921',
-      'mode-metro': '#CA4000',
       'mode-rail': '#000',
       'mode-ferry': '#247C7B',
-      'mode-ferry-pier': '#666666',
-      'mode-citybike': '#FCBC19',
-      'mode-citybike-secondary': '#333333',
-      'mode-scooter': '#C5CAD2',
-      'mode-taxi': '#647693',
     },
   },
   feedIds: IS_DEV
@@ -140,10 +132,10 @@ export default {
 
   meta: {
     description: APP_DESCRIPTION,
-    keywords: `reitti,reitit,opas,reittiopas,joukkoliikenne,joukkoliikenne, matkasuunnittelu, matkareitti, aikataulut, bussi, juna, metro, raitiovaunu, lautta, matka, suomen joukkoliikenne, reitti kartalla, matkareitti ovelta ovelle, opas.matka.fi, fintraffic matka, digitransit, reittiopas suomi, liikenneopas, julkinen liikenne, reittihaku, liityntäpysäköinti, pyöräily, autoilu, lennot, matkakumppani, matkaketju, reitti yhdellä haulla`,
+    keywords: `reitti,reitit,opas,reittiopas,joukkoliikenne,joukkoliikenne, matkasuunnittelu, matkareitti, aikataulut, bussi, juna, metro, raitiovaunu, lautta, matka, suomen joukkoliikenne, reitti kartalla, matkareitti ovelta ovelle, matka.fintraffic.fi, fintraffic matka, digitransit, reittiopas suomi, liikenneopas, julkinen liikenne, reittihaku, liityntäpysäköinti, pyöräily, autoilu, lennot, matkakumppani, matkaketju, reitti yhdellä haulla`,
   },
   menu: {
-    copyright: { label: `© Matka.fi ${YEAR}` },
+    copyright: { label: `© Matka.fintraffic.fi ${YEAR}` },
     content: [
       {
         name: 'Fintraffic',
@@ -287,8 +279,6 @@ export default {
 
   includeCarSuggestions: true,
   includeParkAndRideSuggestions: true,
-  // Park and ride and car suggestions separated into two switches
-  separatedParkAndRideSwitch: true,
   showBikeAndParkItineraries: true,
 
   parkingAreaSources: ['liipi'],

@@ -1,14 +1,10 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import PropTypes from 'prop-types';
 import React from 'react';
+import { useTranslation, I18nextProvider } from 'react-i18next';
 import Icon from '@digitransit-component/digitransit-component-icon';
-import i18next from 'i18next';
-import translations from './helpers/translations';
+import i18n from './helpers/i18n';
 import styles from './helpers/styles.scss';
-
-Object.keys(translations).forEach(l =>
-  i18next.addResourceBundle(l, 'translation', translations[l], true),
-);
 
 /**
  * A banner with blue caution Icon and arrow mark, original purpose is to act as a link to a page about current traffic information.
@@ -22,6 +18,7 @@ Object.keys(translations).forEach(l =>
  * <TrafficNowLink lang={lang} handleClick={this.handleClick}/>
  */
 const TrafficNowLink = ({ lang, handleClick, href, fontWeights }) => {
+  const [t] = useTranslation();
   const handleKeyDown = e => {
     if (e.keyCode === 32 || e.keyCode === 13) {
       handleClick(e, lang);
@@ -47,7 +44,7 @@ const TrafficNowLink = ({ lang, handleClick, href, fontWeights }) => {
             width={1.25}
           />{' '}
           <a className={styles.text} href={href}>
-            {i18next.t('traffic', { lng: lang })}
+            {t('traffic', { lng: lang })}
           </a>
         </div>
         <span>
@@ -78,4 +75,8 @@ TrafficNowLink.defaultProps = {
   },
 };
 
-export default TrafficNowLink;
+export default props => (
+  <I18nextProvider i18n={i18n}>
+    <TrafficNowLink {...props} />
+  </I18nextProvider>
+);

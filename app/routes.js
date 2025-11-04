@@ -19,6 +19,7 @@ import {
   TAB_NEARBY,
   TAB_FAVOURITES,
   EMBEDDED_SEARCH_PATH,
+  TRAFFICNOW,
 } from './util/path';
 import {
   getDefault,
@@ -368,6 +369,14 @@ export default config => {
           ),
         }}
       </Route>
+      <Route
+        path={TRAFFICNOW}
+        getComponent={() =>
+          import(
+            /* webpackChunkName: "trafficnow" */ './component/trafficnow/TrafficNow'
+          ).then(getDefault)
+        }
+      />
       <Route
         path="/tietoja-palvelusta"
         getComponent={() =>

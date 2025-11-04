@@ -134,7 +134,7 @@ class FilterTimeTableModal extends React.Component {
               }
             >
               {intersection(this.state.showRoutes, [o.code]).length > 0 && (
-                <Icon img="icon_checkbox_checked" className="checkbox-icon" />
+                <Icon img="icon_box-checked" className="checkbox-icon" />
               )}
             </label>
             {/* eslint-enable jsx-a11y/label-has-associated-control */}
@@ -216,7 +216,7 @@ class FilterTimeTableModal extends React.Component {
               className={this.state.allRoutes ? 'checked' : ''}
             >
               {this.state.allRoutes ? (
-                <Icon img="icon_checkbox_checked" className="checkbox-icon" />
+                <Icon img="icon_box-checked" className="checkbox-icon" />
               ) : null}
             </label>
             {/* eslint-enable jsx-a11y/label-has-associated-control */}

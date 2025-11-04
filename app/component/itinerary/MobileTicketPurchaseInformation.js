@@ -59,12 +59,7 @@ export default function MobileTicketPurchaseInformation(
           onClick={() =>
             addAnalyticsEvent({ event: 'journey_planner_open_app' })
           }
-          href={config.ticketPurchaseLink(
-            fare,
-            config.ticketLinkOperatorCode,
-            config.appName,
-            config.availableTickets,
-          )}
+          href={config.ticketPurchaseLink(fare, config.availableTickets)}
           target="_blank"
           rel="noopener noreferrer"
         >

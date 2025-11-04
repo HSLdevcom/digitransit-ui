@@ -2,18 +2,14 @@
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { I18nextProvider, withTranslation } from 'react-i18next';
 import { ReactSortable } from 'react-sortablejs';
-import i18next from 'i18next';
 import DTAutoSuggest from '@digitransit-component/digitransit-component-autosuggest';
 import Icon from '@digitransit-component/digitransit-component-icon';
 import isEmpty from 'lodash/isEmpty';
 import Select from './helpers/Select';
-import translations from './helpers/translations';
+import i18n from './helpers/i18n';
 import styles from './helpers/styles.scss';
-
-Object.keys(translations).forEach(lang =>
-  i18next.addResourceBundle(lang, 'translation', translations[lang], true),
-);
 
 export const getEmptyViaPointPlaceHolder = () => ({});
 
@@ -90,12 +86,12 @@ const value = location =>
 const getLocationType = location =>
   location && location.gps === true ? 'position' : 'location';
 
-const getSlackTimeOptions = () => {
+const getSlackTimeOptions = t => {
   const timeOptions = [];
   for (let i = 0; i <= 9; i++) {
     const valueInMinutes = i * 10;
     timeOptions.push({
-      displayName: `${valueInMinutes} ${i18next.t('minute-short')}`,
+      displayName: `${valueInMinutes} ${t('minute-short')}`,
       value: valueInMinutes * 60,
     });
   }
@@ -253,6 +249,7 @@ class DTAutosuggestPanel extends React.Component {
     showSwapControl: PropTypes.bool,
     showViapointControl: PropTypes.bool,
     showSlackControl: PropTypes.bool,
+    t: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -396,7 +393,7 @@ class DTAutosuggestPanel extends React.Component {
   };
 
   getSlackDisplay = slackInSeconds =>
-    `${slackInSeconds / 60} ${i18next.t('minute-short', {
+    `${slackInSeconds / 60} ${this.props.t('minute-short', {
       lng: this.props.lang,
     })}`;
 
@@ -413,10 +410,11 @@ class DTAutosuggestPanel extends React.Component {
       onFocusChange,
       showSwapControl,
       showViapointControl,
+      t,
+      lang: lng,
     } = this.props;
-    const lng = this.props.lang;
     const { activeSlackInputs } = this.state;
-    const slackTime = getSlackTimeOptions();
+    const slackTime = getSlackTimeOptions(t);
     const defaultSlackTimeValue = 0;
     const getViaPointSlackTimeOrDefault = (
       viaPoint,
@@ -488,7 +486,7 @@ class DTAutosuggestPanel extends React.Component {
               onKeyPress={e =>
                 isKeyboardSelectionEvent(e) && this.handleSwapOrderClick()
               }
-              aria-label={i18next.t('swap-order-button-label', { lng })}
+              aria-label={t('swap-order-button-label', { lng })}
             >
               <Icon img="opposite" color={this.props.color} />
             </ItinerarySearchControl>
@@ -542,7 +540,7 @@ class DTAutosuggestPanel extends React.Component {
                       appElement={this.props.appElement}
                       icon="mapMarker-via"
                       id="via-point"
-                      ariaLabel={i18next.t('via-point-index', {
+                      ariaLabel={t('via-point-index', {
                         index: i + 1,
                         lng,
                       })}
@@ -582,7 +580,7 @@ class DTAutosuggestPanel extends React.Component {
                         isKeyboardSelectionEvent(e) &&
                         this.handleToggleViaPointSlackClick(i)
                       }
-                      aria-label={i18next.t(
+                      aria-label={t(
                         isViaPointSlackTimeInputActive(i)
                           ? 'add-via-duration-button-label-open'
                           : 'add-via-duration-button-label-close',
@@ -597,11 +595,12 @@ class DTAutosuggestPanel extends React.Component {
                 {!isViaPointSlackTimeInputActive(i) &&
                   viaPoints[i] &&
                   viaPoints[i].locationSlack > 0 && (
-                    <span
-                      className={styles['viapoint-slack-time']}
-                    >{`${i18next.t('viapoint-slack-amount', {
-                      lng,
-                    })}: ${this.getSlackDisplay(
+                    <span className={styles['viapoint-slack-time']}>{`${t(
+                      'viapoint-slack-amount',
+                      {
+                        lng,
+                      },
+                    )}: ${this.getSlackDisplay(
                       viaPoints[i].locationSlack,
                     )}`}</span>
                   )}
@@ -613,7 +612,7 @@ class DTAutosuggestPanel extends React.Component {
                   <div className={styles['select-wrapper']}>
                     <Select
                       id={`viapoint-slack-${i}`}
-                      label={i18next.t('viapoint-slack-amount', { lng })}
+                      label={t('viapoint-slack-amount', { lng })}
                       options={slackTime}
                       value={getViaPointSlackTimeOrDefault(viaPoints[i])}
                       getDisplay={this.getSlackDisplay}
@@ -638,7 +637,7 @@ class DTAutosuggestPanel extends React.Component {
                   isKeyboardSelectionEvent(e) &&
                   this.handleRemoveViaPointClick(i)
                 }
-                aria-label={i18next.t('remove-via-button-label', {
+                aria-label={t('remove-via-button-label', {
                   index: i + 1,
                   lng,
                 })}
@@ -691,7 +690,7 @@ class DTAutosuggestPanel extends React.Component {
               onKeyPress={e =>
                 isKeyboardSelectionEvent(e) && this.handleAddViaPointClick()
               }
-              aria-label={i18next.t('add-via-button-label', { lng })}
+              aria-label={t('add-via-button-label', { lng })}
             >
               <Icon
                 img="viapoint"
@@ -707,4 +706,12 @@ class DTAutosuggestPanel extends React.Component {
   }
 }
 
-export default DTAutosuggestPanel;
+const DTAutosuggestPanelWithTranslation = withTranslation()(DTAutosuggestPanel);
+
+export default props => {
+  return (
+    <I18nextProvider i18n={i18n}>
+      <DTAutosuggestPanelWithTranslation {...props} />
+    </I18nextProvider>
+  );
+};
