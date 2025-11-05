@@ -5,6 +5,7 @@ import walttiConfig from './config.waltti';
 const CONFIG = 'kotka';
 const APP_TITLE = 'Kotkan seudun reittiopas';
 const APP_DESCRIPTION = 'Kotkan seudun reittiopas';
+const CDN_URL = process.env.MAP_URL || 'https://dev-cdn.digitransit.fi';
 
 const minLat = 60.243;
 const maxLat = 60.688;
@@ -192,7 +193,7 @@ export default configMerger(walttiConfig, {
           sv: 'Servicekontorer',
           en: 'Service points',
         },
-        url: '/assets/servicepoints/kotka-servicepoints-20251010.geojson',
+        url: `${CDN_URL}/waltti-assets/v1/salespoints/salespoints_kotka.json`,
       },
     ],
   },
