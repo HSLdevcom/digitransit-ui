@@ -1459,6 +1459,10 @@ div.leaflet-control-scale-line {
   border: solid 1px $white;
 }
 
+.leaflet-marker-icon.disable-icon-border > svg {
+  border: 0;
+}
+
 .z-1,
 .zundefined {
   img.leaflet-marker-icon.icon-zone.leaflet-zoom-animated {

@@ -133,9 +133,9 @@ export default function routeRoutes(config) {
                   }
                 }
               `}
-              render={({ Component, props, error, match }) => {
+              render={({ Component, props, error }) => {
                 if (Component && (props || error)) {
-                  return <Component {...props} match={match} error={error} />;
+                  return <Component {...props} error={error} />;
                 }
                 return null;
               }}
@@ -154,16 +154,9 @@ export default function routeRoutes(config) {
                   }
                 }
               `}
-              render={({ Component, props, error, match }) => {
+              render={({ Component, props, error }) => {
                 if (Component && (props || error)) {
-                  return (
-                    <Component
-                      {...props}
-                      match={match}
-                      error={error}
-                      trip={null}
-                    />
-                  );
+                  return <Component {...props} error={error} trip={null} />;
                 }
                 return null;
               }}

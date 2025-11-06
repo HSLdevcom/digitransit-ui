@@ -20,6 +20,7 @@ class StopMarker extends React.Component {
     mode: PropTypes.string.isRequired,
     renderName: PropTypes.bool,
     disableModeIcons: PropTypes.bool,
+    disableIconBorder: PropTypes.bool,
     limitZoom: PropTypes.number,
     selected: PropTypes.bool,
     colorOverride: PropTypes.string,
@@ -28,6 +29,7 @@ class StopMarker extends React.Component {
   static defaultProps = {
     renderName: false,
     disableModeIcons: false,
+    disableIconBorder: false,
     limitZoom: undefined,
     selected: false,
     colorOverride: undefined,
@@ -82,6 +84,7 @@ class StopMarker extends React.Component {
       className: cx('cursor-pointer', this.props.mode, {
         small: size === this.context.config.stopsIconSize.small,
         selected: this.props.selected,
+        'disable-icon-border': this.props.disableIconBorder,
       }),
     });
   };
@@ -130,7 +133,9 @@ class StopMarker extends React.Component {
     return L.divIcon({
       html: iconSvg,
       iconSize: [radius * 2, radius * 2],
-      className: `${this.props.mode} cursor-pointer`,
+      className: cx(this.props.mode, 'cursor-pointer', {
+        'disable-icon-border': this.props.disableIconBorder,
+      }),
     });
   };
 
