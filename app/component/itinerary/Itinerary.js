@@ -713,7 +713,7 @@ const Itinerary = (
               // In case the first leg is a scooter leg, stopNames[0] is an empty string
               firstDepartureStop: stopNames[0] || stopNames[1],
               firstDeparturePlatform: (
-                <BoardingInformation departure={firstDeparture} />
+                <BoardingInformation leg={firstDeparture} />
               ),
             }}
           />

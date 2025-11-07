@@ -7,15 +7,15 @@ import { modeUsesTrack } from '../../util/modeUtils';
 import { isPlatformChanged } from '../../util/legUtils';
 
 /**
- * BoardingInformation displays platform or track information for a departure leg.
+ * BoardingInformation displays platform or track information for a transit leg.
  * Shows a highlighted number if the platform/track has changed.
  * @param {Object} props - The component props.
- * @param {Object} props.departure - The departure leg object.
+ * @param {Object} props.leg - The transit leg object.
  * @return {React.Element|null} The boarding information element or null if no platform code.
  */
-function BoardingInformation({ departure }) {
-  const platformChanged = isPlatformChanged(departure);
-  const platformCode = departure?.from?.stop?.platformCode;
+function BoardingInformation({ leg }) {
+  const platformChanged = isPlatformChanged(leg);
+  const platformCode = leg?.from?.stop?.platformCode;
   if (platformCode) {
     const comma = ', ';
     return (
@@ -28,18 +28,18 @@ function BoardingInformation({ departure }) {
         {platformChanged ? (
           <>
             <FormattedMessage
-              id={modeUsesTrack(departure.mode) ? 'track' : 'platform'}
+              id={modeUsesTrack(leg.mode) ? 'track' : 'platform'}
             />
             <PlatformNumber
               number={platformCode}
               updated={platformChanged}
-              isRailOrSubway={modeUsesTrack(departure.mode)}
+              isRailOrSubway={modeUsesTrack(leg.mode)}
               withText={false}
             />
           </>
         ) : (
           <FormattedMessage
-            id={modeUsesTrack(departure.mode) ? 'track-num' : 'platform-num'}
+            id={modeUsesTrack(leg.mode) ? 'track-num' : 'platform-num'}
             values={{ platformCode }}
           />
         )}
@@ -50,7 +50,7 @@ function BoardingInformation({ departure }) {
 }
 
 BoardingInformation.propTypes = {
-  departure: PropTypes.object.isRequired,
+  leg: PropTypes.object.isRequired,
 };
 
 /**
@@ -67,7 +67,7 @@ function getPlatformChangeLabel(isTrack, intl) {
 }
 
 /**
- * Returns a string with platform/track information for a departure, for screen reader use.
+ * Returns a string with platform/track information for a transit leg, for screen reader use.
  * @param {Object} leg - The transit leg object.
  * @param {Object} intl - The intl object for formatting messages.
  * @returns {string} The boarding information text.
