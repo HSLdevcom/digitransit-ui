@@ -314,6 +314,7 @@ class TransitLeg extends React.Component {
         }}
       />
     );
+    const platformChanged = isPlatformChanged(leg);
     const textVersionAfterLink = (
       <>
         <FormattedMessage
@@ -333,7 +334,7 @@ class TransitLeg extends React.Component {
             trackInfo: getBoardingInformationText(leg, intl, false),
           }}
         />
-        {getPlatformChangeLabel(modeUsesTrack(mode), intl)}
+        {platformChanged && getPlatformChangeLabel(modeUsesTrack(mode), intl)}
       </>
     );
 
@@ -562,7 +563,7 @@ class TransitLeg extends React.Component {
                   isRailOrSubway={
                     modeClassName === 'rail' || modeClassName === 'subway'
                   }
-                  updated={isPlatformChanged(leg)}
+                  updated={platformChanged}
                 />
               </div>
             </div>
