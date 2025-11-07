@@ -68,23 +68,19 @@ function getPlatformChangeLabel(isTrack, intl) {
 
 /**
  * Returns a string with platform/track information for a departure, for screen reader use.
- * @param {Object} departure - The departure leg object.
+ * @param {Object} leg - The transit leg object.
  * @param {Object} intl - The intl object for formatting messages.
  * @returns {string} The boarding information text.
  */
-function getBoardingInformationText(
-  departure,
-  intl,
-  showPlatformChangeLabel = true,
-) {
-  if (!departure) {
+function getBoardingInformationText(leg, intl, showPlatformChangeLabel = true) {
+  if (!leg) {
     return '';
   }
-  const platformCode = departure?.from?.stop?.platformCode;
+  const platformCode = leg?.from?.stop?.platformCode;
   if (platformCode) {
-    const isTrack = modeUsesTrack(departure.mode);
+    const isTrack = modeUsesTrack(leg.mode);
     const platformChangeLabelText =
-      showPlatformChangeLabel && isPlatformChanged(departure)
+      showPlatformChangeLabel && isPlatformChanged(leg)
         ? `${getPlatformChangeLabel(isTrack, intl)}:`
         : '';
     const platformLabel = intl.formatMessage(
