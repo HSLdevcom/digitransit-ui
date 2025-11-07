@@ -27,7 +27,6 @@ import {
   legTimeStr,
   LegMode,
   getZones,
-  isPlatformChanged,
 } from '../../util/legUtils';
 import { dateOrEmpty, isTomorrow, timeStr } from '../../util/timeUtils';
 import withBreakpoint from '../../util/withBreakpoint';
@@ -38,12 +37,14 @@ import {
   getRentalNetworkConfig,
   getVehicleCapacity,
 } from '../../util/vehicleRentalUtils';
-import { getRouteMode, modeUsesTrack } from '../../util/modeUtils';
+import { getRouteMode } from '../../util/modeUtils';
 import { getCapacityForLeg } from '../../util/occupancyUtil';
 import getCo2Value from '../../util/emissions';
 import { ItineraryFragment } from './queries/ItineraryFragment';
 import { getTicketString } from '../../util/fareUtils';
-import PlatformNumber from '../PlatformNumber';
+import BoardingInformation, {
+  getBoardingInformationText,
+} from './BoardingInformation';
 
 const NAME_LENGTH_THRESHOLD = 65; // for truncating long short names
 
@@ -652,43 +653,7 @@ const Itinerary = (
       } else {
         firstDepartureStopType = 'from-stop';
       }
-      let firstDeparturePlatform;
 
-      const platformChanged = isPlatformChanged(firstDeparture);
-      if (firstDeparture.from.stop.platformCode) {
-        const comma = ', ';
-        firstDeparturePlatform = (
-          <span
-            className={cx('platform-or-track', {
-              'platform-updated': platformChanged,
-            })}
-          >
-            {comma}
-            {platformChanged ? (
-              <>
-                <FormattedMessage
-                  id={modeUsesTrack(firstDeparture.mode) ? 'track' : 'platform'}
-                />
-                <PlatformNumber
-                  number={firstDeparture.from.stop.platformCode}
-                  updated={platformChanged}
-                  isRailOrSubway={modeUsesTrack(firstDeparture.mode)}
-                  withText={false}
-                />
-              </>
-            ) : (
-              <FormattedMessage
-                id={
-                  modeUsesTrack(firstDeparture.mode)
-                    ? 'track-num'
-                    : 'platform-num'
-                }
-                values={{ platformCode: firstDeparture.from.stop.platformCode }}
-              />
-            )}
-          </span>
-        );
-      }
       firstLegStartTime = firstDeparture.rentedBike ? (
         <div
           className={cx('itinerary-first-leg-start-time', {
@@ -747,7 +712,9 @@ const Itinerary = (
               ),
               // In case the first leg is a scooter leg, stopNames[0] is an empty string
               firstDepartureStop: stopNames[0] || stopNames[1],
-              firstDeparturePlatform,
+              firstDeparturePlatform: (
+                <BoardingInformation departure={firstDeparture} />
+              ),
             }}
           />
         </div>
@@ -788,24 +755,6 @@ const Itinerary = (
     ? rentalLabelId
     : 'itinerary-summary-row.first-departure';
 
-  // Add platform/track info for SR
-  let platformOrTrackText = '';
-  const { platformCode } = firstDeparture?.from.stop || {};
-  if (platformCode) {
-    const isTrack = modeUsesTrack(firstDeparture.mode);
-    const labelId = isTrack ? 'track-num' : 'platform-num';
-    const changeId = isTrack
-      ? 'navigation-track-change'
-      : 'navigation-platform-change';
-
-    const platformLabel = formatMessage({ id: labelId }, { platformCode });
-    const platformChangeLabel = formatMessage({ id: changeId });
-
-    platformOrTrackText = isPlatformChanged(firstDeparture)
-      ? `${platformChangeLabel}: ${platformLabel}`
-      : platformLabel;
-  }
-
   const textSummary = (
     <div className="sr-only" key="screenReader">
       <FormattedMessage
@@ -824,7 +773,10 @@ const Itinerary = (
                 firstDepartureTime: legTimeStr(firstDeparture.start), // vehicle rental start time
                 stopName: stopNames[0],
                 firstDepartureStop: stopNames[0], // vehicle rental stop name
-                platformOrTrack: platformOrTrackText,
+                platformOrTrack: getBoardingInformationText(
+                  firstDeparture,
+                  intl,
+                ),
               }}
             />
           ),
