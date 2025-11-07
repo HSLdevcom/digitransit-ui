@@ -64,6 +64,16 @@ export const ItineraryFragment = graphql`
         stoptimes {
           stop {
             gtfsId
+            platformCode
+          }
+          scheduledDeparture
+        }
+        stoptimesForDate {
+          serviceDay
+          scheduledDeparture
+          stop {
+            gtfsId
+            platformCode
           }
         }
         occupancy {
@@ -85,6 +95,7 @@ export const ItineraryFragment = graphql`
             effectiveEndDate
             effectiveStartDate
           }
+          platformCode
         }
         vehicleRentalStation {
           availableVehicles {

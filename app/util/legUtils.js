@@ -865,3 +865,27 @@ export const legDestination = (intl, leg, secondary, nextLeg = null) => {
   }
   return intl.formatMessage({ id, defaultMessage: 'place' });
 };
+
+export const isPlatformChanged = leg => {
+  if (!leg?.trip || !leg.start.scheduledTime) {
+    return false;
+  }
+  const startTimeEpoch = new Date(leg.start.scheduledTime).getTime();
+
+  // Find a matching stop in the updated stoptimesForDate
+  const updatedStop = leg.trip.stoptimesForDate?.find(s => {
+    const departureTimeEpoch = (s.serviceDay + s.scheduledDeparture) * 1000;
+    return departureTimeEpoch === startTimeEpoch;
+  });
+  const updatedPlatform = updatedStop?.stop?.platformCode;
+  if (!updatedPlatform) {
+    return false;
+  }
+
+  // Find a matching stop in the original stoptimes
+  const originalStop = leg.trip.stoptimes?.find(s => {
+    return s.scheduledDeparture === updatedStop.scheduledDeparture;
+  });
+  const originalPlatform = originalStop?.stop?.platformCode;
+  return !!originalPlatform && originalPlatform !== updatedPlatform;
+};

@@ -10,11 +10,12 @@ import {
   getHeadsignFromRouteLongName,
   legTime,
   legTimeStr,
+  isPlatformChanged,
 } from '../../../util/legUtils';
 import ZoneIcon from '../../ZoneIcon';
 import { legShape, configShape } from '../../../util/shapes';
 import { getDestinationProperties, LEGTYPE, withRealTime } from './NaviUtils';
-import { getRouteMode } from '../../../util/modeUtils';
+import { getRouteMode, modeUsesTrack } from '../../../util/modeUtils';
 import RouteNumberContainer from '../../RouteNumberContainer';
 import BoardingInfo from './BoardingInfo';
 import { getModeIconColor } from '../../../util/colorUtils';
@@ -96,9 +97,8 @@ const NaviCardExtension = ({ legType, leg, nextLeg, time }, { config }) => {
               <PlatformNumber
                 number={platformCode}
                 short
-                isRailOrSubway={
-                  vehicleMode === 'RAIL' || vehicleMode === 'SUBWAY'
-                }
+                isRailOrSubway={modeUsesTrack(vehicleMode)}
+                updated={isPlatformChanged(nextLeg)}
               />
             )}
             <ZoneIcon

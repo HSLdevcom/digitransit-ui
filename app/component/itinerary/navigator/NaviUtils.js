@@ -4,11 +4,12 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { addAnalyticsEvent } from '../../../util/analyticsUtils';
 import { GeodeticToEnu } from '../../../util/geo-utils';
-import { legTime, legTimeAcc } from '../../../util/legUtils';
+import { isPlatformChanged, legTime, legTimeAcc } from '../../../util/legUtils';
 import {
   getRouteMode,
   getStopMode,
   transitIconName,
+  modeUsesTrack,
 } from '../../../util/modeUtils';
 import { locationToUri } from '../../../util/otpStrings';
 import { getItineraryPagePath } from '../../../util/path';
@@ -267,7 +268,14 @@ function findTransferProblems(legs, time, position, tailLength, slack) {
   return transfers;
 }
 
-export const getLocalizedMode = (mode, intl) => {
+export const getLocalizedMode = (mode, intl, config) => {
+  if (config.useAlternativeNameForModes?.includes(mode)) {
+    return intl.formatMessage({
+      id: 'settings-alternative-name-rail',
+      defaultMessage: `${mode}`,
+    });
+  }
+
   return intl.formatMessage({
     id: `${mode.toLowerCase()}`,
     defaultMessage: `${mode}`,
@@ -322,7 +330,14 @@ export const getAdditionalMessages = (
   return msgs;
 };
 
-export const getTransitLegState = (leg, intl, messages, time, settings) => {
+export const getTransitLegState = (
+  leg,
+  intl,
+  messages,
+  time,
+  settings,
+  config,
+) => {
   const { start, realtimeState, from, mode, legId, route } = leg;
   const { scheduledTime, estimated } = start;
   if (messages.get(legId)?.closed) {
@@ -330,7 +345,7 @@ export const getTransitLegState = (leg, intl, messages, time, settings) => {
   }
   const slack = settings.minTransferTime * 1000;
   const notInSchedule = estimated?.delay > slack || estimated?.delay < -slack;
-  const localizedMode = getLocalizedMode(mode, intl);
+  const localizedMode = getLocalizedMode(mode, intl, config);
   let content;
   let title;
   let body = '';
@@ -339,7 +354,7 @@ export const getTransitLegState = (leg, intl, messages, time, settings) => {
   const shortName = route.shortName || '';
 
   if (notInSchedule) {
-    const lMode = getLocalizedMode(mode, intl);
+    const lMode = getLocalizedMode(mode, intl, config);
     const routeName = `${lMode} ${shortName}`;
     const { delay } = estimated;
 
@@ -487,10 +502,12 @@ function Transfer(route1, route2, config) {
 }
 
 function TransferText(route1, route2, config, intl) {
-  const from = `${getLocalizedMode(getRouteMode(route1, config), intl)} ${
-    route1.shortName || ''
-  }`;
-  const to = `${getLocalizedMode(getRouteMode(route2, config), intl)} ${
+  const from = `${getLocalizedMode(
+    getRouteMode(route1, config),
+    intl,
+    config,
+  )} ${route1.shortName || ''}`;
+  const to = `${getLocalizedMode(getRouteMode(route2, config), intl, config)} ${
     route2.shortName || ''
   }`;
   return `${from} -> ${to}`;
@@ -543,7 +560,7 @@ export const getItineraryAlerts = (
       const { legId, mode, route } = leg;
       const id = `canceled-${legId}`;
       if (!messages.get(id)) {
-        const lMode = getLocalizedMode(mode, intl);
+        const lMode = getLocalizedMode(mode, intl, config);
         const routeName = `${lMode} ${route.shortName}`;
         const title = intl.formatMessage(
           { id: 'navigation-mode-canceled' },
@@ -695,6 +712,35 @@ export const getItineraryAlerts = (
       });
     }
   }
+
+  // Platform change alerts
+  legs.forEach(leg => {
+    if (leg.transitLeg && legTime(leg.start) > time) {
+      const id = `platform-${leg.legId}`;
+      if (isPlatformChanged(leg) && !messages.get(id)?.closed) {
+        const boardingType = modeUsesTrack(leg.mode) ? 'track' : 'platform';
+        const title = intl.formatMessage({
+          id: `navigation-${boardingType}-change`,
+        });
+        const lMode = getLocalizedMode(leg.mode, intl, config);
+        const routeName = `${lMode} ${leg.route?.shortName}`;
+        const body = intl.formatMessage(
+          { id: `navigation-${boardingType}-change-details` },
+          {
+            number: leg.from.stop.platformCode || '',
+            name: routeName || '',
+          },
+        );
+        alerts.push({
+          severity: 'WARNING',
+          id,
+          title,
+          body,
+        });
+      }
+    }
+  });
+
   return alerts;
 };
 

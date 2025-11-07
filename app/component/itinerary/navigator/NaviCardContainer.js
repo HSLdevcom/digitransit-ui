@@ -128,7 +128,7 @@ function NaviCardContainer(
     if (nextLeg?.transitLeg) {
       // Messages for NaviStack.
       addMessages(incomingMessages, [
-        ...getTransitLegState(nextLeg, intl, messages, time, settings),
+        ...getTransitLegState(nextLeg, intl, messages, time, settings, config),
         ...getAdditionalMessages(
           currentLeg,
           nextLeg,

@@ -484,7 +484,7 @@
 
             .platform-number-wrapper {
               padding: 0 var(--space-xxs);
-              height: 16px;
+              min-height: 16px;
               display: inline-flex;
               justify-content: center;
               align-items: center;

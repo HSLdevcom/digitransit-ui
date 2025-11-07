@@ -42,6 +42,9 @@ import { getCapacityForLeg } from '../../util/occupancyUtil';
 import getCo2Value from '../../util/emissions';
 import { ItineraryFragment } from './queries/ItineraryFragment';
 import { getTicketString } from '../../util/fareUtils';
+import BoardingInformation, {
+  getBoardingInformationText,
+} from './BoardingInformation';
 
 const NAME_LENGTH_THRESHOLD = 65; // for truncating long short names
 
@@ -650,19 +653,7 @@ const Itinerary = (
       } else {
         firstDepartureStopType = 'from-stop';
       }
-      let firstDeparturePlatform;
-      if (firstDeparture.from.stop.platformCode) {
-        const comma = ', ';
-        firstDeparturePlatform = (
-          <span className="platform-or-track">
-            {comma}
-            <FormattedMessage
-              id={firstDeparture.mode === 'RAIL' ? 'track-num' : 'platform-num'}
-              values={{ platformCode: firstDeparture.from.stop.platformCode }}
-            />
-          </span>
-        );
-      }
+
       firstLegStartTime = firstDeparture.rentedBike ? (
         <div
           className={cx('itinerary-first-leg-start-time', {
@@ -721,7 +712,9 @@ const Itinerary = (
               ),
               // In case the first leg is a scooter leg, stopNames[0] is an empty string
               firstDepartureStop: stopNames[0] || stopNames[1],
-              firstDeparturePlatform,
+              firstDeparturePlatform: (
+                <BoardingInformation leg={firstDeparture} />
+              ),
             }}
           />
         </div>
@@ -761,6 +754,7 @@ const Itinerary = (
   const firstDepartureLabelId = firstDepartureWithRentals?.rentedBike
     ? rentalLabelId
     : 'itinerary-summary-row.first-departure';
+
   const textSummary = (
     <div className="sr-only" key="screenReader">
       <FormattedMessage
@@ -779,6 +773,10 @@ const Itinerary = (
                 firstDepartureTime: legTimeStr(firstDeparture.start), // vehicle rental start time
                 stopName: stopNames[0],
                 firstDepartureStop: stopNames[0], // vehicle rental stop name
+                platformOrTrack: getBoardingInformationText(
+                  firstDeparture,
+                  intl,
+                ),
               }}
             />
           ),

@@ -37,6 +37,7 @@ import {
   showCarBoardingNote,
   legTimeStr,
   legTime,
+  isPlatformChanged,
 } from '../../util/legUtils';
 import { shouldShowFareInfo } from '../../util/fareUtils';
 import { AlertEntityType, AlertSeverityLevelType } from '../../constants';
@@ -47,6 +48,11 @@ import InterlineInfo from './InterlineInfo';
 import AlternativeLegsInfo from './AlternativeLegsInfo';
 import LegInfo from './LegInfo';
 import ExternalLink from '../ExternalLink';
+import {
+  getBoardingInformationText,
+  getPlatformChangeLabel,
+} from './BoardingInformation';
+import { modeUsesTrack } from '../../util/modeUtils';
 
 const stopCode = code => code && <StopCode code={code} />;
 
@@ -308,32 +314,28 @@ class TransitLeg extends React.Component {
         }}
       />
     );
+    const platformChanged = isPlatformChanged(leg);
     const textVersionAfterLink = (
-      <FormattedMessage
-        id="itinerary-details.transit-leg-part-2"
-        values={{
-          startStop: leg.from.name,
-          startZoneInfo: intl.formatMessage(
-            { id: 'zone-info' },
-            { zone: leg.from.stop.zoneId },
-          ),
-          endZoneInfo: intl.formatMessage(
-            { id: 'zone-info' },
-            { zone: leg.to.stop.zoneId },
-          ),
-          endStop: leg.to.name,
-          duration: durationToString(leg.duration * 1000),
-          trackInfo: (
-            <PlatformNumber
-              number={leg.from.stop.platformCode}
-              short={false}
-              isRailOrSubway={
-                modeClassName === 'rail' || modeClassName === 'subway'
-              }
-            />
-          ),
-        }}
-      />
+      <>
+        <FormattedMessage
+          id="itinerary-details.transit-leg-part-2"
+          values={{
+            startStop: leg.from.name,
+            startZoneInfo: intl.formatMessage(
+              { id: 'zone-info' },
+              { zone: leg.from.stop.zoneId },
+            ),
+            endZoneInfo: intl.formatMessage(
+              { id: 'zone-info' },
+              { zone: leg.to.stop.zoneId },
+            ),
+            endStop: leg.to.name,
+            duration: durationToString(leg.duration * 1000),
+            trackInfo: getBoardingInformationText(leg, intl, false),
+          }}
+        />
+        {platformChanged && getPlatformChangeLabel(modeUsesTrack(mode), intl)}
+      </>
     );
 
     const alerts = getActiveLegAlerts(leg, startMs / 1000);
@@ -561,6 +563,7 @@ class TransitLeg extends React.Component {
                   isRailOrSubway={
                     modeClassName === 'rail' || modeClassName === 'subway'
                   }
+                  updated={platformChanged}
                 />
               </div>
             </div>
