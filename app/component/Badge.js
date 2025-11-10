@@ -23,7 +23,7 @@ function variantValidator(props, propName, componentName) {
 const getIcon = variant => {
   switch (true) {
     case variant === 'info': {
-      return <Icon img="icon_info_filled" className="info" />;
+      return <Icon img="icon_info-circled" className="info" />;
     }
     case variant === 'success': {
       return <Icon img="icon_check" className="success" />;
