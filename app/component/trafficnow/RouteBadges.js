@@ -3,6 +3,7 @@ import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { entityShape } from '../../util/shapes';
 import Icon from '../Icon';
+import { useRoute } from '../../util/RouteContext';
 import { useConfigContext } from '../../configurations/ConfigContext';
 
 const UNKNOWN_ENTITY_TYPE = 'Unknown';
@@ -65,7 +66,13 @@ function getUniqueShortNameRoutes(routesMap) {
   );
 }
 export default function RouteBadges({ entities }) {
+  const { match } = useRoute();
   const { colors } = useConfigContext();
+
+  const handleRouteBadgeClick = url => e => {
+    e.preventDefault();
+    match.router.push(url);
+  };
 
   if (entities.every(e => e.__typename === UNKNOWN_ENTITY_TYPE)) {
     return null;
@@ -89,8 +96,14 @@ export default function RouteBadges({ entities }) {
               className={`route-badges-lines-row flex-row vertically-centered ${mode.toLowerCase()}`}
             >
               {uniqueRoutes.map(({ id, shortName, gtfsId }) => (
-                <a key={id} href={`/linjat/${gtfsId}`}>
+                <a
+key={id}
+                  onClick={handleRouteBadgeClick(`/linjat/${gtfsId}`)}
+href={`/linjat/${gtfsId}`}
+                >
+                  <span className="route-badges-mode-lines--text">
                   {shortName}
+</span>
                 </a>
               ))}
             </div>
