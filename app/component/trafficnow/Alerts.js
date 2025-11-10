@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import cx from 'classnames';
 import { useLazyLoadQuery } from 'react-relay/hooks';
 import { FormattedMessage } from 'react-intl';
@@ -11,6 +11,11 @@ import NoAlerts from './NoAlerts';
 export default function Alerts() {
   const breakpoint = useBreakpoint();
   const { feedIds } = useConfigContext();
+  const [activeAlertId, setActiveAlertId] = useState();
+
+  const handleCardClick = id => {
+    setActiveAlertId(id);
+  };
 
   const { alerts } = useLazyLoadQuery(AlertsQuery, {
     feedIds,
@@ -36,7 +41,12 @@ export default function Alerts() {
           />
           <div className="traffic-now__bottom__alerts-list">
             {alerts.map(a => (
-              <DisruptionCard key={a.id} alert={a} />
+              <DisruptionCard
+                key={a.id}
+                alert={a}
+                isOpen={activeAlertId === a.id}
+                onClick={handleCardClick}
+              />
             ))}
           </div>
         </>
