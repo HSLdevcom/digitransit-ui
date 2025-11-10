@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useRef } from 'react';
 import cx from 'classnames';
 import { useFragment } from 'react-relay';
 import { FormattedMessage } from 'react-intl';
 import Button from '@hsl-fi/button';
+import PropTypes from 'prop-types';
 import Card from '../Card';
 import { alertShape } from '../../util/shapes';
 import Icon from '../Icon';
@@ -19,7 +20,7 @@ const handleExtraInfoClick = url => e => {
   window.location.href = url;
 };
 
-export default function DisruptionCard({ alert }) {
+export default function DisruptionCard({ alert, isOpen, onClick }) {
   const {
     alertSeverityLevel,
     alertEffect,
@@ -30,8 +31,8 @@ export default function DisruptionCard({ alert }) {
     effectiveEndDate,
     alertUrl,
   } = useFragment(DisruptionCardFragment, alert);
-  const [isOpen, setOpen] = useState(false);
   const { colors } = useConfigContext();
+  const cardRef = useRef(null);
 
   const now = Date.now();
   const isValid =
@@ -44,8 +45,12 @@ export default function DisruptionCard({ alert }) {
 
   return (
     <Card
+      ref={cardRef}
       className="traffic-now__disruption-card"
-      onClick={() => setOpen(!isOpen)}
+      onClick={() => {
+        cardRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        onClick(isOpen ? undefined : alert.id);
+      }}
     >
       <div className="traffic-now__disruption-card__top-row">
         <Badge showIcon variant={alertSeverityLevel} label={alertEffect} />
@@ -107,5 +112,9 @@ export default function DisruptionCard({ alert }) {
   );
 }
 
-DisruptionCard.propTypes = { alert: alertShape.isRequired };
-DisruptionCard.defaultProps = {};
+DisruptionCard.propTypes = {
+  alert: alertShape.isRequired,
+  isOpen: PropTypes.bool.isRequired,
+  onClick: PropTypes.func,
+};
+DisruptionCard.defaultProps = { onClick: () => {} };

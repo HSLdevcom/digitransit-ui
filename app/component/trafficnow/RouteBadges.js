@@ -3,17 +3,20 @@ import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { entityShape } from '../../util/shapes';
 import Icon from '../Icon';
+import { useRoute } from '../../util/RouteContext';
 import { useConfigContext } from '../../configurations/ConfigContext';
+import { getRouteMode } from '../../util/modeUtils';
 
 const UNKNOWN_ENTITY_TYPE = 'Unknown';
 
 /**
  * Extracts routes from entities, groups them by their mode and
  * ensures each route (by id) appears only once per mode.
- * @param {Array} entities
+ * @param {Array} entities - a list of alert related entities
+ * @param {Object} config - contains information about possible extended travel modes
  * @returns {Object} { [mode]: [{ id, shortName }] }
  */
-function groupRoutesByMode(entities) {
+function groupRoutesByMode(entities, config) {
   return entities.reduce((acc, entity) => {
     let routes = [];
     switch (entity.__typename) {
@@ -32,10 +35,11 @@ function groupRoutesByMode(entities) {
 
     routes.forEach(route => {
       if (route && route.id && route.shortName && route.mode) {
-        if (!acc[route.mode]) {
-          acc[route.mode] = new Map();
+        const mode = getRouteMode(route, config);
+        if (!acc[mode]) {
+          acc[mode] = new Map();
         }
-        acc[route.mode].set(route.id, {
+        acc[mode].set(route.id, {
           id: route.id,
           shortName: route.shortName,
           gtfsId: route.gtfsId,
@@ -65,32 +69,40 @@ function getUniqueShortNameRoutes(routesMap) {
   );
 }
 export default function RouteBadges({ entities }) {
-  const { colors } = useConfigContext();
+  const { match } = useRoute();
+  const config = useConfigContext();
+
+  const handleRouteBadgeClick = url => e => {
+    e.preventDefault();
+    match.router.push(url);
+  };
 
   if (entities.every(e => e.__typename === UNKNOWN_ENTITY_TYPE)) {
     return null;
   }
 
-  const routesByMode = useMemo(() => groupRoutesByMode(entities), [entities]);
+  const routesByMode = useMemo(
+    () => groupRoutesByMode(entities, config),
+    [entities, config],
+  );
 
   return (
     <div className="route-badges">
       {Object.entries(routesByMode).map(([mode, routesMap]) => {
         const uniqueRoutes = getUniqueShortNameRoutes(routesMap);
         return (
-          <div className="route-badges-mode flex-row" key={mode}>
-            <Icon
-              img={`icon_${mode.toLowerCase()}`}
-              height={2}
-              width={2}
-              color={colors.iconColors[`mode-${mode.toLowerCase()}`]}
-            />
-            <div
-              className={`route-badges-lines-row flex-row vertically-centered ${mode.toLowerCase()}`}
-            >
+          <div className={`route-badges-mode flex-row ${mode}`} key={mode}>
+            <Icon img={`icon_${mode}`} height={2} width={2} />
+            <div className="route-badges-mode-lines flex-row vertically-centered">
               {uniqueRoutes.map(({ id, shortName, gtfsId }) => (
-                <a key={id} href={`/linjat/${gtfsId}`}>
-                  {shortName}
+                <a
+                  key={id}
+                  onClick={handleRouteBadgeClick(`/linjat/${gtfsId}`)}
+                  href={`/linjat/${gtfsId}`}
+                >
+                  <span className="route-badges-mode-lines--text">
+                    {shortName}
+                  </span>
                 </a>
               ))}
             </div>
