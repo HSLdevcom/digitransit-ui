@@ -1,8 +1,8 @@
 import React, { Suspense } from 'react';
 import cx from 'classnames';
-import Button from '@hsl-fi/button';
+// import Button from '@hsl-fi/button';
 import Header from './Header';
-import Filters from './Filters';
+// import Filters from './Filters';
 import Alerts from './Alerts';
 import { useBreakpoint } from '../../util/withBreakpoint';
 import Gutterer from '../Gutterer';
@@ -36,7 +36,7 @@ export default function TrafficNow() {
             'flex-row': !mobile,
           })}
         >
-          {!mobile ? (
+          {/* !mobile ? (
             <Filters />
           ) : (
             <Button
@@ -45,7 +45,7 @@ export default function TrafficNow() {
               variant="blue"
               value="Suodattimet"
             />
-          )}
+          ) */}
           <Suspense fallback={<Loading />}>
             <Alerts />
           </Suspense>
