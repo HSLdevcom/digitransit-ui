@@ -34,25 +34,9 @@
     gap: 20px;
     padding: 0 50px;
 
-    /* h2 {
-      font-size: 36px;
-      letter-spacing: -1px;
-    }
-
-    .description {
-      font-weight: 325;
-      font-size: 20px;
-      line-height: 30px;
-      letter-spacing: -0.5px;
-    } */
-
     &-breadcrumb {
       display: inline-flex;
       align-items: center;
-
-      // font-weight: 350;
-      // font-size: 16px;
-      // letter-spacing: -2%;
     }
 
     &-crumbarrow {
@@ -101,6 +85,8 @@
       flex-direction: column;
       min-width: 0;
       gap: inherit;
+      min-height: 0;
+      overflow-y: auto;
 
       &-list {
         display: flex;
@@ -138,6 +124,7 @@
     gap: var(--space-s);
     border-radius: var(--radius-m);
     border: 1px solid $light-gray;
+    cursor: pointer;
 
     &:hover &__icon {
       transform: translateY(4px);
@@ -168,35 +155,27 @@
 
       &-mode {
         gap: var(--space-xxs);
-      }
 
-      &-lines-row {
-        display: flex;
-        flex-wrap: wrap;
-        gap: var(--space-xxs);
+        &-lines {
+          display: flex;
+          flex-wrap: wrap;
+          gap: var(--space-xxs);
 
-        &.bus a {
-          @include line-color($bus-color);
-        }
+          a {
+            color: inherit;
+            background-color: color-mix(in srgb, currentcolor, white 90%);
+            border-radius: var(--radius-s);
+            padding: var(--space-xs) var(--space-xxs);
+            text-decoration: none;
 
-        &.metro a,
-        &.subway a {
-          @include line-color($metro-color);
-        }
+            &:hover {
+              background-color: color-mix(in srgb, currentcolor, white 80%);
+            }
+          }
 
-        &.tram a {
-          @include line-color($tram-color);
-        }
-
-        &.rail a {
-          @include line-color($rail-color);
-        }
-
-        a {
-          color: $black;
-          border-radius: var(--radius-s);
-          padding: var(--space-xs) var(--space-xxs);
-          text-decoration: none;
+          &--text {
+            color: $black;
+          }
         }
       }
     }
