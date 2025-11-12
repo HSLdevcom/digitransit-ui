@@ -20,7 +20,16 @@ const iconMap = {
 };
 
 export default function NaviCard(
-  { leg, nextLeg, legType, time, position, tailLength, cardAnimation },
+  {
+    leg,
+    nextLeg,
+    legType,
+    time,
+    position,
+    tailLength,
+    cardAnimation,
+    platformUpdated,
+  },
   { config },
 ) {
   const [cardExpanded, setCardExpanded] = useState(false);
@@ -121,6 +130,7 @@ export default function NaviCard(
             leg={leg}
             nextLeg={nextLeg}
             time={time}
+            platformUpdated={platformUpdated}
           />
         </div>
       </div>
@@ -139,11 +149,13 @@ NaviCard.propTypes = {
   }),
   tailLength: PropTypes.number.isRequired,
   cardAnimation: PropTypes.string.isRequired,
+  platformUpdated: PropTypes.bool,
 };
 NaviCard.defaultProps = {
   leg: undefined,
   nextLeg: undefined,
   position: undefined,
+  platformUpdated: false,
 };
 
 NaviCard.contextTypes = {

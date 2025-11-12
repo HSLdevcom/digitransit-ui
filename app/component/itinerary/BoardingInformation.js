@@ -1,10 +1,10 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import cx from 'classnames';
 import PlatformNumber from '../PlatformNumber';
 import { modeUsesTrack } from '../../util/modeUtils';
 import { isPlatformChanged } from '../../util/legUtils';
+import { legShape } from '../../util/shapes';
 
 /**
  * BoardingInformation displays platform or track information for a transit leg.
@@ -50,7 +50,7 @@ function BoardingInformation({ leg }) {
 }
 
 BoardingInformation.propTypes = {
-  leg: PropTypes.object.isRequired,
+  leg: legShape.isRequired,
 };
 
 /**
