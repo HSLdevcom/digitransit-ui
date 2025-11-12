@@ -4,7 +4,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { addAnalyticsEvent } from '../../../util/analyticsUtils';
 import { GeodeticToEnu } from '../../../util/geo-utils';
-import { isPlatformChanged, legTime, legTimeAcc } from '../../../util/legUtils';
+import { legTime, legTimeAcc, PLATFORM_STATUS } from '../../../util/legUtils';
 import {
   getRouteMode,
   getStopMode,
@@ -523,6 +523,8 @@ export const getItineraryAlerts = (
   itinerarySearchCallback,
   config,
   settings,
+  nextLeg,
+  platformStatus,
 ) => {
   const alerts = [];
   const slack = settings.minTransferTime * 1000;
@@ -713,33 +715,38 @@ export const getItineraryAlerts = (
     }
   }
 
-  // Platform change alerts
-  legs.forEach(leg => {
-    if (leg.transitLeg && legTime(leg.start) > time) {
-      const id = `platform-${leg.legId}`;
-      if (isPlatformChanged(leg) && !messages.get(id)?.closed) {
-        const boardingType = modeUsesTrack(leg.mode) ? 'track' : 'platform';
-        const title = intl.formatMessage({
-          id: `navigation-${boardingType}-change`,
-        });
-        const lMode = getLocalizedMode(leg.mode, intl, config);
-        const routeName = `${lMode} ${leg.route?.shortName}`;
-        const body = intl.formatMessage(
-          { id: `navigation-${boardingType}-change-details` },
-          {
-            number: leg.from.stop.platformCode || '',
-            name: routeName || '',
-          },
-        );
-        alerts.push({
-          severity: 'WARNING',
-          id,
-          title,
-          body,
-        });
-      }
+  // Platform change alert for the next leg of the journey.
+  if (
+    platformStatus !== PLATFORM_STATUS.NORMAL &&
+    nextLeg?.transitLeg &&
+    legTime(nextLeg.start) > time
+  ) {
+    const id = `platform-${nextLeg.legId}`;
+    if (!messages.get(id)?.closed) {
+      const boardingType = modeUsesTrack(nextLeg.mode) ? 'track' : 'platform';
+      const translationKey =
+        platformStatus === PLATFORM_STATUS.RESTORED
+          ? `navigation-${boardingType}-restored`
+          : `navigation-${boardingType}-change`;
+      const title = intl.formatMessage({ id: translationKey });
+      const lMode = getLocalizedMode(nextLeg.mode, intl, config);
+      const routeName = `${lMode} ${nextLeg.route?.shortName}`;
+      const body = intl.formatMessage(
+        { id: `navigation-${boardingType}-change-details` },
+        {
+          number: nextLeg.from.stop.platformCode || '',
+          name: routeName || '',
+        },
+      );
+      alerts.push({
+        severity: 'WARNING',
+        id,
+        expiresOn: legTime(nextLeg.start),
+        title,
+        body,
+      });
     }
-  });
+  }
 
   return alerts;
 };

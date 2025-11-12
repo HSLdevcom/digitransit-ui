@@ -10,7 +10,6 @@ import {
   getHeadsignFromRouteLongName,
   legTime,
   legTimeStr,
-  isPlatformChanged,
 } from '../../../util/legUtils';
 import ZoneIcon from '../../ZoneIcon';
 import { legShape, configShape } from '../../../util/shapes';
@@ -21,7 +20,10 @@ import BoardingInfo from './BoardingInfo';
 import { getModeIconColor } from '../../../util/colorUtils';
 import Duration from '../Duration';
 
-const NaviCardExtension = ({ legType, leg, nextLeg, time }, { config }) => {
+const NaviCardExtension = (
+  { legType, leg, nextLeg, time, platformUpdated },
+  { config },
+) => {
   const { stop, name, rentalVehicle, vehicleParking, vehicleRentalStation } =
     leg ? leg.to : nextLeg.from;
   const { code, platformCode, zoneId, vehicleMode } = stop || {};
@@ -98,7 +100,7 @@ const NaviCardExtension = ({ legType, leg, nextLeg, time }, { config }) => {
                 number={platformCode}
                 short
                 isRailOrSubway={modeUsesTrack(vehicleMode)}
-                updated={isPlatformChanged(nextLeg)}
+                updated={platformUpdated}
               />
             )}
             <ZoneIcon
@@ -170,12 +172,14 @@ NaviCardExtension.propTypes = {
   nextLeg: legShape,
   legType: PropTypes.string,
   time: PropTypes.number.isRequired,
+  platformUpdated: PropTypes.bool,
 };
 
 NaviCardExtension.defaultProps = {
   legType: '',
   leg: undefined,
   nextLeg: undefined,
+  platformUpdated: false,
 };
 
 NaviCardExtension.contextTypes = {
