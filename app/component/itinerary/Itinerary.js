@@ -27,6 +27,7 @@ import {
   legTimeStr,
   LegMode,
   getZones,
+  isCallAgencyLeg,
 } from '../../util/legUtils';
 import { dateOrEmpty, isTomorrow, timeStr } from '../../util/timeUtils';
 import withBreakpoint from '../../util/withBreakpoint';
@@ -635,8 +636,24 @@ const Itinerary = (
   const iconLegsInPixels = (24 * onlyIconLegs) / normalLegs;
   // the leftover percentage from only showing icons added to each 'normal' leg
   const iconLegsInPercents = onlyIconLegsLength / normalLegs;
+  const hasCallAgencyLeg = itinerary.legs.find(leg => isCallAgencyLeg(leg));
   let firstDeparture;
-  if (!noTransitLegs) {
+  if (hasCallAgencyLeg) {
+    firstLegStartTime = (
+      <div
+        className={cx('itinerary-first-leg-start-time', {
+          small: breakpoint !== 'large',
+        })}
+      >
+        <Icon
+          img="icon_alert-circle"
+          className="itinerary-summary-icon"
+          omitViewBox
+        />
+        <FormattedMessage id="itinerary-summary-row.call-agency-description" />
+      </div>
+    );
+  } else if (!noTransitLegs) {
     firstDeparture = compressedLegs.find(isTransitLeg);
     if (firstDeparture) {
       let firstDepartureStopType;
@@ -761,48 +778,57 @@ const Itinerary = (
   const firstDepartureLabelId = firstDepartureWithRentals?.rentedBike
     ? rentalLabelId
     : 'itinerary-summary-row.first-departure';
-  const textSummary = (
-    <div className="sr-only" key="screenReader">
-      <FormattedMessage
-        id="itinerary-summary-row.description"
-        values={{
-          departureDate: dateOrEmpty(startTime, refTime),
-          departureTime,
-          arrivalDate: dateOrEmpty(endTime, refTime),
-          arrivalTime,
-          firstDeparture: vehicleNames.length && firstDeparture && (
-            <FormattedMessage
-              id={firstDepartureLabelId}
-              values={{
-                vehicle: vehicleNames[0],
-                departureTime: legTimeStr(firstDeparture.start),
-                firstDepartureTime: legTimeStr(firstDeparture.start), // vehicle rental start time
-                stopName: stopNames[0],
-                firstDepartureStop: stopNames[0], // vehicle rental stop name
-              }}
-            />
-          ),
-          transfers: vehicleNames.map((name, index) => {
-            if (index === 0) {
-              return null;
-            }
-            return formatMessage(
-              {
-                id: stopNames[index]
-                  ? 'itinerary-summary-row.transfers'
-                  : 'itinerary-summary-row.transfers-to-rental',
-              },
-              {
-                vehicle: name,
-                stopName: stopNames[index],
-              },
-            );
-          }),
-          totalTime: <Duration duration={duration} />,
-        }}
-      />
-    </div>
-  );
+  let textSummary = '';
+  if (hasCallAgencyLeg) {
+    textSummary = (
+      <div className="sr-only" key="screenReader">
+        <FormattedMessage id="itinerary-summary-row.call-agency-description" />
+      </div>
+    );
+  } else {
+    textSummary = (
+      <div className="sr-only" key="screenReader">
+        <FormattedMessage
+          id="itinerary-summary-row.description"
+          values={{
+            departureDate: dateOrEmpty(startTime, refTime),
+            departureTime,
+            arrivalDate: dateOrEmpty(endTime, refTime),
+            arrivalTime,
+            firstDeparture: vehicleNames.length && firstDeparture && (
+              <FormattedMessage
+                id={firstDepartureLabelId}
+                values={{
+                  vehicle: vehicleNames[0],
+                  departureTime: legTimeStr(firstDeparture.start),
+                  firstDepartureTime: legTimeStr(firstDeparture.start), // vehicle rental start time
+                  stopName: stopNames[0],
+                  firstDepartureStop: stopNames[0], // vehicle rental stop name
+                }}
+              />
+            ),
+            transfers: vehicleNames.map((name, index) => {
+              if (index === 0) {
+                return null;
+              }
+              return formatMessage(
+                {
+                  id: stopNames[index]
+                    ? 'itinerary-summary-row.transfers'
+                    : 'itinerary-summary-row.transfers-to-rental',
+                },
+                {
+                  vehicle: name,
+                  stopName: stopNames[index],
+                },
+              );
+            }),
+            totalTime: <Duration duration={duration} />,
+          }}
+        />
+      </div>
+    );
+  }
   const co2summary = (
     <div className="sr-only">
       <FormattedMessage
@@ -911,6 +937,7 @@ const Itinerary = (
                 <div className="itinerary-start-date">{startDate}</div>
               )}
               <div className="itinerary-start-time-and-end-time">
+                {hasCallAgencyLeg && <FormattedMessage id="estimate" />}{' '}
                 {`${departureTime} - ${arrivalTime}`}
               </div>
 
@@ -929,6 +956,7 @@ const Itinerary = (
                 </div>
               )}
               <div className="itinerary-duration">
+                {hasCallAgencyLeg && <FormattedMessage id="estimate" />}{' '}
                 <Duration duration={duration} />
               </div>
             </div>
