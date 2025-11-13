@@ -103,6 +103,8 @@ function getAriaDescription(ariaContentArray) {
   return description?.toLowerCase();
 }
 
+const stopLayers = ['station', 'stop'];
+
 function getIconProperties(item, modeSet, stopCode, modes) {
   let iconId;
 
@@ -132,7 +134,11 @@ function getIconProperties(item, modeSet, stopCode, modes) {
     if (item.properties.layer === 'bikepark') {
       return [`bike-park`];
     }
-    if (item.properties.label?.split(',').length === 1 && !isFavourite(item)) {
+    if (
+      item.properties.label?.split(',').length === 1 &&
+      !isFavourite(item) &&
+      !stopLayers.includes(item.properties.layer)
+    ) {
       return ['city'];
     }
     iconId = item.properties.layer;

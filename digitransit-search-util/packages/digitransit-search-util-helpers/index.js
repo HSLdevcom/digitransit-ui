@@ -60,7 +60,9 @@ export const mapRoute = (item, pathOpts) => {
   const routesPrefix = opts.routesPrefix || DEFAULT_ROUTES_PREFIX;
   const stopsPrefix = opts.stopsPrefix || DEFAULT_STOPS_PREFIX;
 
-  const link = `/${routesPrefix}/${item.gtfsId}/${stopsPrefix}`;
+  const link = `/${routesPrefix}/${encodeURIComponent(
+    item.gtfsId,
+  )}/${stopsPrefix}`;
   return {
     type: 'Route',
     properties: {
