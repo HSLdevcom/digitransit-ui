@@ -12,6 +12,7 @@ import Badge from '../Badge';
 import DisruptionCardFragment from './queries/DisruptionCardFragment';
 import RouteBadges from './RouteBadges';
 import { getFormattedTimeDate } from '../../util/timeUtils';
+import { AlertSeverityLevelType } from '../../constants';
 
 const DATE_FORMAT = 'd.L.yyyy';
 
@@ -93,8 +94,12 @@ export default function DisruptionCard({ alert, isOpen, onClick }) {
               </>
             )}
           </div>
-          <div className="separator vertical" />
-          {validityPeriod}
+          {alertSeverityLevel !== AlertSeverityLevelType.Info && (
+            <>
+              <div className="separator vertical" />
+              {validityPeriod}
+            </>
+          )}
         </div>
         {alertUrl && isOpen && (
           <div className="traffic-now__disruption-card__content-row-info">
