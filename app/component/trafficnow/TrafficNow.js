@@ -27,11 +27,10 @@ export default function TrafficNow() {
         rightGutterStyles={{
           backgroundColor: 'var(--background-color-lighter)',
         }}
-        containerStyles={{ height: '100%' }}
       >
         <div
-          className={cx('traffic-now__bottom', {
-            'traffic-now__bottom--mobile': mobile,
+          className={cx('traffic-now__content', {
+            'traffic-now__content--mobile': mobile,
             'flex-column': mobile,
             'flex-row': !mobile,
           })}
