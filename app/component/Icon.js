@@ -2,6 +2,10 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 
+const STOP_SIGN_ICON_SCALE = 0.5;
+const STOP_SIGN_POLE_WIDTH = 4;
+const STOP_SIGN_POLE_X = 20 - STOP_SIGN_POLE_WIDTH / 2;
+
 const isBadgeTextLong = badgeText => badgeText.length > 1 || badgeText > 9;
 
 const IconBadge = ({ badgeFill, badgeText, textFill }) => {
@@ -74,6 +78,7 @@ function Icon({
   dataURI,
   ariaLabel,
 }) {
+  const scaleToFitSignShape = backgroundShape === 'stopsign';
   return (
     <span aria-hidden className="icon-container">
       <svg
@@ -98,10 +103,38 @@ function Icon({
             r="20"
           />
         )}
-        {!dataURI && <use xlinkHref={`#${img}`} />}
-        {dataURI && (
-          <image href={dataURI} x={0} y={0} width="100%" height="100%" />
+        {backgroundShape === 'stopsign' && (
+          <>
+            <circle
+              className="icon-stopsign-circle"
+              cx="20"
+              cy="20"
+              fill={backgroundColor}
+              r="13.33"
+            />
+            <rect
+              className="icon-stopsign-pole"
+              x={STOP_SIGN_POLE_X}
+              y="33.33"
+              width={STOP_SIGN_POLE_WIDTH}
+              height="6.67"
+              fill="#333333"
+              rx="2"
+            />
+          </>
         )}
+        <g
+          transform={
+            scaleToFitSignShape
+              ? `translate(20,20) scale(${STOP_SIGN_ICON_SCALE}) translate(-20,-20)`
+              : undefined
+          }
+        >
+          {!dataURI && <use xlinkHref={`#${img}`} />}
+          {dataURI && (
+            <image href={dataURI} x={0} y={0} width="100%" height="100%" />
+          )}
+        </g>
       </svg>
       <IconBadge
         badgeFill={badgeFill}
@@ -113,7 +146,7 @@ function Icon({
 }
 
 Icon.propTypes = {
-  backgroundShape: PropTypes.oneOf(['circle']),
+  backgroundShape: PropTypes.oneOf(['circle', 'stopsign']),
   backgroundColor: PropTypes.string,
   badgeFill: PropTypes.string,
   badgeText: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
