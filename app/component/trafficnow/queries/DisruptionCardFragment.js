@@ -17,12 +17,8 @@ export default graphql`
         name
         code
         gtfsId
-        routes {
-          gtfsId
-          id
-          mode
-          shortName
-        }
+        locationType
+        vehicleMode
       }
       ... on Route {
         gtfsId
@@ -36,6 +32,14 @@ export default graphql`
           id
           mode
           shortName
+        }
+        stop {
+          id
+          name
+          code
+          gtfsId
+          locationType
+          vehicleMode
         }
       }
     }

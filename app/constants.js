@@ -128,3 +128,8 @@ export const PlannerMessageType = Object.freeze({
   NoStopsInRange: 'NO_STOPS_IN_RANGE',
   SystemError: 'SYSTEM_ERROR',
 });
+
+export const LocationTypes = Object.freeze({
+  STOP: 'STOP',
+  STATION: 'STATION',
+});
