@@ -7,7 +7,6 @@ const tampereTimetables = ttConfig.tampere;
 const CONFIG = 'tampere';
 const APP_TITLE = 'Nyssen reittiopas';
 const APP_DESCRIPTION = 'Nyssen reittiopas';
-const CDN_URL = process.env.MAP_URL || 'https://dev-cdn.digitransit.fi';
 
 const IS_DEV =
   process.env.RUN_ENV === 'development' ||
