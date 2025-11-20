@@ -23,6 +23,7 @@ import {
 
 import { PREFIX_BIKESTATIONS, PREFIX_RENTALVEHICLES } from '../../../util/path';
 import { renderAsString } from '../../../util/mapIconUtils';
+import IconBadge from '../../icon/IconBadge';
 
 // Small icon for zoom levels <= 15
 const smallIconSvg = `
@@ -74,23 +75,23 @@ export default class VehicleMarker extends React.Component {
           iconAnchor: [15, 40],
           html: showBikeAvailability
             ? renderAsString(
-                <Icon
-                  img={iconName}
-                  className="city-bike-medium-size"
-                  badgeFill={getVehicleAvailabilityIndicatorColor(
-                    rental?.availableVehicles?.total,
-                    config,
-                  )}
-                  badgeTextFill={getVehicleAvailabilityTextColor(
-                    rental?.availableVehicles?.total,
-                    config,
-                  )}
-                  badgeText={
-                    vehicleCapacity !== BIKEAVL_UNKNOWN
-                      ? rental?.availableVehicles?.total
-                      : null
-                  }
-                />,
+                <Icon img={iconName} className="city-bike-medium-size">
+                  <IconBadge
+                    badgeFill={getVehicleAvailabilityIndicatorColor(
+                      rental?.availableVehicles?.total,
+                      config,
+                    )}
+                    badgeTextFill={getVehicleAvailabilityTextColor(
+                      rental?.availableVehicles?.total,
+                      config,
+                    )}
+                    badgeText={
+                      vehicleCapacity !== BIKEAVL_UNKNOWN
+                        ? rental?.availableVehicles?.total
+                        : null
+                    }
+                  />
+                </Icon>,
               )
             : renderAsString(
                 <Icon img={iconName} className="city-bike-medium-size" />,

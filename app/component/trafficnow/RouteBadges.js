@@ -2,11 +2,15 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { entityShape } from '../../util/shapes';
-import Icon from '../Icon';
 import { useRoute } from '../../util/RouteContext';
 import { useConfigContext } from '../../configurations/ConfigContext';
 import { AlertEntityType } from '../../constants';
 import { groupEntitiesByMode } from './utils';
+import Icon from '../Icon';
+import IconBackground from '../icon/IconBackground';
+
+const STOP_SIGN_ICON_SCALE = 0.5;
+const NORMAL_ICON_SCALE = 1;
 
 export default function RouteBadges({ entities: rawEntities }) {
   const { match } = useRoute();
@@ -32,12 +36,16 @@ export default function RouteBadges({ entities: rawEntities }) {
         ([key, { mode, isRoute, entities }]) => (
           <div key={key} className={`route-badges-mode flex-row ${mode}`}>
             <Icon
-              backgroundShape={isRoute ? undefined : 'stopsign'}
-              backgroundColor="currentcolor"
               img={`icon_${mode}`}
               height={2}
               width={2}
-            />
+              iconScale={isRoute ? NORMAL_ICON_SCALE : STOP_SIGN_ICON_SCALE}
+            >
+              <IconBackground
+                backgroundShape={isRoute ? undefined : 'stopsign'}
+                backgroundColor="currentcolor"
+              />
+            </Icon>
             <div className="route-badges-mode-lines flex-row vertically-centered">
               {entities.map(({ id, name, url }) => (
                 <a key={id} onClick={handleRouteBadgeClick(url)} href={url}>

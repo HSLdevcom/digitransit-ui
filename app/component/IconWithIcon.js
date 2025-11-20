@@ -3,6 +3,7 @@ import React from 'react';
 
 import { intlShape } from 'react-intl';
 import Icon from './Icon';
+import IconBadge from './icon/IconBadge';
 
 const IconWithIcon = (
   {
@@ -24,14 +25,17 @@ const IconWithIcon = (
   <span id={id} className={className}>
     <span>
       <Icon
-        badgeFill={badgeFill}
-        badgeText={badgeText}
-        badgeTextFill={badgeTextFill}
         color={color}
         img={img}
         viewBox={mode === 'call' ? '0 0 60 60' : undefined}
         omitViewBox={omitViewBox}
-      />
+      >
+        <IconBadge
+          badgeFill={badgeFill}
+          badgeText={badgeText}
+          badgeTextFill={badgeTextFill}
+        />
+      </Icon>
     </span>
     {subIcon && (
       <span
