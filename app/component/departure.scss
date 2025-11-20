@@ -193,6 +193,24 @@
   &.empty {
     background: none;
   }
+
+  .platform-short {
+    width: unset;
+    color: inherit;
+
+    .platform-number-wrapper {
+      height: inherit;
+      font-size: inherit;
+      color: inherit;
+      padding: 0 4px 0 4px;
+
+      &.platform-updated {
+        padding: 0 8px 0 4px;
+        margin: unset;
+        color: $cancelation-red;
+      }
+    }
+  }
 }
 
 // route-number component

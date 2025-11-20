@@ -874,18 +874,17 @@ export const PLATFORM_STATUS = {
 };
 
 /**
- * Returns platform change status for a leg.
+ * Returns platform change status for a leg or a specific departure in the case of a terminal page.
  * @param {object} leg
  * @returns {string} status
  */
 export function getPlatformChangeStatus(leg, prevPlatform) {
   let status = PLATFORM_STATUS.NORMAL;
-
-  if (!leg?.trip || !leg.start.scheduledTime) {
+  if (!leg?.trip || (!leg.start?.scheduledTime && !leg.time)) {
     return status;
   }
-  const startTimeEpoch = new Date(leg.start.scheduledTime).getTime();
-
+  const startTime = leg.start?.scheduledTime || leg.time * 1000;
+  const startTimeEpoch = new Date(startTime).getTime();
   // Find a matching stop in the updated stoptimesForDate
   const updatedStop = leg.trip.stoptimesForDate?.find(s => {
     const departureTimeEpoch = (s.serviceDay + s.scheduledDeparture) * 1000;
