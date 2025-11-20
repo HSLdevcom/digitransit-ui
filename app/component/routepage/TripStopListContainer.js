@@ -77,12 +77,18 @@ class TripStopListContainer extends React.PureComponent {
     const nextStop = vehicle && vehicle.next_stop;
     let stopPassed = true;
 
+    const nextStopExistsOnRoute =
+      nextStop &&
+      trip.stoptimesForDate.some(stoptime => stoptime.stop.gtfsId === nextStop);
+
     return trip.stoptimesForDate.map((stoptime, index) => {
       if (nextStop === stoptime.stop.gtfsId) {
         stopPassed = false;
       } else if (
         stoptime.realtimeDeparture + stoptime.serviceDay > currentTime &&
-        (isEmpty(vehicle) || (vehicle && vehicle.next_stop === undefined))
+        (isEmpty(vehicle) ||
+          (vehicle && vehicle.next_stop === undefined) ||
+          !nextStopExistsOnRoute)
       ) {
         stopPassed = false;
       }
