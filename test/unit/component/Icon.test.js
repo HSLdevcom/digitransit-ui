@@ -2,6 +2,7 @@ import React from 'react';
 
 import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
 import Icon from '../../../app/component/Icon';
+import { renderAsString } from '../../../app/util/mapIconUtils';
 
 describe('<Icon />', () => {
   const backgroundShape = 'circle';
@@ -16,8 +17,15 @@ describe('<Icon />', () => {
   });
 
   it('should include a circle as part of the svg string representation', () => {
-    const result = Icon.asString({ backgroundShape, className, id, img });
-    expect(result).to.contain('<circle');
+    const result = renderAsString(
+      <Icon
+        backgroundShape={backgroundShape}
+        id={id}
+        img={img}
+        className={className}
+      />,
+    );
+    expect(result).to.contain('circle');
   });
 
   it('should render <image /> if dataURI is defined', () => {

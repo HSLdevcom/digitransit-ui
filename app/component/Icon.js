@@ -48,19 +48,6 @@ IconBadge.defaultProps = {
   textFill: '#fff',
 };
 
-IconBadge.asString = (badgeFill, badgeText, badgeTextFill) => {
-  if (!badgeFill || (!badgeText && badgeText !== 0)) {
-    return '';
-  }
-  return `
-  <svg class="icon-badge" viewBox="0 0 40 40">
-    <circle class="badge-circle" cx="20" cy="20" fill="${badgeFill}" r="20"/>
-    <text class="${cx('badge-text', {
-      long: isBadgeTextLong(badgeText),
-    })}" dy="0.3em" x="20" y="20" fill=${badgeTextFill}>${badgeText}</text>
-  </svg>`;
-};
-
 function Icon({
   backgroundShape,
   backgroundColor,
@@ -179,34 +166,6 @@ Icon.defaultProps = {
   ariaLabel: '',
   dataURI: undefined,
 };
-
-Icon.asString = ({
-  img,
-  className,
-  id,
-  badgeFill = undefined,
-  badgeText = undefined,
-  badgeTextFill = undefined,
-  backgroundShape = undefined,
-  color,
-}) => `
-  <span class="icon-container">
-    <svg
-      ${id ? ` id=${id}` : ''}
-      viewBox="0 0 40 40"
-      class="${cx('icon', className)}"
-      style="fill: ${color || null}",
-    >
-      ${
-        backgroundShape === 'circle'
-          ? '<circle className="icon-circle" cx="20" cy="20" fill="white" r="20" />'
-          : ''
-      }
-      <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#${img}"/>
-    </svg>
-    ${IconBadge.asString(badgeFill, badgeText, badgeTextFill)}
-  </span>
-`;
 
 Icon.displayName = 'Icon';
 Icon.description = 'Shows an icon from the SVG sprite';
