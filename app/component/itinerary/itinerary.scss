@@ -2122,10 +2122,6 @@ $itinerary-tab-switch-height: 48px;
         font-size: 16px;
         white-space: nowrap;
 
-        &.long {
-          width: calc(100% - 42px);
-        }
-
         .bar {
           width: 100%;
           background-color: currentcolor;
@@ -2143,6 +2139,12 @@ $itinerary-tab-switch-height: 48px;
         .vcenter-children {
           width: 100%;
           display: flex;
+
+          .special-icon {
+            margin-left: unset;
+            position: unset;
+            margin-top: unset;
+          }
         }
 
         .subicon-info,

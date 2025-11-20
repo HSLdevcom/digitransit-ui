@@ -35,7 +35,13 @@ const CallAgencyLeg = (
     />
   );
   return (
-    <TransitLeg mode={modeClassName} leg={leg} omitDivider {...props}>
+    <TransitLeg
+      mode={modeClassName}
+      leg={leg}
+      mobile={mobile}
+      omitDivider
+      {...props}
+    >
       <CallAgencyDisclaimer
         key={key}
         text={notification.content}

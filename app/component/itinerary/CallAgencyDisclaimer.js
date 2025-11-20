@@ -1,13 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import Icon from '../Icon';
-import OnDemandInfo from './OnDemandInfo';
-import {
-  agencyShape,
-  routeShape,
-  pickupBookingInfoShape,
-} from '../../util/shapes';
 
 export default function CallAgencyDisclaimer({
   textId,
@@ -16,35 +10,7 @@ export default function CallAgencyDisclaimer({
   href,
   linkText,
   header,
-  routeNumber,
-  pickupBookingInfo,
-  agency,
-  route,
-  mobile,
 }) {
-  const [infoOpenState, setInfoOpenState] = useState(false);
-
-  const openOnDemandInfo = () => {
-    setInfoOpenState(true);
-  };
-
-  const closeOnDemandInfo = () => {
-    setInfoOpenState(false);
-  };
-
-  if (infoOpenState) {
-    return (
-      <OnDemandInfo
-        routeNumber={routeNumber}
-        route={route}
-        pickupBookingInfo={pickupBookingInfo}
-        agency={agency}
-        onClose={closeOnDemandInfo}
-        mobile={mobile}
-      />
-    );
-  }
-
   return (
     <div className="call-agency-disclaimer-container">
       <Icon className="info" img="icon_info" />
@@ -55,7 +21,9 @@ export default function CallAgencyDisclaimer({
           <button
             type="button"
             className="external-link-button"
-            onClick={openOnDemandInfo}
+            onClick={() => {
+              window.open(href, '_blank', 'noopener,noreferrer');
+            }}
           >
             {linkText}
           </button>
@@ -72,11 +40,6 @@ CallAgencyDisclaimer.propTypes = {
   href: PropTypes.string,
   linkText: PropTypes.string,
   header: PropTypes.string,
-  routeNumber: PropTypes.node,
-  pickupBookingInfo: pickupBookingInfoShape,
-  agency: agencyShape,
-  route: routeShape.isRequired,
-  mobile: PropTypes.bool,
 };
 
 CallAgencyDisclaimer.defaultProps = {
@@ -86,8 +49,4 @@ CallAgencyDisclaimer.defaultProps = {
   href: null,
   linkText: null,
   header: null,
-  routeNumber: null,
-  pickupBookingInfo: null,
-  agency: null,
-  mobile: false,
 };
