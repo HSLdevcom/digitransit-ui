@@ -9,6 +9,7 @@ import {
   routeShape,
 } from '../../util/shapes';
 import Icon from '../Icon';
+import FavouriteRouteContainer from '../routepage/FavouriteRouteContainer';
 
 function OnDemandInfo(
   { routeNumber, route, pickupBookingInfo, agency, mobile, onClose },
@@ -22,7 +23,7 @@ function OnDemandInfo(
     <>
       {ReactDOM.createPortal(
         <div className="main-content">
-          <div className={`back-button ${mobile ? 'mobile' : ''}`}>
+          <div className={`back-button on-demand ${mobile ? 'mobile' : ''}`}>
             <button
               type="button"
               className="icon-holder noborder cursor-pointer"
@@ -41,7 +42,13 @@ function OnDemandInfo(
             </button>
           </div>
           <div className={`on-demand-info-container ${mobile ? 'mobile' : ''}`}>
-            <div className="route-header ">{routeNumber}</div>
+            <div className="route-header">
+              {routeNumber}
+              <FavouriteRouteContainer
+                className="on-demand-route-page-header"
+                gtfsId={route.gtfsId}
+              />
+            </div>
             <div className="divider top" />
             <div className="ticket-information">
               <div className="on-demand-info-headline">

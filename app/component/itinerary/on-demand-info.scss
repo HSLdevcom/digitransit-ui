@@ -12,13 +12,15 @@
 
 .main-content {
   .back-button {
-    top: 45px;
-    z-index: 2;
+    &.on-demand {
+      top: 45px;
+      z-index: 2;
 
-    &.mobile {
-      position: fixed;
-      top: 65px;
-      z-index: 1;
+      &.mobile {
+        position: fixed;
+        top: 65px;
+        z-index: 1;
+      }
     }
   }
 }
@@ -102,6 +104,10 @@
           margin-left: 1px;
         }
       }
+    }
+
+    .on-demand-route-page-header {
+      padding-top: 34px;
     }
   }
 
