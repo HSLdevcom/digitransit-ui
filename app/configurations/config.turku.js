@@ -70,13 +70,6 @@ export default configMerger(walttiConfig, {
     },
   },
 
-  searchParams: {
-    'boundary.rect.min_lat': 59.963388,
-    'boundary.rect.max_lat': 60.950777,
-    'boundary.rect.min_lon': 21.145557,
-    'boundary.rect.max_lon': 22.939795,
-  },
-
   colors: {
     primary: '#e8aa27',
     hover: '#a07415',
@@ -165,11 +158,14 @@ export default configMerger(walttiConfig, {
 
   nearYouModes: ['bus', 'ferry', 'citybike'],
 
+  useSearchPolygon: true,
+
   areaPolygon: [
-    [21.145557, 59.963388],
-    [21.145557, 60.950777],
-    [22.939795, 60.950777],
-    [22.939795, 59.963388],
+    [21.15, 59.96],
+    [22.94, 59.96],
+    [22.94, 60.78],
+    [22.32, 60.78],
+    [21.15, 60.43],
   ],
 
   menu: {
