@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import sortBy from 'lodash/sortBy';
 import { matchShape, routerShape } from 'found';
-import { PREFIX_ROUTES, PREFIX_STOPS } from '../../util/path';
+import { routePagePath, PREFIX_STOPS } from '../../util/path';
 import Error404 from '../404';
 import { saveSearchItems } from '../../action/SearchActions';
 import { getOldSearchItems } from '../../util/storeUtils';
@@ -54,9 +54,12 @@ const PatternRedirector = ({ router, match, route }, context) => {
         : undefined;
   }
 
-  const path = `/${PREFIX_ROUTES}/${match.params.routeId}/${
-    match.params.type || PREFIX_STOPS
-  }/${pattern ? pattern.code : `${match.params.routeId}:0:01`}`;
+  const { routeId, type } = match.params;
+  const path = routePagePath(
+    routeId,
+    type || PREFIX_STOPS,
+    pattern.code || `${routeId}:0:01`,
+  );
 
   useEffect(() => {
     router.replace(path);

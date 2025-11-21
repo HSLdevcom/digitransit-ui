@@ -7,7 +7,7 @@ import { legTimeStr } from '../../util/legUtils';
 import ItineraryCircleLine from './ItineraryCircleLine';
 import Icon from '../Icon';
 import ItineraryMapAction from './ItineraryMapAction';
-import { PREFIX_STOPS } from '../../util/path';
+import { stopPagePath } from '../../util/path';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 export default function AirportCheckInLeg(props, { config }) {
@@ -32,7 +32,7 @@ export default function AirportCheckInLeg(props, { config }) {
               onClick={e => {
                 e.stopPropagation();
               }}
-              to={`/${PREFIX_STOPS}/${props.leg.from.stop.gtfsId}`}
+              to={stopPagePath(false, props.leg.from.stop.gtfsId)}
             >
               {name}
               <Icon

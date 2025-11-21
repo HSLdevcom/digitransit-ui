@@ -18,7 +18,7 @@ import { enrichPatterns } from '@digitransit-util/digitransit-util';
 import { FormattedMessage, intlShape } from 'react-intl';
 import { routeShape, relayShape, configShape } from '../../util/shapes';
 import Icon from '../Icon';
-import { PREFIX_ROUTES, PREFIX_STOPS } from '../../util/path';
+import { routePagePath, PREFIX_STOPS } from '../../util/path';
 import { addAnalyticsEvent } from '../../util/analyticsUtils';
 import { unixToYYYYMMDD } from '../../util/timeUtils';
 
@@ -83,11 +83,10 @@ function renderPatternSelectSuggestion(item, currentPattern) {
     );
   }
   if (item.shortName && item.longName && item.mode) {
-    const routePath = `/${PREFIX_ROUTES}/${item.gtfsId}`;
     const lowerCaseItemMode = item.mode.toLowerCase();
     return (
       <Link
-        to={routePath}
+        to={routePagePath(item.gtfsId)}
         onClick={e => {
           e.stopPropagation();
         }}
@@ -122,10 +121,9 @@ class RoutePatternSelect extends Component {
       similarRoutes: [],
       loadingSimilar: true,
     };
-    this.fetchSimilarRoutes(
-      this.props.route,
-      this.context.config.showSimilarRoutesOnRouteDropDown,
-    );
+    if (this.context.config.showSimilarRoutesOnRouteDropDown) {
+      this.fetchSimilarRoutes(this.props.route);
+    }
   }
 
   static propTypes = {
@@ -153,43 +151,43 @@ class RoutePatternSelect extends Component {
     intl: intlShape.isRequired,
   };
 
-  fetchSimilarRoutes = (route, callFetch) => {
-    if (callFetch) {
-      let searchSimilarTo = route.shortName;
-      if (Number.isNaN(Number(route.shortName))) {
-        searchSimilarTo = route.shortName.replace(/\D/g, ''); // Delete all non-digits from the string
-      }
-      if (!searchSimilarTo) {
-        // Dont try to search similar routes for routes that are named with letters (eg. P train)
-        return;
-      }
-      const query = graphql`
-        query RoutePatternSelect_similarRoutesQuery($name: String) {
-          routes(name: $name) {
-            gtfsId
-            shortName
-            longName
-            mode
-            color
-          }
-        }
-      `;
-
-      const params = { name: searchSimilarTo };
-      fetchQuery(this.props.relayEnvironment, query, params, {
-        force: true,
-      })
-        .toPromise()
-        .then(results => {
-          this.setState({
-            similarRoutes: filterSimilarRoutes(
-              results.routes,
-              this.props.route,
-            ),
-            loadingSimilar: false,
-          });
-        });
+  fetchSimilarRoutes = route => {
+    let searchSimilarTo = route.shortName;
+    const c = route.shortName.length ? route.shortName[0] : '';
+    if (c < '0' || c > '9') {
+      // must start with number
+      return;
     }
+    if (Number.isNaN(Number(route.shortName))) {
+      searchSimilarTo = route.shortName.replace(/\D/g, ''); // Delete all non-digits from the string
+    }
+    if (!searchSimilarTo) {
+      // Dont try to search similar routes for routes that are named with letters (eg. P train)
+      return;
+    }
+    const query = graphql`
+      query RoutePatternSelect_similarRoutesQuery($name: String) {
+        routes(name: $name) {
+          gtfsId
+          shortName
+          longName
+          mode
+          color
+        }
+      }
+    `;
+
+    const params = { name: searchSimilarTo };
+    fetchQuery(this.props.relayEnvironment, query, params, {
+      force: true,
+    })
+      .toPromise()
+      .then(results => {
+        this.setState({
+          similarRoutes: filterSimilarRoutes(results.routes, this.props.route),
+          loadingSimilar: false,
+        });
+      });
   };
 
   getOptions = () => {
@@ -216,9 +214,7 @@ class RoutePatternSelect extends Component {
       'countTripsForDate',
     ).reverse();
     if (options.every(o => o.code !== params.patternId)) {
-      router.replace(
-        `/${PREFIX_ROUTES}/${gtfsId}/${PREFIX_STOPS}/${options[0].code}`,
-      );
+      router.replace(routePagePath(gtfsId, PREFIX_STOPS, options[0].code));
     }
     return options;
   };
@@ -363,8 +359,7 @@ class RoutePatternSelect extends Component {
             onSuggestionSelected={(e, { suggestion, suggestionValue }) => {
               if (!suggestionValue && suggestion.gtfsId) {
                 // for similarRoute links to work when selected with keyboard
-                const routePath = `/${PREFIX_ROUTES}/${suggestion.gtfsId}`;
-                this.context.router.push(routePath);
+                this.context.router.push(routePagePath(suggestion.gtfsId));
               }
             }}
             inputProps={{
