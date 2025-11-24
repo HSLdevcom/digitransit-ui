@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import { getRouteMode } from '../../util/modeUtils';
-import { LocationTypes } from '../../constants';
+import { AlertEntityType, LocationTypes } from '../../constants';
 import { stopPagePath, routePagePath } from '../../util/path';
 
 const addToModeGroup = (
@@ -31,7 +31,7 @@ const addToModeGroup = (
 
 const groupEntitiesByMode = (entities, config) => {
   const group = entities
-    .filter(e => e.__typename !== 'Unknown')
+    .filter(e => e.__typename !== AlertEntityType.Unknown)
     .reduce((acc, e) => {
       if (!e.route && !e.stop) {
         addToModeGroup(acc, {
