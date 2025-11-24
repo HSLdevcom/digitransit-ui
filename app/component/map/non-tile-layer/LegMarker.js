@@ -4,6 +4,7 @@ import Marker from 'react-leaflet/es/Marker';
 import { default as L } from 'leaflet';
 import Icon from '../../Icon';
 import { legShape, configShape } from '../../../util/shapes';
+import { renderAsString } from '../../../util/mapIconUtils';
 
 class LegMarker extends React.Component {
   static propTypes = {
@@ -57,11 +58,9 @@ class LegMarker extends React.Component {
         icon={L.divIcon({
           html: `
             <div class="${className}" style="--background-color: ${color}">
-            ${Icon.asString({
-              img: `${iconName}`,
-              className: 'map-route-icon',
-              color,
-            })}
+            ${renderAsString(
+              <Icon img={iconName} className="map-route-icon" color={color} />,
+            )}
               ${routeNumber}
             </div>`,
           className: `${

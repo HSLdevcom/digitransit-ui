@@ -10,6 +10,7 @@ import {
   getCaseRadius,
   getStopRadius,
   getHubRadius,
+  renderAsString,
 } from '../../../util/mapIconUtils';
 import { addAnalyticsEvent } from '../../../util/analyticsUtils';
 import { PREFIX_STOPS } from '../../../util/path';
@@ -68,7 +69,6 @@ class StopMarker extends React.Component {
 
   getModeIcon = zoom => {
     const iconId = `icon_${this.props.mode}`;
-    const icon = Icon.asString({ img: iconId, className: 'mode-icon' });
     let size;
     if (zoom <= this.context.config.stopsSmallMaxZoom) {
       size = this.context.config.stopsIconSize.small;
@@ -79,7 +79,7 @@ class StopMarker extends React.Component {
     }
 
     return L.divIcon({
-      html: icon,
+      html: renderAsString(<Icon img={iconId} className="mode-icon" />),
       iconSize: [size, size],
       className: cx('cursor-pointer', this.props.mode, {
         small: size === this.context.config.stopsIconSize.small,

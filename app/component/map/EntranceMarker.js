@@ -5,19 +5,16 @@ import { default as L } from 'leaflet';
 import Icon from '../Icon';
 import { locationShape } from '../../util/shapes';
 import GenericMarker from './GenericMarker';
-import { getCaseRadius } from '../../util/mapIconUtils';
+import { getCaseRadius, renderAsString } from '../../util/mapIconUtils';
 
 export default function EntranceMarker({ position, code }) {
   const objs = [];
 
   const getSubwayIcon = zoom => {
-    const iconId = `icon_subway_entrance`;
-    const icon = Icon.asString({ img: iconId });
-
     const iconSize = Math.max(getCaseRadius(zoom) * 2, 8);
 
     return L.divIcon({
-      html: icon,
+      html: renderAsString(<Icon img="icon_subway_entrance" />),
       iconSize: [iconSize, iconSize],
       iconAnchor: [iconSize / 2, 2.5 * iconSize + 1],
       className: 'map-subway-entrance-info-icon-metro',
@@ -25,12 +22,10 @@ export default function EntranceMarker({ position, code }) {
   };
 
   const getCodeIcon = zoom => {
-    const iconId = `icon_subway_entrance_${code}`;
-    const icon = Icon.asString({ img: iconId });
     const iconSize = Math.max(getCaseRadius(zoom) * 2, 8);
 
     return L.divIcon({
-      html: icon,
+      html: renderAsString(<Icon img={`icon_subway_entrance_${code}`} />),
       iconSize: [iconSize, iconSize],
       iconAnchor: [iconSize / 2, 1.5 * iconSize],
       className: 'map-subway-entrance-info-icon-metro',
