@@ -6,7 +6,7 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 import Modal from '@hsl-fi/modal';
 import { stopShape, configShape, relayShape } from '../../util/shapes';
 import { hasEntitiesOfType } from '../../util/alertUtils';
-import { PREFIX_STOPS, PREFIX_TERMINALS } from '../../util/path';
+import { stopPagePath, PREFIX_DISRUPTION } from '../../util/path';
 import { AlertEntityType } from '../../constants';
 import StopNearYouHeader from './StopNearYouHeader';
 import AlertBanner from '../AlertBanner';
@@ -22,8 +22,10 @@ const StopNearYou = (
   }
   const [capacityModalOpen, setCapacityModalOpen] = useState(false);
   const stopMode = stop.stoptimesWithoutPatterns[0]?.trip.route.mode;
+  const { gtfsId } = stop;
+
   useEffect(() => {
-    let id = stop.gtfsId;
+    let id = gtfsId;
     if (stopId) {
       id = stopId;
     }
@@ -33,17 +35,14 @@ const StopNearYou = (
       }, null);
     }
   }, [currentTime, currentMode]);
+
   const description = desc || stop.desc;
   const isStation = stop.locationType === 'STATION';
-  const { gtfsId } = stop;
-  const urlEncodedGtfsId = gtfsId.replace('/', '%2F');
-  const linkAddress = isStation
-    ? `/${PREFIX_TERMINALS}/${urlEncodedGtfsId}`
-    : `/${PREFIX_STOPS}/${urlEncodedGtfsId}`;
+  const linkAddress = stopPagePath(isStation, gtfsId, PREFIX_DISRUPTION);
 
   const { constantOperationStops } = config;
   const { locale } = intl;
-  const isConstantOperation = constantOperationStops[stop.gtfsId];
+  const isConstantOperation = constantOperationStops[gtfsId];
   const filteredAlerts = stop.alerts.filter(alert =>
     hasEntitiesOfType(alert, AlertEntityType.Stop),
   );
@@ -63,22 +62,19 @@ const StopNearYou = (
           />
         </span>
         {filteredAlerts.length > 0 && (
-          <AlertBanner
-            alerts={filteredAlerts}
-            linkAddress={`${linkAddress}/hairiot`}
-          />
+          <AlertBanner alerts={filteredAlerts} linkAddress={linkAddress} />
         )}
         {isConstantOperation ? (
           <div className="stop-constant-operation-container bottom-margin">
             <div style={{ width: '85%' }}>
-              <span>{constantOperationStops[stop.gtfsId][locale].text}</span>
+              <span>{constantOperationStops[gtfsId][locale].text}</span>
               <span style={{ display: 'inline-block' }}>
                 <a
-                  href={constantOperationStops[stop.gtfsId][locale].link}
+                  href={constantOperationStops[gtfsId][locale].link}
                   target="_blank"
                   rel="noreferrer"
                 >
-                  {constantOperationStops[stop.gtfsId][locale].link}
+                  {constantOperationStops[gtfsId][locale].link}
                 </a>
               </span>
             </div>

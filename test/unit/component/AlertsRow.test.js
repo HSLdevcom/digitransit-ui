@@ -8,7 +8,7 @@ import {
   AlertSeverityLevelType,
   AlertEntityType,
 } from '../../../app/constants';
-import { PREFIX_STOPS, PREFIX_ROUTES } from '../../../app/util/path';
+import { PREFIX_STOPS, routePagePath } from '../../../app/util/path';
 import { mockContext } from '../helpers/mock-context';
 
 describe('<AlertRow />', () => {
@@ -174,7 +174,7 @@ describe('<AlertRow />', () => {
       context: mockContext,
     });
     expect(wrapper.find('.alert-row-link').get(0).props.to).to.equal(
-      `/${PREFIX_ROUTES}/HSL:2097N/${PREFIX_STOPS}`,
+      routePagePath('HSL:2097N', PREFIX_STOPS),
     );
   });
 

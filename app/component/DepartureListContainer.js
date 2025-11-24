@@ -12,7 +12,10 @@ import {
   startRealTimeClient,
   changeRealTimeClientTopics,
 } from '../action/realTimeClientAction';
-import { getHeadsignFromRouteLongName } from '../util/legUtils';
+import {
+  getHeadsignFromRouteLongName,
+  isPlatformChanged,
+} from '../util/legUtils';
 
 const getDropoffMessage = (hasOnlyDropoff, hasNoStop) => {
   if (hasNoStop) {
@@ -362,6 +365,7 @@ class DepartureListContainer extends Component {
               ? 'no-border'
               : ''
           }
+          platformUpdated={isPlatformChanged(departure)}
         />
       );
 
@@ -466,6 +470,21 @@ const containerComponent = createFragmentContainer(DepartureListContainer, {
           stops {
             gtfsId
             code
+          }
+        }
+        stoptimes {
+          scheduledDeparture
+          stop {
+            gtfsId
+            platformCode
+          }
+        }
+        stoptimesForDate {
+          serviceDay
+          scheduledDeparture
+          stop {
+            gtfsId
+            platformCode
           }
         }
       }

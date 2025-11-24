@@ -136,8 +136,7 @@ function Timetable(
 ) {
   const stop = useFragment(TimetableFragment, stopRef);
   if (!stop) {
-    const path = `/${PREFIX_STOPS}`;
-    router.replace(path);
+    router.replace(`/${PREFIX_STOPS}`);
   }
   const [showRoutes, setShowRoutes] = useState([]);
   const [showFilterModal, setShowFilterModal] = useState(false);

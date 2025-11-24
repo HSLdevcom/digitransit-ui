@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Link from 'found/Link';
 import cx from 'classnames';
-import { PREFIX_ROUTES, PREFIX_STOPS } from '../../../util/path';
+import { routePagePath, PREFIX_STOPS } from '../../../util/path';
 import { convertTo24HourFormat } from '../../../util/timeUtils';
 import RouteNumber from '../../RouteNumber';
 import { getRouteMode } from '../../../util/modeUtils';
@@ -29,9 +29,7 @@ export default function PopupHeader({
 
   const routeLine =
     startTime && pattern ? (
-      <Link
-        to={`/${PREFIX_ROUTES}/${route.gtfsId}/${PREFIX_STOPS}/${pattern.code}`}
-      >
+      <Link to={routePagePath(route.gtfsId, PREFIX_STOPS, pattern.code)}>
         {routeLineText}
       </Link>
     ) : (

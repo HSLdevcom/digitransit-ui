@@ -50,7 +50,7 @@
     "relay": "relay-compiler",
     "relay-watch": "relay-compiler --watch",
     "digitransit-npm-publish": "lerna publish from-package --no-git-tag-version --no-push",
-    "digitransit-npm-autopublish": "lerna publish from-package --no-git-tag-version --no-push -y --no-verify-access",
+    "digitransit-npm-autopublish": "lerna publish from-package --no-git-tag-version --no-push -y",
     "digitransit-search-util-docs": "node -r esm ./digitransit-search-util/scripts/generate-readmes",
     "digitransit-search-util-new-module": "node -r esm ./digitransit-search-util/scripts/create-new-module",
     "digitransit-search-util-tests": "lerna run test --scope '@digitransit-search-util/*'",

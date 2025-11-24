@@ -15,28 +15,22 @@ import { addAnalyticsEvent } from '../../util/analyticsUtils';
 import { unixTime } from '../../util/timeUtils';
 import {
   PREFIX_DISRUPTION,
-  PREFIX_ROUTES,
-  PREFIX_STOPS,
-  PREFIX_TERMINALS,
   PREFIX_TIMETABLE,
+  stopPagePath,
 } from '../../util/path';
 import Icon from '../Icon';
 
 const Tab = {
-  Disruptions: PREFIX_DISRUPTION,
-  RightNow: 'right-now',
-  RoutesAndPlatforms: PREFIX_ROUTES,
-  Timetable: PREFIX_TIMETABLE,
+  RightNow: 1,
+  Timetable: 2,
+  Disruptions: 3,
 };
 
 const getActiveTab = pathname => {
-  if (pathname.indexOf(`/${Tab.Disruptions}`) > -1) {
+  if (pathname.indexOf(PREFIX_DISRUPTION) > -1) {
     return Tab.Disruptions;
   }
-  if (pathname.indexOf(`/${Tab.RoutesAndPlatforms}`) > -1) {
-    return Tab.RoutesAndPlatforms;
-  }
-  if (pathname.indexOf(`/${Tab.Timetable}`) > -1) {
+  if (pathname.indexOf(PREFIX_TIMETABLE) > -1) {
     return Tab.Timetable;
   }
   return Tab.RightNow;
@@ -57,16 +51,8 @@ function StopPageTabs({ stop }, { match }) {
   const tabRefs = [rightNowTabRef, timetableTabRef, disruptionTabRef];
 
   const isTerminal = match.params.terminalId != null;
-  const urlBase = `/${
-    isTerminal ? PREFIX_TERMINALS : PREFIX_STOPS
-  }/${encodeURIComponent(
-    match.params.terminalId ? match.params.terminalId : match.params.stopId,
-  )}`;
-
   const currentTime = unixTime();
-
   const cancelations = getCancelationsForStop(stop);
-
   const maxAlertSeverity = getActiveAlertSeverityLevel(
     isTerminal ? getServiceAlertsForStation(stop) : getAlertsForObject(stop),
     currentTime,
@@ -125,7 +111,7 @@ function StopPageTabs({ stop }, { match }) {
             active: activeTab === Tab.RightNow,
           })}
           onClick={() => {
-            router.replace(`${urlBase}${search}`);
+            router.replace(stopPagePath(isTerminal, stop.gtfsId, null, search));
             addAnalyticsEvent({
               category: 'Stop',
               action: 'OpenRightNowTab',
@@ -149,7 +135,9 @@ function StopPageTabs({ stop }, { match }) {
             active: activeTab === Tab.Timetable,
           })}
           onClick={() => {
-            router.replace(`${urlBase}/${Tab.Timetable}${search}`);
+            router.replace(
+              stopPagePath(isTerminal, stop.gtfsId, PREFIX_TIMETABLE, search),
+            );
             addAnalyticsEvent({
               category: 'Stop',
               action: 'OpenTimetableTab',
@@ -176,7 +164,9 @@ function StopPageTabs({ stop }, { match }) {
               disruptionClassName === 'active-service-alert',
           })}
           onClick={() => {
-            router.replace(`${urlBase}/${Tab.Disruptions}${search}`);
+            router.replace(
+              stopPagePath(isTerminal, stop.gtfsId, PREFIX_DISRUPTION, search),
+            );
             addAnalyticsEvent({
               category: 'Stop',
               action: 'OpenDisruptionsTab',

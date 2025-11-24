@@ -3,7 +3,7 @@ import React from 'react';
 import Link from 'found/Link';
 import { FormattedMessage } from 'react-intl';
 import Icon from '../../Icon';
-import { PREFIX_TERMINALS, PREFIX_STOPS } from '../../../util/path';
+import { stopPagePath } from '../../../util/path';
 import { configShape } from '../../../util/shapes';
 import { getStopMode, transitIconName } from '../../../util/modeUtils';
 import { getModeIconColor } from '../../../util/colorUtils';
@@ -28,12 +28,8 @@ function SelectStopRow(
   const showDesc = desc && desc !== 'null';
   const showCode = code && code !== 'null';
 
-  const prefix = terminal ? PREFIX_TERMINALS : PREFIX_STOPS;
   return (
-    <Link
-      className="stop-popup-choose-row"
-      to={`/${prefix}/${encodeURIComponent(gtfsId)}`}
-    >
+    <Link className="stop-popup-choose-row" to={stopPagePath(terminal, gtfsId)}>
       <span className="choose-row-left-column" aria-hidden="true">
         <Icon
           className={iconOptions.className}

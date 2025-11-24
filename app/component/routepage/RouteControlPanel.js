@@ -26,8 +26,8 @@ import {
 } from '../../util/alertUtils';
 import { isActiveDate } from '../../util/patternUtils';
 import {
+  routePagePath,
   PREFIX_DISRUPTION,
-  PREFIX_ROUTES,
   PREFIX_STOPS,
   PREFIX_TIMETABLE,
 } from '../../util/path';
@@ -268,20 +268,21 @@ class RouteControlPanel extends React.Component {
       this.startClient(pattern[0]);
     }
 
-    let newPathname = decodeURIComponent(match.location.pathname).replace(
-      new RegExp(`${match.params.patternId}(.*)`),
+    let newPath = routePagePath(
+      this.props.route.gtfsId,
+      type || PREFIX_STOPS,
       newPattern,
     );
     if (type === PREFIX_TIMETABLE) {
       const today = unixToYYYYMMDD(unixTime(), config);
       if (pattern[0].minAndMaxDate && today < pattern[0].minAndMaxDate[0]) {
-        newPathname += `?serviceDay=${pattern[0].minAndMaxDate[0]}`;
+        newPath += `?serviceDay=${pattern[0].minAndMaxDate[0]}`;
       }
       if (match.query && match.query.serviceDay) {
-        newPathname += `?serviceDay=${match.query.serviceDay}`;
+        newPath += `?serviceDay=${match.query.serviceDay}`;
       }
     }
-    router.replace(newPathname);
+    router.replace(newPath);
   };
 
   startClient(pattern) {
@@ -326,9 +327,11 @@ class RouteControlPanel extends React.Component {
   }
 
   changeTab = tab => {
-    const path = `/${PREFIX_ROUTES}/${this.props.route.gtfsId}/${tab}/${
-      this.props.match.params.patternId || ''
-    }`;
+    const path = routePagePath(
+      this.props.route.gtfsId,
+      tab,
+      this.props.match.params.patternId,
+    );
     this.context.router.replace(path);
     let action;
     switch (tab) {

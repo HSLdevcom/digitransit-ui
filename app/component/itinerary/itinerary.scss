@@ -2187,11 +2187,12 @@ $itinerary-tab-switch-height: 48px;
 
         .vehicle-number-container-v {
           width: calc(100% - 1.5em);
+          text-align: center;
 
           .vehicle-number {
             color: $white;
             left: 1.5em;
-            width: 2.25em;
+            width: fit-content;
             text-align: center;
             padding: 4px 0 0 0;
 

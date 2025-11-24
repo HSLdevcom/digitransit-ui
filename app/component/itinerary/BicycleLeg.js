@@ -12,7 +12,7 @@ import { displayDistance } from '../../util/geo-utils';
 import { durationToString } from '../../util/timeUtils';
 import ItineraryCircleLine from './ItineraryCircleLine';
 import ItineraryCircleLineLong from './ItineraryCircleLineLong';
-import { PREFIX_STOPS } from '../../util/path';
+import { stopPagePath } from '../../util/path';
 import {
   getRentalNetworkConfig,
   RentalNetworkType,
@@ -273,7 +273,7 @@ export default function BicycleLeg(
                     onClick={e => {
                       e.stopPropagation();
                     }}
-                    to={`/${PREFIX_STOPS}/${fromStop.gtfsId}`}
+                    to={stopPagePath(false, fromStop.gtfsId)}
                   >
                     {origin}
                     {leg.isViaPoint && (
