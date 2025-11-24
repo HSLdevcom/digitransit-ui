@@ -40,12 +40,13 @@ export default function RouteBadges({ entities: rawEntities }) {
               height={2}
               width={2}
               iconScale={isRoute ? NORMAL_ICON_SCALE : STOP_SIGN_ICON_SCALE}
-            >
-              <IconBackground
-                backgroundShape={isRoute ? undefined : 'stopsign'}
-                backgroundColor="currentcolor"
-              />
-            </Icon>
+              background={
+                <IconBackground
+                  backgroundShape={isRoute ? undefined : 'stopsign'}
+                  backgroundColor="currentcolor"
+                />
+              }
+            />
             <div className="route-badges-mode-lines flex-row vertically-centered">
               {entities.map(({ id, name, url }) => (
                 <a key={id} onClick={handleRouteBadgeClick(url)} href={url}>

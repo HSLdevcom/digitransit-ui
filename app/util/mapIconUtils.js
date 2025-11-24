@@ -840,7 +840,7 @@ export function drawIcon(icon, tile, geom, imageSize) {
 }
 
 export function renderAsString(children) {
-  if (ReactDOMServer && ReactDOMServer.renderToString) {
+  if (ReactDOMServer?.renderToString) {
     return ReactDOMServer.renderToString(children);
   }
 

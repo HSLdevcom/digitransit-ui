@@ -17,6 +17,7 @@ import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
 import { configShape, departureShape } from '../util/shapes';
 import { epochToTime } from '../util/timeUtils';
 import Icon from './Icon';
+import IconBackground from './icon/IconBackground';
 
 const getMostSevereAlert = route => {
   const alerts = [...getAlertsForObject(route)];
@@ -173,7 +174,7 @@ export default function DepartureRow(
               className={backgroundShape}
               img={icon}
               color={iconColor}
-              backgroundShape={backgroundShape}
+              background={<IconBackground backgroundShape={backgroundShape} />}
             />
             {sr}
           </>

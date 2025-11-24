@@ -101,19 +101,24 @@ function VehicleRentalLeg(
                 isScooter && 'scooter-icon',
               )}
             >
-              <Icon img={vehicleIcon} width={1.655} height={1.655}>
-                <IconBadge
-                  badgeText={
-                    vehicleRentalStation &&
-                    vehicleCapacity !== BIKEAVL_UNKNOWN &&
-                    !returnBike
-                      ? vehicleRentalStation?.availableVehicles.total
-                      : ''
-                  }
-                  badgeFill={returnBike ? null : availabilityIndicatorColor}
-                  badgeTextFill={returnBike ? null : availabilityTextColor}
-                />
-              </Icon>
+              <Icon
+                img={vehicleIcon}
+                width={1.655}
+                height={1.655}
+                foreground={
+                  <IconBadge
+                    badgeText={
+                      vehicleRentalStation &&
+                      vehicleCapacity !== BIKEAVL_UNKNOWN &&
+                      !returnBike
+                        ? vehicleRentalStation?.availableVehicles.total
+                        : ''
+                    }
+                    badgeFill={returnBike ? null : availabilityIndicatorColor}
+                    badgeTextFill={returnBike ? null : availabilityTextColor}
+                  />
+                }
+              />
             </div>
             <div className="itinerary-with-link-text-container">
               <span className={cx('headsign', isScooter && 'scooter-headsign')}>

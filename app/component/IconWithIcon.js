@@ -3,6 +3,7 @@ import React from 'react';
 
 import { intlShape } from 'react-intl';
 import Icon from './Icon';
+import IconBackground from './icon/IconBackground';
 import IconBadge from './icon/IconBadge';
 
 const IconWithIcon = (
@@ -21,36 +22,43 @@ const IconWithIcon = (
     omitViewBox,
   },
   { intl },
-) => (
-  <span id={id} className={className}>
-    <span>
-      <Icon
-        color={color}
-        img={img}
-        viewBox={mode === 'call' ? '0 0 60 60' : undefined}
-        omitViewBox={omitViewBox}
-      >
-        <IconBadge
-          badgeFill={badgeFill}
-          badgeText={badgeText}
-          badgeTextFill={badgeTextFill}
-        />
-      </Icon>
-    </span>
-    {subIcon && (
-      <span
-        className={subIconClassName}
-        title={intl.formatMessage({ id: 'disruption' })}
-      >
+) => {
+  return (
+    <span id={id} className={className}>
+      <span>
         <Icon
-          backgroundShape={subIconShape}
-          img={subIcon}
+          color={color}
+          img={img}
+          viewBox={mode === 'call' ? '0 0 60 60' : undefined}
           omitViewBox={omitViewBox}
+          foreground={
+            (badgeFill || badgeText) && (
+              <IconBadge
+                badgeFill={badgeFill}
+                badgeText={badgeText}
+                badgeTextFill={badgeTextFill}
+              />
+            )
+          }
         />
       </span>
-    )}
-  </span>
-);
+      {subIcon && (
+        <span
+          className={subIconClassName}
+          title={intl.formatMessage({ id: 'disruption' })}
+        >
+          <Icon
+            img={subIcon}
+            omitViewBox={omitViewBox}
+            background={
+              subIconShape && <IconBackground backgroundShape={subIconShape} />
+            }
+          />
+        </span>
+      )}
+    </span>
+  );
+};
 
 IconWithIcon.displayName = 'IconWithIcon';
 

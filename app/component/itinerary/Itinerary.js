@@ -10,6 +10,7 @@ import {
   configShape,
 } from '../../util/shapes';
 import Icon from '../Icon';
+import IconBackground from '../icon/IconBackground';
 import Duration from './Duration';
 import RouteNumber from '../RouteNumber';
 import RouteNumberContainer from '../RouteNumberContainer';
@@ -950,9 +951,13 @@ const Itinerary = (
                 {showOverflowIcon && (
                   <Icon
                     img="icon_three-dots"
-                    backgroundShape="circle"
-                    backgroundColor="#fff"
                     className="overflow-icon"
+                    background={
+                      <IconBackground
+                        backgroundShape="circle"
+                        backgroundColor="#fff"
+                      />
+                    }
                   />
                 )}
               </div>

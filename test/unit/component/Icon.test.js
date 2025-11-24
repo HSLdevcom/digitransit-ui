@@ -13,9 +13,10 @@ describe('<Icon />', () => {
   it('should include a circle as part of the svg render', () => {
     const props = { className, id, img };
     const wrapper = mount(
-      <Icon {...props}>
-        <IconBackground backgroundShape="circle" />
-      </Icon>,
+      <Icon
+        {...props}
+        background={<IconBackground backgroundShape="circle" />}
+      />,
     );
     expect(wrapper.find('svg')).to.have.lengthOf(1);
     expect(wrapper.find('use')).to.have.lengthOf(1);
@@ -24,9 +25,12 @@ describe('<Icon />', () => {
 
   it('should include expected parts of the svg in its string representation', () => {
     const result = renderAsString(
-      <Icon id={id} img={img} className={className}>
-        <IconBackground backgroundShape="circle" />
-      </Icon>,
+      <Icon
+        id={id}
+        img={img}
+        className={className}
+        background={<IconBackground backgroundShape="circle" />}
+      />,
     );
     expect(result).to.contain(`class="icon ${className}"`);
     expect(result).to.contain('circle');
