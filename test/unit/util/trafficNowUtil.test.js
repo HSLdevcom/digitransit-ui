@@ -1,4 +1,5 @@
 import { groupEntitiesByMode } from '../../../app/component/trafficnow/utils';
+import { stopPagePath, routePagePath } from '../../../app/util/path';
 
 const mocks = {
   tramRoute: {
@@ -57,7 +58,7 @@ const expected = {
         {
           id: 'BUS_1',
           name: '1',
-          url: '/linjat/MATKA:2',
+          url: routePagePath('MATKA:2'),
           isStop: false,
           isStation: false,
         },
@@ -70,7 +71,7 @@ const expected = {
         {
           id: 'TRAM_9',
           name: '9',
-          url: '/linjat/MATKA:1',
+          url: routePagePath('MATKA:1'),
           isStop: false,
           isStation: false,
         },
@@ -85,7 +86,7 @@ const expected = {
         {
           id: 'BUS_STOP_1',
           name: 'Bussipysäkki',
-          url: '/pysakit/MATKA:4',
+          url: stopPagePath(false, 'MATKA:4'),
           isStop: true,
           isStation: false,
         },
@@ -98,7 +99,7 @@ const expected = {
         {
           id: 'TRAM_STOP_1',
           name: 'Raitsikkapysäkki',
-          url: '/pysakit/MATKA:3',
+          url: stopPagePath(false, 'MATKA:3'),
           isStop: true,
           isStation: false,
         },
@@ -131,14 +132,14 @@ describe('trafficNowUtil', () => {
     expect(grouped.tram_stop.entities).to.deep.include({
       id: 'TRAM_STOP_1',
       name: 'Raitsikkapysäkki',
-      url: '/pysakit/MATKA:3',
+      url: stopPagePath(false, 'MATKA:3'),
       isStop: true,
       isStation: false,
     });
     expect(grouped.tram_route.entities).to.deep.include({
       id: 'TRAM_9',
       name: '9',
-      url: '/linjat/MATKA:1',
+      url: routePagePath('MATKA:1'),
       isStop: false,
       isStation: false,
     });
@@ -151,7 +152,7 @@ describe('trafficNowUtil', () => {
     expect(grouped.bus_route.entities).to.deep.include({
       id: 'BUS_1',
       name: '1',
-      url: '/linjat/MATKA:2',
+      url: routePagePath('MATKA:2'),
       isStop: false,
       isStation: false,
     });
@@ -165,7 +166,7 @@ describe('trafficNowUtil', () => {
     expect(grouped.rail_stop.entities[0]).to.include({
       id: 'STATION_1',
       name: 'Steissi',
-      url: '/terminaalit/MATKA:5',
+      url: stopPagePath(true, 'MATKA:5'),
       isStop: true,
       isStation: true,
     });

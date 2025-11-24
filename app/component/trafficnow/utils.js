@@ -1,31 +1,16 @@
 /* eslint-disable no-underscore-dangle */
 import { getRouteMode } from '../../util/modeUtils';
 import { LocationTypes } from '../../constants';
-import { PREFIX_ROUTES, PREFIX_TERMINALS, PREFIX_STOPS } from '../../util/path';
-
-const PREFIX_BY_LOCATION_TYPE = {
-  [LocationTypes.STOP]: PREFIX_STOPS,
-  [LocationTypes.STATION]: PREFIX_TERMINALS,
-  default: PREFIX_ROUTES,
-};
-
-const getUrlPrefix = locationType =>
-  PREFIX_BY_LOCATION_TYPE[locationType] ?? PREFIX_BY_LOCATION_TYPE.default;
+import { stopPagePath, routePagePath } from '../../util/path';
 
 const addToModeGroup = (
   acc,
-  {
-    mode,
-    id,
-    shortName,
-    name,
-    gtfsId,
-    locationType,
-    isStop = false,
-    isStation = false,
-  },
+  { mode, id, shortName, name, gtfsId, isStop = false, isStation = false },
 ) => {
-  const url = `/${getUrlPrefix(locationType)}/${gtfsId}`;
+  const url =
+    isStop || isStation
+      ? stopPagePath(isStation, gtfsId)
+      : routePagePath(gtfsId);
   const key = `${mode}_${isStop || isStation ? 'stop' : 'route'}`;
 
   if (!acc[key]) {
