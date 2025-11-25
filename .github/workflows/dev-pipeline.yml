@@ -254,7 +254,7 @@ jobs:
         run: |
           {
             echo 'publish-logs<<EOF' >> $GITHUB_OUTPUT
-            npm publish >> $GITHUB_OUTPUT
+            yarn digitransit-npm-autopublish >> $GITHUB_OUTPUT
             echo 'EOF' >> $GITHUB_OUTPUT
           }
         shell: bash

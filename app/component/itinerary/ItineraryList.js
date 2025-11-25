@@ -15,7 +15,6 @@ import {
 import ItineraryListHeader from './ItineraryListHeader';
 import ItinerariesNotFound from './ItinerariesNotFound';
 import Loading from '../Loading';
-import FeedbackPrompt from './FeedbackPrompt';
 import { streetHash } from '../../util/path';
 import { getIntermediatePlaces } from '../../util/otpStrings';
 import { ItineraryListPlanEdges } from './queries/ItineraryListPlanEdges';
@@ -36,9 +35,9 @@ function ItineraryList(
     carDirectItineraryCount,
     showRelaxedPlanNotifier,
     rentalVehicleNotifierId,
-    separatorPosition,
+    separator2,
     loadingMore,
-    routingFeedbackPosition,
+    separator1,
     ...rest
   },
   context,
@@ -146,21 +145,26 @@ function ItineraryList(
       );
     }
   }
-  if (separatorPosition) {
+  if (separator2) {
     summaries.splice(
-      separatorPosition,
+      separator2,
       0,
       <div
         className="summary-list-separator"
-        key={`summary-list-separator-${separatorPosition}`}
+        key={`summary-list-separator-${separator2}`}
       />,
     );
   }
-  if (routingFeedbackPosition) {
-    const pos = separatorPosition
-      ? routingFeedbackPosition + 1
-      : routingFeedbackPosition;
-    summaries.splice(pos, 0, <FeedbackPrompt key="feedback-prompt" />);
+  if (separator1) {
+    const pos = separator2 ? separator1 + 1 : separator1;
+    summaries.splice(
+      pos,
+      0,
+      <div
+        className="summary-list-separator"
+        key={`summary-list-separator-${pos}`}
+      />,
+    );
   }
   return (
     <div className="summary-list-container" role="list">
@@ -243,9 +247,9 @@ ItineraryList.propTypes = {
   carDirectItineraryCount: PropTypes.number,
   showRelaxedPlanNotifier: PropTypes.bool,
   rentalVehicleNotifierId: PropTypes.string,
-  separatorPosition: PropTypes.number,
+  separator1: PropTypes.number,
+  separator2: PropTypes.number,
   loadingMore: PropTypes.string,
-  routingFeedbackPosition: PropTypes.number,
 };
 
 ItineraryList.defaultProps = {
@@ -254,9 +258,9 @@ ItineraryList.defaultProps = {
   planEdges: [],
   showRelaxedPlanNotifier: false,
   rentalVehicleNotifierId: undefined,
-  separatorPosition: undefined,
+  separator1: undefined,
+  separator2: undefined,
   loadingMore: undefined,
-  routingFeedbackPosition: undefined,
 };
 
 ItineraryList.contextTypes = {
