@@ -12,6 +12,7 @@ import Badge from '../Badge';
 import DisruptionCardFragment from './queries/DisruptionCardFragment';
 import RouteBadges from './RouteBadges';
 import { getFormattedTimeDate } from '../../util/timeUtils';
+import { AlertSeverityLevelType } from '../../constants';
 
 const DATE_FORMAT = 'd.L.yyyy';
 
@@ -78,9 +79,9 @@ export default function DisruptionCard({ alert, isOpen, onClick }) {
       >
         <p>{alertDescriptionText}</p>
       </div>
-      <div className="traffic-now__disruption-card__bottom-row">
-        <div className="traffic-now__disruption-card__bottom-row-validity">
-          <div className="traffic-now__disruption-card__bottom-row-validity-icon">
+      <div className="traffic-now__disruption-card__content-row">
+        <div className="traffic-now__disruption-card__content-row-validity">
+          <div className="traffic-now__disruption-card__content-row-validity-icon">
             {isValid ? (
               <>
                 <Icon img="icon_clock" />
@@ -93,11 +94,15 @@ export default function DisruptionCard({ alert, isOpen, onClick }) {
               </>
             )}
           </div>
-          <div className="separator vertical" />
-          {validityPeriod}
+          {alertSeverityLevel !== AlertSeverityLevelType.Info && (
+            <>
+              <div className="separator vertical" />
+              {validityPeriod}
+            </>
+          )}
         </div>
         {alertUrl && isOpen && (
-          <div className="traffic-now__disruption-card__bottom-row-info">
+          <div className="traffic-now__disruption-card__content-row-info">
             <Button
               size="small"
               fullWidth

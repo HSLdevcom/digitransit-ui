@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import Icon from '../../../Icon';
+import IconBackground from '../../../icon/IconBackground';
 
 const NavigatorIntroFeature = ({
   icon,
@@ -15,12 +16,16 @@ const NavigatorIntroFeature = ({
       {icon && (
         <Icon
           img={icon}
-          backgroundColor={iconBackgroundColor}
-          backgroundShape="circle"
           color={iconColor}
           height={2}
           width={2}
           aria-hidden="true"
+          background={
+            <IconBackground
+              backgroundColor={iconBackgroundColor}
+              backgroundShape="circle"
+            />
+          }
         />
       )}
       <div className="right-column">

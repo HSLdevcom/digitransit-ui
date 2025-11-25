@@ -22,6 +22,8 @@ import {
 } from '../../../util/legUtils';
 
 import { PREFIX_BIKESTATIONS, PREFIX_RENTALVEHICLES } from '../../../util/path';
+import { renderAsString } from '../../../util/mapIconUtils';
+import IconBadge from '../../icon/IconBadge';
 
 // Small icon for zoom levels <= 15
 const smallIconSvg = `
@@ -72,26 +74,32 @@ export default class VehicleMarker extends React.Component {
       : L.divIcon({
           iconAnchor: [15, 40],
           html: showBikeAvailability
-            ? Icon.asString({
-                img: iconName,
-                className: 'city-bike-medium-size',
-                badgeFill: getVehicleAvailabilityIndicatorColor(
-                  rental?.availableVehicles?.total,
-                  config,
-                ),
-                badgeTextFill: getVehicleAvailabilityTextColor(
-                  rental?.availableVehicles?.total,
-                  config,
-                ),
-                badgeText:
-                  vehicleCapacity !== BIKEAVL_UNKNOWN
-                    ? rental?.availableVehicles?.total
-                    : null,
-              })
-            : Icon.asString({
-                img: iconName,
-                className: 'city-bike-medium-size',
-              }),
+            ? renderAsString(
+                <Icon
+                  img={iconName}
+                  className="city-bike-medium-size"
+                  foreground={
+                    <IconBadge
+                      badgeFill={getVehicleAvailabilityIndicatorColor(
+                        rental?.availableVehicles?.total,
+                        config,
+                      )}
+                      badgeTextFill={getVehicleAvailabilityTextColor(
+                        rental?.availableVehicles?.total,
+                        config,
+                      )}
+                      badgeText={
+                        vehicleCapacity !== BIKEAVL_UNKNOWN
+                          ? rental?.availableVehicles?.total
+                          : null
+                      }
+                    />
+                  }
+                />,
+              )
+            : renderAsString(
+                <Icon img={iconName} className="city-bike-medium-size" />,
+              ),
           iconSize: [20, 20],
           className: 'citybike cursor-pointer',
         });

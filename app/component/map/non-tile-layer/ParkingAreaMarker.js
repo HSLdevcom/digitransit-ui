@@ -2,7 +2,7 @@ import React from 'react';
 import { routerShape } from 'found';
 import { default as L } from 'leaflet';
 import PropTypes from 'prop-types';
-import { getCaseRadius } from '../../../util/mapIconUtils';
+import { getCaseRadius, renderAsString } from '../../../util/mapIconUtils';
 import { PREFIX_BIKEPARK, PREFIX_CARPARK } from '../../../util/path';
 import { locationShape } from '../../../util/shapes';
 import Icon from '../../Icon';
@@ -10,12 +10,10 @@ import GenericMarker from '../GenericMarker';
 
 const ParkingAreaMarker = ({ position, type, liipiId }, { router }) => {
   const getIcon = zoom => {
-    const icon = Icon.asString({ img: `icon_${type}-park` });
-
     const iconSize = Math.max(getCaseRadius(zoom) * 3, 18);
 
     return L.divIcon({
-      html: icon,
+      html: renderAsString(<Icon img={`icon_${type}-park`} />),
       iconSize: [iconSize, iconSize],
       iconAnchor: [iconSize / 2, iconSize / 2],
       className: 'parking',

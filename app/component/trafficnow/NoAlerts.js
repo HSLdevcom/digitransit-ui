@@ -8,7 +8,7 @@ export default function NoAlerts() {
   const { notFoundGraphic, colors } = useConfigContext();
   const { logo } = useLogo(notFoundGraphic);
   return (
-    <div className="traffic-now__bottom__alerts--empty">
+    <div className="traffic-now__content__alerts--empty">
       {logo ? (
         <img src={logo} aria-hidden="true" alt="Not found -graphic" />
       ) : (
