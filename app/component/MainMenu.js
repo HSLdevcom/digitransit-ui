@@ -14,17 +14,20 @@ import Toggle from './Toggle';
 import searchContext from '../util/searchContext';
 import intializeSearchContext from '../util/DTSearchContextInitializer';
 
-function MainMenu(props, { config, intl, executeAction }) {
+function MainMenu(
+  { homeUrl, closeMenu, currentLanguage, ...props },
+  { config, intl, executeAction },
+) {
   const [countries, setCountries] = useState(props.countries);
   const appBarLinkHref =
-    config.appBarLink?.alternativeHref?.[props.currentLanguage] ||
+    config.appBarLink?.alternativeHref?.[currentLanguage] ||
     config.appBarLink?.href;
   return (
     <div className="main-menu no-select" tabIndex={-1}>
       <div className="main-menu-top-section">
         <button
           type="button"
-          onClick={props.closeMenu}
+          onClick={closeMenu}
           className="close-button cursor-pointer"
           aria-label={intl.formatMessage({
             id: 'main-menu-label-close',
@@ -40,17 +43,17 @@ function MainMenu(props, { config, intl, executeAction }) {
       <section className="menu-section main-links">
         {config.mainMenu.showFrontPageLink && (
           <div className="offcanvas-section">
-            {props.homeUrl !== undefined && (
+            {homeUrl !== undefined && (
               <Link
                 id="frontpage"
-                to={props.homeUrl}
+                to={homeUrl}
                 onClick={() => {
                   addAnalyticsEvent({
                     category: 'Navigation',
                     action: 'Home',
                     name: null,
                   });
-                  props.closeMenu();
+                  closeMenu();
                 }}
               >
                 <FormattedMessage id="frontpage" defaultMessage="Frontpage" />
@@ -61,7 +64,8 @@ function MainMenu(props, { config, intl, executeAction }) {
         {config.mainMenu.showDisruptions && (
           <div className="offcanvas-section">
             <DisruptionInfoButtonContainer
-              setDisruptionInfoOpen={props.setDisruptionInfoOpen}
+              lang={currentLanguage}
+              onClick={closeMenu}
             />
           </div>
         )}
@@ -80,7 +84,7 @@ function MainMenu(props, { config, intl, executeAction }) {
           <div className="offcanvas-section">
             <Link
               to={`${config.URL.EMBEDDED_SEARCH_GENERATION}`}
-              onClick={props.closeMenu}
+              onClick={closeMenu}
             >
               <FormattedMessage
                 id="create-embedded-search"
@@ -146,7 +150,7 @@ function MainMenu(props, { config, intl, executeAction }) {
           content={((config.menu && config.menu.content) || []).filter(
             item => item.href || item.route,
           )}
-          closeMenu={props.closeMenu}
+          closeMenu={closeMenu}
         />
       </section>
       {config.menu?.copyright && (
@@ -157,7 +161,6 @@ function MainMenu(props, { config, intl, executeAction }) {
 }
 
 MainMenu.propTypes = {
-  setDisruptionInfoOpen: PropTypes.func.isRequired,
   closeMenu: PropTypes.func.isRequired,
   homeUrl: PropTypes.string.isRequired,
   countries: PropTypes.objectOf(PropTypes.bool),
