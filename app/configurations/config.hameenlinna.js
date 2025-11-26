@@ -1,4 +1,3 @@
-/* eslint-disable prefer-template */
 import configMerger from '../util/configMerger';
 import walttiConfig from './config.waltti';
 

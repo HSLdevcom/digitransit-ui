@@ -1,4 +1,3 @@
-/* eslint-disable */
 import configMerger from '../util/configMerger';
 import walttiConfig from './config.waltti';
 
@@ -9,14 +8,14 @@ const APP_DESCRIPTION = '';
 const minLat = 63.005;
 const maxLat = 63.152;
 const minLon = 21.527;
-const maxLon = 22.170;
+const maxLon = 22.17;
 const IS_DEV =
-process.env.RUN_ENV === 'development' ||
-process.env.NODE_ENV !== 'production';
+  process.env.RUN_ENV === 'development' ||
+  process.env.NODE_ENV !== 'production';
 
 const virtualMonitorBaseUrl = IS_DEV
-? 'https://dev-vaasamonitori.digitransit.fi'
-: 'https://pysakit-vaasa.digitransit.fi';
+  ? 'https://dev-vaasamonitori.digitransit.fi'
+  : 'https://pysakit-vaasa.digitransit.fi';
 
 export default configMerger(walttiConfig, {
   CONFIG,
@@ -76,11 +75,11 @@ export default configMerger(walttiConfig, {
     content: [
       {
         name: 'menu-feedback',
-        href: { 
+        href: {
           fi: 'https://kartta.vaasa.fi/eFeedback/fi/Feedback/6-Joukkoliikenne',
           sv: 'https://kartta.vaasa.fi/eFeedback/sv/Feedback/6-Kollektivtrafik',
           en: 'https://kartta.vaasa.fi/eFeedback/fi/Feedback/6-Joukkoliikenne',
-        }
+        },
       },
       {
         name: 'about-this-service',
@@ -145,7 +144,7 @@ export default configMerger(walttiConfig, {
   mainMenu: {
     stopMonitor: {
       show: true,
-      url:`${virtualMonitorBaseUrl}/createview`,
+      url: `${virtualMonitorBaseUrl}/createview`,
     },
   },
 
@@ -164,10 +163,10 @@ export default configMerger(walttiConfig, {
   zoneIdMapping: {
     1: 'A',
     2: 'B',
-    3: 'C'
+    3: 'C',
   },
   zones: {
     stops: true,
     itinerary: true,
-  }
+  },
 });

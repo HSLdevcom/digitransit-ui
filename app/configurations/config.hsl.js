@@ -1,4 +1,3 @@
-/* eslint-disable prefer-template */
 import { BIKEAVL_WITHMAX } from '../util/vehicleRentalUtils';
 import prUtils from '../util/ParkAndRideUtils';
 import ttConfig from './timetableConfigUtils';
