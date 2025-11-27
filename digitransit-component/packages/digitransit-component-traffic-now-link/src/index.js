@@ -31,7 +31,7 @@ const TrafficNowLink = ({ lang, handleClick, href, fontWeights }) => {
         className={styles.banner}
         tabIndex="0"
         role="button"
-        onClick={() => handleClick()}
+        onClick={e => handleClick(e, lang)}
         onKeyDown={e => handleKeyDown(e)}
         style={{ '--font-weight-medium': fontWeights.medium }}
       >
