@@ -51,8 +51,8 @@ import {
 const StopRouteSearch = withSearchContext(DTAutoSuggest);
 const LocationSearch = withSearchContext(DTAutosuggestPanel);
 
-const trafficNowHandler = (e, lang) => {
-  window.location = `/${lang === 'fi' || !lang ? '' : `${lang}/`}${TRAFFICNOW}`;
+const trafficNowHandler = () => {
+  window.location = `/${TRAFFICNOW}`;
 };
 
 class IndexPage extends React.Component {

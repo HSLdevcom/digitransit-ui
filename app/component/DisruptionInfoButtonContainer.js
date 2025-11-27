@@ -8,7 +8,7 @@ import { addAnalyticsEvent } from '../util/analyticsUtils';
 import { TRAFFICNOW } from '../util/path';
 
 function DisruptionInfoButtonContainer(
-  { lang, onClick },
+  { onClick },
   { router, config: { feedIds } },
 ) {
   const { environment } = useContext(ReactRelayContext);
@@ -18,7 +18,7 @@ function DisruptionInfoButtonContainer(
       action: 'OpenDisruptions',
       name: null,
     });
-    router.push(`/${lang === 'fi' || !lang ? '' : `${lang}/`}${TRAFFICNOW}`);
+    router.push(`/${TRAFFICNOW}`);
     onClick();
   };
 
@@ -46,7 +46,6 @@ function DisruptionInfoButtonContainer(
 }
 
 DisruptionInfoButtonContainer.propTypes = {
-  lang: PropTypes.string.isRequired,
   onClick: PropTypes.func,
 };
 

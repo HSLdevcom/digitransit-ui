@@ -63,10 +63,7 @@ function MainMenu(
         )}
         {config.mainMenu.showDisruptions && (
           <div className="offcanvas-section">
-            <DisruptionInfoButtonContainer
-              lang={currentLanguage}
-              onClick={closeMenu}
-            />
+            <DisruptionInfoButtonContainer onClick={closeMenu} />
           </div>
         )}
         {config.mainMenu.stopMonitor.show && (
