@@ -1,4 +1,3 @@
-/* eslint-disable prefer-template */
 import HSLConfig from './config.hsl';
 import TurkuConfig from './config.turku';
 import LappeenrantaConfig from './config.lappeenranta';

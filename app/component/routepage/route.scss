@@ -81,8 +81,8 @@ $margin-left-right: 21.3px;
   display: flex;
   background: $infobox-color-generic-blue;
   border-radius: 5px;
-  margin: 10px 0 10px 0;
-  padding: 3px 10px 10px 0;
+  margin: 10px 0;
+  padding: 16px 16px 8px 8px;
 
   .left-block {
     padding-left: 10px;
@@ -128,6 +128,14 @@ $margin-left-right: 21.3px;
     font-size: $font-size-xsmall;
     font-weight: $font-weight-book;
     padding-inline-start: 0;
+    line-height: 16px;
+    letter-spacing: -0.03em;
+  }
+
+  .content {
+    margin: 3px 0 0 0;
+    font-size: $font-size-xsmall;
+    font-weight: $font-weight-book;
     line-height: 16px;
     letter-spacing: -0.03em;
   }

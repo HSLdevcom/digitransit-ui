@@ -1,4 +1,3 @@
-/* eslint-disable prefer-template */
 import { BIKEAVL_WITHMAX } from '../util/vehicleRentalUtils';
 import prUtils from '../util/ParkAndRideUtils';
 import ttConfig from './timetableConfigUtils';
@@ -27,6 +26,12 @@ const IS_DEV =
 const virtualMonitorBaseUrl = IS_DEV
   ? 'https://dev-hslmonitori.digitransit.fi'
   : 'https://omatnaytot.hsl.fi';
+
+const linkLabel = {
+  fi: 'Lisätietoja',
+  en: 'More information',
+  sv: 'Ytterligare information',
+};
 
 export default {
   CONFIG,
@@ -618,6 +623,7 @@ export default {
         en: 'hsl.fi/matkustaminen/u-liikenne/',
         sv: 'hsl.fi/sv/att-resa/U-trafik/',
       },
+      linkLabel,
     },
     {
       showForRoute: route => route.type === 702,
@@ -629,16 +635,13 @@ export default {
       },
       content: {
         fi: [
-          'Pääset kyytiin myös keskiovista näyttämättä lippua kuljettajalle.',
-          'Linja käyttää valikoituja pysäkkejä eli ei pysähdy kaikilla pysäkeillä.',
+          'Pääset kyytiin myös bussin keskiovista. Varaudu näyttämään lippu pyydettäessä kuljettajalle tai tarkastajalle.',
         ],
         en: [
-          'Passengers can board the buses also through the middle doors.',
-          'The bus will not serve all stops along the route.',
+          'You can also board the bus through the middle doors. Please be ready to show your ticket to the driver or ticket inspector.',
         ],
         sv: [
-          'Man kan stiga på genom mittdörren och behöver inte visa upp sin biljett för föraren.',
-          'För att snabba upp trafiken stannar bussarna inte vid alla hållplatser.',
+          'Du kan också stiga på bussen genom mittdörren. Var beredd på att visa upp din biljett för föraren eller biljettkontrollanten om du blir ombedd.',
         ],
       },
       closeButtonLabel: {
@@ -651,6 +654,7 @@ export default {
         en: 'hsl.fi/en/hsl/trunk-route-network',
         sv: 'hsl.fi/sv/hrt/stomnatet',
       },
+      linkLabel,
     },
     {
       showForRoute: route => route.type === 704,
@@ -684,6 +688,7 @@ export default {
         en: 'hsl.fi/en/travelling/neighborhood-buses',
         sv: 'hsl.fi/sv/att-resa/narbussar',
       },
+      linkLabel,
     },
     {
       showForRoute: route => route.type === 900,
@@ -717,6 +722,7 @@ export default {
         en: 'hsl.fi/en/campaigns/light-rail',
         sv: 'hsl.fi/sv/kampanjer/snabbsparvag',
       },
+      linkLabel,
     },
   ],
 
@@ -746,6 +752,7 @@ export default {
     link: {
       fi: 'https://hsl.fi/korvaavabussi',
     },
+    linkLabel,
   },
 
   embeddedSearch: {

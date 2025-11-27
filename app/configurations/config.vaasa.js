@@ -9,6 +9,7 @@ const minLat = 62.96;
 const maxLat = 63.19;
 const minLon = 21.42;
 const maxLon = 22.18;
+
 const IS_DEV =
   process.env.RUN_ENV === 'development' ||
   process.env.NODE_ENV !== 'production';
