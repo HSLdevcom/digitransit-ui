@@ -1773,6 +1773,7 @@ const translations = {
     'trafficnow-bread': 'Travelling',
     'trafficnow-description':
       'Up-to-date information on disruptions and exceptions',
+    'trafficnow-long': 'Services now',
     traficom: 'Traficom',
     tram: 'Tram',
     'tram-with-route-number': 'Tram {routeNumber} {headSign}',
@@ -3114,6 +3115,7 @@ const translations = {
     trafficnow: 'Liikenne nyt',
     'trafficnow-bread': 'Matkustaminen',
     'trafficnow-description': 'Ajantasaiset tiedot häiriöistä ja poikkeuksista',
+    'trafficnow-long': 'Liikennetilanne nyt',
     traficom: 'Traficom',
     tram: 'Raitiovaunu',
     'tram-with-route-number': 'Raitiovaunu {routeNumber} {headSign}',
@@ -6095,6 +6097,7 @@ const translations = {
     trafficnow: 'Trafikläget nu',
     'trafficnow-bread': 'Att resa med oss',
     'trafficnow-description': 'Aktuell information om störningar och undantag',
+    'trafficnow-long': 'Trafikläget nu',
     traficom: 'Traficom',
     tram: 'Spårvagn',
     'tram-with-route-number': 'Spårvagn {routeNumber} {headSign}',

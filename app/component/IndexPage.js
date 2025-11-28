@@ -51,10 +51,6 @@ import {
 const StopRouteSearch = withSearchContext(DTAutoSuggest);
 const LocationSearch = withSearchContext(DTAutosuggestPanel);
 
-const trafficNowHandler = () => {
-  window.location = `/${TRAFFICNOW}`;
-};
-
 class IndexPage extends React.Component {
   static contextTypes = {
     intl: intlShape.isRequired,
@@ -222,6 +218,11 @@ class IndexPage extends React.Component {
       stop_type: url.split('/')[2].toLowerCase(),
     });
     this.context.router.push(url);
+  };
+
+  trafficNowHandler = e => {
+    e.preventDefault();
+    this.context.router.push(`/${TRAFFICNOW}`);
   };
 
   NearStops() {
@@ -410,7 +411,11 @@ class IndexPage extends React.Component {
               </>
             )}
             {trafficNowLink && (
-              <TrafficNowLink lang={lang} handleClick={trafficNowHandler} />
+              <TrafficNowLink
+                lang={lang}
+                handleClick={this.trafficNowHandler}
+                href={`/${TRAFFICNOW}`}
+              />
             )}
           </CtrlPanel>
         </div>
@@ -458,8 +463,8 @@ class IndexPage extends React.Component {
               (trafficNowLink !== '' && (
                 <TrafficNowLink
                   lang={lang}
-                  handleClick={trafficNowHandler}
-                  fontWeights={fontWeights}
+                  handleClick={this.trafficNowHandler}
+                  href={`/${TRAFFICNOW}`}
                 />
               ))}
           </CtrlPanel>
