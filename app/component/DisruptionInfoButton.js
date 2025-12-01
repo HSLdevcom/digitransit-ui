@@ -13,7 +13,7 @@ function DisruptionInfoButton(props, { config }) {
         className="cursor-pointer disruption-info noborder"
         onClick={props.openDisruptionInfo}
       >
-        <FormattedMessage id="trafficnow-long" defaultMessage="Services now" />
+        <FormattedMessage id="traffic-now-long" defaultMessage="Services now" />
         {props.viewer?.alerts?.length > 0 && (
           <Icon
             img="icon_caution_white_exclamation"
