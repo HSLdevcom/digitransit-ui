@@ -41,10 +41,12 @@ export default function RouteBadges({ entities: rawEntities }) {
               width={2}
               iconScale={isRoute ? NORMAL_ICON_SCALE : STOP_SIGN_ICON_SCALE}
               background={
-                <IconBackground
-                  backgroundShape={isRoute ? undefined : 'stopsign'}
-                  backgroundColor="currentcolor"
-                />
+                !isRoute && (
+                  <IconBackground
+                    backgroundShape="stopsign"
+                    backgroundColor="currentcolor"
+                  />
+                )
               }
             />
             <div className="route-badges-mode-lines flex-row vertically-centered">
