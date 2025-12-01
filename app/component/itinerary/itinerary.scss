@@ -107,6 +107,7 @@ $itinerary-tab-switch-height: 48px;
   border-radius: var(--radius-s);
   background: #fdf3f6;
   color: $cancelation-red;
+  padding: 0 8px 0 4px;
 }
 
 .itinerary-list-container {
@@ -1948,7 +1949,7 @@ $itinerary-tab-switch-height: 48px;
       }
 
       .platform-number-wrapper {
-        padding: 0 8px 0 4px;
+        padding: 3px 10px;
         border-radius: 5px;
         margin: 0 3px 0 3px;
         background-color: $background-color-lighter;
@@ -3482,7 +3483,7 @@ $font-print-decrease: 0.7;
 }
 
 .platform-number-wrapper {
-  padding: 0 8px 0 4px;
+  padding: 3px 10px;
   border-radius: 5px;
   margin: 0 3px 0 3px;
   background-color: $background-color-lighter;

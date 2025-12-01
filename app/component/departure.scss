@@ -164,7 +164,7 @@
 .platform-short {
   @include font-narrow-book;
 
-  width: 3em;
+  width: fit-content;
   color: $gray;
   font-size: $font-size-small;
   text-align: right;
