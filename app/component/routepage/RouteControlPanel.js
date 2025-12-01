@@ -10,7 +10,7 @@ import { enrichPatterns } from '@digitransit-util/digitransit-util';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { configShape } from '../../util/shapes';
 import CallAgencyWarning from './CallAgencyWarning';
-import RoutePatternSelect from './RoutePatternSelect';
+import RoutePatternSelectContainer from './RoutePatternSelectContainer';
 import Notification from './Notification';
 import { DATE_FORMAT, ExtendedRouteTypes } from '../../constants';
 import {
@@ -439,7 +439,7 @@ class RouteControlPanel extends React.Component {
         >
           {routeNotifications}
           {patternId && (
-            <RoutePatternSelect
+            <RoutePatternSelectContainer
               params={match.params}
               route={route}
               onSelectChange={this.onPatternChange}

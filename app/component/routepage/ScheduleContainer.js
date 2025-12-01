@@ -1028,7 +1028,7 @@ const containerComponent = createFragmentContainer(
         mode
         type
         ...RouteAgencyInfo_route
-        ...RoutePatternSelect_route @arguments(date: $date)
+        ...RoutePatternSelectContainer_route @arguments(date: $date)
         agency {
           name
           phone

@@ -1689,6 +1689,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@babel/runtime@npm:^7.24.5":
+  version: 7.28.4
+  resolution: "@babel/runtime@npm:7.28.4"
+  checksum: 934b0a0460f7d06637d93fcd1a44ac49adc33518d17253b5a0b55ff4cb90a45d8fe78bf034b448911dbec7aff2a90b918697559f78d21c99ff8dbadae9565b55
+  languageName: node
+  linkType: hard
+
 "@babel/template@npm:^7.10.4, @babel/template@npm:^7.25.9, @babel/template@npm:^7.26.9, @babel/template@npm:^7.27.0, @babel/template@npm:^7.3.3, @babel/template@npm:^7.6.0":
   version: 7.27.0
   resolution: "@babel/template@npm:7.27.0"
@@ -9480,6 +9487,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"compute-scroll-into-view@npm:^3.1.0":
+  version: 3.1.1
+  resolution: "compute-scroll-into-view@npm:3.1.1"
+  checksum: c56345199e746f93a515b3190d1bf0940944d5b7e1b06e33f16b430a93c9ada1c6b9fe89674d3f3a6078642523c49edcddc1cd639bbe78797fffd072b0231930
+  languageName: node
+  linkType: hard
+
 "computed-style@npm:~0.1.3":
   version: 0.1.4
   resolution: "computed-style@npm:0.1.4"
@@ -11145,6 +11159,7 @@ __metadata:
     css-loader: ^5.2.7
     debug: 4.3.4
     documentation: 13.2.5
+    downshift: ^9.0.10
     enzyme: 3.11.0
     enzyme-adapter-react-16: 1.15.8
     enzyme-wait: 1.0.9
@@ -11605,6 +11620,21 @@ __metadata:
   version: 2.1.0-0
   resolution: "double-ended-queue@npm:2.1.0-0"
   checksum: 3030cf9dcf6f8e7d8cb6ae5b7304890445d7c32233a614e400ba7b378086ad76f5822d0e501afd5ffe0af1de4bcb842fa23d4c79174d54f6566399435fafc271
+  languageName: node
+  linkType: hard
+
+"downshift@npm:^9.0.10":
+  version: 9.0.10
+  resolution: "downshift@npm:9.0.10"
+  dependencies:
+    "@babel/runtime": ^7.24.5
+    compute-scroll-into-view: ^3.1.0
+    prop-types: ^15.8.1
+    react-is: 18.2.0
+    tslib: ^2.6.2
+  peerDependencies:
+    react: ">=16.12.0"
+  checksum: ba9db1e8aa5c3e5418471e94ce030bf929e361689581d0a0032d95712edf27c695eac110fa087b4fa5dbef98aa65fbeef2a48d5c6c60520322f652fee607cfb7
   languageName: node
   linkType: hard
 
@@ -23700,6 +23730,13 @@ __metadata:
     prop-types: ^15.5.4
     react: ^0.14.9 || ^15.0.0 || ^16.0.0
   checksum: c23ff0b895af8c563435ccace81d8eb32c27e078fad9cf10a44f4409b53c9e4eab08ec7ebc25a17a0ff60d8542b745aff8ee3c323aeaf6ed2dae1b27d7d47840
+  languageName: node
+  linkType: hard
+
+"react-is@npm:18.2.0":
+  version: 18.2.0
+  resolution: "react-is@npm:18.2.0"
+  checksum: e72d0ba81b5922759e4aff17e0252bd29988f9642ed817f56b25a3e217e13eea8a7f2322af99a06edb779da12d5d636e9fda473d620df9a3da0df2a74141d53e
   languageName: node
   linkType: hard
 

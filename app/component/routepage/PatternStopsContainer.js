@@ -104,7 +104,7 @@ export default createFragmentContainer(withBreakpoint(PatternStopsContainer), {
       mode
       type
       ...RouteAgencyInfo_route
-      ...RoutePatternSelect_route @arguments(date: $date)
+      ...RoutePatternSelectContainer_route @arguments(date: $date)
       agency {
         phone
         name

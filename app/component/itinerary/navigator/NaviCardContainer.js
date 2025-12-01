@@ -73,7 +73,7 @@ function NaviCardContainer(
   const nextLegPlatformCode = nextLeg?.from?.stop?.platformCode;
   const platformStatus = getPlatformChangeStatus(
     nextLeg,
-    usePrevious(nextLegPlatformCode),
+    usePrevious(nextLegPlatformCode).previous,
   );
 
   const handleRemove = index => {

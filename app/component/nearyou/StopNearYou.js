@@ -6,7 +6,7 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 import Modal from '@hsl-fi/modal';
 import { stopShape, configShape, relayShape } from '../../util/shapes';
 import { hasEntitiesOfType } from '../../util/alertUtils';
-import { stopPagePath, PREFIX_DISRUPTION } from '../../util/path';
+import { stopPagePath } from '../../util/path';
 import { AlertEntityType } from '../../constants';
 import StopNearYouHeader from './StopNearYouHeader';
 import AlertBanner from '../AlertBanner';
@@ -38,7 +38,7 @@ const StopNearYou = (
 
   const description = desc || stop.desc;
   const isStation = stop.locationType === 'STATION';
-  const linkAddress = stopPagePath(isStation, gtfsId, PREFIX_DISRUPTION);
+  const linkAddress = stopPagePath(isStation, gtfsId);
 
   const { constantOperationStops } = config;
   const { locale } = intl;
