@@ -1,7 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import PropTypes from 'prop-types';
 import React from 'react';
-import i18next from 'i18next';
+import { withTranslation, I18nextProvider } from 'react-i18next';
 import cx from 'classnames';
 import Autosuggest from 'react-autosuggest';
 import { executeSearch } from '@digitransit-search-util/digitransit-search-util-execute-search-immidiate';
@@ -13,63 +13,44 @@ import {
 import { getStopName } from '@digitransit-search-util/digitransit-search-util-helpers';
 import getLabel from '@digitransit-search-util/digitransit-search-util-get-label';
 import Icon from '@digitransit-component/digitransit-component-icon';
-import moment from 'moment-timezone';
-import 'moment/locale/fi';
-import 'moment/locale/sv';
-import 'moment/locale/de';
+import { DateTime, Settings } from 'luxon';
 import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
-import translations from './helpers/translations';
+import i18n from './helpers/i18n';
 import styles from './helpers/styles.scss';
 import MobileSearch from './helpers/MobileSearch';
 import withScrollLock from './helpers/withScrollLock';
 
-moment.locale('en');
+Settings.defaultLocale = 'en';
 
-i18next.init({
-  fallbackLng: 'fi',
-  defaultNS: 'translation',
-  interpolation: {
-    escapeValue: false, // not needed for react as it escapes by default
-  },
-});
-
-const Loading = props => (
-  <div className={styles['spinner-loader']}>
-    {(props && props.children) || (
-      <span className={styles['sr-only']}>{i18next.t('loading')}</span>
-    )}
-  </div>
-);
-
-Loading.propTypes = {
-  children: PropTypes.node,
-};
-
-Loading.defaultProps = {
-  children: undefined,
-};
-
-const getPlatform = addendum => {
+const getPlatform = (addendum, lng, t) => {
+  // check if i81n is initialized
+  if (!t) {
+    return undefined;
+  }
   if (!addendum || !addendum.GTFS.platform) {
     return undefined;
   }
   const { modes, platform } = addendum.GTFS;
   const type =
-    modes && modes[0] === 'RAIL' ? i18next.t('track') : i18next.t('platform');
+    modes && modes[0] === 'RAIL' ? t('track', { lng }) : t('platform', { lng });
   return [type, platform];
 };
 
-function getSuggestionContent(item) {
+function getSuggestionContent(item, lng, t) {
+  // check if i81n is initialized
+  if (!t) {
+    return undefined;
+  }
   if (item.type !== 'FutureRoute') {
     if (item.type === 'SelectFromMap') {
-      return ['', i18next.t('select-from-map')];
+      return ['', t('select-from-map', { lng })];
     }
     if (item.type === 'CurrentLocation') {
-      return ['', i18next.t('use-own-position')];
+      return ['', t('use-own-position', { lng })];
     }
     if (item.type === 'SelectFromOwnLocations') {
-      return ['', i18next.t('select-from-own-locations')];
+      return ['', t('select-from-own-locations', { lng })];
     }
     /* eslint-disable-next-line prefer-const */
     let [name, label] = getNameLabel(item.properties, true);
@@ -78,31 +59,32 @@ function getSuggestionContent(item) {
       item.properties.layer.toLowerCase().includes('bikerental') ||
       item.properties.layer.toLowerCase().includes('bikestation')
     ) {
-      suggestionType = i18next.t('vehiclerentalstation');
+      suggestionType = t('vehiclerentalstation', { lng });
       const stopCode = item.properties.labelId;
       return [suggestionType, name, undefined, stopCode];
     }
 
     if (item.properties.layer === 'bikepark') {
-      suggestionType = i18next.t('bikepark');
+      suggestionType = t('bikepark', { lng });
       return [suggestionType, name, undefined, undefined];
     }
 
     if (item.properties.layer === 'carpark') {
-      suggestionType = i18next.t('carpark');
+      suggestionType = t('carpark', { lng });
       return [suggestionType, name, undefined, undefined];
     }
 
     if (item.properties.mode) {
-      suggestionType = i18next.t(
+      suggestionType = t(
         item.properties.mode.toLowerCase().replace('favourite', ''),
+        { lng },
       );
     } else {
       const layer = item.properties.layer
         .replace('route-', '')
         .toLowerCase()
         .replace('favourite', '');
-      suggestionType = i18next.t(layer);
+      suggestionType = t(layer, { lng });
     }
 
     if (
@@ -111,7 +93,7 @@ function getSuggestionContent(item) {
     ) {
       const stopCode = getStopCode(item.properties);
       const mode = item.properties.addendum?.GTFS.modes;
-      const platform = getPlatform(item.properties.addendum);
+      const platform = getPlatform(item.properties.addendum, lng, t);
       return [
         suggestionType,
         getStopName(name, stopCode),
@@ -127,7 +109,7 @@ function getSuggestionContent(item) {
     ) {
       const { address, code } = item.properties;
       const stoName = address ? getStopName(address.split(',')[0], code) : name;
-      const platform = getPlatform(item.properties.addendum);
+      const platform = getPlatform(item.properties.addendum, lng);
       return [suggestionType, stoName, label, code, undefined, platform];
     }
     return [suggestionType, name, label];
@@ -138,27 +120,32 @@ function getSuggestionContent(item) {
   const name1 = origin.name;
   const name2 = destination.name;
   return [
-    i18next.t('future-route'),
-    `${i18next.t('origin')} ${name1}${tail1} ${i18next.t(
-      'destination',
-    )} ${name2}${tail2}`,
+    t('future-route', { lng }),
+    `${t('origin', { lng })} ${name1}${tail1} ${t('destination', {
+      lng,
+    })} ${name2}${tail2}`,
     item.translatedText,
   ];
 }
 
-function translateFutureRouteSuggestionTime(item) {
-  const time = moment.unix(item.properties.time);
-  let str = item.properties.arriveBy
-    ? i18next.t('arrival')
-    : i18next.t('departure');
-  if (time.isSame(moment(), 'day')) {
-    str = `${str} ${i18next.t('today-at')}`;
-  } else if (time.isSame(moment().add(1, 'day'), 'day')) {
-    str = `${str} ${i18next.t('tomorrow-at')}`;
-  } else {
-    str = `${str} ${time.format('dd D.M.')}`;
+function translateFutureRouteSuggestionTime(item, lng, t) {
+  // check if i81n is initialized
+  if (!t) {
+    return undefined;
   }
-  str = `${str} ${moment(time).format('HH:mm')}`;
+  const time = DateTime.fromSeconds(Number(item.properties.time));
+  const now = DateTime.now();
+  let str = item.properties.arriveBy
+    ? t('arrival', { lng })
+    : t('departure', { lng });
+  if (time.hasSame(now, 'day')) {
+    str = `${str} ${t('today-at')}`;
+  } else if (time.hasSame(now.plus({ days: 1 }), 'day')) {
+    str = `${str} ${t('tomorrow-at', { lng })}`;
+  } else {
+    str = `${str} ${time.toFormat('ccc d.L.')}`;
+  }
+  str = `${str} ${time.toFormat('HH:mm')}`;
   return str;
 }
 
@@ -303,6 +290,7 @@ class DTAutosuggest extends React.Component {
     modeSet: PropTypes.string,
     showScroll: PropTypes.bool,
     isEmbedded: PropTypes.bool,
+    t: PropTypes.func,
   };
 
   static defaultProps = {
@@ -338,26 +326,18 @@ class DTAutosuggest extends React.Component {
     fontWeights: {
       medium: 500,
     },
-    modeIconColors: {
-      'mode-bus': '#007ac9',
-      'mode-rail': '#8c4799',
-      'mode-tram': '#008151',
-      'mode-metro': '#ed8c00',
-      'mode-ferry': '#007A97',
-      'mode-citybike': '#f2b62d',
-      'mode-funicular': '#ff00ff',
-    },
+    modeIconColors: undefined,
     required: false,
     modeSet: undefined,
     showScroll: false,
     refPoint: {},
+    t: undefined,
   };
 
   constructor(props) {
     super(props);
-    moment.tz.setDefault(props.timeZone);
-    moment.locale(props.lang);
-
+    Settings.defaultZone = props.timeZone;
+    Settings.defaultLocale = props.lang;
     this.state = {
       value: props.value,
       suggestions: [],
@@ -373,21 +353,12 @@ class DTAutosuggest extends React.Component {
       cleanExecuted: false,
       scrollY: 0,
     };
-    Object.keys(translations).forEach(lang => {
-      i18next.addResourceBundle(lang, 'translation', translations[lang]);
-    });
   }
 
   // DT-4074: When a user's location is updated DTAutosuggest would re-render causing suggestion list to reset.
   // This will prevent it.
   shouldComponentUpdate(nextProps, nextState) {
     return !isEqual(nextState, this.state) || !isEqual(nextProps, this.props);
-  }
-
-  componentDidUpdate() {
-    if (i18next.language !== this.props.lang) {
-      i18next.changeLanguage(this.props.lang);
-    }
   }
 
   // eslint-disable-next-line camelcase
@@ -431,9 +402,6 @@ class DTAutosuggest extends React.Component {
   };
 
   onBlur = () => {
-    if (this.state.renderMobileSearch) {
-      return;
-    }
     if (this.state.editing) {
       this.input.focus();
     }
@@ -442,6 +410,9 @@ class DTAutosuggest extends React.Component {
       renderMobileSearch: false,
       value: this.props.value,
     });
+    if (this.props.isMobile && this.state.renderMobileSearch) {
+      this.closeMobileSearch();
+    }
   };
 
   onSelected = (e, ref) => {
@@ -507,7 +478,7 @@ class DTAutosuggest extends React.Component {
           ) {
             this.props.focusChange();
           }
-          if (this.props.isMobile) {
+          if (this.props.isMobile && this.state.renderMobileSearch) {
             this.closeMobileSearch();
           }
         },
@@ -557,12 +528,14 @@ class DTAutosuggest extends React.Component {
         () => {
           if (this.state.suggestions.length) {
             this.input.blur();
-            this.props.onSelect(
-              this.state.suggestions[this.state.suggestionIndex],
-              this.props.id,
-            );
-
-            if (this.props.isMobile) {
+            const item = this.state.suggestions[this.state.suggestionIndex];
+            if (item.type !== 'back') {
+              this.props.onSelect(
+                this.state.suggestions[this.state.suggestionIndex],
+                this.props.id,
+              );
+            }
+            if (this.props.isMobile && this.state.renderMobileSearch) {
               this.closeMobileSearch();
             }
             if (
@@ -583,7 +556,9 @@ class DTAutosuggest extends React.Component {
         type="button"
         className={styles['clear-input']}
         onClick={this.clearInput}
-        aria-label={i18next.t('clear-button-label')}
+        aria-label={this.props.t('clear-button-label', {
+          lng: this.props.lang,
+        })}
       >
         <Icon img="close" color={this.props.color} />
       </button>
@@ -659,7 +634,8 @@ class DTAutosuggest extends React.Component {
                 suggestion =>
                   suggestion.type !== 'FutureRoute' ||
                   (suggestion.type === 'FutureRoute' &&
-                    suggestion.properties.time > moment().unix()),
+                    suggestion.properties.time >
+                      DateTime.now().toUnixInteger()),
               )
               .map(suggestion => {
                 if (
@@ -669,8 +645,9 @@ class DTAutosuggest extends React.Component {
                   suggestion.type === 'back'
                 ) {
                   const translated = { ...suggestion };
-                  translated.properties.labelId = i18next.t(
+                  translated.properties.labelId = this.props.t(
                     suggestion.properties.labelId,
+                    { lng: this.props.lang },
                   );
                   return translated;
                 }
@@ -787,17 +764,23 @@ class DTAutosuggest extends React.Component {
       item.type === 'FutureRoute'
         ? {
             ...item,
-            translatedText: translateFutureRouteSuggestionTime(item),
+            translatedText: translateFutureRouteSuggestionTime(
+              item,
+              this.props.lang,
+              this.props.t,
+            ),
           }
         : item;
-    const content = getSuggestionContent(item);
+    const content = getSuggestionContent(item, this.props.lang, this.props.t);
     return (
       <SuggestionItem
         item={newItem}
         content={content}
         loading={!this.state.valid}
         isMobile={this.props.isMobile}
-        ariaFavouriteString={i18next.t('favourite')}
+        ariaFavouriteString={this.props.t('favourite', {
+          lng: this.props.lang,
+        })}
         color={this.props.color}
         accessiblePrimaryColor={this.props.accessiblePrimaryColor}
         fillInput={this.fillInput}
@@ -821,6 +804,9 @@ class DTAutosuggest extends React.Component {
         this.onSuggestionsClearRequested();
       },
     );
+    this.input.focus();
+    // This closes the mobile keyboard
+    this.input.blur();
   };
 
   keyDown = event => {
@@ -828,8 +814,13 @@ class DTAutosuggest extends React.Component {
       return;
     }
     const keyCode = event.key;
+    if (keyCode === 'Shift') {
+      // This enables shift + tab to be used
+      return;
+    }
     if (keyCode === 'Escape') {
-      this.setState({ editing: false });
+      // Using onBlur makes 'Escape' act similarly to using 'Tab'
+      this.onBlur();
     }
     if (this.state.editing) {
       if (keyCode === 'Enter' && this.state.value !== '') {
@@ -861,6 +852,7 @@ class DTAutosuggest extends React.Component {
     }
     if (!this.state.editing) {
       this.setState({ editing: true });
+      this.clearLocationText();
     }
 
     if (keyCode === 'Tab') {
@@ -873,9 +865,11 @@ class DTAutosuggest extends React.Component {
     const firstSuggestion = this.state.suggestions[0];
     if (firstSuggestion) {
       if (firstSuggestion.type && firstSuggestion.type.includes('Favourite')) {
-        label.push(i18next.t('favourite'));
+        label.push(this.props.t('favourite', { lng: this.props.lang }));
       }
-      label = label.concat(getSuggestionContent(this.state.suggestions[0]));
+      label = label.concat(
+        getSuggestionContent(this.state.suggestions[0], this.props.lang),
+      );
     }
     return [...new Set(label)].join(' - ');
   };
@@ -918,22 +912,18 @@ class DTAutosuggest extends React.Component {
   };
 
   onFocus = () => {
-    this.clearLocationText();
-
     const scrollY = window.pageYOffset;
     return this.setState({ scrollY });
   };
 
   render() {
-    if (i18next.language !== this.props.lang) {
-      i18next.changeLanguage(this.props.lang);
-    }
+    const { t, lang: lng } = this.props;
     const { value, suggestions, renderMobileSearch, cleanExecuted } =
       this.state;
     const inputProps = {
       placeholder: this.props.translatedPlaceholder
         ? this.props.translatedPlaceholder
-        : i18next.t(this.props.placeholder),
+        : t(this.props.placeholder, { lng }),
       value,
       onChange: this.onChange,
       onBlur: this.onBlur,
@@ -948,29 +938,31 @@ class DTAutosuggest extends React.Component {
       required: this.props.required,
     };
     const ariaBarId = this.props.id.replace('searchfield-', '');
-    let SearchBarId = this.props.ariaLabel || i18next.t(ariaBarId);
+    let SearchBarId = this.props.ariaLabel || t(ariaBarId, { lng });
     SearchBarId = SearchBarId.replace('searchfield-', '').concat('.'); // Full stop makes screen reader speech clearer.
     const ariaRequiredText = this.props.required
-      ? `${i18next.t('required')}.`
+      ? `${t('required', { lng })}.`
       : '';
     const ariaLabelInstructions = this.props.isMobile
-      ? i18next.t('search-autosuggest-label-instructions-mobile')
-      : i18next.t('search-autosuggest-label-instructions-desktop');
+      ? t('search-autosuggest-label-instructions-mobile', { lng })
+      : t('search-autosuggest-label-instructions-desktop', { lng });
     const movingToDestinationFieldText =
       this.props.id === 'origin'
-        ? i18next.t('search-autosuggest-label-move-to-destination')
+        ? t('search-autosuggest-label-move-to-destination', { lng })
         : '';
     const ariaLabelText = ariaLabelInstructions
       .concat(' ')
       .concat(movingToDestinationFieldText);
 
-    const ariaSuggestionLen = i18next.t('search-autosuggest-len', {
+    const ariaSuggestionLen = t('search-autosuggest-len', {
       count: suggestions.length,
+      lng,
     });
 
     const ariaCurrentSuggestion = () => {
       if (this.suggestionAsAriaContent() || this.props.value) {
-        return i18next.t('search-current-suggestion', {
+        return t('search-current-suggestion', {
+          lng,
           selection:
             this.suggestionAsAriaContent().toLowerCase() || this.props.value,
         });
@@ -997,13 +989,13 @@ class DTAutosuggest extends React.Component {
               ...suggestions,
               {
                 type: 'clear-search-history',
-                labelId: i18next.t('clear-search-history'),
+                labelId: t('clear-search-history', { lng }),
               },
             ]}
             inputProps={{
               ...inputProps,
               placeholder: this.isOriginDestinationOrViapoint()
-                ? i18next.t('address-place-or-business')
+                ? t('address-place-or-business', { lng })
                 : inputProps.placeholder,
             }}
             fetchFunction={this.fetchFunction}
@@ -1019,19 +1011,22 @@ class DTAutosuggest extends React.Component {
             label={
               this.props.mobileLabel
                 ? this.props.mobileLabel
-                : i18next.t(this.props.id)
+                : t(this.props.id, { lng })
             }
             onSuggestionSelected={this.onSelected}
-            dialogHeaderText={i18next.t('delete-old-searches-header')}
-            dialogPrimaryButtonText={i18next.t('delete')}
-            dialogSecondaryButtonText={i18next.t('cancel')}
-            clearInputButtonText={i18next.t('clear-button-label')}
+            dialogHeaderText={t('delete-old-searches-header', {
+              lng,
+            })}
+            dialogPrimaryButtonText={t('delete', { lng })}
+            dialogSecondaryButtonText={t('cancel', { lng })}
+            clearInputButtonText={t('clear-button-label', { lng })}
             focusInput={cleanExecuted}
             color={this.props.color}
             hoverColor={this.props.hoverColor}
             accessiblePrimaryColor={this.props.accessiblePrimaryColor}
             fontWeights={this.props.fontWeights}
             showScroll={this.props.showScroll}
+            lang={this.props.lang}
           />
         )}
         {!renderMobileSearch && (
@@ -1057,7 +1052,7 @@ class DTAutosuggest extends React.Component {
                   .concat(' ')
                   .concat(SearchBarId)
                   .concat(' ')
-                  .concat(i18next.t('search-autosuggest-label'))}
+                  .concat(t('search-autosuggest-label', { lng }))}
               >
                 <Icon img={`${this.props.icon}`} />
               </div>
@@ -1115,6 +1110,14 @@ class DTAutosuggest extends React.Component {
   }
 }
 
-const DTAutosuggestWithScrollLock = withScrollLock(DTAutosuggest);
+const DTAutosuggestWithScrollLock = withTranslation()(
+  withScrollLock(DTAutosuggest),
+);
 
-export default DTAutosuggestWithScrollLock;
+export default props => {
+  return (
+    <I18nextProvider i18n={i18n}>
+      <DTAutosuggestWithScrollLock {...props} />
+    </I18nextProvider>
+  );
+};

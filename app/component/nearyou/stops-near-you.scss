@@ -80,7 +80,7 @@
 
   .stops-near-you-no-stops {
     width: 100%;
-    background-color: #e5f2fa;
+    background-color: $infobox-color-generic-blue;
     font-weight: normal;
     font-size: 0.9375rem;
     line-height: 1.2;
@@ -105,7 +105,7 @@
   .citybike-use-disclaimer {
     border-radius: 8px;
     border: solid 1px #ddd;
-    background-color: #f4f4f5;
+    background-color: $background-color-lighter;
     padding: 12px 18px 12px 18px;
     width: 100%;
     margin-bottom: 10px;

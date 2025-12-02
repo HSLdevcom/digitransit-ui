@@ -1,13 +1,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { createFragmentContainer, graphql } from 'react-relay';
+import { useFragment } from 'react-relay';
 import { FormattedMessage } from 'react-intl';
 import cx from 'classnames';
 import { matchShape } from 'found';
 import { configShape, planEdgeShape } from '../../util/shapes';
 import Icon from '../Icon';
 import Itinerary from './Itinerary';
-import { isBrowser } from '../../util/browser';
 import {
   getExtendedMode,
   showBikeBoardingNote,
@@ -16,9 +15,9 @@ import {
 import ItineraryListHeader from './ItineraryListHeader';
 import ItinerariesNotFound from './ItinerariesNotFound';
 import Loading from '../Loading';
-import FeedbackPrompt from './FeedbackPrompt';
 import { streetHash } from '../../util/path';
 import { getIntermediatePlaces } from '../../util/otpStrings';
+import { ItineraryListPlanEdges } from './queries/ItineraryListPlanEdges';
 
 const spinnerPosition = {
   top: 'top',
@@ -27,7 +26,7 @@ const spinnerPosition = {
 
 function ItineraryList(
   {
-    planEdges,
+    planEdges: planEdgesRef,
     activeIndex,
     onSelect,
     onSelectImmediately,
@@ -35,10 +34,10 @@ function ItineraryList(
     bikeParkItineraryCount,
     carDirectItineraryCount,
     showRelaxedPlanNotifier,
-    showRentalVehicleNotifier,
-    separatorPosition,
+    rentalVehicleNotifierId,
+    separator2,
     loadingMore,
-    routingFeedbackPosition,
+    separator1,
     ...rest
   },
   context,
@@ -46,6 +45,8 @@ function ItineraryList(
   const { config } = context;
   const { location } = context.match;
   const { hash } = context.match.params;
+
+  const planEdges = useFragment(ItineraryListPlanEdges, planEdgesRef);
 
   const co2s = planEdges
     .filter(e => e.node.emissionsPerPerson?.co2 >= 0)
@@ -144,21 +145,26 @@ function ItineraryList(
       );
     }
   }
-  if (separatorPosition) {
+  if (separator2) {
     summaries.splice(
-      separatorPosition,
+      separator2,
       0,
       <div
         className="summary-list-separator"
-        key={`summary-list-separator-${separatorPosition}`}
+        key={`summary-list-separator-${separator2}`}
       />,
     );
   }
-  if (routingFeedbackPosition) {
-    const pos = separatorPosition
-      ? routingFeedbackPosition + 1
-      : routingFeedbackPosition;
-    summaries.splice(pos, 0, <FeedbackPrompt key="feedback-prompt" />);
+  if (separator1) {
+    const pos = separator2 ? separator1 + 1 : separator1;
+    summaries.splice(
+      pos,
+      0,
+      <div
+        className="summary-list-separator"
+        key={`summary-list-separator-${pos}`}
+      />,
+    );
   }
   return (
     <div className="summary-list-container" role="list">
@@ -170,7 +176,7 @@ function ItineraryList(
             'show-alternatives',
           )}
         >
-          <Icon className="icon-icon_settings" img="icon-icon_settings" />
+          <Icon className="icon_settings" img="icon_settings" />
           <div>
             <FormattedMessage
               id="no-route-showing-alternative-options"
@@ -179,7 +185,7 @@ function ItineraryList(
           </div>
         </div>
       )}
-      {showRentalVehicleNotifier && (
+      {rentalVehicleNotifierId?.length && (
         <div
           className={cx(
             'flex-horizontal',
@@ -187,16 +193,20 @@ function ItineraryList(
             'summary-notification',
           )}
         >
-          <Icon className="info-icon" img="icon-icon_info" />
+          <Icon className="info-icon" img="icon_info" />
           <div>
             <div className="alternative-vehicle-info-header">
               <FormattedMessage id="no-route-msg" />
             </div>
             <div className="alternative-vehicle-info-content">
               <FormattedMessage
-                id="e-scooter-alternative"
+                id={`${rentalVehicleNotifierId}-alternative`}
                 values={{
-                  paymentInfo: <FormattedMessage id="payment-info-e-scooter" />,
+                  paymentInfo: (
+                    <FormattedMessage
+                      id={`payment-info-${rentalVehicleNotifierId}`}
+                    />
+                  ),
                 }}
               />
             </div>
@@ -208,16 +218,13 @@ function ItineraryList(
           <Loading />
         </div>
       )}
-      {isBrowser && (
-        <div
-          className={cx('summary-list-items', {
-            'summary-list-items-loading-top':
-              loadingMore === spinnerPosition.top,
-          })}
-        >
-          {summaries}
-        </div>
-      )}
+      <div
+        className={cx('summary-list-items', {
+          'summary-list-items-loading-top': loadingMore === spinnerPosition.top,
+        })}
+      >
+        {summaries}
+      </div>
       {loadingMore === spinnerPosition.bottom && (
         <div className="summary-list-spinner-container">
           <Loading />
@@ -239,10 +246,10 @@ ItineraryList.propTypes = {
   bikeParkItineraryCount: PropTypes.number,
   carDirectItineraryCount: PropTypes.number,
   showRelaxedPlanNotifier: PropTypes.bool,
-  showRentalVehicleNotifier: PropTypes.bool,
-  separatorPosition: PropTypes.number,
+  rentalVehicleNotifierId: PropTypes.string,
+  separator1: PropTypes.number,
+  separator2: PropTypes.number,
   loadingMore: PropTypes.string,
-  routingFeedbackPosition: PropTypes.number,
 };
 
 ItineraryList.defaultProps = {
@@ -250,10 +257,10 @@ ItineraryList.defaultProps = {
   carDirectItineraryCount: 0,
   planEdges: [],
   showRelaxedPlanNotifier: false,
-  showRentalVehicleNotifier: false,
-  separatorPosition: undefined,
+  rentalVehicleNotifierId: undefined,
+  separator1: undefined,
+  separator2: undefined,
   loadingMore: undefined,
-  routingFeedbackPosition: undefined,
 };
 
 ItineraryList.contextTypes = {
@@ -261,29 +268,4 @@ ItineraryList.contextTypes = {
   match: matchShape.isRequired,
 };
 
-const containerComponent = createFragmentContainer(ItineraryList, {
-  planEdges: graphql`
-    fragment ItineraryList_planEdges on PlanEdge @relay(plural: true) {
-      node {
-        ...Itinerary_itinerary
-        emissionsPerPerson {
-          co2
-        }
-        legs {
-          transitLeg
-          mode
-          route {
-            mode
-            type
-          }
-        }
-      }
-    }
-  `,
-});
-
-export {
-  containerComponent as default,
-  ItineraryList as Component,
-  spinnerPosition,
-};
+export { ItineraryList as default, spinnerPosition };

@@ -92,9 +92,9 @@
       line-height: 18px;
       letter-spacing: -0.03em;
 
-      .itinerary-transit-leg-route-bike {
+      .itinerary-transit-leg-route-with-link {
         display: flex;
-        background-color: #f4f4f5;
+        background-color: $background-color-lighter;
         border-radius: 5px;
         border: 1px solid #ddd;
         margin-top: 16px;
@@ -111,11 +111,11 @@
           color: $link-color;
         }
 
-        .citybike-itinerary {
+        .itinerary-with-link {
           display: flex;
           padding: 7px;
 
-          .citybike-itinerary-text-container {
+          .itinerary-with-link-text-container {
             display: flex;
           }
 
@@ -135,7 +135,7 @@
               .external-link {
                 font-weight: $font-weight-medium;
                 font-size: 15px;
-                color: $link-color;
+                color: $link-button-color;
                 text-decoration: none;
               }
             }
@@ -191,6 +191,7 @@
           .scooter-icon .icon-container .icon {
             background-color: $scooter-color;
             border-radius: 3px;
+            color: #fff;
           }
 
           .citybike-info {
@@ -202,13 +203,14 @@
     }
 
     .external-link {
-      color: $link-color;
+      color: $link-button-color;
       text-decoration: none;
       font-weight: $font-weight-medium;
 
       .icon-container {
         padding-left: 7px;
         vertical-align: text-top;
+        color: $link-button-color;
       }
     }
   }
@@ -260,6 +262,7 @@
       width: 48px;
       height: 48px;
       background-color: $scooter-color;
+      color: #fff;
       border-radius: 5px;
     }
 
@@ -270,4 +273,10 @@
       border-radius: 0;
     }
   }
+}
+
+.scooter-link-icon {
+  width: 16px;
+  height: 16px;
+  vertical-align: text-top;
 }

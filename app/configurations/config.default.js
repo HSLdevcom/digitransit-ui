@@ -1,6 +1,6 @@
-/* eslint-disable prefer-template */
 import safeJsonParse from '../util/safeJsonParser';
 import { BIKEAVL_WITHMAX } from '../util/vehicleRentalUtils';
+import realtime from './realtimeUtils';
 
 const CONFIG = process.env.CONFIG || 'default';
 const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
@@ -10,24 +10,26 @@ const MAP_URL = process.env.MAP_URL || 'https://dev-cdn.digitransit.fi';
 const MAP_VERSION = process.env.MAP_VERSION || 'v3';
 const POI_MAP_PREFIX = `${MAP_URL}/map/v3/finland`;
 const OTP_URL = process.env.OTP_URL || `${API_URL}/routing/v2/finland/`;
-const STOP_TIMETABLES_URL =
-  process.env.STOP_TIMETABLES_URL || 'https://dev.kartat.hsl.fi';
-const APP_PATH = process.env.APP_CONTEXT || '';
+const HSL_TIMETABLES_URL =
+  process.env.HSL_TIMETABLES_URL || 'https://dev.kartat.hsl.fi';
+const API_SUBSCRIPTION_QUERY_PARAMETER_NAME =
+  process.env.API_SUBSCRIPTION_QUERY_PARAMETER_NAME ||
+  'digitransit-subscription-key';
+const API_SUBSCRIPTION_HEADER_NAME =
+  process.env.API_SUBSCRIPTION_HEADER_NAME || 'digitransit-subscription-key';
+const API_SUBSCRIPTION_TOKEN =
+  process.env.API_SUBSCRIPTION_TOKEN || 'c65af0cd2d0a401a9599894970a2b29c';
+
 const {
   // AXE,
   NODE_ENV,
-  API_SUBSCRIPTION_QUERY_PARAMETER_NAME,
-  API_SUBSCRIPTION_HEADER_NAME,
-  API_SUBSCRIPTION_TOKEN,
   RUN_ENV,
 } = process.env;
-const hasAPISubscriptionQueryParameter =
-  API_SUBSCRIPTION_QUERY_PARAMETER_NAME && API_SUBSCRIPTION_TOKEN;
+const hasAPISubscriptionQueryParameter = true;
 const PORT = process.env.PORT || 8080;
 const APP_DESCRIPTION = 'Digitransit journey planning UI';
 const OTP_TIMEOUT = process.env.OTP_TIMEOUT || 12000;
 const YEAR = 1900 + new Date().getYear();
-const realtime = require('./realtimeUtils').default;
 
 const REALTIME_PATCH = safeJsonParse(process.env.REALTIME_PATCH) || {};
 
@@ -50,6 +52,10 @@ export default {
     STOP_MAP: {
       default: `${POI_MAP_PREFIX}/fi/stops,stations/`,
       sv: `${POI_MAP_PREFIX}/sv/stops,stations/`,
+    },
+    REALTIME_STOP_MAP: {
+      default: `${POI_MAP_PREFIX}/fi/realtimeStops,stations/`,
+      sv: `${POI_MAP_PREFIX}/sv/realtimeStops,stations/`,
     },
     RENTAL_STATION_MAP: {
       default: `${POI_MAP_PREFIX}/fi/rentalStations/`,
@@ -92,11 +98,11 @@ export default {
         : ''
     }`,
     ROUTE_TIMETABLES: {
-      HSL: `${API_URL}/timetables/v1/hsl/routes/`,
-      tampere: 'https://www.nysse.fi/aikataulut-ja-reitit/linjat/',
+      HSL: `${HSL_TIMETABLES_URL}/julkaisin-render/?component=LineTimetable`,
+      tampere: 'https://www.nysse.fi/matkan-suunnittelu/linjat/',
     },
     STOP_TIMETABLES: {
-      HSL: `${STOP_TIMETABLES_URL}/julkaisin-render/?component=Timetable`,
+      HSL: `${HSL_TIMETABLES_URL}/julkaisin-render/?component=Timetable`,
     },
     WEATHER_DATA:
       'https://opendata.fmi.fi/wfs?service=WFS&version=2.0.0&request=getFeature&storedquery_id=fmi::forecast::harmonie::surface::point::simple&timestep=5&parameters=temperature,WindSpeedMS,WeatherSymbol3',
@@ -113,7 +119,6 @@ export default {
   hasAPISubscriptionHeader:
     API_SUBSCRIPTION_HEADER_NAME && API_SUBSCRIPTION_TOKEN,
 
-  APP_PATH: `${APP_PATH}`,
   indexPath: '',
   title: 'Reittihaku',
 
@@ -178,7 +183,7 @@ export default {
   },
 
   defaultSettings: {
-    accessibilityOption: 0,
+    accessibilityOption: false,
     optimize: 'GREENWAYS',
     bikeSpeed: 5.55,
     ticketTypes: 'none',
@@ -191,6 +196,7 @@ export default {
     includeParkAndRideSuggestions: false,
     includeCarSuggestions: false,
     showBikeAndParkItineraries: false,
+    includeTaxiSuggestions: false,
   },
 
   /**
@@ -229,9 +235,6 @@ export default {
     'pl',
   ],
   defaultLanguage: 'en',
-  // This timezone data will expire in 2037
-  timezoneData:
-    'Europe/Helsinki|EET EEST|-20 -30|0101010101010101010101010101010101010|22k10 1o00 11A0 1qM0 WM0 1qM0 WM0 1qM0 11A0 1o00 11A0 1o00 11A0 1o00 11A0 1qM0 WM0 1qM0 WM0 1qM0 11A0 1o00 11A0 1o00 11A0 1qM0 WM0 1qM0 WM0 1qM0 WM0 1qM0 11A0 1o00 11A0 1o00|12e5',
   timeZone: 'Europe/Helsinki',
   allowLogin: false,
   allowFavouritesFromLocalstorage: true,
@@ -368,16 +371,20 @@ export default {
 
   colors: {
     primary: '#000F94',
-    backgroundInfo: '#e5f2fa',
+    backgroundInfo: '#ebf6fd',
     iconColors: {
       'mode-airplane': '#0046ad',
-      'mode-bus': '#0088ce',
-      'mode-tram': '#6a8925',
-      'mode-metro': '#ed8c00',
-      'mode-rail': '#af8dbc',
-      'mode-ferry': '#247C7B',
+      'mode-bus': '#007ac9',
+      'mode-tram': '#008151',
+      'mode-subway': '#CA4000',
+      'mode-rail': '#8c4799',
+      'mode-ferry': '#007A97',
+      'mode-ferry-external': '#666666',
       'mode-citybike': '#f2b62d',
+      'mode-citybike-secondary': '#333333',
       'mode-scooter': '#C5CAD2',
+      'mode-taxi': '#647693',
+      'mode-replacement-bus': '#DC0451',
     },
   },
   iconModeSet: 'digitransit',
@@ -401,7 +408,7 @@ export default {
     locale: 'en_US',
 
     image: {
-      url: '/img/default-social-share.png',
+      url: 'img/default-social-share.png',
       width: 2400,
       height: 1260,
     },
@@ -467,15 +474,10 @@ export default {
       availableForSelection: false,
       defaultValue: false, // always false
     },
-  },
 
-  moment: {
-    relativeTimeThreshold: {
-      seconds: 55,
-      minutes: 59,
-      hours: 23,
-      days: 26,
-      months: 11,
+    taxi: {
+      availableForSelection: false,
+      defaultValue: false, // always false
     },
   },
 
@@ -558,10 +560,6 @@ export default {
   },
 
   defaultMapZoom: 12,
-
-  availableRouteTimetables: {},
-
-  routeTimetableUrlResolver: {},
 
   showTenWeeksOnRouteSchedule: true,
 
@@ -716,7 +714,6 @@ export default {
   /* key: name of theme, value: regex matching part of host name */
   themeMap: {
     hsl: '(reittiopas|next-dev.digitransit)',
-    apphsl: '(test.digitransit)',
     turku: '(turku|foli)',
     lappeenranta: 'lappeenranta',
     joensuu: 'joensuu',
@@ -763,8 +760,6 @@ export default {
   includeBikeSuggestions: true,
   includeCarSuggestions: false,
   includeParkAndRideSuggestions: false,
-  // Park and ride and car suggestions separated
-  separatedParkAndRideSwitch: false,
 
   showNearYouButtons: false,
   nearYouModes: [],
@@ -855,4 +850,9 @@ export default {
   navigation: false,
   sendAnalyticsCustomEventGoals: false,
   shortenLongTextThreshold: 10, // for route number in itinerary summary
+  allowFlexJourneys: false,
+  allowDirectFlexJourneys: false,
+  allowedFlexRouteTypes: [1501],
+  showRouteDescNotification: false,
+  showStopStatusMarkers: false,
 };

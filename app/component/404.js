@@ -11,7 +11,7 @@ const Error404 = (props, { config }) => {
 
   return (
     <div className="page-not-found">
-      <Icon img="icon-icon_error_page_not_found" />
+      <Icon img="icon_error_page_not_found" />
       {!error && (
         <p>
           <FormattedMessage

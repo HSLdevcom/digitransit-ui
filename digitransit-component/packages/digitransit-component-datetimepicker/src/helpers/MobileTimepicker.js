@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
-import React, { useRef, useLayoutEffect, useState } from 'react';
-import moment from 'moment-timezone';
+import React, { useState } from 'react';
+import { Settings } from 'luxon';
 import cx from 'classnames';
 import styles from './styles.scss';
 import { parseTypedTime, getTs, validateInput } from './utils';
@@ -19,15 +19,9 @@ function MobileTimepicker({
 }) {
   const [inputValue, changeInputValue] = useState(getDisplay(value));
   const [isValidInput, setValidInput] = useState(true);
-  moment.tz.setDefault(timeZone);
+  Settings.defaultZone = timeZone;
   const inputId = `${id}-input`;
   const labelId = `${id}-label`;
-  const timeInputRef = useRef(null);
-  useLayoutEffect(() => {
-    if (timeInputRef.current) {
-      timeInputRef.current.focus();
-    }
-  }, []);
   const showError = !isValidInput;
   return (
     <label className={styles['input-container']} htmlFor={inputId}>
@@ -70,7 +64,6 @@ function MobileTimepicker({
             onChange(timestamp);
           }
         }}
-        ref={timeInputRef}
       />
     </label>
   );

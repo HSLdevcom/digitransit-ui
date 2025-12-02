@@ -3,6 +3,7 @@ import React from 'react';
 import cx from 'classnames';
 import { intlShape } from 'react-intl';
 import { configShape } from '../util/shapes';
+import { transitIconName } from '../util/modeUtils';
 import IconWithBigCaution from './IconWithBigCaution';
 import IconWithIcon from './IconWithIcon';
 import Icon from './Icon';
@@ -14,13 +15,15 @@ function RouteNumber(props, context) {
   const mode = props.mode.toLowerCase();
   const { alertSeverityLevel, color, withBicycle, withCar } = props;
   const isScooter = mode === TransportMode.Scooter.toLowerCase();
+  const isTaxi = mode === TransportMode.Taxi.toLowerCase();
 
   // Perform text-related processing
   let filteredText = props.text;
   if (
-    props.shortenLongText &&
-    context.config.disabledLegTextModes?.includes(mode) &&
-    props.className.includes('line')
+    (props.shortenLongText &&
+      context.config.disabledLegTextModes?.includes(mode) &&
+      props.className.includes('line')) ||
+    isTaxi
   ) {
     filteredText = '';
   }
@@ -37,6 +40,7 @@ function RouteNumber(props, context) {
       context.config.shortenLongTextThreshold - 3,
     )}...`;
   }
+
   const longText =
     filteredText &&
     textFieldIsText &&
@@ -59,13 +63,14 @@ function RouteNumber(props, context) {
     badgeText,
     badgeTextFill,
   ) => {
+    const iconName = icon || transitIconName(mode, false);
     if (isCallAgency) {
       return (
         <IconWithIcon
           color={color}
           className={`${mode} call`}
-          img={icon || `icon-icon_${mode}`}
-          subIcon="icon-icon_call"
+          img={iconName}
+          subIcon="icon_call"
         />
       );
     }
@@ -77,19 +82,17 @@ function RouteNumber(props, context) {
             alertSeverityLevel={alertSeverityLevel}
             color={color}
             className={mode}
-            img={icon || `icon-icon_${mode}`}
+            img={iconName}
+            omitViewBox
           />
           {withBicycle && (
             <Icon
-              img="icon-icon_bicycle_walk"
+              img="icon_bicycle_walk"
               className="itinerary-icon_with-bicycle"
             />
           )}
           {withCar && (
-            <Icon
-              img="icon-icon_car-withoutBox"
-              className="itinerary-icon_with-car"
-            />
+            <Icon img="icon_car" className="itinerary-icon_with-car" />
           )}
         </React.Fragment>
       );
@@ -107,22 +110,18 @@ function RouteNumber(props, context) {
               props.icon &&
               props.icon.includes('secondary'), // Vantaa citybike station
           })}
-          img={icon || `icon-icon_${mode}`}
+          img={iconName}
           subIcon=""
           mode={mode}
+          omitViewBox
         />
         {withBicycle && (
           <Icon
-            img="icon-icon_bicycle_walk"
+            img="icon_bicycle_walk"
             className="itinerary-icon_with-bicycle"
           />
         )}
-        {withCar && (
-          <Icon
-            img="icon-icon_car-withoutBox"
-            className="itinerary-icon_with-car"
-          />
-        )}
+        {withCar && <Icon img="icon_car" className="itinerary-icon_with-car" />}
       </React.Fragment>
     );
   };
@@ -193,21 +192,22 @@ function RouteNumber(props, context) {
             )}
           </div>
         )}
-        {!context.config.hideWalkLegDurationSummary &&
-          props.isTransitLeg === false &&
+        {((!context.config.hideWalkLegDurationSummary &&
+          props.isTransitLeg === false) ||
+          isTaxi) &&
           props.duration > 0 && (
             <div className={`leg-duration-container ${mode} `}>
               <span className="leg-duration">{props.duration}</span>
             </div>
           )}
         {isScooter && !props.vertical && (
-          <Icon img="icon-icon_smartphone" className="phone-icon" />
+          <Icon img="icon_smartphone" className="phone-icon" />
         )}
       </span>
       {props.occupancyStatus && (
         <span className="occupancy-icon-container">
           <Icon
-            img={`icon-icon_${props.occupancyStatus}`}
+            img={`icon_${props.occupancyStatus}`}
             height={1.5}
             width={1.5}
             color="white"

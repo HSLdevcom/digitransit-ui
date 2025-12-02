@@ -27,7 +27,7 @@
   .no-route-icon {
     margin-right: 1em;
     margin-top: 0.5em;
-    color: white;
+    color: $caution-icon-color;
     width: 2em;
     height: 2em;
   }
@@ -293,7 +293,7 @@
       padding-top: 5px;
       padding-right: 10px;
 
-      .icon-icon_settings {
+      .icon_settings {
         width: 1.25em;
         height: 1.25em;
       }
@@ -438,7 +438,7 @@
 
 .itinerary-notification {
   display: flex;
-  background: #f4f4f5;
+  background: $background-color-lighter;
   border-radius: 5px;
   margin: 15px 60px 15px 60px;
   padding: 15px;

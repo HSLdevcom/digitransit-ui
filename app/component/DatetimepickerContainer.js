@@ -103,7 +103,7 @@ function DatetimepickerContainer(
       embedWhenOpen={embedWhenOpen}
       lang={lang}
       color={color}
-      timeZone={config.timezoneData.split('|')[0]}
+      timeZone={config.timeZone}
       serviceTimeRange={context.config.itinerary.serviceTimeRange}
       fontWeights={config.fontWeights}
       onOpen={onOpen}
@@ -117,14 +117,13 @@ DatetimepickerContainer.propTypes = {
   realtime: PropTypes.bool.isRequired,
   embedWhenClosed: PropTypes.node,
   embedWhenOpen: PropTypes.node,
-  lang: PropTypes.string,
+  lang: PropTypes.string.isRequired,
   color: PropTypes.string,
 };
 
 DatetimepickerContainer.defaultProps = {
   embedWhenClosed: null,
   embedWhenOpen: null,
-  lang: 'en',
   color: '#007ac9',
 };
 

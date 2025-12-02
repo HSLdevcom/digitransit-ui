@@ -6,7 +6,7 @@ import cx from 'classnames';
 import ReactRelayContext from 'react-relay/lib/ReactRelayContext';
 import VehicleIcon from '../VehicleIcon';
 import TripLinkWithScroll from './TripLinkWithScroll';
-import { PREFIX_ROUTES, PREFIX_STOPS } from '../../util/path';
+import { routePagePath, PREFIX_STOPS } from '../../util/path';
 import { addAnalyticsEvent } from '../../util/analyticsUtils';
 import { vehicleShape } from '../../util/shapes';
 
@@ -60,7 +60,7 @@ function TripLink({ vehicleState, vehicle, shortName, ...rest }) {
         const trip = props.trip.gtfsId;
         return (
           <Link
-            to={`/${PREFIX_ROUTES}/${route}/${PREFIX_STOPS}/${pattern}/${trip}`}
+            to={routePagePath(route, PREFIX_STOPS, pattern, trip)}
             className="route-now-content"
             onClick={() => {
               addAnalyticsEvent({

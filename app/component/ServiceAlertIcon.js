@@ -11,13 +11,9 @@ const ServiceAlertIcon = ({ className, severityLevel, color }) => {
   }
 
   return severityLevel === AlertSeverityLevelType.Info ? (
-    <Icon
-      className={cx('info', className)}
-      img="icon-icon_info"
-      color={color}
-    />
+    <Icon className={cx('info', className)} img="icon_info" color={color} />
   ) : (
-    <Icon className={cx('caution', className)} img="icon-icon_caution" />
+    <Icon className={cx('caution', className)} img="icon_caution" />
   );
 };
 

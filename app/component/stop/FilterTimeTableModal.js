@@ -84,7 +84,12 @@ class FilterTimeTableModal extends React.Component {
           },
       )
       .filter(o => o)
-      .sort(routeCompare);
+      .sort(routeCompare)
+      // deduplicate patterns with same code
+      .filter(
+        (pattern, index, self) =>
+          self.map(itm => itm.code).indexOf(pattern.code) === index,
+      );
 
     routesWithStopTimes.forEach(o => {
       const mode = getRouteMode(o);
@@ -101,7 +106,7 @@ class FilterTimeTableModal extends React.Component {
                 },
                 {
                   mode: this.context.intl.formatMessage({
-                    id: mode.toLowerCase(),
+                    id: mode,
                   }),
                   shortName: o.shortName,
                   headsign: o.headsign,
@@ -129,22 +134,16 @@ class FilterTimeTableModal extends React.Component {
               }
             >
               {intersection(this.state.showRoutes, [o.code]).length > 0 && (
-                <Icon
-                  img="icon-icon_checkbox_checked"
-                  className="checkbox-icon"
-                />
+                <Icon img="icon_box-checked" className="checkbox-icon" />
               )}
             </label>
             {/* eslint-enable jsx-a11y/label-has-associated-control */}
           </div>
           <div className="route-mode">
-            <Icon
-              className={mode.toLowerCase()}
-              img={`icon-icon_${mode.toLowerCase()}`}
-            />
+            <Icon className={mode} img={`icon_${mode}`} />
           </div>
           <div
-            className={`route-number ${mode.toLowerCase()} ${cx({
+            className={`route-number ${mode} ${cx({
               'overflow-fade':
                 (o.shortName ? o.shortName : o.agency) &&
                 (o.shortName ? o.shortName : o.agency).length > LONG_LINE_NAME,
@@ -217,10 +216,7 @@ class FilterTimeTableModal extends React.Component {
               className={this.state.allRoutes ? 'checked' : ''}
             >
               {this.state.allRoutes ? (
-                <Icon
-                  img="icon-icon_checkbox_checked"
-                  className="checkbox-icon"
-                />
+                <Icon img="icon_box-checked" className="checkbox-icon" />
               ) : null}
             </label>
             {/* eslint-enable jsx-a11y/label-has-associated-control */}

@@ -1,16 +1,21 @@
-/* eslint-disable */
 import configMerger from '../util/configMerger';
+import walttiConfig from './config.waltti';
 
 const CONFIG = 'vaasa';
 const APP_TITLE = 'Vaasan reittiopas';
 const APP_DESCRIPTION = '';
 
-const walttiConfig = require('./config.waltti').default;
-
 const minLat = 63.005;
 const maxLat = 63.152;
 const minLon = 21.527;
-const maxLon = 22.170;
+const maxLon = 22.17;
+const IS_DEV =
+  process.env.RUN_ENV === 'development' ||
+  process.env.NODE_ENV !== 'production';
+
+const virtualMonitorBaseUrl = IS_DEV
+  ? 'https://dev-vaasamonitori.digitransit.fi'
+  : 'https://pysakit-vaasa.digitransit.fi';
 
 export default configMerger(walttiConfig, {
   CONFIG,
@@ -27,6 +32,11 @@ export default configMerger(walttiConfig, {
   socialMedia: {
     title: APP_TITLE,
     description: APP_DESCRIPTION,
+    image: {
+      url: 'img/social-share-vaasa.png',
+      width: 1280,
+      height: 400,
+    },
 
     twitter: {
       site: '@vaasavasa',
@@ -36,7 +46,7 @@ export default configMerger(walttiConfig, {
   title: APP_TITLE,
 
   logo: 'vaasa/vaasa-favicon.png',
-  secondaryLogo: 'vaasa/secondary-logo.png',
+  secondaryLogo: 'vaasa/vaasa-secondary-logo.png',
 
   feedIds: ['Vaasa'],
 
@@ -65,11 +75,11 @@ export default configMerger(walttiConfig, {
     content: [
       {
         name: 'menu-feedback',
-        href: { 
+        href: {
           fi: 'https://kartta.vaasa.fi/eFeedback/fi/Feedback/6-Joukkoliikenne',
           sv: 'https://kartta.vaasa.fi/eFeedback/sv/Feedback/6-Kollektivtrafik',
           en: 'https://kartta.vaasa.fi/eFeedback/fi/Feedback/6-Joukkoliikenne',
-        }
+        },
       },
       {
         name: 'about-this-service',
@@ -127,14 +137,14 @@ export default configMerger(walttiConfig, {
 
   stopCard: {
     header: {
-      virtualMonitorBaseUrl: 'https://pysakit-vaasa.digitransit.fi/',
+      virtualMonitorBaseUrl,
     },
   },
 
   mainMenu: {
     stopMonitor: {
       show: true,
-      url: 'https://pysakit-vaasa.digitransit.fi/createview',
+      url: `${virtualMonitorBaseUrl}/createview`,
     },
   },
 
@@ -153,10 +163,10 @@ export default configMerger(walttiConfig, {
   zoneIdMapping: {
     1: 'A',
     2: 'B',
-    3: 'C'
+    3: 'C',
   },
   zones: {
     stops: true,
     itinerary: true,
-  }
+  },
 });

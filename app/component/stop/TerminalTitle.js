@@ -1,7 +1,11 @@
-import withProps from 'recompose/withProps';
+import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
-export default withProps({
-  id: 'terminal-page.title-short',
-  defaultMessage: 'Terminal',
-})(FormattedMessage);
+export default function TerminalTitle() {
+  return (
+    <FormattedMessage
+      id="terminal-page.title-short"
+      defaultMessage="Terminal"
+    />
+  );
+}

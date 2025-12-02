@@ -1,11 +1,9 @@
-/* eslint-disable */
 import configMerger from '../util/configMerger';
+import walttiConfig from './config.waltti';
 
 const CONFIG = 'walttiOpas';
 const APP_TITLE = 'Waltti-opas';
 const APP_DESCRIPTION = 'Uusi Reittiopas - Waltti-opas';
-
-const walttiConfig = require('./config.waltti').default;
 
 export default configMerger(walttiConfig, {
   CONFIG,
@@ -34,6 +32,11 @@ export default configMerger(walttiConfig, {
   socialMedia: {
     title: APP_TITLE,
     description: APP_DESCRIPTION,
+    image: {
+      url: 'img/social-share-waltti.png',
+      width: 1795,
+      height: 1313,
+    },
   },
 
   title: APP_TITLE,
@@ -112,7 +115,7 @@ export default configMerger(walttiConfig, {
       fi: 'Salo',
       sv: 'Salo',
       en: 'Salo',
-    }
+    },
   },
 
   useSearchPolygon: true,
@@ -128,11 +131,40 @@ export default configMerger(walttiConfig, {
     [28.7, 63.9],
     [28.1, 63.8],
     // Salo:
-    [23.1, 60.6],
-    [23.7, 60.2],
-    [22.8, 59.9],
-    [22.7, 60.4],
-    [23.1, 60.6],
+    [22.84642, 60.51062],
+    [23.11638, 60.57683],
+    [23.20982, 60.58773],
+    [23.30092, 60.58191],
+    [23.39604, 60.54652],
+    [23.49232, 60.59485],
+    [23.51872, 60.59876],
+    [23.49816, 60.53506],
+    [23.66099, 60.47649],
+    [23.7129, 60.49915],
+    [23.73738, 60.4904],
+    [23.71043, 60.45022],
+    [23.79146, 60.45072],
+    [23.7894, 60.38666],
+    [23.72554, 60.30751],
+    [23.63147, 60.25338],
+    [23.65001, 60.20087],
+    [23.36093, 60.14931],
+    [23.14807, 60.10005],
+    [22.98465, 60.06032],
+    [22.95306, 59.99961],
+    [22.85213, 59.99755],
+    [22.8432, 60.02878],
+    [22.79994, 60.02535],
+    [22.78964, 60.05724],
+    [22.83427, 60.06032],
+    [22.88852, 60.14042],
+    [22.85487, 60.178],
+    [22.90088, 60.24316],
+    [22.8535, 60.26224],
+    [22.87637, 60.30244],
+    [22.84144, 60.3384],
+    [22.8185, 60.37199],
+    [22.84642, 60.51062],
   ],
 
   map: {
@@ -140,5 +172,4 @@ export default configMerger(walttiConfig, {
   },
 
   showDisclaimer: true,
-
 });

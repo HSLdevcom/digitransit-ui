@@ -13,12 +13,14 @@ import BackButton from '../BackButton';
 import CookieSettingsButton from '../CookieSettingsButton';
 import ItineraryLine from './ItineraryLine';
 import LocationMarker from './LocationMarker';
+import ParkingAreaMarker from './non-tile-layer/ParkingAreaMarker';
 import MapWithTracking from './MapWithTracking';
 import VehicleMarkerContainer from './VehicleMarkerContainer';
+import { legContainsBikePark, legContainsCarPark } from '../../util/legUtils';
 
 const POINT_FOCUS_ZOOM = 17; // default
 
-function ItineraryPageMap(
+const ItineraryPageMap = (
   {
     planEdges,
     active,
@@ -33,10 +35,11 @@ function ItineraryPageMap(
     itinerary,
     showBackButton,
     isLocationPopupEnabled,
+    realtimeTransfers,
     ...rest
   },
   { match, router, executeAction, config },
-) {
+) => {
   const { hash } = match.params;
   const leafletObjs = [];
 
@@ -53,9 +56,9 @@ function ItineraryPageMap(
         hash={active}
         streetMode={hash}
         legs={itinerary.legs}
-        showTransferLabels={showActiveOnly}
         showIntermediateStops
         showDurationBubble={showDurationBubble}
+        realtimeTransfers={realtimeTransfers}
       />,
     );
   } else {
@@ -80,11 +83,32 @@ function ItineraryPageMap(
           hash={active}
           streetMode={hash}
           legs={planEdges[active].node.legs}
-          showTransferLabels={showActiveOnly}
           showIntermediateStops
           showDurationBubble={showDurationBubble}
+          realtimeTransfers={realtimeTransfers}
         />,
       );
+      planEdges[active].node.legs.filter(legContainsBikePark).forEach(leg => {
+        leafletObjs.push(
+          <ParkingAreaMarker
+            key={`parking-${leg.to.lat + leg.to.lon}`}
+            position={leg.to}
+            type="bike"
+            liipiId={leg.to.vehicleParking.vehicleParkingId}
+          />,
+        );
+      });
+
+      planEdges[active].node.legs.filter(legContainsCarPark).forEach(leg => {
+        leafletObjs.push(
+          <ParkingAreaMarker
+            key={`parking-${leg.to.lat + leg.to.lon}`}
+            position={leg.to}
+            type="car"
+            liipiId={leg.to.vehicleParking.vehicleParkingId}
+          />,
+        );
+      });
     }
   }
 
@@ -123,7 +147,7 @@ function ItineraryPageMap(
     >
       {showBackButton && breakpoint !== 'large' && (
         <BackButton
-          icon="icon-icon_arrow-collapse--left"
+          icon="icon_arrow-collapse--left"
           iconClassName="arrow-icon"
           fallback="pop"
         />
@@ -134,7 +158,7 @@ function ItineraryPageMap(
       )}
     </MapWithTracking>
   );
-}
+};
 
 ItineraryPageMap.propTypes = {
   planEdges: PropTypes.arrayOf(planEdgeShape).isRequired,
@@ -156,6 +180,7 @@ ItineraryPageMap.propTypes = {
   itinerary: itineraryShape,
   showBackButton: PropTypes.bool,
   isLocationPopupEnabled: PropTypes.bool,
+  realtimeTransfers: PropTypes.bool,
 };
 
 ItineraryPageMap.defaultProps = {
@@ -166,6 +191,7 @@ ItineraryPageMap.defaultProps = {
   itinerary: undefined,
   showBackButton: true,
   isLocationPopupEnabled: false,
+  realtimeTransfers: false,
 };
 
 ItineraryPageMap.contextTypes = {

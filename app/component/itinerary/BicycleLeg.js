@@ -12,7 +12,7 @@ import { displayDistance } from '../../util/geo-utils';
 import { durationToString } from '../../util/timeUtils';
 import ItineraryCircleLine from './ItineraryCircleLine';
 import ItineraryCircleLineLong from './ItineraryCircleLineLong';
-import { PREFIX_STOPS } from '../../util/path';
+import { stopPagePath } from '../../util/path';
 import {
   getRentalNetworkConfig,
   RentalNetworkType,
@@ -133,7 +133,7 @@ export default function BicycleLeg(
       <ItineraryCircleLineWithIcon
         index={index}
         modeClassName={mode.toLowerCase()}
-        icon="icon-icon_scooter_rider"
+        icon="icon_scooter_rider"
         appendClass={!scooterSettingsOn ? 'settings' : 'scooter'}
         style={style}
       />
@@ -273,17 +273,17 @@ export default function BicycleLeg(
                     onClick={e => {
                       e.stopPropagation();
                     }}
-                    to={`/${PREFIX_STOPS}/${fromStop.gtfsId}`}
+                    to={stopPagePath(false, fromStop.gtfsId)}
                   >
                     {origin}
                     {leg.isViaPoint && (
                       <Icon
-                        img="icon-icon_mapMarker"
+                        img="icon_mapMarker"
                         className="itinerary-mapmarker-icon"
                       />
                     )}
                     <Icon
-                      img="icon-icon_arrow-collapse--right"
+                      img="icon_arrow-collapse--right"
                       className="itinerary-arrow-icon"
                       color={config.colors.primary}
                     />
@@ -390,10 +390,10 @@ export default function BicycleLeg(
               onKeyPress={e =>
                 isKeyboardSelectionEvent(e) && openSettings(true, true)
               }
-              className="itinerary-transit-leg-route-bike"
+              className="itinerary-transit-leg-route-with-link"
             >
-              <div className="citybike-itinerary">
-                <div className="citybike-itinerary-text-container">
+              <div className="itinerary-with-link">
+                <div className="itinerary-with-link-text-container">
                   <span className={cx('settings')}>
                     <FormattedMessage
                       id="open-settings"
@@ -403,11 +403,7 @@ export default function BicycleLeg(
                 </div>
               </div>
               <div className="link-to-e-scooter-operator">
-                <Icon
-                  img="icon-icon_arrow-collapse--right"
-                  height={1}
-                  width={1}
-                />
+                <Icon img="icon_arrow-collapse--right" height={1} width={1} />
               </div>
             </div>
           </div>

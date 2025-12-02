@@ -1,5 +1,5 @@
-/* eslint-disable prefer-template */
 import configMerger from '../util/configMerger';
+import walttiConfig from './config.waltti';
 
 const CONFIG = 'varely';
 const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
@@ -8,9 +8,6 @@ const APP_DESCRIPTION = 'Varsinais-Suomen ELY-keskuksen reittiopas';
 const OTP_URL = process.env.OTP_URL || `${API_URL}/routing/v2/varely/`;
 const MAP_URL = process.env.MAP_URL || 'https://dev-cdn.digitransit.fi';
 const POI_MAP_PREFIX = `${MAP_URL}/map/v3/varely`;
-
-const walttiConfig = require('./config.waltti').default;
-
 const colorPrimary = '#008161';
 
 const minLat = 59.98;
@@ -29,6 +26,10 @@ export default configMerger(walttiConfig, {
       default: `${POI_MAP_PREFIX}/fi/stops,stations/`,
       sv: `${POI_MAP_PREFIX}/sv/stops,stations/`,
     },
+    REALTIME_STOP_MAP: {
+      default: `${POI_MAP_PREFIX}/fi/realtimeStops,stations/`,
+      sv: `${POI_MAP_PREFIX}/sv/realtimeStops,stations/`,
+    },
   },
 
   feedIds: ['VARELY', 'FOLI', 'Rauma', 'Pori', 'Salo'],
@@ -39,7 +40,6 @@ export default configMerger(walttiConfig, {
     iconColors: {
       'mode-bus': colorPrimary,
       'mode-ferry': '#0064f0',
-      'mode-ferry-pier': '#666666',
     },
   },
 
@@ -48,6 +48,11 @@ export default configMerger(walttiConfig, {
   socialMedia: {
     title: APP_TITLE,
     description: APP_DESCRIPTION,
+    image: {
+      url: 'img/social-share-seutuplus.png',
+      width: 611,
+      height: 225,
+    },
   },
 
   meta: {
@@ -72,6 +77,8 @@ export default configMerger(walttiConfig, {
       color: '#0064f0',
     },
   },
+
+  nearYouModes: ['bus', 'ferry'],
 
   searchParams: {
     'boundary.rect.min_lat': minLat,

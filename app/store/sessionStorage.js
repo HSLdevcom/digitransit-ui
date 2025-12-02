@@ -1,5 +1,3 @@
-import { isBrowser } from '../util/browser';
-
 function handleSecurityError(error, logMessage) {
   if (error.name === 'SecurityError') {
     if (logMessage) {
@@ -10,24 +8,17 @@ function handleSecurityError(error, logMessage) {
   }
 }
 
-export const getSessionStorage = (
-  runningInBrowser,
-  errorHandler = handleSecurityError,
-) => {
-  if (runningInBrowser) {
-    try {
-      return window.sessionStorage;
-    } catch (error) {
-      errorHandler(error);
-      return null;
-    }
-  } else {
-    return global.sessionStorage;
+export const getSessionStorage = (errorHandler = handleSecurityError) => {
+  try {
+    return window.sessionStorage;
+  } catch (error) {
+    errorHandler(error);
+    return null;
   }
 };
 
 function setItem(key, value) {
-  const sessionStorage = getSessionStorage(isBrowser);
+  const sessionStorage = getSessionStorage();
   if (sessionStorage) {
     try {
       sessionStorage.setItem(key, JSON.stringify(value));
@@ -50,7 +41,7 @@ function setItem(key, value) {
 }
 
 function getItem(key) {
-  const sessionStorage = getSessionStorage(isBrowser);
+  const sessionStorage = getSessionStorage();
   if (sessionStorage) {
     try {
       return sessionStorage.getItem(key);

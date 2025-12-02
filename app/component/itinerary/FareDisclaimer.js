@@ -13,7 +13,7 @@ export default function FareDisclaimer({
   return (
     <div className="disclaimer-container unknown-fare-disclaimer__top">
       <div className="icon-container">
-        <Icon className="info" img="icon-icon_info" />
+        <Icon className="info" img="icon_info" />
       </div>
       <div className="description-container">
         {text || <FormattedMessage id={textId} values={values} />}

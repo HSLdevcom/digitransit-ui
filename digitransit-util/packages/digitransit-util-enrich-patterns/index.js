@@ -5,9 +5,9 @@
 /* eslint-disable prefer-destructuring */
 import dayRangeAllowedDiff from '@digitransit-util/digitransit-util-day-range-allowed-diff';
 import cloneDeep from 'lodash/cloneDeep';
-import moment from 'moment';
+import { DateTime } from 'luxon';
 
-const DATE_FORMAT = 'YYYYMMDD';
+const DATE_FORMAT = 'yyyyLLdd';
 
 /**
  * <DESCRIPTION>
@@ -34,10 +34,8 @@ export default function enrichPatterns(
   onlyInFuture,
   serviceTimeRange,
 ) {
-  const currentDate = moment();
-  const lastRangeDate = moment()
-    .add(serviceTimeRange, 'days')
-    .format(DATE_FORMAT);
+  const currentDate = DateTime.now();
+  const lastRangeDate = DateTime.now().plus({ days: serviceTimeRange });
 
   let futureTrips = cloneDeep(patterns);
   futureTrips.forEach(function (x) {
@@ -61,7 +59,7 @@ export default function enrichPatterns(
     x.activeDates = Array.from(new Set(uniqueDates.sort()));
     if (
       x.activeDates.length === 1 &&
-      moment(x.activeDates[0], DATE_FORMAT).isAfter(lastRangeDate)
+      DateTime.fromFormat(x.activeDates[0], DATE_FORMAT) > lastRangeDate
     ) {
       x.activeDates = [];
     }
@@ -85,24 +83,27 @@ export default function enrichPatterns(
       if (!actDates.includes[item]) {
         actDates.push(item);
       }
-      const itemDate = moment(arr[index]);
+      const itemDate = DateTime.fromFormat(arr[index], DATE_FORMAT);
       if (index === 0) {
         dayDiff.push(0);
-        rangeFollowingDays.push([itemDate.format(DATE_FORMAT), 0]);
-        minAndMaxDate[0] = itemDate.format(DATE_FORMAT);
-        minAndMaxDate[1] = itemDate.format(DATE_FORMAT);
+        rangeFollowingDays.push([itemDate.toFormat(DATE_FORMAT), 0]);
+        minAndMaxDate[0] = itemDate.toFormat(DATE_FORMAT);
+        minAndMaxDate[1] = itemDate.toFormat(DATE_FORMAT);
       } else {
-        if (Number(itemDate.format(DATE_FORMAT) < Number(minAndMaxDate[0]))) {
-          minAndMaxDate[0] = itemDate.format(DATE_FORMAT);
+        if (Number(itemDate.toFormat(DATE_FORMAT) < Number(minAndMaxDate[0]))) {
+          minAndMaxDate[0] = itemDate.toFormat(DATE_FORMAT);
         }
-        if (Number(itemDate.format(DATE_FORMAT) > Number(minAndMaxDate[1]))) {
-          minAndMaxDate[1] = itemDate.format(DATE_FORMAT);
+        if (Number(itemDate.toFormat(DATE_FORMAT) > Number(minAndMaxDate[1]))) {
+          minAndMaxDate[1] = itemDate.toFormat(DATE_FORMAT);
         }
       }
 
-      dayNumbers.push(itemDate.format('E'));
+      dayNumbers.push(itemDate.weekday);
       if (arr[index + 1]) {
-        const diff = moment(arr[index + 1], DATE_FORMAT).diff(itemDate, 'days');
+        const diff = DateTime.fromFormat(arr[index + 1], DATE_FORMAT).diff(
+          itemDate,
+          'days',
+        ).days;
         if (diff !== 1) {
           rangeFollowingDays[rangeFollowingDays.length - 1][1] = arr[index];
           rangeFollowingDays.push([arr[index + 1], 0]);
@@ -115,14 +116,14 @@ export default function enrichPatterns(
       }
     });
 
-    futureTrips[y].currentDate = currentDate;
-    futureTrips[y].lastRangeDate = lastRangeDate;
+    futureTrips[y].currentDate = currentDate.toFormat(DATE_FORMAT);
+    futureTrips[y].lastRangeDate = lastRangeDate.toFormat(DATE_FORMAT);
     futureTrips[y].rangeFollowingDays = rangeFollowingDays;
     futureTrips[y].dayDiff = dayDiff;
     futureTrips[y].activeDates = Array.from(new Set(actDates.sort()));
     futureTrips[y].allowedDiff = dayRangeAllowedDiff(
       dayNumbers,
-      Number(currentDate.format('E')),
+      currentDate.weekday,
     );
 
     if (
@@ -139,39 +140,44 @@ export default function enrichPatterns(
       futureTrips[y].rangeFollowingDays[0][0] !==
         futureTrips[y].rangeFollowingDays[0][1]
     ) {
-      if (moment(minAndMaxDate[0]).isAfter(currentDate.format(DATE_FORMAT))) {
+      if (DateTime.fromFormat(minAndMaxDate[0], DATE_FORMAT) > currentDate) {
         futureTrips[y].fromDate = futureTrips[y].rangeFollowingDays[0][0];
       } else {
         futureTrips[y].fromDate = '-';
       }
       if (
-        moment(futureTrips[y].rangeFollowingDays[0][1]).isBefore(lastRangeDate)
+        DateTime.fromFormat(
+          futureTrips[y].rangeFollowingDays[0][1],
+          DATE_FORMAT,
+        ) < lastRangeDate
       ) {
         futureTrips[y].untilDate = futureTrips[y].rangeFollowingDays[0][1];
       } else {
         futureTrips[y].untilDate = '-';
       }
     } else {
-      futureTrips[y].fromDate = moment(minAndMaxDate[0])
-        .subtract(futureTrips[y].allowedDiff, 'days')
-        .isSameOrAfter(currentDate.format(DATE_FORMAT))
-        ? `${minAndMaxDate[0]}`
-        : '-';
-      futureTrips[y].untilDate = moment(minAndMaxDate[1]).isBefore(
-        lastRangeDate,
-      )
-        ? `${minAndMaxDate[1]}`
-        : '-';
+      futureTrips[y].fromDate =
+        DateTime.fromFormat(minAndMaxDate[0], DATE_FORMAT).minus({
+          days: futureTrips[y].allowedDiff,
+        }) >= currentDate
+          ? `${minAndMaxDate[0]}`
+          : '-';
+      futureTrips[y].untilDate =
+        DateTime.fromFormat(minAndMaxDate[1], DATE_FORMAT) < lastRangeDate
+          ? `${minAndMaxDate[1]}`
+          : '-';
     }
 
     futureTrips[y].activeDates = futureTrips[y].activeDates.filter(
-      ad => moment(ad).isSameOrAfter(currentDate.format(DATE_FORMAT)) === true,
+      ad => DateTime.fromFormat(ad, DATE_FORMAT) >= currentDate === true,
     );
 
     futureTrips[y].minAndMaxDate = minAndMaxDate;
     futureTrips[y].inFuture =
-      Number(moment().startOf('isoWeek')) <
-      Number(moment(futureTrips[y].minAndMaxDate[0]).startOf('isoWeek'));
+      DateTime.now().startOf('week') <
+      DateTime.fromFormat(futureTrips[y].minAndMaxDate[0], DATE_FORMAT).startOf(
+        'week',
+      );
   }
 
   futureTrips = futureTrips.filter(

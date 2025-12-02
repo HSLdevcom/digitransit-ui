@@ -19,7 +19,7 @@ function DisruptionInfoButton(props, { config }) {
         />
         {props.viewer?.alerts?.length > 0 && (
           <Icon
-            img="icon-icon_caution_white_exclamation"
+            img="icon_caution_white_exclamation"
             className="disruption-info"
           />
         )}

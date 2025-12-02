@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 import Icon from '../Icon';
-import { isBrowser } from '../../util/browser';
 
 class ItineraryCircleLine extends React.Component {
   static defaultProps = {
@@ -10,6 +9,7 @@ class ItineraryCircleLine extends React.Component {
     color: null,
     renderBottomMarker: true,
     carPark: false,
+    appendClass: undefined,
   };
 
   static propTypes = {
@@ -19,6 +19,7 @@ class ItineraryCircleLine extends React.Component {
     color: PropTypes.string,
     renderBottomMarker: PropTypes.bool,
     carPark: PropTypes.bool,
+    appendClass: PropTypes.string,
   };
 
   constructor(props) {
@@ -52,41 +53,42 @@ class ItineraryCircleLine extends React.Component {
           xmlns="http://www.w3.org/2000/svg"
           width={28}
           height={28}
-          style={{ fill: this.props.color, stroke: this.props.color }}
+          style={{ fill: '#fff', stroke: this.props.color }}
         >
           <circle strokeWidth="4" width={28} cx={11} cy={10} r={6} />
         </svg>
       </div>
     );
+    const showCircle = this.props.appendClass !== 'taxi';
     if (this.isFirstChild() && top) {
       return (
         <>
           <div className="itinerary-icon-container start">
             <Icon
-              img="icon-icon_mapMarker"
+              img="icon_mapMarker"
               className="itinerary-icon from from-it"
             />
           </div>
-          {circleMarker}
+          {showCircle && circleMarker}
         </>
       );
     }
     if (this.props.carPark) {
       return (
         <div className="itinerary-icon-container car-park">
-          <Icon img="icon-icon_car-park" />
+          <Icon img="icon_car-park" />
         </div>
       );
     }
     if (this.props.isVia === true) {
       return (
         <div className="itinerary-icon-container">
-          <Icon
-            img="icon-icon_mapMarker"
-            className="itinerary-icon via via-it"
-          />
+          <Icon img="icon_mapMarker" className="itinerary-icon via via-it" />
         </div>
       );
+    }
+    if (!showCircle) {
+      return null;
     }
     return (
       <div
@@ -98,7 +100,7 @@ class ItineraryCircleLine extends React.Component {
           xmlns="http://www.w3.org/2000/svg"
           width={28}
           height={28}
-          style={{ fill: this.props.color, stroke: this.props.color }}
+          style={{ fill: '#fff', stroke: this.props.color }}
         >
           <circle strokeWidth="4" width={28} cx={11} cy={10} r={6} />
         </svg>
@@ -110,8 +112,10 @@ class ItineraryCircleLine extends React.Component {
     const topMarker = this.getMarker(true);
     const bottomMarker = this.getMarker(false);
     const legBeforeLineStyle = { color: this.props.color };
-    if (isBrowser && this.props.modeClassName === 'car-park-walk') {
-      // eslint-disable-next-line global-require
+    if (
+      this.props.modeClassName === 'car-park-walk' ||
+      this.props.modeClassName === 'walk'
+    ) {
       legBeforeLineStyle.backgroundImage = this.state.imageUrl;
     }
 
@@ -126,7 +130,11 @@ class ItineraryCircleLine extends React.Component {
 
         <div
           style={legBeforeLineStyle}
-          className={cx('leg-before-line', this.props.modeClassName)}
+          className={cx(
+            'leg-before-line',
+            this.props.modeClassName,
+            this.props.appendClass,
+          )}
         />
         {this.props.renderBottomMarker && bottomMarker}
       </div>

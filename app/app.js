@@ -11,7 +11,6 @@ import RealTimeInformationStore from './store/RealTimeInformationStore';
 import TimeStore from './store/TimeStore';
 import MapLayerStore from './store/MapLayerStore';
 import GeoJsonStore from './store/GeoJsonStore';
-import CanceledLegsBarStore from './store/CanceledLegsBarStore';
 import ViaPointStore from './store/ViaPointStore';
 import UserStore from './store/UserStore';
 import FavouriteStore from './store/FavouriteStore';
@@ -34,7 +33,6 @@ export default config => {
   app.registerStore(TimeStore);
   app.registerStore(MapLayerStore);
   app.registerStore(GeoJsonStore);
-  app.registerStore(CanceledLegsBarStore);
   app.registerStore(ViaPointStore);
   app.registerStore(UserStore);
   app.registerStore(FavouriteStore);
@@ -44,14 +42,11 @@ export default config => {
 
   app.plug({
     name: 'extra-context-plugin',
-    plugContext: options => {
-      let { headers } = options;
+    plugContext: () => {
       return {
         plugComponentContext: componentContext => {
           // eslint-disable-next-line no-param-reassign
           componentContext.config = config;
-          // eslint-disable-next-line no-param-reassign
-          componentContext.headers = headers;
         },
         plugActionContext: actionContext => {
           // eslint-disable-next-line no-param-reassign
@@ -61,19 +56,8 @@ export default config => {
           // eslint-disable-next-line no-param-reassign
           storeContext.config = config;
         },
-        dehydrate() {
-          return {
-            headers,
-            config,
-          };
-        },
-        rehydrate(state) {
-          ({ config, headers } = state); // eslint-disable-line no-param-reassign
-        },
       };
     },
-    dehydrate: () => ({}),
-    rehydrate: () => {},
   });
 
   return app;

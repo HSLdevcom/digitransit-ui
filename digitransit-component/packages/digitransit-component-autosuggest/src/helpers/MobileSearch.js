@@ -45,6 +45,7 @@ const MobileSearch = ({
   searchOpen,
   fontWeights,
   showScroll,
+  lang,
 }) => {
   const styles = showScroll ? mobileStyles : mobileNoScrollStyles;
 
@@ -118,6 +119,7 @@ const MobileSearch = ({
         color={color}
         hoverColor={hoverColor}
         fontWeights={fontWeights}
+        lang={lang}
       />
     );
   };
@@ -188,6 +190,8 @@ const MobileSearch = ({
       </div>
     );
   };
+  // This does not seem to do anything.
+  // When doing quick testing on this it looked like inputRef.current is always undefined.
   if (focusInput && inputRef.current?.input) {
     inputRef.current.input.focus();
   }
@@ -251,6 +255,7 @@ MobileSearch.propTypes = {
     medium: PropTypes.number.isRequired,
   }).isRequired,
   showScroll: PropTypes.bool,
+  lang: PropTypes.string.isRequired,
 };
 
 MobileSearch.defaultProps = {

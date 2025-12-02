@@ -99,7 +99,6 @@ class RealTimeInformationStore extends Store {
       if (hasKey) {
         projectedVehicles.push(vehicle);
       }
-      this.vehicles[key] = vehicle;
     });
     events.emit('vehiclesChanged', projectedVehicles);
   }

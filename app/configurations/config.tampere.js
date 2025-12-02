@@ -1,12 +1,21 @@
-/* eslint-disable prefer-template */
 import configMerger from '../util/configMerger';
 import { BIKEAVL_WITHMAX } from '../util/vehicleRentalUtils';
+import walttiConfig from './config.waltti';
+import ttConfig from './timetableConfigUtils';
 
+const tampereTimetables = ttConfig.tampere;
 const CONFIG = 'tampere';
 const APP_TITLE = 'Nyssen reittiopas';
 const APP_DESCRIPTION = 'Nyssen reittiopas';
-const walttiConfig = require('./config.waltti').default;
-const tampereTimetables = require('./timetableConfigUtils').default.tampere;
+const CDN_URL = process.env.MAP_URL || 'https://dev-cdn.digitransit.fi';
+
+const IS_DEV =
+  process.env.RUN_ENV === 'development' ||
+  process.env.NODE_ENV !== 'production';
+
+const virtualMonitorBaseUrl = IS_DEV
+  ? 'https://dev-tremonitori.digitransit.fi'
+  : 'https://tremonitori.digitransit.fi';
 
 export default configMerger(walttiConfig, {
   CONFIG,
@@ -25,6 +34,11 @@ export default configMerger(walttiConfig, {
   socialMedia: {
     title: APP_TITLE,
     description: APP_DESCRIPTION,
+    image: {
+      url: 'img/social-share-tampere.png',
+      width: 400,
+      height: 400,
+    },
   },
 
   title: APP_TITLE,
@@ -44,15 +58,23 @@ export default configMerger(walttiConfig, {
           sv: 'Zoner',
           en: 'Zones',
         },
-        url: '/assets/geojson/tre_zone_lines_20240108.geojson',
+        url: '/assets/geojson/tre_zone_lines_20250606.geojson',
         isOffByDefault: true,
+      },
+      {
+        name: {
+          fi: 'Myyntipisteet',
+          sv: 'Servicekontorer',
+          en: 'Service points',
+        },
+        url: `${CDN_URL}/waltti-assets/v1/salespoints/salespoints_tampere.geojson`,
       },
     ],
   },
 
   stopCard: {
     header: {
-      virtualMonitorBaseUrl: 'https://tremonitori.digitransit.fi/',
+      virtualMonitorBaseUrl,
     },
   },
   zones: {
@@ -60,11 +82,21 @@ export default configMerger(walttiConfig, {
     itinerary: true,
   },
 
+  appName: 'nysseapp',
+
   useTicketIcons: true,
   showTicketInformation: true,
   primaryAgencyName: 'Tampereen seudun joukkoliikenne',
 
-  ticketLink: 'https://www.nysse.fi/liput-ja-hinnat.html',
+  ticketLink: {
+    fi: 'https://www.nysse.fi/liput-ja-hinnat.html',
+    sv: 'https://www.nysse.fi/en/tickets-and-fares.html',
+    en: 'https://www.nysse.fi/en/tickets-and-fares.html',
+  },
+
+  showTicketLinkOnlyWhenTesting: true,
+  showTicketPrice: false,
+  ticketLinkOperatorCode: 50245,
 
   callAgencyInfo: {
     fi: {
@@ -85,7 +117,7 @@ export default configMerger(walttiConfig, {
     RAIL: {
       fi: {
         disclaimer:
-          'Nyssen liput käyvät junaliikenteessä rajoitetusti vain Nysse-alueella. Lue lisää ',
+          'Nyssen liput käyvät Nysse-alueen junaliikenteessä rajoitetusti. Lue lisää ',
         link: 'https://www.nysse.fi/junat',
         text: 'nysse.fi/junat',
       },
@@ -162,7 +194,7 @@ export default configMerger(walttiConfig, {
   mainMenu: {
     stopMonitor: {
       show: true,
-      url: 'https://tremonitori.digitransit.fi/createview',
+      url: `${virtualMonitorBaseUrl}/createview`,
     },
   },
 
@@ -262,9 +294,9 @@ export default configMerger(walttiConfig, {
       en: 'https://www.nysse.fi/en/city-bikes.html',
     },
     buyInstructions: {
-      fi: 'Osta käyttöoikeutta päiväksi, kuukaudeksi tai koko kaudeksi.',
-      sv: 'Köp ett abonnemang för en dag, en månad eller en hel säsong.',
-      en: 'Buy licenses for a day, a month or an entire season.',
+      fi: 'Osta yksittäinen matka kertamaksulla tai pidempi käyttöoikeus päiväksi, kuukaudeksi tai koko kaudeksi.',
+      sv: 'Köp en enkelresa eller abonnemang för en dag, en månad eller för en hel säsong.',
+      en: 'Buy a single trip or a daily, monthly or seasonal pass.',
     },
   },
 
@@ -282,6 +314,8 @@ export default configMerger(walttiConfig, {
       availableForSelection: true,
     },
   },
+
+  nearYouModes: ['bus', 'tram', 'rail', 'citybike'],
 
   bikeBoardingModes: {
     RAIL: { showNotification: true },

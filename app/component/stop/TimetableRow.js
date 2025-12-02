@@ -2,7 +2,7 @@
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
-import moment from 'moment';
+import { DateTime } from 'luxon';
 import { intlShape } from 'react-intl';
 
 const TimetableRow = ({ title, stoptimes, showRoutes, timerows }, { intl }) => (
@@ -33,13 +33,13 @@ const TimetableRow = ({ title, stoptimes, showRoutes, timerows }, { intl }) => (
             className={cx('timetablerow-linetime', {
               canceled: time.isCanceled,
             })}
-            key={`${time.id}-${time.name}-${time.scheduledDeparture}`}
+            key={`${time.id}-${time.name}-${time.scheduledDeparture}-${time.gtfsId}`}
           >
             <div className="sr-only">
               {time.isCanceled ? intl.formatMessage({ id: 'canceled' }) : ''}
-              {`${moment
-                .unix(time.serviceDay + time.scheduledDeparture)
-                .format('hh:mm')}, ${intl.formatMessage({
+              {`${DateTime.fromSeconds(
+                time.serviceDay + time.scheduledDeparture,
+              ).toFormat('HH:mm')}, ${intl.formatMessage({
                 id: time.mode.toLowerCase(),
               })} ${time.name}
               `}
@@ -47,9 +47,9 @@ const TimetableRow = ({ title, stoptimes, showRoutes, timerows }, { intl }) => (
             <span aria-hidden>
               <div>
                 <span>
-                  {moment
-                    .unix(time.serviceDay + time.scheduledDeparture)
-                    .format('mm')}
+                  {DateTime.fromSeconds(
+                    time.serviceDay + time.scheduledDeparture,
+                  ).toFormat('mm')}
                 </span>
                 <span className="line-name" title={time.name}>
                   /{time.name}
@@ -70,6 +70,7 @@ TimetableRow.propTypes = {
       name: PropTypes.string.isRequired,
       serviceDay: PropTypes.number.isRequired,
       scheduledDeparture: PropTypes.number.isRequired,
+      gtfsId: PropTypes.string,
     }),
   ).isRequired,
   showRoutes: PropTypes.arrayOf(PropTypes.string),

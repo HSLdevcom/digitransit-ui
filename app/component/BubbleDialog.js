@@ -7,11 +7,7 @@ import { matchShape, routerShape } from 'found';
 
 import Icon from './Icon';
 import { getDialogState, setDialogState } from '../store/localStorage';
-import {
-  getIsBrowser,
-  isBrowser,
-  isKeyboardSelectionEvent,
-} from '../util/browser';
+import { isKeyboardSelectionEvent } from '../util/browser';
 import withBreakpoint from '../util/withBreakpoint';
 
 class BubbleDialog extends React.Component {
@@ -107,7 +103,7 @@ class BubbleDialog extends React.Component {
             }
             type="button"
           >
-            <Icon img="icon-icon_close" />
+            <Icon img="icon_close" />
           </button>
         </div>
         <div className="bubble-dialog-tip-container">
@@ -134,16 +130,13 @@ class BubbleDialog extends React.Component {
           role="button"
           tabIndex="0"
         >
-          <Icon img={`icon-icon_${this.props.icon}`} viewBox="0 0 25 25" />
+          <Icon img={`icon_${this.props.icon}`} viewBox="0 0 25 25" />
         </div>
       </div>
     );
   }
 
   render() {
-    if (!isBrowser && !getIsBrowser()) {
-      return null;
-    }
     const { breakpoint, isFullscreenOnMobile } = this.props;
     const isFullscreen = breakpoint !== 'large' && isFullscreenOnMobile;
     return this.renderContainer(isFullscreen);

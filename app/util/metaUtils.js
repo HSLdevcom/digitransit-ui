@@ -1,10 +1,8 @@
-import { isBrowser } from './browser';
 import { generateManifestUrl } from './manifestUtils';
 
 /**
  * This helper function generates a manifest and some social media meta tags
- * based on the given parameters. Note that the manifest is only generated
- * when isBrowser===true.
+ * based on the given parameters.
  *
  * @param {{ title: string, description: string}} props The title and description to apply to the meta data.
  * @param {*} config The configuration for the software installation.
@@ -38,26 +36,25 @@ export const generateMetaData = (
       content: description,
     },
   ],
-  ...(isBrowser &&
-    config && {
-      link: [
-        {
-          rel: 'manifest',
-          href: generateManifestUrl(
-            config,
-            {
-              host: window.location.host,
-              pathname: pathname || window.location.pathname,
-              protocol: window.location.protocol,
-            },
-            {
-              title,
-              description,
-            },
-          ),
-        },
-      ],
-    }),
+  ...(config && {
+    link: [
+      {
+        rel: 'manifest',
+        href: generateManifestUrl(
+          config,
+          {
+            host: window.location.host,
+            pathname: pathname || window.location.pathname,
+            protocol: window.location.protocol,
+          },
+          {
+            title,
+            description,
+          },
+        ),
+      },
+    ],
+  }),
 });
 
 export default generateMetaData;

@@ -3,7 +3,6 @@ import omit from 'lodash/omit';
 import L from 'leaflet';
 
 import { isEqual } from 'lodash';
-import { isBrowser } from '../../../util/browser';
 import { isLayerEnabled } from '../../../util/mapLayerUtils';
 import { getStopIconStyles } from '../../../util/mapIconUtils';
 
@@ -18,7 +17,7 @@ class TileContainer {
     config,
     mergeStops,
     relayEnvironment,
-    hilightedStops,
+    highlightedStops,
     vehicles,
     stopsToShow,
     objectsToHide,
@@ -36,12 +35,12 @@ class TileContainer {
     this.mergeStops = mergeStops;
     this.props = props;
     this.extent = 4096;
-    this.scaleratio = (isBrowser && window.devicePixelRatio) || 1;
+    this.scaleratio = window.devicePixelRatio || 1;
     this.tileSize = (this.props.tileSize || 256) * this.scaleratio;
     this.ratio = this.extent / this.tileSize;
     this.el = this.createElement();
     this.clickCount = 0;
-    this.hilightedStops = hilightedStops;
+    this.highlightedStops = highlightedStops;
     this.vehicles = vehicles;
     this.stopsToShow = stopsToShow;
     this.objectsToHide = objectsToHide;
@@ -51,9 +50,9 @@ class TileContainer {
     }
 
     let ignoreMinZoomLevel =
-      hilightedStops &&
-      hilightedStops.length > 0 &&
-      !hilightedStops.every(stop => stop === '');
+      highlightedStops &&
+      highlightedStops.length > 0 &&
+      !highlightedStops.every(stop => stop === '');
     if (vehicles && vehicles.length > 0) {
       ignoreMinZoomLevel = vehicles.every(
         v => v.mode === 'ferry' && v.mode === 'rail' && v.mode === 'subway',

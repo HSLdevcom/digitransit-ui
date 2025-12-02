@@ -3,7 +3,6 @@ import take from 'lodash/take';
 import flatten from 'lodash/flatten';
 import uniq from 'lodash/uniq';
 import compact from 'lodash/compact';
-import moment from 'moment';
 import { fetchQuery, graphql } from 'react-relay';
 import routeNameCompare from '@digitransit-search-util/digitransit-search-util-route-name-compare';
 import {
@@ -95,6 +94,7 @@ const searchRoutesQuery = graphql`
         type
         shortName
         mode
+        color
         longName
         patterns {
           code
@@ -508,7 +508,7 @@ export function withCurrentTime(location) {
     ...location,
     query: {
       ...query,
-      time: query.time ? query.time : moment().unix(),
+      time: query.time ? query.time : Math.floor(new Date().getTime() / 1000),
     },
   };
 }

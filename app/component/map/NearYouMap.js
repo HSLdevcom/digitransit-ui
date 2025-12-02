@@ -29,16 +29,12 @@ import {
   stopShape,
 } from '../../util/shapes';
 import Loading from '../Loading';
-import LazilyLoad, { importLazy } from '../LazilyLoad';
 import { getDefaultNetworks } from '../../util/vehicleRentalUtils';
 import { getRouteMode } from '../../util/modeUtils';
 import CookieSettingsButton from '../CookieSettingsButton';
 import { walkQuery } from './WalkQuery';
+import LocationMarker from './LocationMarker';
 
-const locationMarkerModules = {
-  LocationMarker: () =>
-    importLazy(import(/* webpackChunkName: "map" */ './LocationMarker')),
-};
 const handleStopsAndStations = edges => {
   const stopsAndStations = edges.map(({ node }) => {
     const stop = { ...node.place, distance: node.distance };
@@ -122,11 +118,11 @@ const handleBounds = (location, edges) => {
 
 const getLocationMarker = location => {
   return (
-    <LazilyLoad modules={locationMarkerModules} key="from">
-      {({ LocationMarker }) => (
-        <LocationMarker position={location} type="from" />
-      )}
-    </LazilyLoad>
+    <LocationMarker
+      key={`from-${location.lat}:${location.lat}`}
+      position={location}
+      type="from"
+    />
   );
 };
 
@@ -383,7 +379,7 @@ function NearYouMap(
     );
   }
 
-  const hilightedStops = () => {
+  const highlightedStops = () => {
     const stopsAndStations = handleStopsAndStations(sortedStopEdges);
     if (Array.isArray(stopsAndStations) && stopsAndStations.length > 0) {
       return [
@@ -402,7 +398,7 @@ function NearYouMap(
 
   const mapProps = {
     stopsToShow: mode === 'FAVORITE' ? Array.from(favouriteIds) : undefined,
-    hilightedStops: hilightedStops(),
+    highlightedStops: highlightedStops(),
     mergeStops: false,
     bounds,
     leafletObjs,
@@ -422,7 +418,7 @@ function NearYouMap(
   return (
     <>
       <BackButton
-        icon="icon-icon_arrow-collapse--left"
+        icon="icon_arrow-collapse--left"
         iconClassName="arrow-icon"
         color={context.config.colors.primary}
         fallback="back"

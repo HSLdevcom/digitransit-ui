@@ -2,20 +2,23 @@
 /* eslint no-console: ["error", { allow: ["warn", "error"] }] */
 /* eslint react/forbid-prop-types: 0 */
 import PropTypes from 'prop-types';
-import React, { Fragment, useEffect, useState } from 'react';
-import i18next from 'i18next';
+import React, { useEffect, useState } from 'react';
+import { useTranslation, I18nextProvider } from 'react-i18next';
 import Icon from '@digitransit-component/digitransit-component-icon';
 import styles from './helpers/styles.scss';
-import translations from './helpers/translations';
+import i18n from './helpers/i18n';
 
-i18next.init({
-  lng: 'fi',
-  fallbackLng: 'fi',
-  defaultNS: 'translation',
-  interpolation: {
-    escapeValue: false, // not needed for react as it escapes by default
-  },
-});
+const isKeyboardSelectionEvent = event => {
+  const space = [13, ' ', 'Spacebar'];
+  const enter = [32, 'Enter'];
+  const key = (event && (event.key || event.which || event.keyCode)) || '';
+
+  if (!key || !space.concat(enter).includes(key)) {
+    return false;
+  }
+  event.preventDefault();
+  return true;
+};
 
 function SeparatorLine({ usePaddingBottom20 }) {
   const className = usePaddingBottom20
@@ -34,35 +37,6 @@ SeparatorLine.propTypes = {
 
 SeparatorLine.defaultProps = {
   usePaddingBottom20: false,
-};
-
-function OriginToDestination({ showTitle, language }) {
-  i18next.changeLanguage(language);
-  return (
-    <div id="OriginToDestination">
-      {showTitle && <span>{i18next.t('title-origin-to-destination')}</span>}
-      {showTitle && <br />}
-      <input
-        className={styles['input']}
-        placeholder={i18next.t('placeholder-origin')}
-      />
-      <br />
-      <input
-        className={styles['input']}
-        placeholder={i18next.t('placeholder-destination')}
-      />
-    </div>
-  );
-}
-
-OriginToDestination.propTypes = {
-  showTitle: PropTypes.bool,
-  language: PropTypes.string,
-};
-
-OriginToDestination.defaultProps = {
-  showTitle: false,
-  language: 'fi',
 };
 
 /**
@@ -129,9 +103,9 @@ function NearStopsAndRoutes({
   fontWeights,
 }) {
   const [modesWithAlerts, setModesWithAlerts] = useState([]);
+  const [t] = useTranslation();
 
   useEffect(() => {
-    i18next.changeLanguage(language);
     if (alertsContext) {
       alertsContext
         .getModesWithAlerts(alertsContext.currentTime, alertsContext.feedIds)
@@ -163,7 +137,7 @@ function NearStopsAndRoutes({
       const modeButton = !modes ? (
         <>
           <span className={styles['sr-only']}>
-            {i18next.t(`pick-mode-${mode}`, { lng: language })}
+            {t(`pick-mode-${mode}`, { lng: language })}
           </span>
           <span className={styles['transport-mode-icon-container']}>
             <span className={styles['transport-mode-icon-with-icon']}>
@@ -182,7 +156,7 @@ function NearStopsAndRoutes({
       ) : (
         <>
           <span className={styles['sr-only']}>
-            {i18next.t(`pick-mode-${mode}`, { lng: language })}
+            {t(`pick-mode-${mode}`, { lng: language })}
           </span>
           <span className={styles['transport-mode-icon-container']}>
             <span
@@ -216,7 +190,11 @@ function NearStopsAndRoutes({
             key={mode}
             role="link"
             tabIndex="0"
-            onKeyDown={e => onClick(url, e)}
+            onKeyDown={e => {
+              if (isKeyboardSelectionEvent(e)) {
+                onClick(url, e);
+              }
+            }}
             onClick={() => onClick(url)}
           >
             {modeButton}
@@ -245,7 +223,7 @@ function NearStopsAndRoutes({
       {showTitle && (
         <h2 className={styles['near-you-title']}>
           {!modes
-            ? i18next.t('title-route-stop-station', { lng: language })
+            ? t('title-route-stop-station', { lng: language })
             : title[language]}
         </h2>
       )}
@@ -305,7 +283,7 @@ NearStopsAndRoutes.defaultProps = {
     'mode-bus': '#007ac9',
     'mode-rail': '#8c4799',
     'mode-tram': '#008151',
-    'mode-metro': '#ed8c00',
+    'mode-subway': '#ed8c00',
     'mode-ferry': '#007A97',
     'mode-citybike': '#F2B62D',
   },
@@ -320,7 +298,6 @@ NearStopsAndRoutes.defaultProps = {
  *
  * @example
  * <CtrlPanel language="fi" position="left">
- *    <CtrlPanel.OriginToDestination showTitle />
  *    <CtrlPanel.SeparatorLine />
  *    <CtrlPanel.NearStopsAndRoutes
  *      modearray={['bus', 'tram', 'subway', 'rail', 'ferry', 'citybike']}
@@ -332,8 +309,6 @@ NearStopsAndRoutes.defaultProps = {
  */
 class CtrlPanel extends React.Component {
   static NearStopsAndRoutes = NearStopsAndRoutes;
-
-  static OriginToDestination = OriginToDestination;
 
   static SeparatorLine = SeparatorLine;
 
@@ -352,26 +327,21 @@ class CtrlPanel extends React.Component {
     },
   };
 
-  constructor(props) {
-    super(props);
-    Object.keys(translations).forEach(lang => {
-      i18next.addResourceBundle(lang, 'translation', translations[lang]);
-    });
-  }
-
   render() {
     const className =
       this.props.position === 'bottom'
         ? styles['main-bottom']
         : styles['main-left'];
     return (
-      <div
-        key="main"
-        className={className}
-        style={{ '--font-weight-medium': this.props.fontWeights.medium }}
-      >
-        {this.props.children}
-      </div>
+      <I18nextProvider i18n={i18n}>
+        <div
+          key="main"
+          className={className}
+          style={{ '--font-weight-medium': this.props.fontWeights.medium }}
+        >
+          {this.props.children}
+        </div>
+      </I18nextProvider>
     );
   }
 }

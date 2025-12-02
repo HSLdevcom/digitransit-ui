@@ -1,40 +1,5 @@
 @import '~@hsl-fi/sass/animations/fade';
 
-.canceled-legs-banner {
-  width: 100%;
-  background: $cancelation-red;
-  color: #fff;
-  padding: 1em;
-
-  .canceled-legs-container {
-    display: flex;
-
-    svg {
-      fill: $white;
-      color: $cancelation-red;
-      font-size: 1.5em;
-    }
-
-    .canceled-legs-right-content {
-      margin-left: 1em;
-
-      .canceled-legs-text {
-        margin-bottom: 0.5em;
-      }
-
-      button {
-        background: $cancelation-red;
-        color: $white;
-        border: 1px solid $white;
-        border-radius: 4px;
-        padding: 0.5em;
-        font-size: $font-size-xxsmall;
-        margin-bottom: 0;
-      }
-    }
-  }
-}
-
 .desktop .itinerary-summary-row::before {
   content: '';
   position: absolute;
@@ -137,25 +102,25 @@
       right: 82.38px;
       top: 416px;
       overflow: visible;
-      background: rgba(100, 190, 30, 0.15);
+      background: #f1f8eb;
       border-radius: 4px;
 
       .icon-container {
         .icon {
           &.co2-leaf {
-            width: 11px;
-            height: 11px;
-            margin-left: 2px;
+            width: 16px;
+            height: 16px;
+            margin-top: 6px;
           }
         }
       }
 
       .itinerary-co2-value {
-        min-width: 29px;
+        min-width: auto;
         height: 16px;
         font-family: $font-family;
         font-style: normal;
-        font-weight: $itinerary-co2-font-weight;
+        font-weight: $itinerary-co2-badge-font-weight;
         font-size: 13px;
         line-height: 16px;
         color: #3b7f00;
@@ -178,7 +143,7 @@
     align-items: flex-start;
     margin-top: 4px;
     padding: 6px 10px 2px 4px;
-    background: #e5f2fa;
+    background: $infobox-color-generic-blue;
     border-radius: 5px;
     font-weight: normal;
     font-size: 13px;
@@ -384,7 +349,8 @@
           &.wait,
           &.bicycle_walk,
           &.car,
-          &.scooter {
+          &.scooter,
+          &.taxi-external {
             display: block;
             overflow: hidden;
             min-width: unset;
@@ -431,6 +397,12 @@
             }
           }
 
+          &.walk {
+            .icon {
+              width: 22px;
+            }
+          }
+
           &.wait {
             .icon {
               margin-left: 1px;
@@ -450,6 +422,7 @@
             .icon {
               width: 20px;
               margin-left: 1px;
+              color: #fff;
             }
           }
 
@@ -477,13 +450,13 @@
               }
             }
           }
-        }
 
-        .ferry-external .itinerary-icon_with-bicycle {
-          color: black;
-          height: 20px;
-          width: 20px;
-          padding-bottom: 4px;
+          &.taxi-external {
+            .icon {
+              width: 24px;
+              fill: white;
+            }
+          }
         }
 
         .itinerary-icon_with-bicycle {
@@ -520,10 +493,6 @@
             font-size: 15px;
             padding: 1px 0 0 0;
           }
-
-          .vehicle-number.ferry-external {
-            color: $black;
-          }
         }
 
         .leg-duration-container {
@@ -545,7 +514,19 @@
             }
           }
 
+          &.scooter {
+            .leg-duration {
+              color: $white;
+            }
+          }
+
           &.car {
+            .leg-duration {
+              color: $white;
+            }
+          }
+
+          &.taxi-external {
             .leg-duration {
               color: $white;
             }
@@ -597,7 +578,7 @@
       }
 
       &.bicycle {
-        color: #f4f4f5; // Override default bike color
+        color: $background-color-lighter; // Override default bike color
         border: solid 1px rgba(0, 0, 0, 0.3);
       }
     }

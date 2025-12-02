@@ -42,3 +42,11 @@ export function LightenDarkenColor(color, amt) {
     String(`000000${(g | (b << 8) | (r << 16)).toString(16)}`).slice(-6)
   );
 }
+
+/* map extended route mode to color */
+export function getModeIconColor(config, mode) {
+  return (
+    config.colors.iconColors[`mode-${mode.toLowerCase()}`] ||
+    config.colors.primary
+  );
+}

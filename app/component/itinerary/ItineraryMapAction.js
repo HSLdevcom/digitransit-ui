@@ -15,7 +15,7 @@ function ItineraryMapAction({ target, focusAction, ariaLabelId }, { intl }) {
       tabIndex="0"
       aria-label={intl.formatMessage({ id: ariaLabelId }, { target })}
     >
-      <Icon img="icon-icon_show-on-map" className="itinerary-search-icon" />
+      <Icon img="icon_show-on-map" className="itinerary-search-icon" />
     </div>
   );
 }

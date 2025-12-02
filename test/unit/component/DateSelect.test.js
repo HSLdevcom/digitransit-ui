@@ -1,24 +1,23 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import React from 'react';
-import moment from 'moment-timezone';
+import { Settings } from 'luxon';
 import Select from 'react-select';
 
 import { mountWithIntl, shallowWithIntl } from '../helpers/mock-intl-enzyme';
-import configureMoment from '../../../app/util/configure-moment';
 import DateSelect from '../../../app/component/stop/DateSelect';
 
 describe('<DateSelect />', () => {
   const defaultProps = {
     startDate: '20190101',
     selectedDate: '20190102',
-    dateFormat: 'YYYYMMDD',
+    dateFormat: 'yyyyLLdd',
     onDateChange: event => event.target.value,
   };
 
   after(() => {
-    moment.locale('en');
-    moment.tz.setDefault();
+    Settings.defaultLocale = 'en';
+    Settings.defaultZone = 'system';
   });
 
   it('should render 60 options', () => {
@@ -36,22 +35,9 @@ describe('<DateSelect />', () => {
     // expect(options[29].textLabel).to.equal('We 30.1.');
   });
 
-  it('should use moment locale for weekday abbreviation', () => {
-    const configWithMoment = {
-      moment: {
-        relativeTimeThreshold: {
-          seconds: 55,
-          minutes: 59,
-          hours: 23,
-          days: 26,
-          months: 11,
-        },
-      },
-      timezoneData:
-        'Europe/Helsinki|EET EEST|-20 -30|01010101010101010101010|1BWp0 1qM0 WM0 1qM0 ' +
-        'WM0 1qM0 11A0 1o00 11A0 1o00 11A0 1o00 11A0 1qM0 WM0 1qM0 WM0 1qM0 11A0 1o00 11A0 1o00|35e5',
-    };
-    configureMoment('fi', configWithMoment);
+  it('should use correct locale for weekday abbreviation', () => {
+    Settings.defaultLocale = 'fi';
+    Settings.defaultZone = 'Europe/Helsinki';
 
     const wrapper = mountWithIntl(<DateSelect {...defaultProps} />);
     const { options } = wrapper.find(Select).props();

@@ -25,7 +25,6 @@ const isProduction = mode === 'production';
 const isDevelopment = !isProduction;
 
 const languageExp = new RegExp(`^./(${languages.join('|')})$`);
-const momentExpression = /moment[/\\]locale$/;
 const reactIntlExpression = /react-intl[/\\]locale-data$/;
 const intlExpression = /intl[/\\]locale-data[/\\]jsonp$/;
 const themeExpression = /sass[/\\]themes$/;
@@ -56,7 +55,6 @@ const productionPlugins = [
         '*.png',
         'css/*.css',
         'assets/*.svg',
-        'emitter/*.js',
         'assets/geojson/*.geojson',
         ':externals:',
       ],
@@ -169,7 +167,7 @@ module.exports = {
     path: path.join(__dirname, '_static'),
     filename: isDevelopment ? 'js/[name].js' : 'js/[name].[chunkhash].js',
     chunkFilename: 'js/[chunkhash].js',
-    publicPath: isDevelopment ? '/proxy/' : `${process.env.APP_PATH || ''}/`,
+    publicPath: isDevelopment ? '/proxy/' : '/',
     crossOriginLoading: 'anonymous',
   },
   module: {
@@ -237,7 +235,6 @@ module.exports = {
       ? false
       : process.env.WEBPACK_DEVTOOL || (isProduction ? 'source-map' : 'eval'),
   plugins: [
-    new webpack.ContextReplacementPlugin(momentExpression, languageExp),
     new webpack.ContextReplacementPlugin(reactIntlExpression, languageExp),
     new webpack.ContextReplacementPlugin(intlExpression, languageExp),
     ...(isDevelopment
@@ -283,7 +280,6 @@ module.exports = {
     alias: {
       lodash: 'lodash-es',
       'lodash.merge': 'lodash-es/merge',
-      moment$: 'moment/moment.js',
       'babel-runtime/helpers/slicedToArray': path.join(
         __dirname,
         'app/util/slicedToArray',

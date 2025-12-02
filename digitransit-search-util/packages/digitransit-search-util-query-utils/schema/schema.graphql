@@ -2686,6 +2686,13 @@ type serviceTimeRange {
   start: Long
 }
 
+type Entrance {
+  publicCode: String
+  wheelchairAccessible: Boolean
+}
+
+union StepFeature = Entrance
+
 type step {
   "The cardinal (compass) direction (e.g. north, northeast) taken when engaging this step."
   absoluteDirection: AbsoluteDirection
@@ -2719,6 +2726,7 @@ type step {
   streetName: String
   "Is this step walking with a bike?"
   walkingBike: Boolean
+  feature: StepFeature
 }
 
 type stopAtDistance implements Node {

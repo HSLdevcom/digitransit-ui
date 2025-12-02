@@ -3,7 +3,7 @@ import { describe, it } from 'mocha';
 import React from 'react';
 import sinon from 'sinon';
 
-import moment from 'moment';
+import { DateTime } from 'luxon';
 import { mockContext } from '../helpers/mock-context';
 import { mockMatch, mockRouter } from '../helpers/mock-router';
 import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
@@ -68,7 +68,7 @@ describe('<RouteControlPanel />', () => {
   });
 
   it('should start the real time client after mounting if active pattern is found', () => {
-    const activeDates = [{ day: moment().format('YYYYMMDD') }];
+    const activeDates = [{ day: DateTime.now().toFormat('yyyyLLdd') }];
     const props = {
       reRouteAllowed: true,
       breakpoint: 'large',

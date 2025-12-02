@@ -147,12 +147,12 @@
 
     &:hover,
     &:focus {
-      background-color: #f4f4f5;
+      background-color: $background-color-lighter;
     }
 
     &--is-selected,
     &--is-focused {
-      background-color: #f4f4f5;
+      background-color: $background-color-lighter;
     }
 
     svg {

@@ -8,18 +8,13 @@ import { hasVehicleRentalCode } from '../../../util/vehicleRentalUtils';
 import { getIdWithoutFeed } from '../../../util/feedScopedIdUtils';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
-function SelectVehicleRentalClusterRow({
-  name,
-  id,
-  desc,
-  prefix,
-  networks: networksInCluster,
-  isScooter,
-}) {
-  const img = isScooter
-    ? 'icon-icon_scooter-lollipop'
-    : 'icon-icon_citybike-stop-lollipop';
-
+function SelectVehicleRentalClusterRow(
+  { name, id, desc, prefix, networks: networksInCluster, isScooter },
+  { config },
+) {
+  const img = isScooter ? 'icon_scooter-lollipop' : 'icon_citybike-lollipop';
+  const color =
+    config.colors.iconColors[isScooter ? 'mode-scooter' : 'mode-citybike'];
   const linkAddress = `/${prefix}/${encodeURIComponent(id)}/${[
     ...networksInCluster,
   ]}`;
@@ -28,7 +23,7 @@ function SelectVehicleRentalClusterRow({
   return (
     <Link className="stop-popup-choose-row" to={linkAddress}>
       <span className="choose-row-left-column" aria-hidden="true">
-        <Icon img={img} />
+        <Icon img={img} color={color} />
       </span>
       <span className="choose-row-center-column">
         <h5 className="choose-row-header">{name}</h5>
@@ -40,7 +35,7 @@ function SelectVehicleRentalClusterRow({
         </span>
       </span>
       <span className="choose-row-right-column">
-        <Icon img="icon-icon_arrow-collapse--right" />
+        <Icon img="icon_arrow-collapse--right" />
       </span>
     </Link>
   );

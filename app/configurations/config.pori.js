@@ -1,11 +1,9 @@
-/* eslint-disable prefer-template */
 import configMerger from '../util/configMerger';
+import walttiConfig from './config.waltti';
 
 const CONFIG = 'pori';
 const APP_DESCRIPTION = 'Porin joukkoliikenne';
 const APP_TITLE = 'Reittiopas';
-
-const walttiConfig = require('./config.waltti').default;
 
 export default configMerger(walttiConfig, {
   CONFIG,
@@ -27,6 +25,11 @@ export default configMerger(walttiConfig, {
   socialMedia: {
     title: APP_TITLE,
     description: APP_DESCRIPTION,
+    image: {
+      url: 'img/social-share-pori.png',
+      width: 400,
+      height: 116,
+    },
   },
 
   title: APP_TITLE,
@@ -134,4 +137,29 @@ export default configMerger(walttiConfig, {
     stops: true,
     itinerary: true,
   },
+
+  showTicketInformation: true,
+  useTicketIcons: true,
+  ticketLink: {
+    fi: 'https://pjl.pori.fi/etusivu/liput-ja-hinnat/',
+  },
+  showTicketPrice: true,
+  ticketLinkOperatorCode: 50231,
+  externalFareRouteIds: [
+    '70',
+    '71',
+    '72',
+    '301',
+    '302',
+    '303',
+    '320',
+    '321',
+    '701',
+    '702',
+    '703',
+    '1001',
+    '1011',
+    '1021',
+    '1041',
+  ],
 });

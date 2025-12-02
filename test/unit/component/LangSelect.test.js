@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import React from 'react';
-import moment from 'moment';
+import { Settings } from 'luxon';
 
 import { mockContext } from '../helpers/mock-context';
 import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
@@ -9,7 +9,7 @@ import { Component as LangSelect } from '../../../app/component/LangSelect';
 
 describe('LangSelect', () => {
   after(() => {
-    moment.locale('en');
+    Settings.defaultLocale = 'en';
   });
 
   describe('<LangSelect />', () => {

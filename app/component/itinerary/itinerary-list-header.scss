@@ -1,5 +1,5 @@
 .itinerary-summary-subtitle-container {
-  background-color: #f4f4f5;
+  background-color: $background-color-lighter;
   font-size: 15px;
   font-weight: normal;
   font-stretch: normal;
@@ -16,7 +16,7 @@
   border-radius: 5px;
   border: solid 1px #ddd;
   margin: 8px 60px 8px 0;
-  background-color: #e5f2fa;
+  background-color: $infobox-color-generic-blue;
   display: flex;
 
   .with-bike-icon {
@@ -44,7 +44,7 @@
   border-radius: 5px;
   border: solid 1px #ddd;
   margin: 8px 60px 8px 0;
-  background-color: #e5f2fa;
+  background-color: $infobox-color-generic-blue;
   display: flex;
 
   .with-car-icon {

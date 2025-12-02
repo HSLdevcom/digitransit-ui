@@ -3,9 +3,17 @@ function defaultRouteSelector(routePageProps) {
   const route = routePageProps.route.gtfsId.split(':');
   return route[1];
 }
+
 function defaulVehicleNumberParser(vehicleNumber) {
   return vehicleNumber;
 }
+
+function vehicleNumberPartParser(vehicleNumber) {
+  return vehicleNumber.indexOf(' ') !== -1
+    ? vehicleNumber.split(' ')[1]
+    : vehicleNumber;
+}
+
 function walttiTopicResolver(
   route,
   direction,
@@ -39,6 +47,7 @@ function walttiTopicResolver(
     '/#'
   );
 }
+
 function elyTopicResolver(
   route,
   direction,
@@ -68,63 +77,149 @@ function elyTopicResolver(
     '/#'
   );
 }
+
+function noHeadsignTopicResolver(
+  route,
+  direction,
+  tripStartTime,
+  headsign,
+  feedId,
+  tripId,
+  geoHash,
+) {
+  return (
+    '/gtfsrt/vp/' +
+    feedId +
+    '/+/+/+/' +
+    route +
+    '/' +
+    direction +
+    '/+/' +
+    tripId +
+    '/+/' +
+    tripStartTime +
+    '/+/' +
+    geoHash[0] +
+    '/' +
+    geoHash[1] +
+    '/' +
+    geoHash[2] +
+    '/' +
+    geoHash[3] +
+    '/#'
+  );
+}
+
+function tripRouteTopicResolver(
+  route,
+  direction,
+  tripStartTime,
+  headsign,
+  feedId,
+  tripId,
+  geoHash,
+) {
+  return (
+    '/gtfsrt/vp/' +
+    feedId +
+    '/+/+/+/' +
+    route +
+    '/+/+/' +
+    tripId +
+    '/+/+/+/' +
+    geoHash[0] +
+    '/' +
+    geoHash[1] +
+    '/' +
+    geoHash[2] +
+    '/' +
+    geoHash[3] +
+    '/#'
+  );
+}
+
+function routeTopicResolver(
+  route,
+  direction,
+  tripStartTime,
+  headsign,
+  feedId,
+  tripId,
+  geoHash,
+) {
+  return (
+    '/gtfsrt/vp/' +
+    feedId +
+    '/+/+/+/' +
+    route +
+    '/+/+/+/+/+/+/+/' +
+    geoHash[0] +
+    '/' +
+    geoHash[1] +
+    '/' +
+    geoHash[2] +
+    '/' +
+    geoHash[3] +
+    '/#'
+  );
+}
+
+function hslTopicResolver(
+  route,
+  hslDirection,
+  tripStartTime,
+  headsign, // eslint-disable-line no-unused-vars
+  feedId, // eslint-disable-line no-unused-vars
+  tripId, // eslint-disable-line no-unused-vars
+  geoHash, // eslint-disable-line no-unused-vars
+) {
+  let direction = hslDirection;
+  if (Number.isInteger(direction)) {
+    direction += 1;
+  }
+  return (
+    '/hfp/v2/journey/ongoing/+/+/+/+/' +
+    route +
+    '/' +
+    direction +
+    '/+/' +
+    tripStartTime +
+    '/#'
+  );
+}
+
 const mqttAddress =
   process.env.RUN_ENV === 'development' || process.env.NODE_ENV !== 'production'
     ? 'wss://dev-mqtt.digitransit.fi'
     : 'wss://mqtt.digitransit.fi';
 
-const walttiMqtt = {
-  mqttTopicResolver: walttiTopicResolver,
+const baseMqtt = {
   mqtt: mqttAddress,
-  gtfsrt: true,
   routeSelector: defaultRouteSelector,
   active: true,
   vehicleNumberParser: defaulVehicleNumberParser,
 };
 
+const walttiMqtt = {
+  ...baseMqtt,
+  gtfsrt: true,
+  mqttTopicResolver: walttiTopicResolver,
+};
+
 function elyMqtt(ignoreHeadsign) {
   return {
+    ...walttiMqtt,
     mqttTopicResolver: elyTopicResolver,
-    mqtt: mqttAddress,
-    gtfsrt: true,
-    routeSelector: defaultRouteSelector,
-    active: true,
-    vehicleNumberParser: defaulVehicleNumberParser,
     ignoreHeadsign,
   };
 }
 
 export default {
   HSL: {
-    mqttTopicResolver: function mqttTopicResolver(
-      route,
-      hslDirection,
-      tripStartTime,
-      headsign, // eslint-disable-line no-unused-vars
-      feedId, // eslint-disable-line no-unused-vars
-      tripId, // eslint-disable-line no-unused-vars
-      geoHash, // eslint-disable-line no-unused-vars
-    ) {
-      let direction = hslDirection;
-      if (Number.isInteger(direction)) {
-        direction += 1;
-      }
-      return (
-        '/hfp/v2/journey/ongoing/+/+/+/+/' +
-        route +
-        '/' +
-        direction +
-        '/+/' +
-        tripStartTime +
-        '/#'
-      );
-    },
+    ...baseMqtt,
     mqtt: 'wss://mqtt.hsl.fi',
+    mqttTopicResolver: hslTopicResolver,
     gtfsrt: false,
-    routeSelector: defaultRouteSelector,
-    active: true,
-    useFuzzyTripMatching: true,
-    vehicleNumberParser: defaulVehicleNumberParser,
   },
   tampere: walttiMqtt,
   LINKKI: walttiMqtt,
@@ -147,80 +242,18 @@ export default {
   PohjolanMatka: elyMqtt(true),
   Harma: elyMqtt(false),
   Korsisaari: elyMqtt(true),
-  FOLI: {
-    mqttTopicResolver: function mqttTopicResolver(
-      route,
-      direction,
-      tripStartTime,
-      headsign, // eslint-disable-line no-unused-vars
-      feedId,
-      tripId,
-      geoHash,
-    ) {
-      return (
-        '/gtfsrt/vp/' +
-        feedId +
-        '/+/+/+/' +
-        route +
-        '/' +
-        direction +
-        '/+/' +
-        tripId +
-        '/+/' +
-        tripStartTime +
-        '/+/' +
-        geoHash[0] +
-        '/' +
-        geoHash[1] +
-        '/' +
-        geoHash[2] +
-        '/' +
-        geoHash[3] +
-        '/#'
-      );
-    },
-    mqtt: mqttAddress,
-    gtfsrt: true,
-    routeSelector: defaultRouteSelector,
-    active: true,
-    vehicleNumberParser: defaulVehicleNumberParser,
+  KoivistonAuto: elyMqtt(true),
+  PahkakankaanLiikenne: elyMqtt(true),
+  IngvesSvanback: elyMqtt(true),
+  FOLI: { ...walttiMqtt, mqttTopicResolver: noHeadsignTopicResolver },
+  MATKA: {
+    ...walttiMqtt,
+    mqttTopicResolver: routeTopicResolver,
+    vehicleNumberParser: vehicleNumberPartParser,
   },
   digitraffic: {
-    mqttTopicResolver: function mqttTopicResolver(
-      route,
-      direction,
-      tripStartTime,
-      headsign,
-      feedId,
-      tripId,
-      geoHash,
-    ) {
-      return (
-        '/gtfsrt/vp/' +
-        feedId +
-        '/+/+/+/' +
-        route +
-        '/+/+/' +
-        tripId +
-        '/+/+/+/' +
-        geoHash[0] +
-        '/' +
-        geoHash[1] +
-        '/' +
-        geoHash[2] +
-        '/' +
-        geoHash[3] +
-        '/#'
-      );
-    },
-    mqtt: mqttAddress,
-    gtfsrt: true,
-    routeSelector: defaultRouteSelector,
-    active: true,
-    vehicleNumberParser: function vehicleNumberParser(vehicleNumber) {
-      return vehicleNumber.indexOf(' ') !== -1
-        ? vehicleNumber.split(' ')[1]
-        : vehicleNumber;
-    },
+    ...walttiMqtt,
+    mqttTopicResolver: tripRouteTopicResolver,
+    vehicleNumberParser: vehicleNumberPartParser,
   },
 };

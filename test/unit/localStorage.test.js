@@ -35,7 +35,7 @@ describe('localStorage', () => {
       const stub = sinon.stub(window, 'localStorage').get(() => {
         throw new DOMException();
       });
-      getLocalStorage(true, handler);
+      getLocalStorage(handler);
       expect(handler.called).to.equal(true);
       stub.restore();
     });
@@ -44,19 +44,14 @@ describe('localStorage', () => {
       const stub = sinon.stub(window, 'localStorage').get(() => {
         throw new DOMException('Foo', 'SecurityError');
       });
-      const result = getLocalStorage(true);
+      const result = getLocalStorage();
       expect(result).to.equal(null);
       stub.restore();
     });
 
-    it('should return window.localStorage if in browser', () => {
-      const result = getLocalStorage(true);
+    it('should return window.localStorage', () => {
+      const result = getLocalStorage();
       expect(result).to.equal(window.localStorage);
-    });
-
-    it('should return global.localStorage if not in browser', () => {
-      const result = getLocalStorage(false);
-      expect(result).to.equal(global.localStorage);
     });
   });
   describe('getReadMessageIds', () => {

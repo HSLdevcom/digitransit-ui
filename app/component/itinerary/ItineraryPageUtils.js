@@ -1,4 +1,3 @@
-import get from 'lodash/get';
 import isEmpty from 'lodash/isEmpty';
 import isEqual from 'lodash/isEqual';
 import pick from 'lodash/pick';
@@ -75,18 +74,6 @@ export function reportError(error) {
   });
 }
 
-export function addFeedbackly(context) {
-  const host = context.headers['x-forwarded-host'] || context.headers.host;
-  if (
-    get(context, 'config.showHSLTracking', false) &&
-    host?.indexOf('127.0.0.1') === -1 &&
-    host?.indexOf('localhost') === -1
-  ) {
-    // eslint-disable-next-line no-unused-expressions
-    import('../../util/feedbackly');
-  }
-}
-
 export function getTopics(legs, config) {
   const itineraryTopics = [];
 
@@ -96,33 +83,19 @@ export function getTopics(legs, config) {
     legs.forEach(leg => {
       if (leg.transitLeg && leg.trip) {
         const feedId = leg.trip.gtfsId.split(':')[0];
-        let topic;
         if (realTime && feedIds.includes(feedId)) {
-          const routeProps = {
+          itineraryTopics.push({
             route: leg.route.gtfsId.split(':')[1],
             shortName: leg.route.shortName,
             type: leg.route.type,
-          };
-          if (realTime[feedId]?.useFuzzyTripMatching) {
-            topic = {
-              ...routeProps,
-              feedId,
-              mode: leg.mode.toLowerCase(),
-              direction: Number(leg.trip.directionId),
-              tripStartTime: getStartTimeWithColon(
-                leg.trip.stoptimesForDate[0].scheduledDeparture,
-              ),
-            };
-          } else if (realTime[feedId]) {
-            topic = {
-              ...routeProps,
-              feedId,
-              tripId: leg.trip.gtfsId.split(':')[1],
-            };
-          }
-        }
-        if (topic) {
-          itineraryTopics.push(topic);
+            feedId,
+            mode: leg.mode.toLowerCase(),
+            direction: Number(leg.trip.directionId),
+            tripStartTime: getStartTimeWithColon(
+              leg.trip.stoptimesForDate[0].scheduledDeparture,
+            ),
+            tripId: leg.trip.gtfsId.split(':')[1],
+          });
         }
       }
     });
@@ -426,6 +399,18 @@ export function filterItineraries(edges, modes) {
 }
 
 /**
+ * Filters itineraries that are not the right route type
+ */
+export function filterItinerariesByRouteType(edges, types) {
+  if (!edges) {
+    return [];
+  }
+  return edges.filter(edge =>
+    edge.node.legs.some(leg => types.includes(leg.route?.type)),
+  );
+}
+
+/**
  * Pick combination of itineraries for bike and transit
  */
 export function mergeBikeTransitPlans(bikeParkPlan, bikeTransitPlan) {
@@ -495,6 +480,77 @@ export function parseCarTransitPlan(carTransitPlan) {
   };
 }
 
+export function getSortedEdges(edges, arriveBy) {
+  const sortedEdges = [...edges];
+  sortedEdges.sort((a, b) => {
+    if (a.node.end === b.node.end) {
+      return 0;
+    }
+    if (arriveBy) {
+      return b.node.end > a.node.end ? 1 : -1;
+    }
+    return a.node.end > b.node.end ? 1 : -1;
+  });
+  return sortedEdges;
+}
+
+/**
+ * Combine an external edge with the main transit edges.
+ */
+function sortAndMergePlans(
+  externalTransitEdges,
+  transitPlan,
+  arriveBy,
+  maxAdditionalEdges = 1,
+) {
+  const transitPlanEdges = transitPlan.edges || [];
+  const maxTransitEdges =
+    externalTransitEdges.length > 0 ? 4 : transitPlanEdges.length;
+
+  // special case: if transitplan only has one walk itinerary, don't show external plan if it arrives later.
+  if (
+    transitPlanEdges.length === 1 &&
+    transitPlanEdges[0].node.legs.every(leg => leg.mode === 'WALK') &&
+    transitPlanEdges[0].node.end < externalTransitEdges[0]?.node.end
+  ) {
+    return transitPlan;
+  }
+
+  return {
+    edges: getSortedEdges(
+      [
+        ...externalTransitEdges.slice(0, maxAdditionalEdges),
+        ...transitPlanEdges.slice(0, maxTransitEdges),
+      ],
+      arriveBy,
+    ).map(edge => {
+      return {
+        ...edge,
+        node: {
+          ...edge.node,
+          legs: compressLegs(edge.node.legs),
+        },
+      };
+    }),
+  };
+}
+
+/**
+ * Combine an external edge with the main transit edges.
+ */
+export function mergeExternalTransitPlan(
+  externalPlan,
+  transitPlan,
+  arriveBy,
+  allowedFlexRouteTypes,
+) {
+  const externalTransitEdges = filterItinerariesByRouteType(
+    externalPlan.edges,
+    allowedFlexRouteTypes,
+  );
+  return sortAndMergePlans(externalTransitEdges, transitPlan, arriveBy);
+}
+
 /**
  * Combine a scooter edge with the main transit edges.
  */
@@ -502,32 +558,29 @@ export function mergeScooterTransitPlan(
   scooterPlan,
   transitPlan,
   allowDirectScooterJourneys,
+  arriveBy,
 ) {
-  const transitPlanEdges = transitPlan.edges || [];
   const scooterTransitEdges = scooterEdges(
     scooterPlan.edges,
     allowDirectScooterJourneys,
   );
-  const maxTransitEdges =
-    scooterTransitEdges.length > 0 ? 4 : transitPlanEdges.length;
+  return sortAndMergePlans(scooterTransitEdges, transitPlan, arriveBy);
+}
 
-  // special case: if transitplan only has one walk itinerary, don't show scooter plan if it arrives later.
-  if (
-    transitPlanEdges.length === 1 &&
-    transitPlanEdges[0].node.legs.every(leg => leg.mode === 'WALK') &&
-    transitPlanEdges[0].node.end < scooterTransitEdges[0]?.node.end
-  ) {
-    return transitPlan;
-  }
-
+/**
+ * Combine two sets of external plans.
+ */
+export function sortAndMergeExternalPlans(
+  plan,
+  planToMerge,
+  arriveBy,
+  maxTotalEdges = 5,
+) {
+  const edges = plan.edges || [];
+  const edgesToMerge = planToMerge.edges || [];
   return {
-    edges: [
-      ...scooterTransitEdges.slice(0, 1),
-      ...transitPlanEdges.slice(0, maxTransitEdges),
-    ]
-      .sort((a, b) => {
-        return a.node.end > b.node.end;
-      })
+    edges: getSortedEdges([...edges, ...edgesToMerge], arriveBy)
+      .slice(0, maxTotalEdges)
       .map(edge => {
         return {
           ...edge,
@@ -570,7 +623,7 @@ export function quitIteration(plan, newPlan, planParams, startTime) {
  * - the stored itinerary ends in future
  * - the params stored along itinerary are identical to current URL parameters
  *
- * @param {{itinerary: itineraryShape, params: {from: string, to: string, time: number, arriveBy: boolean, index: string}}} itinerary matchContext with URL params
+ * @param {{itinerary: itineraryShape, params: {from: string, to: string, queryTime: number, arriveBy: boolean, index: string}}} itinerary matchContext with URL params
  * @param {matchShape} match matchContext with URL params
  * @returns true if Navigator can be initialized with stored itinerary
  */
@@ -583,7 +636,7 @@ export const isStoredItineraryRelevant = ({ itinerary, params }, match) => {
     Date.parse(itinerary.end) > Date.now() &&
     params.from === match.params.from &&
     params.to === match.params.to &&
-    params.time === match.location?.query?.time &&
+    params.queryTime === match.location?.query?.time &&
     params.arriveBy === match.location?.query?.arriveBy &&
     params.hash === match.params.hash &&
     params.secondHash === match.params.secondHash

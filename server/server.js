@@ -85,7 +85,7 @@ function setUpStaticFolders() {
       .replace(/ASSET_URL/g, process.env.ASSET_URL);
     const swTextInjected = swPreText + swInjectionText + swPostText;
 
-    app.get(`${config.APP_PATH}/sw.js`, (req, res) => {
+    app.get('/sw.js', (req, res) => {
       res.setHeader('Cache-Control', 'public, max-age=0');
       res.setHeader('Content-type', 'application/javascript; charset=UTF-8');
       res.send(swTextInjected);
@@ -96,7 +96,7 @@ function setUpStaticFolders() {
   // Sert cache for 1 week
   const oneDay = 86400000;
   app.use(
-    config.APP_PATH,
+    '',
     expressStaticGzip(staticFolder, {
       enableBrotli: true,
       index: false,
@@ -113,13 +113,6 @@ function setUpStaticFolders() {
       },
     }),
   );
-
-  if (config.localStorageEmitter) {
-    app.use(
-      '/local-storage-emitter',
-      express.static(path.join(staticFolder, 'emitter')),
-    );
-  }
 }
 
 function setUpMiddleware() {
@@ -150,61 +143,6 @@ function setUpRoutes() {
 
   // Make sure req has the correct hostname extracted from the proxy info
   app.enable('trust proxy');
-}
-
-function setUpAvailableRouteTimetables() {
-  return new Promise(resolve => {
-    // Stores available route pdf names to config.availableRouteTimetables.HSL
-    // All routes don't have available pdf and some have their timetable inside other route
-    // so there is a mapping between route's gtfsId (without HSL: part) and similar gtfsId of
-    // route that contains timetables
-    if (config.timetables.HSL) {
-      // try to fetch available route timetables every four seconds with 4 retries
-      retryFetch(
-        `${config.URL.ROUTE_TIMETABLES.HSL}routes.json`,
-        4,
-        4000,
-        {},
-        config,
-      )
-        .then(res => res.json())
-        .then(
-          result => {
-            config.timetables.HSL.setAvailableRouteTimetables(result);
-            console.log('availableRouteTimetables.HSL loaded');
-            resolve();
-          },
-          err => {
-            console.log(err);
-            // If after 5 tries no timetable data is found, start server anyway
-            resolve();
-            console.log('availableRouteTimetables.HSL loader failed');
-            // Continue attempts to fetch available routes in the background for one day once every minute
-            retryFetch(
-              `${config.URL.ROUTE_TIMETABLES.HSL}routes.json`,
-              1440,
-              60000,
-              {},
-              config,
-            )
-              .then(res => res.json())
-              .then(
-                result => {
-                  config.timetables.HSL.setAvailableRouteTimetables(result);
-                  console.log(
-                    'availableRouteTimetables.HSL loaded after retry',
-                  );
-                },
-                error => {
-                  console.log(error);
-                },
-              );
-          },
-        );
-    } else {
-      resolve();
-    }
-  });
 }
 
 function processTicketTypeResult(result) {
@@ -285,8 +223,8 @@ function setUpAvailableTickets() {
 
 function getZoneUrl(json) {
   const zoneLayer =
-    !json.noZoneSharing &&
-    json.layers.find(
+    !json?.noZoneSharing &&
+    json?.layers.find(
       layer => layer.name.fi === 'Vyöhykkeet' || layer.name.en === 'Zones',
     );
   if (zoneLayer && !allZones) {
@@ -297,8 +235,13 @@ function getZoneUrl(json) {
 }
 
 async function fetchGeoJsonConfig(url) {
-  const response = await getJson(url);
-  return response.geoJson || response.geojson;
+  try {
+    const response = await getJson(url);
+    return response.geoJson || response.geojson;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
 }
 
 function collectGeoJsonZones() {
@@ -445,7 +388,6 @@ setUpMiddleware();
 setUpRoutes();
 setUpErrorHandling();
 Promise.all([
-  setUpAvailableRouteTimetables(),
   setUpAvailableTickets(),
   collectGeoJsonZones(),
   fetchCitybikeConfigurations(),

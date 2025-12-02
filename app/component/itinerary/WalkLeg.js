@@ -9,6 +9,7 @@ import Icon from '../Icon';
 import ItineraryMapAction from './ItineraryMapAction';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
 import PlatformNumber from '../PlatformNumber';
+import SubwayEntranceInfo from './SubwayEntranceInfo';
 import ServiceAlertIcon from '../ServiceAlertIcon';
 import { getActiveAlertSeverityLevel } from '../../util/alertUtils';
 import { PREFIX_STOPS } from '../../util/path';
@@ -16,13 +17,23 @@ import {
   RentalNetworkType,
   getRentalNetworkConfig,
 } from '../../util/vehicleRentalUtils';
+import { subwayTransferUsesSameStation } from '../../util/indoorUtils';
 import { displayDistance } from '../../util/geo-utils';
 import { durationToString } from '../../util/timeUtils';
 import { splitStringToAddressAndPlace } from '../../util/otpStrings';
 import VehicleRentalLeg from './VehicleRentalLeg';
 
 function WalkLeg(
-  { children, focusAction, focusToLeg, index, leg, previousLeg },
+  {
+    children,
+    focusAction,
+    focusToLeg,
+    index,
+    leg,
+    previousLeg,
+    nextLeg,
+    useOriginAddress,
+  },
   { config, intl },
 ) {
   const distance = displayDistance(
@@ -35,8 +46,8 @@ function WalkLeg(
     leg.mode !== 'WALK' ? 0 : leg.duration * 1000,
   );
   const startMs = legTime(leg.start);
-  // If mode is not WALK, WalkLeg should get information from "to".
-  const toOrFrom = leg.mode !== 'WALK' ? 'to' : 'from';
+  // If mode is not WALK, WalkLeg should get information from "to". If useOriginAddress is true, force WalkLeg to get information from "from".
+  const toOrFrom = leg.mode !== 'WALK' && !useOriginAddress ? 'to' : 'from';
   const modeClassName = 'walk';
   const fromMode = (leg[toOrFrom].stop && leg[toOrFrom].stop.vehicleMode) || '';
   const isFirstLeg = i => i === 0;
@@ -50,6 +61,7 @@ function WalkLeg(
     config,
   ).type;
   const isScooter = networkType === RentalNetworkType.Scooter;
+  const alightNotice = previousLeg?.mode === 'TAXI' || leg?.mode === 'TAXI'; // Taxi leg is the current leg when the walk leg is added after a taxi leg without a walk leg from data
   const returnNotice = previousLeg?.rentedBike ? (
     <FormattedMessage
       id={
@@ -74,6 +86,25 @@ function WalkLeg(
           defaultMessage: 'scooter',
         })
       : leg.to.name;
+  const entranceName = leg?.steps?.find(
+    step =>
+      // eslint-disable-next-line no-underscore-dangle
+      step?.feature?.__typename === 'Entrance' || step?.feature?.publicCode,
+  )?.feature?.publicCode;
+
+  const entranceAccessible = leg?.steps?.find(
+    // eslint-disable-next-line no-underscore-dangle
+    step =>
+      // eslint-disable-next-line no-underscore-dangle
+      step?.feature?.__typename === 'Entrance' ||
+      step?.feature?.wheelchairAccessible,
+  )?.feature?.wheelchairAccessible;
+
+  // do not render subway exit/entrance if transfer happens within a station
+  const hideSubwayEntrances = subwayTransferUsesSameStation(
+    previousLeg,
+    nextLeg,
+  );
 
   return (
     <div key={index} className="row itinerary-row">
@@ -119,7 +150,7 @@ function WalkLeg(
                 {address}
                 {leg[toOrFrom].stop && (
                   <Icon
-                    img="icon-icon_arrow-collapse--right"
+                    img="icon_arrow-collapse--right"
                     className="itinerary-arrow-icon"
                     color={config.colors.primary}
                   />
@@ -139,10 +170,11 @@ function WalkLeg(
                 ? 'itinerary-leg-first-row-return-bike'
                 : 'itinerary-leg-first-row',
               isScooter && 'scooter',
+              alightNotice && 'alight',
             )}
           >
             <div className="itinerary-leg-row">
-              {leg[toOrFrom].stop ? (
+              {leg[toOrFrom].stop && !alightNotice ? (
                 <Link
                   onClick={e => {
                     e.stopPropagation();
@@ -152,13 +184,13 @@ function WalkLeg(
                   {returnNotice || leg[toOrFrom].name}
                   {leg.isViaPoint && (
                     <Icon
-                      img="icon-icon_mapMarker"
+                      img="icon_mapMarker"
                       className="itinerary-mapmarker-icon"
                     />
                   )}
                   {leg[toOrFrom].stop && (
                     <Icon
-                      img="icon-icon_arrow-collapse--right"
+                      img="icon_arrow-collapse--right"
                       className="itinerary-arrow-icon"
                       color={config.colors.primary}
                     />
@@ -173,7 +205,7 @@ function WalkLeg(
                 </Link>
               ) : (
                 <div>
-                  {returnNotice ? (
+                  {returnNotice && (
                     <>
                       <div className="divider" />
                       <VehicleRentalLeg
@@ -186,12 +218,19 @@ function WalkLeg(
                         rentalVehicle={leg.from.rentalVehicle}
                       />
                     </>
-                  ) : (
-                    leg[toOrFrom].name
                   )}
-                  {leg[toOrFrom].stop && (
+                  {alightNotice && (
+                    <div className="itinerary-leg-action-content">
+                      <FormattedMessage
+                        id="get-off-the-ride"
+                        defaultMessage="Get off the taxi"
+                      />
+                    </div>
+                  )}
+                  {!returnNotice && !alightNotice && leg[toOrFrom].name}
+                  {leg[toOrFrom].stop && !alightNotice && (
                     <Icon
-                      img="icon-icon_arrow-collapse--right"
+                      img="icon_arrow-collapse--right"
                       className="itinerary-arrow-icon"
                       color={config.colors.primary}
                     />
@@ -228,21 +267,40 @@ function WalkLeg(
             )}
           </div>
         )}
-
-        <div className="itinerary-leg-action itinerary-leg-action-content">
-          <FormattedMessage
-            id="walk-distance-duration"
-            values={{
-              distance: config.emphasizeDistance ? <b>{distance}</b> : distance,
-              duration,
-            }}
-            defaultMessage="Walk {distance} ({duration})"
-          />
-          <ItineraryMapAction
-            target=""
-            ariaLabelId="itinerary-summary-row.clickable-area-description"
-            focusAction={focusToLeg}
-          />
+        <div className="itinerary-leg-action">
+          {previousLeg?.mode === 'SUBWAY' && !hideSubwayEntrances && (
+            <SubwayEntranceInfo
+              type="exit"
+              entranceName={entranceName}
+              entranceAccessible={entranceAccessible}
+            />
+          )}
+          <div className=" itinerary-leg-action-content">
+            <FormattedMessage
+              id="walk-distance-duration"
+              values={{
+                distance: config.emphasizeDistance ? (
+                  <b>{distance}</b>
+                ) : (
+                  distance
+                ),
+                duration,
+              }}
+              defaultMessage="Walk {distance} ({duration})"
+            />
+            <ItineraryMapAction
+              target=""
+              ariaLabelId="itinerary-summary-row.clickable-area-description"
+              focusAction={focusToLeg}
+            />
+          </div>
+          {nextLeg?.mode === 'SUBWAY' && !hideSubwayEntrances && (
+            <SubwayEntranceInfo
+              type="entrance"
+              entranceName={entranceName}
+              entranceAccessible={entranceAccessible}
+            />
+          )}
         </div>
       </div>
     </div>
@@ -255,12 +313,16 @@ WalkLeg.propTypes = {
   index: PropTypes.number.isRequired,
   leg: legShape.isRequired,
   previousLeg: legShape,
+  nextLeg: legShape,
   focusToLeg: PropTypes.func.isRequired,
+  useOriginAddress: PropTypes.bool,
 };
 
 WalkLeg.defaultProps = {
   previousLeg: undefined,
+  nextLeg: undefined,
   children: undefined,
+  useOriginAddress: false,
 };
 
 WalkLeg.contextTypes = {

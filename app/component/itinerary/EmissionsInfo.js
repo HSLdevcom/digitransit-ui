@@ -19,7 +19,7 @@ export default function EmissionsInfo({ itinerary, isMobile }) {
         <div className="itinerary-co2-line">
           <div className={cx('co2-container', { mobile: isMobile })}>
             <div className="co2-title-container">
-              <Icon img="icon-icon_co2_leaf" className="co2-leaf" />
+              <Icon img="icon_co2_leaf" className="co2-leaf" />
               <span aria-hidden="true" className="itinerary-co2-title">
                 <FormattedMessage
                   id="itinerary-co2.title"

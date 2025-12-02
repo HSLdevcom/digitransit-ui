@@ -1,20 +1,19 @@
-import distance from '@digitransit-search-util/digitransit-search-util-distance';
 import { matchShape, routerShape } from 'found';
 import PropTypes from 'prop-types';
 import React, { useEffect, useRef, useState } from 'react';
 import { intlShape } from 'react-intl';
+import { addAnalyticsEvent } from '../../../util/analyticsUtils';
 import {
   isAnyLegPropertyIdentical,
   legTime,
-  legTimeStr,
+  getPlatformChangeStatus,
+  PLATFORM_STATUS,
 } from '../../../util/legUtils';
 import { configShape, legShape } from '../../../util/shapes';
 import { getTopics, updateClient } from '../ItineraryPageUtils';
 import NaviCard from './NaviCard';
 import NaviStack from './NaviStack';
-import NaviStarter from './NaviStarter';
 import {
-  DESTINATION_RADIUS,
   getAdditionalMessages,
   getItineraryAlerts,
   getTransitLegState,
@@ -23,36 +22,18 @@ import {
 } from './NaviUtils';
 import usePrevious from './hooks/usePrevious';
 
-const COUNT_AT_LEG_END = 2; // update cycles within DESTINATION_RADIUS from leg.to
-const TOPBAR_PADDING = 8; // pixels
 const HIDE_TOPCARD_DURATION = 2000; // milliseconds
 
-function addMessages(incomingMessages, newMessages) {
-  newMessages.forEach(m => {
-    incomingMessages.set(m.id, m);
-  });
-}
-
-const getLegType = (
-  leg,
-  firstLeg,
-  time,
-  countAtLegEnd,
-  interlineWithPreviousLeg,
-) => {
+const getLegType = (leg, firstLeg, time, interlineWithPreviousLeg) => {
   let legType;
-  if (!firstLeg.forceStart && time < legTime(firstLeg.start)) {
-    legType = LEGTYPE.PENDING;
-  } else if (leg) {
-    if (!leg.transitLeg) {
-      if (countAtLegEnd >= COUNT_AT_LEG_END) {
-        legType = LEGTYPE.WAIT;
-      } else {
-        legType = LEGTYPE.MOVE;
-      }
+  if (time < legTime(firstLeg.start)) {
+    if (!firstLeg.forceStart) {
+      legType = LEGTYPE.PENDING;
     } else {
-      legType = LEGTYPE.TRANSIT;
+      legType = LEGTYPE.WAIT;
     }
+  } else if (leg) {
+    legType = leg.transitLeg ? LEGTYPE.TRANSIT : LEGTYPE.MOVE;
   } else {
     legType = interlineWithPreviousLeg ? LEGTYPE.WAIT_IN_VEHICLE : LEGTYPE.WAIT;
   }
@@ -66,14 +47,14 @@ function NaviCardContainer(
     legs,
     position,
     tailLength,
-    mapLayerRef,
     currentLeg,
     nextLeg,
     firstLeg,
     lastLeg,
     previousLeg,
     isJourneyCompleted,
-    startItinerary,
+    containerTopPosition,
+    settings,
   },
   context,
 ) {
@@ -85,21 +66,34 @@ function NaviCardContainer(
   const { isEqual: legChanged } = usePrevious(currentLeg, (prev, current) =>
     isAnyLegPropertyIdentical(prev, current, ['legId', 'mode']),
   );
-  const { isEqual: forceStart } = usePrevious(firstLeg?.forceStart);
   const focusRef = useRef(false);
-  // Destination counter. How long user has been at the destination. * 10 seconds
-  const legEndRef = useRef(0);
+
   const { intl, config, match, router } = context;
+
+  const nextLegPlatformCode = nextLeg?.from?.stop?.platformCode;
+  const platformStatus = getPlatformChangeStatus(
+    nextLeg,
+    usePrevious(nextLegPlatformCode).previous,
+  );
+
   const handleRemove = index => {
     const msg = messages.get(activeMessages[index].id);
     msg.closed = true; // remember closing action
     setActiveMessages(activeMessages.filter((_, i) => i !== index));
   };
 
+  function addMessages(incomingMessages, newMessages) {
+    newMessages.forEach(m => {
+      incomingMessages.set(m.id, m);
+    });
+  }
+
   // track only relevant vehicles for the journey.
+  // addd 20 s buffer so that vehicle location is available
+  // for leg validation long enough
   const getNaviTopics = () =>
     getTopics(
-      legs.filter(leg => legTime(leg.end) >= time),
+      legs.filter(leg => legTime(leg.end) >= time - 20000),
       config,
     );
 
@@ -115,6 +109,11 @@ function NaviCardContainer(
   };
 
   useEffect(() => {
+    addAnalyticsEvent({
+      category: 'Itinerary',
+      event: 'navigator',
+      action: 'start_navigation',
+    });
     updateClient(getNaviTopics(), context);
   }, []);
 
@@ -132,37 +131,17 @@ function NaviCardContainer(
         intl,
         messages,
         makeNewItinerarySearch,
+        config,
+        settings,
+        nextLeg,
+        platformStatus,
       ),
     );
-
-    if (
-      match.location.query?.debug !== undefined &&
-      position &&
-      !messages.get('debug')?.closed
-    ) {
-      const info1 = `lat: ${position.lat} lon: ${position.lon}`;
-      const info2 = `status: ${position.status}`;
-      const info3 = `locations: ${position.locationCount} watchId: ${position.watchId}`;
-
-      addMessages(incomingMessages, [
-        {
-          severity: 'INFO',
-          content: (
-            <div className="navi-info-content">
-              <span>{info1}</span>
-              <span>{info2}</span>
-              <span>{info3}</span>
-            </div>
-          ),
-          id: 'debug',
-        },
-      ]);
-    }
 
     if (nextLeg?.transitLeg) {
       // Messages for NaviStack.
       addMessages(incomingMessages, [
-        ...getTransitLegState(nextLeg, intl, messages, time),
+        ...getTransitLegState(nextLeg, intl, messages, time, settings, config),
         ...getAdditionalMessages(
           currentLeg,
           nextLeg,
@@ -170,11 +149,13 @@ function NaviCardContainer(
           time,
           config,
           messages,
+          intl,
+          legs,
         ),
       ]);
     }
     let timeoutId;
-    if (legChanged || forceStart) {
+    if (legChanged) {
       updateClient(getNaviTopics(), context);
       setLegChanging(true);
       timeoutId = setTimeout(() => {
@@ -214,19 +195,6 @@ function NaviCardContainer(
       focusRef.current = true;
     }
 
-    // User position and distance from currentleg endpoint.
-    if (
-      position &&
-      currentLeg &&
-      nextLeg && // itinerary end has its own logic
-      distance(position, currentLeg.to) <= DESTINATION_RADIUS
-    ) {
-      legEndRef.current += 1;
-    } else {
-      // Todo: this works in transit legs, but do we need additional logic for bikes / scooters?
-      legEndRef.current = 0;
-    }
-
     return () => clearTimeout(timeoutId);
   }, [time, firstLeg]);
 
@@ -236,44 +204,42 @@ function NaviCardContainer(
     l,
     firstLeg,
     time,
-    legEndRef.current,
     nextLeg?.interlineWithPreviousLeg,
   );
 
-  const containerTopPosition =
-    mapLayerRef.current.getBoundingClientRect().top + TOPBAR_PADDING;
   let className;
-  if (isJourneyCompleted) {
-    className = 'slide-out';
-  } else if (legChanging) {
+  if (isJourneyCompleted || legChanging) {
     className = 'hide-card';
   } else {
     className = 'show-card';
   }
   return (
+    // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
     <div
       className={`navi-card-container ${className}`}
       style={{ top: containerTopPosition }}
+      aria-live={legChanging ? undefined : 'polite'}
+      aria-hidden={legChanging ? 'true' : 'false'}
     >
-      {(!firstLeg.forceStart && time < legTime(firstLeg.start)) ||
-      (firstLeg.forceStart && time < legTime(firstLeg.start) && legChanging) ? (
-        <NaviStarter
-          time={legTimeStr(firstLeg.start)}
-          startItinerary={startItinerary}
-        />
-      ) : (
-        <NaviCard
-          leg={l}
-          nextLeg={nextLeg}
-          legType={legType}
-          startTime={legTimeStr(firstLeg.start)}
-          time={time}
-          position={position}
-          tailLength={tailLength}
-        />
-      )}
+      <NaviCard
+        leg={l}
+        nextLeg={nextLeg}
+        legType={legType}
+        time={time}
+        position={position}
+        tailLength={tailLength}
+        cardAnimation={className}
+        platformUpdated={
+          platformStatus === PLATFORM_STATUS.CHANGED ||
+          platformStatus === PLATFORM_STATUS.RESTORED
+        }
+      />
       {activeMessages.length > 0 && (
-        <NaviStack messages={activeMessages} handleRemove={handleRemove} />
+        <NaviStack
+          messages={activeMessages}
+          handleRemove={handleRemove}
+          cardAnimation={className}
+        />
       )}
     </div>
   );
@@ -288,18 +254,18 @@ NaviCardContainer.propTypes = {
     lon: PropTypes.number,
     status: PropTypes.string,
     locationCount: PropTypes.number,
-    watchId: PropTypes.string,
+    watchId: PropTypes.number,
   }),
-  mapLayerRef: PropTypes.oneOfType([PropTypes.func, PropTypes.object])
-    .isRequired,
   tailLength: PropTypes.number.isRequired,
+  containerTopPosition: PropTypes.number.isRequired,
   currentLeg: legShape,
   nextLeg: legShape,
   firstLeg: legShape,
   lastLeg: legShape,
   previousLeg: legShape,
   isJourneyCompleted: PropTypes.bool,
-  startItinerary: PropTypes.func,
+  // eslint-disable-next-line
+  settings: PropTypes.object.isRequired,
 };
 
 NaviCardContainer.defaultProps = {
@@ -311,7 +277,6 @@ NaviCardContainer.defaultProps = {
   lastLeg: undefined,
   previousLeg: undefined,
   isJourneyCompleted: false,
-  startItinerary: () => {},
 };
 
 NaviCardContainer.contextTypes = {

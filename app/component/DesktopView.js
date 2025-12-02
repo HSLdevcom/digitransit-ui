@@ -22,7 +22,7 @@ export default function DesktopView({
             <div className="title-container h2">
               <BackButton
                 title={title}
-                icon="icon-icon_arrow-collapse--left"
+                icon="icon_arrow-collapse--left"
                 iconClassName="arrow-icon"
                 fallback={bckBtnFallback}
               />

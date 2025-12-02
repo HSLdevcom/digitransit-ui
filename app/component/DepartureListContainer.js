@@ -1,5 +1,5 @@
 import cx from 'classnames';
-import moment from 'moment';
+import { DateTime } from 'luxon';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
@@ -7,13 +7,15 @@ import { intlShape, FormattedMessage } from 'react-intl';
 import { stopTimeShape, configShape } from '../util/shapes';
 import Icon from './Icon';
 import DepartureRow from './DepartureRow';
-import { isBrowser } from '../util/browser';
 import {
   stopRealTimeClient,
   startRealTimeClient,
   changeRealTimeClientTopics,
 } from '../action/realTimeClientAction';
-import { getHeadsignFromRouteLongName } from '../util/legUtils';
+import {
+  getHeadsignFromRouteLongName,
+  isPlatformChanged,
+} from '../util/legUtils';
 
 const getDropoffMessage = (hasOnlyDropoff, hasNoStop) => {
   if (hasNoStop) {
@@ -200,7 +202,7 @@ class DepartureListContainer extends Component {
   };
 
   onScroll = () => {
-    if (this.props.infiniteScroll && isBrowser) {
+    if (this.props.infiniteScroll) {
       return this.scrollHandler;
     }
     return null;
@@ -242,8 +244,12 @@ class DepartureListContainer extends Component {
     const departureObjs = [];
     const { currentTime, limit, isTerminal, stoptimes } = this.props;
 
-    let serviceDayCutoff = moment.unix(currentTime).startOf('day').unix();
-    let dayCutoff = moment.unix(currentTime).startOf('day').unix();
+    let serviceDayCutoff = DateTime.fromSeconds(currentTime)
+      .startOf('day')
+      .toUnixInteger();
+    let dayCutoff = DateTime.fromSeconds(currentTime)
+      .startOf('day')
+      .toUnixInteger();
     const departures = asDepartures(stoptimes)
       .filter(departure => !(isTerminal && departure.isArrival))
       .filter(departure => currentTime < departure.time)
@@ -252,15 +258,19 @@ class DepartureListContainer extends Component {
     // Add day dividers when day changes and add service day divider after service day changes.
     // If day divider and service day dividers are added with same departure only show day divider.
     const departuresWithDayDividers = departures.map(departure => {
-      const serviceDate = moment.unix(departure.serviceDay).format('DDMMYYYY');
-      const dayCutoffDate = moment.unix(dayCutoff).format('DDMMYYYY');
-      const date = moment.unix(departure.time).format('DDMMYYYY');
-      const serviceDayCutoffDate = moment
-        .unix(serviceDayCutoff)
-        .format('DDMMYYYY');
+      const serviceDate = DateTime.fromSeconds(departure.serviceDay).toFormat(
+        'ddLLyyyy',
+      );
+      const dayCutoffDate =
+        DateTime.fromSeconds(dayCutoff).toFormat('ddLLyyyy');
+      const date = DateTime.fromSeconds(departure.time).toFormat('ddLLyyyy');
+      const serviceDayCutoffDate =
+        DateTime.fromSeconds(serviceDayCutoff).toFormat('ddLLyyyy');
 
       if (date !== dayCutoffDate && departure.time > dayCutoff) {
-        dayCutoff = moment.unix(departure.time).startOf('day').unix();
+        dayCutoff = DateTime.fromSeconds(departure.time)
+          .startOf('day')
+          .toUnixInteger();
         // eslint-disable-next-line no-param-reassign
         departure.addDayDivider = true;
       }
@@ -272,19 +282,22 @@ class DepartureListContainer extends Component {
         // eslint-disable-next-line no-param-reassign
         departure.addServiceDayDivider = true;
         const daysAdd = serviceDate === serviceDayCutoffDate ? 1 : 0;
-        serviceDayCutoff = moment
-          .unix(departure.serviceDay)
+        serviceDayCutoff = DateTime.fromSeconds(departure.serviceDay)
           .startOf('day')
-          .add(daysAdd, 'day')
-          .unix();
+          .plus({ days: daysAdd })
+          .toUnixInteger();
       }
       return departure;
     });
 
     let firstDayDepartureCount = 0;
     departuresWithDayDividers.forEach((departure, index) => {
-      const departureDate = moment.unix(departure.time).format('DDMMYYYY');
-      const nextDay = moment.unix(currentTime).add(1, 'day').unix();
+      const departureDate = DateTime.fromSeconds(departure.time).toFormat(
+        'ddLLyyyy',
+      );
+      const nextDay = DateTime.fromSeconds(currentTime)
+        .plus({ days: 1 })
+        .toUnixInteger();
       if (departure.time < nextDay) {
         firstDayDepartureCount += 1;
       }
@@ -299,7 +312,7 @@ class DepartureListContainer extends Component {
           <tr key={departureDate}>
             <td colSpan={isTerminal ? 4 : 3}>
               <div className="date-row border-bottom">
-                {moment.unix(departure.time).format('dddd D.M.YYYY')}
+                {DateTime.fromSeconds(departure.time).toFormat('cccc d.L.yyyy')}
               </div>
             </td>
           </tr>,
@@ -314,7 +327,7 @@ class DepartureListContainer extends Component {
         );
       }
 
-      const id = `${departure.pattern.code}:${departure.time}:${departure.trip.gtfsId}`;
+      const id = `${departure.pattern.code}:${departure.time}:${departure.trip.gtfsId}:${departure.stop.gtfsId}`;
       const dropoffMessage = getDropoffMessage(
         departure.hasOnlyDropoff,
         departure.hasNoStop,
@@ -326,10 +339,7 @@ class DepartureListContainer extends Component {
         realtime: departure.realtime,
         bottomRow: dropoffMessage ? (
           <div className="drop-off-container">
-            <Icon
-              img="icon-icon_info"
-              color={this.context.config.colors.primary}
-            />
+            <Icon img="icon_info" color={this.context.config.colors.primary} />
             <FormattedMessage
               id={dropoffMessage}
               defaultMessage="Drop-off only"
@@ -355,6 +365,7 @@ class DepartureListContainer extends Component {
               ? 'no-border'
               : ''
           }
+          platformUpdated={isPlatformChanged(departure)}
         />
       );
 
@@ -426,6 +437,7 @@ const containerComponent = createFragmentContainer(DepartureListContainer, {
       dropoffType
       headsign
       stop {
+        gtfsId
         id
         code
         platformCode
@@ -458,6 +470,21 @@ const containerComponent = createFragmentContainer(DepartureListContainer, {
           stops {
             gtfsId
             code
+          }
+        }
+        stoptimes {
+          scheduledDeparture
+          stop {
+            gtfsId
+            platformCode
+          }
+        }
+        stoptimesForDate {
+          serviceDay
+          scheduledDeparture
+          stop {
+            gtfsId
+            platformCode
           }
         }
       }

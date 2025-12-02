@@ -12,7 +12,6 @@ import {
   withSearchContext,
   getLocationSearchTargets,
 } from '../WithSearchContext';
-import { isBrowser } from '../../util/browser';
 
 const LocationSearch = withSearchContext(DTAutosuggest, true);
 
@@ -26,9 +25,6 @@ const languages = [
 ];
 
 const EmbeddedSearchGenerator = (props, context) => {
-  if (!isBrowser) {
-    return false;
-  }
   const { breakpoint, lang } = props;
   const { config, intl } = context;
   const { colors, fontWeights } = config;

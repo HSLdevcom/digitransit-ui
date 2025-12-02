@@ -1,8 +1,10 @@
 import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
-import moment from 'moment-timezone';
+import { I18nextProvider } from 'react-i18next';
+import { Settings, DateTime } from 'luxon';
 import debounce from 'lodash/debounce';
 import Datetimepicker from './helpers/Datetimepicker';
+import i18n from './helpers/i18n';
 
 /**
  * This component renders an input to choose a date and time. Renders separate input fields for date and time selection. Values for timestamp and arriveBy correspond to Digitransit query params time and arriveBy. This component will display a native date input on mobile and a custom one for desktop. Mobile detection is done by parsing user agent.
@@ -61,9 +63,9 @@ function DatetimepickerStateContainer({
   onClose,
   openPicker,
 }) {
-  moment.locale(lang);
-  moment.tz.setDefault(timeZone);
-  const initialNow = realtime ? null : moment().valueOf();
+  Settings.defaultLocale = lang;
+  Settings.defaultZone = timeZone;
+  const initialNow = realtime ? null : DateTime.now().toMillis();
   const [timestamp, changeTimestampState] = useState(
     initialTimestamp ? initialTimestamp * 1000 : initialNow,
   );
@@ -93,9 +95,9 @@ function DatetimepickerStateContainer({
 
   const timeChanged = debounce(newTime => {
     if (newTime === null) {
-      changeTimestampState(moment().valueOf());
+      changeTimestampState(DateTime.now().toMillis());
       onTimeChange(
-        Math.round(moment().valueOf() / 1000),
+        DateTime.now().toUnixInteger(),
         departureOrArrival === 'arrival',
       );
       return;
@@ -106,9 +108,9 @@ function DatetimepickerStateContainer({
 
   const dateChanged = debounce(newDate => {
     if (newDate === null) {
-      changeTimestampState(moment().valueOf());
+      changeTimestampState(DateTime.now().toMillis());
       onDateChange(
-        Math.round(moment().valueOf() / 1000),
+        DateTime.now().toUnixInteger(),
         departureOrArrival === 'arrival',
       );
       return;
@@ -119,7 +121,7 @@ function DatetimepickerStateContainer({
 
   const nowClicked = () => {
     changeDepartureOrArrival('departure');
-    const newTimestamp = realtime ? null : moment().valueOf();
+    const newTimestamp = realtime ? null : DateTime.now().toMillis();
     changeTimestampState(newTimestamp);
     onNowClick(Math.round(newTimestamp / 1000));
   };
@@ -128,7 +130,7 @@ function DatetimepickerStateContainer({
     let changed = false;
     let newTime = timestamp;
     if (timestamp === null) {
-      const now = moment().valueOf();
+      const now = DateTime.now().toMillis();
       changeTimestampState(now);
       newTime = now;
       changed = true;
@@ -146,7 +148,7 @@ function DatetimepickerStateContainer({
     let changed = false;
     let newTime = timestamp;
     if (timestamp === null) {
-      const now = moment().valueOf();
+      const now = DateTime.now().toMillis();
       changeTimestampState(now);
       newTime = now;
       changed = true;
@@ -166,26 +168,28 @@ function DatetimepickerStateContainer({
   };
 
   return (
-    <Datetimepicker
-      timestamp={timestamp}
-      onTimeChange={timeChanged}
-      onDateChange={dateChanged}
-      departureOrArrival={departureOrArrival}
-      onNowClick={nowClicked}
-      onDepartureClick={departureClicked}
-      onArrivalClick={arrivalClicked}
-      embedWhenClosed={embedWhenClosed}
-      embedWhenOpen={embedWhenOpen}
-      lang={lang}
-      color={color}
-      timeZone={timeZone}
-      onModalSubmit={onModalSubmit}
-      fontWeights={fontWeights}
-      serviceTimeRange={serviceTimeRange}
-      onOpen={onOpen}
-      onClose={onClose}
-      openPicker={openPicker}
-    />
+    <I18nextProvider i18n={i18n}>
+      <Datetimepicker
+        timestamp={timestamp}
+        onTimeChange={timeChanged}
+        onDateChange={dateChanged}
+        departureOrArrival={departureOrArrival}
+        onNowClick={nowClicked}
+        onDepartureClick={departureClicked}
+        onArrivalClick={arrivalClicked}
+        embedWhenClosed={embedWhenClosed}
+        embedWhenOpen={embedWhenOpen}
+        lang={lang}
+        color={color}
+        timeZone={timeZone}
+        onModalSubmit={onModalSubmit}
+        fontWeights={fontWeights}
+        serviceTimeRange={serviceTimeRange}
+        onOpen={onOpen}
+        onClose={onClose}
+        openPicker={openPicker}
+      />
+    </I18nextProvider>
   );
 }
 

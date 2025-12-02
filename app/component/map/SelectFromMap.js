@@ -10,28 +10,13 @@ import LocationMarker from './LocationMarker';
 import MapWithTracking from './MapWithTracking';
 import { otpToLocation } from '../../util/otpStrings';
 import { getJson } from '../../util/xhrPromise';
-import LazilyLoad, { importLazy } from '../LazilyLoad';
 import { LightenDarkenColor } from '../../util/colorUtils';
 import { mapLayerShape } from '../../store/MapLayerStore';
 import withBreakpoint from '../../util/withBreakpoint';
+import LocationMarkerWithPermanentTooltip from './LocationMarkerWithPermanentTooltip';
+import ConfirmLocationFromMapButton from './ConfirmLocationFromMapButton';
 
 const DESKTOP_BREAKPOINT = 'large';
-
-const locationMarkerWithPermanentTooltipModules = {
-  LocationMarkerWithPermanentTooltip: () =>
-    importLazy(
-      import(
-        /* webpackChunkName: "map" */ './LocationMarkerWithPermanentTooltip'
-      ),
-    ),
-};
-
-const confirmLocationFromMapButtonModules = {
-  ConfirmLocationFromMapButton: () =>
-    importLazy(
-      import(/* webpackChunkName: "map" */ './ConfirmLocationFromMapButton'),
-    ),
-};
 
 const markLocation = (markerType, position) => {
   let type;
@@ -197,32 +182,25 @@ class SelectFromMap extends React.Component {
     const { intl } = this.context;
 
     return (
-      <LazilyLoad modules={confirmLocationFromMapButtonModules} key="confirm">
-        {({ ConfirmLocationFromMapButton }) => (
-          <ConfirmLocationFromMapButton
-            isEnabled={!!isEnabled}
-            address={
-              isEnabled
-                ? this.createAddress(
-                    mapCenter.address,
-                    positionSelectingFromMap,
-                  )
-                : undefined
-            }
-            title={intl.formatMessage({
-              id: 'location-from-map-confirm',
-              defaultMessage: 'Confirm selection',
-            })}
-            type={this.props.type}
-            onConfirm={this.props.onConfirm}
-            color={this.context.config.colors.primary}
-            hoverColor={
-              this.context.config.colors.hover ||
-              LightenDarkenColor(this.context.config.colors.primary, -20)
-            }
-          />
-        )}
-      </LazilyLoad>
+      <ConfirmLocationFromMapButton
+        isEnabled={!!isEnabled}
+        address={
+          isEnabled
+            ? this.createAddress(mapCenter.address, positionSelectingFromMap)
+            : undefined
+        }
+        title={intl.formatMessage({
+          id: 'location-from-map-confirm',
+          defaultMessage: 'Confirm selection',
+        })}
+        type={this.props.type}
+        onConfirm={this.props.onConfirm}
+        color={this.context.config.colors.primary}
+        hoverColor={
+          this.context.config.colors.hover ||
+          LightenDarkenColor(this.context.config.colors.primary, -20)
+        }
+      />
     );
   };
 
@@ -286,17 +264,10 @@ class SelectFromMap extends React.Component {
     } else {
       leafletObjs.push(markLocation(this.props.type, positionSelectingFromMap));
       leafletObjs.push(
-        <LazilyLoad
-          modules={locationMarkerWithPermanentTooltipModules}
-          key="moveMapInfo"
-        >
-          {({ LocationMarkerWithPermanentTooltip }) => (
-            <LocationMarkerWithPermanentTooltip
-              position={positionSelectingFromMap}
-              text={mapCenter.address}
-            />
-          )}
-        </LazilyLoad>,
+        <LocationMarkerWithPermanentTooltip
+          position={positionSelectingFromMap}
+          text={mapCenter.address}
+        />,
       );
       leafletObjs.push(
         this.confirmButton(true, mapCenter, positionSelectingFromMap),

@@ -48,6 +48,7 @@ export default class PositionStore extends Store {
 
   geolocationSearch() {
     this.status = PositionStore.STATUS_SEARCHING_LOCATION;
+    this.saveGeolocationState('searching');
     this.address = undefined;
     this.emitChange();
   }

@@ -34,7 +34,7 @@ const DisruptionBannerAlert = (
     <div>
       <div className="disruption-container">
         <div className="disruption-icon-container">
-          <Icon img="icon-icon_disruption-banner-alert" />
+          <Icon img="icon_disruption-banner-alert" />
         </div>
         <div className="disruption-info-container">
           {(!config.URL.ROOTLINK || !config.trafficNowLink) && (
@@ -96,7 +96,7 @@ const DisruptionBannerAlert = (
           )}
           type="button"
         >
-          <Icon img="icon-icon_close" className="close" color="#fff" />
+          <Icon img="icon_close" className="close" color="#fff" />
         </button>
       </div>
     </div>

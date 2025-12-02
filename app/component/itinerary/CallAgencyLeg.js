@@ -10,7 +10,7 @@ const CallAgencyLeg = ({ leg, ...props }) => {
   return (
     <TransitLeg mode={modeClassName} leg={leg} {...props}>
       <div className="itinerary-transit-leg-route call">
-        <Icon img="icon-icon_call" className="call-icon" />
+        <Icon img="icon_call" className="call-icon" />
         <span className="warning-message">
           <FormattedMessage
             id="warning-call-agency"
@@ -26,7 +26,7 @@ const CallAgencyLeg = ({ leg, ...props }) => {
             <div className="call-button">
               <a href={`tel:${leg.route.agency.phone}`}>
                 <FormattedMessage
-                  id="call"
+                  id="call-number"
                   defaultMessage="Call"
                   values={{ number: leg.route.agency.phone }}
                 />

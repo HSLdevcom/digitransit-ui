@@ -1,16 +1,15 @@
-/* eslint-disable prefer-template */
 import configMerger from '../util/configMerger';
 import { BIKEAVL_BIKES } from '../util/vehicleRentalUtils';
+import walttiConfig from './config.waltti';
 
 const CONFIG = 'lahti';
 const APP_TITLE = 'LSL reittiopas';
 const APP_DESCRIPTION = 'Lahden seudun liikenteen reittiopas';
-const walttiConfig = require('./config.waltti').default;
 
-const minLat = 60.692506;
-const maxLat = 61.790694;
-const minLon = 24.873833;
-const maxLon = 26.544819;
+const minLat = 60.6546;
+const maxLat = 61.819;
+const minLon = 24.81629;
+const maxLon = 26.5902;
 
 export default configMerger(walttiConfig, {
   CONFIG,
@@ -28,6 +27,11 @@ export default configMerger(walttiConfig, {
     description: APP_DESCRIPTION,
     twitter: {
       site: '@LSL_fi',
+    },
+    image: {
+      url: 'img/social-share-lahti.png',
+      width: 751,
+      height: 301,
     },
   },
 
@@ -148,6 +152,8 @@ export default configMerger(walttiConfig, {
     },
   },
 
+  nearYouModes: ['bus', 'citybike'],
+
   vehicleRental: {
     networks: {
       freebike_lahti: {
@@ -175,9 +181,9 @@ export default configMerger(walttiConfig, {
 
   showTicketInformation: true,
   useTicketIcons: true,
-  ticketLink: 'https://www.lsl.fi/liput-ja-hinnat/',
+  ticketLink: {
+    fi: 'https://www.lsl.fi/liput-ja-hinnat/',
+  },
   showTicketPrice: false,
-
-  showTicketLinkOnlyWhenTesting: true,
   ticketLinkOperatorCode: 50223,
 });

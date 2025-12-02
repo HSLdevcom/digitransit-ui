@@ -34,7 +34,7 @@ export const getRentalNetworkName = (
 export const getRentalNetworkIcon = (
   networkConfig = defaultNetworkConfig,
   disabled = false,
-) => `icon-icon_${networkConfig.icon || 'citybike'}${disabled ? '_off' : ''}`;
+) => `icon_${networkConfig.icon || 'citybike'}${disabled ? '_off' : ''}`;
 
 export const getRentalNetworkId = networks => {
   if (isString(networks) && networks.length > 0) {
@@ -47,7 +47,7 @@ export const getRentalNetworkId = networks => {
 };
 
 export const getRentalNetworkConfig = (networkId, config) => {
-  if (!networkId || !networkId.toLowerCase) {
+  if (!networkId) {
     return defaultNetworkConfig;
   }
   const id = networkId.toLowerCase();

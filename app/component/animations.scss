@@ -1,0 +1,112 @@
+@keyframes slideDownFromTop {
+  from {
+    transform: translateY(-100%);
+    margin-top: -65px;
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes hideTopCard {
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(-100%);
+    margin-top: -65px;
+  }
+}
+
+@keyframes slideUpFromBottom {
+  from {
+    transform: translateY(100%);
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUpToTop {
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(calc(-100vh - 100%));
+  }
+}
+
+@keyframes slideLeft {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUpFromBottomWithMargin {
+  from {
+    transform: translateY(calc(100% + 16px));
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideDownWithMargin {
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(calc(100% + 16px));
+  }
+}
+
+@keyframes slideDownFromTopCenter {
+  from {
+    transform: translateY(-100%) translateX(-50%);
+    margin-top: -65px;
+  }
+
+  to {
+    transform: translateY(0) translateX(-50%);
+  }
+}
+
+@keyframes slideUpToTopCenter {
+  from {
+    transform: translateY(0) translateX(-50%);
+  }
+
+  to {
+    transform: translateY(calc(-100vh - 100%)) translateX(-50%);
+  }
+}

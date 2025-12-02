@@ -1,9 +1,9 @@
 /* eslint react/forbid-prop-types: 0 */
 import PropTypes from 'prop-types';
 import React from 'react';
+import { I18nextProvider, withTranslation } from 'react-i18next';
 import { ReactSortable } from 'react-sortablejs';
 import cx from 'classnames';
-import i18next from 'i18next';
 import differenceWith from 'lodash/differenceWith';
 import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
@@ -15,16 +15,7 @@ import DialogModal from '@digitransit-component/digitransit-component-dialog-mod
 import { formatFavouritePlaceLabel } from '@digitransit-search-util/digitransit-search-util-uniq-by-label';
 import ModalContent from './helpers/ModalContent';
 import styles from './helpers/styles.scss';
-import translations from './helpers/translations';
-
-i18next.init({
-  lng: 'fi',
-  fallbackLng: 'fi',
-  defaultNS: 'translation',
-  interpolation: {
-    escapeValue: false, // not needed for react as it escapes by default
-  },
-});
+import i18n from './helpers/i18n';
 
 const isKeyboardSelectionEvent = event => {
   const space = [13, ' ', 'Spacebar'];
@@ -80,6 +71,7 @@ class FavouriteEditingModal extends React.Component {
       }),
     ).isRequired,
     lang: PropTypes.string,
+    t: PropTypes.func.isRequired,
     appElement: PropTypes.string.isRequired,
     isModalOpen: PropTypes.bool.isRequired,
     isMobile: PropTypes.bool,
@@ -105,15 +97,11 @@ class FavouriteEditingModal extends React.Component {
 
   constructor(props) {
     super(props);
-    i18next.changeLanguage(props.lang);
     this.state = {
       favourites: props.favourites,
       showDeletePlaceModal: false,
       selectedFavourite: null,
     };
-    Object.keys(translations).forEach(lang => {
-      i18next.addResourceBundle(lang, 'translation', translations[lang]);
-    });
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -133,11 +121,12 @@ class FavouriteEditingModal extends React.Component {
     return null;
   }
 
-  componentDidUpdate() {
-    if (i18next.language !== this.props.lang) {
-      i18next.changeLanguage(this.props.lang);
-    }
-  }
+  translate = (id, options) => {
+    return this.props.t(id, {
+      lng: this.props.lang,
+      ...options,
+    });
+  };
 
   moveFavourite = (i, direction) => {
     const { favourites } = this.state;
@@ -152,9 +141,13 @@ class FavouriteEditingModal extends React.Component {
   };
 
   renderFavouriteListItem = (favourite, index) => {
-    const iconId = favourite.selectedIconId
-      ? favourite.selectedIconId.replace('icon-icon_', '')
-      : 'place';
+    let iconId = 'place';
+    if (favourite.selectedIconId) {
+      const prefixPos = favourite.selectedIconId.indexOf('icon_');
+      if (prefixPos > 0) {
+        iconId = favourite.selectedIconId.substring(prefixPos + 5);
+      }
+    }
     const [name, address] = formatFavouritePlaceLabel(
       favourite.name,
       favourite.address,
@@ -170,7 +163,7 @@ class FavouriteEditingModal extends React.Component {
             <button
               className={styles['favourite-edit-list-arrow-hidden']}
               type="button"
-              aria-label={i18next.t('up')}
+              aria-label={this.translate('up')}
               onClick={() => {
                 this.moveFavourite(index, -1);
               }}
@@ -182,7 +175,7 @@ class FavouriteEditingModal extends React.Component {
             <button
               className={styles['favourite-edit-list-arrow-hidden']}
               type="button"
-              aria-label={i18next.t('down')}
+              aria-label={this.translate('down')}
               onClick={() => {
                 this.moveFavourite(index, 1);
               }}
@@ -214,7 +207,7 @@ class FavouriteEditingModal extends React.Component {
           <div
             role="button"
             tabIndex="0"
-            aria-label={i18next.t('edit-place-name', {
+            aria-label={this.translate('edit-place-name', {
               favourite,
             })}
             className={styles['favourite-edit-list-item-edit']}
@@ -230,7 +223,7 @@ class FavouriteEditingModal extends React.Component {
           <div
             role="button"
             tabIndex="0"
-            aria-label={i18next.t('delete-place-name', {
+            aria-label={this.translate('delete-place-name', {
               favourite,
             })}
             className={styles['favourite-edit-list-item-remove']}
@@ -283,7 +276,7 @@ class FavouriteEditingModal extends React.Component {
     return (
       <DialogModal
         appElement={this.props.appElement}
-        headerText={i18next.t('delete-place-header')}
+        headerText={this.translate('delete-place-header')}
         handleClose={() =>
           this.setState(
             { selectedFavourite: null, showDeletePlaceModal: false },
@@ -294,7 +287,7 @@ class FavouriteEditingModal extends React.Component {
         dialogContent={
           favourite ? `${favourite.name}: ${favourite.address}` : ''
         }
-        primaryButtonText={i18next.t('delete')}
+        primaryButtonText={this.translate('delete')}
         primaryButtonOnClick={() => {
           this.props.deleteFavourite(favourite);
           this.setState({
@@ -302,7 +295,7 @@ class FavouriteEditingModal extends React.Component {
             showDeletePlaceModal: false,
           });
         }}
-        secondaryButtonText={i18next.t('cancel')}
+        secondaryButtonText={this.translate('cancel')}
         secondaryButtonOnClick={() =>
           this.setState({
             selectedFavourite: null,
@@ -330,7 +323,7 @@ class FavouriteEditingModal extends React.Component {
   renderModalContent = () => {
     const { color, hoverColor, fontWeights } = this.props;
     const modalProps = {
-      headerText: i18next.t('edit-places'),
+      headerText: this.translate('edit-places'),
       renderList: () => this.renderFavouriteList(),
     };
     return (
@@ -354,8 +347,8 @@ class FavouriteEditingModal extends React.Component {
         {isMobile && (
           <Modal
             appElement={this.props.appElement}
-            contentLabel={i18next.t('edit-modal-on-open')}
-            closeButtonLabel={i18next.t('close-modal')}
+            contentLabel={this.translate('edit-modal-on-open')}
+            closeButtonLabel={this.translate('close-modal')}
             variant="large"
             isOpen={this.props.isModalOpen}
             onCrossClick={this.closeModal}
@@ -367,8 +360,8 @@ class FavouriteEditingModal extends React.Component {
         {!isMobile && (
           <Modal
             appElement={this.props.appElement}
-            contentLabel={i18next.t('edit-modal-on-open')}
-            closeButtonLabel={i18next.t('close-modal')}
+            contentLabel={this.translate('edit-modal-on-open')}
+            closeButtonLabel={this.translate('close-modal')}
             variant="small"
             isOpen={this.props.isModalOpen}
             onCrossClick={this.closeModal}
@@ -382,4 +375,12 @@ class FavouriteEditingModal extends React.Component {
   }
 }
 
-export default FavouriteEditingModal;
+const FavouriteEditingModalWithTranslation = withTranslation()(
+  FavouriteEditingModal,
+);
+
+export default props => (
+  <I18nextProvider i18n={i18n}>
+    <FavouriteEditingModalWithTranslation {...props} />
+  </I18nextProvider>
+);

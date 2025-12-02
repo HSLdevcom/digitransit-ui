@@ -5,7 +5,7 @@ import { matchShape, routerShape } from 'found';
 import { unixTime, unixToYYYYMMDD } from '../../util/timeUtils';
 import { configShape, relayShape } from '../../util/shapes';
 import { prepareServiceDay } from '../../util/dateParamUtils';
-import TimetableContainer from './TimetableContainer';
+import Timetable from './Timetable';
 
 class StopTimetablePage extends React.Component {
   static propTypes = {
@@ -45,7 +45,7 @@ class StopTimetablePage extends React.Component {
 
   render() {
     return (
-      <TimetableContainer
+      <Timetable
         stop={this.props.stop}
         date={this.state.date}
         startDate={unixToYYYYMMDD(unixTime(), this.context.config)}
@@ -62,7 +62,7 @@ export default createRefetchContainer(
       fragment StopTimetablePage_stop on Stop
       @argumentDefinitions(date: { type: "String" }) {
         url
-        ...TimetableContainer_stop @arguments(date: $date)
+        ...TimetableFragment @arguments(date: $date)
       }
     `,
   },

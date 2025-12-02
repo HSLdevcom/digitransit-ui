@@ -1,17 +1,16 @@
-/* eslint-disable prefer-template */
 import { BIKEAVL_WITHMAX } from '../util/vehicleRentalUtils';
+import prUtils from '../util/ParkAndRideUtils';
+import ttConfig from './timetableConfigUtils';
 
+const HSLTimetables = ttConfig.HSL;
+const HSLParkAndRideUtils = prUtils.HSL;
 const CONFIG = 'hsl';
 const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
 const OTP_URL = process.env.OTP_URL || `${API_URL}/routing/v2/hsl/`;
 const MAP_URL = process.env.MAP_URL || 'https://dev-cdn.digitransit.fi';
 const POI_MAP_PREFIX = `${MAP_URL}/map/v3/hsl`;
 const APP_DESCRIPTION = 'Helsingin seudun liikenteen Reittiopas.';
-const HSLTimetables = require('./timetableConfigUtils').default.HSL;
-const HSLParkAndRideUtils = require('../util/ParkAndRideUtils').default.HSL;
-
 const rootLink = process.env.ROOTLINK || 'https://test.hslfi.hsldev.com';
-
 const BANNER_URL = process.env.CONTENT_DOMAIN
   ? `${process.env.CONTENT_DOMAIN}/api/v1/banners?site=JourneyPlanner`
   : process.env.BANNER_URL ||
@@ -20,8 +19,19 @@ const SUGGESTION_URL = process.env.CONTENT_DOMAIN
   ? `${process.env.CONTENT_DOMAIN}/api/v1/search/suggestions`
   : 'https://content.hsl.fi/api/v1/search/suggestions'; // old url
 
-const localStorageEmitter =
-  process.env.USE_EMITTER && rootLink + '/local-storage-emitter';
+const IS_DEV =
+  process.env.RUN_ENV === 'development' ||
+  process.env.NODE_ENV !== 'production';
+
+const virtualMonitorBaseUrl = IS_DEV
+  ? 'https://dev-hslmonitori.digitransit.fi'
+  : 'https://omatnaytot.hsl.fi';
+
+const linkLabel = {
+  fi: 'Lisätietoja',
+  en: 'More information',
+  sv: 'Ytterligare information',
+};
 
 export default {
   CONFIG,
@@ -31,6 +41,10 @@ export default {
     STOP_MAP: {
       default: `${POI_MAP_PREFIX}/fi/stops,stations/`,
       sv: `${POI_MAP_PREFIX}/sv/stops,stations/`,
+    },
+    REALTIME_STOP_MAP: {
+      default: `${POI_MAP_PREFIX}/fi/realtimeStops,stations/`,
+      sv: `${POI_MAP_PREFIX}/sv/realtimeStops,stations/`,
     },
     RENTAL_STATION_MAP: {
       default: `${POI_MAP_PREFIX}/fi/rentalStations/`,
@@ -86,9 +100,9 @@ export default {
   useRoutingFeedbackPrompt: true,
 
   feedIds: ['HSL', 'HSLlautta', 'Sipoo'],
-  externalFeedIds: ['HSLlautta'],
+  externalFeedIds: ['HSLlautta', '02Taksi'],
+  externalFerryByStopCode: true, // no stop code means external ferry
 
-  showHSLTracking: false,
   allowLogin: true,
   allowFavouritesFromLocalstorage: !process.env.OIDC_CLIENT_ID,
   loginAnalyticsEventName: 'user-hsl-id',
@@ -98,6 +112,23 @@ export default {
     radius: 500,
     bucketSize: 100,
   },
+
+  defaultSettings: {
+    walkSpeed: 1.28,
+    showBikeAndParkItineraries: true,
+  },
+
+  /**
+   * These are used for dropdown selection of values to override the default
+   * settings. This means that values ought to be relative to the current default.
+   * If not, the selection may not make any sense.
+   */
+  defaultOptions: {
+    walkSpeed: [0.69, 0.97, 1.28, 1.67, 2.22],
+  },
+
+  suggestWalkMaxDistance: 12000,
+  suggestBikeMaxDistance: 100000,
 
   omitNonPickups: true,
 
@@ -124,16 +155,8 @@ export default {
     accessiblePrimary: '#0074be',
     hover: '#0062a1',
     iconColors: {
-      'mode-bus': '#007ac9',
       'mode-bus-express': '#CA4000',
       'mode-bus-local': '#007ac9',
-      'mode-rail': '#8c4799',
-      'mode-tram': '#008151',
-      'mode-ferry': '#007A97',
-      'mode-ferry-pier': '#666666',
-      'mode-metro': '#CA4000',
-      'mode-citybike': '#f2b62d',
-      'mode-citybike-secondary': '#333333',
       'mode-speedtram': '#007E79',
     },
   },
@@ -156,16 +179,16 @@ export default {
 
   nationalServiceLink: {
     fi: {
-      name: 'matka.fi',
-      href: 'https://opas.matka.fi/',
+      name: 'matka.fintraffic.fi',
+      href: 'https://matka.fintraffic.fi/',
     },
     sv: {
-      name: 'matka.fi',
-      href: 'https://opas.matka.fi/sv/',
+      name: 'matka.fintraffic.fi',
+      href: 'https://matka.fintraffic.fi/sv/',
     },
     en: {
-      name: 'matka.fi',
-      href: 'https://opas.matka.fi/en/',
+      name: 'matka.fintraffic.fi',
+      href: 'https://matka.fintraffic.fi/en/',
     },
   },
 
@@ -178,7 +201,7 @@ export default {
     description: APP_DESCRIPTION,
 
     image: {
-      url: '/img/hsl-social-share.png',
+      url: 'img/hsl-social-share.png',
       width: 400,
       height: 400,
     },
@@ -198,12 +221,16 @@ export default {
       availableForSelection: true,
     },
     scooter: {
-      availableForSelection: true,
+      availableForSelection: false,
       defaultValue: false,
-      showIfSelectedForRouting: true,
+      showIfSelectedForRouting: false,
     },
     airplane: {
       availableForSelection: false,
+      defaultValue: false,
+    },
+    taxi: {
+      availableForSelection: true, // experimental feature
       defaultValue: false,
     },
   },
@@ -415,7 +442,9 @@ export default {
   ticketPurchaseLink: function purchaseTicketLink(fare) {
     return `https://open.app.hsl.fi/zoneTicketWizard/TICKET_TYPE_SINGLE_TICKET/${fare.ticketName}/adult/-`;
   },
-  ticketLink: 'https://open.app.hsl.fi/tickets',
+  ticketLink: {
+    fi: 'https://open.app.hsl.fi/tickets',
+  },
   ticketLinkOperatorCode: 'hsl',
   // mapping fareId from OTP fare identifiers to human readable form
   // in the new HSL zone model, just strip off the prefix 'HSL:'
@@ -431,8 +460,6 @@ export default {
     en: 'travelling/services-now',
     sv: 'att-resa/Trafiken-just-nu',
   },
-
-  localStorageEmitter,
 
   vehicleRental: {
     minZoomStopsNearYou: 10,
@@ -495,21 +522,6 @@ export default {
         timeBeforeSurcharge: 120 * 60,
         showRentalStations: true,
       },
-      bolt_helsinki: {
-        enabled: true,
-        season: {
-          alwaysOn: true,
-        },
-        icon: 'scooter',
-        name: {
-          fi: 'Bolt',
-          sv: 'Bolt',
-          en: 'Bolt',
-        },
-        type: 'scooter',
-        showRentalVehicles: true,
-        showRentalStations: false,
-      },
     },
     buyUrl: {
       fi: 'https://www.hsl.fi/kaupunkipyorat?utm_campaign=kaupunkipyorat-omat&utm_source=reittiopas&utm_medium=referral#block-28474',
@@ -538,17 +550,14 @@ export default {
   bikeBoardingModes: {
     RAIL: { showNotification: false },
     FERRY: { showNotification: false },
+    SUBWAY: { showNotification: false },
   },
 
   // Notice! Turning on this setting forces the search for car routes (for the CO2 comparison only).
   showCO2InItinerarySummary: true,
 
-  includeCarSuggestions: false,
+  includeCarSuggestions: true,
   includeParkAndRideSuggestions: true,
-  // Include both bike and park and bike and public, if bike is enabled
-  includePublicWithBikePlan: true,
-  // Park and ride and car suggestions separated into two switches
-  separatedParkAndRideSwitch: false,
 
   parkingAreaSources: ['liipi'],
 
@@ -581,7 +590,7 @@ export default {
 
   stopCard: {
     header: {
-      virtualMonitorBaseUrl: 'https://omatnaytot.hsl.fi/',
+      virtualMonitorBaseUrl,
     },
   },
 
@@ -618,6 +627,7 @@ export default {
         en: 'hsl.fi/matkustaminen/u-liikenne/',
         sv: 'hsl.fi/sv/att-resa/U-trafik/',
       },
+      linkLabel,
     },
     {
       showForRoute: route => route.type === 702,
@@ -629,16 +639,13 @@ export default {
       },
       content: {
         fi: [
-          'Pääset kyytiin myös keskiovista näyttämättä lippua kuljettajalle.',
-          'Linja käyttää valikoituja pysäkkejä eli ei pysähdy kaikilla pysäkeillä.',
+          'Pääset kyytiin myös bussin keskiovista. Varaudu näyttämään lippu pyydettäessä kuljettajalle tai tarkastajalle.',
         ],
         en: [
-          'Passengers can board the buses also through the middle doors.',
-          'The bus will not serve all stops along the route.',
+          'You can also board the bus through the middle doors. Please be ready to show your ticket to the driver or ticket inspector.',
         ],
         sv: [
-          'Man kan stiga på genom mittdörren och behöver inte visa upp sin biljett för föraren.',
-          'För att snabba upp trafiken stannar bussarna inte vid alla hållplatser.',
+          'Du kan också stiga på bussen genom mittdörren. Var beredd på att visa upp din biljett för föraren eller biljettkontrollanten om du blir ombedd.',
         ],
       },
       closeButtonLabel: {
@@ -651,6 +658,7 @@ export default {
         en: 'hsl.fi/en/hsl/trunk-route-network',
         sv: 'hsl.fi/sv/hrt/stomnatet',
       },
+      linkLabel,
     },
     {
       showForRoute: route => route.type === 704,
@@ -684,6 +692,7 @@ export default {
         en: 'hsl.fi/en/travelling/neighborhood-buses',
         sv: 'hsl.fi/sv/att-resa/narbussar',
       },
+      linkLabel,
     },
     {
       showForRoute: route => route.type === 900,
@@ -717,8 +726,38 @@ export default {
         en: 'hsl.fi/en/campaigns/light-rail',
         sv: 'hsl.fi/sv/kampanjer/snabbsparvag',
       },
+      linkLabel,
     },
   ],
+
+  replacementBusNotification: {
+    header: {
+      fi: 'Korvaava bussi',
+      en: 'Replacement bus',
+      sv: 'Ersättande buss',
+    },
+    content: {
+      fi: [
+        'Voit nousta kyytiin myös bussin keskiovista.',
+        'Pysäkit on merkitty punaisilla tunnuksilla.',
+        'Linja käyttää valikoituja pysäkkejä, eli bussi ei pysähdy kaikilla pysäkeillä.',
+      ],
+      en: [
+        'You can also board the bus through the middle doors.',
+        'The stops are marked with red signs.',
+        'The bus stops only at designated stops and does not serve all stops.',
+      ],
+      sv: [
+        'Du kan också stiga på bussen genom mittdörren.',
+        'Hållplatserna är markerade med röda punkter.',
+        'Linjen stannar endast vid vissa hållplatser, dvs. bussen stannar inte vid alla hållplatser.',
+      ],
+    },
+    link: {
+      fi: 'https://hsl.fi/korvaavabussi',
+    },
+    linkLabel,
+  },
 
   embeddedSearch: {
     title: {
@@ -752,11 +791,14 @@ export default {
   navigationLogo: 'hsl/navigator-logo.svg',
   thumbsUpGraphic: 'hsl/thumbs-up.svg',
   trafficLightGraphic: 'hsl/traffic-light.svg',
-
+  naviGeolocationGraphic: 'hsl/geolocation.svg',
+  navigation: true,
+  crazyEgg: true,
   // features that should not be deployed to production
   experimental: {
-    navigation:
-      process.env.RUN_ENV === 'development' ||
-      process.env.NODE_ENV !== 'production',
+    allowFlexJourneys: false,
+    allowDirectFlexJourneys: false,
   },
+
+  showStopStatusMarkers: true,
 };

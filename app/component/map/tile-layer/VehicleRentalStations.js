@@ -3,7 +3,6 @@ import Protobuf from 'pbf';
 import { graphql, fetchQuery } from 'react-relay';
 import pick from 'lodash/pick';
 
-import { isBrowser } from '../../../util/browser';
 import {
   getMapIconScale,
   drawCitybikeIcon,
@@ -38,7 +37,7 @@ class VehicleRentalStations {
     this.tile = tile;
     this.config = config;
     this.relayEnvironment = relayEnvironment;
-    this.scaleratio = (isBrowser && window.devicePixelRatio) || 1;
+    this.scaleratio = window.devicePixelRatio || 1;
     this.citybikeImageSize =
       20 * this.scaleratio * getMapIconScale(this.tile.coords.z);
     this.availabilityImageSize =
@@ -110,27 +109,39 @@ class VehicleRentalStations {
   };
 
   draw = (feature, zoomedIn) => {
-    const { id, network, formFactors } = feature.properties;
-
-    const iconName = getRentalNetworkIcon(
+    const { id, network, formFactors, operative } = feature.properties;
+    const isHighlighted = this.tile.highlightedStops?.includes(id);
+    let name = getRentalNetworkIcon(
       getRentalNetworkConfig(network, this.config),
     );
-    const isHilighted = this.tile.hilightedStops?.includes(id);
+    let color;
+    if (formFactors === 'SCOOTER') {
+      color = this.config.colors.iconColors['mode-scooter'];
+    } else if (name.includes('secondary')) {
+      color = this.config.colors.iconColors['mode-citybike-secondary'];
+    } else {
+      color = this.config.colors.iconColors['mode-citybike'];
+    }
+    if (operative === false) {
+      name = 'icon_citybike';
+      color = '#BBB';
+    }
 
     if (zoomedIn) {
-      this.drawLargeIcon(feature, iconName, isHilighted);
-    } else if (isHilighted) {
+      this.drawLargeIcon(feature, name, color, isHighlighted);
+    } else if (isHighlighted) {
       this.canHaveStationUpdates = true;
-      this.drawHighlighted(feature, iconName);
+      this.drawHighlighted(feature, name, color);
     } else {
-      this.drawSmallMarker(feature.geom, iconName, formFactors);
+      drawSmallVehicleRentalMarker(this.tile, feature.geom, color, formFactors);
     }
   };
 
   drawLargeIcon = (
     { geom, properties: { network, operative, vehiclesAvailable } },
     iconName,
-    isHilighted,
+    color,
+    isHighlighted,
   ) => {
     const citybikeCapacity = getVehicleCapacity(this.config, network);
 
@@ -141,11 +152,16 @@ class VehicleRentalStations {
       vehiclesAvailable,
       iconName,
       citybikeCapacity !== BIKEAVL_UNKNOWN,
-      isHilighted,
+      isHighlighted,
+      color,
     );
   };
 
-  drawHighlighted = ({ geom, properties: { id, network } }, iconName) => {
+  drawHighlighted = (
+    { geom, properties: { id, network } },
+    iconName,
+    color,
+  ) => {
     const citybikeCapacity = getVehicleCapacity(this.config, network);
     const callback = ({ station: result }) => {
       if (result) {
@@ -157,6 +173,7 @@ class VehicleRentalStations {
           iconName,
           citybikeCapacity !== BIKEAVL_UNKNOWN,
           true,
+          color,
         );
       }
       return this;
@@ -165,19 +182,6 @@ class VehicleRentalStations {
     fetchQuery(this.relayEnvironment, query, { id }, { force: true })
       .toPromise()
       .then(callback);
-  };
-
-  drawSmallMarker = (geom, iconName, formFactor) => {
-    const citybikeIconColor =
-      iconName.includes('secondary') &&
-      this.config.colors.iconColors['mode-citybike-secondary']
-        ? this.config.colors.iconColors['mode-citybike-secondary']
-        : this.config.colors.iconColors['mode-citybike'];
-    const iconColor =
-      formFactor === 'SCOOTER'
-        ? this.config.colors.iconColors['mode-scooter']
-        : citybikeIconColor;
-    drawSmallVehicleRentalMarker(this.tile, geom, iconColor, formFactor);
   };
 
   onTimeChange = lang => {

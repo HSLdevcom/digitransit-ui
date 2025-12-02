@@ -220,7 +220,7 @@
   }
 
   span {
-    color: $link-color;
+    color: $link-button-color;
     letter-spacing: -0.5px;
     font-weight: $font-weight-medium;
     text-align: center;
@@ -228,10 +228,11 @@
 
   width: auto;
   margin: 0;
-  color: $link-color;
+  color: $link-button-color;
   display: flex;
   align-items: center;
   line-height: 1;
+  min-width: 110px;
 
   > div {
     padding: 0;
@@ -251,11 +252,31 @@
     }
 
     .super-icon {
-      fill: $hilight-color;
+      fill: $highlight-color;
       position: absolute;
       right: 0;
       top: -2px;
       font-size: $font-size-xxsmall;
+    }
+
+    .customized-settings-indicator {
+      position: absolute;
+      top: -6px;
+      right: -10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+
+      .icon-container {
+        .icon {
+          color: $attention-color;
+          width: 16px;
+          height: 16px;
+          border: solid 1px #fff;
+          border-radius: 999px;
+        }
+      }
     }
   }
 }

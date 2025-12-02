@@ -1,8 +1,8 @@
 import React from 'react';
-import Route from 'found/Route';
+import { Route, RedirectException } from 'found';
 import { graphql } from 'react-relay';
 
-import moment from 'moment';
+import { DateTime } from 'luxon';
 import Error404 from './component/404';
 import Loading from './component/LoadingPage';
 import {
@@ -207,7 +207,13 @@ export default function getStopRoutes(isTerminal = false) {
                 query={queryMap.pageContent}
                 render={({ Component, props, error }) => {
                   if (Component && (props || error)) {
-                    return <Component {...props} error={error} />;
+                    if (!error && !(props.stop || props.station)) {
+                      throw new RedirectException(
+                        `/${isTerminal ? PREFIX_TERMINALS : PREFIX_STOPS}`,
+                      );
+                    } else {
+                      return <Component {...props} error={error} />;
+                    }
                   }
                   return <Loading />;
                 }}
@@ -232,7 +238,7 @@ export default function getStopRoutes(isTerminal = false) {
                   const date = location?.query?.date;
                   return {
                     ...params,
-                    date: date || moment().format(DATE_FORMAT),
+                    date: date || DateTime.now().toFormat(DATE_FORMAT),
                   };
                 }}
                 render={getComponentOrLoadingRenderer}

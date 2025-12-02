@@ -4,18 +4,19 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 import { createFragmentContainer, graphql } from 'react-relay';
 import { FormattedMessage, intlShape } from 'react-intl';
 import cx from 'classnames';
-import { matchShape, routerShape, RedirectException } from 'found';
+import { matchShape, routerShape } from 'found';
 import { routeShape, configShape, errorShape } from '../../util/shapes';
 import Icon from '../Icon';
-import Loading from '../Loading';
 import RouteAgencyInfo from './RouteAgencyInfo';
 import RouteNumber from '../RouteNumber';
 import RouteControlPanel from './RouteControlPanel';
-import { PREFIX_DISRUPTION, PREFIX_ROUTES } from '../../util/path';
+import {
+  PREFIX_ROUTES,
+  PREFIX_DISRUPTION,
+  routePagePath,
+} from '../../util/path';
 import withBreakpoint from '../../util/withBreakpoint';
 import BackButton from '../BackButton';
-import { isBrowser } from '../../util/browser';
-import LazilyLoad, { importLazy } from '../LazilyLoad';
 import { getRouteMode } from '../../util/modeUtils';
 import AlertBanner from '../AlertBanner';
 import {
@@ -24,11 +25,7 @@ import {
   isAlertValid,
 } from '../../util/alertUtils';
 import { AlertEntityType } from '../../constants';
-
-const modules = {
-  FavouriteRouteContainer: () =>
-    importLazy(import('./FavouriteRouteContainer')),
-};
+import FavouriteRouteContainer from './FavouriteRouteContainer';
 
 // eslint-disable-next-line react/prefer-stateless-function
 class RoutePage extends React.Component {
@@ -63,26 +60,16 @@ class RoutePage extends React.Component {
   render() {
     const { breakpoint, router, route, error, currentTime } = this.props;
     const { config } = this.context;
-    const tripId = this.props.match.params?.tripId;
-    const patternId = this.props.match.params?.patternId;
-
-    // Render something in client side to clear SSR
-    if (isBrowser && error && !route) {
-      return <Loading />;
-    }
+    const { tripId, patternId, routeId } = this.props.match.params;
 
     if (route == null && !error) {
       /* In this case there is little we can do
        * There is no point continuing rendering as it can only
        * confuse user. Therefore redirect to Routes page */
-      if (isBrowser) {
-        router.replace(`/${PREFIX_ROUTES}`);
-      } else {
-        throw new RedirectException(`/${PREFIX_ROUTES}`);
-      }
+      router.replace(`/${PREFIX_ROUTES}`);
       return null;
     }
-    const mode = getRouteMode(route);
+    const mode = getRouteMode(route, config);
     const label = route.shortName ? route.shortName : route.longName || '';
     const selectedPattern =
       patternId && route.patterns.find(p => p.code === patternId);
@@ -108,7 +95,7 @@ class RoutePage extends React.Component {
         >
           {breakpoint === 'large' && (
             <BackButton
-              icon="icon-icon_arrow-collapse--left"
+              icon="icon_arrow-collapse--left"
               iconClassName="arrow-icon"
             />
           )}
@@ -122,12 +109,12 @@ class RoutePage extends React.Component {
             </div>
             <div className="route-info">
               <h1
-                className={cx('route-short-name', mode.toLowerCase())}
+                className={cx('route-short-name', mode)}
                 style={{ color: route.color ? `#${route.color}` : null }}
               >
                 <span className="sr-only" style={{ whiteSpace: 'pre' }}>
                   {this.context.intl.formatMessage({
-                    id: mode.toLowerCase(),
+                    id: mode,
                   })}{' '}
                   {label?.toLowerCase()}
                 </span>
@@ -135,27 +122,27 @@ class RoutePage extends React.Component {
               </h1>
               {tripId && headsign && (
                 <div className="trip-destination">
-                  <Icon className="in-text-arrow" img="icon-icon_arrow-right" />
+                  <Icon className="in-text-arrow" img="icon_arrow-right" />
                   <div className="destination-headsign">{headsign}</div>
                 </div>
               )}
             </div>
             {!tripId && (
-              <LazilyLoad modules={modules}>
-                {({ FavouriteRouteContainer }) => (
-                  <FavouriteRouteContainer
-                    className="route-page-header"
-                    gtfsId={route.gtfsId}
-                  />
-                )}
-              </LazilyLoad>
+              <FavouriteRouteContainer
+                className="route-page-header"
+                gtfsId={route.gtfsId}
+              />
             )}
           </div>
           {tripId && hasMeaningfulData(filteredAlerts) && (
             <div className="trip-page-alert-container">
               <AlertBanner
                 alerts={filteredAlerts}
-                linkAddress={`/${PREFIX_ROUTES}/${this.props.match.params.routeId}/${PREFIX_DISRUPTION}/${this.props.match.params.patternId}`}
+                linkAddress={routePagePath(
+                  routeId,
+                  PREFIX_DISRUPTION,
+                  patternId,
+                )}
               />
             </div>
           )}
@@ -190,7 +177,7 @@ const containerComponent = createFragmentContainer(
         mode
         type
         ...RouteAgencyInfo_route
-        ...RoutePatternSelect_route @arguments(date: $date)
+        ...RoutePatternSelectContainer_route @arguments(date: $date)
         agency {
           name
           phone

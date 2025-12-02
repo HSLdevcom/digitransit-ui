@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { memo } from 'react';
 import { routerShape } from 'found';
-import { pure } from 'recompose';
 import DTAutoSuggest from '@digitransit-component/digitransit-component-autosuggest';
 import { filterSearchResultsByMode } from '@digitransit-search-util/digitransit-search-util-query-utils';
 import { configShape } from '../../util/shapes';
@@ -78,4 +77,4 @@ StopsNearYouSearch.contextTypes = {
   config: configShape.isRequired,
 };
 
-export default pure(StopsNearYouSearch);
+export default memo(StopsNearYouSearch);

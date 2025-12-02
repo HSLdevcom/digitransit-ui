@@ -136,7 +136,7 @@ function StopPageMap(
   } else {
     children.push(
       <BackButton
-        icon="icon-icon_arrow-collapse--left"
+        icon="icon_arrow-collapse--left"
         iconClassName="arrow-icon"
         key="stop-page-back-button"
       />,
@@ -167,7 +167,7 @@ function StopPageMap(
   return (
     <MapWithTracking
       className="flex-grow"
-      hilightedStops={[id]}
+      highlightedStops={[id]}
       leafletObjs={leafletObjs}
       {...mwtProps}
       mapLayers={mapLayers}

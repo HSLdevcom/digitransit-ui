@@ -14,7 +14,7 @@ describe('<SelectVehicleRentalRow />', () => {
       prefix: 'citybike',
     };
     const wrapper = shallowWithIntl(<SelectVehicleRentalRow {...props} />, {
-      context: mockContext,
+      context: { ...mockContext, config: { colors: { iconColors: {} } } },
     });
     expect(wrapper.find(Icon).first().prop('img')).to.contain('citybike');
   });
@@ -30,6 +30,7 @@ describe('<SelectVehicleRentalRow />', () => {
       context: {
         config: {
           vehicleRental: { networks: { scooter_network: { icon: 'scooter' } } },
+          colors: { iconColors: {} },
         },
       },
     });

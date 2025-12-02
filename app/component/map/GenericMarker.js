@@ -2,23 +2,10 @@ import isFunction from 'lodash/isFunction';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { withLeaflet } from 'react-leaflet/es/context';
+import Marker from 'react-leaflet/es/Marker';
+import Popup from 'react-leaflet/es/Popup';
+import { default as L } from 'leaflet';
 import { configShape, locationShape } from '../../util/shapes';
-import { isBrowser } from '../../util/browser';
-
-let Marker;
-let Popup;
-let L;
-
-/* eslint-disable global-require */
-// TODO When server side rendering is re-enabled,
-//      these need to be loaded only when isBrowser is true.
-//      Perhaps still using the require from webpack?
-if (isBrowser) {
-  Marker = require('react-leaflet/es/Marker').default;
-  Popup = require('react-leaflet/es/Popup').default;
-  L = require('leaflet');
-}
-/* eslint-enable global-require */
 
 class GenericMarker extends React.Component {
   static displayName = 'GenericMarker';
@@ -116,10 +103,6 @@ class GenericMarker extends React.Component {
   }
 
   render() {
-    if (!isBrowser) {
-      return '';
-    }
-
     const { shouldRender } = this.props;
     const { zoom } = this.state;
     if (isFunction(shouldRender) && !shouldRender(zoom)) {

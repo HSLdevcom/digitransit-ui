@@ -1,8 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { isBrowser } from '../util/browser';
-
 const LogoSmall = ({ logo, title }, { config }) => {
   if (config.textLogo && !logo) {
     return (
@@ -15,7 +13,7 @@ const LogoSmall = ({ logo, title }, { config }) => {
   return (
     <div
       className="logo"
-      style={{ backgroundImage: isBrowser && logo ? `url(${logo})` : 'none' }}
+      style={{ backgroundImage: logo ? `url(${logo})` : 'none' }}
     >
       {config.textLogo && title && (
         <span className="title" role="heading" aria-level="1">

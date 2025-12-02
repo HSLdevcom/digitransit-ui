@@ -3,14 +3,8 @@ import PropTypes from 'prop-types';
 
 import polyUtil from 'polyline-encoded';
 import React from 'react';
-import { isBrowser } from '../../util/browser';
 import { getMiddleOf } from '../../util/geo-utils';
-import {
-  getInterliningLegs,
-  getRouteText,
-  isCallAgencyLeg,
-  LegMode,
-} from '../../util/legUtils';
+import { getInterliningLegs, getRouteText, LegMode } from '../../util/legUtils';
 import { getRouteMode } from '../../util/modeUtils';
 import { configShape, legShape } from '../../util/shapes';
 import { durationToString } from '../../util/timeUtils';
@@ -19,6 +13,7 @@ import StopMarker from './non-tile-layer/StopMarker';
 import TransitLegMarkers from './non-tile-layer/TransitLegMarkers';
 import VehicleMarker from './non-tile-layer/VehicleMarker';
 import SpeechBubble from './SpeechBubble';
+import EntranceMarker from './EntranceMarker';
 
 class ItineraryLine extends React.Component {
   static contextTypes = {
@@ -29,19 +24,19 @@ class ItineraryLine extends React.Component {
     legs: PropTypes.arrayOf(legShape).isRequired,
     passive: PropTypes.bool,
     hash: PropTypes.number,
-    showTransferLabels: PropTypes.bool,
     showIntermediateStops: PropTypes.bool,
     showDurationBubble: PropTypes.bool,
     streetMode: PropTypes.string,
+    realtimeTransfers: PropTypes.bool,
   };
 
   static defaultProps = {
     hash: 0,
     passive: false,
     streetMode: undefined,
-    showTransferLabels: false,
     showIntermediateStops: false,
     showDurationBubble: false,
+    realtimeTransfers: false,
   };
 
   checkStreetMode(leg) {
@@ -55,10 +50,6 @@ class ItineraryLine extends React.Component {
   }
 
   render() {
-    if (!isBrowser) {
-      return false;
-    }
-
     const objs = [];
     const transitLegs = [];
 
@@ -67,11 +58,13 @@ class ItineraryLine extends React.Component {
         return;
       }
       const nextLeg = this.props.legs[i + 1];
+      const previousLeg = this.props.legs[i - 1];
 
       let mode = getRouteMode(
         {
           mode: leg.mode,
           type: leg.route?.type,
+          gtfsId: leg.route?.gtfsId,
         },
         this.context.config,
       );
@@ -84,12 +77,9 @@ class ItineraryLine extends React.Component {
       const interliningWithRoute = interliningLines.join(' / ');
 
       if (leg.rentedBike && leg.mode !== 'WALK' && leg.mode !== 'SCOOTER') {
-        mode = 'CITYBIKE';
+        mode = 'citybike';
       }
 
-      const modePlusClass = isCallAgencyLeg(leg)
-        ? 'call'
-        : mode.toLowerCase() + (this.props.passive ? ' passive' : '');
       const geometry = polyUtil.decode(leg.legGeometry.points);
       let middle = getMiddleOf(geometry);
       let { to, end } = leg;
@@ -113,15 +103,106 @@ class ItineraryLine extends React.Component {
         end = interliningLegs[interliningLegs.length - 1].end;
       }
 
-      objs.push(
-        <Line
-          color={leg.route && leg.route.color ? `#${leg.route.color}` : null}
-          key={`${this.props.hash}_${i}_${mode}`}
-          geometry={geometry}
-          mode={isCallAgencyLeg(leg) ? 'call' : mode.toLowerCase()}
-          passive={this.props.passive}
-        />,
-      );
+      if (
+        leg.mode === 'WALK' &&
+        (nextLeg?.mode === 'SUBWAY' || previousLeg?.mode === 'SUBWAY')
+      ) {
+        const entranceObjects = leg?.steps?.filter(
+          step =>
+            // eslint-disable-next-line no-underscore-dangle
+            step?.feature?.__typename === 'Entrance' || step?.feature?.code,
+        );
+
+        // Select the entrance to the outside if there are multiple entrances
+        const entranceObject =
+          previousLeg?.mode === 'SUBWAY'
+            ? entranceObjects[entranceObjects.length - 1]
+            : entranceObjects[0];
+
+        if (entranceObject) {
+          const entranceCoordinates = [entranceObject.lat, entranceObject.lon];
+          const getDistance = (coord1, coord2) => {
+            const [lat1, lon1] = coord1;
+            const [lat2, lon2] = coord2;
+            return Math.sqrt((lat1 - lat2) ** 2 + (lon1 - lon2) ** 2);
+          };
+
+          const entranceIndex = geometry.reduce(
+            (closestIndex, currentCoord, currentIndex) => {
+              const currentDistance = getDistance(
+                entranceCoordinates,
+                currentCoord,
+              );
+              const closestDistance = getDistance(
+                entranceCoordinates,
+                geometry[closestIndex],
+              );
+              return currentDistance < closestDistance
+                ? currentIndex
+                : closestIndex;
+            },
+            0,
+          );
+
+          if (entranceCoordinates && !this.props.passive) {
+            objs.push(
+              <EntranceMarker
+                key={`entrance_${entranceCoordinates[0]}_${entranceCoordinates[1]}`}
+                position={{
+                  lat: entranceCoordinates[0],
+                  lon: entranceCoordinates[1],
+                }}
+                code={entranceObject?.feature?.publicCode?.toLowerCase()}
+              />,
+            );
+          }
+
+          objs.push(
+            <Line
+              color={
+                leg.route && leg.route.color ? `#${leg.route.color}` : null
+              }
+              key={`${this.props.hash}_${i}_${mode}_0`}
+              geometry={geometry.slice(0, entranceIndex + 1)}
+              mode={nextLeg?.mode === 'SUBWAY' ? 'walk' : 'walk-inside'}
+              passive={this.props.passive}
+            />,
+          );
+          objs.push(
+            <Line
+              color={
+                leg.route && leg.route.color ? `#${leg.route.color}` : null
+              }
+              key={`${this.props.hash}_${i}_${mode}_1`}
+              geometry={geometry.slice(entranceIndex)}
+              mode={nextLeg?.mode === 'SUBWAY' ? 'walk-inside' : 'walk'}
+              passive={this.props.passive}
+            />,
+          );
+        } else {
+          objs.push(
+            <Line
+              color={
+                leg.route && leg.route.color ? `#${leg.route.color}` : null
+              }
+              key={`${this.props.hash}_${i}_${mode}`}
+              geometry={geometry}
+              mode={mode}
+              passive={this.props.passive}
+            />,
+          );
+        }
+      } else {
+        objs.push(
+          <Line
+            color={leg.route && leg.route.color ? `#${leg.route.color}` : null}
+            key={`${this.props.hash}_${i}_${mode}`}
+            geometry={geometry}
+            mode={mode}
+            passive={this.props.passive}
+          />,
+        );
+      }
 
       if (
         this.props.showDurationBubble ||
@@ -151,14 +232,14 @@ class ItineraryLine extends React.Component {
                   limitZoom={14}
                   stop={place.stop}
                   key={`intermediate-${place.stop.gtfsId}`}
-                  mode={modePlusClass}
+                  mode={mode}
                   thin
                 />,
               ),
             );
         }
 
-        if (leg.from.vertexType === 'BIKESHARE') {
+        if (rentalId) {
           objs.push(
             <VehicleMarker
               key={`${leg.from.lat}:${leg.from.lon}`}
@@ -175,7 +256,7 @@ class ItineraryLine extends React.Component {
               transit
             />,
           );
-        } else if (leg.transitLeg) {
+        } else if (leg.transitLeg && mode !== 'taxi-external') {
           const name = getRouteText(
             leg.route,
             this.context.config,
@@ -189,7 +270,7 @@ class ItineraryLine extends React.Component {
               end,
               nextLeg,
               index: i,
-              mode: isCallAgencyLeg(leg) ? 'call' : mode.toLowerCase(),
+              mode,
               legName: name,
               zIndexOffset: 300,
               interliningWithRoute,
@@ -199,6 +280,7 @@ class ItineraryLine extends React.Component {
             <StopMarker
               key={`${i},${leg.mode}marker,from`}
               disableModeIcons
+              disableIconBorder
               stop={{
                 ...leg.from,
                 gtfsId: leg.from.stop.gtfsId,
@@ -206,14 +288,14 @@ class ItineraryLine extends React.Component {
                 platformCode: leg.from.stop.platformCode,
                 transfer: true,
               }}
-              mode={isCallAgencyLeg(leg) ? 'call' : mode.toLowerCase()}
-              renderText={leg.transitLeg && this.props.showTransferLabels}
+              mode={mode}
             />,
           );
           objs.push(
             <StopMarker
               key={`${i},${leg.mode}marker,to`}
               disableModeIcons
+              disableIconBorder
               stop={{
                 ...leg.to,
                 gtfsId: leg.to.stop.gtfsId,
@@ -221,8 +303,7 @@ class ItineraryLine extends React.Component {
                 platformCode: leg.to.stop.platformCode,
                 transfer: true,
               }}
-              mode={isCallAgencyLeg(leg) ? 'call' : mode.toLowerCase()}
-              renderText={leg.transitLeg && this.props.showTransferLabels}
+              mode={mode}
             />,
           );
         }
@@ -232,7 +313,11 @@ class ItineraryLine extends React.Component {
     // Add dynamic transit leg and transfer stop markers
     if (!this.props.passive) {
       objs.push(
-        <TransitLegMarkers key="transitlegmarkers" transitLegs={transitLegs} />,
+        <TransitLegMarkers
+          key="transitlegmarkers"
+          transitLegs={transitLegs}
+          realtimeTransfers={this.props.realtimeTransfers}
+        />,
       );
     }
 

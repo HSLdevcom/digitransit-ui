@@ -5,7 +5,7 @@ import Link from 'found/Link';
 import { configShape, legTimeShape } from '../../util/shapes';
 import { legTimeStr } from '../../util/legUtils';
 import ZoneIcon from '../ZoneIcon';
-import { PREFIX_STOPS } from '../../util/path';
+import { stopPagePath } from '../../util/path';
 import Icon from '../Icon';
 
 function IntermediateLeg(
@@ -117,7 +117,7 @@ function IntermediateLeg(
         </div>
         <div style={{ color }} className={`leg-before-line ${modeClassName}`} />
         {isLastPlace && (
-          <div className={`leg-before-circle circle ${mode.toLowerCase()}`}>
+          <div className={`leg-before-circle circle ${modeClassName}`}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width={28}
@@ -138,7 +138,7 @@ function IntermediateLeg(
           onClick={e => {
             e.stopPropagation();
           }}
-          to={`/${PREFIX_STOPS}/${gtfsId}`}
+          to={stopPagePath(false, gtfsId)}
         >
           <div
             className="itinerary-leg-row-intermediate"
@@ -153,13 +153,10 @@ function IntermediateLeg(
               {` ${name}`}
             </div>
             {isViaPoint && (
-              <Icon
-                img="icon-icon_mapMarker"
-                className="itinerary-mapmarker-icon"
-              />
+              <Icon img="icon_mapMarker" className="itinerary-mapmarker-icon" />
             )}
             <Icon
-              img="icon-icon_arrow-collapse--right"
+              img="icon_arrow-collapse--right"
               className="itinerary-arrow-icon"
               color={config.colors.primary}
             />

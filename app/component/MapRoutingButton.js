@@ -87,7 +87,7 @@ export default function MapRoutingButton(
           setShowModal(true);
         }}
       >
-        <Icon className="map-routing-button-icon" img="icon-icon_route" />
+        <Icon className="map-routing-button-icon" img="icon_route" />
         {buttonText && (
           <FormattedMessage id={buttonText} defaultMessage="Route to stop" />
         )}

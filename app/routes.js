@@ -8,7 +8,6 @@ import createRender from 'found/createRender';
 import Error404 from './component/404';
 import TopLevel from './component/TopLevel';
 import { prepareWeekDays } from './util/dateParamUtils';
-import { isBrowser } from './util/browser';
 import {
   PREFIX_ITINERARY_SUMMARY,
   PREFIX_NEARYOU,
@@ -20,6 +19,7 @@ import {
   TAB_NEARBY,
   TAB_FAVOURITES,
   EMBEDDED_SEARCH_PATH,
+  TRAFFICNOW,
 } from './util/path';
 import {
   getDefault,
@@ -334,13 +334,9 @@ export default config => {
           content: (
             <Route
               getComponent={() =>
-                isBrowser
-                  ? import(
-                      /* webpackChunkName: "itinerary" */ './component/itinerary/ItineraryPageContainer'
-                    ).then(getDefault)
-                  : import(
-                      /* webpackChunkName: "loading" */ './component/Loading'
-                    ).then(getDefault)
+                import(
+                  /* webpackChunkName: "itinerary" */ './component/itinerary/ItineraryPageContainer'
+                ).then(getDefault)
               }
               render={getComponentOrNullRenderer}
             >
@@ -373,6 +369,14 @@ export default config => {
           ),
         }}
       </Route>
+      <Route
+        path={TRAFFICNOW}
+        getComponent={() =>
+          import(
+            /* webpackChunkName: "trafficnow" */ './component/trafficnow/TrafficNow'
+          ).then(getDefault)
+        }
+      />
       <Route
         path="/tietoja-palvelusta"
         getComponent={() =>

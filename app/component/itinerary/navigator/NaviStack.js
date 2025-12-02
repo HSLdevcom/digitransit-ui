@@ -3,9 +3,13 @@ import PropTypes from 'prop-types';
 import cx from 'classnames';
 import NaviMessage from './NaviMessage';
 
-const NaviStack = ({ messages, handleRemove }) => {
+const NaviStack = ({ messages, handleRemove, cardAnimation }) => {
   return (
-    <div className={cx('info-stack', 'slide-in')}>
+    <div
+      className={cx('info-stack', cardAnimation)}
+      aria-live="polite"
+      role="status"
+    >
       {messages.map((notification, index) => (
         <NaviMessage
           key={notification.id}
@@ -13,8 +17,12 @@ const NaviStack = ({ messages, handleRemove }) => {
           index={index}
           handleRemove={handleRemove}
           hideClose={notification.hideClose}
+          cardAnimation={cardAnimation}
         >
-          {notification.content}
+          <div className="navi-info-content">
+            <span className="notification-header">{notification.title}</span>
+            {notification.jsxBody || notification.body}
+          </div>
         </NaviMessage>
       ))}
     </div>
@@ -29,6 +37,7 @@ NaviStack.propTypes = {
     }),
   ).isRequired,
   handleRemove: PropTypes.func.isRequired,
+  cardAnimation: PropTypes.string.isRequired,
 };
 
 export default NaviStack;

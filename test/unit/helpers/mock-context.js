@@ -1,4 +1,4 @@
-import moment from 'moment';
+import { DateTime } from 'luxon';
 import PropTypes from 'prop-types';
 import { matchShape, routerShape } from 'found';
 
@@ -17,7 +17,7 @@ export const mockContext = {
   executeAction: noop,
   getStore: () => ({
     on: noop,
-    getCurrentTime: () => moment(),
+    getCurrentTime: () => DateTime.now(),
     getLanguage: () => 'en',
     getLocationState: () => ({
       lat: '',

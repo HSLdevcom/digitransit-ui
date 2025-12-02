@@ -1,15 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import Marker from 'react-leaflet/es/Marker';
+import { default as L } from 'leaflet';
 import Icon from '../../Icon';
-import { isBrowser } from '../../../util/browser';
 import { legShape, configShape } from '../../../util/shapes';
-
-/* eslint-disable global-require */
-
-const Marker = isBrowser && require('react-leaflet/es/Marker').default;
-const L = isBrowser && require('leaflet');
-
-/* eslint-enable global-require */
 
 class LegMarker extends React.Component {
   static propTypes = {
@@ -36,6 +30,10 @@ class LegMarker extends React.Component {
   getLegMarker() {
     const color = this.props.color ? this.props.color : 'currentColor';
     const className = this.props.wide ? 'wide' : '';
+    const iconName =
+      this.props.mode === 'bus-express'
+        ? 'icon_bus'
+        : `icon_${this.props.mode}`;
     // Do not display route number if it is an external route and the route number is empty.
     const displayRouteNumber = !(
       this.context.config.externalFeedIds !== undefined &&
@@ -60,7 +58,7 @@ class LegMarker extends React.Component {
           html: `
             <div class="${className}" style="--background-color: ${color}">
             ${Icon.asString({
-              img: `icon-icon_${this.props.mode}`,
+              img: `${iconName}`,
               className: 'map-route-icon',
               color,
             })}
@@ -78,10 +76,6 @@ class LegMarker extends React.Component {
   }
 
   render() {
-    if (!isBrowser) {
-      return '';
-    }
-
     return <div>{this.getLegMarker()}</div>;
   }
 }

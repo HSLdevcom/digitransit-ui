@@ -13,6 +13,8 @@ import AccessibilityOptionSection from './customizesearch/AccessibilityOptionSec
 import TransferOptionsSection from './customizesearch/TransferOptionsSection';
 import RentalNetworkSelector from './customizesearch/RentalNetworkSelector';
 import ScooterNetworkSelector from './customizesearch/ScooterNetworkSelector';
+import TaxiOptionsSection from './customizesearch/TaxiOptionsSection';
+import RestoreDefaultSettingSection from './customizesearch/RestoreDefaultSettingSection';
 import { getReadMessageIds, setReadMessageIds } from '../../store/localStorage';
 import { isKeyboardSelectionEvent } from '../../util/browser';
 import {
@@ -79,9 +81,9 @@ class CustomizeSearch extends React.Component {
       });
     }
     const backIcon = mobile ? (
-      <Icon className="close-icon" img="icon-icon_arrow-collapse--left" />
+      <Icon className="close-icon" img="icon_arrow-collapse--left" />
     ) : (
-      <Icon className="close-icon" img="icon-icon_close" />
+      <Icon className="close-icon" img="icon_close" />
     );
     return (
       <form className="customize-search">
@@ -188,7 +190,7 @@ class CustomizeSearch extends React.Component {
               />
             </div>
           )}
-          {useScooters(config.vehicleRental?.networks) && (
+          {useScooters(config) && (
             <div className="settings-section">
               <div className="settings-option-container">
                 <fieldset>
@@ -224,7 +226,7 @@ class CustomizeSearch extends React.Component {
                             onClick={this.handleEScooterDisclaimerClose}
                             role="button"
                           >
-                            <Icon color="#333" img="icon-icon_close" />
+                            <Icon color="#333" img="icon_close" />
                           </div>
                         </div>
                         <div className="disclaimer-content">
@@ -251,7 +253,7 @@ class CustomizeSearch extends React.Component {
                             rel="noreferrer"
                           >
                             <FormattedMessage id="read-more" />
-                            <Icon img="icon-icon_external-link-box" />
+                            <Icon img="icon_external-link-box" />
                           </a>
                         )}
                       </div>
@@ -265,6 +267,22 @@ class CustomizeSearch extends React.Component {
               </div>
             </div>
           )}
+          {config.experimental?.allowFlexJourneys &&
+            config.transportModes.taxi.availableForSelection && (
+              <div className="settings-section">
+                <div className="settings-option-container">
+                  <TaxiOptionsSection
+                    defaultSettings={this.defaultSettings}
+                    currentSettings={currentSettings}
+                  />
+                </div>
+              </div>
+            )}
+          <div className="settings-section background">
+            <div className="settings-option-container restore-settings-container">
+              <RestoreDefaultSettingSection config={config} />
+            </div>
+          </div>
         </ScrollableWrapper>
       </form>
     );

@@ -3,7 +3,6 @@ import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { intlShape } from 'react-intl';
-import { isBrowser } from '../../../util/browser';
 import { configShape } from '../../../util/shapes';
 
 const NavigatorModal = ({ withBackdrop, isOpen, children, slideUp }) => {
@@ -17,7 +16,7 @@ const NavigatorModal = ({ withBackdrop, isOpen, children, slideUp }) => {
 
   return (
     <Modal
-      appElement={isBrowser ? '#app' : 'body'}
+      appElement="#app"
       isOpen={isOpen}
       className={modalClass}
       overlayClassName={overlayClass}

@@ -18,9 +18,10 @@ $hsl-ferry-blue: #007a97;
 $primary-color: $hsl-blue;
 $secondary-color: $hsl-dark-blue;
 $favourite-color: $hsl-pink;
-$hilight-color: $hsl-pink;
+$highlight-color: $hsl-pink;
 $action-color: $hsl-blue;
 $current-location-color: #f653b9;
+$navigation-background-color: #ebf6fd;
 
 /* Component palette */
 $standalone-btn-color: $primary-color;
@@ -31,11 +32,10 @@ $link-color: $primary-color;
 $desktop-title-color: #007ac9;
 $desktop-title-arrow-icon-color: $secondary-color;
 $top-bar-color: $primary-color;
-$disclaimer-background-color: #e5f2fa;
-$disclaimer-border-color: #e5f2fa;
+$disclaimer-background-color: #ebf6fd;
+$disclaimer-border-color: #ebf6fd;
 
 /* Vehicle palette */
-$airplane-color: #0046ad;
 $bus-color: $hsl-blue;
 $bus-express-color: $hsl-bus-express;
 $speedtram-color: #007e79;
@@ -55,6 +55,7 @@ $letter-spacing: -0.025em;
 $font-size-medium-large: 1rem;
 $font-family-narrow: 'Gotham XNarrow SSm A', 'Gotham XNarrow SSm B',
   'Gotham Rounded A', 'Gotham Rounded B', arial, georgia, serif;
+$id-font-family: $font-family-narrow;
 
 /* Spinner */
 $spinner-image: url('hsl-spinner.png');
@@ -62,3 +63,6 @@ $font-weight-disclaimer: 400 !important;
 
 /* Borders */
 $border-radius-disclaimer: 8px;
+
+/* Navigator */
+$navigation-icon-size: 48px;

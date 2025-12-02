@@ -33,10 +33,7 @@ export default function LocationMarker({
       icon={{
         className: cx(validType, className),
         element: (
-          <Icon
-            img="icon-icon_mapMarker-map"
-            color={disabled ? '#bbbbbb' : null}
-          />
+          <Icon img="icon_mapMarker-map" color={disabled ? '#bbbbbb' : null} />
         ),
         iconAnchor: [sideLength / 2, sideLength],
         iconSize: [sideLength, sideLength],

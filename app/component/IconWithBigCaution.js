@@ -20,7 +20,7 @@ export default function IconWithBigCaution({
       className={className}
       color={color}
       img={img}
-      subIcon={`icon-icon_${iconType}`}
+      subIcon={`icon_${iconType}`}
       subIconClassName={`subicon-${subIconClassName}`}
       subIconShape={(iconType === 'info' && 'circle') || undefined}
     />

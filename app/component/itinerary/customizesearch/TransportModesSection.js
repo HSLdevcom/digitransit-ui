@@ -13,9 +13,9 @@ import {
   getModes,
   toggleTransportMode,
 } from '../../../util/modeUtils';
+import { getModeIconColor } from '../../../util/colorUtils';
 
 const TransportModesSection = ({ config }, { executeAction }) => {
-  const { iconColors } = config.colors;
   const alternativeNames = config.useAlternativeNameForModes || [];
   const transitModes = getTransitModes(config);
   const selectedModes = getModes(config);
@@ -29,56 +29,53 @@ const TransportModesSection = ({ config }, { executeAction }) => {
         />
       </legend>
       <div className="transport-modes-container">
-        {transitModes.map(mode => (
-          <div
-            className="mode-option-container"
-            key={`mode-option-${mode.toLowerCase()}`}
-          >
-            <label
-              htmlFor={`settings-toggle-${mode}`}
-              className={cx(
-                [`mode-option-block`, 'toggle-label'],
-                mode.toLowerCase(),
-                {
-                  disabled: !selectedModes.includes(mode),
-                },
-              )}
+        {transitModes.map(mode => {
+          const lowerCaseMode = mode.toLowerCase();
+          return (
+            <div
+              className="mode-option-container"
+              key={`mode-option-${lowerCaseMode}`}
             >
-              <div className="mode-icon">
-                <Icon
-                  className={`${mode}-icon`}
-                  img={`icon-icon_${mode.toLowerCase()}`}
-                  color={
-                    iconColors[
-                      mode.toLowerCase() === 'subway'
-                        ? 'mode-metro'
-                        : `mode-${mode.toLowerCase()}`
-                    ]
+              <label
+                htmlFor={`settings-toggle-${mode}`}
+                className={cx(
+                  [`mode-option-block`, 'toggle-label'],
+                  lowerCaseMode,
+                  {
+                    disabled: !selectedModes.includes(mode),
+                  },
+                )}
+              >
+                <div className="mode-icon">
+                  <Icon
+                    className={`${mode}-icon`}
+                    img={`icon_${lowerCaseMode}`}
+                    color={getModeIconColor(config, mode)}
+                  />
+                </div>
+                <div className="mode-name">
+                  <FormattedMessage
+                    id={
+                      alternativeNames.includes(mode)
+                        ? `settings-alternative-name-${lowerCaseMode}`
+                        : lowerCaseMode
+                    }
+                    defaultMessage={lowerCaseMode}
+                  />
+                </div>
+                <Toggle
+                  id={`settings-toggle-${mode}`}
+                  toggled={selectedModes.includes(mode)}
+                  onToggle={() =>
+                    executeAction(saveRoutingSettings, {
+                      modes: toggleTransportMode(mode, config),
+                    })
                   }
                 />
-              </div>
-              <div className="mode-name">
-                <FormattedMessage
-                  id={
-                    alternativeNames.includes(mode.toLowerCase())
-                      ? `settings-alternative-name-${mode.toLowerCase()}`
-                      : mode.toLowerCase()
-                  }
-                  defaultMessage={mode.toLowerCase()}
-                />
-              </div>
-              <Toggle
-                id={`settings-toggle-${mode}`}
-                toggled={selectedModes.includes(mode)}
-                onToggle={() =>
-                  executeAction(saveRoutingSettings, {
-                    modes: toggleTransportMode(mode, config),
-                  })
-                }
-              />
-            </label>
-          </div>
-        ))}
+              </label>
+            </div>
+          );
+        })}
       </div>
     </fieldset>
   );

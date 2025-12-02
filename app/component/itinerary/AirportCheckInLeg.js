@@ -7,7 +7,7 @@ import { legTimeStr } from '../../util/legUtils';
 import ItineraryCircleLine from './ItineraryCircleLine';
 import Icon from '../Icon';
 import ItineraryMapAction from './ItineraryMapAction';
-import { PREFIX_STOPS } from '../../util/path';
+import { stopPagePath } from '../../util/path';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 export default function AirportCheckInLeg(props, { config }) {
@@ -32,11 +32,11 @@ export default function AirportCheckInLeg(props, { config }) {
               onClick={e => {
                 e.stopPropagation();
               }}
-              to={`/${PREFIX_STOPS}/${props.leg.from.stop.gtfsId}`}
+              to={stopPagePath(false, props.leg.from.stop.gtfsId)}
             >
               {name}
               <Icon
-                img="icon-icon_arrow-collapse--right"
+                img="icon_arrow-collapse--right"
                 className="itinerary-arrow-icon"
                 color={config.colors.primary}
               />
@@ -47,7 +47,7 @@ export default function AirportCheckInLeg(props, { config }) {
         </div>
 
         <div className="info-message">
-          <Icon img="icon-icon_info" />
+          <Icon img="icon_info" />
           <FormattedMessage
             id="airport-check-in"
             values={{ agency: props.leg.agency && props.leg.agency.name }}
@@ -55,7 +55,7 @@ export default function AirportCheckInLeg(props, { config }) {
           />
         </div>
         <div className="info-message">
-          <Icon img="icon-icon_info" />
+          <Icon img="icon_info" />
           <FormattedMessage
             id="airport-security-check-go-to-gate"
             defaultMessage="Proceed to your gate through security check"

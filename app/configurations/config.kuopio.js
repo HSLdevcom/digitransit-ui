@@ -1,11 +1,10 @@
-/* eslint-disable prefer-template */
 import configMerger from '../util/configMerger';
 import { BIKEAVL_BIKES } from '../util/vehicleRentalUtils';
+import walttiConfig from './config.waltti';
 
 const CONFIG = 'kuopio';
 const APP_TITLE = 'Reittiopas Kuopio';
 const APP_DESCRIPTION = 'Reittiopas Kuopio';
-const walttiConfig = require('./config.waltti').default;
 
 export default configMerger(walttiConfig, {
   CONFIG,
@@ -23,6 +22,11 @@ export default configMerger(walttiConfig, {
   socialMedia: {
     title: APP_TITLE,
     description: APP_DESCRIPTION,
+    image: {
+      url: 'img/social-share-kuopio.png',
+      width: 760,
+      height: 224,
+    },
   },
 
   title: APP_TITLE,
@@ -31,7 +35,7 @@ export default configMerger(walttiConfig, {
 
   // Navbar logo
   logo: 'kuopio/logo.png',
-  secondaryLogo: 'kuopio/secondary-logo.png',
+  secondaryLogo: 'kuopio/kuopio-secondary-logo.png',
 
   feedIds: ['Kuopio', 'digitraffic'],
 
@@ -40,7 +44,12 @@ export default configMerger(walttiConfig, {
   showTicketInformation: true,
   primaryAgencyName: 'Kuopion seudun joukkoliikenne',
 
-  ticketLink: 'https://vilkku.kuopio.fi/lipputyypit-hinnat/lippujen-hinnat',
+  ticketLink: {
+    fi: 'https://vilkku.kuopio.fi/lipputyypit-hinnat/lippujen-hinnat',
+    sv: 'https://vilkku.kuopio.fi/en/ticket-and-fares/ticket-prices',
+    en: 'https://vilkku.kuopio.fi/en/ticket-and-fares/ticket-prices',
+  },
+  ticketLinkOperatorCode: 50221,
 
   searchParams: {
     'boundary.rect.min_lat': 62.454915,
@@ -100,6 +109,8 @@ export default configMerger(walttiConfig, {
       defaultValue: true,
     },
   },
+
+  nearYouModes: ['bus', 'rail', 'citybike'],
 
   menu: {
     copyright: { label: `© Kuopio ${walttiConfig.YEAR}` },

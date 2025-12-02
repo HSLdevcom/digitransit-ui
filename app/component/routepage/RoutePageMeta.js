@@ -1,48 +1,57 @@
+import React from 'react';
 import { Helmet } from 'react-helmet';
 import { intlShape } from 'react-intl';
-import { createFragmentContainer, graphql } from 'react-relay';
-import compose from 'recompose/compose';
-import getContext from 'recompose/getContext';
-import mapProps from 'recompose/mapProps';
-import { configShape } from '../../util/shapes';
+import { useFragment, graphql } from 'react-relay';
+import { configShape, routeShape } from '../../util/shapes';
 import { generateMetaData } from '../../util/metaUtils';
 
-const RoutePageMeta = compose(
-  getContext({ config: configShape, intl: intlShape }),
-  mapProps(({ config, intl, route }) => {
-    if (!route) {
-      return false;
-    }
+function RoutePageMeta({ route: routeRef }, { config, intl }) {
+  const route = useFragment(
+    graphql`
+      fragment RoutePageMeta_route on Route {
+        shortName
+        longName
+      }
+    `,
+    routeRef,
+  );
 
-    const title = intl.formatMessage(
-      {
-        id: 'route-page.title',
-        defaultMessage: 'Route - {shortName}',
-      },
-      route,
-    );
-    const description = intl.formatMessage(
-      {
-        id: 'route-page.description',
-        defaultMessage: 'Route - {shortName}, {longName}',
-      },
-      route,
-    );
-    return generateMetaData(
-      {
-        description,
-        title,
-      },
-      config,
-    );
-  }),
-)(Helmet);
+  if (!route) {
+    return false;
+  }
 
-export default createFragmentContainer(RoutePageMeta, {
-  route: graphql`
-    fragment RoutePageMeta_route on Route {
-      shortName
-      longName
-    }
-  `,
-});
+  const title = intl.formatMessage(
+    {
+      id: 'route-page.title',
+      defaultMessage: 'Route - {shortName}',
+    },
+    route,
+  );
+  const description = intl.formatMessage(
+    {
+      id: 'route-page.description',
+      defaultMessage: 'Route - {shortName}, {longName}',
+    },
+    route,
+  );
+  const props = generateMetaData(
+    {
+      description,
+      title,
+    },
+    config,
+  );
+
+  return <Helmet {...props} />;
+}
+
+RoutePageMeta.propTypes = {
+  route: routeShape.isRequired,
+};
+
+RoutePageMeta.contextTypes = {
+  config: configShape.isRequired,
+  intl: intlShape.isRequired,
+};
+
+export default RoutePageMeta;

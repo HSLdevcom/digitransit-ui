@@ -3,7 +3,6 @@ const passport = require('passport');
 const session = require('express-session');
 const redis = require('redis');
 const axios = require('axios');
-const moment = require('moment');
 const RedisStore = require('connect-redis')(session);
 const LoginStrategy = require('./Strategy').Strategy;
 
@@ -88,7 +87,7 @@ export default function setUpOIDC(app, port, indexPath, hostnames) {
       !req.isAuthenticated() &&
       ssoToken &&
       ssoValidTo &&
-      ssoValidTo > moment().unix()
+      ssoValidTo > Math.floor(new Date().getTime() / 1000)
     ) {
       const params = Object.keys(req.query)
         .map(k => `${k}=${req.query[k]}`)
@@ -109,7 +108,7 @@ export default function setUpOIDC(app, port, indexPath, hostnames) {
     if (
       req.isAuthenticated() &&
       req.user.token.refresh_token &&
-      moment().unix() >= req.user.token.expires_at
+      Math.floor(new Date().getTime() / 1000) >= req.user.token.expires_at
     ) {
       return passport.authenticate('passport-openid-connect', {
         refresh: true,
@@ -237,7 +236,8 @@ export default function setUpOIDC(app, port, indexPath, hostnames) {
       }
       req.session.ssoToken = req.query['sso-token'];
       req.session.ssoValidTo =
-        Number(req.query['sso-validity']) * 60 * 1000 + moment().unix();
+        Number(req.query['sso-validity']) * 60 * 1000 +
+        Math.floor(new Date().getTime() / 1000);
       res.send();
     }
   });

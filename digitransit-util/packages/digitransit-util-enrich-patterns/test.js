@@ -1,43 +1,53 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import moment from 'moment';
+import { DateTime } from 'luxon';
 import enrichPatterns from '.';
+
+const DATE_FORMAT = 'yyyyLLdd';
 
 describe('Testing @digitransit-util/digitransit-util-enrich-patterns module', () => {
   const nextFridaysAndSaturdays = [];
   nextFridaysAndSaturdays.push(
-    JSON.parse(`{ "day": ["${moment(moment()).day(5).format('YYYYMMDD')}"] }`),
-  );
-  nextFridaysAndSaturdays.push(
-    JSON.parse(`{ "day": ["${moment(moment()).day(6).format('YYYYMMDD')}"] }`),
-  );
-  nextFridaysAndSaturdays.push(
     JSON.parse(
-      `{ "day": ["${moment(moment())
-        .day(5 + 7)
-        .format('YYYYMMDD')}"] }`,
+      `{ "day": ["${DateTime.now()
+        .set({ weekday: 5 })
+        .toFormat(DATE_FORMAT)}"] }`,
     ),
   );
   nextFridaysAndSaturdays.push(
     JSON.parse(
-      `{ "day": ["${moment(moment())
-        .day(6 + 7)
-        .format('YYYYMMDD')}"] }`,
+      `{ "day": ["${DateTime.now()
+        .set({ weekday: 6 })
+        .toFormat(DATE_FORMAT)}"] }`,
     ),
   );
   nextFridaysAndSaturdays.push(
     JSON.parse(
-      `{ "day": ["${moment(moment())
-        .day(5 + 14)
-        .format('YYYYMMDD')}"] }`,
+      `{ "day": ["${DateTime.now()
+        .set({ weekday: 5 + 7 })
+        .toFormat(DATE_FORMAT)}"] }`,
     ),
   );
   nextFridaysAndSaturdays.push(
     JSON.parse(
-      `{ "day": ["${moment(moment())
-        .day(6 + 14)
-        .format('YYYYMMDD')}"] }`,
+      `{ "day": ["${DateTime.now()
+        .set({ weekday: 6 + 7 })
+        .toFormat(DATE_FORMAT)}"] }`,
+    ),
+  );
+  nextFridaysAndSaturdays.push(
+    JSON.parse(
+      `{ "day": ["${DateTime.now()
+        .set({ weekday: 5 + 14 })
+        .toFormat(DATE_FORMAT)}"] }`,
+    ),
+  );
+  nextFridaysAndSaturdays.push(
+    JSON.parse(
+      `{ "day": ["${DateTime.now()
+        .set({ weekday: 6 + 14 })
+        .toFormat(DATE_FORMAT)}"] }`,
     ),
   );
 

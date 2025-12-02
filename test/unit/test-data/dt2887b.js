@@ -1,4 +1,3 @@
-import moment from 'moment';
 import { PREFIX_STOPS } from '../../../app/util/path';
 
 export default {
@@ -37,7 +36,7 @@ export default {
               {
                 scheduledArrival: 600,
                 scheduledDeparture: 600,
-                serviceDay: moment().getTime / 100,
+                serviceDay: Math.floor(new Date().getTime() / 1000),
                 stop: {
                   id: 'U3RvcDpIU0w6MTI5MTQwNA==',
                 },
@@ -45,7 +44,7 @@ export default {
               {
                 scheduledArrival: 720,
                 scheduledDeparture: 720,
-                serviceDay: moment().getTime / 100,
+                serviceDay: Math.floor(new Date().getTime() / 1000),
                 stop: {
                   id: 'U3RvcDpIU0w6MTI5MTQwMg==',
                 },
@@ -57,7 +56,7 @@ export default {
               {
                 scheduledArrival: 840,
                 scheduledDeparture: 840,
-                serviceDay: moment().getTime / 100,
+                serviceDay: Math.floor(new Date().getTime() / 1000),
                 stop: {
                   id: 'U3RvcDpIU0w6MTI5MTQwNA==',
                 },
@@ -65,7 +64,7 @@ export default {
               {
                 scheduledArrival: 960,
                 scheduledDeparture: 960,
-                serviceDay: moment().getTime / 100,
+                serviceDay: Math.floor(new Date().getTime() / 1000),
                 stop: {
                   id: 'U3RvcDpIU0w6MTI5MTQwMg==',
                 },
@@ -94,7 +93,7 @@ export default {
               {
                 scheduledArrival: 600,
                 scheduledDeparture: 600,
-                serviceDay: moment().getTime / 100,
+                serviceDay: Math.floor(new Date().getTime() / 1000),
                 stop: {
                   id: 'U3RvcDpIU0w6MTI5MTQwNA==',
                 },
@@ -102,7 +101,7 @@ export default {
               {
                 scheduledArrival: 720,
                 scheduledDeparture: 720,
-                serviceDay: moment().getTime / 100,
+                serviceDay: Math.floor(new Date().getTime() / 1000),
                 stop: {
                   id: 'U3RvcDpIU0w6MTI5MTQwMg==',
                 },

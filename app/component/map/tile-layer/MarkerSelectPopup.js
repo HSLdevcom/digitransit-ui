@@ -6,7 +6,6 @@ import SelectVehicleRentalRow from './SelectVehicleRentalRow';
 import SelectVehicleRentalClusterRow from './SelectRentalVehicleClusterRow';
 import SelectParkAndRideRow from './SelectParkAndRideRow';
 import SelectVehicleContainer from './SelectVehicleContainer';
-import { popupColorShape } from '../../../util/shapes';
 import { PREFIX_BIKESTATIONS, PREFIX_RENTALVEHICLES } from '../../../util/path';
 
 function MarkerSelectPopup(props, { intl }) {
@@ -34,7 +33,6 @@ function MarkerSelectPopup(props, { intl }) {
           terminal={!!option.feature.properties.stops}
           {...option.feature.properties}
           key={option.feature.properties.gtfsId}
-          colors={props.colors}
           routes={option.feature.properties.routes}
           platform={option.feature.properties.platform}
         />
@@ -76,7 +74,7 @@ function MarkerSelectPopup(props, { intl }) {
               id: 'e-scooter',
               defaultMessage: 'scooter',
             })}
-            icon="icon-icon_scooter-lollipop"
+            icon="icon_scooter-lollipop"
           />
         );
       }
@@ -144,7 +142,6 @@ MarkerSelectPopup.propTypes = {
     }),
   ).isRequired,
   selectRow: PropTypes.func.isRequired,
-  colors: popupColorShape.isRequired,
   zoom: PropTypes.number,
 };
 

@@ -87,6 +87,27 @@ $itinerary-tab-switch-height: 48px;
   &.scooter {
     @include getCircleSvg($scooter-color, $fill);
   }
+
+  &.taxi-external {
+    @include getCircleSvg($external-feed-color, $fill);
+  }
+
+  &.replacement-bus {
+    @include getCircleSvg($replacement-bus-color, $fill);
+  }
+}
+
+@mixin platformUpdated {
+  display: inline-flex;
+  height: 18px;
+  min-width: auto;
+  justify-content: center;
+  align-items: center;
+  gap: var(--space-xxs);
+  border-radius: var(--radius-s);
+  background: #fdf3f6;
+  color: $cancelation-red;
+  padding: 0 8px 0 4px;
 }
 
 .itinerary-list-container {
@@ -158,12 +179,80 @@ $itinerary-tab-switch-height: 48px;
 
         .icon {
           color: $primary-color;
+          width: 1em;
+          height: 1em;
         }
       }
 
       .description-container {
         flex: 1;
         margin-left: $padding-medium;
+      }
+    }
+  }
+
+  .route-disclaimer-container {
+    background-color: $disclaimer-background-color;
+    font-weight: $font-weight-disclaimer;
+    border: 1px solid $disclaimer-border-color;
+    border-radius: $border-radius-disclaimer;
+    display: flex;
+    font-size: $font-size-xsmall;
+    padding: var(--space-s) $padding-medium;
+    white-space: normal;
+    margin-bottom: 5px;
+    margin-top: 9px;
+
+    .icon-container {
+      flex: 0;
+      font-size: 20px;
+
+      .icon {
+        &.info {
+          color: $primary-color;
+          width: 1em;
+          height: 1em;
+        }
+      }
+    }
+
+    .disclaimer {
+      display: flex;
+      flex-direction: column;
+      margin-left: 0.7em;
+
+      .disclaimer-header {
+        display: flex;
+        font-size: $font-size-normal;
+        font-weight: $font-weight-medium;
+        line-height: 22px;
+        margin: 0 0 4px;
+        color: #333;
+      }
+
+      .disclaimer-content {
+        display: flex;
+        font-size: $font-size-normal;
+        margin-bottom: 8px;
+        color: #666;
+        line-height: 18px;
+        letter-spacing: -0.03em;
+      }
+
+      .external-link {
+        color: $link-color;
+        text-decoration: none;
+        font-weight: $font-weight-medium;
+
+        .icon-container {
+          padding-left: var(--space-xxs);
+
+          .icon {
+            width: 16px;
+            height: 16px;
+            vertical-align: middle;
+          }
+        }
       }
     }
   }
@@ -363,7 +452,7 @@ $itinerary-tab-switch-height: 48px;
       right: 82.38px;
       top: 416px;
       overflow: visible;
-      background: rgba(100, 190, 30, 0.15);
+      background: #f1f8eb;
       border-radius: 4px;
 
       .itinerary-co2-value {
@@ -371,7 +460,7 @@ $itinerary-tab-switch-height: 48px;
         height: 16px;
         font-family: $font-family;
         font-style: normal;
-        font-weight: $itinerary-co2-font-weight;
+        font-weight: $itinerary-co2-badge-font-weight;
         font-size: 13px;
         line-height: 16px;
         color: #3b7f00;
@@ -504,7 +593,7 @@ $itinerary-tab-switch-height: 48px;
 .citybike-duration-infobox {
   display: flex;
   height: auto;
-  background: #e5f2fa;
+  background: $infobox-color-generic-blue;
   border-radius: 5px;
   margin: 15px;
   padding: 15px;
@@ -566,6 +655,14 @@ $itinerary-tab-switch-height: 48px;
     .icon {
       width: 18px;
       height: 18px;
+    }
+  }
+
+  &.taxi {
+    .icon-container {
+      .icon {
+        width: 24px;
+      }
     }
   }
 }
@@ -883,6 +980,14 @@ $itinerary-tab-switch-height: 48px;
     &.scooter {
       @include setModeCircles($scooter-color);
     }
+
+    &.taxi-external {
+      @include setModeCircles($external-feed-color);
+    }
+
+    &.replacement-bus {
+      @include setModeCircles($replacement-bus-color);
+    }
   }
 }
 
@@ -1123,6 +1228,36 @@ $itinerary-tab-switch-height: 48px;
       }
     }
 
+    &.taxi-external {
+      .route-number {
+        top: 60%;
+
+        .icon-container {
+          .icon {
+            fill: black;
+            color: transparent;
+            font-size: 28px;
+          }
+        }
+      }
+
+      .leg-before-line {
+        &.taxi-external {
+          height: calc(85px + var(--taxi-leg-line-top));
+          background-position-y: 3px;
+          border-radius: 3px;
+        }
+
+        &.bottom {
+          background-position-y: 5px;
+          border-radius: 3px;
+          height: calc(60px + var(--taxi-leg-line-bottom));
+          overflow: hidden;
+          top: calc(77% - var(--taxi-leg-line-bottom) * 0.4);
+        }
+      }
+    }
+
     &.car {
       :last-child {
         bottom: initial;
@@ -1182,6 +1317,11 @@ $itinerary-tab-switch-height: 48px;
       .leg-before-line {
         top: 42px;
         height: calc(100% - 30px);
+
+        &.taxi {
+          top: 30px;
+          height: 100%;
+        }
       }
 
       .leg-before-circle {
@@ -1646,7 +1786,7 @@ $itinerary-tab-switch-height: 48px;
       min-height: 3em;
     }
 
-    .itinerary-leg-row-bike {
+    .itinerary-leg-row-with-link {
       display: flex;
       flex-direction: column;
       color: #333;
@@ -1655,7 +1795,7 @@ $itinerary-tab-switch-height: 48px;
         padding: 0.625em 0;
       }
 
-      .citybike-leg-header {
+      .leg-header {
         font-size: 15px;
         font-weight: $font-weight-book;
         max-height: 33px;
@@ -1726,24 +1866,45 @@ $itinerary-tab-switch-height: 48px;
       .platform-short {
         @include font-medium;
 
-        padding-left: 7px;
         font-weight: normal;
         font-size: 0.813rem;
+        align-items: center;
+        display: inline-flex;
+        gap: var(--space-xxs);
       }
 
       .platform-number-wrapper {
-        padding: 3px 10px 3px 10px;
+        padding: 3px 10px;
         border-radius: 5px;
         margin: 0 3px 0 3px;
-        background-color: #f4f4f5;
+        background-color: $background-color-lighter;
         font-weight: $font-weight-medium;
+        font-family: $id-font-family;
+
+        &.platform-updated {
+          @include platformUpdated;
+
+          .icon-container {
+            justify-content: center;
+
+            .platform-updated-icon {
+              height: 0.5em;
+              width: 0.5em;
+            }
+          }
+        }
       }
 
       .stop-code-container {
         padding-top: 5px;
+        display: flex;
+        align-items: center;
+        gap: var(--space-xs);
 
         .itinerary-stop-code {
           margin-left: 0;
+          margin-right: 0;
+          font-family: $id-font-family;
         }
       }
 
@@ -1781,11 +1942,16 @@ $itinerary-tab-switch-height: 48px;
         flex-grow: 1;
         max-width: calc(100% - 20px);
       }
+
+      &.alight {
+        display: flex;
+        align-items: center;
+      }
     }
 
-    .itinerary-transit-leg-route-bike {
+    .itinerary-transit-leg-route-with-link {
       display: flex;
-      background-color: #f4f4f5;
+      background-color: $background-color-lighter;
       border-radius: 5px;
       margin-bottom: 8px;
       color: $black;
@@ -1801,11 +1967,11 @@ $itinerary-tab-switch-height: 48px;
         color: $link-color;
       }
 
-      .citybike-itinerary {
+      .itinerary-with-link {
         display: flex;
         padding: 7px;
 
-        .citybike-itinerary-text-container {
+        .itinerary-with-link-text-container {
           display: flex;
           flex-direction: column;
         }
@@ -1875,6 +2041,7 @@ $itinerary-tab-switch-height: 48px;
 
         .scooter-icon .icon-container .icon {
           background-color: $scooter-color;
+          color: #fff;
           border-radius: 3px;
         }
 
@@ -1882,12 +2049,20 @@ $itinerary-tab-switch-height: 48px;
           position: absolute;
           bottom: 74px;
         }
+
+        .taxi-icon .icon-container .icon {
+          display: flex;
+          color: $external-feed-color;
+          border-radius: 3px;
+          font-size: 24px;
+          fill: white;
+        }
       }
     }
 
     .itinerary-transit-leg-route {
       display: flex;
-      background-color: #f4f4f5;
+      background-color: $background-color-lighter;
       border-radius: 5px;
       margin-bottom: 2px;
 
@@ -1916,6 +2091,7 @@ $itinerary-tab-switch-height: 48px;
           background-color: currentcolor;
           height: 1.5em;
           border-radius: $border-radius;
+          padding-right: 3px;
         }
 
         .occupancy-icon-container {
@@ -1936,11 +2112,12 @@ $itinerary-tab-switch-height: 48px;
 
         .vehicle-number-container-v {
           width: calc(100% - 1.5em);
+          text-align: center;
 
           .vehicle-number {
             color: $white;
             left: 1.5em;
-            width: 2.25em;
+            width: fit-content;
             text-align: center;
             padding: 4px 0 0 0;
 
@@ -1954,10 +2131,6 @@ $itinerary-tab-switch-height: 48px;
           .vehicle-number.airplane {
             width: auto;
             padding: 4px 4px 0 0;
-          }
-
-          .vehicle-number.ferry-external {
-            color: $black;
           }
         }
 
@@ -1984,7 +2157,7 @@ $itinerary-tab-switch-height: 48px;
       }
 
       &.alternative-leg-suggestion {
-        border: 2px solid #f4f4f5;
+        border: 2px solid $background-color-lighter;
         background-color: white;
       }
 
@@ -2023,6 +2196,14 @@ $itinerary-tab-switch-height: 48px;
       border-radius: 5px;
       border: solid 1px #ddd;
       margin-bottom: 10px;
+
+      &.no-link {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 6px 15px 8px 12px;
+        text-decoration: none;
+      }
 
       .disruption-icon {
         width: 18px;
@@ -2112,8 +2293,9 @@ $itinerary-tab-switch-height: 48px;
     .itinerary-leg-action {
       border-top: 1px solid #ddd;
       padding: 1.2em 0;
-      margin-bottom: 1px;
-      height: 60px;
+      margin-bottom: 0.1em;
+      min-height: 60px;
+      height: auto;
       font-size: 0.9375rem;
 
       @extend .itinerary-leg-text-gray;
@@ -2132,6 +2314,31 @@ $itinerary-tab-switch-height: 48px;
             padding-top: 5px;
           }
         }
+      }
+    }
+
+    .subway-entrance-info-container {
+      display: flex;
+      align-items: center;
+      height: 24px;
+      margin-top: 1px;
+
+      .subway-entrance-info-text {
+        margin-right: 0.4em;
+        align-items: center;
+      }
+
+      .icon-container {
+        display: flex;
+      }
+
+      .subway-entrance-info-icon {
+        color: #0074bf;
+        width: 24px;
+        height: 100%;
+        vertical-align: middle;
+        display: flex;
+        margin-right: 1px;
       }
     }
 
@@ -2328,7 +2535,7 @@ div.itinerary-container-content {
 
       a {
         font-weight: $font-weight-medium;
-        color: $link-color;
+        color: $link-button-color;
         max-width: 100%;
       }
 
@@ -2337,7 +2544,7 @@ div.itinerary-container-content {
       }
 
       .external-link-icon {
-        color: $link-color;
+        color: $link-button-color;
       }
     }
   }
@@ -3113,11 +3320,11 @@ $font-print-decrease: 0.7;
   font-size: 14px;
 
   &.caution {
-    background: #f4f4f5;
+    background: $background-color-lighter;
   }
 
   &.info {
-    background: #e5f1f9;
+    background: $info-background-color;
   }
 }
 
@@ -3126,7 +3333,7 @@ $font-print-decrease: 0.7;
 }
 
 .routing-feedback-container {
-  background-color: #f4f4f4;
+  background-color: $selector-background-color;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -3151,6 +3358,7 @@ $font-print-decrease: 0.7;
 .alternative-vehicle-info {
   background-color: $infobox-color-generic-blue;
   margin-top: 30px;
+  border: 1px solid $infobox-border-color;
 
   .info-icon {
     margin-right: 1em;
@@ -3188,6 +3396,31 @@ $font-print-decrease: 0.7;
       font-size: 15px;
       color: $link-color;
       text-decoration: none;
+    }
+  }
+}
+
+.platform-number-wrapper {
+  padding: 3px 10px;
+  border-radius: 5px;
+  margin: 0 3px 0 3px;
+  background-color: $background-color-lighter;
+  font-weight: $font-weight-medium;
+  font-family: $id-font-family;
+  display: inline;
+
+  &.platform-updated {
+    @include platformUpdated;
+
+    .icon-container {
+      display: inline-flex;
+      justify-content: center;
+
+      .platform-updated-icon {
+        vertical-align: middle;
+        color: $cancelation-red;
+        margin: 0 2px 0 2px;
+      }
     }
   }
 }

@@ -5,6 +5,8 @@ import CardHeader from '../../../app/component/CardHeader';
 import ExternalLink from '../../../app/component/ExternalLink';
 import AddressRow from '../../../app/component/AddressRow';
 
+const context = { context: { config: {} } };
+
 describe('<CardHeader />', () => {
   it('should render the header icon', () => {
     const props = {
@@ -13,7 +15,7 @@ describe('<CardHeader />', () => {
       name: 'Pasilan asema',
       stop: {},
     };
-    const wrapper = shallowWithIntl(<CardHeader {...props} />);
+    const wrapper = shallowWithIntl(<CardHeader {...props} />, context);
     expect(wrapper.find('.header-icon')).to.have.lengthOf(1);
   });
   it('should render the station code', () => {
@@ -25,7 +27,7 @@ describe('<CardHeader />', () => {
       network: 'citybike',
       stop: {},
     };
-    const wrapper = shallowWithIntl(<CardHeader {...props} />);
+    const wrapper = shallowWithIntl(<CardHeader {...props} />, context);
     const addressRow = wrapper.find(AddressRow);
     expect(addressRow.length).to.equal(1);
   });
@@ -41,7 +43,7 @@ describe('<CardHeader />', () => {
       ),
       stop: {},
     };
-    const wrapper = shallowWithIntl(<CardHeader {...props} />);
+    const wrapper = shallowWithIntl(<CardHeader {...props} />, context);
     expect(wrapper.find(ExternalLink)).to.have.lengthOf(1);
   });
 
@@ -55,7 +57,7 @@ describe('<CardHeader />', () => {
       externalLink: null,
       stop: {},
     };
-    const wrapper = shallowWithIntl(<CardHeader {...props} />);
+    const wrapper = shallowWithIntl(<CardHeader {...props} />, context);
     expect(wrapper.find(ExternalLink)).to.have.lengthOf(0);
   });
 });

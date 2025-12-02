@@ -1,6 +1,6 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
 import { configShape } from '../util/shapes';
+import CookieSettingsButton from './CookieSettingsButton';
 
 const MobileFooter = (props, { config }) => {
   return config.useCookiesPrompt ? (
@@ -8,14 +8,7 @@ const MobileFooter = (props, { config }) => {
       <div style={{ margin: '15px' }}>
         <div>{config.copyrightText || ''}</div>
         <div>
-          <button
-            type="button"
-            onClick={() =>
-              window.CookieConsent.renew && window.CookieConsent.renew()
-            }
-          >
-            <FormattedMessage id="cookie-settings" default="Cookie settings" />
-          </button>
+          <CookieSettingsButton isMobile />
         </div>
       </div>
       <div className="mobile-footer-bar-container">

@@ -1,19 +1,44 @@
 import distance from '@digitransit-search-util/digitransit-search-util-distance';
-import React from 'react';
 import cx from 'classnames';
+import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { ExtendedRouteTypes } from '../../../constants';
-import { getFaresFromLegs, formatFare } from '../../../util/fareUtils';
+import { addAnalyticsEvent } from '../../../util/analyticsUtils';
 import { GeodeticToEnu } from '../../../util/geo-utils';
-import { legTime, legTimeAcc } from '../../../util/legUtils';
+import { legTime, legTimeAcc, PLATFORM_STATUS } from '../../../util/legUtils';
+import {
+  getRouteMode,
+  getStopMode,
+  transitIconName,
+  modeUsesTrack,
+} from '../../../util/modeUtils';
 import { locationToUri } from '../../../util/otpStrings';
 import { getItineraryPagePath } from '../../../util/path';
 import { durationToString, epochToIso, timeStr } from '../../../util/timeUtils';
+import Icon from '../../Icon';
+import { getModeIconColor } from '../../../util/colorUtils';
+import RouteNumberContainer from '../../RouteNumberContainer';
+import Duration from '../Duration';
+import {
+  formatFare,
+  getFaresFromLegs,
+  shouldShowFareInfo,
+} from '../../../util/fareUtils';
 
-const TRANSFER_SLACK = 60000;
 const DISPLAY_MESSAGE_THRESHOLD = 120 * 1000; // 2 minutes
+const EARLIEST_NEXT_STOP = 60 * 1000;
+const NOTED_SEVERITY = ['WARNING', 'ALERT'];
 
 export const DESTINATION_RADIUS = 20; // meters
+export const ACCEPT_LOCATION_RADIUS = 1000;
+
+export const LEGTYPE = {
+  WAIT: 'WAIT',
+  MOVE: 'MOVE',
+  TRANSIT: 'TRANSIT',
+  PENDING: 'PENDING',
+  END: 'END',
+  WAIT_IN_VEHICLE: 'WAIT_IN_VEHICLE',
+};
 
 export function summaryString(legs, time, previousLeg, currentLeg, nextLeg) {
   const parts = epochToIso(time).split('T')[1].split('+');
@@ -108,22 +133,37 @@ export function pathProgress(pos, geom) {
     y: geom[minI].y + minF * dy,
   };
 
-  return { projected, distance: dst, traversed };
+  return { projected, orthogonalDistance: dst, traversed };
 }
 
 export function getRemainingTraversal(leg, pos, origin, time) {
   if (pos) {
-    // TODO: maybe apply only when distance is close enough to the path
     const posXY = GeodeticToEnu(pos.lat, pos.lon, origin);
-    const { traversed } = pathProgress(posXY, leg.geometry);
-    return 1.0 - traversed;
+    const { traversed, orthogonalDistance } = pathProgress(posXY, leg.geometry);
+    if (orthogonalDistance < ACCEPT_LOCATION_RADIUS) {
+      return 1.0 - traversed;
+    }
   }
   // estimate from elapsed time
   const duration = Math.max(legTime(leg.end) - legTime(leg.start), 1); // min 1 ms
   return Math.min(Math.max((legTime(leg.end) - time) / duration, 0), 1.0);
 }
 
-function findTransferProblems(legs, time, position, tailLength) {
+export function legTraversal(leg, origin, pos) {
+  const posXY = GeodeticToEnu(pos.lat, pos.lon, origin);
+  const { traversed, orthogonalDistance } = pathProgress(posXY, leg.geometry);
+  const metersToGo = (1.0 - traversed) * leg.distance;
+
+  return orthogonalDistance > ACCEPT_LOCATION_RADIUS
+    ? null
+    : { traversed, metersToGo };
+}
+
+function transferId(transfer) {
+  return `transfer-${transfer.fromLeg.legId}-${transfer.toLeg.legId}`;
+}
+
+function findTransferProblems(legs, time, position, tailLength, slack) {
   const transfers = [];
 
   for (let i = 1; i < legs.length - 1; i++) {
@@ -140,7 +180,7 @@ function findTransferProblems(legs, time, position, tailLength) {
         let severity;
         if (start < end) {
           severity = 'ALERT';
-        } else if (duration < TRANSFER_SLACK) {
+        } else if (duration < slack) {
           severity = 'WARNING';
         } else {
           severity = 'INFO'; // normal transfer
@@ -151,6 +191,8 @@ function findTransferProblems(legs, time, position, tailLength) {
           toLeg: leg,
           duration,
           slack: duration,
+          originalDuration:
+            legTime(leg.originalStart) - legTime(prev.originalEnd),
         });
       }
     }
@@ -160,6 +202,8 @@ function findTransferProblems(legs, time, position, tailLength) {
       const t1 = legTime(prev.end);
       const t2 = legTime(next.start);
       const duration = t2 - t1;
+      const originalDuration =
+        legTime(next.originalStart) - legTime(prev.originalEnd);
       if (t2 > time) {
         // transfer is not over yet
         if (t1 > t2) {
@@ -174,8 +218,8 @@ function findTransferProblems(legs, time, position, tailLength) {
           // check if user is already at the next departure stop
           const atStop =
             position && distance(position, leg.to) <= DESTINATION_RADIUS;
-          let slack = duration - legDuration;
-          if (!atStop && slack < TRANSFER_SLACK) {
+          let currentSlack = duration - legDuration;
+          if (!atStop && currentSlack < slack) {
             // original transfer not possible
             let severity = 'WARNING';
             let toGo;
@@ -202,17 +246,19 @@ function findTransferProblems(legs, time, position, tailLength) {
               fromLeg: prev,
               toLeg: next,
               duration,
+              originalDuration,
             });
           } else {
             if (atStop) {
-              slack = TRANSFER_SLACK * 2; // no slack prob if at stop
+              currentSlack *= 2; // no slack prob if at stop
             }
             transfers.push({
               severity: 'INFO',
               fromLeg: prev,
               toLeg: next,
               duration,
-              slack,
+              originalDuration,
+              slack: currentSlack,
             });
           }
         }
@@ -222,7 +268,14 @@ function findTransferProblems(legs, time, position, tailLength) {
   return transfers;
 }
 
-export const getLocalizedMode = (mode, intl) => {
+export const getLocalizedMode = (mode, intl, config) => {
+  if (config.useAlternativeNameForModes?.includes(mode)) {
+    return intl.formatMessage({
+      id: 'settings-alternative-name-rail',
+      defaultMessage: `${mode}`,
+    });
+  }
+
   return intl.formatMessage({
     id: `${mode.toLowerCase()}`,
     defaultMessage: `${mode}`,
@@ -243,64 +296,70 @@ export const getAdditionalMessages = (
   time,
   config,
   messages,
+  intl,
+  legs,
 ) => {
+  // Todo: multiple fares?
+  const fare = getFaresFromLegs([nextLeg], config)?.find(f => !f.isUnknown);
+  const isTicketSaleActive =
+    !config.hideNaviTickets && shouldShowFareInfo(config, legs) && fare;
+
   const msgs = [];
   const closed = messages.get('ticket')?.closed;
   if (
     !closed &&
     leg === firstLeg &&
-    legTime(leg.end) - time < DISPLAY_MESSAGE_THRESHOLD
+    legTime(leg.end) - time < DISPLAY_MESSAGE_THRESHOLD &&
+    isTicketSaleActive
   ) {
     // Todo: multiple fares?
     const fares = getFaresFromLegs([nextLeg], config);
+
     if (fares?.length && !fares[0].isUnknown) {
+      const title = intl.formatMessage({ id: 'navigation-remember-ticket' });
+      const body = `${fares[0].ticketName} ${formatFare(fares[0])}`;
+
       msgs.push({
         severity: 'INFO',
-        content: (
-          <div className="navi-info-content">
-            <span className="notification-header">
-              <FormattedMessage id="navigation-remember-ticket" />
-            </span>
-            <span>
-              {fares[0].ticketName} {formatFare(fares[0])}
-            </span>
-          </div>
-        ),
         id: 'ticket',
+        title,
+        body,
       });
     }
   }
   return msgs;
 };
 
-export const getTransitLegState = (leg, intl, messages, time) => {
+export const getTransitLegState = (
+  leg,
+  intl,
+  messages,
+  time,
+  settings,
+  config,
+) => {
   const { start, realtimeState, from, mode, legId, route } = leg;
   const { scheduledTime, estimated } = start;
-
   if (messages.get(legId)?.closed) {
     return [];
   }
-
-  const notInSchedule =
-    estimated?.delay > TRANSFER_SLACK || estimated?.delay < -TRANSFER_SLACK;
-  const localizedMode = getLocalizedMode(mode, intl);
+  const slack = settings.minTransferTime * 1000;
+  const notInSchedule = estimated?.delay > slack || estimated?.delay < -slack;
+  const localizedMode = getLocalizedMode(mode, intl, config);
   let content;
+  let title;
+  let body = '';
   let severity;
   const isRealTime = realtimeState === 'UPDATED';
   const shortName = route.shortName || '';
 
   if (notInSchedule) {
-    const lMode = getLocalizedMode(mode, intl);
+    const lMode = getLocalizedMode(mode, intl, config);
     const routeName = `${lMode} ${shortName}`;
     const { delay } = estimated;
 
     const translationId = `navigation-mode-${delay > 0 ? 'late' : 'early'}`;
-
-    content = (
-      <div className="navi-alert-content notification-header">
-        <FormattedMessage id={translationId} values={{ name: routeName }} />
-      </div>
-    );
+    title = intl.formatMessage({ id: translationId }, { name: routeName });
     severity = 'WARNING';
   } else if (!isRealTime) {
     const departure = leg.trip.stoptimesForDate[0];
@@ -312,20 +371,14 @@ export const getTransitLegState = (leg, intl, messages, time) => {
     } else {
       severity = 'WARNING';
     }
-    content = (
-      <div className="navi-info-content">
-        <span className="notification-header">
-          <FormattedMessage id="navileg-mode-schedule" />
-        </span>
-        <FormattedMessage
-          id="navileg-start-schedule"
-          values={{
-            route: shortName,
-            time: timeStr(scheduledTime),
-            mode: localizedMode,
-          }}
-        />
-      </div>
+    title = intl.formatMessage({ id: 'navileg-mode-schedule' });
+    body = intl.formatMessage(
+      { id: 'navileg-start-schedule' },
+      {
+        route: shortName,
+        time: timeStr(scheduledTime),
+        mode: localizedMode,
+      },
     );
   } else {
     const { parentStation, name } = from.stop;
@@ -337,35 +390,38 @@ export const getTransitLegState = (leg, intl, messages, time) => {
           ? 'from-station'
           : 'from-stop';
     const stopOrStation = intl.formatMessage({ id: fromId });
-
-    content = (
-      <div className="navi-info-content">
-        <span className="notification-header">
-          <FormattedMessage
-            id="navileg-mode-realtime"
-            values={{ route: shortName, mode: localizedMode }}
-          />
-        </span>
-        <FormattedMessage
-          id="navileg-start-realtime"
-          values={{
-            time: <span className="realtime">{timeStr(estimated.time)}</span>,
-            stopOrStation,
-            stopName: name,
-          }}
-        />
-      </div>
+    title = intl.formatMessage(
+      { id: 'navileg-mode-realtime' },
+      { route: shortName, mode: localizedMode },
+    );
+    body = intl.formatMessage(
+      { id: 'navileg-start-realtime' },
+      {
+        time: timeStr(estimated.time),
+        stopOrStation,
+        stopName: name,
+      },
     );
     severity = 'INFO';
   }
-  return [{ severity, content, id: legId, expiresOn: legTime(start) }];
+
+  return [
+    {
+      severity,
+      content,
+      id: legId,
+      expiresOn: legTime(start),
+      title,
+      body,
+    },
+  ];
 };
 
 export function itinerarySearchPath(time, leg, nextLeg, position, to) {
   let from;
   if (leg?.transitLeg) {
     from = leg.intermediatePlaces.find(
-      p => legTime(p.arrival) > time + TRANSFER_SLACK,
+      p => legTime(p.arrival) > time + EARLIEST_NEXT_STOP,
     );
     if (!from) {
       from = leg.to;
@@ -378,7 +434,23 @@ export function itinerarySearchPath(time, leg, nextLeg, position, to) {
   return getItineraryPagePath(locationToUri(location), to);
 }
 
-function withNewSearchBtn(children, searchCallback) {
+function withNewSearchBtn(children, searchCallback, alertType) {
+  addAnalyticsEvent({
+    category: 'Itinerary',
+    event: 'navigator',
+    action: 'notification_alert',
+  });
+
+  const handleClick = callback => () => {
+    addAnalyticsEvent({
+      category: 'Itinerary',
+      event: 'navigator',
+      action: 'notification_alert_click',
+      type: alertType,
+    });
+    callback();
+  };
+
   return (
     <div className="navi-info-content">
       {children}
@@ -386,7 +458,7 @@ function withNewSearchBtn(children, searchCallback) {
       <button
         className="new-itinerary-search"
         type="button"
-        onClick={searchCallback}
+        onClick={handleClick(searchCallback)}
       >
         <span className="notification-header">
           <FormattedMessage id="settings-dropdown-open-label" />
@@ -396,7 +468,50 @@ function withNewSearchBtn(children, searchCallback) {
   );
 }
 
-const notedSeverity = ['WARNING', 'ALERT'];
+function Transfer(route1, route2, config) {
+  const mode1 = getRouteMode(route1, config);
+  const mode2 = getRouteMode(route2, config);
+
+  return (
+    <span className="navi-transfer-container">
+      <div className="navi-transfer">
+        <RouteNumberContainer
+          className={cx('line', mode1)}
+          route={route1}
+          mode={mode1}
+          isTransitLeg
+          vertical
+          withBar
+        />
+        &nbsp;
+        <div className="arrow-center">
+          <Icon img="icon_arrow-right" omitViewBox />
+        </div>
+        &nbsp;
+        <RouteNumberContainer
+          className={cx('line', mode2)}
+          route={route2}
+          mode={mode2}
+          isTransitLeg
+          vertical
+          withBar
+        />
+      </div>
+    </span>
+  );
+}
+
+function TransferText(route1, route2, config, intl) {
+  const from = `${getLocalizedMode(
+    getRouteMode(route1, config),
+    intl,
+    config,
+  )} ${route1.shortName || ''}`;
+  const to = `${getLocalizedMode(getRouteMode(route2, config), intl, config)} ${
+    route2.shortName || ''
+  }`;
+  return `${from} -> ${to}`;
+}
 
 export const getItineraryAlerts = (
   legs,
@@ -406,8 +521,13 @@ export const getItineraryAlerts = (
   intl,
   messages,
   itinerarySearchCallback,
+  config,
+  settings,
+  nextLeg,
+  platformStatus,
 ) => {
   const alerts = [];
+  const slack = settings.minTransferTime * 1000;
   legs.forEach(leg => {
     if (leg.transitLeg && legTime(leg.end) > time) {
       const id = `alert-${leg.legId}`; // allow only one alert per leg
@@ -417,20 +537,15 @@ export const getItineraryAlerts = (
             // show only alerts that are active during the leg
             legTime(leg.end) / 1000 > al.effectiveStartDate &&
             legTime(leg.start) / 1000 < al.effectiveEndDate &&
-            notedSeverity.includes(al.alertSeverityLevel)
+            NOTED_SEVERITY.includes(al.alertSeverityLevel)
           );
         });
         if (alert) {
           alerts.push({
             severity: 'ALERT',
-            content: (
-              <div className="navi-info-content">
-                <span className="notification-header">
-                  {alert.alertHeaderText}
-                </span>
-              </div>
-            ),
             id,
+            title: alert.alertHeaderText,
+            body: '',
           });
         }
       }
@@ -442,120 +557,197 @@ export const getItineraryAlerts = (
   );
 
   if (canceled.length) {
-    // show routes button only for first canceled leg.
+    // show new itinerary search button only for first canceled leg
     canceled.forEach((leg, i) => {
       const { legId, mode, route } = leg;
-
-      const lMode = getLocalizedMode(mode, intl);
-      const routeName = `${lMode} ${route.shortName}`;
-
-      const m = (
-        <span className="notification-header">
-          <FormattedMessage
-            id="navigation-mode-canceled"
-            values={{ name: routeName }}
-          />
-        </span>
-      );
-      // we want to show the show routes button only for the first canceled leg.
-      const content =
-        i === 0 ? (
-          withNewSearchBtn({ m }, itinerarySearchCallback)
-        ) : (
-          <div className="navi-info-content notification-header">{m}</div>
+      const id = `canceled-${legId}`;
+      if (!messages.get(id)) {
+        const lMode = getLocalizedMode(mode, intl, config);
+        const routeName = `${lMode} ${route.shortName}`;
+        const title = intl.formatMessage(
+          { id: 'navigation-mode-canceled' },
+          { name: routeName },
         );
-
-      if (!messages.get(`canceled-${legId}`)) {
+        const jsxBody =
+          i === 0
+            ? withNewSearchBtn(
+                '',
+                itinerarySearchCallback,
+                `canceled_${route.shortName}${mode.toLowerCase()}`,
+              )
+            : undefined;
         alerts.push({
           severity: 'ALERT',
-          content,
-          id: `canceled-${legId}`,
+          id,
           hideClose: true,
           expiresOn: alert.effectiveEndDate * 1000,
+          title,
+          body: '',
+          jsxBody,
         });
       }
     });
   } else {
-    const transfers = findTransferProblems(legs, time, position, tailLength);
+    const transfers = findTransferProblems(
+      legs,
+      time,
+      position,
+      tailLength,
+      slack,
+    );
     if (transfers.length) {
+      let title;
+      let body;
+      let jsxBody;
       const prob =
         transfers.find(p => p.severity === 'ALERT') ||
         transfers.find(p => p.severity === 'WARNING');
       if (prob) {
-        const transferId = `transfer-${prob.fromLeg.legId}-${prob.toLeg.legId}}`;
-        const alert = messages.get(transferId);
+        const id = transferId(prob);
+        const alert = messages.get(id);
         if (!alert?.closed || alert?.severity !== prob.severity) {
-          let content;
+          const transfer = Transfer(
+            prob.fromLeg.route,
+            prob.toLeg.route,
+            config,
+          );
+          const desc = TransferText(
+            prob.fromLeg.route,
+            prob.toLeg.route,
+            config,
+            intl,
+          );
+
           if (prob.severity === 'ALERT') {
-            content = withNewSearchBtn(
-              <span className="notification-header">
-                <FormattedMessage
-                  id="navigation-transfer-problem"
-                  values={{
-                    route1: prob.fromLeg.route.shortName,
-                    route2: prob.toLeg.route.shortName,
-                  }}
-                />
-              </span>,
+            title = intl.formatMessage({ id: 'navigation-transfer-problem' });
+            body = intl.formatMessage(
+              { id: 'navigation-transfer-problem-details' },
+              { transfer: desc },
+            );
+            jsxBody = withNewSearchBtn(
+              <FormattedMessage
+                id="navigation-transfer-problem-details"
+                values={{ transfer }}
+              />,
               itinerarySearchCallback,
+              `transfer-${
+                prob.fromLeg.route.shortName
+              }${prob.fromLeg.mode.toLowerCase()}-${
+                prob.toLeg.route.shortName
+              }${prob.toLeg.mode.toLowerCase()}`,
             );
           } else {
-            content = (
-              <div className="navi-info-content">
-                <span className="notification-header">
-                  <FormattedMessage id="navigation-hurry-transfer" />
-                </span>
-                <FormattedMessage
-                  id="navigation-hurry-transfer-value"
-                  values={{
-                    transfer: `${prob.fromLeg.route.shortName} - ${prob.toLeg.route.shortName}`,
-                    time: durationToString(prob.duration),
-                  }}
-                />
-              </div>
+            title = intl.formatMessage({ id: 'navigation-hurry-transfer' });
+            const change = Math.floor(
+              (prob.duration - prob.originalDuration) / 60000,
+            );
+
+            body = intl.formatMessage(
+              { id: 'navigation-hurry-transfer-value' },
+              { transfer: desc, time: durationToString(prob.duration), change },
+            );
+            jsxBody = (
+              <FormattedMessage
+                id="navigation-hurry-transfer-value"
+                values={{
+                  transfer,
+                  time: <Duration duration={prob.duration} />,
+                  change,
+                }}
+              />
             );
           }
 
           alerts.push({
             severity: prob.severity,
-            content,
-            id: transferId,
+            id,
             hideClose: prob.severity === 'ALERT',
             expiresOn: legTime(prob.toLeg.start),
+            title,
+            body,
+            jsxBody,
           });
         }
       }
       // show notification when problem gets solved
       transfers.forEach(tr => {
-        if (tr.severity === 'INFO' && tr.slack > 1.5 * TRANSFER_SLACK) {
-          const id = `transfer-${tr.fromLeg.legId}-${tr.toLeg.legId}}`;
+        if (tr.severity === 'INFO' && tr.slack > 1.1 * slack) {
+          const id = transferId(tr);
           const alert = messages.get(id);
           if (alert && alert.severity !== 'INFO') {
-            // a warning/alert has been showm
+            title = intl.formatMessage({
+              id: 'navigation-hurry-transfer-solved',
+            });
+            body = intl.formatMessage(
+              { id: 'navigation-hurry-transfer-solved-details' },
+              {
+                transfer: TransferText(
+                  tr.fromLeg.route,
+                  tr.toLeg.route,
+                  config,
+                  intl,
+                ),
+                time: durationToString(tr.duration),
+              },
+            );
+            jsxBody = (
+              <FormattedMessage
+                id="navigation-hurry-transfer-solved-details"
+                values={{
+                  transfer: Transfer(tr.fromLeg.route, tr.toLeg.route, config),
+                  time: <Duration duration={tr.duration} />,
+                }}
+              />
+            );
+
+            // a warning/alert has been shown
             alerts.push({
               severity: 'INFO',
-              content: (
-                <div className="navi-info-content">
-                  <span className="notification-header">
-                    <FormattedMessage id="navigation-hurry-transfer-solved" />
-                  </span>
-                  <FormattedMessage
-                    id="navigation-hurry-transfer-solved-details"
-                    values={{
-                      transfer: `${tr.fromLeg.route.shortName} - ${tr.toLeg.route.shortName}`,
-                      time: durationToString(tr.duration),
-                    }}
-                  />
-                </div>
-              ),
               id,
               expiresOn: legTime(tr.toLeg.start),
+              title,
+              body,
+              jsxBody,
             });
           }
         }
       });
     }
   }
+
+  // Platform change alert for the next leg of the journey.
+  if (
+    platformStatus !== PLATFORM_STATUS.NORMAL &&
+    nextLeg?.transitLeg &&
+    legTime(nextLeg.start) > time
+  ) {
+    const id = `platform-${nextLeg.legId}`;
+    if (!messages.get(id)?.closed) {
+      const boardingType = modeUsesTrack(nextLeg.mode) ? 'track' : 'platform';
+      const translationKey =
+        platformStatus === PLATFORM_STATUS.RESTORED
+          ? `navigation-${boardingType}-restored`
+          : `navigation-${boardingType}-change`;
+      const title = intl.formatMessage({ id: translationKey });
+      const lMode = getLocalizedMode(nextLeg.mode, intl, config);
+      const routeName = `${lMode} ${nextLeg.route?.shortName}`;
+      const body = intl.formatMessage(
+        { id: `navigation-${boardingType}-change-details` },
+        {
+          number: nextLeg.from.stop.platformCode || '',
+          name: routeName || '',
+        },
+      );
+      alerts.push({
+        severity: 'WARNING',
+        id,
+        expiresOn: legTime(nextLeg.start),
+        title,
+        body,
+      });
+    }
+  }
+
   return alerts;
 };
 
@@ -563,6 +755,7 @@ export const getItineraryAlerts = (
  * Get the properties of the destination based on the leg.
  *
  */
+
 export const getDestinationProperties = (
   rentalVehicle,
   vehicleParking,
@@ -570,18 +763,9 @@ export const getDestinationProperties = (
   stop,
   config,
 ) => {
-  const { routes, vehicleMode } = stop;
+  const { routes, vehicleMode, code } = stop;
   let destination = {};
-  let mode = vehicleMode;
-  if (routes && vehicleMode === 'BUS' && config.useExtendedRouteTypes) {
-    if (routes.some(p => p.type === ExtendedRouteTypes.BusExpress)) {
-      mode = 'bus-express';
-    }
-  } else if (routes && vehicleMode === 'TRAM' && config.useExtendedRouteTypes) {
-    if (routes.some(p => p.type === ExtendedRouteTypes.SpeedTram)) {
-      mode = 'speedtram';
-    }
-  }
+  const mode = getStopMode(vehicleMode, routes, code, config);
   // todo: scooter and citybike icons etc.
   if (rentalVehicle) {
     destination.name = rentalVehicle.rentalNetwork.networkId;
@@ -590,52 +774,10 @@ export const getDestinationProperties = (
   } else if (vehicleRentalStation) {
     destination.name = vehicleRentalStation.name;
   } else {
-    let iconProps = {};
-    switch (mode) {
-      case 'TRAM,BUS':
-        iconProps = {
-          iconId: 'icon-icon_bustram-stop-lollipop',
-          className: 'tram-stop',
-        };
-        break;
-      case 'SUBWAY':
-        iconProps = {
-          iconId: 'icon-icon_subway',
-          className: 'subway-stop',
-        };
-        break;
-      case 'RAIL':
-        iconProps = {
-          iconId: 'icon-icon_rail-stop-lollipop',
-          className: 'rail-stop',
-        };
-
-        break;
-      case 'FERRY':
-        iconProps = {
-          iconId: 'icon-icon_ferry',
-          className: 'ferry-stop',
-        };
-        break;
-      case 'bus-express':
-        iconProps = {
-          iconId: 'icon-icon_bus-stop-express-lollipop',
-          className: 'bus-stop',
-        };
-        break;
-      case 'speedtram':
-        iconProps = {
-          iconId: 'icon-icon_speedtram-stop-lollipop',
-          className: 'speedtram-stop',
-        };
-        break;
-      default:
-        iconProps = {
-          iconId: `icon-icon_${mode.toLowerCase()}-stop-lollipop`,
-        };
-    }
     destination = {
-      ...iconProps,
+      className: mode,
+      iconId: transitIconName(mode, mode !== 'ferry'),
+      iconColor: getModeIconColor(config, mode),
       name: stop.name,
     };
   }
@@ -643,15 +785,6 @@ export const getDestinationProperties = (
   return destination;
 };
 
-export const LEGTYPE = {
-  WAIT: 'WAIT',
-  MOVE: 'MOVE',
-  TRANSIT: 'TRANSIT',
-  PENDING: 'PENDING',
-  END: 'END',
-  WAIT_IN_VEHICLE: 'WAIT_IN_VEHICLE',
-};
-
 export const withRealTime = (rt, children) => (
-  <span className={cx('bold', { realtime: rt })}>{children}</span>
+  <span className={cx({ bold: rt, realtime: rt })}>{children}</span>
 );

@@ -18,7 +18,6 @@ const globals = {
   classnames: 'cx',
   'prop-types': 'PropTypes',
   i18next: 'i18next',
-  'moment-timezone': 'moment',
   'react-autosuggest': 'Autosuggest',
   'react-sortablejs': 'reactSortablejs',
   'react-modal': 'ReactModal',
@@ -48,7 +47,6 @@ const globals = {
   'lodash/get': 'get',
   'lodash/uniq': 'uniq',
   'lodash/compact': 'compact',
-  moment: 'moment',
   'react-relay': 'reactRelay',
 };
 

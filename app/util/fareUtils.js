@@ -38,8 +38,9 @@ export const getFaresFromLegs = (legs, config) => {
   }));
 
   // Legs that have empty fares but still have a route, i.e. transit legs
+  // Never show unknown fares for TAXI legs
   const unknownFareLegs = filteredLegs
-    .filter(l => l.fareProducts.length === 0 && l.route)
+    .filter(l => l.fareProducts.length === 0 && l.route && l.mode !== 'TAXI')
     .map(leg => ({
       agency: {
         fareUrl: leg.route.agency.fareUrl,
@@ -91,15 +92,28 @@ export const getAlternativeFares = (zones, currentFares, allFares) => {
  *
  * @param {*} config configuration.
  */
-export const shouldShowFareInfo = config =>
-  (!config.showTicketLinkOnlyWhenTesting ||
-    window.localStorage
-      .getItem('favouriteStore')
-      ?.includes('Lippulinkkitestaus2025')) &&
-  config.showTicketInformation &&
-  config.availableTickets &&
-  Array.isArray(config.feedIds) &&
-  config.feedIds.some(feedId => config.availableTickets[feedId]);
+export const shouldShowFareInfo = (config, legs, fares) => {
+  if (fares && config.hideUnknownFares && fares.some(fare => fare.isUnknown)) {
+    return false;
+  }
+  if (
+    config.externalFareRouteIds &&
+    legs?.some(
+      leg =>
+        leg.route &&
+        config.externalFareRouteIds.includes(leg.route.gtfsId.split(':')[1]),
+    )
+  ) {
+    return false;
+  }
+
+  return (
+    config.showTicketInformation &&
+    config.availableTickets &&
+    Array.isArray(config.feedIds) &&
+    config.feedIds.some(feedId => config.availableTickets[feedId])
+  );
+};
 
 export const shouldShowFarePurchaseInfo = (config, breakpoint, fares) => {
   const unknownFares = fares?.some(fare => fare.isUnknown);
@@ -110,11 +124,47 @@ export const shouldShowFarePurchaseInfo = (config, breakpoint, fares) => {
   if (huaweiPattern.test(userAgent) || windowsPattern.test(userAgent)) {
     return false;
   }
+
   return (
+    (!config.showTicketLinkOnlyWhenTesting ||
+      window.localStorage
+        .getItem('favouriteStore')
+        ?.includes('Lippulinkkitestaus2025')) &&
     !unknownFares &&
     fares?.length === 1 &&
     config.ticketPurchaseLink &&
     config.ticketLinkOperatorCode &&
+    config.availableTickets &&
     breakpoint !== 'large'
   );
+};
+
+/**
+ *  Returns a string that contains the ticket type(s) for the itinerary.
+ *  If there are multiple fares, they are separated by semicolons.
+ *  If there are alternative fares, they are separated by commas.
+ *  If there are any unknown fares, an empty string is returned.
+ * @param {*} legs
+ * @param {*} zones
+ * @param {*} config
+ * @returns
+ */
+export const getTicketString = (legs, zones, config) => {
+  const fares = getFaresFromLegs(legs, config);
+  let ticket =
+    !fares || fares.some(fare => fare.isUnknown)
+      ? ''
+      : fares.map(fare => fare.ticketName).join(';');
+
+  if (ticket) {
+    const alternativeTickets = getAlternativeFares(
+      zones,
+      fares,
+      config.availableTickets,
+    ).join(',');
+    if (alternativeTickets) {
+      ticket += `,${alternativeTickets}`;
+    }
+  }
+  return ticket;
 };

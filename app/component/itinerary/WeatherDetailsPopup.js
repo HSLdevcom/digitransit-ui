@@ -28,7 +28,7 @@ export default function WeatherDetailsPopup(
           {weatherData.time}
         </h3>
         <div className="weather-icon-row">
-          <Icon img={`icon-icon_weather_${weatherData.iconId}`} />
+          <Icon img={`icon_weather_${weatherData.iconId}`} />
           <span className="weather-temperature">
             {`${Math.round(weatherData.temperature) > 1 ? '+' : ''}${Math.round(
               weatherData.temperature,

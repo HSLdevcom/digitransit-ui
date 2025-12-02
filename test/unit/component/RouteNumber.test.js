@@ -14,49 +14,43 @@ describe('<RouteNumber />', () => {
     const wrapper = shallowWithIntl(<RouteNumber {...props} />, {
       context: mockContext,
     });
-    expect(wrapper.find(IconWithIcon).prop('img')).to.equal(
-      'icon-icon_citybike',
-    );
+    expect(wrapper.find(IconWithIcon).prop('img')).to.equal('icon_citybike');
   });
 
   it('should use the given icon', () => {
     const props = {
-      icon: 'icon-icon_scooter',
+      icon: 'icon_scooter',
       mode: 'CITYBIKE',
     };
     const wrapper = shallowWithIntl(<RouteNumber {...props} />, {
       context: mockContext,
     });
-    expect(wrapper.find(IconWithIcon).prop('img')).to.equal(
-      'icon-icon_scooter',
-    );
+    expect(wrapper.find(IconWithIcon).prop('img')).to.equal('icon_scooter');
   });
 
   it('should use the given icon when there is a disruption', () => {
     const props = {
       hasDisruption: true,
-      icon: 'icon-icon_scooter',
+      icon: 'icon_scooter',
       mode: 'CITYBIKE',
     };
     const wrapper = shallowWithIntl(<RouteNumber {...props} />, {
       context: mockContext,
     });
     expect(wrapper.find(IconWithBigCaution).prop('img')).to.equal(
-      'icon-icon_scooter',
+      'icon_scooter',
     );
   });
 
   it('should use the given icon when there is a call agency', () => {
     const props = {
-      icon: 'icon-icon_scooter',
+      icon: 'icon_scooter',
       isCallAgency: true,
       mode: 'CITYBIKE',
     };
     const wrapper = shallowWithIntl(<RouteNumber {...props} />, {
       context: mockContext,
     });
-    expect(wrapper.find(IconWithIcon).prop('img')).to.equal(
-      'icon-icon_scooter',
-    );
+    expect(wrapper.find(IconWithIcon).prop('img')).to.equal('icon_scooter');
   });
 });

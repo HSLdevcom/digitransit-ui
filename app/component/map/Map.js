@@ -11,8 +11,6 @@ import get from 'lodash/get';
 import isString from 'lodash/isString';
 import isEmpty from 'lodash/isEmpty';
 import { configShape } from '../../util/shapes';
-// Webpack handles this by bundling it with the other css files
-import 'leaflet/dist/leaflet.css';
 import VehicleMarkerContainer from './VehicleMarkerContainer';
 import {
   startRealTimeClient,
@@ -26,8 +24,8 @@ import { getLayerBaseUrl } from '../../util/mapLayerUtils';
 import GeoJSON from './GeoJSON';
 import { mapLayerShape } from '../../store/MapLayerStore';
 
-const zoomOutText = `<svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-icon_minus"/></svg>`;
-const zoomInText = `<svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-icon_plus"/></svg>`;
+const zoomOutText = `<svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon_minus"/></svg>`;
+const zoomInText = `<svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon_plus"/></svg>`;
 const EXTRA_PADDING = 100;
 /* foo-eslint-disable react/sort-comp */
 
@@ -62,7 +60,7 @@ export default class Map extends React.Component {
     lon: PropTypes.number,
     zoom: PropTypes.number,
     bounds: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)),
-    hilightedStops: PropTypes.arrayOf(PropTypes.string),
+    highlightedStops: PropTypes.arrayOf(PropTypes.string),
     stopsToShow: PropTypes.arrayOf(PropTypes.string),
     objectsToHide: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)),
     lang: PropTypes.string.isRequired,
@@ -99,7 +97,7 @@ export default class Map extends React.Component {
     topButtons: null,
     mergeStops: true,
     mapLayers: { geoJson: {} },
-    hilightedStops: undefined,
+    highlightedStops: undefined,
     stopsToShow: undefined,
     onSelectLocation: undefined,
     geoJson: undefined,
@@ -128,9 +126,13 @@ export default class Map extends React.Component {
         paddingBottomRight: [0, (window.innerHeight - 64) / 2],
       };
     }
+    this.mounted = false;
   }
 
   updateZoom = () => {
+    if (!this.mounted) {
+      return;
+    }
     // eslint-disable-next-line no-underscore-dangle
     const zoom = this.map?.leafletElement?._zoom || this.props.zoom || 16;
     if (zoom !== this.state.zoom) {
@@ -139,6 +141,7 @@ export default class Map extends React.Component {
   };
 
   componentDidMount() {
+    this.mounted = true;
     if (this.props.mapLayers.vehicles) {
       startClient(this.context);
     }
@@ -173,6 +176,7 @@ export default class Map extends React.Component {
   }
 
   componentWillUnmount() {
+    this.mounted = false;
     const { client } = this.context.getStore('RealTimeInformationStore');
     if (client) {
       this.context.executeAction(stopRealTimeClient, client);
@@ -264,7 +268,7 @@ export default class Map extends React.Component {
     const leafletObjNew = leafletObjs.concat([
       <VectorTileLayerContainer
         key="vectorTileLayerContainer"
-        hilightedStops={this.props.hilightedStops}
+        highlightedStops={this.props.highlightedStops}
         mergeStops={this.props.mergeStops}
         stopsToShow={this.props.stopsToShow}
         objectsToHide={this.props.objectsToHide}

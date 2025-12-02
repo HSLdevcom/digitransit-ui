@@ -1,9 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import Popup from 'react-leaflet/es/Popup';
 import { configShape } from '../../../util/shapes';
-import { isBrowser } from '../../../util/browser';
-
-const Popup = isBrowser ? require('react-leaflet/es/Popup').default : null; // eslint-disable-line global-require
 
 export default function SelectedStopPopup({ lat, lon, children }, { config }) {
   return (

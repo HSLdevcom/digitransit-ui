@@ -81,17 +81,17 @@ describe('vehiclerental', () => {
   });
 
   describe('getRentalNetworkIcon', () => {
-    it('should default to "icon-icon_citybike"', () => {
+    it('should default to "icon_citybike"', () => {
       const result = getRentalNetworkIcon();
-      expect(result).to.equal('icon-icon_citybike');
+      expect(result).to.equal('icon_citybike');
     });
 
-    it('should default to "icon-icon_citybike" if no icon has been defined', () => {
+    it('should default to "icon_citybike" if no icon has been defined', () => {
       const networkConfig = {
         icon: undefined,
       };
       const result = getRentalNetworkIcon(networkConfig);
-      expect(result).to.equal('icon-icon_citybike');
+      expect(result).to.equal('icon_citybike');
     });
 
     it('should return the given icon', () => {
@@ -99,7 +99,7 @@ describe('vehiclerental', () => {
         icon: 'foobar',
       };
       const result = getRentalNetworkIcon(networkConfig);
-      expect(result).to.equal('icon-icon_foobar');
+      expect(result).to.equal('icon_foobar');
     });
   });
 

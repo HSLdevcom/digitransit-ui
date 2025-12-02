@@ -16,11 +16,18 @@ function SelectVehicleRentalRow(
   { name, network, id, desc, prefix, icon },
   { config },
 ) {
-  const img =
+  const iconName =
     icon ||
-    `${getRentalNetworkIcon(
-      getRentalNetworkConfig(network, config),
-    )}-stop-lollipop`;
+    `${getRentalNetworkIcon(getRentalNetworkConfig(network, config))}-lollipop`;
+  const { colors } = config;
+  let color;
+  if (iconName.includes('scooter')) {
+    color = colors.iconColors['mode-scooter'];
+  } else if (iconName.includes('secondary')) {
+    color = colors.iconColors['mode-citybike-secondary'];
+  } else {
+    color = colors.iconColors['mode-citybike'];
+  }
 
   const linkAddress = `/${prefix}/${encodeURIComponent(id)}`;
 
@@ -28,7 +35,7 @@ function SelectVehicleRentalRow(
   return (
     <Link className="stop-popup-choose-row" to={linkAddress}>
       <span className="choose-row-left-column" aria-hidden="true">
-        <Icon img={img} />
+        <Icon img={iconName} color={color} />
       </span>
       <span className="choose-row-center-column">
         <h5 className="choose-row-header">{name}</h5>
@@ -40,7 +47,7 @@ function SelectVehicleRentalRow(
         </span>
       </span>
       <span className="choose-row-right-column">
-        <Icon img="icon-icon_arrow-collapse--right" />
+        <Icon img="icon_arrow-collapse--right" />
       </span>
     </Link>
   );

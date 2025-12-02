@@ -1,5 +1,3 @@
-import { isBrowser } from '../util/browser';
-
 function handleSecurityError(error, logMessage) {
   if (error.name === 'SecurityError') {
     if (logMessage) {
@@ -10,24 +8,17 @@ function handleSecurityError(error, logMessage) {
   }
 }
 
-export const getLocalStorage = (
-  runningInBrowser,
-  errorHandler = handleSecurityError,
-) => {
-  if (runningInBrowser) {
-    try {
-      return window.localStorage;
-    } catch (error) {
-      errorHandler(error);
-      return null;
-    }
-  } else {
-    return global.localStorage;
+export const getLocalStorage = (errorHandler = handleSecurityError) => {
+  try {
+    return window.localStorage;
+  } catch (error) {
+    errorHandler(error);
+    return null;
   }
 };
 
 function setItem(key, value) {
-  const localStorage = getLocalStorage(isBrowser);
+  const localStorage = getLocalStorage();
   if (localStorage) {
     try {
       localStorage.setItem(key, JSON.stringify(value));
@@ -50,7 +41,7 @@ function setItem(key, value) {
 }
 
 function getItem(key) {
-  const localStorage = getLocalStorage(isBrowser);
+  const localStorage = getLocalStorage();
   if (localStorage) {
     try {
       return localStorage.getItem(key);
@@ -72,7 +63,7 @@ function getItemAsJson(key, defaultValue) {
 }
 
 export function removeItem(k) {
-  const localStorage = getLocalStorage(isBrowser);
+  const localStorage = getLocalStorage();
   if (localStorage) {
     try {
       localStorage.removeItem(k);
@@ -104,7 +95,7 @@ export function setCustomizedSettings(data) {
   const oldSettings = getCustomizedSettings();
 
   const newSettings = {
-    accessibilityOption: getNumberValueOrDefault(
+    accessibilityOption: getValueOrDefault(
       data.accessibilityOption,
       oldSettings.accessibilityOption,
     ),
@@ -147,6 +138,10 @@ export function setCustomizedSettings(data) {
     showBikeAndParkItineraries: getValueOrDefault(
       data.showBikeAndParkItineraries,
       oldSettings.showBikeAndParkItineraries,
+    ),
+    includeTaxiSuggestions: getValueOrDefault(
+      data.includeTaxiSuggestions,
+      oldSettings.includeTaxiSuggestions,
     ),
   };
   if (newSettings.modes) {
@@ -201,13 +196,13 @@ export function getFavouriteRoutesStorage() {
   return getItemAsJson('favouriteRoutes');
 }
 
+const filterOld = ['SelectFromMap', 'SelectFromOwnLocations', 'back'];
+
 export function getOldSearchesStorage() {
   const storage = getItemAsJson('saved-searches', '{"items": []}');
   return {
     ...storage,
-    items: storage.items.filter(
-      search => search.item.address !== 'SelectFromMap',
-    ),
+    items: storage.items.filter(s => !filterOld.includes(s.item.address)),
   };
 }
 
@@ -297,4 +292,12 @@ export const getLatestNavigatorItinerary = () => {
 
 export const clearLatestNavigatorItinerary = () => {
   setItem('latestNavigatorItinerary', {});
+};
+
+export const updateLatestNavigatorItineraryParams = valueObj => {
+  const itinerary = getItemAsJson('latestNavigatorItinerary', '{}');
+  setItem('latestNavigatorItinerary', {
+    itinerary: itinerary.itinerary,
+    params: { ...itinerary.params, ...valueObj },
+  });
 };

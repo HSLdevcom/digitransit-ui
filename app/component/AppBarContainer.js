@@ -1,38 +1,18 @@
 import PropTypes from 'prop-types';
-import React, { useState, useEffect, Suspense, lazy } from 'react';
+import React from 'react';
 import { matchShape, routerShape } from 'found';
 import { FormattedMessage } from 'react-intl';
-import getContext from 'recompose/getContext';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import withBreakpoint from '../util/withBreakpoint';
 import { favouriteShape, userShape } from '../util/shapes';
+import AppBar from './AppBar';
+import AppBarHsl from './AppBarHsl';
+import MessageBar from './MessageBar';
 
-const AppBar = lazy(() => import('./AppBar'));
-const AppBarHsl = lazy(() => import('./AppBarHsl'));
-const MessageBar = lazy(() => import('./MessageBar'));
-
-const AppBarContainer = ({
-  router,
-  match,
-  homeUrl,
-  logo,
-  user,
-  favourites,
-  style,
-  lang,
-  breakpoint,
-  ...args
-}) => {
-  const [isClient, setClient] = useState(false);
-
-  useEffect(() => {
-    // To prevent SSR from rendering something https://reactjs.org/docs/react-dom.html#hydrate
-    setClient(true);
-  });
-
-  if (!isClient) {
-    return null;
-  }
+const AppBarContainer = (
+  { homeUrl, logo, user, favourites, style, lang, breakpoint, ...args },
+  { match, router },
+) => {
   return (
     <>
       <a
@@ -47,44 +27,42 @@ const AppBarContainer = ({
       </a>
       {style === 'hsl' ? (
         <div className="hsl-header-container" style={{ display: 'block' }}>
-          <Suspense fallback="">
-            <AppBarHsl user={user} lang={lang} favourites={favourites} />
-            <MessageBar breakpoint={breakpoint} />
-          </Suspense>
+          <AppBarHsl user={user} lang={lang} favourites={favourites} />
+          <MessageBar breakpoint={breakpoint} />
         </div>
       ) : (
-        <Suspense fallback="">
-          <AppBar
-            {...args}
-            showLogo
-            logo={logo}
-            homeUrl={homeUrl}
-            user={user}
-            breakpoint={breakpoint}
-            titleClicked={() =>
-              router.push({
-                ...match.location,
-                pathname: homeUrl,
-                state: {
-                  ...match.location.state,
-                  errorBoundaryKey:
-                    match.location.state &&
-                    match.location.state.errorBoundaryKey
-                      ? match.location.state.errorBoundaryKey + 1
-                      : 1,
-                },
-              })
-            }
-          />
-        </Suspense>
+        <AppBar
+          {...args}
+          showLogo
+          logo={logo}
+          homeUrl={homeUrl}
+          user={user}
+          breakpoint={breakpoint}
+          titleClicked={() =>
+            router.push({
+              ...match.location,
+              pathname: homeUrl,
+              state: {
+                ...match.location.state,
+                errorBoundaryKey:
+                  match.location.state && match.location.state.errorBoundaryKey
+                    ? match.location.state.errorBoundaryKey + 1
+                    : 1,
+              },
+            })
+          }
+        />
       )}
     </>
   );
 };
 
-AppBarContainer.propTypes = {
+AppBarContainer.contextTypes = {
   match: matchShape.isRequired,
   router: routerShape.isRequired,
+};
+
+AppBarContainer.propTypes = {
   homeUrl: PropTypes.string.isRequired,
   logo: PropTypes.string,
   user: userShape,
@@ -104,10 +82,7 @@ AppBarContainer.defaultProps = {
 const AppBarContainerWithBreakpoint = withBreakpoint(AppBarContainer);
 
 const WithContext = connectToStores(
-  getContext({
-    match: matchShape.isRequired,
-    router: routerShape.isRequired,
-  })(AppBarContainerWithBreakpoint),
+  AppBarContainerWithBreakpoint,
   ['FavouriteStore', 'UserStore', 'PreferencesStore'],
   context => ({
     user: context.getStore('UserStore').getUser(),

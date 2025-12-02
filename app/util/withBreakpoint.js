@@ -18,24 +18,13 @@ export function getClientBreakpoint(width) {
   return 'large';
 }
 
-export function getServerBreakpoint(userAgent) {
-  return userAgent && userAgent.toLowerCase().includes('mobile')
-    ? 'small'
-    : 'large';
-}
-
 export class ClientProvider extends React.Component {
   static propTypes = {
     children: PropTypes.node.isRequired,
-    serverGuessedBreakpoint: PropTypes.string,
-  };
-
-  static defaultProps = {
-    serverGuessedBreakpoint: null,
   };
 
   state = {
-    breakpoint: this.props.serverGuessedBreakpoint || getClientBreakpoint(),
+    breakpoint: getClientBreakpoint(),
   };
 
   componentDidMount() {

@@ -1,11 +1,17 @@
-/* eslint-disable prefer-template */
 import configMerger from '../util/configMerger';
+import walttiConfig from './config.waltti';
 
 const CONFIG = 'oulu';
 const APP_DESCRIPTION = 'Oulun seudun reittiopas';
 const APP_TITLE = 'Reittiopas';
 
-const walttiConfig = require('./config.waltti').default;
+const IS_DEV =
+  process.env.RUN_ENV === 'development' ||
+  process.env.NODE_ENV !== 'production';
+
+const virtualMonitorBaseUrl = IS_DEV
+  ? 'https://dev-oulumonitori.digitransit.fi'
+  : 'https://pysakkinaytto.osl.fi';
 
 export default configMerger(walttiConfig, {
   CONFIG,
@@ -30,6 +36,11 @@ export default configMerger(walttiConfig, {
     twitter: {
       site: '@oulunkaupunki',
     },
+    image: {
+      url: 'img/social-share-oulu.png',
+      width: 1181,
+      height: 472,
+    },
   },
 
   title: APP_TITLE,
@@ -40,24 +51,26 @@ export default configMerger(walttiConfig, {
   logo: 'oulu/oulu-logo.png',
   secondaryLogo: 'oulu/secondary-oulu-logo.png',
 
-  searchParams: {
-    'boundary.rect.min_lat': 64.71,
-    'boundary.rect.max_lat': 65.38,
-    'boundary.rect.min_lon': 24.37,
-    'boundary.rect.max_lon': 26.61,
-  },
-
   transportModes: {
     citybike: {
       availableForSelection: false,
     },
   },
 
+  useSearchPolygon: true,
+
   areaPolygon: [
-    [24.37, 64.71],
-    [24.37, 65.38],
-    [26.61, 65.38],
-    [26.61, 64.71],
+    [24.362, 64.682],
+    [24.934, 64.67],
+    [25.912, 64.443],
+    [26.409, 64.453],
+    [26.836, 64.879],
+    [26.836, 65.089],
+    [26.603, 65.324],
+    [26.414, 65.395],
+    [26.189, 65.833],
+    [25.022, 65.671],
+    [24.362, 65.246],
   ],
 
   defaultEndpoint: {
@@ -146,14 +159,25 @@ export default configMerger(walttiConfig, {
   },
   stopCard: {
     header: {
-      virtualMonitorBaseUrl: 'https://pysakkinaytto.osl.fi/',
+      virtualMonitorBaseUrl,
     },
   },
 
   mainMenu: {
     stopMonitor: {
       show: true,
-      url: 'https://pysakkinaytto.osl.fi/createview',
+      url: `${virtualMonitorBaseUrl}/createview`,
     },
   },
+
+  showTicketInformation: true,
+  useTicketIcons: true,
+  ticketLink: {
+    fi: 'https://www.osl.fi/liput-ja-hinnat/osl-sovellus/',
+    sv: 'https://www.osl.fi/en/tickets-and-fares/osl-app/',
+    en: 'https://www.osl.fi/en/tickets-and-fares/osl-app/',
+  },
+  showTicketPrice: true,
+  ticketLinkOperatorCode: 50229,
+  appName: 'oslapp',
 });

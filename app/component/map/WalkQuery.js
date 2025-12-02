@@ -39,6 +39,17 @@ const walkQuery = graphql`
             legGeometry {
               points
             }
+            steps {
+              feature {
+                __typename
+                ... on Entrance {
+                  publicCode
+                  wheelchairAccessible
+                }
+              }
+              lat
+              lon
+            }
             transitLeg
             interlineWithPreviousLeg
             route {
@@ -54,7 +65,6 @@ const walkQuery = graphql`
               lat
               lon
               name
-              vertexType
               vehicleRentalStation {
                 lat
                 lon
@@ -82,7 +92,6 @@ const walkQuery = graphql`
               lat
               lon
               name
-              vertexType
               vehicleRentalStation {
                 lat
                 lon

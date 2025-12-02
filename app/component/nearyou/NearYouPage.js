@@ -22,7 +22,6 @@ import {
   checkPositioningPermission,
   startLocationWatch,
 } from '../../action/PositionActions';
-import DisruptionBanner from '../DisruptionBanner';
 import StopsNearYouSearch from './StopsNearYouSearch';
 import {
   getGeolocationState,
@@ -247,7 +246,6 @@ class NearYouPage extends React.Component {
       filterByModes: modes,
       filterByPlaceTypes: placeTypes,
       omitNonPickups: this.context.config.omitNonPickups,
-      feedIds: this.context.config.feedIds,
       prioritizedStopIds: prioritizedStops,
       filterByNetwork: allowedNetworks,
     };
@@ -351,7 +349,7 @@ class NearYouPage extends React.Component {
           className="update-stops-button"
           onClick={this.updateLocation}
         >
-          <Icon img="icon-icon_update" />
+          <Icon img="icon_update" />
           <FormattedMessage
             id="nearest-stops-update-location"
             defaultMessage="Update stops"
@@ -395,15 +393,16 @@ class NearYouPage extends React.Component {
       const renderSearch =
         nearByStopMode !== 'FERRY' && nearByStopMode !== 'FAVORITE';
       const renderDisruptionBanner = nearByStopMode !== 'CITYBIKE';
+      const isActive = nearByStopMode === mode;
       if (nearByStopMode === 'FAVORITE') {
         const noFavs = this.noFavorites();
         return (
           <div
             key={nearByStopMode}
             className={`stops-near-you-page swipeable-tab ${
-              nearByStopMode !== mode && 'inactive'
+              !isActive && 'inactive'
             }`}
-            aria-hidden={nearByStopMode !== mode}
+            aria-hidden={!isActive}
           >
             {renderRefetchButton && this.refetchButton()}
             <StopsNearYouFavorites
@@ -416,6 +415,7 @@ class NearYouPage extends React.Component {
               }
               noFavorites={noFavs}
               favouritesFetched={this.props.favouritesFetched}
+              isParentTabActive={isActive}
             />
           </div>
         );
@@ -423,9 +423,9 @@ class NearYouPage extends React.Component {
 
       return (
         <div
-          className={`swipeable-tab ${nearByStopMode !== mode && 'inactive'}`}
+          className={`swipeable-tab ${!isActive && 'inactive'}`}
           key={nearByStopMode}
-          aria-hidden={nearByStopMode !== mode}
+          aria-hidden={!isActive}
         >
           <QueryRenderer
             query={graphql`
@@ -438,7 +438,6 @@ class NearYouPage extends React.Component {
                 $maxResults: Int!
                 $maxDistance: Int!
                 $omitNonPickups: Boolean!
-                $feedIds: [String!]
                 $filterByNetwork: [String!]
               ) {
                 stopPatterns: viewer {
@@ -454,9 +453,6 @@ class NearYouPage extends React.Component {
                       omitNonPickups: $omitNonPickups
                       filterByNetwork: $filterByNetwork
                     )
-                }
-                alerts: alerts(feeds: $feedIds, severityLevel: [SEVERE]) {
-                  ...DisruptionBanner_alerts
                 }
               }
             `}
@@ -482,13 +478,6 @@ class NearYouPage extends React.Component {
                 config.prioritizedStopsNearYou[nearByStopMode.toLowerCase()];
               return (
                 <div className="stops-near-you-page">
-                  {renderDisruptionBanner && (
-                    <DisruptionBanner
-                      alerts={(props && props.alerts) || []}
-                      mode={nearByStopMode}
-                      trafficNowLink={config.trafficNowLink}
-                    />
-                  )}
                   {renderSearch && (
                     <StopsNearYouSearch
                       mode={nearByStopMode}
@@ -520,7 +509,7 @@ class NearYouPage extends React.Component {
                           >
                             <Icon
                               color={config.colors.primary}
-                              img="icon-icon_close"
+                              img="icon_close"
                             />
                           </div>
                         </div>
@@ -600,6 +589,7 @@ class NearYouPage extends React.Component {
                                     stop={stop}
                                     key={stop.gtfsId}
                                     currentMode={nearByStopMode}
+                                    isParentTabActive={isActive}
                                   />
                                 );
                               })}
@@ -623,6 +613,9 @@ class NearYouPage extends React.Component {
                       stopPatterns={props.stopPatterns}
                       position={this.state.searchPosition}
                       withSeparator={!renderSearch}
+                      nearByStopMode={nearByStopMode}
+                      renderDisruptionBanner={renderDisruptionBanner}
+                      isParentTabActive={isActive}
                     />
                   )}
                 </div>
@@ -642,8 +635,7 @@ class NearYouPage extends React.Component {
           classname={
             this.props.breakpoint === 'large' ? 'swipe-desktop-view' : ''
           }
-          ariaFrom="swipe-stops-near-you"
-          ariaFromHeader="swipe-stops-near-you-header"
+          ariaRole="swipe-stops-near-you-tab"
         />
       );
     }

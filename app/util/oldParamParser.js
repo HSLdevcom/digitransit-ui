@@ -1,5 +1,5 @@
 // Parse from, to and time parameters from old reittiopas searches
-import moment from 'moment-timezone/moment-timezone';
+import { DateTime } from 'luxon';
 import getGeocodingResults from '@digitransit-search-util/digitransit-search-util-get-geocoding-results';
 import { locationToOTP } from './otpStrings';
 import { kkj2ToWgs84 } from './geo-utils';
@@ -64,45 +64,56 @@ function parseLocation(location, input, config) {
 }
 
 function parseTime(query, config) {
-  const time = moment.tz(config.timezoneData.split('|')[0]);
+  let time = DateTime.now().setZone(config.timeZone);
   let hasTime;
   let timeStr = '';
 
   if (query.daymonthyear) {
     const dmy = query.daymonthyear.split('.');
     if (dmy.length === 3) {
-      time.date(dmy[0]);
-      time.month(parseInt(dmy[1], 10) - 1);
-      time.year(dmy[2]);
+      time = time.set({
+        day: +dmy[0],
+        month: +dmy[1],
+        year: +dmy[2],
+      });
       hasTime = true;
     }
   }
   if (query.year) {
-    time.year(query.year);
+    time = time.set({
+      year: +query.year,
+    });
     hasTime = true;
   }
   if (query.month) {
-    time.month(query.month - 1);
+    time = time.set({
+      month: +query.month,
+    });
     hasTime = true;
   }
   if (query.day) {
-    time.date(query.day);
+    time = time.set({
+      day: +query.day,
+    });
     hasTime = true;
   }
   if (query.hour) {
-    time.hour(query.hour);
+    time = time.set({
+      hour: +query.hour,
+    });
     hasTime = true;
   }
   if (query.minute) {
-    time.minute(query.minute);
+    time = time.set({
+      minute: +query.minute,
+    });
     hasTime = true;
   }
 
   if (hasTime) {
     if (config.queryMaxAgeDays) {
-      const now = moment.tz(config.timezoneData.split('|')[0]);
-      if (now.diff(time, 'days') < config.queryMaxAgeDays) {
-        timeStr = `time=${time.unix()}`;
+      if (time.diffNow('days').days > -config.queryMaxAgeDays) {
+        timeStr = `time=${time.toUnixInteger()}`;
       }
     }
   }

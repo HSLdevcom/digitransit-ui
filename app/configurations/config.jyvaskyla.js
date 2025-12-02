@@ -1,34 +1,31 @@
-/* 'eslint-disable prefer-template */
 import configMerger from '../util/configMerger';
+import walttiConfig from './config.waltti';
 
 const CONFIG = 'jyvaskyla';
 const APP_TITLE = 'Reittiopas Jyväskylä';
 const APP_DESCRIPTION = 'Jyväskylän uusi reittiopas';
+const IS_DEV =
+  process.env.RUN_ENV === 'development' ||
+  process.env.NODE_ENV !== 'production';
 
-const walttiConfig = require('./config.waltti').default;
-
-const minLat = 61.835318;
-const maxLat = 62.603473;
-const minLon = 25.230388;
-const maxLon = 26.358237;
+const virtualMonitorBaseUrl = IS_DEV
+  ? 'https://dev-jyvaskylamonitori.digitransit.fi'
+  : 'https://pysakit.jyvaskyla.fi';
 
 export default configMerger(walttiConfig, {
   CONFIG,
 
   feedIds: ['LINKKI'],
 
-  searchParams: {
-    'boundary.rect.min_lat': minLat,
-    'boundary.rect.max_lat': maxLat,
-    'boundary.rect.min_lon': minLon,
-    'boundary.rect.max_lon': maxLon,
-  },
+  useSearchPolygon: true,
 
   areaPolygon: [
-    [minLon, minLat],
-    [minLon, maxLat],
-    [maxLon, maxLat],
-    [maxLon, minLat],
+    [25.23039, 61.83532],
+    [26.35824, 61.83532],
+    [26.88962, 62.32949],
+    [26.22059, 62.91141],
+    [25.58789, 62.93897],
+    [24.88556, 62.29714],
   ],
 
   defaultEndpoint: {
@@ -52,6 +49,11 @@ export default configMerger(walttiConfig, {
   socialMedia: {
     title: APP_TITLE,
     description: APP_DESCRIPTION,
+    image: {
+      url: 'img/social-share-jyvaskyla.png',
+      width: 443,
+      height: 443,
+    },
   },
 
   title: APP_TITLE,
@@ -68,7 +70,7 @@ export default configMerger(walttiConfig, {
   mainMenu: {
     stopMonitor: {
       show: true,
-      url: 'https://pysakit.jyvaskyla.fi/createview',
+      url: `${virtualMonitorBaseUrl}/createview`,
     },
   },
 
@@ -162,14 +164,16 @@ export default configMerger(walttiConfig, {
 
   showTicketInformation: true,
   useTicketIcons: true,
-  ticketLink: 'https://linkki.jyvaskyla.fi/liput-ja-hinnat',
-  // showTicketPrice: true,
+  ticketLink: {
+    fi: 'https://linkki.jyvaskyla.fi/liput-ja-hinnat',
+  },
+  showTicketPrice: true,
 
   ticketLinkOperatorCode: 50209,
 
   stopCard: {
     header: {
-      virtualMonitorBaseUrl: 'https://pysakit.jyvaskyla.fi/',
+      virtualMonitorBaseUrl,
     },
   },
   zones: {

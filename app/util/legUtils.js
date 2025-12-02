@@ -2,6 +2,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import get from 'lodash/get';
 import { getRouteMode } from './modeUtils';
 import { BIKEAVL_UNKNOWN } from './vehicleRentalUtils';
+import { ExtendedRouteTypes } from '../constants';
 
 /**
  * Gets a (nested) property value from an object
@@ -69,21 +70,6 @@ export function legTimeAcc(lt) {
   const t = lt.estimated?.time || lt.scheduledTime;
   const parts = t.split('T')[1].split('+');
   return parts[0];
-}
-
-function filterLegStops(leg, filter) {
-  if (leg.from.stop && leg.to.stop && leg.trip) {
-    const stops = [leg.from.stop.gtfsId, leg.to.stop.gtfsId];
-    if (leg.trip.stoptimesForDate) {
-      return leg.trip.stoptimesForDate
-        .filter(stoptime => stops.indexOf(stoptime.stop.gtfsId) !== -1)
-        .filter(filter);
-    }
-    return leg.trip.stoptimes
-      .filter(stoptime => stops.indexOf(stoptime.stop.gtfsId) !== -1)
-      .filter(filter);
-  }
-  return false;
 }
 
 function sameBicycleNetwork(leg1, leg2) {
@@ -154,22 +140,8 @@ export function getLegMode(legOrMode) {
   }
 }
 
-/**
- * Check if legs start stop pickuptype or end stop pickupType is CALL_AGENCY
- *
- * leg must have:
- * from.stop.gtfsId
- * to.stop.gtfsId
- * trip.stoptimes (with props:)
- *   stop.gtfsId
- *   pickupType
- */
 export function isCallAgencyLeg(leg) {
-  return (
-    leg.route?.type === 715 ||
-    filterLegStops(leg, stoptime => stoptime.pickupType === 'CALL_AGENCY')
-      .length > 0
-  );
+  return leg.route?.type === ExtendedRouteTypes.CallAgency;
 }
 
 /**
@@ -526,6 +498,16 @@ export function legContainsBikePark(leg) {
 }
 
 /**
+ * Checks if a leg contains a car park.
+ *
+ * @param {*} leg - The leg object to check.
+ * @returns {boolean} - True if the leg contains a car park, false otherwise.
+ */
+export function legContainsCarPark(leg) {
+  return leg.mode === LegMode.Car && leg.to.vehicleParking;
+}
+
+/**
  * Calculates and returns the total walking distance undertaken in an itinerary.
  * This could be used as a fallback if the backend returns an invalid value.
  *
@@ -718,6 +700,9 @@ export function getHeadsignFromRouteLongName(route) {
   if (
     longName &&
     shortName &&
+    // Sometimes a "normal" shortname is included in longName, but sometimes
+    // shortName is just a shortened version of longName.
+    shortName.length < 7 &&
     longName.substring(0, shortName.length) === shortName &&
     longName.length > shortName.length
   ) {
@@ -879,4 +864,65 @@ export const legDestination = (intl, leg, secondary, nextLeg = null) => {
     id = 'modes.from-place';
   }
   return intl.formatMessage({ id, defaultMessage: 'place' });
+};
+
+/** The platform status depicts the current state of changes to a platform for a leg. */
+export const PLATFORM_STATUS = {
+  NORMAL: 'normal',
+  CHANGED: 'changed',
+  RESTORED: 'restored',
+};
+
+/**
+ * Returns platform change status for a leg or a specific departure in the case of a terminal page.
+ * @param {object} leg
+ * @returns {string} status
+ */
+export function getPlatformChangeStatus(leg, prevPlatform) {
+  let status = PLATFORM_STATUS.NORMAL;
+  if (!leg?.trip || (!leg.start?.scheduledTime && !leg.time)) {
+    return status;
+  }
+  const startTime = leg.start?.scheduledTime || leg.time * 1000;
+  const startTimeEpoch = new Date(startTime).getTime();
+  // Find a matching stop in the updated stoptimesForDate
+  const updatedStop = leg.trip.stoptimesForDate?.find(s => {
+    const departureTimeEpoch = (s.serviceDay + s.scheduledDeparture) * 1000;
+    return departureTimeEpoch === startTimeEpoch;
+  });
+  const updatedPlatform = updatedStop?.stop?.platformCode;
+  if (!updatedPlatform) {
+    return status;
+  }
+
+  // Find a matching stop in the original stoptimes
+  const originalStop = leg.trip.stoptimes?.find(s => {
+    return s.scheduledDeparture === updatedStop.scheduledDeparture;
+  });
+  const originalPlatform = originalStop?.stop?.platformCode;
+  if (!originalPlatform) {
+    return status;
+  }
+
+  if (
+    prevPlatform &&
+    prevPlatform !== updatedPlatform &&
+    originalPlatform === updatedPlatform
+  ) {
+    status = PLATFORM_STATUS.RESTORED;
+  } else if (originalPlatform !== updatedPlatform) {
+    status = PLATFORM_STATUS.CHANGED;
+  }
+  return status;
+}
+
+/**
+ * Checks if the platform has changed for a given leg.
+ * Doesn't consider if it has returned to original.
+ * @param {*} leg
+ * @returns {boolean}
+ */
+export const isPlatformChanged = leg => {
+  const status = getPlatformChangeStatus(leg);
+  return status === PLATFORM_STATUS.CHANGED;
 };

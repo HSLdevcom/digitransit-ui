@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Icon from '../Icon';
-import { isBrowser } from '../../util/browser';
 import ScheduleDropdown from './ScheduleDropdown';
 import { stopShape } from '../../util/shapes';
 
@@ -28,25 +27,16 @@ function ScheduleHeader({
     o => o.value === (to > maxOptions ? maxOptions : to),
   )[0].label;
 
-  const headerLineStyle = {};
-  if (isBrowser) {
-    // eslint-disable-next-line global-require
-    headerLineStyle.backgroundImage = `url(${require(
-      `../../configurations/images/default/dotted-line-bg2.png`,
-    )})`;
-  }
-
   const stopHeadersForPrinting = (
     <div className="printable-stop-header">
       <div className="printable-stop-header_icon-from">
-        <Icon img="icon-icon_mapMarker" />
+        <Icon img="icon_mapMarker" />
       </div>
       <div className="printable-stop-header_from">
         <span>{fromDisplayName}</span>
       </div>
-      <div className="printable-stop-header_line" style={headerLineStyle} />
       <div className="printable-stop-header_icon-to">
-        <Icon img="icon-icon_mapMarker" />
+        <Icon img="icon_mapMarker" />
       </div>
       <div className="printable-stop-header_to">
         <span>{toDisplayName}</span>

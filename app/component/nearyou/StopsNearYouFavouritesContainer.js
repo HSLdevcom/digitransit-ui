@@ -16,6 +16,7 @@ function StopsNearYouFavouritesContainer({
   stations,
   vehicleStations,
   searchPosition,
+  isParentTabActive,
 }) {
   const stopList = [];
   stopList.push(
@@ -61,6 +62,7 @@ function StopsNearYouFavouritesContainer({
             key={stop.gtfsId}
             stop={stop}
             currentMode="FAVORITE"
+            isParentTabActive={isParentTabActive}
           />
         );
       case 'vehicleRentalStation':
@@ -77,6 +79,7 @@ StopsNearYouFavouritesContainer.propTypes = {
   stations: PropTypes.arrayOf(stationShape),
   vehicleStations: PropTypes.arrayOf(vehicleRentalStationShape),
   searchPosition: locationShape,
+  isParentTabActive: PropTypes.bool,
 };
 
 const refetchContainer = createFragmentContainer(

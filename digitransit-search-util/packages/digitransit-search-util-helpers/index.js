@@ -10,6 +10,14 @@ const normalize = str => {
   return str.toLowerCase();
 };
 
+const splitShortNameAtLetters = str => {
+  return str.split(/(\p{L}+)/u);
+};
+
+const testShortNameMatchesLineWithNumbersAndLetters = str => {
+  return /^[0-9]+\p{L}+$/u.test(str);
+};
+
 /**
  * LayerType depicts the type of the point-of-interest.
  */
@@ -52,7 +60,9 @@ export const mapRoute = (item, pathOpts) => {
   const routesPrefix = opts.routesPrefix || DEFAULT_ROUTES_PREFIX;
   const stopsPrefix = opts.stopsPrefix || DEFAULT_STOPS_PREFIX;
 
-  const link = `/${routesPrefix}/${item.gtfsId}/${stopsPrefix}`;
+  const link = `/${routesPrefix}/${encodeURIComponent(
+    item.gtfsId,
+  )}/${stopsPrefix}`;
   return {
     type: 'Route',
     properties: {
@@ -68,7 +78,8 @@ export const mapRoute = (item, pathOpts) => {
 
 /**
  * Tries to match the given search term agains the collection of properties
- * for a geocoding result. The best match will be returned (min: 0, max: 1.5).
+ * for a geocoding result (min: 0, max: 1.5). The best match will return a number of 1.5.
+ * Worse matches will return 0 or 0.5.
  *
  * @param {string} normalizedTerm the normalized search term.
  * @param {*} resultProperties the geocoding result's property collection.
@@ -80,11 +91,22 @@ export const match = (normalizedTerm, resultProperties) => {
 
   const matchProps = ['name', 'label', 'address', 'shortName'];
   return matchProps
-    .map(name => resultProperties[name])
-    .filter(value => isString(value) && value.length > 0)
-    .map(value => {
-      const normalizedValue = normalize(value);
+    .map(name => {
+      return { name, value: resultProperties[name] };
+    })
+    .filter(element => isString(element.value) && element.value.length > 0)
+    .map(element => {
+      let normalizedValue = normalize(element.value);
       if (normalizedValue.indexOf(normalizedTerm) === 0) {
+        if (
+          element.name === 'shortName' &&
+          testShortNameMatchesLineWithNumbersAndLetters(normalizedValue)
+        ) {
+          // If the shortName is of a certain format (e.g. 89A), it is treated here
+          // as if it had the length of the numbers with the letters removed.
+          // So the length of 89A would be treated as 2.
+          [normalizedValue] = splitShortNameAtLetters(normalizedValue);
+        }
         // full match at start. Return max result when match is full, not only partial
         return 0.5 + normalizedTerm.length / normalizedValue.length;
       }
@@ -214,8 +236,29 @@ export const sortSearchResults = (lineRegexp, results, term = '') => {
             return confidence;
         }
       },
+      result => {
+        if (result.properties?.shortName) {
+          return testShortNameMatchesLineWithNumbersAndLetters(
+            result.properties.shortName,
+          )
+            ? splitShortNameAtLetters(result.properties.shortName)[0]
+            : result.properties.shortName;
+        }
+        return undefined;
+      },
+      result => {
+        if (result.properties?.shortName) {
+          return testShortNameMatchesLineWithNumbersAndLetters(
+            result.properties.shortName,
+          )
+            ? splitShortNameAtLetters(result.properties.shortName)[1]
+            : result.properties.shortName;
+        }
+        return undefined;
+      },
+      'properties.longName',
     ],
-    ['desc', 'desc'],
+    ['desc', 'desc', 'asc', 'asc', 'asc'],
   );
 
   return uniqWith(orderedResults, isDuplicate);

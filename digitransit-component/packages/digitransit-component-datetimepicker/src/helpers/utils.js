@@ -1,4 +1,4 @@
-import moment from 'moment-timezone';
+import { DateTime } from 'luxon';
 
 /**
  * Handle typing time and adding necessary :
@@ -104,9 +104,13 @@ export const getTs = (inputValue, currentTimestamp) => {
     if (!minutesValid || !hoursValid) {
       return null;
     }
-    const newStamp = moment(currentTimestamp)
-      .hours(hours)
-      .minutes(minutes)
+    const newStamp = DateTime.fromMillis(currentTimestamp)
+      .set({
+        hour: hours,
+        minute: minutes,
+        second: 0,
+        millisecond: 0,
+      })
       .valueOf();
     return newStamp;
   }

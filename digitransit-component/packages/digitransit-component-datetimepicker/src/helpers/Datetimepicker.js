@@ -1,28 +1,16 @@
 import PropTypes from 'prop-types';
-import React, { useState, useEffect, useRef } from 'react';
-import moment from 'moment-timezone';
-import 'moment/locale/fi';
-import 'moment/locale/sv';
-import 'moment/locale/de';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
+import { DateTime, Settings } from 'luxon';
 import uniqueId from 'lodash/uniqueId';
-import i18next from 'i18next';
+import { useTranslation } from 'react-i18next';
 import Icon from '@digitransit-component/digitransit-component-icon';
 import DesktopDatetimepicker from './DesktopDatetimepicker';
-import translations from './translations';
 import styles from './styles.scss';
 import { isMobile } from './mobileDetection';
 import dateTimeInputIsSupported from './dateTimeInputIsSupported';
 import MobilePickerModal from './MobilePickerModal';
 
-moment.locale('en');
-i18next.init({
-  lng: 'fi',
-  fallbackLng: 'fi',
-  defaultNS: 'translation',
-  interpolation: {
-    escapeValue: false, // not needed for react as it escapes by default
-  },
-});
+Settings.defaultLocale = 'en';
 
 /**
  * This component renders combobox style inputs for selecting date and time. This is a controlled component, timestamp is the current value of both inputs.
@@ -78,10 +66,11 @@ function Datetimepicker({
   onClose,
   openPicker,
 }) {
-  moment.tz.setDefault(timeZone);
+  Settings.defaultZone = timeZone;
+  const [t] = useTranslation();
   const [isOpen, changeOpen] = useState(openPicker || false);
   const [displayTimestamp, changeDisplayTimestamp] = useState(
-    timestamp || moment().valueOf(),
+    timestamp || DateTime.now().toMillis(),
   );
   // timer for updating displayTimestamp in real time
   const [timerId, setTimer] = useState(null);
@@ -95,19 +84,13 @@ function Datetimepicker({
   const translationSettings = { lng: lang };
 
   useEffect(() => {
-    Object.keys(translations).forEach(language =>
-      i18next.addResourceBundle(language, 'translation', translations[lang]),
-    );
-  }, []);
-
-  useEffect(() => {
-    moment.locale(lang);
+    Settings.defaultLocale = lang;
   }, [lang]);
 
   const nowSelected = timestamp === null;
   useEffect(() => {
     if (nowSelected) {
-      changeDisplayTimestamp(moment().valueOf());
+      changeDisplayTimestamp(DateTime.now().toMillis());
     } else {
       // clear timer
       if (timerId) {
@@ -127,85 +110,91 @@ function Datetimepicker({
       clearInterval(timerId);
     }
     const newId = setInterval(() => {
-      const now = moment().valueOf();
-      const sameMinute = moment(displayTimestamp).isSame(now, 'minute');
+      const now = DateTime.now();
+      const sameMinute = DateTime.fromMillis(displayTimestamp).hasSame(
+        now,
+        'minute',
+      );
       if (!sameMinute) {
         clearInterval(newId);
         setTimer(null);
-        changeDisplayTimestamp(now);
+        changeDisplayTimestamp(now.toMillis());
       }
     }, 5000);
     setTimer(newId);
     return () => clearInterval(newId);
   }, [displayTimestamp]);
 
-  const prevIsOpenRef = useRef();
-  useEffect(() => {
-    prevIsOpenRef.current = isOpen;
-  });
-
-  // param date is timestamp
+  /**
+   * @param {number} date Date in milliseconds since unix epoch
+   * @returns {string} formatted date
+   */
   const getDateDisplay = date => {
-    const time = moment(date);
+    const time = DateTime.fromMillis(date);
+    const now = DateTime.now();
     let formatted;
-    if (time.isSame(moment(), 'day')) {
-      formatted = i18next.t('today', translationSettings);
-    } else if (time.isSame(moment().add(1, 'day'), 'day')) {
-      formatted = i18next.t('tomorrow', translationSettings);
+    if (time.hasSame(now, 'day')) {
+      formatted = t('today', translationSettings);
+      formatted = `${formatted.charAt(0).toUpperCase()}${formatted.slice(1)}`;
+    } else if (time.hasSame(now.plus({ days: 1 }), 'day')) {
+      formatted = t('tomorrow', translationSettings);
+      formatted = `${formatted.charAt(0).toUpperCase()}${formatted.slice(1)}`;
     } else {
-      formatted = time.format('dd D.M.');
+      formatted = time.toFormat('ccc d.L.');
     }
-    formatted = `${formatted.charAt(0).toUpperCase()}${formatted.slice(1)}`;
     return formatted;
   };
 
   // param time is timestamp
   const getTimeDisplay = time => {
-    return moment(time).format('HH:mm');
+    return DateTime.fromMillis(time).toFormat('HH:mm');
   };
 
-  const selectedMoment = moment(displayTimestamp);
-  const timeSelectStartTime = moment(displayTimestamp).startOf('day').valueOf();
-  let timeChoices = [];
-  const current = moment(timeSelectStartTime);
-  while (current.isSame(timeSelectStartTime, 'day')) {
-    timeChoices.push(current.valueOf());
-    if (isMobile()) {
-      current.add(15, 'minutes');
-    } else {
-      current.add(1, 'minutes');
+  // compute choices only when timestamp changes instead of every render
+  const [timeChoices, dateChoices] = useMemo(() => {
+    const selectedMoment = DateTime.fromMillis(
+      timestamp || DateTime.now().toMillis(),
+    );
+    const timeSelectStartTime = selectedMoment.startOf('day').toMillis();
+    const isMobileCurrently = isMobile();
+    let newTimeChoices = [];
+    let current = selectedMoment.startOf('day');
+    while (current.hasSame(timeSelectStartTime, 'day')) {
+      newTimeChoices.push(current.valueOf());
+      if (isMobileCurrently) {
+        current = current.plus({ minutes: 15 });
+      } else {
+        current = current.plus({ minutes: 1 });
+      }
     }
-  }
-  if (timestamp === null) {
-    // if time is set to now
-    // add times in 5 min intervals for next 30 mins
-    const fiveMinutes = 1000 * 60 * 5;
-    const nextFiveMin = Math.ceil(displayTimestamp / fiveMinutes) * fiveMinutes;
-    const timesToAdd = Array(7)
+    if (timestamp === null) {
+      // if time is set to now
+      // add times in 5 min intervals for next 30 mins
+      const fiveMinutes = 1000 * 60 * 5;
+      const nextFiveMin =
+        Math.ceil(displayTimestamp / fiveMinutes) * fiveMinutes;
+      const timesToAdd = Array(7)
+        .fill()
+        .map((_, i) => nextFiveMin + i * fiveMinutes);
+      const closestIndexAfter = newTimeChoices
+        .map(time => displayTimestamp - time)
+        .findIndex(time => time <= 0);
+      newTimeChoices.splice(closestIndexAfter, 0, ...timesToAdd);
+      newTimeChoices = Array.from(new Set(newTimeChoices)); // remove duplicates
+    }
+    const dateSelectStartTime = DateTime.now().startOf('day').set({
+      hour: selectedMoment.hour,
+      minute: selectedMoment.minute,
+    });
+    const newDateChoices = Array(serviceTimeRange)
       .fill()
-      .map((_, i) => nextFiveMin + i * fiveMinutes);
-    const closestIndexAfter = timeChoices
-      .map(t => displayTimestamp - t)
-      .findIndex(t => t <= 0);
-    timeChoices.splice(closestIndexAfter, 0, ...timesToAdd);
-    timeChoices = Array.from(new Set(timeChoices)); // remove duplicates
-  }
-
-  const dateSelectStartTime = moment()
-    .startOf('day')
-    .hour(selectedMoment.hour())
-    .minute(selectedMoment.minute())
-    .valueOf();
-  const dateChoices = Array(serviceTimeRange)
-    .fill()
-    .map((_, i) => moment(dateSelectStartTime).add(i, 'day').valueOf());
+      .map((_, i) => dateSelectStartTime.plus({ days: i }).toMillis());
+    return [newTimeChoices, newDateChoices];
+  }, [timestamp]);
 
   function showScreenreaderCloseAlert() {
     if (alertRef.current) {
-      alertRef.current.innerHTML = i18next.t(
-        'accessible-closed',
-        translationSettings,
-      );
+      alertRef.current.innerHTML = t('accessible-closed', translationSettings);
       setTimeout(() => {
         alertRef.current.innerHTML = null;
       }, 100);
@@ -214,15 +203,25 @@ function Datetimepicker({
 
   function showScreenreaderOpenAlert() {
     if (alertRef.current) {
-      alertRef.current.innerHTML = i18next.t(
-        'accessible-opened',
-        translationSettings,
-      );
+      alertRef.current.innerHTML = t('accessible-opened', translationSettings);
       setTimeout(() => {
         alertRef.current.innerHTML = null;
       }, 100);
     }
   }
+
+  const handleClose = () => {
+    changeOpen(false);
+    showScreenreaderCloseAlert();
+    if (onClose) {
+      onClose();
+    }
+  };
+
+  const handleNowClick = () => {
+    handleClose();
+    onNowClick();
+  };
 
   function renderOpen() {
     if (useMobileInputs) {
@@ -230,11 +229,7 @@ function Datetimepicker({
         isOpen && (
           <MobilePickerModal
             departureOrArrival={departureOrArrival}
-            onNowClick={() => {
-              changeOpen(false);
-              showScreenreaderCloseAlert();
-              onNowClick();
-            }}
+            onNowClick={handleNowClick}
             lang={lang}
             color={color}
             onSubmit={(newTimestamp, newDepartureOrArrival) => {
@@ -242,13 +237,12 @@ function Datetimepicker({
               changeOpen(false);
               showScreenreaderCloseAlert();
             }}
-            onCancel={() => {
-              changeOpen(false);
-              showScreenreaderCloseAlert();
-              if (onClose) {
-                onClose();
-              }
-            }}
+            onCancel={handleClose}
+            onAfterClose={() =>
+              requestAnimationFrame(() => {
+                openPickerRef.current?.focus();
+              })
+            }
             getTimeDisplay={getTimeDisplay}
             timeZone={timeZone}
             timestamp={displayTimestamp}
@@ -260,7 +254,6 @@ function Datetimepicker({
         )
       );
     }
-
     return (
       <>
         <div
@@ -289,7 +282,7 @@ function Datetimepicker({
                   ]
                 }`}
               >
-                {i18next.t('departure', translationSettings)}
+                {t('departure', translationSettings)}
                 <input
                   id={`${htmlId}-departure`}
                   name="departureOrArrival"
@@ -311,7 +304,7 @@ function Datetimepicker({
                   ]
                 }`}
               >
-                {i18next.t('arrival', translationSettings)}
+                {t('arrival', translationSettings)}
                 <input
                   id={`${htmlId}-arrival`}
                   name="departureOrArrival"
@@ -329,17 +322,10 @@ function Datetimepicker({
               id={`${htmlId}-now`}
               type="button"
               className={styles['departure-now-button']}
-              onClick={() => {
-                changeOpen(false);
-                showScreenreaderCloseAlert();
-                if (onClose) {
-                  onClose();
-                }
-                onNowClick();
-              }}
+              onClick={handleNowClick}
               ref={inputRef}
             >
-              {i18next.t('departure-now', translationSettings)}
+              {t('departure-now', translationSettings)}
             </button>
             <span className={styles['right-edge']}>
               <button
@@ -347,19 +333,13 @@ function Datetimepicker({
                 className={styles['close-button']}
                 aria-controls={`${htmlId}-root`}
                 aria-expanded="true"
-                onClick={() => {
-                  changeOpen(false);
-                  showScreenreaderCloseAlert();
-                  if (onClose) {
-                    onClose();
-                  }
-                }}
+                onClick={handleClose}
               >
                 <span className={styles['close-icon']}>
                   <Icon img="close" color={color} />
                 </span>
                 <span className={styles['sr-only']}>
-                  {i18next.t('accessible-close', translationSettings)}
+                  {t('accessible-close', translationSettings)}
                 </span>
               </button>
             </span>
@@ -388,7 +368,7 @@ function Datetimepicker({
                   </span>
                 }
                 id={`${htmlId}-date`}
-                label={i18next.t('date', translationSettings)}
+                label={t('date', translationSettings)}
                 disableTyping
                 timeZone={timeZone}
                 datePicker
@@ -410,7 +390,7 @@ function Datetimepicker({
                   </span>
                 }
                 id={`${htmlId}-time`}
-                label={i18next.t('time', translationSettings)}
+                label={t('time', translationSettings)}
                 timeZone={timeZone}
                 translationSettings={translationSettings}
               />
@@ -423,6 +403,34 @@ function Datetimepicker({
     );
   }
 
+  const formatToprowSummary = () => {
+    if (nowSelected && departureOrArrival === 'departure') {
+      return <span>{t('departure-now', translationSettings)}</span>;
+    }
+    const dateDisplay = getDateDisplay(displayTimestamp);
+    const timeDisplay = getTimeDisplay(displayTimestamp);
+    const summary = t(
+      departureOrArrival === 'departure' ? 'departure' : 'arrival',
+      translationSettings,
+    );
+    const isToday = DateTime.now().hasSame(
+      DateTime.fromMillis(displayTimestamp),
+      'day',
+    );
+    const isTomorrow = DateTime.now()
+      .plus({ days: 1 })
+      .hasSame(DateTime.fromMillis(displayTimestamp), 'day');
+    if (isToday) {
+      return <span>{`${summary} ${timeDisplay}`}</span>;
+    }
+    if (isTomorrow) {
+      return (
+        <span>{`${summary} ${dateDisplay.toLowerCase()} ${timeDisplay}`}</span>
+      );
+    }
+    return <span>{`${summary} ${dateDisplay} ${timeDisplay}`}</span>;
+  };
+
   return (
     <fieldset
       className={styles['dt-datetimepicker']}
@@ -433,10 +441,10 @@ function Datetimepicker({
       }}
     >
       <legend className={styles['sr-only']}>
-        {i18next.t('accessible-title', translationSettings)}
+        {t('accessible-title', translationSettings)}
       </legend>
       <span className={styles['sr-only']}>
-        {i18next.t('accessible-update-instructions', translationSettings)}
+        {t('accessible-update-instructions', translationSettings)}
       </span>
       <div
         className={
@@ -450,7 +458,7 @@ function Datetimepicker({
             <Icon img="time" color={color} />
           </span>
           <span className={styles['sr-only']}>
-            {i18next.t('accessible-open', translationSettings)}
+            {t('accessible-open', translationSettings)}
           </span>
           <span role="alert" className={styles['sr-only']} ref={alertRef} />
           <button
@@ -468,25 +476,7 @@ function Datetimepicker({
             }}
             ref={openPickerRef}
           >
-            <span>
-              {nowSelected && departureOrArrival === 'departure' ? (
-                i18next.t('departure-now', translationSettings)
-              ) : (
-                <>
-                  {i18next.t(
-                    departureOrArrival === 'departure'
-                      ? 'departure'
-                      : 'arrival',
-                    translationSettings,
-                  )}
-                  {` ${
-                    moment().isSame(moment(displayTimestamp), 'day')
-                      ? ''
-                      : getDateDisplay(displayTimestamp).toLowerCase()
-                  } ${getTimeDisplay(displayTimestamp)}`}
-                </>
-              )}
-            </span>
+            {formatToprowSummary()}
             <span className={styles['dropdown-icon']}>
               <Icon img="arrow-dropdown" color={color} />
             </span>

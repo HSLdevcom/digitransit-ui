@@ -3,17 +3,12 @@ import Protobuf from 'pbf';
 import pick from 'lodash/pick';
 
 import Supercluster from 'supercluster';
-import { isBrowser } from '../../../util/browser';
 import {
   getMapIconScale,
   drawScooterIcon,
   drawSmallVehicleRentalMarker,
 } from '../../../util/mapIconUtils';
 
-import {
-  getRentalNetworkConfig,
-  getRentalNetworkIcon,
-} from '../../../util/vehicleRentalUtils';
 import { fetchWithLanguageAndSubscription } from '../../../util/fetchUtils';
 import { getLayerBaseUrl } from '../../../util/mapLayerUtils';
 import { TransportMode } from '../../../constants';
@@ -24,7 +19,7 @@ class RentalVehicles {
     this.tile = tile;
     this.config = config;
     this.relayEnvironment = relayEnvironment;
-    this.scaleratio = (isBrowser && window.devicePixelRatio) || 1;
+    this.scaleratio = window.devicePixelRatio || 1;
     this.citybikeImageSize =
       20 * this.scaleratio * getMapIconScale(this.tile.coords.z);
     this.availabilityImageSize =
@@ -60,7 +55,6 @@ class RentalVehicles {
             const layer = vt.layers.realtimeRentalVehicles;
             const settings = getSettings(this.config);
             const { scooterNetworks } = settings;
-            const scooterIconPrefix = `icon-icon_scooter`;
             const showAllNetworks =
               !this.config.transportModes.scooter.showIfSelectedForRouting;
             if (layer) {
@@ -92,7 +86,7 @@ class RentalVehicles {
               this.canHaveStationUpdates = zoomedIn;
 
               if (this.tile.coords.z >= 13 && this.tile.coords.z < 18) {
-                this.clusterAndDraw(zoomedIn, scooterIconPrefix);
+                this.clusterAndDraw(zoomedIn);
               } else {
                 this.features.forEach(feature => this.draw(feature, zoomedIn));
               }
@@ -107,7 +101,7 @@ class RentalVehicles {
       });
   };
 
-  clusterAndDraw = (zoomedIn, iconPrefix) => {
+  clusterAndDraw = zoomedIn => {
     const index = new Supercluster({
       radius: 40, // in pixels
       maxZoom: 17,
@@ -137,20 +131,17 @@ class RentalVehicles {
     clusters.forEach(clusterFeature => {
       const newFeature = this.featureWithGeom(clusterFeature);
       clusteredFeatures.push(newFeature);
-      this.draw(newFeature, zoomedIn, iconPrefix);
+      this.draw(newFeature, zoomedIn);
     });
     this.features = clusteredFeatures;
   };
 
-  draw = (feature, zoomedIn, iconPrefix) => {
-    const { id, network } = feature.properties;
+  draw = (feature, zoomedIn) => {
+    const { id } = feature.properties;
     const { geom } = feature;
-    const iconName =
-      iconPrefix ||
-      getRentalNetworkIcon(getRentalNetworkConfig(network, this.config));
-    const isHilighted = this.tile.hilightedStops?.includes(id);
-    if (zoomedIn || isHilighted) {
-      drawScooterIcon(this.tile, geom, iconName, isHilighted);
+    const isHighlighted = this.tile.highlightedStops?.includes(id);
+    if (zoomedIn || isHighlighted) {
+      drawScooterIcon(this.tile, geom, isHighlighted);
     } else {
       this.drawSmallScooterMarker(geom);
     }

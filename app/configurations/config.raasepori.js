@@ -1,12 +1,10 @@
-/* eslint-disable prefer-template */
 import configMerger from '../util/configMerger';
+import walttiConfig from './config.waltti';
 
 const CONFIG = 'raasepori';
 const APP_TITLE = 'Bossen reittiopas';
 const APP_DESCRIPTION =
   'Raaseporin reittiopas, Reittiopas Raasepori & Raseborgs reseplanerare, Reseplanerare Raseborg';
-
-const walttiConfig = require('./config.waltti').default;
 
 export default configMerger(walttiConfig, {
   CONFIG,
@@ -31,6 +29,11 @@ export default configMerger(walttiConfig, {
   socialMedia: {
     title: APP_TITLE,
     description: APP_DESCRIPTION,
+    image: {
+      url: 'img/social-share-raasepori.png',
+      width: 1528,
+      height: 650,
+    },
   },
 
   title: APP_TITLE,
