@@ -148,6 +148,7 @@ export default function ItineraryPage(props, context) {
   const [scooterState, setScooterState] = useState(unset);
   const [combinedState, setCombinedState] = useState(emptyPlan);
   const [flexState, setFlexState] = useState(unset);
+  const [internalFlexState, setInternalFlexState] = useState(unset);
   const [isNavigatorIntroDismissed, setNavigatorIntroDismissed] = useState(
     getDialogState('navi-intro'),
   );
@@ -480,8 +481,29 @@ export default function ItineraryPage(props, context) {
     }
   }
 
+  async function makeInternalFlexQuery() {
+    if (!planQueryNeeded(config, match, PLANTYPE.FLEXTRANSIT_INTERNAL)) {
+      setInternalFlexState(emptyPlan);
+      return;
+    }
+    setInternalFlexState({ loading: LOADSTATE.LOADING });
+    const planParams = getPlanParams(
+      config,
+      match,
+      PLANTYPE.FLEXTRANSIT_INTERNAL,
+      false, // no relaxed settings
+    );
+    try {
+      const plan = await iterateQuery(planParams);
+      setInternalFlexState({ plan, loading: LOADSTATE.DONE });
+    } catch (error) {
+      reportError(error);
+      setInternalFlexState(emptyPlan);
+    }
+  }
+
   async function makeFlexQuery() {
-    if (!planQueryNeeded(config, match, PLANTYPE.FLEXTRANSIT)) {
+    if (!planQueryNeeded(config, match, PLANTYPE.FLEXTRANSIT_EXTERNAL)) {
       setFlexState(emptyPlan);
       return;
     }
@@ -489,7 +511,7 @@ export default function ItineraryPage(props, context) {
     const planParams = getPlanParams(
       config,
       match,
-      PLANTYPE.FLEXTRANSIT,
+      PLANTYPE.FLEXTRANSIT_EXTERNAL,
       false, // no relaxed settings
     );
 
@@ -503,7 +525,7 @@ export default function ItineraryPage(props, context) {
   }
 
   async function makeRelaxedFlexQuery() {
-    if (!planQueryNeeded(config, match, PLANTYPE.FLEXTRANSIT, true)) {
+    if (!planQueryNeeded(config, match, PLANTYPE.FLEXTRANSIT_EXTERNAL, true)) {
       setRelaxFlexState(emptyPlan);
       return;
     }
@@ -512,7 +534,7 @@ export default function ItineraryPage(props, context) {
     const planParams = getPlanParams(
       config,
       match,
-      PLANTYPE.FLEXTRANSIT,
+      PLANTYPE.FLEXTRANSIT_EXTERNAL,
       true, // force relaxed settings
     );
 
@@ -948,6 +970,7 @@ export default function ItineraryPage(props, context) {
     setCombinedState({ ...emptyState, loading: LOADSTATE.LOADING });
     makeScooterQuery();
     makeFlexQuery();
+    makeInternalFlexQuery();
     makeMainQuery();
     Object.keys(altStates).forEach(key => makeAltQuery(key));
 
@@ -1063,7 +1086,8 @@ export default function ItineraryPage(props, context) {
     if (
       state.loading === LOADSTATE.DONE &&
       scooterState.loading === LOADSTATE.DONE &&
-      flexState.loading === LOADSTATE.DONE
+      flexState.loading === LOADSTATE.DONE &&
+      internalFlexState.loading === LOADSTATE.DONE
     ) {
       let plan = mergeScooterTransitPlan(
         scooterState.plan,
@@ -1081,10 +1105,18 @@ export default function ItineraryPage(props, context) {
         );
       }
 
+      if (internalFlexState.plan?.edges) {
+        plan = sortAndMergeExternalPlans(
+          internalFlexState.plan,
+          plan,
+          match.location.query.arriveBy === 'true',
+        );
+      }
+
       setCombinedState({ plan, loading: LOADSTATE.DONE });
       resetItineraryPageSelection();
     }
-  }, [scooterState.plan, state.plan, flexState.plan]);
+  }, [scooterState.plan, state.plan, flexState.plan, internalFlexState.plan]);
 
   // merge the relaxed scooter plan and the relaxed flex plan into one
   useEffect(() => {

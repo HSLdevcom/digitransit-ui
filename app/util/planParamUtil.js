@@ -21,7 +21,8 @@ export const PLANTYPE = {
   BIKETRANSIT: 'BIKETRANSIT',
   PARKANDRIDE: 'PARKANDRIDE',
   SCOOTERTRANSIT: 'SCOOTERTRANSIT',
-  FLEXTRANSIT: 'FLEXTRANSIT',
+  FLEXTRANSIT_EXTERNAL: 'EXTERNAL_FLEXTRANSIT',
+  FLEXTRANSIT_INTERNAL: 'INTERNAL_FLEXTRANSIT',
 };
 
 const directModes = [PLANTYPE.WALK, PLANTYPE.BIKE, PLANTYPE.CAR];
@@ -259,11 +260,16 @@ export function planQueryNeeded(
         settings.includeParkAndRideSuggestions
       );
     /* special logic: relaxed flex query is made only if taxis are not allowed */
-    case PLANTYPE.FLEXTRANSIT:
+    case PLANTYPE.FLEXTRANSIT_EXTERNAL:
       return (
         config.flex?.allowTaxiJourneys &&
         (transitModes.length > 0 || config.flex?.directOnlyTaxiJourneys) &&
         settings.includeTaxiSuggestions !== relaxSettings
+      );
+    case PLANTYPE.FLEXTRANSIT_INTERNAL:
+      return (
+        config.flex?.internalFlexEnabled &&
+        transitModes.includes(TransportMode.Bus)
       );
 
     case PLANTYPE.TRANSIT:
@@ -375,12 +381,9 @@ export function getPlanParams(
   const wheelchair = !!settings.accessibilityOption;
   const cityBike =
     !wheelchair && settings.allowedBikeRentalNetworks?.length > 0;
-  const flexEnabled =
-    config.flex?.internalFlexEnabled &&
-    transitModes.includes(TransportMode.Bus);
+  let { minTransferTime } = settings;
   // set defaults
   let access = cityBike ? ['WALK', 'BICYCLE_RENTAL'] : ['WALK'];
-  access = flexEnabled ? [...access, 'FLEX'] : access;
   let egress = access;
   let transfer = ['WALK'];
   let direct = null;
@@ -390,6 +393,7 @@ export function getPlanParams(
   // A null value uses the default amount of maximum iterations.
   let maxQueryIterations = null;
   let filters = null;
+  let bookingTime = null;
 
   switch (planType) {
     case PLANTYPE.BIKEPARK:
@@ -427,19 +431,26 @@ export function getPlanParams(
       break;
     case PLANTYPE.TRANSIT:
       direct = access;
-      filters = excludeAgencies(config.flex?.externalAgencies);
       break;
     case PLANTYPE.SCOOTERTRANSIT:
       access = ['WALK', 'SCOOTER_RENTAL'];
       egress = access;
       direct = access;
       break;
-    case PLANTYPE.FLEXTRANSIT:
+    case PLANTYPE.FLEXTRANSIT_EXTERNAL:
       access = directFlexOnly ? null : ['WALK', 'FLEX'];
       egress = access;
       direct = directFlexOnly ? ['WALK', 'FLEX'] : null;
       transitOnly = false;
       filters = excludeAgencies(config.flex?.internalAgencies);
+      bookingTime = DateTime.now().toISO({ suppressMilliseconds: true });
+      break;
+    case PLANTYPE.FLEXTRANSIT_INTERNAL:
+      access = [...access, 'FLEX'];
+      direct = access;
+      filters = excludeAgencies(config.flex?.externalAgencies);
+      minTransferTime = config.flex?.minTransferTime || minTransferTime;
+      bookingTime = DateTime.now().toISO({ suppressMilliseconds: true });
       break;
     default: // direct modes
       direct = [planType];
@@ -496,7 +507,7 @@ export function getPlanParams(
     fromPlace,
     toPlace,
     datetime,
-    minTransferTime: `PT${settings.minTransferTime}S`,
+    minTransferTime: `PT${minTransferTime}S`,
     first: numItineraries, // used in actual query
     numItineraries, // backup original value for convenient paging
     wheelchair,
@@ -510,5 +521,6 @@ export function getPlanParams(
     carReluctance,
     maxQueryIterations,
     filters,
+    bookingTime,
   };
 }

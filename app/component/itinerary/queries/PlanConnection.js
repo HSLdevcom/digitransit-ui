@@ -21,6 +21,7 @@ export const planConnection = graphql`
     $last: Int
     $via: [PlanViaLocationInput!]
     $filters: [TransitFilterInput!]
+    $bookingTime: OffsetDateTime!
   ) {
     plan: planConnection(
       dateTime: $datetime
@@ -32,6 +33,7 @@ export const planConnection = graphql`
       destination: $toPlace
       modes: $modes
       via: $via
+      bookingTime: $bookingTime
       preferences: {
         accessibility: { wheelchair: { enabled: $wheelchair } }
         street: {
