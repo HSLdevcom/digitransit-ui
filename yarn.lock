@@ -2171,7 +2171,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-traffic-now-link@workspace:digitransit-component/packages/digitransit-component-traffic-now-link"
   peerDependencies:
-    "@digitransit-component/digitransit-component-icon": ^1.1.1
+    "@digitransit-component/digitransit-component-icon": ^1.1.0
     "@hsl-fi/sass": ^0.2.0
     i18next: ^22.5.1
     prop-types: ^15.8.1

@@ -1,32 +1,27 @@
 const translations = {
   de: {
     translation: {
-      'traffic-now': 'Aktuelle Verbindungen',
-      'traffic-now_description': 'Änderungen und Störungen anzeigen',
+      traffic: 'Aktuelle Verbindungen',
     },
   },
   en: {
     translation: {
-      'traffic-now': 'Services now',
-      'traffic-now_description': 'See changes and disruptions',
+      traffic: 'Changes and disruptions',
     },
   },
   pl: {
     translation: {
-      'traffic-now': 'Zmiany i zakłócenia',
-      'traffic-now_description': 'Zobacz zmiany i zakłócenia',
+      traffic: 'Zmiany i zakłócenia',
     },
   },
   sv: {
     translation: {
-      'traffic-now': 'Trafikläget nu',
-      'traffic-now_description': 'Se störningar och förändringar',
+      traffic: 'Störningar och ändringar',
     },
   },
   fi: {
     translation: {
-      'traffic-now': 'Liikennetilanne nyt',
-      'traffic-now_description': 'Katso häiriöt ja poikkeukset',
+      traffic: 'Häiriöt ja muutokset',
     },
   },
 };

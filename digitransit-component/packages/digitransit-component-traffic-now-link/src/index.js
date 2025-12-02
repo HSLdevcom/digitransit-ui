@@ -7,7 +7,7 @@ import i18n from './helpers/i18n';
 import styles from './helpers/styles.scss';
 
 /**
- * A banner with blue icon and arrow mark, original purpose is to act as a link to a page about current traffic information.
+ * A banner with blue caution Icon and arrow mark, original purpose is to act as a link to a page about current traffic information.
  *
  * @example
  *   handleClick = (e, lang) => {
@@ -17,32 +17,41 @@ import styles from './helpers/styles.scss';
   const lang = "fi"
  * <TrafficNowLink lang={lang} handleClick={this.handleClick}/>
  */
-const TrafficNowLink = ({ lang, handleClick, href }) => {
+const TrafficNowLink = ({ lang, handleClick, href, fontWeights }) => {
   const [t] = useTranslation();
-
-  const onClick = e => {
-    handleClick(e, lang);
+  const handleKeyDown = e => {
+    if (e.keyCode === 32 || e.keyCode === 13) {
+      handleClick(e, lang);
+    }
   };
 
   return (
-    <a className={styles.container} href={href} onClick={onClick}>
-      <div className={styles.leftColumn}>
-        <Icon
-          img="info-filled"
-          color="#007ac9"
-          height={1.5}
-          width={1.5}
-          colorAsFillOnly={false}
-        />
-        <div className={styles.body}>
-          <h2>{t('traffic-now', { lng: lang })}</h2>
-          <p>{t('traffic-now_description', { lng: lang })}</p>
+    <h2 className={styles.container}>
+      <div
+        className={styles.banner}
+        tabIndex="0"
+        role="button"
+        onClick={e => handleClick(e, lang)}
+        onKeyDown={e => handleKeyDown(e)}
+        style={{ '--font-weight-medium': fontWeights.medium }}
+      >
+        <div className={styles.caution}>
+          {' '}
+          <Icon
+            img="caution-white"
+            color="#DC0451"
+            height={1.375}
+            width={1.25}
+          />{' '}
+          <a className={styles.text} href={href}>
+            {t('traffic', { lng: lang })}
+          </a>
         </div>
+        <span>
+          <Icon width={0.8125} height={1.1875} img="arrow" color="#007ac9" />
+        </span>
       </div>
-      <span className={styles.caret}>
-        <Icon img="arrow" color="#007ac9" width={0.8125} height={1.1875} />
-      </span>
-    </a>
+    </h2>
   );
 };
 
@@ -53,10 +62,17 @@ TrafficNowLink.propTypes = {
   lang: PropTypes.string.isRequired,
   /* href. if provided show <a> link  */
   href: PropTypes.string,
+  fontWeights: PropTypes.shape({
+    /** Default value is 500. */
+    medium: PropTypes.number,
+  }),
 };
 
 TrafficNowLink.defaultProps = {
   href: undefined,
+  fontWeights: {
+    medium: 500,
+  },
 };
 
 export default props => (
