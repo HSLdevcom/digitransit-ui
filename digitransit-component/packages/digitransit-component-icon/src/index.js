@@ -80,8 +80,6 @@ import SearchRailStopDigitransit from './assets/search-rail-stop-digitransit.svg
 import SearchRailStationDigitransit from './assets/search-rail-station-digitransit.svg';
 import SearchTramStopDigitransit from './assets/search-tram-stop-digitransit.svg';
 import Funicular from './assets/funicular.svg';
-import InfoCircled from './assets/info-circled.svg';
-import InfoFilled from './assets/info-filled.svg';
 
 const IconMap = style => {
   return {
@@ -191,8 +189,6 @@ const IconMap = style => {
     ),
     'search-tram-stop-digitransit': <SearchTramStopDigitransit style={style} />,
     funicular: <Funicular style={style} />,
-    'info-circled': <InfoCircled style={style} />,
-    'info-filled': <InfoFilled style={style} />,
   };
 };
 
@@ -207,16 +203,15 @@ const IconMap = style => {
  *    rotate={90}     // How many degrees to rotate image, optional
  * />
  */
-const Icon = ({ color: fill, img, height, width, rotate, colorAsFillOnly }) => {
+const Icon = ({ color, img, height, width, rotate }) => {
   const style = {
-    fill: fill || null,
+    fill: color || null,
     height: height ? `${height}em` : null,
     width: width ? `${width}em` : null,
     transform: rotate ? `rotate(${rotate}deg)` : null,
-    color: !colorAsFillOnly && fill,
   };
   const icons = IconMap(style);
-  if (img === 'locate' && fill && fill.toUpperCase() !== '#007AC9') {
+  if (img === 'locate' && color && color.toUpperCase() !== '#007AC9') {
     return icons.position;
   }
   return icons[img];
@@ -228,7 +223,6 @@ Icon.propTypes = {
   img: PropTypes.string.isRequired,
   width: PropTypes.number,
   rotate: PropTypes.string,
-  colorAsFillOnly: PropTypes.bool,
 };
 
 Icon.defaultProps = {
@@ -236,7 +230,6 @@ Icon.defaultProps = {
   height: undefined,
   width: undefined,
   rotate: undefined,
-  colorAsFillOnly: true,
 };
 
 export default Icon;
