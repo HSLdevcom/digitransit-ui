@@ -63,7 +63,7 @@ export function getAnalyticsInitCode(config, req) {
       );
     }
     if (config.crazyEgg) {
-      const surveyShare = process.env.SURVEY_SHARE || 2;
+      const surveyShare = process.env.SURVEY_SHARE || 500;
 
       const lang = cookies.get('lang');
       let id;
