@@ -22,43 +22,41 @@ const IconWithIcon = (
     omitViewBox,
   },
   { intl },
-) => {
-  return (
-    <span id={id} className={className}>
-      <span>
+) => (
+  <span id={id} className={className}>
+    <span>
+      <Icon
+        color={color}
+        img={img}
+        viewBox={mode === 'call' ? '0 0 60 60' : undefined}
+        omitViewBox={omitViewBox}
+        foreground={
+          (badgeFill || badgeText) && (
+            <IconBadge
+              badgeFill={badgeFill}
+              badgeText={badgeText}
+              badgeTextFill={badgeTextFill}
+            />
+          )
+        }
+      />
+    </span>
+    {subIcon && (
+      <span
+        className={subIconClassName}
+        title={intl.formatMessage({ id: 'disruption' })}
+      >
         <Icon
-          color={color}
-          img={img}
-          viewBox={mode === 'call' ? '0 0 60 60' : undefined}
+          img={subIcon}
           omitViewBox={omitViewBox}
-          foreground={
-            (badgeFill || badgeText) && (
-              <IconBadge
-                badgeFill={badgeFill}
-                badgeText={badgeText}
-                badgeTextFill={badgeTextFill}
-              />
-            )
+          background={
+            subIconShape && <IconBackground backgroundShape={subIconShape} />
           }
         />
       </span>
-      {subIcon && (
-        <span
-          className={subIconClassName}
-          title={intl.formatMessage({ id: 'disruption' })}
-        >
-          <Icon
-            img={subIcon}
-            omitViewBox={omitViewBox}
-            background={
-              subIconShape && <IconBackground backgroundShape={subIconShape} />
-            }
-          />
-        </span>
-      )}
-    </span>
-  );
-};
+    )}
+  </span>
+);
 
 IconWithIcon.displayName = 'IconWithIcon';
 

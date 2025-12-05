@@ -34,6 +34,10 @@ const Icon = ({
       {background}
       <g
         style={{
+          fill: color || null,
+          height: height ? `${height}em` : null,
+          width: width ? `${width}em` : null,
+          outline: 0,
           transformOrigin: 'center',
           transform: `scale(${iconScale})`,
         }}

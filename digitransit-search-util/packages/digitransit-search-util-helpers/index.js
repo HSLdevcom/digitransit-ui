@@ -181,7 +181,7 @@ export const getLayerRank = (layer, source) => {
  * @param {String} term The search term that was used
  */
 export const sortSearchResults = (lineRegexp, results, term = '') => {
-  if (!Array.isArray(results)) {
+  if (!Array.isArray(results) || !results.length) {
     return results;
   }
   const isLineIdentifier = value =>
@@ -191,7 +191,7 @@ export const sortSearchResults = (lineRegexp, results, term = '') => {
   const isLineSearch = isLineIdentifier(normalizedTerm);
 
   const orderedResults = orderBy(
-    results,
+    results.filter(r => r),
     [
       // rank matching routes best
       result =>
@@ -237,7 +237,7 @@ export const sortSearchResults = (lineRegexp, results, term = '') => {
         }
       },
       result => {
-        if (result.properties?.shortName) {
+        if (result.properties.shortName) {
           return testShortNameMatchesLineWithNumbersAndLetters(
             result.properties.shortName,
           )
@@ -247,7 +247,7 @@ export const sortSearchResults = (lineRegexp, results, term = '') => {
         return undefined;
       },
       result => {
-        if (result.properties?.shortName) {
+        if (result.properties.shortName) {
           return testShortNameMatchesLineWithNumbersAndLetters(
             result.properties.shortName,
           )

@@ -81,115 +81,96 @@ import SearchRailStationDigitransit from './assets/search-rail-station-digitrans
 import SearchTramStopDigitransit from './assets/search-tram-stop-digitransit.svg';
 import Funicular from './assets/funicular.svg';
 
-const IconMap = style => {
-  return {
-    airplane: <Airplane style={style} />,
-    arrow: <Arrow style={style} />,
-    bus: <Bus style={style} />,
-    busstop: <Busstop style={style} />,
-    caution: <CautionWhite style={style} />,
-    city: <City style={style} />,
-    citybike: <CityBikeRentalStationDefault style={style} />,
-    edit: <Edit style={style} />,
-    ferry: <Ferry style={style} />,
-    home: <Home style={style} />,
-    locate: <Locate style={style} />,
-    map: <Map style={style} />,
-    place: <Place style={style} />,
-    rail: <Rail style={style} />,
-    school: <School style={style} />,
-    shopping: <Shopping style={style} />,
-    sport: <Sport style={style} />,
-    star: <Star style={style} />,
-    station: <Station style={style} />,
-    subway: <Subway style={style} />,
-    tram: <Tram style={style} />,
-    work: <Work style={style} />,
-    close: <Close style={style} />,
-    'mapMarker-via': <MapmarkerVia style={style} />,
-    'bike-park': <BikePark style={style} />,
-    'car-park': <CarPark style={style} />,
-    mapMarker: <Mapmarker style={style} />,
-    search: <Search style={style} />,
-    plus: <Plus style={style} />,
-    attention: <Attention style={style} />,
-    'arrow-dropdown': <Dropdown style={style} />,
-    time: <Time style={style} />,
-    ellipsis: <Ellipsis style={style} />,
-    opposite: <Opposite style={style} />,
-    viapoint: <Viapoint style={style} />,
-    calendar: <Calendar style={style} />,
-    'select-from-map': <SelectFromMap style={style} />,
-    'caution-white': <CautionWhite style={style} />,
-    trash: <Trash style={style} />,
-    'mode-bus': <ModeBus style={style} />,
-    'mode-bus-express': <ModeBusExpress style={style} />,
-    'mode-bus-local': <ModeBusLocal style={style} />,
-    'mode-bus-replacement': <ModeBusReplacement style={style} />,
-    'mode-speedtram': <ModeSpeedTram style={style} />,
-    'mode-rail': <ModeRail style={style} />,
-    'mode-tram': <ModeTram style={style} />,
-    'mode-subway': <Subway style={style} />,
-    'mode-ferry': <ModeFerry style={style} />,
-    'mode-citybike': <ModeBikeRentalStation style={style} />,
-    'mode-digitransit-bus': <SearchBusStationDigitransit style={style} />,
-    'mode-digitransit-rail': <SearchRailStationDigitransit style={style} />,
-    'mode-digitransit-ferry': <SearchFerryDigitransit style={style} />,
-    'mode-digitransit-tram': <ModeDigiTram style={style} />,
-    'mode-digitransit-citybike': <ModeDigiBikeRentalStation style={style} />,
-    'mode-digitransit-airplane': <ModeAirplane style={style} />,
-    'mode-digitransit-subway': <Subway style={style} />,
-    'mode-digitransit-funicular': <ModeDigiFunicular style={style} />,
-    'mode-waltti-bus': <BusWaltti style={style} />,
-    'mode-waltti-citybike': <BikeRentalStationWaltti style={style} />,
-    'mode-waltti-ferry': <FerryWaltti style={style} />,
-    'mode-waltti-rail': <RailWaltti style={style} />,
-    'mode-waltti-tram': <TramWaltti style={style} />,
-    'future-route': <FutureRoute style={style} />,
-    position: <Position style={style} />,
-    'search-street-name': <SearchStreetName style={style} />,
-    check: <Check style={style} />,
-    'search-bus-stop-default': <SearchBusStopDefault style={style} />,
-    'search-bus-stop-express-default': (
-      <SearchBusStopExpressDefault style={style} />
-    ),
-    'search-speedtram-stop-default': (
-      <SearchSpeedTramStopDefault style={style} />
-    ),
-    'search-rail-stop-default': <SearchRailStopDefault style={style} />,
-    'search-ferry-default': <SearchFerryDefault style={style} />,
-    'search-ferry-stop-default': <SearchFerryStopDefault style={style} />,
-    'search-tram-stop-default': <SearchTramStopDefault style={style} />,
-    'citybike-stop-digitransit': (
-      <CityBikeRentalStationDigitransit style={style} />
-    ),
-    'citybike-stop-digitransit-secondary': (
-      <CityBikeRentalStationDigitransitSecondary style={style} />
-    ),
-    'citybike-stop-default': <CityBikeRentalStationDefault style={style} />,
-    'citybike-stop-default-secondary': (
-      <CityBikeRentalStationDefaultSecondary style={style} />
-    ),
-    'search-airplane-digitransit': <SearchAirplaneDigitransit style={style} />,
-    'search-bus-station-digitransit': (
-      <SearchBusStationDigitransit style={style} />
-    ),
-    'search-bus-stop-digitransit': <SearchBusStopDigitransit style={style} />,
-    'search-bustram-stop-digitransit': (
-      <SearchBusTramStopDigitransit style={style} />
-    ),
-    'search-ferry-digitransit': <SearchFerryDigitransit style={style} />,
-    'search-ferry-stop-digitransit': (
-      <SearchFerryStopDigitransit style={style} />
-    ),
-    'search-funicular-stop-digitransit': <ModeDigiFunicular style={style} />,
-    'search-rail-stop-digitransit': <SearchRailStopDigitransit style={style} />,
-    'search-rail-station-digitransit': (
-      <SearchRailStationDigitransit style={style} />
-    ),
-    'search-tram-stop-digitransit': <SearchTramStopDigitransit style={style} />,
-    funicular: <Funicular style={style} />,
-  };
+const iconMap = {
+  airplane: Airplane,
+  arrow: Arrow,
+  bus: Bus,
+  busstop: Busstop,
+  caution: CautionWhite,
+  city: City,
+  citybike: CityBikeRentalStationDefault,
+  edit: Edit,
+  ferry: Ferry,
+  home: Home,
+  locate: Locate,
+  map: Map,
+  place: Place,
+  rail: Rail,
+  school: School,
+  shopping: Shopping,
+  sport: Sport,
+  star: Star,
+  station: Station,
+  subway: Subway,
+  tram: Tram,
+  work: Work,
+  close: Close,
+  'mapMarker-via': MapmarkerVia,
+  'bike-park': BikePark,
+  'car-park': CarPark,
+  mapMarker: Mapmarker,
+  search: Search,
+  plus: Plus,
+  attention: Attention,
+  'arrow-dropdown': Dropdown,
+  time: Time,
+  ellipsis: Ellipsis,
+  opposite: Opposite,
+  viapoint: Viapoint,
+  calendar: Calendar,
+  'select-from-map': SelectFromMap,
+  'caution-white': CautionWhite,
+  trash: Trash,
+  'mode-bus': ModeBus,
+  'mode-bus-express': ModeBusExpress,
+  'mode-bus-local': ModeBusLocal,
+  'mode-bus-replacement': ModeBusReplacement,
+  'mode-speedtram': ModeSpeedTram,
+  'mode-rail': ModeRail,
+  'mode-tram': ModeTram,
+  'mode-subway': Subway,
+  'mode-ferry': ModeFerry,
+  'mode-citybike': ModeBikeRentalStation,
+  'mode-digitransit-bus': SearchBusStationDigitransit,
+  'mode-digitransit-rail': SearchRailStationDigitransit,
+  'mode-digitransit-ferry': SearchFerryDigitransit,
+  'mode-digitransit-tram': ModeDigiTram,
+  'mode-digitransit-citybike': ModeDigiBikeRentalStation,
+  'mode-digitransit-airplane': ModeAirplane,
+  'mode-digitransit-subway': Subway,
+  'mode-digitransit-funicular': ModeDigiFunicular,
+  'mode-waltti-bus': BusWaltti,
+  'mode-waltti-citybike': BikeRentalStationWaltti,
+  'mode-waltti-ferry': FerryWaltti,
+  'mode-waltti-rail': RailWaltti,
+  'mode-waltti-tram': TramWaltti,
+  'future-route': FutureRoute,
+  position: Position,
+  'search-street-name': SearchStreetName,
+  check: Check,
+  'search-bus-stop-default': SearchBusStopDefault,
+  'search-bus-stop-express-default': SearchBusStopExpressDefault,
+  'search-speedtram-stop-default': SearchSpeedTramStopDefault,
+  'search-rail-stop-default': SearchRailStopDefault,
+  'search-ferry-default': SearchFerryDefault,
+  'search-ferry-stop-default': SearchFerryStopDefault,
+  'search-tram-stop-default': SearchTramStopDefault,
+  'citybike-stop-digitransit': CityBikeRentalStationDigitransit,
+  'citybike-stop-digitransit-secondary':
+    CityBikeRentalStationDigitransitSecondary,
+  'citybike-stop-default': CityBikeRentalStationDefault,
+  'citybike-stop-default-secondary': CityBikeRentalStationDefaultSecondary,
+  'search-airplane-digitransit': SearchAirplaneDigitransit,
+  'search-bus-station-digitransit': SearchBusStationDigitransit,
+  'search-bus-stop-digitransit': SearchBusStopDigitransit,
+  'search-bustram-stop-digitransit': SearchBusTramStopDigitransit,
+  'search-ferry-digitransit': SearchFerryDigitransit,
+  'search-ferry-stop-digitransit': SearchFerryStopDigitransit,
+  'search-funicular-stop-digitransit': ModeDigiFunicular,
+  'search-rail-stop-digitransit': SearchRailStopDigitransit,
+  'search-rail-station-digitransit': SearchRailStationDigitransit,
+  'search-tram-stop-digitransit': SearchTramStopDigitransit,
+  funicular: Funicular,
 };
 
 /**
@@ -210,11 +191,15 @@ const Icon = ({ color, img, height, width, rotate }) => {
     width: width ? `${width}em` : null,
     transform: rotate ? `rotate(${rotate}deg)` : null,
   };
-  const icons = IconMap(style);
-  if (img === 'locate' && color && color.toUpperCase() !== '#007AC9') {
-    return icons.position;
-  }
-  return icons[img];
+
+  const iconName =
+    img === 'locate' && color && color.toUpperCase() !== '#007AC9'
+      ? 'position'
+      : img;
+
+  const Component = iconMap[iconName] || SearchBusStopDigitransit;
+
+  return <Component style={style} />;
 };
 
 Icon.propTypes = {
