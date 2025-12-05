@@ -1,7 +1,18 @@
 import React from 'react';
+import ValidityPeriodFilter from './filters/ValidityPeriodFilter';
 
 export default function Filters() {
-  return <div className="traffic-now__content__filters">Suodattimet</div>;
+  const filters = [
+    {
+      id: 'VALIDITY_PERIOD',
+      component: <ValidityPeriodFilter />,
+    },
+  ];
+  return (
+    <div className="traffic-now__content__filters">
+      {filters.map(f => f.component)}
+    </div>
+  );
 }
 
 Filters.propTypes = {};
