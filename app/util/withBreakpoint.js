@@ -1,11 +1,12 @@
 /* eslint-disable max-classes-per-file */
 /* eslint-disable react/no-multi-comp */
-import React, { createContext } from 'react';
+import React, { createContext, useContext } from 'react';
 import PropTypes from 'prop-types';
 import throttle from 'lodash/throttle';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 
-const { Provider, Consumer } = createContext('large');
+const BreakpointContext = createContext('large');
+const { Provider, Consumer } = BreakpointContext;
 
 export function getClientBreakpoint(width) {
   const matchWidth = width || window.innerWidth;
@@ -56,6 +57,15 @@ export const BreakpointProvider = Provider;
  * Extracts breakpoint information (can be one of: large, medium and small) from the context.
  */
 export const BreakpointConsumer = Consumer;
+
+/**
+ * Export for functional components' useContext hook
+ */
+
+export { BreakpointContext };
+export function useBreakpoint() {
+  return useContext(BreakpointContext);
+}
 
 export function DesktopOrMobile({ desktop, mobile }) {
   return (

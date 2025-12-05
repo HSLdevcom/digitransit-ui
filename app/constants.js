@@ -136,3 +136,8 @@ export const ViaLocationType = Object.freeze({
   PassThrough: 'PASS_THROUGH',
   Visit: 'VISIT',
 });
+
+export const LocationTypes = Object.freeze({
+  STOP: 'STOP',
+  STATION: 'STATION',
+});
