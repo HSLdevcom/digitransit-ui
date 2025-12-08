@@ -52,7 +52,7 @@ const groupEntitiesByMode = (entities, config) => {
       if (e.stop) {
         addToModeGroup(acc, {
           ...e.stop,
-          mode: e.vehicleMode?.toLowerCase(),
+          mode: e.stop.vehicleMode?.toLowerCase(),
           isStop: true,
           isStation: e.locationType === LocationTypes.STATION,
         });
