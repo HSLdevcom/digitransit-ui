@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useRef, useState } from 'react';
+import React, { useLayoutEffect, useMemo, useRef, useState } from 'react';
 import cx from 'classnames';
 import { useLazyLoadQuery } from 'react-relay/hooks';
 import { FormattedMessage } from 'react-intl';
@@ -8,6 +8,8 @@ import { useConfigContext } from '../../configurations/ConfigContext';
 import AlertsQuery from './queries/AlertsQuery';
 import NoAlerts from './NoAlerts';
 import useWindowResize from '../../hooks/useWindowSize';
+import { useFilterContext } from './filters/FiltersContext';
+import { filterAlerts } from './filters/filterUtils';
 
 export default function Alerts() {
   const breakpoint = useBreakpoint();
@@ -16,6 +18,7 @@ export default function Alerts() {
   const { height } = useWindowResize();
   const ref = useRef();
   const [top, setTop] = useState(0);
+  const { selectedFilters } = useFilterContext();
 
   useLayoutEffect(() => {
     if (ref.current) {
@@ -31,6 +34,11 @@ export default function Alerts() {
     feedIds,
   });
 
+  const filteredAlerts = useMemo(
+    () => filterAlerts(alerts, selectedFilters),
+    [alerts, selectedFilters],
+  );
+
   const desktop = breakpoint === 'large';
 
   return (
@@ -43,18 +51,18 @@ export default function Alerts() {
         maxHeight: `calc(100vh - ${top}px)`,
       }}
     >
-      {alerts.length === 0 ? (
+      {filteredAlerts.length === 0 ? (
         <NoAlerts />
       ) : (
         <>
           <FormattedMessage
             id="disruptions-found-amount"
-            values={{ amount: alerts.length }}
+            values={{ amount: filteredAlerts.length }}
             defaultValue="No disruptions found"
             tagName="h3"
           />
           <div className="traffic-now__content__alerts-list">
-            {alerts.map(a => (
+            {filteredAlerts.map(a => (
               <DisruptionCard
                 key={a.id}
                 alert={a}
