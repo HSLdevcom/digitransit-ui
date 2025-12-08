@@ -4,16 +4,16 @@ import PropTypes from 'prop-types';
 const STOP_SIGN_POLE_WIDTH = 4;
 const STOP_SIGN_POLE_X = 20 - STOP_SIGN_POLE_WIDTH / 2;
 
-const IconBackground = ({ backgroundShape, backgroundColor }) => (
+const IconBackground = ({ shape, color }) => (
   <>
     <circle
       className="icon-circle"
       cx="20"
       cy="20"
-      fill={backgroundColor}
-      r={backgroundShape === 'stopsign' ? '13.33' : '20'}
+      fill={color}
+      r={shape === 'stopsign' ? '13.33' : '20'}
     />
-    {backgroundShape === 'stopsign' && (
+    {shape === 'stopsign' && (
       <rect
         x={STOP_SIGN_POLE_X}
         y="33.33"
@@ -27,12 +27,12 @@ const IconBackground = ({ backgroundShape, backgroundColor }) => (
 );
 
 IconBackground.propTypes = {
-  backgroundShape: PropTypes.oneOf(['circle', 'stopsign']).isRequired,
-  backgroundColor: PropTypes.string,
+  shape: PropTypes.oneOf(['circle', 'stopsign']).isRequired,
+  color: PropTypes.string,
 };
 
 IconBackground.defaultProps = {
-  backgroundColor: 'white',
+  color: 'white',
 };
 
 export default IconBackground;

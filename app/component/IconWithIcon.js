@@ -49,9 +49,7 @@ const IconWithIcon = (
         <Icon
           img={subIcon}
           omitViewBox={omitViewBox}
-          background={
-            subIconShape && <IconBackground backgroundShape={subIconShape} />
-          }
+          background={subIconShape && <IconBackground shape={subIconShape} />}
         />
       </span>
     )}

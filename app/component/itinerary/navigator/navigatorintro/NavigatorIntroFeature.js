@@ -21,10 +21,7 @@ const NavigatorIntroFeature = ({
           width={2}
           aria-hidden="true"
           background={
-            <IconBackground
-              backgroundColor={iconBackgroundColor}
-              backgroundShape="circle"
-            />
+            <IconBackground color={iconBackgroundColor} shape="circle" />
           }
         />
       )}

@@ -12,8 +12,8 @@ describe('<IconWithIcon />', () => {
       subIconShape: 'circle',
     };
     const wrapper = shallowWithIntl(<IconWithIcon {...props} />);
-    expect(
-      wrapper.find(Icon).at(1).prop('background').props.backgroundShape,
-    ).to.equal('circle');
+    expect(wrapper.find(Icon).at(1).prop('background').props.shape).to.equal(
+      'circle',
+    );
   });
 });
