@@ -1,6 +1,5 @@
 import React, { useRef } from 'react';
 import cx from 'classnames';
-import { useFragment } from 'react-relay';
 import { FormattedMessage } from 'react-intl';
 import Button from '@hsl-fi/button';
 import PropTypes from 'prop-types';
@@ -9,7 +8,6 @@ import { alertShape } from '../../util/shapes';
 import Icon from '../Icon';
 import { useConfigContext } from '../../configurations/ConfigContext';
 import Badge from '../Badge';
-import DisruptionCardFragment from './queries/DisruptionCardFragment';
 import RouteBadges from './RouteBadges';
 import { getFormattedTimeDate } from '../../util/timeUtils';
 import { AlertSeverityLevelType } from '../../constants';
@@ -31,7 +29,7 @@ export default function DisruptionCard({ alert, isOpen, onClick }) {
     effectiveStartDate,
     effectiveEndDate,
     alertUrl,
-  } = useFragment(DisruptionCardFragment, alert);
+  } = alert;
   const { colors } = useConfigContext();
   const cardRef = useRef(null);
 
