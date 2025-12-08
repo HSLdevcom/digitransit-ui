@@ -42,10 +42,7 @@ export default function RouteBadges({ entities: rawEntities }) {
               iconScale={isRoute ? NORMAL_ICON_SCALE : STOP_SIGN_ICON_SCALE}
               background={
                 !isRoute && (
-                  <IconBackground
-                    backgroundShape="stopsign"
-                    backgroundColor="currentcolor"
-                  />
+                  <IconBackground shape="stopsign" color="currentcolor" />
                 )
               }
             />

@@ -177,7 +177,7 @@ export default function DepartureRow(
               className={backgroundShape}
               img={icon}
               color={iconColor}
-              background={<IconBackground backgroundShape={backgroundShape} />}
+              background={<IconBackground shape={backgroundShape} />}
             />
             {sr}
           </>
