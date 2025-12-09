@@ -233,6 +233,60 @@ class TransitLeg extends React.Component {
     return null;
   }
 
+  renderFareDisclaimer(leg, mode, lang, LegRouteName) {
+    const { config, intl } = this.context;
+    if (
+      leg.fare?.isUnknown &&
+      !config.hideUnknownFares &&
+      shouldShowFareInfo(config)
+    ) {
+      const modeDisclaimer = config.modeDisclaimers?.[mode]?.[lang];
+      if (modeDisclaimer) {
+        return (
+          <div className="disclaimer-container unknown-fare-disclaimer__leg">
+            <div className="description-container">
+              {modeDisclaimer.disclaimer}
+              <a href={modeDisclaimer.link} target="_blank" rel="noreferrer">
+                {modeDisclaimer.text}
+              </a>
+            </div>
+          </div>
+        );
+      }
+
+      if (mode !== 'call') {
+        return (
+          <div className="disclaimer-container unknown-fare-disclaimer__leg">
+            <div className="description-container">
+              <span className="accent">
+                {`${intl.formatMessage({ id: 'pay-attention' })} `}
+              </span>
+              {intl.formatMessage({ id: 'separate-ticket-required' })}
+            </div>
+            <div className="ticket-info">
+              <div className="accent">{LegRouteName}</div>
+              {leg.fare.agency &&
+                !config.hideExternalOperator(leg.fare.agency) && (
+                  <>
+                    <div>{leg.fare.agency.name}</div>
+                    {leg.fare.agency.fareUrl && (
+                      <ExternalLink
+                        className="agency-link"
+                        href={leg.fare.agency.fareUrl}
+                      >
+                        {intl.formatMessage({ id: 'extra-info' })}
+                      </ExternalLink>
+                    )}
+                  </>
+                )}
+            </div>
+          </div>
+        );
+      }
+    }
+    return null;
+  }
+
   renderMain = () => {
     const {
       children,
@@ -636,49 +690,7 @@ class TransitLeg extends React.Component {
               )}
             </div>
           )}
-          {leg.fare?.isUnknown &&
-            !config.hideUnknownFares &&
-            shouldShowFareInfo(config) &&
-            (config.modeDisclaimers?.[mode]?.[lang] ? (
-              <div className="disclaimer-container unknown-fare-disclaimer__leg">
-                <div className="description-container">
-                  {config.modeDisclaimers[mode][lang].disclaimer}
-                  <a
-                    href={config.modeDisclaimers[mode][lang].link}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    {config.modeDisclaimers[mode][lang].text}
-                  </a>
-                </div>
-              </div>
-            ) : (
-              <div className="disclaimer-container unknown-fare-disclaimer__leg">
-                <div className="description-container">
-                  <span className="accent">
-                    {`${intl.formatMessage({ id: 'pay-attention' })} `}
-                  </span>
-                  {intl.formatMessage({ id: 'separate-ticket-required' })}
-                </div>
-                <div className="ticket-info">
-                  <div className="accent">{LegRouteName}</div>
-                  {leg.fare.agency &&
-                    !config.hideExternalOperator(leg.fare.agency) && (
-                      <React.Fragment>
-                        <div>{leg.fare.agency.name}</div>
-                        {leg.fare.agency.fareUrl && (
-                          <ExternalLink
-                            className="agency-link"
-                            href={leg.fare.agency.fareUrl}
-                          >
-                            {intl.formatMessage({ id: 'extra-info' })}
-                          </ExternalLink>
-                        )}
-                      </React.Fragment>
-                    )}
-                </div>
-              </div>
-            ))}
+          {this.renderFareDisclaimer(leg, mode, lang, LegRouteName)}
         </div>
         <span className="sr-only">{alertSeverityDescription}</span>
       </div>

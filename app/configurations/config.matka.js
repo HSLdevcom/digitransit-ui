@@ -174,6 +174,8 @@ export default {
 
   suggestBikeMaxDistance: 2000000,
 
+  trafficNowLink: true,
+
   vehicleRental: {
     useAllSeasons: true,
     networks: {
@@ -451,9 +453,12 @@ export default {
   ],
   navigation: true,
 
-  experimental: {
-    allowFlexJourneys: true,
-    allowDirectFlexJourneys: true,
+  flex: {
+    internalFlexEnabled: IS_DEV,
+    allowTaxiJourneys: true,
+    directOnlyTaxiJourneys: true,
+    internalAgencies: ['KirkkonummiE:612', 'KirkkonummiP:612'],
+    externalAgencies: ['02Taksi:02_taksi'],
   },
 
   devAnalytics: true,
@@ -468,4 +473,5 @@ export default {
   },
 
   showStopStatusMarkers: true,
+  showRouteDescNotification: IS_DEV,
 };

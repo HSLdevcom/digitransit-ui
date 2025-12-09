@@ -4,88 +4,60 @@
 */
 
 /* COLOR */
-.airplane {
-  color: $airplane-color;
-}
+$mode-colors: (
+  airplane: $airplane-color,
+  bus: $bus-color,
+  bus-local: $bus-color,
+  bus-express: $bus-express-color,
+  speedtram: $speedtram-color,
+  call: $call-agency-color,
+  tram: $tram-color,
+  subway: $metro-color,
+  rail: $rail-color,
+  ferry: $ferry-color,
+  ferry-external: $external-feed-color,
+  taxi-external: $external-feed-color,
+  funicular: $funicular-color,
+  car: $car-color,
+  citybike: $citybike-color,
+  citybike_walk: $citybike-color,
+  citybike-off: $citybike-color,
+  scooter: $scooter-color,
+  walk: $walk-color,
+  bicycle: $bicycle-color,
+  bicycle_walk: $bicycle-color,
+  replacement-bus: $replacement-bus-color,
+);
 
-.bus {
-  color: $bus-color;
-}
+// Modes that should have a -stop variant
+$stop-modes: (
+  bus,
+  bus-local,
+  bus-express,
+  speedtram,
+  tram,
+  subway,
+  rail,
+  ferry,
+  ferry-external,
+  citybike,
+  funicular
+);
 
-.bus-local {
-  color: $bus-color;
-}
+@each $mode, $color in $mode-colors {
+  .#{$mode} {
+    color: $color;
 
-.bus-express {
-  color: $bus-express-color;
-}
+    @if index($stop-modes, $mode) {
+      &-stop {
+        color: $color;
+      }
 
-.speedtram {
-  color: $speedtram-color;
-}
-
-.call {
-  color: $call-agency-color;
-}
-
-.tram {
-  color: $tram-color;
-}
-
-.subway {
-  color: $metro-color;
-}
-
-.rail {
-  color: $rail-color;
-}
-
-.ferry {
-  color: $ferry-color;
-}
-
-.ferry-external {
-  color: $external-feed-color;
-}
-
-.taxi-external {
-  color: $external-feed-color;
-}
-
-.funicular {
-  color: $funicular-color;
-}
-
-.car {
-  color: $car-color;
-}
-
-.citybike {
-  color: $citybike-color;
-}
-
-.citybike_walk {
-  color: $citybike-color;
-}
-
-.citybike-off {
-  color: $citybike-color;
-}
-
-.scooter {
-  color: $scooter-color;
-}
-
-.walk {
-  color: $walk-color;
-}
-
-.bicycle {
-  color: $bicycle-color;
-}
-
-.bicycle_walk {
-  color: $bicycle-color;
+      &-station {
+        color: $color;
+      }
+    }
+  }
 }
 
 .via {
@@ -106,10 +78,6 @@
 
 .viewpoint {
   color: $viewpoint-marker-color;
-}
-
-.replacement-bus {
-  color: $replacement-bus-color;
 }
 
 .gray {

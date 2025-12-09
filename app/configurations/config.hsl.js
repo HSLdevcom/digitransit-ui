@@ -418,7 +418,7 @@ export default {
           sv: 'Zoner',
           en: 'Zones',
         },
-        url: '/assets/geojson/hsl_zone_lines_20190508.geojson',
+        url: '/assets/geojson/hsl_zone_lines_20251013.geojson',
       },
     ],
   },
@@ -456,11 +456,7 @@ export default {
   },
   ticketButtonTextId: 'open-app',
 
-  trafficNowLink: {
-    fi: 'matkustaminen/liikenne',
-    en: 'travelling/services-now',
-    sv: 'att-resa/Trafiken-just-nu',
-  },
+  trafficNowLink: true,
 
   vehicleRental: {
     minZoomStopsNearYou: 10,
@@ -793,13 +789,26 @@ export default {
   thumbsUpGraphic: 'hsl/thumbs-up.svg',
   trafficLightGraphic: 'hsl/traffic-light.svg',
   naviGeolocationGraphic: 'hsl/geolocation.svg',
+  notFoundGraphic: 'hsl/not-found.svg',
   navigation: true,
   crazyEgg: true,
+
   // features that should not be deployed to production
   experimental: {
-    allowFlexJourneys: false,
+    allowFlexJourneys: IS_DEV,
     allowDirectFlexJourneys: false,
   },
 
   showStopStatusMarkers: true,
+
+  flex: {
+    internalFlexEnabled: IS_DEV,
+    allowTaxiJourneys: IS_DEV,
+    directOnlyTaxiJourneys: false,
+    internalAgencies: ['KirkkonummiE:612', 'KirkkonummiP:612'],
+    externalAgencies: ['02Taksi:02_taksi'],
+    allowedExternalFlexRouteTypes: [1501],
+  },
+
+  showRouteDescNotification: IS_DEV,
 };

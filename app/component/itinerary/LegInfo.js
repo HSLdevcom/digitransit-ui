@@ -45,6 +45,19 @@ export default function LegInfo(
   }
   const startTime = legTimeStr(leg.start);
 
+  const routeNumber = (
+    <span aria-hidden="true">
+      <RouteNumber
+        mode={mode}
+        alertSeverityLevel={alertSeverityLevel}
+        color={leg.route ? `#${leg.route.color}` : 'currentColor'}
+        text={leg.route && leg.route.shortName}
+        realtime={false}
+        withBar
+        fadeLong
+      />
+    </span>
+  );
   return (
     <div
       className={cx('itinerary-transit-leg-route', {
@@ -52,33 +65,27 @@ export default function LegInfo(
         'alternative-leg-suggestion': isAlternativeLeg,
       })}
     >
-      <Link
-        onClick={e => {
-          e.stopPropagation();
-        }}
-        to={routePagePath(
-          leg.route.gtfsId,
-          PREFIX_STOPS,
-          leg.trip.pattern.code,
-          shouldLinkToTrip && leg.trip.gtfsId,
-        )}
-        aria-label={`${intl.formatMessage({
-          id: mode,
-          defaultMessage: 'Vehicle',
-        })} ${leg.route && leg.route.shortName?.toLowerCase()}`}
-      >
-        <span aria-hidden="true">
-          <RouteNumber
-            mode={mode}
-            alertSeverityLevel={alertSeverityLevel}
-            color={leg.route ? `#${leg.route.color}` : 'currentColor'}
-            text={leg.route && leg.route.shortName}
-            realtime={false}
-            withBar
-            fadeLong
-          />
-        </span>
-      </Link>
+      {isCallAgency ? (
+        <> {routeNumber}</>
+      ) : (
+        <Link
+          onClick={e => {
+            e.stopPropagation();
+          }}
+          to={routePagePath(
+            leg.route.gtfsId,
+            PREFIX_STOPS,
+            leg.trip.pattern.code,
+            shouldLinkToTrip && leg.trip.gtfsId,
+          )}
+          aria-label={`${intl.formatMessage({
+            id: mode,
+            defaultMessage: 'Vehicle',
+          })} ${leg.route && leg.route.shortName?.toLowerCase()}`}
+        >
+          {routeNumber}
+        </Link>
+      )}
       <div className="headsign">{headsign}</div>
       {config.showTransitLegDistance && (
         <div className={cx({ 'distance-bold': config.emphasizeDistance })}>
