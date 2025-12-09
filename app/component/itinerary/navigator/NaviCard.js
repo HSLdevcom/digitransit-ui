@@ -14,9 +14,9 @@ const iconMap = {
   CAR: 'icon_car',
   SCOOTER: 'icon_scooter_rider',
   WALK: 'icon_walk',
-  WAIT: 'icon_navigation_wait',
+  WAIT: 'icon_wait_standing',
   CALL: 'icon_call',
-  WAIT_IN_VEHICLE: 'icon_wait',
+  WAIT_IN_VEHICLE: 'icon_wait_sitting',
 };
 
 export default function NaviCard(
