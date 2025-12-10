@@ -124,6 +124,7 @@ function ItineraryDetails(
   );
   const legsWithScooter = compressedLegs.some(leg => leg.mode === 'SCOOTER');
   const legsWithAirplane = compressedLegs.some(leg => leg.mode === 'AIRPLANE');
+  const legsWithViaPoint = compressedLegs.some(leg => leg.from.viaLocationType);
   const onlyWalking = compressedLegs.every(leg => leg.mode === 'WALK');
   const onlyBiking = compressedLegs.every(leg => leg.mode === 'BICYCLE');
   const showStartNavi =
@@ -375,15 +376,19 @@ function ItineraryDetails(
                 relayEnvironment={relayEnvironment}
               />
             </div>
-            {config.showCO2InItinerarySummary && !legsWithScooter && (
-              <Emissions
-                key="emissionsinfo"
-                config={config}
-                itinerary={itinerary}
-                carEmissions={carEmissions}
-                emissionsInfolink={config.URL.EMISSIONS_INFO?.[currentLanguage]}
-              />
-            )}
+            {config.showCO2InItinerarySummary &&
+              !legsWithScooter &&
+              !legsWithViaPoint && (
+                <Emissions
+                  key="emissionsinfo"
+                  config={config}
+                  itinerary={itinerary}
+                  carEmissions={carEmissions}
+                  emissionsInfolink={
+                    config.URL.EMISSIONS_INFO?.[currentLanguage]
+                  }
+                />
+              )}
             {shouldShowDisclaimer && (
               <div className="itinerary-disclaimer" key="disclaimer">
                 <FormattedMessage

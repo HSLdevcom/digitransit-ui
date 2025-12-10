@@ -329,11 +329,33 @@ export function getPlanParams(
   const intermediateLocations = getIntermediatePlaces({
     intermediatePlaces,
   });
-  const via = intermediateLocations.map(loc => ({
-    passThrough: {
-      stopLocationIds: [loc.gtfsId],
-    },
-  }));
+  let via = intermediateLocations
+    .map(loc => {
+      if (loc.gtfsId) {
+        return {
+          visit: {
+            stopLocationIds: [loc.gtfsId],
+            coordinate: {
+              latitude: loc.lat,
+              longitude: loc.lon,
+            },
+          },
+        };
+      }
+      if (loc.lat && loc.lon) {
+        return {
+          visit: {
+            coordinate: {
+              latitude: loc.lat,
+              longitude: loc.lon,
+            },
+          },
+        };
+      }
+      return null;
+    })
+    .filter(Boolean);
+
   const distance = estimateItineraryDistance(
     fromLocation,
     toLocation,
@@ -420,10 +442,19 @@ export function getPlanParams(
       settings.bikeReluctance = null;
       // As of writing this comment, iterating (paging) does not support filtering of bad car transit itineraries.
       maxQueryIterations = 1;
+      // Via routing for cars is too performance intensive.
+      via = null;
       break;
     case PLANTYPE.PARKANDRIDE:
       access = ['CAR_PARKING'];
       transitOnly = true;
+      // Via routing for cars is too performance intensive.
+      via = null;
+      break;
+    case PLANTYPE.CAR:
+      direct = ['CAR'];
+      // Via routing for cars is too performance intensive.
+      via = null;
       break;
     case PLANTYPE.TRANSIT:
       direct = access;
@@ -440,6 +471,7 @@ export function getPlanParams(
       direct = directFlexOnly ? ['WALK', 'FLEX'] : null;
       transitOnly = false;
       filters = excludeAgencies(config.flex?.internalAgencies);
+      via = null;
       break;
     default: // direct modes
       direct = [planType];

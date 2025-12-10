@@ -129,6 +129,14 @@ export const PlannerMessageType = Object.freeze({
   SystemError: 'SYSTEM_ERROR',
 });
 
+/**
+ * OpenTripPlanner (v2) via point types.
+ */
+export const ViaLocationType = Object.freeze({
+  PassThrough: 'PASS_THROUGH',
+  Visit: 'VISIT',
+});
+
 export const LocationTypes = Object.freeze({
   STOP: 'STOP',
   STATION: 'STATION',
