@@ -53,8 +53,7 @@ export default function BicycleLeg(
   const firstLegClassName = index === 0 ? 'start' : '';
   let modeClassName = 'bicycle';
   const [name, place] = splitStringToAddressAndPlace(leg.from.name);
-  const address =
-    leg.from.viaLocationType && leg.viaAddress ? leg.viaAddress : name;
+  const address = (leg.from.viaLocationType && leg.viaAddress) || name;
   const rentalVehicleNetwork =
     leg.from.vehicleRentalStation?.rentalNetwork.networkId ||
     leg.from.rentalVehicle?.rentalNetwork.networkId;
@@ -282,9 +281,9 @@ export default function BicycleLeg(
         </span>
         {isFirstLeg(index) ||
         bicycleWalkLeg?.from.stop ||
-        leg?.from.viaLocationType ? (
+        leg.from.viaLocationType ? (
           <>
-            {leg?.from.viaLocationType ? <div className="divider" /> : null}
+            {leg.from.viaLocationType ? <div className="divider" /> : null}
             <div className={cx('itinerary-leg-first-row', 'bicycle', 'first')}>
               <div className="address-container">
                 <div className="address">

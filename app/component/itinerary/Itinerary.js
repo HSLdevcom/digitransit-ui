@@ -594,8 +594,8 @@ const Itinerary = (
       );
       stopNames.push(leg.from.name);
       if (
-        leg.to?.viaLocationType === ViaLocationType.PassThrough &&
-        !(nextLeg.transitLeg && nextLeg?.from.viaLocationType)
+        leg.to.viaLocationType === ViaLocationType.PassThrough &&
+        !(nextLeg.transitLeg && nextLeg.from.viaLocationType)
       ) {
         onlyIconLegs += 1;
         legs.push(<ViaLeg key={`via_${leg.mode}_${startMs}`} />);
