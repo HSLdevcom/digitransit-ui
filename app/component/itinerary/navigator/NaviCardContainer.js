@@ -89,7 +89,7 @@ function NaviCardContainer(
   }
 
   // track only relevant vehicles for the journey.
-  // addd 20 s buffer so that vehicle location is available
+  // add 20 s buffer so that vehicle location is available
   // for leg validation long enough
   const getNaviTopics = () =>
     getTopics(
@@ -199,16 +199,13 @@ function NaviCardContainer(
   }, [time, firstLeg]);
 
   // LegChange fires animation, we need to keep the old data until card goes out of the view.
-  const l = legChanging ? previousLeg : currentLeg;
-  const legType = getLegType(
-    l,
-    firstLeg,
-    time,
-    nextLeg?.interlineWithPreviousLeg,
-  );
+  const cardChanging = legChanged || legChanging;
+  const l = cardChanging ? previousLeg : currentLeg;
+  const nl = cardChanging ? currentLeg : nextLeg;
+  const legType = getLegType(l, firstLeg, time, nl?.interlineWithPreviousLeg);
 
   let className;
-  if (isJourneyCompleted || legChanging) {
+  if (isJourneyCompleted || cardChanging) {
     className = 'hide-card';
   } else {
     className = 'show-card';
@@ -223,7 +220,7 @@ function NaviCardContainer(
     >
       <NaviCard
         leg={l}
-        nextLeg={nextLeg}
+        nextLeg={nl}
         legType={legType}
         time={time}
         position={position}
