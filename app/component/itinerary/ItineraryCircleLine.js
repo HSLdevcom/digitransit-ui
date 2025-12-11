@@ -2,24 +2,27 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 import Icon from '../Icon';
+import { ViaLocationType } from '../../constants';
 
 class ItineraryCircleLine extends React.Component {
   static defaultProps = {
-    isVia: false,
+    viaType: null,
     color: null,
     renderBottomMarker: true,
     carPark: false,
     appendClass: undefined,
+    isStop: false,
   };
 
   static propTypes = {
     index: PropTypes.number.isRequired,
     modeClassName: PropTypes.string.isRequired,
-    isVia: PropTypes.bool,
+    viaType: PropTypes.string,
     color: PropTypes.string,
     renderBottomMarker: PropTypes.bool,
     carPark: PropTypes.bool,
     appendClass: PropTypes.string,
+    isStop: PropTypes.bool,
   };
 
   constructor(props) {
@@ -39,7 +42,7 @@ class ItineraryCircleLine extends React.Component {
   }
 
   isFirstChild = () => {
-    return this.props.index === 0 && this.props.isVia === false;
+    return this.props.index === 0 && !this.props.viaType;
   };
 
   getMarker = top => {
@@ -80,7 +83,7 @@ class ItineraryCircleLine extends React.Component {
         </div>
       );
     }
-    if (this.props.isVia === true) {
+    if (this.props.viaType === ViaLocationType.Visit && !this.props.isStop) {
       return (
         <div className="itinerary-icon-container">
           <Icon img="icon_mapMarker" className="itinerary-icon via via-it" />

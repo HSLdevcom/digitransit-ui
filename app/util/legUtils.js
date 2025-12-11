@@ -209,14 +209,15 @@ function bikingEnded(leg1) {
   return leg1.from.vehicleRentalStation && leg1.mode === 'WALK';
 }
 
-function syntheticEndpoint(originalEndpoint, place) {
-  return {
-    ...originalEndpoint,
-    stop: place.stop,
-    lat: place.stop.lat,
-    lon: place.stop.lon,
-    name: place.stop.name,
-  };
+function getViaPointAddress(from, viaPoints) {
+  if (!from || !from.lat || !from.lon || !from.viaLocationType) {
+    return null;
+  }
+  return viaPoints.find(
+    p =>
+      Math.round(p.lat * 1e5) === Math.round(from.lat * 1e5) &&
+      Math.round(p.lon * 1e5) === Math.round(from.lon * 1e5),
+  );
 }
 
 // Once a via place is matched, it is used and will not match again.
@@ -238,9 +239,18 @@ function isViaPointMatch(stop, viaPoints) {
   );
 }
 
+function syntheticEndpoint(originalEndpoint, place) {
+  return {
+    ...originalEndpoint,
+    stop: place.stop,
+    lat: place.stop.lat,
+    lon: place.stop.lon,
+    name: place.stop.name,
+  };
+}
+
 /**
- * Adds intermediate: true to legs if their start point should have a via point
- * marker, possibly splitting legs in case the via point belongs in the middle.
+ * Split legs in case the via point belongs in the middle.
  * Once a via point is used, it is not matched again.
  *
  * @param originalLegs Leg objects from graphql query
@@ -259,7 +269,7 @@ export function splitLegsAtViaPoints(originalLegs, viaPlaces) {
       nextLegStartsWithIntermediate ||
       (leg.transitLeg && isViaPointMatch(leg.from.stop, viaPoints))
     ) {
-      leg.intermediatePlace = true;
+      leg.viaStopCall = true;
       nextLegStartsWithIntermediate = false;
     }
     if (intermediatePlaces) {
@@ -273,7 +283,7 @@ export function splitLegsAtViaPoints(originalLegs, viaPlaces) {
             end: place.arrival,
             intermediatePlaces: intermediatePlaces.slice(start, i),
           };
-          leg.intermediatePlace = true;
+          leg.viaStopCall = true;
           leg.start = place.arrival;
           leg.from = syntheticEndpoint(leg.from, place);
           splitLegs.push(leftLeg);
@@ -307,11 +317,15 @@ export function splitLegsAtViaPoints(originalLegs, viaPlaces) {
  */
 export function markViaPoints(originalLegs, viaPlaces) {
   const legs = [];
-  const viaPoints = viaPlaces.map(p => p.gtfsId);
   originalLegs.forEach(leg => {
-    const isViaPoint = isViaPointMatch(leg.from.stop, viaPoints);
+    const viaAddress = getViaPointAddress(leg.from, viaPlaces)?.address;
+    const isViaPoint = !!leg.from.viaLocationType;
+
     if (leg.intermediatePlaces) {
+      // ViaLocationType pass_through
+      const viaPoints = viaPlaces.map(p => p.gtfsId);
       const intermediatePlaces = [];
+
       leg.intermediatePlaces.forEach(place => {
         intermediatePlaces.push({
           ...place,
@@ -322,11 +336,13 @@ export function markViaPoints(originalLegs, viaPlaces) {
         ...leg,
         intermediatePlaces,
         isViaPoint,
+        viaAddress,
       });
     } else {
       legs.push({
         ...leg,
         isViaPoint,
+        viaAddress,
       });
     }
   });
@@ -356,7 +372,7 @@ export function compressLegs(originalLegs, keepBicycleWalk = false) {
       compressedLeg = cloneDeep(currentLeg);
       return;
     }
-    if (currentLeg.intermediatePlace) {
+    if (currentLeg.from.viaLocationType) {
       compressedLegs.push(compressedLeg);
       compressedLeg = cloneDeep(currentLeg);
       return;

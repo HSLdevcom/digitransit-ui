@@ -173,3 +173,16 @@ export const WheelchairBoarding = Object.freeze({
   NoInformation: 'NO_INFORMATION',
   Possible: 'POSSIBLE',
 });
+
+/**
+ * OpenTripPlanner (v2) via point types.
+ */
+export const ViaLocationType = Object.freeze({
+  PassThrough: 'PASS_THROUGH',
+  Visit: 'VISIT',
+});
+
+export const LocationTypes = Object.freeze({
+  STOP: 'STOP',
+  STATION: 'STATION',
+});

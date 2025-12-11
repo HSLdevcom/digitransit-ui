@@ -28,7 +28,6 @@ export const ItineraryFragment = graphql`
       duration
       rentedBike
       interlineWithPreviousLeg
-      intermediatePlace
       intermediatePlaces {
         stop {
           zoneId
@@ -105,6 +104,7 @@ export const ItineraryFragment = graphql`
             networkId
           }
         }
+        viaLocationType
       }
       to {
         stop {
@@ -123,6 +123,7 @@ export const ItineraryFragment = graphql`
           name
           vehicleParkingId
         }
+        viaLocationType
       }
       fareProducts {
         id

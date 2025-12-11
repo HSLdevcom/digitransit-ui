@@ -20,6 +20,7 @@ export const planConnection = graphql`
     $before: String
     $last: Int
     $via: [PlanViaLocationInput!]
+    $filters: [TransitFilterInput!]
   ) {
     plan: planConnection(
       dateTime: $datetime
@@ -48,6 +49,7 @@ export const planConnection = graphql`
         }
         transit: {
           transfer: { cost: $transferPenalty, slack: $minTransferTime }
+          filters: $filters
         }
       }
     ) {
@@ -232,6 +234,7 @@ export const planConnection = graphql`
                   networkId
                 }
               }
+              viaLocationType
             }
             to {
               lat
@@ -274,6 +277,7 @@ export const planConnection = graphql`
                   url
                 }
               }
+              viaLocationType
             }
             fareProducts {
               product {
