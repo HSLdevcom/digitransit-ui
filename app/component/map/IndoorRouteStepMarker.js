@@ -12,7 +12,7 @@ import GenericMarker from './GenericMarker';
 import Card from '../Card';
 import PopupHeader from './PopupHeader';
 import Icon from '../Icon';
-import { RelativeDirection, VerticalDirection } from '../../constants';
+import { IndoorRouteStepType, VerticalDirection } from '../../constants';
 import { getVerticalTransportationUseIconId } from '../../util/indoorUtils';
 
 export default function IndoorRouteStepMarker(
@@ -75,7 +75,8 @@ export default function IndoorRouteStepMarker(
                 <Icon
                   img={getVerticalTransportationUseIconId(
                     obj.feature?.verticalDirection,
-                    obj.relativeDirection,
+                    // eslint-disable-next-line no-underscore-dangle
+                    obj.feature?.__typename,
                     true,
                   )}
                   className="indoor-route-step-popup-icon"
@@ -137,7 +138,7 @@ IndoorRouteStepMarker.propTypes = {
   index: PropTypes.number.isRequired,
   indoorRouteSteps: PropTypes.arrayOf(
     PropTypes.shape({
-      relativeDirection: PropTypes.oneOf(Object.values(RelativeDirection)),
+      type: PropTypes.oneOf(Object.values(IndoorRouteStepType)),
       feature: PropTypes.shape({
         verticalDirection: PropTypes.oneOf(Object.values(VerticalDirection)),
       }),

@@ -32,7 +32,6 @@ describe('<WalkLeg />', () => {
           {
             streetName: 'entrance',
             area: false,
-            relativeDirection: 'CONTINUE',
             absoluteDirection: null,
             feature: {
               __typename: 'Entrance',
@@ -79,7 +78,6 @@ describe('<WalkLeg />', () => {
           {
             streetName: 'entrance',
             area: false,
-            relativeDirection: 'CONTINUE',
             absoluteDirection: null,
             feature: {
               __typename: 'Entrance',
@@ -154,7 +152,6 @@ describe('<WalkLeg />', () => {
           {
             streetName: 'entrance',
             area: false,
-            relativeDirection: 'CONTINUE',
             absoluteDirection: null,
             feature: {
               __typename: 'Entrance',
@@ -207,7 +204,6 @@ describe('<WalkLeg />', () => {
           {
             streetName: 'entrance',
             area: false,
-            relativeDirection: 'CONTINUE',
             absoluteDirection: null,
             feature: {
               __typename: 'Entrance',

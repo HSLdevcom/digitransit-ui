@@ -20,7 +20,7 @@ import ClusterNumberMarker from './ClusterNumberMarker';
 import IndoorRouteStepMarker from './IndoorRouteStepMarker';
 import { createFeatureObjects } from '../../util/clusterUtils';
 import {
-  ClusterMarkerType,
+  IndoorRouteStepType,
   IndoorRouteLegType,
   WheelchairBoarding,
 } from '../../constants';
@@ -29,6 +29,7 @@ import {
   getEntranceWheelchairAccessibility,
   getIndoorRouteLegType,
   getIndoorStepsWithVerticalTransportationUse,
+  isVerticalTransportationUse,
 } from '../../util/indoorUtils';
 
 class ItineraryLine extends React.Component {
@@ -122,7 +123,7 @@ class ItineraryLine extends React.Component {
             WheelchairBoarding.Possible
               ? 1
               : 0),
-          type: ClusterMarkerType.Entrance,
+          type: IndoorRouteStepType.Entrance,
           code: entranceObject.feature.publicCode?.toLowerCase(),
         },
       });
@@ -254,8 +255,8 @@ class ItineraryLine extends React.Component {
               lon: indoorRouteStep.lon,
               properties: {
                 iconCount: 1,
-                type: ClusterMarkerType.VerticalTransportationUse,
-                relativeDirection: indoorRouteStep.relativeDirection,
+                // eslint-disable-next-line no-underscore-dangle
+                type: indoorRouteStep.feature?.__typename,
                 verticalDirection: indoorRouteStep.feature?.verticalDirection,
                 index: i,
               },
@@ -327,7 +328,7 @@ class ItineraryLine extends React.Component {
         } else {
           // Handle a single point.
           // eslint-disable-next-line no-lonely-if
-          if (properties.type === ClusterMarkerType.Entrance) {
+          if (properties.type === IndoorRouteStepType.Entrance) {
             objs.push(
               <EntranceMarker
                 key={`entrance_${coordinates[0]}_${coordinates[1]}`}
@@ -339,9 +340,7 @@ class ItineraryLine extends React.Component {
                 code={properties.code}
               />,
             );
-          } else if (
-            properties.type === ClusterMarkerType.VerticalTransportationUse
-          ) {
+          } else if (isVerticalTransportationUse(properties.type)) {
             objs.push(
               <IndoorRouteStepMarker
                 key={`indoorroutestepmarker_${coordinates[0]}_${coordinates[1]}`}

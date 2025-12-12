@@ -1,6 +1,6 @@
 import {
   IndoorRouteLegType,
-  RelativeDirection,
+  IndoorRouteStepType,
   VerticalDirection,
 } from '../constants';
 import { addAnalyticsEvent } from './analyticsUtils';
@@ -33,20 +33,22 @@ const iconMappings = {
 
 export function getVerticalTransportationUseIconId(
   verticalDirection,
-  relativeDirection,
+  type,
   filled,
 ) {
   if (
     verticalDirection === undefined ||
     verticalDirection === VerticalDirection.Unknown ||
-    relativeDirection === RelativeDirection.Elevator
+    type === IndoorRouteStepType.ElevatorUse
   ) {
     return iconMappings[
-      `${relativeDirection.toLowerCase()}${filled ? '-filled' : ''}`
+      `${type?.toLowerCase().replace('use', '')}${filled ? '-filled' : ''}`
     ];
   }
   return iconMappings[
-    `${relativeDirection.toLowerCase()}-${verticalDirection.toLowerCase()}${
+    `${type
+      ?.toLowerCase()
+      .replace('use', '')}-${verticalDirection.toLowerCase()}${
       filled ? '-filled' : ''
     }`
   ];
@@ -109,11 +111,11 @@ export function getIndoorSteps(previousLeg, leg, nextLeg) {
   return [];
 }
 
-export function isVerticalTransportationUse(relativeDirection) {
+export function isVerticalTransportationUse(type) {
   return (
-    relativeDirection === RelativeDirection.Elevator ||
-    relativeDirection === RelativeDirection.Escalator ||
-    relativeDirection === RelativeDirection.Stairs
+    type === IndoorRouteStepType.ElevatorUse ||
+    type === IndoorRouteStepType.EscalatorUse ||
+    type === IndoorRouteStepType.StairsUse
   );
 }
 
@@ -123,22 +125,23 @@ export function getIndoorStepsWithVerticalTransportationUse(
   nextLeg,
 ) {
   return getIndoorSteps(previousLeg, leg, nextLeg).filter(step =>
-    isVerticalTransportationUse(step?.relativeDirection),
+    // eslint-disable-next-line no-underscore-dangle
+    isVerticalTransportationUse(step?.feature?.__typename),
   );
 }
 
 export function getIndoorRouteTranslationId(
-  relativeDirection,
+  type,
   verticalDirection,
   toLevelName,
 ) {
-  if (relativeDirection === RelativeDirection.Elevator && toLevelName) {
+  if (type === IndoorRouteStepType.ElevatorUse && toLevelName) {
     return 'indoor-step-message-elevator-to-floor';
   }
-  return `indoor-step-message-${relativeDirection.toLowerCase()}${
+  return `indoor-step-message-${type?.toLowerCase().replace('use', '')}${
     verticalDirection &&
     verticalDirection !== VerticalDirection.Unknown &&
-    relativeDirection !== RelativeDirection.Elevator
+    type !== IndoorRouteStepType.ElevatorUse
       ? `-${verticalDirection.toLowerCase()}`
       : ''
   }`;

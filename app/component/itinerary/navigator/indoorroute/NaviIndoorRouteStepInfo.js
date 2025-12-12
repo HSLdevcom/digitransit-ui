@@ -7,18 +7,18 @@ import {
   getIndoorRouteTranslationId,
   getVerticalTransportationUseIconId,
 } from '../../../../util/indoorUtils';
-import { RelativeDirection, VerticalDirection } from '../../../../constants';
+import { IndoorRouteStepType, VerticalDirection } from '../../../../constants';
 import ItineraryMapAction from '../../ItineraryMapAction';
 import { isKeyboardSelectionEvent } from '../../../../util/browser';
 
 function NaviIndoorRouteStepInfo({
   focusAction,
-  relativeDirection,
+  type,
   verticalDirection,
   toLevelName,
 }) {
   const indoorTranslationId = getIndoorRouteTranslationId(
-    relativeDirection,
+    type,
     verticalDirection,
     toLevelName,
   );
@@ -32,11 +32,7 @@ function NaviIndoorRouteStepInfo({
       onKeyPress={e => isKeyboardSelectionEvent(e) && focusAction(e)}
     >
       <Icon
-        img={getVerticalTransportationUseIconId(
-          verticalDirection,
-          relativeDirection,
-          false,
-        )}
+        img={getVerticalTransportationUseIconId(verticalDirection, type, false)}
         className="navi-indoor-route-step-icon"
       />
       <div className="navi-indoor-route-step-text">
@@ -53,8 +49,7 @@ function NaviIndoorRouteStepInfo({
 
 NaviIndoorRouteStepInfo.propTypes = {
   focusAction: PropTypes.func.isRequired,
-  relativeDirection: PropTypes.oneOf(Object.values(RelativeDirection))
-    .isRequired,
+  type: PropTypes.oneOf(Object.values(IndoorRouteStepType)).isRequired,
   verticalDirection: PropTypes.oneOf(Object.values(VerticalDirection)),
   toLevelName: PropTypes.string,
 };

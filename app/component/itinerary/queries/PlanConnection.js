@@ -161,7 +161,6 @@ export const planConnection = graphql`
                   }
                 }
               }
-              relativeDirection
               lat
               lon
             }

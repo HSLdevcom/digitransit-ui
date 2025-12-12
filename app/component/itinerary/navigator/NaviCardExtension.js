@@ -143,7 +143,8 @@ const NaviCardExtension = (
           <div className="navi-indoor-route-one-step-info-container">
             <Icon img="navi-expand" className="icon-expand-small" />
             <NaviIndoorRouteStepInfo
-              relativeDirection={indoorRouteSteps[0].relativeDirection}
+              // eslint-disable-next-line no-underscore-dangle
+              type={indoorRouteSteps[0].feature?.__typename}
               verticalDirection={indoorRouteSteps[0].feature?.verticalDirection}
               toLevelName={indoorRouteSteps[0].feature?.to?.name}
               focusAction={getStepFocusAction(

@@ -354,7 +354,8 @@ function WalkLeg(
           <IndoorRouteStep
             // eslint-disable-next-line react/no-array-index-key
             key={`indoorroutestep_lat_${step.lat}_lon_${step.lon}_index_${index}_i_${i}`}
-            relativeDirection={step.relativeDirection}
+            // eslint-disable-next-line no-underscore-dangle
+            type={step.feature?.__typename}
             verticalDirection={step.feature?.verticalDirection}
             toLevelName={step.feature?.to?.name}
             focusAction={getStepFocusAction(step.lat, step.lon, focusToPoint)}

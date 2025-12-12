@@ -1,9 +1,5 @@
 import PropTypes from 'prop-types';
-import {
-  VerticalDirection,
-  PlannerMessageType,
-  RelativeDirection,
-} from '../constants';
+import { VerticalDirection, PlannerMessageType } from '../constants';
 
 export const agencyShape = PropTypes.shape({
   name: PropTypes.string,
@@ -276,7 +272,6 @@ export const legShape = PropTypes.shape({
         escalatorUseShape,
         stairsUseShape,
       ]),
-      relativeDirection: PropTypes.oneOf(Object.values(RelativeDirection)),
       lat: PropTypes.number,
       lon: PropTypes.number,
     }),

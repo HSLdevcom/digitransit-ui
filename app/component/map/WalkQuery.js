@@ -80,7 +80,6 @@ const walkQuery = graphql`
                   }
                 }
               }
-              relativeDirection
               lat
               lon
             }

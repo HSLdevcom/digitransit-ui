@@ -10,14 +10,14 @@ import {
 } from '../../util/indoorUtils';
 import {
   IndoorRouteLegType,
-  RelativeDirection,
+  IndoorRouteStepType,
   VerticalDirection,
 } from '../../constants';
 import ItineraryMapAction from './ItineraryMapAction';
 
 function IndoorRouteStep({
   focusAction,
-  relativeDirection,
+  type,
   verticalDirection,
   toLevelName,
   isLastPlace,
@@ -41,7 +41,7 @@ function IndoorRouteStep({
   }, []);
 
   const indoorTranslationId = getIndoorRouteTranslationId(
-    relativeDirection,
+    type,
     verticalDirection,
     toLevelName,
   );
@@ -91,7 +91,7 @@ function IndoorRouteStep({
           <Icon
             img={getVerticalTransportationUseIconId(
               verticalDirection,
-              relativeDirection,
+              type,
               false,
             )}
             className="itinerary-intermediate-indoor-route-icon"
@@ -112,8 +112,7 @@ function IndoorRouteStep({
 
 IndoorRouteStep.propTypes = {
   focusAction: PropTypes.func.isRequired,
-  relativeDirection: PropTypes.oneOf(Object.values(RelativeDirection))
-    .isRequired,
+  type: PropTypes.oneOf(Object.values(IndoorRouteStepType)).isRequired,
   verticalDirection: PropTypes.oneOf(Object.values(VerticalDirection)),
   toLevelName: PropTypes.string,
   isLastPlace: PropTypes.bool,

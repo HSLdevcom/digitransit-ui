@@ -135,30 +135,11 @@ export const VerticalDirection = Object.freeze({
   Unknown: 'UNKNOWN',
 });
 
-export const RelativeDirection = Object.freeze({
-  CircleClockwise: 'CIRCLE_CLOCKWISE',
-  CircleCounterclockwise: 'CIRCLE_COUNTERCLOCKWISE',
-  Continue: 'CONTINUE',
-  Depart: 'DEPART',
-  Elevator: 'ELEVATOR',
-  EnterStation: 'ENTER_STATION',
-  Escalator: 'ESCALATOR',
-  ExitStation: 'EXIT_STATION',
-  FollowSigns: 'FOLLOW_SIGNS',
-  HardLeft: 'HARD_LEFT',
-  HardRight: 'HARD_RIGHT',
-  Left: 'LEFT',
-  Right: 'RIGHT',
-  SlightyLeft: 'SLIGHTLY_LEFT',
-  SlightlyRight: 'SLIGHTLY_RIGHT',
-  Stairs: 'STAIRS',
-  UturnLeft: 'UTURN_LEFT',
-  UturnRight: 'UTURN_RIGHT',
-});
-
-export const ClusterMarkerType = Object.freeze({
-  Entrance: 'ENTRANCE',
-  VerticalTransportationUse: 'VERTICAL_TRANSPORTATION_USE',
+export const IndoorRouteStepType = Object.freeze({
+  Entrance: 'Entrance',
+  ElevatorUse: 'ElevatorUse',
+  EscalatorUse: 'EscalatorUse',
+  StairsUse: 'StairsUse',
 });
 
 export const IndoorRouteLegType = Object.freeze({
