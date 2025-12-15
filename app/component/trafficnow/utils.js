@@ -32,9 +32,10 @@ const addToModeGroup = (
     shortName,
     name,
     gtfsId,
+    platformCode,
+    locationType,
     isStop = false,
     isStation = false,
-    ...rest
   },
 ) => {
   const url =
@@ -49,7 +50,8 @@ const addToModeGroup = (
       isRoute: !isStop && !isStation,
       entities: [],
       ids: new Set(),
-      ...rest,
+      platformCode,
+      locationType,
     };
   }
   if (!acc[key].ids.has(id)) {
@@ -65,7 +67,7 @@ const addToModeGroup = (
 };
 
 const groupEntitiesByMode = (entities, config) => {
-  const group = entities
+  return entities
     .filter(e => e.__typename !== AlertEntityType.Unknown)
     .reduce((acc, e) => {
       if (!e.route && !e.stop) {
@@ -94,7 +96,6 @@ const groupEntitiesByMode = (entities, config) => {
       }
       return acc;
     }, {});
-  return group;
 };
 
 export { groupEntitiesByMode };
