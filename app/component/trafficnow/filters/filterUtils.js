@@ -11,9 +11,9 @@ const validityPeriodFilter = (alert, selectedFilters) => {
   }
 };
 
-export function filterAlerts(alerts, selectedFilters) {
+export function filterAndSortAlerts(alerts, selectedFilters) {
   const filterFns = [validityPeriodFilter];
-  return alerts.filter(alert =>
-    filterFns.every(fn => fn(alert, selectedFilters)),
-  );
+  return alerts
+    .filter(alert => filterFns.every(fn => fn(alert, selectedFilters)))
+    .sort((a, b) => a.effectiveStartDate - b.effectiveStartDate);
 }

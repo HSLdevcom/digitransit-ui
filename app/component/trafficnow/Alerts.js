@@ -9,7 +9,7 @@ import AlertsQuery from './queries/AlertsQuery';
 import NoAlerts from './NoAlerts';
 import useWindowResize from '../../hooks/useWindowSize';
 import { useFilterContext } from './filters/FiltersContext';
-import { filterAlerts } from './filters/filterUtils';
+import { filterAndSortAlerts } from './filters/filterUtils';
 
 export default function Alerts() {
   const breakpoint = useBreakpoint();
@@ -35,7 +35,7 @@ export default function Alerts() {
   });
 
   const filteredAlerts = useMemo(
-    () => filterAlerts(alerts, selectedFilters),
+    () => filterAndSortAlerts(alerts, selectedFilters),
     [alerts, selectedFilters],
   );
 
