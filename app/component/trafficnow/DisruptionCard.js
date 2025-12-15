@@ -37,10 +37,14 @@ export default function DisruptionCard({ alert, isOpen, onClick }) {
   const isValid =
     now > effectiveStartDate * 1000 && now < effectiveEndDate * 1000;
 
-  const validityPeriod = `${getFormattedTimeDate(
+  const startDate = `${getFormattedTimeDate(
     effectiveStartDate * 1000,
     DATE_FORMAT,
-  )} - ${getFormattedTimeDate(effectiveEndDate * 1000, DATE_FORMAT)}`;
+  )}`;
+  const endDate = `${getFormattedTimeDate(
+    effectiveEndDate * 1000,
+    DATE_FORMAT,
+  )}`;
 
   return (
     <Card
@@ -95,7 +99,8 @@ export default function DisruptionCard({ alert, isOpen, onClick }) {
           {alertSeverityLevel !== AlertSeverityLevelType.Info && (
             <>
               <div className="separator vertical" />
-              {validityPeriod}
+              {startDate}
+              {startDate !== endDate && ` - ${endDate}`}
             </>
           )}
         </div>
