@@ -14,12 +14,17 @@ const ValidityPeriodFilter = ({ filterId }) => {
 
   return (
     <fieldset>
-      <legend>Näytä voimassaolon mukaan</legend>
+      <FormattedMessage
+        tagName="legend"
+        id="traffic-now_filters_validity-period"
+        defaultMessage="Näytä voimassaolon mukaan"
+      />
       {FILTER_OPTIONS.map(option => (
-        <label key={option.value}>
+        <label key={option.value} htmlFor={`period-${option}`}>
           <input
+            id={`period-${option}`}
             type="radio"
-            name="myRadio"
+            name="validityPeriodRadio"
             checked={selectedFilters[filterId] === option.value}
             value={option.value}
             onChange={() => setFilter(filterId, option.value)}
