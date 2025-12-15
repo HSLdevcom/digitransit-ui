@@ -104,7 +104,8 @@
           margin-left: unset;
         }
 
-        input[type='radio'] {
+        input[type='radio'],
+        input[type='checkbox'] {
           accent-color: $primary-color;
           width: 1em;
           height: 1em;

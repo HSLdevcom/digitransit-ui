@@ -1775,6 +1775,7 @@ const translations = {
     'traffic-now_description':
       'Up-to-date information on disruptions and exceptions',
     'traffic-now_filters_validity-period': 'Filter by validity period',
+    'traffic-now_filters_vehicle-mode': 'Filter by vehicle mode',
     'traffic-now_link': 'Services now',
     'traffic-now_link-description': 'See changes and disruptions',
     traficom: 'Traficom',
@@ -3121,6 +3122,7 @@ const translations = {
     'traffic-now_description':
       'Ajantasaiset tiedot häiriöistä ja poikkeuksista',
     'traffic-now_filters_validity-period': 'Näytä voimassaolon mukaan',
+    'traffic-now_filters_vehicle-mode': 'Näytä liikennevälineen mukaan',
     'traffic-now_link': 'Liikennetilanne nyt',
     'traffic-now_link-description': 'Katso häiriöt ja poikkeukset',
     traficom: 'Traficom',
@@ -6106,6 +6108,7 @@ const translations = {
     'traffic-now_bread': 'Att resa med oss',
     'traffic-now_description': 'Aktuell information om störningar och undantag',
     'traffic-now_filters_validity-period': 'Filtrera efter giltighetstid',
+    'traffic-now_filters_vehicle-mode': 'Filtrera efter fordonsläge',
     'traffic-now_link': 'Trafikläget nu',
     'traffic-now_link-description': 'Se störningar och förändringar',
     traficom: 'Traficom',
