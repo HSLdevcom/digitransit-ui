@@ -20,6 +20,7 @@ export default graphql`
           gtfsId
           locationType
           vehicleMode
+          platformCode
         }
         ... on Route {
           gtfsId
@@ -41,6 +42,7 @@ export default graphql`
             gtfsId
             locationType
             vehicleMode
+            platformCode
           }
         }
       }
