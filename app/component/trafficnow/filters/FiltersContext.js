@@ -5,7 +5,7 @@ const FilterContext = createContext();
 
 const DEFAULT_FILTERS = {
   validityPeriod: 'ALL',
-  vehicleMode: [],
+  vehicleModes: [],
 };
 
 const FilterContextProvider = ({ children }) => {

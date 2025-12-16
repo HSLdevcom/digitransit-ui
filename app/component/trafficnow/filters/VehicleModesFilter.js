@@ -5,7 +5,7 @@ import { useFilterContext } from './FiltersContext';
 import { useConfigContext } from '../../../configurations/ConfigContext';
 import { getTransportModes } from '../../../util/modeUtils';
 
-const VehicleModeFilter = ({ filterId }) => {
+const VehicleModesFilter = ({ filterId }) => {
   const config = useConfigContext();
   const { selectedFilters, setFilter } = useFilterContext();
 
@@ -40,9 +40,9 @@ const VehicleModeFilter = ({ filterId }) => {
         defaultMessage="Näytä liikennevälineen mukaan"
       />
       {availableModes.map(option => (
-        <label key={option} htmlFor={`vehicleMode-${option}`}>
+        <label key={option} htmlFor={`vehicleModes-${option}`}>
           <input
-            id={`vehicleMode-${option}`}
+            id={`vehicleModes-${option}`}
             type="checkbox"
             checked={selectedFilters[filterId]?.includes(option)}
             value={option}
@@ -55,8 +55,8 @@ const VehicleModeFilter = ({ filterId }) => {
   );
 };
 
-VehicleModeFilter.propTypes = {
+VehicleModesFilter.propTypes = {
   filterId: PropTypes.string.isRequired,
 };
 
-export default VehicleModeFilter;
+export default VehicleModesFilter;

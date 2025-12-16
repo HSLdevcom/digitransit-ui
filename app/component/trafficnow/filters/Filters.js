@@ -5,7 +5,7 @@ import cx from 'classnames';
 import ValidityPeriodFilter from './ValidityPeriodFilter';
 import { useFilterContext } from './FiltersContext';
 import { useBreakpoint } from '../../../util/withBreakpoint';
-import VehicleModeFilter from './VehicleModeFilter';
+import VehicleModesFilter from './VehicleModesFilter';
 
 const Filters = ({ onApplyClick, onResetClick }) => {
   const { selectedFilters, resetFilters, DEFAULT_FILTERS } = useFilterContext();
@@ -19,8 +19,8 @@ const Filters = ({ onApplyClick, onResetClick }) => {
       Component: ValidityPeriodFilter,
     },
     {
-      id: 'vehicleMode',
-      Component: VehicleModeFilter,
+      id: 'vehicleModes',
+      Component: VehicleModesFilter,
     },
   ];
 

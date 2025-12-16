@@ -11,8 +11,8 @@ const validityPeriodFilter = (alert, { validityPeriod }) => {
   }
 };
 
-const vehicleModeFilter = ({ entities }, { vehicleMode }) => {
-  const modes = vehicleMode || [];
+const vehicleModesFilter = ({ entities }, { vehicleModes }) => {
+  const modes = vehicleModes || [];
   return (
     modes.length === 0 ||
     entities.some(e => {
@@ -26,7 +26,7 @@ const vehicleModeFilter = ({ entities }, { vehicleMode }) => {
 };
 
 export function filterAndSortAlerts(alerts, selectedFilters) {
-  const filterFns = [validityPeriodFilter, vehicleModeFilter];
+  const filterFns = [validityPeriodFilter, vehicleModesFilter];
   return alerts
     .filter(alert => filterFns.every(fn => fn(alert, selectedFilters)))
     .sort((a, b) => a.effectiveStartDate - b.effectiveStartDate);
