@@ -17,9 +17,6 @@ const vehicleModesFilter = ({ entities }, { vehicleModes }) => {
     modes.length === 0 ||
     entities.some(e => {
       const mode = e.vehicleMode?.toLowerCase() || e.mode?.toLowerCase();
-      if (e.locationType === 'STOP' && e.platformCode) {
-        return modes.includes('rail');
-      }
       return modes.includes(mode);
     })
   );

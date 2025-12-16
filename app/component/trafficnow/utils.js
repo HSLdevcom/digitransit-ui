@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import { getRouteMode } from '../../util/modeUtils';
-import { AlertEntityType, LocationTypes, TransportMode } from '../../constants';
+import { AlertEntityType, LocationTypes } from '../../constants';
 import { stopPagePath, routePagePath } from '../../util/path';
 
 const getMode = (stopOrRoute, config) => {
@@ -9,19 +9,7 @@ const getMode = (stopOrRoute, config) => {
     return routeMode;
   }
 
-  if (stopOrRoute.vehicleMode) {
-    return stopOrRoute.vehicleMode.toLowerCase();
-  }
-
-  // If it's a stop with platformCode, assume rail
-  if (
-    stopOrRoute.locationType === LocationTypes.STOP &&
-    stopOrRoute.platformCode
-  ) {
-    return TransportMode.Rail.toLowerCase();
-  }
-
-  return undefined;
+  return stopOrRoute?.vehicleMode?.toLowerCase();
 };
 
 const addToModeGroup = (
