@@ -2,11 +2,9 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import { useFilterContext } from './FiltersContext';
-import { useConfigContext } from '../../../configurations/ConfigContext';
-import { getTransportModes } from '../../../util/modeUtils';
+import { TrafficNowTransportModes } from '../../../constants';
 
 const VehicleModesFilter = ({ filterId }) => {
-  const config = useConfigContext();
   const { selectedFilters, setFilter } = useFilterContext();
 
   const handleCheck = option => {
@@ -22,16 +20,6 @@ const VehicleModesFilter = ({ filterId }) => {
     }
   };
 
-  const availableModes = Object.entries(getTransportModes(config)).reduce(
-    (acc, [k, v]) => {
-      if (v.availableForSelection) {
-        acc.push(k);
-      }
-      return acc;
-    },
-    [],
-  );
-
   return (
     <fieldset>
       <FormattedMessage
@@ -39,7 +27,7 @@ const VehicleModesFilter = ({ filterId }) => {
         id="traffic-now_filters_vehicle-mode"
         defaultMessage="Näytä liikennevälineen mukaan"
       />
-      {availableModes.map(option => (
+      {TrafficNowTransportModes.map(option => (
         <label key={option} htmlFor={`vehicleModes-${option}`}>
           <input
             id={`vehicleModes-${option}`}
@@ -48,7 +36,7 @@ const VehicleModesFilter = ({ filterId }) => {
             value={option}
             onChange={() => handleCheck(option)}
           />
-          <FormattedMessage id={option} />
+          <FormattedMessage id={option.toLowerCase()} />
         </label>
       ))}
     </fieldset>

@@ -12,7 +12,7 @@ const validityPeriodFilter = (alert, { validityPeriod }) => {
 };
 
 const vehicleModesFilter = ({ entities }, { vehicleModes }) => {
-  const modes = vehicleModes || [];
+  const modes = (vehicleModes || []).map(m => m.toLowerCase());
   return (
     modes.length === 0 ||
     entities.some(e => {
