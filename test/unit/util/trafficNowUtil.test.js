@@ -128,8 +128,8 @@ const expected = {
         },
       ],
     },
-    rail_stop: {
-      mode: 'rail',
+    undefined_stop: {
+      mode: undefined,
       isRoute: false,
       locationType: 'STOP',
       platformCode: '1',
