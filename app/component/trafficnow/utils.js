@@ -3,6 +3,13 @@ import { getRouteMode } from '../../util/modeUtils';
 import { AlertEntityType, LocationTypes } from '../../constants';
 import { stopPagePath, routePagePath } from '../../util/path';
 
+const sortAlphaNumeric = (a, b) => {
+  const first = typeof a === 'string' ? a.toLowerCase() : a.toString();
+  const second = typeof b === 'string' ? b.toLowerCase() : b.toString();
+
+  return first.localeCompare(second);
+};
+
 const getMode = (stopOrRoute, config) => {
   const routeMode = getRouteMode(stopOrRoute, config);
   if (routeMode) {
@@ -55,7 +62,7 @@ const addToModeGroup = (
 };
 
 const groupEntitiesByMode = (entities, config) => {
-  return entities
+  const grouped = entities
     .filter(e => e.__typename !== AlertEntityType.Unknown)
     .reduce((acc, e) => {
       if (!e.route && !e.stop) {
@@ -84,6 +91,12 @@ const groupEntitiesByMode = (entities, config) => {
       }
       return acc;
     }, {});
+
+  Object.values(grouped).forEach(group => {
+    group.entities.sort((a, b) => sortAlphaNumeric(a.name, b.name));
+  });
+
+  return grouped;
 };
 
 export { groupEntitiesByMode };
