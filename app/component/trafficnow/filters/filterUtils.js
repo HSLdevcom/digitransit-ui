@@ -11,12 +11,25 @@ const validityPeriodFilter = (alert, { validityPeriod }) => {
   }
 };
 
+/**
+ * Filters alerts by selected vehicle modes. If no modes are selected, include all alerts.
+ * If any entity matches a selected mode, include the alert.
+ *
+ * entities may contain objects with different properties:
+ * - Stop: entity with a vehicleMode property
+ * - Route: entity with a mode property
+ * - StopOnRoute: entity with a nested route object that has a mode property
+ *
+ */
 const vehicleModesFilter = ({ entities }, { vehicleModes }) => {
   const modes = (vehicleModes || []).map(m => m.toLowerCase());
   return (
     modes.length === 0 ||
     entities.some(e => {
-      const mode = e.vehicleMode?.toLowerCase() || e.mode?.toLowerCase();
+      const mode =
+        /* Stop */ e.vehicleMode?.toLowerCase() ||
+        /* Route */ e.mode?.toLowerCase() ||
+        /* StopOnRoute */ e.route?.mode?.toLowerCase();
       return modes.includes(mode);
     })
   );
