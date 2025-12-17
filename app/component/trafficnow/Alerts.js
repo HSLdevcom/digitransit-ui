@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useMemo, useRef, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import cx from 'classnames';
 import { useLazyLoadQuery } from 'react-relay/hooks';
 import { FormattedMessage } from 'react-intl';
@@ -7,24 +7,15 @@ import { useBreakpoint } from '../../util/withBreakpoint';
 import { useConfigContext } from '../../configurations/ConfigContext';
 import AlertsQuery from './queries/AlertsQuery';
 import NoAlerts from './NoAlerts';
-import useWindowResize from '../../hooks/useWindowSize';
 import { useFilterContext } from './filters/FiltersContext';
-import { filterAlerts } from './filters/filterUtils';
+import { filterAndSortAlerts } from './filters/filterUtils';
 
 export default function Alerts() {
   const breakpoint = useBreakpoint();
   const { feedIds } = useConfigContext();
   const [activeAlertId, setActiveAlertId] = useState();
-  const { height } = useWindowResize();
   const ref = useRef();
-  const [top, setTop] = useState(0);
   const { selectedFilters } = useFilterContext();
-
-  useLayoutEffect(() => {
-    if (ref.current) {
-      setTop(ref.current.getBoundingClientRect().top);
-    }
-  }, [height]);
 
   const handleCardClick = id => {
     setActiveAlertId(id);
@@ -35,7 +26,7 @@ export default function Alerts() {
   });
 
   const filteredAlerts = useMemo(
-    () => filterAlerts(alerts, selectedFilters),
+    () => filterAndSortAlerts(alerts, selectedFilters),
     [alerts, selectedFilters],
   );
 
@@ -47,9 +38,6 @@ export default function Alerts() {
       className={cx('traffic-now__content__alerts', {
         'traffic-now__content__alerts--desktop': desktop,
       })}
-      style={{
-        maxHeight: `calc(100vh - ${top}px)`,
-      }}
     >
       {filteredAlerts.length === 0 ? (
         <NoAlerts />

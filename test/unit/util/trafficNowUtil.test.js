@@ -47,6 +47,17 @@ const mocks = {
     vehicleMode: 'RAIL',
     __isNode: 'Stop',
   },
+  railStop: {
+    __typename: 'Stop',
+    id: 'RAIL_STOP_1',
+    name: 'Laituri 1',
+    code: 'TR4IN_1',
+    gtfsId: 'MATKA:6',
+    locationType: 'STOP',
+    vehicleMode: undefined,
+    platformCode: '1',
+    __isNode: 'Stop',
+  },
 };
 
 const expected = {
@@ -54,6 +65,9 @@ const expected = {
     bus_route: {
       mode: 'bus',
       isRoute: true,
+      locationType: undefined,
+      platformCode: undefined,
+      ids: new Set(['BUS_1']),
       entities: [
         {
           id: 'BUS_1',
@@ -67,6 +81,9 @@ const expected = {
     tram_route: {
       mode: 'tram',
       isRoute: true,
+      locationType: undefined,
+      platformCode: undefined,
+      ids: new Set(['TRAM_9']),
       entities: [
         {
           id: 'TRAM_9',
@@ -82,6 +99,9 @@ const expected = {
     bus_stop: {
       mode: 'bus',
       isRoute: false,
+      locationType: 'STOP',
+      platformCode: undefined,
+      ids: new Set(['BUS_STOP_1']),
       entities: [
         {
           id: 'BUS_STOP_1',
@@ -95,11 +115,30 @@ const expected = {
     tram_stop: {
       mode: 'tram',
       isRoute: false,
+      locationType: 'STOP',
+      platformCode: undefined,
+      ids: new Set(['TRAM_STOP_1']),
       entities: [
         {
           id: 'TRAM_STOP_1',
           name: 'Raitsikkapysäkki',
           url: stopPagePath(false, 'MATKA:3'),
+          isStop: true,
+          isStation: false,
+        },
+      ],
+    },
+    undefined_stop: {
+      mode: undefined,
+      isRoute: false,
+      locationType: 'STOP',
+      platformCode: '1',
+      ids: new Set(['RAIL_STOP_1']),
+      entities: [
+        {
+          id: 'RAIL_STOP_1',
+          name: 'Laituri 1',
+          url: stopPagePath(false, 'MATKA:6'),
           isStop: true,
           isStation: false,
         },
@@ -116,10 +155,14 @@ describe('trafficNowUtil', () => {
     expect(grouped).to.deep.equal(expected.routes);
   });
 
-  it('should group tram and bus stops under different groups', () => {
-    const grouped = groupEntitiesByMode([mocks.busStop, mocks.tramStop], {
-      useExtendedRouteTypes: false,
-    });
+  it('should group tram and bus stops and a rail platform under different groups', () => {
+    const grouped = groupEntitiesByMode(
+      [mocks.busStop, mocks.tramStop, mocks.railStop],
+      {
+        useExtendedRouteTypes: false,
+      },
+    );
+
     expect(grouped).to.deep.equal(expected.stops);
   });
 
@@ -144,6 +187,7 @@ describe('trafficNowUtil', () => {
       isStation: false,
     });
   });
+
   it('should ignore entities with __typename Unknown', () => {
     const unknownEntity = { __typename: 'Unknown', id: 'X' };
     const grouped = groupEntitiesByMode([unknownEntity, mocks.busRoute], {

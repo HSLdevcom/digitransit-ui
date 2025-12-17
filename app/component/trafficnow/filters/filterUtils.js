@@ -1,6 +1,6 @@
-const validityPeriodFilter = (alert, selectedFilters) => {
+const validityPeriodFilter = (alert, { validityPeriod }) => {
   const now = Date.now() * 0.001;
-  switch (selectedFilters.validityPeriod) {
+  switch (validityPeriod) {
     case 'VALID':
       return now >= alert.effectiveStartDate && now <= alert.effectiveEndDate;
     case 'UPCOMING':
@@ -11,9 +11,33 @@ const validityPeriodFilter = (alert, selectedFilters) => {
   }
 };
 
-export function filterAlerts(alerts, selectedFilters) {
-  const filterFns = [validityPeriodFilter];
-  return alerts.filter(alert =>
-    filterFns.every(fn => fn(alert, selectedFilters)),
+/**
+ * Filters alerts by selected vehicle modes. If no modes are selected, include all alerts.
+ * If any entity matches a selected mode, include the alert.
+ *
+ * entities may contain objects with different properties:
+ * - Stop: entity with a vehicleMode property
+ * - Route: entity with a mode property
+ * - StopOnRoute: entity with a nested route object that has a mode property
+ *
+ */
+const vehicleModesFilter = ({ entities }, { vehicleModes }) => {
+  const modes = (vehicleModes || []).map(m => m.toLowerCase());
+  return (
+    modes.length === 0 ||
+    entities.some(e => {
+      const mode =
+        /* Stop */ e.vehicleMode?.toLowerCase() ||
+        /* Route */ e.mode?.toLowerCase() ||
+        /* StopOnRoute */ e.route?.mode?.toLowerCase();
+      return modes.includes(mode);
+    })
   );
+};
+
+export function filterAndSortAlerts(alerts, selectedFilters) {
+  const filterFns = [validityPeriodFilter, vehicleModesFilter];
+  return alerts
+    .filter(alert => filterFns.every(fn => fn(alert, selectedFilters)))
+    .sort((a, b) => a.effectiveStartDate - b.effectiveStartDate);
 }

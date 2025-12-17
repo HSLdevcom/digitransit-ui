@@ -27,7 +27,7 @@ export const TransportMode = Object.freeze({
   /** Taking the train */
   Rail: 'RAIL',
   /** Taking the subway */
-  Subway: 'Subway',
+  Subway: 'SUBWAY',
   /** Taking the tram */
   Tram: 'TRAM',
   /** Taking the funicular */
@@ -141,3 +141,11 @@ export const LocationTypes = Object.freeze({
   STOP: 'STOP',
   STATION: 'STATION',
 });
+
+export const TrafficNowTransportModes = Object.freeze([
+  TransportMode.Bus,
+  TransportMode.Ferry,
+  TransportMode.Rail,
+  TransportMode.Subway,
+  TransportMode.Tram,
+]);

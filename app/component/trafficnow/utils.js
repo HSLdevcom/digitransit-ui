@@ -3,9 +3,35 @@ import { getRouteMode } from '../../util/modeUtils';
 import { AlertEntityType, LocationTypes } from '../../constants';
 import { stopPagePath, routePagePath } from '../../util/path';
 
+const sortAlphaNumeric = (a, b) => {
+  const first = typeof a === 'string' ? a.toLowerCase() : a.toString();
+  const second = typeof b === 'string' ? b.toLowerCase() : b.toString();
+
+  return first.localeCompare(second);
+};
+
+const getMode = (stopOrRoute, config) => {
+  const routeMode = getRouteMode(stopOrRoute, config);
+  if (routeMode) {
+    return routeMode;
+  }
+
+  return stopOrRoute?.vehicleMode?.toLowerCase();
+};
+
 const addToModeGroup = (
   acc,
-  { mode, id, shortName, name, gtfsId, isStop = false, isStation = false },
+  {
+    mode,
+    id,
+    shortName,
+    name,
+    gtfsId,
+    platformCode,
+    locationType,
+    isStop = false,
+    isStation = false,
+  },
 ) => {
   const url =
     isStop || isStation
@@ -18,25 +44,31 @@ const addToModeGroup = (
       mode,
       isRoute: !isStop && !isStation,
       entities: [],
+      ids: new Set(),
+      platformCode,
+      locationType,
     };
   }
-  acc[key].entities.push({
-    id,
-    name: shortName || name,
-    url,
-    isStop,
-    isStation,
-  });
+  if (!acc[key].ids.has(id)) {
+    acc[key].entities.push({
+      id,
+      name: shortName || name,
+      url,
+      isStop,
+      isStation,
+    });
+    acc[key].ids.add(id);
+  }
 };
 
 const groupEntitiesByMode = (entities, config) => {
-  const group = entities
+  const grouped = entities
     .filter(e => e.__typename !== AlertEntityType.Unknown)
     .reduce((acc, e) => {
       if (!e.route && !e.stop) {
         addToModeGroup(acc, {
           ...e,
-          mode: getRouteMode(e, config) || e.vehicleMode?.toLowerCase(),
+          mode: getMode(e, config),
           isStop: !!e.locationType,
           isStation: e.locationType === LocationTypes.STATION,
         });
@@ -46,20 +78,25 @@ const groupEntitiesByMode = (entities, config) => {
       if (e.route) {
         addToModeGroup(acc, {
           ...e.route,
-          mode: getRouteMode(e.route, config),
+          mode: getMode(e.route, config),
         });
       }
       if (e.stop) {
         addToModeGroup(acc, {
           ...e.stop,
-          mode: e.stop.vehicleMode?.toLowerCase(),
+          mode: getMode(e.stop, config),
           isStop: true,
           isStation: e.locationType === LocationTypes.STATION,
         });
       }
       return acc;
     }, {});
-  return group;
+
+  Object.values(grouped).forEach(group => {
+    group.entities.sort((a, b) => sortAlphaNumeric(a.name, b.name));
+  });
+
+  return grouped;
 };
 
 export { groupEntitiesByMode };
