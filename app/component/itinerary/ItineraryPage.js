@@ -85,6 +85,7 @@ import NaviContainer from './navigator/NaviContainer';
 import NaviGeolocationInfoModal from './navigator/navigatorgeolocation/NaviGeolocationInfoModal';
 import NavigatorIntroModal from './navigator/navigatorintro/NavigatorIntroModal';
 import { planConnection } from './queries/PlanConnection';
+import { isCallAgencyLeg } from '../../util/legUtils';
 
 const MAX_QUERY_COUNT = 4; // number of attempts to collect enough itineraries
 
@@ -1286,6 +1287,15 @@ export default function ItineraryPage(props, context) {
       ? addBikeStationMapForRentalVehicleItineraries(planEdges)
       : props.mapLayerOptions;
 
+    const flexLeg = planEdges?.[activeIndex]?.node.legs.find(leg =>
+      isCallAgencyLeg(leg),
+    );
+    const updatedMapLayers = { ...props.mapLayers };
+    const flexRouteGtfsId = flexLeg?.route?.gtfsId.split(':')[0];
+    if (flexRouteGtfsId) {
+      updatedMapLayers.areaStop = { routeGtfsId: flexRouteGtfsId };
+    }
+
     const objectsToHide = getRentalStationsToHideOnMap(
       itineraryContainsDepartureFromVehicleRentalStation,
       planEdges?.[activeIndex]?.node,
@@ -1302,7 +1312,7 @@ export default function ItineraryPage(props, context) {
         from={from}
         to={to}
         viaPoints={viaPoints}
-        mapLayers={props.mapLayers}
+        mapLayers={updatedMapLayers}
         mapLayerOptions={mapLayerOptions}
         setMWTRef={setMWTRef}
         mapLayerRef={mapLayerRef}

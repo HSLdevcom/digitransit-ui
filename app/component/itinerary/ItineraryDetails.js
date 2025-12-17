@@ -174,7 +174,7 @@ function ItineraryDetails(
   const disclaimers = [];
   const externalOperatorJourneys = legsWithScooter;
   if (
-    shouldShowFareInfo(config) &&
+    shouldShowFareInfo(config, itinerary.legs) &&
     (fares.some(fare => fare.isUnknown) || externalOperatorJourneys)
   ) {
     const found = {};
@@ -193,14 +193,22 @@ function ItineraryDetails(
       }
     });
 
-    const info = config.callAgencyInfo?.[currentLanguage];
-    if (info && itinerary.legs.some(leg => isCallAgencyLeg(leg))) {
+    // Show call agency ticket disclaimer for external agencies
+    const callAgencyInfo = config.callAgencyInfo?.[currentLanguage];
+    if (
+      callAgencyInfo &&
+      itinerary.legs.some(
+        leg =>
+          isCallAgencyLeg(leg) &&
+          !config.flex.internalAgencies.includes(leg.route.agency.gtfsId),
+      )
+    ) {
       disclaimers.push(
         <FareDisclaimer
           key={disclaimers.length}
           textId="separate-ticket-required-for-call-agency-disclaimer"
-          href={info.callAgencyInfoLink}
-          linkText={info.callAgencyInfoLinkText}
+          href={callAgencyInfo.callAgencyInfoLink}
+          linkText={callAgencyInfo.callAgencyInfoLinkText}
         />,
       );
     }

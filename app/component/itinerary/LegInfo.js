@@ -78,7 +78,6 @@ export default function LegInfo(
         routeNumber={routeNumber}
         route={leg.route}
         pickupBookingInfo={leg.pickupBookingInfo}
-        agency={leg.route.agency}
         onClose={closeOnDemandInfo}
         mobile={mobile}
       />

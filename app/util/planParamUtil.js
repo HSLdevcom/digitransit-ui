@@ -393,7 +393,6 @@ export function getPlanParams(
   // A null value uses the default amount of maximum iterations.
   let maxQueryIterations = null;
   let filters = null;
-  let bookingTime = null;
 
   switch (planType) {
     case PLANTYPE.BIKEPARK:
@@ -443,14 +442,12 @@ export function getPlanParams(
       direct = directFlexOnly ? ['WALK', 'FLEX'] : null;
       transitOnly = false;
       filters = excludeAgencies(config.flex?.internalAgencies);
-      bookingTime = DateTime.now().toISO({ suppressMilliseconds: true });
       break;
     case PLANTYPE.FLEXTRANSIT_INTERNAL:
       access = [...access, 'FLEX'];
       direct = access;
       filters = excludeAgencies(config.flex?.externalAgencies);
       minTransferTime = config.flex?.minTransferTime || minTransferTime;
-      bookingTime = DateTime.now().toISO({ suppressMilliseconds: true });
       break;
     default: // direct modes
       direct = [planType];
@@ -521,6 +518,6 @@ export function getPlanParams(
     carReluctance,
     maxQueryIterations,
     filters,
-    bookingTime,
+    bookingTime: DateTime.now().toISO({ suppressMilliseconds: true }),
   };
 }

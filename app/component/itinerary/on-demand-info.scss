@@ -46,7 +46,7 @@
     }
 
     &.invisible {
-      margin: 0 0 var(--space-s) 0;
+      margin: var(--space-s) 0;
       border-color: transparent;
     }
   }
@@ -135,6 +135,31 @@
         .icon {
           width: 0.9em;
           height: 0.9em;
+        }
+      }
+    }
+
+    &.external-link {
+      padding-top: var(--space-xs);
+
+      a {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--space-xs);
+        color: $link-color;
+        text-decoration: none;
+        font-weight: $font-weight-medium;
+      }
+
+      .icon-container {
+        display: inline-flex;
+        vertical-align: middle;
+
+        .icon {
+          width: 1em;
+          height: 1em;
+          display: inline-flex;
+          vertical-align: middle;
         }
       }
     }
