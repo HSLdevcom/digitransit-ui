@@ -932,6 +932,7 @@ const translations = {
     buy: 'Buy',
     'buy-ticket': 'How to buy a ticket',
     call: 'Demand responsive transport',
+    'call-agency-disclaimer': 'TO_DO_call_agency_disclaimer',
     'call-number': 'Call {number}',
     'call-with-route-number':
       'Demand responsive transport {routeNumber} {headSign}',
@@ -1443,7 +1444,10 @@ const translations = {
       'Log in to the service to save your favorites and utilize them on other devices',
     'on-demand-service': 'On-demand service',
     'on-demand-service-description': 'TO_DO_on-demand-service-description',
-    'on-demand-service-instructions': 'Instructions',
+    'on-demand-service-prior-notice-days':
+      'TO_DO_on-demand-service-prior-notice-days',
+    'on-demand-service-prior-notice-minutes':
+      'TO_DO_on-demand-service-prior-notice-minutes',
     'on-demand-service-route-disclaimer':
       'TO_DO_on-demand-service-route-disclaimer',
     'one-way-journey': 'The length of a one-way journey',
@@ -2790,7 +2794,6 @@ const translations = {
       'Kirjautumalla palveluun saat suosikit talteen ja voit hyödyntää niitä muillakin laitteillasi',
     'on-demand-service': 'Kutsuliikenne',
     'on-demand-service-description': 'Reitin kuvaus',
-    'on-demand-service-instructions': 'Toimintaohjeet',
     'on-demand-service-prior-notice-days':
       'Tilaus tehtävä vähintään {days} päivää ennen matkaa, viimeistään kello {time}.',
     'on-demand-service-prior-notice-minutes':
@@ -5260,6 +5263,7 @@ const translations = {
     buy: 'Köp',
     'buy-ticket': 'Så här köper du biljetten',
     call: 'Anropsstyrd kollektivtrafik',
+    'call-agency-disclaimer': 'TO_DO_call_agency_disclaimer',
     'call-number': 'Ring {number}',
     'call-with-route-number':
       'Anropsstyrd kollektivtrafik {routeNumber} {headSign}',
@@ -5766,7 +5770,10 @@ const translations = {
       'Genom att logga in kan du spara dina favoriter och använda dem med dina andra enheter.',
     'on-demand-service': 'Anropsbusstrafiken',
     'on-demand-service-description': 'TO_DO_on-demand-service-description',
-    'on-demand-service-instructions': 'TO_DO_on-demand-service-instructions',
+    'on-demand-service-prior-notice-days':
+      'TO_DO_on-demand-service-prior-notice-days',
+    'on-demand-service-prior-notice-minutes':
+      'TO_DO_on-demand-service-prior-notice-minutes',
     'on-demand-service-route-disclaimer':
       'TO_DO_on-demand-service-route-disclaimer',
     'one-way-journey': ' Längden på en enkel resa',

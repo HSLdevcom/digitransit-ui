@@ -10,6 +10,7 @@ import {
 import Icon from '../Icon';
 import FavouriteRouteContainer from '../routepage/FavouriteRouteContainer';
 import CallAgencyDisclaimer from './CallAgencyDisclaimer';
+import { useDeepLink } from '../../util/vehicleRentalUtils';
 
 function OnDemandInfo(
   { routeNumber, route, pickupBookingInfo, mobile, onClose },
@@ -18,6 +19,14 @@ function OnDemandInfo(
   const container = mobile
     ? document.getElementById('content-container')
     : document.getElementById('main-content');
+  const bookingUrl = pickupBookingInfo?.contactInfo?.bookingUrl;
+  const infoUrl = pickupBookingInfo?.contactInfo?.infoUrl;
+  const onClick = bookingUrl.startsWith('http')
+    ? () => {
+        window.open(bookingUrl, '_blank', 'noopener,noreferrer');
+      }
+    : () => useDeepLink(bookingUrl, infoUrl);
+
   return (
     <>
       {ReactDOM.createPortal(
@@ -90,16 +99,27 @@ function OnDemandInfo(
                 </div>
               )}
             </div>
-            {pickupBookingInfo?.contactInfo?.infoUrl && (
+            {infoUrl && (
               <div className="on-demand-info-content external-link">
-                <a
-                  href={pickupBookingInfo?.contactInfo?.infoUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
+                <a href={infoUrl} target="_blank" rel="noopener noreferrer">
                   {intl.formatMessage({ id: 'extra-info' })}
                   <Icon img="icon_arrow-collapse--right" omitViewBox />
                 </a>
+              </div>
+            )}
+            {bookingUrl && onClick && (
+              <div className="on-demand-info-content external-link on-demand-booking-button">
+                <button
+                  type="button"
+                  className="external-link-button external-link"
+                  onClick={e => {
+                    e.stopPropagation();
+                    onClick(e);
+                  }}
+                >
+                  {intl.formatMessage({ id: 'open-app' })}
+                  <Icon img="icon_arrow-collapse--right" omitViewBox />
+                </button>
               </div>
             )}
             <div className="divider" />

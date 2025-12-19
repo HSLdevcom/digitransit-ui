@@ -37,6 +37,7 @@ import {
   showCarBoardingNote,
   legTimeStr,
   legTime,
+  isCallAgencyLeg,
 } from '../../util/legUtils';
 import { shouldShowFareInfo } from '../../util/fareUtils';
 import { AlertEntityType, AlertSeverityLevelType } from '../../constants';
@@ -480,6 +481,7 @@ class TransitLeg extends React.Component {
           </span>
           <span aria-hidden="true">
             <div className="itinerary-time-column-time">
+              {isCallAgencyLeg(leg) && <FormattedMessage id="estimate" />}
               <span className={cx({ realtime: leg.realTime })}>
                 <span className={cx({ canceled: legHasCancelation(leg) })}>
                   {time}

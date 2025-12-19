@@ -52,9 +52,11 @@
   }
 
   .route-header {
+    position: sticky;
     display: flex;
     align-items: center;
     height: 90px;
+    box-shadow: 0 8px 6px -6px rgba(0, 0, 0, 0.2);
 
     .bar-container {
       padding-top: 21px;
@@ -141,14 +143,18 @@
 
     &.external-link {
       padding-top: var(--space-xs);
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      color: $link-color;
+      font-weight: $font-weight-medium;
 
       a {
-        display: inline-flex;
-        align-items: center;
-        gap: var(--space-xs);
-        color: $link-color;
         text-decoration: none;
-        font-weight: $font-weight-medium;
+      }
+
+      &.on-demand-booking-button {
+        display: block;
       }
 
       .icon-container {

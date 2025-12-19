@@ -51,6 +51,8 @@ const CallAgencyLeg = (
         route={route}
         mobile={mobile}
         header={intl.formatMessage({ id: 'on-demand-service' })}
+        href={leg.pickupBookingInfo.contactInfo?.bookingUrl}
+        linkText={intl.formatMessage({ id: 'open-app' })}
       />
     </TransitLeg>
   );

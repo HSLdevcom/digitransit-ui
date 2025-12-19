@@ -37,6 +37,10 @@ export default {
       default: `${POI_MAP_PREFIX}/fi/stops,stations/`,
       sv: `${POI_MAP_PREFIX}/sv/stops,stations/`,
     },
+    AREA_STOP_MAP: {
+      default: `${POI_MAP_PREFIX}/fi/areaStops/`,
+      sv: `${POI_MAP_PREFIX}/sv/areaStops/`,
+    },
     REALTIME_STOP_MAP: {
       default: `${POI_MAP_PREFIX}/fi/realtimeStops,stations/`,
       sv: `${POI_MAP_PREFIX}/sv/realtimeStops,stations/`,

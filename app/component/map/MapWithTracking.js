@@ -230,7 +230,6 @@ class MapWithTrackingStateHandler extends React.Component {
       vehicles: !this.props.mapLayerOptions
         ? this.props.mapLayers.vehicles
         : false,
-      areaStop: { ...this.props.mapLayers.areaStop },
     };
     if (isEmpty(forcedLayers.stop)) {
       return merged;

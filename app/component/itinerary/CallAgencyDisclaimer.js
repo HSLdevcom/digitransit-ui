@@ -2,6 +2,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import Icon from '../Icon';
+import { useDeepLink } from '../../util/vehicleRentalUtils';
 
 export default function CallAgencyDisclaimer({
   textId,
@@ -11,6 +12,12 @@ export default function CallAgencyDisclaimer({
   linkText,
   header,
 }) {
+  const onClick = href?.startsWith('http')
+    ? () => {
+        window.open(href, '_blank', 'noopener,noreferrer');
+      }
+    : () => useDeepLink(href, window.location.href);
+
   return (
     <div className="call-agency-disclaimer-container">
       <Icon className="info" img="icon_info" />
@@ -21,8 +28,9 @@ export default function CallAgencyDisclaimer({
           <button
             type="button"
             className="external-link-button"
-            onClick={() => {
-              window.open(href, '_blank', 'noopener,noreferrer');
+            onClick={e => {
+              e.stopPropagation();
+              onClick(e);
             }}
           >
             {linkText}
