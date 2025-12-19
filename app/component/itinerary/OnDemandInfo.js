@@ -21,7 +21,7 @@ function OnDemandInfo(
     : document.getElementById('main-content');
   const bookingUrl = pickupBookingInfo?.contactInfo?.bookingUrl;
   const infoUrl = pickupBookingInfo?.contactInfo?.infoUrl;
-  const onClick = bookingUrl.startsWith('http')
+  const onClick = bookingUrl?.startsWith('http')
     ? () => {
         window.open(bookingUrl, '_blank', 'noopener,noreferrer');
       }
@@ -107,7 +107,7 @@ function OnDemandInfo(
                 </a>
               </div>
             )}
-            {bookingUrl && onClick && (
+            {bookingUrl && (
               <div className="on-demand-info-content external-link on-demand-booking-button">
                 <button
                   type="button"
