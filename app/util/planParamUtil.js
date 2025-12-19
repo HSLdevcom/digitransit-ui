@@ -518,6 +518,5 @@ export function getPlanParams(
     carReluctance,
     maxQueryIterations,
     filters,
-    bookingTime: DateTime.now().toISO({ suppressMilliseconds: true }),
   };
 }
