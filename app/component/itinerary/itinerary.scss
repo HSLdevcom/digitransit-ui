@@ -97,6 +97,19 @@ $itinerary-tab-switch-height: 48px;
   }
 }
 
+@mixin platformUpdated {
+  display: inline-flex;
+  height: 18px;
+  min-width: auto;
+  justify-content: center;
+  align-items: center;
+  gap: var(--space-xxs);
+  border-radius: var(--radius-s);
+  background: #fdf3f6;
+  color: $cancelation-red;
+  padding: 0 8px 0 4px;
+}
+
 .itinerary-list-container {
   padding-bottom: 16px;
 }
@@ -1924,25 +1937,44 @@ $itinerary-tab-switch-height: 48px;
       .platform-short {
         @include font-medium;
 
-        padding-left: 7px;
         font-weight: normal;
         font-size: 0.813rem;
+        align-items: center;
+        display: inline-flex;
+        gap: var(--space-xxs);
       }
 
       .platform-number-wrapper {
-        padding: 3px 10px 3px 10px;
+        padding: 3px 10px;
         border-radius: 5px;
         margin: 0 3px 0 3px;
         background-color: $background-color-lighter;
         font-weight: $font-weight-medium;
         font-family: $id-font-family;
+
+        &.platform-updated {
+          @include platformUpdated;
+
+          .icon-container {
+            justify-content: center;
+
+            .platform-updated-icon {
+              height: 0.5em;
+              width: 0.5em;
+            }
+          }
+        }
       }
 
       .stop-code-container {
         padding-top: 5px;
+        display: flex;
+        align-items: center;
+        gap: var(--space-xs);
 
         .itinerary-stop-code {
           margin-left: 0;
+          margin-right: 0;
           font-family: $id-font-family;
         }
       }
@@ -2154,11 +2186,12 @@ $itinerary-tab-switch-height: 48px;
 
         .vehicle-number-container-v {
           width: calc(100% - 1.5em);
+          text-align: center;
 
           .vehicle-number {
             color: $white;
             left: 1.5em;
-            width: 2.25em;
+            width: fit-content;
             text-align: center;
             padding: 4px 0 0 0;
 
@@ -3443,6 +3476,31 @@ $font-print-decrease: 0.7;
       font-size: 15px;
       color: $link-color;
       text-decoration: none;
+    }
+  }
+}
+
+.platform-number-wrapper {
+  padding: 3px 10px;
+  border-radius: 5px;
+  margin: 0 3px 0 3px;
+  background-color: $background-color-lighter;
+  font-weight: $font-weight-medium;
+  font-family: $id-font-family;
+  display: inline;
+
+  &.platform-updated {
+    @include platformUpdated;
+
+    .icon-container {
+      display: inline-flex;
+      justify-content: center;
+
+      .platform-updated-icon {
+        vertical-align: middle;
+        color: $cancelation-red;
+        margin: 0 2px 0 2px;
+      }
     }
   }
 }

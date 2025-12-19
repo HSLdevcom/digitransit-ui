@@ -1,8 +1,11 @@
 import memoize from 'lodash/memoize';
+import ReactDOM from 'react-dom';
+import ReactDOMServer from 'react-dom/server';
 import glfun from './glfun';
 import { transitIconName } from './modeUtils';
 import { ParkTypes, TransportMode } from '../constants';
 import { getModeIconColor } from './colorUtils';
+
 /**
  * Corresponds to an arc forming a full circle (Math.PI * 2).
  */
@@ -834,4 +837,16 @@ export function drawIcon(icon, tile, geom, imageSize) {
   return getImageFromSpriteCache(icon, imageSize, imageSize).then(image => {
     drawIconImage(image, tile, geom, imageSize, imageSize);
   });
+}
+
+export function renderAsString(children) {
+  if (ReactDOMServer?.renderToString) {
+    return ReactDOMServer.renderToString(children);
+  }
+
+  const div = document.createElement('div');
+  ReactDOM.render(children, div);
+  const html = div.firstElementChild?.outerHTML || div.innerHTML;
+  ReactDOM.unmountComponentAtNode(div);
+  return html;
 }

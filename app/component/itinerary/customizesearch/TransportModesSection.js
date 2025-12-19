@@ -56,7 +56,7 @@ const TransportModesSection = ({ config }, { executeAction }) => {
                 <div className="mode-name">
                   <FormattedMessage
                     id={
-                      alternativeNames.includes(lowerCaseMode)
+                      alternativeNames.includes(mode)
                         ? `settings-alternative-name-${lowerCaseMode}`
                         : lowerCaseMode
                     }

@@ -3,6 +3,8 @@ import React from 'react';
 
 import { intlShape } from 'react-intl';
 import Icon from './Icon';
+import IconBackground from './icon/IconBackground';
+import IconBadge from './icon/IconBadge';
 
 const IconWithIcon = (
   {
@@ -24,13 +26,19 @@ const IconWithIcon = (
   <span id={id} className={className}>
     <span>
       <Icon
-        badgeFill={badgeFill}
-        badgeText={badgeText}
-        badgeTextFill={badgeTextFill}
         color={color}
         img={img}
         viewBox={mode === 'call' ? '0 0 60 60' : undefined}
         omitViewBox={omitViewBox}
+        foreground={
+          (badgeFill || badgeText) && (
+            <IconBadge
+              badgeFill={badgeFill}
+              badgeText={badgeText}
+              badgeTextFill={badgeTextFill}
+            />
+          )
+        }
       />
     </span>
     {subIcon && (
@@ -39,9 +47,9 @@ const IconWithIcon = (
         title={intl.formatMessage({ id: 'disruption' })}
       >
         <Icon
-          backgroundShape={subIconShape}
           img={subIcon}
           omitViewBox={omitViewBox}
+          background={subIconShape && <IconBackground shape={subIconShape} />}
         />
       </span>
     )}

@@ -559,7 +559,7 @@ class DTAutosuggestPanel extends React.Component {
                       }
                       lang={this.props.lang}
                       sources={this.props.sources}
-                      targets={['Stops', 'Stations']}
+                      targets={this.props.targets}
                       filterResults={this.props.filterResults}
                       getAutoSuggestIcons={this.props.getAutoSuggestIcons}
                       isMobile={this.props.isMobile}

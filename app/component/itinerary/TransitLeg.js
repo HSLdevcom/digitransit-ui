@@ -24,8 +24,8 @@ import {
 } from '../../util/alertUtils';
 import {
   PREFIX_DISRUPTION,
-  PREFIX_ROUTES,
-  PREFIX_STOPS,
+  routePagePath,
+  stopPagePath,
 } from '../../util/path';
 import { durationToString } from '../../util/timeUtils';
 import { addAnalyticsEvent } from '../../util/analyticsUtils';
@@ -38,6 +38,7 @@ import {
   legTimeStr,
   legTime,
   isCallAgencyLeg,
+  isPlatformChanged,
 } from '../../util/legUtils';
 import { shouldShowFareInfo } from '../../util/fareUtils';
 import { AlertEntityType, AlertSeverityLevelType } from '../../constants';
@@ -48,6 +49,11 @@ import InterlineInfo from './InterlineInfo';
 import AlternativeLegsInfo from './AlternativeLegsInfo';
 import LegInfo from './LegInfo';
 import ExternalLink from '../ExternalLink';
+import {
+  getBoardingInformationText,
+  getPlatformChangeLabel,
+} from './BoardingInformation';
+import { modeUsesTrack } from '../../util/modeUtils';
 
 const stopCode = code => code && <StopCode code={code} />;
 
@@ -309,32 +315,28 @@ class TransitLeg extends React.Component {
         }}
       />
     );
+    const platformChanged = isPlatformChanged(leg);
     const textVersionAfterLink = (
-      <FormattedMessage
-        id="itinerary-details.transit-leg-part-2"
-        values={{
-          startStop: leg.from.name,
-          startZoneInfo: intl.formatMessage(
-            { id: 'zone-info' },
-            { zone: leg.from.stop.zoneId },
-          ),
-          endZoneInfo: intl.formatMessage(
-            { id: 'zone-info' },
-            { zone: leg.to.stop.zoneId },
-          ),
-          endStop: leg.to.name,
-          duration: durationToString(leg.duration * 1000),
-          trackInfo: (
-            <PlatformNumber
-              number={leg.from.stop.platformCode}
-              short={false}
-              isRailOrSubway={
-                modeClassName === 'rail' || modeClassName === 'subway'
-              }
-            />
-          ),
-        }}
-      />
+      <>
+        <FormattedMessage
+          id="itinerary-details.transit-leg-part-2"
+          values={{
+            startStop: leg.from.name,
+            startZoneInfo: intl.formatMessage(
+              { id: 'zone-info' },
+              { zone: leg.from.stop.zoneId },
+            ),
+            endZoneInfo: intl.formatMessage(
+              { id: 'zone-info' },
+              { zone: leg.to.stop.zoneId },
+            ),
+            endStop: leg.to.name,
+            duration: durationToString(leg.duration * 1000),
+            trackInfo: getBoardingInformationText(leg, intl, false),
+          }}
+        />
+        {platformChanged && getPlatformChangeLabel(modeUsesTrack(mode), intl)}
+      </>
     );
 
     const alerts = getActiveLegAlerts(leg, startMs / 1000);
@@ -500,6 +502,8 @@ class TransitLeg extends React.Component {
             !this.state.showIntermediateStops ||
             (leg.intermediatePlaces.length === 0 && interliningLegs.length < 1)
           }
+          viaType={leg.from.viaLocationType}
+          isStop={!!leg.from.stop}
         />
         <div
           style={{
@@ -533,10 +537,10 @@ class TransitLeg extends React.Component {
                     name: mode,
                   });
                 }}
-                to={`/${PREFIX_STOPS}/${leg.from.stop.gtfsId}`}
+                to={stopPagePath(false, leg.from.stop.gtfsId)}
               >
                 {leg.from.name}
-                {leg.isViaPoint && (
+                {leg.from.viaLocationType && (
                   <Icon
                     img="icon_mapMarker"
                     className="itinerary-mapmarker-icon"
@@ -563,6 +567,7 @@ class TransitLeg extends React.Component {
                   isRailOrSubway={
                     modeClassName === 'rail' || modeClassName === 'subway'
                   }
+                  updated={platformChanged}
                 />
               </div>
             </div>
@@ -624,9 +629,17 @@ class TransitLeg extends React.Component {
                 <Link
                   to={
                     (hasEntitiesOfType(alert, AlertEntityType.Route) &&
-                      `/${PREFIX_ROUTES}/${leg.route.gtfsId}/${PREFIX_DISRUPTION}/${leg.trip.pattern.code}`) ||
+                      routePagePath(
+                        leg.route.gtfsId,
+                        PREFIX_DISRUPTION,
+                        leg.trip.pattern.code,
+                      )) ||
                     (hasEntitiesOfType(alert, AlertEntityType.Stop) &&
-                      `/${PREFIX_STOPS}/${alert.entities[0].gtfsId}/${PREFIX_DISRUPTION}/`)
+                      stopPagePath(
+                        false,
+                        alert.entities[0].gtfsId,
+                        PREFIX_DISRUPTION,
+                      ))
                   }
                   className="disruption-link"
                 >

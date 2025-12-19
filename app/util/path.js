@@ -127,44 +127,71 @@ export const getIndexPath = (origin, destination, indexPath) => {
 };
 
 export const getStopRoutePath = searchObj => {
-  if (searchObj.properties && searchObj.properties.link) {
+  if (searchObj.properties.link) {
     return searchObj.properties.link;
   }
-  let id = searchObj.properties.id
-    ? searchObj.properties.id
-    : searchObj.properties.gtfsId;
+  let id = searchObj.properties.id || searchObj.properties.gtfsId;
   let path;
-  const network =
-    searchObj.properties.source &&
-    searchObj.properties.source.split('citybikes')[1];
   switch (searchObj.properties.layer) {
     case 'station':
     case 'favouriteStation':
-      path = `/${PREFIX_TERMINALS}/`;
-      id = id.replace('GTFS:', '').replace(':', '%3A');
+      path = PREFIX_TERMINALS;
+      id = id.replace('GTFS:', '');
       break;
-    case 'bikestation':
-      path = `/${PREFIX_BIKESTATIONS}/`;
-      id = `${network}%3A${searchObj.properties.id}`;
+    case 'bikestation': {
+      const network = searchObj.properties.source?.split('citybikes')[1];
+      path = PREFIX_BIKESTATIONS;
+      id = `${network}:${searchObj.properties.id}`;
       break;
+    }
     case 'favouriteVehicleRentalStation':
-      path = `/${PREFIX_BIKESTATIONS}/`;
+      path = PREFIX_BIKESTATIONS;
       id = searchObj.properties.labelId;
       break;
     case 'carpark':
-      path = `/${PREFIX_CARPARK}/`;
-      id = searchObj.properties.id;
+      path = PREFIX_CARPARK;
       break;
     case 'bikepark':
-      path = `/${PREFIX_BIKEPARK}/`;
-      id = searchObj.properties.id;
+      path = PREFIX_BIKEPARK;
       break;
     default:
-      path = `/${PREFIX_STOPS}/`;
-      id = id.replace('GTFS:', '').replace(':', '%3A');
+      path = PREFIX_STOPS;
+      // stop id from geocoding has GTFS prefix and possibly stopCode postfix. Strip them away
+      [id] = id.replace('GTFS:', '').split('#');
   }
-  return path.concat(id);
+  return `/${path}/${encodeURIComponent(id)}`;
 };
+
+export function routePagePath(routeId, tab, patternId, tripId, queryParams) {
+  let path = `/${PREFIX_ROUTES}/${encodeURIComponent(routeId)}`;
+
+  if (tab) {
+    path = `${path}/${tab}`;
+  }
+  if (patternId) {
+    path = `${path}/${encodeURIComponent(patternId)}`;
+  }
+  if (tripId) {
+    path = `${path}/${encodeURIComponent(tripId)}`;
+  }
+  if (queryParams) {
+    path = `${path}${queryParams}`; // note: '?' is not added
+  }
+  return path;
+}
+
+export function stopPagePath(isStation, gtfsId, tab, search) {
+  let path = isStation
+    ? `/${PREFIX_TERMINALS}/${encodeURIComponent(gtfsId)}`
+    : `/${PREFIX_STOPS}/${encodeURIComponent(gtfsId)}`;
+  if (tab) {
+    path = `${path}/${tab}`;
+  }
+  if (search) {
+    path = `${path}/${search}`;
+  }
+  return path;
+}
 
 export function definesItinerarySearch(origin, destination) {
   return get(origin, 'address') && get(destination, 'address');

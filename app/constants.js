@@ -27,7 +27,7 @@ export const TransportMode = Object.freeze({
   /** Taking the train */
   Rail: 'RAIL',
   /** Taking the subway */
-  Subway: 'Subway',
+  Subway: 'SUBWAY',
   /** Taking the tram */
   Tram: 'TRAM',
   /** Taking the funicular */
@@ -128,3 +128,24 @@ export const PlannerMessageType = Object.freeze({
   NoStopsInRange: 'NO_STOPS_IN_RANGE',
   SystemError: 'SYSTEM_ERROR',
 });
+
+/**
+ * OpenTripPlanner (v2) via point types.
+ */
+export const ViaLocationType = Object.freeze({
+  PassThrough: 'PASS_THROUGH',
+  Visit: 'VISIT',
+});
+
+export const LocationTypes = Object.freeze({
+  STOP: 'STOP',
+  STATION: 'STATION',
+});
+
+export const TrafficNowTransportModes = Object.freeze([
+  TransportMode.Bus,
+  TransportMode.Ferry,
+  TransportMode.Rail,
+  TransportMode.Subway,
+  TransportMode.Tram,
+]);

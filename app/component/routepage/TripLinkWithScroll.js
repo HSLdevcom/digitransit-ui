@@ -3,7 +3,7 @@ import React, { useRef, useEffect } from 'react';
 import Link from 'found/Link';
 import { intlShape } from 'react-intl';
 import VehicleIcon from '../VehicleIcon';
-import { PREFIX_ROUTES, PREFIX_STOPS } from '../../util/path';
+import { routePagePath, PREFIX_STOPS } from '../../util/path';
 
 function TripLinkWithScroll(
   {
@@ -88,7 +88,7 @@ function TripLinkWithScroll(
   }
   const icon = (
     <Link
-      to={`/${PREFIX_ROUTES}/${route}/${PREFIX_STOPS}/${pattern}/${tripId}`}
+      to={routePagePath(route, PREFIX_STOPS, pattern, tripId)}
       className="route-now-content"
       aria-label={ariaMessage}
     >

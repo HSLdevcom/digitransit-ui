@@ -10,6 +10,7 @@ import {
   getCaseRadius,
   getStopRadius,
   getHubRadius,
+  renderAsString,
 } from '../../../util/mapIconUtils';
 import { addAnalyticsEvent } from '../../../util/analyticsUtils';
 import { PREFIX_STOPS } from '../../../util/path';
@@ -20,6 +21,7 @@ class StopMarker extends React.Component {
     mode: PropTypes.string.isRequired,
     renderName: PropTypes.bool,
     disableModeIcons: PropTypes.bool,
+    disableIconBorder: PropTypes.bool,
     limitZoom: PropTypes.number,
     selected: PropTypes.bool,
     colorOverride: PropTypes.string,
@@ -28,6 +30,7 @@ class StopMarker extends React.Component {
   static defaultProps = {
     renderName: false,
     disableModeIcons: false,
+    disableIconBorder: false,
     limitZoom: undefined,
     selected: false,
     colorOverride: undefined,
@@ -66,7 +69,6 @@ class StopMarker extends React.Component {
 
   getModeIcon = zoom => {
     const iconId = `icon_${this.props.mode}`;
-    const icon = Icon.asString({ img: iconId, className: 'mode-icon' });
     let size;
     if (zoom <= this.context.config.stopsSmallMaxZoom) {
       size = this.context.config.stopsIconSize.small;
@@ -77,11 +79,12 @@ class StopMarker extends React.Component {
     }
 
     return L.divIcon({
-      html: icon,
+      html: renderAsString(<Icon img={iconId} className="mode-icon" />),
       iconSize: [size, size],
       className: cx('cursor-pointer', this.props.mode, {
         small: size === this.context.config.stopsIconSize.small,
         selected: this.props.selected,
+        'disable-icon-border': this.props.disableIconBorder,
       }),
     });
   };
@@ -130,7 +133,9 @@ class StopMarker extends React.Component {
     return L.divIcon({
       html: iconSvg,
       iconSize: [radius * 2, radius * 2],
-      className: `${this.props.mode} cursor-pointer`,
+      className: cx(this.props.mode, 'cursor-pointer', {
+        'disable-icon-border': this.props.disableIconBorder,
+      }),
     });
   };
 

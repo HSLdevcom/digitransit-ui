@@ -26,6 +26,7 @@ import {
 } from '../../util/legUtils';
 import { getIdWithoutFeed } from '../../util/feedScopedIdUtils';
 import ScooterLinkContainer from './ScooterLinkContainer';
+import IconBadge from '../icon/IconBadge';
 
 function VehicleRentalLeg(
   {
@@ -104,15 +105,19 @@ function VehicleRentalLeg(
                 img={vehicleIcon}
                 width={1.655}
                 height={1.655}
-                badgeText={
-                  vehicleRentalStation &&
-                  vehicleCapacity !== BIKEAVL_UNKNOWN &&
-                  !returnBike
-                    ? vehicleRentalStation?.availableVehicles.total
-                    : ''
+                foreground={
+                  <IconBadge
+                    badgeText={
+                      vehicleRentalStation &&
+                      vehicleCapacity !== BIKEAVL_UNKNOWN &&
+                      !returnBike
+                        ? vehicleRentalStation?.availableVehicles.total
+                        : ''
+                    }
+                    badgeFill={returnBike ? null : availabilityIndicatorColor}
+                    badgeTextFill={returnBike ? null : availabilityTextColor}
+                  />
                 }
-                badgeFill={returnBike ? null : availabilityIndicatorColor}
-                badgeTextFill={returnBike ? null : availabilityTextColor}
               />
             </div>
             <div className="itinerary-with-link-text-container">

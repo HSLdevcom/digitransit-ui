@@ -3,34 +3,33 @@ import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 
 import Link from 'found/Link';
-import { PREFIX_ROUTES, PREFIX_STOPS } from '../../../util/path';
+import { routePagePath, PREFIX_STOPS } from '../../../util/path';
 import { getRouteMode } from '../../../util/modeUtils';
 import Icon from '../../Icon';
 
-function SelectVehicleRow(props) {
-  const mode = getRouteMode(props.trip.route);
+function SelectVehicleRow({ trip }) {
+  const mode = getRouteMode(trip.route);
   const iconId = `icon_${mode || 'bus'}`;
 
-  let patternPath = `/${PREFIX_ROUTES}/${props.trip.route.gtfsId}/${PREFIX_STOPS}`;
+  const patternPath = routePagePath(
+    trip.route.gtfsId,
+    PREFIX_STOPS,
+    trip.pattern.code,
+    trip.gtfsId,
+  );
 
-  patternPath += `/${props.trip.pattern.code}/${props.trip.gtfsId}`;
-
-  const name = props.trip.pattern.headsign || props.trip.route.longName;
+  const name = trip.pattern.headsign || trip.route.longName;
   return (
     <Link className="stop-popup-choose-row" to={patternPath}>
       <span className="choose-row-left-column" aria-hidden="true">
         <Icon
           className={mode}
           img={iconId}
-          color={
-            props.trip.route.color
-              ? `#${props.trip.route.color}`
-              : 'currentColor'
-          }
+          color={trip.route.color ? `#${trip.route.color}` : 'currentColor'}
         />
       </span>
       <span className="choose-row-center-column">
-        <h5 className="choose-row-header">{props.trip.route.shortName}</h5>
+        <h5 className="choose-row-header">{trip.route.shortName}</h5>
         <span className="choose-row-text">
           <span className="choose-row-address">{name}</span>
         </span>

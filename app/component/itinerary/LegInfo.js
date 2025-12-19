@@ -7,7 +7,7 @@ import Modal from '@hsl-fi/modal';
 import { legShape, configShape } from '../../util/shapes';
 import { legTimeStr } from '../../util/legUtils';
 import { getRouteMode } from '../../util/modeUtils';
-import { PREFIX_ROUTES, PREFIX_STOPS } from '../../util/path';
+import { routePagePath, PREFIX_STOPS } from '../../util/path';
 import { getCapacityForLeg } from '../../util/occupancyUtil';
 import Icon from '../Icon';
 import CapacityModal from '../CapacityModal';
@@ -38,7 +38,7 @@ export default function LegInfo(
   const mode = isCallAgency
     ? 'call'
     : getRouteMode(
-        { mode: leg.mode, type: leg.route.type, gtfsId: leg.route?.gtfsId },
+        { mode: leg.mode, type: leg.route.type, gtfsId: leg.route.gtfsId },
         config,
       );
   const capacity = getCapacityForLeg(config, leg);
@@ -100,9 +100,12 @@ export default function LegInfo(
           onClick={e => {
             e.stopPropagation();
           }}
-          to={`/${PREFIX_ROUTES}/${leg.route.gtfsId}/${PREFIX_STOPS}/${
-            leg.trip.pattern.code
-          }${shouldLinkToTrip ? `/${leg.trip.gtfsId}` : ''}`}
+          to={routePagePath(
+            leg.route.gtfsId,
+            PREFIX_STOPS,
+            leg.trip.pattern.code,
+            shouldLinkToTrip && leg.trip.gtfsId,
+          )}
           aria-label={`${intl.formatMessage({
             id: mode,
             defaultMessage: 'Vehicle',

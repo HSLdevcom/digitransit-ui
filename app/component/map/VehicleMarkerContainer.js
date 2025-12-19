@@ -79,7 +79,7 @@ function VehicleMarkerContainer(props, { config }) {
       return shouldShowVehicle(
         message,
         props.direction || desc?.direction,
-        props.tripStart || desc?.tripStart,
+        desc?.tripStart,
         props.pattern,
         ignoreHeadsign ? undefined : props.headsign,
         desc?.tripId,
@@ -134,7 +134,6 @@ function VehicleMarkerContainer(props, { config }) {
 }
 
 VehicleMarkerContainer.propTypes = {
-  tripStart: PropTypes.string,
   headsign: PropTypes.string,
   direction: PropTypes.number,
   vehicles: PropTypes.objectOf(
@@ -152,7 +151,6 @@ VehicleMarkerContainer.propTypes = {
 };
 
 VehicleMarkerContainer.defaultProps = {
-  tripStart: undefined,
   direction: undefined,
   useLargeIcon: true,
 };

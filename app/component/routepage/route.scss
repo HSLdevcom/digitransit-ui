@@ -81,8 +81,8 @@ $margin-left-right: 21.3px;
   display: flex;
   background: $infobox-color-generic-blue;
   border-radius: 5px;
-  margin: 10px 0 10px 0;
-  padding: 3px 10px 10px 0;
+  margin: 10px 0;
+  padding: 16px 16px 8px 8px;
 
   .left-block {
     padding-left: 10px;
@@ -128,6 +128,14 @@ $margin-left-right: 21.3px;
     font-size: $font-size-xsmall;
     font-weight: $font-weight-book;
     padding-inline-start: 0;
+    line-height: 16px;
+    letter-spacing: -0.03em;
+  }
+
+  .content {
+    margin: 3px 0 0 0;
+    font-size: $font-size-xsmall;
+    font-weight: $font-weight-book;
     line-height: 16px;
     letter-spacing: -0.03em;
   }
@@ -1255,7 +1263,7 @@ $margin-left-right: 21.3px;
     width: 24px;
   }
 
-  .react-autosuggest__container {
+  .pattern-select-container {
     width: 100%;
     min-height: 44px;
     background: white;
@@ -1280,7 +1288,7 @@ $margin-left-right: 21.3px;
       padding: 13px 32px 13px 16px;
     }
 
-    .react-autosuggest__input {
+    .select-route-pattern-input {
       height: 0;
       margin: 0;
       padding: 0;
@@ -1292,17 +1300,17 @@ $margin-left-right: 21.3px;
       }
     }
 
-    &.react-autosuggest__container--open .dropdown-arrow {
+    &.pattern-select-container--open .dropdown-arrow {
       transform: rotate(180deg);
     }
 
-    .react-autosuggest__suggestions-container--open {
+    .suggestions-container--open {
       border: 1px solid #ddd;
       border-bottom: none;
       box-shadow: 0 4px 13px rgba(0, 0, 0, 0.15);
     }
 
-    .react-autosuggest__suggestions-container {
+    .suggestions-container {
       background: $background-color-lighter;
       z-index: index($zindex, 'autosuggest-suggestion-container');
       position: absolute;
@@ -1311,7 +1319,7 @@ $margin-left-right: 21.3px;
       right: 0;
       border-radius: 4px;
 
-      .react-autosuggest__section-container {
+      .section-container {
         &:not(:first-child) {
           margin-top: 4px;
           border-top: 1px solid #ddd;
@@ -1331,7 +1339,7 @@ $margin-left-right: 21.3px;
         line-height: 18px;
         letter-spacing: -0.03em;
 
-        .react-autosuggest__section-title {
+        .section-title {
           font-weight: var(--sectionTitleFontWeight);
           border-bottom: 1px solid #ddd;
           min-height: 44px;
@@ -1342,7 +1350,7 @@ $margin-left-right: 21.3px;
           padding: 0;
           margin: 0;
 
-          .react-autosuggest__suggestion {
+          .suggestion {
             border-bottom: 1px solid #ddd;
             list-style: none;
             min-height: 44px;
@@ -1359,7 +1367,7 @@ $margin-left-right: 21.3px;
             }
           }
 
-          .react-autosuggest__suggestion--highlighted {
+          .suggestion--highlighted {
             background: #dfe5e8;
           }
         }

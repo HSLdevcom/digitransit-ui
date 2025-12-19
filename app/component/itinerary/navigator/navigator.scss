@@ -416,50 +416,6 @@
         &.place {
           fill: $to-color;
         }
-
-        &.bus-stop {
-          color: $bus-color;
-        }
-
-        &.bus-express {
-          color: $bus-express-color;
-        }
-
-        &.speedtram {
-          color: $speedtram-color;
-        }
-
-        &.replacement-bus {
-          color: $replacement-bus-color;
-        }
-
-        &.tram-stop {
-          color: $tram-color;
-        }
-
-        &.subway-stop {
-          color: $metro-color;
-        }
-
-        &.rail-stop {
-          color: $rail-color;
-        }
-
-        &.ferry-stop {
-          color: $ferry-color;
-        }
-
-        &.ferry-external-stop {
-          color: $external-feed-color;
-        }
-
-        &.funicular-stop {
-          color: $funicular-color;
-        }
-
-        &.speedtram-stop {
-          color: $speedtram-color;
-        }
       }
 
       .destination {
@@ -484,7 +440,7 @@
 
             .platform-number-wrapper {
               padding: 0 var(--space-xxs);
-              height: 16px;
+              min-height: 16px;
               display: inline-flex;
               justify-content: center;
               align-items: center;

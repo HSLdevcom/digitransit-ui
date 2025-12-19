@@ -149,13 +149,16 @@ export const planConnection = graphql`
               stoptimesForDate {
                 stop {
                   gtfsId
+                  platformCode
                 }
                 scheduledDeparture
                 serviceDay
               }
               stoptimes {
+                scheduledDeparture
                 stop {
                   gtfsId
+                  platformCode
                 }
               }
             }
@@ -197,6 +200,7 @@ export const planConnection = graphql`
                   networkId
                 }
               }
+              viaLocationType
             }
             to {
               lat
@@ -239,6 +243,7 @@ export const planConnection = graphql`
                   url
                 }
               }
+              viaLocationType
             }
             fareProducts {
               product {

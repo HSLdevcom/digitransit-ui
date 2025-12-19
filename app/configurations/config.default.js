@@ -1,4 +1,3 @@
-/* eslint-disable prefer-template */
 import safeJsonParse from '../util/safeJsonParser';
 import { BIKEAVL_WITHMAX } from '../util/vehicleRentalUtils';
 import realtime from './realtimeUtils';
@@ -779,6 +778,7 @@ export default {
   },
 
   viaPointsEnabled: true,
+  viaPointsMax: 1,
 
   // Toggling this off shows the alert bodytext instead of the header
   showAlertHeader: true,

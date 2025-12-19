@@ -10,13 +10,13 @@ import {
   configShape,
 } from '../../util/shapes';
 import Icon from '../Icon';
+import IconBackground from '../icon/IconBackground';
 import Duration from './Duration';
 import RouteNumber from '../RouteNumber';
 import RouteNumberContainer from '../RouteNumberContainer';
 import { getActiveLegAlertSeverityLevel } from '../../util/alertUtils';
 import {
   getLegMode,
-  splitLegsAtViaPoints,
   compressLegs,
   getLegBadgeProps,
   getInterliningLegs,
@@ -28,6 +28,7 @@ import {
   LegMode,
   getZones,
   isCallAgencyLeg,
+  splitLegsAtViaPoints,
 } from '../../util/legUtils';
 import { dateOrEmpty, isTomorrow, timeStr } from '../../util/timeUtils';
 import withBreakpoint from '../../util/withBreakpoint';
@@ -43,6 +44,10 @@ import { getCapacityForLeg } from '../../util/occupancyUtil';
 import getCo2Value from '../../util/emissions';
 import { ItineraryFragment } from './queries/ItineraryFragment';
 import { getTicketString } from '../../util/fareUtils';
+import { ViaLocationType } from '../../constants';
+import BoardingInformation, {
+  getBoardingInformationText,
+} from './BoardingInformation';
 
 const NAME_LENGTH_THRESHOLD = 65; // for truncating long short names
 
@@ -227,18 +232,6 @@ export const ViaLeg = () => (
   </div>
 );
 
-const getViaPointIndex = (leg, intermediatePlaces) => {
-  if (!leg || !Array.isArray(intermediatePlaces)) {
-    return -1;
-  }
-  return intermediatePlaces.findIndex(
-    place => place.lat === leg.from.lat && place.lon === leg.from.lon,
-  );
-};
-
-const connectsFromViaPoint = (currLeg, intermediatePlaces) =>
-  getViaPointIndex(currLeg, intermediatePlaces) > -1;
-
 const bikeWasParked = legs => {
   const legsLength = legs.length;
   for (let i = 0; i < legsLength; i++) {
@@ -301,10 +294,7 @@ const Itinerary = (
       nameLengthSum += getRouteText(leg.route, config).length;
     }
     nameLengthSum += 10; // every leg requires some minimum space
-    if (
-      i > 0 &&
-      (leg.intermediatePlace || connectsFromViaPoint(leg, intermediatePlaces))
-    ) {
+    if (i > 0 && (leg.from.viaLocationType || leg.to.viaLocationType)) {
       intermediateSlack +=
         legTime(leg.start) - legTime(compressedLegs[i - 1].end); // calculate time spent at each intermediate place
     }
@@ -345,17 +335,12 @@ const Itinerary = (
     let waitLength;
     const startMs = legTime(leg.start);
     const endMs = legTime(leg.end);
-    const previousLeg = i > 0 ? compressedLegs[i - 1] : null;
     const nextLeg =
       i < compressedLegs.length - 1 ? compressedLegs[i + 1] : null;
     let legLength = relativeLength(endMs - startMs);
     const longName = !leg?.route?.shortName || leg?.route?.shortName.length > 5;
 
-    if (
-      nextLeg &&
-      !nextLeg.intermediatePlace &&
-      !connectsFromViaPoint(nextLeg, intermediatePlaces)
-    ) {
+    if (nextLeg && !leg.to.viaLocationType) {
       // don't show waiting in intermediate places
       waitTime = legTime(nextLeg.start) - endMs;
       waitLength = relativeLength(waitTime);
@@ -404,14 +389,11 @@ const Itinerary = (
       renderBar = false;
       addition += legLength; // carry over the length of the leg to the next
     }
-    // There are two places which inject ViaLegs in this logic, but we certainly
-    // don't want to add it twice in the same place with the same key, so we
-    // record whether we added it here at the first place.
-    let viaAdded = false;
-    if (leg.intermediatePlace) {
+    let viaPointAdded = false;
+    if (leg.from.viaLocationType === ViaLocationType.Visit) {
+      viaPointAdded = true;
       onlyIconLegs += 1;
       legs.push(<ViaLeg key={`via_${leg.mode}_${startMs}`} />);
-      viaAdded = true;
     }
     if (isLegOnFoot(leg) && renderBar) {
       const walkingTime = Math.floor(leg.duration / 60);
@@ -573,11 +555,11 @@ const Itinerary = (
         usingOwnCarWholeTrip &&
         config.carBoardingModes[leg.route.mode] !== undefined;
       if (
-        previousLeg &&
-        !previousLeg.intermediatePlace &&
-        connectsFromViaPoint(leg, intermediatePlaces) &&
-        !viaAdded
+        leg.from.viaLocationType === ViaLocationType.PassThrough ||
+        (leg.viaStopCall && !viaPointAdded)
       ) {
+        viaPointAdded = true;
+        onlyIconLegs += 1;
         legs.push(<ViaLeg key={`via_${leg.mode}_${startMs}`} />);
       }
       const renderRouteNumberForALongLeg =
@@ -612,6 +594,13 @@ const Itinerary = (
         ),
       );
       stopNames.push(leg.from.name);
+      if (
+        leg.to.viaLocationType === ViaLocationType.PassThrough &&
+        !(nextLeg.transitLeg && nextLeg.from.viaLocationType)
+      ) {
+        onlyIconLegs += 1;
+        legs.push(<ViaLeg key={`via_${leg.mode}_${startMs}`} />);
+      }
     }
 
     if (waiting && !nextLeg?.interlineWithPreviousLeg) {
@@ -626,7 +615,7 @@ const Itinerary = (
           isTransitLeg={false}
           mode={LegMode.Wait}
           large={breakpoint === 'large'}
-          icon={usingOwnCarWholeTrip ? 'icon_wait-car' : undefined}
+          icon={usingOwnCarWholeTrip ? 'icon_wait-car' : 'icon_wait_standing'}
         />,
       );
     }
@@ -667,19 +656,7 @@ const Itinerary = (
       } else {
         firstDepartureStopType = 'from-stop';
       }
-      let firstDeparturePlatform;
-      if (firstDeparture.from.stop.platformCode) {
-        const comma = ', ';
-        firstDeparturePlatform = (
-          <span className="platform-or-track">
-            {comma}
-            <FormattedMessage
-              id={firstDeparture.mode === 'RAIL' ? 'track-num' : 'platform-num'}
-              values={{ platformCode: firstDeparture.from.stop.platformCode }}
-            />
-          </span>
-        );
-      }
+
       firstLegStartTime = firstDeparture.rentedBike ? (
         <div
           className={cx('itinerary-first-leg-start-time', {
@@ -738,7 +715,9 @@ const Itinerary = (
               ),
               // In case the first leg is a scooter leg, stopNames[0] is an empty string
               firstDepartureStop: stopNames[0] || stopNames[1],
-              firstDeparturePlatform,
+              firstDeparturePlatform: (
+                <BoardingInformation leg={firstDeparture} />
+              ),
             }}
           />
         </div>
@@ -804,6 +783,10 @@ const Itinerary = (
                   firstDepartureTime: legTimeStr(firstDeparture.start), // vehicle rental start time
                   stopName: stopNames[0],
                   firstDepartureStop: stopNames[0], // vehicle rental stop name
+                  platformOrTrack: getBoardingInformationText(
+                    firstDeparture,
+                    intl,
+                  ),
                 }}
               />
             ),
@@ -829,6 +812,7 @@ const Itinerary = (
       </div>
     );
   }
+
   const co2summary = (
     <div className="sr-only">
       <FormattedMessage
@@ -980,9 +964,8 @@ const Itinerary = (
                 {showOverflowIcon && (
                   <Icon
                     img="icon_three-dots"
-                    backgroundShape="circle"
-                    backgroundColor="#fff"
                     className="overflow-icon"
+                    background={<IconBackground shape="circle" color="#fff" />}
                   />
                 )}
               </div>

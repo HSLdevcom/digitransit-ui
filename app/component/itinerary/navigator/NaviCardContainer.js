@@ -3,7 +3,12 @@ import PropTypes from 'prop-types';
 import React, { useEffect, useRef, useState } from 'react';
 import { intlShape } from 'react-intl';
 import { addAnalyticsEvent } from '../../../util/analyticsUtils';
-import { isAnyLegPropertyIdentical, legTime } from '../../../util/legUtils';
+import {
+  isAnyLegPropertyIdentical,
+  legTime,
+  getPlatformChangeStatus,
+  PLATFORM_STATUS,
+} from '../../../util/legUtils';
 import { configShape, legShape } from '../../../util/shapes';
 import { getTopics, updateClient } from '../ItineraryPageUtils';
 import NaviCard from './NaviCard';
@@ -64,6 +69,18 @@ function NaviCardContainer(
   const focusRef = useRef(false);
 
   const { intl, config, match, router } = context;
+  const platformRef = useRef();
+
+  if (legChanged) {
+    platformRef.current = undefined;
+  }
+  let platformStatus = PLATFORM_STATUS.NORMAL;
+  if (nextLeg?.transitLeg) {
+    platformStatus = getPlatformChangeStatus(nextLeg, platformRef.current);
+    if (platformStatus === PLATFORM_STATUS.CHANGED) {
+      platformRef.current = nextLeg.from.stop.platformCode;
+    }
+  }
 
   const handleRemove = index => {
     const msg = messages.get(activeMessages[index].id);
@@ -78,7 +95,7 @@ function NaviCardContainer(
   }
 
   // track only relevant vehicles for the journey.
-  // addd 20 s buffer so that vehicle location is available
+  // add 20 s buffer so that vehicle location is available
   // for leg validation long enough
   const getNaviTopics = () =>
     getTopics(
@@ -122,13 +139,15 @@ function NaviCardContainer(
         makeNewItinerarySearch,
         config,
         settings,
+        nextLeg,
+        platformStatus,
       ),
     );
 
     if (nextLeg?.transitLeg) {
       // Messages for NaviStack.
       addMessages(incomingMessages, [
-        ...getTransitLegState(nextLeg, intl, messages, time, settings),
+        ...getTransitLegState(nextLeg, intl, messages, time, settings, config),
         ...getAdditionalMessages(
           currentLeg,
           nextLeg,
@@ -186,16 +205,13 @@ function NaviCardContainer(
   }, [time, firstLeg]);
 
   // LegChange fires animation, we need to keep the old data until card goes out of the view.
-  const l = legChanging ? previousLeg : currentLeg;
-  const legType = getLegType(
-    l,
-    firstLeg,
-    time,
-    nextLeg?.interlineWithPreviousLeg,
-  );
+  const cardChanging = legChanged || legChanging;
+  const l = cardChanging ? previousLeg : currentLeg;
+  const nl = cardChanging ? currentLeg : nextLeg;
+  const legType = getLegType(l, firstLeg, time, nl?.interlineWithPreviousLeg);
 
   let className;
-  if (isJourneyCompleted || legChanging) {
+  if (isJourneyCompleted || cardChanging) {
     className = 'hide-card';
   } else {
     className = 'show-card';
@@ -210,12 +226,16 @@ function NaviCardContainer(
     >
       <NaviCard
         leg={l}
-        nextLeg={nextLeg}
+        nextLeg={nl}
         legType={legType}
         time={time}
         position={position}
         tailLength={tailLength}
         cardAnimation={className}
+        platformUpdated={
+          platformStatus === PLATFORM_STATUS.CHANGED ||
+          platformStatus === PLATFORM_STATUS.RESTORED
+        }
       />
       {activeMessages.length > 0 && (
         <NaviStack

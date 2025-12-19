@@ -1164,7 +1164,7 @@ const translations = {
       'At {time} travel by scooter {distance} from {origin} to {destination}. Estimated time {duration}',
     'itinerary-details.transit-leg-part-1': 'At {time} {realtime} take',
     'itinerary-details.transit-leg-part-2':
-      'from stop {startStop} {startZoneInfo} {trackInfo} to stop {endStop} {endZoneInfo}. Estimated duration {duration}',
+      'from stop {startStop} {startZoneInfo} {trackInfo} to stop {endStop} {endZoneInfo}. Estimated duration {duration}. ',
     'itinerary-details.via-leg':
       '{arrivalTime} arrive to via point {viaPoint}. {leaveAction}',
     'itinerary-details.walk-leg':
@@ -1199,7 +1199,7 @@ const translations = {
     'itinerary-summary-row.description':
       'Itinerary departing at {departureDate} {departureTime} and arriving at {arrivalDate} {arrivalTime}. {firstDeparture} {transfers} Total time {totalTime}.',
     'itinerary-summary-row.first-departure':
-      '{vehicle} leaves at {departureTime} from stop {stopName}.',
+      '{vehicle} leaves at {departureTime} from stop {stopName} {platformOrTrack}.',
     'itinerary-summary-row.first-leg-start-time':
       'Leaves at {firstDepartureTime} from {firstDepartureStopType} {firstDepartureStop}{firstDeparturePlatform}',
     'itinerary-summary-row.first-leg-start-time-citybike':
@@ -1351,9 +1351,16 @@ const translations = {
     'navigation-mode-late': '{name} is late',
     'navigation-outro-dismiss': 'End guidance',
     'navigation-outro-header': "You've arrived!",
+    'navigation-platform-change': 'Platform changed',
+    'navigation-platform-change-details':
+      '{name} departs from platform {number}',
+    'navigation-platform-restored': 'Departs from original platform',
     'navigation-quit': 'Go back',
     'navigation-remember-ticket': 'Did you remember to buy a ticket?',
     'navigation-ticket': 'Ticket',
+    'navigation-track-change': 'Track changed',
+    'navigation-track-change-details': '{name} departs from track {number}',
+    'navigation-track-restored': 'Departs from original track',
     'navigation-transfer-problem': 'Transfer no longer possible',
     'navigation-transfer-problem-details':
       'The transfer time {transfer} is too short.',
@@ -1773,10 +1780,15 @@ const translations = {
     'tracking-button-off': 'tracking off',
     'tracking-button-offline': 'tracking failed',
     'tracking-button-on': 'tracking on',
-    trafficnow: 'Traffic now',
-    'trafficnow-bread': 'Travelling',
-    'trafficnow-description':
+    'traffic-now': 'Traffic now',
+    'traffic-now-long': 'Services now',
+    'traffic-now_bread': 'Travelling',
+    'traffic-now_description':
       'Up-to-date information on disruptions and exceptions',
+    'traffic-now_filters_validity-period': 'Filter by validity period',
+    'traffic-now_filters_vehicle-mode': 'Filter by vehicle mode',
+    'traffic-now_link': 'Services now',
+    'traffic-now_link-description': 'See changes and disruptions',
     traficom: 'Traficom',
     tram: 'Tram',
     'tram-with-route-number': 'Tram {routeNumber} {headSign}',
@@ -2517,7 +2529,7 @@ const translations = {
       '{time} potkulautaile kohteesta {origin} {distance} {to} {destination}. Matka-aika {duration}',
     'itinerary-details.transit-leg-part-1': '{time} {realtime} ota',
     'itinerary-details.transit-leg-part-2':
-      'pysäkiltä {startStop} {startZoneInfo} {trackInfo} pysäkille {endStop} {endZoneInfo}. Arvioitu matka-aika {duration}',
+      'pysäkiltä {startStop} {startZoneInfo} {trackInfo} pysäkille {endStop} {endZoneInfo}. Arvioitu matka-aika {duration}. ',
     'itinerary-details.via-leg':
       '{arrivalTime} saavu välipisteeseen {viaPoint}. {leaveAction}',
     'itinerary-details.walk-leg':
@@ -2550,7 +2562,7 @@ const translations = {
     'itinerary-summary-row.description':
       'Lähtö {departureDate} kello {departureTime}. Perillä {arrivalDate} kello {arrivalTime}. {firstDeparture} {transfers} Matka-aika {totalTime}',
     'itinerary-summary-row.first-departure':
-      '{vehicle} lähtee asemalta {stopName} kello {departureTime}.',
+      '{vehicle} lähtee asemalta {stopName} kello {departureTime} {platformOrTrack}.',
     'itinerary-summary-row.first-leg-start-time':
       'Lähtee klo {firstDepartureTime} {firstDepartureStopType} {firstDepartureStop}{firstDeparturePlatform}',
     'itinerary-summary-row.first-leg-start-time-citybike':
@@ -2701,9 +2713,15 @@ const translations = {
     'navigation-mode-late': '{name} on myöhässä',
     'navigation-outro-dismiss': 'Poistu opastuksesta',
     'navigation-outro-header': 'Olet perillä!',
+    'navigation-platform-change': 'Laituri muuttunut',
+    'navigation-platform-change-details': '{name} lähtee laiturilta {number}',
+    'navigation-platform-restored': 'Laituri palautunut alkuperäiseen',
     'navigation-quit': 'Palaa',
     'navigation-remember-ticket': 'Muistithan ostaa lipun?',
     'navigation-ticket': 'Lippu',
+    'navigation-track-change': 'Raide muuttunut',
+    'navigation-track-change-details': '{name} lähtee raiteelta {number}',
+    'navigation-track-restored': 'Raide palautunut alkuperäiseen',
     'navigation-transfer-problem': 'Vaihto ei enää onnistu',
     'navigation-transfer-problem-details':
       'Vaihtoaika {transfer} on liian lyhyt.',
@@ -3121,9 +3139,15 @@ const translations = {
     'tracking-button-off': 'paikannus pois päältä',
     'tracking-button-offline': 'paikannus epäonnistui',
     'tracking-button-on': 'paikannus päällä',
-    trafficnow: 'Liikenne nyt',
-    'trafficnow-bread': 'Matkustaminen',
-    'trafficnow-description': 'Ajantasaiset tiedot häiriöistä ja poikkeuksista',
+    'traffic-now': 'Liikenne nyt',
+    'traffic-now-long': 'Liikennetilanne nyt',
+    'traffic-now_bread': 'Matkustaminen',
+    'traffic-now_description':
+      'Ajantasaiset tiedot häiriöistä ja poikkeuksista',
+    'traffic-now_filters_validity-period': 'Näytä voimassaolon mukaan',
+    'traffic-now_filters_vehicle-mode': 'Näytä liikennevälineen mukaan',
+    'traffic-now_link': 'Liikennetilanne nyt',
+    'traffic-now_link-description': 'Katso häiriöt ja poikkeukset',
     traficom: 'Traficom',
     tram: 'Raitiovaunu',
     'tram-with-route-number': 'Raitiovaunu {routeNumber} {headSign}',
@@ -4115,7 +4139,7 @@ const translations = {
       'At {time} ride your kick scooter {distance} from {origin} to {destination}. Estimated time {duration}',
     'itinerary-details.transit-leg-part-1': 'At {time} {realtime} take',
     'itinerary-details.transit-leg-part-2':
-      'from stop {startStop} {startZoneInfo} {trackInfo} to stop {endStop} {endZoneInfo}. Estimated duration {duration}',
+      'from stop {startStop} {startZoneInfo} {trackInfo} to stop {endStop} {endZoneInfo}. Estimated duration {duration}. ',
     'itinerary-details.via-leg':
       '{arrivalTime} arrive to via point {viaPoint}. {leaveAction}',
     'itinerary-details.walk-leg':
@@ -5495,7 +5519,7 @@ const translations = {
       '{time} åk elsparkcykel {distance} från {origin} till destinationen {destination}. Restid {duration}',
     'itinerary-details.transit-leg-part-1': '{time} {realtime} ta',
     'itinerary-details.transit-leg-part-2':
-      'från hållplats {startStop} {startZoneInfo} {trackInfo} till hållplats {endStop} {endZoneInfo}. Beräknad restid {duration}',
+      'från hållplats {startStop} {startZoneInfo} {trackInfo} till hållplats {endStop} {endZoneInfo}. Beräknad restid {duration}. ',
     'itinerary-details.via-leg':
       '{arrivalTime} du anländer till mellanstopp {viaPoint}. {leaveAction}',
     'itinerary-details.walk-leg':
@@ -5529,7 +5553,7 @@ const translations = {
     'itinerary-summary-row.description':
       'Avgång {departureDate} klockan {departureTime}. Framme {arrivalDate} klockan {arrivalTime}. {firstDeparture} {transfers} Restid {totalTime}.',
     'itinerary-summary-row.first-departure':
-      '{vehicle} avgår från station {stopName} klockan {departureTime}.',
+      '{vehicle} avgår från station {stopName} klockan {departureTime} {platformOrTrack}.',
     'itinerary-summary-row.first-leg-start-time':
       'Avgår kl {firstDepartureTime} från {firstDepartureStopType} {firstDepartureStop}{firstDeparturePlatform}',
     'itinerary-summary-row.first-leg-start-time-citybike':
@@ -5679,11 +5703,18 @@ const translations = {
     'navigation-mode-late': '{name} har försenats',
     'navigation-outro-dismiss': 'Stäng guidning',
     'navigation-outro-header': 'Du är framme!',
+    'navigation-platform-change': 'Plattformsändring',
+    'navigation-platform-change-details':
+      '{name} avgår från plattform {number}',
+    'navigation-platform-restored': 'Avgår från sin ursprungliga plattform',
     'navigation-quit': 'Tillbaka',
     'navigation-remember-ticket': 'Kom du ihåg att köpa biljett?',
     'navigation-ticket': 'Biljett',
+    'navigation-track-change': 'Spårändring',
+    'navigation-track-change-details': '{name} avgår från spår {number}',
+    'navigation-track-restored': 'Avgår från sitt ursprungliga spår',
     'navigation-transfer-problem': 'Bytet är inte längre möjligt',
-    'navigation-transfer-problem-details': 'Bytestid {transfer] är för kort.',
+    'navigation-transfer-problem-details': 'Bytestid {transfer} är för kort.',
     'navileg-at-ferrypier': 'färjekajen',
     'navileg-at-station': 'stationen',
     'navileg-at-stop': 'hållplatsen',
@@ -6106,9 +6137,14 @@ const translations = {
     'tracking-button-off': 'lokalisering av',
     'tracking-button-offline': 'lokalisering misslyckades',
     'tracking-button-on': 'lokalisering på',
-    trafficnow: 'Trafikläget nu',
-    'trafficnow-bread': 'Att resa med oss',
-    'trafficnow-description': 'Aktuell information om störningar och undantag',
+    'traffic-now': 'Trafikläget nu',
+    'traffic-now-long': 'Trafikläget nu',
+    'traffic-now_bread': 'Att resa med oss',
+    'traffic-now_description': 'Aktuell information om störningar och undantag',
+    'traffic-now_filters_validity-period': 'Filtrera efter giltighetstid',
+    'traffic-now_filters_vehicle-mode': 'Filtrera efter fordonsläge',
+    'traffic-now_link': 'Trafikläget nu',
+    'traffic-now_link-description': 'Se störningar och förändringar',
     traficom: 'Traficom',
     tram: 'Spårvagn',
     'tram-with-route-number': 'Spårvagn {routeNumber} {headSign}',

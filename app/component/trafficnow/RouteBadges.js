@@ -2,101 +2,60 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { entityShape } from '../../util/shapes';
-import Icon from '../Icon';
+import { useRoute } from '../../util/RouteContext';
 import { useConfigContext } from '../../configurations/ConfigContext';
+import { AlertEntityType } from '../../constants';
+import { groupEntitiesByMode } from './utils';
+import Icon from '../Icon';
+import IconBackground from '../icon/IconBackground';
 
-const UNKNOWN_ENTITY_TYPE = 'Unknown';
+const STOP_SIGN_ICON_SCALE = 0.5;
+const NORMAL_ICON_SCALE = 1;
 
-/**
- * Extracts routes from entities, groups them by their mode and
- * ensures each route (by id) appears only once per mode.
- * @param {Array} entities
- * @returns {Object} { [mode]: [{ id, shortName }] }
- */
-function groupRoutesByMode(entities) {
-  return entities.reduce((acc, entity) => {
-    let routes = [];
-    switch (entity.__typename) {
-      case 'Stop':
-        routes = Array.isArray(entity.routes) ? entity.routes : [];
-        break;
-      case 'Route':
-        routes = [entity];
-        break;
-      case 'StopOnRoute':
-        routes = entity.route ? [entity.route] : [];
-        break;
-      default:
-        break;
-    }
+export default function RouteBadges({ entities: rawEntities }) {
+  const { match } = useRoute();
+  const config = useConfigContext();
 
-    routes.forEach(route => {
-      if (route && route.id && route.shortName && route.mode) {
-        if (!acc[route.mode]) {
-          acc[route.mode] = new Map();
-        }
-        acc[route.mode].set(route.id, {
-          id: route.id,
-          shortName: route.shortName,
-          gtfsId: route.gtfsId,
-        });
-      }
-    });
+  const handleRouteBadgeClick = url => e => {
+    e.preventDefault();
+    match.router.push(url);
+  };
 
-    return acc;
-  }, {});
-}
-
-/**
- * Returns an array of unique routes by shortName.
- * @param {Map} routesMap
- * @returns {Array} [{ id, shortName }]
- */
-function getUniqueShortNameRoutes(routesMap) {
-  return Array.from(
-    Array.from(routesMap.values())
-      .reduce((acc, route) => {
-        if (!acc.has(route.shortName)) {
-          acc.set(route.shortName, route);
-        }
-        return acc;
-      }, new Map())
-      .values(),
-  );
-}
-export default function RouteBadges({ entities }) {
-  const { colors } = useConfigContext();
-
-  if (entities.every(e => e.__typename === UNKNOWN_ENTITY_TYPE)) {
+  if (rawEntities.every(e => e.__typename === AlertEntityType.Unknown)) {
     return null;
   }
 
-  const routesByMode = useMemo(() => groupRoutesByMode(entities), [entities]);
+  const entitiesByMode = useMemo(
+    () => groupEntitiesByMode(rawEntities, config),
+    [rawEntities, config],
+  );
 
   return (
     <div className="route-badges">
-      {Object.entries(routesByMode).map(([mode, routesMap]) => {
-        const uniqueRoutes = getUniqueShortNameRoutes(routesMap);
-        return (
-          <div className="route-badges-mode flex-row" key={mode}>
+      {Object.entries(entitiesByMode).map(
+        ([key, { mode, isRoute, entities }]) => (
+          <div key={key} className={`route-badges-mode flex-row ${mode}`}>
             <Icon
-              img={`icon_${mode.toLowerCase()}`}
+              img={`icon_${mode}`}
               height={2}
               width={2}
-              color={colors.iconColors[`mode-${mode.toLowerCase()}`]}
+              iconScale={isRoute ? NORMAL_ICON_SCALE : STOP_SIGN_ICON_SCALE}
+              background={
+                !isRoute && (
+                  <IconBackground shape="stopsign" color="currentcolor" />
+                )
+              }
             />
-            <div
-              className={`route-badges-lines-row flex-row vertically-centered ${mode.toLowerCase()}`}
-            >
-              {uniqueRoutes.map(({ id, shortName, gtfsId }) => (
-                <a key={id} href={`/linjat/${gtfsId}`}>
-                  {shortName}
+            <div className="route-badges-mode-lines flex-row vertically-centered">
+              {entities.map(({ id, name, url }) => (
+                <a key={id} onClick={handleRouteBadgeClick(url)} href={url}>
+                  <span className="route-badges-mode-lines--text">{name}</span>
                 </a>
               ))}
             </div>
           </div>
-        );
-      })}
+        ),
+      )}
     </div>
   );
 }

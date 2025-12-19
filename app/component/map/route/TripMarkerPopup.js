@@ -4,26 +4,32 @@ import { createFragmentContainer, graphql } from 'react-relay';
 
 import Link from 'found/Link';
 import { FormattedMessage } from 'react-intl';
-import { PREFIX_ROUTES, PREFIX_STOPS } from '../../../util/path';
+import { routePagePath, PREFIX_STOPS } from '../../../util/path';
 
 import PopupHeader from './PopupHeader';
 
 import { addAnalyticsEvent } from '../../../util/analyticsUtils';
 
-function TripMarkerPopup(props) {
-  let patternPath = `/${PREFIX_ROUTES}/${props.trip.route.gtfsId}/${PREFIX_STOPS}`;
-  let tripPath = patternPath;
-
-  patternPath += `/${props.trip.pattern.code}`;
-  tripPath = `${patternPath}/${props.trip.gtfsId}`;
+function TripMarkerPopup({ trip, message }) {
+  const patternPath = routePagePath(
+    trip.route.gtfsId,
+    PREFIX_STOPS,
+    trip.pattern.code,
+  );
+  const tripPath = routePagePath(
+    trip.route.gtfsId,
+    PREFIX_STOPS,
+    trip.pattern.code,
+    trip.gtfsId,
+  );
 
   return (
     <div className="card">
       <PopupHeader
         card
-        route={props.trip.route}
-        pattern={props.trip.pattern}
-        startTime={props.message.tripStartTime}
+        route={trip.route}
+        pattern={trip.pattern}
+        startTime={message.tripStartTime}
       />
       <div className="bottom location">
         <Link
@@ -32,7 +38,7 @@ function TripMarkerPopup(props) {
             addAnalyticsEvent({
               category: 'Map',
               action: 'OpenTripInformation',
-              name: props.trip.route.mode,
+              name: trip.route.mode,
             });
           }}
         >

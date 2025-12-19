@@ -13,10 +13,12 @@ import { addAnalyticsEvent } from '../util/analyticsUtils';
 import { getHeadsignFromRouteLongName } from '../util/legUtils';
 import { getRouteMode } from '../util/modeUtils';
 import { getCapacity } from '../util/occupancyUtil';
-import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
+import { routePagePath, PREFIX_STOPS } from '../util/path';
 import { configShape, departureShape } from '../util/shapes';
 import { epochToTime } from '../util/timeUtils';
 import Icon from './Icon';
+import IconBackground from './icon/IconBackground';
+import PlatformNumber from './PlatformNumber';
 
 const getMostSevereAlert = route => {
   const alerts = [...getAlertsForObject(route)];
@@ -31,6 +33,7 @@ export default function DepartureRow(
     canceled,
     onCapacityClick,
     isParentTabActive,
+    platformUpdated,
     ...props
   },
   { config, intl },
@@ -68,7 +71,7 @@ export default function DepartureRow(
   }
   const headsign =
     departure.headsign ||
-    departure.trip.tripHeadsign ||
+    trip.tripHeadsign ||
     getHeadsignFromRouteLongName(trip.route);
   let shownTime;
   if (timeDiffInMinutes <= 0) {
@@ -87,7 +90,7 @@ export default function DepartureRow(
       { minutes: timeDiffInMinutes },
     );
   }
-  const { shortName } = departure.trip.route;
+  const { shortName } = trip.route;
   const lowerCaseShortName = shortName?.toLowerCase();
   const nameOrIcon =
     shortName?.length > 6 || !shortName?.length ? (
@@ -98,7 +101,7 @@ export default function DepartureRow(
 
   const capacity = getCapacity(
     config,
-    trip?.occupancy?.occupancyStatus,
+    trip.occupancy?.occupancyStatus,
     departureTimeMs,
   );
 
@@ -133,11 +136,12 @@ export default function DepartureRow(
     <Link
       as="tr"
       tabIndex={isParentTabActive ? '0' : '-1'}
-      to={`/${PREFIX_ROUTES}/${encodeURIComponent(
-        departure.trip.pattern.route.gtfsId,
-      )}/${PREFIX_STOPS}/${encodeURIComponent(
-        departure.trip.pattern.code,
-      )}/${encodeURIComponent(departure.trip.gtfsId)}`}
+      to={routePagePath(
+        trip.pattern.route.gtfsId,
+        PREFIX_STOPS,
+        trip.pattern.code,
+        trip.gtfsId,
+      )}
       onClick={() => {
         addAnalyticsEvent({
           category: 'Stop',
@@ -153,13 +157,13 @@ export default function DepartureRow(
         departure.bottomRow ? 'bottom' : '',
         props.className,
       )}
-      key={departure.trip.gtfsId}
+      key={trip.gtfsId}
     >
       <td
         className={cx('route-number-container', {
           long: shortName && shortName.length <= 6 && shortName.length >= 5,
         })}
-        style={{ backgroundColor: `#${departure.trip.route.color}` }}
+        style={{ backgroundColor: `#${trip.route.color}` }}
       >
         <div aria-hidden="true" className="route-number">
           {nameOrIcon}
@@ -173,7 +177,7 @@ export default function DepartureRow(
               className={backgroundShape}
               img={icon}
               color={iconColor}
-              backgroundShape={backgroundShape}
+              background={<IconBackground shape={backgroundShape} />}
             />
             {sr}
           </>
@@ -229,7 +233,13 @@ export default function DepartureRow(
                 : 'platform-code'
             }
           >
-            {departure.stop?.platformCode}
+            <PlatformNumber
+              number={departure.stop?.platformCode}
+              short
+              isRailOrSubway={mode === 'RAIL' || mode === 'SUBWAY'}
+              withText={false}
+              updated={platformUpdated}
+            />
           </div>
         </td>
       )}
@@ -265,6 +275,7 @@ DepartureRow.propTypes = {
   className: PropTypes.string,
   onCapacityClick: PropTypes.func,
   isParentTabActive: PropTypes.bool,
+  platformUpdated: PropTypes.bool,
 };
 
 DepartureRow.defaultProps = {
@@ -273,6 +284,7 @@ DepartureRow.defaultProps = {
   className: '',
   onCapacityClick: undefined,
   isParentTabActive: false,
+  platformUpdated: false,
 };
 
 DepartureRow.contextTypes = {

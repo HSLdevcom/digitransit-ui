@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import cx from 'classnames';
 import { intlShape } from 'react-intl';
 import { configShape, alertShape } from '../util/shapes';
-
+import { TRAFFICNOW } from '../util/path';
 import Icon from './Icon';
 import TruncatedMessage from './TruncatedMessage';
 import { mapAlertSource } from '../util/alertUtils';
@@ -75,9 +75,7 @@ const DisruptionBannerAlert = (
               <a
                 className="disruption-info-content"
                 onClick={e => e.stopPropagation()}
-                href={`/${
-                  language === 'fi' || !language ? '' : `${language}/`
-                }${config.trafficNowLink}`}
+                href={`/${TRAFFICNOW}`}
               >
                 {message}
               </a>

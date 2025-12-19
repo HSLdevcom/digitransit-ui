@@ -9,6 +9,9 @@ on:
   pull_request:
     branches:
       - v3
+permissions:
+    id-token: write # For npm publish job
+    contents: read
 
 env:
   # We tell Playwright not to download browser binaries because we use microsoft/playwright-github-action.
@@ -29,6 +32,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
+          registry-url: 'https://registry.npmjs.org/'
 
       # https://github.com/actions/cache/blob/8f1e2e02865c42348f9baddbbaafb1841dce610a/examples.md#node---yarn-2
       - name: Cache node_modules
@@ -75,6 +79,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
+          registry-url: 'https://registry.npmjs.org/'
 
       # https://github.com/actions/cache/blob/8f1e2e02865c42348f9baddbbaafb1841dce610a/examples.md#node---yarn-2
       - name: Cache node_modules
@@ -129,6 +134,8 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
+          registry-url: 'https://registry.npmjs.org'
+
 
       # https://github.com/actions/cache/blob/8f1e2e02865c42348f9baddbbaafb1841dce610a/examples.md#node---yarn-2
       - name: Cache node_modules
@@ -174,6 +181,64 @@ jobs:
       - name: Run unit tests
         run: yarn run test-unit
 
+  generate-sbom:
+    needs:
+      - lint
+      - unit-test
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [20.18]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: "Set time zone to Europe/Helsinki"
+        uses: zcong1993/setup-timezone@master
+        with:
+          timezone: "Europe/Helsinki"
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          registry-url: 'https://registry.npmjs.org/'
+
+      # https://github.com/actions/cache/blob/8f1e2e02865c42348f9baddbbaafb1841dce610a/examples.md#node---yarn-2
+      - name: Cache node_modules
+        id: cache-node-modules
+        uses: actions/cache@v4
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/yarn.lock') }}
+      - name: Cache .yarn/cache
+        if: ${{ steps.cache-node-modules.outputs.cache-hit != 'true' }}
+        uses: actions/cache@v4
+        with:
+          path: '.yarn/cache'
+          key: yarn-v3-cache-${{ github.ref_name }}
+          restore-keys: yarn-v3-cache-v3
+      - name: Install dependencies
+        if: ${{ steps.cache-node-modules.outputs.cache-hit != 'true' }}
+        run: yarn install --immutable
+
+      - name: cache shared components
+        id: cache-shared-components
+        uses: actions/cache@v4
+        with:
+          path: 'digitransit-*'
+          key: ${{ runner.os }}-shared-components-${{ hashFiles('digitransit-*') }}
+      - name: Build shared components
+        if: ${{ steps.cache-shared-components.outputs.cache-hit != 'true' }}
+        run: yarn run build-workspaces
+
+      - name: Generate SBOM
+        run: yarn dlx -q @cyclonedx/yarn-plugin-cyclonedx@2.0.0 --output-file ${{ github.repository }}-${{ github.sha }}.json
+
+      - name: Save SBOM artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: sbom-artifact
+          path: ${{ github.repository }}-${{ github.sha }}.json
+
   # This is only done when pushing to v3
   publish-npm:
     if: github.ref == 'refs/heads/v3'
@@ -195,6 +260,8 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
+          registry-url: 'https://registry.npmjs.org'
+
 
       # https://github.com/actions/cache/blob/8f1e2e02865c42348f9baddbbaafb1841dce610a/examples.md#node---yarn-2
       - name: Cache node_modules
@@ -237,10 +304,8 @@ jobs:
         run: |
           yarn run relay
 
-      - name: Authenticate with registry
-        run: echo //registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN} > .npmrc
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
+      - name: Update npm
+        run: npm install -g npm@latest
       - name: disregard changed yarn.lock
         run: git update-index --assume-unchanged yarn.lock
       - name: Publish shared components to npm

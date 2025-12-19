@@ -5,7 +5,7 @@ import Link from 'found/Link';
 import { configShape, legTimeShape } from '../../util/shapes';
 import { legTimeStr } from '../../util/legUtils';
 import ZoneIcon from '../ZoneIcon';
-import { PREFIX_STOPS } from '../../util/path';
+import { stopPagePath } from '../../util/path';
 import Icon from '../Icon';
 
 function IntermediateLeg(
@@ -138,7 +138,7 @@ function IntermediateLeg(
           onClick={e => {
             e.stopPropagation();
           }}
-          to={`/${PREFIX_STOPS}/${gtfsId}`}
+          to={stopPagePath(false, gtfsId)}
         >
           <div
             className="itinerary-leg-row-intermediate"

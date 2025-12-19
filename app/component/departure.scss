@@ -164,7 +164,7 @@
 .platform-short {
   @include font-narrow-book;
 
-  width: 3em;
+  width: fit-content;
   color: $gray;
   font-size: $font-size-small;
   text-align: right;
@@ -192,6 +192,24 @@
 
   &.empty {
     background: none;
+  }
+
+  .platform-short {
+    width: unset;
+    color: inherit;
+
+    .platform-number-wrapper {
+      height: inherit;
+      font-size: inherit;
+      color: inherit;
+      padding: 0 4px 0 4px;
+
+      &.platform-updated {
+        padding: 0 8px 0 4px;
+        margin: unset;
+        color: $cancelation-red;
+      }
+    }
   }
 }
 

@@ -45,7 +45,11 @@ function ViaLeg(props, { config, intl }) {
     config,
     intl.formatNumber,
   );
-  const [address, place] = splitStringToAddressAndPlace(props.leg.from.name);
+  const [name, place] = splitStringToAddressAndPlace(props.leg.from.name);
+  const address =
+    props.leg.from.viaLocationType && props.leg.viaAddress
+      ? props.leg.viaAddress
+      : name;
   const startTime = legTimeStr(props.leg.start);
   const arrivalMs = legTime(props.arrival);
   const arrivalTime = legTimeStr(props.arrival);
@@ -96,7 +100,8 @@ function ViaLeg(props, { config, intl }) {
         </div>
       </div>
       <ItineraryCircleLineWithIcon
-        isVia
+        viaType={props.leg.from.viaLocationType}
+        isStop={!!props.leg.from.stop}
         index={props.index}
         modeClassName={props.leg.mode.toLowerCase()}
       />

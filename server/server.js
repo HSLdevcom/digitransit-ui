@@ -223,8 +223,8 @@ function setUpAvailableTickets() {
 
 function getZoneUrl(json) {
   const zoneLayer =
-    !json.noZoneSharing &&
-    json.layers.find(
+    !json?.noZoneSharing &&
+    json?.layers.find(
       layer => layer.name.fi === 'Vyöhykkeet' || layer.name.en === 'Zones',
     );
   if (zoneLayer && !allZones) {
@@ -235,8 +235,13 @@ function getZoneUrl(json) {
 }
 
 async function fetchGeoJsonConfig(url) {
-  const response = await getJson(url);
-  return response.geoJson || response.geojson;
+  try {
+    const response = await getJson(url);
+    return response.geoJson || response.geojson;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
 }
 
 function collectGeoJsonZones() {

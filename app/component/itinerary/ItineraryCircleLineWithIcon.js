@@ -3,12 +3,13 @@ import React from 'react';
 import cx from 'classnames';
 import Icon from '../Icon';
 import RouteNumber from '../RouteNumber';
+import { ViaLocationType } from '../../constants';
 
 class ItineraryCircleLineWithIcon extends React.Component {
   static propTypes = {
     index: PropTypes.number.isRequired,
     modeClassName: PropTypes.string.isRequired,
-    isVia: PropTypes.bool,
+    viaType: PropTypes.string,
     bikePark: PropTypes.bool,
     carPark: PropTypes.bool,
     color: PropTypes.string,
@@ -16,10 +17,11 @@ class ItineraryCircleLineWithIcon extends React.Component {
     icon: PropTypes.string,
     style: PropTypes.shape({}),
     isNotFirstLeg: PropTypes.bool,
+    isStop: PropTypes.bool,
   };
 
   static defaultProps = {
-    isVia: false,
+    viaType: null,
     color: null,
     bikePark: false,
     carPark: false,
@@ -27,6 +29,7 @@ class ItineraryCircleLineWithIcon extends React.Component {
     icon: undefined,
     style: {},
     isNotFirstLeg: undefined,
+    isStop: false,
   };
 
   state = {
@@ -35,9 +38,7 @@ class ItineraryCircleLineWithIcon extends React.Component {
 
   isFirstChild = () => {
     return (
-      !this.props.isNotFirstLeg &&
-      this.props.index === 0 &&
-      this.props.isVia === false
+      !this.props.isNotFirstLeg && this.props.index === 0 && !this.props.viaType
     );
   };
 
@@ -50,7 +51,7 @@ class ItineraryCircleLineWithIcon extends React.Component {
   }
 
   getMarker = top => {
-    if (this.props.isVia === true) {
+    if (this.props.viaType === ViaLocationType.Visit && !this.props.isStop) {
       return (
         <div className="itinerary-icon-container">
           <Icon img="icon_mapMarker" className="itinerary-icon via via-it" />
@@ -94,7 +95,7 @@ class ItineraryCircleLineWithIcon extends React.Component {
           xmlns="http://www.w3.org/2000/svg"
           width={28}
           height={28}
-          style={{ fill: this.props.color, stroke: this.props.color }}
+          style={{ fill: '#fff', stroke: this.props.color }}
         >
           <circle strokeWidth="4" width={28} cx={11} cy={10} r={6} />
         </svg>
@@ -115,7 +116,7 @@ class ItineraryCircleLineWithIcon extends React.Component {
     return (
       <div
         className={cx('leg-before', this.props.modeClassName, {
-          via: this.props.isVia,
+          via: !!this.props.viaType,
           'first-leg': this.props.index === 0 && !this.props.isNotFirstLeg,
         })}
         aria-hidden="true"

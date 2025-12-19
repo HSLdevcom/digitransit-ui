@@ -368,3 +368,7 @@ export function toggleTransportMode(transportMode, config) {
   const modes = xor(getModes(config), [transportMode.toUpperCase()]);
   return modes;
 }
+
+export function modeUsesTrack(mode) {
+  return mode === 'RAIL' || mode === 'SUBWAY';
+}

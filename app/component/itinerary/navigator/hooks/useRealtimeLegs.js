@@ -65,18 +65,14 @@ const useRealtimeLegs = (
         type: REDUCER_ACTION_TYPES.SET_ITINERARY_LEGS_AND_UPDATE_PARAMS,
         payload: {
           legs: [firstLeg, ...rest],
-          params: { updatedAt: startTimeInMS, forceStartAt: startTimeInMS },
+          params: { updatedAt: startTimeInMS },
         },
       });
     }
   };
 
   useEffect(() => {
-    if (params.forceStartAt) {
-      startItinerary(params.forceStartAt);
-    }
     setLoading(false);
-
     const id = setInterval(() => fetchAndSetRealtimeLegs(), 10000);
     return () => clearInterval(id);
   }, [fetchAndSetRealtimeLegs]);

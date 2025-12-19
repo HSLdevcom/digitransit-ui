@@ -1,16 +1,16 @@
-import React, { useState } from 'react';
+import React, { useRef } from 'react';
 import cx from 'classnames';
-import { useFragment } from 'react-relay';
 import { FormattedMessage } from 'react-intl';
 import Button from '@hsl-fi/button';
+import PropTypes from 'prop-types';
 import Card from '../Card';
 import { alertShape } from '../../util/shapes';
 import Icon from '../Icon';
 import { useConfigContext } from '../../configurations/ConfigContext';
 import Badge from '../Badge';
-import DisruptionCardFragment from './queries/DisruptionCardFragment';
 import RouteBadges from './RouteBadges';
 import { getFormattedTimeDate } from '../../util/timeUtils';
+import { AlertSeverityLevelType } from '../../constants';
 
 const DATE_FORMAT = 'd.L.yyyy';
 
@@ -19,7 +19,7 @@ const handleExtraInfoClick = url => e => {
   window.location.href = url;
 };
 
-export default function DisruptionCard({ alert }) {
+export default function DisruptionCard({ alert, isOpen, onClick }) {
   const {
     alertSeverityLevel,
     alertEffect,
@@ -29,23 +29,31 @@ export default function DisruptionCard({ alert }) {
     effectiveStartDate,
     effectiveEndDate,
     alertUrl,
-  } = useFragment(DisruptionCardFragment, alert);
-  const [isOpen, setOpen] = useState(false);
+  } = alert;
   const { colors } = useConfigContext();
+  const cardRef = useRef(null);
 
   const now = Date.now();
   const isValid =
     now > effectiveStartDate * 1000 && now < effectiveEndDate * 1000;
 
-  const validityPeriod = `${getFormattedTimeDate(
+  const startDate = `${getFormattedTimeDate(
     effectiveStartDate * 1000,
     DATE_FORMAT,
-  )} - ${getFormattedTimeDate(effectiveEndDate * 1000, DATE_FORMAT)}`;
+  )}`;
+  const endDate = `${getFormattedTimeDate(
+    effectiveEndDate * 1000,
+    DATE_FORMAT,
+  )}`;
 
   return (
     <Card
+      ref={cardRef}
       className="traffic-now__disruption-card"
-      onClick={() => setOpen(!isOpen)}
+      onClick={() => {
+        cardRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        onClick(isOpen ? undefined : alert.id);
+      }}
     >
       <div className="traffic-now__disruption-card__top-row">
         <Badge showIcon variant={alertSeverityLevel} label={alertEffect} />
@@ -73,9 +81,9 @@ export default function DisruptionCard({ alert }) {
       >
         <p>{alertDescriptionText}</p>
       </div>
-      <div className="traffic-now__disruption-card__bottom-row">
-        <div className="traffic-now__disruption-card__bottom-row-validity">
-          <div className="traffic-now__disruption-card__bottom-row-validity-icon">
+      <div className="traffic-now__disruption-card__content-row">
+        <div className="traffic-now__disruption-card__content-row-validity">
+          <div className="traffic-now__disruption-card__content-row-validity-icon">
             {isValid ? (
               <>
                 <Icon img="icon_clock" />
@@ -88,11 +96,16 @@ export default function DisruptionCard({ alert }) {
               </>
             )}
           </div>
-          <div className="separator vertical" />
-          {validityPeriod}
+          {alertSeverityLevel !== AlertSeverityLevelType.Info && (
+            <>
+              <div className="separator vertical" />
+              {startDate}
+              {startDate !== endDate && ` - ${endDate}`}
+            </>
+          )}
         </div>
         {alertUrl && isOpen && (
-          <div className="traffic-now__disruption-card__bottom-row-info">
+          <div className="traffic-now__disruption-card__content-row-info">
             <Button
               size="small"
               fullWidth
@@ -107,5 +120,9 @@ export default function DisruptionCard({ alert }) {
   );
 }
 
-DisruptionCard.propTypes = { alert: alertShape.isRequired };
-DisruptionCard.defaultProps = {};
+DisruptionCard.propTypes = {
+  alert: alertShape.isRequired,
+  isOpen: PropTypes.bool.isRequired,
+  onClick: PropTypes.func,
+};
+DisruptionCard.defaultProps = { onClick: () => {} };

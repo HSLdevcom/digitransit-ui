@@ -312,7 +312,7 @@ export default {
   },
   analyticsClass: 'plausible-event-name=Ticket+Purchase+Link',
 
-  viaPointsEnabled: false,
+  viaPointsEnabled: true,
   hideNaviTickets: true, // TODO: temporary force switch
   navigation: true,
 
@@ -354,6 +354,7 @@ export default {
       ],
     },
   },
+  useAlternativeNameForModes: ['RAIL'],
   showRouteDescNotification:
     process.env.RUN_ENV === 'development' ||
     process.env.NODE_ENV !== 'production',

@@ -24,7 +24,7 @@ import hashCode from '../../util/hashUtil';
 import { getFormattedTimeDate } from '../../util/timeUtils';
 import ScheduleDropdown from './ScheduleDropdown';
 import RouteControlPanel from './RouteControlPanel';
-import { PREFIX_ROUTES, PREFIX_TIMETABLE } from '../../util/path';
+import { routePagePath, PREFIX_TIMETABLE } from '../../util/path';
 import ScrollableWrapper from '../ScrollableWrapper';
 import getTestData from './ScheduleDebugData';
 
@@ -436,7 +436,13 @@ class ScheduleContainer extends PureComponent {
     const trips = ScheduleContainer.sortTrips(currentPattern.trips);
 
     if (trips.length === 0 && newServiceDay) {
-      return `/${PREFIX_ROUTES}/${this.props.match.params.routeId}/${PREFIX_TIMETABLE}/${currentPattern.code}${queryParams}`;
+      return routePagePath(
+        this.props.match.params.routeId,
+        PREFIX_TIMETABLE,
+        currentPattern.code,
+        null,
+        queryParams,
+      );
     }
 
     if (trips !== null && !this.state.hasLoaded) {
@@ -720,12 +726,10 @@ class ScheduleContainer extends PureComponent {
     this.testNoDataDay = ''; // set to next week's Thursday
 
     if (!this.props.pattern) {
-      if (this.props.match.params.routeId) {
+      if (routeId) {
         // Redirect back to routes default pattern
         // eslint-disable-next-line react/prop-types
-        this.props.router.replace(
-          `/${PREFIX_ROUTES}/${this.props.match.params.routeId}/${PREFIX_TIMETABLE}`,
-        );
+        this.props.router.replace(routePagePath(routeId, PREFIX_TIMETABLE));
       }
       return false;
     }
@@ -814,13 +818,16 @@ class ScheduleContainer extends PureComponent {
     if ((!this.testNum || this.testNum !== 0) && isBeforeFirstDataDate) {
       this.redirectWithServiceDay(firstDataDate);
     } else if ((isBeforeNextWeek && firstWeekEmpty) || firstDepartureDate) {
-      if (!isSameOrAfterNextWeek) {
+      if (wantedDay && !isSameOrAfterNextWeek) {
         if (
           firstDepartureDate &&
           !DateTime.now().hasSame(firstDepartureDate, 'day')
         ) {
           this.redirectWithServiceDay(firstDepartureDate);
-        } else {
+        } else if (
+          !firstDepartureDate ||
+          !DateTime.now().hasSame(firstDepartureDate, 'week')
+        ) {
           this.redirectWithServiceDay(nextMonday);
         }
       }
@@ -854,7 +861,7 @@ class ScheduleContainer extends PureComponent {
       }
     }
 
-    const routeIdSplitted = this.props.match.params.routeId.split(':');
+    const routeIdSplitted = routeId.split(':');
     const routeTimetableHandler = routeIdSplitted
       ? this.context.config.timetables &&
         this.context.config.timetables[routeIdSplitted[0]]
@@ -1024,7 +1031,7 @@ const containerComponent = createFragmentContainer(
         mode
         type
         ...RouteAgencyInfo_route
-        ...RoutePatternSelect_route @arguments(date: $date)
+        ...RoutePatternSelectContainer_route @arguments(date: $date)
         agency {
           name
           phone

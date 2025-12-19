@@ -6,15 +6,22 @@ import { getDialogState, setDialogState } from '../../store/localStorage';
 
 import Icon from '../Icon';
 
-const RouteNotification = (props, context) => {
+const RouteNotification = ({ notification, lang }, context) => {
   const [hideNote, setHideNote] = useState(true);
 
+  const id = { notification };
+  const header = notification.header[lang];
+  const content = notification.content[lang];
+  const link = notification.link?.[lang];
+  const linkLabel = notification.linkLabel?.[lang] || link;
+  const closeButtonLabel = notification.closeButtonLabel?.[lang];
+
   useEffect(() => {
-    setHideNote(getDialogState(props.id) || false);
+    setHideNote(getDialogState(id) || false);
   }, []);
 
   useEffect(() => {
-    setDialogState(props.id, hideNote);
+    setDialogState(id, hideNote);
   }, [hideNote]);
 
   return (
@@ -27,21 +34,25 @@ const RouteNotification = (props, context) => {
         />
       </div>
       <div className="right-block">
-        <h3>{props.header}</h3>
+        <h3>{header}</h3>
         {!hideNote && (
           <>
-            <ul>
-              {props.content.map(bulletpoint => (
-                <li key={bulletpoint}>{bulletpoint}</li>
-              ))}
-            </ul>
+            {content.length === 1 ? (
+              <div className="content"> {content[0]} </div>
+            ) : (
+              <ul>
+                {content.map(bulletpoint => (
+                  <li key={bulletpoint}>{bulletpoint}</li>
+                ))}
+              </ul>
+            )}
             <a
               className="route-notification-link"
-              href={`https://www.${props.link}`}
+              href={`https://www.${link}`}
               target="_blank"
               rel="noreferrer"
             >
-              {props.link}
+              {linkLabel}
             </a>
           </>
         )}
@@ -49,7 +60,7 @@ const RouteNotification = (props, context) => {
       <div className="button-block">
         {hideNote && (
           <label htmlFor="route-notification-collapse-button">
-            {props.closeButtonLabel}
+            {closeButtonLabel}
           </label>
         )}
         <button
@@ -85,16 +96,15 @@ const RouteNotification = (props, context) => {
 };
 
 RouteNotification.propTypes = {
-  header: PropTypes.string.isRequired,
-  content: PropTypes.arrayOf(PropTypes.string).isRequired,
-  link: PropTypes.string,
-  id: PropTypes.string.isRequired,
-  closeButtonLabel: PropTypes.string,
-};
-
-RouteNotification.defaultProps = {
-  link: '',
-  closeButtonLabel: undefined,
+  notification: PropTypes.objectOf({
+    id: PropTypes.string.isRequired,
+    header: PropTypes.string.isRequired,
+    content: PropTypes.arrayOf(PropTypes.string).isRequired,
+    link: PropTypes.string,
+    linkLabel: PropTypes.string,
+    closeButtonLabel: PropTypes.string,
+  }).isRequired,
+  lang: PropTypes.string.isRequired,
 };
 
 RouteNotification.contextTypes = {

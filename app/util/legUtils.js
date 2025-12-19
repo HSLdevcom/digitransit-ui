@@ -209,14 +209,15 @@ function bikingEnded(leg1) {
   return leg1.from.vehicleRentalStation && leg1.mode === 'WALK';
 }
 
-function syntheticEndpoint(originalEndpoint, place) {
-  return {
-    ...originalEndpoint,
-    stop: place.stop,
-    lat: place.stop.lat,
-    lon: place.stop.lon,
-    name: place.stop.name,
-  };
+function getViaPointAddress(from, viaPoints) {
+  if (!from || !from.lat || !from.lon || !from.viaLocationType) {
+    return null;
+  }
+  return viaPoints.find(
+    p =>
+      Math.round(p.lat * 1e5) === Math.round(from.lat * 1e5) &&
+      Math.round(p.lon * 1e5) === Math.round(from.lon * 1e5),
+  );
 }
 
 // Once a via place is matched, it is used and will not match again.
@@ -238,9 +239,18 @@ function isViaPointMatch(stop, viaPoints) {
   );
 }
 
+function syntheticEndpoint(originalEndpoint, place) {
+  return {
+    ...originalEndpoint,
+    stop: place.stop,
+    lat: place.stop.lat,
+    lon: place.stop.lon,
+    name: place.stop.name,
+  };
+}
+
 /**
- * Adds intermediate: true to legs if their start point should have a via point
- * marker, possibly splitting legs in case the via point belongs in the middle.
+ * Split legs in case the via point belongs in the middle.
  * Once a via point is used, it is not matched again.
  *
  * @param originalLegs Leg objects from graphql query
@@ -259,7 +269,7 @@ export function splitLegsAtViaPoints(originalLegs, viaPlaces) {
       nextLegStartsWithIntermediate ||
       (leg.transitLeg && isViaPointMatch(leg.from.stop, viaPoints))
     ) {
-      leg.intermediatePlace = true;
+      leg.viaStopCall = true;
       nextLegStartsWithIntermediate = false;
     }
     if (intermediatePlaces) {
@@ -273,7 +283,7 @@ export function splitLegsAtViaPoints(originalLegs, viaPlaces) {
             end: place.arrival,
             intermediatePlaces: intermediatePlaces.slice(start, i),
           };
-          leg.intermediatePlace = true;
+          leg.viaStopCall = true;
           leg.start = place.arrival;
           leg.from = syntheticEndpoint(leg.from, place);
           splitLegs.push(leftLeg);
@@ -307,11 +317,15 @@ export function splitLegsAtViaPoints(originalLegs, viaPlaces) {
  */
 export function markViaPoints(originalLegs, viaPlaces) {
   const legs = [];
-  const viaPoints = viaPlaces.map(p => p.gtfsId);
   originalLegs.forEach(leg => {
-    const isViaPoint = isViaPointMatch(leg.from.stop, viaPoints);
+    const viaAddress = getViaPointAddress(leg.from, viaPlaces)?.address;
+    const isViaPoint = !!leg.from.viaLocationType;
+
     if (leg.intermediatePlaces) {
+      // ViaLocationType pass_through
+      const viaPoints = viaPlaces.map(p => p.gtfsId);
       const intermediatePlaces = [];
+
       leg.intermediatePlaces.forEach(place => {
         intermediatePlaces.push({
           ...place,
@@ -322,11 +336,13 @@ export function markViaPoints(originalLegs, viaPlaces) {
         ...leg,
         intermediatePlaces,
         isViaPoint,
+        viaAddress,
       });
     } else {
       legs.push({
         ...leg,
         isViaPoint,
+        viaAddress,
       });
     }
   });
@@ -356,7 +372,7 @@ export function compressLegs(originalLegs, keepBicycleWalk = false) {
       compressedLeg = cloneDeep(currentLeg);
       return;
     }
-    if (currentLeg.intermediatePlace) {
+    if (currentLeg.from.viaLocationType) {
       compressedLegs.push(compressedLeg);
       compressedLeg = cloneDeep(currentLeg);
       return;
@@ -864,4 +880,65 @@ export const legDestination = (intl, leg, secondary, nextLeg = null) => {
     id = 'modes.from-place';
   }
   return intl.formatMessage({ id, defaultMessage: 'place' });
+};
+
+/** The platform status depicts the current state of changes to a platform for a leg. */
+export const PLATFORM_STATUS = {
+  NORMAL: 'normal',
+  CHANGED: 'changed',
+  RESTORED: 'restored',
+};
+
+/**
+ * Returns platform change status for a leg or a specific departure in the case of a terminal page.
+ * @param {object} leg
+ * @returns {string} status
+ */
+export function getPlatformChangeStatus(leg, prevPlatform) {
+  let status = PLATFORM_STATUS.NORMAL;
+  if (!leg?.trip || (!leg.start?.scheduledTime && !leg.time)) {
+    return status;
+  }
+  const startTime = leg.start?.scheduledTime || leg.time * 1000;
+  const startTimeEpoch = new Date(startTime).getTime();
+  // Find a matching stop in the updated stoptimesForDate
+  const updatedStop = leg.trip.stoptimesForDate?.find(s => {
+    const departureTimeEpoch = (s.serviceDay + s.scheduledDeparture) * 1000;
+    return departureTimeEpoch === startTimeEpoch;
+  });
+  const updatedPlatform = updatedStop?.stop?.platformCode;
+  if (!updatedPlatform) {
+    return status;
+  }
+
+  // Find a matching stop in the original stoptimes
+  const originalStop = leg.trip.stoptimes?.find(s => {
+    return s.scheduledDeparture === updatedStop.scheduledDeparture;
+  });
+  const originalPlatform = originalStop?.stop?.platformCode;
+  if (!originalPlatform) {
+    return status;
+  }
+
+  if (
+    prevPlatform &&
+    prevPlatform !== updatedPlatform &&
+    originalPlatform === updatedPlatform
+  ) {
+    status = PLATFORM_STATUS.RESTORED;
+  } else if (originalPlatform !== updatedPlatform) {
+    status = PLATFORM_STATUS.CHANGED;
+  }
+  return status;
+}
+
+/**
+ * Checks if the platform has changed for a given leg.
+ * Doesn't consider if it has returned to original.
+ * @param {*} leg
+ * @returns {boolean}
+ */
+export const isPlatformChanged = leg => {
+  const status = getPlatformChangeStatus(leg);
+  return status === PLATFORM_STATUS.CHANGED;
 };

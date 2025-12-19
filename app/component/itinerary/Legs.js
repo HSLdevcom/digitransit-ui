@@ -145,6 +145,10 @@ export default class Legs extends React.Component {
         previousLeg?.mode === 'BICYCLE' && previousLeg.to.vehicleParking;
       const carPark =
         previousLeg?.mode === 'CAR' && previousLeg.to.vehicleParking;
+      const isSameStopTransfer =
+        leg.transitLeg &&
+        nextLeg?.transitLeg &&
+        leg.to.stop.gtfsId === nextLeg.from.stop.gtfsId;
       const legProps = {
         leg,
         index: j,
@@ -166,15 +170,15 @@ export default class Legs extends React.Component {
         const waitThresholdInMs = waitThreshold * 1000;
         const waitTime = legTime(nextLeg.start) - legTime(leg.end);
         if (
-          waitTime > waitThresholdInMs &&
-          (nextLeg != null ? nextLeg.mode : null) !== 'AIRPLANE' &&
+          (waitTime > waitThresholdInMs || isSameStopTransfer) &&
+          nextLeg.mode !== 'AIRPLANE' &&
           leg.mode !== 'AIRPLANE' &&
           !nextLeg.intermediatePlace &&
           !isNextLegInterlining &&
           leg.to.stop
         ) {
           const waitLegProps = { ...leg };
-          if (nextLeg && nextLeg.isViaPoint) {
+          if (nextLeg.isViaPoint) {
             waitLegProps.isViaPoint = true;
             nextLeg.isViaPoint = false;
           }
@@ -185,7 +189,9 @@ export default class Legs extends React.Component {
               start={leg.end}
               waitTime={waitTime}
               focusAction={this.focus(leg.to)}
-              icon={usingOwnCarWholeTrip ? 'icon_wait-car' : undefined}
+              icon={
+                usingOwnCarWholeTrip ? 'icon_wait-car' : 'icon_wait_standing'
+              }
             >
               {stopCode(leg.to.stop)}
             </WaitLeg>

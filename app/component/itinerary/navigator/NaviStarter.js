@@ -60,7 +60,7 @@ const NaviStarter = (
         ) : (
           <Icon
             aria-hidden="true"
-            img="icon_navigation_wait"
+            img="icon_wait_standing"
             className="mode"
             height={2}
             width={2}

@@ -17,7 +17,7 @@ export default function Header() {
     >
       <span className="traffic-now__header-breadcrumb">
         <Link to="/">
-          <FormattedMessage id="trafficnow-bread" />
+          <FormattedMessage id="traffic-now_bread" />
         </Link>
         &nbsp;
         <Icon
@@ -25,13 +25,13 @@ export default function Header() {
           className="traffic-now__header-crumbarrow"
         />
         &nbsp;
-        <FormattedMessage id="trafficnow" />
+        <FormattedMessage id="traffic-now" />
       </span>
       <h2>
-        <FormattedMessage id="trafficnow" />
+        <FormattedMessage id="traffic-now" />
       </h2>
       <span className="traffic-now__header-description">
-        <FormattedMessage id="trafficnow-description" />
+        <FormattedMessage id="traffic-now_description" />
       </span>
     </div>
   );
