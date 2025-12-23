@@ -21,6 +21,7 @@ import { getModeIconColor } from '../../../util/colorUtils';
 import Duration from '../Duration';
 import NaviIndoorButtonContainer from './indoor/NaviIndoorButtonContainer';
 import NaviIndoorCard from './indoor/NaviIndoorCard';
+import { NaviCardType } from '../../../constants';
 
 const NaviCardExtension = (
   {
@@ -31,8 +32,8 @@ const NaviCardExtension = (
     nextLeg,
     time,
     platformUpdated,
-    showIndoorRoute,
-    toggleShowIndoorRoute,
+    currentCard,
+    setCurrentCard,
   },
   { config },
 ) => {
@@ -125,8 +126,8 @@ const NaviCardExtension = (
         </div>
         {showIndoorButton && (
           <NaviIndoorButtonContainer
-            showIndoorRoute={showIndoorRoute}
-            toggleShowIndoorRoute={toggleShowIndoorRoute}
+            currentCard={currentCard}
+            setCurrentCard={setCurrentCard}
             previousLeg={previousLeg}
             leg={leg}
             nextLeg={nextLeg}
@@ -160,10 +161,10 @@ const NaviCardExtension = (
     );
   }
   if (legType === LEGTYPE.MOVE && nextLeg?.transitLeg) {
-    if (showIndoorRoute) {
+    if (currentCard === NaviCardType.Indoor) {
       return (
         <NaviIndoorCard
-          toggleShowIndoorRoute={toggleShowIndoorRoute}
+          setCurrentCard={setCurrentCard}
           previousLeg={previousLeg}
           leg={leg}
           nextLeg={nextLeg}
@@ -211,8 +212,8 @@ NaviCardExtension.propTypes = {
   legType: PropTypes.string,
   time: PropTypes.number.isRequired,
   platformUpdated: PropTypes.bool,
-  showIndoorRoute: PropTypes.bool,
-  toggleShowIndoorRoute: PropTypes.func.isRequired,
+  currentCard: PropTypes.oneOf(Object.values(NaviCardType)),
+  setCurrentCard: PropTypes.func.isRequired,
 };
 
 NaviCardExtension.defaultProps = {
@@ -221,7 +222,7 @@ NaviCardExtension.defaultProps = {
   leg: undefined,
   nextLeg: undefined,
   platformUpdated: false,
-  showIndoorRoute: false,
+  currentCard: NaviCardType.Default,
 };
 
 NaviCardExtension.contextTypes = {

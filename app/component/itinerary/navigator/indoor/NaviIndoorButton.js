@@ -4,11 +4,9 @@ import { FormattedMessage } from 'react-intl';
 import cx from 'classnames';
 import Icon from '../../../Icon';
 import { isKeyboardSelectionEvent } from '../../../../util/browser';
+import { NaviCardType } from '../../../../constants';
 
-export default function NaviIndoorButton({
-  showIndoorRoute,
-  toggleShowIndoorRoute,
-}) {
+export default function NaviIndoorButton({ currentCard, setCurrentCard }) {
   return (
     <div
       role="button"
@@ -16,16 +14,24 @@ export default function NaviIndoorButton({
       className={cx('indoor-container-clickable', 'cursor-pointer')}
       onClick={e => {
         e.stopPropagation();
-        toggleShowIndoorRoute();
+        setCurrentCard(
+          currentCard === NaviCardType.Indoor
+            ? NaviCardType.Default
+            : NaviCardType.Indoor,
+        );
       }}
       onKeyPress={e => {
         if (isKeyboardSelectionEvent(e)) {
           e.stopPropagation();
-          toggleShowIndoorRoute();
+          setCurrentCard(
+            currentCard === NaviCardType.Indoor
+              ? NaviCardType.Default
+              : NaviCardType.Indoor,
+          );
         }
       }}
     >
-      {showIndoorRoute ? (
+      {currentCard === NaviCardType.Indoor ? (
         <>
           <div className="indoor-arrow-icon">
             <Icon img="icon_arrow-collapse--right" className="open" />
@@ -55,9 +61,9 @@ export default function NaviIndoorButton({
 }
 
 NaviIndoorButton.propTypes = {
-  showIndoorRoute: PropTypes.bool,
-  toggleShowIndoorRoute: PropTypes.func.isRequired,
+  currentCard: PropTypes.oneOf(Object.values(NaviCardType)),
+  setCurrentCard: PropTypes.func.isRequired,
 };
 NaviIndoorButton.defaultProps = {
-  showIndoorRoute: false,
+  currentCard: NaviCardType.Default,
 };

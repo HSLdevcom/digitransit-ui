@@ -5,9 +5,10 @@ import { configShape, legShape } from '../../../../util/shapes';
 import { getIndoorStepsWithVerticalTransportation } from '../../../../util/indoorUtils';
 import NaviIndoorButton from './NaviIndoorButton';
 import NaviIndoorContainer from './NaviIndoorContainer';
+import { NaviCardType } from '../../../../constants';
 
 function NaviIndoorCard({
-  toggleShowIndoorRoute,
+  setCurrentCard,
   previousLeg,
   leg,
   nextLeg,
@@ -23,8 +24,8 @@ function NaviIndoorCard({
       <div className="extension-divider" />
       <div className="extension-indoor-button">
         <NaviIndoorButton
-          showIndoorRoute
-          toggleShowIndoorRoute={toggleShowIndoorRoute}
+          currentCard={NaviCardType.Indoor}
+          setCurrentCard={setCurrentCard}
         />
       </div>
       <div className="extension-divider" />
@@ -39,7 +40,7 @@ function NaviIndoorCard({
 }
 
 NaviIndoorCard.propTypes = {
-  toggleShowIndoorRoute: PropTypes.func.isRequired,
+  setCurrentCard: PropTypes.func.isRequired,
   focusToPoint: PropTypes.func.isRequired,
   previousLeg: legShape,
   leg: legShape,

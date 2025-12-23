@@ -8,6 +8,7 @@ import NaviCardExtension from './NaviCardExtension';
 import NaviInstructions from './NaviInstructions';
 import { LEGTYPE } from './NaviUtils';
 import usePrevious from './hooks/usePrevious';
+import { NaviCardType } from '../../../constants';
 
 const iconMap = {
   BICYCLE: 'icon_cyclist',
@@ -35,7 +36,7 @@ export default function NaviCard(
   { config },
 ) {
   const [cardExpanded, setCardExpanded] = useState(false);
-  const [showIndoorRoute, setShowIndoorRoute] = useState(false);
+  const [currentCard, setCurrentCard] = useState(NaviCardType.Default);
   const contentRef = useRef();
   const { isEqual: legChanged } = usePrevious(leg, (prev, current) =>
     isAnyLegPropertyIdentical(prev, current, ['legId', 'mode']),
@@ -43,12 +44,12 @@ export default function NaviCard(
 
   const handleClick = () => {
     setCardExpanded(prev => !prev);
-    setShowIndoorRoute(false);
+    setCurrentCard(NaviCardType.Default);
   };
 
   if (legChanged) {
     setCardExpanded(false);
-    setShowIndoorRoute(false);
+    setCurrentCard(NaviCardType.Default);
   }
 
   if (
@@ -99,10 +100,10 @@ export default function NaviCard(
     }
 
     // Resize card when card size changes.
-    if (cardExpanded || showIndoorRoute) {
+    if (cardExpanded || currentCard === NaviCardType.Indoor) {
       element.style.maxHeight = `${element.scrollHeight}px`;
     }
-  }, [cardExpanded, showIndoorRoute]);
+  }, [cardExpanded, currentCard]);
 
   return (
     <button
@@ -124,7 +125,7 @@ export default function NaviCard(
               time={time}
               position={position}
               tailLength={tailLength}
-              showDestinationInfo={!showIndoorRoute}
+              showDestinationInfo={currentCard === NaviCardType.Default}
             />
           </div>
           <div type="button" className="navi-top-card-arrow">
@@ -151,8 +152,8 @@ export default function NaviCard(
             nextLeg={nextLeg}
             time={time}
             platformUpdated={platformUpdated}
-            showIndoorRoute={showIndoorRoute}
-            toggleShowIndoorRoute={() => setShowIndoorRoute(!showIndoorRoute)}
+            currentCard={currentCard}
+            setCurrentCard={setCurrentCard}
           />
         </div>
       </div>

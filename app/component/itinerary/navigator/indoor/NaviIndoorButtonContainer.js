@@ -8,10 +8,11 @@ import {
 } from '../../../../util/indoorUtils';
 import NaviIndoorStepInfo from './NaviIndoorStepInfo';
 import NaviIndoorButton from './NaviIndoorButton';
+import { NaviCardType } from '../../../../constants';
 
 export default function NaviIndoorButtonContainer({
-  showIndoorRoute,
-  toggleShowIndoorRoute,
+  currentCard,
+  setCurrentCard,
   previousLeg,
   leg,
   nextLeg,
@@ -43,8 +44,8 @@ export default function NaviIndoorButtonContainer({
   if (indoorSteps.length > 1) {
     return (
       <NaviIndoorButton
-        showIndoorRoute={showIndoorRoute}
-        toggleShowIndoorRoute={toggleShowIndoorRoute}
+        currentCard={currentCard}
+        setCurrentCard={setCurrentCard}
       />
     );
   }
@@ -52,8 +53,8 @@ export default function NaviIndoorButtonContainer({
 }
 
 NaviIndoorButtonContainer.propTypes = {
-  showIndoorRoute: PropTypes.bool,
-  toggleShowIndoorRoute: PropTypes.func.isRequired,
+  currentCard: PropTypes.oneOf(Object.values(NaviCardType)),
+  setCurrentCard: PropTypes.func.isRequired,
   previousLeg: legShape,
   leg: legShape,
   nextLeg: legShape,
@@ -61,7 +62,7 @@ NaviIndoorButtonContainer.propTypes = {
 };
 
 NaviIndoorButtonContainer.defaultProps = {
-  showIndoorRoute: false,
+  currentCard: NaviCardType.Default,
   previousLeg: undefined,
   leg: undefined,
   nextLeg: undefined,
