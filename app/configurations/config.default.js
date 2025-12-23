@@ -862,5 +862,6 @@ export default {
     internalAgencies: [], // "FeedId:AgencyId"
     externalAgencies: [], // "FeedId:AgencyId"
     allowedExternalFlexRouteTypes: [1501],
+    minTransferTime: 900, // seconds
   },
 };

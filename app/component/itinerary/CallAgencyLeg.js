@@ -19,7 +19,7 @@ const CallAgencyLeg = (
     config.showRouteDescNotification && route.desc?.length
       ? { content: route.desc, link: route.url }
       : {
-          content: 'warning-call-agency',
+          content: intl.formatMessage({ id: 'call-agency-disclaimer' }),
           link: '',
         };
   const key = `callAgencyNotification-${route.gtfsId}`;
@@ -35,17 +35,24 @@ const CallAgencyLeg = (
     />
   );
   return (
-    <TransitLeg mode={modeClassName} leg={leg} omitDivider {...props}>
+    <TransitLeg
+      mode={modeClassName}
+      leg={leg}
+      mobile={mobile}
+      omitDivider
+      {...props}
+    >
       <CallAgencyDisclaimer
         key={key}
         text={notification.content}
-        href={notification.link}
-        linkText={intl.formatMessage({ id: 'extra-info' })}
         routeNumber={routeNumber}
         pickupBookingInfo={leg.pickupBookingInfo}
         agency={route.agency}
         route={route}
         mobile={mobile}
+        header={intl.formatMessage({ id: 'on-demand-service' })}
+        href={leg.pickupBookingInfo.contactInfo?.bookingUrl}
+        linkText={intl.formatMessage({ id: 'open-app' })}
       />
     </TransitLeg>
   );

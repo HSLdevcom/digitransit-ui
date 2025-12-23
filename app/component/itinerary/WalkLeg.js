@@ -4,7 +4,12 @@ import React from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
 import Link from 'found/Link';
 import { legShape, configShape } from '../../util/shapes';
-import { legTime, legTimeStr, legDestination } from '../../util/legUtils';
+import {
+  legTime,
+  legTimeStr,
+  legDestination,
+  isCallAgencyLeg,
+} from '../../util/legUtils';
 import Icon from '../Icon';
 import ItineraryMapAction from './ItineraryMapAction';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
@@ -125,6 +130,9 @@ function WalkLeg(
         />
       </span>
       <div className="small-2 columns itinerary-time-column" aria-hidden="true">
+        {previousLeg && isCallAgencyLeg(previousLeg) && (
+          <FormattedMessage id="estimate" />
+        )}
         <div className="itinerary-time-column-time">
           <span className={cx({ realtime: previousLeg?.realTime })}>
             {leg.mode === 'WALK' ? legTimeStr(leg.start) : legTimeStr(leg.end)}

@@ -1,13 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import Icon from '../Icon';
-import OnDemandInfo from './OnDemandInfo';
-import {
-  agencyShape,
-  routeShape,
-  pickupBookingInfoShape,
-} from '../../util/shapes';
+import { useDeepLink } from '../../util/vehicleRentalUtils';
 
 export default function CallAgencyDisclaimer({
   textId,
@@ -16,34 +11,12 @@ export default function CallAgencyDisclaimer({
   href,
   linkText,
   header,
-  routeNumber,
-  pickupBookingInfo,
-  agency,
-  route,
-  mobile,
 }) {
-  const [infoOpenState, setInfoOpenState] = useState(false);
-
-  const openOnDemandInfo = () => {
-    setInfoOpenState(true);
-  };
-
-  const closeOnDemandInfo = () => {
-    setInfoOpenState(false);
-  };
-
-  if (infoOpenState) {
-    return (
-      <OnDemandInfo
-        routeNumber={routeNumber}
-        route={route}
-        pickupBookingInfo={pickupBookingInfo}
-        agency={agency}
-        onClose={closeOnDemandInfo}
-        mobile={mobile}
-      />
-    );
-  }
+  const onClick = href?.startsWith('http')
+    ? () => {
+        window.open(href, '_blank', 'noopener,noreferrer');
+      }
+    : () => useDeepLink(href, window.location.href);
 
   return (
     <div className="call-agency-disclaimer-container">
@@ -55,7 +28,10 @@ export default function CallAgencyDisclaimer({
           <button
             type="button"
             className="external-link-button"
-            onClick={openOnDemandInfo}
+            onClick={e => {
+              e.stopPropagation();
+              onClick(e);
+            }}
           >
             {linkText}
           </button>
@@ -72,11 +48,6 @@ CallAgencyDisclaimer.propTypes = {
   href: PropTypes.string,
   linkText: PropTypes.string,
   header: PropTypes.string,
-  routeNumber: PropTypes.node,
-  pickupBookingInfo: pickupBookingInfoShape,
-  agency: agencyShape,
-  route: routeShape.isRequired,
-  mobile: PropTypes.bool,
 };
 
 CallAgencyDisclaimer.defaultProps = {
@@ -86,8 +57,4 @@ CallAgencyDisclaimer.defaultProps = {
   href: null,
   linkText: null,
   header: null,
-  routeNumber: null,
-  pickupBookingInfo: null,
-  agency: null,
-  mobile: false,
 };
