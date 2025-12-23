@@ -31,8 +31,8 @@ const NaviCardExtension = (
     nextLeg,
     time,
     platformUpdated,
-    showIndoor,
-    toggleShowIndoor,
+    showIndoorRoute,
+    toggleShowIndoorRoute,
   },
   { config },
 ) => {
@@ -125,8 +125,8 @@ const NaviCardExtension = (
         </div>
         {showIndoorButton && (
           <NaviIndoorButtonContainer
-            showIndoor={showIndoor}
-            toggleShowIndoor={toggleShowIndoor}
+            showIndoorRoute={showIndoorRoute}
+            toggleShowIndoorRoute={toggleShowIndoorRoute}
             previousLeg={previousLeg}
             leg={leg}
             nextLeg={nextLeg}
@@ -160,11 +160,10 @@ const NaviCardExtension = (
     );
   }
   if (legType === LEGTYPE.MOVE && nextLeg?.transitLeg) {
-    if (showIndoor) {
+    if (showIndoorRoute) {
       return (
         <NaviIndoorCard
-          showIndoor={showIndoor}
-          toggleShowIndoor={toggleShowIndoor}
+          toggleShowIndoorRoute={toggleShowIndoorRoute}
           previousLeg={previousLeg}
           leg={leg}
           nextLeg={nextLeg}
@@ -212,8 +211,8 @@ NaviCardExtension.propTypes = {
   legType: PropTypes.string,
   time: PropTypes.number.isRequired,
   platformUpdated: PropTypes.bool,
-  showIndoor: PropTypes.bool,
-  toggleShowIndoor: PropTypes.func.isRequired,
+  showIndoorRoute: PropTypes.bool,
+  toggleShowIndoorRoute: PropTypes.func.isRequired,
 };
 
 NaviCardExtension.defaultProps = {
@@ -222,7 +221,7 @@ NaviCardExtension.defaultProps = {
   leg: undefined,
   nextLeg: undefined,
   platformUpdated: false,
-  showIndoor: false,
+  showIndoorRoute: false,
 };
 
 NaviCardExtension.contextTypes = {

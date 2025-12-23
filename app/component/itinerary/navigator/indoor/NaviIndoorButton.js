@@ -5,7 +5,10 @@ import cx from 'classnames';
 import Icon from '../../../Icon';
 import { isKeyboardSelectionEvent } from '../../../../util/browser';
 
-export default function NaviIndoorButton({ showIndoor, toggleShowIndoor }) {
+export default function NaviIndoorButton({
+  showIndoorRoute,
+  toggleShowIndoorRoute,
+}) {
   return (
     <div
       role="button"
@@ -13,16 +16,16 @@ export default function NaviIndoorButton({ showIndoor, toggleShowIndoor }) {
       className={cx('indoor-container-clickable', 'cursor-pointer')}
       onClick={e => {
         e.stopPropagation();
-        toggleShowIndoor();
+        toggleShowIndoorRoute();
       }}
       onKeyPress={e => {
         if (isKeyboardSelectionEvent(e)) {
           e.stopPropagation();
-          toggleShowIndoor();
+          toggleShowIndoorRoute();
         }
       }}
     >
-      {showIndoor ? (
+      {showIndoorRoute ? (
         <>
           <div className="indoor-arrow-icon">
             <Icon img="icon_arrow-collapse--right" className="open" />
@@ -52,9 +55,9 @@ export default function NaviIndoorButton({ showIndoor, toggleShowIndoor }) {
 }
 
 NaviIndoorButton.propTypes = {
-  showIndoor: PropTypes.bool,
-  toggleShowIndoor: PropTypes.func.isRequired,
+  showIndoorRoute: PropTypes.bool,
+  toggleShowIndoorRoute: PropTypes.func.isRequired,
 };
 NaviIndoorButton.defaultProps = {
-  showIndoor: false,
+  showIndoorRoute: false,
 };

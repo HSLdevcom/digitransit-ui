@@ -7,8 +7,7 @@ import NaviIndoorButton from './NaviIndoorButton';
 import NaviIndoorContainer from './NaviIndoorContainer';
 
 function NaviIndoorCard({
-  showIndoor,
-  toggleShowIndoor,
+  toggleShowIndoorRoute,
   previousLeg,
   leg,
   nextLeg,
@@ -24,8 +23,8 @@ function NaviIndoorCard({
       <div className="extension-divider" />
       <div className="extension-indoor-button">
         <NaviIndoorButton
-          showIndoor={showIndoor}
-          toggleShowIndoor={toggleShowIndoor}
+          showIndoorRoute
+          toggleShowIndoorRoute={toggleShowIndoorRoute}
         />
       </div>
       <div className="extension-divider" />
@@ -40,8 +39,7 @@ function NaviIndoorCard({
 }
 
 NaviIndoorCard.propTypes = {
-  showIndoor: PropTypes.bool,
-  toggleShowIndoor: PropTypes.func.isRequired,
+  toggleShowIndoorRoute: PropTypes.func.isRequired,
   focusToPoint: PropTypes.func.isRequired,
   previousLeg: legShape,
   leg: legShape,
@@ -49,7 +47,6 @@ NaviIndoorCard.propTypes = {
 };
 
 NaviIndoorCard.defaultProps = {
-  showIndoor: false,
   previousLeg: undefined,
   leg: undefined,
   nextLeg: undefined,

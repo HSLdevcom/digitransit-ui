@@ -41,7 +41,7 @@ export default function NaviInstructions(
     time,
     position,
     tailLength,
-    showIndoor,
+    showDestinationInfo,
   },
   { intl, config },
 ) {
@@ -53,7 +53,7 @@ export default function NaviInstructions(
   if (legType === LEGTYPE.MOVE) {
     return (
       <>
-        {!showIndoor && (
+        {showDestinationInfo && (
           <div className="notification-header navi-header-chain">
             <FormattedMessage id={instructions} defaultMessage="Go to" />
             &nbsp;
@@ -183,7 +183,7 @@ NaviInstructions.propTypes = {
     lon: PropTypes.number,
   }),
   tailLength: PropTypes.number.isRequired,
-  showIndoor: PropTypes.bool,
+  showDestinationInfo: PropTypes.bool,
 };
 
 NaviInstructions.defaultProps = {
@@ -191,7 +191,7 @@ NaviInstructions.defaultProps = {
   leg: undefined,
   nextLeg: undefined,
   position: undefined,
-  showIndoor: false,
+  showDestinationInfo: false,
 };
 NaviInstructions.contextTypes = {
   intl: intlShape.isRequired,

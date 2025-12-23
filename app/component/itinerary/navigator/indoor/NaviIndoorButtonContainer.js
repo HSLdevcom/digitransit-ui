@@ -10,8 +10,8 @@ import NaviIndoorStepInfo from './NaviIndoorStepInfo';
 import NaviIndoorButton from './NaviIndoorButton';
 
 export default function NaviIndoorButtonContainer({
-  showIndoor,
-  toggleShowIndoor,
+  showIndoorRoute,
+  toggleShowIndoorRoute,
   previousLeg,
   leg,
   nextLeg,
@@ -43,8 +43,8 @@ export default function NaviIndoorButtonContainer({
   if (indoorSteps.length > 1) {
     return (
       <NaviIndoorButton
-        showIndoor={showIndoor}
-        toggleShowIndoor={toggleShowIndoor}
+        showIndoorRoute={showIndoorRoute}
+        toggleShowIndoorRoute={toggleShowIndoorRoute}
       />
     );
   }
@@ -52,8 +52,8 @@ export default function NaviIndoorButtonContainer({
 }
 
 NaviIndoorButtonContainer.propTypes = {
-  showIndoor: PropTypes.bool,
-  toggleShowIndoor: PropTypes.func.isRequired,
+  showIndoorRoute: PropTypes.bool,
+  toggleShowIndoorRoute: PropTypes.func.isRequired,
   previousLeg: legShape,
   leg: legShape,
   nextLeg: legShape,
@@ -61,7 +61,7 @@ NaviIndoorButtonContainer.propTypes = {
 };
 
 NaviIndoorButtonContainer.defaultProps = {
-  showIndoor: false,
+  showIndoorRoute: false,
   previousLeg: undefined,
   leg: undefined,
   nextLeg: undefined,
