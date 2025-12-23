@@ -625,7 +625,7 @@ const Itinerary = (
   const iconLegsInPixels = (24 * onlyIconLegs) / normalLegs;
   // the leftover percentage from only showing icons added to each 'normal' leg
   const iconLegsInPercents = onlyIconLegsLength / normalLegs;
-  const hasCallAgencyLeg = itinerary.legs.find(leg => isCallAgencyLeg(leg));
+  const hasCallAgencyLeg = itinerary.legs.some(leg => isCallAgencyLeg(leg));
   let firstDeparture;
   if (hasCallAgencyLeg) {
     firstLegStartTime = (
