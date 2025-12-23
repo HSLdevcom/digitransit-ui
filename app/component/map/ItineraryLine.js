@@ -332,7 +332,10 @@ class ItineraryLine extends React.Component {
             objs.push(
               <EntranceMarker
                 key={`entrance_${coordinates[0]}_${coordinates[1]}`}
-                entranceAccessible={getEntranceWheelchairAccessibility(leg)}
+                entranceAccessible={getEntranceWheelchairAccessibility(
+                  previousLeg,
+                  leg,
+                )}
                 position={{
                   lat: coordinates[0],
                   lon: coordinates[1],

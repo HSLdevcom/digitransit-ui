@@ -111,8 +111,11 @@ function WalkLeg(
     nextLeg,
   );
   const indoorLegType = getIndoorLegType(previousLeg, leg, nextLeg);
-  const entranceName = getEntranceName(leg);
-  const entranceAccessible = getEntranceWheelchairAccessibility(leg);
+  const entranceName = getEntranceName(previousLeg, leg);
+  const entranceAccessible = getEntranceWheelchairAccessibility(
+    previousLeg,
+    leg,
+  );
   // do not render subway exit/entrance if transfer happens within a station
   const hideSubwayEntrances = subwayTransferUsesSameStation(
     previousLeg,

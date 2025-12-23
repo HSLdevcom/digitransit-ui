@@ -151,23 +151,15 @@ export function getIndoorStepsWithVerticalTransportation(
 /**
  * @return the name (letter identifier) of an entrance in the steps of a leg or undefined if one can not be found
  */
-export function getEntranceName(leg) {
-  return leg.steps.find(
-    step =>
-      // eslint-disable-next-line no-underscore-dangle
-      step.feature?.__typename === 'Entrance',
-  )?.feature?.publicCode;
+export function getEntranceName(previousLeg, leg) {
+  return getEntranceObject(previousLeg, leg)?.feature.publicCode;
 }
 
 /**
  * @return wheelchair accessibility information for an entrance in the steps of a leg or undefined if it can not be found
  */
-export function getEntranceWheelchairAccessibility(leg) {
-  return leg.steps.find(
-    step =>
-      // eslint-disable-next-line no-underscore-dangle
-      step.feature?.__typename === 'Entrance',
-  )?.feature?.wheelchairAccessible;
+export function getEntranceWheelchairAccessibility(previousLeg, leg) {
+  return getEntranceObject(previousLeg, leg)?.feature.wheelchairAccessible;
 }
 
 export function getStepFocusAction(lat, lon, focusToPoint) {
