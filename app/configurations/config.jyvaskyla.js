@@ -188,4 +188,5 @@ export default configMerger(walttiConfig, {
     ...walttiConfig.defaultSettings,
     minTransferTime: 180,
   },
+  useRealtimeTravellerCapacities: true,
 });
