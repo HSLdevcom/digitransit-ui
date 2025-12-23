@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom';
 import ReactDOMServer from 'react-dom/server';
 import glfun from './glfun';
 import { transitIconName } from './modeUtils';
-import { ParkTypes, TransportMode } from '../constants';
 import { getModeIconColor } from './colorUtils';
+import { ParkTypes, TransportMode } from '../constants';
 
 /**
  * Corresponds to an arc forming a full circle (Math.PI * 2).
@@ -849,4 +849,12 @@ export function renderAsString(children) {
   const html = div.firstElementChild?.outerHTML || div.innerHTML;
   ReactDOM.unmountComponentAtNode(div);
   return html;
+}
+
+export function getIndexedIconFields(zoom, index) {
+  const iconEdgeSize = Math.max(getCaseRadius(zoom) * 2, 8);
+  const iconSize = [iconEdgeSize, iconEdgeSize];
+  const iconAnchor = [iconEdgeSize / 2, (1.5 + index) * iconEdgeSize + index];
+
+  return { iconSize, iconAnchor };
 }
