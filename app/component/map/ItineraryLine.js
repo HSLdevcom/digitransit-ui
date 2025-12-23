@@ -17,18 +17,18 @@ import VehicleMarker from './non-tile-layer/VehicleMarker';
 import SpeechBubble from './SpeechBubble';
 import EntranceMarker from './EntranceMarker';
 import ClusterNumberMarker from './ClusterNumberMarker';
-import IndoorRouteStepMarker from './IndoorRouteStepMarker';
+import IndoorStepMarker from './IndoorStepMarker';
 import { createFeatureObjects } from '../../util/clusterUtils';
 import {
-  IndoorRouteStepType,
-  IndoorRouteLegType,
+  IndoorStepType,
+  IndoorLegType,
   WheelchairBoarding,
 } from '../../constants';
 import {
   getEntranceObject,
   getEntranceWheelchairAccessibility,
-  getIndoorRouteLegType,
-  getIndoorStepsWithVerticalTransportationUse,
+  getIndoorLegType,
+  getIndoorStepsWithVerticalTransportation,
   isVerticalTransportationUse,
 } from '../../util/indoorUtils';
 
@@ -86,7 +86,7 @@ class ItineraryLine extends React.Component {
     objs,
     clusterObjs,
     entranceObject,
-    indoorRouteLegType,
+    indoorLegType,
   ) {
     const entranceCoordinates = [entranceObject.lat, entranceObject.lon];
     const getDistance = (coord1, coord2) => {
@@ -123,7 +123,7 @@ class ItineraryLine extends React.Component {
             WheelchairBoarding.Possible
               ? 1
               : 0),
-          type: IndoorRouteStepType.Entrance,
+          type: IndoorStepType.Entrance,
           code: entranceObject.feature.publicCode?.toLowerCase(),
         },
       });
@@ -135,7 +135,7 @@ class ItineraryLine extends React.Component {
         key={`${this.props.hash}_${i}_${mode}_0`}
         geometry={geometry.slice(0, entranceIndex + 1)}
         mode={
-          indoorRouteLegType === IndoorRouteLegType.StepsBeforeEntranceInside
+          indoorLegType === IndoorLegType.StepsBeforeEntranceInside
             ? 'walk-inside'
             : 'walk'
         }
@@ -148,7 +148,7 @@ class ItineraryLine extends React.Component {
         key={`${this.props.hash}_${i}_${mode}_1`}
         geometry={geometry.slice(entranceIndex)}
         mode={
-          indoorRouteLegType === IndoorRouteLegType.StepsAfterEntranceInside
+          indoorLegType === IndoorLegType.StepsAfterEntranceInside
             ? 'walk-inside'
             : 'walk'
         }
@@ -159,8 +159,8 @@ class ItineraryLine extends React.Component {
 
   handleLine(previousLeg, leg, nextLeg, mode, i, geometry, objs, clusterObjs) {
     const entranceObject = getEntranceObject(previousLeg, leg);
-    const indoorRouteLegType = getIndoorRouteLegType(previousLeg, leg, nextLeg);
-    if (indoorRouteLegType !== IndoorRouteLegType.NoStepsInside) {
+    const indoorLegType = getIndoorLegType(previousLeg, leg, nextLeg);
+    if (indoorLegType !== IndoorLegType.NoStepsInside) {
       this.handleEntrance(
         leg,
         nextLeg,
@@ -170,7 +170,7 @@ class ItineraryLine extends React.Component {
         objs,
         clusterObjs,
         entranceObject,
-        indoorRouteLegType,
+        indoorLegType,
       );
     } else {
       objs.push(
@@ -239,25 +239,25 @@ class ItineraryLine extends React.Component {
     }
   }
 
-  handleIndoorRouteStepMarkers(previousLeg, leg, nextLeg, clusterObjs) {
+  handleIndoorStepMarkers(previousLeg, leg, nextLeg, clusterObjs) {
     if (!this.props.passive) {
-      const indoorRouteSteps = getIndoorStepsWithVerticalTransportationUse(
+      const indoorSteps = getIndoorStepsWithVerticalTransportation(
         previousLeg,
         leg,
         nextLeg,
       );
 
-      if (indoorRouteSteps) {
-        indoorRouteSteps.forEach((indoorRouteStep, i) => {
-          if (indoorRouteStep.lat && indoorRouteStep.lon) {
+      if (indoorSteps) {
+        indoorSteps.forEach((indoorStep, i) => {
+          if (indoorStep.lat && indoorStep.lon) {
             clusterObjs.push({
-              lat: indoorRouteStep.lat,
-              lon: indoorRouteStep.lon,
+              lat: indoorStep.lat,
+              lon: indoorStep.lon,
               properties: {
                 iconCount: 1,
                 // eslint-disable-next-line no-underscore-dangle
-                type: indoorRouteStep.feature?.__typename,
-                verticalDirection: indoorRouteStep.feature?.verticalDirection,
+                type: indoorStep.feature?.__typename,
+                verticalDirection: indoorStep.feature?.verticalDirection,
                 index: i,
               },
             });
@@ -328,7 +328,7 @@ class ItineraryLine extends React.Component {
         } else {
           // Handle a single point.
           // eslint-disable-next-line no-lonely-if
-          if (properties.type === IndoorRouteStepType.Entrance) {
+          if (properties.type === IndoorStepType.Entrance) {
             objs.push(
               <EntranceMarker
                 key={`entrance_${coordinates[0]}_${coordinates[1]}`}
@@ -342,14 +342,14 @@ class ItineraryLine extends React.Component {
             );
           } else if (isVerticalTransportationUse(properties.type)) {
             objs.push(
-              <IndoorRouteStepMarker
-                key={`indoorroutestepmarker_${coordinates[0]}_${coordinates[1]}`}
+              <IndoorStepMarker
+                key={`indoorstepmarker_${coordinates[0]}_${coordinates[1]}`}
                 position={{
                   lat: coordinates[0],
                   lon: coordinates[1],
                 }}
                 index={properties.index}
-                indoorRouteSteps={getIndoorStepsWithVerticalTransportationUse(
+                indoorSteps={getIndoorStepsWithVerticalTransportation(
                   previousLeg,
                   leg,
                   nextLeg,
@@ -430,7 +430,7 @@ class ItineraryLine extends React.Component {
       );
       this.handleDurationBubble(leg, mode, i, objs, middle);
       this.handleIntermediateStops(leg, mode, objs);
-      this.handleIndoorRouteStepMarkers(previousLeg, leg, nextLeg, clusterObjs);
+      this.handleIndoorStepMarkers(previousLeg, leg, nextLeg, clusterObjs);
       this.handleClusterObjects(previousLeg, leg, nextLeg, objs, clusterObjs);
 
       if (!this.props.passive) {

@@ -135,14 +135,14 @@ export const VerticalDirection = Object.freeze({
   Unknown: 'UNKNOWN',
 });
 
-export const IndoorRouteStepType = Object.freeze({
+export const IndoorStepType = Object.freeze({
   Entrance: 'Entrance',
   ElevatorUse: 'ElevatorUse',
   EscalatorUse: 'EscalatorUse',
   StairsUse: 'StairsUse',
 });
 
-export const IndoorRouteLegType = Object.freeze({
+export const IndoorLegType = Object.freeze({
   AllStepsInside: 'ALL_STEPS_INSIDE',
   StepsAfterEntranceInside: 'STEPS_AFTER_ENTRANCE_INSIDE',
   StepsBeforeEntranceInside: 'STEPS_BEFORE_ENTRANCE_INSIDE',

@@ -110,6 +110,18 @@ $itinerary-tab-switch-height: 48px;
   padding: 0 8px 0 4px;
 }
 
+.default-dotted-line {
+  background-image: $default-dotted-line;
+}
+
+.indoor-dotted-line {
+  background-image: $indoor-dotted-line;
+}
+
+.indoor-dotted-line-horizontal {
+  background-image: $indoor-dotted-line-horizontal;
+}
+
 .itinerary-list-container {
   padding-bottom: 16px;
 }
@@ -974,7 +986,7 @@ $itinerary-tab-switch-height: 48px;
   }
 
   &.only-one-step {
-    top: 10px;
+    top: 12px;
   }
 
   position: absolute;
@@ -1069,7 +1081,7 @@ $itinerary-tab-switch-height: 48px;
     }
 
     &.indoor-step {
-      > svg > circle.indoor-route-step-marker {
+      > svg > circle.indoor-step-marker {
         fill: #fff;
         stroke: #666;
       }
@@ -1313,7 +1325,20 @@ $itinerary-tab-switch-height: 48px;
         }
       }
 
-      &.indoor-route {
+      &.indoor {
+        .leg-before-line {
+          border-radius: 10px;
+          height: 47%;
+
+          &.bottom {
+            background-position-y: 1px;
+            height: 24%;
+            top: 85%;
+          }
+        }
+      }
+
+      &.indoor.has-indoor-steps {
         .route-number {
           top: 46%;
         }
@@ -1326,19 +1351,19 @@ $itinerary-tab-switch-height: 48px;
           border-radius: 10px;
 
           &.walk {
-            height: 39%;
+            height: 36%;
             background-position-y: 1px;
           }
 
           &.bottom {
-            top: 59%;
+            top: 62%;
             height: 48%;
             background-position-y: 0;
           }
         }
       }
 
-      &.indoor-route.only-one-step {
+      &.indoor.has-indoor-steps.only-one-step {
         .route-number {
           top: 57%;
         }
@@ -1351,13 +1376,13 @@ $itinerary-tab-switch-height: 48px;
           border-radius: 10px;
 
           &.walk {
-            height: 47%;
+            height: 43%;
             background-position-y: 3px;
           }
 
           &.bottom {
-            top: 74%;
-            height: 48%;
+            top: 78%;
+            height: 46%;
             background-position-y: 0;
           }
         }
@@ -1593,7 +1618,8 @@ $itinerary-tab-switch-height: 48px;
       left: 8px;
 
       &.only-one-step {
-        top: 20px;
+        top: 30px;
+        background-position-y: 2px;
       }
     }
 
@@ -1887,7 +1913,7 @@ $itinerary-tab-switch-height: 48px;
           border-top: 1px solid #ddd;
         }
 
-        .itinerary-intermediate-indoor-route-icon {
+        .itinerary-intermediate-indoor-icon {
           color: #333;
           width: 24px;
           height: 100%;
@@ -1896,7 +1922,7 @@ $itinerary-tab-switch-height: 48px;
           margin-right: 8px;
         }
 
-        .itinerary-intermediate-indoor-route-step-info {
+        .itinerary-intermediate-indoor-step-info {
           align-items: center;
           display: flex;
           flex-grow: 1;
@@ -2464,6 +2490,16 @@ $itinerary-tab-switch-height: 48px;
       :first-child {
         flex-grow: 1;
       }
+
+      &.subway-entrance-info {
+        .itinerary-map-action {
+          padding-bottom: 0;
+
+          .icon-container {
+            margin-top: 0;
+          }
+        }
+      }
     }
 
     .itinerary-leg-action {
@@ -2493,7 +2529,7 @@ $itinerary-tab-switch-height: 48px;
       }
     }
 
-    .itinerary-leg-indoor-route-button-container {
+    .itinerary-leg-indoor-button-container {
       border-top: 1px solid #ddd;
       min-height: 40px;
       height: auto;

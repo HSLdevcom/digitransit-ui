@@ -357,8 +357,8 @@
           }
         }
 
-        .extension-indoor-route-button,
-        .extension-indoor-route-container,
+        .extension-indoor-button,
+        .extension-indoor-container,
         .extension-walk {
           margin-bottom: var(--space-s);
           margin-top: var(--space-xs);
@@ -482,12 +482,12 @@
           }
         }
 
-        .indoor-route-container-clickable {
+        .indoor-container-clickable {
           display: flex;
           margin-top: 10px;
           margin-bottom: 10px;
 
-          .indoor-route-text {
+          .indoor-text {
             display: flex;
             color: $primary-color;
             font-weight: $font-weight-medium;
@@ -495,7 +495,7 @@
             flex: 1;
           }
 
-          .indoor-route-arrow-icon {
+          .indoor-arrow-icon {
             margin-right: 11px;
 
             span {
@@ -513,17 +513,17 @@
           }
         }
 
-        .navi-indoor-route-one-step-info-container {
+        .navi-indoor-one-step-info-container {
           display: flex;
           align-items: center;
           margin-top: 4px;
 
-          .navi-indoor-route-step-info {
+          .navi-indoor-step-info {
             display: flex;
             flex: 1;
             font-size: 0.9375rem;
 
-            .navi-indoor-route-step-icon {
+            .navi-indoor-step-icon {
               width: 24px;
               height: 100%;
               vertical-align: middle;
@@ -531,7 +531,7 @@
               margin-right: 8px;
             }
 
-            .navi-indoor-route-step-text {
+            .navi-indoor-step-text {
               align-items: center;
               display: flex;
               flex: 1;
@@ -547,22 +547,22 @@
           }
         }
 
-        .extension-indoor-route-container {
+        .extension-indoor-container {
           max-height: 130px;
           overflow-y: auto;
           overflow-x: hidden;
 
-          .navi-indoor-route-step-container {
+          .navi-indoor-step-container {
             display: flex;
 
-            .navi-indoor-route-step-info-container {
+            .navi-indoor-step-info-container {
               flex: 1;
 
-              .navi-indoor-route-step-info {
+              .navi-indoor-step-info {
                 display: flex;
                 font-size: 0.9375rem;
 
-                .navi-indoor-route-step-icon {
+                .navi-indoor-step-icon {
                   width: 24px;
                   height: 100%;
                   vertical-align: middle;
@@ -570,7 +570,7 @@
                   margin-right: 8px;
                 }
 
-                .navi-indoor-route-step-text {
+                .navi-indoor-step-text {
                   align-items: center;
                   display: flex;
                   flex: 1;
@@ -578,11 +578,11 @@
               }
             }
 
-            .navi-indoor-route-step-line-container {
+            .navi-indoor-step-line-container {
               min-width: 28px;
               position: relative;
 
-              .navi-indoor-route-step-line {
+              .navi-indoor-step-line {
                 position: relative;
                 background-size: 100% auto;
                 background-position-y: 0;
@@ -596,15 +596,15 @@
                 top: 0;
               }
 
-              .navi-indoor-route-step-line-circle-container {
+              .navi-indoor-step-line-circle-container {
                 position: absolute;
 
-                .navi-indoor-route-step-line-circle {
+                .navi-indoor-step-line-circle {
                   position: relative;
                   z-index: 9;
                   min-height: 37px;
 
-                  > svg > circle.indoor-route-step-marker {
+                  > svg > circle.indoor-step-marker {
                     fill: #fff;
                     stroke: #666;
                   }

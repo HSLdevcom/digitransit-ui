@@ -4,20 +4,20 @@ import { FormattedMessage } from 'react-intl';
 import { configShape } from '../../../../util/shapes';
 import Icon from '../../../Icon';
 import {
-  getIndoorRouteTranslationId,
+  getIndoorTranslationId,
   getVerticalTransportationUseIconId,
 } from '../../../../util/indoorUtils';
-import { IndoorRouteStepType, VerticalDirection } from '../../../../constants';
+import { IndoorStepType, VerticalDirection } from '../../../../constants';
 import ItineraryMapAction from '../../ItineraryMapAction';
 import { isKeyboardSelectionEvent } from '../../../../util/browser';
 
-function NaviIndoorRouteStepInfo({
+function NaviIndoorStepInfo({
   focusAction,
   type,
   verticalDirection,
   toLevelName,
 }) {
-  const indoorTranslationId = getIndoorRouteTranslationId(
+  const indoorTranslationId = getIndoorTranslationId(
     type,
     verticalDirection,
     toLevelName,
@@ -25,7 +25,7 @@ function NaviIndoorRouteStepInfo({
 
   return (
     <div
-      className="navi-indoor-route-step-info"
+      className="navi-indoor-step-info"
       role="button"
       tabIndex="0"
       onClick={focusAction}
@@ -33,9 +33,9 @@ function NaviIndoorRouteStepInfo({
     >
       <Icon
         img={getVerticalTransportationUseIconId(verticalDirection, type, false)}
-        className="navi-indoor-route-step-icon"
+        className="navi-indoor-step-icon"
       />
-      <div className="navi-indoor-route-step-text">
+      <div className="navi-indoor-step-text">
         <FormattedMessage
           id={indoorTranslationId}
           defaultMessage="Indoor step"
@@ -47,20 +47,20 @@ function NaviIndoorRouteStepInfo({
   );
 }
 
-NaviIndoorRouteStepInfo.propTypes = {
+NaviIndoorStepInfo.propTypes = {
   focusAction: PropTypes.func.isRequired,
-  type: PropTypes.oneOf(Object.values(IndoorRouteStepType)).isRequired,
+  type: PropTypes.oneOf(Object.values(IndoorStepType)).isRequired,
   verticalDirection: PropTypes.oneOf(Object.values(VerticalDirection)),
   toLevelName: PropTypes.string,
 };
 
-NaviIndoorRouteStepInfo.defaultProps = {
+NaviIndoorStepInfo.defaultProps = {
   verticalDirection: undefined,
   toLevelName: undefined,
 };
 
-NaviIndoorRouteStepInfo.contextTypes = {
+NaviIndoorStepInfo.contextTypes = {
   config: configShape.isRequired,
 };
 
-export default NaviIndoorRouteStepInfo;
+export default NaviIndoorStepInfo;

@@ -29,5 +29,5 @@ Selector | Component | Z-Index | Comment
 `.itinerary-summary-row { .itinerary-legs { .line { :after` | Hides the Summary result row leg lines behind the mode icon. | -1 |
 `.mobile.top-bar  | Mobile top bar | 1000 |
 `.map-cluster-number-marker` | Cluster group marker for indoor route steps | 13000 |
-`.map-indoor-route-step-marker` | Indoor route step markers | 13050 |
+`.map-indoor-step-marker` | Indoor route step markers | 13050 |
 `.map-subway-entrance-info-icon-metro` | Entrance markers for indoor route | 13100 |

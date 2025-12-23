@@ -6,7 +6,7 @@ import { configShape } from '../../util/shapes';
 import { isKeyboardSelectionEvent } from '../../util/browser';
 import Icon from '../Icon';
 
-export default function IndoorRouteInfo(
+export default function IndoorInfo(
   { intermediateStepCount, showIntermediateSteps, toggleFunction },
   { config },
 ) {
@@ -63,16 +63,16 @@ export default function IndoorRouteInfo(
   );
 }
 
-IndoorRouteInfo.contextTypes = {
+IndoorInfo.contextTypes = {
   config: configShape.isRequired,
 };
 
-IndoorRouteInfo.propTypes = {
+IndoorInfo.propTypes = {
   intermediateStepCount: PropTypes.number.isRequired,
   toggleFunction: PropTypes.func.isRequired,
   showIntermediateSteps: PropTypes.bool,
 };
 
-IndoorRouteInfo.defaultProps = {
+IndoorInfo.defaultProps = {
   showIntermediateSteps: false,
 };

@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import cx from 'classnames';
 import Icon from '../Icon';
 import RouteNumber from '../RouteNumber';
@@ -7,16 +7,6 @@ import { legShape } from '../../util/shapes';
 import { ViaLocationType } from '../../constants';
 
 const ItineraryCircleLineLong = props => {
-  const [imgUrl, setImgUrl] = useState('');
-
-  useEffect(() => {
-    import(
-      /* webpackChunkName: "dotted-line" */ `../../configurations/images/default/dotted-line.svg`
-    ).then(imageUrl => {
-      setImgUrl(`url(${imageUrl.default})`);
-    });
-  }, []);
-
   const isFirstChild = () => {
     return props.index === 0;
   };
@@ -66,7 +56,6 @@ const ItineraryCircleLineLong = props => {
   const carBoardingRouteNumber = (
     <RouteNumber mode="car" icon="icon_car" vertical />
   );
-  legBeforeLineStyle.backgroundImage = imgUrl;
   return (
     <div
       className={cx('leg-before long', props.modeClassName, {
@@ -81,6 +70,7 @@ const ItineraryCircleLineLong = props => {
           'leg-before-line top',
           positionRelativeToTransit,
           firstModeClassName,
+          'default-dotted-line',
         )}
       />
       <div
@@ -103,6 +93,7 @@ const ItineraryCircleLineLong = props => {
           'leg-before-line middle',
           positionRelativeToTransit,
           props.modeClassName,
+          'default-dotted-line',
         )}
       />
       <div
@@ -127,6 +118,7 @@ const ItineraryCircleLineLong = props => {
             'leg-before-line second-middle',
             positionRelativeToTransit,
             props.modeClassName,
+            'default-dotted-line',
           )}
         />
       )}
@@ -151,6 +143,7 @@ const ItineraryCircleLineLong = props => {
           positionRelativeToTransit === 'between-transit'
             ? firstModeClassName
             : secondModeClassName,
+          'default-dotted-line',
         )}
       />
       {props.renderBottomMarker && bottomMarker}

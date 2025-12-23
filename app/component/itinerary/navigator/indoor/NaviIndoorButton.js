@@ -5,32 +5,29 @@ import cx from 'classnames';
 import Icon from '../../../Icon';
 import { isKeyboardSelectionEvent } from '../../../../util/browser';
 
-export default function NaviIndoorRouteButton({
-  showIndoorRoute,
-  toggleShowIndoorRoute,
-}) {
+export default function NaviIndoorButton({ showIndoor, toggleShowIndoor }) {
   return (
     <div
       role="button"
       tabIndex="0"
-      className={cx('indoor-route-container-clickable', 'cursor-pointer')}
+      className={cx('indoor-container-clickable', 'cursor-pointer')}
       onClick={e => {
         e.stopPropagation();
-        toggleShowIndoorRoute();
+        toggleShowIndoor();
       }}
       onKeyPress={e => {
         if (isKeyboardSelectionEvent(e)) {
           e.stopPropagation();
-          toggleShowIndoorRoute();
+          toggleShowIndoor();
         }
       }}
     >
-      {showIndoorRoute ? (
+      {showIndoor ? (
         <>
-          <div className="indoor-route-arrow-icon">
+          <div className="indoor-arrow-icon">
             <Icon img="icon_arrow-collapse--right" className="open" />
           </div>
-          <div className="indoor-route-text">
+          <div className="indoor-text">
             <FormattedMessage
               id="itinerary-hide-indoor-route"
               defaultMessage="Hide indoor route"
@@ -39,13 +36,13 @@ export default function NaviIndoorRouteButton({
         </>
       ) : (
         <>
-          <div className="indoor-route-text">
+          <div className="indoor-text">
             <FormattedMessage
               id="itinerary-indoor-route"
               defaultMessage="Indoor route"
             />
           </div>
-          <div className="indoor-route-arrow-icon">
+          <div className="indoor-arrow-icon">
             <Icon img="icon_arrow-collapse--right" />
           </div>
         </>
@@ -54,10 +51,10 @@ export default function NaviIndoorRouteButton({
   );
 }
 
-NaviIndoorRouteButton.propTypes = {
-  showIndoorRoute: PropTypes.bool,
-  toggleShowIndoorRoute: PropTypes.func.isRequired,
+NaviIndoorButton.propTypes = {
+  showIndoor: PropTypes.bool,
+  toggleShowIndoor: PropTypes.func.isRequired,
 };
-NaviIndoorRouteButton.defaultProps = {
-  showIndoorRoute: false,
+NaviIndoorButton.defaultProps = {
+  showIndoor: false,
 };

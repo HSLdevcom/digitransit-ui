@@ -35,7 +35,7 @@ export default function NaviCard(
   { config },
 ) {
   const [cardExpanded, setCardExpanded] = useState(false);
-  const [showIndoorRoute, setShowIndoorRoute] = useState(false);
+  const [showIndoor, setShowIndoor] = useState(false);
   const contentRef = useRef();
   const { isEqual: legChanged } = usePrevious(leg, (prev, current) =>
     isAnyLegPropertyIdentical(prev, current, ['legId', 'mode']),
@@ -43,12 +43,12 @@ export default function NaviCard(
 
   const handleClick = () => {
     setCardExpanded(prev => !prev);
-    setShowIndoorRoute(false);
+    setShowIndoor(false);
   };
 
   if (legChanged) {
     setCardExpanded(false);
-    setShowIndoorRoute(false);
+    setShowIndoor(false);
   }
 
   if (
@@ -99,10 +99,10 @@ export default function NaviCard(
     }
 
     // Resize card when card size changes.
-    if (cardExpanded || showIndoorRoute) {
+    if (cardExpanded || showIndoor) {
       element.style.maxHeight = `${element.scrollHeight}px`;
     }
-  }, [cardExpanded, showIndoorRoute]);
+  }, [cardExpanded, showIndoor]);
 
   return (
     <button
@@ -124,7 +124,7 @@ export default function NaviCard(
               time={time}
               position={position}
               tailLength={tailLength}
-              showIndoorRoute={showIndoorRoute}
+              showIndoor={showIndoor}
             />
           </div>
           <div type="button" className="navi-top-card-arrow">
@@ -151,8 +151,8 @@ export default function NaviCard(
             nextLeg={nextLeg}
             time={time}
             platformUpdated={platformUpdated}
-            showIndoorRoute={showIndoorRoute}
-            toggleShowIndoorRoute={() => setShowIndoorRoute(!showIndoorRoute)}
+            showIndoor={showIndoor}
+            toggleShowIndoor={() => setShowIndoor(!showIndoor)}
           />
         </div>
       </div>

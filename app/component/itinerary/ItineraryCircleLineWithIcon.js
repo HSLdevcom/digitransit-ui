@@ -3,13 +3,13 @@ import React from 'react';
 import cx from 'classnames';
 import Icon from '../Icon';
 import RouteNumber from '../RouteNumber';
-import { IndoorRouteLegType, ViaLocationType } from '../../constants';
+import { IndoorLegType, ViaLocationType } from '../../constants';
 
 class ItineraryCircleLineWithIcon extends React.Component {
   static propTypes = {
     index: PropTypes.number.isRequired,
     modeClassName: PropTypes.string.isRequired,
-    indoorRouteLegType: PropTypes.oneOf(Object.values(IndoorRouteLegType)),
+    indoorLegType: PropTypes.oneOf(Object.values(IndoorLegType)),
     showIntermediateSteps: PropTypes.bool,
     viaType: PropTypes.string,
     bikePark: PropTypes.bool,
@@ -19,12 +19,12 @@ class ItineraryCircleLineWithIcon extends React.Component {
     icon: PropTypes.string,
     style: PropTypes.shape({}),
     isNotFirstLeg: PropTypes.bool,
-    onlyOneStep: PropTypes.bool,
+    indoorStepsLength: PropTypes.number,
     isStop: PropTypes.bool,
   };
 
   static defaultProps = {
-    indoorRouteLegType: IndoorRouteLegType.NoStepsInside,
+    indoorLegType: IndoorLegType.NoStepsInside,
     showIntermediateSteps: false,
     viaType: null,
     color: null,
@@ -34,13 +34,8 @@ class ItineraryCircleLineWithIcon extends React.Component {
     icon: undefined,
     style: {},
     isNotFirstLeg: undefined,
-    onlyOneStep: false,
+    indoorStepsLength: 0,
     isStop: false,
-  };
-
-  state = {
-    defaultImageUrl: 'none',
-    insideImageUrl: 'none',
   };
 
   isFirstChild = () => {
@@ -48,22 +43,6 @@ class ItineraryCircleLineWithIcon extends React.Component {
       !this.props.isNotFirstLeg && this.props.index === 0 && !this.props.viaType
     );
   };
-
-  componentDidMount() {
-    Promise.all([
-      import(
-        /* webpackChunkName: "dotted-line" */ `../../configurations/images/default/dotted-line.svg`
-      ),
-      import(
-        /* webpackChunkName: "indoor-dotted-line" */ `../../configurations/images/default/indoor-dotted-line.svg`
-      ),
-    ]).then(([defaultImageUrl, insideImageUrl]) => {
-      this.setState({
-        defaultImageUrl: `url(${defaultImageUrl.default})`,
-        insideImageUrl: `url(${insideImageUrl.default})`,
-      });
-    });
-  }
 
   getMarker = top => {
     if (this.props.viaType === ViaLocationType.Visit && !this.props.isStop) {
@@ -122,43 +101,38 @@ class ItineraryCircleLineWithIcon extends React.Component {
     const topMarker = this.getMarker(true);
     const bottomMarker = this.getMarker(false);
     const legBeforeLineStyle = { color: this.props.color, ...this.props.style };
-    const legBeforeLineBottomStyle = {
-      color: this.props.color,
-      ...this.props.style,
-    };
+    let topBackgroundClass = '';
+    let bottomBackgroundClass = '';
     if (
       this.props.modeClassName === 'walk' ||
       this.props.modeClassName === 'bicycle_walk'
     ) {
-      legBeforeLineStyle.backgroundImage = this.state.defaultImageUrl;
-      switch (this.props.indoorRouteLegType) {
-        case IndoorRouteLegType.StepsAfterEntranceInside:
-          legBeforeLineStyle.backgroundImage = this.state.defaultImageUrl;
-          legBeforeLineBottomStyle.backgroundImage = this.state.insideImageUrl;
+      switch (this.props.indoorLegType) {
+        case IndoorLegType.StepsAfterEntranceInside:
+          topBackgroundClass = 'default-dotted-line';
+          bottomBackgroundClass = 'indoor-dotted-line';
           break;
-        case IndoorRouteLegType.StepsBeforeEntranceInside:
+        case IndoorLegType.StepsBeforeEntranceInside:
           if (this.props.showIntermediateSteps) {
-            legBeforeLineStyle.backgroundImage = this.state.insideImageUrl;
-            legBeforeLineBottomStyle.backgroundImage =
-              this.state.insideImageUrl;
+            topBackgroundClass = 'indoor-dotted-line';
+            bottomBackgroundClass = 'indoor-dotted-line';
           } else {
-            legBeforeLineStyle.backgroundImage = this.state.insideImageUrl;
-            legBeforeLineBottomStyle.backgroundImage =
-              this.state.defaultImageUrl;
+            topBackgroundClass = 'indoor-dotted-line';
+            bottomBackgroundClass = 'default-dotted-line';
           }
           break;
         default:
-          legBeforeLineStyle.backgroundImage = this.state.defaultImageUrl;
-          legBeforeLineBottomStyle.backgroundImage = this.state.defaultImageUrl;
+          topBackgroundClass = 'default-dotted-line';
+          bottomBackgroundClass = 'default-dotted-line';
       }
     }
     return (
       <div
         className={cx('leg-before', this.props.modeClassName, {
           via: !!this.props.viaType,
-          'indoor-route':
-            this.props.indoorRouteLegType !== IndoorRouteLegType.NoStepsInside,
-          'only-one-step': this.props.onlyOneStep,
+          indoor: this.props.indoorLegType !== IndoorLegType.NoStepsInside,
+          'has-indoor-steps': this.props.indoorStepsLength !== 0,
+          'only-one-step': this.props.indoorStepsLength === 1,
           'first-leg': this.props.index === 0 && !this.props.isNotFirstLeg,
         })}
         aria-hidden="true"
@@ -171,6 +145,7 @@ class ItineraryCircleLineWithIcon extends React.Component {
             'leg-before-line',
             this.props.modeClassName,
             this.props.appendClass,
+            topBackgroundClass,
           )}
         />
         <RouteNumber
@@ -180,12 +155,13 @@ class ItineraryCircleLineWithIcon extends React.Component {
           vertical
         />
         <div
-          style={legBeforeLineBottomStyle}
+          style={legBeforeLineStyle}
           className={cx(
             'leg-before-line',
             this.props.modeClassName,
             'bottom',
             this.props.appendClass,
+            bottomBackgroundClass,
           )}
         />
         {(this.props.modeClassName === 'scooter' ||
