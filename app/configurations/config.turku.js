@@ -225,4 +225,7 @@ export default configMerger(walttiConfig, {
     FERRY: 0.6,
     FUNICULAR: 0.1,
   },
+  defaultSettings: {
+    minTransferTime: 300,
+  },
 });
