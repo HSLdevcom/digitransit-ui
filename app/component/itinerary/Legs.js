@@ -189,7 +189,9 @@ export default class Legs extends React.Component {
               start={leg.end}
               waitTime={waitTime}
               focusAction={this.focus(leg.to)}
-              icon={usingOwnCarWholeTrip ? 'icon_wait-car' : undefined}
+              icon={
+                usingOwnCarWholeTrip ? 'icon_wait-car' : 'icon_wait_standing'
+              }
             >
               {stopCode(leg.to.stop)}
             </WaitLeg>

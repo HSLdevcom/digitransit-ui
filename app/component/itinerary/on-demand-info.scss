@@ -12,13 +12,15 @@
 
 .main-content {
   .back-button {
-    top: 45px;
-    z-index: 2;
+    &.on-demand {
+      top: 45px;
+      z-index: 2;
 
-    &.mobile {
-      position: fixed;
-      top: 65px;
-      z-index: 1;
+      &.mobile {
+        position: fixed;
+        top: 65px;
+        z-index: 1;
+      }
     }
   }
 }
@@ -44,15 +46,17 @@
     }
 
     &.invisible {
-      margin: 0 0 var(--space-s) 0;
+      margin: var(--space-s) 0;
       border-color: transparent;
     }
   }
 
   .route-header {
+    position: sticky;
     display: flex;
     align-items: center;
     height: 90px;
+    box-shadow: 0 8px 6px -6px rgba(0, 0, 0, 0.2);
 
     .bar-container {
       padding-top: 21px;
@@ -103,6 +107,10 @@
         }
       }
     }
+
+    .on-demand-route-page-header {
+      padding-top: 34px;
+    }
   }
 
   .on-demand-info-headline {
@@ -129,6 +137,35 @@
         .icon {
           width: 0.9em;
           height: 0.9em;
+        }
+      }
+    }
+
+    &.external-link {
+      padding-top: var(--space-xs);
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      color: $link-color;
+      font-weight: $font-weight-medium;
+
+      a {
+        text-decoration: none;
+      }
+
+      &.on-demand-booking-button {
+        display: block;
+      }
+
+      .icon-container {
+        display: inline-flex;
+        vertical-align: middle;
+
+        .icon {
+          width: 1em;
+          height: 1em;
+          display: inline-flex;
+          vertical-align: middle;
         }
       }
     }

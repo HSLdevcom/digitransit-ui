@@ -37,6 +37,7 @@ import {
   showCarBoardingNote,
   legTimeStr,
   legTime,
+  isCallAgencyLeg,
   isPlatformChanged,
 } from '../../util/legUtils';
 import { shouldShowFareInfo } from '../../util/fareUtils';
@@ -482,6 +483,7 @@ class TransitLeg extends React.Component {
           </span>
           <span aria-hidden="true">
             <div className="itinerary-time-column-time">
+              {isCallAgencyLeg(leg) && <FormattedMessage id="estimate" />}{' '}
               <span className={cx({ realtime: leg.realTime })}>
                 <span className={cx({ canceled: legHasCancelation(leg) })}>
                   {time}
@@ -584,6 +586,8 @@ class TransitLeg extends React.Component {
             changeHash={this.props.changeHash}
             tabIndex={this.props.tabIndex}
             isCallAgency={mode === 'call'}
+            mobile={this.props.mobile}
+            isTransitLeg
           />
 
           {this.state.showAlternativeLegs &&
@@ -601,6 +605,8 @@ class TransitLeg extends React.Component {
                 )}
                 displayTime
                 isCallAgency={mode === 'call'}
+                mobile={this.props.mobile}
+                isTransitLeg
               />
             ))}
           {this.displayAlternativeLegs() && (
@@ -719,6 +725,7 @@ TransitLeg.propTypes = {
   changeHash: PropTypes.func,
   tabIndex: PropTypes.number,
   usingOwnCarWholeTrip: PropTypes.bool,
+  mobile: PropTypes.bool,
 };
 
 TransitLeg.defaultProps = {
@@ -728,6 +735,7 @@ TransitLeg.defaultProps = {
   tabIndex: undefined,
   children: undefined,
   usingOwnCarWholeTrip: false,
+  mobile: undefined,
 };
 
 TransitLeg.contextTypes = {

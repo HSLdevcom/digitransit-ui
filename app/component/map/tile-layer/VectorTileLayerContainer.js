@@ -8,6 +8,7 @@ import ParkAndRideForCars from './ParkAndRideForCars';
 import ParkAndRideForBikes from './ParkAndRideForBikes';
 import { mapLayerShape } from '../../../store/MapLayerStore';
 import RentalVehicles from './RentalVehicles';
+import AreaStops from './AreaStops';
 
 export default function VectorTileLayerContainer(props, { config }) {
   const layers = [];
@@ -25,6 +26,9 @@ export default function VectorTileLayerContainer(props, { config }) {
   }
   if (props.mapLayers.scooter) {
     layers.push(RentalVehicles);
+  }
+  if (props.mapLayers.areaStop?.routeGtfsId) {
+    layers.push(AreaStops);
   }
   return (
     <TileLayerContainer

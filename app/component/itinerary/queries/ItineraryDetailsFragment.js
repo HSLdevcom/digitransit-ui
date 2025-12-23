@@ -24,6 +24,7 @@ export const ItineraryDetailsFragment = graphql`
       legGeometry {
         points
       }
+      pickupType
       pickupBookingInfo {
         contactInfo {
           bookingUrl
@@ -31,6 +32,11 @@ export const ItineraryDetailsFragment = graphql`
           phoneNumber
         }
         message
+        latestBookingTime {
+          daysPrior
+          time
+        }
+        minimumBookingNotice
       }
       steps {
         feature {

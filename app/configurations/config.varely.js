@@ -191,4 +191,5 @@ export default configMerger(walttiConfig, {
   allowLogin: false,
   routeNotifications: [],
   analyticsScript: '',
+  GTMid: null,
 });

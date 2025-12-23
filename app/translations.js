@@ -923,6 +923,7 @@ const translations = {
     'biking-amount': 'Amount of biking',
     'biking-speed': 'Biking speed',
     'book-a-lift': 'Use an app to book a taxi',
+    'booking-method': 'TO_DO_booking-method',
     bus: 'Bus',
     'bus-express': 'Trunk bus',
     'bus-express-with-route-number': 'Trunk bus {routeNumber} {headSign}',
@@ -931,6 +932,7 @@ const translations = {
     buy: 'Buy',
     'buy-ticket': 'How to buy a ticket',
     call: 'Demand responsive transport',
+    'call-agency-disclaimer': 'TO_DO_call_agency_disclaimer',
     'call-number': 'Call {number}',
     'call-with-route-number':
       'Demand responsive transport {routeNumber} {headSign}',
@@ -1080,6 +1082,7 @@ const translations = {
     'embedded-search.form-heading': 'Embedding tools',
     engine_ignition_aid: 'Engine starting aid',
     english: 'English',
+    estimate: 'Estimate',
     explanations: 'Explanations',
     'extra-info': 'More info',
     'favourite-failed-text': 'Please try again in a while.',
@@ -1200,6 +1203,8 @@ const translations = {
     'itinerary-summary-page.title': 'Route suggestions',
     'itinerary-summary-row.biking-distance':
       'Total biking distance {totalDistance}.',
+    'itinerary-summary-row.call-agency-description':
+      'TO_DO_Call agency service. Details in itinerary.',
     'itinerary-summary-row.clickable-area-description': 'Show on map',
     'itinerary-summary-row.description':
       'Itinerary departing at {departureDate} {departureTime} and arriving at {arrivalDate} {arrivalTime}. {firstDeparture} {transfers} Total time {totalTime}.',
@@ -1455,8 +1460,13 @@ const translations = {
     'off-canvas-info':
       'Log in to the service to save your favorites and utilize them on other devices',
     'on-demand-service': 'On-demand service',
-    'on-demand-service-instructions': 'Instructions',
-    'on-demand-service-type': 'TO_DO_on-demand-service-type',
+    'on-demand-service-description': 'TO_DO_on-demand-service-description',
+    'on-demand-service-prior-notice-days':
+      'TO_DO_on-demand-service-prior-notice-days',
+    'on-demand-service-prior-notice-minutes':
+      'TO_DO_on-demand-service-prior-notice-minutes',
+    'on-demand-service-route-disclaimer':
+      'TO_DO_on-demand-service-route-disclaimer',
     'one-way-journey': 'The length of a one-way journey',
     'open-app': 'Open the app',
     'open-operator-app': 'Open the {operator} app',
@@ -1487,6 +1497,7 @@ const translations = {
     'payment-info-taxi':
       'Please note that you need to use the app of the operator in question in order to use and pay for the taxis.',
     payment_at_gate: 'Payment at the gate ',
+    'phone-number': 'Phone number',
     'pick-icon': 'Select icon',
     'pick-mode': 'Transport modes',
     'pick-mode-airplane-disabled': 'Flight not selected',
@@ -1784,6 +1795,8 @@ const translations = {
     'traffic-now_bread': 'Travelling',
     'traffic-now_description':
       'Up-to-date information on disruptions and exceptions',
+    'traffic-now_filters_validity-period': 'Filter by validity period',
+    'traffic-now_filters_vehicle-mode': 'Filter by vehicle mode',
     'traffic-now_link': 'Services now',
     'traffic-now_link-description': 'See changes and disruptions',
     traficom: 'Traficom',
@@ -2286,6 +2299,7 @@ const translations = {
     'biking-amount': 'Pyöräilyn määrä',
     'biking-speed': 'Pyöräilynopeus',
     'book-a-lift': 'Ota taksi käyttöön sovelluksella',
+    'booking-method': 'Tilaustapa',
     bus: 'Bussi',
     'bus-express': 'Runkolinjabussi',
     'bus-express-with-route-number': 'Runkolinjabussi {routeNumber} {headSign}',
@@ -2294,6 +2308,8 @@ const translations = {
     buy: 'Osta',
     'buy-ticket': 'Näin ostat lipun',
     call: 'Kutsujoukkoliikenne',
+    'call-agency-disclaimer':
+      'Linja toimii ennakkotilauksella. Varmistaaksesi matkan, tee varaus etukäteen. Tarkemmat tiedot palveluntarjoalta.',
     'call-number': 'Soita {number}',
     'call-with-route-number': 'Kutsujoukkoliikenne {routeNumber} {headSign}',
     cancel: 'Peruuta',
@@ -2445,6 +2461,7 @@ const translations = {
     'embedded-search.form-heading': 'Upotusvalinnat',
     engine_ignition_aid: 'Käynnistysapu',
     english: 'Englanti',
+    estimate: 'Arvio',
     explanations: 'Selitykset',
     'extra-info': 'Lisätiedot',
     'favourite-failed-text': 'Yritä hetken päästä uudelleen.',
@@ -2559,6 +2576,8 @@ const translations = {
     'itinerary-summary-page.description': 'Reittiehdotukset',
     'itinerary-summary-row.biking-distance':
       'Pyöräilyä yhteensä {totalDistance}.',
+    'itinerary-summary-row.call-agency-description':
+      'Kutsuliikennettä, lisätiedot reittiohjeessa.',
     'itinerary-summary-row.clickable-area-description': 'Näytä kartalla',
     'itinerary-summary-row.description':
       'Lähtö {departureDate} kello {departureTime}. Perillä {arrivalDate} kello {arrivalTime}. {firstDeparture} {transfers} Matka-aika {totalTime}',
@@ -2811,9 +2830,14 @@ const translations = {
     'number-of-spaces': 'Paikkojen määrä:',
     'off-canvas-info':
       'Kirjautumalla palveluun saat suosikit talteen ja voit hyödyntää niitä muillakin laitteillasi',
-    'on-demand-service': 'Kutsuliikennettä',
-    'on-demand-service-instructions': 'Toimintaohjeet',
-    'on-demand-service-type': 'Kutsuliikenteen malli',
+    'on-demand-service': 'Kutsuliikenne',
+    'on-demand-service-description': 'Reitin kuvaus',
+    'on-demand-service-prior-notice-days':
+      'Tilaus tehtävä vähintään {days} päivää ennen matkaa, viimeistään kello {time}.',
+    'on-demand-service-prior-notice-minutes':
+      'Tilaus tehtävä vähintään {minutes} minuuttia etukäteen.',
+    'on-demand-service-route-disclaimer':
+      'Kartalla näkyvä reitti ei välttämättä toteudu juuri esitellyllä tavalla vaan voi vaihdella muiden matkustajien matkasuunnitelmien mukaan.',
     'one-way-journey': 'Yhdensuuntaisen matkan pituus',
     'open-app': 'Avaa sovellus',
     'open-operator-app': 'Avaa {operator} -sovellus',
@@ -2845,6 +2869,7 @@ const translations = {
     'payment-info-taxi':
       'Huomaathan, että taksien ja kyytipalveluiden käyttö ja maksaminen tapahtuu toimijoiden omilla sovelluksilla.',
     payment_at_gate: 'Maksu portilla',
+    'phone-number': 'Puhelinnumero',
     'pick-icon': 'Valitse kuvake',
     'pick-mode': 'Liikennevälineet',
     'pick-mode-airplane-disabled': 'Lentokone ei valittu',
@@ -3139,6 +3164,8 @@ const translations = {
     'traffic-now_bread': 'Matkustaminen',
     'traffic-now_description':
       'Ajantasaiset tiedot häiriöistä ja poikkeuksista',
+    'traffic-now_filters_validity-period': 'Näytä voimassaolon mukaan',
+    'traffic-now_filters_vehicle-mode': 'Näytä liikennevälineen mukaan',
     'traffic-now_link': 'Liikennetilanne nyt',
     'traffic-now_link-description': 'Katso häiriöt ja poikkeukset',
     traficom: 'Traficom',
@@ -5212,6 +5239,7 @@ const translations = {
     back: 'Tillbaka',
     'book-a-lift':
       'Tilaa kyyti sovelluksella ja jää odottamaan sen saapumista:',
+    'booking-method': 'TO_DO_booking-method',
     'buy-in-app': 'Köp i appen',
     'search-autosuggest-label': 'Plats, linje och hållplatssökning.',
     'search-autosuggest-label-move-to-destination':
@@ -5279,6 +5307,7 @@ const translations = {
     buy: 'Köp',
     'buy-ticket': 'Så här köper du biljetten',
     call: 'Anropsstyrd kollektivtrafik',
+    'call-agency-disclaimer': 'TO_DO_call_agency_disclaimer',
     'call-number': 'Ring {number}',
     'call-with-route-number':
       'Anropsstyrd kollektivtrafik {routeNumber} {headSign}',
@@ -5429,6 +5458,7 @@ const translations = {
     'embedded-search.form-heading': 'Inbäddningsverktyg',
     engine_ignition_aid: 'Starthjälp',
     english: 'Engelsk',
+    estimate: 'TO_DO_estimate',
     explanations: 'Förklaringar',
     'extra-info': 'Mer info',
     'favourite-failed-text': 'Försök på nytt senare.',
@@ -5547,6 +5577,8 @@ const translations = {
     'itinerary-summary-page.title': 'Ruttförslag',
     'itinerary-summary-row.biking-distance':
       'Cykling sammanlagt {totalDistance}.',
+    'itinerary-summary-row.call-agency-description':
+      'TO_DO_Kutsuliikennettä, lisätiedot reittiohjeessa.',
     'itinerary-summary-row.clickable-area-description': 'Visa på kartan',
     'itinerary-summary-row.description':
       'Avgång {departureDate} klockan {departureTime}. Framme {arrivalDate} klockan {arrivalTime}. {firstDeparture} {transfers} Restid {totalTime}.',
@@ -5798,8 +5830,13 @@ const translations = {
     'off-canvas-info':
       'Genom att logga in kan du spara dina favoriter och använda dem med dina andra enheter.',
     'on-demand-service': 'Anropsbusstrafiken',
-    'on-demand-service-instructions': 'TO_DO_on-demand-service-instructions',
-    'on-demand-service-type': 'TO_DO_on-demand-service-type',
+    'on-demand-service-description': 'TO_DO_on-demand-service-description',
+    'on-demand-service-prior-notice-days':
+      'TO_DO_on-demand-service-prior-notice-days',
+    'on-demand-service-prior-notice-minutes':
+      'TO_DO_on-demand-service-prior-notice-minutes',
+    'on-demand-service-route-disclaimer':
+      'TO_DO_on-demand-service-route-disclaimer',
     'one-way-journey': ' Längden på en enkel resa',
     'open-app': ' Öppna appen',
     'open-operator-app': 'Öppna appen {operator}',
@@ -5831,6 +5868,7 @@ const translations = {
     'payment-info-taxi':
       'Vänligen observera att användning och betalning av taxi görs via operatörernas egna appar.',
     payment_at_gate: 'Betalning vid porten',
+    'phone-number': 'Telefonnummer',
     'pick-icon': 'Välj en ikon',
     'pick-mode': 'Trafikslag',
     'pick-mode-airplane-disabled': 'Flyg inte vald',
@@ -6133,6 +6171,8 @@ const translations = {
     'traffic-now-long': 'Trafikläget nu',
     'traffic-now_bread': 'Att resa med oss',
     'traffic-now_description': 'Aktuell information om störningar och undantag',
+    'traffic-now_filters_validity-period': 'Filtrera efter giltighetstid',
+    'traffic-now_filters_vehicle-mode': 'Filtrera efter fordonsläge',
     'traffic-now_link': 'Trafikläget nu',
     'traffic-now_link-description': 'Se störningar och förändringar',
     traficom: 'Traficom',
