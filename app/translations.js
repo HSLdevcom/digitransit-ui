@@ -1796,7 +1796,11 @@ const translations = {
     'traffic-now-long': 'Services now',
     'traffic-now_bread': 'Travelling',
     'traffic-now_description':
-      'Up-to-date information on disruptions and exceptions',
+      'Up-to-date information on disruptions and exceptions. ',
+    'traffic-now_description_see-also':
+      'See also {amount, plural, =1 {{link1},} other {{link1} as well as {link2},} } which you will find in detail on its own page.',
+    'traffic-now_description_see-also--link1': 'holidays and exceptions',
+    'traffic-now_description_see-also--link2': 'major changes',
     'traffic-now_filters_validity-period': 'Filter by validity period',
     'traffic-now_filters_vehicle-mode': 'Filter by vehicle mode',
     'traffic-now_link': 'Services now',
@@ -3167,7 +3171,11 @@ const translations = {
     'traffic-now-long': 'Liikennetilanne nyt',
     'traffic-now_bread': 'Matkustaminen',
     'traffic-now_description':
-      'Ajantasaiset tiedot häiriöistä ja poikkeuksista',
+      'Ajantasaiset tiedot häiriöistä ja poikkeuksista. ',
+    'traffic-now_description_see-also':
+      'Katso myös {amount, plural, =1 {{link1},} other {{link1} sekä {link2},} } jotka löydät yksityiskohtaisemmin omilta sivuiltaan.',
+    'traffic-now_description_see-also--link1': 'lomat ja poikkeukset',
+    'traffic-now_description_see-also--link2': 'suuret muutokset',
     'traffic-now_filters_validity-period': 'Näytä voimassaolon mukaan',
     'traffic-now_filters_vehicle-mode': 'Näytä liikennevälineen mukaan',
     'traffic-now_link': 'Liikennetilanne nyt',
@@ -6176,7 +6184,12 @@ const translations = {
     'traffic-now': 'Trafikläget nu',
     'traffic-now-long': 'Trafikläget nu',
     'traffic-now_bread': 'Att resa med oss',
-    'traffic-now_description': 'Aktuell information om störningar och undantag',
+    'traffic-now_description':
+      'Aktuell information om störningar och undantag. ',
+    'traffic-now_description_see-also':
+      'Se även {amount, plural, =1 {{link1},} other {{link1} samt {link2},} } som du hittar mer information om på deras respektive sidor.',
+    'traffic-now_description_see-also--link1': 'helgdagar och undantag',
+    'traffic-now_description_see-also--link2': 'större förändringar',
     'traffic-now_filters_validity-period': 'Filtrera efter giltighetstid',
     'traffic-now_filters_vehicle-mode': 'Filtrera efter fordonsläge',
     'traffic-now_link': 'Trafikläget nu',
