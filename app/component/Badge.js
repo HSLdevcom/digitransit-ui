@@ -28,10 +28,7 @@ const getIcon = variant => {
     case variant === 'success': {
       return <Icon img="icon_check" className="success" />;
     }
-    case variant === 'warning': {
-      return <Icon img="icon_alert-circled" className="warning" />;
-    }
-    case ['danger', 'severe'].includes(variant): {
+    case ['danger', 'severe', 'warning'].includes(variant): {
       return <Icon img="icon_caution_white_exclamation" className="danger" />;
     }
     default:
