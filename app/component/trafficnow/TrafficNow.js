@@ -20,7 +20,7 @@ export default function TrafficNow() {
 
   return (
     <div className={cx('traffic-now')}>
-      <Gutterer maxWidth="1440px">
+      <Gutterer maxWidth="1440px" contentStyles={{ display: 'flex' }}>
         <Header />
       </Gutterer>
       <div className="separator horizontal" />
@@ -46,12 +46,13 @@ export default function TrafficNow() {
                 <Filters />
               </div>
             ) : (
-              <>
+              <div className="traffic-now__content__filters-button-container">
                 <FiltersModal
                   isOpen={showFiltersModal}
                   onClose={() => setShowFiltersModal(false)}
                 />
                 <Button
+                  className="traffic-now__content__filters-button"
                   size="medium"
                   fullWidth
                   variant="blue"
@@ -61,7 +62,7 @@ export default function TrafficNow() {
                   })}
                   onClick={() => setShowFiltersModal(true)}
                 />
-              </>
+              </div>
             )}
             <Suspense fallback={<Loading />}>
               <Alerts />
