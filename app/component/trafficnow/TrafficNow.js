@@ -9,8 +9,10 @@ import { useBreakpoint } from '../../util/withBreakpoint';
 import Gutterer from '../Gutterer';
 import Loading from '../Loading';
 import { FilterContextProvider } from './filters/FiltersContext';
+import { useTranslationsContext } from '../../util/useTranslationsContext';
 
 export default function TrafficNow() {
+  const intl = useTranslationsContext();
   const breakpoint = useBreakpoint();
   const [showFiltersModal, setShowFiltersModal] = useState(false);
 
@@ -53,7 +55,10 @@ export default function TrafficNow() {
                   size="medium"
                   fullWidth
                   variant="blue"
-                  value="Suodattimet"
+                  value={intl.formatMessage({
+                    id: 'filters',
+                    defaultMessage: 'Filters',
+                  })}
                   onClick={() => setShowFiltersModal(true)}
                 />
               </>
