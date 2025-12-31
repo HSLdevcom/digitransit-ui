@@ -304,6 +304,9 @@ export default {
     showLayerSelector: true,
     showStopMarkerPopupOnMobile: true,
     showScaleBar: true,
+    // Enable 360-degree map rotation with two-finger touch gestures (mobile)
+    // and Shift+drag (desktop). Similar to Google Maps rotation.
+    allowRotation: true,
     attribution:
       '<a tabIndex="-1" href="http://osm.org/copyright" target="_blank">© OpenStreetMap</a>',
 

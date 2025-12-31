@@ -142,6 +142,11 @@ export default class Map extends React.Component {
 
   componentDidMount() {
     this.mounted = true;
+    // Load leaflet-rotate plugin dynamically to enable map rotation
+    // This avoids ESM/CommonJS compatibility issues in test environment
+    import('leaflet-rotate').catch(() => {
+      // Silently ignore in test environment where ESM modules may not load
+    });
     if (this.props.mapLayers.vehicles) {
       startClient(this.context);
     }
@@ -347,6 +352,11 @@ export default class Map extends React.Component {
             {...leafletEvents}
             onPopupopen={onPopupopen}
             closePopupOnClick={false}
+            rotate={config.map.allowRotation}
+            rotateControl={false}
+            touchRotate={config.map.allowRotation}
+            shiftKeyRotate={config.map.allowRotation}
+            bearing={0}
           >
             <TileLayer
               url={mapUrl}

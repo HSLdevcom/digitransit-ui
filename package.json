@@ -167,6 +167,7 @@
     "i18next": "22.5.1",
     "intl": "1.2.5",
     "leaflet": "1.6.0",
+    "leaflet-rotate": "^0.2.8",
     "lodash": "4.17.21",
     "lru-cache": "6.0.0",
     "luxon": "^3.6.1",

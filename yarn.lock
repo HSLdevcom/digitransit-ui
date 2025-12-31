@@ -11203,6 +11203,7 @@ __metadata:
     jest-runner: 29.7.0
     jsdom: 26.0.0
     leaflet: 1.6.0
+    leaflet-rotate: ^0.2.8
     lerna: 9.0.0
     lint-staged: 10.3.0
     lodash: 4.17.21
@@ -17948,6 +17949,15 @@ __metadata:
   dependencies:
     flush-write-stream: ^1.0.2
   checksum: f08a9f45ac39b8d1fecf31de4d97a8fa2aa7e233e99bb61fd443414fc8055331224490698e186cb614aa3ea2f2695d71c42afc85415fa680b078d640efadab50
+  languageName: node
+  linkType: hard
+
+"leaflet-rotate@npm:^0.2.8":
+  version: 0.2.8
+  resolution: "leaflet-rotate@npm:0.2.8"
+  peerDependencies:
+    leaflet: ^1.9.3
+  checksum: d004146b01cc219d0ec86b8ac5fd87ee8fec07a6db43f633206dd7806491770152d9f3c513ec43e94337046016a902dea6e1eda606795674cfb4b7e8f4fa9166
   languageName: node
   linkType: hard
 
