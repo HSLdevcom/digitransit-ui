@@ -4,17 +4,14 @@ import cx from 'classnames';
 import { FormattedMessage } from 'react-intl';
 import capitalize from 'lodash/capitalize';
 import Icon from './Icon';
+import { AlertSeverityLevelType } from '../constants';
 
 const DISRUPTION_BADGE_PREFIX = 'disruption-badge-';
 
 function variantValidator(props, propName, componentName) {
-  if (
-    !['info', 'success', 'warning', 'danger', 'severe'].includes(
-      props[propName].toLowerCase(),
-    )
-  ) {
+  if (!Object.values(AlertSeverityLevelType).includes(props[propName])) {
     return new Error(
-      `Invalid prop \`${propName}\` supplied to ${componentName}.`,
+      `Invalid prop \`${propName}: ${props[propName]}\` supplied to ${componentName}.`,
     );
   }
   return null;
@@ -22,16 +19,15 @@ function variantValidator(props, propName, componentName) {
 
 const getIcon = variant => {
   switch (true) {
-    case variant === 'info': {
+    case [AlertSeverityLevelType.Info, AlertSeverityLevelType.Unknown].includes(
+      variant,
+    ): {
       return <Icon img="icon_info-circled" className="info" />;
     }
-    case variant === 'success': {
-      return <Icon img="icon_check" className="success" />;
-    }
-    case variant === 'warning': {
+    case variant === AlertSeverityLevelType.Warning: {
       return <Icon img="icon_alert-circled" className="warning" />;
     }
-    case ['danger', 'severe'].includes(variant): {
+    case variant === AlertSeverityLevelType.Severe: {
       return <Icon img="icon_caution_white_exclamation" className="danger" />;
     }
     default:
@@ -48,7 +44,7 @@ export default function Badge({
 }) {
   return (
     <div {...rest} className={cx('badge', variant.toLowerCase(), className)}>
-      {showIcon && getIcon(variant.toLowerCase())}
+      {showIcon && getIcon(variant)}
       <FormattedMessage
         id={`${DISRUPTION_BADGE_PREFIX}${label.toLowerCase()}`}
         defaultMessage={capitalize(label.toLowerCase()).replace(/_/g, ' ')}

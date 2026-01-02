@@ -374,7 +374,8 @@ select {
   border: 1px solid;
   gap: var(--space-xxs);
 
-  &.info {
+  &.info,
+  &.unknown_severity {
     border-color: #d3dfe6;
     color: $black;
     background-color: #ebf6fd;
