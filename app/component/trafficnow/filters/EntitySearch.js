@@ -46,7 +46,6 @@ const EntitySearch = ({ filterId }) => {
         getAutoSuggestIcons={getAutoSuggestIcons}
         modeIconColors={iconColors}
         modeSet={iconModeSet}
-        onClear={() => undefined}
       />
     </fieldset>
   );
