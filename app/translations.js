@@ -1801,6 +1801,8 @@ const translations = {
       'See also {amount, plural, =1 {{link1},} other {{link1} as well as {link2},} } which you will find in detail on its own page.',
     'traffic-now_description_see-also--link1': 'holidays and exceptions',
     'traffic-now_description_see-also--link2': 'major changes',
+    'traffic-now_filters_entity-search': 'Search for individual route or stop',
+    'traffic-now_filters_entity-search--placeholder': 'Route, stop or station',
     'traffic-now_filters_validity-period': 'Filter by validity period',
     'traffic-now_filters_vehicle-mode': 'Filter by vehicle mode',
     'traffic-now_link': 'Services now',
@@ -3176,6 +3178,9 @@ const translations = {
       'Katso myös {amount, plural, =1 {{link1},} other {{link1} sekä {link2},} } jotka löydät yksityiskohtaisemmin omilta sivuiltaan.',
     'traffic-now_description_see-also--link1': 'lomat ja poikkeukset',
     'traffic-now_description_see-also--link2': 'suuret muutokset',
+    'traffic-now_filters_entity-search': 'Hae yksittäistä linjaa tai pysäkkiä',
+    'traffic-now_filters_entity-search--placeholder':
+      'Linja, pysäkki tai asema',
     'traffic-now_filters_validity-period': 'Näytä voimassaolon mukaan',
     'traffic-now_filters_vehicle-mode': 'Näytä liikennevälineen mukaan',
     'traffic-now_link': 'Liikennetilanne nyt',
@@ -6190,6 +6195,9 @@ const translations = {
       'Se även {amount, plural, =1 {{link1},} other {{link1} samt {link2},} } som du hittar mer information om på deras respektive sidor.',
     'traffic-now_description_see-also--link1': 'helgdagar och undantag',
     'traffic-now_description_see-also--link2': 'större förändringar',
+    'traffic-now_filters_entity-search': 'Sök linje eller hållplats',
+    'traffic-now_filters_entity-search--placeholder':
+      'Linje, hållplats eller station',
     'traffic-now_filters_validity-period': 'Filtrera efter giltighetstid',
     'traffic-now_filters_vehicle-mode': 'Filtrera efter fordonsläge',
     'traffic-now_link': 'Trafikläget nu',
