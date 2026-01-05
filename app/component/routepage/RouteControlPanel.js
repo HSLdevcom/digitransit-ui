@@ -409,7 +409,7 @@ class RouteControlPanel extends React.Component {
     let disruptionIcon;
     if (disruptionClassName === 'active-disruption-alert') {
       disruptionIcon = (
-        <Icon className="disrution-icon" img="icon_caution-no-excl-no-stroke" />
+        <Icon img="icon_caution-no-excl-no-stroke" color="#DC0451" />
       );
     } else if (disruptionClassName === 'active-service-alert') {
       disruptionIcon = <Icon className="service-alert-icon" img="icon_info" />;
