@@ -11,27 +11,23 @@ const AdditionalDescription = () => {
   const intl = useTranslationsContext();
   const {
     URL: { HOLIDAYS_AND_EXCEPTIONS, MAJOR_CHANGES },
+    language,
   } = useConfigContext();
-
-  const lang = document.cookie
-    .split(';')
-    .find(item => item.indexOf('lang=') > -1)
-    .split('=')[1];
 
   const links = [
     {
       key: 'link1',
-      href: HOLIDAYS_AND_EXCEPTIONS[lang],
+      href: HOLIDAYS_AND_EXCEPTIONS[language],
       message: {
         id: 'traffic-now_description_see-also--link1',
         defaultMessage: 'holidays and exceptions',
       },
     },
-    ...(MAJOR_CHANGES && MAJOR_CHANGES[lang]
+    ...(MAJOR_CHANGES && MAJOR_CHANGES[language]
       ? [
           {
             key: 'link2',
-            href: MAJOR_CHANGES[lang],
+            href: MAJOR_CHANGES[language],
             message: {
               id: 'traffic-now_description_see-also--link2',
               defaultMessage: 'major changes',
