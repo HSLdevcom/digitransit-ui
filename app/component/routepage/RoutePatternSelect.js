@@ -134,6 +134,10 @@ export default function RoutePatternSelect(
   { currentPattern, optionArray, onSelectChange, className },
   { config, router },
 ) {
+  if (!currentPattern) {
+    return null;
+  }
+
   // flatten optionArray to an ungrouped 1-D array
   const flattenedOptions = optionArray.reduce(
     (options, group) => options.concat(group.options),
@@ -256,7 +260,7 @@ export default function RoutePatternSelect(
 }
 
 RoutePatternSelect.propTypes = {
-  currentPattern: patternShape.isRequired,
+  currentPattern: patternShape,
   optionArray: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string,
@@ -265,6 +269,10 @@ RoutePatternSelect.propTypes = {
   ).isRequired,
   onSelectChange: PropTypes.func.isRequired,
   className: PropTypes.string.isRequired,
+};
+
+RoutePatternSelect.defaultProps = {
+  currentPattern: undefined,
 };
 
 RoutePatternSelect.contextTypes = {
