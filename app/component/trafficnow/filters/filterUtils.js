@@ -35,8 +35,11 @@ const vehicleModesFilter = ({ entities }, { vehicleModes }) => {
   );
 };
 
+const entityFilter = ({ entities }, { entity }) =>
+  !entity || entities.some(e => e.gtfsId === entity.gtfsId);
+
 export function filterAndSortAlerts(alerts, selectedFilters) {
-  const filterFns = [validityPeriodFilter, vehicleModesFilter];
+  const filterFns = [validityPeriodFilter, vehicleModesFilter, entityFilter];
   return alerts
     .filter(alert => filterFns.every(fn => fn(alert, selectedFilters)))
     .sort((a, b) => a.effectiveStartDate - b.effectiveStartDate);
