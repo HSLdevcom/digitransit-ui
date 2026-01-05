@@ -18,11 +18,10 @@ const EntitySearch = ({ filterId }) => {
 
   const DTAutoSuggestWithSearchContext = withSearchContext(DTAutoSuggest);
 
-  const selectHandler = ({ address, name, gtfsId }) => {
+  const selectHandler = ({ address, gtfsId }) => {
     setFilter(filterId, {
       gtfsId,
       address,
-      name: name || address.split(',')[0],
     });
   };
 
@@ -47,6 +46,7 @@ const EntitySearch = ({ filterId }) => {
         getAutoSuggestIcons={getAutoSuggestIcons}
         modeIconColors={iconColors}
         modeSet={iconModeSet}
+        onClear={() => undefined}
       />
     </fieldset>
   );
