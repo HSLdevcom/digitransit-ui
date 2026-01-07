@@ -1,13 +1,16 @@
 import React from 'react';
 import Modal from '@hsl-fi/modal';
 import PropTypes from 'prop-types';
+import { FormattedMessage } from 'react-intl';
 import Filters from './Filters';
 import Icon from '../../Icon';
 import IconBackground from '../../icon/IconBackground';
 import { useFilterContext } from './FiltersContext';
+import { useTranslationsContext } from '../../../util/useTranslationsContext';
 
 const FiltersModal = ({ isOpen, onClose }) => {
   const { resetFilters } = useFilterContext();
+  const intl = useTranslationsContext();
 
   return (
     <Modal
@@ -15,13 +18,16 @@ const FiltersModal = ({ isOpen, onClose }) => {
       isOpen={isOpen}
       shouldCloseOnEsc
       shouldCloseOnOverlayClick
-      contentLabel="Filters"
+      contentLabel={intl.formatMessage({
+        id: 'filters',
+        defaultMessage: 'Filters',
+      })}
       onRequestClose={onClose}
       variant="large"
       className="traffic-now__modal-filters"
     >
       <header>
-        <h3>Suodata</h3>
+        <FormattedMessage id="filter" defaultMessage="Filter" tagName="h3" />
         <button type="button" onClick={onClose}>
           <Icon
             height={1.5}

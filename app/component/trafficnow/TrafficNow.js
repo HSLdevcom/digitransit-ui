@@ -9,8 +9,10 @@ import { useBreakpoint } from '../../util/withBreakpoint';
 import Gutterer from '../Gutterer';
 import Loading from '../Loading';
 import { FilterContextProvider } from './filters/FiltersContext';
+import { useTranslationsContext } from '../../util/useTranslationsContext';
 
 export default function TrafficNow() {
+  const intl = useTranslationsContext();
   const breakpoint = useBreakpoint();
   const [showFiltersModal, setShowFiltersModal] = useState(false);
 
@@ -18,7 +20,7 @@ export default function TrafficNow() {
 
   return (
     <div className={cx('traffic-now')}>
-      <Gutterer maxWidth="1440px">
+      <Gutterer maxWidth="1440px" contentStyles={{ display: 'flex' }}>
         <Header />
       </Gutterer>
       <div className="separator horizontal" />
@@ -44,19 +46,23 @@ export default function TrafficNow() {
                 <Filters />
               </div>
             ) : (
-              <>
+              <div className="traffic-now__content__filters-button-container">
                 <FiltersModal
                   isOpen={showFiltersModal}
                   onClose={() => setShowFiltersModal(false)}
                 />
                 <Button
+                  className="traffic-now__content__filters-button"
                   size="medium"
                   fullWidth
                   variant="blue"
-                  value="Suodattimet"
+                  value={intl.formatMessage({
+                    id: 'filters',
+                    defaultMessage: 'Filters',
+                  })}
                   onClick={() => setShowFiltersModal(true)}
                 />
-              </>
+              </div>
             )}
             <Suspense fallback={<Loading />}>
               <Alerts />

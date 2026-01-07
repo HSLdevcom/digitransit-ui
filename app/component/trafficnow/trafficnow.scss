@@ -29,9 +29,9 @@
   &__header {
     display: flex;
     flex-direction: column;
-    height: 216px;
-    gap: 20px;
-    padding: 0 50px;
+    gap: var(--space-m);
+    padding: var(--space-l) 50px var(--space-xl) 50px;
+    flex: 0 0 50%;
 
     &-breadcrumb {
       display: inline-flex;
@@ -47,6 +47,7 @@
 
     &--mobile {
       padding: 25px 20px 20px 20px;
+      flex: 0 0 100%;
     }
   }
 
@@ -58,8 +59,7 @@
     background-color: $background-color-lighter;
 
     &--mobile {
-      padding: var(--space-m) var(--space-s) 0 var(--space-s);
-      gap: var(--space-l);
+      padding: 0 var(--space-s);
     }
 
     &__filters {
@@ -68,9 +68,19 @@
       gap: var(--space-m);
       padding-top: var(--space-xl);
       padding-right: var(--space-xl);
+      position: sticky;
+      top: 0;
 
       &-mobile {
         padding: var(--space-xl) var(--space-m);
+      }
+
+      &-button-container {
+        background-color: $background-color-lighter;
+        padding: var(--space-m) 0;
+        position: sticky;
+        top: 0;
+        z-index: 10;
       }
 
       &-container {
@@ -120,7 +130,7 @@
       height: 100%;
       flex-direction: column;
       min-width: 0;
-      gap: inherit;
+      gap: var(--space-l);
       min-height: 0;
       overflow: auto;
 

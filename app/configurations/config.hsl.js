@@ -80,6 +80,16 @@ export default {
       sv: 'https://www.hsl.fi/sv/reseplaneraren_co2',
       en: 'https://www.hsl.fi/en/journey_planner_co2',
     },
+    HOLIDAYS_AND_EXCEPTIONS: {
+      fi: 'https://www.hsl.fi/matkustaminen/juhlapyhat-ja-poikkeusaikataulut',
+      sv: 'https://www.hsl.fi/sv/att-resa/helger-och-avvikande-tidtabeller',
+      en: 'https://www.hsl.fi/en/travelling/bank-holidays-and-changes-to-public-transport-services',
+    },
+    /* MAJOR_CHANGES: {
+      fi: 'TODO',
+      sv: 'TODO',
+      en: 'TODO',
+    }, */
   },
 
   indexPath: 'etusivu',
