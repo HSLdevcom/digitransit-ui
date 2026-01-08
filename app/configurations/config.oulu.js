@@ -180,4 +180,9 @@ export default configMerger(walttiConfig, {
   showTicketPrice: true,
   ticketLinkOperatorCode: 50229,
   appName: 'oslapp',
+
+  parkAndRide: {
+    showParkAndRide: true,
+    showParkAndRideForBikes: true,
+  },
 });
