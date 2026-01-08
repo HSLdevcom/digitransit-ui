@@ -184,5 +184,6 @@ export default configMerger(walttiConfig, {
   parkAndRide: {
     showParkAndRide: true,
     showParkAndRideForBikes: true,
+    parkAndRideMinZoom: 14,
   },
 });
