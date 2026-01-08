@@ -1,4 +1,4 @@
-/* eslint-disable react/prop-types, no-unused-vars, no-console */
+/* eslint-disable react/prop-types */
 import React, { createContext, useContext, useMemo } from 'react';
 import useItineraryReducer from './useItineraryReducer';
 

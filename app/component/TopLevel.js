@@ -193,16 +193,18 @@ class TopLevel extends React.Component {
         <section id="mainContent" className="content">
           {this.props.meta}
           <noscript>This page requires JavaScript to run.</noscript>
-          <ErrorBoundary
-            key={
-              this.props.match.location.state &&
-              this.props.match.location.state.errorBoundaryKey
-                ? this.props.match.location.state.errorBoundaryKey
-                : 0
-            }
-          >
-            {content}
-          </ErrorBoundary>
+          {content && (
+            <ErrorBoundary
+              key={
+                this.props.match.location.state &&
+                this.props.match.location.state.errorBoundaryKey
+                  ? this.props.match.location.state.errorBoundaryKey
+                  : 0
+              }
+            >
+              {content}
+            </ErrorBoundary>
+          )}
         </section>
       </Fragment>
     );

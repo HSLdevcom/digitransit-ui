@@ -149,6 +149,17 @@ function NearYouMap(
   const fetchPlan = node => {
     if (node.distance < walkRoutingThreshold) {
       const settings = getSettings(config);
+      let location = {
+        coordinate: {
+          latitude: node.lat,
+          longitude: node.lon,
+        },
+      };
+      if (node.gtfsId) {
+        location = {
+          stopLocation: { stopLocationId: node.gtfsId },
+        };
+      }
       const variables = {
         origin: {
           location: {
@@ -156,9 +167,7 @@ function NearYouMap(
           },
         },
         destination: {
-          location: {
-            coordinate: { latitude: node.place.lat, longitude: node.place.lon },
-          },
+          location,
         },
         walkSpeed: settings.walkSpeed,
         wheelchair: !!settings.accessibilityOption,

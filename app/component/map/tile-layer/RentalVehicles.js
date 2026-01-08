@@ -13,6 +13,7 @@ import { fetchWithLanguageAndSubscription } from '../../../util/fetchUtils';
 import { getLayerBaseUrl } from '../../../util/mapLayerUtils';
 import { TransportMode } from '../../../constants';
 import { getSettings } from '../../../util/planParamUtil';
+import { createFeatureObjects } from '../../../util/clusterUtils';
 
 class RentalVehicles {
   constructor(tile, config, mapLayers, relayEnvironment) {
@@ -170,22 +171,20 @@ class RentalVehicles {
   static getName = () => 'scooter';
 
   pointsInSuperclusterFormat = () => {
-    return this.features.map(feature => {
-      // Convert the feature's x/y to lat/lon for clustering
-      const latLon = this.tile.project({
-        x: feature.geom.x,
-        y: feature.geom.y,
-      });
-      return {
-        type: 'Feature',
-        properties: { ...feature.properties },
-        geom: { ...feature.geom },
-        geometry: {
-          type: 'Point',
-          coordinates: [latLon.lat, latLon.lon],
-        },
-      };
-    });
+    return createFeatureObjects(
+      this.features.map(feature => {
+        // Convert the feature's x/y to lat/lon for clustering
+        const coordinates = this.tile.project({
+          x: feature.geom.x,
+          y: feature.geom.y,
+        });
+        return {
+          properties: feature.properties,
+          lat: coordinates.lat,
+          lon: coordinates.lon,
+        };
+      }),
+    );
   };
 
   featureWithGeom = clusterFeature => {
