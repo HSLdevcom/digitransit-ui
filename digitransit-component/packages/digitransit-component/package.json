@@ -18,8 +18,8 @@
     "url": "git://github.com/HSLdevcom/digitransit-ui.git"
   },
   "dependencies": {
-    "@digitransit-component/digitransit-component-autosuggest": "^6.0.4",
-    "@digitransit-component/digitransit-component-autosuggest-panel": "^7.0.4",
+    "@digitransit-component/digitransit-component-autosuggest": "^7.0.0",
+    "@digitransit-component/digitransit-component-autosuggest-panel": "^8.0.0",
     "@digitransit-component/digitransit-component-control-panel": "^7.0.0",
     "@digitransit-component/digitransit-component-favourite-bar": "^5.0.0",
     "@digitransit-component/digitransit-component-favourite-editing-modal": "^5.0.0",
