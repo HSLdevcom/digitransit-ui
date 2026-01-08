@@ -151,13 +151,13 @@ function NearYouMap(
       const settings = getSettings(config);
       let location = {
         coordinate: {
-          latitude: node.lat,
-          longitude: node.lon,
+          latitude: node.place.lat,
+          longitude: node.place.lon,
         },
       };
-      if (node.gtfsId) {
+      if (node.place.gtfsId) {
         location = {
-          stopLocation: { stopLocationId: node.gtfsId },
+          stopLocation: { stopLocationId: node.place.gtfsId },
         };
       }
       const variables = {
