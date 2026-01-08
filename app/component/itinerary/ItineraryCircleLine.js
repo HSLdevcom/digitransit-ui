@@ -2,44 +2,31 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 import Icon from '../Icon';
+import { ViaLocationType } from '../../constants';
 
 class ItineraryCircleLine extends React.Component {
   static defaultProps = {
-    isVia: false,
+    viaType: null,
     color: null,
     renderBottomMarker: true,
     carPark: false,
     appendClass: undefined,
+    isStop: false,
   };
 
   static propTypes = {
     index: PropTypes.number.isRequired,
     modeClassName: PropTypes.string.isRequired,
-    isVia: PropTypes.bool,
+    viaType: PropTypes.string,
     color: PropTypes.string,
     renderBottomMarker: PropTypes.bool,
     carPark: PropTypes.bool,
     appendClass: PropTypes.string,
+    isStop: PropTypes.bool,
   };
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      imageUrl: 'none',
-    };
-  }
-
-  componentDidMount() {
-    import(
-      /* webpackChunkName: "dotted-line" */ `../../configurations/images/default/dotted-line.svg`
-    ).then(imageUrl => {
-      this.setState({ imageUrl: `url(${imageUrl.default})` });
-    });
-  }
-
   isFirstChild = () => {
-    return this.props.index === 0 && this.props.isVia === false;
+    return this.props.index === 0 && !this.props.viaType;
   };
 
   getMarker = top => {
@@ -80,7 +67,7 @@ class ItineraryCircleLine extends React.Component {
         </div>
       );
     }
-    if (this.props.isVia === true) {
+    if (this.props.viaType === ViaLocationType.Visit && !this.props.isStop) {
       return (
         <div className="itinerary-icon-container">
           <Icon img="icon_mapMarker" className="itinerary-icon via via-it" />
@@ -112,11 +99,12 @@ class ItineraryCircleLine extends React.Component {
     const topMarker = this.getMarker(true);
     const bottomMarker = this.getMarker(false);
     const legBeforeLineStyle = { color: this.props.color };
+    let backgroundClass = '';
     if (
       this.props.modeClassName === 'car-park-walk' ||
       this.props.modeClassName === 'walk'
     ) {
-      legBeforeLineStyle.backgroundImage = this.state.imageUrl;
+      backgroundClass = 'default-dotted-line';
     }
 
     return (
@@ -134,6 +122,7 @@ class ItineraryCircleLine extends React.Component {
             'leg-before-line',
             this.props.modeClassName,
             this.props.appendClass,
+            backgroundClass,
           )}
         />
         {this.props.renderBottomMarker && bottomMarker}

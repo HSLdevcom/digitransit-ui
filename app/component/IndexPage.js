@@ -7,7 +7,6 @@ import isEqual from 'lodash/isEqual';
 import DTAutoSuggest from '@digitransit-component/digitransit-component-autosuggest';
 import DTAutosuggestPanel from '@digitransit-component/digitransit-component-autosuggest-panel';
 import CtrlPanel from '@digitransit-component/digitransit-component-control-panel';
-import TrafficNowLink from '@digitransit-component/digitransit-component-traffic-now-link';
 import { getModesWithAlerts } from '@digitransit-search-util/digitransit-search-util-query-utils';
 import { createUrl } from '@digitransit-store/digitransit-store-future-route';
 import inside from 'point-in-polygon';
@@ -29,6 +28,7 @@ import {
   definesItinerarySearch,
   PREFIX_NEARYOU,
   PREFIX_ITINERARY_SUMMARY,
+  TRAFFICNOW,
 } from '../util/path';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import withBreakpoint from '../util/withBreakpoint';
@@ -46,6 +46,7 @@ import {
   checkPositioningPermission,
   startLocationWatch,
 } from '../action/PositionActions';
+import TrafficNowLink from './trafficnow/TrafficNowLink';
 
 const StopRouteSearch = withSearchContext(DTAutoSuggest);
 const LocationSearch = withSearchContext(DTAutosuggestPanel);
@@ -210,12 +211,6 @@ class IndexPage extends React.Component {
     this.context.executeAction(storeDestination, favourite);
   };
 
-  trafficNowHandler = (e, lang) => {
-    window.location = `${this.context.config.URL.ROOTLINK}/${
-      lang === 'fi' ? '' : `${lang}/`
-    }${this.context.config.trafficNowLink[lang]}`;
-  };
-
   clickStopNearIcon = url => {
     addAnalyticsEvent({
       event: 'sendMatomoEvent',
@@ -223,6 +218,11 @@ class IndexPage extends React.Component {
       stop_type: url.split('/')[2].toLowerCase(),
     });
     this.context.router.push(url);
+  };
+
+  trafficNowHandler = e => {
+    e.preventDefault();
+    this.context.router.push(`/${TRAFFICNOW}`);
   };
 
   NearStops() {
@@ -410,10 +410,10 @@ class IndexPage extends React.Component {
                 <CtrlPanel.SeparatorLine />
               </>
             )}
-            {trafficNowLink?.[lang] && (
+            {trafficNowLink && (
               <TrafficNowLink
-                lang={lang}
                 handleClick={this.trafficNowHandler}
+                href={`/${TRAFFICNOW}`}
               />
             )}
           </CtrlPanel>
@@ -459,11 +459,10 @@ class IndexPage extends React.Component {
             </div>
             <CtrlPanel.SeparatorLine usePaddingBottom20 />
             {!trafficNowLink ||
-              (trafficNowLink[lang] !== '' && (
+              (trafficNowLink !== '' && (
                 <TrafficNowLink
-                  lang={lang}
                   handleClick={this.trafficNowHandler}
-                  fontWeights={fontWeights}
+                  href={`/${TRAFFICNOW}`}
                 />
               ))}
           </CtrlPanel>

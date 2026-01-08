@@ -152,6 +152,11 @@ $navigation-icon-size: 40px;
 $slide-up-down-animation: 0.8s cubic-bezier(0.47, 0, 0.23, 1.38) forwards;
 $slide-up-down-fade: 0.8s ease-out forwards;
 
+/* Itinerary circle lines */
+$default-dotted-line: url('../default/default-dotted-line.svg');
+$indoor-dotted-line: url('../default/indoor-dotted-line.svg');
+$indoor-dotted-line-horizontal: url('../default/indoor-dotted-line-horizontal.svg');
+
 .theme-default {
   display: block;
 }

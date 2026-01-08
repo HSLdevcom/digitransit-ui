@@ -37,6 +37,7 @@ import {
   showCarBoardingNote,
   legTimeStr,
   legTime,
+  isCallAgencyLeg,
   isPlatformChanged,
 } from '../../util/legUtils';
 import { shouldShowFareInfo } from '../../util/fareUtils';
@@ -229,6 +230,60 @@ class TransitLeg extends React.Component {
         );
       });
       return <div className="itinerary-leg-container">{stopList}</div>;
+    }
+    return null;
+  }
+
+  renderFareDisclaimer(leg, mode, lang, LegRouteName) {
+    const { config, intl } = this.context;
+    if (
+      leg.fare?.isUnknown &&
+      !config.hideUnknownFares &&
+      shouldShowFareInfo(config)
+    ) {
+      const modeDisclaimer = config.modeDisclaimers?.[mode]?.[lang];
+      if (modeDisclaimer) {
+        return (
+          <div className="disclaimer-container unknown-fare-disclaimer__leg">
+            <div className="description-container">
+              {modeDisclaimer.disclaimer}
+              <a href={modeDisclaimer.link} target="_blank" rel="noreferrer">
+                {modeDisclaimer.text}
+              </a>
+            </div>
+          </div>
+        );
+      }
+
+      if (mode !== 'call') {
+        return (
+          <div className="disclaimer-container unknown-fare-disclaimer__leg">
+            <div className="description-container">
+              <span className="accent">
+                {`${intl.formatMessage({ id: 'pay-attention' })} `}
+              </span>
+              {intl.formatMessage({ id: 'separate-ticket-required' })}
+            </div>
+            <div className="ticket-info">
+              <div className="accent">{LegRouteName}</div>
+              {leg.fare.agency &&
+                !config.hideExternalOperator(leg.fare.agency) && (
+                  <>
+                    <div>{leg.fare.agency.name}</div>
+                    {leg.fare.agency.fareUrl && (
+                      <ExternalLink
+                        className="agency-link"
+                        href={leg.fare.agency.fareUrl}
+                      >
+                        {intl.formatMessage({ id: 'extra-info' })}
+                      </ExternalLink>
+                    )}
+                  </>
+                )}
+            </div>
+          </div>
+        );
+      }
     }
     return null;
   }
@@ -428,6 +483,7 @@ class TransitLeg extends React.Component {
           </span>
           <span aria-hidden="true">
             <div className="itinerary-time-column-time">
+              {isCallAgencyLeg(leg) && <FormattedMessage id="estimate" />}{' '}
               <span className={cx({ realtime: leg.realTime })}>
                 <span className={cx({ canceled: legHasCancelation(leg) })}>
                   {time}
@@ -446,6 +502,8 @@ class TransitLeg extends React.Component {
             !this.state.showIntermediateStops ||
             (leg.intermediatePlaces.length === 0 && interliningLegs.length < 1)
           }
+          viaType={leg.from.viaLocationType}
+          isStop={!!leg.from.stop}
         />
         <div
           style={{
@@ -482,7 +540,7 @@ class TransitLeg extends React.Component {
                 to={stopPagePath(false, leg.from.stop.gtfsId)}
               >
                 {leg.from.name}
-                {leg.isViaPoint && (
+                {leg.from.viaLocationType && (
                   <Icon
                     img="icon_mapMarker"
                     className="itinerary-mapmarker-icon"
@@ -528,6 +586,8 @@ class TransitLeg extends React.Component {
             changeHash={this.props.changeHash}
             tabIndex={this.props.tabIndex}
             isCallAgency={mode === 'call'}
+            mobile={this.props.mobile}
+            isTransitLeg
           />
 
           {this.state.showAlternativeLegs &&
@@ -545,6 +605,8 @@ class TransitLeg extends React.Component {
                 )}
                 displayTime
                 isCallAgency={mode === 'call'}
+                mobile={this.props.mobile}
+                isTransitLeg
               />
             ))}
           {this.displayAlternativeLegs() && (
@@ -634,49 +696,7 @@ class TransitLeg extends React.Component {
               )}
             </div>
           )}
-          {leg.fare?.isUnknown &&
-            !config.hideUnknownFares &&
-            shouldShowFareInfo(config) &&
-            (config.modeDisclaimers?.[mode]?.[lang] ? (
-              <div className="disclaimer-container unknown-fare-disclaimer__leg">
-                <div className="description-container">
-                  {config.modeDisclaimers[mode][lang].disclaimer}
-                  <a
-                    href={config.modeDisclaimers[mode][lang].link}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    {config.modeDisclaimers[mode][lang].text}
-                  </a>
-                </div>
-              </div>
-            ) : (
-              <div className="disclaimer-container unknown-fare-disclaimer__leg">
-                <div className="description-container">
-                  <span className="accent">
-                    {`${intl.formatMessage({ id: 'pay-attention' })} `}
-                  </span>
-                  {intl.formatMessage({ id: 'separate-ticket-required' })}
-                </div>
-                <div className="ticket-info">
-                  <div className="accent">{LegRouteName}</div>
-                  {leg.fare.agency &&
-                    !config.hideExternalOperator(leg.fare.agency) && (
-                      <React.Fragment>
-                        <div>{leg.fare.agency.name}</div>
-                        {leg.fare.agency.fareUrl && (
-                          <ExternalLink
-                            className="agency-link"
-                            href={leg.fare.agency.fareUrl}
-                          >
-                            {intl.formatMessage({ id: 'extra-info' })}
-                          </ExternalLink>
-                        )}
-                      </React.Fragment>
-                    )}
-                </div>
-              </div>
-            ))}
+          {this.renderFareDisclaimer(leg, mode, lang, LegRouteName)}
         </div>
         <span className="sr-only">{alertSeverityDescription}</span>
       </div>
@@ -705,6 +725,7 @@ TransitLeg.propTypes = {
   changeHash: PropTypes.func,
   tabIndex: PropTypes.number,
   usingOwnCarWholeTrip: PropTypes.bool,
+  mobile: PropTypes.bool,
 };
 
 TransitLeg.defaultProps = {
@@ -714,6 +735,7 @@ TransitLeg.defaultProps = {
   tabIndex: undefined,
   children: undefined,
   usingOwnCarWholeTrip: false,
+  mobile: undefined,
 };
 
 TransitLeg.contextTypes = {

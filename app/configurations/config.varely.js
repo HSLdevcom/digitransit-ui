@@ -124,7 +124,7 @@ export default configMerger(walttiConfig, {
 
   /* Enable real-time map layer for vehicle positions */
   vehicles: false,
-  viaPointsEnabled: false,
+  viaPointsEnabled: true,
   showVehiclesOnStopPage: true,
   showVehiclesOnItineraryPage: true,
 

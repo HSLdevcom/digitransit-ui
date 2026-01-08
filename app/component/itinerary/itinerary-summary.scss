@@ -179,6 +179,20 @@
       .start-time {
         font-weight: $font-weight-medium;
       }
+
+      .icon-container {
+        display: inline-block;
+        vertical-align: text-bottom;
+        margin-right: var(--space-xxs);
+        color: #fcbc19;
+        height: 16px;
+        width: 16px;
+
+        .icon {
+          height: 16px;
+          width: 16px;
+        }
+      }
     }
 
     &.small {

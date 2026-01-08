@@ -11,6 +11,7 @@ describe('<WalkLeg />', () => {
     const props = {
       focusAction: () => {},
       focusToLeg: () => {},
+      focusToPoint: () => {},
       index: 2,
       leg: {
         distance: 284.787,
@@ -27,6 +28,19 @@ describe('<WalkLeg />', () => {
         rentedBike: false,
         start: { scheduledTime: new Date(1529589709000).toISOString() },
         end: { scheduledTime: new Date(1529589701000).toISOString() },
+        steps: [
+          {
+            streetName: 'entrance',
+            area: false,
+            absoluteDirection: null,
+            feature: {
+              __typename: 'Entrance',
+              publicCode: 'A',
+              entranceId: 'osm:123',
+              wheelchairAccessible: 'POSSIBLE',
+            },
+          },
+        ],
       },
     };
 
@@ -43,6 +57,7 @@ describe('<WalkLeg />', () => {
     const props = {
       focusAction: () => {},
       focusToLeg: () => {},
+      focusToPoint: () => {},
       index: 2,
       leg: {
         distance: 284.787,
@@ -59,6 +74,19 @@ describe('<WalkLeg />', () => {
         rentedBike: false,
         start: { scheduledTime: new Date(1529589709000).toISOString() },
         end: { scheduledTime: new Date(1529589701000).toISOString() },
+        steps: [
+          {
+            streetName: 'entrance',
+            area: false,
+            absoluteDirection: null,
+            feature: {
+              __typename: 'Entrance',
+              publicCode: 'A',
+              entranceId: 'osm:123',
+              wheelchairAccessible: 'POSSIBLE',
+            },
+          },
+        ],
       },
       previousLeg: {
         distance: 3297.017000000001,
@@ -94,6 +122,7 @@ describe('<WalkLeg />', () => {
     const props = {
       focusAction: () => {},
       focusToLeg: () => {},
+      focusToPoint: () => {},
       index: 2,
       leg: {
         distance: 284.787,
@@ -119,6 +148,19 @@ describe('<WalkLeg />', () => {
         rentedBike: false,
         start: { scheduledTime: new Date(startTime).toISOString() },
         end: { scheduledTime: new Date(1529589701000).toISOString() },
+        steps: [
+          {
+            streetName: 'entrance',
+            area: false,
+            absoluteDirection: null,
+            feature: {
+              __typename: 'Entrance',
+              publicCode: 'A',
+              entranceId: 'osm:123',
+              wheelchairAccessible: 'POSSIBLE',
+            },
+          },
+        ],
       },
     };
 
@@ -135,6 +177,7 @@ describe('<WalkLeg />', () => {
     const props = {
       focusAction: () => {},
       focusToLeg: () => {},
+      focusToPoint: () => {},
       index: 1,
       leg: {
         distance: 1.23,
@@ -157,6 +200,19 @@ describe('<WalkLeg />', () => {
         rentedBike: false,
         start: { scheduledTime: new Date(1668600030868).toISOString() },
         end: { scheduledTime: new Date(1668600108525).toISOString() },
+        steps: [
+          {
+            streetName: 'entrance',
+            area: false,
+            absoluteDirection: null,
+            feature: {
+              __typename: 'Entrance',
+              publicCode: 'A',
+              entranceId: 'osm:123',
+              wheelchairAccessible: 'POSSIBLE',
+            },
+          },
+        ],
       },
     };
 

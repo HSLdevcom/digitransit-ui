@@ -126,6 +126,8 @@ export default async function serve(req, res, next) {
       locale = config.defaultLanguage;
     }
 
+    config.language = locale;
+
     if (req.cookies.lang === undefined || req.cookies.lang !== locale) {
       res.cookie('lang', locale);
     }

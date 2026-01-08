@@ -42,7 +42,7 @@ export default function StreetModeSelectorButton(
       break;
     case streetHash.carAndVehicle:
       distance = displayDistance(
-        getTotalDrivingDistance(itinerary),
+        getTotalDrivingDistance(itinerary, config),
         config,
         intl.formatNumber,
       );
