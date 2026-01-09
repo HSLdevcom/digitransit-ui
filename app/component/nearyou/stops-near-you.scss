@@ -224,8 +224,14 @@
       margin: 0 14px 4px;
     }
 
+    .stop-near-you-header-container:has(.bike-station-page-container) {
+      padding: unset;
+    }
+
     .stop-near-you-header-container {
       display: flex;
+      justify-content: space-between;
+      padding: 14px 15px 1px 20px;
 
       .stop-near-you-name {
         font-size: 1.125rem;
@@ -235,18 +241,29 @@
       }
 
       .stop-header-content {
+        width: 100%;
+
         a {
           text-decoration: none;
           color: #333;
         }
 
-        .bike-station-code {
-          font-size: 0.813rem;
-          font-weight: normal;
+        .bike-station {
+          &-code {
+            font-size: 0.813rem;
+            font-weight: normal;
+          }
+
+          &-page-container {
+            margin: 0;
+            padding: var(--space-s) var(--space-m);
+          }
+
+          &-header {
+            padding-top: 0;
+          }
         }
       }
-
-      padding: 14px 15px 1px 20px;
 
       .stop-near-you-info {
         display: flex;
@@ -300,12 +317,10 @@
 
       .stop-favourite-container {
         padding-top: 8px;
-        margin-left: auto;
       }
 
       .bike-rental-favourite-container {
         padding-top: 8px;
-        margin-left: auto;
       }
     }
 
