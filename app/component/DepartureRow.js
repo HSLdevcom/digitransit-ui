@@ -65,7 +65,7 @@ export default function DepartureRow(
     if (alert.alertSeverityLevel === 'INFO') {
       icon = 'icon_info';
       iconColor = '#888';
-      background = <IconBackground backgroundShape="circle" />;
+      background = <IconBackground shape="circle" />;
       backgroundClass = 'circle';
     } else {
       icon = 'icon_caution-white-excl-stroke';
