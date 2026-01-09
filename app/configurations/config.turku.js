@@ -287,7 +287,6 @@ export default configMerger(walttiConfig, {
   parkAndRide: {
     showParkAndRide: true,
     showParkAndRideForBikes: true,
-    parkAndRideMinZoom: 14,
   },
   realTime: undefined,
   realTimePatch: undefined,
