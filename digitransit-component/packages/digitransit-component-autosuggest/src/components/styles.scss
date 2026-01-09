@@ -9,7 +9,7 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle, map-buttons,
   context-panel, search-panel, search-overlay, stop-route-station-input,
   destination-input, viapoint-input-5, viapoint-input-4, viapoint-input-3,
   viapoint-input-2, viapoint-input-1, origin-input, search-input-focus,
-  search-input-icon, rectangle, autosuggest-suggestion-container, front;
+  search-input-icon, rectangle, suggestion-container, front;
 
 @mixin default-focus-outline {
   /* First apply outline that is used in Edge and Firefox */
@@ -88,12 +88,12 @@ input[type='text'] {
   position: absolute;
   background-color: white;
   top: calc(3 * 0.875rem + 9px);
-  z-index: index($zindex, 'autosuggest-suggestion-container');
+  z-index: index($zindex, 'suggestion-container');
 }
 
 .suggestionsContainer {
   background-color: white;
-  z-index: index($zindex, 'autosuggest-suggestion-container');
+  z-index: index($zindex, 'suggestion-container');
 
   .suggestionsList {
     margin: 0;
@@ -117,6 +117,7 @@ input[type='text'] {
   overflow-x: hidden;
   overflow-y: hidden;
   white-space: nowrap;
+  z-index: index($zindex, 'suggestion-container');
 }
 
 .suggestionHighlighted {
