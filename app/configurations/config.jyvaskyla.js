@@ -63,10 +63,6 @@ export default configMerger(walttiConfig, {
   // Navbar logo
   logo: 'jyvaskyla/jyvaskyla-favicon.png',
 
-  vehicles: true,
-  showVehiclesOnStopPage: true,
-  showVehiclesOnItineraryPage: true,
-
   mainMenu: {
     stopMonitor: {
       show: true,
@@ -180,8 +176,7 @@ export default configMerger(walttiConfig, {
     stops: true,
     itinerary: true,
   },
-  // Notice! Turning on this setting forces the search for car routes (for the CO2 comparison only).
-  showCO2InItinerarySummary: true,
+
   sendAnalyticsCustomEventGoals: true,
 
   defaultSettings: {

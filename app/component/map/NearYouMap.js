@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { matchShape } from 'found';
 import { fetchQuery } from 'react-relay';
 import uniqBy from 'lodash/uniqBy';
-import compact from 'lodash/compact';
 import isEqual from 'lodash/isEqual';
 import polyline from 'polyline-encoded';
 import distance from '@digitransit-search-util/digitransit-search-util-distance';
@@ -18,8 +17,8 @@ import {
   changeRealTimeClientTopics,
 } from '../../action/realTimeClientAction';
 import {
-  sortNearbyRentalStations,
-  sortNearbyStops,
+  sortNearYouRentalStations,
+  sortNearYouStops,
 } from '../../util/sortUtils';
 import ItineraryLine from './ItineraryLine';
 import {
@@ -35,13 +34,10 @@ import CookieSettingsButton from '../CookieSettingsButton';
 import { walkQuery } from './WalkQuery';
 import LocationMarker from './LocationMarker';
 
-const handleStopsAndStations = edges => {
-  const stopsAndStations = edges.map(({ node }) => {
-    const stop = { ...node.place, distance: node.distance };
-    return stop;
-  });
-  return compact(stopsAndStations);
-};
+function getId(edge) {
+  const { place } = edge.node;
+  return place.gtfsId || place.stationId || place.id;
+}
 
 const getRealTimeSettings = (routes, context) => {
   const { realTime } = context.config;
@@ -64,7 +60,7 @@ const getRealTimeSettings = (routes, context) => {
   });
 
   const source = feedId && realTime[feedId];
-  if (source && source.active) {
+  if (source?.active) {
     return {
       ...source,
       feedId,
@@ -80,19 +76,21 @@ const startClient = (context, routes) => {
     context.executeAction(startRealTimeClient, config);
   }
 };
+
 const stopClient = context => {
   const { client } = context.getStore('RealTimeInformationStore');
   if (client) {
     context.executeAction(stopRealTimeClient, client);
   }
 };
+
 const updateClient = (context, topics) => {
   const { client } = context.getStore('RealTimeInformationStore');
   const config = getRealTimeSettings(topics, context);
   if (config) {
-    config.client = client;
     if (client) {
-      context.executeAction(changeRealTimeClientTopics, config, client);
+      config.client = client;
+      context.executeAction(changeRealTimeClientTopics, config);
     }
   }
 };
@@ -116,59 +114,50 @@ const handleBounds = (location, edges) => {
   return bounds;
 };
 
-const getLocationMarker = location => {
-  return (
-    <LocationMarker
-      key={`from-${location.lat}:${location.lat}`}
-      position={location}
-      type="from"
-    />
-  );
-};
+const nonTransit = ['CITYBIKE', 'BIKEPARK', 'CARPARK'];
 
 function NearYouMap(
   {
     breakpoint,
-    stopsNearYou,
+    stops,
     match,
     loading,
     favouriteIds,
     relay,
     position,
     showWalkRoute,
-    prioritizedStopsNearYou,
+    prioritizedStops,
     setMWTRef,
     ...rest
   },
-  { ...context },
+  context,
 ) {
   const [sortedStopEdges, setSortedStopEdges] = useState([]);
   const [uniqueRealtimeTopics, setUniqueRealtimeTopics] = useState([]);
   const [routeLines, setRouteLines] = useState([]);
   const [bounds, setBounds] = useState([]);
-  const [clientOn, setClientOn] = useState(false);
   const [walk, setWalk] = useState({ itinerary: null, stop: null });
-  const prevPlace = useRef();
-  const prevMode = useRef();
+  const clientOn = useRef(false);
   const mwtRef = useRef();
   const { mode } = match.params;
-  const isTransitMode = mode !== 'CITYBIKE';
   const walkRoutingThreshold =
     mode === 'RAIL' || mode === 'SUBWAY' || mode === 'FERRY' ? 3000 : 1500;
   const { environment } = relay;
+  const { config } = context;
+  const isTransitMode = !nonTransit.includes(mode);
 
-  const fetchPlan = stop => {
-    if (stop.distance < walkRoutingThreshold) {
-      const settings = getSettings(context.config);
+  const fetchPlan = node => {
+    if (node.distance < walkRoutingThreshold) {
+      const settings = getSettings(config);
       let location = {
         coordinate: {
-          latitude: stop.lat,
-          longitude: stop.lon,
+          latitude: node.place.lat,
+          longitude: node.place.lon,
         },
       };
-      if (stop.gtfsId) {
+      if (node.place.gtfsId) {
         location = {
-          stopLocation: { stopLocationId: stop.gtfsId },
+          stopLocation: { stopLocationId: node.place.gtfsId },
         };
       }
       const variables = {
@@ -188,31 +177,28 @@ function NearYouMap(
         .then(result => {
           setWalk({
             itinerary: result.plan.edges.length
-              ? result.plan.edges?.[0].node
+              ? result.plan.edges[0].node
               : null,
-            stop,
+            node,
           });
         });
     } else {
-      setWalk({ itinerary: null, stop });
+      setWalk({ itinerary: null, node });
     }
   };
 
-  const handleWalkRoutes = stopsAndStations => {
-    if (showWalkRoute) {
-      if (stopsAndStations.length > 0) {
-        const firstStop = stopsAndStations[0];
-        const shouldFetch =
-          (mode !== 'BUS' && mode !== 'TRAM') ||
-          favouriteIds.has(firstStop.gtfsId);
-        if (shouldFetch && !isEqual(firstStop, walk.stop)) {
-          fetchPlan(firstStop);
-        } else if (!shouldFetch) {
-          setWalk({ itinerary: null, stop: null });
-        }
+  const handleWalkRoutes = edges => {
+    if (showWalkRoute && edges.length > 0) {
+      const first = edges[0];
+      const shouldFetch =
+        (mode !== 'BUS' && mode !== 'TRAM') || favouriteIds.has(getId(first));
+      if (shouldFetch && !isEqual(first.node, walk.node)) {
+        fetchPlan(first.node);
+      } else if (!shouldFetch) {
+        setWalk({ itinerary: null, node: null });
       }
     } else {
-      setWalk({ itinerary: null, stop: null });
+      setWalk({ itinerary: null, node: null });
     }
   };
 
@@ -226,8 +212,6 @@ function NearYouMap(
   };
 
   useEffect(() => {
-    prevPlace.current = match.params.place;
-    prevMode.current = match.params.mode;
     return function cleanup() {
       stopClient(context);
     };
@@ -241,41 +225,29 @@ function NearYouMap(
     }
   }, [position, sortedStopEdges]);
 
-  const updateRoutes = sortedRoutes => {
+  const updateRoutes = edges => {
     let patterns = [];
     const realtimeTopics = [];
-    sortedRoutes.forEach(item => {
+    edges.forEach(item => {
       const { place } = item.node;
-      // eslint-disable-next-line no-unused-expressions
-      place.patterns &&
-        place.patterns.forEach(pattern => {
-          const feedId = pattern.route.gtfsId.split(':')[0];
+      const stopArray = place.stops || [place]; // station stops, single stop or other place
+      stopArray.forEach(stop => {
+        stop.patterns?.forEach(pattern => {
+          const [feedId, route] = pattern.route.gtfsId.split(':');
           realtimeTopics.push({
             feedId,
-            route: pattern.route.gtfsId.split(':')[1],
+            route,
             shortName: pattern.route.shortName,
             type: pattern.route.type,
           });
           patterns.push(pattern);
         });
-      // eslint-disable-next-line no-unused-expressions
-      place.stops &&
-        place.stops.forEach(stop => {
-          stop.patterns.forEach(pattern => {
-            const feedId = pattern.route.gtfsId.split(':')[0];
-            realtimeTopics.push({
-              feedId,
-              route: pattern.route.gtfsId.split(':')[1],
-              shortName: pattern.route.shortName,
-              type: pattern.route.type,
-            });
-            patterns.push(pattern);
-          });
-        });
+      });
     });
+
     patterns = uniqBy(patterns, p => p.patternGeometry?.points || '');
     const lines = patterns
-      .filter(p => p.patternGeometry)
+      .filter(p => p.patternGeometry?.points)
       .map(p => (
         <Line
           key={`${p.code}`}
@@ -285,59 +257,48 @@ function NearYouMap(
         />
       ));
     setRouteLines(lines);
-    setUniqueRealtimeTopics(uniqBy(realtimeTopics, route => route.route));
+    setUniqueRealtimeTopics(uniqBy(realtimeTopics, topic => topic.route));
   };
 
   useEffect(() => {
     if (uniqueRealtimeTopics.length > 0) {
-      if (!clientOn) {
+      if (!clientOn.current) {
         startClient(context, uniqueRealtimeTopics);
-        setClientOn(true);
-      } else if (
-        match.params.place !== prevPlace.current ||
-        match.params.mode !== prevMode.current
-      ) {
+        clientOn.current = true;
+      } else {
         updateClient(context, uniqueRealtimeTopics);
-        prevPlace.current = match.params.place;
-        prevMode.current = match.params.mode;
       }
     }
   }, [uniqueRealtimeTopics]);
 
   useEffect(() => {
-    if (stopsNearYou?.nearest?.edges) {
-      const active = stopsNearYou.nearest.edges
-        .slice()
-        .filter(
-          stop =>
-            stop.node.place.stoptimesWithoutPatterns &&
-            stop.node.place.stoptimesWithoutPatterns.length,
-        );
-      if (isTransitMode && !active.length && relay.hasMore()) {
-        relay.loadMore(5);
-        return;
-      }
-      let sortedEdges;
-      if (!isTransitMode) {
-        const withNetworks = stopsNearYou.nearest.edges.filter(edge => {
+    if (!stops) {
+      return;
+    }
+    let sortedEdges;
+    if (stops.nearest?.edges) {
+      if (mode === 'CITYBIKE') {
+        const withNetworks = stops.nearest.edges.filter(edge => {
           return !!edge.node.place?.rentalNetwork?.networkId;
         });
         const filteredCityBikeEdges = withNetworks.filter(pattern => {
-          return getDefaultNetworks(context.config).includes(
+          return getDefaultNetworks(config).includes(
             pattern.node.place?.rentalNetwork.networkId,
           );
         });
         sortedEdges = filteredCityBikeEdges
           .slice()
-          .sort(sortNearbyRentalStations(favouriteIds));
-      } else {
-        sortedEdges = active
+          .sort(sortNearYouRentalStations(favouriteIds));
+      } else if (isTransitMode) {
+        sortedEdges = stops.nearest.edges
           .slice()
-          .sort(sortNearbyStops(favouriteIds, walkRoutingThreshold));
+          .sort(sortNearYouStops(favouriteIds, walkRoutingThreshold));
+      } else {
+        sortedEdges = stops.nearest.edges.slice();
       }
 
       sortedEdges.unshift(
-        ...prioritizedStopsNearYou.map(stop => {
+        ...prioritizedStops.map(stop => {
           return {
             node: {
               distance: distance(position, stop),
@@ -348,30 +309,25 @@ function NearYouMap(
           };
         }),
       );
-      const stopsAndStations = handleStopsAndStations(sortedEdges);
-      handleWalkRoutes(stopsAndStations);
-      setSortedStopEdges(sortedEdges);
-      updateRoutes(sortedEdges);
+    } else if (mode === 'FAVORITE') {
+      sortedEdges = stops;
     }
-    if (mode === 'FAVORITE') {
-      handleWalkRoutes(handleStopsAndStations(stopsNearYou));
-      setSortedStopEdges(stopsNearYou);
-      updateRoutes(stopsNearYou);
-    }
-  }, [stopsNearYou, favouriteIds]);
+    handleWalkRoutes(sortedEdges);
+    setSortedStopEdges(sortedEdges);
+    updateRoutes(sortedEdges);
+  }, [stops, favouriteIds]);
 
   if (loading) {
     return <Loading />;
   }
 
-  const leafletObjs =
-    isTransitMode && Array.isArray(routeLines) ? [...routeLines] : [];
+  const leafletObjs = isTransitMode ? [...routeLines] : [];
   if (uniqueRealtimeTopics.length > 0) {
     leafletObjs.push(
       <VehicleMarkerContainer
         key="vehicles"
         useLargeIcon
-        mode={mode}
+        mode={mode === 'FAVORITE' ? undefined : mode}
         topics={uniqueRealtimeTopics}
       />,
     );
@@ -388,26 +344,20 @@ function NearYouMap(
     );
   }
 
-  const highlightedStops = () => {
-    const stopsAndStations = handleStopsAndStations(sortedStopEdges);
-    if (Array.isArray(stopsAndStations) && stopsAndStations.length > 0) {
-      return [
-        stopsAndStations[0]?.gtfsId ||
-          stopsAndStations[0]?.stationId ||
-          stopsAndStations[0].node.place.gtfsId,
-      ];
-    }
-    return [''];
-  };
-
   // Marker for the search point.
   if (position.type !== 'CurrentLocation' && showWalkRoute) {
-    leafletObjs.push(getLocationMarker(position));
+    leafletObjs.push(
+      <LocationMarker
+        key={`from-${position.lat}:${position.lon}`}
+        position={position}
+        type="from"
+      />,
+    );
   }
 
   const mapProps = {
     stopsToShow: mode === 'FAVORITE' ? Array.from(favouriteIds) : undefined,
-    highlightedStops: highlightedStops(),
+    highlightedStops: sortedStopEdges.length ? [getId(sortedStopEdges[0])] : [],
     mergeStops: false,
     bounds,
     leafletObjs,
@@ -419,7 +369,7 @@ function NearYouMap(
   if (breakpoint === 'large') {
     return (
       <>
-        {context.config.useCookiesPrompt && <CookieSettingsButton />}
+        {config.useCookiesPrompt && <CookieSettingsButton />}
         <MapWithTracking {...mapProps} />
       </>
     );
@@ -429,7 +379,7 @@ function NearYouMap(
       <BackButton
         icon="icon_arrow-collapse--left"
         iconClassName="arrow-icon"
-        color={context.config.colors.primary}
+        color={config.colors.primary}
         fallback="back"
       />
       <MapWithTracking {...mapProps} />
@@ -438,19 +388,21 @@ function NearYouMap(
 }
 
 NearYouMap.propTypes = {
-  stopsNearYou: PropTypes.shape({
-    nearest: PropTypes.shape({
-      // eslint-disable-next-line
+  stops: PropTypes.oneOfType([
+    PropTypes.shape({
+      nearest: PropTypes.shape({
+        // eslint-disable-next-line
       edges: PropTypes.arrayOf(PropTypes.object).isRequired,
-    }).isRequired,
-  }),
-  prioritizedStopsNearYou: PropTypes.arrayOf(stopShape),
+      }).isRequired,
+    }),
+    PropTypes.arrayOf(PropTypes.object),
+  ]),
+  prioritizedStops: PropTypes.arrayOf(stopShape),
   // eslint-disable-next-line
-  favouriteIds: PropTypes.object,
+  favouriteIds: PropTypes.object.isRequired,
   position: locationShape.isRequired,
   match: matchShape.isRequired,
   breakpoint: PropTypes.string.isRequired,
-  language: PropTypes.string.isRequired,
   relay: relayShape.isRequired,
   loading: PropTypes.bool,
   showWalkRoute: PropTypes.bool,
@@ -458,12 +410,11 @@ NearYouMap.propTypes = {
 };
 
 NearYouMap.defaultProps = {
-  stopsNearYou: null,
+  stops: [],
   showWalkRoute: false,
   loading: false,
-  favouriteIds: undefined,
   setMWTRef: undefined,
-  prioritizedStopsNearYou: [],
+  prioritizedStops: [],
 };
 
 NearYouMap.contextTypes = {

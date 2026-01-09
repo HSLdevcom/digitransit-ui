@@ -25,11 +25,6 @@ export default configMerger(walttiConfig, {
     bus: {
       availableForSelection: true,
       defaultValue: true,
-      nearYouLabel: {
-        fi: 'Lähipysäkit kartalla',
-        sv: 'Hållplatser på kartan',
-        en: 'Nearby stops on map',
-      },
     },
     citybike: {
       availableForSelection: true,
@@ -160,9 +155,6 @@ export default configMerger(walttiConfig, {
     1: 'A',
     2: 'B',
   },
-  vehicles: true,
-  showVehiclesOnStopPage: true,
-  showVehiclesOnItineraryPage: true,
   zones: {
     stops: true,
     itinerary: true,

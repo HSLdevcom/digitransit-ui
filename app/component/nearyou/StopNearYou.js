@@ -1,57 +1,53 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, intlShape } from 'react-intl';
 import { Link } from 'found';
-import connectToStores from 'fluxible-addons-react/connectToStores';
 import Modal from '@hsl-fi/modal';
 import { stopShape, configShape, relayShape } from '../../util/shapes';
 import { hasEntitiesOfType } from '../../util/alertUtils';
 import { stopPagePath } from '../../util/path';
 import { AlertEntityType } from '../../constants';
-import StopNearYouHeader from './StopNearYouHeader';
+import NearYouHeader from './NearYouHeader';
 import AlertBanner from '../AlertBanner';
 import StopNearYouDepartureRowContainer from './StopNearYouDepartureRowContainer';
 import CapacityModal from '../CapacityModal';
 
 const StopNearYou = (
-  { stop, desc, stopId, currentTime, currentMode, relay, isParentTabActive },
+  { stop, currentTime, relay, isParentTabActive },
   { config, intl },
 ) => {
   if (!stop.stoptimesWithoutPatterns) {
     return null;
   }
+  const timeRef = useRef(currentTime);
   const [capacityModalOpen, setCapacityModalOpen] = useState(false);
   const stopMode = stop.stoptimesWithoutPatterns[0]?.trip.route.mode;
   const { gtfsId } = stop;
 
   useEffect(() => {
-    let id = gtfsId;
-    if (stopId) {
-      id = stopId;
-    }
-    if (currentMode === stopMode || !currentMode) {
-      relay?.refetch(oldVariables => {
-        return { ...oldVariables, stopId: id, startTime: currentTime };
+    if (isParentTabActive && currentTime - timeRef.current > 30) {
+      relay.refetch(oldVariables => {
+        return { ...oldVariables, stopId: gtfsId, startTime: currentTime };
       }, null);
+      timeRef.current = currentTime;
     }
-  }, [currentTime, currentMode]);
+  }, [currentTime, isParentTabActive]);
 
-  const description = desc || stop.desc;
   const isStation = stop.locationType === 'STATION';
   const linkAddress = stopPagePath(isStation, gtfsId);
-
   const { constantOperationStops } = config;
   const { locale } = intl;
   const isConstantOperation = constantOperationStops[gtfsId];
   const filteredAlerts = stop.alerts.filter(alert =>
     hasEntitiesOfType(alert, AlertEntityType.Stop),
   );
+
   return (
     <span role="listitem">
       <div className="stop-near-you-container">
-        <StopNearYouHeader
+        <NearYouHeader
           stop={stop}
-          desc={description}
+          desc={stop.desc}
           isStation={isStation}
           linkAddress={linkAddress}
         />
@@ -86,7 +82,7 @@ const StopNearYou = (
               mode={stopMode}
               stopTimes={stop.stoptimesWithoutPatterns}
               isStation={isStation && stopMode !== 'SUBWAY'}
-              setCapacityModalOpen={() => setCapacityModalOpen(true)}
+              openCapacityModal={() => setCapacityModalOpen(true)}
               isParentTabActive={isParentTabActive}
             />
             <Link
@@ -119,32 +115,11 @@ const StopNearYou = (
   );
 };
 
-const connectedComponent = connectToStores(
-  StopNearYou,
-  ['TimeStore'],
-  (context, props) => {
-    return {
-      ...props,
-      currentTime: context.getStore('TimeStore').getCurrentTime(),
-    };
-  },
-);
-
 StopNearYou.propTypes = {
   stop: stopShape.isRequired,
-  stopId: PropTypes.string,
   currentTime: PropTypes.number.isRequired,
-  currentMode: PropTypes.string.isRequired,
-  desc: PropTypes.string,
-  relay: relayShape,
-  isParentTabActive: PropTypes.bool,
-};
-
-StopNearYou.defaultProps = {
-  stopId: undefined,
-  desc: undefined,
-  relay: undefined,
-  isParentTabActive: false,
+  relay: relayShape.isRequired,
+  isParentTabActive: PropTypes.bool.isRequired,
 };
 
 StopNearYou.contextTypes = {
@@ -152,4 +127,4 @@ StopNearYou.contextTypes = {
   intl: intlShape.isRequired,
 };
 
-export default connectedComponent;
+export default StopNearYou;

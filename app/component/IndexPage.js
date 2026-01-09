@@ -229,19 +229,18 @@ class IndexPage extends React.Component {
     const { intl, config } = this.context;
     const { colors, fontWeights } = config;
     const { lang } = this.props;
-    const transportModes = getTransportModes(config);
     const nearYouModes = getNearYouModes(config);
-
-    // Styles are defined by which button type is configured (narrow/wide)
-    const narrowButtons = config.narrowNearYouButtons;
-    const modeTitles = filterObject(
-      transportModes,
-      'availableForSelection',
-      true,
-    );
     // If nearYouModes is configured, display those. Otherwise, display all configured transport modes
-    const modes =
-      nearYouModes?.length > 0 ? nearYouModes : Object.keys(modeTitles);
+    const modeArray =
+      nearYouModes.length > 0
+        ? nearYouModes
+        : Object.keys(
+            filterObject(
+              getTransportModes(config),
+              'availableForSelection',
+              true,
+            ),
+          );
 
     const alertsContext = {
       currentTime: this.props.currentTime,
@@ -249,29 +248,34 @@ class IndexPage extends React.Component {
       feedIds: config.feedIds,
     };
 
+    const directionProps = config.narrowNearYouButtons
+      ? {}
+      : {
+          buttonStyle: config.nearYouButton,
+          horizontal: false,
+        };
+
     return config.showNearYouButtons ? (
       <CtrlPanel.NearStopsAndRoutes
-        modeArray={modes}
+        modeArray={modeArray}
+        modeSet={config.iconModeSet}
         urlPrefix={`/${PREFIX_NEARYOU}`}
         language={lang}
-        showTitle
+        title={config.nearYouTitle}
         alertsContext={alertsContext}
         origin={this.props.origin}
         omitLanguageUrl
         onClick={this.clickStopNearIcon}
-        buttonStyle={narrowButtons ? undefined : config.nearYouButton}
-        title={narrowButtons ? undefined : config.nearYouTitle}
-        modes={narrowButtons ? undefined : modeTitles}
-        modeSet={config.nearbyModeSet || config.iconModeSet}
         modeIconColors={colors.iconColors}
         fontWeights={fontWeights}
+        {...directionProps}
       />
     ) : (
       <div className="stops-near-you-text">
         <h2>
           {intl.formatMessage({
-            id: 'stop-near-you-title',
-            defaultMessage: 'Stops and lines near you',
+            id: 'near-you-search',
+            defaultMessage: 'Search stops and routes',
           })}
         </h2>
       </div>
@@ -288,12 +292,15 @@ class IndexPage extends React.Component {
     const { breakpoint, lang } = this.props;
     const origin = this.pendingOrigin || this.props.origin;
     const destination = this.pendingDestination || this.props.destination;
+    const locationSources = ['History', 'Datasource'];
     const sources = ['Favourite', 'History', 'Datasource'];
     const stopAndRouteSearchTargets = ['Stations', 'Stops', 'Routes'];
     const targets = getLocationSearchTargets(config, breakpoint !== 'large');
 
     targets.push('FutureRoutes');
-
+    if (this.context.getStore('FavouriteStore').getLocationCount()) {
+      locationSources.push('Favourite');
+    }
     if (!config.targetsFromOTP) {
       if (useCitybikes(config.vehicleRental?.networks, config)) {
         stopAndRouteSearchTargets.push('VehicleRentalStations');
@@ -312,7 +319,7 @@ class IndexPage extends React.Component {
       origin,
       destination,
       lang,
-      sources,
+      locationSources,
       targets,
       color,
       hoverColor,
@@ -375,13 +382,7 @@ class IndexPage extends React.Component {
           <h1 className="sr-only">
             <FormattedMessage id="index.title" default="Journey Planner" />
           </h1>
-          <CtrlPanel
-            instance="hsl"
-            language={lang}
-            origin={origin}
-            position="left"
-            fontWeights={fontWeights}
-          >
+          <CtrlPanel position="left" fontWeights={fontWeights}>
             <span className="sr-only">
               <FormattedMessage
                 id="search-fields.sr-instructions"
@@ -433,12 +434,7 @@ class IndexPage extends React.Component {
             backgroundColor: '#ffffff',
           }}
         >
-          <CtrlPanel
-            instance="hsl"
-            language={lang}
-            position="bottom"
-            fontWeights={fontWeights}
-          >
+          <CtrlPanel position="bottom" fontWeights={fontWeights}>
             <LocationSearch
               disableAutoFocus
               isMobile

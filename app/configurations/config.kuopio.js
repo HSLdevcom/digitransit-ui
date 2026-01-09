@@ -71,10 +71,6 @@ export default configMerger(walttiConfig, {
     lon: 27.678136,
   },
 
-  vehicles: true,
-  showVehiclesOnStopPage: true,
-  showVehiclesOnItineraryPage: true,
-
   vehicleRental: {
     networks: {
       freebike_kuopio: {

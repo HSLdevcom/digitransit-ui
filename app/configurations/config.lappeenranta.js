@@ -153,10 +153,6 @@ export default configMerger(walttiConfig, {
     lon: 28.18572,
   },
 
-  vehicles: true,
-  showVehiclesOnStopPage: true,
-  showVehiclesOnItineraryPage: true,
-
   menu: {
     copyright: { label: `© Lappeenranta ${walttiConfig.YEAR}` },
     content: [

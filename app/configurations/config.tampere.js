@@ -275,8 +275,6 @@ export default configMerger(walttiConfig, {
     ],
   },
 
-  staticMessages: [],
-
   aboutThisService: {
     fi: [
       {
@@ -307,9 +305,6 @@ export default configMerger(walttiConfig, {
       },
     ],
   },
-  vehicles: true,
-  showVehiclesOnStopPage: true,
-  showVehiclesOnItineraryPage: true,
   timetables: {
     tampere: tampereTimetables,
   },
@@ -366,7 +361,7 @@ export default configMerger(walttiConfig, {
     },
   },
 
-  nearYouModes: ['bus', 'tram', 'rail', 'citybike'],
+  nearYouModes: ['bus', 'tram', 'rail', 'citybike', 'bikepark', 'carpark'],
 
   bikeBoardingModes: {
     RAIL: { showNotification: true },

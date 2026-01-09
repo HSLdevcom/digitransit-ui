@@ -46,7 +46,7 @@ SeparatorLine.defaultProps = {
  * @param {string[]} props.modeArray - Names of transport modes to show buttons for. Should be in lower case. Also defines button order
  * @param {string} props.language - Language used for accessible labels
  * @param {string} props.urlPrefix - URL prefix for links. Must end with /lahellasi
- * @param {boolean} props.showTitle - Show title, default is false
+ * @param {boolean} props.title - Custom titles per language
  * @param {Object} props.alertsContext
  * @param {function} props.alertsContext.getModesWithAlerts - Function which should return an array of transport modes that have active alerts (e.g. [BUS, SUBWAY])
  * @param {Number} props.alertsContext.currentTime - Time stamp with which the returned alerts are validated with
@@ -64,7 +64,6 @@ SeparatorLine.defaultProps = {
  *      modeArray={['bus', 'tram', 'subway', 'rail', 'ferry', 'citybike']}
  *      language="fi"
  *      urlPrefix="http://example.com/lahellasi"
- *      showTitle
  *      alertsContext={alertsContext}
  *    />
  *
@@ -79,25 +78,30 @@ const validNearYouModes = [
   'airplane',
   'ferry',
   'citybike',
+  'bikepark',
+  'carpark',
 ];
 
-function getIconName(mode, modeSet) {
-  return modeSet === 'default' ? `mode-${mode}` : `mode-${modeSet}-${mode}`;
+const noTheme = ['bikepark', 'carpark', 'subway', 'airplane']; // common icon in all themes
+
+function getIconName(mode, modeSet, horizontal) {
+  const theme = noTheme.includes(mode) ? '' : `-${modeSet}`;
+  const fill = horizontal ? '' : '-fill'; // do not render boxed icon for vertical
+  return `${mode}${fill}${theme}`;
 }
 
 function NearStopsAndRoutes({
+  horizontal,
   modeArray,
   urlPrefix,
   language,
-  showTitle,
+  title,
   alertsContext,
   LinkComponent,
   origin,
   omitLanguageUrl,
   onClick,
   buttonStyle,
-  title,
-  modes,
   modeSet,
   modeIconColors,
   fontWeights,
@@ -134,15 +138,19 @@ function NearStopsAndRoutes({
         }`;
       }
 
-      const modeButton = !modes ? (
+      const modeButton = horizontal ? (
         <>
           <span className={styles['sr-only']}>
-            {t(`pick-mode-${mode}`, { lng: language })}
+            {t(mode, { lng: language })}
           </span>
           <span className={styles['transport-mode-icon-container']}>
             <span className={styles['transport-mode-icon-with-icon']}>
               <Icon
-                img={mode === 'favorite' ? 'star' : getIconName(mode, modeSet)}
+                img={
+                  mode === 'favorite'
+                    ? 'star'
+                    : getIconName(mode, modeSet, true)
+                }
                 color={modeIconColors[`mode-${mode}`]}
               />
               {withAlert && (
@@ -154,34 +162,25 @@ function NearStopsAndRoutes({
           </span>
         </>
       ) : (
-        <>
-          <span className={styles['sr-only']}>
-            {t(`pick-mode-${mode}`, { lng: language })}
+        <span className={styles['transport-mode-icon-container']}>
+          <span
+            className={styles['transport-mode-icon-with-icon']}
+            style={{
+              '--bckColor': modeIconColors[`mode-${mode}`],
+              '--borderRadius': buttonStyle.borderRadius,
+            }}
+          >
+            <Icon img={getIconName(mode, modeSet, false)} />
+            {withAlert && (
+              <span className={styles['transport-mode-alert-icon']}>
+                <Icon img="caution" color="#dc0451" />
+              </span>
+            )}
           </span>
-          <span className={styles['transport-mode-icon-container']}>
-            <span
-              className={styles['transport-mode-icon-with-icon']}
-              style={{
-                '--bckColor': `${
-                  modes[mode]['color']
-                    ? modes[mode]['color']
-                    : modeIconColors[`mode-${mode}`] || buttonStyle['color']
-                }`,
-                '--borderRadius': `${buttonStyle.borderRadius}`,
-              }}
-            >
-              <Icon img={getIconName(mode, modeSet)} />
-              {withAlert && (
-                <span className={styles['transport-mode-alert-icon']}>
-                  <Icon img="caution" color="#dc0451" />
-                </span>
-              )}
-            </span>
-            <span className={styles['transport-mode-title']}>
-              {modes[mode]['nearYouLabel'][language]}
-            </span>
+          <span className={styles['transport-mode-title']}>
+            {t(mode, { lng: language })}
           </span>
-        </>
+        </span>
       );
 
       if (onClick) {
@@ -220,16 +219,12 @@ function NearStopsAndRoutes({
       className={styles['near-you-container']}
       style={{ '--font-weight-medium': fontWeights.medium }}
     >
-      {showTitle && (
-        <h2 className={styles['near-you-title']}>
-          {!modes
-            ? t('title-route-stop-station', { lng: language })
-            : title[language]}
-        </h2>
-      )}
+      <h2 className={styles['near-you-title']}>
+        {title?.[language] || t('title', { lng: language })}
+      </h2>
       <div
         className={
-          !modes
+          horizontal
             ? styles['near-you-buttons-container']
             : styles['near-you-buttons-container-wide']
         }
@@ -242,9 +237,10 @@ function NearStopsAndRoutes({
 
 NearStopsAndRoutes.propTypes = {
   modeArray: PropTypes.arrayOf(PropTypes.string).isRequired,
+  title: PropTypes.objectOf(PropTypes.string),
   urlPrefix: PropTypes.string.isRequired,
   language: PropTypes.string,
-  showTitle: PropTypes.bool,
+  horizontal: PropTypes.bool,
   alertsContext: PropTypes.shape({
     getModesWithAlerts: PropTypes.func,
     currentTime: PropTypes.number,
@@ -259,8 +255,6 @@ NearStopsAndRoutes.propTypes = {
   omitLanguageUrl: PropTypes.bool,
   onClick: PropTypes.func,
   buttonStyle: PropTypes.objectOf(PropTypes.string),
-  title: PropTypes.objectOf(PropTypes.string),
-  modes: PropTypes.object,
   modeIconColors: PropTypes.objectOf(PropTypes.string),
   modeSet: PropTypes.string,
   fontWeights: PropTypes.shape({
@@ -269,7 +263,7 @@ NearStopsAndRoutes.propTypes = {
 };
 
 NearStopsAndRoutes.defaultProps = {
-  showTitle: false,
+  horizontal: true,
   language: 'fi',
   LinkComponent: undefined,
   origin: undefined,
@@ -278,16 +272,18 @@ NearStopsAndRoutes.defaultProps = {
   alertsContext: undefined,
   onClick: undefined,
   title: undefined,
-  modes: undefined,
   modeIconColors: {
+    'mode-airplane': '#0046ad',
     'mode-bus': '#007ac9',
     'mode-rail': '#8c4799',
     'mode-tram': '#008151',
     'mode-subway': '#ed8c00',
     'mode-ferry': '#007A97',
     'mode-citybike': '#F2B62D',
+    'mode-bikepark': '#f2b62d',
+    'mode-carpark': '#007ac9',
   },
-  modeSet: 'default',
+  modeSet: 'hsl',
   fontWeights: {
     medium: 500,
   },
@@ -303,7 +299,6 @@ NearStopsAndRoutes.defaultProps = {
  *      modearray={['bus', 'tram', 'subway', 'rail', 'ferry', 'citybike']}
  *      language="fi"
  *      urlPrefix="http://example.com/lahellasi"
- *      showTitle
  *    />
  *  </CtrlPanel>
  */

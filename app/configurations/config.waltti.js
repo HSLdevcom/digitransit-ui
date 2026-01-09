@@ -60,77 +60,45 @@ export default {
   availableLanguages: ['fi', 'sv', 'en'],
   defaultLanguage: 'fi',
 
+  vehicles: true,
+  showVehiclesOnStopPage: true,
+  showVehiclesOnItineraryPage: true,
   showCO2InItinerarySummary: true,
 
   transportModes: {
     bus: {
       availableForSelection: true,
       defaultValue: true,
-      nearYouLabel: {
-        fi: 'Bussit ja lähipysäkit kartalla',
-        sv: 'Bussar och hållplatser på kartan',
-        en: 'Buses and nearby stops on map',
-      },
     },
 
     rail: {
       availableForSelection: false,
       defaultValue: false,
-      nearYouLabel: {
-        fi: 'Junat ja lähiasemat kartalla',
-        sv: 'Tåg och stationer på kartan',
-        en: 'Trains and nearby stations on map',
-      },
     },
 
     tram: {
       availableForSelection: false,
       defaultValue: false,
-      nearYouLabel: {
-        fi: 'Raitiovaunut ja lähipysäkit kartalla',
-        sv: 'Spårvagnar och hållplatser på kartan',
-        en: 'Trams and nearby stops on map',
-      },
     },
 
     subway: {
       availableForSelection: false,
       defaultValue: false,
-      nearYouLabel: {
-        fi: 'Metrot ja lähiasemat kartalla',
-        sv: 'Metro och stationer på kartan',
-        en: 'Metro and nearby stations on map',
-      },
     },
 
     citybike: {
       availableForSelection: false,
       defaultValue: false,
-      nearYouLabel: {
-        fi: 'Lähimmät kaupunkipyöräasemat',
-        sv: 'Närmaste cykelstationer',
-        en: 'The closest city bike stations',
-      },
     },
 
     airplane: {
       availableForSelection: false,
       defaultValue: false,
-      nearYouLabel: {
-        fi: 'Lähimmät lentoasemat',
-        sv: 'Närmaste flygplatser',
-        en: 'The closest airports',
-      },
     },
 
     ferry: {
       availableForSelection: false,
       defaultValue: false,
-      nearYouLabel: {
-        fi: 'Lähimmät lauttalaiturit',
-        sv: 'Närmaste färjekajer',
-        en: 'The closest ferry piers',
-      },
     },
 
     funicular: {
@@ -144,10 +112,18 @@ export default {
     },
   },
 
+  showNearYouButtons: true,
+  nearYouButton: {
+    borderRadius: '50%',
+    color: '#000F94',
+  },
+  nearYouTitle: {
+    fi: 'Aikataulut ja linjat',
+    sv: 'Tidtabeller och linjer',
+    en: 'Timetables and routes',
+  },
   nearYouModes: ['bus'],
-  nearbyModeSet: 'waltti',
-
-  maxNearbyStopDistance: {
+  maxNearYouDistance: {
     bus: 30000,
     tram: 30000,
     rail: 50000,
@@ -172,19 +148,6 @@ export default {
       href: 'https://matka.fintraffic.fi/',
     },
   },
-
-  showNearYouButtons: true,
-  nearYouButton: {
-    borderRadius: '50%',
-    color: '#000F94',
-  },
-  nearYouTitle: {
-    fi: 'Aikataulut ja linjat',
-    sv: 'Tidtabeller och linjer',
-    en: 'Timetables and routes',
-  },
-
-  allowLogin: false,
 
   messageBarAlerts: true,
 

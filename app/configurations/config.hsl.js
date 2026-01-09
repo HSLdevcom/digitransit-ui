@@ -122,7 +122,7 @@ export default {
   loginAnalyticsEventName: 'user-hsl-id',
   loginAnalyticsKey: 'hsl-id',
 
-  nearbyRoutes: {
+  nearYouRoutes: {
     radius: 500,
     bucketSize: 100,
   },
@@ -183,7 +183,7 @@ export default {
       return ['citybike-stop-default', '#f2b62d'];
     },
   },
-  iconModeSet: 'default',
+  iconModeSet: 'hsl',
   fontWeights: {
     medium: 500,
   },
@@ -349,7 +349,7 @@ export default {
     en: 'HSL',
   },
 
-  maxNearbyStopDistance: {
+  maxNearYouDistance: {
     favorite: 20000,
     bus: 20000,
     tram: 20000,
@@ -477,7 +477,7 @@ export default {
         enabled: true,
         season: {
           preSeasonStart: '18.3',
-          start: '1.4',
+          start: '1.1',
           end: '31.10',
         },
         capacity: BIKEAVL_WITHMAX,
@@ -578,6 +578,8 @@ export default {
     'rail',
     'ferry',
     'citybike',
+    'bikepark',
+    'carpark',
   ],
   narrowNearYouButtons: true,
 

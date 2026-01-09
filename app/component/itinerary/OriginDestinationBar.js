@@ -186,7 +186,7 @@ const connectedComponent = connectToStores(
   ['PreferencesStore', 'FavouriteStore', 'ViaPointStore', 'PositionStore'],
   ({ getStore }) => ({
     language: getStore('PreferencesStore').getLanguage(),
-    showFavourites: getStore('FavouriteStore').getStatus() === 'has-data',
+    showFavourites: getStore('FavouriteStore').getLocationCount() > 0,
     viaPoints: getStore('ViaPointStore').getViaPoints(),
     locationState: getStore('PositionStore').getLocationState(),
   }),
