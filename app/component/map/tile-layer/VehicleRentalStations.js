@@ -116,11 +116,11 @@ class VehicleRentalStations {
     );
     let color;
     if (formFactors === 'SCOOTER') {
-      color = this.config.colors.iconColors['mode-scooter'];
+      color = this.config.colors.scooter;
     } else if (name.includes('secondary')) {
-      color = this.config.colors.iconColors['mode-citybike-secondary'];
+      color = this.config.colors['citybike-secondary'];
     } else {
-      color = this.config.colors.iconColors['mode-citybike'];
+      color = this.config.colors.citybike;
     }
     if (operative === false) {
       name = 'icon_citybike';

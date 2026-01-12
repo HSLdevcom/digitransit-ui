@@ -229,7 +229,7 @@ const EmbeddedSearch = (props, context) => {
     selectHandler: onSelectLocation,
     onGeolocationStart: onSelectLocation,
     fontWeights,
-    modeIconColors: config.colors.iconColors,
+    colors: config.colors,
     modeSet: config.iconModeSet,
     isMobile: true,
     showScroll: true,

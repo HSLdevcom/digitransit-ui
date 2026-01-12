@@ -10,7 +10,6 @@ import LocationMarker from './LocationMarker';
 import MapWithTracking from './MapWithTracking';
 import { otpToLocation } from '../../util/otpStrings';
 import { getJson } from '../../util/xhrPromise';
-import { LightenDarkenColor } from '../../util/colorUtils';
 import { mapLayerShape } from '../../store/MapLayerStore';
 import withBreakpoint from '../../util/withBreakpoint';
 import LocationMarkerWithPermanentTooltip from './LocationMarkerWithPermanentTooltip';
@@ -179,7 +178,7 @@ class SelectFromMap extends React.Component {
   };
 
   confirmButton = (isEnabled, mapCenter, positionSelectingFromMap) => {
-    const { intl } = this.context;
+    const { intl, config } = this.context;
 
     return (
       <ConfirmLocationFromMapButton
@@ -195,11 +194,8 @@ class SelectFromMap extends React.Component {
         })}
         type={this.props.type}
         onConfirm={this.props.onConfirm}
-        color={this.context.config.colors.primary}
-        hoverColor={
-          this.context.config.colors.hover ||
-          LightenDarkenColor(this.context.config.colors.primary, -20)
-        }
+        color={config.colors.primary}
+        hoverColor={config.colors.hover}
       />
     );
   };

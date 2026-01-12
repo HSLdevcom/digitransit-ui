@@ -37,10 +37,8 @@ export default configMerger(walttiConfig, {
   colors: {
     primary: colorPrimary,
     hover: '#00BF6F',
-    iconColors: {
-      'mode-bus': colorPrimary,
-      'mode-ferry': '#0064f0',
-    },
+    bus: colorPrimary,
+    ferry: '#0064f0',
   },
 
   appBarLink: { name: 'Seutu+', href: 'https://seutuplus.fi/' },

@@ -35,7 +35,7 @@ function NaviMessage(
       break;
     case 'ALERT':
       iconId = 'icon_caution_white_exclamation';
-      color = '#DC0451';
+      color = config.colors.caution;
       break;
     default:
       iconId = 'notification-bell';

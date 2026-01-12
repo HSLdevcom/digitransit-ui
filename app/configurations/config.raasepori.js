@@ -21,9 +21,7 @@ export default configMerger(walttiConfig, {
 
   colors: {
     primary: '#5B7B32',
-    iconColors: {
-      'mode-bus': '#5B7B32',
-    },
+    bus: '#5B7B32',
   },
 
   socialMedia: {

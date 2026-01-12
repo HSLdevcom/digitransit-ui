@@ -571,7 +571,7 @@ export function getVehicleAvailabilityIndicatorColor(available, config) {
   return (
     // eslint-disable-next-line no-nested-ternary
     available === 0
-      ? '#DC0451'
+      ? config.colors.caution
       : available > config.vehicleRental.fewAvailableCount
         ? '#3B7F00'
         : '#FCBC19'

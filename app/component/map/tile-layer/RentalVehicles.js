@@ -149,7 +149,7 @@ class RentalVehicles {
   };
 
   drawSmallScooterMarker = geom => {
-    const iconColor = this.config.colors.iconColors['mode-scooter'];
+    const iconColor = this.config.colors.scooter;
     drawSmallVehicleRentalMarker(
       this.tile,
       geom,

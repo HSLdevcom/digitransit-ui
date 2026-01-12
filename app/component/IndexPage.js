@@ -34,7 +34,6 @@ import { addAnalyticsEvent } from '../util/analyticsUtils';
 import withBreakpoint from '../util/withBreakpoint';
 import Geomover from './Geomover';
 import scrollTop from '../util/scroll';
-import { LightenDarkenColor } from '../util/colorUtils';
 import { getRefPoint } from '../util/apiUtils';
 import { filterObject } from '../util/filterUtils';
 import {
@@ -266,7 +265,7 @@ class IndexPage extends React.Component {
         origin={this.props.origin}
         omitLanguageUrl
         onClick={this.clickStopNearIcon}
-        modeIconColors={colors.iconColors}
+        colors={colors}
         fontWeights={fontWeights}
         {...directionProps}
       />
@@ -286,9 +285,6 @@ class IndexPage extends React.Component {
   render() {
     const { intl, config } = this.context;
     const { trafficNowLink, colors, fontWeights } = config;
-    const color = colors.primary;
-    const hoverColor = colors.hover || LightenDarkenColor(colors.primary, -20);
-    const accessiblePrimaryColor = colors.accessiblePrimary || colors.primary;
     const { breakpoint, lang } = this.props;
     const origin = this.pendingOrigin || this.props.origin;
     const destination = this.pendingDestination || this.props.destination;
@@ -321,9 +317,6 @@ class IndexPage extends React.Component {
       lang,
       locationSources,
       targets,
-      color,
-      hoverColor,
-      accessiblePrimaryColor,
       refPoint,
       searchPanelText: intl.formatMessage({
         id: 'where',
@@ -336,7 +329,7 @@ class IndexPage extends React.Component {
       onGeolocationStart: this.onSelectLocation,
       fromMap: this.props.fromMap,
       fontWeights,
-      modeIconColors: colors.iconColors,
+      colors,
       modeSet: config.iconModeSet,
     };
 
@@ -350,13 +343,10 @@ class IndexPage extends React.Component {
       getAutoSuggestIcons: config.getAutoSuggestIcons,
       value: '',
       lang,
-      color,
-      hoverColor,
-      accessiblePrimaryColor,
       sources,
       targets: stopAndRouteSearchTargets,
       fontWeights,
-      modeIconColors: colors.iconColors,
+      colors,
       modeSet: config.iconModeSet,
       geocodingSize: 25,
     };
@@ -391,7 +381,11 @@ class IndexPage extends React.Component {
             </span>
             <LocationSearch {...locationSearchProps} />
             <div className="datetimepicker-container">
-              <DatetimepickerContainer realtime color={color} lang={lang} />
+              <DatetimepickerContainer
+                realtime
+                color={colors.primary}
+                lang={lang}
+              />
             </div>
             {!config.hideFavourites && (
               <>
@@ -441,7 +435,11 @@ class IndexPage extends React.Component {
               {...locationSearchProps}
             />
             <div className="datetimepicker-container">
-              <DatetimepickerContainer realtime color={color} lang={lang} />
+              <DatetimepickerContainer
+                realtime
+                color={colors.primary}
+                lang={lang}
+              />
             </div>
             <FavouritesContainer
               onClickFavourite={this.clickFavourite}

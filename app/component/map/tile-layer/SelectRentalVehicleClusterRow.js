@@ -13,8 +13,7 @@ function SelectVehicleRentalClusterRow(
   { config },
 ) {
   const img = isScooter ? 'icon_scooter-lollipop' : 'icon_citybike-lollipop';
-  const color =
-    config.colors.iconColors[isScooter ? 'mode-scooter' : 'mode-citybike'];
+  const color = config.colors[isScooter ? 'scooter' : 'citybike'];
   const linkAddress = `/${prefix}/${encodeURIComponent(id)}/${[
     ...networksInCluster,
   ]}`;

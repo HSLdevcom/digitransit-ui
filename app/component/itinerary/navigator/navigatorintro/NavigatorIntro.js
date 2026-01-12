@@ -12,8 +12,7 @@ const NavigatorIntro = (
 ) => {
   const { config, intl } = context;
 
-  const primaryColor =
-    config.colors?.accessiblePrimary || config.colors?.primary || 'black';
+  const primaryColor = config.colors.accessiblePrimary;
 
   return (
     <>

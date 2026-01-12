@@ -4,7 +4,9 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { useTranslation, I18nextProvider } from 'react-i18next';
-import Icon from '@digitransit-component/digitransit-component-icon';
+import Icon, {
+  defaultColors,
+} from '@digitransit-component/digitransit-component-icon';
 import styles from './helpers/styles.scss';
 import i18n from './helpers/i18n';
 
@@ -52,7 +54,7 @@ SeparatorLine.defaultProps = {
  * @param {Number} props.alertsContext.currentTime - Time stamp with which the returned alerts are validated with
  * @param {Number} props.alertsContext.feedIds - feedIds for which the alerts are fetched for
  * @param {element} props.LinkComponent - React component for creating a link, default is undefined and normal anchor tags are used
- * @param {element} props.modeIconColors - object of mode icon colors used for transport mode icons
+ * @param {element} props.colors - theme color configuration
  *
  * @example
  * const alertsContext = {
@@ -90,6 +92,44 @@ function getIconName(mode, modeSet, horizontal) {
   return `${mode}${fill}${theme}`;
 }
 
+const MAX_VISIBLE_MODES = 7;
+
+function horizontalButton(mode, modeSet, colors, withAlert, srMsg) {
+  let iconProps;
+
+  if (mode === 'favorite') {
+    iconProps = { img: 'star' };
+  } else if (mode === 'more') {
+    iconProps = {
+      img: 'arrow',
+      color: colors['primary'],
+      width: 1.2,
+      height: 1.2,
+    };
+  } else {
+    iconProps = {
+      img: getIconName(mode, modeSet, true),
+      color: colors[mode],
+    };
+  }
+
+  return (
+    <>
+      <span className={styles['sr-only']}>{srMsg}</span>
+      <span className={styles['transport-mode-icon-container']}>
+        <span className={styles['transport-mode-icon-with-icon']}>
+          <Icon {...iconProps} />
+          {withAlert && (
+            <span className={styles['transport-mode-alert-icon']}>
+              <Icon img="caution" color={colors['caution']} />
+            </span>
+          )}
+        </span>
+      </span>
+    </>
+  );
+}
+
 function NearStopsAndRoutes({
   horizontal,
   modeArray,
@@ -103,7 +143,7 @@ function NearStopsAndRoutes({
   onClick,
   buttonStyle,
   modeSet,
-  modeIconColors,
+  colors,
   fontWeights,
 }) {
   const [modesWithAlerts, setModesWithAlerts] = useState([]);
@@ -127,92 +167,94 @@ function NearStopsAndRoutes({
     urlParts.splice(urlParts.length - 1, 0, language);
     urlStart = urlParts.join('/');
   }
-  const buttons = modeArray
-    .filter(mode => validNearYouModes.includes(mode))
-    .map(mode => {
-      const withAlert = modesWithAlerts.includes(mode.toUpperCase());
-      let url = `${urlStart}/${mode.toUpperCase()}/POS`;
-      if (origin.lat && origin.lon) {
-        url += `/${encodeURIComponent(origin.address)}::${origin.lat},${
-          origin.lon
-        }`;
-      }
 
-      const modeButton = horizontal ? (
-        <>
-          <span className={styles['sr-only']}>
-            {t(mode, { lng: language })}
-          </span>
-          <span className={styles['transport-mode-icon-container']}>
-            <span className={styles['transport-mode-icon-with-icon']}>
-              <Icon
-                img={
-                  mode === 'favorite'
-                    ? 'star'
-                    : getIconName(mode, modeSet, true)
-                }
-                color={modeIconColors[`mode-${mode}`]}
-              />
-              {withAlert && (
-                <span className={styles['transport-mode-alert-icon']}>
-                  <Icon img="caution" color="#dc0451" />
-                </span>
-              )}
+  let modes = modeArray.filter(mode => validNearYouModes.includes(mode));
+  if (horizontal && modes.length > MAX_VISIBLE_MODES) {
+    modes = modes.slice(0, MAX_VISIBLE_MODES - 1);
+    modes.push('more');
+  }
+
+  const buttons = modes.map(mode => {
+    const withAlert = modesWithAlerts.includes(mode.toUpperCase());
+    let url = `${urlStart}/${mode.toUpperCase()}/POS`;
+    if (origin.lat && origin.lon) {
+      url += `/${encodeURIComponent(origin.address)}::${origin.lat},${
+        origin.lon
+      }`;
+    }
+
+    const modeButton = horizontal ? (
+      horizontalButton(
+        mode,
+        modeSet,
+        colors,
+        withAlert,
+        t(mode, { lng: language }),
+      )
+    ) : (
+      <span className={styles['transport-mode-icon-container']}>
+        <span
+          className={styles['transport-mode-icon-with-icon']}
+          style={{
+            '--bckColor': colors[mode],
+            '--borderRadius': buttonStyle.borderRadius,
+          }}
+        >
+          <Icon
+            img={getIconName(mode, modeSet, false)}
+            width={1.4}
+            height={1.4}
+          />
+          {withAlert && (
+            <span className={styles['transport-mode-alert-icon']}>
+              <Icon img="caution" color={colors['caution']} />
             </span>
-          </span>
-        </>
-      ) : (
-        <span className={styles['transport-mode-icon-container']}>
-          <span
-            className={styles['transport-mode-icon-with-icon']}
-            style={{
-              '--bckColor': modeIconColors[`mode-${mode}`],
-              '--borderRadius': buttonStyle.borderRadius,
-            }}
-          >
-            <Icon img={getIconName(mode, modeSet, false)} />
-            {withAlert && (
-              <span className={styles['transport-mode-alert-icon']}>
-                <Icon img="caution" color="#dc0451" />
-              </span>
-            )}
-          </span>
-          <span className={styles['transport-mode-title']}>
-            {t(mode, { lng: language })}
-          </span>
+          )}
         </span>
-      );
+        <span className={styles['transport-mode-title']}>
+          {t(mode, { lng: language })}
+        </span>
+      </span>
+    );
 
-      if (onClick) {
-        return (
-          <div
-            key={mode}
-            role="link"
-            tabIndex="0"
-            onKeyDown={e => {
-              if (isKeyboardSelectionEvent(e)) {
-                onClick(url, e);
-              }
-            }}
-            onClick={() => onClick(url)}
-          >
-            {modeButton}
-          </div>
-        );
-      }
-      if (LinkComponent) {
-        return (
-          <LinkComponent to={url} key={mode}>
-            {modeButton}
-          </LinkComponent>
-        );
-      }
+    if (mode === 'more') {
       return (
-        <a href={url} key={mode}>
+        <div key={mode} role="link" tabIndex="0">
           {modeButton}
-        </a>
+        </div>
       );
-    });
+    }
+
+    if (onClick) {
+      return (
+        <div
+          key={mode}
+          role="link"
+          tabIndex="0"
+          onKeyDown={e => {
+            if (isKeyboardSelectionEvent(e)) {
+              onClick(url, e);
+            }
+          }}
+          onClick={() => onClick(url)}
+        >
+          {modeButton}
+        </div>
+      );
+    }
+    if (LinkComponent) {
+      return (
+        <LinkComponent to={url} key={mode}>
+          {modeButton}
+        </LinkComponent>
+      );
+    }
+    return (
+      <a href={url} key={mode}>
+        {modeButton}
+      </a>
+    );
+  });
 
   return (
     <div
@@ -255,7 +297,7 @@ NearStopsAndRoutes.propTypes = {
   omitLanguageUrl: PropTypes.bool,
   onClick: PropTypes.func,
   buttonStyle: PropTypes.objectOf(PropTypes.string),
-  modeIconColors: PropTypes.objectOf(PropTypes.string),
+  colors: PropTypes.objectOf(PropTypes.string),
   modeSet: PropTypes.string,
   fontWeights: PropTypes.shape({
     medium: PropTypes.number,
@@ -272,17 +314,7 @@ NearStopsAndRoutes.defaultProps = {
   alertsContext: undefined,
   onClick: undefined,
   title: undefined,
-  modeIconColors: {
-    'mode-airplane': '#0046ad',
-    'mode-bus': '#007ac9',
-    'mode-rail': '#8c4799',
-    'mode-tram': '#008151',
-    'mode-subway': '#ed8c00',
-    'mode-ferry': '#007A97',
-    'mode-citybike': '#F2B62D',
-    'mode-bikepark': '#f2b62d',
-    'mode-carpark': '#007ac9',
-  },
+  colors: defaultColors,
   modeSet: 'hsl',
   fontWeights: {
     medium: 500,

@@ -169,11 +169,9 @@ export default {
     primary: '#0074bf',
     accessiblePrimary: '#0074be',
     hover: '#0062a1',
-    iconColors: {
-      'mode-bus-express': '#CA4000',
-      'mode-bus-local': '#007ac9',
-      'mode-speedtram': '#007E79',
-    },
+    'bus-express': '#CA4000',
+    'bus-local': '#007ac9',
+    speedtram: '#007E79',
   },
   getAutoSuggestIcons: {
     citybikes: station => {
