@@ -1464,6 +1464,7 @@ export default function ItineraryPage(props, context) {
           ) : (
             <NaviContainer
               focusToLeg={focusToLeg}
+              focusToPoint={focusToPoint}
               relayEnvironment={props.relayEnvironment}
               setNavigation={setNavigation}
               mapRef={mwtRef.current}

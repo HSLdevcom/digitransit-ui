@@ -200,10 +200,6 @@ export default configMerger(walttiConfig, {
     lon: 22.267633,
   },
 
-  vehicles: true,
-  showVehiclesOnStopPage: true,
-  showVehiclesOnItineraryPage: true,
-
   aboutThisService: {
     fi: [
       {
@@ -267,8 +263,6 @@ export default configMerger(walttiConfig, {
     layerConfigUrl: 'https://data.foli.fi/geojson/reittiopas',
   },
 
-  showNearYouButtons: true,
-  allowLogin: false,
   constantOperationStops: {
     'FUNI:9900': CONSTANT_OPERATION_PARAGRAPHS.fori,
     'FUNI:9901': CONSTANT_OPERATION_PARAGRAPHS.fori,

@@ -143,19 +143,19 @@
     }
   }
 
-  .no-favorites-container {
+  .no-favourites-container {
     display: flex;
     flex-direction: column;
     text-align: center;
     padding: 3em 2.5em;
     border-top: 1px solid #ddd;
 
-    .no-favorites-header {
+    .no-favourites-header {
       font-size: 0.9375em;
       margin-bottom: 8px;
     }
 
-    .no-favorites-content {
+    .no-favourites-content {
       color: #666;
       font-size: 0.9375em;
       padding: 0 2em;
@@ -224,8 +224,14 @@
       margin: 0 14px 4px;
     }
 
+    .stop-near-you-header-container:has(.bike-station-page-container) {
+      padding: unset;
+    }
+
     .stop-near-you-header-container {
       display: flex;
+      justify-content: space-between;
+      padding: 14px 15px 1px 20px;
 
       .stop-near-you-name {
         font-size: 1.125rem;
@@ -235,18 +241,29 @@
       }
 
       .stop-header-content {
+        width: 100%;
+
         a {
           text-decoration: none;
           color: #333;
         }
 
-        .bike-station-code {
-          font-size: 0.813rem;
-          font-weight: normal;
+        .bike-station {
+          &-code {
+            font-size: 0.813rem;
+            font-weight: normal;
+          }
+
+          &-page-container {
+            margin: 0;
+            padding: var(--space-s) var(--space-m);
+          }
+
+          &-header {
+            padding-top: 0;
+          }
         }
       }
-
-      padding: 14px 15px 1px 20px;
 
       .stop-near-you-info {
         display: flex;
@@ -300,12 +317,10 @@
 
       .stop-favourite-container {
         padding-top: 8px;
-        margin-left: auto;
       }
 
       .bike-rental-favourite-container {
         padding-top: 8px;
-        margin-left: auto;
       }
     }
 
@@ -437,7 +452,7 @@
   text-decoration: none;
   font-weight: 100;
   white-space: pre-wrap;
-  background-color: #dc0451;
+  background-color: $disruption-color;
   color: white;
   font-size: 0.9375rem;
   padding: 12px 0 5px 0;
@@ -576,12 +591,12 @@
     }
   }
 
-  .no-favorites-container {
+  .no-favourites-container {
     padding-top: 14px;
     font-size: 16px;
     border-top: none;
 
-    .no-favorites-content {
+    .no-favourites-content {
       padding: 0;
     }
 

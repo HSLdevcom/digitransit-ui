@@ -127,6 +127,39 @@ export const planConnection = graphql`
                   publicCode
                   wheelchairAccessible
                 }
+                ... on ElevatorUse {
+                  from {
+                    level
+                    name
+                  }
+                  verticalDirection
+                  to {
+                    level
+                    name
+                  }
+                }
+                ... on EscalatorUse {
+                  from {
+                    level
+                    name
+                  }
+                  verticalDirection
+                  to {
+                    level
+                    name
+                  }
+                }
+                ... on StairsUse {
+                  from {
+                    level
+                    name
+                  }
+                  verticalDirection
+                  to {
+                    level
+                    name
+                  }
+                }
               }
               lat
               lon

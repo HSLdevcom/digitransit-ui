@@ -21,6 +21,7 @@ class GenericMarker extends React.Component {
     renderName: PropTypes.bool,
     name: PropTypes.string,
     maxWidth: PropTypes.number,
+    minWidth: PropTypes.number,
     children: PropTypes.node,
     leaflet: PropTypes.shape({
       map: PropTypes.shape({
@@ -30,6 +31,7 @@ class GenericMarker extends React.Component {
       }).isRequired,
     }).isRequired,
     onClick: PropTypes.func,
+    zIndexOffset: PropTypes.number,
   };
 
   static defaultProps = {
@@ -38,7 +40,9 @@ class GenericMarker extends React.Component {
     renderName: false,
     name: '',
     maxWidth: undefined,
+    minWidth: undefined,
     children: undefined,
+    zIndexOffset: undefined,
   };
 
   state = { zoom: this.props.leaflet.map.getZoom() };
@@ -59,6 +63,7 @@ class GenericMarker extends React.Component {
       icon={this.props.getIcon(this.state.zoom)}
       onClick={this.props.onClick}
       keyboard={false}
+      zIndexOffset={this.props.zIndexOffset}
     >
       {this.props.children && (
         <Popup
@@ -66,7 +71,10 @@ class GenericMarker extends React.Component {
             this.props.maxWidth ||
             this.context.config.map.genericMarker.popup.maxWidth
           }
-          minWidth={this.context.config.map.genericMarker.popup.minWidth}
+          minWidth={
+            this.props.minWidth ||
+            this.context.config.map.genericMarker.popup.minWidth
+          }
           className="popup"
         >
           {this.props.children}
@@ -98,6 +106,7 @@ class GenericMarker extends React.Component {
           iconAnchor: [-8, 7],
         })}
         keyboard={false}
+        zIndexOffset={this.props.zIndexOffset}
       />
     );
   }

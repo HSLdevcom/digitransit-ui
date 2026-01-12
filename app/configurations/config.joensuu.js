@@ -88,10 +88,6 @@ export default configMerger(walttiConfig, {
     lon: 29.7569847,
   },
 
-  vehicles: true,
-  showVehiclesOnStopPage: true,
-  showVehiclesOnItineraryPage: true,
-
   aboutThisService: {
     fi: [
       {

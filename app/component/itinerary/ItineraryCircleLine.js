@@ -25,22 +25,6 @@ class ItineraryCircleLine extends React.Component {
     isStop: PropTypes.bool,
   };
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      imageUrl: 'none',
-    };
-  }
-
-  componentDidMount() {
-    import(
-      /* webpackChunkName: "dotted-line" */ `../../configurations/images/default/dotted-line.svg`
-    ).then(imageUrl => {
-      this.setState({ imageUrl: `url(${imageUrl.default})` });
-    });
-  }
-
   isFirstChild = () => {
     return this.props.index === 0 && !this.props.viaType;
   };
@@ -115,11 +99,12 @@ class ItineraryCircleLine extends React.Component {
     const topMarker = this.getMarker(true);
     const bottomMarker = this.getMarker(false);
     const legBeforeLineStyle = { color: this.props.color };
+    let backgroundClass = '';
     if (
       this.props.modeClassName === 'car-park-walk' ||
       this.props.modeClassName === 'walk'
     ) {
-      legBeforeLineStyle.backgroundImage = this.state.imageUrl;
+      backgroundClass = 'default-dotted-line';
     }
 
     return (
@@ -137,6 +122,7 @@ class ItineraryCircleLine extends React.Component {
             'leg-before-line',
             this.props.modeClassName,
             this.props.appendClass,
+            backgroundClass,
           )}
         />
         {this.props.renderBottomMarker && bottomMarker}

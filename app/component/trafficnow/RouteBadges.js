@@ -33,28 +33,31 @@ export default function RouteBadges({ entities: rawEntities }) {
   return (
     <div className="route-badges">
       {Object.entries(entitiesByMode).map(
-        ([key, { mode, isRoute, entities }]) => (
-          <div key={key} className={`route-badges-mode flex-row ${mode}`}>
-            <Icon
-              img={`icon_${mode}`}
-              height={2}
-              width={2}
-              iconScale={isRoute ? NORMAL_ICON_SCALE : STOP_SIGN_ICON_SCALE}
-              background={
-                !isRoute && (
-                  <IconBackground shape="stopsign" color="currentcolor" />
-                )
-              }
-            />
-            <div className="route-badges-mode-lines flex-row vertically-centered">
-              {entities.map(({ id, name, url }) => (
-                <a key={id} onClick={handleRouteBadgeClick(url)} href={url}>
-                  <span className="route-badges-mode-lines--text">{name}</span>
-                </a>
-              ))}
+        ([key, { mode, isRoute, entities }]) =>
+          mode && (
+            <div key={key} className={`route-badges-mode flex-row ${mode}`}>
+              <Icon
+                img={`icon_${mode}`}
+                height={2}
+                width={2}
+                iconScale={isRoute ? NORMAL_ICON_SCALE : STOP_SIGN_ICON_SCALE}
+                background={
+                  !isRoute && (
+                    <IconBackground shape="stopsign" color="currentcolor" />
+                  )
+                }
+              />
+              <div className="route-badges-mode-lines flex-row vertically-centered">
+                {entities.map(({ id, name, url }) => (
+                  <a key={id} onClick={handleRouteBadgeClick(url)} href={url}>
+                    <span className="route-badges-mode-lines--text">
+                      {name}
+                    </span>
+                  </a>
+                ))}
+              </div>
             </div>
-          </div>
-        ),
+          ),
       )}
     </div>
   );

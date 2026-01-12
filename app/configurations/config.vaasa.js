@@ -132,10 +132,6 @@ export default configMerger(walttiConfig, {
     ],
   },
 
-  vehicles: true,
-  showVehiclesOnStopPage: true,
-  showVehiclesOnItineraryPage: true,
-
   stopCard: {
     header: {
       virtualMonitorBaseUrl,

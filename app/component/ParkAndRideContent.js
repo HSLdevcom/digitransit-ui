@@ -11,14 +11,16 @@ import { PREFIX_BIKEPARK, PREFIX_CARPARK } from '../util/path';
 import { DATE_FORMAT } from '../constants';
 
 function ParkAndRideContent(
-  { vehicleParking, error, currentLanguage },
+  { vehicleParking, error, currentLanguage, mode, showInfo, backButton },
   { config, intl, router, match },
 ) {
   // throw error when relay query fails
   if (error) {
     throw error.message;
   }
-  const bikePark = match.location.pathname.includes(PREFIX_BIKEPARK);
+  const bikePark = mode
+    ? mode === 'BIKEPARK'
+    : match.location.pathname.includes(PREFIX_BIKEPARK);
   if (!vehicleParking) {
     const path = bikePark ? PREFIX_BIKEPARK : PREFIX_CARPARK;
     router.replace(`/${path}`);
@@ -37,7 +39,7 @@ function ParkAndRideContent(
     spacesAvailable = vehicleParking.availability?.bicycleSpaces;
   } else {
     spacesAvailable = vehicleParking.availability?.carSpaces;
-    maxCapacity = vehicleParking.capacity?.carSpaces || 1;
+    maxCapacity = vehicleParking.parkCapacity?.carSpaces || 1;
   }
 
   const {
@@ -146,6 +148,7 @@ function ParkAndRideContent(
       <ParkOrStationHeader
         parkOrStation={vehicleParking}
         parkType={bikePark ? 'bike' : 'car'}
+        backButton={backButton}
       />
       <div className="park-content-container">
         <Icon img={`icon_${prePostFix}`} height={2.4} width={2.4} />
@@ -205,29 +208,31 @@ function ParkAndRideContent(
           )}
         </div>
       </div>
-      <div className="citybike-use-disclaimer">
-        <h2 className="disclaimer-header">
-          {intl.formatMessage({ id: `${prePostFix}-disclaimer-header` })}
-        </h2>
-        <div className="disclaimer-content">
-          {intl.formatMessage({ id: `${prePostFix}-disclaimer` })}
+      {showInfo && (
+        <div className="citybike-use-disclaimer">
+          <h2 className="disclaimer-header">
+            {intl.formatMessage({ id: `${prePostFix}-disclaimer-header` })}
+          </h2>
+          <div className="disclaimer-content">
+            {intl.formatMessage({ id: `${prePostFix}-disclaimer` })}
+          </div>
+          {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+          {config.parkAndRide.url && (
+            <a
+              onClick={e => {
+                e.stopPropagation();
+              }}
+              className="external-link"
+              href={config.parkAndRide.url[lang]}
+              target="_blank"
+              rel="noreferrer"
+            >
+              {intl.formatMessage({ id: `${prePostFix}-disclaimer-link` })}{' '}
+              &rsaquo;
+            </a>
+          )}
         </div>
-        {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-        {config.parkAndRide.url && (
-          <a
-            onClick={e => {
-              e.stopPropagation();
-            }}
-            className="external-link"
-            href={config.parkAndRide.url[lang]}
-            target="_blank"
-            rel="noreferrer"
-          >
-            {intl.formatMessage({ id: `${prePostFix}-disclaimer-link` })}{' '}
-            &rsaquo;
-          </a>
-        )}
-      </div>
+      )}
     </div>
   );
 }
@@ -236,11 +241,17 @@ ParkAndRideContent.propTypes = {
   vehicleParking: parkShape,
   error: errorShape,
   currentLanguage: PropTypes.string.isRequired,
+  mode: PropTypes.oneOf(['CARPARK', 'BIKEPARK']),
+  showInfo: PropTypes.bool,
+  backButton: PropTypes.bool,
 };
 
 ParkAndRideContent.defaultProps = {
   vehicleParking: undefined,
   error: undefined,
+  mode: undefined,
+  showInfo: true,
+  backButton: true,
 };
 
 ParkAndRideContent.contextTypes = {

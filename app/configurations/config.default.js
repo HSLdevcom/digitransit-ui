@@ -163,15 +163,15 @@ export default {
     minimalRegexp: /.{2,}/,
   },
 
-  nearbyRoutes: {
+  nearYouRoutes: {
     radius: 10000,
     bucketSize: 1000,
   },
 
   omitNonPickups: true,
-  maxNearbyStopAmount: 5,
-  maxNearbyStopRefetches: 5,
-  maxNearbyStopDistance: {
+  maxNearYouCount: 5,
+  maxNearYouRefetches: 5,
+  maxNearYouDistance: {
     favorite: 20000,
     bus: 50000,
     tram: 20000,
@@ -180,6 +180,8 @@ export default {
     ferry: 50000,
     citybike: 20000,
     airplane: 100000,
+    bikepark: 10000,
+    carpark: 50000,
   },
 
   defaultSettings: {
@@ -344,7 +346,7 @@ export default {
       sv: 'Köp ett abonnemang för en dag, en vecka eller för en hel säsong',
       en: 'Buy a daily, weekly or season pass',
     },
-    maxNearbyRentalVehicleAmount: 5,
+    maxNearYouRentalVehicleAmount: 5,
     maxDistanceToRentalVehiclesInMeters: 100,
     maxMinutesToRentalJourneyStart: 60,
     maxMinutesToRentalJourneyEnd: 720,
@@ -375,16 +377,18 @@ export default {
     iconColors: {
       'mode-airplane': '#0046ad',
       'mode-bus': '#007ac9',
+      'mode-replacement-bus': '#dc0451',
       'mode-tram': '#008151',
-      'mode-subway': '#CA4000',
+      'mode-subway': '#ca4000',
       'mode-rail': '#8c4799',
-      'mode-ferry': '#007A97',
+      'mode-ferry': '#007a97',
       'mode-ferry-external': '#666666',
       'mode-citybike': '#f2b62d',
       'mode-citybike-secondary': '#333333',
-      'mode-scooter': '#C5CAD2',
+      'mode-scooter': '#c5cad2',
       'mode-taxi': '#647693',
-      'mode-replacement-bus': '#DC0451',
+      'mode-bikepark': '#f2b62d',
+      'mode-carpark': '#007ac9',
     },
   },
   iconModeSet: 'digitransit',
@@ -749,11 +753,10 @@ export default {
 
   vehicles: false,
   showVehiclesOnStopPage: false,
+  showVehiclesOnItineraryPage: false,
   trafficNowLink: false,
 
   timetables: {},
-
-  showVehiclesOnItineraryPage: false,
 
   showWeatherInformation: true,
   showBikeAndParkItineraries: false,

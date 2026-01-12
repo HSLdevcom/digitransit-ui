@@ -6,6 +6,9 @@ import ValidityPeriodFilter from './ValidityPeriodFilter';
 import { useFilterContext } from './FiltersContext';
 import { useBreakpoint } from '../../../util/withBreakpoint';
 import VehicleModesFilter from './VehicleModesFilter';
+import EntitySearch from './EntitySearch';
+
+const Separator = () => <div className="separator horizontal" />;
 
 const Filters = ({ onApplyClick, onResetClick }) => {
   const { selectedFilters, resetFilters, DEFAULT_FILTERS } = useFilterContext();
@@ -13,14 +16,22 @@ const Filters = ({ onApplyClick, onResetClick }) => {
 
   const mobile = breakpoint !== 'large';
 
-  const filterComponents = [
+  const components = [
     {
-      id: 'validityPeriod',
-      Component: ValidityPeriodFilter,
+      id: 'entity',
+      Component: EntitySearch,
     },
     {
       id: 'vehicleModes',
       Component: VehicleModesFilter,
+    },
+    {
+      id: 'separator',
+      Component: Separator,
+    },
+    {
+      id: 'validityPeriod',
+      Component: ValidityPeriodFilter,
     },
   ];
 
@@ -37,7 +48,7 @@ const Filters = ({ onApplyClick, onResetClick }) => {
         'traffic-now__content__filters-mobile': mobile,
       })}
     >
-      {filterComponents.map(({ id, Component }) => (
+      {components.map(({ id, Component }) => (
         <Component key={id} filterId={id} />
       ))}
       {onApplyClick && (

@@ -142,10 +142,6 @@ export default configMerger(walttiConfig, {
     itinerary: true,
   },
 
-  vehicles: true,
-  showVehiclesOnStopPage: true,
-  showVehiclesOnItineraryPage: true,
-
   transportModes: {
     citybike: {
       availableForSelection: true,

@@ -21,11 +21,6 @@ export default configMerger(walttiConfig, {
     bus: {
       availableForSelection: true,
       defaultValue: true,
-      nearYouLabel: {
-        fi: 'Bussit ja lähipysäkit kartalla',
-        sv: 'Bussar och hållplatser på kartan',
-        en: 'Buses and nearby stops on map',
-      },
     },
   },
 
@@ -100,10 +95,6 @@ export default configMerger(walttiConfig, {
       },
     ],
   },
-
-  viaPointsEnabled: true,
-  showVehiclesOnStopPage: true,
-  showVehiclesOnItineraryPage: true,
 
   sourceForAlertsAndDisruptions: {
     Kajaani: {

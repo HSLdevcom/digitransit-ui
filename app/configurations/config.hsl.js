@@ -80,6 +80,16 @@ export default {
       sv: 'https://www.hsl.fi/sv/reseplaneraren_co2',
       en: 'https://www.hsl.fi/en/journey_planner_co2',
     },
+    HOLIDAYS_AND_EXCEPTIONS: {
+      fi: 'https://www.hsl.fi/matkustaminen/juhlapyhat-ja-poikkeusaikataulut',
+      sv: 'https://www.hsl.fi/sv/att-resa/helger-och-avvikande-tidtabeller',
+      en: 'https://www.hsl.fi/en/travelling/bank-holidays-and-changes-to-public-transport-services',
+    },
+    /* MAJOR_CHANGES: {
+      fi: 'TODO',
+      sv: 'TODO',
+      en: 'TODO',
+    }, */
   },
 
   indexPath: 'etusivu',
@@ -112,7 +122,7 @@ export default {
   loginAnalyticsEventName: 'user-hsl-id',
   loginAnalyticsKey: 'hsl-id',
 
-  nearbyRoutes: {
+  nearYouRoutes: {
     radius: 500,
     bucketSize: 100,
   },
@@ -173,7 +183,7 @@ export default {
       return ['citybike-stop-default', '#f2b62d'];
     },
   },
-  iconModeSet: 'default',
+  iconModeSet: 'hsl',
   fontWeights: {
     medium: 500,
   },
@@ -339,7 +349,7 @@ export default {
     en: 'HSL',
   },
 
-  maxNearbyStopDistance: {
+  maxNearYouDistance: {
     favorite: 20000,
     bus: 20000,
     tram: 20000,
@@ -467,7 +477,7 @@ export default {
         enabled: true,
         season: {
           preSeasonStart: '18.3',
-          start: '1.4',
+          start: '1.1',
           end: '31.10',
         },
         capacity: BIKEAVL_WITHMAX,
@@ -568,6 +578,8 @@ export default {
     'rail',
     'ferry',
     'citybike',
+    'bikepark',
+    'carpark',
   ],
   narrowNearYouButtons: true,
 
