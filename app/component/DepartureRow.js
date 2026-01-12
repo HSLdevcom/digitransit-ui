@@ -47,7 +47,8 @@ export default function DepartureRow(
   );
   let icon;
   let iconColor;
-  let backgroundShape;
+  let background;
+  let backgroundClass;
   let sr;
   if (
     route?.alerts?.filter(alert => isAlertValid(alert, props.currentTime))
@@ -61,13 +62,15 @@ export default function DepartureRow(
         })}
       </span>
     );
-    icon =
-      alert.alertSeverityLevel !== 'INFO'
-        ? 'icon_caution-white-excl-stroke'
-        : 'icon_info';
-    iconColor = alert.alertSeverityLevel !== 'INFO' ? '#DC0451' : '#888';
-    backgroundShape =
-      alert.alertSeverityLevel !== 'INFO' ? undefined : 'circle';
+    if (alert.alertSeverityLevel === 'INFO') {
+      icon = 'icon_info';
+      iconColor = '#888';
+      background = <IconBackground shape="circle" />;
+      backgroundClass = 'circle';
+    } else {
+      icon = 'icon_caution-white-excl-stroke';
+      iconColor = '#DC0451';
+    }
   }
   const headsign =
     departure.headsign ||
@@ -174,10 +177,10 @@ export default function DepartureRow(
         {icon && (
           <>
             <Icon
-              className={backgroundShape}
+              className={backgroundClass}
               img={icon}
               color={iconColor}
-              background={<IconBackground shape={backgroundShape} />}
+              background={background}
             />
             {sr}
           </>

@@ -120,7 +120,7 @@ export default {
   defaultSettings: {
     walkSpeed: 1.28,
     showBikeAndParkItineraries: true,
-    transferPenalty: 120,
+    transferPenalty: 180,
   },
 
   /**

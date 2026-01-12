@@ -1,7 +1,7 @@
 import path from 'path';
 import fs from 'fs';
 import autoprefixer from 'autoprefixer';
-import commonjs from 'rollup-plugin-commonjs';
+import commonjs from '@rollup/plugin-commonjs';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import postcss from 'rollup-plugin-postcss';
 import babel from 'rollup-plugin-babel';
@@ -17,6 +17,7 @@ const globals = {
   'react-dom': 'ReactDOM',
   classnames: 'cx',
   'prop-types': 'PropTypes',
+  'react-is': 'react-is',
   i18next: 'i18next',
   'react-autosuggest': 'Autosuggest',
   'react-sortablejs': 'reactSortablejs',
