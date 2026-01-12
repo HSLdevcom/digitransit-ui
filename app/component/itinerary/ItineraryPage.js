@@ -68,6 +68,7 @@ import {
   mergeBikeTransitPlans,
   mergeExternalTransitPlan,
   mergeScooterTransitPlan,
+  mergeFlexPlan,
   parseCarTransitPlan,
   quitIteration,
   reportError,
@@ -1105,7 +1106,7 @@ export default function ItineraryPage(props, context) {
       }
 
       if (internalFlexState.plan?.edges) {
-        plan = sortAndMergeExternalPlans(
+        plan = mergeFlexPlan(
           internalFlexState.plan,
           plan,
           match.location.query.arriveBy === 'true',
