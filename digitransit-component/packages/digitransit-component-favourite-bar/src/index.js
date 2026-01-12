@@ -309,7 +309,7 @@ class FavouriteBar extends React.Component {
         >
           <SuggestionItem
             item={item}
-            color={this.props.colors.primary}
+            colors={this.props.colors}
             fontWeights={this.props.fontWeights}
           />
         </div>
