@@ -3180,7 +3180,7 @@ const translations = {
       'Ajantasaiset tiedot häiriöistä ja poikkeuksista. ',
     'traffic-now_description_see-also':
       'Katso myös {amount, plural, =1 {{link1},} other {{link1} sekä {link2},} } jotka löydät yksityiskohtaisemmin omilta sivuiltaan.',
-    'traffic-now_description_see-also--link1': 'lomat ja poikkeukset',
+    'traffic-now_description_see-also--link1': 'juhlapyhät ja poikkeukset',
     'traffic-now_description_see-also--link2': 'suuret muutokset',
     'traffic-now_filters_entity-search': 'Hae yksittäistä linjaa tai pysäkkiä',
     'traffic-now_filters_entity-search--placeholder':
