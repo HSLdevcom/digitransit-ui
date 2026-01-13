@@ -66,7 +66,7 @@ export default function NaviCard(
 
   if (legType === LEGTYPE.TRANSIT) {
     const m = getRouteMode(leg.route, config);
-    iconColor = config.colors.iconColors[`mode-${m}`] || leg.route.color;
+    iconColor = config.colors[m] || leg.route.color;
     iconName = transitIconName(m, false);
     instructions = `navileg-in-transit`;
   } else if (

@@ -482,7 +482,7 @@ export function drawHybridStopIcon(
   if (!styles) {
     return;
   }
-  const { iconColors } = config.colors;
+  const { colors } = config;
   const { style } = styles;
   let { width, height } = styles;
   width *= tile.scaleratio;
@@ -500,7 +500,7 @@ export function drawHybridStopIcon(
     tile.ctx.arc(x, y, radiusOuter * tile.scaleratio, 0, FULL_CIRCLE);
     tile.ctx.fill();
     tile.ctx.beginPath();
-    tile.ctx.fillStyle = iconColors['mode-tram'];
+    tile.ctx.fillStyle = colors.tram;
     tile.ctx.arc(x, y, (radiusOuter - 1) * tile.scaleratio, 0, FULL_CIRCLE);
     tile.ctx.fill();
     // inner icon
@@ -509,8 +509,7 @@ export function drawHybridStopIcon(
     tile.ctx.arc(x, y, radiusInner * tile.scaleratio, 0, FULL_CIRCLE);
     tile.ctx.fill();
     tile.ctx.beginPath();
-    tile.ctx.fillStyle =
-      iconColors[hasTrunkRoute ? 'mode-bus-express' : 'mode-bus'];
+    tile.ctx.fillStyle = colors[hasTrunkRoute ? 'bus-express' : 'bus'];
     tile.ctx.arc(x, y, (radiusInner - 0.5) * tile.scaleratio, 0, FULL_CIRCLE);
     tile.ctx.fill();
     /* eslint-enable no-param-reassign */

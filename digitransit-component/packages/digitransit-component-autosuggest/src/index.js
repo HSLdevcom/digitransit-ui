@@ -5,7 +5,9 @@ import { I18nextProvider, useTranslation } from 'react-i18next';
 import cx from 'classnames';
 import { executeSearch } from '@digitransit-search-util/digitransit-search-util-execute-search-immidiate';
 import { useCombobox } from 'downshift';
-import Icon from '@digitransit-component/digitransit-component-icon';
+import Icon, {
+  defaultColors,
+} from '@digitransit-component/digitransit-component-icon';
 import i18n from './utils/i18n';
 import styles from './components/styles.scss';
 import { getSuggestionValue, suggestionAsAriaContent } from './utils/utils';
@@ -214,11 +216,8 @@ const getNewTargets = ({
  * @property {string} [inputClassName]
  * @property {string} [translatedPlaceholder]
  * @property {boolean} [required]
- * @property {string} [color]
- * @property {string} [hoverColor]
- * @property {string} [accessiblePrimaryColor]
  * @property {Object} [fontWeights]
- * @property {Object} [modeIconColors]
+ * @property {Object} [colors]
  * @property {string} [modeSet]
  * @property {boolean} [showScroll]
  * @property {boolean} [isEmbedded]
@@ -252,12 +251,9 @@ function DTAutosuggest({
   inputClassName,
   translatedPlaceholder,
   required,
-  color,
-  hoverColor,
   ariaLabel,
-  accessiblePrimaryColor,
   fontWeights,
-  modeIconColors,
+  colors,
   modeSet,
   showScroll,
   isEmbedded,
@@ -544,11 +540,9 @@ function DTAutosuggest({
     loading: state.loading,
     isMobile,
     ariaFavouriteString: t('favourite', { lng }),
-    color,
-    accessiblePrimaryColor,
     fontWeights,
     getAutoSuggestIcons,
-    modeIconColors,
+    colors,
     modeSet,
   };
 
@@ -604,12 +598,9 @@ function DTAutosuggest({
           onSelectedItemChange={onSelectedItemChange}
           value={state.value}
           clearInput={clearInput}
-          itemProps={baseItemProps}
+          suggestionProps={baseItemProps}
           showScroll={!!showScroll}
-          color={color}
-          hoverColor={hoverColor}
-          clearButtonColor={color}
-          accessiblePrimaryColor={accessiblePrimaryColor}
+          colors={colors}
           inputClassName={inputClassName}
           required={required}
           state={state}
@@ -624,8 +615,8 @@ function DTAutosuggest({
           state.renderMobile && 'hidden',
         ])}
         style={{
-          '--color': color,
-          '--hover-color': hoverColor,
+          '--color': colors.primary,
+          '--hover-color': colors.hover,
         }}
       >
         {icon && (
@@ -662,7 +653,7 @@ function DTAutosuggest({
           clearInput={clearInput}
           inputRef={inputRef}
           styles={styles}
-          clearButtonColor={color}
+          clearButtonColor={colors.primary}
           placeholder={translatedPlaceholder || t(placeholder, { lng })}
           required={required}
           transportMode={transportMode}
@@ -676,9 +667,9 @@ function DTAutosuggest({
           getItemProps={getItemProps}
           getMenuProps={getMenuProps}
           suggestions={state.suggestions}
-          itemProps={baseItemProps}
           lng={lng}
           styles={styles}
+          {...baseItemProps}
         />
       </div>
     </>
@@ -712,9 +703,6 @@ DTAutosuggest.propTypes = {
   focusChange: PropTypes.func,
   lang: PropTypes.string,
   isMobile: PropTypes.bool,
-  color: PropTypes.string,
-  hoverColor: PropTypes.string,
-  accessiblePrimaryColor: PropTypes.string,
   pathOpts: PropTypes.shape({
     routesPrefix: PropTypes.string,
     stopsPrefix: PropTypes.string,
@@ -729,7 +717,7 @@ DTAutosuggest.propTypes = {
   fontWeights: PropTypes.shape({
     medium: PropTypes.number,
   }),
-  modeIconColors: PropTypes.objectOf(PropTypes.string),
+  colors: PropTypes.objectOf(PropTypes.string),
   getAutoSuggestIcons: PropTypes.objectOf(PropTypes.func),
   required: PropTypes.bool,
   modeSet: PropTypes.string,
@@ -753,9 +741,6 @@ DTAutosuggest.defaultProps = {
   isMobile: false,
   isEmbedded: false,
   geocodingSize: undefined,
-  color: '#007ac9',
-  hoverColor: '#0062a1',
-  accessiblePrimaryColor: '#0074be',
   pathOpts: {
     routesPrefix: 'linjat',
     stopsPrefix: 'pysakit',
@@ -767,7 +752,7 @@ DTAutosuggest.defaultProps = {
   fontWeights: {
     medium: 500,
   },
-  modeIconColors: undefined,
+  colors: defaultColors,
   required: false,
   modeSet: undefined,
   showScroll: false,

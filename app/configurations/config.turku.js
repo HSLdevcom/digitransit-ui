@@ -73,12 +73,10 @@ export default configMerger(walttiConfig, {
   colors: {
     primary: '#e8aa27',
     hover: '#a07415',
-    iconColors: {
-      'mode-bus': '#e8aa27',
-      'mode-rail': '#8c4799',
-      'mode-ferry': '#0064f0',
-      'mode-funicular': '#ff00ff',
-    },
+    bus: '#e8aa27',
+    rail: '#8c4799',
+    ferry: '#0064f0',
+    funicular: '#ff00ff',
   },
 
   appBarLink: { name: 'Föli', href: 'http://www.foli.fi/fi' },

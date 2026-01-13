@@ -45,8 +45,5 @@ export function LightenDarkenColor(color, amt) {
 
 /* map extended route mode to color */
 export function getModeIconColor(config, mode) {
-  return (
-    config.colors.iconColors[`mode-${mode.toLowerCase()}`] ||
-    config.colors.primary
-  );
+  return config.colors[mode.toLowerCase()] || config.colors.primary;
 }

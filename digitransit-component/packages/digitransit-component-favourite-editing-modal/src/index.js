@@ -10,7 +10,9 @@ import isEmpty from 'lodash/isEmpty';
 import omit from 'lodash/omit';
 import ContainerSpinner from '@hsl-fi/container-spinner';
 import Modal from '@hsl-fi/modal';
-import Icon from '@digitransit-component/digitransit-component-icon';
+import Icon, {
+  defaultColors,
+} from '@digitransit-component/digitransit-component-icon';
 import DialogModal from '@digitransit-component/digitransit-component-dialog-modal';
 import { formatFavouritePlaceLabel } from '@digitransit-search-util/digitransit-search-util-uniq-by-label';
 import ModalContent from './helpers/ModalContent';
@@ -76,8 +78,7 @@ class FavouriteEditingModal extends React.Component {
     isModalOpen: PropTypes.bool.isRequired,
     isMobile: PropTypes.bool,
     isLoading: PropTypes.bool.isRequired,
-    color: PropTypes.string,
-    hoverColor: PropTypes.string,
+    colors: PropTypes.objectOf(PropTypes.string),
     /** Optional. */
     fontWeights: PropTypes.shape({
       /** Default value is 500. */
@@ -88,8 +89,7 @@ class FavouriteEditingModal extends React.Component {
   static defaultProps = {
     lang: 'fi',
     isMobile: false,
-    color: '#007ac9',
-    hoverColor: '#0062a1',
+    colors: defaultColors,
     fontWeights: {
       medium: 500,
     },
@@ -194,7 +194,7 @@ class FavouriteEditingModal extends React.Component {
               styles[iconId],
             )}
           >
-            <Icon img={iconId} color={this.props.color} />
+            <Icon img={iconId} color={this.props.colors.primary} />
           </div>
         </div>
         <div className={styles['favourite-edit-list-item-content']}>
@@ -302,8 +302,7 @@ class FavouriteEditingModal extends React.Component {
             showDeletePlaceModal: false,
           })
         }
-        color={this.props.color}
-        hoverColor={this.props.hoverColor}
+        colors={this.props.colors}
         fontWeights={this.props.fontWeights}
         lang={this.props.lang}
       />
@@ -321,19 +320,19 @@ class FavouriteEditingModal extends React.Component {
   };
 
   renderModalContent = () => {
-    const { color, hoverColor, fontWeights } = this.props;
+    const { fontWeights } = this.props;
+    const { primary, hover } = this.props.colors;
     const modalProps = {
       headerText: this.translate('edit-places'),
-      renderList: () => this.renderFavouriteList(),
+      renderList: this.renderFavouriteList,
+    };
+    const style = {
+      '--color': primary,
+      '--hover-color': hover,
+      '--font-weight-medium': fontWeights.medium,
     };
     return (
-      <div
-        style={{
-          '--color': `${color}`,
-          '--hover-color': `${hoverColor}`,
-          '--font-weight-medium': fontWeights.medium,
-        }}
-      >
+      <div style={style}>
         <ModalContent {...modalProps} />
       </div>
     );

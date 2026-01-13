@@ -5,7 +5,9 @@ import React from 'react';
 import { I18nextProvider, withTranslation } from 'react-i18next';
 import { ReactSortable } from 'react-sortablejs';
 import DTAutoSuggest from '@digitransit-component/digitransit-component-autosuggest';
-import Icon from '@digitransit-component/digitransit-component-icon';
+import Icon, {
+  defaultColors,
+} from '@digitransit-component/digitransit-component-icon';
 import isEmpty from 'lodash/isEmpty';
 import Select from './helpers/Select';
 import i18n from './helpers/i18n';
@@ -232,13 +234,11 @@ class DTAutosuggestPanel extends React.Component {
     targets: PropTypes.arrayOf(PropTypes.string),
     filterResults: PropTypes.func,
     isMobile: PropTypes.bool,
-    color: PropTypes.string,
-    hoverColor: PropTypes.string,
     originMobileLabel: PropTypes.string,
     destinationMobileLabel: PropTypes.string,
     refPoint: locationShape,
     modeSet: PropTypes.string,
-    modeIconColors: PropTypes.objectOf(PropTypes.string),
+    colors: PropTypes.objectOf(PropTypes.string),
     getAutoSuggestIcons: PropTypes.objectOf(PropTypes.func),
     fontWeights: PropTypes.shape({
       medium: PropTypes.number,
@@ -271,12 +271,10 @@ class DTAutosuggestPanel extends React.Component {
     disableAutoFocus: false,
     isMobile: false,
     handleViaPointLocationSelected: undefined,
-    color: '#007ac9',
-    hoverColor: '#0062a1',
     originMobileLabel: null,
     destinationMobileLabel: null,
     modeSet: undefined,
-    modeIconColors: undefined,
+    colors: defaultColors,
     fontWeights: {
       medium: 500,
     },
@@ -413,6 +411,7 @@ class DTAutosuggestPanel extends React.Component {
       t,
       lang: lng,
     } = this.props;
+    const { primary } = this.props.colors;
     const { activeSlackInputs } = this.state;
     const slackTime = getSlackTimeOptions(t);
     const defaultSlackTimeValue = 0;
@@ -431,7 +430,7 @@ class DTAutosuggestPanel extends React.Component {
           },
         ])}
         style={{
-          '--color': `${this.props.color}`,
+          '--color': primary,
           '--font-weight-medium': fontWeights.medium,
         }}
       >
@@ -469,12 +468,10 @@ class DTAutosuggestPanel extends React.Component {
             targets={this.props.targets}
             filterResults={this.props.filterResults}
             isMobile={this.props.isMobile}
-            color={this.props.color}
-            hoverColor={this.props.hoverColor}
+            colors={this.props.colors}
             mobileLabel={originMobileLabel}
             fontWeights={this.props.fontWeights}
             modeSet={this.props.modeSet}
-            modeIconColors={this.props.modeIconColors}
             showScroll={this.props.showScroll}
             isEmbedded={this.props.isEmbedded}
           />
@@ -488,7 +485,7 @@ class DTAutosuggestPanel extends React.Component {
               }
               aria-label={t('swap-order-button-label', { lng })}
             >
-              <Icon img="opposite" color={this.props.color} />
+              <Icon img="opposite" color={primary} />
             </ItinerarySearchControl>
           )}
         </div>
@@ -522,11 +519,7 @@ class DTAutosuggestPanel extends React.Component {
                     style={viaPoints.length > 1 ? { cursor: 'move' } : {}}
                   >
                     {viaPoints.length > 1 && (
-                      <Icon
-                        img="ellipsis"
-                        rotate={90}
-                        color={this.props.color}
-                      />
+                      <Icon img="ellipsis" rotate={90} color={primary} />
                     )}
                   </div>
                   <div
@@ -563,11 +556,9 @@ class DTAutosuggestPanel extends React.Component {
                       filterResults={this.props.filterResults}
                       getAutoSuggestIcons={this.props.getAutoSuggestIcons}
                       isMobile={this.props.isMobile}
-                      color={this.props.color}
-                      hoverColor={this.props.hoverColor}
                       fontWeights={this.props.fontWeights}
                       modeSet={this.props.modeSet}
-                      modeIconColors={this.props.modeIconColors}
+                      colors={this.props.colors}
                       showScroll={this.props.showScroll}
                     />
                   </div>
@@ -588,7 +579,7 @@ class DTAutosuggestPanel extends React.Component {
                       )}
                       wide
                     >
-                      <Icon img="time" color={this.props.color} />
+                      <Icon img="time" color={primary} />
                     </ItinerarySearchControl>
                   )}
                 </div>
@@ -621,7 +612,7 @@ class DTAutosuggestPanel extends React.Component {
                         <span
                           className={`${styles['combobox-icon']} ${styles['time-input-icon']}`}
                         >
-                          <Icon img="time" color={this.props.color} />
+                          <Icon img="time" color={primary} />
                         </span>
                       }
                       onSlackTimeSelected={this.handleViaPointSlackTimeSelected}
@@ -642,7 +633,7 @@ class DTAutosuggestPanel extends React.Component {
                   lng,
                 })}
               >
-                <Icon img="trash" color={this.props.color} />
+                <Icon img="trash" color={primary} />
               </ItinerarySearchControl>
             </div>
           ))}
@@ -671,12 +662,10 @@ class DTAutosuggestPanel extends React.Component {
             targets={this.props.targets}
             filterResults={this.props.filterResults}
             isMobile={this.props.isMobile}
-            color={this.props.color}
-            hoverColor={this.props.hoverColor}
             mobileLabel={destinationMobileLabel}
             fontWeights={this.props.fontWeights}
             modeSet={this.props.modeSet}
-            modeIconColors={this.props.modeIconColors}
+            colors={this.props.colors}
             showScroll={this.props.showScroll}
             isEmbedded={this.props.isEmbedded}
           />
@@ -696,7 +685,7 @@ class DTAutosuggestPanel extends React.Component {
                 img="viapoint"
                 width={1.25}
                 height={1.375}
-                color={this.props.color}
+                color={primary}
               />
             </ItinerarySearchControl>
           )}

@@ -61,11 +61,9 @@ export default {
 
   colors: {
     primary: '#000',
-    iconColors: {
-      'mode-tram': '#5E7921',
-      'mode-rail': '#000',
-      'mode-ferry': '#247C7B',
-    },
+    tram: '#5E7921',
+    rail: '#000',
+    ferry: '#247C7B',
   },
   feedIds: IS_DEV
     ? ['MATKA']

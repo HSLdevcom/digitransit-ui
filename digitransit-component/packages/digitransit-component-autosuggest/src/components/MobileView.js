@@ -29,13 +29,10 @@ import {
  * @property {function} onSelectedItemChange
  * @property {object} fontWeights
  * @property {function} clearOldSearches
- * @property {object} itemProps
- * @property {string} color
- * @property {string} accessiblePrimaryColor
- * @property {string} hoverColor
+ * @property {object} suggestionProps
+ * @property {object} colors
  * @property {string} lng
  * @property {object} ariaProps
- * @property {string} clearButtonColor
  * @property {string} value
  * @property {string} inputClassName
  * @property {boolean} required
@@ -55,13 +52,9 @@ const MobileView = ({
   onSelectedItemChange,
   fontWeights,
   clearOldSearches,
-  itemProps,
-  color,
-  accessiblePrimaryColor,
-  hoverColor,
+  suggestionProps,
   lng,
   ariaProps,
-  clearButtonColor,
   value,
   inputClassName,
   required,
@@ -69,6 +62,7 @@ const MobileView = ({
   showScroll,
   state,
   dispatch,
+  colors,
 }) => {
   const [t] = useTranslation();
   const { lock, unlock } = hooks.useScrollLock();
@@ -171,9 +165,9 @@ const MobileView = ({
       <div
         className={styles['mobile-modal-content']}
         style={{
-          '--color': color,
-          '--accessible-primary-color': accessiblePrimaryColor,
-          '--hover-color': hoverColor,
+          '--color': colors.primary,
+          '--accessible-primary-color': colors.accessiblePrimary,
+          '--hover-color': colors.hover,
           '--font-weight-medium': fontWeights.medium,
         }}
       >
@@ -220,7 +214,7 @@ const MobileView = ({
               inputRef={inputRef}
               styles={styles}
               renderLabel={false}
-              clearButtonColor={clearButtonColor}
+              clearButtonColor={colors.primary}
               autoFocus
               inputClassName={inputClassName}
               required={required}
@@ -230,7 +224,6 @@ const MobileView = ({
               suggestions={state.suggestions}
               getMenuProps={getMenuProps}
               getItemProps={getItemProps}
-              itemProps={itemProps}
               highlightedIndex={highlightedIndex}
               isOpen // when mobile view is open we always want to show suggestions
               hidden={false}
@@ -238,6 +231,7 @@ const MobileView = ({
               styles={styles}
               renderClearHistoryButton
               handleClearHistory={() => setDialogOpen(true)}
+              {...suggestionProps}
             />
           </span>
         </div>
@@ -253,8 +247,7 @@ const MobileView = ({
             setDialogOpen(false);
           }}
           secondaryButtonOnClick={() => setDialogOpen(false)}
-          color={color}
-          hoverColor={hoverColor}
+          colors={colors}
           fontWeights={fontWeights}
           lang={lng}
         />
@@ -270,14 +263,11 @@ MobileView.propTypes = {
   clearOldSearches: PropTypes.func.isRequired,
   onSelectedItemChange: PropTypes.func.isRequired,
   value: PropTypes.string.isRequired,
-  color: PropTypes.string.isRequired,
-  accessiblePrimaryColor: PropTypes.string.isRequired,
-  clearButtonColor: PropTypes.string.isRequired,
-  hoverColor: PropTypes.string.isRequired,
+  colors: PropTypes.objectOf(PropTypes.string).isRequired,
   fontWeights: PropTypes.shape({
     medium: PropTypes.number.isRequired,
   }).isRequired,
-  itemProps: PropTypes.shape({}).isRequired,
+  suggestionProps: PropTypes.shape({}).isRequired,
   ariaProps: PropTypes.shape({
     ariaRequiredText: PropTypes.string.isRequired,
     SearchBarId: PropTypes.string.isRequired,

@@ -69,7 +69,7 @@ export default function DepartureRow(
       backgroundClass = 'circle';
     } else {
       icon = 'icon_caution-white-excl-stroke';
-      iconColor = '#DC0451';
+      iconColor = config.colors.caution;
     }
   }
   const headsign =
