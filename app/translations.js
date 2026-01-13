@@ -932,7 +932,8 @@ const translations = {
     buy: 'Buy',
     'buy-ticket': 'How to buy a ticket',
     call: 'Demand responsive transport',
-    'call-agency-disclaimer': 'TO_DO_call_agency_disclaimer',
+    'call-agency-disclaimer':
+      'This is a dial-a-ride service that requires advance booking. More information is available from the service provider.',
     'call-number': 'Call {number}',
     'call-with-route-number':
       'Demand responsive transport {routeNumber} {headSign}',
@@ -2855,7 +2856,7 @@ const translations = {
     'on-demand-service-prior-notice-hours':
       'Tilaus tehtävä vähintään {hours} tuntia ennen matkaa.',
     'on-demand-service-prior-notice-minutes':
-      'Tilaus tehtävä vähintään {minutes} minuuttia etukäteen.',
+      'Tilaus tehtävä vähintään {minutes} minuuttia ennen matkaa.',
     'on-demand-service-route-disclaimer':
       'Kartalla näkyvä reitti ei välttämättä toteudu juuri esitellyllä tavalla vaan voi vaihdella muiden matkustajien matkasuunnitelmien mukaan.',
     'one-way-journey': 'Yhdensuuntaisen matkan pituus',
@@ -5334,7 +5335,8 @@ const translations = {
     buy: 'Köp',
     'buy-ticket': 'Så här köper du biljetten',
     call: 'Anropsstyrd kollektivtrafik',
-    'call-agency-disclaimer': 'TO_DO_call_agency_disclaimer',
+    'call-agency-disclaimer':
+      'Linjen fungerar med förhandsbokning. Boka din resa i förväg för att säkerställa resan. Mer information från tjänsteleverantören.',
     'call-number': 'Ring {number}',
     'call-with-route-number':
       'Anropsstyrd kollektivtrafik {routeNumber} {headSign}',
