@@ -39,6 +39,7 @@ import {
   legTime,
   isCallAgencyLeg,
   isPlatformChanged,
+  getValidatedLegName,
 } from '../../util/legUtils';
 import { shouldShowFareInfo } from '../../util/fareUtils';
 import { AlertEntityType, AlertSeverityLevelType } from '../../constants';
@@ -304,6 +305,19 @@ class TransitLeg extends React.Component {
     const startMs = legTime(leg.start);
     const time = legTimeStr(leg.start);
     const modeClassName = mode.toLowerCase();
+    const validatedFromLegName = getValidatedLegName(
+      leg.from.name,
+      intl,
+      lang,
+      true,
+    );
+    const validatedToLegName = getValidatedLegName(
+      leg.to.name,
+      intl,
+      lang,
+      false,
+    );
+
     const LegRouteName = leg.from.name.concat(' - ').concat(leg.to.name);
 
     const textVersionBeforeLink = (
@@ -321,7 +335,7 @@ class TransitLeg extends React.Component {
         <FormattedMessage
           id="itinerary-details.transit-leg-part-2"
           values={{
-            startStop: leg.from.name,
+            startStop: validatedFromLegName,
             startZoneInfo: intl.formatMessage(
               { id: 'zone-info' },
               { zone: leg.from.stop.zoneId },
@@ -330,7 +344,7 @@ class TransitLeg extends React.Component {
               { id: 'zone-info' },
               { zone: leg.to.stop.zoneId },
             ),
-            endStop: leg.to.name,
+            endStop: validatedToLegName,
             duration: durationToString(leg.duration * 1000),
             trackInfo: getBoardingInformationText(leg, intl, false),
           }}
@@ -518,7 +532,7 @@ class TransitLeg extends React.Component {
           <span className="sr-only">
             <FormattedMessage
               id="itinerary-summary.show-on-map"
-              values={{ target: leg.from.name || '' }}
+              values={{ target: validatedFromLegName || '' }}
             />
           </span>
           <div
@@ -528,7 +542,7 @@ class TransitLeg extends React.Component {
           >
             <div className="itinerary-leg-row">
               <Link
-                aria-label={leg.from.name?.toLowerCase()}
+                aria-label={validatedFromLegName?.toLowerCase()}
                 onClick={e => {
                   e.stopPropagation();
                   addAnalyticsEvent({
@@ -539,7 +553,7 @@ class TransitLeg extends React.Component {
                 }}
                 to={stopPagePath(false, leg.from.stop.gtfsId)}
               >
-                {leg.from.name}
+                {validatedFromLegName}
                 {leg.from.viaLocationType && (
                   <Icon
                     img="icon_mapMarker"
@@ -572,7 +586,7 @@ class TransitLeg extends React.Component {
               </div>
             </div>
             <ItineraryMapAction
-              target={leg.from.name || ''}
+              target={validatedFromLegName || ''}
               focusAction={focusAction}
             />
           </div>

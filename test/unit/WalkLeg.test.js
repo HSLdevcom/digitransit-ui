@@ -1,12 +1,23 @@
 import React from 'react';
+import sinon from 'sinon';
+
 import { FormattedMessage } from 'react-intl';
 
 import { shallowWithIntl } from './helpers/mock-intl-enzyme';
 import WalkLeg from '../../app/component/itinerary/WalkLeg';
 import ServiceAlertIcon from '../../app/component/ServiceAlertIcon';
 import { AlertSeverityLevelType } from '../../app/constants';
+import * as ConfigContext from '../../app/configurations/ConfigContext';
 
 describe('<WalkLeg />', () => {
+  beforeEach(() => {
+    sinon.stub(ConfigContext, 'useConfigContext').returns({ language: 'en' });
+  });
+
+  afterEach(() => {
+    ConfigContext.useConfigContext.restore();
+  });
+
   it('should show the leg starting point name', () => {
     const props = {
       focusAction: () => {},

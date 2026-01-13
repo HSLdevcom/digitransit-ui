@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import { FormattedMessage, intlShape } from 'react-intl';
+import { DateTime, Duration } from 'luxon';
 import {
   configShape,
   pickupBookingInfoShape,
@@ -26,6 +27,54 @@ function OnDemandInfo(
         window.open(bookingUrl, '_blank', 'noopener,noreferrer');
       }
     : () => useDeepLink(bookingUrl, infoUrl);
+
+  const latestBookingTime = pickupBookingInfo?.latestBookingTime?.time;
+  const formattedLatestBookingTime =
+    latestBookingTime &&
+    /^\d{2}:\d{2}:\d{2}$/.test(latestBookingTime) &&
+    DateTime.fromFormat(latestBookingTime, 'HH:mm:ss').toFormat('HH:mm');
+  const latestBookingTimeText =
+    pickupBookingInfo.latestBookingTime?.daysPrior &&
+    intl.formatMessage(
+      {
+        id: 'on-demand-service-prior-notice-days',
+        defaultMessage:
+          'Order must be placed at least {days} days before the trip, by {time}.',
+      },
+      {
+        days: pickupBookingInfo.latestBookingTime?.daysPrior || '',
+        time: formattedLatestBookingTime || latestBookingTime || '',
+      },
+    );
+
+  const bookingNoticeInMinutes =
+    pickupBookingInfo.minimumBookingNotice &&
+    Duration.fromISO(pickupBookingInfo.minimumBookingNotice).as('minutes');
+  const bookingNoticeInMinutesText =
+    bookingNoticeInMinutes &&
+    intl.formatMessage(
+      {
+        id: 'on-demand-service-prior-notice-minutes',
+        defaultMessage:
+          'Order must be placed at least {minutes} minutes before the trip.',
+      },
+      { minutes: bookingNoticeInMinutes },
+    );
+  const bookingNoticeInHoursText =
+    bookingNoticeInMinutes >= 60 &&
+    intl.formatMessage(
+      {
+        id: 'on-demand-service-prior-notice-hours',
+        defaultMessage:
+          'Order must be placed at least {hours} hours before the trip.',
+      },
+      { hours: Math.ceil(bookingNoticeInMinutes / 60) },
+    );
+
+  const bookingTimeText =
+    latestBookingTimeText ||
+    bookingNoticeInHoursText ||
+    bookingNoticeInMinutesText;
 
   return (
     <>
@@ -74,29 +123,8 @@ function OnDemandInfo(
               {pickupBookingInfo?.message}
             </div>
             <div className="on-demand-info-content">
-              {(pickupBookingInfo?.latestBookingTime ||
-                pickupBookingInfo.minimumBookingNotice) && (
-                <div className="booking-notice">
-                  {intl.formatMessage(
-                    pickupBookingInfo.latestBookingTime.daysPrior
-                      ? {
-                          id: 'on-demand-service-prior-notice-days',
-                          defaultMessage:
-                            'Order must be placed at least {days} days before the trip, by {time}.',
-                        }
-                      : {
-                          id: 'on-demand-service-prior-notice-minutes',
-                          defaultMessage:
-                            'Order must be placed at least {minutes} minutes before the trip.',
-                        },
-                    {
-                      days: pickupBookingInfo.latestBookingTime.daysPrior || '',
-                      time: pickupBookingInfo.latestBookingTime.time || '',
-                      minutes:
-                        pickupBookingInfo.minimumBookingNotice?.minutes || '',
-                    },
-                  )}
-                </div>
+              {bookingTimeText && (
+                <div className="booking-notice">{bookingTimeText}</div>
               )}
             </div>
             {infoUrl && (

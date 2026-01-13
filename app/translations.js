@@ -1468,6 +1468,8 @@ const translations = {
     'on-demand-service-description': 'TO_DO_on-demand-service-description',
     'on-demand-service-prior-notice-days':
       'TO_DO_on-demand-service-prior-notice-days',
+    'on-demand-service-prior-notice-hours':
+      'TO_DO_on-demand-service-prior-notice-hours',
     'on-demand-service-prior-notice-minutes':
       'TO_DO_on-demand-service-prior-notice-minutes',
     'on-demand-service-route-disclaimer':
@@ -1766,6 +1768,7 @@ const translations = {
     'terminal-page.description': 'Terminal {name}',
     'terminal-page.title': 'Terminal {name}',
     'terminal-page.title-short': 'Terminal',
+    terminus: 'Terminus',
     'terms-of-use': 'Terms of Use',
     'ticket-and-price-info': 'Ticket and price information',
     'ticket-information': 'Ticket information',
@@ -2849,6 +2852,8 @@ const translations = {
     'on-demand-service-description': 'Reitin kuvaus',
     'on-demand-service-prior-notice-days':
       'Tilaus tehtävä vähintään {days} päivää ennen matkaa, viimeistään kello {time}.',
+    'on-demand-service-prior-notice-hours':
+      'Tilaus tehtävä vähintään {hours} tuntia ennen matkaa.',
     'on-demand-service-prior-notice-minutes':
       'Tilaus tehtävä vähintään {minutes} minuuttia etukäteen.',
     'on-demand-service-route-disclaimer':
@@ -3145,6 +3150,7 @@ const translations = {
     'terminal-page.description': 'Terminaali - {name}',
     'terminal-page.title': 'Terminaali - {name}',
     'terminal-page.title-short': 'Terminaali',
+    terminus: 'Päätepiste',
     'terms-of-use': 'Käyttöehdot',
     'ticket-and-price-info': 'Lippu- ja hintatiedot',
     'ticket-information': 'Lipputiedot',
@@ -5859,6 +5865,8 @@ const translations = {
     'on-demand-service-description': 'TO_DO_on-demand-service-description',
     'on-demand-service-prior-notice-days':
       'TO_DO_on-demand-service-prior-notice-days',
+    'on-demand-service-prior-notice-hours':
+      'TO_DO_on-demand-service-prior-notice-hours',
     'on-demand-service-prior-notice-minutes':
       'TO_DO_on-demand-service-prior-notice-minutes',
     'on-demand-service-route-disclaimer':
@@ -6164,6 +6172,7 @@ const translations = {
     'terminal-page.description': 'Terminal {name}',
     'terminal-page.title': 'Terminal {name}',
     'terminal-page.title-short': 'Terminal',
+    terminus: 'TO_DO_terminus',
     'terms-of-use': 'Användarvillkor',
     'ticket-and-price-info': 'Biljett- och prisinformation',
     'ticket-information': 'Biljettinformation',
