@@ -15,7 +15,7 @@ const EntitySearch = ({ filterId }) => {
     colors: { iconColors },
     iconModeSet,
   } = useConfigContext();
-  const { selectedFilters, setFilter } = useFilterContext();
+  const { selectedFilters, setFilter, removeFilter } = useFilterContext();
   const intl = useTranslationsContext();
 
   const DTAutoSuggestWithSearchContext = withSearchContext(DTAutoSuggest);
@@ -51,6 +51,7 @@ const EntitySearch = ({ filterId }) => {
         getAutoSuggestIcons={getAutoSuggestIcons}
         modeIconColors={iconColors}
         modeSet={iconModeSet}
+        onClear={() => removeFilter(filterId)}
       />
     </fieldset>
   );

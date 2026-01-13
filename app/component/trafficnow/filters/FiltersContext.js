@@ -22,10 +22,18 @@ const FilterContextProvider = ({ children }) => {
     setSelectedFilters(DEFAULT_FILTERS);
   };
 
+  const removeFilter = key => {
+    setSelectedFilters(prev => {
+      const { [key]: _, ...rest } = prev;
+      return rest;
+    });
+  };
+
   const value = useMemo(
     () => ({
       selectedFilters,
       setFilter,
+      removeFilter,
       resetFilters,
       DEFAULT_FILTERS,
     }),
