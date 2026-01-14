@@ -10,7 +10,9 @@ import {
 import isEmpty from 'lodash/isEmpty';
 import isNumber from 'lodash/isNumber';
 import Modal from '@hsl-fi/modal';
-import Icon from '@digitransit-component/digitransit-component-icon';
+import Icon, {
+  defaultColors,
+} from '@digitransit-component/digitransit-component-icon';
 import styles from './helpers/styles.scss';
 import i18n from './helpers/i18n';
 import DesktopModal from './helpers/DesktopModal';
@@ -61,26 +63,21 @@ const FavouriteIconTableButton = ({
 FavouriteIconTableButton.propTypes = {
   handleClick: PropTypes.func.isRequired,
   value: PropTypes.string.isRequired,
-  selectedIconId: PropTypes.string.isRequired,
+  selectedIconId: PropTypes.string,
   color: PropTypes.string.isRequired,
   lang: PropTypes.string.isRequired,
 };
 
-const FavouriteIconTable = ({
-  favouriteIconIds,
-  selectedIconId,
-  handleClick,
-  color,
-  lang,
-}) => {
+FavouriteIconTableButton.defaultProps = {
+  selectedIconId: '',
+};
+
+const FavouriteIconTable = ({ favouriteIconIds, ...rest }) => {
   const columns = favouriteIconIds.map(value => (
     <FavouriteIconTableButton
       key={`favourite-icon-table-${value}`}
       value={value}
-      selectedIconId={selectedIconId}
-      handleClick={handleClick}
-      color={color}
-      lang={lang}
+      {...rest}
     />
   ));
 
@@ -92,15 +89,7 @@ const FavouriteIconTable = ({
 };
 
 FavouriteIconTable.propTypes = {
-  handleClick: PropTypes.func.isRequired,
   favouriteIconIds: PropTypes.arrayOf(PropTypes.string).isRequired,
-  selectedIconId: PropTypes.string,
-  color: PropTypes.string.isRequired,
-  lang: PropTypes.string.isRequired,
-};
-
-FavouriteIconTable.defaultProps = {
-  selectedIconId: '',
 };
 
 /**
@@ -182,8 +171,7 @@ class FavouriteModal extends React.Component {
     /** Optional. */
     isMobile: PropTypes.bool,
     appElement: PropTypes.string.isRequired,
-    color: PropTypes.string,
-    hoverColor: PropTypes.string,
+    colors: PropTypes.objectOf(PropTypes.string),
     /** Optional. */
     fontWeights: PropTypes.shape({
       /** Default value is 500. */
@@ -198,8 +186,7 @@ class FavouriteModal extends React.Component {
     favourite: null,
     autosuggestComponent: undefined,
     addAnalyticsEvent: undefined,
-    color: '#007ac9',
-    hoverColor: '#0062a1',
+    colors: defaultColors,
     fontWeights: {
       medium: 500,
     },
@@ -331,7 +318,9 @@ class FavouriteModal extends React.Component {
 
   render() {
     const { favourite } = this.state;
-    const { color, hoverColor, fontWeights, lang, t } = this.props;
+    const { fontWeights, lang, t } = this.props;
+    const { primary, hover } = this.props.colors;
+
     const headerText = this.isEdit()
       ? t('edit-place', { lng: lang })
       : t('save-place', { lng: lang });
@@ -339,8 +328,6 @@ class FavouriteModal extends React.Component {
       headerText,
       autosuggestComponent: {
         ...this.props.autosuggestComponent,
-        color,
-        hoverColor,
       },
       inputPlaceholder: t('input-placeholder', { lng: lang }),
       specifyName: this.specifyName,
@@ -356,7 +343,7 @@ class FavouriteModal extends React.Component {
           })()}
           favouriteIconIds={FavouriteModal.favouriteIconIds}
           handleClick={this.selectIcon}
-          color={color}
+          color={primary}
           lang={lang}
         />
       ),
@@ -366,8 +353,8 @@ class FavouriteModal extends React.Component {
       isEdit: this.isEdit(),
       cancelText: t('cancel', { lng: lang }),
       cancelSelected: () => this.cancelSelected(),
-      color,
-      hoverColor,
+      color: primary,
+      hoverColor: hover,
       savePlaceText: t('save-place', { lng: lang }),
       cantSaveText: t('cannot-save-place', { lng: lang }),
       requiredText: t('required-text', { lng: lang }),

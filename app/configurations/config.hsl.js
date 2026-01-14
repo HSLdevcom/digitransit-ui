@@ -42,6 +42,10 @@ export default {
       default: `${POI_MAP_PREFIX}/fi/stops,stations/`,
       sv: `${POI_MAP_PREFIX}/sv/stops,stations/`,
     },
+    AREA_STOP_MAP: {
+      default: `${POI_MAP_PREFIX}/fi/areaStops/`,
+      sv: `${POI_MAP_PREFIX}/sv/areaStops/`,
+    },
     REALTIME_STOP_MAP: {
       default: `${POI_MAP_PREFIX}/fi/realtimeStops,stations/`,
       sv: `${POI_MAP_PREFIX}/sv/realtimeStops,stations/`,
@@ -76,6 +80,16 @@ export default {
       sv: 'https://www.hsl.fi/sv/reseplaneraren_co2',
       en: 'https://www.hsl.fi/en/journey_planner_co2',
     },
+    HOLIDAYS_AND_EXCEPTIONS: {
+      fi: 'https://www.hsl.fi/matkustaminen/juhlapyhat-ja-poikkeusaikataulut',
+      sv: 'https://www.hsl.fi/sv/att-resa/helger-och-avvikande-tidtabeller',
+      en: 'https://www.hsl.fi/en/travelling/bank-holidays-and-changes-to-public-transport-services',
+    },
+    MAJOR_CHANGES: {
+      fi: 'https://www.hsl.fi/hsl/uutiset/teemat/merkittavat-liikenteen-muutokset',
+      sv: 'https://www.hsl.fi/hsl/uutiset/teemat/merkittavat-liikenteen-muutokset',
+      en: 'https://www.hsl.fi/hsl/uutiset/teemat/merkittavat-liikenteen-muutokset',
+    },
   },
 
   indexPath: 'etusivu',
@@ -108,7 +122,7 @@ export default {
   loginAnalyticsEventName: 'user-hsl-id',
   loginAnalyticsKey: 'hsl-id',
 
-  nearbyRoutes: {
+  nearYouRoutes: {
     radius: 500,
     bucketSize: 100,
   },
@@ -155,11 +169,9 @@ export default {
     primary: '#0074bf',
     accessiblePrimary: '#0074be',
     hover: '#0062a1',
-    iconColors: {
-      'mode-bus-express': '#CA4000',
-      'mode-bus-local': '#007ac9',
-      'mode-speedtram': '#007E79',
-    },
+    'bus-express': '#CA4000',
+    'bus-local': '#007ac9',
+    speedtram: '#007E79',
   },
   getAutoSuggestIcons: {
     citybikes: station => {
@@ -169,7 +181,7 @@ export default {
       return ['citybike-stop-default', '#f2b62d'];
     },
   },
-  iconModeSet: 'default',
+  iconModeSet: 'hsl',
   fontWeights: {
     medium: 500,
   },
@@ -335,7 +347,7 @@ export default {
     en: 'HSL',
   },
 
-  maxNearbyStopDistance: {
+  maxNearYouDistance: {
     favorite: 20000,
     bus: 20000,
     tram: 20000,
@@ -418,7 +430,7 @@ export default {
           sv: 'Zoner',
           en: 'Zones',
         },
-        url: '/assets/geojson/hsl_zone_lines_20190508.geojson',
+        url: '/assets/geojson/hsl_zone_lines_20251013.geojson',
       },
     ],
   },
@@ -453,11 +465,7 @@ export default {
   },
   ticketButtonTextId: 'open-app',
 
-  trafficNowLink: {
-    fi: 'matkustaminen/liikenne',
-    en: 'travelling/services-now',
-    sv: 'att-resa/Trafiken-just-nu',
-  },
+  trafficNowLink: true,
 
   vehicleRental: {
     minZoomStopsNearYou: 10,
@@ -467,7 +475,7 @@ export default {
         enabled: true,
         season: {
           preSeasonStart: '18.3',
-          start: '1.4',
+          start: '1.1',
           end: '31.10',
         },
         capacity: BIKEAVL_WITHMAX,
@@ -568,6 +576,8 @@ export default {
     'rail',
     'ferry',
     'citybike',
+    'bikepark',
+    'carpark',
   ],
   narrowNearYouButtons: true,
 
@@ -790,13 +800,26 @@ export default {
   thumbsUpGraphic: 'hsl/thumbs-up.svg',
   trafficLightGraphic: 'hsl/traffic-light.svg',
   naviGeolocationGraphic: 'hsl/geolocation.svg',
+  notFoundGraphic: 'hsl/not-found.svg',
   navigation: true,
   crazyEgg: true,
+
   // features that should not be deployed to production
   experimental: {
-    allowFlexJourneys: false,
+    allowFlexJourneys: IS_DEV,
     allowDirectFlexJourneys: false,
   },
 
   showStopStatusMarkers: true,
+
+  flex: {
+    internalFlexEnabled: IS_DEV,
+    allowTaxiJourneys: IS_DEV,
+    directOnlyTaxiJourneys: false,
+    internalAgencies: ['KirkkonummiE:612', 'KirkkonummiP:612'],
+    externalAgencies: ['02Taksi:02_taksi'],
+    allowedExternalFlexRouteTypes: [1501],
+  },
+
+  showRouteDescNotification: IS_DEV,
 };

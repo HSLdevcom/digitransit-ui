@@ -6,7 +6,7 @@ import DepartureRow from '../DepartureRow';
 export default function StopNearYouDepartureRowContainer({
   stopTimes,
   mode,
-  setCapacityModalOpen,
+  openCapacityModal,
   isParentTabActive,
   ...props
 }) {
@@ -29,7 +29,7 @@ export default function StopNearYouDepartureRowContainer({
         currentTime={props.currentTime}
         showPlatformCode={props.isStation}
         showLink
-        onCapacityClick={() => setCapacityModalOpen(true)}
+        onCapacityClick={openCapacityModal}
         isParentTabActive={isParentTabActive}
       />
     );
@@ -69,7 +69,7 @@ StopNearYouDepartureRowContainer.propTypes = {
   mode: PropTypes.string.isRequired,
   isStation: PropTypes.bool.isRequired,
   currentTime: PropTypes.number.isRequired,
-  setCapacityModalOpen: PropTypes.func.isRequired,
+  openCapacityModal: PropTypes.func.isRequired,
   isParentTabActive: PropTypes.bool,
 };
 

@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { isAnyLegPropertyIdentical, isRental } from '../../../util/legUtils';
 import { getRouteMode, transitIconName } from '../../../util/modeUtils';
 import { configShape, legShape } from '../../../util/shapes';
@@ -8,19 +8,22 @@ import NaviCardExtension from './NaviCardExtension';
 import NaviInstructions from './NaviInstructions';
 import { LEGTYPE } from './NaviUtils';
 import usePrevious from './hooks/usePrevious';
+import { NaviCardType } from '../../../constants';
 
 const iconMap = {
   BICYCLE: 'icon_cyclist',
   CAR: 'icon_car',
   SCOOTER: 'icon_scooter_rider',
   WALK: 'icon_walk',
-  WAIT: 'icon_navigation_wait',
+  WAIT: 'icon_wait_standing',
   CALL: 'icon_call',
-  WAIT_IN_VEHICLE: 'icon_wait',
+  WAIT_IN_VEHICLE: 'icon_wait_sitting',
 };
 
 export default function NaviCard(
   {
+    focusToPoint,
+    previousLeg,
     leg,
     nextLeg,
     legType,
@@ -33,6 +36,7 @@ export default function NaviCard(
   { config },
 ) {
   const [cardExpanded, setCardExpanded] = useState(false);
+  const [currentCard, setCurrentCard] = useState(NaviCardType.Default);
   const contentRef = useRef();
   const { isEqual: legChanged } = usePrevious(leg, (prev, current) =>
     isAnyLegPropertyIdentical(prev, current, ['legId', 'mode']),
@@ -40,10 +44,12 @@ export default function NaviCard(
 
   const handleClick = () => {
     setCardExpanded(prev => !prev);
+    setCurrentCard(NaviCardType.Default);
   };
 
   if (legChanged) {
     setCardExpanded(false);
+    setCurrentCard(NaviCardType.Default);
   }
 
   if (
@@ -60,7 +66,7 @@ export default function NaviCard(
 
   if (legType === LEGTYPE.TRANSIT) {
     const m = getRouteMode(leg.route, config);
-    iconColor = config.colors.iconColors[`mode-${m}`] || leg.route.color;
+    iconColor = config.colors[m] || leg.route.color;
     iconName = transitIconName(m, false);
     instructions = `navileg-in-transit`;
   } else if (
@@ -87,6 +93,18 @@ export default function NaviCard(
     ? `${contentRef.current?.scrollHeight}px`
     : '0px';
 
+  useEffect(() => {
+    const element = contentRef.current;
+    if (!element) {
+      return;
+    }
+
+    // Resize card when card size changes.
+    if (cardExpanded || currentCard === NaviCardType.Indoor) {
+      element.style.maxHeight = `${element.scrollHeight}px`;
+    }
+  }, [cardExpanded, currentCard]);
+
   return (
     <button
       type="button"
@@ -107,6 +125,7 @@ export default function NaviCard(
               time={time}
               position={position}
               tailLength={tailLength}
+              showDestinationInfo={currentCard === NaviCardType.Default}
             />
           </div>
           <div type="button" className="navi-top-card-arrow">
@@ -118,7 +137,7 @@ export default function NaviCard(
         </div>
         <div
           id={`navi-card-content-${leg?.legId}`}
-          className="extension"
+          className="extension-container"
           style={{
             maxHeight,
           }}
@@ -126,11 +145,15 @@ export default function NaviCard(
           aria-hidden={!cardExpanded}
         >
           <NaviCardExtension
+            focusToPoint={focusToPoint}
             legType={legType}
+            previousLeg={previousLeg}
             leg={leg}
             nextLeg={nextLeg}
             time={time}
             platformUpdated={platformUpdated}
+            currentCard={currentCard}
+            setCurrentCard={setCurrentCard}
           />
         </div>
       </div>
@@ -139,6 +162,8 @@ export default function NaviCard(
 }
 
 NaviCard.propTypes = {
+  focusToPoint: PropTypes.func.isRequired,
+  previousLeg: legShape,
   leg: legShape,
   nextLeg: legShape,
   legType: PropTypes.string.isRequired,
@@ -152,6 +177,7 @@ NaviCard.propTypes = {
   platformUpdated: PropTypes.bool,
 };
 NaviCard.defaultProps = {
+  previousLeg: undefined,
   leg: undefined,
   nextLeg: undefined,
   position: undefined,

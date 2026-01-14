@@ -5,6 +5,7 @@ import React from 'react';
 import cx from 'classnames';
 import { I18nextProvider, useTranslation } from 'react-i18next';
 import Modal from '@hsl-fi/modal';
+import { defaultColors } from '@digitransit-component/digitransit-component-icon';
 import styles from './helpers/styles.scss';
 import i18n from './helpers/i18n';
 
@@ -38,8 +39,7 @@ const DialogModal = ({
   appElement,
   isModalOpen,
   modalAriaLabel,
-  color,
-  hoverColor,
+  colors,
   fontWeights,
 }) => {
   const [t] = useTranslation();
@@ -55,8 +55,8 @@ const DialogModal = ({
     >
       <div
         style={{
-          '--color': `${color}`,
-          '--hover-color': `${hoverColor}`,
+          '--color': `${colors.primary}`,
+          '--hover-color': `${colors.hover}`,
           '--font-weight-medium': fontWeights.medium,
         }}
       >
@@ -125,8 +125,7 @@ DialogModal.propTypes = {
   lang: PropTypes.string.isRequired,
   modalAriaLabel: PropTypes.string,
   href: PropTypes.string,
-  color: PropTypes.string,
-  hoverColor: PropTypes.string,
+  colors: PropTypes.objectOf(PropTypes.string),
   fontWeights: PropTypes.shape({
     medium: PropTypes.number,
   }),
@@ -139,15 +138,10 @@ DialogModal.defaultProps = {
   secondaryButtonOnClick: undefined,
   href: undefined,
   modalAriaLabel: '',
-  color: '#007ac9',
-  hoverColor: '#0062a1',
+  colors: defaultColors,
   fontWeights: {
     medium: 500,
   },
-};
-
-DialogModal.contextTypes = {
-  config: PropTypes.object,
 };
 
 export default props => (

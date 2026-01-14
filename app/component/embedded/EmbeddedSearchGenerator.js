@@ -82,7 +82,7 @@ const EmbeddedSearchGenerator = (props, context) => {
     hoverColor: colors.hover,
     fontWeights,
     modeSet: config.iconModeSet,
-    modeIconColors: config.colors.modeIconColors,
+    colors: config.colors,
     selectHandler: onSelectLocation,
     getAutoSuggestIcons: context.config.getAutoSuggestIcons,
   };

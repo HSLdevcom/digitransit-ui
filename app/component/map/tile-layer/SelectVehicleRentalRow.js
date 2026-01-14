@@ -22,11 +22,11 @@ function SelectVehicleRentalRow(
   const { colors } = config;
   let color;
   if (iconName.includes('scooter')) {
-    color = colors.iconColors['mode-scooter'];
+    color = colors.scooter;
   } else if (iconName.includes('secondary')) {
-    color = colors.iconColors['mode-citybike-secondary'];
+    color = colors['citybike-secondary'];
   } else {
-    color = colors.iconColors['mode-citybike'];
+    color = colors.citybike;
   }
 
   const linkAddress = `/${prefix}/${encodeURIComponent(id)}`;

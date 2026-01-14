@@ -41,9 +41,7 @@ export default configMerger(walttiConfig, {
 
   colors: {
     primary: '#7DC02D',
-    iconColors: {
-      'mode-bus': '#7DC02D',
-    },
+    bus: '#7DC02D',
   },
 
   socialMedia: {
@@ -62,10 +60,6 @@ export default configMerger(walttiConfig, {
 
   // Navbar logo
   logo: 'jyvaskyla/jyvaskyla-favicon.png',
-
-  vehicles: true,
-  showVehiclesOnStopPage: true,
-  showVehiclesOnItineraryPage: true,
 
   mainMenu: {
     stopMonitor: {
@@ -180,12 +174,12 @@ export default configMerger(walttiConfig, {
     stops: true,
     itinerary: true,
   },
-  // Notice! Turning on this setting forces the search for car routes (for the CO2 comparison only).
-  showCO2InItinerarySummary: true,
+
   sendAnalyticsCustomEventGoals: true,
 
   defaultSettings: {
     ...walttiConfig.defaultSettings,
     minTransferTime: 180,
   },
+  useRealtimeTravellerCapacities: true,
 });

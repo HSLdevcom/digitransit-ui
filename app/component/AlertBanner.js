@@ -17,7 +17,8 @@ const AlertBanner = ({ alerts, linkAddress }, { config }) => {
     alert.alertSeverityLevel !== 'INFO'
       ? 'icon_caution_white_exclamation'
       : 'icon_info';
-  const iconColor = alert.alertSeverityLevel !== 'INFO' ? '#DC0451' : '#888';
+  const iconColor =
+    alert.alertSeverityLevel !== 'INFO' ? config.colors.caution : '#888';
   return (
     <Link
       className={`alert-banner-link ${alert.alertSeverityLevel.toLowerCase()}`}

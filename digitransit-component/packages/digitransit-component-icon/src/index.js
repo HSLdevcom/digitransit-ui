@@ -1,113 +1,118 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Airplane from './assets/airplane.svg';
 import Arrow from './assets/arrow.svg';
-import Bus from './assets/bus.svg';
-import Busstop from './assets/bus_stop.svg';
+import Check from './assets/check.svg';
 import City from './assets/city.svg';
 import Edit from './assets/edit.svg';
-import Ferry from './assets/ferry.svg';
 import Home from './assets/home.svg';
 import Locate from './assets/locate.svg';
 import Place from './assets/place.svg';
-import Rail from './assets/rail.svg';
 import School from './assets/school.svg';
 import Shopping from './assets/shopping.svg';
 import Sport from './assets/sport.svg';
 import Star from './assets/star.svg';
 import Station from './assets/station.svg';
-import Subway from './assets/subway.svg';
-import Tram from './assets/tram.svg';
 import Work from './assets/work.svg';
 import Map from './assets/map.svg';
 import Close from './assets/close.svg';
 import Mapmarker from './assets/mapmarker.svg';
-import MapmarkerVia from './assets/mapmarker-via.svg';
 import Search from './assets/search.svg';
 import Plus from './assets/plus.svg';
 import Attention from './assets/attention.svg';
 import Dropdown from './assets/dropdown.svg';
-import CarPark from './assets/car-park.svg';
-import BikePark from './assets/bike-park.svg';
+import CarPark from './assets/carpark.svg';
+import BikePark from './assets/bikepark.svg';
 import Time from './assets/time.svg';
 import Ellipsis from './assets/ellipsis.svg';
 import Opposite from './assets/opposite.svg';
 import Viapoint from './assets/viapoint.svg';
 import Calendar from './assets/calendar.svg';
-import SelectFromMap from './assets/select-from-map.svg';
 import CautionWhite from './assets/caution_white_exclamation.svg';
 import Trash from './assets/trash.svg';
-import ModeBus from './assets/mode_bus.svg';
-import ModeBusExpress from './assets/bus-express.svg';
-import ModeBusReplacement from './assets/bus-replacement.svg';
-import ModeSpeedTram from './assets/speedtram.svg';
-import ModeBusLocal from './assets/bus-local.svg';
-import ModeRail from './assets/mode_rail.svg';
-import ModeTram from './assets/mode_tram.svg';
-import ModeFerry from './assets/mode_ferry.svg';
-import ModeBikeRentalStation from './assets/mode_citybike.svg';
-import ModeAirplane from './assets/mode_airplane.svg';
-import ModeDigiTram from './assets/mode_digi_tram.svg';
-import ModeDigiBikeRentalStation from './assets/mode_digi_citybike.svg';
-import ModeDigiFunicular from './assets/mode_digi_funicular.svg';
 import FutureRoute from './assets/icon-route.svg';
 import Position from './assets/position.svg';
 import SearchStreetName from './assets/search-streetname.svg';
-import BusWaltti from './assets/bus-waltti.svg';
-import FerryWaltti from './assets/ferry-waltti.svg';
-import BikeRentalStationWaltti from './assets/citybike-waltti.svg';
-import RailWaltti from './assets/rail-waltti.svg';
-import TramWaltti from './assets/tram-waltti.svg';
-import Check from './assets/check.svg';
-import SearchBusStopDefault from './assets/search-bus-stop-default.svg';
-import SearchBusStopExpressDefault from './assets/search-bus-stop-express-default.svg';
-import SearchSpeedTramStopDefault from './assets/search-speedtram-stop-default.svg';
-import SearchRailStopDefault from './assets/search-rail-stop-default.svg';
-import SearchFerryDefault from './assets/search-ferry-default.svg';
-import SearchFerryStopDefault from './assets/search-ferry-stop-default.svg';
-import CityBikeRentalStationDefault from './assets/citybike-stop-default.svg';
-import CityBikeRentalStationDefaultSecondary from './assets/citybike-stop-default-secondary.svg';
-import SearchTramStopDefault from './assets/search-tram-stop-default.svg';
-import CityBikeRentalStationDigitransit from './assets/citybike-stop-digitransit.svg';
-import CityBikeRentalStationDigitransitSecondary from './assets/citybike-stop-digitransit-secondary.svg';
-import SearchAirplaneDigitransit from './assets/search-airplane-digitransit.svg';
-import SearchBusStationDigitransit from './assets/search-bus-station-digitransit.svg';
-import SearchBusStopDigitransit from './assets/search-bus-stop-digitransit.svg';
-import SearchBusTramStopDigitransit from './assets/search-bustram-stop-digitransit.svg';
-import SearchFerryDigitransit from './assets/search-ferry-digitransit.svg';
-import SearchFerryStopDigitransit from './assets/search-ferry-stop-digitransit.svg';
-import SearchRailStopDigitransit from './assets/search-rail-stop-digitransit.svg';
-import SearchRailStationDigitransit from './assets/search-rail-station-digitransit.svg';
-import SearchTramStopDigitransit from './assets/search-tram-stop-digitransit.svg';
+import Airplane from './assets/airplane.svg';
+import Subway from './assets/subway.svg';
 import Funicular from './assets/funicular.svg';
+import FunicularStop from './assets/funicular-stop.svg';
+import BusHsl from './assets/bus-hsl.svg';
+import BusReplacementHsl from './assets/bus-replacement-hsl.svg';
+import SpeedTramHsl from './assets/speedtram-hsl.svg';
+import BusLocalHsl from './assets/bus-local-hsl.svg';
+import RailHsl from './assets/rail-hsl.svg';
+import TramHsl from './assets/tram-hsl.svg';
+import CityBikeHsl from './assets/citybike-hsl.svg';
+import FerryHsl from './assets/ferry-hsl.svg';
+import BusStopHsl from './assets/bus-stop-hsl.svg';
+import SpeedTramStopHsl from './assets/speedtram-stop-hsl.svg';
+import RailStopHsl from './assets/rail-stop-hsl.svg';
+import FerryStopHsl from './assets/ferry-stop-hsl.svg';
+import CityBikeStopHsl from './assets/citybike-stop-hsl.svg';
+import CityBikeStopHslSecondary from './assets/citybike-stop-hsl-secondary.svg';
+import TramStopHsl from './assets/tram-stop-hsl.svg';
+import CityBikeDigitransit from './assets/citybike-digitransit.svg';
+import BusDigitransit from './assets/bus-digitransit.svg';
+import FerryDigitransit from './assets/ferry-digitransit.svg';
+import RailDigitransit from './assets/rail-digitransit.svg';
+import TramDigitransit from './assets/tram-digitransit.svg';
+import BusStopDigitransit from './assets/bus-stop-digitransit.svg';
+import CityBikeStopDigitransit from './assets/citybike-stop-digitransit.svg';
+import CityBikeStopDigitransitSecondary from './assets/citybike-stop-digitransit-secondary.svg';
+import FerryStopDigitransit from './assets/ferry-stop-digitransit.svg';
+import RailStopDigitransit from './assets/rail-stop-digitransit.svg';
+import TramStopDigitransit from './assets/tram-stop-digitransit.svg';
+import BusTramStopDigitransit from './assets/bustram-stop-digitransit.svg';
+import BusFillDigitransit from './assets/bus-fill-digitransit.svg';
+import CityBikeFillDigitransit from './assets/citybike-fill-digitransit.svg';
+import FerryFillDigitransit from './assets/ferry-fill-digitransit.svg';
+import RailFillDigitransit from './assets/rail-fill-digitransit.svg';
+import TramFillDigitransit from './assets/tram-fill-digitransit.svg';
+import CarParkFill from './assets/carpark-fill.svg';
+import BikeParkFill from './assets/bikepark-fill.svg';
+
+export const defaultColors = {
+  primary: '#0074bf',
+  accessiblePrimary: '#0074be',
+  hover: '#0062a1',
+  caution: '#dc0451',
+  airplane: '#0046ad',
+  bus: '#007ac9',
+  'bus-express': '#ca4000',
+  'bus-local': '#007ac9',
+  'replacement-bus': '#dc0451',
+  rail: '#8c4799',
+  tram: '#008151',
+  speedtram: '#007e79',
+  subway: '#ed8c00',
+  ferry: '#007a97',
+  'ferry-external': '#666666',
+  funicular: '#ff00ff',
+  citybike: '#f2b62d',
+  'citybike-secondary': '#333333',
+  bikepark: '#f2b62d',
+  carpark: '#007ac9',
+};
 
 const iconMap = {
-  airplane: Airplane,
   arrow: Arrow,
-  bus: Bus,
-  busstop: Busstop,
   caution: CautionWhite,
   city: City,
-  citybike: CityBikeRentalStationDefault,
+  citybike: CityBikeHsl,
   edit: Edit,
-  ferry: Ferry,
   home: Home,
   locate: Locate,
   map: Map,
   place: Place,
-  rail: Rail,
   school: School,
   shopping: Shopping,
   sport: Sport,
   star: Star,
   station: Station,
-  subway: Subway,
-  tram: Tram,
   work: Work,
   close: Close,
-  'mapMarker-via': MapmarkerVia,
-  'bike-park': BikePark,
-  'car-park': CarPark,
+  bikepark: BikePark,
+  carpark: CarPark,
   mapMarker: Mapmarker,
   search: Search,
   plus: Plus,
@@ -118,59 +123,54 @@ const iconMap = {
   opposite: Opposite,
   viapoint: Viapoint,
   calendar: Calendar,
-  'select-from-map': SelectFromMap,
   'caution-white': CautionWhite,
   trash: Trash,
-  'mode-bus': ModeBus,
-  'mode-bus-express': ModeBusExpress,
-  'mode-bus-local': ModeBusLocal,
-  'mode-bus-replacement': ModeBusReplacement,
-  'mode-speedtram': ModeSpeedTram,
-  'mode-rail': ModeRail,
-  'mode-tram': ModeTram,
-  'mode-subway': Subway,
-  'mode-ferry': ModeFerry,
-  'mode-citybike': ModeBikeRentalStation,
-  'mode-digitransit-bus': SearchBusStationDigitransit,
-  'mode-digitransit-rail': SearchRailStationDigitransit,
-  'mode-digitransit-ferry': SearchFerryDigitransit,
-  'mode-digitransit-tram': ModeDigiTram,
-  'mode-digitransit-citybike': ModeDigiBikeRentalStation,
-  'mode-digitransit-airplane': ModeAirplane,
-  'mode-digitransit-subway': Subway,
-  'mode-digitransit-funicular': ModeDigiFunicular,
-  'mode-waltti-bus': BusWaltti,
-  'mode-waltti-citybike': BikeRentalStationWaltti,
-  'mode-waltti-ferry': FerryWaltti,
-  'mode-waltti-rail': RailWaltti,
-  'mode-waltti-tram': TramWaltti,
-  'future-route': FutureRoute,
   position: Position,
   'search-street-name': SearchStreetName,
+  'future-route': FutureRoute,
   check: Check,
-  'search-bus-stop-default': SearchBusStopDefault,
-  'search-bus-stop-express-default': SearchBusStopExpressDefault,
-  'search-speedtram-stop-default': SearchSpeedTramStopDefault,
-  'search-rail-stop-default': SearchRailStopDefault,
-  'search-ferry-default': SearchFerryDefault,
-  'search-ferry-stop-default': SearchFerryStopDefault,
-  'search-tram-stop-default': SearchTramStopDefault,
-  'citybike-stop-digitransit': CityBikeRentalStationDigitransit,
-  'citybike-stop-digitransit-secondary':
-    CityBikeRentalStationDigitransitSecondary,
-  'citybike-stop-default': CityBikeRentalStationDefault,
-  'citybike-stop-default-secondary': CityBikeRentalStationDefaultSecondary,
-  'search-airplane-digitransit': SearchAirplaneDigitransit,
-  'search-bus-station-digitransit': SearchBusStationDigitransit,
-  'search-bus-stop-digitransit': SearchBusStopDigitransit,
-  'search-bustram-stop-digitransit': SearchBusTramStopDigitransit,
-  'search-ferry-digitransit': SearchFerryDigitransit,
-  'search-ferry-stop-digitransit': SearchFerryStopDigitransit,
-  'search-funicular-stop-digitransit': ModeDigiFunicular,
-  'search-rail-stop-digitransit': SearchRailStopDigitransit,
-  'search-rail-station-digitransit': SearchRailStationDigitransit,
-  'search-tram-stop-digitransit': SearchTramStopDigitransit,
+  // shared transport modes
+  airplane: Airplane,
+  subway: Subway,
   funicular: Funicular,
+  'funicular-stop': FunicularStop,
+  // HSL
+  'bus-hsl': BusHsl,
+  'bus-local-hsl': BusLocalHsl,
+  'replacement-bus-hsl': BusReplacementHsl,
+  'ferry-hsl': FerryHsl,
+  'rail-hsl': RailHsl,
+  'speedtram-hsl': SpeedTramHsl,
+  'tram-hsl': TramHsl,
+  'citybike-hsl': CityBikeHsl,
+  'bus-stop-hsl': BusStopHsl,
+  'speedtram-stop-hsl': SpeedTramStopHsl,
+  'rail-stop-hsl': RailStopHsl,
+  'ferry-stop-hsl': FerryStopHsl,
+  'tram-stop-hsl': TramStopHsl,
+  'citybike-stop-hsl': CityBikeStopHsl,
+  'citybike-stop-hsl-secondary': CityBikeStopHslSecondary,
+  // digitransit
+  'bus-digitransit': BusDigitransit,
+  'ferry-digitransit': FerryDigitransit,
+  'rail-digitransit': RailDigitransit,
+  'tram-digitransit': TramDigitransit,
+  'citybike-digitransit': CityBikeDigitransit,
+  'citybike-stop-digitransit': CityBikeStopDigitransit,
+  'citybike-stop-digitransit-secondary': CityBikeStopDigitransitSecondary,
+  'bus-stop-digitransit': BusStopDigitransit,
+  'bustram-stop-digitransit': BusTramStopDigitransit,
+  'ferry-stop-digitransit': FerryStopDigitransit,
+  'rail-stop-digitransit': RailStopDigitransit,
+  'tram-stop-digitransit': TramStopDigitransit,
+  'bus-fill-digitransit': BusFillDigitransit,
+  'citybike-fill-digitransit': CityBikeFillDigitransit,
+  'ferry-fill-digitransit': FerryFillDigitransit,
+  'rail-fill-digitransit': RailFillDigitransit,
+  'tram-fill-digitransit': TramFillDigitransit,
+  // no theme binding
+  'bikepark-fill': BikeParkFill,
+  'carpark-fill': CarParkFill,
 };
 
 /**
@@ -197,23 +197,23 @@ const Icon = ({ color, img, height, width, rotate }) => {
       ? 'position'
       : img;
 
-  const Component = iconMap[iconName] || SearchBusStopDigitransit;
+  const Component = iconMap[iconName] || BusStopDigitransit;
 
   return <Component style={style} />;
 };
 
 Icon.propTypes = {
-  color: PropTypes.string,
-  height: PropTypes.number,
   img: PropTypes.string.isRequired,
+  color: PropTypes.string,
   width: PropTypes.number,
+  height: PropTypes.number,
   rotate: PropTypes.string,
 };
 
 Icon.defaultProps = {
   color: undefined,
-  height: undefined,
   width: undefined,
+  height: undefined,
   rotate: undefined,
 };
 

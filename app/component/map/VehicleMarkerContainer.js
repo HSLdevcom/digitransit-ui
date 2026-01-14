@@ -148,11 +148,13 @@ VehicleMarkerContainer.propTypes = {
     }).isRequired,
   ).isRequired,
   useLargeIcon: PropTypes.bool,
+  mode: PropTypes.string,
 };
 
 VehicleMarkerContainer.defaultProps = {
   direction: undefined,
   useLargeIcon: true,
+  mode: undefined,
 };
 
 VehicleMarkerContainer.contextTypes = {

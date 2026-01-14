@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom';
 import ReactDOMServer from 'react-dom/server';
 import glfun from './glfun';
 import { transitIconName } from './modeUtils';
-import { ParkTypes, TransportMode } from '../constants';
 import { getModeIconColor } from './colorUtils';
+import { ParkTypes, TransportMode } from '../constants';
 
 /**
  * Corresponds to an arc forming a full circle (Math.PI * 2).
@@ -482,7 +482,7 @@ export function drawHybridStopIcon(
   if (!styles) {
     return;
   }
-  const { iconColors } = config.colors;
+  const { colors } = config;
   const { style } = styles;
   let { width, height } = styles;
   width *= tile.scaleratio;
@@ -500,7 +500,7 @@ export function drawHybridStopIcon(
     tile.ctx.arc(x, y, radiusOuter * tile.scaleratio, 0, FULL_CIRCLE);
     tile.ctx.fill();
     tile.ctx.beginPath();
-    tile.ctx.fillStyle = iconColors['mode-tram'];
+    tile.ctx.fillStyle = colors.tram;
     tile.ctx.arc(x, y, (radiusOuter - 1) * tile.scaleratio, 0, FULL_CIRCLE);
     tile.ctx.fill();
     // inner icon
@@ -509,8 +509,7 @@ export function drawHybridStopIcon(
     tile.ctx.arc(x, y, radiusInner * tile.scaleratio, 0, FULL_CIRCLE);
     tile.ctx.fill();
     tile.ctx.beginPath();
-    tile.ctx.fillStyle =
-      iconColors[hasTrunkRoute ? 'mode-bus-express' : 'mode-bus'];
+    tile.ctx.fillStyle = colors[hasTrunkRoute ? 'bus-express' : 'bus'];
     tile.ctx.arc(x, y, (radiusInner - 0.5) * tile.scaleratio, 0, FULL_CIRCLE);
     tile.ctx.fill();
     /* eslint-enable no-param-reassign */
@@ -849,4 +848,12 @@ export function renderAsString(children) {
   const html = div.firstElementChild?.outerHTML || div.innerHTML;
   ReactDOM.unmountComponentAtNode(div);
   return html;
+}
+
+export function getIndexedIconFields(zoom, index) {
+  const iconEdgeSize = Math.max(getCaseRadius(zoom) * 2, 8);
+  const iconSize = [iconEdgeSize, iconEdgeSize];
+  const iconAnchor = [iconEdgeSize / 2, (1.5 + index) * iconEdgeSize + index];
+
+  return { iconSize, iconAnchor };
 }

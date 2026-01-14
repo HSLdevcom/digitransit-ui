@@ -1,6 +1,6 @@
 {
   "name": "@digitransit-component/digitransit-component-icon",
-  "version": "1.2.0",
+  "version": "2.0.0",
   "description": "digitransit-component icon module",
   "main": "index.js",
   "files": [

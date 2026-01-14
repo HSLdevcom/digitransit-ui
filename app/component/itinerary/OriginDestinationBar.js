@@ -22,7 +22,6 @@ import {
 } from '../../util/queryUtils';
 import { getIntermediatePlaces, locationToOTP } from '../../util/otpStrings';
 import { setViaPoints } from '../../action/ViaPointActions';
-import { LightenDarkenColor } from '../../util/colorUtils';
 import { getRefPoint } from '../../util/apiUtils';
 
 const DTAutosuggestPanelWithSearchContext =
@@ -166,10 +165,7 @@ class OriginDestinationBar extends React.Component {
           isMobile={props.isMobile}
           itineraryParams={context.match.location.query}
           color={config.colors.primary}
-          hoverColor={
-            config.colors.hover ||
-            LightenDarkenColor(config.colors.primary, -20)
-          }
+          hoverColor={config.colors.hover}
           modeSet={props.modeSet}
           onFocusChange={() => {}}
           showSwapControl
@@ -186,7 +182,7 @@ const connectedComponent = connectToStores(
   ['PreferencesStore', 'FavouriteStore', 'ViaPointStore', 'PositionStore'],
   ({ getStore }) => ({
     language: getStore('PreferencesStore').getLanguage(),
-    showFavourites: getStore('FavouriteStore').getStatus() === 'has-data',
+    showFavourites: getStore('FavouriteStore').getLocationCount() > 0,
     viaPoints: getStore('ViaPointStore').getViaPoints(),
     locationState: getStore('PositionStore').getLocationState(),
   }),

@@ -5,7 +5,7 @@ import {
   getIntermediatePlaces,
 } from './otpStrings';
 import { getPathWithEndpointObjects, PREFIX_ITINERARY_SUMMARY } from './path';
-import { addViaPoint } from '../action/ViaPointActions';
+import { addViaPoint, deleteViaPoint } from '../action/ViaPointActions';
 
 /**
  * Processes query so that empty arrays will be preserved in URL
@@ -99,13 +99,23 @@ export const updateItinerarySearch = (
   router.replace(newLocation);
 };
 
-export const onLocationPopup = (item, id, router, match, executeAction) => {
+export const onLocationPopup = (
+  item,
+  id,
+  router,
+  match,
+  executeAction,
+  config,
+) => {
   if (id === 'via') {
-    const viaPoints = getIntermediatePlaces(match.location.query)
-      .concat([item])
-      .map(locationToOTP);
+    const viaPoints = getIntermediatePlaces(match.location.query) || [];
+    if (config.viaPointsMax && viaPoints.length >= config.viaPointsMax) {
+      const lastViaPoint = viaPoints.pop();
+      executeAction(deleteViaPoint, lastViaPoint);
+    }
+    viaPoints.push(item);
     executeAction(addViaPoint, item);
-    setIntermediatePlaces(router, match, viaPoints);
+    setIntermediatePlaces(router, match, viaPoints.map(locationToOTP));
     return;
   }
   let origin = otpToLocation(match.params.from);

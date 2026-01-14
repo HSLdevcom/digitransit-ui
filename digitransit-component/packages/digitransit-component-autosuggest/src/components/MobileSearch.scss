@@ -1,4 +1,3 @@
-$primary-color: #007ac9;
 $font-weight-medium: 500;
 $search-result-text-highlight-background-color: #f2f5f7;
 $zindex: base, map-container, map-gradient, map-fullscreen-toggle, map-buttons,
@@ -52,7 +51,6 @@ input[type='text'] {
   background: none;
 
   svg {
-    fill: $primary-color;
     width: 14px;
     height: 21px;
     transform: rotate(-180deg);

@@ -10,13 +10,13 @@ import {
   configShape,
 } from '../../util/shapes';
 import Icon from '../Icon';
+import IconBackground from '../icon/IconBackground';
 import Duration from './Duration';
 import RouteNumber from '../RouteNumber';
 import RouteNumberContainer from '../RouteNumberContainer';
 import { getActiveLegAlertSeverityLevel } from '../../util/alertUtils';
 import {
   getLegMode,
-  splitLegsAtViaPoints,
   compressLegs,
   getLegBadgeProps,
   getInterliningLegs,
@@ -27,6 +27,8 @@ import {
   legTimeStr,
   LegMode,
   getZones,
+  isCallAgencyLeg,
+  splitLegsAtViaPoints,
 } from '../../util/legUtils';
 import { dateOrEmpty, isTomorrow, timeStr } from '../../util/timeUtils';
 import withBreakpoint from '../../util/withBreakpoint';
@@ -42,6 +44,7 @@ import { getCapacityForLeg } from '../../util/occupancyUtil';
 import getCo2Value from '../../util/emissions';
 import { ItineraryFragment } from './queries/ItineraryFragment';
 import { getTicketString } from '../../util/fareUtils';
+import { ViaLocationType } from '../../constants';
 import BoardingInformation, {
   getBoardingInformationText,
 } from './BoardingInformation';
@@ -87,7 +90,6 @@ export function RouteLeg(
   {
     leg,
     large,
-    intl,
     legLength,
     isTransitLeg,
     interliningWithRoute,
@@ -99,7 +101,6 @@ export function RouteLeg(
   },
   { config },
 ) {
-  let routeNumber;
   const mode = getRouteMode(leg.route, config);
 
   const getOccupancyStatus = () => {
@@ -109,41 +110,23 @@ export function RouteLeg(
     return undefined;
   };
 
-  if (mode === 'call') {
-    const message = intl.formatMessage({
-      id: 'pay-attention',
-      defaultMessage: 'Pay Attention',
-    });
-
-    routeNumber = (
-      <RouteNumber
-        mode="call"
-        text={message}
-        className={cx('line', 'call')}
-        vertical
-        withBar
-        isTransitLeg={isTransitLeg}
-      />
-    );
-  } else {
-    routeNumber = (
-      <RouteNumberContainer
-        alertSeverityLevel={getActiveLegAlertSeverityLevel(leg)}
-        route={leg.route}
-        className={cx('line', mode)}
-        interliningWithRoute={interliningWithRoute}
-        mode={mode}
-        vertical
-        withBar
-        isTransitLeg={isTransitLeg}
-        withBicycle={withBicycle}
-        withCar={withCar}
-        occupancyStatus={getOccupancyStatus()}
-        duration={Math.floor(leg.duration / 60)}
-        shortenLongText={shortenLabels}
-      />
-    );
-  }
+  const routeNumber = (
+    <RouteNumberContainer
+      alertSeverityLevel={getActiveLegAlertSeverityLevel(leg)}
+      route={leg.route}
+      className={cx('line', mode)}
+      interliningWithRoute={interliningWithRoute}
+      mode={mode}
+      vertical
+      withBar
+      isTransitLeg={isTransitLeg}
+      withBicycle={withBicycle}
+      withCar={withCar}
+      occupancyStatus={getOccupancyStatus()}
+      duration={Math.floor(leg.duration / 60)}
+      shortenLongText={shortenLabels}
+    />
+  );
   return (
     <Leg
       mode={mode}
@@ -157,7 +140,6 @@ export function RouteLeg(
 
 RouteLeg.propTypes = {
   leg: legShape.isRequired,
-  intl: intlShape.isRequired,
   large: PropTypes.bool.isRequired,
   legLength: PropTypes.number.isRequired,
   fitRouteNumber: PropTypes.bool.isRequired,
@@ -250,18 +232,6 @@ export const ViaLeg = () => (
   </div>
 );
 
-const getViaPointIndex = (leg, intermediatePlaces) => {
-  if (!leg || !Array.isArray(intermediatePlaces)) {
-    return -1;
-  }
-  return intermediatePlaces.findIndex(
-    place => place.lat === leg.from.lat && place.lon === leg.from.lon,
-  );
-};
-
-const connectsFromViaPoint = (currLeg, intermediatePlaces) =>
-  getViaPointIndex(currLeg, intermediatePlaces) > -1;
-
 const bikeWasParked = legs => {
   const legsLength = legs.length;
   for (let i = 0; i < legsLength; i++) {
@@ -324,10 +294,7 @@ const Itinerary = (
       nameLengthSum += getRouteText(leg.route, config).length;
     }
     nameLengthSum += 10; // every leg requires some minimum space
-    if (
-      i > 0 &&
-      (leg.intermediatePlace || connectsFromViaPoint(leg, intermediatePlaces))
-    ) {
+    if (i > 0 && (leg.from.viaLocationType || leg.to.viaLocationType)) {
       intermediateSlack +=
         legTime(leg.start) - legTime(compressedLegs[i - 1].end); // calculate time spent at each intermediate place
     }
@@ -368,17 +335,12 @@ const Itinerary = (
     let waitLength;
     const startMs = legTime(leg.start);
     const endMs = legTime(leg.end);
-    const previousLeg = i > 0 ? compressedLegs[i - 1] : null;
     const nextLeg =
       i < compressedLegs.length - 1 ? compressedLegs[i + 1] : null;
     let legLength = relativeLength(endMs - startMs);
     const longName = !leg?.route?.shortName || leg?.route?.shortName.length > 5;
 
-    if (
-      nextLeg &&
-      !nextLeg.intermediatePlace &&
-      !connectsFromViaPoint(nextLeg, intermediatePlaces)
-    ) {
+    if (nextLeg && !leg.to.viaLocationType) {
       // don't show waiting in intermediate places
       waitTime = legTime(nextLeg.start) - endMs;
       waitLength = relativeLength(waitTime);
@@ -427,14 +389,11 @@ const Itinerary = (
       renderBar = false;
       addition += legLength; // carry over the length of the leg to the next
     }
-    // There are two places which inject ViaLegs in this logic, but we certainly
-    // don't want to add it twice in the same place with the same key, so we
-    // record whether we added it here at the first place.
-    let viaAdded = false;
-    if (leg.intermediatePlace) {
+    let viaPointAdded = false;
+    if (leg.from.viaLocationType === ViaLocationType.Visit) {
+      viaPointAdded = true;
       onlyIconLegs += 1;
       legs.push(<ViaLeg key={`via_${leg.mode}_${startMs}`} />);
-      viaAdded = true;
     }
     if (isLegOnFoot(leg) && renderBar) {
       const walkingTime = Math.floor(leg.duration / 60);
@@ -596,11 +555,11 @@ const Itinerary = (
         usingOwnCarWholeTrip &&
         config.carBoardingModes[leg.route.mode] !== undefined;
       if (
-        previousLeg &&
-        !previousLeg.intermediatePlace &&
-        connectsFromViaPoint(leg, intermediatePlaces) &&
-        !viaAdded
+        leg.from.viaLocationType === ViaLocationType.PassThrough ||
+        (leg.viaStopCall && !viaPointAdded)
       ) {
+        viaPointAdded = true;
+        onlyIconLegs += 1;
         legs.push(<ViaLeg key={`via_${leg.mode}_${startMs}`} />);
       }
       const renderRouteNumberForALongLeg =
@@ -615,7 +574,6 @@ const Itinerary = (
             (fitAllRouteNumbers && !longName) || renderRouteNumberForALongLeg
           }
           interliningWithRoute={interliningWithRoute}
-          intl={intl}
           legLength={legLength}
           large={breakpoint === 'large'}
           withBicycle={withBicycle}
@@ -636,6 +594,13 @@ const Itinerary = (
         ),
       );
       stopNames.push(leg.from.name);
+      if (
+        leg.to.viaLocationType === ViaLocationType.PassThrough &&
+        !(nextLeg.transitLeg && nextLeg.from.viaLocationType)
+      ) {
+        onlyIconLegs += 1;
+        legs.push(<ViaLeg key={`via_${leg.mode}_${startMs}`} />);
+      }
     }
 
     if (waiting && !nextLeg?.interlineWithPreviousLeg) {
@@ -650,7 +615,7 @@ const Itinerary = (
           isTransitLeg={false}
           mode={LegMode.Wait}
           large={breakpoint === 'large'}
-          icon={usingOwnCarWholeTrip ? 'icon_wait-car' : undefined}
+          icon={usingOwnCarWholeTrip ? 'icon_wait-car' : 'icon_wait_standing'}
         />,
       );
     }
@@ -660,8 +625,24 @@ const Itinerary = (
   const iconLegsInPixels = (24 * onlyIconLegs) / normalLegs;
   // the leftover percentage from only showing icons added to each 'normal' leg
   const iconLegsInPercents = onlyIconLegsLength / normalLegs;
+  const hasCallAgencyLeg = itinerary.legs.some(leg => isCallAgencyLeg(leg));
   let firstDeparture;
-  if (!noTransitLegs) {
+  if (hasCallAgencyLeg) {
+    firstLegStartTime = (
+      <div
+        className={cx('itinerary-first-leg-start-time', {
+          small: breakpoint !== 'large',
+        })}
+      >
+        <Icon
+          img="icon_alert-circle"
+          className="itinerary-summary-icon"
+          omitViewBox
+        />
+        <FormattedMessage id="itinerary-summary-row.call-agency-description" />
+      </div>
+    );
+  } else if (!noTransitLegs) {
     firstDeparture = compressedLegs.find(isTransitLeg);
     if (firstDeparture) {
       let firstDepartureStopType;
@@ -776,53 +757,62 @@ const Itinerary = (
   const firstDepartureLabelId = firstDepartureWithRentals?.rentedBike
     ? rentalLabelId
     : 'itinerary-summary-row.first-departure';
+  let textSummary = '';
+  if (hasCallAgencyLeg) {
+    textSummary = (
+      <div className="sr-only" key="screenReader">
+        <FormattedMessage id="itinerary-summary-row.call-agency-description" />
+      </div>
+    );
+  } else {
+    textSummary = (
+      <div className="sr-only" key="screenReader">
+        <FormattedMessage
+          id="itinerary-summary-row.description"
+          values={{
+            departureDate: dateOrEmpty(startTime, refTime),
+            departureTime,
+            arrivalDate: dateOrEmpty(endTime, refTime),
+            arrivalTime,
+            firstDeparture: vehicleNames.length && firstDeparture && (
+              <FormattedMessage
+                id={firstDepartureLabelId}
+                values={{
+                  vehicle: vehicleNames[0],
+                  departureTime: legTimeStr(firstDeparture.start),
+                  firstDepartureTime: legTimeStr(firstDeparture.start), // vehicle rental start time
+                  stopName: stopNames[0],
+                  firstDepartureStop: stopNames[0], // vehicle rental stop name
+                  platformOrTrack: getBoardingInformationText(
+                    firstDeparture,
+                    intl,
+                  ),
+                }}
+              />
+            ),
+            transfers: vehicleNames.map((name, index) => {
+              if (index === 0) {
+                return null;
+              }
+              return formatMessage(
+                {
+                  id: stopNames[index]
+                    ? 'itinerary-summary-row.transfers'
+                    : 'itinerary-summary-row.transfers-to-rental',
+                },
+                {
+                  vehicle: name,
+                  stopName: stopNames[index],
+                },
+              );
+            }),
+            totalTime: <Duration duration={duration} />,
+          }}
+        />
+      </div>
+    );
+  }
 
-  const textSummary = (
-    <div className="sr-only" key="screenReader">
-      <FormattedMessage
-        id="itinerary-summary-row.description"
-        values={{
-          departureDate: dateOrEmpty(startTime, refTime),
-          departureTime,
-          arrivalDate: dateOrEmpty(endTime, refTime),
-          arrivalTime,
-          firstDeparture: vehicleNames.length && firstDeparture && (
-            <FormattedMessage
-              id={firstDepartureLabelId}
-              values={{
-                vehicle: vehicleNames[0],
-                departureTime: legTimeStr(firstDeparture.start),
-                firstDepartureTime: legTimeStr(firstDeparture.start), // vehicle rental start time
-                stopName: stopNames[0],
-                firstDepartureStop: stopNames[0], // vehicle rental stop name
-                platformOrTrack: getBoardingInformationText(
-                  firstDeparture,
-                  intl,
-                ),
-              }}
-            />
-          ),
-          transfers: vehicleNames.map((name, index) => {
-            if (index === 0) {
-              return null;
-            }
-            return formatMessage(
-              {
-                id: stopNames[index]
-                  ? 'itinerary-summary-row.transfers'
-                  : 'itinerary-summary-row.transfers-to-rental',
-              },
-              {
-                vehicle: name,
-                stopName: stopNames[index],
-              },
-            );
-          }),
-          totalTime: <Duration duration={duration} />,
-        }}
-      />
-    </div>
-  );
   const co2summary = (
     <div className="sr-only">
       <FormattedMessage
@@ -931,6 +921,7 @@ const Itinerary = (
                 <div className="itinerary-start-date">{startDate}</div>
               )}
               <div className="itinerary-start-time-and-end-time">
+                {hasCallAgencyLeg && <FormattedMessage id="estimate" />}{' '}
                 {`${departureTime} - ${arrivalTime}`}
               </div>
 
@@ -949,6 +940,7 @@ const Itinerary = (
                 </div>
               )}
               <div className="itinerary-duration">
+                {hasCallAgencyLeg && <FormattedMessage id="estimate" />}{' '}
                 <Duration duration={duration} />
               </div>
             </div>
@@ -970,7 +962,11 @@ const Itinerary = (
               </div>
               <div className="overflow-icon-container">
                 {showOverflowIcon && (
-                  <Icon img="icon_three-dots" className="overflow-icon" />
+                  <Icon
+                    img="icon_three-dots"
+                    className="overflow-icon"
+                    background={<IconBackground shape="circle" color="#fff" />}
+                  />
                 )}
               </div>
             </div>

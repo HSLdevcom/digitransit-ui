@@ -124,6 +124,7 @@ function ItineraryDetails(
   );
   const legsWithScooter = compressedLegs.some(leg => leg.mode === 'SCOOTER');
   const legsWithAirplane = compressedLegs.some(leg => leg.mode === 'AIRPLANE');
+  const legsWithViaPoint = compressedLegs.some(leg => leg.from.viaLocationType);
   const onlyWalking = compressedLegs.every(leg => leg.mode === 'WALK');
   const onlyBiking = compressedLegs.every(leg => leg.mode === 'BICYCLE');
   const showStartNavi =
@@ -174,7 +175,7 @@ function ItineraryDetails(
   const disclaimers = [];
   const externalOperatorJourneys = legsWithScooter;
   if (
-    shouldShowFareInfo(config) &&
+    shouldShowFareInfo(config, itinerary.legs) &&
     (fares.some(fare => fare.isUnknown) || externalOperatorJourneys)
   ) {
     const found = {};
@@ -193,14 +194,22 @@ function ItineraryDetails(
       }
     });
 
-    const info = config.callAgencyInfo?.[currentLanguage];
-    if (info && itinerary.legs.some(leg => isCallAgencyLeg(leg))) {
+    // Show call agency ticket disclaimer for external agencies
+    const callAgencyInfo = config.callAgencyInfo?.[currentLanguage];
+    if (
+      callAgencyInfo &&
+      itinerary.legs.some(
+        leg =>
+          isCallAgencyLeg(leg) &&
+          !config.flex.internalAgencies.includes(leg.route.agency.gtfsId),
+      )
+    ) {
       disclaimers.push(
         <FareDisclaimer
           key={disclaimers.length}
           textId="separate-ticket-required-for-call-agency-disclaimer"
-          href={info.callAgencyInfoLink}
-          linkText={info.callAgencyInfoLinkText}
+          href={callAgencyInfo.callAgencyInfoLink}
+          linkText={callAgencyInfo.callAgencyInfoLinkText}
         />,
       );
     }
@@ -375,15 +384,19 @@ function ItineraryDetails(
                 relayEnvironment={relayEnvironment}
               />
             </div>
-            {config.showCO2InItinerarySummary && !legsWithScooter && (
-              <Emissions
-                key="emissionsinfo"
-                config={config}
-                itinerary={itinerary}
-                carEmissions={carEmissions}
-                emissionsInfolink={config.URL.EMISSIONS_INFO?.[currentLanguage]}
-              />
-            )}
+            {config.showCO2InItinerarySummary &&
+              !legsWithScooter &&
+              !legsWithViaPoint && (
+                <Emissions
+                  key="emissionsinfo"
+                  config={config}
+                  itinerary={itinerary}
+                  carEmissions={carEmissions}
+                  emissionsInfolink={
+                    config.URL.EMISSIONS_INFO?.[currentLanguage]
+                  }
+                />
+              )}
             {shouldShowDisclaimer && (
               <div className="itinerary-disclaimer" key="disclaimer">
                 <FormattedMessage

@@ -17,9 +17,7 @@ export default configMerger(walttiConfig, {
 
   colors: {
     primary: '#34B233',
-    iconColors: {
-      'mode-bus': '#34B233',
-    },
+    bus: '#34B233',
   },
   socialMedia: {
     title: APP_TITLE,
@@ -85,9 +83,6 @@ export default configMerger(walttiConfig, {
       },
     ],
   },
-  vehicles: true,
-  showVehiclesOnStopPage: true,
-  showVehiclesOnItineraryPage: true,
   zoneIdMapping: {
     1: 'A',
     2: 'B',

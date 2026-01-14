@@ -180,7 +180,7 @@ const MobileView = forwardRef(
                 ref={contentRef}
               >
                 {enableBottomScroll && <div className="drag-line" />}
-                <div className="content-container">
+                <div className="content-container" id="content-container">
                   {header}
                   {content}
                 </div>

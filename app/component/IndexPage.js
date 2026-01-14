@@ -7,7 +7,6 @@ import isEqual from 'lodash/isEqual';
 import DTAutoSuggest from '@digitransit-component/digitransit-component-autosuggest';
 import DTAutosuggestPanel from '@digitransit-component/digitransit-component-autosuggest-panel';
 import CtrlPanel from '@digitransit-component/digitransit-component-control-panel';
-import TrafficNowLink from '@digitransit-component/digitransit-component-traffic-now-link';
 import { getModesWithAlerts } from '@digitransit-search-util/digitransit-search-util-query-utils';
 import { createUrl } from '@digitransit-store/digitransit-store-future-route';
 import inside from 'point-in-polygon';
@@ -29,12 +28,12 @@ import {
   definesItinerarySearch,
   PREFIX_NEARYOU,
   PREFIX_ITINERARY_SUMMARY,
+  TRAFFICNOW,
 } from '../util/path';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import withBreakpoint from '../util/withBreakpoint';
 import Geomover from './Geomover';
 import scrollTop from '../util/scroll';
-import { LightenDarkenColor } from '../util/colorUtils';
 import { getRefPoint } from '../util/apiUtils';
 import { filterObject } from '../util/filterUtils';
 import {
@@ -46,6 +45,7 @@ import {
   checkPositioningPermission,
   startLocationWatch,
 } from '../action/PositionActions';
+import TrafficNowLink from './trafficnow/TrafficNowLink';
 
 const StopRouteSearch = withSearchContext(DTAutoSuggest);
 const LocationSearch = withSearchContext(DTAutosuggestPanel);
@@ -210,12 +210,6 @@ class IndexPage extends React.Component {
     this.context.executeAction(storeDestination, favourite);
   };
 
-  trafficNowHandler = (e, lang) => {
-    window.location = `${this.context.config.URL.ROOTLINK}/${
-      lang === 'fi' ? '' : `${lang}/`
-    }${this.context.config.trafficNowLink[lang]}`;
-  };
-
   clickStopNearIcon = url => {
     addAnalyticsEvent({
       event: 'sendMatomoEvent',
@@ -225,23 +219,27 @@ class IndexPage extends React.Component {
     this.context.router.push(url);
   };
 
+  trafficNowHandler = e => {
+    e.preventDefault();
+    this.context.router.push(`/${TRAFFICNOW}`);
+  };
+
   NearStops() {
     const { intl, config } = this.context;
     const { colors, fontWeights } = config;
     const { lang } = this.props;
-    const transportModes = getTransportModes(config);
     const nearYouModes = getNearYouModes(config);
-
-    // Styles are defined by which button type is configured (narrow/wide)
-    const narrowButtons = config.narrowNearYouButtons;
-    const modeTitles = filterObject(
-      transportModes,
-      'availableForSelection',
-      true,
-    );
     // If nearYouModes is configured, display those. Otherwise, display all configured transport modes
-    const modes =
-      nearYouModes?.length > 0 ? nearYouModes : Object.keys(modeTitles);
+    const modeArray =
+      nearYouModes.length > 0
+        ? nearYouModes
+        : Object.keys(
+            filterObject(
+              getTransportModes(config),
+              'availableForSelection',
+              true,
+            ),
+          );
 
     const alertsContext = {
       currentTime: this.props.currentTime,
@@ -249,29 +247,34 @@ class IndexPage extends React.Component {
       feedIds: config.feedIds,
     };
 
+    const directionProps = config.narrowNearYouButtons
+      ? {}
+      : {
+          buttonStyle: config.nearYouButton,
+          horizontal: false,
+        };
+
     return config.showNearYouButtons ? (
       <CtrlPanel.NearStopsAndRoutes
-        modeArray={modes}
+        modeArray={modeArray}
+        modeSet={config.iconModeSet}
         urlPrefix={`/${PREFIX_NEARYOU}`}
         language={lang}
-        showTitle
+        title={config.nearYouTitle}
         alertsContext={alertsContext}
         origin={this.props.origin}
         omitLanguageUrl
         onClick={this.clickStopNearIcon}
-        buttonStyle={narrowButtons ? undefined : config.nearYouButton}
-        title={narrowButtons ? undefined : config.nearYouTitle}
-        modes={narrowButtons ? undefined : modeTitles}
-        modeSet={config.nearbyModeSet || config.iconModeSet}
-        modeIconColors={colors.iconColors}
+        colors={colors}
         fontWeights={fontWeights}
+        {...directionProps}
       />
     ) : (
       <div className="stops-near-you-text">
         <h2>
           {intl.formatMessage({
-            id: 'stop-near-you-title',
-            defaultMessage: 'Stops and lines near you',
+            id: 'near-you-search',
+            defaultMessage: 'Search stops and routes',
           })}
         </h2>
       </div>
@@ -282,18 +285,18 @@ class IndexPage extends React.Component {
   render() {
     const { intl, config } = this.context;
     const { trafficNowLink, colors, fontWeights } = config;
-    const color = colors.primary;
-    const hoverColor = colors.hover || LightenDarkenColor(colors.primary, -20);
-    const accessiblePrimaryColor = colors.accessiblePrimary || colors.primary;
     const { breakpoint, lang } = this.props;
     const origin = this.pendingOrigin || this.props.origin;
     const destination = this.pendingDestination || this.props.destination;
+    const locationSources = ['History', 'Datasource'];
     const sources = ['Favourite', 'History', 'Datasource'];
     const stopAndRouteSearchTargets = ['Stations', 'Stops', 'Routes'];
     const targets = getLocationSearchTargets(config, breakpoint !== 'large');
 
     targets.push('FutureRoutes');
-
+    if (this.context.getStore('FavouriteStore').getLocationCount()) {
+      locationSources.push('Favourite');
+    }
     if (!config.targetsFromOTP) {
       if (useCitybikes(config.vehicleRental?.networks, config)) {
         stopAndRouteSearchTargets.push('VehicleRentalStations');
@@ -312,11 +315,8 @@ class IndexPage extends React.Component {
       origin,
       destination,
       lang,
-      sources,
+      locationSources,
       targets,
-      color,
-      hoverColor,
-      accessiblePrimaryColor,
       refPoint,
       searchPanelText: intl.formatMessage({
         id: 'where',
@@ -329,7 +329,7 @@ class IndexPage extends React.Component {
       onGeolocationStart: this.onSelectLocation,
       fromMap: this.props.fromMap,
       fontWeights,
-      modeIconColors: colors.iconColors,
+      colors,
       modeSet: config.iconModeSet,
     };
 
@@ -343,13 +343,10 @@ class IndexPage extends React.Component {
       getAutoSuggestIcons: config.getAutoSuggestIcons,
       value: '',
       lang,
-      color,
-      hoverColor,
-      accessiblePrimaryColor,
       sources,
       targets: stopAndRouteSearchTargets,
       fontWeights,
-      modeIconColors: colors.iconColors,
+      colors,
       modeSet: config.iconModeSet,
       geocodingSize: 25,
     };
@@ -375,13 +372,7 @@ class IndexPage extends React.Component {
           <h1 className="sr-only">
             <FormattedMessage id="index.title" default="Journey Planner" />
           </h1>
-          <CtrlPanel
-            instance="hsl"
-            language={lang}
-            origin={origin}
-            position="left"
-            fontWeights={fontWeights}
-          >
+          <CtrlPanel position="left" fontWeights={fontWeights}>
             <span className="sr-only">
               <FormattedMessage
                 id="search-fields.sr-instructions"
@@ -390,7 +381,11 @@ class IndexPage extends React.Component {
             </span>
             <LocationSearch {...locationSearchProps} />
             <div className="datetimepicker-container">
-              <DatetimepickerContainer realtime color={color} lang={lang} />
+              <DatetimepickerContainer
+                realtime
+                color={colors.primary}
+                lang={lang}
+              />
             </div>
             {!config.hideFavourites && (
               <>
@@ -410,10 +405,10 @@ class IndexPage extends React.Component {
                 <CtrlPanel.SeparatorLine />
               </>
             )}
-            {trafficNowLink?.[lang] && (
+            {trafficNowLink && (
               <TrafficNowLink
-                lang={lang}
                 handleClick={this.trafficNowHandler}
+                href={`/${TRAFFICNOW}`}
               />
             )}
           </CtrlPanel>
@@ -433,19 +428,18 @@ class IndexPage extends React.Component {
             backgroundColor: '#ffffff',
           }}
         >
-          <CtrlPanel
-            instance="hsl"
-            language={lang}
-            position="bottom"
-            fontWeights={fontWeights}
-          >
+          <CtrlPanel position="bottom" fontWeights={fontWeights}>
             <LocationSearch
               disableAutoFocus
               isMobile
               {...locationSearchProps}
             />
             <div className="datetimepicker-container">
-              <DatetimepickerContainer realtime color={color} lang={lang} />
+              <DatetimepickerContainer
+                realtime
+                color={colors.primary}
+                lang={lang}
+              />
             </div>
             <FavouritesContainer
               onClickFavourite={this.clickFavourite}
@@ -459,11 +453,10 @@ class IndexPage extends React.Component {
             </div>
             <CtrlPanel.SeparatorLine usePaddingBottom20 />
             {!trafficNowLink ||
-              (trafficNowLink[lang] !== '' && (
+              (trafficNowLink !== '' && (
                 <TrafficNowLink
-                  lang={lang}
                   handleClick={this.trafficNowHandler}
-                  fontWeights={fontWeights}
+                  href={`/${TRAFFICNOW}`}
                 />
               ))}
           </CtrlPanel>

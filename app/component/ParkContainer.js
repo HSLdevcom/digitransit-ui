@@ -8,7 +8,7 @@ const containerComponent = createFragmentContainer(ParkAndRideContent, {
         bicycleSpaces
         carSpaces
       }
-      capacity {
+      parkCapacity: capacity {
         carSpaces
       }
       name

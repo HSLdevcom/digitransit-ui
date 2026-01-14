@@ -24,11 +24,19 @@ export const ItineraryDetailsFragment = graphql`
       legGeometry {
         points
       }
+      pickupType
       pickupBookingInfo {
         contactInfo {
           bookingUrl
           infoUrl
+          phoneNumber
         }
+        message
+        latestBookingTime {
+          daysPrior
+          time
+        }
+        minimumBookingNotice
       }
       steps {
         feature {
@@ -36,6 +44,39 @@ export const ItineraryDetailsFragment = graphql`
           ... on Entrance {
             publicCode
             wheelchairAccessible
+          }
+          ... on ElevatorUse {
+            from {
+              level
+              name
+            }
+            verticalDirection
+            to {
+              level
+              name
+            }
+          }
+          ... on EscalatorUse {
+            from {
+              level
+              name
+            }
+            verticalDirection
+            to {
+              level
+              name
+            }
+          }
+          ... on StairsUse {
+            from {
+              level
+              name
+            }
+            verticalDirection
+            to {
+              level
+              name
+            }
           }
         }
         lat
@@ -155,6 +196,7 @@ export const ItineraryDetailsFragment = graphql`
             gtfsId
           }
         }
+        viaLocationType
       }
       to {
         lat
@@ -207,6 +249,7 @@ export const ItineraryDetailsFragment = graphql`
           vehicleParkingId
           name
         }
+        viaLocationType
       }
       intermediatePlaces {
         arrival {
@@ -247,7 +290,6 @@ export const ItineraryDetailsFragment = graphql`
       interlineWithPreviousLeg
       distance
       duration
-      intermediatePlace
       route {
         shortName
         color

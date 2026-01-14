@@ -28,10 +28,8 @@ export default configMerger(walttiConfig, {
 
   colors: {
     primary: '#5c4696',
-    iconColors: {
-      'mode-bus': '#009fe3',
-      'mode-rail': '#64be14',
-    },
+    bus: '#009fe3',
+    rail: '#64be14',
   },
 
   socialMedia: {
@@ -87,10 +85,6 @@ export default configMerger(walttiConfig, {
     lat: 62.6024263,
     lon: 29.7569847,
   },
-
-  vehicles: true,
-  showVehiclesOnStopPage: true,
-  showVehiclesOnItineraryPage: true,
 
   aboutThisService: {
     fi: [

@@ -37,10 +37,8 @@ export default configMerger(walttiConfig, {
   colors: {
     primary: colorPrimary,
     hover: '#00BF6F',
-    iconColors: {
-      'mode-bus': colorPrimary,
-      'mode-ferry': '#0064f0',
-    },
+    bus: colorPrimary,
+    ferry: '#0064f0',
   },
 
   appBarLink: { name: 'Seutu+', href: 'https://seutuplus.fi/' },
@@ -124,9 +122,6 @@ export default configMerger(walttiConfig, {
 
   /* Enable real-time map layer for vehicle positions */
   vehicles: false,
-  viaPointsEnabled: false,
-  showVehiclesOnStopPage: true,
-  showVehiclesOnItineraryPage: true,
 
   aboutThisService: {
     fi: [
@@ -185,10 +180,6 @@ export default configMerger(walttiConfig, {
     },
   },
 
-  staticMessages: [],
-  showCO2InItinerarySummary: true,
-  showNearYouButtons: true,
-  allowLogin: false,
   routeNotifications: [],
   analyticsScript: '',
   GTMid: null,

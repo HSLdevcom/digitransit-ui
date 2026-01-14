@@ -12,10 +12,10 @@ function Suggestion({
   item,
   lng,
   getItemProps,
-  suggestionItemProps,
   highlightedIndex,
   itemIndex,
   styles,
+  ...rest
 }) {
   const [t] = useTranslation();
   const newItem =
@@ -34,12 +34,7 @@ function Suggestion({
       )}
       {...getItemProps({ index: itemIndex })}
     >
-      <SuggestionItem
-        {...suggestionItemProps}
-        item={newItem}
-        content={content}
-        lng={lng}
-      />
+      <SuggestionItem item={newItem} content={content} lng={lng} {...rest} />
     </li>
   );
 }
@@ -73,7 +68,6 @@ Suggestion.propTypes = {
   item: itemShape.isRequired,
   lng: PropTypes.string.isRequired,
   getItemProps: PropTypes.func.isRequired,
-  suggestionItemProps: PropTypes.shape({}).isRequired,
   highlightedIndex: PropTypes.number.isRequired,
   itemIndex: PropTypes.number.isRequired,
   styles: PropTypes.objectOf(PropTypes.string).isRequired,
@@ -83,13 +77,12 @@ export function Suggestions({
   suggestions,
   getMenuProps,
   getItemProps,
-  itemProps: suggestionItemProps,
-  highlightedIndex,
   lng,
   styles,
   hidden,
   renderClearHistoryButton,
   handleClearHistory,
+  ...rest
 }) {
   const [t] = useTranslation();
   return (
@@ -109,13 +102,12 @@ export function Suggestions({
                 suggestion.properties.name ||
                 suggestion.properties.gtfsId
               }`}
-              highlightedIndex={highlightedIndex}
-              itemIndex={i}
-              suggestionItemProps={suggestionItemProps}
               getItemProps={getItemProps}
+              itemIndex={i}
               item={suggestion}
               lng={lng}
               styles={styles}
+              {...rest}
             />
           );
         })}
@@ -139,8 +131,6 @@ Suggestions.propTypes = {
   suggestions: PropTypes.arrayOf(itemShape).isRequired,
   getMenuProps: PropTypes.func.isRequired,
   getItemProps: PropTypes.func.isRequired,
-  itemProps: PropTypes.shape({}).isRequired,
-  highlightedIndex: PropTypes.number.isRequired,
   lng: PropTypes.string.isRequired,
   styles: PropTypes.objectOf(PropTypes.string).isRequired,
   hidden: PropTypes.bool.isRequired,

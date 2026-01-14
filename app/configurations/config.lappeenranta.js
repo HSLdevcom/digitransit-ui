@@ -13,9 +13,7 @@ export default configMerger(walttiConfig, {
 
   colors: {
     primary: '#d4007a',
-    iconColors: {
-      'mode-bus': '#d4007a',
-    },
+    bus: '#d4007a',
   },
 
   socialMedia: {
@@ -152,10 +150,6 @@ export default configMerger(walttiConfig, {
     lat: 61.059097,
     lon: 28.18572,
   },
-
-  vehicles: true,
-  showVehiclesOnStopPage: true,
-  showVehiclesOnItineraryPage: true,
 
   menu: {
     copyright: { label: `© Lappeenranta ${walttiConfig.YEAR}` },

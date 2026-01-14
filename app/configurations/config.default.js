@@ -163,15 +163,15 @@ export default {
     minimalRegexp: /.{2,}/,
   },
 
-  nearbyRoutes: {
+  nearYouRoutes: {
     radius: 10000,
     bucketSize: 1000,
   },
 
   omitNonPickups: true,
-  maxNearbyStopAmount: 5,
-  maxNearbyStopRefetches: 5,
-  maxNearbyStopDistance: {
+  maxNearYouCount: 5,
+  maxNearYouRefetches: 5,
+  maxNearYouDistance: {
     favorite: 20000,
     bus: 50000,
     tram: 20000,
@@ -180,6 +180,8 @@ export default {
     ferry: 50000,
     citybike: 20000,
     airplane: 100000,
+    bikepark: 10000,
+    carpark: 50000,
   },
 
   defaultSettings: {
@@ -189,7 +191,7 @@ export default {
     ticketTypes: 'none',
     walkBoardCost: 120,
     walkReluctance: 1.8,
-    walkSpeed: 1.2,
+    walkSpeed: 1.28,
     transferPenalty: 0,
     minTransferTime: 90,
     includeBikeSuggestions: true,
@@ -211,7 +213,7 @@ export default {
       more: 1,
       most: 0.2,
     },
-    walkSpeed: [0.69, 0.97, 1.2, 1.67, 2.22],
+    walkSpeed: [0.69, 0.97, 1.28, 1.67, 2.22],
     bikeSpeed: [2.77, 4.15, 5.55, 6.94, 8.33],
   },
 
@@ -344,7 +346,7 @@ export default {
       sv: 'Köp ett abonnemang för en dag, en vecka eller för en hel säsong',
       en: 'Buy a daily, weekly or season pass',
     },
-    maxNearbyRentalVehicleAmount: 5,
+    maxNearYouRentalVehicleAmount: 5,
     maxDistanceToRentalVehiclesInMeters: 100,
     maxMinutesToRentalJourneyStart: 60,
     maxMinutesToRentalJourneyEnd: 720,
@@ -371,21 +373,22 @@ export default {
 
   colors: {
     primary: '#000F94',
+    caution: '#dc0451',
     backgroundInfo: '#ebf6fd',
-    iconColors: {
-      'mode-airplane': '#0046ad',
-      'mode-bus': '#007ac9',
-      'mode-tram': '#008151',
-      'mode-subway': '#CA4000',
-      'mode-rail': '#8c4799',
-      'mode-ferry': '#007A97',
-      'mode-ferry-external': '#666666',
-      'mode-citybike': '#f2b62d',
-      'mode-citybike-secondary': '#333333',
-      'mode-scooter': '#C5CAD2',
-      'mode-taxi': '#647693',
-      'mode-replacement-bus': '#DC0451',
-    },
+    airplane: '#0046ad',
+    bus: '#007ac9',
+    'replacement-bus': '#dc0451',
+    tram: '#008151',
+    subway: '#ca4000',
+    rail: '#8c4799',
+    ferry: '#007a97',
+    'ferry-external': '#666666',
+    citybike: '#f2b62d',
+    'citybike-secondary': '#333333',
+    scooter: '#c5cad2',
+    taxi: '#647693',
+    bikepark: '#f2b62d',
+    carpark: '#007ac9',
   },
   iconModeSet: 'digitransit',
   fontWeights: {
@@ -722,6 +725,7 @@ export default {
     matka: '(matka|^dev.digitransit)',
     vaasa: 'vaasa',
     walttiOpas: 'waltti',
+    walttiTest: 'waltti-test',
     rovaniemi: 'rovaniemi',
     kouvola: 'kouvola',
     tampere: 'tampere',
@@ -748,11 +752,10 @@ export default {
 
   vehicles: false,
   showVehiclesOnStopPage: false,
-  trafficNowLink: '',
+  showVehiclesOnItineraryPage: false,
+  trafficNowLink: false,
 
   timetables: {},
-
-  showVehiclesOnItineraryPage: false,
 
   showWeatherInformation: true,
   showBikeAndParkItineraries: false,
@@ -777,6 +780,7 @@ export default {
   },
 
   viaPointsEnabled: true,
+  viaPointsMax: 1,
 
   // Toggling this off shows the alert bodytext instead of the header
   showAlertHeader: true,
@@ -850,9 +854,16 @@ export default {
   navigation: false,
   sendAnalyticsCustomEventGoals: false,
   shortenLongTextThreshold: 10, // for route number in itinerary summary
-  allowFlexJourneys: false,
-  allowDirectFlexJourneys: false,
-  allowedFlexRouteTypes: [1501],
   showRouteDescNotification: false,
   showStopStatusMarkers: false,
+
+  flex: {
+    internalFlexEnabled: false,
+    allowTaxiJourneys: false,
+    directOnlyTaxiJourneys: false,
+    internalAgencies: [], // "FeedId:AgencyId"
+    externalAgencies: [], // "FeedId:AgencyId"
+    allowedExternalFlexRouteTypes: [1501],
+    minTransferTime: 900, // seconds
+  },
 };

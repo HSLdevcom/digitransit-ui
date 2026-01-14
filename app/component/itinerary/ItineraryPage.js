@@ -85,6 +85,7 @@ import NaviContainer from './navigator/NaviContainer';
 import NaviGeolocationInfoModal from './navigator/navigatorgeolocation/NaviGeolocationInfoModal';
 import NavigatorIntroModal from './navigator/navigatorintro/NavigatorIntroModal';
 import { planConnection } from './queries/PlanConnection';
+import { isCallAgencyLeg } from '../../util/legUtils';
 
 const MAX_QUERY_COUNT = 4; // number of attempts to collect enough itineraries
 
@@ -148,6 +149,7 @@ export default function ItineraryPage(props, context) {
   const [scooterState, setScooterState] = useState(unset);
   const [combinedState, setCombinedState] = useState(emptyPlan);
   const [flexState, setFlexState] = useState(unset);
+  const [internalFlexState, setInternalFlexState] = useState(unset);
   const [isNavigatorIntroDismissed, setNavigatorIntroDismissed] = useState(
     getDialogState('navi-intro'),
   );
@@ -480,8 +482,29 @@ export default function ItineraryPage(props, context) {
     }
   }
 
+  async function makeInternalFlexQuery() {
+    if (!planQueryNeeded(config, match, PLANTYPE.FLEXTRANSIT_INTERNAL)) {
+      setInternalFlexState(emptyPlan);
+      return;
+    }
+    setInternalFlexState({ loading: LOADSTATE.LOADING });
+    const planParams = getPlanParams(
+      config,
+      match,
+      PLANTYPE.FLEXTRANSIT_INTERNAL,
+      false, // no relaxed settings
+    );
+    try {
+      const plan = await iterateQuery(planParams);
+      setInternalFlexState({ plan, loading: LOADSTATE.DONE });
+    } catch (error) {
+      reportError(error);
+      setInternalFlexState(emptyPlan);
+    }
+  }
+
   async function makeFlexQuery() {
-    if (!planQueryNeeded(config, match, PLANTYPE.FLEXTRANSIT)) {
+    if (!planQueryNeeded(config, match, PLANTYPE.FLEXTRANSIT_EXTERNAL)) {
       setFlexState(emptyPlan);
       return;
     }
@@ -489,7 +512,7 @@ export default function ItineraryPage(props, context) {
     const planParams = getPlanParams(
       config,
       match,
-      PLANTYPE.FLEXTRANSIT,
+      PLANTYPE.FLEXTRANSIT_EXTERNAL,
       false, // no relaxed settings
     );
 
@@ -503,7 +526,7 @@ export default function ItineraryPage(props, context) {
   }
 
   async function makeRelaxedFlexQuery() {
-    if (!planQueryNeeded(config, match, PLANTYPE.FLEXTRANSIT, true)) {
+    if (!planQueryNeeded(config, match, PLANTYPE.FLEXTRANSIT_EXTERNAL, true)) {
       setRelaxFlexState(emptyPlan);
       return;
     }
@@ -512,7 +535,7 @@ export default function ItineraryPage(props, context) {
     const planParams = getPlanParams(
       config,
       match,
-      PLANTYPE.FLEXTRANSIT,
+      PLANTYPE.FLEXTRANSIT_EXTERNAL,
       true, // force relaxed settings
     );
 
@@ -527,7 +550,7 @@ export default function ItineraryPage(props, context) {
       const flexPlan = {
         edges: filterItinerariesByRouteType(
           plan.edges,
-          config.allowedFlexRouteTypes,
+          config.flex.allowedExternalFlexRouteTypes,
         ),
       };
       setRelaxFlexState({ plan: flexPlan, loading: LOADSTATE.DONE });
@@ -946,6 +969,7 @@ export default function ItineraryPage(props, context) {
     setCombinedState({ ...emptyState, loading: LOADSTATE.LOADING });
     makeScooterQuery();
     makeFlexQuery();
+    makeInternalFlexQuery();
     makeMainQuery();
     Object.keys(altStates).forEach(key => makeAltQuery(key));
 
@@ -1061,7 +1085,8 @@ export default function ItineraryPage(props, context) {
     if (
       state.loading === LOADSTATE.DONE &&
       scooterState.loading === LOADSTATE.DONE &&
-      flexState.loading === LOADSTATE.DONE
+      flexState.loading === LOADSTATE.DONE &&
+      internalFlexState.loading === LOADSTATE.DONE
     ) {
       let plan = mergeScooterTransitPlan(
         scooterState.plan,
@@ -1075,14 +1100,22 @@ export default function ItineraryPage(props, context) {
           flexState.plan,
           plan,
           match.location.query.arriveBy === 'true',
-          config.allowedFlexRouteTypes,
+          config.flex.allowedExternalFlexRouteTypes,
+        );
+      }
+
+      if (internalFlexState.plan?.edges) {
+        plan = sortAndMergeExternalPlans(
+          internalFlexState.plan,
+          plan,
+          match.location.query.arriveBy === 'true',
         );
       }
 
       setCombinedState({ plan, loading: LOADSTATE.DONE });
       resetItineraryPageSelection();
     }
-  }, [scooterState.plan, state.plan, flexState.plan]);
+  }, [scooterState.plan, state.plan, flexState.plan, internalFlexState.plan]);
 
   // merge the relaxed scooter plan and the relaxed flex plan into one
   useEffect(() => {
@@ -1252,6 +1285,15 @@ export default function ItineraryPage(props, context) {
       ? addBikeStationMapForRentalVehicleItineraries(planEdges)
       : props.mapLayerOptions;
 
+    const flexLeg = planEdges?.[activeIndex]?.node.legs.find(leg =>
+      isCallAgencyLeg(leg),
+    );
+    const updatedMapLayers = { ...props.mapLayers };
+    const flexRouteGtfsId = flexLeg?.route?.gtfsId.split(':')[0];
+    if (flexRouteGtfsId) {
+      updatedMapLayers.areaStop = { routeGtfsId: flexRouteGtfsId };
+    }
+
     const objectsToHide = getRentalStationsToHideOnMap(
       itineraryContainsDepartureFromVehicleRentalStation,
       planEdges?.[activeIndex]?.node,
@@ -1268,7 +1310,7 @@ export default function ItineraryPage(props, context) {
         from={from}
         to={to}
         viaPoints={viaPoints}
-        mapLayers={props.mapLayers}
+        mapLayers={updatedMapLayers}
         mapLayerOptions={mapLayerOptions}
         setMWTRef={setMWTRef}
         mapLayerRef={mapLayerRef}
@@ -1421,6 +1463,7 @@ export default function ItineraryPage(props, context) {
           ) : (
             <NaviContainer
               focusToLeg={focusToLeg}
+              focusToPoint={focusToPoint}
               relayEnvironment={props.relayEnvironment}
               setNavigation={setNavigation}
               mapRef={mwtRef.current}

@@ -1,0 +1,10 @@
+<svg viewBox="0 0 20 20">
+  <circle cx="24" cy="24" r="7.7" transform="translate(-14 -15)"/>
+  <rect width="7.802" height=".433" x="20.212" y="25.733" fill="#fff" rx=".217" transform="rotate(15 70.18 -34.937)"/>
+  <path fill="#fff" d="M7.4 6.033a.5.5 0 0 1 .5-.5h5.106a.5.5 0 0 1 .5.5V6.1a.3.3 0 0 1-.3.3H7.6a.2.2 0 0 1-.2-.2z"/>
+  <path fill="#fff" d="m10.114 9.697 1.392-3.825.326.119-1.392 3.825z"/>
+  <path fill="#fff" d="M8.304 9.433h3.91a.5.5 0 0 1 .5.5v.255a.5.5 0 0 1-.048.213l-.463.982L7.87 10.3z"/>
+  <rect width="5.2" height=".78" x="21.661" y="24.866" fill="#fff" rx=".39" transform="rotate(15 71.63 -35.804)"/>
+  <path fill="#fff" fill-rule="evenodd" d="m12.204 9.943 1.3-3.731H7.64a.2.2 0 0 0-.197.236l.635 3.495zM9.237 6.4a.5.5 0 0 0-.5.5v2.033a.5.5 0 0 0 .5.5h2.398a.5.5 0 0 0 .47-.332L13.07 6.4z"/>
+  <rect fill="#333" x="9" y="16" width="2" height="4"/>
+</svg>

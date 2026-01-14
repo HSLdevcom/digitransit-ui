@@ -1,21 +1,12 @@
 import PropTypes from 'prop-types';
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import cx from 'classnames';
 import Icon from '../Icon';
 import RouteNumber from '../RouteNumber';
 import { legShape } from '../../util/shapes';
+import { ViaLocationType } from '../../constants';
 
 const ItineraryCircleLineLong = props => {
-  const [imgUrl, setImgUrl] = useState('');
-
-  useEffect(() => {
-    import(
-      /* webpackChunkName: "dotted-line" */ `../../configurations/images/default/dotted-line.svg`
-    ).then(imageUrl => {
-      setImgUrl(`url(${imageUrl.default})`);
-    });
-  }, []);
-
   const isFirstChild = () => {
     return props.index === 0;
   };
@@ -25,6 +16,13 @@ const ItineraryCircleLineLong = props => {
       return (
         <div className="itinerary-icon-container start">
           <Icon img="icon_mapMarker" className="itinerary-icon from from-it" />
+        </div>
+      );
+    }
+    if (props.viaType === ViaLocationType.Visit && !props.isStop) {
+      return (
+        <div className="itinerary-icon-container">
+          <Icon img="icon_mapMarker" className="itinerary-icon via via-it" />
         </div>
       );
     }
@@ -58,7 +56,6 @@ const ItineraryCircleLineLong = props => {
   const carBoardingRouteNumber = (
     <RouteNumber mode="car" icon="icon_car" vertical />
   );
-  legBeforeLineStyle.backgroundImage = imgUrl;
   return (
     <div
       className={cx('leg-before long', props.modeClassName, {
@@ -73,6 +70,7 @@ const ItineraryCircleLineLong = props => {
           'leg-before-line top',
           positionRelativeToTransit,
           firstModeClassName,
+          'default-dotted-line',
         )}
       />
       <div
@@ -95,6 +93,7 @@ const ItineraryCircleLineLong = props => {
           'leg-before-line middle',
           positionRelativeToTransit,
           props.modeClassName,
+          'default-dotted-line',
         )}
       />
       <div
@@ -119,6 +118,7 @@ const ItineraryCircleLineLong = props => {
             'leg-before-line second-middle',
             positionRelativeToTransit,
             props.modeClassName,
+            'default-dotted-line',
           )}
         />
       )}
@@ -143,6 +143,7 @@ const ItineraryCircleLineLong = props => {
           positionRelativeToTransit === 'between-transit'
             ? firstModeClassName
             : secondModeClassName,
+          'default-dotted-line',
         )}
       />
       {props.renderBottomMarker && bottomMarker}
@@ -156,11 +157,15 @@ ItineraryCircleLineLong.propTypes = {
   renderBottomMarker: PropTypes.bool,
   modeClassName: PropTypes.string.isRequired,
   boardingLeg: legShape.isRequired,
+  viaType: PropTypes.string,
+  isStop: PropTypes.bool,
 };
 
 ItineraryCircleLineLong.defaultProps = {
   color: undefined,
   renderBottomMarker: false,
+  viaType: null,
+  isStop: false,
 };
 
 export default ItineraryCircleLineLong;

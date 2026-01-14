@@ -17,8 +17,8 @@ import { routePagePath, PREFIX_STOPS } from '../util/path';
 import { configShape, departureShape } from '../util/shapes';
 import { epochToTime } from '../util/timeUtils';
 import Icon from './Icon';
-import PlatformNumber from './PlatformNumber';
 import IconBackground from './icon/IconBackground';
+import PlatformNumber from './PlatformNumber';
 
 const getMostSevereAlert = route => {
   const alerts = [...getAlertsForObject(route)];
@@ -51,7 +51,7 @@ export default function DepartureRow(
   let backgroundClass;
   let sr;
   if (
-    route?.alerts?.filter(alert => isAlertValid(alert, props.currentTime))
+    route.alerts?.filter(alert => isAlertValid(alert, props.currentTime))
       ?.length > 0
   ) {
     const alert = getMostSevereAlert(route);
@@ -65,17 +65,17 @@ export default function DepartureRow(
     if (alert.alertSeverityLevel === 'INFO') {
       icon = 'icon_info';
       iconColor = '#888';
-      background = <IconBackground backgroundShape="circle" />;
+      background = <IconBackground shape="circle" />;
       backgroundClass = 'circle';
     } else {
       icon = 'icon_caution-white-excl-stroke';
-      iconColor = '#DC0451';
+      iconColor = config.colors.caution;
     }
   }
   const headsign =
     departure.headsign ||
     trip.tripHeadsign ||
-    getHeadsignFromRouteLongName(trip.route);
+    getHeadsignFromRouteLongName(route);
   let shownTime;
   if (timeDiffInMinutes <= 0) {
     shownTime = intl.formatMessage({
@@ -93,7 +93,7 @@ export default function DepartureRow(
       { minutes: timeDiffInMinutes },
     );
   }
-  const { shortName } = trip.route;
+  const { shortName } = route;
   const lowerCaseShortName = shortName?.toLowerCase();
   const nameOrIcon =
     shortName?.length > 6 || !shortName?.length ? (
@@ -166,7 +166,7 @@ export default function DepartureRow(
         className={cx('route-number-container', {
           long: shortName && shortName.length <= 6 && shortName.length >= 5,
         })}
-        style={{ backgroundColor: `#${trip.route.color}` }}
+        style={{ backgroundColor: `#${route.color}` }}
       >
         <div aria-hidden="true" className="route-number">
           {nameOrIcon}
@@ -188,7 +188,7 @@ export default function DepartureRow(
       </td>
       <td className={cx('route-headsign', departure.bottomRow ? 'bottom' : '')}>
         <div className="headsign">
-          {headsign} {departure.bottomRow && departure.bottomRow}
+          {headsign} {departure.bottomRow}
         </div>
       </td>
       <td className="time-cell">
