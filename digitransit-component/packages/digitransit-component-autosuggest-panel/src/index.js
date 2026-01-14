@@ -531,7 +531,7 @@ class DTAutosuggestPanel extends React.Component {
                   >
                     <DTAutoSuggest
                       appElement={this.props.appElement}
-                      icon="mapMarker-via"
+                      icon="mapMarker"
                       id="via-point"
                       ariaLabel={t('via-point-index', {
                         index: i + 1,
