@@ -595,8 +595,8 @@ export function mergeFlexPlan(
   arriveBy,
   maxAdditionalEdges = 1,
 ) {
-  const flexEdges = filterFlex(flexPlan.edges);
-  return sortAndMergePlans(flexEdges, plan, arriveBy, maxAdditionalEdges);
+  const edges = flexEdges(flexPlan.edges);
+  return sortAndMergePlans(edges, plan, arriveBy, maxAdditionalEdges);
 }
 
 /**
