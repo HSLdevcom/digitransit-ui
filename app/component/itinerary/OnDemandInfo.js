@@ -60,21 +60,8 @@ function OnDemandInfo(
       },
       { minutes: bookingNoticeInMinutes },
     );
-  const bookingNoticeInHoursText =
-    bookingNoticeInMinutes >= 60 &&
-    intl.formatMessage(
-      {
-        id: 'on-demand-service-prior-notice-hours',
-        defaultMessage:
-          'Order must be placed at least {hours} hours before the trip.',
-      },
-      { hours: Math.ceil(bookingNoticeInMinutes / 60) },
-    );
 
-  const bookingTimeText =
-    latestBookingTimeText ||
-    bookingNoticeInHoursText ||
-    bookingNoticeInMinutesText;
+  const bookingTimeText = latestBookingTimeText || bookingNoticeInMinutesText;
 
   return (
     <>
