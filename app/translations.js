@@ -923,7 +923,7 @@ const translations = {
     'biking-amount': 'Amount of biking',
     'biking-speed': 'Biking speed',
     'book-a-lift': 'Use an app to book a taxi',
-    'booking-method': 'TO_DO_booking-method',
+    'booking-method': 'Booking method',
     bus: 'Bus',
     'bus-express': 'Trunk bus',
     'bus-express-with-route-number': 'Trunk bus {routeNumber} {headSign}',
@@ -933,7 +933,7 @@ const translations = {
     'buy-ticket': 'How to buy a ticket',
     call: 'Demand responsive transport',
     'call-agency-disclaimer':
-      'This is a dial-a-ride service that requires advance booking. More information is available from the service provider.',
+      'This service operates by advance booking. To ensure your ride, please book ahead of time. More information is available from the service provider. ',
     'call-number': 'Call {number}',
     'call-with-route-number':
       'Demand responsive transport {routeNumber} {headSign}',
@@ -1207,7 +1207,7 @@ const translations = {
     'itinerary-summary-row.biking-distance':
       'Total biking distance {totalDistance}.',
     'itinerary-summary-row.call-agency-description':
-      'TO_DO_Call agency service. Details in itinerary.',
+      'Dial-a-ride service; see the itinerary for details.',
     'itinerary-summary-row.clickable-area-description': 'Show on map',
     'itinerary-summary-row.description':
       'Itinerary departing at {departureDate} {departureTime} and arriving at {arrivalDate} {arrivalTime}. {firstDeparture} {transfers} Total time {totalTime}.',
@@ -1466,15 +1466,15 @@ const translations = {
     'off-canvas-info':
       'Log in to the service to save your favorites and utilize them on other devices',
     'on-demand-service': 'On-demand service',
-    'on-demand-service-description': 'TO_DO_on-demand-service-description',
+    'on-demand-service-description': 'Route description',
     'on-demand-service-prior-notice-days':
-      'TO_DO_on-demand-service-prior-notice-days',
+      'Bookings must be made at least {days} days before the journey, no later than {time}.',
     'on-demand-service-prior-notice-hours':
-      'TO_DO_on-demand-service-prior-notice-hours',
+      'Bookings must be made at least {hours} hours in advance.',
     'on-demand-service-prior-notice-minutes':
-      'TO_DO_on-demand-service-prior-notice-minutes',
+      'Bookings must be made at least {minutes} minutes in advance.',
     'on-demand-service-route-disclaimer':
-      'TO_DO_on-demand-service-route-disclaimer',
+      'The route shown on the map may differ from the actual route, which may be adjusted to accommodate other passengers’ travel plans.',
     'one-way-journey': 'The length of a one-way journey',
     'open-app': 'Open the app',
     'open-operator-app': 'Open the {operator} app',
@@ -5267,7 +5267,7 @@ const translations = {
     back: 'Tillbaka',
     'book-a-lift':
       'Tilaa kyyti sovelluksella ja jää odottamaan sen saapumista:',
-    'booking-method': 'TO_DO_booking-method',
+    'booking-method': 'Beställningssätt',
     'buy-in-app': 'Köp i appen',
     'search-autosuggest-label': 'Plats, linje och hållplatssökning.',
     'search-autosuggest-label-move-to-destination':
@@ -5487,7 +5487,7 @@ const translations = {
     'embedded-search.form-heading': 'Inbäddningsverktyg',
     engine_ignition_aid: 'Starthjälp',
     english: 'Engelsk',
-    estimate: 'TO_DO_estimate',
+    estimate: 'Uppskattning',
     explanations: 'Förklaringar',
     'extra-info': 'Mer info',
     'favourite-failed-text': 'Försök på nytt senare.',
@@ -5609,7 +5609,7 @@ const translations = {
     'itinerary-summary-row.biking-distance':
       'Cykling sammanlagt {totalDistance}.',
     'itinerary-summary-row.call-agency-description':
-      'TO_DO_Kutsuliikennettä, lisätiedot reittiohjeessa.',
+      'Anropsstyrd trafik, mer information i ruttbeskrivningen.',
     'itinerary-summary-row.clickable-area-description': 'Visa på kartan',
     'itinerary-summary-row.description':
       'Avgång {departureDate} klockan {departureTime}. Framme {arrivalDate} klockan {arrivalTime}. {firstDeparture} {transfers} Restid {totalTime}.',
@@ -5864,15 +5864,15 @@ const translations = {
     'off-canvas-info':
       'Genom att logga in kan du spara dina favoriter och använda dem med dina andra enheter.',
     'on-demand-service': 'Anropsbusstrafiken',
-    'on-demand-service-description': 'TO_DO_on-demand-service-description',
+    'on-demand-service-description': 'Ruttbeskrivning',
     'on-demand-service-prior-notice-days':
-      'TO_DO_on-demand-service-prior-notice-days',
+      'Boka din resa minst {days} dagar före resan, senast kl. {time}.',
     'on-demand-service-prior-notice-hours':
-      'TO_DO_on-demand-service-prior-notice-hours',
+      'Bokningen ska göras minst {hours} timmar i förväg.',
     'on-demand-service-prior-notice-minutes':
-      'TO_DO_on-demand-service-prior-notice-minutes',
+      'Bokningen ska göras minst {minutes} minuter i förväg.',
     'on-demand-service-route-disclaimer':
-      'TO_DO_on-demand-service-route-disclaimer',
+      'Linjen kör nödvändigtvis inte den rutt som visas på kartan utan den kan variera beroende på andra resenärers resplaner.',
     'one-way-journey': ' Längden på en enkel resa',
     'open-app': ' Öppna appen',
     'open-operator-app': 'Öppna appen {operator}',
