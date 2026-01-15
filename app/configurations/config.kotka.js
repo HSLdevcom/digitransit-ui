@@ -189,7 +189,6 @@ export default configMerger(walttiConfig, {
     ],
   },
 
-  showTicketLinkOnlyWhenTesting: true,
   showTicketInformation: true,
   useTicketIcons: true,
   ticketLink: {
